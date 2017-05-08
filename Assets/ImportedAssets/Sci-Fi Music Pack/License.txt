@@ -1,0 +1,14 @@
+This work is licensed under Creative Commons CC-BY 3.0, together with the standard ToS and EULA from the Unity Asset Store. 
+
+It is free to use in any project, as long as you credit the author. 
+
+If you use it, please put the author name together with the website, as in the following line:
+
+Robson Cozendey - www.cozendey.com
+
+---------------------------------------------------------------
+
+It would also be super cool if you send me a message if you use it in your game. You can also ask me some new music, if you're advanced in your project, perhaps I can help with it.
+
+
+

@@ -97,7 +97,7 @@ public class ShipMovementScript : MonoBehaviour {
         Game.UI.HideDirectionMenu();
     }
 
-    private Movement ManeuverFromString(string parameters)
+    public Movement ManeuverFromString(string parameters)
     {
         string[] arrParameters = parameters.Split('.');
 

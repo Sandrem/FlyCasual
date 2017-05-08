@@ -20,6 +20,7 @@ public class UIManagerScript: MonoBehaviour {
     public GameObject panelGameResultsMessage;
     public GameObject panelMinimap;
     public GameObject panelGameLog;
+    public GameObject ImageStorageDirections;
 
     public GameObject prefabLogText;
     private float lastLogTextPosition = -5;
@@ -142,26 +143,37 @@ public class UIManagerScript: MonoBehaviour {
             else
             {
                 panelDirectionMenu.transform.Find("Speed" + maneuverSpeed).Find(maneuverData.Key).gameObject.SetActive(true);
-                Color maneuverCompexity = Color.cyan;
-                switch (maneuverData.Value)
-                {
-                    case Ship.ManeuverColor.White:
-                        maneuverCompexity = Color.white;
-                        break;
-                    case Ship.ManeuverColor.Green:
-                        maneuverCompexity = Color.green;
-                        break;
-                    case Ship.ManeuverColor.Red:
-                        maneuverCompexity = Color.red;
-                        break;
-                }
-                panelDirectionMenu.transform.Find("Speed" + maneuverSpeed).Find(maneuverData.Key).Find("Text").GetComponent<Text>().color = maneuverCompexity;
+
+                GameObject button = panelDirectionMenu.transform.Find("Speed" + maneuverSpeed).Find(maneuverData.Key).gameObject;
+                SetManeuverIcon(button, maneuverData);
             }
-            
+
         }
     }
 
-    public void HideDirectionMenu()
+    private void SetManeuverIcon(GameObject button, KeyValuePair<string, Ship.ManeuverColor> maneuverData)
+    {
+        Movement movement = Game.Movement.ManeuverFromString(maneuverData.Key);
+
+        string imageName = "";
+
+        if ((movement.Direction == ManeuverDirection.Forward) && (movement.Bearing == ManeuverBearing.Straight)) imageName += "Straight";
+        if ((movement.Direction == ManeuverDirection.Forward) && (movement.Bearing == ManeuverBearing.KoiogranTurn)) imageName += "Koiogran";
+        if (movement.Bearing == ManeuverBearing.Bank) imageName += "Bank";
+        if (movement.Bearing == ManeuverBearing.Turn) imageName += "Turn";
+
+        if (movement.Direction == ManeuverDirection.Left) imageName += "Left";
+        if (movement.Direction == ManeuverDirection.Right) imageName += "Right";
+
+        if (maneuverData.Value == Ship.ManeuverColor.Green) imageName += "Green";
+        if (maneuverData.Value == Ship.ManeuverColor.White) imageName += "White";
+        if (maneuverData.Value == Ship.ManeuverColor.Red) imageName += "Red";
+
+        Sprite image = ImageStorageDirections.transform.Find(imageName).GetComponent<Image>().sprite;
+        button.GetComponent<Image>().sprite = image;
+    }
+
+     public void HideDirectionMenu()
     {
         panelDirectionMenu.SetActive(false);
     }

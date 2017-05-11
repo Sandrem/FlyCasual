@@ -166,8 +166,7 @@ namespace Ship
 
         public void Rotate180()
         {
-            SetAngles(GetAngles() + new Vector3(0f, 180f, 0f));
-            SetPosition(GetPosition() + TransformVector(new Vector3(0f, 0f, SHIPSTAND_SIZE)));
+            Model.transform.RotateAround(Model.transform.TransformPoint(new Vector3(0, 0, -HALF_OF_SHIPSTAND_SIZE)), Vector3.up, 180);
         }
 
         public void SetRaycastTarget(bool value)

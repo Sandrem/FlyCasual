@@ -53,12 +53,39 @@ namespace Ship
             get;
             set;
         }
+        private int _PilotSkill;
         public int PilotSkill
         {
-            get;
-            set;
+            get
+            {
+                int result = _PilotSkill;
+                if (AfterGetPilotSkill!=null) AfterGetPilotSkill(ref result);
+                result = Mathf.Clamp(result, 0, 12);
+                return result;
+            }
+            set
+            {
+                value = Mathf.Clamp(value, 0, 12);
+                _PilotSkill = value;
+            }
         }
+        private int _Agility;
         public int Agility
+        {
+            get
+            {
+                int result = _Agility;
+                if (AfterGetAgility != null) AfterGetAgility(ref result);
+                result = Mathf.Max(result, 0);
+                return result;
+            }
+            set
+            {
+                value = Mathf.Max(value, 0);
+                _Agility = value;
+            }
+        }
+        public int MaxHull
         {
             get;
             set;
@@ -108,6 +135,7 @@ namespace Ship
         public Dictionary<string, DefaultAction> FreeActions = new Dictionary<string, DefaultAction>();
 
         public List<string> AlreadyExecutedActions = new List<string>();
+        public List<CriticalHitCard.GenericCriticalHit> AssignedCrits = new List<CriticalHitCard.GenericCriticalHit>();
 
         public Dictionary<Upgrade.UpgradeSlot, int> BuiltInSlots = new Dictionary<Upgrade.UpgradeSlot, int>();
 
@@ -131,7 +159,8 @@ namespace Ship
         public delegate void EventHandlerShip(GenericShip ship);
         public delegate void EventHandlerShipBool(GenericShip ship, bool afterMovement);
         public delegate void EventHandlerDiceModificationDict(ref Dictionary<string, DiceModification> dict);
-        
+        public delegate void EventHandlerShipMovement(GenericShip ship, ref Movement movement);
+
 
         public event EventHandler OnDestroyed;
         public event EventHandler OnDefence;
@@ -151,10 +180,14 @@ namespace Ship
         public event EventHandlerShipBool AfterAvailableActionListIsBuilt;
         public event EventHandlerInt AfterGotNumberOfAttackDices;
         public event EventHandlerInt AfterGotNumberOfDefenceDices;
+        public event EventHandlerInt AfterGetPilotSkill;
+        public event EventHandlerInt AfterGetAgility;
         public event EventHandlerBool OnTrySpendFocus;
         public event EventHandlerBool OnTryReroll;
         public event EventHandlerBoolBool OnTryPerformAction;
         public event EventHandlerDiceModificationDict AfterGenerateDiceModifications;
+        public event EventHandlerShipMovement AfterGetManeuverColor;
+        public event EventHandlerShipMovement AfterGetManeuverAvailablity;
 
         public GenericShip(Player playerNo, int shipId, Vector3 position)
         {
@@ -171,6 +204,7 @@ namespace Ship
         protected void InitializeValues()
         {
             Shields = MaxShields;
+            Hull = MaxHull;
         }
 
         protected void AddUpgradeSlot(Upgrade.UpgradeSlot slot)
@@ -212,7 +246,7 @@ namespace Ship
             return Maneuvers[maneuverString];
         }
 
-        public ManeuverColor GetLastManeurColor()
+        public ManeuverColor GetLastManeuverColor()
         {
             ManeuverColor result = ManeuverColor.None;
             result = AssignedManeuver.ColorComplexity;
@@ -266,6 +300,7 @@ namespace Ship
         {
             int result = Firepower;
             AfterGotNumberOfAttackDices(ref result);
+            if (result < 0) result = 0;
             return result;
         }
 
@@ -291,20 +326,27 @@ namespace Ship
                 {
                     if (dice.Side == DiceSide.Success)
                     {
-                        Hull--;
+                        //temporary
+                        //Game.CritsDeck.DrawCrit(this);
+                        SufferHullDamage();
                     }
-                    //TODO: Real crits
                     if (dice.Side == DiceSide.Crit)
                     {
-                        Hull -= 2;
+                        Game.CritsDeck.DrawCrit(this);
+                        SufferHullDamage();
                     }
                 }
-                Hull = Mathf.Max(Hull, 0);
-
-                IsHullDestroyedCheck();
             }
 
             AfterAssignedDamageIsChanged(this);
+        }
+
+        public void SufferHullDamage()
+        {
+            Hull--;
+            Hull = Mathf.Max(Hull, 0);
+
+            IsHullDestroyedCheck();
         }
 
         public void IsHullDestroyedCheck()
@@ -317,10 +359,13 @@ namespace Ship
 
         public void DestroyShip()
         {
-            IsDestroyed = true;
-            Game.UI.AddTestLogEntry(PilotName + "\'s ship is destroyed");
-            Game.Roster.DestroyShip(this.Model.GetTag());
-            OnDestroyed();
+            if (!IsDestroyed)
+            {
+                Game.UI.AddTestLogEntry(PilotName + "\'s ship is destroyed");
+                Game.Roster.DestroyShip(this.Model.GetTag());
+                OnDestroyed();
+                IsDestroyed = true;
+            }
         }
 
         //TODO: Move from here
@@ -631,23 +676,49 @@ namespace Ship
             return result;
         }
 
-        public bool CanRegenShields()
+        public bool TryRegenShields()
         {
             bool result = false;
-            if (Shields < MaxShields) result = true;
+            if (Shields < MaxShields)
+            {
+                result = true;
+                Shields++;
+                AfterAssignedDamageIsChanged(this);
+            };
             return result;
         }
 
-        public void RestoreShield()
+        public bool TryRegenHull()
         {
-            Shields++;
-            AfterAssignedDamageIsChanged(this);
+            bool result = false;
+            if (Hull < MaxHull)
+            {
+                result = true;
+                Hull++;
+                AfterAssignedDamageIsChanged(this);
+            };
+            return result;
         }
 
         public void ChangeAgility(int value)
         {
             Agility += value;
             AfterStatsAreChanged(this);
+        }
+
+        public Dictionary<string, ManeuverColor> GetManeuvers()
+        {
+            Dictionary<string, ManeuverColor> result = new Dictionary<string, ManeuverColor>();
+
+            foreach (var maneuverHolder in Maneuvers)
+            {
+                Movement movement =  Game.Movement.ManeuverFromString(maneuverHolder.Key);
+                if (AfterGetManeuverColor!=null) AfterGetManeuverColor(this, ref movement);
+                if (AfterGetManeuverAvailablity!=null) AfterGetManeuverAvailablity(this, ref movement);
+                result.Add(maneuverHolder.Key, movement.ColorComplexity);
+            }
+
+            return result;
         }
 
     }

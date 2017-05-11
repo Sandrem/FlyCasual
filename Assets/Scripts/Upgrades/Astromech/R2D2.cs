@@ -21,9 +21,8 @@ namespace Upgrade
         {
             if (host.AssignedManeuver.ColorComplexity == Ship.ManeuverColor.Green)
             {
-                if (host.CanRegenShields())
+                if (host.TryRegenShields())
                 {
-                    host.RestoreShield();
                     Game.UI.ShowInfo("R2-D2: Shield is restored");
                 }
             }

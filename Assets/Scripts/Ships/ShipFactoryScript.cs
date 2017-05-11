@@ -49,6 +49,7 @@ public class ShipFactoryScript : MonoBehaviour {
         newShipContainer.OnMovementFinish += Game.Ruler.ResetRuler;
         newShipContainer.OnMovementFinish += Game.Rules.OffTheBoard.CheckOffTheBoard;
         newShipContainer.OnMovementFinish += Game.Rules.Stress.CheckStress;
+        newShipContainer.AfterGetManeuverAvailablity += Game.Rules.Stress.CannotPerformRedManeuversWhileStressed;
 
         Game.PhaseManager.OnPlanningPhaseStart += newShipContainer.ClearAlreadyExecutedActions;
 

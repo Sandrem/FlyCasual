@@ -16,7 +16,7 @@ namespace Ship
 
                 Firepower = 2;
                 Agility = 3;
-                Hull = 3;
+                MaxHull = 3;
                 MaxShields = 0;
 
                 BuiltInActions.Add(ActionToString(DefaultAction.Focus), DefaultAction.Focus);

@@ -37,12 +37,12 @@ public class RosterInfoScript : MonoBehaviour {
         newPanel.transform.Find("ShipInfo").Find("ShipTypeText").GetComponent<Text>().text = newShip.Type;
         newPanel.transform.Find("ShipInfo").Find("ShipFirepowerText").GetComponent<Text>().text = newShip.Firepower.ToString();
         newPanel.transform.Find("ShipInfo").Find("ShipAgilityText").GetComponent<Text>().text = newShip.Agility.ToString();
-        newPanel.transform.Find("ShipInfo").Find("ShipHullText").GetComponent<Text>().text = newShip.Hull.ToString();
+        newPanel.transform.Find("ShipInfo").Find("ShipHullText").GetComponent<Text>().text = newShip.MaxHull.ToString();
         newPanel.transform.Find("ShipInfo").Find("ShipShieldsText").GetComponent<Text>().text = newShip.MaxShields.ToString();
 
         //Hull and shields
         float panelWidth = 200 - 10;
-        float hullAndShield = newShip.Hull + newShip.MaxShields;
+        float hullAndShield = newShip.MaxHull + newShip.MaxShields;
         float panelWidthNoDividers = panelWidth - (1 * (hullAndShield - 1));
         float damageIndicatorWidth = panelWidthNoDividers / hullAndShield;
 

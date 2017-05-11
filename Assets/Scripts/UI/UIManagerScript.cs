@@ -131,12 +131,12 @@ public class UIManagerScript: MonoBehaviour {
     //Add icons
     private void SetAvailableManeurs()
     {
-        foreach (KeyValuePair<string, Ship.ManeuverColor> maneuverData in Game.Selection.ThisShip.Maneuvers)
+        foreach (KeyValuePair<string, Ship.ManeuverColor> maneuverData in Game.Selection.ThisShip.GetManeuvers())
         {
             string[] parameters = maneuverData.Key.Split('.');
             string maneuverSpeed = parameters[0];
-            //TODO: Should I show red maneuvers if I have stress?
-            if ((maneuverData.Value == Ship.ManeuverColor.None) || ((maneuverData.Value == Ship.ManeuverColor.Red) && (Game.Selection.ThisShip.HasToken(Ship.Token.Stress))))
+
+            if (maneuverData.Value == Ship.ManeuverColor.None)
             {
                 panelDirectionMenu.transform.Find("Speed" + maneuverSpeed).Find(maneuverData.Key).gameObject.SetActive(false);
             }

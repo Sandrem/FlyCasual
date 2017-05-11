@@ -17,6 +17,7 @@ public class GameManagerScript : MonoBehaviour {
     public DiceManagementScript Dices;
     public ShipFactoryScript ShipFactory;
     public RulerManagement Ruler;
+    public CriticalHitsDeck CritsDeck;
     public ShipPositionManager Position;
     public Rules.RulesScript Rules { get; private set; }
 
@@ -24,8 +25,8 @@ public class GameManagerScript : MonoBehaviour {
         InitializeScripts();
         SetApplicationParemeters();
         Roster.SpawnAllShips();
+        CritsDeck.InitializeDeck();
         PhaseManager.StartPhases();
-        //Debug.Log(Global.test);
     }
 
     void Update()
@@ -52,6 +53,7 @@ public class GameManagerScript : MonoBehaviour {
         Ruler = this.GetComponent<RulerManagement>();
         ShipFactory = this.GetComponent<ShipFactoryScript>();
         Position = this.GetComponent<ShipPositionManager>();
+        CritsDeck = this.GetComponent<CriticalHitsDeck>();
 
         Rules = new Rules.RulesScript(this);
     }

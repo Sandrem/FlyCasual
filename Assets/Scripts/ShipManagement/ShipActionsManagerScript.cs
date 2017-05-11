@@ -12,7 +12,7 @@ public class ShipActionsManagerScript: MonoBehaviour {
 
     private GameManagerScript Game;
 
-	private const float DISTANCE_1 = 3.468f/3f;
+	private const float DISTANCE_1 = 3.28f / 3f;
 
     //EVENTS
 

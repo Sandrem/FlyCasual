@@ -53,12 +53,8 @@ public class ShipFactoryScript : MonoBehaviour {
 
         Game.PhaseManager.OnPlanningPhaseStart += newShipContainer.ClearAlreadyExecutedActions;
 
-        newShipContainer.AfterStressTokenIsAssigned += Game.UI.Roster.UpdateTokensIndicator;
-        newShipContainer.AfterStressTokenIsRemoved += Game.UI.Roster.UpdateTokensIndicator;
-        newShipContainer.AfterFocusTokenIsAssigned += Game.UI.Roster.UpdateTokensIndicator;
-        newShipContainer.AfterFocusTokenIsRemoved += Game.UI.Roster.UpdateTokensIndicator;
-        newShipContainer.AfterEvadeTokenIsAssigned += Game.UI.Roster.UpdateTokensIndicator;
-        newShipContainer.AfterEvadeTokenIsRemoved += Game.UI.Roster.UpdateTokensIndicator;
+        newShipContainer.AfterTokenIsAssigned += Game.UI.Roster.UpdateTokensIndicator;
+        newShipContainer.AfterTokenIsRemoved += Game.UI.Roster.UpdateTokensIndicator;
         newShipContainer.AfterAssignedDamageIsChanged += Game.UI.Roster.UpdateRosterHullDamageIndicators;
         newShipContainer.AfterAssignedDamageIsChanged += Game.UI.Roster.UpdateRosterShieldsDamageIndicators;
         newShipContainer.AfterStatsAreChanged += Game.UI.Roster.UpdateShipStats;

@@ -444,6 +444,7 @@ public class ShipMovementScript : MonoBehaviour {
         Game.Selection.ThisShip.IsAttackPerformed = false;
 
         Game.Selection.ThisShip.AssignedManeuver = null;
+        Game.Selection.ThisShip.AvailableActionEffects = new List<Actions.GenericAction>(); ;
 
         StartCoroutine(TryNextPhase());
     }

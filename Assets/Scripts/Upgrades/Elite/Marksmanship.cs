@@ -18,29 +18,42 @@ namespace Upgrade
 
         private void MarksmanshipAddAction(Ship.GenericShip host, bool afterMovement)
         {
-            if (host.CanPerformFreeAction("Marksmanship", afterMovement)) host.AvailableActionsList.Add("Marksmanship", MarksmanshipSubscribeToFiceModification);
+            //if (host.CanPerformFreeAction("Marksmanship", afterMovement))
+            host.AvailableActionsList.Add(new MarksmanshipAction());
         }
 
-        private void MarksmanshipSubscribeToFiceModification()
+    }
+
+    public class MarksmanshipAction : Actions.GenericAction
+    {
+        private Ship.GenericShip host;
+
+        public MarksmanshipAction()
         {
-            Host.AfterGenerateDiceModifications += MarksmanshipAddDiceModification;
+            Name = EffectName = "Marksmanship";
+        }
+
+        public override void ActionTake()
+        {
+            host = Game.Selection.ThisShip;
+            host.AfterGenerateDiceModifications += MarksmanshipAddDiceModification;
             Game.PhaseManager.OnEndPhaseStart += MarksmanshipUnSubscribeToFiceModification;
+        }
+
+        private void MarksmanshipAddDiceModification(ref List<Actions.GenericAction> list)
+        {
+            if (Game.Combat.AttackStep == CombatStep.Attack)
+            {
+                list.Add(this);
+            }
         }
 
         private void MarksmanshipUnSubscribeToFiceModification()
         {
-            Host.AfterGenerateDiceModifications -= MarksmanshipAddDiceModification;
+            host.AfterGenerateDiceModifications -= MarksmanshipAddDiceModification;
         }
 
-        private void MarksmanshipAddDiceModification(ref Dictionary<string, DiceModification> dict)
-        {
-            if (Game.Combat.AttackStep == CombatStep.Attack)
-            {
-                dict.Add("Marksmanship", MarksmanshipUseDiceModification);
-            }
-        }
-
-        private void MarksmanshipUseDiceModification()
+        public override void ActionEffect()
         {
             Game.Combat.CurentDiceRoll.ChangeOne(DiceSide.Focus, DiceSide.Crit);
             Game.Combat.CurentDiceRoll.ChangeAll(DiceSide.Focus, DiceSide.Success);

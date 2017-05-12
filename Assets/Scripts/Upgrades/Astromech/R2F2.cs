@@ -19,21 +19,32 @@ namespace Upgrade
 
         private void R2F2AddAction(Ship.GenericShip host, bool afterMovement)
         {
-            if (host.CanPerformFreeAction("R2-F2: Increase Agility", afterMovement)) host.AvailableActionsList.Add("R2-F2: Increase Agility", R2F2IncreaseAgility);
-            Game.PhaseManager.OnEndPhaseStart += R2F2DecreaseAgility;
+            //if (host.CanPerformFreeAction("R2-F2: Increase Agility", afterMovement))
+            host.AvailableActionsList.Add(new R2F2Action());
         }
 
-        private void R2F2IncreaseAgility()
+    }
+
+    public class R2F2Action : Actions.GenericAction
+    {
+        private Ship.GenericShip host;
+
+        public R2F2Action()
         {
-            Host.ChangeAgility(+1);
+            Name = EffectName = "R2-F2: Increase Agility";
+        }
+
+        public override void ActionTake()
+        {
+            host = Game.Selection.ThisShip;
+            host.ChangeAgility(+1);
+            Game.PhaseManager.OnEndPhaseStart += R2F2DecreaseAgility;
         }
 
         private void R2F2DecreaseAgility()
         {
-            Host.ChangeAgility(-1);
-            Game.PhaseManager.OnEndPhaseStart -= R2F2DecreaseAgility;
+            host.ChangeAgility(-1);
         }
-
 
     }
 

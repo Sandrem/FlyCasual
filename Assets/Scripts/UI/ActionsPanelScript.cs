@@ -45,13 +45,13 @@ public class ActionsPanelScript : MonoBehaviour {
         foreach (var action in Game.Selection.ThisShip.AvailableActionsList)
         {
             GameObject newButton = Instantiate(prefabActionButton, panelActions.transform);
-            newButton.name = "Button" + action.Key;
-            newButton.transform.GetComponentInChildren<Text>().text = action.Key;
+            newButton.name = "Button" + action.Name;
+            newButton.transform.GetComponentInChildren<Text>().text = action.Name;
             newButton.GetComponent<RectTransform>().position = defaultPosition + new Vector3(0, -offset, 0);
             offset += 40;
             newButton.GetComponent<Button>().onClick.AddListener(delegate {
-                action.Value.Invoke();
-                Game.Selection.ThisShip.AlreadyExecutedActions.Add(action.Key);
+                action.ActionTake();
+                Game.Selection.ThisShip.AlreadyExecutedActions.Add(action);
                 CloseActionsPanel();
             });
             newButton.GetComponent<Button>().interactable = true;
@@ -71,7 +71,7 @@ public class ActionsPanelScript : MonoBehaviour {
 
     private void ShowFreeActionsButtons()
     {
-        HideActionsButtons();
+        /*HideActionsButtons();
 
         float offset = 0;
         Vector3 defaultPosition = panelActions.transform.position + new Vector3(-95, 195, 0);
@@ -99,7 +99,7 @@ public class ActionsPanelScript : MonoBehaviour {
         {
             Game.UI.ShowError("Cannot perform any actions");
             Game.Selection.isInTemporaryState = false;
-        }
+        }*/
     }
 
     public void HideActionsButtons()

@@ -5,27 +5,13 @@ using UnityEngine;
 namespace Ship
 {
 
+    //todo: move to movement
     public enum ManeuverColor
     {
         None,
         Green,
         White,
         Red
-    }
-
-    public enum DefaultAction
-    {
-        Focus,
-        Evade,
-        TargetLock,
-        BarrelRoll
-    }
-
-    public enum Token
-    {
-        Stress,
-        Focus,
-        Evade
     }
 
     public class GenericShip
@@ -126,15 +112,16 @@ namespace Ship
             set;
         }
 
-        public Dictionary<Token, int> AssignedTokens = new Dictionary<Token, int>();
+        public Dictionary<Tokens.GenericToken, int> AssignedTokens = new Dictionary<Tokens.GenericToken, int>();
 
         public bool isUnique = false;
         //public bool FactionRestriction
 
-        public Dictionary <string, DefaultAction> BuiltInActions = new Dictionary<string, DefaultAction>();
-        public Dictionary<string, DefaultAction> FreeActions = new Dictionary<string, DefaultAction>();
+        public List<Actions.GenericAction> BuiltInActions = new List<Actions.GenericAction>();
+        public List<Actions.GenericAction> FreeActions = new List<Actions.GenericAction>();
+        public List<Actions.GenericAction> AlreadyExecutedActions = new List<Actions.GenericAction>();
+        public List<Actions.GenericAction> AvailableActionEffects = new List<Actions.GenericAction>();
 
-        public List<string> AlreadyExecutedActions = new List<string>();
         public List<CriticalHitCard.GenericCriticalHit> AssignedCrits = new List<CriticalHitCard.GenericCriticalHit>();
 
         public Dictionary<Upgrade.UpgradeSlot, int> BuiltInSlots = new Dictionary<Upgrade.UpgradeSlot, int>();
@@ -142,11 +129,8 @@ namespace Ship
         public Dictionary<string, ManeuverColor> Maneuvers = new Dictionary<string, ManeuverColor>();
         public int ShipId { get; set; }
 
-        public Dictionary<string, ShipActionExecution> AvailableActionsList = new Dictionary<string, ShipActionExecution>();
-        public Dictionary<string, ShipActionExecution> AvailableFreeActionsList = new Dictionary<string, ShipActionExecution>();
-
-        public Dictionary<string, DiceModification> AvailableDiceModifications = new Dictionary<string, DiceModification>();
-        private Dictionary<string, DiceModification> DefaultDiceMidifications = new Dictionary<string, DiceModification>();
+        public List<Actions.GenericAction> AvailableActionsList = new List<Actions.GenericAction>();
+        public List<Actions.GenericAction> AvailableFreeActionsList = new List<Actions.GenericAction>();
 
         public List<KeyValuePair<Upgrade.UpgradeSlot, Upgrade.GenericUpgrade>> InstalledUpgrades = new List<KeyValuePair<Upgrade.UpgradeSlot, Upgrade.GenericUpgrade>>();
 
@@ -158,7 +142,7 @@ namespace Ship
         public delegate void EventHandlerBoolBool(ref bool data, bool afterMovement);
         public delegate void EventHandlerShip(GenericShip ship);
         public delegate void EventHandlerShipBool(GenericShip ship, bool afterMovement);
-        public delegate void EventHandlerDiceModificationDict(ref Dictionary<string, DiceModification> dict);
+        public delegate void EventHandlerActionEffectsList(ref List<Actions.GenericAction> list);
         public delegate void EventHandlerShipMovement(GenericShip ship, ref Movement movement);
         public delegate void EventHandlerShipCrit(GenericShip ship, ref CriticalHitCard.GenericCriticalHit crit);
 
@@ -169,12 +153,8 @@ namespace Ship
         public event EventHandlerShip OnMovementFinish;
         public event EventHandlerShip OnMovementFinishWithColliding;
         public event EventHandlerShip OnMovementFinishWithoutColliding;
-        public event EventHandlerShip AfterStressTokenIsAssigned;
-        public event EventHandlerShip AfterStressTokenIsRemoved;
-        public event EventHandlerShip AfterFocusTokenIsAssigned;
-        public event EventHandlerShip AfterFocusTokenIsRemoved;
-        public event EventHandlerShip AfterEvadeTokenIsAssigned;
-        public event EventHandlerShip AfterEvadeTokenIsRemoved;
+        public event EventHandlerShip AfterTokenIsAssigned;
+        public event EventHandlerShip AfterTokenIsRemoved;
         public event EventHandlerShip AfterAssignedDamageIsChanged;
         public event EventHandlerShip AfterStatsAreChanged;
         public event EventHandlerShipBool AfterAvailableActionListIsBuilt;
@@ -185,7 +165,7 @@ namespace Ship
         public event EventHandlerBool OnTrySpendFocus;
         public event EventHandlerBool OnTryReroll;
         public event EventHandlerBoolBool OnTryPerformAction;
-        public event EventHandlerDiceModificationDict AfterGenerateDiceModifications;
+        public event EventHandlerActionEffectsList AfterGenerateDiceModifications;
         public event EventHandlerShipMovement AfterGetManeuverColor;
         public event EventHandlerShipMovement AfterGetManeuverAvailablity;
         public event EventHandlerShipCrit OnAssignCrit;
@@ -197,8 +177,6 @@ namespace Ship
             PlayerNo = playerNo;
             ShipId = shipId;
 
-            GenerateDefaultDiceModifications();
-
             AddUpgradeSlot(Upgrade.UpgradeSlot.Modification);
         }
 
@@ -208,39 +186,12 @@ namespace Ship
             Hull = MaxHull;
         }
 
-        protected void AddUpgradeSlot(Upgrade.UpgradeSlot slot)
-        {
-            if (!BuiltInSlots.ContainsKey(slot))
-            {
-                BuiltInSlots.Add(slot, 1);
-            }
-            else
-            {
-                BuiltInSlots[slot]++;
-            }
-            
-        }
-
-        public void ClearAlreadyExecutedActions()
-        {
-            AlreadyExecutedActions = new List<string>();
-        }
-
-        //Todo: Avoid this, move to 1 static place
-        private void GenerateDefaultDiceModifications()
-        {
-            //fix this
-            //if (Game.Combat == null) Game.Combat = Game.GetComponent<CombatManagerScript>();
-
-            DefaultDiceMidifications.Add("Focus", Game.Combat.ApplyFocus);
-            DefaultDiceMidifications.Add("Evade", Game.Combat.ApplyEvade);
-            //DefaultDiceModofications.Add("Reroll", Game.Combat.RerollDices);
-        }
-
         protected void SetModel(Vector3 position)
         {
             Model = new ShipModelScript(this, position);
         }
+
+        // MANEUVERS
 
         public ManeuverColor GetColorComplexityOfManeuver(string maneuverString)
         {
@@ -254,47 +205,27 @@ namespace Ship
             return result;
         }
 
-        private void AddToken(Token token)
+        public Dictionary<string, ManeuverColor> GetManeuvers()
         {
-            if (AssignedTokens.ContainsKey(token))
+            Dictionary<string, ManeuverColor> result = new Dictionary<string, ManeuverColor>();
+
+            foreach (var maneuverHolder in Maneuvers)
             {
-                AssignedTokens[token]++;
+                Movement movement = Game.Movement.ManeuverFromString(maneuverHolder.Key);
+                if (AfterGetManeuverColor != null) AfterGetManeuverColor(this, ref movement);
+                if (AfterGetManeuverAvailablity != null) AfterGetManeuverAvailablity(this, ref movement);
+                result.Add(maneuverHolder.Key, movement.ColorComplexity);
             }
-            else
-            {
-                AssignedTokens.Add(token, 1);
-            }
+
+            return result;
         }
 
-        private void RemoveToken(Token token)
-        {
-            if (AssignedTokens.ContainsKey(token))
-            {
-                if (AssignedTokens[token] > 1)
-                {
-                    AssignedTokens[token]--;
-                }
-                else
-                {
-                    AssignedTokens.Remove(token);
-                }
-            }
-            else
-            {
-                AssignedTokens.Add(token, 1);
-            }
-        }
+        // STAT MODIFICATIONS
 
-        public void PerformFocusAction()
+        public void ChangeAgility(int value)
         {
-            AddToken(Token.Focus);
-            AfterFocusTokenIsAssigned(this);
-        }
-
-        public void PerformEvadeAction()
-        {
-            AddToken(Token.Evade);
-            AfterEvadeTokenIsAssigned(this);
+            Agility += value;
+            AfterStatsAreChanged(this);
         }
 
         public int GetNumberOfAttackDices(GenericShip targetShip)
@@ -311,6 +242,34 @@ namespace Ship
             AfterGotNumberOfDefenceDices(ref result);
             return result;
         }
+
+        // REGEN
+
+        public bool TryRegenShields()
+        {
+            bool result = false;
+            if (Shields < MaxShields)
+            {
+                result = true;
+                Shields++;
+                AfterAssignedDamageIsChanged(this);
+            };
+            return result;
+        }
+
+        public bool TryRegenHull()
+        {
+            bool result = false;
+            if (Hull < MaxHull)
+            {
+                result = true;
+                Hull++;
+                AfterAssignedDamageIsChanged(this);
+            };
+            return result;
+        }
+
+        // DAMAGE
 
         public void SufferDamage(DiceRoll damage)
         {
@@ -345,6 +304,18 @@ namespace Ship
             Hull = Mathf.Max(Hull, 0);
 
             IsHullDestroyedCheck();
+        }
+
+        public void SufferCrit(CriticalHitCard.GenericCriticalHit crit)
+        {
+            if (OnAssignCrit != null) OnAssignCrit(this, ref crit);
+
+            if (crit != null)
+            {
+                SufferHullDamage();
+                AssignedCrits.Add(crit);
+                crit.AssignCrit(this);
+            }
         }
 
         public void IsHullDestroyedCheck()
@@ -396,134 +367,7 @@ namespace Ship
             return inArc;
         }
 
-        public void ClearTokens()
-        {
-            while (HasToken(Token.Focus))
-            {
-                SpendFocusToken();
-                AfterFocusTokenIsRemoved(this);
-            }
-            while (HasToken(Token.Evade))
-            {
-                SpendEvadeToken();
-                AfterEvadeTokenIsRemoved(this);
-            }
-        }
-
-        public void SpendFocusToken()
-        {
-            RemoveToken(Token.Focus);
-            AfterFocusTokenIsRemoved(this);
-        }
-
-        public void SpendEvadeToken()
-        {
-            RemoveToken(Token.Evade);
-            AfterEvadeTokenIsRemoved(this);
-        }
-
-        public bool HasToken(Token token)
-        {
-            return AssignedTokens.ContainsKey(token);
-        }
-
-        public bool CanSpendFocus()
-        {
-            bool result = false;
-            if (HasToken(Token.Focus)) result = true;
-            if (OnTrySpendFocus != null) OnTrySpendFocus(ref result);
-            return result;
-        }
-
-        public bool CanReroll()
-        {
-            bool result = false;
-            if (HasToken(Token.Focus)) result = true;
-            if (OnTryReroll != null) OnTryReroll(ref result);
-            return result;
-        }
-
-        public bool CanSpendEvade()
-        {
-            bool result = false;
-            if (HasToken(Token.Evade)) result = true;
-            return result;
-        }
-
-        public bool CanSpendTargetLock()
-        {
-            bool result = false;
-            //NOT IMPLEMENTED
-            return result;
-        }
-
-        public bool CanPerformAction(DefaultAction action, bool afterMovement)
-        {
-            bool result = false;
-            if (BuiltInActions.ContainsValue(action)) result = true;
-            if (AlreadyExecutedActions.Contains(ActionToString(action)))
-            {
-                result = false;
-            }
-            OnTryPerformAction(ref result, afterMovement);
-            return result;
-        }
-
-        public bool CanPerformFreeAction(DefaultAction action, bool afterMovement)
-        {
-            bool result = true;
-            if (AlreadyExecutedActions.Contains(ActionToString(action))){
-                result = false;
-            }
-            OnTryPerformAction(ref result, afterMovement);
-            return result;
-        }
-
-        public bool CanPerformFreeAction(string action, bool afterMovement)
-        {
-            bool result = true;
-            if (AlreadyExecutedActions.Contains(action))
-            {
-                result = false;
-            }
-            OnTryPerformAction(ref result, afterMovement);
-            return result;
-        }
-
-        public void AssignStressToken()
-        {
-            AddToken(Token.Stress);
-            AfterStressTokenIsAssigned(this);
-        }
-
-        public void TryRemoveStressToken()
-        {
-            if (HasToken(Token.Stress)) RemoveStressToken();
-        }
-
-        public void RemoveStressToken()
-        {
-            RemoveToken(Token.Stress);
-            AfterStressTokenIsRemoved(this);
-        }
-
-        public void GenerateDiceModificationButtons()
-        {
-            AvailableDiceModifications = new Dictionary<string, DiceModification>();
-
-            //Rewrite?
-            if (Game.Selection.ActiveShip.CanSpendFocus())
-            {
-                AvailableDiceModifications.Add("Spend Focus", DefaultDiceMidifications["Focus"]);
-            }
-            if (Game.Selection.ActiveShip.CanSpendEvade() && (Game.Combat.AttackStep == CombatStep.Defence))
-            {
-                AvailableDiceModifications.Add("Spend Evade", DefaultDiceMidifications["Evade"]);
-            }
-
-            if (AfterGenerateDiceModifications != null) AfterGenerateDiceModifications(ref AvailableDiceModifications);
-
-        }
+        //TRIGGERS
 
         //todo: think about name
         public void AttackStart()
@@ -531,65 +375,10 @@ namespace Ship
             if (OnAttack != null) OnAttack();
         }
 
-
         //todo: think about name
         public void DefenceStart()
         {
             if (OnDefence != null) OnDefence();
-        }
-
-        public void GenerateAvailableActionsList(bool afterMovement)
-        {
-            AvailableActionsList = new Dictionary<string, ShipActionExecution>();
-
-            foreach (var action in BuiltInActions)
-            {
-                switch (action.Value)
-                {
-                    case DefaultAction.Focus:
-                        if (CanPerformAction(DefaultAction.Focus, afterMovement)) AvailableActionsList.Add(action.Key, PerformFocusAction);
-                        break;
-                    case DefaultAction.Evade:
-                        if (CanPerformAction(DefaultAction.Evade, afterMovement)) AvailableActionsList.Add(action.Key, PerformEvadeAction);
-                        break;
-                    case DefaultAction.TargetLock:
-                        if (CanPerformAction(DefaultAction.TargetLock, afterMovement)) AvailableActionsList.Add(action.Key, delegate { });
-                        break;
-                    case DefaultAction.BarrelRoll:
-                        if (CanPerformAction(DefaultAction.BarrelRoll, afterMovement)) AvailableActionsList.Add(action.Key, delegate { });
-                        break;
-                    default:
-                        break;
-                }
-            }
-            if (AfterAvailableActionListIsBuilt != null) AfterAvailableActionListIsBuilt(this, afterMovement);
-        }
-
-        public void GenerateAvailableFreeActionsList(bool afterMovement)
-        {
-            AvailableFreeActionsList = new Dictionary<string, ShipActionExecution>();
-
-            foreach (var action in FreeActions)
-            {
-                switch (action.Value)
-                {
-                    case DefaultAction.Focus:
-                        if (CanPerformFreeAction(DefaultAction.Focus, afterMovement)) AvailableFreeActionsList.Add(action.Key, PerformFocusAction);
-                        break;
-                    case DefaultAction.Evade:
-                        if (CanPerformFreeAction(DefaultAction.Evade, afterMovement)) AvailableFreeActionsList.Add(action.Key, PerformEvadeAction);
-                        break;
-                    case DefaultAction.TargetLock:
-                        if (CanPerformFreeAction(DefaultAction.TargetLock, afterMovement)) AvailableFreeActionsList.Add(action.Key, delegate { });
-                        break;
-                    case DefaultAction.BarrelRoll:
-                        if (CanPerformFreeAction(DefaultAction.BarrelRoll, afterMovement)) AvailableFreeActionsList.Add(action.Key, delegate { });
-                        break;
-                    default:
-                        break;
-                }
-            }
-
         }
 
         public void StartMoving()
@@ -612,37 +401,19 @@ namespace Ship
             OnMovementFinishWithoutColliding(this);
         }
 
-        public void AskPerformFreeAction(string name, DefaultAction action, bool afterMovement)
-        {
-            Game.Selection.isUIlocked = true;
-            Game.Selection.isInTemporaryState = true;
-            Game.UI.Helper.UpdateTemporaryState("Perform free action");
-            FreeActions = new Dictionary<string, DefaultAction>();
-            FreeActions.Add(name, action);
-            Game.UI.ActionsPanel.ShowFreeActionsPanel(afterMovement);
-        }
+        //UPGRADES
 
-        public string ActionToString(DefaultAction action)
+        protected void AddUpgradeSlot(Upgrade.UpgradeSlot slot)
         {
-            string result = "";
-            switch (action)
+            if (!BuiltInSlots.ContainsKey(slot))
             {
-                case DefaultAction.Focus:
-                    result = "Focus";
-                    break;
-                case DefaultAction.Evade:
-                    result = "Evade";
-                    break;
-                case DefaultAction.TargetLock:
-                    result = "Target Lock";
-                    break;
-                case DefaultAction.BarrelRoll:
-                    result = "Barrel Roll";
-                    break;
-                default:
-                    break;
+                BuiltInSlots.Add(slot, 1);
             }
-            return result;
+            else
+            {
+                BuiltInSlots[slot]++;
+            }
+
         }
 
         public void InstallUpgrade(string upgradeName)
@@ -674,61 +445,167 @@ namespace Ship
             return result;
         }
 
-        public bool TryRegenShields()
+        //ACTIONS
+
+        public void AskPerformFreeAction(string name, Actions.GenericAction action, bool afterMovement)
         {
-            bool result = false;
-            if (Shields < MaxShields)
-            {
-                result = true;
-                Shields++;
-                AfterAssignedDamageIsChanged(this);
-            };
-            return result;
+            Game.Selection.isUIlocked = true;
+            Game.Selection.isInTemporaryState = true;
+            Game.UI.Helper.UpdateTemporaryState("Perform free action");
+            /*FreeActions = new Dictionary<string, DefaultAction>();
+            FreeActions.Add(name, action);*/
+            Game.UI.ActionsPanel.ShowFreeActionsPanel(afterMovement);
         }
 
-        public bool TryRegenHull()
+        public void GenerateAvailableActionsList(bool afterMovement)
         {
-            bool result = false;
-            if (Hull < MaxHull)
+            AvailableActionsList = new List<Actions.GenericAction>();
+
+            foreach (var action in BuiltInActions)
             {
-                result = true;
-                Hull++;
-                AfterAssignedDamageIsChanged(this);
-            };
-            return result;
-        }
-
-        public void ChangeAgility(int value)
-        {
-            Agility += value;
-            AfterStatsAreChanged(this);
-        }
-
-        public Dictionary<string, ManeuverColor> GetManeuvers()
-        {
-            Dictionary<string, ManeuverColor> result = new Dictionary<string, ManeuverColor>();
-
-            foreach (var maneuverHolder in Maneuvers)
-            {
-                Movement movement =  Game.Movement.ManeuverFromString(maneuverHolder.Key);
-                if (AfterGetManeuverColor!=null) AfterGetManeuverColor(this, ref movement);
-                if (AfterGetManeuverAvailablity!=null) AfterGetManeuverAvailablity(this, ref movement);
-                result.Add(maneuverHolder.Key, movement.ColorComplexity);
+                AvailableActionsList.Add(action);
             }
 
+            if (AfterAvailableActionListIsBuilt != null) AfterAvailableActionListIsBuilt(this, afterMovement);
+        }
+
+        public void GenerateAvailableFreeActionsList(bool afterMovement)
+        {
+            /*AvailableFreeActionsList = new Dictionary<string, ShipActionExecution>();
+
+            foreach (var action in FreeActions)
+            {
+                AvailableFreeActionsList.Add(action.Key, action.Value);
+            }*/
+
+        }
+
+        public void ClearAlreadyExecutedActions()
+        {
+            AlreadyExecutedActions = new List<Actions.GenericAction>();
+        }
+
+        /*public bool CanPerformAction(Actions.GenericAction action, bool afterMovement)
+        {
+            bool result = false;
+            if (BuiltInActions.ContainsValue(action)) result = true;
+            if (AlreadyExecutedActions.Contains(ActionToString(action)))
+            {
+                result = false;
+            }
+            OnTryPerformAction(ref result, afterMovement);
+            return result;
+        }*/
+
+        /*public bool CanPerformFreeAction(Actions.GenericAction action, bool afterMovement)
+        {
+            bool result = true;
+            if (AlreadyExecutedActions.Contains(ActionToString(action))){
+                result = false;
+            }
+            OnTryPerformAction(ref result, afterMovement);
             return result;
         }
 
-        public void SufferCrit(CriticalHitCard.GenericCriticalHit crit)
+        public bool CanPerformFreeAction(string action, bool afterMovement)
         {
-            if (OnAssignCrit!=null) OnAssignCrit(this, ref crit);
-
-            if (crit != null)
+            bool result = true;
+            if (AlreadyExecutedActions.Contains(action))
             {
-                SufferHullDamage();
-                AssignedCrits.Add(crit);
-                crit.AssignCrit(this);
+                result = false;
             }
+            OnTryPerformAction(ref result, afterMovement);
+            return result;
+        }*/
+
+        // ACTION EFFECTS
+
+        public void GenerateDiceModificationButtons()
+        {
+            //TODO: REWRITE FOR SECOD USING
+            foreach (var action in AvailableActionEffects)
+            {
+                // if (Game.Selection.ActiveShip.CanSpendEvade() && (Game.Combat.AttackStep == CombatStep.Defence))
+                //if (AlreadyExecutedActions.Contains(ActionToString(action)))
+                if (!CanUseActionEffect(action))
+                {
+                    AvailableActionEffects.Remove(action);
+                }
+            }
+
+            if (AfterGenerateDiceModifications != null) AfterGenerateDiceModifications(ref AvailableActionEffects);
+
+        }
+
+        private bool CanUseActionEffect(Actions.GenericAction action)
+        {
+            bool result = true;
+            //TODO: ALL MAGIC HERE
+            return result;
+        }
+
+        // TOKENS
+
+        public void AddToken(Tokens.GenericToken token)
+        {
+            if (AssignedTokens.ContainsKey(token))
+            {
+                //TODO: AddEvent
+                AssignedTokens[token]++;
+            }
+            else
+            {
+                AssignedTokens.Add(token, 1);
+            }
+
+            if (AfterTokenIsAssigned != null) AfterTokenIsAssigned(this);
+        }
+
+        public void RemoveToken(Tokens.GenericToken token)
+        {
+            if (AssignedTokens.ContainsKey(token))
+            {
+                if (AssignedTokens[token] > 1)
+                {
+                    AssignedTokens[token]--;
+                }
+                else
+                {
+                    AssignedTokens.Remove(token);
+                }
+                if (AfterTokenIsRemoved != null) AfterTokenIsRemoved(this);
+            }
+        }
+
+        public void ClearTokens()
+        {
+            foreach (var tokenHolder in AssignedTokens)
+            {
+                if (tokenHolder.Key.Temporary)
+                {
+                    while (tokenHolder.Value > 0)
+                    {
+                        RemoveToken(tokenHolder.Key);
+                    }
+                }
+            }
+        }
+
+        public void SpendToken(object type)
+        {
+            foreach (var token in AssignedTokens)
+            {
+                if (token.Key.GetType() == type)
+                {
+                    RemoveToken(token.Key);
+                    break;
+                }
+            }
+        }
+
+        public bool HasToken(Tokens.GenericToken token)
+        {
+            return AssignedTokens.ContainsKey(token);
         }
 
     }

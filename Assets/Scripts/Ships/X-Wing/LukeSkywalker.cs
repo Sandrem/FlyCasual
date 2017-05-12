@@ -18,18 +18,31 @@ namespace Ship
                 AfterGenerateDiceModifications += AddLukeSkywalkerPilotAbility;
             }
 
-            public void AddLukeSkywalkerPilotAbility(ref Dictionary<string, DiceModification> dict)
+            public void AddLukeSkywalkerPilotAbility(ref List<Actions.GenericAction> list)
             {
                 if (Game.Combat.AttackStep == CombatStep.Defence)
                 {
-                    dict.Add("Luke Skywalker's ability", UseLukeSkywalkerPilotAbility);
+                    list.Add(new LukeSkywalkerAction());
                 }
             }
 
-            private void UseLukeSkywalkerPilotAbility()
+        }
+
+        public class LukeSkywalkerAction : Actions.GenericAction
+        {
+            private Ship.GenericShip host;
+
+            public LukeSkywalkerAction()
+            {
+                Name = EffectName = "Luke Skywalker's ability";
+            }
+
+            public override void ActionEffect()
             {
                 Game.Combat.CurentDiceRoll.ChangeOne(DiceSide.Focus, DiceSide.Success);
             }
+
         }
+
     }
 }

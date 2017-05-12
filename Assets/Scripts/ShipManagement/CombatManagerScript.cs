@@ -90,24 +90,6 @@ public class CombatManagerScript : MonoBehaviour {
         RangeRuler.transform.eulerAngles = new Vector3(0, -90, 0);
     }
 
-    public void RerollDices()
-    {
-        //todo: ChangeToCurrent
-        Game.Dices.RerollAllDices(CurentDiceRoll);
-    }
-
-    public void ApplyFocus()
-    {
-        Game.Dices.ApplyFocus(CurentDiceRoll);
-        Game.Selection.ActiveShip.SpendFocusToken();
-    }
-
-    public void ApplyEvade()
-    {
-        Game.Dices.ApplyEvade(CurentDiceRoll);
-        Game.Selection.ActiveShip.SpendEvadeToken();
-    }
-
     public void AttackStart()
     {
         Attacker.AttackStart();

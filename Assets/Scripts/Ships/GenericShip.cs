@@ -160,7 +160,7 @@ namespace Ship
         public delegate void EventHandlerShipBool(GenericShip ship, bool afterMovement);
         public delegate void EventHandlerDiceModificationDict(ref Dictionary<string, DiceModification> dict);
         public delegate void EventHandlerShipMovement(GenericShip ship, ref Movement movement);
-
+        public delegate void EventHandlerShipCrit(GenericShip ship, ref CriticalHitCard.GenericCriticalHit crit);
 
         public event EventHandler OnDestroyed;
         public event EventHandler OnDefence;
@@ -188,6 +188,7 @@ namespace Ship
         public event EventHandlerDiceModificationDict AfterGenerateDiceModifications;
         public event EventHandlerShipMovement AfterGetManeuverColor;
         public event EventHandlerShipMovement AfterGetManeuverAvailablity;
+        public event EventHandlerShipCrit OnAssignCrit;
 
         public GenericShip(Player playerNo, int shipId, Vector3 position)
         {
@@ -326,14 +327,11 @@ namespace Ship
                 {
                     if (dice.Side == DiceSide.Success)
                     {
-                        //temporary
-                        //Game.CritsDeck.DrawCrit(this);
                         SufferHullDamage();
                     }
                     if (dice.Side == DiceSide.Crit)
                     {
                         Game.CritsDeck.DrawCrit(this);
-                        SufferHullDamage();
                     }
                 }
             }
@@ -719,6 +717,18 @@ namespace Ship
             }
 
             return result;
+        }
+
+        public void SufferCrit(CriticalHitCard.GenericCriticalHit crit)
+        {
+            if (OnAssignCrit!=null) OnAssignCrit(this, ref crit);
+
+            if (crit != null)
+            {
+                SufferHullDamage();
+                AssignedCrits.Add(crit);
+                crit.AssignCrit(this);
+            }
         }
 
     }

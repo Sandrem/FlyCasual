@@ -29,7 +29,7 @@ public class CriticalHitsDeck : MonoBehaviour {
     {
         for (int i = 0; i < 3; i++) // Max should be 7
         {
-            //Deck.Add(new CriticalHitCard.DirectHit());
+            Deck.Add(new CriticalHitCard.DirectHit());
         }
 
         for (int i = 0; i < 2; i++)
@@ -66,8 +66,7 @@ public class CriticalHitsDeck : MonoBehaviour {
         CriticalHitCard.GenericCriticalHit crit = Deck[index];
         Deck.Remove(crit);
 
-        host.AssignedCrits.Add(crit);
-        crit.AssignCrit(host);
+        host.SufferCrit(crit);
     }
 
 }

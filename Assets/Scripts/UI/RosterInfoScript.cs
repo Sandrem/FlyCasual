@@ -12,6 +12,8 @@ public class RosterInfoScript : MonoBehaviour {
     public GameObject prefabRosterShipPanel;
     public GameObject rosterPanels;
 
+    public GameObject prefabToken;
+
     private List<GameObject> rosterPlayer1 = new List<GameObject>();
     private List<GameObject> rosterPlayer2 = new List<GameObject>();
 
@@ -91,10 +93,28 @@ public class RosterInfoScript : MonoBehaviour {
 
     }
 
-    private void OrganizeRosters()
+    //ORGANIZE
+
+    public void OrganizeRosters()
     {
         OrganizeRosterPanelSizes();
         OrganizeRosterPositions();
+    }
+
+    private void OrganizeRosterPanelSizes()
+    {
+
+        foreach (GameObject panel in rosterPlayer1)
+        {
+            panel.transform.Find("ShipInfo").GetComponent<RectTransform>().sizeDelta = new Vector2(200, CalculateRosterPanelSize(panel));
+        }
+
+        //same
+        foreach (GameObject panel in rosterPlayer2)
+        {
+            panel.transform.Find("ShipInfo").GetComponent<RectTransform>().sizeDelta = new Vector2(200, CalculateRosterPanelSize(panel));
+        }
+
     }
 
     private int CalculateRosterPanelSize(GameObject panel)
@@ -105,6 +125,7 @@ public class RosterInfoScript : MonoBehaviour {
 
         bool tokensVisible = false;
 
+        //TODO: Bug: Resize on end phase is not working correctly
         foreach (Transform icon in panel.transform.Find("ShipInfo").Find("TokensBar").transform)
         {
             if (icon.gameObject.activeSelf)
@@ -132,22 +153,6 @@ public class RosterInfoScript : MonoBehaviour {
         panelHeight += Mathf.CeilToInt(upgradesVisible/2) * 20;
 
         return panelHeight;
-    }
-
-    private void OrganizeRosterPanelSizes()
-    {
-
-        foreach (GameObject panel in rosterPlayer1)
-        {
-            panel.transform.Find("ShipInfo").GetComponent<RectTransform>().sizeDelta = new Vector2(200, CalculateRosterPanelSize(panel));
-        }
-
-        //same
-        foreach (GameObject panel in rosterPlayer2)
-        {
-            panel.transform.Find("ShipInfo").GetComponent<RectTransform>().sizeDelta = new Vector2(200, CalculateRosterPanelSize(panel));
-        }
-
     }
 
     private void OrganizeRosterPositions()
@@ -194,6 +199,8 @@ public class RosterInfoScript : MonoBehaviour {
         Game.UI.HideTemporaryMenus();
     }
 
+    //UPDATE
+
     public void UpdateRosterShieldsDamageIndicators(Ship.GenericShip thisShip)
     {
         thisShip.InfoPanel.transform.Find("ShipInfo").Find("ShipShieldsText").GetComponent<Text>().text = thisShip.Shields.ToString();
@@ -211,6 +218,7 @@ public class RosterInfoScript : MonoBehaviour {
 
     public void UpdateShipStats(Ship.GenericShip thisShip)
     {
+        thisShip.InfoPanel.transform.Find("ShipInfo").Find("ShipPilotSkillText").GetComponent<Text>().text = thisShip.PilotSkill.ToString();
         thisShip.InfoPanel.transform.Find("ShipInfo").Find("ShipFirepowerText").GetComponent<Text>().text = thisShip.Firepower.ToString();
         thisShip.InfoPanel.transform.Find("ShipInfo").Find("ShipAgilityText").GetComponent<Text>().text = thisShip.Agility.ToString();
     }
@@ -232,22 +240,35 @@ public class RosterInfoScript : MonoBehaviour {
 
     public void UpdateTokensIndicator(Ship.GenericShip thisShip)
     {
+        List<GameObject> keys = new List<GameObject>();
         foreach (Transform icon in thisShip.InfoPanel.transform.Find("ShipInfo").Find("TokensBar").transform)
         {
-            icon.gameObject.SetActive(false);
+            keys.Add(icon.gameObject);
+        }
+        foreach (GameObject icon in keys)
+        {
+            Destroy(icon);
         }
 
         float offset = 0;
         foreach (var token in thisShip.AssignedTokens)
         {
-            GameObject tokenPanel = thisShip.InfoPanel.transform.Find("ShipInfo").Find("TokensBar").Find(token.Name).gameObject;
+            GameObject tokenPanel = Instantiate(prefabToken, thisShip.InfoPanel.transform.Find("ShipInfo").Find("TokensBar"));
+            tokenPanel.GetComponent<RectTransform>().localPosition = Vector3.zero;
+            tokenPanel.name = token.Name;
+            tokenPanel.transform.Find(token.Name).gameObject.SetActive(true);
+
+            if (token.GetType().BaseType == typeof(Tokens.GenericTargetLockToken))
+            {
+                tokenPanel.transform.Find(token.Name).Find("Letter").GetComponent<Text>().text = (token as Tokens.GenericTargetLockToken).Letter.ToString();
+            }
+
             tokenPanel.SetActive(true);
-            tokenPanel.GetComponent<RectTransform>().localPosition += new Vector3(offset, 0, 0);
+            tokenPanel.GetComponent<RectTransform>().localPosition = new Vector3(offset, tokenPanel.GetComponent<RectTransform>().localPosition.y, tokenPanel.GetComponent<RectTransform>().localPosition.z);
             offset += 32 + 3;
         }
 
         OrganizeRosters();
-
     }
 
     public void UpdateUpgradesPanel(Ship.GenericShip newShip, GameObject newPanel)

@@ -100,7 +100,7 @@ public class ShipSelectionManagerScript : MonoBehaviour {
     public bool TryToChangeAnotherShip(string shipId)
     {
         bool result = false;
-        if ((!isUIlocked) && (!isInTemporaryState))
+        if ((!isUIlocked) && (!(Game.PhaseManager.TemporaryPhaseName == "Perform free action")))
         {
             Ship.GenericShip targetShip = Game.Roster.GetShipById(shipId);
 
@@ -121,15 +121,40 @@ public class ShipSelectionManagerScript : MonoBehaviour {
                 {
                     Game.UI.ShowError("Ship cannot be selected as attack target:\nFirst select attacker");
                 }
-            } else
+            }
+
+            if (Game.PhaseManager.CurrentPhase.Phase == Phases.Activation)
             {
-                Game.UI.ShowError("Ship of another player");
+                if (Game.PhaseManager.TemporaryPhaseName == "Select target for Target Lock")
+                {
+                    if (targetShip.PlayerNo != Game.PhaseManager.CurrentPhase.RequiredPlayer)
+                    {
+                        if (!Game.Actions.AssignTargetLockToPair(Game.Selection.ThisShip, targetShip))
+                        {
+                            Game.UI.ShowError("Target is out of range of Target Lock");
+                            Game.Selection.ThisShip.RemoveAlreadyExecutedAction(typeof(Actions.TargetLockAction));
+                            Game.PhaseManager.EndTemporaryPhase();
+                            Game.UI.ActionsPanel.ShowActionsPanel();
+                            return false;
+                        }
+                        Game.PhaseManager.EndTemporaryPhase();
+                        Game.PhaseManager.CurrentPhase.NextSubPhase();
+                    }
+                    else
+                    {
+                        Game.UI.ShowError("Ship cannot be selected as target: Friendly ship");
+                    }
+                }
             }
 
             if (result == true)
             {
                 ChangeAnotherShip(shipId);
             }
+            /*else
+            {
+                Game.UI.ShowError("Ship of another player");
+            }*/
 
         }
         return result;

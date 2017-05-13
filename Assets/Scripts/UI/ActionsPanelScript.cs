@@ -17,7 +17,7 @@ public class ActionsPanelScript : MonoBehaviour {
         Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
     }
 
-    public void ShowActionsPanel(bool afterMovement)
+    public void ShowActionsPanel()
     {
         //todo: rewrite
         if (!Game.Selection.ThisShip.IsDestroyed) {
@@ -84,7 +84,7 @@ public class ActionsPanelScript : MonoBehaviour {
         panelActions.SetActive(false);
         if (Game.Selection.isInTemporaryState)
         {
-            Game.Selection.isInTemporaryState = false;
+            if (Game.PhaseManager.TemporaryPhaseName == "Perform free action") Game.PhaseManager.EndTemporaryPhase();
         }
         else
         {

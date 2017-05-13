@@ -17,8 +17,6 @@ public class CombatManagerScript : MonoBehaviour {
     public DiceRoll DiceRollDefence;
     public DiceRoll CurentDiceRoll;
 
-    public GameObject RangeRuler;
-
     public CombatStep AttackStep = CombatStep.None;
 
     public Ship.GenericShip Attacker;
@@ -82,12 +80,6 @@ public class CombatManagerScript : MonoBehaviour {
         {
             defender.SufferDamage(DiceRollAttack);
         }
-    }
-
-    public void ReturnRangeRuler()
-    {
-        RangeRuler.transform.position = new Vector3(9.5f, 0f, 2.2f);
-        RangeRuler.transform.eulerAngles = new Vector3(0, -90, 0);
     }
 
     public void AttackStart()

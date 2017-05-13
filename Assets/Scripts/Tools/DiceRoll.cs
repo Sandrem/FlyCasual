@@ -122,9 +122,9 @@ public class DiceRoll
 
     private void CancelHit()
     {
-        if (!CancelType(DiceSide.Crit))
+        if (!CancelType(DiceSide.Success))
         {
-            CancelType(DiceSide.Success);
+            CancelType(DiceSide.Crit);
         }
     }
 

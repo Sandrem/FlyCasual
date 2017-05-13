@@ -45,7 +45,7 @@ public class ShipRosterManagerScript : MonoBehaviour {
         newShip = ShipFactory.SpawnShip("Ship.TIEFighter.MaulerMithel", Player.Player2, 2, new Vector3(-1, 0, 2.5f));
         newShip.InstallUpgrade("Upgrade.Determination");
         AddShip(newShip, 2);
-        newShip = ShipFactory.SpawnShip("Ship.TIEFighter.DarkCurse", Player.Player2, 3, new Vector3(1, 0, 2.5f));
+        newShip = ShipFactory.SpawnShip("Ship.TIEFighter.NightBeast", Player.Player2, 3, new Vector3(1, 0, 2.5f));
         AddShip(newShip, 2);
     }
 

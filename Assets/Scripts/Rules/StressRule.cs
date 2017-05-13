@@ -17,23 +17,26 @@ namespace Rules
             switch (ship.GetLastManeuverColor())
             {
                 case Ship.ManeuverColor.Red:
-                    ship.AssignStressToken();
+                    ship.AssignToken(new Tokens.StressToken());
                     break;
                 case Ship.ManeuverColor.Green:
-                    ship.TryRemoveStressToken();
+                    ship.RemoveToken(typeof(Tokens.StressToken));
                     break;
             }
         }
 
-        public void CanPerformActions(ref bool result, bool afterMovement)
+        public void CanPerformActions(Actions.GenericAction action, ref bool result)
         {
-            if (Game.Selection.ThisShip.HasToken(Ship.Token.Stress)) result = false;
+            if (Game.Selection.ThisShip.HasToken(typeof(Tokens.StressToken)))
+            {
+                result = false;
+            }
         }
 
         public void CannotPerformRedManeuversWhileStressed(Ship.GenericShip ship, ref Movement movement)
         {
             //TODO: Should I show red maneuvers if I have stress?
-            if ((movement.ColorComplexity == Ship.ManeuverColor.Red) && (ship.HasToken(Ship.Token.Stress)))
+            if ((movement.ColorComplexity == Ship.ManeuverColor.Red) && (ship.HasToken(typeof(Tokens.StressToken))))
             {
                 movement.ColorComplexity = Ship.ManeuverColor.None;
             }

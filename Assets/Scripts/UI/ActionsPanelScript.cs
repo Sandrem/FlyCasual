@@ -21,8 +21,8 @@ public class ActionsPanelScript : MonoBehaviour {
     {
         //todo: rewrite
         if (!Game.Selection.ThisShip.IsDestroyed) {
-            Game.Selection.ThisShip.GenerateAvailableActionsList(afterMovement);
-            ShowActionsButtons();
+            Game.Selection.ThisShip.GenerateAvailableActionsList();
+            ShowActionsButtons(Game.Selection.ThisShip.GetAvailableActionsList());
         }
         else
         {
@@ -30,35 +30,34 @@ public class ActionsPanelScript : MonoBehaviour {
         }
     }
 
-    public void ShowFreeActionsPanel(bool afterMovement)
+    public void ShowFreeActionsPanel()
     {
-        Game.Selection.ThisShip.GenerateAvailableFreeActionsList(afterMovement);
-        ShowFreeActionsButtons();
+        ShowActionsButtons(Game.Selection.ThisShip.GetAvailableFreeActionsList());
     }
 
-    private void ShowActionsButtons()
+    private void ShowActionsButtons(List<Actions.GenericAction> actionList)
     {
         HideActionsButtons();
 
         float offset = 0;
         Vector3 defaultPosition = panelActions.transform.position + new Vector3(-95, 195, 0);
-        foreach (var action in Game.Selection.ThisShip.AvailableActionsList)
+        foreach (var action in actionList)
         {
             GameObject newButton = Instantiate(prefabActionButton, panelActions.transform);
-            newButton.name = "Button" + action.Key;
-            newButton.transform.GetComponentInChildren<Text>().text = action.Key;
+            newButton.name = "Button" + action.Name;
+            newButton.transform.GetComponentInChildren<Text>().text = action.Name;
             newButton.GetComponent<RectTransform>().position = defaultPosition + new Vector3(0, -offset, 0);
             offset += 40;
             newButton.GetComponent<Button>().onClick.AddListener(delegate {
-                action.Value.Invoke();
-                Game.Selection.ThisShip.AlreadyExecutedActions.Add(action.Key);
+                action.ActionTake();
+                Game.Selection.ThisShip.AddAlreadyExecutedAction(action);
                 CloseActionsPanel();
             });
             newButton.GetComponent<Button>().interactable = true;
             newButton.SetActive(true);
         }
 
-        if (Game.Selection.ThisShip.AvailableActionsList.Count != 0)
+        if (actionList.Count != 0)
         {
             panelActions.SetActive(true);
         }
@@ -66,39 +65,6 @@ public class ActionsPanelScript : MonoBehaviour {
         {
             Game.UI.ShowError("Cannot perform any actions");
             Game.PhaseManager.CurrentPhase.NextSubPhase();
-        }
-    }
-
-    private void ShowFreeActionsButtons()
-    {
-        HideActionsButtons();
-
-        float offset = 0;
-        Vector3 defaultPosition = panelActions.transform.position + new Vector3(-95, 195, 0);
-        foreach (var action in Game.Selection.ThisShip.AvailableFreeActionsList)
-        {
-            GameObject newButton = Instantiate(prefabActionButton, panelActions.transform);
-            newButton.name = "Button" + action.Key;
-            newButton.transform.GetComponentInChildren<Text>().text = action.Key;
-            newButton.GetComponent<RectTransform>().position = defaultPosition + new Vector3(0, -offset, 0);
-            offset += 40;
-            newButton.GetComponent<Button>().onClick.AddListener(delegate {
-                action.Value.Invoke();
-                Game.Selection.ThisShip.AlreadyExecutedActions.Add(action.Key);
-                CloseActionsPanel();
-            });
-            newButton.GetComponent<Button>().interactable = true;
-            newButton.SetActive(true);
-        }
-
-        if (Game.Selection.ThisShip.AvailableFreeActionsList.Count != 0)
-        {
-            panelActions.SetActive(true);
-        }
-        else
-        {
-            Game.UI.ShowError("Cannot perform any actions");
-            Game.Selection.isInTemporaryState = false;
         }
     }
 

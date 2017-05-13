@@ -26,14 +26,7 @@ namespace Rules
         public void AssignCollision(Ship.GenericShip ship)
         {
             (Game.Selection.ThisShip.LastShipCollision).LastShipCollision = Game.Selection.ThisShip;
-        }
-
-        public void CanPerformActions(ref bool result, bool afterMovement)
-        {
-            if (afterMovement)
-            {
-                if (Game.Selection.ThisShip.LastShipCollision != null) result = false;
-            }
+            ship.IsBumped = true;
         }
 
         public void CanPerformAttack(ref bool result, Ship.GenericShip attacker, Ship.GenericShip defender)

@@ -38,8 +38,8 @@ public class ShipFactoryScript : MonoBehaviour {
         newShipContainer.OnDestroyed += Game.Rules.WinConditions.CheckWinConditions;
         newShipContainer.AfterGotNumberOfAttackDices += Game.Rules.DistanceBonus.CheckAttackDistanceBonus;
         newShipContainer.AfterGotNumberOfDefenceDices += Game.Rules.DistanceBonus.CheckDefenceDistanceBonus;
-        newShipContainer.OnTryPerformAction += Game.Rules.Collision.CanPerformActions;
         newShipContainer.OnTryPerformAction += Game.Rules.Stress.CanPerformActions;
+        newShipContainer.OnTryPerformAction += Game.Rules.DuplicatedActions.CanPerformActions;
         newShipContainer.OnMovementFinishWithoutColliding += Game.Rules.KoiogranTurn.CheckKoiogranTurn;
         newShipContainer.OnMovementFinishWithColliding += Game.Rules.KoiogranTurn.CheckKoiogranTurnError;
         newShipContainer.OnMovementStart += Game.Rules.Collision.ClearCollision;
@@ -53,12 +53,8 @@ public class ShipFactoryScript : MonoBehaviour {
 
         Game.PhaseManager.OnPlanningPhaseStart += newShipContainer.ClearAlreadyExecutedActions;
 
-        newShipContainer.AfterStressTokenIsAssigned += Game.UI.Roster.UpdateTokensIndicator;
-        newShipContainer.AfterStressTokenIsRemoved += Game.UI.Roster.UpdateTokensIndicator;
-        newShipContainer.AfterFocusTokenIsAssigned += Game.UI.Roster.UpdateTokensIndicator;
-        newShipContainer.AfterFocusTokenIsRemoved += Game.UI.Roster.UpdateTokensIndicator;
-        newShipContainer.AfterEvadeTokenIsAssigned += Game.UI.Roster.UpdateTokensIndicator;
-        newShipContainer.AfterEvadeTokenIsRemoved += Game.UI.Roster.UpdateTokensIndicator;
+        newShipContainer.AfterTokenIsAssigned += Game.UI.Roster.UpdateTokensIndicator;
+        newShipContainer.AfterTokenIsRemoved += Game.UI.Roster.UpdateTokensIndicator;
         newShipContainer.AfterAssignedDamageIsChanged += Game.UI.Roster.UpdateRosterHullDamageIndicators;
         newShipContainer.AfterAssignedDamageIsChanged += Game.UI.Roster.UpdateRosterShieldsDamageIndicators;
         newShipContainer.AfterStatsAreChanged += Game.UI.Roster.UpdateShipStats;

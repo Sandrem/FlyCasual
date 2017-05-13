@@ -29,15 +29,15 @@ public class DiceResultsScript: MonoBehaviour {
     {
         float offset = 0;
         Vector3 defaultPosition = panelDiceResultsMenu.transform.position + new Vector3(5, 195, 0);
-        foreach (var diceModification in Game.Selection.ActiveShip.AvailableDiceModifications)
+        foreach (var actionEffect in Game.Selection.ActiveShip.AvailableActionEffects)
         {
             GameObject newButton = Instantiate(prefabDiceModificationButton, panelDiceResultsMenu.transform);
-            newButton.name = "Button" + diceModification.Key;
-            newButton.transform.GetComponentInChildren<Text>().text = diceModification.Key;
+            newButton.name = "Button" + actionEffect.EffectName;
+            newButton.transform.GetComponentInChildren<Text>().text = actionEffect.EffectName;
             newButton.GetComponent<RectTransform>().position = defaultPosition + new Vector3(0, -offset, 0);
             offset += 40;
             newButton.GetComponent<Button>().onClick.AddListener(delegate {
-                diceModification.Value.Invoke();
+                actionEffect.ActionEffect();
                 newButton.GetComponent<Button>().interactable = false;
             });
             newButton.GetComponent<Button>().interactable = true;

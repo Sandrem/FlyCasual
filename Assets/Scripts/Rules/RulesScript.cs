@@ -16,6 +16,7 @@ namespace Rules
         public CollisionRules Collision { get; private set; }
         public FiringRangeLimit FiringRange { get; private set; }
         public FiringArcRule FiringArc { get; private set; }
+        public DuplicatedActionsRule DuplicatedActions { get; private set; }
 
         private GameManagerScript Game;
 
@@ -32,6 +33,7 @@ namespace Rules
             Collision = new CollisionRules(Game);
             FiringRange = new FiringRangeLimit(Game);
             FiringArc = new FiringArcRule(Game);
+            DuplicatedActions = new DuplicatedActionsRule(Game);
         }
     }
 }

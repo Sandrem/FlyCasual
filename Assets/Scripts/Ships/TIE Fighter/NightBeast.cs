@@ -21,7 +21,7 @@ namespace Ship
             {
                 if (AssignedManeuver.ColorComplexity == ManeuverColor.Green) {
                     Game.UI.ShowInfo("\"Night Beast\": Free focus action");
-                    AskPerformFreeAction("Focus", DefaultAction.Focus, true);
+                    AskPerformFreeAction(new Actions.FocusAction());
                 }
             }
         }

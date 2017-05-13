@@ -9,6 +9,7 @@ namespace Tokens
     {
         public EvadeToken() {
             Name = "Evade Token";
+            Action = new Actions.EvadeAction();
         }
 
     }

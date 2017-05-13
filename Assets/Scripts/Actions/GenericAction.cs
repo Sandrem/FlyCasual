@@ -21,6 +21,11 @@ namespace Actions
 
         }
 
+        public virtual bool IsActionEffectAvailable()
+        {
+            return true;
+        }
+
         public virtual void ActionTake()
         {
 

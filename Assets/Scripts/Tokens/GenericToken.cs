@@ -11,6 +11,8 @@ namespace Tokens
 
         public string Name;
         public bool Temporary = true;
+        public Actions.GenericAction Action = null;
+        public int Count = 1;
 
         public GenericToken() {
             Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();

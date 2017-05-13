@@ -15,14 +15,19 @@ namespace Actions
         public override void ActionEffect()
         {
             Game.Dices.ApplyEvade(Game.Combat.CurentDiceRoll);
-            Debug.Log(typeof(Tokens.EvadeToken));
             Game.Selection.ActiveShip.SpendToken(typeof(Tokens.EvadeToken));
+        }
+
+        public override bool IsActionEffectAvailable()
+        {
+            bool result = false;
+            if (Game.Combat.AttackStep == CombatStep.Defence) result = true;
+            return result;
         }
 
         public override void ActionTake()
         {
-            Game.Selection.ThisShip.AvailableActionEffects.Add(this);
-            Game.Selection.ThisShip.AddToken(new Tokens.EvadeToken());
+            Game.Selection.ThisShip.AssignToken(new Tokens.EvadeToken());
         }
 
     }

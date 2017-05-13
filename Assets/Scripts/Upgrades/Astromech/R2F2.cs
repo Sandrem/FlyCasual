@@ -17,10 +17,9 @@ namespace Upgrade
             host.AfterAvailableActionListIsBuilt += R2F2AddAction;
         }
 
-        private void R2F2AddAction(Ship.GenericShip host, bool afterMovement)
+        private void R2F2AddAction(Ship.GenericShip host)
         {
-            //if (host.CanPerformFreeAction("R2-F2: Increase Agility", afterMovement))
-            host.AvailableActionsList.Add(new R2F2Action());
+            host.AddAvailableAction(new R2F2Action());
         }
 
     }

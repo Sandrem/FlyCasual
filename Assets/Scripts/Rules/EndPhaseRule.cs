@@ -27,7 +27,7 @@ namespace Rules
         {
             foreach (var shipHolder in Game.Roster.AllShips)
             {
-                shipHolder.Value.ClearTokens();
+                shipHolder.Value.ClearAllTokens();
             }
         }
     }

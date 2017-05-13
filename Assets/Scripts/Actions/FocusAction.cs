@@ -20,8 +20,7 @@ namespace Actions
 
         public override void ActionTake()
         {
-            Game.Selection.ThisShip.AvailableActionEffects.Add(this);
-            Game.Selection.ThisShip.AddToken(new Tokens.FocusToken());
+            Game.Selection.ThisShip.AssignToken(new Tokens.FocusToken());
         }
 
     }

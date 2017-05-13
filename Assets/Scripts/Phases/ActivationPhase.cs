@@ -27,7 +27,17 @@ public class ActivationPhase : GenericPhase
         {
             case SubPhases.PerformManeuver:
                 SubPhase = SubPhases.PerformAction;
-                Game.UI.ActionsPanel.ShowActionsPanel(true);
+                if (!Game.Selection.ThisShip.IsBumped)
+                {
+                    Game.UI.ActionsPanel.ShowActionsPanel(true);
+                }
+                else
+                {
+                    Game.Selection.ThisShip.IsBumped = false;
+                    Game.UI.ShowError("Collision: Skips \"Perform Action\" step");
+                    Game.UI.AddTestLogEntry("Collision: Skips \"Perform Action\" step");
+                    NextSubPhase();
+                }
                 break;
             case SubPhases.AssignManeuvers:
                 Game.Selection.DeselectAllShips();

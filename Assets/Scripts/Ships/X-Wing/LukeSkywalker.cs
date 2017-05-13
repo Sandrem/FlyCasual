@@ -20,10 +20,7 @@ namespace Ship
 
             public void AddLukeSkywalkerPilotAbility(ref List<Actions.GenericAction> list)
             {
-                if (Game.Combat.AttackStep == CombatStep.Defence)
-                {
-                    list.Add(new LukeSkywalkerAction());
-                }
+                list.Add(new LukeSkywalkerAction());
             }
 
         }
@@ -40,6 +37,13 @@ namespace Ship
             public override void ActionEffect()
             {
                 Game.Combat.CurentDiceRoll.ChangeOne(DiceSide.Focus, DiceSide.Success);
+            }
+
+            public override bool IsActionEffectAvailable()
+            {
+                bool result = false;
+                if (Game.Combat.AttackStep == CombatStep.Defence) result = true;
+                return result;
             }
 
         }

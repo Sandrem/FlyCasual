@@ -35,7 +35,7 @@ namespace CriticalHitCard
             {
                 Game.UI.ShowError("Loose Stabilizer: Stress token is assigned");
                 Game.UI.AddTestLogEntry("Loose Stabilizer: Stress token is assigned");
-                ship.AddToken(new Tokens.StressToken());
+                ship.AssignToken(new Tokens.StressToken());
             }
         }
     }

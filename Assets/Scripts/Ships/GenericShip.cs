@@ -23,6 +23,7 @@ namespace Ship
         public bool IsManeurPerformed { get; set; }
         public bool IsAttackPerformed { get; set; }
         public bool IsDestroyed { get; set; }
+        public bool IsBumped { get; set; }
 
         public string Type
         {
@@ -112,15 +113,16 @@ namespace Ship
             set;
         }
 
-        public Dictionary<Tokens.GenericToken, int> AssignedTokens = new Dictionary<Tokens.GenericToken, int>();
+        public List<Tokens.GenericToken> AssignedTokens = new List<Tokens.GenericToken>();
 
         public bool isUnique = false;
         //public bool FactionRestriction
 
-        public List<Actions.GenericAction> BuiltInActions = new List<Actions.GenericAction>();
-        public List<Actions.GenericAction> FreeActions = new List<Actions.GenericAction>();
-        public List<Actions.GenericAction> AlreadyExecutedActions = new List<Actions.GenericAction>();
+        protected List<Actions.GenericAction> BuiltInActions = new List<Actions.GenericAction>();
+        private List<Actions.GenericAction> AlreadyExecutedActions = new List<Actions.GenericAction>();
         public List<Actions.GenericAction> AvailableActionEffects = new List<Actions.GenericAction>();
+        private List<Actions.GenericAction> AvailableActionsList = new List<Actions.GenericAction>();
+        private List<Actions.GenericAction> AvailableFreeActionsList = new List<Actions.GenericAction>();
 
         public List<CriticalHitCard.GenericCriticalHit> AssignedCrits = new List<CriticalHitCard.GenericCriticalHit>();
 
@@ -129,9 +131,6 @@ namespace Ship
         public Dictionary<string, ManeuverColor> Maneuvers = new Dictionary<string, ManeuverColor>();
         public int ShipId { get; set; }
 
-        public List<Actions.GenericAction> AvailableActionsList = new List<Actions.GenericAction>();
-        public List<Actions.GenericAction> AvailableFreeActionsList = new List<Actions.GenericAction>();
-
         public List<KeyValuePair<Upgrade.UpgradeSlot, Upgrade.GenericUpgrade>> InstalledUpgrades = new List<KeyValuePair<Upgrade.UpgradeSlot, Upgrade.GenericUpgrade>>();
 
         //EVENTS
@@ -139,9 +138,8 @@ namespace Ship
         public delegate void EventHandler();
         public delegate void EventHandlerInt(ref int data);
         public delegate void EventHandlerBool(ref bool data);
-        public delegate void EventHandlerBoolBool(ref bool data, bool afterMovement);
+        public delegate void EventHandlerActionBool(Actions.GenericAction action, ref bool data);
         public delegate void EventHandlerShip(GenericShip ship);
-        public delegate void EventHandlerShipBool(GenericShip ship, bool afterMovement);
         public delegate void EventHandlerActionEffectsList(ref List<Actions.GenericAction> list);
         public delegate void EventHandlerShipMovement(GenericShip ship, ref Movement movement);
         public delegate void EventHandlerShipCrit(GenericShip ship, ref CriticalHitCard.GenericCriticalHit crit);
@@ -157,14 +155,14 @@ namespace Ship
         public event EventHandlerShip AfterTokenIsRemoved;
         public event EventHandlerShip AfterAssignedDamageIsChanged;
         public event EventHandlerShip AfterStatsAreChanged;
-        public event EventHandlerShipBool AfterAvailableActionListIsBuilt;
+        public event EventHandlerShip AfterAvailableActionListIsBuilt;
         public event EventHandlerInt AfterGotNumberOfAttackDices;
         public event EventHandlerInt AfterGotNumberOfDefenceDices;
         public event EventHandlerInt AfterGetPilotSkill;
         public event EventHandlerInt AfterGetAgility;
         public event EventHandlerBool OnTrySpendFocus;
         public event EventHandlerBool OnTryReroll;
-        public event EventHandlerBoolBool OnTryPerformAction;
+        public event EventHandlerActionBool OnTryPerformAction;
         public event EventHandlerActionEffectsList AfterGenerateDiceModifications;
         public event EventHandlerShipMovement AfterGetManeuverColor;
         public event EventHandlerShipMovement AfterGetManeuverAvailablity;
@@ -447,37 +445,68 @@ namespace Ship
 
         //ACTIONS
 
-        public void AskPerformFreeAction(string name, Actions.GenericAction action, bool afterMovement)
+        public void AskPerformFreeAction(Actions.GenericAction action)
         {
             Game.Selection.isUIlocked = true;
             Game.Selection.isInTemporaryState = true;
             Game.UI.Helper.UpdateTemporaryState("Perform free action");
-            /*FreeActions = new Dictionary<string, DefaultAction>();
-            FreeActions.Add(name, action);*/
-            Game.UI.ActionsPanel.ShowFreeActionsPanel(afterMovement);
+
+            AvailableFreeActionsList = new List<Actions.GenericAction>();
+            AddAvailableFreeAction(action);
+
+            Game.UI.ActionsPanel.ShowFreeActionsPanel();
         }
 
-        public void GenerateAvailableActionsList(bool afterMovement)
+        public void GenerateAvailableActionsList()
         {
             AvailableActionsList = new List<Actions.GenericAction>();
 
             foreach (var action in BuiltInActions)
             {
-                AvailableActionsList.Add(action);
+                AddAvailableAction(action);
             }
 
-            if (AfterAvailableActionListIsBuilt != null) AfterAvailableActionListIsBuilt(this, afterMovement);
+            if (AfterAvailableActionListIsBuilt != null) AfterAvailableActionListIsBuilt(this);
         }
 
-        public void GenerateAvailableFreeActionsList(bool afterMovement)
+        public bool CanPerformAction(Actions.GenericAction action)
         {
-            /*AvailableFreeActionsList = new Dictionary<string, ShipActionExecution>();
+            bool result = true;
 
-            foreach (var action in FreeActions)
+            OnTryPerformAction(action, ref result);
+
+            return result;
+        }
+
+        public List<Actions.GenericAction> GetAvailableActionsList()
+        {
+            return AvailableActionsList;
+        }
+
+        public List<Actions.GenericAction> GetAvailableFreeActionsList()
+        {
+            return AvailableFreeActionsList;
+        }
+
+        public void AddAvailableAction(Actions.GenericAction action)
+        {
+            if (CanPerformAction(action))
             {
-                AvailableFreeActionsList.Add(action.Key, action.Value);
-            }*/
+                AvailableActionsList.Add(action);
+            }
+        }
 
+        public void AddAvailableFreeAction(Actions.GenericAction action)
+        {
+            if (CanPerformAction(action))
+            {
+                AvailableFreeActionsList.Add(action);
+            }
+        }
+
+        public void AddAlreadyExecutedAction(Actions.GenericAction action)
+        {
+            AlreadyExecutedActions.Add(action);
         }
 
         public void ClearAlreadyExecutedActions()
@@ -485,127 +514,141 @@ namespace Ship
             AlreadyExecutedActions = new List<Actions.GenericAction>();
         }
 
-        /*public bool CanPerformAction(Actions.GenericAction action, bool afterMovement)
+        public bool AlreadyExecutedAction(System.Type type)
         {
             bool result = false;
-            if (BuiltInActions.ContainsValue(action)) result = true;
-            if (AlreadyExecutedActions.Contains(ActionToString(action)))
+            foreach (var executedAction in AlreadyExecutedActions)
             {
-                result = false;
+                if (executedAction.GetType() == type)
+                {
+                    result = true;
+                    break;
+                }
             }
-            OnTryPerformAction(ref result, afterMovement);
-            return result;
-        }*/
-
-        /*public bool CanPerformFreeAction(Actions.GenericAction action, bool afterMovement)
-        {
-            bool result = true;
-            if (AlreadyExecutedActions.Contains(ActionToString(action))){
-                result = false;
-            }
-            OnTryPerformAction(ref result, afterMovement);
             return result;
         }
-
-        public bool CanPerformFreeAction(string action, bool afterMovement)
-        {
-            bool result = true;
-            if (AlreadyExecutedActions.Contains(action))
-            {
-                result = false;
-            }
-            OnTryPerformAction(ref result, afterMovement);
-            return result;
-        }*/
 
         // ACTION EFFECTS
 
         public void GenerateDiceModificationButtons()
         {
-            //TODO: REWRITE FOR SECOD USING
-            foreach (var action in AvailableActionEffects)
+            GenerateDiceModificationList();
+
+            List<Actions.GenericAction> keys = new List<Actions.GenericAction>(AvailableActionEffects);
+
+            foreach (var action in keys)
             {
-                // if (Game.Selection.ActiveShip.CanSpendEvade() && (Game.Combat.AttackStep == CombatStep.Defence))
-                //if (AlreadyExecutedActions.Contains(ActionToString(action)))
-                if (!CanUseActionEffect(action))
+                if (!(action.IsActionEffectAvailable()))
                 {
                     AvailableActionEffects.Remove(action);
                 }
             }
 
-            if (AfterGenerateDiceModifications != null) AfterGenerateDiceModifications(ref AvailableActionEffects);
-
         }
 
-        private bool CanUseActionEffect(Actions.GenericAction action)
+        public void GenerateDiceModificationList()
         {
-            bool result = true;
-            //TODO: ALL MAGIC HERE
-            return result;
+            AvailableActionEffects = new List<Actions.GenericAction>(); ;
+
+            foreach (var token in AssignedTokens)
+            {
+                if (token.Action != null) {
+                    AvailableActionEffects.Add(token.Action);
+                }
+            }
+
+            if (AfterGenerateDiceModifications != null) AfterGenerateDiceModifications(ref AvailableActionEffects);
         }
 
         // TOKENS
 
-        public void AddToken(Tokens.GenericToken token)
+        public bool HasToken(System.Type type)
         {
-            if (AssignedTokens.ContainsKey(token))
+            bool result = false;
+            foreach (var assignedToken in AssignedTokens)
             {
-                //TODO: AddEvent
-                AssignedTokens[token]++;
+                if (assignedToken.GetType() == type)
+                {
+                    result = true;
+                    break;
+                }
+            }
+            return result;
+        }
+
+        private Tokens.GenericToken GetTokenByType(System.Type type)
+        {
+            Tokens.GenericToken token = null;
+            foreach (var assignedToken in AssignedTokens)
+            {
+                if (assignedToken.GetType() == type)
+                {
+                    token = assignedToken;
+                    break;
+                }
+            }
+            return token;
+        }
+
+        public void AssignToken(Tokens.GenericToken token)
+        {
+            if (HasToken(token.GetType()))
+            {
+                GetTokenByType(token.GetType()).Count++;
             }
             else
             {
-                AssignedTokens.Add(token, 1);
+                AssignedTokens.Add(token);
             }
 
             if (AfterTokenIsAssigned != null) AfterTokenIsAssigned(this);
         }
 
-        public void RemoveToken(Tokens.GenericToken token)
+        public void RemoveToken(System.Type type, bool recursive = false)
         {
-            if (AssignedTokens.ContainsKey(token))
-            {
-                if (AssignedTokens[token] > 1)
-                {
-                    AssignedTokens[token]--;
-                }
-                else
-                {
-                    AssignedTokens.Remove(token);
-                }
-                if (AfterTokenIsRemoved != null) AfterTokenIsRemoved(this);
-            }
-        }
+            List<Tokens.GenericToken> keys = new List<Tokens.GenericToken>(AssignedTokens);
 
-        public void ClearTokens()
-        {
-            foreach (var tokenHolder in AssignedTokens)
+            foreach (var assignedToken in keys)
             {
-                if (tokenHolder.Key.Temporary)
+                if (assignedToken.GetType() == type)
                 {
-                    while (tokenHolder.Value > 0)
+                    if (assignedToken.Count > 1)
                     {
-                        RemoveToken(tokenHolder.Key);
-                    }
-                }
-            }
-        }
+                        assignedToken.Count--;
+                        if (AfterTokenIsRemoved != null) AfterTokenIsRemoved(this);
 
-        public void SpendToken(object type)
-        {
-            foreach (var token in AssignedTokens)
-            {
-                if (token.Key.GetType() == type)
-                {
-                    RemoveToken(token.Key);
+                        if (recursive)
+                        {
+                            RemoveToken(type, true);
+                        }
+                    }
+                    else
+                    {
+                        AssignedTokens.Remove(assignedToken);
+                        if (AfterTokenIsRemoved != null) AfterTokenIsRemoved(this);
+                    }
                     break;
                 }
             }
+
         }
 
-        public bool HasToken(Tokens.GenericToken token)
+        public void SpendToken(System.Type type)
         {
-            return AssignedTokens.ContainsKey(token);
+            RemoveToken(type);
+        }
+
+        public void ClearAllTokens()
+        {
+            List<Tokens.GenericToken> keys = new List<Tokens.GenericToken>(AssignedTokens);
+
+            foreach (var token in keys)
+            {
+                if (token.Temporary)
+                {
+                    RemoveToken(token.GetType(), true);
+                }
+            }
         }
 
     }

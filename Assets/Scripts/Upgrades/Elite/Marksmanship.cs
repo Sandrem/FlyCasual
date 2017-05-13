@@ -16,10 +16,10 @@ namespace Upgrade
             host.AfterAvailableActionListIsBuilt += MarksmanshipAddAction;
         }
 
-        private void MarksmanshipAddAction(Ship.GenericShip host, bool afterMovement)
+        private void MarksmanshipAddAction(Ship.GenericShip host)
         {
             //if (host.CanPerformFreeAction("Marksmanship", afterMovement))
-            host.AvailableActionsList.Add(new MarksmanshipAction());
+            host.AddAvailableAction(new MarksmanshipAction());
         }
 
     }
@@ -42,15 +42,19 @@ namespace Upgrade
 
         private void MarksmanshipAddDiceModification(ref List<Actions.GenericAction> list)
         {
-            if (Game.Combat.AttackStep == CombatStep.Attack)
-            {
-                list.Add(this);
-            }
+            list.Add(this);
         }
 
         private void MarksmanshipUnSubscribeToFiceModification()
         {
             host.AfterGenerateDiceModifications -= MarksmanshipAddDiceModification;
+        }
+
+        public override bool IsActionEffectAvailable()
+        {
+            bool result = false;
+            if (Game.Combat.AttackStep == CombatStep.Attack) result = true;
+            return result;
         }
 
         public override void ActionEffect()

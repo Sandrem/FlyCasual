@@ -38,8 +38,8 @@ public class ShipFactoryScript : MonoBehaviour {
         newShipContainer.OnDestroyed += Game.Rules.WinConditions.CheckWinConditions;
         newShipContainer.AfterGotNumberOfAttackDices += Game.Rules.DistanceBonus.CheckAttackDistanceBonus;
         newShipContainer.AfterGotNumberOfDefenceDices += Game.Rules.DistanceBonus.CheckDefenceDistanceBonus;
-        newShipContainer.OnTryPerformAction += Game.Rules.Collision.CanPerformActions;
         newShipContainer.OnTryPerformAction += Game.Rules.Stress.CanPerformActions;
+        newShipContainer.OnTryPerformAction += Game.Rules.DuplicatedActions.CanPerformActions;
         newShipContainer.OnMovementFinishWithoutColliding += Game.Rules.KoiogranTurn.CheckKoiogranTurn;
         newShipContainer.OnMovementFinishWithColliding += Game.Rules.KoiogranTurn.CheckKoiogranTurnError;
         newShipContainer.OnMovementStart += Game.Rules.Collision.ClearCollision;

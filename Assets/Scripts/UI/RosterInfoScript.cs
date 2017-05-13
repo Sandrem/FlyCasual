@@ -238,9 +238,9 @@ public class RosterInfoScript : MonoBehaviour {
         }
 
         float offset = 0;
-        foreach (var tokenHolder in thisShip.AssignedTokens)
+        foreach (var token in thisShip.AssignedTokens)
         {
-            GameObject tokenPanel = thisShip.InfoPanel.transform.Find("ShipInfo").Find("TokensBar").Find(tokenHolder.Key.Name).gameObject;
+            GameObject tokenPanel = thisShip.InfoPanel.transform.Find("ShipInfo").Find("TokensBar").Find(token.Name).gameObject;
             tokenPanel.SetActive(true);
             tokenPanel.GetComponent<RectTransform>().localPosition += new Vector3(offset, 0, 0);
             offset += 32 + 3;

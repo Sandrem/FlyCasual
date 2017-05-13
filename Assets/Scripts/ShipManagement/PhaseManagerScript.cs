@@ -17,6 +17,7 @@ public class PhaseManagerScript: MonoBehaviour {
     private GameManagerScript Game;
 
     public GenericPhase CurrentPhase { get; set; }
+    public string TemporaryPhaseName;
 
     public Player PlayerWithInitiative;
 
@@ -85,6 +86,19 @@ public class PhaseManagerScript: MonoBehaviour {
     public void CallEndPhaseTrigger()
     {
         if (OnEndPhaseStart != null) OnEndPhaseStart();
+    }
+
+    public void StartTemporaryPhase(string name)
+    {
+        Game.Selection.isInTemporaryState = true;
+        TemporaryPhaseName = name;
+        Game.UI.Helper.UpdateTemporaryState(TemporaryPhaseName);
+    }
+
+    public void EndTemporaryPhase()
+    {
+        TemporaryPhaseName = null;
+        Game.Selection.isInTemporaryState = false;
     }
 
 }

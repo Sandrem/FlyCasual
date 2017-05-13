@@ -100,7 +100,7 @@ public class ShipSelectionManagerScript : MonoBehaviour {
     public bool TryToChangeAnotherShip(string shipId)
     {
         bool result = false;
-        if ((!isUIlocked) && (!isInTemporaryState))
+        if ((!isUIlocked) && (!(Game.PhaseManager.TemporaryPhaseName == "Perform free action")))
         {
             Ship.GenericShip targetShip = Game.Roster.GetShipById(shipId);
 
@@ -121,15 +121,49 @@ public class ShipSelectionManagerScript : MonoBehaviour {
                 {
                     Game.UI.ShowError("Ship cannot be selected as attack target:\nFirst select attacker");
                 }
-            } else
+            }
+
+            if (Game.PhaseManager.CurrentPhase.Phase == Phases.Activation)
             {
-                Game.UI.ShowError("Ship of another player");
+                if (Game.PhaseManager.TemporaryPhaseName == "Select target for Target Lock")
+                {
+                    if (targetShip.PlayerNo != Game.PhaseManager.CurrentPhase.RequiredPlayer)
+                    {
+                        //TODO: remove useless var
+                        bool useless = false;
+                        Game.Ruler.ShowRange(ref useless, Game.Selection.ThisShip, targetShip);
+                        //TODO: Hide ruler too
+                        if (Game.Actions.GetRange(Game.Selection.ThisShip, targetShip) < 4)
+                        {
+                            Game.Selection.ThisShip.AssignToken(new Tokens.BlueTargetLockToken());
+                            targetShip.AssignToken(new Tokens.RedTargetLockToken());
+                        }
+                        else
+                        {
+                            Game.UI.ShowError("Target is out of range of Target Lock");
+                            return false;
+                        }
+                        //TODO: else show error, do nothing
+                        //TODO: Should be possible to cancel by speical menu button
+
+                        Game.PhaseManager.EndTemporaryPhase();
+                        Game.PhaseManager.CurrentPhase.NextSubPhase();
+                    }
+                    else
+                    {
+                        Game.UI.ShowError("Ship cannot be selected as target: Friendly ship");
+                    }
+                }
             }
 
             if (result == true)
             {
                 ChangeAnotherShip(shipId);
             }
+            /*else
+            {
+                Game.UI.ShowError("Ship of another player");
+            }*/
 
         }
         return result;

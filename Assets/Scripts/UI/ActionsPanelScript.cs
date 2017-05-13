@@ -84,7 +84,7 @@ public class ActionsPanelScript : MonoBehaviour {
         panelActions.SetActive(false);
         if (Game.Selection.isInTemporaryState)
         {
-            Game.Selection.isInTemporaryState = false;
+            if (Game.PhaseManager.TemporaryPhaseName == "Perform free action") Game.PhaseManager.EndTemporaryPhase();
         }
         else
         {

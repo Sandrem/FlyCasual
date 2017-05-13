@@ -242,12 +242,11 @@ public class RosterInfoScript : MonoBehaviour {
         {
             GameObject tokenPanel = thisShip.InfoPanel.transform.Find("ShipInfo").Find("TokensBar").Find(token.Name).gameObject;
             tokenPanel.SetActive(true);
-            tokenPanel.GetComponent<RectTransform>().localPosition += new Vector3(offset, 0, 0);
+            tokenPanel.GetComponent<RectTransform>().localPosition = new Vector3(offset, tokenPanel.GetComponent<RectTransform>().localPosition.y, tokenPanel.GetComponent<RectTransform>().localPosition.z);
             offset += 32 + 3;
         }
 
         OrganizeRosters();
-
     }
 
     public void UpdateUpgradesPanel(Ship.GenericShip newShip, GameObject newPanel)

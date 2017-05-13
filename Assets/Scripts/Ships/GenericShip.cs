@@ -448,8 +448,8 @@ namespace Ship
         public void AskPerformFreeAction(Actions.GenericAction action)
         {
             Game.Selection.isUIlocked = true;
-            Game.Selection.isInTemporaryState = true;
-            Game.UI.Helper.UpdateTemporaryState("Perform free action");
+
+            Game.PhaseManager.StartTemporaryPhase("Perform free action");
 
             AvailableFreeActionsList = new List<Actions.GenericAction>();
             AddAvailableFreeAction(action);
@@ -552,9 +552,7 @@ namespace Ship
 
             foreach (var token in AssignedTokens)
             {
-                if (token.Action != null) {
-                    AvailableActionEffects.Add(token.Action);
-                }
+                token.GetAvailableEffects(ref AvailableActionEffects);
             }
 
             if (AfterGenerateDiceModifications != null) AfterGenerateDiceModifications(ref AvailableActionEffects);

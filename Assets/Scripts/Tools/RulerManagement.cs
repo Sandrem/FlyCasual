@@ -26,7 +26,7 @@ public class RulerManagement : MonoBehaviour {
         {
             Game.Actions = this.GetComponent<ShipActionsManagerScript>();
         }
-        Game.Actions.OnCheckCanPerformAttack += ShowRange;
+        Game.Actions.OnCheckCanPerformAttack += CallShowRange;
     }
 
     void Update () {
@@ -101,11 +101,27 @@ public class RulerManagement : MonoBehaviour {
 		movementRuler.transform.eulerAngles = savedRulerRotation;
 	}
 
-    public void ShowRange(ref bool result, Ship.GenericShip thisShip, Ship.GenericShip anotherShip)
+    public void CallShowRange(ref bool result, Ship.GenericShip thisShip, Ship.GenericShip anotherShip)
+    {
+        ShowRange(thisShip, anotherShip);
+    }
+
+    public void ShowRange(Ship.GenericShip thisShip, Ship.GenericShip anotherShip)
     {
         Vector3 vectorToTarget = thisShip.Model.GetClosestEdgesTo(anotherShip)["another"] - thisShip.Model.GetClosestEdgesTo(anotherShip)["this"];
         Rulers.transform.Find("RangeRuler").position = thisShip.Model.GetClosestEdgesTo(anotherShip)["this"];
         Rulers.transform.Find("RangeRuler").rotation = Quaternion.LookRotation(vectorToTarget);
+    }
+
+    public void CallReturnRangeRuler(Ship.GenericShip thisShip)
+    {
+        ReturnRangeRuler();
+    }
+
+    public void ReturnRangeRuler()
+    {
+        Rulers.transform.Find("RangeRuler").transform.position = new Vector3(9.5f, 0f, 2.2f);
+        Rulers.transform.Find("RangeRuler").transform.eulerAngles = new Vector3(0, -90, 0);
     }
 
 }

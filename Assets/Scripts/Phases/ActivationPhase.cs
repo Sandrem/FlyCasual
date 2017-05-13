@@ -29,7 +29,7 @@ public class ActivationPhase : GenericPhase
                 SubPhase = SubPhases.PerformAction;
                 if (!Game.Selection.ThisShip.IsBumped)
                 {
-                    Game.UI.ActionsPanel.ShowActionsPanel(true);
+                    Game.UI.ActionsPanel.ShowActionsPanel();
                 }
                 else
                 {

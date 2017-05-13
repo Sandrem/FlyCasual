@@ -17,7 +17,7 @@ public class ActionsPanelScript : MonoBehaviour {
         Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
     }
 
-    public void ShowActionsPanel(bool afterMovement)
+    public void ShowActionsPanel()
     {
         //todo: rewrite
         if (!Game.Selection.ThisShip.IsDestroyed) {

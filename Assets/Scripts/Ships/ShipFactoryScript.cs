@@ -46,6 +46,7 @@ public class ShipFactoryScript : MonoBehaviour {
         newShipContainer.OnMovementFinishWithoutColliding += Game.Rules.Collision.ClearCollision;
         newShipContainer.OnMovementFinishWithColliding += Game.Rules.Collision.AssignCollision;
         newShipContainer.OnMovementStart += Game.Ruler.ApplyMovementRuler;
+        newShipContainer.OnMovementStart += Game.Ruler.CallReturnRangeRuler;
         newShipContainer.OnMovementFinish += Game.Ruler.ResetRuler;
         newShipContainer.OnMovementFinish += Game.Rules.OffTheBoard.CheckOffTheBoard;
         newShipContainer.OnMovementFinish += Game.Rules.Stress.CheckStress;

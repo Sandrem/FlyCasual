@@ -5,7 +5,7 @@ using UnityEngine;
 public class DiceRoll
 {
 
-    private DiceManagementScript DiceManager;
+    private GameManagerScript Game;
 
     public List<Dice> Dices
     {
@@ -23,7 +23,7 @@ public class DiceRoll
 
     public DiceRoll(string type, int number)
     {
-        DiceManager = GameObject.Find("GameManager").GetComponent<DiceManagementScript>();
+        Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
         Type = type;
         Number = number;
         Dices = new List<Dice>();
@@ -156,7 +156,7 @@ public class DiceRoll
 
     public void CalculateResults()
     {
-        DiceManager.PlanWaitForResults(this);
+        Game.Dices.PlanWaitForResults(this);
     }
 
     public void CalculateWaitedResults()
@@ -180,7 +180,7 @@ public class DiceRoll
     {
         for (int i = 0; i < Dices.Count; i++)
         {
-            Dices[i].SetPosition(DiceManager.diceField.transform.position + DiceManager.diceResultsOffset[i]);
+            Dices[i].SetPosition(Game.Dices.diceField.transform.position + Game.Dices.diceResultsOffset[i]);
         }
     }
 

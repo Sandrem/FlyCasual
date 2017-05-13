@@ -60,9 +60,9 @@ public class DiceManagementScript : MonoBehaviour {
         diceRoll.OrganizeDicePositions();
     }
 
-    public void RerollAllDices(DiceRoll diceRoll)
+    public void RerollDices(DiceRoll diceRoll, string results)
     {
-        diceRoll.Reroll("all");
+        diceRoll.Reroll(results);
         StartCoroutine(WaitForResults(diceRoll));
     }
 

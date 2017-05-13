@@ -50,7 +50,7 @@ public class PhaseManagerScript: MonoBehaviour {
     public void CallNextSubPhase()
     {
         Game.UI.HideTemporaryMenus();
-        Game.Combat.ReturnRangeRuler();
+        Game.Ruler.ReturnRangeRuler();
 
         if (CurrentPhase.Phase == Phases.Activation)
         {

@@ -2,22 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-//focus, target lock
-//barrel roll
-//crit undo
-
-public delegate void ShipActionExecution();
-
 public class ShipActionsManagerScript: MonoBehaviour {
 
     private GameManagerScript Game;
 
 	private const float DISTANCE_1 = 3.28f / 3f;
+    private Dictionary<char, bool> Letters = new Dictionary<char, bool>();
 
     //EVENTS
-
     public delegate void EventHandler2Ships(ref bool result, Ship.GenericShip attacker, Ship.GenericShip defender);
-
     public event EventHandler2Ships OnCheckCanPerformAttack;
 
     void Start()
@@ -25,10 +18,117 @@ public class ShipActionsManagerScript: MonoBehaviour {
         Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
     }
 
-	public bool InArcCheck(Ship.GenericShip thisShip, Ship.GenericShip anotherShip) {
-		bool result = thisShip.IsTargetInArc (anotherShip);
-		return result;
-	}
+    public bool AssignTargetLockToPair(Ship.GenericShip thisShip, Ship.GenericShip targetShip)
+    {
+        bool result = false;
+
+        if (Letters.Count == 0) InitializeTargetLockLetters();
+
+        Game.Ruler.ShowRange(thisShip, targetShip);
+
+        if (GetRange(thisShip, targetShip) < 4)
+        {
+            Tokens.GenericToken existingBlueToken = thisShip.GetToken(typeof(Tokens.BlueTargetLockToken), '*');
+            if (existingBlueToken != null)
+            {
+                if ((existingBlueToken as Tokens.BlueTargetLockToken).LockedShip != null)
+                {
+                    (existingBlueToken as Tokens.BlueTargetLockToken).LockedShip.RemoveToken(typeof(Tokens.RedTargetLockToken), (existingBlueToken as Tokens.BlueTargetLockToken).Letter);
+                }
+                thisShip.RemoveToken(typeof(Tokens.BlueTargetLockToken), (existingBlueToken as Tokens.BlueTargetLockToken).Letter);
+            }
+
+            Tokens.BlueTargetLockToken tokenBlue = new Tokens.BlueTargetLockToken();
+            Tokens.RedTargetLockToken tokenRed = new Tokens.RedTargetLockToken();
+
+            char letter = GetFreeTargetLockLetter();
+            tokenBlue.Letter = letter;
+            tokenBlue.LockedShip = targetShip;
+            tokenRed.Letter = letter;
+            TakeTargetLockLetter(letter);
+
+            Game.Selection.ThisShip.AssignToken(tokenBlue);
+            targetShip.AssignToken(tokenRed);
+
+            result = true;
+        }
+
+        return result;
+    }
+
+    private void InitializeTargetLockLetters()
+    {
+        Letters.Add('A', true);
+        Letters.Add('B', true);
+        Letters.Add('C', true);
+        Letters.Add('D', true);
+        Letters.Add('E', true);
+        Letters.Add('G', true);
+        Letters.Add('H', true);
+        Letters.Add('I', true);
+
+        Letters.Add('J', true);
+        Letters.Add('K', true);
+        Letters.Add('L', true);
+        Letters.Add('M', true);
+        Letters.Add('N', true);
+        Letters.Add('O', true);
+        Letters.Add('P', true);
+        Letters.Add('Q', true);
+    }
+
+    private char GetFreeTargetLockLetter()
+    {
+        char result = ' ';
+        foreach (var letter in Letters)
+        {
+            if (letter.Value) return letter.Key;
+        }
+        return result;
+    }
+
+    public char GetTargetLocksLetterPair(Ship.GenericShip thisShip, Ship.GenericShip targetShip)
+    {
+        return thisShip.GetTargetLockLetterPair(targetShip);
+    }
+
+    private void TakeTargetLockLetter(char takenLetter)
+    {
+        Letters[takenLetter] = false;
+    }
+
+    public void ReleaseTargetLockLetter(char takenLetter)
+    {
+        Letters[takenLetter] = true;
+    }
+
+    public bool InArcCheck(Ship.GenericShip thisShip, Ship.GenericShip anotherShip) {
+        //TODO: Show Shortest Distance
+        //TODO: Adapt DistancRules to show how close to outOfArc;
+
+        Vector3 vectorFacing = thisShip.Model.GetFrontFacing();
+
+        bool inArc = false;
+
+        foreach (var objThis in thisShip.Model.GetStandFrontEdgePoins())
+        {
+            foreach (var objAnother in anotherShip.Model.GetStandEdgePoints())
+            {
+
+                Vector3 vectorToTarget = objAnother.Value - objThis.Value;
+                float angle = Vector3.Angle(vectorToTarget, vectorFacing);
+                //Debug.Log ("Angle between " + objThis.Key + " and " + objAnother.Key + " is: " + angle.ToString ());
+                if (angle < 45)
+                {
+                    inArc = true;
+                    //TODO: Comment shortcut to check all variants
+                    //return inArc;
+                }
+            }
+        }
+
+        return inArc;
+    }
 
     public int GetRange(Ship.GenericShip thisShip, Ship.GenericShip anotherShip)
     {

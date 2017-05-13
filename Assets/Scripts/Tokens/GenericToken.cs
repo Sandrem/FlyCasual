@@ -20,7 +20,7 @@ namespace Tokens
 
         public virtual void GetAvailableEffects(ref List<Actions.GenericAction> availableActionEffects)
         {
-            availableActionEffects.Add(Action);
+            if (Action!=null) availableActionEffects.Add(Action);
         }
 
     }

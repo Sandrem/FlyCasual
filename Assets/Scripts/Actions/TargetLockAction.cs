@@ -13,11 +13,16 @@ namespace Actions
 
         public override void ActionEffect()
         {
-            //TODO: 2 Kinds of reroll
-            Game.Combat.CurentDiceRoll.Reroll("failures");
+            char letter = ' ';
+            letter = Game.Actions.GetTargetLocksLetterPair(Game.Combat.Attacker, Game.Combat.Defender);
+            if (letter != ' ')
+            {
+                Game.Selection.ActiveShip.SpendToken(typeof(Tokens.BlueTargetLockToken), letter);
+                Game.Combat.Defender.RemoveToken(typeof(Tokens.RedTargetLockToken), letter);
 
-            Game.Selection.ActiveShip.SpendToken(typeof(Tokens.BlueTargetLockToken));
-            Game.Combat.Defender.RemoveToken(typeof(Tokens.RedTargetLockToken));
+                //TODO: 2 Kinds of reroll
+                Game.Dices.RerollDices(Game.Combat.CurentDiceRoll, "failures");
+            }
         }
 
         public override bool IsActionEffectAvailable()
@@ -25,12 +30,10 @@ namespace Actions
             bool result = false;
             if (Game.Combat.AttackStep == CombatStep.Attack)
             {
-                //TODO: Also if letter is same
-                if (Game.Combat.Defender.HasToken(typeof(Tokens.RedTargetLockToken)))
+                if (Game.Actions.GetTargetLocksLetterPair(Game.Combat.Attacker, Game.Combat.Defender) != ' ')
                 {
                     result = true;
                 }
-                
             }
             return result;
         }

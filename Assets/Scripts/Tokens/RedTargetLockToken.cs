@@ -5,12 +5,10 @@ using UnityEngine;
 namespace Tokens
 {
 
-    public class RedTargetLockToken : GenericToken
+    public class RedTargetLockToken : GenericTargetLockToken
     {
         public RedTargetLockToken() {
             Name = "Red Target Lock Token";
-            Temporary = false;
-            Action = new Actions.TargetLockAction();
         }
     }
 

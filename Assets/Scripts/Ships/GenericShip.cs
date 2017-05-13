@@ -335,36 +335,6 @@ namespace Ship
             }
         }
 
-        //TODO: Move from here
-        public bool IsTargetInArc(GenericShip anotherShip)
-        {
-            //TODO: Show Shortest Distance
-            //TODO: Adapt DistancRules to show how close to outOfArc;
-
-            Vector3 vectorFacing = Model.GetFrontFacing();
-
-            bool inArc = false;
-
-            foreach (var objThis in Model.GetStandFrontEdgePoins())
-            {
-                foreach (var objAnother in anotherShip.Model.GetStandEdgePoints())
-                {
-
-                    Vector3 vectorToTarget = objAnother.Value - objThis.Value;
-                    float angle = Vector3.Angle(vectorToTarget, vectorFacing);
-                    //Debug.Log ("Angle between " + objThis.Key + " and " + objAnother.Key + " is: " + angle.ToString ());
-                    if (angle < 45)
-                    {
-                        inArc = true;
-                        //TODO: Comment shortcut to check all variants
-                        //return inArc;
-                    }
-                }
-            }
-
-            return inArc;
-        }
-
         //TRIGGERS
 
         //todo: think about name
@@ -514,6 +484,20 @@ namespace Ship
             AlreadyExecutedActions = new List<Actions.GenericAction>();
         }
 
+        public void RemoveAlreadyExecutedAction(System.Type type)
+        {
+            List<Actions.GenericAction> keys = new List<Actions.GenericAction>(AlreadyExecutedActions);
+
+            foreach (var executedAction in keys)
+            {
+                if (executedAction.GetType() == type)
+                {
+                    AlreadyExecutedActions.Remove(executedAction);
+                    return;
+                }
+            }
+        }
+
         public bool AlreadyExecutedAction(System.Type type)
         {
             bool result = false;
@@ -560,41 +544,57 @@ namespace Ship
 
         // TOKENS
 
-        public bool HasToken(System.Type type)
+        public Tokens.GenericToken GetToken(System.Type type, char letter = ' ')
         {
-            bool result = false;
+            Tokens.GenericToken result = null;
+
             foreach (var assignedToken in AssignedTokens)
             {
                 if (assignedToken.GetType() == type)
                 {
-                    result = true;
-                    break;
+                    if (assignedToken.GetType().BaseType == typeof(Tokens.GenericTargetLockToken))
+                    {
+                        if (((assignedToken as Tokens.GenericTargetLockToken).Letter == letter) || (letter == '*'))
+                        {
+                            return assignedToken;
+                        }
+                    }
+                    else
+                    {
+                        return assignedToken;
+                    }
                 }
             }
             return result;
         }
 
-        private Tokens.GenericToken GetTokenByType(System.Type type)
+        public char GetTargetLockLetterPair(GenericShip targetShip)
         {
-            Tokens.GenericToken token = null;
-            foreach (var assignedToken in AssignedTokens)
+            char result = ' ';
+
+            Tokens.GenericToken blueToken = GetToken(typeof(Tokens.BlueTargetLockToken), '*');
+            if (blueToken != null)
             {
-                if (assignedToken.GetType() == type)
+                char foundLetter = (blueToken as Tokens.BlueTargetLockToken).Letter;
+
+                Tokens.GenericToken redToken = targetShip.GetToken(typeof(Tokens.RedTargetLockToken), foundLetter);
+                if (redToken != null)
                 {
-                    token = assignedToken;
-                    break;
+                    return foundLetter;
                 }
             }
-            return token;
+            return result;
         }
 
-        public void AssignToken(Tokens.GenericToken token)
+        public void AssignToken(Tokens.GenericToken token, char letter = ' ')
         {
-            if (HasToken(token.GetType()))
+            Tokens.GenericToken assignedToken = GetToken(token.GetType(), letter);
+
+            if (assignedToken != null)
             {
-                GetTokenByType(token.GetType()).Count++;
+                assignedToken.Count++;
             }
-            else
+            else                
             {
                 AssignedTokens.Add(token);
             }
@@ -602,38 +602,38 @@ namespace Ship
             if (AfterTokenIsAssigned != null) AfterTokenIsAssigned(this);
         }
 
-        public void RemoveToken(System.Type type, bool recursive = false)
+        public void RemoveToken(System.Type type, char letter = ' ', bool recursive = false)
         {
-            List<Tokens.GenericToken> keys = new List<Tokens.GenericToken>(AssignedTokens);
+            Tokens.GenericToken assignedToken = GetToken(type, letter);
 
-            foreach (var assignedToken in keys)
+            if (assignedToken != null)
             {
-                if (assignedToken.GetType() == type)
-                {
-                    if (assignedToken.Count > 1)
-                    {
-                        assignedToken.Count--;
-                        if (AfterTokenIsRemoved != null) AfterTokenIsRemoved(this);
 
-                        if (recursive)
-                        {
-                            RemoveToken(type, true);
-                        }
-                    }
-                    else
+                if (assignedToken.Count > 1)
+                {
+                    assignedToken.Count--;
+                    if (AfterTokenIsRemoved != null) AfterTokenIsRemoved(this);
+
+                    if (recursive)
                     {
-                        AssignedTokens.Remove(assignedToken);
-                        if (AfterTokenIsRemoved != null) AfterTokenIsRemoved(this);
+                        RemoveToken(type, letter, true);
                     }
-                    break;
+                }
+                else
+                {
+                    if (assignedToken.GetType().BaseType == typeof(Tokens.GenericTargetLockToken))
+                    {
+                        Game.Actions.ReleaseTargetLockLetter((assignedToken as Tokens.GenericTargetLockToken).Letter);
+                    }
+                    AssignedTokens.Remove(assignedToken);
+                    if (AfterTokenIsRemoved != null) AfterTokenIsRemoved(this);
                 }
             }
-
         }
 
-        public void SpendToken(System.Type type)
+        public void SpendToken(System.Type type, char letter = ' ')
         {
-            RemoveToken(type);
+            RemoveToken(type, letter);
         }
 
         public void ClearAllTokens()
@@ -644,7 +644,7 @@ namespace Ship
             {
                 if (token.Temporary)
                 {
-                    RemoveToken(token.GetType(), true);
+                    RemoveToken(token.GetType(), '*', true);
                 }
             }
         }

@@ -22,13 +22,15 @@ public class DiceResultsScript: MonoBehaviour {
     public void ShowDiceResultMenu()
     {
         panelDiceResultsMenu.SetActive(true);
-        Game.Selection.ActiveShip.GenerateDiceModificationButtons();
     }
 
     public void ShowDiceModificationButtons()
     {
+        Game.Selection.ActiveShip.GenerateDiceModificationButtons();
+
         float offset = 0;
         Vector3 defaultPosition = panelDiceResultsMenu.transform.position + new Vector3(5, 195, 0);
+
         foreach (var actionEffect in Game.Selection.ActiveShip.AvailableActionEffects)
         {
             GameObject newButton = Instantiate(prefabDiceModificationButton, panelDiceResultsMenu.transform);
@@ -72,7 +74,7 @@ public class DiceResultsScript: MonoBehaviour {
             //TODO: Show compare results dialog
             Game.Combat.CalculateAttackResults(Game.Selection.ThisShip, Game.Selection.AnotherShip);
 
-            Game.Combat.ReturnRangeRuler();
+            Game.Ruler.ReturnRangeRuler();
 
             if (Game.Roster.NoSamePlayerAndPilotSkillNotAttacked(Game.Selection.ThisShip))
             {

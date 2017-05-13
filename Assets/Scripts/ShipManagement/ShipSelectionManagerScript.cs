@@ -129,23 +129,14 @@ public class ShipSelectionManagerScript : MonoBehaviour {
                 {
                     if (targetShip.PlayerNo != Game.PhaseManager.CurrentPhase.RequiredPlayer)
                     {
-                        //TODO: remove useless var
-                        bool useless = false;
-                        Game.Ruler.ShowRange(ref useless, Game.Selection.ThisShip, targetShip);
-                        //TODO: Hide ruler too
-                        if (Game.Actions.GetRange(Game.Selection.ThisShip, targetShip) < 4)
-                        {
-                            Game.Selection.ThisShip.AssignToken(new Tokens.BlueTargetLockToken());
-                            targetShip.AssignToken(new Tokens.RedTargetLockToken());
-                        }
-                        else
+                        if (!Game.Actions.AssignTargetLockToPair(Game.Selection.ThisShip, targetShip))
                         {
                             Game.UI.ShowError("Target is out of range of Target Lock");
+                            Game.Selection.ThisShip.RemoveAlreadyExecutedAction(typeof(Actions.TargetLockAction));
+                            Game.PhaseManager.EndTemporaryPhase();
+                            Game.UI.ActionsPanel.ShowActionsPanel();
                             return false;
                         }
-                        //TODO: else show error, do nothing
-                        //TODO: Should be possible to cancel by speical menu button
-
                         Game.PhaseManager.EndTemporaryPhase();
                         Game.PhaseManager.CurrentPhase.NextSubPhase();
                     }

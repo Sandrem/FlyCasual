@@ -27,7 +27,7 @@ namespace Rules
 
         public void CanPerformActions(Actions.GenericAction action, ref bool result)
         {
-            if (Game.Selection.ThisShip.HasToken(typeof(Tokens.StressToken)))
+            if (Game.Selection.ThisShip.GetToken(typeof(Tokens.StressToken)) != null)
             {
                 result = false;
             }
@@ -36,7 +36,7 @@ namespace Rules
         public void CannotPerformRedManeuversWhileStressed(Ship.GenericShip ship, ref Movement movement)
         {
             //TODO: Should I show red maneuvers if I have stress?
-            if ((movement.ColorComplexity == Ship.ManeuverColor.Red) && (ship.HasToken(typeof(Tokens.StressToken))))
+            if ((movement.ColorComplexity == Ship.ManeuverColor.Red) && (ship.GetToken(typeof(Tokens.StressToken)) != null))
             {
                 movement.ColorComplexity = Ship.ManeuverColor.None;
             }

@@ -53,6 +53,7 @@ namespace SubPhases
         public virtual bool AnotherShipCanBeSelected(Ship.GenericShip targetShip)
         {
             bool result = false;
+            Game.UI.ShowError("Ship of another player");
             return result;
         }
 

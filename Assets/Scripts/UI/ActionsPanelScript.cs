@@ -82,7 +82,10 @@ public class ActionsPanelScript : MonoBehaviour {
     public void CloseActionsPanel()
     {
         panelActions.SetActive(false);
-        Game.PhaseManager.CurrentSubPhase.NextSubPhase();
+        if (!Game.PhaseManager.InTemporarySubPhase)
+        {
+            Game.PhaseManager.Next();
+        }
     }
 
 }

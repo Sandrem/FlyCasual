@@ -92,8 +92,18 @@ public class PhaseManagerScript: MonoBehaviour {
 
     public void StartFreeActionSubPhase(string name)
     {
+        StartTemporarySubPhase(name, new FreeActionSubPhase());
+    }
+
+    public void StartSelectTargetSubPhase(string name)
+    {
+        StartTemporarySubPhase(name, new SelectTargetSubPhase());
+    }
+
+    private void StartTemporarySubPhase(string name, SubPhases.GenericSubPhase subPhase)
+    {
         GenericSubPhase previousSubPhase = CurrentSubPhase;
-        CurrentSubPhase = new FreeActionSubPhase();
+        CurrentSubPhase = subPhase;
         CurrentSubPhase.Name = name;
         CurrentSubPhase.PreviousSubPhase = previousSubPhase;
         CurrentSubPhase.StartSubPhase();

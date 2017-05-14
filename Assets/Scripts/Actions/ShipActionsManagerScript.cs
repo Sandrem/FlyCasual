@@ -52,6 +52,10 @@ public class ShipActionsManagerScript: MonoBehaviour {
 
             result = true;
         }
+        else
+        {
+            Game.UI.ShowError("Target is out of range of Target Lock");
+        }
 
         return result;
     }

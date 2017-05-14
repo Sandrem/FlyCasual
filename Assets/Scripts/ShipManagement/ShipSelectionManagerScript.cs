@@ -78,50 +78,13 @@ public class ShipSelectionManagerScript : MonoBehaviour {
     public bool TryToChangeAnotherShip(string shipId)
     {
         bool result = false;
-        //if ((!isUIlocked) && (!(Game.PhaseManager.TemporaryPhaseName == "Perform free action")))
-        //{
         Ship.GenericShip targetShip = Game.Roster.GetShipById(shipId);
-
         result = Game.PhaseManager.CurrentSubPhase.AnotherShipCanBeSelected(targetShip);
-            /*if (Game.PhaseManager.CurrentPhase.GetType() == typeof(CombatPhase))
-            {
 
-            }
-
-            if (Game.PhaseManager.CurrentPhase.GetType() == typeof(ActivationPhase))
-            {
-                //if (Game.PhaseManager.TemporaryPhaseName == "Select target for Target Lock")
-                {
-                    if (targetShip.PlayerNo != Game.PhaseManager.CurrentSubPhase.RequiredPlayer)
-                    {
-                        if (!Game.Actions.AssignTargetLockToPair(Game.Selection.ThisShip, targetShip))
-                        {
-                            Game.UI.ShowError("Target is out of range of Target Lock");
-                            Game.Selection.ThisShip.RemoveAlreadyExecutedAction(typeof(Actions.TargetLockAction));
-                            Game.PhaseManager.EndTemporaryPhase();
-                            Game.UI.ActionsPanel.ShowActionsPanel();
-                            return false;
-                        }
-                        Game.PhaseManager.EndTemporaryPhase();
-                        Game.PhaseManager.CurrentSubPhase.NextSubPhase();
-                    }
-                    else
-                    {
-                        Game.UI.ShowError("Ship cannot be selected as target: Friendly ship");
-                    }
-                }
-            }*/
-
-            if (result == true)
-            {
-                ChangeAnotherShip(shipId);
-            }
-            else
-            {
-                Game.UI.ShowError("Ship of another player");
-            }
-
-        //}
+        if (result == true)
+        {
+            ChangeAnotherShip(shipId);
+        }
         return result;
     }
 

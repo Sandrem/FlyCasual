@@ -79,16 +79,19 @@ namespace SubPhases
         public override int CountActiveButtons(Ship.GenericShip ship)
         {
             int result = 0;
-            if (ship.PlayerNo != Game.PhaseManager.CurrentSubPhase.RequiredPlayer)
+            if (Game.Selection.ThisShip != null)
             {
-                if (Game.Selection.ThisShip.IsAttackPerformed != true)
+                if (ship.PlayerNo != Game.PhaseManager.CurrentSubPhase.RequiredPlayer)
                 {
-                    Game.UI.panelContextMenu.transform.Find("FireButton").gameObject.SetActive(true);
-                    result++;
-                }
-                else
-                {
-                    Game.UI.ShowError("Your ship already has attacked");
+                    if (Game.Selection.ThisShip.IsAttackPerformed != true)
+                    {
+                        Game.UI.panelContextMenu.transform.Find("FireButton").gameObject.SetActive(true);
+                        result++;
+                    }
+                    else
+                    {
+                        Game.UI.ShowError("Your ship already has attacked");
+                    }
                 }
             }
             return result;

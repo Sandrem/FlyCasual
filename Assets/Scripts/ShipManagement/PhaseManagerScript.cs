@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Phases;
+using SubPhases;
 
 //TODO
 // Fix PilotSkillSubPhasePlayer
@@ -18,6 +20,12 @@ public class PhaseManagerScript: MonoBehaviour {
 
     public GenericPhase CurrentPhase { get; set; }
     public GenericSubPhase CurrentSubPhase { get; set; }
+
+    private bool inTemporarySubPhase;
+    public bool InTemporarySubPhase
+    {
+        get { return CurrentSubPhase.isTemporary; }
+    }
 
     public Player PlayerWithInitiative;
 
@@ -45,6 +53,11 @@ public class PhaseManagerScript: MonoBehaviour {
         CurrentPhase = new SetupPhase();
         Game.UI.AddTestLogEntry("Game is started");
         CurrentPhase.StartPhase();
+    }
+
+    public void Next()
+    {
+        CurrentSubPhase.NextSubPhase();
     }
 
     public void CallNextSubPhase()
@@ -77,17 +90,13 @@ public class PhaseManagerScript: MonoBehaviour {
         if (OnEndPhaseStart != null) OnEndPhaseStart();
     }
 
-    public void StartTemporaryPhase(string name)
+    public void StartFreeActionSubPhase(string name)
     {
-        /*Game.Selection.isInTemporaryState = true;
-        TemporaryPhaseName = name;
-        Game.UI.Helper.UpdateTemporaryState(TemporaryPhaseName);*/
-    }
-
-    public void EndTemporaryPhase()
-    {
-        /*TemporaryPhaseName = null;
-        Game.Selection.isInTemporaryState = false;*/
+        GenericSubPhase previousSubPhase = CurrentSubPhase;
+        CurrentSubPhase = new FreeActionSubPhase();
+        CurrentSubPhase.Name = name;
+        CurrentSubPhase.PreviousSubPhase = previousSubPhase;
+        CurrentSubPhase.StartSubPhase();
     }
 
 }

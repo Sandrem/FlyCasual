@@ -1,28 +1,34 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using SubPhases;
 
-public class CombatPhase : GenericPhase
+namespace Phases
 {
 
-    public override void StartPhase()
+    public class CombatPhase : GenericPhase
     {
-        Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
 
-        Name = "Combat Phase";
+        public override void StartPhase()
+        {
+            Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
 
-        Game.PhaseManager.CurrentSubPhase = new CombatSubPhase();
-        Game.PhaseManager.CurrentSubPhase.StartSubPhase();
+            Name = "Combat Phase";
 
-        Game.PhaseManager.CallCombatPhaseTrigger();
-    }
+            Game.PhaseManager.CurrentSubPhase = new CombatSubPhase();
+            Game.PhaseManager.CurrentSubPhase.StartSubPhase();
 
-    public override void NextPhase()
-    {
-        Game.Selection.DeselectAllShips();
+            Game.PhaseManager.CallCombatPhaseTrigger();
+        }
 
-        Game.PhaseManager.CurrentPhase = new EndPhase();
-        Game.PhaseManager.CurrentPhase.StartPhase();
+        public override void NextPhase()
+        {
+            Game.Selection.DeselectAllShips();
+
+            Game.PhaseManager.CurrentPhase = new EndPhase();
+            Game.PhaseManager.CurrentPhase.StartPhase();
+        }
+
     }
 
 }

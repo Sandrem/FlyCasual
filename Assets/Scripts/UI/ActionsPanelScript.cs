@@ -26,7 +26,7 @@ public class ActionsPanelScript : MonoBehaviour {
         }
         else
         {
-            Game.PhaseManager.CurrentSubPhase.NextSubPhase();
+            Game.PhaseManager.Next();
         }
     }
 
@@ -82,14 +82,7 @@ public class ActionsPanelScript : MonoBehaviour {
     public void CloseActionsPanel()
     {
         panelActions.SetActive(false);
-        if (Game.Selection.isInTemporaryState)
-        {
-            //if (Game.PhaseManager.TemporaryPhaseName == "Perform free action") Game.PhaseManager.EndTemporaryPhase();
-        }
-        else
-        {
-            Game.PhaseManager.CurrentSubPhase.NextSubPhase();
-        }
+        Game.PhaseManager.CurrentSubPhase.NextSubPhase();
     }
 
 }

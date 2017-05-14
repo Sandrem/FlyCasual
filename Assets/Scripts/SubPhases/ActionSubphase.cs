@@ -2,51 +2,56 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ActionSubphase : GenericSubPhase
+namespace SubPhases
 {
 
-    public override void StartSubPhase()
+    public class ActionSubPhase : GenericSubPhase
     {
-        Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-        Name = "Action SubPhase";
-        Game.UI.AddTestLogEntry(Name);
 
-        if (!Game.Selection.ThisShip.IsBumped)
+        public override void StartSubPhase()
         {
-            Game.UI.ActionsPanel.ShowActionsPanel();
-        }
-        else
-        {
-            Game.Selection.ThisShip.IsBumped = false;
-            Game.UI.ShowError("Collision: Skips \"Perform Action\" step");
-            Game.UI.AddTestLogEntry("Collision: Skips \"Perform Action\" step");
-            NextSubPhase();
-        }
-        UpdateHelpInfo();
-    }
+            Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
+            Name = "Action SubPhase";
+            Game.UI.AddTestLogEntry(Name);
 
-    public override void NextSubPhase()
-    {
-        Dictionary<int, Player> pilots = Game.Roster.NextPilotSkillAndPlayerAfter(RequiredPilotSkill, RequiredPlayer, Sorting.Asc);
-        foreach (var pilot in pilots)
-        {
-            Game.PhaseManager.CurrentSubPhase = PreviousSubPhase;
-            Game.PhaseManager.CurrentSubPhase.RequiredPilotSkill = pilot.Key;
-            Game.PhaseManager.CurrentSubPhase.RequiredPlayer = pilot.Value;
+            if (!Game.Selection.ThisShip.IsBumped)
+            {
+                Game.UI.ActionsPanel.ShowActionsPanel();
+            }
+            else
+            {
+                Game.Selection.ThisShip.IsBumped = false;
+                Game.UI.ShowError("Collision: Skips \"Perform Action\" step");
+                Game.UI.AddTestLogEntry("Collision: Skips \"Perform Action\" step");
+                NextSubPhase();
+            }
             UpdateHelpInfo();
         }
 
-        if (Game.PhaseManager.CurrentSubPhase.RequiredPilotSkill == -1)
+        public override void NextSubPhase()
         {
-            Game.PhaseManager.CurrentPhase.NextPhase();
-        }
-    }
+            Dictionary<int, Player> pilots = Game.Roster.NextPilotSkillAndPlayerAfter(RequiredPilotSkill, RequiredPlayer, Sorting.Asc);
+            foreach (var pilot in pilots)
+            {
+                Game.PhaseManager.CurrentSubPhase = PreviousSubPhase;
+                Game.PhaseManager.CurrentSubPhase.RequiredPilotSkill = pilot.Key;
+                Game.PhaseManager.CurrentSubPhase.RequiredPlayer = pilot.Value;
+                UpdateHelpInfo();
+            }
 
-    public override bool ThisShipCanBeSelected(Ship.GenericShip ship)
-    {
-        bool result = false;
-        Game.UI.ShowError("Ship cannot be selected: Perform action first");
-        return result;
+            if (Game.PhaseManager.CurrentSubPhase.RequiredPilotSkill == -1)
+            {
+                Game.PhaseManager.CurrentPhase.NextPhase();
+            }
+        }
+
+        public override bool ThisShipCanBeSelected(Ship.GenericShip ship)
+        {
+            bool result = false;
+            Game.UI.ShowError("Ship cannot be selected: Perform action first");
+            return result;
+        }
+
     }
 
 }

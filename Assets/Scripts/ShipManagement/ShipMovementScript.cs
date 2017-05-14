@@ -445,17 +445,10 @@ public class ShipMovementScript : MonoBehaviour {
 
         Game.Selection.ThisShip.AssignedManeuver = null;
 
-        StartCoroutine(TryNextPhase());
-    }
-
-    IEnumerator TryNextPhase()
-    {
-        while (Game.Selection.isInTemporaryState)
+        if (!Game.PhaseManager.InTemporarySubPhase)
         {
-            yield return new WaitForSeconds(1);
-        };
-
-        Game.PhaseManager.CurrentSubPhase.NextSubPhase();
+            Game.PhaseManager.Next();
+        }
     }
 
     private void RevertMove() {

@@ -1,28 +1,34 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using SubPhases;
 
-public class SetupPhase: GenericPhase
+namespace Phases
 {
 
-    public override void StartPhase()
+    public class SetupPhase : GenericPhase
     {
-        Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
 
-        Name = "Setup Phase";
+        public override void StartPhase()
+        {
+            Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
 
-        Game.PhaseManager.CurrentSubPhase = new SetupSubPhase();
-        Game.PhaseManager.CurrentSubPhase.StartSubPhase();
+            Name = "Setup Phase";
 
-        Game.PhaseManager.CallSetupPhaseTrigger();
-    }
+            Game.PhaseManager.CurrentSubPhase = new SetupSubPhase();
+            Game.PhaseManager.CurrentSubPhase.StartSubPhase();
 
-    public override void NextPhase()
-    {
-        Game.Selection.DeselectAllShips();
+            Game.PhaseManager.CallSetupPhaseTrigger();
+        }
 
-        Game.PhaseManager.CurrentPhase = new PlanningPhase();
-        Game.PhaseManager.CurrentPhase.StartPhase();
+        public override void NextPhase()
+        {
+            Game.Selection.DeselectAllShips();
+
+            Game.PhaseManager.CurrentPhase = new PlanningPhase();
+            Game.PhaseManager.CurrentPhase.StartPhase();
+        }
+
     }
 
 }

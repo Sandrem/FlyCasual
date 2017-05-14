@@ -20,7 +20,7 @@ namespace Ship
             private void NightBeastPilotAbility(Ship.GenericShip ship)
             {
                 if (AssignedManeuver.ColorComplexity == ManeuverColor.Green) {
-                    Game.UI.ShowInfo("\"Night Beast\": Free focus action");
+                    Game.PhaseManager.StartFreeActionSubPhase("\"Night Beast\": Free focus action");
                     AskPerformFreeAction(new Actions.FocusAction());
                 }
             }

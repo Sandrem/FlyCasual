@@ -41,15 +41,12 @@ public class ShipRosterManagerScript : MonoBehaviour {
         newShip.InstallUpgrade("Upgrade.R2D2");
         newShip.InstallUpgrade("Upgrade.Marksmanship");
         AddShip(newShip, 1);
-        newShip = ShipFactory.SpawnShip("Ship.XWing.BiggsDarklighter", Player.Player1, 2, new Vector3(1, 0, -2.5f));
-        newShip.InstallUpgrade("Upgrade.R2F2");
-        AddShip(newShip, 1);
 
         newShip = ShipFactory.SpawnShip("Ship.TIEFighter.MaulerMithel", Player.Player2, 3, new Vector3(-1, 0, 2.5f));
         newShip.InstallUpgrade("Upgrade.Determination");
         AddShip(newShip, 2);
         //TODO: Error: Pilots with same skill
-        newShip = ShipFactory.SpawnShip("Ship.TIEFighter.DarkCurse", Player.Player2, 4, new Vector3(1, 0, 2.5f));
+        newShip = ShipFactory.SpawnShip("Ship.TIEFighter.NightBeast", Player.Player2, 4, new Vector3(1, 0, 2.5f));
         AddShip(newShip, 2);
     }
 

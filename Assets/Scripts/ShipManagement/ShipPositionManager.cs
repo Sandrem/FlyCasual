@@ -39,7 +39,7 @@ public class ShipPositionManager : MonoBehaviour
 
     private void StartDrag()
     {
-        if (Game.PhaseManager.CurrentPhase.GetType() == typeof(SetupPhase)) {
+        if (Game.PhaseManager.CurrentPhase.GetType() == typeof(Phases.SetupPhase)) {
             Game.Roster.SetRaycastTargets(false);
             inReposition = true;
         }
@@ -95,7 +95,7 @@ public class ShipPositionManager : MonoBehaviour
         //fix
         if (Game == null) Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
 
-        if (Game.PhaseManager.CurrentPhase.GetType() == typeof(SetupPhase))
+        if (Game.PhaseManager.CurrentPhase.GetType() == typeof(Phases.SetupPhase))
         {
             if (Game.PhaseManager.CurrentSubPhase.RequiredPlayer == Player.Player1) StartingZone1.SetActive(true);
             if (Game.PhaseManager.CurrentSubPhase.RequiredPlayer == Player.Player2) StartingZone2.SetActive(true);

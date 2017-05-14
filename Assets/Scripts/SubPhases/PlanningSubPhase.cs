@@ -2,58 +2,63 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlanningSubPhase : GenericSubPhase
+namespace SubPhases
 {
 
-    public override void StartSubPhase()
+    public class PlanningSubPhase : GenericSubPhase
     {
-        Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-        Name = "Planning SubPhase";
 
-        RequiredPlayer = Game.PhaseManager.PlayerWithInitiative;
-        RequiredPilotSkill = GetStartingPilotSkill();
-
-        Game.UI.AddTestLogEntry(Name);
-
-        UpdateHelpInfo();
-    }
-
-    public override void NextSubPhase()
-    {
-        if (Game.Roster.AllManuersAreAssigned(RequiredPlayer))
+        public override void StartSubPhase()
         {
-            if (RequiredPlayer == Game.PhaseManager.PlayerWithInitiative)
+            Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
+            Name = "Planning SubPhase";
+
+            RequiredPlayer = Game.PhaseManager.PlayerWithInitiative;
+            RequiredPilotSkill = GetStartingPilotSkill();
+
+            Game.UI.AddTestLogEntry(Name);
+
+            UpdateHelpInfo();
+        }
+
+        public override void NextSubPhase()
+        {
+            if (Game.Roster.AllManuersAreAssigned(RequiredPlayer))
             {
-                RequiredPlayer = AnotherPlayer(RequiredPlayer);
-                UpdateHelpInfo();
+                if (RequiredPlayer == Game.PhaseManager.PlayerWithInitiative)
+                {
+                    RequiredPlayer = AnotherPlayer(RequiredPlayer);
+                    UpdateHelpInfo();
+                }
+                else
+                {
+                    Game.PhaseManager.CurrentPhase.NextPhase();
+                }
+            }
+        }
+
+        public override bool ThisShipCanBeSelected(Ship.GenericShip ship)
+        {
+            bool result = false;
+            if (ship.PlayerNo == RequiredPlayer)
+            {
+                result = true;
             }
             else
             {
-                Game.PhaseManager.CurrentPhase.NextPhase();
+                Game.UI.ShowError("Ship cannot be selected: Wrong player");
             }
+            return result;
         }
-    }
 
-    public override bool ThisShipCanBeSelected(Ship.GenericShip ship)
-    {
-        bool result = false;
-        if (ship.PlayerNo == RequiredPlayer)
+        public override int CountActiveButtons(Ship.GenericShip ship)
         {
-            result = true;
+            int result = 0;
+            Game.UI.panelContextMenu.transform.Find("MoveMenuButton").gameObject.SetActive(true);
+            result++;
+            return result;
         }
-        else
-        {
-            Game.UI.ShowError("Ship cannot be selected: Wrong player");
-        }
-        return result;
-    }
 
-    public override int CountActiveButtons(Ship.GenericShip ship)
-    {
-        int result = 0;
-        Game.UI.panelContextMenu.transform.Find("MoveMenuButton").gameObject.SetActive(true);
-        result++;
-        return result;
     }
 
 }

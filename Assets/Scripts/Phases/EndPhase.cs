@@ -2,29 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
 public class EndPhase : GenericPhase
 {
+
     public override void StartPhase()
     {
         Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
 
-        Phase = Phases.End;
-        SubPhase = SubPhases.None;
-        Game.UI.AddTestLogEntry("End phase");
+        Name = "Setup Phase";
 
-        RequiredPlayer = Player.None;
+        Game.PhaseManager.CurrentSubPhase = new EndSubPhase();
+        Game.PhaseManager.CurrentSubPhase.StartSubPhase();
 
         Game.PhaseManager.CallEndPhaseTrigger();
-
-        NextSubPhase();
-    }
-
-    public override void NextSubPhase()
-    {
-        SubPhase = SubPhases.None;
-
-        NextPhase();
     }
 
     public override void NextPhase()

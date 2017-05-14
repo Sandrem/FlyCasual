@@ -78,7 +78,7 @@ public class DiceResultsScript: MonoBehaviour {
 
             if (Game.Roster.NoSamePlayerAndPilotSkillNotAttacked(Game.Selection.ThisShip))
             {
-                Game.PhaseManager.CurrentPhase.NextSubPhase();
+                Game.PhaseManager.CurrentSubPhase.NextSubPhase();
             }
 
         }

@@ -39,7 +39,7 @@ public class ShipPositionManager : MonoBehaviour
 
     private void StartDrag()
     {
-        if (Game.PhaseManager.CurrentPhase.Phase == Phases.Setup) {
+        if (Game.PhaseManager.CurrentPhase.GetType() == typeof(SetupPhase)) {
             Game.Roster.SetRaycastTargets(false);
             inReposition = true;
         }
@@ -59,7 +59,7 @@ public class ShipPositionManager : MonoBehaviour
     {
         bool result = true;
 
-        GameObject startingZone = (Game.PhaseManager.CurrentPhase.RequiredPlayer == Player.Player1) ? StartingZone1 : StartingZone2;
+        GameObject startingZone = (Game.PhaseManager.CurrentSubPhase.RequiredPlayer == Player.Player1) ? StartingZone1 : StartingZone2;
         if (!ship.Model.IsInside(startingZone.transform))
         {
             Game.UI.ShowError("Place ship into highlighted area");
@@ -82,21 +82,23 @@ public class ShipPositionManager : MonoBehaviour
         Game.Roster.SetRaycastTargets(true);
         inReposition = false;
         //Should I change subphase immediately?
-        Game.PhaseManager.CurrentPhase.NextSubPhase();
+        Game.PhaseManager.CurrentSubPhase.NextSubPhase();
     }
 
     public void HighlightStartingZones()
     {
+        if (Game == null) Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
+
         StartingZone1.SetActive(false);
         StartingZone2.SetActive(false);
         
         //fix
         if (Game == null) Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
 
-        if (Game.PhaseManager.CurrentPhase.Phase == Phases.Setup)
+        if (Game.PhaseManager.CurrentPhase.GetType() == typeof(SetupPhase))
         {
-            if (Game.PhaseManager.CurrentPhase.RequiredPlayer == Player.Player1) StartingZone1.SetActive(true);
-            if (Game.PhaseManager.CurrentPhase.RequiredPlayer == Player.Player2) StartingZone2.SetActive(true);
+            if (Game.PhaseManager.CurrentSubPhase.RequiredPlayer == Player.Player1) StartingZone1.SetActive(true);
+            if (Game.PhaseManager.CurrentSubPhase.RequiredPlayer == Player.Player2) StartingZone2.SetActive(true);
         }
     }
 

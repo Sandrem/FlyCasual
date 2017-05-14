@@ -17,7 +17,7 @@ public class PhaseManagerScript: MonoBehaviour {
     private GameManagerScript Game;
 
     public GenericPhase CurrentPhase { get; set; }
-    public string TemporaryPhaseName;
+    public GenericSubPhase CurrentSubPhase { get; set; }
 
     public Player PlayerWithInitiative;
 
@@ -49,18 +49,7 @@ public class PhaseManagerScript: MonoBehaviour {
 
     public void CallNextSubPhase()
     {
-        Game.UI.HideTemporaryMenus();
-        Game.Ruler.ReturnRangeRuler();
-
-        if (CurrentPhase.Phase == Phases.Activation)
-        {
-            if (!Game.Roster.AllManueversArePerformed())
-            {
-                return;
-            }
-        }
-
-        CurrentPhase.NextSubPhase();
+        CurrentSubPhase.CallNextSubPhase();
     }
 
     public void CallSetupPhaseTrigger()
@@ -90,15 +79,15 @@ public class PhaseManagerScript: MonoBehaviour {
 
     public void StartTemporaryPhase(string name)
     {
-        Game.Selection.isInTemporaryState = true;
+        /*Game.Selection.isInTemporaryState = true;
         TemporaryPhaseName = name;
-        Game.UI.Helper.UpdateTemporaryState(TemporaryPhaseName);
+        Game.UI.Helper.UpdateTemporaryState(TemporaryPhaseName);*/
     }
 
     public void EndTemporaryPhase()
     {
-        TemporaryPhaseName = null;
-        Game.Selection.isInTemporaryState = false;
+        /*TemporaryPhaseName = null;
+        Game.Selection.isInTemporaryState = false;*/
     }
 
 }

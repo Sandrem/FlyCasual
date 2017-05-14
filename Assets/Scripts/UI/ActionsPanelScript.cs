@@ -26,7 +26,7 @@ public class ActionsPanelScript : MonoBehaviour {
         }
         else
         {
-            Game.PhaseManager.CurrentPhase.NextSubPhase();
+            Game.PhaseManager.CurrentSubPhase.NextSubPhase();
         }
     }
 
@@ -64,7 +64,7 @@ public class ActionsPanelScript : MonoBehaviour {
         else
         {
             Game.UI.ShowError("Cannot perform any actions");
-            Game.PhaseManager.CurrentPhase.NextSubPhase();
+            Game.PhaseManager.CurrentSubPhase.NextSubPhase();
         }
     }
 
@@ -84,11 +84,11 @@ public class ActionsPanelScript : MonoBehaviour {
         panelActions.SetActive(false);
         if (Game.Selection.isInTemporaryState)
         {
-            if (Game.PhaseManager.TemporaryPhaseName == "Perform free action") Game.PhaseManager.EndTemporaryPhase();
+            //if (Game.PhaseManager.TemporaryPhaseName == "Perform free action") Game.PhaseManager.EndTemporaryPhase();
         }
         else
         {
-            Game.PhaseManager.CurrentPhase.NextSubPhase();
+            Game.PhaseManager.CurrentSubPhase.NextSubPhase();
         }
     }
 

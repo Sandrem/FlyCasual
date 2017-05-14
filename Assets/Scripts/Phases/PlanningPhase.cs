@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
 public class PlanningPhase : GenericPhase
 {
 
@@ -10,36 +9,12 @@ public class PlanningPhase : GenericPhase
     {
         Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
 
-        Phase = Phases.Planning;
-        SubPhase = SubPhases.AssignManeuvers;
-        Game.UI.AddTestLogEntry("Planning phase");
+        Name = "Planning Phase";
 
-        RequiredPlayer = Game.PhaseManager.PlayerWithInitiative;
-        RequiredPilotSkill = GetStartingPilotSkill();
+        Game.PhaseManager.CurrentSubPhase = new PlanningSubPhase();
+        Game.PhaseManager.CurrentSubPhase.StartSubPhase();
 
-        UpdateHelpInfo();
-
-        Game.PhaseManager.CallPlanningPhaseTrigger();
-    }
-
-    public override void NextSubPhase()
-    {
-        SubPhase = SubPhases.AssignManeuvers;
-
-        if (Game.Roster.AllManuersAreAssigned(PlayerToInt(RequiredPlayer)))
-        {
-            if (RequiredPlayer == Game.PhaseManager.PlayerWithInitiative)
-            {
-                RequiredPlayer = AnotherPlayer(RequiredPlayer);
-                UpdateHelpInfo();
-                //Debug.Log(" - " + CurrentSubPhase + " " + PilotSkillSubPhasePlayer);
-            }
-            else
-            {
-                NextPhase();
-            }
-        }
-
+        Game.PhaseManager.CallSetupPhaseTrigger();
     }
 
     public override void NextPhase()
@@ -48,20 +23,6 @@ public class PlanningPhase : GenericPhase
 
         Game.PhaseManager.CurrentPhase = new ActivationPhase();
         Game.PhaseManager.CurrentPhase.StartPhase();
-    }
-
-    public override bool ThisShipCanBeSelected(Ship.GenericShip ship)
-    {
-        bool result = false;
-        if (ship.PlayerNo == RequiredPlayer)
-        {
-            result = true;
-        }
-        else
-        {
-            Game.UI.ShowError("Ship cannot be selected: Wrong player");
-        }
-        return result;
     }
 
 }

@@ -455,7 +455,7 @@ public class ShipMovementScript : MonoBehaviour {
             yield return new WaitForSeconds(1);
         };
 
-        Game.PhaseManager.CurrentPhase.NextSubPhase();
+        Game.PhaseManager.CurrentSubPhase.NextSubPhase();
     }
 
     private void RevertMove() {

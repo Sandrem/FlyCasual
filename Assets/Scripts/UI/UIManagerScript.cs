@@ -43,7 +43,7 @@ public class UIManagerScript: MonoBehaviour {
     {
         HideDirectionMenu();
         HideContextMenuButtons();
-        if (CountActiveButtons(ship) > 0)
+        if (Game.PhaseManager.CurrentSubPhase.CountActiveButtons(ship) > 0)
         {
             panelContextMenu.SetActive(true);
             position = FixMenuPosition(panelContextMenu, position);
@@ -62,47 +62,6 @@ public class UIManagerScript: MonoBehaviour {
         {
             button.gameObject.SetActive(false);
         }
-    }
-
-    private int CountActiveButtons(Ship.GenericShip ship)
-    {
-        int result = 0;
-        switch (Game.PhaseManager.CurrentPhase.Phase)
-        {
-            case Phases.Planning:
-                panelContextMenu.transform.Find("MoveMenuButton").gameObject.SetActive(true);
-                result++;
-                break;
-            case Phases.Activation:
-                if (Game.Selection.ThisShip.AssignedManeuver != null)
-                {
-                    panelContextMenu.transform.Find("MovePerformButton").gameObject.SetActive(true);
-                    result++;
-                }
-                else
-                {
-                    ShowError("This ship has already executed his maneuver");
-                };
-                break;
-            case Phases.Combat:
-                if (ship.PlayerNo != Game.PhaseManager.CurrentPhase.RequiredPlayer)
-                {
-                    if (Game.Selection.ThisShip.IsAttackPerformed != true)
-                    {
-                        panelContextMenu.transform.Find("FireButton").gameObject.SetActive(true);
-                        result++;
-                    }
-                    else
-                    {
-                        ShowError("Your ship has already attacked");
-                    }
-                }
-                break;
-            default:
-                break;
-        }
-
-        return result;
     }
 
     public void ShowError(string text)

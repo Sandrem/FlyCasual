@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Phases;
+using SubPhases;
 
 //TODO
 // Fix PilotSkillSubPhasePlayer
@@ -17,7 +19,13 @@ public class PhaseManagerScript: MonoBehaviour {
     private GameManagerScript Game;
 
     public GenericPhase CurrentPhase { get; set; }
-    public string TemporaryPhaseName;
+    public GenericSubPhase CurrentSubPhase { get; set; }
+
+    private bool inTemporarySubPhase;
+    public bool InTemporarySubPhase
+    {
+        get { return CurrentSubPhase.isTemporary; }
+    }
 
     public Player PlayerWithInitiative;
 
@@ -47,20 +55,14 @@ public class PhaseManagerScript: MonoBehaviour {
         CurrentPhase.StartPhase();
     }
 
+    public void Next()
+    {
+        CurrentSubPhase.NextSubPhase();
+    }
+
     public void CallNextSubPhase()
     {
-        Game.UI.HideTemporaryMenus();
-        Game.Ruler.ReturnRangeRuler();
-
-        if (CurrentPhase.Phase == Phases.Activation)
-        {
-            if (!Game.Roster.AllManueversArePerformed())
-            {
-                return;
-            }
-        }
-
-        CurrentPhase.NextSubPhase();
+        CurrentSubPhase.CallNextSubPhase();
     }
 
     public void CallSetupPhaseTrigger()
@@ -88,17 +90,23 @@ public class PhaseManagerScript: MonoBehaviour {
         if (OnEndPhaseStart != null) OnEndPhaseStart();
     }
 
-    public void StartTemporaryPhase(string name)
+    public void StartFreeActionSubPhase(string name)
     {
-        Game.Selection.isInTemporaryState = true;
-        TemporaryPhaseName = name;
-        Game.UI.Helper.UpdateTemporaryState(TemporaryPhaseName);
+        StartTemporarySubPhase(name, new FreeActionSubPhase());
     }
 
-    public void EndTemporaryPhase()
+    public void StartSelectTargetSubPhase(string name)
     {
-        TemporaryPhaseName = null;
-        Game.Selection.isInTemporaryState = false;
+        StartTemporarySubPhase(name, new SelectTargetSubPhase());
+    }
+
+    private void StartTemporarySubPhase(string name, SubPhases.GenericSubPhase subPhase)
+    {
+        GenericSubPhase previousSubPhase = CurrentSubPhase;
+        CurrentSubPhase = subPhase;
+        CurrentSubPhase.Name = name;
+        CurrentSubPhase.PreviousSubPhase = previousSubPhase;
+        CurrentSubPhase.StartSubPhase();
     }
 
 }

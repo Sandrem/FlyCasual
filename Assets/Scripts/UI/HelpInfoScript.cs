@@ -7,64 +7,49 @@ public class HelpInfoScript : MonoBehaviour {
 
     public GameObject HelpPanel;
 
+    private GameManagerScript Game;
+
     void Start()
     {
-
+        Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
     }
 
-    public void UpdateHelpInfo(Phases currentPhase, SubPhases currentSubPhase, int currentPlayer, int currentPilotSkill)
+    public void UpdateHelpInfo()
     {
-        string currentPhaseText = "";
+        if (Game == null) Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
 
-        switch (currentPhase)
+        HelpPanel.transform.Find("PhaseText").GetComponent<Text>().text = Game.PhaseManager.CurrentPhase.Name;
+        HelpPanel.transform.Find("SubPhaseText").GetComponent<Text>().text = Game.PhaseManager.CurrentSubPhase.Name;
+
+        string playerText = "PLAYER: " + PlayerToInt(Game.PhaseManager.CurrentSubPhase.RequiredPlayer);
+        string pilotSkillText = "PILOTS WITH SKILL: " + Game.PhaseManager.CurrentSubPhase.RequiredPilotSkill.ToString();
+
+        if (Game.PhaseManager.CurrentPhase.GetType() == typeof(Phases.PlanningPhase))
         {
-            case Phases.Setup:
-                currentPhaseText = "Setup Phase";
-                break;
-            case Phases.Planning:
-                currentPhaseText = "Planning Phase";
-                break;
-            case Phases.Activation:
-                currentPhaseText = "Activation Phase";
-                break;
-            case Phases.Combat:
-                currentPhaseText = "Combat Phase";
-                break;
-            case Phases.End:
-                currentPhaseText = "End Phase";
-                break;
+            pilotSkillText = "";
         }
 
-        string currentSubPhaseText = "";
-
-        switch (currentSubPhase)
+        if (Game.PhaseManager.CurrentSubPhase.isTemporary)
         {
-            case SubPhases.Setup:
-                currentSubPhaseText = "Place ships into highlighted zone";
-                break;
-            case SubPhases.AssignManeuvers:
-                currentSubPhaseText = "Assign maneuver to ship";
-                break;
-            case SubPhases.PerformManeuver:
-                currentSubPhaseText = "Perform ship's assigned maneuver";
-                break;
-            case SubPhases.PerformAction:
-                currentSubPhaseText = "Perform ship's action";
-                break;
-            case SubPhases.PerformAttack:
-                currentSubPhaseText = "Perform ship's attack";
-                break;
+            playerText = "";
+            pilotSkillText = "";
         }
 
-        HelpPanel.transform.Find("PhaseText").GetComponent<Text>().text = currentPhaseText;
-        HelpPanel.transform.Find("SubPhaseText").GetComponent<Text>().text = currentSubPhaseText;
-        HelpPanel.transform.Find("PlayerNoText").GetComponent<Text>().text = "PLAYER: " + currentPlayer;
-        HelpPanel.transform.Find("PilotSkillText").GetComponent<Text>().text = (currentPhase == Phases.Planning) ? "" : "PILOTS WITH SKILL: " + currentPilotSkill.ToString();
+        HelpPanel.transform.Find("PlayerNoText").GetComponent<Text>().text = playerText;
+        HelpPanel.transform.Find("PilotSkillText").GetComponent<Text>().text = pilotSkillText;
     }
 
     public void UpdateTemporaryState(string temporaryStateName)
     {
         HelpPanel.transform.Find("SubPhaseText").GetComponent<Text>().text = temporaryStateName;
+    }
+
+    protected int PlayerToInt(Player playerNo)
+    {
+        int result = -1;
+        if (playerNo == Player.Player1) result = 1;
+        if (playerNo == Player.Player2) result = 2;
+        return result;
     }
 
 }

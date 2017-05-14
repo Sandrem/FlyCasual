@@ -41,15 +41,12 @@ public class ShipRosterManagerScript : MonoBehaviour {
         newShip.InstallUpgrade("Upgrade.R2D2");
         newShip.InstallUpgrade("Upgrade.Marksmanship");
         AddShip(newShip, 1);
-        newShip = ShipFactory.SpawnShip("Ship.XWing.BiggsDarklighter", Player.Player1, 2, new Vector3(1, 0, -2.5f));
-        newShip.InstallUpgrade("Upgrade.R2F2");
-        AddShip(newShip, 1);
 
         newShip = ShipFactory.SpawnShip("Ship.TIEFighter.MaulerMithel", Player.Player2, 3, new Vector3(-1, 0, 2.5f));
         newShip.InstallUpgrade("Upgrade.Determination");
         AddShip(newShip, 2);
         //TODO: Error: Pilots with same skill
-        newShip = ShipFactory.SpawnShip("Ship.TIEFighter.DarkCurse", Player.Player2, 4, new Vector3(1, 0, 2.5f));
+        newShip = ShipFactory.SpawnShip("Ship.TIEFighter.NightBeast", Player.Player2, 4, new Vector3(1, 0, 2.5f));
         AddShip(newShip, 2);
     }
 
@@ -95,17 +92,17 @@ public class ShipRosterManagerScript : MonoBehaviour {
 
     //TODO: Rewrite player skill checks (all 3 functions)
 
-    public Dictionary<int, int> NextPilotSkillAndPlayerAfter(int previousPilotSkill, int PilotSkillSubPhasePlayer, Sorting sorting)
+    public Dictionary<int, Player> NextPilotSkillAndPlayerAfter(int previousPilotSkill, Player PilotSkillSubPhasePlayer, Sorting sorting)
     {
 
-        Dictionary<int, int> pilots = new Dictionary<int, int>();
+        Dictionary<int, Player> pilots = new Dictionary<int, Player>();
 
         //Check for same skill with another player
-        pilots = ListAnotherPlayerButSamePilotSkill(previousPilotSkill, PilotSkillSubPhasePlayer);
+        //pilots = ListAnotherPlayerButSamePilotSkill(previousPilotSkill, PilotSkillSubPhasePlayer);
 
         //Check for another pilot skill
         int nextPilotSkill = -1;
-        int playerNo = -1;
+        Player playerNo = Player.None;
 
         //rewrite next two blocks?
         if (sorting == Sorting.Asc)
@@ -116,7 +113,7 @@ public class ShipRosterManagerScript : MonoBehaviour {
                 if ((ship.Value.PilotSkill > previousPilotSkill) && (ship.Value.PilotSkill < nextPilotSkill))
                 {
                     nextPilotSkill = ship.Value.PilotSkill;
-                    playerNo = PlayerToInt(ship.Value.PlayerNo);
+                    playerNo = ship.Value.PlayerNo;
                 }
             }
             if (nextPilotSkill == 100)
@@ -134,20 +131,19 @@ public class ShipRosterManagerScript : MonoBehaviour {
                 if ((ship.Value.PilotSkill < previousPilotSkill) && (ship.Value.PilotSkill > nextPilotSkill))
                 {
                     nextPilotSkill = ship.Value.PilotSkill;
-                    playerNo = PlayerToInt(ship.Value.PlayerNo);
+                    playerNo = ship.Value.PlayerNo;
                 }
             }
         }
-
         pilots.Add(nextPilotSkill, playerNo);
         return pilots;
     }
 
-    public bool AllManuersAreAssigned(int playerNo)
+    public bool AllManuersAreAssigned(Player playerNo)
     {
         foreach (var item in AllShips)
         {
-            if (item.Value.PlayerNo == PlayerFromInt(playerNo))
+            if (item.Value.PlayerNo == playerNo)
             {
                 if (item.Value.AssignedManeuver == null)
                 {

@@ -55,35 +55,13 @@ public class ShipSelectionManagerScript : MonoBehaviour {
         bool result = false;
 
         Ship.GenericShip ship = Game.Roster.GetShipById(shipId);
-        if (ship.PlayerNo == Game.PhaseManager.CurrentPhase.RequiredPlayer)
+        if (ship.PlayerNo == Game.PhaseManager.CurrentSubPhase.RequiredPlayer)
         {
-            result = TryToChangeThisShip(shipId);
+            result = Game.Selection.TryToChangeThisShip(shipId);
         }
         else
         {
             result = TryToChangeAnotherShip(shipId);
-        }
-        return result;
-    }
-
-    public bool TryToChangeThisShip(string shipId)
-    {
-        bool result = false;
-
-        if ((!isUIlocked) && (!isInTemporaryState))
-        {
-            if (!Game.Position.inReposition)
-            {
-                Ship.GenericShip ship = Game.Roster.GetShipById(shipId);
-
-                result = Game.PhaseManager.CurrentPhase.ThisShipCanBeSelected(ship);
-
-                if (result == true)
-                {
-                    ChangeActiveShip(shipId);
-                }
-            }
-
         }
         return result;
     }
@@ -100,67 +78,33 @@ public class ShipSelectionManagerScript : MonoBehaviour {
     public bool TryToChangeAnotherShip(string shipId)
     {
         bool result = false;
-        if ((!isUIlocked) && (!(Game.PhaseManager.TemporaryPhaseName == "Perform free action")))
+        Ship.GenericShip targetShip = Game.Roster.GetShipById(shipId);
+        result = Game.PhaseManager.CurrentSubPhase.AnotherShipCanBeSelected(targetShip);
+
+        if (result == true)
         {
-            Ship.GenericShip targetShip = Game.Roster.GetShipById(shipId);
-
-            if (Game.PhaseManager.CurrentPhase.Phase == Phases.Combat)
-            {
-                if (ThisShip != null)
-                {
-                    if (targetShip.PlayerNo != Game.PhaseManager.CurrentPhase.RequiredPlayer)
-                    {
-                        result = true;
-                    }
-                    else
-                    {
-                        Game.UI.ShowError("Ship cannot be selected as attack target: Friendly ship");
-                    }
-                }
-                else
-                {
-                    Game.UI.ShowError("Ship cannot be selected as attack target:\nFirst select attacker");
-                }
-            }
-
-            if (Game.PhaseManager.CurrentPhase.Phase == Phases.Activation)
-            {
-                if (Game.PhaseManager.TemporaryPhaseName == "Select target for Target Lock")
-                {
-                    if (targetShip.PlayerNo != Game.PhaseManager.CurrentPhase.RequiredPlayer)
-                    {
-                        if (!Game.Actions.AssignTargetLockToPair(Game.Selection.ThisShip, targetShip))
-                        {
-                            Game.UI.ShowError("Target is out of range of Target Lock");
-                            Game.Selection.ThisShip.RemoveAlreadyExecutedAction(typeof(Actions.TargetLockAction));
-                            Game.PhaseManager.EndTemporaryPhase();
-                            Game.UI.ActionsPanel.ShowActionsPanel();
-                            return false;
-                        }
-                        Game.PhaseManager.EndTemporaryPhase();
-                        Game.PhaseManager.CurrentPhase.NextSubPhase();
-                    }
-                    else
-                    {
-                        Game.UI.ShowError("Ship cannot be selected as target: Friendly ship");
-                    }
-                }
-            }
-
-            if (result == true)
-            {
-                ChangeAnotherShip(shipId);
-            }
-            /*else
-            {
-                Game.UI.ShowError("Ship of another player");
-            }*/
-
+            ChangeAnotherShip(shipId);
         }
         return result;
     }
 
-    private void ChangeActiveShip(string shipId)
+    public bool TryToChangeThisShip(string shipId)
+    {
+        bool result = false;
+
+        Ship.GenericShip ship = Game.Roster.GetShipById(shipId);
+
+        result = Game.PhaseManager.CurrentSubPhase.ThisShipCanBeSelected(ship);
+
+        if (result == true)
+        {
+            Game.Selection.ChangeActiveShip(shipId);
+        }
+
+        return result;
+    }
+
+    public void ChangeActiveShip(string shipId)
     {
         DeselectThisShip();
         ThisShip = Game.Roster.GetShipById(shipId);

@@ -40,7 +40,7 @@ namespace Actions
 
         public override void ActionTake()
         {
-            Game.PhaseManager.StartTemporaryPhase("Select target for Target Lock");
+            Game.PhaseManager.StartSelectTargetSubPhase("Select target for Target Lock");
         }
 
     }

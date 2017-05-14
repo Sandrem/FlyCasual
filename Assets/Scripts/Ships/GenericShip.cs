@@ -417,13 +417,8 @@ namespace Ship
 
         public void AskPerformFreeAction(Actions.GenericAction action)
         {
-            Game.Selection.isUIlocked = true;
-
-            Game.PhaseManager.StartTemporaryPhase("Perform free action");
-
             AvailableFreeActionsList = new List<Actions.GenericAction>();
             AddAvailableFreeAction(action);
-
             Game.UI.ActionsPanel.ShowFreeActionsPanel();
         }
 

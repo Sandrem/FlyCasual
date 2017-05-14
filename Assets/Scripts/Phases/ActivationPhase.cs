@@ -1,87 +1,33 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using SubPhases;
 
-
-public class ActivationPhase : GenericPhase
+namespace Phases
 {
 
-    public override void StartPhase()
+    public class ActivationPhase : GenericPhase
     {
-        Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
 
-        Phase = Phases.Activation;
-        SubPhase = SubPhases.AssignManeuvers;
-        Game.UI.AddTestLogEntry("Activation phase");
-
-        RequiredPilotSkill = GetStartingPilotSkill();
-
-        Game.PhaseManager.CallActivationPhaseTrigger();
-
-        NextSubPhase();
-    }
-
-    public override void NextSubPhase()
-    {
-        switch (SubPhase)
+        public override void StartPhase()
         {
-            case SubPhases.PerformManeuver:
-                SubPhase = SubPhases.PerformAction;
-                if (!Game.Selection.ThisShip.IsBumped)
-                {
-                    Game.UI.ActionsPanel.ShowActionsPanel();
-                }
-                else
-                {
-                    Game.Selection.ThisShip.IsBumped = false;
-                    Game.UI.ShowError("Collision: Skips \"Perform Action\" step");
-                    Game.UI.AddTestLogEntry("Collision: Skips \"Perform Action\" step");
-                    NextSubPhase();
-                }
-                break;
-            case SubPhases.AssignManeuvers:
-                Game.Selection.DeselectAllShips();
-                SubPhase = SubPhases.PerformManeuver;
-                NextSubPhaseCommon(Sorting.Asc);
-                break;
-            case SubPhases.PerformAction:
-                Game.Selection.DeselectAllShips();
-                SubPhase = SubPhases.PerformManeuver;
-                NextSubPhaseCommon(Sorting.Asc);
-                break;
-            default:
-                break;
-        }
-    }
+            Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
 
-    public override void NextPhase()
-    {
-        Game.Selection.DeselectAllShips();
+            Name = "Activation Phase";
 
-        Game.PhaseManager.CurrentPhase = new CombatPhase();
-        Game.PhaseManager.CurrentPhase.StartPhase();
-    }
+            Game.PhaseManager.CurrentSubPhase = new ActivationSubPhase();
+            Game.PhaseManager.CurrentSubPhase.StartSubPhase();
 
-    public override bool ThisShipCanBeSelected(Ship.GenericShip ship)
-    {
-        bool result = false;
-        if (SubPhase == SubPhases.PerformManeuver)
-        {
-            if ((ship.PlayerNo ==RequiredPlayer) && (ship.PilotSkill == RequiredPilotSkill))
-            {
-                result = true;
-            }
-            else
-            {
-                Game.UI.ShowError("Ship cannot be selected:\n Need " + RequiredPlayer + " and pilot skill " + RequiredPilotSkill);
-            }
+            Game.PhaseManager.CallActivationPhaseTrigger();
         }
 
-        if (SubPhase == SubPhases.PerformAction)
+        public override void NextPhase()
         {
-            Game.UI.ShowError("Ship cannot be selected: Perform action first");
+            Game.Selection.DeselectAllShips();
+            Game.PhaseManager.CurrentPhase = new CombatPhase();
+            Game.PhaseManager.CurrentPhase.StartPhase();
         }
-        return result;
+
     }
 
 }

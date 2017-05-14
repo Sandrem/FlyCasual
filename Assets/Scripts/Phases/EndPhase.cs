@@ -1,38 +1,34 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using SubPhases;
 
-
-public class EndPhase : GenericPhase
+namespace Phases
 {
-    public override void StartPhase()
+
+    public class EndPhase : GenericPhase
     {
-        Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
 
-        Phase = Phases.End;
-        SubPhase = SubPhases.None;
-        Game.UI.AddTestLogEntry("End phase");
+        public override void StartPhase()
+        {
+            Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
 
-        RequiredPlayer = Player.None;
+            Name = "Setup Phase";
 
-        Game.PhaseManager.CallEndPhaseTrigger();
+            Game.PhaseManager.CurrentSubPhase = new EndSubPhase();
+            Game.PhaseManager.CurrentSubPhase.StartSubPhase();
 
-        NextSubPhase();
-    }
+            Game.PhaseManager.CallEndPhaseTrigger();
+        }
 
-    public override void NextSubPhase()
-    {
-        SubPhase = SubPhases.None;
+        public override void NextPhase()
+        {
+            Game.Selection.DeselectAllShips();
 
-        NextPhase();
-    }
+            Game.PhaseManager.CurrentPhase = new PlanningPhase();
+            Game.PhaseManager.CurrentPhase.StartPhase();
+        }
 
-    public override void NextPhase()
-    {
-        Game.Selection.DeselectAllShips();
-
-        Game.PhaseManager.CurrentPhase = new PlanningPhase();
-        Game.PhaseManager.CurrentPhase.StartPhase();
     }
 
 }

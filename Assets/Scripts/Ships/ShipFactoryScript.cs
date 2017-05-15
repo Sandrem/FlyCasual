@@ -32,6 +32,7 @@ public class ShipFactoryScript : MonoBehaviour {
         if (Game == null) Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
 
         Ship.GenericShip newShipContainer = (Ship.GenericShip) System.Activator.CreateInstance(System.Type.GetType(pilotName), player, id, position);
+        newShipContainer.Model.SetShipInstertImage();
 
         newShipContainer.InfoPanel = this.gameObject.GetComponent<RosterInfoScript>().CreateRosterInfo(newShipContainer);
 

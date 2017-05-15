@@ -40,6 +40,15 @@ namespace Ship
             standEdgePoins.Add("RB", new Vector3(HALF_OF_SHIPSTAND_SIZE, 0f, -2 * HALF_OF_SHIPSTAND_SIZE));
         }
 
+        public void SetShipInstertImage()
+        {
+            string materialName = Ship.PilotName;
+            materialName = materialName.Replace(' ', '_');
+            materialName = materialName.Replace('"', '_');
+            Debug.Log(materialName);
+            Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("ShipStand").Find("ShipStandInsert").Find("ShipStandInsertImage").Find("default").GetComponent<Renderer>().material = (Material)Resources.Load("ShipStandInsert/Materials/" + materialName, typeof(Material));
+        }
+
         public Vector3 GetAngles()
         {
             return Model.transform.eulerAngles;

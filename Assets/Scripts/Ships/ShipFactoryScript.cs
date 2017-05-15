@@ -52,8 +52,6 @@ public class ShipFactoryScript : MonoBehaviour {
         newShipContainer.OnMovementFinish += Game.Rules.Stress.CheckStress;
         newShipContainer.AfterGetManeuverAvailablity += Game.Rules.Stress.CannotPerformRedManeuversWhileStressed;
 
-        Game.PhaseManager.OnPlanningPhaseStart += newShipContainer.ClearAlreadyExecutedActions;
-
         newShipContainer.AfterTokenIsAssigned += Game.UI.Roster.UpdateTokensIndicator;
         newShipContainer.AfterTokenIsRemoved += Game.UI.Roster.UpdateTokensIndicator;
         newShipContainer.AfterAssignedDamageIsChanged += Game.UI.Roster.UpdateRosterHullDamageIndicators;

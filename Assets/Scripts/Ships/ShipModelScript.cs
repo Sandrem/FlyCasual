@@ -70,6 +70,11 @@ namespace Ship
             return Model.transform.position;
         }
 
+        public Quaternion GetRotation()
+        {
+            return Model.transform.rotation;
+        }
+
         public Vector3 TransformDirection(Vector3 direction)
         {
             return Model.transform.TransformDirection(direction);

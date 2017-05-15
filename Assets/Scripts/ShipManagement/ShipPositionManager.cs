@@ -10,6 +10,8 @@ public class ShipPositionManager : MonoBehaviour
 
     public GameObject StartingZone1;
     public GameObject StartingZone2;
+    public GameObject prefabShipStand;
+    private GameObject OriginalShipStand;
 
     // Use this for initialization
     void Start()
@@ -37,9 +39,19 @@ public class ShipPositionManager : MonoBehaviour
 
     }
 
-    private void StartDrag()
+    public void StartDrag()
     {
         if (Game.PhaseManager.CurrentPhase.GetType() == typeof(Phases.SetupPhase)) {
+            Game.Roster.SetRaycastTargets(false);
+            inReposition = true;
+        }
+    }
+
+    public void StartBarrelRoll()
+    {
+        if (Game.PhaseManager.CurrentSubPhase.GetType() == typeof(SubPhases.BarrelRollSubPhase))
+        {
+            OriginalShipStand = MonoBehaviour.Instantiate(Game.Position.prefabShipStand, Game.Selection.ThisShip.Model.GetPosition(), Game.Selection.ThisShip.Model.GetRotation(), Game.ShipFactory.Board.transform);
             Game.Roster.SetRaycastTargets(false);
             inReposition = true;
         }
@@ -53,19 +65,85 @@ public class ShipPositionManager : MonoBehaviour
         {
             Game.Selection.ThisShip.Model.SetPosition(new Vector3(hit.point.x, 0.03f, hit.point.z));
         }
+
+        if (Game.PhaseManager.CurrentSubPhase.GetType() == typeof(SubPhases.BarrelRollSubPhase))
+        {
+            //Write Relative position
+            Vector3 newPosition = OriginalShipStand.transform.InverseTransformPoint(Game.Selection.ThisShip.Model.GetPosition());
+            Vector3 fixedPositionRel = newPosition;
+
+            Transform currentHelper = OriginalShipStand.transform.Find("Right");
+
+            if (newPosition.z > 0.5f)
+            {
+                fixedPositionRel = new Vector3(fixedPositionRel.x, fixedPositionRel.y, 0.5f);
+            }
+
+            if (newPosition.z < -0.5f)
+            {
+                fixedPositionRel = new Vector3(fixedPositionRel.x, fixedPositionRel.y, -0.5f);
+            }
+
+            if (newPosition.x > 0f) {
+                fixedPositionRel = new Vector3(2, fixedPositionRel.y, fixedPositionRel.z);
+
+                currentHelper = OriginalShipStand.transform.Find("Right");
+                currentHelper.gameObject.SetActive(true);
+                OriginalShipStand.transform.Find("Left").gameObject.SetActive(false);
+            }
+
+            if (newPosition.x < 0f) {
+                fixedPositionRel = new Vector3(-2, fixedPositionRel.y, fixedPositionRel.z);
+
+                currentHelper = OriginalShipStand.transform.Find("Left");
+                currentHelper.gameObject.SetActive(true);
+                OriginalShipStand.transform.Find("Right").gameObject.SetActive(false);
+            }
+
+            Vector3 helperPositionRel = OriginalShipStand.transform.InverseTransformPoint(currentHelper.position);
+            if (fixedPositionRel.z-0.25 < helperPositionRel.z)
+            {
+                helperPositionRel = new Vector3(helperPositionRel.x, helperPositionRel.y, fixedPositionRel.z-0.25f);
+                Vector3 helperPositionAbs = OriginalShipStand.transform.TransformPoint(helperPositionRel);
+                currentHelper.position = helperPositionAbs;
+            }
+            if (fixedPositionRel.z-0.75 > helperPositionRel.z)
+            {
+                helperPositionRel = new Vector3(helperPositionRel.x, helperPositionRel.y, fixedPositionRel.z - 0.75f);
+                Vector3 helperPositionAbs = OriginalShipStand.transform.TransformPoint(helperPositionRel);
+                currentHelper.position = helperPositionAbs;
+            }
+
+            Vector3 fixedPositionAbs = OriginalShipStand.transform.TransformPoint(fixedPositionRel);
+            Game.Selection.ThisShip.Model.SetPosition(fixedPositionAbs);
+        }
     }
 
+    //TODO: Good target to move into subphase class
     public bool TryConfirmPosition(Ship.GenericShip ship)
     {
         bool result = true;
 
-        GameObject startingZone = (Game.PhaseManager.CurrentSubPhase.RequiredPlayer == Player.Player1) ? StartingZone1 : StartingZone2;
-        if (!ship.Model.IsInside(startingZone.transform))
+        //TODO:
+        //Cannot leave board
+        //Obstacles
+
+        if (Game.PhaseManager.CurrentSubPhase.GetType() == typeof(SubPhases.SetupSubPhase))
         {
-            Game.UI.ShowError("Place ship into highlighted area");
-            result = false;
+            GameObject startingZone = (Game.PhaseManager.CurrentSubPhase.RequiredPlayer == Player.Player1) ? StartingZone1 : StartingZone2;
+            if (!ship.Model.IsInside(startingZone.transform))
+            {
+                Game.UI.ShowError("Place ship into highlighted area");
+                result = false;
+            }
         }
-        
+
+        if (Game.PhaseManager.CurrentSubPhase.GetType() == typeof(SubPhases.BarrelRollSubPhase))
+        {
+            Destroy(OriginalShipStand);
+            result = true;
+        } 
+
         if (Game.Movement.CollidedWith != null)
         {
             Game.UI.ShowError("This ship shouldn't collide with another ships");

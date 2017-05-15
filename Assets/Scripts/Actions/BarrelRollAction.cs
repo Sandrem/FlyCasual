@@ -11,6 +11,11 @@ namespace Actions
             Name = "Barrel Roll";
         }
 
+        public override void ActionTake()
+        {
+            Game.PhaseManager.StartBarrelRollSubPhase("Select target for Target Lock");
+        }
+
     }
 
 }

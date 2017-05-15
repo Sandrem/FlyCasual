@@ -28,6 +28,7 @@ namespace Rules
             foreach (var shipHolder in Game.Roster.AllShips)
             {
                 shipHolder.Value.ClearAllTokens();
+                shipHolder.Value.ClearAlreadyExecutedActions();
             }
         }
     }

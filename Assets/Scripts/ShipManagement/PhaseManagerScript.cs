@@ -100,6 +100,11 @@ public class PhaseManagerScript: MonoBehaviour {
         StartTemporarySubPhase(name, new SelectTargetSubPhase());
     }
 
+    public void StartBarrelRollSubPhase(string name)
+    {
+        StartTemporarySubPhase(name, new BarrelRollSubPhase());
+    }
+
     private void StartTemporarySubPhase(string name, SubPhases.GenericSubPhase subPhase)
     {
         GenericSubPhase previousSubPhase = CurrentSubPhase;

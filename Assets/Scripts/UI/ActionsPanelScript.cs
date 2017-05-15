@@ -82,7 +82,7 @@ public class ActionsPanelScript : MonoBehaviour {
     public void CloseActionsPanel()
     {
         panelActions.SetActive(false);
-        if (!Game.PhaseManager.InTemporarySubPhase)
+        if (!(Game.PhaseManager.CurrentSubPhase.GetType() == typeof(SubPhases.SelectTargetSubPhase)) && !(Game.PhaseManager.CurrentSubPhase.GetType() == typeof(SubPhases.BarrelRollSubPhase)))
         {
             Game.PhaseManager.Next();
         }

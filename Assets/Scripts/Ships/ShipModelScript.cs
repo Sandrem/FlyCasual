@@ -115,23 +115,23 @@ namespace Ship
             {
                 foreach (Transform transform in Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("ShipModels").Find(Ship.Type))
                 {
-                    transform.GetComponent<Renderer>().material.shader = Shader.Find("Standard");
+                    //transform.GetComponent<Renderer>().material.shader = Shader.Find("Standard");
                 }
             }
             if (type == "selectedYellow")
             {
                 foreach (Transform transform in Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("ShipModels").Find(Ship.Type))
                 {
-                    transform.GetComponent<Renderer>().material.shader = Shader.Find("Outlined/Silhouetted Diffuse");
-                    transform.GetComponent<Renderer>().material.SetColor("_OutlineColor", Color.yellow);
+                    //transform.GetComponent<Renderer>().material.shader = Shader.Find("Outlined/Silhouetted Diffuse");
+                    //transform.GetComponent<Renderer>().material.SetColor("_OutlineColor", Color.yellow);
                 }
             }
             if (type == "selectedRed")
             {
                 foreach (Transform transform in Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("ShipModels").Find(Ship.Type))
                 {
-                    transform.GetComponent<Renderer>().material.shader = Shader.Find("Outlined/Silhouetted Diffuse");
-                    transform.GetComponent<Renderer>().material.SetColor("_OutlineColor", Color.red);
+                    //transform.GetComponent<Renderer>().material.shader = Shader.Find("Outlined/Silhouetted Diffuse");
+                    //transform.GetComponent<Renderer>().material.SetColor("_OutlineColor", Color.red);
                 }
             }
         }

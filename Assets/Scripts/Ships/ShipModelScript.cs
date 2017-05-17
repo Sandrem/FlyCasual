@@ -286,7 +286,6 @@ namespace Ship
             }
             if (previousMovementData.Speed != 0)
             {
-                Debug.Log("previousMovementData.Speed = " + previousMovementData.Speed);
                 progressCurrent += progressTarget * previousMovementData.Speed; // 0+ 1*2 = 2
                 progressTarget += progressTarget * previousMovementData.Speed; // 1+ 1*2 = 3
                 turningDirection = (previousMovementData.MovementDirection == ManeuverDirection.Right) ? 1 : -1;

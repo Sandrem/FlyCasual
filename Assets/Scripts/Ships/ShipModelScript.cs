@@ -45,7 +45,6 @@ namespace Ship
             string materialName = Ship.PilotName;
             materialName = materialName.Replace(' ', '_');
             materialName = materialName.Replace('"', '_');
-            Debug.Log(materialName);
             Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("ShipStand").Find("ShipStandInsert").Find("ShipStandInsertImage").Find("default").GetComponent<Renderer>().material = (Material)Resources.Load("ShipStandInsert/Materials/" + materialName, typeof(Material));
         }
 
@@ -115,6 +114,7 @@ namespace Ship
             {
                 foreach (Transform transform in Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("ShipModels").Find(Ship.Type))
                 {
+                    //Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("Spotlight").gameObject.SetActive(false);
                     //transform.GetComponent<Renderer>().material.shader = Shader.Find("Standard");
                 }
             }
@@ -122,6 +122,7 @@ namespace Ship
             {
                 foreach (Transform transform in Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("ShipModels").Find(Ship.Type))
                 {
+                    //Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("Spotlight").gameObject.SetActive(true);
                     //transform.GetComponent<Renderer>().material.shader = Shader.Find("Outlined/Silhouetted Diffuse");
                     //transform.GetComponent<Renderer>().material.SetColor("_OutlineColor", Color.yellow);
                 }
@@ -130,6 +131,7 @@ namespace Ship
             {
                 foreach (Transform transform in Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("ShipModels").Find(Ship.Type))
                 {
+                    //Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("Spotlight").gameObject.SetActive(true);
                     //transform.GetComponent<Renderer>().material.shader = Shader.Find("Outlined/Silhouetted Diffuse");
                     //transform.GetComponent<Renderer>().material.SetColor("_OutlineColor", Color.red);
                 }
@@ -262,6 +264,11 @@ namespace Ship
                 if (point.Value.z > zoneEnd.z) result = false;
             }
             return result;
+        }
+
+        public void ToggleDamaged(bool isDamaged)
+        {
+            Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("ShipModels").Find(Ship.Type).Find("DamageParticles").gameObject.SetActive(isDamaged);
         }
 
     }

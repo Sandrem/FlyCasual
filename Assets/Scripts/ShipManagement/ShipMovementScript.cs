@@ -263,6 +263,8 @@ public class ShipMovementScript : MonoBehaviour {
                 Game.Selection.ThisShip.Model.Rotate(Game.Selection.ThisShip.Model.TransformPoint(new Vector3(CurrentMovementData.TurningAroundDistance * turningDirection, 0, 0)), turningDirection * progressDelta * progressDirection);
                 CurrentMovementData.CurrentProgress += progressDelta;
 
+                //Game.Selection.ThisShip.Model.RotateModelDuringTurn(CurrentMovementData.CurrentProgress / CurrentMovementData.TargetProgress, turningDirection);
+
                 UpdateRotation();
 
                 CheckCollisionsAfterNonStraight();

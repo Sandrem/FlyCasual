@@ -268,7 +268,16 @@ namespace Ship
 
         public void ToggleDamaged(bool isDamaged)
         {
-            Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("ShipModels").Find(Ship.Type).Find("DamageParticles").gameObject.SetActive(isDamaged);
+            Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("ShipModels").Find(Ship.Type).Find("ModelCenter").Find("DamageParticles").gameObject.SetActive(isDamaged);
+        }
+
+        public void RotateModelDuringTurn(float progress, float turningDirection)
+        {
+            if (progress > 0.5f)
+            {
+                progress = 1 - progress;
+            }
+            Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("ShipModels").Find(Ship.Type).Find("ModelCenter").localEulerAngles = new Vector3(0, 0, Mathf.Lerp(0, 45* turningDirection, progress));
         }
 
     }

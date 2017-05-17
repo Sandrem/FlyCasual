@@ -16,7 +16,17 @@ namespace SubPhases
 
             if (!Game.Selection.ThisShip.IsBumped)
             {
-                Game.UI.ActionsPanel.ShowActionsPanel();
+                //Todo: check if bumped
+                if (!Game.Selection.ThisShip.IsDestroyed)
+                {
+                    Game.Selection.ThisShip.GenerateAvailableActionsList();
+                    Game.Roster.GetPlayer(RequiredPlayer).PerformAction();
+                }
+                else
+                {
+                    Game.PhaseManager.Next();
+                }
+                
             }
             else
             {
@@ -37,6 +47,7 @@ namespace SubPhases
                 Game.PhaseManager.CurrentSubPhase.RequiredPilotSkill = pilot.Key;
                 Game.PhaseManager.CurrentSubPhase.RequiredPlayer = pilot.Value;
                 UpdateHelpInfo();
+                Game.Roster.GetPlayer(RequiredPlayer).PerformManeuver();
             }
 
             if (Game.PhaseManager.CurrentSubPhase.RequiredPilotSkill == -1)

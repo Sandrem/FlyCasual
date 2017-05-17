@@ -39,6 +39,10 @@ namespace SubPhases
             {
                 Game.PhaseManager.CurrentPhase.NextPhase();
             }
+            else
+            {
+                Game.Roster.GetPlayer(RequiredPlayer).PerformAttack();
+            }
         }
 
         public override bool ThisShipCanBeSelected(Ship.GenericShip ship)

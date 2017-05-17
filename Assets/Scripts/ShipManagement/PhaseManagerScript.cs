@@ -111,6 +111,8 @@ public class PhaseManagerScript: MonoBehaviour {
         CurrentSubPhase = subPhase;
         CurrentSubPhase.Name = name;
         CurrentSubPhase.PreviousSubPhase = previousSubPhase;
+        CurrentSubPhase.RequiredPlayer = previousSubPhase.RequiredPlayer;
+        CurrentSubPhase.RequiredPilotSkill = previousSubPhase.RequiredPilotSkill;
         CurrentSubPhase.StartSubPhase();
     }
 

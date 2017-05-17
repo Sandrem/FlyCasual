@@ -112,6 +112,7 @@ namespace Ship
             get;
             set;
         }
+        public Players.GenericPlayer Owner { get; set; }
 
         public List<Tokens.GenericToken> AssignedTokens = new List<Tokens.GenericToken>();
 
@@ -173,6 +174,8 @@ namespace Ship
             Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
 
             PlayerNo = playerNo;
+            Owner = Game.Roster.GetPlayer(PlayerNo);
+
             ShipId = shipId;
 
             AddUpgradeSlot(Upgrade.UpgradeSlot.Modification);
@@ -419,7 +422,7 @@ namespace Ship
         {
             AvailableFreeActionsList = new List<Actions.GenericAction>();
             AddAvailableFreeAction(action);
-            Game.UI.ActionsPanel.ShowFreeActionsPanel();
+            Game.Roster.GetPlayer(Game.PhaseManager.CurrentSubPhase.RequiredPlayer).PerformFreeAction();
         }
 
         public void GenerateAvailableActionsList()

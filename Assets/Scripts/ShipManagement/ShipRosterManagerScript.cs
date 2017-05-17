@@ -20,6 +20,9 @@ public class ShipRosterManagerScript : MonoBehaviour {
 
     public ShipFactoryScript ShipFactory;
 
+    public Players.GenericPlayer Player1;
+    public Players.GenericPlayer Player2;
+
     // Use this for initialization
     void Start()
     {
@@ -34,6 +37,9 @@ public class ShipRosterManagerScript : MonoBehaviour {
     //ToDo: AutoID, Teams as Enums
     public void SpawnAllShips()
     {
+        Player1 = new Players.HumanPlayer(1);
+        Player2 = new Players.AiPlayer(2);
+
         Ship.GenericShip newShip;
         ShipFactoryScript ShipFactory = this.GetComponent<ShipFactoryScript>();
 
@@ -259,6 +265,25 @@ public class ShipRosterManagerScript : MonoBehaviour {
         return result;
     }
 
+    public Players.GenericPlayer GetPlayer(int playerNo)
+    {
+        //fix this
+        if (Game == null) Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
+        return (playerNo == 1) ? Game.Roster.Player1 : Game.Roster.Player2;
+    }
+
+    public Players.GenericPlayer GetPlayer(Player playerNo)
+    {
+        //fix this
+        if (Game == null) Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
+        return (playerNo == Player.Player1) ? Game.Roster.Player1 : Game.Roster.Player2;
+    }
+
+    public List<string> GetTeam(int playerNo)
+    {
+        return (playerNo == 1) ? Game.Roster.team1 : Game.Roster.team2;
+    }
+
     //TODO: move
     public Player PlayerFromInt(int playerNo)
     {
@@ -275,6 +300,12 @@ public class ShipRosterManagerScript : MonoBehaviour {
         if (playerNo == Player.Player1) result = 1;
         if (playerNo == Player.Player2) result = 2;
         return result;
+    }
+
+    //TODO: move
+    public int AnotherPlayer(int player)
+    {
+        return (player == 1) ? 2 : 1;
     }
 
 }

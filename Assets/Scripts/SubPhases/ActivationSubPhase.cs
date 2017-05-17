@@ -22,6 +22,8 @@ namespace SubPhases
                 RequiredPlayer = pilot.Value;
                 UpdateHelpInfo();
             }
+
+            Game.Roster.GetPlayer(RequiredPlayer).PerformManeuver();
         }
 
         public override void NextSubPhase()

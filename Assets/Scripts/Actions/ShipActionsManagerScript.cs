@@ -145,7 +145,7 @@ public class ShipActionsManagerScript: MonoBehaviour {
 		CheckShot ();
 	}
 
-	private bool CheckShot() {
+	public bool CheckShot() {
         bool result = true;
         OnCheckCanPerformAttack(ref result, Game.Selection.ThisShip, Game.Selection.AnotherShip);
 		return result;

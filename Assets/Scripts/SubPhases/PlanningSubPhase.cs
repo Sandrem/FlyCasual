@@ -19,6 +19,8 @@ namespace SubPhases
             Game.UI.AddTestLogEntry(Name);
 
             UpdateHelpInfo();
+
+            Game.Roster.GetPlayer(RequiredPlayer).AssignManeuver();
         }
 
         public override void NextSubPhase()
@@ -29,6 +31,8 @@ namespace SubPhases
                 {
                     RequiredPlayer = AnotherPlayer(RequiredPlayer);
                     UpdateHelpInfo();
+
+                    Game.Roster.GetPlayer(RequiredPlayer).AssignManeuver();
                 }
                 else
                 {

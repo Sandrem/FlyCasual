@@ -21,32 +21,40 @@ public class DiceResultsScript: MonoBehaviour {
 
     public void ShowDiceResultMenu()
     {
-        panelDiceResultsMenu.SetActive(true);
+        Game.UI.DiceResults.panelDiceResultsMenu.SetActive(true);        
     }
 
     public void ShowDiceModificationButtons()
     {
+        //todo: rework
         Game.Selection.ActiveShip.GenerateDiceModificationButtons();
 
-        float offset = 0;
-        Vector3 defaultPosition = panelDiceResultsMenu.transform.position + new Vector3(5, 195, 0);
-
-        foreach (var actionEffect in Game.Selection.ActiveShip.AvailableActionEffects)
+        Debug.Log(Game.Roster.GetPlayer(Game.Selection.ActiveShip.PlayerNo).Type);
+        if (Game.Roster.GetPlayer(Game.Selection.ActiveShip.PlayerNo).Type == Players.PlayerType.Human)
         {
-            GameObject newButton = Instantiate(prefabDiceModificationButton, panelDiceResultsMenu.transform);
-            newButton.name = "Button" + actionEffect.EffectName;
-            newButton.transform.GetComponentInChildren<Text>().text = actionEffect.EffectName;
-            newButton.GetComponent<RectTransform>().position = defaultPosition + new Vector3(0, -offset, 0);
-            offset += 40;
-            newButton.GetComponent<Button>().onClick.AddListener(delegate {
-                actionEffect.ActionEffect();
-                newButton.GetComponent<Button>().interactable = false;
-            });
-            newButton.GetComponent<Button>().interactable = true;
-            newButton.SetActive(true);
+            float offset = 0;
+            Vector3 defaultPosition = panelDiceResultsMenu.transform.position + new Vector3(5, 195, 0);
+
+            foreach (var actionEffect in Game.Selection.ActiveShip.AvailableActionEffects)
+            {
+                GameObject newButton = Instantiate(prefabDiceModificationButton, panelDiceResultsMenu.transform);
+                newButton.name = "Button" + actionEffect.EffectName;
+                newButton.transform.GetComponentInChildren<Text>().text = actionEffect.EffectName;
+                newButton.GetComponent<RectTransform>().position = defaultPosition + new Vector3(0, -offset, 0);
+                offset += 40;
+                newButton.GetComponent<Button>().onClick.AddListener(delegate
+                {
+                    actionEffect.ActionEffect();
+                    newButton.GetComponent<Button>().interactable = false;
+                });
+                newButton.GetComponent<Button>().interactable = true;
+                newButton.SetActive(true);
+            }
+
+            panelDiceResultsMenu.transform.Find("Confirm").gameObject.SetActive(true);
         }
 
-        panelDiceResultsMenu.transform.Find("Confirm").gameObject.SetActive(true);
+        Game.Roster.GetPlayer(Game.Selection.ActiveShip.PlayerNo).UseDiceModifications();
     }
 
     public void HideDiceModificationButtons()

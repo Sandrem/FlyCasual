@@ -19,19 +19,12 @@ public class ActionsPanelScript : MonoBehaviour {
 
     public void ShowActionsPanel()
     {
-        //todo: rewrite
-        if (!Game.Selection.ThisShip.IsDestroyed) {
-            Game.Selection.ThisShip.GenerateAvailableActionsList();
-            ShowActionsButtons(Game.Selection.ThisShip.GetAvailableActionsList());
-        }
-        else
-        {
-            Game.PhaseManager.Next();
-        }
+        ShowActionsButtons(Game.Selection.ThisShip.GetAvailableActionsList());
     }
 
     public void ShowFreeActionsPanel()
     {
+        Game.PhaseManager.StartFreeActionSubPhase("Free action");
         ShowActionsButtons(Game.Selection.ThisShip.GetAvailableFreeActionsList());
     }
 

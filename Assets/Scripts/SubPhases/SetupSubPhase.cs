@@ -35,9 +35,12 @@ namespace SubPhases
             if (RequiredPilotSkill == -1)
             {
                 Game.PhaseManager.CurrentPhase.NextPhase();
+            } else
+            {
+                Game.Position.HighlightStartingZones();
+                Game.Roster.GetPlayer(RequiredPlayer).SetupShip();
             }
 
-            Game.Position.HighlightStartingZones();
         }
 
     }

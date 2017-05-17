@@ -38,7 +38,7 @@ public class ShipRosterManagerScript : MonoBehaviour {
     public void SpawnAllShips()
     {
         Player1 = new Players.HumanPlayer(1);
-        Player2 = new Players.AiPlayer(2);
+        Player2 = new Players.HumanPlayer(2);
 
         Ship.GenericShip newShip;
         ShipFactoryScript ShipFactory = this.GetComponent<ShipFactoryScript>();

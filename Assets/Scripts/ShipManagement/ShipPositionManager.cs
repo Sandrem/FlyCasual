@@ -22,6 +22,10 @@ public class ShipPositionManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Game == null) Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
+
+        if (Game.Selection == null) Game.Selection = GameObject.Find("GameManager").GetComponent<ShipSelectionManagerScript>();
+
         if (Game.Selection.ThisShip != null)
         {
             StartDrag();
@@ -41,7 +45,7 @@ public class ShipPositionManager : MonoBehaviour
 
     public void StartDrag()
     {
-        if (Game.PhaseManager.CurrentPhase.GetType() == typeof(Phases.SetupPhase)) {
+        if (Game.Phases.CurrentPhase.GetType() == typeof(Phases.SetupPhase)) {
             Game.Roster.SetRaycastTargets(false);
             inReposition = true;
         }
@@ -49,7 +53,7 @@ public class ShipPositionManager : MonoBehaviour
 
     public void StartBarrelRoll()
     {
-        if (Game.PhaseManager.CurrentSubPhase.GetType() == typeof(SubPhases.BarrelRollSubPhase))
+        if (Game.Phases.CurrentSubPhase.GetType() == typeof(SubPhases.BarrelRollSubPhase))
         {
             OriginalShipStand = MonoBehaviour.Instantiate(Game.Position.prefabShipStand, Game.Selection.ThisShip.Model.GetPosition(), Game.Selection.ThisShip.Model.GetRotation(), Game.PrefabList.Board.transform);
             Game.Roster.SetRaycastTargets(false);
@@ -66,7 +70,7 @@ public class ShipPositionManager : MonoBehaviour
             Game.Selection.ThisShip.Model.SetPosition(new Vector3(hit.point.x, 0.03f, hit.point.z));
         }
 
-        if (Game.PhaseManager.CurrentSubPhase.GetType() == typeof(SubPhases.BarrelRollSubPhase))
+        if (Game.Phases.CurrentSubPhase.GetType() == typeof(SubPhases.BarrelRollSubPhase))
         {
             //Write Relative position
             Vector3 newPosition = OriginalShipStand.transform.InverseTransformPoint(Game.Selection.ThisShip.Model.GetPosition());
@@ -128,9 +132,9 @@ public class ShipPositionManager : MonoBehaviour
         //Cannot leave board
         //Obstacles
 
-        if (Game.PhaseManager.CurrentSubPhase.GetType() == typeof(SubPhases.SetupSubPhase))
+        if (Game.Phases.CurrentSubPhase.GetType() == typeof(SubPhases.SetupSubPhase))
         {
-            GameObject startingZone = (Game.PhaseManager.CurrentSubPhase.RequiredPlayer == Players.PlayerNo.Player1) ? StartingZone1 : StartingZone2;
+            GameObject startingZone = (Game.Phases.CurrentSubPhase.RequiredPlayer == Players.PlayerNo.Player1) ? StartingZone1 : StartingZone2;
             if (!ship.Model.IsInside(startingZone.transform))
             {
                 Game.UI.ShowError("Place ship into highlighted area");
@@ -138,7 +142,7 @@ public class ShipPositionManager : MonoBehaviour
             }
         }
 
-        if (Game.PhaseManager.CurrentSubPhase.GetType() == typeof(SubPhases.BarrelRollSubPhase))
+        if (Game.Phases.CurrentSubPhase.GetType() == typeof(SubPhases.BarrelRollSubPhase))
         {
             Destroy(OriginalShipStand);
             result = true;
@@ -160,7 +164,7 @@ public class ShipPositionManager : MonoBehaviour
         Game.Roster.SetRaycastTargets(true);
         inReposition = false;
         //Should I change subphase immediately?
-        Game.PhaseManager.CurrentSubPhase.NextSubPhase();
+        Game.Phases.CurrentSubPhase.NextSubPhase();
     }
 
     public void HighlightStartingZones()
@@ -173,10 +177,10 @@ public class ShipPositionManager : MonoBehaviour
         //fix
         if (Game == null) Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
 
-        if (Game.PhaseManager.CurrentPhase.GetType() == typeof(Phases.SetupPhase))
+        if (Game.Phases.CurrentPhase.GetType() == typeof(Phases.SetupPhase))
         {
-            if (Game.PhaseManager.CurrentSubPhase.RequiredPlayer == Players.PlayerNo.Player1) StartingZone1.SetActive(true);
-            if (Game.PhaseManager.CurrentSubPhase.RequiredPlayer == Players.PlayerNo.Player2) StartingZone2.SetActive(true);
+            if (Game.Phases.CurrentSubPhase.RequiredPlayer == Players.PlayerNo.Player1) StartingZone1.SetActive(true);
+            if (Game.Phases.CurrentSubPhase.RequiredPlayer == Players.PlayerNo.Player2) StartingZone2.SetActive(true);
         }
     }
 

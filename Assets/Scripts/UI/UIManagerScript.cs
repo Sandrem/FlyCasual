@@ -12,7 +12,6 @@ public class UIManagerScript: MonoBehaviour {
     public MessageManagerScript ErrorManager;
     public DiceResultsScript DiceResults;
     public ActionsPanelScript ActionsPanel;
-    public HelpInfoScript Helper;
 
     public GameObject panelDirectionMenu;
     public GameObject panelContextMenu;
@@ -42,7 +41,7 @@ public class UIManagerScript: MonoBehaviour {
     {
         HideDirectionMenu();
         HideContextMenuButtons();
-        if (Game.PhaseManager.CurrentSubPhase.CountActiveButtons(ship) > 0)
+        if (Game.Phases.CurrentSubPhase.CountActiveButtons(ship) > 0)
         {
             panelContextMenu.SetActive(true);
             position = FixMenuPosition(panelContextMenu, position);
@@ -196,6 +195,16 @@ public class UIManagerScript: MonoBehaviour {
         if (area.GetComponent<RectTransform>().sizeDelta.y < Mathf.Abs(lastLogTextPosition)) area.GetComponent<RectTransform>().sizeDelta = new Vector2(area.GetComponent<RectTransform>().sizeDelta.x, Mathf.Abs(lastLogTextPosition));
         panelGameLog.transform.Find("Scroll").GetComponent<ScrollRect>().verticalNormalizedPosition = 0;
         newLogEntry.GetComponent<Text>().text = text;
+    }
+
+    public void ClickNextPhase()
+    {
+        Game.Phases.CallNextSubPhase();
+    }
+
+    public void ClickPerformAttack()
+    {
+        Game.Actions.PerformAttack();
     }
 
 }

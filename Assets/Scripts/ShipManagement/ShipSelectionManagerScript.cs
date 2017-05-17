@@ -55,7 +55,7 @@ public class ShipSelectionManagerScript : MonoBehaviour {
         bool result = false;
 
         Ship.GenericShip ship = Game.Roster.GetShipById(shipId);
-        if (ship.Owner.PlayerNo == Game.PhaseManager.CurrentSubPhase.RequiredPlayer)
+        if (ship.Owner.PlayerNo == Game.Phases.CurrentSubPhase.RequiredPlayer)
         {
             result = Game.Selection.TryToChangeThisShip(shipId);
         }
@@ -79,7 +79,7 @@ public class ShipSelectionManagerScript : MonoBehaviour {
     {
         bool result = false;
         Ship.GenericShip targetShip = Game.Roster.GetShipById(shipId);
-        result = Game.PhaseManager.CurrentSubPhase.AnotherShipCanBeSelected(targetShip);
+        result = Game.Phases.CurrentSubPhase.AnotherShipCanBeSelected(targetShip);
 
         if (result == true)
         {
@@ -94,7 +94,7 @@ public class ShipSelectionManagerScript : MonoBehaviour {
 
         Ship.GenericShip ship = Game.Roster.GetShipById(shipId);
 
-        result = Game.PhaseManager.CurrentSubPhase.ThisShipCanBeSelected(ship);
+        result = Game.Phases.CurrentSubPhase.ThisShipCanBeSelected(ship);
 
         if (result == true)
         {

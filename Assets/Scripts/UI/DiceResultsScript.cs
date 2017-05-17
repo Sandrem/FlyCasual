@@ -82,11 +82,11 @@ public class DiceResultsScript: MonoBehaviour {
             //TODO: Show compare results dialog
             Game.Combat.CalculateAttackResults(Game.Selection.ThisShip, Game.Selection.AnotherShip);
 
-            Game.Ruler.ReturnRangeRuler();
+            Game.MovementTemplates.ReturnRangeRuler();
 
             if (Game.Roster.NoSamePlayerAndPilotSkillNotAttacked(Game.Selection.ThisShip))
             {
-                Game.PhaseManager.CurrentSubPhase.NextSubPhase();
+                Game.Phases.CurrentSubPhase.NextSubPhase();
             }
 
         }

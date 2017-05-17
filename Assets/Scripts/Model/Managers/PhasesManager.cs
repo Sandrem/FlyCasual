@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Phases;
 using SubPhases;
+using Players;
 
 //TODO
 // Fix PilotSkillSubPhasePlayer
@@ -27,7 +28,13 @@ public partial class PhasesManager {
         get { return CurrentSubPhase.isTemporary; }
     }
 
-    public Players.PlayerNo PlayerWithInitiative = Players.PlayerNo.Player1;
+    public PlayerNo PlayerWithInitiative = PlayerNo.Player1;
+
+    private PlayerNo currentPhasePlayer;
+    public PlayerNo CurrentPhasePlayer
+    {
+        get { return CurrentSubPhase.RequiredPlayer; }
+    }
 
     //EVENTS
     public delegate void EventHandler();
@@ -37,7 +44,7 @@ public partial class PhasesManager {
     public event EventHandler OnCombatPhaseStart;
     public event EventHandler OnEndPhaseStart;
 
-    //Public funtions
+    //PHASES CONTROL
 
     public void StartPhases()
     {
@@ -53,6 +60,13 @@ public partial class PhasesManager {
     {
         CurrentSubPhase.NextSubPhase();
     }
+
+    public void NextPhase()
+    {
+        CurrentPhase.NextPhase();
+    }
+
+    //TRIGGERS
 
     public void CallNextSubPhase()
     {
@@ -84,6 +98,8 @@ public partial class PhasesManager {
         if (OnEndPhaseStart != null) OnEndPhaseStart();
     }
 
+    //TEMPORARY SUBPHASES
+
     public void StartFreeActionSubPhase(string name)
     {
         StartTemporarySubPhase(name, new FreeActionSubPhase());
@@ -99,7 +115,7 @@ public partial class PhasesManager {
         StartTemporarySubPhase(name, new BarrelRollSubPhase());
     }
 
-    private void StartTemporarySubPhase(string name, SubPhases.GenericSubPhase subPhase)
+    private void StartTemporarySubPhase(string name, GenericSubPhase subPhase)
     {
         GenericSubPhase previousSubPhase = CurrentSubPhase;
         CurrentSubPhase = subPhase;

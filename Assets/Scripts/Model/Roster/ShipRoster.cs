@@ -67,6 +67,7 @@ public partial class ShipRoster
             Ship.GenericShip newShip = Game.ShipFactory.SpawnShip(shipConfig);
             AddShipToLists(newShip);
         }
+        Game.Board.SetShips(Player1.Ships, Player2.Ships);
     }
 
     private void AddShipToLists(Ship.GenericShip newShip)

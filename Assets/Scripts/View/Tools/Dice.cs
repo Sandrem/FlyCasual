@@ -47,8 +47,8 @@ public partial class Dice
 
     private GameObject SpawnDice(string type)
     {
-        GameObject prefabDiceType = (type == "attack") ? Game.PrefabList.DiceAttack : Game.PrefabList.DiceDefence;
-        GameObject diceSpawningPoint = Game.PrefabList.DiceSpawningPoint;
+        GameObject prefabDiceType = (type == "attack") ? Game.Board.DiceAttack : Game.Board.DiceDefence;
+        GameObject diceSpawningPoint = Game.Board.DiceSpawningPoint;
         GameObject model = MonoBehaviour.Instantiate(prefabDiceType, diceSpawningPoint.transform.position, prefabDiceType.transform.rotation, diceSpawningPoint.transform);
         return model;
     }
@@ -73,7 +73,7 @@ public partial class Dice
 
     public void Reroll()
     {
-        GameObject diceSpawningPoint = Game.PrefabList.DiceSpawningPoint;
+        GameObject diceSpawningPoint = Game.Board.DiceSpawningPoint;
         Model.transform.Find("Dice").transform.position = diceSpawningPoint.transform.position;
         Roll();
     }

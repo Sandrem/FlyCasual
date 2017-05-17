@@ -20,7 +20,7 @@ public class DiceManager {
     public List<Vector3> diceResultsOffset = new List<Vector3>();
 
     // Use this for initialization
-    public void Start () {
+    public void Initialize() {
         Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
         diceResultsOffset.Add(new Vector3(-0.2f, 0, 0.2f));
         diceResultsOffset.Add(new Vector3(0, 0, 0.2f));

@@ -64,7 +64,7 @@ public class ShipFactory {
 
         position = new Vector3(0, 0, (newShipContainer.Owner.PlayerNo == Players.PlayerNo.Player1) ? -4 : 4);
 
-        GameObject newShip = MonoBehaviour.Instantiate(Game.PrefabList.ShipModel, position + new Vector3(0, 0.03f, 0), Quaternion.Euler(facing), Game.PrefabList.Board.transform);
+        GameObject newShip = MonoBehaviour.Instantiate(Game.PrefabList.ShipModel, position + new Vector3(0, 0.03f, 0), Quaternion.Euler(facing), Game.Board.Board.transform);
         newShip.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("ShipModels").Find(newShipContainer.Type).gameObject.SetActive(true);
 
         newShipContainer.ShipId = lastId;

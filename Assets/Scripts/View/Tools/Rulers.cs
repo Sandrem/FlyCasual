@@ -11,12 +11,14 @@ public class MovementTemplates {
 	private Vector3 savedRulerRotation;
     private List<Vector3> rulerCenterPoints = new List<Vector3>();
 
-    public GameObject CurrentMovementTemplate;
+    private Transform Templates;
+    public Transform CurrentTemplate;
 
-    public void Start()
+    public void Initialize()
     {
         Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
         Game.Actions.OnCheckCanPerformAttack += CallShowRange;
+        Templates = Game.Board.RulersHolder.transform;
     }
 
     public void AddRulerCenterPoint(Vector3 point)
@@ -51,40 +53,40 @@ public class MovementTemplates {
 
         if (Game.Movement.CurrentMovementData.Speed != 0)
         {
-            CurrentMovementTemplate = GetMovementRuler();
-            savedRulerPosition = CurrentMovementTemplate.transform.position;
-            savedRulerRotation = CurrentMovementTemplate.transform.eulerAngles;
+            CurrentTemplate = GetMovementRuler();
+            savedRulerPosition = CurrentTemplate.position;
+            savedRulerRotation = CurrentTemplate.eulerAngles;
 
-            CurrentMovementTemplate.transform.position = thisShip.Model.GetPosition();
-            CurrentMovementTemplate.transform.eulerAngles = thisShip.Model.GetAngles() + new Vector3(0f, 90f, 0f);
+            CurrentTemplate.position = thisShip.Model.GetPosition();
+            CurrentTemplate.eulerAngles = thisShip.Model.GetAngles() + new Vector3(0f, 90f, 0f);
             if (Game.Movement.CurrentMovementData.MovementDirection == ManeuverDirection.Left)
             {
-                CurrentMovementTemplate.transform.eulerAngles = CurrentMovementTemplate.transform.eulerAngles + new Vector3(180f, 0f, 0f);
+                CurrentTemplate.eulerAngles = CurrentTemplate.eulerAngles + new Vector3(180f, 0f, 0f);
             }
         }
         
 	}
 
-    private GameObject GetMovementRuler()
+    private Transform GetMovementRuler()
     {
-        GameObject result = null;
+        Transform result = null;
         switch (Game.Movement.CurrentMovementData.MovementBearing)
         {
             case ManeuverBearing.Straight:
-                return Game.PrefabList.RulersHolder.transform.Find("straight" + Game.Movement.CurrentMovementData.Speed).gameObject;
+                return Templates.Find("straight" + Game.Movement.CurrentMovementData.Speed);
             case ManeuverBearing.Bank:
-                return Game.PrefabList.RulersHolder.transform.Find("bank" + Game.Movement.CurrentMovementData.Speed).gameObject;
+                return Templates.Find("bank" + Game.Movement.CurrentMovementData.Speed);
             case ManeuverBearing.Turn:
-                return Game.PrefabList.RulersHolder.transform.Find("turn" + Game.Movement.CurrentMovementData.Speed).gameObject;
+                return Templates.Find("turn" + Game.Movement.CurrentMovementData.Speed);
             case ManeuverBearing.KoiogranTurn:
-                return Game.PrefabList.RulersHolder.transform.Find("straight" + Game.Movement.CurrentMovementData.Speed).gameObject;
+                return Templates.Find("straight" + Game.Movement.CurrentMovementData.Speed);
         }
         return result;
     }
 
     private void HideLastMovementRuler(){
-        CurrentMovementTemplate.transform.position = savedRulerPosition;
-		CurrentMovementTemplate.transform.eulerAngles = savedRulerRotation;
+        CurrentTemplate.position = savedRulerPosition;
+		CurrentTemplate.eulerAngles = savedRulerRotation;
 	}
 
     public void CallShowRange(ref bool result, Ship.GenericShip thisShip, Ship.GenericShip anotherShip)
@@ -95,8 +97,8 @@ public class MovementTemplates {
     public void ShowRange(Ship.GenericShip thisShip, Ship.GenericShip anotherShip)
     {
         Vector3 vectorToTarget = thisShip.Model.GetClosestEdgesTo(anotherShip)["another"] - thisShip.Model.GetClosestEdgesTo(anotherShip)["this"];
-        Game.PrefabList.RulersHolder.transform.Find("RangeRuler").position = thisShip.Model.GetClosestEdgesTo(anotherShip)["this"];
-        Game.PrefabList.RulersHolder.transform.Find("RangeRuler").rotation = Quaternion.LookRotation(vectorToTarget);
+        Templates.Find("RangeRuler").position = thisShip.Model.GetClosestEdgesTo(anotherShip)["this"];
+        Templates.Find("RangeRuler").rotation = Quaternion.LookRotation(vectorToTarget);
     }
 
     public void CallReturnRangeRuler(Ship.GenericShip thisShip)
@@ -106,8 +108,8 @@ public class MovementTemplates {
 
     public void ReturnRangeRuler()
     {
-        Game.PrefabList.RulersHolder.transform.Find("RangeRuler").transform.position = new Vector3(9.5f, 0f, 2.2f);
-        Game.PrefabList.RulersHolder.transform.Find("RangeRuler").transform.eulerAngles = new Vector3(0, -90, 0);
+        Templates.Find("RangeRuler").transform.position = new Vector3(9.5f, 0f, 2.2f);
+        Templates.Find("RangeRuler").transform.eulerAngles = new Vector3(0, -90, 0);
     }
 
 }

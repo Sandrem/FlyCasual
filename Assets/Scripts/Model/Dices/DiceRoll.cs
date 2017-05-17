@@ -180,7 +180,7 @@ public class DiceRoll
     {
         for (int i = 0; i < Dices.Count; i++)
         {
-            Dices[i].SetPosition(Game.PrefabList.DiceField.transform.position + Game.Dices.diceResultsOffset[i]);
+            Dices[i].SetPosition(Game.Board.DiceField.transform.position + Game.Dices.diceResultsOffset[i]);
         }
     }
 

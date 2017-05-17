@@ -284,14 +284,14 @@ public class ShipMovementScript : MonoBehaviour {
 
         Vector3 point_ShipStandBack = Game.Selection.ThisShip.Model.GetCentralBackPoint();
         Vector3 point_ShipStandFront = Game.Selection.ThisShip.Model.GetCentralFrontPoint();
-        float pathToProcessLeft = (Game.MovementTemplates.CurrentMovementTemplate.transform.InverseTransformPoint(point_ShipStandBack).x);
+        float pathToProcessLeft = (Game.MovementTemplates.CurrentTemplate.transform.InverseTransformPoint(point_ShipStandBack).x);
 
         if (pathToProcessLeft > 0)
         {
 
-            float distance_ShipStandFront_RulerStart = Vector3.Distance(Game.MovementTemplates.CurrentMovementTemplate.transform.position, point_ShipStandFront);
+            float distance_ShipStandFront_RulerStart = Vector3.Distance(Game.MovementTemplates.CurrentTemplate.transform.position, point_ShipStandFront);
             float length_ShipStandFront_ShipStandBack = GetMovement1();
-            Vector3 vector_RulerStart_ShipStandFront = Game.MovementTemplates.CurrentMovementTemplate.transform.InverseTransformPoint(point_ShipStandFront);
+            Vector3 vector_RulerStart_ShipStandFront = Game.MovementTemplates.CurrentTemplate.transform.InverseTransformPoint(point_ShipStandFront);
             Vector3 vector_RulerStart_RulerBack = Vector3.right; // Strange magic due to ruler's rotation
 
             float angle_ToShipFront_ToRulerBack = Vector3.Angle(vector_RulerStart_ShipStandFront, vector_RulerStart_RulerBack);
@@ -303,7 +303,7 @@ public class ShipMovementScript : MonoBehaviour {
             float rotationFix = angle_ToShipFront_CorrectStandPosition * turningDirection;
             Game.Selection.ThisShip.Model.SetRotationHelper2Angles(new Vector3(0, rotationFix, 0));
 
-            Vector3 standOrientationVector = Game.MovementTemplates.CurrentMovementTemplate.transform.InverseTransformPoint(Game.Selection.ThisShip.Model.GetCentralFrontPoint()) - Game.MovementTemplates.CurrentMovementTemplate.transform.InverseTransformPoint(Game.Selection.ThisShip.Model.GetCentralBackPoint());
+            Vector3 standOrientationVector = Game.MovementTemplates.CurrentTemplate.transform.InverseTransformPoint(Game.Selection.ThisShip.Model.GetCentralFrontPoint()) - Game.MovementTemplates.CurrentTemplate.transform.InverseTransformPoint(Game.Selection.ThisShip.Model.GetCentralBackPoint());
             float angleBetweenMinus = -Vector3.Angle(vector_RulerStart_ShipStandFront, standOrientationVector);
             float angleFix = angleBetweenMinus * turningDirection;
             if (CurrentMovementData.CollisionReverting) angleFix = -angleFix;
@@ -316,12 +316,12 @@ public class ShipMovementScript : MonoBehaviour {
 
     public void UpdateRotationFinisher()
     {
-        if (Game.MovementTemplates.CurrentMovementTemplate.transform.Find("Finisher") != null) {
+        if (Game.MovementTemplates.CurrentTemplate.transform.Find("Finisher") != null) {
 
             Vector3 point_ShipStandBack = Game.Selection.ThisShip.Model.GetCentralBackPoint();
             Vector3 point_ShipStandFront = Game.Selection.ThisShip.Model.GetCentralFrontPoint();
 
-            float pathToProcessFinishingLeft = (Game.MovementTemplates.CurrentMovementTemplate.transform.Find("Finisher").InverseTransformPoint(point_ShipStandFront).x);
+            float pathToProcessFinishingLeft = (Game.MovementTemplates.CurrentTemplate.transform.Find("Finisher").InverseTransformPoint(point_ShipStandFront).x);
             
             if (pathToProcessFinishingLeft > 0)
             {
@@ -470,7 +470,7 @@ public class ShipMovementScript : MonoBehaviour {
         }
         else
         {
-            result = Game.PrefabList.Board.transform.TransformVector(new Vector3(4, 0, 0)).x;
+            result = Game.Board.Board.transform.TransformVector(new Vector3(4, 0, 0)).x;
         }
         return result;
     }

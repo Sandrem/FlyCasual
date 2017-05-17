@@ -8,8 +8,6 @@ public class ShipPositionManager : MonoBehaviour
     private GameManagerScript Game;
     public bool inReposition;
 
-    public GameObject StartingZone1;
-    public GameObject StartingZone2;
     public GameObject prefabShipStand;
     private GameObject OriginalShipStand;
 
@@ -55,7 +53,7 @@ public class ShipPositionManager : MonoBehaviour
     {
         if (Game.Phases.CurrentSubPhase.GetType() == typeof(SubPhases.BarrelRollSubPhase))
         {
-            OriginalShipStand = MonoBehaviour.Instantiate(Game.Position.prefabShipStand, Game.Selection.ThisShip.Model.GetPosition(), Game.Selection.ThisShip.Model.GetRotation(), Game.PrefabList.Board.transform);
+            OriginalShipStand = MonoBehaviour.Instantiate(Game.Position.prefabShipStand, Game.Selection.ThisShip.Model.GetPosition(), Game.Selection.ThisShip.Model.GetRotation(), Game.Board.Board.transform);
             Game.Roster.SetRaycastTargets(false);
             inReposition = true;
         }
@@ -134,7 +132,7 @@ public class ShipPositionManager : MonoBehaviour
 
         if (Game.Phases.CurrentSubPhase.GetType() == typeof(SubPhases.SetupSubPhase))
         {
-            GameObject startingZone = (Game.Phases.CurrentSubPhase.RequiredPlayer == Players.PlayerNo.Player1) ? StartingZone1 : StartingZone2;
+            GameObject startingZone = (Game.Phases.CurrentSubPhase.RequiredPlayer == Players.PlayerNo.Player1) ? Game.Board.StartingZone1 : Game.Board.StartingZone2;
             if (!ship.Model.IsInside(startingZone.transform))
             {
                 Game.UI.ShowError("Place ship into highlighted area");
@@ -167,21 +165,6 @@ public class ShipPositionManager : MonoBehaviour
         Game.Phases.CurrentSubPhase.NextSubPhase();
     }
 
-    public void HighlightStartingZones()
-    {
-        if (Game == null) Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
 
-        StartingZone1.SetActive(false);
-        StartingZone2.SetActive(false);
-        
-        //fix
-        if (Game == null) Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-
-        if (Game.Phases.CurrentPhase.GetType() == typeof(Phases.SetupPhase))
-        {
-            if (Game.Phases.CurrentSubPhase.RequiredPlayer == Players.PlayerNo.Player1) StartingZone1.SetActive(true);
-            if (Game.Phases.CurrentSubPhase.RequiredPlayer == Players.PlayerNo.Player2) StartingZone2.SetActive(true);
-        }
-    }
 
 }

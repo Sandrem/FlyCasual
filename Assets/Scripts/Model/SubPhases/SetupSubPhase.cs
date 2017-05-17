@@ -34,13 +34,15 @@ namespace SubPhases
 
             if (pilots.Count == 0)
             {
-                Game.Phases.CurrentPhase.NextPhase();
+                Game.Board.TurnOffStartingZones();
+                Game.Phases.NextPhase();
             } else
             {
+                Game.Board.HighlightStartingZones();
                 Game.Roster.GetPlayer(RequiredPlayer).SetupShip();
             }
 
-            Game.Position.HighlightStartingZones();
+            
 
         }
 

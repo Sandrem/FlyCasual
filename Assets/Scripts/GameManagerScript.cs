@@ -27,6 +27,7 @@ public class GameManagerScript : MonoBehaviour {
     public CriticalHitsDeckManager CritsDeck;
     public Rules.RulesScript Rules;
 
+    public BoardView Board;
     public UIManagerScript UI;
     public CombatManager Combat;
     public ShipSelectionManagerScript Selection;
@@ -35,12 +36,12 @@ public class GameManagerScript : MonoBehaviour {
 
 
     void Start() {
-        InitializeScripts();
         SetApplicationParemeters();
 
+        InitializeScripts();
+
         //Start Board
-        MovementTemplates.Start();
-        Dices.Start();
+        Board.Initialize();
 
         //Rules Start
         Actions.Start();
@@ -51,9 +52,9 @@ public class GameManagerScript : MonoBehaviour {
         Phases.StartPhases();
     }
 
-    void Update()
+    private void SetApplicationParemeters()
     {
-
+        Application.targetFrameRate = 60;
     }
 
     private void InitializeScripts()
@@ -79,11 +80,8 @@ public class GameManagerScript : MonoBehaviour {
         Movement = this.GetComponent<ShipMovementScript>();
         
         Position = this.GetComponent<ShipPositionManager>();
-    }
 
-    private void SetApplicationParemeters()
-    {
-        Application.targetFrameRate = 60;
+        Board = GameObject.Find("Board").GetComponent<BoardView>();
     }
 
 }

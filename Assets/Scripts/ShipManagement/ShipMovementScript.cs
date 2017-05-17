@@ -247,6 +247,8 @@ public class ShipMovementScript : MonoBehaviour {
                 Game.Selection.ThisShip.Model.SetPosition(Vector3.MoveTowards(Game.Selection.ThisShip.Model.GetPosition(), Game.Selection.ThisShip.Model.GetPosition() + Game.Selection.ThisShip.Model.TransformDirection(progressDirection), progressDelta));
                 CurrentMovementData.CurrentProgress += progressDelta;
 
+                Game.Selection.ThisShip.Model.RotateModelDuringTurn(CurrentMovementData, PreviousMovementData);
+
                 UpdateRotationFinisher();
 
                 CheckCollisionsAfterStraight();
@@ -263,7 +265,7 @@ public class ShipMovementScript : MonoBehaviour {
                 Game.Selection.ThisShip.Model.Rotate(Game.Selection.ThisShip.Model.TransformPoint(new Vector3(CurrentMovementData.TurningAroundDistance * turningDirection, 0, 0)), turningDirection * progressDelta * progressDirection);
                 CurrentMovementData.CurrentProgress += progressDelta;
 
-                //Game.Selection.ThisShip.Model.RotateModelDuringTurn(CurrentMovementData.CurrentProgress / CurrentMovementData.TargetProgress, turningDirection);
+                Game.Selection.ThisShip.Model.RotateModelDuringTurn(CurrentMovementData, PreviousMovementData);
 
                 UpdateRotation();
 
@@ -433,6 +435,8 @@ public class ShipMovementScript : MonoBehaviour {
     }
 
 	private void FinishMovement() {
+
+        PreviousMovementData = new MovementExecutionData();
 
         Game.Selection.isUIlocked = false;
 

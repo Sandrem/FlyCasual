@@ -271,8 +271,30 @@ namespace Ship
             Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("ShipModels").Find(Ship.Type).Find("ModelCenter").Find("DamageParticles").gameObject.SetActive(isDamaged);
         }
 
-        public void RotateModelDuringTurn(float progress, float turningDirection)
+        public void RotateModelDuringTurn(MovementExecutionData currentMovementData, MovementExecutionData previousMovementData)
         {
+            if ((currentMovementData.MovementDirection == ManeuverDirection.Forward) && (previousMovementData.Speed == 0)) return;
+
+            float progressCurrent = currentMovementData.CurrentProgress;
+            float progressTarget = currentMovementData.TargetProgress;
+            float turningDirection = 0;
+
+            if (currentMovementData.MovementDirection != ManeuverDirection.Forward)
+            {
+                progressTarget += progressTarget * (1f / currentMovementData.Speed); // 2+ 2 + 1/2 = 3
+                turningDirection = (currentMovementData.MovementDirection == ManeuverDirection.Right) ? 1 : -1;
+            }
+            if (previousMovementData.Speed != 0)
+            {
+                Debug.Log("previousMovementData.Speed = " + previousMovementData.Speed);
+                progressCurrent += progressTarget * previousMovementData.Speed; // 0+ 1*2 = 2
+                progressTarget += progressTarget * previousMovementData.Speed; // 1+ 1*2 = 3
+                turningDirection = (previousMovementData.MovementDirection == ManeuverDirection.Right) ? 1 : -1;
+            }
+            //Todo: Work correctly with move revertion
+            //Todo: reset rotation on finish
+
+            float progress = progressCurrent / progressTarget;
             if (progress > 0.5f)
             {
                 progress = 1 - progress;

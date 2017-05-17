@@ -8,7 +8,7 @@ namespace Ship
     {
         public class MaulerMithel : TIEFighter
         {
-            public MaulerMithel(Player playerNo, int shipId, Vector3 position) : base(playerNo, shipId, position)
+            public MaulerMithel(Players.GenericPlayer owner, int shipId, Vector3 position) : base(owner, shipId, position)
             {
                 PilotName = "\"Mauler Mithel\"";
                 isUnique = true;

@@ -27,7 +27,7 @@ public class PhaseManagerScript: MonoBehaviour {
         get { return CurrentSubPhase.isTemporary; }
     }
 
-    public Player PlayerWithInitiative;
+    public Players.PlayerNo PlayerWithInitiative = Players.PlayerNo.Player1;
 
     //EVENTS
     public delegate void EventHandler();

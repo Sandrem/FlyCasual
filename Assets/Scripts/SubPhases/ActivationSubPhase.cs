@@ -15,7 +15,7 @@ namespace SubPhases
 
             Game.UI.AddTestLogEntry(Name);
 
-            Dictionary<int, Player> pilots = Game.Roster.NextPilotSkillAndPlayerAfter(RequiredPilotSkill, RequiredPlayer, Sorting.Asc);
+            Dictionary<int, Players.PlayerNo> pilots = Game.Roster.NextPilotSkillAndPlayerAfter(RequiredPilotSkill, RequiredPlayer, Sorting.Asc);
             foreach (var pilot in pilots)
             {
                 RequiredPilotSkill = pilot.Key;
@@ -39,7 +39,7 @@ namespace SubPhases
         {
             bool result = false;
 
-            if ((ship.PlayerNo == RequiredPlayer) && (ship.PilotSkill == RequiredPilotSkill))
+            if ((ship.Owner.PlayerNo == RequiredPlayer) && (ship.PilotSkill == RequiredPilotSkill))
             {
                 result = true;
             }

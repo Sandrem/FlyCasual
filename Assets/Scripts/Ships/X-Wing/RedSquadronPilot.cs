@@ -8,7 +8,7 @@ namespace Ship
     {
         public class RedSquadronPilot : XWing
         {
-            public RedSquadronPilot(Player playerNo, int shipId, Vector3 position) : base(playerNo, shipId, position)
+            public RedSquadronPilot(Players.GenericPlayer owner, int shipId, Vector3 position) : base(owner, shipId, position)
             {
                 PilotName = "Red Squadron Pilot";
                 PilotSkill = 4;

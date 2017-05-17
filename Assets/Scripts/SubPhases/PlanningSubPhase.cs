@@ -44,7 +44,7 @@ namespace SubPhases
         public override bool ThisShipCanBeSelected(Ship.GenericShip ship)
         {
             bool result = false;
-            if (ship.PlayerNo == RequiredPlayer)
+            if (ship.Owner.PlayerNo == RequiredPlayer)
             {
                 result = true;
             }
@@ -61,6 +61,12 @@ namespace SubPhases
             Game.UI.panelContextMenu.transform.Find("MoveMenuButton").gameObject.SetActive(true);
             result++;
             return result;
+        }
+
+        //TODO: Move
+        private Players.PlayerNo AnotherPlayer(Players.PlayerNo playerNo)
+        {
+            return (playerNo == Players.PlayerNo.Player1) ? Players.PlayerNo.Player2 : Players.PlayerNo.Player1;
         }
 
     }

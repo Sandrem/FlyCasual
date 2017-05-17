@@ -9,7 +9,7 @@ namespace Ship
         public class XWing : GenericShip
         {
 
-            public XWing(Player playerNo, int shipId, Vector3 position) : base(playerNo, shipId, position)
+            public XWing(Players.GenericPlayer owner, int shipId, Vector3 position) : base(owner, shipId, position)
             {
                 Type = "X-Wing";
                 SetModel(position);

@@ -3,35 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using Players;
 
 //TODO: Store info about ships rosters
-public class RosterInfoScript : MonoBehaviour {
-
-    private GameManagerScript Game;
-
-    public GameObject prefabRosterShipPanel;
-    public GameObject rosterPanels;
+public partial class ShipRoster {
 
     public GameObject prefabToken;
 
     private List<GameObject> rosterPlayer1 = new List<GameObject>();
     private List<GameObject> rosterPlayer2 = new List<GameObject>();
 
-    // Use this for initialization
-    void Start() {
-        Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-
-        Game.PhaseManager.OnCombatPhaseStart += HideAssignedDials;
-    }
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
-
-    public GameObject CreateRosterInfo(Ship.GenericShip newShip) {
-
-        GameObject newPanel = Instantiate(prefabRosterShipPanel, rosterPanels.transform.Find("TeamPlayer" + PlayerToInt(newShip.PlayerNo)).Find("RosterHolder").transform);
+    public GameObject CreateRosterInfo(Ship.GenericShip newShip)
+    {
+        GameObject newPanel = MonoBehaviour.Instantiate(Game.PrefabList.RosterPanel, Game.PrefabList.RostersHolder.transform.Find("TeamPlayer" + newShip.Owner.Id).Find("RosterHolder").transform);
 
         //Generic info
         newPanel.transform.Find("ShipInfo").Find("ShipPilotSkillText").GetComponent<Text>().text = newShip.PilotSkill.ToString();
@@ -53,7 +37,7 @@ public class RosterInfoScript : MonoBehaviour {
         damageIndicator.GetComponent<RectTransform>().sizeDelta = new Vector2(damageIndicatorWidth, 10);
         for (int i = 0; i < hullAndShield; i++)
         {
-            GameObject newDamageIndicator = Instantiate(damageIndicator, damageIndicatorBar.transform);
+            GameObject newDamageIndicator = MonoBehaviour.Instantiate(damageIndicator, damageIndicatorBar.transform);
             newDamageIndicator.transform.position = damageIndicator.transform.position + new Vector3(i * (damageIndicatorWidth + 1), 0, 0);
             if (i < newShip.Hull) {
                 newDamageIndicator.GetComponent<Image>().color = Color.yellow;
@@ -65,7 +49,7 @@ public class RosterInfoScript : MonoBehaviour {
             }
             newDamageIndicator.SetActive(true);
         }
-        Destroy(damageIndicator);
+        MonoBehaviour.Destroy(damageIndicator);
 
         //Finish
         newPanel.transform.Find("ShipInfo").tag = "ShipId:" + newShip.ShipId.ToString();
@@ -86,7 +70,8 @@ public class RosterInfoScript : MonoBehaviour {
 
     private void AddToRoster(Ship.GenericShip newShip, GameObject newPanel)
     {
-        List<GameObject> rosterPlayer = (newShip.PlayerNo == Player.Player1) ? rosterPlayer1 : rosterPlayer2;
+
+        List<GameObject> rosterPlayer = (newShip.Owner.PlayerNo == PlayerNo.Player1) ? rosterPlayer1 : rosterPlayer2;
         rosterPlayer.Add(newPanel);
 
         OrganizeRosters();
@@ -157,7 +142,7 @@ public class RosterInfoScript : MonoBehaviour {
 
     private void OrganizeRosterPositions()
     {
-        Vector3 defaultPosition = rosterPanels.transform.Find("TeamPlayer1").Find("RosterHolder").transform.position + new Vector3(5f, 0f, 0f);
+        Vector3 defaultPosition = Game.PrefabList.RostersHolder.transform.Find("TeamPlayer1").Find("RosterHolder").transform.position + new Vector3(5f, 0f, 0f);
 
         rosterPlayer1.Sort(delegate (GameObject x, GameObject y)
         {
@@ -172,7 +157,7 @@ public class RosterInfoScript : MonoBehaviour {
         }
 
         /// Same for second player
-        defaultPosition = rosterPanels.transform.Find("TeamPlayer2").Find("RosterHolder").transform.position + new Vector3(5f, 0f, 0f);
+        defaultPosition = Game.PrefabList.RostersHolder.transform.Find("TeamPlayer2").Find("RosterHolder").transform.position + new Vector3(5f, 0f, 0f);
 
         rosterPlayer2.Sort(delegate (GameObject x, GameObject y)
         {
@@ -250,13 +235,13 @@ public class RosterInfoScript : MonoBehaviour {
         }
         foreach (GameObject icon in keys)
         {
-            Destroy(icon);
+            MonoBehaviour.Destroy(icon);
         }
 
         float offset = 0;
         foreach (var token in thisShip.AssignedTokens)
         {
-            GameObject tokenPanel = Instantiate(prefabToken, thisShip.InfoPanel.transform.Find("ShipInfo").Find("TokensBar"));
+            GameObject tokenPanel = MonoBehaviour.Instantiate(prefabToken, thisShip.InfoPanel.transform.Find("ShipInfo").Find("TokensBar"));
             tokenPanel.GetComponent<RectTransform>().localPosition = Vector3.zero;
             tokenPanel.name = token.Name;
             tokenPanel.transform.Find(token.Name).gameObject.SetActive(true);
@@ -290,15 +275,6 @@ public class RosterInfoScript : MonoBehaviour {
     {
         foreach (var panel in rosterPlayer1) panel.transform.FindChild("DialAssigned1").gameObject.SetActive(false);
         foreach (var panel in rosterPlayer2) panel.transform.FindChild("DialAssigned2").gameObject.SetActive(false);
-    }
-
-    //TODO: move
-    public int PlayerToInt(Player playerNo)
-    {
-        int result = -1;
-        if (playerNo == Player.Player1) result = 1;
-        if (playerNo == Player.Player2) result = 2;
-        return result;
     }
 
 }

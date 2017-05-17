@@ -8,7 +8,7 @@ namespace Ship
     {
         public class NightBeast : TIEFighter
         {
-            public NightBeast(Player playerNo, int shipId, Vector3 position) : base(playerNo, shipId, position)
+            public NightBeast(Players.GenericPlayer owner, int shipId, Vector3 position) : base(owner, shipId, position)
             {
                 PilotName = "\"Night Beast\"";
                 isUnique = true;

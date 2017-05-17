@@ -19,7 +19,7 @@ namespace CriticalHitCard
             Game.UI.AddTestLogEntry("Agility is reduced by 1");
 
             host.AfterGetAgility += ReduceAgility;
-            Game.UI.Roster.UpdateShipStats(host);
+            Game.Roster.UpdateShipStats(host);
         }
 
         public override void DiscardEffect(Ship.GenericShip host)
@@ -28,7 +28,7 @@ namespace CriticalHitCard
             Game.UI.AddTestLogEntry("Agility is restored");
 
             host.AfterGetAgility -= ReduceAgility;
-            Game.UI.Roster.UpdateShipStats(host);
+            Game.Roster.UpdateShipStats(host);
         }
 
         private void ReduceAgility(ref int value)

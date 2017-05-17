@@ -4,19 +4,10 @@ using UnityEngine;
 
 namespace Players
 {
-    public enum PlayerType
-    {
-        Human,
-        Ai
-    }
 
-    public class GenericPlayer
+    public partial class GenericPlayer
     {
         protected GameManagerScript Game;
-
-        public readonly PlayerType Type;
-        public readonly string Name;
-        public readonly int Id;
 
         public GenericPlayer(int id) {
             Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();

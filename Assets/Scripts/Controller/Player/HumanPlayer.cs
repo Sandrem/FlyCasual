@@ -5,11 +5,8 @@ using UnityEngine;
 namespace Players
 {
 
-    public class HumanPlayer : GenericPlayer
+    public partial class HumanPlayer : GenericPlayer
     {
-        public readonly new PlayerType Type;
-        public readonly new string Name;
-        public readonly new int Id;
 
         public HumanPlayer(int id) : base(id)
         {
@@ -17,6 +14,7 @@ namespace Players
             Type = PlayerType.Human;
             Name = "Human";
             Id = id;
+            PlayerNo = (id == 1) ? PlayerNo.Player1 : PlayerNo.Player2;
         }
 
         public override void PerformAction()

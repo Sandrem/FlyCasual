@@ -10,7 +10,6 @@ public class UIManagerScript: MonoBehaviour {
     private GameManagerScript Game;
 
     public MessageManagerScript ErrorManager;
-    public RosterInfoScript Roster;
     public DiceResultsScript DiceResults;
     public ActionsPanelScript ActionsPanel;
     public HelpInfoScript Helper;
@@ -197,15 +196,6 @@ public class UIManagerScript: MonoBehaviour {
         if (area.GetComponent<RectTransform>().sizeDelta.y < Mathf.Abs(lastLogTextPosition)) area.GetComponent<RectTransform>().sizeDelta = new Vector2(area.GetComponent<RectTransform>().sizeDelta.x, Mathf.Abs(lastLogTextPosition));
         panelGameLog.transform.Find("Scroll").GetComponent<ScrollRect>().verticalNormalizedPosition = 0;
         newLogEntry.GetComponent<Text>().text = text;
-    }
-
-    //TODO: move
-    public Player PlayerFromInt(int playerNo)
-    {
-        Player result = Player.None;
-        if (playerNo == 1) result = Player.Player1;
-        if (playerNo == 2) result = Player.Player2;
-        return result;
     }
 
 }

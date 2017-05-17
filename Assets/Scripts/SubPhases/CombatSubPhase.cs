@@ -26,7 +26,7 @@ namespace SubPhases
         {
             Game.Selection.DeselectAllShips();
 
-            Dictionary<int, Player> pilots = Game.Roster.NextPilotSkillAndPlayerAfter(RequiredPilotSkill, RequiredPlayer, Sorting.Desc);
+            Dictionary<int, Players.PlayerNo> pilots = Game.Roster.NextPilotSkillAndPlayerAfter(RequiredPilotSkill, RequiredPlayer, Sorting.Desc);
             foreach (var pilot in pilots)
             {
                 RequiredPilotSkill = pilot.Key;
@@ -48,7 +48,7 @@ namespace SubPhases
         public override bool ThisShipCanBeSelected(Ship.GenericShip ship)
         {
             bool result = false;
-            if ((ship.PlayerNo == RequiredPlayer) && (ship.PilotSkill == RequiredPilotSkill))
+            if ((ship.Owner.PlayerNo == RequiredPlayer) && (ship.PilotSkill == RequiredPilotSkill))
             {
                 result = true;
             }
@@ -64,7 +64,7 @@ namespace SubPhases
             bool result = false;
             if (Game.Selection.ThisShip != null)
             {
-                if (targetShip.PlayerNo != Game.PhaseManager.CurrentSubPhase.RequiredPlayer)
+                if (targetShip.Owner.PlayerNo != Game.PhaseManager.CurrentSubPhase.RequiredPlayer)
                 {
                     result = true;
                 }
@@ -85,7 +85,7 @@ namespace SubPhases
             int result = 0;
             if (Game.Selection.ThisShip != null)
             {
-                if (ship.PlayerNo != Game.PhaseManager.CurrentSubPhase.RequiredPlayer)
+                if (ship.Owner.PlayerNo != Game.PhaseManager.CurrentSubPhase.RequiredPlayer)
                 {
                     if (Game.Selection.ThisShip.IsAttackPerformed != true)
                     {

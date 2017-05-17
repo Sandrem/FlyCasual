@@ -9,7 +9,7 @@ namespace Ship
         public class TIEFighter : GenericShip
         {
 
-            public TIEFighter(Player playerNo, int shipId, Vector3 position) : base(playerNo, shipId, position)
+            public TIEFighter(Players.GenericPlayer owner, int shipId, Vector3 position) : base(owner, shipId, position)
             {
                 Type = "TIE Fighter";
                 SetModel(position);

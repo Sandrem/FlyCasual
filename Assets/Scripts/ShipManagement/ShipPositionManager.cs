@@ -51,7 +51,7 @@ public class ShipPositionManager : MonoBehaviour
     {
         if (Game.PhaseManager.CurrentSubPhase.GetType() == typeof(SubPhases.BarrelRollSubPhase))
         {
-            OriginalShipStand = MonoBehaviour.Instantiate(Game.Position.prefabShipStand, Game.Selection.ThisShip.Model.GetPosition(), Game.Selection.ThisShip.Model.GetRotation(), Game.ShipFactory.Board.transform);
+            OriginalShipStand = MonoBehaviour.Instantiate(Game.Position.prefabShipStand, Game.Selection.ThisShip.Model.GetPosition(), Game.Selection.ThisShip.Model.GetRotation(), Game.PrefabList.Board.transform);
             Game.Roster.SetRaycastTargets(false);
             inReposition = true;
         }
@@ -130,7 +130,7 @@ public class ShipPositionManager : MonoBehaviour
 
         if (Game.PhaseManager.CurrentSubPhase.GetType() == typeof(SubPhases.SetupSubPhase))
         {
-            GameObject startingZone = (Game.PhaseManager.CurrentSubPhase.RequiredPlayer == Player.Player1) ? StartingZone1 : StartingZone2;
+            GameObject startingZone = (Game.PhaseManager.CurrentSubPhase.RequiredPlayer == Players.PlayerNo.Player1) ? StartingZone1 : StartingZone2;
             if (!ship.Model.IsInside(startingZone.transform))
             {
                 Game.UI.ShowError("Place ship into highlighted area");
@@ -175,8 +175,8 @@ public class ShipPositionManager : MonoBehaviour
 
         if (Game.PhaseManager.CurrentPhase.GetType() == typeof(Phases.SetupPhase))
         {
-            if (Game.PhaseManager.CurrentSubPhase.RequiredPlayer == Player.Player1) StartingZone1.SetActive(true);
-            if (Game.PhaseManager.CurrentSubPhase.RequiredPlayer == Player.Player2) StartingZone2.SetActive(true);
+            if (Game.PhaseManager.CurrentSubPhase.RequiredPlayer == Players.PlayerNo.Player1) StartingZone1.SetActive(true);
+            if (Game.PhaseManager.CurrentSubPhase.RequiredPlayer == Players.PlayerNo.Player2) StartingZone2.SetActive(true);
         }
     }
 

@@ -8,7 +8,7 @@ namespace Ship
     {
         public class ObsidianSquadronPilot: TIEFighter
         {
-            public ObsidianSquadronPilot(Player playerNo, int shipId, Vector3 position) : base(playerNo, shipId, position)
+            public ObsidianSquadronPilot(Players.GenericPlayer owner, int shipId, Vector3 position) : base(owner, shipId, position)
             {
                 PilotName = "Obsidian Squadron Pilot";
                 PilotSkill = 3;

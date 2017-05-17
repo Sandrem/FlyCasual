@@ -23,7 +23,7 @@ namespace SubPhases
         {
             Game.Selection.DeselectAllShips();
 
-            Dictionary<int, Player> pilots = Game.Roster.NextPilotSkillAndPlayerAfter(RequiredPilotSkill, RequiredPlayer, Sorting.Asc);
+            Dictionary<int, Players.PlayerNo> pilots = Game.Roster.NextPilotSkillAndPlayerAfter(RequiredPilotSkill, RequiredPlayer, Sorting.Asc);
             foreach (var pilot in pilots)
             {
                 RequiredPilotSkill = pilot.Key;

@@ -1,59 +1,77 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Players;
+using System;
 
-public enum Player
-{
-    None,
-    Player1,
-    Player2
-}
-
-public class ShipRosterManagerScript : MonoBehaviour {
+public partial class ShipRoster {
 
     private GameManagerScript Game;
 
-    public Dictionary<string, Ship.GenericShip> AllShips = new Dictionary<string, Ship.GenericShip>();
-
-    private List<string> team1 = new List<string>();
-    private List<string> team2 = new List<string>();
-
-    public ShipFactoryScript ShipFactory;
-
-    public Players.GenericPlayer Player1;
-    public Players.GenericPlayer Player2;
-
     // Use this for initialization
-    void Start()
+    public ShipRoster()
     {
         Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
+
+        //TODO: ???
+        //Game.PhaseManager.OnCombatPhaseStart += HideAssignedDials;
+    }
+
+    public void Start()
+    {
+        //Todo: move to constructor
+        CreatePlayers();
+        SpawnAllShips();
     }
 	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    private void CreatePlayers()
+    {
+        AddPlayer(PlayerType.Human);
+        AddPlayer(PlayerType.Human);
+    }
 
     //ToDo: AutoID, Teams as Enums
-    public void SpawnAllShips()
+    private void SpawnAllShips()
     {
-        Player1 = new Players.HumanPlayer(1);
-        Player2 = new Players.HumanPlayer(2);
 
         Ship.GenericShip newShip;
-        ShipFactoryScript ShipFactory = this.GetComponent<ShipFactoryScript>();
+        ShipFactory ShipFactory = new ShipFactory();
 
-        newShip = ShipFactory.SpawnShip("Ship.XWing.LukeSkywalker", Player.Player1, 1, new Vector3(-1, 0, -2.5f));
+        //Temporary
+        Game.ShipFactory = ShipFactory;
+
+        newShip = ShipFactory.SpawnShip("Ship.XWing.LukeSkywalker", Player1);
         newShip.InstallUpgrade("Upgrade.R2D2");
         newShip.InstallUpgrade("Upgrade.Marksmanship");
         AddShip(newShip, 1);
 
-        newShip = ShipFactory.SpawnShip("Ship.TIEFighter.MaulerMithel", Player.Player2, 3, new Vector3(-1, 0, 2.5f));
+        newShip = ShipFactory.SpawnShip("Ship.TIEFighter.MaulerMithel", Player2);
         newShip.InstallUpgrade("Upgrade.Determination");
         AddShip(newShip, 2);
         //TODO: Error: Pilots with same skill
-        newShip = ShipFactory.SpawnShip("Ship.TIEFighter.NightBeast", Player.Player2, 4, new Vector3(1, 0, 2.5f));
-        AddShip(newShip, 2);
+        //newShip = ShipFactory.SpawnShip("Ship.TIEFighter.NightBeast", Player2, 4, new Vector3(1, 0, 2.5f));
+        //AddShip(newShip, 2);*/
+    }
+
+    private void AddPlayer(PlayerType type)
+    {
+        //Todo: Generate by string-name
+
+        GenericPlayer player = new GenericPlayer(0);
+
+        switch (type)
+        {
+            case PlayerType.Human:
+                player = new HumanPlayer(Players.Count + 1);
+                break;
+            case PlayerType.Ai:
+                player = new AiPlayer(Players.Count + 1);
+                break;
+            default:
+                break;
+        }
+
+        Players.Add(player);
     }
 
     public Ship.GenericShip GetShipById(string id)
@@ -85,11 +103,11 @@ public class ShipRosterManagerScript : MonoBehaviour {
         GetShipByTag(tag).InfoPanel.SetActive(false);
 
         //todo: rework
-        if (GetShipByTag(tag).PlayerNo == Player.Player1)
+        if (GetShipByTag(tag).Owner.PlayerNo == PlayerNo.Player1)
         {
             if (team1.Contains(tag)) team1.Remove(tag);    
         }
-        if (GetShipByTag(tag).PlayerNo == Player.Player2)
+        if (GetShipByTag(tag).Owner.PlayerNo == PlayerNo.Player2)
         {
             if (team1.Contains(tag)) team2.Remove(tag);
         }
@@ -98,17 +116,17 @@ public class ShipRosterManagerScript : MonoBehaviour {
 
     //TODO: Rewrite player skill checks (all 3 functions)
 
-    public Dictionary<int, Player> NextPilotSkillAndPlayerAfter(int previousPilotSkill, Player PilotSkillSubPhasePlayer, Sorting sorting)
+    public Dictionary<int, Players.PlayerNo> NextPilotSkillAndPlayerAfter(int previousPilotSkill, Players.PlayerNo PilotSkillSubPhasePlayer, Sorting sorting)
     {
 
-        Dictionary<int, Player> pilots = new Dictionary<int, Player>();
-
+        Dictionary<int, Players.PlayerNo> pilots = new Dictionary<int, Players.PlayerNo>();
+        
         //Check for same skill with another player
         //pilots = ListAnotherPlayerButSamePilotSkill(previousPilotSkill, PilotSkillSubPhasePlayer);
 
         //Check for another pilot skill
         int nextPilotSkill = -1;
-        Player playerNo = Player.None;
+        PlayerNo playerNo = PilotSkillSubPhasePlayer;
 
         //rewrite next two blocks?
         if (sorting == Sorting.Asc)
@@ -119,7 +137,7 @@ public class ShipRosterManagerScript : MonoBehaviour {
                 if ((ship.Value.PilotSkill > previousPilotSkill) && (ship.Value.PilotSkill < nextPilotSkill))
                 {
                     nextPilotSkill = ship.Value.PilotSkill;
-                    playerNo = ship.Value.PlayerNo;
+                    playerNo = ship.Value.Owner.PlayerNo;
                 }
             }
             if (nextPilotSkill == 100)
@@ -137,7 +155,7 @@ public class ShipRosterManagerScript : MonoBehaviour {
                 if ((ship.Value.PilotSkill < previousPilotSkill) && (ship.Value.PilotSkill > nextPilotSkill))
                 {
                     nextPilotSkill = ship.Value.PilotSkill;
-                    playerNo = ship.Value.PlayerNo;
+                    playerNo = ship.Value.Owner.PlayerNo;
                 }
             }
         }
@@ -145,11 +163,11 @@ public class ShipRosterManagerScript : MonoBehaviour {
         return pilots;
     }
 
-    public bool AllManuersAreAssigned(Player playerNo)
+    public bool AllManuersAreAssigned(Players.PlayerNo playerNo)
     {
         foreach (var item in AllShips)
         {
-            if (item.Value.PlayerNo == playerNo)
+            if (item.Value.Owner.PlayerNo == playerNo)
             {
                 if (item.Value.AssignedManeuver == null)
                 {
@@ -187,7 +205,7 @@ public class ShipRosterManagerScript : MonoBehaviour {
         Dictionary<string, Ship.GenericShip> result = new Dictionary<string, Ship.GenericShip>();
         foreach (var item in AllShips)
         {
-            if (item.Value.PlayerNo == thisShip.PlayerNo)
+            if (item.Value.Owner == thisShip.Owner)
             {
                 if (item.Value.PilotSkill == thisShip.PilotSkill)
                 {
@@ -214,9 +232,9 @@ public class ShipRosterManagerScript : MonoBehaviour {
             {
                 if (ship.Value.PilotSkill == previousPilotSkill)
                 {
-                    if (ship.Value.PlayerNo != PlayerFromInt(PilotSkillSubPhasePlayer))
+                    if (ship.Value.Owner.PlayerNo != PlayerFromInt(PilotSkillSubPhasePlayer))
                     {
-                        result.Add(previousPilotSkill, PlayerToInt(ship.Value.PlayerNo));
+                        result.Add(previousPilotSkill, PlayerToInt(ship.Value.Owner.PlayerNo));
                         return result;
                     }
                 }
@@ -265,19 +283,19 @@ public class ShipRosterManagerScript : MonoBehaviour {
         return result;
     }
 
-    public Players.GenericPlayer GetPlayer(int playerNo)
+    public Players.GenericPlayer GetPlayer(PlayerNo playerNo)
     {
         //fix this
         if (Game == null) Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-        return (playerNo == 1) ? Game.Roster.Player1 : Game.Roster.Player2;
+        return (playerNo == PlayerNo.Player1) ? Game.Roster.Player1 : Game.Roster.Player2;
     }
 
-    public Players.GenericPlayer GetPlayer(Player playerNo)
+    /*public Players.GenericPlayer GetPlayer(Players.GenericPlayer playerNo)
     {
         //fix this
         if (Game == null) Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
         return (playerNo == Player.Player1) ? Game.Roster.Player1 : Game.Roster.Player2;
-    }
+    }*/
 
     public List<string> GetTeam(int playerNo)
     {
@@ -285,20 +303,20 @@ public class ShipRosterManagerScript : MonoBehaviour {
     }
 
     //TODO: move
-    public Player PlayerFromInt(int playerNo)
+    public PlayerNo PlayerFromInt(int playerNo)
     {
-        Player result = Player.None;
-        if (playerNo == 1) result = Player.Player1;
-        if (playerNo == 2) result = Player.Player2;
+        PlayerNo result = PlayerNo.Player1;
+        if (playerNo == 1) result = PlayerNo.Player1;
+        if (playerNo == 2) result = PlayerNo.Player2;
         return result;
     }
 
     //TODO: move
-    public int PlayerToInt(Player playerNo)
+    public int PlayerToInt(PlayerNo playerNo)
     {
         int result = -1;
-        if (playerNo == Player.Player1) result = 1;
-        if (playerNo == Player.Player2) result = 2;
+        if (playerNo == PlayerNo.Player1) result = 1;
+        if (playerNo == PlayerNo.Player2) result = 2;
         return result;
     }
 

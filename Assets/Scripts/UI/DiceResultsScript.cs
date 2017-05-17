@@ -29,8 +29,8 @@ public class DiceResultsScript: MonoBehaviour {
         //todo: rework
         Game.Selection.ActiveShip.GenerateDiceModificationButtons();
 
-        Debug.Log(Game.Roster.GetPlayer(Game.Selection.ActiveShip.PlayerNo).Type);
-        if (Game.Roster.GetPlayer(Game.Selection.ActiveShip.PlayerNo).Type == Players.PlayerType.Human)
+        //Debug.Log(Game.Roster.GetPlayer(Game.Selection.ActiveShip.Owner.PlayerNo).Type);
+        if (Game.Roster.GetPlayer(Game.Selection.ActiveShip.Owner.PlayerNo).Type == Players.PlayerType.Human)
         {
             float offset = 0;
             Vector3 defaultPosition = panelDiceResultsMenu.transform.position + new Vector3(5, 195, 0);
@@ -54,7 +54,7 @@ public class DiceResultsScript: MonoBehaviour {
             panelDiceResultsMenu.transform.Find("Confirm").gameObject.SetActive(true);
         }
 
-        Game.Roster.GetPlayer(Game.Selection.ActiveShip.PlayerNo).UseDiceModifications();
+        Game.Roster.GetPlayer(Game.Selection.ActiveShip.Owner.PlayerNo).UseDiceModifications();
     }
 
     public void HideDiceModificationButtons()

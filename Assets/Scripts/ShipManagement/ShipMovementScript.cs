@@ -90,7 +90,7 @@ public class ShipMovementScript : MonoBehaviour {
     {
         string parameters = EventSystem.current.currentSelectedGameObject.name;
         Game.Selection.ThisShip.AssignedManeuver = ManeuverFromString(parameters);
-        Game.Selection.ThisShip.InfoPanel.transform.FindChild("DialAssigned" + PlayerToInt(Game.Selection.ThisShip.PlayerNo)).gameObject.SetActive(true);
+        Game.Selection.ThisShip.InfoPanel.transform.FindChild("DialAssigned" + Game.Selection.ThisShip.Owner.Id).gameObject.SetActive(true);
 
         Game.Selection.ThisShip.IsManeurPerformed = false;
         
@@ -465,24 +465,15 @@ public class ShipMovementScript : MonoBehaviour {
 
     private float GetMovement1()
     {
-        float result;
+        float result = 0;
         if (moveDistance1 != 0)
         {
             result = moveDistance1;
         }
         else
         {
-            result = Game.ShipFactory.Board.transform.TransformVector(new Vector3(4, 0, 0)).x;
+            result = Game.PrefabList.Board.transform.TransformVector(new Vector3(4, 0, 0)).x;
         }
-        return result;
-    }
-
-    //TODO: move
-    public int PlayerToInt(Player playerNo)
-    {
-        int result = -1;
-        if (playerNo == Player.Player1) result = 1;
-        if (playerNo == Player.Player2) result = 2;
         return result;
     }
 

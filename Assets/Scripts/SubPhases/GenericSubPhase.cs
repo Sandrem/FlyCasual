@@ -21,14 +21,14 @@ namespace SubPhases
         public bool isTemporary = false;
 
         public int RequiredPilotSkill;
-        public Player RequiredPlayer = Player.Player1;
+        public Players.PlayerNo RequiredPlayer = Players.PlayerNo.Player1;
 
         protected const int PILOTSKILL_MIN = 0;
         protected const int PILOTSKILL_MAX = 12;
 
         public virtual void StartSubPhase()
         {
-
+            
         }
 
         public virtual void NextSubPhase()
@@ -39,7 +39,7 @@ namespace SubPhases
         public virtual bool ThisShipCanBeSelected(Ship.GenericShip ship)
         {
             bool result = false;
-            if ((ship.PlayerNo == RequiredPlayer) && (ship.PilotSkill == RequiredPilotSkill))
+            if ((ship.Owner.PlayerNo == RequiredPlayer) && (ship.PilotSkill == RequiredPilotSkill))
             {
                 result = true;
             }
@@ -78,12 +78,6 @@ namespace SubPhases
         protected void UpdateHelpInfo()
         {
             Game.UI.Helper.UpdateHelpInfo();
-        }
-
-        //TODO: move
-        protected Player AnotherPlayer(Player player)
-        {
-            return (player == Player.Player1) ? Player.Player2 : Player.Player1;
         }
 
     }

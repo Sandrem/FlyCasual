@@ -3,38 +3,31 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class ShipFactoryScript : MonoBehaviour {
+public class ShipFactory {
 
     private GameManagerScript Game;
 
-    public GameObject prefabShip;
-    public GameObject Board;
+    private int lastId = 1;
 
 	private static Vector3 ROTATION_FORWARD = new Vector3 (0, 0, 0);
 	private static Vector3 ROTATION_BACKWARD = new Vector3 (0, 180, 0);
 
-	public Material StandRed;
-	public Material StandGreen;
-
-    void Start()
+    public ShipFactory()
     {
         Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
     }
 
-	// Update is called once per frame
-	void Update () {
-
-	}
-
 	//TODO: REWRITE ASAP
-	public Ship.GenericShip SpawnShip(string pilotName, Player player, int id, Vector3 position) {
+	public Ship.GenericShip SpawnShip(string pilotName, Players.GenericPlayer player) {
 
-        if (Game == null) Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
+        //temporary
+        int id = 1;
+        Vector3 position = Vector3.zero;
 
         Ship.GenericShip newShipContainer = (Ship.GenericShip) System.Activator.CreateInstance(System.Type.GetType(pilotName), player, id, position);
         newShipContainer.Model.SetShipInstertImage();
 
-        newShipContainer.InfoPanel = this.gameObject.GetComponent<RosterInfoScript>().CreateRosterInfo(newShipContainer);
+        newShipContainer.InfoPanel = Game.Roster.CreateRosterInfo(newShipContainer);
 
         newShipContainer.OnDestroyed += Game.Rules.WinConditions.CheckWinConditions;
         newShipContainer.AfterGotNumberOfAttackDices += Game.Rules.DistanceBonus.CheckAttackDistanceBonus;
@@ -53,26 +46,26 @@ public class ShipFactoryScript : MonoBehaviour {
         newShipContainer.OnMovementFinish += Game.Rules.Stress.CheckStress;
         newShipContainer.AfterGetManeuverAvailablity += Game.Rules.Stress.CannotPerformRedManeuversWhileStressed;
 
-        newShipContainer.AfterTokenIsAssigned += Game.UI.Roster.UpdateTokensIndicator;
-        newShipContainer.AfterTokenIsRemoved += Game.UI.Roster.UpdateTokensIndicator;
-        newShipContainer.AfterAssignedDamageIsChanged += Game.UI.Roster.UpdateRosterHullDamageIndicators;
-        newShipContainer.AfterAssignedDamageIsChanged += Game.UI.Roster.UpdateRosterShieldsDamageIndicators;
-        newShipContainer.AfterStatsAreChanged += Game.UI.Roster.UpdateShipStats;
+        newShipContainer.AfterTokenIsAssigned += Game.Roster.UpdateTokensIndicator;
+        newShipContainer.AfterTokenIsRemoved += Game.Roster.UpdateTokensIndicator;
+        newShipContainer.AfterAssignedDamageIsChanged += Game.Roster.UpdateRosterHullDamageIndicators;
+        newShipContainer.AfterAssignedDamageIsChanged += Game.Roster.UpdateRosterShieldsDamageIndicators;
+        newShipContainer.AfterStatsAreChanged += Game.Roster.UpdateShipStats;
 
         return newShipContainer;
 	}
 
     public GameObject CreateShipModel(Ship.GenericShip newShipContainer, Vector3 position) {
-        Vector3 facing = (newShipContainer.PlayerNo == Player.Player1) ? ROTATION_FORWARD : ROTATION_BACKWARD;
-        GameObject newShip = Instantiate(prefabShip, position + new Vector3(0, 0.03f, 0), Quaternion.Euler(facing), Board.transform);
+
+        Vector3 facing = (newShipContainer.Owner.PlayerNo == Players.PlayerNo.Player1) ? ROTATION_FORWARD : ROTATION_BACKWARD;
+
+        position = new Vector3(0, 0, (newShipContainer.Owner.PlayerNo == Players.PlayerNo.Player1) ? -4 : 4);
+
+        GameObject newShip = MonoBehaviour.Instantiate(Game.PrefabList.ShipModel, position + new Vector3(0, 0.03f, 0), Quaternion.Euler(facing), Game.PrefabList.Board.transform);
         newShip.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("ShipModels").Find(newShipContainer.Type).gameObject.SetActive(true);
 
-        if (newShipContainer.PlayerNo == Player.Player2)
-        {
-            newShip.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("ShipStand").GetComponent<Renderer>().material = StandGreen;
-            newShip.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("ShipPeg").GetComponent<Renderer>().material = StandGreen;
-        }
-
+        newShipContainer.ShipId = lastId;
+        lastId = lastId + 1;
         SetTagOfChildren(newShip.transform, "ShipId:" + newShipContainer.ShipId.ToString());
 
         //Check Size of stand

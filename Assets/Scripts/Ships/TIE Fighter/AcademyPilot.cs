@@ -8,7 +8,7 @@ namespace Ship
     {
         public class AcademyPilot: TIEFighter
         {
-            public AcademyPilot(Player playerNo, int shipId, Vector3 position) : base(playerNo, shipId, position)
+            public AcademyPilot(Players.GenericPlayer owner, int shipId, Vector3 position) : base(owner, shipId, position)
             {
                 PilotName = "Academy Pilot";
                 PilotSkill = 1;

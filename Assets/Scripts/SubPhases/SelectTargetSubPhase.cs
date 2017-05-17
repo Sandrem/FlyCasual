@@ -34,7 +34,7 @@ namespace SubPhases
         {
             bool result = false;
 
-            if (anotherShip.PlayerNo != Game.PhaseManager.CurrentSubPhase.RequiredPlayer)
+            if (anotherShip.Owner.PlayerNo != Game.PhaseManager.CurrentSubPhase.RequiredPlayer)
             {
                 if (!Game.Actions.AssignTargetLockToPair(Game.Selection.ThisShip, anotherShip))
                 {

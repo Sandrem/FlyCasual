@@ -107,11 +107,6 @@ namespace Ship
             get;
             set;
         }
-        public Player PlayerNo
-        {
-            get;
-            set;
-        }
         public Players.GenericPlayer Owner { get; set; }
 
         public List<Tokens.GenericToken> AssignedTokens = new List<Tokens.GenericToken>();
@@ -169,12 +164,11 @@ namespace Ship
         public event EventHandlerShipMovement AfterGetManeuverAvailablity;
         public event EventHandlerShipCrit OnAssignCrit;
 
-        public GenericShip(Player playerNo, int shipId, Vector3 position)
+        public GenericShip(Players.GenericPlayer owner, int shipId, Vector3 position)
         {
             Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
 
-            PlayerNo = playerNo;
-            Owner = Game.Roster.GetPlayer(PlayerNo);
+            Owner = owner;
 
             ShipId = shipId;
 
@@ -395,7 +389,7 @@ namespace Ship
             if (HasFreeUpgradeSlot(slot))
             {
                 InstalledUpgrades.Add(new KeyValuePair<Upgrade.UpgradeSlot, Upgrade.GenericUpgrade>(newUpgrade.Type, newUpgrade));
-                Game.UI.Roster.UpdateUpgradesPanel(this, this.InfoPanel);
+                Game.Roster.UpdateUpgradesPanel(this, this.InfoPanel);
             }
 
         }
@@ -420,9 +414,9 @@ namespace Ship
 
         public void AskPerformFreeAction(Actions.GenericAction action)
         {
-            AvailableFreeActionsList = new List<Actions.GenericAction>();
+            /*AvailableFreeActionsList = new List<Actions.GenericAction>();
             AddAvailableFreeAction(action);
-            Game.Roster.GetPlayer(Game.PhaseManager.CurrentSubPhase.RequiredPlayer).PerformFreeAction();
+            Game.Roster.GetPlayer(Game.PhaseManager.CurrentSubPhase.RequiredPlayer).PerformFreeAction();*/
         }
 
         public void GenerateAvailableActionsList()

@@ -11,13 +11,13 @@ public enum CriticalCardType
 
 public class CriticalHitsDeck : MonoBehaviour {
 
-    private GameManagerScript Game;
+    //private GameManagerScript Game;
 
     private List<CriticalHitCard.GenericCriticalHit> Deck = new List<CriticalHitCard.GenericCriticalHit>();
 
     void Start()
     {
-        Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
+        //Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
     }
 
     void Update ()

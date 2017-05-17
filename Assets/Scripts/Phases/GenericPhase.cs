@@ -15,12 +15,6 @@ namespace Phases
         public virtual void StartPhase() { }
         public virtual void NextPhase() { }
 
-        //TODO: move
-        protected Player AnotherPlayer(Player player)
-        {
-            return (player == Player.Player1) ? Player.Player2 : Player.Player1;
-        }
-
     }
 
 }

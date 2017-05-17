@@ -7,15 +7,19 @@ public class GameManagerScript : MonoBehaviour {
     //Move to board consts
     public readonly float PLAYMAT_SIZE = 10;
 
+    public ShipRoster Roster;
+
+    public ShipFactory ShipFactory;
+    public PrefabsList PrefabList;
+
     public PhaseManagerScript PhaseManager;
     public UIManagerScript UI;
     public ShipActionsManagerScript Actions;
     public CombatManagerScript Combat;
-    public ShipRosterManagerScript Roster;
+    
     public ShipSelectionManagerScript Selection;
     public ShipMovementScript Movement;
     public DiceManagementScript Dices;
-    public ShipFactoryScript ShipFactory;
     public RulerManagement Ruler;
     public CriticalHitsDeck CritsDeck;
     public ShipPositionManager Position;
@@ -24,7 +28,7 @@ public class GameManagerScript : MonoBehaviour {
     void Start() {
         InitializeScripts();
         SetApplicationParemeters();
-        Roster.SpawnAllShips();
+        Roster.Start();
         CritsDeck.InitializeDeck();
         PhaseManager.StartPhases();
     }
@@ -36,24 +40,25 @@ public class GameManagerScript : MonoBehaviour {
 
     private void InitializeScripts()
     {
+        Roster = new ShipRoster();
+
         PhaseManager = this.GetComponent<PhaseManagerScript>();
         UI = this.GetComponent<UIManagerScript>();
             UI.ErrorManager = this.GetComponent<MessageManagerScript>();
-            UI.Roster = this.GetComponent<RosterInfoScript>();
             UI.DiceResults = this.GetComponent<DiceResultsScript>();
             UI.ActionsPanel = this.GetComponent<ActionsPanelScript>();
             UI.Helper = this.GetComponent<HelpInfoScript>();
         Actions = this.GetComponent<ShipActionsManagerScript>();
         Combat = this.GetComponent<CombatManagerScript>();
-        Roster = this.GetComponent<ShipRosterManagerScript>();
         Selection = this.GetComponent<ShipSelectionManagerScript>();
         Movement = this.GetComponent<ShipMovementScript>();
             Movement.Ruler = this.GetComponent<RulerManagement>();
         Dices = this.GetComponent<DiceManagementScript>();
         Ruler = this.GetComponent<RulerManagement>();
-        ShipFactory = this.GetComponent<ShipFactoryScript>();
         Position = this.GetComponent<ShipPositionManager>();
         CritsDeck = this.GetComponent<CriticalHitsDeck>();
+
+        PrefabList = this.GetComponent<PrefabsList>();
 
         Rules = new Rules.RulesScript(this);
     }

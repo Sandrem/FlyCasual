@@ -5,17 +5,16 @@ using UnityEngine;
 namespace Players
 {
 
-    public class AiPlayer : GenericPlayer
+    public partial class AiPlayer : GenericPlayer
     {
-        public readonly new PlayerType Type;
-        public readonly new string Name;
-        public readonly new int Id;
 
         public AiPlayer(int id): base(id) {
             Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
             Type = PlayerType.Ai;
             Name = "AI";
             Id = id;
+
+            Debug.Log("Internal id = " + Id);
         }
 
         public override void SetupShip()

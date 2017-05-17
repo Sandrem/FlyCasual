@@ -40,7 +40,7 @@ namespace SubPhases
 
         public override void NextSubPhase()
         {
-            Dictionary<int, Player> pilots = Game.Roster.NextPilotSkillAndPlayerAfter(RequiredPilotSkill, RequiredPlayer, Sorting.Asc);
+            Dictionary<int, Players.PlayerNo> pilots = Game.Roster.NextPilotSkillAndPlayerAfter(RequiredPilotSkill, RequiredPlayer, Sorting.Asc);
             foreach (var pilot in pilots)
             {
                 Game.PhaseManager.CurrentSubPhase = PreviousSubPhase;

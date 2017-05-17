@@ -45,7 +45,6 @@ namespace Ship
             string materialName = Ship.PilotName;
             materialName = materialName.Replace(' ', '_');
             materialName = materialName.Replace('"', '_');
-            Debug.Log(materialName);
             Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("ShipStand").Find("ShipStandInsert").Find("ShipStandInsertImage").Find("default").GetComponent<Renderer>().material = (Material)Resources.Load("ShipStandInsert/Materials/" + materialName, typeof(Material));
         }
 
@@ -115,23 +114,26 @@ namespace Ship
             {
                 foreach (Transform transform in Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("ShipModels").Find(Ship.Type))
                 {
-                    transform.GetComponent<Renderer>().material.shader = Shader.Find("Standard");
+                    //Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("Spotlight").gameObject.SetActive(false);
+                    //transform.GetComponent<Renderer>().material.shader = Shader.Find("Standard");
                 }
             }
             if (type == "selectedYellow")
             {
                 foreach (Transform transform in Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("ShipModels").Find(Ship.Type))
                 {
-                    transform.GetComponent<Renderer>().material.shader = Shader.Find("Outlined/Silhouetted Diffuse");
-                    transform.GetComponent<Renderer>().material.SetColor("_OutlineColor", Color.yellow);
+                    //Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("Spotlight").gameObject.SetActive(true);
+                    //transform.GetComponent<Renderer>().material.shader = Shader.Find("Outlined/Silhouetted Diffuse");
+                    //transform.GetComponent<Renderer>().material.SetColor("_OutlineColor", Color.yellow);
                 }
             }
             if (type == "selectedRed")
             {
                 foreach (Transform transform in Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("ShipModels").Find(Ship.Type))
                 {
-                    transform.GetComponent<Renderer>().material.shader = Shader.Find("Outlined/Silhouetted Diffuse");
-                    transform.GetComponent<Renderer>().material.SetColor("_OutlineColor", Color.red);
+                    //Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("Spotlight").gameObject.SetActive(true);
+                    //transform.GetComponent<Renderer>().material.shader = Shader.Find("Outlined/Silhouetted Diffuse");
+                    //transform.GetComponent<Renderer>().material.SetColor("_OutlineColor", Color.red);
                 }
             }
         }
@@ -262,6 +264,41 @@ namespace Ship
                 if (point.Value.z > zoneEnd.z) result = false;
             }
             return result;
+        }
+
+        public void ToggleDamaged(bool isDamaged)
+        {
+            Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("ShipModels").Find(Ship.Type).Find("ModelCenter").Find("DamageParticles").gameObject.SetActive(isDamaged);
+        }
+
+        public void RotateModelDuringTurn(MovementExecutionData currentMovementData, MovementExecutionData previousMovementData)
+        {
+            if ((currentMovementData.MovementDirection == ManeuverDirection.Forward) && (previousMovementData.Speed == 0)) return;
+
+            float progressCurrent = currentMovementData.CurrentProgress;
+            float progressTarget = currentMovementData.TargetProgress;
+            float turningDirection = 0;
+
+            if (currentMovementData.MovementDirection != ManeuverDirection.Forward)
+            {
+                progressTarget += progressTarget * (1f / currentMovementData.Speed); // 2+ 2 + 1/2 = 3
+                turningDirection = (currentMovementData.MovementDirection == ManeuverDirection.Right) ? 1 : -1;
+            }
+            if (previousMovementData.Speed != 0)
+            {
+                progressCurrent += progressTarget * previousMovementData.Speed; // 0+ 1*2 = 2
+                progressTarget += progressTarget * previousMovementData.Speed; // 1+ 1*2 = 3
+                turningDirection = (previousMovementData.MovementDirection == ManeuverDirection.Right) ? 1 : -1;
+            }
+            //Todo: Work correctly with move revertion
+            //Todo: reset rotation on finish
+
+            float progress = progressCurrent / progressTarget;
+            if (progress > 0.5f)
+            {
+                progress = 1 - progress;
+            }
+            Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("ShipModels").Find(Ship.Type).Find("ModelCenter").localEulerAngles = new Vector3(0, 0, Mathf.Lerp(0, 45* turningDirection, progress));
         }
 
     }

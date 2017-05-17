@@ -236,6 +236,9 @@ public class RosterInfoScript : MonoBehaviour {
                 damageIndicator.gameObject.SetActive(value <= thisShip.Hull);
             }
         }
+
+        //Todo: move
+        thisShip.Model.ToggleDamaged(thisShip.Hull == 1);
     }
 
     public void UpdateTokensIndicator(Ship.GenericShip thisShip)

@@ -1,23 +1,27 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Players;
 
 public partial class ShipRoster
 {
+    //Players
 
     public List<GenericPlayer> Players = new List<GenericPlayer>();
-
-    public Dictionary<string, Ship.GenericShip> AllShips = new Dictionary<string, Ship.GenericShip>();
 
     private GenericPlayer player1;
     public GenericPlayer Player1 { get { return Players[0]; } }
 
-    private Dictionary<string, Ship.GenericShip> shipsPlayer1;
-    public Dictionary<string, Ship.GenericShip> ShipsPlayer1 { get { return Players[0].Ships; } }
-
     private GenericPlayer player2;
     public GenericPlayer Player2 { get { return Players[1]; } }
+
+    //Ships
+
+    public Dictionary<string, Ship.GenericShip> AllShips = new Dictionary<string, Ship.GenericShip>();
+
+    private Dictionary<string, Ship.GenericShip> shipsPlayer1;
+    public Dictionary<string, Ship.GenericShip> ShipsPlayer1 { get { return Players[0].Ships; } }
 
     private Dictionary<string, Ship.GenericShip> shipsPlayer2;
     public Dictionary<string, Ship.GenericShip> ShipsPlayer2 {get { return Players[1].Ships; } }
@@ -35,18 +39,27 @@ public partial class ShipRoster
 
     public void Start()
     {
-        //Todo: move to constructor
         CreatePlayers();
         SpawnAllShips();
     }
 
+    //PLAYERS CREATION
+
     private void CreatePlayers()
     {
-        AddPlayer(PlayerType.Human);
-        AddPlayer(PlayerType.Human);
+        foreach (var playerType in Global.GetPlayerTypes())
+        {
+            CreatePlayer(playerType);
+        }
     }
 
-    //ToDo: AutoID, Teams as Enums
+    private void CreatePlayer(System.Type type)
+    {
+        System.Activator.CreateInstance(type);
+    }
+
+    //SHIP CREATION
+
     private void SpawnAllShips()
     {
         foreach (var shipConfig in Global.GetShipConfigurations())
@@ -56,190 +69,135 @@ public partial class ShipRoster
         }
     }
 
-    private void AddPlayer(PlayerType type)
-    {
-        //Todo: Generate by string-name
-
-        switch (type)
-        {
-            case PlayerType.Human:
-                new HumanPlayer();
-                break;
-            case PlayerType.Ai:
-                new AiPlayer();
-                break;
-            default:
-                break;
-        }
-
-        
-    }
-
-    public Ship.GenericShip GetShipById(string id)
-    {
-        return AllShips[id];
-    }
-
     private void AddShipToLists(Ship.GenericShip newShip)
     {
         AllShips.Add(newShip.Model.GetTag(), newShip);
         newShip.Owner.Ships.Add(newShip.Model.GetTag(), newShip);
     }
 
-    public Ship.GenericShip GetShipByTag(string tag)
+    //SHIP DESTRUCTION
+
+    public void DestroyShip(string id)
     {
-        return AllShips[tag];
+        GetShipById(id).Model.SetActive(false);
+        GetShipById(id).InfoPanel.SetActive(false);
+
+        RemoveShipFromLists(id);
     }
 
-    public void DestroyShip(string tag)
+    private void RemoveShipFromLists(string id)
     {
-        GetShipByTag(tag).Model.SetActive(false);
-        GetShipByTag(tag).InfoPanel.SetActive(false);
-
-        GetShipByTag(tag).Owner.Ships.Remove(tag);
-        AllShips.Remove(tag);
+        GetShipById(id).Owner.Ships.Remove(id);
+        AllShips.Remove(id);
     }
 
-    //TODO: Rewrite player skill checks (all 3 functions)
+    //TOOLS
 
-    public Dictionary<int, Players.PlayerNo> NextPilotSkillAndPlayerAfter(int previousPilotSkill, Players.PlayerNo PilotSkillSubPhasePlayer, Sorting sorting)
+    public Ship.GenericShip GetShipById(string id)
+    {
+        return AllShips[id];
+    }
+
+    public GenericPlayer GetPlayer(PlayerNo playerNo)
+    {
+        return (playerNo == PlayerNo.Player1) ? Game.Roster.Player1 : Game.Roster.Player2;
+    }
+
+    public int AnotherPlayer(int player)
+    {
+        return (player == 1) ? 2 : 1;
+    }
+
+    public PlayerNo AnotherPlayer(PlayerNo playerNo)
+    {
+        return (playerNo == PlayerNo.Player1) ? PlayerNo.Player2 : PlayerNo.Player1;
+    }
+
+
+    //FIND SHIPS BY REQUEST
+
+    public Dictionary<int, PlayerNo> NextPilotSkillAndPlayerAfter(int previousPilotSkill, Players.PlayerNo PilotSkillSubPhasePlayer, Sorting sorting)
     {
 
-        Dictionary<int, Players.PlayerNo> pilots = new Dictionary<int, Players.PlayerNo>();
-
-        //Check for same skill with another player
+        //TODO: Check for same skill with another player
         //pilots = ListAnotherPlayerButSamePilotSkill(previousPilotSkill, PilotSkillSubPhasePlayer);
 
-        //Check for another pilot skill
-        int nextPilotSkill = -1;
-        PlayerNo playerNo = PilotSkillSubPhasePlayer;
+        int pilotSkillMin = (sorting == Sorting.Asc) ? previousPilotSkill : -1;
+        int pilotSkillMax = (sorting == Sorting.Asc) ? 100 : previousPilotSkill;
 
-        //rewrite next two blocks?
-        if (sorting == Sorting.Asc)
+        var results =
+            from n in AllShips
+            where n.Value.PilotSkill > pilotSkillMin
+            where n.Value.PilotSkill < pilotSkillMax
+            orderby n.Value.PilotSkill
+            select n;
+
+        Dictionary<int, PlayerNo> dict = new Dictionary<int, PlayerNo>();
+        if (results.Count() > 0)
         {
-            nextPilotSkill = 100;
-            foreach (var ship in AllShips)
-            {
-                if ((ship.Value.PilotSkill > previousPilotSkill) && (ship.Value.PilotSkill < nextPilotSkill))
-                {
-                    nextPilotSkill = ship.Value.PilotSkill;
-                    playerNo = ship.Value.Owner.PlayerNo;
-                }
-            }
-            if (nextPilotSkill == 100)
-            {
-                nextPilotSkill = -1;
-            }
-
+            var result = (sorting == Sorting.Asc) ? results.First() : results.Last();
+            dict.Add(result.Value.PilotSkill, result.Value.Owner.PlayerNo);
         }
 
-        if (sorting == Sorting.Desc)
-        {
-            nextPilotSkill = -1;
-            foreach (var ship in AllShips)
-            {
-                if ((ship.Value.PilotSkill < previousPilotSkill) && (ship.Value.PilotSkill > nextPilotSkill))
-                {
-                    nextPilotSkill = ship.Value.PilotSkill;
-                    playerNo = ship.Value.Owner.PlayerNo;
-                }
-            }
-        }
-        pilots.Add(nextPilotSkill, playerNo);
-        return pilots;
-    }
-
-    public bool AllManuersAreAssigned(Players.PlayerNo playerNo)
-    {
-        foreach (var item in AllShips)
-        {
-            if (item.Value.Owner.PlayerNo == playerNo)
-            {
-                if (item.Value.AssignedManeuver == null)
-                {
-                    Game.UI.ShowError("Not all ship are assigned their maneuvers");
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
-
-    public bool AllManueversArePerformed()
-    {
-        foreach (var item in AllShips)
-        {
-            if (item.Value.IsManeurPerformed == false)
-            {
-                Game.UI.ShowError("Not all ship executed their maneuvers");
-                return false;
-            }
-        }
-        return true;
-    }
-
-    public void SetRaycastTargets(bool value)
-    {
-        foreach (var shipHolder in AllShips)
-        {
-            shipHolder.Value.Model.SetRaycastTarget(value);
-        }
+        return dict;
     }
 
     public Dictionary<string, Ship.GenericShip> ListSamePlayerAndPilotSkill(Ship.GenericShip thisShip)
     {
-        Dictionary<string, Ship.GenericShip> result = new Dictionary<string, Ship.GenericShip>();
-        foreach (var item in AllShips)
-        {
-            if (item.Value.Owner == thisShip.Owner)
-            {
-                if (item.Value.PilotSkill == thisShip.PilotSkill)
-                {
-                    if (item.Value.ShipId != thisShip.ShipId)
-                    {
-                        result.Add(item.Key, item.Value);
-                    }
-                }
-            }
-        }
-        return result;
+        var results =
+            from n in AllShips
+            where n.Value.Owner.PlayerNo    == thisShip.Owner.PlayerNo
+            where n.Value.PilotSkill        == thisShip.PilotSkill
+            where n.Value.ShipId            == thisShip.ShipId
+            select n;
+
+        return results.ToDictionary(t => t.Key, t => t.Value);
     }
 
     public Dictionary<int, int> ListAnotherPlayerButSamePilotSkill(int previousPilotSkill, int PilotSkillSubPhasePlayer)
     {
-        Dictionary<int, int> result = new Dictionary<int, int>();
+        var results =
+            from n in AllShips
+            where n.Value.PilotSkill    == previousPilotSkill
+            where n.Value.Owner.Id      != PilotSkillSubPhasePlayer
+            select n;
 
-        //fix this
-        if (Game == null) Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
+        return results.ToDictionary(t => previousPilotSkill, t => t.Value.Owner.Id);
+    }
 
-        if (PlayerFromInt(PilotSkillSubPhasePlayer) == Game.Phases.PlayerWithInitiative)
-        {
-            foreach (var ship in AllShips)
-            {
-                if (ship.Value.PilotSkill == previousPilotSkill)
-                {
-                    if (ship.Value.Owner.PlayerNo != PlayerFromInt(PilotSkillSubPhasePlayer))
-                    {
-                        result.Add(previousPilotSkill, PlayerToInt(ship.Value.Owner.PlayerNo));
-                        return result;
-                    }
-                }
-            }
-        }
-        return result;
+    // CHECK ALL SHIPS IN ROSTER
+
+    public bool AllManuersAreAssigned(PlayerNo playerNo)
+    {
+        var results =
+            from n in AllShips
+            where n.Value.Owner.PlayerNo == playerNo
+            where n.Value.AssignedManeuver == null
+            select n;
+
+        if (results.Count() > 0) Game.UI.ShowError("Not all ship are assigned their maneuvers");
+        return (results.Count() == 0);
+    }
+
+    public bool AllManueversArePerformed()
+    {
+        var results =
+            from n in AllShips
+            where n.Value.IsManeurPerformed == false
+            select n;
+
+        if (results.Count() > 0) Game.UI.ShowError("Not all ship executed their maneuvers");
+        return (results.Count() == 0);
     }
 
     public bool NoSamePlayerAndPilotSkillNotMoved(Ship.GenericShip thisShip)
     {
-        Dictionary<string, Ship.GenericShip> samePlayerAndPilotSkill = ListSamePlayerAndPilotSkill(thisShip);
-        foreach (var item in samePlayerAndPilotSkill)
-        {
-            if (item.Value.IsManeurPerformed == false)
-            {
-                return false;
-            }
-        }
-        return true;
+        var results =
+            from n in ListSamePlayerAndPilotSkill(thisShip)
+            where n.Value.IsManeurPerformed == false
+            select n;
+
+        return (results.Count() == 0);
     }
 
     public bool NoSamePlayerAndPilotSkillNotAttacked(Ship.GenericShip thisShip)
@@ -255,6 +213,8 @@ public partial class ShipRoster
         return true;
     }
 
+    //TODO: Rework
+
     public int CheckIsAnyTeamIsEliminated()
     {
         int result = 0;
@@ -269,48 +229,14 @@ public partial class ShipRoster
         return result;
     }
 
-    public Players.GenericPlayer GetPlayer(PlayerNo playerNo)
-    {
-        //fix this
-        if (Game == null) Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-        return (playerNo == PlayerNo.Player1) ? Game.Roster.Player1 : Game.Roster.Player2;
-    }
+    // TODO: ??? Move to selection
 
-    /*public Players.GenericPlayer GetPlayer(Players.GenericPlayer playerNo)
+    public void SetRaycastTargets(bool value)
     {
-        //fix this
-        if (Game == null) Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-        return (playerNo == Player.Player1) ? Game.Roster.Player1 : Game.Roster.Player2;
-    }*/
-
-    //TODO: move
-    public PlayerNo PlayerFromInt(int playerNo)
-    {
-        PlayerNo result = PlayerNo.Player1;
-        if (playerNo == 1) result = PlayerNo.Player1;
-        if (playerNo == 2) result = PlayerNo.Player2;
-        return result;
-    }
-
-    //TODO: move
-    public int PlayerToInt(PlayerNo playerNo)
-    {
-        int result = -1;
-        if (playerNo == PlayerNo.Player1) result = 1;
-        if (playerNo == PlayerNo.Player2) result = 2;
-        return result;
-    }
-
-    //TODO: move
-    public int AnotherPlayer(int player)
-    {
-        return (player == 1) ? 2 : 1;
-    }
-
-    //TODO: move
-    public PlayerNo AnotherPlayer(PlayerNo playerNo)
-    {
-        return (playerNo == PlayerNo.Player1) ? PlayerNo.Player2 : PlayerNo.Player1;
+        foreach (var shipHolder in AllShips)
+        {
+            shipHolder.Value.Model.SetRaycastTarget(value);
+        }
     }
 
 }

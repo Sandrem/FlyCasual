@@ -32,7 +32,7 @@ namespace SubPhases
 
             UpdateHelpInfo();
 
-            if (RequiredPilotSkill == -1)
+            if (pilots.Count == 0)
             {
                 Game.Phases.CurrentPhase.NextPhase();
             } else

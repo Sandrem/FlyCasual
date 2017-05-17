@@ -30,7 +30,7 @@ public class ShipStandCollider: MonoBehaviour {
 		if (checkCollisions) {
 			if (collisionInfo.name == "ShipStand") {
                 Game.Movement.CollidedWith  = null;
-				Game.Selection.ThisShip.LastShipCollision = Game.Roster.GetShipByTag (collisionInfo.tag);
+				Game.Selection.ThisShip.LastShipCollision = Game.Roster.GetShipById (collisionInfo.tag);
 			}
 		}
 	}

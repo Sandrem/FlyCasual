@@ -10,10 +10,8 @@ public class UIManagerScript: MonoBehaviour {
     private GameManagerScript Game;
 
     public MessageManagerScript ErrorManager;
-    public RosterInfoScript Roster;
     public DiceResultsScript DiceResults;
     public ActionsPanelScript ActionsPanel;
-    public HelpInfoScript Helper;
 
     public GameObject panelDirectionMenu;
     public GameObject panelContextMenu;
@@ -43,7 +41,7 @@ public class UIManagerScript: MonoBehaviour {
     {
         HideDirectionMenu();
         HideContextMenuButtons();
-        if (Game.PhaseManager.CurrentSubPhase.CountActiveButtons(ship) > 0)
+        if (Game.Phases.CurrentSubPhase.CountActiveButtons(ship) > 0)
         {
             panelContextMenu.SetActive(true);
             position = FixMenuPosition(panelContextMenu, position);
@@ -199,13 +197,14 @@ public class UIManagerScript: MonoBehaviour {
         newLogEntry.GetComponent<Text>().text = text;
     }
 
-    //TODO: move
-    public Player PlayerFromInt(int playerNo)
+    public void ClickNextPhase()
     {
-        Player result = Player.None;
-        if (playerNo == 1) result = Player.Player1;
-        if (playerNo == 2) result = Player.Player2;
-        return result;
+        Game.Phases.CallNextSubPhase();
+    }
+
+    public void ClickPerformAttack()
+    {
+        Game.Actions.PerformAttack();
     }
 
 }

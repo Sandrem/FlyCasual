@@ -7,60 +7,81 @@ public class GameManagerScript : MonoBehaviour {
     //Move to board consts
     public readonly float PLAYMAT_SIZE = 10;
 
-    public PhaseManagerScript PhaseManager;
+    public ShipRoster Roster;
+
+    private ShipFactory shipFactory;
+    public ShipFactory ShipFactory
+    {
+        get 
+        {
+            if (this.shipFactory == null) { shipFactory = new ShipFactory(); }
+            return shipFactory;
+        }
+    }
+
+    public PrefabsList PrefabList;
+    public PhasesManager Phases;
+    public ShipActionsManager Actions;
+    public DiceManager Dices;
+    public MovementTemplates MovementTemplates;
+    public CriticalHitsDeckManager CritsDeck;
+    public Rules.RulesScript Rules;
+
+    public BoardView Board;
     public UIManagerScript UI;
-    public ShipActionsManagerScript Actions;
-    public CombatManagerScript Combat;
-    public ShipRosterManagerScript Roster;
+    public CombatManager Combat;
     public ShipSelectionManagerScript Selection;
     public ShipMovementScript Movement;
-    public DiceManagementScript Dices;
-    public ShipFactoryScript ShipFactory;
-    public RulerManagement Ruler;
-    public CriticalHitsDeck CritsDeck;
     public ShipPositionManager Position;
-    public Rules.RulesScript Rules { get; private set; }
+
 
     void Start() {
-        InitializeScripts();
         SetApplicationParemeters();
-        Roster.SpawnAllShips();
+
+        InitializeScripts();
+
+        //Start Board
+        Board.Initialize();
+
+        //Rules Start
+        Actions.Start();
+        Combat.Start();
+
+        Roster.Start();
         CritsDeck.InitializeDeck();
-        PhaseManager.StartPhases();
-    }
-
-    void Update()
-    {
-
-    }
-
-    private void InitializeScripts()
-    {
-        PhaseManager = this.GetComponent<PhaseManagerScript>();
-        UI = this.GetComponent<UIManagerScript>();
-            UI.ErrorManager = this.GetComponent<MessageManagerScript>();
-            UI.Roster = this.GetComponent<RosterInfoScript>();
-            UI.DiceResults = this.GetComponent<DiceResultsScript>();
-            UI.ActionsPanel = this.GetComponent<ActionsPanelScript>();
-            UI.Helper = this.GetComponent<HelpInfoScript>();
-        Actions = this.GetComponent<ShipActionsManagerScript>();
-        Combat = this.GetComponent<CombatManagerScript>();
-        Roster = this.GetComponent<ShipRosterManagerScript>();
-        Selection = this.GetComponent<ShipSelectionManagerScript>();
-        Movement = this.GetComponent<ShipMovementScript>();
-            Movement.Ruler = this.GetComponent<RulerManagement>();
-        Dices = this.GetComponent<DiceManagementScript>();
-        Ruler = this.GetComponent<RulerManagement>();
-        ShipFactory = this.GetComponent<ShipFactoryScript>();
-        Position = this.GetComponent<ShipPositionManager>();
-        CritsDeck = this.GetComponent<CriticalHitsDeck>();
-
-        Rules = new Rules.RulesScript(this);
+        Phases.StartPhases();
     }
 
     private void SetApplicationParemeters()
     {
         Application.targetFrameRate = 60;
+    }
+
+    private void InitializeScripts()
+    {
+        Roster = new ShipRoster();
+        Phases = new PhasesManager();
+        MovementTemplates = new MovementTemplates();
+        Dices = new DiceManager();
+        CritsDeck = new CriticalHitsDeckManager();
+        Actions = new ShipActionsManager();
+        Combat = new CombatManager();
+        Rules = new Rules.RulesScript(this);
+
+        PrefabList = this.GetComponent<PrefabsList>();
+
+        UI = this.GetComponent<UIManagerScript>();
+            UI.ErrorManager = this.GetComponent<MessageManagerScript>();
+            UI.DiceResults = this.GetComponent<DiceResultsScript>();
+            UI.ActionsPanel = this.GetComponent<ActionsPanelScript>();
+        
+        
+        Selection = this.GetComponent<ShipSelectionManagerScript>();
+        Movement = this.GetComponent<ShipMovementScript>();
+        
+        Position = this.GetComponent<ShipPositionManager>();
+
+        Board = GameObject.Find("Board").GetComponent<BoardView>();
     }
 
 }

@@ -24,7 +24,7 @@ public class ActionsPanelScript : MonoBehaviour {
 
     public void ShowFreeActionsPanel()
     {
-        Game.PhaseManager.StartFreeActionSubPhase("Free action");
+        Game.Phases.StartFreeActionSubPhase("Free action");
         ShowActionsButtons(Game.Selection.ThisShip.GetAvailableFreeActionsList());
     }
 
@@ -57,7 +57,7 @@ public class ActionsPanelScript : MonoBehaviour {
         else
         {
             Game.UI.ShowError("Cannot perform any actions");
-            Game.PhaseManager.CurrentSubPhase.NextSubPhase();
+            Game.Phases.CurrentSubPhase.NextSubPhase();
         }
     }
 
@@ -75,9 +75,10 @@ public class ActionsPanelScript : MonoBehaviour {
     public void CloseActionsPanel()
     {
         panelActions.SetActive(false);
-        if (!(Game.PhaseManager.CurrentSubPhase.GetType() == typeof(SubPhases.SelectTargetSubPhase)) && !(Game.PhaseManager.CurrentSubPhase.GetType() == typeof(SubPhases.BarrelRollSubPhase)))
+        //Rework: This needs go next only if this is single-state action
+        if (!(Game.Phases.CurrentSubPhase.GetType() == typeof(SubPhases.SelectTargetSubPhase)) && !(Game.Phases.CurrentSubPhase.GetType() == typeof(SubPhases.BarrelRollSubPhase)))
         {
-            Game.PhaseManager.Next();
+            Game.Phases.Next();
         }
     }
 

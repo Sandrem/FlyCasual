@@ -12,9 +12,6 @@ public class ShipSelectionManagerScript : MonoBehaviour {
     public Ship.GenericShip AnotherShip;
     public Ship.GenericShip ActiveShip;
 
-    public bool isUIlocked = false;
-    public bool isInTemporaryState = false;
-
     // Use this for initialization
     void Start () {
         Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
@@ -55,7 +52,7 @@ public class ShipSelectionManagerScript : MonoBehaviour {
         bool result = false;
 
         Ship.GenericShip ship = Game.Roster.GetShipById(shipId);
-        if (ship.PlayerNo == Game.PhaseManager.CurrentSubPhase.RequiredPlayer)
+        if (ship.Owner.PlayerNo == Game.Phases.CurrentSubPhase.RequiredPlayer)
         {
             result = Game.Selection.TryToChangeThisShip(shipId);
         }
@@ -79,7 +76,7 @@ public class ShipSelectionManagerScript : MonoBehaviour {
     {
         bool result = false;
         Ship.GenericShip targetShip = Game.Roster.GetShipById(shipId);
-        result = Game.PhaseManager.CurrentSubPhase.AnotherShipCanBeSelected(targetShip);
+        result = Game.Phases.CurrentSubPhase.AnotherShipCanBeSelected(targetShip);
 
         if (result == true)
         {
@@ -94,7 +91,7 @@ public class ShipSelectionManagerScript : MonoBehaviour {
 
         Ship.GenericShip ship = Game.Roster.GetShipById(shipId);
 
-        result = Game.PhaseManager.CurrentSubPhase.ThisShipCanBeSelected(ship);
+        result = Game.Phases.CurrentSubPhase.ThisShipCanBeSelected(ship);
 
         if (result == true)
         {
@@ -159,15 +156,6 @@ public class ShipSelectionManagerScript : MonoBehaviour {
     {
         DeselectThisShip();
         DeselectAnotherShip();
-    }
-
-    //TODO: move
-    public Player PlayerFromInt(int playerNo)
-    {
-        Player result = Player.None;
-        if (playerNo == 1) result = Player.Player1;
-        if (playerNo == 2) result = Player.Player2;
-        return result;
     }
 
 }

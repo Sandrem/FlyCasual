@@ -75,6 +75,7 @@ public class ActionsPanelScript : MonoBehaviour {
     public void CloseActionsPanel()
     {
         panelActions.SetActive(false);
+        //Rework: This needs go next only if this is single-state action
         if (!(Game.Phases.CurrentSubPhase.GetType() == typeof(SubPhases.SelectTargetSubPhase)) && !(Game.Phases.CurrentSubPhase.GetType() == typeof(SubPhases.BarrelRollSubPhase)))
         {
             Game.Phases.Next();

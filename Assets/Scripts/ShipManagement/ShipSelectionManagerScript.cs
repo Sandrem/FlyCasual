@@ -12,9 +12,6 @@ public class ShipSelectionManagerScript : MonoBehaviour {
     public Ship.GenericShip AnotherShip;
     public Ship.GenericShip ActiveShip;
 
-    public bool isUIlocked = false;
-    public bool isInTemporaryState = false;
-
     // Use this for initialization
     void Start () {
         Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();

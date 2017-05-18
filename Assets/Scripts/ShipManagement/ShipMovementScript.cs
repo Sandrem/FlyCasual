@@ -84,7 +84,7 @@ public class ShipMovementScript : MonoBehaviour {
 
     //Assignment and launch of execution of meneuver
 
-    public void AssignManeur()
+    public void AssignManeuver()
     {
         string parameters = EventSystem.current.currentSelectedGameObject.name;
         Game.Selection.ThisShip.AssignedManeuver = ManeuverFromString(parameters);
@@ -156,14 +156,13 @@ public class ShipMovementScript : MonoBehaviour {
     
     public void PerformStoredManeuver()
     {
-        PerformMove(Game.Selection.ThisShip.AssignedManeuver);
-	}
+        Game.Phases.StartMovementExecutionSubPhase("");
+        Game.Movement.PerformMove(Game.Selection.ThisShip.AssignedManeuver);
+    }
 
-	private void PerformMove(Movement movementParameters) {
+	public void PerformMove(Movement movementParameters) {
 
         Game.UI.HideContextMenu();
-
-        Game.Selection.isUIlocked = true;
 
         CurrentMovementData.MovementBearing = movementParameters.Bearing;
         CurrentMovementData.MovementDirection = movementParameters.Direction;
@@ -434,25 +433,21 @@ public class ShipMovementScript : MonoBehaviour {
 
 	private void FinishMovement() {
 
-        PreviousMovementData = new MovementExecutionData();
+        Game.Phases.FinishSubPhase(typeof(SubPhases.MovementExecutionSubPhase));
 
-        Game.Selection.isUIlocked = false;
+        PreviousMovementData = new MovementExecutionData();
 
         Game.Selection.ThisShip.FinishMoving();
 
         CurrentMovementData.IsMoving = false;
         Game.Selection.ThisShip.Model.ResetRotationHelpers();
         
-        
         Game.Selection.ThisShip.IsManeurPerformed = true;
         Game.Selection.ThisShip.IsAttackPerformed = false;
 
         Game.Selection.ThisShip.AssignedManeuver = null;
 
-        if (!Game.Phases.InTemporarySubPhase)
-        {
-            Game.Phases.Next();
-        }
+        Game.Phases.FinishSubPhase(typeof(SubPhases.ActivationSubPhase));
     }
 
     private void RevertMove() {

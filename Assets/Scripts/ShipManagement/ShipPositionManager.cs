@@ -8,8 +8,14 @@ public class ShipPositionManager : MonoBehaviour
     private GameManagerScript Game;
     public bool inReposition;
 
+    //TEMP
+    private bool inBarrelRoll;
+    private Ship.GenericShip RollingShip;
+    private float progressCurrent;
+    private float progressTarget;
+
     public GameObject prefabShipStand;
-    private GameObject OriginalShipStand;
+    private GameObject ShipStand;
 
     // Use this for initialization
     void Start()
@@ -39,6 +45,11 @@ public class ShipPositionManager : MonoBehaviour
             //StopDrag();
         }
 
+        if (inBarrelRoll)
+        {
+            BarrelRollAnimation();
+        }
+
     }
 
     public void StartDrag()
@@ -51,30 +62,37 @@ public class ShipPositionManager : MonoBehaviour
 
     public void StartBarrelRoll()
     {
-        if (Game.Phases.CurrentSubPhase.GetType() == typeof(SubPhases.BarrelRollSubPhase))
-        {
-            OriginalShipStand = MonoBehaviour.Instantiate(Game.Position.prefabShipStand, Game.Selection.ThisShip.Model.GetPosition(), Game.Selection.ThisShip.Model.GetRotation(), Game.Board.Board.transform);
-            Game.Roster.SetRaycastTargets(false);
-            inReposition = true;
-        }
+        //if (Game.Phases.CurrentSubPhase.GetType() == typeof(SubPhases.BarrelRollSubPhase))
+        //{
+        ShipStand = MonoBehaviour.Instantiate(Game.Position.prefabShipStand, Game.Selection.ThisShip.Model.GetPosition(), Game.Selection.ThisShip.Model.GetRotation(), Game.Board.Board.transform);
+        Game.Roster.SetRaycastTargets(false);
+        inReposition = true;
+        //}
     }
 
     private void PerformDrag()
     {
         RaycastHit hit;
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out hit))
-        {
-            Game.Selection.ThisShip.Model.SetPosition(new Vector3(hit.point.x, 0.03f, hit.point.z));
+
+        if (Physics.Raycast(ray, out hit)) {
+            if (Game.Phases.CurrentSubPhase.GetType() == typeof(SubPhases.SetupSubPhase))
+            {
+                Game.Selection.ThisShip.Model.SetPosition(new Vector3(hit.point.x, 0.03f, hit.point.z));
+            }
+            if (Game.Phases.CurrentSubPhase.GetType() == typeof(SubPhases.BarrelRollSubPhase))
+            {
+                ShipStand.transform.position = new Vector3(hit.point.x, 0.03f, hit.point.z);
+            }
         }
 
         if (Game.Phases.CurrentSubPhase.GetType() == typeof(SubPhases.BarrelRollSubPhase))
         {
             //Write Relative position
-            Vector3 newPosition = OriginalShipStand.transform.InverseTransformPoint(Game.Selection.ThisShip.Model.GetPosition());
+            Vector3 newPosition = Game.Selection.ThisShip.Model.InverseTransformPoint(ShipStand.transform.position);
             Vector3 fixedPositionRel = newPosition;
 
-            Transform currentHelper = OriginalShipStand.transform.Find("Right");
+            //Transform currentHelper = Game.Selection.ThisShip.Model.GetHelper("Right");
 
             if (newPosition.z > 0.5f)
             {
@@ -89,35 +107,36 @@ public class ShipPositionManager : MonoBehaviour
             if (newPosition.x > 0f) {
                 fixedPositionRel = new Vector3(2, fixedPositionRel.y, fixedPositionRel.z);
 
-                currentHelper = OriginalShipStand.transform.Find("Right");
+                /*currentHelper = Game.Selection.ThisShip.Model.GetHelper("Right");
                 currentHelper.gameObject.SetActive(true);
-                OriginalShipStand.transform.Find("Left").gameObject.SetActive(false);
+                Game.Selection.ThisShip.Model.GetHelper("Left").gameObject.SetActive(false);*/
             }
 
             if (newPosition.x < 0f) {
                 fixedPositionRel = new Vector3(-2, fixedPositionRel.y, fixedPositionRel.z);
 
-                currentHelper = OriginalShipStand.transform.Find("Left");
+                /*currentHelper = Game.Selection.ThisShip.Model.GetHelper("Left");
                 currentHelper.gameObject.SetActive(true);
-                OriginalShipStand.transform.Find("Right").gameObject.SetActive(false);
+                Game.Selection.ThisShip.Model.GetHelper("Right").gameObject.SetActive(false);*/
             }
 
-            Vector3 helperPositionRel = OriginalShipStand.transform.InverseTransformPoint(currentHelper.position);
+            /*Vector3 helperPositionRel = Game.Selection.ThisShip.Model.InverseTransformPoint(currentHelper.position);
+
             if (fixedPositionRel.z-0.25 < helperPositionRel.z)
             {
-                helperPositionRel = new Vector3(helperPositionRel.x, helperPositionRel.y, fixedPositionRel.z-0.25f);
-                Vector3 helperPositionAbs = OriginalShipStand.transform.TransformPoint(helperPositionRel);
+                helperPositionRel = new Vector3(helperPositionRel.x, helperPositionRel.y, fixedPositionRel.z);
+                Vector3 helperPositionAbs = ShipStand.transform.TransformPoint(helperPositionRel);
                 currentHelper.position = helperPositionAbs;
             }
             if (fixedPositionRel.z-0.75 > helperPositionRel.z)
             {
-                helperPositionRel = new Vector3(helperPositionRel.x, helperPositionRel.y, fixedPositionRel.z - 0.75f);
-                Vector3 helperPositionAbs = OriginalShipStand.transform.TransformPoint(helperPositionRel);
+                helperPositionRel = new Vector3(helperPositionRel.x, helperPositionRel.y, fixedPositionRel.z);
+                Vector3 helperPositionAbs = ShipStand.transform.TransformPoint(helperPositionRel);
                 currentHelper.position = helperPositionAbs;
-            }
+            }*/
 
-            Vector3 fixedPositionAbs = OriginalShipStand.transform.TransformPoint(fixedPositionRel);
-            Game.Selection.ThisShip.Model.SetPosition(fixedPositionAbs);
+            Vector3 fixedPositionAbs = Game.Selection.ThisShip.Model.TransformPoint(fixedPositionRel);
+            ShipStand.transform.position = fixedPositionAbs;
         }
     }
 
@@ -142,7 +161,11 @@ public class ShipPositionManager : MonoBehaviour
 
         if (Game.Phases.CurrentSubPhase.GetType() == typeof(SubPhases.BarrelRollSubPhase))
         {
-            Destroy(OriginalShipStand);
+            RollingShip = Game.Selection.ThisShip;
+            Game.Phases.StartMovementExecutionSubPhase("");
+            inBarrelRoll = true;
+            progressCurrent = 0;
+            progressTarget = Vector3.Distance(RollingShip.Model.GetPosition(), ShipStand.transform.position);
             result = true;
         } 
 
@@ -165,6 +188,20 @@ public class ShipPositionManager : MonoBehaviour
         Game.Phases.CurrentSubPhase.NextSubPhase();
     }
 
-
+    //TODO: Move using curve
+    private void BarrelRollAnimation()
+    {
+        float progressStep = 0.1f * Time.deltaTime;
+        RollingShip.Model.SetPosition(Vector3.MoveTowards(RollingShip.Model.GetPosition(), ShipStand.transform.position, progressStep));
+        progressCurrent += progressStep;
+        RollingShip.Model.RotateModelDuringBarrelRoll(progressCurrent/progressTarget);
+        RollingShip.Model.MoveUpwards(progressCurrent / progressTarget);
+        if (progressCurrent >= progressTarget)
+        {
+            inBarrelRoll = false;
+            Destroy(ShipStand);
+            Game.Phases.Next();
+        }
+    }
 
 }

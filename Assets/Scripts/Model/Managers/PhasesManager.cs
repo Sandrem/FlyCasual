@@ -56,6 +56,11 @@ public partial class PhasesManager {
         CurrentPhase.StartPhase();
     }
 
+    public void FinishSubPhase(System.Type subPhaseType)
+    {
+        if (CurrentSubPhase.GetType() == subPhaseType) Next();
+    }
+
     public void Next()
     {
         CurrentSubPhase.NextSubPhase();
@@ -113,6 +118,11 @@ public partial class PhasesManager {
     public void StartBarrelRollSubPhase(string name)
     {
         StartTemporarySubPhase(name, new BarrelRollSubPhase());
+    }
+
+    public void StartMovementExecutionSubPhase(string name)
+    {
+        StartTemporarySubPhase(name, new MovementExecutionSubPhase());
     }
 
     private void StartTemporarySubPhase(string name, GenericSubPhase subPhase)

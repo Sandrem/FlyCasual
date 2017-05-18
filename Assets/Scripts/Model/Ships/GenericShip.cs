@@ -414,9 +414,9 @@ namespace Ship
 
         public void AskPerformFreeAction(Actions.GenericAction action)
         {
-            /*AvailableFreeActionsList = new List<Actions.GenericAction>();
+            AvailableFreeActionsList = new List<Actions.GenericAction>();
             AddAvailableFreeAction(action);
-            Game.Roster.GetPlayer(Game.PhaseManager.CurrentSubPhase.RequiredPlayer).PerformFreeAction();*/
+            Game.Roster.GetPlayer(Game.Phases.CurrentSubPhase.RequiredPlayer).PerformFreeAction();
         }
 
         public void GenerateAvailableActionsList()

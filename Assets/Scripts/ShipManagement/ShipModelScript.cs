@@ -281,13 +281,13 @@ namespace Ship
 
             if (currentMovementData.MovementDirection != ManeuverDirection.Forward)
             {
-                progressTarget += progressTarget * (1f / currentMovementData.Speed); // 2+ 2 + 1/2 = 3
+                progressTarget += progressTarget * (1f / currentMovementData.Speed);
                 turningDirection = (currentMovementData.MovementDirection == ManeuverDirection.Right) ? 1 : -1;
             }
             if (previousMovementData.Speed != 0)
             {
-                progressCurrent += progressTarget * previousMovementData.Speed; // 0+ 1*2 = 2
-                progressTarget += progressTarget * previousMovementData.Speed; // 1+ 1*2 = 3
+                progressCurrent += progressTarget * previousMovementData.Speed;
+                progressTarget += progressTarget * previousMovementData.Speed;
                 turningDirection = (previousMovementData.MovementDirection == ManeuverDirection.Right) ? 1 : -1;
             }
             //Todo: Work correctly with move revertion
@@ -299,6 +299,23 @@ namespace Ship
                 progress = 1 - progress;
             }
             Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("ShipModels").Find(Ship.Type).Find("ModelCenter").localEulerAngles = new Vector3(0, 0, Mathf.Lerp(0, 45* turningDirection, progress));
+        }
+
+        public void RotateModelDuringBarrelRoll(float progress)
+        {
+            float turningDirection = 1;
+            Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("ShipModels").Find(Ship.Type).Find("ModelCenter").localEulerAngles = new Vector3(0, 0, Mathf.Lerp(0, turningDirection * 360, progress));
+        }
+
+        public void MoveUpwards(float progress)
+        {
+            progress = (progress > 0.5f) ? 1 - progress : progress;
+            Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("ShipModels").Find(Ship.Type).Find("ModelCenter").localPosition = new Vector3(0, 3.67f + 4f * progress, 0);
+        }
+
+        public Vector3 InverseTransformPoint(Vector3 point)
+        {
+            return Model.transform.InverseTransformPoint(point);
         }
 
     }

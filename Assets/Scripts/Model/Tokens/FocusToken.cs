@@ -9,7 +9,7 @@ namespace Tokens
     {
         public FocusToken() {
             Name = "Focus Token";
-            Action = new Actions.FocusAction();
+            Action = new ActionsList.FocusAction();
         }
     }
 

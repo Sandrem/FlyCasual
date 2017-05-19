@@ -29,8 +29,8 @@ public class DiceResultsScript: MonoBehaviour {
         //todo: rework
         Game.Selection.ActiveShip.GenerateDiceModificationButtons();
 
-        //Debug.Log(Game.Roster.GetPlayer(Game.Selection.ActiveShip.Owner.PlayerNo).Type);
-        if (Game.Roster.GetPlayer(Game.Selection.ActiveShip.Owner.PlayerNo).Type == Players.PlayerType.Human)
+        //Debug.Log(Roster.GetPlayer(Game.Selection.ActiveShip.Owner.PlayerNo).Type);
+        if (Roster.GetPlayer(Game.Selection.ActiveShip.Owner.PlayerNo).Type == Players.PlayerType.Human)
         {
             float offset = 0;
             Vector3 defaultPosition = panelDiceResultsMenu.transform.position + new Vector3(5, 195, 0);
@@ -54,7 +54,7 @@ public class DiceResultsScript: MonoBehaviour {
             panelDiceResultsMenu.transform.Find("Confirm").gameObject.SetActive(true);
         }
 
-        Game.Roster.GetPlayer(Game.Selection.ActiveShip.Owner.PlayerNo).UseDiceModifications();
+        Roster.GetPlayer(Game.Selection.ActiveShip.Owner.PlayerNo).UseDiceModifications();
     }
 
     public void HideDiceModificationButtons()
@@ -73,20 +73,20 @@ public class DiceResultsScript: MonoBehaviour {
     {
         HideDiceResultMenu();
         
-        if (Game.Combat.AttackStep == CombatStep.Attack)
+        if (Combat.AttackStep == CombatStep.Attack)
         {
-            Game.Combat.PerformDefence(Game.Selection.ThisShip, Game.Selection.AnotherShip);
+            Combat.PerformDefence(Game.Selection.ThisShip, Game.Selection.AnotherShip);
         }
-        else if ((Game.Combat.AttackStep == CombatStep.Defence))
+        else if ((Combat.AttackStep == CombatStep.Defence))
         {
             //TODO: Show compare results dialog
-            Game.Combat.CalculateAttackResults(Game.Selection.ThisShip, Game.Selection.AnotherShip);
+            Combat.CalculateAttackResults(Game.Selection.ThisShip, Game.Selection.AnotherShip);
 
-            Game.MovementTemplates.ReturnRangeRuler();
+            MovementTemplates.ReturnRangeRuler();
 
-            if (Game.Roster.NoSamePlayerAndPilotSkillNotAttacked(Game.Selection.ThisShip))
+            if (Roster.NoSamePlayerAndPilotSkillNotAttacked(Game.Selection.ThisShip))
             {
-                Game.Phases.CurrentSubPhase.NextSubPhase();
+                Phases.CurrentSubPhase.NextSubPhase();
             }
 
         }
@@ -96,7 +96,7 @@ public class DiceResultsScript: MonoBehaviour {
     {
         panelDiceResultsMenu.SetActive(false);
         HideDiceModificationButtons();
-        Game.Combat.CurentDiceRoll.RemoveDiceModels();
+        Combat.CurentDiceRoll.RemoveDiceModels();
     }
 
 }

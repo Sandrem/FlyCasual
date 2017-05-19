@@ -10,4 +10,16 @@ public class PrefabsList : MonoBehaviour {
     public GameObject RostersHolder;
     public GameObject PhasesPanel;
 
+    public Transform BoardTransform;
+
+    public Transform RulersHolderTransform;
+
+    public GameObject DiceAttack;
+    public GameObject DiceDefence;
+    public Transform DiceSpawningPoint;
+    public Transform DiceField;
+
+    public GameObject StartingZone1;
+    public GameObject StartingZone2;
+
 }

@@ -51,8 +51,8 @@ public class ShipSelectionManagerScript : MonoBehaviour {
     {
         bool result = false;
 
-        Ship.GenericShip ship = Game.Roster.GetShipById(shipId);
-        if (ship.Owner.PlayerNo == Game.Phases.CurrentSubPhase.RequiredPlayer)
+        Ship.GenericShip ship = Roster.GetShipById(shipId);
+        if (ship.Owner.PlayerNo == Phases.CurrentSubPhase.RequiredPlayer)
         {
             result = Game.Selection.TryToChangeThisShip(shipId);
         }
@@ -75,8 +75,8 @@ public class ShipSelectionManagerScript : MonoBehaviour {
     public bool TryToChangeAnotherShip(string shipId)
     {
         bool result = false;
-        Ship.GenericShip targetShip = Game.Roster.GetShipById(shipId);
-        result = Game.Phases.CurrentSubPhase.AnotherShipCanBeSelected(targetShip);
+        Ship.GenericShip targetShip = Roster.GetShipById(shipId);
+        result = Phases.CurrentSubPhase.AnotherShipCanBeSelected(targetShip);
 
         if (result == true)
         {
@@ -89,9 +89,9 @@ public class ShipSelectionManagerScript : MonoBehaviour {
     {
         bool result = false;
 
-        Ship.GenericShip ship = Game.Roster.GetShipById(shipId);
+        Ship.GenericShip ship = Roster.GetShipById(shipId);
 
-        result = Game.Phases.CurrentSubPhase.ThisShipCanBeSelected(ship);
+        result = Phases.CurrentSubPhase.ThisShipCanBeSelected(ship);
 
         if (result == true)
         {
@@ -104,7 +104,7 @@ public class ShipSelectionManagerScript : MonoBehaviour {
     public void ChangeActiveShip(string shipId)
     {
         DeselectThisShip();
-        ThisShip = Game.Roster.GetShipById(shipId);
+        ThisShip = Roster.GetShipById(shipId);
         ThisShip.Model.GetShipStandScript().checkCollisions = true;
         ThisShip.InfoPanel.transform.Find("ShipInfo").Find("ShipPilotNameText").GetComponent<Text>().color = Color.yellow;
         ThisShip.Model.ApplyShader("selectedYellow");
@@ -129,7 +129,7 @@ public class ShipSelectionManagerScript : MonoBehaviour {
             AnotherShip.InfoPanel.transform.Find("ShipInfo").Find("ShipPilotNameText").GetComponent<Text>().color = Color.white;
             AnotherShip.Model.ApplyShader("default");
         }
-        AnotherShip = Game.Roster.GetShipById(shipId);
+        AnotherShip = Roster.GetShipById(shipId);
         AnotherShip.InfoPanel.transform.Find("ShipInfo").Find("ShipPilotNameText").GetComponent<Text>().color = Color.red;
         AnotherShip.Model.ApplyShader("selectedRed");
         Game.UI.CallContextMenu(AnotherShip);

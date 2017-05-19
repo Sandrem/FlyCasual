@@ -19,9 +19,9 @@ namespace Ship
                 MaxHull = 3;
                 MaxShields = 2;
 
-                BuiltInActions.Add(new Actions.FocusAction());
-                BuiltInActions.Add(new Actions.TargetLockAction());
-                BuiltInActions.Add(new Actions.BarrelRollAction());
+                BuiltInActions.Add(new ActionsList.FocusAction());
+                BuiltInActions.Add(new ActionsList.TargetLockAction());
+                BuiltInActions.Add(new ActionsList.BarrelRollAction());
 
                 AddUpgradeSlot(Upgrade.UpgradeSlot.Astromech);
                 AddUpgradeSlot(Upgrade.UpgradeSlot.Torpedoes);

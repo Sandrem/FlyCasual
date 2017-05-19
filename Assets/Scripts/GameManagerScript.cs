@@ -7,67 +7,27 @@ public class GameManagerScript : MonoBehaviour {
     //Move to board consts
     public readonly float PLAYMAT_SIZE = 10;
 
-    public ShipRoster Roster;
-
-    private ShipFactory shipFactory;
-    public ShipFactory ShipFactory
-    {
-        get 
-        {
-            if (this.shipFactory == null) { shipFactory = new ShipFactory(); }
-            return shipFactory;
-        }
-    }
-
     public PrefabsList PrefabList;
-    public PhasesManager Phases;
-    public ShipActionsManager Actions;
-    public DiceManager Dices;
-    public MovementTemplates MovementTemplates;
-    public CriticalHitsDeckManager CritsDeck;
-    public Rules.RulesScript Rules;
 
-    public BoardView Board;
     public UIManagerScript UI;
-    public CombatManager Combat;
     public ShipSelectionManagerScript Selection;
     public ShipMovementScript Movement;
     public ShipPositionManager Position;
 
-
     void Start() {
-        SetApplicationParemeters();
-
+        SetApplicationParameters();
         InitializeScripts();
 
-        //Start Board
-        Board.Initialize();
-
-        //Rules Start
-        Actions.Start();
-        Combat.Start();
-
-        Roster.Start();
-        CritsDeck.InitializeDeck();
         Phases.StartPhases();
     }
 
-    private void SetApplicationParemeters()
+    private void SetApplicationParameters()
     {
         Application.targetFrameRate = 60;
     }
 
     private void InitializeScripts()
     {
-        Roster = new ShipRoster();
-        Phases = new PhasesManager();
-        MovementTemplates = new MovementTemplates();
-        Dices = new DiceManager();
-        CritsDeck = new CriticalHitsDeckManager();
-        Actions = new ShipActionsManager();
-        Combat = new CombatManager();
-        Rules = new Rules.RulesScript(this);
-
         PrefabList = this.GetComponent<PrefabsList>();
 
         UI = this.GetComponent<UIManagerScript>();
@@ -75,13 +35,10 @@ public class GameManagerScript : MonoBehaviour {
             UI.DiceResults = this.GetComponent<DiceResultsScript>();
             UI.ActionsPanel = this.GetComponent<ActionsPanelScript>();
         
-        
         Selection = this.GetComponent<ShipSelectionManagerScript>();
         Movement = this.GetComponent<ShipMovementScript>();
         
         Position = this.GetComponent<ShipPositionManager>();
-
-        Board = GameObject.Find("Board").GetComponent<BoardView>();
     }
 
 }

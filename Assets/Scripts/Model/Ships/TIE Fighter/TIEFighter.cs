@@ -19,9 +19,9 @@ namespace Ship
                 MaxHull = 3;
                 MaxShields = 0;
 
-                BuiltInActions.Add(new Actions.FocusAction());
-                BuiltInActions.Add(new Actions.EvadeAction());
-                BuiltInActions.Add(new Actions.BarrelRollAction());
+                BuiltInActions.Add(new ActionsList.FocusAction());
+                BuiltInActions.Add(new ActionsList.EvadeAction());
+                BuiltInActions.Add(new ActionsList.BarrelRollAction());
 
                 AssignTemporaryManeuvers();
                 InitializeValues();

@@ -27,7 +27,7 @@ namespace Ship
             Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
 
             Ship = ship;
-            Model = Game.ShipFactory.CreateShipModel(ship, position);
+            Model = ShipFactory.CreateShipModel(ship, position);
 
             standFrontEdgePoins.Add("LF", new Vector3(-HALF_OF_SHIPSTAND_SIZE, 0f, 0));
             standFrontEdgePoins.Add("RF", new Vector3(HALF_OF_SHIPSTAND_SIZE, 0f, 0));

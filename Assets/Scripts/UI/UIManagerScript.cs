@@ -41,7 +41,7 @@ public class UIManagerScript: MonoBehaviour {
     {
         HideDirectionMenu();
         HideContextMenuButtons();
-        if (Game.Phases.CurrentSubPhase.CountActiveButtons(ship) > 0)
+        if (Phases.CurrentSubPhase.CountActiveButtons(ship) > 0)
         {
             panelContextMenu.SetActive(true);
             position = FixMenuPosition(panelContextMenu, position);
@@ -199,12 +199,12 @@ public class UIManagerScript: MonoBehaviour {
 
     public void ClickNextPhase()
     {
-        Game.Phases.CallNextSubPhase();
+        Phases.CallNextSubPhase();
     }
 
     public void ClickPerformAttack()
     {
-        Game.Actions.PerformAttack();
+        Actions.PerformAttack();
     }
 
 }

@@ -10,7 +10,6 @@ public class UIManagerScript: MonoBehaviour {
     private GameManagerScript Game;
 
     public MessageManagerScript ErrorManager;
-    public DiceResultsScript DiceResults;
     public ActionsPanelScript ActionsPanel;
 
     public GameObject panelDirectionMenu;
@@ -41,7 +40,7 @@ public class UIManagerScript: MonoBehaviour {
     {
         HideDirectionMenu();
         HideContextMenuButtons();
-        if (Game.Phases.CurrentSubPhase.CountActiveButtons(ship) > 0)
+        if (Phases.CurrentSubPhase.CountActiveButtons(ship) > 0)
         {
             panelContextMenu.SetActive(true);
             position = FixMenuPosition(panelContextMenu, position);
@@ -88,7 +87,7 @@ public class UIManagerScript: MonoBehaviour {
     //Add icons
     private void SetAvailableManeurs()
     {
-        foreach (KeyValuePair<string, Ship.ManeuverColor> maneuverData in Game.Selection.ThisShip.GetManeuvers())
+        foreach (KeyValuePair<string, Ship.ManeuverColor> maneuverData in Selection.ThisShip.GetManeuvers())
         {
             string[] parameters = maneuverData.Key.Split('.');
             string maneuverSpeed = parameters[0];
@@ -199,12 +198,17 @@ public class UIManagerScript: MonoBehaviour {
 
     public void ClickNextPhase()
     {
-        Game.Phases.CallNextSubPhase();
+        Phases.CallNextSubPhase();
     }
 
     public void ClickPerformAttack()
     {
-        Game.Actions.PerformAttack();
+        Actions.PerformAttack();
+    }
+
+    public void ConfirmDiceResults()
+    {
+        Combat.ConfirmDiceResults();
     }
 
 }

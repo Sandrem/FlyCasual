@@ -6,12 +6,12 @@ using UnityEngine.EventSystems;
 using Players;
 
 //TODO: Store info about ships rosters
-public partial class ShipRoster {
+public static partial class Roster {
 
-    private List<GameObject> rosterPlayer1 = new List<GameObject>();
-    private List<GameObject> rosterPlayer2 = new List<GameObject>();
+    private static List<GameObject> rosterPlayer1 = new List<GameObject>();
+    private static List<GameObject> rosterPlayer2 = new List<GameObject>();
 
-    public GameObject CreateRosterInfo(Ship.GenericShip newShip)
+    public static GameObject CreateRosterInfo(Ship.GenericShip newShip)
     {
         GameObject newPanel = MonoBehaviour.Instantiate(Game.PrefabList.RosterPanel, Game.PrefabList.RostersHolder.transform.Find("TeamPlayer" + newShip.Owner.Id).Find("RosterHolder").transform);
 
@@ -66,7 +66,7 @@ public partial class ShipRoster {
         return newPanel;
     }
 
-    private void AddToRoster(Ship.GenericShip newShip, GameObject newPanel)
+    private static void AddToRoster(Ship.GenericShip newShip, GameObject newPanel)
     {
 
         List<GameObject> rosterPlayer = (newShip.Owner.PlayerNo == PlayerNo.Player1) ? rosterPlayer1 : rosterPlayer2;
@@ -78,13 +78,13 @@ public partial class ShipRoster {
 
     //ORGANIZE
 
-    public void OrganizeRosters()
+    public static void OrganizeRosters()
     {
         OrganizeRosterPanelSizes();
         OrganizeRosterPositions();
     }
 
-    private void OrganizeRosterPanelSizes()
+    private static void OrganizeRosterPanelSizes()
     {
 
         foreach (GameObject panel in rosterPlayer1)
@@ -100,7 +100,7 @@ public partial class ShipRoster {
 
     }
 
-    private int CalculateRosterPanelSize(GameObject panel)
+    private static int CalculateRosterPanelSize(GameObject panel)
     {
         int panelHeight = 80;
 
@@ -138,7 +138,7 @@ public partial class ShipRoster {
         return panelHeight;
     }
 
-    private void OrganizeRosterPositions()
+    private static void OrganizeRosterPositions()
     {
         Vector3 defaultPosition = Game.PrefabList.RostersHolder.transform.Find("TeamPlayer1").Find("RosterHolder").transform.position + new Vector3(5f, 0f, 0f);
 
@@ -171,12 +171,12 @@ public partial class ShipRoster {
     }
 
     //TODO: rewrite to support TARGETSHIP
-    public void SelectShipByRosterClick(PointerEventData data)
+    public static void SelectShipByRosterClick(PointerEventData data)
     {
         foreach (var item in data.hovered)
         {
             if (item.tag != "Untagged") {
-                if (Game.Selection.TryToChangeShip(item.tag)) return;
+                if (Selection.TryToChangeShip(item.tag)) return;
             }
         }
         Game.UI.HideTemporaryMenus();
@@ -184,7 +184,7 @@ public partial class ShipRoster {
 
     //UPDATE
 
-    public void UpdateRosterShieldsDamageIndicators(Ship.GenericShip thisShip)
+    public static void UpdateRosterShieldsDamageIndicators(Ship.GenericShip thisShip)
     {
         thisShip.InfoPanel.transform.Find("ShipInfo").Find("ShipShieldsText").GetComponent<Text>().text = thisShip.Shields.ToString();
         foreach (Transform damageIndicator in thisShip.InfoPanel.transform.Find("ShipInfo").Find("DamageBarPanel").transform)
@@ -199,14 +199,14 @@ public partial class ShipRoster {
         }
     }
 
-    public void UpdateShipStats(Ship.GenericShip thisShip)
+    public static void UpdateShipStats(Ship.GenericShip thisShip)
     {
         thisShip.InfoPanel.transform.Find("ShipInfo").Find("ShipPilotSkillText").GetComponent<Text>().text = thisShip.PilotSkill.ToString();
         thisShip.InfoPanel.transform.Find("ShipInfo").Find("ShipFirepowerText").GetComponent<Text>().text = thisShip.Firepower.ToString();
         thisShip.InfoPanel.transform.Find("ShipInfo").Find("ShipAgilityText").GetComponent<Text>().text = thisShip.Agility.ToString();
     }
 
-    public void UpdateRosterHullDamageIndicators(Ship.GenericShip thisShip)
+    public static void UpdateRosterHullDamageIndicators(Ship.GenericShip thisShip)
     {
         thisShip.InfoPanel.transform.Find("ShipInfo").Find("ShipHullText").GetComponent<Text>().text = thisShip.Hull.ToString();
         foreach (Transform damageIndicator in thisShip.InfoPanel.transform.Find("ShipInfo").Find("DamageBarPanel").transform)
@@ -224,7 +224,7 @@ public partial class ShipRoster {
         thisShip.Model.ToggleDamaged(thisShip.Hull == 1);
     }
 
-    public void UpdateTokensIndicator(Ship.GenericShip thisShip)
+    public static void UpdateTokensIndicator(Ship.GenericShip thisShip)
     {
         List<GameObject> keys = new List<GameObject>();
         foreach (Transform icon in thisShip.InfoPanel.transform.Find("ShipInfo").Find("TokensBar").transform)
@@ -257,7 +257,7 @@ public partial class ShipRoster {
         OrganizeRosters();
     }
 
-    public void UpdateUpgradesPanel(Ship.GenericShip newShip, GameObject newPanel)
+    public static void UpdateUpgradesPanel(Ship.GenericShip newShip, GameObject newPanel)
     {
         int index = 1;
         foreach (var upgrade in newShip.InstalledUpgrades)
@@ -269,7 +269,7 @@ public partial class ShipRoster {
         }
     }
 
-    private void HideAssignedDials()
+    private static void HideAssignedDials()
     {
         foreach (var panel in rosterPlayer1) panel.transform.FindChild("DialAssigned1").gameObject.SetActive(false);
         foreach (var panel in rosterPlayer2) panel.transform.FindChild("DialAssigned2").gameObject.SetActive(false);

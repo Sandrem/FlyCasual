@@ -19,7 +19,7 @@ namespace CriticalHitCard
             Game.UI.AddTestLogEntry("Pilot Skill is set to 0");
 
             host.AfterGetPilotSkill += SetPilotSkill0;
-            Game.Roster.UpdateShipStats(host);
+            Roster.UpdateShipStats(host);
         }
 
         public override void DiscardEffect(Ship.GenericShip host)
@@ -28,7 +28,7 @@ namespace CriticalHitCard
             Game.UI.AddTestLogEntry("Pilot Skill is restored");
 
             host.AfterGetPilotSkill -= SetPilotSkill0;
-            Game.Roster.UpdateShipStats(host);
+            Roster.UpdateShipStats(host);
         }
 
         private void SetPilotSkill0(ref int value)

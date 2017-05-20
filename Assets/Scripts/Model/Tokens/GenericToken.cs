@@ -11,14 +11,14 @@ namespace Tokens
 
         public string Name;
         public bool Temporary = true;
-        public Actions.GenericAction Action = null;
+        public ActionsList.GenericAction Action = null;
         public int Count = 1;
 
         public GenericToken() {
             Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
         }
 
-        public virtual void GetAvailableEffects(ref List<Actions.GenericAction> availableActionEffects)
+        public virtual void GetAvailableEffects(ref List<ActionsList.GenericAction> availableActionEffects)
         {
             if (Action!=null) availableActionEffects.Add(Action);
         }

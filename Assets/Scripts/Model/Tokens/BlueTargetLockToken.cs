@@ -11,10 +11,10 @@ namespace Tokens
 
         public BlueTargetLockToken() {
             Name = "Blue Target Lock Token";
-            Action = new Actions.TargetLockAction();
+            Action = new ActionsList.TargetLockAction();
         }
 
-        public override void GetAvailableEffects(ref List<Actions.GenericAction> availableActionEffects)
+        public override void GetAvailableEffects(ref List<ActionsList.GenericAction> availableActionEffects)
         {
             availableActionEffects.Add(Action);
         }

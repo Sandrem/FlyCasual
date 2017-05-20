@@ -3,24 +3,24 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public partial class PhasesManager {
+public static partial class Phases {
 
-    public void UpdateHelpInfo()
+    public static void UpdateHelpInfo()
     {
         if (Game == null) Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
 
-        Game.PrefabList.PhasesPanel.transform.Find("PhaseText").GetComponent<Text>().text = Game.Phases.CurrentPhase.Name;
-        Game.PrefabList.PhasesPanel.transform.Find("SubPhaseText").GetComponent<Text>().text = Game.Phases.CurrentSubPhase.Name;
+        Game.PrefabList.PhasesPanel.transform.Find("PhaseText").GetComponent<Text>().text = Phases.CurrentPhase.Name;
+        Game.PrefabList.PhasesPanel.transform.Find("SubPhaseText").GetComponent<Text>().text = Phases.CurrentSubPhase.Name;
 
-        string playerText = "PLAYER: " + Game.Phases.CurrentSubPhase.RequiredPlayer.ToString();
-        string pilotSkillText = "PILOTS WITH SKILL: " + Game.Phases.CurrentSubPhase.RequiredPilotSkill.ToString();
+        string playerText = "PLAYER: " + Phases.CurrentSubPhase.RequiredPlayer.ToString();
+        string pilotSkillText = "PILOTS WITH SKILL: " + Phases.CurrentSubPhase.RequiredPilotSkill.ToString();
 
-        if (Game.Phases.CurrentPhase.GetType() == typeof(Phases.PlanningPhase))
+        if (Phases.CurrentPhase.GetType() == typeof(MainPhases.PlanningPhase))
         {
             pilotSkillText = "";
         }
 
-        if (Game.Phases.CurrentSubPhase.isTemporary)
+        if (Phases.CurrentSubPhase.isTemporary)
         {
             playerText = "";
             pilotSkillText = "";
@@ -30,7 +30,7 @@ public partial class PhasesManager {
         Game.PrefabList.PhasesPanel.transform.Find("PilotSkillText").GetComponent<Text>().text = pilotSkillText;
     }
 
-    public void UpdateTemporaryState(string temporaryStateName)
+    public static void UpdateTemporaryState(string temporaryStateName)
     {
         Game.PrefabList.PhasesPanel.transform.Find("SubPhaseText").GetComponent<Text>().text = temporaryStateName;
     }

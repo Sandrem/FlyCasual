@@ -24,7 +24,7 @@ namespace Upgrade
 
     }
 
-    public class R2F2Action : Actions.GenericAction
+    public class R2F2Action : ActionsList.GenericAction
     {
         private Ship.GenericShip host;
 
@@ -35,9 +35,9 @@ namespace Upgrade
 
         public override void ActionTake()
         {
-            host = Game.Selection.ThisShip;
+            host = Selection.ThisShip;
             host.ChangeAgility(+1);
-            Game.Phases.OnEndPhaseStart += R2F2DecreaseAgility;
+            Phases.OnEndPhaseStart += R2F2DecreaseAgility;
         }
 
         private void R2F2DecreaseAgility()

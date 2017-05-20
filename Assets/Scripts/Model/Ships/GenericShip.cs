@@ -114,11 +114,11 @@ namespace Ship
         public bool isUnique = false;
         //public bool FactionRestriction
 
-        protected List<Actions.GenericAction> BuiltInActions = new List<Actions.GenericAction>();
-        private List<Actions.GenericAction> AlreadyExecutedActions = new List<Actions.GenericAction>();
-        public List<Actions.GenericAction> AvailableActionEffects = new List<Actions.GenericAction>();
-        private List<Actions.GenericAction> AvailableActionsList = new List<Actions.GenericAction>();
-        private List<Actions.GenericAction> AvailableFreeActionsList = new List<Actions.GenericAction>();
+        protected List<ActionsList.GenericAction> BuiltInActions = new List<ActionsList.GenericAction>();
+        private List<ActionsList.GenericAction> AlreadyExecutedActions = new List<ActionsList.GenericAction>();
+        public List<ActionsList.GenericAction> AvailableActionEffects = new List<ActionsList.GenericAction>();
+        private List<ActionsList.GenericAction> AvailableActionsList = new List<ActionsList.GenericAction>();
+        private List<ActionsList.GenericAction> AvailableFreeActionsList = new List<ActionsList.GenericAction>();
 
         public List<CriticalHitCard.GenericCriticalHit> AssignedCrits = new List<CriticalHitCard.GenericCriticalHit>();
 
@@ -134,9 +134,9 @@ namespace Ship
         public delegate void EventHandler();
         public delegate void EventHandlerInt(ref int data);
         public delegate void EventHandlerBool(ref bool data);
-        public delegate void EventHandlerActionBool(Actions.GenericAction action, ref bool data);
+        public delegate void EventHandlerActionBool(ActionsList.GenericAction action, ref bool data);
         public delegate void EventHandlerShip(GenericShip ship);
-        public delegate void EventHandlerActionEffectsList(ref List<Actions.GenericAction> list);
+        public delegate void EventHandlerActionEffectsList(ref List<ActionsList.GenericAction> list);
         public delegate void EventHandlerShipMovement(GenericShip ship, ref Movement movement);
         public delegate void EventHandlerShipCrit(GenericShip ship, ref CriticalHitCard.GenericCriticalHit crit);
 
@@ -168,7 +168,7 @@ namespace Ship
         {
             Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
 
-            Owner = Game.Roster.GetPlayer(playerNo);
+            Owner = Roster.GetPlayer(playerNo);
 
             ShipId = shipId;
 
@@ -277,7 +277,7 @@ namespace Ship
 
             if (damage.Successes != 0)
             {
-                foreach (Dice dice in damage.Dices)
+                foreach (Dice dice in damage.DiceList)
                 {
                     if (dice.Side == DiceSide.Success)
                     {
@@ -285,7 +285,7 @@ namespace Ship
                     }
                     if (dice.Side == DiceSide.Crit)
                     {
-                        Game.CritsDeck.DrawCrit(this);
+                        CriticalHitsDeck.DrawCrit(this);
                     }
                 }
             }
@@ -326,7 +326,7 @@ namespace Ship
             if (!IsDestroyed)
             {
                 Game.UI.AddTestLogEntry(PilotName + "\'s ship is destroyed");
-                Game.Roster.DestroyShip(this.Model.GetTag());
+                Roster.DestroyShip(this.Model.GetTag());
                 OnDestroyed();
                 IsDestroyed = true;
             }
@@ -337,6 +337,8 @@ namespace Ship
         //todo: think about name
         public void AttackStart()
         {
+            //TODO: move ot rule
+            if (Combat.Attacker.ShipId == this.ShipId) IsAttackPerformed = true;
             if (OnAttack != null) OnAttack();
         }
 
@@ -389,7 +391,7 @@ namespace Ship
             if (HasFreeUpgradeSlot(slot))
             {
                 InstalledUpgrades.Add(new KeyValuePair<Upgrade.UpgradeSlot, Upgrade.GenericUpgrade>(newUpgrade.Type, newUpgrade));
-                Game.Roster.UpdateUpgradesPanel(this, this.InfoPanel);
+                Roster.UpdateUpgradesPanel(this, this.InfoPanel);
             }
 
         }
@@ -412,16 +414,16 @@ namespace Ship
 
         //ACTIONS
 
-        public void AskPerformFreeAction(Actions.GenericAction action)
+        public void AskPerformFreeAction(ActionsList.GenericAction action)
         {
-            AvailableFreeActionsList = new List<Actions.GenericAction>();
+            AvailableFreeActionsList = new List<ActionsList.GenericAction>();
             AddAvailableFreeAction(action);
-            Game.Roster.GetPlayer(Game.Phases.CurrentSubPhase.RequiredPlayer).PerformFreeAction();
+            Roster.GetPlayer(Phases.CurrentSubPhase.RequiredPlayer).PerformFreeAction();
         }
 
         public void GenerateAvailableActionsList()
         {
-            AvailableActionsList = new List<Actions.GenericAction>();
+            AvailableActionsList = new List<ActionsList.GenericAction>();
 
             foreach (var action in BuiltInActions)
             {
@@ -431,7 +433,7 @@ namespace Ship
             if (AfterAvailableActionListIsBuilt != null) AfterAvailableActionListIsBuilt(this);
         }
 
-        public bool CanPerformAction(Actions.GenericAction action)
+        public bool CanPerformAction(ActionsList.GenericAction action)
         {
             bool result = true;
 
@@ -440,17 +442,17 @@ namespace Ship
             return result;
         }
 
-        public List<Actions.GenericAction> GetAvailableActionsList()
+        public List<ActionsList.GenericAction> GetAvailableActionsList()
         {
             return AvailableActionsList;
         }
 
-        public List<Actions.GenericAction> GetAvailableFreeActionsList()
+        public List<ActionsList.GenericAction> GetAvailableFreeActionsList()
         {
             return AvailableFreeActionsList;
         }
 
-        public void AddAvailableAction(Actions.GenericAction action)
+        public void AddAvailableAction(ActionsList.GenericAction action)
         {
             if (CanPerformAction(action))
             {
@@ -458,7 +460,7 @@ namespace Ship
             }
         }
 
-        public void AddAvailableFreeAction(Actions.GenericAction action)
+        public void AddAvailableFreeAction(ActionsList.GenericAction action)
         {
             if (CanPerformAction(action))
             {
@@ -466,19 +468,19 @@ namespace Ship
             }
         }
 
-        public void AddAlreadyExecutedAction(Actions.GenericAction action)
+        public void AddAlreadyExecutedAction(ActionsList.GenericAction action)
         {
             AlreadyExecutedActions.Add(action);
         }
 
         public void ClearAlreadyExecutedActions()
         {
-            AlreadyExecutedActions = new List<Actions.GenericAction>();
+            AlreadyExecutedActions = new List<ActionsList.GenericAction>();
         }
 
         public void RemoveAlreadyExecutedAction(System.Type type)
         {
-            List<Actions.GenericAction> keys = new List<Actions.GenericAction>(AlreadyExecutedActions);
+            List<ActionsList.GenericAction> keys = new List<ActionsList.GenericAction>(AlreadyExecutedActions);
 
             foreach (var executedAction in keys)
             {
@@ -510,7 +512,7 @@ namespace Ship
         {
             GenerateDiceModificationList();
 
-            List<Actions.GenericAction> keys = new List<Actions.GenericAction>(AvailableActionEffects);
+            List<ActionsList.GenericAction> keys = new List<ActionsList.GenericAction>(AvailableActionEffects);
 
             foreach (var action in keys)
             {
@@ -524,7 +526,7 @@ namespace Ship
 
         public void GenerateDiceModificationList()
         {
-            AvailableActionEffects = new List<Actions.GenericAction>(); ;
+            AvailableActionEffects = new List<ActionsList.GenericAction>(); ;
 
             foreach (var token in AssignedTokens)
             {
@@ -615,7 +617,7 @@ namespace Ship
                 {
                     if (assignedToken.GetType().BaseType == typeof(Tokens.GenericTargetLockToken))
                     {
-                        Game.Actions.ReleaseTargetLockLetter((assignedToken as Tokens.GenericTargetLockToken).Letter);
+                        Actions.ReleaseTargetLockLetter((assignedToken as Tokens.GenericTargetLockToken).Letter);
                     }
                     AssignedTokens.Remove(assignedToken);
                     if (AfterTokenIsRemoved != null) AfterTokenIsRemoved(this);

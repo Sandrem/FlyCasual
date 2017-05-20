@@ -37,8 +37,8 @@ namespace Players
 
         private void SetPlayerNo()
         {
-            PlayerNo = (Game.Roster.Players.Count == 0) ? PlayerNo.Player1 : PlayerNo.Player2;
-            Game.Roster.Players.Add(this);
+            PlayerNo = (Roster.Players.Count == 0) ? PlayerNo.Player1 : PlayerNo.Player2;
+            Roster.Players.Add(this);
         }
 
         public virtual void SetupShip() { }

@@ -18,14 +18,14 @@ namespace Ship
                 AfterGenerateDiceModifications += AddLukeSkywalkerPilotAbility;
             }
 
-            public void AddLukeSkywalkerPilotAbility(ref List<Actions.GenericAction> list)
+            public void AddLukeSkywalkerPilotAbility(ref List<ActionsList.GenericAction> list)
             {
                 list.Add(new LukeSkywalkerAction());
             }
 
         }
 
-        public class LukeSkywalkerAction : Actions.GenericAction
+        public class LukeSkywalkerAction : ActionsList.GenericAction
         {
             private Ship.GenericShip host;
 
@@ -36,13 +36,13 @@ namespace Ship
 
             public override void ActionEffect()
             {
-                Game.Combat.CurentDiceRoll.ChangeOne(DiceSide.Focus, DiceSide.Success);
+                Combat.CurentDiceRoll.ChangeOne(DiceSide.Focus, DiceSide.Success);
             }
 
             public override bool IsActionEffectAvailable()
             {
                 bool result = false;
-                if (Game.Combat.AttackStep == CombatStep.Defence) result = true;
+                if (Combat.AttackStep == CombatStep.Defence) result = true;
                 return result;
             }
 

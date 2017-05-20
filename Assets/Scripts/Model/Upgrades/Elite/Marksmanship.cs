@@ -24,7 +24,7 @@ namespace Upgrade
 
     }
 
-    public class MarksmanshipAction : Actions.GenericAction
+    public class MarksmanshipAction : ActionsList.GenericAction
     {
         private Ship.GenericShip host;
 
@@ -35,12 +35,12 @@ namespace Upgrade
 
         public override void ActionTake()
         {
-            host = Game.Selection.ThisShip;
+            host = Selection.ThisShip;
             host.AfterGenerateDiceModifications += MarksmanshipAddDiceModification;
-            Game.Phases.OnEndPhaseStart += MarksmanshipUnSubscribeToFiceModification;
+            Phases.OnEndPhaseStart += MarksmanshipUnSubscribeToFiceModification;
         }
 
-        private void MarksmanshipAddDiceModification(ref List<Actions.GenericAction> list)
+        private void MarksmanshipAddDiceModification(ref List<ActionsList.GenericAction> list)
         {
             list.Add(this);
         }
@@ -53,14 +53,14 @@ namespace Upgrade
         public override bool IsActionEffectAvailable()
         {
             bool result = false;
-            if (Game.Combat.AttackStep == CombatStep.Attack) result = true;
+            if (Combat.AttackStep == CombatStep.Attack) result = true;
             return result;
         }
 
         public override void ActionEffect()
         {
-            Game.Combat.CurentDiceRoll.ChangeOne(DiceSide.Focus, DiceSide.Crit);
-            Game.Combat.CurentDiceRoll.ChangeAll(DiceSide.Focus, DiceSide.Success);
+            Combat.CurentDiceRoll.ChangeOne(DiceSide.Focus, DiceSide.Crit);
+            Combat.CurentDiceRoll.ChangeAll(DiceSide.Focus, DiceSide.Success);
         }
 
     }

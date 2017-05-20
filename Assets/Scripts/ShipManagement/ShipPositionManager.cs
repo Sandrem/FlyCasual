@@ -13,6 +13,7 @@ public class ShipPositionManager : MonoBehaviour
     private Ship.GenericShip RollingShip;
     private float progressCurrent;
     private float progressTarget;
+    private float helperDirection;
 
     public GameObject prefabShipStand;
     private GameObject ShipStand;
@@ -60,12 +61,15 @@ public class ShipPositionManager : MonoBehaviour
 
     public void StartBarrelRoll()
     {
-        //if (Phases.CurrentSubPhase.GetType() == typeof(SubPhases.BarrelRollSubPhase))
-        //{
         ShipStand = MonoBehaviour.Instantiate(Game.Position.prefabShipStand, Selection.ThisShip.GetPosition(), Selection.ThisShip.GetRotation(), Board.GetBoard());
+
+        ShipStand.transform.Find("ShipStandTemplate").Find("ShipStandInsert").Find("ShipStandInsertImage").Find("default").GetComponent<Renderer>().material = Selection.ThisShip.Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("ShipStand").Find("ShipStandInsert").Find("ShipStandInsertImage").Find("default").GetComponent<Renderer>().material;
+        
         Roster.SetRaycastTargets(false);
         inReposition = true;
-        //}
+        MovementTemplates.CurrentTemplate = MovementTemplates.GetMovement1Ruler();
+        MovementTemplates.SaveCurrentMovementRulerPosition();
+        MovementTemplates.CurrentTemplate.position = Selection.ThisShip.TransformPoint(new Vector3(0.5f, 0, -0.25f));
     }
 
     private void PerformDrag()
@@ -86,11 +90,8 @@ public class ShipPositionManager : MonoBehaviour
 
         if (Phases.CurrentSubPhase.GetType() == typeof(SubPhases.BarrelRollSubPhase))
         {
-            //Write Relative position
             Vector3 newPosition = Selection.ThisShip.InverseTransformPoint(ShipStand.transform.position);
             Vector3 fixedPositionRel = newPosition;
-
-            //Transform currentHelper = Selection.thisShip.GetHelper("Right");
 
             if (newPosition.z > 0.5f)
             {
@@ -105,33 +106,32 @@ public class ShipPositionManager : MonoBehaviour
             if (newPosition.x > 0f) {
                 fixedPositionRel = new Vector3(2, fixedPositionRel.y, fixedPositionRel.z);
 
-                /*currentHelper = Selection.thisShip.GetHelper("Right");
-                currentHelper.gameObject.SetActive(true);
-                Selection.thisShip.GetHelper("Left").gameObject.SetActive(false);*/
+                helperDirection = 1f;
+                MovementTemplates.CurrentTemplate.eulerAngles = Selection.ThisShip.Model.transform.eulerAngles + new Vector3(0, 180, 0);
             }
 
             if (newPosition.x < 0f) {
                 fixedPositionRel = new Vector3(-2, fixedPositionRel.y, fixedPositionRel.z);
 
-                /*currentHelper = Selection.thisShip.GetHelper("Left");
-                currentHelper.gameObject.SetActive(true);
-                Selection.thisShip.GetHelper("Right").gameObject.SetActive(false);*/
+                helperDirection = -1f;
+                MovementTemplates.CurrentTemplate.eulerAngles = Selection.ThisShip.Model.transform.eulerAngles;
             }
 
-            /*Vector3 helperPositionRel = Selection.thisShip.InverseTransformPoint(currentHelper.position);
+            Vector3 helperPositionRel = Selection.ThisShip.InverseTransformPoint(MovementTemplates.CurrentTemplate.position);
+            helperPositionRel = new Vector3(helperDirection * Mathf.Abs(helperPositionRel.x), helperPositionRel.y, helperPositionRel.z);
 
-            if (fixedPositionRel.z-0.25 < helperPositionRel.z)
+            if (helperPositionRel.z+0.25f > fixedPositionRel.z)
             {
-                helperPositionRel = new Vector3(helperPositionRel.x, helperPositionRel.y, fixedPositionRel.z);
-                Vector3 helperPositionAbs = ShipStand.transform.TransformPoint(helperPositionRel);
-                currentHelper.position = helperPositionAbs;
+                helperPositionRel = new Vector3(helperDirection * Mathf.Abs(helperPositionRel.x), helperPositionRel.y, fixedPositionRel.z - 0.25f);
             }
-            if (fixedPositionRel.z-0.75 > helperPositionRel.z)
+
+            if (helperPositionRel.z+0.75f < fixedPositionRel.z)
             {
-                helperPositionRel = new Vector3(helperPositionRel.x, helperPositionRel.y, fixedPositionRel.z);
-                Vector3 helperPositionAbs = ShipStand.transform.TransformPoint(helperPositionRel);
-                currentHelper.position = helperPositionAbs;
-            }*/
+                helperPositionRel = new Vector3(helperDirection * Mathf.Abs(helperPositionRel.x), helperPositionRel.y, fixedPositionRel.z - 0.75f);
+            }
+
+            Vector3 helperPositionAbs = Selection.ThisShip.TransformPoint(helperPositionRel);
+            MovementTemplates.CurrentTemplate.position = helperPositionAbs;
 
             Vector3 fixedPositionAbs = Selection.ThisShip.TransformPoint(fixedPositionRel);
             ShipStand.transform.position = fixedPositionAbs;
@@ -183,7 +183,7 @@ public class ShipPositionManager : MonoBehaviour
         Roster.SetRaycastTargets(true);
         inReposition = false;
         //Should I change subphase immediately?
-        Phases.CurrentSubPhase.NextSubPhase();
+        Phases.Next();
     }
 
     //TODO: Move using curve
@@ -192,12 +192,13 @@ public class ShipPositionManager : MonoBehaviour
         float progressStep = 0.5f * Time.deltaTime;
         RollingShip.SetPosition(Vector3.MoveTowards(RollingShip.GetPosition(), ShipStand.transform.position, progressStep));
         progressCurrent += progressStep;
-        RollingShip.RotateModelDuringBarrelRoll(progressCurrent/progressTarget);
+        RollingShip.RotateModelDuringBarrelRoll(progressCurrent/progressTarget, helperDirection);
         RollingShip.MoveUpwards(progressCurrent / progressTarget);
         if (progressCurrent >= progressTarget)
         {
             inBarrelRoll = false;
             Destroy(ShipStand);
+            MovementTemplates.HideLastMovementRuler();
             Phases.Next();
         }
     }

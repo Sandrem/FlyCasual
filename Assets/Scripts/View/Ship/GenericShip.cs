@@ -325,9 +325,8 @@ namespace Ship
             Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("ShipModels").Find(Type).Find("ModelCenter").localEulerAngles = new Vector3(0, 0, Mathf.Lerp(0, 45* turningDirection, progress));
         }
 
-        public void RotateModelDuringBarrelRoll(float progress)
+        public void RotateModelDuringBarrelRoll(float progress, float turningDirection)
         {
-            float turningDirection = 1;
             Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("ShipModels").Find(Type).Find("ModelCenter").localEulerAngles = new Vector3(0, 0, Mathf.Lerp(0, turningDirection * 360, progress));
         }
 

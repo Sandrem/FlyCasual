@@ -14,7 +14,7 @@ public class UI: MonoBehaviour {
 
     private int minimapSize = 256;
 
-    void Start()
+    public void Initialize()
     {
         Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
     }
@@ -118,7 +118,7 @@ public class UI: MonoBehaviour {
         button.GetComponent<Image>().sprite = image;
     }
 
-     public void HideDirectionMenu()
+    public void HideDirectionMenu()
     {
         Game.PrefabsList.DirectionsMenu.SetActive(false);
     }

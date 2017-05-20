@@ -25,10 +25,9 @@ public class Global : MonoBehaviour {
     void Start()
     {
         DontDestroyOnLoad(this.gameObject);
-        Initialize();
     }
 
-    private void Initialize()
+    public static void Initialize()
     {
         PlayerTypes = GetPlayerTypes();
         ShipConfigurations = GetShipConfigurations();

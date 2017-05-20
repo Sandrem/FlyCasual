@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PrefabsList : MonoBehaviour {
+public class PrefabsList : MonoBehaviour
+{
 
     public GameObject ShipModel;
     public GameObject RosterPanel;

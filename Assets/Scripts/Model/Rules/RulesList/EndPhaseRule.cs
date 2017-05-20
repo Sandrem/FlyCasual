@@ -5,11 +5,9 @@ namespace RulesList
 {
     public class EndPhaseRule
     {
-        private GameManagerScript Game;
 
         public EndPhaseRule(GameManagerScript game)
         {
-            Game = game;
             SubscribeEvents();
         }
 

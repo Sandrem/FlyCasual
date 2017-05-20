@@ -14,8 +14,6 @@ public static partial class Roster
 
         //TODO: ???
         //Game.Phases.OnCombatPhaseStart += HideAssignedDials;
-
-        Start();
     }
 
     //PLAYERS CREATION

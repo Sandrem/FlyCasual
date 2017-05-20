@@ -4,12 +4,6 @@ namespace RulesList
 {
     public class StressRule
     {
-        private GameManagerScript Game;
-
-        public StressRule(GameManagerScript game)
-        {
-            Game = game;
-        }
 
         public void CheckStress(Ship.GenericShip ship)
         {

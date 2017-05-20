@@ -54,8 +54,8 @@ public static class MovementTemplates {
         if (Game.Movement.CurrentMovementData.Speed != 0)
         {
             CurrentTemplate = GetMovementRuler();
-            savedRulerPosition = CurrentTemplate.position;
-            savedRulerRotation = CurrentTemplate.eulerAngles;
+
+            SaveCurrentMovementRulerPosition();
 
             CurrentTemplate.position = thisShip.GetPosition();
             CurrentTemplate.eulerAngles = thisShip.GetAngles() + new Vector3(0f, 90f, 0f);
@@ -66,6 +66,12 @@ public static class MovementTemplates {
         }
         
 	}
+
+    public static void SaveCurrentMovementRulerPosition()
+    {
+        savedRulerPosition = CurrentTemplate.position;
+        savedRulerRotation = CurrentTemplate.eulerAngles;
+    }
 
     private static Transform GetMovementRuler()
     {
@@ -84,7 +90,7 @@ public static class MovementTemplates {
         return result;
     }
 
-    private static void HideLastMovementRuler(){
+    public static void HideLastMovementRuler(){
         CurrentTemplate.position = savedRulerPosition;
 		CurrentTemplate.eulerAngles = savedRulerRotation;
 	}
@@ -110,6 +116,11 @@ public static class MovementTemplates {
     {
         Templates.Find("RangeRuler").transform.position = new Vector3(9.5f, 0f, 2.2f);
         Templates.Find("RangeRuler").transform.eulerAngles = new Vector3(0, -90, 0);
+    }
+
+    public static Transform GetMovement1Ruler()
+    {
+        return Templates.Find("straight1");
     }
 
 }

@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 //Todo: Move to different scripts by menu names
 
-public class UI: MonoBehaviour {
+public class UI : MonoBehaviour {
 
     private GameManagerScript Game;
 
@@ -198,6 +198,11 @@ public class UI: MonoBehaviour {
     public void ConfirmDiceResults()
     {
         Combat.ConfirmDiceResults();
+    }
+
+    public void CloseActionsPanel()
+    {
+        Actions.CloseActionsPanel();
     }
 
 }

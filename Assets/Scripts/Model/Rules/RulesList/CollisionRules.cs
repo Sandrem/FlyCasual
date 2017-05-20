@@ -25,7 +25,7 @@ namespace RulesList
 
         public void AssignCollision(Ship.GenericShip ship)
         {
-            (Game.Selection.ThisShip.LastShipCollision).LastShipCollision = Game.Selection.ThisShip;
+            (Selection.ThisShip.LastShipCollision).LastShipCollision = Selection.ThisShip;
             ship.IsBumped = true;
         }
 

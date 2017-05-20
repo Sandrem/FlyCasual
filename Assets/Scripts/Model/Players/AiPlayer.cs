@@ -33,7 +33,7 @@ namespace Players
             {
                 if (shipHolder.Value.PilotSkill == Phases.CurrentSubPhase.RequiredPilotSkill)
                 {
-                    Game.Selection.ThisShip = shipHolder.Value;
+                    Selection.ThisShip = shipHolder.Value;
                     Game.Movement.PerformStoredManeuver();
                     break;
                 }
@@ -42,22 +42,22 @@ namespace Players
 
         public override void PerformAction()
         {
-            if (Game.Selection.ThisShip.GetAvailableActionsList().Count > 0)
+            if (Selection.ThisShip.GetAvailableActionsList().Count > 0)
             {
-                ActionsList.GenericAction action = Game.Selection.ThisShip.GetAvailableActionsList()[0];
+                ActionsList.GenericAction action = Selection.ThisShip.GetAvailableActionsList()[0];
                 action.ActionTake();
-                Game.Selection.ThisShip.AddAlreadyExecutedAction(action);
+                Selection.ThisShip.AddAlreadyExecutedAction(action);
                 Phases.Next();
             }
         }
 
         public override void PerformFreeAction()
         {
-            if (Game.Selection.ThisShip.GetAvailableFreeActionsList().Count > 0)
+            if (Selection.ThisShip.GetAvailableFreeActionsList().Count > 0)
             {
-                ActionsList.GenericAction action = Game.Selection.ThisShip.GetAvailableFreeActionsList()[0];
+                ActionsList.GenericAction action = Selection.ThisShip.GetAvailableFreeActionsList()[0];
                 action.ActionTake();
-                Game.Selection.ThisShip.AddAlreadyExecutedAction(action);
+                Selection.ThisShip.AddAlreadyExecutedAction(action);
             }
         }
 
@@ -67,7 +67,7 @@ namespace Players
             {
                 if (shipHolder.Value.PilotSkill == Phases.CurrentSubPhase.RequiredPilotSkill)
                 {
-                    Game.Selection.ThisShip = shipHolder.Value;
+                    Selection.ThisShip = shipHolder.Value;
                     break;
                 }
             }
@@ -75,7 +75,7 @@ namespace Players
             bool attackPerformed = false;
             foreach (var shipHolder in Roster.GetPlayer(Roster.AnotherPlayer(PlayerNo)).Ships)
             {
-                Game.Selection.AnotherShip = Roster.AllShips[shipHolder.Key];
+                Selection.AnotherShip = Roster.AllShips[shipHolder.Key];
                 if (Actions.CheckShot())
                 {
                     attackPerformed = true;
@@ -88,9 +88,9 @@ namespace Players
 
         public override void UseDiceModifications()
         {
-            if (Game.Selection.ThisShip.GetAvailableActionsList().Count > 0)
+            if (Selection.ThisShip.GetAvailableActionsList().Count > 0)
             {
-                Game.Selection.ThisShip.GetAvailableActionsList()[0].ActionEffect();
+                Selection.ThisShip.GetAvailableActionsList()[0].ActionEffect();
                 Game.StartCoroutine(Wait());
             }
             else

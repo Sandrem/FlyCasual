@@ -17,7 +17,7 @@ namespace ActionsList
             letter = Actions.GetTargetLocksLetterPair(Combat.Attacker, Combat.Defender);
             if (letter != ' ')
             {
-                Game.Selection.ActiveShip.SpendToken(typeof(Tokens.BlueTargetLockToken), letter);
+                Selection.ActiveShip.SpendToken(typeof(Tokens.BlueTargetLockToken), letter);
                 Combat.Defender.RemoveToken(typeof(Tokens.RedTargetLockToken), letter);
 
                 //TODO: 2 Kinds of reroll

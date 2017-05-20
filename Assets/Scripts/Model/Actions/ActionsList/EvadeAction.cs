@@ -15,7 +15,7 @@ namespace ActionsList
         public override void ActionEffect()
         {
             Dices.ApplyEvade(Combat.CurentDiceRoll);
-            Game.Selection.ActiveShip.SpendToken(typeof(Tokens.EvadeToken));
+            Selection.ActiveShip.SpendToken(typeof(Tokens.EvadeToken));
         }
 
         public override bool IsActionEffectAvailable()
@@ -27,7 +27,7 @@ namespace ActionsList
 
         public override void ActionTake()
         {
-            Game.Selection.ThisShip.AssignToken(new Tokens.EvadeToken());
+            Selection.ThisShip.AssignToken(new Tokens.EvadeToken());
         }
 
     }

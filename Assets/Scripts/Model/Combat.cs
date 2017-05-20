@@ -41,7 +41,7 @@ public static partial class Combat
     {
         AttackStep = CombatStep.Attack;
         CallAttackStartEvents();
-        Game.Selection.ActiveShip = Attacker;
+        Selection.ActiveShip = Attacker;
     }
 
     private static void AttackDiceRoll()
@@ -66,7 +66,7 @@ public static partial class Combat
     {
         AttackStep = CombatStep.Defence;
         CallDefenceStartEvents();
-        Game.Selection.ActiveShip = Defender;
+        Selection.ActiveShip = Defender;
     }
 
     private static void DefenceDiceRoll()

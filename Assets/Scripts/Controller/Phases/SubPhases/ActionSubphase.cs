@@ -14,12 +14,12 @@ namespace SubPhases
             Name = "Action SubPhase";
             Game.UI.AddTestLogEntry(Name);
 
-            if (!Game.Selection.ThisShip.IsBumped)
+            if (!Selection.ThisShip.IsBumped)
             {
                 //Todo: check if bumped
-                if (!Game.Selection.ThisShip.IsDestroyed)
+                if (!Selection.ThisShip.IsDestroyed)
                 {
-                    Game.Selection.ThisShip.GenerateAvailableActionsList();
+                    Selection.ThisShip.GenerateAvailableActionsList();
                     Roster.GetPlayer(RequiredPlayer).PerformAction();
                 }
                 else
@@ -30,7 +30,7 @@ namespace SubPhases
             }
             else
             {
-                Game.Selection.ThisShip.IsBumped = false;
+                Selection.ThisShip.IsBumped = false;
                 Game.UI.ShowError("Collision: Skips \"Perform Action\" step");
                 Game.UI.AddTestLogEntry("Collision: Skips \"Perform Action\" step");
                 NextSubPhase();

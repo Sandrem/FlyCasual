@@ -21,7 +21,7 @@ namespace SubPhases
 
         public override void NextSubPhase()
         {
-            Game.Selection.DeselectAllShips();
+            Selection.DeselectAllShips();
 
             Dictionary<int, Players.PlayerNo> pilots = Roster.NextPilotSkillAndPlayerAfter(RequiredPilotSkill, RequiredPlayer, Sorting.Asc);
             foreach (var pilot in pilots)

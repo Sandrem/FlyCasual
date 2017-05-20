@@ -47,7 +47,7 @@ public static class Actions {
             tokenRed.Letter = letter;
             TakeTargetLockLetter(letter);
 
-            Game.Selection.ThisShip.AssignToken(tokenBlue);
+            Selection.ThisShip.AssignToken(tokenBlue);
             targetShip.AssignToken(tokenRed);
 
             result = true;
@@ -147,13 +147,13 @@ public static class Actions {
 
 	public static bool CheckShot() {
         bool result = true;
-        OnCheckCanPerformAttack(ref result, Game.Selection.ThisShip, Game.Selection.AnotherShip);
+        OnCheckCanPerformAttack(ref result, Selection.ThisShip, Selection.AnotherShip);
 		return result;
 	}
 
 	public static void PerformAttack() {
         Game.UI.HideContextMenu();
-        if (CheckShot()) Combat.PerformAttack(Game.Selection.ThisShip, Game.Selection.AnotherShip);
+        if (CheckShot()) Combat.PerformAttack(Selection.ThisShip, Selection.AnotherShip);
 	}
 
 }

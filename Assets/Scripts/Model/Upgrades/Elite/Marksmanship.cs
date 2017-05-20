@@ -35,7 +35,7 @@ namespace Upgrade
 
         public override void ActionTake()
         {
-            host = Game.Selection.ThisShip;
+            host = Selection.ThisShip;
             host.AfterGenerateDiceModifications += MarksmanshipAddDiceModification;
             Phases.OnEndPhaseStart += MarksmanshipUnSubscribeToFiceModification;
         }

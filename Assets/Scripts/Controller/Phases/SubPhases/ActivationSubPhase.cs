@@ -53,7 +53,7 @@ namespace SubPhases
         public override int CountActiveButtons(Ship.GenericShip ship)
         {
             int result = 0;
-            if (Game.Selection.ThisShip.AssignedManeuver != null)
+            if (Selection.ThisShip.AssignedManeuver != null)
             {
                 Game.UI.panelContextMenu.transform.Find("MovePerformButton").gameObject.SetActive(true);
                 result++;

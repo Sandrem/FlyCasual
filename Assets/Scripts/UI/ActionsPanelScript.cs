@@ -19,13 +19,13 @@ public class ActionsPanelScript : MonoBehaviour {
 
     public void ShowActionsPanel()
     {
-        ShowActionsButtons(Game.Selection.ThisShip.GetAvailableActionsList());
+        ShowActionsButtons(Selection.ThisShip.GetAvailableActionsList());
     }
 
     public void ShowFreeActionsPanel()
     {
         Phases.StartFreeActionSubPhase("Free action");
-        ShowActionsButtons(Game.Selection.ThisShip.GetAvailableFreeActionsList());
+        ShowActionsButtons(Selection.ThisShip.GetAvailableFreeActionsList());
     }
 
     private void ShowActionsButtons(List<ActionsList.GenericAction> actionList)
@@ -43,7 +43,7 @@ public class ActionsPanelScript : MonoBehaviour {
             offset += 40;
             newButton.GetComponent<Button>().onClick.AddListener(delegate {
                 action.ActionTake();
-                Game.Selection.ThisShip.AddAlreadyExecutedAction(action);
+                Selection.ThisShip.AddAlreadyExecutedAction(action);
                 CloseActionsPanel();
             });
             newButton.GetComponent<Button>().interactable = true;

@@ -10,7 +10,6 @@ public class GameManagerScript : MonoBehaviour {
     public PrefabsList PrefabList;
 
     public UIManagerScript UI;
-    public ShipSelectionManagerScript Selection;
     public ShipMovementScript Movement;
     public ShipPositionManager Position;
 
@@ -34,7 +33,6 @@ public class GameManagerScript : MonoBehaviour {
             UI.ErrorManager = this.GetComponent<MessageManagerScript>();
             UI.ActionsPanel = this.GetComponent<ActionsPanelScript>();
         
-        Selection = this.GetComponent<ShipSelectionManagerScript>();
         Movement = this.GetComponent<ShipMovementScript>();
         
         Position = this.GetComponent<ShipPositionManager>();

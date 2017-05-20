@@ -23,7 +23,7 @@ namespace MainPhases
 
         public override void NextPhase()
         {
-            Game.Selection.DeselectAllShips();
+            Selection.DeselectAllShips();
 
             Phases.CurrentPhase = new ActivationPhase();
             Phases.CurrentPhase.StartPhase();

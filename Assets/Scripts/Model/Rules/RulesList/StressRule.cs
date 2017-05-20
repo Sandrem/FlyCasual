@@ -26,7 +26,7 @@ namespace RulesList
 
         public void CanPerformActions(ActionsList.GenericAction action, ref bool result)
         {
-            if (Game.Selection.ThisShip.GetToken(typeof(Tokens.StressToken)) != null)
+            if (Selection.ThisShip.GetToken(typeof(Tokens.StressToken)) != null)
             {
                 result = false;
             }

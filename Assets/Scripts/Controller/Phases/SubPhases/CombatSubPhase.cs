@@ -24,7 +24,7 @@ namespace SubPhases
 
         public override void NextSubPhase()
         {
-            Game.Selection.DeselectAllShips();
+            Selection.DeselectAllShips();
 
             Dictionary<int, Players.PlayerNo> pilots = Roster.NextPilotSkillAndPlayerAfter(RequiredPilotSkill, RequiredPlayer, Sorting.Desc);
             foreach (var pilot in pilots)
@@ -62,7 +62,7 @@ namespace SubPhases
         public override bool AnotherShipCanBeSelected(Ship.GenericShip targetShip)
         {
             bool result = false;
-            if (Game.Selection.ThisShip != null)
+            if (Selection.ThisShip != null)
             {
                 if (targetShip.Owner.PlayerNo != Phases.CurrentSubPhase.RequiredPlayer)
                 {
@@ -83,11 +83,11 @@ namespace SubPhases
         public override int CountActiveButtons(Ship.GenericShip ship)
         {
             int result = 0;
-            if (Game.Selection.ThisShip != null)
+            if (Selection.ThisShip != null)
             {
                 if (ship.Owner.PlayerNo != Phases.CurrentSubPhase.RequiredPlayer)
                 {
-                    if (Game.Selection.ThisShip.IsAttackPerformed != true)
+                    if (Selection.ThisShip.IsAttackPerformed != true)
                     {
                         Game.UI.panelContextMenu.transform.Find("FireButton").gameObject.SetActive(true);
                         result++;

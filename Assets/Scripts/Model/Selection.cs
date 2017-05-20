@@ -4,26 +4,21 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class ShipSelectionManagerScript : MonoBehaviour {
+public static class Selection {
 
-    private GameManagerScript Game;
+    private static GameManagerScript Game;
 
-    public Ship.GenericShip ThisShip;
-    public Ship.GenericShip AnotherShip;
-    public Ship.GenericShip ActiveShip;
+    public static Ship.GenericShip ThisShip;
+    public static Ship.GenericShip AnotherShip;
+    public static Ship.GenericShip ActiveShip;
 
     // Use this for initialization
-    void Start () {
+    static Selection() {
         Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
     }
 	
-	// Update is called once per frame
-	void Update () {
-        UpdateSelection();
-    }
-
     //TODO: BUG - enemy ship can be selected
-    private void UpdateSelection()
+    public static void UpdateSelection()
     {
         if (!EventSystem.current.IsPointerOverGameObject())
         {
@@ -47,14 +42,14 @@ public class ShipSelectionManagerScript : MonoBehaviour {
         }
     }
 
-    public bool TryToChangeShip(string shipId)
+    public static bool TryToChangeShip(string shipId)
     {
         bool result = false;
 
         Ship.GenericShip ship = Roster.GetShipById(shipId);
         if (ship.Owner.PlayerNo == Phases.CurrentSubPhase.RequiredPlayer)
         {
-            result = Game.Selection.TryToChangeThisShip(shipId);
+            result = Selection.TryToChangeThisShip(shipId);
         }
         else
         {
@@ -63,16 +58,16 @@ public class ShipSelectionManagerScript : MonoBehaviour {
         return result;
     }
 
-    private void ProcessClick()
+    private static void ProcessClick()
     {
         if (Game.Position.inReposition)
         {
-            Game.Position.TryConfirmPosition(Game.Selection.ThisShip);
+            Game.Position.TryConfirmPosition(Selection.ThisShip);
         }
     }
 
     //TODO: call from roster info panel click too
-    public bool TryToChangeAnotherShip(string shipId)
+    public static bool TryToChangeAnotherShip(string shipId)
     {
         bool result = false;
         Ship.GenericShip targetShip = Roster.GetShipById(shipId);
@@ -85,7 +80,7 @@ public class ShipSelectionManagerScript : MonoBehaviour {
         return result;
     }
 
-    public bool TryToChangeThisShip(string shipId)
+    public static bool TryToChangeThisShip(string shipId)
     {
         bool result = false;
 
@@ -95,13 +90,13 @@ public class ShipSelectionManagerScript : MonoBehaviour {
 
         if (result == true)
         {
-            Game.Selection.ChangeActiveShip(shipId);
+            Selection.ChangeActiveShip(shipId);
         }
 
         return result;
     }
 
-    public void ChangeActiveShip(string shipId)
+    public static void ChangeActiveShip(string shipId)
     {
         DeselectThisShip();
         ThisShip = Roster.GetShipById(shipId);
@@ -112,7 +107,7 @@ public class ShipSelectionManagerScript : MonoBehaviour {
 
     }
 
-    public void DeselectThisShip()
+    public static void DeselectThisShip()
     {
         if (ThisShip != null)
         {
@@ -121,7 +116,7 @@ public class ShipSelectionManagerScript : MonoBehaviour {
         }
     }
 
-    private bool ChangeAnotherShip(string shipId)
+    private static bool ChangeAnotherShip(string shipId)
     {
         //Should I can target my own ships???
         if (AnotherShip != null)
@@ -136,7 +131,7 @@ public class ShipSelectionManagerScript : MonoBehaviour {
         return true;
     }
 
-    public void DeselectAnotherShip()
+    public static void DeselectAnotherShip()
     {
         if (AnotherShip != null)
         {
@@ -145,14 +140,14 @@ public class ShipSelectionManagerScript : MonoBehaviour {
         }
     }
 
-    private void DeselectShip(Ship.GenericShip ship)
+    private static void DeselectShip(Ship.GenericShip ship)
     {
         ship.Model.GetShipStandScript().checkCollisions = false;
         ship.InfoPanel.transform.Find("ShipInfo").Find("ShipPilotNameText").GetComponent<Text>().color = Color.white;
         ship.Model.ApplyShader("default");
     }
 
-    public void DeselectAllShips()
+    public static void DeselectAllShips()
     {
         DeselectThisShip();
         DeselectAnotherShip();

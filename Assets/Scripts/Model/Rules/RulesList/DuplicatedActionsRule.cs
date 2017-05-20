@@ -14,7 +14,7 @@ namespace RulesList
 
         public void CanPerformActions(ActionsList.GenericAction action, ref bool result)
         {
-            if (Game.Selection.ThisShip.AlreadyExecutedAction(action.GetType())) result = false;
+            if (Selection.ThisShip.AlreadyExecutedAction(action.GetType())) result = false;
         }
 
     }

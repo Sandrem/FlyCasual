@@ -16,14 +16,14 @@ public static partial class Combat {
 
     public static void ShowDiceModificationButtons()
     {
-        Game.Selection.ActiveShip.GenerateDiceModificationButtons();
+        Selection.ActiveShip.GenerateDiceModificationButtons();
 
-        if (Roster.GetPlayer(Game.Selection.ActiveShip.Owner.PlayerNo).Type == Players.PlayerType.Human)
+        if (Roster.GetPlayer(Selection.ActiveShip.Owner.PlayerNo).Type == Players.PlayerType.Human)
         {
             float offset = 0;
             Vector3 defaultPosition = Game.PrefabList.DiceResultsMenu.transform.position + new Vector3(5, 195, 0);
 
-            foreach (var actionEffect in Game.Selection.ActiveShip.AvailableActionEffects)
+            foreach (var actionEffect in Selection.ActiveShip.AvailableActionEffects)
             {
                 Vector3 position = defaultPosition + new Vector3(0, -offset, 0);
                 CreateDiceModificationsButton(actionEffect, position);
@@ -35,7 +35,7 @@ public static partial class Combat {
             Game.PrefabList.DiceResultsMenu.transform.Find("Confirm").gameObject.SetActive(true);
         }
 
-        Roster.GetPlayer(Game.Selection.ActiveShip.Owner.PlayerNo).UseDiceModifications();
+        Roster.GetPlayer(Selection.ActiveShip.Owner.PlayerNo).UseDiceModifications();
     }
 
     private static void CreateDiceModificationsButton(ActionsList.GenericAction actionEffect, Vector3 position)
@@ -71,16 +71,16 @@ public static partial class Combat {
         
         if (AttackStep == CombatStep.Attack)
         {
-            PerformDefence(Game.Selection.ThisShip, Game.Selection.AnotherShip);
+            PerformDefence(Selection.ThisShip, Selection.AnotherShip);
         }
         else if ((AttackStep == CombatStep.Defence))
         {
             //TODO: Show compare results dialog
-            CalculateAttackResults(Game.Selection.ThisShip, Game.Selection.AnotherShip);
+            CalculateAttackResults(Selection.ThisShip, Selection.AnotherShip);
 
             MovementTemplates.ReturnRangeRuler();
 
-            if (Roster.NoSamePlayerAndPilotSkillNotAttacked(Game.Selection.ThisShip))
+            if (Roster.NoSamePlayerAndPilotSkillNotAttacked(Selection.ThisShip))
             {
                 Phases.CurrentSubPhase.NextSubPhase();
             }

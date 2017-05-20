@@ -15,12 +15,12 @@ namespace ActionsList
         public override void ActionEffect()
         {
             Dices.ApplyFocus(Combat.CurentDiceRoll);
-            Game.Selection.ActiveShip.SpendToken(typeof(Tokens.FocusToken));
+            Selection.ActiveShip.SpendToken(typeof(Tokens.FocusToken));
         }
 
         public override void ActionTake()
         {
-            Game.Selection.ThisShip.AssignToken(new Tokens.FocusToken());
+            Selection.ThisShip.AssignToken(new Tokens.FocusToken());
         }
 
     }

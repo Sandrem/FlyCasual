@@ -176,7 +176,7 @@ public static partial class Roster {
         foreach (var item in data.hovered)
         {
             if (item.tag != "Untagged") {
-                if (Game.Selection.TryToChangeShip(item.tag)) return;
+                if (Selection.TryToChangeShip(item.tag)) return;
             }
         }
         Game.UI.HideTemporaryMenus();

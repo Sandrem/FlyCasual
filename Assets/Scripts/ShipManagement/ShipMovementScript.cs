@@ -79,7 +79,8 @@ public class ShipMovementScript : MonoBehaviour {
     }
 
     void Update () {
-		UpdateMovement ();
+        Selection.UpdateSelection();
+        UpdateMovement ();
     }
 
     //Assignment and launch of execution of meneuver
@@ -87,10 +88,10 @@ public class ShipMovementScript : MonoBehaviour {
     public void AssignManeuver()
     {
         string parameters = EventSystem.current.currentSelectedGameObject.name;
-        Game.Selection.ThisShip.AssignedManeuver = ManeuverFromString(parameters);
-        Game.Selection.ThisShip.InfoPanel.transform.FindChild("DialAssigned" + Game.Selection.ThisShip.Owner.Id).gameObject.SetActive(true);
+        Selection.ThisShip.AssignedManeuver = ManeuverFromString(parameters);
+        Selection.ThisShip.InfoPanel.transform.FindChild("DialAssigned" + Selection.ThisShip.Owner.Id).gameObject.SetActive(true);
 
-        Game.Selection.ThisShip.IsManeurPerformed = false;
+        Selection.ThisShip.IsManeurPerformed = false;
         
         Game.UI.HideDirectionMenu();
     }
@@ -149,7 +150,7 @@ public class ShipMovementScript : MonoBehaviour {
                 break;
         }
 
-        result.ColorComplexity = Game.Selection.ThisShip.GetColorComplexityOfManeuver(parameters);
+        result.ColorComplexity = Selection.ThisShip.GetColorComplexityOfManeuver(parameters);
 
         return result;
     }
@@ -157,7 +158,7 @@ public class ShipMovementScript : MonoBehaviour {
     public void PerformStoredManeuver()
     {
         Phases.StartMovementExecutionSubPhase("");
-        Game.Movement.PerformMove(Game.Selection.ThisShip.AssignedManeuver);
+        Game.Movement.PerformMove(Selection.ThisShip.AssignedManeuver);
     }
 
 	public void PerformMove(Movement movementParameters) {
@@ -168,7 +169,7 @@ public class ShipMovementScript : MonoBehaviour {
         CurrentMovementData.MovementDirection = movementParameters.Direction;
         CurrentMovementData.Speed = GetSpeedFromMovement(movementParameters);
 
-        Game.Selection.ThisShip.StartMoving();
+        Selection.ThisShip.StartMoving();
 
         CurrentMovementData.IsMoving = true;
         
@@ -241,10 +242,10 @@ public class ShipMovementScript : MonoBehaviour {
 
                 Vector3 progressDirection = (CurrentMovementData.CollisionReverting) ? Vector3.back : Vector3.forward;
 
-                Game.Selection.ThisShip.Model.SetPosition(Vector3.MoveTowards(Game.Selection.ThisShip.Model.GetPosition(), Game.Selection.ThisShip.Model.GetPosition() + Game.Selection.ThisShip.Model.TransformDirection(progressDirection), progressDelta));
+                Selection.ThisShip.Model.SetPosition(Vector3.MoveTowards(Selection.ThisShip.Model.GetPosition(), Selection.ThisShip.Model.GetPosition() + Selection.ThisShip.Model.TransformDirection(progressDirection), progressDelta));
                 CurrentMovementData.CurrentProgress += progressDelta;
 
-                Game.Selection.ThisShip.Model.RotateModelDuringTurn(CurrentMovementData, PreviousMovementData);
+                Selection.ThisShip.Model.RotateModelDuringTurn(CurrentMovementData, PreviousMovementData);
 
                 UpdateRotationFinisher();
 
@@ -259,10 +260,10 @@ public class ShipMovementScript : MonoBehaviour {
                 float turningDirection = (CurrentMovementData.MovementDirection == ManeuverDirection.Right) ? 1 : -1;
                 int progressDirection = (CurrentMovementData.CollisionReverting) ? -1 : 1;
 
-                Game.Selection.ThisShip.Model.Rotate(Game.Selection.ThisShip.Model.TransformPoint(new Vector3(CurrentMovementData.TurningAroundDistance * turningDirection, 0, 0)), turningDirection * progressDelta * progressDirection);
+                Selection.ThisShip.Model.Rotate(Selection.ThisShip.Model.TransformPoint(new Vector3(CurrentMovementData.TurningAroundDistance * turningDirection, 0, 0)), turningDirection * progressDelta * progressDirection);
                 CurrentMovementData.CurrentProgress += progressDelta;
 
-                Game.Selection.ThisShip.Model.RotateModelDuringTurn(CurrentMovementData, PreviousMovementData);
+                Selection.ThisShip.Model.RotateModelDuringTurn(CurrentMovementData, PreviousMovementData);
 
                 UpdateRotation();
 
@@ -281,8 +282,8 @@ public class ShipMovementScript : MonoBehaviour {
         if (CurrentMovementData.MovementDirection == ManeuverDirection.Right) turningDirection = 1;
         if (CurrentMovementData.MovementDirection == ManeuverDirection.Left) turningDirection = -1;
 
-        Vector3 point_ShipStandBack = Game.Selection.ThisShip.Model.GetCentralBackPoint();
-        Vector3 point_ShipStandFront = Game.Selection.ThisShip.Model.GetCentralFrontPoint();
+        Vector3 point_ShipStandBack = Selection.ThisShip.Model.GetCentralBackPoint();
+        Vector3 point_ShipStandFront = Selection.ThisShip.Model.GetCentralFrontPoint();
         float pathToProcessLeft = (MovementTemplates.CurrentTemplate.transform.InverseTransformPoint(point_ShipStandBack).x);
 
         if (pathToProcessLeft > 0)
@@ -300,13 +301,13 @@ public class ShipMovementScript : MonoBehaviour {
 
             float angle_ToShipFront_CorrectStandPosition = -(180 - secondAngle - angle_ToShipFront_ToRulerBack);
             float rotationFix = angle_ToShipFront_CorrectStandPosition * turningDirection;
-            Game.Selection.ThisShip.Model.SetRotationHelper2Angles(new Vector3(0, rotationFix, 0));
+            Selection.ThisShip.Model.SetRotationHelper2Angles(new Vector3(0, rotationFix, 0));
 
-            Vector3 standOrientationVector = MovementTemplates.CurrentTemplate.transform.InverseTransformPoint(Game.Selection.ThisShip.Model.GetCentralFrontPoint()) - MovementTemplates.CurrentTemplate.transform.InverseTransformPoint(Game.Selection.ThisShip.Model.GetCentralBackPoint());
+            Vector3 standOrientationVector = MovementTemplates.CurrentTemplate.transform.InverseTransformPoint(Selection.ThisShip.Model.GetCentralFrontPoint()) - MovementTemplates.CurrentTemplate.transform.InverseTransformPoint(Selection.ThisShip.Model.GetCentralBackPoint());
             float angleBetweenMinus = -Vector3.Angle(vector_RulerStart_ShipStandFront, standOrientationVector);
             float angleFix = angleBetweenMinus * turningDirection;
             if (CurrentMovementData.CollisionReverting) angleFix = -angleFix;
-            Game.Selection.ThisShip.Model.UpdateRotationHelperAngles(new Vector3(0, angleFix, 0));
+            Selection.ThisShip.Model.UpdateRotationHelperAngles(new Vector3(0, angleFix, 0));
         }
 
         MovementTemplates.AddRulerCenterPoint(point_ShipStandFront);
@@ -317,8 +318,8 @@ public class ShipMovementScript : MonoBehaviour {
     {
         if (MovementTemplates.CurrentTemplate.transform.Find("Finisher") != null) {
 
-            Vector3 point_ShipStandBack = Game.Selection.ThisShip.Model.GetCentralBackPoint();
-            Vector3 point_ShipStandFront = Game.Selection.ThisShip.Model.GetCentralFrontPoint();
+            Vector3 point_ShipStandBack = Selection.ThisShip.Model.GetCentralBackPoint();
+            Vector3 point_ShipStandFront = Selection.ThisShip.Model.GetCentralFrontPoint();
 
             float pathToProcessFinishingLeft = (MovementTemplates.CurrentTemplate.transform.Find("Finisher").InverseTransformPoint(point_ShipStandFront).x);
             
@@ -334,7 +335,7 @@ public class ShipMovementScript : MonoBehaviour {
                 Vector3 vector_NearestMovementRulerCenter_ShipStandFront = point_ShipStandFront - point_NearestMovementRulerCenter;
                 float angle_ToShipStandBack_ToNearestMovementRulerCenter = Vector3.Angle(vector_ShipBackStand_ShipStandFront, vector_NearestMovementRulerCenter_ShipStandFront);
 
-                Game.Selection.ThisShip.Model.SetRotationHelper2Angles(new Vector3(0, angle_ToShipStandBack_ToNearestMovementRulerCenter * turningDirection, 0));
+                Selection.ThisShip.Model.SetRotationHelper2Angles(new Vector3(0, angle_ToShipStandBack_ToNearestMovementRulerCenter * turningDirection, 0));
             }
 
         }
@@ -344,7 +345,7 @@ public class ShipMovementScript : MonoBehaviour {
 
     private void AdditionalMovement()
     {
-        Game.Selection.ThisShip.Model.SimplifyRotationHelpers();
+        Selection.ThisShip.Model.SimplifyRotationHelpers();
 
         PreviousMovementData = CurrentMovementData;
 
@@ -413,15 +414,15 @@ public class ShipMovementScript : MonoBehaviour {
 
     private void FinishWithoutColliding()
     {
-        Game.Selection.ThisShip.FinishMovingWithoutColliding();
+        Selection.ThisShip.FinishMovingWithoutColliding();
         FinishMovement();
     }
 
     private void FinishCollidingWithSuccess()
     {
-        Game.Selection.ThisShip.FinishMovingWithColliding();
+        Selection.ThisShip.FinishMovingWithColliding();
         CurrentMovementData.CollisionReverting = false;
-        Game.Selection.ThisShip.Model.ApplyRotationHelpers();
+        Selection.ThisShip.Model.ApplyRotationHelpers();
         FinishMovement();
     }
 
@@ -437,15 +438,15 @@ public class ShipMovementScript : MonoBehaviour {
 
         PreviousMovementData = new MovementExecutionData();
 
-        Game.Selection.ThisShip.FinishMoving();
+        Selection.ThisShip.FinishMoving();
 
         CurrentMovementData.IsMoving = false;
-        Game.Selection.ThisShip.Model.ResetRotationHelpers();
+        Selection.ThisShip.Model.ResetRotationHelpers();
         
-        Game.Selection.ThisShip.IsManeurPerformed = true;
-        Game.Selection.ThisShip.IsAttackPerformed = false;
+        Selection.ThisShip.IsManeurPerformed = true;
+        Selection.ThisShip.IsAttackPerformed = false;
 
-        Game.Selection.ThisShip.AssignedManeuver = null;
+        Selection.ThisShip.AssignedManeuver = null;
 
         Phases.FinishSubPhase(typeof(SubPhases.ActivationSubPhase));
     }

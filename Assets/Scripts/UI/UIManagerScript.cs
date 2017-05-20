@@ -87,7 +87,7 @@ public class UIManagerScript: MonoBehaviour {
     //Add icons
     private void SetAvailableManeurs()
     {
-        foreach (KeyValuePair<string, Ship.ManeuverColor> maneuverData in Game.Selection.ThisShip.GetManeuvers())
+        foreach (KeyValuePair<string, Ship.ManeuverColor> maneuverData in Selection.ThisShip.GetManeuvers())
         {
             string[] parameters = maneuverData.Key.Split('.');
             string maneuverSpeed = parameters[0];

@@ -36,9 +36,9 @@ namespace SubPhases
 
             if (anotherShip.Owner.PlayerNo != Phases.CurrentSubPhase.RequiredPlayer)
             {
-                if (!Actions.AssignTargetLockToPair(Game.Selection.ThisShip, anotherShip))
+                if (!Actions.AssignTargetLockToPair(Selection.ThisShip, anotherShip))
                 {
-                    Game.Selection.ThisShip.RemoveAlreadyExecutedAction(typeof(ActionsList.TargetLockAction));
+                    Selection.ThisShip.RemoveAlreadyExecutedAction(typeof(ActionsList.TargetLockAction));
                     Phases.CurrentSubPhase = PreviousSubPhase;
                     UpdateHelpInfo();
                     Game.UI.ActionsPanel.ShowActionsPanel();

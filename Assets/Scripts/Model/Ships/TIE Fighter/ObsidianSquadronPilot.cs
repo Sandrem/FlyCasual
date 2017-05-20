@@ -12,6 +12,8 @@ namespace Ship
             {
                 PilotName = "Obsidian Squadron Pilot";
                 PilotSkill = 3;
+
+                InitializePilot();
             }
         }
     }

@@ -8,25 +8,29 @@ public enum MessageType
     Info
 }
 
+public static class Messages{
 
-public class MessageManagerScript : MonoBehaviour{
+    private static GameManagerScript Game;
 
-    public GameObject prefabMessagePanel;
-    public GameObject messagePanels;
-    private List<GameObject> allMessages = new List<GameObject>();
+    private static List<GameObject> allMessages = new List<GameObject>();
 
-    public void ShowError(string text)
+    static Messages()
+    {
+        Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
+    }
+
+    public static void ShowError(string text)
     {
         ShowMessage(text, MessageType.Error);
     }
 
     //Double
-    public void ShowInfo(string text)
+    public static void ShowInfo(string text)
     {
         ShowMessage(text, MessageType.Info);
     }
 
-    private void ShowMessage(string text, MessageType type)
+    private static void ShowMessage(string text, MessageType type)
     {
 
         Vector2 startingPosition = new Vector3(Screen.width / 2, -50, 0);
@@ -46,7 +50,7 @@ public class MessageManagerScript : MonoBehaviour{
             }
         }
 
-        GameObject Message = MonoBehaviour.Instantiate(prefabMessagePanel, startingPosition, prefabMessagePanel.transform.rotation, messagePanels.transform);
+        GameObject Message = MonoBehaviour.Instantiate(Game.PrefabsList.MessagePanel, startingPosition, Game.PrefabsList.MessagePanelsHolder.transform.rotation, Game.PrefabsList.MessagePanelsHolder.transform);
         Message.GetComponent<MessageContainer>().Initialize(text, type);
         allMessages.Add(Message);
     }

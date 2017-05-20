@@ -10,6 +10,10 @@ public class PrefabsList : MonoBehaviour
     public GameObject PanelToken;
     public GameObject RostersHolder;
     public GameObject PhasesPanel;
+    public GameObject PanelActions;
+
+    public GameObject MessagePanel;
+    public GameObject MessagePanelsHolder;
 
     public Transform BoardTransform;
 
@@ -24,6 +28,14 @@ public class PrefabsList : MonoBehaviour
     public GameObject StartingZone2;
 
     public GameObject DiceResultsMenu;
-    public GameObject DiceModificationButton;
+    public GameObject GenericButton;
+
+    public GameObject DirectionsMenu;
+    public GameObject ContextMenuPanel;
+    public GameObject GameResultsPanel;
+    public GameObject MinimapPanel;
+    public GameObject GameLogPanel;
+    public GameObject ImageStorageDirections;
+    public GameObject LogText;
 
 }

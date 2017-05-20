@@ -4,30 +4,17 @@ using UnityEngine;
 
 namespace Ship
 {
-    public class ShipModelScript
+    public partial class GenericShip
     {
-
-        public GameManagerScript Game;
-
-        private GenericShip Ship;
-
-        public GameObject Model
-        {
-            get;
-            set;
-        }
 
         private Dictionary<string, Vector3> standFrontEdgePoins = new Dictionary<string, Vector3>();
         private Dictionary<string, Vector3> standEdgePoins = new Dictionary<string, Vector3>();
         private const float HALF_OF_SHIPSTAND_SIZE = 0.5f;
         private const float SHIPSTAND_SIZE = 1f;
 
-        public ShipModelScript(GenericShip ship, Vector3 position)
+        public void CreateModel(Vector3 position)
         {
-            Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-
-            Ship = ship;
-            Model = ShipFactory.CreateShipModel(ship, position);
+            Model = CreateShipModel(position);
 
             standFrontEdgePoins.Add("LF", new Vector3(-HALF_OF_SHIPSTAND_SIZE, 0f, 0));
             standFrontEdgePoins.Add("RF", new Vector3(HALF_OF_SHIPSTAND_SIZE, 0f, 0));
@@ -40,9 +27,46 @@ namespace Ship
             standEdgePoins.Add("RB", new Vector3(HALF_OF_SHIPSTAND_SIZE, 0f, -2 * HALF_OF_SHIPSTAND_SIZE));
         }
 
+        public GameObject CreateShipModel(Vector3 position)
+        {
+
+            Vector3 facing = (Owner.PlayerNo == Players.PlayerNo.Player1) ? ShipFactory.ROTATION_FORWARD : ShipFactory.ROTATION_BACKWARD;
+
+            position = new Vector3(0, 0, (Owner.PlayerNo == Players.PlayerNo.Player1) ? -4 : 4);
+
+            GameObject newShip = MonoBehaviour.Instantiate(Game.PrefabsList.ShipModel, position + new Vector3(0, 0.03f, 0), Quaternion.Euler(facing), Board.GetBoard());
+            newShip.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("ShipModels").Find(Type).gameObject.SetActive(true);
+
+            ShipId = ShipFactory.lastId;
+            ShipFactory.lastId = ShipFactory.lastId + 1;
+            SetTagOfChildren(newShip.transform, "ShipId:" + ShipId.ToString());
+
+            //Check Size of stand
+            //Debug.Log(Board.transform.InverseTransformPoint(newShip.transform.TransformPoint(new Vector3(-0.5f, -0.5f, -0.5f))));
+            //Debug.Log(Board.transform.InverseTransformPoint(newShip.transform.TransformPoint(new Vector3(0.5f, 0.5f, 0.5f))));
+
+            //Check size of playmat
+            //Debug.Log(Board.transform.InverseTransformPoint(Board.transform.Find("Playmat").transform.TransformPoint(new Vector3(-0.5f, -0.5f, -0.5f))));
+            //Debug.Log(Board.transform.InverseTransformPoint(Board.transform.Find("Playmat").transform.TransformPoint(new Vector3(0.5f, 0.5f, 0.5f))));
+
+            return newShip;
+        }
+
+        private static void SetTagOfChildren(Transform parent, string tag)
+        {
+            parent.gameObject.tag = tag;
+            if (parent.childCount > 0)
+            {
+                foreach (Transform t in parent)
+                {
+                    SetTagOfChildren(t, tag);
+                }
+            }
+        }
+
         public void SetShipInstertImage()
         {
-            string materialName = Ship.PilotName;
+            string materialName = PilotName;
             materialName = materialName.Replace(' ', '_');
             materialName = materialName.Replace('"', '_');
             Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("ShipStand").Find("ShipStandInsert").Find("ShipStandInsertImage").Find("default").GetComponent<Renderer>().material = (Material)Resources.Load("ShipStandInsert/Materials/" + materialName, typeof(Material));
@@ -112,7 +136,7 @@ namespace Ship
         {
             if (type == "default")
             {
-                foreach (Transform transform in Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("ShipModels").Find(Ship.Type))
+                foreach (Transform transform in Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("ShipModels").Find(Type))
                 {
                     //Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("Spotlight").gameObject.SetActive(false);
                     //transform.GetComponent<Renderer>().material.shader = Shader.Find("Standard");
@@ -120,7 +144,7 @@ namespace Ship
             }
             if (type == "selectedYellow")
             {
-                foreach (Transform transform in Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("ShipModels").Find(Ship.Type))
+                foreach (Transform transform in Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("ShipModels").Find(Type))
                 {
                     //Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("Spotlight").gameObject.SetActive(true);
                     //transform.GetComponent<Renderer>().material.shader = Shader.Find("Outlined/Silhouetted Diffuse");
@@ -129,7 +153,7 @@ namespace Ship
             }
             if (type == "selectedRed")
             {
-                foreach (Transform transform in Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("ShipModels").Find(Ship.Type))
+                foreach (Transform transform in Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("ShipModels").Find(Type))
                 {
                     //Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("Spotlight").gameObject.SetActive(true);
                     //transform.GetComponent<Renderer>().material.shader = Shader.Find("Outlined/Silhouetted Diffuse");
@@ -229,7 +253,7 @@ namespace Ship
             float minDistance = float.MaxValue;
             foreach (var objThis in GetStandEdgePoints())
             {
-                foreach (var objAnother in anotherShip.Model.GetStandEdgePoints())
+                foreach (var objAnother in anotherShip.GetStandEdgePoints())
                 {
                     float distance = Vector3.Distance(objThis.Value, objAnother.Value);
                     //Debug.Log ("Distance between " + objThis.Key + " and " + objAnother.Key + " is: " + distance.ToString ());
@@ -268,7 +292,7 @@ namespace Ship
 
         public void ToggleDamaged(bool isDamaged)
         {
-            Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("ShipModels").Find(Ship.Type).Find("ModelCenter").Find("DamageParticles").gameObject.SetActive(isDamaged);
+            Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("ShipModels").Find(Type).Find("ModelCenter").Find("DamageParticles").gameObject.SetActive(isDamaged);
         }
 
         public void RotateModelDuringTurn(MovementExecutionData currentMovementData, MovementExecutionData previousMovementData)
@@ -298,19 +322,19 @@ namespace Ship
             {
                 progress = 1 - progress;
             }
-            Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("ShipModels").Find(Ship.Type).Find("ModelCenter").localEulerAngles = new Vector3(0, 0, Mathf.Lerp(0, 45* turningDirection, progress));
+            Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("ShipModels").Find(Type).Find("ModelCenter").localEulerAngles = new Vector3(0, 0, Mathf.Lerp(0, 45* turningDirection, progress));
         }
 
         public void RotateModelDuringBarrelRoll(float progress)
         {
             float turningDirection = 1;
-            Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("ShipModels").Find(Ship.Type).Find("ModelCenter").localEulerAngles = new Vector3(0, 0, Mathf.Lerp(0, turningDirection * 360, progress));
+            Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("ShipModels").Find(Type).Find("ModelCenter").localEulerAngles = new Vector3(0, 0, Mathf.Lerp(0, turningDirection * 360, progress));
         }
 
         public void MoveUpwards(float progress)
         {
             progress = (progress > 0.5f) ? 1 - progress : progress;
-            Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("ShipModels").Find(Ship.Type).Find("ModelCenter").localPosition = new Vector3(0, 3.67f + 4f * progress, 0);
+            Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("ShipModels").Find(Type).Find("ModelCenter").localPosition = new Vector3(0, 3.67f + 4f * progress, 0);
         }
 
         public Vector3 InverseTransformPoint(Vector3 point)

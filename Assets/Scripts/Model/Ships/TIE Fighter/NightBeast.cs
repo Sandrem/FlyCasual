@@ -15,6 +15,8 @@ namespace Ship
                 PilotSkill = 5;
 
                 OnMovementFinishWithoutColliding += NightBeastPilotAbility;
+
+                InitializePilot();
             }
 
             private void NightBeastPilotAbility(Ship.GenericShip ship)

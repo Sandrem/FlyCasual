@@ -16,6 +16,8 @@ namespace Ship
                 AddUpgradeSlot(Upgrade.UpgradeSlot.Elite);
 
                 AfterGenerateDiceModifications += AddLukeSkywalkerPilotAbility;
+
+                InitializePilot();
             }
 
             public void AddLukeSkywalkerPilotAbility(ref List<ActionsList.GenericAction> list)

@@ -100,9 +100,9 @@ public static class Selection {
     {
         DeselectThisShip();
         ThisShip = Roster.GetShipById(shipId);
-        ThisShip.Model.GetShipStandScript().checkCollisions = true;
+        ThisShip.GetShipStandScript().checkCollisions = true;
         ThisShip.InfoPanel.transform.Find("ShipInfo").Find("ShipPilotNameText").GetComponent<Text>().color = Color.yellow;
-        ThisShip.Model.ApplyShader("selectedYellow");
+        ThisShip.ApplyShader("selectedYellow");
         Game.UI.CallContextMenu(ThisShip);
 
     }
@@ -122,11 +122,11 @@ public static class Selection {
         if (AnotherShip != null)
         {
             AnotherShip.InfoPanel.transform.Find("ShipInfo").Find("ShipPilotNameText").GetComponent<Text>().color = Color.white;
-            AnotherShip.Model.ApplyShader("default");
+            AnotherShip.ApplyShader("default");
         }
         AnotherShip = Roster.GetShipById(shipId);
         AnotherShip.InfoPanel.transform.Find("ShipInfo").Find("ShipPilotNameText").GetComponent<Text>().color = Color.red;
-        AnotherShip.Model.ApplyShader("selectedRed");
+        AnotherShip.ApplyShader("selectedRed");
         Game.UI.CallContextMenu(AnotherShip);
         return true;
     }
@@ -142,9 +142,9 @@ public static class Selection {
 
     private static void DeselectShip(Ship.GenericShip ship)
     {
-        ship.Model.GetShipStandScript().checkCollisions = false;
+        ship.GetShipStandScript().checkCollisions = false;
         ship.InfoPanel.transform.Find("ShipInfo").Find("ShipPilotNameText").GetComponent<Text>().color = Color.white;
-        ship.Model.ApplyShader("default");
+        ship.ApplyShader("default");
     }
 
     public static void DeselectAllShips()

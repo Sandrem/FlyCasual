@@ -5,38 +5,28 @@ using UnityEngine.UI;
 
 //Todo: Move to different scripts by menu names
 
-public class ActionsPanelScript : MonoBehaviour {
+public static partial class Actions {
 
-    private GameManagerScript Game;
-
-    public GameObject panelActions;
-    public GameObject prefabActionButton;
-
-    void Start()
-    {
-        Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-    }
-
-    public void ShowActionsPanel()
+    public static void ShowActionsPanel()
     {
         ShowActionsButtons(Selection.ThisShip.GetAvailableActionsList());
     }
 
-    public void ShowFreeActionsPanel()
+    public static void ShowFreeActionsPanel()
     {
         Phases.StartFreeActionSubPhase("Free action");
         ShowActionsButtons(Selection.ThisShip.GetAvailableFreeActionsList());
     }
 
-    private void ShowActionsButtons(List<ActionsList.GenericAction> actionList)
+    private static void ShowActionsButtons(List<ActionsList.GenericAction> actionList)
     {
         HideActionsButtons();
 
         float offset = 0;
-        Vector3 defaultPosition = panelActions.transform.position + new Vector3(-95, 195, 0);
+        Vector3 defaultPosition = Game.PrefabsList.PanelActions.transform.position + new Vector3(-95, 195, 0);
         foreach (var action in actionList)
         {
-            GameObject newButton = Instantiate(prefabActionButton, panelActions.transform);
+            GameObject newButton = MonoBehaviour.Instantiate(Game.PrefabsList.GenericButton, Game.PrefabsList.PanelActions.transform);
             newButton.name = "Button" + action.Name;
             newButton.transform.GetComponentInChildren<Text>().text = action.Name;
             newButton.GetComponent<RectTransform>().position = defaultPosition + new Vector3(0, -offset, 0);
@@ -52,7 +42,7 @@ public class ActionsPanelScript : MonoBehaviour {
 
         if (actionList.Count != 0)
         {
-            panelActions.SetActive(true);
+            Game.PrefabsList.PanelActions.SetActive(true);
         }
         else
         {
@@ -61,9 +51,9 @@ public class ActionsPanelScript : MonoBehaviour {
         }
     }
 
-    public void HideActionsButtons()
+    public static void HideActionsButtons()
     {
-        foreach (Transform button in panelActions.transform)
+        foreach (Transform button in Game.PrefabsList.PanelActions.transform)
         {
             if (button.name.StartsWith("Button"))
             {
@@ -72,9 +62,9 @@ public class ActionsPanelScript : MonoBehaviour {
         }
     }
 
-    public void CloseActionsPanel()
+    public static void CloseActionsPanel()
     {
-        panelActions.SetActive(false);
+        Game.PrefabsList.PanelActions.SetActive(false);
         //Rework: This needs go next only if this is single-state action
         if (!(Phases.CurrentSubPhase.GetType() == typeof(SubPhases.SelectTargetSubPhase)) && !(Phases.CurrentSubPhase.GetType() == typeof(SubPhases.BarrelRollSubPhase)))
         {

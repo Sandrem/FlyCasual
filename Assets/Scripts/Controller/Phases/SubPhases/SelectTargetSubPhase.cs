@@ -41,7 +41,7 @@ namespace SubPhases
                     Selection.ThisShip.RemoveAlreadyExecutedAction(typeof(ActionsList.TargetLockAction));
                     Phases.CurrentSubPhase = PreviousSubPhase;
                     UpdateHelpInfo();
-                    Game.UI.ActionsPanel.ShowActionsPanel();
+                    Actions.ShowActionsPanel();
                     return false;
                 }
                 result = true;

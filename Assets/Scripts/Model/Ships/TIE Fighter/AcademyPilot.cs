@@ -12,6 +12,8 @@ namespace Ship
             {
                 PilotName = "Academy Pilot";
                 PilotSkill = 1;
+
+                InitializePilot();
             }
         }
     }

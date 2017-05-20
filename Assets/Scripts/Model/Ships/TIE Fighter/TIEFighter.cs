@@ -12,7 +12,6 @@ namespace Ship
             public TIEFighter(Players.PlayerNo playerNo, int shipId, Vector3 position) : base(playerNo, shipId, position)
             {
                 Type = "TIE Fighter";
-                SetModel(position);
 
                 Firepower = 2;
                 Agility = 3;
@@ -24,7 +23,7 @@ namespace Ship
                 BuiltInActions.Add(new ActionsList.BarrelRollAction());
 
                 AssignTemporaryManeuvers();
-                InitializeValues();
+                InitializeShip();
             }
 
 

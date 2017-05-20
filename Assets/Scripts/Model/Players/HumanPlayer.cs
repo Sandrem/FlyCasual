@@ -16,12 +16,12 @@ namespace Players
 
         public override void PerformAction()
         {
-            Game.UI.ActionsPanel.ShowActionsPanel();
+            Actions.ShowActionsPanel();
         }
 
         public override void PerformFreeAction()
         {
-            Game.UI.ActionsPanel.ShowFreeActionsPanel();
+            Actions.ShowFreeActionsPanel();
         }
 
         public override void UseDiceModifications()

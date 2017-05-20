@@ -12,6 +12,8 @@ namespace Ship
             {
                 PilotName = "Red Squadron Pilot";
                 PilotSkill = 4;
+
+                InitializePilot();
             }
         }
     }

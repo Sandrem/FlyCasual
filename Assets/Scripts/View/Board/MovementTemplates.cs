@@ -18,7 +18,7 @@ public static class MovementTemplates {
     {
         Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
         Actions.OnCheckCanPerformAttack += CallShowRange;
-        Templates = Game.PrefabList.RulersHolderTransform;
+        Templates = Game.PrefabsList.RulersHolderTransform;
     }
 
     public static void AddRulerCenterPoint(Vector3 point)
@@ -57,8 +57,8 @@ public static class MovementTemplates {
             savedRulerPosition = CurrentTemplate.position;
             savedRulerRotation = CurrentTemplate.eulerAngles;
 
-            CurrentTemplate.position = thisShip.Model.GetPosition();
-            CurrentTemplate.eulerAngles = thisShip.Model.GetAngles() + new Vector3(0f, 90f, 0f);
+            CurrentTemplate.position = thisShip.GetPosition();
+            CurrentTemplate.eulerAngles = thisShip.GetAngles() + new Vector3(0f, 90f, 0f);
             if (Game.Movement.CurrentMovementData.MovementDirection == ManeuverDirection.Left)
             {
                 CurrentTemplate.eulerAngles = CurrentTemplate.eulerAngles + new Vector3(180f, 0f, 0f);
@@ -96,8 +96,8 @@ public static class MovementTemplates {
 
     public static void ShowRange(Ship.GenericShip thisShip, Ship.GenericShip anotherShip)
     {
-        Vector3 vectorToTarget = thisShip.Model.GetClosestEdgesTo(anotherShip)["another"] - thisShip.Model.GetClosestEdgesTo(anotherShip)["this"];
-        Templates.Find("RangeRuler").position = thisShip.Model.GetClosestEdgesTo(anotherShip)["this"];
+        Vector3 vectorToTarget = thisShip.GetClosestEdgesTo(anotherShip)["another"] - thisShip.GetClosestEdgesTo(anotherShip)["this"];
+        Templates.Find("RangeRuler").position = thisShip.GetClosestEdgesTo(anotherShip)["this"];
         Templates.Find("RangeRuler").rotation = Quaternion.LookRotation(vectorToTarget);
     }
 

@@ -13,7 +13,7 @@ public static partial class Roster {
 
     public static GameObject CreateRosterInfo(Ship.GenericShip newShip)
     {
-        GameObject newPanel = MonoBehaviour.Instantiate(Game.PrefabList.RosterPanel, Game.PrefabList.RostersHolder.transform.Find("TeamPlayer" + newShip.Owner.Id).Find("RosterHolder").transform);
+        GameObject newPanel = MonoBehaviour.Instantiate(Game.PrefabsList.RosterPanel, Game.PrefabsList.RostersHolder.transform.Find("TeamPlayer" + newShip.Owner.Id).Find("RosterHolder").transform);
 
         //Generic info
         newPanel.transform.Find("ShipInfo").Find("ShipPilotSkillText").GetComponent<Text>().text = newShip.PilotSkill.ToString();
@@ -140,7 +140,7 @@ public static partial class Roster {
 
     private static void OrganizeRosterPositions()
     {
-        Vector3 defaultPosition = Game.PrefabList.RostersHolder.transform.Find("TeamPlayer1").Find("RosterHolder").transform.position + new Vector3(5f, 0f, 0f);
+        Vector3 defaultPosition = Game.PrefabsList.RostersHolder.transform.Find("TeamPlayer1").Find("RosterHolder").transform.position + new Vector3(5f, 0f, 0f);
 
         rosterPlayer1.Sort(delegate (GameObject x, GameObject y)
         {
@@ -155,7 +155,7 @@ public static partial class Roster {
         }
 
         /// Same for second player
-        defaultPosition = Game.PrefabList.RostersHolder.transform.Find("TeamPlayer2").Find("RosterHolder").transform.position + new Vector3(5f, 0f, 0f);
+        defaultPosition = Game.PrefabsList.RostersHolder.transform.Find("TeamPlayer2").Find("RosterHolder").transform.position + new Vector3(5f, 0f, 0f);
 
         rosterPlayer2.Sort(delegate (GameObject x, GameObject y)
         {
@@ -221,7 +221,7 @@ public static partial class Roster {
         }
 
         //Todo: move
-        thisShip.Model.ToggleDamaged(thisShip.Hull == 1);
+        thisShip.ToggleDamaged(thisShip.Hull == 1);
     }
 
     public static void UpdateTokensIndicator(Ship.GenericShip thisShip)
@@ -239,7 +239,7 @@ public static partial class Roster {
         float offset = 0;
         foreach (var token in thisShip.AssignedTokens)
         {
-            GameObject tokenPanel = MonoBehaviour.Instantiate(Game.PrefabList.PanelToken, thisShip.InfoPanel.transform.Find("ShipInfo").Find("TokensBar"));
+            GameObject tokenPanel = MonoBehaviour.Instantiate(Game.PrefabsList.PanelToken, thisShip.InfoPanel.transform.Find("ShipInfo").Find("TokensBar"));
             tokenPanel.GetComponent<RectTransform>().localPosition = Vector3.zero;
             tokenPanel.name = token.Name;
             tokenPanel.transform.Find(token.Name).gameObject.SetActive(true);

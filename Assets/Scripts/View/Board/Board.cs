@@ -21,18 +21,18 @@ public static partial class Board {
     {
         Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
 
-        BoardTransform = Game.PrefabList.BoardTransform;
-        RulersHolderTransform = Game.PrefabList.RulersHolderTransform;
-        StartingZone1 = Game.PrefabList.StartingZone1;
-        StartingZone2 = Game.PrefabList.StartingZone2;
+        BoardTransform = Game.PrefabsList.BoardTransform;
+        RulersHolderTransform = Game.PrefabsList.RulersHolderTransform;
+        StartingZone1 = Game.PrefabsList.StartingZone1;
+        StartingZone2 = Game.PrefabsList.StartingZone2;
     }
 
     private static void SetShip(Ship.GenericShip ship, int count)
     {
         float distance = CalculateDistance(ship.Owner.Ships.Count);
         float side = (ship.Owner.PlayerNo == Players.PlayerNo.Player1) ? -1 : 1;
-        ship.Model.SetPosition(BoardIntoWorld(new Vector3(-SIZE_X / 2 + count * distance, 0, side * SIZE_Y / 2 + +side * 2 * RANGE_1)));
-        ship.Model.SetPosition(BoardIntoWorld(new Vector3(-SIZE_X / 2 + count * distance, 0, side * SIZE_Y / 2 + -side * 2 * RANGE_1)));
+        ship.SetPosition(BoardIntoWorld(new Vector3(-SIZE_X / 2 + count * distance, 0, side * SIZE_Y / 2 + +side * 2 * RANGE_1)));
+        ship.SetPosition(BoardIntoWorld(new Vector3(-SIZE_X / 2 + count * distance, 0, side * SIZE_Y / 2 + -side * 2 * RANGE_1)));
     }
 
     public static void HighlightStartingZones()
@@ -54,7 +54,7 @@ public static partial class Board {
         foreach (var ship in shipsPlayer1)
         {
             float distance = CalculateDistance(shipsPlayer1.Count);
-            ship.Value.Model.SetPosition(BoardIntoWorld(new Vector3(- SIZE_X / 2 + i *distance, 0, -SIZE_Y/2 + 2*RANGE_1)));
+            ship.Value.SetPosition(BoardIntoWorld(new Vector3(- SIZE_X / 2 + i *distance, 0, -SIZE_Y/2 + 2*RANGE_1)));
             i++;
         }
 
@@ -62,7 +62,7 @@ public static partial class Board {
         foreach (var ship in shipsPlayer2)
         {
             float distance = CalculateDistance(shipsPlayer2.Count);
-            ship.Value.Model.SetPosition(BoardIntoWorld(new Vector3(- SIZE_X / 2 + i * distance, 0, SIZE_Y/2 - 2*RANGE_1)));
+            ship.Value.SetPosition(BoardIntoWorld(new Vector3(- SIZE_X / 2 + i * distance, 0, SIZE_Y/2 - 2*RANGE_1)));
             i++;
         }
     }

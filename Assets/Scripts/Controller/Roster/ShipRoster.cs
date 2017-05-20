@@ -45,15 +45,15 @@ public static partial class Roster
 
     private static void AddShipToLists(Ship.GenericShip newShip)
     {
-        AllShips.Add(newShip.Model.GetTag(), newShip);
-        newShip.Owner.Ships.Add(newShip.Model.GetTag(), newShip);
+        AllShips.Add(newShip.GetTag(), newShip);
+        newShip.Owner.Ships.Add(newShip.GetTag(), newShip);
     }
 
     //SHIP DESTRUCTION
 
     public static void DestroyShip(string id)
     {
-        GetShipById(id).Model.SetActive(false);
+        GetShipById(id).SetActive(false);
         GetShipById(id).InfoPanel.SetActive(false);
 
         RemoveShipFromLists(id);
@@ -157,7 +157,7 @@ public static partial class Roster
     {
         var results =
             from n in AllShips
-            where n.Value.IsManeurPerformed == false
+            where n.Value.IsManeuverPerformed == false
             select n;
 
         if (results.Count() > 0) Game.UI.ShowError("Not all ship executed their maneuvers");
@@ -168,7 +168,7 @@ public static partial class Roster
     {
         var results =
             from n in ListSamePlayerAndPilotSkill(thisShip)
-            where n.Value.IsManeurPerformed == false
+            where n.Value.IsManeuverPerformed == false
             select n;
 
         return (results.Count() == 0);
@@ -209,7 +209,7 @@ public static partial class Roster
     {
         foreach (var shipHolder in AllShips)
         {
-            shipHolder.Value.Model.SetRaycastTarget(value);
+            shipHolder.Value.SetRaycastTarget(value);
         }
     }
 

@@ -7,10 +7,10 @@ public static class ShipFactory {
 
     private static GameManagerScript Game;
 
-    private static int lastId = 1;
+    public static int lastId = 1;
 
-	private static readonly Vector3 ROTATION_FORWARD = new Vector3 (0, 0, 0);
-	private static readonly Vector3 ROTATION_BACKWARD = new Vector3 (0, 180, 0);
+	public static readonly Vector3 ROTATION_FORWARD = new Vector3 (0, 0, 0);
+    public static readonly Vector3 ROTATION_BACKWARD = new Vector3 (0, 180, 0);
 
     static ShipFactory()
     {
@@ -30,8 +30,8 @@ public static class ShipFactory {
         {
             newShipContainer.InstallUpgrade(upgrade);
         }
-        newShipContainer.Model.SetShipInstertImage();
 
+        //TODO: Rework this
         newShipContainer.OnDestroyed += Rules.WinConditions.CheckWinConditions;
         newShipContainer.AfterGotNumberOfAttackDices += Rules.DistanceBonus.CheckAttackDistanceBonus;
         newShipContainer.AfterGotNumberOfDefenceDices += Rules.DistanceBonus.CheckDefenceDistanceBonus;
@@ -57,42 +57,5 @@ public static class ShipFactory {
 
         return newShipContainer;
 	}
-
-    public static GameObject CreateShipModel(Ship.GenericShip newShipContainer, Vector3 position) {
-
-        Vector3 facing = (newShipContainer.Owner.PlayerNo == Players.PlayerNo.Player1) ? ROTATION_FORWARD : ROTATION_BACKWARD;
-
-        position = new Vector3(0, 0, (newShipContainer.Owner.PlayerNo == Players.PlayerNo.Player1) ? -4 : 4);
-
-        GameObject newShip = MonoBehaviour.Instantiate(Game.PrefabList.ShipModel, position + new Vector3(0, 0.03f, 0), Quaternion.Euler(facing), Board.GetBoard());
-        newShip.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("ShipModels").Find(newShipContainer.Type).gameObject.SetActive(true);
-
-        newShipContainer.ShipId = lastId;
-        lastId = lastId + 1;
-        SetTagOfChildren(newShip.transform, "ShipId:" + newShipContainer.ShipId.ToString());
-
-        //Check Size of stand
-        //Debug.Log(Board.transform.InverseTransformPoint(newShip.transform.TransformPoint(new Vector3(-0.5f, -0.5f, -0.5f))));
-        //Debug.Log(Board.transform.InverseTransformPoint(newShip.transform.TransformPoint(new Vector3(0.5f, 0.5f, 0.5f))));
-
-        //Check size of playmat
-        //Debug.Log(Board.transform.InverseTransformPoint(Board.transform.Find("Playmat").transform.TransformPoint(new Vector3(-0.5f, -0.5f, -0.5f))));
-        //Debug.Log(Board.transform.InverseTransformPoint(Board.transform.Find("Playmat").transform.TransformPoint(new Vector3(0.5f, 0.5f, 0.5f))));
-
-
-        return newShip;
-    }
-
-    private static void SetTagOfChildren(Transform parent, string tag)
-    {
-        parent.gameObject.tag = tag;
-        if (parent.childCount > 0)
-        {
-            foreach (Transform t in parent)
-            {
-                SetTagOfChildren(t, tag);
-            }
-        }
-    }
 
 }

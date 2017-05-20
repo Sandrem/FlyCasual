@@ -12,7 +12,6 @@ namespace Ship
             public XWing(Players.PlayerNo playerNo, int shipId, Vector3 position) : base(playerNo, shipId, position)
             {
                 Type = "X-Wing";
-                SetModel(position);
 
                 Firepower = 3;
                 Agility = 2;
@@ -27,7 +26,7 @@ namespace Ship
                 AddUpgradeSlot(Upgrade.UpgradeSlot.Torpedoes);
 
                 AssignTemporaryManeuvers();
-                InitializeValues();
+                InitializeShip();
             }
 
 

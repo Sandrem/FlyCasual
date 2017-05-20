@@ -7,9 +7,9 @@ public class GameManagerScript : MonoBehaviour {
     //Move to board consts
     public readonly float PLAYMAT_SIZE = 10;
 
-    public PrefabsList PrefabList;
+    public PrefabsList PrefabsList;
 
-    public UIManagerScript UI;
+    public UI UI;
     public ShipMovementScript Movement;
     public ShipPositionManager Position;
 
@@ -17,6 +17,9 @@ public class GameManagerScript : MonoBehaviour {
         SetApplicationParameters();
         InitializeScripts();
 
+        Global.Initialize();
+
+        Roster.Start();
         Phases.StartPhases();
     }
 
@@ -27,14 +30,11 @@ public class GameManagerScript : MonoBehaviour {
 
     private void InitializeScripts()
     {
-        PrefabList = this.GetComponent<PrefabsList>();
-
-        UI = this.GetComponent<UIManagerScript>();
-            UI.ErrorManager = this.GetComponent<MessageManagerScript>();
-            UI.ActionsPanel = this.GetComponent<ActionsPanelScript>();
+        PrefabsList = this.GetComponent<PrefabsList>();
+        UI = this.GetComponent<UI>();
+        UI.Initialize();
         
         Movement = this.GetComponent<ShipMovementScript>();
-        
         Position = this.GetComponent<ShipPositionManager>();
     }
 

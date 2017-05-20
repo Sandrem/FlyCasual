@@ -15,6 +15,8 @@ namespace Ship
                 PilotSkill = 6;
                 OnAttack += AddDarkCursePilotAbility;
                 OnDefence += RemoveDarkCursePilotAbility;
+
+                InitializePilot();
             }
 
             public void AddDarkCursePilotAbility()

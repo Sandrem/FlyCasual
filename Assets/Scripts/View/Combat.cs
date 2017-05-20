@@ -11,7 +11,7 @@ public static partial class Combat {
 
     public static void ShowDiceResultMenu()
     {
-        Game.PrefabList.DiceResultsMenu.SetActive(true);        
+        Game.PrefabsList.DiceResultsMenu.SetActive(true);        
     }
 
     public static void ShowDiceModificationButtons()
@@ -21,7 +21,7 @@ public static partial class Combat {
         if (Roster.GetPlayer(Selection.ActiveShip.Owner.PlayerNo).Type == Players.PlayerType.Human)
         {
             float offset = 0;
-            Vector3 defaultPosition = Game.PrefabList.DiceResultsMenu.transform.position + new Vector3(5, 195, 0);
+            Vector3 defaultPosition = Game.PrefabsList.DiceResultsMenu.transform.position + new Vector3(5, 195, 0);
 
             foreach (var actionEffect in Selection.ActiveShip.AvailableActionEffects)
             {
@@ -32,7 +32,7 @@ public static partial class Combat {
 
             //TODO: Fix size of ActionEffect Menu
 
-            Game.PrefabList.DiceResultsMenu.transform.Find("Confirm").gameObject.SetActive(true);
+            Game.PrefabsList.DiceResultsMenu.transform.Find("Confirm").gameObject.SetActive(true);
         }
 
         Roster.GetPlayer(Selection.ActiveShip.Owner.PlayerNo).UseDiceModifications();
@@ -40,7 +40,7 @@ public static partial class Combat {
 
     private static void CreateDiceModificationsButton(ActionsList.GenericAction actionEffect, Vector3 position)
     {
-        GameObject newButton = MonoBehaviour.Instantiate(Game.PrefabList.DiceModificationButton, Game.PrefabList.DiceResultsMenu.transform);
+        GameObject newButton = MonoBehaviour.Instantiate(Game.PrefabsList.GenericButton, Game.PrefabsList.DiceResultsMenu.transform);
         newButton.name = "Button" + actionEffect.EffectName;
         newButton.transform.GetComponentInChildren<Text>().text = actionEffect.EffectName;
         newButton.GetComponent<RectTransform>().position = position;
@@ -55,14 +55,14 @@ public static partial class Combat {
 
     public static void HideDiceModificationButtons()
     {
-        foreach (Transform button in Game.PrefabList.DiceResultsMenu.transform)
+        foreach (Transform button in Game.PrefabsList.DiceResultsMenu.transform)
         {
             if (button.name.StartsWith("Button"))
             {
                 MonoBehaviour.Destroy(button.gameObject);
             }
         }
-        Game.PrefabList.DiceResultsMenu.transform.Find("Confirm").gameObject.SetActive(false);
+        Game.PrefabsList.DiceResultsMenu.transform.Find("Confirm").gameObject.SetActive(false);
     }
 
     public static void ConfirmDiceResults()
@@ -90,7 +90,7 @@ public static partial class Combat {
 
     private static void HideDiceResultMenu()
     {
-        Game.PrefabList.DiceResultsMenu.SetActive(false);
+        Game.PrefabsList.DiceResultsMenu.SetActive(false);
         HideDiceModificationButtons();
         CurentDiceRoll.RemoveDiceModels();
     }

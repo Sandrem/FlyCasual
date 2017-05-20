@@ -13,6 +13,8 @@ namespace Ship
                 PilotName = "Black Squadron Pilot";
                 PilotSkill = 4;
                 AddUpgradeSlot(Upgrade.UpgradeSlot.Elite);
+
+                InitializePilot();
             }
         }
     }

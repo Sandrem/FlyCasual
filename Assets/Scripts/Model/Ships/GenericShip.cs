@@ -14,32 +14,31 @@ namespace Ship
         Red
     }
 
-    public class GenericShip
+    public partial class GenericShip
     {
 
         protected GameManagerScript Game;
 
+        public int ShipId { get; set; }
+
         public Movement AssignedManeuver { get; set; }
-        public bool IsManeurPerformed { get; set; }
+        public bool IsManeuverPerformed { get; set; }
         public bool IsAttackPerformed { get; set; }
         public bool IsDestroyed { get; set; }
         public bool IsBumped { get; set; }
+        public bool isUnique = false;
 
-        public string Type
-        {
-            get;
-            set;
-        }
-        public string PilotName
-        {
-            get;
-            set;
-        }
-        public int Firepower
-        {
-            get;
-            set;
-        }
+        public string Type { get; set; }
+        public Vector3 StartingPosition { get; set; }
+        public string PilotName { get;  set; }
+        public Players.GenericPlayer Owner { get; set; }
+
+        public int Firepower { get; set; }
+        public int MaxHull { get; set; }
+        public int Hull { get; set; }
+        public int MaxShields { get; set; }
+        public int Shields { get; set; }
+
         private int _PilotSkill;
         public int PilotSkill
         {
@@ -56,6 +55,7 @@ namespace Ship
                 _PilotSkill = value;
             }
         }
+
         private int _Agility;
         public int Agility
         {
@@ -72,61 +72,21 @@ namespace Ship
                 _Agility = value;
             }
         }
-        public int MaxHull
-        {
-            get;
-            set;
-        }
-        public int Hull
-        {
-            get;
-            set;
-        }
-        public int MaxShields
-        {
-            get;
-            set;
-        }
-        public int Shields
-        {
-            get;
-            set;
-        }
-        public ShipModelScript Model
-        {
-            get;
-            set;
-        }
-        public GameObject InfoPanel
-        {
-            get;
-            set;
-        }
-        public GenericShip LastShipCollision
-        {
-            get;
-            set;
-        }
-        public Players.GenericPlayer Owner { get; set; }
+
+        public GameObject Model { get; set; }
+        public GameObject InfoPanel { get; set;  }
+        public GenericShip LastShipCollision { get; set; }
+
+        protected   List<ActionsList.GenericAction> BuiltInActions              = new List<ActionsList.GenericAction>();
+        private     List<ActionsList.GenericAction> AvailableActionsList        = new List<ActionsList.GenericAction>();
+        private     List<ActionsList.GenericAction> AvailableFreeActionsList    = new List<ActionsList.GenericAction>();
+        private     List<ActionsList.GenericAction> AlreadyExecutedActions      = new List<ActionsList.GenericAction>();
+        public      List<ActionsList.GenericAction> AvailableActionEffects      = new List<ActionsList.GenericAction>();
 
         public List<Tokens.GenericToken> AssignedTokens = new List<Tokens.GenericToken>();
-
-        public bool isUnique = false;
-        //public bool FactionRestriction
-
-        protected List<ActionsList.GenericAction> BuiltInActions = new List<ActionsList.GenericAction>();
-        private List<ActionsList.GenericAction> AlreadyExecutedActions = new List<ActionsList.GenericAction>();
-        public List<ActionsList.GenericAction> AvailableActionEffects = new List<ActionsList.GenericAction>();
-        private List<ActionsList.GenericAction> AvailableActionsList = new List<ActionsList.GenericAction>();
-        private List<ActionsList.GenericAction> AvailableFreeActionsList = new List<ActionsList.GenericAction>();
-
         public List<CriticalHitCard.GenericCriticalHit> AssignedCrits = new List<CriticalHitCard.GenericCriticalHit>();
-
         public Dictionary<Upgrade.UpgradeSlot, int> BuiltInSlots = new Dictionary<Upgrade.UpgradeSlot, int>();
-
         public Dictionary<string, ManeuverColor> Maneuvers = new Dictionary<string, ManeuverColor>();
-        public int ShipId { get; set; }
-
         public List<KeyValuePair<Upgrade.UpgradeSlot, Upgrade.GenericUpgrade>> InstalledUpgrades = new List<KeyValuePair<Upgrade.UpgradeSlot, Upgrade.GenericUpgrade>>();
 
         //EVENTS
@@ -169,21 +129,23 @@ namespace Ship
             Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
 
             Owner = Roster.GetPlayer(playerNo);
-
             ShipId = shipId;
+            StartingPosition = position;
 
             AddUpgradeSlot(Upgrade.UpgradeSlot.Modification);
         }
 
-        protected void InitializeValues()
+        protected void InitializeShip()
         {
             Shields = MaxShields;
             Hull = MaxHull;
+
+            CreateModel(StartingPosition);
         }
 
-        protected void SetModel(Vector3 position)
+        protected void InitializePilot()
         {
-            Model = new ShipModelScript(this, position);
+            SetShipInstertImage();
         }
 
         // MANEUVERS
@@ -326,7 +288,7 @@ namespace Ship
             if (!IsDestroyed)
             {
                 Game.UI.AddTestLogEntry(PilotName + "\'s ship is destroyed");
-                Roster.DestroyShip(this.Model.GetTag());
+                Roster.DestroyShip(this.GetTag());
                 OnDestroyed();
                 IsDestroyed = true;
             }

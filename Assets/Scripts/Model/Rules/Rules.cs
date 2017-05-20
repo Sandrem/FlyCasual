@@ -26,13 +26,13 @@ public static class Rules
         WinConditions = new WinConditionsRule(Game);
         DistanceBonus = new DistanceBonusRule(Game);
         EndPhase = new EndPhaseRule(Game);
-        Stress = new StressRule(Game);
+        Stress = new StressRule();
         OffTheBoard = new OffTheBoardRule(Game);
         KoiogranTurn = new KoiogranTurnRule(Game);
         Collision = new CollisionRules(Game);
         FiringRange = new FiringRangeLimit(Game);
         FiringArc = new FiringArcRule(Game);
-        DuplicatedActions = new DuplicatedActionsRule(Game);
+        DuplicatedActions = new DuplicatedActionsRule();
     }
 }
 

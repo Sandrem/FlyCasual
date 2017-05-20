@@ -19,10 +19,10 @@ public static class Dices {
     static Dices() {
         Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
 
-        DiceAttack = Game.PrefabList.DiceAttack;
-        DiceDefence = Game.PrefabList.DiceDefence;
-        DiceSpawningPoint = Game.PrefabList.DiceSpawningPoint;
-        DiceField = Game.PrefabList.DiceField;
+        DiceAttack = Game.PrefabsList.DiceAttack;
+        DiceDefence = Game.PrefabsList.DiceDefence;
+        DiceSpawningPoint = Game.PrefabsList.DiceSpawningPoint;
+        DiceField = Game.PrefabsList.DiceField;
 
         diceResultsOffset.Add(new Vector3(-0.2f, 0, 0.2f));
         diceResultsOffset.Add(new Vector3(0, 0, 0.2f));

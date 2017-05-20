@@ -5,27 +5,16 @@ using UnityEngine.UI;
 
 //Todo: Move to different scripts by menu names
 
-public class UIManagerScript: MonoBehaviour {
+public class UI: MonoBehaviour {
 
     private GameManagerScript Game;
 
-    public MessageManagerScript ErrorManager;
-    public ActionsPanelScript ActionsPanel;
-
-    public GameObject panelDirectionMenu;
-    public GameObject panelContextMenu;
-    public GameObject panelGameResultsMessage;
-    public GameObject panelMinimap;
-    public GameObject panelGameLog;
-    public GameObject ImageStorageDirections;
-
-    public GameObject prefabLogText;
     private float lastLogTextPosition = -5;
     private float lastLogTextStep = -20;
 
     private int minimapSize = 256;
 
-    void Start()
+    public void Initialize()
     {
         Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
     }
@@ -42,20 +31,20 @@ public class UIManagerScript: MonoBehaviour {
         HideContextMenuButtons();
         if (Phases.CurrentSubPhase.CountActiveButtons(ship) > 0)
         {
-            panelContextMenu.SetActive(true);
-            position = FixMenuPosition(panelContextMenu, position);
-            panelContextMenu.transform.position = position;
+            Game.PrefabsList.ContextMenuPanel.SetActive(true);
+            position = FixMenuPosition(Game.PrefabsList.ContextMenuPanel, position);
+            Game.PrefabsList.ContextMenuPanel.transform.position = position;
         }
         else
         {
-            panelContextMenu.SetActive(false);
+            Game.PrefabsList.ContextMenuPanel.SetActive(false);
         }
 
     }
 
     private void HideContextMenuButtons()
     {
-        foreach (Transform button in panelContextMenu.transform)
+        foreach (Transform button in Game.PrefabsList.ContextMenuPanel.transform)
         {
             button.gameObject.SetActive(false);
         }
@@ -63,25 +52,25 @@ public class UIManagerScript: MonoBehaviour {
 
     public void ShowError(string text)
     {
-        ErrorManager.ShowError(text);
+        Messages.ShowError(text);
     }
 
     public void ShowInfo(string text)
     {
-        ErrorManager.ShowInfo(text);
+        Messages.ShowInfo(text);
     }
 
     public void HideContextMenu()
     {
-        panelContextMenu.SetActive(false);
+        Game.PrefabsList.ContextMenuPanel.SetActive(false);
     }
 
     public void ShowDirectionMenu()
     {
-        panelContextMenu.SetActive(false);
+        Game.PrefabsList.ContextMenuPanel.SetActive(false);
         SetAvailableManeurs();
-        panelDirectionMenu.transform.position = FixMenuPosition(panelDirectionMenu, panelContextMenu.transform.position);
-        panelDirectionMenu.SetActive(true);
+        Game.PrefabsList.DirectionsMenu.transform.position = FixMenuPosition(Game.PrefabsList.DirectionsMenu, Game.PrefabsList.ContextMenuPanel.transform.position);
+        Game.PrefabsList.DirectionsMenu.SetActive(true);
     }
 
     //Add icons
@@ -94,13 +83,13 @@ public class UIManagerScript: MonoBehaviour {
 
             if (maneuverData.Value == Ship.ManeuverColor.None)
             {
-                panelDirectionMenu.transform.Find("Speed" + maneuverSpeed).Find(maneuverData.Key).gameObject.SetActive(false);
+                Game.PrefabsList.DirectionsMenu.transform.Find("Speed" + maneuverSpeed).Find(maneuverData.Key).gameObject.SetActive(false);
             }
             else
             {
-                panelDirectionMenu.transform.Find("Speed" + maneuverSpeed).Find(maneuverData.Key).gameObject.SetActive(true);
+                Game.PrefabsList.DirectionsMenu.transform.Find("Speed" + maneuverSpeed).Find(maneuverData.Key).gameObject.SetActive(true);
 
-                GameObject button = panelDirectionMenu.transform.Find("Speed" + maneuverSpeed).Find(maneuverData.Key).gameObject;
+                GameObject button = Game.PrefabsList.DirectionsMenu.transform.Find("Speed" + maneuverSpeed).Find(maneuverData.Key).gameObject;
                 SetManeuverIcon(button, maneuverData);
             }
 
@@ -125,13 +114,13 @@ public class UIManagerScript: MonoBehaviour {
         if (maneuverData.Value == Ship.ManeuverColor.White) imageName += "White";
         if (maneuverData.Value == Ship.ManeuverColor.Red) imageName += "Red";
 
-        Sprite image = ImageStorageDirections.transform.Find(imageName).GetComponent<Image>().sprite;
+        Sprite image = Game.PrefabsList.ImageStorageDirections.transform.Find(imageName).GetComponent<Image>().sprite;
         button.GetComponent<Image>().sprite = image;
     }
 
-     public void HideDirectionMenu()
+    public void HideDirectionMenu()
     {
-        panelDirectionMenu.SetActive(false);
+        Game.PrefabsList.DirectionsMenu.SetActive(false);
     }
 
     public void HideTemporaryMenus()
@@ -153,8 +142,8 @@ public class UIManagerScript: MonoBehaviour {
 
     public void ShowGameResults(string results)
     {
-        panelGameResultsMessage.transform.GetComponentInChildren<Text>().text = results;
-        panelGameResultsMessage.SetActive(true);
+        Game.PrefabsList.GameResultsPanel.transform.GetComponentInChildren<Text>().text = results;
+        Game.PrefabsList.GameResultsPanel.SetActive(true);
     }
 
     public void CallChangeMiniMapSize()
@@ -170,29 +159,29 @@ public class UIManagerScript: MonoBehaviour {
             default:
                 break;
         }
-        panelMinimap.GetComponent<RectTransform>().sizeDelta = new Vector2(minimapSize, minimapSize);
+        Game.PrefabsList.MinimapPanel.GetComponent<RectTransform>().sizeDelta = new Vector2(minimapSize, minimapSize);
     }
 
     public void ToggleMinimap()
     {
-        panelGameLog.SetActive(false);
-        panelMinimap.SetActive(!panelMinimap.activeSelf);
+        Game.PrefabsList.GameLogPanel.SetActive(false);
+        Game.PrefabsList.MinimapPanel.SetActive(!Game.PrefabsList.MinimapPanel.activeSelf);
     }
 
     public void ToggleGameLog()
     {
-        panelMinimap.SetActive(false);
-        panelGameLog.SetActive(!panelGameLog.activeSelf);
+        Game.PrefabsList.MinimapPanel.SetActive(false);
+        Game.PrefabsList.GameLogPanel.SetActive(!Game.PrefabsList.GameLogPanel.activeSelf);
     }
 
     public void AddTestLogEntry(string text)
     {
-        Transform area = panelGameLog.transform.Find("Scroll").Find("Viewport").Find("Content");
-        GameObject newLogEntry = Instantiate(prefabLogText, area);
+        Transform area = Game.PrefabsList.GameLogPanel.transform.Find("Scroll").Find("Viewport").Find("Content");
+        GameObject newLogEntry = Instantiate(Game.PrefabsList.LogText, area);
         newLogEntry.transform.localPosition = new Vector3(5, lastLogTextPosition, 0);
         lastLogTextPosition += lastLogTextStep;
         if (area.GetComponent<RectTransform>().sizeDelta.y < Mathf.Abs(lastLogTextPosition)) area.GetComponent<RectTransform>().sizeDelta = new Vector2(area.GetComponent<RectTransform>().sizeDelta.x, Mathf.Abs(lastLogTextPosition));
-        panelGameLog.transform.Find("Scroll").GetComponent<ScrollRect>().verticalNormalizedPosition = 0;
+        Game.PrefabsList.GameLogPanel.transform.Find("Scroll").GetComponent<ScrollRect>().verticalNormalizedPosition = 0;
         newLogEntry.GetComponent<Text>().text = text;
     }
 

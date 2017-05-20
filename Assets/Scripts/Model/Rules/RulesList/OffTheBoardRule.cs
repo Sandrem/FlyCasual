@@ -13,7 +13,7 @@ namespace RulesList
 
         public void CheckOffTheBoard(Ship.GenericShip ship)
         {
-            foreach (var obj in ship.Model.GetStandEdgePoints())
+            foreach (var obj in ship.GetStandEdgePoints())
             {
                 if ((Mathf.Abs(obj.Value.x) > Game.PLAYMAT_SIZE/2) || (Mathf.Abs(obj.Value.z) > Game.PLAYMAT_SIZE/2))
                 {

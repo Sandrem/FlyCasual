@@ -55,7 +55,7 @@ namespace SubPhases
             int result = 0;
             if (Selection.ThisShip.AssignedManeuver != null)
             {
-                Game.UI.panelContextMenu.transform.Find("MovePerformButton").gameObject.SetActive(true);
+                Game.PrefabsList.ContextMenuPanel.transform.Find("MovePerformButton").gameObject.SetActive(true);
                 result++;
             }
             else

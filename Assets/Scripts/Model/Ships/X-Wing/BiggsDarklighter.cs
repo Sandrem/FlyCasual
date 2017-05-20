@@ -13,6 +13,8 @@ namespace Ship
                 PilotName = "Biggs Darklighter";
                 isUnique = true;
                 PilotSkill = 5;
+
+                InitializePilot();
             }
         }
     }

@@ -89,7 +89,7 @@ namespace SubPhases
                 {
                     if (Selection.ThisShip.IsAttackPerformed != true)
                     {
-                        Game.UI.panelContextMenu.transform.Find("FireButton").gameObject.SetActive(true);
+                        Game.PrefabsList.ContextMenuPanel.transform.Find("FireButton").gameObject.SetActive(true);
                         result++;
                     }
                     else

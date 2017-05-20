@@ -4,11 +4,9 @@ using UnityEngine;
 
 public partial class DiceRoll
 {
-    private GameManagerScript Game;
 
     public DiceRoll(string type, int number)
     {
-        Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
         Type = type;
         Number = number;
         GenerateDiceRoll(type, number);

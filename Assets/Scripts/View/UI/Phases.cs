@@ -9,8 +9,8 @@ public static partial class Phases {
     {
         if (Game == null) Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
 
-        Game.PrefabList.PhasesPanel.transform.Find("PhaseText").GetComponent<Text>().text = Phases.CurrentPhase.Name;
-        Game.PrefabList.PhasesPanel.transform.Find("SubPhaseText").GetComponent<Text>().text = Phases.CurrentSubPhase.Name;
+        Game.PrefabsList.PhasesPanel.transform.Find("PhaseText").GetComponent<Text>().text = Phases.CurrentPhase.Name;
+        Game.PrefabsList.PhasesPanel.transform.Find("SubPhaseText").GetComponent<Text>().text = Phases.CurrentSubPhase.Name;
 
         string playerText = "PLAYER: " + Phases.CurrentSubPhase.RequiredPlayer.ToString();
         string pilotSkillText = "PILOTS WITH SKILL: " + Phases.CurrentSubPhase.RequiredPilotSkill.ToString();
@@ -26,13 +26,13 @@ public static partial class Phases {
             pilotSkillText = "";
         }
 
-        Game.PrefabList.PhasesPanel.transform.Find("PlayerNoText").GetComponent<Text>().text = playerText;
-        Game.PrefabList.PhasesPanel.transform.Find("PilotSkillText").GetComponent<Text>().text = pilotSkillText;
+        Game.PrefabsList.PhasesPanel.transform.Find("PlayerNoText").GetComponent<Text>().text = playerText;
+        Game.PrefabsList.PhasesPanel.transform.Find("PilotSkillText").GetComponent<Text>().text = pilotSkillText;
     }
 
     public static void UpdateTemporaryState(string temporaryStateName)
     {
-        Game.PrefabList.PhasesPanel.transform.Find("SubPhaseText").GetComponent<Text>().text = temporaryStateName;
+        Game.PrefabsList.PhasesPanel.transform.Find("SubPhaseText").GetComponent<Text>().text = temporaryStateName;
     }
 
     /*protected int PlayerToInt(Player playerNo)

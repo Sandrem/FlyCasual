@@ -16,6 +16,8 @@ namespace Ship
                 AddUpgradeSlot(Upgrade.UpgradeSlot.Elite);
 
                 AfterGotNumberOfAttackDices += MaulerMithelPilotAbility;
+
+                InitializePilot();
             }
 
             private void MaulerMithelPilotAbility(ref int result)

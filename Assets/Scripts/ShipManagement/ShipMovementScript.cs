@@ -91,7 +91,7 @@ public class ShipMovementScript : MonoBehaviour {
         Selection.ThisShip.AssignedManeuver = ManeuverFromString(parameters);
         Selection.ThisShip.InfoPanel.transform.FindChild("DialAssigned" + Selection.ThisShip.Owner.Id).gameObject.SetActive(true);
 
-        Selection.ThisShip.IsManeurPerformed = false;
+        Selection.ThisShip.IsManeuverPerformed = false;
         
         Game.UI.HideDirectionMenu();
     }
@@ -242,10 +242,10 @@ public class ShipMovementScript : MonoBehaviour {
 
                 Vector3 progressDirection = (CurrentMovementData.CollisionReverting) ? Vector3.back : Vector3.forward;
 
-                Selection.ThisShip.Model.SetPosition(Vector3.MoveTowards(Selection.ThisShip.Model.GetPosition(), Selection.ThisShip.Model.GetPosition() + Selection.ThisShip.Model.TransformDirection(progressDirection), progressDelta));
+                Selection.ThisShip.SetPosition(Vector3.MoveTowards(Selection.ThisShip.GetPosition(), Selection.ThisShip.GetPosition() + Selection.ThisShip.TransformDirection(progressDirection), progressDelta));
                 CurrentMovementData.CurrentProgress += progressDelta;
 
-                Selection.ThisShip.Model.RotateModelDuringTurn(CurrentMovementData, PreviousMovementData);
+                Selection.ThisShip.RotateModelDuringTurn(CurrentMovementData, PreviousMovementData);
 
                 UpdateRotationFinisher();
 
@@ -260,10 +260,10 @@ public class ShipMovementScript : MonoBehaviour {
                 float turningDirection = (CurrentMovementData.MovementDirection == ManeuverDirection.Right) ? 1 : -1;
                 int progressDirection = (CurrentMovementData.CollisionReverting) ? -1 : 1;
 
-                Selection.ThisShip.Model.Rotate(Selection.ThisShip.Model.TransformPoint(new Vector3(CurrentMovementData.TurningAroundDistance * turningDirection, 0, 0)), turningDirection * progressDelta * progressDirection);
+                Selection.ThisShip.Rotate(Selection.ThisShip.TransformPoint(new Vector3(CurrentMovementData.TurningAroundDistance * turningDirection, 0, 0)), turningDirection * progressDelta * progressDirection);
                 CurrentMovementData.CurrentProgress += progressDelta;
 
-                Selection.ThisShip.Model.RotateModelDuringTurn(CurrentMovementData, PreviousMovementData);
+                Selection.ThisShip.RotateModelDuringTurn(CurrentMovementData, PreviousMovementData);
 
                 UpdateRotation();
 
@@ -282,8 +282,8 @@ public class ShipMovementScript : MonoBehaviour {
         if (CurrentMovementData.MovementDirection == ManeuverDirection.Right) turningDirection = 1;
         if (CurrentMovementData.MovementDirection == ManeuverDirection.Left) turningDirection = -1;
 
-        Vector3 point_ShipStandBack = Selection.ThisShip.Model.GetCentralBackPoint();
-        Vector3 point_ShipStandFront = Selection.ThisShip.Model.GetCentralFrontPoint();
+        Vector3 point_ShipStandBack = Selection.ThisShip.GetCentralBackPoint();
+        Vector3 point_ShipStandFront = Selection.ThisShip.GetCentralFrontPoint();
         float pathToProcessLeft = (MovementTemplates.CurrentTemplate.transform.InverseTransformPoint(point_ShipStandBack).x);
 
         if (pathToProcessLeft > 0)
@@ -301,13 +301,13 @@ public class ShipMovementScript : MonoBehaviour {
 
             float angle_ToShipFront_CorrectStandPosition = -(180 - secondAngle - angle_ToShipFront_ToRulerBack);
             float rotationFix = angle_ToShipFront_CorrectStandPosition * turningDirection;
-            Selection.ThisShip.Model.SetRotationHelper2Angles(new Vector3(0, rotationFix, 0));
+            Selection.ThisShip.SetRotationHelper2Angles(new Vector3(0, rotationFix, 0));
 
-            Vector3 standOrientationVector = MovementTemplates.CurrentTemplate.transform.InverseTransformPoint(Selection.ThisShip.Model.GetCentralFrontPoint()) - MovementTemplates.CurrentTemplate.transform.InverseTransformPoint(Selection.ThisShip.Model.GetCentralBackPoint());
+            Vector3 standOrientationVector = MovementTemplates.CurrentTemplate.transform.InverseTransformPoint(Selection.ThisShip.GetCentralFrontPoint()) - MovementTemplates.CurrentTemplate.transform.InverseTransformPoint(Selection.ThisShip.GetCentralBackPoint());
             float angleBetweenMinus = -Vector3.Angle(vector_RulerStart_ShipStandFront, standOrientationVector);
             float angleFix = angleBetweenMinus * turningDirection;
             if (CurrentMovementData.CollisionReverting) angleFix = -angleFix;
-            Selection.ThisShip.Model.UpdateRotationHelperAngles(new Vector3(0, angleFix, 0));
+            Selection.ThisShip.UpdateRotationHelperAngles(new Vector3(0, angleFix, 0));
         }
 
         MovementTemplates.AddRulerCenterPoint(point_ShipStandFront);
@@ -318,8 +318,8 @@ public class ShipMovementScript : MonoBehaviour {
     {
         if (MovementTemplates.CurrentTemplate.transform.Find("Finisher") != null) {
 
-            Vector3 point_ShipStandBack = Selection.ThisShip.Model.GetCentralBackPoint();
-            Vector3 point_ShipStandFront = Selection.ThisShip.Model.GetCentralFrontPoint();
+            Vector3 point_ShipStandBack = Selection.ThisShip.GetCentralBackPoint();
+            Vector3 point_ShipStandFront = Selection.ThisShip.GetCentralFrontPoint();
 
             float pathToProcessFinishingLeft = (MovementTemplates.CurrentTemplate.transform.Find("Finisher").InverseTransformPoint(point_ShipStandFront).x);
             
@@ -335,7 +335,7 @@ public class ShipMovementScript : MonoBehaviour {
                 Vector3 vector_NearestMovementRulerCenter_ShipStandFront = point_ShipStandFront - point_NearestMovementRulerCenter;
                 float angle_ToShipStandBack_ToNearestMovementRulerCenter = Vector3.Angle(vector_ShipBackStand_ShipStandFront, vector_NearestMovementRulerCenter_ShipStandFront);
 
-                Selection.ThisShip.Model.SetRotationHelper2Angles(new Vector3(0, angle_ToShipStandBack_ToNearestMovementRulerCenter * turningDirection, 0));
+                Selection.ThisShip.SetRotationHelper2Angles(new Vector3(0, angle_ToShipStandBack_ToNearestMovementRulerCenter * turningDirection, 0));
             }
 
         }
@@ -345,7 +345,7 @@ public class ShipMovementScript : MonoBehaviour {
 
     private void AdditionalMovement()
     {
-        Selection.ThisShip.Model.SimplifyRotationHelpers();
+        Selection.ThisShip.SimplifyRotationHelpers();
 
         PreviousMovementData = CurrentMovementData;
 
@@ -422,7 +422,7 @@ public class ShipMovementScript : MonoBehaviour {
     {
         Selection.ThisShip.FinishMovingWithColliding();
         CurrentMovementData.CollisionReverting = false;
-        Selection.ThisShip.Model.ApplyRotationHelpers();
+        Selection.ThisShip.ApplyRotationHelpers();
         FinishMovement();
     }
 
@@ -441,9 +441,9 @@ public class ShipMovementScript : MonoBehaviour {
         Selection.ThisShip.FinishMoving();
 
         CurrentMovementData.IsMoving = false;
-        Selection.ThisShip.Model.ResetRotationHelpers();
+        Selection.ThisShip.ResetRotationHelpers();
         
-        Selection.ThisShip.IsManeurPerformed = true;
+        Selection.ThisShip.IsManeuverPerformed = true;
         Selection.ThisShip.IsAttackPerformed = false;
 
         Selection.ThisShip.AssignedManeuver = null;

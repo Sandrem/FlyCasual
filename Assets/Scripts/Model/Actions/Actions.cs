@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public static class Actions {
+public static partial class Actions {
 
     private static GameManagerScript Game;
 
@@ -110,13 +110,13 @@ public static class Actions {
         //TODO: Show Shortest Distance
         //TODO: Adapt DistancRules to show how close to outOfArc;
 
-        Vector3 vectorFacing = thisShip.Model.GetFrontFacing();
+        Vector3 vectorFacing = thisShip.GetFrontFacing();
 
         bool inArc = false;
 
-        foreach (var objThis in thisShip.Model.GetStandFrontEdgePoins())
+        foreach (var objThis in thisShip.GetStandFrontEdgePoins())
         {
-            foreach (var objAnother in anotherShip.Model.GetStandEdgePoints())
+            foreach (var objAnother in anotherShip.GetStandEdgePoints())
             {
 
                 Vector3 vectorToTarget = objAnother.Value - objThis.Value;
@@ -136,7 +136,7 @@ public static class Actions {
 
     public static int GetRange(Ship.GenericShip thisShip, Ship.GenericShip anotherShip)
     {
-        float distance = Vector3.Distance (thisShip.Model.GetClosestEdgesTo (anotherShip) ["this"], thisShip.Model.GetClosestEdgesTo (anotherShip) ["another"]);
+        float distance = Vector3.Distance (thisShip.GetClosestEdgesTo (anotherShip) ["this"], thisShip.GetClosestEdgesTo (anotherShip) ["another"]);
 		int range = Mathf.CeilToInt(distance / DISTANCE_1);
 		return range;
 	}

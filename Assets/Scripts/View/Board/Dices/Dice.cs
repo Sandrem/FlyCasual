@@ -4,7 +4,6 @@ using UnityEngine;
 
 public partial class Dice
 {
-    private GameManagerScript Game;
 
     private static Vector3 rotationSuccess = new Vector3(330f, 120f, 40f);
     private static Vector3 rotationCrit = new Vector3(330f, 120f, 120);
@@ -15,7 +14,6 @@ public partial class Dice
 
     public Dice(string type, DiceSide side = DiceSide.Unknown)
     {
-        Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
 
         Type = type;
         Model = SpawnDice(type);

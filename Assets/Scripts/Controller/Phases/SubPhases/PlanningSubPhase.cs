@@ -58,7 +58,7 @@ namespace SubPhases
         public override int CountActiveButtons(Ship.GenericShip ship)
         {
             int result = 0;
-            Game.UI.panelContextMenu.transform.Find("MoveMenuButton").gameObject.SetActive(true);
+            Game.PrefabsList.ContextMenuPanel.transform.Find("MoveMenuButton").gameObject.SetActive(true);
             result++;
             return result;
         }

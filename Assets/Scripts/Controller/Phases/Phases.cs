@@ -8,13 +8,6 @@ using Players;
 //TODO
 // Fix PilotSkillSubPhasePlayer
 
-/*
-* DESCRIPTION
-* Controls phases of game
-* Call function NextPhase and NextSubPhase to go throught game's steps
-* Displays help information using HelpInfoScript UI
-*/
-
 public static partial class Phases
 {
 
@@ -33,12 +26,12 @@ public static partial class Phases
         CurrentPhase.NextPhase();
     }
 
-    //TRIGGERS
-
     public static void CallNextSubPhase()
     {
         CurrentSubPhase.CallNextSubPhase();
     }
+
+    //TRIGGERS
 
     public static void CallSetupPhaseTrigger()
     {

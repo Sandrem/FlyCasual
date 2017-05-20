@@ -32,7 +32,6 @@ public class GameManagerScript : MonoBehaviour {
 
         UI = this.GetComponent<UIManagerScript>();
             UI.ErrorManager = this.GetComponent<MessageManagerScript>();
-            UI.DiceResults = this.GetComponent<DiceResultsScript>();
             UI.ActionsPanel = this.GetComponent<ActionsPanelScript>();
         
         Selection = this.GetComponent<ShipSelectionManagerScript>();

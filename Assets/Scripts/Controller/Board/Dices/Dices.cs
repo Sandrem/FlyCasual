@@ -44,7 +44,7 @@ public static class Dices {
         diceRoll.CalculateWaitedResults();
         if (Combat.AttackStep == CombatStep.Attack) Combat.DiceRollAttack = diceRoll;
         if (Combat.AttackStep == CombatStep.Defence) Combat.DiceRollDefence = diceRoll;
-        Game.UI.DiceResults.ShowDiceModificationButtons();
+        Combat.ShowDiceModificationButtons();
     }
 
     private static void OrganizeDicePositions(DiceRoll diceRoll)

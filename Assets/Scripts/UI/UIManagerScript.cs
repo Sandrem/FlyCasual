@@ -10,7 +10,6 @@ public class UIManagerScript: MonoBehaviour {
     private GameManagerScript Game;
 
     public MessageManagerScript ErrorManager;
-    public DiceResultsScript DiceResults;
     public ActionsPanelScript ActionsPanel;
 
     public GameObject panelDirectionMenu;
@@ -205,6 +204,11 @@ public class UIManagerScript: MonoBehaviour {
     public void ClickPerformAttack()
     {
         Actions.PerformAttack();
+    }
+
+    public void ConfirmDiceResults()
+    {
+        Combat.ConfirmDiceResults();
     }
 
 }

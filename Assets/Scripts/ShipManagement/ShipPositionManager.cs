@@ -191,7 +191,7 @@ public class ShipPositionManager : MonoBehaviour
     //TODO: Move using curve
     private void BarrelRollAnimation()
     {
-        float progressStep = 0.1f * Time.deltaTime;
+        float progressStep = 0.5f * Time.deltaTime;
         RollingShip.Model.SetPosition(Vector3.MoveTowards(RollingShip.Model.GetPosition(), ShipStand.transform.position, progressStep));
         progressCurrent += progressStep;
         RollingShip.Model.RotateModelDuringBarrelRoll(progressCurrent/progressTarget);

@@ -22,4 +22,7 @@ public class PrefabsList : MonoBehaviour {
     public GameObject StartingZone1;
     public GameObject StartingZone2;
 
+    public GameObject DiceResultsMenu;
+    public GameObject DiceModificationButton;
+
 }

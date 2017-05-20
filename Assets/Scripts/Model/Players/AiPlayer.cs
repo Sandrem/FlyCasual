@@ -95,14 +95,14 @@ namespace Players
             }
             else
             {
-                Game.UI.DiceResults.ConfirmDiceResult();
+                Combat.ConfirmDiceResults();
             }
         }
 
         IEnumerator Wait()
         {
             yield return new WaitForSeconds(3);
-            Game.UI.DiceResults.ConfirmDiceResult();
+            Combat.ConfirmDiceResults();
         }
 
     }

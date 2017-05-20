@@ -337,6 +337,8 @@ namespace Ship
         //todo: think about name
         public void AttackStart()
         {
+            //TODO: move ot rule
+            if (Combat.Attacker.ShipId == this.ShipId) IsAttackPerformed = true;
             if (OnAttack != null) OnAttack();
         }
 

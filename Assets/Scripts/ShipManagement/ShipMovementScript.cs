@@ -81,6 +81,11 @@ public class ShipMovementScript : MonoBehaviour {
     void Update () {
         Selection.UpdateSelection();
         UpdateMovement ();
+
+        if ((Selection.ThisShip != null) && (Selection.AnotherShip != null))
+        {
+            Debug.Log(Actions.IsClosing(Selection.ThisShip, Selection.AnotherShip));
+        }
     }
 
     //Assignment and launch of execution of meneuver

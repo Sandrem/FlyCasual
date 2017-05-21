@@ -23,6 +23,8 @@ namespace Ship
                 BuiltInActions.Add(new ActionsList.BarrelRollAction());
 
                 AssignTemporaryManeuvers();
+                HotacManeuverTable = new TIEFighterTable();
+
                 InitializeShip();
             }
 

@@ -122,7 +122,7 @@ public static partial class Actions {
                 Vector3 vectorToTarget = objAnother.Value - objThis.Value;
                 float angle = Vector3.Angle(vectorToTarget, vectorFacing);
                 //Debug.Log ("Angle between " + objThis.Key + " and " + objAnother.Key + " is: " + angle.ToString ());
-                if (angle < 45)
+                if (angle < 40)
                 {
                     inArc = true;
                     //TODO: Comment shortcut to check all variants
@@ -132,6 +132,46 @@ public static partial class Actions {
         }
 
         return inArc;
+    }
+
+    public static float GetVector(Ship.GenericShip thisShip, Ship.GenericShip anotherShip)
+    {
+        float result = 0;
+
+        float angle = 0;
+        Vector3 vectorFacing = thisShip.GetFrontFacing();
+        Vector3 vectorToTarget = anotherShip.GetPosition() - thisShip.GetPosition();
+        angle = Vector3.Angle(vectorToTarget, vectorFacing);
+
+        int direction = 0;
+        direction = (thisShip.TransformPoint(anotherShip.GetPosition()).x > 0) ? 1 : -1 ;
+
+        result = angle * direction;
+
+        Debug.Log("GetVector: " + result);
+        return result;
+    }
+
+    public static bool IsClosing(Ship.GenericShip thisShip, Ship.GenericShip anotherShip)
+    {
+        bool result = false;
+
+        if (GetRange(thisShip, anotherShip) > 2)
+        {
+            Debug.Log("IsClosing: " + false);
+            return false;
+        }
+        if (GetRange(thisShip, anotherShip) < 2)
+        {
+            Debug.Log("IsClosing: " + true);
+            return true;
+        }
+
+        float distanceToFront = Vector3.Distance(thisShip.GetPosition(), anotherShip.GetCentralFrontPoint());
+        float distanceToBack = Vector3.Distance(thisShip.GetPosition(), anotherShip.GetCentralBackPoint());
+        result = (distanceToFront < distanceToBack) ? true : false;
+        Debug.Log("IsClosing: " + result);
+        return result;
     }
 
     public static int GetRange(Ship.GenericShip thisShip, Ship.GenericShip anotherShip)

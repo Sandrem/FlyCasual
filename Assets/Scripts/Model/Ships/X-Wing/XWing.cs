@@ -25,6 +25,10 @@ namespace Ship
                 AddUpgradeSlot(Upgrade.UpgradeSlot.Torpedoes);
 
                 AssignTemporaryManeuvers();
+
+                //Temporary
+                HotacManeuverTable = new TIEFighterTable();
+
                 InitializeShip();
             }
 

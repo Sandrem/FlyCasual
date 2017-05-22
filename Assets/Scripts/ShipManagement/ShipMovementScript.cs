@@ -73,7 +73,7 @@ public class ShipMovementScript : MonoBehaviour {
 
     public Collider CollidedWith;
 
-    void Start()
+    public void Initialize()
     {
         Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
     }
@@ -161,8 +161,8 @@ public class ShipMovementScript : MonoBehaviour {
         Game.Movement.PerformMove(Selection.ThisShip.AssignedManeuver);
     }
 
-	public void PerformMove(Movement movementParameters) {
-
+	public void PerformMove(Movement movementParameters)
+    {
         Game.UI.HideContextMenu();
 
         CurrentMovementData = new MovementExecutionData()
@@ -441,6 +441,7 @@ public class ShipMovementScript : MonoBehaviour {
         PreviousMovementData = new MovementExecutionData();
 
         Selection.ThisShip.FinishMoving();
+        Selection.ThisShip.FinishPosition();
 
         CurrentMovementData.IsMoving = false;
         Selection.ThisShip.ResetRotationHelpers();

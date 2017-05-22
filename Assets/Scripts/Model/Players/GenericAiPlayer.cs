@@ -8,7 +8,7 @@ namespace Players
     public partial class GenericAiPlayer : GenericPlayer
     {
 
-        public GenericAiPlayer(): base() {
+        public GenericAiPlayer() : base() {
             Type = PlayerType.Ai;
             Name = "AI";
         }
@@ -22,6 +22,9 @@ namespace Players
         {
             foreach (var shipHolder in Ships)
             {
+                //Temporary
+                Selection.ThisShip = shipHolder.Value;
+
                 shipHolder.Value.AssignedManeuver = Game.Movement.ManeuverFromString("2.F.S");
             }
             Phases.Next();
@@ -29,10 +32,11 @@ namespace Players
 
         public override void PerformManeuver()
         {
-            foreach (var shipHolder in Ships)
+            foreach (var shipHolder in Roster.AllShips)
             {
                 if (shipHolder.Value.PilotSkill == Phases.CurrentSubPhase.RequiredPilotSkill)
                 {
+                    
                     Selection.ThisShip = shipHolder.Value;
                     ActivateShip(shipHolder.Value);
                     break;
@@ -58,7 +62,8 @@ namespace Players
                 action.ActionTake();
                 Selection.ThisShip.AddAlreadyExecutedAction(action);
             }
-            Phases.Next();
+            //test
+            Phases.FinishSubPhase(typeof(SubPhases.ActionSubPhase));
         }
 
         public override void PerformFreeAction()
@@ -73,7 +78,7 @@ namespace Players
 
         public override void PerformAttack()
         {
-            foreach (var shipHolder in Ships)
+            foreach (var shipHolder in Roster.AllShips)
             {
                 if (shipHolder.Value.PilotSkill == Phases.CurrentSubPhase.RequiredPilotSkill)
                 {
@@ -89,7 +94,7 @@ namespace Players
                 if (Actions.CheckShot())
                 {
                     attackPerformed = true;
-                    Actions.PerformAttack();
+                    Game.Wait(Actions.PerformAttack);
                 }
             }
             if (!attackPerformed) Phases.Next();
@@ -100,13 +105,14 @@ namespace Players
         {
             Ship.GenericShip result = null;
             float distance = float.MaxValue;
-            foreach (var shipHolder in Roster.GetPlayer(Roster.AnotherPlayer(PlayerNo)).Ships)
+            foreach (var shipHolder in Roster.GetPlayer(Roster.AnotherPlayer(thisShip.Owner.PlayerNo)).Ships)
             {
                 float newDistance = Vector3.Distance(thisShip.GetPosition(), shipHolder.Value.GetPosition());
                 if (newDistance < distance)
                 {
                     distance = newDistance;
                     result = shipHolder.Value;
+                    Debug.Log("Enenmy: " + shipHolder.Value);
                 }
             }
             return result;
@@ -117,18 +123,12 @@ namespace Players
             if (Selection.ThisShip.GetAvailableActionsList().Count > 0)
             {
                 Selection.ThisShip.GetAvailableActionsList()[0].ActionEffect();
-                Game.StartCoroutine(Wait());
+                Game.Wait(Combat.ConfirmDiceResults);
             }
             else
             {
                 Combat.ConfirmDiceResults();
             }
-        }
-
-        IEnumerator Wait()
-        {
-            yield return new WaitForSeconds(3);
-            Combat.ConfirmDiceResults();
         }
 
     }

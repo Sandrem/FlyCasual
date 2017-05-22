@@ -42,6 +42,7 @@ public static partial class Actions {
 
         if (actionList.Count != 0)
         {
+            Game.PrefabsList.PanelActions.GetComponent<RectTransform>().sizeDelta = new Vector2(Game.PrefabsList.PanelActions.GetComponent<RectTransform>().sizeDelta.x, offset + 70);
             Game.PrefabsList.PanelActions.SetActive(true);
         }
         else

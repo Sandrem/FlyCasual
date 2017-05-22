@@ -20,7 +20,6 @@ namespace Ship
 
                 BuiltInActions.Add(new ActionsList.FocusAction());
                 BuiltInActions.Add(new ActionsList.TargetLockAction());
-                BuiltInActions.Add(new ActionsList.BarrelRollAction());
 
                 AddUpgradeSlot(Upgrade.UpgradeSlot.Astromech);
                 AddUpgradeSlot(Upgrade.UpgradeSlot.Torpedoes);

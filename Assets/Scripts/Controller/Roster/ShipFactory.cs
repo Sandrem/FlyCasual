@@ -45,7 +45,7 @@ public static class ShipFactory {
         newShipContainer.OnMovementStart += MovementTemplates.ApplyMovementRuler;
         newShipContainer.OnMovementStart += MovementTemplates.CallReturnRangeRuler;
         newShipContainer.OnMovementFinish += MovementTemplates.ResetRuler;
-        newShipContainer.OnMovementFinish += Rules.OffTheBoard.CheckOffTheBoard;
+        newShipContainer.OnPositionFinish += Rules.OffTheBoard.CheckOffTheBoard;
         newShipContainer.OnMovementFinish += Rules.Stress.CheckStress;
         newShipContainer.AfterGetManeuverAvailablity += Rules.Stress.CannotPerformRedManeuversWhileStressed;
 

@@ -107,6 +107,7 @@ namespace Ship
         public event EventHandler OnAttack;
         public event EventHandlerShip OnMovementStart;
         public event EventHandlerShip OnMovementFinish;
+        public event EventHandlerShip OnPositionFinish;
         public event EventHandlerShip OnMovementFinishWithColliding;
         public event EventHandlerShip OnMovementFinishWithoutColliding;
         public event EventHandlerShip AfterTokenIsAssigned;
@@ -320,6 +321,11 @@ namespace Ship
         public void FinishMoving()
         {
             OnMovementFinish(this);
+        }
+
+        public void FinishPosition()
+        {
+            OnPositionFinish(this);
         }
 
         public void FinishMovingWithColliding()

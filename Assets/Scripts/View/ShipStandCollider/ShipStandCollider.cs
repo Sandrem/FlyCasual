@@ -15,7 +15,7 @@ public class ShipStandCollider: MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+
 	}
 
 	void OnTriggerStay(Collider collisionInfo) {

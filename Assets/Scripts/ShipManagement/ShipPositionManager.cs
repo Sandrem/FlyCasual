@@ -151,26 +151,34 @@ public class ShipPositionManager : MonoBehaviour
         {
             Transform startingZone = Board.GetStartingZone(Phases.CurrentSubPhase.RequiredPlayer);
             if (!ship.IsInside(startingZone))
+
             {
                 Game.UI.ShowError("Place ship into highlighted area");
                 result = false;
             }
+
+            if (Game.Movement.CollidedWith != null)
+            {
+                Game.UI.ShowError("This ship shouldn't collide with another ships");
+                result = false;
+            }
+
         }
 
         if (Phases.CurrentSubPhase.GetType() == typeof(SubPhases.BarrelRollSubPhase))
         {
-            RollingShip = Selection.ThisShip;
-            Phases.StartMovementExecutionSubPhase("");
-            inBarrelRoll = true;
-            progressCurrent = 0;
-            progressTarget = Vector3.Distance(RollingShip.GetPosition(), ShipStand.transform.position);
-            result = true;
-        } 
+            if (Game.Movement.CollidedWith == null)
+            {
+                StartBarrelRollAnimation(ship);
+                result = true;
+            }
+            else
+            {
+                Game.UI.ShowError("This ship shouldn't collide with another ships");
+                CancelBarrelRoll();
+                result = false;
+            }
 
-        if (Game.Movement.CollidedWith != null)
-        {
-            Game.UI.ShowError("This ship shouldn't collide with another ships");
-            result = false;
         }
 
         if (result) StopDrag();
@@ -186,6 +194,16 @@ public class ShipPositionManager : MonoBehaviour
         Phases.Next();
     }
 
+    private void StartBarrelRollAnimation(Ship.GenericShip ship)
+    {
+        RollingShip = Selection.ThisShip;
+        Phases.StartMovementExecutionSubPhase("");
+        inBarrelRoll = true;
+        progressCurrent = 0;
+        progressTarget = Vector3.Distance(RollingShip.GetPosition(), ShipStand.transform.position);
+        
+    }
+
     //TODO: Move using curve
     private void BarrelRollAnimation()
     {
@@ -196,11 +214,29 @@ public class ShipPositionManager : MonoBehaviour
         RollingShip.MoveUpwards(progressCurrent / progressTarget);
         if (progressCurrent >= progressTarget)
         {
-            inBarrelRoll = false;
-            Destroy(ShipStand);
-            MovementTemplates.HideLastMovementRuler();
-            Phases.Next();
+            FinishBarrelRollAnimation();
         }
+    }
+
+    private void FinishBarrelRollAnimation()
+    {
+        inBarrelRoll = false;
+        Destroy(ShipStand);
+        Game.Movement.CollidedWith = null;
+        MovementTemplates.HideLastMovementRuler();
+
+        RollingShip.FinishPosition();
+
+        Phases.Next();
+    }
+
+    private void CancelBarrelRoll()
+    {
+        inReposition = false;
+        Destroy(ShipStand);
+        Game.Movement.CollidedWith = null;
+        MovementTemplates.HideLastMovementRuler();
+        Actions.ShowActionsPanel();
     }
 
 }

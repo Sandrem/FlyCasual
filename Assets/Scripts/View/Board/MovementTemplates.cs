@@ -103,8 +103,30 @@ public static class MovementTemplates {
     public static void ShowRange(Ship.GenericShip thisShip, Ship.GenericShip anotherShip)
     {
         Vector3 vectorToTarget = thisShip.GetClosestEdgesTo(anotherShip)["another"] - thisShip.GetClosestEdgesTo(anotherShip)["this"];
-        Templates.Find("RangeRuler").position = thisShip.GetClosestEdgesTo(anotherShip)["this"];
-        Templates.Find("RangeRuler").rotation = Quaternion.LookRotation(vectorToTarget);
+        Vector3 closestEdge = thisShip.GetClosestEdgesTo(anotherShip)["this"];
+        ShowRangeRuler(closestEdge, vectorToTarget);
+    }
+
+    public static void ShowFiringArcRange(Ship.GenericShip thisShip, Ship.GenericShip anotherShip)
+    {
+        Vector3 vectorToTarget = thisShip.GetClosestFiringEdgesTo(anotherShip)["another"] - thisShip.GetClosestFiringEdgesTo(anotherShip)["this"];
+        Vector3 closestEdge = thisShip.GetClosestFiringEdgesTo(anotherShip)["this"];
+        
+        //TODO: Block here
+        if (Vector3.Angle(thisShip.GetFrontFacing(), vectorToTarget) > 40)
+        {
+            float newVectorX = vectorToTarget.z / Mathf.Tan(Mathf.Deg2Rad * 180-40);
+            float direction = (vectorToTarget.x >= 0) ? 1 : -1;
+            vectorToTarget = new Vector3(direction * newVectorX, vectorToTarget.y, vectorToTarget.z);
+        }
+
+        ShowRangeRuler(closestEdge, vectorToTarget);
+    }
+
+    public static void ShowRangeRuler(Vector3 position, Vector3 direction)
+    {
+        Templates.Find("RangeRuler").position = position;
+        Templates.Find("RangeRuler").rotation = Quaternion.LookRotation(direction);
     }
 
     public static void CallReturnRangeRuler(Ship.GenericShip thisShip)

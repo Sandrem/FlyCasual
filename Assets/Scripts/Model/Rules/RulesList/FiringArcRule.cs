@@ -19,7 +19,7 @@
         {
             if (!Actions.InArcCheck(attacker, defender))
             {
-                Game.UI.ShowError("Ship is outside your firing arc");
+                if (attacker.Owner.Type == Players.PlayerType.Human) Game.UI.ShowError("Ship is outside your firing arc");
                 result = false;
             }
         }

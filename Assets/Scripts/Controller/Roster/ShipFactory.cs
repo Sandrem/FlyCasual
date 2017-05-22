@@ -5,7 +5,7 @@ using UnityEngine;
 
 public static class ShipFactory {
 
-    private static GameManagerScript Game;
+    //private static GameManagerScript Game;
 
     public static int lastId = 1;
 
@@ -14,7 +14,7 @@ public static class ShipFactory {
 
     static ShipFactory()
     {
-        Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
+        //Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
     }
 
 	//TODO: REWRITE ASAP

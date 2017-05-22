@@ -64,7 +64,7 @@ public class Global : MonoBehaviour {
         List<System.Type> result = new List<System.Type>
         {
             typeof(Players.HumanPlayer),
-            typeof(Players.HumanPlayer)
+            typeof(Players.HotacAiPlayer)
         };
         return result;
     }

@@ -19,7 +19,7 @@
         {
             if (Actions.GetRange(attacker, defender) > 3)
             {
-                Game.UI.ShowError("Ship is outside your firing range");
+                if (attacker.Owner.Type == Players.PlayerType.Human) Game.UI.ShowError("Ship is outside your firing range");
                 result = false;
             }
         }

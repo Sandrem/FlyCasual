@@ -5,10 +5,10 @@ using UnityEngine;
 namespace Players
 {
 
-    public partial class AiPlayer : GenericPlayer
+    public partial class GenericAiPlayer : GenericPlayer
     {
 
-        public AiPlayer(): base() {
+        public GenericAiPlayer(): base() {
             Type = PlayerType.Ai;
             Name = "AI";
         }
@@ -34,10 +34,20 @@ namespace Players
                 if (shipHolder.Value.PilotSkill == Phases.CurrentSubPhase.RequiredPilotSkill)
                 {
                     Selection.ThisShip = shipHolder.Value;
-                    Game.Movement.PerformStoredManeuver();
+                    ActivateShip(shipHolder.Value);
                     break;
                 }
             }
+        }
+
+        public virtual void ActivateShip(Ship.GenericShip ship)
+        {
+            PerformManeuverOfShip(ship);
+        }
+
+        protected void PerformManeuverOfShip(Ship.GenericShip ship)
+        {
+            Game.Movement.PerformStoredManeuver();
         }
 
         public override void PerformAction()
@@ -47,8 +57,8 @@ namespace Players
                 ActionsList.GenericAction action = Selection.ThisShip.GetAvailableActionsList()[0];
                 action.ActionTake();
                 Selection.ThisShip.AddAlreadyExecutedAction(action);
-                Phases.Next();
             }
+            Phases.Next();
         }
 
         public override void PerformFreeAction()
@@ -84,6 +94,22 @@ namespace Players
             }
             if (!attackPerformed) Phases.Next();
 
+        }
+
+        public Ship.GenericShip FindNearestEnemyShip(Ship.GenericShip thisShip)
+        {
+            Ship.GenericShip result = null;
+            float distance = float.MaxValue;
+            foreach (var shipHolder in Roster.GetPlayer(Roster.AnotherPlayer(PlayerNo)).Ships)
+            {
+                float newDistance = Vector3.Distance(thisShip.GetPosition(), shipHolder.Value.GetPosition());
+                if (newDistance < distance)
+                {
+                    distance = newDistance;
+                    result = shipHolder.Value;
+                }
+            }
+            return result;
         }
 
         public override void UseDiceModifications()

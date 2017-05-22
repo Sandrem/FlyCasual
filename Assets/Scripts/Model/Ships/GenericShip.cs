@@ -39,6 +39,8 @@ namespace Ship
         public int MaxShields { get; set; }
         public int Shields { get; set; }
 
+        public GenericAiTable HotacManeuverTable;
+
         private int _PilotSkill;
         public int PilotSkill
         {

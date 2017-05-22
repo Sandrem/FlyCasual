@@ -233,6 +233,7 @@ public static partial class Roster {
         }
         foreach (GameObject icon in keys)
         {
+            icon.gameObject.SetActive(false);
             MonoBehaviour.Destroy(icon);
         }
 

@@ -11,7 +11,7 @@ namespace SubPhases
         public override void StartSubPhase()
         {
             Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-            Name = "Setup SubPhase";
+            Name = "End SubPhase";
             Game.UI.AddTestLogEntry(Name);
 
             NextSubPhase();

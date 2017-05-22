@@ -13,7 +13,7 @@ namespace MainPhases
         {
             Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
 
-            Name = "Setup Phase";
+            Name = "End Phase";
 
             Phases.CurrentSubPhase = new EndSubPhase();
             Phases.CurrentSubPhase.StartSubPhase();

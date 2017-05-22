@@ -26,6 +26,7 @@ public class GenericAiTable
         Movement result = null;
         float vector = Actions.GetVector(thisShip, anotherShip);
         bool isClosing = Actions.IsClosing(thisShip, anotherShip);
+        Debug.Log(vector + " " + isClosing);
         result = GetManeuverFromTable(vector, isClosing);
         return result;
     }
@@ -49,7 +50,6 @@ public class GenericAiTable
             if (((vector >= 112.5f) && (vector < 157.5f)) || ((vector <= -112.5f) && (vector > -157.5f))) return AdjustDirection(RandomManeuverFromTable(BackSideManeuversOuter), vector);
             if ((vector >= 157.5f) || (vector <= -157.5f)) return RandomManeuverFromTable(BackManeuversOuter);
         }
-        Debug.Log("GetManeuverFromTable " + result);
         return result;
     }
 

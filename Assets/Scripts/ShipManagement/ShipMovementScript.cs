@@ -81,11 +81,6 @@ public class ShipMovementScript : MonoBehaviour {
     void Update () {
         Selection.UpdateSelection();
         UpdateMovement ();
-
-        if ((Selection.ThisShip != null) && (Selection.AnotherShip != null))
-        {
-            Debug.Log(Actions.IsClosing(Selection.ThisShip, Selection.AnotherShip));
-        }
     }
 
     //Assignment and launch of execution of meneuver
@@ -170,14 +165,14 @@ public class ShipMovementScript : MonoBehaviour {
 
         Game.UI.HideContextMenu();
 
-        CurrentMovementData.MovementBearing = movementParameters.Bearing;
-        CurrentMovementData.MovementDirection = movementParameters.Direction;
-        CurrentMovementData.Speed = GetSpeedFromMovement(movementParameters);
-
+        CurrentMovementData = new MovementExecutionData()
+        {
+            MovementBearing = movementParameters.Bearing,
+            MovementDirection = movementParameters.Direction,
+            Speed = GetSpeedFromMovement(movementParameters)
+        };
         Selection.ThisShip.StartMoving();
 
-        CurrentMovementData.IsMoving = true;
-        
         float animationSpeedMultiplier = CurrentMovementData.Speed;
 
         CurrentMovementData.CurrentProgress = 0f;
@@ -202,6 +197,8 @@ public class ShipMovementScript : MonoBehaviour {
             CurrentMovementData.TargetProgress = 90f;
             CurrentMovementData.AnimationSpeed = 40f / animationSpeedMultiplier;
         }
+
+        CurrentMovementData.IsMoving = true;
 
     }
 

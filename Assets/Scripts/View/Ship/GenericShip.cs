@@ -10,14 +10,16 @@ namespace Ship
         private Dictionary<string, Vector3> standFrontEdgePoins = new Dictionary<string, Vector3>();
         private Dictionary<string, Vector3> standEdgePoins = new Dictionary<string, Vector3>();
         private const float HALF_OF_SHIPSTAND_SIZE = 0.5f;
+        private const float HALF_OF_FIRINGARC_SIZE = 0.44f;
         private const float SHIPSTAND_SIZE = 1f;
 
         public void CreateModel(Vector3 position)
         {
             Model = CreateShipModel(position);
 
-            standFrontEdgePoins.Add("LF", new Vector3(-HALF_OF_SHIPSTAND_SIZE, 0f, 0));
-            standFrontEdgePoins.Add("RF", new Vector3(HALF_OF_SHIPSTAND_SIZE, 0f, 0));
+            standFrontEdgePoins.Add("LF", new Vector3(-HALF_OF_FIRINGARC_SIZE, 0f, 0));
+            standFrontEdgePoins.Add("CF", Vector3.zero);
+            standFrontEdgePoins.Add("RF", new Vector3(HALF_OF_FIRINGARC_SIZE, 0f, 0));
 
             standEdgePoins.Add("LF", new Vector3(-HALF_OF_SHIPSTAND_SIZE, 0f, 0));
             standEdgePoins.Add("CF", Vector3.zero);
@@ -246,12 +248,41 @@ namespace Ship
             return edges;
         }
 
+        //TODO: 2 same
+
         public Dictionary<string, Vector3> GetClosestEdgesTo(GenericShip anotherShip)
         {
             KeyValuePair<string, Vector3> objThisNearest = new KeyValuePair<string, Vector3>("this", Vector3.zero);
             KeyValuePair<string, Vector3> objAnotherNearest = new KeyValuePair<string, Vector3>("another", Vector3.zero);
             float minDistance = float.MaxValue;
             foreach (var objThis in GetStandEdgePoints())
+            {
+                foreach (var objAnother in anotherShip.GetStandEdgePoints())
+                {
+                    float distance = Vector3.Distance(objThis.Value, objAnother.Value);
+                    //Debug.Log ("Distance between " + objThis.Key + " and " + objAnother.Key + " is: " + distance.ToString ());
+                    if (distance < minDistance)
+                    {
+                        minDistance = distance;
+                        objThisNearest = objThis;
+                        objAnotherNearest = objAnother;
+                    }
+                }
+            }
+            Dictionary<string, Vector3> result = new Dictionary<string, Vector3>
+            {
+                { "this", objThisNearest.Value },
+                { "another", objAnotherNearest.Value }
+            };
+            return result;
+        }
+
+        public Dictionary<string, Vector3> GetClosestFiringEdgesTo(GenericShip anotherShip)
+        {
+            KeyValuePair<string, Vector3> objThisNearest = new KeyValuePair<string, Vector3>("this", Vector3.zero);
+            KeyValuePair<string, Vector3> objAnotherNearest = new KeyValuePair<string, Vector3>("another", Vector3.zero);
+            float minDistance = float.MaxValue;
+            foreach (var objThis in GetStandFrontEdgePoins())
             {
                 foreach (var objAnother in anotherShip.GetStandEdgePoints())
                 {

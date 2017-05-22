@@ -27,7 +27,6 @@ public class GenericAiTable
         float vector = Actions.GetVector(thisShip, anotherShip);
         bool isClosing = Actions.IsClosing(thisShip, anotherShip);
         result = GetManeuverFromTable(vector, isClosing);
-        Debug.Log("GetManeuverFromTable: " + result);
         return result;
     }
 
@@ -36,7 +35,6 @@ public class GenericAiTable
         Movement result = null;
         if (isClosing)
         {
-            Debug.Log("ForwardManeuversInner");
             if ((vector > -22.5f) && (vector < 22.5f)) return RandomManeuverFromTable(FrontManeuversInner);
             if (((vector >= 22.5f) && (vector < 67.5f)) || ((vector <= -22.5f) && (vector > -67.5f))) return AdjustDirection(RandomManeuverFromTable(FrontSideManeuversInner), vector);
             if (((vector >= 67.5f) && (vector < 112.5f)) || ((vector <= -67.5f) && (vector > -112.5f))) return AdjustDirection(RandomManeuverFromTable(SideManeuversInner), vector);
@@ -45,20 +43,23 @@ public class GenericAiTable
         }
         else
         {
-            Debug.Log("ForwardManeuversOuter");
             if ((vector > -22.5f) && (vector < 22.5f)) return RandomManeuverFromTable(FrontManeuversOuter);
             if (((vector >= 22.5f) && (vector < 67.5f)) || ((vector <= -22.5f) && (vector > -67.5f))) return AdjustDirection(RandomManeuverFromTable(FrontSideManeuversOuter), vector);
             if (((vector >= 67.5f) && (vector < 112.5f)) || ((vector <= -67.5f) && (vector > -112.5f))) return AdjustDirection(RandomManeuverFromTable(SideManeuversOuter), vector);
             if (((vector >= 112.5f) && (vector < 157.5f)) || ((vector <= -112.5f) && (vector > -157.5f))) return AdjustDirection(RandomManeuverFromTable(BackSideManeuversOuter), vector);
             if ((vector >= 157.5f) || (vector <= -157.5f)) return RandomManeuverFromTable(BackManeuversOuter);
         }
+        Debug.Log("GetManeuverFromTable " + result);
         return result;
     }
 
     private Movement AdjustDirection(Movement movement, float vector)
     {
         Movement result = movement;
-        movement.Direction = (vector < 0) ? ManeuverDirection.Left : ManeuverDirection.Right;
+        if (movement.Direction != ManeuverDirection.Forward)
+        {
+            movement.Direction = (vector < 0) ? ManeuverDirection.Left : ManeuverDirection.Right;
+        }
         return result;
     }
 
@@ -71,7 +72,18 @@ public class GenericAiTable
         //Temporary
         GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
 
+        //Debug.Log(result);
+
         return Game.Movement.ManeuverFromString(result);
+    }
+
+    public static bool IsClosing(Ship.GenericShip thisShip, Ship.GenericShip anotherShip)
+    {
+        bool result = false;
+        float distanceToFront = Vector3.Distance(thisShip.GetPosition(), anotherShip.GetCentralFrontPoint());
+        float distanceToBack = Vector3.Distance(thisShip.GetPosition(), anotherShip.GetCentralBackPoint());
+        result = (distanceToFront < distanceToBack) ? true : false;
+        return result;
     }
 
 }

@@ -57,8 +57,8 @@ namespace Players
                 ActionsList.GenericAction action = Selection.ThisShip.GetAvailableActionsList()[0];
                 action.ActionTake();
                 Selection.ThisShip.AddAlreadyExecutedAction(action);
-                Phases.Next();
             }
+            Phases.Next();
         }
 
         public override void PerformFreeAction()

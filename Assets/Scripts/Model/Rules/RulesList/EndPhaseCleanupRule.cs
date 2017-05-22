@@ -3,10 +3,10 @@ using UnityEngine;
 
 namespace RulesList
 {
-    public class EndPhaseRule
+    public class EndPhaseCleanupRule
     {
 
-        public EndPhaseRule(GameManagerScript game)
+        public EndPhaseCleanupRule(GameManagerScript game)
         {
             SubscribeEvents();
         }

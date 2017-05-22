@@ -8,7 +8,7 @@ public static class Rules
 {
     public static WinConditionsRule WinConditions { get; private set; }
     public static DistanceBonusRule DistanceBonus { get; private set; }
-    public static EndPhaseRule EndPhase { get; private set; }
+    public static EndPhaseCleanupRule EndPhase { get; private set; }
     public static StressRule Stress { get; private set; }
     public static OffTheBoardRule OffTheBoard { get; private set; }
     public static KoiogranTurnRule KoiogranTurn { get; private set; }
@@ -25,7 +25,7 @@ public static class Rules
 
         WinConditions = new WinConditionsRule(Game);
         DistanceBonus = new DistanceBonusRule(Game);
-        EndPhase = new EndPhaseRule(Game);
+        EndPhase = new EndPhaseCleanupRule(Game);
         Stress = new StressRule();
         OffTheBoard = new OffTheBoardRule(Game);
         KoiogranTurn = new KoiogranTurnRule(Game);

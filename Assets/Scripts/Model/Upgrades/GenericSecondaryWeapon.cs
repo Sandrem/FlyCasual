@@ -15,6 +15,23 @@ namespace Upgrade
         {
 
         }
+
+        public virtual bool IsShotAvailable(Ship.GenericShip anotherShip, int distance, bool inArc)
+        {
+            bool result = true;
+            return result;
+        }
+
+        public virtual int GetAttackValue()
+        {
+            return AttackValue;
+        }
+
+        public virtual void PayAttackCost()
+        {
+
+        }
+
     }
 
 }

@@ -15,7 +15,7 @@ namespace Ship
                 PilotSkill = 7;
                 AddUpgradeSlot(Upgrade.UpgradeSlot.Elite);
 
-                AfterGotNumberOfAttackDices += MaulerMithelPilotAbility;
+                AfterGotNumberOfPrimaryWeaponAttackDices += MaulerMithelPilotAbility;
 
                 InitializePilot();
             }

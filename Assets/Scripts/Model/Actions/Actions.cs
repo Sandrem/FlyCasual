@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+//TODO: move to view
+using UnityEngine.UI;
 
 public static partial class Actions {
 
@@ -171,9 +173,16 @@ public static partial class Actions {
         float distance = Vector3.Distance (thisShip.GetClosestEdgesTo (anotherShip) ["this"], thisShip.GetClosestEdgesTo (anotherShip) ["another"]);
 		int range = Mathf.CeilToInt(distance / DISTANCE_1);
 		return range;
-	}
+    }
 
-	public static void OnlyCheckShot() {
+    public static int GetFiringRangeAndShow(Ship.GenericShip thisShip, Ship.GenericShip anotherShip)
+    {
+        int range  = GetRange(thisShip, anotherShip);
+        MovementTemplates.ShowFiringArcRange(thisShip, anotherShip);
+        return range;
+    }
+
+    public static void OnlyCheckShot() {
 		CheckShot ();
 	}
 
@@ -183,9 +192,45 @@ public static partial class Actions {
 		return result;
 	}
 
-	public static void PerformAttack() {
+    public static void DeclareTarget()
+    {
         Game.UI.HideContextMenu();
+
+        //check is target available for attack
+
+        bool inArc = InArcCheck(Selection.ThisShip, Selection.AnotherShip);
+        int distance = GetFiringRangeAndShow(Selection.ThisShip, Selection.AnotherShip);
+        int attackTypesAreAvailable = Selection.ThisShip.GetAttackTypes(distance, inArc);
+
+        if (attackTypesAreAvailable > 1)
+        {
+            //Todo: Generate decision
+            Game.PrefabsList.PanelDecisions.transform.Find("InformationPanel").GetComponentInChildren<Text>().text = "Choose weapon for attack(Distance " + distance + ")";
+
+            Game.UI.ShowDecisionsPanel();
+        }
+        else
+        {
+            Combat.SecondaryWeapon = null;
+            PerformAttack();
+        }
+
+    }
+
+    public static void PerformAttack()
+    {
+        Game.UI.HideContextMenu();
+        //TODO: CheckShot is needed before
         if (CheckShot()) Combat.PerformAttack(Selection.ThisShip, Selection.AnotherShip);
-	}
+    }
+
+    public static bool HasTargetLockOn(Ship.GenericShip attacker, Ship.GenericShip defender)
+    {
+        bool result = false;
+        char letter = ' ';
+        letter = Actions.GetTargetLocksLetterPair(attacker, defender);
+        if (letter != ' ') result = true;
+        return result;
+    }
 
 }

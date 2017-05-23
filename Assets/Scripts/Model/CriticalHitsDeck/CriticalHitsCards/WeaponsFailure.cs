@@ -18,7 +18,7 @@ namespace CriticalHitCard
             Game.UI.ShowInfo("When attacking, roll 1 fewer attack die");
             Game.UI.AddTestLogEntry("When attacking, roll 1 fewer attack die");
 
-            host.AfterGotNumberOfAttackDices += ReduceNumberOfAttackDices;
+            host.AfterGotNumberOfPrimaryWeaponAttackDices += ReduceNumberOfAttackDices;
         }
 
         public override void DiscardEffect(Ship.GenericShip host)

@@ -35,7 +35,7 @@ namespace Upgrade
         public UpgradeSlot Type;
         public bool isUnique = false;
         public bool Limited = false;
-        public bool isFlippedDown = false;
+        public bool isDiscarded = false;
         public string Name;
         public string ShortName;
         //public bool FactionRestriction
@@ -46,6 +46,12 @@ namespace Upgrade
         public GenericUpgrade(Ship.GenericShip host) {
             Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
             Host = host;
+        }
+
+        public void Discard()
+        {
+            isDiscarded = true;
+            Roster.DiscardUpgrade(Host, ShortName);
         }
 
     }

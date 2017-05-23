@@ -115,8 +115,8 @@ namespace Ship
         public event EventHandlerShip AfterAssignedDamageIsChanged;
         public event EventHandlerShip AfterStatsAreChanged;
         public event EventHandlerShip AfterAvailableActionListIsBuilt;
-        public event EventHandlerInt AfterGotNumberOfAttackDices;
-        public event EventHandlerInt AfterGotNumberOfDefenceDices;
+        public event EventHandlerInt AfterGotNumberOfPrimaryWeaponAttackDices;
+        public event EventHandlerInt AfterGotNumberOfPrimaryWeaponDefenceDices;
         public event EventHandlerInt AfterGetPilotSkill;
         public event EventHandlerInt AfterGetAgility;
         public event EventHandlerBool OnTrySpendFocus;
@@ -190,8 +190,18 @@ namespace Ship
 
         public int GetNumberOfAttackDices(GenericShip targetShip)
         {
-            int result = Firepower;
-            AfterGotNumberOfAttackDices(ref result);
+            int result = 0;
+
+            if (Combat.SecondaryWeapon == null)
+            {
+                result = Firepower;
+                AfterGotNumberOfPrimaryWeaponAttackDices(ref result);
+            }
+            else
+            {
+                result = Combat.SecondaryWeapon.GetAttackValue();
+            }
+            
             if (result < 0) result = 0;
             return result;
         }
@@ -199,7 +209,11 @@ namespace Ship
         public int GetNumberOfDefenceDices(GenericShip attackerShip)
         {
             int result = Agility;
-            AfterGotNumberOfDefenceDices(ref result);
+
+            if (Combat.SecondaryWeapon == null)
+            {
+                AfterGotNumberOfPrimaryWeaponDefenceDices(ref result);
+            }
             return result;
         }
 
@@ -407,7 +421,7 @@ namespace Ship
         {
             bool result = true;
 
-            OnTryPerformAction(action, ref result);
+            if (OnTryPerformAction != null) OnTryPerformAction(action, ref result);
 
             return result;
         }
@@ -611,6 +625,24 @@ namespace Ship
                     RemoveToken(token.GetType(), '*', true);
                 }
             }
+        }
+
+        public int GetAttackTypes(int distance, bool inArc)
+        {
+            int result = 0;
+
+            //Primary weapon
+            result++;
+
+            foreach (var upgrade in InstalledUpgrades)
+            {
+                if (upgrade.Value.Type == Upgrade.UpgradeSlot.Torpedoes)
+                {
+                    if ((upgrade.Value as Upgrade.GenericSecondaryWeapon).IsShotAvailable(Selection.AnotherShip, distance, inArc)) result++;
+                }
+            }
+
+            return result;
         }
 
     }

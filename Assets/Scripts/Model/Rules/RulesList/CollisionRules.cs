@@ -15,7 +15,7 @@ namespace RulesList
 
         private void SubscribeEvents()
         {
-            Actions.OnCheckCanPerformAttack += CanPerformAttack;
+            Actions.OnCheckTargetIsLegal += CanPerformAttack;
         }
 
         public void ClearCollision(Ship.GenericShip ship)

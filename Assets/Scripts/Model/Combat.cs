@@ -104,4 +104,9 @@ public static partial class Combat
         Defender.DefenceStart();
     }
 
+    public static void SelectWeapon(Upgrade.GenericSecondaryWeapon secondaryWeapon = null)
+    {
+        SecondaryWeapon = secondaryWeapon;
+    }
+
 }

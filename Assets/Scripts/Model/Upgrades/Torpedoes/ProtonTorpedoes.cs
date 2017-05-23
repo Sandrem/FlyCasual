@@ -26,13 +26,20 @@ namespace Upgrade
             host.AddAvailableAction(action);
         }
 
-        public override bool IsShotAvailable(Ship.GenericShip anotherShip, int distance, bool inArc)
+        public override bool IsShotAvailable(Ship.GenericShip anotherShip)
         {
             bool result = true;
+
             if (isDiscarded) return false;
+
+            int distance = Actions.GetFiringRange(Host, anotherShip);
             if (distance < MinRange) return false;
             if (distance > MaxRange) return false;
+
+            if (!Actions.InArcCheck(Host, anotherShip)) return false;
+
             if (!Actions.HasTargetLockOn(Host, anotherShip)) return false;
+
             return result;
         }
 

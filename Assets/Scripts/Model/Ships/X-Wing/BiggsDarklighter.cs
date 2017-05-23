@@ -14,7 +14,38 @@ namespace Ship
                 isUnique = true;
                 PilotSkill = 5;
 
+                Actions.OnCheckTargetIsLegal += CanPerformAttack;
+
                 InitializePilot();
+            }
+
+            public void CanPerformAttack(ref bool result, Ship.GenericShip attacker, Ship.GenericShip defender)
+            {
+                bool abilityIsActive = false;
+                if (defender.ShipId != this.ShipId)
+                {
+                    if (defender.Owner.PlayerNo == this.Owner.PlayerNo)
+                    {
+                        if (Actions.GetRange(defender, this) <= 1)
+                        {
+                            if (Combat.SecondaryWeapon == null)
+                            {
+                                if (attacker.CanShootWithPrimaryWeaponAt(this)) abilityIsActive = true;
+                            }
+                            else
+                            {
+                                if (Combat.SecondaryWeapon.IsShotAvailable(this)) abilityIsActive = true;
+                            }
+                        }
+                    }
+                }
+
+                if (abilityIsActive)
+                {
+                    Game.UI.ShowError("Biggs DarkLighter: You cannot attack target ship");
+                    //Todo: Adapt Highlights
+                    result = false;
+                }
             }
         }
     }

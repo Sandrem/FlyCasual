@@ -631,19 +631,37 @@ namespace Ship
         {
             int result = 0;
 
-            //Primary weapon
-            result++;
+            if (CanShootWithPrimaryWeaponAt(distance, inArc)) result++;
 
             foreach (var upgrade in InstalledUpgrades)
             {
                 if (upgrade.Value.Type == Upgrade.UpgradeSlot.Torpedoes)
                 {
-                    if ((upgrade.Value as Upgrade.GenericSecondaryWeapon).IsShotAvailable(Selection.AnotherShip, distance, inArc)) result++;
+                    if ((upgrade.Value as Upgrade.GenericSecondaryWeapon).IsShotAvailable(Selection.AnotherShip)) result++;
                 }
             }
 
             return result;
         }
+
+        public bool CanShootWithPrimaryWeaponAt(GenericShip anotherShip)
+        {
+            bool result = true;
+            int distance = Actions.GetFiringRange(this, anotherShip);
+            bool inArc = Actions.InArcCheck(this, anotherShip);
+            result = CanShootWithPrimaryWeaponAt(distance, inArc);
+            return result;
+        }
+
+        public bool CanShootWithPrimaryWeaponAt(int distance, bool inArc)
+        {
+            bool result = true;
+            if (distance > 3) return false;
+            //if (distance < 1) return false;
+            if (!inArc) return false;
+            return result;
+        }
+
 
     }
 

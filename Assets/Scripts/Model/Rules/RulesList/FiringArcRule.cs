@@ -12,7 +12,7 @@
 
         private void SubscribeEvents()
         {
-            Actions.OnCheckCanPerformAttack += CanPerformAttack;
+            Actions.OnCheckTargetIsLegal += CanPerformAttack;
         }
 
         public void CanPerformAttack(ref bool result, Ship.GenericShip attacker, Ship.GenericShip defender)

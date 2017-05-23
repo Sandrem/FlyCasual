@@ -211,26 +211,23 @@ public class UI : MonoBehaviour {
     {
         HideDecisionsPanel();
 
-        //TODO: Rework
-        Combat.SecondaryWeapon = null;
-        Debug.Log("Reset: " + Combat.SecondaryWeapon);
-
-        Actions.PerformAttack();
+        Combat.SelectWeapon();
+        Actions.TryPerformAttack();
     }
 
     public void ClickPerformTorpedoesAttack()
     {
         HideDecisionsPanel();
 
-        //TODO: Get upgrade
+        //TODO: Get upgrade correctly
         Upgrade.GenericSecondaryWeapon secondaryWeapon = null;
         foreach (var upgrade in Selection.ThisShip.InstalledUpgrades)
         {
             if (upgrade.Key == Upgrade.UpgradeSlot.Torpedoes) secondaryWeapon = upgrade.Value as Upgrade.GenericSecondaryWeapon;
         }
-        Combat.SecondaryWeapon = secondaryWeapon;
+        Combat.SelectWeapon(secondaryWeapon);
 
-        Actions.PerformAttack();
+        Actions.TryPerformAttack();
     }
 
     public void ConfirmDiceResults()

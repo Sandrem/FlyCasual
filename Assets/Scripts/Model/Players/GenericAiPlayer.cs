@@ -91,10 +91,10 @@ namespace Players
             foreach (var shipHolder in Roster.GetPlayer(Roster.AnotherPlayer(PlayerNo)).Ships)
             {
                 Selection.AnotherShip = Roster.AllShips[shipHolder.Key];
-                if (Actions.CheckShot())
+                if (Actions.TargetIsLegal())
                 {
                     attackPerformed = true;
-                    Game.Wait(Actions.PerformAttack);
+                    Game.Wait(Actions.TryPerformAttack);
                 }
             }
             if (!attackPerformed) Phases.Next();

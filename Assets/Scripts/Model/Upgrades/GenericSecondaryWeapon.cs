@@ -16,7 +16,7 @@ namespace Upgrade
 
         }
 
-        public virtual bool IsShotAvailable(Ship.GenericShip anotherShip, int distance, bool inArc)
+        public virtual bool IsShotAvailable(Ship.GenericShip anotherShip)
         {
             bool result = true;
             return result;

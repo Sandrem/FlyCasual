@@ -149,7 +149,7 @@ public static partial class Roster
             where n.Value.AssignedManeuver == null
             select n;
 
-        if (results.Count() > 0) Game.UI.ShowError("Not all ship are assigned their maneuvers");
+        //if (results.Count() > 0) Game.UI.ShowError("Not all ship are assigned their maneuvers");
         return (results.Count() == 0);
     }
 

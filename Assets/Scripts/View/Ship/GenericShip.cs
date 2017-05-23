@@ -213,7 +213,7 @@ namespace Ship
 
         public void SetRaycastTarget(bool value)
         {
-            int layer = (value) ? LayerMask.NameToLayer("Default") : LayerMask.NameToLayer("Ignore Raycast") ;
+            int layer = (value) ? LayerMask.NameToLayer("Ships") : LayerMask.NameToLayer("Ignore Raycast") ;
             SetLayerRecursive(Model.transform, layer);
         }
 

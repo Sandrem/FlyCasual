@@ -41,6 +41,8 @@ public static partial class Combat
 
     private static void InitializeAttack()
     {
+        Roster.AllShipsHighlightOff();
+
         AttackStep = CombatStep.Attack;
         CallAttackStartEvents();
         Selection.ActiveShip = Attacker;

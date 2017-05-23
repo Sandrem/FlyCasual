@@ -23,6 +23,7 @@ namespace SubPhases
                 UpdateHelpInfo();
             }
 
+            Roster.HighlightShips(RequiredPlayer, RequiredPilotSkill);
             Roster.GetPlayer(RequiredPlayer).PerformManeuver();
         }
 

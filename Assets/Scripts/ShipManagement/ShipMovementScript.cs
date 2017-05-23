@@ -94,6 +94,12 @@ public class ShipMovementScript : MonoBehaviour {
         Selection.ThisShip.IsManeuverPerformed = false;
         
         Game.UI.HideDirectionMenu();
+
+        if (Roster.AllManuersAreAssigned(Phases.CurrentPhasePlayer))
+        {
+            Game.UI.ShowNextButton();
+            Game.UI.HighlightNextButton();
+        }
     }
 
     public Movement ManeuverFromString(string parameters)
@@ -157,6 +163,7 @@ public class ShipMovementScript : MonoBehaviour {
     
     public void PerformStoredManeuver()
     {
+        Roster.AllShipsHighlightOff();
         Phases.StartMovementExecutionSubPhase("");
         Game.Movement.PerformMove(Selection.ThisShip.AssignedManeuver);
     }

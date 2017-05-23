@@ -91,4 +91,16 @@ public static partial class Board {
         return (playerNo == Players.PlayerNo.Player1) ? StartingZone1.transform : StartingZone2.transform;
     }
 
+    //NEW
+
+    public static void ShipHighlightOff(Ship.GenericShip ship)
+    {
+        ship.Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("Spotlight").gameObject.SetActive(false);
+    }
+
+    public static void ShipHighlightOn(Ship.GenericShip ship)
+    {
+        ship.Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("Spotlight").gameObject.SetActive(true);
+    }
+
 }

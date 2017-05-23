@@ -112,7 +112,6 @@ namespace Players
                 {
                     distance = newDistance;
                     result = shipHolder.Value;
-                    Debug.Log("Enenmy: " + shipHolder.Value);
                 }
             }
             return result;

@@ -19,7 +19,6 @@ namespace SubPhases
             Game.UI.AddTestLogEntry(Name);
 
             NextSubPhase();
-
         }
 
         public override void NextSubPhase()
@@ -41,6 +40,8 @@ namespace SubPhases
             }
             else
             {
+                Roster.HighlightShips(RequiredPlayer, RequiredPilotSkill);
+                Game.UI.ShowSkipButton();
                 Roster.GetPlayer(RequiredPlayer).PerformAttack();
             }
         }

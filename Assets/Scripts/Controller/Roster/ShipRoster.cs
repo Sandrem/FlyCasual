@@ -149,7 +149,7 @@ public static partial class Roster
             where n.Value.AssignedManeuver == null
             select n;
 
-        if (results.Count() > 0) Game.UI.ShowError("Not all ship are assigned their maneuvers");
+        //if (results.Count() > 0) Game.UI.ShowError("Not all ship are assigned their maneuvers");
         return (results.Count() == 0);
     }
 
@@ -212,5 +212,30 @@ public static partial class Roster
             shipHolder.Value.SetRaycastTarget(value);
         }
     }
+
+    // NEW
+
+    public static void HighlightShips(PlayerNo playerNo, int pilotSkill = -1)
+    {
+        AllShipsHighlightOff();
+        foreach (var ship in GetPlayer(playerNo).Ships)
+        {
+            if ((pilotSkill == -1) || (ship.Value.PilotSkill == pilotSkill))
+            {
+                Board.ShipHighlightOn(ship.Value);
+                RosterPanelHighlightOn(ship.Value);
+            }
+        }
+    }
+
+    public static void AllShipsHighlightOff()
+    {
+        RosterPanelsHighlightOff();
+        foreach (var ship in AllShips)
+        {
+            Board.ShipHighlightOff(ship.Value);
+        }
+    }
+
 
 }

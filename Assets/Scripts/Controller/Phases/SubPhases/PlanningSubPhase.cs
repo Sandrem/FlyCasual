@@ -19,7 +19,7 @@ namespace SubPhases
             Game.UI.AddTestLogEntry(Name);
 
             UpdateHelpInfo();
-
+            Roster.HighlightShips(RequiredPlayer);
             Roster.GetPlayer(RequiredPlayer).AssignManeuver();
         }
 
@@ -31,7 +31,7 @@ namespace SubPhases
                 {
                     RequiredPlayer = AnotherPlayer(RequiredPlayer);
                     UpdateHelpInfo();
-
+                    Roster.HighlightShips(RequiredPlayer);
                     Roster.GetPlayer(RequiredPlayer).AssignManeuver();
                 }
                 else

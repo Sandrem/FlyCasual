@@ -287,4 +287,18 @@ public static partial class Roster {
         foreach (var panel in rosterPlayer2) panel.transform.FindChild("DialAssigned2").gameObject.SetActive(false);
     }
 
+    public static void RosterPanelsHighlightOff()
+    {
+        foreach (var ship in Roster.AllShips)
+        {
+            ship.Value.InfoPanel.transform.Find("ShipInfo").GetComponent<Animator>().enabled = false;
+            ship.Value.InfoPanel.transform.Find("ShipInfo").GetComponent<Image>().color = new Color32(0, 0, 0, 200);
+        }
+    }
+
+    public static void RosterPanelHighlightOn(Ship.GenericShip ship)
+    {
+        ship.InfoPanel.transform.Find("ShipInfo").GetComponent<Animator>().enabled = true;
+    }
+
 }

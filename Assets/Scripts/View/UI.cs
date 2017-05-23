@@ -199,6 +199,7 @@ public class UI : MonoBehaviour {
 
     public void ClickNextPhase()
     {
+        HideNextButton();
         Phases.CallNextSubPhase();
     }
 
@@ -238,6 +239,35 @@ public class UI : MonoBehaviour {
     public void CloseActionsPanel()
     {
         Actions.CloseActionsPanel();
+    }
+
+    public void ShowNextButton()
+    {
+        Game.PrefabsList.NextButtonPanel.SetActive(true);
+        Game.PrefabsList.NextButtonPanel.transform.Find("NextButton").GetComponent<Animator>().enabled = false;
+        Game.PrefabsList.NextButtonPanel.transform.Find("NextButton").GetComponentInChildren<Text>().text = "NEXT";
+    }
+
+    public void ShowSkipButton()
+    {
+        Game.PrefabsList.NextButtonPanel.SetActive(true);
+        Game.PrefabsList.NextButtonPanel.transform.Find("NextButton").GetComponentInChildren<Text>().text = "SKIP";
+    }
+
+    public void HideNextButton()
+    {
+        Game.PrefabsList.NextButtonPanel.SetActive(false);
+
+        Game.PrefabsList.NextButtonPanel.transform.Find("NextButton").GetComponent<Animator>().enabled = false;
+
+        ColorBlock colors = Game.PrefabsList.NextButtonPanel.transform.Find("NextButton").GetComponent<Button>().colors;
+        colors.normalColor = new Color32(0, 0, 0, 200);
+        Game.PrefabsList.NextButtonPanel.transform.Find("NextButton").GetComponent<Button>().colors = colors;
+    }
+
+    public void HighlightNextButton()
+    {
+        Game.PrefabsList.NextButtonPanel.transform.Find("NextButton").GetComponent<Animator>().enabled = true;
     }
 
 }

@@ -223,12 +223,14 @@ public static partial class Roster
             if ((pilotSkill == -1) || (ship.Value.PilotSkill == pilotSkill))
             {
                 Board.ShipHighlightOn(ship.Value);
+                RosterPanelHighlightOn(ship.Value);
             }
         }
     }
 
     public static void AllShipsHighlightOff()
     {
+        RosterPanelsHighlightOff();
         foreach (var ship in AllShips)
         {
             Board.ShipHighlightOff(ship.Value);

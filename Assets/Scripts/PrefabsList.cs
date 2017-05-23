@@ -12,6 +12,7 @@ public class PrefabsList : MonoBehaviour
     public GameObject PhasesPanel;
     public GameObject PanelActions;
     public GameObject PanelDecisions;
+    public GameObject NextButtonPanel;
 
     public GameObject MessagePanel;
     public GameObject MessagePanelsHolder;

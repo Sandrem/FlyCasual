@@ -94,6 +94,12 @@ public class ShipMovementScript : MonoBehaviour {
         Selection.ThisShip.IsManeuverPerformed = false;
         
         Game.UI.HideDirectionMenu();
+
+        if (Roster.AllManuersAreAssigned(Phases.CurrentPhasePlayer))
+        {
+            Game.UI.ShowNextButton();
+            Game.UI.HighlightNextButton();
+        }
     }
 
     public Movement ManeuverFromString(string parameters)

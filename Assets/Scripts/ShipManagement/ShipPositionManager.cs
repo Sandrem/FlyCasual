@@ -55,6 +55,8 @@ public class ShipPositionManager : MonoBehaviour
     {
         if (Phases.CurrentPhase.GetType() == typeof(MainPhases.SetupPhase)) {
             Roster.SetRaycastTargets(false);
+            Roster.AllShipsHighlightOff();
+            Board.HighlightStartingZones();
             inReposition = true;
         }
     }
@@ -189,6 +191,7 @@ public class ShipPositionManager : MonoBehaviour
     {
         Selection.DeselectThisShip();
         Roster.SetRaycastTargets(true);
+        Board.TurnOffStartingZones();
         inReposition = false;
         //Should I change subphase immediately?
         Phases.Next();

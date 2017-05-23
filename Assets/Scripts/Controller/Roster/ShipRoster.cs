@@ -213,4 +213,27 @@ public static partial class Roster
         }
     }
 
+    // NEW
+
+    public static void HighlightShips(PlayerNo playerNo, int pilotSkill = -1)
+    {
+        AllShipsHighlightOff();
+        foreach (var ship in GetPlayer(playerNo).Ships)
+        {
+            if ((pilotSkill == -1) || (ship.Value.PilotSkill == pilotSkill))
+            {
+                Board.ShipHighlightOn(ship.Value);
+            }
+        }
+    }
+
+    public static void AllShipsHighlightOff()
+    {
+        foreach (var ship in AllShips)
+        {
+            Board.ShipHighlightOff(ship.Value);
+        }
+    }
+
+
 }

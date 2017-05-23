@@ -14,6 +14,7 @@ namespace SubPhases
             isTemporary = true;
             Game.UI.AddTestLogEntry(Name);
             UpdateHelpInfo();
+            Roster.HighlightShips(Roster.AnotherPlayer(Phases.CurrentPhasePlayer), -1);
         }
 
         public override void NextSubPhase()
@@ -40,6 +41,7 @@ namespace SubPhases
                 {
                     Selection.ThisShip.RemoveAlreadyExecutedAction(typeof(ActionsList.TargetLockAction));
                     Phases.CurrentSubPhase = PreviousSubPhase;
+                    Roster.AllShipsHighlightOff();
                     UpdateHelpInfo();
                     Actions.ShowActionsPanel();
                     return false;

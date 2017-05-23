@@ -157,6 +157,7 @@ public class ShipMovementScript : MonoBehaviour {
     
     public void PerformStoredManeuver()
     {
+        Roster.AllShipsHighlightOff();
         Phases.StartMovementExecutionSubPhase("");
         Game.Movement.PerformMove(Selection.ThisShip.AssignedManeuver);
     }

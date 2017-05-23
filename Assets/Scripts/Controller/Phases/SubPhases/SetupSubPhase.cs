@@ -38,7 +38,8 @@ namespace SubPhases
                 Phases.NextPhase();
             } else
             {
-                Board.HighlightStartingZones();
+                //Board.HighlightStartingZones();
+                Roster.HighlightShips(RequiredPlayer, RequiredPilotSkill);
                 Roster.GetPlayer(RequiredPlayer).SetupShip();
             }
 

@@ -41,6 +41,7 @@ namespace SubPhases
             }
             else
             {
+                Roster.HighlightShips(RequiredPlayer, RequiredPilotSkill);
                 Roster.GetPlayer(RequiredPlayer).PerformAttack();
             }
         }

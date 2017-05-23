@@ -103,8 +103,8 @@ public static class Selection {
         ThisShip.GetShipStandScript().checkCollisions = true;
         ThisShip.InfoPanel.transform.Find("ShipInfo").Find("ShipPilotNameText").GetComponent<Text>().color = Color.yellow;
         ThisShip.ApplyShader("selectedYellow");
+        if (Phases.CurrentSubPhase.GetType() == typeof(SubPhases.CombatSubPhase)) Roster.HighlightShips(Roster.AnotherPlayer(Phases.CurrentPhasePlayer));
         Game.UI.CallContextMenu(ThisShip);
-
     }
 
     public static void DeselectThisShip()

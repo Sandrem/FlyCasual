@@ -46,8 +46,10 @@ namespace SubPhases
                 Phases.CurrentSubPhase = PreviousSubPhase;
                 Phases.CurrentSubPhase.RequiredPilotSkill = pilot.Key;
                 Phases.CurrentSubPhase.RequiredPlayer = pilot.Value;
+
                 UpdateHelpInfo();
-                Roster.GetPlayer(RequiredPlayer).PerformManeuver();
+                Roster.HighlightShips(Phases.CurrentSubPhase.RequiredPlayer, Phases.CurrentSubPhase.RequiredPilotSkill);
+                Roster.GetPlayer(Phases.CurrentSubPhase.RequiredPlayer).PerformManeuver();
             }
 
             if (pilots.Count == 0)

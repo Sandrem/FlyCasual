@@ -228,7 +228,14 @@ public static partial class Actions {
     {
         Game.UI.HideContextMenu();
         //TODO: CheckShot is needed before
-        if (TargetIsLegal()) Combat.PerformAttack(Selection.ThisShip, Selection.AnotherShip);
+        if (TargetIsLegal())
+        {
+            Combat.PerformAttack(Selection.ThisShip, Selection.AnotherShip);
+        }
+        else
+        {
+            Roster.HighlightShips(Roster.AnotherPlayer(Phases.CurrentPhasePlayer));
+        }
     }
 
     public static bool HasTargetLockOn(Ship.GenericShip attacker, Ship.GenericShip defender)

@@ -146,11 +146,11 @@ public static partial class Roster {
             return -x.transform.Find("ShipInfo").Find("ShipPilotSkillText").GetComponent<Text>().text.CompareTo(y.transform.Find("ShipInfo").Find("ShipPilotSkillText").GetComponent<Text>().text);
         });
 
-        float offset = 0;
+        float offset = 5;
         foreach (var item in rosterPlayer1)
         {
             item.transform.position = defaultPosition + new Vector3(0f, -offset, 0f);
-            offset = item.transform.Find("ShipInfo").GetComponent<RectTransform>().sizeDelta.y + 5;
+            offset += item.transform.Find("ShipInfo").GetComponent<RectTransform>().sizeDelta.y + 5;
         }
 
         /// Same for second player
@@ -161,11 +161,11 @@ public static partial class Roster {
             return -x.transform.Find("ShipInfo").Find("ShipPilotSkillText").GetComponent<Text>().text.CompareTo(y.transform.Find("ShipInfo").Find("ShipPilotSkillText").GetComponent<Text>().text);
         });
 
-        offset = 0;
+        offset = 5;
         foreach (var item in rosterPlayer2)
         {
             item.transform.position = defaultPosition + new Vector3(0f, -offset, 0f);
-            offset = item.transform.Find("ShipInfo").GetComponent<RectTransform>().sizeDelta.y + 5;
+            offset += item.transform.Find("ShipInfo").GetComponent<RectTransform>().sizeDelta.y + 5;
         }
     }
 

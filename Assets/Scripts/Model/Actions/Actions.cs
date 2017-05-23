@@ -13,7 +13,7 @@ public static partial class Actions {
 
     //EVENTS
     public delegate void EventHandler2Ships(ref bool result, Ship.GenericShip attacker, Ship.GenericShip defender);
-    public static event EventHandler2Ships OnCheckCanPerformAttack;
+    public static event EventHandler2Ships OnCheckTargetIsLegal;
 
     static Actions()
     {
@@ -175,20 +175,27 @@ public static partial class Actions {
 		return range;
     }
 
+    public static int GetFiringRange(Ship.GenericShip thisShip, Ship.GenericShip anotherShip)
+    {
+        float distance = Vector3.Distance(thisShip.GetClosestFiringEdgesTo(anotherShip)["this"], thisShip.GetClosestEdgesTo(anotherShip)["another"]);
+        int range = Mathf.CeilToInt(distance / DISTANCE_1);
+        return range;
+    }
+
     public static int GetFiringRangeAndShow(Ship.GenericShip thisShip, Ship.GenericShip anotherShip)
     {
-        int range  = GetRange(thisShip, anotherShip);
+        int range  = GetFiringRange(thisShip, anotherShip);
         MovementTemplates.ShowFiringArcRange(thisShip, anotherShip);
         return range;
     }
 
     public static void OnlyCheckShot() {
-		CheckShot ();
+		TargetIsLegal ();
 	}
 
-	public static bool CheckShot() {
+	public static bool TargetIsLegal() {
         bool result = true;
-        OnCheckCanPerformAttack(ref result, Selection.ThisShip, Selection.AnotherShip);
+        OnCheckTargetIsLegal(ref result, Selection.ThisShip, Selection.AnotherShip);
 		return result;
 	}
 
@@ -211,17 +218,17 @@ public static partial class Actions {
         }
         else
         {
-            Combat.SecondaryWeapon = null;
-            PerformAttack();
+            Combat.SelectWeapon();
+            TryPerformAttack();
         }
 
     }
 
-    public static void PerformAttack()
+    public static void TryPerformAttack()
     {
         Game.UI.HideContextMenu();
         //TODO: CheckShot is needed before
-        if (CheckShot()) Combat.PerformAttack(Selection.ThisShip, Selection.AnotherShip);
+        if (TargetIsLegal()) Combat.PerformAttack(Selection.ThisShip, Selection.AnotherShip);
     }
 
     public static bool HasTargetLockOn(Ship.GenericShip attacker, Ship.GenericShip defender)

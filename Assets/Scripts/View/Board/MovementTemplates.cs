@@ -17,7 +17,7 @@ public static class MovementTemplates {
     static MovementTemplates()
     {
         Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-        Actions.OnCheckCanPerformAttack += CallShowRange;
+        Actions.OnCheckTargetIsLegal += CallShowRange;
         Templates = Game.PrefabsList.RulersHolderTransform;
     }
 

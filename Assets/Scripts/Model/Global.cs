@@ -45,13 +45,19 @@ public class Global : MonoBehaviour {
             ),
             new ShipConfiguration
             (
+                "Ship.XWing.BiggsDarklighter",
+                new List<string>() { "Upgrade.R2F2" },
+                Players.PlayerNo.Player1
+            ),
+            new ShipConfiguration
+            (
                 "Ship.TIEFighter.MaulerMithel",
                 new List<string>() { "Upgrade.Determination" },
                 Players.PlayerNo.Player2
             ),
             new ShipConfiguration
             (
-                "Ship.TIEFighter.NightBeast",
+                "Ship.TIEFighter.DarkCurse",
                 new List<string>(),
                 Players.PlayerNo.Player2
             )

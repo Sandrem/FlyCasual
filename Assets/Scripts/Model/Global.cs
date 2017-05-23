@@ -40,7 +40,7 @@ public class Global : MonoBehaviour {
             new ShipConfiguration
             (
                 "Ship.XWing.LukeSkywalker",
-                new List<string>() { "Upgrade.R2D2", "Upgrade.Marksmanship" },
+                new List<string>() { "Upgrade.R2D2", "Upgrade.Marksmanship", "Upgrade.ProtonTorpedoes" },
                 Players.PlayerNo.Player1
             ),
             new ShipConfiguration
@@ -63,8 +63,8 @@ public class Global : MonoBehaviour {
     {
         List<System.Type> result = new List<System.Type>
         {
-            typeof(Players.HotacAiPlayer),
-            typeof(Players.HotacAiPlayer)
+            typeof(Players.HumanPlayer),
+            typeof(Players.HumanPlayer)
         };
         return result;
     }

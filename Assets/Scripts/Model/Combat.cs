@@ -23,6 +23,8 @@ public static partial class Combat
     public static Ship.GenericShip Attacker;
     public static Ship.GenericShip Defender;
 
+    public static Upgrade.GenericSecondaryWeapon SecondaryWeapon;
+
     // Use this for initialization
     static Combat() {
         Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
@@ -42,12 +44,15 @@ public static partial class Combat
         AttackStep = CombatStep.Attack;
         CallAttackStartEvents();
         Selection.ActiveShip = Attacker;
+        if (SecondaryWeapon != null) SecondaryWeapon.PayAttackCost();
     }
 
     private static void AttackDiceRoll()
     {
         ShowDiceResultMenu();
-        DiceRoll DiceRollAttack = new DiceRoll("attack", Attacker.GetNumberOfAttackDices(Defender));
+
+        DiceRoll DiceRollAttack;
+        DiceRollAttack = new DiceRoll("attack", Attacker.GetNumberOfAttackDices(Defender));
         DiceRollAttack.Roll();
         CurentDiceRoll = DiceRollAttack;
         DiceRollAttack.CalculateResults();

@@ -129,7 +129,6 @@ public static partial class Roster {
             if (icon.gameObject.activeSelf)
             {
                 upgradesVisible++;
-                break;
             }
         }
 
@@ -267,6 +266,18 @@ public static partial class Roster {
             upgradeNamePanel.GetComponent<Text>().text = upgrade.Value.ShortName;
             upgradeNamePanel.SetActive(true);
             index++;
+        }
+    }
+
+    public static void DiscardUpgrade(Ship.GenericShip host, string upgradeShortName)
+    {
+        foreach (Transform upgradeLine in host.InfoPanel.transform.Find("ShipInfo").Find("UpgradesBar").transform)
+        {
+            if (upgradeLine.GetComponent<Text>().text == upgradeShortName)
+            {
+                upgradeLine.GetComponent<Text>().color = Color.gray;
+                return;
+            }
         }
     }
 

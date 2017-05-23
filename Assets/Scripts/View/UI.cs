@@ -185,13 +185,51 @@ public class UI : MonoBehaviour {
         newLogEntry.GetComponent<Text>().text = text;
     }
 
+    public void ShowDecisionsPanel()
+    {
+        //start subphase
+        Game.PrefabsList.PanelDecisions.SetActive(true);
+    }
+
+    public void HideDecisionsPanel()
+    {
+        Game.PrefabsList.PanelDecisions.SetActive(false);
+        //end subphase
+    }
+
     public void ClickNextPhase()
     {
         Phases.CallNextSubPhase();
     }
 
+    public void ClickDeclareTarget()
+    {
+        Actions.DeclareTarget();
+    }
+
     public void ClickPerformAttack()
     {
+        HideDecisionsPanel();
+
+        //TODO: Rework
+        Combat.SecondaryWeapon = null;
+        Debug.Log("Reset: " + Combat.SecondaryWeapon);
+
+        Actions.PerformAttack();
+    }
+
+    public void ClickPerformTorpedoesAttack()
+    {
+        HideDecisionsPanel();
+
+        //TODO: Get upgrade
+        Upgrade.GenericSecondaryWeapon secondaryWeapon = null;
+        foreach (var upgrade in Selection.ThisShip.InstalledUpgrades)
+        {
+            if (upgrade.Key == Upgrade.UpgradeSlot.Torpedoes) secondaryWeapon = upgrade.Value as Upgrade.GenericSecondaryWeapon;
+        }
+        Combat.SecondaryWeapon = secondaryWeapon;
+
         Actions.PerformAttack();
     }
 

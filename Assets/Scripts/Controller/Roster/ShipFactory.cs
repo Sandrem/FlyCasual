@@ -33,8 +33,8 @@ public static class ShipFactory {
 
         //TODO: Rework this
         newShipContainer.OnDestroyed += Rules.WinConditions.CheckWinConditions;
-        newShipContainer.AfterGotNumberOfAttackDices += Rules.DistanceBonus.CheckAttackDistanceBonus;
-        newShipContainer.AfterGotNumberOfDefenceDices += Rules.DistanceBonus.CheckDefenceDistanceBonus;
+        newShipContainer.AfterGotNumberOfPrimaryWeaponAttackDices += Rules.DistanceBonus.CheckAttackDistanceBonus;
+        newShipContainer.AfterGotNumberOfPrimaryWeaponDefenceDices += Rules.DistanceBonus.CheckDefenceDistanceBonus;
         newShipContainer.OnTryPerformAction += Rules.Stress.CanPerformActions;
         newShipContainer.OnTryPerformAction += Rules.DuplicatedActions.CanPerformActions;
         newShipContainer.OnMovementFinishWithoutColliding += Rules.KoiogranTurn.CheckKoiogranTurn;

@@ -23,13 +23,13 @@ public static partial class Actions {
         HideActionsButtons();
 
         float offset = 0;
-        Vector3 defaultPosition = Game.PrefabsList.PanelActions.transform.position + new Vector3(-95, 195, 0);
+        Vector3 defaultPosition = new Vector3(5, -5, 0);
         foreach (var action in actionList)
         {
-            GameObject newButton = MonoBehaviour.Instantiate(Game.PrefabsList.GenericButton, Game.PrefabsList.PanelActions.transform);
+            GameObject newButton = MonoBehaviour.Instantiate(Game.PrefabsList.GenericButton, Game.PrefabsList.PanelActions.transform.Find("ActionButtons").transform);
             newButton.name = "Button" + action.Name;
             newButton.transform.GetComponentInChildren<Text>().text = action.Name;
-            newButton.GetComponent<RectTransform>().position = defaultPosition + new Vector3(0, -offset, 0);
+            newButton.GetComponent<RectTransform>().localPosition = defaultPosition + new Vector3(0, -offset, 0);
             offset += 40;
             newButton.GetComponent<Button>().onClick.AddListener(delegate {
                 action.ActionTake();
@@ -54,7 +54,7 @@ public static partial class Actions {
 
     public static void HideActionsButtons()
     {
-        foreach (Transform button in Game.PrefabsList.PanelActions.transform)
+        foreach (Transform button in Game.PrefabsList.PanelActions.transform.Find("ActionButtons").transform)
         {
             if (button.name.StartsWith("Button"))
             {

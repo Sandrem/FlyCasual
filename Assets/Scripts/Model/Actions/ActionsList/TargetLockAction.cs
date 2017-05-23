@@ -13,10 +13,11 @@ namespace ActionsList
 
         public override void ActionEffect()
         {
-            char letter = ' ';
-            letter = Actions.GetTargetLocksLetterPair(Combat.Attacker, Combat.Defender);
-            if (letter != ' ')
+            if (Actions.HasTargetLockOn(Combat.Attacker, Combat.Defender))
             {
+                char letter = ' ';
+                letter = Actions.GetTargetLocksLetterPair(Combat.Attacker, Combat.Defender);
+
                 Selection.ActiveShip.SpendToken(typeof(Tokens.BlueTargetLockToken), letter);
                 Combat.Defender.RemoveToken(typeof(Tokens.RedTargetLockToken), letter);
 

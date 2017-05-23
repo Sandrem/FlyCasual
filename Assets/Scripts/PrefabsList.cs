@@ -11,6 +11,7 @@ public class PrefabsList : MonoBehaviour
     public GameObject RostersHolder;
     public GameObject PhasesPanel;
     public GameObject PanelActions;
+    public GameObject PanelDecisions;
 
     public GameObject MessagePanel;
     public GameObject MessagePanelsHolder;

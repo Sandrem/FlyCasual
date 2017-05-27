@@ -40,7 +40,7 @@ namespace SubPhases
             }
             else
             {
-                Roster.HighlightShips(RequiredPlayer, RequiredPilotSkill);
+                Roster.HighlightShipsFiltered(RequiredPlayer, RequiredPilotSkill);
                 Game.UI.ShowSkipButton();
                 Roster.GetPlayer(RequiredPlayer).PerformAttack();
             }

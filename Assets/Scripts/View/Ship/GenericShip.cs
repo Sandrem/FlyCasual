@@ -372,6 +372,33 @@ namespace Ship
             return Model.transform.InverseTransformPoint(point);
         }
 
+        public void HighlightThisSelected()
+        {
+            Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("SelectionProjector").gameObject.SetActive(true);
+            Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("SelectionProjector").GetComponent<Projector>().material = (Material)Resources.Load("Projectors/Materials/SelectionThisProjector", typeof(Material));
+        }
+
+        public void HighlightEnemySelected()
+        {
+            Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("SelectionProjector").gameObject.SetActive(true);
+            Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("SelectionProjector").GetComponent<Projector>().material = (Material)Resources.Load("Projectors/Materials/SelectionEnemyProjector", typeof(Material));
+        }
+
+        public void HighlightSelectedOff()
+        {
+            Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("SelectionProjector").gameObject.SetActive(false);
+        }
+
+        public void HighlightCanBeSelectedOn()
+        {
+            Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("Spotlight").gameObject.SetActive(true);
+        }
+
+        public void HighlightCanBeSelectedOff()
+        {
+            Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("Spotlight").gameObject.SetActive(false);
+        }
+
     }
 
 }

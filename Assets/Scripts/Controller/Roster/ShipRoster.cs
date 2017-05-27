@@ -215,14 +215,14 @@ public static partial class Roster
 
     // NEW
 
-    public static void HighlightShips(PlayerNo playerNo, int pilotSkill = -1)
+    public static void HighlightShipsFiltered(PlayerNo playerNo, int pilotSkill = -1)
     {
         AllShipsHighlightOff();
         foreach (var ship in GetPlayer(playerNo).Ships)
         {
             if ((pilotSkill == -1) || (ship.Value.PilotSkill == pilotSkill))
             {
-                Board.ShipHighlightOn(ship.Value);
+                ship.Value.HighlightCanBeSelectedOn();
                 RosterPanelHighlightOn(ship.Value);
             }
         }
@@ -230,12 +230,17 @@ public static partial class Roster
 
     public static void AllShipsHighlightOff()
     {
-        RosterPanelsHighlightOff();
+        RosterAllPanelsHighlightOff();
         foreach (var ship in AllShips)
         {
-            Board.ShipHighlightOff(ship.Value);
+            ship.Value.HighlightCanBeSelectedOff();
         }
     }
 
+    public static void HighlightShipOff(Ship.GenericShip ship)
+    {
+        ship.HighlightCanBeSelectedOff();
+        RosterPanelHighlightOff(ship);
+    }
 
 }

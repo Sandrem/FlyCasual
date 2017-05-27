@@ -234,7 +234,7 @@ public static partial class Actions {
         }
         else
         {
-            Roster.HighlightShips(Roster.AnotherPlayer(Phases.CurrentPhasePlayer));
+            Roster.HighlightShipsFiltered(Roster.AnotherPlayer(Phases.CurrentPhasePlayer));
             Game.UI.HighlightNextButton();
         }
     }

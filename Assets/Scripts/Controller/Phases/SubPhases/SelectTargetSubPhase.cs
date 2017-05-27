@@ -14,7 +14,7 @@ namespace SubPhases
             isTemporary = true;
             Game.UI.AddTestLogEntry(Name);
             UpdateHelpInfo();
-            Roster.HighlightShips(Roster.AnotherPlayer(Phases.CurrentPhasePlayer), -1);
+            Roster.HighlightShipsFiltered(Roster.AnotherPlayer(Phases.CurrentPhasePlayer), -1);
         }
 
         public override void NextSubPhase()
@@ -46,7 +46,6 @@ namespace SubPhases
                     Actions.ShowActionsPanel();
                     return false;
                 }
-                result = true;
                 NextSubPhase();
             }
             else

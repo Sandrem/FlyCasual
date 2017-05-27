@@ -21,7 +21,7 @@ namespace SubPhases
 
         public override void NextSubPhase()
         {
-            Selection.DeselectAllShips();
+            //Selection.DeselectAllShips();
 
             Dictionary<int, Players.PlayerNo> pilots = Roster.NextPilotSkillAndPlayerAfter(RequiredPilotSkill, RequiredPlayer, Sorting.Asc);
             foreach (var pilot in pilots)
@@ -39,7 +39,7 @@ namespace SubPhases
             } else
             {
                 //Board.HighlightStartingZones();
-                Roster.HighlightShips(RequiredPlayer, RequiredPilotSkill);
+                Roster.HighlightShipsFiltered(RequiredPlayer, RequiredPilotSkill);
                 Roster.GetPlayer(RequiredPlayer).SetupShip();
             }
 

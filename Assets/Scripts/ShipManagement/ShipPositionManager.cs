@@ -29,19 +29,15 @@ public class ShipPositionManager : MonoBehaviour
     {
         if (Game == null) Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
 
-        if (Selection.ThisShip != null)
-        {
-            StartDrag();
+        if (!inReposition) {
+            if (Selection.ThisShip != null)
+            {
+                StartDrag();
+            }
         }
-
-        if (inReposition)
+        else
         {
             PerformDrag();
-        }
-
-        if (Input.GetKeyUp(KeyCode.Mouse0))
-        {
-            //StopDrag();
         }
 
         if (inBarrelRoll)
@@ -90,54 +86,78 @@ public class ShipPositionManager : MonoBehaviour
             }
         }
 
+        if (Phases.CurrentSubPhase.GetType() == typeof(SubPhases.SetupSubPhase))
+        {
+            ApplySetupPositionLimits();
+        }
+
         if (Phases.CurrentSubPhase.GetType() == typeof(SubPhases.BarrelRollSubPhase))
         {
-            Vector3 newPosition = Selection.ThisShip.InverseTransformPoint(ShipStand.transform.position);
-            Vector3 fixedPositionRel = newPosition;
-
-            if (newPosition.z > 0.5f)
-            {
-                fixedPositionRel = new Vector3(fixedPositionRel.x, fixedPositionRel.y, 0.5f);
-            }
-
-            if (newPosition.z < -0.5f)
-            {
-                fixedPositionRel = new Vector3(fixedPositionRel.x, fixedPositionRel.y, -0.5f);
-            }
-
-            if (newPosition.x > 0f) {
-                fixedPositionRel = new Vector3(2, fixedPositionRel.y, fixedPositionRel.z);
-
-                helperDirection = 1f;
-                MovementTemplates.CurrentTemplate.eulerAngles = Selection.ThisShip.Model.transform.eulerAngles + new Vector3(0, 180, 0);
-            }
-
-            if (newPosition.x < 0f) {
-                fixedPositionRel = new Vector3(-2, fixedPositionRel.y, fixedPositionRel.z);
-
-                helperDirection = -1f;
-                MovementTemplates.CurrentTemplate.eulerAngles = Selection.ThisShip.Model.transform.eulerAngles;
-            }
-
-            Vector3 helperPositionRel = Selection.ThisShip.InverseTransformPoint(MovementTemplates.CurrentTemplate.position);
-            helperPositionRel = new Vector3(helperDirection * Mathf.Abs(helperPositionRel.x), helperPositionRel.y, helperPositionRel.z);
-
-            if (helperPositionRel.z+0.25f > fixedPositionRel.z)
-            {
-                helperPositionRel = new Vector3(helperDirection * Mathf.Abs(helperPositionRel.x), helperPositionRel.y, fixedPositionRel.z - 0.25f);
-            }
-
-            if (helperPositionRel.z+0.75f < fixedPositionRel.z)
-            {
-                helperPositionRel = new Vector3(helperDirection * Mathf.Abs(helperPositionRel.x), helperPositionRel.y, fixedPositionRel.z - 0.75f);
-            }
-
-            Vector3 helperPositionAbs = Selection.ThisShip.TransformPoint(helperPositionRel);
-            MovementTemplates.CurrentTemplate.position = helperPositionAbs;
-
-            Vector3 fixedPositionAbs = Selection.ThisShip.TransformPoint(fixedPositionRel);
-            ShipStand.transform.position = fixedPositionAbs;
+            ApplyBarrelRollRepositionLimits();
         }
+    }
+
+    private void ApplySetupPositionLimits()
+    {
+        Vector3 newPosition = Selection.ThisShip.GetPosition();
+
+        if (newPosition.z > 5) newPosition.z = 5;
+        if (newPosition.z < -5) newPosition.z = -5;
+        if (newPosition.x > 5) newPosition.x = 5;
+        if (newPosition.x < -5) newPosition.x = -5;
+
+        Selection.ThisShip.SetPosition(newPosition);
+    }
+
+    private void ApplyBarrelRollRepositionLimits()
+    {
+        Vector3 newPosition = Selection.ThisShip.InverseTransformPoint(ShipStand.transform.position);
+        Vector3 fixedPositionRel = newPosition;
+
+        if (newPosition.z > 0.5f)
+        {
+            fixedPositionRel = new Vector3(fixedPositionRel.x, fixedPositionRel.y, 0.5f);
+        }
+
+        if (newPosition.z < -0.5f)
+        {
+            fixedPositionRel = new Vector3(fixedPositionRel.x, fixedPositionRel.y, -0.5f);
+        }
+
+        if (newPosition.x > 0f)
+        {
+            fixedPositionRel = new Vector3(2, fixedPositionRel.y, fixedPositionRel.z);
+
+            helperDirection = 1f;
+            MovementTemplates.CurrentTemplate.eulerAngles = Selection.ThisShip.Model.transform.eulerAngles + new Vector3(0, 180, 0);
+        }
+
+        if (newPosition.x < 0f)
+        {
+            fixedPositionRel = new Vector3(-2, fixedPositionRel.y, fixedPositionRel.z);
+
+            helperDirection = -1f;
+            MovementTemplates.CurrentTemplate.eulerAngles = Selection.ThisShip.Model.transform.eulerAngles;
+        }
+
+        Vector3 helperPositionRel = Selection.ThisShip.InverseTransformPoint(MovementTemplates.CurrentTemplate.position);
+        helperPositionRel = new Vector3(helperDirection * Mathf.Abs(helperPositionRel.x), helperPositionRel.y, helperPositionRel.z);
+
+        if (helperPositionRel.z + 0.25f > fixedPositionRel.z)
+        {
+            helperPositionRel = new Vector3(helperDirection * Mathf.Abs(helperPositionRel.x), helperPositionRel.y, fixedPositionRel.z - 0.25f);
+        }
+
+        if (helperPositionRel.z + 0.75f < fixedPositionRel.z)
+        {
+            helperPositionRel = new Vector3(helperDirection * Mathf.Abs(helperPositionRel.x), helperPositionRel.y, fixedPositionRel.z - 0.75f);
+        }
+
+        Vector3 helperPositionAbs = Selection.ThisShip.TransformPoint(helperPositionRel);
+        MovementTemplates.CurrentTemplate.position = helperPositionAbs;
+
+        Vector3 fixedPositionAbs = Selection.ThisShip.TransformPoint(fixedPositionRel);
+        ShipStand.transform.position = fixedPositionAbs;
     }
 
     //TODO: Good target to move into subphase class

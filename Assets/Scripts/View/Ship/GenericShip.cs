@@ -399,6 +399,18 @@ namespace Ship
             Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("Spotlight").gameObject.SetActive(false);
         }
 
+        public Vector3 GetCenter()
+        {
+            Vector3 result;
+            result = Model.transform.TransformPoint(0, 0, -HALF_OF_SHIPSTAND_SIZE);
+            return result;
+        }
+
+        public void SetHeight(float height)
+        {
+            Model.transform.Find("RotationHelper").localPosition = new Vector3(Model.transform.Find("RotationHelper").localPosition.x, height, Model.transform.Find("RotationHelper").localPosition.z);
+        }
+
     }
 
 }

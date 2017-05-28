@@ -15,7 +15,7 @@ namespace RulesList
         {
             if (Game.Movement.CurrentMovementData.MovementBearing == ManeuverBearing.KoiogranTurn)
             {
-                ship.Rotate180();
+                Phases.StartKoiogranTurnSubPhase("Koiogran Turn");
             }
         }
 

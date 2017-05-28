@@ -11,6 +11,7 @@ namespace Ship
             public LukeSkywalker(Players.PlayerNo playerNo, int shipId, Vector3 position) : base(playerNo, shipId, position)
             {
                 PilotName = "Luke Skywalker";
+                ImageUrl = "https://vignette3.wikia.nocookie.net/xwing-miniatures/images/8/8c/Luke-skywalker.png";
                 isUnique = true;
                 PilotSkill = 8;
                 AddUpgradeSlot(Upgrade.UpgradeSlot.Elite);

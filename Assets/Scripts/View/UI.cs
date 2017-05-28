@@ -218,6 +218,7 @@ public class UI : MonoBehaviour {
 
     public void ClickPerformTorpedoesAttack()
     {
+        Tooltips.EndTooltip();
         HideDecisionsPanel();
 
         //TODO: Get upgrade correctly
@@ -268,6 +269,16 @@ public class UI : MonoBehaviour {
     public void HighlightNextButton()
     {
         Game.PrefabsList.NextButtonPanel.transform.Find("NextButton").GetComponent<Animator>().enabled = true;
+    }
+
+    public void CallShowTooltip(string url)
+    {
+        Tooltips.StartTooltip(url);
+    }
+
+    public void CallHideTooltip()
+    {
+        Tooltips.EndTooltip();
     }
 
 }

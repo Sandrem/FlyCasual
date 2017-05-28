@@ -213,7 +213,8 @@ public static partial class Actions {
         {
             //Todo: Generate decision
             Game.PrefabsList.PanelDecisions.transform.Find("InformationPanel").GetComponentInChildren<Text>().text = "Choose weapon for attack(Distance " + distance + ")";
-
+            //Temporary
+            Tooltips.AddTooltip(Game.PrefabsList.PanelDecisions.transform.Find("DecisionsPanel").Find("Button2").gameObject, "https://vignette2.wikia.nocookie.net/xwing-miniatures/images/e/eb/Proton-torpedoes.png");
             Game.UI.ShowDecisionsPanel();
         }
         else

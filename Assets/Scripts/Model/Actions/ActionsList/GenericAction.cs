@@ -11,6 +11,7 @@ namespace ActionsList
 
         public string Name;
         public string EffectName;
+        public string ImageUrl;
 
         public GenericAction() {
             Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();

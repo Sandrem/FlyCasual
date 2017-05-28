@@ -11,6 +11,7 @@ namespace Ship
             public DarkCurse(Players.PlayerNo playerNo, int shipId, Vector3 position) : base(playerNo, shipId, position)
             {
                 PilotName = "\"Dark Curse\"";
+                ImageUrl = "https://vignette1.wikia.nocookie.net/xwing-miniatures/images/4/49/Dark_Curse.png";
                 isUnique = true;
                 PilotSkill = 6;
                 OnAttack += AddDarkCursePilotAbility;

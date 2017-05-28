@@ -34,6 +34,7 @@ public class PrefabsList : MonoBehaviour
 
     public GameObject DirectionsMenu;
     public GameObject ContextMenuPanel;
+    public GameObject TooltipPanel;
     public GameObject GameResultsPanel;
     public GameObject MinimapPanel;
     public GameObject GameLogPanel;

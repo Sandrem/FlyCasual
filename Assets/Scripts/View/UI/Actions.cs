@@ -34,8 +34,10 @@ public static partial class Actions {
             newButton.GetComponent<Button>().onClick.AddListener(delegate {
                 action.ActionTake();
                 Selection.ThisShip.AddAlreadyExecutedAction(action);
+                Tooltips.EndTooltip();
                 CloseActionsPanel();
             });
+            Tooltips.AddTooltip(newButton, action.ImageUrl);
             newButton.GetComponent<Button>().interactable = true;
             newButton.SetActive(true);
         }

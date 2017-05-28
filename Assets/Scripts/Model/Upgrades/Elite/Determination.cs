@@ -12,6 +12,7 @@ namespace Upgrade
         {
             Type = UpgradeSlot.Elite;
             Name = ShortName = "Determination";
+            ImageUrl = "https://vignette1.wikia.nocookie.net/xwing-miniatures/images/f/fc/Determination.jpg";
 
             host.OnAssignCrit += CancelPilotCrits;
         }

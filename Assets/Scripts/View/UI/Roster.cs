@@ -17,8 +17,13 @@ public static partial class Roster {
 
         //Generic info
         newPanel.transform.Find("ShipInfo").Find("ShipPilotSkillText").GetComponent<Text>().text = newShip.PilotSkill.ToString();
+
         newPanel.transform.Find("ShipInfo").Find("ShipPilotNameText").GetComponent<Text>().text = newShip.PilotName;
+        Tooltips.AddTooltip(newPanel.transform.Find("ShipInfo").Find("ShipPilotNameText").gameObject, newShip.ImageUrl);
+
         newPanel.transform.Find("ShipInfo").Find("ShipTypeText").GetComponent<Text>().text = newShip.Type;
+        Tooltips.AddTooltip(newPanel.transform.Find("ShipInfo").Find("ShipTypeText").gameObject, newShip.ManeuversImageUrl);
+
         newPanel.transform.Find("ShipInfo").Find("ShipFirepowerText").GetComponent<Text>().text = newShip.Firepower.ToString();
         newPanel.transform.Find("ShipInfo").Find("ShipAgilityText").GetComponent<Text>().text = newShip.Agility.ToString();
         newPanel.transform.Find("ShipInfo").Find("ShipHullText").GetComponent<Text>().text = newShip.MaxHull.ToString();
@@ -54,6 +59,7 @@ public static partial class Roster {
 
         AddToRoster(newShip, newPanel);
 
+        //Event
         newPanel.transform.Find("ShipInfo").gameObject.AddComponent<EventTrigger>();
         EventTrigger trigger = newPanel.transform.Find("ShipInfo").gameObject.GetComponent<EventTrigger>();
         EventTrigger.Entry entry = new EventTrigger.Entry();
@@ -264,6 +270,9 @@ public static partial class Roster {
         {
             GameObject upgradeNamePanel = newPanel.transform.Find("ShipInfo").Find("UpgradesBar").Find("Upgrade"+index).gameObject;
             upgradeNamePanel.GetComponent<Text>().text = upgrade.Value.ShortName;
+
+            Tooltips.AddTooltip(upgradeNamePanel, upgrade.Value.ImageUrl);
+
             upgradeNamePanel.SetActive(true);
             index++;
         }

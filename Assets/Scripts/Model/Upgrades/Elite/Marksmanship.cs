@@ -12,14 +12,16 @@ namespace Upgrade
         {
             Type = UpgradeSlot.Elite;
             Name = ShortName = "Marksmanship";
+            ImageUrl = "https://vignette1.wikia.nocookie.net/xwing-miniatures/images/6/69/Marksmanship.png";
 
             host.AfterAvailableActionListIsBuilt += MarksmanshipAddAction;
         }
 
         private void MarksmanshipAddAction(Ship.GenericShip host)
         {
-            //if (host.CanPerformFreeAction("Marksmanship", afterMovement))
-            host.AddAvailableAction(new MarksmanshipAction());
+            ActionsList.GenericAction newAction = new MarksmanshipAction();
+            newAction.ImageUrl = ImageUrl;
+            host.AddAvailableAction(newAction);
         }
 
     }

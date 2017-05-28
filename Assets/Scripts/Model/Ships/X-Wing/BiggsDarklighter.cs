@@ -11,6 +11,7 @@ namespace Ship
             public BiggsDarklighter(Players.PlayerNo playerNo, int shipId, Vector3 position) : base(playerNo, shipId, position)
             {
                 PilotName = "Biggs Darklighter";
+                ImageUrl = "https://vignette3.wikia.nocookie.net/xwing-miniatures/images/9/90/Biggs-darklighter.png";
                 isUnique = true;
                 PilotSkill = 5;
 

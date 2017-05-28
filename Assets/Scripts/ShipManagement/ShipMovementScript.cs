@@ -80,7 +80,8 @@ public class ShipMovementScript : MonoBehaviour {
 
     void Update () {
         Selection.UpdateSelection();
-        UpdateMovement ();
+        Tooltips.CheckTooltip();
+        UpdateMovement();
     }
 
     //Assignment and launch of execution of meneuver

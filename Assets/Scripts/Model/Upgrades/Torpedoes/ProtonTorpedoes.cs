@@ -13,6 +13,7 @@ namespace Upgrade
 
             Name = "Proton Torpedoes";
             ShortName = "Proton Torp.";
+            ImageUrl = "https://vignette2.wikia.nocookie.net/xwing-miniatures/images/e/eb/Proton-torpedoes.png";
 
             MinRange = 2;
             MaxRange = 3;
@@ -21,6 +22,7 @@ namespace Upgrade
             //TODO: set host in constructor
             ProtonTorpedoesAction action = new ProtonTorpedoesAction();
             action.Host = host;
+            action.ImageUrl = ImageUrl;
             action.AddDiceModification();
 
             host.AddAvailableAction(action);

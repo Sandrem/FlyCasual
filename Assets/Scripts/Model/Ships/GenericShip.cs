@@ -31,6 +31,8 @@ namespace Ship
         public string Type { get; set; }
         public Vector3 StartingPosition { get; set; }
         public string PilotName { get;  set; }
+        public string ImageUrl { get; set; }
+        public string ManeuversImageUrl { get; set; }
         public Players.GenericPlayer Owner { get; set; }
 
         public int Firepower { get; set; }

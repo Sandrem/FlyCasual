@@ -38,6 +38,7 @@ namespace Upgrade
         public bool isDiscarded = false;
         public string Name;
         public string ShortName;
+        public string ImageUrl;
         //public bool FactionRestriction
         //public bool SizeRestriction
         //public bool ShipTypeRestriction

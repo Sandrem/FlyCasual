@@ -12,6 +12,7 @@ namespace Ship
             public XWing(Players.PlayerNo playerNo, int shipId, Vector3 position) : base(playerNo, shipId, position)
             {
                 Type = "X-Wing";
+                ManeuversImageUrl = "https://vignette1.wikia.nocookie.net/xwing-miniatures/images/3/3d/MR_T65-X-WING.png";
 
                 Firepower = 3;
                 Agility = 2;

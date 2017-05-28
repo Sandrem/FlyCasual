@@ -12,6 +12,7 @@ namespace Upgrade
         {
             Type = UpgradeSlot.Astromech;
             Name = ShortName = "R2-F2";
+            ImageUrl = "https://vignette4.wikia.nocookie.net/xwing-miniatures/images/8/86/R2-F2.jpg";
             isUnique = true;
 
             host.AfterAvailableActionListIsBuilt += R2F2AddAction;
@@ -19,7 +20,9 @@ namespace Upgrade
 
         private void R2F2AddAction(Ship.GenericShip host)
         {
-            host.AddAvailableAction(new R2F2Action());
+            ActionsList.GenericAction action = new R2F2Action();
+            action.ImageUrl = ImageUrl;
+            host.AddAvailableAction(action);
         }
 
     }

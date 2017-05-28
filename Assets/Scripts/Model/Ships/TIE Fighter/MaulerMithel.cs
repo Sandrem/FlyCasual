@@ -11,6 +11,7 @@ namespace Ship
             public MaulerMithel(Players.PlayerNo playerNo, int shipId, Vector3 position) : base(playerNo, shipId, position)
             {
                 PilotName = "\"Mauler Mithel\"";
+                ImageUrl = "https://vignette2.wikia.nocookie.net/xwing-miniatures/images/e/e8/Mauler-mithel.png";
                 isUnique = true;
                 PilotSkill = 7;
                 AddUpgradeSlot(Upgrade.UpgradeSlot.Elite);

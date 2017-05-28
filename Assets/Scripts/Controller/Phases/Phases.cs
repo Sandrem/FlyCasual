@@ -75,6 +75,11 @@ public static partial class Phases
         StartTemporarySubPhase(name, new BarrelRollSubPhase());
     }
 
+    public static void StartKoiogranTurnSubPhase(string name)
+    {
+        StartTemporarySubPhase(name, new KoiogranTurnSubPhase());
+    }
+
     public static void StartMovementExecutionSubPhase(string name)
     {
         StartTemporarySubPhase(name, new MovementExecutionSubPhase());

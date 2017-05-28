@@ -10,10 +10,12 @@ public class ShipPositionManager : MonoBehaviour
 
     //TEMP
     private bool inBarrelRoll;
+    private bool inKoiogranTurn;
     private Ship.GenericShip RollingShip;
     private float progressCurrent;
     private float progressTarget;
     private float helperDirection;
+    private const float KOIOGRAN_ANIMATION_SPEED = 100;
 
     public GameObject prefabShipStand;
     private GameObject ShipStand;
@@ -42,7 +44,12 @@ public class ShipPositionManager : MonoBehaviour
 
         if (inBarrelRoll)
         {
-            BarrelRollAnimation();
+            DoBarrelRollAnimation();
+        }
+
+        if (inKoiogranTurn)
+        {
+            DoKoiogranTurnAnimation();
         }
 
     }
@@ -62,7 +69,7 @@ public class ShipPositionManager : MonoBehaviour
         ShipStand = MonoBehaviour.Instantiate(Game.Position.prefabShipStand, Selection.ThisShip.GetPosition(), Selection.ThisShip.GetRotation(), Board.GetBoard());
 
         ShipStand.transform.Find("ShipStandTemplate").Find("ShipStandInsert").Find("ShipStandInsertImage").Find("default").GetComponent<Renderer>().material = Selection.ThisShip.Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("ShipStand").Find("ShipStandInsert").Find("ShipStandInsertImage").Find("default").GetComponent<Renderer>().material;
-        
+
         Roster.SetRaycastTargets(false);
         inReposition = true;
         MovementTemplates.CurrentTemplate = MovementTemplates.GetMovement1Ruler();
@@ -224,16 +231,16 @@ public class ShipPositionManager : MonoBehaviour
         inBarrelRoll = true;
         progressCurrent = 0;
         progressTarget = Vector3.Distance(RollingShip.GetPosition(), ShipStand.transform.position);
-        
+
     }
 
     //TODO: Move using curve
-    private void BarrelRollAnimation()
+    private void DoBarrelRollAnimation()
     {
         float progressStep = 0.5f * Time.deltaTime;
         RollingShip.SetPosition(Vector3.MoveTowards(RollingShip.GetPosition(), ShipStand.transform.position, progressStep));
         progressCurrent += progressStep;
-        RollingShip.RotateModelDuringBarrelRoll(progressCurrent/progressTarget, helperDirection);
+        RollingShip.RotateModelDuringBarrelRoll(progressCurrent / progressTarget, helperDirection);
         RollingShip.MoveUpwards(progressCurrent / progressTarget);
         if (progressCurrent >= progressTarget)
         {
@@ -259,7 +266,37 @@ public class ShipPositionManager : MonoBehaviour
         Destroy(ShipStand);
         Game.Movement.CollidedWith = null;
         MovementTemplates.HideLastMovementRuler();
+
+        Phases.Next();
+
         Actions.ShowActionsPanel();
+    }
+
+    public void StartKoiogranTurn()
+    {
+        progressCurrent = 0;
+        progressTarget = 180;
+        inKoiogranTurn = true;
+    }
+
+    private void DoKoiogranTurnAnimation()
+    {
+        float progressStep = Mathf.Min(Time.deltaTime*KOIOGRAN_ANIMATION_SPEED, progressTarget-progressCurrent);
+        progressCurrent += progressStep;
+
+        Selection.ThisShip.Rotate(Selection.ThisShip.GetCenter(), progressStep);
+
+        float positionY = (progressCurrent < 90) ? progressCurrent : 180 - progressCurrent;
+        positionY = positionY / 90;
+        Selection.ThisShip.SetHeight(positionY);
+
+        if (progressCurrent == progressTarget) EndKoiogranTurn();
+    }
+
+    private void EndKoiogranTurn()
+    {
+        inKoiogranTurn = false;
+        Phases.Next();
     }
 
 }

@@ -7,11 +7,12 @@ using UnityEngine.UI;
 
 public delegate void DiceModification();
 
-public static partial class Combat {
+public static partial class Combat
+{
 
     public static void ShowDiceResultMenu()
     {
-        Game.PrefabsList.DiceResultsMenu.SetActive(true);        
+        Game.PrefabsList.DiceResultsMenu.SetActive(true);
     }
 
     public static void ShowDiceModificationButtons()
@@ -70,7 +71,7 @@ public static partial class Combat {
     public static void ConfirmDiceResults()
     {
         HideDiceResultMenu();
-        
+
         if (AttackStep == CombatStep.Attack)
         {
             PerformDefence(Selection.ThisShip, Selection.AnotherShip);

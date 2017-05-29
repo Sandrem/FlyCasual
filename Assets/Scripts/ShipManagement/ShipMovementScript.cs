@@ -77,16 +77,36 @@ public class ShipMovementScript : MonoBehaviour {
     public Collider ObstacleHitEnter;
     public Collider ObstacleHitExit;
 
+    public bool isCheckingFireLineCollisionsStart;
+    public bool isCheckingFireLineCollisionsEnd;
+
     public void Initialize()
     {
         Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
     }
 
-    void Update () {
+    void Update ()
+    {
         Selection.UpdateSelection();
         Tooltips.CheckTooltip();
         RegisterObstacleCollisions();
         UpdateMovement();
+        CheckFireLineCollisions();
+    }
+
+    private void CheckFireLineCollisions()
+    {
+        if (isCheckingFireLineCollisionsEnd)
+        {
+            isCheckingFireLineCollisionsEnd = false;
+            Board.HideFiringLine();
+            Combat.PerformAttack(Selection.ThisShip, Selection.AnotherShip);
+        }
+        if (isCheckingFireLineCollisionsStart)
+        {
+            isCheckingFireLineCollisionsStart = false;
+            isCheckingFireLineCollisionsEnd = true;
+        }
     }
 
     private void RegisterObstacleCollisions()

@@ -72,6 +72,8 @@ public class ShipMovementScript : MonoBehaviour {
     private readonly float[] BANK_SCALES = new float[] { 4.6f, 7.4f, 10.4f };
 
     public Collider CollidedWith;
+    public Collider ObstacleEnter;
+    public Collider ObstacleExit;
 
     public void Initialize()
     {
@@ -81,7 +83,32 @@ public class ShipMovementScript : MonoBehaviour {
     void Update () {
         Selection.UpdateSelection();
         Tooltips.CheckTooltip();
+        RegisterObstacleCollisions();
         UpdateMovement();
+    }
+
+    private void RegisterObstacleCollisions()
+    {
+        if (Selection.ThisShip != null)
+        {
+            if (ObstacleExit != null)
+            {
+                if (Selection.ThisShip.ObstaclesLanded.Contains(ObstacleExit))
+                {
+                    Selection.ThisShip.ObstaclesLanded.Remove(ObstacleExit);
+                }
+                ObstacleEnter = null;
+            }
+
+            if (ObstacleEnter != null)
+            {
+                if (!Selection.ThisShip.ObstaclesLanded.Contains(ObstacleEnter))
+                {
+                    Selection.ThisShip.ObstaclesLanded.Add(ObstacleEnter);
+                }
+                ObstacleEnter = null;
+            }
+        }
     }
 
     //Assignment and launch of execution of meneuver
@@ -444,6 +471,11 @@ public class ShipMovementScript : MonoBehaviour {
     }
 
 	private void FinishMovement() {
+
+        if (Selection.ThisShip.ObstaclesLanded.Count > 0)
+        {
+            Game.UI.ShowError("Landed on obstacle");
+        }
 
         Phases.FinishSubPhase(typeof(SubPhases.MovementExecutionSubPhase));
 

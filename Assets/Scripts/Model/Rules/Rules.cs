@@ -16,6 +16,7 @@ public static class Rules
     public static FiringRangeLimit FiringRange { get; private set; }
     public static FiringArcRule FiringArc { get; private set; }
     public static DuplicatedActionsRule DuplicatedActions { get; private set; }
+    public static AsteroidLandedRule AsteroidLanded { get; private set; }
 
     private static GameManagerScript Game;
 
@@ -33,6 +34,7 @@ public static class Rules
         FiringRange = new FiringRangeLimit(Game);
         FiringArc = new FiringArcRule(Game);
         DuplicatedActions = new DuplicatedActionsRule();
+        AsteroidLanded = new AsteroidLandedRule(Game);
     }
 }
 

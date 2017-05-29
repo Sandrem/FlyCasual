@@ -100,7 +100,7 @@ public static class Selection {
     {
         DeselectThisShip();
         ThisShip = Roster.GetShipById(shipId);
-        ThisShip.GetShipStandScript().checkCollisions = true;
+        ThisShip.ToggleCollisionDetection(true);
         ThisShip.InfoPanel.transform.Find("ShipInfo").Find("ShipPilotNameText").GetComponent<Text>().color = Color.yellow;
         ThisShip.HighlightThisSelected();
         if (Phases.CurrentSubPhase.GetType() == typeof(SubPhases.CombatSubPhase)) Roster.HighlightShipsFiltered(Roster.AnotherPlayer(Phases.CurrentPhasePlayer));
@@ -142,7 +142,7 @@ public static class Selection {
 
     private static void DeselectShip(Ship.GenericShip ship)
     {
-        ship.GetShipStandScript().checkCollisions = false;
+        ship.ToggleCollisionDetection(false);
         ship.InfoPanel.transform.Find("ShipInfo").Find("ShipPilotNameText").GetComponent<Text>().color = Color.white;
         ship.HighlightSelectedOff();
     }

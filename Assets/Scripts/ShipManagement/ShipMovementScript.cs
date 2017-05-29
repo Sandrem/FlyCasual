@@ -74,6 +74,8 @@ public class ShipMovementScript : MonoBehaviour {
     public Collider CollidedWith;
     public Collider ObstacleEnter;
     public Collider ObstacleExit;
+    public Collider ObstacleHitEnter;
+    public Collider ObstacleHitExit;
 
     public void Initialize()
     {
@@ -97,7 +99,7 @@ public class ShipMovementScript : MonoBehaviour {
                 {
                     Selection.ThisShip.ObstaclesLanded.Remove(ObstacleExit);
                 }
-                ObstacleEnter = null;
+                ObstacleExit = null;
             }
 
             if (ObstacleEnter != null)
@@ -108,6 +110,31 @@ public class ShipMovementScript : MonoBehaviour {
                 }
                 ObstacleEnter = null;
             }
+
+            if (ObstacleHitExit != null)
+            {
+                if (Selection.ThisShip.ObstaclesHit.Contains(ObstacleHitExit))
+                {
+                    if (CurrentMovementData.CollisionReverting)
+                    {
+                        Selection.ThisShip.ObstaclesHit.Remove(ObstacleHitExit);
+                    }
+                }
+                ObstacleHitExit = null;
+            }
+
+            if (ObstacleHitEnter != null)
+            {
+                if (!Selection.ThisShip.ObstaclesHit.Contains(ObstacleHitEnter))
+                {
+                    if (!CurrentMovementData.CollisionReverting)
+                    {
+                        Selection.ThisShip.ObstaclesHit.Add(ObstacleHitEnter);
+                    }
+                }
+                ObstacleHitEnter = null;
+            }
+
         }
     }
 
@@ -194,6 +221,7 @@ public class ShipMovementScript : MonoBehaviour {
     {
         Roster.AllShipsHighlightOff();
         Phases.StartMovementExecutionSubPhase("");
+        Selection.ThisShip.ObstaclesHit = new List<Collider>();
         Game.Movement.PerformMove(Selection.ThisShip.AssignedManeuver);
     }
 

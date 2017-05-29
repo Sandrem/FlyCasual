@@ -42,6 +42,7 @@ namespace Ship
         public int Shields { get; set; }
 
         public List<Collider> ObstaclesLanded = new List<Collider>();
+        public List<Collider> ObstaclesHit = new List<Collider>();
 
         public GenericAiTable HotacManeuverTable;
 

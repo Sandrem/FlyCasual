@@ -129,9 +129,10 @@ namespace Ship
             Model.transform.RotateAround(point, new Vector3(0, 1, 0), progress);
         }
 
-        public ShipStandCollider GetShipStandScript()
+        public void ToggleCollisionDetection(bool value)
         {
-            return Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("ShipStand").GetComponent<ShipStandCollider>();
+            Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("ShipStand").Find("ObstaclesStayDetector").GetComponent<ObstaclesStayDetector>().checkCollisions = value;
+            Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("ShipStand").Find("ObstaclesHitsDetector").GetComponent<ObstaclesHitsDetector>().checkCollisions = value;
         }
 
         public void ApplyShader(string type)

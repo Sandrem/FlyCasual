@@ -35,6 +35,7 @@ public static class ShipFactory {
         newShipContainer.OnDestroyed += Rules.WinConditions.CheckWinConditions;
         newShipContainer.AfterGotNumberOfPrimaryWeaponAttackDices += Rules.DistanceBonus.CheckAttackDistanceBonus;
         newShipContainer.AfterGotNumberOfPrimaryWeaponDefenceDices += Rules.DistanceBonus.CheckDefenceDistanceBonus;
+        newShipContainer.AfterGotNumberOfPrimaryWeaponDefenceDices += Rules.AsteroidObstruction.CheckDefenceDistanceBonus;
         newShipContainer.OnTryPerformAction += Rules.Stress.CanPerformActions;
         newShipContainer.OnTryPerformAction += Rules.DuplicatedActions.CanPerformActions;
         newShipContainer.OnMovementFinishWithoutColliding += Rules.KoiogranTurn.CheckKoiogranTurn;
@@ -47,6 +48,8 @@ public static class ShipFactory {
         newShipContainer.OnMovementFinish += MovementTemplates.ResetRuler;
         newShipContainer.OnPositionFinish += Rules.OffTheBoard.CheckOffTheBoard;
         newShipContainer.OnMovementFinish += Rules.Stress.CheckStress;
+        newShipContainer.OnMovementFinish += Rules.AsteroidHit.CheckDamage;
+        newShipContainer.OnTryPerformAction += Rules.AsteroidHit.CanPerformActions;
         newShipContainer.AfterGetManeuverAvailablity += Rules.Stress.CannotPerformRedManeuversWhileStressed;
 
         newShipContainer.AfterTokenIsAssigned += Roster.UpdateTokensIndicator;

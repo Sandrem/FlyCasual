@@ -16,7 +16,7 @@ namespace RulesList
         {
             if (Actions.GetRange(Combat.Attacker, Combat.Defender) == 1)
             {
-                Game.UI.ShowInfo("Distance bonus: +1 attack die");
+                Game.UI.ShowInfo("Distance bonus: +1 attack dice");
                 result++;
             }
         }
@@ -25,7 +25,7 @@ namespace RulesList
         {
             if (Actions.GetRange(Combat.Attacker, Combat.Defender) == 3)
             {
-                Game.UI.ShowInfo("Distance bonus: +1 defence die");
+                Game.UI.ShowInfo("Distance bonus: +1 defence dice");
                 result++;
             }
         }

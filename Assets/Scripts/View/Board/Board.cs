@@ -17,6 +17,8 @@ public static partial class Board {
     public static readonly float DISTANCE_1 = 4f;
     public static readonly float RANGE_1 = 10f;
 
+    public static List<Collider> FiringLineCollisions = new List<Collider>();
+
     static Board()
     {
         Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
@@ -89,6 +91,43 @@ public static partial class Board {
     public static Transform GetStartingZone(Players.PlayerNo playerNo)
     {
         return (playerNo == Players.PlayerNo.Player1) ? StartingZone1.transform : StartingZone2.transform;
+    }
+
+    public static Vector3 GetShotVectorToTarget(Ship.GenericShip thisShip, Ship.GenericShip anotherShip)
+    {
+        Vector3 vectorToTarget = thisShip.GetClosestFiringEdgesTo(anotherShip)["another"] - thisShip.GetClosestFiringEdgesTo(anotherShip)["this"];
+
+        if (Vector3.Angle(thisShip.GetFrontFacing(), vectorToTarget) > 40)
+        {
+            float newVectorX = vectorToTarget.z / Mathf.Tan(Mathf.Deg2Rad * 180 - 40);
+            float direction = (vectorToTarget.x >= 0) ? 1 : -1;
+            vectorToTarget = new Vector3(direction * newVectorX, vectorToTarget.y, vectorToTarget.z);
+        }
+
+        return vectorToTarget;
+    }
+
+    public static void ShowFiringLine(Ship.GenericShip thisShip, Ship.GenericShip anotherShip)
+    {
+        FiringLineCollisions = new List<Collider>();
+
+        Vector3 closestEdgeThis = thisShip.GetClosestFiringEdgesTo(anotherShip)["this"];
+        Vector3 closestEdgeAnother = thisShip.GetClosestFiringEdgesTo(anotherShip)["another"];
+        Vector3 vectorToTarget = Board.GetShotVectorToTarget(thisShip, anotherShip);
+
+        GameObject FiringLine = Game.PrefabsList.BoardTransform.Find("FiringLine").gameObject;
+        FiringLine.transform.position = closestEdgeThis;
+        FiringLine.transform.rotation = Quaternion.LookRotation(vectorToTarget);
+        FiringLine.transform.localScale = new Vector3(1, 1, Vector3.Distance(closestEdgeThis, closestEdgeAnother));
+        FiringLine.SetActive(true);
+
+        Game.Movement.isCheckingFireLineCollisionsStart = true;
+    }
+
+    public static void HideFiringLine()
+    {
+        GameObject FiringLine = Game.PrefabsList.BoardTransform.Find("FiringLine").gameObject;
+        FiringLine.SetActive(false);
     }
 
 }

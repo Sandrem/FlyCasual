@@ -231,7 +231,8 @@ public static partial class Actions {
         //TODO: CheckShot is needed before
         if (TargetIsLegal())
         {
-            Combat.PerformAttack(Selection.ThisShip, Selection.AnotherShip);
+            Board.ShowFiringLine(Selection.ThisShip, Selection.AnotherShip);
+            //Call later "Combat.PerformAttack(Selection.ThisShip, Selection.AnotherShip);"
         }
         else
         {

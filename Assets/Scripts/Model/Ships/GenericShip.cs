@@ -41,6 +41,9 @@ namespace Ship
         public int MaxShields { get; set; }
         public int Shields { get; set; }
 
+        public List<Collider> ObstaclesLanded = new List<Collider>();
+        public List<Collider> ObstaclesHit = new List<Collider>();
+
         public GenericAiTable HotacManeuverTable;
 
         private int _PilotSkill;

@@ -109,17 +109,8 @@ public static class MovementTemplates {
 
     public static void ShowFiringArcRange(Ship.GenericShip thisShip, Ship.GenericShip anotherShip)
     {
-        Vector3 vectorToTarget = thisShip.GetClosestFiringEdgesTo(anotherShip)["another"] - thisShip.GetClosestFiringEdgesTo(anotherShip)["this"];
         Vector3 closestEdge = thisShip.GetClosestFiringEdgesTo(anotherShip)["this"];
-        
-        //TODO: Block here
-        if (Vector3.Angle(thisShip.GetFrontFacing(), vectorToTarget) > 40)
-        {
-            float newVectorX = vectorToTarget.z / Mathf.Tan(Mathf.Deg2Rad * 180-40);
-            float direction = (vectorToTarget.x >= 0) ? 1 : -1;
-            vectorToTarget = new Vector3(direction * newVectorX, vectorToTarget.y, vectorToTarget.z);
-        }
-
+        Vector3 vectorToTarget = Board.GetShotVectorToTarget(thisShip, anotherShip);
         ShowRangeRuler(closestEdge, vectorToTarget);
     }
 
@@ -136,8 +127,8 @@ public static class MovementTemplates {
 
     public static void ReturnRangeRuler()
     {
-        Templates.Find("RangeRuler").transform.position = new Vector3(9.5f, 0f, 2.2f);
-        Templates.Find("RangeRuler").transform.eulerAngles = new Vector3(0, -90, 0);
+        Templates.Find("RangeRuler").transform.position = new Vector3(10.6f, 0f, -8.13f);
+        Templates.Find("RangeRuler").transform.eulerAngles = new Vector3(0, 0, 0);
     }
 
     public static Transform GetMovement1Ruler()

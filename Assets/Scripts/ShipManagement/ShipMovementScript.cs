@@ -72,16 +72,90 @@ public class ShipMovementScript : MonoBehaviour {
     private readonly float[] BANK_SCALES = new float[] { 4.6f, 7.4f, 10.4f };
 
     public Collider CollidedWith;
+    public Collider ObstacleEnter;
+    public Collider ObstacleExit;
+    public Collider ObstacleHitEnter;
+    public Collider ObstacleHitExit;
+
+    public bool isCheckingFireLineCollisionsStart;
+    public bool isCheckingFireLineCollisionsEnd;
 
     public void Initialize()
     {
         Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
     }
 
-    void Update () {
+    void Update ()
+    {
         Selection.UpdateSelection();
         Tooltips.CheckTooltip();
+        RegisterObstacleCollisions();
         UpdateMovement();
+        CheckFireLineCollisions();
+    }
+
+    private void CheckFireLineCollisions()
+    {
+        if (isCheckingFireLineCollisionsEnd)
+        {
+            isCheckingFireLineCollisionsEnd = false;
+            Board.HideFiringLine();
+            Combat.PerformAttack(Selection.ThisShip, Selection.AnotherShip);
+        }
+        if (isCheckingFireLineCollisionsStart)
+        {
+            isCheckingFireLineCollisionsStart = false;
+            isCheckingFireLineCollisionsEnd = true;
+        }
+    }
+
+    private void RegisterObstacleCollisions()
+    {
+        if (Selection.ThisShip != null)
+        {
+            if (ObstacleExit != null)
+            {
+                if (Selection.ThisShip.ObstaclesLanded.Contains(ObstacleExit))
+                {
+                    Selection.ThisShip.ObstaclesLanded.Remove(ObstacleExit);
+                }
+                ObstacleExit = null;
+            }
+
+            if (ObstacleEnter != null)
+            {
+                if (!Selection.ThisShip.ObstaclesLanded.Contains(ObstacleEnter))
+                {
+                    Selection.ThisShip.ObstaclesLanded.Add(ObstacleEnter);
+                }
+                ObstacleEnter = null;
+            }
+
+            if (ObstacleHitExit != null)
+            {
+                if (Selection.ThisShip.ObstaclesHit.Contains(ObstacleHitExit))
+                {
+                    if (CurrentMovementData.CollisionReverting)
+                    {
+                        Selection.ThisShip.ObstaclesHit.Remove(ObstacleHitExit);
+                    }
+                }
+                ObstacleHitExit = null;
+            }
+
+            if (ObstacleHitEnter != null)
+            {
+                if (!Selection.ThisShip.ObstaclesHit.Contains(ObstacleHitEnter))
+                {
+                    if (!CurrentMovementData.CollisionReverting)
+                    {
+                        Selection.ThisShip.ObstaclesHit.Add(ObstacleHitEnter);
+                    }
+                }
+                ObstacleHitEnter = null;
+            }
+
+        }
     }
 
     //Assignment and launch of execution of meneuver
@@ -167,6 +241,7 @@ public class ShipMovementScript : MonoBehaviour {
     {
         Roster.AllShipsHighlightOff();
         Phases.StartMovementExecutionSubPhase("");
+        Selection.ThisShip.ObstaclesHit = new List<Collider>();
         Game.Movement.PerformMove(Selection.ThisShip.AssignedManeuver);
     }
 
@@ -444,6 +519,11 @@ public class ShipMovementScript : MonoBehaviour {
     }
 
 	private void FinishMovement() {
+
+        if (Selection.ThisShip.ObstaclesLanded.Count > 0)
+        {
+            Game.UI.ShowError("Landed on obstacle");
+        }
 
         Phases.FinishSubPhase(typeof(SubPhases.MovementExecutionSubPhase));
 

@@ -85,11 +85,11 @@ public class ShipPositionManager : MonoBehaviour
         if (Physics.Raycast(ray, out hit)) {
             if (Phases.CurrentSubPhase.GetType() == typeof(SubPhases.SetupSubPhase))
             {
-                Selection.ThisShip.SetPosition(new Vector3(hit.point.x, 0.03f, hit.point.z));
+                Selection.ThisShip.SetPosition(new Vector3(hit.point.x, 0f, hit.point.z));
             }
             if (Phases.CurrentSubPhase.GetType() == typeof(SubPhases.BarrelRollSubPhase))
             {
-                ShipStand.transform.position = new Vector3(hit.point.x, 0.03f, hit.point.z);
+                ShipStand.transform.position = new Vector3(hit.point.x, 0f, hit.point.z);
             }
         }
 

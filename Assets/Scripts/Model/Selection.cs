@@ -104,7 +104,7 @@ public static class Selection {
         ThisShip.InfoPanel.transform.Find("ShipInfo").Find("ShipPilotNameText").GetComponent<Text>().color = Color.yellow;
         ThisShip.HighlightThisSelected();
         if (Phases.CurrentSubPhase.GetType() == typeof(SubPhases.CombatSubPhase)) Roster.HighlightShipsFiltered(Roster.AnotherPlayer(Phases.CurrentPhasePlayer));
-        Game.UI.CallContextMenu(ThisShip);
+        if (Roster.GetPlayer(Phases.CurrentPhasePlayer).GetType() == typeof(Players.HumanPlayer)) Game.UI.CallContextMenu(ThisShip);
     }
 
     public static void DeselectThisShip()
@@ -127,7 +127,7 @@ public static class Selection {
         AnotherShip = Roster.GetShipById(shipId);
         AnotherShip.InfoPanel.transform.Find("ShipInfo").Find("ShipPilotNameText").GetComponent<Text>().color = Color.red;
         AnotherShip.HighlightEnemySelected();
-        Game.UI.CallContextMenu(AnotherShip);
+        if (Roster.GetPlayer(Phases.CurrentPhasePlayer).GetType() == typeof(Players.HumanPlayer)) Game.UI.CallContextMenu(AnotherShip);
         return true;
     }
 

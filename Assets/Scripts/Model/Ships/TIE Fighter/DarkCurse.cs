@@ -8,16 +8,19 @@ namespace Ship
     {
         public class DarkCurse : TIEFighter
         {
-            public DarkCurse(Players.PlayerNo playerNo, int shipId, Vector3 position) : base(playerNo, shipId, position)
+            public DarkCurse() : base()
             {
                 PilotName = "\"Dark Curse\"";
                 ImageUrl = "https://vignette1.wikia.nocookie.net/xwing-miniatures/images/4/49/Dark_Curse.png";
                 isUnique = true;
                 PilotSkill = 6;
+            }
+
+            public override void InitializePilot()
+            {
+                base.InitializePilot();
                 OnAttack += AddDarkCursePilotAbility;
                 OnDefence += RemoveDarkCursePilotAbility;
-
-                InitializePilot();
             }
 
             public void AddDarkCursePilotAbility()

@@ -9,7 +9,7 @@ namespace Ship
         public class TIEFighter : GenericShip
         {
 
-            public TIEFighter(Players.PlayerNo playerNo, int shipId, Vector3 position) : base(playerNo, shipId, position)
+            public TIEFighter() : base()
             {
                 Type = "TIE Fighter";
                 ManeuversImageUrl = "https://vignette1.wikia.nocookie.net/xwing-miniatures/images/b/b6/TIE_Fighter_Move.png";
@@ -19,16 +19,19 @@ namespace Ship
                 MaxHull = 3;
                 MaxShields = 0;
 
-                BuiltInActions.Add(new ActionsList.FocusAction());
-                BuiltInActions.Add(new ActionsList.EvadeAction());
-                BuiltInActions.Add(new ActionsList.BarrelRollAction());
-
                 AssignTemporaryManeuvers();
                 HotacManeuverTable = new TIEFighterTable();
 
-                InitializeShip();
+                factions.Add(Faction.Empire);
+                faction = Faction.Empire;
             }
 
+            public override void InitializeShip()
+            {
+                base.InitializeShip();
+                BuiltInActions.Add(new ActionsList.EvadeAction());
+                BuiltInActions.Add(new ActionsList.BarrelRollAction());
+            }
 
             private void AssignTemporaryManeuvers()
             {

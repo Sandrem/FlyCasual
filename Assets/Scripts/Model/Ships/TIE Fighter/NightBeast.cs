@@ -8,16 +8,18 @@ namespace Ship
     {
         public class NightBeast : TIEFighter
         {
-            public NightBeast(Players.PlayerNo playerNo, int shipId, Vector3 position) : base(playerNo, shipId, position)
+            public NightBeast() : base()
             {
                 PilotName = "\"Night Beast\"";
                 ImageUrl = "https://vignette2.wikia.nocookie.net/xwing-miniatures/images/b/ba/Night_Beast.png";
                 isUnique = true;
                 PilotSkill = 5;
+            }
 
+            public override void InitializePilot()
+            {
+                base.InitializePilot();
                 OnMovementFinishWithoutColliding += NightBeastPilotAbility;
-
-                InitializePilot();
             }
 
             private void NightBeastPilotAbility(Ship.GenericShip ship)

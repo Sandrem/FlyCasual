@@ -8,17 +8,19 @@ namespace Ship
     {
         public class MaulerMithel : TIEFighter
         {
-            public MaulerMithel(Players.PlayerNo playerNo, int shipId, Vector3 position) : base(playerNo, shipId, position)
+            public MaulerMithel() : base()
             {
                 PilotName = "\"Mauler Mithel\"";
                 ImageUrl = "https://vignette2.wikia.nocookie.net/xwing-miniatures/images/e/e8/Mauler-mithel.png";
                 isUnique = true;
                 PilotSkill = 7;
                 AddUpgradeSlot(Upgrade.UpgradeSlot.Elite);
+            }
 
+            public override void InitializePilot()
+            {
+                base.InitializePilot();
                 AfterGotNumberOfPrimaryWeaponAttackDices += MaulerMithelPilotAbility;
-
-                InitializePilot();
             }
 
             private void MaulerMithelPilotAbility(ref int result)

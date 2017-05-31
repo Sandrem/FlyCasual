@@ -12,7 +12,7 @@ public static partial class Phases {
         Game.PrefabsList.PhasesPanel.transform.Find("PhaseText").GetComponent<Text>().text = Phases.CurrentPhase.Name;
         Game.PrefabsList.PhasesPanel.transform.Find("SubPhaseText").GetComponent<Text>().text = Phases.CurrentSubPhase.Name;
 
-        string playerText = "PLAYER: " + Phases.CurrentSubPhase.RequiredPlayer.ToString();
+        string playerText = "PLAYER: " + Tools.PlayerToInt(Phases.CurrentSubPhase.RequiredPlayer);
         string pilotSkillText = "PILOTS WITH SKILL: " + Phases.CurrentSubPhase.RequiredPilotSkill.ToString();
 
         if (Phases.CurrentPhase.GetType() == typeof(MainPhases.PlanningPhase))

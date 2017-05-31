@@ -8,16 +8,18 @@ namespace Ship
     {
         public class BiggsDarklighter : XWing
         {
-            public BiggsDarklighter(Players.PlayerNo playerNo, int shipId, Vector3 position) : base(playerNo, shipId, position)
+            public BiggsDarklighter() : base()
             {
                 PilotName = "Biggs Darklighter";
                 ImageUrl = "https://vignette3.wikia.nocookie.net/xwing-miniatures/images/9/90/Biggs-darklighter.png";
                 isUnique = true;
                 PilotSkill = 5;
+            }
 
+            public override void InitializePilot()
+            {
+                base.InitializePilot();
                 Actions.OnCheckTargetIsLegal += CanPerformAttack;
-
-                InitializePilot();
             }
 
             public void CanPerformAttack(ref bool result, Ship.GenericShip attacker, Ship.GenericShip defender)

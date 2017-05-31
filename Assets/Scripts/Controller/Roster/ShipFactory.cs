@@ -24,8 +24,13 @@ public static class ShipFactory {
         int id = 1;
         Vector3 position = Vector3.zero;
 
-        Ship.GenericShip newShipContainer = (Ship.GenericShip) System.Activator.CreateInstance(System.Type.GetType(shipConfig.PilotName), shipConfig.PlayerNo, id, position);
+        Ship.GenericShip newShipContainer = (Ship.GenericShip) System.Activator.CreateInstance(System.Type.GetType(shipConfig.PilotName));
+        newShipContainer.InitializeGenericShip(shipConfig.PlayerNo, id, position);
+        newShipContainer.InitializeShip();
+        newShipContainer.InitializePilot();
+
         newShipContainer.InfoPanel = Roster.CreateRosterInfo(newShipContainer);
+
         foreach (var upgrade in shipConfig.Upgrades)
         {
             newShipContainer.InstallUpgrade(upgrade);

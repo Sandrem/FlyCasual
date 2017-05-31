@@ -6,9 +6,9 @@ public class Global : MonoBehaviour {
 
     public static string test = "I am accessible from every scene";
 
-    private static List<ShipConfiguration> shipConfigurations;
+    private static List<ShipConfiguration> shipConfigurations = new List<ShipConfiguration>();
 
-    private static List<System.Type> playerTypes;
+    private static List<System.Type> playerTypes = new List<System.Type>();
 
     public static List<System.Type> PlayerTypes
     {
@@ -61,15 +61,25 @@ public class Global : MonoBehaviour {
 
     private static List<System.Type> GetPlayerTypes()
     {
-        List<System.Type> result = new List<System.Type>
+        if (playerTypes.Count != 0)
         {
-            typeof(Players.HumanPlayer),
-            typeof(Players.HumanPlayer)
-        };
-        return result;
+            return playerTypes;
+        }
+        else
+        {
+            List<System.Type> result = new List<System.Type>
+                {
+                    typeof(Players.HumanPlayer),
+                    typeof(Players.HotacAiPlayer)
+                };
+            return result;
+        }
     }
 
-
+    public static void AddPlayer(System.Type playerType)
+    {
+        playerTypes.Add(playerType);
+    }
 
 
 

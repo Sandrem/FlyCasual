@@ -1,19 +1,25 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Upgrade;
 
-namespace Upgrade
+namespace UpgradesList
 {
 
     public class R2D2 : GenericUpgrade
     {
 
-        public R2D2(Ship.GenericShip host) : base(host)
+        public R2D2() : base()
         {
             Type = UpgradeSlot.Astromech;
             Name = ShortName = "R2-D2";
             ImageUrl = "https://vignette2.wikia.nocookie.net/xwing-miniatures/images/5/57/R2-d2.png";
-            isUnique = true;
+            isUnique = true; 
+        }
+
+        public override void AttachToShip(Ship.GenericShip host)
+        {
+            base.AttachToShip(host);
 
             host.OnMovementFinish += R2D2RegenShield;
         }

@@ -9,7 +9,7 @@ namespace Ship
         public class XWing : GenericShip
         {
 
-            public XWing(Players.PlayerNo playerNo, int shipId, Vector3 position) : base(playerNo, shipId, position)
+            public XWing() : base()
             {
                 Type = "X-Wing";
                 ManeuversImageUrl = "https://vignette1.wikia.nocookie.net/xwing-miniatures/images/3/3d/MR_T65-X-WING.png";
@@ -19,20 +19,23 @@ namespace Ship
                 MaxHull = 3;
                 MaxShields = 2;
 
-                BuiltInActions.Add(new ActionsList.FocusAction());
-                BuiltInActions.Add(new ActionsList.TargetLockAction());
-
                 AddUpgradeSlot(Upgrade.UpgradeSlot.Astromech);
                 AddUpgradeSlot(Upgrade.UpgradeSlot.Torpedoes);
 
                 AssignTemporaryManeuvers();
 
+                factions.Add(Faction.Rebels);
+                faction = Faction.Rebels;
+
                 //Temporary
                 HotacManeuverTable = new TIEFighterTable();
-
-                InitializeShip();
             }
 
+            public override void InitializeShip()
+            {
+                base.InitializeShip();
+                BuiltInActions.Add(new ActionsList.TargetLockAction());
+            }
 
             private void AssignTemporaryManeuvers()
             {

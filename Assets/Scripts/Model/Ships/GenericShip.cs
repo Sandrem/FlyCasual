@@ -4,7 +4,6 @@ using UnityEngine;
 
 namespace Ship
 {
-
     //todo: move to movement
     public enum ManeuverColor
     {
@@ -16,7 +15,6 @@ namespace Ship
 
     public partial class GenericShip
     {
-
         protected GameManagerScript Game;
 
         public int ShipId { get; set; }
@@ -27,6 +25,9 @@ namespace Ship
         public bool IsDestroyed { get; set; }
         public bool IsBumped { get; set; }
         public bool isUnique = false;
+
+        public Faction faction;
+        public List<Faction> factions = new List<Faction>();
 
         public string Type { get; set; }
         public Vector3 StartingPosition { get; set; }
@@ -132,7 +133,12 @@ namespace Ship
         public event EventHandlerShipMovement AfterGetManeuverAvailablity;
         public event EventHandlerShipCrit OnAssignCrit;
 
-        public GenericShip(Players.PlayerNo playerNo, int shipId, Vector3 position)
+        public GenericShip()
+        {
+            AddUpgradeSlot(Upgrade.UpgradeSlot.Modification);
+        }
+
+        public void InitializeGenericShip(Players.PlayerNo playerNo, int shipId, Vector3 position)
         {
             Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
 
@@ -140,18 +146,18 @@ namespace Ship
             ShipId = shipId;
             StartingPosition = position;
 
-            AddUpgradeSlot(Upgrade.UpgradeSlot.Modification);
-        }
-
-        protected void InitializeShip()
-        {
-            Shields = MaxShields;
-            Hull = MaxHull;
+            BuiltInActions.Add(new ActionsList.FocusAction());
 
             CreateModel(StartingPosition);
         }
 
-        protected void InitializePilot()
+        public virtual void InitializeShip()
+        {
+            Shields = MaxShields;
+            Hull = MaxHull;
+        }
+
+        public virtual void InitializePilot()
         {
             SetShipInstertImage();
         }
@@ -374,11 +380,12 @@ namespace Ship
 
         public void InstallUpgrade(string upgradeName)
         {
-            Upgrade.GenericUpgrade newUpgrade = (Upgrade.GenericUpgrade)System.Activator.CreateInstance(System.Type.GetType(upgradeName), this);
+            Upgrade.GenericUpgrade newUpgrade = (Upgrade.GenericUpgrade)System.Activator.CreateInstance(System.Type.GetType(upgradeName));
 
             Upgrade.UpgradeSlot slot = newUpgrade.Type;
             if (HasFreeUpgradeSlot(slot))
             {
+                newUpgrade.AttachToShip(this);
                 InstalledUpgrades.Add(new KeyValuePair<Upgrade.UpgradeSlot, Upgrade.GenericUpgrade>(newUpgrade.Type, newUpgrade));
                 Roster.UpdateUpgradesPanel(this, this.InfoPanel);
             }

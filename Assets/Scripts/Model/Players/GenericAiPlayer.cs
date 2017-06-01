@@ -22,9 +22,9 @@ namespace Players
         {
             foreach (var shipHolder in Ships)
             {
-                //Temporary
-                Selection.ThisShip = shipHolder.Value;
-
+                Selection.ChangeActiveShip("ShipId:" + shipHolder.Value.ShipId);
+                //Selection.ThisShip = shipHolder.Value;
+                //Temporary stub
                 shipHolder.Value.AssignedManeuver = Game.Movement.ManeuverFromString("2.F.S");
             }
             Phases.Next();
@@ -36,8 +36,8 @@ namespace Players
             {
                 if (shipHolder.Value.PilotSkill == Phases.CurrentSubPhase.RequiredPilotSkill)
                 {
-                    
-                    Selection.ThisShip = shipHolder.Value;
+                    Selection.ChangeActiveShip("ShipId:" + shipHolder.Value.ShipId);
+                    //Selection.ThisShip = shipHolder.Value;
                     ActivateShip(shipHolder.Value);
                     break;
                 }
@@ -46,11 +46,13 @@ namespace Players
 
         public virtual void ActivateShip(Ship.GenericShip ship)
         {
+            Selection.ChangeActiveShip("ShipId:" + ship.ShipId);
             PerformManeuverOfShip(ship);
         }
 
         protected void PerformManeuverOfShip(Ship.GenericShip ship)
         {
+            Selection.ChangeActiveShip("ShipId:" + ship.ShipId);
             Game.Movement.PerformStoredManeuver();
         }
 
@@ -62,7 +64,6 @@ namespace Players
                 action.ActionTake();
                 Selection.ThisShip.AddAlreadyExecutedAction(action);
             }
-            //test
             Phases.FinishSubPhase(typeof(SubPhases.ActionSubPhase));
         }
 
@@ -82,7 +83,8 @@ namespace Players
             {
                 if (shipHolder.Value.PilotSkill == Phases.CurrentSubPhase.RequiredPilotSkill)
                 {
-                    Selection.ThisShip = shipHolder.Value;
+                    Selection.ChangeActiveShip("ShipId:" + shipHolder.Value.ShipId);
+                    //Selection.ThisShip = shipHolder.Value;
                     break;
                 }
             }
@@ -90,7 +92,8 @@ namespace Players
             bool attackPerformed = false;
             foreach (var shipHolder in Roster.GetPlayer(Roster.AnotherPlayer(PlayerNo)).Ships)
             {
-                Selection.AnotherShip = Roster.AllShips[shipHolder.Key];
+                Selection.TryToChangeAnotherShip("ShipId:" + Roster.AllShips[shipHolder.Key].ShipId);
+                //Selection.AnotherShip = Roster.AllShips[shipHolder.Key];
                 if (Actions.TargetIsLegal())
                 {
                     attackPerformed = true;

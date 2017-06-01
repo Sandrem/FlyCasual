@@ -2,6 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum Faction
+{
+    Rebels,
+    Empire
+}
+
 namespace Players
 {
     public enum PlayerNo

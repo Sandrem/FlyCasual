@@ -44,7 +44,13 @@ namespace Upgrade
         //public bool ShipTypeRestriction
         //public bool PilotLevelRestriction
 
-        public GenericUpgrade(Ship.GenericShip host) {
+        public GenericUpgrade()
+        {
+
+        }
+
+        public virtual void AttachToShip(Ship.GenericShip host)
+        {
             Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
             Host = host;
         }

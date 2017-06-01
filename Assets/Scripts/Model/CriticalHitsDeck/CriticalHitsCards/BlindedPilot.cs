@@ -15,6 +15,29 @@ namespace CriticalHitCard
         public override void ApplyEffect(Ship.GenericShip host)
         {
             Game.UI.ShowInfo("Cannot perform attack next time");
+            Game.UI.AddTestLogEntry("Cannot perform attack next time");
+
+            host.OnTryPerformAttack += OnTryPreformAttack;
+            host.AssignToken(new Tokens.BlindedPilotCritToken());
+
+            host.AfterAttackWindow += AfterAttackWindow;
+        }
+
+        private void OnTryPreformAttack(ref bool result)
+        {
+            Game.UI.ShowError("Blinded Pilot: Cannot perfom attack now");
+            result = false;
+        }
+
+        private void AfterAttackWindow(Ship.GenericShip host)
+        {
+            Game.UI.ShowInfo("Blinded Pilot: Crit is flipped, pilot can perfom attacks");
+            Game.UI.AddTestLogEntry("Blinded Pilot: Crit is flipped, pilot can perfom attacks");
+
+            host.OnTryPerformAttack -= OnTryPreformAttack;
+            host.RemoveToken(typeof(Tokens.BlindedPilotCritToken));
+
+            host.AfterAttackWindow -= AfterAttackWindow;
         }
     }
 

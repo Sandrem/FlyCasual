@@ -248,6 +248,7 @@ public static partial class Roster {
             GameObject tokenPanel = MonoBehaviour.Instantiate(Game.PrefabsList.PanelToken, thisShip.InfoPanel.transform.Find("ShipInfo").Find("TokensBar"));
             tokenPanel.GetComponent<RectTransform>().localPosition = Vector3.zero;
             tokenPanel.name = token.Name;
+            Tooltips.AddTooltip(tokenPanel, token.Tooltip);
             tokenPanel.transform.Find(token.Name).gameObject.SetActive(true);
 
             if (token.GetType().BaseType == typeof(Tokens.GenericTargetLockToken))

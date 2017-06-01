@@ -121,12 +121,14 @@ namespace Ship
         public event EventHandlerShip AfterAssignedDamageIsChanged;
         public event EventHandlerShip AfterStatsAreChanged;
         public event EventHandlerShip AfterAvailableActionListIsBuilt;
+        public event EventHandlerShip AfterAttackWindow;
         public event EventHandlerInt AfterGotNumberOfPrimaryWeaponAttackDices;
         public event EventHandlerInt AfterGotNumberOfPrimaryWeaponDefenceDices;
         public event EventHandlerInt AfterGetPilotSkill;
         public event EventHandlerInt AfterGetAgility;
         public event EventHandlerBool OnTrySpendFocus;
         public event EventHandlerBool OnTryReroll;
+        public event EventHandlerBool OnTryPerformAttack;
         public event EventHandlerActionBool OnTryPerformAction;
         public event EventHandlerActionEffectsList AfterGenerateDiceModifications;
         public event EventHandlerShipMovement AfterGetManeuverColor;
@@ -271,7 +273,9 @@ namespace Ship
                 {
                     if (dice.Side == DiceSide.Success)
                     {
-                        SufferHullDamage();
+                        //TEMPORARY
+                        CriticalHitsDeck.DrawCrit(this);
+                        //SufferHullDamage();
                     }
                     if (dice.Side == DiceSide.Crit)
                     {
@@ -433,6 +437,13 @@ namespace Ship
             bool result = true;
 
             if (OnTryPerformAction != null) OnTryPerformAction(action, ref result);
+
+            return result;
+        }
+
+        public bool CallTryPerformAttack(bool result = true)
+        {
+            if (OnTryPerformAttack != null) OnTryPerformAttack(ref result);
 
             return result;
         }
@@ -673,7 +684,10 @@ namespace Ship
             return result;
         }
 
-
+        public void CallAfterAttackWindow()
+        {
+            if (AfterAttackWindow != null) AfterAttackWindow(this);
+        }
     }
 
 }

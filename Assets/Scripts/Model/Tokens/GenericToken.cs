@@ -13,6 +13,7 @@ namespace Tokens
         public bool Temporary = true;
         public ActionsList.GenericAction Action = null;
         public int Count = 1;
+        public string Tooltip;
 
         public GenericToken() {
             Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();

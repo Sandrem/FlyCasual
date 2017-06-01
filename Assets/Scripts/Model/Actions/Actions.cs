@@ -195,7 +195,9 @@ public static partial class Actions {
 
 	public static bool TargetIsLegal() {
         bool result = true;
-        OnCheckTargetIsLegal(ref result, Selection.ThisShip, Selection.AnotherShip);
+        result = Selection.ThisShip.CallTryPerformAttack(result);
+        //Todo: move to ship
+        if (result) OnCheckTargetIsLegal(ref result, Selection.ThisShip, Selection.AnotherShip);
 		return result;
 	}
 

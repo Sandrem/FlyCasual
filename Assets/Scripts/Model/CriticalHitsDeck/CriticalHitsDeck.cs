@@ -22,7 +22,7 @@ public static class CriticalHitsDeck {
 
         for (int i = 0; i < 2; i++)
         {
-                //Deck.Add(new CriticalHitCard.BlindedPilot());
+            Deck.Add(new CriticalHitCard.BlindedPilot());
                 //Deck.Add(new CriticalHitCard.ConsoleFire());
             //Deck.Add(new CriticalHitCard.DamagedCockpit());
             //Deck.Add(new CriticalHitCard.DamagedEngine());

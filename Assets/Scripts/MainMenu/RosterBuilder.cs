@@ -12,6 +12,7 @@ public static class RosterBuilder {
 
     private static Dictionary<string, string> AllShips = new Dictionary<string, string>();
     private static Dictionary<string, string> AllPilots = new Dictionary<string, string>();
+    private static Dictionary<string, string> AllUpgrades = new Dictionary<string, string>();
 
     public static void Initialize()
     {
@@ -76,7 +77,7 @@ public static class RosterBuilder {
         Transform addShipPanel = GameObject.Find("Global").transform;
         foreach (Transform shipPanel in GameObject.Find("Canvas").transform.Find("Panel").Find("SquadBuilderPanel").Find("ShipsPanel").Find("Player" + Tools.PlayerToInt(playerNo) + "Ships"))
         {
-            if (shipPanel.Find("AddShipButton").gameObject.activeSelf)
+            if (shipPanel.Find("AddShipButton") != null)
             {
                 addShipPanel = shipPanel;
             }
@@ -139,6 +140,70 @@ public static class RosterBuilder {
         Dropdown pilotDropdown = panel.transform.Find("GroupPilot").Find("Dropdown").GetComponent<Dropdown>();
         pilotDropdown.ClearOptions();
         pilotDropdown.AddOptions(results);
+
+        SetAvailableUpgrades(panel, pilotDropdown.captionText.text);
+    }
+
+    private static void SetAvailableUpgrades(GameObject panel, string pilotName)
+    {
+        string pilotId = AllPilots[pilotName];
+        Ship.GenericShip ship = (Ship.GenericShip)System.Activator.CreateInstance(System.Type.GetType(pilotId));
+        foreach (var upgrade in ship.BuiltInSlots)
+        {
+            AddGroup(panel, upgrade.Key.ToString());
+        }
+    }
+
+    private static void AddGroup(GameObject panel, string upgradeId)
+    {
+        GameObject prefab = GameObject.Find("ScriptHolder").GetComponent<MainMenuScript>().UpgradeGroupPrefab;
+        Transform parent = panel.transform;
+
+        GameObject newPanel = MonoBehaviour.Instantiate(prefab, parent);
+        newPanel.transform.localPosition = Vector3.zero;
+        newPanel.name = "Upgrade" + upgradeId + "Panel";
+        newPanel.transform.Find("Text").GetComponent<Text>().text = upgradeId;
+
+        Type type = typeof(Upgrade.UpgradeSlot);
+        List<string> upgradeList = GetUpgrades((Upgrade.UpgradeSlot)Enum.Parse(type, upgradeId));
+        newPanel.transform.Find("Dropdown").GetComponent<Dropdown>().AddOptions(upgradeList);
+
+        OrganizePanelGroups(panel);
+    }
+
+    private static List<string> GetUpgrades(Upgrade.UpgradeSlot slot)
+    {
+        List<string> results = new List<string>();
+
+        List<Type> typelist = Assembly.GetExecutingAssembly().GetTypes()
+            .Where(t => String.Equals(t.Namespace, "UpgradesList", StringComparison.Ordinal))
+            .ToList();
+
+        foreach (var type in typelist)
+        {
+            Upgrade.GenericUpgrade newUpgrade = (Upgrade.GenericUpgrade)System.Activator.CreateInstance(type);
+            if (newUpgrade.Type == slot)
+            {
+                if (!AllUpgrades.ContainsKey(newUpgrade.Name)) AllUpgrades.Add(newUpgrade.Name, type.ToString());
+                results.Add(newUpgrade.Name);
+            }
+        }
+
+        return results;
+    }
+
+    private static void OrganizePanelGroups(GameObject panel)
+    {
+        float offset = 0;
+        foreach (Transform group in panel.transform)
+        {
+            if (group.name != "Panel")
+            {
+                group.localPosition = new Vector3(group.localPosition.x, offset, group.localPosition.z);
+                offset = offset - 30;
+            }
+        }
+        panel.GetComponent<RectTransform>().sizeDelta = new Vector2(panel.GetComponent<RectTransform>().sizeDelta.x, -offset + 10);
     }
 
     private static List<string> GetPilotsList(string shipName)
@@ -216,7 +281,21 @@ public static class RosterBuilder {
             string pilotNameFull = shipPanel.Find("GroupPilot").Find("Dropdown").GetComponent<Dropdown>().captionText.text;
             string pilotNameId = AllPilots[pilotNameFull];
 
-            Global.AddShip(pilotNameId, new List<string>(), playerNo);
+            List<string> upgradesList = new List<string>();
+
+            foreach (Transform upgradePanel in shipPanel.transform)
+            {
+                if (upgradePanel.name.StartsWith("Upgrade"))
+                {
+                    string upgradeName = upgradePanel.Find("Dropdown").GetComponent<Dropdown>().captionText.text;
+                    if (AllUpgrades.ContainsKey(upgradeName))
+                    {
+                        upgradesList.Add(AllUpgrades[upgradeName]);
+                    }
+                }
+            }
+
+            Global.AddShip(pilotNameId, upgradesList, playerNo);
         }
     }
 }

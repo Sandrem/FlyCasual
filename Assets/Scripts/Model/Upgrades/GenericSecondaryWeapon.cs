@@ -11,7 +11,7 @@ namespace Upgrade
         public int MaxRange;
         public int AttackValue;
 
-        public GenericSecondaryWeapon(Ship.GenericShip host) : base(host)
+        public GenericSecondaryWeapon() : base()
         {
 
         }

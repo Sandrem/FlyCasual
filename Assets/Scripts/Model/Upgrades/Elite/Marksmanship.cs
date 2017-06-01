@@ -1,30 +1,40 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Upgrade;
 
-namespace Upgrade
+namespace UpgradesList
 {
 
     public class Marksmanship : GenericUpgrade
     {
 
-        public Marksmanship(Ship.GenericShip host) : base(host)
+        public Marksmanship() : base()
         {
             Type = UpgradeSlot.Elite;
             Name = ShortName = "Marksmanship";
             ImageUrl = "https://vignette1.wikia.nocookie.net/xwing-miniatures/images/6/69/Marksmanship.png";
+        }
+
+        public override void AttachToShip(Ship.GenericShip host)
+        {
+            base.AttachToShip(host);
 
             host.AfterAvailableActionListIsBuilt += MarksmanshipAddAction;
         }
 
         private void MarksmanshipAddAction(Ship.GenericShip host)
         {
-            ActionsList.GenericAction newAction = new MarksmanshipAction();
+            ActionsList.GenericAction newAction = new ActionsList.MarksmanshipAction();
             newAction.ImageUrl = ImageUrl;
             host.AddAvailableAction(newAction);
         }
 
     }
+}
+
+namespace ActionsList
+{
 
     public class MarksmanshipAction : ActionsList.GenericAction
     {

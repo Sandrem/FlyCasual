@@ -1,13 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Upgrade;
 
-namespace Upgrade
+namespace UpgradesList
 {
 
     public class ProtonTorpedoes : GenericSecondaryWeapon
     {
-        public ProtonTorpedoes(Ship.GenericShip host) : base(host)
+        public ProtonTorpedoes() : base()
         {
             Type = UpgradeSlot.Torpedoes;
 
@@ -18,9 +19,13 @@ namespace Upgrade
             MinRange = 2;
             MaxRange = 3;
             AttackValue = 4;
+        }
 
-            //TODO: set host in constructor
-            ProtonTorpedoesAction action = new ProtonTorpedoesAction();
+        public override void AttachToShip(Ship.GenericShip host)
+        {
+            base.AttachToShip(host);
+
+            ActionsList.ProtonTorpedoesAction action = new ActionsList.ProtonTorpedoesAction();
             action.Host = host;
             action.ImageUrl = ImageUrl;
             action.AddDiceModification();
@@ -55,6 +60,11 @@ namespace Upgrade
         }
 
     }
+
+}
+
+namespace ActionsList
+{ 
 
     public class ProtonTorpedoesAction : ActionsList.GenericAction
     {

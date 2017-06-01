@@ -380,11 +380,12 @@ namespace Ship
 
         public void InstallUpgrade(string upgradeName)
         {
-            Upgrade.GenericUpgrade newUpgrade = (Upgrade.GenericUpgrade)System.Activator.CreateInstance(System.Type.GetType(upgradeName), this);
+            Upgrade.GenericUpgrade newUpgrade = (Upgrade.GenericUpgrade)System.Activator.CreateInstance(System.Type.GetType(upgradeName));
 
             Upgrade.UpgradeSlot slot = newUpgrade.Type;
             if (HasFreeUpgradeSlot(slot))
             {
+                newUpgrade.AttachToShip(this);
                 InstalledUpgrades.Add(new KeyValuePair<Upgrade.UpgradeSlot, Upgrade.GenericUpgrade>(newUpgrade.Type, newUpgrade));
                 Roster.UpdateUpgradesPanel(this, this.InfoPanel);
             }

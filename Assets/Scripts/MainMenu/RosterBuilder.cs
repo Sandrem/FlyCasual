@@ -140,8 +140,41 @@ public static class RosterBuilder {
         Dropdown pilotDropdown = panel.transform.Find("GroupPilot").Find("Dropdown").GetComponent<Dropdown>();
         pilotDropdown.ClearOptions();
         pilotDropdown.AddOptions(results);
+        pilotDropdown.onValueChanged.AddListener(delegate { UpdateUpgradePanels(panel); });
 
         SetAvailableUpgrades(panel, pilotDropdown.captionText.text);
+    }
+
+    private static void UpdateUpgradePanels(GameObject panel)
+    {
+        string pilotName = panel.transform.Find("GroupPilot").Find("Dropdown").GetComponent<Dropdown>().captionText.text;
+        string pilotId = AllPilots[pilotName];
+        Ship.GenericShip ship = (Ship.GenericShip)System.Activator.CreateInstance(System.Type.GetType(pilotId));
+
+        foreach (var slot in ship.BuiltInSlots)
+        {
+            if (panel.transform.Find("Upgrade" + slot.Key.ToString() + "Panel") == null)
+            {
+                AddGroup(panel, slot.Key.ToString());
+            }
+        }
+
+        List<GameObject> toRemove = new List<GameObject>();
+        foreach (Transform group in panel.transform)
+        {
+            if (group.name.StartsWith("Upgrade"))
+            {
+                Type type = typeof(Upgrade.UpgradeSlot);
+                string upgradeId = group.Find("Text").GetComponent<Text>().text;
+                Upgrade.UpgradeSlot slot = (Upgrade.UpgradeSlot)Enum.Parse(type, upgradeId);
+                if (!ship.BuiltInSlots.ContainsKey(slot)) toRemove.Add(group.gameObject);
+            }
+        }
+        foreach (var group in toRemove)
+        {
+            MonoBehaviour.DestroyImmediate(group);
+            OrganizePanelGroups(panel);
+        }
     }
 
     private static void SetAvailableUpgrades(GameObject panel, string pilotName)
@@ -204,6 +237,8 @@ public static class RosterBuilder {
             }
         }
         panel.GetComponent<RectTransform>().sizeDelta = new Vector2(panel.GetComponent<RectTransform>().sizeDelta.x, -offset + 10);
+
+        OrganizeAllShipsLists();
     }
 
     private static List<string> GetPilotsList(string shipName)
@@ -252,6 +287,7 @@ public static class RosterBuilder {
 
     private static void SetPlayerFactions()
     {
+        Global.RemoveAllFactions();
         Global.AddFaction(GetPlayerFaction(PlayerNo.Player1));
         Global.AddFaction(GetPlayerFaction(PlayerNo.Player2));
     }
@@ -271,6 +307,32 @@ public static class RosterBuilder {
     {
         GeneratePlayerShipConfigurations(PlayerNo.Player1);
         GeneratePlayerShipConfigurations(PlayerNo.Player2);
+    }
+
+    public static void PlayerFactonChange()
+    {
+        SetPlayerFactions();
+        CheckPlayerFactonChange(PlayerNo.Player1);
+        CheckPlayerFactonChange(PlayerNo.Player2);
+    }
+
+    private static void CheckPlayerFactonChange(PlayerNo playerNo)
+    {
+        Faction playerFaction = GetPlayerFaction(playerNo);
+
+        List<Transform> playerShips = new List<Transform>();
+        foreach (Transform shipPanel in GameObject.Find("Canvas").transform.Find("Panel").Find("SquadBuilderPanel").Find("ShipsPanel").Find("Player" + Tools.PlayerToInt(playerNo) + "Ships").transform)
+        {
+            playerShips.Add(shipPanel);
+        }
+
+        foreach (Transform shipPanel in playerShips)
+        {
+            if (shipPanel.name == "AddShipPanel") continue;
+            string pilotName = shipPanel.Find("GroupPilot").Find("Dropdown").GetComponent<Dropdown>().captionText.text;
+            Ship.GenericShip newPilot = (Ship.GenericShip)System.Activator.CreateInstance(System.Type.GetType(AllPilots[pilotName]));
+            if (newPilot.faction != playerFaction) RemoveShip(shipPanel.gameObject);
+        }
     }
 
     private static void GeneratePlayerShipConfigurations(PlayerNo playerNo)

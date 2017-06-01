@@ -64,4 +64,9 @@ public class MainMenuScript : MonoBehaviour {
         RosterBuilder.AddShip(PlayerNo.Player2);
     }
 
+    public void PlayerFactonChange()
+    {
+        RosterBuilder.PlayerFactonChange();
+    }
+
 }

@@ -98,6 +98,11 @@ public class Global : MonoBehaviour {
         playerTypes = new List<System.Type>();
     }
 
+    public static void RemoveAllFactions()
+    {
+        playerFactions = new List<Faction>();
+    }
+
     public static void AddPlayer(System.Type playerType)
     {
         playerTypes.Add(playerType);

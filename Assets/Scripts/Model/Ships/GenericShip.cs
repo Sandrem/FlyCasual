@@ -389,7 +389,6 @@ namespace Ship
                 InstalledUpgrades.Add(new KeyValuePair<Upgrade.UpgradeSlot, Upgrade.GenericUpgrade>(newUpgrade.Type, newUpgrade));
                 Roster.UpdateUpgradesPanel(this, this.InfoPanel);
             }
-
         }
 
         private bool HasFreeUpgradeSlot(Upgrade.UpgradeSlot slot)

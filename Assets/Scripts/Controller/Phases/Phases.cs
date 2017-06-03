@@ -56,6 +56,10 @@ public static partial class Phases
     public static void CallCombatPhaseTrigger()
     {
         if (OnCombatPhaseStart != null) OnCombatPhaseStart();
+        foreach (var shipHolder in Roster.AllShips)
+        {
+            shipHolder.Value.CallOnCombatPhaseStart();
+        }
     }
 
     public static void CallEndPhaseTrigger()

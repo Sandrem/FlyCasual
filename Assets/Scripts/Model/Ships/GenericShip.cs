@@ -122,6 +122,7 @@ namespace Ship
         public event EventHandlerShip AfterStatsAreChanged;
         public event EventHandlerShip AfterAvailableActionListIsBuilt;
         public event EventHandlerShip AfterAttackWindow;
+        public event EventHandlerShip OnCombatPhaseStart;
         public event EventHandlerInt AfterGotNumberOfPrimaryWeaponAttackDices;
         public event EventHandlerInt AfterGotNumberOfPrimaryWeaponDefenceDices;
         public event EventHandlerInt AfterGetPilotSkill;
@@ -287,6 +288,26 @@ namespace Ship
             AfterAssignedDamageIsChanged(this);
         }
 
+        public void SufferGenericDamage(int damage)
+        {
+
+            int shieldsBefore = Shields;
+
+            Shields = Mathf.Max(Shields - damage, 0);
+
+            damage = damage - (shieldsBefore - Shields);
+
+            if (damage != 0)
+            {
+                for (int i = 0; i < damage; i++)
+                {
+                    SufferHullDamage();
+                }
+            }
+
+            AfterAssignedDamageIsChanged(this);
+        }
+
         public void SufferHullDamage()
         {
             Hull--;
@@ -446,6 +467,11 @@ namespace Ship
             if (OnTryPerformAttack != null) OnTryPerformAttack(ref result);
 
             return result;
+        }
+
+        public void CallOnCombatPhaseStart()
+        {
+            if (OnCombatPhaseStart != null) OnCombatPhaseStart(this);
         }
 
         public List<ActionsList.GenericAction> GetAvailableActionsList()

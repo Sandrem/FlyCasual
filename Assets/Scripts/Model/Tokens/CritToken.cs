@@ -21,6 +21,14 @@ namespace Tokens
         }
     }
 
+    public class ConsoleFireCritToken : CritToken
+    {
+        public ConsoleFireCritToken() : base()
+        {
+            Tooltip = "http://i.imgur.com/RwtlPpG.jpg";
+        }
+    }
+
     public class DamagedCockpitCritToken : CritToken
     {
         public DamagedCockpitCritToken() : base()

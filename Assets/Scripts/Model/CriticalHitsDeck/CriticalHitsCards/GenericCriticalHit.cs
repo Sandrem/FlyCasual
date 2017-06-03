@@ -23,6 +23,7 @@ namespace CriticalHitCard
 
         public void AssignCrit(Ship.GenericShip host)
         {
+            this.host = host;
             Inform();
             ApplyEffect(host);
         }

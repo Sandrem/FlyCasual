@@ -130,6 +130,7 @@ namespace Ship
         public event EventHandlerBool OnTrySpendFocus;
         public event EventHandlerBool OnTryReroll;
         public event EventHandlerBool OnTryPerformAttack;
+        public event EventHandlerBool OnCheckFaceupCrit;
         public event EventHandlerActionBool OnTryPerformAction;
         public event EventHandlerActionEffectsList AfterGenerateDiceModifications;
         public event EventHandlerShipMovement AfterGetManeuverColor;
@@ -272,60 +273,27 @@ namespace Ship
             {
                 foreach (Dice dice in damage.DiceList)
                 {
-                    if (dice.Side == DiceSide.Success)
+                    if ((dice.Side == DiceSide.Success) || (dice.Side == DiceSide.Crit))
                     {
                         //TEMPORARY
                         CriticalHitsDeck.DrawCrit(this);
                         //SufferHullDamage();
                     }
-                    if (dice.Side == DiceSide.Crit)
-                    {
-                        CriticalHitsDeck.DrawCrit(this);
-                    }
                 }
             }
 
             AfterAssignedDamageIsChanged(this);
         }
 
-        public void SufferGenericDamage(int damage)
+        private bool CheckFaceupCrit(Dice dice)
         {
+            bool result = false;
 
-            int shieldsBefore = Shields;
+            if (dice.Side == DiceSide.Crit) result = true;
 
-            Shields = Mathf.Max(Shields - damage, 0);
+            if (OnCheckFaceupCrit != null) OnCheckFaceupCrit(ref result);
 
-            damage = damage - (shieldsBefore - Shields);
-
-            if (damage != 0)
-            {
-                for (int i = 0; i < damage; i++)
-                {
-                    CriticalHitsDeck.DrawCrit(this);
-                }
-            }
-
-            AfterAssignedDamageIsChanged(this);
-        }
-
-        public void SufferCrticalDamage(int damage)
-        {
-
-            int shieldsBefore = Shields;
-
-            Shields = Mathf.Max(Shields - damage, 0);
-
-            damage = damage - (shieldsBefore - Shields);
-
-            if (damage != 0)
-            {
-                for (int i = 0; i < damage; i++)
-                {
-                    SufferHullDamage();
-                }
-            }
-
-            AfterAssignedDamageIsChanged(this);
+            return result;
         }
 
         public void SufferHullDamage()

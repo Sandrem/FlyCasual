@@ -40,7 +40,10 @@ namespace CriticalHitCard
             {
                 Game.UI.ShowError("Major Explosion: Suffer 1 additional critical damage");
                 Game.UI.AddTestLogEntry("Major Explosion: Suffer 1 additional critical damage");
-                host.SufferGenericDamage(1);
+
+                DiceRoll damageRoll = new DiceRoll("attack", 0);
+                damageRoll.DiceList.Add(new Dice("attack", DiceSide.Crit));
+                host.SufferDamage(damageRoll);
             }
 
             Combat.ShowConfirmDiceResultsButton();

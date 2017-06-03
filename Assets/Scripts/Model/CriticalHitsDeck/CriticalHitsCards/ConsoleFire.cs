@@ -46,7 +46,7 @@ namespace CriticalHitCard
             {
                 Game.UI.ShowError("Console Fire: ship suffered damage");
                 Game.UI.AddTestLogEntry("Console Fire: ship suffered damage");
-                host.SufferGenericDamage(1);
+                host.SufferDamage(diceRoll);
             }
             
             Combat.ShowConfirmDiceResultsButton();

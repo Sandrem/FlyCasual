@@ -28,8 +28,8 @@ public static class CriticalHitsDeck {
             //  DONE    Deck.Add(new CriticalHitCard.DamagedEngine());
             //  DONE    Deck.Add(new CriticalHitCard.DamagedSensorArray());
             //  DONE    Deck.Add(new CriticalHitCard.LooseStabilizer());
-            Deck.Add(new CriticalHitCard.MajorExplosion());
-            //  (all crits +action)  Deck.Add(new CriticalHitCard.MajorHullBreach());
+            //  DONE    Deck.Add(new CriticalHitCard.MajorExplosion());
+            //  DONE    Deck.Add(new CriticalHitCard.MajorHullBreach());
             //  DONE    Deck.Add(new CriticalHitCard.ShakenPilot());
             //  DONE    Deck.Add(new CriticalHitCard.StructuralDamage());
             //  (on overlap after mov)  Deck.Add(new CriticalHitCard.StunnedPilot());

@@ -506,24 +506,22 @@ public class ShipMovementScript : MonoBehaviour {
 
     private void FinishCollidingWithSuccess()
     {
-        Selection.ThisShip.FinishMovingWithColliding();
+        Selection.ThisShip.FinishMovementWithColliding();
         CurrentMovementData.CollisionReverting = false;
         Selection.ThisShip.ApplyRotationHelpers();
         FinishMovement();
     }
 
-    private void FinishCollidingWithFailure() {
+    private void FinishCollidingWithFailure()
+    {
         //TODO: check work if ship cannot move at all
         CurrentMovementData = PreviousMovementData;
         RevertMove();
     }
 
-	private void FinishMovement() {
-
-        if (Selection.ThisShip.ObstaclesLanded.Count > 0)
-        {
-            Game.UI.ShowError("Landed on obstacle");
-        }
+	private void FinishMovement()
+    {
+        Selection.ThisShip.CheckLandedOnObstacle();
 
         Phases.FinishSubPhase(typeof(SubPhases.MovementExecutionSubPhase));
 
@@ -543,7 +541,8 @@ public class ShipMovementScript : MonoBehaviour {
         Phases.FinishSubPhase(typeof(SubPhases.ActivationSubPhase));
     }
 
-    private void RevertMove() {
+    private void RevertMove()
+    {
         CurrentMovementData.CollisionReverting = true;
         CurrentMovementData.AnimationSpeed = CurrentMovementData.AnimationSpeed / 5;
         CurrentMovementData.CurrentProgress = 0f;

@@ -33,6 +33,11 @@ public static partial class Phases
 
     //TRIGGERS
 
+    public static void CallRoundStartTrigger()
+    {
+        if (OnSetupPhaseStart != null) OnRoundStart();
+    }
+
     public static void CallSetupPhaseTrigger()
     {
         if (OnSetupPhaseStart != null) OnSetupPhaseStart();
@@ -51,6 +56,10 @@ public static partial class Phases
     public static void CallCombatPhaseTrigger()
     {
         if (OnCombatPhaseStart != null) OnCombatPhaseStart();
+        foreach (var shipHolder in Roster.AllShips)
+        {
+            shipHolder.Value.CallOnCombatPhaseStart();
+        }
     }
 
     public static void CallEndPhaseTrigger()

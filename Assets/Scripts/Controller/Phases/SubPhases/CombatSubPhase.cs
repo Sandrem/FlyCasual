@@ -23,6 +23,11 @@ namespace SubPhases
 
         public override void NextSubPhase()
         {
+            if (Selection.ThisShip != null)
+            {
+                Selection.ThisShip.CallAfterAttackWindow();
+            }
+
             Selection.DeselectAllShips();
 
             Dictionary<int, Players.PlayerNo> pilots = Roster.NextPilotSkillAndPlayerAfter(RequiredPilotSkill, RequiredPlayer, Sorting.Desc);

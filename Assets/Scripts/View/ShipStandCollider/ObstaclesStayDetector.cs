@@ -36,7 +36,10 @@ public class ObstaclesStayDetector: MonoBehaviour {
         {
             if (collisionInfo.name == "ShipStand")
             {
-                Game.Movement.CollidedWith = collisionInfo;
+                if (collisionInfo.tag != this.tag)
+                {
+                    Game.Movement.CollidedWith = collisionInfo;
+                }
             }
         }
     }

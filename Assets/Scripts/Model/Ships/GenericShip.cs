@@ -121,12 +121,17 @@ namespace Ship
         public event EventHandlerShip AfterAssignedDamageIsChanged;
         public event EventHandlerShip AfterStatsAreChanged;
         public event EventHandlerShip AfterAvailableActionListIsBuilt;
+        public event EventHandlerShip AfterAttackWindow;
+        public event EventHandlerShip OnCombatPhaseStart;
+        public event EventHandlerShip OnLandedOnObstacle;
         public event EventHandlerInt AfterGotNumberOfPrimaryWeaponAttackDices;
         public event EventHandlerInt AfterGotNumberOfPrimaryWeaponDefenceDices;
         public event EventHandlerInt AfterGetPilotSkill;
         public event EventHandlerInt AfterGetAgility;
         public event EventHandlerBool OnTrySpendFocus;
         public event EventHandlerBool OnTryReroll;
+        public event EventHandlerBool OnTryPerformAttack;
+        public event EventHandlerBool OnCheckFaceupCrit;
         public event EventHandlerActionBool OnTryPerformAction;
         public event EventHandlerActionEffectsList AfterGenerateDiceModifications;
         public event EventHandlerShipMovement AfterGetManeuverColor;
@@ -269,18 +274,27 @@ namespace Ship
             {
                 foreach (Dice dice in damage.DiceList)
                 {
-                    if (dice.Side == DiceSide.Success)
+                    if ((dice.Side == DiceSide.Success) || (dice.Side == DiceSide.Crit))
                     {
-                        SufferHullDamage();
-                    }
-                    if (dice.Side == DiceSide.Crit)
-                    {
+                        //TEMPORARY
                         CriticalHitsDeck.DrawCrit(this);
+                        //SufferHullDamage();
                     }
                 }
             }
 
             AfterAssignedDamageIsChanged(this);
+        }
+
+        private bool CheckFaceupCrit(Dice dice)
+        {
+            bool result = false;
+
+            if (dice.Side == DiceSide.Crit) result = true;
+
+            if (OnCheckFaceupCrit != null) OnCheckFaceupCrit(ref result);
+
+            return result;
         }
 
         public void SufferHullDamage()
@@ -353,7 +367,7 @@ namespace Ship
             OnPositionFinish(this);
         }
 
-        public void FinishMovingWithColliding()
+        public void FinishMovementWithColliding()
         {
             OnMovementFinishWithColliding(this);
         }
@@ -389,7 +403,6 @@ namespace Ship
                 InstalledUpgrades.Add(new KeyValuePair<Upgrade.UpgradeSlot, Upgrade.GenericUpgrade>(newUpgrade.Type, newUpgrade));
                 Roster.UpdateUpgradesPanel(this, this.InfoPanel);
             }
-
         }
 
         private bool HasFreeUpgradeSlot(Upgrade.UpgradeSlot slot)
@@ -436,6 +449,27 @@ namespace Ship
             if (OnTryPerformAction != null) OnTryPerformAction(action, ref result);
 
             return result;
+        }
+
+        public bool CallTryPerformAttack(bool result = true)
+        {
+            if (OnTryPerformAttack != null) OnTryPerformAttack(ref result);
+
+            return result;
+        }
+
+        public void CallOnCombatPhaseStart()
+        {
+            if (OnCombatPhaseStart != null) OnCombatPhaseStart(this);
+        }
+
+        public void CheckLandedOnObstacle()
+        {
+            if (ObstaclesLanded.Count > 0)
+            {
+                Game.UI.ShowError("Landed on obstacle");
+                if (OnLandedOnObstacle != null) OnLandedOnObstacle(this);
+            }
         }
 
         public List<ActionsList.GenericAction> GetAvailableActionsList()
@@ -674,7 +708,10 @@ namespace Ship
             return result;
         }
 
-
+        public void CallAfterAttackWindow()
+        {
+            if (AfterAttackWindow != null) AfterAttackWindow(this);
+        }
     }
 
 }

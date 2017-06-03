@@ -56,15 +56,15 @@ public class Global : MonoBehaviour {
                     new ShipConfiguration
                     (
                         "Ship.XWing.LukeSkywalker",
-                        new List<string>() { "Upgrade.R2D2", "Upgrade.Marksmanship", "Upgrade.ProtonTorpedoes" },
+                        new List<string>() { "UpgradesList.R2D2", "UpgradesList.Marksmanship", "UpgradesList.ProtonTorpedoes" },
                         PlayerNo.Player1
                     ),
-                    new ShipConfiguration
+                    /*new ShipConfiguration
                     (
                         "Ship.TIEFighter.MaulerMithel",
-                        new List<string>() { "Upgrade.Determination" },
+                        new List<string>() { "UpgradesList.Determination" },
                         PlayerNo.Player2
-                    ),
+                    ),*/
                     new ShipConfiguration
                     (
                         "Ship.TIEFighter.NightBeast",
@@ -87,7 +87,7 @@ public class Global : MonoBehaviour {
             List<System.Type> result = new List<System.Type>
                 {
                     typeof(Players.HumanPlayer),
-                    typeof(Players.HotacAiPlayer)
+                    typeof(Players.HumanPlayer)
                 };
             return result;
         }

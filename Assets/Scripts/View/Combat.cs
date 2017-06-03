@@ -10,9 +10,15 @@ public delegate void DiceModification();
 public static partial class Combat
 {
 
-    public static void ShowDiceResultMenu()
+    public static void ShowDiceResultMenu(UnityEngine.Events.UnityAction closeAction)
     {
+        Button closeButton = Game.PrefabsList.DiceResultsMenu.transform.Find("Confirm").GetComponent<Button>();
         Game.PrefabsList.DiceResultsMenu.SetActive(true);
+        closeButton.onClick.RemoveAllListeners();
+        closeButton.onClick.AddListener(closeAction);
+
+        //Set action to close button
+        //closeAction();
     }
 
     public static void ShowDiceModificationButtons()
@@ -31,12 +37,15 @@ public static partial class Combat
                 offset += 40;
             }
 
-            //TODO: Fix size of ActionEffect Menu
-
-            Game.PrefabsList.DiceResultsMenu.transform.Find("Confirm").gameObject.SetActive(true);
+            ShowConfirmDiceResultsButton();
         }
 
         Roster.GetPlayer(Selection.ActiveShip.Owner.PlayerNo).UseDiceModifications();
+    }
+
+    public static void ShowConfirmDiceResultsButton()
+    {
+        Game.PrefabsList.DiceResultsMenu.transform.Find("Confirm").gameObject.SetActive(true);
     }
 
     private static void CreateDiceModificationsButton(ActionsList.GenericAction actionEffect, Vector3 position)
@@ -68,30 +77,7 @@ public static partial class Combat
         Game.PrefabsList.DiceResultsMenu.transform.Find("Confirm").gameObject.SetActive(false);
     }
 
-    public static void ConfirmDiceResults()
-    {
-        HideDiceResultMenu();
-
-        if (AttackStep == CombatStep.Attack)
-        {
-            PerformDefence(Selection.ThisShip, Selection.AnotherShip);
-        }
-        else if ((AttackStep == CombatStep.Defence))
-        {
-            //TODO: Show compare results dialog
-            CalculateAttackResults(Selection.ThisShip, Selection.AnotherShip);
-
-            MovementTemplates.ReturnRangeRuler();
-
-            if (Roster.NoSamePlayerAndPilotSkillNotAttacked(Selection.ThisShip))
-            {
-                Phases.CurrentSubPhase.NextSubPhase();
-            }
-
-        }
-    }
-
-    private static void HideDiceResultMenu()
+    public static void HideDiceResultMenu()
     {
         Game.PrefabsList.DiceResultsMenu.SetActive(false);
         HideDiceModificationButtons();

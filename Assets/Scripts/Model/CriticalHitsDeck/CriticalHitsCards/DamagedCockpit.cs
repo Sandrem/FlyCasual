@@ -18,7 +18,13 @@ namespace CriticalHitCard
             Game.UI.ShowInfo("Pilot Skill is set to 0");
             Game.UI.AddTestLogEntry("Pilot Skill is set to 0");
 
+            Phases.OnRoundStart += ApplyDelayedEffect;
+        }
+
+        private void ApplyDelayedEffect()
+        {
             host.AfterGetPilotSkill += SetPilotSkill0;
+            host.AssignToken(new Tokens.DamagedCockpitCritToken());
             Roster.UpdateShipStats(host);
         }
 
@@ -27,12 +33,14 @@ namespace CriticalHitCard
             Game.UI.ShowInfo("Pilot Skill is restored");
             Game.UI.AddTestLogEntry("Pilot Skill is restored");
 
+            host.RemoveToken(typeof(Tokens.DamagedCockpitCritToken));
             host.AfterGetPilotSkill -= SetPilotSkill0;
             Roster.UpdateShipStats(host);
         }
 
         private void SetPilotSkill0(ref int value)
         {
+            //BUG: No activations at all
             value = 0;
         }
     }

@@ -301,6 +301,26 @@ namespace Ship
             {
                 for (int i = 0; i < damage; i++)
                 {
+                    CriticalHitsDeck.DrawCrit(this);
+                }
+            }
+
+            AfterAssignedDamageIsChanged(this);
+        }
+
+        public void SufferCrticalDamage(int damage)
+        {
+
+            int shieldsBefore = Shields;
+
+            Shields = Mathf.Max(Shields - damage, 0);
+
+            damage = damage - (shieldsBefore - Shields);
+
+            if (damage != 0)
+            {
+                for (int i = 0; i < damage; i++)
+                {
                     SufferHullDamage();
                 }
             }

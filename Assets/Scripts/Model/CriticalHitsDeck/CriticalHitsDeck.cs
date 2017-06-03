@@ -26,9 +26,9 @@ public static class CriticalHitsDeck {
             //  DONE    Deck.Add(new CriticalHitCard.ConsoleFire());
             //  DONE    Deck.Add(new CriticalHitCard.DamagedCockpit());
             //  DONE    Deck.Add(new CriticalHitCard.DamagedEngine());
-            Deck.Add(new CriticalHitCard.DamagedSensorArray());
+            //  DONE    Deck.Add(new CriticalHitCard.DamagedSensorArray());
             //  DONE    Deck.Add(new CriticalHitCard.LooseStabilizer());
-            //  (throw dice)    Deck.Add(new CriticalHitCard.MajorExplosion());
+            Deck.Add(new CriticalHitCard.MajorExplosion());
             //  (all crits +action)  Deck.Add(new CriticalHitCard.MajorHullBreach());
             //  DONE    Deck.Add(new CriticalHitCard.ShakenPilot());
             //  DONE    Deck.Add(new CriticalHitCard.StructuralDamage());

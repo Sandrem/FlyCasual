@@ -232,11 +232,6 @@ public class UI : MonoBehaviour {
         Actions.TryPerformAttack();
     }
 
-    public void ConfirmDiceResults()
-    {
-        Combat.ConfirmDiceResults();
-    }
-
     public void CloseActionsPanel()
     {
         Actions.CloseActionsPanel();

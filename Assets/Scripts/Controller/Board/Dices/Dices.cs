@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public delegate void DelegateDiceroll(DiceRoll diceRoll);
+
 public static class Dices {
 
     private static GameManagerScript Game;
@@ -32,19 +34,18 @@ public static class Dices {
         diceResultsOffset.Add(new Vector3(0.2f, 0, -0.2f));
     }
 	
-    public static void PlanWaitForResults(DiceRoll diceRoll)
+    public static void PlanWaitForResults(DiceRoll diceRoll, DelegateDiceroll callBack)
     {
-        Game.StartCoroutine(WaitForResults(diceRoll));
+        Game.StartCoroutine(WaitForResults(diceRoll, callBack));
     }
 
-    static IEnumerator WaitForResults(DiceRoll diceRoll)
+    static IEnumerator WaitForResults(DiceRoll diceRoll, DelegateDiceroll callBack)
     {
         yield return new WaitForSeconds(WAIT_FOR_DICE_SECONDS);
         //OrganizeDicePositions(diceRoll);
         diceRoll.CalculateWaitedResults();
-        if (Combat.AttackStep == CombatStep.Attack) Combat.DiceRollAttack = diceRoll;
-        if (Combat.AttackStep == CombatStep.Defence) Combat.DiceRollDefence = diceRoll;
-        Combat.ShowDiceModificationButtons();
+
+        callBack(diceRoll);
     }
 
     private static void OrganizeDicePositions(DiceRoll diceRoll)
@@ -52,10 +53,10 @@ public static class Dices {
         diceRoll.OrganizeDicePositions();
     }
 
-    public static void RerollDices(DiceRoll diceRoll, string results)
+    public static void RerollDices(DiceRoll diceRoll, string results, DelegateDiceroll callback)
     {
         diceRoll.Reroll(results);
-        Game.StartCoroutine(WaitForResults(diceRoll));
+        Game.StartCoroutine(WaitForResults(diceRoll, callback));
     }
 
     public static void ApplyFocus(DiceRoll diceRoll)

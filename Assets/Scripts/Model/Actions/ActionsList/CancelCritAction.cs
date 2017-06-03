@@ -34,8 +34,25 @@ namespace ActionsList
             }
             else
             {
-                //Throw dice for results
+                Combat.ShowDiceResultMenu(FinishAction);
+
+                DiceRoll DiceRollCheck;
+                DiceRollCheck = new DiceRoll("attack", 1);
+                DiceRollCheck.Roll();
+                DiceRollCheck.CalculateResults(CheckResults);
             }
+        }
+
+        private void CheckResults(DiceRoll diceRoll)
+        {
+            Combat.CurentDiceRoll = diceRoll;
+            if (CritCard.CancelDiceResults.Contains(diceRoll.DiceList[0].Side)) CritCard.DiscardEffect(host);
+            Combat.ShowConfirmDiceResultsButton();
+        }
+
+        private void FinishAction()
+        {
+            Combat.HideDiceResultMenu();
         }
 
     }

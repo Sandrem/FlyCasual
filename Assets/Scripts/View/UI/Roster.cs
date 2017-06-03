@@ -245,20 +245,23 @@ public static partial class Roster {
         float offset = 0;
         foreach (var token in thisShip.AssignedTokens)
         {
-            GameObject tokenPanel = MonoBehaviour.Instantiate(Game.PrefabsList.PanelToken, thisShip.InfoPanel.transform.Find("ShipInfo").Find("TokensBar"));
-            tokenPanel.GetComponent<RectTransform>().localPosition = Vector3.zero;
-            tokenPanel.name = token.Name;
-            Tooltips.AddTooltip(tokenPanel, token.Tooltip);
-            tokenPanel.transform.Find(token.Name).gameObject.SetActive(true);
-
-            if (token.GetType().BaseType == typeof(Tokens.GenericTargetLockToken))
+            for (int i = 0; i < token.Count; i++)
             {
-                tokenPanel.transform.Find(token.Name).Find("Letter").GetComponent<Text>().text = (token as Tokens.GenericTargetLockToken).Letter.ToString();
-            }
+                GameObject tokenPanel = MonoBehaviour.Instantiate(Game.PrefabsList.PanelToken, thisShip.InfoPanel.transform.Find("ShipInfo").Find("TokensBar"));
+                tokenPanel.GetComponent<RectTransform>().localPosition = Vector3.zero;
+                tokenPanel.name = token.Name;
+                Tooltips.AddTooltip(tokenPanel, token.Tooltip);
+                tokenPanel.transform.Find(token.Name).gameObject.SetActive(true);
 
-            tokenPanel.SetActive(true);
-            tokenPanel.GetComponent<RectTransform>().localPosition = new Vector3(offset, tokenPanel.GetComponent<RectTransform>().localPosition.y, tokenPanel.GetComponent<RectTransform>().localPosition.z);
-            offset += 32 + 3;
+                if (token.GetType().BaseType == typeof(Tokens.GenericTargetLockToken))
+                {
+                    tokenPanel.transform.Find(token.Name).Find("Letter").GetComponent<Text>().text = (token as Tokens.GenericTargetLockToken).Letter.ToString();
+                }
+
+                tokenPanel.SetActive(true);
+                tokenPanel.GetComponent<RectTransform>().localPosition = new Vector3(offset, tokenPanel.GetComponent<RectTransform>().localPosition.y, tokenPanel.GetComponent<RectTransform>().localPosition.z);
+                offset += 32 + 3;
+            }
         }
 
         OrganizeRosters();

@@ -51,13 +51,20 @@ public static partial class Combat
 
     private static void AttackDiceRoll()
     {
-        ShowDiceResultMenu();
+        ShowDiceResultMenu(ConfirmAttackDiceResults);
 
         DiceRoll DiceRollAttack;
         DiceRollAttack = new DiceRoll("attack", Attacker.GetNumberOfAttackDices(Defender));
         DiceRollAttack.Roll();
+
+        DiceRollAttack.CalculateResults(AfterAttackDiceRoll);
+    }
+
+    private static void AfterAttackDiceRoll(DiceRoll attackDiceRoll)
+    {
+        Combat.DiceRollAttack = attackDiceRoll;
         CurentDiceRoll = DiceRollAttack;
-        DiceRollAttack.CalculateResults();
+        ShowDiceModificationButtons();
     }
 
     public static void PerformDefence(Ship.GenericShip attacker, Ship.GenericShip defender)
@@ -78,11 +85,18 @@ public static partial class Combat
 
     private static void DefenceDiceRoll()
     {
-        ShowDiceResultMenu();
+        ShowDiceResultMenu(ConfirmDefenceDiceResults);
         DiceRoll DiceRollDefence = new DiceRoll("defence", Defender.GetNumberOfDefenceDices(Attacker));
         DiceRollDefence.Roll();
+        
+        DiceRollDefence.CalculateResults(AfterDefenceDiceRoll);
+    }
+
+    private static void AfterDefenceDiceRoll(DiceRoll defenceDiceRoll)
+    {
+        Combat.DiceRollDefence = defenceDiceRoll;
         CurentDiceRoll = DiceRollDefence;
-        DiceRollDefence.CalculateResults();
+        ShowDiceModificationButtons();
     }
 
     public static void CalculateAttackResults(Ship.GenericShip attacker, Ship.GenericShip defender)
@@ -109,6 +123,42 @@ public static partial class Combat
     public static void SelectWeapon(Upgrade.GenericSecondaryWeapon secondaryWeapon = null)
     {
         SecondaryWeapon = secondaryWeapon;
+    }
+
+    public static void ConfirmDiceResults()
+    {
+        switch (AttackStep)
+        {
+            case CombatStep.Attack:
+                ConfirmAttackDiceResults();
+                break;
+            case CombatStep.Defence:
+                ConfirmDefenceDiceResults();
+                break;
+        }
+    }
+
+    public static void ConfirmAttackDiceResults()
+    {
+        HideDiceResultMenu();
+
+        PerformDefence(Selection.ThisShip, Selection.AnotherShip);
+    }
+
+    public static void ConfirmDefenceDiceResults()
+    {
+        HideDiceResultMenu();
+
+        //TODO: Show compare results dialog
+        CalculateAttackResults(Selection.ThisShip, Selection.AnotherShip);
+
+        MovementTemplates.ReturnRangeRuler();
+
+        if (Roster.NoSamePlayerAndPilotSkillNotAttacked(Selection.ThisShip))
+        {
+            Phases.CurrentSubPhase.NextSubPhase();
+        }
+
     }
 
 }

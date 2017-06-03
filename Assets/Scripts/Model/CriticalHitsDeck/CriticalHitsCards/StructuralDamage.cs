@@ -24,7 +24,7 @@ namespace CriticalHitCard
             host.AfterGetAgility += ReduceAgility;
             Roster.UpdateShipStats(host);
 
-            host.AfterAvailableActionListIsBuilt -= AddCancelCritAction;
+            host.AfterAvailableActionListIsBuilt += AddCancelCritAction;
         }
 
         public override void DiscardEffect(Ship.GenericShip host)
@@ -35,6 +35,8 @@ namespace CriticalHitCard
 
             host.AfterGetAgility -= ReduceAgility;
             Roster.UpdateShipStats(host);
+
+            host.AfterAvailableActionListIsBuilt -= AddCancelCritAction;
         }
 
         private void ReduceAgility(ref int value)

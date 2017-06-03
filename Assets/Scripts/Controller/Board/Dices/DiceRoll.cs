@@ -142,9 +142,9 @@ public partial class DiceRoll
         }
     }
 
-    public void CalculateResults()
+    public void CalculateResults(DelegateDiceroll callBack)
     {
-        Dices.PlanWaitForResults(this);
+        Dices.PlanWaitForResults(this, callBack);
     }
 
     public void CalculateWaitedResults()

@@ -26,7 +26,7 @@ namespace Players
 
         public override void UseDiceModifications()
         {
-            Combat.ShowDiceResultMenu();
+            Combat.ShowDiceResultMenu(Combat.ConfirmDiceResults);
         }
 
     }

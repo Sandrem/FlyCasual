@@ -101,6 +101,14 @@ namespace Tokens
         }
     }
 
+    public class StunnedPilotCritToken : CritToken
+    {
+        public StunnedPilotCritToken() : base()
+        {
+            Tooltip = "http://i.imgur.com/2ULmZZX.jpg";
+        }
+    }
+
     public class WeaponsFailureCritToken : CritToken
     {
         public WeaponsFailureCritToken() : base()

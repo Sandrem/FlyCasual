@@ -123,6 +123,7 @@ namespace Ship
         public event EventHandlerShip AfterAvailableActionListIsBuilt;
         public event EventHandlerShip AfterAttackWindow;
         public event EventHandlerShip OnCombatPhaseStart;
+        public event EventHandlerShip OnLandedOnObstacle;
         public event EventHandlerInt AfterGotNumberOfPrimaryWeaponAttackDices;
         public event EventHandlerInt AfterGotNumberOfPrimaryWeaponDefenceDices;
         public event EventHandlerInt AfterGetPilotSkill;
@@ -366,7 +367,7 @@ namespace Ship
             OnPositionFinish(this);
         }
 
-        public void FinishMovingWithColliding()
+        public void FinishMovementWithColliding()
         {
             OnMovementFinishWithColliding(this);
         }
@@ -460,6 +461,15 @@ namespace Ship
         public void CallOnCombatPhaseStart()
         {
             if (OnCombatPhaseStart != null) OnCombatPhaseStart(this);
+        }
+
+        public void CheckLandedOnObstacle()
+        {
+            if (ObstaclesLanded.Count > 0)
+            {
+                Game.UI.ShowError("Landed on obstacle");
+                if (OnLandedOnObstacle != null) OnLandedOnObstacle(this);
+            }
         }
 
         public List<ActionsList.GenericAction> GetAvailableActionsList()

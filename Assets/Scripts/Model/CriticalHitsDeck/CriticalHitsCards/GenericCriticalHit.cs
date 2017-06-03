@@ -13,6 +13,8 @@ namespace CriticalHitCard
 
         public string Name;
         public CriticalCardType Type;
+        public List<DiceSide> CancelDiceResults = new List<DiceSide>();
+        public string ImageUrl;
 
         public GenericCriticalHit()
         {
@@ -40,6 +42,14 @@ namespace CriticalHitCard
         {
 
         }
+
+        protected void AddCancelCritAction(Ship.GenericShip ship)
+        {
+            ActionsList.CancelCritAction cancelCritAction = new ActionsList.CancelCritAction();
+            cancelCritAction.Initilize(this);
+            ship.AddAvailableAction(cancelCritAction);
+        }
+
     }
 
 }

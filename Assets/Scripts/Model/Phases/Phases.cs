@@ -29,6 +29,7 @@ public static partial class Phases
 
     //EVENTS
     public delegate void EventHandler();
+    public static event EventHandler OnRoundStart;
     public static event EventHandler OnSetupPhaseStart;
     public static event EventHandler OnPlanningPhaseStart;
     public static event EventHandler OnActivationPhaseStart;

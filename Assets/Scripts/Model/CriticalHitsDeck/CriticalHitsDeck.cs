@@ -17,24 +17,24 @@ public static class CriticalHitsDeck {
     {
         for (int i = 0; i < 3; i++) // Max should be 7
         {
-            //Deck.Add(new CriticalHitCard.DirectHit());
+            //  DONE    Deck.Add(new CriticalHitCard.DirectHit());
         }
 
         for (int i = 0; i < 2; i++)
         {
-            Deck.Add(new CriticalHitCard.BlindedPilot());
-                //Deck.Add(new CriticalHitCard.ConsoleFire());
-            //Deck.Add(new CriticalHitCard.DamagedCockpit());
-            //Deck.Add(new CriticalHitCard.DamagedEngine());
-                //Deck.Add(new CriticalHitCard.DamagedSensorArray());
-            //Deck.Add(new CriticalHitCard.LooseStabilizer());
-                //Deck.Add(new CriticalHitCard.MajorExplosion());
-                //Deck.Add(new CriticalHitCard.MajorHullBreach());
-            //Deck.Add(new CriticalHitCard.ShakenPilot());
-            //Deck.Add(new CriticalHitCard.StructuralDamage());
-                //Deck.Add(new CriticalHitCard.StunnedPilot());
-            //Deck.Add(new CriticalHitCard.ThrustControlFire());
-            //Deck.Add(new CriticalHitCard.WeaponsFailure());
+            //  DONE    Deck.Add(new CriticalHitCard.BlindedPilot());
+                //  (throw dice)  Deck.Add(new CriticalHitCard.ConsoleFire());
+            //  DONE    Deck.Add(new CriticalHitCard.DamagedCockpit());
+            //  DONE    Deck.Add(new CriticalHitCard.DamagedEngine());
+                //  (action types)  Deck.Add(new CriticalHitCard.DamagedSensorArray());
+            //  DONE    Deck.Add(new CriticalHitCard.LooseStabilizer());
+                //  (throw dice)    Deck.Add(new CriticalHitCard.MajorExplosion());
+                //  (all crits +action)  Deck.Add(new CriticalHitCard.MajorHullBreach());
+            //  DONE    Deck.Add(new CriticalHitCard.ShakenPilot());
+            Deck.Add(new CriticalHitCard.StructuralDamage());
+                //  (on overlap after mov)  Deck.Add(new CriticalHitCard.StunnedPilot());
+            //  DONE (no unflipped) Deck.Add(new CriticalHitCard.ThrustControlFire());
+            //  DONE    (+action +dice)  Deck.Add(new CriticalHitCard.WeaponsFailure());
         }
 
     }

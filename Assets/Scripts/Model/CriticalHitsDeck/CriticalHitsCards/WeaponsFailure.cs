@@ -17,6 +17,7 @@ namespace CriticalHitCard
         {
             Game.UI.ShowInfo("When attacking, roll 1 fewer attack die");
             Game.UI.AddTestLogEntry("When attacking, roll 1 fewer attack die");
+            host.AssignToken(new Tokens.WeaponsFailureCritToken());
 
             host.AfterGotNumberOfPrimaryWeaponAttackDices += ReduceNumberOfAttackDices;
         }
@@ -25,6 +26,7 @@ namespace CriticalHitCard
         {
             Game.UI.ShowInfo("Number of attack dices is restored");
             Game.UI.AddTestLogEntry("Number of attack dices is restored");
+            host.RemoveToken(typeof(Tokens.WeaponsFailureCritToken));
 
             host.AfterGetPilotSkill -= ReduceNumberOfAttackDices;
         }

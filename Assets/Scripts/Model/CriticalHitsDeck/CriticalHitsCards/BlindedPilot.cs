@@ -20,7 +20,7 @@ namespace CriticalHitCard
             host.OnTryPerformAttack += OnTryPreformAttack;
             host.AssignToken(new Tokens.BlindedPilotCritToken());
 
-            host.AfterAttackWindow += AfterAttackWindow;
+            host.AfterAttackWindow += DiscardEffect;
         }
 
         private void OnTryPreformAttack(ref bool result)
@@ -29,7 +29,7 @@ namespace CriticalHitCard
             result = false;
         }
 
-        private void AfterAttackWindow(Ship.GenericShip host)
+        public override void DiscardEffect(Ship.GenericShip host)
         {
             Game.UI.ShowInfo("Blinded Pilot: Crit is flipped, pilot can perfom attacks");
             Game.UI.AddTestLogEntry("Blinded Pilot: Crit is flipped, pilot can perfom attacks");
@@ -37,7 +37,7 @@ namespace CriticalHitCard
             host.OnTryPerformAttack -= OnTryPreformAttack;
             host.RemoveToken(typeof(Tokens.BlindedPilotCritToken));
 
-            host.AfterAttackWindow -= AfterAttackWindow;
+            host.AfterAttackWindow -= DiscardEffect;
         }
     }
 

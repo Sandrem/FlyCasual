@@ -11,6 +11,8 @@ namespace MainPhases
 
         public override void StartPhase()
         {
+            Phases.CallRoundStartTrigger();
+
             Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
 
             Name = "Planning Phase";
@@ -18,7 +20,7 @@ namespace MainPhases
             Phases.CurrentSubPhase = new PlanningSubPhase();
             Phases.CurrentSubPhase.StartSubPhase();
 
-            Phases.CallSetupPhaseTrigger();
+            Phases.CallPlanningPhaseTrigger();
         }
 
         public override void NextPhase()

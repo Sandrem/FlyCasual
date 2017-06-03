@@ -17,6 +17,7 @@ namespace CriticalHitCard
         {
             Game.UI.ShowInfo("Treat all turn maneuvers as red maneuvers");
             Game.UI.AddTestLogEntry("Treat all turn maneuvers as red maneuvers");
+            host.AssignToken(new Tokens.DamagedEngineCritToken());
 
             host.AfterGetManeuverColor += TurnManeuversAreRed;
         }
@@ -25,6 +26,7 @@ namespace CriticalHitCard
         {
             Game.UI.ShowInfo("Turn maneuvers regained normal colors");
             Game.UI.AddTestLogEntry("Turn maneuvers regained normal colors");
+            host.RemoveToken(typeof(Tokens.DamagedEngineCritToken));
 
             host.AfterGetManeuverColor -= TurnManeuversAreRed;
         }
@@ -33,7 +35,7 @@ namespace CriticalHitCard
         {
             if (movement.Bearing == ManeuverBearing.Turn)
             {
-                //Too many
+                //Too many notifications
                 //Game.UI.ShowInfo("Damaged Engine: Treat all turn maneuvers as red maneuvers");
                 //Game.UI.AddTestLogEntry("Damaged Engine: Treat all turn maneuvers as red maneuvers");
                 movement.ColorComplexity = Ship.ManeuverColor.Red;

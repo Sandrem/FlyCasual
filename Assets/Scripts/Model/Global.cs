@@ -59,12 +59,12 @@ public class Global : MonoBehaviour {
                         new List<string>() { "UpgradesList.R2D2", "UpgradesList.Marksmanship", "UpgradesList.ProtonTorpedoes" },
                         PlayerNo.Player1
                     ),
-                    new ShipConfiguration
+                    /*new ShipConfiguration
                     (
                         "Ship.TIEFighter.MaulerMithel",
                         new List<string>() { "UpgradesList.Determination" },
                         PlayerNo.Player2
-                    ),
+                    ),*/
                     new ShipConfiguration
                     (
                         "Ship.TIEFighter.NightBeast",

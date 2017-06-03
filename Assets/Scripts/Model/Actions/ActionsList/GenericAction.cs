@@ -13,6 +13,8 @@ namespace ActionsList
         public string EffectName;
         public string ImageUrl;
 
+        public bool IsCritCancelAction = false;
+
         public GenericAction() {
             Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
         }

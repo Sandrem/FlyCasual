@@ -17,12 +17,14 @@ namespace CriticalHitCard
         {
             Game.UI.ShowInfo("Additional hull damage");
             Game.UI.AddTestLogEntry("Additional hull damage");
+            host.AssignToken(new Tokens.DirectHitCritToken());
 
             host.SufferHullDamage();
         }
 
         public override void DiscardEffect(Ship.GenericShip host)
         {
+            host.RemoveToken(typeof(Tokens.DirectHitCritToken));
             if (host.TryRegenHull())
             {
                 Game.UI.ShowInfo("Restored additional hull damage");

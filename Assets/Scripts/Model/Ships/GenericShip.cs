@@ -20,6 +20,7 @@ namespace Ship
         public int ShipId { get; set; }
 
         public Movement AssignedManeuver { get; set; }
+        public bool IsSetupPerformed { get; set; }
         public bool IsManeuverPerformed { get; set; }
         public bool IsAttackPerformed { get; set; }
         public bool IsDestroyed { get; set; }

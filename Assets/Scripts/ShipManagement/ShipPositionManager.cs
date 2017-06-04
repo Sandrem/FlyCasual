@@ -210,12 +210,15 @@ public class ShipPositionManager : MonoBehaviour
 
         }
 
+        //TODO: Different for setup and Barrel Roll
         if (result) StopDrag();
+
         return result;
     }
 
     private void StopDrag()
     {
+        Selection.ThisShip.IsSetupPerformed = true;
         Selection.DeselectThisShip();
         Roster.SetRaycastTargets(true);
         Board.TurnOffStartingZones();

@@ -41,7 +41,7 @@ namespace SubPhases
 
         }
 
-        public virtual void Finish()
+        public virtual void FinishPhase()
         {
 
         }

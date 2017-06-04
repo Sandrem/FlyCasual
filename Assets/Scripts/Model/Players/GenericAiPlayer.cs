@@ -15,6 +15,16 @@ namespace Players
 
         public override void SetupShip()
         {
+            foreach (var shipHolder in Ships)
+            {
+                if (shipHolder.Value.PilotSkill == Phases.CurrentSubPhase.RequiredPilotSkill)
+                {
+                    int direction = (Phases.CurrentSubPhase.RequiredPlayer == PlayerNo.Player1) ? -1 : 1;
+                    shipHolder.Value.SetPosition(shipHolder.Value.GetPosition() + new Vector3(0, 0, direction * 1.2f));
+
+                    shipHolder.Value.IsSetupPerformed = true;
+                }
+            }
             Phases.Next();
         }
 

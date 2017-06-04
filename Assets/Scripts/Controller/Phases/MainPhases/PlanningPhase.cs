@@ -18,7 +18,7 @@ namespace MainPhases
             Name = "Planning Phase";
 
             Phases.CurrentSubPhase = new PlanningSubPhase();
-            Phases.CurrentSubPhase.StartSubPhase();
+            Phases.CurrentSubPhase.Start();
 
             Phases.CallPlanningPhaseTrigger();
         }

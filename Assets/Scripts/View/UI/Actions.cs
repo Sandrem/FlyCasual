@@ -50,7 +50,7 @@ public static partial class Actions {
         else
         {
             Game.UI.ShowError("Cannot perform any actions");
-            Phases.CurrentSubPhase.NextSubPhase();
+            Phases.CurrentSubPhase.Next();
         }
     }
 

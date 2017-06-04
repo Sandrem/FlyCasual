@@ -8,7 +8,7 @@ namespace SubPhases
     public class PlanningSubPhase : GenericSubPhase
     {
 
-        public override void StartSubPhase()
+        public override void Start()
         {
             Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
             Name = "Planning SubPhase";
@@ -23,7 +23,7 @@ namespace SubPhases
             Roster.GetPlayer(RequiredPlayer).AssignManeuver();
         }
 
-        public override void NextSubPhase()
+        public override void Next()
         {
             if (Roster.AllManuersAreAssigned(RequiredPlayer))
             {

@@ -8,7 +8,7 @@ namespace SubPhases
     public class ActionSubPhase : GenericSubPhase
     {
 
-        public override void StartSubPhase()
+        public override void Start()
         {
             Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
             Name = "Action SubPhase";
@@ -33,12 +33,12 @@ namespace SubPhases
                 Selection.ThisShip.IsBumped = false;
                 Game.UI.ShowError("Collision: Skips \"Perform Action\" step");
                 Game.UI.AddTestLogEntry("Collision: Skips \"Perform Action\" step");
-                NextSubPhase();
+                Next();
             }
             UpdateHelpInfo();
         }
 
-        public override void NextSubPhase()
+        public override void Next()
         {
             Dictionary<int, Players.PlayerNo> pilots = Roster.NextPilotSkillAndPlayerAfter(RequiredPilotSkill, RequiredPlayer, Sorting.Asc);
             foreach (var pilot in pilots)

@@ -8,21 +8,25 @@ namespace SubPhases
     public class SetupSubPhase : GenericSubPhase
     {
 
-        public override void StartSubPhase()
+        public override void Start()
         {
+            Debug.Log("Start");
             Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
             Name = "Setup SubPhase";
             Game.UI.AddTestLogEntry(Name);
-
-            RequiredPilotSkill = GetStartingPilotSkill();
-
-            Phases.CurrentSubPhase.NextSubPhase();
         }
 
-        public override void NextSubPhase()
+        public override void Initialize()
         {
-            //Selection.DeselectAllShips();
+            Debug.Log("Init");
+            RequiredPilotSkill = PILOTSKILL_MIN - 1;
+            Next();
+        }
 
+        public override void Next()
+        {
+            Debug.Log("Next");
+            //CHANGE
             Dictionary<int, Players.PlayerNo> pilots = Roster.NextPilotSkillAndPlayerAfter(RequiredPilotSkill, RequiredPlayer, Sorting.Asc);
             foreach (var pilot in pilots)
             {
@@ -34,8 +38,7 @@ namespace SubPhases
 
             if (pilots.Count == 0)
             {
-                Board.TurnOffStartingZones();
-                Phases.NextPhase();
+                Finish();
             } else
             {
                 //Board.HighlightStartingZones();
@@ -43,8 +46,13 @@ namespace SubPhases
                 Roster.GetPlayer(RequiredPlayer).SetupShip();
             }
 
-            
+        }
 
+        public override void Finish()
+        {
+            Debug.Log("Finish");
+            Board.TurnOffStartingZones();
+            Phases.NextPhase();
         }
 
     }

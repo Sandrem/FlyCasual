@@ -8,14 +8,14 @@ namespace SubPhases
     public class DiceRollSubPhase : GenericSubPhase
     {
 
-        public override void StartSubPhase()
+        public override void Start()
         {
             Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
             Name = "";
             isTemporary = true;
         }
 
-        public override void NextSubPhase()
+        public override void Next()
         {
             Phases.CurrentSubPhase = PreviousSubPhase;
             UpdateHelpInfo();

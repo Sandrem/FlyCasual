@@ -26,12 +26,22 @@ namespace SubPhases
         protected const int PILOTSKILL_MIN = 0;
         protected const int PILOTSKILL_MAX = 12;
 
-        public virtual void StartSubPhase()
+        public virtual void Start()
         {
             
         }
 
-        public virtual void NextSubPhase()
+        public virtual void Initialize()
+        {
+
+        }
+
+        public virtual void Next()
+        {
+
+        }
+
+        public virtual void Finish()
         {
 
         }
@@ -57,19 +67,22 @@ namespace SubPhases
             return result;
         }
 
+        //TODO: What is this?
         public virtual int CountActiveButtons(Ship.GenericShip ship)
         {
             int result = 0;
             return result;
         }
 
+        //TODO: What is this?
         public virtual void CallNextSubPhase()
         {
             Game.UI.HideTemporaryMenus();
             MovementTemplates.ReturnRangeRuler();
-            NextSubPhase();
+            Next();
         }
 
+        //TODO: What is this?
         public virtual int GetStartingPilotSkill()
         {
             return PILOTSKILL_MIN - 1;

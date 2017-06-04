@@ -8,7 +8,7 @@ namespace SubPhases
     public class KoiogranTurnSubPhase : GenericSubPhase
     {
 
-        public override void StartSubPhase()
+        public override void Start()
         {
             Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
             Name = "Koiogran Turn SubPhase";
@@ -19,7 +19,7 @@ namespace SubPhases
             Game.Position.StartKoiogranTurn();
         }
 
-        public override void NextSubPhase()
+        public override void Next()
         {
             Phases.CurrentSubPhase = PreviousSubPhase;
             Phases.Next();

@@ -8,7 +8,7 @@ namespace SubPhases
     public class CombatSubPhase : GenericSubPhase
     {
 
-        public override void StartSubPhase()
+        public override void Start()
         {
             Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
             Name = "Combat SubPhase";
@@ -18,10 +18,10 @@ namespace SubPhases
 
             Game.UI.AddTestLogEntry(Name);
 
-            NextSubPhase();
+            Next();
         }
 
-        public override void NextSubPhase()
+        public override void Next()
         {
             if (Selection.ThisShip != null)
             {

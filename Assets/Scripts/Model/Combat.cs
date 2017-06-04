@@ -156,7 +156,7 @@ public static partial class Combat
 
         if (Roster.NoSamePlayerAndPilotSkillNotAttacked(Selection.ThisShip))
         {
-            Phases.CurrentSubPhase.NextSubPhase();
+            Phases.CurrentSubPhase.Next();
         }
 
     }

@@ -18,7 +18,7 @@ public static partial class Phases
 
     public static void Next()
     {
-        CurrentSubPhase.NextSubPhase();
+        CurrentSubPhase.Next();
     }
 
     public static void NextPhase()
@@ -107,7 +107,7 @@ public static partial class Phases
         CurrentSubPhase.PreviousSubPhase = previousSubPhase;
         CurrentSubPhase.RequiredPlayer = previousSubPhase.RequiredPlayer;
         CurrentSubPhase.RequiredPilotSkill = previousSubPhase.RequiredPilotSkill;
-        CurrentSubPhase.StartSubPhase();
+        CurrentSubPhase.Start();
     }
 
 }

@@ -8,7 +8,7 @@ namespace SubPhases
     public class ActivationSubPhase : GenericSubPhase
     {
 
-        public override void StartSubPhase()
+        public override void Start()
         {
             Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
             Name = "Activation SubPhase";
@@ -27,13 +27,13 @@ namespace SubPhases
             Roster.GetPlayer(RequiredPlayer).PerformManeuver();
         }
 
-        public override void NextSubPhase()
+        public override void Next()
         {
             Phases.CurrentSubPhase = new ActionSubPhase();
             Phases.CurrentSubPhase.PreviousSubPhase = this;
             Phases.CurrentSubPhase.RequiredPilotSkill = RequiredPilotSkill;
             Phases.CurrentSubPhase.RequiredPlayer = RequiredPlayer;
-            Phases.CurrentSubPhase.StartSubPhase();
+            Phases.CurrentSubPhase.Start();
         }
 
         public override bool ThisShipCanBeSelected(Ship.GenericShip ship)

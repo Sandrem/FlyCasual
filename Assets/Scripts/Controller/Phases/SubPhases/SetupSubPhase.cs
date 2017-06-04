@@ -41,7 +41,6 @@ namespace SubPhases
             if (success)
             {
                 UpdateHelpInfo();
-
                 HighlightShips();
                 Roster.GetPlayer(RequiredPlayer).SetupShip();
             }

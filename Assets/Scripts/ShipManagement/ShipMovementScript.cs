@@ -523,24 +523,19 @@ public class ShipMovementScript : MonoBehaviour {
     {
         Selection.ThisShip.CheckLandedOnObstacle();
 
-        //Phases.FinishSubPhase(typeof(SubPhases.MovementExecutionSubPhase));
-
-        PreviousMovementData = new MovementExecutionData();
-
         Selection.ThisShip.FinishMoving();
         Selection.ThisShip.FinishPosition();
 
         CurrentMovementData.IsMoving = false;
         Selection.ThisShip.ResetRotationHelpers();
-        
+
         Selection.ThisShip.IsManeuverPerformed = true;
         Selection.ThisShip.IsAttackPerformed = false;
 
+        Phases.FinishSubPhase(typeof(SubPhases.MovementExecutionSubPhase));
+
+        PreviousMovementData = new MovementExecutionData();
         Selection.ThisShip.AssignedManeuver = null;
-
-        Phases.Next();
-
-        //Phases.FinishSubPhase(typeof(SubPhases.ActivationSubPhase));
     }
     
     private void RevertMove()

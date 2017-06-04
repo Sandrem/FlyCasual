@@ -20,12 +20,18 @@ namespace SubPhases
 
         public override void Next()
         {
-            Debug.Log("Move: Next");
-            GenericSubPhase actionSubPhase = new ActionSubPhase();
-            actionSubPhase.PreviousSubPhase = Phases.CurrentSubPhase;
-            Phases.CurrentSubPhase = actionSubPhase;
-            Phases.CurrentSubPhase.Start();
-            Phases.CurrentSubPhase.Initialize();
+            Debug.Log("So, movement is finished...");
+
+            Debug.Log("Move: Next?");
+            if (Phases.CurrentSubPhase.GetType() == this.GetType())
+            {
+                Debug.Log("Move: Next");
+                GenericSubPhase actionSubPhase = new ActionSubPhase();
+                actionSubPhase.PreviousSubPhase = Phases.CurrentSubPhase;
+                Phases.CurrentSubPhase = actionSubPhase;
+                Phases.CurrentSubPhase.Start();
+                Phases.CurrentSubPhase.Initialize();
+            }
         }
 
         public override bool ThisShipCanBeSelected(Ship.GenericShip ship)

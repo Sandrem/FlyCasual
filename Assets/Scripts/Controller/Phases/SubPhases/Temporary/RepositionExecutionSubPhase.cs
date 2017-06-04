@@ -5,39 +5,34 @@ using UnityEngine;
 namespace SubPhases
 {
 
-    public class FreeActionSubPhase : GenericSubPhase
+    public class RepositionExecutionSubPhase : GenericSubPhase
     {
 
         public override void Start()
         {
-            Debug.Log("Free Action: Start");
+            Debug.Log("BR: Start");
             Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-            Name = "Free Action SubPhase";
+            Name = "Barrel Roll";
             isTemporary = true;
-            Game.UI.AddTestLogEntry(Name);
+            RequiredPilotSkill = PreviousSubPhase.RequiredPilotSkill;
+            RequiredPlayer = PreviousSubPhase.RequiredPlayer;
             UpdateHelpInfo();
         }
 
         public override void Next()
         {
-            Debug.Log("Free Action: Next");
             Phases.CurrentSubPhase = PreviousSubPhase;
-            Phases.Next();
-            Phases.FinishSubPhase(typeof(ActivationSubPhase));
-            UpdateHelpInfo();
         }
 
         public override bool ThisShipCanBeSelected(Ship.GenericShip ship)
         {
             bool result = false;
-            Game.UI.ShowError("Ship cannot be selected: Perform action first");
             return result;
         }
 
         public override bool AnotherShipCanBeSelected(Ship.GenericShip anotherShip)
         {
             bool result = false;
-            Game.UI.ShowError("Ship cannot be selected: Perform action first");
             return result;
         }
 

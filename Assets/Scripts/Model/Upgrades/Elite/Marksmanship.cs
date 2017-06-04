@@ -50,6 +50,7 @@ namespace ActionsList
             host = Selection.ThisShip;
             host.AfterGenerateDiceModifications += MarksmanshipAddDiceModification;
             Phases.OnEndPhaseStart += MarksmanshipUnSubscribeToFiceModification;
+            Phases.Next();
         }
 
         private void MarksmanshipAddDiceModification(ref List<ActionsList.GenericAction> list)

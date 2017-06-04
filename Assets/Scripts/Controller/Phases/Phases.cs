@@ -99,6 +99,11 @@ public static partial class Phases
         StartTemporarySubPhase(name, new MovementExecutionSubPhase());
     }
 
+    public static void StartRepositionExecutionSubPhase(string name)
+    {
+        StartTemporarySubPhase(name, new RepositionExecutionSubPhase());
+    }
+
     private static void StartTemporarySubPhase(string name, GenericSubPhase subPhase)
     {
         GenericSubPhase previousSubPhase = CurrentSubPhase;

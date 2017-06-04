@@ -235,6 +235,7 @@ public class UI : MonoBehaviour {
     public void CloseActionsPanel()
     {
         Actions.CloseActionsPanel();
+        Phases.Next();
     }
 
     public void ShowNextButton()

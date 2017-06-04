@@ -71,10 +71,9 @@ namespace Players
             if (Selection.ThisShip.GetAvailableActionsList().Count > 0)
             {
                 ActionsList.GenericAction action = Selection.ThisShip.GetAvailableActionsList()[0];
-                action.ActionTake();
                 Selection.ThisShip.AddAlreadyExecutedAction(action);
+                action.ActionTake();
             }
-            Phases.FinishSubPhase(typeof(SubPhases.ActionSubPhase));
         }
 
         public override void PerformFreeAction()

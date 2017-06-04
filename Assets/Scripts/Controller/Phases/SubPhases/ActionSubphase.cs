@@ -22,6 +22,8 @@ namespace SubPhases
         public override void Initialize()
         {
             Debug.Log("Action: Init");
+
+            //BUG: Error During BarrelRoll
             if (!Selection.ThisShip.IsBumped)
             {
                 if (!Selection.ThisShip.IsDestroyed)

@@ -22,7 +22,8 @@ namespace CriticalHitCard
 
         private void RollForDamage(Ship.GenericShip host)
         {
-            //TODO: StartSubhase
+            //BUG: If few these crits in the same time
+            Phases.StartDiceRollSubPhase("Major Explosion");
 
             Combat.ShowDiceResultMenu(CloseWindow);
 
@@ -51,8 +52,9 @@ namespace CriticalHitCard
 
         private void CloseWindow()
         {
-            //TODO: EndSubhase
+            Phases.FinishSubPhase(typeof(SubPhases.DiceRollSubPhase));
             Combat.HideDiceResultMenu();
+            Phases.Next();
         }
 
     }

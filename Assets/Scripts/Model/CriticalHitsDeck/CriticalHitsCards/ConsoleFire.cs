@@ -28,7 +28,7 @@ namespace CriticalHitCard
 
         private void RollForDamage(Ship.GenericShip host)
         {
-            //TODO: StartSubhase
+            Phases.StartDiceRollSubPhase("Console Fire");
 
             Combat.ShowDiceResultMenu(CloseWindow);
 
@@ -54,8 +54,9 @@ namespace CriticalHitCard
 
         private void CloseWindow()
         {
-            //TODO: EndSubhase
+            Phases.FinishSubPhase(typeof(SubPhases.DiceRollSubPhase));
             Combat.HideDiceResultMenu();
+            Phases.Next();
         }
 
         public override void DiscardEffect(Ship.GenericShip host)

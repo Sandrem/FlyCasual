@@ -89,6 +89,11 @@ public static partial class Phases
         StartTemporarySubPhase(name, new KoiogranTurnSubPhase());
     }
 
+    public static void StartDiceRollSubPhase(string name)
+    {
+        StartTemporarySubPhase(name, new DiceRollSubPhase());
+    }
+
     public static void StartMovementExecutionSubPhase(string name)
     {
         StartTemporarySubPhase(name, new MovementExecutionSubPhase());

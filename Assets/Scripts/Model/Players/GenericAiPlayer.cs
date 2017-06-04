@@ -33,8 +33,7 @@ namespace Players
             foreach (var shipHolder in Ships)
             {
                 Selection.ChangeActiveShip("ShipId:" + shipHolder.Value.ShipId);
-                //Selection.ThisShip = shipHolder.Value;
-                //Temporary stub
+                Selection.ThisShip.IsManeuverPerformed = false;
                 shipHolder.Value.AssignedManeuver = Game.Movement.ManeuverFromString("2.F.S");
             }
             Phases.Next();

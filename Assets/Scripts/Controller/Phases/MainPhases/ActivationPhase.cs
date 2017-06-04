@@ -17,6 +17,7 @@ namespace MainPhases
 
             Phases.CurrentSubPhase = new ActivationSubPhase();
             Phases.CurrentSubPhase.Start();
+            Phases.CurrentSubPhase.Initialize();
 
             Phases.CallActivationPhaseTrigger();
         }

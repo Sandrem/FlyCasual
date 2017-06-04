@@ -10,15 +10,22 @@ namespace SubPhases
 
         public override void Start()
         {
+            Debug.Log("Move: Start");
             Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-            Name = "";
-            isTemporary = true;
+            Name = "Movement";
+            RequiredPilotSkill = PreviousSubPhase.RequiredPilotSkill;
+            RequiredPlayer = PreviousSubPhase.RequiredPlayer;
+            UpdateHelpInfo();
         }
 
         public override void Next()
         {
-            Phases.CurrentSubPhase = PreviousSubPhase;
-            UpdateHelpInfo();
+            Debug.Log("Move: Next");
+            GenericSubPhase actionSubPhase = new ActionSubPhase();
+            actionSubPhase.PreviousSubPhase = Phases.CurrentSubPhase;
+            Phases.CurrentSubPhase = actionSubPhase;
+            Phases.CurrentSubPhase.Start();
+            Phases.CurrentSubPhase.Initialize();
         }
 
         public override bool ThisShipCanBeSelected(Ship.GenericShip ship)

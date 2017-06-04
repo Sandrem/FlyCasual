@@ -32,10 +32,10 @@ public static partial class Actions {
             newButton.GetComponent<RectTransform>().localPosition = defaultPosition + new Vector3(0, -offset, 0);
             offset += 40;
             newButton.GetComponent<Button>().onClick.AddListener(delegate {
-                action.ActionTake();
-                Selection.ThisShip.AddAlreadyExecutedAction(action);
                 Tooltips.EndTooltip();
                 CloseActionsPanel();
+                Selection.ThisShip.AddAlreadyExecutedAction(action);
+                action.ActionTake();
             });
             Tooltips.AddTooltip(newButton, action.ImageUrl);
             newButton.GetComponent<Button>().interactable = true;
@@ -69,10 +69,10 @@ public static partial class Actions {
     {
         Game.PrefabsList.PanelActions.SetActive(false);
         //Rework: This needs go next only if this is single-state action
-        if (!(Phases.CurrentSubPhase.GetType() == typeof(SubPhases.SelectTargetSubPhase)) && !(Phases.CurrentSubPhase.GetType() == typeof(SubPhases.BarrelRollSubPhase)))
+        /*if (!(Phases.CurrentSubPhase.GetType() == typeof(SubPhases.SelectTargetSubPhase)) && !(Phases.CurrentSubPhase.GetType() == typeof(SubPhases.BarrelRollSubPhase)))
         {
             Phases.Next();
-        }
+        }*/
     }
 
 }

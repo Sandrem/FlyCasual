@@ -10,13 +10,20 @@ namespace SubPhases
 
         public override void Start()
         {
+            Debug.Log("Action: Start");
             Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
             Name = "Action SubPhase";
+            RequiredPilotSkill = PreviousSubPhase.RequiredPilotSkill;
+            RequiredPlayer = PreviousSubPhase.RequiredPlayer;
             Game.UI.AddTestLogEntry(Name);
+            UpdateHelpInfo();
+        }
 
+        public override void Initialize()
+        {
+            Debug.Log("Action: Init");
             if (!Selection.ThisShip.IsBumped)
             {
-                //Todo: check if bumped
                 if (!Selection.ThisShip.IsDestroyed)
                 {
                     Selection.ThisShip.GenerateAvailableActionsList();
@@ -24,38 +31,34 @@ namespace SubPhases
                 }
                 else
                 {
-                    Phases.Next();
+                    FinishPhase();
                 }
-                
             }
             else
             {
                 Selection.ThisShip.IsBumped = false;
                 Game.UI.ShowError("Collision: Skips \"Perform Action\" step");
                 Game.UI.AddTestLogEntry("Collision: Skips \"Perform Action\" step");
-                Next();
+                FinishPhase();
             }
-            UpdateHelpInfo();
         }
 
         public override void Next()
         {
-            Dictionary<int, Players.PlayerNo> pilots = Roster.NextPilotSkillAndPlayerAfter(RequiredPilotSkill, RequiredPlayer, Sorting.Asc);
-            foreach (var pilot in pilots)
-            {
-                Phases.CurrentSubPhase = PreviousSubPhase;
-                Phases.CurrentSubPhase.RequiredPilotSkill = pilot.Key;
-                Phases.CurrentSubPhase.RequiredPlayer = pilot.Value;
+            Debug.Log("Action: Next");
 
-                UpdateHelpInfo();
-                Roster.HighlightShipsFiltered(Phases.CurrentSubPhase.RequiredPlayer, Phases.CurrentSubPhase.RequiredPilotSkill);
-                Roster.GetPlayer(Phases.CurrentSubPhase.RequiredPlayer).PerformManeuver();
-            }
+            GenericSubPhase activationSubPhase = new ActivationSubPhase();
+            Phases.CurrentSubPhase = activationSubPhase;
+            Phases.CurrentSubPhase.Start();
+            Phases.CurrentSubPhase.RequiredPilotSkill = RequiredPilotSkill;
+            Phases.CurrentSubPhase.RequiredPlayer = RequiredPlayer;
 
-            if (pilots.Count == 0)
-            {
-                Phases.CurrentPhase.NextPhase();
-            }
+            Phases.CurrentSubPhase.Next();
+        }
+
+        public override void FinishPhase()
+        {
+            Debug.Log("Action: Finish");
         }
 
         public override bool ThisShipCanBeSelected(Ship.GenericShip ship)

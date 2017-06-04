@@ -535,6 +535,8 @@ public class ShipMovementScript : MonoBehaviour {
         Phases.FinishSubPhase(typeof(SubPhases.MovementExecutionSubPhase));
 
         PreviousMovementData = new MovementExecutionData();
+        //BUG: After movement of third ship in AI-P-AI
+        //BUG: After movement of second ship in P-AI
         Selection.ThisShip.AssignedManeuver = null;
     }
     

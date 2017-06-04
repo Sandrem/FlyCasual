@@ -87,12 +87,12 @@ namespace Players
 
         public override void PerformAttack()
         {
-            foreach (var shipHolder in Roster.AllShips)
+            foreach (var shipHolder in Roster.GetPlayer(Phases.CurrentPhasePlayer).Ships)
             {
                 if (shipHolder.Value.PilotSkill == Phases.CurrentSubPhase.RequiredPilotSkill)
                 {
-                    Selection.ChangeActiveShip("ShipId:" + shipHolder.Value.ShipId);
-                    //Selection.ThisShip = shipHolder.Value;
+                    //Selection.ChangeActiveShip("ShipId:" + shipHolder.Value.ShipId);
+                    Selection.ThisShip = shipHolder.Value;
                     break;
                 }
             }
@@ -100,14 +100,21 @@ namespace Players
             bool attackPerformed = false;
             foreach (var shipHolder in Roster.GetPlayer(Roster.AnotherPlayer(PlayerNo)).Ships)
             {
-                Selection.TryToChangeAnotherShip("ShipId:" + Roster.AllShips[shipHolder.Key].ShipId);
-                //Selection.AnotherShip = Roster.AllShips[shipHolder.Key];
-                if (Actions.TargetIsLegal())
-                {
-                    attackPerformed = true;
-                    Game.Wait(Actions.TryPerformAttack);
-                }
+                //Selection.TryToChangeAnotherShip("ShipId:" + Roster.AllShips[shipHolder.Key].ShipId);
+                Selection.AnotherShip = shipHolder.Value;
+
+                //Check legality - if yes
+                //{
+                //attackPerformed = true;
+                //wait
+                //select waepon
+                //perform attack
+                Selection.ThisShip.IsAttackPerformed = true;
+                //}
             }
+
+            Debug.Log("HERE WILL BE AI ATTACK!");
+
             if (!attackPerformed) Phases.Next();
 
         }

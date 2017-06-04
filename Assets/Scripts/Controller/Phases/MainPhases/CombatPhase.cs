@@ -16,7 +16,8 @@ namespace MainPhases
             Name = "Combat Phase";
 
             Phases.CurrentSubPhase = new CombatSubPhase();
-            Phases.CurrentSubPhase.StartSubPhase();
+            Phases.CurrentSubPhase.Start();
+            Phases.CurrentSubPhase.Initialize();
 
             Phases.CallCombatPhaseTrigger();
         }

@@ -210,24 +210,31 @@ public class ShipPositionManager : MonoBehaviour
 
         }
 
+        //TODO: Different for setup and Barrel Roll
         if (result) StopDrag();
+
         return result;
     }
 
     private void StopDrag()
     {
-        Selection.DeselectThisShip();
         Roster.SetRaycastTargets(true);
-        Board.TurnOffStartingZones();
         inReposition = false;
-        //Should I change subphase immediately?
+
+        if (Phases.CurrentSubPhase.GetType() == typeof(SubPhases.SetupSubPhase))
+        {
+            Selection.ThisShip.IsSetupPerformed = true;
+            Selection.DeselectThisShip();
+            Board.TurnOffStartingZones();
+        }
+
         Phases.Next();
     }
 
     private void StartBarrelRollAnimation(Ship.GenericShip ship)
     {
         RollingShip = Selection.ThisShip;
-        Phases.StartMovementExecutionSubPhase("");
+        Phases.StartRepositionExecutionSubPhase("");
         inBarrelRoll = true;
         progressCurrent = 0;
         progressTarget = Vector3.Distance(RollingShip.GetPosition(), ShipStand.transform.position);

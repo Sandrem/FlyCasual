@@ -21,6 +21,7 @@ namespace ActionsList
         public override void ActionTake()
         {
             Selection.ThisShip.AssignToken(new Tokens.FocusToken());
+            Phases.Next();
         }
 
     }

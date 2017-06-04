@@ -28,6 +28,7 @@ namespace ActionsList
         public override void ActionTake()
         {
             Selection.ThisShip.AssignToken(new Tokens.EvadeToken());
+            Phases.Next();
         }
 
     }

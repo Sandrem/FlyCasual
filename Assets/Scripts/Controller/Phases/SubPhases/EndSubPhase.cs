@@ -8,16 +8,16 @@ namespace SubPhases
     public class EndSubPhase : GenericSubPhase
     {
 
-        public override void StartSubPhase()
+        public override void Start()
         {
             Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
             Name = "End SubPhase";
             Game.UI.AddTestLogEntry(Name);
 
-            NextSubPhase();
+            Next();
         }
 
-        public override void NextSubPhase()
+        public override void Next()
         {
             Phases.CurrentPhase.NextPhase();
         }

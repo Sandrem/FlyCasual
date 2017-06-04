@@ -42,6 +42,7 @@ namespace ActionsList
                 DiceRollCheck.Roll();
                 DiceRollCheck.CalculateResults(CheckResults);
             }
+            Phases.Next();
         }
 
         private void CheckResults(DiceRoll diceRoll)

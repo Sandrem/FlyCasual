@@ -20,6 +20,7 @@ namespace Ship
         public int ShipId { get; set; }
 
         public Movement AssignedManeuver { get; set; }
+        public bool IsSetupPerformed { get; set; }
         public bool IsManeuverPerformed { get; set; }
         public bool IsAttackPerformed { get; set; }
         public bool IsDestroyed { get; set; }
@@ -177,6 +178,8 @@ namespace Ship
         public ManeuverColor GetLastManeuverColor()
         {
             ManeuverColor result = ManeuverColor.None;
+
+            //BUG: Movement of second AI in row
             result = AssignedManeuver.ColorComplexity;
             return result;
         }
@@ -407,6 +410,7 @@ namespace Ship
                 newUpgrade.AttachToShip(this);
                 InstalledUpgrades.Add(new KeyValuePair<Upgrade.UpgradeSlot, Upgrade.GenericUpgrade>(newUpgrade.Type, newUpgrade));
                 Roster.UpdateUpgradesPanel(this, this.InfoPanel);
+                Roster.OrganizeRosters();
             }
         }
 

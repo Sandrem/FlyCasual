@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 namespace SubPhases
 {
@@ -8,43 +9,134 @@ namespace SubPhases
     public class SetupSubPhase : GenericSubPhase
     {
 
-        public override void StartSubPhase()
+        public override void Start()
         {
             Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
             Name = "Setup SubPhase";
             Game.UI.AddTestLogEntry(Name);
-
-            RequiredPilotSkill = GetStartingPilotSkill();
-
-            Phases.CurrentSubPhase.NextSubPhase();
         }
 
-        public override void NextSubPhase()
+        public override void Initialize()
         {
-            //Selection.DeselectAllShips();
+            RequiredPilotSkill = PILOTSKILL_MIN - 1;
+            Next();
+        }
 
-            Dictionary<int, Players.PlayerNo> pilots = Roster.NextPilotSkillAndPlayerAfter(RequiredPilotSkill, RequiredPlayer, Sorting.Asc);
-            foreach (var pilot in pilots)
+        public override void Next()
+        {
+            bool success = GetNextActivation(RequiredPilotSkill);
+            if (!success)
             {
-                RequiredPilotSkill = pilot.Key;
-                RequiredPlayer = pilot.Value;
+                int nextPilotSkill = GetNextPilotSkill(RequiredPilotSkill);
+                if (nextPilotSkill != int.MinValue)
+                {
+                    success = GetNextActivation(nextPilotSkill);
+                }
+                else
+                {
+                    FinishPhase();
+                }
             }
 
-            UpdateHelpInfo();
-
-            if (pilots.Count == 0)
+            if (success)
             {
-                Board.TurnOffStartingZones();
-                Phases.NextPhase();
-            } else
-            {
-                //Board.HighlightStartingZones();
-                Roster.HighlightShipsFiltered(RequiredPlayer, RequiredPilotSkill);
+                UpdateHelpInfo();
+                HighlightShips();
                 Roster.GetPlayer(RequiredPlayer).SetupShip();
             }
+        }
 
-            
+        private bool GetNextActivation(int pilotSkill)
+        {
 
+            bool result = false;
+
+            var pilotSkillResults =
+                from n in Roster.AllShips
+                where n.Value.PilotSkill == pilotSkill
+                where n.Value.IsSetupPerformed == false
+                select n;
+
+            if (pilotSkillResults.Count() > 0)
+            {
+                RequiredPilotSkill = pilotSkill;
+
+                var playerNoResults =
+                    from n in pilotSkillResults
+                    where n.Value.Owner.PlayerNo == Phases.PlayerWithInitiative
+                    select n;
+
+                if (playerNoResults.Count() > 0)
+                {
+                    RequiredPlayer = Phases.PlayerWithInitiative;
+                }
+                else
+                {
+                    RequiredPlayer = Roster.AnotherPlayer(Phases.PlayerWithInitiative);
+                }
+
+                result = true;
+            }
+
+            return result;
+        }
+
+        private int GetNextPilotSkill(int pilotSkillMin)
+        {
+            int result = int.MinValue;
+
+            var ascPilotSkills =
+                from n in Roster.AllShips
+                where n.Value.PilotSkill > pilotSkillMin
+                orderby n.Value.PilotSkill
+                select n;
+
+            if (ascPilotSkills.Count() > 0)
+            {
+                result = ascPilotSkills.First().Value.PilotSkill;
+            }
+
+            return result;
+        }
+
+        public override void FinishPhase()
+        {
+            Board.TurnOffStartingZones();
+            Phases.NextPhase();
+        }
+
+        public override bool ThisShipCanBeSelected(Ship.GenericShip ship)
+        {
+            bool result = false;
+            if ((ship.Owner.PlayerNo == RequiredPlayer) && (ship.PilotSkill == RequiredPilotSkill))
+            {
+                if (ship.IsSetupPerformed == false)
+                {
+                    result = true;
+                }
+                else
+                {
+                    Game.UI.ShowError("Ship cannot be selected: Starting position is already set");
+                }
+            }
+            else
+            {
+                Game.UI.ShowError("Ship cannot be selected:\n Need " + Phases.CurrentSubPhase.RequiredPlayer + " and pilot skill " + Phases.CurrentSubPhase.RequiredPilotSkill);
+            }
+            return result;
+        }
+
+        private void HighlightShips()
+        {
+            Roster.AllShipsHighlightOff();
+            foreach (var ship in Roster.GetPlayer(RequiredPlayer).Ships)
+            {
+                if ((ship.Value.PilotSkill == RequiredPilotSkill) && (!ship.Value.IsSetupPerformed))
+                {
+                    ship.Value.HighlightCanBeSelectedOn();
+                    Roster.RosterPanelHighlightOn(ship.Value);
+                }
+            }
         }
 
     }

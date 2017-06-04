@@ -5,20 +5,23 @@ using UnityEngine;
 namespace SubPhases
 {
 
-    public class MovementExecutionSubPhase : GenericSubPhase
+    public class RepositionExecutionSubPhase : GenericSubPhase
     {
 
-        public override void StartSubPhase()
+        public override void Start()
         {
+            Debug.Log("BR: Start");
             Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-            Name = "";
+            Name = "Barrel Roll";
             isTemporary = true;
+            RequiredPilotSkill = PreviousSubPhase.RequiredPilotSkill;
+            RequiredPlayer = PreviousSubPhase.RequiredPlayer;
+            UpdateHelpInfo();
         }
 
-        public override void NextSubPhase()
+        public override void Next()
         {
             Phases.CurrentSubPhase = PreviousSubPhase;
-            UpdateHelpInfo();
         }
 
         public override bool ThisShipCanBeSelected(Ship.GenericShip ship)

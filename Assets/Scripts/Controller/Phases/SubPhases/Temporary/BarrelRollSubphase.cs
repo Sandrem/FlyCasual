@@ -8,8 +8,10 @@ namespace SubPhases
     public class BarrelRollSubPhase : GenericSubPhase
     {
 
-        public override void StartSubPhase()
+        public override void Start()
         {
+            Debug.Log("Barrel Roll: Start");
+
             Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
             Name = "Barrel Roll SubPhase";
             isTemporary = true;
@@ -19,10 +21,10 @@ namespace SubPhases
             Game.Position.StartBarrelRoll();
         }
 
-        public override void NextSubPhase()
+        public override void Next()
         {
             Phases.CurrentSubPhase = PreviousSubPhase;
-            Phases.CurrentSubPhase.NextSubPhase();
+            Phases.CurrentSubPhase.Next();
             UpdateHelpInfo();
         }
 

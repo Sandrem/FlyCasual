@@ -8,7 +8,7 @@ namespace SubPhases
     public class SelectTargetSubPhase : GenericSubPhase
     {
 
-        public override void StartSubPhase()
+        public override void Start()
         {
             Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
             isTemporary = true;
@@ -17,10 +17,10 @@ namespace SubPhases
             Roster.HighlightShipsFiltered(Roster.AnotherPlayer(Phases.CurrentPhasePlayer), -1);
         }
 
-        public override void NextSubPhase()
+        public override void Next()
         {
             Phases.CurrentSubPhase = PreviousSubPhase;
-            Phases.CurrentSubPhase.NextSubPhase();
+            Phases.CurrentSubPhase.Next();
             UpdateHelpInfo();
         }
 
@@ -46,7 +46,7 @@ namespace SubPhases
                     Actions.ShowActionsPanel();
                     return false;
                 }
-                NextSubPhase();
+                Next();
             }
             else
             {

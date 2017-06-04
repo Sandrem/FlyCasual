@@ -8,37 +8,47 @@ namespace SubPhases
     public class PlanningSubPhase : GenericSubPhase
     {
 
-        public override void StartSubPhase()
+        public override void Start()
         {
             Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
             Name = "Planning SubPhase";
-
-            RequiredPlayer = Phases.PlayerWithInitiative;
-            RequiredPilotSkill = GetStartingPilotSkill();
-
             Game.UI.AddTestLogEntry(Name);
+        }
+
+        public override void Initialize()
+        {
+            RequiredPlayer = Phases.PlayerWithInitiative;
+
+            //TODO: skip???
+            RequiredPilotSkill = PILOTSKILL_MIN - 1;
 
             UpdateHelpInfo();
-            Roster.HighlightShipsFiltered(RequiredPlayer);
+            HighlightShips();
             Roster.GetPlayer(RequiredPlayer).AssignManeuver();
         }
 
-        public override void NextSubPhase()
+        public override void Next()
         {
             if (Roster.AllManuersAreAssigned(RequiredPlayer))
             {
                 if (RequiredPlayer == Phases.PlayerWithInitiative)
                 {
-                    RequiredPlayer = AnotherPlayer(RequiredPlayer);
+                    RequiredPlayer = Roster.AnotherPlayer(RequiredPlayer);
+
                     UpdateHelpInfo();
-                    Roster.HighlightShipsFiltered(RequiredPlayer);
+                    HighlightShips();
                     Roster.GetPlayer(RequiredPlayer).AssignManeuver();
                 }
                 else
                 {
-                    Phases.CurrentPhase.NextPhase();
+                    FinishPhase();
                 }
             }
+        }
+
+        public override void FinishPhase()
+        {
+            Phases.CurrentPhase.NextPhase();
         }
 
         public override bool ThisShipCanBeSelected(Ship.GenericShip ship)
@@ -63,10 +73,14 @@ namespace SubPhases
             return result;
         }
 
-        //TODO: Move
-        private Players.PlayerNo AnotherPlayer(Players.PlayerNo playerNo)
+        private void HighlightShips()
         {
-            return (playerNo == Players.PlayerNo.Player1) ? Players.PlayerNo.Player2 : Players.PlayerNo.Player1;
+            Roster.AllShipsHighlightOff();
+            foreach (var ship in Roster.GetPlayer(RequiredPlayer).Ships)
+            {
+                ship.Value.HighlightCanBeSelectedOn();
+                Roster.RosterPanelHighlightOn(ship.Value);
+            }
         }
 
     }

@@ -16,7 +16,7 @@ namespace MainPhases
             Name = "End Phase";
 
             Phases.CurrentSubPhase = new EndSubPhase();
-            Phases.CurrentSubPhase.StartSubPhase();
+            Phases.CurrentSubPhase.Start();
 
             Phases.CallEndPhaseTrigger();
         }

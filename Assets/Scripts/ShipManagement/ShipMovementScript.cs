@@ -523,24 +523,23 @@ public class ShipMovementScript : MonoBehaviour {
     {
         Selection.ThisShip.CheckLandedOnObstacle();
 
-        Phases.FinishSubPhase(typeof(SubPhases.MovementExecutionSubPhase));
-
-        PreviousMovementData = new MovementExecutionData();
-
         Selection.ThisShip.FinishMoving();
         Selection.ThisShip.FinishPosition();
 
         CurrentMovementData.IsMoving = false;
         Selection.ThisShip.ResetRotationHelpers();
-        
+
         Selection.ThisShip.IsManeuverPerformed = true;
         Selection.ThisShip.IsAttackPerformed = false;
 
+        Phases.FinishSubPhase(typeof(SubPhases.MovementExecutionSubPhase));
+
+        PreviousMovementData = new MovementExecutionData();
+        //BUG: After movement of third ship in AI-P-AI
+        //BUG: After movement of second ship in P-AI
         Selection.ThisShip.AssignedManeuver = null;
-
-        Phases.FinishSubPhase(typeof(SubPhases.ActivationSubPhase));
     }
-
+    
     private void RevertMove()
     {
         CurrentMovementData.CollisionReverting = true;

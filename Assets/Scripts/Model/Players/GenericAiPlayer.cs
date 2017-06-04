@@ -15,6 +15,16 @@ namespace Players
 
         public override void SetupShip()
         {
+            foreach (var shipHolder in Ships)
+            {
+                if (shipHolder.Value.PilotSkill == Phases.CurrentSubPhase.RequiredPilotSkill)
+                {
+                    int direction = (Phases.CurrentSubPhase.RequiredPlayer == PlayerNo.Player1) ? -1 : 1;
+                    shipHolder.Value.SetPosition(shipHolder.Value.GetPosition() + new Vector3(0, 0, direction * 1.2f));
+
+                    shipHolder.Value.IsSetupPerformed = true;
+                }
+            }
             Phases.Next();
         }
 
@@ -23,8 +33,7 @@ namespace Players
             foreach (var shipHolder in Ships)
             {
                 Selection.ChangeActiveShip("ShipId:" + shipHolder.Value.ShipId);
-                //Selection.ThisShip = shipHolder.Value;
-                //Temporary stub
+                Selection.ThisShip.IsManeuverPerformed = false;
                 shipHolder.Value.AssignedManeuver = Game.Movement.ManeuverFromString("2.F.S");
             }
             Phases.Next();
@@ -61,10 +70,9 @@ namespace Players
             if (Selection.ThisShip.GetAvailableActionsList().Count > 0)
             {
                 ActionsList.GenericAction action = Selection.ThisShip.GetAvailableActionsList()[0];
-                action.ActionTake();
                 Selection.ThisShip.AddAlreadyExecutedAction(action);
+                action.ActionTake();
             }
-            Phases.FinishSubPhase(typeof(SubPhases.ActionSubPhase));
         }
 
         public override void PerformFreeAction()
@@ -79,12 +87,12 @@ namespace Players
 
         public override void PerformAttack()
         {
-            foreach (var shipHolder in Roster.AllShips)
+            foreach (var shipHolder in Roster.GetPlayer(Phases.CurrentPhasePlayer).Ships)
             {
                 if (shipHolder.Value.PilotSkill == Phases.CurrentSubPhase.RequiredPilotSkill)
                 {
-                    Selection.ChangeActiveShip("ShipId:" + shipHolder.Value.ShipId);
-                    //Selection.ThisShip = shipHolder.Value;
+                    //Selection.ChangeActiveShip("ShipId:" + shipHolder.Value.ShipId);
+                    Selection.ThisShip = shipHolder.Value;
                     break;
                 }
             }
@@ -92,14 +100,21 @@ namespace Players
             bool attackPerformed = false;
             foreach (var shipHolder in Roster.GetPlayer(Roster.AnotherPlayer(PlayerNo)).Ships)
             {
-                Selection.TryToChangeAnotherShip("ShipId:" + Roster.AllShips[shipHolder.Key].ShipId);
-                //Selection.AnotherShip = Roster.AllShips[shipHolder.Key];
-                if (Actions.TargetIsLegal())
-                {
-                    attackPerformed = true;
-                    Game.Wait(Actions.TryPerformAttack);
-                }
+                //Selection.TryToChangeAnotherShip("ShipId:" + Roster.AllShips[shipHolder.Key].ShipId);
+                Selection.AnotherShip = shipHolder.Value;
+
+                //Check legality - if yes
+                //{
+                //attackPerformed = true;
+                //wait
+                //select waepon
+                //perform attack
+                Selection.ThisShip.IsAttackPerformed = true;
+                //}
             }
+
+            Debug.Log("HERE WILL BE AI ATTACK!");
+
             if (!attackPerformed) Phases.Next();
 
         }

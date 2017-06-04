@@ -28,7 +28,7 @@ public static class Selection {
                 RaycastHit hitInfo = new RaycastHit();
                 if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitInfo))
                 {
-                    if (hitInfo.transform.tag != "Untagged")
+                    if (hitInfo.transform.tag.StartsWith("ShipId:"))
                     {
                         isShipHit = TryToChangeShip(hitInfo.transform.tag);
                     }

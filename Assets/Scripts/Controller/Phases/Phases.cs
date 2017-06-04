@@ -18,7 +18,7 @@ public static partial class Phases
 
     public static void Next()
     {
-        CurrentSubPhase.NextSubPhase();
+        CurrentSubPhase.Next();
     }
 
     public static void NextPhase()
@@ -99,6 +99,11 @@ public static partial class Phases
         StartTemporarySubPhase(name, new MovementExecutionSubPhase());
     }
 
+    public static void StartRepositionExecutionSubPhase(string name)
+    {
+        StartTemporarySubPhase(name, new RepositionExecutionSubPhase());
+    }
+
     private static void StartTemporarySubPhase(string name, GenericSubPhase subPhase)
     {
         GenericSubPhase previousSubPhase = CurrentSubPhase;
@@ -107,7 +112,7 @@ public static partial class Phases
         CurrentSubPhase.PreviousSubPhase = previousSubPhase;
         CurrentSubPhase.RequiredPlayer = previousSubPhase.RequiredPlayer;
         CurrentSubPhase.RequiredPilotSkill = previousSubPhase.RequiredPilotSkill;
-        CurrentSubPhase.StartSubPhase();
+        CurrentSubPhase.Start();
     }
 
 }

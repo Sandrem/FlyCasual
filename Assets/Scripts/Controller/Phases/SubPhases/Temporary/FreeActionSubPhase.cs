@@ -8,8 +8,9 @@ namespace SubPhases
     public class FreeActionSubPhase : GenericSubPhase
     {
 
-        public override void StartSubPhase()
+        public override void Start()
         {
+            Debug.Log("Free Action: Start");
             Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
             Name = "Free Action SubPhase";
             isTemporary = true;
@@ -17,8 +18,9 @@ namespace SubPhases
             UpdateHelpInfo();
         }
 
-        public override void NextSubPhase()
+        public override void Next()
         {
+            Debug.Log("Free Action: Next");
             Phases.CurrentSubPhase = PreviousSubPhase;
             Phases.Next();
             Phases.FinishSubPhase(typeof(ActivationSubPhase));

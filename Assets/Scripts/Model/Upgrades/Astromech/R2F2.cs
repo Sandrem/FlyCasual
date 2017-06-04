@@ -52,6 +52,7 @@ namespace ActionsList
             host = Selection.ThisShip;
             host.ChangeAgility(+1);
             Phases.OnEndPhaseStart += R2F2DecreaseAgility;
+            Phases.Next();
         }
 
         private void R2F2DecreaseAgility()

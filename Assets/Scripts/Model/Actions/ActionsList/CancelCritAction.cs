@@ -34,6 +34,7 @@ namespace ActionsList
             }
             else
             {
+                Phases.StartDiceRollSubPhase("Trying to flip critical card");
                 Combat.ShowDiceResultMenu(FinishAction);
 
                 DiceRoll DiceRollCheck;
@@ -52,7 +53,9 @@ namespace ActionsList
 
         private void FinishAction()
         {
+            Phases.FinishSubPhase(typeof(SubPhases.DiceRollSubPhase));
             Combat.HideDiceResultMenu();
+            Phases.Next();
         }
 
     }

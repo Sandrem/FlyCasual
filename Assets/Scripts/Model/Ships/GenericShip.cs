@@ -276,9 +276,14 @@ namespace Ship
                 {
                     if ((dice.Side == DiceSide.Success) || (dice.Side == DiceSide.Crit))
                     {
-                        //TEMPORARY
-                        CriticalHitsDeck.DrawCrit(this);
-                        //SufferHullDamage();
+                        if (CheckFaceupCrit(dice))
+                        {
+                            CriticalHitsDeck.DrawCrit(this);
+                        }
+                        else
+                        {
+                            SufferHullDamage();
+                        }
                     }
                 }
             }

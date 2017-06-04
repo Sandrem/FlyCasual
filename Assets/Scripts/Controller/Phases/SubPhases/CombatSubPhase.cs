@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 namespace SubPhases
 {
@@ -10,14 +11,17 @@ namespace SubPhases
 
         public override void Start()
         {
+            Debug.Log("Combat: Start");
             Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
             Name = "Combat SubPhase";
-
-            RequiredPlayer = Phases.PlayerWithInitiative;
-            RequiredPilotSkill = GetStartingPilotSkill();
-
             Game.UI.AddTestLogEntry(Name);
+        }
 
+        public override void Initialize()
+        {
+            Debug.Log("Combat: Init");
+            RequiredPlayer = Phases.PlayerWithInitiative;
+            RequiredPilotSkill = PILOTSKILL_MAX + 1;
             Next();
         }
 
@@ -30,25 +34,87 @@ namespace SubPhases
 
             Selection.DeselectAllShips();
 
-            Dictionary<int, Players.PlayerNo> pilots = Roster.NextPilotSkillAndPlayerAfter(RequiredPilotSkill, RequiredPlayer, Sorting.Desc);
-            foreach (var pilot in pilots)
+            Debug.Log("Combat: Next");
+            bool success = GetNextActivation(RequiredPilotSkill);
+            if (!success)
             {
-                RequiredPilotSkill = pilot.Key;
-                RequiredPlayer = pilot.Value;
+                int nextPilotSkill = GetNextPilotSkill(RequiredPilotSkill);
+                if (nextPilotSkill != int.MaxValue)
+                {
+                    success = GetNextActivation(nextPilotSkill);
+                }
+                else
+                {
+                    FinishPhase();
+                }
             }
 
-            UpdateHelpInfo();
-
-            if (pilots.Count == 0)
+            if (success)
             {
-                Phases.CurrentPhase.NextPhase();
-            }
-            else
-            {
-                Roster.HighlightShipsFiltered(RequiredPlayer, RequiredPilotSkill);
+                UpdateHelpInfo();
+                HighlightShips();
                 Game.UI.ShowSkipButton();
                 Roster.GetPlayer(RequiredPlayer).PerformAttack();
             }
+        }
+
+        private bool GetNextActivation(int pilotSkill)
+        {
+
+            bool result = false;
+
+            var pilotSkillResults =
+                from n in Roster.AllShips
+                where n.Value.PilotSkill == pilotSkill
+                where n.Value.IsAttackPerformed == false
+                select n;
+
+            if (pilotSkillResults.Count() > 0)
+            {
+                RequiredPilotSkill = pilotSkill;
+
+                var playerNoResults =
+                    from n in pilotSkillResults
+                    where n.Value.Owner.PlayerNo == Phases.PlayerWithInitiative
+                    select n;
+
+                if (playerNoResults.Count() > 0)
+                {
+                    RequiredPlayer = Phases.PlayerWithInitiative;
+                }
+                else
+                {
+                    RequiredPlayer = Roster.AnotherPlayer(Phases.PlayerWithInitiative);
+                }
+
+                result = true;
+            }
+
+            return result;
+        }
+
+        private int GetNextPilotSkill(int pilotSkillMax)
+        {
+            int result = int.MaxValue;
+
+            var ascPilotSkills =
+                from n in Roster.AllShips
+                where n.Value.PilotSkill < pilotSkillMax
+                orderby n.Value.PilotSkill
+                select n;
+
+            if (ascPilotSkills.Count() > 0)
+            {
+                result = ascPilotSkills.Last().Value.PilotSkill;
+            }
+
+            return result;
+        }
+
+        public override void FinishPhase()
+        {
+            Debug.Log("Combat: Finish");
+            Phases.CurrentPhase.NextPhase();
         }
 
         public override bool ThisShipCanBeSelected(Ship.GenericShip ship)
@@ -107,9 +173,17 @@ namespace SubPhases
             return result;
         }
 
-        public override int GetStartingPilotSkill()
+        private void HighlightShips()
         {
-            return PILOTSKILL_MAX + 1;
+            Roster.AllShipsHighlightOff();
+            foreach (var ship in Roster.GetPlayer(RequiredPlayer).Ships)
+            {
+                if ((ship.Value.PilotSkill == RequiredPilotSkill) && (!ship.Value.IsAttackPerformed))
+                {
+                    ship.Value.HighlightCanBeSelectedOn();
+                    Roster.RosterPanelHighlightOn(ship.Value);
+                }
+            }
         }
 
     }

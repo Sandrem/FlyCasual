@@ -200,6 +200,16 @@ public class UI : MonoBehaviour {
     public void ClickNextPhase()
     {
         HideNextButton();
+        if (Phases.CurrentSubPhase.GetType() == typeof(SubPhases.CombatSubPhase))
+        {
+            foreach (var shipHolder in Roster.GetPlayer(Phases.CurrentPhasePlayer).Ships)
+            {
+                if (shipHolder.Value.PilotSkill == Phases.CurrentSubPhase.RequiredPilotSkill)
+                {
+                    shipHolder.Value.IsAttackPerformed = true;
+                }
+            }
+        }
         Phases.CallNextSubPhase();
     }
 

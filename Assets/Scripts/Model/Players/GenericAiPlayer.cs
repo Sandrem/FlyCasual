@@ -174,15 +174,55 @@ namespace Players
 
         public override void UseDiceModifications()
         {
-            if (Selection.ThisShip.GetAvailableActionsList().Count > 0)
+            if (Selection.ThisShip.GetToken(typeof(Tokens.FocusToken)) != null)
             {
-                Selection.ThisShip.GetAvailableActionsList()[0].ActionEffect();
-                Game.Wait(Combat.ConfirmDiceResults);
+                if (Combat.AttackStep == CombatStep.Attack)
+                {
+                    if (Combat.DiceRollAttack.Focuses > 0)
+                    {
+                        foreach (var actionEffect in Selection.ThisShip.AvailableActionEffects)
+                        {
+                            if (actionEffect.GetType() == typeof(ActionsList.FocusAction))
+                            {
+                                actionEffect.ActionEffect();
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                if (Combat.AttackStep == CombatStep.Defence)
+                {
+                    if (Combat.DiceRollDefence.Focuses > 0)
+                    {
+                        foreach (var actionEffect in Selection.ThisShip.AvailableActionEffects)
+                        {
+                            if (actionEffect.GetType() == typeof(ActionsList.FocusAction))
+                            {
+                                actionEffect.ActionEffect();
+                                break;
+                            }
+                        }
+                    }
+                }
             }
-            else
+
+            if (Selection.ThisShip.GetToken(typeof(Tokens.EvadeToken)) != null)
             {
-                Combat.ConfirmDiceResults();
+                if (Combat.AttackStep == CombatStep.Defence)
+                {
+                    foreach (var actionEffect in Selection.ThisShip.AvailableActionEffects)
+                    {
+                        if (actionEffect.GetType() == typeof(ActionsList.FocusAction))
+                        {
+                            actionEffect.ActionEffect();
+                            break;
+                        }
+                    }
+                }
             }
+
+            Game.Wait(Combat.ConfirmDiceResults);
         }
 
     }

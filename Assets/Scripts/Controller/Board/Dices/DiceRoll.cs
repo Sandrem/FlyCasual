@@ -38,6 +38,23 @@ public partial class DiceRoll
         private set { }
     }
 
+    public int Focuses
+    {
+        get
+        {
+            int result = 0;
+            foreach (Dice dice in DiceList)
+            {
+                if (dice.Side == DiceSide.Focus)
+                {
+                    result++;
+                }
+            }
+            return result;
+        }
+        private set { }
+    }
+
     public void Roll()
     {
         foreach (Dice dice in DiceList)

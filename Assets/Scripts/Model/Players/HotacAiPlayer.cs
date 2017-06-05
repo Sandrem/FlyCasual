@@ -7,6 +7,7 @@ namespace Players
 
     public partial class HotacAiPlayer : GenericAiPlayer
     {
+        private bool inDebug = false;
 
         public HotacAiPlayer(): base() {
             Name = "HotAC AI";
@@ -16,9 +17,9 @@ namespace Players
         {
             if (!ship.IsDestroyed)
             {
-                Debug.Log("=== " + ship.PilotName + " (" + ship.ShipId + ") ===");
+                if (inDebug) Debug.Log("=== " + ship.PilotName + " (" + ship.ShipId + ") ===");
                 Ship.GenericShip anotherShip = FindNearestEnemyShip(ship);
-                Debug.Log("Nearest enemy is " + anotherShip.PilotName + " (" + anotherShip.ShipId + ")");
+                if (inDebug) Debug.Log("Nearest enemy is " + anotherShip.PilotName + " (" + anotherShip.ShipId + ")");
                 ship.AssignedManeuver = ship.HotacManeuverTable.GetManeuver(ship, anotherShip);
                 PerformManeuverOfShip(ship);
             }

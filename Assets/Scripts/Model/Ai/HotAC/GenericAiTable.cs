@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class GenericAiTable
 {
+    private bool inDebug = false;
 
     protected List<string> FrontManeuversInner = new List<string>();
     protected List<string> FrontManeuversOuter = new List<string>();
@@ -26,7 +27,7 @@ public class GenericAiTable
         Movement result = null;
         float vector = Actions.GetVector(thisShip, anotherShip);
         bool isClosing = Actions.IsClosing(thisShip, anotherShip);
-        Debug.Log("Vector: " + vector + ", Closing: " + isClosing);
+        if (inDebug) Debug.Log("Vector: " + vector + ", Closing: " + isClosing);
         result = GetManeuverFromTable(vector, isClosing);
         return result;
     }
@@ -42,30 +43,30 @@ public class GenericAiTable
         {
             if ((vector > -22.5f) && (vector < 22.5f))
             {
-                Debug.Log("FrontManeuversInner");
+                if (inDebug) Debug.Log("FrontManeuversInner");
                 table = FrontManeuversInner;
             }
             else if (((vector >= 22.5f) && (vector < 67.5f)) || ((vector <= -22.5f) && (vector > -67.5f)))
             {
-                Debug.Log("FrontSideManeuversInner");
+                if (inDebug) Debug.Log("FrontSideManeuversInner");
                 table = FrontSideManeuversInner;
                 adjustDirection = true;
             }
             else if (((vector >= 67.5f) && (vector < 112.5f)) || ((vector <= -67.5f) && (vector > -112.5f)))
             {
-                Debug.Log("SideManeuversInner");
+                if (inDebug) Debug.Log("SideManeuversInner");
                 table = SideManeuversInner;
                 adjustDirection = true;
             }
             else if (((vector >= 112.5f) && (vector < 157.5f)) || ((vector <= -112.5f) && (vector > -157.5f)))
             {
-                Debug.Log("BackSideManeuversInner");
+                if (inDebug) Debug.Log("BackSideManeuversInner");
                 table = BackSideManeuversInner;
                 adjustDirection = true;
             }
             else if ((vector >= 157.5f) || (vector <= -157.5f))
             {
-                Debug.Log("BackManeuversInner");
+                if (inDebug) Debug.Log("BackManeuversInner");
                 table = BackManeuversInner;
             }
         }
@@ -73,30 +74,30 @@ public class GenericAiTable
         {
             if ((vector > -22.5f) && (vector < 22.5f))
             {
-                Debug.Log("FrontManeuversOuter");
+                if (inDebug) Debug.Log("FrontManeuversOuter");
                 table = FrontManeuversOuter;
             }
             else if (((vector >= 22.5f) && (vector < 67.5f)) || ((vector <= -22.5f) && (vector > -67.5f)))
             {
-                Debug.Log("FrontSideManeuversOuter");
+                if (inDebug) Debug.Log("FrontSideManeuversOuter");
                 table = FrontSideManeuversOuter;
                 adjustDirection = true;
             }
             else if (((vector >= 67.5f) && (vector < 112.5f)) || ((vector <= -67.5f) && (vector > -112.5f)))
             {
-                Debug.Log("SideManeuversOuter");
+                if (inDebug) Debug.Log("SideManeuversOuter");
                 table = SideManeuversOuter;
                 adjustDirection = true;
             }
             else if (((vector >= 112.5f) && (vector < 157.5f)) || ((vector <= -112.5f) && (vector > -157.5f)))
             {
-                Debug.Log("BackSideManeuversOuter");
+                if (inDebug) Debug.Log("BackSideManeuversOuter");
                 table = BackSideManeuversOuter;
                 adjustDirection = true;
             }
             else if ((vector >= 157.5f) || (vector <= -157.5f))
             {
-                Debug.Log("BackManeuversOuter");
+                if (inDebug) Debug.Log("BackManeuversOuter");
                 table = BackManeuversOuter;
             }
         }
@@ -104,7 +105,7 @@ public class GenericAiTable
         result = RandomManeuverFromTable(table);
         if (adjustDirection)
         {
-            Debug.Log("Adjust direction according to vector: " + vector);
+            if (inDebug) Debug.Log("Adjust direction according to vector: " + vector);
             result = AdjustDirection(result, vector);
         }
         
@@ -126,13 +127,13 @@ public class GenericAiTable
     {
         string result = "";
         int random = Random.Range(0, 6);
-        Debug.Log("Random is: " + random);
+        if (inDebug) Debug.Log("Random is: " + random);
         result = table[random];
 
         //Temporary
         GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
 
-        Debug.Log("Result is: " + result);
+        if (inDebug) Debug.Log("Result is: " + result);
 
         return Game.Movement.ManeuverFromString(result);
     }

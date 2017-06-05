@@ -8,7 +8,7 @@ public static partial class Actions {
 
     private static GameManagerScript Game;
 
-	private static readonly float DISTANCE_1 = 3.28f / 3f;
+    private static readonly float DISTANCE_1 = 3.28f / 3f;
     private static Dictionary<char, bool> Letters = new Dictionary<char, bool>();
 
     //EVENTS
@@ -147,7 +147,7 @@ public static partial class Actions {
         angle = Mathf.Abs(Vector3.Angle(vectorToTarget, vectorFacing));
 
         int direction = 0;
-        direction = (thisShip.Model.transform.InverseTransformPoint(anotherShip.GetCenter()).x > 0) ? 1 : -1 ;
+        direction = (thisShip.Model.transform.InverseTransformPoint(anotherShip.GetCenter()).x > 0) ? 1 : -1;
 
         result = angle * direction;
 
@@ -170,9 +170,9 @@ public static partial class Actions {
 
     public static int GetRange(Ship.GenericShip thisShip, Ship.GenericShip anotherShip)
     {
-        float distance = Vector3.Distance (thisShip.GetClosestEdgesTo (anotherShip) ["this"], thisShip.GetClosestEdgesTo (anotherShip) ["another"]);
-		int range = Mathf.CeilToInt(distance / DISTANCE_1);
-		return range;
+        float distance = Vector3.Distance(thisShip.GetClosestEdgesTo(anotherShip)["this"], thisShip.GetClosestEdgesTo(anotherShip)["another"]);
+        int range = Mathf.CeilToInt(distance / DISTANCE_1);
+        return range;
     }
 
     public static int GetFiringRange(Ship.GenericShip thisShip, Ship.GenericShip anotherShip)
@@ -184,9 +184,22 @@ public static partial class Actions {
 
     public static int GetFiringRangeAndShow(Ship.GenericShip thisShip, Ship.GenericShip anotherShip)
     {
-        int range  = GetFiringRange(thisShip, anotherShip);
+        int range = GetFiringRange(thisShip, anotherShip);
         MovementTemplates.ShowFiringArcRange(thisShip, anotherShip);
         return range;
+    }
+
+    public static bool HasTarget(Ship.GenericShip ship)
+    {
+        foreach (var enemyShip in Roster.GetPlayer(Roster.AnotherPlayer(ship.Owner.PlayerNo)).Ships)
+        {
+            if ((GetFiringRange(ship, enemyShip.Value) < 4) && (InArcCheck(ship, enemyShip.Value)))
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public static void OnlyCheckShot() {

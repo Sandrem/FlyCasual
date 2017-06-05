@@ -11,9 +11,13 @@ namespace RulesList
             {
                 case Ship.ManeuverColor.Red:
                     ship.AssignToken(new Tokens.StressToken());
+                    ship.IsSkipsAction = true;
                     break;
                 case Ship.ManeuverColor.Green:
-                    ship.RemoveToken(typeof(Tokens.StressToken));
+                    if (ship.Owner.GetType() != typeof(Players.HotacAiPlayer))
+                    {
+                        ship.RemoveToken(typeof(Tokens.StressToken));
+                    }                    
                     break;
             }
         }

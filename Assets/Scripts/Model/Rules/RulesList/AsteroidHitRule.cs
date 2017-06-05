@@ -9,14 +9,20 @@ namespace RulesList
         public AsteroidHitRule(GameManagerScript game)
         {
             Game = game;
+            SubscribeEvents();
         }
 
-        public void CanPerformActions(ActionsList.GenericAction action, ref bool result)
+        private void SubscribeEvents()
+        {
+            Phases.OnActionSubPhaseStart += CheckSkipPerformAction;
+        }
+
+        public void CheckSkipPerformAction()
         {
             if (Selection.ThisShip.ObstaclesHit.Count > 0)
             {
-                //Game.UI.ShowError("Hit asteroid during movement - action is skipped");
-                result = false;
+                Game.UI.ShowError("Hit asteroid during movement - action subphase is skipped");
+                Selection.ThisShip.IsSkipsAction = true;
             }
         }
 

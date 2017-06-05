@@ -36,6 +36,8 @@ public static partial class Phases
     public static event EventHandler OnCombatPhaseStart;
     public static event EventHandler OnEndPhaseStart;
 
+    public static event EventHandler OnActionSubPhaseStart;
+
     //PHASES CONTROL
 
     public static void StartPhases()

@@ -29,8 +29,6 @@ namespace SubPhases
             Selection.ThisShip.IsManeuverPerformed = true;
             Selection.ThisShip.IsAttackPerformed = false;
 
-            //BUG: After movement of third ship in AI-P-AI
-            //BUG: After movement of second ship in P-AI
             Selection.ThisShip.AssignedManeuver = null;
 
             if (Phases.CurrentSubPhase.GetType() == this.GetType())

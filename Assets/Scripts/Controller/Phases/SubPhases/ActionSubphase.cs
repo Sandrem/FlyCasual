@@ -14,14 +14,14 @@ namespace SubPhases
             Name = "Action SubPhase";
             RequiredPilotSkill = PreviousSubPhase.RequiredPilotSkill;
             RequiredPlayer = PreviousSubPhase.RequiredPlayer;
-            Game.UI.AddTestLogEntry(Name);
             UpdateHelpInfo();
         }
 
         public override void Initialize()
         {
-            //BUG: Error During BarrelRoll
-            if (!Selection.ThisShip.IsBumped)
+            Phases.CallOnActionSubPhaseTrigger();
+
+            if (!Selection.ThisShip.IsSkipsAction)
             {
                 if (!Selection.ThisShip.IsDestroyed)
                 {
@@ -35,9 +35,7 @@ namespace SubPhases
             }
             else
             {
-                Selection.ThisShip.IsBumped = false;
-                Game.UI.ShowError("Collision: Skips \"Perform Action\" step");
-                Game.UI.AddTestLogEntry("Collision: Skips \"Perform Action\" step");
+                Selection.ThisShip.IsSkipsAction = false;
                 Next();
             }
         }

@@ -143,11 +143,11 @@ public static partial class Actions {
 
         float angle = 0;
         Vector3 vectorFacing = thisShip.GetFrontFacing();
-        Vector3 vectorToTarget = anotherShip.GetPosition() - thisShip.GetPosition();
-        angle = Vector3.Angle(vectorToTarget, vectorFacing);
+        Vector3 vectorToTarget = anotherShip.GetCenter() - thisShip.GetCenter();
+        angle = Mathf.Abs(Vector3.Angle(vectorToTarget, vectorFacing));
 
         int direction = 0;
-        direction = (thisShip.TransformPoint(anotherShip.GetPosition()).x > 0) ? 1 : -1 ;
+        direction = (thisShip.Model.transform.InverseTransformPoint(anotherShip.GetCenter()).x > 0) ? 1 : -1 ;
 
         result = angle * direction;
 

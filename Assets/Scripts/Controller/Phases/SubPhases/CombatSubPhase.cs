@@ -11,15 +11,12 @@ namespace SubPhases
 
         public override void Start()
         {
-            Debug.Log("Combat: Start");
             Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
             Name = "Combat SubPhase";
-            Game.UI.AddTestLogEntry(Name);
         }
 
         public override void Initialize()
         {
-            Debug.Log("Combat: Init");
             RequiredPlayer = Phases.PlayerWithInitiative;
             RequiredPilotSkill = PILOTSKILL_MAX + 1;
             Next();
@@ -34,7 +31,6 @@ namespace SubPhases
 
             Selection.DeselectAllShips();
 
-            Debug.Log("Combat: Next");
             bool success = GetNextActivation(RequiredPilotSkill);
             if (!success)
             {
@@ -53,7 +49,6 @@ namespace SubPhases
             {
                 UpdateHelpInfo();
                 HighlightShips();
-                Game.UI.ShowSkipButton();
                 Roster.GetPlayer(RequiredPlayer).PerformAttack();
             }
         }
@@ -113,7 +108,6 @@ namespace SubPhases
 
         public override void FinishPhase()
         {
-            Debug.Log("Combat: Finish");
             Phases.CurrentPhase.NextPhase();
         }
 

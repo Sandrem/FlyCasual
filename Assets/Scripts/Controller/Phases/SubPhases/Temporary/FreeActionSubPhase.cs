@@ -14,7 +14,6 @@ namespace SubPhases
             Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
             Name = "Free Action SubPhase";
             isTemporary = true;
-            Game.UI.AddTestLogEntry(Name);
             UpdateHelpInfo();
         }
 

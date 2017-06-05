@@ -12,7 +12,6 @@ namespace SubPhases
         {
             Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
             isTemporary = true;
-            Game.UI.AddTestLogEntry(Name);
             UpdateHelpInfo();
             Roster.HighlightShipsFiltered(Roster.AnotherPlayer(Phases.CurrentPhasePlayer), -1);
         }

@@ -41,15 +41,25 @@ namespace Players
 
         public override void PerformManeuver()
         {
-            foreach (var shipHolder in Roster.AllShips)
+            bool foundToActivate = false;
+            foreach (var shipHolder in Roster.GetPlayer(Phases.CurrentPhasePlayer).Ships)
             {
                 if (shipHolder.Value.PilotSkill == Phases.CurrentSubPhase.RequiredPilotSkill)
                 {
-                    Selection.ChangeActiveShip("ShipId:" + shipHolder.Value.ShipId);
-                    //Selection.ThisShip = shipHolder.Value;
-                    ActivateShip(shipHolder.Value);
-                    break;
+                    if (!shipHolder.Value.IsManeuverPerformed)
+                    {
+                        foundToActivate = true;
+                        Selection.ChangeActiveShip("ShipId:" + shipHolder.Value.ShipId);
+                        ActivateShip(shipHolder.Value);
+                        break;
+                    }
                 }
+            }
+
+            if (!foundToActivate)
+            {
+                Debug.Log("GO NEXT!!!");
+                Phases.Next();
             }
         }
 
@@ -67,12 +77,19 @@ namespace Players
 
         public override void PerformAction()
         {
-            if (Selection.ThisShip.GetAvailableActionsList().Count > 0)
+            /*if (Selection.ThisShip.GetAvailableActionsList().Count > 0)
             {
                 ActionsList.GenericAction action = Selection.ThisShip.GetAvailableActionsList()[0];
                 Selection.ThisShip.AddAlreadyExecutedAction(action);
                 action.ActionTake();
             }
+            else
+            {
+                Phases.Next();
+            }*/
+
+            //Simplify
+            Phases.Next();
         }
 
         public override void PerformFreeAction()
@@ -87,33 +104,41 @@ namespace Players
 
         public override void PerformAttack()
         {
+            bool attackPerformed = false;
+
             foreach (var shipHolder in Roster.GetPlayer(Phases.CurrentPhasePlayer).Ships)
             {
                 if (shipHolder.Value.PilotSkill == Phases.CurrentSubPhase.RequiredPilotSkill)
                 {
-                    //Selection.ChangeActiveShip("ShipId:" + shipHolder.Value.ShipId);
-                    Selection.ThisShip = shipHolder.Value;
-                    break;
+                    if (!shipHolder.Value.IsAttackPerformed)
+                    {
+                        //Selection.ChangeActiveShip("ShipId:" + shipHolder.Value.ShipId);
+                        Selection.ThisShip = shipHolder.Value;
+                        break;
+                    }
                 }
             }
 
-            bool attackPerformed = false;
-            foreach (var shipHolder in Roster.GetPlayer(Roster.AnotherPlayer(PlayerNo)).Ships)
+            if (Selection.ThisShip != null)
             {
-                //Selection.TryToChangeAnotherShip("ShipId:" + Roster.AllShips[shipHolder.Key].ShipId);
-                Selection.AnotherShip = shipHolder.Value;
 
-                //Check legality - if yes
-                //{
-                //attackPerformed = true;
-                //wait
-                //select waepon
-                //perform attack
-                Selection.ThisShip.IsAttackPerformed = true;
-                //}
+                foreach (var shipHolder in Roster.GetPlayer(Roster.AnotherPlayer(PlayerNo)).Ships)
+                {
+                    //Selection.TryToChangeAnotherShip("ShipId:" + Roster.AllShips[shipHolder.Key].ShipId);
+                    Selection.AnotherShip = shipHolder.Value;
+
+                    //Check legality - if yes
+                    //{
+                    //attackPerformed = true;
+                    //wait
+                    //select waepon
+                    //perform attack
+                    Selection.ThisShip.IsAttackPerformed = true;
+                    //}
+                }
+
+                //Debug.Log("HERE WILL BE AI ATTACK!");
             }
-
-            Debug.Log("HERE WILL BE AI ATTACK!");
 
             if (!attackPerformed) Phases.Next();
 

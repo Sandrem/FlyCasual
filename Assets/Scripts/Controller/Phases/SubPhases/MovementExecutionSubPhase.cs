@@ -10,7 +10,6 @@ namespace SubPhases
 
         public override void Start()
         {
-            Debug.Log("Move: Start");
             Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
             Name = "Movement";
             RequiredPilotSkill = PreviousSubPhase.RequiredPilotSkill;
@@ -20,12 +19,22 @@ namespace SubPhases
 
         public override void Next()
         {
-            Debug.Log("So, movement is finished...");
+            Selection.ThisShip.CheckLandedOnObstacle();
 
-            Debug.Log("Move: Next?");
+            Selection.ThisShip.FinishMoving();
+            Selection.ThisShip.FinishPosition();
+            
+            Selection.ThisShip.ResetRotationHelpers();
+
+            Selection.ThisShip.IsManeuverPerformed = true;
+            Selection.ThisShip.IsAttackPerformed = false;
+
+            //BUG: After movement of third ship in AI-P-AI
+            //BUG: After movement of second ship in P-AI
+            Selection.ThisShip.AssignedManeuver = null;
+
             if (Phases.CurrentSubPhase.GetType() == this.GetType())
             {
-                Debug.Log("Move: Next");
                 GenericSubPhase actionSubPhase = new ActionSubPhase();
                 actionSubPhase.PreviousSubPhase = Phases.CurrentSubPhase;
                 Phases.CurrentSubPhase = actionSubPhase;

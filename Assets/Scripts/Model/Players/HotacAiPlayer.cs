@@ -28,18 +28,65 @@ namespace Players
 
         public override void PerformAction()
         {
-            Debug.Log(Selection.ThisShip.IsSkipsAction);
+            bool actionIsPerformed = false;
+
             if (Selection.ThisShip.GetToken(typeof(Tokens.StressToken)) != null)
             {
                 Selection.ThisShip.RemoveToken(typeof(Tokens.StressToken));
-                Debug.Log("I removed stress");
             }
             else if (Selection.ThisShip.GetAvailableActionsList().Count > 0)
             {
-                Debug.Log("I has actions");
+                actionIsPerformed = TryToCancelCrits();
+                if (!actionIsPerformed) actionIsPerformed = TryToGetShot();
+                if (!actionIsPerformed) actionIsPerformed = TryFocus();
+                if (!actionIsPerformed) actionIsPerformed = TryEvade();
             }
 
-            Phases.Next();
+            if (!actionIsPerformed) Phases.Next();
+        }
+
+        private bool TryToCancelCrits()
+        {
+            return false;
+        }
+
+        private bool TryToGetShot()
+        {
+            return false;
+        }
+
+        private bool TryToAvoidShot()
+        {
+            return false;
+        }
+
+        private bool TryFocus()
+        {
+            if (Actions.HasTarget(Selection.ThisShip))
+            {
+                foreach (var availableAction in Selection.ThisShip.GetAvailableActionsList())
+                {
+                    if (availableAction.GetType() == typeof(ActionsList.FocusAction))
+                    {
+                        availableAction.ActionTake();
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        private bool TryEvade()
+        {
+            foreach (var availableAction in Selection.ThisShip.GetAvailableActionsList())
+            {
+                if (availableAction.GetType() == typeof(ActionsList.EvadeAction))
+                {
+                    availableAction.ActionTake();
+                    return true;
+                }
+            }
+            return false;
         }
 
     }

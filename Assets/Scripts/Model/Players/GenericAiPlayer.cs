@@ -77,18 +77,7 @@ namespace Players
 
         public override void PerformAction()
         {
-            /*if (Selection.ThisShip.GetAvailableActionsList().Count > 0)
-            {
-                ActionsList.GenericAction action = Selection.ThisShip.GetAvailableActionsList()[0];
-                Selection.ThisShip.AddAlreadyExecutedAction(action);
-                action.ActionTake();
-            }
-            else
-            {
-                Phases.Next();
-            }*/
-
-            //Simplify
+            //Stub
             Phases.Next();
         }
 
@@ -112,8 +101,8 @@ namespace Players
                 {
                     if (!shipHolder.Value.IsAttackPerformed)
                     {
-                        //Selection.ChangeActiveShip("ShipId:" + shipHolder.Value.ShipId);
-                        Selection.ThisShip = shipHolder.Value;
+                        Selection.ChangeActiveShip("ShipId:" + shipHolder.Value.ShipId);
+                        //Selection.ThisShip = shipHolder.Value;
                         break;
                     }
                 }
@@ -121,23 +110,20 @@ namespace Players
 
             if (Selection.ThisShip != null)
             {
+                Ship.GenericShip enemyShip = FindNearestEnemyShip(Selection.ThisShip, ignoreCollided: true, inArcAndRange: true);
 
-                foreach (var shipHolder in Roster.GetPlayer(Roster.AnotherPlayer(PlayerNo)).Ships)
+                if (enemyShip != null)
                 {
-                    //Selection.TryToChangeAnotherShip("ShipId:" + Roster.AllShips[shipHolder.Key].ShipId);
-                    Selection.AnotherShip = shipHolder.Value;
-
-                    //Check legality - if yes
-                    //{
-                    //attackPerformed = true;
-                    //wait
-                    //select waepon
-                    //perform attack
-                    Selection.ThisShip.IsAttackPerformed = true;
-                    //}
+                    //TODO: Biggs
+                    Selection.TryToChangeAnotherShip("ShipId:" + enemyShip.ShipId);
+                    Combat.SelectWeapon();
+                    attackPerformed = true;
+                    Actions.TryPerformAttack();
                 }
-
-                //Debug.Log("HERE WILL BE AI ATTACK!");
+                else
+                {
+                    Selection.ThisShip.IsAttackPerformed = true;
+                }
             }
 
             if (!attackPerformed) Phases.Next();

@@ -24,7 +24,6 @@ namespace Ship
 
             private void NightBeastPilotAbility(Ship.GenericShip ship)
             {
-                Debug.Log("Night Beast");
                 if (AssignedManeuver.ColorComplexity == ManeuverColor.Green) {
                     Debug.Log("Night Beast Green");
                     AskPerformFreeAction(new ActionsList.FocusAction());

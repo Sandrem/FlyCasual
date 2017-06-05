@@ -22,7 +22,7 @@ namespace SubPhases
         {
             Phases.CurrentSubPhase = PreviousSubPhase;
             Phases.Next();
-            Phases.Next();
+            //Phases.Next();
             //Phases.FinishSubPhase(typeof(ActivationSubPhase));
 
             UpdateHelpInfo();

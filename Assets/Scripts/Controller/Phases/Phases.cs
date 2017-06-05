@@ -67,6 +67,11 @@ public static partial class Phases
         if (OnEndPhaseStart != null) OnEndPhaseStart();
     }
 
+    public static void CallOnActionSubPhaseTrigger()
+    {
+        if (OnActionSubPhaseStart != null) OnActionSubPhaseStart();
+    }
+
     //TEMPORARY SUBPHASES
 
     public static void StartFreeActionSubPhase(string name)

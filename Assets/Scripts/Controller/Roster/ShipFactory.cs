@@ -54,7 +54,6 @@ public static class ShipFactory {
         newShipContainer.OnPositionFinish += Rules.OffTheBoard.CheckOffTheBoard;
         newShipContainer.OnMovementFinish += Rules.Stress.CheckStress;
         newShipContainer.OnMovementFinish += Rules.AsteroidHit.CheckDamage;
-        newShipContainer.OnTryPerformAction += Rules.AsteroidHit.CanPerformActions;
         newShipContainer.AfterGetManeuverAvailablity += Rules.Stress.CannotPerformRedManeuversWhileStressed;
 
         newShipContainer.AfterTokenIsAssigned += Roster.UpdateTokensIndicator;

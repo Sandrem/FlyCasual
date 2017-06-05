@@ -16,6 +16,17 @@ namespace RulesList
         private void SubscribeEvents()
         {
             Actions.OnCheckTargetIsLegal += CanPerformAttack;
+            Phases.OnActionSubPhaseStart += CheckSkipPerformAction;
+        }
+
+        public void CheckSkipPerformAction()
+        {
+            if (Selection.ThisShip.IsBumped)
+            {
+                Game.UI.ShowError("Collided into ship - action subphase is skipped");
+                Selection.ThisShip.IsSkipsAction = true;
+                Selection.ThisShip.IsBumped = false;
+            }
         }
 
         public void ClearCollision(Ship.GenericShip ship)

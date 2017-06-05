@@ -26,6 +26,7 @@ namespace Ship
         public bool IsDestroyed { get; set; }
         public bool IsBumped { get; set; }
         public bool isUnique = false;
+        public bool IsSkipsAction { get; set; }
 
         public Faction faction;
         public List<Faction> factions = new List<Faction>();

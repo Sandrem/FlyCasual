@@ -24,6 +24,11 @@ namespace Players
             Actions.ShowFreeActionsPanel();
         }
 
+        public override void PerformAttack()
+        {
+            Game.UI.ShowSkipButton();
+        }
+
         public override void UseDiceModifications()
         {
             Combat.ShowDiceResultMenu(Combat.ConfirmDiceResults);

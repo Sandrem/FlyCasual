@@ -11,7 +11,6 @@ namespace SubPhases
 
         public override void Start()
         {
-            Debug.Log("Activation: Start");
             Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
             Name = "Activation SubPhase";
             Game.UI.AddTestLogEntry(Name);
@@ -19,14 +18,12 @@ namespace SubPhases
 
         public override void Initialize()
         {
-            Debug.Log("Activation: Initialize");
             RequiredPilotSkill = PILOTSKILL_MIN - 1;
             Next();
         }
 
         public override void Next()
         {
-            Debug.Log("Activation: Next");
             bool success = GetNextActivation(RequiredPilotSkill);
             if (!success)
             {
@@ -105,7 +102,6 @@ namespace SubPhases
 
         public override void FinishPhase()
         {
-            Debug.Log("Activation: Finish");
             Phases.NextPhase();
         }
 

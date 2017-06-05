@@ -10,7 +10,6 @@ namespace SubPhases
 
         public override void Start()
         {
-            Debug.Log("BR: Start");
             Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
             Name = "Barrel Roll";
             isTemporary = true;

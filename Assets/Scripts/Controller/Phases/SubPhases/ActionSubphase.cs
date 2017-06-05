@@ -10,7 +10,6 @@ namespace SubPhases
 
         public override void Start()
         {
-            Debug.Log("Action: Start");
             Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
             Name = "Action SubPhase";
             RequiredPilotSkill = PreviousSubPhase.RequiredPilotSkill;
@@ -21,8 +20,6 @@ namespace SubPhases
 
         public override void Initialize()
         {
-            Debug.Log("Action: Init");
-
             //BUG: Error During BarrelRoll
             if (!Selection.ThisShip.IsBumped)
             {
@@ -33,7 +30,7 @@ namespace SubPhases
                 }
                 else
                 {
-                    FinishPhase();
+                    Next();
                 }
             }
             else
@@ -41,14 +38,12 @@ namespace SubPhases
                 Selection.ThisShip.IsBumped = false;
                 Game.UI.ShowError("Collision: Skips \"Perform Action\" step");
                 Game.UI.AddTestLogEntry("Collision: Skips \"Perform Action\" step");
-                FinishPhase();
+                Next();
             }
         }
 
         public override void Next()
         {
-            Debug.Log("Action: Next");
-
             GenericSubPhase activationSubPhase = new ActivationSubPhase();
             Phases.CurrentSubPhase = activationSubPhase;
             Phases.CurrentSubPhase.Start();
@@ -56,11 +51,6 @@ namespace SubPhases
             Phases.CurrentSubPhase.RequiredPlayer = RequiredPlayer;
 
             Phases.CurrentSubPhase.Next();
-        }
-
-        public override void FinishPhase()
-        {
-            Debug.Log("Action: Finish");
         }
 
         public override bool ThisShipCanBeSelected(Ship.GenericShip ship)

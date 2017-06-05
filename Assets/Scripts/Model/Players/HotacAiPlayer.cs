@@ -14,9 +14,14 @@ namespace Players
 
         public override void ActivateShip(Ship.GenericShip ship)
         {
-            Ship.GenericShip anotherShip = FindNearestEnemyShip(ship);
-            ship.AssignedManeuver = ship.HotacManeuverTable.GetManeuver(ship, anotherShip);
-            PerformManeuverOfShip(ship);
+            if (!ship.IsDestroyed)
+            {
+                Debug.Log("=== " + ship.PilotName + " (" + ship.ShipId + ") ===");
+                Ship.GenericShip anotherShip = FindNearestEnemyShip(ship);
+                Debug.Log("Nearest enemy is " + anotherShip.PilotName + " (" + anotherShip.ShipId + ")");
+                ship.AssignedManeuver = ship.HotacManeuverTable.GetManeuver(ship, anotherShip);
+                PerformManeuverOfShip(ship);
+            }
         }
 
     }

@@ -26,6 +26,7 @@ public class GenericAiTable
         Movement result = null;
         float vector = Actions.GetVector(thisShip, anotherShip);
         bool isClosing = Actions.IsClosing(thisShip, anotherShip);
+        Debug.Log("Vector: " + vector + ", Closing: " + isClosing);
         result = GetManeuverFromTable(vector, isClosing);
         return result;
     }
@@ -33,22 +34,81 @@ public class GenericAiTable
     public Movement GetManeuverFromTable(float vector, bool isClosing)
     {
         Movement result = null;
+
+        List<string> table = null;
+        bool adjustDirection = false;
+
         if (isClosing)
         {
-            if ((vector > -22.5f) && (vector < 22.5f)) return RandomManeuverFromTable(FrontManeuversInner);
-            if (((vector >= 22.5f) && (vector < 67.5f)) || ((vector <= -22.5f) && (vector > -67.5f))) return AdjustDirection(RandomManeuverFromTable(FrontSideManeuversInner), vector);
-            if (((vector >= 67.5f) && (vector < 112.5f)) || ((vector <= -67.5f) && (vector > -112.5f))) return AdjustDirection(RandomManeuverFromTable(SideManeuversInner), vector);
-            if (((vector >= 112.5f) && (vector < 157.5f)) || ((vector <= -112.5f) && (vector > -157.5f))) return AdjustDirection(RandomManeuverFromTable(BackSideManeuversInner), vector);
-            if ((vector >= 157.5f) || (vector <= -157.5f)) return RandomManeuverFromTable(BackManeuversInner);
+            if ((vector > -22.5f) && (vector < 22.5f))
+            {
+                Debug.Log("FrontManeuversInner");
+                table = FrontManeuversInner;
+            }
+            else if (((vector >= 22.5f) && (vector < 67.5f)) || ((vector <= -22.5f) && (vector > -67.5f)))
+            {
+                Debug.Log("FrontSideManeuversInner");
+                table = FrontSideManeuversInner;
+                adjustDirection = true;
+            }
+            else if (((vector >= 67.5f) && (vector < 112.5f)) || ((vector <= -67.5f) && (vector > -112.5f)))
+            {
+                Debug.Log("SideManeuversInner");
+                table = SideManeuversInner;
+                adjustDirection = true;
+            }
+            else if (((vector >= 112.5f) && (vector < 157.5f)) || ((vector <= -112.5f) && (vector > -157.5f)))
+            {
+                Debug.Log("BackSideManeuversInner");
+                table = BackSideManeuversInner;
+                adjustDirection = true;
+            }
+            else if ((vector >= 157.5f) || (vector <= -157.5f))
+            {
+                Debug.Log("BackManeuversInner");
+                table = BackManeuversInner;
+            }
         }
         else
         {
-            if ((vector > -22.5f) && (vector < 22.5f)) return RandomManeuverFromTable(FrontManeuversOuter);
-            if (((vector >= 22.5f) && (vector < 67.5f)) || ((vector <= -22.5f) && (vector > -67.5f))) return AdjustDirection(RandomManeuverFromTable(FrontSideManeuversOuter), vector);
-            if (((vector >= 67.5f) && (vector < 112.5f)) || ((vector <= -67.5f) && (vector > -112.5f))) return AdjustDirection(RandomManeuverFromTable(SideManeuversOuter), vector);
-            if (((vector >= 112.5f) && (vector < 157.5f)) || ((vector <= -112.5f) && (vector > -157.5f))) return AdjustDirection(RandomManeuverFromTable(BackSideManeuversOuter), vector);
-            if ((vector >= 157.5f) || (vector <= -157.5f)) return RandomManeuverFromTable(BackManeuversOuter);
+            if ((vector > -22.5f) && (vector < 22.5f))
+            {
+                Debug.Log("FrontManeuversOuter");
+                table = FrontManeuversOuter;
+            }
+            else if (((vector >= 22.5f) && (vector < 67.5f)) || ((vector <= -22.5f) && (vector > -67.5f)))
+            {
+                Debug.Log("FrontSideManeuversOuter");
+                table = FrontSideManeuversOuter;
+                adjustDirection = true;
+            }
+            else if (((vector >= 67.5f) && (vector < 112.5f)) || ((vector <= -67.5f) && (vector > -112.5f)))
+            {
+                Debug.Log("SideManeuversOuter");
+                table = SideManeuversOuter;
+                adjustDirection = true;
+            }
+            else if (((vector >= 112.5f) && (vector < 157.5f)) || ((vector <= -112.5f) && (vector > -157.5f)))
+            {
+                Debug.Log("BackSideManeuversOuter");
+                table = BackSideManeuversOuter;
+                adjustDirection = true;
+            }
+            else if ((vector >= 157.5f) || (vector <= -157.5f))
+            {
+                Debug.Log("BackManeuversOuter");
+                table = BackManeuversOuter;
+            }
         }
+
+        result = RandomManeuverFromTable(table);
+        if (adjustDirection)
+        {
+            Debug.Log("Adjust direction according to vector: " + vector);
+            result = AdjustDirection(result, vector);
+        }
+        
+
         return result;
     }
 
@@ -65,13 +125,14 @@ public class GenericAiTable
     public Movement RandomManeuverFromTable(List<string> table)
     {
         string result = "";
-        int random = Random.Range(1, 6);
+        int random = Random.Range(0, 6);
+        Debug.Log("Random is: " + random);
         result = table[random];
 
         //Temporary
         GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
 
-        //Debug.Log(result);
+        Debug.Log("Result is: " + result);
 
         return Game.Movement.ManeuverFromString(result);
     }

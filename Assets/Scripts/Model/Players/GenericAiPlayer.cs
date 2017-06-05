@@ -144,13 +144,39 @@ namespace Players
 
         }
 
-        public Ship.GenericShip FindNearestEnemyShip(Ship.GenericShip thisShip)
+        public Ship.GenericShip FindNearestEnemyShip(Ship.GenericShip thisShip, bool ignoreCollided = false, bool inArcAndRange = false)
         {
             Ship.GenericShip result = null;
             float distance = float.MaxValue;
             foreach (var shipHolder in Roster.GetPlayer(Roster.AnotherPlayer(thisShip.Owner.PlayerNo)).Ships)
             {
-                float newDistance = Vector3.Distance(thisShip.GetPosition(), shipHolder.Value.GetPosition());
+                if (ignoreCollided)
+                {
+                    if (thisShip.LastShipCollision != null)
+                    {
+                        if (thisShip.LastShipCollision.ShipId == shipHolder.Value.ShipId)
+                        {
+                            continue;
+                        }
+                    }
+                    if (shipHolder.Value.LastShipCollision != null)
+                    {
+                        if (shipHolder.Value.LastShipCollision.ShipId == thisShip.ShipId)
+                        {
+                            continue;
+                        }
+                    }
+                }
+
+                if (inArcAndRange)
+                {
+                    if ((Actions.GetFiringRange(thisShip, shipHolder.Value) > 3) || (!Actions.InArcCheck(thisShip, shipHolder.Value)))
+                    {
+                        continue;
+                    }
+                }
+
+                float newDistance = Vector3.Distance(thisShip.GetCenter(), shipHolder.Value.GetCenter());
                 if (newDistance < distance)
                 {
                     distance = newDistance;

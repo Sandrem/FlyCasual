@@ -18,8 +18,12 @@ namespace Players
             if (!ship.IsDestroyed)
             {
                 if (inDebug) Debug.Log("=== " + ship.PilotName + " (" + ship.ShipId + ") ===");
-                Ship.GenericShip anotherShip = FindNearestEnemyShip(ship);
+
+                Ship.GenericShip anotherShip = FindNearestEnemyShip(ship, ignoreCollided:true, inArcAndRange:true);
+                if (anotherShip == null) anotherShip = FindNearestEnemyShip(ship, ignoreCollided: true);
+                if (anotherShip == null) anotherShip = FindNearestEnemyShip(ship);
                 if (inDebug) Debug.Log("Nearest enemy is " + anotherShip.PilotName + " (" + anotherShip.ShipId + ")");
+
                 ship.AssignedManeuver = ship.HotacManeuverTable.GetManeuver(ship, anotherShip);
                 PerformManeuverOfShip(ship);
             }

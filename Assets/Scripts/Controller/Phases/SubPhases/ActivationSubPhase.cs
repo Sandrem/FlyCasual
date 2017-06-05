@@ -13,7 +13,6 @@ namespace SubPhases
         {
             Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
             Name = "Activation SubPhase";
-            Game.UI.AddTestLogEntry(Name);
         }
 
         public override void Initialize()

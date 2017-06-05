@@ -14,7 +14,6 @@ namespace SubPhases
             Name = "Action SubPhase";
             RequiredPilotSkill = PreviousSubPhase.RequiredPilotSkill;
             RequiredPlayer = PreviousSubPhase.RequiredPlayer;
-            Game.UI.AddTestLogEntry(Name);
             UpdateHelpInfo();
         }
 

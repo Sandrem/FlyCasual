@@ -251,8 +251,16 @@ public static partial class Actions {
         }
         else
         {
-            Roster.HighlightShipsFiltered(Roster.AnotherPlayer(Phases.CurrentPhasePlayer));
-            Game.UI.HighlightNextButton();
+            if (Roster.GetPlayer(Phases.CurrentPhasePlayer).GetType() == typeof(Players.HumanPlayer))
+            {
+                Roster.HighlightShipsFiltered(Roster.AnotherPlayer(Phases.CurrentPhasePlayer));
+                Game.UI.HighlightNextButton();
+            }
+            else
+            {
+                Selection.ThisShip.IsAttackPerformed = true;
+                Phases.Next();
+            }
         }
     }
 

@@ -16,9 +16,6 @@ public static partial class Combat
         Game.PrefabsList.DiceResultsMenu.SetActive(true);
         closeButton.onClick.RemoveAllListeners();
         closeButton.onClick.AddListener(closeAction);
-
-        //Set action to close button
-        //closeAction();
     }
 
     public static void ShowDiceModificationButtons()
@@ -45,7 +42,15 @@ public static partial class Combat
 
     public static void ShowConfirmDiceResultsButton()
     {
-        Game.PrefabsList.DiceResultsMenu.transform.Find("Confirm").gameObject.SetActive(true);
+        if (Roster.GetPlayer(Phases.CurrentPhasePlayer).GetType() == typeof(Players.HumanPlayer))
+        {
+            Game.PrefabsList.DiceResultsMenu.transform.Find("Confirm").gameObject.SetActive(true);
+        }
+        else
+        {
+            Button closeButton = Game.PrefabsList.DiceResultsMenu.transform.Find("Confirm").GetComponent<Button>();
+            closeButton.onClick.Invoke();
+        }
     }
 
     private static void CreateDiceModificationsButton(ActionsList.GenericAction actionEffect, Vector3 position)

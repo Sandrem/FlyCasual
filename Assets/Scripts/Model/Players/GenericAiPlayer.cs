@@ -8,6 +8,8 @@ namespace Players
     public partial class GenericAiPlayer : GenericPlayer
     {
 
+        private bool inDebug = true;
+
         public GenericAiPlayer() : base() {
             Type = PlayerType.Ai;
             Name = "AI";
@@ -174,13 +176,34 @@ namespace Players
 
         public override void UseDiceModifications()
         {
-            if (Selection.ThisShip.GetToken(typeof(Tokens.FocusToken)) != null)
+            //Todo: Decision: defence with evade or focus
+
+            if (Selection.ActiveShip.GetToken(typeof(Tokens.EvadeToken)) != null)
+            {
+                if (Combat.AttackStep == CombatStep.Defence)
+                {
+                    if (Combat.DiceRollAttack.Successes > Combat.DiceRollDefence.Successes)
+                    {
+                        foreach (var actionEffect in Selection.ActiveShip.AvailableActionEffects)
+                        {
+                            if (actionEffect.GetType() == typeof(ActionsList.EvadeAction))
+                            {
+                                actionEffect.ActionEffect();
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+
+
+            if (Selection.ActiveShip.GetToken(typeof(Tokens.FocusToken)) != null)
             {
                 if (Combat.AttackStep == CombatStep.Attack)
                 {
                     if (Combat.DiceRollAttack.Focuses > 0)
                     {
-                        foreach (var actionEffect in Selection.ThisShip.AvailableActionEffects)
+                        foreach (var actionEffect in Selection.ActiveShip.AvailableActionEffects)
                         {
                             if (actionEffect.GetType() == typeof(ActionsList.FocusAction))
                             {
@@ -195,28 +218,16 @@ namespace Players
                 {
                     if (Combat.DiceRollDefence.Focuses > 0)
                     {
-                        foreach (var actionEffect in Selection.ThisShip.AvailableActionEffects)
+                        if (Combat.DiceRollAttack.Successes > Combat.DiceRollDefence.Successes)
                         {
-                            if (actionEffect.GetType() == typeof(ActionsList.FocusAction))
+                            foreach (var actionEffect in Selection.ActiveShip.AvailableActionEffects)
                             {
-                                actionEffect.ActionEffect();
-                                break;
+                                if (actionEffect.GetType() == typeof(ActionsList.FocusAction))
+                                {
+                                    actionEffect.ActionEffect();
+                                    break;
+                                }
                             }
-                        }
-                    }
-                }
-            }
-
-            if (Selection.ThisShip.GetToken(typeof(Tokens.EvadeToken)) != null)
-            {
-                if (Combat.AttackStep == CombatStep.Defence)
-                {
-                    foreach (var actionEffect in Selection.ThisShip.AvailableActionEffects)
-                    {
-                        if (actionEffect.GetType() == typeof(ActionsList.FocusAction))
-                        {
-                            actionEffect.ActionEffect();
-                            break;
                         }
                     }
                 }

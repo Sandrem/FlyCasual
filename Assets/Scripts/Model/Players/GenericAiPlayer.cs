@@ -8,8 +8,6 @@ namespace Players
     public partial class GenericAiPlayer : GenericPlayer
     {
 
-        private bool inDebug = true;
-
         public GenericAiPlayer() : base() {
             Type = PlayerType.Ai;
             Name = "AI";

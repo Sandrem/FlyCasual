@@ -127,7 +127,7 @@ public static class MovementTemplates {
 
     public static void ReturnRangeRuler()
     {
-        Templates.Find("RangeRuler").transform.position = new Vector3(10.6f, 0f, -8.13f);
+        Templates.Find("RangeRuler").transform.position = new Vector3(7f, 0f, -1.5f);
         Templates.Find("RangeRuler").transform.eulerAngles = new Vector3(0, 0, 0);
     }
 

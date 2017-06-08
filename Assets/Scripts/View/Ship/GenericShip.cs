@@ -313,11 +313,11 @@ namespace Ship
 
             foreach (var point in GetStandEdgePoints())
             {
-                
-                if (point.Value.x < zoneStart.x) result = false;
-                if (point.Value.z < zoneStart.z) result = false;
-                if (point.Value.x > zoneEnd.x ) result = false;
-                if (point.Value.z > zoneEnd.z) result = false;
+                if ((point.Value.x < zoneStart.x) || (point.Value.z < zoneStart.z) || (point.Value.x > zoneEnd.x ) || (point.Value.z > zoneEnd.z))
+                {
+                    result = false;
+                    break;
+                }
             }
             return result;
         }
@@ -410,6 +410,12 @@ namespace Ship
         public void SetHeight(float height)
         {
             Model.transform.Find("RotationHelper").localPosition = new Vector3(Model.transform.Find("RotationHelper").localPosition.x, height, Model.transform.Find("RotationHelper").localPosition.z);
+        }
+
+        public void ToggleShipStandAndPeg(bool value)
+        {
+            Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("ShipStand").gameObject.SetActive(value);
+            Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("ShipPeg").gameObject.SetActive(value);
         }
 
     }

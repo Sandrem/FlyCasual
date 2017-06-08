@@ -196,23 +196,68 @@ public class ShipPositionManager : MonoBehaviour
 
         if (Phases.CurrentSubPhase.GetType() == typeof(SubPhases.BarrelRollSubPhase))
         {
-            if (Game.Movement.CollidedWith == null)
-            {
-                StartBarrelRollAnimation(ship);
-                result = true;
-            }
-            else
-            {
-                Game.UI.ShowError("This ship shouldn't collide with another ships");
-                CancelBarrelRoll();
-                result = false;
-            }
-
+            TryConfirmBarrelRollPosition(ship);
+            result = true;
         }
 
         //TODO: Different for setup and Barrel Roll
         if (result) StopDrag();
 
+        return result;
+    }
+
+    private void TryConfirmBarrelRollPosition(Ship.GenericShip ship)
+    {
+        bool allow = true;
+
+        if (Game.Movement.CollidedWith != null)
+        {
+            Game.UI.ShowError("Cannot collide with another ships");
+            allow = false;
+        }
+        else if (ship.ObstaclesLanded.Count != 0)
+        {
+            Game.UI.ShowError("Cannot land on Asteroid");
+            allow = false;
+        }
+        else if (!ShipStandIsInside(Board.BoardTransform.Find("Playmat")))
+        {
+            Game.UI.ShowError("Cannot leave the battlefield");
+            allow = false;
+        }
+
+        if (allow)
+        {
+            StartBarrelRollAnimation(ship);
+        }
+        else
+        {
+            CancelBarrelRoll();
+        }
+    }
+
+    public bool ShipStandIsInside(Transform zone)
+    {
+        Vector3 zoneStart = zone.transform.TransformPoint(-0.5f, -0.5f, -0.5f);
+        Vector3 zoneEnd = zone.transform.TransformPoint(0.5f, 0.5f, 0.5f);
+        bool result = true;
+
+        List<Vector3> shipStandEdges = new List<Vector3>
+        {
+            ShipStand.transform.TransformPoint(new Vector3(-0.5f, 0f, 0)),
+            ShipStand.transform.TransformPoint(new Vector3(0.5f, 0f, 0)),
+            ShipStand.transform.TransformPoint(new Vector3(-0.5f, 0f, -1f)),
+            ShipStand.transform.TransformPoint(new Vector3(0.5f, 0f, -1))
+        };
+
+        foreach (var point in shipStandEdges)
+        {
+            if ((point.x < zoneStart.x) || (point.z < zoneStart.z) || (point.x > zoneEnd.x) || (point.z > zoneEnd.z))
+            {
+                result = false;
+                break;
+            }
+        }
         return result;
     }
 
@@ -238,7 +283,8 @@ public class ShipPositionManager : MonoBehaviour
         inBarrelRoll = true;
         progressCurrent = 0;
         progressTarget = Vector3.Distance(RollingShip.GetPosition(), ShipStand.transform.position);
-
+        RollingShip.ToggleShipStandAndPeg(false);
+        MovementTemplates.CurrentTemplate.gameObject.SetActive(false);
     }
 
     //TODO: Move using curve
@@ -260,8 +306,11 @@ public class ShipPositionManager : MonoBehaviour
         inBarrelRoll = false;
         Destroy(ShipStand);
         Game.Movement.CollidedWith = null;
-        MovementTemplates.HideLastMovementRuler();
 
+        MovementTemplates.HideLastMovementRuler();
+        MovementTemplates.CurrentTemplate.gameObject.SetActive(true);
+
+        RollingShip.ToggleShipStandAndPeg(true);
         RollingShip.FinishPosition();
 
         Phases.Next();
@@ -269,6 +318,7 @@ public class ShipPositionManager : MonoBehaviour
 
     private void CancelBarrelRoll()
     {
+        Selection.ThisShip.ObstaclesLanded = new List<Collider>();
         inReposition = false;
         Destroy(ShipStand);
         Game.Movement.CollidedWith = null;

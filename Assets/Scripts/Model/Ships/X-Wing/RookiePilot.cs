@@ -13,6 +13,7 @@ namespace Ship
                 PilotName = "Rookie Pilot";
                 ImageUrl = "https://vignette1.wikia.nocookie.net/xwing-miniatures/images/c/cc/Rookie-pilot.png";
                 PilotSkill = 2;
+                Cost = 21;
             }
         }
     }

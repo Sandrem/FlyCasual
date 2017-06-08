@@ -14,7 +14,8 @@ namespace UpgradesList
             Type = UpgradeSlot.Astromech;
             Name = ShortName = "R2-D2";
             ImageUrl = "https://vignette2.wikia.nocookie.net/xwing-miniatures/images/5/57/R2-d2.png";
-            isUnique = true; 
+            isUnique = true;
+            Cost = 4;
         }
 
         public override void AttachToShip(Ship.GenericShip host)

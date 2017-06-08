@@ -14,6 +14,7 @@ namespace Ship
                 ImageUrl = "https://vignette3.wikia.nocookie.net/xwing-miniatures/images/9/90/Biggs-darklighter.png";
                 isUnique = true;
                 PilotSkill = 5;
+                Cost = 25;
             }
 
             public override void InitializePilot()

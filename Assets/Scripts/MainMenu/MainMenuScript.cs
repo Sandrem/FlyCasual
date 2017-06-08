@@ -15,7 +15,7 @@ public class MainMenuScript : MonoBehaviour {
     public GameObject BackgroundImage;
 
     public GameObject RosterBuilderPrefab;
-    public GameObject UpgradeGroupPrefab;
+    public GameObject UpgradeLinePrefab;
 
     // Use this for initialization
     void Start () {

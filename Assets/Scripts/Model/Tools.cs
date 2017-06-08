@@ -20,4 +20,18 @@ public static partial class Tools
         return result;
     }
 
+    public static PlayerNo IntToPlayer(int playerNo)
+    {
+        PlayerNo result = PlayerNo.Player1;
+        if (playerNo == 1)
+        {
+            result = PlayerNo.Player1;
+        }
+        else
+        {
+            result = PlayerNo.Player2;
+        }
+        return result;
+    }
+
 }

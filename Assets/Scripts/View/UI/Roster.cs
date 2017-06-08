@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using Players;
+using System.Linq;
 
 //TODO: Store info about ships rosters
 public static partial class Roster {
@@ -17,6 +18,8 @@ public static partial class Roster {
 
         //Generic info
         newPanel.transform.Find("ShipInfo").Find("ShipPilotSkillText").GetComponent<Text>().text = newShip.PilotSkill.ToString();
+
+        newPanel.transform.Find("ShipInfo").Find("ShipId").GetComponent<Text>().text = newShip.ShipId.ToString();
 
         newPanel.transform.Find("ShipInfo").Find("ShipPilotNameText").GetComponent<Text>().text = newShip.PilotName;
         Tooltips.AddTooltip(newPanel.transform.Find("ShipInfo").Find("ShipPilotNameText").gameObject, newShip.ImageUrl);
@@ -92,7 +95,6 @@ public static partial class Roster {
 
     private static void OrganizeRosterPanelSizes()
     {
-
         foreach (GameObject panel in rosterPlayer1)
         {
             panel.transform.Find("ShipInfo").GetComponent<RectTransform>().sizeDelta = new Vector2(200, CalculateRosterPanelSize(panel));
@@ -147,10 +149,10 @@ public static partial class Roster {
     {
         Vector3 defaultPosition = Game.PrefabsList.RostersHolder.transform.Find("TeamPlayer1").Find("RosterHolder").transform.position + new Vector3(5f, 0f, 0f);
 
-        rosterPlayer1.Sort(delegate (GameObject x, GameObject y)
-        {
-            return -x.transform.Find("ShipInfo").Find("ShipPilotSkillText").GetComponent<Text>().text.CompareTo(y.transform.Find("ShipInfo").Find("ShipPilotSkillText").GetComponent<Text>().text);
-        });
+        rosterPlayer1 = rosterPlayer1
+            .OrderByDescending(x => x.transform.Find("ShipInfo").Find("ShipPilotSkillText").GetComponent<Text>().text)
+            .ThenBy(x => x.transform.Find("ShipInfo").Find("ShipId").GetComponent<Text>().text)
+            .ToList();
 
         float offset = 5;
         foreach (var item in rosterPlayer1)
@@ -162,10 +164,10 @@ public static partial class Roster {
         /// Same for second player
         defaultPosition = Game.PrefabsList.RostersHolder.transform.Find("TeamPlayer2").Find("RosterHolder").transform.position + new Vector3(5f, 0f, 0f);
 
-        rosterPlayer2.Sort(delegate (GameObject x, GameObject y)
-        {
-            return -x.transform.Find("ShipInfo").Find("ShipPilotSkillText").GetComponent<Text>().text.CompareTo(y.transform.Find("ShipInfo").Find("ShipPilotSkillText").GetComponent<Text>().text);
-        });
+        rosterPlayer2 = rosterPlayer2
+            .OrderByDescending(x => x.transform.Find("ShipInfo").Find("ShipPilotSkillText").GetComponent<Text>().text)
+            .ThenBy(x => x.transform.Find("ShipInfo").Find("ShipId").GetComponent<Text>().text)
+            .ToList();
 
         offset = 5;
         foreach (var item in rosterPlayer2)

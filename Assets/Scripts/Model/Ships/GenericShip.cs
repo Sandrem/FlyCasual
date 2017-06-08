@@ -477,6 +477,11 @@ namespace Ship
         {
             if (ObstaclesLanded.Count > 0)
             {
+                foreach (var obstacle in ObstaclesLanded)
+                {
+                    if (!ObstaclesHit.Contains(obstacle)) ObstaclesHit.Add(obstacle);
+                }
+
                 Game.UI.ShowError("Landed on obstacle");
                 if (OnLandedOnObstacle != null) OnLandedOnObstacle(this);
             }

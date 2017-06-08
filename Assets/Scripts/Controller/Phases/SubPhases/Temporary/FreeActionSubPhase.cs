@@ -10,7 +10,6 @@ namespace SubPhases
 
         public override void Start()
         {
-            Debug.Log("Free Action: Start");
             Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
             Name = "Free Action SubPhase";
             isTemporary = true;
@@ -19,7 +18,6 @@ namespace SubPhases
 
         public override void Next()
         {
-            Debug.Log("Free Action: Next");
             Phases.CurrentSubPhase = PreviousSubPhase;
             Phases.Next();
             Phases.FinishSubPhase(typeof(ActivationSubPhase));

@@ -180,7 +180,6 @@ namespace Ship
         {
             ManeuverColor result = ManeuverColor.None;
 
-            //BUG: Movement of second AI in row
             result = AssignedManeuver.ColorComplexity;
             return result;
         }
@@ -477,6 +476,11 @@ namespace Ship
         {
             if (ObstaclesLanded.Count > 0)
             {
+                foreach (var obstacle in ObstaclesLanded)
+                {
+                    if (!ObstaclesHit.Contains(obstacle)) ObstaclesHit.Add(obstacle);
+                }
+
                 Game.UI.ShowError("Landed on obstacle");
                 if (OnLandedOnObstacle != null) OnLandedOnObstacle(this);
             }

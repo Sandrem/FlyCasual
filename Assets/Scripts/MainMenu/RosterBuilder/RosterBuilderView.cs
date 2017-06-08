@@ -27,7 +27,7 @@ public static partial class RosterBuilder {
         foreach (Transform shipPanel in GetShipsPanel(playerNo))
         {
             if (shipPanel.name == "AddShipPanel") continue;
-            string pilotNameFull = shipPanel.Find("GroupPilot").Find("Dropdown").GetComponent<Dropdown>().captionText.text;
+            string pilotNameFull = shipPanel.Find("GroupShip").Find("DropdownPilot").GetComponent<Dropdown>().captionText.text;
             string pilotNameId = AllPilots[pilotNameFull];
 
             List<string> upgradesList = new List<string>();
@@ -80,7 +80,7 @@ public static partial class RosterBuilder {
             }
         }
 
-        Dropdown shipDropdown = panel.transform.Find("GroupShip").Find("Dropdown").GetComponent<Dropdown>();
+        Dropdown shipDropdown = panel.transform.Find("GroupShip").Find("DropdownShip").GetComponent<Dropdown>();
         shipDropdown.ClearOptions();
         shipDropdown.AddOptions(results);
 
@@ -89,21 +89,22 @@ public static partial class RosterBuilder {
 
     private static void SetPilot(GameObject panel, PlayerNo playerNo)
     {
-        string shipNameFull = panel.transform.Find("GroupShip").Find("Dropdown").GetComponent<Dropdown>().captionText.text;
+        string shipNameFull = panel.transform.Find("GroupShip").Find("DropdownShip").GetComponent<Dropdown>().captionText.text;
         string shipNameId = AllShips[shipNameFull];
         List<string> results = GetPilotsList(shipNameId);
 
-        Dropdown pilotDropdown = panel.transform.Find("GroupPilot").Find("Dropdown").GetComponent<Dropdown>();
+        Dropdown pilotDropdown = panel.transform.Find("GroupShip").Find("DropdownPilot").GetComponent<Dropdown>();
         pilotDropdown.ClearOptions();
         pilotDropdown.AddOptions(results);
         pilotDropdown.onValueChanged.AddListener(delegate { UpdateUpgradePanels(panel); });
 
         SetAvailableUpgrades(panel, pilotDropdown.captionText.text);
+        OrganizePanelGroups(panel);
     }
 
     private static void UpdateUpgradePanels(GameObject panel)
     {
-        string pilotName = panel.transform.Find("GroupPilot").Find("Dropdown").GetComponent<Dropdown>().captionText.text;
+        /*string pilotName = panel.transform.Find("GroupPilot").Find("Dropdown").GetComponent<Dropdown>().captionText.text;
         string pilotId = AllPilots[pilotName];
         Ship.GenericShip ship = (Ship.GenericShip)Activator.CreateInstance(Type.GetType(pilotId));
 
@@ -111,7 +112,7 @@ public static partial class RosterBuilder {
         {
             if (panel.transform.Find("Upgrade" + slot.Key.ToString() + "Panel") == null)
             {
-                AddGroup(panel, slot.Key.ToString());
+                AddUpgradeLine(panel, slot.Key.ToString());
             }
         }
 
@@ -130,22 +131,27 @@ public static partial class RosterBuilder {
         {
             MonoBehaviour.DestroyImmediate(group);
             OrganizePanelGroups(panel);
-        }
+        }*/
     }
 
-    private static void AddGroup(GameObject panel, string upgradeId)
+    private static void AddUpgradeLine(GameObject panel, string upgradeId)
     {
-        GameObject prefab = GameObject.Find("ScriptHolder").GetComponent<MainMenuScript>().UpgradeGroupPrefab;
-        Transform parent = panel.transform;
+        GameObject prefab = GameObject.Find("ScriptHolder").GetComponent<MainMenuScript>().UpgradeLinePrefab;
+        Transform parent = panel.transform.Find("GroupUpgrades");
 
         GameObject newPanel = MonoBehaviour.Instantiate(prefab, parent);
         newPanel.transform.localPosition = Vector3.zero;
-        newPanel.name = "Upgrade" + upgradeId + "Panel";
-        newPanel.transform.Find("Text").GetComponent<Text>().text = upgradeId;
+        newPanel.name = "Upgrade" + upgradeId + "Line";
 
         Type type = typeof(Upgrade.UpgradeSlot);
-        List<string> upgradeList = GetUpgrades((Upgrade.UpgradeSlot)Enum.Parse(type, upgradeId));
-        newPanel.transform.Find("Dropdown").GetComponent<Dropdown>().AddOptions(upgradeList);
+        //List<string> upgradeList = GetUpgrades((Upgrade.UpgradeSlot)Enum.Parse(type, upgradeId));
+        //newPanel.transform.Find("Dropdown").GetComponent<Dropdown>().AddOptions(upgradeList);
+
+        //Temporary
+        string upgradeIdTemp = "Empty Slot: " + upgradeId;
+        List<string> tempList = new List<string>() { upgradeIdTemp };
+        newPanel.transform.GetComponent<Dropdown>().ClearOptions();
+        newPanel.transform.GetComponent<Dropdown>().AddOptions(tempList);
 
         OrganizePanelGroups(panel);
     }
@@ -191,7 +197,7 @@ public static partial class RosterBuilder {
         foreach (Transform shipPanel in playerShips)
         {
             if (shipPanel.name == "AddShipPanel") continue;
-            string pilotName = shipPanel.Find("GroupPilot").Find("Dropdown").GetComponent<Dropdown>().captionText.text;
+            string pilotName = shipPanel.Find("GroupShip").Find("DropdownPilot").GetComponent<Dropdown>().captionText.text;
             Ship.GenericShip newPilot = (Ship.GenericShip)Activator.CreateInstance(Type.GetType(AllPilots[pilotName]));
             if (newPilot.faction != playerFaction) RemoveShip(shipPanel.gameObject);
         }
@@ -245,15 +251,24 @@ public static partial class RosterBuilder {
     private static void OrganizePanelGroups(GameObject panel)
     {
         float offset = 0;
-        foreach (Transform group in panel.transform)
+        int i = 0;
+        foreach (Transform group in panel.transform.Find("GroupUpgrades"))
         {
-            if (group.name != "Panel")
+            if (i%2 == 0)
             {
-                group.localPosition = new Vector3(group.localPosition.x, offset, group.localPosition.z);
+                group.localPosition = new Vector3(0, offset, group.localPosition.z);
+            }
+            else
+            {
+                group.localPosition = new Vector3(285, offset, group.localPosition.z);
                 offset = offset - 30;
             }
+            i++;
         }
-        panel.GetComponent<RectTransform>().sizeDelta = new Vector2(panel.GetComponent<RectTransform>().sizeDelta.x, -offset + 10);
+
+        if (i % 2 == 1) offset = offset - 30;
+        if (i == 0) offset = offset + 10;
+        panel.GetComponent<RectTransform>().sizeDelta = new Vector2(580, -offset + 50);
 
         OrganizeAllShipsLists();
     }

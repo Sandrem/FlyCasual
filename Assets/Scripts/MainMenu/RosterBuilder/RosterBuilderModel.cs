@@ -73,7 +73,10 @@ public static partial class RosterBuilder {
             {
                 namespaceList.Add(ns);
                 Ship.GenericShip newShipTypeContainer = (Ship.GenericShip)System.Activator.CreateInstance(System.Type.GetType(ns + "." + ns.Substring(5)));
-                AllShips.Add(newShipTypeContainer.Type, ns);
+                if (!AllShips.ContainsKey(newShipTypeContainer.Type))
+                {
+                    AllShips.Add(newShipTypeContainer.Type, ns);
+                }
             }
         }
     }
@@ -129,7 +132,7 @@ public static partial class RosterBuilder {
         Ship.GenericShip ship = (Ship.GenericShip)System.Activator.CreateInstance(System.Type.GetType(pilotId));
         foreach (var upgrade in ship.BuiltInSlots)
         {
-            AddGroup(panel, upgrade.Key.ToString());
+            AddUpgradeLine(panel, upgrade.Key.ToString());
         }
     }
 

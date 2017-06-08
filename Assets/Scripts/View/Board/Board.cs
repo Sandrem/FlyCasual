@@ -11,6 +11,7 @@ public static partial class Board {
     public static GameObject StartingZone1;
     public static GameObject StartingZone2;
 
+    public static readonly float SIZE_ANY = 91.44f;
     public static readonly float SIZE_X = 91.44f;
     public static readonly float SIZE_Y = 91.44f;
     public static readonly float SHIP_STAND_SIZE = 4f;
@@ -118,7 +119,7 @@ public static partial class Board {
         GameObject FiringLine = Game.PrefabsList.BoardTransform.Find("FiringLine").gameObject;
         FiringLine.transform.position = closestEdgeThis;
         FiringLine.transform.rotation = Quaternion.LookRotation(vectorToTarget);
-        FiringLine.transform.localScale = new Vector3(1, 1, Vector3.Distance(closestEdgeThis, closestEdgeAnother));
+        FiringLine.transform.localScale = new Vector3(1, 1, Vector3.Distance(closestEdgeThis, closestEdgeAnother) * SIZE_ANY / 100);
         FiringLine.SetActive(true);
 
         Game.Movement.isCheckingFireLineCollisionsStart = true;

@@ -180,7 +180,6 @@ namespace Ship
         {
             ManeuverColor result = ManeuverColor.None;
 
-            //BUG: Movement of second AI in row
             result = AssignedManeuver.ColorComplexity;
             return result;
         }

@@ -19,17 +19,6 @@ namespace SubPhases
 
         public override void Next()
         {
-            Selection.ThisShip.CheckLandedOnObstacle();
-
-            Selection.ThisShip.FinishMoving();
-            Selection.ThisShip.FinishPosition();
-            
-            Selection.ThisShip.ResetRotationHelpers();
-
-            Selection.ThisShip.IsManeuverPerformed = true;
-            Selection.ThisShip.IsAttackPerformed = false;
-
-            Selection.ThisShip.AssignedManeuver = null;
 
             if (Phases.CurrentSubPhase.GetType() == this.GetType())
             {

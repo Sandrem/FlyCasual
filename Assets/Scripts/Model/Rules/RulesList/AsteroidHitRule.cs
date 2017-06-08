@@ -32,33 +32,49 @@ namespace RulesList
             {
                 Game.UI.ShowError("Hit asteroid during movement - rolling for damage");
 
-                //Todo: Throw visual dice
-
                 foreach (var asteroid in Selection.ThisShip.ObstaclesHit)
                 {
-                    int diceResult = Random.Range(0, 8);
-                    DiceRoll newDiceroll = new DiceRoll("attack", 0);
-                    if (diceResult < 5)
-                    {
-                        Game.UI.ShowInfo("Roll result: No damage");
-                    }
-                    else if (diceResult > 7)
-                    {
-                        Dice newDice = new Dice("attack", DiceSide.Crit);
-                        newDiceroll.DiceList.Add(newDice);
-                        Game.UI.ShowError("Roll result: Critical hit!");
-                        Selection.ThisShip.SufferDamage(newDiceroll);
-                    }
-                    else
-                    {
-                        Dice newDice = new Dice("attack", DiceSide.Success);
-                        newDiceroll.DiceList.Add(newDice);
-                        Game.UI.ShowError("Roll result: Hit!");
-                        Selection.ThisShip.SufferDamage(newDiceroll);
-                    }
-                }
+                    Phases.StartDiceRollSubPhase("Damage from asteroid collision");
+                    Combat.ShowDiceResultMenu(FinishCheck);
 
+                    DiceRoll DiceRollCheck;
+                    DiceRollCheck = new DiceRoll("attack", 1);
+                    DiceRollCheck.Roll();
+                    DiceRollCheck.CalculateResults(CheckResults);
+                }
             }
+        }
+
+        private void CheckResults(DiceRoll diceRoll)
+        {
+            Combat.CurentDiceRoll = diceRoll;
+            switch (diceRoll.DiceList[0].Side)
+            {
+                case DiceSide.Blank:
+                    Game.UI.ShowInfo("No damage");
+                    break;
+                case DiceSide.Focus:
+                    Game.UI.ShowInfo("No damage");
+                    break;
+                case DiceSide.Success:
+                    Game.UI.ShowError("Damage is dealt!");
+                    Selection.ThisShip.SufferDamage(diceRoll);
+                    break;
+                case DiceSide.Crit:
+                    Game.UI.ShowError("Critical damage is dealt!");
+                    Selection.ThisShip.SufferDamage(diceRoll);
+                    break;
+                default:
+                    break;
+            }
+            Combat.ShowConfirmDiceResultsButton();
+        }
+
+        private void FinishCheck()
+        {
+            Phases.FinishSubPhase(typeof(SubPhases.DiceRollSubPhase));
+            Combat.HideDiceResultMenu();
+            Phases.Next();
         }
 
     }

@@ -32,15 +32,12 @@ public static partial class RosterBuilder {
 
             List<string> upgradesList = new List<string>();
 
-            foreach (Transform upgradePanel in shipPanel.transform)
+            foreach (Transform upgradePanel in shipPanel.transform.Find("GroupUpgrades"))
             {
-                if (upgradePanel.name.StartsWith("Upgrade"))
+                string upgradeName = upgradePanel.GetComponent<Dropdown>().captionText.text;
+                if (AllUpgrades.ContainsKey(upgradeName))
                 {
-                    string upgradeName = upgradePanel.Find("Dropdown").GetComponent<Dropdown>().captionText.text;
-                    if (AllUpgrades.ContainsKey(upgradeName))
-                    {
-                        upgradesList.Add(AllUpgrades[upgradeName]);
-                    }
+                    upgradesList.Add(AllUpgrades[upgradeName]);
                 }
             }
 
@@ -63,8 +60,6 @@ public static partial class RosterBuilder {
         MonoBehaviour.DestroyImmediate(panel);
         OrganizeAllShipsLists();
     }
-
- 
 
     //Set values to panels
 
@@ -104,34 +99,32 @@ public static partial class RosterBuilder {
 
     private static void UpdateUpgradePanels(GameObject panel)
     {
-        /*string pilotName = panel.transform.Find("GroupPilot").Find("Dropdown").GetComponent<Dropdown>().captionText.text;
+        string pilotName = panel.transform.Find("GroupShip").Find("DropdownPilot").GetComponent<Dropdown>().captionText.text;
         string pilotId = AllPilots[pilotName];
         Ship.GenericShip ship = (Ship.GenericShip)Activator.CreateInstance(Type.GetType(pilotId));
 
         foreach (var slot in ship.BuiltInSlots)
         {
-            if (panel.transform.Find("Upgrade" + slot.Key.ToString() + "Panel") == null)
+            if (panel.transform.Find("GroupUpgrades").Find("Upgrade" + slot.Key.ToString() + "Line") == null)
             {
                 AddUpgradeLine(panel, slot.Key.ToString());
             }
         }
 
         List<GameObject> toRemove = new List<GameObject>();
-        foreach (Transform group in panel.transform)
+        foreach (Transform group in panel.transform.Find("GroupUpgrades"))
         {
-            if (group.name.StartsWith("Upgrade"))
-            {
-                Type type = typeof(Upgrade.UpgradeSlot);
-                string upgradeId = group.Find("Text").GetComponent<Text>().text;
-                Upgrade.UpgradeSlot slot = (Upgrade.UpgradeSlot)Enum.Parse(type, upgradeId);
-                if (!ship.BuiltInSlots.ContainsKey(slot)) toRemove.Add(group.gameObject);
-            }
+            Type type = typeof(Upgrade.UpgradeSlot);
+            string upgradeId = group.GetComponent<Dropdown>().options[0].text;
+            upgradeId = upgradeId.Substring(upgradeId.IndexOf(':') + 2);
+            Upgrade.UpgradeSlot slot = (Upgrade.UpgradeSlot)Enum.Parse(type, upgradeId);
+            if (!ship.BuiltInSlots.ContainsKey(slot)) toRemove.Add(group.gameObject);
         }
         foreach (var group in toRemove)
         {
             MonoBehaviour.DestroyImmediate(group);
-            OrganizePanelGroups(panel);
-        }*/
+            OrganizeUpgradeLines(panel);
+        }
     }
 
     private static void AddUpgradeLine(GameObject panel, string upgradeId)
@@ -143,15 +136,14 @@ public static partial class RosterBuilder {
         newPanel.transform.localPosition = Vector3.zero;
         newPanel.name = "Upgrade" + upgradeId + "Line";
 
-        Type type = typeof(Upgrade.UpgradeSlot);
-        //List<string> upgradeList = GetUpgrades((Upgrade.UpgradeSlot)Enum.Parse(type, upgradeId));
-        //newPanel.transform.Find("Dropdown").GetComponent<Dropdown>().AddOptions(upgradeList);
-
-        //Temporary
-        string upgradeIdTemp = "Empty Slot: " + upgradeId;
-        List<string> tempList = new List<string>() { upgradeIdTemp };
+        string emptySlot = "Empty Slot: " + upgradeId;
+        List<string> emptySlotList = new List<string>() { emptySlot };
         newPanel.transform.GetComponent<Dropdown>().ClearOptions();
-        newPanel.transform.GetComponent<Dropdown>().AddOptions(tempList);
+        newPanel.transform.GetComponent<Dropdown>().AddOptions(emptySlotList);
+
+        Type type = typeof(Upgrade.UpgradeSlot);
+        List<string> upgradeList = GetUpgrades((Upgrade.UpgradeSlot)Enum.Parse(type, upgradeId));
+        newPanel.transform.GetComponent<Dropdown>().AddOptions(upgradeList);
 
         OrganizeUpgradeLines(panel);
     }

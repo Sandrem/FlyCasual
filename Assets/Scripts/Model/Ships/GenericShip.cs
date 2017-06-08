@@ -142,7 +142,7 @@ namespace Ship
 
         public GenericShip()
         {
-            //AddUpgradeSlot(Upgrade.UpgradeSlot.Modification);
+            AddUpgradeSlot(Upgrade.UpgradeSlot.Modification);
         }
 
         public void InitializeGenericShip(Players.PlayerNo playerNo, int shipId, Vector3 position)

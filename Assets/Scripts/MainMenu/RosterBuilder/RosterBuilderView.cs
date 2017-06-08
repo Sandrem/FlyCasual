@@ -99,7 +99,7 @@ public static partial class RosterBuilder {
         pilotDropdown.onValueChanged.AddListener(delegate { UpdateUpgradePanels(panel); });
 
         SetAvailableUpgrades(panel, pilotDropdown.captionText.text);
-        OrganizePanelGroups(panel);
+        OrganizeUpgradeLines(panel);
     }
 
     private static void UpdateUpgradePanels(GameObject panel)
@@ -153,7 +153,7 @@ public static partial class RosterBuilder {
         newPanel.transform.GetComponent<Dropdown>().ClearOptions();
         newPanel.transform.GetComponent<Dropdown>().AddOptions(tempList);
 
-        OrganizePanelGroups(panel);
+        OrganizeUpgradeLines(panel);
     }
 
     //Get information from panels
@@ -217,7 +217,7 @@ public static partial class RosterBuilder {
 
     private static Transform GetShipsPanel(PlayerNo playerNo)
     {
-        return GameObject.Find("Canvas").transform.Find("Panel").Find("SquadBuilderPanel").Find("ShipsPanel").Find("Player" + Tools.PlayerToInt(playerNo) + "Ships");
+        return GameObject.Find("Canvas").transform.Find("Panel").Find("SquadBuilderPanel").Find("ShipsPanel").Find("Player" + Tools.PlayerToInt(playerNo) + "Ships").Find("Scroll View").Find("Viewport").Find("Content");
     }
 
     //Organization
@@ -246,9 +246,11 @@ public static partial class RosterBuilder {
         }
 
         addShipPanel.localPosition = new Vector3(addShipPanel.localPosition.x, offset, addShipPanel.localPosition.z);
+
+        GetShipsPanel(playerNo).GetComponent<RectTransform>().sizeDelta = new Vector3(0, -offset + 40);
     }
 
-    private static void OrganizePanelGroups(GameObject panel)
+    private static void OrganizeUpgradeLines(GameObject panel)
     {
         float offset = 0;
         int i = 0;

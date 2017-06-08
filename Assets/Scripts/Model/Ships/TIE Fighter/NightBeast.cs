@@ -14,6 +14,7 @@ namespace Ship
                 ImageUrl = "https://vignette2.wikia.nocookie.net/xwing-miniatures/images/b/ba/Night_Beast.png";
                 isUnique = true;
                 PilotSkill = 5;
+                Cost = 15;
             }
 
             public override void InitializePilot()

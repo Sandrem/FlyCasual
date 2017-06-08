@@ -14,6 +14,7 @@ namespace Ship
                 ImageUrl = "https://vignette1.wikia.nocookie.net/xwing-miniatures/images/4/49/Dark_Curse.png";
                 isUnique = true;
                 PilotSkill = 6;
+                Cost = 16;
             }
 
             public override void InitializePilot()

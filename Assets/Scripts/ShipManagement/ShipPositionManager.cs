@@ -79,6 +79,8 @@ public class ShipPositionManager : MonoBehaviour
 
     private void PerformDrag()
     {
+        Debug.Log(Selection.ThisShip.ObstaclesLanded.Count);
+
         RaycastHit hit;
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
@@ -196,24 +198,39 @@ public class ShipPositionManager : MonoBehaviour
 
         if (Phases.CurrentSubPhase.GetType() == typeof(SubPhases.BarrelRollSubPhase))
         {
-            if (Game.Movement.CollidedWith == null)
-            {
-                StartBarrelRollAnimation(ship);
-                result = true;
-            }
-            else
-            {
-                Game.UI.ShowError("This ship shouldn't collide with another ships");
-                CancelBarrelRoll();
-                result = false;
-            }
-
+            TryConfirmBarrelRollPosition(ship);
+            result = true;
         }
 
         //TODO: Different for setup and Barrel Roll
         if (result) StopDrag();
 
         return result;
+    }
+
+    private void TryConfirmBarrelRollPosition(Ship.GenericShip ship)
+    {
+        bool allow = true;
+
+        if (Game.Movement.CollidedWith != null)
+        {
+            Game.UI.ShowError("This ship shouldn't collide with another ships");
+            allow = false;
+        }
+        else if (ship.ObstaclesLanded.Count != 0)
+        {
+            Game.UI.ShowError("This ship shouldn't land on Asteroid");
+            allow = false;
+        }
+
+        if (allow)
+        {
+            StartBarrelRollAnimation(ship);
+        }
+        else
+        {
+            CancelBarrelRoll();
+        }
     }
 
     private void StopDrag()
@@ -269,6 +286,7 @@ public class ShipPositionManager : MonoBehaviour
 
     private void CancelBarrelRoll()
     {
+        Selection.ThisShip.ObstaclesLanded = new List<Collider>();
         inReposition = false;
         Destroy(ShipStand);
         Game.Movement.CollidedWith = null;

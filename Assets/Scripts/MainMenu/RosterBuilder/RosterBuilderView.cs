@@ -47,12 +47,20 @@ public static partial class RosterBuilder {
 
     public static void CopyShip(GameObject panel)
     {
-        Transform parent = panel.transform.parent;
-        GameObject newPanel = MonoBehaviour.Instantiate(panel, parent);
-        newPanel.transform.Find("Panel").Find("RemoveButton").GetComponent<Button>().onClick.AddListener(delegate { RemoveShip(newPanel); });
-        newPanel.transform.Find("Panel").Find("CopyButton").GetComponent<Button>().onClick.AddListener(delegate { CopyShip(newPanel); });
+        PlayerNo playerNo = Tools.IntToPlayer(int.Parse(panel.transform.parent.parent.parent.parent.name.Substring(6, 1)));
+        if (GetShipsCount(playerNo) < 8)
+        {
+            Transform parent = panel.transform.parent;
+            GameObject newPanel = MonoBehaviour.Instantiate(panel, parent);
+            newPanel.transform.Find("Panel").Find("RemoveButton").GetComponent<Button>().onClick.AddListener(delegate { RemoveShip(newPanel); });
+            newPanel.transform.Find("Panel").Find("CopyButton").GetComponent<Button>().onClick.AddListener(delegate { CopyShip(newPanel); });
 
-        OrganizeAllShipsLists();
+            OrganizeAllShipsLists();
+        }
+        else
+        {
+            //ShowError
+        }
     }
 
     public static void RemoveShip(GameObject panel)
@@ -172,6 +180,19 @@ public static partial class RosterBuilder {
             case 1: return typeof(HotacAiPlayer);
         }
         return null;
+    }
+
+    private static int GetShipsCount(PlayerNo playerNo)
+    {
+        int result = 0;
+
+        foreach (var panel in GetShipsPanel(playerNo))
+        {
+            result++;
+        }
+        result--;
+
+        return result;
     }
 
     //Faction change

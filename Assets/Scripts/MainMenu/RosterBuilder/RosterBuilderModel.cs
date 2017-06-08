@@ -50,10 +50,18 @@ public static partial class RosterBuilder {
 
     public static void AddShip(PlayerNo playerNo)
     {
-        GameObject newPanel = CreateShipPanel(playerNo);
-        SetShip(newPanel, playerNo);
+        if (GetShipsCount(playerNo) < 8)
+        {
 
-        OrganizeShipsList(playerNo);
+            GameObject newPanel = CreateShipPanel(playerNo);
+            SetShip(newPanel, playerNo);
+
+            OrganizeShipsList(playerNo);
+        }
+        else
+        {
+            //Show Error
+        }
     }
 
     // Generate lists of everything

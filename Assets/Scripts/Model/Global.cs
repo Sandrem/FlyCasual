@@ -36,6 +36,11 @@ public class Global : MonoBehaviour {
         DontDestroyOnLoad(this.gameObject);
     }
 
+    void Update()
+    {
+        Tooltips.CheckTooltip();
+    }
+
     public static void Initialize()
     {
         PlayerTypes = GetPlayerTypes();
@@ -96,6 +101,11 @@ public class Global : MonoBehaviour {
     public static void RemoveAllPlayers()
     {
         playerTypes = new List<System.Type>();
+    }
+
+    public static void RemoveAllShips()
+    {
+        shipConfigurations = new List<ShipConfiguration>();
     }
 
     public static void RemoveAllFactions()

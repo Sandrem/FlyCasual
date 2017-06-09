@@ -1,18 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using System;
 using System.Reflection;
 using System.Linq;
 using Players;
-
-//TODO:
-// 1) Unique name rule
-// 2) Error notifications
-// 3) Cost of list
-// 4) Tooltips
-// 5) Colors of ship stands for player
-// 6) Skins for ships
 
 public static partial class RosterBuilder {
 
@@ -46,14 +39,15 @@ public static partial class RosterBuilder {
 
     private static void GeneratePlayersShipConfigurations()
     {
+        Global.RemoveAllShips();
         GeneratePlayerShipConfigurations(PlayerNo.Player1);
         GeneratePlayerShipConfigurations(PlayerNo.Player2);
     }
 
     private static void AddInitialShips()
     {
-        AddShip(PlayerNo.Player1);
-        AddShip(PlayerNo.Player2);
+        if (GetShipsCount(PlayerNo.Player1) == 0) AddShip(PlayerNo.Player1);
+        if (GetShipsCount(PlayerNo.Player2) == 0) AddShip(PlayerNo.Player2);
     }
 
     public static void AddShip(PlayerNo playerNo)
@@ -68,7 +62,7 @@ public static partial class RosterBuilder {
         }
         else
         {
-            //Show Error
+            Messages.ShowError("You cannot have more than 8 ships");
         }
     }
 
@@ -147,13 +141,13 @@ public static partial class RosterBuilder {
         return results;
     }
 
-    private static void SetAvailableUpgrades(GameObject panel, string pilotName)
+    private static void SetAvailableUpgrades(PlayerNo playerNo, GameObject panel, string pilotName)
     {
         string pilotId = AllPilots[pilotName];
         Ship.GenericShip ship = (Ship.GenericShip)System.Activator.CreateInstance(System.Type.GetType(pilotId));
         foreach (var upgrade in ship.BuiltInSlots)
         {
-            AddUpgradeLine(panel, upgrade.Key.ToString());
+            AddUpgradeLine(playerNo, panel, upgrade.Key.ToString());
         }
     }
 
@@ -168,10 +162,103 @@ public static partial class RosterBuilder {
 
     //Go to battle
 
-    public static void PrepareForGameStart()
+    public static void StartGame()
     {
         SetPlayers();
         GeneratePlayersShipConfigurations();
+        if (ValidatePlayersRosters())
+        {
+            SceneManager.LoadScene("Battle");
+        }
+    }
+
+    private static bool ValidatePlayersRosters()
+    {
+        if (!ValidatePlayerRoster(PlayerNo.Player1)) return false;
+        if (!ValidatePlayerRoster(PlayerNo.Player2)) return false;
+        return true;
+    }
+
+    private static bool ValidatePlayerRoster(PlayerNo playerNo)
+    {
+        if (!ValidateUniqueCards(playerNo)) return false;
+        if (!ValidateSquadCost(playerNo)) return false;
+        return true;
+    }
+
+    private static bool ValidateSquadCost(PlayerNo playerNo)
+    {
+        bool result = true;
+
+        int squadCost = 0;
+
+        foreach (var shipConfig in Global.ShipConfigurations)
+        {
+            if (shipConfig.PlayerNo == playerNo)
+            {
+                Ship.GenericShip shipContainer = (Ship.GenericShip)System.Activator.CreateInstance(System.Type.GetType(shipConfig.PilotName));
+                squadCost += shipContainer.Cost;
+
+                foreach (var upgrade in shipConfig.Upgrades)
+                {
+                    Upgrade.GenericUpgrade upgradeContainer = (Upgrade.GenericUpgrade)System.Activator.CreateInstance(System.Type.GetType(upgrade));
+                    squadCost += upgradeContainer.Cost;
+                }
+            }
+        }
+
+        if (squadCost > 100)
+        {
+            //ShowError
+            Debug.Log("Cost of squad is too big");
+            result = false;
+        }
+
+        return result;
+    }
+
+    private static bool ValidateUniqueCards(PlayerNo playerNo)
+    {
+        bool result = true;
+
+        List<string> uniqueCards = new List<string>();
+        foreach (var shipConfig in Global.ShipConfigurations)
+        {
+            if (shipConfig.PlayerNo == playerNo)
+            {
+                Ship.GenericShip shipContainer = (Ship.GenericShip)System.Activator.CreateInstance(System.Type.GetType(shipConfig.PilotName));
+
+                if (shipContainer.isUnique)
+                {
+                    if (CheckDuplicate(uniqueCards, shipContainer.PilotName)) return false;
+                }
+
+                foreach (var upgrade in shipConfig.Upgrades)
+                {
+                    Upgrade.GenericUpgrade upgradeContainer = (Upgrade.GenericUpgrade)System.Activator.CreateInstance(System.Type.GetType(upgrade));
+                    if (upgradeContainer.isUnique)
+                    {
+                        if (CheckDuplicate(uniqueCards, upgradeContainer.Name)) return false;
+                    }
+                }
+            }
+        }
+        return result;
+    }
+
+    private static bool CheckDuplicate(List<string> uniqueCards, string cardName)
+    {
+        if (uniqueCards.Contains(cardName))
+        {
+            //ShorError
+            Debug.Log(cardName + " can be only one!");
+            return true;
+        }
+        else
+        {
+            uniqueCards.Add(cardName);
+            return false;
+        }
     }
 
 }

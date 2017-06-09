@@ -88,7 +88,6 @@ public class ShipMovementScript : MonoBehaviour {
     void Update ()
     {
         Selection.UpdateSelection();
-        Tooltips.CheckTooltip();
         RegisterObstacleCollisions();
         UpdateMovement();
         CheckFireLineCollisions();

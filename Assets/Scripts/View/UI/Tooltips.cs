@@ -4,30 +4,50 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-//Todo: Move to different scripts by menu names
+public delegate string TooltipImageDelegate(GameObject panel);
 
 public static class Tooltips {
-
-    private static GameManagerScript Game;
 
     private static bool TooltipIsCalled;
     private static float TooltipActivationSchedule;
     private static readonly float TooltipActivationDelay = 1f;
     private static bool TooltipImageReady;
 
+    private static MonoBehaviour Behavior;
+    private static Transform TooltipsPanel;
+
     static Tooltips()
     {
-        Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
+        Behavior = GameObject.Find("Global").GetComponent<Global>();
     }
 
-    public static void StartTooltip(string url)
+    public static void StartTooltip(TooltipImageDelegate tooltipImageDelegate, GameObject sender)
     {
+        TooltipsPanel = GameObject.Find("UI").transform.Find("TooltipPanel");
+        string url = tooltipImageDelegate.Invoke(sender);
+
         if (url != null)
         {
             TooltipIsCalled = true;
             TooltipActivationSchedule = Time.time + TooltipActivationDelay;
             TooltipImageReady = false;
-            Game.StartCoroutine(LoadTooltipImage(url));
+
+            Behavior.StartCoroutine(LoadTooltipImage(url));
+        }
+    }
+
+    public static void StartTooltip(string tooltipUrl, GameObject sender)
+    {
+        TooltipsPanel = GameObject.Find("UI").transform.Find("TooltipPanel");
+        string url = tooltipUrl;
+
+        if (url != null)
+        {
+            TooltipIsCalled = true;
+            TooltipActivationSchedule = Time.time + TooltipActivationDelay;
+            TooltipImageReady = false;
+
+            Behavior.StartCoroutine(LoadTooltipImage(url));
         }
     }
 
@@ -36,7 +56,7 @@ public static class Tooltips {
         WWW www = new WWW(url);
         yield return www;
 
-        SetImageFromWeb(Game.PrefabsList.TooltipPanel.transform.Find("TooltipImage").gameObject, www);
+        SetImageFromWeb(TooltipsPanel.Find("TooltipImage").gameObject, www);
         AdaptTooltipWindowSize();
 
         TooltipImageReady = true;
@@ -52,16 +72,16 @@ public static class Tooltips {
 
     private static void AdaptTooltipWindowSize()
     {
-        float width = Game.PrefabsList.TooltipPanel.transform.Find("TooltipImage").GetComponent<Image>().sprite.rect.width;
-        float height = Game.PrefabsList.TooltipPanel.transform.Find("TooltipImage").GetComponent<Image>().sprite.rect.height;
-        Game.PrefabsList.TooltipPanel.GetComponent<RectTransform>().sizeDelta = new Vector2(width + 10, height + 10);
-        Game.PrefabsList.TooltipPanel.transform.Find("TooltipImage").GetComponent<RectTransform>().sizeDelta = new Vector2(width, height);
+        float width = TooltipsPanel.Find("TooltipImage").GetComponent<Image>().sprite.rect.width;
+        float height = TooltipsPanel.Find("TooltipImage").GetComponent<Image>().sprite.rect.height;
+        TooltipsPanel.GetComponent<RectTransform>().sizeDelta = new Vector2(width + 10, height + 10);
+        TooltipsPanel.Find("TooltipImage").GetComponent<RectTransform>().sizeDelta = new Vector2(width, height);
     }
 
     private static void SetFixedWindowPosition()
     {
-        float width = Game.PrefabsList.TooltipPanel.GetComponent<RectTransform>().sizeDelta.x;
-        float height = Game.PrefabsList.TooltipPanel.GetComponent<RectTransform>().sizeDelta.y;
+        float width = TooltipsPanel.GetComponent<RectTransform>().sizeDelta.x;
+        float height = TooltipsPanel.GetComponent<RectTransform>().sizeDelta.y;
 
         float positionX = Input.mousePosition.x + 5;
         float positionY = Input.mousePosition.y - 5;
@@ -69,7 +89,7 @@ public static class Tooltips {
         if (positionY < height) positionY = height + 5;
         if ((positionX + width) > Screen.width) positionX = positionX - width - 10;
 
-        Game.PrefabsList.TooltipPanel.transform.position = new Vector2(positionX, positionY);
+        TooltipsPanel.position = new Vector2(positionX, positionY);
     }
 
     public static void CheckTooltip()
@@ -89,28 +109,44 @@ public static class Tooltips {
     private static void ShowTooltip()
     {
         SetFixedWindowPosition();
-        Game.PrefabsList.TooltipPanel.SetActive(true);
+        TooltipsPanel.gameObject.SetActive(true);
     }
 
     public static void EndTooltip()
     {
         TooltipIsCalled = false;
-        Game.PrefabsList.TooltipPanel.SetActive(false);
+        if (TooltipsPanel != null) TooltipsPanel.gameObject.SetActive(false);
     }
 
-    public static void AddTooltip(GameObject uiElement, string imageUrl)
+    public static void AddTooltip(GameObject sender, TooltipImageDelegate tooltipImageDelegate)
     {
-        uiElement.AddComponent<EventTrigger>();
-        EventTrigger trigger = uiElement.GetComponent<EventTrigger>();
+        sender.AddComponent<EventTrigger>();
+        EventTrigger trigger = sender.GetComponent<EventTrigger>();
 
         EventTrigger.Entry entry = new EventTrigger.Entry();
         entry.eventID = EventTriggerType.PointerEnter;
-        entry.callback.AddListener((data) => { Game.UI.CallShowTooltip(imageUrl); });
+        entry.callback.AddListener((data) => { StartTooltip(tooltipImageDelegate, sender); });
         trigger.triggers.Add(entry);
 
         entry = new EventTrigger.Entry();
         entry.eventID = EventTriggerType.PointerExit;
-        entry.callback.AddListener((data) => { Game.UI.CallHideTooltip(); });
+        entry.callback.AddListener((data) => { EndTooltip(); });
+        trigger.triggers.Add(entry);
+    }
+
+    public static void AddTooltip(GameObject sender, string tooltipUrl)
+    {
+        sender.AddComponent<EventTrigger>();
+        EventTrigger trigger = sender.GetComponent<EventTrigger>();
+
+        EventTrigger.Entry entry = new EventTrigger.Entry();
+        entry.eventID = EventTriggerType.PointerEnter;
+        entry.callback.AddListener((data) => { StartTooltip(tooltipUrl, sender); });
+        trigger.triggers.Add(entry);
+
+        entry = new EventTrigger.Entry();
+        entry.eventID = EventTriggerType.PointerExit;
+        entry.callback.AddListener((data) => { EndTooltip(); });
         trigger.triggers.Add(entry);
     }
 

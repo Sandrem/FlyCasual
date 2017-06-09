@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 using System;
 using System.Reflection;
 using System.Linq;
@@ -32,8 +31,7 @@ public class MainMenuScript : MonoBehaviour {
 
     public void StartGame()
     {
-        RosterBuilder.PrepareForGameStart();
-        SceneManager.LoadScene("Battle");
+        RosterBuilder.StartGame();
     }
 
     private void OpenSquadronBuilder()

@@ -7,13 +7,6 @@ using System.Reflection;
 using System.Linq;
 using Players;
 
-//TODO:
-// 2) Error notifications
-// 3) Cost of list
-// 4) Tooltips
-// 5) Colors of ship stands for player
-// 6) Skins for ships
-
 public static partial class RosterBuilder {
 
     private static Dictionary<string, string> AllShips = new Dictionary<string, string>();

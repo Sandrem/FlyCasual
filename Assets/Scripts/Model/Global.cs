@@ -98,6 +98,11 @@ public class Global : MonoBehaviour {
         playerTypes = new List<System.Type>();
     }
 
+    public static void RemoveAllShips()
+    {
+        shipConfigurations = new List<ShipConfiguration>();
+    }
+
     public static void RemoveAllFactions()
     {
         playerFactions = new List<Faction>();

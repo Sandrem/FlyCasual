@@ -16,8 +16,7 @@ public static partial class RosterBuilder {
 
         GameObject newPanel = MonoBehaviour.Instantiate(prefab, parent);
         newPanel.transform.localPosition = Vector3.zero;
-        newPanel.transform.Find("Panel").Find("RemoveButton").GetComponent<Button>().onClick.AddListener(delegate { RemoveShip(newPanel); });
-        newPanel.transform.Find("Panel").Find("CopyButton").GetComponent<Button>().onClick.AddListener(delegate { CopyShip(newPanel); });
+        SubscribeControlButtons(playerNo, newPanel);
 
         return newPanel;
     }
@@ -45,16 +44,17 @@ public static partial class RosterBuilder {
         }
     }
 
-    public static void CopyShip(GameObject panel)
+    public static void CopyShip(PlayerNo playerNo, GameObject panel)
     {
-        PlayerNo playerNo = Tools.IntToPlayer(int.Parse(panel.transform.parent.parent.parent.parent.name.Substring(6, 1)));
         if (GetShipsCount(playerNo) < 8)
         {
             Transform parent = panel.transform.parent;
             GameObject newPanel = MonoBehaviour.Instantiate(panel, parent);
-            newPanel.transform.Find("Panel").Find("RemoveButton").GetComponent<Button>().onClick.AddListener(delegate { RemoveShip(newPanel); });
-            newPanel.transform.Find("Panel").Find("CopyButton").GetComponent<Button>().onClick.AddListener(delegate { CopyShip(newPanel); });
 
+            SubscribeControlButtons(playerNo, newPanel);
+            SubscribeShipDropdowns(playerNo, newPanel);
+
+            UpdateShipCost(playerNo, panel);
             OrganizeAllShipsLists();
         }
         else
@@ -63,10 +63,55 @@ public static partial class RosterBuilder {
         }
     }
 
-    public static void RemoveShip(GameObject panel)
+    public static void RemoveShip(PlayerNo playerNo, GameObject panel)
     {
         MonoBehaviour.DestroyImmediate(panel);
+        UpdatSquadCost(playerNo);
         OrganizeAllShipsLists();
+    }
+
+    //Events
+
+    private static void SubscribeShipDropdowns(PlayerNo playerNo, GameObject panel)
+    {
+        Dropdown pilotDropdown = panel.transform.Find("GroupShip").Find("DropdownPilot").GetComponent<Dropdown>();
+        pilotDropdown.onValueChanged.AddListener(delegate
+        {
+            OnPilotChanged(playerNo, panel);
+        });
+    }
+
+    private static void SubscribeUpgradeDropdowns(PlayerNo playerNo, GameObject panel)
+    {
+        Dropdown upgradeDropdown = panel.transform.GetComponent<Dropdown>(); ;
+        upgradeDropdown.onValueChanged.AddListener(delegate
+        {
+            OnUpgradeChanged(playerNo, panel.transform.parent.parent.gameObject);
+        });
+    }
+
+    private static void SubscribeControlButtons(PlayerNo playerNo, GameObject panel)
+    {
+        panel.transform.Find("Panel").Find("RemoveButton").GetComponent<Button>().onClick.AddListener(delegate
+        {
+            RemoveShip(playerNo, panel);
+        });
+
+        panel.transform.Find("Panel").Find("CopyButton").GetComponent<Button>().onClick.AddListener(delegate
+        {
+            CopyShip(playerNo, panel);
+        });
+    }
+
+    private static void OnPilotChanged(PlayerNo playerNo, GameObject panel)
+    {
+        UpdateUpgradePanels(playerNo, panel);
+        UpdateShipCost(playerNo, panel);
+    }
+
+    private static void OnUpgradeChanged(PlayerNo playerNo, GameObject panel)
+    {
+        UpdateShipCost(playerNo, panel);
     }
 
     //Set values to panels
@@ -87,10 +132,12 @@ public static partial class RosterBuilder {
         shipDropdown.ClearOptions();
         shipDropdown.AddOptions(results);
 
-        SetPilot(panel, playerNo);
+        SetPilot(playerNo, panel);
+
+        UpdateShipCost(playerNo, panel);
     }
 
-    private static void SetPilot(GameObject panel, PlayerNo playerNo)
+    private static void SetPilot(PlayerNo playerNo, GameObject panel)
     {
         string shipNameFull = panel.transform.Find("GroupShip").Find("DropdownShip").GetComponent<Dropdown>().captionText.text;
         string shipNameId = AllShips[shipNameFull];
@@ -99,13 +146,14 @@ public static partial class RosterBuilder {
         Dropdown pilotDropdown = panel.transform.Find("GroupShip").Find("DropdownPilot").GetComponent<Dropdown>();
         pilotDropdown.ClearOptions();
         pilotDropdown.AddOptions(results);
-        pilotDropdown.onValueChanged.AddListener(delegate { UpdateUpgradePanels(panel); });
 
-        SetAvailableUpgrades(panel, pilotDropdown.captionText.text);
+        SubscribeShipDropdowns(playerNo, panel);
+
+        SetAvailableUpgrades(playerNo, panel, pilotDropdown.captionText.text);
         OrganizeUpgradeLines(panel);
     }
 
-    private static void UpdateUpgradePanels(GameObject panel)
+    private static void UpdateUpgradePanels(PlayerNo playerNo, GameObject panel)
     {
         string pilotName = panel.transform.Find("GroupShip").Find("DropdownPilot").GetComponent<Dropdown>().captionText.text;
         string pilotId = AllPilots[pilotName];
@@ -115,7 +163,7 @@ public static partial class RosterBuilder {
         {
             if (panel.transform.Find("GroupUpgrades").Find("Upgrade" + slot.Key.ToString() + "Line") == null)
             {
-                AddUpgradeLine(panel, slot.Key.ToString());
+                AddUpgradeLine(playerNo, panel, slot.Key.ToString());
             }
         }
 
@@ -135,7 +183,7 @@ public static partial class RosterBuilder {
         }
     }
 
-    private static void AddUpgradeLine(GameObject panel, string upgradeId)
+    private static void AddUpgradeLine(PlayerNo playerNo, GameObject panel, string upgradeId)
     {
         GameObject prefab = GameObject.Find("ScriptHolder").GetComponent<MainMenuScript>().UpgradeLinePrefab;
         Transform parent = panel.transform.Find("GroupUpgrades");
@@ -153,7 +201,50 @@ public static partial class RosterBuilder {
         List<string> upgradeList = GetUpgrades((Upgrade.UpgradeSlot)Enum.Parse(type, upgradeId));
         newPanel.transform.GetComponent<Dropdown>().AddOptions(upgradeList);
 
+        SubscribeUpgradeDropdowns(playerNo, newPanel);
+
         OrganizeUpgradeLines(panel);
+    }
+
+    // Update Costs
+
+    private static void UpdateShipCost(PlayerNo playerNo, GameObject panel)
+    {
+        int totalShipCost = 0;
+
+        string pilotKey = panel.transform.Find("GroupShip").Find("DropdownPilot").GetComponent<Dropdown>().captionText.text;
+        Ship.GenericShip shipContainer = (Ship.GenericShip)Activator.CreateInstance(Type.GetType(AllPilots[pilotKey]));
+        totalShipCost += shipContainer.Cost;
+
+        foreach (Transform upgradePanel in panel.transform.Find("GroupUpgrades"))
+        {
+            string upgradeName = upgradePanel.transform.GetComponent<Dropdown>().captionText.text;
+            
+            if (AllUpgrades.ContainsKey(upgradeName))
+            {
+                Upgrade.GenericUpgrade upgradeContainer = (Upgrade.GenericUpgrade)Activator.CreateInstance(System.Type.GetType(AllUpgrades[upgradeName]));
+                totalShipCost += upgradeContainer.Cost;
+            }
+        }
+
+        panel.transform.Find("Panel").Find("CostPanel").GetComponentInChildren<Text>().text = totalShipCost.ToString();
+        UpdatSquadCost(playerNo);
+    }
+
+    private static void UpdatSquadCost(PlayerNo playerNo)
+    {
+        int squadCost = 0;
+        
+
+        foreach (Transform shipPanel in GetShipsPanel(playerNo))
+        {
+            if (shipPanel.name != "AddShipPanel")
+            {
+                squadCost += int.Parse(shipPanel.Find("Panel").Find("CostPanel").GetComponentInChildren<Text>().text);
+            }
+        }
+
+        GetPlayerPanel(playerNo).Find("SquadCostPanel").Find("CostCurrent").GetComponent<Text>().text = squadCost.ToString();
     }
 
     //Get information from panels
@@ -212,7 +303,7 @@ public static partial class RosterBuilder {
             if (shipPanel.name == "AddShipPanel") continue;
             string pilotName = shipPanel.Find("GroupShip").Find("DropdownPilot").GetComponent<Dropdown>().captionText.text;
             Ship.GenericShip newPilot = (Ship.GenericShip)Activator.CreateInstance(Type.GetType(AllPilots[pilotName]));
-            if (newPilot.faction != playerFaction) RemoveShip(shipPanel.gameObject);
+            if (newPilot.faction != playerFaction) RemoveShip(playerNo, shipPanel.gameObject);
         }
     }
 

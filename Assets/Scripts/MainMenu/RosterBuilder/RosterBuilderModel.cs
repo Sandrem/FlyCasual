@@ -8,7 +8,6 @@ using System.Linq;
 using Players;
 
 //TODO:
-// 1) Unique name rule
 // 2) Error notifications
 // 3) Cost of list
 // 4) Tooltips
@@ -149,13 +148,13 @@ public static partial class RosterBuilder {
         return results;
     }
 
-    private static void SetAvailableUpgrades(GameObject panel, string pilotName)
+    private static void SetAvailableUpgrades(PlayerNo playerNo, GameObject panel, string pilotName)
     {
         string pilotId = AllPilots[pilotName];
         Ship.GenericShip ship = (Ship.GenericShip)System.Activator.CreateInstance(System.Type.GetType(pilotId));
         foreach (var upgrade in ship.BuiltInSlots)
         {
-            AddUpgradeLine(panel, upgrade.Key.ToString());
+            AddUpgradeLine(playerNo, panel, upgrade.Key.ToString());
         }
     }
 
@@ -214,8 +213,6 @@ public static partial class RosterBuilder {
                 }
             }
         }
-
-        Debug.Log(squadCost);
 
         if (squadCost > 100)
         {

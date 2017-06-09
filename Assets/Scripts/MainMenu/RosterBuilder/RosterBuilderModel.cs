@@ -209,8 +209,7 @@ public static partial class RosterBuilder {
 
         if (squadCost > 100)
         {
-            //ShowError
-            Debug.Log("Cost of squad is too big");
+            Messages.ShowError("Cost of squadron cannot be more than 100");
             result = false;
         }
 
@@ -250,8 +249,8 @@ public static partial class RosterBuilder {
     {
         if (uniqueCards.Contains(cardName))
         {
-            //ShorError
-            Debug.Log(cardName + " can be only one!");
+
+            Messages.ShowError("Only one card with unique name " + cardName + " can be present");
             return true;
         }
         else

@@ -36,6 +36,11 @@ public class Global : MonoBehaviour {
         DontDestroyOnLoad(this.gameObject);
     }
 
+    void Update()
+    {
+        Tooltips.CheckTooltip();
+    }
+
     public static void Initialize()
     {
         PlayerTypes = GetPlayerTypes();

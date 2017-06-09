@@ -59,7 +59,7 @@ public static partial class RosterBuilder {
         }
         else
         {
-            //ShowError
+            Messages.ShowError("You cannot have more than 8 ships");
         }
     }
 
@@ -114,6 +114,35 @@ public static partial class RosterBuilder {
         UpdateShipCost(playerNo, panel);
     }
 
+    //Tooltips
+    private static void AddPilotTooltip(GameObject panel)
+    {
+        Tooltips.AddTooltip(panel, GetPilotTooltipImage);
+    }
+
+    private static void AddUpgradeTooltip(GameObject panel)
+    {
+        Tooltips.AddTooltip(panel, GetUpgradeTooltipImage);
+    }
+
+    private static string GetPilotTooltipImage(GameObject panel)
+    {
+        string pilotKey = panel.GetComponent<Dropdown>().captionText.text;
+        Ship.GenericShip ship = (Ship.GenericShip)Activator.CreateInstance(Type.GetType(AllPilots[pilotKey]));
+        return ship.ImageUrl;
+    }
+
+    private static string GetUpgradeTooltipImage(GameObject panel)
+    {
+        string upgradeKey = panel.GetComponent<Dropdown>().captionText.text;
+        if (AllUpgrades.ContainsKey(upgradeKey))
+        {
+            Upgrade.GenericUpgrade upgrade = (Upgrade.GenericUpgrade)Activator.CreateInstance(Type.GetType(AllUpgrades[upgradeKey]));
+            return upgrade.ImageUrl;
+        }
+        return null;
+    }
+
     //Set values to panels
 
     private static void SetShip(GameObject panel, PlayerNo playerNo)
@@ -148,8 +177,9 @@ public static partial class RosterBuilder {
         pilotDropdown.AddOptions(results);
 
         SubscribeShipDropdowns(playerNo, panel);
-
         SetAvailableUpgrades(playerNo, panel, pilotDropdown.captionText.text);
+        AddPilotTooltip(panel.transform.Find("GroupShip").Find("DropdownPilot").gameObject);
+
         OrganizeUpgradeLines(panel);
     }
 
@@ -188,20 +218,21 @@ public static partial class RosterBuilder {
         GameObject prefab = GameObject.Find("ScriptHolder").GetComponent<MainMenuScript>().UpgradeLinePrefab;
         Transform parent = panel.transform.Find("GroupUpgrades");
 
-        GameObject newPanel = MonoBehaviour.Instantiate(prefab, parent);
-        newPanel.transform.localPosition = Vector3.zero;
-        newPanel.name = "Upgrade" + upgradeId + "Line";
+        GameObject newUpgradeLine = MonoBehaviour.Instantiate(prefab, parent);
+        newUpgradeLine.transform.localPosition = Vector3.zero;
+        newUpgradeLine.name = "Upgrade" + upgradeId + "Line";
 
         string emptySlot = "Empty Slot: " + upgradeId;
         List<string> emptySlotList = new List<string>() { emptySlot };
-        newPanel.transform.GetComponent<Dropdown>().ClearOptions();
-        newPanel.transform.GetComponent<Dropdown>().AddOptions(emptySlotList);
+        newUpgradeLine.transform.GetComponent<Dropdown>().ClearOptions();
+        newUpgradeLine.transform.GetComponent<Dropdown>().AddOptions(emptySlotList);
 
         Type type = typeof(Upgrade.UpgradeSlot);
         List<string> upgradeList = GetUpgrades((Upgrade.UpgradeSlot)Enum.Parse(type, upgradeId));
-        newPanel.transform.GetComponent<Dropdown>().AddOptions(upgradeList);
+        newUpgradeLine.transform.GetComponent<Dropdown>().AddOptions(upgradeList);
 
-        SubscribeUpgradeDropdowns(playerNo, newPanel);
+        SubscribeUpgradeDropdowns(playerNo, newUpgradeLine);
+        AddUpgradeTooltip(newUpgradeLine);
 
         OrganizeUpgradeLines(panel);
     }
@@ -316,12 +347,12 @@ public static partial class RosterBuilder {
 
     private static Transform GetPlayerPanel(PlayerNo playerNo)
     {
-        return GameObject.Find("Canvas").transform.Find("Panel").Find("SquadBuilderPanel").Find("PlayersPanel").Find("Player" + Tools.PlayerToInt(playerNo) + "Panel");
+        return GameObject.Find("UI").transform.Find("Panel").Find("SquadBuilderPanel").Find("PlayersPanel").Find("Player" + Tools.PlayerToInt(playerNo) + "Panel");
     }
 
     private static Transform GetShipsPanel(PlayerNo playerNo)
     {
-        return GameObject.Find("Canvas").transform.Find("Panel").Find("SquadBuilderPanel").Find("ShipsPanel").Find("Player" + Tools.PlayerToInt(playerNo) + "Ships").Find("Scroll View").Find("Viewport").Find("Content");
+        return GameObject.Find("UI").transform.Find("Panel").Find("SquadBuilderPanel").Find("ShipsPanel").Find("Player" + Tools.PlayerToInt(playerNo) + "Ships").Find("Scroll View").Find("Viewport").Find("Content");
     }
 
     //Organization

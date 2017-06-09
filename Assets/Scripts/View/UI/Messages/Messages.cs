@@ -10,14 +10,7 @@ public enum MessageType
 
 public static class Messages{
 
-    private static GameManagerScript Game;
-
     private static List<GameObject> allMessages = new List<GameObject>();
-
-    static Messages()
-    {
-        Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-    }
 
     public static void ShowError(string text)
     {
@@ -50,7 +43,9 @@ public static class Messages{
             }
         }
 
-        GameObject Message = MonoBehaviour.Instantiate(Game.PrefabsList.MessagePanel, startingPosition, Game.PrefabsList.MessagePanelsHolder.transform.rotation, Game.PrefabsList.MessagePanelsHolder.transform);
+        GameObject prefab = (GameObject)Resources.Load("Prefabs/MessagePanel", typeof(GameObject));
+        GameObject MessagePanelsHolder = GameObject.Find("UI").transform.Find("MessagePanels").gameObject;
+        GameObject Message = MonoBehaviour.Instantiate(prefab, startingPosition, MessagePanelsHolder.transform.rotation, MessagePanelsHolder.transform);
         Message.GetComponent<MessageContainer>().Initialize(text, type);
         allMessages.Add(Message);
     }

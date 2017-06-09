@@ -62,7 +62,7 @@ public static partial class RosterBuilder {
         }
         else
         {
-            //Show Error
+            Messages.ShowError("You cannot have more than 8 ships");
         }
     }
 

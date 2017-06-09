@@ -277,11 +277,6 @@ public class UI : MonoBehaviour {
         Game.PrefabsList.NextButtonPanel.transform.Find("NextButton").GetComponent<Animator>().enabled = true;
     }
 
-    public void CallShowTooltip(string url)
-    {
-        Tooltips.StartTooltip(url);
-    }
-
     public void CallHideTooltip()
     {
         Tooltips.EndTooltip();

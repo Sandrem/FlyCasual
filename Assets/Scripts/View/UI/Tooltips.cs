@@ -18,7 +18,15 @@ public static class Tooltips {
 
     static Tooltips()
     {
-        Behavior = GameObject.Find("Global").GetComponent<Global>();
+        //TEMPORARY
+        if (GameObject.Find("Global") == null)
+        {
+            Behavior = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
+        }
+        else
+        {
+            Behavior = GameObject.Find("Global").GetComponent<Global>();
+        }
     }
 
     public static void StartTooltip(TooltipImageDelegate tooltipImageDelegate, GameObject sender)

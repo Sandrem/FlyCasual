@@ -66,7 +66,7 @@ public static partial class RosterBuilder {
     public static void RemoveShip(PlayerNo playerNo, GameObject panel)
     {
         MonoBehaviour.DestroyImmediate(panel);
-        UpdatSquadCost(playerNo);
+        UpdateSquadCost(playerNo);
         OrganizeAllShipsLists();
     }
 
@@ -259,10 +259,10 @@ public static partial class RosterBuilder {
         }
 
         panel.transform.Find("Panel").Find("CostPanel").GetComponentInChildren<Text>().text = totalShipCost.ToString();
-        UpdatSquadCost(playerNo);
+        UpdateSquadCost(playerNo);
     }
 
-    private static void UpdatSquadCost(PlayerNo playerNo)
+    private static void UpdateSquadCost(PlayerNo playerNo)
     {
         int squadCost = 0;
         
@@ -276,6 +276,7 @@ public static partial class RosterBuilder {
         }
 
         GetPlayerPanel(playerNo).Find("SquadCostPanel").Find("CostCurrent").GetComponent<Text>().text = squadCost.ToString();
+        GetPlayerPanel(playerNo).Find("SquadCostPanel").Find("CostCurrent").GetComponent<Text>().color = (squadCost > 100) ? Color.red : Color.white;
     }
 
     //Get information from panels

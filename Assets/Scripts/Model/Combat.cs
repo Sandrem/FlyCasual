@@ -63,12 +63,34 @@ public static partial class Combat
 
     private static void PlayAttackSound()
     {
-        AudioSource audio1 = Selection.ThisShip.Model.GetComponent<AudioSource>();
-        audio1.PlayOneShot((AudioClip)Resources.Load("Sounds/TIE-Fire"));
+        if (SecondaryWeapon != null)
+        {
+            PlaySoundByParameters("Sounds/Proton-Torpedoes", 1);
+        }
+        else
+        {
+            switch (Selection.ActiveShip.Type)
+            {
+                case "X-Wing":
+                    PlaySoundByParameters("Sounds/XWing-Laser", 3);
+                    break;
+                case "TIE Fighter":
+                    PlaySoundByParameters("Sounds/TIE-Fire", 2);
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
 
-        AudioSource audio2 = Selection.AnotherShip.Model.GetComponent<AudioSource>();
-        audio2.clip = (AudioClip)Resources.Load("Sounds/TIE-Fire");
-        audio2.PlayDelayed(0.5f);
+    private static void PlaySoundByParameters(string path, int times)
+    {
+        for (int i = 0; i < times; i++)
+        {
+            AudioSource audio = Selection.AnotherShip.Model.GetComponents<AudioSource>()[i];
+            audio.clip = (AudioClip)Resources.Load(path);
+            audio.PlayDelayed(i*0.5f);
+        }
     }
 
     private static void AfterAttackDiceRoll(DiceRoll attackDiceRoll)

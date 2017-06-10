@@ -27,8 +27,7 @@ namespace Ship
                 factions.Add(Faction.Rebels);
                 faction = Faction.Rebels;
 
-                //Temporary
-                HotacManeuverTable = new TIEFighterTable();
+                HotacManeuverTable = new XWingTable();
             }
 
             public override void InitializeShip()

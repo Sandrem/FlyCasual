@@ -23,6 +23,7 @@ namespace CriticalHitCard
         private void RollForDamage(Ship.GenericShip host)
         {
             //BUG: If few these crits in the same time
+            Selection.ActiveShip = Selection.ThisShip;
             Phases.StartDiceRollSubPhase("Major Explosion");
 
             Combat.ShowDiceResultMenu(CloseWindow);

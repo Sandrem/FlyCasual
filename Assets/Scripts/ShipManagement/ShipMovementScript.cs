@@ -330,6 +330,7 @@ public class ShipMovementScript : MonoBehaviour {
                 Selection.ThisShip.SetPosition(Vector3.MoveTowards(Selection.ThisShip.GetPosition(), Selection.ThisShip.GetPosition() + Selection.ThisShip.TransformDirection(progressDirection), progressDelta));
                 CurrentMovementData.CurrentProgress += progressDelta;
 
+                Selection.ThisShip.RotateModelDuringTurn(CurrentMovementData, PreviousMovementData);
                 UpdateRotationFinisher();
 
                 CheckCollisionsAfterStraight();
@@ -346,12 +347,11 @@ public class ShipMovementScript : MonoBehaviour {
                 Selection.ThisShip.Rotate(Selection.ThisShip.TransformPoint(new Vector3(CurrentMovementData.TurningAroundDistance * turningDirection, 0, 0)), turningDirection * progressDelta * progressDirection);
                 CurrentMovementData.CurrentProgress += progressDelta;
 
+                Selection.ThisShip.RotateModelDuringTurn(CurrentMovementData, PreviousMovementData);
                 UpdateRotation();
 
                 CheckCollisionsAfterNonStraight();
             }
-
-            Selection.ThisShip.RotateModelDuringTurn(CurrentMovementData, PreviousMovementData);
 
         }
     }

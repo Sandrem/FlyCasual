@@ -42,7 +42,7 @@ public static partial class Combat
 
     public static void ShowConfirmDiceResultsButton()
     {
-        if (Roster.GetPlayer(Phases.CurrentPhasePlayer).GetType() == typeof(Players.HumanPlayer))
+        if (Roster.GetPlayer(Selection.ActiveShip.Owner.PlayerNo).GetType() == typeof(Players.HumanPlayer))
         {
             Game.PrefabsList.DiceResultsMenu.transform.Find("Confirm").gameObject.SetActive(true);
         }

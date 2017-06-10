@@ -32,6 +32,7 @@ namespace RulesList
             {
                 Game.UI.ShowError("Hit asteroid during movement - rolling for damage");
 
+                Selection.ActiveShip = Selection.ThisShip;
                 foreach (var asteroid in Selection.ThisShip.ObstaclesHit)
                 {
                     Phases.StartDiceRollSubPhase("Damage from asteroid collision");

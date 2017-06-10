@@ -27,6 +27,8 @@ namespace ActionsList
 
         public override void ActionTake()
         {
+            Selection.ActiveShip = Selection.ThisShip;
+
             host = Selection.ThisShip;
             if (CritCard.CancelDiceResults.Count == 0)
             {

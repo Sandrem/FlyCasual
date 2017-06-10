@@ -26,9 +26,12 @@ namespace Ship
                 faction = Faction.Empire;
 
                 SoundShotsPath = "TIE-Fire";
-                SoundShotsCount = 2;
+                ShotsCount = 2;
 
-                SoundFlyPaths.Add("TIE-Fly2");
+                for (int i = 1; i < 8; i++)
+                {
+                    SoundFlyPaths.Add("TIE-Fly" + i);
+                }
             }
 
             public override void InitializeShip()

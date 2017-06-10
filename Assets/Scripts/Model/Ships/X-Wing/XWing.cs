@@ -29,9 +29,13 @@ namespace Ship
                 faction = Faction.Rebels;
 
                 SoundShotsPath = "XWing-Laser";
-                SoundShotsCount = 3;
+                ShotsCount = 3;
 
-                SoundFlyPaths.Add("XWing-Fly1");
+                for (int i = 1; i < 4; i++)
+                {
+                    SoundFlyPaths.Add("XWing-Fly" + i);
+                }
+                
             }
 
             public override void InitializeShip()

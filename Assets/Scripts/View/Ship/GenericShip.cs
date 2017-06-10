@@ -406,6 +406,13 @@ namespace Ship
             return result;
         }
 
+        public Vector3 GetModelCenter()
+        {
+            Vector3 result;
+            result = Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("ShipModels").Find(Type).Find("ModelCenter").position;
+            return result;
+        }
+
         public void SetHeight(float height)
         {
             Model.transform.Find("RotationHelper").localPosition = new Vector3(Model.transform.Find("RotationHelper").localPosition.x, height, Model.transform.Find("RotationHelper").localPosition.z);
@@ -415,6 +422,34 @@ namespace Ship
         {
             Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("ShipStand").gameObject.SetActive(value);
             Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("ShipPeg").gameObject.SetActive(value);
+        }
+
+        public void FireShotsAnimation()
+        {
+            Transform shotsTransform = Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("ShipModels").Find(Type).Find("ModelCenter").Find("Shots");
+            if (shotsTransform != null)
+            {
+                foreach (Transform origin in shotsTransform)
+                {
+                    Vector3 targetPoint = Selection.AnotherShip.GetModelCenter();
+                    origin.LookAt(targetPoint);
+                    ParticleSystem.MainModule particles = origin.GetComponentInChildren<ParticleSystem>().main;
+                    particles.startLifetimeMultiplier = (Vector3.Distance(origin.position, targetPoint) * 0.25f / (10/3));
+                }
+
+                shotsTransform.gameObject.SetActive(true);
+                Game.StartCoroutine(TurnOffShots(ShotsCount));
+            }
+        }
+
+        private IEnumerator TurnOffShots(float shotsCount)
+        {
+            yield return new WaitForSeconds(shotsCount * 0.5f + 0.4f);
+            Transform shotsTransform = Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("ShipModels").Find(Type).Find("ModelCenter").Find("Shots");
+            if (shotsTransform != null)
+            {
+                shotsTransform.gameObject.SetActive(false);
+            }
         }
 
     }

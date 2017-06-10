@@ -36,6 +36,7 @@ public static partial class Combat
         Defender = defender;
         InitializeAttack();
 
+        Selection.ThisShip.FireShotsAnimation();
         PlayAttackSound();
         AttackDiceRoll();
     }
@@ -69,7 +70,7 @@ public static partial class Combat
         }
         else
         {
-            Sounds.PlayShots(Selection.ActiveShip.SoundShotsPath, Selection.ActiveShip.SoundShotsCount);
+            Sounds.PlayShots(Selection.ActiveShip.SoundShotsPath, Selection.ActiveShip.ShotsCount);
         }
     }
 

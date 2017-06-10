@@ -14,18 +14,11 @@ namespace RulesList
         public void CheckWinConditions()
         {
             int eliminatedTeam = Roster.CheckIsAnyTeamIsEliminated();
-            switch (eliminatedTeam)
+
+            if (eliminatedTeam != 0)
             {
-                case 1:
-                    Game.UI.AddTestLogEntry("Empire Wins!");
-                    Game.UI.ShowGameResults("Empire Wins!");
-                    break;
-                case 2:
-                    Game.UI.AddTestLogEntry("Rebels Win!");
-                    Game.UI.ShowGameResults("Rebels Win!");
-                    break;
-                default:
-                    break;
+                Game.UI.AddTestLogEntry("Player " + Roster.AnotherPlayer(eliminatedTeam) + " Wins!");
+                Game.UI.ShowGameResults("Player " + Roster.AnotherPlayer(eliminatedTeam) + " Wins!");
             }
         }
     }

@@ -142,7 +142,7 @@ public class UI : MonoBehaviour {
 
     public void ShowGameResults(string results)
     {
-        Game.PrefabsList.GameResultsPanel.transform.GetComponentInChildren<Text>().text = results;
+        Game.PrefabsList.GameResultsPanel.transform.Find("Panel").Find("Congratulations").GetComponent<Text>().text = results;
         Game.PrefabsList.GameResultsPanel.SetActive(true);
     }
 
@@ -280,6 +280,11 @@ public class UI : MonoBehaviour {
     public void CallHideTooltip()
     {
         Tooltips.EndTooltip();
+    }
+
+    public void QuitGame()
+    {
+        Application.Quit();
     }
 
 }

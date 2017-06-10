@@ -65,31 +65,11 @@ public static partial class Combat
     {
         if (SecondaryWeapon != null)
         {
-            PlaySoundByParameters("Sounds/Proton-Torpedoes", 1);
+            Sounds.PlayShots("Sounds/Proton-Torpedoes", 1);
         }
         else
         {
-            switch (Selection.ActiveShip.Type)
-            {
-                case "X-Wing":
-                    PlaySoundByParameters("Sounds/XWing-Laser", 3);
-                    break;
-                case "TIE Fighter":
-                    PlaySoundByParameters("Sounds/TIE-Fire", 2);
-                    break;
-                default:
-                    break;
-            }
-        }
-    }
-
-    private static void PlaySoundByParameters(string path, int times)
-    {
-        for (int i = 0; i < times; i++)
-        {
-            AudioSource audio = Selection.AnotherShip.Model.GetComponents<AudioSource>()[i];
-            audio.clip = (AudioClip)Resources.Load(path);
-            audio.PlayDelayed(i*0.5f);
+            Sounds.PlayShots(Selection.ActiveShip.SoundShotsPath, Selection.ActiveShip.SoundShotsCount);
         }
     }
 

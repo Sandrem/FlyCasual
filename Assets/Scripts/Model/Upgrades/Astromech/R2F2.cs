@@ -50,8 +50,7 @@ namespace ActionsList
 
         public override void ActionTake()
         {
-            AudioSource audio = Selection.ThisShip.Model.GetComponent<AudioSource>();
-            audio.PlayOneShot((AudioClip)Resources.Load("Sounds/Astromech-Beeping-and-whistling"));
+            Sounds.PlaySoundOnce("Astromech-Beeping-and-whistling");
 
             host = Selection.ThisShip;
             host.ChangeAgility(+1);

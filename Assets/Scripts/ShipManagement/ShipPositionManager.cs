@@ -285,6 +285,8 @@ public class ShipPositionManager : MonoBehaviour
         progressTarget = Vector3.Distance(RollingShip.GetPosition(), ShipStand.transform.position);
         RollingShip.ToggleShipStandAndPeg(false);
         MovementTemplates.CurrentTemplate.gameObject.SetActive(false);
+
+        Sounds.PlayFly();
     }
 
     //TODO: Move using curve

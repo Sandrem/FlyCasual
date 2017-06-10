@@ -23,11 +23,15 @@ namespace Ship
                 AddUpgradeSlot(Upgrade.UpgradeSlot.Torpedoes);
 
                 AssignTemporaryManeuvers();
+                HotacManeuverTable = new XWingTable();
 
                 factions.Add(Faction.Rebels);
                 faction = Faction.Rebels;
 
-                HotacManeuverTable = new XWingTable();
+                SoundShotsPath = "XWing-Laser";
+                SoundShotsCount = 3;
+
+                SoundFlyPaths.Add("XWing-Fly1");
             }
 
             public override void InitializeShip()

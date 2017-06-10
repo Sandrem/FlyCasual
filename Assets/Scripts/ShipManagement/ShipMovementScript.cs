@@ -246,6 +246,8 @@ public class ShipMovementScript : MonoBehaviour {
 
 	public void PerformMove(Movement movementParameters)
     {
+        if ((PreviousMovementData.Speed == 0) && (!CurrentMovementData.CollisionReverting)) Sounds.PlayFly();
+
         Game.UI.HideContextMenu();
 
         CurrentMovementData = new MovementExecutionData()
@@ -256,29 +258,27 @@ public class ShipMovementScript : MonoBehaviour {
         };
         Selection.ThisShip.StartMoving();
 
-        float animationSpeedMultiplier = CurrentMovementData.Speed;
-
         CurrentMovementData.CurrentProgress = 0f;
 
         if (movementParameters.Direction == ManeuverDirection.Forward)
         {
             Vector3 TargetPosition = new Vector3(0, 0, GetMovement1() + CurrentMovementData.Speed * GetMovement1());
             CurrentMovementData.TargetProgress = TargetPosition.z;
-            CurrentMovementData.AnimationSpeed = 0.5f;
+            CurrentMovementData.AnimationSpeed = 0.75f;
         }
 
         if (movementParameters.Bearing == ManeuverBearing.Bank)
         {
             CurrentMovementData.TurningAroundDistance = GetMovement1() * BANK_SCALES[CurrentMovementData.Speed - 1];
             CurrentMovementData.TargetProgress = 45f;
-            CurrentMovementData.AnimationSpeed = 40f / animationSpeedMultiplier;
+            CurrentMovementData.AnimationSpeed = 80f / CurrentMovementData.Speed;
         }
 
         if (movementParameters.Bearing == ManeuverBearing.Turn)
         {
             CurrentMovementData.TurningAroundDistance = GetMovement1() * TURN_POINTS[CurrentMovementData.Speed - 1];
             CurrentMovementData.TargetProgress = 90f;
-            CurrentMovementData.AnimationSpeed = 40f / animationSpeedMultiplier;
+            CurrentMovementData.AnimationSpeed = 100f / CurrentMovementData.Speed;
         }
 
         CurrentMovementData.IsMoving = true;

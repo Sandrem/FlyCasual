@@ -330,6 +330,7 @@ namespace Ship
         public void RotateModelDuringTurn(MovementExecutionData currentMovementData, MovementExecutionData previousMovementData)
         {
             if ((currentMovementData.MovementDirection == ManeuverDirection.Forward) && (previousMovementData.Speed == 0)) return;
+            if (currentMovementData.CollisionReverting) return;
 
             float progressCurrent = currentMovementData.CurrentProgress;
             float progressTarget = currentMovementData.TargetProgress;
@@ -346,15 +347,13 @@ namespace Ship
                 progressTarget += progressTarget * previousMovementData.Speed;
                 turningDirection = (previousMovementData.MovementDirection == ManeuverDirection.Right) ? 1 : -1;
             }
-            //Todo: Work correctly with move revertion
-            //Todo: reset rotation on finish
 
             float progress = progressCurrent / progressTarget;
             if (progress > 0.5f)
             {
                 progress = 1 - progress;
             }
-            Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("ShipModels").Find(Type).Find("ModelCenter").localEulerAngles = new Vector3(0, 0, Mathf.Lerp(0, 45* turningDirection, progress));
+                Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("ShipModels").Find(Type).Find("ModelCenter").localEulerAngles = new Vector3(0, 0, Mathf.Lerp(0, 45 * turningDirection, progress));
         }
 
         public void RotateModelDuringBarrelRoll(float progress, float turningDirection)

@@ -50,7 +50,6 @@ public static class ShipFactory {
         newShipContainer.OnMovementFinishWithColliding += Rules.Collision.AssignCollision;
         newShipContainer.OnMovementStart += MovementTemplates.ApplyMovementRuler;
         newShipContainer.OnMovementStart += MovementTemplates.CallReturnRangeRuler;
-        newShipContainer.OnMovementFinish += MovementTemplates.ResetRuler;
         newShipContainer.OnPositionFinish += Rules.OffTheBoard.CheckOffTheBoard;
         newShipContainer.OnMovementFinish += Rules.Stress.CheckStress;
         newShipContainer.OnMovementFinish += Rules.AsteroidHit.CheckDamage;

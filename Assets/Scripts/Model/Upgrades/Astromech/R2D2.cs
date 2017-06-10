@@ -31,6 +31,9 @@ namespace UpgradesList
             {
                 if (host.TryRegenShields())
                 {
+                    AudioSource audio = Selection.ThisShip.Model.GetComponent<AudioSource>();
+                    audio.PlayOneShot((AudioClip)Resources.Load("Sounds/R2D2-Proud"));
+
                     Game.UI.ShowInfo("R2-D2: Shield is restored");
                 }
             }

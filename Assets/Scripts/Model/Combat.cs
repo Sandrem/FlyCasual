@@ -35,7 +35,8 @@ public static partial class Combat
         Attacker = attacker;
         Defender = defender;
         InitializeAttack();
-        
+
+        PlayAttackSound();
         AttackDiceRoll();
     }
 
@@ -58,6 +59,16 @@ public static partial class Combat
         DiceRollAttack.Roll();
 
         DiceRollAttack.CalculateResults(AfterAttackDiceRoll);
+    }
+
+    private static void PlayAttackSound()
+    {
+        AudioSource audio1 = Selection.ThisShip.Model.GetComponent<AudioSource>();
+        audio1.PlayOneShot((AudioClip)Resources.Load("Sounds/TIE-Fire"));
+
+        AudioSource audio2 = Selection.AnotherShip.Model.GetComponent<AudioSource>();
+        audio2.clip = (AudioClip)Resources.Load("Sounds/TIE-Fire");
+        audio2.PlayDelayed(0.5f);
     }
 
     private static void AfterAttackDiceRoll(DiceRoll attackDiceRoll)

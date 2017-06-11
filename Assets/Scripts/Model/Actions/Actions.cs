@@ -26,8 +26,6 @@ public static partial class Actions {
 
         if (Letters.Count == 0) InitializeTargetLockLetters();
 
-        MovementTemplates.ShowRange(thisShip, targetShip);
-
         if (GetRange(thisShip, targetShip) < 4)
         {
             Tokens.GenericToken existingBlueToken = thisShip.GetToken(typeof(Tokens.BlueTargetLockToken), '*');
@@ -124,7 +122,7 @@ public static partial class Actions {
                 Vector3 vectorToTarget = objAnother.Value - objThis.Value;
                 float angle = Vector3.Angle(vectorToTarget, vectorFacing);
                 //Debug.Log ("Angle between " + objThis.Key + " and " + objAnother.Key + " is: " + angle.ToString ());
-                MovementTemplates.ShowFiringArcRange(thisShip, anotherShip);
+
                 if (angle <= 40)
                 {
                     inArc = true;
@@ -221,7 +219,7 @@ public static partial class Actions {
         //check is target available for attack
 
         bool inArc = InArcCheck(Selection.ThisShip, Selection.AnotherShip);
-        int distance = GetFiringRangeAndShow(Selection.ThisShip, Selection.AnotherShip);
+        int distance = GetFiringRange(Selection.ThisShip, Selection.AnotherShip);
         int attackTypesAreAvailable = Selection.ThisShip.GetAttackTypes(distance, inArc);
 
         if (attackTypesAreAvailable > 1)
@@ -243,10 +241,12 @@ public static partial class Actions {
     public static void TryPerformAttack()
     {
         Game.UI.HideContextMenu();
+        MovementTemplates.ReturnRangeRuler();
+
         //TODO: CheckShot is needed before
         if (TargetIsLegal())
         {
-            Board.ShowFiringLine(Selection.ThisShip, Selection.AnotherShip);
+            Board.LaunchObstacleChecker(Selection.ThisShip, Selection.AnotherShip);
             //Call later "Combat.PerformAttack(Selection.ThisShip, Selection.AnotherShip);"
         }
         else

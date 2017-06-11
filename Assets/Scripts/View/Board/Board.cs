@@ -108,7 +108,7 @@ public static partial class Board {
         return vectorToTarget;
     }
 
-    public static void ShowFiringLine(Ship.GenericShip thisShip, Ship.GenericShip anotherShip)
+    public static void LaunchObstacleChecker(Ship.GenericShip thisShip, Ship.GenericShip anotherShip)
     {
         FiringLineCollisions = new List<Collider>();
 

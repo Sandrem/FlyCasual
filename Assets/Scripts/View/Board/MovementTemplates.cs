@@ -17,7 +17,6 @@ public static class MovementTemplates {
     static MovementTemplates()
     {
         Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-        Actions.OnCheckTargetIsLegal += CallShowRange;
         Templates = Game.PrefabsList.RulersHolderTransform;
     }
 
@@ -95,11 +94,6 @@ public static class MovementTemplates {
 		CurrentTemplate.eulerAngles = savedRulerRotation;
 	}
 
-    public static void CallShowRange(ref bool result, Ship.GenericShip thisShip, Ship.GenericShip anotherShip)
-    {
-        ShowRange(thisShip, anotherShip);
-    }
-
     public static void ShowRange(Ship.GenericShip thisShip, Ship.GenericShip anotherShip)
     {
         Vector3 vectorToTarget = thisShip.GetClosestEdgesTo(anotherShip)["another"] - thisShip.GetClosestEdgesTo(anotherShip)["this"];
@@ -112,6 +106,7 @@ public static class MovementTemplates {
         Vector3 closestEdge = thisShip.GetClosestFiringEdgesTo(anotherShip)["this"];
         Vector3 vectorToTarget = Board.GetShotVectorToTarget(thisShip, anotherShip);
         ShowRangeRuler(closestEdge, vectorToTarget);
+        if (!Actions.InArcCheck(thisShip, anotherShip)) Messages.ShowError("Out of arc");
     }
 
     public static void ShowRangeRuler(Vector3 position, Vector3 direction)

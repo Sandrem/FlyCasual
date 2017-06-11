@@ -36,12 +36,14 @@ namespace SubPhases
 
             if (anotherShip.Owner.PlayerNo != Phases.CurrentSubPhase.RequiredPlayer)
             {
+                MovementTemplates.ShowRange(Selection.ThisShip, anotherShip);
                 if (!Actions.AssignTargetLockToPair(Selection.ThisShip, anotherShip))
                 {
                     Selection.ThisShip.RemoveAlreadyExecutedAction(typeof(ActionsList.TargetLockAction));
                     Phases.CurrentSubPhase = PreviousSubPhase;
                     Roster.AllShipsHighlightOff();
                     UpdateHelpInfo();
+
                     Actions.ShowActionsPanel();
                     return false;
                 }

@@ -132,6 +132,7 @@ namespace SubPhases
             {
                 if (targetShip.Owner.PlayerNo != Phases.CurrentSubPhase.RequiredPlayer)
                 {
+                    MovementTemplates.ShowFiringArcRange(Selection.ThisShip, targetShip);
                     result = true;
                 }
                 else

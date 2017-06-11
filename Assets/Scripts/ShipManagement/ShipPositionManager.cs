@@ -355,7 +355,7 @@ public class ShipPositionManager : MonoBehaviour
     private void EndKoiogranTurn()
     {
         inKoiogranTurn = false;
-        Phases.Next();
+        Phases.FinishSubPhase(typeof(SubPhases.KoiogranTurnSubPhase));
     }
 
 }

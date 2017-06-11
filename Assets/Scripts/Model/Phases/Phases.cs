@@ -27,6 +27,9 @@ public static partial class Phases
         get { return CurrentSubPhase.RequiredPlayer; }
     }
 
+    private static List<System.Type> subPhasesToStart = new List<System.Type>();
+    private static List<System.Type> subPhasesToFinish = new List<System.Type>();
+
     //EVENTS
     public delegate void EventHandler();
     public static event EventHandler OnRoundStart;
@@ -52,7 +55,17 @@ public static partial class Phases
 
     public static void FinishSubPhase(System.Type subPhaseType)
     {
-        if (CurrentSubPhase.GetType() == subPhaseType) Next();
+        if (CurrentSubPhase.GetType() == subPhaseType)
+        {
+            Next();
+        }
+        else
+        {
+            if (!subPhasesToFinish.Contains(subPhaseType))
+            {
+                subPhasesToFinish.Add(subPhaseType);
+            }
+        }
     }
 
     public static void Next()
@@ -68,6 +81,26 @@ public static partial class Phases
     public static void CallNextSubPhase()
     {
         CurrentSubPhase.CallNextSubPhase();
+    }
+
+    public static void CheckScheduledChanges()
+    {
+        if (subPhasesToFinish.Count == 0) return;
+
+        List<System.Type> tempList = new List<System.Type>();
+        foreach (var subPhaseType in subPhasesToFinish)
+        {
+            tempList.Add(subPhaseType);
+        }
+
+        foreach (var subPhaseType in tempList)
+        {
+            if (CurrentSubPhase.GetType() == subPhaseType)
+            {
+                subPhasesToFinish.Remove(subPhaseType);
+                Next();
+            }
+        }
     }
 
     //TRIGGERS

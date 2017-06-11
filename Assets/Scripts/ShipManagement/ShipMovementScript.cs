@@ -91,6 +91,7 @@ public class ShipMovementScript : MonoBehaviour {
         RegisterObstacleCollisions();
         UpdateMovement();
         CheckFireLineCollisions();
+        Phases.CheckScheduledChanges();
     }
 
     private void CheckFireLineCollisions()

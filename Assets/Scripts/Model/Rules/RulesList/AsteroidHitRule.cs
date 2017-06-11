@@ -75,7 +75,6 @@ namespace RulesList
         {
             Phases.FinishSubPhase(typeof(SubPhases.DiceRollSubPhase));
             Combat.HideDiceResultMenu();
-            Phases.Next();
         }
 
     }

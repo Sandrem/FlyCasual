@@ -21,10 +21,6 @@ namespace SubPhases
         public override void Next()
         {
             Phases.CurrentSubPhase = PreviousSubPhase;
-            Phases.Next();
-            //Phases.Next();
-            //Phases.FinishSubPhase(typeof(ActivationSubPhase));
-
             UpdateHelpInfo();
         }
 

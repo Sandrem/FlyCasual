@@ -68,11 +68,6 @@ public static partial class Actions {
     public static void CloseActionsPanel()
     {
         Game.PrefabsList.PanelActions.SetActive(false);
-        //Rework: This needs go next only if this is single-state action
-        /*if (!(Phases.CurrentSubPhase.GetType() == typeof(SubPhases.SelectTargetSubPhase)) && !(Phases.CurrentSubPhase.GetType() == typeof(SubPhases.BarrelRollSubPhase)))
-        {
-            Phases.Next();
-        }*/
     }
 
 }

@@ -29,14 +29,4 @@ public class ObstaclesHitsDetector : MonoBehaviour {
         }
     }
 
-	void OnTriggerExit(Collider collisionInfo) {
-		if (checkCollisions)
-        {
-            if (collisionInfo.tag == "Asteroid")
-            {
-                Game.Movement.ObstacleHitExit = this.gameObject.GetComponent<Collider>();
-            }
-        }
-    }
-
 }

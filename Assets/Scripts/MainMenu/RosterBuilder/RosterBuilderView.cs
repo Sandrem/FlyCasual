@@ -265,7 +265,6 @@ public static partial class RosterBuilder {
     private static void UpdateSquadCost(PlayerNo playerNo)
     {
         int squadCost = 0;
-        
 
         foreach (Transform shipPanel in GetShipsPanel(playerNo))
         {
@@ -277,6 +276,11 @@ public static partial class RosterBuilder {
 
         GetPlayerPanel(playerNo).Find("SquadCostPanel").Find("CostCurrent").GetComponent<Text>().text = squadCost.ToString();
         GetPlayerPanel(playerNo).Find("SquadCostPanel").Find("CostCurrent").GetComponent<Text>().color = (squadCost > 100) ? Color.red : Color.white;
+    }
+
+    private static int GetShipCostCalculated(PlayerNo playerNo)
+    {
+        return int.Parse(GetPlayerPanel(playerNo).Find("SquadCostPanel").Find("CostCurrent").GetComponent<Text>().text);
     }
 
     //Get information from panels

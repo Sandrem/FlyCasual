@@ -31,6 +31,8 @@ public class Global : MonoBehaviour {
         private set { shipConfigurations = value; }
     }
 
+    public static PlayerNo PlayerWithInitiative = PlayerNo.Player1;
+
     void Start()
     {
         DontDestroyOnLoad(this.gameObject);

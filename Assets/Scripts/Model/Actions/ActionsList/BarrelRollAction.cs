@@ -13,7 +13,7 @@ namespace ActionsList
 
         public override void ActionTake()
         {
-            Phases.StartBarrelRollSubPhase("Select target for Target Lock");
+            Phases.StartTemporarySubPhase("Barrel Roll", typeof(SubPhases.BarrelRollSubPhase));
         }
 
     }

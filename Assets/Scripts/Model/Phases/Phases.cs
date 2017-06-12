@@ -27,7 +27,6 @@ public static partial class Phases
         get { return CurrentSubPhase.RequiredPlayer; }
     }
 
-    private static List<System.Type> subPhasesToStart = new List<System.Type>();
     private static List<System.Type> subPhasesToFinish = new List<System.Type>();
 
     //EVENTS
@@ -85,20 +84,26 @@ public static partial class Phases
 
     public static void CheckScheduledChanges()
     {
-        if (subPhasesToFinish.Count == 0) return;
+        CheckScheduledFinishes();
+    }
 
-        List<System.Type> tempList = new List<System.Type>();
-        foreach (var subPhaseType in subPhasesToFinish)
+    private static void CheckScheduledFinishes()
+    {
+        if (subPhasesToFinish.Count != 0)
         {
-            tempList.Add(subPhaseType);
-        }
-
-        foreach (var subPhaseType in tempList)
-        {
-            if (CurrentSubPhase.GetType() == subPhaseType)
+            List<System.Type> tempList = new List<System.Type>();
+            foreach (var subPhaseType in subPhasesToFinish)
             {
-                subPhasesToFinish.Remove(subPhaseType);
-                Next();
+                tempList.Add(subPhaseType);
+            }
+
+            foreach (var subPhaseType in tempList)
+            {
+                if (CurrentSubPhase.GetType() == subPhaseType)
+                {
+                    subPhasesToFinish.Remove(subPhaseType);
+                    Next();
+                }
             }
         }
     }
@@ -146,45 +151,10 @@ public static partial class Phases
 
     //TEMPORARY SUBPHASES
 
-    public static void StartFreeActionSubPhase(string name)
-    {
-        StartTemporarySubPhase(name, new FreeActionSubPhase());
-    }
-
-    public static void StartSelectTargetSubPhase(string name)
-    {
-        StartTemporarySubPhase(name, new SelectTargetSubPhase());
-    }
-
-    public static void StartBarrelRollSubPhase(string name)
-    {
-        StartTemporarySubPhase(name, new BarrelRollSubPhase());
-    }
-
-    public static void StartKoiogranTurnSubPhase(string name)
-    {
-        StartTemporarySubPhase(name, new KoiogranTurnSubPhase());
-    }
-
-    public static void StartDiceRollSubPhase(string name)
-    {
-        StartTemporarySubPhase(name, new DiceRollSubPhase());
-    }
-
-    public static void StartMovementExecutionSubPhase(string name)
-    {
-        StartTemporarySubPhase(name, new MovementExecutionSubPhase());
-    }
-
-    public static void StartRepositionExecutionSubPhase(string name)
-    {
-        StartTemporarySubPhase(name, new RepositionExecutionSubPhase());
-    }
-
-    private static void StartTemporarySubPhase(string name, GenericSubPhase subPhase)
+    public static void StartTemporarySubPhase(string name, System.Type subPhaseType)
     {
         GenericSubPhase previousSubPhase = CurrentSubPhase;
-        CurrentSubPhase = subPhase;
+        CurrentSubPhase = (GenericSubPhase)System.Activator.CreateInstance(subPhaseType);
         CurrentSubPhase.Name = name;
         CurrentSubPhase.PreviousSubPhase = previousSubPhase;
         CurrentSubPhase.RequiredPlayer = previousSubPhase.RequiredPlayer;

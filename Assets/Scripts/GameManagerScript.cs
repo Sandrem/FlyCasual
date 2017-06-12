@@ -27,7 +27,7 @@ public class GameManagerScript : MonoBehaviour {
 
     private void SetApplicationParameters()
     {
-        Application.targetFrameRate = 60;
+        Application.targetFrameRate = 100;
     }
 
     private void InitializeScripts()

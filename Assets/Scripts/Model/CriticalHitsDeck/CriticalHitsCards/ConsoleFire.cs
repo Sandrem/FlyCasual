@@ -29,7 +29,7 @@ namespace CriticalHitCard
         private void RollForDamage(Ship.GenericShip host)
         {
             Selection.ActiveShip = Selection.ThisShip;
-            Phases.StartDiceRollSubPhase("Console Fire");
+            Phases.StartTemporarySubPhase("Console Fire", typeof(SubPhases.DiceRollSubPhase));
 
             Combat.ShowDiceResultMenu(CloseWindow);
 

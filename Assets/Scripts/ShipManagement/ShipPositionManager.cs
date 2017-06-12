@@ -279,7 +279,7 @@ public class ShipPositionManager : MonoBehaviour
     private void StartBarrelRollAnimation(Ship.GenericShip ship)
     {
         RollingShip = Selection.ThisShip;
-        Phases.StartRepositionExecutionSubPhase("");
+        Phases.StartTemporarySubPhase("Barrel Roll", typeof(SubPhases.RepositionExecutionSubPhase));
         inBarrelRoll = true;
         progressCurrent = 0;
         progressTarget = Vector3.Distance(RollingShip.GetPosition(), ShipStand.transform.position);

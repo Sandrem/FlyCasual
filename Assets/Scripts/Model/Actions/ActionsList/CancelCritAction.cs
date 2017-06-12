@@ -36,7 +36,7 @@ namespace ActionsList
             }
             else
             {
-                Phases.StartDiceRollSubPhase("Trying to flip critical card");
+                Phases.StartTemporarySubPhase("Trying to flip critical card", typeof(SubPhases.DiceRollSubPhase));
                 Combat.ShowDiceResultMenu(FinishAction);
 
                 DiceRoll DiceRollCheck;

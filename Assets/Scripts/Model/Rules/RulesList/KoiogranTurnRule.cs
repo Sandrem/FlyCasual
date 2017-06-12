@@ -15,7 +15,7 @@ namespace RulesList
         {
             if (Game.Movement.CurrentMovementData.MovementBearing == ManeuverBearing.KoiogranTurn)
             {
-                Phases.StartKoiogranTurnSubPhase("Koiogran Turn");
+                Phases.StartTemporarySubPhase("Koiogran Turn", typeof(SubPhases.KoiogranTurnSubPhase));
             }
         }
 

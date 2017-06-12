@@ -9,13 +9,13 @@ public enum CriticalCardType
     Pilot
 }
 
-public static class CriticalHitsDeck {
+public static class CriticalHitsDeck{
 
     private static List<CriticalHitCard.GenericCriticalHit> Deck = new List<CriticalHitCard.GenericCriticalHit>();
 
     public static void InitializeDeck()
     {
-        for (int i = 0; i < 3; i++) // Max should be 7
+        for (int i = 0; i < 6; i++) // Max should be 7
         {
             Deck.Add(new CriticalHitCard.DirectHit());
         }
@@ -36,9 +36,6 @@ public static class CriticalHitsDeck {
             Deck.Add(new CriticalHitCard.ThrustControlFire());
             Deck.Add(new CriticalHitCard.WeaponsFailure());
         }
-
-        Deck.Add(new CriticalHitCard.ConsoleFire());
-        Deck.Add(new CriticalHitCard.MajorExplosion());
     }
 
     public static void DrawCrit(Ship.GenericShip host)

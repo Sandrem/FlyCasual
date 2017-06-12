@@ -10,7 +10,10 @@ using Players;
 public static partial class RosterBuilder {
 
     private static Dictionary<string, string> AllShips = new Dictionary<string, string>();
+
     private static Dictionary<string, string> AllPilots = new Dictionary<string, string>();
+    private static Dictionary<string, int> PilotSkill = new Dictionary<string, int>();
+
     private static Dictionary<string, string> AllUpgrades = new Dictionary<string, string>();
 
     public static void Initialize()
@@ -108,6 +111,7 @@ public static partial class RosterBuilder {
                 if (!AllPilots.ContainsKey(pilotKey))
                 {
                     AllPilots.Add(pilotKey, type.ToString());
+                    PilotSkill.Add(pilotKey, newShipContainer.PilotSkill);
                 }
                 result.Add(pilotKey);
             }

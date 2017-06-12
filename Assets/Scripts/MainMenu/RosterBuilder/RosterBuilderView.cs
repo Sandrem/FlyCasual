@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using System.Linq;
 using Players;
 
 public static partial class RosterBuilder {
@@ -170,11 +171,12 @@ public static partial class RosterBuilder {
     {
         string shipNameFull = panel.transform.Find("GroupShip").Find("DropdownShip").GetComponent<Dropdown>().captionText.text;
         string shipNameId = AllShips[shipNameFull];
-        List<string> results = GetPilotsList(shipNameId);
+        List<string> results = GetPilotsList(shipNameId).OrderByDescending(n => PilotSkill[n]).ToList();
 
         Dropdown pilotDropdown = panel.transform.Find("GroupShip").Find("DropdownPilot").GetComponent<Dropdown>();
         pilotDropdown.ClearOptions();
         pilotDropdown.AddOptions(results);
+        pilotDropdown.value = results.Count - 1;
 
         SubscribeShipDropdowns(playerNo, panel);
         SetAvailableUpgrades(playerNo, panel, pilotDropdown.captionText.text);

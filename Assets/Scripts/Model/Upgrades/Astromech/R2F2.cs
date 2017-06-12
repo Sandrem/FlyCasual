@@ -61,6 +61,7 @@ namespace ActionsList
         private void R2F2DecreaseAgility()
         {
             host.ChangeAgility(-1);
+            Phases.OnEndPhaseStart -= R2F2DecreaseAgility;
         }
 
     }

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 namespace Players
 {
@@ -102,7 +103,6 @@ namespace Players
                     if (!shipHolder.Value.IsAttackPerformed)
                     {
                         Selection.ChangeActiveShip("ShipId:" + shipHolder.Value.ShipId);
-                        //Selection.ThisShip = shipHolder.Value;
                         break;
                     }
                 }
@@ -110,30 +110,44 @@ namespace Players
 
             if (Selection.ThisShip != null)
             {
-                Ship.GenericShip enemyShip = FindNearestEnemyShip(Selection.ThisShip, ignoreCollided: true, inArcAndRange: true);
-
-                if (enemyShip != null)
+                Dictionary<Ship.GenericShip, float> enemyShips = GetEnemyShipsAndDistance(Selection.ThisShip, ignoreCollided: true, inArcAndRange: true);
+                foreach (var shipHolder in enemyShips)
                 {
-                    //TODO: Biggs
-                    Selection.TryToChangeAnotherShip("ShipId:" + enemyShip.ShipId);
+                    Selection.TryToChangeAnotherShip("ShipId:" + shipHolder.Key.ShipId);
                     Combat.SelectWeapon();
-                    attackPerformed = true;
-                    Actions.TryPerformAttack();
+
+                    if (Actions.TargetIsLegal())
+                    {
+                        attackPerformed = true;
+                        Actions.TryPerformAttack();
+                        break;
+                    }
                 }
-                else
-                {
-                    Selection.ThisShip.IsAttackPerformed = true;
-                }
+                Selection.ThisShip.IsAttackPerformed = true;
             }
 
-            if (!attackPerformed) Phases.Next();
+            if (!attackPerformed)
+            {
+                Phases.Next();
+            }
 
         }
 
         public Ship.GenericShip FindNearestEnemyShip(Ship.GenericShip thisShip, bool ignoreCollided = false, bool inArcAndRange = false)
         {
+            Dictionary<Ship.GenericShip, float> results = GetEnemyShipsAndDistance(thisShip, ignoreCollided, inArcAndRange);
             Ship.GenericShip result = null;
-            float distance = float.MaxValue;
+            if (results.Count != 0)
+            {
+                result = results.OrderBy(n => n.Value).First().Key;
+            }
+            return result;
+        }
+
+        public Dictionary<Ship.GenericShip, float> GetEnemyShipsAndDistance(Ship.GenericShip thisShip, bool ignoreCollided = false, bool inArcAndRange = false)
+        {
+            Dictionary<Ship.GenericShip, float> results = new Dictionary<Ship.GenericShip, float>();
+
             foreach (var shipHolder in Roster.GetPlayer(Roster.AnotherPlayer(thisShip.Owner.PlayerNo)).Ships)
             {
                 if (ignoreCollided)
@@ -162,14 +176,12 @@ namespace Players
                     }
                 }
 
-                float newDistance = Vector3.Distance(thisShip.GetCenter(), shipHolder.Value.GetCenter());
-                if (newDistance < distance)
-                {
-                    distance = newDistance;
-                    result = shipHolder.Value;
-                }
+                float distance = Vector3.Distance(thisShip.GetCenter(), shipHolder.Value.GetCenter());
+                results.Add(shipHolder.Value, distance);
             }
-            return result;
+            results = results.OrderBy(n => n.Value).ToDictionary(n => n.Key, n => n.Value);
+
+            return results;
         }
 
         public override void UseDiceModifications()

@@ -82,6 +82,7 @@ public static partial class Roster
     {
         GetShipById(id).SetActive(false);
         GetShipById(id).InfoPanel.SetActive(false);
+        OrganizeRosterPositions();
 
         RemoveShipFromLists(id);
     }

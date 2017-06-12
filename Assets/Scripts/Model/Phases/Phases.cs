@@ -47,6 +47,7 @@ public static partial class Phases
         //Todo: Create starting point
         Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
 
+        PlayerWithInitiative = Global.PlayerWithInitiative;
         CurrentPhase = new SetupPhase();
         Game.UI.AddTestLogEntry("Game is started");
         CurrentPhase.StartPhase();

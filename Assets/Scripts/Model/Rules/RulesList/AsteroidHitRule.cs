@@ -35,7 +35,7 @@ namespace RulesList
                 Selection.ActiveShip = Selection.ThisShip;
                 foreach (var asteroid in Selection.ThisShip.ObstaclesHit)
                 {
-                    Phases.StartDiceRollSubPhase("Damage from asteroid collision");
+                    Phases.StartTemporarySubPhase("Damage from asteroid collision", typeof(SubPhases.DiceRollSubPhase));
                     Combat.ShowDiceResultMenu(FinishCheck);
 
                     DiceRoll DiceRollCheck;
@@ -75,7 +75,6 @@ namespace RulesList
         {
             Phases.FinishSubPhase(typeof(SubPhases.DiceRollSubPhase));
             Combat.HideDiceResultMenu();
-            Phases.Next();
         }
 
     }

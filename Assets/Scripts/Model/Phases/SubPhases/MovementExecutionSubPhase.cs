@@ -19,15 +19,11 @@ namespace SubPhases
 
         public override void Next()
         {
-
-            if (Phases.CurrentSubPhase.GetType() == this.GetType())
-            {
-                GenericSubPhase actionSubPhase = new ActionSubPhase();
-                actionSubPhase.PreviousSubPhase = Phases.CurrentSubPhase;
-                Phases.CurrentSubPhase = actionSubPhase;
-                Phases.CurrentSubPhase.Start();
-                Phases.CurrentSubPhase.Initialize();
-            }
+            GenericSubPhase actionSubPhase = new ActionSubPhase();
+            actionSubPhase.PreviousSubPhase = Phases.CurrentSubPhase;
+            Phases.CurrentSubPhase = actionSubPhase;
+            Phases.CurrentSubPhase.Start();
+            Phases.CurrentSubPhase.Initialize();
         }
 
         public override bool ThisShipCanBeSelected(Ship.GenericShip ship)

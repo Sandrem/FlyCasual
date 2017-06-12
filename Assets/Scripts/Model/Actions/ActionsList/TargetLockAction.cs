@@ -47,7 +47,7 @@ namespace ActionsList
 
         public override void ActionTake()
         {
-            Phases.StartSelectTargetSubPhase("Select target for Target Lock");
+            Phases.StartTemporarySubPhase("Select target for Target Lock", typeof(SubPhases.SelectTargetSubPhase));
         }
 
     }

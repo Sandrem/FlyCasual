@@ -91,6 +91,7 @@ public class ShipMovementScript : MonoBehaviour {
         RegisterObstacleCollisions();
         UpdateMovement();
         CheckFireLineCollisions();
+        Phases.CheckScheduledChanges();
     }
 
     private void CheckFireLineCollisions()
@@ -239,7 +240,7 @@ public class ShipMovementScript : MonoBehaviour {
     public void PerformStoredManeuver()
     {
         Roster.AllShipsHighlightOff();
-        Phases.StartMovementExecutionSubPhase("");
+        Phases.StartTemporarySubPhase("Movement", typeof(SubPhases.MovementExecutionSubPhase));
         Selection.ThisShip.ObstaclesHit = new List<Collider>();
         Game.Movement.PerformMove(Selection.ThisShip.AssignedManeuver);
     }
@@ -271,7 +272,7 @@ public class ShipMovementScript : MonoBehaviour {
         {
             CurrentMovementData.TurningAroundDistance = GetMovement1() * BANK_SCALES[CurrentMovementData.Speed - 1];
             CurrentMovementData.TargetProgress = 45f;
-            CurrentMovementData.AnimationSpeed = 80f / CurrentMovementData.Speed;
+            CurrentMovementData.AnimationSpeed = 60f / CurrentMovementData.Speed;
         }
 
         if (movementParameters.Bearing == ManeuverBearing.Turn)
@@ -541,7 +542,7 @@ public class ShipMovementScript : MonoBehaviour {
     private void RevertMove()
     {
         CurrentMovementData.CollisionReverting = true;
-        CurrentMovementData.AnimationSpeed = CurrentMovementData.AnimationSpeed / 5;
+        CurrentMovementData.AnimationSpeed = CurrentMovementData.AnimationSpeed / 1; // Temporary no slow-mo
         CurrentMovementData.CurrentProgress = 0f;
 	}
 

@@ -157,8 +157,11 @@ public static partial class Roster {
         float offset = 5;
         foreach (var item in rosterPlayer1)
         {
-            item.transform.position = defaultPosition + new Vector3(0f, -offset, 0f);
-            offset += item.transform.Find("ShipInfo").GetComponent<RectTransform>().sizeDelta.y + 5;
+            if (item.activeSelf)
+            {
+                item.transform.position = defaultPosition + new Vector3(0f, -offset, 0f);
+                offset += item.transform.Find("ShipInfo").GetComponent<RectTransform>().sizeDelta.y + 5;
+            }
         }
 
         /// Same for second player

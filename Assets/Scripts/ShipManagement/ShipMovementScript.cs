@@ -68,7 +68,7 @@ public class ShipMovementScript : MonoBehaviour {
     private MovementExecutionData PreviousMovementData = new MovementExecutionData();
 
     private float moveDistance1 = 0f;
-    private readonly float[] TURN_POINTS = new float[] { 2f, 3.6f, 5.2f };
+    private readonly float[] TURN_POINTS = new float[] { 2f, 3.6f, 4.85f };
     private readonly float[] BANK_SCALES = new float[] { 4.6f, 7.4f, 10.4f };
 
     public Collider CollidedWith;

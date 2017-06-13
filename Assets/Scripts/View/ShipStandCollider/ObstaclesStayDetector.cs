@@ -34,7 +34,7 @@ public class ObstaclesStayDetector: MonoBehaviour {
         //TODO: Change to OnTriggerEnter
         if (checkCollisions)
         {
-            if (collisionInfo.name == "ShipStand")
+            if (collisionInfo.name == "ObstaclesStayDetector")
             {
                 if (collisionInfo.tag != this.tag)
                 {
@@ -48,7 +48,7 @@ public class ObstaclesStayDetector: MonoBehaviour {
     {
         if (checkCollisions)
         {
-            if (collisionInfo.name == "ShipStand")
+            if (collisionInfo.name == "ObstaclesStayDetector")
             {
                 Game.Movement.CollidedWith = null;
                 Selection.ThisShip.LastShipCollision = Roster.GetShipById(collisionInfo.tag);

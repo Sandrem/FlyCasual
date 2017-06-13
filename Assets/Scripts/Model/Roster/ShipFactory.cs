@@ -36,6 +36,9 @@ public static class ShipFactory {
             newShipContainer.InstallUpgrade(upgrade);
         }
 
+        Roster.SubscribeActions(newShipContainer.InfoPanel.transform.Find("ShipInfo").gameObject);
+        Roster.SubscribeUpgradesPanel(newShipContainer, newShipContainer.InfoPanel);
+
         //TODO: Rework this
         newShipContainer.OnDestroyed += Rules.WinConditions.CheckWinConditions;
         newShipContainer.AfterGotNumberOfPrimaryWeaponAttackDices += Rules.DistanceBonus.CheckAttackDistanceBonus;

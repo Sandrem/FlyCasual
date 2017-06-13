@@ -92,16 +92,14 @@ public class ShipMovementScript : MonoBehaviour {
         UpdateMovement();
         CheckFireLineCollisions();
         Phases.CheckScheduledChanges();
-    }
 
-    private void LateUpdate()
-    {
         ClearCollision();
     }
 
     private void ClearCollision()
     {
         ObstacleHitEnter = null;
+        CollidedWith = null;
     }
 
     private void CheckFireLineCollisions()

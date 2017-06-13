@@ -21,11 +21,15 @@ public static partial class Roster {
 
         newPanel.transform.Find("ShipInfo").Find("ShipId").GetComponent<Text>().text = newShip.ShipId.ToString();
 
-        newPanel.transform.Find("ShipInfo").Find("ShipPilotNameText").GetComponent<Text>().text = newShip.PilotName;
-        Tooltips.AddTooltip(newPanel.transform.Find("ShipInfo").Find("ShipPilotNameText").gameObject, newShip.ImageUrl);
+        GameObject pilotNameGO = newPanel.transform.Find("ShipInfo").Find("ShipPilotNameText").gameObject;
+        pilotNameGO.GetComponent<Text>().text = newShip.PilotName;
+        Tooltips.AddTooltip(pilotNameGO, newShip.ImageUrl);
+        SubscribeActions(pilotNameGO);
 
-        newPanel.transform.Find("ShipInfo").Find("ShipTypeText").GetComponent<Text>().text = newShip.Type;
-        Tooltips.AddTooltip(newPanel.transform.Find("ShipInfo").Find("ShipTypeText").gameObject, newShip.ManeuversImageUrl);
+        GameObject shipTypeGO = newPanel.transform.Find("ShipInfo").Find("ShipTypeText").gameObject;
+        shipTypeGO.GetComponent<Text>().text = newShip.Type;
+        Tooltips.AddTooltip(shipTypeGO, newShip.ManeuversImageUrl);
+        SubscribeActions(shipTypeGO);
 
         newPanel.transform.Find("ShipInfo").Find("ShipFirepowerText").GetComponent<Text>().text = newShip.Firepower.ToString();
         newPanel.transform.Find("ShipInfo").Find("ShipAgilityText").GetComponent<Text>().text = newShip.Agility.ToString();
@@ -62,17 +66,19 @@ public static partial class Roster {
 
         AddToRoster(newShip, newPanel);
 
-        //Event
-        newPanel.transform.Find("ShipInfo").gameObject.AddComponent<EventTrigger>();
-        EventTrigger trigger = newPanel.transform.Find("ShipInfo").gameObject.GetComponent<EventTrigger>();
+        newPanel.transform.Find("ShipInfo").gameObject.SetActive(true);
+
+        return newPanel;
+    }
+
+    public static void SubscribeActions(GameObject panel)
+    {
+        panel.AddComponent<EventTrigger>();
+        EventTrigger trigger = panel.GetComponent<EventTrigger>();
         EventTrigger.Entry entry = new EventTrigger.Entry();
         entry.eventID = EventTriggerType.PointerClick;
         entry.callback.AddListener((data) => { SelectShipByRosterClick((PointerEventData)data); });
         trigger.triggers.Add(entry);
-
-        newPanel.transform.Find("ShipInfo").gameObject.SetActive(true);
-
-        return newPanel;
     }
 
     private static void AddToRoster(Ship.GenericShip newShip, GameObject newPanel)
@@ -279,10 +285,21 @@ public static partial class Roster {
         {
             GameObject upgradeNamePanel = newPanel.transform.Find("ShipInfo").Find("UpgradesBar").Find("Upgrade"+index).gameObject;
             upgradeNamePanel.GetComponent<Text>().text = upgrade.Value.ShortName;
+            upgradeNamePanel.SetActive(true);
+            index++;
+        }
+    }
 
+    public static void SubscribeUpgradesPanel(Ship.GenericShip newShip, GameObject newPanel)
+    {
+        int index = 1;
+        foreach (var upgrade in newShip.InstalledUpgrades)
+        {
+            GameObject upgradeNamePanel = newPanel.transform.Find("ShipInfo").Find("UpgradesBar").Find("Upgrade" + index).gameObject;
+
+            SubscribeActions(upgradeNamePanel);
             Tooltips.AddTooltip(upgradeNamePanel, upgrade.Value.ImageUrl);
 
-            upgradeNamePanel.SetActive(true);
             index++;
         }
     }

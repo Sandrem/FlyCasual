@@ -144,8 +144,12 @@ public static class Tooltips {
 
     public static void AddTooltip(GameObject sender, string tooltipUrl)
     {
-        sender.AddComponent<EventTrigger>();
         EventTrigger trigger = sender.GetComponent<EventTrigger>();
+        if (trigger == null)
+        {
+            sender.AddComponent<EventTrigger>();
+            trigger = sender.GetComponent<EventTrigger>();
+        }
 
         EventTrigger.Entry entry = new EventTrigger.Entry();
         entry.eventID = EventTriggerType.PointerEnter;

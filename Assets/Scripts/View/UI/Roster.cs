@@ -153,36 +153,25 @@ public static partial class Roster {
 
     private static void OrganizeRosterPositions()
     {
-        Vector3 defaultPosition = Game.PrefabsList.RostersHolder.transform.Find("TeamPlayer1").Find("RosterHolder").transform.position + new Vector3(5f, 0f, 0f);
-
-        rosterPlayer1 = rosterPlayer1
-            .OrderByDescending(x => x.transform.Find("ShipInfo").Find("ShipPilotSkillText").GetComponent<Text>().text)
-            .ThenBy(x => x.transform.Find("ShipInfo").Find("ShipId").GetComponent<Text>().text)
-            .ToList();
-
-        float offset = 5;
-        foreach (var item in rosterPlayer1)
+        for (int i = 1; i < 3; i++)
         {
-            if (item.activeSelf)
+            Vector3 defaultPosition = Game.PrefabsList.RostersHolder.transform.Find("TeamPlayer" + i).Find("RosterHolder").transform.position + new Vector3(5f, 0f, 0f);
+
+            List<GameObject> rosterPlayer = (i == 1) ? rosterPlayer1 : rosterPlayer2;
+            rosterPlayer = rosterPlayer
+                .OrderByDescending(x => x.transform.Find("ShipInfo").Find("ShipPilotSkillText").GetComponent<Text>().text)
+                .ThenBy(x => x.transform.Find("ShipInfo").Find("ShipId").GetComponent<Text>().text)
+                .ToList();
+
+            float offset = 5;
+            foreach (var item in rosterPlayer)
             {
-                item.transform.position = defaultPosition + new Vector3(0f, -offset, 0f);
-                offset += item.transform.Find("ShipInfo").GetComponent<RectTransform>().sizeDelta.y + 5;
+                if (item.activeSelf)
+                {
+                    item.transform.position = defaultPosition + new Vector3(0f, -offset, 0f);
+                    offset += item.transform.Find("ShipInfo").GetComponent<RectTransform>().sizeDelta.y + 5;
+                }
             }
-        }
-
-        /// Same for second player
-        defaultPosition = Game.PrefabsList.RostersHolder.transform.Find("TeamPlayer2").Find("RosterHolder").transform.position + new Vector3(5f, 0f, 0f);
-
-        rosterPlayer2 = rosterPlayer2
-            .OrderByDescending(x => x.transform.Find("ShipInfo").Find("ShipPilotSkillText").GetComponent<Text>().text)
-            .ThenBy(x => x.transform.Find("ShipInfo").Find("ShipId").GetComponent<Text>().text)
-            .ToList();
-
-        offset = 5;
-        foreach (var item in rosterPlayer2)
-        {
-            item.transform.position = defaultPosition + new Vector3(0f, -offset, 0f);
-            offset += item.transform.Find("ShipInfo").GetComponent<RectTransform>().sizeDelta.y + 5;
         }
     }
 

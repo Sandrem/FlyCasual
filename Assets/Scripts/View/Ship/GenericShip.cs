@@ -8,10 +8,13 @@ namespace Ship
     {
 
         private const float HALF_OF_FIRINGARC_SIZE = 0.44f;
+        private Transform shipAllParts;
+        private Transform modelCenter;
 
         public void CreateModel(Vector3 position)
         {
             Model = CreateShipModel(position);
+            shipAllParts = Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").transform;
             setShipBaseEdges();
         }
 
@@ -49,7 +52,7 @@ namespace Ship
             string materialName = PilotName;
             materialName = materialName.Replace(' ', '_');
             materialName = materialName.Replace('"', '_');
-            Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("ShipStand").Find("ShipStandInsert").Find("ShipStandInsertImage").Find("default").GetComponent<Renderer>().material = (Material)Resources.Load("ShipStandInsert/Materials/" + materialName, typeof(Material));
+            shipAllParts.Find("ShipStand").Find("ShipStandInsert").Find("ShipStandInsertImage").Find("default").GetComponent<Renderer>().material = (Material)Resources.Load("ShipStandInsert/Materials/" + materialName, typeof(Material));
         }
 
         public Vector3 GetAngles()
@@ -109,8 +112,8 @@ namespace Ship
 
         public void ToggleCollisionDetection(bool value)
         {
-            Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("ShipStand").Find("ObstaclesStayDetector").GetComponent<ObstaclesStayDetector>().checkCollisions = value;
-            Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("ShipStand").Find("ObstaclesHitsDetector").GetComponent<ObstaclesHitsDetector>().checkCollisions = value;
+            shipAllParts.Find("ObstaclesStayDetector").GetComponent<ObstaclesStayDetector>().checkCollisions = value;
+            shipAllParts.Find("ShipStand").Find("ObstaclesHitsDetector").GetComponent<ObstaclesHitsDetector>().checkCollisions = value;
         }
 
         public void SetActive(bool argument)
@@ -167,7 +170,7 @@ namespace Ship
 
         public void ToggleDamaged(bool isDamaged)
         {
-            Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("ShipModels").Find(Type).Find("ModelCenter").Find("DamageParticles").gameObject.SetActive(isDamaged);
+            shipAllParts.Find("ShipModels").Find(Type).Find("ModelCenter").Find("DamageParticles").gameObject.SetActive(isDamaged);
         }
 
         public void RotateModelDuringTurn(MovementExecutionData currentMovementData, MovementExecutionData previousMovementData)
@@ -196,18 +199,18 @@ namespace Ship
             {
                 progress = 1 - progress;
             }
-                Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("ShipModels").Find(Type).Find("ModelCenter").localEulerAngles = new Vector3(0, 0, Mathf.Lerp(0, 45 * turningDirection, progress));
+            modelCenter.localEulerAngles = new Vector3(0, 0, Mathf.Lerp(0, 45 * turningDirection, progress));
         }
 
         public void RotateModelDuringBarrelRoll(float progress, float turningDirection)
         {
-            Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("ShipModels").Find(Type).Find("ModelCenter").localEulerAngles = new Vector3(0, 0, Mathf.Lerp(0, turningDirection * 360, progress));
+            modelCenter.localEulerAngles = new Vector3(0, 0, Mathf.Lerp(0, turningDirection * 360, progress));
         }
 
         public void MoveUpwards(float progress)
         {
             progress = (progress > 0.5f) ? 1 - progress : progress;
-            Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("ShipModels").Find(Type).Find("ModelCenter").localPosition = new Vector3(0, 3.67f + 4f * progress, 0);
+            modelCenter.localPosition = new Vector3(0, 3.67f + 4f * progress, 0);
         }
 
         public Vector3 InverseTransformPoint(Vector3 point)
@@ -217,29 +220,29 @@ namespace Ship
 
         public void HighlightThisSelected()
         {
-            Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("SelectionProjector").gameObject.SetActive(true);
-            Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("SelectionProjector").GetComponent<Projector>().material = (Material)Resources.Load("Projectors/Materials/SelectionThisProjector", typeof(Material));
+            shipAllParts.Find("SelectionProjector").gameObject.SetActive(true);
+            shipAllParts.Find("SelectionProjector").GetComponent<Projector>().material = (Material)Resources.Load("Projectors/Materials/SelectionThisProjector", typeof(Material));
         }
 
         public void HighlightEnemySelected()
         {
-            Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("SelectionProjector").gameObject.SetActive(true);
-            Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("SelectionProjector").GetComponent<Projector>().material = (Material)Resources.Load("Projectors/Materials/SelectionEnemyProjector", typeof(Material));
+            shipAllParts.Find("SelectionProjector").gameObject.SetActive(true);
+            shipAllParts.Find("SelectionProjector").GetComponent<Projector>().material = (Material)Resources.Load("Projectors/Materials/SelectionEnemyProjector", typeof(Material));
         }
 
         public void HighlightSelectedOff()
         {
-            Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("SelectionProjector").gameObject.SetActive(false);
+            shipAllParts.Find("SelectionProjector").gameObject.SetActive(false);
         }
 
         public void HighlightCanBeSelectedOn()
         {
-            Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("Spotlight").gameObject.SetActive(true);
+            shipAllParts.Find("Spotlight").gameObject.SetActive(true);
         }
 
         public void HighlightCanBeSelectedOff()
         {
-            Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("Spotlight").gameObject.SetActive(false);
+            shipAllParts.Find("Spotlight").gameObject.SetActive(false);
         }
 
         public Vector3 GetCenter()
@@ -251,9 +254,7 @@ namespace Ship
 
         public Vector3 GetModelCenter()
         {
-            Vector3 result;
-            result = Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("ShipModels").Find(Type).Find("ModelCenter").position;
-            return result;
+            return modelCenter.position;
         }
 
         public void SetHeight(float height)
@@ -263,13 +264,13 @@ namespace Ship
 
         public void ToggleShipStandAndPeg(bool value)
         {
-            Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("ShipStand").gameObject.SetActive(value);
-            Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("ShipPeg").gameObject.SetActive(value);
+            shipAllParts.Find("ShipStand").gameObject.SetActive(value);
+            shipAllParts.Find("ShipPeg").gameObject.SetActive(value);
         }
 
         public void AnimatePrimaryWeapon()
         {
-            Transform shotsTransform = Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("ShipModels").Find(Type).Find("ModelCenter").Find("Shots");
+            Transform shotsTransform = modelCenter.Find("Shots");
             if (shotsTransform != null)
             {
                 foreach (Transform origin in shotsTransform)
@@ -288,7 +289,7 @@ namespace Ship
         private IEnumerator TurnOffShots(float shotsCount)
         {
             yield return new WaitForSeconds(shotsCount * 0.5f + 0.4f);
-            Transform shotsTransform = Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("ShipModels").Find(Type).Find("ModelCenter").Find("Shots");
+            Transform shotsTransform = modelCenter.Find("Shots");
             if (shotsTransform != null)
             {
                 shotsTransform.gameObject.SetActive(false);

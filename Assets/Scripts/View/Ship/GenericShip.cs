@@ -113,36 +113,6 @@ namespace Ship
             Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("ShipStand").Find("ObstaclesHitsDetector").GetComponent<ObstaclesHitsDetector>().checkCollisions = value;
         }
 
-        public void ApplyShader(string type)
-        {
-            if (type == "default")
-            {
-                foreach (Transform transform in Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("ShipModels").Find(Type))
-                {
-                    //Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("Spotlight").gameObject.SetActive(false);
-                    //transform.GetComponent<Renderer>().material.shader = Shader.Find("Standard");
-                }
-            }
-            if (type == "selectedYellow")
-            {
-                foreach (Transform transform in Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("ShipModels").Find(Type))
-                {
-                    //Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("Spotlight").gameObject.SetActive(true);
-                    //transform.GetComponent<Renderer>().material.shader = Shader.Find("Outlined/Silhouetted Diffuse");
-                    //transform.GetComponent<Renderer>().material.SetColor("_OutlineColor", Color.yellow);
-                }
-            }
-            if (type == "selectedRed")
-            {
-                foreach (Transform transform in Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("ShipModels").Find(Type))
-                {
-                    //Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("Spotlight").gameObject.SetActive(true);
-                    //transform.GetComponent<Renderer>().material.shader = Shader.Find("Outlined/Silhouetted Diffuse");
-                    //transform.GetComponent<Renderer>().material.SetColor("_OutlineColor", Color.red);
-                }
-            }
-        }
-
         public void SetActive(bool argument)
         {
             Model.SetActive(argument);

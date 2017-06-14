@@ -55,6 +55,10 @@ public static partial class RosterBuilder {
             GameObject newPanel = MonoBehaviour.Instantiate(panel, parent);
 
             SubscribeControlButtons(playerNo, newPanel);
+            foreach (Transform upgradeLine in panel.transform.Find("GroupUpgrades"))
+            {
+                SubscribeUpgradeDropdowns(playerNo, upgradeLine.gameObject);
+            }
             SubscribeShipDropdowns(playerNo, newPanel);
 
             UpdateShipCost(playerNo, panel);
@@ -86,7 +90,7 @@ public static partial class RosterBuilder {
 
     private static void SubscribeUpgradeDropdowns(PlayerNo playerNo, GameObject panel)
     {
-        Dropdown upgradeDropdown = panel.transform.GetComponent<Dropdown>(); ;
+        Dropdown upgradeDropdown = panel.transform.GetComponent<Dropdown>();
         upgradeDropdown.onValueChanged.AddListener(delegate
         {
             OnUpgradeChanged(playerNo, panel.transform.parent.parent.gameObject);
@@ -114,6 +118,7 @@ public static partial class RosterBuilder {
 
     private static void OnUpgradeChanged(PlayerNo playerNo, GameObject panel)
     {
+        Debug.Log("Changed");
         UpdateShipCost(playerNo, panel);
     }
 

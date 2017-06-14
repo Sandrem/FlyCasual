@@ -118,7 +118,6 @@ public static partial class RosterBuilder {
 
     private static void OnUpgradeChanged(PlayerNo playerNo, GameObject panel)
     {
-        Debug.Log("Changed");
         UpdateShipCost(playerNo, panel);
     }
 

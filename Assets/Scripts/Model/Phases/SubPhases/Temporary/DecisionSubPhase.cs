@@ -16,6 +16,9 @@ namespace SubPhases
         protected Dictionary<string, string> tooltips = new Dictionary<string, string>();
         protected string defaultDecision;
 
+        private const float defaultWindowHeight = 55;
+        private const float buttonHeight = 45;
+
         public override void Start()
         {
             Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
@@ -41,11 +44,10 @@ namespace SubPhases
             int i = 0;
             foreach (var item in decisions)
             {
-
                 GameObject prefab = (GameObject)Resources.Load("Prefabs/DecisionButton", typeof(GameObject));
                 GameObject buttonsHolder = decisionPanel.transform.Find("DecisionsPanel").gameObject;
                 GameObject button = MonoBehaviour.Instantiate(prefab, buttonsHolder.transform);
-                button.transform.localPosition = new Vector3((i % 2 == 0) ? 5 : 200, 0, 0);
+                button.transform.localPosition = new Vector3((i % 2 == 0) ? 5 : 200, -buttonHeight * (i/2), 0);
                 button.name = "Button" + i;
 
                 button.GetComponentInChildren<Text>().text = item.Key;
@@ -63,6 +65,7 @@ namespace SubPhases
 
                 i++;
             }
+            decisionPanel.GetComponent<RectTransform>().sizeDelta = new Vector3(decisionPanel.GetComponent<RectTransform>().sizeDelta.x, defaultWindowHeight + (i / 2) * buttonHeight);
 
             Roster.GetPlayer(Phases.CurrentPhasePlayer).TakeDecision();  
         }

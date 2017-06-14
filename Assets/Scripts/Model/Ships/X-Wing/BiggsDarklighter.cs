@@ -34,7 +34,7 @@ namespace Ship
                         {
                             if (Combat.SecondaryWeapon == null)
                             {
-                                if (attacker.CanShootWithPrimaryWeaponAt(this)) abilityIsActive = true;
+                                if (attacker.InPrimaryWeaponFireZone(this)) abilityIsActive = true;
                             }
                             else
                             {

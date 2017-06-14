@@ -10,6 +10,7 @@ namespace ActionsList
 
         public FocusAction() {
             Name = EffectName = "Focus";
+            IsSpendFocus = true;
         }
 
         public override void ActionEffect()

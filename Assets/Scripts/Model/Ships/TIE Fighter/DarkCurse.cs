@@ -27,31 +27,29 @@ namespace Ship
             public void AddDarkCursePilotAbility()
             {
                 if ((Combat.AttackStep == CombatStep.Attack) && (Combat.Defender.PilotName == PilotName)) {
-                    Game.UI.ShowError("Dark Curse: Debuf On");
-                    Combat.Attacker.OnTrySpendFocus += UseDarkCurseFocusRestriction;
-                    Combat.Attacker.OnTryReroll += UseDarkCurseRerollRestriction;
+                    Combat.Attacker.OnTryAddAvailableActionEffect += UseDarkCurseRestriction;
                 }
             }
 
-            private void UseDarkCurseFocusRestriction(ref bool result)
+            private void UseDarkCurseRestriction(ActionsList.GenericAction action, ref bool result)
             {
-                Game.UI.ShowError("Dark Curse: Cannot spend focus");
-                result = false;
-            }
-
-            private void UseDarkCurseRerollRestriction(ref bool result)
-            {
-                Game.UI.ShowError("Dark Curse: Cannot reroll");
-                result = false;
+                if (action.IsSpendFocus)
+                {
+                    Messages.ShowErrorToHuman("Dark Curse: Cannot spend focus");
+                    result = false;
+                }
+                if (action.IsReroll)
+                {
+                    Messages.ShowErrorToHuman("Dark Curse: Cannot reroll");
+                    result = false;
+                }
             }
 
             public void RemoveDarkCursePilotAbility()
             {
                 if ((Combat.AttackStep == CombatStep.Defence) && (Combat.Defender.PilotName == PilotName))
                 {
-                    Game.UI.ShowInfo("Dark Curse: Debuf Off");
-                    Combat.Attacker.OnTrySpendFocus -= UseDarkCurseFocusRestriction;
-                    Combat.Attacker.OnTryReroll -= UseDarkCurseRerollRestriction;
+                    Combat.Attacker.OnTryAddAvailableActionEffect -= UseDarkCurseRestriction;
                 }
             }
 

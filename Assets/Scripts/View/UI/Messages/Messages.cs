@@ -17,7 +17,14 @@ public static class Messages{
         ShowMessage(text, MessageType.Error);
     }
 
-    //Double
+    public static void ShowErrorToHuman(string text)
+    {
+        if (Phases.CurrentPhasePlayer.GetType() == typeof(Players.HumanPlayer))
+        {
+            ShowMessage(text, MessageType.Error);
+        }
+    }
+
     public static void ShowInfo(string text)
     {
         ShowMessage(text, MessageType.Info);

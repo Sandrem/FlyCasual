@@ -87,7 +87,6 @@ namespace Ship
         public GameObject InfoPanel { get; set;  }
         public GenericShip LastShipCollision { get; set; }
 
-        public List<CriticalHitCard.GenericCriticalHit> AssignedCrits = new List<CriticalHitCard.GenericCriticalHit>();
         public Dictionary<Upgrade.UpgradeSlot, int> BuiltInSlots = new Dictionary<Upgrade.UpgradeSlot, int>();
         public Dictionary<string, ManeuverColor> Maneuvers = new Dictionary<string, ManeuverColor>();
         public List<KeyValuePair<Upgrade.UpgradeSlot, Upgrade.GenericUpgrade>> InstalledUpgrades = new List<KeyValuePair<Upgrade.UpgradeSlot, Upgrade.GenericUpgrade>>();
@@ -159,143 +158,6 @@ namespace Ship
             AfterStatsAreChanged(this);
         }
 
-        public int GetNumberOfAttackDices(GenericShip targetShip)
-        {
-            int result = 0;
-
-            if (Combat.SecondaryWeapon == null)
-            {
-                result = Firepower;
-                AfterGotNumberOfPrimaryWeaponAttackDices(ref result);
-            }
-            else
-            {
-                result = Combat.SecondaryWeapon.GetAttackValue();
-            }
-            
-            if (result < 0) result = 0;
-            return result;
-        }
-
-        public int GetNumberOfDefenceDices(GenericShip attackerShip)
-        {
-            int result = Agility;
-
-            if (Combat.SecondaryWeapon == null)
-            {
-                AfterGotNumberOfPrimaryWeaponDefenceDices(ref result);
-            }
-            return result;
-        }
-
-        // REGEN
-
-        public bool TryRegenShields()
-        {
-            bool result = false;
-            if (Shields < MaxShields)
-            {
-                result = true;
-                Shields++;
-                AfterAssignedDamageIsChanged(this);
-            };
-            return result;
-        }
-
-        public bool TryRegenHull()
-        {
-            bool result = false;
-            if (Hull < MaxHull)
-            {
-                result = true;
-                Hull++;
-                AfterAssignedDamageIsChanged(this);
-            };
-            return result;
-        }
-
-        // DAMAGE
-
-        public void SufferDamage(DiceRoll damage)
-        {
-
-            int shieldsBefore = Shields;
-
-            Shields = Mathf.Max(Shields - damage.Successes, 0);
-
-            damage.CancelHits(shieldsBefore - Shields);
-
-            if (damage.Successes != 0)
-            {
-                foreach (Dice dice in damage.DiceList)
-                {
-                    if ((dice.Side == DiceSide.Success) || (dice.Side == DiceSide.Crit))
-                    {
-                        if (CheckFaceupCrit(dice))
-                        {
-                            CriticalHitsDeck.DrawCrit(this);
-                        }
-                        else
-                        {
-                            SufferHullDamage();
-                        }
-                    }
-                }
-            }
-
-            AfterAssignedDamageIsChanged(this);
-        }
-
-        private bool CheckFaceupCrit(Dice dice)
-        {
-            bool result = false;
-
-            if (dice.Side == DiceSide.Crit) result = true;
-
-            if (OnCheckFaceupCrit != null) OnCheckFaceupCrit(ref result);
-
-            return result;
-        }
-
-        public void SufferHullDamage()
-        {
-            Hull--;
-            Hull = Mathf.Max(Hull, 0);
-
-            IsHullDestroyedCheck();
-        }
-
-        public void SufferCrit(CriticalHitCard.GenericCriticalHit crit)
-        {
-            if (OnAssignCrit != null) OnAssignCrit(this, ref crit);
-
-            if (crit != null)
-            {
-                SufferHullDamage();
-                AssignedCrits.Add(crit);
-                crit.AssignCrit(this);
-            }
-        }
-
-        public void IsHullDestroyedCheck()
-        {
-            if (Hull == 0)
-            {
-                DestroyShip();
-            }
-        }
-
-        public void DestroyShip()
-        {
-            if (!IsDestroyed)
-            {
-                Game.UI.AddTestLogEntry(PilotName + "\'s ship is destroyed");
-                Roster.DestroyShip(this.GetTag());
-                OnDestroyed();
-                IsDestroyed = true;
-            }
-        }
-
         //UPGRADES
 
         protected void AddUpgradeSlot(Upgrade.UpgradeSlot slot)
@@ -338,41 +200,6 @@ namespace Ship
 
                 if (slotsAvailabe > 0) result = true;
             }
-            return result;
-        }
-
-        public int GetAttackTypes(int distance, bool inArc)
-        {
-            int result = 0;
-
-            if (CanShootWithPrimaryWeaponAt(distance, inArc)) result++;
-
-            foreach (var upgrade in InstalledUpgrades)
-            {
-                if (upgrade.Value.Type == Upgrade.UpgradeSlot.Torpedoes)
-                {
-                    if ((upgrade.Value as Upgrade.GenericSecondaryWeapon).IsShotAvailable(Selection.AnotherShip)) result++;
-                }
-            }
-
-            return result;
-        }
-
-        public bool CanShootWithPrimaryWeaponAt(GenericShip anotherShip)
-        {
-            bool result = true;
-            int distance = Actions.GetFiringRange(this, anotherShip);
-            bool inArc = Actions.InArcCheck(this, anotherShip);
-            result = CanShootWithPrimaryWeaponAt(distance, inArc);
-            return result;
-        }
-
-        public bool CanShootWithPrimaryWeaponAt(int distance, bool inArc)
-        {
-            bool result = true;
-            if (distance > 3) return false;
-            //if (distance < 1) return false;
-            if (!inArc) return false;
             return result;
         }
 

@@ -9,6 +9,7 @@ namespace ActionsList
     {
         public TargetLockAction() {
             Name = EffectName = "Target Lock";
+            IsReroll = true;
         }
 
         public override void ActionEffect()

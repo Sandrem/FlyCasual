@@ -129,7 +129,8 @@ namespace Ship
 
             foreach (var token in AssignedTokens)
             {
-                AddAvailableActionEffect(token.GetAvailableEffects());
+                ActionsList.GenericAction action = token.GetAvailableEffects();
+                if (action != null) AddAvailableActionEffect(action);
             }
 
             if (AfterGenerateAvailableActionEffectsList != null) AfterGenerateAvailableActionEffectsList(this);

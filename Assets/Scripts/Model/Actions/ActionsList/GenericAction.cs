@@ -14,6 +14,8 @@ namespace ActionsList
         public string ImageUrl;
 
         public bool IsCritCancelAction = false;
+        public bool IsSpendFocus = false;
+        public bool IsReroll = false;
 
         public GenericAction() {
             Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();

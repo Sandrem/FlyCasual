@@ -13,6 +13,7 @@ namespace SubPhases
         private GameObject decisionPanel;
         protected string infoText;
         protected Dictionary<string, EventHandler> decisions = new Dictionary<string, EventHandler>();
+        protected Dictionary<string, string> tooltips = new Dictionary<string, string>();
         protected string defaultDecision;
 
         public override void Start()
@@ -40,9 +41,19 @@ namespace SubPhases
             int i = 0;
             foreach (var item in decisions)
             {
-                GameObject button = decisionPanel.transform.Find("DecisionsPanel").Find("Button" + i).gameObject;
+
+                GameObject prefab = (GameObject)Resources.Load("Prefabs/DecisionButton", typeof(GameObject));
+                GameObject buttonsHolder = decisionPanel.transform.Find("DecisionsPanel").gameObject;
+                GameObject button = MonoBehaviour.Instantiate(prefab, buttonsHolder.transform);
+                button.transform.localPosition = new Vector3((i % 2 == 0) ? 5 : 200, 0, 0);
+                button.name = "Button" + i;
 
                 button.GetComponentInChildren<Text>().text = item.Key;
+
+                if (tooltips.ContainsKey(item.Key))
+                {
+                    Tooltips.AddTooltip(button, tooltips[item.Key]);
+                }
 
                 EventTrigger trigger = button.AddComponent<EventTrigger>();
                 EventTrigger.Entry entry = new EventTrigger.Entry();
@@ -59,6 +70,10 @@ namespace SubPhases
         public override void Next()
         {
             decisionPanel.gameObject.SetActive(false);
+            foreach (Transform button in decisionPanel.transform.Find("DecisionsPanel"))
+            {
+                MonoBehaviour.Destroy(button.gameObject);
+            }
             Phases.CurrentSubPhase = PreviousSubPhase;
             UpdateHelpInfo();
         }

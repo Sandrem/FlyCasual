@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 //TODO: move to view
@@ -201,11 +202,12 @@ public static partial class Actions {
     }
 
     public static void OnlyCheckShot() {
-		TargetIsLegal ();
+		TargetIsLegal();
 	}
 
 	public static bool TargetIsLegal() {
         bool result = true;
+        Debug.Log(Selection.ThisShip);
         result = Selection.ThisShip.CallTryPerformAttack(result);
         //Todo: move to ship
         if (result) OnCheckTargetIsLegal(ref result, Selection.ThisShip, Selection.AnotherShip);
@@ -216,23 +218,62 @@ public static partial class Actions {
     {
         Game.UI.HideContextMenu();
 
-        //check is target available for attack
-
         bool inArc = InArcCheck(Selection.ThisShip, Selection.AnotherShip);
         int distance = GetFiringRange(Selection.ThisShip, Selection.AnotherShip);
         int attackTypesAreAvailable = Selection.ThisShip.GetAttackTypes(distance, inArc);
 
         if (attackTypesAreAvailable > 1)
         {
-            //Todo: Generate decision
-            Game.PrefabsList.PanelDecisions.transform.Find("InformationPanel").GetComponentInChildren<Text>().text = "Choose weapon for attack(Distance " + distance + ")";
-            //Temporary
-            Tooltips.AddTooltip(Game.PrefabsList.PanelDecisions.transform.Find("DecisionsPanel").Find("Button2").gameObject, "https://vignette2.wikia.nocookie.net/xwing-miniatures/images/e/eb/Proton-torpedoes.png");
-            Game.UI.ShowDecisionsPanel();
+            Phases.StartTemporarySubPhase("Choose weapon for attack", typeof(WeaponSelectionDecisionSubPhase));
         }
         else
         {
             Combat.SelectWeapon();
+            TryPerformAttack();
+        }
+
+    }
+
+    private class WeaponSelectionDecisionSubPhase : SubPhases.DecisionSubPhase
+    {
+
+        public override void Prepare()
+        {
+            int distance = GetFiringRange(Selection.ThisShip, Selection.AnotherShip);
+            infoText = "Choose weapon for attack (Distance " + distance + ")";
+
+            decisions.Add("Primary", PerformPrimaryAttack);
+            decisions.Add("Proton Torpedoes", PerformTorpedoesAttack);
+
+            //Temporary
+            tooltips.Add("Proton Torpedoes", "https://vignette2.wikia.nocookie.net/xwing-miniatures/images/e/eb/Proton-torpedoes.png");
+
+            defaultDecision = "Proton Torpedoes";
+        }
+
+        private void PerformPrimaryAttack(object sender, EventArgs e)
+        {
+            Combat.SelectWeapon();
+            Phases.Next();
+            TryPerformAttack();
+        }
+
+        public void PerformTorpedoesAttack(object sender, EventArgs e)
+        {
+            Tooltips.EndTooltip();
+
+            //TODO: Get upgrade correctly
+            Upgrade.GenericSecondaryWeapon secondaryWeapon = null;
+            foreach (var upgrade in Selection.ThisShip.InstalledUpgrades)
+            {
+                if (upgrade.Key == Upgrade.UpgradeSlot.Torpedoes) secondaryWeapon = upgrade.Value as Upgrade.GenericSecondaryWeapon;
+            }
+            Combat.SelectWeapon(secondaryWeapon);
+
+            Messages.ShowInfo("Attack with " + secondaryWeapon.Name);
+
+            Phases.Next();
+
             TryPerformAttack();
         }
 

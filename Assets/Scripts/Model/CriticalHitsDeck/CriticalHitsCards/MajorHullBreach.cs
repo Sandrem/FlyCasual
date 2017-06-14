@@ -22,7 +22,7 @@ namespace CriticalHitCard
 
             Phases.OnPlanningPhaseStart += DealDamageCardFaceupStart;
 
-            host.AfterAvailableActionListIsBuilt += AddCancelCritAction;
+            host.AfterGenerateAvailableActionsList += AddCancelCritAction;
         }
 
         public override void DiscardEffect(Ship.GenericShip host)
@@ -33,7 +33,7 @@ namespace CriticalHitCard
 
             host.OnCheckFaceupCrit -= DealDamageCardFaceup;
 
-            host.AfterAvailableActionListIsBuilt -= AddCancelCritAction;
+            host.AfterGenerateAvailableActionsList -= AddCancelCritAction;
         }
 
         private void DealDamageCardFaceupStart()

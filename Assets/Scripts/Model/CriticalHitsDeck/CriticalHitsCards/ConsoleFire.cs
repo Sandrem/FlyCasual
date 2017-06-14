@@ -23,7 +23,7 @@ namespace CriticalHitCard
 
             host.OnCombatPhaseStart += RollForDamage;
 
-            host.AfterAvailableActionListIsBuilt += AddCancelCritAction;
+            host.AfterGenerateAvailableActionsList += AddCancelCritAction;
         }
 
         private void RollForDamage(Ship.GenericShip host)
@@ -66,7 +66,7 @@ namespace CriticalHitCard
 
             host.OnCombatPhaseStart -= RollForDamage;
 
-            host.AfterAvailableActionListIsBuilt -= AddCancelCritAction;
+            host.AfterGenerateAvailableActionsList -= AddCancelCritAction;
         }
     }
 

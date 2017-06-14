@@ -24,7 +24,7 @@ namespace CriticalHitCard
 
             host.AfterGotNumberOfPrimaryWeaponAttackDices += ReduceNumberOfAttackDices;
 
-            host.AfterAvailableActionListIsBuilt += AddCancelCritAction;
+            host.AfterGenerateAvailableActionsList += AddCancelCritAction;
         }
 
         public override void DiscardEffect(Ship.GenericShip host)
@@ -35,7 +35,7 @@ namespace CriticalHitCard
 
             host.AfterGetPilotSkill -= ReduceNumberOfAttackDices;
 
-            host.AfterAvailableActionListIsBuilt -= AddCancelCritAction;
+            host.AfterGenerateAvailableActionsList -= AddCancelCritAction;
         }
 
         private void ReduceNumberOfAttackDices(ref int value)

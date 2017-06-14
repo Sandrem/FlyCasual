@@ -19,9 +19,11 @@ namespace Tokens
             Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
         }
 
-        public virtual void GetAvailableEffects(ref List<ActionsList.GenericAction> availableActionEffects)
+        public virtual ActionsList.GenericAction GetAvailableEffects()
         {
-            if (Action!=null) availableActionEffects.Add(Action);
+            ActionsList.GenericAction result = null;
+            if (Action!=null) result = Action;
+            return result;
         }
 
     }

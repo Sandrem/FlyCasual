@@ -22,7 +22,7 @@ namespace UpgradesList
         {
             base.AttachToShip(host);
 
-            host.AfterAvailableActionListIsBuilt += R2F2AddAction;
+            host.AfterGenerateAvailableActionsList += R2F2AddAction;
         }
 
         private void R2F2AddAction(Ship.GenericShip host)

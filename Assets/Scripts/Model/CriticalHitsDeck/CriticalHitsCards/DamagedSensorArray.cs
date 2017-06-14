@@ -22,9 +22,9 @@ namespace CriticalHitCard
             Game.UI.AddTestLogEntry("You cannot perform any actions except actions listed on Damage cards.");
             host.AssignToken(new Tokens.DamagedSensorArrayCritToken());
 
-            host.OnTryPerformAction += OnlyCancelCritActions;
+            host.OnTryAddAvailableAction += OnlyCancelCritActions;
 
-            host.AfterAvailableActionListIsBuilt += AddCancelCritAction;
+            host.AfterGenerateAvailableActionsList += AddCancelCritAction;
         }
 
         public override void DiscardEffect(Ship.GenericShip host)
@@ -33,9 +33,9 @@ namespace CriticalHitCard
             Game.UI.AddTestLogEntry("You can perform actions as usual");
             host.RemoveToken(typeof(Tokens.DamagedSensorArrayCritToken));
 
-            host.OnTryPerformAction -= OnlyCancelCritActions;
+            host.OnTryAddAvailableAction -= OnlyCancelCritActions;
 
-            host.AfterAvailableActionListIsBuilt -= AddCancelCritAction;
+            host.AfterGenerateAvailableActionsList -= AddCancelCritAction;
         }
 
         private void OnlyCancelCritActions(ActionsList.GenericAction action, ref bool result)

@@ -20,7 +20,7 @@ public static partial class Combat
 
     public static void ShowDiceModificationButtons()
     {
-        Selection.ActiveShip.GenerateDiceModificationButtons();
+        Selection.ActiveShip.GenerateAvailableActionEffectsList();
 
         if (Roster.GetPlayer(Selection.ActiveShip.Owner.PlayerNo).Type == Players.PlayerType.Human)
         {

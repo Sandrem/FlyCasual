@@ -21,7 +21,7 @@ namespace UpgradesList
         {
             base.AttachToShip(host);
 
-            host.AfterAvailableActionListIsBuilt += MarksmanshipAddAction;
+            host.AfterGenerateAvailableActionsList += MarksmanshipAddAction;
         }
 
         private void MarksmanshipAddAction(Ship.GenericShip host)
@@ -37,7 +37,7 @@ namespace UpgradesList
 namespace ActionsList
 {
 
-    public class MarksmanshipAction : ActionsList.GenericAction
+    public class MarksmanshipAction : GenericAction
     {
         private Ship.GenericShip host;
 
@@ -49,19 +49,19 @@ namespace ActionsList
         public override void ActionTake()
         {
             host = Selection.ThisShip;
-            host.AfterGenerateDiceModifications += MarksmanshipAddDiceModification;
+            host.AfterGenerateAvailableActionEffectsList += MarksmanshipAddDiceModification;
             Phases.OnEndPhaseStart += MarksmanshipUnSubscribeToFiceModification;
             Phases.Next();
         }
 
-        private void MarksmanshipAddDiceModification(ref List<ActionsList.GenericAction> list)
+        private void MarksmanshipAddDiceModification(Ship.GenericShip ship)
         {
-            list.Add(this);
+            ship.AddAvailableActionEffect(this);
         }
 
         private void MarksmanshipUnSubscribeToFiceModification()
         {
-            host.AfterGenerateDiceModifications -= MarksmanshipAddDiceModification;
+            host.AfterGenerateAvailableActionEffectsList -= MarksmanshipAddDiceModification;
         }
 
         public override bool IsActionEffectAvailable()

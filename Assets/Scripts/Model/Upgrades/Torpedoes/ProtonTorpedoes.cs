@@ -67,7 +67,7 @@ namespace UpgradesList
 namespace ActionsList
 { 
 
-    public class ProtonTorpedoesAction : ActionsList.GenericAction
+    public class ProtonTorpedoesAction : GenericAction
     {
         public Ship.GenericShip Host;
 
@@ -80,12 +80,12 @@ namespace ActionsList
 
         public void AddDiceModification()
         {
-            Host.AfterGenerateDiceModifications += ProtonTorpedoesAddDiceModification;
+            Host.AfterGenerateAvailableActionEffectsList += ProtonTorpedoesAddDiceModification;
         }
 
-        private void ProtonTorpedoesAddDiceModification(ref List<ActionsList.GenericAction> list)
+        private void ProtonTorpedoesAddDiceModification(Ship.GenericShip ship)
         {
-            list.Add(this);
+            ship.AddAvailableActionEffect(this);
         }
 
         public override bool IsActionEffectAvailable()

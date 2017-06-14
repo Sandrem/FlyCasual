@@ -21,7 +21,7 @@ namespace CriticalHitCard
             host.AssignToken(new Tokens.LooseStabilizerCritToken());
 
             host.OnMovementFinish += StressAfterWhiteManeuvers;
-            host.AfterAvailableActionListIsBuilt += AddCancelCritAction;
+            host.AfterGenerateAvailableActionsList += AddCancelCritAction;
         }
 
         public override void DiscardEffect(Ship.GenericShip host)
@@ -31,7 +31,7 @@ namespace CriticalHitCard
             host.RemoveToken(typeof(Tokens.LooseStabilizerCritToken));
 
             host.OnMovementFinish -= StressAfterWhiteManeuvers;
-            host.AfterAvailableActionListIsBuilt -= AddCancelCritAction;
+            host.AfterGenerateAvailableActionsList -= AddCancelCritAction;
         }
 
         private void StressAfterWhiteManeuvers(Ship.GenericShip ship)

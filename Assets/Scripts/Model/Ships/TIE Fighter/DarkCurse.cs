@@ -27,7 +27,7 @@ namespace Ship
             public void AddDarkCursePilotAbility()
             {
                 if ((Combat.AttackStep == CombatStep.Attack) && (Combat.Defender.PilotName == PilotName)) {
-                    //Game.UI.ShowError("Dark Curse: Debuf On");
+                    Game.UI.ShowError("Dark Curse: Debuf On");
                     Combat.Attacker.OnTrySpendFocus += UseDarkCurseFocusRestriction;
                     Combat.Attacker.OnTryReroll += UseDarkCurseRerollRestriction;
                 }
@@ -49,7 +49,7 @@ namespace Ship
             {
                 if ((Combat.AttackStep == CombatStep.Defence) && (Combat.Defender.PilotName == PilotName))
                 {
-                    //Game.UI.ShowInfo("Dark Curse: Debuf Off");
+                    Game.UI.ShowInfo("Dark Curse: Debuf Off");
                     Combat.Attacker.OnTrySpendFocus -= UseDarkCurseFocusRestriction;
                     Combat.Attacker.OnTryReroll -= UseDarkCurseRerollRestriction;
                 }

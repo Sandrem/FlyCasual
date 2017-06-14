@@ -44,8 +44,8 @@ public static class ShipFactory {
         newShipContainer.AfterGotNumberOfPrimaryWeaponAttackDices += Rules.DistanceBonus.CheckAttackDistanceBonus;
         newShipContainer.AfterGotNumberOfPrimaryWeaponDefenceDices += Rules.DistanceBonus.CheckDefenceDistanceBonus;
         newShipContainer.AfterGotNumberOfPrimaryWeaponDefenceDices += Rules.AsteroidObstruction.CheckDefenceDistanceBonus;
-        newShipContainer.OnTryPerformAction += Rules.Stress.CanPerformActions;
-        newShipContainer.OnTryPerformAction += Rules.DuplicatedActions.CanPerformActions;
+        newShipContainer.OnTryAddAvailableAction += Rules.Stress.CanPerformActions;
+        newShipContainer.OnTryAddAvailableAction += Rules.DuplicatedActions.CanPerformActions;
         newShipContainer.OnMovementFinishWithoutColliding += Rules.KoiogranTurn.CheckKoiogranTurn;
         newShipContainer.OnMovementFinishWithColliding += Rules.KoiogranTurn.CheckKoiogranTurnError;
         newShipContainer.OnMovementStart += Rules.Collision.ClearCollision;

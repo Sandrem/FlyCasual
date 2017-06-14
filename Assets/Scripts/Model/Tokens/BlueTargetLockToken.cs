@@ -14,10 +14,6 @@ namespace Tokens
             Action = new ActionsList.TargetLockAction();
         }
 
-        public override void GetAvailableEffects(ref List<ActionsList.GenericAction> availableActionEffects)
-        {
-            availableActionEffects.Add(Action);
-        }
     }
 
 }

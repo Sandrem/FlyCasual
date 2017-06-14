@@ -21,12 +21,12 @@ namespace Ship
             public override void InitializePilot()
             {
                 base.InitializePilot();
-                AfterGenerateDiceModifications += AddLukeSkywalkerPilotAbility;
+                AfterGenerateAvailableActionEffectsList += AddLukeSkywalkerPilotAbility;
             }
 
-            public void AddLukeSkywalkerPilotAbility(ref List<ActionsList.GenericAction> list)
+            public void AddLukeSkywalkerPilotAbility(GenericShip ship)
             {
-                list.Add(new PilotAbilities.LukeSkywalkerAction());
+                ship.AddAvailableActionEffect(new PilotAbilities.LukeSkywalkerAction());
             }
 
         }

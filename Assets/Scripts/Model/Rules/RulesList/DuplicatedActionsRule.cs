@@ -8,7 +8,7 @@ namespace RulesList
 
         public void CanPerformActions(ActionsList.GenericAction action, ref bool result)
         {
-            if (Selection.ThisShip.AlreadyExecutedAction(action.GetType())) result = false;
+            if (Selection.ThisShip.IsAlreadyExecutedAction(action.GetType())) result = false;
         }
 
     }

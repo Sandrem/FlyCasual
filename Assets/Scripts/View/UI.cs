@@ -218,30 +218,6 @@ public class UI : MonoBehaviour {
         Actions.DeclareTarget();
     }
 
-    public void ClickPerformAttack()
-    {
-        HideDecisionsPanel();
-
-        Combat.SelectWeapon();
-        Actions.TryPerformAttack();
-    }
-
-    public void ClickPerformTorpedoesAttack()
-    {
-        Tooltips.EndTooltip();
-        HideDecisionsPanel();
-
-        //TODO: Get upgrade correctly
-        Upgrade.GenericSecondaryWeapon secondaryWeapon = null;
-        foreach (var upgrade in Selection.ThisShip.InstalledUpgrades)
-        {
-            if (upgrade.Key == Upgrade.UpgradeSlot.Torpedoes) secondaryWeapon = upgrade.Value as Upgrade.GenericSecondaryWeapon;
-        }
-        Combat.SelectWeapon(secondaryWeapon);
-
-        Actions.TryPerformAttack();
-    }
-
     public void CloseActionsPanel()
     {
         Actions.CloseActionsPanel();

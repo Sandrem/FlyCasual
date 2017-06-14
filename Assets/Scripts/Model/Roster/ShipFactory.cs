@@ -60,6 +60,8 @@ public static class ShipFactory {
         newShipContainer.AfterAssignedDamageIsChanged += Roster.UpdateRosterShieldsDamageIndicators;
         newShipContainer.AfterStatsAreChanged += Roster.UpdateShipStats;
 
+        newShipContainer.Owner.SquadCost += shipConfig.ShipCost;
+
         return newShipContainer;
 	}
 

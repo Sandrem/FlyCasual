@@ -34,6 +34,11 @@ namespace Players
             Combat.ShowDiceResultMenu(Combat.ConfirmDiceResults);
         }
 
+        public override void TakeDecision()
+        {
+            Game.PrefabsList.PanelDecisions.SetActive(true);
+        }
+
     }
 
 }

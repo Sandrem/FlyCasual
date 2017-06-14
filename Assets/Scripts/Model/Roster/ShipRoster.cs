@@ -115,34 +115,7 @@ public static partial class Roster
         return (playerNo == PlayerNo.Player1) ? PlayerNo.Player2 : PlayerNo.Player1;
     }
 
-
     //FIND SHIPS BY REQUEST
-
-    public static Dictionary<int, PlayerNo> NextPilotSkillAndPlayerAfter(int previousPilotSkill, Players.PlayerNo PilotSkillSubPhasePlayer, Sorting sorting)
-    {
-
-        //TODO: Check for same skill with another player
-        //pilots = ListAnotherPlayerButSamePilotSkill(previousPilotSkill, PilotSkillSubPhasePlayer);
-
-        int pilotSkillMin = (sorting == Sorting.Asc) ? previousPilotSkill : -1;
-        int pilotSkillMax = (sorting == Sorting.Asc) ? 100 : previousPilotSkill;
-
-        var results =
-            from n in AllShips
-            where n.Value.PilotSkill > pilotSkillMin
-            where n.Value.PilotSkill < pilotSkillMax
-            orderby n.Value.PilotSkill
-            select n;
-
-        Dictionary<int, PlayerNo> dict = new Dictionary<int, PlayerNo>();
-        if (results.Count() > 0)
-        {
-            var result = (sorting == Sorting.Asc) ? results.First() : results.Last();
-            dict.Add(result.Value.PilotSkill, result.Value.Owner.PlayerNo);
-        }
-
-        return dict;
-    }
 
     public static Dictionary<string, Ship.GenericShip> ListSamePlayerAndPilotSkill(Ship.GenericShip thisShip)
     {

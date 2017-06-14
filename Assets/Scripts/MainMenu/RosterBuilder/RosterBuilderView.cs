@@ -41,7 +41,9 @@ public static partial class RosterBuilder {
                 }
             }
 
-            Global.AddShip(pilotNameId, upgradesList, playerNo);
+            int shipCost = int.Parse(shipPanel.Find("Panel").Find("CostPanel").GetComponentInChildren<Text>().text);
+
+            Global.AddShip(pilotNameId, upgradesList, playerNo, shipCost);
         }
     }
 

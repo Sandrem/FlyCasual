@@ -424,7 +424,7 @@ namespace Ship
             Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("ShipPeg").gameObject.SetActive(value);
         }
 
-        public void FireShotsAnimation()
+        public void AnimatePrimaryWeapon()
         {
             Transform shotsTransform = Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("ShipModels").Find(Type).Find("ModelCenter").Find("Shots");
             if (shotsTransform != null)

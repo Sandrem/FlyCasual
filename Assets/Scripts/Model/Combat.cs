@@ -36,8 +36,7 @@ public static partial class Combat
         Defender = defender;
         InitializeAttack();
 
-        Selection.ThisShip.FireShotsAnimation();
-        PlayAttackSound();
+        ShowAttackAnimationAndSound();
         AttackDiceRoll();
     }
 
@@ -62,15 +61,17 @@ public static partial class Combat
         DiceRollAttack.CalculateResults(AfterAttackDiceRoll);
     }
 
-    private static void PlayAttackSound()
+    private static void ShowAttackAnimationAndSound()
     {
         if (SecondaryWeapon != null)
         {
-            Sounds.PlayShots("Sounds/Proton-Torpedoes", 1);
+            Sounds.PlayShots("Proton-Torpedoes", 1);
+            //Selection.ThisShip.AnimateTorpedoes();
         }
         else
         {
             Sounds.PlayShots(Selection.ActiveShip.SoundShotsPath, Selection.ActiveShip.ShotsCount);
+            Selection.ThisShip.AnimatePrimaryWeapon();
         }
     }
 

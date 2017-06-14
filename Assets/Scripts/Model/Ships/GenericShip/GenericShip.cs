@@ -4,14 +4,6 @@ using UnityEngine;
 
 namespace Ship
 {
-    //todo: move to movement
-    public enum ManeuverColor
-    {
-        None,
-        Green,
-        White,
-        Red
-    }
 
     public partial class GenericShip
     {
@@ -19,14 +11,12 @@ namespace Ship
 
         public int ShipId { get; set; }
 
-        public Movement AssignedManeuver { get; set; }
         public bool isUnique = false;
 
         public Faction faction;
         public List<Faction> factions = new List<Faction>();
 
         public string Type { get; set; }
-        public Vector3 StartingPosition { get; set; }
         public string PilotName { get;  set; }
         public Players.GenericPlayer Owner { get; set; }
 
@@ -43,11 +33,6 @@ namespace Ship
         public int MaxShields { get; set; }
         public int Shields { get; set; }
         public int Cost { get; set; }
-
-        public List<Collider> ObstaclesLanded = new List<Collider>();
-        public List<Collider> ObstaclesHit = new List<Collider>();
-
-        public GenericAiTable HotacManeuverTable;
 
         private int _PilotSkill;
         public int PilotSkill
@@ -85,10 +70,8 @@ namespace Ship
 
         public GameObject Model { get; set; }
         public GameObject InfoPanel { get; set;  }
-        public GenericShip LastShipCollision { get; set; }
 
         public Dictionary<Upgrade.UpgradeSlot, int> BuiltInSlots = new Dictionary<Upgrade.UpgradeSlot, int>();
-        public Dictionary<string, ManeuverColor> Maneuvers = new Dictionary<string, ManeuverColor>();
         public List<KeyValuePair<Upgrade.UpgradeSlot, Upgrade.GenericUpgrade>> InstalledUpgrades = new List<KeyValuePair<Upgrade.UpgradeSlot, Upgrade.GenericUpgrade>>();
 
         public GenericShip()
@@ -118,36 +101,6 @@ namespace Ship
         public virtual void InitializePilot()
         {
             SetShipInstertImage();
-        }
-
-        // MANEUVERS
-
-        public ManeuverColor GetColorComplexityOfManeuver(string maneuverString)
-        {
-            return Maneuvers[maneuverString];
-        }
-
-        public ManeuverColor GetLastManeuverColor()
-        {
-            ManeuverColor result = ManeuverColor.None;
-
-            result = AssignedManeuver.ColorComplexity;
-            return result;
-        }
-
-        public Dictionary<string, ManeuverColor> GetManeuvers()
-        {
-            Dictionary<string, ManeuverColor> result = new Dictionary<string, ManeuverColor>();
-
-            foreach (var maneuverHolder in Maneuvers)
-            {
-                Movement movement = Game.Movement.ManeuverFromString(maneuverHolder.Key);
-                if (AfterGetManeuverColor != null) AfterGetManeuverColor(this, ref movement);
-                if (AfterGetManeuverAvailablity != null) AfterGetManeuverAvailablity(this, ref movement);
-                result.Add(maneuverHolder.Key, movement.ColorComplexity);
-            }
-
-            return result;
         }
 
         // STAT MODIFICATIONS
@@ -201,20 +154,6 @@ namespace Ship
                 if (slotsAvailabe > 0) result = true;
             }
             return result;
-        }
-
-        public void CheckLandedOnObstacle()
-        {
-            if (ObstaclesLanded.Count > 0)
-            {
-                foreach (var obstacle in ObstaclesLanded)
-                {
-                    if (!ObstaclesHit.Contains(obstacle)) ObstaclesHit.Add(obstacle);
-                }
-
-                Game.UI.ShowError("Landed on obstacle");
-                if (OnLandedOnObstacle != null) OnLandedOnObstacle(this);
-            }
         }
 
     }

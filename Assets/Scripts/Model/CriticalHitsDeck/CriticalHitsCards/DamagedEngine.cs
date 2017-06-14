@@ -19,7 +19,7 @@ namespace CriticalHitCard
             Game.UI.AddTestLogEntry("Treat all turn maneuvers as red maneuvers");
             host.AssignToken(new Tokens.DamagedEngineCritToken());
 
-            host.AfterGetManeuverColor += TurnManeuversAreRed;
+            host.AfterGetManeuverColorIncreaseComplexity += TurnManeuversAreRed;
         }
 
         public override void DiscardEffect(Ship.GenericShip host)
@@ -28,7 +28,7 @@ namespace CriticalHitCard
             Game.UI.AddTestLogEntry("Turn maneuvers regained normal colors");
             host.RemoveToken(typeof(Tokens.DamagedEngineCritToken));
 
-            host.AfterGetManeuverColor -= TurnManeuversAreRed;
+            host.AfterGetManeuverColorIncreaseComplexity -= TurnManeuversAreRed;
         }
 
         private void TurnManeuversAreRed(Ship.GenericShip ship, ref Movement movement)

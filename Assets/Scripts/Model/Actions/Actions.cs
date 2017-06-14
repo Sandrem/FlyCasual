@@ -55,7 +55,7 @@ public static partial class Actions {
         }
         else
         {
-            Game.UI.ShowError("Target is out of range of Target Lock");
+            Messages.ShowErrorToHuman("Target is out of range of Target Lock");
         }
 
         return result;
@@ -207,7 +207,6 @@ public static partial class Actions {
 
 	public static bool TargetIsLegal() {
         bool result = true;
-        Debug.Log(Selection.ThisShip);
         result = Selection.ThisShip.CallTryPerformAttack(result);
         //Todo: move to ship
         if (result) OnCheckTargetIsLegal(ref result, Selection.ThisShip, Selection.AnotherShip);

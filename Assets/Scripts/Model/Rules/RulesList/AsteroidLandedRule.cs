@@ -23,7 +23,7 @@ namespace RulesList
             {
                 if (obstacle.tag == "Asteroid")
                 {
-                    Game.UI.ShowError("Landed on asteroid - cannot attack");
+                    Messages.ShowErrorToHuman("Landed on asteroid - cannot attack");
                     result = false;
                     break;
                 }

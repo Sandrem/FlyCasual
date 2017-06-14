@@ -183,6 +183,7 @@ public static partial class Phases
             PlayerWithInitiative = Tools.IntToPlayer(randomPlayer);
         }
 
+        CurrentSubPhase.RequiredPlayer = PlayerWithInitiative;
         StartTemporarySubPhase("Initiative", typeof(InitialiveDecisionSubPhase));
     }
 
@@ -192,18 +193,27 @@ public static partial class Phases
         public override void Prepare()
         {
             infoText = "Player " + Tools.PlayerToInt(PlayerWithInitiative) + ", what player will have initiative?";
+
             decisions.Add("I", StayWithInitiative);
             decisions.Add("Opponent", GiveInitiative);
+
+            defaultDecision = "Opponent";
         }
 
         private void GiveInitiative(object sender, EventArgs e)
         {
             PlayerWithInitiative = Roster.AnotherPlayer(PlayerWithInitiative);
-            Phases.Next();
+            ConfirmDecision();
         }
 
         private void StayWithInitiative(object sender, EventArgs e)
         {
+            ConfirmDecision();
+        }
+
+        private void ConfirmDecision()
+        {
+            Messages.ShowInfo("Player " + Tools.PlayerToInt(PlayerWithInitiative) + " has Initiative");
             Phases.Next();
         }
 

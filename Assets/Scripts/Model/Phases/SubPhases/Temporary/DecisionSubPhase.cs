@@ -13,6 +13,7 @@ namespace SubPhases
         private GameObject decisionPanel;
         protected string infoText;
         protected Dictionary<string, EventHandler> decisions = new Dictionary<string, EventHandler>();
+        protected string defaultDecision;
 
         public override void Start()
         {
@@ -52,7 +53,7 @@ namespace SubPhases
                 i++;
             }
 
-            decisionPanel.gameObject.SetActive(true);
+            Roster.GetPlayer(Phases.CurrentPhasePlayer).TakeDecision();  
         }
 
         public override void Next()
@@ -72,6 +73,11 @@ namespace SubPhases
         {
             bool result = false;
             return result;
+        }
+
+        public override void DoDefault()
+        {
+            decisions[defaultDecision].Invoke(null, null);
         }
 
     }

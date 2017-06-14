@@ -93,6 +93,11 @@ namespace SubPhases
             Phases.UpdateHelpInfo();
         }
 
+        public virtual void DoDefault()
+        {
+
+        }
+
     }
 
 }

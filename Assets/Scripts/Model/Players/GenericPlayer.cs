@@ -61,6 +61,8 @@ namespace Players
         public virtual void PerformAttack() { }
 
         public virtual void UseDiceModifications() { }
+
+        public virtual void TakeDecision() { }
     }
 
 }

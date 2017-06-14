@@ -247,6 +247,11 @@ namespace Players
             Game.Wait(Combat.ConfirmDiceResults);
         }
 
+        public override void TakeDecision()
+        {
+            Phases.CurrentSubPhase.DoDefault();
+        }
+
     }
 
 }

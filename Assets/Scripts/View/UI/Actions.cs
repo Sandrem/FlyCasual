@@ -67,6 +67,7 @@ public static partial class Actions {
 
     public static void CloseActionsPanel()
     {
+        MovementTemplates.ReturnRangeRuler();
         Game.PrefabsList.PanelActions.SetActive(false);
     }
 

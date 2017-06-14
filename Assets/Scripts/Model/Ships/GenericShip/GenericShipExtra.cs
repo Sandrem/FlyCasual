@@ -7,12 +7,12 @@ namespace Ship
 
     public partial class GenericShip
     {
-        public string ImageUrl { get; set; }
-        public string ManeuversImageUrl { get; set; }
+        public string ImageUrl { get; protected set; }
+        public string ManeuversImageUrl { get; protected set; }
 
-        public string SoundShotsPath { get; set; }
-        public int ShotsCount { get; set; }
-        public List<string> SoundFlyPaths = new List<string>();
+        public string SoundShotsPath { get; protected set; }
+        public int ShotsCount { get; protected set; }
+        public List<string> SoundFlyPaths { get; protected set; }
     }
 
 }

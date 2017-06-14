@@ -16,7 +16,7 @@ namespace Ship
     public partial class GenericShip
     {
 
-        public Vector3 StartingPosition { get; set; }
+        public Vector3 StartingPosition { get; private set; }
 
         public Movement AssignedManeuver { get; set; }
 
@@ -25,8 +25,8 @@ namespace Ship
 
         public GenericShip LastShipCollision { get; set; }
 
-        public Dictionary<string, ManeuverColor> Maneuvers = new Dictionary<string, ManeuverColor>();
-        public GenericAiTable HotacManeuverTable;
+        public Dictionary<string, ManeuverColor> Maneuvers { get; private set; }
+        public GenericAiTable HotacManeuverTable { get; protected set; }
 
         // EVENTS
 

@@ -243,7 +243,7 @@ public static partial class Roster {
         }
 
         float offset = 0;
-        foreach (var token in thisShip.AssignedTokens)
+        foreach (var token in thisShip.GetAssignedTokens())
         {
             for (int i = 0; i < token.Count; i++)
             {

@@ -7,8 +7,8 @@ namespace Ship
 
     public partial class GenericShip
     {
-        public Dictionary<Upgrade.UpgradeSlot, int> BuiltInSlots = new Dictionary<Upgrade.UpgradeSlot, int>();
-        public List<KeyValuePair<Upgrade.UpgradeSlot, Upgrade.GenericUpgrade>> InstalledUpgrades = new List<KeyValuePair<Upgrade.UpgradeSlot, Upgrade.GenericUpgrade>>();
+        public Dictionary<Upgrade.UpgradeSlot, int> BuiltInSlots { get; protected set; }
+        public List<KeyValuePair<Upgrade.UpgradeSlot, Upgrade.GenericUpgrade>> InstalledUpgrades { get; protected set; }
 
         //UPGRADES
 

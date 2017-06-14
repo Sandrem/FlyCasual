@@ -12,7 +12,7 @@ namespace Ship
             {
                 PilotName = "Luke Skywalker";
                 ImageUrl = "https://vignette3.wikia.nocookie.net/xwing-miniatures/images/8/8c/Luke-skywalker.png";
-                isUnique = true;
+                IsUnique = true;
                 PilotSkill = 8;
                 Cost = 28;
                 AddUpgradeSlot(Upgrade.UpgradeSlot.Elite);

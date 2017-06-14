@@ -12,7 +12,7 @@ namespace Ship
             {
                 PilotName = "\"Night Beast\"";
                 ImageUrl = "https://vignette2.wikia.nocookie.net/xwing-miniatures/images/b/ba/Night_Beast.png";
-                isUnique = true;
+                IsUnique = true;
                 PilotSkill = 5;
                 Cost = 15;
             }

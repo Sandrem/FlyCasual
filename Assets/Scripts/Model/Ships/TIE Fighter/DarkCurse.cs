@@ -12,7 +12,7 @@ namespace Ship
             {
                 PilotName = "\"Dark Curse\"";
                 ImageUrl = "https://vignette1.wikia.nocookie.net/xwing-miniatures/images/4/49/Dark_Curse.png";
-                isUnique = true;
+                IsUnique = true;
                 PilotSkill = 6;
                 Cost = 16;
             }

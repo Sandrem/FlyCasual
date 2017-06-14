@@ -22,7 +22,7 @@ namespace RulesList
             if (Selection.ThisShip.ObstaclesHit.Count > 0)
             {
                 Game.UI.ShowError("Hit asteroid during movement - action subphase is skipped");
-                Selection.ThisShip.IsSkipsAction = true;
+                Selection.ThisShip.IsSkipsActionSubPhase = true;
             }
         }
 

@@ -12,7 +12,7 @@ namespace Ship
             {
                 PilotName = "\"Mauler Mithel\"";
                 ImageUrl = "https://vignette2.wikia.nocookie.net/xwing-miniatures/images/e/e8/Mauler-mithel.png";
-                isUnique = true;
+                IsUnique = true;
                 PilotSkill = 7;
                 Cost = 17;
                 AddUpgradeSlot(Upgrade.UpgradeSlot.Elite);

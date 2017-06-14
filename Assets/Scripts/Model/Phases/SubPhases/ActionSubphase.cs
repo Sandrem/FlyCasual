@@ -21,7 +21,7 @@ namespace SubPhases
         {
             Phases.CallOnActionSubPhaseTrigger();
 
-            if (!Selection.ThisShip.IsSkipsAction)
+            if (!Selection.ThisShip.IsSkipsActionSubPhase)
             {
                 if (!Selection.ThisShip.IsDestroyed)
                 {
@@ -35,7 +35,7 @@ namespace SubPhases
             }
             else
             {
-                Selection.ThisShip.IsSkipsAction = false;
+                Selection.ThisShip.IsSkipsActionSubPhase = false;
                 Next();
             }
         }

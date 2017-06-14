@@ -252,7 +252,7 @@ public static partial class RosterBuilder {
             {
                 Ship.GenericShip shipContainer = (Ship.GenericShip)System.Activator.CreateInstance(System.Type.GetType(shipConfig.PilotName));
 
-                if (shipContainer.isUnique)
+                if (shipContainer.IsUnique)
                 {
                     if (CheckDuplicate(uniqueCards, shipContainer.PilotName)) return false;
                 }

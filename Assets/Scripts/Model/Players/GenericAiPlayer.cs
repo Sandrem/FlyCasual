@@ -187,6 +187,7 @@ namespace Players
         public override void UseDiceModifications()
         {
             //Todo: Decision: defence with evade or focus
+            List<ActionsList.GenericAction> availableActionEffectsList = Selection.ActiveShip.GetAvailableActionEffectsList();
 
             if (Selection.ActiveShip.GetToken(typeof(Tokens.EvadeToken)) != null)
             {
@@ -194,7 +195,7 @@ namespace Players
                 {
                     if (Combat.DiceRollAttack.Successes > Combat.DiceRollDefence.Successes)
                     {
-                        foreach (var actionEffect in Selection.ActiveShip.AvailableActionEffects)
+                        foreach (var actionEffect in availableActionEffectsList)
                         {
                             if (actionEffect.GetType() == typeof(ActionsList.EvadeAction))
                             {
@@ -213,7 +214,7 @@ namespace Players
                 {
                     if (Combat.DiceRollAttack.Focuses > 0)
                     {
-                        foreach (var actionEffect in Selection.ActiveShip.AvailableActionEffects)
+                        foreach (var actionEffect in availableActionEffectsList)
                         {
                             if (actionEffect.GetType() == typeof(ActionsList.FocusAction))
                             {
@@ -230,7 +231,7 @@ namespace Players
                     {
                         if (Combat.DiceRollAttack.Successes > Combat.DiceRollDefence.Successes)
                         {
-                            foreach (var actionEffect in Selection.ActiveShip.AvailableActionEffects)
+                            foreach (var actionEffect in availableActionEffectsList)
                             {
                                 if (actionEffect.GetType() == typeof(ActionsList.FocusAction))
                                 {

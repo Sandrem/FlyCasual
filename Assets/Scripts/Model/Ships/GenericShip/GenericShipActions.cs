@@ -11,9 +11,9 @@ namespace Ship
         private     List<ActionsList.GenericAction> AvailableActionsList        = new List<ActionsList.GenericAction>();
         private     List<ActionsList.GenericAction> AvailableFreeActionsList    = new List<ActionsList.GenericAction>();
         private     List<ActionsList.GenericAction> AlreadyExecutedActions      = new List<ActionsList.GenericAction>();
-        public      List<ActionsList.GenericAction> AvailableActionEffects      = new List<ActionsList.GenericAction>();
+        private     List<ActionsList.GenericAction> AvailableActionEffects      = new List<ActionsList.GenericAction>();
 
-        public List<Tokens.GenericToken> AssignedTokens = new List<Tokens.GenericToken>();
+        private     List<Tokens.GenericToken> AssignedTokens = new List<Tokens.GenericToken>();
 
         // EVENTS
 
@@ -164,6 +164,11 @@ namespace Ship
             return result;
         }
 
+        public List<ActionsList.GenericAction> GetAvailableActionEffectsList()
+        {
+            return AvailableActionEffects;
+        }
+
         // TOKENS
 
         public bool HastToken(System.Type type, char letter = ' ')
@@ -264,6 +269,11 @@ namespace Ship
         {
             RemoveToken(type, letter);
             if (AfterTokenIsSpent != null) AfterTokenIsSpent(this);
+        }
+
+        public List<Tokens.GenericToken> GetAssignedTokens()
+        {
+            return AssignedTokens;
         }
 
         public void ClearAllTokens()

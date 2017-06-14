@@ -9,23 +9,23 @@ namespace Ship
     {
         protected GameManagerScript Game;
 
-        public int ShipId { get; set; }
-        public Players.GenericPlayer Owner { get; set; }
+        public int ShipId { get; private set; }
+        public Players.GenericPlayer Owner { get; private set; }
 
-        public string Type { get; set; }
+        public string Type { get; protected set; }
 
-        public Faction faction;
-        public List<Faction> factions = new List<Faction>();
+        public Faction faction { get; protected set; }
+        public List<Faction> factions { get; protected set; }
         
-        public string PilotName { get;  set; }
-        public bool isUnique = false;
+        public string PilotName { get; protected set; }
+        public bool IsUnique { get; protected set; }
 
-        public int Firepower { get; set; }
-        public int MaxHull { get; set; }
-        public int Hull { get; set; }
-        public int MaxShields { get; set; }
-        public int Shields { get; set; }
-        public int Cost { get; set; }
+        public int Firepower { get; protected set; }
+        public int MaxHull { get; protected set; }
+        public int Hull { get; protected set; }
+        public int MaxShields { get; protected set; }
+        public int Shields { get; protected set; }
+        public int Cost { get; protected set; }
 
         private int pilotSkill;
         public int PilotSkill
@@ -37,7 +37,7 @@ namespace Ship
                 result = Mathf.Clamp(result, 0, 12);
                 return result;
             }
-            set
+            protected set
             {
                 value = Mathf.Clamp(value, 0, 12);
                 pilotSkill = value;
@@ -54,18 +54,24 @@ namespace Ship
                 result = Mathf.Max(result, 0);
                 return result;
             }
-            set
+            protected set
             {
                 value = Mathf.Max(value, 0);
                 agility = value;
             }
         }
 
-        public GameObject Model { get; set; }
-        public GameObject InfoPanel { get; set;  }
+        public GameObject Model { get; private set; }
+        public GameObject InfoPanel { get; private set;  }
 
         public GenericShip()
         {
+            factions = new List<Faction>();
+            SoundFlyPaths = new List<string> ();
+            Maneuvers = new Dictionary<string, ManeuverColor>();
+            BuiltInSlots = new Dictionary<Upgrade.UpgradeSlot, int>();
+            InstalledUpgrades = new List<KeyValuePair<Upgrade.UpgradeSlot, Upgrade.GenericUpgrade>>();
+
             AddCoreUpgradeSlots();
         }
 
@@ -80,6 +86,11 @@ namespace Ship
 
             StartingPosition = position;
             CreateModel(StartingPosition);
+
+            InitializeShip();
+            InitializePilot();
+
+            InfoPanel = Roster.CreateRosterInfo(this);
         }
 
         public virtual void InitializeShip()

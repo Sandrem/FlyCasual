@@ -24,7 +24,7 @@ namespace RulesList
             if (Selection.ThisShip.IsBumped)
             {
                 Game.UI.ShowError("Collided into ship - action subphase is skipped");
-                Selection.ThisShip.IsSkipsAction = true;
+                Selection.ThisShip.IsSkipsActionSubPhase = true;
                 Selection.ThisShip.IsBumped = false;
             }
         }

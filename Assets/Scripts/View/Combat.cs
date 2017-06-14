@@ -27,7 +27,7 @@ public static partial class Combat
             float offset = 0;
             Vector3 defaultPosition = Game.PrefabsList.DiceResultsMenu.transform.position + new Vector3(5, 195, 0);
 
-            foreach (var actionEffect in Selection.ActiveShip.AvailableActionEffects)
+            foreach (var actionEffect in Selection.ActiveShip.GetAvailableActionEffectsList())
             {
                 Vector3 position = defaultPosition + new Vector3(0, -offset, 0);
                 CreateDiceModificationsButton(actionEffect, position);

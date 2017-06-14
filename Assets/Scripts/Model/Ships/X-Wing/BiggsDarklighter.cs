@@ -12,7 +12,7 @@ namespace Ship
             {
                 PilotName = "Biggs Darklighter";
                 ImageUrl = "https://vignette3.wikia.nocookie.net/xwing-miniatures/images/9/90/Biggs-darklighter.png";
-                isUnique = true;
+                IsUnique = true;
                 PilotSkill = 5;
                 Cost = 25;
             }

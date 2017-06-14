@@ -53,14 +53,14 @@ namespace ActionsList
             Sounds.PlaySoundOnce("Astromech-Beeping-and-whistling");
 
             host = Selection.ThisShip;
-            host.ChangeAgility(+1);
+            host.ChangeAgilityBy(+1);
             Phases.OnEndPhaseStart += R2F2DecreaseAgility;
             Phases.Next();
         }
 
         private void R2F2DecreaseAgility()
         {
-            host.ChangeAgility(-1);
+            host.ChangeAgilityBy(-1);
             Phases.OnEndPhaseStart -= R2F2DecreaseAgility;
         }
 

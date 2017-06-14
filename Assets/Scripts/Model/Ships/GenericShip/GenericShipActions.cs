@@ -29,6 +29,11 @@ namespace Ship
 
         // ACTIONS
 
+        private void AddBuiltInActions()
+        {
+            BuiltInActions.Add(new ActionsList.FocusAction());
+        }
+
         public void GenerateAvailableActionsList()
         {
             AvailableActionsList = new List<ActionsList.GenericAction>();

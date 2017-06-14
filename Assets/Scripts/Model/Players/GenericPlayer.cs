@@ -27,6 +27,7 @@ namespace Players
         public PlayerType Type;
         public string Name;
         public PlayerNo PlayerNo;
+        public int SquadCost;
         public Dictionary<string, Ship.GenericShip> Ships = new Dictionary<string, Ship.GenericShip>();
 
         private int id;

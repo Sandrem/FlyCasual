@@ -4,6 +4,7 @@ using UnityEngine;
 using MainPhases;
 using SubPhases;
 using Players;
+using System;
 
 public static partial class Phases
 {
@@ -29,7 +30,7 @@ public static partial class Phases
 
     private static List<System.Type> subPhasesToFinish = new List<System.Type>();
 
-    //EVENTS
+    // EVENTS
     public delegate void EventHandler();
     public static event EventHandler OnRoundStart;
     public static event EventHandler OnSetupPhaseStart;
@@ -40,14 +41,12 @@ public static partial class Phases
 
     public static event EventHandler OnActionSubPhaseStart;
 
-    //PHASES CONTROL
+    // PHASES CONTROL
 
     public static void StartPhases()
     {
-        //Todo: Create starting point
         Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
 
-        PlayerWithInitiative = Global.PlayerWithInitiative;
         CurrentPhase = new SetupPhase();
         Game.UI.AddTestLogEntry("Game is started");
         CurrentPhase.StartPhase();
@@ -109,7 +108,7 @@ public static partial class Phases
         }
     }
 
-    //TRIGGERS
+    // TRIGGERS
 
     public static void CallRoundStartTrigger()
     {
@@ -150,7 +149,7 @@ public static partial class Phases
         if (OnActionSubPhaseStart != null) OnActionSubPhaseStart();
     }
 
-    //TEMPORARY SUBPHASES
+    // TEMPORARY SUBPHASES
 
     public static void StartTemporarySubPhase(string name, System.Type subPhaseType)
     {
@@ -163,4 +162,53 @@ public static partial class Phases
         CurrentSubPhase.Start();
     }
 
+    // INITIATIVE
+
+    public static void DeterminePlayerWithInitiative()
+    {
+        int costP1 = Roster.GetPlayer(PlayerNo.Player1).SquadCost;
+        int costP2 = Roster.GetPlayer(PlayerNo.Player2).SquadCost;
+
+        if (costP1 < costP2)
+        {
+            PlayerWithInitiative = PlayerNo.Player1;
+        }
+        else if (costP1 > costP2)
+        {
+            PlayerWithInitiative = PlayerNo.Player2;
+        }
+        else
+        {
+            int randomPlayer = UnityEngine.Random.Range(1, 3);
+            PlayerWithInitiative = Tools.IntToPlayer(randomPlayer);
+        }
+
+        StartTemporarySubPhase("Initiative", typeof(InitialiveDecisionSubPhase));
+    }
+
+    private class InitialiveDecisionSubPhase : DecisionSubPhase
+    {
+
+        public override void Prepare()
+        {
+            infoText = "Player " + Tools.PlayerToInt(PlayerWithInitiative) + ", what player will have initiative?";
+            decisions.Add("I", StayWithInitiative);
+            decisions.Add("Opponent", GiveInitiative);
+        }
+
+        private void GiveInitiative(object sender, EventArgs e)
+        {
+            PlayerWithInitiative = Roster.AnotherPlayer(PlayerWithInitiative);
+            Phases.Next();
+        }
+
+        private void StayWithInitiative(object sender, EventArgs e)
+        {
+            Phases.Next();
+        }
+
+    }
+
 }
+
+

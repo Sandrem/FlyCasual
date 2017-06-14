@@ -31,8 +31,6 @@ public class Global : MonoBehaviour {
         private set { shipConfigurations = value; }
     }
 
-    public static PlayerNo PlayerWithInitiative = PlayerNo.Player1;
-
     void Start()
     {
         DontDestroyOnLoad(this.gameObject);
@@ -64,19 +62,22 @@ public class Global : MonoBehaviour {
                     (
                         "Ship.XWing.LukeSkywalker",
                         new List<string>() { "UpgradesList.R2D2", "UpgradesList.Marksmanship", "UpgradesList.ProtonTorpedoes" },
-                        PlayerNo.Player1
+                        PlayerNo.Player1,
+                        1
                     ),
                     /*new ShipConfiguration
                     (
                         "Ship.TIEFighter.MaulerMithel",
                         new List<string>() { "UpgradesList.Determination" },
-                        PlayerNo.Player2
+                        PlayerNo.Player2,
+                        1
                     ),*/
                     new ShipConfiguration
                     (
                         "Ship.TIEFighter.NightBeast",
                         new List<string>(),
-                        PlayerNo.Player2
+                        PlayerNo.Player2,
+                        1
                     )
                 };  
         }
@@ -125,9 +126,9 @@ public class Global : MonoBehaviour {
         playerFactions.Add(factionType);
     }
 
-    public static void AddShip(string name, List<string> upgradeList, PlayerNo playerNo)
+    public static void AddShip(string name, List<string> upgradeList, PlayerNo playerNo, int shipCost)
     {
-        shipConfigurations.Add(new ShipConfiguration(name, upgradeList, playerNo));
+        shipConfigurations.Add(new ShipConfiguration(name, upgradeList, playerNo, shipCost));
     }
 
     public static Faction GetPlayerFaction(PlayerNo playerNo)

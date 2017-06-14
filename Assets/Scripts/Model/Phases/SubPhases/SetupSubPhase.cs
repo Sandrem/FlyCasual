@@ -17,8 +17,9 @@ namespace SubPhases
 
         public override void Initialize()
         {
+            Phases.DeterminePlayerWithInitiative();
             RequiredPilotSkill = PILOTSKILL_MIN - 1;
-            Next();
+            Phases.FinishSubPhase(typeof(SetupSubPhase));
         }
 
         public override void Next()

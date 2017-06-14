@@ -170,30 +170,9 @@ public static partial class RosterBuilder {
     {
         SetPlayers();
         GeneratePlayersShipConfigurations();
-        DetermineInitiative();
         if (ValidatePlayersRosters())
         {
             SceneManager.LoadScene("Battle");
-        }
-    }
-
-    private static void DetermineInitiative()
-    {
-        int costP1 = GetShipCostCalculated(PlayerNo.Player1);
-        int costP2 = GetShipCostCalculated(PlayerNo.Player2);
-
-        if (costP1 < costP2)
-        {
-            Global.PlayerWithInitiative = PlayerNo.Player1;
-        }
-        else if (costP1 > costP2)
-        {
-            Global.PlayerWithInitiative = PlayerNo.Player2;
-        }
-        else
-        {
-            int randomPlayer = UnityEngine.Random.Range(1, 3);
-            Global.PlayerWithInitiative = Tools.IntToPlayer(randomPlayer);
         }
     }
 

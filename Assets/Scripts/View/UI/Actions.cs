@@ -14,7 +14,6 @@ public static partial class Actions {
 
     public static void ShowFreeActionsPanel()
     {
-        Phases.StartTemporarySubPhase("Free action", typeof(SubPhases.FreeActionSubPhase));
         ShowActionsButtons(Selection.ThisShip.GetAvailableFreeActionsList());
     }
 

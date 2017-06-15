@@ -57,6 +57,7 @@ namespace Ship
 
         public void AskPerformFreeAction(ActionsList.GenericAction action)
         {
+            Phases.StartTemporarySubPhase("Free action", typeof(SubPhases.FreeActionSubPhase));
             AvailableFreeActionsList = new List<ActionsList.GenericAction>();
             AddAvailableFreeAction(action);
             Roster.GetPlayer(Phases.CurrentSubPhase.RequiredPlayer).PerformFreeAction();

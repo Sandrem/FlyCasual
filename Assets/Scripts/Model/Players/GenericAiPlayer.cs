@@ -90,6 +90,10 @@ namespace Players
                 action.ActionTake();
                 Selection.ThisShip.AddAlreadyExecutedAction(action);
             }
+            else
+            {
+                Phases.Next();
+            }
         }
 
         public override void PerformAttack()

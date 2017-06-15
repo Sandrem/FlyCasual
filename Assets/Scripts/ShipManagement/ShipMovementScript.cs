@@ -247,6 +247,7 @@ public class ShipMovementScript : MonoBehaviour {
     
     public void PerformStoredManeuver()
     {
+        Selection.ThisShip.IsManeuverPerformed = true;
         Roster.AllShipsHighlightOff();
         Phases.StartTemporarySubPhase("Movement", typeof(SubPhases.MovementExecutionSubPhase));
         Selection.ThisShip.ObstaclesHit = new List<Collider>();
@@ -539,7 +540,6 @@ public class ShipMovementScript : MonoBehaviour {
 
         Selection.ThisShip.ResetRotationHelpers();
 
-        Selection.ThisShip.IsManeuverPerformed = true;
         Selection.ThisShip.IsAttackPerformed = false;
 
         Selection.ThisShip.AssignedManeuver = null;

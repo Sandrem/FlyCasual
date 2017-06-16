@@ -22,6 +22,7 @@ namespace Ship
 
         public event EventHandlerInt AfterGotNumberOfPrimaryWeaponAttackDices;
         public event EventHandlerInt AfterGotNumberOfPrimaryWeaponDefenceDices;
+        public event EventHandlerInt AfterGotNumberOfAttackDices;
 
         public event EventHandlerShip AfterAssignedDamageIsChanged;
 
@@ -84,7 +85,9 @@ namespace Ship
             {
                 result = Combat.SecondaryWeapon.GetAttackValue();
             }
-            
+
+            if (AfterGotNumberOfAttackDices != null) AfterGotNumberOfAttackDices(ref result);
+
             if (result < 0) result = 0;
             return result;
         }

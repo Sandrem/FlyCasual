@@ -4,17 +4,17 @@ using UnityEngine;
 
 namespace Ship
 {
-    namespace TIEFighter
+    namespace YWing
     {
-        public class WingedGundark : TIEFighter
+        public class HortonSalm : YWing
         {
-            public WingedGundark() : base()
+            public HortonSalm() : base()
             {
-                PilotName = "\"Winged Gundark\"";
-                ImageUrl = "https://vignette2.wikia.nocookie.net/xwing-miniatures/images/9/9d/Winged-gundark.png";
+                PilotName = "Horton Salm";
+                ImageUrl = "https://vignette4.wikia.nocookie.net/xwing-miniatures/images/5/56/Horton_Salm.png";
                 IsUnique = true;
-                PilotSkill = 5;
-                Cost = 15;
+                PilotSkill = 8;
+                Cost = 25;
             }
 
             public override void InitializePilot()
@@ -25,7 +25,7 @@ namespace Ship
 
             public void WingedGundarkPilotAbility(GenericShip ship)
             {
-                ship.AddAvailableActionEffect(new PilotAbilities.WingedGundarkAction());
+                ship.AddAvailableActionEffect(new PilotAbilities.HortonSalmAction());
             }
         }
     }
@@ -33,24 +33,24 @@ namespace Ship
 
 namespace PilotAbilities
 {
-    public class WingedGundarkAction : ActionsList.GenericAction
+    public class HortonSalmAction : ActionsList.GenericAction
     {
         private Ship.GenericShip host;
 
-        public WingedGundarkAction()
+        public HortonSalmAction()
         {
-            Name = EffectName = "\"Winged Gundark\"'s ability";
+            Name = EffectName = "Horton Salm's ability";
         }
 
         public override void ActionEffect()
         {
-            Combat.CurentDiceRoll.ChangeOne(DiceSide.Success, DiceSide.Crit);
+            Combat.CurentDiceRoll.Reroll("blank");
         }
 
         public override bool IsActionEffectAvailable()
         {
             bool result = false;
-            if ((Combat.AttackStep == CombatStep.Attack) && (Actions.GetRange(Selection.ThisShip, Selection.AnotherShip) == 1))
+            if ((Combat.AttackStep == CombatStep.Attack) && (Actions.GetRange(Selection.ThisShip, Selection.AnotherShip) > 1))
             {
                 result = true;
             }

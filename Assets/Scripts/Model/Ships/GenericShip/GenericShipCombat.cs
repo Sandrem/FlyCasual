@@ -32,7 +32,9 @@ namespace Ship
 
         public event EventHandlerShip AfterAttackWindow;
 
-        
+        public event EventHandlerShip AfterCombatEnd;
+
+
 
         // TRIGGERS
 
@@ -48,13 +50,13 @@ namespace Ship
             return result;
         }
 
-        public void AttackStart()
+        public void CallAttackStart()
         {
             if (Combat.Attacker.ShipId == this.ShipId) IsAttackPerformed = true;
             if (OnAttack != null) OnAttack();
         }
 
-        public void DefenceStart()
+        public void CallDefenceStart()
         {
             if (OnDefence != null) OnDefence();
         }
@@ -62,6 +64,11 @@ namespace Ship
         public void CallAfterAttackWindow()
         {
             if (AfterAttackWindow != null) AfterAttackWindow(this);
+        }
+
+        public void CallCombatEnd()
+        {
+            if (AfterCombatEnd != null) AfterCombatEnd(this);
         }
 
         // DICES

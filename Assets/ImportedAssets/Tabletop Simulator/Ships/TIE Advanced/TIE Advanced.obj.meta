@@ -1,17 +1,22 @@
 fileFormatVersion: 2
 guid: d49bcbe4df678e948af6e1bbff3ccc44
-timeCreated: 1497631120
+timeCreated: 1497634280
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
   fileIDToRecycleName:
     100000: MainHull.000_small_base_Cube.002_auv
     100002: //RootNode
+    100004: default
     400000: MainHull.000_small_base_Cube.002_auv
     400002: //RootNode
+    400004: default
     2300000: MainHull.000_small_base_Cube.002_auv
+    2300002: default
     3300000: MainHull.000_small_base_Cube.002_auv
+    3300002: default
     4300000: MainHull.000_small_base_Cube.002_auv
+    4300002: default
   materials:
     importMaterials: 1
     materialName: 0

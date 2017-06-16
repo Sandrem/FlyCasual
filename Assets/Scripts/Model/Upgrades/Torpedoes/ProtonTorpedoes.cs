@@ -26,7 +26,7 @@ namespace UpgradesList
         {
             base.AttachToShip(host);
 
-            ActionsList.ConcussionMissilesAction action = new ActionsList.ConcussionMissilesAction();
+            ActionsList.ClusterMissilesAction action = new ActionsList.ClusterMissilesAction();
             action.Host = host;
             action.ImageUrl = ImageUrl;
             action.AddDiceModification();
@@ -67,11 +67,11 @@ namespace UpgradesList
 namespace ActionsList
 { 
 
-    public class ConcussionMissilesAction : GenericAction
+    public class ClusterMissilesAction : GenericAction
     {
         public Ship.GenericShip Host;
 
-        public ConcussionMissilesAction()
+        public ClusterMissilesAction()
         {
             Name = EffectName = "Proton Torpedoes";
 

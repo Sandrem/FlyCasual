@@ -26,7 +26,7 @@ namespace UpgradesList
         {
             base.AttachToShip(host);
 
-            ActionsList.ConcussionMissilesAction action = new ActionsList.ConcussionMissilesAction();
+            ActionsList.ClusterMissilesAction action = new ActionsList.ClusterMissilesAction();
             action.Host = host;
             action.ImageUrl = ImageUrl;
             action.AddDiceModification();

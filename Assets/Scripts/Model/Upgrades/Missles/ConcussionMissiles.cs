@@ -6,15 +6,15 @@ using Upgrade;
 namespace UpgradesList
 {
 
-    public class ProtonTorpedoes : GenericSecondaryWeapon
+    public class ConcussionMissiles : GenericSecondaryWeapon
     {
-        public ProtonTorpedoes() : base()
+        public ConcussionMissiles() : base()
         {
-            Type = UpgradeSlot.Torpedoes;
+            Type = UpgradeSlot.Missiles;
 
-            Name = "Proton Torpedoes";
-            ShortName = "Proton Torp.";
-            ImageUrl = "https://vignette2.wikia.nocookie.net/xwing-miniatures/images/e/eb/Proton-torpedoes.png";
+            Name = "Concussion Missiles";
+            ShortName = "Concussion Missiles";
+            ImageUrl = "https://vignette1.wikia.nocookie.net/xwing-miniatures/images/7/70/Concussion_Missiles.png";
             Cost = 4;
 
             MinRange = 2;
@@ -67,23 +67,23 @@ namespace UpgradesList
 namespace ActionsList
 { 
 
-    public class ConcussionMissilesAction : GenericAction
+    public class ConcussionMissiles : GenericAction
     {
         public Ship.GenericShip Host;
 
-        public ConcussionMissilesAction()
+        public ConcussionMissiles()
         {
-            Name = EffectName = "Proton Torpedoes";
+            Name = EffectName = "Concussion Missiles";
 
             //AddDiceModification (host requied first);
         }
 
         public void AddDiceModification()
         {
-            Host.AfterGenerateAvailableActionEffectsList += ProtonTorpedoesAddDiceModification;
+            Host.AfterGenerateAvailableActionEffectsList += ConcussionMissilesAddDiceModification;
         }
 
-        private void ProtonTorpedoesAddDiceModification(Ship.GenericShip ship)
+        private void ConcussionMissilesAddDiceModification(Ship.GenericShip ship)
         {
             ship.AddAvailableActionEffect(this);
         }
@@ -108,7 +108,7 @@ namespace ActionsList
 
         public override void ActionEffect()
         {
-            Combat.CurentDiceRoll.ChangeOne(DiceSide.Focus, DiceSide.Crit);
+            Combat.CurentDiceRoll.ChangeOne(DiceSide.Blank, DiceSide.Success);
         }
 
     }

@@ -81,6 +81,12 @@ public static partial class RosterBuilder {
 
     private static void SubscribeShipDropdowns(PlayerNo playerNo, GameObject panel)
     {
+        Dropdown shipDropdown = panel.transform.Find("GroupShip").Find("DropdownShip").GetComponent<Dropdown>();
+        shipDropdown.onValueChanged.AddListener(delegate
+        {
+            OnShipChanged(playerNo, panel);
+        });
+
         Dropdown pilotDropdown = panel.transform.Find("GroupShip").Find("DropdownPilot").GetComponent<Dropdown>();
         pilotDropdown.onValueChanged.AddListener(delegate
         {
@@ -112,6 +118,13 @@ public static partial class RosterBuilder {
 
     private static void OnPilotChanged(PlayerNo playerNo, GameObject panel)
     {
+        UpdateUpgradePanels(playerNo, panel);
+        UpdateShipCost(playerNo, panel);
+    }
+
+    private static void OnShipChanged(PlayerNo playerNo, GameObject panel)
+    {
+        SetPilot(playerNo, panel);
         UpdateUpgradePanels(playerNo, panel);
         UpdateShipCost(playerNo, panel);
     }
@@ -206,13 +219,31 @@ public static partial class RosterBuilder {
         }
 
         List<GameObject> toRemove = new List<GameObject>();
+        Dictionary<Upgrade.UpgradeSlot, int> existingUpgradeSlots = new Dictionary<Upgrade.UpgradeSlot, int>();
         foreach (Transform group in panel.transform.Find("GroupUpgrades"))
         {
             Type type = typeof(Upgrade.UpgradeSlot);
             string upgradeId = group.GetComponent<Dropdown>().options[0].text;
             upgradeId = upgradeId.Substring(upgradeId.IndexOf(':') + 2);
             Upgrade.UpgradeSlot slot = (Upgrade.UpgradeSlot)Enum.Parse(type, upgradeId);
-            if (!ship.BuiltInSlots.ContainsKey(slot)) toRemove.Add(group.gameObject);
+
+            if (existingUpgradeSlots.ContainsKey(slot))
+            {
+                existingUpgradeSlots[slot]++;
+            }
+            else
+            {
+                existingUpgradeSlots.Add(slot, 1);
+            }
+
+            if (!ship.BuiltInSlots.ContainsKey(slot))
+            {
+                toRemove.Add(group.gameObject);
+            }
+            else if (ship.BuiltInSlots[slot] < existingUpgradeSlots[slot])
+            {
+                toRemove.Add(group.gameObject);
+            }
         }
         foreach (var group in toRemove)
         {

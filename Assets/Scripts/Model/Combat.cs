@@ -121,18 +121,25 @@ public static partial class Combat
         {
             defender.SufferDamage(DiceRollAttack);
         }
+        CallCombatEndEvents();
     }
 
     public static void CallAttackStartEvents()
     {
-        Attacker.AttackStart();
-        Defender.AttackStart();
+        Attacker.CallAttackStart();
+        Defender.CallAttackStart();
     }
 
     public static void CallDefenceStartEvents()
     {
-        Attacker.DefenceStart();
-        Defender.DefenceStart();
+        Attacker.CallDefenceStart();
+        Defender.CallDefenceStart();
+    }
+
+    private static void CallCombatEndEvents()
+    {
+        Attacker.CallCombatEnd();
+        Defender.CallCombatEnd();
     }
 
     public static void SelectWeapon(Upgrade.GenericSecondaryWeapon secondaryWeapon = null)

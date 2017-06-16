@@ -9,7 +9,7 @@ namespace Upgrade
         Elite,
         Astromech,
         Torpedoes,
-        Missles,
+        Missiles,
         Cannon,
         Turret,
         Bomb,

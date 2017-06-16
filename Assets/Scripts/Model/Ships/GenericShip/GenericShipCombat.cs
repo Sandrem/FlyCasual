@@ -22,6 +22,7 @@ namespace Ship
 
         public event EventHandlerInt AfterGotNumberOfPrimaryWeaponAttackDices;
         public event EventHandlerInt AfterGotNumberOfPrimaryWeaponDefenceDices;
+        public event EventHandlerInt AfterGotNumberOfAttackDices;
 
         public event EventHandlerShip AfterAssignedDamageIsChanged;
 
@@ -32,7 +33,7 @@ namespace Ship
 
         public event EventHandlerShip AfterAttackWindow;
 
-        
+        public event EventHandlerShip AfterCombatEnd;
 
         // TRIGGERS
 
@@ -48,13 +49,13 @@ namespace Ship
             return result;
         }
 
-        public void AttackStart()
+        public void CallAttackStart()
         {
             if (Combat.Attacker.ShipId == this.ShipId) IsAttackPerformed = true;
             if (OnAttack != null) OnAttack();
         }
 
-        public void DefenceStart()
+        public void CallDefenceStart()
         {
             if (OnDefence != null) OnDefence();
         }
@@ -62,6 +63,11 @@ namespace Ship
         public void CallAfterAttackWindow()
         {
             if (AfterAttackWindow != null) AfterAttackWindow(this);
+        }
+
+        public void CallCombatEnd()
+        {
+            if (AfterCombatEnd != null) AfterCombatEnd(this);
         }
 
         // DICES
@@ -79,7 +85,9 @@ namespace Ship
             {
                 result = Combat.SecondaryWeapon.GetAttackValue();
             }
-            
+
+            if (AfterGotNumberOfAttackDices != null) AfterGotNumberOfAttackDices(ref result);
+
             if (result < 0) result = 0;
             return result;
         }
@@ -201,6 +209,11 @@ namespace Ship
                 OnDestroyed();
                 IsDestroyed = true;
             }
+        }
+
+        public List<CriticalHitCard.GenericCriticalHit> GetAssignedCritCards()
+        {
+            return AssignedCritCards;
         }
 
         // ATTACK TYPES

@@ -4,11 +4,9 @@ namespace RulesList
 {
     public class AsteroidLandedRule
     {
-        private GameManagerScript Game;
 
         public AsteroidLandedRule(GameManagerScript game)
         {
-            Game = game;
             SubscribeEvents();
         }
 

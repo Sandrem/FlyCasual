@@ -24,7 +24,7 @@ namespace Ship
         public event EventHandlerActionBool OnTryAddAvailableActionEffect;
 
         public event EventHandlerShip AfterTokenIsAssigned;
-        public event EventHandlerShip AfterTokenIsSpent;
+        public event EventHandlerType AfterTokenIsSpent;
         public event EventHandlerShip AfterTokenIsRemoved;
 
         // ACTIONS
@@ -274,7 +274,7 @@ namespace Ship
         public void SpendToken(System.Type type, char letter = ' ')
         {
             RemoveToken(type, letter);
-            if (AfterTokenIsSpent != null) AfterTokenIsSpent(this);
+            if (AfterTokenIsSpent != null) AfterTokenIsSpent(type);
         }
 
         public List<Tokens.GenericToken> GetAssignedTokens()

@@ -23,10 +23,13 @@ namespace Ship
                 AfterTokenIsSpent += GarvenDreisPilotAbility;
             }
 
-            private void GarvenDreisPilotAbility(GenericShip ship)
+            private void GarvenDreisPilotAbility(System.Type type)
             {
-                Debug.Log("Trigger!");
-                //Todo: Start Selection subPhase
+                if (type == typeof(Tokens.FocusToken))
+                {
+                    Debug.Log("Trigger!");
+                    //Todo: Start Selection subPhase
+                }
             }
 
         }

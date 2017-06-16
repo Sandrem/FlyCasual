@@ -34,8 +34,6 @@ namespace Ship
 
         public event EventHandlerShip AfterCombatEnd;
 
-
-
         // TRIGGERS
 
         public void CallOnCombatPhaseStart()
@@ -208,6 +206,11 @@ namespace Ship
                 OnDestroyed();
                 IsDestroyed = true;
             }
+        }
+
+        public List<CriticalHitCard.GenericCriticalHit> GetAssignedCritCards()
+        {
+            return AssignedCritCards;
         }
 
         // ATTACK TYPES

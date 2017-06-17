@@ -116,7 +116,6 @@ public static partial class Phases
         {
             if (subPhasesToStart.Count != 0)
             {
-                List<System.Type> tempList = new List<System.Type>();
                 StartTemporarySubPhase("SCHEDULED", subPhasesToStart[0]);
                 subPhasesToStart.RemoveAt(0);
             }

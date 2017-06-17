@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 namespace RulesList
 {
@@ -63,6 +64,8 @@ namespace SubPhases
 
         protected override void CheckResults(DiceRoll diceRoll)
         {
+            Selection.ActiveShip = Selection.ThisShip;
+
             switch (diceRoll.DiceList[0].Side)
             {
                 case DiceSide.Blank:
@@ -73,17 +76,29 @@ namespace SubPhases
                     break;
                 case DiceSide.Success:
                     Game.UI.ShowError("Damage is dealt!");
-                    Selection.ThisShip.SufferDamage(diceRoll);
+                    Game.StartCoroutine(DealRegularDamage());
                     break;
                 case DiceSide.Crit:
                     Game.UI.ShowError("Critical damage is dealt!");
-                    Selection.ThisShip.SufferDamage(diceRoll);
+                    Game.StartCoroutine(DealCriticalDamage());
                     break;
                 default:
                     break;
             }
 
             base.CheckResults(diceRoll);
+        }
+
+        private IEnumerator DealCriticalDamage()
+        {
+            Triggers.AddTrigger("Draw faceup damage card", TriggerTypes.OnDamageCardIsDealt, CriticalHitsDeck.DrawCrit);
+            yield return Triggers.ResolveAllTriggers(TriggerTypes.OnDamageCardIsDealt);
+        }
+
+        private IEnumerator DealRegularDamage()
+        {
+            Triggers.AddTrigger("Draw faceup damage card", TriggerTypes.OnDamageCardIsDealt, CriticalHitsDeck.DrawRegular);
+            yield return Triggers.ResolveAllTriggers(TriggerTypes.OnDamageCardIsDealt);
         }
 
     }

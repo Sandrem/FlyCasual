@@ -153,7 +153,7 @@ namespace Ship
                         }
                         else
                         {
-                            Triggers.AddTrigger("Draw faceup damage card", TriggerTypes.OnDamageCardIsDealt, CriticalHitsDeck.DrawCrit);
+                            Triggers.AddTrigger("Draw faceup damage card", TriggerTypes.OnDamageCardIsDealt, CriticalHitsDeck.DrawRegular);
                             //SufferHullDamage();
                         }
                     }
@@ -186,6 +186,8 @@ namespace Ship
             Hull--;
             Hull = Mathf.Max(Hull, 0);
 
+            CallAfterAssignedDamageIsChanged();
+
             IsHullDestroyedCheck();
         }
 
@@ -196,7 +198,6 @@ namespace Ship
             if (crit != null)
             {
                 SufferHullDamage();
-                CallAfterAssignedDamageIsChanged();
 
                 AssignedCritCards.Add(crit);
                 crit.AssignCrit(this);

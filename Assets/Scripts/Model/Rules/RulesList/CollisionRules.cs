@@ -36,6 +36,7 @@ namespace RulesList
 
         public void AssignCollision(Ship.GenericShip ship)
         {
+            // BUG: Sometimes NullReferenceException: Object reference not set to an instance of an object
             (Selection.ThisShip.LastShipCollision).LastShipCollision = Selection.ThisShip;
             ship.IsBumped = true;
         }

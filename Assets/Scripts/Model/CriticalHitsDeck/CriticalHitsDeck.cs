@@ -61,4 +61,13 @@ public static class CriticalHitsDeck{
         (sender as Ship.GenericShip).SufferCrit(crit);
     }
 
+    public static void DrawRegular(object sender, EventArgs e)
+    {
+        // TEMPORARY
+        Debug.Log("STUB: NO SENDER");
+        sender = Selection.ActiveShip;
+
+        (sender as Ship.GenericShip).SufferHullDamage();
+    }
+
 }

@@ -162,7 +162,12 @@ namespace Ship
 
             yield return Triggers.ResolveAllTriggers(TriggerTypes.OnDamageCardIsDealt);
 
-            AfterAssignedDamageIsChanged(this);
+            CallAfterAssignedDamageIsChanged();
+        }
+
+        public void CallAfterAssignedDamageIsChanged()
+        {
+            if (AfterAssignedDamageIsChanged != null) AfterAssignedDamageIsChanged(this);
         }
 
         private bool CheckFaceupCrit(Dice dice)
@@ -191,6 +196,8 @@ namespace Ship
             if (crit != null)
             {
                 SufferHullDamage();
+                CallAfterAssignedDamageIsChanged();
+
                 AssignedCritCards.Add(crit);
                 crit.AssignCrit(this);
             }

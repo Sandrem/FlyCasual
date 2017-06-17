@@ -51,12 +51,16 @@ namespace SubPhases
                 Game.UI.ShowError("Major Explosion: Suffer 1 additional critical damage");
                 Game.UI.AddTestLogEntry("Major Explosion: Suffer 1 additional critical damage");
 
-                DiceRoll damageRoll = new DiceRoll("attack", 0);
-                damageRoll.DiceList.Add(new Dice("attack", DiceSide.Crit));
-                Selection.ActiveShip.SufferDamage(damageRoll);
+                Game.StartCoroutine(DealDamage());
             }
 
             base.CheckResults(diceRoll);
+        }
+
+        private IEnumerator DealDamage()
+        {
+            Triggers.AddTrigger("Draw faceup damage card", TriggerTypes.OnDamageCardIsDealt, CriticalHitsDeck.DrawCrit);
+            yield return Triggers.ResolveAllTriggers(TriggerTypes.OnDamageCardIsDealt);
         }
 
     }

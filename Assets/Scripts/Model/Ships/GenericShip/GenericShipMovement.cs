@@ -55,12 +55,7 @@ namespace Ship
         {
             if (OnMovementFinish != null) OnMovementFinish(this);
 
-            while (!Triggers.Empty)
-            {
-                Debug.Log("Call trigger!");
-                yield return Triggers.CallTrigger(TriggerTypes.OnShipMovementFinish);
-            }
-
+            yield return Triggers.ResolveAllTriggers(TriggerTypes.OnShipMovementFinish);
             yield return Phases.WaitForTemporarySubPhasesFinish();
         }
 

@@ -51,7 +51,16 @@ public static partial class Triggers
         simultaneousTriggers.Remove(id);
     }
 
-    public static IEnumerator CallTrigger(TriggerTypes triggerType)
+    public static IEnumerator ResolveAllTriggers(TriggerTypes triggerType)
+    {
+        while (!Triggers.Empty)
+        {
+            Debug.Log("Call trigger!");
+            yield return Triggers.CallTrigger(triggerType);
+        }
+    }
+
+    private static IEnumerator CallTrigger(TriggerTypes triggerType)
     {
         var rawResults =
             from n in simultaneousTriggers

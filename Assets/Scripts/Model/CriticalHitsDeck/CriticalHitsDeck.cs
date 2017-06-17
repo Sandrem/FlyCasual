@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -38,8 +39,12 @@ public static class CriticalHitsDeck{
         }
     }
 
-    public static void DrawCrit(Ship.GenericShip host)
+    public static void DrawCrit(object sender, EventArgs e)
     {
+        // TEMPORARY
+        Debug.Log("STUB: NO SENDER");
+        sender = Selection.ActiveShip;
+
         int deckSize = Deck.Count;
 
         if (deckSize == 0)
@@ -48,12 +53,12 @@ public static class CriticalHitsDeck{
             deckSize = Deck.Count;
         }
 
-        int index = Random.Range(0, deckSize);
+        int index = UnityEngine.Random.Range(0, deckSize);
 
         CriticalHitCard.GenericCriticalHit crit = Deck[index];
         Deck.Remove(crit);
 
-        host.SufferCrit(crit);
+        (sender as Ship.GenericShip).SufferCrit(crit);
     }
 
 }

@@ -7,7 +7,8 @@ using SubPhases;
 
 public enum TriggerTypes
 {
-    OnShipMovementFinish
+    OnShipMovementFinish,
+    OnDamageCardIsDealt
 }
 
 public static partial class Triggers

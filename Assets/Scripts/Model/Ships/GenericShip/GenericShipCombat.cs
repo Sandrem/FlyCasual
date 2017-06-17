@@ -131,7 +131,7 @@ namespace Ship
 
         // DAMAGE
 
-        public void SufferDamage(DiceRoll damage)
+        public IEnumerator SufferDamage(DiceRoll damage)
         {
 
             int shieldsBefore = Shields;
@@ -148,15 +148,19 @@ namespace Ship
                     {
                         if (CheckFaceupCrit(dice))
                         {
-                            CriticalHitsDeck.DrawCrit(this);
+                            Triggers.AddTrigger("Draw faceup damage card", TriggerTypes.OnDamageCardIsDealt, CriticalHitsDeck.DrawCrit);
+                            //CriticalHitsDeck.DrawCrit(this);
                         }
                         else
                         {
-                            SufferHullDamage();
+                            Triggers.AddTrigger("Draw faceup damage card", TriggerTypes.OnDamageCardIsDealt, CriticalHitsDeck.DrawCrit);
+                            //SufferHullDamage();
                         }
                     }
                 }
             }
+
+            yield return Triggers.ResolveAllTriggers(TriggerTypes.OnDamageCardIsDealt);
 
             AfterAssignedDamageIsChanged(this);
         }

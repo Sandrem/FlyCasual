@@ -28,6 +28,7 @@ public static partial class Phases
         get { return CurrentSubPhase.RequiredPlayer; }
     }
 
+    private static List<System.Type> subPhasesToStart = new List<System.Type>();
     private static List<System.Type> subPhasesToFinish = new List<System.Type>();
 
     // EVENTS
@@ -85,6 +86,7 @@ public static partial class Phases
     public static void CheckScheduledChanges()
     {
         CheckScheduledFinishes();
+        CheckScheduledStarts();
     }
 
     private static void CheckScheduledFinishes()
@@ -104,6 +106,19 @@ public static partial class Phases
                     subPhasesToFinish.Remove(subPhaseType);
                     Next();
                 }
+            }
+        }
+    }
+
+    private static void CheckScheduledStarts()
+    {
+        if (!InTemporarySubPhase)
+        {
+            if (subPhasesToStart.Count != 0)
+            {
+                List<System.Type> tempList = new List<System.Type>();
+                StartTemporarySubPhase("SCHEDULED", subPhasesToStart[0]);
+                subPhasesToStart.RemoveAt(0);
             }
         }
     }
@@ -161,13 +176,20 @@ public static partial class Phases
 
     public static void StartTemporarySubPhase(string name, System.Type subPhaseType)
     {
-        GenericSubPhase previousSubPhase = CurrentSubPhase;
-        CurrentSubPhase = (GenericSubPhase)System.Activator.CreateInstance(subPhaseType);
-        CurrentSubPhase.Name = name;
-        CurrentSubPhase.PreviousSubPhase = previousSubPhase;
-        CurrentSubPhase.RequiredPlayer = previousSubPhase.RequiredPlayer;
-        CurrentSubPhase.RequiredPilotSkill = previousSubPhase.RequiredPilotSkill;
-        CurrentSubPhase.Start();
+        if (!InTemporarySubPhase)
+        {
+            GenericSubPhase previousSubPhase = CurrentSubPhase;
+            CurrentSubPhase = (GenericSubPhase)System.Activator.CreateInstance(subPhaseType);
+            CurrentSubPhase.Name = name;
+            CurrentSubPhase.PreviousSubPhase = previousSubPhase;
+            CurrentSubPhase.RequiredPlayer = previousSubPhase.RequiredPlayer;
+            CurrentSubPhase.RequiredPilotSkill = previousSubPhase.RequiredPilotSkill;
+            CurrentSubPhase.Start();
+        }
+        else
+        {
+            subPhasesToStart.Add(subPhaseType);
+        }
     }
 
     // INITIATIVE

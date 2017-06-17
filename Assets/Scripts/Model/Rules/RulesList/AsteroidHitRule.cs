@@ -76,29 +76,17 @@ namespace SubPhases
                     break;
                 case DiceSide.Success:
                     Game.UI.ShowError("Damage is dealt!");
-                    Game.StartCoroutine(DealRegularDamage());
+                    Game.StartCoroutine(Selection.ActiveShip.SufferDamage(diceRoll));
                     break;
                 case DiceSide.Crit:
                     Game.UI.ShowError("Critical damage is dealt!");
-                    Game.StartCoroutine(DealCriticalDamage());
+                    Game.StartCoroutine(Selection.ActiveShip.SufferDamage(diceRoll));
                     break;
                 default:
                     break;
             }
 
             base.CheckResults(diceRoll);
-        }
-
-        private IEnumerator DealCriticalDamage()
-        {
-            Triggers.AddTrigger("Draw faceup damage card", TriggerTypes.OnDamageCardIsDealt, CriticalHitsDeck.DrawCrit);
-            yield return Triggers.ResolveAllTriggers(TriggerTypes.OnDamageCardIsDealt);
-        }
-
-        private IEnumerator DealRegularDamage()
-        {
-            Triggers.AddTrigger("Draw faceup damage card", TriggerTypes.OnDamageCardIsDealt, CriticalHitsDeck.DrawRegular);
-            yield return Triggers.ResolveAllTriggers(TriggerTypes.OnDamageCardIsDealt);
         }
 
     }

@@ -30,7 +30,6 @@ namespace CriticalHitCard
         {
             Selection.ActiveShip = host;
             Phases.StartTemporarySubPhase("Console Fire", typeof(SubPhases.DiceRollSubPhase));
-
         }
 
         public override void DiscardEffect(Ship.GenericShip host)

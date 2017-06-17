@@ -51,9 +51,10 @@ namespace Ship
             if (OnMovementStart != null) OnMovementStart(this);
         }
 
-        public void FinishMoving()
+        public IEnumerator FinishMoving()
         {
             if (OnMovementFinish != null) OnMovementFinish(this);
+            yield return Phases.WaitForTemporarySubPhasesFinish();
         }
 
         public void FinishPosition()

@@ -108,6 +108,14 @@ public static partial class Phases
         }
     }
 
+    public static IEnumerator WaitForTemporarySubPhasesFinish()
+    {
+        while (Phases.CurrentSubPhase.isTemporary)
+        {
+            yield return new WaitForSeconds(0.1f);
+        }
+    }
+
     // TRIGGERS
 
     public static void CallRoundStartTrigger()

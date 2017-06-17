@@ -68,7 +68,6 @@ namespace SubPhases
 
         protected virtual void FinishAction()
         {
-            Debug.Log("Finish!");
             HideDiceResultMenu();
             Phases.FinishSubPhase(this.GetType());
         }

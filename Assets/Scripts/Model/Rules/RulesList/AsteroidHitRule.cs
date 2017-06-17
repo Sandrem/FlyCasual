@@ -37,7 +37,6 @@ namespace RulesList
                 {
                     Phases.StartTemporarySubPhase("Damage from asteroid collision", typeof(SubPhases.AsteroidHitCheckSubPhase));
                 }
-                Debug.Log("GO NEXT");
             }
         }
     }

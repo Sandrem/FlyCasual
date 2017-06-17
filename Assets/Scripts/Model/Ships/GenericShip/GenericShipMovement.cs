@@ -54,6 +54,13 @@ namespace Ship
         public IEnumerator FinishMoving()
         {
             if (OnMovementFinish != null) OnMovementFinish(this);
+
+            while (!Triggers.Empty)
+            {
+                Debug.Log("Call trigger!");
+                yield return Triggers.CallTrigger(TriggerTypes.OnShipMovementFinish);
+            }
+
             yield return Phases.WaitForTemporarySubPhasesFinish();
         }
 

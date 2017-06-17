@@ -550,8 +550,6 @@ public class ShipMovementScript : MonoBehaviour {
 
         Selection.ThisShip.AssignedManeuver = null;
 
-        Debug.Log("NEXT!");
-
         Phases.FinishSubPhase(typeof(SubPhases.MovementExecutionSubPhase));
     }
 

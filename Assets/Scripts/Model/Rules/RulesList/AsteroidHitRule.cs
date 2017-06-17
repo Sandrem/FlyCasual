@@ -30,14 +30,19 @@ namespace RulesList
         {
             if (Selection.ThisShip.ObstaclesHit.Count > 0)
             {
-                Game.UI.ShowError("Hit asteroid during movement - rolling for damage");
-
-                Selection.ActiveShip = Selection.ThisShip;
                 foreach (var asteroid in Selection.ThisShip.ObstaclesHit)
                 {
-                    Phases.StartTemporarySubPhase("Damage from asteroid collision", typeof(SubPhases.AsteroidHitCheckSubPhase));
+                    Triggers.AddTrigger("Roll for asteroid damage", TriggerTypes.OnShipMovementFinish, RollForDamage);
                 }
             }
+        }
+
+        private void RollForDamage(object sender, System.EventArgs e)
+        {
+            Game.UI.ShowError("Hit asteroid during movement - rolling for damage");
+
+            Selection.ActiveShip = Selection.ThisShip;
+            Phases.StartTemporarySubPhase("Damage from asteroid collision", typeof(SubPhases.AsteroidHitCheckSubPhase));
         }
     }
 }

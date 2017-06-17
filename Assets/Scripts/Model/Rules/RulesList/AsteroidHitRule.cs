@@ -58,8 +58,6 @@ namespace SubPhases
 
         protected override void CheckResults(DiceRoll diceRoll)
         {
-            CurentDiceRoll = diceRoll;
-
             switch (diceRoll.DiceList[0].Side)
             {
                 case DiceSide.Blank:

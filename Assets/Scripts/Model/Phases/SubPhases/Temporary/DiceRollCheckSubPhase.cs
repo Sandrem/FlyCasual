@@ -63,6 +63,7 @@ namespace SubPhases
 
         protected virtual void CheckResults(DiceRoll diceRoll)
         {
+            CurentDiceRoll = diceRoll;
             ShowConfirmDiceResultsButton();
         }
 

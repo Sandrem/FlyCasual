@@ -28,36 +28,9 @@ namespace CriticalHitCard
 
         private void RollForDamage(Ship.GenericShip host)
         {
-            Selection.ActiveShip = Selection.ThisShip;
+            Selection.ActiveShip = host;
             Phases.StartTemporarySubPhase("Console Fire", typeof(SubPhases.DiceRollSubPhase));
 
-            Combat.ShowDiceResultMenu(CloseWindow);
-
-            DiceRoll DiceRollCheck;
-            DiceRollCheck = new DiceRoll("attack", 1);
-            DiceRollCheck.Roll();
-            DiceRollCheck.CalculateResults(CheckResults);
-        }
-
-        private void CheckResults(DiceRoll diceRoll)
-        {
-            Combat.CurentDiceRoll = diceRoll;
-
-            if (diceRoll.DiceList[0].Side == DiceSide.Success)
-            {
-                Game.UI.ShowError("Console Fire: ship suffered damage");
-                Game.UI.AddTestLogEntry("Console Fire: ship suffered damage");
-                host.SufferDamage(diceRoll);
-            }
-            
-            Combat.ShowConfirmDiceResultsButton();
-        }
-
-        private void CloseWindow()
-        {
-            Phases.FinishSubPhase(typeof(SubPhases.DiceRollSubPhase));
-            Combat.HideDiceResultMenu();
-            Phases.Next();
         }
 
         public override void DiscardEffect(Ship.GenericShip host)
@@ -68,6 +41,36 @@ namespace CriticalHitCard
 
             host.AfterGenerateAvailableActionsList -= AddCancelCritAction;
         }
+    }
+
+}
+
+namespace SubPhases
+{
+
+    public class ConsoleFireCheckSubPhase : DiceRollCheckSubPhase
+    {
+
+        public override void Prepare()
+        {
+            dicesType = "attack";
+            dicesCount = 1;
+
+            checkResults = CheckResults;
+        }
+
+        protected override void CheckResults(DiceRoll diceRoll)
+        {
+            if (diceRoll.DiceList[0].Side == DiceSide.Success)
+            {
+                Game.UI.ShowError("Console Fire: ship suffered damage");
+                Game.UI.AddTestLogEntry("Console Fire: ship suffered damage");
+                Selection.ActiveShip.SufferDamage(diceRoll);
+            }
+
+            base.CheckResults(diceRoll);
+        }
+
     }
 
 }

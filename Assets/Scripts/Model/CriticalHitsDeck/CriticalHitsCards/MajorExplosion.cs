@@ -22,22 +22,30 @@ namespace CriticalHitCard
 
         private void RollForDamage(Ship.GenericShip host)
         {
-            //BUG: If few these crits in the same time
-            Selection.ActiveShip = Selection.ThisShip;
-            Phases.StartTemporarySubPhase("Major Explosion", typeof(SubPhases.DiceRollSubPhase));
-
-            Combat.ShowDiceResultMenu(CloseWindow);
-
-            DiceRoll DiceRollCheck;
-            DiceRollCheck = new DiceRoll("attack", 1);
-            DiceRollCheck.Roll();
-            DiceRollCheck.CalculateResults(CheckResults);
+            Selection.ActiveShip = host;
+            Phases.StartTemporarySubPhase("Major Explosion", typeof(SubPhases.MajorExplosionCheckSubPhase));
         }
 
-        private void CheckResults(DiceRoll diceRoll)
-        {
-            Combat.CurentDiceRoll = diceRoll;
+    }
 
+}
+
+namespace SubPhases
+{
+
+    public class MajorExplosionCheckSubPhase : DiceRollCheckSubPhase
+    {
+
+        public override void Prepare()
+        {
+            dicesType = "attack";
+            dicesCount = 1;
+
+            checkResults = CheckResults;
+        }
+
+        protected override void CheckResults(DiceRoll diceRoll)
+        {
             if (diceRoll.DiceList[0].Side == DiceSide.Success)
             {
                 Game.UI.ShowError("Major Explosion: Suffer 1 additional critical damage");
@@ -45,17 +53,10 @@ namespace CriticalHitCard
 
                 DiceRoll damageRoll = new DiceRoll("attack", 0);
                 damageRoll.DiceList.Add(new Dice("attack", DiceSide.Crit));
-                host.SufferDamage(damageRoll);
+                Selection.ActiveShip.SufferDamage(damageRoll);
             }
 
-            Combat.ShowConfirmDiceResultsButton();
-        }
-
-        private void CloseWindow()
-        {
-            Phases.FinishSubPhase(typeof(SubPhases.DiceRollSubPhase));
-            Combat.HideDiceResultMenu();
-            Phases.Next();
+            base.CheckResults(diceRoll);
         }
 
     }

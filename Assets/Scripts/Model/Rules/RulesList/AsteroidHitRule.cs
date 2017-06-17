@@ -35,20 +35,32 @@ namespace RulesList
                 Selection.ActiveShip = Selection.ThisShip;
                 foreach (var asteroid in Selection.ThisShip.ObstaclesHit)
                 {
-                    Phases.StartTemporarySubPhase("Damage from asteroid collision", typeof(SubPhases.DiceRollSubPhase));
-                    Combat.ShowDiceResultMenu(FinishCheck);
-
-                    DiceRoll DiceRollCheck;
-                    DiceRollCheck = new DiceRoll("attack", 1);
-                    DiceRollCheck.Roll();
-                    DiceRollCheck.CalculateResults(CheckResults);
+                    Phases.StartTemporarySubPhase("Damage from asteroid collision", typeof(SubPhases.AsteroidHitCheckSubPhase));
                 }
+                Debug.Log("GO NEXT");
             }
         }
+    }
+}
 
-        private void CheckResults(DiceRoll diceRoll)
+namespace SubPhases
+{
+
+    public class AsteroidHitCheckSubPhase : DiceRollCheckSubPhase
+    {
+
+        public override void Prepare()
         {
-            Combat.CurentDiceRoll = diceRoll;
+            dicesType = "attack";
+            dicesCount = 1;
+
+            checkResults = CheckResults;
+        }
+
+        protected override void CheckResults(DiceRoll diceRoll)
+        {
+            CurentDiceRoll = diceRoll;
+
             switch (diceRoll.DiceList[0].Side)
             {
                 case DiceSide.Blank:
@@ -68,14 +80,10 @@ namespace RulesList
                 default:
                     break;
             }
-            Combat.ShowConfirmDiceResultsButton();
-        }
 
-        private void FinishCheck()
-        {
-            Phases.FinishSubPhase(typeof(SubPhases.DiceRollSubPhase));
-            Combat.HideDiceResultMenu();
+            base.CheckResults(diceRoll);
         }
 
     }
+
 }

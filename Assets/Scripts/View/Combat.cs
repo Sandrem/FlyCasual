@@ -40,6 +40,7 @@ public static partial class Combat
         Roster.GetPlayer(Selection.ActiveShip.Owner.PlayerNo).UseDiceModifications();
     }
 
+    //TODO: Remove
     public static void ShowConfirmDiceResultsButton()
     {
         if (Roster.GetPlayer(Selection.ActiveShip.Owner.PlayerNo).GetType() == typeof(Players.HumanPlayer))
@@ -70,6 +71,8 @@ public static partial class Combat
         newButton.SetActive(true);
     }
 
+
+    //REMOVE
     public static void HideDiceModificationButtons()
     {
         foreach (Transform button in Game.PrefabsList.DiceResultsMenu.transform)
@@ -82,6 +85,8 @@ public static partial class Combat
         Game.PrefabsList.DiceResultsMenu.transform.Find("Confirm").gameObject.SetActive(false);
     }
 
+
+    // REMOVE
     public static void HideDiceResultMenu()
     {
         Game.PrefabsList.DiceResultsMenu.SetActive(false);

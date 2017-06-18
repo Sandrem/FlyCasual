@@ -23,9 +23,9 @@ namespace CriticalHitCard
 
         private void ApplyDelayedEffect()
         {
-            host.AfterGetPilotSkill += SetPilotSkill0;
-            host.AssignToken(new Tokens.DamagedCockpitCritToken());
-            Roster.UpdateShipStats(host);
+            Host.AfterGetPilotSkill += SetPilotSkill0;
+            Host.AssignToken(new Tokens.DamagedCockpitCritToken());
+            Roster.UpdateShipStats(Host);
         }
 
         public override void DiscardEffect(Ship.GenericShip host)

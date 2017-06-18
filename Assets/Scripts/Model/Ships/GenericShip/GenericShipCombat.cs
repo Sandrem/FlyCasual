@@ -131,9 +131,8 @@ namespace Ship
 
         // DAMAGE
 
-        public void SufferDamage(DiceRoll damage)
+        public IEnumerator SufferDamage(DiceRoll damage)
         {
-
             int shieldsBefore = Shields;
 
             Shields = Mathf.Max(Shields - damage.Successes, 0);
@@ -148,17 +147,23 @@ namespace Ship
                     {
                         if (CheckFaceupCrit(dice))
                         {
-                            CriticalHitsDeck.DrawCrit(this);
+                            Triggers.AddTrigger("Draw faceup damage card", TriggerTypes.OnDamageCardIsDealt, CriticalHitsDeck.DrawCrit, this);
                         }
                         else
                         {
-                            SufferHullDamage();
+                            Triggers.AddTrigger("Draw damage card", TriggerTypes.OnDamageCardIsDealt, CriticalHitsDeck.DrawRegular, this);
                         }
                     }
                 }
+                yield return Triggers.ResolveAllTriggers(TriggerTypes.OnDamageCardIsDealt);
             }
 
-            AfterAssignedDamageIsChanged(this);
+            CallAfterAssignedDamageIsChanged();
+        }
+
+        public void CallAfterAssignedDamageIsChanged()
+        {
+            if (AfterAssignedDamageIsChanged != null) AfterAssignedDamageIsChanged(this);
         }
 
         private bool CheckFaceupCrit(Dice dice)
@@ -177,6 +182,8 @@ namespace Ship
             Hull--;
             Hull = Mathf.Max(Hull, 0);
 
+            CallAfterAssignedDamageIsChanged();
+
             IsHullDestroyedCheck();
         }
 
@@ -187,6 +194,7 @@ namespace Ship
             if (crit != null)
             {
                 SufferHullDamage();
+
                 AssignedCritCards.Add(crit);
                 crit.AssignCrit(this);
             }

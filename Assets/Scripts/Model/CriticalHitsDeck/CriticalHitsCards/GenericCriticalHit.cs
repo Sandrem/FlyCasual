@@ -9,7 +9,7 @@ namespace CriticalHitCard
     {
         protected GameManagerScript Game;
 
-        protected Ship.GenericShip host;
+        protected Ship.GenericShip Host;
 
         public string Name;
         public CriticalCardType Type;
@@ -23,7 +23,7 @@ namespace CriticalHitCard
 
         public void AssignCrit(Ship.GenericShip host)
         {
-            this.host = host;
+            this.Host = host;
             Inform();
             ApplyEffect(host);
         }

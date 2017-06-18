@@ -114,12 +114,12 @@ public static partial class Combat
         ShowDiceModificationButtons();
     }
 
-    public static void CalculateAttackResults(Ship.GenericShip attacker, Ship.GenericShip defender)
+    public static IEnumerator CalculateAttackResults(Ship.GenericShip attacker, Ship.GenericShip defender)
     {
         DiceRollAttack.CancelHits(DiceRollDefence.Successes);
         if (DiceRollAttack.Successes != 0)
         {
-            defender.SufferDamage(DiceRollAttack);
+            yield return defender.SufferDamage(DiceRollAttack);
         }
         CallCombatEndEvents();
     }
@@ -170,17 +170,18 @@ public static partial class Combat
     public static void ConfirmDefenceDiceResults()
     {
         HideDiceResultMenu();
-
-        //TODO: Show compare results dialog
-        CalculateAttackResults(Selection.ThisShip, Selection.AnotherShip);
-
         MovementTemplates.ReturnRangeRuler();
+        Game.StartCoroutine(DealDamage());
+    }
+
+    private static IEnumerator DealDamage()
+    {
+        yield return CalculateAttackResults(Selection.ThisShip, Selection.AnotherShip);
 
         if (Roster.NoSamePlayerAndPilotSkillNotAttacked(Selection.ThisShip))
         {
             Phases.CurrentSubPhase.Next();
         }
-
     }
 
 }

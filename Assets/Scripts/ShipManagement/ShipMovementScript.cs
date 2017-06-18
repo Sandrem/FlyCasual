@@ -533,9 +533,15 @@ public class ShipMovementScript : MonoBehaviour {
         CurrentMovementData.IsMoving = false;
         PreviousMovementData = new MovementExecutionData();
 
+        Game.StartCoroutine(FinishMovementCoroutine());
+    }
+
+    private IEnumerator FinishMovementCoroutine()
+    {
         Selection.ThisShip.CheckLandedOnObstacle();
 
-        Selection.ThisShip.FinishMoving();
+        yield return Selection.ThisShip.FinishMoving();
+
         Selection.ThisShip.FinishPosition();
 
         Selection.ThisShip.ResetRotationHelpers();
@@ -546,7 +552,7 @@ public class ShipMovementScript : MonoBehaviour {
 
         Phases.FinishSubPhase(typeof(SubPhases.MovementExecutionSubPhase));
     }
-    
+
     private void RevertMove()
     {
         CurrentMovementData.CollisionReverting = true;

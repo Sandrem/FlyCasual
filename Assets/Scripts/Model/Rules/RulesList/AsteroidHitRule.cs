@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 namespace RulesList
 {
@@ -30,25 +31,41 @@ namespace RulesList
         {
             if (Selection.ThisShip.ObstaclesHit.Count > 0)
             {
-                Game.UI.ShowError("Hit asteroid during movement - rolling for damage");
-
-                Selection.ActiveShip = Selection.ThisShip;
                 foreach (var asteroid in Selection.ThisShip.ObstaclesHit)
                 {
-                    Phases.StartTemporarySubPhase("Damage from asteroid collision", typeof(SubPhases.DiceRollSubPhase));
-                    Combat.ShowDiceResultMenu(FinishCheck);
-
-                    DiceRoll DiceRollCheck;
-                    DiceRollCheck = new DiceRoll("attack", 1);
-                    DiceRollCheck.Roll();
-                    DiceRollCheck.CalculateResults(CheckResults);
+                    Triggers.AddTrigger("Roll for asteroid damage", TriggerTypes.OnShipMovementFinish, RollForDamage, Selection.ThisShip);
                 }
             }
         }
 
-        private void CheckResults(DiceRoll diceRoll)
+        private void RollForDamage(object sender, System.EventArgs e)
         {
-            Combat.CurentDiceRoll = diceRoll;
+            Game.UI.ShowError("Hit asteroid during movement - rolling for damage");
+
+            Selection.ActiveShip = Selection.ThisShip;
+            Phases.StartTemporarySubPhase("Damage from asteroid collision", typeof(SubPhases.AsteroidHitCheckSubPhase));
+        }
+    }
+}
+
+namespace SubPhases
+{
+
+    public class AsteroidHitCheckSubPhase : DiceRollCheckSubPhase
+    {
+
+        public override void Prepare()
+        {
+            dicesType = "attack";
+            dicesCount = 1;
+
+            checkResults = CheckResults;
+        }
+
+        protected override void CheckResults(DiceRoll diceRoll)
+        {
+            Selection.ActiveShip = Selection.ThisShip;
+
             switch (diceRoll.DiceList[0].Side)
             {
                 case DiceSide.Blank:
@@ -59,23 +76,19 @@ namespace RulesList
                     break;
                 case DiceSide.Success:
                     Game.UI.ShowError("Damage is dealt!");
-                    Selection.ThisShip.SufferDamage(diceRoll);
+                    Game.StartCoroutine(Selection.ActiveShip.SufferDamage(diceRoll));
                     break;
                 case DiceSide.Crit:
                     Game.UI.ShowError("Critical damage is dealt!");
-                    Selection.ThisShip.SufferDamage(diceRoll);
+                    Game.StartCoroutine(Selection.ActiveShip.SufferDamage(diceRoll));
                     break;
                 default:
                     break;
             }
-            Combat.ShowConfirmDiceResultsButton();
-        }
 
-        private void FinishCheck()
-        {
-            Phases.FinishSubPhase(typeof(SubPhases.DiceRollSubPhase));
-            Combat.HideDiceResultMenu();
+            base.CheckResults(diceRoll);
         }
 
     }
+
 }

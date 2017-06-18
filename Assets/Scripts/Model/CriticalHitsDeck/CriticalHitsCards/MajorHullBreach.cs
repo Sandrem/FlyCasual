@@ -39,7 +39,7 @@ namespace CriticalHitCard
         private void DealDamageCardFaceupStart()
         {
             Phases.OnPlanningPhaseStart -= DealDamageCardFaceupStart;
-            host.OnCheckFaceupCrit += DealDamageCardFaceup;
+            Host.OnCheckFaceupCrit += DealDamageCardFaceup;
         }
 
         private void DealDamageCardFaceup(ref bool result)

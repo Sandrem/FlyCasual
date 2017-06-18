@@ -133,15 +133,12 @@ namespace Ship
 
         public IEnumerator SufferDamage(DiceRoll damage)
         {
-            Debug.Log("Suffer damage");
-
             int shieldsBefore = Shields;
 
             Shields = Mathf.Max(Shields - damage.Successes, 0);
 
             damage.CancelHits(shieldsBefore - Shields);
 
-            Debug.Log("After cancellations by shields: " + damage.Successes);
             if (damage.Successes != 0)
             {
                 foreach (Dice dice in damage.DiceList)

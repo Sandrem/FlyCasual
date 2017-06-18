@@ -40,8 +40,10 @@ public static partial class Triggers
         get { return simultaneousTriggers.Count == 0; }
     }
 
-    static Dictionary<int, Trigger> simultaneousTriggers = new Dictionary<int, Trigger>();
-    static List<Dictionary<int, Trigger>> stackedTriggers = new List<Dictionary<int, Trigger>>();
+    public static Players.PlayerNo CurrentPlayer { get; private set; }
+
+    private static Dictionary<int, Trigger> simultaneousTriggers = new Dictionary<int, Trigger>();
+    private static List<Dictionary<int, Trigger>> stackedTriggers = new List<Dictionary<int, Trigger>>();
 
     public static void AddTrigger(string name, TriggerTypes triggerType, EventHandler triggerExecution, object sender)
     {
@@ -95,10 +97,26 @@ public static partial class Triggers
 
     private static IEnumerator CallTrigger(TriggerTypes triggerType)
     {
-        Dictionary<int, Trigger> results = GetAllTriggersByType(triggerType);
+        while (GetAllTriggersByTypeAndPlayer(Phases.PlayerWithInitiative, triggerType).Count > 0)
+        {
+            yield return CallTriggerForPlayer(Phases.PlayerWithInitiative, triggerType);
+        }
+
+        while (GetAllTriggersByTypeAndPlayer(Roster.AnotherPlayer(Phases.PlayerWithInitiative), triggerType).Count > 0)
+        {
+            yield return CallTriggerForPlayer(Roster.AnotherPlayer(Phases.PlayerWithInitiative), triggerType);
+        }
+    }
+
+    private static IEnumerator CallTriggerForPlayer(Players.PlayerNo playerNo, TriggerTypes triggerType)
+    {
+        CurrentPlayer = playerNo;
+
+        Dictionary<int, Trigger> results = GetAllTriggersByTypeAndPlayer(playerNo, triggerType);
 
         Debug.Log("Trigger + \"" + triggerType + "\" is called. Subscribed by: " + results.Count);
-        if (results.Count == 1) {
+        if (results.Count == 1)
+        {
             RemoveTrigger(results.First().Value.Id);
             results.First().Value.TriggerExecution.Invoke(results.First().Value.Sender, null);
         }
@@ -108,6 +126,20 @@ public static partial class Triggers
             Phases.StartTemporarySubPhase("Triggers Order", typeof(TriggersOrderSubPhase));
             yield return Phases.WaitForTemporarySubPhasesFinish();
         }
+    }
+
+    //TODO: Rewrite two next methods into one
+
+    private static Dictionary<int, Trigger> GetAllTriggersByTypeAndPlayer(Players.PlayerNo playerNo, TriggerTypes type)
+    {
+        var rawResults =
+            from n in simultaneousTriggers
+            where n.Value.TriggerType == type
+            where (n.Value.Sender as Ship.GenericShip).Owner.PlayerNo == playerNo
+            select n;
+        Dictionary<int, Trigger> results = rawResults.ToDictionary(n => n.Key, n => n.Value);
+
+        return results;
     }
 
     private static Dictionary<int, Trigger> GetAllTriggersByType(TriggerTypes type)
@@ -131,19 +163,25 @@ public static partial class Triggers
 
             foreach (var trigger in simultaneousTriggers)
             {
-                string name = trigger.Value.Name;
-                while (decisions.ContainsKey(name))
+                if ((trigger.Value.Sender as Ship.GenericShip).Owner.PlayerNo == Triggers.CurrentPlayer)
                 {
-                    name = trigger.Value.Name + " #" + counter++;
+                    string name = trigger.Value.Name;
+                    while (decisions.ContainsKey(name))
+                    {
+                        name = trigger.Value.Name + " #" + counter++;
+                    }
+                    decisions.Add(name, delegate {
+                        Phases.FinishSubPhase(this.GetType());
+                        RemoveTrigger(trigger.Value.Id);
+                        trigger.Value.TriggerExecution.Invoke(trigger.Value.Sender, null);
+                    });
+
                 }
-                decisions.Add(name, delegate {
-                    Phases.FinishSubPhase(this.GetType());
-                    RemoveTrigger(trigger.Value.Id);
-                    trigger.Value.TriggerExecution.Invoke(trigger.Value.Sender, null);
-                });
             }
 
+            Debug.Log(decisions.Count);
             defaultDecision = decisions.First().Key;
+            
         }
 
     }

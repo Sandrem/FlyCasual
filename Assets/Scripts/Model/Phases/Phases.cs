@@ -57,15 +57,15 @@ public static partial class Phases
     {
         if (CurrentSubPhase.GetType() == subPhaseType)
         {
-            Debug.Log("Phase is finished directly");
+            Debug.Log("Phase " + subPhaseType + "is finished directly");
             Next();
         }
         else
         {
-            Debug.Log("Oops! You want to finish wrong phase!");
+            Debug.Log("Oops! You want to finish " + subPhaseType +" subphase, but now is " + CurrentSubPhase.GetType() + " subphase!");
             if (!subPhasesToFinish.Contains(subPhaseType))
             {
-                Debug.Log("Phase is planned to finish");
+                Debug.Log("Phase " + subPhaseType + " is planned to finish");
                 subPhasesToFinish.Add(subPhaseType);
             }
         }
@@ -188,7 +188,7 @@ public static partial class Phases
     {
         if (!InTemporarySubPhase)
         {
-            Debug.Log("Temporary phase is started directly");
+            Debug.Log("Temporary phase " + subPhaseType + " is started directly");
             GenericSubPhase previousSubPhase = CurrentSubPhase;
             CurrentSubPhase = (GenericSubPhase)System.Activator.CreateInstance(subPhaseType);
             CurrentSubPhase.Name = name;
@@ -199,7 +199,7 @@ public static partial class Phases
         }
         else
         {
-            Debug.Log("Temporary phase is delayed");
+            Debug.Log("Temporary phase " + subPhaseType + " start is delayed");
             subPhasesToStart.Add(subPhaseType);
         }
     }

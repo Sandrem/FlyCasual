@@ -59,7 +59,7 @@ namespace SubPhases
 
         private IEnumerator DealDamage()
         {
-            Triggers.AddTrigger("Draw faceup damage card", TriggerTypes.OnDamageCardIsDealt, CriticalHitsDeck.DrawCrit);
+            Triggers.AddTrigger("Draw faceup damage card", TriggerTypes.OnDamageCardIsDealt, CriticalHitsDeck.DrawCrit, Selection.ActiveShip);
             yield return Triggers.ResolveAllTriggers(TriggerTypes.OnDamageCardIsDealt);
         }
 

@@ -33,7 +33,7 @@ namespace RulesList
             {
                 foreach (var asteroid in Selection.ThisShip.ObstaclesHit)
                 {
-                    Triggers.AddTrigger("Roll for asteroid damage", TriggerTypes.OnShipMovementFinish, RollForDamage);
+                    Triggers.AddTrigger("Roll for asteroid damage", TriggerTypes.OnShipMovementFinish, RollForDamage, Selection.ThisShip);
                 }
             }
         }

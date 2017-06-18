@@ -20,13 +20,15 @@ public static partial class Triggers
         public string Name { get; private set; }
         public TriggerTypes TriggerType { get; private set; }
         public EventHandler TriggerExecution { get; private set; }
+        public object Sender { get; private set; }
         public int Id { get; private set; }
 
-        public Trigger(string name, TriggerTypes triggerType, EventHandler triggerExecution)
+        public Trigger(string name, TriggerTypes triggerType, EventHandler triggerExecution, object sender)
         {
             Name = name;
             TriggerType = triggerType;
             TriggerExecution = triggerExecution;
+            Sender = sender;
             Id = counter++;
         }
     };
@@ -41,10 +43,10 @@ public static partial class Triggers
     static Dictionary<int, Trigger> simultaneousTriggers = new Dictionary<int, Trigger>();
     static List<Dictionary<int, Trigger>> stackedTriggers = new List<Dictionary<int, Trigger>>();
 
-    public static void AddTrigger(string name, TriggerTypes triggerType, EventHandler triggerExecution)
+    public static void AddTrigger(string name, TriggerTypes triggerType, EventHandler triggerExecution, object sender)
     {
         Debug.Log("Trigger \"" + name + "\" is registered. Id " + counter + ". Active: " + (simultaneousTriggers.Count+1));
-        simultaneousTriggers.Add(counter, new Trigger(name, triggerType, triggerExecution));
+        simultaneousTriggers.Add(counter, new Trigger(name, triggerType, triggerExecution, sender));
     }
 
     public static void RemoveTrigger(int id)
@@ -98,7 +100,7 @@ public static partial class Triggers
         Debug.Log("Trigger + \"" + triggerType + "\" is called. Subscribed by: " + results.Count);
         if (results.Count == 1) {
             RemoveTrigger(results.First().Value.Id);
-            results.First().Value.TriggerExecution.Invoke(null, null);
+            results.First().Value.TriggerExecution.Invoke(results.First().Value.Sender, null);
         }
         else if (results.Count > 1)
         {
@@ -137,7 +139,7 @@ public static partial class Triggers
                 decisions.Add(name, delegate {
                     Phases.FinishSubPhase(this.GetType());
                     RemoveTrigger(trigger.Value.Id);
-                    trigger.Value.TriggerExecution.Invoke(null, null);
+                    trigger.Value.TriggerExecution.Invoke(trigger.Value.Sender, null);
                 });
             }
 

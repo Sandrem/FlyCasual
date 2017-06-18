@@ -133,6 +133,7 @@ namespace Ship
 
         public IEnumerator SufferDamage(DiceRoll damage)
         {
+            Debug.Log("Suffer damage");
 
             int shieldsBefore = Shields;
 
@@ -140,6 +141,7 @@ namespace Ship
 
             damage.CancelHits(shieldsBefore - Shields);
 
+            Debug.Log("After cancellations by shields: " + damage.Successes);
             if (damage.Successes != 0)
             {
                 foreach (Dice dice in damage.DiceList)
@@ -148,19 +150,17 @@ namespace Ship
                     {
                         if (CheckFaceupCrit(dice))
                         {
-                            Triggers.AddTrigger("Draw faceup damage card", TriggerTypes.OnDamageCardIsDealt, CriticalHitsDeck.DrawCrit);
-                            //CriticalHitsDeck.DrawCrit(this);
+                            Triggers.AddTrigger("Draw faceup damage card", TriggerTypes.OnDamageCardIsDealt, CriticalHitsDeck.DrawCrit, this);
                         }
                         else
                         {
-                            Triggers.AddTrigger("Draw faceup damage card", TriggerTypes.OnDamageCardIsDealt, CriticalHitsDeck.DrawRegular);
-                            //SufferHullDamage();
+                            // Temporary
+                            Triggers.AddTrigger("Draw faceup damage card", TriggerTypes.OnDamageCardIsDealt, CriticalHitsDeck.DrawCrit, this);
                         }
                     }
                 }
+                yield return Triggers.ResolveAllTriggers(TriggerTypes.OnDamageCardIsDealt);
             }
-
-            yield return Triggers.ResolveAllTriggers(TriggerTypes.OnDamageCardIsDealt);
 
             CallAfterAssignedDamageIsChanged();
         }

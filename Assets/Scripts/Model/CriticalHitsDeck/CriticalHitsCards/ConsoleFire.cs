@@ -29,12 +29,12 @@ namespace CriticalHitCard
 
         private void PlanRollForDamage(Ship.GenericShip host)
         {
-            Selection.ActiveShip = host;
-            Triggers.AddTrigger("Console Fire Crit", TriggerTypes.OnCombatPhaseStart, RollForDamage);
+            Triggers.AddTrigger("#" + host.ShipId + ": Console Fire Crit", TriggerTypes.OnCombatPhaseStart, RollForDamage, host);
         }
 
         private void RollForDamage(object sender, EventArgs e)
         {
+            Selection.ActiveShip = Host;
             Phases.StartTemporarySubPhase("Console Fire", typeof(SubPhases.ConsoleFireCheckSubPhase));
         }
 

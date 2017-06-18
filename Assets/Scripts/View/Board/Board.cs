@@ -98,12 +98,13 @@ public static partial class Board {
     {
         Vector3 vectorToTarget = thisShip.GetClosestFiringEdgesTo(anotherShip)["another"] - thisShip.GetClosestFiringEdgesTo(anotherShip)["this"];
 
-        if (Vector3.Angle(thisShip.GetFrontFacing(), vectorToTarget) > 40)
+        // Here range ruler can be blocked if enemy is out of arc
+        /*if (Mathf.Abs(Vector3.Angle(thisShip.GetFrontFacing(), vectorToTarget)) > 40)
         {
             float newVectorX = vectorToTarget.z / Mathf.Tan(Mathf.Deg2Rad * 180 - 40);
-            float direction = (vectorToTarget.x >= 0) ? 1 : -1;
-            vectorToTarget = new Vector3(direction * newVectorX, vectorToTarget.y, vectorToTarget.z);
-        }
+            //float direction = (vectorToTarget.x >= 0) ? 1 : -1;
+            vectorToTarget = new Vector3(newVectorX, vectorToTarget.y, vectorToTarget.z);
+        }*/
 
         return vectorToTarget;
     }

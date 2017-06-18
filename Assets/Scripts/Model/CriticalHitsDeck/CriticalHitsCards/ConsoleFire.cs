@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -21,22 +22,27 @@ namespace CriticalHitCard
             Game.UI.AddTestLogEntry("At the start of each Combat phase, roll 1 attack die.");
             host.AssignToken(new Tokens.ConsoleFireCritToken());
 
-            host.OnCombatPhaseStart += RollForDamage;
+            host.OnCombatPhaseStart += PlanRollForDamage;
 
             host.AfterGenerateAvailableActionsList += AddCancelCritAction;
         }
 
-        private void RollForDamage(Ship.GenericShip host)
+        private void PlanRollForDamage(Ship.GenericShip host)
         {
             Selection.ActiveShip = host;
-            Phases.StartTemporarySubPhase("Console Fire", typeof(SubPhases.DiceRollSubPhase));
+            Triggers.AddTrigger("Console Fire Crit", TriggerTypes.OnCombatPhaseStart, RollForDamage);
+        }
+
+        private void RollForDamage(object sender, EventArgs e)
+        {
+            Phases.StartTemporarySubPhase("Console Fire", typeof(SubPhases.ConsoleFireCheckSubPhase));
         }
 
         public override void DiscardEffect(Ship.GenericShip host)
         {
             host.RemoveToken(typeof(Tokens.ConsoleFireCritToken));
 
-            host.OnCombatPhaseStart -= RollForDamage;
+            host.OnCombatPhaseStart -= PlanRollForDamage;
 
             host.AfterGenerateAvailableActionsList -= AddCancelCritAction;
         }
@@ -64,7 +70,7 @@ namespace SubPhases
             {
                 Game.UI.ShowError("Console Fire: ship suffered damage");
                 Game.UI.AddTestLogEntry("Console Fire: ship suffered damage");
-                Selection.ActiveShip.SufferDamage(diceRoll);
+                Game.StartCoroutine(Selection.ActiveShip.SufferDamage(diceRoll));
             }
 
             base.CheckResults(diceRoll);

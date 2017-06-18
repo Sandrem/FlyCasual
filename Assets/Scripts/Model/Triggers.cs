@@ -9,6 +9,7 @@ public enum TriggerTypes
 {
     None,
     OnShipMovementFinish,
+    OnCombatPhaseStart,
     OnDamageCardIsDealt
 }
 
@@ -78,7 +79,9 @@ public static partial class Triggers
             if (filteredTriggers.Count == 0)
             {
                 Debug.Log("But all triggers with this type is already resolved!");
+                Debug.Log("Current level of stack: " + stackedTriggers.Count);
                 stackedTriggers.Remove(stackedTriggers.Last());
+                Debug.Log("Changed level of stack: " + stackedTriggers.Count);
 
                 triggerType = stackedTriggers[stackedTriggers.Count - 1].Last().Value.TriggerType;
                 Debug.Log("Return to previous level of triggers: " + triggerType);

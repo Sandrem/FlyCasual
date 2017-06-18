@@ -57,12 +57,15 @@ public static partial class Phases
     {
         if (CurrentSubPhase.GetType() == subPhaseType)
         {
+            Debug.Log("Phase is finished directly");
             Next();
         }
         else
         {
+            Debug.Log("Oops! You want to finish wrong phase!");
             if (!subPhasesToFinish.Contains(subPhaseType))
             {
+                Debug.Log("Phase is planned to finish");
                 subPhasesToFinish.Add(subPhaseType);
             }
         }
@@ -159,6 +162,14 @@ public static partial class Phases
         {
             shipHolder.Value.CallOnCombatPhaseStart();
         }
+        Game.StartCoroutine(ResolveCombatTriggers());
+    }
+
+    private static IEnumerator ResolveCombatTriggers()
+    {
+        yield return Triggers.ResolveAllTriggers(TriggerTypes.OnCombatPhaseStart);
+        Debug.Log("All pre-Combat Triggers are resolved, START OF COMBAT!");
+        CurrentSubPhase.Initialize();
     }
 
     public static void CallEndPhaseTrigger()
@@ -177,6 +188,7 @@ public static partial class Phases
     {
         if (!InTemporarySubPhase)
         {
+            Debug.Log("Temporary phase is started directly");
             GenericSubPhase previousSubPhase = CurrentSubPhase;
             CurrentSubPhase = (GenericSubPhase)System.Activator.CreateInstance(subPhaseType);
             CurrentSubPhase.Name = name;
@@ -187,6 +199,7 @@ public static partial class Phases
         }
         else
         {
+            Debug.Log("Temporary phase is delayed");
             subPhasesToStart.Add(subPhaseType);
         }
     }

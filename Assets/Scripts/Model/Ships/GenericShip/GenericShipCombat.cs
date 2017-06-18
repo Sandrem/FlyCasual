@@ -151,8 +151,7 @@ namespace Ship
                         }
                         else
                         {
-                            // Temporary
-                            Triggers.AddTrigger("Draw faceup damage card", TriggerTypes.OnDamageCardIsDealt, CriticalHitsDeck.DrawCrit, this);
+                            Triggers.AddTrigger("Draw damage card", TriggerTypes.OnDamageCardIsDealt, CriticalHitsDeck.DrawRegular, this);
                         }
                     }
                 }

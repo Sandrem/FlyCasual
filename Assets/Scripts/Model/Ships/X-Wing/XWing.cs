@@ -15,9 +15,9 @@ namespace Ship
                 ManeuversImageUrl = "https://vignette1.wikia.nocookie.net/xwing-miniatures/images/3/3d/MR_T65-X-WING.png";
 
                 Firepower = 3;
-                Agility = 1;
-                MaxHull = 10;
-                MaxShields = 0;
+                Agility = 2;
+                MaxHull = 3;
+                MaxShields = 2;
 
                 AddUpgradeSlot(Upgrade.UpgradeSlot.Astromech);
                 AddUpgradeSlot(Upgrade.UpgradeSlot.Torpedoes);

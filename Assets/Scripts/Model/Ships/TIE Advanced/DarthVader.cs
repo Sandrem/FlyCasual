@@ -8,6 +8,8 @@ namespace Ship
     {
         public class DarthVader : TIEAdvanced
         {
+            private bool IsAbilityUsed;
+
             public DarthVader() : base()
             {
                 PilotName = "Darth Vader";
@@ -21,9 +23,26 @@ namespace Ship
             public override void InitializePilot()
             {
                 base.InitializePilot();
-                // TODO:
-                // After action subphase - call free action with * paramters
+
+                AfterActionIsPerformed += DoSecondAction;
+                Phases.OnEndPhaseStart += ReactivateAbility;
             }
+
+            private void DoSecondAction(GenericShip ship, System.Type type)
+            {
+                if (!IsAbilityUsed)
+                {
+                    IsAbilityUsed = true;
+                    List<ActionsList.GenericAction> actions = new List<ActionsList.GenericAction>() { new ActionsList.FocusAction() };
+                    AskPerformFreeAction(actions);
+                }
+            }
+
+            private void ReactivateAbility()
+            {
+                IsAbilityUsed = false;
+            }
+
         }
     }
 }

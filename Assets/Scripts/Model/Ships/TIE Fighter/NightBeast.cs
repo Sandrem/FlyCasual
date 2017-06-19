@@ -20,14 +20,21 @@ namespace Ship
             public override void InitializePilot()
             {
                 base.InitializePilot();
-                OnMovementFinishWithoutColliding += NightBeastPilotAbility;
+                OnMovementFinish += NightBeastPilotAbility;
             }
 
-            private void NightBeastPilotAbility(Ship.GenericShip ship)
+            private void NightBeastPilotAbility(GenericShip ship)
             {
-                if (AssignedManeuver.ColorComplexity == ManeuverColor.Green) {
-                    AskPerformFreeAction(new ActionsList.FocusAction());
+                if (AssignedManeuver.ColorComplexity == ManeuverColor.Green)
+                {
+                    Triggers.AddTrigger("Night Beast: Free Focus action", TriggerTypes.OnShipMovementFinish, PefrormFreeFocusAction, ship);
                 }
+            }
+
+            private void PefrormFreeFocusAction(object sender, System.EventArgs e)
+            {
+                List<ActionsList.GenericAction> actions = new List<ActionsList.GenericAction>() { new ActionsList.FocusAction() };
+                AskPerformFreeAction(actions);
             }
         }
     }

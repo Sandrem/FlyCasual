@@ -44,7 +44,7 @@ namespace SubPhases
         {
             Selection.ThisShip.CallAfterActionIsPerformed(this.GetType());
 
-            if (Phases.CurrentPhase.GetType() == this.GetType())
+            if (Phases.CurrentSubPhase.GetType() == this.GetType())
             {
                 FinishPhase();
             }

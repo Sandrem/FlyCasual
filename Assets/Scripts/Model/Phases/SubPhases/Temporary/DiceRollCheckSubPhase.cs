@@ -42,6 +42,7 @@ namespace SubPhases
 
         public void ShowConfirmDiceResultsButton()
         {
+            // BUG after koiogran asteroid
             if (Roster.GetPlayer(Selection.ActiveShip.Owner.PlayerNo).GetType() == typeof(Players.HumanPlayer))
             {
                 Button closeButton = Game.PrefabsList.DiceResultsMenu.transform.Find("Confirm").GetComponent<Button>();

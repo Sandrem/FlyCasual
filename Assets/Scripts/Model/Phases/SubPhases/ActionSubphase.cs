@@ -42,6 +42,16 @@ namespace SubPhases
 
         public override void Next()
         {
+            Selection.ThisShip.CallAfterActionIsPerformed(this.GetType());
+
+            if (Phases.CurrentPhase.GetType() == this.GetType())
+            {
+                FinishPhase();
+            }
+        }
+
+        public override void FinishPhase()
+        {
             GenericSubPhase activationSubPhase = new ActivationSubPhase();
             Phases.CurrentSubPhase = activationSubPhase;
             Phases.CurrentSubPhase.Start();

@@ -25,6 +25,8 @@ namespace SubPhases
             Prepare();
             Initialize();
 
+            CanBePaused = true;
+
             UpdateHelpInfo();
         }
 
@@ -58,6 +60,7 @@ namespace SubPhases
                 if ((range >= minRange) && (range <= maxRange))
                 {
                     TargetShip = ship;
+                    Game.UI.HideNextButton();
                     MovementTemplates.ShowRange(Selection.ActiveShip, TargetShip);
                     finishAction.Invoke();
                     Phases.FinishSubPhase(this.GetType());
@@ -85,6 +88,7 @@ namespace SubPhases
                 int range = Actions.GetRange(Selection.ActiveShip, anotherShip);
                 if( (range >= minRange) && (range <= maxRange))
                 {
+                    Game.UI.HideNextButton();
                     TargetShip = anotherShip;
                     MovementTemplates.ShowRange(Selection.ActiveShip, TargetShip);
                     finishAction.Invoke();

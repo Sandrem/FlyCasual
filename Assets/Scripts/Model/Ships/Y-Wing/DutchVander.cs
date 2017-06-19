@@ -34,7 +34,11 @@ namespace Ship
             {
                 if (type == typeof(Tokens.BlueTargetLockToken))
                 {
-                    Phases.StartTemporarySubPhase("Choose another friendly ship at range 1-2, it will acquire target lock", typeof(SubPhases.DutchVanderAbilitySubPhase));
+                    if (ship.Owner.Ships.Count > 1)
+                    {
+                        Selection.ActiveShip = ship;
+                        Phases.StartTemporarySubPhase("Choose another friendly ship at range 1-2, it will acquire target lock", typeof(SubPhases.DutchVanderAbilitySubPhase));
+                    }
                 }
             }
 
@@ -54,14 +58,29 @@ namespace SubPhases
             maxRange = 2;
 
             finishAction = AcquireTargetLock;
+
+            Game.UI.ShowSkipButton();
+        }
+
+        public override void Next()
+        {
+            Game.UI.HideNextButton();
+            PreviousSubPhase.Resume();
+            base.Next();
         }
 
         private void AcquireTargetLock()
         {
+            Selection.ThisShip = TargetShip;
             Selection.ActiveShip = TargetShip;
+            Phases.CancelScheduledFinish(typeof(SelectTargetLockSubPhase));
             Phases.StartTemporarySubPhase("Select target for Target Lock", typeof(SelectTargetLockSubPhase));
         }
 
+        protected override void RevertSubPhase()
+        {
+            Game.UI.HighlightNextButton();
+        }
 
     }
 

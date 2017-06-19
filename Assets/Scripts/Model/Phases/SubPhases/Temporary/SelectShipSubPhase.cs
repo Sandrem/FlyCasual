@@ -51,7 +51,23 @@ namespace SubPhases
         public override bool ThisShipCanBeSelected(Ship.GenericShip ship)
         {
             bool result = false;
-            if (!isFriendlyAllowed)
+            if (isFriendlyAllowed)
+            {
+                int range = Actions.GetRange(Selection.ActiveShip, ship);
+                if ((range >= minRange) && (range <= maxRange))
+                {
+                    TargetShip = ship;
+                    MovementTemplates.ShowRange(Selection.ActiveShip, TargetShip);
+                    finishAction.Invoke();
+                    Phases.FinishSubPhase(this.GetType());
+                }
+                else
+                {
+                    Game.UI.ShowError("Ship is outside of range");
+                    RevertSubPhase();
+                }
+            }
+            else
             {
                 Game.UI.ShowError("Friendly ship cannot be selected");
                 RevertSubPhase();
@@ -71,7 +87,7 @@ namespace SubPhases
                     TargetShip = anotherShip;
                     MovementTemplates.ShowRange(Selection.ActiveShip, TargetShip);
                     finishAction.Invoke();
-                    Next();
+                    Phases.FinishSubPhase(this.GetType());
                 }
                 else
                 {

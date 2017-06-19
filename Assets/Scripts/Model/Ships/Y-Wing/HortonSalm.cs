@@ -40,6 +40,7 @@ namespace PilotAbilities
         public HortonSalmAction()
         {
             Name = EffectName = "Horton Salm's ability";
+            IsReroll = true;
         }
 
         public override void ActionEffect()

@@ -25,7 +25,7 @@ namespace UpgradesList
             host.AfterTokenIsSpent += R5K6Ability;
         }
 
-        private void R5K6Ability(System.Type type)
+        private void R5K6Ability(Ship.GenericShip ship, System.Type type)
         {
             if (type == typeof(Tokens.BlueTargetLockToken))
             {

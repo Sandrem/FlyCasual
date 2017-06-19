@@ -23,9 +23,9 @@ namespace Ship
         public event EventHandlerShip AfterGenerateAvailableActionEffectsList;
         public event EventHandlerActionBool OnTryAddAvailableActionEffect;
 
-        public event EventHandlerShip AfterTokenIsAssigned;
-        public event EventHandlerType AfterTokenIsSpent;
-        public event EventHandlerShip AfterTokenIsRemoved;
+        public event EventHandlerShipType AfterTokenIsAssigned;
+        public event EventHandlerShipType AfterTokenIsSpent;
+        public event EventHandlerShipType AfterTokenIsRemoved;
 
         // ACTIONS
 
@@ -239,7 +239,7 @@ namespace Ship
                 AssignedTokens.Add(token);
             }
 
-            if (AfterTokenIsAssigned != null) AfterTokenIsAssigned(this);
+            if (AfterTokenIsAssigned != null) AfterTokenIsAssigned(this, token.GetType());
         }
 
         public void RemoveToken(System.Type type, char letter = ' ', bool recursive = false)
@@ -252,7 +252,7 @@ namespace Ship
                 if (assignedToken.Count > 1)
                 {
                     assignedToken.Count--;
-                    if (AfterTokenIsRemoved != null) AfterTokenIsRemoved(this);
+                    if (AfterTokenIsRemoved != null) AfterTokenIsRemoved(this, type);
 
                     if (recursive)
                     {
@@ -266,7 +266,7 @@ namespace Ship
                         Actions.ReleaseTargetLockLetter((assignedToken as Tokens.GenericTargetLockToken).Letter);
                     }
                     AssignedTokens.Remove(assignedToken);
-                    if (AfterTokenIsRemoved != null) AfterTokenIsRemoved(this);
+                    if (AfterTokenIsRemoved != null) AfterTokenIsRemoved(this, type);
                 }
             }
         }
@@ -274,7 +274,7 @@ namespace Ship
         public void SpendToken(System.Type type, char letter = ' ')
         {
             RemoveToken(type, letter);
-            if (AfterTokenIsSpent != null) AfterTokenIsSpent(type);
+            if (AfterTokenIsSpent != null) AfterTokenIsSpent(this, type);
         }
 
         public List<Tokens.GenericToken> GetAssignedTokens()

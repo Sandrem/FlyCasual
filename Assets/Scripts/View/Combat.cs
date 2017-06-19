@@ -33,25 +33,9 @@ public static partial class Combat
                 CreateDiceModificationsButton(actionEffect, position);
                 offset += 40;
             }
-
-            ShowConfirmDiceResultsButton();
         }
 
         Roster.GetPlayer(Selection.ActiveShip.Owner.PlayerNo).UseDiceModifications();
-    }
-
-    //TODO: Remove
-    public static void ShowConfirmDiceResultsButton()
-    {
-        if (Roster.GetPlayer(Selection.ActiveShip.Owner.PlayerNo).GetType() == typeof(Players.HumanPlayer))
-        {
-            Game.PrefabsList.DiceResultsMenu.transform.Find("Confirm").gameObject.SetActive(true);
-        }
-        else
-        {
-            Button closeButton = Game.PrefabsList.DiceResultsMenu.transform.Find("Confirm").GetComponent<Button>();
-            closeButton.onClick.Invoke();
-        }
     }
 
     private static void CreateDiceModificationsButton(ActionsList.GenericAction actionEffect, Vector3 position)

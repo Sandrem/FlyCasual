@@ -62,7 +62,7 @@ public static partial class Phases
         }
         else
         {
-            Debug.Log("Oops! You want to finish " + subPhaseType +" subphase, but now is " + CurrentSubPhase.GetType() + " subphase!");
+            Debug.Log("OOPS! YOU WANT TO FINISH " + subPhaseType + " SUBPHASE, BUT NOW IS " + CurrentSubPhase.GetType() + " SUBPHASE!");
             if (!subPhasesToFinish.Contains(subPhaseType))
             {
                 Debug.Log("Phase " + subPhaseType + " is planned to finish");
@@ -169,7 +169,7 @@ public static partial class Phases
     {
         yield return Triggers.ResolveAllTriggers(TriggerTypes.OnCombatPhaseStart);
         Debug.Log("All pre-Combat Triggers are resolved, START OF COMBAT!");
-        CurrentSubPhase.Initialize();
+        Phases.FinishSubPhase(typeof(CombatStartSubPhase));
     }
 
     public static void CallEndPhaseTrigger()
@@ -199,7 +199,7 @@ public static partial class Phases
         }
         else
         {
-            Debug.Log("Temporary phase " + subPhaseType + " start is delayed");
+            Debug.Log("Temporary phase " + subPhaseType + " start is delayed, because now is " + CurrentSubPhase);
             subPhasesToStart.Add(subPhaseType);
         }
     }

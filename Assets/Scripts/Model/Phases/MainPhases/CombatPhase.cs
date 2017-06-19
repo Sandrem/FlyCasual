@@ -15,10 +15,10 @@ namespace MainPhases
 
             Name = "Combat Phase";
 
-            Phases.CurrentSubPhase = new CombatSubPhase();
+            Phases.CurrentSubPhase = new CombatStartSubPhase();
             Phases.CurrentSubPhase.Start();
-
-            Phases.CallCombatPhaseTrigger();
+            Phases.CurrentSubPhase.Prepare();
+            Phases.CurrentSubPhase.Initialize();
         }
 
         public override void NextPhase()

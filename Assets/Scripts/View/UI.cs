@@ -215,7 +215,7 @@ public class UI : MonoBehaviour {
 
     public void ClickDeclareTarget()
     {
-        Actions.DeclareTarget();
+        Combat.DeclareTarget();
     }
 
     public void CloseActionsPanel()

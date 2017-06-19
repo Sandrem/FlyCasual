@@ -12,6 +12,8 @@ public static partial class Actions {
     private static readonly float DISTANCE_1 = 3.28f / 3f;
     private static Dictionary<char, bool> Letters = new Dictionary<char, bool>();
 
+    public static CriticalHitCard.GenericCriticalHit SelectedCriticalHitCard;
+
     //EVENTS
     public delegate void EventHandler2Ships(ref bool result, Ship.GenericShip attacker, Ship.GenericShip defender);
     public static event EventHandler2Ships OnCheckTargetIsLegal;
@@ -212,97 +214,6 @@ public static partial class Actions {
         if (result) OnCheckTargetIsLegal(ref result, Selection.ThisShip, Selection.AnotherShip);
 		return result;
 	}
-
-    public static void DeclareTarget()
-    {
-        Game.UI.HideContextMenu();
-
-        bool inArc = InArcCheck(Selection.ThisShip, Selection.AnotherShip);
-        int distance = GetFiringRange(Selection.ThisShip, Selection.AnotherShip);
-        int attackTypesAreAvailable = Selection.ThisShip.GetAttackTypes(distance, inArc);
-
-        if (attackTypesAreAvailable > 1)
-        {
-            Phases.StartTemporarySubPhase("Choose weapon for attack", typeof(WeaponSelectionDecisionSubPhase));
-        }
-        else
-        {
-            Combat.SelectWeapon();
-            TryPerformAttack();
-        }
-
-    }
-
-    private class WeaponSelectionDecisionSubPhase : SubPhases.DecisionSubPhase
-    {
-
-        public override void Prepare()
-        {
-            int distance = GetFiringRange(Selection.ThisShip, Selection.AnotherShip);
-            infoText = "Choose weapon for attack (Distance " + distance + ")";
-
-            decisions.Add("Primary", PerformPrimaryAttack);
-            decisions.Add("Proton Torpedoes", PerformTorpedoesAttack);
-
-            //Temporary
-            tooltips.Add("Proton Torpedoes", "https://vignette2.wikia.nocookie.net/xwing-miniatures/images/e/eb/Proton-torpedoes.png");
-
-            defaultDecision = "Proton Torpedoes";
-        }
-
-        private void PerformPrimaryAttack(object sender, EventArgs e)
-        {
-            Combat.SelectWeapon();
-            Phases.Next();
-            TryPerformAttack();
-        }
-
-        public void PerformTorpedoesAttack(object sender, EventArgs e)
-        {
-            Tooltips.EndTooltip();
-
-            //TODO: Get upgrade correctly
-            Upgrade.GenericSecondaryWeapon secondaryWeapon = null;
-            foreach (var upgrade in Selection.ThisShip.InstalledUpgrades)
-            {
-                if (upgrade.Key == Upgrade.UpgradeSlot.Torpedoes) secondaryWeapon = upgrade.Value as Upgrade.GenericSecondaryWeapon;
-            }
-            Combat.SelectWeapon(secondaryWeapon);
-
-            Messages.ShowInfo("Attack with " + secondaryWeapon.Name);
-
-            Phases.Next();
-
-            TryPerformAttack();
-        }
-
-    }
-
-    public static void TryPerformAttack()
-    {
-        Game.UI.HideContextMenu();
-        MovementTemplates.ReturnRangeRuler();
-
-        //TODO: CheckShot is needed before
-        if (TargetIsLegal())
-        {
-            Board.LaunchObstacleChecker(Selection.ThisShip, Selection.AnotherShip);
-            //Call later "Combat.PerformAttack(Selection.ThisShip, Selection.AnotherShip);"
-        }
-        else
-        {
-            if (Roster.GetPlayer(Phases.CurrentPhasePlayer).GetType() == typeof(Players.HumanPlayer))
-            {
-                Roster.HighlightShipsFiltered(Roster.AnotherPlayer(Phases.CurrentPhasePlayer));
-                Game.UI.HighlightNextButton();
-            }
-            else
-            {
-                Selection.ThisShip.IsAttackPerformed = true;
-                Phases.Next();
-            }
-        }
-    }
 
     public static bool HasTargetLockOn(Ship.GenericShip attacker, Ship.GenericShip defender)
     {

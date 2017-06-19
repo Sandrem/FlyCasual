@@ -15,15 +15,20 @@ namespace SubPhases
             Name = "Combat SubPhase";
         }
 
-        public override void Initialize()
+        public override void Prepare()
         {
             RequiredPlayer = Phases.PlayerWithInitiative;
             RequiredPilotSkill = PILOTSKILL_MAX + 1;
+        }
+
+        public override void Initialize()
+        {
             Next();
         }
 
         public override void Next()
         {
+            Debug.Log("Combat SubPhase - Next");
             if (Selection.ThisShip != null)
             {
                 Selection.ThisShip.CallAfterAttackWindow();
@@ -44,9 +49,10 @@ namespace SubPhases
                     FinishPhase();
                 }
             }
-
+            
             if (success)
             {
+                Debug.Log("Attack time for: " + RequiredPlayer + ", skill " + RequiredPilotSkill);
                 UpdateHelpInfo();
                 HighlightShips();
                 Roster.GetPlayer(RequiredPlayer).PerformAttack();

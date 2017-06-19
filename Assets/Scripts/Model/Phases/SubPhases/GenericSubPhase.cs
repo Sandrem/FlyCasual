@@ -41,6 +41,16 @@ namespace SubPhases
 
         }
 
+        public virtual void Pause()
+        {
+
+        }
+
+        public virtual void Resume()
+        {
+
+        }
+
         public virtual void Next()
         {
 

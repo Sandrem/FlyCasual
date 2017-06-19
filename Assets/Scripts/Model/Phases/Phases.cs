@@ -62,7 +62,7 @@ public static partial class Phases
         }
         else
         {
-            Debug.Log("Oops! You want to finish " + subPhaseType +" subphase, but now is " + CurrentSubPhase.GetType() + " subphase!");
+            Debug.Log("OOPS! YOU WANT TO FINISH " + subPhaseType + " SUBPHASE, BUT NOW IS " + CurrentSubPhase.GetType() + " SUBPHASE!");
             if (!subPhasesToFinish.Contains(subPhaseType))
             {
                 Debug.Log("Phase " + subPhaseType + " is planned to finish");
@@ -137,7 +137,7 @@ public static partial class Phases
 
     public static void CallRoundStartTrigger()
     {
-        if (OnSetupPhaseStart != null) OnRoundStart();
+        if (OnRoundStart != null) OnRoundStart();
     }
 
     public static void CallSetupPhaseTrigger()
@@ -169,7 +169,7 @@ public static partial class Phases
     {
         yield return Triggers.ResolveAllTriggers(TriggerTypes.OnCombatPhaseStart);
         Debug.Log("All pre-Combat Triggers are resolved, START OF COMBAT!");
-        CurrentSubPhase.Initialize();
+        Phases.FinishSubPhase(typeof(CombatStartSubPhase));
     }
 
     public static void CallEndPhaseTrigger()
@@ -199,68 +199,11 @@ public static partial class Phases
         }
         else
         {
-            Debug.Log("Temporary phase " + subPhaseType + " start is delayed");
+            Debug.Log("Temporary phase " + subPhaseType + " start is delayed, because now is " + CurrentSubPhase);
             subPhasesToStart.Add(subPhaseType);
         }
     }
 
-    // INITIATIVE
-
-    public static void DeterminePlayerWithInitiative()
-    {
-        int costP1 = Roster.GetPlayer(PlayerNo.Player1).SquadCost;
-        int costP2 = Roster.GetPlayer(PlayerNo.Player2).SquadCost;
-
-        if (costP1 < costP2)
-        {
-            PlayerWithInitiative = PlayerNo.Player1;
-        }
-        else if (costP1 > costP2)
-        {
-            PlayerWithInitiative = PlayerNo.Player2;
-        }
-        else
-        {
-            int randomPlayer = UnityEngine.Random.Range(1, 3);
-            PlayerWithInitiative = Tools.IntToPlayer(randomPlayer);
-        }
-
-        CurrentSubPhase.RequiredPlayer = PlayerWithInitiative;
-        StartTemporarySubPhase("Initiative", typeof(InitialiveDecisionSubPhase));
-    }
-
-    private class InitialiveDecisionSubPhase : DecisionSubPhase
-    {
-
-        public override void Prepare()
-        {
-            infoText = "Player " + Tools.PlayerToInt(PlayerWithInitiative) + ", what player will have initiative?";
-
-            decisions.Add("I", StayWithInitiative);
-            decisions.Add("Opponent", GiveInitiative);
-
-            defaultDecision = "Opponent";
-        }
-
-        private void GiveInitiative(object sender, EventArgs e)
-        {
-            PlayerWithInitiative = Roster.AnotherPlayer(PlayerWithInitiative);
-            ConfirmDecision();
-        }
-
-        private void StayWithInitiative(object sender, EventArgs e)
-        {
-            ConfirmDecision();
-        }
-
-        private void ConfirmDecision()
-        {
-            Messages.ShowInfo("Player " + Tools.PlayerToInt(PlayerWithInitiative) + " has Initiative");
-            Phases.Next();
-        }
-
-    }
-
-}
+ }
 
 

@@ -5,7 +5,7 @@ using UnityEngine;
 namespace ActionsList
 {
 
-    public class CancelCritAction : ActionsList.GenericAction
+    public class CancelCritAction : GenericAction
     {
         private Ship.GenericShip host;
         private CriticalHitCard.GenericCriticalHit CritCard;
@@ -36,29 +36,44 @@ namespace ActionsList
             }
             else
             {
-                Phases.StartTemporarySubPhase("Trying to flip critical card", typeof(SubPhases.DiceRollSubPhase));
-                Combat.ShowDiceResultMenu(FinishAction);
-
-                DiceRoll DiceRollCheck;
-                DiceRollCheck = new DiceRoll("attack", 1);
-                DiceRollCheck.Roll();
-                DiceRollCheck.CalculateResults(CheckResults);
+                Actions.SelectedCriticalHitCard = CritCard;
+                Selection.ActiveShip = Selection.ThisShip;
+                Phases.StartTemporarySubPhase("Trying to flip critical card", typeof(SubPhases.CancelCritCheckSubPhase));
             }
             Phases.Next();
         }
 
-        private void CheckResults(DiceRoll diceRoll)
+    }
+
+}
+
+namespace SubPhases
+{
+
+    public class CancelCritCheckSubPhase : DiceRollCheckSubPhase
+    {
+
+        public override void Prepare()
         {
-            Combat.CurentDiceRoll = diceRoll;
-            if (CritCard.CancelDiceResults.Contains(diceRoll.DiceList[0].Side)) CritCard.DiscardEffect(host);
-            Combat.ShowConfirmDiceResultsButton();
+            dicesType = "attack";
+            dicesCount = 1;
+
+            checkResults = CheckResults;
         }
 
-        private void FinishAction()
+        protected override void CheckResults(DiceRoll diceRoll)
         {
-            Phases.FinishSubPhase(typeof(SubPhases.DiceRollSubPhase));
-            Combat.HideDiceResultMenu();
-            Phases.Next();
+            Selection.ActiveShip = Selection.ThisShip;
+
+            if (Actions.SelectedCriticalHitCard.CancelDiceResults.Contains(diceRoll.DiceList[0].Side)) Actions.SelectedCriticalHitCard.DiscardEffect(Actions.SelectedCriticalHitCard.Host);
+
+            base.CheckResults(diceRoll);
+        }
+
+        protected override void FinishAction()
+        {
+            HideDiceResultMenu();
+            Phases.FinishSubPhase(this.GetType());
         }
 
     }

@@ -9,7 +9,7 @@ namespace CriticalHitCard
     {
         protected GameManagerScript Game;
 
-        protected Ship.GenericShip Host;
+        public Ship.GenericShip Host;
 
         public string Name;
         public CriticalCardType Type;

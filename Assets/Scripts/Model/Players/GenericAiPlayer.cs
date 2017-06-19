@@ -98,6 +98,8 @@ namespace Players
 
         public override void PerformAttack()
         {
+            Debug.Log("AI wants to attack!");
+
             bool attackPerformed = false;
 
             foreach (var shipHolder in Roster.GetPlayer(Phases.CurrentPhasePlayer).Ships)
@@ -117,13 +119,15 @@ namespace Players
                 Dictionary<Ship.GenericShip, float> enemyShips = GetEnemyShipsAndDistance(Selection.ThisShip, ignoreCollided: true, inArcAndRange: true);
                 foreach (var shipHolder in enemyShips)
                 {
+                    Debug.Log("AI wants to attack: " + shipHolder.Key);
                     Selection.TryToChangeAnotherShip("ShipId:" + shipHolder.Key.ShipId);
                     Combat.SelectWeapon();
 
                     if (Actions.TargetIsLegal())
                     {
+                        Debug.Log("AI target legal: " + Selection.AnotherShip);
                         attackPerformed = true;
-                        Actions.TryPerformAttack();
+                        Combat.TryPerformAttack();
                         break;
                     }
                 }
@@ -132,6 +136,7 @@ namespace Players
 
             if (!attackPerformed)
             {
+                Debug.Log("AI didn't performed attack and goes NEXT");
                 Phases.Next();
             }
 
@@ -247,8 +252,6 @@ namespace Players
                     }
                 }
             }
-
-            Game.Wait(Combat.ConfirmDiceResults);
         }
 
         public override void TakeDecision()

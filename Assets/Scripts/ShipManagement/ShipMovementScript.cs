@@ -108,6 +108,7 @@ public class ShipMovementScript : MonoBehaviour {
         {
             isCheckingFireLineCollisionsEnd = false;
             Board.HideFiringLine();
+            Debug.Log("Obstacle checker ended, call perform attack: " + Selection.ThisShip + " vs " + Selection.AnotherShip);
             Combat.PerformAttack(Selection.ThisShip, Selection.AnotherShip);
         }
         if (isCheckingFireLineCollisionsStart)

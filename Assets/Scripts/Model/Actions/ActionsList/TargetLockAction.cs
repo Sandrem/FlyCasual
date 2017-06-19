@@ -48,7 +48,6 @@ namespace ActionsList
 
         public override void ActionTake()
         {
-            Selection.ActiveShip = Selection.ThisShip;
             Phases.StartTemporarySubPhase("Select target for Target Lock", typeof(SubPhases.SelectTargetLockSubPhase));
         }
 

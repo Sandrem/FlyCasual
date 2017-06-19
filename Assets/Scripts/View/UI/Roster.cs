@@ -229,7 +229,7 @@ public static partial class Roster {
         thisShip.ToggleDamaged(thisShip.Hull == 1);
     }
 
-    public static void UpdateTokensIndicator(Ship.GenericShip thisShip)
+    public static void UpdateTokensIndicator(Ship.GenericShip thisShip, System.Type type)
     {
         List<GameObject> keys = new List<GameObject>();
         foreach (Transform icon in thisShip.InfoPanel.transform.Find("ShipInfo").Find("TokensBar").transform)

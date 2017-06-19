@@ -32,11 +32,6 @@ namespace SubPhases
             UpdateHelpInfo();
         }
 
-        public virtual void Prepare()
-        {
-
-        }
-
         public override void Initialize()
         {
             decisionPanel.transform.Find("InformationPanel").GetComponentInChildren<Text>().text = infoText;

@@ -4,7 +4,7 @@ using UnityEngine;
 
 // TODO:
 // Correct work with combat subphase
-// What if there is no another frienly ships&
+// What if there is no another frienly ships
 // What if I do not want assign token
 // What revert should be done if selected ship does not fulfill all requirements
 
@@ -29,12 +29,11 @@ namespace Ship
                 AfterTokenIsSpent += GarvenDreisPilotAbility;
             }
 
-            private void GarvenDreisPilotAbility(System.Type type)
+            private void GarvenDreisPilotAbility(GenericShip ship, System.Type type)
             {
                 if (type == typeof(Tokens.FocusToken))
                 {
-                    Debug.Log("Garven Dreis Trigger!");
-                    Selection.ActiveShip = Selection.ThisShip;
+                    Selection.ActiveShip = ship;
                     Phases.StartTemporarySubPhase("Place Focus token to another friendly ship at range 1-2", typeof(SubPhases.GarvenDreisAbilitySubPhase));
                 }
             }

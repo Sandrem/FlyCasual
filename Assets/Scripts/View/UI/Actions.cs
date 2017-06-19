@@ -41,6 +41,8 @@ public static partial class Actions {
             newButton.SetActive(true);
         }
 
+        Selection.ActiveShip = Selection.ThisShip;
+
         if (actionList.Count != 0)
         {
             Game.PrefabsList.PanelActions.GetComponent<RectTransform>().sizeDelta = new Vector2(Game.PrefabsList.PanelActions.GetComponent<RectTransform>().sizeDelta.x, offset + 80);

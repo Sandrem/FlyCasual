@@ -7,11 +7,12 @@ namespace Ship
     public partial class GenericShip
     {
 
-        protected   List<ActionsList.GenericAction> BuiltInActions              = new List<ActionsList.GenericAction>();
-        private     List<ActionsList.GenericAction> AvailableActionsList        = new List<ActionsList.GenericAction>();
-        private     List<ActionsList.GenericAction> AvailableFreeActionsList    = new List<ActionsList.GenericAction>();
-        private     List<ActionsList.GenericAction> AlreadyExecutedActions      = new List<ActionsList.GenericAction>();
-        private     List<ActionsList.GenericAction> AvailableActionEffects      = new List<ActionsList.GenericAction>();
+        protected   List<ActionsList.GenericAction> BuiltInActions                  = new List<ActionsList.GenericAction>();
+        private     List<ActionsList.GenericAction> AvailableActionsList            = new List<ActionsList.GenericAction>();
+        private     List<ActionsList.GenericAction> AvailableFreeActionsList        = new List<ActionsList.GenericAction>();
+        private     List<ActionsList.GenericAction> AlreadyExecutedActions          = new List<ActionsList.GenericAction>();
+        private     List<ActionsList.GenericAction> AvailableActionEffects          = new List<ActionsList.GenericAction>();
+        private     List<ActionsList.GenericAction> AlreadyExecutedActionEffects    = new List<ActionsList.GenericAction>();
 
         private     List<Tokens.GenericToken> AssignedTokens = new List<Tokens.GenericToken>();
 
@@ -171,11 +172,23 @@ namespace Ship
             }
         }
 
+        public void AddAlreadyExecutedActionEffect(ActionsList.GenericAction action)
+        {
+            AlreadyExecutedActionEffects.Add(action);
+        }
+
+        public void ClearAlreadyExecutedActionEffects()
+        {
+            AlreadyExecutedActionEffects = new List<ActionsList.GenericAction>();
+        }
+
         public bool CanUseActionEffect(ActionsList.GenericAction action)
         {
             bool result = true;
 
             if (!action.IsActionEffectAvailable()) result = false;
+
+            if (AlreadyExecutedActionEffects.Contains(action)) result = false;
 
             if (result)
             {

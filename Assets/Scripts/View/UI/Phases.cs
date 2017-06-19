@@ -20,7 +20,7 @@ public static partial class Phases {
             pilotSkillText = "";
         }
 
-        if (Phases.CurrentSubPhase.isTemporary)
+        if (Phases.CurrentSubPhase.IsTemporary)
         {
             playerText = "";
             pilotSkillText = "";

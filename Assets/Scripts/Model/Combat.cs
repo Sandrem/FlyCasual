@@ -264,9 +264,10 @@ namespace SubPhases
 
     public class AttackDiceRollCombatSubPhase : DiceRollCombatSubPhase
     {
-
         public override void Prepare()
         {
+            CanBePaused = true;
+
             dicesType = "attack";
             dicesCount = Combat.Attacker.GetNumberOfAttackDices(Combat.Defender);
 
@@ -282,6 +283,16 @@ namespace SubPhases
             Combat.DiceRollAttack = diceRoll;
 
             base.CheckResults(diceRoll);
+        }
+
+        public override void Pause()
+        {
+            Game.PrefabsList.DiceResultsMenu.SetActive(false);
+        }
+
+        public override void Resume()
+        {
+            Game.PrefabsList.DiceResultsMenu.SetActive(true);
         }
 
     }
@@ -300,7 +311,7 @@ namespace SubPhases
 
         protected override void CheckResults(DiceRoll diceRoll)
         {
-            Selection.ActiveShip = Selection.ThisShip;
+            Selection.ActiveShip = Selection.AnotherShip;
 
             Combat.CurentDiceRoll = diceRoll;
             Combat.DiceRollDefence = diceRoll;

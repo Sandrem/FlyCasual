@@ -46,9 +46,10 @@ public static partial class Combat
         newButton.GetComponent<RectTransform>().position = position;
         newButton.GetComponent<Button>().onClick.AddListener(delegate
         {
-            actionEffect.ActionEffect();
             Tooltips.EndTooltip();
             newButton.GetComponent<Button>().interactable = false;
+            Selection.ThisShip.AddAlreadyExecutedActionEffect(actionEffect);
+            actionEffect.ActionEffect();
         });
         Tooltips.AddTooltip(newButton, actionEffect.ImageUrl);
         newButton.GetComponent<Button>().interactable = true;

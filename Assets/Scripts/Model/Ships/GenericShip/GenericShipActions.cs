@@ -60,11 +60,18 @@ namespace Ship
             return result;
         }
 
-        public void AskPerformFreeAction(ActionsList.GenericAction action)
+
+        // TODO: move actions list into subphase
+        public void AskPerformFreeAction(List<ActionsList.GenericAction> freeActions)
         {
             Phases.StartTemporarySubPhase("Free action", typeof(SubPhases.FreeActionSubPhase));
+
             AvailableFreeActionsList = new List<ActionsList.GenericAction>();
-            AddAvailableFreeAction(action);
+            foreach (var action in freeActions)
+            {
+                AddAvailableFreeAction(action);
+            }
+          
             Roster.GetPlayer(Phases.CurrentSubPhase.RequiredPlayer).PerformFreeAction();
         }
 

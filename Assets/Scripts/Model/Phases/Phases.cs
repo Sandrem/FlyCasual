@@ -73,7 +73,7 @@ public static partial class Phases
 
     public static void Next()
     {
-        Debug.Log("NEXT");
+        Debug.Log("NEXT - finish for: " + CurrentSubPhase);
         CurrentSubPhase.Next();
     }
 

@@ -2,13 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// BUG: Cannot start new subphases from free action subphase
+// TODO: Move from end of activation to after action is taken
+
 namespace Ship
 {
     namespace TIEAdvanced
     {
         public class DarthVader : TIEAdvanced
         {
-            private bool IsAbilityUsed;
 
             public DarthVader() : base()
             {
@@ -24,23 +26,17 @@ namespace Ship
             {
                 base.InitializePilot();
 
-                AfterActionIsPerformed += DoSecondAction;
-                Phases.OnEndPhaseStart += ReactivateAbility;
+                OnMovementFinish += DoSecondAction;
             }
 
-            private void DoSecondAction(GenericShip ship, System.Type type)
+            private void DoSecondAction(GenericShip ship)
             {
-                if (!IsAbilityUsed)
+                if (!ship.IsSkipsActionSubPhase)
                 {
-                    IsAbilityUsed = true;
-                    List<ActionsList.GenericAction> actions = new List<ActionsList.GenericAction>() { new ActionsList.FocusAction() };
+                    ship.GenerateAvailableActionsList();
+                    List<ActionsList.GenericAction> actions = ship.GetAvailableActionsList();
                     AskPerformFreeAction(actions);
                 }
-            }
-
-            private void ReactivateAbility()
-            {
-                IsAbilityUsed = false;
             }
 
         }

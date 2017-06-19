@@ -137,7 +137,7 @@ public static partial class Phases
 
     public static void CallRoundStartTrigger()
     {
-        if (OnSetupPhaseStart != null) OnRoundStart();
+        if (OnRoundStart != null) OnRoundStart();
     }
 
     public static void CallSetupPhaseTrigger()

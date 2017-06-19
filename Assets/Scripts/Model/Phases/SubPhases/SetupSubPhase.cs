@@ -15,9 +15,13 @@ namespace SubPhases
             Name = "Setup SubPhase";
         }
 
-        public override void Initialize()
+        public override void Prepare()
         {
             RequiredPilotSkill = PILOTSKILL_MIN - 1;
+        }
+
+        public override void Initialize()
+        {
             Phases.FinishSubPhase(typeof(SetupSubPhase));
         }
 

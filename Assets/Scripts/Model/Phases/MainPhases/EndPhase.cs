@@ -15,10 +15,10 @@ namespace MainPhases
 
             Name = "End Phase";
 
-            Phases.CurrentSubPhase = new EndSubPhase();
+            Phases.CurrentSubPhase = new EndStartSubPhase();
             Phases.CurrentSubPhase.Start();
-
-            Phases.CallEndPhaseTrigger();
+            Phases.CurrentSubPhase.Prepare();
+            Phases.CurrentSubPhase.Initialize();
         }
 
         public override void NextPhase()

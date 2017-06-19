@@ -6,25 +6,25 @@ using System.Linq;
 namespace SubPhases
 {
 
-    public class SetupStartSubPhase : GenericSubPhase
+    public class ActivationStartSubPhase : GenericSubPhase
     {
 
         public override void Start()
         {
             Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-            Name = "Setup start";
+            Name = "Activation start";
             UpdateHelpInfo();
         }
 
         public override void Initialize()
         {
-            Phases.CallSetupPhaseTrigger();
+            Phases.CallActivationPhaseTrigger();
             Phases.FinishSubPhase(this.GetType());
         }
 
         public override void Next()
         {
-            Phases.CurrentSubPhase = new SetupSubPhase();
+            Phases.CurrentSubPhase = new ActivationSubPhase();
             Phases.CurrentSubPhase.Start();
             Phases.CurrentSubPhase.Prepare();
             Phases.CurrentSubPhase.Initialize();

@@ -15,11 +15,10 @@ namespace MainPhases
 
             Name = "Activation Phase";
 
-            Phases.CurrentSubPhase = new ActivationSubPhase();
+            Phases.CurrentSubPhase = new ActivationStartSubPhase();
             Phases.CurrentSubPhase.Start();
+            Phases.CurrentSubPhase.Prepare();
             Phases.CurrentSubPhase.Initialize();
-
-            Phases.CallActivationPhaseTrigger();
         }
 
         public override void NextPhase()

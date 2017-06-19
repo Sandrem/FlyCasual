@@ -5,14 +5,18 @@ using UnityEngine;
 namespace SubPhases
 {
 
-    public class EndSubPhase : GenericSubPhase
+    public class EndStartSubPhase : GenericSubPhase
     {
 
         public override void Start()
         {
             Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-            Name = "End SubPhase";
+            Name = "End start";
+        }
 
+        public override void Initialize()
+        {
+            Phases.CallEndPhaseTrigger();
             Next();
         }
 

@@ -48,7 +48,39 @@ namespace ActionsList
 
         public override void ActionTake()
         {
-            Phases.StartTemporarySubPhase("Select target for Target Lock", typeof(SubPhases.SelectTargetSubPhase));
+            Selection.ActiveShip = Selection.ThisShip;
+            Phases.StartTemporarySubPhase("Select target for Target Lock", typeof(SubPhases.SelectTargetLockSubPhase));
+        }
+
+    }
+
+}
+
+namespace SubPhases
+{
+
+    public class SelectTargetLockSubPhase : SelectShipSubPhase
+    {
+
+        public override void Prepare()
+        {
+            isEnemyAllowed = true;
+            finishAction = TrySelectTargetLock;
+        }
+
+        private void TrySelectTargetLock()
+        {
+            if (!Actions.AssignTargetLockToPair(Selection.ThisShip, TargetShip))
+            {
+                RevertSubPhase();
+            }
+        }
+
+        protected override void RevertSubPhase()
+        {
+            Selection.ThisShip.RemoveAlreadyExecutedAction(typeof(ActionsList.TargetLockAction));
+            base.RevertSubPhase();
+            Actions.ShowActionsPanel();
         }
 
     }

@@ -31,6 +31,11 @@ namespace SubPhases
             
         }
 
+        public virtual void Prepare()
+        {
+
+        }
+
         public virtual void Initialize()
         {
 

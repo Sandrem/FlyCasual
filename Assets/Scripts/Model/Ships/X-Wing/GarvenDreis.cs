@@ -27,8 +27,8 @@ namespace Ship
             {
                 if (type == typeof(Tokens.FocusToken))
                 {
-                    Debug.Log("Trigger!");
-                    //Todo: Start Selection subPhase
+                    Debug.Log("Garven Dreis Trigger!");
+                    
                 }
             }
 

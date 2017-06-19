@@ -20,7 +20,7 @@ namespace SubPhases
         public override void Start()
         {
             Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-            isTemporary = true;
+            IsTemporary = true;
 
             Prepare();
             Initialize();
@@ -43,6 +43,7 @@ namespace SubPhases
 
         public override void Next()
         {
+            Roster.AllShipsHighlightOff();
             Phases.CurrentSubPhase = PreviousSubPhase;
             Phases.CurrentSubPhase.Next();
             UpdateHelpInfo();

@@ -20,7 +20,7 @@ namespace SubPhases
         public override void Start()
         {
             Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-            isTemporary = true;
+            IsTemporary = true;
             finishAction = FinishAction;
 
             Prepare();

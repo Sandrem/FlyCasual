@@ -22,7 +22,7 @@ namespace SubPhases
         public override void Start()
         {
             Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-            isTemporary = true;
+            IsTemporary = true;
 
             decisionPanel = Game.PrefabsList.PanelDecisions;
 

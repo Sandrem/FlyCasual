@@ -51,12 +51,14 @@ namespace Ship
 
         public void CallAttackStart()
         {
+            ClearAlreadyExecutedActionEffects();
             if (Combat.Attacker.ShipId == this.ShipId) IsAttackPerformed = true;
             if (OnAttack != null) OnAttack();
         }
 
         public void CallDefenceStart()
         {
+            ClearAlreadyExecutedActionEffects();
             if (OnDefence != null) OnDefence();
         }
 

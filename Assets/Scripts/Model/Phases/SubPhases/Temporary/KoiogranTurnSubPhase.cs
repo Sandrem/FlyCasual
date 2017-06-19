@@ -12,7 +12,7 @@ namespace SubPhases
         {
             Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
             Name = "Koiogran Turn SubPhase";
-            isTemporary = true;
+            IsTemporary = true;
             UpdateHelpInfo();
 
             Game.Position.StartKoiogranTurn();

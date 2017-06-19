@@ -17,7 +17,7 @@ public static partial class Phases
     private static bool inTemporarySubPhase;
     public static bool InTemporarySubPhase
     {
-        get { return CurrentSubPhase.isTemporary; }
+        get { return CurrentSubPhase.IsTemporary; }
     }
 
     public static PlayerNo PlayerWithInitiative = PlayerNo.Player1;
@@ -73,6 +73,7 @@ public static partial class Phases
 
     public static void Next()
     {
+        Debug.Log("NEXT");
         CurrentSubPhase.Next();
     }
 
@@ -127,7 +128,7 @@ public static partial class Phases
 
     public static IEnumerator WaitForTemporarySubPhasesFinish()
     {
-        while (Phases.CurrentSubPhase.isTemporary)
+        while (Phases.CurrentSubPhase.IsTemporary)
         {
             yield return new WaitForSeconds(0.1f);
         }
@@ -186,8 +187,9 @@ public static partial class Phases
 
     public static void StartTemporarySubPhase(string name, System.Type subPhaseType)
     {
-        if (!InTemporarySubPhase)
+        if ((!InTemporarySubPhase) || (CurrentSubPhase.CanBePaused))
         {
+            CurrentSubPhase.Pause();
             Debug.Log("Temporary phase " + subPhaseType + " is started directly");
             GenericSubPhase previousSubPhase = CurrentSubPhase;
             CurrentSubPhase = (GenericSubPhase)System.Activator.CreateInstance(subPhaseType);

@@ -33,8 +33,11 @@ namespace Ship
             {
                 if (type == typeof(Tokens.FocusToken))
                 {
-                    Selection.ActiveShip = ship;
-                    Phases.StartTemporarySubPhase("Place Focus token to another friendly ship at range 1-2", typeof(SubPhases.GarvenDreisAbilitySubPhase));
+                    if (ship.Owner.Ships.Count > 1)
+                    {
+                        Selection.ActiveShip = ship;
+                        Phases.StartTemporarySubPhase("Place Focus token to another friendly ship at range 1-2", typeof(SubPhases.GarvenDreisAbilitySubPhase));
+                    }
                 }
             }
 
@@ -54,6 +57,15 @@ namespace SubPhases
             maxRange = 2;
 
             finishAction = AssignFocusToken;
+
+            Game.UI.ShowSkipButton();
+        }
+
+        public override void Next()
+        {
+            Game.UI.HideNextButton();
+            PreviousSubPhase.Resume();
+            base.Next();
         }
 
         private void AssignFocusToken()
@@ -63,9 +75,7 @@ namespace SubPhases
 
         protected override void RevertSubPhase()
         {
-            Selection.ThisShip.RemoveAlreadyExecutedAction(typeof(ActionsList.TargetLockAction));
-            base.RevertSubPhase();
-            Actions.ShowActionsPanel();
+            Game.UI.HighlightNextButton();
         }
 
     }

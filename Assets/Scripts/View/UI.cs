@@ -200,6 +200,7 @@ public class UI : MonoBehaviour {
     public void ClickNextPhase()
     {
         HideNextButton();
+        Roster.AllShipsHighlightOff();
         if (Phases.CurrentSubPhase.GetType() == typeof(SubPhases.CombatSubPhase))
         {
             foreach (var shipHolder in Roster.GetPlayer(Phases.CurrentPhasePlayer).Ships)

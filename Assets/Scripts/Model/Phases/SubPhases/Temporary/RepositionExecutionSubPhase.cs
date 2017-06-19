@@ -12,7 +12,7 @@ namespace SubPhases
         {
             Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
             Name = "Barrel Roll";
-            isTemporary = true;
+            IsTemporary = true;
             RequiredPilotSkill = PreviousSubPhase.RequiredPilotSkill;
             RequiredPlayer = PreviousSubPhase.RequiredPlayer;
             UpdateHelpInfo();

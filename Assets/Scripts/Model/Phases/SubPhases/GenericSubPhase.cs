@@ -18,7 +18,15 @@ namespace SubPhases
         public GenericSubPhase PreviousSubPhase { get; set; }
 
         public string Name;
-        public bool isTemporary = false;
+        public bool IsTemporary = false;
+
+        private bool canBePaused;
+        public bool CanBePaused
+        {
+            get { return canBePaused; }
+            set { canBePaused = value; }
+        }
+
 
         public int RequiredPilotSkill;
         public Players.PlayerNo RequiredPlayer = Players.PlayerNo.Player1;

@@ -65,6 +65,8 @@ namespace SubPhases
         {
             isEnemyAllowed = true;
             finishAction = TrySelectTargetLock;
+
+            Game.UI.ShowSkipButton();
         }
 
         private void TrySelectTargetLock()
@@ -77,9 +79,12 @@ namespace SubPhases
 
         protected override void RevertSubPhase()
         {
-            Selection.ThisShip.RemoveAlreadyExecutedAction(typeof(ActionsList.TargetLockAction));
-            base.RevertSubPhase();
-            Actions.ShowActionsPanel();
+            if (PreviousSubPhase.GetType() == typeof(ActionSubPhase))
+            {
+                Selection.ThisShip.RemoveAlreadyExecutedAction(typeof(ActionsList.TargetLockAction));
+                base.RevertSubPhase();
+                Phases.CurrentSubPhase.Resume();
+            }
         }
 
     }

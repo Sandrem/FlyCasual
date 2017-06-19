@@ -14,6 +14,7 @@ namespace SubPhases
             Name = "Action SubPhase";
             RequiredPilotSkill = PreviousSubPhase.RequiredPilotSkill;
             RequiredPlayer = PreviousSubPhase.RequiredPlayer;
+            CanBePaused = true;
             UpdateHelpInfo();
         }
 
@@ -48,6 +49,16 @@ namespace SubPhases
             {
                 FinishPhase();
             }
+        }
+
+        public override void Pause()
+        {
+            Actions.CloseActionsPanel();
+        }
+
+        public override void Resume()
+        {
+            Actions.ShowActionsPanel();
         }
 
         public override void FinishPhase()

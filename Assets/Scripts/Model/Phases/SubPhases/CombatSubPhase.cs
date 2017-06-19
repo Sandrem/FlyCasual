@@ -13,6 +13,8 @@ namespace SubPhases
         {
             Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
             Name = "Combat SubPhase";
+
+            Debug.Log("Combat - Started");
         }
 
         public override void Prepare()

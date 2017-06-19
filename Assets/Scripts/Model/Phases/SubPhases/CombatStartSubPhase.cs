@@ -14,6 +14,8 @@ namespace SubPhases
             Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
             Name = "Combat start";
             UpdateHelpInfo();
+
+            Debug.Log("Combat Start - Started");
         }
 
         public override void Initialize()

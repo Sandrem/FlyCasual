@@ -114,6 +114,15 @@ public static partial class Phases
         }
     }
 
+    public static void CancelScheduledFinish(System.Type subPhaseType)
+    {
+        if (subPhasesToFinish.Contains(subPhaseType))
+        {
+            Debug.Log(subPhaseType + " is removed from scheduled finish list");
+            subPhasesToFinish.Remove(subPhaseType);
+        }
+    }
+
     private static void CheckScheduledStarts()
     {
         if (!InTemporarySubPhase)

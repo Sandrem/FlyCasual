@@ -30,11 +30,6 @@ namespace SubPhases
             UpdateHelpInfo();
         }
 
-        public virtual void Prepare()
-        {
-
-        }
-
         public override void Initialize()
         {
             Game.PrefabsList.DiceResultsMenu.SetActive(true);

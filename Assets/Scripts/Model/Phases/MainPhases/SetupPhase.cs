@@ -15,11 +15,9 @@ namespace MainPhases
 
             Name = "Setup Phase";
 
-            Phases.CurrentSubPhase = new SetupSubPhase();
+            Phases.CurrentSubPhase = new SetupStartSubPhase();
             Phases.CurrentSubPhase.Start();
             Phases.CurrentSubPhase.Initialize();
-
-            Phases.CallSetupPhaseTrigger();
         }
 
         public override void NextPhase()

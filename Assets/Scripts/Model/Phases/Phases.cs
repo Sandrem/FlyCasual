@@ -204,63 +204,6 @@ public static partial class Phases
         }
     }
 
-    // INITIATIVE
-
-    public static void DeterminePlayerWithInitiative()
-    {
-        int costP1 = Roster.GetPlayer(PlayerNo.Player1).SquadCost;
-        int costP2 = Roster.GetPlayer(PlayerNo.Player2).SquadCost;
-
-        if (costP1 < costP2)
-        {
-            PlayerWithInitiative = PlayerNo.Player1;
-        }
-        else if (costP1 > costP2)
-        {
-            PlayerWithInitiative = PlayerNo.Player2;
-        }
-        else
-        {
-            int randomPlayer = UnityEngine.Random.Range(1, 3);
-            PlayerWithInitiative = Tools.IntToPlayer(randomPlayer);
-        }
-
-        CurrentSubPhase.RequiredPlayer = PlayerWithInitiative;
-        StartTemporarySubPhase("Initiative", typeof(InitialiveDecisionSubPhase));
-    }
-
-    private class InitialiveDecisionSubPhase : DecisionSubPhase
-    {
-
-        public override void Prepare()
-        {
-            infoText = "Player " + Tools.PlayerToInt(PlayerWithInitiative) + ", what player will have initiative?";
-
-            decisions.Add("I", StayWithInitiative);
-            decisions.Add("Opponent", GiveInitiative);
-
-            defaultDecision = "Opponent";
-        }
-
-        private void GiveInitiative(object sender, EventArgs e)
-        {
-            PlayerWithInitiative = Roster.AnotherPlayer(PlayerWithInitiative);
-            ConfirmDecision();
-        }
-
-        private void StayWithInitiative(object sender, EventArgs e)
-        {
-            ConfirmDecision();
-        }
-
-        private void ConfirmDecision()
-        {
-            Messages.ShowInfo("Player " + Tools.PlayerToInt(PlayerWithInitiative) + " has Initiative");
-            Phases.Next();
-        }
-
-    }
-
-}
+ }
 
 

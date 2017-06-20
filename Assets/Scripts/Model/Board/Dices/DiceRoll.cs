@@ -96,6 +96,34 @@ public partial class DiceRoll
         }
     }
 
+    public void RerollOne()
+    {
+        Dice worstDice = null;
+        foreach (Dice dice in DiceList)
+        {
+            if (dice.Side == DiceSide.Blank)
+            {
+                worstDice = dice;
+                break;
+            }
+            else if (dice.Side == DiceSide.Focus)
+            {
+                if ((worstDice == null) || (worstDice.Side == DiceSide.Success))
+                {
+                    worstDice = dice;
+                }
+            }
+            else if (dice.Side == DiceSide.Success)
+            {
+                if (worstDice == null)
+                {
+                    worstDice = dice;
+                }
+            }
+        }
+        worstDice.Reroll();
+    }
+
     public void ApplyFocus()
     {
         ChangeAll(DiceSide.Focus, DiceSide.Success);

@@ -17,6 +17,8 @@ namespace Ship
         {
             public DutchVander() : base()
             {
+                IsHidden = true;
+
                 PilotName = "\"Dutch\" Vander";
                 ImageUrl = "https://vignette3.wikia.nocookie.net/xwing-miniatures/images/b/bf/Dutch_Vander.png";
                 IsUnique = true;

@@ -11,6 +11,8 @@ namespace UpgradesList
 
         public SquadLeader() : base()
         {
+            IsHidden = true;
+
             Type = UpgradeSlot.Elite;
             Name = ShortName = "Squad Leader";
             ImageUrl = "https://vignette2.wikia.nocookie.net/xwing-miniatures/images/c/cd/Squad_Leader.png";

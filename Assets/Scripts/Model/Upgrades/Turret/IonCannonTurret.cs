@@ -10,6 +10,8 @@ namespace UpgradesList
     {
         public IonCannonTurret() : base()
         {
+            IsHidden = true;
+
             Type = UpgradeSlot.Turret;
 
             Name = "Ion Cannon Turret";

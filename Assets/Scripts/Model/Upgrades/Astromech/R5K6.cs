@@ -11,6 +11,8 @@ namespace UpgradesList
 
         public R5K6() : base()
         {
+            IsHidden = true;
+
             Type = UpgradeSlot.Astromech;
             Name = ShortName = "R5-K6";
             ImageUrl = "https://vignette4.wikia.nocookie.net/xwing-miniatures/images/d/df/R5-K6.png";

@@ -105,7 +105,7 @@ public static partial class RosterBuilder {
         foreach (var type in typelist)
         {
             Ship.GenericShip newShipContainer = (Ship.GenericShip)System.Activator.CreateInstance(type);
-            if (newShipContainer.PilotName != null)
+            if ((newShipContainer.PilotName != null) && (!newShipContainer.IsHidden))
             {
                 string pilotKey = newShipContainer.PilotName + " (" + newShipContainer.Cost + ")";
                 if (!AllPilots.ContainsKey(pilotKey))
@@ -131,14 +131,16 @@ public static partial class RosterBuilder {
         foreach (var type in typelist)
         {
             Upgrade.GenericUpgrade newUpgrade = (Upgrade.GenericUpgrade)System.Activator.CreateInstance(type);
-            if (newUpgrade.Type == slot)
-            {
-                string upgradeKey = newUpgrade.Name + " (" + newUpgrade.Cost + ")";
-                if (!AllUpgrades.ContainsKey(upgradeKey))
+            if (!newUpgrade.IsHidden){
+                if (newUpgrade.Type == slot)
                 {
-                    AllUpgrades.Add(upgradeKey, type.ToString());
+                    string upgradeKey = newUpgrade.Name + " (" + newUpgrade.Cost + ")";
+                    if (!AllUpgrades.ContainsKey(upgradeKey))
+                    {
+                        AllUpgrades.Add(upgradeKey, type.ToString());
+                    }
+                    results.Add(upgradeKey);
                 }
-                results.Add(upgradeKey);
             }
         }
 

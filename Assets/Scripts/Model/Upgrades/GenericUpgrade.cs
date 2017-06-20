@@ -44,6 +44,8 @@ namespace Upgrade
         //public bool ShipTypeRestriction
         //public bool PilotLevelRestriction
 
+        public bool IsHidden;
+
         public GenericUpgrade()
         {
 

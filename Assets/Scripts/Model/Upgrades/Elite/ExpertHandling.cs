@@ -11,6 +11,8 @@ namespace UpgradesList
 
         public ExpertHandling() : base()
         {
+            IsHidden = true;
+
             Type = UpgradeSlot.Elite;
             Name = "Expert Handling";
             ShortName = "Exp. Handling";

@@ -12,6 +12,8 @@ namespace UpgradesList
     {
         public ClusterMissiles() : base()
         {
+            IsHidden = true;
+
             Type = UpgradeSlot.Missiles;
 
             Name = "Cluster Missiles";

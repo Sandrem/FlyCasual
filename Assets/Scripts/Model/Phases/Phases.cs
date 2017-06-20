@@ -150,9 +150,12 @@ public static partial class Phases
         if (OnRoundStart != null) OnRoundStart();
     }
 
-    public static void CallSetupPhaseTrigger()
+    public static IEnumerator CallSetupPhaseTrigger()
     {
         if (OnSetupPhaseStart != null) OnSetupPhaseStart();
+
+        yield return Triggers.ResolveAllTriggers(TriggerTypes.OnSetupPhaseStart);
+        yield return Phases.WaitForTemporarySubPhasesFinish();
     }
 
     public static void CallPlanningPhaseTrigger()

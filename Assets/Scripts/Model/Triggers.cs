@@ -8,6 +8,7 @@ using SubPhases;
 public enum TriggerTypes
 {
     None,
+    OnSetupPhaseStart,
     OnShipMovementFinish,
     OnCombatPhaseStart,
     OnDamageCardIsDealt
@@ -21,14 +22,16 @@ public static partial class Triggers
         public TriggerTypes TriggerType { get; private set; }
         public EventHandler TriggerExecution { get; private set; }
         public object Sender { get; private set; }
+        public Players.PlayerNo TriggerOwner { get; private set; }
         public int Id { get; private set; }
 
-        public Trigger(string name, TriggerTypes triggerType, EventHandler triggerExecution, object sender)
+        public Trigger(string name, TriggerTypes triggerType, EventHandler triggerExecution, object sender, Players.PlayerNo playerNo)
         {
             Name = name;
             TriggerType = triggerType;
             TriggerExecution = triggerExecution;
             Sender = sender;
+            TriggerOwner = playerNo;
             Id = counter++;
         }
     };
@@ -45,10 +48,10 @@ public static partial class Triggers
     private static Dictionary<int, Trigger> simultaneousTriggers = new Dictionary<int, Trigger>();
     private static List<Dictionary<int, Trigger>> stackedTriggers = new List<Dictionary<int, Trigger>>();
 
-    public static void AddTrigger(string name, TriggerTypes triggerType, EventHandler triggerExecution, object sender)
+    public static void AddTrigger(string name, TriggerTypes triggerType, EventHandler triggerExecution, object sender, Players.PlayerNo playerNo)
     {
         Debug.Log("Trigger \"" + name + "\" is registered. Id " + counter + ". Active: " + (simultaneousTriggers.Count+1));
-        simultaneousTriggers.Add(counter, new Trigger(name, triggerType, triggerExecution, sender));
+        simultaneousTriggers.Add(counter, new Trigger(name, triggerType, triggerExecution, sender, playerNo));
     }
 
     public static void RemoveTrigger(int id)
@@ -135,7 +138,7 @@ public static partial class Triggers
         var rawResults =
             from n in simultaneousTriggers
             where n.Value.TriggerType == type
-            where (n.Value.Sender as Ship.GenericShip).Owner.PlayerNo == playerNo
+            where n.Value.TriggerOwner == playerNo
             select n;
         Dictionary<int, Trigger> results = rawResults.ToDictionary(n => n.Key, n => n.Value);
 

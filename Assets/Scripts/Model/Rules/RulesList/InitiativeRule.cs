@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 using System;
+using System.Linq;
 using Players;
 
 namespace RulesList
@@ -37,6 +38,11 @@ namespace RulesList
             }
 
             Phases.CurrentSubPhase.RequiredPlayer = Phases.PlayerWithInitiative;
+            Triggers.AddTrigger("Initiative decision", TriggerTypes.OnSetupPhaseStart, ShowDecision, null, Phases.PlayerWithInitiative);
+        }
+
+        private static void ShowDecision(object sender, EventArgs e)
+        {
             Phases.StartTemporarySubPhase("Initiative", typeof(SubPhases.InitialiveDecisionSubPhase));
         }
     } 
@@ -72,7 +78,7 @@ namespace SubPhases
         private void ConfirmDecision()
         {
             Messages.ShowInfo("Player " + Tools.PlayerToInt(Phases.PlayerWithInitiative) + " has Initiative");
-            Phases.Next();
+            Phases.FinishSubPhase(this.GetType());
         }
 
     }

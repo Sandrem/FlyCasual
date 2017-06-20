@@ -149,11 +149,11 @@ namespace Ship
                     {
                         if (CheckFaceupCrit(dice))
                         {
-                            Triggers.AddTrigger("Draw faceup damage card", TriggerTypes.OnDamageCardIsDealt, CriticalHitsDeck.DrawCrit, this);
+                            Triggers.AddTrigger("Draw faceup damage card", TriggerTypes.OnDamageCardIsDealt, CriticalHitsDeck.DrawCrit, this, this.Owner.PlayerNo);
                         }
                         else
                         {
-                            Triggers.AddTrigger("Draw damage card", TriggerTypes.OnDamageCardIsDealt, CriticalHitsDeck.DrawRegular, this);
+                            Triggers.AddTrigger("Draw damage card", TriggerTypes.OnDamageCardIsDealt, CriticalHitsDeck.DrawRegular, this, this.Owner.PlayerNo);
                         }
                     }
                 }

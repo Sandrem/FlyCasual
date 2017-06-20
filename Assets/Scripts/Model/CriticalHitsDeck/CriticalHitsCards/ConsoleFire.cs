@@ -29,7 +29,7 @@ namespace CriticalHitCard
 
         private void PlanRollForDamage(Ship.GenericShip host)
         {
-            Triggers.AddTrigger("#" + host.ShipId + ": Console Fire Crit", TriggerTypes.OnCombatPhaseStart, RollForDamage, host);
+            Triggers.AddTrigger("#" + host.ShipId + ": Console Fire Crit", TriggerTypes.OnCombatPhaseStart, RollForDamage, host, host.Owner.PlayerNo);
         }
 
         private void RollForDamage(object sender, EventArgs e)

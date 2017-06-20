@@ -37,6 +37,7 @@ namespace Ship
         public event EventHandlerShip OnLandedOnObstacle;
 
         public event EventHandlerShip OnMovementStart;
+        public event EventHandlerShip OnMovementExecuted;
         public event EventHandlerShip OnMovementFinish;
 
         public event EventHandlerShip OnPositionFinish;
@@ -49,6 +50,14 @@ namespace Ship
         public void StartMoving()
         {
             if (OnMovementStart != null) OnMovementStart(this);
+        }
+
+        public IEnumerator ExecuteMoving()
+        {
+            if (OnMovementExecuted != null) OnMovementExecuted(this);
+
+            yield return Triggers.ResolveAllTriggers(TriggerTypes.OnShipMovementExecuted);
+            yield return Phases.WaitForTemporarySubPhasesFinish();
         }
 
         public IEnumerator FinishMoving()

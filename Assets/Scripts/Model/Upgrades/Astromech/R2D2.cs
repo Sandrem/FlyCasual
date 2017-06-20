@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Upgrade;
@@ -22,18 +23,26 @@ namespace UpgradesList
         {
             base.AttachToShip(host);
 
-            host.OnMovementFinish += R2D2RegenShield;
+            host.OnMovementExecuted += R2D2PlanRegenShield;
         }
 
-        private void R2D2RegenShield(Ship.GenericShip host)
+        private void R2D2PlanRegenShield(Ship.GenericShip host)
         {
             if (host.AssignedManeuver.ColorComplexity == Ship.ManeuverColor.Green)
             {
-                if (host.TryRegenShields())
+                if (host.Shields < host.MaxShields)
                 {
-                    Sounds.PlaySoundOnce("R2D2-Proud");
-                    Game.UI.ShowInfo("R2-D2: Shield is restored");
+                    Triggers.AddTrigger("R2-D2: Regen Shield", TriggerTypes.OnShipMovementExecuted, R2D2RegenShield, host, host.Owner.PlayerNo);
                 }
+            }
+        }
+
+        private void R2D2RegenShield(object sender, EventArgs e)
+        {
+            if (Host.TryRegenShields())
+            {
+                Sounds.PlaySoundOnce("R2D2-Proud");
+                Game.UI.ShowInfo("R2-D2: Shield is restored");
             }
         }
 

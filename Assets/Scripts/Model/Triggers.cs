@@ -9,6 +9,7 @@ public enum TriggerTypes
 {
     None,
     OnSetupPhaseStart,
+    OnShipMovementExecuted,
     OnShipMovementFinish,
     OnCombatPhaseStart,
     OnDamageCardIsDealt

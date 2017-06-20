@@ -539,6 +539,8 @@ public class ShipMovementScript : MonoBehaviour {
 
     private IEnumerator FinishMovementCoroutine()
     {
+        yield return Selection.ThisShip.ExecuteMoving();
+
         Selection.ThisShip.CheckLandedOnObstacle();
 
         yield return Selection.ThisShip.FinishMoving();

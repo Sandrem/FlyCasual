@@ -41,12 +41,14 @@ namespace SubPhases
             dicesType = "attack";
             dicesCount = 1;
 
-            checkResults = CheckResults;
+            finishAction = FinishAction;
         }
 
-        protected override void CheckResults(DiceRoll diceRoll)
+        protected override void FinishAction()
         {
-            if (diceRoll.DiceList[0].Side == DiceSide.Success)
+            HideDiceResultMenu();
+
+            if (CurrentDiceRoll.DiceList[0].Side == DiceSide.Success)
             {
                 Game.UI.ShowError("Major Explosion: Suffer 1 additional critical damage");
                 Game.UI.AddTestLogEntry("Major Explosion: Suffer 1 additional critical damage");
@@ -54,7 +56,7 @@ namespace SubPhases
                 Game.StartCoroutine(DealDamage());
             }
 
-            base.CheckResults(diceRoll);
+            Phases.FinishSubPhase(this.GetType());
         }
 
         private IEnumerator DealDamage()

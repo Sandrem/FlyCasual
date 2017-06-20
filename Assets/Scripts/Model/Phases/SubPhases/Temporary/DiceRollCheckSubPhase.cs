@@ -12,7 +12,7 @@ namespace SubPhases
         protected string dicesType;
         protected int dicesCount;
 
-        protected DiceRoll CurentDiceRoll;
+        protected DiceRoll CurrentDiceRoll;
         protected DelegateDiceroll checkResults;
 
         protected UnityEngine.Events.UnityAction finishAction;
@@ -23,6 +23,7 @@ namespace SubPhases
             Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
             IsTemporary = true;
             finishAction = FinishAction;
+            checkResults = CheckResults;
 
             Prepare();
             Initialize();
@@ -59,7 +60,7 @@ namespace SubPhases
 
         protected virtual void CheckResults(DiceRoll diceRoll)
         {
-            CurentDiceRoll = diceRoll;
+            CurrentDiceRoll = diceRoll;
             ShowConfirmDiceResultsButton();
         }
 
@@ -73,7 +74,7 @@ namespace SubPhases
         {
             Game.PrefabsList.DiceResultsMenu.SetActive(false);
             HideDiceModificationButtons();
-            CurentDiceRoll.RemoveDiceModels();
+            CurrentDiceRoll.RemoveDiceModels();
         }
 
         public void HideDiceModificationButtons()

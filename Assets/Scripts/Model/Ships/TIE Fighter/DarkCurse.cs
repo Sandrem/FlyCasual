@@ -26,7 +26,8 @@ namespace Ship
 
             public void AddDarkCursePilotAbility()
             {
-                if ((Combat.AttackStep == CombatStep.Attack) && (Combat.Defender.PilotName == PilotName)) {
+                if ((Combat.AttackStep == CombatStep.Attack) && (Combat.Defender.PilotName == PilotName))
+                {
                     Combat.Attacker.OnTryAddAvailableActionEffect += UseDarkCurseRestriction;
                 }
             }

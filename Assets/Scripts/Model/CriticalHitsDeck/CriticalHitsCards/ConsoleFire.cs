@@ -61,19 +61,21 @@ namespace SubPhases
             dicesType = "attack";
             dicesCount = 1;
 
-            checkResults = CheckResults;
+            finishAction = FinishAction;
         }
 
-        protected override void CheckResults(DiceRoll diceRoll)
+        protected override void FinishAction()
         {
-            if (diceRoll.DiceList[0].Side == DiceSide.Success)
+            HideDiceResultMenu();
+
+            if (CurrentDiceRoll.DiceList[0].Side == DiceSide.Success)
             {
                 Game.UI.ShowError("Console Fire: ship suffered damage");
                 Game.UI.AddTestLogEntry("Console Fire: ship suffered damage");
-                Game.StartCoroutine(Selection.ActiveShip.SufferDamage(diceRoll));
+                Game.StartCoroutine(Selection.ActiveShip.SufferDamage(CurrentDiceRoll));
             }
 
-            base.CheckResults(diceRoll);
+            Phases.FinishSubPhase(this.GetType());
         }
 
     }

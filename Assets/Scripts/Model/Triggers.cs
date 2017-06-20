@@ -86,7 +86,6 @@ public static partial class Triggers
             if (filteredTriggers.Count == 0)
             {
                 Debug.Log("But all triggers with this type is already resolved!");
-                Debug.Log("Current level of stack: " + stackedTriggers.Count);
                 stackedTriggers.Remove(stackedTriggers.Last());
                 Debug.Log("Changed level of stack: " + stackedTriggers.Count);
 

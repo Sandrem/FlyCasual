@@ -58,21 +58,17 @@ namespace SubPhases
             dicesType = "attack";
             dicesCount = 1;
 
-            checkResults = CheckResults;
-        }
-
-        protected override void CheckResults(DiceRoll diceRoll)
-        {
-            Selection.ActiveShip = Selection.ThisShip;
-
-            if (Actions.SelectedCriticalHitCard.CancelDiceResults.Contains(diceRoll.DiceList[0].Side)) Actions.SelectedCriticalHitCard.DiscardEffect(Actions.SelectedCriticalHitCard.Host);
-
-            base.CheckResults(diceRoll);
+            finishAction = FinishAction;
         }
 
         protected override void FinishAction()
         {
             HideDiceResultMenu();
+
+            Selection.ActiveShip = Selection.ThisShip;
+            if (Actions.SelectedCriticalHitCard.CancelDiceResults.Contains(CurrentDiceRoll.DiceList[0].Side)) Actions.SelectedCriticalHitCard.DiscardEffect(Actions.SelectedCriticalHitCard.Host);
+            base.CheckResults(CurrentDiceRoll);
+
             Phases.FinishSubPhase(this.GetType());
         }
 

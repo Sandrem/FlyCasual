@@ -59,14 +59,15 @@ namespace SubPhases
             dicesType = "attack";
             dicesCount = 1;
 
-            checkResults = CheckResults;
+            finishAction = FinishAction;
         }
 
-        protected override void CheckResults(DiceRoll diceRoll)
+        protected override void FinishAction()
         {
+            HideDiceResultMenu();
             Selection.ActiveShip = Selection.ThisShip;
 
-            switch (diceRoll.DiceList[0].Side)
+            switch (CurrentDiceRoll.DiceList[0].Side)
             {
                 case DiceSide.Blank:
                     Game.UI.ShowInfo("No damage");
@@ -76,17 +77,17 @@ namespace SubPhases
                     break;
                 case DiceSide.Success:
                     Game.UI.ShowError("Damage is dealt!");
-                    Game.StartCoroutine(Selection.ActiveShip.SufferDamage(diceRoll));
+                    Game.StartCoroutine(Selection.ActiveShip.SufferDamage(CurrentDiceRoll));
                     break;
                 case DiceSide.Crit:
                     Game.UI.ShowError("Critical damage is dealt!");
-                    Game.StartCoroutine(Selection.ActiveShip.SufferDamage(diceRoll));
+                    Game.StartCoroutine(Selection.ActiveShip.SufferDamage(CurrentDiceRoll));
                     break;
                 default:
                     break;
             }
 
-            base.CheckResults(diceRoll);
+            Phases.FinishSubPhase(this.GetType());
         }
 
     }

@@ -14,8 +14,6 @@ namespace Ship
 
             public DarthVader() : base()
             {
-                IsHidden = true;
-
                 PilotName = "Darth Vader";
                 ImageUrl = "https://vignette1.wikia.nocookie.net/xwing-miniatures/images/f/f7/Darth_Vader.png";
                 IsUnique = true;
@@ -28,16 +26,14 @@ namespace Ship
             {
                 base.InitializePilot();
 
-                OnMovementFinish += DoSecondAction;
+                OnActionSubPhaseStart += DoSecondAction;
             }
 
             private void DoSecondAction(GenericShip ship)
             {
-                if (!ship.IsSkipsActionSubPhase)
+                if (!Selection.ThisShip.IsSkipsActionSubPhase)
                 {
-                    ship.GenerateAvailableActionsList();
-                    List<ActionsList.GenericAction> actions = ship.GetAvailableActionsList();
-                    AskPerformFreeAction(actions);
+                    Triggers.AddTrigger("Darth Vader", TriggerTypes.OnActionSubPhaseStart, ship.Owner.PerformAction, ship, ship.Owner.PlayerNo);
                 }
             }
 

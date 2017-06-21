@@ -13,6 +13,7 @@ namespace Ship
 
         // EVENTS
 
+        public event EventHandlerShip OnActionSubPhaseStart;
         public event EventHandlerShip OnCombatPhaseStart;
 
         public event EventHandlerBool OnTryPerformAttack;
@@ -37,11 +38,16 @@ namespace Ship
 
         // TRIGGERS
 
+        public void CallOnActionSubPhaseStart()
+        {
+            if (OnActionSubPhaseStart != null) OnActionSubPhaseStart(this);
+        }
+
         public void CallOnCombatPhaseStart()
         {
             if (OnCombatPhaseStart != null) OnCombatPhaseStart(this);
         }
-
+        
         public bool CallTryPerformAttack(bool result = true)
         {
             if (OnTryPerformAttack != null) OnTryPerformAttack(ref result);

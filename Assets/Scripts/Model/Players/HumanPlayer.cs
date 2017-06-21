@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -14,9 +15,9 @@ namespace Players
             Name = "Human";
         }
 
-        public override void PerformAction()
+        public override void PerformAction(object sender, EventArgs e)
         {
-            Actions.ShowActionsPanel();
+            Phases.StartTemporarySubPhase("Action", typeof(SubPhases.ActionDecisonSubPhase));
         }
 
         public override void PerformFreeAction()

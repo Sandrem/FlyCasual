@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -36,7 +37,7 @@ namespace Players
             PerformManeuverOfShip(ship);
         }
 
-        public override void PerformAction()
+        public override void PerformAction(object sender, EventArgs e)
         {
             bool actionIsPerformed = false;
 

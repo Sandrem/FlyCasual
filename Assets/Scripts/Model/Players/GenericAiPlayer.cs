@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
@@ -76,7 +77,7 @@ namespace Players
             Game.Movement.PerformStoredManeuver();
         }
 
-        public override void PerformAction()
+        public override void PerformAction(object sender, EventArgs e)
         {
             //Stub
             Phases.Next();

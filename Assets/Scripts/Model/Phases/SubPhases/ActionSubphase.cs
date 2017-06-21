@@ -20,25 +20,25 @@ namespace SubPhases
 
         public override void Initialize()
         {
-            Phases.CallOnActionSubPhaseTrigger();
-
             if (!Selection.ThisShip.IsSkipsActionSubPhase)
             {
                 if (!Selection.ThisShip.IsDestroyed)
                 {
                     Selection.ThisShip.GenerateAvailableActionsList();
-                    Roster.GetPlayer(RequiredPlayer).PerformAction();
+                    Triggers.AddTrigger("Action", TriggerTypes.OnActionSubPhaseStart, Roster.GetPlayer(Phases.CurrentPhasePlayer).PerformAction, Selection.ThisShip, Phases.CurrentPhasePlayer);
                 }
                 else
                 {
-                    Next();
+                    //Next();
                 }
             }
             else
             {
                 Selection.ThisShip.IsSkipsActionSubPhase = false;
-                Next();
+                //Next();
             }
+
+            Phases.CallOnActionSubPhaseTrigger();
         }
 
         public override void Next()
@@ -77,6 +77,33 @@ namespace SubPhases
             bool result = false;
             Game.UI.ShowError("Ship cannot be selected: Perform action first");
             return result;
+        }
+
+    }
+
+}
+
+namespace SubPhases
+{
+
+    public class ActionDecisonSubPhase : DecisionSubPhase
+    {
+
+        public override void Prepare()
+        {
+            infoText = "Select action";
+
+            foreach (var action in Selection.ThisShip.GetAvailableActionsList())
+            {
+                decisions.Add(action.Name, delegate {
+                    Tooltips.EndTooltip();
+                    Selection.ThisShip.AddAlreadyExecutedAction(action);
+                    action.ActionTake();
+                    Phases.FinishSubPhase(this.GetType());
+                });
+            }
+
+            Game.UI.ShowSkipButton();
         }
 
     }

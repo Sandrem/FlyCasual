@@ -62,11 +62,11 @@ public static partial class Phases
         else
         {
             Debug.Log("OOPS! YOU WANT TO FINISH " + subPhaseType + " SUBPHASE, BUT NOW IS " + CurrentSubPhase.GetType() + " SUBPHASE!");
-            if (!subPhasesToFinish.Contains(subPhaseType))
+            /*if (!subPhasesToFinish.Contains(subPhaseType))
             {
                 Debug.Log("Phase " + subPhaseType + " is planned to finish");
                 subPhasesToFinish.Add(subPhaseType);
-            }
+            }*/
         }
     }
 
@@ -207,23 +207,15 @@ public static partial class Phases
 
     public static void StartTemporarySubPhase(string name, System.Type subPhaseType)
     {
-        if ((!InTemporarySubPhase) || (CurrentSubPhase.CanBePaused))
-        {
-            CurrentSubPhase.Pause();
-            Debug.Log("Temporary phase " + subPhaseType + " is started directly");
-            GenericSubPhase previousSubPhase = CurrentSubPhase;
-            CurrentSubPhase = (GenericSubPhase)System.Activator.CreateInstance(subPhaseType);
-            CurrentSubPhase.Name = name;
-            CurrentSubPhase.PreviousSubPhase = previousSubPhase;
-            CurrentSubPhase.RequiredPlayer = previousSubPhase.RequiredPlayer;
-            CurrentSubPhase.RequiredPilotSkill = previousSubPhase.RequiredPilotSkill;
-            CurrentSubPhase.Start();
-        }
-        else
-        {
-            Debug.Log("OOOPS!!! Temporary phase " + subPhaseType + " start is delayed, because now is " + CurrentSubPhase);
-            subPhasesToStart.Add(subPhaseType);
-        }
+        CurrentSubPhase.Pause();
+        Debug.Log("Temporary phase " + subPhaseType + " is started directly");
+        GenericSubPhase previousSubPhase = CurrentSubPhase;
+        CurrentSubPhase = (GenericSubPhase)System.Activator.CreateInstance(subPhaseType);
+        CurrentSubPhase.Name = name;
+        CurrentSubPhase.PreviousSubPhase = previousSubPhase;
+        CurrentSubPhase.RequiredPlayer = previousSubPhase.RequiredPlayer;
+        CurrentSubPhase.RequiredPilotSkill = previousSubPhase.RequiredPilotSkill;
+        CurrentSubPhase.Start();
     }
 
  }

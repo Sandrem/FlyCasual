@@ -59,6 +59,16 @@ namespace SubPhases
 
         }
 
+        public virtual void Update()
+        {
+
+        }
+
+        public virtual void ProcessClick()
+        {
+
+        }
+
         public virtual void Next()
         {
 

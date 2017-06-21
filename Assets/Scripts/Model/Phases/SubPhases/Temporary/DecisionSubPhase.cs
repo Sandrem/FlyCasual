@@ -65,6 +65,18 @@ namespace SubPhases
             Roster.GetPlayer(Phases.CurrentPhasePlayer).TakeDecision();  
         }
 
+        public override void Pause()
+        {
+            decisionPanel.SetActive(false);
+        }
+
+        public override void Resume()
+        {
+            Phases.CurrentSubPhase = this;
+            UpdateHelpInfo();
+            decisionPanel.SetActive(true);
+        }
+
         public override void Next()
         {
             decisionPanel.gameObject.SetActive(false);

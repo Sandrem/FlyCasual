@@ -27,7 +27,7 @@ namespace Ship
 
             private void HowlrunnerAbility(GenericShip ship)
             {
-                AddAvailableActionEffect(new ActionsList.HowlrunnerAction());
+                Combat.Attacker.AddAvailableActionEffect(new ActionsList.HowlrunnerAction());
             }
 
         }
@@ -57,13 +57,12 @@ namespace ActionsList
                         Ship.GenericShip Howlrunner = null;
                         foreach (var friendlyShip in Combat.Attacker.Owner.Ships)
                         {
-                            if (friendlyShip.GetType() == typeof(Ship.TIEFighter.Howlrunner))
+                            if (friendlyShip.Value.GetType() == typeof(Ship.TIEFighter.Howlrunner))
                             {
                                 Howlrunner = friendlyShip.Value;
                                 break;
                             }
                         }
-
                         if (Howlrunner != null)
                         {
                             if (Actions.GetRange(Howlrunner, Combat.Attacker) == 1)
@@ -80,7 +79,12 @@ namespace ActionsList
 
         public override void ActionEffect()
         {
-            Combat.CurentDiceRoll.RerollOne();
+            Dices.RerollOne(Combat.CurentDiceRoll, Unblock);
+        }
+
+        private void Unblock(DiceRoll diceRoll)
+        {
+            //Todo: Unblock buttons
         }
 
     }

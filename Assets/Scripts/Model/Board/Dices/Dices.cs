@@ -59,6 +59,12 @@ public static class Dices {
         Game.StartCoroutine(WaitForResults(diceRoll, callback));
     }
 
+    public static void RerollOne(DiceRoll diceRoll, DelegateDiceroll callback)
+    {
+        diceRoll.RerollOne();
+        Game.StartCoroutine(WaitForResults(diceRoll, callback));
+    }
+
     public static void ApplyFocus(DiceRoll diceRoll)
     {
         diceRoll.ApplyFocus();

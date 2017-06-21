@@ -60,6 +60,7 @@ public static class Selection {
 
     private static void ProcessClick()
     {
+        Phases.CurrentSubPhase.ProcessClick();
         if (Game.Position.inReposition)
         {
             Game.Position.TryConfirmPosition(Selection.ThisShip);

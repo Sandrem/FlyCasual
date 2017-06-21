@@ -134,4 +134,29 @@ public static partial class Board {
         FiringLine.SetActive(false);
     }
 
+    public static bool ShipStandIsInside(GameObject shipObject, Transform zone)
+    {
+        Vector3 zoneStart = zone.transform.TransformPoint(-0.5f, -0.5f, -0.5f);
+        Vector3 zoneEnd = zone.transform.TransformPoint(0.5f, 0.5f, 0.5f);
+        bool result = true;
+
+        List<Vector3> shipStandEdges = new List<Vector3>
+        {
+            shipObject.transform.TransformPoint(new Vector3(-0.5f, 0f, 0)),
+            shipObject.transform.TransformPoint(new Vector3(0.5f, 0f, 0)),
+            shipObject.transform.TransformPoint(new Vector3(-0.5f, 0f, -1f)),
+            shipObject.transform.TransformPoint(new Vector3(0.5f, 0f, -1))
+        };
+
+        foreach (var point in shipStandEdges)
+        {
+            if ((point.x < zoneStart.x) || (point.z < zoneStart.z) || (point.x > zoneEnd.x) || (point.z > zoneEnd.z))
+            {
+                result = false;
+                break;
+            }
+        }
+        return result;
+    }
+
 }

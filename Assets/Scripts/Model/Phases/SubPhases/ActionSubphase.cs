@@ -99,6 +99,7 @@ namespace SubPhases
                     Tooltips.EndTooltip();
                     Selection.ThisShip.AddAlreadyExecutedAction(action);
                     action.ActionTake();
+                    Game.UI.HideNextButton();
                     Phases.FinishSubPhase(this.GetType());
                 });
             }

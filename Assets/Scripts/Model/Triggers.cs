@@ -11,6 +11,7 @@ public enum TriggerTypes
     OnSetupPhaseStart,
     OnShipMovementExecuted,
     OnShipMovementFinish,
+    OnActionSubPhaseStart,
     OnCombatPhaseStart,
     OnDamageCardIsDealt
 }

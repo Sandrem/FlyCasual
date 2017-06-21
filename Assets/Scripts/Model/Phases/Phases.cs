@@ -37,10 +37,9 @@ public static partial class Phases
     public static event EventHandler OnSetupPhaseStart;
     public static event EventHandler OnPlanningPhaseStart;
     public static event EventHandler OnActivationPhaseStart;
+    public static event EventHandler OnActionSubPhaseStart;
     public static event EventHandler OnCombatPhaseStart;
     public static event EventHandler OnEndPhaseStart;
-
-    public static event EventHandler OnActionSubPhaseStart;
 
     // PHASES CONTROL
 
@@ -181,7 +180,6 @@ public static partial class Phases
     private static IEnumerator ResolveCombatTriggers()
     {
         yield return Triggers.ResolveAllTriggers(TriggerTypes.OnCombatPhaseStart);
-        Debug.Log("All pre-Combat Triggers are resolved, START OF COMBAT!");
         Phases.FinishSubPhase(typeof(CombatStartSubPhase));
     }
 
@@ -193,6 +191,16 @@ public static partial class Phases
     public static void CallOnActionSubPhaseTrigger()
     {
         if (OnActionSubPhaseStart != null) OnActionSubPhaseStart();
+        Selection.ThisShip.CallOnActionSubPhaseStart();
+
+        Game.StartCoroutine(ResolveActionTriggers());
+    }
+
+    private static IEnumerator ResolveActionTriggers()
+    {
+        yield return Triggers.ResolveAllTriggers(TriggerTypes.OnActionSubPhaseStart);
+        yield return Phases.WaitForTemporarySubPhasesFinish();
+        FinishSubPhase(typeof(ActionSubPhase));
     }
 
     // TEMPORARY SUBPHASES

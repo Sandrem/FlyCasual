@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -54,7 +55,7 @@ namespace Players
 
         public virtual void PerformManeuver() { }
 
-        public virtual void PerformAction() { }
+        public virtual void PerformAction(object sender, EventArgs e) { }
 
         public virtual void PerformFreeAction() { }
 

@@ -73,7 +73,7 @@ public static partial class Phases
 
     public static void Next()
     {
-        Debug.Log("NEXT - finish for: " + CurrentSubPhase);
+        //Debug.Log("NEXT - finish for: " + CurrentSubPhase);
         CurrentSubPhase.Next();
     }
 
@@ -213,7 +213,7 @@ public static partial class Phases
         }
         else
         {
-            Debug.Log("Temporary phase " + subPhaseType + " start is delayed, because now is " + CurrentSubPhase);
+            Debug.Log("OOOPS!!! Temporary phase " + subPhaseType + " start is delayed, because now is " + CurrentSubPhase);
             subPhasesToStart.Add(subPhaseType);
         }
     }

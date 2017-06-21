@@ -10,8 +10,6 @@ namespace Ship
         {
             public Howlrunner() : base()
             {
-                IsHidden = true;
-
                 PilotName = "\"Howlrunner\"";
                 ImageUrl = "https://vignette4.wikia.nocookie.net/xwing-miniatures/images/7/71/Howlrunner.png";
                 IsUnique = true;
@@ -23,21 +21,13 @@ namespace Ship
             public override void InitializePilot()
             {
                 base.InitializePilot();
-                // TODO
-                // create global event on attack trigger
+
+                GenericShip.AfterGenerateAvailableActionEffectsListGlobal += HowlrunnerAbility;
             }
 
             private void HowlrunnerAbility(GenericShip ship)
             {
-                if (ship.Owner.PlayerNo == this.Owner.PlayerNo)
-                {
-                    if (Actions.GetRange(ship, this) == 1)
-                    {
-                        // TODO
-                        // add action
-                    }
-                }
-                
+                Combat.Attacker.AddAvailableActionEffect(new ActionsList.HowlrunnerAction());
             }
 
         }
@@ -49,26 +39,52 @@ namespace ActionsList
 
     public class HowlrunnerAction : GenericAction
     {
-        private Ship.GenericShip host;
-
         public HowlrunnerAction()
         {
             Name = EffectName = "Howlrunner";
+            IsReroll = true;
         }
 
         public override bool IsActionEffectAvailable()
         {
             bool result = false;
-            // TODO:
-            // Check contitions?
+            if (Combat.AttackStep == CombatStep.Attack)
+            {
+                if (Combat.SecondaryWeapon == null)
+                {
+                    if (Combat.Attacker.GetType() != typeof(Ship.TIEFighter.Howlrunner))
+                    {
+                        Ship.GenericShip Howlrunner = null;
+                        foreach (var friendlyShip in Combat.Attacker.Owner.Ships)
+                        {
+                            if (friendlyShip.Value.GetType() == typeof(Ship.TIEFighter.Howlrunner))
+                            {
+                                Howlrunner = friendlyShip.Value;
+                                break;
+                            }
+                        }
+                        if (Howlrunner != null)
+                        {
+                            if (Actions.GetRange(Howlrunner, Combat.Attacker) == 1)
+                            {
+                                result = true;
+                            }
+                        }
+                    }
+                }
+            }
+
             return result;
         }
 
         public override void ActionEffect()
         {
-            // TODO:
-            // Add interface
-            // Combat.CurentDiceRoll.RerollOneSeleceted
+            Dices.RerollOne(Combat.CurentDiceRoll, Unblock);
+        }
+
+        private void Unblock(DiceRoll diceRoll)
+        {
+            //Todo: Unblock buttons
         }
 
     }

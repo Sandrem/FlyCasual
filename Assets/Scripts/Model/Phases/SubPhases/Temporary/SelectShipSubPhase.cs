@@ -85,12 +85,12 @@ namespace SubPhases
 
             if (isEnemyAllowed)
             {
-                int range = Actions.GetRange(Selection.ActiveShip, anotherShip);
+                int range = Actions.GetRange(Selection.ThisShip, anotherShip);
                 if( (range >= minRange) && (range <= maxRange))
                 {
                     Game.UI.HideNextButton();
                     TargetShip = anotherShip;
-                    MovementTemplates.ShowRange(Selection.ActiveShip, TargetShip);
+                    MovementTemplates.ShowRange(Selection.ThisShip, TargetShip);
                     finishAction.Invoke();
                     Phases.FinishSubPhase(this.GetType());
                 }
@@ -112,6 +112,7 @@ namespace SubPhases
         {
             Phases.CurrentSubPhase = PreviousSubPhase;
             Roster.AllShipsHighlightOff();
+            Phases.CurrentSubPhase.Resume();
             UpdateHelpInfo();
         }
 

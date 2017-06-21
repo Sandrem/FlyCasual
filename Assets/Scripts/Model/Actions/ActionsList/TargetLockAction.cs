@@ -79,12 +79,8 @@ namespace SubPhases
 
         protected override void RevertSubPhase()
         {
-            if (PreviousSubPhase.GetType() == typeof(ActionSubPhase))
-            {
-                Selection.ThisShip.RemoveAlreadyExecutedAction(typeof(ActionsList.TargetLockAction));
-                base.RevertSubPhase();
-                Phases.CurrentSubPhase.Resume();
-            }
+            Selection.ThisShip.RemoveAlreadyExecutedAction(typeof(ActionsList.TargetLockAction));
+            base.RevertSubPhase();
         }
 
     }

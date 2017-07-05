@@ -10,6 +10,19 @@ public enum CombatStep
     Defence
 }
 
+public enum DamageTypes
+{
+    ShipAttack,
+    ObstacleCollision,
+    CriticalHitCard
+}
+
+public class DamageSourceEventArgs : EventArgs
+{
+    public object Source { get; set; }
+    public DamageTypes DamageType { get; set; }
+}
+
 public static partial class Combat
 {
 
@@ -25,6 +38,8 @@ public static partial class Combat
     public static Ship.GenericShip Defender;
 
     public static Upgrade.GenericSecondaryWeapon SecondaryWeapon;
+
+    public static CriticalHitCard.GenericCriticalHit CurrentCriticalHitCard;
 
     // Use this for initialization
     static Combat() {
@@ -142,10 +157,15 @@ public static partial class Combat
     public static IEnumerator CalculateAttackResults(Ship.GenericShip attacker, Ship.GenericShip defender)
     {
         DiceRollAttack.CancelHits(DiceRollDefence.Successes);
+
         if (DiceRollAttack.Successes != 0)
         {
-            yield return defender.SufferDamage(DiceRollAttack);
+            DamageSourceEventArgs eventArgs = new DamageSourceEventArgs();
+            eventArgs.Source = Attacker;
+            eventArgs.DamageType = DamageTypes.ShipAttack;
+            yield return defender.SufferDamage(DiceRollAttack, eventArgs);
         }
+
         CallCombatEndEvents();
     }
 
@@ -221,8 +241,8 @@ namespace SubPhases
             int distance = Actions.GetFiringRange(Selection.ThisShip, Selection.AnotherShip);
             infoText = "Choose weapon for attack (Distance " + distance + ")";
 
-            decisions.Add("Primary", PerformPrimaryAttack);
-            decisions.Add("Proton Torpedoes", PerformTorpedoesAttack);
+            AddDecision("Primary", PerformPrimaryAttack);
+            AddDecision("Proton Torpedoes", PerformTorpedoesAttack);
 
             //Temporary
             tooltips.Add("Proton Torpedoes", "https://vignette2.wikia.nocookie.net/xwing-miniatures/images/e/eb/Proton-torpedoes.png");

@@ -31,7 +31,12 @@ namespace CriticalHitCard
 
             DiceRoll damageRoll = new DiceRoll("attack", 0);
             damageRoll.DiceList.Add(new Dice("attack", DiceSide.Success));
-            host.SufferDamage(damageRoll);
+
+            DamageSourceEventArgs eventArgs = new DamageSourceEventArgs();
+            eventArgs.Source = this;
+            eventArgs.DamageType = DamageTypes.CriticalHitCard;
+
+            host.SufferDamage(damageRoll, eventArgs);
         }
 
         public override void DiscardEffect(Ship.GenericShip host)

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Upgrade;
@@ -24,7 +25,7 @@ namespace UpgradesList
             host.OnAssignCrit += CancelPilotCrits;
         }
 
-        private void CancelPilotCrits(Ship.GenericShip ship, ref CriticalHitCard.GenericCriticalHit crit)
+        private void CancelPilotCrits(Ship.GenericShip ship, ref CriticalHitCard.GenericCriticalHit crit, EventArgs e)
         {
             if (crit.Type == CriticalCardType.Pilot) {
                 Game.UI.ShowInfo("Determination: Crit with \"Pilot\" trait is discarded");

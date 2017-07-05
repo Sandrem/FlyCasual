@@ -39,7 +39,19 @@ public static class CriticalHitsDeck{
         }
     }
 
-    public static void DrawCrit(object sender, EventArgs e)
+    public static CriticalHitCard.GenericCriticalHit GetCritCard()
+    {
+        int deckSize = CheckDeck();
+
+        CriticalHitCard.GenericCriticalHit critCard = null;
+        int index = UnityEngine.Random.Range(0, deckSize);
+        critCard = Deck[index];
+        Deck.Remove(critCard);
+
+        return critCard;
+    }
+
+    private static int CheckDeck()
     {
         int deckSize = Deck.Count;
 
@@ -49,12 +61,7 @@ public static class CriticalHitsDeck{
             deckSize = Deck.Count;
         }
 
-        int index = UnityEngine.Random.Range(0, deckSize);
-
-        CriticalHitCard.GenericCriticalHit crit = Deck[index];
-        Deck.Remove(crit);
-
-        (sender as Ship.GenericShip).SufferCrit(crit);
+        return deckSize;
     }
 
     public static void DrawRegular(object sender, EventArgs e)

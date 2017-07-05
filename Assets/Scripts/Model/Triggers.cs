@@ -13,6 +13,7 @@ public enum TriggerTypes
     OnShipMovementFinish,
     OnActionSubPhaseStart,
     OnCombatPhaseStart,
+    OnFaceupCritCardReadyToBeDealt,
     OnDamageCardIsDealt
 }
 
@@ -24,15 +25,17 @@ public static partial class Triggers
         public TriggerTypes TriggerType { get; private set; }
         public EventHandler TriggerExecution { get; private set; }
         public object Sender { get; private set; }
+        public EventArgs Arguments { get; private set; }
         public Players.PlayerNo TriggerOwner { get; private set; }
         public int Id { get; private set; }
 
-        public Trigger(string name, TriggerTypes triggerType, EventHandler triggerExecution, object sender, Players.PlayerNo playerNo)
+        public Trigger(string name, TriggerTypes triggerType, EventHandler triggerExecution, object sender, Players.PlayerNo playerNo, EventArgs arguments = null)
         {
             Name = name;
             TriggerType = triggerType;
             TriggerExecution = triggerExecution;
             Sender = sender;
+            Arguments = arguments;
             TriggerOwner = playerNo;
             Id = counter++;
         }
@@ -50,10 +53,10 @@ public static partial class Triggers
     private static Dictionary<int, Trigger> simultaneousTriggers = new Dictionary<int, Trigger>();
     private static List<Dictionary<int, Trigger>> stackedTriggers = new List<Dictionary<int, Trigger>>();
 
-    public static void AddTrigger(string name, TriggerTypes triggerType, EventHandler triggerExecution, object sender, Players.PlayerNo playerNo)
+    public static void AddTrigger(string name, TriggerTypes triggerType, EventHandler triggerExecution, object sender, Players.PlayerNo playerNo, EventArgs arguments = null)
     {
         Debug.Log("Trigger \"" + name + "\" is registered. Id " + counter + ". Active: " + (simultaneousTriggers.Count+1));
-        simultaneousTriggers.Add(counter, new Trigger(name, triggerType, triggerExecution, sender, playerNo));
+        simultaneousTriggers.Add(counter, new Trigger(name, triggerType, triggerExecution, sender, playerNo, arguments));
     }
 
     public static void RemoveTrigger(int id)
@@ -122,7 +125,7 @@ public static partial class Triggers
         if (results.Count == 1)
         {
             RemoveTrigger(results.First().Value.Id);
-            results.First().Value.TriggerExecution.Invoke(results.First().Value.Sender, null);
+            results.First().Value.TriggerExecution.Invoke(results.First().Value.Sender, results.First().Value.Arguments);
         }
         else if (results.Count > 1)
         {
@@ -162,7 +165,6 @@ public static partial class Triggers
 
         public override void Prepare()
         {
-            int counter = 2;
             infoText = "Select a trigger to resolve";
 
             foreach (var trigger in simultaneousTriggers)
@@ -170,21 +172,17 @@ public static partial class Triggers
                 if ((trigger.Value.Sender as Ship.GenericShip).Owner.PlayerNo == Triggers.CurrentPlayer)
                 {
                     string name = trigger.Value.Name;
-                    while (decisions.ContainsKey(name))
-                    {
-                        name = trigger.Value.Name + " #" + counter++;
-                    }
-                    decisions.Add(name, delegate {
+
+                    AddDecision(name, delegate {
                         Phases.FinishSubPhase(this.GetType());
                         RemoveTrigger(trigger.Value.Id);
-                        trigger.Value.TriggerExecution.Invoke(trigger.Value.Sender, null);
+                        trigger.Value.TriggerExecution.Invoke(trigger.Value.Sender, trigger.Value.Arguments);
                     });
 
                 }
             }
 
-            Debug.Log(decisions.Count);
-            defaultDecision = decisions.First().Key;
+            defaultDecision = GetDecisions().First().Key;
             
         }
 

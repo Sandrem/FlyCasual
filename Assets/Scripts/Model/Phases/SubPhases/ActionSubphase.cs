@@ -95,7 +95,7 @@ namespace SubPhases
 
             foreach (var action in Selection.ThisShip.GetAvailableActionsList())
             {
-                decisions.Add(action.Name, delegate {
+                AddDecision(action.Name, delegate {
                     Tooltips.EndTooltip();
                     Selection.ThisShip.AddAlreadyExecutedAction(action);
                     action.ActionTake();

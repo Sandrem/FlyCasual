@@ -58,8 +58,8 @@ namespace SubPhases
         {
             infoText = "Player " + Tools.PlayerToInt(Phases.PlayerWithInitiative) + ", what player will have initiative?";
 
-            decisions.Add("I", StayWithInitiative);
-            decisions.Add("Opponent", GiveInitiative);
+            AddDecision("I", StayWithInitiative);
+            AddDecision("Opponent", GiveInitiative);
 
             defaultDecision = "Opponent";
         }

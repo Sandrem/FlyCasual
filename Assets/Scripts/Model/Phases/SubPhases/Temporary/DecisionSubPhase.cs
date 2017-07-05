@@ -12,7 +12,7 @@ namespace SubPhases
     {
         private GameObject decisionPanel;
         protected string infoText;
-        protected Dictionary<string, EventHandler> decisions = new Dictionary<string, EventHandler>();
+        private Dictionary<string, EventHandler> decisions = new Dictionary<string, EventHandler>();
         protected Dictionary<string, string> tooltips = new Dictionary<string, string>();
         protected string defaultDecision;
 
@@ -30,6 +30,23 @@ namespace SubPhases
             Initialize();
 
             UpdateHelpInfo();
+        }
+
+        protected string AddDecision(string name, EventHandler call)
+        {
+            int counter = 2;
+            while (decisions.ContainsKey(name))
+            {
+                name = name + " #" + counter++;
+            }
+            decisions.Add(name, call);
+
+            return name;
+        }
+
+        protected Dictionary<string, EventHandler> GetDecisions()
+        {
+            return decisions;
         }
 
         public override void Initialize()

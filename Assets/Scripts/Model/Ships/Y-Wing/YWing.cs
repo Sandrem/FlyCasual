@@ -17,7 +17,7 @@ namespace Ship
                 Firepower = 2;
                 Agility = 1;
                 MaxHull = 5;
-                MaxShields = 3;
+                MaxShields = 0; //3
 
                 AddUpgradeSlot(Upgrade.UpgradeSlot.Turret);
                 AddUpgradeSlot(Upgrade.UpgradeSlot.Astromech);

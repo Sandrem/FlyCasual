@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -28,7 +29,10 @@ namespace Ship
         public event EventHandlerShip AfterAssignedDamageIsChanged;
 
         public event EventHandlerBool OnCheckFaceupCrit;
-        public event EventHandlerShipCrit OnAssignCrit;
+        public event EventHandlerShipCritArgs OnFaceupCritCardReadyToBeDealt;
+        public static event EventHandlerShipCritArgs OnFaceupCritCardReadyToBeDealtGlobal;
+        public event EventHandlerShipCritArgs OnAssignCrit;
+        
 
         public event EventHandler OnDestroyed;
 
@@ -139,7 +143,7 @@ namespace Ship
 
         // DAMAGE
 
-        public IEnumerator SufferDamage(DiceRoll damage)
+        public IEnumerator SufferDamage(DiceRoll damage, DamageSourceEventArgs eventArgs)
         {
             int shieldsBefore = Shields;
 
@@ -155,11 +159,12 @@ namespace Ship
                     {
                         if (CheckFaceupCrit(dice))
                         {
-                            Triggers.AddTrigger("Draw faceup damage card", TriggerTypes.OnDamageCardIsDealt, CriticalHitsDeck.DrawCrit, this, this.Owner.PlayerNo);
+                            Triggers.AddTrigger("Draw faceup damage card", TriggerTypes.OnDamageCardIsDealt, DealFaceupCritCard, this, this.Owner.PlayerNo, eventArgs);
                         }
                         else
                         {
-                            Triggers.AddTrigger("Draw damage card", TriggerTypes.OnDamageCardIsDealt, CriticalHitsDeck.DrawRegular, this, this.Owner.PlayerNo);
+                            Triggers.AddTrigger("Draw damage card", TriggerTypes.OnDamageCardIsDealt, DealFaceupCritCard, this, this.Owner.PlayerNo, eventArgs);
+                            // => CriticalHitsDeck.DrawRegular
                         }
                     }
                 }
@@ -193,6 +198,33 @@ namespace Ship
             CallAfterAssignedDamageIsChanged();
 
             IsHullDestroyedCheck();
+        }
+
+        public void DealFaceupCritCard(object sender, EventArgs e)
+        {
+            Combat.CurrentCriticalHitCard = CriticalHitsDeck.GetCritCard();
+
+            Debug.Log("+++ Crit: " + Combat.CurrentCriticalHitCard.Name);
+            Debug.Log("+++ Source: " + (e as DamageSourceEventArgs).Source);
+            Debug.Log("+++ DamageType: " + (e as DamageSourceEventArgs).DamageType);
+
+            if (OnFaceupCritCardReadyToBeDealt != null) OnFaceupCritCardReadyToBeDealt(this, ref Combat.CurrentCriticalHitCard, e);
+
+            if (OnFaceupCritCardReadyToBeDealtGlobal != null) OnFaceupCritCardReadyToBeDealtGlobal(this, ref Combat.CurrentCriticalHitCard, e);
+
+            Game.StartCoroutine(DealFaceupCritCardAsync(sender, e));
+        }
+
+        private IEnumerator DealFaceupCritCardAsync(object sender, EventArgs e)
+        {
+            Debug.Log("+++ TRIGGER!!!");
+
+            yield return Triggers.ResolveAllTriggers(TriggerTypes.OnFaceupCritCardReadyToBeDealt);
+            yield return Phases.WaitForTemporarySubPhasesFinish();
+
+            Debug.Log("+++ SUFFER!!!");
+
+            (sender as GenericShip).SufferCrit(Combat.CurrentCriticalHitCard);
         }
 
         public void SufferCrit(CriticalHitCard.GenericCriticalHit crit)

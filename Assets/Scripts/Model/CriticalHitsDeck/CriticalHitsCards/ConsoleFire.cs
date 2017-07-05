@@ -72,7 +72,11 @@ namespace SubPhases
             {
                 Game.UI.ShowError("Console Fire: ship suffered damage");
                 Game.UI.AddTestLogEntry("Console Fire: ship suffered damage");
-                Game.StartCoroutine(Selection.ActiveShip.SufferDamage(CurrentDiceRoll));
+
+                DamageSourceEventArgs eventArgs = new DamageSourceEventArgs();
+                eventArgs.Source = new CriticalHitCard.ConsoleFire();
+                eventArgs.DamageType = DamageTypes.CriticalHitCard;
+                Game.StartCoroutine(Selection.ActiveShip.SufferDamage(CurrentDiceRoll, eventArgs));
             }
 
             Phases.FinishSubPhase(this.GetType());

@@ -70,24 +70,38 @@ namespace SubPhases
             switch (CurrentDiceRoll.DiceList[0].Side)
             {
                 case DiceSide.Blank:
-                    Game.UI.ShowInfo("No damage");
+                    NoDamage();
                     break;
                 case DiceSide.Focus:
-                    Game.UI.ShowInfo("No damage");
+                    NoDamage();                    
                     break;
                 case DiceSide.Success:
                     Game.UI.ShowError("Damage is dealt!");
-                    Game.StartCoroutine(Selection.ActiveShip.SufferDamage(CurrentDiceRoll));
+                    SufferDamage();
                     break;
                 case DiceSide.Crit:
                     Game.UI.ShowError("Critical damage is dealt!");
-                    Game.StartCoroutine(Selection.ActiveShip.SufferDamage(CurrentDiceRoll));
+                    SufferDamage();
                     break;
                 default:
                     break;
             }
 
             Phases.FinishSubPhase(this.GetType());
+        }
+
+        private void NoDamage()
+        {
+            Game.UI.ShowInfo("No damage");
+        }
+
+        private void SufferDamage()
+        {
+            DamageSourceEventArgs eventArgs = new DamageSourceEventArgs();
+            eventArgs.Source = null;
+            eventArgs.DamageType = DamageTypes.ObstacleCollision;
+
+            Game.StartCoroutine(Selection.ActiveShip.SufferDamage(CurrentDiceRoll, eventArgs));
         }
 
     }

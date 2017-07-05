@@ -163,8 +163,7 @@ namespace Ship
                         }
                         else
                         {
-                            Triggers.AddTrigger("Draw damage card", TriggerTypes.OnDamageCardIsDealt, DealFaceupCritCard, this, this.Owner.PlayerNo, eventArgs);
-                            // => CriticalHitsDeck.DrawRegular
+                            Triggers.AddTrigger("Draw damage card", TriggerTypes.OnDamageCardIsDealt, CriticalHitsDeck.DrawRegular, this, this.Owner.PlayerNo, eventArgs);
                         }
                     }
                 }

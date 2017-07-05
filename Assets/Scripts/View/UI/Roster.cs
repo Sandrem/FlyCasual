@@ -17,24 +17,24 @@ public static partial class Roster {
         GameObject newPanel = MonoBehaviour.Instantiate(Game.PrefabsList.RosterPanel, Game.PrefabsList.RostersHolder.transform.Find("TeamPlayer" + newShip.Owner.Id).Find("RosterHolder").transform);
 
         //Generic info
-        newPanel.transform.Find("ShipInfo").Find("ShipPilotSkillText").GetComponent<Text>().text = newShip.PilotSkill.ToString();
+        newPanel.transform.Find("ShipInfo/ShipPilotSkillText").GetComponent<Text>().text = newShip.PilotSkill.ToString();
 
-        newPanel.transform.Find("ShipInfo").Find("ShipId").GetComponent<Text>().text = newShip.ShipId.ToString();
+        newPanel.transform.Find("ShipInfo/ShipId").GetComponent<Text>().text = newShip.ShipId.ToString();
 
-        GameObject pilotNameGO = newPanel.transform.Find("ShipInfo").Find("ShipPilotNameText").gameObject;
+        GameObject pilotNameGO = newPanel.transform.Find("ShipInfo/ShipPilotNameText").gameObject;
         pilotNameGO.GetComponent<Text>().text = newShip.PilotName;
         Tooltips.AddTooltip(pilotNameGO, newShip.ImageUrl);
         SubscribeActions(pilotNameGO);
 
-        GameObject shipTypeGO = newPanel.transform.Find("ShipInfo").Find("ShipTypeText").gameObject;
+        GameObject shipTypeGO = newPanel.transform.Find("ShipInfo/ShipTypeText").gameObject;
         shipTypeGO.GetComponent<Text>().text = newShip.Type;
         Tooltips.AddTooltip(shipTypeGO, newShip.ManeuversImageUrl);
         SubscribeActions(shipTypeGO);
 
-        newPanel.transform.Find("ShipInfo").Find("ShipFirepowerText").GetComponent<Text>().text = newShip.Firepower.ToString();
-        newPanel.transform.Find("ShipInfo").Find("ShipAgilityText").GetComponent<Text>().text = newShip.Agility.ToString();
-        newPanel.transform.Find("ShipInfo").Find("ShipHullText").GetComponent<Text>().text = newShip.MaxHull.ToString();
-        newPanel.transform.Find("ShipInfo").Find("ShipShieldsText").GetComponent<Text>().text = newShip.MaxShields.ToString();
+        newPanel.transform.Find("ShipInfo/ShipFirepowerText").GetComponent<Text>().text = newShip.Firepower.ToString();
+        newPanel.transform.Find("ShipInfo/ShipAgilityText").GetComponent<Text>().text = newShip.Agility.ToString();
+        newPanel.transform.Find("ShipInfo/ShipHullText").GetComponent<Text>().text = newShip.MaxHull.ToString();
+        newPanel.transform.Find("ShipInfo/ShipShieldsText").GetComponent<Text>().text = newShip.MaxShields.ToString();
 
         //Hull and shields
         float panelWidth = 200 - 10;
@@ -42,7 +42,7 @@ public static partial class Roster {
         float panelWidthNoDividers = panelWidth - (1 * (hullAndShield - 1));
         float damageIndicatorWidth = panelWidthNoDividers / hullAndShield;
 
-        GameObject damageIndicatorBar = newPanel.transform.Find("ShipInfo").Find("DamageBarPanel").gameObject;
+        GameObject damageIndicatorBar = newPanel.transform.Find("ShipInfo/DamageBarPanel").gameObject;
         GameObject damageIndicator = damageIndicatorBar.transform.Find("DamageIndicator").gameObject;
         damageIndicator.GetComponent<RectTransform>().sizeDelta = new Vector2(damageIndicatorWidth, 10);
         for (int i = 0; i < hullAndShield; i++)
@@ -123,7 +123,7 @@ public static partial class Roster {
         bool tokensVisible = false;
 
         //TODO: Bug: Resize on end phase is not working correctly
-        foreach (Transform icon in panel.transform.Find("ShipInfo").Find("TokensBar").transform)
+        foreach (Transform icon in panel.transform.Find("ShipInfo/TokensBar").transform)
         {
             if (icon.gameObject.activeSelf)
             {
@@ -138,7 +138,7 @@ public static partial class Roster {
 
         float upgradesVisible = 0;
 
-        foreach (Transform icon in panel.transform.Find("ShipInfo").Find("UpgradesBar").transform)
+        foreach (Transform icon in panel.transform.Find("ShipInfo/UpgradesBar").transform)
         {
             if (icon.gameObject.activeSelf)
             {
@@ -155,12 +155,12 @@ public static partial class Roster {
     {
         for (int i = 1; i < 3; i++)
         {
-            Vector3 defaultPosition = Game.PrefabsList.RostersHolder.transform.Find("TeamPlayer" + i).Find("RosterHolder").transform.position + new Vector3(5f, 0f, 0f);
+            Vector3 defaultPosition = Game.PrefabsList.RostersHolder.transform.Find("TeamPlayer" + i + "/RosterHolder").transform.position + new Vector3(5f, 0f, 0f);
 
             List<GameObject> rosterPlayer = (i == 1) ? rosterPlayer1 : rosterPlayer2;
             rosterPlayer = rosterPlayer
-                .OrderByDescending(x => x.transform.Find("ShipInfo").Find("ShipPilotSkillText").GetComponent<Text>().text)
-                .ThenBy(x => x.transform.Find("ShipInfo").Find("ShipId").GetComponent<Text>().text)
+                .OrderByDescending(x => x.transform.Find("ShipInfo/ShipPilotSkillText").GetComponent<Text>().text)
+                .ThenBy(x => x.transform.Find("ShipInfo/ShipId").GetComponent<Text>().text)
                 .ToList();
 
             float offset = 5;
@@ -191,8 +191,8 @@ public static partial class Roster {
 
     public static void UpdateRosterShieldsDamageIndicators(Ship.GenericShip thisShip)
     {
-        thisShip.InfoPanel.transform.Find("ShipInfo").Find("ShipShieldsText").GetComponent<Text>().text = thisShip.Shields.ToString();
-        foreach (Transform damageIndicator in thisShip.InfoPanel.transform.Find("ShipInfo").Find("DamageBarPanel").transform)
+        thisShip.InfoPanel.transform.Find("ShipInfo/ShipShieldsText").GetComponent<Text>().text = thisShip.Shields.ToString();
+        foreach (Transform damageIndicator in thisShip.InfoPanel.transform.Find("ShipInfo/DamageBarPanel").transform)
         {
             string[] damageIndicatorData = damageIndicator.name.Split('.');
             string type = damageIndicatorData[1];
@@ -206,15 +206,15 @@ public static partial class Roster {
 
     public static void UpdateShipStats(Ship.GenericShip thisShip)
     {
-        thisShip.InfoPanel.transform.Find("ShipInfo").Find("ShipPilotSkillText").GetComponent<Text>().text = thisShip.PilotSkill.ToString();
-        thisShip.InfoPanel.transform.Find("ShipInfo").Find("ShipFirepowerText").GetComponent<Text>().text = thisShip.Firepower.ToString();
-        thisShip.InfoPanel.transform.Find("ShipInfo").Find("ShipAgilityText").GetComponent<Text>().text = thisShip.Agility.ToString();
+        thisShip.InfoPanel.transform.Find("ShipInfo/ShipPilotSkillText").GetComponent<Text>().text = thisShip.PilotSkill.ToString();
+        thisShip.InfoPanel.transform.Find("ShipInfo/ShipFirepowerText").GetComponent<Text>().text = thisShip.Firepower.ToString();
+        thisShip.InfoPanel.transform.Find("ShipInfo/ShipAgilityText").GetComponent<Text>().text = thisShip.Agility.ToString();
     }
 
     public static void UpdateRosterHullDamageIndicators(Ship.GenericShip thisShip)
     {
-        thisShip.InfoPanel.transform.Find("ShipInfo").Find("ShipHullText").GetComponent<Text>().text = thisShip.Hull.ToString();
-        foreach (Transform damageIndicator in thisShip.InfoPanel.transform.Find("ShipInfo").Find("DamageBarPanel").transform)
+        thisShip.InfoPanel.transform.Find("ShipInfo/ShipHullText").GetComponent<Text>().text = thisShip.Hull.ToString();
+        foreach (Transform damageIndicator in thisShip.InfoPanel.transform.Find("ShipInfo/DamageBarPanel").transform)
         {
             string[] damageIndicatorData = damageIndicator.name.Split('.');
             string type = damageIndicatorData[1];
@@ -232,7 +232,7 @@ public static partial class Roster {
     public static void UpdateTokensIndicator(Ship.GenericShip thisShip, System.Type type)
     {
         List<GameObject> keys = new List<GameObject>();
-        foreach (Transform icon in thisShip.InfoPanel.transform.Find("ShipInfo").Find("TokensBar").transform)
+        foreach (Transform icon in thisShip.InfoPanel.transform.Find("ShipInfo/TokensBar").transform)
         {
             keys.Add(icon.gameObject);
         }
@@ -272,7 +272,7 @@ public static partial class Roster {
         int index = 1;
         foreach (var upgrade in newShip.InstalledUpgrades)
         {
-            GameObject upgradeNamePanel = newPanel.transform.Find("ShipInfo").Find("UpgradesBar").Find("Upgrade"+index).gameObject;
+            GameObject upgradeNamePanel = newPanel.transform.Find("ShipInfo/UpgradesBar/Upgrade"+index).gameObject;
             upgradeNamePanel.GetComponent<Text>().text = upgrade.Value.ShortName;
             upgradeNamePanel.SetActive(true);
             index++;
@@ -284,7 +284,7 @@ public static partial class Roster {
         int index = 1;
         foreach (var upgrade in newShip.InstalledUpgrades)
         {
-            GameObject upgradeNamePanel = newPanel.transform.Find("ShipInfo").Find("UpgradesBar").Find("Upgrade" + index).gameObject;
+            GameObject upgradeNamePanel = newPanel.transform.Find("ShipInfo/UpgradesBar/Upgrade" + index).gameObject;
 
             SubscribeActions(upgradeNamePanel);
             Tooltips.AddTooltip(upgradeNamePanel, upgrade.Value.ImageUrl);
@@ -295,7 +295,7 @@ public static partial class Roster {
 
     public static void DiscardUpgrade(Ship.GenericShip host, string upgradeShortName)
     {
-        foreach (Transform upgradeLine in host.InfoPanel.transform.Find("ShipInfo").Find("UpgradesBar").transform)
+        foreach (Transform upgradeLine in host.InfoPanel.transform.Find("ShipInfo/UpgradesBar").transform)
         {
             if (upgradeLine.GetComponent<Text>().text == upgradeShortName)
             {

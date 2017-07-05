@@ -55,24 +55,24 @@ namespace Ship
 
         public void SetRotationHelper2Angles(Vector3 angles)
         {
-            Model.transform.Find("RotationHelper").Find("RotationHelper2").localEulerAngles = angles;
+            Model.transform.Find("RotationHelper/RotationHelper2").localEulerAngles = angles;
         }
 
         public void ApplyRotationHelpers()
         {
-            Model.transform.localEulerAngles += Model.transform.Find("RotationHelper").localEulerAngles + Model.transform.Find("RotationHelper").Find("RotationHelper2").localEulerAngles;
+            Model.transform.localEulerAngles += Model.transform.Find("RotationHelper").localEulerAngles + Model.transform.Find("RotationHelper/RotationHelper2").localEulerAngles;
         }
 
         public void ResetRotationHelpers()
         {
             Model.transform.Find("RotationHelper").localEulerAngles = Vector3.zero;
-            Model.transform.Find("RotationHelper").Find("RotationHelper2").localEulerAngles = Vector3.zero;
+            Model.transform.Find("RotationHelper/RotationHelper2").localEulerAngles = Vector3.zero;
         }
 
         public void SimplifyRotationHelpers()
         {
-            Model.transform.Find("RotationHelper").localEulerAngles += Model.transform.Find("RotationHelper").Find("RotationHelper2").localEulerAngles;
-            Model.transform.Find("RotationHelper").Find("RotationHelper2").localEulerAngles = Vector3.zero;
+            Model.transform.Find("RotationHelper").localEulerAngles += Model.transform.Find("RotationHelper/RotationHelper2").localEulerAngles;
+            Model.transform.Find("RotationHelper/RotationHelper2").localEulerAngles = Vector3.zero;
         }
 
         // TRANSFORMATIONS

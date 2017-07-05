@@ -31,7 +31,7 @@ public static class Tooltips {
 
     public static void StartTooltip(TooltipImageDelegate tooltipImageDelegate, GameObject sender)
     {
-        TooltipsPanel = GameObject.Find("UI").transform.Find("TooltipPanel");
+        TooltipsPanel = GameObject.Find("UI/TooltipPanel").transform;
         string url = tooltipImageDelegate.Invoke(sender);
 
         if (url != null)
@@ -46,7 +46,7 @@ public static class Tooltips {
 
     public static void StartTooltip(string tooltipUrl, GameObject sender)
     {
-        TooltipsPanel = GameObject.Find("UI").transform.Find("TooltipPanel");
+        TooltipsPanel = GameObject.Find("UI/TooltipPanel").transform;
         string url = tooltipUrl;
 
         if (url != null)

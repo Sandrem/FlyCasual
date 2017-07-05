@@ -58,8 +58,11 @@ public static partial class RosterBuilder {
             foreach (Transform upgradeLine in newPanel.transform.Find("GroupUpgrades"))
             {
                 SubscribeUpgradeDropdowns(playerNo, upgradeLine.gameObject);
+                AddUpgradeTooltip(upgradeLine.gameObject);
             }
+
             SubscribePilotDropdown(playerNo, newPanel);
+            AddPilotTooltip(newPanel.transform.Find("GroupShip/DropdownPilot").gameObject);
 
             UpdateShipCost(playerNo, panel);
             OrganizeAllShipsLists();

@@ -43,6 +43,7 @@ public class ShipPositionManager : MonoBehaviour
         }
         else
         {
+            PerformRotation();
             PerformDrag();
         }
 
@@ -72,6 +73,25 @@ public class ShipPositionManager : MonoBehaviour
             Roster.AllShipsHighlightOff();
             Board.HighlightStartingZones();
             inReposition = true;
+        }
+    }
+
+    private void PerformRotation()
+    {
+        if (Input.GetKey(KeyCode.Q))
+        {
+            Debug.Log("Q");
+            Selection.ThisShip.SetRotationHelper2Angles(new Vector3(0, -1, 0));
+            Selection.ThisShip.ApplyRotationHelpers();
+            Selection.ThisShip.ResetRotationHelpers();
+        }
+
+        if (Input.GetKey(KeyCode.E))
+        {
+            Debug.Log("E");
+            Selection.ThisShip.SetRotationHelper2Angles(new Vector3(0, 1, 0));
+            Selection.ThisShip.ApplyRotationHelpers();
+            Selection.ThisShip.ResetRotationHelpers();
         }
     }
 

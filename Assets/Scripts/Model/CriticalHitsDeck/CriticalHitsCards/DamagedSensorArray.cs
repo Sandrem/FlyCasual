@@ -11,7 +11,7 @@ namespace CriticalHitCard
         {
             Name = "Damaged Sensor Array";
             Type = CriticalCardType.Ship;
-            ImageUrl = "https://vignette1.wikia.nocookie.net/xwing-miniatures/images/6/61/Damaged-sensor-array.png";
+            ImageUrl = "http://i.imgur.com/dRl6GLL.jpg";
             CancelDiceResults.Add(DiceSide.Success);
             CancelDiceResults.Add(DiceSide.Crit);
         }

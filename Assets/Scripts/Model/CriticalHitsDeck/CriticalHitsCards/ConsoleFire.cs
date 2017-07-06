@@ -12,7 +12,7 @@ namespace CriticalHitCard
         {
             Name = "Console Fire";
             Type = CriticalCardType.Ship;
-            ImageUrl = "http://i.imgur.com/RwtlPpG.jpg";
+            ImageUrl = "http://i.imgur.com/Jamd8dB.jpg";
         }
 
         public override void ApplyEffect(Ship.GenericShip host)

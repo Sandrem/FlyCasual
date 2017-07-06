@@ -11,7 +11,7 @@ namespace CriticalHitCard
         {
             Name = "Structural Damage";
             Type = CriticalCardType.Ship;
-            ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/9b/2e/9b2ed16f-eaa5-4b3c-a9b5-682d5fb9cb2e/structural-damage-card.png";
+            ImageUrl = "http://i.imgur.com/4p5MZvU.jpg";
             CancelDiceResults.Add(DiceSide.Success);
         }
 

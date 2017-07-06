@@ -11,7 +11,7 @@ namespace CriticalHitCard
         {
             Name = "Weapons Failure";
             Type = CriticalCardType.Ship;
-            ImageUrl = "https://vignette3.wikia.nocookie.net/xwing-miniatures/images/7/76/Swx36-weapons-failure.png";
+            ImageUrl = "http://i.imgur.com/nUj64yn.jpg";
             CancelDiceResults.Add(DiceSide.Success);
             CancelDiceResults.Add(DiceSide.Crit);
         }

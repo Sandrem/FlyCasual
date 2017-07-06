@@ -56,14 +56,13 @@ namespace SubPhases
             }
             else
             {
-                Debug.Log("AI waits to press Confirm button");
+                if (DebugManager.DebugAI) Debug.Log("AI waits to press Confirm button");
                 Game.Wait(finishAction.Invoke);
             }
         }
 
         protected virtual void CheckResults(DiceRoll diceRoll)
         {
-            Debug.Log("Combat Dice Roll - check action");
             CurentDiceRoll = diceRoll;
             Combat.ShowDiceModificationButtons();
             ShowConfirmDiceResultsButton();

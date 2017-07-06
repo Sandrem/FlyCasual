@@ -94,7 +94,7 @@ public static partial class Combat
 
     public static void PerformAttack(Ship.GenericShip attacker, Ship.GenericShip defender)
     {
-        Debug.Log("Attack is started: " + attacker + " vs " + defender);
+        if (DebugManager.DebugPhases) Debug.Log("Attack is started: " + attacker + " vs " + defender);
         Attacker = attacker;
         Defender = defender;
         InitializeAttack();
@@ -209,8 +209,6 @@ public static partial class Combat
 
     public static void ConfirmAttackDiceResults()
     {
-        Debug.Log("Combat Attack Dice Roll - confirmed");
-
         HideDiceResultMenu();
         Phases.FinishSubPhase(typeof(SubPhases.AttackDiceRollCombatSubPhase));
 
@@ -219,8 +217,6 @@ public static partial class Combat
 
     public static void ConfirmDefenceDiceResults()
     {
-        Debug.Log("Combat Defence Dice Roll - confirmed");
-
         HideDiceResultMenu();
         Phases.FinishSubPhase(typeof(SubPhases.DefenceDiceRollCombatSubPhase));
 
@@ -359,7 +355,7 @@ namespace SubPhases
 
         private IEnumerator DealDamage()
         {
-            Debug.Log("Deal Damage!");
+            if (DebugManager.DebugPhases) Debug.Log("Deal Damage!");
             yield return Combat.CalculateAttackResults(Selection.ThisShip, Selection.AnotherShip);
 
             Phases.FinishSubPhase(this.GetType());

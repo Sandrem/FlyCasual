@@ -11,6 +11,7 @@ namespace CriticalHitCard
         {
             Name = "Thrust Control Fire";
             Type = CriticalCardType.Ship;
+            ImageUrl = "http://i.imgur.com/kUvUwHQ.jpg";
         }
 
         public override void ApplyEffect(Ship.GenericShip host)

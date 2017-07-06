@@ -11,7 +11,7 @@ namespace CriticalHitCard
         {
             Name = "Loose Stabilizer";
             Type = CriticalCardType.Ship;
-            ImageUrl = "http://vignette4.wikia.nocookie.net/xwing-miniatures/images/d/db/Loose-stabilizer.png";
+            ImageUrl = "http://i.imgur.com/Kouy0v8.jpg";
         }
 
         public override void ApplyEffect(Ship.GenericShip host)

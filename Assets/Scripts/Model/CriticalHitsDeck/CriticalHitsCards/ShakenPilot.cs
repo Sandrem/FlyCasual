@@ -11,6 +11,7 @@ namespace CriticalHitCard
         {
             Name = "Shaken Pilot";
             Type = CriticalCardType.Pilot;
+            ImageUrl = "http://i.imgur.com/BGMZR5Q.jpg";
         }
 
         public override void ApplyEffect(Ship.GenericShip host)

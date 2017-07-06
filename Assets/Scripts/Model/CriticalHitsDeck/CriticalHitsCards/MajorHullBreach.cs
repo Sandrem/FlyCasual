@@ -11,7 +11,7 @@ namespace CriticalHitCard
         {
             Name = "Major Hull Breach";
             Type = CriticalCardType.Ship;
-            ImageUrl = "https://vignette1.wikia.nocookie.net/xwing-miniatures/images/f/f3/Major-hull-breach.png";
+            ImageUrl = "http://i.imgur.com/kUGRMK1.jpg";
         }
 
         public override void ApplyEffect(Ship.GenericShip host)

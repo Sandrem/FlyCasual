@@ -11,6 +11,7 @@ namespace CriticalHitCard
         {
             Name = "Damaged Cockpit";
             Type = CriticalCardType.Ship;
+            ImageUrl = "http://i.imgur.com/SJjkO3L.jpg";
         }
 
         public override void ApplyEffect(Ship.GenericShip host)

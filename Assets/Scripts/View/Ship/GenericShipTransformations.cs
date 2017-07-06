@@ -47,6 +47,24 @@ namespace Ship
             return result;
         }
 
+        public Dictionary<string, float> GetBounds()
+        {
+            List<Vector3> edgesList = new List<Vector3>();
+            edgesList.Add(Model.transform.TransformPoint(standEdgePoins["RF"]));
+            edgesList.Add(Model.transform.TransformPoint(standEdgePoins["LF"]));
+            edgesList.Add(Model.transform.TransformPoint(standEdgePoins["RB"]));
+            edgesList.Add(Model.transform.TransformPoint(standEdgePoins["LB"]));
+
+            Dictionary<string, float> bounds = new Dictionary<string, float>();
+            bounds.Add("minX", Mathf.Min(edgesList[0].x, edgesList[1].x, edgesList[2].x, edgesList[3].x));
+            bounds.Add("maxX", Mathf.Max(edgesList[0].x, edgesList[1].x, edgesList[2].x, edgesList[3].x));
+            bounds.Add("minZ", Mathf.Min(edgesList[0].z, edgesList[1].z, edgesList[2].z, edgesList[3].z));
+            Debug.Log(edgesList[0].z + " + " + edgesList[1].z + " + " + edgesList[2].z + " + " + edgesList[3].z);
+            bounds.Add("maxZ", Mathf.Max(edgesList[0].z, edgesList[1].z, edgesList[2].z, edgesList[3].z));
+
+            return bounds;
+        }
+
         public Vector3 GetModelCenter()
         {
             return modelCenter.position;

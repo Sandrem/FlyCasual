@@ -115,10 +115,11 @@ public class ShipPositionManager : MonoBehaviour
     private void ApplySetupPositionLimits()
     {
         Vector3 newPosition = Selection.ThisShip.GetCenter();
+        Dictionary<string, float> newBounds = Selection.ThisShip.GetBounds();
 
         if (!isInsideStartingZone)
         {
-            if ((newPosition.z < StartingZone.TransformPoint(0.5f, 0.5f, 0.5f).z - Board.BoardIntoWorld(Board.DISTANCE_1 / 2f)) && (newPosition.z > StartingZone.TransformPoint(-0.5f, -0.5f, -0.5f).z + Board.BoardIntoWorld(Board.DISTANCE_1 / 2f)))
+            if ((newBounds["maxZ"] < StartingZone.TransformPoint(0.5f, 0.5f, 0.5f).z) && (newBounds["minZ"] > StartingZone.TransformPoint(-0.5f, -0.5f, -0.5f).z))
             {
                 isInsideStartingZone = true;
             }
@@ -126,12 +127,12 @@ public class ShipPositionManager : MonoBehaviour
         
         if (isInsideStartingZone)
         {
-            if (newPosition.z > StartingZone.TransformPoint(0.5f, 0.5f, 0.5f).z - Board.BoardIntoWorld(Board.DISTANCE_1 / 2f)) newPosition.z = StartingZone.TransformPoint(0.5f, 0.5f, 0.5f).z - Board.BoardIntoWorld(Board.DISTANCE_1 / 2f);
-            if (newPosition.z < StartingZone.TransformPoint(-0.5f, -0.5f, -0.5f).z + Board.BoardIntoWorld(Board.DISTANCE_1 / 2f)) newPosition.z = StartingZone.TransformPoint(-0.5f, -0.5f, -0.5f).z + Board.BoardIntoWorld(Board.DISTANCE_1 / 2f);
+            if (newBounds["maxZ"] > StartingZone.TransformPoint(0.5f, 0.5f, 0.5f).z) newPosition.z = StartingZone.TransformPoint(0.5f, 0.5f, 0.5f).z - (newBounds["maxZ"] - newPosition.z);
+            if (newBounds["minZ"] < StartingZone.TransformPoint(-0.5f, -0.5f, -0.5f).z) newPosition.z = StartingZone.TransformPoint(-0.5f, -0.5f, -0.5f).z + (newPosition.z - newBounds["minZ"]);
         }
         
-        if (newPosition.x > StartingZone.TransformPoint( 0.5f,  0.5f,  0.5f).x - Board.BoardIntoWorld(Board.DISTANCE_1 / 2f)) newPosition.x = StartingZone.TransformPoint( 0.5f,  0.5f,  0.5f).x - Board.BoardIntoWorld(Board.DISTANCE_1 / 2f);
-        if (newPosition.x < StartingZone.TransformPoint(-0.5f, -0.5f, -0.5f).x + Board.BoardIntoWorld(Board.DISTANCE_1 / 2f)) newPosition.x = StartingZone.TransformPoint(-0.5f, -0.5f, -0.5f).x + Board.BoardIntoWorld(Board.DISTANCE_1 / 2f);
+        if (newBounds["maxX"] > StartingZone.TransformPoint( 0.5f,  0.5f,  0.5f).x) newPosition.x = StartingZone.TransformPoint( 0.5f,  0.5f,  0.5f).x - (newBounds["maxX"] - newPosition.x);
+        if (newBounds["minX"] < StartingZone.TransformPoint(-0.5f, -0.5f, -0.5f).x) newPosition.x = StartingZone.TransformPoint(-0.5f, -0.5f, -0.5f).x + (newPosition.x - newBounds["minX"]);
 
         Selection.ThisShip.SetCenter(newPosition);
     }

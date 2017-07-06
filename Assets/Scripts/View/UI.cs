@@ -83,11 +83,11 @@ public class UI : MonoBehaviour {
 
             if (maneuverData.Value == Ship.ManeuverColor.None)
             {
-                Game.PrefabsList.DirectionsMenu.transform.Find("Speed" + maneuverSpeed).Find(maneuverData.Key).gameObject.SetActive(false);
+                Game.PrefabsList.DirectionsMenu.transform.Find("Speed" + maneuverSpeed + "/" + maneuverData.Key).gameObject.SetActive(false);
             }
             else
             {
-                Game.PrefabsList.DirectionsMenu.transform.Find("Speed" + maneuverSpeed).Find(maneuverData.Key).gameObject.SetActive(true);
+                Game.PrefabsList.DirectionsMenu.transform.Find("Speed" + maneuverSpeed + "/" + maneuverData.Key).gameObject.SetActive(true);
 
                 GameObject button = Game.PrefabsList.DirectionsMenu.transform.Find("Speed" + maneuverSpeed).Find(maneuverData.Key).gameObject;
                 SetManeuverIcon(button, maneuverData);
@@ -142,7 +142,7 @@ public class UI : MonoBehaviour {
 
     public void ShowGameResults(string results)
     {
-        Game.PrefabsList.GameResultsPanel.transform.Find("Panel").Find("Congratulations").GetComponent<Text>().text = results;
+        Game.PrefabsList.GameResultsPanel.transform.Find("Panel/Congratulations").GetComponent<Text>().text = results;
         Game.PrefabsList.GameResultsPanel.SetActive(true);
     }
 
@@ -176,7 +176,7 @@ public class UI : MonoBehaviour {
 
     public void AddTestLogEntry(string text)
     {
-        Transform area = Game.PrefabsList.GameLogPanel.transform.Find("Scroll").Find("Viewport").Find("Content");
+        Transform area = Game.PrefabsList.GameLogPanel.transform.Find("Scroll/Viewport/Content");
         GameObject newLogEntry = Instantiate(Game.PrefabsList.LogText, area);
         newLogEntry.transform.localPosition = new Vector3(5, lastLogTextPosition, 0);
         lastLogTextPosition += lastLogTextStep;

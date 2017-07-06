@@ -14,6 +14,12 @@ namespace Ship
             Model.transform.position = position;
         }
 
+        public void SetCenter(Vector3 position)
+        {
+            position = position + Model.transform.TransformVector(0, 0, HALF_OF_SHIPSTAND_SIZE);
+            Model.transform.position = position;
+        }
+
         public Vector3 GetPosition()
         {
             return Model.transform.position;
@@ -41,6 +47,24 @@ namespace Ship
             return result;
         }
 
+        public Dictionary<string, float> GetBounds()
+        {
+            List<Vector3> edgesList = new List<Vector3>();
+            edgesList.Add(Model.transform.TransformPoint(standEdgePoins["RF"]));
+            edgesList.Add(Model.transform.TransformPoint(standEdgePoins["LF"]));
+            edgesList.Add(Model.transform.TransformPoint(standEdgePoins["RB"]));
+            edgesList.Add(Model.transform.TransformPoint(standEdgePoins["LB"]));
+
+            Dictionary<string, float> bounds = new Dictionary<string, float>();
+            bounds.Add("minX", Mathf.Min(edgesList[0].x, edgesList[1].x, edgesList[2].x, edgesList[3].x));
+            bounds.Add("maxX", Mathf.Max(edgesList[0].x, edgesList[1].x, edgesList[2].x, edgesList[3].x));
+            bounds.Add("minZ", Mathf.Min(edgesList[0].z, edgesList[1].z, edgesList[2].z, edgesList[3].z));
+            Debug.Log(edgesList[0].z + " + " + edgesList[1].z + " + " + edgesList[2].z + " + " + edgesList[3].z);
+            bounds.Add("maxZ", Mathf.Max(edgesList[0].z, edgesList[1].z, edgesList[2].z, edgesList[3].z));
+
+            return bounds;
+        }
+
         public Vector3 GetModelCenter()
         {
             return modelCenter.position;
@@ -55,24 +79,24 @@ namespace Ship
 
         public void SetRotationHelper2Angles(Vector3 angles)
         {
-            Model.transform.Find("RotationHelper").Find("RotationHelper2").localEulerAngles = angles;
+            Model.transform.Find("RotationHelper/RotationHelper2").localEulerAngles = angles;
         }
 
         public void ApplyRotationHelpers()
         {
-            Model.transform.localEulerAngles += Model.transform.Find("RotationHelper").localEulerAngles + Model.transform.Find("RotationHelper").Find("RotationHelper2").localEulerAngles;
+            Model.transform.localEulerAngles += Model.transform.Find("RotationHelper").localEulerAngles + Model.transform.Find("RotationHelper/RotationHelper2").localEulerAngles;
         }
 
         public void ResetRotationHelpers()
         {
             Model.transform.Find("RotationHelper").localEulerAngles = Vector3.zero;
-            Model.transform.Find("RotationHelper").Find("RotationHelper2").localEulerAngles = Vector3.zero;
+            Model.transform.Find("RotationHelper/RotationHelper2").localEulerAngles = Vector3.zero;
         }
 
         public void SimplifyRotationHelpers()
         {
-            Model.transform.Find("RotationHelper").localEulerAngles += Model.transform.Find("RotationHelper").Find("RotationHelper2").localEulerAngles;
-            Model.transform.Find("RotationHelper").Find("RotationHelper2").localEulerAngles = Vector3.zero;
+            Model.transform.Find("RotationHelper").localEulerAngles += Model.transform.Find("RotationHelper/RotationHelper2").localEulerAngles;
+            Model.transform.Find("RotationHelper/RotationHelper2").localEulerAngles = Vector3.zero;
         }
 
         // TRANSFORMATIONS

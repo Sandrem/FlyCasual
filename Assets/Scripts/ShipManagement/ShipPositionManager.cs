@@ -21,6 +21,9 @@ public class ShipPositionManager : MonoBehaviour
 
     private GameObject ShipStand;
 
+    private Transform StartingZone;
+    private bool isInsideStartingZone;
+
     // Use this for initialization
     void Start()
     {
@@ -40,6 +43,7 @@ public class ShipPositionManager : MonoBehaviour
         }
         else
         {
+            PerformRotation();
             PerformDrag();
         }
 
@@ -62,11 +66,31 @@ public class ShipPositionManager : MonoBehaviour
 
     public void StartDrag()
     {
-        if (Phases.CurrentPhase.GetType() == typeof(MainPhases.SetupPhase)) {
+        if (Phases.CurrentPhase.GetType() == typeof(MainPhases.SetupPhase))
+        {
+            StartingZone = Board.GetStartingZone(Phases.CurrentSubPhase.RequiredPlayer);
+            isInsideStartingZone = false;
             Roster.SetRaycastTargets(false);
             Roster.AllShipsHighlightOff();
             Board.HighlightStartingZones();
             inReposition = true;
+        }
+    }
+
+    private void PerformRotation()
+    {
+        if (Input.GetKey(KeyCode.Q))
+        {
+            Selection.ThisShip.SetRotationHelper2Angles(new Vector3(0, -1, 0));
+            Selection.ThisShip.ApplyRotationHelpers();
+            Selection.ThisShip.ResetRotationHelpers();
+        }
+
+        if (Input.GetKey(KeyCode.E))
+        {
+            Selection.ThisShip.SetRotationHelper2Angles(new Vector3(0, 1, 0));
+            Selection.ThisShip.ApplyRotationHelpers();
+            Selection.ThisShip.ResetRotationHelpers();
         }
     }
 
@@ -78,7 +102,7 @@ public class ShipPositionManager : MonoBehaviour
         if (Physics.Raycast(ray, out hit)) {
             if (Phases.CurrentSubPhase.GetType() == typeof(SubPhases.SetupSubPhase))
             {
-                Selection.ThisShip.SetPosition(new Vector3(hit.point.x, 0f, hit.point.z));
+                Selection.ThisShip.SetCenter(new Vector3(hit.point.x, 0f, hit.point.z));
             }
         }
 
@@ -90,14 +114,27 @@ public class ShipPositionManager : MonoBehaviour
 
     private void ApplySetupPositionLimits()
     {
-        Vector3 newPosition = Selection.ThisShip.GetPosition();
+        Vector3 newPosition = Selection.ThisShip.GetCenter();
+        Dictionary<string, float> newBounds = Selection.ThisShip.GetBounds();
 
-        if (newPosition.z > 5) newPosition.z = 5;
-        if (newPosition.z < -5) newPosition.z = -5;
-        if (newPosition.x > 5) newPosition.x = 5;
-        if (newPosition.x < -5) newPosition.x = -5;
+        if (!isInsideStartingZone)
+        {
+            if ((newBounds["maxZ"] < StartingZone.TransformPoint(0.5f, 0.5f, 0.5f).z) && (newBounds["minZ"] > StartingZone.TransformPoint(-0.5f, -0.5f, -0.5f).z))
+            {
+                isInsideStartingZone = true;
+            }
+        }
+        
+        if (isInsideStartingZone)
+        {
+            if (newBounds["maxZ"] > StartingZone.TransformPoint(0.5f, 0.5f, 0.5f).z) newPosition.z = StartingZone.TransformPoint(0.5f, 0.5f, 0.5f).z - (newBounds["maxZ"] - newPosition.z);
+            if (newBounds["minZ"] < StartingZone.TransformPoint(-0.5f, -0.5f, -0.5f).z) newPosition.z = StartingZone.TransformPoint(-0.5f, -0.5f, -0.5f).z + (newPosition.z - newBounds["minZ"]);
+        }
+        
+        if (newBounds["maxX"] > StartingZone.TransformPoint( 0.5f,  0.5f,  0.5f).x) newPosition.x = StartingZone.TransformPoint( 0.5f,  0.5f,  0.5f).x - (newBounds["maxX"] - newPosition.x);
+        if (newBounds["minX"] < StartingZone.TransformPoint(-0.5f, -0.5f, -0.5f).x) newPosition.x = StartingZone.TransformPoint(-0.5f, -0.5f, -0.5f).x + (newPosition.x - newBounds["minX"]);
 
-        Selection.ThisShip.SetPosition(newPosition);
+        Selection.ThisShip.SetCenter(newPosition);
     }
 
     //TODO: Good target to move into subphase class
@@ -111,8 +148,7 @@ public class ShipPositionManager : MonoBehaviour
 
         if (Phases.CurrentSubPhase.GetType() == typeof(SubPhases.SetupSubPhase))
         {
-            Transform startingZone = Board.GetStartingZone(Phases.CurrentSubPhase.RequiredPlayer);
-            if (!ship.IsInside(startingZone))
+            if (!ship.IsInside(StartingZone))
 
             {
                 Game.UI.ShowError("Place ship into highlighted area");

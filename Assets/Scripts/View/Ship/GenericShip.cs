@@ -14,8 +14,8 @@ namespace Ship
         public void CreateModel(Vector3 position)
         {
             Model = CreateShipModel(position);
-            shipAllParts = Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").transform;
-            modelCenter = shipAllParts.Find("ShipModels").Find(Type).Find("ModelCenter").transform;
+            shipAllParts = Model.transform.Find("RotationHelper/RotationHelper2/ShipAllParts").transform;
+            modelCenter = shipAllParts.Find("ShipModels/" + Type + "/ModelCenter").transform;
             setShipBaseEdges();
         }
 
@@ -27,7 +27,7 @@ namespace Ship
             position = new Vector3(0, 0, (Owner.PlayerNo == Players.PlayerNo.Player1) ? -4 : 4);
 
             GameObject newShip = MonoBehaviour.Instantiate(Game.PrefabsList.ShipModel, position + new Vector3(0, 0.03f, 0), Quaternion.Euler(facing), Board.GetBoard());
-            newShip.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("ShipModels").Find(Type).gameObject.SetActive(true);
+            newShip.transform.Find("RotationHelper/RotationHelper2/ShipAllParts/ShipModels/" + Type).gameObject.SetActive(true);
 
             ShipId = ShipFactory.lastId;
             ShipFactory.lastId = ShipFactory.lastId + 1;
@@ -56,7 +56,7 @@ namespace Ship
             Material shipBaseInsert = (Material)Resources.Load("ShipStandInsert/Materials/" + materialName, typeof(Material));
             if (shipBaseInsert != null)
             {
-                shipAllParts.Find("ShipStand").Find("ShipStandInsert").Find("ShipStandInsertImage").Find("default").GetComponent<Renderer>().material = shipBaseInsert;
+                shipAllParts.Find("ShipStand/ShipStandInsert/ShipStandInsertImage/default").GetComponent<Renderer>().material = shipBaseInsert;
             }
             else
             {
@@ -67,8 +67,8 @@ namespace Ship
 
         public void ToggleCollisionDetection(bool value)
         {
-            shipAllParts.Find("ShipStand").Find("ObstaclesStayDetector").GetComponent<ObstaclesStayDetector>().checkCollisions = value;
-            shipAllParts.Find("ShipStand").Find("ObstaclesHitsDetector").GetComponent<ObstaclesHitsDetector>().checkCollisions = value;
+            shipAllParts.Find("ShipStand/ObstaclesStayDetector").GetComponent<ObstaclesStayDetector>().checkCollisions = value;
+            shipAllParts.Find("ShipStand/ObstaclesHitsDetector").GetComponent<ObstaclesHitsDetector>().checkCollisions = value;
         }
 
         public void SetActive(bool argument)
@@ -103,7 +103,7 @@ namespace Ship
 
         public void ToggleDamaged(bool isDamaged)
         {
-            shipAllParts.Find("ShipModels").Find(Type).Find("ModelCenter").Find("DamageParticles").gameObject.SetActive(isDamaged);
+            shipAllParts.Find("ShipModels/" + Type + "/ModelCenter/DamageParticles").gameObject.SetActive(isDamaged);
         }
 
         public void MoveUpwards(float progress)

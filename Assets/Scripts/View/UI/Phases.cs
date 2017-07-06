@@ -35,12 +35,4 @@ public static partial class Phases {
         Game.PrefabsList.PhasesPanel.transform.Find("SubPhaseText").GetComponent<Text>().text = temporaryStateName;
     }
 
-    /*protected int PlayerToInt(Player playerNo)
-    {
-        int result = -1;
-        if (playerNo == Player.Player1) result = 1;
-        if (playerNo == Player.Player2) result = 2;
-        return result;
-    }*/
-
 }

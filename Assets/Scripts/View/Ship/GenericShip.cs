@@ -16,6 +16,8 @@ namespace Ship
             Model = CreateShipModel(position);
             shipAllParts = Model.transform.Find("RotationHelper/RotationHelper2/ShipAllParts").transform;
             modelCenter = shipAllParts.Find("ShipModels/" + Type + "/ModelCenter").transform;
+            SetRaycastTarget(true);
+            SetSpotlightMask();
             setShipBaseEdges();
         }
 
@@ -31,20 +33,28 @@ namespace Ship
 
             ShipId = ShipFactory.lastId;
             ShipFactory.lastId = ShipFactory.lastId + 1;
-            SetTagOfChildren(newShip.transform, "ShipId:" + ShipId.ToString());
+            SetTagOfChildrenRecursive(newShip.transform, "ShipId:" + ShipId.ToString());
 
             return newShip;
         }
 
-        private static void SetTagOfChildren(Transform parent, string tag)
+        private void SetTagOfChildrenRecursive(Transform parent, string tag)
         {
             parent.gameObject.tag = tag;
             if (parent.childCount > 0)
             {
                 foreach (Transform t in parent)
                 {
-                    SetTagOfChildren(t, tag);
+                    SetTagOfChildrenRecursive(t, tag);
                 }
+            }
+        }
+
+        private void SetSpotlightMask()
+        {
+            foreach (Transform spotlight in Model.transform.Find("RotationHelper/RotationHelper2/ShipAllParts/Spotlight").transform)
+            {
+                spotlight.GetComponent<Light>().cullingMask |= 1 << LayerMask.NameToLayer("ShipId:" + ShipId);
             }
         }
 
@@ -88,7 +98,7 @@ namespace Ship
 
         public void SetRaycastTarget(bool value)
         {
-            int layer = (value) ? LayerMask.NameToLayer("Ships") : LayerMask.NameToLayer("Ignore Raycast") ;
+            int layer = (value) ? LayerMask.NameToLayer("ShipId:" + ShipId) : LayerMask.NameToLayer("Ignore Raycast") ;
             SetLayerRecursive(Model.transform, layer);
         }
 

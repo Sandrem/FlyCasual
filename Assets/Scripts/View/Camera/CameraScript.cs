@@ -17,11 +17,11 @@ public class CameraScript : MonoBehaviour {
     private const float SENSITIVITY_MOVE = 0.125f;
     private const float SENSITIVITY_TURN = 5;
     private const float SENSITIVITY_ZOOM = 5;
-
+    private const float MOUSE_MOVE_START_OFFSET = 5f;
     private const float BORDER_SQUARE = 8f;
     private const float MAX_HEIGHT = 6f;
     private const float MIN_HEIGHT = 1.5f;
-    private const float MAX_ROTATION = 80f;
+    private const float MAX_ROTATION = 89.99f;
     private const float MIN_ROTATION = 0f;
 
     // Use this for initialization
@@ -34,6 +34,7 @@ public class CameraScript : MonoBehaviour {
     void Update() {
         //TODO: Call hide context menu only once
         CamMoveByAxis();
+        CamMoveByMouse();
         CamZoomByMouseScroll();
         CamRotateByMouse();
         CamClampPosition();
@@ -48,7 +49,21 @@ public class CameraScript : MonoBehaviour {
         transform.Translate (x, y, 0);
 	}
 
-	private void CamZoomByMouseScroll() {
+    private void CamMoveByMouse()
+    {
+        float x = 0;
+        if (Input.mousePosition.x < MOUSE_MOVE_START_OFFSET) x = -1f * SENSITIVITY_MOVE;
+        else if (Input.mousePosition.x > Screen.width - MOUSE_MOVE_START_OFFSET) x = 1f * SENSITIVITY_MOVE;
+
+        float y = 0;
+        if (Input.mousePosition.y < MOUSE_MOVE_START_OFFSET) y = -1f * SENSITIVITY_MOVE;
+        else if (Input.mousePosition.y > Screen.height - MOUSE_MOVE_START_OFFSET) y = 1f * SENSITIVITY_MOVE;
+
+        if ((x != 0) || (y != 0)) WhenViewChanged();
+        transform.Translate(x, y, 0);
+    }
+
+    private void CamZoomByMouseScroll() {
 		float zoom = Input.GetAxis ("Mouse ScrollWheel") * SENSITIVITY_ZOOM;
 		if (zoom != 0) {
 			Vector3 newPosition = transform.position + (Camera.TransformDirection(0, 0, zoom));

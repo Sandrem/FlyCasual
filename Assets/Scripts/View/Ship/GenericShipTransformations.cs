@@ -59,7 +59,6 @@ namespace Ship
             bounds.Add("minX", Mathf.Min(edgesList[0].x, edgesList[1].x, edgesList[2].x, edgesList[3].x));
             bounds.Add("maxX", Mathf.Max(edgesList[0].x, edgesList[1].x, edgesList[2].x, edgesList[3].x));
             bounds.Add("minZ", Mathf.Min(edgesList[0].z, edgesList[1].z, edgesList[2].z, edgesList[3].z));
-            Debug.Log(edgesList[0].z + " + " + edgesList[1].z + " + " + edgesList[2].z + " + " + edgesList[3].z);
             bounds.Add("maxZ", Mathf.Max(edgesList[0].z, edgesList[1].z, edgesList[2].z, edgesList[3].z));
 
             return bounds;

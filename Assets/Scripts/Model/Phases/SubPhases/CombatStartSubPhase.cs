@@ -15,7 +15,7 @@ namespace SubPhases
             Name = "Combat start";
             UpdateHelpInfo();
 
-            Debug.Log("Combat Start - Started");
+            if (DebugManager.DebugPhases) Debug.Log("Combat Start - Started");
         }
 
         public override void Initialize()

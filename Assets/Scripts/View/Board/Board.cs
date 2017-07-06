@@ -119,7 +119,7 @@ public static partial class Board {
 
     public static void LaunchObstacleChecker(Ship.GenericShip thisShip, Ship.GenericShip anotherShip)
     {
-        Debug.Log("Obstacle checker is launched: " + thisShip + " vs " + anotherShip);
+        if (DebugManager.DebugBoard) Debug.Log("Obstacle checker is launched: " + thisShip + " vs " + anotherShip);
 
         FiringLineCollisions = new List<Collider>();
 

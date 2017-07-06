@@ -14,7 +14,7 @@ namespace SubPhases
             Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
             Name = "Combat SubPhase";
 
-            Debug.Log("Combat - Started");
+            if (DebugManager.DebugPhases) Debug.Log("Combat - Started");
         }
 
         public override void Prepare()
@@ -30,7 +30,7 @@ namespace SubPhases
 
         public override void Next()
         {
-            Debug.Log("Combat SubPhase - Next");
+            if (DebugManager.DebugPhases) Debug.Log("Combat SubPhase - Next");
             if (Selection.ThisShip != null)
             {
                 Selection.ThisShip.CallAfterAttackWindow();
@@ -54,7 +54,7 @@ namespace SubPhases
             
             if (success)
             {
-                Debug.Log("Attack time for: " + RequiredPlayer + ", skill " + RequiredPilotSkill);
+                if (DebugManager.DebugPhases) Debug.Log("Attack time for: " + RequiredPlayer + ", skill " + RequiredPilotSkill);
                 UpdateHelpInfo();
                 HighlightShips();
                 Roster.GetPlayer(RequiredPlayer).PerformAttack();

@@ -60,7 +60,6 @@ namespace Players
 
             if (!foundToActivate)
             {
-                Debug.Log("GO NEXT!!!");
                 Phases.Next();
             }
         }
@@ -99,7 +98,7 @@ namespace Players
 
         public override void PerformAttack()
         {
-            Debug.Log("AI wants to attack!");
+            if (DebugManager.DebugAI) Debug.Log("AI wants to attack!");
 
             bool attackPerformed = false;
 
@@ -120,13 +119,13 @@ namespace Players
                 Dictionary<Ship.GenericShip, float> enemyShips = GetEnemyShipsAndDistance(Selection.ThisShip, ignoreCollided: true, inArcAndRange: true);
                 foreach (var shipHolder in enemyShips)
                 {
-                    Debug.Log("AI wants to attack: " + shipHolder.Key);
+                    if (DebugManager.DebugAI) Debug.Log("AI wants to attack: " + shipHolder.Key);
                     Selection.TryToChangeAnotherShip("ShipId:" + shipHolder.Key.ShipId);
                     Combat.SelectWeapon();
 
                     if (Actions.TargetIsLegal())
                     {
-                        Debug.Log("AI target legal: " + Selection.AnotherShip);
+                        if (DebugManager.DebugAI) Debug.Log("AI target legal: " + Selection.AnotherShip);
                         attackPerformed = true;
                         Combat.TryPerformAttack();
                         break;
@@ -137,7 +136,7 @@ namespace Players
 
             if (!attackPerformed)
             {
-                Debug.Log("AI didn't performed attack and goes NEXT");
+                if (DebugManager.DebugAI) Debug.Log("AI didn't performed attack and goes NEXT");
                 Phases.Next();
             }
 

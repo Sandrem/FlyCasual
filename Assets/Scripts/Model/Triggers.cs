@@ -55,22 +55,22 @@ public static partial class Triggers
 
     public static void AddTrigger(string name, TriggerTypes triggerType, EventHandler triggerExecution, object sender, Players.PlayerNo playerNo, EventArgs arguments = null)
     {
-        Debug.Log("Trigger \"" + name + "\" is registered. Id " + counter + ". Active: " + (simultaneousTriggers.Count+1));
+        if (DebugManager.DebugTriggers) Debug.Log("Trigger \"" + name + "\" is registered. Id " + counter + ". Active: " + (simultaneousTriggers.Count+1));
         simultaneousTriggers.Add(counter, new Trigger(name, triggerType, triggerExecution, sender, playerNo, arguments));
     }
 
     public static void RemoveTrigger(int id)
     {
-        Debug.Log("Trigger \"" + simultaneousTriggers[id].Name + "\" is unregistered. Id " + id + ". Active: " + (simultaneousTriggers.Count-1));
+        if (DebugManager.DebugTriggers) Debug.Log("Trigger \"" + simultaneousTriggers[id].Name + "\" is unregistered. Id " + id + ". Active: " + (simultaneousTriggers.Count-1));
         simultaneousTriggers.Remove(id);
     }
 
     public static IEnumerator ResolveAllTriggers(TriggerTypes triggerType)
     {
-        Debug.Log("Are triggers empty? : " + Triggers.Empty);
+        if (DebugManager.DebugTriggers) Debug.Log("Are triggers empty? : " + Triggers.Empty);
         while (!Triggers.Empty)
         {
-            Debug.Log("I want to resolve all trigers with type: " + triggerType);
+            if (DebugManager.DebugTriggers) Debug.Log("I want to resolve all trigers with type: " + triggerType);
 
             Dictionary<int, Trigger> filteredTriggers = GetAllTriggersByType(triggerType);
 
@@ -79,23 +79,23 @@ public static partial class Triggers
                 if (stackedTriggers.Count == 0)
                 {
                     stackedTriggers.Add(filteredTriggers);
-                    Debug.Log("Initial level of stack: " + filteredTriggers.Last().Value.TriggerType + " (LEVEL " + stackedTriggers.Count + ")");
+                    if (DebugManager.DebugTriggers) Debug.Log("Initial level of stack: " + filteredTriggers.Last().Value.TriggerType + " (LEVEL " + stackedTriggers.Count + ")");
                 }
                 else if (stackedTriggers[stackedTriggers.Count-1].Last().Value.TriggerType != filteredTriggers.Last().Value.TriggerType)
                 {
                     stackedTriggers.Add(filteredTriggers);
-                    Debug.Log("New level of stack: " + filteredTriggers.Last().Value.TriggerType + " (LEVEL " + stackedTriggers.Count + ")");
+                    if (DebugManager.DebugTriggers) Debug.Log("New level of stack: " + filteredTriggers.Last().Value.TriggerType + " (LEVEL " + stackedTriggers.Count + ")");
                 }
             }
 
             if (filteredTriggers.Count == 0)
             {
-                Debug.Log("But all triggers with this type is already resolved!");
+                if (DebugManager.DebugTriggers) Debug.Log("But all triggers with this type is already resolved!");
                 stackedTriggers.Remove(stackedTriggers.Last());
-                Debug.Log("Changed level of stack: " + stackedTriggers.Count);
+                if (DebugManager.DebugTriggers) Debug.Log("Changed level of stack: " + stackedTriggers.Count);
 
                 triggerType = stackedTriggers[stackedTriggers.Count - 1].Last().Value.TriggerType;
-                Debug.Log("Return to previous level of triggers: " + triggerType);
+                if (DebugManager.DebugTriggers) Debug.Log("Return to previous level of triggers: " + triggerType);
             }
 
             yield return Triggers.CallTrigger(triggerType);
@@ -121,7 +121,7 @@ public static partial class Triggers
 
         Dictionary<int, Trigger> results = GetAllTriggersByTypeAndPlayer(playerNo, triggerType);
 
-        Debug.Log("Trigger + \"" + triggerType + "\" is called. Subscribed by: " + results.Count);
+        if (DebugManager.DebugTriggers) Debug.Log("Trigger + \"" + triggerType + "\" is called. Subscribed by: " + results.Count);
         if (results.Count == 1)
         {
             RemoveTrigger(results.First().Value.Id);
@@ -129,7 +129,7 @@ public static partial class Triggers
         }
         else if (results.Count > 1)
         {
-            Debug.Log("Start phase to show windows with results: " + results.Count);
+            if (DebugManager.DebugTriggers) Debug.Log("Start phase to show windows with results: " + results.Count);
             Phases.StartTemporarySubPhase("Triggers Order", typeof(TriggersOrderSubPhase));
             yield return Phases.WaitForTemporarySubPhasesFinish();
         }

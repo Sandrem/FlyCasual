@@ -56,12 +56,12 @@ public static partial class Phases
     {
         if (CurrentSubPhase.GetType() == subPhaseType)
         {
-            Debug.Log("Phase " + subPhaseType + "is finished directly");
+            if (DebugManager.DebugPhases) Debug.Log("Phase " + subPhaseType + "is finished directly");
             Next();
         }
         else
         {
-            Debug.Log("OOPS! YOU WANT TO FINISH " + subPhaseType + " SUBPHASE, BUT NOW IS " + CurrentSubPhase.GetType() + " SUBPHASE!");
+            if (DebugManager.DebugPhases) Debug.Log("OOPS! YOU WANT TO FINISH " + subPhaseType + " SUBPHASE, BUT NOW IS " + CurrentSubPhase.GetType() + " SUBPHASE!");
             /*if (!subPhasesToFinish.Contains(subPhaseType))
             {
                 Debug.Log("Phase " + subPhaseType + " is planned to finish");
@@ -208,7 +208,7 @@ public static partial class Phases
     public static void StartTemporarySubPhase(string name, System.Type subPhaseType)
     {
         CurrentSubPhase.Pause();
-        Debug.Log("Temporary phase " + subPhaseType + " is started directly");
+        if (DebugManager.DebugPhases) Debug.Log("Temporary phase " + subPhaseType + " is started directly");
         GenericSubPhase previousSubPhase = CurrentSubPhase;
         CurrentSubPhase = (GenericSubPhase)System.Activator.CreateInstance(subPhaseType);
         CurrentSubPhase.Name = name;

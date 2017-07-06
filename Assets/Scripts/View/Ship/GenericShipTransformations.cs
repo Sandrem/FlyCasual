@@ -14,6 +14,12 @@ namespace Ship
             Model.transform.position = position;
         }
 
+        public void SetCenter(Vector3 position)
+        {
+            position = position + Model.transform.TransformVector(0, 0, HALF_OF_SHIPSTAND_SIZE);
+            Model.transform.position = position;
+        }
+
         public Vector3 GetPosition()
         {
             return Model.transform.position;

@@ -21,6 +21,9 @@ public class ShipPositionManager : MonoBehaviour
 
     private GameObject ShipStand;
 
+    private Transform StartingZone;
+    private bool isInsideStartingZone;
+
     // Use this for initialization
     void Start()
     {
@@ -63,6 +66,8 @@ public class ShipPositionManager : MonoBehaviour
     public void StartDrag()
     {
         if (Phases.CurrentPhase.GetType() == typeof(MainPhases.SetupPhase)) {
+            StartingZone = Board.GetStartingZone(Phases.CurrentSubPhase.RequiredPlayer);
+            isInsideStartingZone = false;
             Roster.SetRaycastTargets(false);
             Roster.AllShipsHighlightOff();
             Board.HighlightStartingZones();
@@ -78,7 +83,7 @@ public class ShipPositionManager : MonoBehaviour
         if (Physics.Raycast(ray, out hit)) {
             if (Phases.CurrentSubPhase.GetType() == typeof(SubPhases.SetupSubPhase))
             {
-                Selection.ThisShip.SetPosition(new Vector3(hit.point.x, 0f, hit.point.z));
+                Selection.ThisShip.SetCenter(new Vector3(hit.point.x, 0f, hit.point.z));
             }
         }
 
@@ -90,14 +95,26 @@ public class ShipPositionManager : MonoBehaviour
 
     private void ApplySetupPositionLimits()
     {
-        Vector3 newPosition = Selection.ThisShip.GetPosition();
+        Vector3 newPosition = Selection.ThisShip.GetCenter();
 
-        if (newPosition.z > 5) newPosition.z = 5;
-        if (newPosition.z < -5) newPosition.z = -5;
-        if (newPosition.x > 5) newPosition.x = 5;
-        if (newPosition.x < -5) newPosition.x = -5;
+        if (!isInsideStartingZone)
+        {
+            if ((newPosition.z < StartingZone.TransformPoint(0.5f, 0.5f, 0.5f).z - Board.BoardIntoWorld(Board.DISTANCE_1 / 2f)) && (newPosition.z > StartingZone.TransformPoint(-0.5f, -0.5f, -0.5f).z + Board.BoardIntoWorld(Board.DISTANCE_1 / 2f)))
+            {
+                isInsideStartingZone = true;
+            }
+        }
+        
+        if (isInsideStartingZone)
+        {
+            if (newPosition.z > StartingZone.TransformPoint(0.5f, 0.5f, 0.5f).z - Board.BoardIntoWorld(Board.DISTANCE_1 / 2f)) newPosition.z = StartingZone.TransformPoint(0.5f, 0.5f, 0.5f).z - Board.BoardIntoWorld(Board.DISTANCE_1 / 2f);
+            if (newPosition.z < StartingZone.TransformPoint(-0.5f, -0.5f, -0.5f).z + Board.BoardIntoWorld(Board.DISTANCE_1 / 2f)) newPosition.z = StartingZone.TransformPoint(-0.5f, -0.5f, -0.5f).z + Board.BoardIntoWorld(Board.DISTANCE_1 / 2f);
+        }
+        
+        if (newPosition.x > StartingZone.TransformPoint( 0.5f,  0.5f,  0.5f).x - Board.BoardIntoWorld(Board.DISTANCE_1 / 2f)) newPosition.x = StartingZone.TransformPoint( 0.5f,  0.5f,  0.5f).x - Board.BoardIntoWorld(Board.DISTANCE_1 / 2f);
+        if (newPosition.x < StartingZone.TransformPoint(-0.5f, -0.5f, -0.5f).x + Board.BoardIntoWorld(Board.DISTANCE_1 / 2f)) newPosition.x = StartingZone.TransformPoint(-0.5f, -0.5f, -0.5f).x + Board.BoardIntoWorld(Board.DISTANCE_1 / 2f);
 
-        Selection.ThisShip.SetPosition(newPosition);
+        Selection.ThisShip.SetCenter(newPosition);
     }
 
     //TODO: Good target to move into subphase class
@@ -111,8 +128,7 @@ public class ShipPositionManager : MonoBehaviour
 
         if (Phases.CurrentSubPhase.GetType() == typeof(SubPhases.SetupSubPhase))
         {
-            Transform startingZone = Board.GetStartingZone(Phases.CurrentSubPhase.RequiredPlayer);
-            if (!ship.IsInside(startingZone))
+            if (!ship.IsInside(StartingZone))
 
             {
                 Game.UI.ShowError("Place ship into highlighted area");

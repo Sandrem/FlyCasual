@@ -44,6 +44,7 @@ public class ShipPositionManager : MonoBehaviour
         else
         {
             PerformRotation();
+            CheckControlledMode();
             PerformDrag();
         }
 
@@ -79,6 +80,48 @@ public class ShipPositionManager : MonoBehaviour
 
     private void PerformRotation()
     {
+        CheckResetRotation();
+        if (Input.GetKey(KeyCode.LeftControl))
+        {
+            RotateBy45();
+        }
+        else
+        {
+            RotateBy1();
+        }
+
+    }
+
+    private void CheckResetRotation()
+    {
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            Vector3 facing = (Selection.ThisShip.Owner.PlayerNo == Players.PlayerNo.Player1) ? ShipFactory.ROTATION_FORWARD : ShipFactory.ROTATION_BACKWARD;
+            Selection.ThisShip.SetRotationHelper2Angles(new Vector3(0, -Selection.ThisShip.Model.transform.eulerAngles.y + facing.y, 0));
+            Selection.ThisShip.ApplyRotationHelpers();
+            Selection.ThisShip.ResetRotationHelpers();
+        }
+    }
+
+    private void RotateBy45()
+    {
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            Selection.ThisShip.SetRotationHelper2Angles(new Vector3(0, -45, 0));
+            Selection.ThisShip.ApplyRotationHelpers();
+            Selection.ThisShip.ResetRotationHelpers();
+        }
+
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            Selection.ThisShip.SetRotationHelper2Angles(new Vector3(0, 45, 0));
+            Selection.ThisShip.ApplyRotationHelpers();
+            Selection.ThisShip.ResetRotationHelpers();
+        }
+    }
+
+    private static void RotateBy1()
+    {
         if (Input.GetKey(KeyCode.Q))
         {
             Selection.ThisShip.SetRotationHelper2Angles(new Vector3(0, -1, 0));
@@ -91,6 +134,14 @@ public class ShipPositionManager : MonoBehaviour
             Selection.ThisShip.SetRotationHelper2Angles(new Vector3(0, 1, 0));
             Selection.ThisShip.ApplyRotationHelpers();
             Selection.ThisShip.ResetRotationHelpers();
+        }
+    }
+
+    private void CheckControlledMode()
+    {
+        foreach (Transform helper in Selection.ThisShip.Model.transform.Find("RotationHelper/RotationHelper2/ShipSetupHelpers").transform)
+        {
+            helper.gameObject.SetActive(Input.GetKey(KeyCode.LeftControl));
         }
     }
 

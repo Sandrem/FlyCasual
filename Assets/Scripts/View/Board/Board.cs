@@ -28,6 +28,14 @@ public static partial class Board {
         RulersHolderTransform = Game.PrefabsList.RulersHolderTransform;
         StartingZone1 = Game.PrefabsList.StartingZone1;
         StartingZone2 = Game.PrefabsList.StartingZone2;
+
+        SetPlaymatImage();
+    }
+
+    private static void SetPlaymatImage()
+    {
+        Texture playmatTexture = (Texture)Resources.Load("Playmats/Playmat" + Global.Playmat + "Texture", typeof(Texture));
+        BoardTransform.Find("Playmat").GetComponent<Renderer>().material.mainTexture = playmatTexture;        
     }
 
     private static void SetShip(Ship.GenericShip ship, int count)

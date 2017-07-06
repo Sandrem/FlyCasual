@@ -29,6 +29,7 @@ namespace Ship
                 if ((Combat.AttackStep == CombatStep.Attack) && (Combat.Defender.PilotName == PilotName))
                 {
                     Combat.Attacker.OnTryAddAvailableActionEffect += UseDarkCurseRestriction;
+                    Combat.Attacker.AssignToken(new Conditions.DarkCurseCondition());
                 }
             }
 
@@ -51,9 +52,25 @@ namespace Ship
                 if ((Combat.AttackStep == CombatStep.Defence) && (Combat.Defender.PilotName == PilotName))
                 {
                     Combat.Attacker.OnTryAddAvailableActionEffect -= UseDarkCurseRestriction;
+                    Combat.Attacker.RemoveToken(typeof(Conditions.DarkCurseCondition));
                 }
             }
 
         }
     }
+}
+
+namespace Conditions
+{
+
+    public class DarkCurseCondition : Tokens.GenericToken
+    {
+        public DarkCurseCondition()
+        {
+            Name = "Debuff Token";
+            Temporary = false;
+            Tooltip = new Ship.TIEFighter.DarkCurse().ImageUrl;
+        }
+    }
+
 }

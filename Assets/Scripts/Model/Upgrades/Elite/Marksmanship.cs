@@ -50,6 +50,7 @@ namespace ActionsList
         {
             host = Selection.ThisShip;
             host.AfterGenerateAvailableActionEffectsList += MarksmanshipAddDiceModification;
+            host.AssignToken(new Conditions.MarksmanshipCondition());
             Phases.OnEndPhaseStart += MarksmanshipUnSubscribeToFiceModification;
             Phases.Next();
         }
@@ -61,6 +62,7 @@ namespace ActionsList
 
         private void MarksmanshipUnSubscribeToFiceModification()
         {
+            host.RemoveToken(typeof(Conditions.MarksmanshipCondition));
             host.AfterGenerateAvailableActionEffectsList -= MarksmanshipAddDiceModification;
         }
 
@@ -77,6 +79,21 @@ namespace ActionsList
             Combat.CurentDiceRoll.ChangeAll(DiceSide.Focus, DiceSide.Success);
         }
 
+    }
+
+}
+
+namespace Conditions
+{
+
+    public class MarksmanshipCondition : Tokens.GenericToken
+    {
+        public MarksmanshipCondition()
+        {
+            Name = "Buff Token";
+            Temporary = false;
+            Tooltip = new UpgradesList.Marksmanship().ImageUrl;
+        }
     }
 
 }

@@ -39,7 +39,7 @@ namespace UpgradesList
 namespace ActionsList
 { 
 
-    public class R2F2Action : ActionsList.GenericAction
+    public class R2F2Action : GenericAction
     {
         private Ship.GenericShip host;
 
@@ -54,6 +54,7 @@ namespace ActionsList
 
             host = Selection.ThisShip;
             host.ChangeAgilityBy(+1);
+            host.AssignToken(new Conditions.R2F2Condition());
             Phases.OnEndPhaseStart += R2F2DecreaseAgility;
             Phases.Next();
         }
@@ -61,9 +62,25 @@ namespace ActionsList
         private void R2F2DecreaseAgility()
         {
             host.ChangeAgilityBy(-1);
+            host.RemoveToken(typeof(Conditions.R2F2Condition));
             Phases.OnEndPhaseStart -= R2F2DecreaseAgility;
         }
 
+    }
+
+}
+
+namespace Conditions
+{
+
+    public class R2F2Condition : Tokens.GenericToken
+    {
+        public R2F2Condition()
+        {
+            Name = "Buff Token";
+            Temporary = false;
+            Tooltip = new UpgradesList.R2F2().ImageUrl;
+        }
     }
 
 }

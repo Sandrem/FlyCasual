@@ -159,7 +159,7 @@ namespace Ship
                     {
                         if (CheckFaceupCrit(dice))
                         {
-                            Triggers.AddTrigger("Draw faceup damage card", TriggerTypes.OnDamageCardIsDealt, DealFaceupCritCard, this, this.Owner.PlayerNo, eventArgs);
+                            Triggers.AddTrigger("Draw faceup damage card", TriggerTypes.OnCritDamageCardIsDealt, DealFaceupCritCard, this, this.Owner.PlayerNo, eventArgs);
                         }
                         else
                         {
@@ -168,6 +168,7 @@ namespace Ship
                     }
                 }
                 yield return Triggers.ResolveAllTriggers(TriggerTypes.OnDamageCardIsDealt);
+                yield return Triggers.ResolveAllTriggers(TriggerTypes.OnCritDamageCardIsDealt);
             }
 
             CallAfterAssignedDamageIsChanged();

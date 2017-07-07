@@ -159,7 +159,7 @@ namespace Ship
                     {
                         if (CheckFaceupCrit(dice))
                         {
-                            Triggers.AddTrigger("Draw faceup damage card", TriggerTypes.OnDamageCardIsDealt, DealFaceupCritCard, this, this.Owner.PlayerNo, eventArgs);
+                            Triggers.AddTrigger("Draw faceup damage card", TriggerTypes.OnCritDamageCardIsDealt, DealFaceupCritCard, this, this.Owner.PlayerNo, eventArgs);
                         }
                         else
                         {
@@ -168,6 +168,7 @@ namespace Ship
                     }
                 }
                 yield return Triggers.ResolveAllTriggers(TriggerTypes.OnDamageCardIsDealt);
+                yield return Triggers.ResolveAllTriggers(TriggerTypes.OnCritDamageCardIsDealt);
             }
 
             CallAfterAssignedDamageIsChanged();
@@ -191,6 +192,7 @@ namespace Ship
 
         public void SufferHullDamage()
         {
+            AssignedDamageCards.Add(CriticalHitsDeck.GetCritCard());
             Hull--;
             Hull = Mathf.Max(Hull, 0);
 
@@ -203,9 +205,9 @@ namespace Ship
         {
             Combat.CurrentCriticalHitCard = CriticalHitsDeck.GetCritCard();
 
-            Debug.Log("+++ Crit: " + Combat.CurrentCriticalHitCard.Name);
-            Debug.Log("+++ Source: " + (e as DamageSourceEventArgs).Source);
-            Debug.Log("+++ DamageType: " + (e as DamageSourceEventArgs).DamageType);
+            if (DebugManager.DebugDamage) Debug.Log("+++ Crit: " + Combat.CurrentCriticalHitCard.Name);
+            if (DebugManager.DebugDamage) Debug.Log("+++ Source: " + (e as DamageSourceEventArgs).Source);
+            if (DebugManager.DebugDamage) Debug.Log("+++ DamageType: " + (e as DamageSourceEventArgs).DamageType);
 
             if (OnFaceupCritCardReadyToBeDealt != null) OnFaceupCritCardReadyToBeDealt(this, ref Combat.CurrentCriticalHitCard, e);
 
@@ -216,12 +218,12 @@ namespace Ship
 
         private IEnumerator DealFaceupCritCardAsync(object sender, EventArgs e)
         {
-            Debug.Log("+++ TRIGGER!!!");
+            if (DebugManager.DebugDamage) Debug.Log("+++ TRIGGER!!!");
 
             yield return Triggers.ResolveAllTriggers(TriggerTypes.OnFaceupCritCardReadyToBeDealt);
             yield return Phases.WaitForTemporarySubPhasesFinish();
 
-            Debug.Log("+++ SUFFER!!!");
+            if (DebugManager.DebugDamage) Debug.Log("+++ SUFFER!!!");
 
             (sender as GenericShip).SufferCrit(Combat.CurrentCriticalHitCard);
         }

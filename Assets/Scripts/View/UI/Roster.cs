@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 using Players;
 using System.Linq;
 
-//TODO: Store info about ships rosters
+//TODO: Change direction of rows in tokens
 public static partial class Roster {
 
     private static List<GameObject> rosterPlayer1 = new List<GameObject>();
@@ -120,19 +120,17 @@ public static partial class Roster {
 
         //Tokens
 
-        bool tokensVisible = false;
-
-        //TODO: Bug: Resize on end phase is not working correctly
+        int iconsCount = 0;
         foreach (Transform icon in panel.transform.Find("ShipInfo/TokensBar").transform)
         {
             if (icon.gameObject.activeSelf)
             {
-                tokensVisible = true;
-                break;
+                iconsCount++;
             }
         }
 
-        if (tokensVisible) panelHeight += 40;
+        int iconsLines = (iconsCount + 4) / 5;
+        panelHeight += 35 * iconsLines + 3;
 
         //Upgrades
 
@@ -243,6 +241,7 @@ public static partial class Roster {
         }
 
         float offset = 0;
+        float row = 0;
         foreach (var token in thisShip.GetAssignedTokens())
         {
             for (int i = 0; i < token.Count; i++)
@@ -259,8 +258,16 @@ public static partial class Roster {
                 }
 
                 tokenPanel.SetActive(true);
-                tokenPanel.GetComponent<RectTransform>().localPosition = new Vector3(offset, tokenPanel.GetComponent<RectTransform>().localPosition.y, tokenPanel.GetComponent<RectTransform>().localPosition.z);
-                offset += 32 + 3;
+                tokenPanel.GetComponent<RectTransform>().localPosition = new Vector3(offset, tokenPanel.GetComponent<RectTransform>().localPosition.y + 35 * row, tokenPanel.GetComponent<RectTransform>().localPosition.z);
+                if (i > (row * 5) + 3)
+                {
+                    row++;
+                    offset = 0;
+                }
+                else
+                {
+                    offset += 32 + 3;
+                }
             }
         }
 

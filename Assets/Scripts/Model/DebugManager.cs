@@ -49,4 +49,15 @@ public static class DebugManager
         set { debugBoard = value; }
     }
 
+    private static bool debugDamage = true;
+    public static bool DebugDamage
+    {
+        get
+        {
+            if (FullDebug) return true;
+            return debugDamage;
+        }
+        set { debugDamage = value; }
+    }
+
 }

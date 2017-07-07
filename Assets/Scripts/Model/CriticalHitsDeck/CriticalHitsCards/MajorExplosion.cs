@@ -67,6 +67,7 @@ namespace SubPhases
             eventArgs.DamageType = DamageTypes.CriticalHitCard;
             Triggers.AddTrigger("Draw faceup damage card", TriggerTypes.OnDamageCardIsDealt, Selection.ActiveShip.DealFaceupCritCard, Selection.ActiveShip, Selection.ActiveShip.Owner.PlayerNo, eventArgs);
             yield return Triggers.ResolveAllTriggers(TriggerTypes.OnDamageCardIsDealt);
+            yield return Triggers.ResolveAllTriggers(TriggerTypes.OnCritDamageCardIsDealt);
         }
 
     }

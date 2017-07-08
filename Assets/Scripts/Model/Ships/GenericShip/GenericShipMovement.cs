@@ -70,7 +70,7 @@ namespace Ship
             if (OnMovementFinishWithColliding != null) OnMovementFinishWithColliding(this);
         }
 
-        public void FinishMovingWithoutColliding()
+        public void FinishMovementWithoutColliding()
         {
             if (OnMovementFinishWithoutColliding != null) OnMovementFinishWithoutColliding(this);
         }

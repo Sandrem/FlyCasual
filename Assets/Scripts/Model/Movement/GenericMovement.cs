@@ -131,19 +131,24 @@ namespace Movement
         {
             if (ProgressCurrent == ProgressTarget)
             {
-                Selection.ThisShip.FinishMovingWithoutColliding();
-
-                MovementTemplates.HideLastMovementRuler();
-
-                //TEMP
-                GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-                Game.Movement.isMoving = false;
-
-                Game.StartCoroutine(FinishMovementCoroutine());
+                FinishMovementWithoutColliding();
             }
         }
 
-        private IEnumerator FinishMovementCoroutine()
+        protected virtual void FinishMovementWithoutColliding()
+        {
+            Selection.ThisShip.FinishMovementWithoutColliding();
+
+            MovementTemplates.HideLastMovementRuler();
+
+            //TEMP
+            GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
+            Game.Movement.isMoving = false;
+
+            Game.StartCoroutine(FinishMovementCoroutine());
+        }
+
+        protected IEnumerator FinishMovementCoroutine()
         {
             yield return Selection.ThisShip.ExecuteMoving();
 

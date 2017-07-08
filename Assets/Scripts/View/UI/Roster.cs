@@ -20,6 +20,10 @@ public static partial class Roster {
         newPanel.transform.Find("ShipInfo/ShipPilotSkillText").GetComponent<Text>().text = newShip.PilotSkill.ToString();
 
         newPanel.transform.Find("ShipInfo/ShipId").GetComponent<Text>().text = newShip.ShipId.ToString();
+        newPanel.transform.Find("ShipIdText/Text").GetComponent<Text>().text = newShip.ShipId.ToString();
+        newPanel.transform.Find("ShipIdText/Text").GetComponent<Text>().color = (newShip.Owner.PlayerNo == PlayerNo.Player1) ? Color.green : Color.red;
+        newPanel.transform.Find("ShipIdText").localPosition = new Vector3((newShip.Owner.PlayerNo == PlayerNo.Player1) ? 205 : -50, 0, 0);
+        newPanel.transform.Find("ShipIdText").gameObject.SetActive(true);
 
         GameObject pilotNameGO = newPanel.transform.Find("ShipInfo/ShipPilotNameText").gameObject;
         pilotNameGO.GetComponent<Text>().text = newShip.PilotName;

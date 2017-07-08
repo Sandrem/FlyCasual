@@ -34,8 +34,16 @@ namespace Ship
             ShipId = ShipFactory.lastId;
             ShipFactory.lastId = ShipFactory.lastId + 1;
             SetTagOfChildrenRecursive(newShip.transform, "ShipId:" + ShipId.ToString());
+            SetShipIdText(newShip);
 
             return newShip;
+        }
+
+        private void SetShipIdText(GameObject model)
+        {
+            TextMesh ShipIdText = model.transform.Find("RotationHelper/RotationHelper2/ShipAllParts/ShipIdText").GetComponent<TextMesh>();
+            ShipIdText.text = ShipId.ToString();
+            ShipIdText.color = (Owner.PlayerNo == Players.PlayerNo.Player1) ? Color.green: Color.red;
         }
 
         private void SetTagOfChildrenRecursive(Transform parent, string tag)

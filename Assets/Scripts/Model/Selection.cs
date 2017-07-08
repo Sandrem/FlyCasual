@@ -11,6 +11,7 @@ public static class Selection {
     public static Ship.GenericShip ThisShip;
     public static Ship.GenericShip AnotherShip;
     public static Ship.GenericShip ActiveShip;
+    public static Ship.GenericShip HoveredShip;
 
     // Use this for initialization
     static Selection() {
@@ -22,6 +23,7 @@ public static class Selection {
     {
         if (!EventSystem.current.IsPointerOverGameObject())
         {
+            TryMarkShip();
             if (Input.GetKeyUp(KeyCode.Mouse0) == true)
             {
                 bool isShipHit = false;
@@ -38,6 +40,41 @@ public static class Selection {
                     ProcessClick();
                     Game.UI.HideTemporaryMenus();
                 }
+            }
+        }
+    }
+
+    private static void TryMarkShip()
+    {
+        RaycastHit hitInfo = new RaycastHit();
+        if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitInfo))
+        {
+            if (hitInfo.transform.tag.StartsWith("ShipId:"))
+            {
+                TryUnmarkPreviousHoveredShip();
+                HoveredShip = Roster.AllShips[hitInfo.transform.tag];
+                if ((HoveredShip != ThisShip) && (HoveredShip != AnotherShip))
+                {
+                    HoveredShip.HighlightAnyHovered();
+                    Roster.MarkShip(HoveredShip, Color.yellow);
+                }
+            }
+            else
+            {
+                TryUnmarkPreviousHoveredShip();
+            }
+        }
+    }
+
+    private static void TryUnmarkPreviousHoveredShip()
+    {
+        if (HoveredShip != null)
+        {
+            if ((HoveredShip != ThisShip) && (HoveredShip != AnotherShip))
+            {
+                HoveredShip.HighlightSelectedOff();
+                Roster.UnMarkShip(HoveredShip);
+                HoveredShip = null;
             }
         }
     }
@@ -102,7 +139,7 @@ public static class Selection {
         DeselectThisShip();
         ThisShip = Roster.GetShipById(shipId);
         ThisShip.ToggleCollisionDetection(true);
-        ThisShip.InfoPanel.transform.Find("ShipInfo").Find("ShipPilotNameText").GetComponent<Text>().color = Color.yellow;
+        Roster.MarkShip(ThisShip, Color.green);
         ThisShip.HighlightThisSelected();
         if (Phases.CurrentSubPhase.GetType() == typeof(SubPhases.CombatSubPhase)) Roster.HighlightShipsFiltered(Roster.AnotherPlayer(Phases.CurrentPhasePlayer));
         if (Roster.GetPlayer(Phases.CurrentPhasePlayer).GetType() == typeof(Players.HumanPlayer)) Game.UI.CallContextMenu(ThisShip);
@@ -122,11 +159,11 @@ public static class Selection {
         //Should I can target my own ships???
         if (AnotherShip != null)
         {
-            AnotherShip.InfoPanel.transform.Find("ShipInfo").Find("ShipPilotNameText").GetComponent<Text>().color = Color.white;
+            Roster.UnMarkShip(AnotherShip);
             AnotherShip.HighlightSelectedOff();
         }
         AnotherShip = Roster.GetShipById(shipId);
-        AnotherShip.InfoPanel.transform.Find("ShipInfo").Find("ShipPilotNameText").GetComponent<Text>().color = Color.red;
+        Roster.MarkShip(AnotherShip, Color.red);
         AnotherShip.HighlightEnemySelected();
         if (Roster.GetPlayer(Phases.CurrentPhasePlayer).GetType() == typeof(Players.HumanPlayer)) Game.UI.CallContextMenu(AnotherShip);
         return true;
@@ -144,7 +181,7 @@ public static class Selection {
     private static void DeselectShip(Ship.GenericShip ship)
     {
         ship.ToggleCollisionDetection(false);
-        ship.InfoPanel.transform.Find("ShipInfo").Find("ShipPilotNameText").GetComponent<Text>().color = Color.white;
+        Roster.UnMarkShip(ship);
         ship.HighlightSelectedOff();
     }
 

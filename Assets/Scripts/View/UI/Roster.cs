@@ -11,9 +11,7 @@ public static partial class Roster {
 
     private static List<GameObject> rosterPlayer1 = new List<GameObject>();
     private static List<GameObject> rosterPlayer2 = new List<GameObject>();
-
-    private static Ship.GenericShip LastMarkedShip;
-
+    
     public static GameObject CreateRosterInfo(Ship.GenericShip newShip)
     {
         GameObject newPanel = MonoBehaviour.Instantiate(Game.PrefabsList.RosterPanel, Game.PrefabsList.RostersHolder.transform.Find("TeamPlayer" + newShip.Owner.Id).Find("RosterHolder").transform);
@@ -348,20 +346,15 @@ public static partial class Roster {
         ship.InfoPanel.transform.Find("ShipInfo").GetComponent<Image>().color = new Color32(0, 0, 0, 200);
     }
 
-    public static void MarkShip(Ship.GenericShip ship)
+    public static void MarkShip(Ship.GenericShip ship, Color color)
     {
         ship.InfoPanel.transform.Find("Mark").GetComponent<Canvas>().enabled = true;
-        LastMarkedShip = ship;
+        ship.InfoPanel.transform.Find("Mark").GetComponent<Image>().color = color;
     }
 
-    public static void UnMarkLastShip()
+    public static void UnMarkShip(Ship.GenericShip ship)
     {
-        if (LastMarkedShip != null)
-        {
-            LastMarkedShip.InfoPanel.transform.Find("Mark").GetComponent<Canvas>().enabled = false;
-            LastMarkedShip = null;
-        }
-        
+        ship.InfoPanel.transform.Find("Mark").GetComponent<Canvas>().enabled = false;
     }
 
 }

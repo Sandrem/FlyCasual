@@ -136,6 +136,12 @@ namespace Ship
             shipAllParts.Find("SelectionProjector").GetComponent<Projector>().material = (Material)Resources.Load("Projectors/Materials/SelectionThisProjector", typeof(Material));
         }
 
+        public void HighlightAnyHovered()
+        {
+            shipAllParts.Find("SelectionProjector").gameObject.SetActive(true);
+            shipAllParts.Find("SelectionProjector").GetComponent<Projector>().material = (Material)Resources.Load("Projectors/Materials/SelectionAnyHovered", typeof(Material));
+        }
+
         public void HighlightEnemySelected()
         {
             shipAllParts.Find("SelectionProjector").gameObject.SetActive(true);

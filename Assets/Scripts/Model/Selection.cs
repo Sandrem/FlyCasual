@@ -22,6 +22,7 @@ public static class Selection {
     {
         if (!EventSystem.current.IsPointerOverGameObject())
         {
+            TryMarkShip();
             if (Input.GetKeyUp(KeyCode.Mouse0) == true)
             {
                 bool isShipHit = false;
@@ -38,6 +39,22 @@ public static class Selection {
                     ProcessClick();
                     Game.UI.HideTemporaryMenus();
                 }
+            }
+        }
+    }
+
+    private static void TryMarkShip()
+    {
+        RaycastHit hitInfo = new RaycastHit();
+        if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitInfo))
+        {
+            if (hitInfo.transform.tag.StartsWith("ShipId:"))
+            {
+                Roster.MarkShip(Roster.AllShips[hitInfo.transform.tag]);
+            }
+            else
+            {
+                Roster.UnMarkLastShip();
             }
         }
     }

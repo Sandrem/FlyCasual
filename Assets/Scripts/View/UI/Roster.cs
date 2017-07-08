@@ -12,6 +12,8 @@ public static partial class Roster {
     private static List<GameObject> rosterPlayer1 = new List<GameObject>();
     private static List<GameObject> rosterPlayer2 = new List<GameObject>();
 
+    private static Ship.GenericShip LastMarkedShip;
+
     public static GameObject CreateRosterInfo(Ship.GenericShip newShip)
     {
         GameObject newPanel = MonoBehaviour.Instantiate(Game.PrefabsList.RosterPanel, Game.PrefabsList.RostersHolder.transform.Find("TeamPlayer" + newShip.Owner.Id).Find("RosterHolder").transform);
@@ -39,6 +41,9 @@ public static partial class Roster {
         newPanel.transform.Find("ShipInfo/ShipAgilityText").GetComponent<Text>().text = newShip.Agility.ToString();
         newPanel.transform.Find("ShipInfo/ShipHullText").GetComponent<Text>().text = newShip.MaxHull.ToString();
         newPanel.transform.Find("ShipInfo/ShipShieldsText").GetComponent<Text>().text = newShip.MaxShields.ToString();
+
+        //Mark
+        newPanel.transform.Find("Mark").localPosition = new Vector3((newShip.Owner.PlayerNo == PlayerNo.Player1) ? 198 : -8, 0, 0);
 
         //Hull and shields
         float panelWidth = 200 - 10;
@@ -149,6 +154,8 @@ public static partial class Roster {
         }
 
         panelHeight += Mathf.CeilToInt(upgradesVisible/2) * 20;
+
+        panel.transform.Find("Mark").GetComponent<RectTransform>().sizeDelta = new Vector2(10, panelHeight);
 
         return panelHeight;
     }
@@ -339,6 +346,22 @@ public static partial class Roster {
     {
         ship.InfoPanel.transform.Find("ShipInfo").GetComponent<Animator>().enabled = false;
         ship.InfoPanel.transform.Find("ShipInfo").GetComponent<Image>().color = new Color32(0, 0, 0, 200);
+    }
+
+    public static void MarkShip(Ship.GenericShip ship)
+    {
+        ship.InfoPanel.transform.Find("Mark").GetComponent<Canvas>().enabled = true;
+        LastMarkedShip = ship;
+    }
+
+    public static void UnMarkLastShip()
+    {
+        if (LastMarkedShip != null)
+        {
+            LastMarkedShip.InfoPanel.transform.Find("Mark").GetComponent<Canvas>().enabled = false;
+            LastMarkedShip = null;
+        }
+        
     }
 
 }

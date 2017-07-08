@@ -158,11 +158,9 @@ namespace Movement
 
             Selection.ThisShip.FinishPosition();
 
-            // Selection.ThisShip.ResetRotationHelpers();
+            Selection.ThisShip.ResetRotationHelpers();
 
             Selection.ThisShip.IsAttackPerformed = false;
-
-            // Selection.ThisShip.AssignedManeuver = null;
 
             Phases.FinishSubPhase(typeof(SubPhases.MovementExecutionSubPhase));
         }

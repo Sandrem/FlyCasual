@@ -35,17 +35,12 @@ namespace Movement
         {
             float progressDelta = AnimationSpeed * Time.deltaTime;
             progressDelta = Mathf.Clamp(progressDelta, 0, Mathf.Abs(ProgressTarget - ProgressCurrent));
-
-            //Vector3 progressDirection = (CollisionReverting) ? Vector3.back : Vector3.forward;
-                Vector3 progressDirection = Vector3.forward;
-
-            Selection.ThisShip.SetPosition(Vector3.MoveTowards(Selection.ThisShip.GetPosition(), Selection.ThisShip.GetPosition() + Selection.ThisShip.TransformDirection(progressDirection), progressDelta));
             ProgressCurrent += progressDelta;
 
-            //Selection.ThisShip.RotateModelDuringTurn(CurrentMovementData, PreviousMovementData);
-            //UpdateRotationFinisher();
+            Vector3 progressDirection = Vector3.forward;
+            Selection.ThisShip.SetPosition(Vector3.MoveTowards(Selection.ThisShip.GetPosition(), Selection.ThisShip.GetPosition() + Selection.ThisShip.TransformDirection(progressDirection), progressDelta));
 
-            //CheckCollisionsAfterStraight();
+            //UpdateRotationFinisher();
 
             base.UpdateMovementExecution();
         }

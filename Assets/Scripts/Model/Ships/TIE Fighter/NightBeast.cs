@@ -25,7 +25,7 @@ namespace Ship
 
             private void NightBeastPilotAbility(GenericShip ship)
             {
-                if (AssignedManeuver.ColorComplexity == ManeuverColor.Green)
+                if (AssignedManeuver.ColorComplexity == Movement.ManeuverColor.Green)
                 {
                     Triggers.AddTrigger("Night Beast: Free Focus action", TriggerTypes.OnShipMovementFinish, PefrormFreeFocusAction, ship, ship.Owner.PlayerNo);
                 }

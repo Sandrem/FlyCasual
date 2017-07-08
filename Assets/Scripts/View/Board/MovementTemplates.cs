@@ -50,7 +50,7 @@ public static class MovementTemplates {
 
     public static void ApplyMovementRuler(Ship.GenericShip thisShip) {
 
-        if (Game.Movement.CurrentMovementData.Speed != 0)
+        if (Selection.ThisShip.AssignedManeuver.Speed != 0)
         {
             CurrentTemplate = GetMovementRuler();
 
@@ -58,7 +58,7 @@ public static class MovementTemplates {
 
             CurrentTemplate.position = thisShip.GetPosition();
             CurrentTemplate.eulerAngles = thisShip.GetAngles() + new Vector3(0f, 90f, 0f);
-            if (Game.Movement.CurrentMovementData.MovementDirection == ManeuverDirection.Left)
+            if (Selection.ThisShip.AssignedManeuver.Direction == Movement.ManeuverDirection.Left)
             {
                 CurrentTemplate.eulerAngles = CurrentTemplate.eulerAngles + new Vector3(180f, 0f, 0f);
             }
@@ -75,16 +75,16 @@ public static class MovementTemplates {
     private static Transform GetMovementRuler()
     {
         Transform result = null;
-        switch (Game.Movement.CurrentMovementData.MovementBearing)
+        switch (Selection.ThisShip.AssignedManeuver.Bearing)
         {
-            case ManeuverBearing.Straight:
-                return Templates.Find("straight" + Game.Movement.CurrentMovementData.Speed);
-            case ManeuverBearing.Bank:
-                return Templates.Find("bank" + Game.Movement.CurrentMovementData.Speed);
-            case ManeuverBearing.Turn:
-                return Templates.Find("turn" + Game.Movement.CurrentMovementData.Speed);
-            case ManeuverBearing.KoiogranTurn:
-                return Templates.Find("straight" + Game.Movement.CurrentMovementData.Speed);
+            case Movement.ManeuverBearing.Straight:
+                return Templates.Find("straight" + Selection.ThisShip.AssignedManeuver.Speed);
+            case Movement.ManeuverBearing.Bank:
+                return Templates.Find("bank" + Selection.ThisShip.AssignedManeuver.Speed);
+            case Movement.ManeuverBearing.Turn:
+                return Templates.Find("turn" + Selection.ThisShip.AssignedManeuver.Speed);
+            case Movement.ManeuverBearing.KoiogranTurn:
+                return Templates.Find("straight" + Selection.ThisShip.AssignedManeuver.Speed);
         }
         return result;
     }

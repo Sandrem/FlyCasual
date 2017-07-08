@@ -36,7 +36,7 @@ namespace Players
             {
                 Selection.ChangeActiveShip("ShipId:" + shipHolder.Value.ShipId);
                 Selection.ThisShip.IsManeuverPerformed = false;
-                shipHolder.Value.AssignedManeuver = Game.Movement.ManeuverFromString("2.F.S");
+                shipHolder.Value.AssignedManeuver = null;
             }
             Phases.Next();
         }

@@ -9,11 +9,11 @@ namespace RulesList
         {
             switch (ship.GetLastManeuverColor())
             {
-                case Ship.ManeuverColor.Red:
+                case Movement.ManeuverColor.Red:
                     ship.AssignToken(new Tokens.StressToken());
                     ship.IsSkipsActionSubPhase = true;
                     break;
-                case Ship.ManeuverColor.Green:
+                case Movement.ManeuverColor.Green:
                     if (ship.Owner.GetType() != typeof(Players.HotacAiPlayer))
                     {
                         ship.RemoveToken(typeof(Tokens.StressToken));
@@ -30,12 +30,12 @@ namespace RulesList
             }
         }
 
-        public void CannotPerformRedManeuversWhileStressed(Ship.GenericShip ship, ref Movement movement)
+        public void CannotPerformRedManeuversWhileStressed(Ship.GenericShip ship, ref Movement.MovementStruct movement)
         {
             //TODO: Should I show red maneuvers if I have stress?
-            if ((movement.ColorComplexity == Ship.ManeuverColor.Red) && (ship.GetToken(typeof(Tokens.StressToken)) != null))
+            if ((movement.ColorComplexity == Movement.ManeuverColor.Red) && (ship.GetToken(typeof(Tokens.StressToken)) != null))
             {
-                movement.ColorComplexity = Ship.ManeuverColor.None;
+                movement.ColorComplexity = Movement.ManeuverColor.None;
             }
         }
 

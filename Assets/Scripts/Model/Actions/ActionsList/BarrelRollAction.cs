@@ -150,8 +150,6 @@ namespace SubPhases
 
             result = TryConfirmBarrelRollPosition(ship);
 
-            Debug.Log(result);
-
             if (result)
             {
                 StartBarrelRollExecution(ship);

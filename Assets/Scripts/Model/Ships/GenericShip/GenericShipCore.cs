@@ -68,7 +68,7 @@ namespace Ship
         {
             factions = new List<Faction>();
             SoundFlyPaths = new List<string> ();
-            Maneuvers = new Dictionary<string, ManeuverColor>();
+            Maneuvers = new Dictionary<string, Movement.ManeuverColor>();
             BuiltInSlots = new Dictionary<Upgrade.UpgradeSlot, int>();
             InstalledUpgrades = new List<KeyValuePair<Upgrade.UpgradeSlot, Upgrade.GenericUpgrade>>();
 

@@ -4,28 +4,20 @@ using UnityEngine;
 
 namespace Ship
 {
-    //todo: move to movement
-    public enum ManeuverColor
-    {
-        None,
-        Green,
-        White,
-        Red
-    }
 
     public partial class GenericShip
     {
 
         public Vector3 StartingPosition { get; private set; }
 
-        public Movement AssignedManeuver { get; set; }
+        public Movement.GenericMovement AssignedManeuver { get; set; }
 
         public List<Collider> ObstaclesLanded = new List<Collider>();
         public List<Collider> ObstaclesHit = new List<Collider>();
 
         public GenericShip LastShipCollision { get; set; }
 
-        public Dictionary<string, ManeuverColor> Maneuvers { get; private set; }
+        public Dictionary<string, Movement.ManeuverColor> Maneuvers { get; private set; }
         public GenericAiTable HotacManeuverTable { get; protected set; }
 
         // EVENTS
@@ -85,26 +77,26 @@ namespace Ship
 
         // MANEUVERS
 
-        public ManeuverColor GetColorComplexityOfManeuver(string maneuverString)
+        public Movement.ManeuverColor GetColorComplexityOfManeuver(string maneuverString)
         {
             return Maneuvers[maneuverString];
         }
 
-        public ManeuverColor GetLastManeuverColor()
+        public Movement.ManeuverColor GetLastManeuverColor()
         {
-            ManeuverColor result = ManeuverColor.None;
+            Movement.ManeuverColor result = Movement.ManeuverColor.None;
 
             result = AssignedManeuver.ColorComplexity;
             return result;
         }
 
-        public Dictionary<string, ManeuverColor> GetManeuvers()
+        public Dictionary<string, Movement.ManeuverColor> GetManeuvers()
         {
-            Dictionary<string, ManeuverColor> result = new Dictionary<string, ManeuverColor>();
+            Dictionary<string, Movement.ManeuverColor> result = new Dictionary<string, Movement.ManeuverColor>();
 
             foreach (var maneuverHolder in Maneuvers)
             {
-                Movement movement = Game.Movement.ManeuverFromString(maneuverHolder.Key);
+                Movement.MovementStruct movement = Game.Movement.ManeuverFromString(maneuverHolder.Key);
                 if (AfterGetManeuverColorDecreaseComplexity != null) AfterGetManeuverColorDecreaseComplexity(this, ref movement);
                 if (AfterGetManeuverColorIncreaseComplexity != null) AfterGetManeuverColorIncreaseComplexity(this, ref movement);
                 if (AfterGetManeuverAvailablity != null) AfterGetManeuverAvailablity(this, ref movement);

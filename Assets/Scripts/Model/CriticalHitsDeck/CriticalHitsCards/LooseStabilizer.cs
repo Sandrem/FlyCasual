@@ -36,7 +36,7 @@ namespace CriticalHitCard
 
         private void StressAfterWhiteManeuvers(Ship.GenericShip ship)
         {
-            if (ship.GetLastManeuverColor() == Ship.ManeuverColor.White)
+            if (ship.GetLastManeuverColor() == Movement.ManeuverColor.White)
             {
                 Game.UI.ShowError("Loose Stabilizer: Stress token is assigned");
                 Game.UI.AddTestLogEntry("Loose Stabilizer: Stress token is assigned");

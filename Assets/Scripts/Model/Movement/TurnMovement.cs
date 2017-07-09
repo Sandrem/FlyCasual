@@ -19,7 +19,8 @@ namespace Movement
         {
             base.Perform();
 
-            LaunchShipMovement();
+            PlanMovement();
+            LaunchShipMovement();            
         }
 
         protected override float SetProgressTarget()

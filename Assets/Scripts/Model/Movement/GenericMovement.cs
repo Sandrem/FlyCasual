@@ -137,19 +137,22 @@ namespace Movement
 
         protected virtual void FinishMovementWithoutColliding()
         {
-            Selection.ThisShip.FinishMovementWithoutColliding();
-
-            MovementTemplates.HideLastMovementRuler();
 
             //TEMP
             GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
             Game.Movement.isMoving = false;
+
+            MovementTemplates.HideLastMovementRuler();
+
+            Selection.ThisShip.FinishMovementWithoutColliding();
 
             Game.StartCoroutine(FinishMovementCoroutine());
         }
 
         protected IEnumerator FinishMovementCoroutine()
         {
+            Selection.ThisShip.ResetRotationHelpers();
+
             yield return Selection.ThisShip.ExecuteMoving();
 
             // Selection.ThisShip.CheckLandedOnObstacle();
@@ -157,8 +160,6 @@ namespace Movement
             yield return Selection.ThisShip.FinishMoving();
 
             Selection.ThisShip.FinishPosition();
-
-            Selection.ThisShip.ResetRotationHelpers();
 
             Selection.ThisShip.IsAttackPerformed = false;
 
@@ -171,6 +172,8 @@ namespace Movement
             float result = Board.GetBoard().TransformVector(new Vector3(4, 0, 0)).x;
             return result;
         }
+
+        protected virtual void PlanMovement() { }
     }
 
 }

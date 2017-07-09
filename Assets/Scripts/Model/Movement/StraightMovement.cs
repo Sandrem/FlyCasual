@@ -17,13 +17,14 @@ namespace Movement
         {
             base.Perform();
             Initialize();
+
+            PlanMovement();
             LaunchShipMovement();
         }
 
         protected override float SetProgressTarget()
         {
-            Vector3 TargetPosition = new Vector3(0, 0, GetMovement1() + Speed * GetMovement1());
-            return TargetPosition.z;
+            return GetMovement1() + Speed * GetMovement1();
         }
 
         protected override float SetAnimationSpeed()
@@ -37,12 +38,26 @@ namespace Movement
             progressDelta = Mathf.Clamp(progressDelta, 0, Mathf.Abs(ProgressTarget - ProgressCurrent));
             ProgressCurrent += progressDelta;
 
-            Vector3 progressDirection = Vector3.forward;
-            Selection.ThisShip.SetPosition(Vector3.MoveTowards(Selection.ThisShip.GetPosition(), Selection.ThisShip.GetPosition() + Selection.ThisShip.TransformDirection(progressDirection), progressDelta));
+            Selection.ThisShip.SetPosition(Vector3.MoveTowards(Selection.ThisShip.GetPosition(), Selection.ThisShip.GetPosition() + Selection.ThisShip.TransformDirection(Vector3.forward), progressDelta));
 
             //UpdateRotationFinisher();
 
             base.UpdateMovementExecution();
+        }
+
+        protected override void PlanMovement()
+        {
+            //TEMP
+            GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
+            float distancePart = (GetMovement1() + Speed * GetMovement1())/10;
+            Vector3 position = Selection.ThisShip.GetPosition();
+
+            for (int i = 1; i <= 10; i++)
+            {
+                float step = (float)i * distancePart;
+                position = Vector3.MoveTowards(position, position + Selection.ThisShip.TransformDirection(Vector3.forward), distancePart);
+                GameObject ShipStand = MonoBehaviour.Instantiate(Game.Position.prefabShipStand, position, Selection.ThisShip.GetRotation(), Board.GetBoard());
+            }
         }
 
     }

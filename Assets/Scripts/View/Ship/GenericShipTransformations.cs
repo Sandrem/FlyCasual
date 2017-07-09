@@ -122,7 +122,7 @@ namespace Ship
 
         // ROTATION
 
-        public void Rotate(Vector3 point, float progress)
+        public void RotateAround(Vector3 point, float progress)
         {
             Model.transform.RotateAround(point, new Vector3(0, 1, 0), progress);
         }

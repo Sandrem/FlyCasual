@@ -44,7 +44,7 @@ namespace Movement
                 float turningDirection = (Direction == ManeuverDirection.Right) ? 1 : -1;
 
                 int progressDirection = 1;
-                Selection.ThisShip.Rotate(Selection.ThisShip.TransformPoint(new Vector3(TurningAroundDistance * turningDirection, 0, 0)), turningDirection * progressDelta * progressDirection);
+                Selection.ThisShip.RotateAround(Selection.ThisShip.TransformPoint(new Vector3(TurningAroundDistance * turningDirection, 0, 0)), turningDirection * progressDelta * progressDirection);
 
                 //Selection.ThisShip.RotateModelDuringTurn(CurrentMovementData, PreviousMovementData);
                 UpdateRotation();
@@ -159,6 +159,35 @@ namespace Movement
                     Selection.ThisShip.SetRotationHelper2Angles(new Vector3(0, angle_ToShipStandBack_ToNearestMovementRulerCenter * turningDirection, 0));
                 }
 
+            }
+        }
+
+        protected override void PlanMovement()
+        {
+            //TEMP
+            GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
+            float distancePart = ProgressTarget / 10;
+            Vector3 position = Selection.ThisShip.GetPosition();
+
+            GameObject lastShipStand = null;
+            for (int i = 1; i <= 10; i++)
+            {
+                float step = (float)i * distancePart;
+                GameObject ShipStand = MonoBehaviour.Instantiate(Game.Position.prefabShipStand, position, Selection.ThisShip.GetRotation(), Board.GetBoard());
+
+                float turningDirection = (Direction == ManeuverDirection.Right) ? 1 : -1;
+                int progressDirection = 1;
+                ShipStand.transform.RotateAround(Selection.ThisShip.TransformPoint(new Vector3(TurningAroundDistance * turningDirection, 0, 0)), new Vector3(0, 1, 0), turningDirection * step * progressDirection);
+
+                if (i == 10) lastShipStand = ShipStand;
+            }
+
+            position = lastShipStand.transform.position;
+            distancePart = GetMovement1() / 10;
+            for (int i = 1; i <= 10; i++)
+            {
+                position = Vector3.MoveTowards(position, position + lastShipStand.transform.TransformDirection(Vector3.forward), distancePart);
+                GameObject ShipStand = MonoBehaviour.Instantiate(Game.Position.prefabShipStand, position, lastShipStand.transform.rotation, Board.GetBoard());
             }
         }
 

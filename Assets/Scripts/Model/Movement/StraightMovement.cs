@@ -54,7 +54,6 @@ namespace Movement
 
             for (int i = 1; i <= 10; i++)
             {
-                float step = (float)i * distancePart;
                 position = Vector3.MoveTowards(position, position + Selection.ThisShip.TransformDirection(Vector3.forward), distancePart);
                 GameObject ShipStand = MonoBehaviour.Instantiate(Game.Position.prefabShipStand, position, Selection.ThisShip.GetRotation(), Board.GetBoard());
             }

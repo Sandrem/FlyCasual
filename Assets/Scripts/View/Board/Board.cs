@@ -18,6 +18,8 @@ public static partial class Board {
     public static readonly float DISTANCE_1 = 4f;
     public static readonly float RANGE_1 = 10f;
 
+    private static int updatesCount = 0;
+
     public static List<Collider> FiringLineCollisions = new List<Collider>();
 
     static Board()
@@ -117,6 +119,7 @@ public static partial class Board {
         return vectorToTarget;
     }
 
+    //TODO: move to new class
     public static void LaunchObstacleChecker(Ship.GenericShip thisShip, Ship.GenericShip anotherShip)
     {
         if (DebugManager.DebugBoard) Debug.Log("Obstacle checker is launched: " + thisShip + " vs " + anotherShip);
@@ -133,7 +136,31 @@ public static partial class Board {
         FiringLine.transform.localScale = new Vector3(1, 1, Vector3.Distance(closestEdgeThis, closestEdgeAnother) * SIZE_ANY / 100);
         FiringLine.SetActive(true);
 
-        Game.Movement.isCheckingFireLineCollisionsStart = true;
+        Game.Movement.FuncsToUpdate.Add(UpdateColisionDetection);
+    }
+
+    private static bool UpdateColisionDetection()
+    {
+        bool isFinished = false;
+
+        if (updatesCount > 1)
+        {
+            GetResults();
+            isFinished = true;
+        }
+        else
+        {
+            updatesCount++;
+        }
+
+        return isFinished;
+    }
+
+    private static void GetResults()
+    {
+        HideFiringLine();
+        if (DebugManager.DebugAI) Debug.Log("Obstacle checker ended, call perform attack: " + Selection.ThisShip + " vs " + Selection.AnotherShip);
+        Combat.PerformAttack(Selection.ThisShip, Selection.AnotherShip);
     }
 
     public static void HideFiringLine()

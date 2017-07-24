@@ -64,6 +64,7 @@ public static class Tooltips {
         WWW www = new WWW(url);
         yield return www;
 
+        //TODO: add exception handler here
         SetImageFromWeb(TooltipsPanel.Find("TooltipImage").gameObject, www);
         AdaptTooltipWindowSize();
 

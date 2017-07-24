@@ -47,7 +47,7 @@ namespace Movement
         public ManeuverColor ColorComplexity;
     }
 
-    public class GenericMovement
+    public abstract class GenericMovement
     {
         public ManeuverSpeed ManeuverSpeed { get; set; }
         public int Speed { get; set; }
@@ -59,6 +59,8 @@ namespace Movement
         protected float ProgressCurrent { get; set; }
 
         protected float AnimationSpeed { get; set; }
+
+        protected MovementPrediction movementPrediction;
 
         public GenericMovement(int speed, ManeuverDirection direction, ManeuverBearing bearing, ManeuverColor color)
         {
@@ -109,13 +111,14 @@ namespace Movement
         {
             GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
             Game.UI.HideContextMenu();
-            Sounds.PlayFly();
             ProgressCurrent = 0f;
         }
 
         public virtual void LaunchShipMovement()
         {
+            Sounds.PlayFly();
             Selection.ThisShip.StartMoving();
+            AdaptSuccessProgress();
 
             //TEMP
             GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
@@ -126,6 +129,8 @@ namespace Movement
         {
             CheckFinish();
         }
+
+        public abstract void AdaptSuccessProgress();
 
         protected virtual void CheckFinish()
         {
@@ -173,7 +178,8 @@ namespace Movement
             return result;
         }
 
-        protected virtual void PlanMovement() { }
+        public abstract GameObject[] PlanMovement();
+
     }
 
 }

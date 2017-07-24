@@ -18,8 +18,7 @@ namespace Movement
             base.Perform();
             Initialize();
 
-            PlanMovement();
-            LaunchShipMovement();
+            movementPrediction = new MovementPrediction(this);
         }
 
         protected override float SetProgressTarget()
@@ -40,24 +39,40 @@ namespace Movement
 
             Selection.ThisShip.SetPosition(Vector3.MoveTowards(Selection.ThisShip.GetPosition(), Selection.ThisShip.GetPosition() + Selection.ThisShip.TransformDirection(Vector3.forward), progressDelta));
 
-            //UpdateRotationFinisher();
-
             base.UpdateMovementExecution();
         }
 
-        protected override void PlanMovement()
+        public override GameObject[] PlanMovement()
         {
+            GameObject[] result = new GameObject[100];
+
             //TEMP
             GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-            float distancePart = (GetMovement1() + Speed * GetMovement1())/10;
+            float distancePart = (GetMovement1() + Speed * GetMovement1())/100f;
             Vector3 position = Selection.ThisShip.GetPosition();
 
-            for (int i = 1; i <= 10; i++)
+            for (int i = 1; i <= 100; i++)
             {
                 position = Vector3.MoveTowards(position, position + Selection.ThisShip.TransformDirection(Vector3.forward), distancePart);
                 GameObject ShipStand = MonoBehaviour.Instantiate(Game.Position.prefabShipStand, position, Selection.ThisShip.GetRotation(), Board.GetBoard());
+
+                Renderer[] renderers = ShipStand.GetComponentsInChildren<Renderer>();
+                foreach (var render in renderers)
+                {
+                    render.enabled = false;
+                }
+
+                result[i - 1] = ShipStand;
             }
+
+            return result;
         }
+
+        public override void AdaptSuccessProgress()
+        {
+            ProgressTarget *= movementPrediction.SuccessfullMovementProgress;
+        }
+
 
     }
 

@@ -8,8 +8,9 @@ namespace Movement
 
     public abstract class NonStraightMovement : GenericMovement
     {
-        protected float TurningAroundDistance;
-        protected bool MovementFinisherLaunched;
+        protected float turningAroundDistance;
+        protected float finisherTargetSuccess = 1;
+        protected bool movementFinisherLaunched;
 
         public NonStraightMovement(int speed, ManeuverDirection direction, ManeuverBearing bearing, ManeuverColor color) : base(speed, direction, bearing, color)
         {
@@ -25,7 +26,7 @@ namespace Movement
         protected override void Initialize()
         {
             base.Initialize();
-            TurningAroundDistance = SetTurningAroundDistance();
+            turningAroundDistance = SetTurningAroundDistance();
         }
 
         protected virtual float SetTurningAroundDistance()
@@ -36,15 +37,16 @@ namespace Movement
         public override void UpdateMovementExecution()
         {
             float progressDelta = AnimationSpeed * Time.deltaTime;
+
             progressDelta = Mathf.Clamp(progressDelta, 0, Mathf.Abs(ProgressTarget - ProgressCurrent));
             ProgressCurrent += progressDelta;
 
-            if (!MovementFinisherLaunched)
+            if (!movementFinisherLaunched)
             {
                 float turningDirection = (Direction == ManeuverDirection.Right) ? 1 : -1;
 
                 int progressDirection = 1;
-                Selection.ThisShip.RotateAround(Selection.ThisShip.TransformPoint(new Vector3(TurningAroundDistance * turningDirection, 0, 0)), turningDirection * progressDelta * progressDirection);
+                Selection.ThisShip.RotateAround(Selection.ThisShip.TransformPoint(new Vector3(turningAroundDistance * turningDirection, 0, 0)), turningDirection * progressDelta * progressDirection);
 
                 //Selection.ThisShip.RotateModelDuringTurn(CurrentMovementData, PreviousMovementData);
                 UpdateRotation();
@@ -64,9 +66,9 @@ namespace Movement
 
         protected override void CheckFinish()
         {
-            if (ProgressCurrent == ProgressTarget)
+            if (ProgressTarget == ProgressCurrent)
             {
-                if (MovementFinisherLaunched)
+                if (movementFinisherLaunched)
                 {
                     Selection.ThisShip.FinishMovementWithoutColliding();
 
@@ -90,11 +92,11 @@ namespace Movement
             ProgressCurrent = 0;
 
             Vector3 TargetPosition = new Vector3(0, 0, GetMovement1());
-            ProgressTarget = TargetPosition.z;
+            ProgressTarget = TargetPosition.z * finisherTargetSuccess;
 
             AnimationSpeed = 0.75f;
 
-            MovementFinisherLaunched = true;
+            movementFinisherLaunched = true;
         }
 
         public void UpdateRotation()
@@ -162,33 +164,59 @@ namespace Movement
             }
         }
 
-        protected override void PlanMovement()
+        public override GameObject[] PlanMovement()
         {
+            GameObject[] result = new GameObject[100];
+
             //TEMP
             GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-            float distancePart = ProgressTarget / 10;
+            float distancePart = ProgressTarget / 80;
             Vector3 position = Selection.ThisShip.GetPosition();
 
             GameObject lastShipStand = null;
-            for (int i = 1; i <= 10; i++)
+            for (int i = 1; i <= 80; i++)
             {
                 float step = (float)i * distancePart;
                 GameObject ShipStand = MonoBehaviour.Instantiate(Game.Position.prefabShipStand, position, Selection.ThisShip.GetRotation(), Board.GetBoard());
 
+                Renderer[] renderers = ShipStand.GetComponentsInChildren<Renderer>();
+                foreach (var render in renderers)
+                {
+                    render.enabled = false;
+                }
+
                 float turningDirection = (Direction == ManeuverDirection.Right) ? 1 : -1;
                 int progressDirection = 1;
-                ShipStand.transform.RotateAround(Selection.ThisShip.TransformPoint(new Vector3(TurningAroundDistance * turningDirection, 0, 0)), new Vector3(0, 1, 0), turningDirection * step * progressDirection);
+                ShipStand.transform.RotateAround(Selection.ThisShip.TransformPoint(new Vector3(turningAroundDistance * turningDirection, 0, 0)), new Vector3(0, 1, 0), turningDirection * step * progressDirection);
 
-                if (i == 10) lastShipStand = ShipStand;
+                if (i == 80) lastShipStand = ShipStand;
+
+                result[i - 1] = ShipStand;
             }
 
             position = lastShipStand.transform.position;
-            distancePart = GetMovement1() / 10;
-            for (int i = 1; i <= 10; i++)
+            distancePart = GetMovement1() / 20;
+            for (int i = 1; i <= 20; i++)
             {
                 position = Vector3.MoveTowards(position, position + lastShipStand.transform.TransformDirection(Vector3.forward), distancePart);
                 GameObject ShipStand = MonoBehaviour.Instantiate(Game.Position.prefabShipStand, position, lastShipStand.transform.rotation, Board.GetBoard());
+
+                Renderer[] renderers = ShipStand.GetComponentsInChildren<Renderer>();
+                foreach (var render in renderers)
+                {
+                    render.enabled = false;
+                }
+
+                result[i + 80 - 1] = ShipStand;
             }
+
+            return result;
+        }
+
+        public override void AdaptSuccessProgress()
+        {
+            ProgressTarget *= (movementPrediction.SuccessfullMovementProgress >= 0.8f) ? 1f : 10f * movementPrediction.SuccessfullMovementProgress / 8f;
+            finisherTargetSuccess *= (movementPrediction.SuccessfullMovementProgress >= 0.8f) ? 10f * (movementPrediction.SuccessfullMovementProgress - 0.8f) / 2f : 0f;
         }
 
     }

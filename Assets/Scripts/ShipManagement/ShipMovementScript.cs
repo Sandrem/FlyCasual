@@ -13,8 +13,7 @@ public class ShipMovementScript : MonoBehaviour {
     public Collider ObstacleHitEnter;
     public Collider ObstacleHitExit;
 
-    public bool isCheckingFireLineCollisionsStart;
-    public bool isCheckingFireLineCollisionsEnd;
+    public List<System.Func<bool>> FuncsToUpdate = new List<System.Func<bool>>();
 
     public bool isMoving;
 
@@ -28,7 +27,7 @@ public class ShipMovementScript : MonoBehaviour {
         Selection.UpdateSelection();
         RegisterObstacleCollisions();
         UpdateMovement();
-        CheckFireLineCollisions();
+        UpdateSubscribedFuncs();
         Phases.CheckScheduledChanges();
 
         ClearCollision();
@@ -42,26 +41,22 @@ public class ShipMovementScript : MonoBehaviour {
         }
     }
 
+    private void UpdateSubscribedFuncs()
+    {
+        List<System.Func<bool>> subscribedFuncs = new List<System.Func<bool>>();
+        subscribedFuncs.AddRange(FuncsToUpdate);
+
+        foreach (var func in subscribedFuncs)
+        {
+            bool isFinished = func();
+            if (isFinished) FuncsToUpdate.Remove(func);
+        }        
+    }
+
     private void ClearCollision()
     {
         /*ObstacleHitEnter = null;
         CollidedWith = null;*/
-    }
-
-    private void CheckFireLineCollisions()
-    {
-        if (isCheckingFireLineCollisionsEnd)
-        {
-            isCheckingFireLineCollisionsEnd = false;
-            Board.HideFiringLine();
-            if (DebugManager.DebugAI) Debug.Log("Obstacle checker ended, call perform attack: " + Selection.ThisShip + " vs " + Selection.AnotherShip);
-            Combat.PerformAttack(Selection.ThisShip, Selection.AnotherShip);
-        }
-        if (isCheckingFireLineCollisionsStart)
-        {
-            isCheckingFireLineCollisionsStart = false;
-            isCheckingFireLineCollisionsEnd = true;
-        }
     }
 
     private void RegisterObstacleCollisions()

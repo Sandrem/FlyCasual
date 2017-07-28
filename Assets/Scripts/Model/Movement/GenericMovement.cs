@@ -109,6 +109,7 @@ namespace Movement
 
         public virtual void Perform()
         {
+            Selection.ThisShip.StartMoving();
             GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
             Game.UI.HideContextMenu();
             ProgressCurrent = 0f;
@@ -117,7 +118,6 @@ namespace Movement
         public virtual void LaunchShipMovement()
         {
             Sounds.PlayFly();
-            Selection.ThisShip.StartMoving();
             AdaptSuccessProgress();
 
             //TEMP

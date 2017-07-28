@@ -59,7 +59,18 @@ namespace Movement
             for (int i = generatedShipStands.Length-1; i >= 0; i--)
             {
                 ObstaclesStayDetector obstacleStayDetector = generatedShipStands[i].GetComponentInChildren<ObstaclesStayDetector>();
-                Debug.Log(i + ": " + obstacleStayDetector.OverlapsShip + " " + obstacleStayDetector.OverlapsAsteroid);
+
+                foreach (var overlapedShip in obstacleStayDetector.OverlapedShips)
+                {
+                    if (!Selection.ThisShip.ShipsBumped.Contains(overlapedShip))
+                    {
+                        Selection.ThisShip.ShipsBumped.Add(overlapedShip);
+                        if (!overlapedShip.ShipsBumped.Contains(Selection.ThisShip))
+                        {
+                            overlapedShip.ShipsBumped.Add(Selection.ThisShip);
+                        }
+                    }
+                }
 
                 if ((!finalPositionFound) && (obstacleStayDetector.OverlapsShip != true))
                 {
@@ -69,13 +80,8 @@ namespace Movement
                     break;
                 }
             }
-            //TODO: What if no movement at all?!
 
             Selection.ThisShip.ToggleColliders(true);
-
-            //Debug.Log("Bumped into ship: " + IsBumped);
-            //Debug.Log("Landed on asteroid: " + IsLandedOnAsteroid);
-            //Debug.Log("Successfull Movement Progress: " + SuccessfullMovementProgress);
 
             DestroyGeneratedShipStands();
 

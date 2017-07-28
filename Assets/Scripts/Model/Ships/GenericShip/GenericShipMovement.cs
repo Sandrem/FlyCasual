@@ -15,6 +15,15 @@ namespace Ship
         public List<Collider> ObstaclesLanded = new List<Collider>();
         public List<Collider> ObstaclesHit = new List<Collider>();
 
+        private bool isBumped;
+
+        public bool IsBumped
+        {
+            get { return ShipsBumped.Count != 0; }
+        }
+
+        public List<GenericShip> ShipsBumped = new List<GenericShip>();
+
         public GenericShip LastShipCollision { get; set; }
 
         public Dictionary<string, Movement.ManeuverColor> Maneuvers { get; private set; }

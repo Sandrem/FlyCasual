@@ -9,6 +9,8 @@ public class ObstaclesStayDetector: MonoBehaviour {
     public bool checkCollisions = false;
 
     public bool OverlapsShip = false;
+    public List<Ship.GenericShip> OverlapedShips = new List<Ship.GenericShip>();
+
     public bool OverlapsAsteroid = false;
 
     // Use this for initialization
@@ -36,6 +38,10 @@ public class ObstaclesStayDetector: MonoBehaviour {
                 {
                     Game.Movement.CollidedWith = collisionInfo;
                     OverlapsShip = true;
+                    if (!OverlapedShips.Contains(Roster.GetShipById(collisionInfo.tag)))
+                    {
+                        OverlapedShips.Add(Roster.GetShipById(collisionInfo.tag));
+                    }
                 }
             }
         }

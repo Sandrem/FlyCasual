@@ -37,6 +37,7 @@ public static partial class Phases
     public static event EventHandler OnSetupPhaseStart;
     public static event EventHandler OnPlanningPhaseStart;
     public static event EventHandler OnActivationPhaseStart;
+    public static event EventHandler BeforeActionSubPhaseStart;
     public static event EventHandler OnActionSubPhaseStart;
     public static event EventHandler OnCombatPhaseStart;
     public static event EventHandler OnEndPhaseStart;
@@ -186,6 +187,11 @@ public static partial class Phases
     public static void CallEndPhaseTrigger()
     {
         if (OnEndPhaseStart != null) OnEndPhaseStart();
+    }
+
+    public static void CallBeforeActionSubPhaseTrigger()
+    {
+        if (BeforeActionSubPhaseStart != null) BeforeActionSubPhaseStart();
     }
 
     public static void CallOnActionSubPhaseTrigger()

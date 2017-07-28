@@ -1,4 +1,4 @@
-﻿
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace RulesList
@@ -16,7 +16,7 @@ namespace RulesList
         private void SubscribeEvents()
         {
             Actions.OnCheckTargetIsLegal += CanPerformAttack;
-            Phases.OnActionSubPhaseStart += CheckSkipPerformAction;
+            Phases.BeforeActionSubPhaseStart += CheckSkipPerformAction;
         }
 
         public void CheckSkipPerformAction()
@@ -25,25 +25,24 @@ namespace RulesList
             {
                 Game.UI.ShowError("Collided into ship - action subphase is skipped");
                 Selection.ThisShip.IsSkipsActionSubPhase = true;
-                Selection.ThisShip.IsBumped = false;
             }
         }
 
-        public void ClearCollision(Ship.GenericShip ship)
+        public void ClearBumps(Ship.GenericShip ship)
         {
-            ship.LastShipCollision = null;
-        }
-
-        public void AssignCollision(Ship.GenericShip ship)
-        {
-            // BUG: Sometimes NullReferenceException: Object reference not set to an instance of an object
-            (Selection.ThisShip.LastShipCollision).LastShipCollision = Selection.ThisShip;
-            ship.IsBumped = true;
+            foreach (var bumpedShip in ship.ShipsBumped)
+            {
+                if (bumpedShip.ShipsBumped.Contains(ship))
+                {
+                    bumpedShip.ShipsBumped.Remove(ship);
+                }
+            }
+            ship.ShipsBumped = new List<Ship.GenericShip>();
         }
 
         public void CanPerformAttack(ref bool result, Ship.GenericShip attacker, Ship.GenericShip defender)
         {
-            if ((attacker.LastShipCollision != null) && (attacker.LastShipCollision == defender) && (defender.LastShipCollision == attacker))
+            if ((attacker.IsBumped) && (attacker.ShipsBumped.Contains(defender)) && (defender.ShipsBumped.Contains(attacker)))
             {
                 Game.UI.ShowError("Cannot attack ship that you are touching");
                 result = false;

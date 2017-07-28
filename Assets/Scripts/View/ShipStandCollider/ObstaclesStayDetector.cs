@@ -12,6 +12,7 @@ public class ObstaclesStayDetector: MonoBehaviour {
     public List<Ship.GenericShip> OverlapedShips = new List<Ship.GenericShip>();
 
     public bool OverlapsAsteroid = false;
+    public List<Collider> OverlapedAsteroids = new List<Collider>();
 
     // Use this for initialization
     void Start () {
@@ -31,6 +32,10 @@ public class ObstaclesStayDetector: MonoBehaviour {
             {
                 Game.Movement.ObstacleEnter = collisionInfo;
                 OverlapsAsteroid = true;
+                if (!OverlapedAsteroids.Contains(collisionInfo))
+                {
+                    OverlapedAsteroids.Add(collisionInfo);
+                }
             }
             if (collisionInfo.name == "ObstaclesStayDetector")
             {

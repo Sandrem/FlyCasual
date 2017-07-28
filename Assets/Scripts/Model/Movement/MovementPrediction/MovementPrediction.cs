@@ -19,6 +19,7 @@ namespace Movement
         }
 
         public List<Ship.GenericShip> ShipsBumped = new List<Ship.GenericShip>();
+        public List<Collider> AsteroidsHit = new List<Collider>();
         public bool IsLandedOnAsteroid { get; private set; }
         public float SuccessfullMovementProgress { get; private set; }
 
@@ -61,6 +62,7 @@ namespace Movement
             for (int i = generatedShipStands.Length-1; i >= 0; i--)
             {
                 ObstaclesStayDetector obstacleStayDetector = generatedShipStands[i].GetComponentInChildren<ObstaclesStayDetector>();
+                ObstaclesHitsDetector obstacleHitsDetector = generatedShipStands[i].GetComponentInChildren<ObstaclesHitsDetector>();
                 ObstaclesStayDetector lastShipBumpDetector = null;
 
                 if (!finalPositionFound)
@@ -81,15 +83,31 @@ namespace Movement
                             }
                         }
 
+                        foreach (var asteroidHit in obstacleStayDetector.OverlapedAsteroids)
+                        {
+                            if (!AsteroidsHit.Contains(asteroidHit))
+                            {
+                                AsteroidsHit.Add(asteroidHit);
+                            }
+                        }
+
                         finalPositionFound = true;
-                        break;
+                        //break;
                     }
                 }
                 else
                 {
                     lastShipBumpDetector = obstacleStayDetector;
+
+                    foreach (var asteroidHit in obstacleHitsDetector.OverlapedAsteroids)
+                    {
+                        if (!AsteroidsHit.Contains(asteroidHit))
+                        {
+                            AsteroidsHit.Add(asteroidHit);
+                        }
+                    }
                 }
-                
+
             }
 
             Selection.ThisShip.ToggleColliders(true);

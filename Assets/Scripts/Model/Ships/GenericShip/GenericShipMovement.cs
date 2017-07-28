@@ -113,20 +113,6 @@ namespace Ship
             return result;
         }
 
-        public void CheckLandedOnObstacle()
-        {
-            /*if (IsLandedOnObstacle)
-            {
-                foreach (var obstacle in IsLandedOnObstacle)
-                {
-                    if (!ObstaclesHit.Contains(obstacle)) ObstaclesHit.Add(obstacle);
-                }
-
-                Game.UI.ShowError("Landed on obstacle");
-                if (OnLandedOnObstacle != null) OnLandedOnObstacle(this);
-            }*/
-        }
-
     }
 
 }

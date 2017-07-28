@@ -134,6 +134,11 @@ namespace Movement
                 Selection.ThisShip.IsLandedOnObstacle = movementPrediction.IsLandedOnAsteroid;
             }
 
+            if (movementPrediction.AsteroidsHit.Count > 0)
+            {
+                Selection.ThisShip.ObstaclesHit.AddRange(movementPrediction.AsteroidsHit);
+            }
+
             Sounds.PlayFly();
             AdaptSuccessProgress();
 
@@ -176,8 +181,6 @@ namespace Movement
             Selection.ThisShip.ResetRotationHelpers();
 
             yield return Selection.ThisShip.ExecuteMoving();
-
-            // Selection.ThisShip.CheckLandedOnObstacle();
 
             yield return Selection.ThisShip.FinishMoving();
 

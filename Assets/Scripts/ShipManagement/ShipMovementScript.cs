@@ -7,6 +7,7 @@ public class ShipMovementScript : MonoBehaviour {
 
     private GameManagerScript Game;
 
+    //TODO: Refactor old
     public Collider CollidedWith;
     public Collider ObstacleEnter;
     public Collider ObstacleExit;
@@ -25,7 +26,6 @@ public class ShipMovementScript : MonoBehaviour {
     void Update ()
     {
         Selection.UpdateSelection();
-        RegisterObstacleCollisions();
         UpdateMovement();
         UpdateSubscribedFuncs();
         Phases.CheckScheduledChanges();
@@ -55,57 +55,7 @@ public class ShipMovementScript : MonoBehaviour {
 
     private void ClearCollision()
     {
-        /*ObstacleHitEnter = null;
-        CollidedWith = null;*/
-    }
-
-    private void RegisterObstacleCollisions()
-    {
-        /*if (Selection.ThisShip != null)
-        {
-            if (ObstacleExit != null)
-            {
-                if (Selection.ThisShip.ObstaclesLanded.Contains(ObstacleExit))
-                {
-                    Selection.ThisShip.ObstaclesLanded.Remove(ObstacleExit);
-                }
-                ObstacleExit = null;
-            }
-
-            if (ObstacleEnter != null)
-            {
-                if (!Selection.ThisShip.ObstaclesLanded.Contains(ObstacleEnter))
-                {
-                    Selection.ThisShip.ObstaclesLanded.Add(ObstacleEnter);
-                }
-                ObstacleEnter = null;
-            }
-
-            if (ObstacleHitExit != null)
-            {
-                if (Selection.ThisShip.ObstaclesHit.Contains(ObstacleHitExit))
-                {
-                    if (CurrentMovementData.CollisionReverting)
-                    {
-                        Selection.ThisShip.ObstaclesHit.Remove(ObstacleHitExit);
-                    }
-                }
-                ObstacleHitExit = null;
-            }
-
-            if (ObstacleHitEnter != null)
-            {
-                if (!Selection.ThisShip.ObstaclesHit.Contains(ObstacleHitEnter))
-                {
-                    if (!CurrentMovementData.CollisionReverting)
-                    {
-                        Selection.ThisShip.ObstaclesHit.Add(ObstacleHitEnter);
-                    }
-                }
-                ObstacleHitEnter = null;
-            }
-
-        }*/
+        CollidedWith = null;
     }
 
     //Assignment and launch of execution of meneuver
@@ -227,74 +177,6 @@ public class ShipMovementScript : MonoBehaviour {
     public void PerformStoredManeuver()
     {
         Phases.StartTemporarySubPhase("Movement", typeof(SubPhases.MovementExecutionSubPhase));
-    }
-
-    //Collision checks
-
-    private void CheckCollisionsAfterStraight()
-    {
-        /*if (CurrentMovementData.CollisionReverting)
-        {
-            if (CurrentMovementData.CurrentProgress != CurrentMovementData.TargetProgress)
-            {
-                if (CollidedWith == null)
-                {
-                    FinishCollidingWithSuccess();
-                }
-            }
-            else
-            {
-                FinishCollidingWithFailure();
-            }
-        }
-        else
-        {
-            if (CurrentMovementData.CurrentProgress == CurrentMovementData.TargetProgress)
-            {
-                if (CollidedWith == null)
-                {
-                    FinishWithoutColliding();
-                }
-                else
-                {
-                    RevertMove();
-                }
-            }
-        }*/
-    }
-
-    private void CheckCollisionsAfterNonStraight()
-    {
-        //Check if additional movement is required
-        /*if (CurrentMovementData.CurrentProgress == CurrentMovementData.TargetProgress)
-        {
-            AdditionalMovement();
-        }
-
-        if (CurrentMovementData.CollisionReverting)
-        {
-            if (CollidedWith == null)
-            {
-                FinishCollidingWithSuccess();
-            }
-        }*/
-    }
-
-    //Finish of movement
-
-    private void FinishCollidingWithSuccess()
-    {
-        /*Selection.ThisShip.FinishMovementWithColliding();
-        CurrentMovementData.CollisionReverting = false;
-        Selection.ThisShip.ApplyRotationHelpers();
-        FinishMovement();*/
-    }
-
-    private void FinishCollidingWithFailure()
-    {
-        //TODO: check work if ship cannot move at all
-        /*CurrentMovementData = PreviousMovementData;
-        RevertMove();*/
     }
 
 }

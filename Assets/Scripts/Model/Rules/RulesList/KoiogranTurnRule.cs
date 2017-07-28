@@ -13,7 +13,7 @@ namespace RulesList
 
         public void CheckKoiogranTurn(Ship.GenericShip ship)
         {
-            if (Game.Movement.CurrentMovementData.MovementBearing == ManeuverBearing.KoiogranTurn)
+            if (Selection.ThisShip.AssignedManeuver.Bearing == Movement.ManeuverBearing.KoiogranTurn)
             {
                 Phases.StartTemporarySubPhase("Koiogran Turn", typeof(SubPhases.KoiogranTurnSubPhase));
             }
@@ -21,7 +21,7 @@ namespace RulesList
 
         public void CheckKoiogranTurnError(Ship.GenericShip ship)
         {
-            if (Game.Movement.CurrentMovementData.MovementBearing == ManeuverBearing.KoiogranTurn)
+            if (Selection.ThisShip.AssignedManeuver.Bearing == Movement.ManeuverBearing.KoiogranTurn)
             {
                 Game.UI.ShowError("Koiogran Turn is failed due to collision");
             }

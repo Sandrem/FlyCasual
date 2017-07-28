@@ -122,7 +122,7 @@ namespace Ship
 
         // ROTATION
 
-        public void Rotate(Vector3 point, float progress)
+        public void RotateAround(Vector3 point, float progress)
         {
             Model.transform.RotateAround(point, new Vector3(0, 1, 0), progress);
         }
@@ -132,25 +132,25 @@ namespace Ship
             Model.transform.RotateAround(Model.transform.TransformPoint(new Vector3(0, 0, -HALF_OF_SHIPSTAND_SIZE)), Vector3.up, 180);
         }
 
-        public void RotateModelDuringTurn(MovementExecutionData currentMovementData, MovementExecutionData previousMovementData)
+        public void RotateModelDuringTurn()
         {
-            if ((currentMovementData.MovementDirection == ManeuverDirection.Forward) && (previousMovementData.Speed == 0)) return;
+            /*if ((currentMovementData.MovementDirection == Movement.ManeuverDirection.Forward) && (previousMovementData.Speed == 0)) return;
             if (currentMovementData.CollisionReverting) return;
 
             float progressCurrent = currentMovementData.CurrentProgress;
             float progressTarget = currentMovementData.TargetProgress;
             float turningDirection = 0;
 
-            if (currentMovementData.MovementDirection != ManeuverDirection.Forward)
+            if (currentMovementData.MovementDirection != Movement.ManeuverDirection.Forward)
             {
                 progressTarget += progressTarget * (1f / currentMovementData.Speed);
-                turningDirection = (currentMovementData.MovementDirection == ManeuverDirection.Right) ? 1 : -1;
+                turningDirection = (currentMovementData.MovementDirection == Movement.ManeuverDirection.Right) ? 1 : -1;
             }
             if (previousMovementData.Speed != 0)
             {
                 progressCurrent += progressTarget * previousMovementData.Speed;
                 progressTarget += progressTarget * previousMovementData.Speed;
-                turningDirection = (previousMovementData.MovementDirection == ManeuverDirection.Right) ? 1 : -1;
+                turningDirection = (previousMovementData.MovementDirection == Movement.ManeuverDirection.Right) ? 1 : -1;
             }
 
             float progress = progressCurrent / progressTarget;
@@ -158,7 +158,7 @@ namespace Ship
             {
                 progress = 1 - progress;
             }
-            modelCenter.localEulerAngles = new Vector3(0, 0, Mathf.Lerp(0, 45 * turningDirection, progress));
+            modelCenter.localEulerAngles = new Vector3(0, 0, Mathf.Lerp(0, 45 * turningDirection, progress));*/
         }
 
         public void RotateModelDuringBarrelRoll(float progress, float turningDirection)

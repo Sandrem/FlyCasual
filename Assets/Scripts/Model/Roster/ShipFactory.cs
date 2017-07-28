@@ -44,9 +44,7 @@ public static class ShipFactory {
         newShipContainer.OnTryAddAvailableAction += Rules.DuplicatedActions.CanPerformActions;
         newShipContainer.OnMovementFinishWithoutColliding += Rules.KoiogranTurn.CheckKoiogranTurn;
         newShipContainer.OnMovementFinishWithColliding += Rules.KoiogranTurn.CheckKoiogranTurnError;
-        newShipContainer.OnMovementStart += Rules.Collision.ClearCollision;
-        newShipContainer.OnMovementFinishWithoutColliding += Rules.Collision.ClearCollision;
-        newShipContainer.OnMovementFinishWithColliding += Rules.Collision.AssignCollision;
+        newShipContainer.OnMovementStart += Rules.Collision.ClearBumps;
         newShipContainer.OnMovementStart += MovementTemplates.ApplyMovementRuler;
         newShipContainer.OnMovementStart += MovementTemplates.CallReturnRangeRuler;
         newShipContainer.OnPositionFinish += Rules.OffTheBoard.CheckOffTheBoard;

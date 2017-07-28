@@ -49,7 +49,7 @@ public static class DebugManager
         set { debugBoard = value; }
     }
 
-    private static bool debugDamage = true;
+    private static bool debugDamage;
     public static bool DebugDamage
     {
         get

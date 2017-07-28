@@ -20,6 +20,8 @@ namespace SubPhases
 
         public override void Initialize()
         {
+            Phases.CallBeforeActionSubPhaseTrigger();         
+
             if (!Selection.ThisShip.IsSkipsActionSubPhase)
             {
                 if (!Selection.ThisShip.IsDestroyed)

@@ -15,7 +15,7 @@ namespace RulesList
 
         private void SubscribeEvents()
         {
-            Phases.OnActionSubPhaseStart += CheckSkipPerformAction;
+            Phases.BeforeActionSubPhaseStart += CheckSkipPerformAction;
         }
 
         public void CheckSkipPerformAction()

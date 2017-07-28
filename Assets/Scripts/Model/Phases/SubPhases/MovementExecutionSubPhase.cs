@@ -15,6 +15,16 @@ namespace SubPhases
             RequiredPilotSkill = PreviousSubPhase.RequiredPilotSkill;
             RequiredPlayer = PreviousSubPhase.RequiredPlayer;
             UpdateHelpInfo();
+
+            Initialize();
+        }
+
+        public override void Initialize()
+        {
+            Selection.ThisShip.IsManeuverPerformed = true;
+            Roster.AllShipsHighlightOff();
+            Selection.ThisShip.ObstaclesHit = new List<Collider>();
+            Selection.ThisShip.AssignedManeuver.Perform();
         }
 
         public override void Next()

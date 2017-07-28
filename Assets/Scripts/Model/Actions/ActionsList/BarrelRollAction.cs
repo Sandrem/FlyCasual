@@ -150,8 +150,6 @@ namespace SubPhases
 
             result = TryConfirmBarrelRollPosition(ship);
 
-            Debug.Log(result);
-
             if (result)
             {
                 StartBarrelRollExecution(ship);
@@ -176,7 +174,7 @@ namespace SubPhases
 
         private void CancelBarrelRoll()
         {
-            Selection.ThisShip.ObstaclesLanded = new List<Collider>();
+            Selection.ThisShip.IsLandedOnObstacle = false;
             inReposition = false;
             MonoBehaviour.Destroy(ShipStand);
             Game.Movement.CollidedWith = null;
@@ -200,7 +198,7 @@ namespace SubPhases
                 Messages.ShowError("Cannot collide with another ships");
                 allow = false;
             }
-            else if (ship.ObstaclesLanded.Count != 0)
+            else if (ship.IsLandedOnObstacle)
             {
                 Messages.ShowError("Cannot land on Asteroid");
                 allow = false;

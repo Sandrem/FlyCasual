@@ -314,7 +314,7 @@ public class ShipPositionManager : MonoBehaviour
         float progressStep = Mathf.Min(Time.deltaTime*KOIOGRAN_ANIMATION_SPEED, progressTarget-progressCurrent);
         progressCurrent += progressStep;
 
-        Selection.ThisShip.Rotate(Selection.ThisShip.GetCenter(), progressStep);
+        Selection.ThisShip.RotateAround(Selection.ThisShip.GetCenter(), progressStep);
 
         float positionY = (progressCurrent < 90) ? progressCurrent : 180 - progressCurrent;
         positionY = positionY / 90;

@@ -76,12 +76,12 @@ public class UI : MonoBehaviour {
     //Add icons
     private void SetAvailableManeurs()
     {
-        foreach (KeyValuePair<string, Ship.ManeuverColor> maneuverData in Selection.ThisShip.GetManeuvers())
+        foreach (KeyValuePair<string, Movement.ManeuverColor> maneuverData in Selection.ThisShip.GetManeuvers())
         {
             string[] parameters = maneuverData.Key.Split('.');
             string maneuverSpeed = parameters[0];
 
-            if (maneuverData.Value == Ship.ManeuverColor.None)
+            if (maneuverData.Value == Movement.ManeuverColor.None)
             {
                 Game.PrefabsList.DirectionsMenu.transform.Find("Speed" + maneuverSpeed + "/" + maneuverData.Key).gameObject.SetActive(false);
             }
@@ -96,23 +96,23 @@ public class UI : MonoBehaviour {
         }
     }
 
-    private void SetManeuverIcon(GameObject button, KeyValuePair<string, Ship.ManeuverColor> maneuverData)
+    private void SetManeuverIcon(GameObject button, KeyValuePair<string, Movement.ManeuverColor> maneuverData)
     {
-        Movement movement = Game.Movement.ManeuverFromString(maneuverData.Key);
+        Movement.MovementStruct movement = Game.Movement.ManeuverFromString(maneuverData.Key);
 
         string imageName = "";
 
-        if ((movement.Direction == ManeuverDirection.Forward) && (movement.Bearing == ManeuverBearing.Straight)) imageName += "Straight";
-        if ((movement.Direction == ManeuverDirection.Forward) && (movement.Bearing == ManeuverBearing.KoiogranTurn)) imageName += "Koiogran";
-        if (movement.Bearing == ManeuverBearing.Bank) imageName += "Bank";
-        if (movement.Bearing == ManeuverBearing.Turn) imageName += "Turn";
+        if ((movement.Direction == Movement.ManeuverDirection.Forward) && (movement.Bearing == Movement.ManeuverBearing.Straight)) imageName += "Straight";
+        if ((movement.Direction == Movement.ManeuverDirection.Forward) && (movement.Bearing == Movement.ManeuverBearing.KoiogranTurn)) imageName += "Koiogran";
+        if (movement.Bearing == Movement.ManeuverBearing.Bank) imageName += "Bank";
+        if (movement.Bearing == Movement.ManeuverBearing.Turn) imageName += "Turn";
 
-        if (movement.Direction == ManeuverDirection.Left) imageName += "Left";
-        if (movement.Direction == ManeuverDirection.Right) imageName += "Right";
+        if (movement.Direction == Movement.ManeuverDirection.Left) imageName += "Left";
+        if (movement.Direction == Movement.ManeuverDirection.Right) imageName += "Right";
 
-        if (maneuverData.Value == Ship.ManeuverColor.Green) imageName += "Green";
-        if (maneuverData.Value == Ship.ManeuverColor.White) imageName += "White";
-        if (maneuverData.Value == Ship.ManeuverColor.Red) imageName += "Red";
+        if (maneuverData.Value == Movement.ManeuverColor.Green) imageName += "Green";
+        if (maneuverData.Value == Movement.ManeuverColor.White) imageName += "White";
+        if (maneuverData.Value == Movement.ManeuverColor.Red) imageName += "Red";
 
         Sprite image = Game.PrefabsList.ImageStorageDirections.transform.Find(imageName).GetComponent<Image>().sprite;
         button.GetComponent<Image>().sprite = image;

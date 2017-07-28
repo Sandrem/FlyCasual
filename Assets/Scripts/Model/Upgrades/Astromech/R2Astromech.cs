@@ -24,13 +24,13 @@ namespace UpgradesList
             host.AfterGetManeuverColorDecreaseComplexity += R2AstromechAbility;
         }
 
-        private void R2AstromechAbility(Ship.GenericShip ship, ref Movement movement)
+        private void R2AstromechAbility(Ship.GenericShip ship, ref Movement.MovementStruct movement)
         {
-            if (movement.ColorComplexity != Ship.ManeuverColor.None)
+            if (movement.ColorComplexity != Movement.ManeuverColor.None)
             {
-                if ((movement.Speed == ManeuverSpeed.Speed1) || (movement.Speed == ManeuverSpeed.Speed2))
+                if ((movement.Speed == Movement.ManeuverSpeed.Speed1) || (movement.Speed == Movement.ManeuverSpeed.Speed2))
                 {
-                    movement.ColorComplexity = Ship.ManeuverColor.Green;
+                    movement.ColorComplexity = Movement.ManeuverColor.Green;
                 }
             }
         }

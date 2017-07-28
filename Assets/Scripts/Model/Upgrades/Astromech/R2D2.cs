@@ -28,7 +28,7 @@ namespace UpgradesList
 
         private void R2D2PlanRegenShield(Ship.GenericShip host)
         {
-            if (host.AssignedManeuver.ColorComplexity == Ship.ManeuverColor.Green)
+            if (host.AssignedManeuver.ColorComplexity == Movement.ManeuverColor.Green)
             {
                 if (host.Shields < host.MaxShields)
                 {

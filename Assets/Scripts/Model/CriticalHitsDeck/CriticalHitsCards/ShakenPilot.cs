@@ -33,14 +33,14 @@ namespace CriticalHitCard
             host.AfterGetManeuverAvailablity -= CannotBeAssignedStraightManeuvers;
         }
 
-        private void CannotBeAssignedStraightManeuvers(Ship.GenericShip ship, ref Movement movement)
+        private void CannotBeAssignedStraightManeuvers(Ship.GenericShip ship, ref Movement.MovementStruct movement)
         {
-            if (movement.Bearing == ManeuverBearing.Straight)
+            if (movement.Bearing == Movement.ManeuverBearing.Straight)
             {
                 //Too many
                 //Game.UI.ShowError("Shaken Pilot: Cannot be assigned straight maneuvers");
                 //Game.UI.AddTestLogEntry("Shaken Pilot: Cannot be assigned straight maneuvers");
-                movement.ColorComplexity = Ship.ManeuverColor.None;
+                movement.ColorComplexity = Movement.ManeuverColor.None;
             }
         }
 

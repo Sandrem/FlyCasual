@@ -89,6 +89,12 @@ namespace Ship
             shipAllParts.Find("ShipStand/ObstaclesHitsDetector").GetComponent<ObstaclesHitsDetector>().checkCollisions = value;
         }
 
+        public void ToggleColliders(bool value)
+        {
+            shipAllParts.Find("ShipStand/ObstaclesStayDetector").GetComponent<Collider>().enabled = value;
+            shipAllParts.Find("ShipStand/ObstaclesHitsDetector").GetComponent<Collider>().enabled = value;
+        }
+
         public void SetActive(bool argument)
         {
             Model.SetActive(argument);

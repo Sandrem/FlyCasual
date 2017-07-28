@@ -14,7 +14,7 @@ namespace Ship
         public delegate void EventHandlerActionBool(ActionsList.GenericAction action, ref bool data);
         public delegate void EventHandlerShip(GenericShip ship);
         public delegate void EventHandlerShipType(GenericShip ship, System.Type type);
-        public delegate void EventHandlerShipMovement(GenericShip ship, ref Movement movement);
+        public delegate void EventHandlerShipMovement(GenericShip ship, ref Movement.MovementStruct movement);
         public delegate void EventHandlerShipCritArgs(GenericShip ship, ref CriticalHitCard.GenericCriticalHit crit, EventArgs e = null);
 
         public event EventHandlerShip AfterStatsAreChanged;

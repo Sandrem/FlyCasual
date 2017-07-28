@@ -8,8 +8,14 @@ public class ObstaclesStayDetector: MonoBehaviour {
 
     public bool checkCollisions = false;
 
-	// Use this for initialization
-	void Start () {
+    public bool OverlapsShip = false;
+    public List<Ship.GenericShip> OverlapedShips = new List<Ship.GenericShip>();
+
+    public bool OverlapsAsteroid = false;
+    public List<Collider> OverlapedAsteroids = new List<Collider>();
+
+    // Use this for initialization
+    void Start () {
         Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
     }
 	
@@ -25,6 +31,23 @@ public class ObstaclesStayDetector: MonoBehaviour {
             if (collisionInfo.tag == "Asteroid")
             {
                 Game.Movement.ObstacleEnter = collisionInfo;
+                OverlapsAsteroid = true;
+                if (!OverlapedAsteroids.Contains(collisionInfo))
+                {
+                    OverlapedAsteroids.Add(collisionInfo);
+                }
+            }
+            if (collisionInfo.name == "ObstaclesStayDetector")
+            {
+                if (collisionInfo.tag != this.tag)
+                {
+                    Game.Movement.CollidedWith = collisionInfo;
+                    OverlapsShip = true;
+                    if (!OverlapedShips.Contains(Roster.GetShipById(collisionInfo.tag)))
+                    {
+                        OverlapedShips.Add(Roster.GetShipById(collisionInfo.tag));
+                    }
+                }
             }
         }
     }
@@ -32,7 +55,7 @@ public class ObstaclesStayDetector: MonoBehaviour {
     void OnTriggerStay(Collider collisionInfo)
     {
         //TODO: Change to OnTriggerEnter
-        if (checkCollisions)
+        /*if (checkCollisions)
         {
             if (collisionInfo.name == "ObstaclesStayDetector")
             {
@@ -41,12 +64,12 @@ public class ObstaclesStayDetector: MonoBehaviour {
                     Game.Movement.CollidedWith = collisionInfo;
                 }
             }
-        }
+        }*/
     }
 
     void OnTriggerExit(Collider collisionInfo)
     {
-        if (checkCollisions)
+        /*if (checkCollisions)
         {
             if (collisionInfo.name == "ObstaclesStayDetector")
             {
@@ -57,8 +80,9 @@ public class ObstaclesStayDetector: MonoBehaviour {
             if (collisionInfo.tag == "Asteroid")
             {
                 Game.Movement.ObstacleExit = collisionInfo;
+                OverlapsAsteroid = false;
             }
-        }
+        }*/
     }
 
 }

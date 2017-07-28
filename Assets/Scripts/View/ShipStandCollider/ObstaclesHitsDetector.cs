@@ -4,19 +4,9 @@ using UnityEngine;
 
 public class ObstaclesHitsDetector : MonoBehaviour {
 
-    private GameManagerScript Game;
-
     public bool checkCollisions = false;
 
-	// Use this for initialization
-	void Start () {
-        Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-    }
-	
-	// Update is called once per frame
-	void Update () {
-
-	}
+    public List<Collider> OverlapedAsteroids = new List<Collider>();
 
     void OnTriggerEnter(Collider collisionInfo)
     {
@@ -24,7 +14,10 @@ public class ObstaclesHitsDetector : MonoBehaviour {
         {
             if (collisionInfo.tag == "Asteroid")
             {
-                Game.Movement.ObstacleHitEnter = collisionInfo;
+                if (!OverlapedAsteroids.Contains(collisionInfo))
+                {
+                    OverlapedAsteroids.Add(collisionInfo);
+                }
             }
         }
     }

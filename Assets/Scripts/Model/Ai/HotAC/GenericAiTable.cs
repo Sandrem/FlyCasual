@@ -22,20 +22,17 @@ public class GenericAiTable
 
     }
 
-    public Movement GetManeuver(Ship.GenericShip thisShip, Ship.GenericShip anotherShip)
+    public Movement.GenericMovement GetManeuver(Ship.GenericShip thisShip, Ship.GenericShip anotherShip)
     {
-        Movement result = null;
         float vector = Actions.GetVector(thisShip, anotherShip);
         bool isClosing = Actions.IsClosing(thisShip, anotherShip);
         if (inDebug) Debug.Log("Vector: " + vector + ", Closing: " + isClosing);
-        result = GetManeuverFromTable(vector, isClosing);
+        Movement.GenericMovement result = GetManeuverFromTable(vector, isClosing);
         return result;
     }
 
-    public Movement GetManeuverFromTable(float vector, bool isClosing)
+    public Movement.GenericMovement GetManeuverFromTable(float vector, bool isClosing)
     {
-        Movement result = null;
-
         List<string> table = null;
         bool adjustDirection = false;
 
@@ -102,7 +99,7 @@ public class GenericAiTable
             }
         }
 
-        result = RandomManeuverFromTable(table);
+        Movement.GenericMovement result = RandomManeuverFromTable(table);
         if (adjustDirection)
         {
             if (inDebug) Debug.Log("Adjust direction according to vector: " + vector);
@@ -113,17 +110,17 @@ public class GenericAiTable
         return result;
     }
 
-    private Movement AdjustDirection(Movement movement, float vector)
+    private Movement.GenericMovement AdjustDirection(Movement.GenericMovement movement, float vector)
     {
-        Movement result = movement;
-        if (movement.Direction != ManeuverDirection.Forward)
+        Movement.GenericMovement result = movement;
+        if (movement.Direction != Movement.ManeuverDirection.Forward)
         {
-            movement.Direction = (vector < 0) ? ManeuverDirection.Left : ManeuverDirection.Right;
+            movement.Direction = (vector < 0) ? Movement.ManeuverDirection.Left : Movement.ManeuverDirection.Right;
         }
         return result;
     }
 
-    public Movement RandomManeuverFromTable(List<string> table)
+    public Movement.GenericMovement RandomManeuverFromTable(List<string> table)
     {
         string result = "";
         int random = Random.Range(0, 6);
@@ -135,7 +132,7 @@ public class GenericAiTable
 
         if (inDebug) Debug.Log("Result is: " + result);
 
-        return Game.Movement.ManeuverFromString(result);
+        return Game.Movement.MovementFromString(result);
     }
 
     public static bool IsClosing(Ship.GenericShip thisShip, Ship.GenericShip anotherShip)

@@ -33,16 +33,11 @@ namespace Ship
         public event EventHandlerShipMovement AfterGetManeuverColorIncreaseComplexity;
         public event EventHandlerShipMovement AfterGetManeuverAvailablity;
 
-        public event EventHandlerShip OnLandedOnObstacle;
-
         public event EventHandlerShip OnMovementStart;
         public event EventHandlerShip OnMovementExecuted;
         public event EventHandlerShip OnMovementFinish;
 
         public event EventHandlerShip OnPositionFinish;
-
-        public event EventHandlerShip OnMovementFinishWithColliding;
-        public event EventHandlerShip OnMovementFinishWithoutColliding;
 
         // TRIGGERS
 
@@ -70,11 +65,6 @@ namespace Ship
         public void FinishPosition()
         {
             if (OnPositionFinish != null) OnPositionFinish(this);
-        }
-
-        public void FinishMovementWithColliding()
-        {
-            if (OnMovementFinishWithColliding != null) OnMovementFinishWithColliding(this);
         }
 
         // MANEUVERS

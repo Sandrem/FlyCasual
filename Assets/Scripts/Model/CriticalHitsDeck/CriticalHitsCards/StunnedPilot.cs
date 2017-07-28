@@ -19,30 +19,31 @@ namespace CriticalHitCard
             Game.UI.ShowInfo("After you execute a maneuver, if you are touching another ship or overlapping an obstacle token, suffer 1 damage");
             Game.UI.AddTestLogEntry("After you execute a maneuver, if you are touching another ship or overlapping an obstacle token, suffer 1 damage");
 
-            host.OnMovementFinishWithColliding += DoCollisionDamage;
-            host.OnLandedOnObstacle += DoCollisionDamage;
+            host.OnMovementFinish += CheckCollisionDamage;
             host.AssignToken(new Tokens.StunnedPilotCritToken());
         }
 
-        private void DoCollisionDamage(Ship.GenericShip host)
+        private void CheckCollisionDamage(Ship.GenericShip host)
         {
-            Game.UI.ShowError("Stunned Pilot: Ship suffered damage");
-            Game.UI.AddTestLogEntry("Stunned Pilot: Ship suffered damage");
+            if (host.IsBumped || host.IsLandedOnObstacle)
+            {
+                Game.UI.ShowError("Stunned Pilot: Ship suffered damage");
+                Game.UI.AddTestLogEntry("Stunned Pilot: Ship suffered damage");
 
-            DiceRoll damageRoll = new DiceRoll("attack", 0);
-            damageRoll.DiceList.Add(new Dice("attack", DiceSide.Success));
+                DiceRoll damageRoll = new DiceRoll("attack", 0);
+                damageRoll.DiceList.Add(new Dice("attack", DiceSide.Success));
 
-            DamageSourceEventArgs eventArgs = new DamageSourceEventArgs();
-            eventArgs.Source = this;
-            eventArgs.DamageType = DamageTypes.CriticalHitCard;
+                DamageSourceEventArgs eventArgs = new DamageSourceEventArgs();
+                eventArgs.Source = this;
+                eventArgs.DamageType = DamageTypes.CriticalHitCard;
 
-            host.SufferDamage(damageRoll, eventArgs);
+                host.SufferDamage(damageRoll, eventArgs);
+            }
         }
 
         public override void DiscardEffect(Ship.GenericShip host)
         {
-            host.OnMovementFinishWithColliding -= DoCollisionDamage;
-            host.OnLandedOnObstacle -= DoCollisionDamage;
+            host.OnMovementFinish -= CheckCollisionDamage;
             host.RemoveToken(typeof(Tokens.StunnedPilotCritToken));
 
             host.AfterAttackWindow -= DiscardEffect;

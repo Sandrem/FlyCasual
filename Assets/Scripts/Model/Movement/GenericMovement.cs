@@ -117,6 +117,23 @@ namespace Movement
 
         public virtual void LaunchShipMovement()
         {
+
+            //Move to method - finish of movement prediction
+            Selection.ThisShip.ShipsBumped.AddRange(movementPrediction.ShipsBumped);
+            foreach (var bumpedShip in Selection.ThisShip.ShipsBumped)
+            {
+                if (!bumpedShip.ShipsBumped.Contains(Selection.ThisShip))
+                {
+                    bumpedShip.ShipsBumped.Add(Selection.ThisShip);
+                }
+            }
+
+            if (movementPrediction.IsLandedOnAsteroid)
+            {
+                Messages.ShowErrorToHuman("Landed on asteroid");
+                Selection.ThisShip.IsLandedOnObstacle = movementPrediction.IsLandedOnAsteroid;
+            }
+
             Sounds.PlayFly();
             AdaptSuccessProgress();
 

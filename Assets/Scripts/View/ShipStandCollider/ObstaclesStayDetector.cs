@@ -50,7 +50,7 @@ public class ObstaclesStayDetector: MonoBehaviour {
     void OnTriggerStay(Collider collisionInfo)
     {
         //TODO: Change to OnTriggerEnter
-        if (checkCollisions)
+        /*if (checkCollisions)
         {
             if (collisionInfo.name == "ObstaclesStayDetector")
             {
@@ -59,12 +59,12 @@ public class ObstaclesStayDetector: MonoBehaviour {
                     Game.Movement.CollidedWith = collisionInfo;
                 }
             }
-        }
+        }*/
     }
 
     void OnTriggerExit(Collider collisionInfo)
     {
-        if (checkCollisions)
+        /*if (checkCollisions)
         {
             if (collisionInfo.name == "ObstaclesStayDetector")
             {
@@ -77,7 +77,7 @@ public class ObstaclesStayDetector: MonoBehaviour {
                 Game.Movement.ObstacleExit = collisionInfo;
                 OverlapsAsteroid = false;
             }
-        }
+        }*/
     }
 
 }

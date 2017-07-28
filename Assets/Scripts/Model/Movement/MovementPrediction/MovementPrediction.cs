@@ -11,7 +11,14 @@ namespace Movement
         private int updatesCount = 0;
         private GenericMovement currentMovement;
         private GameObject[] generatedShipStands;
-        public bool IsBumped { get; private set; }
+
+        private bool isBumped;
+        public bool IsBumped
+        {
+            get { return ShipsBumped.Count != 0; }
+        }
+
+        public List<Ship.GenericShip> ShipsBumped = new List<Ship.GenericShip>();
         public bool IsLandedOnAsteroid { get; private set; }
         public float SuccessfullMovementProgress { get; private set; }
 
@@ -49,36 +56,40 @@ namespace Movement
 
         private void GetResults()
         {
-            if (generatedShipStands[generatedShipStands.Length-1].GetComponentInChildren<ObstaclesStayDetector>().OverlapsShip)
-            {
-                IsBumped = true;
-            }
-
             bool finalPositionFound = false;
             SuccessfullMovementProgress = 0;
             for (int i = generatedShipStands.Length-1; i >= 0; i--)
             {
                 ObstaclesStayDetector obstacleStayDetector = generatedShipStands[i].GetComponentInChildren<ObstaclesStayDetector>();
+                ObstaclesStayDetector lastShipBumpDetector = null;
 
-                foreach (var overlapedShip in obstacleStayDetector.OverlapedShips)
+                if (!finalPositionFound)
                 {
-                    if (!Selection.ThisShip.ShipsBumped.Contains(overlapedShip))
+                    if (!obstacleStayDetector.OverlapsShip)
                     {
-                        Selection.ThisShip.ShipsBumped.Add(overlapedShip);
-                        if (!overlapedShip.ShipsBumped.Contains(Selection.ThisShip))
+                        IsLandedOnAsteroid = obstacleStayDetector.OverlapsAsteroid;
+                        SuccessfullMovementProgress = (i + 1f) / generatedShipStands.Length;
+
+                        if (lastShipBumpDetector != null)
                         {
-                            overlapedShip.ShipsBumped.Add(Selection.ThisShip);
+                            foreach (var overlapedShip in lastShipBumpDetector.OverlapedShips)
+                            {
+                                if (!ShipsBumped.Contains(overlapedShip))
+                                {
+                                    ShipsBumped.Add(overlapedShip);
+                                }
+                            }
                         }
+
+                        finalPositionFound = true;
+                        break;
                     }
                 }
-
-                if ((!finalPositionFound) && (obstacleStayDetector.OverlapsShip != true))
+                else
                 {
-                    IsLandedOnAsteroid = obstacleStayDetector.OverlapsAsteroid;
-                    SuccessfullMovementProgress = (i + 1f)/generatedShipStands.Length;
-                    finalPositionFound = true;
-                    break;
+                    lastShipBumpDetector = obstacleStayDetector;
                 }
+                
             }
 
             Selection.ThisShip.ToggleColliders(true);

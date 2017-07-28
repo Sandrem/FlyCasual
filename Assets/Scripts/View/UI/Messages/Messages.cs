@@ -19,7 +19,7 @@ public static class Messages{
 
     public static void ShowErrorToHuman(string text)
     {
-        if (Phases.CurrentPhasePlayer.GetType() == typeof(Players.HumanPlayer))
+        if (Roster.GetPlayer(Phases.CurrentPhasePlayer).GetType() == typeof(Players.HumanPlayer))
         {
             ShowMessage(text, MessageType.Error);
         }

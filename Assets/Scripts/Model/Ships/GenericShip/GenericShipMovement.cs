@@ -12,10 +12,8 @@ namespace Ship
 
         public Movement.GenericMovement AssignedManeuver { get; set; }
 
-        public List<Collider> ObstaclesLanded = new List<Collider>();
+        public bool IsLandedOnObstacle;
         public List<Collider> ObstaclesHit = new List<Collider>();
-
-        private bool isBumped;
 
         public bool IsBumped
         {
@@ -117,16 +115,16 @@ namespace Ship
 
         public void CheckLandedOnObstacle()
         {
-            if (ObstaclesLanded.Count > 0)
+            /*if (IsLandedOnObstacle)
             {
-                foreach (var obstacle in ObstaclesLanded)
+                foreach (var obstacle in IsLandedOnObstacle)
                 {
                     if (!ObstaclesHit.Contains(obstacle)) ObstaclesHit.Add(obstacle);
                 }
 
                 Game.UI.ShowError("Landed on obstacle");
                 if (OnLandedOnObstacle != null) OnLandedOnObstacle(this);
-            }
+            }*/
         }
 
     }

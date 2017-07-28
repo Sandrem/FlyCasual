@@ -70,7 +70,7 @@ namespace Movement
             {
                 if (movementFinisherLaunched)
                 {
-                    Selection.ThisShip.FinishMovementWithoutColliding();
+                    Selection.ThisShip.FinishMovement();
 
                     MovementTemplates.HideLastMovementRuler();
 

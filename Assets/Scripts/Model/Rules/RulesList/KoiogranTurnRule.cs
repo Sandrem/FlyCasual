@@ -15,15 +15,15 @@ namespace RulesList
         {
             if (Selection.ThisShip.AssignedManeuver.Bearing == Movement.ManeuverBearing.KoiogranTurn)
             {
-                Phases.StartTemporarySubPhase("Koiogran Turn", typeof(SubPhases.KoiogranTurnSubPhase));
-            }
-        }
-
-        public void CheckKoiogranTurnError(Ship.GenericShip ship)
-        {
-            if (Selection.ThisShip.AssignedManeuver.Bearing == Movement.ManeuverBearing.KoiogranTurn)
-            {
-                Game.UI.ShowError("Koiogran Turn is failed due to collision");
+                if (!Selection.ThisShip.IsBumped)
+                {
+                    Phases.StartTemporarySubPhase("Koiogran Turn", typeof(SubPhases.KoiogranTurnSubPhase));
+                }
+                else
+                {
+                    Game.UI.ShowError("Koiogran Turn is failed due to collision");
+                }
+                
             }
         }
 

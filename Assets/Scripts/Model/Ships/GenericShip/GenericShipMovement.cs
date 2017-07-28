@@ -59,7 +59,7 @@ namespace Ship
             yield return Phases.WaitForTemporarySubPhasesFinish();
         }
 
-        public IEnumerator FinishMoving()
+        public IEnumerator FinishMovement()
         {
             if (OnMovementFinish != null) OnMovementFinish(this);
 
@@ -75,11 +75,6 @@ namespace Ship
         public void FinishMovementWithColliding()
         {
             if (OnMovementFinishWithColliding != null) OnMovementFinishWithColliding(this);
-        }
-
-        public void FinishMovementWithoutColliding()
-        {
-            if (OnMovementFinishWithoutColliding != null) OnMovementFinishWithoutColliding(this);
         }
 
         // MANEUVERS

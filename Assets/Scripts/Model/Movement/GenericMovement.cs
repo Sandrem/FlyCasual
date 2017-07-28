@@ -158,11 +158,11 @@ namespace Movement
         {
             if (ProgressCurrent == ProgressTarget)
             {
-                FinishMovementWithoutColliding();
+                FinishMovement();
             }
         }
 
-        protected virtual void FinishMovementWithoutColliding()
+        protected virtual void FinishMovement()
         {
 
             //TEMP
@@ -170,8 +170,6 @@ namespace Movement
             Game.Movement.isMoving = false;
 
             MovementTemplates.HideLastMovementRuler();
-
-            Selection.ThisShip.FinishMovementWithoutColliding();
 
             Game.StartCoroutine(FinishMovementCoroutine());
         }
@@ -182,7 +180,7 @@ namespace Movement
 
             yield return Selection.ThisShip.ExecuteMoving();
 
-            yield return Selection.ThisShip.FinishMoving();
+            yield return Selection.ThisShip.FinishMovement();
 
             Selection.ThisShip.FinishPosition();
 

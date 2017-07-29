@@ -25,7 +25,7 @@ public static partial class Combat
         if (Roster.GetPlayer(Selection.ActiveShip.Owner.PlayerNo).Type == Players.PlayerType.Human)
         {
             float offset = 0;
-            Vector3 defaultPosition = Game.PrefabsList.DiceResultsMenu.transform.position + new Vector3(5, 195, 0);
+            Vector3 defaultPosition = Game.PrefabsList.DiceResultsMenu.transform.position + new Vector3(10, 210, 0);
 
             foreach (var actionEffect in Selection.ActiveShip.GetAvailableActionEffectsList())
             {

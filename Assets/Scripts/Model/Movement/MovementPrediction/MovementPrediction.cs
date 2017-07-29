@@ -59,15 +59,20 @@ namespace Movement
         {
             bool finalPositionFound = false;
             SuccessfullMovementProgress = 0;
+            ObstaclesStayDetector lastShipBumpDetector = null;
+
             for (int i = generatedShipStands.Length-1; i >= 0; i--)
             {
                 ObstaclesStayDetector obstacleStayDetector = generatedShipStands[i].GetComponentInChildren<ObstaclesStayDetector>();
                 ObstaclesHitsDetector obstacleHitsDetector = generatedShipStands[i].GetComponentInChildren<ObstaclesHitsDetector>();
-                ObstaclesStayDetector lastShipBumpDetector = null;
 
                 if (!finalPositionFound)
                 {
-                    if (!obstacleStayDetector.OverlapsShip)
+                    if (obstacleStayDetector.OverlapsShip)
+                    {
+                        lastShipBumpDetector = obstacleStayDetector;
+                    }
+                    else
                     {
                         IsLandedOnAsteroid = obstacleStayDetector.OverlapsAsteroid;
                         SuccessfullMovementProgress = (i + 1f) / generatedShipStands.Length;
@@ -97,8 +102,6 @@ namespace Movement
                 }
                 else
                 {
-                    lastShipBumpDetector = obstacleStayDetector;
-
                     foreach (var asteroidHit in obstacleHitsDetector.OverlapedAsteroids)
                     {
                         if (!AsteroidsHit.Contains(asteroidHit))

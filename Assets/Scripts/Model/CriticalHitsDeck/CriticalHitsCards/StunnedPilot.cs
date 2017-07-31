@@ -30,8 +30,8 @@ namespace CriticalHitCard
                 Game.UI.ShowError("Stunned Pilot: Ship suffered damage");
                 Game.UI.AddTestLogEntry("Stunned Pilot: Ship suffered damage");
 
-                DiceRoll damageRoll = new DiceRoll("attack", 0);
-                damageRoll.DiceList.Add(new Dice("attack", DiceSide.Success));
+                DiceRoll damageRoll = new DiceRoll(DiceKind.Attack, 0);
+                damageRoll.DiceList.Add(new Dice(DiceKind.Attack, DiceSide.Success));
 
                 DamageSourceEventArgs eventArgs = new DamageSourceEventArgs();
                 eventArgs.Source = this;

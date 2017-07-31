@@ -10,7 +10,7 @@ public partial class DiceRoll
         private set;
     }
 
-    public string Type
+    public DiceKind Type
     {
         get;
         private set;
@@ -18,14 +18,14 @@ public partial class DiceRoll
 
     public int Number { get; private set; }
 
-    public DiceRoll(string type, int number)
+    public DiceRoll(DiceKind type, int number)
     {
         Type = type;
         Number = number;
         GenerateDiceRoll(type, number);
     }
 
-    private void GenerateDiceRoll(string type, int number)
+    private void GenerateDiceRoll(DiceKind type, int number)
     {
         DiceList = new List<Dice>();
         for (int i = 0; i < number; i++)
@@ -131,7 +131,7 @@ public partial class DiceRoll
 
     public void ApplyEvade()
     {
-        Dice addEvade = new Dice("defence", DiceSide.Success);
+        Dice addEvade = new Dice(DiceKind.Defence, DiceSide.Success);
         DiceList.Add(addEvade);
         addEvade.NoRoll();
         OrganizeDicePositions();

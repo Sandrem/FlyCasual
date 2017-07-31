@@ -284,7 +284,7 @@ namespace SubPhases
         {
             CanBePaused = true;
 
-            dicesType = "attack";
+            dicesType = DiceKind.Attack;
             dicesCount = Combat.Attacker.GetNumberOfAttackDices(Combat.Defender);
 
             checkResults = CheckResults;
@@ -318,7 +318,7 @@ namespace SubPhases
 
         public override void Prepare()
         {
-            dicesType = "defence";
+            dicesType = DiceKind.Defence;
             dicesCount = Combat.Defender.GetNumberOfDefenceDices(Combat.Attacker);
 
             checkResults = CheckResults;

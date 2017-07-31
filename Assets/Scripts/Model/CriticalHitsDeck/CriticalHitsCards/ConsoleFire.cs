@@ -58,7 +58,7 @@ namespace SubPhases
 
         public override void Prepare()
         {
-            dicesType = "attack";
+            dicesType = DiceKind.Attack;
             dicesCount = 1;
 
             finishAction = FinishAction;

@@ -9,7 +9,7 @@ namespace SubPhases
 
     public class DiceRollCheckSubPhase : GenericSubPhase
     {
-        protected string dicesType;
+        protected DiceKind dicesType;
         protected int dicesCount;
 
         protected DiceRoll CurrentDiceRoll;

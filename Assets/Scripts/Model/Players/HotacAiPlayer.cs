@@ -80,7 +80,7 @@ namespace Players
                 {
                     if (availableAction.GetType() == typeof(ActionsList.FocusAction))
                     {
-                        availableAction.ActionTake();
+                        availableAction.ActionTake(delegate () { Triggers.FinishTrigger(); });
                         return true;
                     }
                 }
@@ -94,7 +94,7 @@ namespace Players
             {
                 if (availableAction.GetType() == typeof(ActionsList.EvadeAction))
                 {
-                    availableAction.ActionTake();
+                    availableAction.ActionTake(delegate () { Phases.FinishSubPhase(typeof(SubPhases.ActionDecisonSubPhase)); Triggers.FinishTrigger(); });
                     return true;
                 }
             }

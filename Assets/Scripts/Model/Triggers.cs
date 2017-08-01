@@ -172,7 +172,6 @@ public static partial class Triggers
 
     private static void DoCallBack()
     {
-        Debug.Log("Empty, callback time");
         StackLevel currentStackLevel = GetCurrentStackLevel();
         Action callBack = currentStackLevel.CallBack;
         RemoveLastLevelOfStack();

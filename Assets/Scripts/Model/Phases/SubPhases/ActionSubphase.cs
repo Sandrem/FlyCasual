@@ -99,11 +99,9 @@ namespace SubPhases
             {
                 AddDecision(action.Name, delegate {
                     Tooltips.EndTooltip();
-                    Selection.ThisShip.AddAlreadyExecutedAction(action);
-                    action.ActionTake();
                     Game.UI.HideNextButton();
-                    Phases.FinishSubPhase(this.GetType());
-                    callBack();
+                    Selection.ThisShip.AddAlreadyExecutedAction(action);
+                    action.ActionTake(callBack);
                 });
             }
 

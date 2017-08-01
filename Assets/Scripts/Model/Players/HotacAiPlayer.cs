@@ -52,6 +52,7 @@ namespace Players
                 if (!actionIsPerformed) actionIsPerformed = TryFocus();
                 if (!actionIsPerformed) actionIsPerformed = TryEvade();
             }
+            Triggers.FinishTrigger();
 
             if (!actionIsPerformed) Phases.Next();
         }

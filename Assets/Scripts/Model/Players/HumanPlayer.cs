@@ -17,7 +17,7 @@ namespace Players
 
         public override void PerformAction(object sender, EventArgs e)
         {
-            Phases.StartTemporarySubPhase("Action", typeof(SubPhases.ActionDecisonSubPhase));
+            Phases.StartTemporarySubPhase("Action", typeof(SubPhases.ActionDecisonSubPhase), delegate () { Triggers.FinishTrigger(); });
         }
 
         public override void PerformFreeAction()

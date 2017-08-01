@@ -29,7 +29,8 @@ namespace CriticalHitCard
 
         private void PlanRollForDamage(Ship.GenericShip host)
         {
-            Triggers.AddTrigger("#" + host.ShipId + ": Console Fire Crit", TriggerTypes.OnCombatPhaseStart, RollForDamage, host, host.Owner.PlayerNo);
+            Triggers.RegisterTrigger(new Trigger() { Name = "#" + host.ShipId + ": Console Fire Crit", TriggerOwner = host.Owner.PlayerNo, triggerType = TriggerTypes.OnCombatPhaseStart, eventHandler = RollForDamage });
+            //OldTriggers.AddTrigger("#" + host.ShipId + ": Console Fire Crit", TriggerTypes.OnCombatPhaseStart, RollForDamage, host, host.Owner.PlayerNo);
         }
 
         private void RollForDamage(object sender, EventArgs e)
@@ -76,7 +77,7 @@ namespace SubPhases
                 DamageSourceEventArgs eventArgs = new DamageSourceEventArgs();
                 eventArgs.Source = new CriticalHitCard.ConsoleFire();
                 eventArgs.DamageType = DamageTypes.CriticalHitCard;
-                Game.StartCoroutine(Selection.ActiveShip.SufferDamage(CurrentDiceRoll, eventArgs));
+                Selection.ActiveShip.SufferDamage(CurrentDiceRoll, eventArgs);
             }
 
             Phases.FinishSubPhase(this.GetType());

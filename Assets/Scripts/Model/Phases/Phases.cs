@@ -154,7 +154,7 @@ public static partial class Phases
     {
         if (OnSetupPhaseStart != null) OnSetupPhaseStart();
 
-        TriggersStack.ResolveTriggersByType(NewTriggerTypes.OnSetupPhaseStart, delegate() { FinishSubPhase(typeof(SetupStartSubPhase)); });
+        Triggers.ResolveTriggersByType(TriggerTypes.OnSetupPhaseStart, delegate() { FinishSubPhase(typeof(SetupStartSubPhase)); });
     }
 
     public static void CallPlanningPhaseTrigger()
@@ -174,13 +174,8 @@ public static partial class Phases
         {
             shipHolder.Value.CallOnCombatPhaseStart();
         }
-        Game.StartCoroutine(ResolveCombatTriggers());
-    }
 
-    private static IEnumerator ResolveCombatTriggers()
-    {
-        yield return Triggers.ResolveAllTriggers(TriggerTypes.OnCombatPhaseStart);
-        Phases.FinishSubPhase(typeof(CombatStartSubPhase));
+        Triggers.ResolveTriggersByType(TriggerTypes.OnCombatPhaseStart, delegate () { FinishSubPhase(typeof(CombatStartSubPhase)); });
     }
 
     public static void CallEndPhaseTrigger()
@@ -198,14 +193,7 @@ public static partial class Phases
         if (OnActionSubPhaseStart != null) OnActionSubPhaseStart();
         Selection.ThisShip.CallOnActionSubPhaseStart();
 
-        Game.StartCoroutine(ResolveActionTriggers());
-    }
-
-    private static IEnumerator ResolveActionTriggers()
-    {
-        yield return Triggers.ResolveAllTriggers(TriggerTypes.OnActionSubPhaseStart);
-        yield return Phases.WaitForTemporarySubPhasesFinish();
-        FinishSubPhase(typeof(ActionSubPhase));
+        Triggers.ResolveTriggersByType(TriggerTypes.OnActionSubPhaseStart, delegate () { FinishSubPhase(typeof(ActionSubPhase)); });
     }
 
     // TEMPORARY SUBPHASES

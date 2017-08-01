@@ -143,7 +143,7 @@ namespace Ship
 
         // DAMAGE
 
-        public IEnumerator SufferDamage(DiceRoll damage, DamageSourceEventArgs eventArgs)
+        public void SufferDamage(DiceRoll damage, DamageSourceEventArgs eventArgs)
         {
             int shieldsBefore = Shields;
 
@@ -159,16 +159,17 @@ namespace Ship
                     {
                         if (CheckFaceupCrit(dice))
                         {
-                            Triggers.AddTrigger("Draw faceup damage card", TriggerTypes.OnDamageCardIsDealt, DealFaceupCritCard, this, this.Owner.PlayerNo, eventArgs);
+                            Triggers.RegisterTrigger(new Trigger() { Name = "Draw faceup damage card", TriggerOwner = this.Owner.PlayerNo, triggerType = TriggerTypes.OnDamageCardIsDealt, eventHandler = DealFaceupCritCard });
                         }
                         else
                         {
-                            Triggers.AddTrigger("Draw damage card", TriggerTypes.OnDamageCardIsDealt, CriticalHitsDeck.DrawRegular, this, this.Owner.PlayerNo, eventArgs);
+                            Triggers.RegisterTrigger(new Trigger() { Name = "Draw damage card", TriggerOwner = this.Owner.PlayerNo, triggerType = TriggerTypes.OnDamageCardIsDealt, eventHandler = CriticalHitsDeck.DrawRegular });
                         }
                     }
                 }
-                yield return Triggers.ResolveAllTriggers(TriggerTypes.OnDamageCardIsDealt);
-                yield return Triggers.ResolveAllTriggers(TriggerTypes.OnCritDamageCardIsDealt);
+                //TODO: add callbacks
+                Triggers.ResolveTriggersByType(TriggerTypes.OnDamageCardIsDealt);
+                Triggers.ResolveTriggersByType(TriggerTypes.OnCritDamageCardIsDealt);
             }
 
             CallAfterAssignedDamageIsChanged();
@@ -213,15 +214,15 @@ namespace Ship
 
             if (OnFaceupCritCardReadyToBeDealtGlobal != null) OnFaceupCritCardReadyToBeDealtGlobal(this, ref Combat.CurrentCriticalHitCard, e);
 
-            Game.StartCoroutine(DealFaceupCritCardAsync(sender, e));
+            DealFaceupCritCardAsync(sender, e);
         }
 
-        private IEnumerator DealFaceupCritCardAsync(object sender, EventArgs e)
+        private void DealFaceupCritCardAsync(object sender, EventArgs e)
         {
             if (DebugManager.DebugDamage) Debug.Log("+++ TRIGGER!!!");
 
-            yield return Triggers.ResolveAllTriggers(TriggerTypes.OnFaceupCritCardReadyToBeDealt);
-            yield return Phases.WaitForTemporarySubPhasesFinish();
+            //TODO: add callback
+            Triggers.ResolveTriggersByType(TriggerTypes.OnFaceupCritCardReadyToBeDealt);
 
             if (DebugManager.DebugDamage) Debug.Log("+++ SUFFER!!!");
 

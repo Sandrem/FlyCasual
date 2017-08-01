@@ -33,7 +33,7 @@ namespace RulesList
             {
                 foreach (var asteroid in Selection.ThisShip.ObstaclesHit)
                 {
-                    TriggersStack.RegisterTrigger(new NewTrigger() { Name = "Roll for asteroid damage", TriggerOwner = Selection.ThisShip.Owner.PlayerNo, triggerType = NewTriggerTypes.OnShipMovementFinish, eventHandler = RollForDamage });
+                    Triggers.RegisterTrigger(new Trigger() { Name = "Roll for asteroid damage", TriggerOwner = Selection.ThisShip.Owner.PlayerNo, triggerType = TriggerTypes.OnShipMovementFinish, eventHandler = RollForDamage });
                 }
             }
         }
@@ -101,7 +101,7 @@ namespace SubPhases
             eventArgs.Source = null;
             eventArgs.DamageType = DamageTypes.ObstacleCollision;
 
-            Game.StartCoroutine(Selection.ActiveShip.SufferDamage(CurrentDiceRoll, eventArgs));
+            Selection.ActiveShip.SufferDamage(CurrentDiceRoll, eventArgs);
         }
 
     }

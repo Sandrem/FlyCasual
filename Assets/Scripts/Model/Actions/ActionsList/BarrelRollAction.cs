@@ -287,7 +287,7 @@ namespace SubPhases
             MovementTemplates.CurrentTemplate.gameObject.SetActive(true);
 
             Selection.ThisShip.ToggleShipStandAndPeg(true);
-            Selection.ThisShip.FinishPosition();
+            Selection.ThisShip.FinishPosition(delegate() { });
 
             Phases.FinishSubPhase(this.GetType());
             Phases.FinishSubPhase(PreviousSubPhase.GetType());

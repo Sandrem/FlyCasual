@@ -28,10 +28,50 @@ public class Trigger
     public object sender;
     public EventArgs eventArgs;
 
+    public StackLevel parentStackLevel;
+
     public void Fire()
     {
         eventHandler(sender, eventArgs);
     }
+}
+
+public class StackLevel
+{
+    private List<Trigger> triggers = new List<Trigger>();
+    public bool IsActive;
+    public Action CallBack;
+
+    public int GetSize()
+    {
+        return triggers.Count;
+    }
+
+    public bool Empty()
+    {
+        return GetSize() == 0;
+    }
+
+    public Trigger GetFirst()
+    {
+        return triggers[0];
+    }
+
+    public void AddTrigger(Trigger trigger)
+    {
+        triggers.Add(trigger);
+    }
+
+    public void RemoveTrigger(Trigger trigger)
+    {
+        triggers.Remove(trigger);
+    }
+
+    public List<Trigger> GetTriggersByPlayer(Players.PlayerNo playerNo)
+    {
+        return triggers.Where(n => n.TriggerOwner == playerNo).ToList<Trigger>();
+    }
+
 }
 
 public static partial class Triggers
@@ -40,45 +80,6 @@ public static partial class Triggers
     private static List<StackLevel> triggersStackList = new List<StackLevel>();
     private static Trigger currentTrigger;
     private static List<Trigger> currentTriggersList;
-
-    // SUBCLASS
-
-    private class StackLevel
-    {
-        private List<Trigger> triggers = new List<Trigger>();
-        public Action CallBack;
-
-        public int GetSize()
-        {
-           return triggers.Count;
-        }
-
-        public bool Empty()
-        {
-            return GetSize() == 0;
-        }
-
-        public Trigger GetFirst()
-        {
-            return triggers[0];
-        }
-
-        public void AddTrigger(Trigger trigger)
-        {
-            triggers.Add(trigger);
-        }
-
-        public void RemoveTrigger(Trigger trigger)
-        {
-            triggers.Remove(trigger);
-        }
-
-        public List<Trigger> GetTriggersByPlayer(Players.PlayerNo playerNo)
-        {
-            return triggers.Where(n => n.TriggerOwner == playerNo).ToList<Trigger>();
-        }
-
-    }
 
     // MAIN
 
@@ -141,6 +142,7 @@ public static partial class Triggers
             if (playerTriggers.Count == 1)
             {
                 currentTrigger = playerTriggers[0];
+                currentTrigger.parentStackLevel.IsActive = true;
                 currentStackLevel.RemoveTrigger(currentTrigger);
                 currentTrigger.Fire();
             }
@@ -160,6 +162,7 @@ public static partial class Triggers
         currentStackLevel.RemoveTrigger(currentTrigger);
         if (currentStackLevel.Empty())
         {
+            currentTrigger.parentStackLevel.IsActive = false;
             DoCallBack();
         }
         else
@@ -173,9 +176,12 @@ public static partial class Triggers
     private static void DoCallBack()
     {
         StackLevel currentStackLevel = GetCurrentStackLevel();
-        Action callBack = currentStackLevel.CallBack;
-        RemoveLastLevelOfStack();
-        callBack();
+        if (!currentStackLevel.IsActive)
+        {
+            Action callBack = currentStackLevel.CallBack;
+            RemoveLastLevelOfStack();
+            callBack();
+        }
     }
 
     // SUB
@@ -211,6 +217,7 @@ public static partial class Triggers
     {
         Debug.Log("Trigger is added: " + trigger.Name);
         triggersStackList[triggersStackList.Count - 1].AddTrigger(trigger);
+        trigger.parentStackLevel = GetCurrentStackLevel();
     }
 
     private static void CreateNewLevelOfStack()

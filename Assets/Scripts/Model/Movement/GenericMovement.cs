@@ -164,6 +164,7 @@ namespace Movement
 
         protected virtual void FinishMovement()
         {
+            Selection.ThisShip.IsAttackPerformed = false;
 
             //TEMP
             GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
@@ -171,22 +172,14 @@ namespace Movement
 
             MovementTemplates.HideLastMovementRuler();
 
-            Game.StartCoroutine(FinishMovementCoroutine());
-        }
-
-        protected IEnumerator FinishMovementCoroutine()
-        {
             Selection.ThisShip.ResetRotationHelpers();
 
-            yield return Selection.ThisShip.ExecuteMoving();
+            Selection.ThisShip.ExecuteMoving();
 
-            yield return Selection.ThisShip.FinishMovement();
-
-            Selection.ThisShip.FinishPosition();
-
-            Selection.ThisShip.IsAttackPerformed = false;
-
-            Phases.FinishSubPhase(typeof(SubPhases.MovementExecutionSubPhase));
+            //Called as callbacks
+            //Selection.ThisShip.FinishMovement();
+            //Selection.ThisShip.FinishPosition();
+            //Phases.FinishSubPhase(typeof(SubPhases.MovementExecutionSubPhase));
         }
 
         //TODO: Rework

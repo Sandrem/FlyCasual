@@ -8,9 +8,6 @@ using SubPhases;
 public enum TriggerTypes
 {
     None,
-    OnSetupPhaseStart,
-    OnShipMovementExecuted,
-    OnShipMovementFinish,
     OnActionSubPhaseStart,
     OnCombatPhaseStart,
     OnFaceupCritCardReadyToBeDealt,
@@ -184,7 +181,6 @@ public static partial class Triggers
             }
 
             defaultDecision = GetDecisions().First().Key;
-            
         }
 
     }

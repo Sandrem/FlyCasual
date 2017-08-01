@@ -32,7 +32,7 @@ namespace UpgradesList
             {
                 if (host.Shields < host.MaxShields)
                 {
-                    Triggers.AddTrigger("R2-D2: Regen Shield", TriggerTypes.OnShipMovementExecuted, R2D2RegenShield, host, host.Owner.PlayerNo);
+                    TriggersStack.RegisterTrigger(new NewTrigger() { Name = "R2-D2: Regen Shield", TriggerOwner = host.Owner.PlayerNo, triggerType = NewTriggerTypes.OnShipMovementExecuted, eventHandler = R2D2RegenShield });
                 }
             }
         }
@@ -44,6 +44,7 @@ namespace UpgradesList
                 Sounds.PlaySoundOnce("R2D2-Proud");
                 Game.UI.ShowInfo("R2-D2: Shield is restored");
             }
+            TriggersStack.FinishTrigger();
         }
 
     }

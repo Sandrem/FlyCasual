@@ -8,7 +8,10 @@ using SubPhases;
 public enum NewTriggerTypes
 {
     None,
-    OnSetupPhaseStart
+    OnSetupPhaseStart,
+    OnShipMovementExecuted,
+    OnShipMovementFinish,
+    OnPositionFinish
 }
 
 public class NewTrigger
@@ -76,6 +79,7 @@ public static partial class TriggersStack
 
     public static void RegisterTrigger(NewTrigger trigger)
     {
+        Debug.Log("Level of stack is " + triggersStackList.Count);
         if (triggersStackList.Count == 0)
         {
             CreateTriggerInNewLevel(trigger);
@@ -88,18 +92,17 @@ public static partial class TriggersStack
 
     public static void ResolveTriggersByType(NewTriggerTypes triggerType, Action callBack = null)
     {
-        Debug.Log("ResolveTriggersByType, level " + (triggersStackList.Count));
+        Debug.Log("ResolveTriggersByType: " + triggerType.ToString() + ", level " + (triggersStackList.Count));
 
         StackLevel currentStackLevel = GetCurrentStackLevel();
-        Debug.Log("Size: " + currentStackLevel.GetSize());
 
-        if (callBack != null)
+        if ((currentStackLevel != null) && (!currentStackLevel.Empty()))
         {
-            currentStackLevel.CallBack = callBack;
-        }
+            if (callBack != null)
+            {
+                currentStackLevel.CallBack = callBack;
+            }
 
-        if (!currentStackLevel.Empty())
-        {
             CreateNewLevelOfStack();
             GetCurrentStackLevel().CallBack = delegate () { ResolveTriggersByType(triggerType); };
 
@@ -115,6 +118,11 @@ public static partial class TriggersStack
         }
         else
         {
+            if (currentStackLevel == null)
+            {
+                CreateNewLevelOfStack();
+                GetCurrentStackLevel().CallBack = callBack;
+            }
             DoCallBack();
         }
     }
@@ -176,7 +184,12 @@ public static partial class TriggersStack
 
     private static StackLevel GetCurrentStackLevel()
     {
-        return triggersStackList[triggersStackList.Count - 1];
+        StackLevel result = null;
+        if (triggersStackList.Count > 0)
+        {
+            result = triggersStackList[triggersStackList.Count - 1];
+        }
+        return result;
     }
 
     private static NewTriggerTypes GetCurrentStackLevelTriggerType()

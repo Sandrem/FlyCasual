@@ -46,25 +46,25 @@ namespace Ship
             if (OnMovementStart != null) OnMovementStart(this);
         }
 
-        public IEnumerator ExecuteMoving()
+        public void ExecuteMoving()
         {
             if (OnMovementExecuted != null) OnMovementExecuted(this);
 
-            yield return Triggers.ResolveAllTriggers(TriggerTypes.OnShipMovementExecuted);
-            yield return Phases.WaitForTemporarySubPhasesFinish();
+            TriggersStack.ResolveTriggersByType(NewTriggerTypes.OnShipMovementExecuted, delegate() { Selection.ThisShip.FinishPosition(); });
         }
 
-        public IEnumerator FinishMovement()
+        public void FinishMovement()
         {
             if (OnMovementFinish != null) OnMovementFinish(this);
 
-            yield return Triggers.ResolveAllTriggers(TriggerTypes.OnShipMovementFinish);
-            yield return Phases.WaitForTemporarySubPhasesFinish();
+            TriggersStack.ResolveTriggersByType(NewTriggerTypes.OnShipMovementFinish, delegate () { Selection.ThisShip.FinishPosition(); });
         }
 
         public void FinishPosition()
         {
             if (OnPositionFinish != null) OnPositionFinish(this);
+
+            TriggersStack.ResolveTriggersByType(NewTriggerTypes.OnPositionFinish, delegate () { Phases.FinishSubPhase(typeof(SubPhases.MovementExecutionSubPhase)); });
         }
 
         // MANEUVERS

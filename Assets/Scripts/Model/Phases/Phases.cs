@@ -150,12 +150,11 @@ public static partial class Phases
         if (OnRoundStart != null) OnRoundStart();
     }
 
-    public static IEnumerator CallSetupPhaseTrigger()
+    public static void CallSetupPhaseTrigger()
     {
         if (OnSetupPhaseStart != null) OnSetupPhaseStart();
 
-        yield return Triggers.ResolveAllTriggers(TriggerTypes.OnSetupPhaseStart);
-        yield return Phases.WaitForTemporarySubPhasesFinish();
+        TriggersStack.ResolveTriggersByType(NewTriggerTypes.OnSetupPhaseStart, delegate() { FinishSubPhase(typeof(SetupStartSubPhase)); });
     }
 
     public static void CallPlanningPhaseTrigger()
@@ -211,13 +210,14 @@ public static partial class Phases
 
     // TEMPORARY SUBPHASES
 
-    public static void StartTemporarySubPhase(string name, System.Type subPhaseType)
+    public static void StartTemporarySubPhase(string name, System.Type subPhaseType, Action callBack = null)
     {
         CurrentSubPhase.Pause();
         if (DebugManager.DebugPhases) Debug.Log("Temporary phase " + subPhaseType + " is started directly");
         GenericSubPhase previousSubPhase = CurrentSubPhase;
         CurrentSubPhase = (GenericSubPhase)System.Activator.CreateInstance(subPhaseType);
         CurrentSubPhase.Name = name;
+        CurrentSubPhase.callBack = callBack;
         CurrentSubPhase.PreviousSubPhase = previousSubPhase;
         CurrentSubPhase.RequiredPlayer = previousSubPhase.RequiredPlayer;
         CurrentSubPhase.RequiredPilotSkill = previousSubPhase.RequiredPilotSkill;

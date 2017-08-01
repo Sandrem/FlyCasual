@@ -38,12 +38,12 @@ namespace RulesList
             }
 
             Phases.CurrentSubPhase.RequiredPlayer = Phases.PlayerWithInitiative;
-            Triggers.AddTrigger("Initiative decision", TriggerTypes.OnSetupPhaseStart, ShowDecision, null, Phases.PlayerWithInitiative);
+            TriggersStack.RegisterTrigger(new NewTrigger() { Name = "Initiative decision", TriggerOwner = Phases.PlayerWithInitiative, triggerType = NewTriggerTypes.OnSetupPhaseStart, eventHandler = ShowDecision });
         }
 
         private static void ShowDecision(object sender, EventArgs e)
         {
-            Phases.StartTemporarySubPhase("Initiative", typeof(SubPhases.InitialiveDecisionSubPhase));
+            Phases.StartTemporarySubPhase("Initiative", typeof(SubPhases.InitialiveDecisionSubPhase), delegate() { TriggersStack.FinishTrigger(); });
         }
     } 
 }
@@ -79,6 +79,7 @@ namespace SubPhases
         {
             Messages.ShowInfo("Player " + Tools.PlayerToInt(Phases.PlayerWithInitiative) + " has Initiative");
             Phases.FinishSubPhase(this.GetType());
+            callBack();
         }
 
     }

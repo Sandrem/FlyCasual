@@ -34,7 +34,7 @@ public static partial class Actions {
                 Tooltips.EndTooltip();
                 CloseActionsPanel();
                 Selection.ThisShip.AddAlreadyExecutedAction(action);
-                action.ActionTake();
+                action.ActionTake(delegate () { Phases.FinishSubPhase(typeof(SubPhases.ActionDecisonSubPhase)); Triggers.FinishTrigger(); });
             });
             Tooltips.AddTooltip(newButton, action.ImageUrl);
             newButton.GetComponent<Button>().interactable = true;

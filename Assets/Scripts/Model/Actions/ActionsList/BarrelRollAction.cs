@@ -11,10 +11,10 @@ namespace ActionsList
             Name = "Barrel Roll";
         }
 
-        public override void ActionTake()
+        public override void ActionTake(System.Action callBack)
         {
             Phases.CurrentSubPhase.Pause();
-            Phases.StartTemporarySubPhase("Barrel Roll", typeof(SubPhases.BarrelRollPlanningSubPhase));
+            Phases.StartTemporarySubPhase("Barrel Roll", typeof(SubPhases.BarrelRollPlanningSubPhase), callBack);
         }
 
     }
@@ -169,7 +169,7 @@ namespace SubPhases
             Selection.ThisShip.ToggleShipStandAndPeg(false);
             MovementTemplates.CurrentTemplate.gameObject.SetActive(false);
 
-            Phases.StartTemporarySubPhase("Barrel Roll execution", typeof(BarrelRollExecutionSubPhase));
+            Phases.StartTemporarySubPhase("Barrel Roll execution", typeof(BarrelRollExecutionSubPhase), callBack);
         }
 
         private void CancelBarrelRoll()
@@ -287,10 +287,11 @@ namespace SubPhases
             MovementTemplates.CurrentTemplate.gameObject.SetActive(true);
 
             Selection.ThisShip.ToggleShipStandAndPeg(true);
-            Selection.ThisShip.FinishPosition();
+            Selection.ThisShip.FinishPosition(delegate() { });
 
             Phases.FinishSubPhase(this.GetType());
             Phases.FinishSubPhase(PreviousSubPhase.GetType());
+            callBack();
         }
 
         public override void Next()

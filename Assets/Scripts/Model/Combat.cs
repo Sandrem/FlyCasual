@@ -154,7 +154,7 @@ public static partial class Combat
         Phases.StartTemporarySubPhase("Defence dice roll", typeof(SubPhases.DefenceDiceRollCombatSubPhase));
     }
 
-    public static IEnumerator CalculateAttackResults(Ship.GenericShip attacker, Ship.GenericShip defender)
+    public static void CalculateAttackResults(Ship.GenericShip attacker, Ship.GenericShip defender)
     {
         DiceRollAttack.CancelHits(DiceRollDefence.Successes);
 
@@ -163,7 +163,7 @@ public static partial class Combat
             DamageSourceEventArgs eventArgs = new DamageSourceEventArgs();
             eventArgs.Source = Attacker;
             eventArgs.DamageType = DamageTypes.ShipAttack;
-            yield return defender.SufferDamage(DiceRollAttack, eventArgs);
+            defender.SufferDamage(DiceRollAttack, eventArgs);
         }
 
         CallCombatEndEvents();
@@ -350,13 +350,13 @@ namespace SubPhases
 
         public override void Initialize()
         {
-            Game.StartCoroutine(DealDamage());
+            DealDamage();
         }
 
-        private IEnumerator DealDamage()
+        private void DealDamage()
         {
             if (DebugManager.DebugPhases) Debug.Log("Deal Damage!");
-            yield return Combat.CalculateAttackResults(Selection.ThisShip, Selection.AnotherShip);
+            Combat.CalculateAttackResults(Selection.ThisShip, Selection.AnotherShip);
 
             Phases.FinishSubPhase(this.GetType());
 

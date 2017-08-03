@@ -27,7 +27,7 @@ namespace SubPhases
                 if (!Selection.ThisShip.IsDestroyed)
                 {
                     Selection.ThisShip.GenerateAvailableActionsList();
-                    Triggers.AddTrigger("Action", TriggerTypes.OnActionSubPhaseStart, Roster.GetPlayer(Phases.CurrentPhasePlayer).PerformAction, Selection.ThisShip, Phases.CurrentPhasePlayer);
+                    Triggers.RegisterTrigger(new Trigger() { Name = "Action", TriggerOwner = Phases.CurrentPhasePlayer, triggerType = TriggerTypes.OnActionSubPhaseStart, eventHandler = Roster.GetPlayer(Phases.CurrentPhasePlayer).PerformAction });
                 }
                 else
                 {
@@ -99,10 +99,9 @@ namespace SubPhases
             {
                 AddDecision(action.Name, delegate {
                     Tooltips.EndTooltip();
-                    Selection.ThisShip.AddAlreadyExecutedAction(action);
-                    action.ActionTake();
                     Game.UI.HideNextButton();
-                    Phases.FinishSubPhase(this.GetType());
+                    Selection.ThisShip.AddAlreadyExecutedAction(action);
+                    action.ActionTake(callBack);
                 });
             }
 

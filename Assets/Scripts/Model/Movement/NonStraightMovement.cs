@@ -78,7 +78,7 @@ namespace Movement
                     GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
                     Game.Movement.isMoving = false;
 
-                    Game.StartCoroutine(FinishMovementCoroutine());
+                    FinishMovement();
                 }
                 else
                 {

@@ -18,13 +18,7 @@ namespace SubPhases
 
         public override void Initialize()
         {
-            Game.StartCoroutine(InitializeAsync());
-        }
-
-        private IEnumerator InitializeAsync()
-        {
-            yield return Phases.CallSetupPhaseTrigger();
-            Phases.FinishSubPhase(this.GetType());
+            Phases.CallSetupPhaseTrigger();
         }
 
         public override void Next()

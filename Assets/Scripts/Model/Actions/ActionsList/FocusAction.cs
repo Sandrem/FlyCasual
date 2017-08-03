@@ -19,9 +19,10 @@ namespace ActionsList
             Selection.ActiveShip.SpendToken(typeof(Tokens.FocusToken));
         }
 
-        public override void ActionTake()
+        public override void ActionTake(System.Action callBack)
         {
             Selection.ThisShip.AssignToken(new Tokens.FocusToken());
+            callBack();
         }
 
     }

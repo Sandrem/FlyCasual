@@ -25,7 +25,7 @@ namespace ActionsList
             ImageUrl = critCard.ImageUrl;
         }
 
-        public override void ActionTake()
+        public override void ActionTake(System.Action callBack)
         {
             Selection.ActiveShip = Selection.ThisShip;
 
@@ -38,7 +38,7 @@ namespace ActionsList
             {
                 Actions.SelectedCriticalHitCard = CritCard;
                 Selection.ActiveShip = Selection.ThisShip;
-                Phases.StartTemporarySubPhase("Trying to flip critical card", typeof(SubPhases.CancelCritCheckSubPhase));
+                Phases.StartTemporarySubPhase("Trying to flip critical card", typeof(SubPhases.CancelCritCheckSubPhase), callBack);
             }
             Phases.Next();
         }
@@ -70,6 +70,7 @@ namespace SubPhases
             base.CheckResults(CurrentDiceRoll);
 
             Phases.FinishSubPhase(this.GetType());
+            callBack();
         }
 
     }

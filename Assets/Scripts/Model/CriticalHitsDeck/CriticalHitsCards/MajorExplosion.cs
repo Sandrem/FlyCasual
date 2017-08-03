@@ -54,20 +54,22 @@ namespace SubPhases
                 Game.UI.ShowError("Major Explosion: Suffer 1 additional critical damage");
                 Game.UI.AddTestLogEntry("Major Explosion: Suffer 1 additional critical damage");
 
-                Game.StartCoroutine(DealDamage());
+                DealDamage();
             }
 
             Phases.FinishSubPhase(this.GetType());
         }
 
-        private IEnumerator DealDamage()
+        private void DealDamage()
         {
             DamageSourceEventArgs eventArgs = new DamageSourceEventArgs();
             eventArgs.Source = new CriticalHitCard.MajorExplosion();
             eventArgs.DamageType = DamageTypes.CriticalHitCard;
-            Triggers.AddTrigger("Draw faceup damage card", TriggerTypes.OnDamageCardIsDealt, Selection.ActiveShip.DealFaceupCritCard, Selection.ActiveShip, Selection.ActiveShip.Owner.PlayerNo, eventArgs);
-            yield return Triggers.ResolveAllTriggers(TriggerTypes.OnDamageCardIsDealt);
-            yield return Triggers.ResolveAllTriggers(TriggerTypes.OnCritDamageCardIsDealt);
+            Triggers.RegisterTrigger(new Trigger() { Name = "Draw faceup damage card", TriggerOwner = Selection.ActiveShip.Owner.PlayerNo, triggerType = TriggerTypes.OnDamageCardIsDealt, eventHandler = Selection.ActiveShip.DealFaceupCritCard });
+            //OldTriggers.AddTrigger("Draw faceup damage card", TriggerTypes.OnDamageCardIsDealt, Selection.ActiveShip.DealFaceupCritCard, Selection.ActiveShip, Selection.ActiveShip.Owner.PlayerNo, eventArgs);
+            //TODO: add callbacks
+            Triggers.ResolveTriggersByType(TriggerTypes.OnDamageCardIsDealt);
+            Triggers.ResolveTriggersByType(TriggerTypes.OnCritDamageCardIsDealt);
         }
 
     }

@@ -150,12 +150,11 @@ public static partial class Phases
         if (OnRoundStart != null) OnRoundStart();
     }
 
-    public static IEnumerator CallSetupPhaseTrigger()
+    public static void CallSetupPhaseTrigger()
     {
         if (OnSetupPhaseStart != null) OnSetupPhaseStart();
 
-        yield return Triggers.ResolveAllTriggers(TriggerTypes.OnSetupPhaseStart);
-        yield return Phases.WaitForTemporarySubPhasesFinish();
+        Triggers.ResolveTriggersByType(TriggerTypes.OnSetupPhaseStart, delegate() { FinishSubPhase(typeof(SetupStartSubPhase)); });
     }
 
     public static void CallPlanningPhaseTrigger()
@@ -175,13 +174,8 @@ public static partial class Phases
         {
             shipHolder.Value.CallOnCombatPhaseStart();
         }
-        Game.StartCoroutine(ResolveCombatTriggers());
-    }
 
-    private static IEnumerator ResolveCombatTriggers()
-    {
-        yield return Triggers.ResolveAllTriggers(TriggerTypes.OnCombatPhaseStart);
-        Phases.FinishSubPhase(typeof(CombatStartSubPhase));
+        Triggers.ResolveTriggersByType(TriggerTypes.OnCombatPhaseStart, delegate () { FinishSubPhase(typeof(CombatStartSubPhase)); });
     }
 
     public static void CallEndPhaseTrigger()
@@ -199,25 +193,19 @@ public static partial class Phases
         if (OnActionSubPhaseStart != null) OnActionSubPhaseStart();
         Selection.ThisShip.CallOnActionSubPhaseStart();
 
-        Game.StartCoroutine(ResolveActionTriggers());
-    }
-
-    private static IEnumerator ResolveActionTriggers()
-    {
-        yield return Triggers.ResolveAllTriggers(TriggerTypes.OnActionSubPhaseStart);
-        yield return Phases.WaitForTemporarySubPhasesFinish();
-        FinishSubPhase(typeof(ActionSubPhase));
+        Triggers.ResolveTriggersByType(TriggerTypes.OnActionSubPhaseStart, delegate () { FinishSubPhase(typeof(ActionSubPhase)); });
     }
 
     // TEMPORARY SUBPHASES
 
-    public static void StartTemporarySubPhase(string name, System.Type subPhaseType)
+    public static void StartTemporarySubPhase(string name, System.Type subPhaseType, Action callBack = null)
     {
         CurrentSubPhase.Pause();
         if (DebugManager.DebugPhases) Debug.Log("Temporary phase " + subPhaseType + " is started directly");
         GenericSubPhase previousSubPhase = CurrentSubPhase;
         CurrentSubPhase = (GenericSubPhase)System.Activator.CreateInstance(subPhaseType);
         CurrentSubPhase.Name = name;
+        CurrentSubPhase.callBack = callBack;
         CurrentSubPhase.PreviousSubPhase = previousSubPhase;
         CurrentSubPhase.RequiredPlayer = previousSubPhase.RequiredPlayer;
         CurrentSubPhase.RequiredPilotSkill = previousSubPhase.RequiredPilotSkill;

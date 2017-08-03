@@ -87,7 +87,7 @@ namespace Players
             if (Selection.ThisShip.GetAvailableFreeActionsList().Count > 0)
             {
                 ActionsList.GenericAction action = Selection.ThisShip.GetAvailableFreeActionsList()[0];
-                action.ActionTake();
+                action.ActionTake(delegate () { Phases.FinishSubPhase(typeof(SubPhases.ActionDecisonSubPhase)); Triggers.FinishTrigger(); });
                 Selection.ThisShip.AddAlreadyExecutedAction(action);
             }
             else

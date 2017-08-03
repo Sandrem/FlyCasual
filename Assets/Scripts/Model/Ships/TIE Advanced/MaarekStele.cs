@@ -45,8 +45,8 @@ namespace Ship
                 {
                     if ((e as DamageSourceEventArgs).DamageType == DamageTypes.ShipAttack)
                     {
-                        Debug.Log("+++ SUBSCRIBED!!!");
-                        Triggers.AddTrigger("Maarek Stele", TriggerTypes.OnFaceupCritCardReadyToBeDealt, ShowDecision, Combat.Defender, Combat.Attacker.Owner.PlayerNo);
+                        //Debug.Log("+++ SUBSCRIBED!!!");
+                        //OldTriggers.AddTrigger("Maarek Stele", TriggerTypes.OnFaceupCritCardReadyToBeDealt, ShowDecision, Combat.Defender, Combat.Attacker.Owner.PlayerNo);
                     }
                 }
             }

@@ -88,6 +88,7 @@ namespace SubPhases
             }
 
             Phases.FinishSubPhase(this.GetType());
+            Triggers.FinishTrigger();
         }
 
         private void NoDamage()

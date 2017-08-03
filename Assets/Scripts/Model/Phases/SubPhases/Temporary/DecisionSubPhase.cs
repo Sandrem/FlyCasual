@@ -35,13 +35,14 @@ namespace SubPhases
         protected string AddDecision(string name, EventHandler call)
         {
             int counter = 2;
-            while (decisions.ContainsKey(name))
+            string newName = name;
+            while (decisions.ContainsKey(newName))
             {
-                name = name + " #" + counter++;
+                newName = name + " #" + counter++;
             }
-            decisions.Add(name, call);
+            decisions.Add(newName, call);
 
-            return name;
+            return newName;
         }
 
         protected Dictionary<string, EventHandler> GetDecisions()

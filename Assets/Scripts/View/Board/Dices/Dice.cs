@@ -2,6 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum DiceKind
+{
+    Attack,
+    Defence
+}
+
 public partial class Dice
 {
 
@@ -12,10 +18,9 @@ public partial class Dice
 
     private GameObject Model;
 
-    public Dice(string type, DiceSide side = DiceSide.Unknown)
+    public Dice(DiceKind type, DiceSide side = DiceSide.Unknown)
     {
 
-        Type = type;
         Model = SpawnDice(type);
 
         Sides = new List<DiceSide>();
@@ -28,8 +33,8 @@ public partial class Dice
         Sides.Add(DiceSide.Success);
         Sides.Add(DiceSide.Success);
 
-        if (type == "attack") Sides.Add(DiceSide.Crit);
-        if (type == "defence") Sides.Add(DiceSide.Blank);
+        if (type == DiceKind.Attack) Sides.Add(DiceSide.Crit);
+        if (type == DiceKind.Defence) Sides.Add(DiceSide.Blank);
 
         if (side != DiceSide.Unknown)
         {
@@ -43,9 +48,9 @@ public partial class Dice
         }
     }
 
-    private GameObject SpawnDice(string type)
+    private GameObject SpawnDice(DiceKind type)
     {
-        GameObject prefabDiceType = (type == "attack") ? Dices.DiceAttack : Dices.DiceDefence;
+        GameObject prefabDiceType = (type == DiceKind.Attack) ? Dices.DiceAttack : Dices.DiceDefence;
         Transform diceSpawningPoint = Dices.DiceSpawningPoint;
         GameObject model = MonoBehaviour.Instantiate(prefabDiceType, diceSpawningPoint.transform.position, prefabDiceType.transform.rotation, diceSpawningPoint.transform);
         return model;

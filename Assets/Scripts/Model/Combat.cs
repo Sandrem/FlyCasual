@@ -157,16 +157,43 @@ public static partial class Combat
     public static void CalculateAttackResults(Ship.GenericShip attacker, Ship.GenericShip defender)
     {
         DiceRollAttack.CancelHits(DiceRollDefence.Successes);
+        DiceRollAttack.RemoveAllFailures();
+
+        foreach (var item in DiceRollAttack.DiceList)
+        {
+            Debug.Log(item.Side);
+        }
 
         if (DiceRollAttack.Successes != 0)
         {
-            DamageSourceEventArgs eventArgs = new DamageSourceEventArgs();
-            eventArgs.Source = Attacker;
-            eventArgs.DamageType = DamageTypes.ShipAttack;
-            defender.SufferDamage(DiceRollAttack, eventArgs);
+            /*DamageSourceEventArgs eventArgs = new DamageSourceEventArgs()
+            {
+                Source = Attacker,
+                DamageType = DamageTypes.ShipAttack
+            };*/
+            //defender.SufferDamage(DiceRollAttack, eventArgs);
+            foreach (var dice in DiceRollAttack.DiceList)
+            {
+                Triggers.RegisterTrigger(new Trigger() {
+                    Name = (dice.Side == DiceSide.Crit) ? "Suffer critical damage" : "Suffer regular damage",
+                    triggerType = (dice.Side == DiceSide.Crit) ? TriggerTypes.OnCriticalDamageIsDealt : TriggerTypes.OnRegularDamageIsDealt,
+                    TriggerOwner = defender.Owner.PlayerNo,
+                    eventHandler = (dice.Side == DiceSide.Crit) ? (EventHandler)defender.SufferCriticalDamage : (EventHandler)defender.SufferRegularDamage
+                });
+            }
         }
 
-        CallCombatEndEvents();
+        SufferRegularDamage(SufferCriticalDamage);
+    }
+
+    private static void SufferRegularDamage(Action callBack)
+    {
+        Triggers.ResolveTriggersByType(TriggerTypes.OnRegularDamageIsDealt, callBack);
+    }
+
+    private static void SufferCriticalDamage()
+    {
+        Triggers.ResolveTriggersByType(TriggerTypes.OnCriticalDamageIsDealt, CallCombatEndEvents);
     }
 
     public static void CallAttackStartEvents()

@@ -174,6 +174,20 @@ public partial class DiceRoll
         }
     }
 
+    public void RemoveAllFailures()
+    {
+        List<Dice> dices = new List<Dice>();
+        dices.AddRange(DiceList);
+
+        foreach (Dice dice in dices)
+        {
+            if ((dice.Side == DiceSide.Blank) || (dice.Side == DiceSide.Focus))
+            {
+                DiceList.Remove(dice);
+            }
+        }
+    }
+
     private bool CancelType(DiceSide type)
     {
         bool found = false;

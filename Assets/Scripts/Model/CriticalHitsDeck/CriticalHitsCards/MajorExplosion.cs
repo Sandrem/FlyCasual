@@ -62,14 +62,28 @@ namespace SubPhases
 
         private void DealDamage()
         {
-            DamageSourceEventArgs eventArgs = new DamageSourceEventArgs();
+            /*DamageSourceEventArgs eventArgs = new DamageSourceEventArgs();
             eventArgs.Source = new CriticalHitCard.MajorExplosion();
-            eventArgs.DamageType = DamageTypes.CriticalHitCard;
-            Triggers.RegisterTrigger(new Trigger() { Name = "Draw faceup damage card", TriggerOwner = Selection.ActiveShip.Owner.PlayerNo, triggerType = TriggerTypes.OnDamageCardIsDealt, eventHandler = Selection.ActiveShip.DealFaceupCritCard });
-            //OldTriggers.AddTrigger("Draw faceup damage card", TriggerTypes.OnDamageCardIsDealt, Selection.ActiveShip.DealFaceupCritCard, Selection.ActiveShip, Selection.ActiveShip.Owner.PlayerNo, eventArgs);
-            //TODO: add callbacks
-            Triggers.ResolveTriggersByType(TriggerTypes.OnDamageCardIsDealt);
-            Triggers.ResolveTriggersByType(TriggerTypes.OnCritDamageCardIsDealt);
+            eventArgs.DamageType = DamageTypes.CriticalHitCard;*/
+
+            Triggers.RegisterTrigger(new Trigger() {
+                Name = "Suffer critical damage",
+                TriggerOwner = Selection.ActiveShip.Owner.PlayerNo,
+                triggerType = TriggerTypes.OnCriticalDamageIsDealt,
+                eventHandler = Selection.ActiveShip.SufferCriticalDamage
+            });
+
+            SufferRegularDamage(SufferCriticalDamage);
+        }
+
+        private static void SufferRegularDamage(System.Action callBack)
+        {
+            Triggers.ResolveTriggersByType(TriggerTypes.OnRegularDamageIsDealt, callBack);
+        }
+
+        private static void SufferCriticalDamage()
+        {
+            Triggers.ResolveTriggersByType(TriggerTypes.OnCriticalDamageIsDealt);
         }
 
     }

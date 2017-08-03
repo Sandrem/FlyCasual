@@ -74,13 +74,33 @@ namespace SubPhases
                 Game.UI.ShowError("Console Fire: ship suffered damage");
                 Game.UI.AddTestLogEntry("Console Fire: ship suffered damage");
 
-                DamageSourceEventArgs eventArgs = new DamageSourceEventArgs();
+                /*DamageSourceEventArgs eventArgs = new DamageSourceEventArgs();
                 eventArgs.Source = new CriticalHitCard.ConsoleFire();
-                eventArgs.DamageType = DamageTypes.CriticalHitCard;
-                Selection.ActiveShip.SufferDamage(CurrentDiceRoll, eventArgs);
+                eventArgs.DamageType = DamageTypes.CriticalHitCard;*/
+
+                Triggers.RegisterTrigger(new Trigger()
+                {
+                    Name = "Suffer regular damage",
+                    triggerType = TriggerTypes.OnRegularDamageIsDealt,
+                    TriggerOwner = Selection.ActiveShip.Owner.PlayerNo,
+                    eventHandler = Selection.ActiveShip.SufferRegularDamage
+                });
+
+                SufferRegularDamage(SufferCriticalDamage);
+
             }
 
             Phases.FinishSubPhase(this.GetType());
+        }
+
+        private static void SufferRegularDamage(Action callBack)
+        {
+            Triggers.ResolveTriggersByType(TriggerTypes.OnRegularDamageIsDealt, callBack);
+        }
+
+        private static void SufferCriticalDamage()
+        {
+            Triggers.ResolveTriggersByType(TriggerTypes.OnCriticalDamageIsDealt);
         }
 
     }

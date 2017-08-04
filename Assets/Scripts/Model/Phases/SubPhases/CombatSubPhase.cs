@@ -42,6 +42,12 @@ namespace SubPhases
             if (!success)
             {
                 int nextPilotSkill = GetNextPilotSkill(RequiredPilotSkill);
+
+                if (nextPilotSkill != RequiredPilotSkill)
+                {
+                    Phases.CallCombatSubPhaseRequiredPilotSkillIsChanged();
+                }
+
                 if (nextPilotSkill != int.MaxValue)
                 {
                     success = GetNextActivation(nextPilotSkill);
@@ -55,6 +61,7 @@ namespace SubPhases
             if (success)
             {
                 if (DebugManager.DebugPhases) Debug.Log("Attack time for: " + RequiredPlayer + ", skill " + RequiredPilotSkill);
+
                 UpdateHelpInfo();
                 HighlightShips();
                 Roster.GetPlayer(RequiredPlayer).PerformAttack();

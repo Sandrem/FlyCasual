@@ -40,7 +40,9 @@ public static partial class Phases
     public static event EventHandler BeforeActionSubPhaseStart;
     public static event EventHandler OnActionSubPhaseStart;
     public static event EventHandler OnCombatPhaseStart;
+    public static event EventHandler OnCombatSubPhaseRequiredPilotSkillIsChanged;
     public static event EventHandler OnEndPhaseStart;
+    public static event EventHandler OnRoundEnd;
 
     // PHASES CONTROL
 
@@ -183,9 +185,19 @@ public static partial class Phases
         if (OnEndPhaseStart != null) OnEndPhaseStart();
     }
 
+    public static void CallRoundEndTrigger()
+    {
+        if (OnRoundEnd != null) OnRoundEnd();
+    }
+
     public static void CallBeforeActionSubPhaseTrigger()
     {
         if (BeforeActionSubPhaseStart != null) BeforeActionSubPhaseStart();
+    }
+
+    public static void CallCombatSubPhaseRequiredPilotSkillIsChanged()
+    {
+        if (OnCombatSubPhaseRequiredPilotSkillIsChanged != null) OnCombatSubPhaseRequiredPilotSkillIsChanged();
     }
 
     public static void CallOnActionSubPhaseTrigger()

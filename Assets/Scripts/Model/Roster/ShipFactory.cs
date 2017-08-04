@@ -36,7 +36,6 @@ public static class ShipFactory {
         Roster.SubscribeUpgradesPanel(newShipContainer, newShipContainer.InfoPanel);
 
         //TODO: Rework this
-        newShipContainer.OnDestroyed += Rules.WinConditions.CheckWinConditions;
         newShipContainer.AfterGotNumberOfPrimaryWeaponAttackDices += Rules.DistanceBonus.CheckAttackDistanceBonus;
         newShipContainer.AfterGotNumberOfPrimaryWeaponDefenceDices += Rules.DistanceBonus.CheckDefenceDistanceBonus;
         newShipContainer.AfterGotNumberOfPrimaryWeaponDefenceDices += Rules.AsteroidObstruction.CheckDefenceDistanceBonus;

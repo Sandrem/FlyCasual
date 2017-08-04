@@ -236,13 +236,27 @@ namespace Ship
             }
         }
 
-        public void DestroyShip()
+        public void DestroyShip(bool forced = false)
+        {
+            Game.UI.AddTestLogEntry(PilotName + "\'s ship is destroyed");
+
+            if ((Phases.CurrentSubPhase.RequiredPilotSkill == PilotSkill) && (!IsAttackPerformed) && (!forced) && (Phases.CurrentPhase.GetType() == typeof(MainPhases.CombatPhase)))
+            {
+                Phases.OnCombatSubPhaseRequiredPilotSkillIsChanged += PerformShipDestruction;
+            }
+            else
+            {
+                PerformShipDestruction();
+            }
+        }
+
+        private void PerformShipDestruction()
         {
             if (!IsDestroyed)
             {
-                Game.UI.AddTestLogEntry(PilotName + "\'s ship is destroyed");
                 Roster.DestroyShip(this.GetTag());
-                OnDestroyed();
+
+                if (OnDestroyed != null) OnDestroyed();
                 IsDestroyed = true;
             }
         }

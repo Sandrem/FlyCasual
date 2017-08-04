@@ -17,6 +17,7 @@ namespace SubPhases
         public override void Initialize()
         {
             Phases.CallEndPhaseTrigger();
+            Phases.CallRoundEndTrigger();
             Next();
         }
 

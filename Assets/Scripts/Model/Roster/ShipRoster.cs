@@ -195,11 +195,11 @@ public static partial class Roster
         int result = 0;
         if (ShipsPlayer1.Count == 0)
         {
-            return 1;
+            result += 1;
         }
         if (ShipsPlayer2.Count == 0)
         {
-            return 2;
+            result += 2;
         }
         return result;
     }

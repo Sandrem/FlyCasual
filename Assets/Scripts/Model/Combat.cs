@@ -206,8 +206,6 @@ public static partial class Combat
         Attacker.CallCombatEnd();
         Defender.CallCombatEnd();
 
-        Debug.Log(Phases.CurrentSubPhase);
-
         Phases.FinishSubPhase(typeof(SubPhases.CompareResultsSubPhase));
 
         if (Roster.NoSamePlayerAndPilotSkillNotAttacked(Selection.ThisShip))

@@ -106,28 +106,18 @@ namespace SubPhases
 
             CurrentDiceRoll.RemoveAllFailures();
 
-            foreach (var dice in CurrentDiceRoll.DiceList)
+            /*foreach (var dice in CurrentDiceRoll.DiceList)
             {
                 Triggers.RegisterTrigger(new Trigger()
                 {
                     Name = (dice.Side == DiceSide.Crit) ? "Suffer critical damage" : "Suffer regular damage",
                     triggerType = (dice.Side == DiceSide.Crit) ? TriggerTypes.OnCriticalDamageIsDealt : TriggerTypes.OnRegularDamageIsDealt,
                     TriggerOwner = Selection.ActiveShip.Owner.PlayerNo,
-                    eventHandler = (dice.Side == DiceSide.Crit) ? (System.EventHandler)Selection.ActiveShip.SufferCriticalDamage : (System.EventHandler)Selection.ActiveShip.SufferRegularDamage
+                    eventHandler = (dice.Side == DiceSide.Crit) ? (System.EventHandler)Selection.ActiveShip.SufferCriticalDamage : (System.EventHandler)Selection.ActiveShip.SufferDamage
                 });
             }
 
-            SufferRegularDamage(SufferCriticalDamage);
-        }
-
-        private static void SufferRegularDamage(System.Action callBack)
-        {
-            Triggers.ResolveTriggersByType(TriggerTypes.OnRegularDamageIsDealt, callBack);
-        }
-
-        private static void SufferCriticalDamage()
-        {
-            Triggers.ResolveTriggersByType(TriggerTypes.OnCriticalDamageIsDealt);
+            SufferRegularDamage(SufferCriticalDamage);*/
         }
 
     }

@@ -64,9 +64,10 @@ public static class CriticalHitsDeck{
         return deckSize;
     }
 
+    //old
     public static void DrawRegular(object sender, EventArgs e)
     {
-        (sender as Ship.GenericShip).SufferHullDamage();
+        //(sender as Ship.GenericShip).SufferHullDamage();
     }
 
 }

@@ -11,6 +11,7 @@ namespace Ship
  
         private List<CriticalHitCard.GenericCriticalHit> AssignedCritCards = new List<CriticalHitCard.GenericCriticalHit>();
         private List<CriticalHitCard.GenericCriticalHit> AssignedDamageCards = new List<CriticalHitCard.GenericCriticalHit>();
+        public DiceRoll AssignedDamageDiceroll;
 
         // EVENTS
 
@@ -143,49 +144,7 @@ namespace Ship
 
         // DAMAGE
 
-        /*public void SufferDamage(DiceRoll damage, DamageSourceEventArgs eventArgs)
-        {
-            /*int shieldsBefore = Shields;
-
-            Shields = Mathf.Max(Shields - damage.Successes, 0);
-
-            damage.CancelHits(shieldsBefore - Shields);
-
-            if (damage.Successes != 0)
-            {
-                foreach (Dice dice in damage.DiceList)
-                {
-                    if ((dice.Side == DiceSide.Success) || (dice.Side == DiceSide.Crit))
-                    {
-                        if (CheckFaceupCrit(dice))
-                        {
-                            Triggers.RegisterTrigger(new Trigger() { Name = "Draw faceup damage card", TriggerOwner = this.Owner.PlayerNo, triggerType = TriggerTypes.OnDamageCardIsDealt, eventHandler = DealFaceupCritCard });
-                        }
-                        else
-                        {
-                            Triggers.RegisterTrigger(new Trigger() { Name = "Draw damage card", TriggerOwner = this.Owner.PlayerNo, triggerType = TriggerTypes.OnDamageCardIsDealt, eventHandler = CriticalHitsDeck.DrawRegular });
-                        }
-                    }
-                }
-                //TODO: add callbacks
-                Triggers.ResolveTriggersByType(TriggerTypes.OnDamageCardIsDealt);
-                Triggers.ResolveTriggersByType(TriggerTypes.OnCritDamageCardIsDealt);
-            }
-            
-            CallAfterAssignedDamageIsChanged();
-        }*/
-
-        public void SufferRegularDamage(System.Object sender, EventArgs e)
-        {
-            SufferDamage();
-        }
-
-        public void SufferCriticalDamage(System.Object sender, EventArgs e)
-        {
-            SufferDamage(true);
-        }
-
-        private void SufferDamage(bool isCritical = false)
+        public void SufferDamage(object sender, EventArgs e)
         {
             if (Shields > 0)
             {
@@ -193,39 +152,62 @@ namespace Ship
             }
             else
             {
-                //TODO: trigger events
+                bool isCritical = (AssignedDamageDiceroll.RegularSuccesses == 0);
+
+                //todo: rework
                 if (CheckFaceupCrit(isCritical))
                 {
-                    Triggers.RegisterTrigger(new Trigger() {
-                        Name = "Draw faceup damage card",
-                        TriggerOwner = this.Owner.PlayerNo,
-                        triggerType = TriggerTypes.OnCriticalDamageCardIsDealt,
-                        eventHandler = DealFaceupCritCard
-                    });
+                    SufferHullDamage(true);
                 }
                 else
                 {
-                    Triggers.RegisterTrigger(new Trigger() {
-                        Name = "Draw damage card",
-                        TriggerOwner = this.Owner.PlayerNo,
-                        triggerType = TriggerTypes.OnRegularDamageCardIsDealt,
-                        eventHandler = CriticalHitsDeck.DrawRegular,
-                        sender = this
-                    });
+                    SufferHullDamage(false);
                 }
             }
 
-            CallResolveRegularDamageCards();
+            Triggers.FinishTrigger();
         }
 
-        private void CallResolveRegularDamageCards()
+        public void SufferHullDamage(bool isCritical)
         {
-            Triggers.ResolveTriggersByType(TriggerTypes.OnRegularDamageCardIsDealt, CallResolveCriticalDamageCards);
+            if (isCritical)
+            {
+                Combat.CurrentCriticalHitCard = CriticalHitsDeck.GetCritCard();
+
+                //if (DebugManager.DebugDamage) Debug.Log("+++ Crit: " + Combat.CurrentCriticalHitCard.Name);
+                //if (DebugManager.DebugDamage) Debug.Log("+++ Source: " + (e as DamageSourceEventArgs).Source);
+                //if (DebugManager.DebugDamage) Debug.Log("+++ DamageType: " + (e as DamageSourceEventArgs).DamageType);
+
+                if (OnFaceupCritCardReadyToBeDealt != null) OnFaceupCritCardReadyToBeDealt(this, ref Combat.CurrentCriticalHitCard);
+
+                if (OnFaceupCritCardReadyToBeDealtGlobal != null) OnFaceupCritCardReadyToBeDealtGlobal(this, ref Combat.CurrentCriticalHitCard);
+
+                if (OnAssignCrit != null) OnAssignCrit(this, ref Combat.CurrentCriticalHitCard);
+
+                if (Combat.CurrentCriticalHitCard != null)
+                {
+                    AssignedCritCards.Add(Combat.CurrentCriticalHitCard);
+                    Combat.CurrentCriticalHitCard.AssignCrit(this);
+                }
+            }
+            else
+            {
+                AssignedDamageCards.Add(CriticalHitsDeck.GetCritCard());
+            }
+
+            AssignedDamageDiceroll.CancelHits(1);
+
+            DecreaseHullValue();
         }
 
-        private void CallResolveCriticalDamageCards()
+        public void DecreaseHullValue()
         {
-            Triggers.ResolveTriggersByType(TriggerTypes.OnCriticalDamageCardIsDealt, CallAfterAssignedDamageIsChanged);
+            Hull--;
+            Hull = Mathf.Max(Hull, 0);
+
+            CallAfterAssignedDamageIsChanged();
+
+            IsHullDestroyedCheck();
         }
 
         public void CallAfterAssignedDamageIsChanged()
@@ -242,53 +224,8 @@ namespace Ship
         public void SufferShieldDamage()
         {
             Shields--;
+            AssignedDamageDiceroll.CancelHits(1);
             CallAfterAssignedDamageIsChanged();
-        }
-
-        public void SufferHullDamage()
-        {
-            AssignedDamageCards.Add(CriticalHitsDeck.GetCritCard());
-            Hull--;
-            Hull = Mathf.Max(Hull, 0);
-
-            CallAfterAssignedDamageIsChanged();
-
-            IsHullDestroyedCheck();
-
-            Triggers.FinishTrigger();
-        }
-
-        public void DealFaceupCritCard(object sender, EventArgs e)
-        {
-            Combat.CurrentCriticalHitCard = CriticalHitsDeck.GetCritCard();
-
-            //if (DebugManager.DebugDamage) Debug.Log("+++ Crit: " + Combat.CurrentCriticalHitCard.Name);
-            //if (DebugManager.DebugDamage) Debug.Log("+++ Source: " + (e as DamageSourceEventArgs).Source);
-            //if (DebugManager.DebugDamage) Debug.Log("+++ DamageType: " + (e as DamageSourceEventArgs).DamageType);
-
-            if (OnFaceupCritCardReadyToBeDealt != null) OnFaceupCritCardReadyToBeDealt(this, ref Combat.CurrentCriticalHitCard, e);
-
-            if (OnFaceupCritCardReadyToBeDealtGlobal != null) OnFaceupCritCardReadyToBeDealtGlobal(this, ref Combat.CurrentCriticalHitCard, e);
-
-            //TODO: add callback
-            Triggers.ResolveTriggersByType(TriggerTypes.OnFaceupCritCardReadyToBeDealt, SufferStoredCrit);
-
-            Triggers.FinishTrigger();
-        }
-
-        private void SufferStoredCrit()
-        {
-            if (OnAssignCrit != null) OnAssignCrit(this, ref Combat.CurrentCriticalHitCard);
-
-            if (Combat.CurrentCriticalHitCard != null)
-            {
-                AssignedCritCards.Add(Combat.CurrentCriticalHitCard);
-                Combat.CurrentCriticalHitCard.AssignCrit(this);
-
-                SufferHullDamage();
-            }
-
-            Triggers.FinishTrigger();
         }
 
         public void IsHullDestroyedCheck()

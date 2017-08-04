@@ -51,6 +51,23 @@ public partial class DiceRoll
         private set { }
     }
 
+    public int RegularSuccesses
+    {
+        get
+        {
+            int result = 0;
+            foreach (Dice dice in DiceList)
+            {
+                if (dice.Side == DiceSide.Success)
+                {
+                    result++;
+                }
+            }
+            return result;
+        }
+        private set { }
+    }
+
     public int Focuses
     {
         get
@@ -205,12 +222,9 @@ public partial class DiceRoll
 
     public void CancelHits(int numToCancel)
     {
-        if (numToCancel > 0)
+        for (int i = 0; i < numToCancel; i++)
         {
-            for (int i = 0; i < numToCancel; i++)
-            {
-                CancelHit();
-            }
+            CancelHit();
         }
     }
 

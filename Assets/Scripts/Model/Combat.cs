@@ -159,12 +159,7 @@ public static partial class Combat
         DiceRollAttack.CancelHits(DiceRollDefence.Successes);
         DiceRollAttack.RemoveAllFailures();
 
-        foreach (var item in DiceRollAttack.DiceList)
-        {
-            Debug.Log(item.Side);
-        }
-
-        if (DiceRollAttack.Successes != 0)
+        if (DiceRollAttack.Successes > 0)
         {
             /*DamageSourceEventArgs eventArgs = new DamageSourceEventArgs()
             {
@@ -172,28 +167,25 @@ public static partial class Combat
                 DamageType = DamageTypes.ShipAttack
             };*/
             //defender.SufferDamage(DiceRollAttack, eventArgs);
+            defender.AssignedDamageDiceroll = DiceRollAttack;
+
             foreach (var dice in DiceRollAttack.DiceList)
             {
                 Triggers.RegisterTrigger(new Trigger() {
-                    Name = (dice.Side == DiceSide.Crit) ? "Suffer critical damage" : "Suffer regular damage",
-                    triggerType = (dice.Side == DiceSide.Crit) ? TriggerTypes.OnCriticalDamageIsDealt : TriggerTypes.OnRegularDamageIsDealt,
+                    Name = "Suffer damage",
+                    triggerType = TriggerTypes.OnDamageIsDealt,
                     TriggerOwner = defender.Owner.PlayerNo,
-                    eventHandler = (dice.Side == DiceSide.Crit) ? (EventHandler)defender.SufferCriticalDamage : (EventHandler)defender.SufferRegularDamage
+                    eventHandler = defender.SufferDamage
                 });
             }
         }
 
-        SufferRegularDamage(SufferCriticalDamage);
+        SufferDamage();
     }
 
-    private static void SufferRegularDamage(Action callBack)
+    private static void SufferDamage()
     {
-        Triggers.ResolveTriggersByType(TriggerTypes.OnRegularDamageIsDealt, callBack);
-    }
-
-    private static void SufferCriticalDamage()
-    {
-        Triggers.ResolveTriggersByType(TriggerTypes.OnCriticalDamageIsDealt, CallCombatEndEvents);
+        Triggers.ResolveTriggersByType(TriggerTypes.OnDamageIsDealt, CallCombatEndEvents);
     }
 
     public static void CallAttackStartEvents()
@@ -213,6 +205,15 @@ public static partial class Combat
     {
         Attacker.CallCombatEnd();
         Defender.CallCombatEnd();
+
+        Debug.Log(Phases.CurrentSubPhase);
+
+        Phases.FinishSubPhase(typeof(SubPhases.CompareResultsSubPhase));
+
+        if (Roster.NoSamePlayerAndPilotSkillNotAttacked(Selection.ThisShip))
+        {
+            Phases.FinishSubPhase(typeof(SubPhases.CombatSubPhase));
+        }
     }
 
     public static void SelectWeapon(Upgrade.GenericSecondaryWeapon secondaryWeapon = null)
@@ -384,13 +385,6 @@ namespace SubPhases
         {
             if (DebugManager.DebugPhases) Debug.Log("Deal Damage!");
             Combat.CalculateAttackResults(Selection.ThisShip, Selection.AnotherShip);
-
-            Phases.FinishSubPhase(this.GetType());
-
-            if (Roster.NoSamePlayerAndPilotSkillNotAttacked(Selection.ThisShip))
-            {
-                Phases.FinishSubPhase(typeof(CombatSubPhase));
-            }
         }
 
         public override void Next()

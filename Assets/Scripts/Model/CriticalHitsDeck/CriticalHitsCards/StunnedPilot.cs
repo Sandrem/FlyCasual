@@ -37,7 +37,7 @@ namespace CriticalHitCard
                 eventArgs.Source = this;
                 eventArgs.DamageType = DamageTypes.CriticalHitCard;*/
 
-                Triggers.RegisterTrigger(new Trigger()
+                /*Triggers.RegisterTrigger(new Trigger()
                 {
                     Name = "Suffer regular damage",
                     triggerType = TriggerTypes.OnRegularDamageIsDealt,
@@ -45,18 +45,8 @@ namespace CriticalHitCard
                     eventHandler = Selection.ActiveShip.SufferRegularDamage
                 });
 
-                SufferRegularDamage(SufferCriticalDamage);
+                SufferRegularDamage(SufferCriticalDamage);*/
             }
-        }
-
-        private static void SufferRegularDamage(System.Action callBack)
-        {
-            Triggers.ResolveTriggersByType(TriggerTypes.OnRegularDamageIsDealt, callBack);
-        }
-
-        private static void SufferCriticalDamage()
-        {
-            Triggers.ResolveTriggersByType(TriggerTypes.OnCriticalDamageIsDealt);
         }
 
         public override void DiscardEffect(Ship.GenericShip host)

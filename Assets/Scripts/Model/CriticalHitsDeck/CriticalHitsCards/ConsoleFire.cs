@@ -78,7 +78,7 @@ namespace SubPhases
                 eventArgs.Source = new CriticalHitCard.ConsoleFire();
                 eventArgs.DamageType = DamageTypes.CriticalHitCard;*/
 
-                Triggers.RegisterTrigger(new Trigger()
+                /*Triggers.RegisterTrigger(new Trigger()
                 {
                     Name = "Suffer regular damage",
                     triggerType = TriggerTypes.OnRegularDamageIsDealt,
@@ -86,21 +86,11 @@ namespace SubPhases
                     eventHandler = Selection.ActiveShip.SufferRegularDamage
                 });
 
-                SufferRegularDamage(SufferCriticalDamage);
+                SufferRegularDamage(SufferCriticalDamage);*/
 
             }
 
             Phases.FinishSubPhase(this.GetType());
-        }
-
-        private static void SufferRegularDamage(Action callBack)
-        {
-            Triggers.ResolveTriggersByType(TriggerTypes.OnRegularDamageIsDealt, callBack);
-        }
-
-        private static void SufferCriticalDamage()
-        {
-            Triggers.ResolveTriggersByType(TriggerTypes.OnCriticalDamageIsDealt);
         }
 
     }

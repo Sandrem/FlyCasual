@@ -66,24 +66,14 @@ namespace SubPhases
             eventArgs.Source = new CriticalHitCard.MajorExplosion();
             eventArgs.DamageType = DamageTypes.CriticalHitCard;*/
 
-            Triggers.RegisterTrigger(new Trigger() {
+            /*Triggers.RegisterTrigger(new Trigger() {
                 Name = "Suffer critical damage",
                 TriggerOwner = Selection.ActiveShip.Owner.PlayerNo,
                 triggerType = TriggerTypes.OnCriticalDamageIsDealt,
                 eventHandler = Selection.ActiveShip.SufferCriticalDamage
             });
 
-            SufferRegularDamage(SufferCriticalDamage);
-        }
-
-        private static void SufferRegularDamage(System.Action callBack)
-        {
-            Triggers.ResolveTriggersByType(TriggerTypes.OnRegularDamageIsDealt, callBack);
-        }
-
-        private static void SufferCriticalDamage()
-        {
-            Triggers.ResolveTriggersByType(TriggerTypes.OnCriticalDamageIsDealt);
+            SufferRegularDamage(SufferCriticalDamage);*/
         }
 
     }

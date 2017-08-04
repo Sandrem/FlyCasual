@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Board;
 
 public class ShipPositionManager : MonoBehaviour
 {
@@ -68,11 +69,11 @@ public class ShipPositionManager : MonoBehaviour
     {
         if (Phases.CurrentPhase.GetType() == typeof(MainPhases.SetupPhase))
         {
-            StartingZone = Board.GetStartingZone(Phases.CurrentSubPhase.RequiredPlayer);
+            StartingZone = BoardManager.GetStartingZone(Phases.CurrentSubPhase.RequiredPlayer);
             isInsideStartingZone = false;
             Roster.SetRaycastTargets(false);
             Roster.AllShipsHighlightOff();
-            Board.HighlightStartingZones();
+            BoardManager.HighlightStartingZones();
             inReposition = true;
         }
     }
@@ -154,8 +155,8 @@ public class ShipPositionManager : MonoBehaviour
                 if ((ship.Value.ShipId != Selection.ThisShip.ShipId) && (ship.Value.IsSetupPerformed))
                 {
                     Vector3 newPosition = Selection.ThisShip.GetCenter();
-                    float halfOfShipStandSize = Board.BoardIntoWorld(Board.DISTANCE_1 / 2f);
-                    float oneOfShipStandSize = Board.BoardIntoWorld(Board.DISTANCE_1);
+                    float halfOfShipStandSize = BoardManager.BoardIntoWorld(BoardManager.DISTANCE_1 / 2f);
+                    float oneOfShipStandSize = BoardManager.BoardIntoWorld(BoardManager.DISTANCE_1);
 
                     Dictionary<string, float> spaceBetweenList = GetSpaceBetween(Selection.ThisShip, ship.Value);
 
@@ -296,7 +297,7 @@ public class ShipPositionManager : MonoBehaviour
         {
             Selection.ThisShip.IsSetupPerformed = true;
             Selection.DeselectThisShip();
-            Board.TurnOffStartingZones();
+            BoardManager.TurnOffStartingZones();
         }
 
         Phases.Next();

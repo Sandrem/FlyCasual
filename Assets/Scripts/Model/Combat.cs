@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using Board;
 
 public enum CombatStep
 {
@@ -50,9 +51,9 @@ public static partial class Combat
     {
         Game.UI.HideContextMenu();
 
-        bool inArc = Actions.InArcCheck(Selection.ThisShip, Selection.AnotherShip);
-        int distance = Actions.GetFiringRange(Selection.ThisShip, Selection.AnotherShip);
-        int attackTypesAreAvailable = Selection.ThisShip.GetAttackTypes(distance, inArc);
+        ShipShotDistanceInformation shotInfo = new ShipShotDistanceInformation(Selection.ThisShip, Selection.AnotherShip);
+
+        int attackTypesAreAvailable = Selection.ThisShip.GetAttackTypes(shotInfo.Range, shotInfo.InArc);
 
         if (attackTypesAreAvailable > 1)
         {
@@ -73,7 +74,7 @@ public static partial class Combat
         //TODO: CheckShot is needed before
         if (Actions.TargetIsLegal())
         {
-            Board.LaunchObstacleChecker(Selection.ThisShip, Selection.AnotherShip);
+            Board.BoardManager.LaunchObstacleChecker(Selection.ThisShip, Selection.AnotherShip);
             //Call later "Combat.PerformAttack(Selection.ThisShip, Selection.AnotherShip);"
         }
         else
@@ -206,8 +207,6 @@ public static partial class Combat
         Attacker.CallCombatEnd();
         Defender.CallCombatEnd();
 
-        Debug.Log(Phases.CurrentSubPhase);
-
         Phases.FinishSubPhase(typeof(SubPhases.CompareResultsSubPhase));
 
         if (Roster.NoSamePlayerAndPilotSkillNotAttacked(Selection.ThisShip))
@@ -262,8 +261,8 @@ namespace SubPhases
 
         public override void Prepare()
         {
-            int distance = Actions.GetFiringRange(Selection.ThisShip, Selection.AnotherShip);
-            infoText = "Choose weapon for attack (Distance " + distance + ")";
+            ShipShotDistanceInformation shotInfo = new ShipShotDistanceInformation(Selection.ThisShip, Selection.AnotherShip);
+            infoText = "Choose weapon for attack (Range " + shotInfo.Range + ")";
 
             AddDecision("Primary", PerformPrimaryAttack);
             AddDecision("Proton Torpedoes", PerformTorpedoesAttack);

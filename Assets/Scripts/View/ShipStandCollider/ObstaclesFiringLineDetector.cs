@@ -8,7 +8,7 @@ public class ObstaclesFiringLineDetector : MonoBehaviour {
     {
         if (collisionInfo.tag == "Asteroid")
         {
-            Board.FiringLineCollisions.Add(collisionInfo);
+            Board.BoardManager.FiringLineCollisions.Add(collisionInfo);
         }
     }
 

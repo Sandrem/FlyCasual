@@ -140,7 +140,8 @@ namespace SubPhases
             {
                 if (targetShip.Owner.PlayerNo != Phases.CurrentSubPhase.RequiredPlayer)
                 {
-                    MovementTemplates.ShowFiringArcRange(Selection.ThisShip, targetShip);
+                    Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(Selection.ThisShip, targetShip);
+                    MovementTemplates.ShowFiringArcRange(shotInfo);
                     result = true;
                 }
                 else

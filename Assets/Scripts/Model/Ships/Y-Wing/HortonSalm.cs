@@ -53,10 +53,10 @@ namespace PilotAbilities
         public override bool IsActionEffectAvailable()
         {
             bool result = false;
-            if ((Combat.AttackStep == CombatStep.Attack) && (Actions.GetRange(Selection.ThisShip, Selection.AnotherShip) > 1))
+            /*if ((Combat.AttackStep == CombatStep.Attack) && (Actions.GetRange(Selection.ThisShip, Selection.AnotherShip) > 1))
             {
                 result = true;
-            }
+            }*/
             return result;
         }
 

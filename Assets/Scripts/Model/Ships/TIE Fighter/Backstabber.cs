@@ -27,11 +27,11 @@ namespace Ship
 
             private void BackstabberPilotAbility(ref int diceNumber)
             {
-                if (!Actions.InArcCheck(Selection.AnotherShip, Selection.ThisShip))
+                /*if (!Actions.InArcCheck(Selection.AnotherShip, Selection.ThisShip))
                 {
                     Messages.ShowInfo("Backstabber: Additional dice");
                     diceNumber++;
-                }
+                }*/
             }
         }
     }

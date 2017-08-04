@@ -28,11 +28,11 @@ namespace Ship
 
             private void MaulerMithelPilotAbility(ref int result)
             {
-                if (Actions.GetRange(Combat.Attacker, Combat.Defender) == 1)
+                /*if (Actions.GetRange(Combat.Attacker, Combat.Defender) == 1)
                 {
                     Game.UI.ShowInfo("\"Mauler Mithel\": +1 attack die");
                     result++;
-                }
+                }*/
             }
 
         }

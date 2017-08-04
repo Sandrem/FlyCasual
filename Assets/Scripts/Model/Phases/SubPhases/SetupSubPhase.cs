@@ -104,7 +104,7 @@ namespace SubPhases
 
         public override void FinishPhase()
         {
-            Board.TurnOffStartingZones();
+            Board.BoardManager.TurnOffStartingZones();
             Phases.NextPhase();
         }
 

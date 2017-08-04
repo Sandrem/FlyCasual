@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using Board;
 
 public static class MovementTemplates {
 
@@ -96,23 +97,19 @@ public static class MovementTemplates {
 
     public static void ShowRange(Ship.GenericShip thisShip, Ship.GenericShip anotherShip)
     {
-        Vector3 vectorToTarget = thisShip.GetClosestEdgesTo(anotherShip)["another"] - thisShip.GetClosestEdgesTo(anotherShip)["this"];
-        Vector3 closestEdge = thisShip.GetClosestEdgesTo(anotherShip)["this"];
-        ShowRangeRuler(closestEdge, vectorToTarget);
+        ShowRangeRuler(new ShipDistanceInformation(thisShip, anotherShip));
     }
 
-    public static void ShowFiringArcRange(Ship.GenericShip thisShip, Ship.GenericShip anotherShip)
+    public static void ShowFiringArcRange(ShipShotDistanceInformation shotInfo)
     {
-        Vector3 closestEdge = thisShip.GetClosestFiringEdgesTo(anotherShip)["this"];
-        Vector3 vectorToTarget = Board.GetShotVectorToTarget(thisShip, anotherShip);
-        ShowRangeRuler(closestEdge, vectorToTarget);
-        if (!Actions.InArcCheck(thisShip, anotherShip)) Messages.ShowError("Out of arc");
+        ShowRangeRuler(shotInfo);
+        if (!shotInfo.InArc) Messages.ShowErrorToHuman("Out of arc!");
     }
 
-    public static void ShowRangeRuler(Vector3 position, Vector3 direction)
+    public static void ShowRangeRuler(ShipDistanceInformation shipDistanceInfo)
     {
-        Templates.Find("RangeRuler").position = position;
-        Templates.Find("RangeRuler").rotation = Quaternion.LookRotation(direction);
+        Templates.Find("RangeRuler").position = shipDistanceInfo.ThisShipNearestPoint;
+        Templates.Find("RangeRuler").rotation = Quaternion.LookRotation(shipDistanceInfo.Vector);
     }
 
     public static void CallReturnRangeRuler(Ship.GenericShip thisShip)

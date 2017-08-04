@@ -58,44 +58,6 @@ namespace Ship
             return edges;
         }
 
-        //TODO: 2 same
-
-        public Dictionary<string, Vector3> GetClosestEdgesTo(GenericShip anotherShip)
-        {
-            return GetClosestBetweenTwoPointDicts(GetStandEdgePoints(), anotherShip.GetStandEdgePoints());
-        }
-
-        public Dictionary<string, Vector3> GetClosestFiringEdgesTo(GenericShip anotherShip)
-        {
-            return GetClosestBetweenTwoPointDicts(GetStandFrontEdgePoins(), anotherShip.GetStandEdgePoints());
-        }
-
-        private Dictionary<string, Vector3> GetClosestBetweenTwoPointDicts(Dictionary<string, Vector3> dict1, Dictionary<string, Vector3> dict2)
-        {
-            KeyValuePair<string, Vector3> objThisNearest = new KeyValuePair<string, Vector3>("this", Vector3.zero);
-            KeyValuePair<string, Vector3> objAnotherNearest = new KeyValuePair<string, Vector3>("another", Vector3.zero);
-            float minDistance = float.MaxValue;
-            foreach (var objThis in dict1)
-            {
-                foreach (var objAnother in dict2)
-                {
-                    float distance = Vector3.Distance(objThis.Value, objAnother.Value);
-                    if (distance < minDistance)
-                    {
-                        minDistance = distance;
-                        objThisNearest = objThis;
-                        objAnotherNearest = objAnother;
-                    }
-                }
-            }
-            Dictionary<string, Vector3> result = new Dictionary<string, Vector3>
-            {
-                { "this", objThisNearest.Value },
-                { "another", objAnotherNearest.Value }
-            };
-            return result;
-        }
-
         public bool IsInside(Transform zone)
         {
             Vector3 zoneStart = zone.transform.TransformPoint(-0.5f, -0.5f, -0.5f);

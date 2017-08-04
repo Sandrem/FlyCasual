@@ -60,28 +60,42 @@ public class Global : MonoBehaviour {
         {
             result = new List<ShipConfiguration>()
                 {
-                    new ShipConfiguration
-                    (
-                        "Ship.XWing.LukeSkywalker",
-                        new List<string>() { "UpgradesList.R2D2", "UpgradesList.Marksmanship", "UpgradesList.ProtonTorpedoes" },
-                        PlayerNo.Player1,
-                        1
-                    ),
-                    /*new ShipConfiguration
-                    (
-                        "Ship.TIEFighter.MaulerMithel",
-                        new List<string>() { "UpgradesList.Determination" },
-                        PlayerNo.Player2,
-                        1
-                    ),*/
-                    new ShipConfiguration
-                    (
-                        "Ship.TIEFighter.NightBeast",
-                        new List<string>(),
-                        PlayerNo.Player2,
-                        1
-                    )
-                };  
+                new ShipConfiguration
+                (
+                    "Ship.XWing.RookiePilot",
+                    new List<string>(),
+                    PlayerNo.Player1,
+                    0
+                ),
+                new ShipConfiguration
+                (
+                    "Ship.TIEAdvanced.TempestSquadronPilot",
+                    new List<string>(),
+                    PlayerNo.Player2,
+                    0
+                )
+                /*new ShipConfiguration
+                (
+                    "Ship.XWing.LukeSkywalker",
+                    new List<string>() { "UpgradesList.R2D2", "UpgradesList.Marksmanship", "UpgradesList.ProtonTorpedoes" },
+                    PlayerNo.Player1,
+                    1
+                ),
+                new ShipConfiguration
+                (
+                    "Ship.TIEFighter.MaulerMithel",
+                    new List<string>() { "UpgradesList.Determination" },
+                    PlayerNo.Player2,
+                    1
+                ),
+                new ShipConfiguration
+                (
+                    "Ship.TIEFighter.NightBeast",
+                    new List<string>(),
+                    PlayerNo.Player2,
+                    1
+                )*/
+            };  
         }
         return result;
     }

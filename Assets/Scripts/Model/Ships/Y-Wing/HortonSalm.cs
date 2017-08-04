@@ -10,6 +10,8 @@ namespace Ship
         {
             public HortonSalm() : base()
             {
+                IsHidden = true;
+
                 PilotName = "Horton Salm";
                 ImageUrl = "https://vignette4.wikia.nocookie.net/xwing-miniatures/images/5/56/Horton_Salm.png";
                 IsUnique = true;

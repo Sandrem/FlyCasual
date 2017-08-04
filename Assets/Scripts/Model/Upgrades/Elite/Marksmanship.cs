@@ -11,6 +11,8 @@ namespace UpgradesList
 
         public Marksmanship() : base()
         {
+            IsHidden = true;
+
             Type = UpgradeSlot.Elite;
             Name = ShortName = "Marksmanship";
             ImageUrl = "https://vignette1.wikia.nocookie.net/xwing-miniatures/images/6/69/Marksmanship.png";

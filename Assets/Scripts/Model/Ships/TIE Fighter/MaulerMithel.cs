@@ -10,6 +10,8 @@ namespace Ship
         {
             public MaulerMithel() : base()
             {
+                IsHidden = true;
+
                 PilotName = "\"Mauler Mithel\"";
                 ImageUrl = "https://vignette2.wikia.nocookie.net/xwing-miniatures/images/e/e8/Mauler-mithel.png";
                 IsUnique = true;

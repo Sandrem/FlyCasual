@@ -14,6 +14,8 @@ namespace Ship
 
             public DarthVader() : base()
             {
+                IsHidden = true;
+
                 PilotName = "Darth Vader";
                 ImageUrl = "https://vignette1.wikia.nocookie.net/xwing-miniatures/images/f/f7/Darth_Vader.png";
                 IsUnique = true;

@@ -51,6 +51,23 @@ public partial class DiceRoll
         private set { }
     }
 
+    public int RegularSuccesses
+    {
+        get
+        {
+            int result = 0;
+            foreach (Dice dice in DiceList)
+            {
+                if (dice.Side == DiceSide.Success)
+                {
+                    result++;
+                }
+            }
+            return result;
+        }
+        private set { }
+    }
+
     public int Focuses
     {
         get
@@ -174,6 +191,20 @@ public partial class DiceRoll
         }
     }
 
+    public void RemoveAllFailures()
+    {
+        List<Dice> dices = new List<Dice>();
+        dices.AddRange(DiceList);
+
+        foreach (Dice dice in dices)
+        {
+            if ((dice.Side == DiceSide.Blank) || (dice.Side == DiceSide.Focus))
+            {
+                DiceList.Remove(dice);
+            }
+        }
+    }
+
     private bool CancelType(DiceSide type)
     {
         bool found = false;
@@ -191,12 +222,9 @@ public partial class DiceRoll
 
     public void CancelHits(int numToCancel)
     {
-        if (numToCancel > 0)
+        for (int i = 0; i < numToCancel; i++)
         {
-            for (int i = 0; i < numToCancel; i++)
-            {
-                CancelHit();
-            }
+            CancelHit();
         }
     }
 

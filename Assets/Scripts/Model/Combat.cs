@@ -157,16 +157,35 @@ public static partial class Combat
     public static void CalculateAttackResults(Ship.GenericShip attacker, Ship.GenericShip defender)
     {
         DiceRollAttack.CancelHits(DiceRollDefence.Successes);
+        DiceRollAttack.RemoveAllFailures();
 
-        if (DiceRollAttack.Successes != 0)
+        if (DiceRollAttack.Successes > 0)
         {
-            DamageSourceEventArgs eventArgs = new DamageSourceEventArgs();
-            eventArgs.Source = Attacker;
-            eventArgs.DamageType = DamageTypes.ShipAttack;
-            defender.SufferDamage(DiceRollAttack, eventArgs);
+            /*DamageSourceEventArgs eventArgs = new DamageSourceEventArgs()
+            {
+                Source = Attacker,
+                DamageType = DamageTypes.ShipAttack
+            };*/
+            //defender.SufferDamage(DiceRollAttack, eventArgs);
+            defender.AssignedDamageDiceroll = DiceRollAttack;
+
+            foreach (var dice in DiceRollAttack.DiceList)
+            {
+                Triggers.RegisterTrigger(new Trigger() {
+                    Name = "Suffer damage",
+                    triggerType = TriggerTypes.OnDamageIsDealt,
+                    TriggerOwner = defender.Owner.PlayerNo,
+                    eventHandler = defender.SufferDamage
+                });
+            }
         }
 
-        CallCombatEndEvents();
+        SufferDamage();
+    }
+
+    private static void SufferDamage()
+    {
+        Triggers.ResolveTriggersByType(TriggerTypes.OnDamageIsDealt, CallCombatEndEvents);
     }
 
     public static void CallAttackStartEvents()
@@ -186,6 +205,15 @@ public static partial class Combat
     {
         Attacker.CallCombatEnd();
         Defender.CallCombatEnd();
+
+        Debug.Log(Phases.CurrentSubPhase);
+
+        Phases.FinishSubPhase(typeof(SubPhases.CompareResultsSubPhase));
+
+        if (Roster.NoSamePlayerAndPilotSkillNotAttacked(Selection.ThisShip))
+        {
+            Phases.FinishSubPhase(typeof(SubPhases.CombatSubPhase));
+        }
     }
 
     public static void SelectWeapon(Upgrade.GenericSecondaryWeapon secondaryWeapon = null)
@@ -357,13 +385,6 @@ namespace SubPhases
         {
             if (DebugManager.DebugPhases) Debug.Log("Deal Damage!");
             Combat.CalculateAttackResults(Selection.ThisShip, Selection.AnotherShip);
-
-            Phases.FinishSubPhase(this.GetType());
-
-            if (Roster.NoSamePlayerAndPilotSkillNotAttacked(Selection.ThisShip))
-            {
-                Phases.FinishSubPhase(typeof(CombatSubPhase));
-            }
         }
 
         public override void Next()

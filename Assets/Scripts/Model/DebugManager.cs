@@ -16,7 +16,7 @@ public static class DebugManager
         set { debugPhases = value; }
     }
 
-    private static bool debugTriggers;
+    private static bool debugTriggers = true;
     public static bool DebugTriggers
     {
         get

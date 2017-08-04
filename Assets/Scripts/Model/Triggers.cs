@@ -15,8 +15,7 @@ public enum TriggerTypes
     OnActionSubPhaseStart,
     OnCombatPhaseStart,
     OnFaceupCritCardReadyToBeDealt,
-    OnDamageCardIsDealt,
-    OnCritDamageCardIsDealt
+    OnDamageIsDealt
 }
 
 public class Trigger

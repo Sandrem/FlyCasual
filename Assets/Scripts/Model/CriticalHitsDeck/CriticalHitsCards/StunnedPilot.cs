@@ -33,11 +33,19 @@ namespace CriticalHitCard
                 DiceRoll damageRoll = new DiceRoll(DiceKind.Attack, 0);
                 damageRoll.DiceList.Add(new Dice(DiceKind.Attack, DiceSide.Success));
 
-                DamageSourceEventArgs eventArgs = new DamageSourceEventArgs();
+                /*DamageSourceEventArgs eventArgs = new DamageSourceEventArgs();
                 eventArgs.Source = this;
-                eventArgs.DamageType = DamageTypes.CriticalHitCard;
+                eventArgs.DamageType = DamageTypes.CriticalHitCard;*/
 
-                host.SufferDamage(damageRoll, eventArgs);
+                /*Triggers.RegisterTrigger(new Trigger()
+                {
+                    Name = "Suffer regular damage",
+                    triggerType = TriggerTypes.OnRegularDamageIsDealt,
+                    TriggerOwner = Selection.ActiveShip.Owner.PlayerNo,
+                    eventHandler = Selection.ActiveShip.SufferRegularDamage
+                });
+
+                SufferRegularDamage(SufferCriticalDamage);*/
             }
         }
 

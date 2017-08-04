@@ -98,11 +98,26 @@ namespace SubPhases
 
         private void SufferDamage()
         {
-            DamageSourceEventArgs eventArgs = new DamageSourceEventArgs();
+            /*DamageSourceEventArgs eventArgs = new DamageSourceEventArgs();
             eventArgs.Source = null;
-            eventArgs.DamageType = DamageTypes.ObstacleCollision;
+            eventArgs.DamageType = DamageTypes.ObstacleCollision;*/
 
-            Selection.ActiveShip.SufferDamage(CurrentDiceRoll, eventArgs);
+            //Selection.ActiveShip.SufferDamage(CurrentDiceRoll, eventArgs);
+
+            CurrentDiceRoll.RemoveAllFailures();
+
+            /*foreach (var dice in CurrentDiceRoll.DiceList)
+            {
+                Triggers.RegisterTrigger(new Trigger()
+                {
+                    Name = (dice.Side == DiceSide.Crit) ? "Suffer critical damage" : "Suffer regular damage",
+                    triggerType = (dice.Side == DiceSide.Crit) ? TriggerTypes.OnCriticalDamageIsDealt : TriggerTypes.OnRegularDamageIsDealt,
+                    TriggerOwner = Selection.ActiveShip.Owner.PlayerNo,
+                    eventHandler = (dice.Side == DiceSide.Crit) ? (System.EventHandler)Selection.ActiveShip.SufferCriticalDamage : (System.EventHandler)Selection.ActiveShip.SufferDamage
+                });
+            }
+
+            SufferRegularDamage(SufferCriticalDamage);*/
         }
 
     }

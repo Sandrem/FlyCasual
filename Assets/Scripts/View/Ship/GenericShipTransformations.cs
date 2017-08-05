@@ -50,10 +50,10 @@ namespace Ship
         public Dictionary<string, float> GetBounds()
         {
             List<Vector3> edgesList = new List<Vector3>();
-            edgesList.Add(Model.transform.TransformPoint(standEdgePoins["RF"]));
-            edgesList.Add(Model.transform.TransformPoint(standEdgePoins["LF"]));
-            edgesList.Add(Model.transform.TransformPoint(standEdgePoins["RB"]));
-            edgesList.Add(Model.transform.TransformPoint(standEdgePoins["LB"]));
+            edgesList.Add(Model.transform.TransformPoint(standEdgePoints["RF"]));
+            edgesList.Add(Model.transform.TransformPoint(standEdgePoints["LF"]));
+            edgesList.Add(Model.transform.TransformPoint(standEdgePoints["RB"]));
+            edgesList.Add(Model.transform.TransformPoint(standEdgePoints["LB"]));
 
             Dictionary<string, float> bounds = new Dictionary<string, float>();
             bounds.Add("minX", Mathf.Min(edgesList[0].x, edgesList[1].x, edgesList[2].x, edgesList[3].x));

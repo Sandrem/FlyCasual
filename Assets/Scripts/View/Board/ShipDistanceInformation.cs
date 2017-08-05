@@ -6,8 +6,11 @@ namespace Board
 
     public class ShipDistanceInformation
     {
+        protected GenericShip thisShip;
+        protected GenericShip anotherShip;
+
         //TODO: REWORK
-        private static readonly float DISTANCE_1 = 3.28f / 3f;
+        protected static readonly float DISTANCE_1 = 3.28f / 3f;
 
         public Vector3 ThisShipNearestPoint { get; protected set; }
         public Vector3 AnotherShipNearestPoint { get; protected set; }
@@ -23,16 +26,18 @@ namespace Board
 
         public ShipDistanceInformation(GenericShip thisShip, GenericShip anotherShip)
         {
-            GetClosestPoints(thisShip, anotherShip);
+            this.thisShip = thisShip;
+            this.anotherShip = anotherShip;
+            CalculateFields();
         }
 
-        protected virtual void GetClosestPoints(GenericShip thisShip, GenericShip anotherShip)
+        protected virtual void CalculateFields()
         {
             Distance = float.MaxValue;
 
-            foreach (var objThis in thisShip.GetStandEdgePoints())
+            foreach (var objThis in thisShip.GetStandPoints())
             {
-                foreach (var objAnother in anotherShip.GetStandEdgePoints())
+                foreach (var objAnother in anotherShip.GetStandPoints())
                 {
                     float distance = Vector3.Distance(objThis.Value, objAnother.Value);
                     if (distance < Distance)

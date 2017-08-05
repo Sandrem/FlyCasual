@@ -23,8 +23,6 @@ namespace Board
 
         private static int updatesCount = 0;
 
-        public static List<Collider> FiringLineCollisions = new List<Collider>();
-
         static BoardManager()
         {
             Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
@@ -105,54 +103,6 @@ namespace Board
         public static Transform GetStartingZone(Players.PlayerNo playerNo)
         {
             return (playerNo == Players.PlayerNo.Player1) ? StartingZone1.transform : StartingZone2.transform;
-        }
-
-        //TODO: move to new class
-        public static void LaunchObstacleChecker(Ship.GenericShip thisShip, Ship.GenericShip anotherShip)
-        {
-            if (DebugManager.DebugBoard) Debug.Log("Obstacle checker is launched: " + thisShip + " vs " + anotherShip);
-
-            FiringLineCollisions = new List<Collider>();
-
-            ShipShotDistanceInformation shotInfo = new ShipShotDistanceInformation(thisShip, anotherShip);
-
-            GameObject FiringLine = Game.PrefabsList.BoardTransform.Find("FiringLine").gameObject;
-            FiringLine.transform.position = shotInfo.ThisShipNearestPoint; ;
-            FiringLine.transform.rotation = Quaternion.LookRotation(shotInfo.Vector);
-            FiringLine.transform.localScale = new Vector3(1, 1, Vector3.Distance(shotInfo.ThisShipNearestPoint, shotInfo.AnotherShipNearestPoint) * SIZE_ANY / 100);
-            FiringLine.SetActive(true);
-
-            Game.Movement.FuncsToUpdate.Add(UpdateColisionDetection);
-        }
-
-        private static bool UpdateColisionDetection()
-        {
-            bool isFinished = false;
-
-            if (updatesCount > 1)
-            {
-                GetResults();
-                isFinished = true;
-            }
-            else
-            {
-                updatesCount++;
-            }
-
-            return isFinished;
-        }
-
-        private static void GetResults()
-        {
-            HideFiringLine();
-            if (DebugManager.DebugAI) Debug.Log("Obstacle checker ended, call perform attack: " + Selection.ThisShip + " vs " + Selection.AnotherShip);
-            Combat.PerformAttack(Selection.ThisShip, Selection.AnotherShip);
-        }
-
-        public static void HideFiringLine()
-        {
-            GameObject FiringLine = Game.PrefabsList.BoardTransform.Find("FiringLine").gameObject;
-            FiringLine.SetActive(false);
         }
 
         public static bool ShipStandIsInside(GameObject shipObject, Transform zone)

@@ -7,7 +7,7 @@ namespace Ship
     public partial class GenericShip
     {
 
-        private const float HALF_OF_FIRINGARC_SIZE = 0.44f;
+        private const float HALF_OF_FIRINGARC_SIZE = 0.425f;
         private Transform shipAllParts;
         private Transform modelCenter;
 
@@ -18,7 +18,7 @@ namespace Ship
             modelCenter = shipAllParts.Find("ShipModels/" + Type + "/ModelCenter").transform;
             SetRaycastTarget(true);
             SetSpotlightMask();
-            setShipBaseEdges();
+            SetShipBaseEdges();
         }
 
         public GameObject CreateShipModel(Vector3 position)

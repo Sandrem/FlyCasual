@@ -33,6 +33,8 @@ public static partial class Combat
     public static DiceRoll DiceRollDefence;
     public static DiceRoll CurentDiceRoll;
 
+    public static bool IsObstructed;
+
     public static CombatStep AttackStep = CombatStep.None;
 
     public static Ship.GenericShip Attacker;
@@ -71,11 +73,10 @@ public static partial class Combat
         Game.UI.HideContextMenu();
         MovementTemplates.ReturnRangeRuler();
 
-        //TODO: CheckShot is needed before
         if (Actions.TargetIsLegal())
         {
-            Board.BoardManager.LaunchObstacleChecker(Selection.ThisShip, Selection.AnotherShip);
-            //Call later "Combat.PerformAttack(Selection.ThisShip, Selection.AnotherShip);"
+            ShipShotDistanceInformation shotInfo = new ShipShotDistanceInformation(Selection.ThisShip, Selection.AnotherShip);
+            shotInfo.CheckFirelineCollisions(CallPerformAttack);
         }
         else
         {
@@ -101,6 +102,11 @@ public static partial class Combat
         InitializeAttack();
 
         AttackDiceRoll();
+    }
+
+    public static void CallPerformAttack()
+    {
+        Combat.PerformAttack(Selection.ThisShip, Selection.AnotherShip);
     }
 
     private static void InitializeAttack()

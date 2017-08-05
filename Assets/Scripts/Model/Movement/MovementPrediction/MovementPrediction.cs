@@ -28,8 +28,8 @@ namespace Movement
             currentMovement = movement;
             Selection.ThisShip.ToggleColliders(false);
             GenerateShipStands();
-            GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
 
+            GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
             Game.Movement.FuncsToUpdate.Add(UpdateColisionDetection);
         }
 

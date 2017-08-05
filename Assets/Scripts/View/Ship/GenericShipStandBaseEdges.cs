@@ -7,50 +7,78 @@ namespace Ship
     public partial class GenericShip
     {
 
-        private Dictionary<string, Vector3> standFrontEdgePoins = new Dictionary<string, Vector3>();
-        private Dictionary<string, Vector3> standEdgePoins = new Dictionary<string, Vector3>();
+        private Dictionary<string, Vector3> standFrontEdgePoints = new Dictionary<string, Vector3>();
+        private Dictionary<string, Vector3> standFrontPoints = new Dictionary<string, Vector3>();
+        private Dictionary<string, Vector3> standEdgePoints = new Dictionary<string, Vector3>();
+        private Dictionary<string, Vector3> standPoints = new Dictionary<string, Vector3>();
         private const float HALF_OF_SHIPSTAND_SIZE = 0.5f;
         private const float SHIPSTAND_SIZE = 1f;
 
-        private void setShipBaseEdges()
+        private void SetShipBaseEdges()
         {
-            standFrontEdgePoins.Add("LF", new Vector3(-HALF_OF_FIRINGARC_SIZE, 0f, 0));
-            standFrontEdgePoins.Add("CF", Vector3.zero);
-            standFrontEdgePoins.Add("RF", new Vector3(HALF_OF_FIRINGARC_SIZE, 0f, 0));
+            int PRECISION = 20;
 
-            standEdgePoins.Add("LF", new Vector3(-HALF_OF_SHIPSTAND_SIZE, 0f, 0));
-            standEdgePoins.Add("CF", Vector3.zero);
-            standEdgePoins.Add("RF", new Vector3(HALF_OF_SHIPSTAND_SIZE, 0f, 0));
-            standEdgePoins.Add("LB", new Vector3(-HALF_OF_SHIPSTAND_SIZE, 0f, -2 * HALF_OF_SHIPSTAND_SIZE));
-            standEdgePoins.Add("CB", new Vector3(0, 0, -2 * HALF_OF_SHIPSTAND_SIZE));
-            standEdgePoins.Add("RB", new Vector3(HALF_OF_SHIPSTAND_SIZE, 0f, -2 * HALF_OF_SHIPSTAND_SIZE));
+            standFrontEdgePoints.Add("LF", new Vector3(-HALF_OF_FIRINGARC_SIZE, 0f, 0f));
+            standFrontEdgePoints.Add("CF", Vector3.zero);
+            standFrontEdgePoints.Add("RF", new Vector3(HALF_OF_FIRINGARC_SIZE, 0f, 0f));
+
+            standFrontPoints = new Dictionary<string, Vector3>(standFrontEdgePoints);
+            for (int i = 1; i < PRECISION+1; i++)
+            {
+                standFrontPoints.Add("F" + i, new Vector3( (float)i*((2 * HALF_OF_FIRINGARC_SIZE) / (float)(PRECISION + 1)) - HALF_OF_FIRINGARC_SIZE, 0f, 0f));
+            }
+
+            standEdgePoints.Add("LF", new Vector3(-HALF_OF_SHIPSTAND_SIZE, 0f, 0f));
+            standEdgePoints.Add("CF", Vector3.zero);
+            standEdgePoints.Add("RF", new Vector3(HALF_OF_SHIPSTAND_SIZE, 0f, 0f));
+            standEdgePoints.Add("LB", new Vector3(-HALF_OF_SHIPSTAND_SIZE, 0f, -2 * HALF_OF_SHIPSTAND_SIZE));
+            standEdgePoints.Add("CB", new Vector3(0f, 0f, -2 * HALF_OF_SHIPSTAND_SIZE));
+            standEdgePoints.Add("RB", new Vector3(HALF_OF_SHIPSTAND_SIZE, 0f, -2 * HALF_OF_SHIPSTAND_SIZE));
+
+            standPoints = new Dictionary<string, Vector3>(standEdgePoints);
+            for (int i = 1; i < PRECISION+1; i++)
+            {
+                standPoints.Add("F" + i, new Vector3((float)i * ((2* HALF_OF_SHIPSTAND_SIZE) / (float)(PRECISION + 1)) - HALF_OF_SHIPSTAND_SIZE, 0f, 0f));
+                standPoints.Add("B" + i, new Vector3((float)i * ((2* HALF_OF_SHIPSTAND_SIZE) / (float)(PRECISION + 1)) - HALF_OF_SHIPSTAND_SIZE, 0f, -2 * HALF_OF_SHIPSTAND_SIZE));
+                standPoints.Add("L" + i, new Vector3(-HALF_OF_SHIPSTAND_SIZE, 0f, -(float)i * ((2* HALF_OF_SHIPSTAND_SIZE) / (float)(PRECISION + 1))));
+                standPoints.Add("R" + i, new Vector3( HALF_OF_SHIPSTAND_SIZE, 0f, -(float)i * ((2* HALF_OF_SHIPSTAND_SIZE) / (float)(PRECISION + 1))));
+            }
         }
 
         public Vector3 GetCentralFrontPoint()
         {
-            return Model.transform.Find("RotationHelper").TransformPoint(standEdgePoins["CF"]);
+            return Model.transform.Find("RotationHelper").TransformPoint(standEdgePoints["CF"]);
         }
 
         public Vector3 GetCentralBackPoint()
         {
-            return Model.transform.Find("RotationHelper").TransformPoint(standEdgePoins["CB"]);
+            return Model.transform.Find("RotationHelper").TransformPoint(standEdgePoints["CB"]);
         }
 
         public Dictionary<string, Vector3> GetStandEdgePoints()
         {
-            Dictionary<string, Vector3> edges = new Dictionary<string, Vector3>();
-            foreach (var obj in standEdgePoins)
-            {
-                Vector3 globalPosition = Model.transform.TransformPoint(obj.Value);
-                edges.Add(obj.Key, globalPosition);
-            }
-            return edges;
+            return GetPoints(standEdgePoints);
         }
 
         public Dictionary<string, Vector3> GetStandFrontEdgePoins()
         {
+            return GetPoints(standFrontEdgePoints);
+        }
+
+        public Dictionary<string, Vector3> GetStandPoints()
+        {
+            return GetPoints(standPoints);
+        }
+
+        public Dictionary<string, Vector3> GetStandFrontPoins()
+        {
+            return GetPoints(standFrontPoints);
+        }
+
+        private Dictionary<string, Vector3> GetPoints(Dictionary<string, Vector3> points)
+        {
             Dictionary<string, Vector3> edges = new Dictionary<string, Vector3>();
-            foreach (var obj in standFrontEdgePoins)
+            foreach (var obj in points)
             {
                 Vector3 globalPosition = Model.transform.TransformPoint(obj.Value);
                 edges.Add(obj.Key, globalPosition);

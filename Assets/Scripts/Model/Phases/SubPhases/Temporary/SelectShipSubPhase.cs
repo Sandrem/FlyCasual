@@ -57,14 +57,14 @@ namespace SubPhases
 
             if (isFriendlyAllowed)
             {
-                Board.ShipDistanceInformation distanceInfo = new Board.ShipDistanceInformation(Selection.ActiveShip, ship);
+                Board.ShipDistanceInformation distanceInfo = new Board.ShipDistanceInformation(Selection.ThisShip, ship);
                 int range = distanceInfo.Range;
 
                 if ((range >= minRange) && (range <= maxRange))
                 {
                     TargetShip = ship;
                     Game.UI.HideNextButton();
-                    MovementTemplates.ShowRange(Selection.ActiveShip, TargetShip);
+                    MovementTemplates.ShowRange(Selection.ThisShip, ship);
                     finishAction.Invoke();
                     Phases.FinishSubPhase(this.GetType());
                     callBack();
@@ -89,14 +89,14 @@ namespace SubPhases
 
             if (isEnemyAllowed)
             {
-                Board.ShipDistanceInformation distanceInfo = new Board.ShipDistanceInformation(Selection.ActiveShip, anotherShip);
+                Board.ShipDistanceInformation distanceInfo = new Board.ShipDistanceInformation(Selection.ThisShip, anotherShip);
                 int range = distanceInfo.Range;
 
                 if ( (range >= minRange) && (range <= maxRange))
                 {
                     Game.UI.HideNextButton();
                     TargetShip = anotherShip;
-                    MovementTemplates.ShowRange(Selection.ThisShip, TargetShip);
+                    MovementTemplates.ShowRange(Selection.ThisShip, anotherShip);
                     finishAction.Invoke();
                     Phases.FinishSubPhase(this.GetType());
                     callBack();

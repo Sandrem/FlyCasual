@@ -179,7 +179,8 @@ namespace Players
 
                 if (inArcAndRange)
                 {
-                    if ((Actions.GetFiringRange(thisShip, shipHolder.Value) > 3) || (!Actions.InArcCheck(thisShip, shipHolder.Value)))
+                    Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(thisShip, shipHolder.Value);
+                    if ((shotInfo.Range > 3) || (!shotInfo.InArc))
                     {
                         continue;
                     }

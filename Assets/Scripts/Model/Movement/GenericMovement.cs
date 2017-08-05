@@ -185,7 +185,7 @@ namespace Movement
         //TODO: Rework
         protected float GetMovement1()
         {
-            float result = Board.GetBoard().TransformVector(new Vector3(4, 0, 0)).x;
+            float result = Board.BoardManager.GetBoard().TransformVector(new Vector3(4, 0, 0)).x;
             return result;
         }
 

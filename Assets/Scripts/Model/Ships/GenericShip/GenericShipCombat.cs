@@ -270,11 +270,11 @@ namespace Ship
 
         //Todo: Rework
 
-        public int GetAttackTypes(int distance, bool inArc)
+        public int GetAttackTypes(int range, bool inArc)
         {
             int result = 0;
 
-            if (InPrimaryWeaponFireZone(distance, inArc)) result++;
+            if (InPrimaryWeaponFireZone(range, inArc)) result++;
 
             foreach (var upgrade in InstalledUpgrades)
             {
@@ -290,16 +290,15 @@ namespace Ship
         public bool InPrimaryWeaponFireZone(GenericShip anotherShip)
         {
             bool result = true;
-            int distance = Actions.GetFiringRange(this, anotherShip);
-            bool inArc = Actions.InArcCheck(this, anotherShip);
-            result = InPrimaryWeaponFireZone(distance, inArc);
+            Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(this, anotherShip);
+            result = InPrimaryWeaponFireZone(shotInfo.Range, shotInfo.InArc);
             return result;
         }
 
-        public bool InPrimaryWeaponFireZone(int distance, bool inArc)
+        public bool InPrimaryWeaponFireZone(int range, bool inArc)
         {
             bool result = true;
-            if (distance > 3) return false;
+            if (range > 3) return false;
             if (!inArc) return false;
             return result;
         }

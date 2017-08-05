@@ -54,9 +54,12 @@ namespace SubPhases
         public override bool ThisShipCanBeSelected(Ship.GenericShip ship)
         {
             bool result = false;
+
             if (isFriendlyAllowed)
             {
-                int range = Actions.GetRange(Selection.ActiveShip, ship);
+                Board.ShipDistanceInformation distanceInfo = new Board.ShipDistanceInformation(Selection.ActiveShip, ship);
+                int range = distanceInfo.Range;
+
                 if ((range >= minRange) && (range <= maxRange))
                 {
                     TargetShip = ship;
@@ -86,8 +89,10 @@ namespace SubPhases
 
             if (isEnemyAllowed)
             {
-                int range = Actions.GetRange(Selection.ThisShip, anotherShip);
-                if( (range >= minRange) && (range <= maxRange))
+                Board.ShipDistanceInformation distanceInfo = new Board.ShipDistanceInformation(Selection.ActiveShip, anotherShip);
+                int range = distanceInfo.Range;
+
+                if ( (range >= minRange) && (range <= maxRange))
                 {
                     Game.UI.HideNextButton();
                     TargetShip = anotherShip;

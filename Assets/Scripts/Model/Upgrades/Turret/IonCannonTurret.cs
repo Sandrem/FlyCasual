@@ -35,9 +35,10 @@ namespace UpgradesList
 
             if (isDiscarded) return false;
 
-            int distance = Actions.GetRange(Host, anotherShip);
-            if (distance < MinRange) return false;
-            if (distance > MaxRange) return false;
+            Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(Host, anotherShip);
+            int range = shotInfo.Range;
+            if (range < MinRange) return false;
+            if (range > MaxRange) return false;
 
             return result;
         }

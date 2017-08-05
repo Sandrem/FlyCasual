@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using Board;
 
 public enum CombatStep
 {
@@ -32,6 +33,8 @@ public static partial class Combat
     public static DiceRoll DiceRollDefence;
     public static DiceRoll CurentDiceRoll;
 
+    public static bool IsObstructed;
+
     public static CombatStep AttackStep = CombatStep.None;
 
     public static Ship.GenericShip Attacker;
@@ -50,9 +53,9 @@ public static partial class Combat
     {
         Game.UI.HideContextMenu();
 
-        bool inArc = Actions.InArcCheck(Selection.ThisShip, Selection.AnotherShip);
-        int distance = Actions.GetFiringRange(Selection.ThisShip, Selection.AnotherShip);
-        int attackTypesAreAvailable = Selection.ThisShip.GetAttackTypes(distance, inArc);
+        ShipShotDistanceInformation shotInfo = new ShipShotDistanceInformation(Selection.ThisShip, Selection.AnotherShip);
+
+        int attackTypesAreAvailable = Selection.ThisShip.GetAttackTypes(shotInfo.Range, shotInfo.InArc);
 
         if (attackTypesAreAvailable > 1)
         {
@@ -70,11 +73,10 @@ public static partial class Combat
         Game.UI.HideContextMenu();
         MovementTemplates.ReturnRangeRuler();
 
-        //TODO: CheckShot is needed before
         if (Actions.TargetIsLegal())
         {
-            Board.LaunchObstacleChecker(Selection.ThisShip, Selection.AnotherShip);
-            //Call later "Combat.PerformAttack(Selection.ThisShip, Selection.AnotherShip);"
+            ShipShotDistanceInformation shotInfo = new ShipShotDistanceInformation(Selection.ThisShip, Selection.AnotherShip);
+            shotInfo.CheckFirelineCollisions(CallPerformAttack);
         }
         else
         {
@@ -100,6 +102,11 @@ public static partial class Combat
         InitializeAttack();
 
         AttackDiceRoll();
+    }
+
+    public static void CallPerformAttack()
+    {
+        Combat.PerformAttack(Selection.ThisShip, Selection.AnotherShip);
     }
 
     private static void InitializeAttack()
@@ -260,8 +267,8 @@ namespace SubPhases
 
         public override void Prepare()
         {
-            int distance = Actions.GetFiringRange(Selection.ThisShip, Selection.AnotherShip);
-            infoText = "Choose weapon for attack (Distance " + distance + ")";
+            ShipShotDistanceInformation shotInfo = new ShipShotDistanceInformation(Selection.ThisShip, Selection.AnotherShip);
+            infoText = "Choose weapon for attack (Range " + shotInfo.Range + ")";
 
             AddDecision("Primary", PerformPrimaryAttack);
             AddDecision("Proton Torpedoes", PerformTorpedoesAttack);

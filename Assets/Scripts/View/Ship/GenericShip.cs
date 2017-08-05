@@ -7,7 +7,7 @@ namespace Ship
     public partial class GenericShip
     {
 
-        private const float HALF_OF_FIRINGARC_SIZE = 0.44f;
+        private const float HALF_OF_FIRINGARC_SIZE = 0.425f;
         private Transform shipAllParts;
         private Transform modelCenter;
 
@@ -18,7 +18,7 @@ namespace Ship
             modelCenter = shipAllParts.Find("ShipModels/" + Type + "/ModelCenter").transform;
             SetRaycastTarget(true);
             SetSpotlightMask();
-            setShipBaseEdges();
+            SetShipBaseEdges();
         }
 
         public GameObject CreateShipModel(Vector3 position)
@@ -28,7 +28,7 @@ namespace Ship
 
             position = new Vector3(0, 0, (Owner.PlayerNo == Players.PlayerNo.Player1) ? -4 : 4);
 
-            GameObject newShip = MonoBehaviour.Instantiate(Game.PrefabsList.ShipModel, position + new Vector3(0, 0.03f, 0), Quaternion.Euler(facing), Board.GetBoard());
+            GameObject newShip = MonoBehaviour.Instantiate(Game.PrefabsList.ShipModel, position + new Vector3(0, 0.03f, 0), Quaternion.Euler(facing), Board.BoardManager.GetBoard());
             newShip.transform.Find("RotationHelper/RotationHelper2/ShipAllParts/ShipModels/" + Type).gameObject.SetActive(true);
 
             ShipId = ShipFactory.lastId;

@@ -42,11 +42,13 @@ namespace UpgradesList
 
             if (isDiscarded) return false;
 
-            int distance = Actions.GetFiringRange(Host, anotherShip);
-            if (distance < MinRange) return false;
-            if (distance > MaxRange) return false;
+            Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(Host, anotherShip);
 
-            if (!Actions.InArcCheck(Host, anotherShip)) return false;
+            int range = shotInfo.Range;
+            if (range < MinRange) return false;
+            if (range > MaxRange) return false;
+
+            if (!shotInfo.InArc) return false;
 
             if (!Actions.HasTargetLockOn(Host, anotherShip)) return false;
 

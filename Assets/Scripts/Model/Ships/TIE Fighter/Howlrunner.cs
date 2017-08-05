@@ -50,7 +50,7 @@ namespace ActionsList
         public override bool IsActionEffectAvailable()
         {
             bool result = false;
-            if (Combat.AttackStep == CombatStep.Attack)
+            /*if (Combat.AttackStep == CombatStep.Attack)
             {
                 if (Combat.SecondaryWeapon == null)
                 {
@@ -74,7 +74,7 @@ namespace ActionsList
                         }
                     }
                 }
-            }
+            }*/
 
             return result;
         }

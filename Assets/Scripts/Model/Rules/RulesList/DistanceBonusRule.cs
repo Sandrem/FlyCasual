@@ -14,7 +14,8 @@ namespace RulesList
 
         public void CheckAttackDistanceBonus(ref int result)
         {
-            if (Actions.GetRange(Combat.Attacker, Combat.Defender) == 1)
+            Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(Combat.Attacker, Combat.Defender);
+            if (shotInfo.Range == 1)
             {
                 Game.UI.ShowInfo("Distance bonus: +1 attack dice");
                 result++;
@@ -23,7 +24,8 @@ namespace RulesList
 
         public void CheckDefenceDistanceBonus(ref int result)
         {
-            if (Actions.GetRange(Combat.Attacker, Combat.Defender) == 3)
+            Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(Combat.Attacker, Combat.Defender);
+            if (shotInfo.Range == 3)
             {
                 Game.UI.ShowInfo("Distance bonus: +1 defence dice");
                 result++;

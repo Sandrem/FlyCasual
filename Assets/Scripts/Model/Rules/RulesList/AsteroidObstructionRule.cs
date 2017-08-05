@@ -1,5 +1,4 @@
-﻿
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace RulesList
 {
@@ -14,16 +13,11 @@ namespace RulesList
 
         public void CheckDefenceDistanceBonus(ref int result)
         {
-            int obstructions = Board.FiringLineCollisions.Count;
-            if (obstructions > 0)
+            if (Combat.IsObstructed)
             {
-                string notification = "Obstacle obstruction bonus: +" + obstructions + " defence dice";
-                if (obstructions > 1)
-                {
-                    notification = notification + "s";
-                }
+                string notification = "Obstruction bonus: +1 defence dice";
                 Game.UI.ShowInfo(notification);
-                result = result + obstructions;
+                result++;
             }
         }
 

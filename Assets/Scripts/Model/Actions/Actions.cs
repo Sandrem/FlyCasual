@@ -2,14 +2,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-//TODO: move to view
-using UnityEngine.UI;
+using Board;
 
 public static partial class Actions {
 
     private static GameManagerScript Game;
 
-    private static readonly float DISTANCE_1 = 3.28f / 3f;
     private static Dictionary<char, bool> Letters = new Dictionary<char, bool>();
 
     public static CriticalHitCard.GenericCriticalHit SelectedCriticalHitCard;
@@ -29,7 +27,8 @@ public static partial class Actions {
 
         if (Letters.Count == 0) InitializeTargetLockLetters();
 
-        if (GetRange(thisShip, targetShip) < 4)
+        ShipDistanceInformation distanceInfo = new ShipDistanceInformation(thisShip, targetShip);
+        if (distanceInfo.Range < 4)
         {
             Tokens.GenericToken existingBlueToken = thisShip.GetToken(typeof(Tokens.BlueTargetLockToken), '*');
             if (existingBlueToken != null)
@@ -109,35 +108,6 @@ public static partial class Actions {
         Letters[takenLetter] = true;
     }
 
-    public static bool InArcCheck(Ship.GenericShip thisShip, Ship.GenericShip anotherShip) {
-        //TODO: Show Shortest Distance
-        //TODO: Adapt DistancRules to show how close to outOfArc;
-
-        Vector3 vectorFacing = thisShip.GetFrontFacing();
-
-        bool inArc = false;
-
-        foreach (var objThis in thisShip.GetStandFrontEdgePoins())
-        {
-            foreach (var objAnother in anotherShip.GetStandEdgePoints())
-            {
-
-                Vector3 vectorToTarget = objAnother.Value - objThis.Value;
-                float angle = Vector3.Angle(vectorToTarget, vectorFacing);
-                //Debug.Log ("Angle between " + objThis.Key + " and " + objAnother.Key + " is: " + angle.ToString ());
-
-                if (angle <= 40)
-                {
-                    inArc = true;
-                    //TODO: Comment shortcut to check all variants
-                    //return inArc;
-                }
-            }
-        }
-
-        return inArc;
-    }
-
     public static float GetVector(Ship.GenericShip thisShip, Ship.GenericShip anotherShip)
     {
         float result = 0;
@@ -159,7 +129,8 @@ public static partial class Actions {
     {
         bool result = false;
 
-        int range = GetRange(thisShip, anotherShip);
+        ShipDistanceInformation distanceInfo = new ShipDistanceInformation(thisShip, anotherShip);
+        int range = distanceInfo.Range;
         if (range <= 1) return true;
         if (range >= 3) return false;
 
@@ -169,32 +140,19 @@ public static partial class Actions {
         return result;
     }
 
-    public static int GetRange(Ship.GenericShip thisShip, Ship.GenericShip anotherShip)
-    {
-        float distance = Vector3.Distance(thisShip.GetClosestEdgesTo(anotherShip)["this"], thisShip.GetClosestEdgesTo(anotherShip)["another"]);
-        int range = Mathf.CeilToInt(distance / DISTANCE_1);
-        return range;
-    }
-
-    public static int GetFiringRange(Ship.GenericShip thisShip, Ship.GenericShip anotherShip)
-    {
-        float distance = Vector3.Distance(thisShip.GetClosestFiringEdgesTo(anotherShip)["this"], thisShip.GetClosestEdgesTo(anotherShip)["another"]);
-        int range = Mathf.CeilToInt(distance / DISTANCE_1);
-        return range;
-    }
-
     public static int GetFiringRangeAndShow(Ship.GenericShip thisShip, Ship.GenericShip anotherShip)
     {
-        int range = GetFiringRange(thisShip, anotherShip);
-        MovementTemplates.ShowFiringArcRange(thisShip, anotherShip);
-        return range;
+        ShipShotDistanceInformation shotInfo = new ShipShotDistanceInformation(thisShip, anotherShip);
+        MovementTemplates.ShowFiringArcRange(shotInfo);
+        return shotInfo.Range;
     }
 
-    public static bool HasTarget(Ship.GenericShip ship)
+    public static bool HasTarget(Ship.GenericShip thisShip)
     {
-        foreach (var enemyShip in Roster.GetPlayer(Roster.AnotherPlayer(ship.Owner.PlayerNo)).Ships)
+        foreach (var anotherShip in Roster.GetPlayer(Roster.AnotherPlayer(thisShip.Owner.PlayerNo)).Ships)
         {
-            if ((GetFiringRange(ship, enemyShip.Value) < 4) && (InArcCheck(ship, enemyShip.Value)))
+            ShipShotDistanceInformation shotInfo = new ShipShotDistanceInformation(thisShip, anotherShip.Value);
+            if ((shotInfo.Range < 4) && (shotInfo.InArc))
             {
                 return true;
             }

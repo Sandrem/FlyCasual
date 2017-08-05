@@ -41,4 +41,6 @@ public class PrefabsList : MonoBehaviour
     public GameObject ImageStorageDirections;
     public GameObject LogText;
 
+    public GameObject FiringLine;
+
 }

@@ -67,7 +67,7 @@ public static partial class Roster
             Ship.GenericShip newShip = ShipFactory.SpawnShip(shipConfig);
             AddShipToLists(newShip);
         }
-        Board.SetShips();
+        Board.BoardManager.SetShips();
     }
 
     private static void AddShipToLists(Ship.GenericShip newShip)

@@ -41,7 +41,7 @@ namespace Players
         {
             bool actionIsPerformed = false;
 
-            /*if (Selection.ThisShip.GetToken(typeof(Tokens.StressToken)) != null)
+            if (Selection.ThisShip.GetToken(typeof(Tokens.StressToken)) != null)
             {
                 Selection.ThisShip.RemoveToken(typeof(Tokens.StressToken));
             }
@@ -51,11 +51,10 @@ namespace Players
                 if (!actionIsPerformed) actionIsPerformed = TryToGetShot();
                 if (!actionIsPerformed) actionIsPerformed = TryFocus();
                 if (!actionIsPerformed) actionIsPerformed = TryEvade();
-            }*/
+            }
 
             if (!actionIsPerformed)
             {
-                Phases.Next();
                 Triggers.FinishTrigger();
             }
         }

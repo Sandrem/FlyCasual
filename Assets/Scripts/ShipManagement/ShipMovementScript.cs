@@ -89,9 +89,13 @@ public class ShipMovementScript : MonoBehaviour {
 
         Movement.GenericMovement result = null;
 
-        if ((movementStruct.Bearing == Movement.ManeuverBearing.Straight) || (movementStruct.Bearing == Movement.ManeuverBearing.KoiogranTurn))
+        if (movementStruct.Bearing == Movement.ManeuverBearing.Straight)
         {
             result = new Movement.StraightMovement(speed, movementStruct.Direction, movementStruct.Bearing, movementStruct.ColorComplexity);
+        }
+        else if (movementStruct.Bearing == Movement.ManeuverBearing.KoiogranTurn)
+        {
+            result = new Movement.KoiogranTurnMovement(speed, movementStruct.Direction, movementStruct.Bearing, movementStruct.ColorComplexity);
         }
         else if (movementStruct.Bearing == Movement.ManeuverBearing.Turn)
         {

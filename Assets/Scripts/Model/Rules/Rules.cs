@@ -11,7 +11,6 @@ public static class Rules
     public static EndPhaseCleanupRule EndPhase { get; private set; }
     public static StressRule Stress { get; private set; }
     public static OffTheBoardRule OffTheBoard { get; private set; }
-    public static KoiogranTurnRule KoiogranTurn { get; private set; }
     public static CollisionRules Collision { get; private set; }
     public static FiringRangeLimit FiringRange { get; private set; }
     public static FiringArcRule FiringArc { get; private set; }
@@ -32,7 +31,6 @@ public static class Rules
         EndPhase = new EndPhaseCleanupRule(Game);
         Stress = new StressRule();
         OffTheBoard = new OffTheBoardRule(Game);
-        KoiogranTurn = new KoiogranTurnRule(Game);
         Collision = new CollisionRules(Game);
         FiringRange = new FiringRangeLimit(Game);
         FiringArc = new FiringArcRule(Game);

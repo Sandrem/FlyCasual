@@ -164,15 +164,25 @@ namespace Movement
 
         protected virtual void FinishMovement()
         {
-            Selection.ThisShip.IsAttackPerformed = false;
-
             //TEMP
             GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
+
             Game.Movement.isMoving = false;
+            Selection.ThisShip.ResetRotationHelpers();
+
+            CheckMovementFinalization(FinishMovementEvents);
+        }
+
+        protected virtual void CheckMovementFinalization(Action callBack)
+        {
+            callBack();
+        }
+
+        protected virtual void FinishMovementEvents()
+        { 
+            Selection.ThisShip.IsAttackPerformed = false;
 
             MovementTemplates.HideLastMovementRuler();
-
-            Selection.ThisShip.ResetRotationHelpers();
 
             Selection.ThisShip.ExecuteMoving();
 

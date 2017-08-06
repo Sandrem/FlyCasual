@@ -22,6 +22,8 @@ namespace SubPhases
         {
             Phases.CurrentSubPhase = PreviousSubPhase;
             UpdateHelpInfo();
+
+            callBack();
         }
 
         public override bool ThisShipCanBeSelected(Ship.GenericShip ship)

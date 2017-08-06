@@ -46,14 +46,14 @@ namespace Ship
             if (OnMovementStart != null) OnMovementStart(this);
         }
 
-        public void ExecuteMoving()
+        public void CallExecuteMoving()
         {
             if (OnMovementExecuted != null) OnMovementExecuted(this);
 
-            Triggers.ResolveTriggersByType(TriggerTypes.OnShipMovementExecuted, delegate() { Selection.ThisShip.FinishMovement(); });
+            Triggers.ResolveTriggersByType(TriggerTypes.OnShipMovementExecuted, delegate() { Selection.ThisShip.CallFinishMovement(); });
         }
 
-        public void FinishMovement()
+        public void CallFinishMovement()
         {
             if (OnMovementFinish != null) OnMovementFinish(this);
 

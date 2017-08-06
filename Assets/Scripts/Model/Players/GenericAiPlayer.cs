@@ -35,7 +35,6 @@ namespace Players
             foreach (var shipHolder in Ships)
             {
                 Selection.ChangeActiveShip("ShipId:" + shipHolder.Value.ShipId);
-                Selection.ThisShip.IsManeuverPerformed = false;
                 shipHolder.Value.AssignedManeuver = new Movement.StraightMovement(2, Movement.ManeuverDirection.Forward, Movement.ManeuverBearing.Straight, Movement.ManeuverColor.White);
             }
             Phases.Next();

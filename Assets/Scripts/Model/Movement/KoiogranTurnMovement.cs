@@ -13,7 +13,7 @@ namespace Movement
 
         }
 
-        protected override void CheckMovementFinalization(Action callBack)
+        protected override void ManeuverEndRotation(Action callBack)
         {
             if (!Selection.ThisShip.IsBumped)
             {

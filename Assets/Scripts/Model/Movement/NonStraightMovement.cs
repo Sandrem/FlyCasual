@@ -70,14 +70,6 @@ namespace Movement
             {
                 if (movementFinisherLaunched)
                 {
-                    Selection.ThisShip.FinishMovement();
-
-                    MovementTemplates.HideLastMovementRuler();
-
-                    //TEMP
-                    GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-                    Game.Movement.isMoving = false;
-
                     FinishMovement();
                 }
                 else

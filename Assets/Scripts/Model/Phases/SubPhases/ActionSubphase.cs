@@ -20,7 +20,7 @@ namespace SubPhases
 
         public override void Initialize()
         {
-            Phases.CallBeforeActionSubPhaseTrigger();         
+            Phases.CallBeforeActionSubPhaseTrigger();
 
             if (!Selection.ThisShip.IsSkipsActionSubPhase)
             {
@@ -33,11 +33,6 @@ namespace SubPhases
                 {
                     //Next();
                 }
-            }
-            else
-            {
-                Selection.ThisShip.IsSkipsActionSubPhase = false;
-                //Next();
             }
 
             Phases.CallOnActionSubPhaseTrigger();
@@ -93,19 +88,31 @@ namespace SubPhases
 
         public override void Prepare()
         {
-            infoText = "Select action";
+            List<ActionsList.GenericAction> availableActions = Selection.ThisShip.GetAvailableActionsList();
 
-            foreach (var action in Selection.ThisShip.GetAvailableActionsList())
+            if (availableActions.Count > 0)
             {
-                AddDecision(action.Name, delegate {
-                    Tooltips.EndTooltip();
-                    Game.UI.HideNextButton();
-                    Selection.ThisShip.AddAlreadyExecutedAction(action);
-                    action.ActionTake(callBack);
-                });
+                infoText = "Select action";
+
+                foreach (var action in availableActions)
+                {
+                    AddDecision(action.Name, delegate {
+                        Tooltips.EndTooltip();
+                        Game.UI.HideNextButton();
+                        Selection.ThisShip.AddAlreadyExecutedAction(action);
+                        action.ActionTake(callBack);
+                    });
+                }
+
+                Game.UI.ShowSkipButton();
+            }
+            else
+            {
+                Messages.ShowErrorToHuman("Cannot perform any actions");
+                callBack();
             }
 
-            Game.UI.ShowSkipButton();
+
         }
 
     }

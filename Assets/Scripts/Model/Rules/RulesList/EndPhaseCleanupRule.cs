@@ -18,16 +18,24 @@ namespace RulesList
 
         public void EndPhaseClearAll()
         {
-            ClearShipTokens();
-        }
-
-        private void ClearShipTokens()
-        {
             foreach (var shipHolder in Roster.AllShips)
             {
-                shipHolder.Value.ClearAllTokens();
-                shipHolder.Value.ClearAlreadyExecutedActions();
+                ClearShipTokens(shipHolder.Value);
+                ClearShipFlags(shipHolder.Value);
             }
+        }
+
+        private void ClearShipTokens(Ship.GenericShip ship)
+        {
+            ship.ClearAllTokens();
+            ship.ClearAlreadyExecutedActions();
+        }
+
+        private void ClearShipFlags(Ship.GenericShip ship)
+        {
+            ship.IsAttackPerformed = false;
+            ship.IsManeuverPerformed = false;
+            ship.IsSkipsActionSubPhase = false;
         }
     }
 }

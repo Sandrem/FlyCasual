@@ -102,8 +102,15 @@ public static class MovementTemplates {
 
     public static void ShowFiringArcRange(ShipShotDistanceInformation shotInfo)
     {
-        ShowRangeRuler(shotInfo);
-        if (!shotInfo.InArc) Messages.ShowErrorToHuman("Out of arc!");
+        if (shotInfo.InArc)
+        {
+            ShowRangeRuler(shotInfo);
+        }
+        else
+        {
+            Messages.ShowErrorToHuman("Out of arc!");
+            ShowRangeRuler(new ShipShotOutOfArcDistanceInformation(shotInfo.ThisShip, shotInfo.AnotherShip));
+        }
     }
 
     public static void ShowRangeRuler(ShipDistanceInformation shipDistanceInfo)

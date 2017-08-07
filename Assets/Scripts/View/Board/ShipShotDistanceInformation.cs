@@ -25,14 +25,14 @@ namespace Board
             float PRECISION = 0.000008f;
 
             Distance = float.MaxValue;
-            Vector3 vectorFacing = thisShip.GetFrontFacing();
+            Vector3 vectorFacing = ThisShip.GetFrontFacing();
             InArc = false;
 
             parallelPointsList = new List<List<Vector3>>();
 
-            foreach (var objThis in thisShip.GetStandFrontPoins())
+            foreach (var objThis in ThisShip.GetStandFrontPoins())
             {
-                foreach (var objAnother in anotherShip.GetStandPoints())
+                foreach (var objAnother in AnotherShip.GetStandPoints())
                 {
                     Vector3 vectorToTarget = objAnother.Value - objThis.Value;
                     float angle = Mathf.Abs(Vector3.Angle(vectorToTarget, vectorFacing));
@@ -64,7 +64,7 @@ namespace Board
 
         public void CheckFirelineCollisions(System.Action callBack)
         {
-            if (DebugManager.DebugBoard) Debug.Log("Obstacle checker is launched: " + thisShip + " vs " + anotherShip);
+            if (DebugManager.DebugBoard) Debug.Log("Obstacle checker is launched: " + ThisShip + " vs " + AnotherShip);
 
             FiringLines = new List<GameObject>();
             GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();

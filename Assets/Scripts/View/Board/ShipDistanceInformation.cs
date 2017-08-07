@@ -1,13 +1,14 @@
 ﻿using Ship;
 using UnityEngine;
+using System.Collections.Generic;
 
 namespace Board
 {
 
     public class ShipDistanceInformation
     {
-        protected GenericShip thisShip;
-        protected GenericShip anotherShip;
+        public GenericShip ThisShip { get; private set; }
+        public GenericShip AnotherShip { get; private set; }
 
         //TODO: REWORK
         protected static readonly float DISTANCE_1 = 3.28f / 3f;
@@ -26,18 +27,23 @@ namespace Board
 
         public ShipDistanceInformation(GenericShip thisShip, GenericShip anotherShip)
         {
-            this.thisShip = thisShip;
-            this.anotherShip = anotherShip;
+            this.ThisShip = thisShip;
+            this.AnotherShip = anotherShip;
             CalculateFields();
         }
 
         protected virtual void CalculateFields()
         {
+            CalculateFieldUsingPoints(ThisShip.GetStandPoints(), AnotherShip.GetStandPoints());
+        }
+
+        protected virtual void CalculateFieldUsingPoints(Dictionary<string, Vector3> pointsStart, Dictionary<string, Vector3> pointsEnd)
+        {
             Distance = float.MaxValue;
 
-            foreach (var objThis in thisShip.GetStandPoints())
+            foreach (var objThis in pointsStart)
             {
-                foreach (var objAnother in anotherShip.GetStandPoints())
+                foreach (var objAnother in pointsEnd)
                 {
                     float distance = Vector3.Distance(objThis.Value, objAnother.Value);
                     if (distance < Distance)

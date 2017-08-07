@@ -82,9 +82,29 @@ public static partial class Triggers
 {
 
     private static List<StackLevel> triggersStackList = new List<StackLevel>();
-    private static Trigger currentTrigger;
+    private static List<Trigger> currentTriggersHistory = new List<Trigger>();
     private static Players.PlayerNo currentPlayer;
-    private static List<Trigger> currentTriggersList;
+
+    public static List<Trigger> currentTriggersList;
+    public static Trigger CurrentTrigger
+    {
+        get
+        {
+            return (currentTriggersHistory.Count != 0) ? currentTriggersHistory[currentTriggersHistory.Count - 1] : null;
+        }
+
+        set
+        { if (value != null)
+            {
+                currentTriggersHistory.Add(value);
+            }
+            else
+            {
+                currentTriggersHistory.RemoveAt(currentTriggersHistory.Count - 1);
+            }
+        }
+    }
+
 
     // PUBLIC
 
@@ -143,14 +163,18 @@ public static partial class Triggers
     public static void FinishTrigger()
     {
         StackLevel currentStackLevel = GetCurrentStackLevel();
-        //currentStackLevel.RemoveTrigger(currentTrigger);
+        currentStackLevel.RemoveTrigger(CurrentTrigger); //?
+
+        // if that was only trigger
         if (currentStackLevel.Empty())
         {
-            currentTrigger.parentStackLevel.IsActive = false;
-            currentTrigger = null;
+            //set stack level as inactive
+            CurrentTrigger.parentStackLevel.IsActive = false;
+            CurrentTrigger = null;
+            //Callback is called - to go logic next (or move stack level back)
             DoCallBack();
         }
-        else
+        else //if another triggers of same stack level exist
         {
             RunDecisionSubPhase();
         }
@@ -165,7 +189,7 @@ public static partial class Triggers
     public static void ShowStack()
     {
         string debugText = "STACK: ";
-        if (currentTrigger!=null) debugText+=("<current \"" + currentTrigger.Name + "\"> ");
+        if (CurrentTrigger!=null) debugText+=("<current \"" + CurrentTrigger.Name + "\"> ");
         int i = 1;
         foreach (var stack in triggersStackList)
         {
@@ -216,10 +240,10 @@ public static partial class Triggers
 
     private static void ResolveTrigger(Trigger trigger)
     {
-        currentTrigger = trigger;
-        currentTrigger.parentStackLevel.IsActive = true;
-        trigger.parentStackLevel.RemoveTrigger(currentTrigger);
-        currentTrigger.Fire();
+        CurrentTrigger = trigger;
+        CurrentTrigger.parentStackLevel.IsActive = true;
+        trigger.parentStackLevel.RemoveTrigger(CurrentTrigger);
+        CurrentTrigger.Fire();
     }
 
     private static void RunDecisionSubPhase()
@@ -285,7 +309,7 @@ public static partial class Triggers
         {
             infoText = "Select a trigger to resolve";
 
-            foreach (var trigger in currentTriggersList)
+            foreach (var trigger in Triggers.currentTriggersList)
             {
                 if (trigger.TriggerOwner == currentPlayer)
                 {

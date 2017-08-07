@@ -33,7 +33,13 @@ namespace RulesList
             {
                 foreach (var asteroid in Selection.ThisShip.ObstaclesHit)
                 {
-                    Triggers.RegisterTrigger(new Trigger() { Name = "Roll for asteroid damage", TriggerOwner = Selection.ThisShip.Owner.PlayerNo, triggerType = TriggerTypes.OnShipMovementFinish, eventHandler = RollForDamage });
+                    Triggers.RegisterTrigger(new Trigger()
+                    {
+                        Name = "Roll for asteroid damage",
+                        TriggerOwner = Selection.ThisShip.Owner.PlayerNo,
+                        triggerType = TriggerTypes.OnShipMovementFinish,
+                        eventHandler = RollForDamage
+                    });
                 }
             }
         }
@@ -43,7 +49,7 @@ namespace RulesList
             Game.UI.ShowError("Hit asteroid during movement - rolling for damage");
 
             Selection.ActiveShip = Selection.ThisShip;
-            Phases.StartTemporarySubPhase("Damage from asteroid collision", typeof(SubPhases.AsteroidHitCheckSubPhase));
+            Phases.StartTemporarySubPhase("Damage from asteroid collision", typeof(SubPhases.AsteroidHitCheckSubPhase), delegate { Phases.FinishSubPhase(typeof(SubPhases.AsteroidHitCheckSubPhase)); Triggers.FinishTrigger(); });
         }
     }
 }
@@ -78,46 +84,37 @@ namespace SubPhases
                 case DiceSide.Success:
                     Game.UI.ShowError("Damage is dealt!");
                     SufferDamage();
+                    Triggers.ResolveTriggersByType(TriggerTypes.OnDamageIsDealt, callBack);
                     break;
                 case DiceSide.Crit:
                     Game.UI.ShowError("Critical damage is dealt!");
                     SufferDamage();
+                    Triggers.ResolveTriggersByType(TriggerTypes.OnDamageIsDealt, callBack);
                     break;
                 default:
                     break;
             }
-
-            Phases.FinishSubPhase(this.GetType());
-            Triggers.FinishTrigger();
         }
 
         private void NoDamage()
         {
             Game.UI.ShowInfo("No damage");
+            callBack();
         }
 
         private void SufferDamage()
         {
-            /*DamageSourceEventArgs eventArgs = new DamageSourceEventArgs();
-            eventArgs.Source = null;
-            eventArgs.DamageType = DamageTypes.ObstacleCollision;*/
-
-            //Selection.ActiveShip.SufferDamage(CurrentDiceRoll, eventArgs);
-
-            CurrentDiceRoll.RemoveAllFailures();
-
-            /*foreach (var dice in CurrentDiceRoll.DiceList)
+            foreach (var dice in CurrentDiceRoll.DiceList)
             {
-                Triggers.RegisterTrigger(new Trigger()
-                {
-                    Name = (dice.Side == DiceSide.Crit) ? "Suffer critical damage" : "Suffer regular damage",
-                    triggerType = (dice.Side == DiceSide.Crit) ? TriggerTypes.OnCriticalDamageIsDealt : TriggerTypes.OnRegularDamageIsDealt,
+                Selection.ActiveShip.AssignedDamageDiceroll.DiceList.Add(dice);
+
+                Triggers.RegisterTrigger(new Trigger() {
+                    Name = "Suffer asteroid damage",
+                    triggerType = TriggerTypes.OnDamageIsDealt,
                     TriggerOwner = Selection.ActiveShip.Owner.PlayerNo,
-                    eventHandler = (dice.Side == DiceSide.Crit) ? (System.EventHandler)Selection.ActiveShip.SufferCriticalDamage : (System.EventHandler)Selection.ActiveShip.SufferDamage
+                    eventHandler = Selection.ActiveShip.SufferDamage
                 });
             }
-
-            SufferRegularDamage(SufferCriticalDamage);*/
         }
 
     }

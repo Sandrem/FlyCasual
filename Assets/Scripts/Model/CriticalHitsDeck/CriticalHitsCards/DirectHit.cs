@@ -28,8 +28,8 @@ namespace CriticalHitCard
             host.RemoveToken(typeof(Tokens.DirectHitCritToken));
             if (host.TryRegenHull())
             {
-                Game.UI.ShowInfo("Restored additional hull damage");
-                Game.UI.AddTestLogEntry("Restored additional hull damage");
+                Game.UI.ShowInfo("Restored hull point");
+                Game.UI.AddTestLogEntry("Restored hull point");
             }
         }
     }

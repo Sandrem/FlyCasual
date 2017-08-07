@@ -33,14 +33,21 @@ namespace ActionsList
             if (CritCard.CancelDiceResults.Count == 0)
             {
                 CritCard.DiscardEffect(host);
+                Phases.FinishSubPhase(typeof(SubPhases.CancelCritCheckSubPhase));
+                callBack();
             }
             else
             {
                 Actions.SelectedCriticalHitCard = CritCard;
                 Selection.ActiveShip = Selection.ThisShip;
-                Phases.StartTemporarySubPhase("Trying to flip critical card", typeof(SubPhases.CancelCritCheckSubPhase), callBack);
+                Phases.StartTemporarySubPhase(
+                    "Trying to flip critical card",
+                    typeof(SubPhases.CancelCritCheckSubPhase),
+                    delegate {
+                        Phases.FinishSubPhase(typeof(SubPhases.CancelCritCheckSubPhase));
+                        callBack();
+                    });
             }
-            Phases.Next();
         }
 
     }
@@ -69,7 +76,6 @@ namespace SubPhases
             if (Actions.SelectedCriticalHitCard.CancelDiceResults.Contains(CurrentDiceRoll.DiceList[0].Side)) Actions.SelectedCriticalHitCard.DiscardEffect(Actions.SelectedCriticalHitCard.Host);
             base.CheckResults(CurrentDiceRoll);
 
-            Phases.FinishSubPhase(this.GetType());
             callBack();
         }
 

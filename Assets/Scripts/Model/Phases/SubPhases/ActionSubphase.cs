@@ -27,7 +27,7 @@ namespace SubPhases
                 if (!Selection.ThisShip.IsDestroyed)
                 {
                     Selection.ThisShip.GenerateAvailableActionsList();
-                    Triggers.RegisterTrigger(new Trigger() { Name = "Action", TriggerOwner = Phases.CurrentPhasePlayer, triggerType = TriggerTypes.OnActionSubPhaseStart, eventHandler = Roster.GetPlayer(Phases.CurrentPhasePlayer).PerformAction });
+                    Triggers.RegisterTrigger(new Trigger() { Name = "Action", TriggerOwner = Phases.CurrentPhasePlayer, TriggerType = TriggerTypes.OnActionSubPhaseStart, EventHandler = Roster.GetPlayer(Phases.CurrentPhasePlayer).PerformAction });
                 }
                 else
                 {

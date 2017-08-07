@@ -35,7 +35,7 @@ namespace Ship
             {
                 if (!Selection.ThisShip.IsSkipsActionSubPhase)
                 {
-                    Triggers.RegisterTrigger(new Trigger() { Name = "Darth Vader", TriggerOwner = ship.Owner.PlayerNo, triggerType = TriggerTypes.OnActionSubPhaseStart, eventHandler = ship.Owner.PerformAction });
+                    Triggers.RegisterTrigger(new Trigger() { Name = "Darth Vader", TriggerOwner = ship.Owner.PlayerNo, TriggerType = TriggerTypes.OnActionSubPhaseStart, EventHandler = ship.Owner.PerformAction });
                 }
             }
 

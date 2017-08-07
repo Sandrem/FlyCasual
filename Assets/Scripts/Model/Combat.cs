@@ -168,21 +168,16 @@ public static partial class Combat
 
         if (DiceRollAttack.Successes > 0)
         {
-            /*DamageSourceEventArgs eventArgs = new DamageSourceEventArgs()
-            {
-                Source = Attacker,
-                DamageType = DamageTypes.ShipAttack
-            };*/
-            //defender.SufferDamage(DiceRollAttack, eventArgs);
             defender.AssignedDamageDiceroll = DiceRollAttack;
 
             foreach (var dice in DiceRollAttack.DiceList)
             {
                 Triggers.RegisterTrigger(new Trigger() {
                     Name = "Suffer damage",
-                    triggerType = TriggerTypes.OnDamageIsDealt,
+                    TriggerType = TriggerTypes.OnDamageIsDealt,
                     TriggerOwner = defender.Owner.PlayerNo,
-                    eventHandler = defender.SufferDamage
+                    EventHandler = defender.SufferDamage,
+                    Skippable = true
                 });
             }
         }

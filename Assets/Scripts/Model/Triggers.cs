@@ -22,17 +22,18 @@ public class Trigger
 {
     public string Name;
     public Players.PlayerNo TriggerOwner;
-    public TriggerTypes triggerType;
-    public EventHandler eventHandler;
-    public object sender;
-    public EventArgs eventArgs;
+    public TriggerTypes TriggerType;
+    public EventHandler EventHandler;
+    public object Sender;
+    public EventArgs EventArgs;
+    public bool Skippable;
 
     public bool IsCurrent;
 
     public void Fire()
     {
         IsCurrent = true;
-        eventHandler(sender, eventArgs);
+        EventHandler(Sender, EventArgs);
     }
 }
 
@@ -125,7 +126,7 @@ public static partial class Triggers
         if (currentTriggersList.Count != 0)
         {
             currentLevel.IsActive = true;
-            if (currentTriggersList.Count == 1)
+            if ((currentTriggersList.Count == 1) || (IsAllSkippable(currentTriggersList)))
             {
                 FireTrigger(currentTriggersList[0]);
             }
@@ -138,7 +139,6 @@ public static partial class Triggers
         {
             DoCallBack();
         }
-
     }
 
     public static void FireTrigger(Trigger trigger)
@@ -156,7 +156,7 @@ public static partial class Triggers
 
         currentStackLevel.RemoveTrigger(currentTrigger);
 
-        ResolveTriggers(currentTrigger.triggerType);
+        ResolveTriggers(currentTrigger.TriggerType);
     }
 
     // PRIVATE
@@ -216,7 +216,16 @@ public static partial class Triggers
     private static void CreateNewLevelOfStack(Action callBack = null)
     {
         TriggersStack.Add(new StackLevel());
-        GetCurrentLevel().CallBack = (callBack != null) ? callBack : (Action)delegate () { ResolveTriggers(TriggerTypes.None); };
+        GetCurrentLevel().CallBack = callBack ?? delegate () { ResolveTriggers(TriggerTypes.None); };
+    }
+
+    private static bool IsAllSkippable(List<Trigger> currentTriggersList)
+    {
+        foreach (var trigger in currentTriggersList)
+        {
+            if (!trigger.Skippable) return false;
+        }
+        return true;
     }
 
     // SUBPHASE

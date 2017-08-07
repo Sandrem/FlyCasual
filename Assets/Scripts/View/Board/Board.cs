@@ -21,8 +21,6 @@ namespace Board
         public static readonly float DISTANCE_1 = 4f;
         public static readonly float RANGE_1 = 10f;
 
-        private static int updatesCount = 0;
-
         static BoardManager()
         {
             Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();

@@ -37,8 +37,8 @@ namespace RulesList
                     {
                         Name = "Roll for asteroid damage",
                         TriggerOwner = Selection.ThisShip.Owner.PlayerNo,
-                        triggerType = TriggerTypes.OnShipMovementFinish,
-                        eventHandler = RollForDamage
+                        TriggerType = TriggerTypes.OnShipMovementFinish,
+                        EventHandler = RollForDamage
                     });
                 }
             }
@@ -110,9 +110,9 @@ namespace SubPhases
 
                 Triggers.RegisterTrigger(new Trigger() {
                     Name = "Suffer asteroid damage",
-                    triggerType = TriggerTypes.OnDamageIsDealt,
+                    TriggerType = TriggerTypes.OnDamageIsDealt,
                     TriggerOwner = Selection.ActiveShip.Owner.PlayerNo,
-                    eventHandler = Selection.ActiveShip.SufferDamage
+                    EventHandler = Selection.ActiveShip.SufferDamage
                 });
             }
         }

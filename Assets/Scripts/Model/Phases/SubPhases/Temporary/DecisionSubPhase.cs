@@ -15,6 +15,7 @@ namespace SubPhases
         private Dictionary<string, EventHandler> decisions = new Dictionary<string, EventHandler>();
         protected Dictionary<string, string> tooltips = new Dictionary<string, string>();
         protected string defaultDecision;
+        protected Players.GenericPlayer DecisionOwner;
 
         private const float defaultWindowHeight = 55;
         private const float buttonHeight = 45;
@@ -80,7 +81,8 @@ namespace SubPhases
             }
             decisionPanel.GetComponent<RectTransform>().sizeDelta = new Vector3(decisionPanel.GetComponent<RectTransform>().sizeDelta.x, defaultWindowHeight + ((i+1)/2) * buttonHeight);
 
-            Roster.GetPlayer(Phases.CurrentPhasePlayer).TakeDecision();  
+            if (DecisionOwner == null) DecisionOwner = Roster.GetPlayer(Phases.CurrentPhasePlayer);
+            DecisionOwner.TakeDecision();
         }
 
         public override void Pause()

@@ -27,10 +27,11 @@ public class Trigger
     public object sender;
     public EventArgs eventArgs;
 
-    public StackLevel parentStackLevel;
+    public bool IsCurrent;
 
     public void Fire()
     {
+        IsCurrent = true;
         eventHandler(sender, eventArgs);
     }
 }
@@ -38,6 +39,7 @@ public class Trigger
 public class StackLevel
 {
     private List<Trigger> triggers = new List<Trigger>();
+    public int level;
     public bool IsActive;
     public Action CallBack;
 
@@ -76,21 +78,24 @@ public class StackLevel
         return triggers;
     }
 
+    public Trigger GetCurrentTrigger()
+    {
+        return triggers.Where(n => n.IsCurrent).First();
+    }
+
 }
 
 public static partial class Triggers
 {
 
-    private static List<StackLevel> triggersStackList = new List<StackLevel>();
-    private static Trigger currentTrigger;
-    private static Players.PlayerNo currentPlayer;
-    private static List<Trigger> currentTriggersList;
+    private static List<StackLevel> TriggersStack = new List<StackLevel>();
 
     // PUBLIC
 
     public static void RegisterTrigger(Trigger trigger)
     {
-        if (triggersStackList.Count == 0)
+        if (DebugManager.DebugTriggers) Debug.Log("Trigger is registered: " + trigger.Name);
+        if (NewLevelIsRequired())
         {
             CreateTriggerInNewLevel(trigger);
         }
@@ -98,128 +103,75 @@ public static partial class Triggers
         {
             AddTriggerToCurrentStackLevel(trigger);
         }
-        if (DebugManager.DebugTriggers)
-        {
-            Debug.Log("Trigger \"" + trigger.Name + "\" is registered. Level of stack is " + triggersStackList.Count);
-            ShowStack();
-        }
     }
 
-    public static void ResolveTriggersByType(TriggerTypes triggerType, Action callBack = null)
+    public static void ResolveTriggers(TriggerTypes triggerType, Action callBack = null)
     {
-        if (DebugManager.DebugTriggers)
+        if (DebugManager.DebugTriggers) Debug.Log("Triggers are resolved: " + triggerType);
+        StackLevel currentLevel = GetCurrentLevel();
+
+        if (currentLevel == null)
         {
-            Debug.Log("Call Resolve triggers by type: " + triggerType.ToString());
-            ShowStack();
+            CreateNewLevelOfStack(callBack);
+            currentLevel = GetCurrentLevel();
         }
 
-        StackLevel currentStackLevel = GetCurrentStackLevel();
+        SetStackLevelCallBack(callBack);
 
-        if ((currentStackLevel != null) && (!currentStackLevel.Empty()))
-        {
-            SetStackLevelCallBack(callBack);
-            GetTriggerListAndPlayer();
+        List<Trigger> currentTriggersList = currentLevel.GetTriggersByPlayer(Phases.PlayerWithInitiative);
+        Players.PlayerNo currentPlayer = (currentTriggersList.Count > 0) ? Phases.PlayerWithInitiative : Roster.AnotherPlayer(Phases.PlayerWithInitiative);
+        currentTriggersList = currentLevel.GetTriggersByPlayer(currentPlayer);
 
-            CreateNewLevelOfStack();
-            
-            ResolveTriggersByTypeAndPlayer(currentStackLevel, triggerType);
-
-            if (DebugManager.DebugTriggers)
-            {
-                Debug.Log("After Resolve triggers by type: " + triggerType.ToString());
-                ShowStack();
-            }
-        }
-        else
-        {
-            if (currentStackLevel == null)
-            {
-                CreateNewLevelOfStack(callBack);
-            }
-            DoCallBack();
-        }
-    }
-
-    public static void FinishTrigger()
-    {
-        StackLevel currentStackLevel = GetCurrentStackLevel();
-        //currentStackLevel.RemoveTrigger(currentTrigger);
-        if (currentStackLevel.Empty())
-        {
-            currentTrigger.parentStackLevel.IsActive = false;
-            currentTrigger = null;
-            DoCallBack();
-        }
-        else
-        {
-            RunDecisionSubPhase();
-        }
-
-        if (DebugManager.DebugTriggers)
-        {
-            Debug.Log("Finish Trigger");
-            ShowStack();
-        }
-    }
-
-    public static void ShowStack()
-    {
-        string debugText = "STACK: ";
-        if (currentTrigger!=null) debugText+=("<current \"" + currentTrigger.Name + "\"> ");
-        int i = 1;
-        foreach (var stack in triggersStackList)
-        {
-            debugText+=("L" + i++ + ", (" + stack.IsActive + "): [");
-            foreach (var trigger in stack.GetTrigersList())
-            {
-                debugText += trigger.Name + " ";
-            }
-            debugText += " ]; ";
-        }
-        Debug.Log(debugText);
-    }
-
-    // PRIVATE
-
-    private static void GetTriggerListAndPlayer()
-    {
-        StackLevel currentStackLevel = GetCurrentStackLevel();
-
-        currentTriggersList = currentStackLevel.GetTriggersByPlayer(Phases.PlayerWithInitiative);
-        currentPlayer = (currentTriggersList.Count > 0) ? Phases.PlayerWithInitiative : Roster.AnotherPlayer(Phases.PlayerWithInitiative);
-        currentTriggersList = currentStackLevel.GetTriggersByPlayer(currentPlayer);
-    }
-
-    private static void SetStackLevelCallBack(Action callBack)
-    {
-        if (callBack != null)
-        {
-            StackLevel currentStackLevel = GetCurrentStackLevel();
-            currentStackLevel.CallBack = callBack;
-        }
-    }
-
-    private static void ResolveTriggersByTypeAndPlayer(StackLevel currentStackLevel, TriggerTypes triggerType)
-    {
         if (currentTriggersList.Count != 0)
         {
+            currentLevel.IsActive = true;
             if (currentTriggersList.Count == 1)
             {
-                ResolveTrigger(currentTriggersList[0]);
+                FireTrigger(currentTriggersList[0]);
             }
             else
             {
                 RunDecisionSubPhase();
             }
         }
+        else
+        {
+            DoCallBack();
+        }
+
     }
 
-    private static void ResolveTrigger(Trigger trigger)
+    public static void FireTrigger(Trigger trigger)
     {
-        currentTrigger = trigger;
-        currentTrigger.parentStackLevel.IsActive = true;
-        trigger.parentStackLevel.RemoveTrigger(currentTrigger);
-        currentTrigger.Fire();
+        if (DebugManager.DebugTriggers) Debug.Log("Trigger is fired: " + trigger.Name);
+        trigger.Fire();
+    }
+
+    public static void FinishTrigger()
+    {
+        StackLevel currentStackLevel = GetCurrentLevel();
+        Trigger currentTrigger = currentStackLevel.GetCurrentTrigger();
+
+        if (DebugManager.DebugTriggers) Debug.Log("Trigger is finished: " + currentTrigger.Name);
+
+        currentStackLevel.RemoveTrigger(currentTrigger);
+
+        ResolveTriggers(currentTrigger.triggerType);
+    }
+
+    // PRIVATE
+
+    private static bool NewLevelIsRequired()
+    {
+        return ((TriggersStack.Count == 0) || (Triggers.GetCurrentLevel().IsActive));
+    }
+
+    private static void SetStackLevelCallBack(Action callBack)
+    {
+        if (callBack != null)
+        {
+            GetCurrentLevel().CallBack = callBack;
+        }
     }
 
     private static void RunDecisionSubPhase()
@@ -229,33 +181,25 @@ public static partial class Triggers
 
     private static void DoCallBack()
     {
-        StackLevel currentStackLevel = GetCurrentStackLevel();
-        if (!currentStackLevel.IsActive)
-        {
-            Action callBack = currentStackLevel.CallBack;
-            RemoveLastLevelOfStack();
-            callBack();
-        }
+        Action callBack = GetCurrentLevel().CallBack;
+        RemoveLastLevelOfStack();
+        if (DebugManager.DebugTriggers) Debug.Log("Trigger's callback is called");
+        callBack();
     }
 
     private static void RemoveLastLevelOfStack()
     {
-        triggersStackList.Remove(triggersStackList[triggersStackList.Count - 1]);
+        TriggersStack.Remove(GetCurrentLevel());
     }
 
-    private static StackLevel GetCurrentStackLevel()
+    private static StackLevel GetCurrentLevel()
     {
         StackLevel result = null;
-        if (triggersStackList.Count > 0)
+        if (TriggersStack.Count > 0)
         {
-            result = triggersStackList[triggersStackList.Count - 1];
+            result = TriggersStack[TriggersStack.Count - 1];
         }
         return result;
-    }
-
-    private static TriggerTypes GetCurrentStackLevelTriggerType()
-    {
-        return triggersStackList[triggersStackList.Count - 1].GetFirst().triggerType;
     }
 
     private static void CreateTriggerInNewLevel(Trigger trigger)
@@ -266,14 +210,13 @@ public static partial class Triggers
 
     private static void AddTriggerToCurrentStackLevel(Trigger trigger)
     {
-        triggersStackList[triggersStackList.Count - 1].AddTrigger(trigger);
-        trigger.parentStackLevel = GetCurrentStackLevel();
+        TriggersStack[TriggersStack.Count - 1].AddTrigger(trigger);
     }
 
     private static void CreateNewLevelOfStack(Action callBack = null)
     {
-        triggersStackList.Add(new StackLevel());
-        GetCurrentStackLevel().CallBack = (callBack != null) ? callBack : (Action)delegate () { ResolveTriggersByType(TriggerTypes.None); };
+        TriggersStack.Add(new StackLevel());
+        GetCurrentLevel().CallBack = (callBack != null) ? callBack : (Action)delegate () { ResolveTriggers(TriggerTypes.None); };
     }
 
     // SUBPHASE
@@ -285,17 +228,22 @@ public static partial class Triggers
         {
             infoText = "Select a trigger to resolve";
 
+            List<Trigger> currentTriggersList = Triggers.GetCurrentLevel().GetTriggersByPlayer(Phases.PlayerWithInitiative);
+            Players.PlayerNo currentPlayer = (currentTriggersList.Count > 0) ? Phases.PlayerWithInitiative : Roster.AnotherPlayer(Phases.PlayerWithInitiative);
+            currentTriggersList = Triggers.GetCurrentLevel().GetTriggersByPlayer(currentPlayer);
+
             foreach (var trigger in currentTriggersList)
             {
                 if (trigger.TriggerOwner == currentPlayer)
                 {
                     AddDecision(trigger.Name, delegate {
                         Phases.FinishSubPhase(this.GetType());
-                        ResolveTrigger(trigger);
+                        FireTrigger(trigger);
                     });
                 }
             }
 
+            DecisionOwner = Roster.GetPlayer(currentPlayer);
             defaultDecision = GetDecisions().First().Key;
         }
 

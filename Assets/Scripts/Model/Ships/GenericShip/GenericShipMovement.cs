@@ -51,14 +51,14 @@ namespace Ship
         {
             if (OnMovementExecuted != null) OnMovementExecuted(this);
 
-            Triggers.ResolveTriggersByType(TriggerTypes.OnShipMovementExecuted, delegate() { Selection.ThisShip.CallFinishMovement(); });
+            Triggers.ResolveTriggers(TriggerTypes.OnShipMovementExecuted, delegate() { Selection.ThisShip.CallFinishMovement(); });
         }
 
         public void CallFinishMovement()
         {
             if (OnMovementFinish != null) OnMovementFinish(this);
 
-            Triggers.ResolveTriggersByType(TriggerTypes.OnShipMovementFinish, delegate () { Selection.ThisShip.FinishPosition(delegate () { Phases.FinishSubPhase(typeof(SubPhases.MovementExecutionSubPhase)); }); });
+            Triggers.ResolveTriggers(TriggerTypes.OnShipMovementFinish, delegate () { Selection.ThisShip.FinishPosition(delegate () { Phases.FinishSubPhase(typeof(SubPhases.MovementExecutionSubPhase)); }); });
         }
 
         public void FinishPosition(System.Action callback)
@@ -66,7 +66,7 @@ namespace Ship
             if (OnPositionFinish != null) OnPositionFinish(this);
             if (OnPositionFinishGlobal != null) OnPositionFinishGlobal();
 
-            Triggers.ResolveTriggersByType(TriggerTypes.OnPositionFinish, callback);
+            Triggers.ResolveTriggers(TriggerTypes.OnPositionFinish, callback);
         }
 
         // MANEUVERS

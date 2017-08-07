@@ -84,12 +84,12 @@ namespace SubPhases
                 case DiceSide.Success:
                     Game.UI.ShowError("Damage is dealt!");
                     SufferDamage();
-                    Triggers.ResolveTriggersByType(TriggerTypes.OnDamageIsDealt, callBack);
+                    Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, callBack);
                     break;
                 case DiceSide.Crit:
                     Game.UI.ShowError("Critical damage is dealt!");
                     SufferDamage();
-                    Triggers.ResolveTriggersByType(TriggerTypes.OnDamageIsDealt, callBack);
+                    Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, callBack);
                     break;
                 default:
                     break;

@@ -192,7 +192,7 @@ public static partial class Combat
 
     private static void SufferDamage()
     {
-        Triggers.ResolveTriggersByType(TriggerTypes.OnDamageIsDealt, CallCombatEndEvents);
+        Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, CallCombatEndEvents);
     }
 
     public static void CallAttackStartEvents()

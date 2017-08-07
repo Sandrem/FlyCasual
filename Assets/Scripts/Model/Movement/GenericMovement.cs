@@ -128,11 +128,7 @@ namespace Movement
                 }
             }
 
-            if (movementPrediction.IsLandedOnAsteroid)
-            {
-                Messages.ShowErrorToHuman("Landed on asteroid");
-                Selection.ThisShip.IsLandedOnObstacle = movementPrediction.IsLandedOnAsteroid;
-            }
+            Selection.ThisShip.IsLandedOnObstacle = movementPrediction.IsLandedOnAsteroid;
 
             if (movementPrediction.AsteroidsHit.Count > 0)
             {

@@ -38,6 +38,7 @@ namespace Ship
         public event EventHandlerShip OnMovementFinish;
 
         public event EventHandlerShip OnPositionFinish;
+        public static event EventHandler OnPositionFinishGlobal;
 
         // TRIGGERS
 
@@ -63,6 +64,7 @@ namespace Ship
         public void FinishPosition(System.Action callback)
         {
             if (OnPositionFinish != null) OnPositionFinish(this);
+            if (OnPositionFinishGlobal != null) OnPositionFinishGlobal();
 
             Triggers.ResolveTriggersByType(TriggerTypes.OnPositionFinish, callback);
         }

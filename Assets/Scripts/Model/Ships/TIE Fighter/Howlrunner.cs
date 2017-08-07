@@ -27,7 +27,7 @@ namespace Ship
                 GenericShip.AfterGenerateAvailableActionEffectsListGlobal += HowlrunnerAbility;
             }
 
-            private void HowlrunnerAbility(GenericShip ship)
+            private void HowlrunnerAbility()
             {
                 Combat.Attacker.AddAvailableActionEffect(new ActionsList.HowlrunnerAction());
             }

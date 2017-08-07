@@ -98,6 +98,8 @@ namespace SubPhases
             Game.UI.ShowError("Console Fire: ship suffered damage");
             Game.UI.AddTestLogEntry("Console Fire: ship suffered damage");
 
+            Selection.ActiveShip.AssignedDamageDiceroll.DiceList.Add(CurrentDiceRoll.DiceList[0]);
+
             Triggers.RegisterTrigger(new Trigger()
             {
                 Name = "Suffer damage",

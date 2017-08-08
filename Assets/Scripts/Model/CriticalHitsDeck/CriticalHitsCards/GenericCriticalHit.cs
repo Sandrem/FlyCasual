@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -25,7 +26,15 @@ namespace CriticalHitCard
         {
             this.Host = host;
             Inform();
-            ApplyEffect(host);
+
+            Triggers.RegisterTrigger(new Trigger() {
+                Name = "Apply critical hit card effect",
+                TriggerType = TriggerTypes.OnFaceupCritCardIsDealt,
+                TriggerOwner = host.Owner.PlayerNo,
+                EventHandler = ApplyEffect
+            });
+
+            Triggers.ResolveTriggers(TriggerTypes.OnFaceupCritCardIsDealt, Triggers.FinishTrigger);
         }
 
         private void Inform()
@@ -34,7 +43,7 @@ namespace CriticalHitCard
             Game.UI.AddTestLogEntry("Crit: " + Name);
         }
 
-        public virtual void ApplyEffect(Ship.GenericShip host)
+        public virtual void ApplyEffect(object sender, EventArgs e)
         {
 
         }

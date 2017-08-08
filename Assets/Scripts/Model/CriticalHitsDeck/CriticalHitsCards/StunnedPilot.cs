@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -14,13 +15,15 @@ namespace CriticalHitCard
             ImageUrl = "http://i.imgur.com/J9knseg.jpg";
         }
 
-        public override void ApplyEffect(Ship.GenericShip host)
+        public override void ApplyEffect(object sender, EventArgs e)
         {
             Game.UI.ShowInfo("After you execute a maneuver, if you are touching another ship or overlapping an obstacle token, suffer 1 damage");
             Game.UI.AddTestLogEntry("After you execute a maneuver, if you are touching another ship or overlapping an obstacle token, suffer 1 damage");
 
-            host.OnMovementFinish += CheckCollisionDamage;
-            host.AssignToken(new Tokens.StunnedPilotCritToken());
+            Host.OnMovementFinish += CheckCollisionDamage;
+            Host.AssignToken(new Tokens.StunnedPilotCritToken());
+
+            Triggers.FinishTrigger();
         }
 
         private void CheckCollisionDamage(Ship.GenericShip host)
@@ -30,22 +33,17 @@ namespace CriticalHitCard
                 Game.UI.ShowError("Stunned Pilot: Ship suffered damage");
                 Game.UI.AddTestLogEntry("Stunned Pilot: Ship suffered damage");
 
-                DiceRoll damageRoll = new DiceRoll(DiceKind.Attack, 0);
-                damageRoll.DiceList.Add(new Dice(DiceKind.Attack, DiceSide.Success));
+                Selection.ThisShip.AssignedDamageDiceroll.DiceList.Add(new Dice(DiceKind.Attack, DiceSide.Success));
 
-                /*DamageSourceEventArgs eventArgs = new DamageSourceEventArgs();
-                eventArgs.Source = this;
-                eventArgs.DamageType = DamageTypes.CriticalHitCard;*/
-
-                /*Triggers.RegisterTrigger(new Trigger()
+                Triggers.RegisterTrigger(new Trigger()
                 {
-                    Name = "Suffer regular damage",
-                    triggerType = TriggerTypes.OnRegularDamageIsDealt,
-                    TriggerOwner = Selection.ActiveShip.Owner.PlayerNo,
-                    eventHandler = Selection.ActiveShip.SufferRegularDamage
+                    Name = "Suffer damage",
+                    TriggerType = TriggerTypes.OnDamageIsDealt,
+                    TriggerOwner = Selection.ThisShip.Owner.PlayerNo,
+                    EventHandler = Selection.ThisShip.SufferDamage
                 });
 
-                SufferRegularDamage(SufferCriticalDamage);*/
+                Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, delegate { });
             }
         }
 

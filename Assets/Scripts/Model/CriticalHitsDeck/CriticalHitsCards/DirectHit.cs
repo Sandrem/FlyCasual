@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -14,13 +15,15 @@ namespace CriticalHitCard
             ImageUrl = "http://i.imgur.com/W81fPBx.jpg";
         }
 
-        public override void ApplyEffect(Ship.GenericShip host)
+        public override void ApplyEffect(object sender, EventArgs e)
         {
             Game.UI.ShowInfo("Additional hull damage");
             Game.UI.AddTestLogEntry("Additional hull damage");
-            host.AssignToken(new Tokens.DirectHitCritToken());
+            Host.AssignToken(new Tokens.DirectHitCritToken());
 
-            host.DecreaseHullValue();
+            Host.DecreaseHullValue();
+
+            Triggers.FinishTrigger();
         }
 
         public override void DiscardEffect(Ship.GenericShip host)
@@ -28,8 +31,8 @@ namespace CriticalHitCard
             host.RemoveToken(typeof(Tokens.DirectHitCritToken));
             if (host.TryRegenHull())
             {
-                Game.UI.ShowInfo("Restored additional hull damage");
-                Game.UI.AddTestLogEntry("Restored additional hull damage");
+                Game.UI.ShowInfo("Restored hull point");
+                Game.UI.AddTestLogEntry("Restored hull point");
             }
         }
     }

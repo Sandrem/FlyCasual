@@ -153,23 +153,13 @@ namespace Ship
             else
             {
                 bool isCritical = (AssignedDamageDiceroll.RegularSuccesses == 0);
-
-                //todo: rework
-                if (CheckFaceupCrit(isCritical))
-                {
-                    SufferHullDamage(true);
-                }
-                else
-                {
-                    SufferHullDamage(false);
-                }
+                SufferHullDamage(CheckFaceupCrit(isCritical));
             }
-
-            Triggers.FinishTrigger();
         }
 
         public void SufferHullDamage(bool isCritical)
         {
+
             if (isCritical)
             {
                 Combat.CurrentCriticalHitCard = CriticalHitsDeck.GetCritCard();
@@ -193,6 +183,7 @@ namespace Ship
             else
             {
                 AssignedDamageCards.Add(CriticalHitsDeck.GetCritCard());
+                Triggers.FinishTrigger();
             }
 
             AssignedDamageDiceroll.CancelHits(1);
@@ -226,6 +217,7 @@ namespace Ship
             Shields--;
             AssignedDamageDiceroll.CancelHits(1);
             CallAfterAssignedDamageIsChanged();
+            Triggers.FinishTrigger();
         }
 
         public void IsHullDestroyedCheck()

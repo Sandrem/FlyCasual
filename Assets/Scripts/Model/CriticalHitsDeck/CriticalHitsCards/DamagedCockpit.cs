@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -14,18 +15,20 @@ namespace CriticalHitCard
             ImageUrl = "http://i.imgur.com/SJjkO3L.jpg";
         }
 
-        public override void ApplyEffect(Ship.GenericShip host)
+        public override void ApplyEffect(object sender, EventArgs e)
         {
             Game.UI.ShowInfo("Pilot Skill is set to 0");
             Game.UI.AddTestLogEntry("Pilot Skill is set to 0");
+            Host.AssignToken(new Tokens.DamagedCockpitCritToken());
 
             Phases.OnRoundStart += ApplyDelayedEffect;
+
+            Triggers.FinishTrigger();
         }
 
         private void ApplyDelayedEffect()
         {
             Host.AfterGetPilotSkill += SetPilotSkill0;
-            Host.AssignToken(new Tokens.DamagedCockpitCritToken());
             Roster.UpdateShipStats(Host);
         }
 

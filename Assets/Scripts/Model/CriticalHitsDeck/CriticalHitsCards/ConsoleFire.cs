@@ -15,28 +15,39 @@ namespace CriticalHitCard
             ImageUrl = "http://i.imgur.com/Jamd8dB.jpg";
         }
 
-        public override void ApplyEffect(Ship.GenericShip host)
+        public override void ApplyEffect(object sender, EventArgs e)
         {
-            
             Game.UI.ShowInfo("At the start of each Combat phase, roll 1 attack die.");
             Game.UI.AddTestLogEntry("At the start of each Combat phase, roll 1 attack die.");
-            host.AssignToken(new Tokens.ConsoleFireCritToken());
+            Host.AssignToken(new Tokens.ConsoleFireCritToken());
 
-            host.OnCombatPhaseStart += PlanRollForDamage;
+            Host.OnCombatPhaseStart += PlanRollForDamage;
 
-            host.AfterGenerateAvailableActionsList += AddCancelCritAction;
+            Host.AfterGenerateAvailableActionsList += AddCancelCritAction;
+
+            Triggers.FinishTrigger();
         }
 
         private void PlanRollForDamage(Ship.GenericShip host)
         {
-            Triggers.RegisterTrigger(new Trigger() { Name = "#" + host.ShipId + ": Console Fire Crit", TriggerOwner = host.Owner.PlayerNo, TriggerType = TriggerTypes.OnCombatPhaseStart, EventHandler = RollForDamage });
-            //OldTriggers.AddTrigger("#" + host.ShipId + ": Console Fire Crit", TriggerTypes.OnCombatPhaseStart, RollForDamage, host, host.Owner.PlayerNo);
+            Triggers.RegisterTrigger(new Trigger() {
+                Name = "#" + host.ShipId + ": Console Fire Crit",
+                TriggerOwner = host.Owner.PlayerNo,
+                TriggerType = TriggerTypes.OnCombatPhaseStart,
+                EventHandler = RollForDamage
+            });
         }
 
         private void RollForDamage(object sender, EventArgs e)
         {
             Selection.ActiveShip = Host;
-            Phases.StartTemporarySubPhase("Console Fire", typeof(SubPhases.ConsoleFireCheckSubPhase));
+            Phases.StartTemporarySubPhase(
+                "Console Fire",
+                typeof(SubPhases.ConsoleFireCheckSubPhase),
+                delegate {
+                    Phases.FinishSubPhase(typeof(SubPhases.ConsoleFireCheckSubPhase));
+                    Triggers.FinishTrigger();
+                });
         }
 
         public override void DiscardEffect(Ship.GenericShip host)
@@ -63,6 +74,8 @@ namespace SubPhases
             dicesCount = 1;
 
             finishAction = FinishAction;
+
+            Name = "#" + Selection.ActiveShip.ShipId + ": " + Name;
         }
 
         protected override void FinishAction()
@@ -71,28 +84,39 @@ namespace SubPhases
 
             if (CurrentDiceRoll.DiceList[0].Side == DiceSide.Success)
             {
-                Game.UI.ShowError("Console Fire: ship suffered damage");
-                Game.UI.AddTestLogEntry("Console Fire: ship suffered damage");
-
-                /*DamageSourceEventArgs eventArgs = new DamageSourceEventArgs();
-                eventArgs.Source = new CriticalHitCard.ConsoleFire();
-                eventArgs.DamageType = DamageTypes.CriticalHitCard;*/
-
-                /*Triggers.RegisterTrigger(new Trigger()
-                {
-                    Name = "Suffer regular damage",
-                    triggerType = TriggerTypes.OnRegularDamageIsDealt,
-                    TriggerOwner = Selection.ActiveShip.Owner.PlayerNo,
-                    eventHandler = Selection.ActiveShip.SufferRegularDamage
-                });
-
-                SufferRegularDamage(SufferCriticalDamage);*/
-
+                SufferDamage();
+            }
+            else
+            {
+                NoDamage();
             }
 
-            Phases.FinishSubPhase(this.GetType());
+            
         }
 
+        private void SufferDamage()
+        {
+            Game.UI.ShowError("Console Fire: ship suffered damage");
+            Game.UI.AddTestLogEntry("Console Fire: ship suffered damage");
+
+            Selection.ActiveShip.AssignedDamageDiceroll.DiceList.Add(CurrentDiceRoll.DiceList[0]);
+
+            Triggers.RegisterTrigger(new Trigger()
+            {
+                Name = "Suffer damage",
+                TriggerType = TriggerTypes.OnDamageIsDealt,
+                TriggerOwner = Selection.ActiveShip.Owner.PlayerNo,
+                EventHandler = Selection.ActiveShip.SufferDamage
+            });
+
+            Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, callBack);
+        }
+
+        private void NoDamage()
+        {
+            Game.UI.ShowInfo("No damage");
+            callBack();
+        }
     }
 
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -16,15 +17,17 @@ namespace CriticalHitCard
             CancelDiceResults.Add(DiceSide.Crit);
         }
 
-        public override void ApplyEffect(Ship.GenericShip host)
+        public override void ApplyEffect(object sender, EventArgs e)
         {
             Game.UI.ShowInfo("You cannot perform any actions except actions listed on Damage cards.");
             Game.UI.AddTestLogEntry("You cannot perform any actions except actions listed on Damage cards.");
-            host.AssignToken(new Tokens.DamagedSensorArrayCritToken());
+            Host.AssignToken(new Tokens.DamagedSensorArrayCritToken());
 
-            host.OnTryAddAvailableAction += OnlyCancelCritActions;
+            Host.OnTryAddAvailableAction += OnlyCancelCritActions;
 
-            host.AfterGenerateAvailableActionsList += AddCancelCritAction;
+            Host.AfterGenerateAvailableActionsList += AddCancelCritAction;
+
+            Triggers.FinishTrigger();
         }
 
         public override void DiscardEffect(Ship.GenericShip host)

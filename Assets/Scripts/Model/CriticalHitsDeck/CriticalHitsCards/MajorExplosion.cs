@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -14,17 +15,33 @@ namespace CriticalHitCard
             ImageUrl = "http://i.imgur.com/6aASBM9.jpg";
         }
 
-        public override void ApplyEffect(Ship.GenericShip host)
+        public override void ApplyEffect(object sender, EventArgs e)
         {
-            Game.UI.ShowInfo("Roll 1 attack die. On a Hit result, suffer 1 critical damage.");
-            Game.UI.AddTestLogEntry("Roll 1 attack die. On a Hit result, suffer 1 critical damage.");
-            RollForDamage(host);
+            Game.UI.ShowInfo("On a Hit result, suffer 1 critical damage.");
+            Game.UI.AddTestLogEntry("On a Hit result, suffer 1 critical damage.");
+
+            Selection.ActiveShip = Host;
+
+            Triggers.RegisterTrigger(new Trigger()
+            {
+                Name = "Roll for asteroid damage",
+                TriggerOwner = Selection.ActiveShip.Owner.PlayerNo,
+                TriggerType = TriggerTypes.OnMajorExplosionCrit,
+                EventHandler = RollForDamage
+            });
+
+            Triggers.ResolveTriggers(TriggerTypes.OnMajorExplosionCrit, delegate { Triggers.FinishTrigger(); });
         }
 
-        private void RollForDamage(Ship.GenericShip host)
+        private void RollForDamage(object sender, EventArgs e)
         {
-            Selection.ActiveShip = host;
-            Phases.StartTemporarySubPhase("Major Explosion", typeof(SubPhases.MajorExplosionCheckSubPhase));
+            Phases.StartTemporarySubPhase(
+                "Major Explosion",
+                typeof(SubPhases.MajorExplosionCheckSubPhase),
+                delegate {
+                    Phases.FinishSubPhase(typeof(SubPhases.MajorExplosionCheckSubPhase));
+                    Triggers.FinishTrigger();
+                });
         }
 
     }
@@ -51,31 +68,37 @@ namespace SubPhases
 
             if (CurrentDiceRoll.DiceList[0].Side == DiceSide.Success)
             {
-                Game.UI.ShowError("Major Explosion: Suffer 1 additional critical damage");
-                Game.UI.AddTestLogEntry("Major Explosion: Suffer 1 additional critical damage");
-
                 DealDamage();
             }
-
-            Phases.FinishSubPhase(this.GetType());
+            else
+            {
+                NoDamage();
+            }
         }
 
         private void DealDamage()
         {
-            /*DamageSourceEventArgs eventArgs = new DamageSourceEventArgs();
-            eventArgs.Source = new CriticalHitCard.MajorExplosion();
-            eventArgs.DamageType = DamageTypes.CriticalHitCard;*/
+            Game.UI.ShowError("Major Explosion: Suffer 1 additional critical damage");
+            Game.UI.AddTestLogEntry("Major Explosion: Suffer 1 additional critical damage");
 
-            /*Triggers.RegisterTrigger(new Trigger() {
+            Selection.ActiveShip.AssignedDamageDiceroll.DiceList.Add(new Dice(DiceKind.Attack, DiceSide.Crit));
+
+            Triggers.RegisterTrigger(new Trigger()
+            {
                 Name = "Suffer critical damage",
+                TriggerType = TriggerTypes.OnDamageIsDealt,
                 TriggerOwner = Selection.ActiveShip.Owner.PlayerNo,
-                triggerType = TriggerTypes.OnCriticalDamageIsDealt,
-                eventHandler = Selection.ActiveShip.SufferCriticalDamage
+                EventHandler = Selection.ActiveShip.SufferDamage
             });
 
-            SufferRegularDamage(SufferCriticalDamage);*/
+            Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, callBack);
         }
 
+        private void NoDamage()
+        {
+            Game.UI.ShowInfo("No damage");
+            callBack();
+        }
     }
 
 }

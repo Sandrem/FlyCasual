@@ -23,14 +23,15 @@ namespace Ship
                 Actions.OnCheckTargetIsLegal += CanPerformAttack;
             }
 
-            public void CanPerformAttack(ref bool result, Ship.GenericShip attacker, Ship.GenericShip defender)
+            public void CanPerformAttack(ref bool result, GenericShip attacker, GenericShip defender)
             {
-                /*bool abilityIsActive = false;
+                bool abilityIsActive = false;
                 if (defender.ShipId != this.ShipId)
                 {
                     if (defender.Owner.PlayerNo == this.Owner.PlayerNo)
                     {
-                        if (Actions.GetRange(defender, this) <= 1)
+                        Board.ShipDistanceInformation positionInfo = new Board.ShipDistanceInformation(defender, this);
+                        if (positionInfo.Range <= 1)
                         {
                             if (Combat.SecondaryWeapon == null)
                             {
@@ -51,7 +52,7 @@ namespace Ship
                         Game.UI.ShowError("Biggs DarkLighter: You cannot attack target ship");
                     }
                     result = false;
-                }*/
+                }
             }
         }
     }

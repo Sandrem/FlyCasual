@@ -48,7 +48,7 @@ namespace ActionsList
         public override bool IsActionEffectAvailable()
         {
             bool result = false;
-            /*if (Combat.AttackStep == CombatStep.Attack)
+            if (Combat.AttackStep == CombatStep.Attack)
             {
                 if (Combat.SecondaryWeapon == null)
                 {
@@ -65,14 +65,15 @@ namespace ActionsList
                         }
                         if (Howlrunner != null)
                         {
-                            if (Actions.GetRange(Howlrunner, Combat.Attacker) == 1)
+                            Board.ShipDistanceInformation positionInfo = new Board.ShipDistanceInformation(Howlrunner, Combat.Attacker);
+                            if (positionInfo.Range == 1)
                             {
                                 result = true;
                             }
                         }
                     }
                 }
-            }*/
+            }
 
             return result;
         }

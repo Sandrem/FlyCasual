@@ -25,11 +25,12 @@ namespace Ship
 
             private void BackstabberPilotAbility(ref int diceNumber)
             {
-                /*if (!Actions.InArcCheck(Selection.AnotherShip, Selection.ThisShip))
+                Board.ShipShotDistanceInformation shotInformation = new Board.ShipShotDistanceInformation(Combat.Defender, Combat.Attacker);
+                if (!shotInformation.InArc)
                 {
                     Messages.ShowInfo("Backstabber: Additional dice");
                     diceNumber++;
-                }*/
+                }
             }
         }
     }

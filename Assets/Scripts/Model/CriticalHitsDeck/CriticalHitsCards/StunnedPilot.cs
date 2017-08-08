@@ -30,22 +30,17 @@ namespace CriticalHitCard
                 Game.UI.ShowError("Stunned Pilot: Ship suffered damage");
                 Game.UI.AddTestLogEntry("Stunned Pilot: Ship suffered damage");
 
-                DiceRoll damageRoll = new DiceRoll(DiceKind.Attack, 0);
-                damageRoll.DiceList.Add(new Dice(DiceKind.Attack, DiceSide.Success));
+                Selection.ThisShip.AssignedDamageDiceroll.DiceList.Add(new Dice(DiceKind.Attack, DiceSide.Success));
 
-                /*DamageSourceEventArgs eventArgs = new DamageSourceEventArgs();
-                eventArgs.Source = this;
-                eventArgs.DamageType = DamageTypes.CriticalHitCard;*/
-
-                /*Triggers.RegisterTrigger(new Trigger()
+                Triggers.RegisterTrigger(new Trigger()
                 {
-                    Name = "Suffer regular damage",
-                    triggerType = TriggerTypes.OnRegularDamageIsDealt,
-                    TriggerOwner = Selection.ActiveShip.Owner.PlayerNo,
-                    eventHandler = Selection.ActiveShip.SufferRegularDamage
+                    Name = "Suffer damage",
+                    TriggerType = TriggerTypes.OnDamageIsDealt,
+                    TriggerOwner = Selection.ThisShip.Owner.PlayerNo,
+                    EventHandler = Selection.ThisShip.SufferDamage
                 });
 
-                SufferRegularDamage(SufferCriticalDamage);*/
+                Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, delegate { });
             }
         }
 

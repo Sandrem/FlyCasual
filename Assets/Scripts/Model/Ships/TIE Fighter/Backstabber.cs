@@ -10,8 +10,6 @@ namespace Ship
         {
             public Backstabber() : base()
             {
-                IsHidden = true;
-
                 PilotName = "\"Backstabber\"";
                 ImageUrl = "https://vignette3.wikia.nocookie.net/xwing-miniatures/images/5/52/Backstabber.png";
                 IsUnique = true;

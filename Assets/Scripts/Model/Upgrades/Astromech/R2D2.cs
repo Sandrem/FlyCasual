@@ -12,8 +12,6 @@ namespace UpgradesList
 
         public R2D2() : base()
         {
-            IsHidden = true;
-
             Type = UpgradeSlot.Astromech;
             Name = ShortName = "R2-D2";
             ImageUrl = "https://vignette2.wikia.nocookie.net/xwing-miniatures/images/5/57/R2-d2.png";

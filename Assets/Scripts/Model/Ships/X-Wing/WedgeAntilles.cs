@@ -10,8 +10,6 @@ namespace Ship
         {
             public WedgeAntilles() : base()
             {
-                IsHidden = true;
-
                 PilotName = "Wedge Antilles";
                 ImageUrl = "https://vignette2.wikia.nocookie.net/xwing-miniatures/images/8/80/Wedge-antilles.png";
                 IsUnique = true;

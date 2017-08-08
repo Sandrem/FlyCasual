@@ -10,8 +10,6 @@ namespace Ship
         {
             public Howlrunner() : base()
             {
-                IsHidden = true;
-
                 PilotName = "\"Howlrunner\"";
                 ImageUrl = "https://vignette4.wikia.nocookie.net/xwing-miniatures/images/7/71/Howlrunner.png";
                 IsUnique = true;

@@ -159,6 +159,7 @@ namespace Ship
 
         public void SufferHullDamage(bool isCritical)
         {
+            if (DebugManager.DebugAllDamageIsCrits) isCritical = true;
 
             if (isCritical)
             {

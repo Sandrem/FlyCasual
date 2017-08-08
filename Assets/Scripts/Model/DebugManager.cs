@@ -6,6 +6,8 @@ public static class DebugManager
 {
     public static bool FullDebug;
 
+    public static bool DebugAllDamageIsCrits;
+
     private static bool debugPhases;
     public static bool DebugPhases
     {

@@ -15,16 +15,16 @@ namespace CriticalHitCard
             ImageUrl = "http://i.imgur.com/Jamd8dB.jpg";
         }
 
-        public override void ApplyEffect(Ship.GenericShip host)
+        public override void ApplyEffect(object sender, EventArgs e)
         {
             
             Game.UI.ShowInfo("At the start of each Combat phase, roll 1 attack die.");
             Game.UI.AddTestLogEntry("At the start of each Combat phase, roll 1 attack die.");
-            host.AssignToken(new Tokens.ConsoleFireCritToken());
+            Host.AssignToken(new Tokens.ConsoleFireCritToken());
 
-            host.OnCombatPhaseStart += PlanRollForDamage;
+            Host.OnCombatPhaseStart += PlanRollForDamage;
 
-            host.AfterGenerateAvailableActionsList += AddCancelCritAction;
+            Host.AfterGenerateAvailableActionsList += AddCancelCritAction;
         }
 
         private void PlanRollForDamage(Ship.GenericShip host)

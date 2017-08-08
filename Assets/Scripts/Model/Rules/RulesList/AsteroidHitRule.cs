@@ -49,7 +49,13 @@ namespace RulesList
             Game.UI.ShowError("Hit asteroid during movement - rolling for damage");
 
             Selection.ActiveShip = Selection.ThisShip;
-            Phases.StartTemporarySubPhase("Damage from asteroid collision", typeof(SubPhases.AsteroidHitCheckSubPhase), delegate { Phases.FinishSubPhase(typeof(SubPhases.AsteroidHitCheckSubPhase)); Triggers.FinishTrigger(); });
+            Phases.StartTemporarySubPhase(
+                "Damage from asteroid collision",
+                typeof(SubPhases.AsteroidHitCheckSubPhase),
+                delegate {
+                    Phases.FinishSubPhase(typeof(SubPhases.AsteroidHitCheckSubPhase));
+                    Triggers.FinishTrigger();
+                });
         }
     }
 }

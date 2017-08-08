@@ -16,7 +16,7 @@ public static class CriticalHitsDeck{
 
     public static void InitializeDeck()
     {
-        for (int i = 0; i < 6; i++) // Max should be 7
+        for (int i = 0; i < 7; i++) // Max should be 7
         {
             Deck.Add(new CriticalHitCard.DirectHit());
         }
@@ -24,18 +24,18 @@ public static class CriticalHitsDeck{
         for (int i = 0; i < 2; i++)
         {
             Deck.Add(new CriticalHitCard.BlindedPilot());
-            Deck.Add(new CriticalHitCard.ConsoleFire());
             Deck.Add(new CriticalHitCard.DamagedCockpit());
             Deck.Add(new CriticalHitCard.DamagedEngine());
             Deck.Add(new CriticalHitCard.DamagedSensorArray());
             Deck.Add(new CriticalHitCard.LooseStabilizer());
-            Deck.Add(new CriticalHitCard.MajorExplosion());
             Deck.Add(new CriticalHitCard.MajorHullBreach());
             Deck.Add(new CriticalHitCard.ShakenPilot());
             Deck.Add(new CriticalHitCard.StructuralDamage());
-            Deck.Add(new CriticalHitCard.StunnedPilot());
             Deck.Add(new CriticalHitCard.ThrustControlFire());
             Deck.Add(new CriticalHitCard.WeaponsFailure());
+            Deck.Add(new CriticalHitCard.ConsoleFire());
+            Deck.Add(new CriticalHitCard.StunnedPilot());
+            Deck.Add(new CriticalHitCard.MajorExplosion());
         }
     }
 
@@ -62,12 +62,6 @@ public static class CriticalHitsDeck{
         }
 
         return deckSize;
-    }
-
-    //old
-    public static void DrawRegular(object sender, EventArgs e)
-    {
-        //(sender as Ship.GenericShip).SufferHullDamage();
     }
 
 }

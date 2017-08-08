@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -14,12 +15,12 @@ namespace CriticalHitCard
             ImageUrl = "http://i.imgur.com/kUvUwHQ.jpg";
         }
 
-        public override void ApplyEffect(Ship.GenericShip host)
+        public override void ApplyEffect(object sender, EventArgs e)
         {
             Game.UI.ShowInfo("Received stress token");
             Game.UI.AddTestLogEntry("Received stress token");
 
-            host.AssignToken(new Tokens.StressToken());
+            Host.AssignToken(new Tokens.StressToken());
         }
 
     }

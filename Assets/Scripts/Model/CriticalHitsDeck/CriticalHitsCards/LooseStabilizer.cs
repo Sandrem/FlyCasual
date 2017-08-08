@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -14,14 +15,14 @@ namespace CriticalHitCard
             ImageUrl = "http://i.imgur.com/Kouy0v8.jpg";
         }
 
-        public override void ApplyEffect(Ship.GenericShip host)
+        public override void ApplyEffect(object sender, EventArgs e)
         {
             Game.UI.ShowInfo("After you execute a white maneuver, receive 1 stress token");
             Game.UI.AddTestLogEntry("After you execute a white maneuver, receive 1 stress token");
-            host.AssignToken(new Tokens.LooseStabilizerCritToken());
+            Host.AssignToken(new Tokens.LooseStabilizerCritToken());
 
-            host.OnMovementFinish += StressAfterWhiteManeuvers;
-            host.AfterGenerateAvailableActionsList += AddCancelCritAction;
+            Host.OnMovementFinish += StressAfterWhiteManeuvers;
+            Host.AfterGenerateAvailableActionsList += AddCancelCritAction;
         }
 
         public override void DiscardEffect(Ship.GenericShip host)

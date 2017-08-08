@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -15,16 +16,16 @@ namespace CriticalHitCard
             CancelDiceResults.Add(DiceSide.Success);
         }
 
-        public override void ApplyEffect(Ship.GenericShip host)
+        public override void ApplyEffect(object sender, EventArgs e)
         {
             Game.UI.ShowInfo("Agility is reduced by 1");
             Game.UI.AddTestLogEntry("Agility is reduced by 1");
-            host.AssignToken(new Tokens.StructuralDamageCritToken());
+            Host.AssignToken(new Tokens.StructuralDamageCritToken());
 
-            host.AfterGetAgility += ReduceAgility;
-            Roster.UpdateShipStats(host);
+            Host.AfterGetAgility += ReduceAgility;
+            Roster.UpdateShipStats(Host);
 
-            host.AfterGenerateAvailableActionsList += AddCancelCritAction;
+            Host.AfterGenerateAvailableActionsList += AddCancelCritAction;
         }
 
         public override void DiscardEffect(Ship.GenericShip host)

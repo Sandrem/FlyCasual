@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -14,13 +15,13 @@ namespace CriticalHitCard
             ImageUrl = "http://i.imgur.com/BvKig48.jpg";
         }
 
-        public override void ApplyEffect(Ship.GenericShip host)
+        public override void ApplyEffect(object sender, EventArgs e)
         {
             Game.UI.ShowInfo("Treat all turn maneuvers as red maneuvers");
             Game.UI.AddTestLogEntry("Treat all turn maneuvers as red maneuvers");
-            host.AssignToken(new Tokens.DamagedEngineCritToken());
+            Host.AssignToken(new Tokens.DamagedEngineCritToken());
 
-            host.AfterGetManeuverColorIncreaseComplexity += TurnManeuversAreRed;
+            Host.AfterGetManeuverColorIncreaseComplexity += TurnManeuversAreRed;
         }
 
         public override void DiscardEffect(Ship.GenericShip host)

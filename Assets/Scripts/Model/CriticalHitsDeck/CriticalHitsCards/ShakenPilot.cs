@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -14,14 +15,14 @@ namespace CriticalHitCard
             ImageUrl = "http://i.imgur.com/BGMZR5Q.jpg";
         }
 
-        public override void ApplyEffect(Ship.GenericShip host)
+        public override void ApplyEffect(object sender, EventArgs e)
         {
             Game.UI.ShowInfo("Cannot be assigned straight maneuvers");
             Game.UI.AddTestLogEntry("Cannot be assigned straight maneuvers");
-            host.AssignToken(new Tokens.ShakenPilotCritToken());
+            Host.AssignToken(new Tokens.ShakenPilotCritToken());
 
-            host.AfterGetManeuverAvailablity += CannotBeAssignedStraightManeuvers;
-            host.OnMovementFinish += DiscardEffect;
+            Host.AfterGetManeuverAvailablity += CannotBeAssignedStraightManeuvers;
+            Host.OnMovementFinish += DiscardEffect;
         }
 
         public override void DiscardEffect(Ship.GenericShip host)

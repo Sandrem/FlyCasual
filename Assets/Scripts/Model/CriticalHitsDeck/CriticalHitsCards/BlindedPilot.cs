@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,15 +14,15 @@ namespace CriticalHitCard
             ImageUrl = "http://i.imgur.com/keETw8q.jpg";
         }
 
-        public override void ApplyEffect(Ship.GenericShip host)
+        public override void ApplyEffect(object sender, EventArgs e)
         {
             Game.UI.ShowInfo("Cannot perform attack next time");
             Game.UI.AddTestLogEntry("Cannot perform attack next time");
 
-            host.OnTryPerformAttack += OnTryPreformAttack;
-            host.AssignToken(new Tokens.BlindedPilotCritToken());
+            Host.OnTryPerformAttack += OnTryPreformAttack;
+            Host.AssignToken(new Tokens.BlindedPilotCritToken());
 
-            host.AfterAttackWindow += DiscardEffect;
+            Host.AfterAttackWindow += DiscardEffect;
         }
 
         private void OnTryPreformAttack(ref bool result)

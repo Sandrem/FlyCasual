@@ -15,7 +15,9 @@ public enum TriggerTypes
     OnActionSubPhaseStart,
     OnCombatPhaseStart,
     OnFaceupCritCardReadyToBeDealt,
-    OnDamageIsDealt
+    OnDamageIsDealt,
+    OnFaceupCritCardIsDealt,
+    OnMajorExplosionCrit
 }
 
 public class Trigger
@@ -88,7 +90,6 @@ public class StackLevel
 
 public static partial class Triggers
 {
-
     private static List<StackLevel> TriggersStack = new List<StackLevel>();
 
     // PUBLIC

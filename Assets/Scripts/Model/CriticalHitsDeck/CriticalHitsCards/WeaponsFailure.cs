@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -16,15 +17,15 @@ namespace CriticalHitCard
             CancelDiceResults.Add(DiceSide.Crit);
         }
 
-        public override void ApplyEffect(Ship.GenericShip host)
+        public override void ApplyEffect(object sender, EventArgs e)
         {
             Game.UI.ShowInfo("When attacking, roll 1 fewer attack die");
             Game.UI.AddTestLogEntry("When attacking, roll 1 fewer attack die");
-            host.AssignToken(new Tokens.WeaponsFailureCritToken());
+            Host.AssignToken(new Tokens.WeaponsFailureCritToken());
 
-            host.AfterGotNumberOfPrimaryWeaponAttackDices += ReduceNumberOfAttackDices;
+            Host.AfterGotNumberOfPrimaryWeaponAttackDices += ReduceNumberOfAttackDices;
 
-            host.AfterGenerateAvailableActionsList += AddCancelCritAction;
+            Host.AfterGenerateAvailableActionsList += AddCancelCritAction;
         }
 
         public override void DiscardEffect(Ship.GenericShip host)

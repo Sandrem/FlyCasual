@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -14,13 +15,13 @@ namespace CriticalHitCard
             ImageUrl = "http://i.imgur.com/J9knseg.jpg";
         }
 
-        public override void ApplyEffect(Ship.GenericShip host)
+        public override void ApplyEffect(object sender, EventArgs e)
         {
             Game.UI.ShowInfo("After you execute a maneuver, if you are touching another ship or overlapping an obstacle token, suffer 1 damage");
             Game.UI.AddTestLogEntry("After you execute a maneuver, if you are touching another ship or overlapping an obstacle token, suffer 1 damage");
 
-            host.OnMovementFinish += CheckCollisionDamage;
-            host.AssignToken(new Tokens.StunnedPilotCritToken());
+            Host.OnMovementFinish += CheckCollisionDamage;
+            Host.AssignToken(new Tokens.StunnedPilotCritToken());
         }
 
         private void CheckCollisionDamage(Ship.GenericShip host)

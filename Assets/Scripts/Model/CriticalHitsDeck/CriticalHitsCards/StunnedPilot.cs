@@ -22,6 +22,8 @@ namespace CriticalHitCard
 
             Host.OnMovementFinish += CheckCollisionDamage;
             Host.AssignToken(new Tokens.StunnedPilotCritToken());
+
+            Triggers.FinishTrigger();
         }
 
         private void CheckCollisionDamage(Ship.GenericShip host)

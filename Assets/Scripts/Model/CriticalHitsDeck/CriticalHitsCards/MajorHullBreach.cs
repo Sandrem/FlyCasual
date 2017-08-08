@@ -24,6 +24,8 @@ namespace CriticalHitCard
             Phases.OnPlanningPhaseStart += DealDamageCardFaceupStart;
 
             Host.AfterGenerateAvailableActionsList += AddCancelCritAction;
+
+            Triggers.FinishTrigger();
         }
 
         public override void DiscardEffect(Ship.GenericShip host)

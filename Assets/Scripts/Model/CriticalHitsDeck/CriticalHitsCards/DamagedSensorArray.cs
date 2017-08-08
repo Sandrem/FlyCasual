@@ -26,6 +26,8 @@ namespace CriticalHitCard
             Host.OnTryAddAvailableAction += OnlyCancelCritActions;
 
             Host.AfterGenerateAvailableActionsList += AddCancelCritAction;
+
+            Triggers.FinishTrigger();
         }
 
         public override void DiscardEffect(Ship.GenericShip host)

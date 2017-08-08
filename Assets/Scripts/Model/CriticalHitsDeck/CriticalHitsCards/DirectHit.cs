@@ -22,6 +22,8 @@ namespace CriticalHitCard
             Host.AssignToken(new Tokens.DirectHitCritToken());
 
             Host.DecreaseHullValue();
+
+            Triggers.FinishTrigger();
         }
 
         public override void DiscardEffect(Ship.GenericShip host)

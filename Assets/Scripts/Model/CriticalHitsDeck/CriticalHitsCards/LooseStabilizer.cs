@@ -23,6 +23,8 @@ namespace CriticalHitCard
 
             Host.OnMovementFinish += StressAfterWhiteManeuvers;
             Host.AfterGenerateAvailableActionsList += AddCancelCritAction;
+
+            Triggers.FinishTrigger();
         }
 
         public override void DiscardEffect(Ship.GenericShip host)

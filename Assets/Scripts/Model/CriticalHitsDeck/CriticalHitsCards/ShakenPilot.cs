@@ -23,6 +23,8 @@ namespace CriticalHitCard
 
             Host.AfterGetManeuverAvailablity += CannotBeAssignedStraightManeuvers;
             Host.OnMovementFinish += DiscardEffect;
+
+            Triggers.FinishTrigger();
         }
 
         public override void DiscardEffect(Ship.GenericShip host)

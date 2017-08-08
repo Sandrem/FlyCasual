@@ -17,7 +17,6 @@ namespace CriticalHitCard
 
         public override void ApplyEffect(object sender, EventArgs e)
         {
-            
             Game.UI.ShowInfo("At the start of each Combat phase, roll 1 attack die.");
             Game.UI.AddTestLogEntry("At the start of each Combat phase, roll 1 attack die.");
             Host.AssignToken(new Tokens.ConsoleFireCritToken());
@@ -25,6 +24,8 @@ namespace CriticalHitCard
             Host.OnCombatPhaseStart += PlanRollForDamage;
 
             Host.AfterGenerateAvailableActionsList += AddCancelCritAction;
+
+            Triggers.FinishTrigger();
         }
 
         private void PlanRollForDamage(Ship.GenericShip host)

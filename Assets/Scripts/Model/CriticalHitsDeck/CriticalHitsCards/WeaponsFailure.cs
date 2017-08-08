@@ -26,6 +26,8 @@ namespace CriticalHitCard
             Host.AfterGotNumberOfPrimaryWeaponAttackDices += ReduceNumberOfAttackDices;
 
             Host.AfterGenerateAvailableActionsList += AddCancelCritAction;
+
+            Triggers.FinishTrigger();
         }
 
         public override void DiscardEffect(Ship.GenericShip host)

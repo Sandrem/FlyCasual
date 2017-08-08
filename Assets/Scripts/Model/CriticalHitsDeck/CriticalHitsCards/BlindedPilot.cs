@@ -23,6 +23,8 @@ namespace CriticalHitCard
             Host.AssignToken(new Tokens.BlindedPilotCritToken());
 
             Host.AfterAttackWindow += DiscardEffect;
+
+            Triggers.FinishTrigger();
         }
 
         private void OnTryPreformAttack(ref bool result)

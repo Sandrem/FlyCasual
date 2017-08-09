@@ -48,7 +48,7 @@ namespace ActionsList
             Name = EffectName = "R2-F2: Increase Agility";
         }
 
-        public override void ActionTake(System.Action callBack)
+        public override void ActionTake()
         {
             Sounds.PlaySoundOnce("Astromech-Beeping-and-whistling");
 
@@ -57,7 +57,7 @@ namespace ActionsList
             host.AssignToken(new Conditions.R2F2Condition());
             Phases.OnEndPhaseStart += R2F2DecreaseAgility;
             Phases.Next();
-            callBack();
+            Phases.CurrentSubPhase.callBack();
         }
 
         private void R2F2DecreaseAgility()

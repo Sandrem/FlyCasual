@@ -46,9 +46,13 @@ namespace ActionsList
             return result;
         }
 
-        public override void ActionTake(System.Action callBack)
+        public override void ActionTake()
         {
-            Phases.StartTemporarySubPhase("Select target for Target Lock", typeof(SubPhases.SelectTargetLockSubPhase), callBack);
+            Phases.StartTemporarySubPhase(
+                "Select target for Target Lock",
+                typeof(SubPhases.SelectTargetLockSubPhase),
+                Phases.CurrentSubPhase.callBack
+            );
         }
 
     }

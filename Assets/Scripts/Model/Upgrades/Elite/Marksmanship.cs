@@ -46,14 +46,14 @@ namespace ActionsList
             Name = EffectName = "Marksmanship";
         }
 
-        public override void ActionTake(System.Action callBack)
+        public override void ActionTake()
         {
             host = Selection.ThisShip;
             host.AfterGenerateAvailableActionEffectsList += MarksmanshipAddDiceModification;
             host.AssignToken(new Conditions.MarksmanshipCondition());
             Phases.OnEndPhaseStart += MarksmanshipUnSubscribeToFiceModification;
             Phases.Next();
-            callBack();
+            Phases.CurrentSubPhase.callBack();
         }
 
         private void MarksmanshipAddDiceModification(Ship.GenericShip ship)

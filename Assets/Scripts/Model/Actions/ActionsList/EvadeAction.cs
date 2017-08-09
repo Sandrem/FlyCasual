@@ -25,10 +25,10 @@ namespace ActionsList
             return result;
         }
 
-        public override void ActionTake(System.Action callBack)
+        public override void ActionTake()
         {
             Selection.ThisShip.AssignToken(new Tokens.EvadeToken());
-            callBack();
+            Phases.CurrentSubPhase.callBack();
         }
 
     }

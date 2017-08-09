@@ -31,7 +31,7 @@ namespace ActionsList
             return true;
         }
 
-        public virtual void ActionTake(System.Action callBack)
+        public virtual void ActionTake()
         {
 
         }

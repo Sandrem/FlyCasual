@@ -15,9 +15,19 @@ namespace Players
             Name = "Human";
         }
 
-        public override void PerformAction(object sender, EventArgs e)
+        public override void PerformAction()
         {
-            Phases.StartTemporarySubPhase("Action", typeof(SubPhases.ActionDecisonSubPhase), delegate () { Phases.FinishSubPhase(typeof(SubPhases.ActionDecisonSubPhase)); Triggers.FinishTrigger(); });
+
+            List<ActionsList.GenericAction> availableActions = Selection.ThisShip.GetAvailableActionsList();
+            foreach (var action in availableActions)
+            {
+                (Phases.CurrentSubPhase as SubPhases.DecisionSubPhase).AddDecision(action.Name, delegate {
+                    Tooltips.EndTooltip();
+                    Game.UI.HideNextButton();
+                    Selection.ThisShip.AddAlreadyExecutedAction(action);
+                    action.ActionTake();
+                });
+            }
         }
 
         public override void PerformFreeAction()

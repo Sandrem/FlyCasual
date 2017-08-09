@@ -49,13 +49,13 @@ namespace ActionsList
             Name = EffectName = "Expert Handling";
         }
 
-        public override void ActionTake(System.Action callBack)
+        public override void ActionTake()
         {
             host = Selection.ThisShip;
             //TODO:
             // Start barrel roll
             GenericAction action = new BarrelRollAction();
-            action.ActionTake(delegate () { Triggers.FinishTrigger(); });
+            action.ActionTake();
             // On success remove tl (selection?)
             host.RemoveToken(typeof(Tokens.RedTargetLockToken), '*');
             // On success if cannot Barrel Roll - add stress
@@ -75,7 +75,7 @@ namespace ActionsList
             }
             // !!!  A ship equipped with Expert Handling cannot perform a barrel roll and use the Expert Handling action in the same round.
             //Phases.Next();
-            callBack();
+            Phases.CurrentSubPhase.callBack();
         }
 
     }

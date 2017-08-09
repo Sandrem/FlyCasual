@@ -12,10 +12,10 @@ namespace ActionsList
             Name = "Barrel Roll";
         }
 
-        public override void ActionTake(System.Action callBack)
+        public override void ActionTake()
         {
             Phases.CurrentSubPhase.Pause();
-            Phases.StartTemporarySubPhase("Barrel Roll", typeof(SubPhases.BarrelRollPlanningSubPhase), callBack);
+            Phases.StartTemporarySubPhase("Barrel Roll", typeof(SubPhases.BarrelRollPlanningSubPhase), Phases.CurrentSubPhase.callBack);
         }
 
     }

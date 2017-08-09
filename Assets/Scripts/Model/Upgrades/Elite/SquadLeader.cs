@@ -50,10 +50,10 @@ namespace ActionsList
             Name = EffectName = "Squad Leader";
         }
 
-        public override void ActionTake(System.Action callBack)
+        public override void ActionTake()
         {
             // Select ally and distance 1-2 to give it free action
-            callBack();
+            Phases.CurrentSubPhase.callBack();
         }
 
     }

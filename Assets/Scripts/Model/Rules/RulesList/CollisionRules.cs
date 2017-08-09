@@ -23,7 +23,7 @@ namespace RulesList
         {
             if (Selection.ThisShip.IsBumped)
             {
-                Game.UI.ShowError("Collided into ship - action subphase is skipped");
+                Messages.ShowErrorToHuman("Collided into ship - action subphase is skipped");
                 Selection.ThisShip.IsSkipsActionSubPhase = true;
             }
         }
@@ -44,7 +44,7 @@ namespace RulesList
         {
             if ((attacker.IsBumped) && (attacker.ShipsBumped.Contains(defender)) && (defender.ShipsBumped.Contains(attacker)))
             {
-                Game.UI.ShowError("Cannot attack ship that you are touching");
+                Messages.ShowErrorToHuman("Cannot attack ship that you are touching");
                 result = false;
             }
         }

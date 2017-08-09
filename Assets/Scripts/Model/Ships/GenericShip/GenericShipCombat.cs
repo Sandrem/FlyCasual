@@ -178,18 +178,22 @@ namespace Ship
                 if (Combat.CurrentCriticalHitCard != null)
                 {
                     AssignedCritCards.Add(Combat.CurrentCriticalHitCard);
+                    DecreaseHullValue();
                     Combat.CurrentCriticalHitCard.AssignCrit(this);
+                }
+                else
+                {
+                    Triggers.FinishTrigger();
                 }
             }
             else
             {
                 AssignedDamageCards.Add(CriticalHitsDeck.GetCritCard());
+                DecreaseHullValue();
                 Triggers.FinishTrigger();
             }
 
             AssignedDamageDiceroll.CancelHits(1);
-
-            DecreaseHullValue();
         }
 
         public void DecreaseHullValue()

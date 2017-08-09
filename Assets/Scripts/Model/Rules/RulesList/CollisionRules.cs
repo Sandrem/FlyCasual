@@ -15,7 +15,7 @@ namespace RulesList
 
         private void SubscribeEvents()
         {
-            Actions.OnCheckTargetIsLegal += CanPerformAttack;
+            TargetIsLegalForShotRule.OnCheckTargetIsLegal += CanPerformAttack;
             Phases.BeforeActionSubPhaseStart += CheckSkipPerformAction;
         }
 

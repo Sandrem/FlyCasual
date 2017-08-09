@@ -53,7 +53,7 @@ namespace Ship
             if (OnCombatPhaseStart != null) OnCombatPhaseStart(this);
         }
         
-        public bool CallTryPerformAttack(bool result = true)
+        public bool CallCanPerformAttack(bool result = true)
         {
             if (OnTryPerformAttack != null) OnTryPerformAttack(ref result);
 

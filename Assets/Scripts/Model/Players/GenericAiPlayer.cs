@@ -122,7 +122,7 @@ namespace Players
                     Selection.TryToChangeAnotherShip("ShipId:" + shipHolder.Key.ShipId);
                     Combat.SelectWeapon();
 
-                    if (Actions.TargetIsLegal())
+                    if (Rules.TargetIsLegalForShot.IsLegal())
                     {
                         if (DebugManager.DebugAI) Debug.Log("AI target legal: " + Selection.AnotherShip);
                         attackPerformed = true;

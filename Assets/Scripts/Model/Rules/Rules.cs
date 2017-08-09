@@ -19,6 +19,7 @@ public static class Rules
     public static AsteroidHitRule AsteroidHit { get; private set; }
     public static AsteroidObstructionRule AsteroidObstruction { get; private set; }
     public static InitiativeRule Initiative { get; private set; }
+    public static TargetIsLegalForShotRule TargetIsLegalForShot { get; private set; }
 
     private static GameManagerScript Game;
 
@@ -39,6 +40,8 @@ public static class Rules
         AsteroidHit = new AsteroidHitRule(Game);
         AsteroidObstruction = new AsteroidObstructionRule(Game);
         Initiative = new InitiativeRule(Game);
+        TargetIsLegalForShot = new TargetIsLegalForShotRule();
     }
+
 }
 

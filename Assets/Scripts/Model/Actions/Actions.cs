@@ -12,10 +12,6 @@ public static partial class Actions {
 
     public static CriticalHitCard.GenericCriticalHit SelectedCriticalHitCard;
 
-    //EVENTS
-    public delegate void EventHandler2Ships(ref bool result, Ship.GenericShip attacker, Ship.GenericShip defender);
-    public static event EventHandler2Ships OnCheckTargetIsLegal;
-
     static Actions()
     {
         Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
@@ -160,18 +156,6 @@ public static partial class Actions {
 
         return false;
     }
-
-    public static void OnlyCheckShot() {
-		TargetIsLegal();
-	}
-
-	public static bool TargetIsLegal() {
-        bool result = true;
-        result = Selection.ThisShip.CallTryPerformAttack(result);
-        //Todo: move to ship
-        if (result) OnCheckTargetIsLegal(ref result, Selection.ThisShip, Selection.AnotherShip);
-		return result;
-	}
 
     public static bool HasTargetLockOn(Ship.GenericShip attacker, Ship.GenericShip defender)
     {

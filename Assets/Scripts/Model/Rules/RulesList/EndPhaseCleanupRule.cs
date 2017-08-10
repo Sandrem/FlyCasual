@@ -22,6 +22,7 @@ namespace RulesList
             {
                 ClearShipTokens(shipHolder.Value);
                 ClearShipFlags(shipHolder.Value);
+                ClearAssignedManeuvers(shipHolder.Value);
             }
         }
 
@@ -36,6 +37,11 @@ namespace RulesList
             ship.IsAttackPerformed = false;
             ship.IsManeuverPerformed = false;
             ship.IsSkipsActionSubPhase = false;
+        }
+
+        private void ClearAssignedManeuvers(Ship.GenericShip ship)
+        {
+            ship.AssignedManeuver = null;
         }
     }
 }

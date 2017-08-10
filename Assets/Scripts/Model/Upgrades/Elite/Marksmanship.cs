@@ -52,7 +52,6 @@ namespace ActionsList
             host.AfterGenerateAvailableActionEffectsList += MarksmanshipAddDiceModification;
             host.AssignToken(new Conditions.MarksmanshipCondition());
             Phases.OnEndPhaseStart += MarksmanshipUnSubscribeToFiceModification;
-            Phases.Next();
             Phases.CurrentSubPhase.callBack();
         }
 

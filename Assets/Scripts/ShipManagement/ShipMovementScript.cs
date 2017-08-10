@@ -165,12 +165,15 @@ public class ShipMovementScript : MonoBehaviour {
                 break;
         }
 
-        Movement.ManeuverColor color = Selection.ThisShip.GetColorComplexityOfManeuver(parameters);
+        Movement.MovementStruct result = new Movement.MovementStruct()
+        {
+            Speed = speed,
+            Direction = direction,
+            Bearing = bearing,
+            ColorComplexity = Selection.ThisShip.Maneuvers[parameters]
+        };
 
-        Movement.MovementStruct result = new Movement.MovementStruct();
-        result.Speed = speed;
-        result.Direction = direction;
-        result.Bearing = bearing;
+        Movement.ManeuverColor color = Selection.ThisShip.GetColorComplexityOfManeuver(result);
         result.ColorComplexity = color;
 
         return result;

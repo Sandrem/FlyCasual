@@ -119,28 +119,32 @@ public static partial class Triggers
             currentLevel = GetCurrentLevel();
         }
 
-        SetStackLevelCallBack(callBack);
-
-        List<Trigger> currentTriggersList = currentLevel.GetTriggersByPlayer(Phases.PlayerWithInitiative);
-        Players.PlayerNo currentPlayer = (currentTriggersList.Count > 0) ? Phases.PlayerWithInitiative : Roster.AnotherPlayer(Phases.PlayerWithInitiative);
-        currentTriggersList = currentLevel.GetTriggersByPlayer(currentPlayer);
-
-        if (currentTriggersList.Count != 0)
+        if (!currentLevel.IsActive)
         {
-            currentLevel.IsActive = true;
-            if ((currentTriggersList.Count == 1) || (IsAllSkippable(currentTriggersList)))
+            SetStackLevelCallBack(callBack);
+
+            List<Trigger> currentTriggersList = currentLevel.GetTriggersByPlayer(Phases.PlayerWithInitiative);
+            Players.PlayerNo currentPlayer = (currentTriggersList.Count > 0) ? Phases.PlayerWithInitiative : Roster.AnotherPlayer(Phases.PlayerWithInitiative);
+            currentTriggersList = currentLevel.GetTriggersByPlayer(currentPlayer);
+
+            if (currentTriggersList.Count != 0)
             {
-                FireTrigger(currentTriggersList[0]);
+                currentLevel.IsActive = true;
+                if ((currentTriggersList.Count == 1) || (IsAllSkippable(currentTriggersList)))
+                {
+                    FireTrigger(currentTriggersList[0]);
+                }
+                else
+                {
+                    RunDecisionSubPhase();
+                }
             }
             else
             {
-                RunDecisionSubPhase();
+                DoCallBack();
             }
         }
-        else
-        {
-            DoCallBack();
-        }
+        
     }
 
     public static void FireTrigger(Trigger trigger)
@@ -157,6 +161,7 @@ public static partial class Triggers
         if (DebugManager.DebugTriggers) Debug.Log("Trigger is finished: " + currentTrigger.Name);
 
         currentStackLevel.RemoveTrigger(currentTrigger);
+        currentStackLevel.IsActive = false;
 
         ResolveTriggers(currentTrigger.TriggerType);
     }

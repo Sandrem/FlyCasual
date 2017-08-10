@@ -1,12 +1,11 @@
 ﻿namespace RulesList
+
 {
     public class FiringRangeLimit
     {
-        private GameManagerScript Game;
 
-        public FiringRangeLimit(GameManagerScript game)
+        public FiringRangeLimit()
         {
-            Game = game;
             SubscribeEvents();
         }
 
@@ -21,7 +20,7 @@
             Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(attacker, defender);
             if (shotInfo.Range > 3)
             {
-                if (attacker.Owner.Type == Players.PlayerType.Human) Game.UI.ShowError("Ship is outside your firing range");
+                if (attacker.Owner.Type == Players.PlayerType.Human) Messages.ShowErrorToHuman("Ship is outside your firing range");
                 result = false;
             }
         }

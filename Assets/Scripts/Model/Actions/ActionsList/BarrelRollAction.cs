@@ -15,7 +15,11 @@ namespace ActionsList
         public override void ActionTake()
         {
             Phases.CurrentSubPhase.Pause();
-            Phases.StartTemporarySubPhase("Barrel Roll", typeof(SubPhases.BarrelRollPlanningSubPhase), Phases.CurrentSubPhase.callBack);
+            Phases.StartTemporarySubPhase(
+                "Barrel Roll",
+                typeof(SubPhases.BarrelRollPlanningSubPhase),
+                Phases.CurrentSubPhase.callBack
+            );
         }
 
     }
@@ -170,7 +174,11 @@ namespace SubPhases
             Selection.ThisShip.ToggleShipStandAndPeg(false);
             MovementTemplates.CurrentTemplate.gameObject.SetActive(false);
 
-            Phases.StartTemporarySubPhase("Barrel Roll execution", typeof(BarrelRollExecutionSubPhase), callBack);
+            Phases.StartTemporarySubPhase(
+                "Barrel Roll execution",
+                typeof(BarrelRollExecutionSubPhase),
+                callBack
+            );
         }
 
         private void CancelBarrelRoll()
@@ -237,6 +245,8 @@ namespace SubPhases
         private float progressCurrent;
         private float progressTarget;
 
+        private bool performingAnimation;
+
         private GameObject ShipStand;
         private float helperDirection;
 
@@ -259,11 +269,13 @@ namespace SubPhases
             progressTarget = Vector3.Distance(Selection.ThisShip.GetPosition(), ShipStand.transform.position);
 
             Sounds.PlayFly();
+
+            performingAnimation = true;
         }
 
         public override void Update()
         {
-            DoBarrelRollAnimation();
+            if (performingAnimation) DoBarrelRollAnimation();
         }
 
         private void DoBarrelRollAnimation()
@@ -281,6 +293,8 @@ namespace SubPhases
 
         private void FinishBarrelRollAnimation()
         {
+            performingAnimation = false;
+
             MonoBehaviour.Destroy(ShipStand);
             Game.Movement.CollidedWith = null;
 
@@ -290,8 +304,7 @@ namespace SubPhases
             Selection.ThisShip.ToggleShipStandAndPeg(true);
             Selection.ThisShip.FinishPosition(delegate() { });
 
-            Phases.FinishSubPhase(this.GetType());
-            Phases.FinishSubPhase(PreviousSubPhase.GetType());
+            Phases.FinishSubPhase(typeof(BarrelRollExecutionSubPhase));
             callBack();
         }
 

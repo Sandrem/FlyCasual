@@ -64,7 +64,7 @@ public static partial class Phases
         }
         else
         {
-            if (DebugManager.DebugPhases) Debug.Log("OOPS! YOU WANT TO FINISH " + subPhaseType + " SUBPHASE, BUT NOW IS " + CurrentSubPhase.GetType() + " SUBPHASE!");
+            Debug.Log("OOPS! YOU WANT TO FINISH " + subPhaseType + " SUBPHASE, BUT NOW IS " + CurrentSubPhase.GetType() + " SUBPHASE!");
             /*if (!subPhasesToFinish.Contains(subPhaseType))
             {
                 Debug.Log("Phase " + subPhaseType + " is planned to finish");

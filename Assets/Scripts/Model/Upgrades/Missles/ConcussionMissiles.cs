@@ -10,6 +10,8 @@ namespace UpgradesList
     {
         public ConcussionMissiles() : base()
         {
+            IsHidden = true;
+
             Type = UpgradeSlot.Missiles;
 
             Name = "Concussion Missiles";

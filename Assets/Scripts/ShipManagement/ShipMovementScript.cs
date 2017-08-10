@@ -66,7 +66,7 @@ public class ShipMovementScript : MonoBehaviour {
 
         Selection.ThisShip.AssignedManeuver = MovementFromString(parameters);
 
-        Selection.ThisShip.InfoPanel.transform.FindChild("DialAssigned" + Selection.ThisShip.Owner.Id).gameObject.SetActive(true);
+        Selection.ThisShip.InfoPanel.transform.Find("DialAssigned" + Selection.ThisShip.Owner.Id).gameObject.SetActive(true);
         Roster.HighlightShipOff(Selection.ThisShip);
 
         Game.UI.HideDirectionMenu();

@@ -323,8 +323,8 @@ public static partial class Roster {
 
     private static void HideAssignedDials()
     {
-        foreach (var panel in rosterPlayer1) panel.transform.FindChild("DialAssigned1").gameObject.SetActive(false);
-        foreach (var panel in rosterPlayer2) panel.transform.FindChild("DialAssigned2").gameObject.SetActive(false);
+        foreach (var panel in rosterPlayer1) panel.transform.Find("DialAssigned1").gameObject.SetActive(false);
+        foreach (var panel in rosterPlayer2) panel.transform.Find("DialAssigned2").gameObject.SetActive(false);
     }
 
     public static void RosterAllPanelsHighlightOff()

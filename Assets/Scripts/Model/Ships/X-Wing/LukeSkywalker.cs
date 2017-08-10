@@ -10,8 +10,6 @@ namespace Ship
         {
             public LukeSkywalker() : base()
             {
-                IsHidden = true;
-
                 PilotName = "Luke Skywalker";
                 ImageUrl = "https://vignette3.wikia.nocookie.net/xwing-miniatures/images/8/8c/Luke-skywalker.png";
                 IsUnique = true;

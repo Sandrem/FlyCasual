@@ -33,7 +33,7 @@ namespace SubPhases
             UpdateHelpInfo();
         }
 
-        protected string AddDecision(string name, EventHandler call)
+        public string AddDecision(string name, EventHandler call)
         {
             int counter = 2;
             string newName = name;
@@ -53,36 +53,39 @@ namespace SubPhases
 
         public override void Initialize()
         {
-            decisionPanel.transform.Find("InformationPanel").GetComponentInChildren<Text>().text = infoText;
-
-            int i = 0;
-            foreach (var item in decisions)
+            if (decisions.Count != 0)
             {
-                GameObject prefab = (GameObject)Resources.Load("Prefabs/DecisionButton", typeof(GameObject));
-                GameObject buttonsHolder = decisionPanel.transform.Find("DecisionsPanel").gameObject;
-                GameObject button = MonoBehaviour.Instantiate(prefab, buttonsHolder.transform);
-                button.transform.localPosition = new Vector3((i % 2 == 0) ? 5 : 200, -buttonHeight * (i/2), 0);
-                button.name = "Button" + i;
+                decisionPanel.transform.Find("InformationPanel").GetComponentInChildren<Text>().text = infoText;
 
-                button.GetComponentInChildren<Text>().text = item.Key;
-
-                if (tooltips.ContainsKey(item.Key))
+                int i = 0;
+                foreach (var item in decisions)
                 {
-                    Tooltips.AddTooltip(button, tooltips[item.Key]);
+                    GameObject prefab = (GameObject)Resources.Load("Prefabs/DecisionButton", typeof(GameObject));
+                    GameObject buttonsHolder = decisionPanel.transform.Find("DecisionsPanel").gameObject;
+                    GameObject button = MonoBehaviour.Instantiate(prefab, buttonsHolder.transform);
+                    button.transform.localPosition = new Vector3((i % 2 == 0) ? 5 : 200, -buttonHeight * (i / 2), 0);
+                    button.name = "Button" + i;
+
+                    button.GetComponentInChildren<Text>().text = item.Key;
+
+                    if (tooltips.ContainsKey(item.Key))
+                    {
+                        Tooltips.AddTooltip(button, tooltips[item.Key]);
+                    }
+
+                    EventTrigger trigger = button.AddComponent<EventTrigger>();
+                    EventTrigger.Entry entry = new EventTrigger.Entry();
+                    entry.eventID = EventTriggerType.PointerClick;
+                    entry.callback.AddListener((data) => { item.Value.Invoke(button, null); });
+                    trigger.triggers.Add(entry);
+
+                    i++;
                 }
+                decisionPanel.GetComponent<RectTransform>().sizeDelta = new Vector3(decisionPanel.GetComponent<RectTransform>().sizeDelta.x, defaultWindowHeight + ((i + 1) / 2) * buttonHeight);
 
-                EventTrigger trigger = button.AddComponent<EventTrigger>();
-                EventTrigger.Entry entry = new EventTrigger.Entry();
-                entry.eventID = EventTriggerType.PointerClick;
-                entry.callback.AddListener((data) => { item.Value.Invoke(button, null); });
-                trigger.triggers.Add(entry);
-
-                i++;
+                if (DecisionOwner == null) DecisionOwner = Roster.GetPlayer(Phases.CurrentPhasePlayer);
+                DecisionOwner.TakeDecision();
             }
-            decisionPanel.GetComponent<RectTransform>().sizeDelta = new Vector3(decisionPanel.GetComponent<RectTransform>().sizeDelta.x, defaultWindowHeight + ((i+1)/2) * buttonHeight);
-
-            if (DecisionOwner == null) DecisionOwner = Roster.GetPlayer(Phases.CurrentPhasePlayer);
-            DecisionOwner.TakeDecision();
         }
 
         public override void Pause()

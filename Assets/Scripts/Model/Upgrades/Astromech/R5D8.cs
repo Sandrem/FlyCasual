@@ -50,7 +50,7 @@ namespace ActionsList
             Name = EffectName = "R5-D8: Try to repair";
         }
 
-        public override void ActionTake(System.Action callBack)
+        public override void ActionTake()
         {
             // TODO:
             // Astromech sound
@@ -61,7 +61,7 @@ namespace ActionsList
             {
                 // Remove random damage card
             }
-            callBack();
+            Phases.CurrentSubPhase.callBack();
         }
 
     }

@@ -19,10 +19,10 @@ namespace ActionsList
             Selection.ActiveShip.SpendToken(typeof(Tokens.FocusToken));
         }
 
-        public override void ActionTake(System.Action callBack)
+        public override void ActionTake()
         {
             Selection.ThisShip.AssignToken(new Tokens.FocusToken());
-            callBack();
+            Phases.CurrentSubPhase.callBack();
         }
 
     }

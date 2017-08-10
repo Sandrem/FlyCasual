@@ -11,8 +11,6 @@ namespace UpgradesList
 
         public R2F2() : base()
         {
-            IsHidden = true;
-
             Type = UpgradeSlot.Astromech;
             Name = ShortName = "R2-F2";
             ImageUrl = "https://vignette4.wikia.nocookie.net/xwing-miniatures/images/8/86/R2-F2.jpg";
@@ -50,7 +48,7 @@ namespace ActionsList
             Name = EffectName = "R2-F2: Increase Agility";
         }
 
-        public override void ActionTake(System.Action callBack)
+        public override void ActionTake()
         {
             Sounds.PlaySoundOnce("Astromech-Beeping-and-whistling");
 
@@ -59,7 +57,7 @@ namespace ActionsList
             host.AssignToken(new Conditions.R2F2Condition());
             Phases.OnEndPhaseStart += R2F2DecreaseAgility;
             Phases.Next();
-            callBack();
+            Phases.CurrentSubPhase.callBack();
         }
 
         private void R2F2DecreaseAgility()

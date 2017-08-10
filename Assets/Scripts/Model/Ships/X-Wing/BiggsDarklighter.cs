@@ -10,8 +10,6 @@ namespace Ship
         {
             public BiggsDarklighter() : base()
             {
-                IsHidden = true;
-
                 PilotName = "Biggs Darklighter";
                 ImageUrl = "https://vignette3.wikia.nocookie.net/xwing-miniatures/images/9/90/Biggs-darklighter.png";
                 IsUnique = true;
@@ -22,17 +20,18 @@ namespace Ship
             public override void InitializePilot()
             {
                 base.InitializePilot();
-                Actions.OnCheckTargetIsLegal += CanPerformAttack;
+                RulesList.TargetIsLegalForShotRule.OnCheckTargetIsLegal += CanPerformAttack;
             }
 
-            public void CanPerformAttack(ref bool result, Ship.GenericShip attacker, Ship.GenericShip defender)
+            public void CanPerformAttack(ref bool result, GenericShip attacker, GenericShip defender)
             {
-                /*bool abilityIsActive = false;
+                bool abilityIsActive = false;
                 if (defender.ShipId != this.ShipId)
                 {
                     if (defender.Owner.PlayerNo == this.Owner.PlayerNo)
                     {
-                        if (Actions.GetRange(defender, this) <= 1)
+                        Board.ShipDistanceInformation positionInfo = new Board.ShipDistanceInformation(defender, this);
+                        if (positionInfo.Range <= 1)
                         {
                             if (Combat.SecondaryWeapon == null)
                             {
@@ -53,7 +52,7 @@ namespace Ship
                         Game.UI.ShowError("Biggs DarkLighter: You cannot attack target ship");
                     }
                     result = false;
-                }*/
+                }
             }
         }
     }

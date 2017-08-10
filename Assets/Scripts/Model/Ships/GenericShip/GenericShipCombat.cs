@@ -53,7 +53,7 @@ namespace Ship
             if (OnCombatPhaseStart != null) OnCombatPhaseStart(this);
         }
         
-        public bool CallTryPerformAttack(bool result = true)
+        public bool CallCanPerformAttack(bool result = true)
         {
             if (OnTryPerformAttack != null) OnTryPerformAttack(ref result);
 
@@ -159,6 +159,7 @@ namespace Ship
 
         public void SufferHullDamage(bool isCritical)
         {
+            if (DebugManager.DebugAllDamageIsCrits) isCritical = true;
 
             if (isCritical)
             {
@@ -177,18 +178,22 @@ namespace Ship
                 if (Combat.CurrentCriticalHitCard != null)
                 {
                     AssignedCritCards.Add(Combat.CurrentCriticalHitCard);
+                    DecreaseHullValue();
                     Combat.CurrentCriticalHitCard.AssignCrit(this);
+                }
+                else
+                {
+                    Triggers.FinishTrigger();
                 }
             }
             else
             {
                 AssignedDamageCards.Add(CriticalHitsDeck.GetCritCard());
+                DecreaseHullValue();
                 Triggers.FinishTrigger();
             }
 
             AssignedDamageDiceroll.CancelHits(1);
-
-            DecreaseHullValue();
         }
 
         public void DecreaseHullValue()

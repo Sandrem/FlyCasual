@@ -10,8 +10,6 @@ namespace Ship
         {
             public MaulerMithel() : base()
             {
-                IsHidden = true;
-
                 PilotName = "\"Mauler Mithel\"";
                 ImageUrl = "https://vignette2.wikia.nocookie.net/xwing-miniatures/images/e/e8/Mauler-mithel.png";
                 IsUnique = true;
@@ -28,11 +26,12 @@ namespace Ship
 
             private void MaulerMithelPilotAbility(ref int result)
             {
-                /*if (Actions.GetRange(Combat.Attacker, Combat.Defender) == 1)
+                Board.ShipShotDistanceInformation shotInformation = new Board.ShipShotDistanceInformation(Combat.Attacker, Combat.Defender);
+                if (shotInformation.Range == 1)
                 {
                     Game.UI.ShowInfo("\"Mauler Mithel\": +1 attack die");
                     result++;
-                }*/
+                }
             }
 
         }

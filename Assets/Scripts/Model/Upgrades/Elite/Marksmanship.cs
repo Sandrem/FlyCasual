@@ -11,8 +11,6 @@ namespace UpgradesList
 
         public Marksmanship() : base()
         {
-            IsHidden = true;
-
             Type = UpgradeSlot.Elite;
             Name = ShortName = "Marksmanship";
             ImageUrl = "https://vignette1.wikia.nocookie.net/xwing-miniatures/images/6/69/Marksmanship.png";
@@ -48,14 +46,14 @@ namespace ActionsList
             Name = EffectName = "Marksmanship";
         }
 
-        public override void ActionTake(System.Action callBack)
+        public override void ActionTake()
         {
             host = Selection.ThisShip;
             host.AfterGenerateAvailableActionEffectsList += MarksmanshipAddDiceModification;
             host.AssignToken(new Conditions.MarksmanshipCondition());
             Phases.OnEndPhaseStart += MarksmanshipUnSubscribeToFiceModification;
             Phases.Next();
-            callBack();
+            Phases.CurrentSubPhase.callBack();
         }
 
         private void MarksmanshipAddDiceModification(Ship.GenericShip ship)

@@ -10,8 +10,6 @@ namespace Ship
         {
             public Backstabber() : base()
             {
-                IsHidden = true;
-
                 PilotName = "\"Backstabber\"";
                 ImageUrl = "https://vignette3.wikia.nocookie.net/xwing-miniatures/images/5/52/Backstabber.png";
                 IsUnique = true;
@@ -27,11 +25,12 @@ namespace Ship
 
             private void BackstabberPilotAbility(ref int diceNumber)
             {
-                /*if (!Actions.InArcCheck(Selection.AnotherShip, Selection.ThisShip))
+                Board.ShipShotDistanceInformation shotInformation = new Board.ShipShotDistanceInformation(Combat.Defender, Combat.Attacker);
+                if (!shotInformation.InArc)
                 {
                     Messages.ShowInfo("Backstabber: Additional dice");
                     diceNumber++;
-                }*/
+                }
             }
         }
     }

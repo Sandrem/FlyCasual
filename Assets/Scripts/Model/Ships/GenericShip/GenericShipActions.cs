@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -61,6 +62,17 @@ namespace Ship
             if (AfterGenerateAvailableActionsList != null) AfterGenerateAvailableActionsList(this);
         }
 
+        public void GenerateAvailableFreeActionsList(List<ActionsList.GenericAction> freeActions)
+        {
+            AvailableFreeActionsList = new List<ActionsList.GenericAction>();
+            foreach (var action in freeActions)
+            {
+                AddAvailableFreeAction(action);
+            }
+
+            if (AfterGenerateAvailableActionsList != null) AfterGenerateAvailableActionsList(this);
+        }
+
         public bool CanPerformAction(ActionsList.GenericAction action)
         {
             bool result = true;
@@ -72,17 +84,23 @@ namespace Ship
 
 
         // TODO: move actions list into subphase
-        public void AskPerformFreeAction(List<ActionsList.GenericAction> freeActions)
+        public void AskPerformFreeAction(List<ActionsList.GenericAction> freeActions, Action callBack)
         {
-            Phases.StartTemporarySubPhase("Free action", typeof(SubPhases.FreeActionSubPhase));
+            GenerateAvailableFreeActionsList(freeActions);
 
-            AvailableFreeActionsList = new List<ActionsList.GenericAction>();
-            foreach (var action in freeActions)
-            {
-                AddAvailableFreeAction(action);
-            }
-          
-            Roster.GetPlayer(Phases.CurrentSubPhase.RequiredPlayer).PerformFreeAction();
+            Triggers.RegisterTrigger(
+                new Trigger()
+                {
+                    Name = "Free action",
+                    TriggerOwner = Phases.CurrentPhasePlayer,
+                    TriggerType = TriggerTypes.OnFreeAction,
+                    EventHandler = delegate {
+                        Phases.StartTemporarySubPhase("Free action", typeof(SubPhases.FreeActionSubPhase), callBack);
+                    }
+                }
+            );
+
+            Triggers.ResolveTriggers(TriggerTypes.OnFreeAction, Triggers.FinishTrigger);
         }
 
         public List<ActionsList.GenericAction> GetAvailableActionsList()

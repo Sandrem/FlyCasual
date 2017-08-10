@@ -10,8 +10,6 @@ namespace UpgradesList
     {
         public ProtonTorpedoes() : base()
         {
-            IsHidden = true;
-
             Type = UpgradeSlot.Torpedoes;
 
             Name = "Proton Torpedoes";

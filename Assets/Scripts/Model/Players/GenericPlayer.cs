@@ -55,7 +55,7 @@ namespace Players
 
         public virtual void PerformManeuver() { }
 
-        public virtual void PerformAction(object sender, EventArgs e) { }
+        public virtual void PerformAction() { }
 
         public virtual void PerformFreeAction() { }
 

@@ -73,7 +73,7 @@ public static partial class Combat
         Game.UI.HideContextMenu();
         MovementTemplates.ReturnRangeRuler();
 
-        if (Actions.TargetIsLegal())
+        if (Rules.TargetIsLegalForShot.IsLegal())
         {
             ShipShotDistanceInformation shotInfo = new ShipShotDistanceInformation(Selection.ThisShip, Selection.AnotherShip);
             shotInfo.CheckFirelineCollisions(CallPerformAttack);
@@ -87,7 +87,6 @@ public static partial class Combat
             }
             else
             {
-                Debug.Log("TARGET IS ILLEGAL!");
                 Selection.ThisShip.IsAttackPerformed = true;
                 Phases.FinishSubPhase(typeof(SubPhases.CombatSubPhase));
             }
@@ -106,7 +105,7 @@ public static partial class Combat
 
     public static void CallPerformAttack()
     {
-        Combat.PerformAttack(Selection.ThisShip, Selection.AnotherShip);
+        PerformAttack(Selection.ThisShip, Selection.AnotherShip);
     }
 
     private static void InitializeAttack()

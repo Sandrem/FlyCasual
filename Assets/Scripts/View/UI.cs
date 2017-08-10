@@ -222,7 +222,7 @@ public class UI : MonoBehaviour {
     public void CloseActionsPanel()
     {
         Actions.CloseActionsPanel();
-        Phases.Next();
+        Phases.CurrentSubPhase.callBack();
     }
 
     public void ShowNextButton()

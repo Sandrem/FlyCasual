@@ -14,6 +14,13 @@ namespace SubPhases
             Name = "Free Action SubPhase";
             IsTemporary = true;
             UpdateHelpInfo();
+
+            Initialize();
+        }
+
+        public override void Initialize()
+        {
+            Roster.GetPlayer(Phases.CurrentSubPhase.RequiredPlayer).PerformFreeAction();
         }
 
         public override void Next()

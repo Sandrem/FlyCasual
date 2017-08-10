@@ -27,7 +27,14 @@ namespace SubPhases
                 if (!Selection.ThisShip.IsDestroyed)
                 {
                     Selection.ThisShip.GenerateAvailableActionsList();
-                    Triggers.RegisterTrigger(new Trigger() { Name = "Action", TriggerOwner = Phases.CurrentPhasePlayer, TriggerType = TriggerTypes.OnActionSubPhaseStart, EventHandler = Roster.GetPlayer(Phases.CurrentPhasePlayer).PerformAction });
+                    Triggers.RegisterTrigger(
+                        new Trigger() {
+                            Name = "Action",
+                            TriggerOwner = Phases.CurrentPhasePlayer,
+                            TriggerType = TriggerTypes.OnActionSubPhaseStart,
+                            EventHandler = StartActionDecisionSubphase
+                        }
+                    );
                 }
                 else
                 {
@@ -36,6 +43,18 @@ namespace SubPhases
             }
 
             Phases.CallOnActionSubPhaseTrigger();
+        }
+
+        private void StartActionDecisionSubphase(object sender, System.EventArgs e)
+        {
+            Phases.StartTemporarySubPhase(
+                "Action",
+                typeof(ActionDecisonSubPhase),
+                delegate () {
+                    Phases.FinishSubPhase(typeof(ActionDecisonSubPhase));
+                    Triggers.FinishTrigger();
+                }
+            );
         }
 
         public override void Next()
@@ -88,23 +107,12 @@ namespace SubPhases
 
         public override void Prepare()
         {
+            infoText = "Select action";
             List<ActionsList.GenericAction> availableActions = Selection.ThisShip.GetAvailableActionsList();
 
             if (availableActions.Count > 0)
             {
-                infoText = "Select action";
-
-                foreach (var action in availableActions)
-                {
-                    AddDecision(action.Name, delegate {
-                        Tooltips.EndTooltip();
-                        Game.UI.HideNextButton();
-                        Selection.ThisShip.AddAlreadyExecutedAction(action);
-                        action.ActionTake(callBack);
-                    });
-                }
-
-                Game.UI.ShowSkipButton();
+                Roster.GetPlayer(Phases.CurrentPhasePlayer).PerformAction();
             }
             else
             {

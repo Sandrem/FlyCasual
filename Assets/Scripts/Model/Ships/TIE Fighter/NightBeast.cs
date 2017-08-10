@@ -10,8 +10,6 @@ namespace Ship
         {
             public NightBeast() : base()
             {
-                IsHidden = true;
-
                 PilotName = "\"Night Beast\"";
                 ImageUrl = "https://vignette2.wikia.nocookie.net/xwing-miniatures/images/b/ba/Night_Beast.png";
                 IsUnique = true;
@@ -29,14 +27,21 @@ namespace Ship
             {
                 if (AssignedManeuver.ColorComplexity == Movement.ManeuverColor.Green)
                 {
-                    Triggers.RegisterTrigger(new Trigger() { Name = "Night Beast: Free Focus action", TriggerOwner = ship.Owner.PlayerNo, TriggerType = TriggerTypes.OnShipMovementFinish, EventHandler = PefrormFreeFocusAction });
+                    Triggers.RegisterTrigger(new Trigger() { Name = "Night Beast: Free Focus action", TriggerOwner = ship.Owner.PlayerNo, TriggerType = TriggerTypes.OnShipMovementFinish, EventHandler = PerformFreeFocusAction });
                 }
             }
 
-            private void PefrormFreeFocusAction(object sender, System.EventArgs e)
+            private void PerformFreeFocusAction(object sender, System.EventArgs e)
             {
                 List<ActionsList.GenericAction> actions = new List<ActionsList.GenericAction>() { new ActionsList.FocusAction() };
-                AskPerformFreeAction(actions);
+
+                AskPerformFreeAction(
+                    actions,
+                    delegate {
+                        Phases.FinishSubPhase(typeof(SubPhases.FreeActionSubPhase));
+                        Triggers.FinishTrigger();
+                    }
+                );
             }
         }
     }

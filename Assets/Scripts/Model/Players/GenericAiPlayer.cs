@@ -75,7 +75,7 @@ namespace Players
             Game.Movement.PerformStoredManeuver();
         }
 
-        public override void PerformAction(object sender, EventArgs e)
+        public override void PerformAction()
         {
             //Stub
             Phases.Next();
@@ -86,8 +86,8 @@ namespace Players
             if (Selection.ThisShip.GetAvailableFreeActionsList().Count > 0)
             {
                 ActionsList.GenericAction action = Selection.ThisShip.GetAvailableFreeActionsList()[0];
-                action.ActionTake(delegate () { Phases.FinishSubPhase(typeof(SubPhases.ActionDecisonSubPhase)); Triggers.FinishTrigger(); });
                 Selection.ThisShip.AddAlreadyExecutedAction(action);
+                action.ActionTake();
             }
             else
             {
@@ -122,7 +122,7 @@ namespace Players
                     Selection.TryToChangeAnotherShip("ShipId:" + shipHolder.Key.ShipId);
                     Combat.SelectWeapon();
 
-                    if (Actions.TargetIsLegal())
+                    if (Rules.TargetIsLegalForShot.IsLegal())
                     {
                         if (DebugManager.DebugAI) Debug.Log("AI target legal: " + Selection.AnotherShip);
                         attackPerformed = true;

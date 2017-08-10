@@ -25,7 +25,7 @@ namespace ActionsList
             ImageUrl = critCard.ImageUrl;
         }
 
-        public override void ActionTake(System.Action callBack)
+        public override void ActionTake()
         {
             Selection.ActiveShip = Selection.ThisShip;
 
@@ -34,7 +34,7 @@ namespace ActionsList
             {
                 CritCard.DiscardEffect(host);
                 Phases.FinishSubPhase(typeof(SubPhases.CancelCritCheckSubPhase));
-                callBack();
+                Phases.CurrentSubPhase.callBack();
             }
             else
             {
@@ -45,7 +45,7 @@ namespace ActionsList
                     typeof(SubPhases.CancelCritCheckSubPhase),
                     delegate {
                         Phases.FinishSubPhase(typeof(SubPhases.CancelCritCheckSubPhase));
-                        callBack();
+                        Phases.CurrentSubPhase.callBack();
                     });
             }
         }

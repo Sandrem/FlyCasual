@@ -37,7 +37,7 @@ namespace Players
             PerformManeuverOfShip(ship);
         }
 
-        public override void PerformAction(object sender, EventArgs e)
+        public override void PerformAction()
         {
             bool actionIsPerformed = false;
 
@@ -55,7 +55,7 @@ namespace Players
 
             if (!actionIsPerformed)
             {
-                Triggers.FinishTrigger();
+                Phases.CurrentSubPhase.callBack();
             }
         }
 
@@ -82,7 +82,7 @@ namespace Players
                 {
                     if (availableAction.GetType() == typeof(ActionsList.FocusAction))
                     {
-                        availableAction.ActionTake(delegate () { Triggers.FinishTrigger(); });
+                        availableAction.ActionTake();
                         return true;
                     }
                 }
@@ -96,7 +96,7 @@ namespace Players
             {
                 if (availableAction.GetType() == typeof(ActionsList.EvadeAction))
                 {
-                    availableAction.ActionTake(delegate () { Phases.FinishSubPhase(typeof(SubPhases.ActionDecisonSubPhase)); Triggers.FinishTrigger(); });
+                    availableAction.ActionTake();
                     return true;
                 }
             }

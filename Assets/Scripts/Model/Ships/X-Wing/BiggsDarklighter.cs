@@ -25,7 +25,7 @@ namespace Ship
 
             public void CanPerformAttack(ref bool result, GenericShip attacker, GenericShip defender)
             {
-                /*bool abilityIsActive = false;
+                bool abilityIsActive = false;
                 if (defender.ShipId != this.ShipId)
                 {
                     if (defender.Owner.PlayerNo == this.Owner.PlayerNo)
@@ -52,7 +52,7 @@ namespace Ship
                         Game.UI.ShowError("Biggs DarkLighter: You cannot attack target ship");
                     }
                     result = false;
-                }*/
+                }
             }
         }
     }

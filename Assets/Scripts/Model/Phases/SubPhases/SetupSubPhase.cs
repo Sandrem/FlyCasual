@@ -119,12 +119,12 @@ namespace SubPhases
                 }
                 else
                 {
-                    Game.UI.ShowError("Ship cannot be selected: Starting position is already set");
+                    Messages.ShowErrorToHuman("Ship cannot be selected: Starting position is already set");
                 }
             }
             else
             {
-                Game.UI.ShowError("Ship cannot be selected:\n Need " + Phases.CurrentSubPhase.RequiredPlayer + " and pilot skill " + Phases.CurrentSubPhase.RequiredPilotSkill);
+                Messages.ShowErrorToHuman("Ship cannot be selected:\n Need " + Phases.CurrentSubPhase.RequiredPlayer + " and pilot skill " + Phases.CurrentSubPhase.RequiredPilotSkill);
             }
             return result;
         }

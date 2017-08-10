@@ -135,7 +135,7 @@ namespace SubPhases
             }
             else
             {
-                Game.UI.ShowError("Ship cannot be selected:\n Need " + RequiredPlayer + " and pilot skill " + RequiredPilotSkill);
+                Messages.ShowErrorToHuman("Ship cannot be selected:\n Need " + RequiredPlayer + " and pilot skill " + RequiredPilotSkill);
             }
             return result;
         }
@@ -153,12 +153,12 @@ namespace SubPhases
                 }
                 else
                 {
-                    Game.UI.ShowError("Ship cannot be selected as attack target: Friendly ship");
+                    Messages.ShowErrorToHuman("Ship cannot be selected as attack target: Friendly ship");
                 }
             }
             else
             {
-                Game.UI.ShowError("Ship cannot be selected as attack target:\nFirst select attacker");
+                Messages.ShowErrorToHuman("Ship cannot be selected as attack target:\nFirst select attacker");
             }
             return result;
         }
@@ -177,7 +177,7 @@ namespace SubPhases
                     }
                     else
                     {
-                        Game.UI.ShowError("Your ship already has attacked");
+                        Messages.ShowErrorToHuman("Your ship already has attacked");
                     }
                 }
             }

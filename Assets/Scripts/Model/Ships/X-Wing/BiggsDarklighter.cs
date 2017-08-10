@@ -49,7 +49,7 @@ namespace Ship
                 {
                     if (Roster.GetPlayer(Phases.CurrentPhasePlayer).GetType() == typeof(Players.HumanPlayer))
                     {
-                        Game.UI.ShowError("Biggs DarkLighter: You cannot attack target ship");
+                        Messages.ShowErrorToHuman("Biggs DarkLighter: You cannot attack target ship");
                     }
                     result = false;
                 }

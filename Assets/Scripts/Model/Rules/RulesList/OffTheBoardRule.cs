@@ -17,7 +17,7 @@ namespace RulesList
             {
                 if ((Mathf.Abs(obj.Value.x) > Game.PLAYMAT_SIZE/2) || (Mathf.Abs(obj.Value.z) > Game.PLAYMAT_SIZE/2))
                 {
-                    Game.UI.ShowError("Ship left the play area and was destroyed!");
+                    Messages.ShowError("Ship left the play area and was destroyed!");
                     ship.DestroyShip(true);
                     return;
                 }

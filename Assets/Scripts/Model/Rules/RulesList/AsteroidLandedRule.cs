@@ -5,7 +5,7 @@ namespace RulesList
     public class AsteroidLandedRule
     {
 
-        public AsteroidLandedRule(GameManagerScript game)
+        public AsteroidLandedRule()
         {
             SubscribeEvents();
         }

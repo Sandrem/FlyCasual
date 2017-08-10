@@ -18,7 +18,7 @@ namespace CriticalHitCard
 
         public override void ApplyEffect(object sender, EventArgs e)
         {
-            Game.UI.ShowInfo("Agility is reduced by 1");
+            Messages.ShowInfo("Agility is reduced by 1");
             Game.UI.AddTestLogEntry("Agility is reduced by 1");
             Host.AssignToken(new Tokens.StructuralDamageCritToken());
 
@@ -32,7 +32,7 @@ namespace CriticalHitCard
 
         public override void DiscardEffect(Ship.GenericShip host)
         {
-            Game.UI.ShowInfo("Agility is restored");
+            Messages.ShowInfo("Agility is restored");
             Game.UI.AddTestLogEntry("Agility is restored");
             host.RemoveToken(typeof(Tokens.StructuralDamageCritToken));
 

@@ -17,7 +17,7 @@ namespace CriticalHitCard
 
         public override void ApplyEffect(object sender, EventArgs e)
         {
-            Game.UI.ShowInfo("Cannot be assigned straight maneuvers");
+            Messages.ShowInfo("Cannot be assigned straight maneuvers");
             Game.UI.AddTestLogEntry("Cannot be assigned straight maneuvers");
             Host.AssignToken(new Tokens.ShakenPilotCritToken());
 
@@ -29,7 +29,7 @@ namespace CriticalHitCard
 
         public override void DiscardEffect(Ship.GenericShip host)
         {
-            Game.UI.ShowInfo("Can be assigned straight maneuvers");
+            Messages.ShowInfo("Can be assigned straight maneuvers");
             Game.UI.AddTestLogEntry("Can be assigned straight maneuvers");
             host.RemoveToken(typeof(Tokens.ShakenPilotCritToken));
 

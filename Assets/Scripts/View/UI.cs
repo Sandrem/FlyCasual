@@ -50,16 +50,6 @@ public class UI : MonoBehaviour {
         }
     }
 
-    public void ShowError(string text)
-    {
-        Messages.ShowError(text);
-    }
-
-    public void ShowInfo(string text)
-    {
-        Messages.ShowInfo(text);
-    }
-
     public void HideContextMenu()
     {
         Game.PrefabsList.ContextMenuPanel.SetActive(false);

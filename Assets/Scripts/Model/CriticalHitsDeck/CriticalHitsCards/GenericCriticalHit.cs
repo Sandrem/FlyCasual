@@ -39,7 +39,7 @@ namespace CriticalHitCard
 
         private void Inform()
         {
-            Game.UI.ShowInfo("Crit: " + Name);
+            Messages.ShowInfo("Crit: " + Name);
             Game.UI.AddTestLogEntry("Crit: " + Name);
         }
 

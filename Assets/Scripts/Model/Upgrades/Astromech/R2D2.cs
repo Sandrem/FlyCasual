@@ -42,7 +42,7 @@ namespace UpgradesList
             if (Host.TryRegenShields())
             {
                 Sounds.PlaySoundOnce("R2D2-Proud");
-                Game.UI.ShowInfo("R2-D2: Shield is restored");
+                Messages.ShowInfo("R2-D2: Shield is restored");
             }
             Triggers.FinishTrigger();
         }

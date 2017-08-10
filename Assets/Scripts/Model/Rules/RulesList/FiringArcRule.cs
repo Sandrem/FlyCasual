@@ -2,11 +2,9 @@
 {
     public class FiringArcRule
     {
-        private GameManagerScript Game;
 
-        public FiringArcRule(GameManagerScript game)
+        public FiringArcRule()
         {
-            Game = game;
             SubscribeEvents();
         }
 
@@ -20,7 +18,7 @@
             Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(attacker, defender);
             if (!shotInfo.InArc)
             {
-                if (attacker.Owner.Type == Players.PlayerType.Human) Game.UI.ShowError("Ship is outside your firing arc");
+                if (attacker.Owner.Type == Players.PlayerType.Human) Messages.ShowErrorToHuman("Ship is outside your firing arc");
                 result = false;
             }
         }

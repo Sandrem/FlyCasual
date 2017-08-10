@@ -17,7 +17,7 @@ namespace CriticalHitCard
 
         public override void ApplyEffect(object sender, EventArgs e)
         {
-            Game.UI.ShowInfo("At the start of each Combat phase, roll 1 attack die.");
+            Messages.ShowInfo("At the start of each Combat phase, roll 1 attack die.");
             Game.UI.AddTestLogEntry("At the start of each Combat phase, roll 1 attack die.");
             Host.AssignToken(new Tokens.ConsoleFireCritToken());
 
@@ -96,7 +96,7 @@ namespace SubPhases
 
         private void SufferDamage()
         {
-            Game.UI.ShowError("Console Fire: ship suffered damage");
+            Messages.ShowError("Console Fire: ship suffered damage");
             Game.UI.AddTestLogEntry("Console Fire: ship suffered damage");
 
             Selection.ActiveShip.AssignedDamageDiceroll.DiceList.Add(CurrentDiceRoll.DiceList[0]);
@@ -114,7 +114,7 @@ namespace SubPhases
 
         private void NoDamage()
         {
-            Game.UI.ShowInfo("No damage");
+            Messages.ShowInfoToHuman("No damage");
             callBack();
         }
     }

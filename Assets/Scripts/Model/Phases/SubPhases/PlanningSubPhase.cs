@@ -60,7 +60,7 @@ namespace SubPhases
             }
             else
             {
-                Game.UI.ShowError("Ship cannot be selected: Wrong player");
+                Messages.ShowErrorToHuman("Ship cannot be selected: Wrong player");
             }
             return result;
         }

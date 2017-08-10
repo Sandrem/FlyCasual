@@ -17,7 +17,7 @@ namespace CriticalHitCard
 
         public override void ApplyEffect(object sender, EventArgs e)
         {
-            Game.UI.ShowInfo("After you execute a maneuver, if you are touching another ship or overlapping an obstacle token, suffer 1 damage");
+            Messages.ShowInfo("After you execute a maneuver, if you are touching another ship or overlapping an obstacle token, suffer 1 damage");
             Game.UI.AddTestLogEntry("After you execute a maneuver, if you are touching another ship or overlapping an obstacle token, suffer 1 damage");
 
             Host.OnMovementFinish += CheckCollisionDamage;
@@ -30,7 +30,7 @@ namespace CriticalHitCard
         {
             if (host.IsBumped || host.IsLandedOnObstacle)
             {
-                Game.UI.ShowError("Stunned Pilot: Ship suffered damage");
+                Messages.ShowInfo("Stunned Pilot: Ship suffered damage");
                 Game.UI.AddTestLogEntry("Stunned Pilot: Ship suffered damage");
 
                 Selection.ThisShip.AssignedDamageDiceroll.DiceList.Add(new Dice(DiceKind.Attack, DiceSide.Success));

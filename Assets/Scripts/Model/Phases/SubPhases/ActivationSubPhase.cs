@@ -118,7 +118,7 @@ namespace SubPhases
             }
             else
             {
-                Game.UI.ShowError("Ship cannot be selected:\n Need " + RequiredPlayer + " and pilot skill " + RequiredPilotSkill);
+                Messages.ShowErrorToHuman("Ship cannot be selected:\n Need " + RequiredPlayer + " and pilot skill " + RequiredPilotSkill);
             }
             return result;
         }
@@ -133,7 +133,7 @@ namespace SubPhases
             }
             else
             {
-                Game.UI.ShowError("This ship has already executed his maneuver");
+                Messages.ShowErrorToHuman("This ship has already executed his maneuver");
             };
             return result;
         }

@@ -17,7 +17,7 @@ namespace CriticalHitCard
 
         public override void ApplyEffect(object sender, EventArgs e)
         {
-            Game.UI.ShowInfo("Starting the round after you receive this card, all Damage cards dealt to you are dealt faceup");
+            Messages.ShowInfo("Starting the round after you receive this card, all Damage cards dealt to you are dealt faceup");
             Game.UI.AddTestLogEntry("Starting the round after you receive this card, all Damage cards dealt to you are dealt faceup");
             Host.AssignToken(new Tokens.MajorHullBreachCritToken());
 
@@ -30,7 +30,7 @@ namespace CriticalHitCard
 
         public override void DiscardEffect(Ship.GenericShip host)
         {
-            Game.UI.ShowInfo("Damage cards are dealt as usual");
+            Messages.ShowInfo("Damage cards are dealt as usual");
             Game.UI.AddTestLogEntry("Damage cards are dealt as usual");
             host.RemoveToken(typeof(Tokens.MajorHullBreachCritToken));
 

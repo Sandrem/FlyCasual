@@ -29,7 +29,7 @@ namespace Ship
                 Board.ShipShotDistanceInformation shotInformation = new Board.ShipShotDistanceInformation(Combat.Attacker, Combat.Defender);
                 if (shotInformation.Range == 1)
                 {
-                    Game.UI.ShowInfo("\"Mauler Mithel\": +1 attack die");
+                    Messages.ShowInfo("\"Mauler Mithel\": +1 attack die");
                     result++;
                 }
             }

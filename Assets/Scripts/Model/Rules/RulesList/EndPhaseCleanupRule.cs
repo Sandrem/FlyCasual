@@ -6,7 +6,7 @@ namespace RulesList
     public class EndPhaseCleanupRule
     {
 
-        public EndPhaseCleanupRule(GameManagerScript game)
+        public EndPhaseCleanupRule()
         {
             SubscribeEvents();
         }

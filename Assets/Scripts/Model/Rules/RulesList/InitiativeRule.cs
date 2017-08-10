@@ -8,7 +8,7 @@ namespace RulesList
 {
     public class InitiativeRule
     {
-        public InitiativeRule(GameManagerScript game)
+        public InitiativeRule()
         {
             SubscribeEvents();
         }

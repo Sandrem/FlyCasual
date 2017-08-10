@@ -28,18 +28,18 @@ public static class Rules
         Game = UnityEngine.GameObject.Find("GameManager").GetComponent<GameManagerScript>();
 
         WinConditions = new WinConditionsRule(Game);
-        DistanceBonus = new DistanceBonusRule(Game);
-        EndPhase = new EndPhaseCleanupRule(Game);
+        DistanceBonus = new DistanceBonusRule();
+        EndPhase = new EndPhaseCleanupRule();
         Stress = new StressRule();
         OffTheBoard = new OffTheBoardRule(Game);
-        Collision = new CollisionRules(Game);
-        FiringRange = new FiringRangeLimit(Game);
-        FiringArc = new FiringArcRule(Game);
+        Collision = new CollisionRules();
+        FiringRange = new FiringRangeLimit();
+        FiringArc = new FiringArcRule();
         DuplicatedActions = new DuplicatedActionsRule();
-        AsteroidLanded = new AsteroidLandedRule(Game);
-        AsteroidHit = new AsteroidHitRule(Game);
-        AsteroidObstruction = new AsteroidObstructionRule(Game);
-        Initiative = new InitiativeRule(Game);
+        AsteroidLanded = new AsteroidLandedRule();
+        AsteroidHit = new AsteroidHitRule();
+        AsteroidObstruction = new AsteroidObstructionRule();
+        Initiative = new InitiativeRule();
         TargetIsLegalForShot = new TargetIsLegalForShotRule();
     }
 

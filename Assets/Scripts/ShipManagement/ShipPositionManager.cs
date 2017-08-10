@@ -269,13 +269,13 @@ public class ShipPositionManager : MonoBehaviour
             if (!ship.IsInside(StartingZone))
 
             {
-                Game.UI.ShowError("Place ship into highlighted area");
+                Messages.ShowErrorToHuman("Place ship into highlighted area");
                 result = false;
             }
 
             if (Game.Movement.CollidedWith != null)
             {
-                Game.UI.ShowError("This ship shouldn't collide with another ships");
+                Messages.ShowErrorToHuman("This ship shouldn't collide with another ships");
                 result = false;
             }
 

@@ -5,11 +5,9 @@ namespace RulesList
 {
     public class CollisionRules
     {
-        private GameManagerScript Game;
 
-        public CollisionRules(GameManagerScript game)
+        public CollisionRules()
         {
-            Game = game;
             SubscribeEvents();
         }
 

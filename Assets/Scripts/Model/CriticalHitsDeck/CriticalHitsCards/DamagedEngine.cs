@@ -17,7 +17,7 @@ namespace CriticalHitCard
 
         public override void ApplyEffect(object sender, EventArgs e)
         {
-            Game.UI.ShowInfo("Treat all turn maneuvers as red maneuvers");
+            Messages.ShowInfo("Treat all turn maneuvers as red maneuvers");
             Game.UI.AddTestLogEntry("Treat all turn maneuvers as red maneuvers");
             Host.AssignToken(new Tokens.DamagedEngineCritToken());
 
@@ -28,7 +28,7 @@ namespace CriticalHitCard
 
         public override void DiscardEffect(Ship.GenericShip host)
         {
-            Game.UI.ShowInfo("Turn maneuvers regained normal colors");
+            Messages.ShowInfo("Turn maneuvers regained normal colors");
             Game.UI.AddTestLogEntry("Turn maneuvers regained normal colors");
             host.RemoveToken(typeof(Tokens.DamagedEngineCritToken));
 

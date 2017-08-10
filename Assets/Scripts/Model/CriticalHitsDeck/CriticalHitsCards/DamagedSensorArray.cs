@@ -19,7 +19,7 @@ namespace CriticalHitCard
 
         public override void ApplyEffect(object sender, EventArgs e)
         {
-            Game.UI.ShowInfo("You cannot perform any actions except actions listed on Damage cards.");
+            Messages.ShowInfo("You cannot perform any actions except actions listed on Damage cards.");
             Game.UI.AddTestLogEntry("You cannot perform any actions except actions listed on Damage cards.");
             Host.AssignToken(new Tokens.DamagedSensorArrayCritToken());
 
@@ -32,7 +32,7 @@ namespace CriticalHitCard
 
         public override void DiscardEffect(Ship.GenericShip host)
         {
-            Game.UI.ShowInfo("You can perform actions as usual");
+            Messages.ShowInfo("You can perform actions as usual");
             Game.UI.AddTestLogEntry("You can perform actions as usual");
             host.RemoveToken(typeof(Tokens.DamagedSensorArrayCritToken));
 

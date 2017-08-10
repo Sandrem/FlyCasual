@@ -17,7 +17,7 @@ namespace CriticalHitCard
 
         public override void ApplyEffect(object sender, EventArgs e)
         {
-            Game.UI.ShowInfo("After you execute a white maneuver, receive 1 stress token");
+            Messages.ShowInfo("After you execute a white maneuver, receive 1 stress token");
             Game.UI.AddTestLogEntry("After you execute a white maneuver, receive 1 stress token");
             Host.AssignToken(new Tokens.LooseStabilizerCritToken());
 
@@ -29,7 +29,7 @@ namespace CriticalHitCard
 
         public override void DiscardEffect(Ship.GenericShip host)
         {
-            Game.UI.ShowInfo("No stress after white maneuvers");
+            Messages.ShowInfo("No stress after white maneuvers");
             Game.UI.AddTestLogEntry("No stress after white maneuvers");
             host.RemoveToken(typeof(Tokens.LooseStabilizerCritToken));
 
@@ -41,7 +41,7 @@ namespace CriticalHitCard
         {
             if (ship.GetLastManeuverColor() == Movement.ManeuverColor.White)
             {
-                Game.UI.ShowError("Loose Stabilizer: Stress token is assigned");
+                Messages.ShowInfo("Loose Stabilizer: Stress token is assigned");
                 Game.UI.AddTestLogEntry("Loose Stabilizer: Stress token is assigned");
                 ship.AssignToken(new Tokens.StressToken());
             }

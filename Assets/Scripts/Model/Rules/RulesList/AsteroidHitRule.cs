@@ -5,11 +5,9 @@ namespace RulesList
 {
     public class AsteroidHitRule
     {
-        private GameManagerScript Game;
 
-        public AsteroidHitRule(GameManagerScript game)
+        public AsteroidHitRule()
         {
-            Game = game;
             SubscribeEvents();
         }
 
@@ -22,7 +20,7 @@ namespace RulesList
         {
             if (Selection.ThisShip.ObstaclesHit.Count > 0)
             {
-                Game.UI.ShowError("Hit asteroid during movement - action subphase is skipped");
+                Messages.ShowErrorToHuman("Hit asteroid during movement - action subphase is skipped");
                 Selection.ThisShip.IsSkipsActionSubPhase = true;
             }
         }
@@ -46,7 +44,7 @@ namespace RulesList
 
         private void RollForDamage(object sender, System.EventArgs e)
         {
-            Game.UI.ShowError("Hit asteroid during movement - rolling for damage");
+            Messages.ShowErrorToHuman("Hit asteroid during movement - rolling for damage");
 
             Selection.ActiveShip = Selection.ThisShip;
             Phases.StartTemporarySubPhase(
@@ -88,12 +86,12 @@ namespace SubPhases
                     NoDamage();                    
                     break;
                 case DiceSide.Success:
-                    Game.UI.ShowError("Damage is dealt!");
+                    Messages.ShowErrorToHuman("Damage is dealt!");
                     SufferDamage();
                     Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, callBack);
                     break;
                 case DiceSide.Crit:
-                    Game.UI.ShowError("Critical damage is dealt!");
+                    Messages.ShowErrorToHuman("Critical damage is dealt!");
                     SufferDamage();
                     Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, callBack);
                     break;
@@ -104,7 +102,7 @@ namespace SubPhases
 
         private void NoDamage()
         {
-            Game.UI.ShowInfo("No damage");
+            Messages.ShowInfoToHuman("No damage");
             callBack();
         }
 

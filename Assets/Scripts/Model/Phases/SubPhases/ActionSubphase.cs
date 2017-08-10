@@ -91,7 +91,7 @@ namespace SubPhases
         public override bool ThisShipCanBeSelected(Ship.GenericShip ship)
         {
             bool result = false;
-            Game.UI.ShowError("Ship cannot be selected: Perform action first");
+            Messages.ShowErrorToHuman("Ship cannot be selected: Perform action first");
             return result;
         }
 

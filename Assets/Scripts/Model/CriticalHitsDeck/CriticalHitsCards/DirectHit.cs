@@ -17,7 +17,7 @@ namespace CriticalHitCard
 
         public override void ApplyEffect(object sender, EventArgs e)
         {
-            Game.UI.ShowInfo("Additional hull damage");
+            Messages.ShowInfo("Additional hull damage");
             Game.UI.AddTestLogEntry("Additional hull damage");
             Host.AssignToken(new Tokens.DirectHitCritToken());
 
@@ -31,7 +31,7 @@ namespace CriticalHitCard
             host.RemoveToken(typeof(Tokens.DirectHitCritToken));
             if (host.TryRegenHull())
             {
-                Game.UI.ShowInfo("Restored hull point");
+                Messages.ShowInfo("Restored hull point");
                 Game.UI.AddTestLogEntry("Restored hull point");
             }
         }

@@ -30,6 +30,14 @@ public static class Messages{
         ShowMessage(text, MessageType.Info);
     }
 
+    public static void ShowInfoToHuman(string text)
+    {
+        if (Roster.GetPlayer(Phases.CurrentPhasePlayer).GetType() == typeof(Players.HumanPlayer))
+        {
+            ShowMessage(text, MessageType.Info);
+        }
+    }
+
     private static void ShowMessage(string text, MessageType type)
     {
 

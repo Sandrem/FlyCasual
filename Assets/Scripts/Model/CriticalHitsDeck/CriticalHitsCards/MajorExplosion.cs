@@ -17,7 +17,7 @@ namespace CriticalHitCard
 
         public override void ApplyEffect(object sender, EventArgs e)
         {
-            Game.UI.ShowInfo("On a Hit result, suffer 1 critical damage.");
+            Messages.ShowInfo("On a Hit result, suffer 1 critical damage.");
             Game.UI.AddTestLogEntry("On a Hit result, suffer 1 critical damage.");
 
             Selection.ActiveShip = Host;
@@ -78,7 +78,7 @@ namespace SubPhases
 
         private void DealDamage()
         {
-            Game.UI.ShowError("Major Explosion: Suffer 1 additional critical damage");
+            Messages.ShowInfo("Major Explosion: Suffer 1 additional critical damage");
             Game.UI.AddTestLogEntry("Major Explosion: Suffer 1 additional critical damage");
 
             Selection.ActiveShip.AssignedDamageDiceroll.DiceList.Add(new Dice(DiceKind.Attack, DiceSide.Crit));
@@ -96,7 +96,7 @@ namespace SubPhases
 
         private void NoDamage()
         {
-            Game.UI.ShowInfo("No damage");
+            Messages.ShowInfo("No damage");
             callBack();
         }
     }

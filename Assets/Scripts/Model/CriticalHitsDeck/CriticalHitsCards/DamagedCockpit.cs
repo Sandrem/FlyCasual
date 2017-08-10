@@ -17,7 +17,7 @@ namespace CriticalHitCard
 
         public override void ApplyEffect(object sender, EventArgs e)
         {
-            Game.UI.ShowInfo("Pilot Skill is set to 0");
+            Messages.ShowInfo("Pilot Skill is set to 0");
             Game.UI.AddTestLogEntry("Pilot Skill is set to 0");
             Host.AssignToken(new Tokens.DamagedCockpitCritToken());
 
@@ -34,7 +34,7 @@ namespace CriticalHitCard
 
         public override void DiscardEffect(Ship.GenericShip host)
         {
-            Game.UI.ShowInfo("Pilot Skill is restored");
+            Messages.ShowInfo("Pilot Skill is restored");
             Game.UI.AddTestLogEntry("Pilot Skill is restored");
 
             host.RemoveToken(typeof(Tokens.DamagedCockpitCritToken));

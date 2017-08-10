@@ -17,7 +17,7 @@ namespace CriticalHitCard
 
         public override void ApplyEffect(object sender, EventArgs e)
         {
-            Game.UI.ShowInfo("Received stress token");
+            Messages.ShowInfo("Received stress token");
             Game.UI.AddTestLogEntry("Received stress token");
 
             Host.AssignToken(new Tokens.StressToken());

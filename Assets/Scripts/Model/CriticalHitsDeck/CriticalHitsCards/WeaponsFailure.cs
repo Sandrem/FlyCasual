@@ -19,8 +19,8 @@ namespace CriticalHitCard
 
         public override void ApplyEffect(object sender, EventArgs e)
         {
-            Game.UI.ShowInfo("When attacking, roll 1 fewer attack die");
-            Game.UI.AddTestLogEntry("When attacking, roll 1 fewer attack die");
+            Messages.ShowInfo("When attacking, roll 1 fewer attack dice");
+            Game.UI.AddTestLogEntry("When attacking, roll 1 fewer attack dice");
             Host.AssignToken(new Tokens.WeaponsFailureCritToken());
 
             Host.AfterGotNumberOfPrimaryWeaponAttackDices += ReduceNumberOfAttackDices;
@@ -32,7 +32,7 @@ namespace CriticalHitCard
 
         public override void DiscardEffect(Ship.GenericShip host)
         {
-            Game.UI.ShowInfo("Number of attack dices is restored");
+            Messages.ShowInfo("Number of attack dices is restored");
             Game.UI.AddTestLogEntry("Number of attack dices is restored");
             host.RemoveToken(typeof(Tokens.WeaponsFailureCritToken));
 
@@ -43,7 +43,7 @@ namespace CriticalHitCard
 
         private void ReduceNumberOfAttackDices(ref int value)
         {
-            Game.UI.ShowError("Weapons Failure: Number of attack dices is reduced");
+            Messages.ShowInfo("Weapons Failure: Number of attack dices is reduced");
             Game.UI.AddTestLogEntry("Weapons Failure: Number of attack dices is reduced");
             value--;
         }

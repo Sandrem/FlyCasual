@@ -71,13 +71,13 @@ namespace SubPhases
                 }
                 else
                 {
-                    Game.UI.ShowError("Ship is outside of range");
+                    Messages.ShowErrorToHuman("Ship is outside of range");
                     RevertSubPhase();
                 }
             }
             else
             {
-                Game.UI.ShowError("Friendly ship cannot be selected");
+                Messages.ShowErrorToHuman("Friendly ship cannot be selected");
                 RevertSubPhase();
             }
             return result;
@@ -103,13 +103,13 @@ namespace SubPhases
                 }
                 else
                 {
-                    Game.UI.ShowError("Ship is outside of range");
+                    Messages.ShowErrorToHuman("Ship is outside of range");
                     RevertSubPhase();
                 }
             }
             else
             {
-                Game.UI.ShowError("Enemy ship cannot be selected");
+                Messages.ShowErrorToHuman("Enemy ship cannot be selected");
                 RevertSubPhase();
             }
             return result;

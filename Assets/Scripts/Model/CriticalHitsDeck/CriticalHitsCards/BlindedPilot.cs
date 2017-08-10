@@ -16,7 +16,7 @@ namespace CriticalHitCard
 
         public override void ApplyEffect(object sender, EventArgs e)
         {
-            Game.UI.ShowInfo("Cannot perform attack next time");
+            Messages.ShowInfo("Cannot perform attack next time");
             Game.UI.AddTestLogEntry("Cannot perform attack next time");
 
             Host.OnTryPerformAttack += OnTryPreformAttack;
@@ -29,13 +29,13 @@ namespace CriticalHitCard
 
         private void OnTryPreformAttack(ref bool result)
         {
-            Game.UI.ShowError("Blinded Pilot: Cannot perfom attack now");
+            Messages.ShowErrorToHuman("Blinded Pilot: Cannot perfom attack now");
             result = false;
         }
 
         public override void DiscardEffect(Ship.GenericShip host)
         {
-            Game.UI.ShowInfo("Blinded Pilot: Crit is flipped, pilot can perfom attacks");
+            Messages.ShowInfo("Blinded Pilot: Crit is flipped, pilot can perfom attacks");
             Game.UI.AddTestLogEntry("Blinded Pilot: Crit is flipped, pilot can perfom attacks");
 
             host.OnTryPerformAttack -= OnTryPreformAttack;

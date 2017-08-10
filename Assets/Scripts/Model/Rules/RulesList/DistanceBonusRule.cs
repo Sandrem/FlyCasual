@@ -5,19 +5,13 @@ namespace RulesList
 {
     public class DistanceBonusRule
     {
-        private GameManagerScript Game;
-
-        public DistanceBonusRule(GameManagerScript game)
-        {
-            Game = game;
-        }
 
         public void CheckAttackDistanceBonus(ref int result)
         {
             Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(Combat.Attacker, Combat.Defender);
             if (shotInfo.Range == 1)
             {
-                Game.UI.ShowInfo("Distance bonus: +1 attack dice");
+                Messages.ShowInfo("Distance bonus: +1 attack dice");
                 result++;
             }
         }
@@ -27,7 +21,7 @@ namespace RulesList
             Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(Combat.Attacker, Combat.Defender);
             if (shotInfo.Range == 3)
             {
-                Game.UI.ShowInfo("Distance bonus: +1 defence dice");
+                Messages.ShowInfo("Distance bonus: +1 defence dice");
                 result++;
             }
         }

@@ -23,7 +23,7 @@ namespace Players
             if (anotherShip == null) anotherShip = FindNearestEnemyShip(ship);
             if (inDebug) Debug.Log("Nearest enemy is " + anotherShip.PilotName + " (" + anotherShip.ShipId + ")");
 
-            ship.GenerateAvailableActionsList();
+            /*ship.GenerateAvailableActionsList();
             foreach (var action in ship.GetAvailableActionsList())
             {
                 if (action.GetType() == typeof(ActionsList.TargetLockAction))
@@ -31,7 +31,7 @@ namespace Players
                     Actions.AssignTargetLockToPair(ship, anotherShip);
                     break;
                 }
-            }
+            }*/
 
             ship.AssignedManeuver = ship.HotacManeuverTable.GetManeuver(ship, anotherShip);
             PerformManeuverOfShip(ship);

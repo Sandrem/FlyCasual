@@ -23,14 +23,15 @@ namespace ActionsList
                 Combat.Defender.RemoveToken(typeof(Tokens.RedTargetLockToken), letter);
 
                 //TODO: 2 Kinds of reroll
-                //TODO: Block buttons
+                Combat.HideDiceModificationButtons();
                 DicesManager.RerollDices(Combat.CurentDiceRoll, "failures", Unblock);
             }
         }
 
         private void Unblock(DiceRoll diceRoll)
         {
-            //Todo: Unblock buttons
+            Combat.ShowDiceModificationButtons();
+            Combat.ToggleConfirmDiceResultsButton(true);
         }
 
         public override bool IsActionEffectAvailable()

@@ -75,8 +75,8 @@ namespace SubPhases
         {
             Selection.ThisShip = TargetShip;
             Selection.ActiveShip = TargetShip;
-            Phases.CancelScheduledFinish(typeof(SelectTargetLockSubPhase));
-            Phases.StartTemporarySubPhase("Select target for Target Lock", typeof(SelectTargetLockSubPhase));
+            /*Phases.CancelScheduledFinish(typeof(SelectTargetLockSubPhase));
+            Phases.StartTemporarySubPhase("Select target for Target Lock", typeof(SelectTargetLockSubPhase));*/
         }
 
         protected override void RevertSubPhase()

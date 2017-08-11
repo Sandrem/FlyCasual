@@ -38,6 +38,11 @@ public static partial class Combat
         Roster.GetPlayer(Selection.ActiveShip.Owner.PlayerNo).UseDiceModifications();
     }
 
+    public static void ToggleConfirmDiceResultsButton(bool isActive)
+    {
+        (Phases.CurrentSubPhase as SubPhases.DiceRollCombatSubPhase).ToggleConfirmDiceResultsButton(isActive);
+    }
+
     private static void CreateDiceModificationsButton(ActionsList.GenericAction actionEffect, Vector3 position)
     {
         GameObject newButton = MonoBehaviour.Instantiate(Game.PrefabsList.GenericButton, Game.PrefabsList.DiceResultsMenu.transform);

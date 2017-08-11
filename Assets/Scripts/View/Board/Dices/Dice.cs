@@ -16,6 +16,10 @@ public partial class Dice
 
     private static Vector3 positionGround = new Vector3(0, -3.763676f, 0);
 
+    private static bool modelRollingIsFinished;
+    private static float RollingIsFinishedTimePassed;
+    private static readonly float RollingIsFinishedTimePassedNeeded = 1f;
+
     private GameObject Model;
 
     public Dice(DiceKind type, DiceSide side = DiceSide.Unknown)
@@ -69,6 +73,7 @@ public partial class Dice
 
     public void Roll()
     {
+        modelRollingIsFinished = false;
         RandomizeDice();
         Model.gameObject.SetActive(true);
         Model.transform.Find("Dice").GetComponent<Rigidbody>().isKinematic = false;
@@ -142,6 +147,25 @@ public partial class Dice
     public void RemoveModel()
     {
         MonoBehaviour.Destroy(Model);
+    }
+
+    public bool IsModelRollingFinished()
+    {
+        if (!modelRollingIsFinished)
+        {
+            Vector3 velocity = Model.GetComponentInChildren<Rigidbody>().velocity;
+            bool isModelRollingNow = (velocity != Vector3.zero);
+
+            RollingIsFinishedTimePassed = (isModelRollingNow) ? 0 : RollingIsFinishedTimePassed + Time.deltaTime;
+
+            if (RollingIsFinishedTimePassed >= RollingIsFinishedTimePassedNeeded)
+            {
+                modelRollingIsFinished = true;
+                RollingIsFinishedTimePassed = 0;
+            }
+        }
+
+        return modelRollingIsFinished;
     }
 
 }

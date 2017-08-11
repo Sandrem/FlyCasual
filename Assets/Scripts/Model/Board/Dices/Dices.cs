@@ -125,20 +125,6 @@ public static class DicesManager {
 
     }
 	
-    public static void PlanWaitForResults(DiceRoll diceRoll, DelegateDiceroll callBack)
-    {
-        Game.StartCoroutine(WaitForResults(diceRoll, callBack));
-    }
-
-    static IEnumerator WaitForResults(DiceRoll diceRoll, DelegateDiceroll callBack)
-    {
-        yield return new WaitForSeconds(WAIT_FOR_DICE_SECONDS);
-        //OrganizeDicePositions(diceRoll);
-        diceRoll.CalculateWaitedResults();
-
-        callBack(diceRoll);
-    }
-
     private static void OrganizeDicePositions(DiceRoll diceRoll)
     {
         diceRoll.OrganizeDicePositions();
@@ -147,13 +133,13 @@ public static class DicesManager {
     public static void RerollDices(DiceRoll diceRoll, string results, DelegateDiceroll callback)
     {
         diceRoll.Reroll(results);
-        Game.StartCoroutine(WaitForResults(diceRoll, callback));
+        diceRoll.CalculateResults(callback);
     }
 
     public static void RerollOne(DiceRoll diceRoll, DelegateDiceroll callback)
     {
         diceRoll.RerollOne();
-        Game.StartCoroutine(WaitForResults(diceRoll, callback));
+        diceRoll.CalculateResults(callback);
     }
 
     public static void ApplyFocus(DiceRoll diceRoll)

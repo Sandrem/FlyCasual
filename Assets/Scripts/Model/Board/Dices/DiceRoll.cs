@@ -18,6 +18,8 @@ public partial class DiceRoll
 
     public int Number { get; private set; }
 
+    private DelegateDiceroll callBack;
+
     public DiceRoll(DiceKind type, int number)
     {
         Type = type;
@@ -230,10 +232,34 @@ public partial class DiceRoll
 
     public void CalculateResults(DelegateDiceroll callBack)
     {
-        DicesManager.PlanWaitForResults(this, callBack);
+        // TODO: Rewrite
+        GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
+
+        this.callBack = callBack;
+        Game.Movement.FuncsToUpdate.Add(CheckDiceMovementFinish);
     }
 
-    public void CalculateWaitedResults()
+    private bool CheckDiceMovementFinish()
+    {
+        bool result = false;
+
+        int dicesStillRolling = DiceList.Count;
+        foreach (var dice in DiceList)
+        {
+            if (dice.IsModelRollingFinished()) dicesStillRolling--;
+        }
+
+        if (dicesStillRolling == 0)
+        {
+            CalculateWaitedResults();
+            callBack(this);
+            result = true;
+        }
+
+        return result;
+    }
+
+    private void CalculateWaitedResults()
     {
         foreach (Dice dice in DiceList)
         {

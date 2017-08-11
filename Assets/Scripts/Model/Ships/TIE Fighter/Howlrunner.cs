@@ -80,12 +80,14 @@ namespace ActionsList
 
         public override void ActionEffect()
         {
+            Combat.HideDiceModificationButtons();
             DicesManager.RerollOne(Combat.CurentDiceRoll, Unblock);
         }
 
         private void Unblock(DiceRoll diceRoll)
         {
-            //Todo: Unblock buttons
+            Combat.ShowDiceModificationButtons();
+            Combat.ToggleConfirmDiceResultsButton(true);
         }
 
     }

@@ -230,7 +230,7 @@ public partial class DiceRoll
 
     public void CalculateResults(DelegateDiceroll callBack)
     {
-        Dices.PlanWaitForResults(this, callBack);
+        DicesManager.PlanWaitForResults(this, callBack);
     }
 
     public void CalculateWaitedResults()
@@ -254,7 +254,7 @@ public partial class DiceRoll
     {
         for (int i = 0; i < DiceList.Count; i++)
         {
-            DiceList[i].SetPosition(Dices.DiceField.position + Dices.diceResultsOffset[i]);
+            DiceList[i].SetPosition(DicesManager.DiceField.position + DicesManager.DicePositions[DiceList.Count-1][i]);
         }
     }
 

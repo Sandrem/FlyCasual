@@ -24,7 +24,7 @@ namespace ActionsList
 
                 //TODO: 2 Kinds of reroll
                 //TODO: Block buttons
-                Dices.RerollDices(Combat.CurentDiceRoll, "failures", Unblock);
+                DicesManager.RerollDices(Combat.CurentDiceRoll, "failures", Unblock);
             }
         }
 

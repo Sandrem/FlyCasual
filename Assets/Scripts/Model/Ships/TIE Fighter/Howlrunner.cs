@@ -80,7 +80,7 @@ namespace ActionsList
 
         public override void ActionEffect()
         {
-            Dices.RerollOne(Combat.CurentDiceRoll, Unblock);
+            DicesManager.RerollOne(Combat.CurentDiceRoll, Unblock);
         }
 
         private void Unblock(DiceRoll diceRoll)

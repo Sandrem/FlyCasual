@@ -14,7 +14,7 @@ namespace ActionsList
 
         public override void ActionEffect()
         {
-            Dices.ApplyEvade(Combat.CurentDiceRoll);
+            DicesManager.ApplyEvade(Combat.CurentDiceRoll);
             Selection.ActiveShip.SpendToken(typeof(Tokens.EvadeToken));
         }
 

@@ -15,7 +15,7 @@ namespace ActionsList
 
         public override void ActionEffect()
         {
-            Dices.ApplyFocus(Combat.CurentDiceRoll);
+            DicesManager.ApplyFocus(Combat.CurentDiceRoll);
             Selection.ActiveShip.SpendToken(typeof(Tokens.FocusToken));
         }
 

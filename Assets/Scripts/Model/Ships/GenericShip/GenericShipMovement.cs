@@ -71,9 +71,14 @@ namespace Ship
 
         // MANEUVERS
 
-        public Movement.ManeuverColor GetColorComplexityOfManeuver(string maneuverString)
+        // TODO: Rewrite
+        public Movement.ManeuverColor GetColorComplexityOfManeuver(Movement.MovementStruct movement)
         {
-            return Maneuvers[maneuverString];
+            if (AfterGetManeuverColorDecreaseComplexity != null) AfterGetManeuverColorDecreaseComplexity(this, ref movement);
+            if (AfterGetManeuverColorIncreaseComplexity != null) AfterGetManeuverColorIncreaseComplexity(this, ref movement);
+            if (AfterGetManeuverAvailablity != null) AfterGetManeuverAvailablity(this, ref movement);
+
+            return movement.ColorComplexity;
         }
 
         public Movement.ManeuverColor GetLastManeuverColor()
@@ -90,11 +95,7 @@ namespace Ship
 
             foreach (var maneuverHolder in Maneuvers)
             {
-                Movement.MovementStruct movement = Game.Movement.ManeuverFromString(maneuverHolder.Key);
-                if (AfterGetManeuverColorDecreaseComplexity != null) AfterGetManeuverColorDecreaseComplexity(this, ref movement);
-                if (AfterGetManeuverColorIncreaseComplexity != null) AfterGetManeuverColorIncreaseComplexity(this, ref movement);
-                if (AfterGetManeuverAvailablity != null) AfterGetManeuverAvailablity(this, ref movement);
-                result.Add(maneuverHolder.Key, movement.ColorComplexity);
+                result.Add(maneuverHolder.Key, Game.Movement.ManeuverFromString(maneuverHolder.Key).ColorComplexity);
             }
 
             return result;

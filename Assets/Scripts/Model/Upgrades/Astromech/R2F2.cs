@@ -56,7 +56,6 @@ namespace ActionsList
             host.ChangeAgilityBy(+1);
             host.AssignToken(new Conditions.R2F2Condition());
             Phases.OnEndPhaseStart += R2F2DecreaseAgility;
-            Phases.Next();
             Phases.CurrentSubPhase.callBack();
         }
 

@@ -66,7 +66,7 @@ public class ShipMovementScript : MonoBehaviour {
 
         Selection.ThisShip.AssignedManeuver = MovementFromString(parameters);
 
-        Selection.ThisShip.InfoPanel.transform.FindChild("DialAssigned" + Selection.ThisShip.Owner.Id).gameObject.SetActive(true);
+        Selection.ThisShip.InfoPanel.transform.Find("DialAssigned" + Selection.ThisShip.Owner.Id).gameObject.SetActive(true);
         Roster.HighlightShipOff(Selection.ThisShip);
 
         Game.UI.HideDirectionMenu();
@@ -165,12 +165,15 @@ public class ShipMovementScript : MonoBehaviour {
                 break;
         }
 
-        Movement.ManeuverColor color = Selection.ThisShip.GetColorComplexityOfManeuver(parameters);
+        Movement.MovementStruct result = new Movement.MovementStruct()
+        {
+            Speed = speed,
+            Direction = direction,
+            Bearing = bearing,
+            ColorComplexity = Selection.ThisShip.Maneuvers[parameters]
+        };
 
-        Movement.MovementStruct result = new Movement.MovementStruct();
-        result.Speed = speed;
-        result.Direction = direction;
-        result.Bearing = bearing;
+        Movement.ManeuverColor color = Selection.ThisShip.GetColorComplexityOfManeuver(result);
         result.ColorComplexity = color;
 
         return result;

@@ -17,13 +17,18 @@ public partial class DiceRerollManager
 
     public void Start()
     {
-        Combat.CurentDiceRoll.OrganizeDicePositions();
-
+        OrganizeDiceView();
         CheckParameters();
         SwitchToDiceRerollsPanel();
         DoDefaultSelection();
         GenerateSelectionButtons();
         SetConfirmButtonAction();
+    }
+
+    private void OrganizeDiceView()
+    {
+        Combat.CurentDiceRoll.OrganizeDicePositions();
+        Combat.CurentDiceRoll.ToggleRerolledLocks(true);
     }
 
     private void CheckParameters()
@@ -169,6 +174,7 @@ public partial class DiceRerollManager
 
     private void UnblockButtons(DiceRoll diceRoll)
     {
+        Combat.CurentDiceRoll.ToggleRerolledLocks(false);
         ToggleDiceModificationsPanel(true);
     }
 

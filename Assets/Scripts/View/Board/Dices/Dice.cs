@@ -82,6 +82,7 @@ public partial class Dice
     public void Reroll()
     {
         ToggleSelected(false);
+        IsRerolled = true;
 
         Transform diceSpawningPoint = DicesManager.DiceSpawningPoint;
         Model.transform.Find("Dice").transform.position = diceSpawningPoint.position;

@@ -114,6 +114,14 @@ public partial class DiceRoll
         CalculateResults();
     }
 
+    public void ToggleRerolledLocks(bool isActive)
+    {
+        foreach (var dice in DiceList)
+        {
+            dice.ToggleRerolledLock(isActive);
+        }
+    }
+
     public void ApplyFocus()
     {
         ChangeAll(DiceSide.Focus, DiceSide.Success);
@@ -279,7 +287,7 @@ public partial class DiceRoll
                 //from blanks to focuses
                 foreach (var dice in DiceList)
                 {
-                    if (dice.Side == diceSide)
+                    if ((dice.Side == diceSide) && (!dice.IsRerolled))
                     {
                         dice.ToggleSelected(true);
                         alreadySelected++;

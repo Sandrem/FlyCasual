@@ -46,7 +46,7 @@ namespace SubPhases
             // BUG after koiogran asteroid?
             if (Roster.GetPlayer(Selection.ActiveShip.Owner.PlayerNo).GetType() == typeof(Players.HumanPlayer))
             {
-                Button closeButton = Game.PrefabsList.DiceResultsMenu.transform.Find("Confirm").GetComponent<Button>();
+                Button closeButton = Game.PrefabsList.DiceResultsMenu.transform.Find("DiceModificationsPanel/Confirm").GetComponent<Button>();
                 closeButton.onClick.RemoveAllListeners();
                 closeButton.onClick.AddListener(finishAction);
 
@@ -79,14 +79,14 @@ namespace SubPhases
 
         public void HideDiceModificationButtons()
         {
-            foreach (Transform button in Game.PrefabsList.DiceResultsMenu.transform)
+            foreach (Transform button in Game.PrefabsList.DiceResultsMenu.transform.Find("DiceModificationsPanel"))
             {
                 if (button.name.StartsWith("Button"))
                 {
                     MonoBehaviour.Destroy(button.gameObject);
                 }
             }
-            Game.PrefabsList.DiceResultsMenu.transform.Find("Confirm").gameObject.SetActive(false);
+            Game.PrefabsList.DiceResultsMenu.transform.Find("DiceModificationsPanel/Confirm").gameObject.SetActive(false);
         }
 
         public override void Next()

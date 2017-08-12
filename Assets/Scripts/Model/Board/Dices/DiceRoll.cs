@@ -254,11 +254,50 @@ public partial class DiceRoll
         }
     }
 
-    public void SelectBySides(List<DiceSide> diceSides)
+    private int GetSelectedNumber()
+    {
+        int result = 0;
+
+        foreach (var dice in DiceList)
+        {
+            if (dice.IsSelected) result++;
+        }
+
+        return result;
+    }
+
+    public void SelectBySides(List<DiceSide> diceSides, int maxCanBeSelected)
+    {
+        DeselectDices();
+
+        int alreadySelected = 0;
+
+        if (alreadySelected < maxCanBeSelected)
+        {
+            foreach (var diceSide in diceSides)
+            {
+                //from blanks to focuses
+                foreach (var dice in DiceList)
+                {
+                    if (dice.Side == diceSide)
+                    {
+                        dice.ToggleSelected(true);
+                        alreadySelected++;
+                        if (alreadySelected == maxCanBeSelected)
+                        {
+                            return;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private void DeselectDices()
     {
         foreach (var dice in DiceList)
         {
-            dice.ToggleSelected(diceSides.Contains(dice.Side));
+            dice.ToggleSelected(false);
         }
     }
 

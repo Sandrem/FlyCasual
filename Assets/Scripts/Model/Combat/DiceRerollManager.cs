@@ -68,7 +68,7 @@ public partial class DiceRerollManager
             }
         }
 
-        Combat.CurentDiceRoll.SelectBySides(diceSides);
+        Combat.CurentDiceRoll.SelectBySides(diceSides, NumberOfDicesCanBeRerolled);
     }
 
     private void GenerateSelectionButtons()
@@ -84,16 +84,7 @@ public partial class DiceRerollManager
                 });
         }
 
-        if (SidesCanBeRerolled.Contains(DiceSide.Focus))
-        {
-            options.Add(
-                "Select only focuses",
-                new List<DiceSide>() {
-                    DiceSide.Focus
-                });
-        }
-
-        if ((SidesCanBeRerolled.Contains(DiceSide.Blank)) && (SidesCanBeRerolled.Contains(DiceSide.Focus)))
+        if ((SidesCanBeRerolled.Contains(DiceSide.Focus)) && (SidesCanBeRerolled.Contains(DiceSide.Blank)) && (NumberOfDicesCanBeRerolled > 1))
         {
             options.Add(
                 "Select only blanks and focuses",
@@ -112,7 +103,7 @@ public partial class DiceRerollManager
             newButton.GetComponent<RectTransform>().localPosition = new Vector3(0, -offset, 0);
             newButton.GetComponent<Button>().onClick.AddListener(delegate
             {
-                SelectDicesByFilter(option.Value, int.MaxValue);
+                SelectDicesByFilter(option.Value, NumberOfDicesCanBeRerolled);
             });
             newButton.SetActive(true);
             offset += 40;
@@ -121,7 +112,7 @@ public partial class DiceRerollManager
 
     private void SelectDicesByFilter(List<DiceSide> diceSides, int number)
     {
-        Combat.CurentDiceRoll.SelectBySides(diceSides);
+        Combat.CurentDiceRoll.SelectBySides(diceSides, number);
     }
 
     private void SetConfirmButtonAction()

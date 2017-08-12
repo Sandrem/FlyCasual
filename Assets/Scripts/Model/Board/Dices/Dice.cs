@@ -9,6 +9,7 @@ public partial class Dice
     public void ToggleSelected(bool isSelected)
     {
         IsSelected = isSelected;
+        Model.transform.Find("DiceOverlay").gameObject.transform.position = Model.transform.Find("Dice").position;
         Model.transform.Find("DiceOverlay").gameObject.SetActive(isSelected);
         Model.transform.Find("DiceOverlay/SelectionProjector").gameObject.SetActive(isSelected);
     }

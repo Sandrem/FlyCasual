@@ -209,11 +209,27 @@ namespace Ship
 
             if (!action.IsActionEffectAvailable()) result = false;
 
-            if (AlreadyExecutedActionEffects.Contains(action)) result = false;
+            if (IsAlreadyExecuted(action)) result = false;
 
             if (result)
             {
                 if (OnTryAddAvailableActionEffect != null) OnTryAddAvailableActionEffect(action, ref result);
+            }
+
+            return result;
+        }
+
+        private bool IsAlreadyExecuted(ActionsList.GenericAction action)
+        {
+            bool result = false;
+
+            foreach (var alreadyExecuedAction in AlreadyExecutedActionEffects)
+            {
+                if (alreadyExecuedAction.GetType() == action.GetType())
+                {
+                    result = true;
+                    break;
+                }
             }
 
             return result;

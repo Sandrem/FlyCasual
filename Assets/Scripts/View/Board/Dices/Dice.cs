@@ -20,7 +20,9 @@ public partial class Dice
     private static float RollingIsFinishedTimePassed;
     private static readonly float RollingIsFinishedTimePassedNeeded = 1f;
 
-    private GameObject Model;
+    private static int diceIDcounter;
+
+    public GameObject Model { get; private set; }
 
     public Dice(DiceKind type, DiceSide side = DiceSide.Unknown)
     {
@@ -57,6 +59,7 @@ public partial class Dice
         GameObject prefabDiceType = (type == DiceKind.Attack) ? DicesManager.DiceAttack : DicesManager.DiceDefence;
         Transform diceSpawningPoint = DicesManager.DiceSpawningPoint;
         GameObject model = MonoBehaviour.Instantiate(prefabDiceType, diceSpawningPoint.transform.position, prefabDiceType.transform.rotation, diceSpawningPoint.transform);
+        model.name = "DiceN" + diceIDcounter++;
         return model;
     }
 

@@ -15,22 +15,31 @@ public class SelectDiceThroughMinimap : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (DiceRerollManager.currentDiceRerollManager != null)
         {
-            Vector3 mousePosition = transform.InverseTransformPoint(Input.mousePosition);
-
-            Debug.Log(mousePosition);
-            if (transform.GetComponent<RectTransform>().rect.Contains(mousePosition))
+            if (Input.GetMouseButtonDown(0))
             {
-                RaycastHit hitInfo = new RaycastHit();
+                Vector3 mousePosition = transform.InverseTransformPoint(Input.mousePosition);
 
-                mousePosition = new Vector3(mousePosition.x, mousePosition.y+255);
-                if (Physics.Raycast(diceCamera.ScreenPointToRay(mousePosition), out hitInfo))
+                if (transform.GetComponent<RectTransform>().rect.Contains(mousePosition))
                 {
-                    Debug.Log(hitInfo.collider.name);
-                }
+                    RaycastHit hitInfo = new RaycastHit();
 
+                    mousePosition = new Vector3(mousePosition.x, mousePosition.y+255);
+                    if (Physics.Raycast(diceCamera.ScreenPointToRay(mousePosition), out hitInfo))
+                    {
+                        if (!hitInfo.collider.name.StartsWith("DiceField"))
+                        {
+                            TrySelectDice(hitInfo.collider.gameObject);
+                        }
+                    }
+                }
             }
         }
-	}
+    }
+
+    private void TrySelectDice(GameObject Dice)
+    {
+        Combat.CurentDiceRoll.TrySelectDiceByModel(Dice);
+    }
 }

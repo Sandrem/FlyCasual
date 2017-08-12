@@ -309,4 +309,39 @@ public partial class DiceRoll
         }
     }
 
+    public void TrySelectDiceByModel(GameObject diceModel)
+    {
+        foreach (var dice in DiceList)
+        {
+            if (dice.Model.name == diceModel.transform.parent.name)
+            {
+                if (dice.IsSelected)
+                {
+                    dice.ToggleSelected(false);
+                    return;
+                }
+
+                if (dice.IsRerolled)
+                {
+                    Messages.ShowErrorToHuman("Dice can be rerolled only once");
+                    return;
+                }
+
+                if (DiceRerollManager.currentDiceRerollManager.NumberOfDicesCanBeRerolled == GetSelectedNumber())
+                {
+                    Messages.ShowErrorToHuman("Only " + DiceRerollManager.currentDiceRerollManager.NumberOfDicesCanBeRerolled + " dices can be selected");
+                    return;
+                }
+
+                if (!DiceRerollManager.currentDiceRerollManager.SidesCanBeRerolled.Contains(dice.Side))
+                {
+                    Messages.ShowErrorToHuman("Dices with this result cannot be rerolled");
+                    return;
+                }
+
+                dice.ToggleSelected(true);
+            }
+        }
+    }
+
 }

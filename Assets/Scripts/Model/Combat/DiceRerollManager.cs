@@ -7,12 +7,15 @@ public partial class DiceRerollManager
 {
     private GameManagerScript Game;
 
+    public static DiceRerollManager currentDiceRerollManager;
+
     public List<DiceSide> SidesCanBeRerolled;
     public int NumberOfDicesCanBeRerolled;
 
     public DiceRerollManager()
     {
         Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
+        currentDiceRerollManager = this;
     }
 
     public void Start()
@@ -161,9 +164,7 @@ public partial class DiceRerollManager
 
     private void ConfirmReroll()
     {
-        Messages.ShowInfo("DONE!");
         BlockButtons();
-
         Combat.CurentDiceRoll.RerollSelected(UnblockButtons);
     }
 
@@ -174,6 +175,8 @@ public partial class DiceRerollManager
 
     private void UnblockButtons(DiceRoll diceRoll)
     {
+        DiceRerollManager.currentDiceRerollManager = null;
+
         Combat.CurentDiceRoll.ToggleRerolledLocks(false);
         ToggleDiceModificationsPanel(true);
     }

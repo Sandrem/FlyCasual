@@ -8,8 +8,6 @@ public static class DicesManager {
 
     private static GameManagerScript Game;
 
-    private static readonly float WAIT_FOR_DICE_SECONDS = 1.5f;
-
     public static List<List<Vector3>> DicePositions = new List<List<Vector3>>();
 
     public static GameObject DiceAttack;

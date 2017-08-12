@@ -43,14 +43,12 @@ namespace PilotAbilities
 
         public override void ActionEffect()
         {
-            Combat.HideDiceModificationButtons();
-            DicesManager.RerollDices(Combat.DiceRollAttack, "blank", Unblock);
-        }
-
-        private void Unblock(DiceRoll diceRoll)
-        {
-            Combat.ShowDiceModificationButtons();
-            Combat.ToggleConfirmDiceResultsButton(true);
+            DiceRerollManager diceRerollManager = new DiceRerollManager
+            {
+                SidesCanBeRerolled = new List<DiceSide> { DiceSide.Blank },
+                NumberOfDicesCanBeRerolled = int.MaxValue
+            };
+            diceRerollManager.Start();
         }
 
         public override bool IsActionEffectAvailable()

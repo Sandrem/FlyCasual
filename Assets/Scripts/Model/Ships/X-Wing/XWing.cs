@@ -15,7 +15,7 @@ namespace Ship
                 Type = "X-Wing";
                 ManeuversImageUrl = "https://vignette1.wikia.nocookie.net/xwing-miniatures/images/3/3d/MR_T65-X-WING.png";
 
-                Firepower = 8; //3
+                Firepower = 3;
                 Agility = 2;
                 MaxHull = 3;
                 MaxShields = 2;

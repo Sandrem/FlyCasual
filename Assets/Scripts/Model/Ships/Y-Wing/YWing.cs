@@ -15,7 +15,7 @@ namespace Ship
                 Type = "Y-Wing";
                 ManeuversImageUrl = "https://vignette4.wikia.nocookie.net/xwing-miniatures/images/1/18/MR_Y-WING.png";
 
-                Firepower = 2;
+                Firepower = 8; //2
                 Agility = 1;
                 MaxHull = 5;
                 MaxShields = 3;
@@ -45,6 +45,9 @@ namespace Ship
             {
                 base.InitializeShip();
                 BuiltInActions.Add(new ActionsList.TargetLockAction());
+
+                //temporary
+                BuiltInActions.Add(new ActionsList.EvadeAction());
             }
 
             private void AssignTemporaryManeuvers()

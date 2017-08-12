@@ -4,6 +4,15 @@ using UnityEngine;
 
 public partial class Dice
 {
+    public bool IsSelected { get; private set; }
+
+    public void ToggleSelected(bool isSelected)
+    {
+        IsSelected = isSelected;
+        Model.transform.Find("DiceOverlay").gameObject.SetActive(isSelected);
+        Model.transform.Find("DiceOverlay/SelectionProjector").gameObject.SetActive(isSelected);
+    }
+
     public void Cancel()
     {
         Side = DiceSide.Blank;

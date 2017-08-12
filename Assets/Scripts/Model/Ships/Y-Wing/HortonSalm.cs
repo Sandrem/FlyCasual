@@ -45,8 +45,7 @@ namespace PilotAbilities
         {
             DiceRerollManager diceRerollManager = new DiceRerollManager
             {
-                SidesCanBeRerolled = new List<DiceSide> { DiceSide.Blank },
-                NumberOfDicesCanBeRerolled = int.MaxValue
+                SidesCanBeRerolled = new List<DiceSide> { DiceSide.Blank }
             };
             diceRerollManager.Start();
         }

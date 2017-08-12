@@ -22,16 +22,9 @@ namespace ActionsList
                 Selection.ActiveShip.SpendToken(typeof(Tokens.BlueTargetLockToken), letter);
                 Combat.Defender.RemoveToken(typeof(Tokens.RedTargetLockToken), letter);
 
-                //TODO: 2 Kinds of reroll
-                Combat.HideDiceModificationButtons();
-                DicesManager.RerollDices(Combat.CurentDiceRoll, "failures", Unblock);
+                DiceRerollManager diceRerollManager = new DiceRerollManager();
+                diceRerollManager.Start();
             }
-        }
-
-        private void Unblock(DiceRoll diceRoll)
-        {
-            Combat.ShowDiceModificationButtons();
-            Combat.ToggleConfirmDiceResultsButton(true);
         }
 
         public override bool IsActionEffectAvailable()

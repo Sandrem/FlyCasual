@@ -40,8 +40,7 @@ namespace SubPhases
 
             DiceRoll DiceRollCheck;
             DiceRollCheck = new DiceRoll(dicesType, dicesCount);
-            DiceRollCheck.Roll();
-            DiceRollCheck.CalculateResults(checkResults);
+            DiceRollCheck.Roll(checkResults);
         }
 
         public void ToggleConfirmDiceResultsButton(bool isActive)

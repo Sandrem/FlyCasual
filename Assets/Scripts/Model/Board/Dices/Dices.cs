@@ -123,32 +123,4 @@ public static class DicesManager {
 
     }
 	
-    private static void OrganizeDicePositions(DiceRoll diceRoll)
-    {
-        diceRoll.OrganizeDicePositions();
-    }
-
-    public static void RerollDices(DiceRoll diceRoll, string results, DelegateDiceroll callback)
-    {
-        diceRoll.Reroll(results);
-        diceRoll.CalculateResults(callback);
-    }
-
-    public static void RerollOne(DiceRoll diceRoll, DelegateDiceroll callback)
-    {
-        diceRoll.RerollOne();
-        diceRoll.CalculateResults(callback);
-    }
-
-    public static void ApplyFocus(DiceRoll diceRoll)
-    {
-        diceRoll.ApplyFocus();
-        OrganizeDicePositions(diceRoll);
-    }
-
-    public static void ApplyEvade(DiceRoll diceRoll)
-    {
-        diceRoll.ApplyEvade();
-        OrganizeDicePositions(diceRoll);
-    }
 }

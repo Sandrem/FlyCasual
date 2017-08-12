@@ -17,9 +17,32 @@ public partial class DiceRerollManager
 
     public void Start()
     {
+        Combat.CurentDiceRoll.OrganizeDicePositions();
+
+        CheckParameters();
         SwitchToDiceRerollsPanel();
+        DoDefaultSelection();
         GenerateSelectionButtons();
         SetConfirmButtonAction();
+    }
+
+    private void CheckParameters()
+    {
+        if (SidesCanBeRerolled == null)
+        {
+            SidesCanBeRerolled = new List<DiceSide>
+            {
+                DiceSide.Blank,
+                DiceSide.Focus,
+                DiceSide.Success,
+                DiceSide.Crit
+            };
+        }
+
+        if (NumberOfDicesCanBeRerolled == 0)
+        {
+            NumberOfDicesCanBeRerolled = int.MaxValue;
+        }
     }
 
     private void SwitchToDiceRerollsPanel(bool isReverse = false)
@@ -28,24 +51,77 @@ public partial class DiceRerollManager
         ToggleDiceRerollsPanel(!isReverse);
     }
 
-    private void GenerateSelectionButtons()
+    private void DoDefaultSelection()
     {
-        // TODO: Generate different buttons
+        List<DiceSide> diceSides = new List<DiceSide>();
 
-        GameObject newButton = MonoBehaviour.Instantiate(Game.PrefabsList.GenericButton, Game.PrefabsList.DiceResultsMenu.transform.Find("DiceRerollsPanel"));
-        newButton.name = "ButtonBlanks";
-        newButton.transform.GetComponentInChildren<Text>().text = "Select blanks";
-        newButton.GetComponent<RectTransform>().localPosition = Vector3.zero;
-        newButton.GetComponent<Button>().onClick.AddListener(delegate
+        if (SidesCanBeRerolled.Contains(DiceSide.Blank))
         {
-            SelectDicesByFilter(DiceSide.Blank, int.MaxValue);
-        });
-        newButton.SetActive(true);
+            diceSides.Add(DiceSide.Blank);
+        }
+
+        if (SidesCanBeRerolled.Contains(DiceSide.Focus))
+        { 
+            if (!Selection.ActiveShip.HastToken(typeof(Tokens.FocusToken)))
+            {
+                diceSides.Add(DiceSide.Focus);
+            }
+        }
+
+        Combat.CurentDiceRoll.SelectBySides(diceSides);
     }
 
-    private void SelectDicesByFilter(DiceSide diceSide, int number)
+    private void GenerateSelectionButtons()
     {
-        //TODO: Select dices
+        Dictionary<string, List<DiceSide>> options = new Dictionary<string, List<DiceSide>>();
+
+        if (SidesCanBeRerolled.Contains(DiceSide.Blank))
+        {
+            options.Add(
+                "Select only blanks",
+                new List<DiceSide>() {
+                    DiceSide.Blank
+                });
+        }
+
+        if (SidesCanBeRerolled.Contains(DiceSide.Focus))
+        {
+            options.Add(
+                "Select only focuses",
+                new List<DiceSide>() {
+                    DiceSide.Focus
+                });
+        }
+
+        if ((SidesCanBeRerolled.Contains(DiceSide.Blank)) && (SidesCanBeRerolled.Contains(DiceSide.Focus)))
+        {
+            options.Add(
+                "Select only blanks and focuses",
+                new List<DiceSide>() {
+                    DiceSide.Blank,
+                    DiceSide.Focus
+                });
+        }
+
+        int offset = 0;
+        foreach (var option in options)
+        {
+            GameObject newButton = MonoBehaviour.Instantiate(Game.PrefabsList.GenericButton, Game.PrefabsList.DiceResultsMenu.transform.Find("DiceRerollsPanel"));
+            newButton.name = "Button" + option.Key;
+            newButton.transform.GetComponentInChildren<Text>().text = option.Key;
+            newButton.GetComponent<RectTransform>().localPosition = new Vector3(0, -offset, 0);
+            newButton.GetComponent<Button>().onClick.AddListener(delegate
+            {
+                SelectDicesByFilter(option.Value, int.MaxValue);
+            });
+            newButton.SetActive(true);
+            offset += 40;
+        }
+    }
+
+    private void SelectDicesByFilter(List<DiceSide> diceSides, int number)
+    {
+        Combat.CurentDiceRoll.SelectBySides(diceSides);
     }
 
     private void SetConfirmButtonAction()
@@ -92,8 +168,7 @@ public partial class DiceRerollManager
         Messages.ShowInfo("DONE!");
         BlockButtons();
 
-        //TODO: Call roll only for selected
-        DicesManager.RerollDices(Combat.CurentDiceRoll, "blank", UnblockButtons);
+        Combat.CurentDiceRoll.RerollSelected(UnblockButtons);
     }
 
     private void BlockButtons()

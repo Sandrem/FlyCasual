@@ -87,65 +87,37 @@ public partial class DiceRoll
         private set { }
     }
 
-    public void Roll()
+    public void Roll(DelegateDiceroll callBack)
     {
+        this.callBack = callBack;
+
         foreach (Dice dice in DiceList)
         {
             dice.Roll();
         }
+
+        CalculateResults();
     }
 
-    //Change to enum
-    public void Reroll(string type)
+    public void RerollSelected(DelegateDiceroll callBack)
     {
-        foreach (Dice dice in DiceList)
+        this.callBack = callBack;
+
+        foreach (var dice in DiceList)
         {
-            if (type == "all")
+            if (dice.IsSelected)
+            {
                 dice.Reroll();
-            if (type == "blank")
-            {
-                if (dice.Side == DiceSide.Blank)
-                    dice.Reroll();
-            }
-            if (type == "failures")
-            {
-                if ((dice.Side == DiceSide.Blank) || (dice.Side == DiceSide.Focus))
-                    dice.Reroll();
             }
         }
-    }
 
-    public void RerollOne()
-    {
-        Dice worstDice = null;
-        foreach (Dice dice in DiceList)
-        {
-            if (dice.Side == DiceSide.Blank)
-            {
-                worstDice = dice;
-                break;
-            }
-            else if (dice.Side == DiceSide.Focus)
-            {
-                if ((worstDice == null) || (worstDice.Side == DiceSide.Success))
-                {
-                    worstDice = dice;
-                }
-            }
-            else if (dice.Side == DiceSide.Success)
-            {
-                if (worstDice == null)
-                {
-                    worstDice = dice;
-                }
-            }
-        }
-        worstDice.Reroll();
+        CalculateResults();
     }
 
     public void ApplyFocus()
     {
         ChangeAll(DiceSide.Focus, DiceSide.Success);
+        OrganizeDicePositions();
     }
 
     public void ApplyEvade()
@@ -230,12 +202,10 @@ public partial class DiceRoll
         }
     }
 
-    public void CalculateResults(DelegateDiceroll callBack)
+    public void CalculateResults()
     {
         // TODO: Rewrite
         GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-
-        this.callBack = callBack;
         Game.Movement.FuncsToUpdate.Add(CheckDiceMovementFinish);
     }
 
@@ -281,6 +251,14 @@ public partial class DiceRoll
         for (int i = 0; i < DiceList.Count; i++)
         {
             DiceList[i].SetPosition(DicesManager.DiceField.position + DicesManager.DicePositions[DiceList.Count-1][i]);
+        }
+    }
+
+    public void SelectBySides(List<DiceSide> diceSides)
+    {
+        foreach (var dice in DiceList)
+        {
+            dice.ToggleSelected(diceSides.Contains(dice.Side));
         }
     }
 

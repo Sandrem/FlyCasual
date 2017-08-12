@@ -26,7 +26,9 @@ namespace UpgradesList
 
         private void PredatorActionEffect(Ship.GenericShip host)
         {
-            host.AddAvailableActionEffect(new ActionsList.PredatorActionEffect());
+            ActionsList.GenericAction newAction = new ActionsList.PredatorActionEffect();
+            newAction.ImageUrl = ImageUrl;
+            host.AddAvailableActionEffect(newAction);
         }
 
     }

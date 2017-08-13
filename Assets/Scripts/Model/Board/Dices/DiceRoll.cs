@@ -144,7 +144,6 @@ public partial class DiceRoll
         ChangeAll(DiceSide.Focus, DiceSide.Success);
 
         OrganizeDicePositions();
-        UpdateDiceCompareHelperPrediction();
     }
 
     public void ApplyEvade()
@@ -160,11 +159,13 @@ public partial class DiceRoll
     public void ChangeOne(DiceSide oldSide, DiceSide newSide)
     {
         ChangeDice(oldSide, newSide, true);
+        UpdateDiceCompareHelperPrediction();
     }
 
     public void ChangeAll(DiceSide oldSide, DiceSide newSide)
     {
         ChangeDice(oldSide, newSide, false);
+        UpdateDiceCompareHelperPrediction();
     }
 
     private void ChangeDice(DiceSide oldSide, DiceSide newSide, bool onlyOne)

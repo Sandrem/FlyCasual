@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class DiceCompareHelper
 {
@@ -11,6 +12,8 @@ public class DiceCompareHelper
     private int iconsCount;
 
     public static DiceCompareHelper currentDiceCompareHelper;
+
+    private List<GameObject> diceIcons = new List<GameObject>();
 
     public DiceCompareHelper(DiceRoll attackDiceroll)
     {
@@ -26,7 +29,7 @@ public class DiceCompareHelper
         helperPanel = GameObject.Find("UI/DiceResultsPanel/DiceCompareHelp");
         helperPanel = GameObject.Find("UI").gameObject.transform.Find("DiceResultsPanel").gameObject.transform.Find("DiceCompareHelp").gameObject;
         iconPrefabHit = helperPanel.transform.Find("DiceImages").gameObject.transform.Find("AttackHit").gameObject;
-        iconPrefabCrit = helperPanel.transform.Find("DiceImages").gameObject.transform.Find("AttackHit").gameObject;
+        iconPrefabCrit = helperPanel.transform.Find("DiceImages").gameObject.transform.Find("AttackCrit").gameObject;
 
         CreateIcons(DiceSide.Crit, AttackDiceroll.CriticalSuccesses);
         CreateIcons(DiceSide.Success, AttackDiceroll.RegularSuccesses);
@@ -47,12 +50,17 @@ public class DiceCompareHelper
         GameObject iconPrefab = (diceSide == DiceSide.Success) ? iconPrefabHit : iconPrefabCrit;
         GameObject newIcon = MonoBehaviour.Instantiate(iconPrefab, helperPanel.transform.Find("DiceImages"));
         newIcon.transform.localPosition = new Vector3(iconsCount * 100, 0, 0);
+        newIcon.name = (diceSide == DiceSide.Success) ? "Hit" : "Crit";
         newIcon.SetActive(true);
+
+        diceIcons.Add(newIcon);
+
         iconsCount++;
     }
 
     private void ToggleHelperPanel(bool isActive)
     {
+        if (iconsCount == 0) isActive = false;
         helperPanel.SetActive(isActive);
     }
 
@@ -71,6 +79,64 @@ public class DiceCompareHelper
             }
         }
         ToggleHelperPanel(false);
+        currentDiceCompareHelper = null;
+    }
+
+    public void ShowCancelled(DiceRoll defenceDiceRoll)
+    {
+        int cancelledRegularHits = 0;
+        int cancelledCriticalHits = 0;
+
+        int cancelsNum = defenceDiceRoll.Successes;
+
+        int regularHits = AttackDiceroll.RegularSuccesses;
+        cancelledRegularHits = (cancelsNum > regularHits) ? regularHits: cancelsNum;
+        cancelsNum = cancelsNum - cancelledRegularHits;
+
+        if (cancelsNum > 0)
+        {
+            int criticalHits = AttackDiceroll.CriticalSuccesses;
+            cancelledCriticalHits = (cancelsNum > criticalHits) ? criticalHits : cancelsNum;
+            cancelsNum = cancelsNum - cancelledCriticalHits;
+        }
+
+        List<GameObject> reversedDiceIcons = new List<GameObject>(diceIcons);
+        reversedDiceIcons.Reverse();
+
+        foreach (var diceIcon in reversedDiceIcons)
+        {
+            switch (diceIcon.name)
+            {
+                case "Hit":
+                    if (cancelledRegularHits > 0)
+                    {
+                        ToggleDisableDice(diceIcon, false);
+                        cancelledRegularHits--;
+                    };
+                    break;
+                case "Crit":
+                    if (cancelledCriticalHits > 0)
+                    {
+                        ToggleDisableDice(diceIcon, false);
+                        cancelledCriticalHits--;
+                    };
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+    private void ToggleDisableDice(GameObject diceIcon, bool isActive)
+    {
+        Color currentColor = diceIcon.GetComponent<Image>().color;
+        diceIcon.GetComponent<Image>().color = new Color
+        {
+            r = currentColor.r,
+            g = currentColor.g,
+            b = currentColor.b,
+            a = (isActive) ? 1 : 0.25f
+        };
     }
 
 }

@@ -142,7 +142,9 @@ public partial class DiceRoll
     public void ApplyFocus()
     {
         ChangeAll(DiceSide.Focus, DiceSide.Success);
+
         OrganizeDicePositions();
+        UpdateDiceCompareHelperPrediction();
     }
 
     public void ApplyEvade()
@@ -150,7 +152,9 @@ public partial class DiceRoll
         Dice addEvade = new Dice(DiceKind.Defence, DiceSide.Success);
         DiceList.Add(addEvade);
         addEvade.NoRoll();
+
         OrganizeDicePositions();
+        UpdateDiceCompareHelperPrediction();
     }
 
     public void ChangeOne(DiceSide oldSide, DiceSide newSide)
@@ -261,6 +265,8 @@ public partial class DiceRoll
             DiceSide face = dice.GetModelFace();
             dice.SetSide(face);
         }
+
+        UpdateDiceCompareHelperPrediction();
     }
 
     public void RemoveDiceModels()
@@ -358,6 +364,14 @@ public partial class DiceRoll
 
                 dice.ToggleSelected(true);
             }
+        }
+    }
+
+    private void UpdateDiceCompareHelperPrediction()
+    {
+        if (DiceCompareHelper.currentDiceCompareHelper != null)
+        {
+            DiceCompareHelper.currentDiceCompareHelper.ShowCancelled(this);
         }
     }
 

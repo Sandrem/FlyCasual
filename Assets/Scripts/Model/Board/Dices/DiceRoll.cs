@@ -70,6 +70,23 @@ public partial class DiceRoll
         private set { }
     }
 
+    public int CriticalSuccesses
+    {
+        get
+        {
+            int result = 0;
+            foreach (Dice dice in DiceList)
+            {
+                if (dice.Side == DiceSide.Crit)
+                {
+                    result++;
+                }
+            }
+            return result;
+        }
+        private set { }
+    }
+
     public int Focuses
     {
         get

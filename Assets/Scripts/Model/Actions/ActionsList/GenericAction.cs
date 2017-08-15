@@ -34,6 +34,25 @@ namespace ActionsList
         public virtual int GetActionEffectPriority()
         {
             int result = 0;
+
+            /* ATTACK
+             * 90 - Free rerolls
+             * 80 - Rerolls TL
+             * 
+             * 70 - Focus to crits
+             * 50 - Focus to hits if 1+
+             * 40 - Focus to hits if 1
+             */
+
+            /* DEFENCE
+             * 90 - Free rerolls
+             * 
+             * 70 - Evade if 1 uncancelled
+             * 50 - Focus to evades if 1+
+             * 40 - Focus to evades if 1
+             * 30 - Evade if >1 uncancelled
+             */
+
             return result;
         }
 

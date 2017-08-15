@@ -104,6 +104,23 @@ public partial class DiceRoll
         private set { }
     }
 
+    public int Blanks
+    {
+        get
+        {
+            int result = 0;
+            foreach (Dice dice in DiceList)
+            {
+                if (dice.Side == DiceSide.Blank)
+                {
+                    result++;
+                }
+            }
+            return result;
+        }
+        private set { }
+    }
+
     public void Roll(DelegateDiceroll callBack)
     {
         this.callBack = callBack;

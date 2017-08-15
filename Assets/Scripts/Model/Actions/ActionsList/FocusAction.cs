@@ -19,6 +19,36 @@ namespace ActionsList
             Selection.ActiveShip.SpendToken(typeof(Tokens.FocusToken));
         }
 
+        public override int GetActionEffectPriority()
+        {
+            int result = 0;
+
+            if (Combat.AttackStep == CombatStep.Defence)
+            {
+                int attackSuccesses = Combat.DiceRollAttack.Successes;
+                int defenceSuccesses = Combat.DiceRollDefence.Successes;
+                if (attackSuccesses > defenceSuccesses)
+                {
+                    int defenceFocuses = Combat.DiceRollDefence.Focuses;
+                    if (defenceFocuses > 0)
+                    {
+                        result = (defenceFocuses > 1) ? 50 : 40;
+                    }
+                }
+            }
+
+            if (Combat.AttackStep == CombatStep.Attack)
+            {
+                int attackFocuses = Combat.DiceRollAttack.Focuses;
+                if (attackFocuses > 0)
+                {
+                    result = (attackFocuses > 1) ? 50 : 40;
+                }
+            }
+
+            return result;
+        }
+
         public override void ActionTake()
         {
             Selection.ThisShip.AssignToken(new Tokens.FocusToken());

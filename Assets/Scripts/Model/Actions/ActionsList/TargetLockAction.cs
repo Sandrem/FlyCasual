@@ -40,6 +40,28 @@ namespace ActionsList
             return result;
         }
 
+        public override int GetActionEffectPriority()
+        {
+            int result = 0;
+
+            if (Combat.AttackStep == CombatStep.Attack)
+            {
+                int attackFocuses = Combat.DiceRollAttack.Focuses;
+                int attackBlanks = Combat.DiceRollAttack.Blanks;
+
+                if (Combat.Attacker.HastToken(typeof(Tokens.FocusToken)))
+                {
+                    if (attackBlanks > 0) result = 80;
+                }
+                else
+                {
+                    if (attackBlanks + attackFocuses > 0) result = 80;
+                }
+            }
+
+            return result;
+        }
+
         public override void ActionTake()
         {
             Phases.StartTemporarySubPhase(

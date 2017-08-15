@@ -36,22 +36,27 @@ namespace ActionsList
             int result = 0;
 
             /* ATTACK
-             * 90 - Free rerolls
-             * 80 - Rerolls TL
-             * 
-             * 70 - Focus to crits
-             * 50 - Focus to hits if 1+
-             * 40 - Focus to hits if 1
-             */
+            * 100 - Free change limited by side if 1
+            * 95 - Free rerolls limited by side
+            * 90 - Free rerolls
+            * 80 - Rerolls TL
+            * 70 - Free focus to crit
+            * 60 - Free focus to crit, another to hits
+            * 55 - Free side to hit
+            * 50 - Regular Focus to hits if 1+
+            * 40 - Regular Focus to hits if 1
+            * 20 - Hits to crits
+            */
 
             /* DEFENCE
-             * 90 - Free rerolls
-             * 
-             * 70 - Evade if 1 uncancelled
-             * 50 - Focus to evades if 1+
-             * 40 - Focus to evades if 1
-             * 30 - Evade if >1 uncancelled
-             */
+            * 95 - Free rerolls limited by side
+            * 90 - Free rerolls
+            * 80 - Free focus to evades
+            * 70 - Regular Evade if 1 uncancelled
+            * 50 - Regular Focus to evades if 1+
+            * 40 - Regular Focus to evades if 1
+            * 20 - Regular Evade if >1 uncancelled
+            */
 
             return result;
         }

@@ -62,5 +62,17 @@ namespace PilotAbilities
             return result;
         }
 
+        public override int GetActionEffectPriority()
+        {
+            int result = 0;
+
+            if (Combat.AttackStep == CombatStep.Attack)
+            {
+                if (Combat.DiceRollAttack.RegularSuccesses > 0) result = 20;
+            }
+
+            return result;
+        }
+
     }
 }

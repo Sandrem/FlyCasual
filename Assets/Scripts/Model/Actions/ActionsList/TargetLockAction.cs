@@ -52,7 +52,7 @@ namespace ActionsList
                 int attackFocuses = Combat.DiceRollAttack.Focuses;
                 int attackBlanks = Combat.DiceRollAttack.Blanks;
 
-                if (Combat.Attacker.HastToken(typeof(Tokens.FocusToken)))
+                if (Combat.Attacker.HasToken(typeof(Tokens.FocusToken)))
                 {
                     if (attackBlanks > 0) result = 80;
                 }

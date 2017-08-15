@@ -109,6 +109,29 @@ namespace ActionsList
             return result;
         }
 
+        public override int GetActionEffectPriority()
+        {
+            int result = 0;
+
+            if (Combat.AttackStep == CombatStep.Attack)
+            {
+                int attackBlanks = Combat.DiceRollAttack.Blanks;
+                if (attackBlanks > 0)
+                {
+                    if ((attackBlanks == 1) && (!Combat.Attacker.HasToken(typeof(Tokens.FocusToken))))
+                    {
+                        result = 100;
+                    }
+                    else
+                    {
+                        result = 55;
+                    }
+                }
+            }
+
+            return result;
+        }
+
         public override void ActionEffect(System.Action callBack)
         {
             Combat.CurentDiceRoll.ChangeOne(DiceSide.Blank, DiceSide.Success);

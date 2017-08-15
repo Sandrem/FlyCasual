@@ -36,7 +36,7 @@ namespace ActionsList
                 int defenceSuccesses = Combat.DiceRollDefence.Successes;
                 if (attackSuccesses > defenceSuccesses)
                 {
-                    result = (attackSuccesses - defenceSuccesses == 1) ? 70 : 30;
+                    result = (attackSuccesses - defenceSuccesses == 1) ? 70 : 20;
                 }
             }
 

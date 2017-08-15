@@ -75,7 +75,7 @@ public partial class DiceRerollManager
 
         if (SidesCanBeRerolled.Contains(DiceSide.Focus))
         { 
-            if (!Selection.ActiveShip.HastToken(typeof(Tokens.FocusToken)))
+            if (!Selection.ActiveShip.HasToken(typeof(Tokens.FocusToken)))
             {
                 diceSides.Add(DiceSide.Focus);
             }

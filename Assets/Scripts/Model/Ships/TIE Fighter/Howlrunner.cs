@@ -78,6 +78,28 @@ namespace ActionsList
             return result;
         }
 
+        public override int GetActionEffectPriority()
+        {
+            int result = 0;
+
+            if (Combat.AttackStep == CombatStep.Attack)
+            {
+                int attackFocuses = Combat.DiceRollAttack.Focuses;
+                int attackBlanks = Combat.DiceRollAttack.Blanks;
+
+                if (Combat.Attacker.HasToken(typeof(Tokens.FocusToken)))
+                {
+                    if (attackBlanks > 0) result = 90;
+                }
+                else
+                {
+                    if (attackBlanks + attackFocuses > 0) result = 90;
+                }
+            }
+
+            return result;
+        }
+
         public override void ActionEffect(System.Action callBack)
         {
             DiceRerollManager diceRerollManager = new DiceRerollManager

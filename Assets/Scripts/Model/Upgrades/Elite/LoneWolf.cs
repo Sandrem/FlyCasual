@@ -71,6 +71,15 @@ namespace ActionsList
             return result;
         }
 
+        public override int GetActionEffectPriority()
+        {
+            int result = 0;
+
+            if (Combat.CurentDiceRoll.Blanks > 0) result = 95;
+
+            return result;
+        }
+
         public override void ActionEffect(System.Action callBack)
         {
             DiceRerollManager diceRerollManager = new DiceRerollManager

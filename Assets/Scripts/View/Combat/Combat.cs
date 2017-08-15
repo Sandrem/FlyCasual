@@ -56,7 +56,7 @@ public static partial class Combat
         {
             Tooltips.EndTooltip();
             newButton.GetComponent<Button>().interactable = false;
-            Selection.ThisShip.AddAlreadyExecutedActionEffect(actionEffect);
+            Selection.ActiveShip.AddAlreadyExecutedActionEffect(actionEffect);
             actionEffect.ActionEffect(delegate { });
         });
         Tooltips.AddTooltip(newButton, actionEffect.ImageUrl);

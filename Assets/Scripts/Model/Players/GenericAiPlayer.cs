@@ -212,11 +212,15 @@ namespace Players
 
             if (actionsPriority.Count > 0)
             {
-                if (actionsPriority.First().Value > 0)
+                KeyValuePair<ActionsList.GenericAction, int> prioritizedActionEffect = actionsPriority.First();
+                if (prioritizedActionEffect.Value > 0)
                 {
                     isActionEffectTaken = true;
-                    Messages.ShowInfo("AI uses \"" + actionsPriority.First().Key.Name + "\"");
-                    Game.Wait(1, delegate { actionsPriority.First().Key.ActionEffect(UseDiceModifications); });                    
+                    Messages.ShowInfo("AI uses \"" + prioritizedActionEffect.Key.Name + "\"");
+                    Game.Wait(1, delegate {
+                        Selection.ActiveShip.AddAlreadyExecutedActionEffect(prioritizedActionEffect.Key);
+                        prioritizedActionEffect.Key.ActionEffect(UseDiceModifications);
+                    });                    
                 }
             }
 

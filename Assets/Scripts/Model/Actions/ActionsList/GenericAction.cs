@@ -17,7 +17,8 @@ namespace ActionsList
         public bool IsSpendFocus = false;
         public bool IsReroll = false;
 
-        public GenericAction() {
+        public GenericAction()
+        {
             Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
         }
 

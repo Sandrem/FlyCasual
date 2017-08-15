@@ -80,12 +80,11 @@ namespace ActionsList
 
         public override void ActionEffect()
         {
-            Dices.RerollOne(Combat.CurentDiceRoll, Unblock);
-        }
-
-        private void Unblock(DiceRoll diceRoll)
-        {
-            //Todo: Unblock buttons
+            DiceRerollManager diceRerollManager = new DiceRerollManager
+            {
+                NumberOfDicesCanBeRerolled = 1
+            };
+            diceRerollManager.Start();
         }
 
     }

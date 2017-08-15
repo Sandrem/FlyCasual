@@ -244,6 +244,7 @@ public static partial class Combat
 
     public static void ConfirmDefenceDiceResults()
     {
+        DiceCompareHelper.currentDiceCompareHelper.Close();
         HideDiceResultMenu();
         Phases.FinishSubPhase(typeof(SubPhases.DefenceDiceRollCombatSubPhase));
 
@@ -342,7 +343,6 @@ namespace SubPhases
 
     public class DefenceDiceRollCombatSubPhase : DiceRollCombatSubPhase
     {
-
         public override void Prepare()
         {
             dicesType = DiceKind.Defence;
@@ -350,6 +350,8 @@ namespace SubPhases
 
             checkResults = CheckResults;
             finishAction = Combat.ConfirmDefenceDiceResults;
+
+            new DiceCompareHelper(Combat.DiceRollAttack);
         }
 
         protected override void CheckResults(DiceRoll diceRoll)

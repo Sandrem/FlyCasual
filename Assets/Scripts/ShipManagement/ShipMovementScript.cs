@@ -28,7 +28,6 @@ public class ShipMovementScript : MonoBehaviour {
         Selection.UpdateSelection();
         UpdateMovement();
         UpdateSubscribedFuncs();
-        Phases.CheckScheduledChanges();
 
         ClearCollision();
     }

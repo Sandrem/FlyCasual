@@ -11,12 +11,20 @@ public enum DiceKind
 public partial class Dice
 {
 
+    private static Vector3 rotationCrit = new Vector3(325f, 120f, 135f);
     private static Vector3 rotationSuccess = new Vector3(330f, 120f, 40f);
-    private static Vector3 rotationCrit = new Vector3(330f, 120f, 120);
+    private static Vector3 rotationFocus = new Vector3(40f, -63f, 40f);
+    private static Vector3 rotationBlank = new Vector3(-40f, 0f, -45f);
 
     private static Vector3 positionGround = new Vector3(0, -3.763676f, 0);
 
-    private GameObject Model;
+    private static bool modelRollingIsFinished;
+    private static float RollingIsFinishedTimePassed;
+    private static readonly float RollingIsFinishedTimePassedNeeded = 1f;
+
+    private static int diceIDcounter;
+
+    public GameObject Model { get; private set; }
 
     public Dice(DiceKind type, DiceSide side = DiceSide.Unknown)
     {
@@ -50,9 +58,10 @@ public partial class Dice
 
     private GameObject SpawnDice(DiceKind type)
     {
-        GameObject prefabDiceType = (type == DiceKind.Attack) ? Dices.DiceAttack : Dices.DiceDefence;
-        Transform diceSpawningPoint = Dices.DiceSpawningPoint;
+        GameObject prefabDiceType = (type == DiceKind.Attack) ? DicesManager.DiceAttack : DicesManager.DiceDefence;
+        Transform diceSpawningPoint = DicesManager.DiceSpawningPoint;
         GameObject model = MonoBehaviour.Instantiate(prefabDiceType, diceSpawningPoint.transform.position, prefabDiceType.transform.rotation, diceSpawningPoint.transform);
+        model.name = "DiceN" + diceIDcounter++;
         return model;
     }
 
@@ -69,6 +78,7 @@ public partial class Dice
 
     public void Roll()
     {
+        modelRollingIsFinished = false;
         RandomizeDice();
         Model.gameObject.SetActive(true);
         Model.transform.Find("Dice").GetComponent<Rigidbody>().isKinematic = false;
@@ -76,7 +86,10 @@ public partial class Dice
 
     public void Reroll()
     {
-        Transform diceSpawningPoint = Dices.DiceSpawningPoint;
+        ToggleSelected(false);
+        IsRerolled = true;
+
+        Transform diceSpawningPoint = DicesManager.DiceSpawningPoint;
         Model.transform.Find("Dice").transform.position = diceSpawningPoint.position;
         Roll();
     }
@@ -91,8 +104,11 @@ public partial class Dice
             case DiceSide.Crit:
                 Model.transform.Find("Dice").localEulerAngles = rotationCrit;
                 break;
-            default:
-                Debug.Log("NOT IMPLEMENTED");
+            case DiceSide.Focus:
+                Model.transform.Find("Dice").localEulerAngles = rotationFocus;
+                break;
+            case DiceSide.Blank:
+                Model.transform.Find("Dice").localEulerAngles = rotationBlank;
                 break;
         }
     }
@@ -139,9 +155,57 @@ public partial class Dice
         return resultSide;
     }
 
+    public bool IsDiceFaceVisibilityWrong()
+    {
+        bool result = false;
+
+        Vector3 vectorUp = Vector3.up;
+        float lowest = float.MaxValue;
+        Transform diceTransform = Model.transform.Find("Dice");
+
+        if (diceTransform.localPosition.y >= -3.5)
+        {
+            result = true;
+        }
+        else
+        {
+            foreach (Transform face in diceTransform)
+            {
+                Vector3 faceVector = face.position - diceTransform.position;
+                float angle = Vector3.Angle(vectorUp, faceVector);
+                if (angle < lowest) lowest = angle;
+            }
+            if (lowest > 20)
+            {
+                result = true;
+            }
+        }
+
+        return result;
+    }
+
     public void RemoveModel()
     {
         MonoBehaviour.Destroy(Model);
+    }
+
+    public bool IsModelRollingFinished()
+    {
+        if (!modelRollingIsFinished)
+        {
+            Vector3 velocity = Model.GetComponentInChildren<Rigidbody>().velocity;
+            bool isModelRollingNow = (velocity != Vector3.zero);
+
+            RollingIsFinishedTimePassed = (isModelRollingNow) ? 0 : RollingIsFinishedTimePassed + Time.deltaTime;
+
+            if (RollingIsFinishedTimePassed >= RollingIsFinishedTimePassedNeeded)
+            {
+                modelRollingIsFinished = true;
+                RollingIsFinishedTimePassed = 0;
+            }
+        }
+
+        return modelRollingIsFinished;
     }
 
 }

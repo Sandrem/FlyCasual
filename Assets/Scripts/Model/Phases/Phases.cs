@@ -28,9 +28,6 @@ public static partial class Phases
         get { return CurrentSubPhase.RequiredPlayer; }
     }
 
-    private static List<System.Type> subPhasesToStart = new List<System.Type>();
-    private static List<System.Type> subPhasesToFinish = new List<System.Type>();
-
     // EVENTS
     public delegate void EventHandler();
     public static event EventHandler OnRoundStart;
@@ -87,62 +84,6 @@ public static partial class Phases
     public static void CallNextSubPhase()
     {
         CurrentSubPhase.CallNextSubPhase();
-    }
-
-    public static void CheckScheduledChanges()
-    {
-        CheckScheduledFinishes();
-        CheckScheduledStarts();
-    }
-
-    private static void CheckScheduledFinishes()
-    {
-        if (subPhasesToFinish.Count != 0)
-        {
-            List<System.Type> tempList = new List<System.Type>();
-            foreach (var subPhaseType in subPhasesToFinish)
-            {
-                tempList.Add(subPhaseType);
-            }
-
-            foreach (var subPhaseType in tempList)
-            {
-                if (CurrentSubPhase.GetType() == subPhaseType)
-                {
-                    subPhasesToFinish.Remove(subPhaseType);
-                    Next();
-                }
-            }
-        }
-    }
-
-    public static void CancelScheduledFinish(System.Type subPhaseType)
-    {
-        if (subPhasesToFinish.Contains(subPhaseType))
-        {
-            Debug.Log(subPhaseType + " is removed from scheduled finish list");
-            subPhasesToFinish.Remove(subPhaseType);
-        }
-    }
-
-    private static void CheckScheduledStarts()
-    {
-        if (!InTemporarySubPhase)
-        {
-            if (subPhasesToStart.Count != 0)
-            {
-                StartTemporarySubPhase("SCHEDULED", subPhasesToStart[0]);
-                subPhasesToStart.RemoveAt(0);
-            }
-        }
-    }
-
-    public static IEnumerator WaitForTemporarySubPhasesFinish()
-    {
-        while (Phases.CurrentSubPhase.IsTemporary)
-        {
-            yield return new WaitForSeconds(0.1f);
-        }
     }
 
     // TRIGGERS

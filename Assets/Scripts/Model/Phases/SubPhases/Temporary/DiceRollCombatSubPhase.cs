@@ -40,24 +40,31 @@ namespace SubPhases
 
             DiceRoll DiceRollCheck;
             DiceRollCheck = new DiceRoll(dicesType, dicesCount);
-            DiceRollCheck.Roll();
-            DiceRollCheck.CalculateResults(checkResults);
+            DiceRollCheck.Roll(checkResults);
         }
 
-        public void ShowConfirmDiceResultsButton()
+        public void ToggleConfirmDiceResultsButton(bool isActive)
         {
-            if (Roster.GetPlayer(Selection.ActiveShip.Owner.PlayerNo).GetType() == typeof(Players.HumanPlayer))
+            if (isActive)
             {
-                Button closeButton = Game.PrefabsList.DiceResultsMenu.transform.Find("Confirm").GetComponent<Button>();
-                closeButton.onClick.RemoveAllListeners();
-                closeButton.onClick.AddListener(finishAction);
+                if (Roster.GetPlayer(Selection.ActiveShip.Owner.PlayerNo).GetType() == typeof(Players.HumanPlayer))
+                {
+                    Button closeButton = Game.PrefabsList.DiceResultsMenu.transform.Find("DiceModificationsPanel/Confirm").GetComponent<Button>();
+                    closeButton.onClick.RemoveAllListeners();
+                    closeButton.onClick.AddListener(finishAction);
 
-                closeButton.gameObject.SetActive(true);
+                    closeButton.gameObject.SetActive(true);
+                }
+                else
+                {
+                    if (DebugManager.DebugAI) Debug.Log("AI waits to press Confirm button");
+                    Game.Wait(finishAction.Invoke);
+                }
+
             }
             else
             {
-                if (DebugManager.DebugAI) Debug.Log("AI waits to press Confirm button");
-                Game.Wait(finishAction.Invoke);
+                Game.PrefabsList.DiceResultsMenu.transform.Find("DiceModificationsPanel/Confirm").gameObject.SetActive(false);
             }
         }
 
@@ -65,7 +72,7 @@ namespace SubPhases
         {
             CurentDiceRoll = diceRoll;
             Combat.ShowDiceModificationButtons();
-            ShowConfirmDiceResultsButton();
+            Combat.ToggleConfirmDiceResultsButton(true);
         }
 
         protected virtual void FinishAction()
@@ -83,14 +90,14 @@ namespace SubPhases
 
         public void HideDiceModificationButtons()
         {
-            foreach (Transform button in Game.PrefabsList.DiceResultsMenu.transform)
+            foreach (Transform button in Game.PrefabsList.DiceResultsMenu.transform.Find("DiceModificationsPanel"))
             {
                 if (button.name.StartsWith("Button"))
                 {
                     MonoBehaviour.Destroy(button.gameObject);
                 }
             }
-            Game.PrefabsList.DiceResultsMenu.transform.Find("Confirm").gameObject.SetActive(false);
+            ToggleConfirmDiceResultsButton(false);
         }
 
         public override void Next()

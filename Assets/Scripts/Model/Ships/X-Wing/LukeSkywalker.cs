@@ -64,7 +64,10 @@ namespace PilotAbilities
 
             if (Combat.AttackStep == CombatStep.Defence)
             {
-                if (Combat.DiceRollDefence.Focuses > 0) result = 80;
+                if (Combat.DiceRollAttack.Successes > Combat.DiceRollDefence.Successes)
+                {
+                    if (Combat.DiceRollDefence.Focuses > 0) result = 80;
+                }
             }
 
             return result;

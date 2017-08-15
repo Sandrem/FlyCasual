@@ -75,7 +75,18 @@ namespace ActionsList
         {
             int result = 0;
 
-            if (Combat.CurentDiceRoll.Blanks > 0) result = 95;
+            if (Combat.AttackStep == CombatStep.Defence)
+            {
+                if (Combat.DiceRollAttack.Successes > Combat.DiceRollDefence.Successes)
+                {
+                    if (Combat.CurentDiceRoll.Blanks > 0) result = 95;
+                }
+            }
+
+            if (Combat.AttackStep == CombatStep.Attack)
+            {
+                if (Combat.CurentDiceRoll.Blanks > 0) result = 95;
+            }
 
             return result;
         }

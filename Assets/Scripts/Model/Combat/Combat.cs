@@ -351,7 +351,7 @@ namespace SubPhases
             checkResults = CheckResults;
             finishAction = Combat.ConfirmDefenceDiceResults;
 
-            DiceCompareHelper diceCompareHelper = new DiceCompareHelper(Combat.DiceRollAttack);
+            new DiceCompareHelper(Combat.DiceRollAttack);
         }
 
         protected override void CheckResults(DiceRoll diceRoll)

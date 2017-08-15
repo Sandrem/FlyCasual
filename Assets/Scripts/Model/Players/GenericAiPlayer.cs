@@ -215,7 +215,7 @@ namespace Players
                 if (actionsPriority.First().Value > 0)
                 {
                     isActionEffectTaken = true;
-                    if (DebugManager.DebugAI) Messages.ShowInfo("AI uses \"" + actionsPriority.First().Key.Name + "\"");
+                    Messages.ShowInfo("AI uses \"" + actionsPriority.First().Key.Name + "\"");
                     Game.Wait(1, delegate { actionsPriority.First().Key.ActionEffect(UseDiceModifications); });                    
                 }
             }

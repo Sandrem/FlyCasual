@@ -195,62 +195,34 @@ namespace Players
 
         public override void UseDiceModifications()
         {
-            //Todo: Decision: defence with evade or focus
+            Selection.ActiveShip.GenerateAvailableActionEffectsList();
             List<ActionsList.GenericAction> availableActionEffectsList = Selection.ActiveShip.GetAvailableActionEffectsList();
 
-            if (Selection.ActiveShip.GetToken(typeof(Tokens.EvadeToken)) != null)
+            Dictionary<ActionsList.GenericAction, int> actionsPriority = new Dictionary<ActionsList.GenericAction, int>();
+
+            foreach (var actionEffect in availableActionEffectsList)
             {
-                if (Combat.AttackStep == CombatStep.Defence)
+                int priority = actionEffect.GetActionEffectPriority();
+                actionsPriority.Add(actionEffect, priority);
+            }
+
+            actionsPriority = actionsPriority.OrderByDescending(n => n.Value).ToDictionary(n => n.Key, n => n.Value);
+
+            bool isActionEffectTaken = false;
+
+            if (actionsPriority.Count > 0)
+            {
+                if (actionsPriority.First().Value > 0)
                 {
-                    if (Combat.DiceRollAttack.Successes > Combat.DiceRollDefence.Successes)
-                    {
-                        foreach (var actionEffect in availableActionEffectsList)
-                        {
-                            if (actionEffect.GetType() == typeof(ActionsList.EvadeAction))
-                            {
-                                actionEffect.ActionEffect();
-                                break;
-                            }
-                        }
-                    }
+                    isActionEffectTaken = true;
+                    if (DebugManager.DebugAI) Messages.ShowInfo("AI uses \"" + actionsPriority.First().Key.Name + "\"");
+                    Game.Wait(1, delegate { actionsPriority.First().Key.ActionEffect(UseDiceModifications); });                    
                 }
             }
 
-
-            if (Selection.ActiveShip.GetToken(typeof(Tokens.FocusToken)) != null)
+            if (!isActionEffectTaken)
             {
-                if (Combat.AttackStep == CombatStep.Attack)
-                {
-                    if (Combat.DiceRollAttack.Focuses > 0)
-                    {
-                        foreach (var actionEffect in availableActionEffectsList)
-                        {
-                            if (actionEffect.GetType() == typeof(ActionsList.FocusAction))
-                            {
-                                actionEffect.ActionEffect();
-                                break;
-                            }
-                        }
-                    }
-                }
-
-                if (Combat.AttackStep == CombatStep.Defence)
-                {
-                    if (Combat.DiceRollDefence.Focuses > 0)
-                    {
-                        if (Combat.DiceRollAttack.Successes > Combat.DiceRollDefence.Successes)
-                        {
-                            foreach (var actionEffect in availableActionEffectsList)
-                            {
-                                if (actionEffect.GetType() == typeof(ActionsList.FocusAction))
-                                {
-                                    actionEffect.ActionEffect();
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                }
+                Game.Wait(2, delegate { Phases.CurrentSubPhase.CallBack(); });
             }
         }
 

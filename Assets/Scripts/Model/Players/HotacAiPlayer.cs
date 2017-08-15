@@ -55,7 +55,7 @@ namespace Players
 
             if (!actionIsPerformed)
             {
-                Phases.CurrentSubPhase.callBack();
+                Phases.CurrentSubPhase.CallBack();
             }
         }
 

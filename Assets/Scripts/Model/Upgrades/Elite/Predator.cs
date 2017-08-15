@@ -53,11 +53,12 @@ namespace ActionsList
             return result;
         }
 
-        public override void ActionEffect()
+        public override void ActionEffect(System.Action callBack)
         {
             DiceRerollManager diceRerollManager = new DiceRerollManager
             {
-                NumberOfDicesCanBeRerolled = (Combat.Defender.PilotSkill > 2) ? 1 : 2
+                NumberOfDicesCanBeRerolled = (Combat.Defender.PilotSkill > 2) ? 1 : 2,
+                CallBack = callBack
             };
             diceRerollManager.Start();
         }

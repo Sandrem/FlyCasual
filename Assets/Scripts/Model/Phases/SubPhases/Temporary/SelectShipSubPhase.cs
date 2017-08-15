@@ -67,7 +67,7 @@ namespace SubPhases
                     MovementTemplates.ShowRange(Selection.ThisShip, ship);
                     finishAction.Invoke();
                     Phases.FinishSubPhase(this.GetType());
-                    callBack();
+                    CallBack();
                 }
                 else
                 {
@@ -99,7 +99,7 @@ namespace SubPhases
                     MovementTemplates.ShowRange(Selection.ThisShip, anotherShip);
                     finishAction.Invoke();
                     Phases.FinishSubPhase(this.GetType());
-                    callBack();
+                    CallBack();
                 }
                 else
                 {

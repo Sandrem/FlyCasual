@@ -212,7 +212,7 @@ public class UI : MonoBehaviour {
     public void CloseActionsPanel()
     {
         Actions.CloseActionsPanel();
-        Phases.CurrentSubPhase.callBack();
+        Phases.CurrentSubPhase.CallBack();
     }
 
     public void ShowNextButton()

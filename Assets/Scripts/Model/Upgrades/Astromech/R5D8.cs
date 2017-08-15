@@ -61,7 +61,7 @@ namespace ActionsList
             {
                 // Remove random damage card
             }
-            Phases.CurrentSubPhase.callBack();
+            Phases.CurrentSubPhase.CallBack();
         }
 
     }

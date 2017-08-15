@@ -12,10 +12,11 @@ namespace ActionsList
             Name = EffectName = "Evade";
         }
 
-        public override void ActionEffect()
+        public override void ActionEffect(System.Action callBack)
         {
             Combat.CurentDiceRoll.ApplyEvade();
             Selection.ActiveShip.SpendToken(typeof(Tokens.EvadeToken));
+            callBack();
         }
 
         public override bool IsActionEffectAvailable()
@@ -45,7 +46,7 @@ namespace ActionsList
         public override void ActionTake()
         {
             Selection.ThisShip.AssignToken(new Tokens.EvadeToken());
-            Phases.CurrentSubPhase.callBack();
+            Phases.CurrentSubPhase.CallBack();
         }
 
     }

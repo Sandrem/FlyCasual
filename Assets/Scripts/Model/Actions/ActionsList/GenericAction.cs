@@ -21,7 +21,7 @@ namespace ActionsList
             Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
         }
 
-        public virtual void ActionEffect()
+        public virtual void ActionEffect(System.Action callBack)
         {
 
         }

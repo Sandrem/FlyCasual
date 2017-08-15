@@ -29,7 +29,7 @@ public static class DebugManager
         set { debugTriggers = value; }
     }
 
-    private static bool debugAI;
+    private static bool debugAI = true;
     public static bool DebugAI
     {
         get

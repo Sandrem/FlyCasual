@@ -117,7 +117,7 @@ namespace SubPhases
             else
             {
                 Messages.ShowErrorToHuman("Cannot perform any actions");
-                callBack();
+                CallBack();
             }
 
 

@@ -109,9 +109,10 @@ namespace ActionsList
             return result;
         }
 
-        public override void ActionEffect()
+        public override void ActionEffect(System.Action callBack)
         {
             Combat.CurentDiceRoll.ChangeOne(DiceSide.Blank, DiceSide.Success);
+            callBack();
         }
 
     }

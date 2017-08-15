@@ -108,9 +108,10 @@ namespace ActionsList
             return result;
         }
 
-        public override void ActionEffect()
+        public override void ActionEffect(System.Action callBack)
         {
             Combat.CurentDiceRoll.ChangeOne(DiceSide.Focus, DiceSide.Crit);
+            callBack();
         }
 
     }

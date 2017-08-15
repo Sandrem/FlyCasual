@@ -12,7 +12,7 @@ namespace ActionsList
             IsReroll = true;
         }
 
-        public override void ActionEffect()
+        public override void ActionEffect(System.Action callBack)
         {
             if (Actions.HasTargetLockOn(Combat.Attacker, Combat.Defender))
             {
@@ -22,7 +22,10 @@ namespace ActionsList
                 Selection.ActiveShip.SpendToken(typeof(Tokens.BlueTargetLockToken), letter);
                 Combat.Defender.RemoveToken(typeof(Tokens.RedTargetLockToken), letter);
 
-                DiceRerollManager diceRerollManager = new DiceRerollManager();
+                DiceRerollManager diceRerollManager = new DiceRerollManager()
+                {
+                    CallBack = callBack
+                };
                 diceRerollManager.Start();
             }
         }
@@ -67,7 +70,7 @@ namespace ActionsList
             Phases.StartTemporarySubPhase(
                 "Select target for Target Lock",
                 typeof(SubPhases.SelectTargetLockSubPhase),
-                Phases.CurrentSubPhase.callBack
+                Phases.CurrentSubPhase.CallBack
             );
         }
 

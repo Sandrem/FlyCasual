@@ -15,13 +15,11 @@ namespace SubPhases
         protected DiceRoll CurentDiceRoll;
         protected DelegateDiceroll checkResults;
 
-        protected UnityEngine.Events.UnityAction finishAction;
-
         public override void Start()
         {
             Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
             IsTemporary = true;
-            finishAction = FinishAction;
+            CallBack = FinishAction;
 
             Prepare();
             Initialize();
@@ -51,16 +49,10 @@ namespace SubPhases
                 {
                     Button closeButton = Game.PrefabsList.DiceResultsMenu.transform.Find("DiceModificationsPanel/Confirm").GetComponent<Button>();
                     closeButton.onClick.RemoveAllListeners();
-                    closeButton.onClick.AddListener(finishAction);
+                    closeButton.onClick.AddListener(delegate { CallBack(); });
 
                     closeButton.gameObject.SetActive(true);
                 }
-                else
-                {
-                    if (DebugManager.DebugAI) Debug.Log("AI waits to press Confirm button");
-                    Game.Wait(finishAction.Invoke);
-                }
-
             }
             else
             {
@@ -71,8 +63,8 @@ namespace SubPhases
         protected virtual void CheckResults(DiceRoll diceRoll)
         {
             CurentDiceRoll = diceRoll;
-            Combat.ShowDiceModificationButtons();
             Combat.ToggleConfirmDiceResultsButton(true);
+            Combat.ShowDiceModificationButtons();
         }
 
         protected virtual void FinishAction()

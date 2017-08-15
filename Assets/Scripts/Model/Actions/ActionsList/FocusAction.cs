@@ -13,10 +13,11 @@ namespace ActionsList
             IsSpendFocus = true;
         }
 
-        public override void ActionEffect()
+        public override void ActionEffect(System.Action callBack)
         {
             Combat.CurentDiceRoll.ApplyFocus();
             Selection.ActiveShip.SpendToken(typeof(Tokens.FocusToken));
+            callBack();
         }
 
         public override int GetActionEffectPriority()
@@ -52,7 +53,7 @@ namespace ActionsList
         public override void ActionTake()
         {
             Selection.ThisShip.AssignToken(new Tokens.FocusToken());
-            Phases.CurrentSubPhase.callBack();
+            Phases.CurrentSubPhase.CallBack();
         }
 
     }

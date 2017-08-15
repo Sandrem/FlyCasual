@@ -71,12 +71,13 @@ namespace ActionsList
             return result;
         }
 
-        public override void ActionEffect()
+        public override void ActionEffect(System.Action callBack)
         {
             DiceRerollManager diceRerollManager = new DiceRerollManager
             {
                 NumberOfDicesCanBeRerolled = 1,
-                SidesCanBeRerolled = new List<DiceSide> { DiceSide.Blank}
+                SidesCanBeRerolled = new List<DiceSide> { DiceSide.Blank },
+                CallBack = callBack
             };
             diceRerollManager.Start();
         }

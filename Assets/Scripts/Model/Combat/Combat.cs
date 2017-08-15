@@ -316,7 +316,7 @@ namespace SubPhases
             dicesCount = Combat.Attacker.GetNumberOfAttackDices(Combat.Defender);
 
             checkResults = CheckResults;
-            finishAction = Combat.ConfirmAttackDiceResults;
+            CallBack = Combat.ConfirmAttackDiceResults;
         }
 
         protected override void CheckResults(DiceRoll diceRoll)
@@ -349,7 +349,7 @@ namespace SubPhases
             dicesCount = Combat.Defender.GetNumberOfDefenceDices(Combat.Attacker);
 
             checkResults = CheckResults;
-            finishAction = Combat.ConfirmDefenceDiceResults;
+            CallBack = Combat.ConfirmDefenceDiceResults;
 
             new DiceCompareHelper(Combat.DiceRollAttack);
         }

@@ -78,11 +78,12 @@ namespace ActionsList
             return result;
         }
 
-        public override void ActionEffect()
+        public override void ActionEffect(System.Action callBack)
         {
             DiceRerollManager diceRerollManager = new DiceRerollManager
             {
-                NumberOfDicesCanBeRerolled = 1
+                NumberOfDicesCanBeRerolled = 1,
+                CallBack = callBack
             };
             diceRerollManager.Start();
         }

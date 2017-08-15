@@ -52,7 +52,7 @@ namespace ActionsList
             host.AfterGenerateAvailableActionEffectsList += MarksmanshipAddDiceModification;
             host.AssignToken(new Conditions.MarksmanshipCondition());
             Phases.OnEndPhaseStart += MarksmanshipUnSubscribeToFiceModification;
-            Phases.CurrentSubPhase.callBack();
+            Phases.CurrentSubPhase.CallBack();
         }
 
         private void MarksmanshipAddDiceModification(Ship.GenericShip ship)
@@ -73,10 +73,11 @@ namespace ActionsList
             return result;
         }
 
-        public override void ActionEffect()
+        public override void ActionEffect(System.Action callBack)
         {
             Combat.CurentDiceRoll.ChangeOne(DiceSide.Focus, DiceSide.Crit);
             Combat.CurentDiceRoll.ChangeAll(DiceSide.Focus, DiceSide.Success);
+            callBack();
         }
 
     }

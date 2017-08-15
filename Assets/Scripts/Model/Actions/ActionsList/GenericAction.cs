@@ -31,6 +31,12 @@ namespace ActionsList
             return true;
         }
 
+        public virtual int GetActionEffectPriority()
+        {
+            int result = 0;
+            return result;
+        }
+
         public virtual void ActionTake()
         {
 

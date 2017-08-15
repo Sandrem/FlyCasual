@@ -267,6 +267,11 @@ public partial class DiceRoll
             dice.SetSide(face);
         }
 
+        if (IsDiceFacesVisibilityWrong())
+        {
+            OrganizeDicePositions();
+        }
+
         UpdateDiceCompareHelperPrediction();
     }
 
@@ -283,7 +288,27 @@ public partial class DiceRoll
         for (int i = 0; i < DiceList.Count; i++)
         {
             DiceList[i].SetPosition(DicesManager.DiceField.position + DicesManager.DicePositions[DiceList.Count-1][i]);
+            if (DiceList[i].IsDiceFaceVisibilityWrong())
+            {
+                DiceList[i].SetModelSide(DiceList[i].Side);
+            }
         }
+    }
+
+    public bool IsDiceFacesVisibilityWrong()
+    {
+        bool result = false;
+
+        foreach (var dice in DiceList)
+        {
+            bool isDiceWrong = dice.IsDiceFaceVisibilityWrong();
+            if (isDiceWrong)
+            {
+                result = isDiceWrong;
+            }
+        }
+
+        return result;
     }
 
     private int GetSelectedNumber()

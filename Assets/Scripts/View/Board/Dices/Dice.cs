@@ -11,8 +11,10 @@ public enum DiceKind
 public partial class Dice
 {
 
+    private static Vector3 rotationCrit = new Vector3(325f, 120f, 135f);
     private static Vector3 rotationSuccess = new Vector3(330f, 120f, 40f);
-    private static Vector3 rotationCrit = new Vector3(330f, 120f, 120);
+    private static Vector3 rotationFocus = new Vector3(40f, -63f, 40f);
+    private static Vector3 rotationBlank = new Vector3(-40f, 0f, -45f);
 
     private static Vector3 positionGround = new Vector3(0, -3.763676f, 0);
 
@@ -102,8 +104,11 @@ public partial class Dice
             case DiceSide.Crit:
                 Model.transform.Find("Dice").localEulerAngles = rotationCrit;
                 break;
-            default:
-                Debug.Log("NOT IMPLEMENTED");
+            case DiceSide.Focus:
+                Model.transform.Find("Dice").localEulerAngles = rotationFocus;
+                break;
+            case DiceSide.Blank:
+                Model.transform.Find("Dice").localEulerAngles = rotationBlank;
                 break;
         }
     }
@@ -148,6 +153,35 @@ public partial class Dice
         }
 
         return resultSide;
+    }
+
+    public bool IsDiceFaceVisibilityWrong()
+    {
+        bool result = false;
+
+        Vector3 vectorUp = Vector3.up;
+        float lowest = float.MaxValue;
+        Transform diceTransform = Model.transform.Find("Dice");
+
+        if (diceTransform.localPosition.y >= -3.5)
+        {
+            result = true;
+        }
+        else
+        {
+            foreach (Transform face in diceTransform)
+            {
+                Vector3 faceVector = face.position - diceTransform.position;
+                float angle = Vector3.Angle(vectorUp, faceVector);
+                if (angle < lowest) lowest = angle;
+            }
+            if (lowest > 20)
+            {
+                result = true;
+            }
+        }
+
+        return result;
     }
 
     public void RemoveModel()

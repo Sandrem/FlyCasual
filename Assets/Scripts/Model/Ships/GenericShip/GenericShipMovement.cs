@@ -101,6 +101,22 @@ namespace Ship
             return result;
         }
 
+        public bool HasManeuver(string maneuverString)
+        {
+            bool result = false;
+            if (Maneuvers.ContainsKey(maneuverString))
+            {
+                result = (Maneuvers[maneuverString] != Movement.ManeuverColor.None);
+            }
+            return result;
+        }
+
+        public bool HasManeuver(Movement.MovementStruct maneuverStruct)
+        {
+            string maneuverString = maneuverStruct.ToString();
+            return HasManeuver(maneuverString);
+        }
+
     }
 
 }

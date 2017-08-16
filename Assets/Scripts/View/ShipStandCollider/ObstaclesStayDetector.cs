@@ -30,6 +30,9 @@ public class ObstaclesStayDetector: MonoBehaviour {
         {
             if (collisionInfo.tag == "Asteroid")
             {
+                //Temporary
+                if (Game == null) Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
+
                 Game.Movement.ObstacleEnter = collisionInfo;
                 OverlapsAsteroid = true;
                 if (!OverlapedAsteroids.Contains(collisionInfo))

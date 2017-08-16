@@ -45,6 +45,80 @@ namespace Movement
         public ManeuverDirection Direction;
         public ManeuverBearing Bearing;
         public ManeuverColor ColorComplexity;
+
+        public int SpeedInt
+        {
+            get
+            {
+                int speed = 0;
+                switch (Speed)
+                {
+                    case ManeuverSpeed.AdditionalMovement:
+                        break;
+                    case ManeuverSpeed.Speed1:
+                        speed = 1;
+                        break;
+                    case ManeuverSpeed.Speed2:
+                        speed = 2;
+                        break;
+                    case ManeuverSpeed.Speed3:
+                        speed = 3;
+                        break;
+                    case ManeuverSpeed.Speed4:
+                        speed = 4;
+                        break;
+                    case ManeuverSpeed.Speed5:
+                        speed = 5;
+                        break;
+                    default:
+                        break;
+                }
+                return speed;
+            }
+        }
+
+
+        public override string ToString()
+        {
+            string maneuverString = "";
+
+            maneuverString += SpeedInt + ".";
+
+            switch (Direction)
+            {
+                case ManeuverDirection.Left:
+                    maneuverString += "L.";
+                    break;
+                case ManeuverDirection.Forward:
+                    maneuverString += "F.";
+                    break;
+                case ManeuverDirection.Right:
+                    maneuverString += "R.";
+                    break;
+                default:
+                    break;
+            }
+
+            switch (Bearing)
+            {
+                case ManeuverBearing.Straight:
+                    maneuverString += "S";
+                    break;
+                case ManeuverBearing.Bank:
+                    maneuverString += "B";
+                    break;
+                case ManeuverBearing.Turn:
+                    maneuverString += "T";
+                    break;
+                case ManeuverBearing.KoiogranTurn:
+                    maneuverString += "R";
+                    break;
+                default:
+                    break;
+            }
+
+            return maneuverString;
+        }
     }
 
     public abstract class GenericMovement
@@ -60,7 +134,7 @@ namespace Movement
 
         protected float AnimationSpeed { get; set; }
 
-        protected MovementPrediction movementPrediction;
+        public MovementPrediction movementPrediction;
 
         public GenericMovement(int speed, ManeuverDirection direction, ManeuverBearing bearing, ManeuverColor color)
         {
@@ -71,7 +145,7 @@ namespace Movement
             ColorComplexity = color;
         }
 
-        protected virtual void Initialize()
+        public virtual void Initialize()
         {
             ProgressTarget = SetProgressTarget();
             AnimationSpeed = SetAnimationSpeed();
@@ -109,16 +183,35 @@ namespace Movement
 
         public virtual void Perform()
         {
-            Selection.ThisShip.StartMoving();
             GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
             Game.UI.HideContextMenu();
             ProgressCurrent = 0f;
         }
 
+        public virtual void CheckShipMovementPrediction()
+        {
+            if (Selection.ThisShip.Owner.GetType() == typeof(Players.HotacAiPlayer))
+            {
+                if (movementPrediction.AsteroidsHit.Count != 0)
+                {
+                    if (DebugManager.DebugAI) Debug.Log("AI predicts asteroid hit!");
+                    (Selection.ThisShip.Owner as Players.HotacAiPlayer).Swerve();
+                }
+                else
+                {
+                    LaunchShipMovement();
+                }
+            }
+            else
+            {
+                LaunchShipMovement();
+            }
+        }
+
         public virtual void LaunchShipMovement()
         {
+            Selection.ThisShip.StartMoving();
 
-            //Move to method - finish of movement prediction
             Selection.ThisShip.ShipsBumped.AddRange(movementPrediction.ShipsBumped);
             foreach (var bumpedShip in Selection.ThisShip.ShipsBumped)
             {
@@ -194,6 +287,48 @@ namespace Movement
         }
 
         public abstract GameObject[] PlanMovement();
+
+        public override string ToString()
+        {
+            string maneuverString = "";
+
+            maneuverString += Speed + ".";
+
+            switch (Direction)
+            {
+                case ManeuverDirection.Left:
+                    maneuverString += "L.";
+                    break;
+                case ManeuverDirection.Forward:
+                    maneuverString += "F.";
+                    break;
+                case ManeuverDirection.Right:
+                    maneuverString += "R.";
+                    break;
+                default:
+                    break;
+            }
+
+            switch (Bearing)
+            {
+                case ManeuverBearing.Straight:
+                    maneuverString += "S";
+                    break;
+                case ManeuverBearing.Bank:
+                    maneuverString += "B";
+                    break;
+                case ManeuverBearing.Turn:
+                    maneuverString += "T";
+                    break;
+                case ManeuverBearing.KoiogranTurn:
+                    maneuverString += "R";
+                    break;
+                default:
+                    break;
+            }
+
+            return maneuverString;
+        }
 
     }
 

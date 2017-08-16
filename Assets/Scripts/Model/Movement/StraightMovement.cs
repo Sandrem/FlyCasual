@@ -18,7 +18,7 @@ namespace Movement
             base.Perform();
             Initialize();
 
-            movementPrediction = new MovementPrediction(this);
+            movementPrediction = new MovementPrediction(this, CheckShipMovementPrediction);
         }
 
         protected override float SetProgressTarget()

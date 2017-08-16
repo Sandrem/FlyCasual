@@ -10,7 +10,14 @@ namespace RulesList
             switch (ship.GetLastManeuverColor())
             {
                 case Movement.ManeuverColor.Red:
-                    ship.AssignToken(new Tokens.StressToken());
+                    if (ship.Owner.GetType() != typeof(Players.HotacAiPlayer))
+                    {
+                        ship.AssignToken(new Tokens.StressToken());
+                    }
+                    else
+                    {
+                        ship.IsSkipsActionSubPhase = true;
+                    }
                     ship.IsSkipsActionSubPhase = true;
                     break;
                 case Movement.ManeuverColor.Green:

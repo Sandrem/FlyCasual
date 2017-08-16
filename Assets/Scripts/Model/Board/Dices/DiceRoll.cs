@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public partial class DiceRoll
@@ -40,15 +41,7 @@ public partial class DiceRoll
     {
         get
         {
-            int result = 0;
-            foreach (Dice dice in DiceList)
-            {
-                if ((dice.Side == DiceSide.Success) || (dice.Side == DiceSide.Crit))
-                {
-                    result++;
-                }
-            }
-            return result;
+            return DiceList.Count(n => ((n.Side == DiceSide.Success) || (n.Side == DiceSide.Crit)));
         }
         private set { }
     }
@@ -57,15 +50,7 @@ public partial class DiceRoll
     {
         get
         {
-            int result = 0;
-            foreach (Dice dice in DiceList)
-            {
-                if (dice.Side == DiceSide.Success)
-                {
-                    result++;
-                }
-            }
-            return result;
+            return DiceList.Count(n => (n.Side == DiceSide.Success));
         }
         private set { }
     }
@@ -74,15 +59,7 @@ public partial class DiceRoll
     {
         get
         {
-            int result = 0;
-            foreach (Dice dice in DiceList)
-            {
-                if (dice.Side == DiceSide.Crit)
-                {
-                    result++;
-                }
-            }
-            return result;
+            return DiceList.Count(n => (n.Side == DiceSide.Crit));
         }
         private set { }
     }
@@ -91,15 +68,7 @@ public partial class DiceRoll
     {
         get
         {
-            int result = 0;
-            foreach (Dice dice in DiceList)
-            {
-                if (dice.Side == DiceSide.Focus)
-                {
-                    result++;
-                }
-            }
-            return result;
+            return DiceList.Count(n => (n.Side == DiceSide.Focus));
         }
         private set { }
     }
@@ -108,15 +77,7 @@ public partial class DiceRoll
     {
         get
         {
-            int result = 0;
-            foreach (Dice dice in DiceList)
-            {
-                if (dice.Side == DiceSide.Blank)
-                {
-                    result++;
-                }
-            }
-            return result;
+            return DiceList.Count(n => (n.Side == DiceSide.Blank));
         }
         private set { }
     }

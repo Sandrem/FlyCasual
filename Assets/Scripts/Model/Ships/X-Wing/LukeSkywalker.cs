@@ -43,6 +43,8 @@ namespace PilotAbilities
         public LukeSkywalkerAction()
         {
             Name = EffectName = "Luke Skywalker's ability";
+
+            IsTurnsOneFocusIntoSuccess = true;
         }
 
         public override void ActionEffect(System.Action callBack)

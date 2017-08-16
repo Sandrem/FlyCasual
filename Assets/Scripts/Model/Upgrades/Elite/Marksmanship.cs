@@ -44,6 +44,8 @@ namespace ActionsList
         public MarksmanshipAction()
         {
             Name = EffectName = "Marksmanship";
+
+            IsTurnsAllFocusIntoSuccess = true;
         }
 
         public override void ActionTake()

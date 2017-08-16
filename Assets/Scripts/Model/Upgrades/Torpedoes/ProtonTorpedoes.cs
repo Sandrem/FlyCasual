@@ -69,15 +69,15 @@ namespace UpgradesList
 namespace ActionsList
 { 
 
-    public class ClusterMissilesAction : GenericAction
+    public class ProtonTorpedoesAction : GenericAction
     {
         public Ship.GenericShip Host;
 
-        public ClusterMissilesAction()
+        public ProtonTorpedoesAction()
         {
             Name = EffectName = "Proton Torpedoes";
 
-            //AddDiceModification (host requied first);
+            IsTurnsOneFocusIntoSuccess = true;
         }
 
         public void AddDiceModification()

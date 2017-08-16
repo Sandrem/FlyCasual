@@ -14,8 +14,11 @@ namespace ActionsList
         public string ImageUrl;
 
         public bool IsCritCancelAction = false;
+
         public bool IsSpendFocus = false;
         public bool IsReroll = false;
+        public bool IsTurnsOneFocusIntoSuccess = false;
+        public bool IsTurnsAllFocusIntoSuccess = false;
 
         public GenericAction()
         {

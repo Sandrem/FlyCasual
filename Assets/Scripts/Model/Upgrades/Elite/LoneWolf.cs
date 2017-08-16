@@ -49,6 +49,8 @@ namespace ActionsList
         public LoneWolfActionEffect()
         {
             Name = EffectName = "Lone Wolf";
+
+            IsReroll = true;
         }
 
         public override bool IsActionEffectAvailable()

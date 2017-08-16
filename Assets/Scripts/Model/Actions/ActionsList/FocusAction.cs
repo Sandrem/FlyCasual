@@ -10,7 +10,9 @@ namespace ActionsList
 
         public FocusAction() {
             Name = EffectName = "Focus";
+
             IsSpendFocus = true;
+            IsTurnsAllFocusIntoSuccess = true;
         }
 
         public override void ActionEffect(System.Action callBack)

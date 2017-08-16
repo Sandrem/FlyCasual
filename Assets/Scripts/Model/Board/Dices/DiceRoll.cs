@@ -66,19 +66,25 @@ public partial class DiceRoll
 
     public int Focuses
     {
-        get
-        {
-            return DiceList.Count(n => (n.Side == DiceSide.Focus));
-        }
+        get { return DiceList.Count(n => (n.Side == DiceSide.Focus)); }
+        private set { }
+    }
+
+    public int FocusesNotRerolled
+    {
+        get { return DiceList.Count(n => ((n.Side == DiceSide.Focus) && (n.IsRerolled == false))); }
         private set { }
     }
 
     public int Blanks
     {
-        get
-        {
-            return DiceList.Count(n => (n.Side == DiceSide.Blank));
-        }
+        get { return DiceList.Count(n => (n.Side == DiceSide.Blank)); }
+        private set { }
+    }
+
+    public int BlanksNotRerolled
+    {
+        get { return DiceList.Count(n => ((n.Side == DiceSide.Blank) && (n.IsRerolled == false))); }
         private set { }
     }
 

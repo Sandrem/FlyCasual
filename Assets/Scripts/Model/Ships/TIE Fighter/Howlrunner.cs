@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Ship
@@ -84,10 +85,11 @@ namespace ActionsList
 
             if (Combat.AttackStep == CombatStep.Attack)
             {
-                int attackFocuses = Combat.DiceRollAttack.Focuses;
-                int attackBlanks = Combat.DiceRollAttack.Blanks;
+                int attackFocuses = Combat.DiceRollAttack.FocusesNotRerolled;
+                int attackBlanks = Combat.DiceRollAttack.BlanksNotRerolled;
 
-                if (Combat.Attacker.HasToken(typeof(Tokens.FocusToken)))
+                //if (Combat.Attacker.HasToken(typeof(Tokens.FocusToken)))
+                if (Combat.Attacker.GetAvailableActionEffectsList().Count(n => n.IsTurnsAllFocusIntoSuccess) > 0)
                 {
                     if (attackBlanks > 0) result = 90;
                 }

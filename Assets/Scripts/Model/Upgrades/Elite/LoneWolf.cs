@@ -81,13 +81,13 @@ namespace ActionsList
             {
                 if (Combat.DiceRollAttack.Successes > Combat.DiceRollDefence.Successes)
                 {
-                    if (Combat.CurentDiceRoll.Blanks > 0) result = 95;
+                    if (Combat.CurentDiceRoll.BlanksNotRerolled > 0) result = 95;
                 }
             }
 
             if (Combat.AttackStep == CombatStep.Attack)
             {
-                if (Combat.CurentDiceRoll.Blanks > 0) result = 95;
+                if (Combat.CurentDiceRoll.BlanksNotRerolled > 0) result = 95;
             }
 
             return result;

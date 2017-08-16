@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Upgrade;
 
@@ -28,7 +29,7 @@ namespace UpgradesList
         {
             base.AttachToShip(host);
 
-            ActionsList.ClusterMissilesAction action = new ActionsList.ClusterMissilesAction();
+            ActionsList.ConcussionMissilesAction action = new ActionsList.ConcussionMissilesAction();
             action.Host = host;
             action.ImageUrl = ImageUrl;
             action.AddDiceModification();
@@ -70,11 +71,11 @@ namespace UpgradesList
 namespace ActionsList
 { 
 
-    public class ConcussionMissiles : GenericAction
+    public class ConcussionMissilesAction : GenericAction
     {
         public Ship.GenericShip Host;
 
-        public ConcussionMissiles()
+        public ConcussionMissilesAction()
         {
             Name = EffectName = "Concussion Missiles";
 
@@ -118,7 +119,7 @@ namespace ActionsList
                 int attackBlanks = Combat.DiceRollAttack.Blanks;
                 if (attackBlanks > 0)
                 {
-                    if ((attackBlanks == 1) && (!Combat.Attacker.HasToken(typeof(Tokens.FocusToken))))
+                    if ((attackBlanks == 1) && (Combat.Attacker.GetAvailableActionEffectsList().Count(n => n.IsTurnsAllFocusIntoSuccess) == 0))
                     {
                         result = 100;
                     }

@@ -23,7 +23,7 @@ namespace Ship
                 AddUpgradeSlot(Upgrade.UpgradeSlot.Missiles);
 
                 AssignTemporaryManeuvers();
-                HotacManeuverTable = new TIEAdvancedTable();
+                HotacManeuverTable = new AI.TIEAdvancedTable();
 
                 factions.Add(Faction.Empire);
                 faction = Faction.Empire;

@@ -25,7 +25,7 @@ namespace Ship
         public GenericShip LastShipCollision { get; set; }
 
         public Dictionary<string, Movement.ManeuverColor> Maneuvers { get; private set; }
-        public GenericAiTable HotacManeuverTable { get; protected set; }
+        public AI.GenericAiTable HotacManeuverTable { get; protected set; }
 
         // EVENTS
 

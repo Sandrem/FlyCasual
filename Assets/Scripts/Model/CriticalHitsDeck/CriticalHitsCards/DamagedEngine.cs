@@ -37,12 +37,12 @@ namespace CriticalHitCard
 
         private void TurnManeuversAreRed(Ship.GenericShip ship, ref Movement.MovementStruct movement)
         {
-            if (movement.Bearing == Movement.ManeuverBearing.Turn)
+            if (movement.ColorComplexity != Movement.ManeuverColor.None)
             {
-                //Too many notifications
-                //Game.UI.ShowInfo("Damaged Engine: Treat all turn maneuvers as red maneuvers");
-                //Game.UI.AddTestLogEntry("Damaged Engine: Treat all turn maneuvers as red maneuvers");
-                movement.ColorComplexity = Movement.ManeuverColor.Red;
+                if (movement.Bearing == Movement.ManeuverBearing.Turn)
+                {
+                    movement.ColorComplexity = Movement.ManeuverColor.Red;
+                }
             }
         }
 

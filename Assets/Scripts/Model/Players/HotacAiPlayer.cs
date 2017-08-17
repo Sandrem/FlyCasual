@@ -104,22 +104,37 @@ namespace Players
             return false;
         }
 
-        public void Swerve()
+        public override void AfterShipMovementPrediction()
+        {
+            bool leaveMovementAsIs = true;
+
+            if (Selection.ThisShip.AssignedManeuver.movementPrediction.IsOffTheBoard)
+            {
+                leaveMovementAsIs = false;
+                if (DebugManager.DebugAI) Debug.Log("AI predicts off the board maneuver!");
+                AvoidOffTheBoard();
+            }
+            else
+            {
+                if (Selection.ThisShip.AssignedManeuver.movementPrediction.AsteroidsHit.Count != 0)
+                {
+                    leaveMovementAsIs = false;
+                    if (DebugManager.DebugAI) Debug.Log("AI predicts asteroid hit!");
+                    Swerve();
+                }
+            }
+
+            if (leaveMovementAsIs) Selection.ThisShip.AssignedManeuver.LaunchShipMovement();
+        }
+
+        private void Swerve()
         {
             new AI.Swerve();
         }
 
-        public override void AfterShipMovementPrediction()
+        private void AvoidOffTheBoard()
         {
-            if (Selection.ThisShip.AssignedManeuver.movementPrediction.AsteroidsHit.Count != 0)
-            {
-                if (DebugManager.DebugAI) Debug.Log("AI predicts asteroid hit!");
-                (Selection.ThisShip.Owner as Players.HotacAiPlayer).Swerve();
-            }
-            else
-            {
-                Selection.ThisShip.AssignedManeuver.LaunchShipMovement();
-            }
+            new AI.AvoidOffTheBoard();
         }
 
     }

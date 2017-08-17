@@ -4,14 +4,14 @@ using UnityEngine;
 
 namespace AI
 {
-    public class Swerve
+    public class AvoidOffTheBoard
     {
         private Movement.MovementPrediction movementPrediction;
         private List<Movement.MovementStruct> alternativeManeuvers;
 
         protected GameManagerScript Game;
 
-        public Swerve()
+        public AvoidOffTheBoard()
         {
             Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
 

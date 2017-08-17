@@ -59,6 +59,13 @@ namespace ActionsList
             Phases.CurrentSubPhase.CallBack();
         }
 
+        public override int GetActionPriority()
+        {
+            int result = 0;
+            result = 10 * (Actions.CountEnemiesTargeting(Selection.ThisShip));
+            return result;
+        }
+
         private void R2F2DecreaseAgility()
         {
             host.ChangeAgilityBy(-1);

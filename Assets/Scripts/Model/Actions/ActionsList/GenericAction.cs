@@ -70,6 +70,22 @@ namespace ActionsList
 
         }
 
+        public virtual int GetActionPriority()
+        {
+            int result = 0;
+
+            /*
+            * 
+            * 90 - Cancel crit
+            * 50 - Focus action if has target
+            * 40 - Evade action
+            * 20 - Focus action if no target
+            * 
+            */
+
+            return result;
+        }
+
     }
 
 }

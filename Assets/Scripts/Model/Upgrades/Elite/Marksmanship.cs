@@ -57,6 +57,13 @@ namespace ActionsList
             Phases.CurrentSubPhase.CallBack();
         }
 
+        public override int GetActionPriority()
+        {
+            int result = 0;
+            if (Actions.HasTarget(Selection.ThisShip)) result = 60;
+            return result;
+        }
+
         private void MarksmanshipAddDiceModification(Ship.GenericShip ship)
         {
             ship.AddAvailableActionEffect(this);

@@ -58,6 +58,13 @@ namespace ActionsList
             Phases.CurrentSubPhase.CallBack();
         }
 
+        public override int GetActionPriority()
+        {
+            int result = 0;
+            result = (Actions.HasTarget(Selection.ThisShip)) ? 50 : 20;
+            return result;
+        }
+
     }
 
 }

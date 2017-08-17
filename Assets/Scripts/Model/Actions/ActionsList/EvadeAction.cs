@@ -49,6 +49,13 @@ namespace ActionsList
             Phases.CurrentSubPhase.CallBack();
         }
 
+        public override int GetActionPriority()
+        {
+            int result = 0;
+            result = 40;
+            return result;
+        }
+
     }
 
 }

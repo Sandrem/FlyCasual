@@ -50,6 +50,13 @@ namespace ActionsList
             }
         }
 
+        public override int GetActionPriority()
+        {
+            int result = 0;
+            result = 90;
+            return result;
+        }
+
     }
 
 }

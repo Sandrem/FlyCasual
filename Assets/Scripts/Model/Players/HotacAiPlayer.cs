@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Players
@@ -40,68 +41,38 @@ namespace Players
 
         public override void PerformAction()
         {
-            bool actionIsPerformed = false;
+            bool isActionTaken = false;
 
             if (Selection.ThisShip.GetToken(typeof(Tokens.StressToken)) != null)
             {
                 Selection.ThisShip.RemoveToken(typeof(Tokens.StressToken));
             }
-            else if (Selection.ThisShip.GetAvailableActionsList().Count > 0)
+            else
             {
-                actionIsPerformed = TryToCancelCrits();
-                if (!actionIsPerformed) actionIsPerformed = TryToGetShot();
-                if (!actionIsPerformed) actionIsPerformed = TryFocus();
-                if (!actionIsPerformed) actionIsPerformed = TryEvade();
-            }
+                List<ActionsList.GenericAction> availableActionsList = Selection.ThisShip.GetAvailableActionsList();
 
-            if (!actionIsPerformed)
-            {
-                Phases.CurrentSubPhase.CallBack();
-            }
-        }
+                Dictionary<ActionsList.GenericAction, int> actionsPriority = new Dictionary<ActionsList.GenericAction, int>();
 
-        private bool TryToCancelCrits()
-        {
-            return false;
-        }
-
-        private bool TryToGetShot()
-        {
-            return false;
-        }
-
-        private bool TryToAvoidShot()
-        {
-            return false;
-        }
-
-        private bool TryFocus()
-        {
-            if (Actions.HasTarget(Selection.ThisShip))
-            {
-                foreach (var availableAction in Selection.ThisShip.GetAvailableActionsList())
+                foreach (var action in availableActionsList)
                 {
-                    if (availableAction.GetType() == typeof(ActionsList.FocusAction))
+                    int priority = action.GetActionPriority();
+                    actionsPriority.Add(action, priority);
+                }
+
+                actionsPriority = actionsPriority.OrderByDescending(n => n.Value).ToDictionary(n => n.Key, n => n.Value);
+
+                if (actionsPriority.Count > 0)
+                {
+                    KeyValuePair<ActionsList.GenericAction, int> prioritizedActions = actionsPriority.First();
+                    if (prioritizedActions.Value > 0)
                     {
-                        availableAction.ActionTake();
-                        return true;
+                        isActionTaken = true;
+                        prioritizedActions.Key.ActionTake();
                     }
                 }
             }
-            return false;
-        }
 
-        private bool TryEvade()
-        {
-            foreach (var availableAction in Selection.ThisShip.GetAvailableActionsList())
-            {
-                if (availableAction.GetType() == typeof(ActionsList.EvadeAction))
-                {
-                    availableAction.ActionTake();
-                    return true;
-                }
-            }
-            return false;
+            if (!isActionTaken) Phases.CurrentSubPhase.CallBack();
         }
 
         public override void AfterShipMovementPrediction()

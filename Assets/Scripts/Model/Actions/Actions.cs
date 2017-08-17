@@ -157,6 +157,22 @@ public static partial class Actions {
         return false;
     }
 
+    public static int CountEnemiesTargeting(Ship.GenericShip thisShip)
+    {
+        int result = 0;
+
+        foreach (var anotherShip in Roster.GetPlayer(Roster.AnotherPlayer(thisShip.Owner.PlayerNo)).Ships)
+        {
+            ShipShotDistanceInformation shotInfo = new ShipShotDistanceInformation(anotherShip.Value, thisShip);
+            if ((shotInfo.Range < 4) && (shotInfo.InArc))
+            {
+                result++;
+            }
+        }
+
+        return result;
+    }
+
     public static bool HasTargetLockOn(Ship.GenericShip attacker, Ship.GenericShip defender)
     {
         bool result = false;

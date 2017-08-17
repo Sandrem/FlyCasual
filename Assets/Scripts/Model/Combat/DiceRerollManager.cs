@@ -77,7 +77,7 @@ public partial class DiceRerollManager
         if (SidesCanBeRerolled.Contains(DiceSide.Focus))
         {
             //if (!Selection.ActiveShip.HasToken(typeof(Tokens.FocusToken)))
-            if (Combat.Attacker.GetAvailableActionEffectsList().Count(n => n.IsTurnsAllFocusIntoSuccess) > 0)
+            if (Combat.Attacker.GetAvailableActionEffectsList().Count(n => n.IsTurnsAllFocusIntoSuccess) == 0)
             {
                 diceSides.Add(DiceSide.Focus);
             }

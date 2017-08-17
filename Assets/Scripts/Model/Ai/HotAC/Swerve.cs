@@ -13,9 +13,13 @@ namespace AI
 
         protected GameManagerScript Game;
 
-        public Swerve()
+        private bool IsForced;
+
+        public Swerve(bool isForced = false)
         {
             Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
+
+            IsForced = isForced;
 
             alternativeManeuvers = GetAlternativeManeuvers(Selection.ThisShip.AssignedManeuver);
             TryAlternativeMovement();
@@ -23,13 +27,31 @@ namespace AI
 
         protected virtual void TryAlternativeMovement()
         {
-            GenericMovement newMovementAttempt = Game.Movement.MovementFromStruct(alternativeManeuvers[0]);
-            alternativeManeuvers.Remove(alternativeManeuvers[0]);
+            if (alternativeManeuvers.Count > 0)
+            {
+                MovementStruct maneuver = alternativeManeuvers[0];
+                alternativeManeuvers.Remove(alternativeManeuvers[0]);
 
-            if (DebugManager.DebugAI) Debug.Log("Tries: " + newMovementAttempt);
+                if (failedManeuvers.Contains(maneuver))
+                {
+                    TryAlternativeMovement();
+                }
+                else
+                {
+                    GenericMovement newMovementAttempt = Game.Movement.MovementFromStruct(maneuver);
 
-            newMovementAttempt.Initialize();
-            movementPrediction = new MovementPrediction(newMovementAttempt, CheckSwerveAlternativePrediction);
+                    if (DebugManager.DebugAI) Debug.Log("Tries: " + newMovementAttempt);
+
+                    newMovementAttempt.Initialize();
+                    movementPrediction = new MovementPrediction(newMovementAttempt, CheckSwerveAlternativePrediction);
+                }
+            }
+            else
+            {
+                if (DebugManager.DebugAI) Messages.ShowInfo("AI doesn't see alternatives to the asteroid collision");
+                if (DebugManager.DebugAI) Debug.Log("So AI decides to left it as is...");
+                Selection.ThisShip.AssignedManeuver.LaunchShipMovement();
+            }
         }
 
         protected virtual void CheckSwerveAlternativePrediction()
@@ -37,7 +59,7 @@ namespace AI
             if ((movementPrediction.AsteroidsHit.Count == 0) && (!movementPrediction.IsOffTheBoard))
             {
                 if (DebugManager.DebugAI) Debug.Log("And it works!");
-                Messages.ShowInfo("AI avoids asteroid collision");
+                if (DebugManager.DebugAI) Messages.ShowInfo("AI avoids asteroid collision");
 
                 alternativeManeuvers = new List<MovementStruct>();
 
@@ -47,25 +69,18 @@ namespace AI
             }
             else
             {
-                if (alternativeManeuvers.Count > 0)
+                if (DebugManager.DebugAI) Debug.Log("But it doesn't works...");
+                if (IsForced)
                 {
-                    if (DebugManager.DebugAI) Debug.Log("But it doesn't works...");
-                    TryAlternativeMovement();
+                    if (DebugManager.DebugAI) Debug.Log("Search for new alternatives...");
+                    GetAlternativeManeuvers(movementPrediction.CurrentMovement);
                 }
-                else
-                {
-                    Messages.ShowInfo("AI doesn't see alternatives to the asteroid collision");
-                    if (DebugManager.DebugAI) Debug.Log("So AI decides to left it as is...");
-                    Selection.ThisShip.AssignedManeuver.LaunchShipMovement();
-                }
-
+                TryAlternativeMovement();
             }
         }
 
         protected virtual List<MovementStruct> GetAlternativeManeuvers(GenericMovement maneuver)
         {
-            List<MovementStruct> alternativeManeuvers = new List<MovementStruct>();
-
             MovementStruct movementStruct = new MovementStruct
             {
                 Speed = maneuver.ManeuverSpeed,
@@ -73,6 +88,11 @@ namespace AI
                 Direction = maneuver.Direction,
                 ColorComplexity = maneuver.ColorComplexity
             };
+
+            if (IsForced)
+            {
+                if (!failedManeuvers.Contains(movementStruct)) failedManeuvers.Add(movementStruct);
+            }
 
             MovementStruct alternativeMovementStruct = movementStruct;
 

@@ -21,7 +21,8 @@ namespace Movement
             }
             else
             {
-                Messages.ShowError("Koiogran Turn is failed due to collision");
+                //todo: Error about failed koiogran turn
+                //Messages.ShowError("Koiogran Turn is failed due to collision");
                 callBack();
             }
         }

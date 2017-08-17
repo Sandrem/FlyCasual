@@ -8,6 +8,8 @@ public static class DebugManager
 
     public static bool DebugAllDamageIsCrits;
 
+    public static bool DebugNoCombat;
+
     private static bool debugPhases;
     public static bool DebugPhases
     {

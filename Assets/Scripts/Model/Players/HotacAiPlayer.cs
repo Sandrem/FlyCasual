@@ -134,7 +134,7 @@ namespace Players
 
         private void AvoidOffTheBoard()
         {
-            new AI.AvoidOffTheBoard();
+            new AI.Swerve(true);
         }
 
     }

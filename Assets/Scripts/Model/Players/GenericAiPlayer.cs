@@ -97,9 +97,9 @@ namespace Players
 
         public override void PerformAttack()
         {
-            if (DebugManager.DebugAI) Debug.Log("AI wants to attack!");
-
             bool attackPerformed = false;
+
+            if (DebugManager.DebugAI) Debug.Log("AI wants to attack!");
 
             foreach (var shipHolder in Roster.GetPlayer(Phases.CurrentPhasePlayer).Ships)
             {
@@ -115,19 +115,22 @@ namespace Players
 
             if (Selection.ThisShip != null)
             {
-                Dictionary<Ship.GenericShip, float> enemyShips = GetEnemyShipsAndDistance(Selection.ThisShip, ignoreCollided: true, inArcAndRange: true);
-                foreach (var shipHolder in enemyShips)
+                if (!DebugManager.DebugNoCombat)
                 {
-                    if (DebugManager.DebugAI) Debug.Log("AI wants to attack: " + shipHolder.Key);
-                    Selection.TryToChangeAnotherShip("ShipId:" + shipHolder.Key.ShipId);
-                    Combat.SelectWeapon();
-
-                    if (Rules.TargetIsLegalForShot.IsLegal())
+                    Dictionary<Ship.GenericShip, float> enemyShips = GetEnemyShipsAndDistance(Selection.ThisShip, ignoreCollided: true, inArcAndRange: true);
+                    foreach (var shipHolder in enemyShips)
                     {
-                        if (DebugManager.DebugAI) Debug.Log("AI target legal: " + Selection.AnotherShip);
-                        attackPerformed = true;
-                        Combat.TryPerformAttack();
-                        break;
+                        if (DebugManager.DebugAI) Debug.Log("AI wants to attack: " + shipHolder.Key);
+                        Selection.TryToChangeAnotherShip("ShipId:" + shipHolder.Key.ShipId);
+                        Combat.SelectWeapon();
+
+                        if (Rules.TargetIsLegalForShot.IsLegal())
+                        {
+                            if (DebugManager.DebugAI) Debug.Log("AI target legal: " + Selection.AnotherShip);
+                            attackPerformed = true;
+                            Combat.TryPerformAttack();
+                            break;
+                        }
                     }
                 }
                 Selection.ThisShip.IsAttackPerformed = true;

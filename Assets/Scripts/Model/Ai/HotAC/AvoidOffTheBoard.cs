@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Movement;
 
 namespace AI
 {
     public class AvoidOffTheBoard
     {
-        private Movement.MovementPrediction movementPrediction;
-        private List<Movement.MovementStruct> alternativeManeuvers;
+        private MovementPrediction movementPrediction;
+        private List<MovementStruct> alternativeManeuvers;
 
         protected GameManagerScript Game;
 
@@ -21,13 +22,13 @@ namespace AI
 
         private void TryAlternativeMovement()
         {
-            Movement.GenericMovement newMovementAttempt = Game.Movement.MovementFromStruct(alternativeManeuvers[0]);
+            GenericMovement newMovementAttempt = Game.Movement.MovementFromStruct(alternativeManeuvers[0]);
             alternativeManeuvers.Remove(alternativeManeuvers[0]);
 
             if (DebugManager.DebugAI) Debug.Log("Tries: " + newMovementAttempt);
 
             newMovementAttempt.Initialize();
-            movementPrediction = new Movement.MovementPrediction(newMovementAttempt, CheckSwerveAlternativePrediction);
+            movementPrediction = new MovementPrediction(newMovementAttempt, CheckSwerveAlternativePrediction);
         }
 
         private void CheckSwerveAlternativePrediction()
@@ -37,7 +38,7 @@ namespace AI
                 if (DebugManager.DebugAI) Debug.Log("And it works!");
                 Messages.ShowInfo("AI avoids asteroid collision");
 
-                alternativeManeuvers = new List<Movement.MovementStruct>();
+                alternativeManeuvers = new List<MovementStruct>();
 
                 Selection.ThisShip.AssignedManeuver = movementPrediction.CurrentMovement;
                 Selection.ThisShip.AssignedManeuver.movementPrediction = movementPrediction;
@@ -60,11 +61,11 @@ namespace AI
             }
         }
 
-        private List<Movement.MovementStruct> GetAlternativeManeuvers(Movement.GenericMovement maneuver)
+        private List<MovementStruct> GetAlternativeManeuvers(GenericMovement maneuver)
         {
-            List<Movement.MovementStruct> alternativeManeuvers = new List<Movement.MovementStruct>();
+            List<MovementStruct> alternativeManeuvers = new List<MovementStruct>();
 
-            Movement.MovementStruct movementStruct = new Movement.MovementStruct
+            MovementStruct movementStruct = new MovementStruct
             {
                 Speed = maneuver.ManeuverSpeed,
                 Bearing = maneuver.Bearing,
@@ -72,38 +73,38 @@ namespace AI
                 ColorComplexity = maneuver.ColorComplexity
             };
 
-            Movement.MovementStruct alternativeMovementStruct = movementStruct;
+            MovementStruct alternativeMovementStruct = movementStruct;
 
             switch (maneuver.Bearing)
             {
-                case Movement.ManeuverBearing.Straight:
-                    alternativeMovementStruct.Bearing = Movement.ManeuverBearing.Bank;
+                case ManeuverBearing.Straight:
+                    alternativeMovementStruct.Bearing = ManeuverBearing.Bank;
 
-                    alternativeMovementStruct.Direction = Movement.ManeuverDirection.Left;
+                    alternativeMovementStruct.Direction = ManeuverDirection.Left;
                     alternativeManeuvers.Add(GetSimilarManeuverByStruct(alternativeMovementStruct));
 
-                    alternativeMovementStruct.Direction = Movement.ManeuverDirection.Right;
+                    alternativeMovementStruct.Direction = ManeuverDirection.Right;
                     alternativeManeuvers.Add(GetSimilarManeuverByStruct(alternativeMovementStruct));
                     break;
-                case Movement.ManeuverBearing.Bank:
-                    alternativeMovementStruct.Bearing = Movement.ManeuverBearing.Turn;
+                case ManeuverBearing.Bank:
+                    alternativeMovementStruct.Bearing = ManeuverBearing.Turn;
                     alternativeManeuvers.Add(GetSimilarManeuverByStruct(alternativeMovementStruct));
 
-                    alternativeMovementStruct.Bearing = Movement.ManeuverBearing.Straight;
-                    alternativeMovementStruct.Direction = Movement.ManeuverDirection.Forward;
+                    alternativeMovementStruct.Bearing = ManeuverBearing.Straight;
+                    alternativeMovementStruct.Direction = ManeuverDirection.Forward;
                     alternativeManeuvers.Add(GetSimilarManeuverByStruct(alternativeMovementStruct));
                     break;
-                case Movement.ManeuverBearing.Turn:
-                    alternativeMovementStruct.Bearing = Movement.ManeuverBearing.Bank;
+                case ManeuverBearing.Turn:
+                    alternativeMovementStruct.Bearing = ManeuverBearing.Bank;
                     alternativeManeuvers.Add(GetSimilarManeuverByStruct(alternativeMovementStruct));
                     break;
-                case Movement.ManeuverBearing.KoiogranTurn:
-                    alternativeMovementStruct.Bearing = Movement.ManeuverBearing.Bank;
+                case ManeuverBearing.KoiogranTurn:
+                    alternativeMovementStruct.Bearing = ManeuverBearing.Bank;
 
-                    alternativeMovementStruct.Direction = Movement.ManeuverDirection.Left;
+                    alternativeMovementStruct.Direction = ManeuverDirection.Left;
                     alternativeManeuvers.Add(GetSimilarManeuverByStruct(alternativeMovementStruct));
 
-                    alternativeMovementStruct.Direction = Movement.ManeuverDirection.Right;
+                    alternativeMovementStruct.Direction = ManeuverDirection.Right;
                     alternativeManeuvers.Add(GetSimilarManeuverByStruct(alternativeMovementStruct));
                     break;
                 default:
@@ -113,25 +114,25 @@ namespace AI
             return alternativeManeuvers;
         }
 
-        private Movement.MovementStruct GetSimilarManeuverByStruct(Movement.MovementStruct alternativeManeuverStruct)
+        private MovementStruct GetSimilarManeuverByStruct(MovementStruct alternativeManeuverStruct)
         {
-            Movement.MovementStruct result = alternativeManeuverStruct;
+            MovementStruct result = alternativeManeuverStruct;
 
             if (!Selection.ThisShip.HasManeuver(result))
             {
-                if (result.Speed == Movement.ManeuverSpeed.Speed1)
+                if (result.Speed == ManeuverSpeed.Speed1)
                 {
-                    result.Speed = Movement.ManeuverSpeed.Speed2;
+                    result.SpeedInt++;
                 }
-                else if ((result.Speed == Movement.ManeuverSpeed.Speed4) || (result.Speed == Movement.ManeuverSpeed.Speed5))
+                else
                 {
-                    result.Speed = Movement.ManeuverSpeed.Speed4;
+                    result.SpeedInt--;
                     if (!Selection.ThisShip.HasManeuver(result))
                     {
-                        result.Speed = Movement.ManeuverSpeed.Speed3;
+                        result.SpeedInt--;
                         if (!Selection.ThisShip.HasManeuver(result))
                         {
-                            result.Speed = Movement.ManeuverSpeed.Speed2;
+                            result.SpeedInt--;  //for example, 5 bank -> 2 bank
                         }
                     }
                 }

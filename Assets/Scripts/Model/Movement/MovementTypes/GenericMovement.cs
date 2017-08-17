@@ -48,6 +48,32 @@ namespace Movement
 
         public int SpeedInt
         {
+            set
+            {
+                ManeuverSpeed speed = ManeuverSpeed.Speed1;
+                switch (value)
+                {
+                    case 1:
+                        speed = ManeuverSpeed.Speed1;
+                        break;
+                    case 2:
+                        speed = ManeuverSpeed.Speed2;
+                        break;
+                    case 3:
+                        speed = ManeuverSpeed.Speed3;
+                        break;
+                    case 4:
+                        speed = ManeuverSpeed.Speed4;
+                        break;
+                    case 5:
+                        speed = ManeuverSpeed.Speed5;
+                        break;
+                    default:
+                        break;
+                }
+                Speed = speed;
+            }
+
             get
             {
                 int speed = 0;

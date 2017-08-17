@@ -242,7 +242,7 @@ namespace Ship
 
         // TOKENS
 
-        public bool HastToken(System.Type type, char letter = ' ')
+        public bool HasToken(System.Type type, char letter = ' ')
         {
             bool result = false;
             if (GetToken(type, letter) != null) result = true;

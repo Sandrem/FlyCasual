@@ -23,7 +23,7 @@ namespace Movement
             Initialize();
         }
 
-        protected override void Initialize()
+        public override void Initialize()
         {
             base.Initialize();
             turningAroundDistance = SetTurningAroundDistance();

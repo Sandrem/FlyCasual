@@ -26,7 +26,7 @@ namespace UpgradesList
         {
             base.AttachToShip(host);
 
-            ActionsList.ClusterMissilesAction action = new ActionsList.ClusterMissilesAction();
+            ActionsList.ProtonTorpedoesAction action = new ActionsList.ProtonTorpedoesAction();
             action.Host = host;
             action.ImageUrl = ImageUrl;
             action.AddDiceModification();
@@ -69,15 +69,15 @@ namespace UpgradesList
 namespace ActionsList
 { 
 
-    public class ClusterMissilesAction : GenericAction
+    public class ProtonTorpedoesAction : GenericAction
     {
         public Ship.GenericShip Host;
 
-        public ClusterMissilesAction()
+        public ProtonTorpedoesAction()
         {
             Name = EffectName = "Proton Torpedoes";
 
-            //AddDiceModification (host requied first);
+            IsTurnsOneFocusIntoSuccess = true;
         }
 
         public void AddDiceModification()
@@ -108,9 +108,23 @@ namespace ActionsList
             return result;
         }
 
-        public override void ActionEffect()
+        public override int GetActionEffectPriority()
+        {
+            int result = 0;
+
+            if (Combat.AttackStep == CombatStep.Attack)
+            {
+                int attackFocuses = Combat.DiceRollAttack.Focuses;
+                if (attackFocuses > 0) result = 70;
+            }
+
+            return result;
+        }
+
+        public override void ActionEffect(System.Action callBack)
         {
             Combat.CurentDiceRoll.ChangeOne(DiceSide.Focus, DiceSide.Crit);
+            callBack();
         }
 
     }

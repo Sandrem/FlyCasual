@@ -43,17 +43,35 @@ namespace PilotAbilities
         public LukeSkywalkerAction()
         {
             Name = EffectName = "Luke Skywalker's ability";
+
+            IsTurnsOneFocusIntoSuccess = true;
         }
 
-        public override void ActionEffect()
+        public override void ActionEffect(System.Action callBack)
         {
             Combat.CurentDiceRoll.ChangeOne(DiceSide.Focus, DiceSide.Success);
+            callBack();
         }
 
         public override bool IsActionEffectAvailable()
         {
             bool result = false;
             if (Combat.AttackStep == CombatStep.Defence) result = true;
+            return result;
+        }
+
+        public override int GetActionEffectPriority()
+        {
+            int result = 0;
+
+            if (Combat.AttackStep == CombatStep.Defence)
+            {
+                if (Combat.DiceRollAttack.Successes > Combat.DiceRollDefence.Successes)
+                {
+                    if (Combat.DiceRollDefence.Focuses > 0) result = 80;
+                }
+            }
+
             return result;
         }
 

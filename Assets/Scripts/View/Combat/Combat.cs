@@ -40,7 +40,10 @@ public static partial class Combat
 
     public static void ToggleConfirmDiceResultsButton(bool isActive)
     {
-        (Phases.CurrentSubPhase as SubPhases.DiceRollCombatSubPhase).ToggleConfirmDiceResultsButton(isActive);
+        if (Selection.ActiveShip.Owner.GetType() == typeof(Players.HumanPlayer))
+        {
+            (Phases.CurrentSubPhase as SubPhases.DiceRollCombatSubPhase).ToggleConfirmDiceResultsButton(isActive);
+        }
     }
 
     private static void CreateDiceModificationsButton(ActionsList.GenericAction actionEffect, Vector3 position)
@@ -53,8 +56,8 @@ public static partial class Combat
         {
             Tooltips.EndTooltip();
             newButton.GetComponent<Button>().interactable = false;
-            Selection.ThisShip.AddAlreadyExecutedActionEffect(actionEffect);
-            actionEffect.ActionEffect();
+            Selection.ActiveShip.AddAlreadyExecutedActionEffect(actionEffect);
+            actionEffect.ActionEffect(delegate { });
         });
         Tooltips.AddTooltip(newButton, actionEffect.ImageUrl);
         newButton.GetComponent<Button>().interactable = true;

@@ -41,11 +41,12 @@ namespace PilotAbilities
             IsReroll = true;
         }
 
-        public override void ActionEffect()
+        public override void ActionEffect(System.Action callBack)
         {
             DiceRerollManager diceRerollManager = new DiceRerollManager
             {
-                SidesCanBeRerolled = new List<DiceSide> { DiceSide.Blank }
+                SidesCanBeRerolled = new List<DiceSide> { DiceSide.Blank },
+                CallBack = callBack
             };
             diceRerollManager.Start();
         }
@@ -58,6 +59,18 @@ namespace PilotAbilities
             {
                 result = true;
             }
+            return result;
+        }
+
+        public override int GetActionEffectPriority()
+        {
+            int result = 0;
+
+            if (Combat.AttackStep == CombatStep.Attack)
+            {
+                if (Combat.DiceRollAttack.Blanks > 0) result = 95;
+            }
+
             return result;
         }
 

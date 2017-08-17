@@ -56,7 +56,14 @@ namespace ActionsList
             host.ChangeAgilityBy(+1);
             host.AssignToken(new Conditions.R2F2Condition());
             Phases.OnEndPhaseStart += R2F2DecreaseAgility;
-            Phases.CurrentSubPhase.callBack();
+            Phases.CurrentSubPhase.CallBack();
+        }
+
+        public override int GetActionPriority()
+        {
+            int result = 0;
+            result = 10 * (Actions.CountEnemiesTargeting(Selection.ThisShip));
+            return result;
         }
 
         private void R2F2DecreaseAgility()

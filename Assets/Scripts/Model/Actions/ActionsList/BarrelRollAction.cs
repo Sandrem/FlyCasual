@@ -18,7 +18,7 @@ namespace ActionsList
             Phases.StartTemporarySubPhase(
                 "Barrel Roll",
                 typeof(SubPhases.BarrelRollPlanningSubPhase),
-                Phases.CurrentSubPhase.callBack
+                Phases.CurrentSubPhase.CallBack
             );
         }
 
@@ -177,7 +177,7 @@ namespace SubPhases
             Phases.StartTemporarySubPhase(
                 "Barrel Roll execution",
                 typeof(BarrelRollExecutionSubPhase),
-                callBack
+                CallBack
             );
         }
 
@@ -305,7 +305,7 @@ namespace SubPhases
             Selection.ThisShip.FinishPosition(delegate() { });
 
             Phases.FinishSubPhase(typeof(BarrelRollExecutionSubPhase));
-            callBack();
+            CallBack();
         }
 
         public override void Next()

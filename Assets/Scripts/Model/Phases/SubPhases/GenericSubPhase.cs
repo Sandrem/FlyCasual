@@ -19,7 +19,7 @@ namespace SubPhases
 
         public string Name;
 
-        public System.Action callBack;
+        public System.Action CallBack;
 
         public bool IsTemporary = false;
 

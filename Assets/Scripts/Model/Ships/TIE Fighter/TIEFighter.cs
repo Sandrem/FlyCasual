@@ -21,7 +21,7 @@ namespace Ship
                 MaxShields = 0;
 
                 AssignTemporaryManeuvers();
-                HotacManeuverTable = new TIEFighterTable();
+                HotacManeuverTable = new AI.TIEFighterTable();
 
                 factions.Add(Faction.Empire);
                 faction = Faction.Empire;

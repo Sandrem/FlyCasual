@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Players
@@ -10,7 +11,8 @@ namespace Players
     {
         private bool inDebug = false;
 
-        public HotacAiPlayer(): base() {
+        public HotacAiPlayer() : base()
+        {
             Name = "HotAC AI";
         }
 
@@ -18,12 +20,12 @@ namespace Players
         {
             if (inDebug) Debug.Log("=== " + ship.PilotName + " (" + ship.ShipId + ") ===");
 
-            Ship.GenericShip anotherShip = FindNearestEnemyShip(ship, ignoreCollided:true, inArcAndRange:true);
+            Ship.GenericShip anotherShip = FindNearestEnemyShip(ship, ignoreCollided: true, inArcAndRange: true);
             if (anotherShip == null) anotherShip = FindNearestEnemyShip(ship, ignoreCollided: true);
             if (anotherShip == null) anotherShip = FindNearestEnemyShip(ship);
             if (inDebug) Debug.Log("Nearest enemy is " + anotherShip.PilotName + " (" + anotherShip.ShipId + ")");
 
-            /*ship.GenerateAvailableActionsList();
+            ship.GenerateAvailableActionsList();
             foreach (var action in ship.GetAvailableActionsList())
             {
                 if (action.GetType() == typeof(ActionsList.TargetLockAction))
@@ -31,7 +33,7 @@ namespace Players
                     Actions.AssignTargetLockToPair(ship, anotherShip);
                     break;
                 }
-            }*/
+            }
 
             ship.AssignedManeuver = ship.HotacManeuverTable.GetManeuver(ship, anotherShip);
             PerformManeuverOfShip(ship);
@@ -39,70 +41,72 @@ namespace Players
 
         public override void PerformAction()
         {
-            bool actionIsPerformed = false;
+            bool isActionTaken = false;
 
             if (Selection.ThisShip.GetToken(typeof(Tokens.StressToken)) != null)
             {
                 Selection.ThisShip.RemoveToken(typeof(Tokens.StressToken));
             }
-            else if (Selection.ThisShip.GetAvailableActionsList().Count > 0)
+            else
             {
-                actionIsPerformed = TryToCancelCrits();
-                if (!actionIsPerformed) actionIsPerformed = TryToGetShot();
-                if (!actionIsPerformed) actionIsPerformed = TryFocus();
-                if (!actionIsPerformed) actionIsPerformed = TryEvade();
-            }
+                List<ActionsList.GenericAction> availableActionsList = Selection.ThisShip.GetAvailableActionsList();
 
-            if (!actionIsPerformed)
-            {
-                Phases.CurrentSubPhase.callBack();
-            }
-        }
+                Dictionary<ActionsList.GenericAction, int> actionsPriority = new Dictionary<ActionsList.GenericAction, int>();
 
-        private bool TryToCancelCrits()
-        {
-            return false;
-        }
-
-        private bool TryToGetShot()
-        {
-            return false;
-        }
-
-        private bool TryToAvoidShot()
-        {
-            return false;
-        }
-
-        private bool TryFocus()
-        {
-            if (Actions.HasTarget(Selection.ThisShip))
-            {
-                foreach (var availableAction in Selection.ThisShip.GetAvailableActionsList())
+                foreach (var action in availableActionsList)
                 {
-                    if (availableAction.GetType() == typeof(ActionsList.FocusAction))
+                    int priority = action.GetActionPriority();
+                    actionsPriority.Add(action, priority);
+                }
+
+                actionsPriority = actionsPriority.OrderByDescending(n => n.Value).ToDictionary(n => n.Key, n => n.Value);
+
+                if (actionsPriority.Count > 0)
+                {
+                    KeyValuePair<ActionsList.GenericAction, int> prioritizedActions = actionsPriority.First();
+                    if (prioritizedActions.Value > 0)
                     {
-                        availableAction.ActionTake();
-                        return true;
+                        isActionTaken = true;
+                        prioritizedActions.Key.ActionTake();
                     }
                 }
             }
-            return false;
+
+            if (!isActionTaken) Phases.CurrentSubPhase.CallBack();
         }
 
-        private bool TryEvade()
+        public override void AfterShipMovementPrediction()
         {
-            foreach (var availableAction in Selection.ThisShip.GetAvailableActionsList())
+            bool leaveMovementAsIs = true;
+
+            if (Selection.ThisShip.AssignedManeuver.movementPrediction.IsOffTheBoard)
             {
-                if (availableAction.GetType() == typeof(ActionsList.EvadeAction))
+                leaveMovementAsIs = false;
+                if (DebugManager.DebugAI) Debug.Log("AI predicts off the board maneuver!");
+                AvoidOffTheBoard();
+            }
+            else
+            {
+                if (Selection.ThisShip.AssignedManeuver.movementPrediction.AsteroidsHit.Count != 0)
                 {
-                    availableAction.ActionTake();
-                    return true;
+                    leaveMovementAsIs = false;
+                    if (DebugManager.DebugAI) Debug.Log("AI predicts asteroid hit!");
+                    Swerve();
                 }
             }
-            return false;
+
+            if (leaveMovementAsIs) Selection.ThisShip.AssignedManeuver.LaunchShipMovement();
+        }
+
+        private void Swerve()
+        {
+            new AI.Swerve();
+        }
+
+        private void AvoidOffTheBoard()
+        {
+            new AI.Swerve(true);
         }
 
     }
-
 }

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Upgrade;
 
@@ -53,11 +54,35 @@ namespace ActionsList
             return result;
         }
 
-        public override void ActionEffect()
+        public override int GetActionEffectPriority()
+        {
+            int result = 0;
+
+            if (Combat.AttackStep == CombatStep.Attack)
+            {
+                int attackFocuses = Combat.DiceRollAttack.FocusesNotRerolled;
+                int attackBlanks = Combat.DiceRollAttack.BlanksNotRerolled;
+
+                //if (Combat.Attacker.HasToken(typeof(Tokens.FocusToken)))
+                if (Combat.Attacker.GetAvailableActionEffectsList().Count(n => n.IsTurnsAllFocusIntoSuccess) > 0 )
+                {
+                    if (attackBlanks > 0) result = 90;
+                }
+                else
+                {
+                    if (attackBlanks + attackFocuses > 0) result = 90;
+                }
+            }
+
+            return result;
+        }
+
+        public override void ActionEffect(System.Action callBack)
         {
             DiceRerollManager diceRerollManager = new DiceRerollManager
             {
-                NumberOfDicesCanBeRerolled = (Combat.Defender.PilotSkill > 2) ? 1 : 2
+                NumberOfDicesCanBeRerolled = (Combat.Defender.PilotSkill > 2) ? 1 : 2,
+                CallBack = callBack
             };
             diceRerollManager.Start();
         }

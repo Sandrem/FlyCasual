@@ -53,7 +53,7 @@ namespace ActionsList
         public override void ActionTake()
         {
             // Select ally and distance 1-2 to give it free action
-            Phases.CurrentSubPhase.callBack();
+            Phases.CurrentSubPhase.CallBack();
         }
 
     }

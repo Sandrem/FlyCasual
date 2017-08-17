@@ -14,6 +14,8 @@ public class ObstaclesStayDetector: MonoBehaviour {
     public bool OverlapsAsteroid = false;
     public List<Collider> OverlapedAsteroids = new List<Collider>();
 
+    public bool OffTheBoard = false;
+
     // Use this for initialization
     void Start () {
         Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
@@ -30,6 +32,9 @@ public class ObstaclesStayDetector: MonoBehaviour {
         {
             if (collisionInfo.tag == "Asteroid")
             {
+                //Temporary
+                if (Game == null) Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
+
                 Game.Movement.ObstacleEnter = collisionInfo;
                 OverlapsAsteroid = true;
                 if (!OverlapedAsteroids.Contains(collisionInfo))
@@ -37,7 +42,11 @@ public class ObstaclesStayDetector: MonoBehaviour {
                     OverlapedAsteroids.Add(collisionInfo);
                 }
             }
-            if (collisionInfo.name == "ObstaclesStayDetector")
+            else if (collisionInfo.name == "OffTheBoard")
+            {
+                OffTheBoard = true;
+            }
+            else if (collisionInfo.name == "ObstaclesStayDetector")
             {
                 if (collisionInfo.tag != this.tag)
                 {

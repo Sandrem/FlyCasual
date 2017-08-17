@@ -34,7 +34,7 @@ namespace ActionsList
             {
                 CritCard.DiscardEffect(host);
                 Phases.FinishSubPhase(typeof(SubPhases.CancelCritCheckSubPhase));
-                Phases.CurrentSubPhase.callBack();
+                Phases.CurrentSubPhase.CallBack();
             }
             else
             {
@@ -45,9 +45,16 @@ namespace ActionsList
                     typeof(SubPhases.CancelCritCheckSubPhase),
                     delegate {
                         Phases.FinishSubPhase(typeof(SubPhases.CancelCritCheckSubPhase));
-                        Phases.CurrentSubPhase.callBack();
+                        Phases.CurrentSubPhase.CallBack();
                     });
             }
+        }
+
+        public override int GetActionPriority()
+        {
+            int result = 0;
+            result = 90;
+            return result;
         }
 
     }
@@ -76,7 +83,7 @@ namespace SubPhases
             if (Actions.SelectedCriticalHitCard.CancelDiceResults.Contains(CurrentDiceRoll.DiceList[0].Side)) Actions.SelectedCriticalHitCard.DiscardEffect(Actions.SelectedCriticalHitCard.Host);
             base.CheckResults(CurrentDiceRoll);
 
-            callBack();
+            CallBack();
         }
 
     }

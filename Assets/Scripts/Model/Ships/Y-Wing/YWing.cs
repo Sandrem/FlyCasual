@@ -26,7 +26,7 @@ namespace Ship
                 AddUpgradeSlot(Upgrade.UpgradeSlot.Torpedoes);
 
                 AssignTemporaryManeuvers();
-                HotacManeuverTable = new YWingTable();
+                HotacManeuverTable = new AI.YWingTable();
 
                 factions.Add(Faction.Rebels);
                 faction = Faction.Rebels;

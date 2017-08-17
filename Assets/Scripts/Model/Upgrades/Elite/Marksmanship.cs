@@ -44,6 +44,8 @@ namespace ActionsList
         public MarksmanshipAction()
         {
             Name = EffectName = "Marksmanship";
+
+            IsTurnsAllFocusIntoSuccess = true;
         }
 
         public override void ActionTake()
@@ -52,7 +54,14 @@ namespace ActionsList
             host.AfterGenerateAvailableActionEffectsList += MarksmanshipAddDiceModification;
             host.AssignToken(new Conditions.MarksmanshipCondition());
             Phases.OnEndPhaseStart += MarksmanshipUnSubscribeToFiceModification;
-            Phases.CurrentSubPhase.callBack();
+            Phases.CurrentSubPhase.CallBack();
+        }
+
+        public override int GetActionPriority()
+        {
+            int result = 0;
+            if (Actions.HasTarget(Selection.ThisShip)) result = 60;
+            return result;
         }
 
         private void MarksmanshipAddDiceModification(Ship.GenericShip ship)
@@ -73,10 +82,24 @@ namespace ActionsList
             return result;
         }
 
-        public override void ActionEffect()
+        public override int GetActionEffectPriority()
+        {
+            int result = 0;
+
+            if (Combat.AttackStep == CombatStep.Attack)
+            {
+                int attackFocuses = Combat.DiceRollAttack.Focuses;
+                if (attackFocuses > 0) result = 60;
+            }
+
+            return result;
+        }
+
+        public override void ActionEffect(System.Action callBack)
         {
             Combat.CurentDiceRoll.ChangeOne(DiceSide.Focus, DiceSide.Crit);
             Combat.CurentDiceRoll.ChangeAll(DiceSide.Focus, DiceSide.Success);
+            callBack();
         }
 
     }

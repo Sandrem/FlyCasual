@@ -109,13 +109,13 @@ namespace SubPhases
                 EventHandler = Selection.ActiveShip.SufferDamage
             });
 
-            Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, callBack);
+            Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, CallBack);
         }
 
         private void NoDamage()
         {
             Messages.ShowInfoToHuman("No damage");
-            callBack();
+            CallBack();
         }
     }
 

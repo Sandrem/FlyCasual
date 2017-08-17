@@ -97,9 +97,9 @@ namespace Players
 
         public override void PerformAttack()
         {
-            if (DebugManager.DebugAI) Debug.Log("AI wants to attack!");
-
             bool attackPerformed = false;
+
+            if (DebugManager.DebugAI) Debug.Log("AI wants to attack!");
 
             foreach (var shipHolder in Roster.GetPlayer(Phases.CurrentPhasePlayer).Ships)
             {
@@ -115,19 +115,22 @@ namespace Players
 
             if (Selection.ThisShip != null)
             {
-                Dictionary<Ship.GenericShip, float> enemyShips = GetEnemyShipsAndDistance(Selection.ThisShip, ignoreCollided: true, inArcAndRange: true);
-                foreach (var shipHolder in enemyShips)
+                if (!DebugManager.DebugNoCombat)
                 {
-                    if (DebugManager.DebugAI) Debug.Log("AI wants to attack: " + shipHolder.Key);
-                    Selection.TryToChangeAnotherShip("ShipId:" + shipHolder.Key.ShipId);
-                    Combat.SelectWeapon();
-
-                    if (Rules.TargetIsLegalForShot.IsLegal())
+                    Dictionary<Ship.GenericShip, float> enemyShips = GetEnemyShipsAndDistance(Selection.ThisShip, ignoreCollided: true, inArcAndRange: true);
+                    foreach (var shipHolder in enemyShips)
                     {
-                        if (DebugManager.DebugAI) Debug.Log("AI target legal: " + Selection.AnotherShip);
-                        attackPerformed = true;
-                        Combat.TryPerformAttack();
-                        break;
+                        if (DebugManager.DebugAI) Debug.Log("AI wants to attack: " + shipHolder.Key);
+                        Selection.TryToChangeAnotherShip("ShipId:" + shipHolder.Key.ShipId);
+                        Combat.SelectWeapon();
+
+                        if (Rules.TargetIsLegalForShot.IsLegal())
+                        {
+                            if (DebugManager.DebugAI) Debug.Log("AI target legal: " + Selection.AnotherShip);
+                            attackPerformed = true;
+                            Combat.TryPerformAttack();
+                            break;
+                        }
                     }
                 }
                 Selection.ThisShip.IsAttackPerformed = true;
@@ -195,62 +198,38 @@ namespace Players
 
         public override void UseDiceModifications()
         {
-            //Todo: Decision: defence with evade or focus
+            Selection.ActiveShip.GenerateAvailableActionEffectsList();
             List<ActionsList.GenericAction> availableActionEffectsList = Selection.ActiveShip.GetAvailableActionEffectsList();
 
-            if (Selection.ActiveShip.GetToken(typeof(Tokens.EvadeToken)) != null)
+            Dictionary<ActionsList.GenericAction, int> actionsPriority = new Dictionary<ActionsList.GenericAction, int>();
+
+            foreach (var actionEffect in availableActionEffectsList)
             {
-                if (Combat.AttackStep == CombatStep.Defence)
+                int priority = actionEffect.GetActionEffectPriority();
+                actionsPriority.Add(actionEffect, priority);
+            }
+
+            actionsPriority = actionsPriority.OrderByDescending(n => n.Value).ToDictionary(n => n.Key, n => n.Value);
+
+            bool isActionEffectTaken = false;
+
+            if (actionsPriority.Count > 0)
+            {
+                KeyValuePair<ActionsList.GenericAction, int> prioritizedActionEffect = actionsPriority.First();
+                if (prioritizedActionEffect.Value > 0)
                 {
-                    if (Combat.DiceRollAttack.Successes > Combat.DiceRollDefence.Successes)
-                    {
-                        foreach (var actionEffect in availableActionEffectsList)
-                        {
-                            if (actionEffect.GetType() == typeof(ActionsList.EvadeAction))
-                            {
-                                actionEffect.ActionEffect();
-                                break;
-                            }
-                        }
-                    }
+                    isActionEffectTaken = true;
+                    Messages.ShowInfo("AI uses \"" + prioritizedActionEffect.Key.Name + "\"");
+                    Game.Wait(1, delegate {
+                        Selection.ActiveShip.AddAlreadyExecutedActionEffect(prioritizedActionEffect.Key);
+                        prioritizedActionEffect.Key.ActionEffect(UseDiceModifications);
+                    });                    
                 }
             }
 
-
-            if (Selection.ActiveShip.GetToken(typeof(Tokens.FocusToken)) != null)
+            if (!isActionEffectTaken)
             {
-                if (Combat.AttackStep == CombatStep.Attack)
-                {
-                    if (Combat.DiceRollAttack.Focuses > 0)
-                    {
-                        foreach (var actionEffect in availableActionEffectsList)
-                        {
-                            if (actionEffect.GetType() == typeof(ActionsList.FocusAction))
-                            {
-                                actionEffect.ActionEffect();
-                                break;
-                            }
-                        }
-                    }
-                }
-
-                if (Combat.AttackStep == CombatStep.Defence)
-                {
-                    if (Combat.DiceRollDefence.Focuses > 0)
-                    {
-                        if (Combat.DiceRollAttack.Successes > Combat.DiceRollDefence.Successes)
-                        {
-                            foreach (var actionEffect in availableActionEffectsList)
-                            {
-                                if (actionEffect.GetType() == typeof(ActionsList.FocusAction))
-                                {
-                                    actionEffect.ActionEffect();
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                }
+                Game.Wait(2, delegate { Phases.CurrentSubPhase.CallBack(); });
             }
         }
 

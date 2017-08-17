@@ -41,15 +41,15 @@ public class GameManagerScript : MonoBehaviour {
         Position = this.GetComponent<ShipPositionManager>();
     }
 
-    public void Wait(CallBackFunction f)
+    public void Wait(float seconds, CallBackFunction callBack)
     {
-        StartCoroutine(WaitCoroutine(f));
+        StartCoroutine(WaitCoroutine(seconds, callBack));
     }
 
-    IEnumerator WaitCoroutine(CallBackFunction f)
+    IEnumerator WaitCoroutine(float seconds, CallBackFunction callBack)
     {
-        yield return new WaitForSeconds(3);
-        f.Invoke();
+        yield return new WaitForSeconds(seconds);
+        callBack();
     }
 
 }

@@ -79,7 +79,7 @@ namespace SubPhases
         {
             Messages.ShowInfo("Player " + Tools.PlayerToInt(Phases.PlayerWithInitiative) + " has Initiative");
             Phases.FinishSubPhase(this.GetType());
-            callBack();
+            CallBack();
         }
 
     }

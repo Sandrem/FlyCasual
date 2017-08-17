@@ -82,7 +82,7 @@ public class CameraScript : MonoBehaviour {
 	}
 
 	private void CamRotateByMouse() {
-		if (Input.GetKey(KeyCode.Mouse1)) {
+		if (Input.GetKey(KeyCode.Mouse1) || Input.GetKey(KeyCode.Mouse2)) {
 			
 			float turnX = Input.GetAxis ("Mouse Y") * -SENSITIVITY_TURN;
 			turnX = CamClampRotation (turnX);

@@ -7,8 +7,8 @@ namespace AI
 {
     public class Swerve
     {
-        private MovementPrediction movementPrediction;
-        private List<MovementStruct> alternativeManeuvers;
+        protected MovementPrediction movementPrediction;
+        protected List<MovementStruct> alternativeManeuvers = new List<MovementStruct>();
 
         protected GameManagerScript Game;
 
@@ -20,7 +20,7 @@ namespace AI
             TryAlternativeMovement();
         }
 
-        private void TryAlternativeMovement()
+        protected void TryAlternativeMovement()
         {
             GenericMovement newMovementAttempt = Game.Movement.MovementFromStruct(alternativeManeuvers[0]);
             alternativeManeuvers.Remove(alternativeManeuvers[0]);
@@ -31,7 +31,7 @@ namespace AI
             movementPrediction = new MovementPrediction(newMovementAttempt, CheckSwerveAlternativePrediction);
         }
 
-        private void CheckSwerveAlternativePrediction()
+        protected void CheckSwerveAlternativePrediction()
         {
             if ((movementPrediction.AsteroidsHit.Count == 0) && (!movementPrediction.IsOffTheBoard))
             {
@@ -61,7 +61,7 @@ namespace AI
             }
         }
 
-        private List<MovementStruct> GetAlternativeManeuvers(GenericMovement maneuver)
+        protected List<MovementStruct> GetAlternativeManeuvers(GenericMovement maneuver)
         {
             List<MovementStruct> alternativeManeuvers = new List<MovementStruct>();
 
@@ -114,7 +114,7 @@ namespace AI
             return alternativeManeuvers;
         }
 
-        private MovementStruct GetSimilarManeuverByStruct(MovementStruct alternativeManeuverStruct)
+        protected MovementStruct GetSimilarManeuverByStruct(MovementStruct alternativeManeuverStruct)
         {
             MovementStruct result = alternativeManeuverStruct;
 

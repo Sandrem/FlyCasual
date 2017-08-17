@@ -33,13 +33,16 @@ namespace Ship
                         Board.ShipDistanceInformation positionInfo = new Board.ShipDistanceInformation(defender, this);
                         if (positionInfo.Range <= 1)
                         {
-                            if (Combat.SecondaryWeapon == null)
+                            if (!attacker.ShipsBumped.Contains(this))
                             {
-                                if (attacker.InPrimaryWeaponFireZone(this)) abilityIsActive = true;
-                            }
-                            else
-                            {
-                                if (Combat.SecondaryWeapon.IsShotAvailable(this)) abilityIsActive = true;
+                                if (Combat.SecondaryWeapon == null)
+                                {
+                                    if (attacker.InPrimaryWeaponFireZone(this)) abilityIsActive = true;
+                                }
+                                else
+                                {
+                                    if (Combat.SecondaryWeapon.IsShotAvailable(this)) abilityIsActive = true;
+                                }
                             }
                         }
                     }

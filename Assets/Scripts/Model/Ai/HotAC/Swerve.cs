@@ -9,6 +9,7 @@ namespace AI
     {
         protected MovementPrediction movementPrediction;
         protected List<MovementStruct> alternativeManeuvers = new List<MovementStruct>();
+        protected List<MovementStruct> failedManeuvers = new List<MovementStruct>();
 
         protected GameManagerScript Game;
 
@@ -20,7 +21,7 @@ namespace AI
             TryAlternativeMovement();
         }
 
-        protected void TryAlternativeMovement()
+        protected virtual void TryAlternativeMovement()
         {
             GenericMovement newMovementAttempt = Game.Movement.MovementFromStruct(alternativeManeuvers[0]);
             alternativeManeuvers.Remove(alternativeManeuvers[0]);
@@ -31,7 +32,7 @@ namespace AI
             movementPrediction = new MovementPrediction(newMovementAttempt, CheckSwerveAlternativePrediction);
         }
 
-        protected void CheckSwerveAlternativePrediction()
+        protected virtual void CheckSwerveAlternativePrediction()
         {
             if ((movementPrediction.AsteroidsHit.Count == 0) && (!movementPrediction.IsOffTheBoard))
             {
@@ -61,7 +62,7 @@ namespace AI
             }
         }
 
-        protected List<MovementStruct> GetAlternativeManeuvers(GenericMovement maneuver)
+        protected virtual List<MovementStruct> GetAlternativeManeuvers(GenericMovement maneuver)
         {
             List<MovementStruct> alternativeManeuvers = new List<MovementStruct>();
 
@@ -118,7 +119,7 @@ namespace AI
         {
             MovementStruct result = alternativeManeuverStruct;
 
-            if (!Selection.ThisShip.HasManeuver(result))
+            if (!Selection.ThisShip.HasManeuver(result) || (failedManeuvers.Contains(result)))
             {
                 if (result.Speed == ManeuverSpeed.Speed1)
                 {
@@ -127,10 +128,10 @@ namespace AI
                 else
                 {
                     result.SpeedInt--;
-                    if (!Selection.ThisShip.HasManeuver(result))
+                    if (!Selection.ThisShip.HasManeuver(result) || (failedManeuvers.Contains(result)))
                     {
                         result.SpeedInt--;
-                        if (!Selection.ThisShip.HasManeuver(result))
+                        if (!Selection.ThisShip.HasManeuver(result) || (failedManeuvers.Contains(result)))
                         {
                             result.SpeedInt--;  //for example, 5 bank -> 2 bank
                         }

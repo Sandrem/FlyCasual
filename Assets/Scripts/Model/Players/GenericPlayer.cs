@@ -63,6 +63,8 @@ namespace Players
         public virtual void UseDiceModifications() { }
 
         public virtual void TakeDecision() { }
+
+        public virtual void AfterShipMovementPrediction() { }
     }
 
 }

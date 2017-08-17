@@ -77,7 +77,6 @@ namespace Movement
             }
         }
 
-
         public override string ToString()
         {
             string maneuverString = "";
@@ -186,26 +185,6 @@ namespace Movement
             GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
             Game.UI.HideContextMenu();
             ProgressCurrent = 0f;
-        }
-
-        public virtual void CheckShipMovementPrediction()
-        {
-            if (Selection.ThisShip.Owner.GetType() == typeof(Players.HotacAiPlayer))
-            {
-                if (movementPrediction.AsteroidsHit.Count != 0)
-                {
-                    if (DebugManager.DebugAI) Debug.Log("AI predicts asteroid hit!");
-                    (Selection.ThisShip.Owner as Players.HotacAiPlayer).Swerve();
-                }
-                else
-                {
-                    LaunchShipMovement();
-                }
-            }
-            else
-            {
-                LaunchShipMovement();
-            }
         }
 
         public virtual void LaunchShipMovement()

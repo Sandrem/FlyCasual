@@ -109,5 +109,18 @@ namespace Players
             new AI.Swerve();
         }
 
+        public override void AfterShipMovementPrediction()
+        {
+            if (Selection.ThisShip.AssignedManeuver.movementPrediction.AsteroidsHit.Count != 0)
+            {
+                if (DebugManager.DebugAI) Debug.Log("AI predicts asteroid hit!");
+                (Selection.ThisShip.Owner as Players.HotacAiPlayer).Swerve();
+            }
+            else
+            {
+                Selection.ThisShip.AssignedManeuver.LaunchShipMovement();
+            }
+        }
+
     }
 }

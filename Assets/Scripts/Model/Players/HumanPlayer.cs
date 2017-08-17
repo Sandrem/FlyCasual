@@ -50,6 +50,11 @@ namespace Players
             Game.PrefabsList.PanelDecisions.SetActive(true);
         }
 
+        public override void AfterShipMovementPrediction()
+        {
+            Selection.ThisShip.AssignedManeuver.LaunchShipMovement();
+        }
+
     }
 
 }

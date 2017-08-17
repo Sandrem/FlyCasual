@@ -132,33 +132,16 @@ namespace Ship
             Model.transform.RotateAround(Model.transform.TransformPoint(new Vector3(0, 0, -HALF_OF_SHIPSTAND_SIZE)), Vector3.up, 180);
         }
 
-        public void RotateModelDuringTurn()
+        public void RotateModelDuringTurn(float progress)
         {
-            /*if ((currentMovementData.MovementDirection == Movement.ManeuverDirection.Forward) && (previousMovementData.Speed == 0)) return;
-            if (currentMovementData.CollisionReverting) return;
-
-            float progressCurrent = currentMovementData.CurrentProgress;
-            float progressTarget = currentMovementData.TargetProgress;
             float turningDirection = 0;
+            turningDirection = (Selection.ThisShip.AssignedManeuver.Direction == Movement.ManeuverDirection.Right) ? 1 : -1;
 
-            if (currentMovementData.MovementDirection != Movement.ManeuverDirection.Forward)
-            {
-                progressTarget += progressTarget * (1f / currentMovementData.Speed);
-                turningDirection = (currentMovementData.MovementDirection == Movement.ManeuverDirection.Right) ? 1 : -1;
-            }
-            if (previousMovementData.Speed != 0)
-            {
-                progressCurrent += progressTarget * previousMovementData.Speed;
-                progressTarget += progressTarget * previousMovementData.Speed;
-                turningDirection = (previousMovementData.MovementDirection == Movement.ManeuverDirection.Right) ? 1 : -1;
-            }
-
-            float progress = progressCurrent / progressTarget;
             if (progress > 0.5f)
             {
                 progress = 1 - progress;
             }
-            modelCenter.localEulerAngles = new Vector3(0, 0, Mathf.Lerp(0, 45 * turningDirection, progress));*/
+            modelCenter.localEulerAngles = new Vector3(0, 0, Mathf.Lerp(0, 45 * turningDirection, progress));
         }
 
         public void RotateModelDuringBarrelRoll(float progress, float turningDirection)

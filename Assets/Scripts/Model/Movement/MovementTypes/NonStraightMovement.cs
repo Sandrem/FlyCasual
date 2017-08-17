@@ -48,7 +48,7 @@ namespace Movement
                 int progressDirection = 1;
                 Selection.ThisShip.RotateAround(Selection.ThisShip.TransformPoint(new Vector3(turningAroundDistance * turningDirection, 0, 0)), turningDirection * progressDelta * progressDirection);
 
-                //Selection.ThisShip.RotateModelDuringTurn(CurrentMovementData, PreviousMovementData);
+                Selection.ThisShip.RotateModelDuringTurn((ProgressCurrent / ProgressTarget) * (1 - 0.2f*finisherTargetSuccess));
                 UpdateRotation();
             }
             else
@@ -56,7 +56,7 @@ namespace Movement
                 Vector3 progressDirection = Vector3.forward;
                 Selection.ThisShip.SetPosition(Vector3.MoveTowards(Selection.ThisShip.GetPosition(), Selection.ThisShip.GetPosition() + Selection.ThisShip.TransformDirection(progressDirection), progressDelta));
 
-                //Selection.ThisShip.RotateModelDuringTurn(CurrentMovementData, PreviousMovementData);
+                if (finisherTargetSuccess != 0) Selection.ThisShip.RotateModelDuringTurn((1 - 0.2f * finisherTargetSuccess) + (ProgressCurrent / ProgressTarget) * 0.2f);
                 UpdateRotationFinisher();
             }
 

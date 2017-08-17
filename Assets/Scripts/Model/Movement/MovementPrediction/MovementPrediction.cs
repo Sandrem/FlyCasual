@@ -24,6 +24,7 @@ namespace Movement
         public List<Collider> AsteroidsHit = new List<Collider>();
         public bool IsLandedOnAsteroid { get; private set; }
         public float SuccessfullMovementProgress { get; private set; }
+        public bool IsOffTheBoard;
 
         public MovementPrediction(GenericMovement movement, Action callBack)
         {

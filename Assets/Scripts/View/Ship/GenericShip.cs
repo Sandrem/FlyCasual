@@ -130,12 +130,16 @@ namespace Ship
             shipAllParts.Find("ShipModels/" + Type + "/ModelCenter/DamageParticles").gameObject.SetActive(isDamaged);
         }
 
-        public void PlayDestroyedParticles()
+        public void PlayDestroyedAnimSound(System.Action callBack)
         {
+            int random = Random.Range(1, 8);
+            Sounds.PlaySoundOnce("Explosion-" + random);
             shipAllParts.Find("Explosion/Explosion").GetComponent<ParticleSystem>().Play();
             shipAllParts.Find("Explosion/Debris").GetComponent<ParticleSystem>().Play();
             shipAllParts.Find("Explosion/Sparks").GetComponent<ParticleSystem>().Play();
             shipAllParts.Find("Explosion/Ring").GetComponent<ParticleSystem>().Play();
+
+            Game.Wait(1, delegate { callBack(); });
         }
 
         public void MoveUpwards(float progress)

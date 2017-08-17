@@ -86,7 +86,7 @@ public static class Selection {
         Ship.GenericShip ship = Roster.GetShipById(shipId);
         if (ship.Owner.PlayerNo == Phases.CurrentSubPhase.RequiredPlayer)
         {
-            result = Selection.TryToChangeThisShip(shipId);
+            result = TryToChangeThisShip(shipId);
         }
         else
         {

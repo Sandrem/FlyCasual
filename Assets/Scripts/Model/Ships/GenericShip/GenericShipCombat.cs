@@ -236,7 +236,11 @@ namespace Ship
         public void DestroyShip(bool forced = false)
         {
             Game.UI.AddTestLogEntry(PilotName + "\'s ship is destroyed");
+            PlayDestroyedAnimSound(delegate { CheckShipModelDestruction(forced); });
+        }
 
+        private void CheckShipModelDestruction(bool forced = false)
+        {
             if ((Phases.CurrentSubPhase.RequiredPilotSkill == PilotSkill) && (!IsAttackPerformed) && (!forced) && (Phases.CurrentPhase.GetType() == typeof(MainPhases.CombatPhase)))
             {
                 Phases.OnCombatSubPhaseRequiredPilotSkillIsChanged += PerformShipDestruction;

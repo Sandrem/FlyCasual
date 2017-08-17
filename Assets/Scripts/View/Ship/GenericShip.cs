@@ -130,6 +130,14 @@ namespace Ship
             shipAllParts.Find("ShipModels/" + Type + "/ModelCenter/DamageParticles").gameObject.SetActive(isDamaged);
         }
 
+        public void PlayDestroyedParticles()
+        {
+            shipAllParts.Find("Explosion/Explosion").GetComponent<ParticleSystem>().Play();
+            shipAllParts.Find("Explosion/Debris").GetComponent<ParticleSystem>().Play();
+            shipAllParts.Find("Explosion/Sparks").GetComponent<ParticleSystem>().Play();
+            shipAllParts.Find("Explosion/Ring").GetComponent<ParticleSystem>().Play();
+        }
+
         public void MoveUpwards(float progress)
         {
             progress = (progress > 0.5f) ? 1 - progress : progress;

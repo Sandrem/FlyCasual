@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Ship;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,7 +7,7 @@ using UnityEngine;
 namespace CriticalHitCard
 {
 
-    public class DamagedCockpit : GenericCriticalHit
+    public class DamagedCockpit : GenericCriticalHit, IModifyPilotSkill
     {
         public DamagedCockpit()
         {
@@ -28,7 +29,7 @@ namespace CriticalHitCard
 
         private void ApplyDelayedEffect()
         {
-            Host.AfterGetPilotSkill += SetPilotSkill0;
+            Host.AddPilotSkillModifier(this);
             Roster.UpdateShipStats(Host);
         }
 
@@ -38,14 +39,13 @@ namespace CriticalHitCard
             Game.UI.AddTestLogEntry("Pilot Skill is restored");
 
             host.RemoveToken(typeof(Tokens.DamagedCockpitCritToken));
-            host.AfterGetPilotSkill -= SetPilotSkill0;
+            host.RemovePilotSkillModifier(this);
             Roster.UpdateShipStats(host);
         }
 
-        private void SetPilotSkill0(ref int value)
+        public void ModifyPilotSkill(ref int pilotSkill)
         {
-            //BUG: No activations at all
-            value = 0;
+            pilotSkill = 0;
         }
     }
 

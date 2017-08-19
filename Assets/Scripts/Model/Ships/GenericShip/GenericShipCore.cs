@@ -5,6 +5,11 @@ using UnityEngine;
 namespace Ship
 {
 
+    public interface IModifyPilotSkill
+    {
+        void ModifyPilotSkill(ref int pilotSkill);
+    }
+
     public partial class GenericShip
     {
         protected GameManagerScript Game;
@@ -27,13 +32,16 @@ namespace Ship
         public int Shields { get; protected set; }
         public int Cost { get; protected set; }
 
+        protected List<IModifyPilotSkill> PilotSkillModifiers;
+
         private int pilotSkill;
         public int PilotSkill
         {
             get
             {
                 int result = pilotSkill;
-                if (AfterGetPilotSkill!=null) AfterGetPilotSkill(ref result);
+                if (PilotSkillModifiers.Count > 0) PilotSkillModifiers[0].ModifyPilotSkill(ref result);
+                
                 result = Mathf.Clamp(result, 0, 12);
                 return result;
             }
@@ -42,6 +50,16 @@ namespace Ship
                 value = Mathf.Clamp(value, 0, 12);
                 pilotSkill = value;
             }
+        }
+
+        public void AddPilotSkillModifier(IModifyPilotSkill modifier)
+        {
+            PilotSkillModifiers.Insert(0, modifier);
+        }
+
+        public void RemovePilotSkillModifier(IModifyPilotSkill modifier)
+        {
+            PilotSkillModifiers.Remove(modifier);
         }
 
         private int agility;
@@ -71,6 +89,7 @@ namespace Ship
             Maneuvers = new Dictionary<string, Movement.ManeuverColor>();
             BuiltInSlots = new Dictionary<Upgrade.UpgradeSlot, int>();
             InstalledUpgrades = new List<KeyValuePair<Upgrade.UpgradeSlot, Upgrade.GenericUpgrade>>();
+            PilotSkillModifiers = new List<IModifyPilotSkill>();
 
             AddCoreUpgradeSlots();
         }

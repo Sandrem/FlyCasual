@@ -40,7 +40,31 @@ namespace SubPhases
             Players.PlayerNo playerNo = Players.PlayerNo.Player1;
             if (isFriendlyAllowed) playerNo = Phases.CurrentPhasePlayer;
             if (isEnemyAllowed) playerNo = Roster.AnotherPlayer(Phases.CurrentPhasePlayer);
-            Roster.HighlightShipsFiltered(playerNo, -1);
+            Roster.HighlightShipsFiltered(playerNo, -1, GenerateListOfExceptions());
+        }
+
+        private List<Ship.GenericShip> GenerateListOfExceptions()
+        {
+            List<Ship.GenericShip> exceptShips = new List<Ship.GenericShip>();
+
+            if (Selection.ThisShip != null)
+            {
+                if (isThisAllowed) exceptShips.Add(Selection.ThisShip);
+
+                foreach (var ship in Roster.AllShips)
+                {
+                    if ((isFriendlyAllowed && ship.Value.Owner.PlayerNo == Selection.ThisShip.Owner.PlayerNo) || (isEnemyAllowed && ship.Value.Owner.PlayerNo != Selection.ThisShip.Owner.PlayerNo))
+                    {
+                        Board.ShipDistanceInformation distanceInfo = new Board.ShipDistanceInformation(Selection.ThisShip, ship.Value);
+                        if ((distanceInfo.Range < minRange) || (distanceInfo.Range > maxRange))
+                        {
+                            exceptShips.Add(ship.Value);
+                        }
+                    }
+                }
+            }
+
+            return exceptShips;
         }
 
         public override void Next()

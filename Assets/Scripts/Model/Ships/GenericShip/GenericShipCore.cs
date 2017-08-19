@@ -55,11 +55,13 @@ namespace Ship
         public void AddPilotSkillModifier(IModifyPilotSkill modifier)
         {
             PilotSkillModifiers.Insert(0, modifier);
+            Roster.UpdateShipStats(this);
         }
 
         public void RemovePilotSkillModifier(IModifyPilotSkill modifier)
         {
             PilotSkillModifiers.Remove(modifier);
+            Roster.UpdateShipStats(this);
         }
 
         private int agility;

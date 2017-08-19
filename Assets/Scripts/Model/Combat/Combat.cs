@@ -82,6 +82,7 @@ public static partial class Combat
         {
             if (Roster.GetPlayer(Phases.CurrentPhasePlayer).GetType() == typeof(Players.HumanPlayer))
             {
+                //TODO: except non-legal targets, bupmed for example, biggs?
                 Roster.HighlightShipsFiltered(Roster.AnotherPlayer(Phases.CurrentPhasePlayer));
                 Game.UI.HighlightNextButton();
             }

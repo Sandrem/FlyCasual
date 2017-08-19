@@ -238,6 +238,8 @@ namespace Ship
         public void DestroyShip(Action callBack, bool forced = false)
         {
             Game.UI.AddTestLogEntry(PilotName + "\'s ship is destroyed");
+
+            IsDestroyed = true;
             PlayDestroyedAnimSound(delegate { CheckShipModelDestruction(forced); callBack(); });
         }
 
@@ -255,13 +257,10 @@ namespace Ship
 
         private void PerformShipDestruction()
         {
-            if (!IsDestroyed)
-            {
-                Roster.DestroyShip(this.GetTag());
+            Phases.OnCombatSubPhaseRequiredPilotSkillIsChanged -= PerformShipDestruction;
+            Roster.DestroyShip(this.GetTag());
 
-                if (OnDestroyed != null) OnDestroyed();
-                IsDestroyed = true;
-            }
+            if (OnDestroyed != null) OnDestroyed();
         }
 
         public List<CriticalHitCard.GenericCriticalHit> GetAssignedCritCards()

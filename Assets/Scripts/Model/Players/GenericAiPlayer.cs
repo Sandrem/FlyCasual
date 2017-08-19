@@ -161,35 +161,38 @@ namespace Players
 
             foreach (var shipHolder in Roster.GetPlayer(Roster.AnotherPlayer(thisShip.Owner.PlayerNo)).Ships)
             {
-                if (ignoreCollided)
+                if (!shipHolder.Value.IsDestroyed)
                 {
-                    if (thisShip.LastShipCollision != null)
+                    if (ignoreCollided)
                     {
-                        if (thisShip.LastShipCollision.ShipId == shipHolder.Value.ShipId)
+                        if (thisShip.LastShipCollision != null)
+                        {
+                            if (thisShip.LastShipCollision.ShipId == shipHolder.Value.ShipId)
+                            {
+                                continue;
+                            }
+                        }
+                        if (shipHolder.Value.LastShipCollision != null)
+                        {
+                            if (shipHolder.Value.LastShipCollision.ShipId == thisShip.ShipId)
+                            {
+                                continue;
+                            }
+                        }
+                    }
+
+                    if (inArcAndRange)
+                    {
+                        Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(thisShip, shipHolder.Value);
+                        if ((shotInfo.Range > 3) || (!shotInfo.InArc))
                         {
                             continue;
                         }
                     }
-                    if (shipHolder.Value.LastShipCollision != null)
-                    {
-                        if (shipHolder.Value.LastShipCollision.ShipId == thisShip.ShipId)
-                        {
-                            continue;
-                        }
-                    }
-                }
 
-                if (inArcAndRange)
-                {
-                    Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(thisShip, shipHolder.Value);
-                    if ((shotInfo.Range > 3) || (!shotInfo.InArc))
-                    {
-                        continue;
-                    }
+                    float distance = Vector3.Distance(thisShip.GetCenter(), shipHolder.Value.GetCenter());
+                    results.Add(shipHolder.Value, distance);
                 }
-
-                float distance = Vector3.Distance(thisShip.GetCenter(), shipHolder.Value.GetCenter());
-                results.Add(shipHolder.Value, distance);
             }
             results = results.OrderBy(n => n.Value).ToDictionary(n => n.Key, n => n.Value);
 

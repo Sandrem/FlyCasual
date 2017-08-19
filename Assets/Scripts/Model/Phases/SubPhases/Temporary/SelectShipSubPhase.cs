@@ -121,7 +121,7 @@ namespace SubPhases
                 TargetShip = Selection.ThisShip;
                 Game.UI.HideNextButton();
                 finishAction.Invoke();
-                Phases.FinishSubPhase(this.GetType());
+                //Phases.FinishSubPhase(this.GetType());
                 CallBack();
             }
             else
@@ -142,7 +142,7 @@ namespace SubPhases
                 Game.UI.HideNextButton();
                 MovementTemplates.ShowRange(Selection.ThisShip, ship);
                 finishAction.Invoke();
-                Phases.FinishSubPhase(this.GetType());
+                //Phases.FinishSubPhase(this.GetType());
                 CallBack();
             }
             else

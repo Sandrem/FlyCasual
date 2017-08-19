@@ -40,11 +40,18 @@ namespace UpgradesList
         private void SwarmTacticsPilotAbility(object sender, System.EventArgs e)
         {
             Selection.ThisShip = Host;
-            Phases.StartTemporarySubPhase(
-                "Select target for Swarm Tactics",
-                typeof(SubPhases.SelectSwarmTacticsTargetSubPhase),
-                Triggers.FinishTrigger
-            );
+            if (Host.Owner.Ships.Count > 1)
+            {
+                Phases.StartTemporarySubPhase(
+                    "Select target for Swarm Tactics",
+                    typeof(SubPhases.SelectSwarmTacticsTargetSubPhase),
+                    Triggers.FinishTrigger
+                );
+            }
+            else
+            {
+                Triggers.FinishTrigger();
+            }
         }
 
     }

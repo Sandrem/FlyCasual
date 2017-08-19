@@ -72,6 +72,8 @@ namespace SubPhases
             MovementTemplates.ReturnRangeRuler();
         }
 
+        protected override void RevertSubPhase() { }
+
         private class SwarmTacticsPilotSkillModifier : Ship.IModifyPilotSkill
         {
             private Ship.GenericShip host;

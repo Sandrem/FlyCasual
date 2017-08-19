@@ -81,22 +81,13 @@ namespace SubPhases
 
             if (isFriendlyAllowed)
             {
-                Board.ShipDistanceInformation distanceInfo = new Board.ShipDistanceInformation(Selection.ThisShip, ship);
-                int range = distanceInfo.Range;
-
-                if ((range >= minRange) && (range <= maxRange))
+                if (ship == Selection.ThisShip)
                 {
-                    TargetShip = ship;
-                    Game.UI.HideNextButton();
-                    MovementTemplates.ShowRange(Selection.ThisShip, ship);
-                    finishAction.Invoke();
-                    Phases.FinishSubPhase(this.GetType());
-                    CallBack();
+                    TryToSelectThisShip();
                 }
                 else
                 {
-                    Messages.ShowErrorToHuman("Ship is outside of range");
-                    RevertSubPhase();
+                    TrySelectShipByRange(ship);
                 }
             }
             else
@@ -113,23 +104,7 @@ namespace SubPhases
 
             if (isEnemyAllowed)
             {
-                Board.ShipDistanceInformation distanceInfo = new Board.ShipDistanceInformation(Selection.ThisShip, anotherShip);
-                int range = distanceInfo.Range;
-
-                if ( (range >= minRange) && (range <= maxRange))
-                {
-                    Game.UI.HideNextButton();
-                    TargetShip = anotherShip;
-                    MovementTemplates.ShowRange(Selection.ThisShip, anotherShip);
-                    finishAction.Invoke();
-                    Phases.FinishSubPhase(this.GetType());
-                    CallBack();
-                }
-                else
-                {
-                    Messages.ShowErrorToHuman("Ship is outside of range");
-                    RevertSubPhase();
-                }
+                TrySelectShipByRange(anotherShip);
             }
             else
             {
@@ -137,6 +112,44 @@ namespace SubPhases
                 RevertSubPhase();
             }
             return result;
+        }
+
+        private void TryToSelectThisShip()
+        {
+            if (isThisAllowed)
+            {
+                TargetShip = Selection.ThisShip;
+                Game.UI.HideNextButton();
+                finishAction.Invoke();
+                Phases.FinishSubPhase(this.GetType());
+                CallBack();
+            }
+            else
+            {
+                Messages.ShowErrorToHuman("Another ship should be selected");
+                RevertSubPhase();
+            }
+        }
+
+        private void TrySelectShipByRange(Ship.GenericShip ship)
+        {
+            Board.ShipDistanceInformation distanceInfo = new Board.ShipDistanceInformation(Selection.ThisShip, ship);
+            int range = distanceInfo.Range;
+
+            if ((range >= minRange) && (range <= maxRange))
+            {
+                TargetShip = ship;
+                Game.UI.HideNextButton();
+                MovementTemplates.ShowRange(Selection.ThisShip, ship);
+                finishAction.Invoke();
+                Phases.FinishSubPhase(this.GetType());
+                CallBack();
+            }
+            else
+            {
+                Messages.ShowErrorToHuman("Ship is outside of range");
+                RevertSubPhase();
+            }
         }
 
         protected virtual void RevertSubPhase()

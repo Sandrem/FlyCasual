@@ -24,13 +24,13 @@ namespace Ship
                 AddUpgradeSlot(Upgrade.UpgradeSlot.Crew);
 
                 AssignTemporaryManeuvers();
-                HotacManeuverTable = new AI.XWingTable();
+                HotacManeuverTable = new AI.HWK290Table();
 
                 factions.Add(Faction.Rebels);
                 faction = Faction.Rebels;
 
                 SoundShotsPath = "XWing-Laser";
-                ShotsCount = 3;
+                ShotsCount = 1;
 
                 for (int i = 1; i < 4; i++)
                 {
@@ -59,14 +59,14 @@ namespace Ship
                 Maneuvers.Add("2.R.B", ManeuverColor.White);
                 Maneuvers.Add("2.R.T", ManeuverColor.White);
                 Maneuvers.Add("2.F.R", ManeuverColor.None);
-                Maneuvers.Add("3.L.T", ManeuverColor.White);
-                Maneuvers.Add("3.L.B", ManeuverColor.White);
+                Maneuvers.Add("3.L.T", ManeuverColor.None);
+                Maneuvers.Add("3.L.B", ManeuverColor.Red);
                 Maneuvers.Add("3.F.S", ManeuverColor.White);
-                Maneuvers.Add("3.R.B", ManeuverColor.White);
-                Maneuvers.Add("3.R.T", ManeuverColor.White);
+                Maneuvers.Add("3.R.B", ManeuverColor.Red);
+                Maneuvers.Add("3.R.T", ManeuverColor.None);
                 Maneuvers.Add("3.F.R", ManeuverColor.None);
-                Maneuvers.Add("4.F.S", ManeuverColor.White);
-                Maneuvers.Add("4.F.R", ManeuverColor.Red);
+                Maneuvers.Add("4.F.S", ManeuverColor.Red);
+                Maneuvers.Add("4.F.R", ManeuverColor.None);
                 Maneuvers.Add("5.F.S", ManeuverColor.None);
                 Maneuvers.Add("5.F.R", ManeuverColor.None);
             }

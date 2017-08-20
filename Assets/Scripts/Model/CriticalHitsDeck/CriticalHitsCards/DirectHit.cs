@@ -21,9 +21,7 @@ namespace CriticalHitCard
             Game.UI.AddTestLogEntry("Additional hull damage");
             Host.AssignToken(new Tokens.DirectHitCritToken());
 
-            Host.DecreaseHullValue();
-
-            Triggers.FinishTrigger();
+            Host.DecreaseHullValue(Triggers.FinishTrigger);
         }
 
         public override void DiscardEffect(Ship.GenericShip host)

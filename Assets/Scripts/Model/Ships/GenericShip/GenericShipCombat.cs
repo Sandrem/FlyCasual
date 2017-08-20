@@ -178,8 +178,7 @@ namespace Ship
                 if (Combat.CurrentCriticalHitCard != null)
                 {
                     AssignedCritCards.Add(Combat.CurrentCriticalHitCard);
-                    DecreaseHullValue();
-                    Combat.CurrentCriticalHitCard.AssignCrit(this);
+                    DecreaseHullValue(delegate { Combat.CurrentCriticalHitCard.AssignCrit(this); });                    
                 }
                 else
                 {
@@ -189,21 +188,20 @@ namespace Ship
             else
             {
                 AssignedDamageCards.Add(CriticalHitsDeck.GetCritCard());
-                DecreaseHullValue();
-                Triggers.FinishTrigger();
+                DecreaseHullValue(Triggers.FinishTrigger);
             }
 
             AssignedDamageDiceroll.CancelHits(1);
         }
 
-        public void DecreaseHullValue()
+        public void DecreaseHullValue(Action callBack)
         {
             Hull--;
             Hull = Mathf.Max(Hull, 0);
 
             CallAfterAssignedDamageIsChanged();
 
-            IsHullDestroyedCheck();
+            IsHullDestroyedCheck(callBack);
         }
 
         public void CallAfterAssignedDamageIsChanged()
@@ -225,18 +223,24 @@ namespace Ship
             Triggers.FinishTrigger();
         }
 
-        public void IsHullDestroyedCheck()
+        public void IsHullDestroyedCheck(Action callBack)
         {
-            if (Hull == 0)
+            if (Hull == 0 && !IsDestroyed)
             {
-                DestroyShip();
+                DestroyShip(callBack);
+            }
+            else
+            {
+                callBack();
             }
         }
 
-        public void DestroyShip(bool forced = false)
+        public void DestroyShip(Action callBack, bool forced = false)
         {
             Game.UI.AddTestLogEntry(PilotName + "\'s ship is destroyed");
-            PlayDestroyedAnimSound(delegate { CheckShipModelDestruction(forced); });
+
+            IsDestroyed = true;
+            PlayDestroyedAnimSound(delegate { CheckShipModelDestruction(forced); callBack(); });
         }
 
         private void CheckShipModelDestruction(bool forced = false)
@@ -253,13 +257,10 @@ namespace Ship
 
         private void PerformShipDestruction()
         {
-            if (!IsDestroyed)
-            {
-                Roster.DestroyShip(this.GetTag());
+            Phases.OnCombatSubPhaseRequiredPilotSkillIsChanged -= PerformShipDestruction;
+            Roster.DestroyShip(this.GetTag());
 
-                if (OnDestroyed != null) OnDestroyed();
-                IsDestroyed = true;
-            }
+            if (OnDestroyed != null) OnDestroyed();
         }
 
         public List<CriticalHitCard.GenericCriticalHit> GetAssignedCritCards()

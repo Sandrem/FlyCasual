@@ -222,7 +222,6 @@ public static partial class Combat
 
     public static void ConfirmDiceResults()
     {
-        Debug.Log("ConfirmDiceResults is called");
         switch (AttackStep)
         {
             case CombatStep.Attack:

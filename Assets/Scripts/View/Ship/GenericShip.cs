@@ -71,14 +71,16 @@ namespace Ship
             string materialName = PilotName;
             materialName = materialName.Replace(' ', '_');
             materialName = materialName.Replace('"', '_');
-            Material shipBaseInsert = (Material)Resources.Load("ShipStandInsert/Materials/" + materialName, typeof(Material));
+            string pathToResource = "ShipStandInsert/" + Type + "/Materials/" + materialName;
+
+            Material shipBaseInsert = (Material)Resources.Load(pathToResource, typeof(Material));
             if (shipBaseInsert != null)
             {
                 shipAllParts.Find("ShipStand/ShipStandInsert/ShipStandInsertImage/default").GetComponent<Renderer>().material = shipBaseInsert;
             }
             else
             {
-                Debug.Log("Cannot find: " + materialName);
+                Debug.Log("Cannot find: " + pathToResource);
             }
             
         }

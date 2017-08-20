@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-// BUG: Cannot start new subphases from free action subphase
-// TODO: Move from end of activation to after action is taken
+// Second->First: Two same actions
+// Triggers are empty
 
 namespace Ship
 {
@@ -14,8 +14,6 @@ namespace Ship
 
             public DarthVader() : base()
             {
-                IsHidden = true;
-
                 PilotName = "Darth Vader";
                 ImageUrl = "https://vignette1.wikia.nocookie.net/xwing-miniatures/images/f/f7/Darth_Vader.png";
                 IsUnique = true;
@@ -33,17 +31,36 @@ namespace Ship
 
             private void DoSecondAction(GenericShip ship)
             {
-                if (!Selection.ThisShip.IsSkipsActionSubPhase)
+                if (!IsSkipsActionSubPhase)
                 {
-                    /*Triggers.RegisterTrigger(
-                        new Trigger() {
-                            Name = "Darth Vader",
-                            TriggerOwner = ship.Owner.PlayerNo,
-                            TriggerType = TriggerTypes.OnActionSubPhaseStart,
-                            EventHandler = ship.Owner.PerformAction
+                    Triggers.RegisterTrigger(
+                        new Trigger()
+                        {
+                            Name = "Darth Vader: Second action",
+                            TriggerOwner = Owner.PlayerNo,
+                            TriggerType = TriggerTypes.OnFreeActionPlanned,
+                            EventHandler = PerformFreeAction
                         }
-                    );*/
+                    );
+
+                    MovementTemplates.ReturnRangeRuler();
+
+                    Triggers.ResolveTriggers(TriggerTypes.OnFreeActionPlanned, delegate { Triggers.FinishTrigger(); });
                 }
+            }
+
+            private void PerformFreeAction(object sender, System.EventArgs e)
+            {
+                GenerateAvailableActionsList();
+                List<ActionsList.GenericAction> actions = Selection.ThisShip.GetAvailableActionsList();
+
+                AskPerformFreeAction(
+                    actions,
+                    delegate {
+                        Phases.FinishSubPhase(typeof(SubPhases.FreeActionSubPhase));
+                        Triggers.FinishTrigger();
+                    }
+                );
             }
 
         }

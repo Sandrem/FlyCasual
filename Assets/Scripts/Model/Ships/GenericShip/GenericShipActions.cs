@@ -38,8 +38,6 @@ namespace Ship
             if (AfterActionIsPerformed != null) AfterActionIsPerformed(this, actionType);
         }
 
-        
-
         private void AddBuiltInActions()
         {
             BuiltInActions.Add(new ActionsList.FocusAction());

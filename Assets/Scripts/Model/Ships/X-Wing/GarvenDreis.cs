@@ -27,7 +27,7 @@ namespace Ship
             {
                 Triggers.RegisterTrigger(new Trigger()
                 {
-                    Name = "Garven Dreis ability",
+                    Name = "Garven Dreis' ability",
                     TriggerOwner = ship.Owner.PlayerNo,
                     TriggerType = TriggerTypes.OnTokenIsSpent,
                     EventHandler = StartSubphaseForGarvenDreisPilotAbility
@@ -40,7 +40,7 @@ namespace Ship
                 if (Owner.Ships.Count > 1)
                 {
                     Phases.StartTemporarySubPhase(
-                        "Select target for Garven Dreis ability",
+                        "Select target for Garven Dreis' ability",
                         typeof(SubPhases.GarvenDreisAbilityTargetSubPhase),
                         delegate {
                             Phases.FinishSubPhase(typeof(SubPhases.GarvenDreisAbilityTargetSubPhase));

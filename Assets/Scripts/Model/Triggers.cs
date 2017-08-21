@@ -22,7 +22,8 @@ public enum TriggerTypes
     OnFaceupCritCardReadyToBeDealt,
     OnDamageIsDealt,
     OnFaceupCritCardIsDealt,
-    OnMajorExplosionCrit
+    OnMajorExplosionCrit,
+    OnAbilityTargetIsSelected
 }
 
 public class Trigger

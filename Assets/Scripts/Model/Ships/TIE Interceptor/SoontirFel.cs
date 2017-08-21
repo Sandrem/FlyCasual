@@ -33,7 +33,7 @@ namespace Ship
                 {
                     Triggers.RegisterTrigger(new Trigger()
                     {
-                        Name = "Soontir Fell: Assign Focus",
+                        Name = "Soontir Fel: Assign Focus",
                         TriggerOwner = ship.Owner.PlayerNo,
                         TriggerType = TriggerTypes.OnTokenIsAssigned,
                         EventHandler = AskAssignFocus
@@ -46,7 +46,7 @@ namespace Ship
                 if (!alwaysUseAbility)
                 {
                     Phases.StartTemporarySubPhase(
-                        "Soontir Fell Decision",
+                        "Soontir Fel's decision",
                         typeof(SubPhases.SoontirFelDecisionSubPhase),
                         delegate () { Triggers.FinishTrigger(); }
                     );

@@ -6,13 +6,13 @@ namespace Ship
 {
     namespace TIEInterceptor
     {
-        public class SoontirFell : TIEInterceptor
+        public class SoontirFel : TIEInterceptor
         {
             public bool alwaysUseAbility;
 
-            public SoontirFell() : base()
+            public SoontirFel() : base()
             {
-                PilotName = "Soontir Fell";
+                PilotName = "Soontir Fel";
                 ImageUrl = "https://vignette4.wikia.nocookie.net/xwing-miniatures/images/c/c2/Alpha_Squadron_Pilot.png";
                 PilotSkill = 9;
                 Cost = 27;
@@ -24,10 +24,10 @@ namespace Ship
             public override void InitializePilot()
             {
                 base.InitializePilot();
-                AfterTokenIsAssigned += SoontirFellAbility;
+                AfterTokenIsAssigned += SoontirFelAbility;
             }
 
-            public void SoontirFellAbility(GenericShip ship, System.Type tokenType)
+            public void SoontirFelAbility(GenericShip ship, System.Type tokenType)
             {
                 if (tokenType == typeof(Tokens.StressToken))
                 {
@@ -47,7 +47,7 @@ namespace Ship
                 {
                     Phases.StartTemporarySubPhase(
                         "Soontir Fell Decision",
-                        typeof(SubPhases.SoontirFellDecisionSubPhase),
+                        typeof(SubPhases.SoontirFelDecisionSubPhase),
                         delegate () { Triggers.FinishTrigger(); }
                     );
                 }
@@ -63,12 +63,12 @@ namespace Ship
 namespace SubPhases
 {
 
-    public class SoontirFellDecisionSubPhase : DecisionSubPhase
+    public class SoontirFelDecisionSubPhase : DecisionSubPhase
     {
 
         public override void Prepare()
         {
-            infoText = "Soontir Fell: Assign Focus token?";
+            infoText = "Soontir Fel: Assign Focus token?";
 
             AddDecision("Yes", AssignToken);
             AddDecision("No", NotAssignToken);
@@ -89,7 +89,7 @@ namespace SubPhases
 
         private void AlwaysAssignToken(object sender, System.EventArgs e)
         {
-            (Selection.ThisShip as Ship.TIEInterceptor.SoontirFell).alwaysUseAbility = true;
+            (Selection.ThisShip as Ship.TIEInterceptor.SoontirFel).alwaysUseAbility = true;
             Selection.ThisShip.AssignToken(new Tokens.FocusToken(), ConfirmDecision);
         }
 

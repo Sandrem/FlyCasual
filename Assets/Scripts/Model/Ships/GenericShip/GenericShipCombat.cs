@@ -142,6 +142,21 @@ namespace Ship
             return result;
         }
 
+        public bool TryDiscardFaceDownDamageCard()
+        {
+            bool result = false;
+
+            if (AssignedDamageCards.Count != 0)
+            {
+                result = true;
+                int random = UnityEngine.Random.Range(0, AssignedDamageCards.Count);
+                AssignedDamageCards.RemoveAt(random);
+                Hull++;
+                AfterAssignedDamageIsChanged(this);
+            }
+            return result;
+        }
+
         // DAMAGE
 
         public void SufferDamage(object sender, EventArgs e)

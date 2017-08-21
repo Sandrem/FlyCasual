@@ -33,6 +33,7 @@ namespace CriticalHitCard
             host.RemoveToken(typeof(Tokens.ShakenPilotCritToken));
 
             host.AfterGetManeuverAvailablity -= CannotBeAssignedStraightManeuvers;
+            Host.OnMovementFinish -= DiscardEffect;
         }
 
         private void CannotBeAssignedStraightManeuvers(Ship.GenericShip ship, ref Movement.MovementStruct movement)

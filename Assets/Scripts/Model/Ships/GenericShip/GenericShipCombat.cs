@@ -157,6 +157,13 @@ namespace Ship
             return result;
         }
 
+        public void FlipFacedownFaceupDamageCard(CriticalHitCard.GenericCriticalHit critCard)
+        {
+            critCard.DiscardEffect(this);
+            AssignedCritCards.Remove(critCard);
+            if (Owner.GetType() == typeof(Players.HumanPlayer)) Messages.ShowInfoToHuman("Critical damage card \"" + critCard.Name + "\" is flipped facedown");
+        }
+
         // DAMAGE
 
         public void SufferDamage(object sender, EventArgs e)

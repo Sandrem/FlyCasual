@@ -39,7 +39,7 @@ namespace UpgradesList
                 if (randomValue > 5)
                 {
                     // Cannot be used now
-                    Actions.AssignTargetLockToPair(Host, Selection.AnotherShip);
+                    //Actions.AssignTargetLockToPair(Host, Selection.AnotherShip);
                 }
 
             }

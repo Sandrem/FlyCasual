@@ -96,14 +96,12 @@ namespace SubPhases
 
         private void TrySelectTargetLock()
         {
-            if (Actions.AssignTargetLockToPair(Selection.ThisShip, TargetShip))
-            {
-                Phases.FinishSubPhase(typeof(SelectTargetLockSubPhase));
-            }
-            else
-            {
-                RevertSubPhase();
-            }
+            Actions.AssignTargetLockToPair(
+                Selection.ThisShip,
+                TargetShip,
+                delegate { Phases.FinishSubPhase(typeof(SelectTargetLockSubPhase)); },
+                RevertSubPhase
+            );
         }
 
         protected override void RevertSubPhase()

@@ -116,7 +116,7 @@ public static partial class Triggers
         if (DebugManager.DebugTriggers) Debug.Log("Triggers are resolved: " + triggerType);
         StackLevel currentLevel = GetCurrentLevel();
 
-        if (currentLevel == null)
+        if (currentLevel == null || currentLevel.IsActive)
         {
             CreateNewLevelOfStack(callBack);
             currentLevel = GetCurrentLevel();

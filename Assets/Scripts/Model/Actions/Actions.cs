@@ -17,10 +17,8 @@ public static partial class Actions {
         Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
     }
 
-    public static bool AssignTargetLockToPair(Ship.GenericShip thisShip, Ship.GenericShip targetShip)
+    public static void AssignTargetLockToPair(Ship.GenericShip thisShip, Ship.GenericShip targetShip, Action successCallback, Action failureCallback)
     {
-        bool result = false;
-
         if (Letters.Count == 0) InitializeTargetLockLetters();
 
         ShipDistanceInformation distanceInfo = new ShipDistanceInformation(thisShip, targetShip);
@@ -45,17 +43,14 @@ public static partial class Actions {
             tokenRed.Letter = letter;
             TakeTargetLockLetter(letter);
 
-            Selection.ThisShip.AssignToken(tokenBlue);
-            targetShip.AssignToken(tokenRed);
-
-            result = true;
+            targetShip.AssignToken(tokenRed, delegate { } );
+            Selection.ThisShip.AssignToken(tokenBlue, successCallback);
         }
         else
         {
             Messages.ShowErrorToHuman("Target is out of range of Target Lock");
+            failureCallback();
         }
-
-        return result;
     }
 
     private static void InitializeTargetLockLetters()

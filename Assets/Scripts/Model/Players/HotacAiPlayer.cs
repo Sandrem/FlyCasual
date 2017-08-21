@@ -20,23 +20,36 @@ namespace Players
         {
             if (inDebug) Debug.Log("=== " + ship.PilotName + " (" + ship.ShipId + ") ===");
 
+            bool isTargetLockPerformed = false;
+
             Ship.GenericShip anotherShip = FindNearestEnemyShip(ship, ignoreCollided: true, inArcAndRange: true);
             if (anotherShip == null) anotherShip = FindNearestEnemyShip(ship, ignoreCollided: true);
             if (anotherShip == null) anotherShip = FindNearestEnemyShip(ship);
             if (inDebug) Debug.Log("Nearest enemy is " + anotherShip.PilotName + " (" + anotherShip.ShipId + ")");
+
+            ship.AssignedManeuver = ship.HotacManeuverTable.GetManeuver(ship, anotherShip);
 
             ship.GenerateAvailableActionsList();
             foreach (var action in ship.GetAvailableActionsList())
             {
                 if (action.GetType() == typeof(ActionsList.TargetLockAction))
                 {
-                    Actions.AssignTargetLockToPair(ship, anotherShip);
+                    isTargetLockPerformed = true;
+                    Actions.AssignTargetLockToPair(
+                        ship,
+                        anotherShip,
+                        delegate { PerformManeuverOfShip(ship); },
+                        delegate { PerformManeuverOfShip(ship); }
+                    );
                     break;
                 }
             }
 
-            ship.AssignedManeuver = ship.HotacManeuverTable.GetManeuver(ship, anotherShip);
-            PerformManeuverOfShip(ship);
+            if (!isTargetLockPerformed)
+            {
+                PerformManeuverOfShip(ship);
+            }
+            
         }
 
         public override void PerformAction()

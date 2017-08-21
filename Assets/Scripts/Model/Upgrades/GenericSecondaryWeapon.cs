@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -27,7 +28,7 @@ namespace Upgrade
             return AttackValue;
         }
 
-        public virtual void PayAttackCost()
+        public virtual void PayAttackCost(Action callBack)
         {
 
         }

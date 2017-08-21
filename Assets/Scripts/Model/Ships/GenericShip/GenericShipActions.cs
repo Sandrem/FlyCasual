@@ -336,10 +336,12 @@ namespace Ship
             }
         }
 
-        public void SpendToken(System.Type type, char letter = ' ')
+        public void SpendToken(System.Type type, Action callBack, char letter = ' ')
         {
             RemoveToken(type, letter);
             if (AfterTokenIsSpent != null) AfterTokenIsSpent(this, type);
+
+            Triggers.ResolveTriggers(TriggerTypes.OnTokenIsSpent, callBack);
         }
 
         public List<Tokens.GenericToken> GetAssignedTokens()

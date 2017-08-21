@@ -94,6 +94,7 @@ namespace SubPhases
             Triggers.ResolveTriggers(TriggerTypes.OnFreeActionPlanned, delegate {
                 Phases.FinishSubPhase(typeof(SelectSquadLeaderTargetSubPhase));
                 Triggers.FinishTrigger();
+                CallBack();
             });
         }
 

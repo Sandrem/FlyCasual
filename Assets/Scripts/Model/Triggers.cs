@@ -17,12 +17,12 @@ public enum TriggerTypes
     OnFreeActionPlanned,
     OnFreeAction,
     OnTokenIsAssigned,
+    OnTokenIsSpent,
     OnCombatPhaseStart,
     OnFaceupCritCardReadyToBeDealt,
     OnDamageIsDealt,
     OnFaceupCritCardIsDealt,
-    OnMajorExplosionCrit,
-    OnPilotAbility
+    OnMajorExplosionCrit
 }
 
 public class Trigger

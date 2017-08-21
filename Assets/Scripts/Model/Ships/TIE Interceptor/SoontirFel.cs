@@ -35,7 +35,7 @@ namespace Ship
                     {
                         Name = "Soontir Fell: Assign Focus",
                         TriggerOwner = ship.Owner.PlayerNo,
-                        TriggerType = TriggerTypes.OnPilotAbility,
+                        TriggerType = TriggerTypes.OnTokenIsAssigned,
                         EventHandler = AskAssignFocus
                     });
                 }

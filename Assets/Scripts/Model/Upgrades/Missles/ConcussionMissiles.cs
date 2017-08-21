@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -55,13 +56,13 @@ namespace UpgradesList
             return result;
         }
 
-        public override void PayAttackCost()
+        public override void PayAttackCost(Action callBack)
         {
-            char letter = Actions.GetTargetLocksLetterPair(Combat.Attacker, Combat.Defender);
+            /*char letter = Actions.GetTargetLocksLetterPair(Combat.Attacker, Combat.Defender);
             Combat.Attacker.SpendToken(typeof(Tokens.BlueTargetLockToken), letter);
             Combat.Defender.RemoveToken(typeof(Tokens.RedTargetLockToken), letter);
 
-            Discard();
+            Discard();*/
         }
 
     }

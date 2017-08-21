@@ -99,9 +99,7 @@ public static partial class Combat
         if (DebugManager.DebugPhases) Debug.Log("Attack is started: " + attacker + " vs " + defender);
         Attacker = attacker;
         Defender = defender;
-        InitializeAttack();
-
-        AttackDiceRoll();
+        InitializeAttack(AttackDiceRoll);
     }
 
     public static void CallPerformAttack()
@@ -109,14 +107,21 @@ public static partial class Combat
         PerformAttack(Selection.ThisShip, Selection.AnotherShip);
     }
 
-    private static void InitializeAttack()
+    private static void InitializeAttack(Action callBack)
     {
         Roster.AllShipsHighlightOff();
 
         AttackStep = CombatStep.Attack;
         CallAttackStartEvents();
         Selection.ActiveShip = Attacker;
-        if (SecondaryWeapon != null) SecondaryWeapon.PayAttackCost();
+        if (SecondaryWeapon != null)
+        {
+            SecondaryWeapon.PayAttackCost(callBack);
+        }
+        else
+        {
+            callBack();
+        }
     }
 
     private static void AttackDiceRoll()

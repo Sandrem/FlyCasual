@@ -19,12 +19,11 @@ namespace CriticalHitCard
         {
             Messages.ShowInfo("Cannot be assigned straight maneuvers");
             Game.UI.AddTestLogEntry("Cannot be assigned straight maneuvers");
-            Host.AssignToken(new Tokens.ShakenPilotCritToken());
 
             Host.AfterGetManeuverAvailablity += CannotBeAssignedStraightManeuvers;
             Host.OnMovementFinish += DiscardEffect;
 
-            Triggers.FinishTrigger();
+            Host.AssignToken(new Tokens.ShakenPilotCritToken(), Triggers.FinishTrigger);
         }
 
         public override void DiscardEffect(Ship.GenericShip host)

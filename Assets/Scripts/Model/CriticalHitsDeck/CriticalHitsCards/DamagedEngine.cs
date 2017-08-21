@@ -19,11 +19,10 @@ namespace CriticalHitCard
         {
             Messages.ShowInfo("Treat all turn maneuvers as red maneuvers");
             Game.UI.AddTestLogEntry("Treat all turn maneuvers as red maneuvers");
-            Host.AssignToken(new Tokens.DamagedEngineCritToken());
 
             Host.AfterGetManeuverColorIncreaseComplexity += TurnManeuversAreRed;
 
-            Triggers.FinishTrigger();
+            Host.AssignToken(new Tokens.DamagedEngineCritToken(), Triggers.FinishTrigger);
         }
 
         public override void DiscardEffect(Ship.GenericShip host)

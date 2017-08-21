@@ -21,13 +21,11 @@ namespace CriticalHitCard
         {
             Messages.ShowInfo("You cannot perform any actions except actions listed on Damage cards.");
             Game.UI.AddTestLogEntry("You cannot perform any actions except actions listed on Damage cards.");
-            Host.AssignToken(new Tokens.DamagedSensorArrayCritToken());
 
             Host.OnTryAddAvailableAction += OnlyCancelCritActions;
-
             Host.AfterGenerateAvailableActionsList += AddCancelCritAction;
 
-            Triggers.FinishTrigger();
+            Host.AssignToken(new Tokens.DamagedSensorArrayCritToken(), Triggers.FinishTrigger);
         }
 
         public override void DiscardEffect(Ship.GenericShip host)

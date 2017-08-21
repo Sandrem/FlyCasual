@@ -16,6 +16,7 @@ public enum TriggerTypes
     OnActionSubPhaseEnd,
     OnFreeActionPlanned,
     OnFreeAction,
+    OnTokenIsAssigned,
     OnCombatPhaseStart,
     OnFaceupCritCardReadyToBeDealt,
     OnDamageIsDealt,

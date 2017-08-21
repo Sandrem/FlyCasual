@@ -289,7 +289,7 @@ namespace Ship
             return result;
         }
 
-        public void AssignToken(Tokens.GenericToken token, char letter = ' ')
+        public void AssignToken(Tokens.GenericToken token, Action callBack, char letter = ' ')
         {
             Tokens.GenericToken assignedToken = GetToken(token.GetType(), letter);
 
@@ -303,6 +303,8 @@ namespace Ship
             }
 
             if (AfterTokenIsAssigned != null) AfterTokenIsAssigned(this, token.GetType());
+
+            Triggers.ResolveTriggers(TriggerTypes.OnTokenIsAssigned, callBack);
         }
 
         public void RemoveToken(System.Type type, char letter = ' ', bool recursive = false)

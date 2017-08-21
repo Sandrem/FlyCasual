@@ -20,11 +20,9 @@ namespace CriticalHitCard
             Game.UI.AddTestLogEntry("Cannot perform attack next time");
 
             Host.OnTryPerformAttack += OnTryPreformAttack;
-            Host.AssignToken(new Tokens.BlindedPilotCritToken());
-
             Host.AfterAttackWindow += DiscardEffect;
 
-            Triggers.FinishTrigger();
+            Host.AssignToken(new Tokens.BlindedPilotCritToken(), Triggers.FinishTrigger);
         }
 
         private void OnTryPreformAttack(ref bool result)

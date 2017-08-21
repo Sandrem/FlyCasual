@@ -20,11 +20,10 @@ namespace CriticalHitCard
         {
             Messages.ShowInfo("Pilot Skill is set to 0");
             Game.UI.AddTestLogEntry("Pilot Skill is set to 0");
-            Host.AssignToken(new Tokens.DamagedCockpitCritToken());
 
             Phases.OnRoundStart += ApplyDelayedEffect;
 
-            Triggers.FinishTrigger();
+            Host.AssignToken(new Tokens.DamagedCockpitCritToken(), Triggers.FinishTrigger);
         }
 
         private void ApplyDelayedEffect()

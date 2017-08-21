@@ -72,7 +72,7 @@ namespace SubPhases
 
         private void AssignFocusToken()
         {
-            TargetShip.AssignToken(new Tokens.FocusToken());
+            //TargetShip.AssignToken(new Tokens.FocusToken());
         }
 
         protected override void RevertSubPhase()

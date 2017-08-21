@@ -21,9 +21,7 @@ namespace CriticalHitCard
             Game.UI.AddTestLogEntry("After you execute a maneuver, if you are touching another ship or overlapping an obstacle token, suffer 1 damage");
 
             Host.OnMovementFinish += CheckCollisionDamage;
-            Host.AssignToken(new Tokens.StunnedPilotCritToken());
-
-            Triggers.FinishTrigger();
+            Host.AssignToken(new Tokens.StunnedPilotCritToken(), Triggers.FinishTrigger);
         }
 
         private void CheckCollisionDamage(Ship.GenericShip host)

@@ -19,12 +19,11 @@ namespace CriticalHitCard
         {
             Messages.ShowInfo("After you execute a white maneuver, receive 1 stress token");
             Game.UI.AddTestLogEntry("After you execute a white maneuver, receive 1 stress token");
-            Host.AssignToken(new Tokens.LooseStabilizerCritToken());
 
-            Host.OnMovementFinish += StressAfterWhiteManeuvers;
+            Host.OnMovementFinish += PlanStressAfterWhiteManeuvers;
             Host.AfterGenerateAvailableActionsList += AddCancelCritAction;
 
-            Triggers.FinishTrigger();
+            Host.AssignToken(new Tokens.LooseStabilizerCritToken(), Triggers.FinishTrigger);
         }
 
         public override void DiscardEffect(Ship.GenericShip host)
@@ -33,18 +32,29 @@ namespace CriticalHitCard
             Game.UI.AddTestLogEntry("No stress after white maneuvers");
             host.RemoveToken(typeof(Tokens.LooseStabilizerCritToken));
 
-            host.OnMovementFinish -= StressAfterWhiteManeuvers;
+            host.OnMovementExecuted -= PlanStressAfterWhiteManeuvers;
             host.AfterGenerateAvailableActionsList -= AddCancelCritAction;
         }
 
-        private void StressAfterWhiteManeuvers(Ship.GenericShip ship)
+        private void PlanStressAfterWhiteManeuvers(Ship.GenericShip ship)
         {
-            if (ship.GetLastManeuverColor() == Movement.ManeuverColor.White)
+            if (Selection.ThisShip.GetLastManeuverColor() == Movement.ManeuverColor.White)
             {
-                Messages.ShowInfo("Loose Stabilizer: Stress token is assigned");
-                Game.UI.AddTestLogEntry("Loose Stabilizer: Stress token is assigned");
-                ship.AssignToken(new Tokens.StressToken());
+                Triggers.RegisterTrigger(new Trigger()
+                {
+                    Name = "Loose Stabilizer: Stress after white maneuver",
+                    TriggerOwner = ship.Owner.PlayerNo,
+                    TriggerType = TriggerTypes.OnShipMovementExecuted,
+                    EventHandler = StressAfterWhiteManeuvers
+                });
             }
+        }
+
+        private void StressAfterWhiteManeuvers(object sender, System.EventArgs e)
+        {
+            Messages.ShowInfo("Loose Stabilizer: Stress token is assigned");
+            Game.UI.AddTestLogEntry("Loose Stabilizer: Stress token is assigned");
+            Selection.ThisShip.AssignToken(new Tokens.StressToken(), Triggers.FinishTrigger);
         }
 
     }

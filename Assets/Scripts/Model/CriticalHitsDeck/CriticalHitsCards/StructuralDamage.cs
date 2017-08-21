@@ -20,14 +20,13 @@ namespace CriticalHitCard
         {
             Messages.ShowInfo("Agility is reduced by 1");
             Game.UI.AddTestLogEntry("Agility is reduced by 1");
-            Host.AssignToken(new Tokens.StructuralDamageCritToken());
 
             Host.AfterGetAgility += ReduceAgility;
             Roster.UpdateShipStats(Host);
 
             Host.AfterGenerateAvailableActionsList += AddCancelCritAction;
 
-            Triggers.FinishTrigger();
+            Host.AssignToken(new Tokens.StructuralDamageCritToken(), Triggers.FinishTrigger);
         }
 
         public override void DiscardEffect(Ship.GenericShip host)

@@ -59,12 +59,9 @@ namespace SubPhases
 
         public override void Next()
         {
-            Selection.ThisShip.CallAfterActionIsPerformed(this.GetType());
+            Selection.ThisShip.CallOnActionSubphaseEnd();
 
-            if (Phases.CurrentSubPhase.GetType() == this.GetType())
-            {
-                FinishPhase();
-            }
+            Triggers.ResolveTriggers(TriggerTypes.OnActionSubPhaseEnd, FinishPhase);
         }
 
         public override void Pause()

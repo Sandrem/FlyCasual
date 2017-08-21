@@ -26,16 +26,16 @@ namespace Ship
         public static event EventHandler AfterGenerateAvailableActionEffectsListGlobal;
         public event EventHandlerActionBool OnTryAddAvailableActionEffect;
 
-        public event EventHandlerShipType AfterActionIsPerformed;
+        public event EventHandlerShip OnActionSubphaseEnd;
 
         public event EventHandlerShipType AfterTokenIsAssigned;
         public event EventHandlerShipType AfterTokenIsSpent;
         public event EventHandlerShipType AfterTokenIsRemoved;
 
         // ACTIONS
-        public void CallAfterActionIsPerformed(System.Type actionType)
+        public void CallOnActionSubphaseEnd()
         {
-            if (AfterActionIsPerformed != null) AfterActionIsPerformed(this, actionType);
+            if (OnActionSubphaseEnd != null) OnActionSubphaseEnd(this);
         }
 
         private void AddBuiltInActions()

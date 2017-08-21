@@ -26,27 +26,20 @@ namespace Ship
             {
                 base.InitializePilot();
 
-                OnActionSubPhaseStart += DoSecondAction;
+                OnActionSubphaseEnd += DoSecondAction;
             }
 
             private void DoSecondAction(GenericShip ship)
             {
-                if (!IsSkipsActionSubPhase)
-                {
-                    Triggers.RegisterTrigger(
-                        new Trigger()
-                        {
-                            Name = "Darth Vader: Second action",
-                            TriggerOwner = Owner.PlayerNo,
-                            TriggerType = TriggerTypes.OnFreeActionPlanned,
-                            EventHandler = PerformFreeAction
-                        }
-                    );
-
-                    MovementTemplates.ReturnRangeRuler();
-
-                    Triggers.ResolveTriggers(TriggerTypes.OnFreeActionPlanned, delegate { Triggers.FinishTrigger(); });
-                }
+                Triggers.RegisterTrigger(
+                    new Trigger()
+                    {
+                        Name = "Darth Vader: Second action",
+                        TriggerOwner = Owner.PlayerNo,
+                        TriggerType = TriggerTypes.OnFreeActionPlanned,
+                        EventHandler = PerformFreeAction
+                    }
+                );
             }
 
             private void PerformFreeAction(object sender, System.EventArgs e)

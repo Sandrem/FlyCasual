@@ -38,12 +38,21 @@ namespace RulesList
             }
 
             Phases.CurrentSubPhase.RequiredPlayer = Phases.PlayerWithInitiative;
-            Triggers.RegisterTrigger(new Trigger() { Name = "Initiative decision", TriggerOwner = Phases.PlayerWithInitiative, TriggerType = TriggerTypes.OnSetupPhaseStart, EventHandler = ShowDecision });
+            Triggers.RegisterTrigger(new Trigger() {
+                Name = "Initiative decision",
+                TriggerOwner = Phases.PlayerWithInitiative,
+                TriggerType = TriggerTypes.OnSetupPhaseStart,
+                EventHandler = ShowDecision
+            });
         }
 
         private static void ShowDecision(object sender, EventArgs e)
         {
-            Phases.StartTemporarySubPhase("Initiative", typeof(SubPhases.InitialiveDecisionSubPhase), delegate() { Triggers.FinishTrigger(); });
+            Phases.StartTemporarySubPhase(
+                "Initiative",
+                typeof(SubPhases.InitialiveDecisionSubPhase),
+                delegate() { Triggers.FinishTrigger();
+            });
         }
     } 
 }

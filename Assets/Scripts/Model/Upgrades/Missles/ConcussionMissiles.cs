@@ -15,7 +15,7 @@ namespace UpgradesList
             Type = UpgradeSlot.Missiles;
 
             Name = "Concussion Missiles";
-            ShortName = "Concussion Missiles";
+            ShortName = "Conc. Missiles";
             ImageUrl = "https://vignette1.wikia.nocookie.net/xwing-miniatures/images/7/70/Concussion_Missiles.png";
             Cost = 4;
 

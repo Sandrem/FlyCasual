@@ -95,10 +95,10 @@ namespace Players
             }
         }
 
+        //TODOL Don't skip attack of all PS ships if one cannot attack (Biggs interaction)
+
         public override void PerformAttack()
         {
-            bool attackPerformed = false;
-
             if (DebugManager.DebugAI) Debug.Log("AI wants to attack!");
 
             foreach (var shipHolder in Roster.GetPlayer(Phases.CurrentPhasePlayer).Ships)
@@ -113,35 +113,99 @@ namespace Players
                 }
             }
 
+            Ship.GenericShip targetForAttack = null;
+
             if (Selection.ThisShip != null)
             {
                 if (!DebugManager.DebugNoCombat)
                 {
                     Dictionary<Ship.GenericShip, float> enemyShips = GetEnemyShipsAndDistance(Selection.ThisShip, ignoreCollided: true, inArcAndRange: true);
+
                     foreach (var shipHolder in enemyShips)
                     {
-                        if (DebugManager.DebugAI) Debug.Log("AI wants to attack: " + shipHolder.Key);
-                        Selection.TryToChangeAnotherShip("ShipId:" + shipHolder.Key.ShipId);
-                        Combat.SelectWeapon();
-
-                        if (Rules.TargetIsLegalForShot.IsLegal())
+                        if (Actions.GetTargetLocksLetterPair(Selection.ThisShip, shipHolder.Key) != ' ')
                         {
-                            if (DebugManager.DebugAI) Debug.Log("AI target legal: " + Selection.AnotherShip);
-                            attackPerformed = true;
-                            Combat.TryPerformAttack();
-                            break;
+                            targetForAttack = TryToDeclareTarget(shipHolder.Key, shipHolder.Value);
+                        }
+                    }
+
+                    if (DebugManager.DebugAI) Debug.Log("AI has target for attack by target lock? " + targetForAttack);
+                    if (targetForAttack == null)
+                    {
+                        foreach (var shipHolder in enemyShips)
+                        {
+                            Ship.GenericShip newTarget = null;
+                            newTarget = TryToDeclareTarget(shipHolder.Key, shipHolder.Value);
+
+                            if (newTarget != null)
+                            {
+                                if (DebugManager.DebugAI) Debug.Log("Previous target for attack: " + targetForAttack);
+                                if (DebugManager.DebugAI) if (targetForAttack != null) Debug.Log("Previous target has higher distance: " + (enemyShips[targetForAttack] > enemyShips[newTarget]));
+                                if ((targetForAttack == null) || (enemyShips[targetForAttack] > enemyShips[newTarget]))
+                                {
+                                    targetForAttack = newTarget;
+                                    if (DebugManager.DebugAI) Debug.Log("AI has target for attack with primary weapon: " + targetForAttack);
+                                }
+                            }
                         }
                     }
                 }
                 Selection.ThisShip.IsAttackPerformed = true;
             }
 
-            if (!attackPerformed)
+            if (targetForAttack != null)
+            {
+                if (DebugManager.DebugAI) Debug.Log("AI launches attack!");
+                Combat.TryPerformAttack();
+            }
+            else
             {
                 if (DebugManager.DebugAI) Debug.Log("AI didn't performed attack and goes NEXT");
                 Phases.Next();
             }
 
+        }
+
+        private Ship.GenericShip TryToDeclareTarget(Ship.GenericShip targetShip, float distance)
+        {
+            Ship.GenericShip selectedTargetShip = targetShip;
+
+            if (DebugManager.DebugAI) Debug.Log("AI checks taget for attack: " + targetShip);
+
+            Upgrade.GenericSecondaryWeapon chosenWeapon = null;
+
+            foreach (var upgrade in Selection.ThisShip.InstalledUpgrades)
+            {
+                Upgrade.GenericSecondaryWeapon secondaryWeapon = (upgrade.Value as Upgrade.GenericSecondaryWeapon);
+                if (secondaryWeapon != null)
+                {
+                    if (secondaryWeapon.IsShotAvailable(targetShip))
+                    {
+                        chosenWeapon = secondaryWeapon;
+                        break;
+                    }
+                }
+            }
+
+            if (DebugManager.DebugAI) Debug.Log("Selected weapon: " + chosenWeapon);
+
+
+            if (DebugManager.DebugAI) Debug.Log("Ship is selected before validation: " + selectedTargetShip);
+            Combat.SelectWeapon(chosenWeapon);
+            Selection.TryToChangeAnotherShip("ShipId:" + selectedTargetShip.ShipId);
+
+            if (Rules.TargetIsLegalForShot.IsLegal())
+            {
+                if (DebugManager.DebugAI) Debug.Log("AI target legal: " + Selection.AnotherShip);
+            }
+            else
+            {
+                if (DebugManager.DebugAI) Debug.Log("But validation is not passed: " + selectedTargetShip);
+            }
+
+            if (DebugManager.DebugAI) Debug.Log("AI decision about " + targetShip + " : " + selectedTargetShip);
+
+            return selectedTargetShip;
         }
 
         public Ship.GenericShip FindNearestEnemyShip(Ship.GenericShip thisShip, bool ignoreCollided = false, bool inArcAndRange = false)

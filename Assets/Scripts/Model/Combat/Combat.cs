@@ -137,7 +137,7 @@ public static partial class Combat
         if (SecondaryWeapon != null)
         {
             Sounds.PlayShots("Proton-Torpedoes", 1);
-            //Selection.ThisShip.AnimateTorpedoes();
+            Selection.ThisShip.AnimateMunitionsShot();
         }
         else
         {

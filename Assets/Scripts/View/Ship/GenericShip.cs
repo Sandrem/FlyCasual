@@ -212,6 +212,23 @@ namespace Ship
             }
         }
 
+        public void AnimateMunitionsShot()
+        {
+            Transform launchOrigin = modelCenter.Find("MunitionsLauncherPoint/MunitionsLauncherDirection");
+            if (launchOrigin != null)
+            {
+                Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(Combat.Attacker, Combat.Defender);
+                float distance = shotInfo.Distance;
+
+                Vector3 targetPoint = Selection.AnotherShip.GetModelCenter();
+                launchOrigin.LookAt(targetPoint);
+
+                GameObject munition = MonoBehaviour.Instantiate(shipAllParts.Find("Munition").gameObject, launchOrigin);
+                munition.GetComponent<MunitionMovement>().selfDescructTimer = distance;
+                munition.SetActive(true);
+            }
+        }
+
         private IEnumerator TurnOffShots(float shotsCount)
         {
             yield return new WaitForSeconds(shotsCount * 0.5f + 0.4f);

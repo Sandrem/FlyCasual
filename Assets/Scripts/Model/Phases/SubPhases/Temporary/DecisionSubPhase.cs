@@ -46,6 +46,19 @@ namespace SubPhases
             return newName;
         }
 
+        public string AddTooltip(string name, string imageUrl)
+        {
+            int counter = 2;
+            string newName = name;
+            while (tooltips.ContainsKey(newName))
+            {
+                newName = name + " #" + counter++;
+            }
+            tooltips.Add(newName, imageUrl);
+
+            return newName;
+        }
+
         protected Dictionary<string, EventHandler> GetDecisions()
         {
             return decisions;

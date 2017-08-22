@@ -86,7 +86,7 @@ namespace SubPhases
             for (int i = 0; i < 3; i++)
             {
                 string newName = AddDecision(criticalHitCardsToChoose[i].Name, delegatesToResolve[i]);
-                tooltips.Add(newName, criticalHitCardsToChoose[i].ImageUrl);
+                AddTooltip(newName, criticalHitCardsToChoose[i].ImageUrl);
             }
 
             defaultDecision = Combat.CurrentCriticalHitCard.Name;

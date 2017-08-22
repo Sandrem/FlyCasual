@@ -40,7 +40,8 @@ namespace UpgradesList
             ActionsList.ProtonTorpedoesAction action = new ActionsList.ProtonTorpedoesAction()
             {
                 Host = Host,
-                ImageUrl = ImageUrl
+                ImageUrl = ImageUrl,
+                Source = this
             };
             action.AddDiceModification();
 
@@ -56,7 +57,6 @@ namespace ActionsList
 
     public class ProtonTorpedoesAction : GenericAction
     {
-        public Ship.GenericShip Host;
 
         public ProtonTorpedoesAction()
         {
@@ -87,7 +87,7 @@ namespace ActionsList
             }
             else
             {
-                if (Combat.SecondaryWeapon.Name != Name) result = false;
+                if (Combat.SecondaryWeapon != Source) result = false;
             }
 
             return result;

@@ -282,7 +282,7 @@ namespace SubPhases
                     if (secondaryWeapon.IsShotAvailable(Selection.AnotherShip))
                     {
                         AddDecision(secondaryWeapon.Name, delegate { PerformSecondaryWeaponAttack(secondaryWeapon, null); });
-                        tooltips.Add(secondaryWeapon.Name, secondaryWeapon.ImageUrl);
+                        AddTooltip(secondaryWeapon.Name, secondaryWeapon.ImageUrl);
                     }
                 }
             }

@@ -35,7 +35,6 @@ namespace PilotAbilities
 {
     public class WingedGundarkAction : ActionsList.GenericAction
     {
-        private Ship.GenericShip host;
 
         public WingedGundarkAction()
         {

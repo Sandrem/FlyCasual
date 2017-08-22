@@ -41,7 +41,8 @@ namespace UpgradesList
             ActionsList.ConcussionMissilesAction action = new ActionsList.ConcussionMissilesAction()
             {
                 Host = Host,
-                ImageUrl = ImageUrl
+                ImageUrl = ImageUrl,
+                Source = this
             };
             action.AddDiceModification();
 
@@ -86,7 +87,7 @@ namespace ActionsList
             }
             else
             {
-                if (Combat.SecondaryWeapon.Name != Name) result = false;
+                if (Combat.SecondaryWeapon != Source) result = false;
             }
 
             return result;

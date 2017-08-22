@@ -40,7 +40,6 @@ namespace ActionsList
 
     public class SquadLeaderAction : GenericAction
     {
-        private Ship.GenericShip host;
 
         public SquadLeaderAction()
         {

@@ -44,8 +44,6 @@ namespace ActionsList
 
     public class LoneWolfActionEffect : GenericAction
     {
-        public Ship.GenericShip Host;
-
         public LoneWolfActionEffect()
         {
             Name = EffectName = "Lone Wolf";

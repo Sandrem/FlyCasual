@@ -18,6 +18,8 @@ namespace Upgrade
 
         public bool IsDiscardedForShot;
 
+        public bool IsTwinAttack;
+
         public GenericSecondaryWeapon() : base()
         {
 

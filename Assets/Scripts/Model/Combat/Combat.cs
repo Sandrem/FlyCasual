@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System.Linq;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
@@ -45,7 +46,8 @@ public static partial class Combat
     public static CriticalHitCard.GenericCriticalHit CurrentCriticalHitCard;
 
     // Use this for initialization
-    static Combat() {
+    static Combat()
+    {
         Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
     }
 
@@ -271,12 +273,20 @@ namespace SubPhases
             infoText = "Choose weapon for attack (Range " + shotInfo.Range + ")";
 
             AddDecision("Primary", PerformPrimaryAttack);
-            AddDecision("Proton Torpedoes", PerformTorpedoesAttack);
 
-            //Temporary
-            tooltips.Add("Proton Torpedoes", "https://vignette2.wikia.nocookie.net/xwing-miniatures/images/e/eb/Proton-torpedoes.png");
-
-            defaultDecision = "Proton Torpedoes";
+            foreach (var upgrade in Selection.ThisShip.InstalledUpgrades)
+            {
+                Upgrade.GenericSecondaryWeapon secondaryWeapon = upgrade.Value as Upgrade.GenericSecondaryWeapon;
+                if (secondaryWeapon != null)
+                {
+                    if (secondaryWeapon.IsShotAvailable(Selection.AnotherShip))
+                    {
+                        AddDecision(secondaryWeapon.Name, delegate { PerformSecondaryWeaponAttack(secondaryWeapon, null); });
+                        tooltips.Add(secondaryWeapon.Name, secondaryWeapon.ImageUrl);
+                    }
+                }
+            }
+            defaultDecision = GetDecisions().Last().Key;
         }
 
         private void PerformPrimaryAttack(object sender, EventArgs e)
@@ -286,16 +296,15 @@ namespace SubPhases
             Combat.TryPerformAttack();
         }
 
-        public void PerformTorpedoesAttack(object sender, EventArgs e)
+        public void PerformSecondaryWeaponAttack(object sender, EventArgs e)
         {
             Tooltips.EndTooltip();
 
-            //TODO: Get upgrade correctly
             Upgrade.GenericSecondaryWeapon secondaryWeapon = null;
-            foreach (var upgrade in Selection.ThisShip.InstalledUpgrades)
-            {
-                if (upgrade.Key == Upgrade.UpgradeSlot.Torpedoes) secondaryWeapon = upgrade.Value as Upgrade.GenericSecondaryWeapon;
-            }
+            secondaryWeapon = sender as Upgrade.GenericSecondaryWeapon;
+
+            if (secondaryWeapon == null) Debug.Log("Ooops! Secondary weapon is incorrect!");
+
             Combat.SelectWeapon(secondaryWeapon);
 
             Messages.ShowInfo("Attack with " + secondaryWeapon.Name);

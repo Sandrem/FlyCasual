@@ -292,8 +292,6 @@ namespace Ship
 
         // ATTACK TYPES
 
-        //Todo: Rework
-
         public int GetAttackTypes(int range, bool inArc)
         {
             int result = 0;
@@ -302,9 +300,10 @@ namespace Ship
 
             foreach (var upgrade in InstalledUpgrades)
             {
-                if (upgrade.Value.Type == Upgrade.UpgradeSlot.Torpedoes)
+                Upgrade.GenericSecondaryWeapon secondaryWeapon = upgrade.Value as Upgrade.GenericSecondaryWeapon;
+                if (secondaryWeapon != null)
                 {
-                    if ((upgrade.Value as Upgrade.GenericSecondaryWeapon).IsShotAvailable(Selection.AnotherShip)) result++;
+                    if (secondaryWeapon.IsShotAvailable(Selection.AnotherShip)) result++;
                 }
             }
 

@@ -21,46 +21,30 @@ namespace UpgradesList
             MinRange = 2;
             MaxRange = 3;
             AttackValue = 4;
+
+            RequiresTargetLockOnTargetToShoot = true;
+            
+            SpendsTargetLockOnTargetToShoot = true;
+            IsDiscardedForShot = true;
         }
 
         public override void AttachToShip(Ship.GenericShip host)
         {
             base.AttachToShip(host);
 
-            ActionsList.ProtonTorpedoesAction action = new ActionsList.ProtonTorpedoesAction();
-            action.Host = host;
-            action.ImageUrl = ImageUrl;
+            AddDiceModification();
+        }
+
+        private void AddDiceModification()
+        {
+            ActionsList.ProtonTorpedoesAction action = new ActionsList.ProtonTorpedoesAction()
+            {
+                Host = Host,
+                ImageUrl = ImageUrl
+            };
             action.AddDiceModification();
 
-            host.AddAvailableAction(action);
-        }
-
-        public override bool IsShotAvailable(Ship.GenericShip anotherShip)
-        {
-            bool result = true;
-
-            if (isDiscarded) return false;
-
-            Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(Host, anotherShip);
-
-            int range = shotInfo.Range;
-            if (range < MinRange) return false;
-            if (range > MaxRange) return false;
-
-            if (!shotInfo.InArc) return false;
-
-            if (!Actions.HasTargetLockOn(Host, anotherShip)) return false;
-
-            return result;
-        }
-
-        public override void PayAttackCost(Action callBack)
-        {
-            char letter = Actions.GetTargetLocksLetterPair(Combat.Attacker, Combat.Defender);
-            Combat.Defender.RemoveToken(typeof(Tokens.RedTargetLockToken), letter);
-            Discard();
-
-            Combat.Attacker.SpendToken(typeof(Tokens.BlueTargetLockToken), callBack, letter);
+            Host.AddAvailableAction(action);
         }
 
     }

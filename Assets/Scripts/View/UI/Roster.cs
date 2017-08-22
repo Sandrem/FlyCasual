@@ -313,7 +313,7 @@ public static partial class Roster {
     {
         foreach (Transform upgradeLine in host.InfoPanel.transform.Find("ShipInfo/UpgradesBar").transform)
         {
-            if (upgradeLine.GetComponent<Text>().text == upgradeShortName)
+            if (upgradeLine.GetComponent<Text>().text == upgradeShortName && upgradeLine.GetComponent<Text>().color != Color.gray)
             {
                 upgradeLine.GetComponent<Text>().color = Color.gray;
                 return;

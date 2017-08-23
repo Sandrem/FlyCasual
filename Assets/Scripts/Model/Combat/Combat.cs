@@ -57,13 +57,15 @@ public static partial class Combat
     {
         Game.UI.HideContextMenu();
 
-        ShipShotDistanceInformation shotInfo = new ShipShotDistanceInformation(Selection.ThisShip, Selection.AnotherShip);
-
-        int attackTypesAreAvailable = Selection.ThisShip.GetAttackTypes(shotInfo.Range, shotInfo.InArc);
+        int attackTypesAreAvailable = Selection.ThisShip.GetAttackTypes();
 
         if (attackTypesAreAvailable > 1)
         {
-            Phases.StartTemporarySubPhase("Choose weapon for attack", typeof(SubPhases.WeaponSelectionDecisionSubPhase));
+            Phases.StartTemporarySubPhase(
+                "Choose weapon for attack",
+                typeof(SubPhases.WeaponSelectionDecisionSubPhase),
+                Combat.TryPerformAttack
+            );
         }
         else
         {
@@ -137,8 +139,16 @@ public static partial class Combat
     {
         if (SecondaryWeapon != null)
         {
-            Sounds.PlayShots("Proton-Torpedoes", 1);
-            Selection.ThisShip.AnimateMunitionsShot();
+            if (SecondaryWeapon.Type == Upgrade.UpgradeSlot.Torpedoes || SecondaryWeapon.Type == Upgrade.UpgradeSlot.Missiles)
+            {
+                Sounds.PlayShots("Proton-Torpedoes", 1);
+                Selection.ThisShip.AnimateMunitionsShot();
+            }
+            else if (SecondaryWeapon.Type == Upgrade.UpgradeSlot.Turret)
+            {
+                //TODO: turret shot
+            }
+
         }
         else
         {
@@ -306,7 +316,10 @@ namespace SubPhases
             ShipShotDistanceInformation shotInfo = new ShipShotDistanceInformation(Selection.ThisShip, Selection.AnotherShip);
             infoText = "Choose weapon for attack (Range " + shotInfo.Range + ")";
 
-            AddDecision("Primary", PerformPrimaryAttack);
+            if (shotInfo.Range <= 3 && shotInfo.InArc)
+            {
+                AddDecision("Primary", PerformPrimaryAttack);
+            }
 
             foreach (var upgrade in Selection.ThisShip.InstalledUpgrades)
             {
@@ -327,7 +340,7 @@ namespace SubPhases
         {
             Combat.SelectWeapon();
             Phases.FinishSubPhase(typeof(WeaponSelectionDecisionSubPhase));
-            Combat.TryPerformAttack();
+            CallBack();
         }
 
         public void PerformSecondaryWeaponAttack(object sender, EventArgs e)
@@ -345,7 +358,7 @@ namespace SubPhases
 
             Phases.FinishSubPhase(typeof(WeaponSelectionDecisionSubPhase));
 
-            Combat.TryPerformAttack();
+            CallBack();
         }
 
     }

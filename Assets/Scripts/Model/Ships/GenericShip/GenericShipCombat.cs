@@ -8,7 +8,8 @@ namespace Ship
 
     public partial class GenericShip
     {
- 
+        public Arcs.GenericArc Arc = new Arcs.GenericArc();
+
         private List<CriticalHitCard.GenericCriticalHit> AssignedCritCards = new List<CriticalHitCard.GenericCriticalHit>();
         private List<CriticalHitCard.GenericCriticalHit> AssignedDamageCards = new List<CriticalHitCard.GenericCriticalHit>();
         public DiceRoll AssignedDamageDiceroll = new DiceRoll(DiceKind.Attack, 0);
@@ -292,11 +293,12 @@ namespace Ship
 
         // ATTACK TYPES
 
-        public int GetAttackTypes(int range, bool inArc)
+        public int GetAttackTypes()
         {
             int result = 0;
 
-            if (InPrimaryWeaponFireZone(range, inArc)) result++;
+            Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(Selection.ThisShip, Selection.AnotherShip);
+            if (InPrimaryWeaponFireZone(shotInfo.Range, shotInfo.InArc)) result++;
 
             foreach (var upgrade in InstalledUpgrades)
             {

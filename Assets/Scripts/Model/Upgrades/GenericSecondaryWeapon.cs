@@ -20,6 +20,8 @@ namespace Upgrade
 
         public bool IsTwinAttack;
 
+        public bool IsTurret;
+
         public GenericSecondaryWeapon() : base()
         {
 
@@ -31,13 +33,24 @@ namespace Upgrade
 
             if (isDiscarded) return false;
 
-            Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(Host, anotherShip);
+            if (!IsTurret)
+            {
+                Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(Host, anotherShip);
 
-            int range = shotInfo.Range;
-            if (range < MinRange) return false;
-            if (range > MaxRange) return false;
+                int range = shotInfo.Range;
+                if (range < MinRange) return false;
+                if (range > MaxRange) return false;
 
-            if (!shotInfo.InArc) return false;
+                if (!shotInfo.InArc) return false;
+            }
+            else
+            {
+                Board.ShipDistanceInformation distanceInfo = new Board.ShipDistanceInformation(Host, anotherShip);
+
+                int range = distanceInfo.Range;
+                if (range < MinRange) return false;
+                if (range > MaxRange) return false;
+            }
 
             if (RequiresTargetLockOnTargetToShoot)
             {
@@ -59,15 +72,27 @@ namespace Upgrade
 
         public virtual void PayAttackCost(Action callBack)
         {
-            char letter = Actions.GetTargetLocksLetterPair(Combat.Attacker, Combat.Defender);
-
             if (IsDiscardedForShot) Discard();
 
-            if (SpendsTargetLockOnTargetToShoot)
+            if (RequiresTargetLockOnTargetToShoot)
             {
-                Combat.Defender.RemoveToken(typeof(Tokens.RedTargetLockToken), letter);
-                Combat.Attacker.SpendToken(typeof(Tokens.BlueTargetLockToken), callBack, letter);
+                char letter = Actions.GetTargetLocksLetterPair(Combat.Attacker, Combat.Defender);
+
+                if (SpendsTargetLockOnTargetToShoot)
+                {
+                    Combat.Defender.RemoveToken(typeof(Tokens.RedTargetLockToken), letter);
+                    Combat.Attacker.SpendToken(typeof(Tokens.BlueTargetLockToken), callBack, letter);
+                }
+                else
+                {
+                    callBack();
+                }
             }
+            else
+            {
+                callBack();
+            }
+
         }
 
     }

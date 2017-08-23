@@ -130,8 +130,7 @@ public static partial class Combat
         Selection.ActiveShip = Selection.ThisShip;
         Phases.StartTemporarySubPhase(
             "Attack dice roll",
-            typeof(SubPhases.AttackDiceRollCombatSubPhase),
-            ConfirmAttackDiceResults
+            typeof(SubPhases.AttackDiceRollCombatSubPhase)
         );
     }
 
@@ -178,8 +177,7 @@ public static partial class Combat
         Selection.ActiveShip = Selection.AnotherShip;
         Phases.StartTemporarySubPhase(
             "Defence dice roll",
-            typeof(SubPhases.DefenceDiceRollCombatSubPhase),
-            ConfirmDefenceDiceResults
+            typeof(SubPhases.DefenceDiceRollCombatSubPhase)
         );
     }
 
@@ -388,6 +386,7 @@ namespace SubPhases
             dicesCount = Combat.Attacker.GetNumberOfAttackDices(Combat.Defender);
 
             checkResults = CheckResults;
+            CallBack = Combat.ConfirmAttackDiceResults;
         }
 
         protected override void CheckResults(DiceRoll diceRoll)
@@ -420,6 +419,7 @@ namespace SubPhases
             dicesCount = Combat.Defender.GetNumberOfDefenceDices(Combat.Attacker);
 
             checkResults = CheckResults;
+            CallBack = Combat.ConfirmDefenceDiceResults;
 
             new DiceCompareHelper(Combat.DiceRollAttack);
         }

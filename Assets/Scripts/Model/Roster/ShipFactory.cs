@@ -49,7 +49,7 @@ public static class ShipFactory {
         newShipContainer.OnMovementFinish += Rules.AsteroidHit.CheckDamage;
         newShipContainer.AfterGetManeuverAvailablity += Rules.Stress.CannotPerformRedManeuversWhileStressed;
 
-        newShipContainer.AfterTokenIsAssigned += Roster.UpdateTokensIndicator;
+        newShipContainer.OnTokenIsAssigned += Roster.UpdateTokensIndicator;
         newShipContainer.AfterTokenIsRemoved += Roster.UpdateTokensIndicator;
         newShipContainer.AfterAssignedDamageIsChanged += Roster.UpdateRosterHullDamageIndicators;
         newShipContainer.AfterAssignedDamageIsChanged += Roster.UpdateRosterShieldsDamageIndicators;

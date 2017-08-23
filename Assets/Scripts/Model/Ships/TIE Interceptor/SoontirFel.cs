@@ -24,7 +24,7 @@ namespace Ship
             public override void InitializePilot()
             {
                 base.InitializePilot();
-                AfterTokenIsAssigned += SoontirFelAbility;
+                OnTokenIsAssigned += SoontirFelAbility;
             }
 
             public void SoontirFelAbility(GenericShip ship, System.Type tokenType)

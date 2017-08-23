@@ -33,6 +33,7 @@ namespace Ship
         public event EventHandlerShipMovement AfterGetManeuverColorIncreaseComplexity;
         public event EventHandlerShipMovement AfterGetManeuverAvailablity;
 
+        public event EventHandlerShip OnManeuverIsReadyToBeRevealed;
         public event EventHandlerShip OnMovementStart;
         public event EventHandlerShip OnMovementExecuted;
         public event EventHandlerShip OnMovementFinish;
@@ -41,6 +42,11 @@ namespace Ship
         public static event EventHandler OnPositionFinishGlobal;
 
         // TRIGGERS
+
+        public void CallManeuverIsReadyToBeRevealed()
+        {
+            if (OnManeuverIsReadyToBeRevealed != null) OnManeuverIsReadyToBeRevealed(this);
+        }
 
         public void StartMoving()
         {

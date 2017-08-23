@@ -62,8 +62,6 @@ namespace UpgradesList
 
         private void DefenderSuffersDamage()
         {
-            Debug.Log(Combat.DiceRollAttack.Successes);
-
             Combat.Defender.AssignedDamageDiceroll.DiceList.Add(new Dice(DiceKind.Attack, DiceSide.Success));
 
             Triggers.RegisterTrigger(new Trigger()

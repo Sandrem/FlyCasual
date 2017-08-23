@@ -28,7 +28,8 @@ namespace Ship
 
         public event EventHandlerShip OnActionSubphaseEnd;
 
-        public event EventHandlerShipType AfterTokenIsAssigned;
+        public event EventHandlerShipType OnTokenIsAssigned;
+        public static event EventHandlerShipType OnTokenIsAssignedGlobal;
         public event EventHandlerShipType AfterTokenIsSpent;
         public event EventHandlerShipType AfterTokenIsRemoved;
 
@@ -302,7 +303,9 @@ namespace Ship
                 AssignedTokens.Add(token);
             }
 
-            if (AfterTokenIsAssigned != null) AfterTokenIsAssigned(this, token.GetType());
+            if (OnTokenIsAssigned != null) OnTokenIsAssigned(this, token.GetType());
+
+            if (OnTokenIsAssignedGlobal != null) OnTokenIsAssignedGlobal(this, token.GetType());
 
             Triggers.ResolveTriggers(TriggerTypes.OnTokenIsAssigned, callBack);
         }

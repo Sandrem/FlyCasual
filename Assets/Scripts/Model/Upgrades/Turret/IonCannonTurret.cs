@@ -53,7 +53,7 @@ namespace UpgradesList
             Combat.DiceRollAttack.RemoveAllFailures();
 
             Combat.Defender.AssignToken(
-                new Tokens.StressToken(),
+                new Tokens.IonToken(),
                 delegate {
                     DefenderSuffersDamage();
                 }

@@ -216,6 +216,16 @@ public partial class DiceRoll
         }
     }
 
+    public void CancelAllResults()
+    {
+        List<Dice> dicesListCopy = new List<Dice>(DiceList);
+
+        foreach (var dice in dicesListCopy)
+        {
+            dice.Cancel();
+        }
+    }
+
     public void CalculateResults()
     {
         // TODO: Rewrite

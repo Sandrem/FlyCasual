@@ -33,7 +33,50 @@ namespace UpgradesList
 
         private void SubscribeOnHit()
         {
-            //on hit: cancel result, deal damage, assign ion
+            Host.OnAttackHitAsAttacker += RegisterIonTurretEffect;
+        }
+
+        private void RegisterIonTurretEffect()
+        {
+            Triggers.RegisterTrigger(new Trigger()
+            {
+                Name = "Ion Cannon Turret effect",
+                TriggerType = TriggerTypes.OnAttackHit,
+                TriggerOwner = Combat.Attacker.Owner.PlayerNo,
+                EventHandler = IonTurretEffect
+            });
+        }
+
+        private void IonTurretEffect(object sender, System.EventArgs e)
+        {
+            Debug.Log("1");
+            Combat.DiceRollAttack.CancelAllResults();
+            Debug.Log("2");
+
+            Combat.Defender.AssignToken(
+                new Tokens.StressToken(),
+                delegate {
+                    Debug.Log("3");
+                    DefenderSuffersDamage();
+                    Debug.Log("4");
+                    Triggers.FinishTrigger();
+                    Debug.Log("5");
+                }
+            );
+        }
+
+        private void DefenderSuffersDamage()
+        {
+            Combat.Defender.AssignedDamageDiceroll.DiceList.Add(new Dice(DiceKind.Attack, DiceSide.Success));
+
+            Triggers.RegisterTrigger(new Trigger()
+            {
+                Name = "Suffer damage",
+                TriggerType = TriggerTypes.OnDamageIsDealt,
+                TriggerOwner = Combat.Defender.Owner.PlayerNo,
+                EventHandler = Combat.Defender.SufferDamage,
+                Skippable = true
+            });
         }
 
     }

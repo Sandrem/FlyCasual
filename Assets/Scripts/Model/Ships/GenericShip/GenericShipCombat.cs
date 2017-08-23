@@ -24,6 +24,9 @@ namespace Ship
         public event EventHandler OnAttack;
         public event EventHandler OnDefence;
 
+        public event EventHandler OnAttackHitAsAttacker;
+        public event EventHandler OnAttackHitAsDefender;
+
         public event EventHandlerInt AfterGotNumberOfPrimaryWeaponAttackDices;
         public event EventHandlerInt AfterGotNumberOfPrimaryWeaponDefenceDices;
         public event EventHandlerInt AfterGotNumberOfAttackDices;
@@ -72,6 +75,16 @@ namespace Ship
         {
             ClearAlreadyExecutedActionEffects();
             if (OnDefence != null) OnDefence();
+        }
+
+        public void CallOnAttackHitAsAttacker()
+        {
+            if (OnAttackHitAsAttacker != null) OnAttackHitAsAttacker();
+        }
+
+        public void CallOnAttackHitAsDefender()
+        {
+            if (OnAttackHitAsDefender != null) OnAttackHitAsDefender();
         }
 
         public void CallAfterAttackWindow()

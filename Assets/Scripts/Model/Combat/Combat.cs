@@ -190,21 +190,32 @@ public static partial class Combat
 
         if (DiceRollAttack.Successes > 0)
         {
-            defender.AssignedDamageDiceroll = DiceRollAttack;
+            Attacker.CallOnAttackHitAsAttacker();
+            Defender.CallOnAttackHitAsDefender();
 
-            foreach (var dice in DiceRollAttack.DiceList)
-            {
-                Triggers.RegisterTrigger(new Trigger() {
-                    Name = "Suffer damage",
-                    TriggerType = TriggerTypes.OnDamageIsDealt,
-                    TriggerOwner = defender.Owner.PlayerNo,
-                    EventHandler = defender.SufferDamage,
-                    Skippable = true
-                });
-            }
+            Triggers.ResolveTriggers(TriggerTypes.OnAttackHit, delegate { ResolveCombatDamage(SufferDamage); });
         }
 
         SufferDamage();
+    }
+
+    private static void ResolveCombatDamage(Action callBack)
+    {
+        Defender.AssignedDamageDiceroll = DiceRollAttack;
+
+        foreach (var dice in DiceRollAttack.DiceList)
+        {
+            Triggers.RegisterTrigger(new Trigger()
+            {
+                Name = "Suffer damage",
+                TriggerType = TriggerTypes.OnDamageIsDealt,
+                TriggerOwner = Defender.Owner.PlayerNo,
+                EventHandler = Defender.SufferDamage,
+                Skippable = true
+            });
+        }
+
+        callBack();
     }
 
     private static void SufferDamage()

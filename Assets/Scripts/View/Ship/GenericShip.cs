@@ -132,6 +132,12 @@ namespace Ship
             shipAllParts.Find("ShipModels/" + Type + "/ModelCenter/DamageParticles").gameObject.SetActive(isDamaged);
         }
 
+        public void ToggleIonized(bool isIonized)
+        {
+            if (isIonized) Sounds.PlaySoundOnce("Ionization");
+            shipAllParts.Find("Ionization").gameObject.SetActive(isIonized);
+        }
+
         public void PlayDestroyedAnimSound(System.Action callBack)
         {
             int random = Random.Range(1, 8);

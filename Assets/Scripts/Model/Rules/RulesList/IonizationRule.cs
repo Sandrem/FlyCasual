@@ -29,7 +29,7 @@ namespace RulesList
         {
             ship.OnManeuverIsReadyToBeRevealed += AssignWhiteForwardOneManeuver;
             ship.OnMovementExecuted += RemoveIonization;
-            // Start animation
+            ship.ToggleIonized(true);
         }
 
         private void AssignWhiteForwardOneManeuver(GenericShip ship)
@@ -42,6 +42,7 @@ namespace RulesList
         private void RemoveIonization(GenericShip ship)
         {
             ship.RemoveToken(typeof(IonToken), '*', true);
+            ship.ToggleIonized(false);
             Messages.ShowInfo("Ship isn't ionized anymore");
 
             ship.OnMovementExecuted -= RemoveIonization;

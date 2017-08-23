@@ -55,7 +55,7 @@ namespace UpgradesList
             Combat.Defender.AssignToken(
                 new Tokens.IonToken(),
                 delegate {
-                    DefenderSuffersDamage();
+                    Game.Wait(2, DefenderSuffersDamage);
                 }
             );
         }

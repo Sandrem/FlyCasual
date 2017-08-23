@@ -45,6 +45,8 @@ public static partial class Combat
 
     public static CriticalHitCard.GenericCriticalHit CurrentCriticalHitCard;
 
+    private static int attacksCounter;
+
     // Use this for initialization
     static Combat()
     {
@@ -78,7 +80,7 @@ public static partial class Combat
         if (Rules.TargetIsLegalForShot.IsLegal())
         {
             ShipShotDistanceInformation shotInfo = new ShipShotDistanceInformation(Selection.ThisShip, Selection.AnotherShip);
-            shotInfo.CheckFirelineCollisions(CallPerformAttack);
+            shotInfo.CheckFirelineCollisions(delegate { PerformAttack(Selection.ThisShip, Selection.AnotherShip); });
         }
         else
         {
@@ -104,11 +106,6 @@ public static partial class Combat
         InitializeAttack(AttackDiceRoll);
     }
 
-    public static void CallPerformAttack()
-    {
-        PerformAttack(Selection.ThisShip, Selection.AnotherShip);
-    }
-
     private static void InitializeAttack(Action callBack)
     {
         Roster.AllShipsHighlightOff();
@@ -129,7 +126,11 @@ public static partial class Combat
     private static void AttackDiceRoll()
     {
         Selection.ActiveShip = Selection.ThisShip;
-        Phases.StartTemporarySubPhase("Attack dice roll", typeof(SubPhases.AttackDiceRollCombatSubPhase));
+        Phases.StartTemporarySubPhase(
+            "Attack dice roll",
+            typeof(SubPhases.AttackDiceRollCombatSubPhase),
+            ConfirmAttackDiceResults
+        );
     }
 
     public static void ShowAttackAnimationAndSound()
@@ -165,7 +166,11 @@ public static partial class Combat
     private static void DefenceDiceRoll()
     {
         Selection.ActiveShip = Selection.AnotherShip;
-        Phases.StartTemporarySubPhase("Defence dice roll", typeof(SubPhases.DefenceDiceRollCombatSubPhase));
+        Phases.StartTemporarySubPhase(
+            "Defence dice roll",
+            typeof(SubPhases.DefenceDiceRollCombatSubPhase),
+            ConfirmDefenceDiceResults
+        );
     }
 
     public static void CalculateAttackResults(Ship.GenericShip attacker, Ship.GenericShip defender)
@@ -194,28 +199,44 @@ public static partial class Combat
 
     private static void SufferDamage()
     {
-        Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, CallCombatEndEvents);
+        Triggers.ResolveTriggers(
+            TriggerTypes.OnDamageIsDealt,
+            delegate {
+                Phases.FinishSubPhase(typeof(SubPhases.CompareResultsSubPhase));
+                CheckTwinAttack();
+            }
+        );
     }
 
-    public static void CallAttackStartEvents()
+    private static void CheckTwinAttack()
     {
-        Attacker.CallAttackStart();
-        //BUG: NullReferenceException: Object reference not set to an instance of an object
-        Defender.CallAttackStart();
-    }
+        if (SecondaryWeapon != null && SecondaryWeapon.IsTwinAttack)
+        {
+            if (attacksCounter == 0)
+            {
+                attacksCounter++;
 
-    public static void CallDefenceStartEvents()
-    {
-        Attacker.CallDefenceStart();
-        Defender.CallDefenceStart();
+                AttackStep = CombatStep.Attack;
+                Selection.ActiveShip = Attacker;
+
+                AttackDiceRoll();
+            }
+            else
+            {
+                attacksCounter = 0;
+                CallCombatEndEvents();
+            }
+        }
+        else
+        {
+            CallCombatEndEvents();
+        }
     }
 
     private static void CallCombatEndEvents()
     {
         Attacker.CallCombatEnd();
         Defender.CallCombatEnd();
-
-        Phases.FinishSubPhase(typeof(SubPhases.CompareResultsSubPhase));
 
         if (Roster.NoSamePlayerAndPilotSkillNotAttacked(Selection.ThisShip))
         {
@@ -258,6 +279,19 @@ public static partial class Combat
         MovementTemplates.ReturnRangeRuler();
 
         Phases.StartTemporarySubPhase("Compare results", typeof(SubPhases.CompareResultsSubPhase));
+    }
+
+    public static void CallAttackStartEvents()
+    {
+        Attacker.CallAttackStart();
+        //BUG: NullReferenceException: Object reference not set to an instance of an object
+        Defender.CallAttackStart();
+    }
+
+    public static void CallDefenceStartEvents()
+    {
+        Attacker.CallDefenceStart();
+        Defender.CallDefenceStart();
     }
 
 }
@@ -330,7 +364,6 @@ namespace SubPhases
             dicesCount = Combat.Attacker.GetNumberOfAttackDices(Combat.Defender);
 
             checkResults = CheckResults;
-            CallBack = Combat.ConfirmAttackDiceResults;
         }
 
         protected override void CheckResults(DiceRoll diceRoll)
@@ -363,7 +396,6 @@ namespace SubPhases
             dicesCount = Combat.Defender.GetNumberOfDefenceDices(Combat.Attacker);
 
             checkResults = CheckResults;
-            CallBack = Combat.ConfirmDefenceDiceResults;
 
             new DiceCompareHelper(Combat.DiceRollAttack);
         }

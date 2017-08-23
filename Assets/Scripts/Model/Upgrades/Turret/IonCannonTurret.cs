@@ -10,8 +10,6 @@ namespace UpgradesList
     {
         public IonCannonTurret() : base()
         {
-            IsHidden = true;
-
             Type = UpgradeSlot.Turret;
 
             Name = "Ion Cannon Turret";
@@ -22,25 +20,20 @@ namespace UpgradesList
             MinRange = 1;
             MaxRange = 2;
             AttackValue = 3;
+
+            //arc
         }
 
         public override void AttachToShip(Ship.GenericShip host)
         {
             base.AttachToShip(host);
+
+            SubscribeOnHit();
         }
 
-        public override bool IsShotAvailable(Ship.GenericShip anotherShip)
+        private void SubscribeOnHit()
         {
-            bool result = true;
-
-            if (isDiscarded) return false;
-
-            Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(Host, anotherShip);
-            int range = shotInfo.Range;
-            if (range < MinRange) return false;
-            if (range > MaxRange) return false;
-
-            return result;
+            //on hit: cancel result, deal damage, assign ion
         }
 
     }

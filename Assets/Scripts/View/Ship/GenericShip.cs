@@ -218,6 +218,19 @@ namespace Ship
             }
         }
 
+        public void AnimateTurretWeapon()
+        {
+            Transform origin = modelCenter.Find("TurretShots/Rotation");
+
+            Vector3 targetPoint = Selection.AnotherShip.GetModelCenter();
+            origin.LookAt(targetPoint);
+            ParticleSystem.MainModule particles = origin.GetComponentInChildren<ParticleSystem>().main;
+            particles.startLifetimeMultiplier = (Vector3.Distance(origin.position, targetPoint) * 0.25f / (10 / 3));
+
+            origin.gameObject.SetActive(true);
+            Game.StartCoroutine(TurnOffTurretShots(ShotsCount));
+        }
+
         public void AnimateMunitionsShot()
         {
             Transform launchOrigin = modelCenter.Find("MunitionsLauncherPoint/MunitionsLauncherDirection");
@@ -239,6 +252,16 @@ namespace Ship
         {
             yield return new WaitForSeconds(shotsCount * 0.5f + 0.4f);
             Transform shotsTransform = modelCenter.Find("Shots");
+            if (shotsTransform != null)
+            {
+                shotsTransform.gameObject.SetActive(false);
+            }
+        }
+
+        private IEnumerator TurnOffTurretShots(float shotsCount)
+        {
+            yield return new WaitForSeconds(shotsCount * 0.5f + 0.4f);
+            Transform shotsTransform = modelCenter.Find("TurretShots/Rotation");
             if (shotsTransform != null)
             {
                 shotsTransform.gameObject.SetActive(false);

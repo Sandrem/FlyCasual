@@ -145,7 +145,8 @@ public static partial class Combat
             }
             else if (SecondaryWeapon.Type == Upgrade.UpgradeSlot.Turret)
             {
-                //TODO: turret shot
+                Sounds.PlayShots(Selection.ActiveShip.SoundShotsPath, Selection.ActiveShip.ShotsCount);
+                Selection.ThisShip.AnimateTurretWeapon();
             }
 
         }

@@ -181,8 +181,7 @@ public partial class DiceRoll
 
     public void RemoveAllFailures()
     {
-        List<Dice> dices = new List<Dice>();
-        dices.AddRange(DiceList);
+        List<Dice> dices = new List<Dice>(DiceList);
 
         foreach (Dice dice in dices)
         {

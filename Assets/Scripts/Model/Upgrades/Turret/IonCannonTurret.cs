@@ -49,24 +49,21 @@ namespace UpgradesList
 
         private void IonTurretEffect(object sender, System.EventArgs e)
         {
-            Debug.Log("1");
             Combat.DiceRollAttack.CancelAllResults();
-            Debug.Log("2");
+            Combat.DiceRollAttack.RemoveAllFailures();
 
             Combat.Defender.AssignToken(
                 new Tokens.StressToken(),
                 delegate {
-                    Debug.Log("3");
                     DefenderSuffersDamage();
-                    Debug.Log("4");
-                    Triggers.FinishTrigger();
-                    Debug.Log("5");
                 }
             );
         }
 
         private void DefenderSuffersDamage()
         {
+            Debug.Log(Combat.DiceRollAttack.Successes);
+
             Combat.Defender.AssignedDamageDiceroll.DiceList.Add(new Dice(DiceKind.Attack, DiceSide.Success));
 
             Triggers.RegisterTrigger(new Trigger()
@@ -77,6 +74,8 @@ namespace UpgradesList
                 EventHandler = Combat.Defender.SufferDamage,
                 Skippable = true
             });
+
+            Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, Triggers.FinishTrigger);
         }
 
     }

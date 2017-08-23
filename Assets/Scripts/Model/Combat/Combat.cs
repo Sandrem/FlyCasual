@@ -193,8 +193,10 @@ public static partial class Combat
 
             Triggers.ResolveTriggers(TriggerTypes.OnAttackHit, delegate { ResolveCombatDamage(SufferDamage); });
         }
-
-        SufferDamage();
+        else
+        {
+            SufferDamage();
+        }        
     }
 
     private static void ResolveCombatDamage(Action callBack)
@@ -237,7 +239,6 @@ public static partial class Combat
 
                 AttackStep = CombatStep.Attack;
                 Selection.ActiveShip = Attacker;
-
                 AttackDiceRoll();
             }
             else

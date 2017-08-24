@@ -10,6 +10,7 @@ namespace Tokens
         public IonToken() {
             Name = "Ion Token";
             Temporary = false;
+            Tooltip = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/reference-cards/IonToken.png";
         }
 
     }

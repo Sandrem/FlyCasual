@@ -27,6 +27,7 @@ namespace Players
                     Selection.ThisShip.AddAlreadyExecutedAction(action);
                     action.ActionTake();
                 });
+                (Phases.CurrentSubPhase as SubPhases.DecisionSubPhase).AddTooltip(action.Name, action.ImageUrl);
             }
         }
 

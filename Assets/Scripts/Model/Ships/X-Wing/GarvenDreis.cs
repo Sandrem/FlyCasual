@@ -44,6 +44,7 @@ namespace Ship
                         typeof(SubPhases.GarvenDreisAbilityTargetSubPhase),
                         delegate {
                             Phases.FinishSubPhase(typeof(SubPhases.GarvenDreisAbilityTargetSubPhase));
+                            Phases.CurrentSubPhase.Resume();
                             Triggers.FinishTrigger();
                         }
                     );

@@ -77,6 +77,8 @@ namespace SubPhases
         {
             new SwarmTacticsPilotSkillModifier(TargetShip, Selection.ThisShip.PilotSkill);
             MovementTemplates.ReturnRangeRuler();
+
+            Phases.FinishSubPhase(this.GetType());
             CallBack();
         }
 

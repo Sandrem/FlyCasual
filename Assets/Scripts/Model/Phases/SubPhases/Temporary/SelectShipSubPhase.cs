@@ -70,9 +70,7 @@ namespace SubPhases
         public override void Next()
         {
             Roster.AllShipsHighlightOff();
-            Phases.CurrentSubPhase = PreviousSubPhase;
-            Phases.CurrentSubPhase.Resume();
-            Phases.CurrentSubPhase.Next();
+            Phases.CurrentSubPhase = Phases.CurrentSubPhase.PreviousSubPhase;
             UpdateHelpInfo();
         }
 

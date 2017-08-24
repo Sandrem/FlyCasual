@@ -103,7 +103,7 @@ namespace SubPhases
 
         public override void Pause()
         {
-            decisionPanel.SetActive(false);
+            HidePanel();
         }
 
         public override void Resume()
@@ -115,13 +115,18 @@ namespace SubPhases
 
         public override void Next()
         {
+            HidePanel();
+            Phases.CurrentSubPhase = PreviousSubPhase;
+            UpdateHelpInfo();
+        }
+
+        private void HidePanel()
+        {
             decisionPanel.gameObject.SetActive(false);
             foreach (Transform button in decisionPanel.transform.Find("DecisionsPanel"))
             {
                 MonoBehaviour.Destroy(button.gameObject);
             }
-            Phases.CurrentSubPhase = PreviousSubPhase;
-            UpdateHelpInfo();
         }
 
         public override bool ThisShipCanBeSelected(Ship.GenericShip ship)

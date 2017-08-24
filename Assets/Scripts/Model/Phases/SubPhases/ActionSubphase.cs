@@ -48,7 +48,7 @@ namespace SubPhases
         private void StartActionDecisionSubphase(object sender, System.EventArgs e)
         {
             Phases.StartTemporarySubPhase(
-                "Action",
+                "Action Decision",
                 typeof(ActionDecisonSubPhase),
                 delegate () {
                     Phases.FinishSubPhase(typeof(ActionDecisonSubPhase));

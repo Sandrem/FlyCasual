@@ -8,7 +8,7 @@ namespace Ship
     public partial class GenericShip
     {
 
-        protected   List<ActionsList.GenericAction> BuiltInActions                  = new List<ActionsList.GenericAction>();
+        public      List<ActionsList.GenericAction> BuiltInActions                  = new List<ActionsList.GenericAction>();
         private     List<ActionsList.GenericAction> AvailableActionsList            = new List<ActionsList.GenericAction>();
         private     List<ActionsList.GenericAction> AvailableFreeActionsList        = new List<ActionsList.GenericAction>();
         private     List<ActionsList.GenericAction> AlreadyExecutedActions          = new List<ActionsList.GenericAction>();

@@ -32,7 +32,12 @@ namespace UpgradesList
             {
                 if (host.Shields < host.MaxShields)
                 {
-                    Triggers.RegisterTrigger(new Trigger() { Name = "R2-D2: Regen Shield", TriggerOwner = host.Owner.PlayerNo, TriggerType = TriggerTypes.OnShipMovementExecuted, EventHandler = R2D2RegenShield });
+                    Triggers.RegisterTrigger(new Trigger() {
+                        Name = "R2-D2: Regen Shield",
+                        TriggerOwner = host.Owner.PlayerNo,
+                        TriggerType = TriggerTypes.OnShipMovementExecuted,
+                        EventHandler = R2D2RegenShield
+                    });
                 }
             }
         }

@@ -20,9 +20,7 @@ namespace CriticalHitCard
             Messages.ShowInfo("Received stress token");
             Game.UI.AddTestLogEntry("Received stress token");
 
-            Host.AssignToken(new Tokens.StressToken());
-
-            Triggers.FinishTrigger();
+            Host.AssignToken(new Tokens.StressToken(), Triggers.FinishTrigger);
         }
 
     }

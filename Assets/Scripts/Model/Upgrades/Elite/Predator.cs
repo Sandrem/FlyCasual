@@ -40,7 +40,6 @@ namespace ActionsList
 
     public class PredatorActionEffect : GenericAction
     {
-        private Ship.GenericShip host;
 
         public PredatorActionEffect()
         {

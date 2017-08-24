@@ -23,13 +23,16 @@ public class PrefabsList : MonoBehaviour
 
     public GameObject DiceAttack;
     public GameObject DiceDefence;
-    public Transform DiceSpawningPoint;
-    public Transform DiceField;
+    public Transform CombatDiceSpawningPoint;
+    public Transform CheckDiceSpawningPoint;
+    public Transform CombatDiceField;
+    public Transform CheckDiceField;
 
     public GameObject StartingZone1;
     public GameObject StartingZone2;
 
-    public GameObject DiceResultsMenu;
+    public GameObject CombatDiceResultsMenu;
+    public GameObject CheckDiceResultsMenu;
     public GameObject GenericButton;
 
     public GameObject DirectionsMenu;

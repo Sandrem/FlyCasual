@@ -11,8 +11,6 @@ namespace UpgradesList
 
         public SquadLeader() : base()
         {
-            IsHidden = true;
-
             Type = UpgradeSlot.Elite;
             Name = ShortName = "Squad Leader";
             ImageUrl = "https://vignette2.wikia.nocookie.net/xwing-miniatures/images/c/cd/Squad_Leader.png";
@@ -29,8 +27,7 @@ namespace UpgradesList
 
         private void SquadLeaderAddAction(Ship.GenericShip host)
         {
-            ActionsList.GenericAction newAction = new ActionsList.SquadLeaderAction();
-            newAction.ImageUrl = ImageUrl;
+            ActionsList.GenericAction newAction = new ActionsList.SquadLeaderAction() { ImageUrl = ImageUrl };
             host.AddAvailableAction(newAction);
         }
 
@@ -43,7 +40,6 @@ namespace ActionsList
 
     public class SquadLeaderAction : GenericAction
     {
-        private Ship.GenericShip host;
 
         public SquadLeaderAction()
         {
@@ -52,8 +48,69 @@ namespace ActionsList
 
         public override void ActionTake()
         {
-            // Select ally and distance 1-2 to give it free action
-            Phases.CurrentSubPhase.CallBack();
+            Phases.StartTemporarySubPhase(
+                "Select target for Squad Leader",
+                typeof(SubPhases.SelectSquadLeaderTargetSubPhase),
+                delegate {}
+            );
+        }
+
+    }
+
+}
+
+namespace SubPhases
+{
+
+    public class SelectSquadLeaderTargetSubPhase : SelectShipSubPhase
+    {
+
+        public override void Prepare()
+        {
+            isFriendlyAllowed = true;
+            maxRange = 2;
+            finishAction = SelectSquadLeaderTarget;
+
+            Game.UI.ShowSkipButton();
+        }
+
+        private void SelectSquadLeaderTarget()
+        {
+            Selection.ThisShip = TargetShip;
+
+            Triggers.RegisterTrigger(
+                new Trigger()
+                {
+                    Name = "Squad Leader: Free action",
+                    TriggerOwner = Selection.ThisShip.Owner.PlayerNo,
+                    TriggerType = TriggerTypes.OnFreeActionPlanned,
+                    EventHandler = PerformFreeAction
+                }
+            );
+
+            MovementTemplates.ReturnRangeRuler();
+
+            Triggers.ResolveTriggers(TriggerTypes.OnFreeActionPlanned, delegate {
+                Phases.FinishSubPhase(typeof(SelectSquadLeaderTargetSubPhase));
+                Triggers.FinishTrigger();
+                CallBack();
+            });
+        }
+
+        protected override void RevertSubPhase() { }
+
+        private void PerformFreeAction(object sender, System.EventArgs e)
+        {
+            Selection.ThisShip.GenerateAvailableActionsList();
+            List<ActionsList.GenericAction> actions = Selection.ThisShip.GetAvailableActionsList();
+
+            TargetShip.AskPerformFreeAction(
+                actions,
+                delegate {
+                    Phases.FinishSubPhase(typeof(FreeActionSubPhase));
+                    Triggers.FinishTrigger();
+                }
+            );
         }
 
     }

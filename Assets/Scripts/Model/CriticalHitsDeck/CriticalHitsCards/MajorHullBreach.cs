@@ -19,13 +19,11 @@ namespace CriticalHitCard
         {
             Messages.ShowInfo("Starting the round after you receive this card, all Damage cards dealt to you are dealt faceup");
             Game.UI.AddTestLogEntry("Starting the round after you receive this card, all Damage cards dealt to you are dealt faceup");
-            Host.AssignToken(new Tokens.MajorHullBreachCritToken());
 
             Phases.OnPlanningPhaseStart += DealDamageCardFaceupStart;
-
             Host.AfterGenerateAvailableActionsList += AddCancelCritAction;
 
-            Triggers.FinishTrigger();
+            Host.AssignToken(new Tokens.MajorHullBreachCritToken(), Triggers.FinishTrigger);
         }
 
         public override void DiscardEffect(Ship.GenericShip host)

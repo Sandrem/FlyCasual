@@ -114,7 +114,7 @@ public partial class DiceRerollManager
             int offset = 0;
             foreach (var option in options)
             {
-                GameObject newButton = MonoBehaviour.Instantiate(Game.PrefabsList.GenericButton, Game.PrefabsList.DiceResultsMenu.transform.Find("DiceRerollsPanel"));
+                GameObject newButton = MonoBehaviour.Instantiate(Game.PrefabsList.GenericButton, Game.PrefabsList.CombatDiceResultsMenu.transform.Find("DiceRerollsPanel"));
                 newButton.name = "Button" + option.Key;
                 newButton.transform.GetComponentInChildren<Text>().text = option.Key;
                 newButton.GetComponent<RectTransform>().localPosition = new Vector3(0, -offset, 0);
@@ -137,7 +137,7 @@ public partial class DiceRerollManager
     {
         if (Selection.ActiveShip.Owner.GetType() == typeof(Players.HumanPlayer))
         {
-            Button closeButton = Game.PrefabsList.DiceResultsMenu.transform.Find("DiceRerollsPanel/Confirm").GetComponent<Button>();
+            Button closeButton = Game.PrefabsList.CombatDiceResultsMenu.transform.Find("DiceRerollsPanel/Confirm").GetComponent<Button>();
             closeButton.onClick.RemoveAllListeners();
             closeButton.onClick.AddListener(ConfirmReroll);
             closeButton.gameObject.SetActive(true);
@@ -150,7 +150,7 @@ public partial class DiceRerollManager
 
     private void ToggleDiceModificationsPanel(bool isActive)
     {
-        Game.PrefabsList.DiceResultsMenu.transform.Find("DiceModificationsPanel").gameObject.SetActive(isActive);
+        Game.PrefabsList.CombatDiceResultsMenu.transform.Find("DiceModificationsPanel").gameObject.SetActive(isActive);
 
         if (isActive)
         {
@@ -165,11 +165,11 @@ public partial class DiceRerollManager
 
     private void ToggleDiceRerollsPanel(bool isActive)
     {
-        Game.PrefabsList.DiceResultsMenu.transform.Find("DiceRerollsPanel").gameObject.SetActive(isActive);
+        Game.PrefabsList.CombatDiceResultsMenu.transform.Find("DiceRerollsPanel").gameObject.SetActive(isActive);
 
         if (!isActive)
         {
-            foreach (Transform button in Game.PrefabsList.DiceResultsMenu.transform.Find("DiceRerollsPanel"))
+            foreach (Transform button in Game.PrefabsList.CombatDiceResultsMenu.transform.Find("DiceRerollsPanel"))
             {
                 if (button.name.StartsWith("Button"))
                 {

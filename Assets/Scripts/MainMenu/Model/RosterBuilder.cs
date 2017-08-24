@@ -213,10 +213,13 @@ public static partial class RosterBuilder {
             }
         }
 
-        if (squadCost > 100)
+        if (!DebugManager.DebugNoSquadPointsLimit)
         {
-            Messages.ShowError("Cost of squadron cannot be more than 100");
-            result = false;
+            if (squadCost > 100)
+            {
+                Messages.ShowError("Cost of squadron cannot be more than 100");
+                result = false;
+            }
         }
 
         return result;

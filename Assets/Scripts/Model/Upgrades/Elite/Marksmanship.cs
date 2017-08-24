@@ -39,7 +39,6 @@ namespace ActionsList
 
     public class MarksmanshipAction : GenericAction
     {
-        private Ship.GenericShip host;
 
         public MarksmanshipAction()
         {
@@ -50,11 +49,10 @@ namespace ActionsList
 
         public override void ActionTake()
         {
-            host = Selection.ThisShip;
-            host.AfterGenerateAvailableActionEffectsList += MarksmanshipAddDiceModification;
-            host.AssignToken(new Conditions.MarksmanshipCondition());
+            Host = Selection.ThisShip;
+            Host.AfterGenerateAvailableActionEffectsList += MarksmanshipAddDiceModification;
             Phases.OnEndPhaseStart += MarksmanshipUnSubscribeToFiceModification;
-            Phases.CurrentSubPhase.CallBack();
+            Host.AssignToken(new Conditions.MarksmanshipCondition(), Phases.CurrentSubPhase.CallBack);
         }
 
         public override int GetActionPriority()
@@ -71,8 +69,8 @@ namespace ActionsList
 
         private void MarksmanshipUnSubscribeToFiceModification()
         {
-            host.RemoveToken(typeof(Conditions.MarksmanshipCondition));
-            host.AfterGenerateAvailableActionEffectsList -= MarksmanshipAddDiceModification;
+            Host.RemoveToken(typeof(Conditions.MarksmanshipCondition));
+            Host.AfterGenerateAvailableActionEffectsList -= MarksmanshipAddDiceModification;
         }
 
         public override bool IsActionEffectAvailable()

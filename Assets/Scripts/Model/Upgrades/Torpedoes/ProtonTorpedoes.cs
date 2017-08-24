@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Upgrade;
@@ -20,46 +21,31 @@ namespace UpgradesList
             MinRange = 2;
             MaxRange = 3;
             AttackValue = 4;
+
+            RequiresTargetLockOnTargetToShoot = true;
+            
+            SpendsTargetLockOnTargetToShoot = true;
+            IsDiscardedForShot = true;
         }
 
         public override void AttachToShip(Ship.GenericShip host)
         {
             base.AttachToShip(host);
 
-            ActionsList.ProtonTorpedoesAction action = new ActionsList.ProtonTorpedoesAction();
-            action.Host = host;
-            action.ImageUrl = ImageUrl;
+            AddDiceModification();
+        }
+
+        private void AddDiceModification()
+        {
+            ActionsList.ProtonTorpedoesAction action = new ActionsList.ProtonTorpedoesAction()
+            {
+                Host = Host,
+                ImageUrl = ImageUrl,
+                Source = this
+            };
             action.AddDiceModification();
 
-            host.AddAvailableAction(action);
-        }
-
-        public override bool IsShotAvailable(Ship.GenericShip anotherShip)
-        {
-            bool result = true;
-
-            if (isDiscarded) return false;
-
-            Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(Host, anotherShip);
-
-            int range = shotInfo.Range;
-            if (range < MinRange) return false;
-            if (range > MaxRange) return false;
-
-            if (!shotInfo.InArc) return false;
-
-            if (!Actions.HasTargetLockOn(Host, anotherShip)) return false;
-
-            return result;
-        }
-
-        public override void PayAttackCost()
-        {
-            char letter = Actions.GetTargetLocksLetterPair(Combat.Attacker, Combat.Defender);
-            Combat.Attacker.SpendToken(typeof(Tokens.BlueTargetLockToken), letter);
-            Combat.Defender.RemoveToken(typeof(Tokens.RedTargetLockToken), letter);
-
-            Discard();
+            Host.AddAvailableAction(action);
         }
 
     }
@@ -71,7 +57,6 @@ namespace ActionsList
 
     public class ProtonTorpedoesAction : GenericAction
     {
-        public Ship.GenericShip Host;
 
         public ProtonTorpedoesAction()
         {
@@ -102,7 +87,7 @@ namespace ActionsList
             }
             else
             {
-                if (Combat.SecondaryWeapon.Name != Name) result = false;
+                if (Combat.SecondaryWeapon != Source) result = false;
             }
 
             return result;

@@ -19,8 +19,11 @@ namespace CriticalHitCard
         {
             Messages.ShowInfo("Additional hull damage");
             Game.UI.AddTestLogEntry("Additional hull damage");
-            Host.AssignToken(new Tokens.DirectHitCritToken());
+            Host.AssignToken(new Tokens.DirectHitCritToken(), AdditionalHullDamage);
+        }
 
+        private void AdditionalHullDamage()
+        {
             Host.DecreaseHullValue(Triggers.FinishTrigger);
         }
 

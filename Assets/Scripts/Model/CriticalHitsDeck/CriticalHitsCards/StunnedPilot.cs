@@ -21,9 +21,7 @@ namespace CriticalHitCard
             Game.UI.AddTestLogEntry("After you execute a maneuver, if you are touching another ship or overlapping an obstacle token, suffer 1 damage");
 
             Host.OnMovementFinish += CheckCollisionDamage;
-            Host.AssignToken(new Tokens.StunnedPilotCritToken());
-
-            Triggers.FinishTrigger();
+            Host.AssignToken(new Tokens.StunnedPilotCritToken(), Triggers.FinishTrigger);
         }
 
         private void CheckCollisionDamage(Ship.GenericShip host)
@@ -33,14 +31,19 @@ namespace CriticalHitCard
                 Messages.ShowInfo("Stunned Pilot: Ship suffered damage");
                 Game.UI.AddTestLogEntry("Stunned Pilot: Ship suffered damage");
 
-                Selection.ThisShip.AssignedDamageDiceroll.DiceList.Add(new Dice(DiceKind.Attack, DiceSide.Success));
+                Selection.ThisShip.AssignedDamageDiceroll.AddDice(DiceSide.Success);
 
                 Triggers.RegisterTrigger(new Trigger()
                 {
                     Name = "Suffer damage",
                     TriggerType = TriggerTypes.OnDamageIsDealt,
                     TriggerOwner = Selection.ThisShip.Owner.PlayerNo,
-                    EventHandler = Selection.ThisShip.SufferDamage
+                    EventHandler = Selection.ThisShip.SufferDamage,
+                    EventArgs = new DamageSourceEventArgs()
+                    {
+                        Source = "Critical hit card",
+                        DamageType = DamageTypes.CriticalHitCard
+                    }
                 });
 
                 Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, delegate { });

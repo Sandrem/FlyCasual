@@ -11,8 +11,6 @@ namespace UpgradesList
 
         public R5K6() : base()
         {
-            IsHidden = true;
-
             Type = UpgradeSlot.Astromech;
             Name = ShortName = "R5-K6";
             ImageUrl = "https://vignette4.wikia.nocookie.net/xwing-miniatures/images/d/df/R5-K6.png";
@@ -31,18 +29,70 @@ namespace UpgradesList
         {
             if (type == typeof(Tokens.BlueTargetLockToken))
             {
-                // TODO:
-                // Astromech sound
-                // Visual dice throwing
-                int randomValue = Random.Range(0, 8);
-                // Notification about result
-                if (randomValue > 5)
+                Triggers.RegisterTrigger(new Trigger()
                 {
-                    // Cannot be used now
-                    Actions.AssignTargetLockToPair(Host, Selection.AnotherShip);
-                }
-
+                    Name = "R5-K6' ability",
+                    TriggerOwner = ship.Owner.PlayerNo,
+                    TriggerType = TriggerTypes.OnTokenIsSpent,
+                    EventHandler = StartSubphaseForR5K6Ability
+                });
             }
+        }
+
+        private void StartSubphaseForR5K6Ability(object sender, System.EventArgs e)
+        {
+            Phases.CurrentSubPhase.Pause();
+
+            Selection.ActiveShip = Selection.ThisShip;
+            Phases.StartTemporarySubPhase(
+                "R5-K6: Try to re-aquire Target Lock",
+                typeof(SubPhases.R5K6CheckSubPhase),
+                delegate {
+                    Phases.FinishSubPhase(typeof(SubPhases.R5K6CheckSubPhase));
+                    Phases.CurrentSubPhase.Resume();
+                    Triggers.FinishTrigger();
+                }
+            );
+        }
+
+    }
+
+}
+
+namespace SubPhases
+{
+
+    public class R5K6CheckSubPhase : DiceRollCheckSubPhase
+    {
+
+        public override void Prepare()
+        {
+            dicesType = DiceKind.Defence;
+            dicesCount = 1;
+
+            finishAction = FinishAction;
+        }
+
+        protected override void FinishAction()
+        {
+            HideDiceResultMenu();
+
+            if (CurrentDiceRoll.DiceList[0].Side == DiceSide.Success)
+            {
+                Actions.AssignTargetLockToPair(Combat.Attacker, Combat.Defender, CallBack, CallBack);
+
+                //TODO: Avoid code after callback
+                char newTargetLockTokenLetter = Combat.Attacker.GetTargetLockLetterPair(Combat.Defender);
+                Tokens.GenericToken newTargetLockToken = Combat.Attacker.GetToken(typeof(Tokens.BlueTargetLockToken), newTargetLockTokenLetter);
+                newTargetLockToken.CanBeUsed = false;
+
+                Combat.Attacker.AfterCombatEnd += delegate { newTargetLockToken.CanBeUsed = true; };
+            }
+            else
+            {
+                CallBack();
+            }
+            
         }
 
     }

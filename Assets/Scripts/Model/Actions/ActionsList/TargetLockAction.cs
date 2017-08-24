@@ -17,17 +17,16 @@ namespace ActionsList
         {
             if (Actions.HasTargetLockOn(Combat.Attacker, Combat.Defender))
             {
-                char letter = ' ';
-                letter = Actions.GetTargetLocksLetterPair(Combat.Attacker, Combat.Defender);
-
-                Selection.ActiveShip.SpendToken(typeof(Tokens.BlueTargetLockToken), letter);
-                Combat.Defender.RemoveToken(typeof(Tokens.RedTargetLockToken), letter);
-
                 DiceRerollManager diceRerollManager = new DiceRerollManager()
                 {
                     CallBack = callBack
                 };
-                diceRerollManager.Start();
+
+                char letter = ' ';
+                letter = Actions.GetTargetLocksLetterPair(Combat.Attacker, Combat.Defender);
+
+                Combat.Defender.RemoveToken(typeof(Tokens.RedTargetLockToken), letter);
+                Selection.ActiveShip.SpendToken(typeof(Tokens.BlueTargetLockToken), diceRerollManager.Start, letter);
             }
         }
 
@@ -96,10 +95,15 @@ namespace SubPhases
 
         private void TrySelectTargetLock()
         {
-            if (!Actions.AssignTargetLockToPair(Selection.ThisShip, TargetShip))
-            {
-                RevertSubPhase();
-            }
+            Actions.AssignTargetLockToPair(
+                Selection.ThisShip,
+                TargetShip,
+                delegate {
+                    Phases.FinishSubPhase(typeof(SelectTargetLockSubPhase));
+                    CallBack();
+                },
+                RevertSubPhase
+            );
         }
 
         protected override void RevertSubPhase()

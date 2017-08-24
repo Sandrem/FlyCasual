@@ -13,12 +13,19 @@ public enum TriggerTypes
     OnShipMovementFinish,
     OnPositionFinish,
     OnActionSubPhaseStart,
+    OnActionSubPhaseEnd,
+    OnFreeActionPlanned,
     OnFreeAction,
+    OnTokenIsAssigned,
+    OnTokenIsSpent,
     OnCombatPhaseStart,
+    OnAttackHit,
     OnFaceupCritCardReadyToBeDealt,
     OnDamageIsDealt,
     OnFaceupCritCardIsDealt,
-    OnMajorExplosionCrit
+    OnMajorExplosionCrit,
+    OnAbilityTargetIsSelected,
+    OnEndPhaseStart
 }
 
 public class Trigger
@@ -113,7 +120,7 @@ public static partial class Triggers
         if (DebugManager.DebugTriggers) Debug.Log("Triggers are resolved: " + triggerType);
         StackLevel currentLevel = GetCurrentLevel();
 
-        if (currentLevel == null)
+        if (currentLevel == null || currentLevel.IsActive)
         {
             CreateNewLevelOfStack(callBack);
             currentLevel = GetCurrentLevel();
@@ -156,6 +163,9 @@ public static partial class Triggers
     public static void FinishTrigger()
     {
         StackLevel currentStackLevel = GetCurrentLevel();
+
+        if (currentStackLevel.GetTrigersList().Count == 0) Debug.Log("Ooops, you want to finish trigger, but new empty level of stack was created!");
+
         Trigger currentTrigger = currentStackLevel.GetCurrentTrigger();
 
         if (DebugManager.DebugTriggers) Debug.Log("Trigger is finished: " + currentTrigger.Name);

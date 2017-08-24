@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Upgrade;
 
@@ -11,8 +12,6 @@ namespace UpgradesList
 
         public ExpertHandling() : base()
         {
-            IsHidden = true;
-
             Type = UpgradeSlot.Elite;
             Name = "Expert Handling";
             ShortName = "Exp. Handling";
@@ -29,8 +28,11 @@ namespace UpgradesList
 
         private void AddExpertHandlingAction(Ship.GenericShip host)
         {
-            ActionsList.GenericAction newAction = new ActionsList.ExpertHandlingAction();
-            newAction.ImageUrl = ImageUrl;
+            ActionsList.GenericAction newAction = new ActionsList.ExpertHandlingAction()
+            {
+                ImageUrl = ImageUrl,
+                Host = Host
+            };
             host.AddAvailableAction(newAction);
         }
 
@@ -42,8 +44,6 @@ namespace ActionsList
 
     public class ExpertHandlingAction : GenericAction
     {
-        private Ship.GenericShip host;
-
         public ExpertHandlingAction()
         {
             Name = EffectName = "Expert Handling";
@@ -51,31 +51,83 @@ namespace ActionsList
 
         public override void ActionTake()
         {
-            host = Selection.ThisShip;
-            //TODO:
-            // Start barrel roll
-            GenericAction action = new BarrelRollAction();
-            action.ActionTake();
-            // On success remove tl (selection?)
-            host.RemoveToken(typeof(Tokens.RedTargetLockToken), '*');
-            // On success if cannot Barrel Roll - add stress
-            bool hasBuiltInAction = false;
-            foreach (var builtInAction in host.GetActionsFromActionBar())
+            Phases.CurrentSubPhase.Pause();
+            Phases.StartTemporarySubPhase(
+                "Expert Handling: Barrel Roll",
+                typeof(SubPhases.BarrelRollPlanningSubPhase),
+                CheckStress
+            );
+        }
+
+        private void CheckStress()
+        {
+            bool hasBarrelRollAction = (Host.BuiltInActions.Count(n => n.GetType() == typeof(BarrelRollAction)) != 0);
+
+            if (!hasBarrelRollAction) Host.AssignToken(new Tokens.StressToken(), RemoveTargetLock);
+        }
+
+        private void RemoveTargetLock()
+        {
+            if (Host.HasToken(typeof(Tokens.RedTargetLockToken), '*'))
             {
-                if (builtInAction.Name == action.Name)
+                Phases.StartTemporarySubPhase(
+                    "Expert Handling: Select target lock to remove",
+                    typeof(SubPhases.ExpertHandlingTargetLockDecisionSubPhase),
+                    Finish
+                );
+            }
+            else
+            {
+                Finish();
+            }
+        }
+
+        private void Finish()
+        {
+            Phases.CurrentSubPhase.CallBack();
+        }
+
+    }
+
+}
+
+namespace SubPhases
+{
+
+    public class ExpertHandlingTargetLockDecisionSubPhase : DecisionSubPhase
+    {
+
+        public override void Prepare()
+        {
+            infoText = "Select target lock to remove";
+
+            foreach (var token in Selection.ThisShip.GetAssignedTokens())
+            {
+                if (token.GetType() == typeof(Tokens.RedTargetLockToken))
                 {
-                    hasBuiltInAction = true;
-                    break;
+                    AddDecision(
+                        "Remove token \"" + (token as Tokens.RedTargetLockToken).Letter + "\"",
+                        delegate { RemoveRedTargetLockToken((token as Tokens.RedTargetLockToken).Letter); }
+                    );
                 }
             }
 
-            if (!hasBuiltInAction)
-            {
-                host.AssignToken(new Tokens.StressToken());
-            }
-            // !!!  A ship equipped with Expert Handling cannot perform a barrel roll and use the Expert Handling action in the same round.
-            //Phases.Next();
-            Phases.CurrentSubPhase.CallBack();
+            AddDecision("Don't remove", delegate { ConfirmDecision(); });
+
+            defaultDecision = GetDecisions().First().Key;
+        }
+
+        private void RemoveRedTargetLockToken(char letter)
+        {
+            Selection.ThisShip.RemoveToken(typeof(Tokens.RedTargetLockToken), letter);
+            ConfirmDecision();
+        }
+
+
+        private void ConfirmDecision()
+        {
+            Phases.FinishSubPhase(this.GetType());
+            CallBack();
         }
 
     }

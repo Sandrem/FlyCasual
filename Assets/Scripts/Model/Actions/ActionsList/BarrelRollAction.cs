@@ -15,6 +15,7 @@ namespace ActionsList
         public override void ActionTake()
         {
             Phases.CurrentSubPhase.Pause();
+
             Phases.StartTemporarySubPhase(
                 "Barrel Roll",
                 typeof(SubPhases.BarrelRollPlanningSubPhase),
@@ -305,13 +306,14 @@ namespace SubPhases
             Selection.ThisShip.FinishPosition(delegate() { });
 
             Phases.FinishSubPhase(typeof(BarrelRollExecutionSubPhase));
+
             CallBack();
         }
 
         public override void Next()
         {
-            Phases.CurrentSubPhase = PreviousSubPhase;
-            Phases.CurrentSubPhase.Next();
+            Phases.CurrentSubPhase = Phases.CurrentSubPhase.PreviousSubPhase;
+            Phases.CurrentSubPhase = Phases.CurrentSubPhase.PreviousSubPhase;
             UpdateHelpInfo();
         }
 

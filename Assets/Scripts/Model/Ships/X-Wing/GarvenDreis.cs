@@ -2,12 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-// TODO:
-// Correct work with combat subphase
-// What if there is no another frienly ships
-// What if I do not want assign token
-// What revert should be done if selected ship does not fulfill all requirements
-
 namespace Ship
 {
     namespace XWing
@@ -16,8 +10,6 @@ namespace Ship
         {
             public GarvenDreis() : base()
             {
-                IsHidden = true;
-
                 PilotName = "Garven Dreis";
                 ImageUrl = "https://vignette3.wikia.nocookie.net/xwing-miniatures/images/f/f8/Garven-dreis.png";
                 IsUnique = true;
@@ -28,18 +20,37 @@ namespace Ship
             public override void InitializePilot()
             {
                 base.InitializePilot();
-                AfterTokenIsSpent += GarvenDreisPilotAbility;
+                AfterTokenIsSpent += RegisterGarvenDreisPilotAbility;
             }
 
-            private void GarvenDreisPilotAbility(GenericShip ship, System.Type type)
+            private void RegisterGarvenDreisPilotAbility(GenericShip ship, System.Type type)
             {
-                if (type == typeof(Tokens.FocusToken))
+                Triggers.RegisterTrigger(new Trigger()
                 {
-                    if (ship.Owner.Ships.Count > 1)
-                    {
-                        Selection.ActiveShip = ship;
-                        Phases.StartTemporarySubPhase("Place Focus token to another friendly ship at range 1-2", typeof(SubPhases.GarvenDreisAbilitySubPhase));
-                    }
+                    Name = "Garven Dreis' ability",
+                    TriggerOwner = ship.Owner.PlayerNo,
+                    TriggerType = TriggerTypes.OnTokenIsSpent,
+                    EventHandler = StartSubphaseForGarvenDreisPilotAbility
+                });
+            }
+
+            private void StartSubphaseForGarvenDreisPilotAbility(object sender, System.EventArgs e)
+            {
+                Selection.ThisShip = this;
+                if (Owner.Ships.Count > 1)
+                {
+                    Phases.StartTemporarySubPhase(
+                        "Select target for Garven Dreis' ability",
+                        typeof(SubPhases.GarvenDreisAbilityTargetSubPhase),
+                        delegate {
+                            Phases.FinishSubPhase(typeof(SubPhases.GarvenDreisAbilityTargetSubPhase));
+                            Triggers.FinishTrigger();
+                        }
+                    );
+                }
+                else
+                {
+                    Triggers.FinishTrigger();
                 }
             }
 
@@ -50,35 +61,26 @@ namespace Ship
 namespace SubPhases
 {
 
-    public class GarvenDreisAbilitySubPhase : SelectShipSubPhase
+    public class GarvenDreisAbilityTargetSubPhase : SelectShipSubPhase
     {
 
         public override void Prepare()
         {
             isFriendlyAllowed = true;
             maxRange = 2;
-
-            finishAction = AssignFocusToken;
+            finishAction = SelectGarvenDreisAbilityTarget;
 
             Game.UI.ShowSkipButton();
         }
 
-        public override void Next()
+        private void SelectGarvenDreisAbilityTarget()
         {
-            Game.UI.HideNextButton();
-            PreviousSubPhase.Resume();
-            base.Next();
+            MovementTemplates.ReturnRangeRuler();
+
+            TargetShip.AssignToken(new Tokens.FocusToken(), delegate { CallBack(); });
         }
 
-        private void AssignFocusToken()
-        {
-            TargetShip.AssignToken(new Tokens.FocusToken());
-        }
-
-        protected override void RevertSubPhase()
-        {
-            Game.UI.HighlightNextButton();
-        }
+        protected override void RevertSubPhase() { }
 
     }
 

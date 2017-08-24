@@ -38,7 +38,6 @@ namespace PilotAbilities
 {
     public class LukeSkywalkerAction : ActionsList.GenericAction
     {
-        private Ship.GenericShip host;
 
         public LukeSkywalkerAction()
         {

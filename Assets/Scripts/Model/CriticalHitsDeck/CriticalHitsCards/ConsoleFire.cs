@@ -19,13 +19,11 @@ namespace CriticalHitCard
         {
             Messages.ShowInfo("At the start of each Combat phase, roll 1 attack die.");
             Game.UI.AddTestLogEntry("At the start of each Combat phase, roll 1 attack die.");
-            Host.AssignToken(new Tokens.ConsoleFireCritToken());
 
             Host.OnCombatPhaseStart += PlanRollForDamage;
-
             Host.AfterGenerateAvailableActionsList += AddCancelCritAction;
 
-            Triggers.FinishTrigger();
+            Host.AssignToken(new Tokens.ConsoleFireCritToken(), Triggers.FinishTrigger);
         }
 
         private void PlanRollForDamage(Ship.GenericShip host)
@@ -106,7 +104,12 @@ namespace SubPhases
                 Name = "Suffer damage",
                 TriggerType = TriggerTypes.OnDamageIsDealt,
                 TriggerOwner = Selection.ActiveShip.Owner.PlayerNo,
-                EventHandler = Selection.ActiveShip.SufferDamage
+                EventHandler = Selection.ActiveShip.SufferDamage,
+                EventArgs = new DamageSourceEventArgs()
+                {
+                    Source = "Critical hit card",
+                    DamageType = DamageTypes.CriticalHitCard
+                }
             });
 
             Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, CallBack);

@@ -121,9 +121,11 @@ public static partial class Phases
         Triggers.ResolveTriggers(TriggerTypes.OnCombatPhaseStart, delegate () { FinishSubPhase(typeof(CombatStartSubPhase)); });
     }
 
-    public static void CallEndPhaseTrigger()
+    public static void CallEndPhaseTrigger(Action callBack)
     {
         if (OnEndPhaseStart != null) OnEndPhaseStart();
+
+        Triggers.ResolveTriggers(TriggerTypes.OnEndPhaseStart, callBack);
     }
 
     public static void CallRoundEndTrigger()

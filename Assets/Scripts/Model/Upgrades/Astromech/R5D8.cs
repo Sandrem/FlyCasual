@@ -11,8 +11,6 @@ namespace UpgradesList
 
         public R5D8() : base()
         {
-            IsHidden = true;
-
             Type = UpgradeSlot.Astromech;
             Name = ShortName = "R5-D8";
             ImageUrl = "https://vignette3.wikia.nocookie.net/xwing-miniatures/images/f/ff/R5-D8.jpg";
@@ -43,8 +41,6 @@ namespace ActionsList
 
     public class R5D8Action : GenericAction
     {
-        private Ship.GenericShip host;
-
         public R5D8Action()
         {
             Name = EffectName = "R5-D8: Try to repair";
@@ -52,16 +48,47 @@ namespace ActionsList
 
         public override void ActionTake()
         {
-            // TODO:
-            // Astromech sound
-            // Visual dice throwing
-            int randomValue = Random.Range(0, 8);
-            // Notification about result
-            if (randomValue > 2)
+            Selection.ActiveShip = Selection.ThisShip;
+            Phases.StartTemporarySubPhase(
+                "R5-D8: Try to repair",
+                typeof(SubPhases.R5D8CheckSubPhase),
+                delegate {
+                    Phases.FinishSubPhase(typeof(SubPhases.R5D8CheckSubPhase));
+                    Phases.CurrentSubPhase.CallBack();
+                }
+            );
+        }
+    }
+
+}
+
+namespace SubPhases
+{
+
+    public class R5D8CheckSubPhase : DiceRollCheckSubPhase
+    {
+
+        public override void Prepare()
+        {
+            dicesType = DiceKind.Defence;
+            dicesCount = 1;
+
+            finishAction = FinishAction;
+        }
+
+        protected override void FinishAction()
+        {
+            HideDiceResultMenu();
+
+            if (CurrentDiceRoll.DiceList[0].Side == DiceSide.Success || CurrentDiceRoll.DiceList[0].Side == DiceSide.Focus)
             {
-                // Remove random damage card
+                if (Selection.ThisShip.TryDiscardFaceDownDamageCard())
+                {
+                    Messages.ShowInfoToHuman("Facedown Damage card is discarded");
+                }
             }
-            Phases.CurrentSubPhase.CallBack();
+
+            CallBack();
         }
 
     }

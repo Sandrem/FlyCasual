@@ -48,7 +48,7 @@ namespace SubPhases
         private void StartActionDecisionSubphase(object sender, System.EventArgs e)
         {
             Phases.StartTemporarySubPhase(
-                "Action",
+                "Action Decision",
                 typeof(ActionDecisonSubPhase),
                 delegate () {
                     Phases.FinishSubPhase(typeof(ActionDecisonSubPhase));
@@ -59,12 +59,9 @@ namespace SubPhases
 
         public override void Next()
         {
-            Selection.ThisShip.CallAfterActionIsPerformed(this.GetType());
+            Selection.ThisShip.CallOnActionSubphaseEnd();
 
-            if (Phases.CurrentSubPhase.GetType() == this.GetType())
-            {
-                FinishPhase();
-            }
+            Triggers.ResolveTriggers(TriggerTypes.OnActionSubPhaseEnd, FinishPhase);
         }
 
         public override void Pause()

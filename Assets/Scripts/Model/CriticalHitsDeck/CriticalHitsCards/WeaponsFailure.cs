@@ -21,13 +21,11 @@ namespace CriticalHitCard
         {
             Messages.ShowInfo("When attacking, roll 1 fewer attack dice");
             Game.UI.AddTestLogEntry("When attacking, roll 1 fewer attack dice");
-            Host.AssignToken(new Tokens.WeaponsFailureCritToken());
 
             Host.AfterGotNumberOfPrimaryWeaponAttackDices += ReduceNumberOfAttackDices;
-
             Host.AfterGenerateAvailableActionsList += AddCancelCritAction;
 
-            Triggers.FinishTrigger();
+            Host.AssignToken(new Tokens.WeaponsFailureCritToken(), Triggers.FinishTrigger);
         }
 
         public override void DiscardEffect(Ship.GenericShip host)

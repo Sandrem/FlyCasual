@@ -58,7 +58,6 @@ namespace ActionsList
 
     public class ConcussionMissilesAction : GenericAction
     {
-        public Ship.GenericShip Host;
 
         public ConcussionMissilesAction()
         {

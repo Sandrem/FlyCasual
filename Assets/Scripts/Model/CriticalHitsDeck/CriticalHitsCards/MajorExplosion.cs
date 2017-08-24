@@ -88,7 +88,12 @@ namespace SubPhases
                 Name = "Suffer critical damage",
                 TriggerType = TriggerTypes.OnDamageIsDealt,
                 TriggerOwner = Selection.ActiveShip.Owner.PlayerNo,
-                EventHandler = Selection.ActiveShip.SufferDamage
+                EventHandler = Selection.ActiveShip.SufferDamage,
+                EventArgs = new DamageSourceEventArgs()
+                {
+                    Source = "Critical hit card",
+                    DamageType = DamageTypes.CriticalHitCard
+                }
             });
 
             Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, CallBack);

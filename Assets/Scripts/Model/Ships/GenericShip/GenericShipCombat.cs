@@ -182,6 +182,9 @@ namespace Ship
 
         public void SufferDamage(object sender, EventArgs e)
         {
+            if (DebugManager.DebugDamage) Debug.Log("+++ Source: " + (e as DamageSourceEventArgs).Source);
+            if (DebugManager.DebugDamage) Debug.Log("+++ DamageType: " + (e as DamageSourceEventArgs).DamageType);
+
             if (Shields > 0)
             {
                 SufferShieldDamage();
@@ -189,45 +192,48 @@ namespace Ship
             else
             {
                 bool isCritical = (AssignedDamageDiceroll.RegularSuccesses == 0);
-                SufferHullDamage(CheckFaceupCrit(isCritical));
+                SufferHullDamage(CheckFaceupCrit(isCritical), e);
             }
         }
 
-        public void SufferHullDamage(bool isCritical)
+        public void SufferHullDamage(bool isCritical, EventArgs e)
         {
+            AssignedDamageDiceroll.CancelHits(1);
+
             if (DebugManager.DebugAllDamageIsCrits) isCritical = true;
 
             if (isCritical)
             {
                 Combat.CurrentCriticalHitCard = CriticalHitsDeck.GetCritCard();
 
-                //if (DebugManager.DebugDamage) Debug.Log("+++ Crit: " + Combat.CurrentCriticalHitCard.Name);
-                //if (DebugManager.DebugDamage) Debug.Log("+++ Source: " + (e as DamageSourceEventArgs).Source);
-                //if (DebugManager.DebugDamage) Debug.Log("+++ DamageType: " + (e as DamageSourceEventArgs).DamageType);
+                if (DebugManager.DebugDamage) Debug.Log("+++ Crit: " + Combat.CurrentCriticalHitCard.Name);
 
                 if (OnFaceupCritCardReadyToBeDealt != null) OnFaceupCritCardReadyToBeDealt(this, ref Combat.CurrentCriticalHitCard);
 
-                if (OnFaceupCritCardReadyToBeDealtGlobal != null) OnFaceupCritCardReadyToBeDealtGlobal(this, ref Combat.CurrentCriticalHitCard);
+                if (OnFaceupCritCardReadyToBeDealtGlobal != null) OnFaceupCritCardReadyToBeDealtGlobal(this, ref Combat.CurrentCriticalHitCard, e);
 
-                if (OnAssignCrit != null) OnAssignCrit(this, ref Combat.CurrentCriticalHitCard);
-
-                if (Combat.CurrentCriticalHitCard != null)
-                {
-                    AssignedCritCards.Add(Combat.CurrentCriticalHitCard);
-                    DecreaseHullValue(delegate { Combat.CurrentCriticalHitCard.AssignCrit(this); });                    
-                }
-                else
-                {
-                    Triggers.FinishTrigger();
-                }
+                Triggers.ResolveTriggers(TriggerTypes.OnFaceupCritCardReadyToBeDealt, SufferHullDamagePart2);
             }
             else
             {
                 AssignedDamageCards.Add(CriticalHitsDeck.GetCritCard());
                 DecreaseHullValue(Triggers.FinishTrigger);
             }
+        }
 
-            AssignedDamageDiceroll.CancelHits(1);
+        private void SufferHullDamagePart2()
+        {
+            if (OnAssignCrit != null) OnAssignCrit(this, ref Combat.CurrentCriticalHitCard);
+
+            if (Combat.CurrentCriticalHitCard != null)
+            {
+                AssignedCritCards.Add(Combat.CurrentCriticalHitCard);
+                DecreaseHullValue(delegate { Combat.CurrentCriticalHitCard.AssignCrit(this); });
+            }
+            else
+            {
+                Triggers.FinishTrigger();
+            }
         }
 
         public void DecreaseHullValue(Action callBack)
@@ -253,8 +259,9 @@ namespace Ship
 
         public void SufferShieldDamage()
         {
-            Shields--;
             AssignedDamageDiceroll.CancelHits(1);
+
+            Shields--;
             CallAfterAssignedDamageIsChanged();
             Triggers.FinishTrigger();
         }

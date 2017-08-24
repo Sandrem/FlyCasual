@@ -70,6 +70,11 @@ namespace UpgradesList
                 TriggerType = TriggerTypes.OnDamageIsDealt,
                 TriggerOwner = Combat.Defender.Owner.PlayerNo,
                 EventHandler = Combat.Defender.SufferDamage,
+                EventArgs = new DamageSourceEventArgs()
+                {
+                    Source = Combat.Attacker,
+                    DamageType = DamageTypes.ShipAttack
+                },
                 Skippable = true
             });
 

@@ -116,7 +116,12 @@ namespace SubPhases
                     Name = "Suffer asteroid damage",
                     TriggerType = TriggerTypes.OnDamageIsDealt,
                     TriggerOwner = Selection.ActiveShip.Owner.PlayerNo,
-                    EventHandler = Selection.ActiveShip.SufferDamage
+                    EventHandler = Selection.ActiveShip.SufferDamage,
+                    EventArgs = new DamageSourceEventArgs()
+                    {
+                        Source = "Asteroid",
+                        DamageType = DamageTypes.ObstacleCollision
+                    }
                 });
             }
         }

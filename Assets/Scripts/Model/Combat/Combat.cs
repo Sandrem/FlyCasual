@@ -12,17 +12,17 @@ public enum CombatStep
     Defence
 }
 
+public class DamageSourceEventArgs : EventArgs
+{
+    public object Source { get; set; }
+    public DamageTypes DamageType { get; set; }
+}
+
 public enum DamageTypes
 {
     ShipAttack,
     ObstacleCollision,
     CriticalHitCard
-}
-
-public class DamageSourceEventArgs : EventArgs
-{
-    public object Source { get; set; }
-    public DamageTypes DamageType { get; set; }
 }
 
 public static partial class Combat
@@ -212,6 +212,11 @@ public static partial class Combat
                 TriggerType = TriggerTypes.OnDamageIsDealt,
                 TriggerOwner = Defender.Owner.PlayerNo,
                 EventHandler = Defender.SufferDamage,
+                EventArgs = new DamageSourceEventArgs()
+                {
+                    Source = Attacker,
+                    DamageType = DamageTypes.ShipAttack
+                },
                 Skippable = true
             });
         }

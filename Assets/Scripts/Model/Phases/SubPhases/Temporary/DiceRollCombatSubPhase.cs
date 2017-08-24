@@ -92,6 +92,16 @@ namespace SubPhases
             ToggleConfirmDiceResultsButton(false);
         }
 
+        public override void Pause()
+        {
+            Game.PrefabsList.CombatDiceResultsMenu.SetActive(false);
+        }
+
+        public override void Resume()
+        {
+            Game.PrefabsList.CombatDiceResultsMenu.SetActive(true);
+        }
+
         public override void Next()
         {
             Phases.CurrentSubPhase = PreviousSubPhase;

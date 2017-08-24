@@ -6,7 +6,8 @@ using UnityEngine;
 public enum DiceRollCheckType
 {
     Combat,
-    Check
+    Check,
+    Virtual
 }
 
 public partial class DiceRoll
@@ -42,7 +43,7 @@ public partial class DiceRoll
         Number = number;
         CheckType = checkType;
 
-        SetSpawningPoint();
+        if (checkType != DiceRollCheckType.Virtual) SetSpawningPoint();
 
         GenerateDiceRoll();
     }

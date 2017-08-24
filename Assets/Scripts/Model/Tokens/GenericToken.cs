@@ -12,6 +12,7 @@ namespace Tokens
         public string Name;
         public bool Temporary = true;
         public ActionsList.GenericAction Action = null;
+        public bool CanBeUsed = true;
         public int Count = 1;
         public string Tooltip;
 
@@ -22,7 +23,10 @@ namespace Tokens
         public virtual ActionsList.GenericAction GetAvailableEffects()
         {
             ActionsList.GenericAction result = null;
-            if (Action!=null) result = Action;
+            if ((Action != null) && (CanBeUsed))
+            {
+                result = Action;
+            }
             return result;
         }
 

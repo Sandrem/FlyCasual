@@ -3,14 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using Upgrade;
 
-/*
- * KNOWN PROBLEMS
- * 1) Ability during combat -> attack dice results are visible
- * 2) Triggered on select action instead of select action callback
- * 3) Pay cost of proton torpedo -> Exception, no subphase callback 
- */
-
-
 namespace UpgradesList
 {
 
@@ -19,8 +11,6 @@ namespace UpgradesList
 
         public R5K6() : base()
         {
-            IsHidden = true;
-
             Type = UpgradeSlot.Astromech;
             Name = ShortName = "R5-K6";
             ImageUrl = "https://vignette4.wikia.nocookie.net/xwing-miniatures/images/d/df/R5-K6.png";
@@ -37,24 +27,30 @@ namespace UpgradesList
 
         private void R5K6Ability(Ship.GenericShip ship, System.Type type)
         {
-            Triggers.RegisterTrigger(new Trigger()
+            if (type == typeof(Tokens.BlueTargetLockToken))
             {
-                Name = "R5-K6' ability",
-                TriggerOwner = ship.Owner.PlayerNo,
-                TriggerType = TriggerTypes.OnTokenIsSpent,
-                EventHandler = StartSubphaseForR5K6Ability
-            });
+                Triggers.RegisterTrigger(new Trigger()
+                {
+                    Name = "R5-K6' ability",
+                    TriggerOwner = ship.Owner.PlayerNo,
+                    TriggerType = TriggerTypes.OnTokenIsSpent,
+                    EventHandler = StartSubphaseForR5K6Ability
+                });
+            }
         }
 
         private void StartSubphaseForR5K6Ability(object sender, System.EventArgs e)
         {
+            Phases.CurrentSubPhase.Pause();
+
             Selection.ActiveShip = Selection.ThisShip;
             Phases.StartTemporarySubPhase(
                 "R5-K6: Try to re-aquire Target Lock",
                 typeof(SubPhases.R5K6CheckSubPhase),
                 delegate {
                     Phases.FinishSubPhase(typeof(SubPhases.R5K6CheckSubPhase));
-                    Phases.CurrentSubPhase.CallBack();
+                    Phases.CurrentSubPhase.Resume();
+                    Triggers.FinishTrigger();
                 }
             );
         }
@@ -84,6 +80,13 @@ namespace SubPhases
             if (CurrentDiceRoll.DiceList[0].Side == DiceSide.Success)
             {
                 Actions.AssignTargetLockToPair(Combat.Attacker, Combat.Defender, CallBack, CallBack);
+
+                //TODO: Avoid code after callback
+                char newTargetLockTokenLetter = Combat.Attacker.GetTargetLockLetterPair(Combat.Defender);
+                Tokens.GenericToken newTargetLockToken = Combat.Attacker.GetToken(typeof(Tokens.BlueTargetLockToken), newTargetLockTokenLetter);
+                newTargetLockToken.CanBeUsed = false;
+
+                Combat.Attacker.AfterCombatEnd += delegate { newTargetLockToken.CanBeUsed = true; };
             }
             else
             {

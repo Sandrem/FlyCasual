@@ -26,8 +26,8 @@ public class DiceCompareHelper
 
     private void GenerateHelper()
     {
-        helperPanel = GameObject.Find("UI/DiceResultsPanel/DiceCompareHelp");
-        helperPanel = GameObject.Find("UI").gameObject.transform.Find("DiceResultsPanel").gameObject.transform.Find("DiceCompareHelp").gameObject;
+        helperPanel = GameObject.Find("UI/CombatDiceResultsPanel/DiceCompareHelp");
+        helperPanel = GameObject.Find("UI").gameObject.transform.Find("CombatDiceResultsPanel").gameObject.transform.Find("DiceCompareHelp").gameObject;
         iconPrefabHit = helperPanel.transform.Find("DiceImages").gameObject.transform.Find("AttackHit").gameObject;
         iconPrefabCrit = helperPanel.transform.Find("DiceImages").gameObject.transform.Find("AttackCrit").gameObject;
 

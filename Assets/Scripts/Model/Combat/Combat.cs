@@ -408,12 +408,12 @@ namespace SubPhases
 
         public override void Pause()
         {
-            Game.PrefabsList.DiceResultsMenu.SetActive(false);
+            Game.PrefabsList.CombatDiceResultsMenu.SetActive(false);
         }
 
         public override void Resume()
         {
-            Game.PrefabsList.DiceResultsMenu.SetActive(true);
+            Game.PrefabsList.CombatDiceResultsMenu.SetActive(true);
         }
 
     }

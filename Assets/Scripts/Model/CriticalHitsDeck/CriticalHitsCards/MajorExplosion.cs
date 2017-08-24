@@ -81,7 +81,7 @@ namespace SubPhases
             Messages.ShowInfo("Major Explosion: Suffer 1 additional critical damage");
             Game.UI.AddTestLogEntry("Major Explosion: Suffer 1 additional critical damage");
 
-            Selection.ActiveShip.AssignedDamageDiceroll.DiceList.Add(new Dice(DiceKind.Attack, DiceSide.Crit));
+            Selection.ActiveShip.AssignedDamageDiceroll.AddDice(DiceSide.Crit);
 
             Triggers.RegisterTrigger(new Trigger()
             {

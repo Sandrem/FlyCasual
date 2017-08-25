@@ -120,7 +120,7 @@ public static partial class RosterBuilder {
         return result;
     }
 
-    private static List<string> GetUpgrades(Upgrade.UpgradeSlot slot)
+    private static List<string> GetUpgrades(Upgrade.UpgradeType slot)
     {
         List<string> results = new List<string>();
 

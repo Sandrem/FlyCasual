@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Ship
 {
-    class ShipPrintedInfo
+    public class ShipPrintedInfo
     {
         public string ShipType { get; protected set; }
         public Faction Faction { get; protected set; }

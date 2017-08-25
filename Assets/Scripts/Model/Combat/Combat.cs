@@ -138,12 +138,12 @@ public static partial class Combat
     {
         if (SecondaryWeapon != null)
         {
-            if (SecondaryWeapon.Type == Upgrade.UpgradeSlot.Torpedoes || SecondaryWeapon.Type == Upgrade.UpgradeSlot.Missiles)
+            if (SecondaryWeapon.Type == Upgrade.UpgradeType.Torpedoes || SecondaryWeapon.Type == Upgrade.UpgradeType.Missiles)
             {
                 Sounds.PlayShots("Proton-Torpedoes", 1);
                 Selection.ThisShip.AnimateMunitionsShot();
             }
-            else if (SecondaryWeapon.Type == Upgrade.UpgradeSlot.Turret)
+            else if (SecondaryWeapon.Type == Upgrade.UpgradeType.Turret)
             {
                 Sounds.PlayShots(Selection.ActiveShip.SoundShotsPath, Selection.ActiveShip.ShotsCount);
                 Selection.ThisShip.AnimateTurretWeapon();

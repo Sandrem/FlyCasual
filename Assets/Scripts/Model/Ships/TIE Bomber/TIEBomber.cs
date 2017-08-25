@@ -20,11 +20,11 @@ namespace Ship
                 MaxHull = 6;
                 MaxShields = 0;
 
-                AddUpgradeSlot(Upgrade.UpgradeSlot.Torpedoes);
-                AddUpgradeSlot(Upgrade.UpgradeSlot.Torpedoes);
-                AddUpgradeSlot(Upgrade.UpgradeSlot.Missiles);
-                AddUpgradeSlot(Upgrade.UpgradeSlot.Missiles);
-                AddUpgradeSlot(Upgrade.UpgradeSlot.Bomb);
+                AddUpgradeSlot(Upgrade.UpgradeType.Torpedoes);
+                AddUpgradeSlot(Upgrade.UpgradeType.Torpedoes);
+                AddUpgradeSlot(Upgrade.UpgradeType.Missiles);
+                AddUpgradeSlot(Upgrade.UpgradeType.Missiles);
+                AddUpgradeSlot(Upgrade.UpgradeType.Bomb);
 
                 AssignTemporaryManeuvers();
                 HotacManeuverTable = new AI.TIEBomberTable();

@@ -10,7 +10,7 @@ namespace UpgradesList
     {
         public IonCannonTurret() : base()
         {
-            Type = UpgradeSlot.Turret;
+            Type = UpgradeType.Turret;
 
             Name = "Ion Cannon Turret";
             ShortName = "Ion Cannon Turret";

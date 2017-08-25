@@ -12,7 +12,7 @@ namespace UpgradesList
 
         public SwarmTactics() : base()
         {
-            Type = UpgradeSlot.Elite;
+            Type = UpgradeType.Elite;
             Name = ShortName = "Swarm Tactics";
             ImageUrl = "https://vignette1.wikia.nocookie.net/xwing-miniatures/images/7/75/Swarm_Tactics.png";
             Cost = 2;

@@ -12,7 +12,7 @@ namespace UpgradesList
 
         public ExpertHandling() : base()
         {
-            Type = UpgradeSlot.Elite;
+            Type = UpgradeType.Elite;
             Name = "Expert Handling";
             ShortName = "Exp. Handling";
             ImageUrl = "https://vignette3.wikia.nocookie.net/xwing-miniatures/images/1/11/Expert-handling.png";

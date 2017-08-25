@@ -11,7 +11,7 @@ namespace UpgradesList
 
         public R2F2() : base()
         {
-            Type = UpgradeSlot.Astromech;
+            Type = UpgradeType.Astromech;
             Name = ShortName = "R2-F2";
             ImageUrl = "https://vignette4.wikia.nocookie.net/xwing-miniatures/images/8/86/R2-F2.jpg";
             isUnique = true;

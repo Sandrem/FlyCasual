@@ -15,7 +15,7 @@ namespace Ship
                 PilotSkill = 6;
                 Cost = 22;
 
-                AddUpgradeSlot(Upgrade.UpgradeSlot.Elite);
+                AddUpgradeSlot(Upgrade.UpgradeType.Elite);
             }
         }
     }

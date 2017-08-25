@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Upgrade
 {
-    public enum UpgradeSlot
+    public enum UpgradeType
     {
         Elite,
         Astromech,
@@ -32,7 +32,7 @@ namespace Upgrade
         protected Ship.GenericShip Host;
 
         public int Cost;
-        public UpgradeSlot Type;
+        public UpgradeType Type;
         public bool isUnique = false;
         public bool Limited = false;
         public bool isDiscarded = false;

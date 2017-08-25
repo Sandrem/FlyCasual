@@ -20,10 +20,10 @@ namespace Ship
                 MaxHull = 3;
                 MaxShields = 5;
 
-                AddUpgradeSlot(Upgrade.UpgradeSlot.System);
-                AddUpgradeSlot(Upgrade.UpgradeSlot.Cannon);
-                AddUpgradeSlot(Upgrade.UpgradeSlot.Torpedoes);
-                AddUpgradeSlot(Upgrade.UpgradeSlot.Torpedoes);
+                AddUpgradeSlot(Upgrade.UpgradeType.System);
+                AddUpgradeSlot(Upgrade.UpgradeType.Cannon);
+                AddUpgradeSlot(Upgrade.UpgradeType.Torpedoes);
+                AddUpgradeSlot(Upgrade.UpgradeType.Torpedoes);
 
                 AssignTemporaryManeuvers();
                 HotacManeuverTable = new AI.BWingTable();

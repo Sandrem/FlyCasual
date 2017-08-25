@@ -20,8 +20,8 @@ namespace Ship
                 MaxHull = 3;
                 MaxShields = 3;
 
-                AddUpgradeSlot(Upgrade.UpgradeSlot.Cannon);
-                AddUpgradeSlot(Upgrade.UpgradeSlot.Missiles);
+                AddUpgradeSlot(Upgrade.UpgradeType.Cannon);
+                AddUpgradeSlot(Upgrade.UpgradeType.Missiles);
 
                 AssignTemporaryManeuvers();
                 HotacManeuverTable = new AI.TIEDefenderTable();

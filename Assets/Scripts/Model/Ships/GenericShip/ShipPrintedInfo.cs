@@ -7,6 +7,9 @@ namespace Ship
 {
     public class ShipPrintedInfo
     {
+        public string ImageUrl { get; protected set; }
+        public string ManeuversImageUrl { get; protected set; }
+
         public string ShipType { get; protected set; }
         public Faction Faction { get; protected set; }
 

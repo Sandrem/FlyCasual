@@ -26,11 +26,39 @@ namespace Ship
         public bool IsUnique { get; protected set; }
 
         public int Firepower { get; protected set; }
-        public int MaxHull { get; protected set; }
         public int Hull { get; protected set; }
-        public int MaxShields { get; protected set; }
         public int Shields { get; protected set; }
         public int Cost { get; protected set; }
+
+        private int maxHull;
+        public int MaxHull
+        {
+            get
+            {
+                int result = maxHull;
+                if (AfterGetMaxHull != null) AfterGetMaxHull(ref result);
+                return Mathf.Max(result, 1);
+            }
+            protected set
+            {
+                maxHull = Mathf.Max(value, 1);
+            }
+        }
+
+        private int maxShields;
+        public int MaxShields
+        {
+            get
+            {
+                int result = maxShields;
+                if (AfterGetMaxShields != null) AfterGetMaxShields(ref result);
+                return Mathf.Max(result, 0);
+            }
+            protected set
+            {
+                maxShields = Mathf.Max(value, 0);
+            }
+        }
 
         protected List<IModifyPilotSkill> PilotSkillModifiers;
 
@@ -94,7 +122,7 @@ namespace Ship
             AddCoreUpgradeSlots();
         }
 
-        public void InitializeGenericShip(Players.PlayerNo playerNo, int shipId, Vector3 position)
+        public void InitializeGenericShip(Players.PlayerNo playerNo, int shipId, Vector3 position, List<string> upgrades)
         {
             Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
 
@@ -109,7 +137,15 @@ namespace Ship
             InitializeShip();
             InitializePilot();
 
+
+            foreach (var upgrade in upgrades)
+            {
+                InstallUpgrade(upgrade);
+            }
+
             InfoPanel = Roster.CreateRosterInfo(this);
+            Roster.UpdateUpgradesPanel(this, this.InfoPanel);
+
         }
 
         public virtual void InitializeShip()
@@ -128,7 +164,19 @@ namespace Ship
         public void ChangeAgilityBy(int value)
         {
             Agility += value;
-            AfterStatsAreChanged(this);
+            if (AfterStatsAreChanged != null) AfterStatsAreChanged(this);
+        }
+
+        public void ChangeHullBy(int value)
+        {
+            Hull += value;
+            if (AfterStatsAreChanged != null) AfterStatsAreChanged(this);
+        }
+
+        public void ChangeShieldBy(int value)
+        {
+            Shields += value;
+            if (AfterStatsAreChanged != null) AfterStatsAreChanged(this);
         }
 
     }

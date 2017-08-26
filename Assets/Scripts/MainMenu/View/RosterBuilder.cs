@@ -226,13 +226,13 @@ public static partial class RosterBuilder {
         }
 
         List<GameObject> toRemove = new List<GameObject>();
-        Dictionary<Upgrade.UpgradeSlot, int> existingUpgradeSlots = new Dictionary<Upgrade.UpgradeSlot, int>();
+        Dictionary<Upgrade.UpgradeType, int> existingUpgradeSlots = new Dictionary<Upgrade.UpgradeType, int>();
         foreach (Transform group in panel.transform.Find("GroupUpgrades"))
         {
-            Type type = typeof(Upgrade.UpgradeSlot);
+            Type type = typeof(Upgrade.UpgradeType);
             string upgradeId = group.GetComponent<Dropdown>().options[0].text;
             upgradeId = upgradeId.Substring(upgradeId.IndexOf(':') + 2);
-            Upgrade.UpgradeSlot slot = (Upgrade.UpgradeSlot)Enum.Parse(type, upgradeId);
+            Upgrade.UpgradeType slot = (Upgrade.UpgradeType)Enum.Parse(type, upgradeId);
 
             if (existingUpgradeSlots.ContainsKey(slot))
             {
@@ -273,8 +273,8 @@ public static partial class RosterBuilder {
         newUpgradeLine.transform.GetComponent<Dropdown>().ClearOptions();
         newUpgradeLine.transform.GetComponent<Dropdown>().AddOptions(emptySlotList);
 
-        Type type = typeof(Upgrade.UpgradeSlot);
-        List<string> upgradeList = GetUpgrades((Upgrade.UpgradeSlot)Enum.Parse(type, upgradeId));
+        Type type = typeof(Upgrade.UpgradeType);
+        List<string> upgradeList = GetUpgrades((Upgrade.UpgradeType)Enum.Parse(type, upgradeId));
         newUpgradeLine.transform.GetComponent<Dropdown>().AddOptions(upgradeList);
 
         SubscribeUpgradeDropdowns(playerNo, newUpgradeLine);

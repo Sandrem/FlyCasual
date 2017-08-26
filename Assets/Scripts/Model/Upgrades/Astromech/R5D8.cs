@@ -11,7 +11,7 @@ namespace UpgradesList
 
         public R5D8() : base()
         {
-            Type = UpgradeSlot.Astromech;
+            Type = UpgradeType.Astromech;
             Name = ShortName = "R5-D8";
             ImageUrl = "https://vignette3.wikia.nocookie.net/xwing-miniatures/images/f/ff/R5-D8.jpg";
             isUnique = true;

@@ -15,7 +15,7 @@ namespace Ship
                 IsUnique = true;
                 PilotSkill = 7;
                 Cost = 17;
-                AddUpgradeSlot(Upgrade.UpgradeSlot.Elite);
+                AddUpgradeSlot(Upgrade.UpgradeType.Elite);
             }
 
             public override void InitializePilot()

@@ -18,7 +18,7 @@ namespace Ship
                 Cost = 27;
 
                 IsUnique = true;
-                AddUpgradeSlot(Upgrade.UpgradeSlot.Elite);
+                AddUpgradeSlot(Upgrade.UpgradeType.Elite);
             }
 
             public override void InitializePilot()

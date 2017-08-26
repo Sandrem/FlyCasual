@@ -20,8 +20,8 @@ namespace Ship
                 MaxHull = 4;
                 MaxShields = 1;
 
-                AddUpgradeSlot(Upgrade.UpgradeSlot.Turret);
-                AddUpgradeSlot(Upgrade.UpgradeSlot.Crew);
+                AddUpgradeSlot(Upgrade.UpgradeType.Turret);
+                AddUpgradeSlot(Upgrade.UpgradeType.Crew);
 
                 AssignTemporaryManeuvers();
                 HotacManeuverTable = new AI.HWK290Table();

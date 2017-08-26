@@ -11,7 +11,7 @@ namespace UpgradesList
     {
         public ProtonTorpedoes() : base()
         {
-            Type = UpgradeSlot.Torpedoes;
+            Type = UpgradeType.Torpedoes;
 
             Name = "Proton Torpedoes";
             ShortName = "Proton Torp.";

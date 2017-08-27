@@ -23,12 +23,19 @@ namespace Ship
             {
                 base.InitializePilot();
 
-                GenericShip.AfterGenerateAvailableActionEffectsListGlobal += HowlrunnerAbility;
+                AfterGenerateAvailableActionEffectsListGlobal += HowlrunnerAbility;
+                OnDestroyed += RemoveHowlrunnerAbility;
             }
 
             private void HowlrunnerAbility()
             {
                 Combat.Attacker.AddAvailableActionEffect(new ActionsList.HowlrunnerAction());
+            }
+
+            private void RemoveHowlrunnerAbility()
+            {
+                AfterGenerateAvailableActionEffectsListGlobal -= HowlrunnerAbility;
+                OnDestroyed -= RemoveHowlrunnerAbility;
             }
 
         }

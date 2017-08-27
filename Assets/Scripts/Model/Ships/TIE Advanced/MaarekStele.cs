@@ -24,7 +24,8 @@ namespace Ship
             {
                 base.InitializePilot();
 
-                GenericShip.OnFaceupCritCardReadyToBeDealtGlobal += MaarekStelePilotAbility;
+                OnFaceupCritCardReadyToBeDealtGlobal += MaarekStelePilotAbility;
+                OnDestroyed += RemoveMaarekSteleAbility;
             }
 
             private void MaarekStelePilotAbility(GenericShip ship, ref CriticalHitCard.GenericCriticalHit crit, EventArgs e)
@@ -53,6 +54,12 @@ namespace Ship
                     typeof(SubPhases.CritToDealDecisionSubPhase),
                     Triggers.FinishTrigger
                 );
+            }
+
+            private void RemoveMaarekSteleAbility()
+            {
+                OnFaceupCritCardReadyToBeDealtGlobal -= MaarekStelePilotAbility;
+                OnDestroyed -= RemoveMaarekSteleAbility;
             }
 
         }

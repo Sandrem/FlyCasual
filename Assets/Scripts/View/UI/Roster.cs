@@ -24,6 +24,12 @@ public static partial class Roster {
         newPanel.transform.Find("ShipIdText").localPosition = new Vector3((newShip.Owner.PlayerNo == PlayerNo.Player1) ? 205 : -50, 0, 0);
         newPanel.transform.Find("ShipIdText").gameObject.SetActive(true);
 
+        newPanel.transform.Find("ShipInfo/ShipFirepowerText").GetComponent<Text>().text = newShip.Firepower.ToString();
+        newPanel.transform.Find("ShipInfo/ShipAgilityText").GetComponent<Text>().text = newShip.Agility.ToString();
+        newPanel.transform.Find("ShipInfo/ShipHullText").GetComponent<Text>().text = newShip.MaxHull.ToString();
+        newPanel.transform.Find("ShipInfo/ShipShieldsText").GetComponent<Text>().text = newShip.MaxShields.ToString();
+
+        //Tooltips
         GameObject pilotNameGO = newPanel.transform.Find("ShipInfo/ShipPilotNameText").gameObject;
         pilotNameGO.GetComponent<Text>().text = newShip.PilotName;
         Tooltips.AddTooltip(pilotNameGO, newShip.ImageUrl);
@@ -34,13 +40,9 @@ public static partial class Roster {
         Tooltips.AddTooltip(shipTypeGO, newShip.ManeuversImageUrl);
         SubscribeActions(shipTypeGO);
 
-        newPanel.transform.Find("ShipInfo/ShipFirepowerText").GetComponent<Text>().text = newShip.Firepower.ToString();
-        newPanel.transform.Find("ShipInfo/ShipAgilityText").GetComponent<Text>().text = newShip.Agility.ToString();
-        newPanel.transform.Find("ShipInfo/ShipHullText").GetComponent<Text>().text = newShip.MaxHull.ToString();
-        newPanel.transform.Find("ShipInfo/ShipShieldsText").GetComponent<Text>().text = newShip.MaxShields.ToString();
-
         //Mark
         newPanel.transform.Find("Mark").localPosition = new Vector3((newShip.Owner.PlayerNo == PlayerNo.Player1) ? 198 : -8, 0, 0);
+        SubscribeMarkByHover(newPanel);
 
         //Hull and shields
         float panelWidth = 200 - 10;
@@ -69,9 +71,7 @@ public static partial class Roster {
 
         //Finish
         newPanel.transform.Find("ShipInfo").tag = "ShipId:" + newShip.ShipId.ToString();
-
         AddToRoster(newShip, newPanel);
-
         newPanel.transform.Find("ShipInfo").gameObject.SetActive(true);
 
         return newPanel;
@@ -181,7 +181,6 @@ public static partial class Roster {
         }
     }
 
-    //TODO: rewrite to support TARGETSHIP
     public static void SelectShipByRosterClick(PointerEventData data)
     {
         foreach (var item in data.hovered)
@@ -191,6 +190,37 @@ public static partial class Roster {
             }
         }
         Game.UI.HideTemporaryMenus();
+    }
+
+    public static void SubscribeMarkByHover(GameObject sender)
+    {
+        EventTrigger trigger = sender.GetComponent<EventTrigger>();
+        if (trigger == null)
+        {
+            sender.AddComponent<EventTrigger>();
+            trigger = sender.GetComponent<EventTrigger>();
+        }
+
+        EventTrigger.Entry entry = new EventTrigger.Entry();
+        entry.eventID = EventTriggerType.PointerEnter;
+        entry.callback.AddListener((data) => { HoverShipByRosterClick((PointerEventData)data); });
+        trigger.triggers.Add(entry);
+
+        entry = new EventTrigger.Entry();
+        entry.eventID = EventTriggerType.PointerExit;
+        entry.callback.AddListener((data) => { Selection.TryUnmarkPreviousHoveredShip(); });
+        trigger.triggers.Add(entry);
+    }
+
+    public static void HoverShipByRosterClick(PointerEventData data)
+    {
+        foreach (var item in data.hovered)
+        {
+            if (item.tag.StartsWith("ShipId:"))
+            {
+                Selection.TryMarkShip(item.tag);
+            }
+        }
     }
 
     //UPDATE

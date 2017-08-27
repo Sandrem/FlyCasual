@@ -32,7 +32,7 @@ namespace Ship
                 Combat.Attacker.AddAvailableActionEffect(new ActionsList.HowlrunnerAction());
             }
 
-            private void RemoveHowlrunnerAbility()
+            private void RemoveHowlrunnerAbility(GenericShip ship)
             {
                 AfterGenerateAvailableActionEffectsListGlobal -= HowlrunnerAbility;
                 OnDestroyed -= RemoveHowlrunnerAbility;

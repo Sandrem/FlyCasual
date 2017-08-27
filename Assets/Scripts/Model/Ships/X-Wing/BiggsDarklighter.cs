@@ -60,7 +60,7 @@ namespace Ship
                 }
             }
 
-            private void RemoveBiggsDarklighterAbility()
+            private void RemoveBiggsDarklighterAbility(GenericShip ship)
             {
                 RulesList.TargetIsLegalForShotRule.OnCheckTargetIsLegal -= CanPerformAttack;
                 OnDestroyed -= RemoveBiggsDarklighterAbility;

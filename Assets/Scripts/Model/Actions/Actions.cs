@@ -27,10 +27,6 @@ public static partial class Actions {
             Tokens.GenericToken existingBlueToken = thisShip.GetToken(typeof(Tokens.BlueTargetLockToken), '*');
             if (existingBlueToken != null)
             {
-                if ((existingBlueToken as Tokens.BlueTargetLockToken).LockedShip != null)
-                {
-                    (existingBlueToken as Tokens.BlueTargetLockToken).LockedShip.RemoveToken(typeof(Tokens.RedTargetLockToken), (existingBlueToken as Tokens.BlueTargetLockToken).Letter);
-                }
                 thisShip.RemoveToken(typeof(Tokens.BlueTargetLockToken), (existingBlueToken as Tokens.BlueTargetLockToken).Letter);
             }
 
@@ -38,9 +34,13 @@ public static partial class Actions {
             Tokens.RedTargetLockToken tokenRed = new Tokens.RedTargetLockToken();
 
             char letter = GetFreeTargetLockLetter();
+
             tokenBlue.Letter = letter;
-            tokenBlue.LockedShip = targetShip;
+            tokenBlue.OtherTokenOwner = targetShip;
+
             tokenRed.Letter = letter;
+            tokenRed.OtherTokenOwner = Selection.ThisShip;
+
             TakeTargetLockLetter(letter);
 
             targetShip.AssignToken(tokenRed, delegate { } );

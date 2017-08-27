@@ -56,7 +56,7 @@ namespace Ship
                 );
             }
 
-            private void RemoveMaarekSteleAbility()
+            private void RemoveMaarekSteleAbility(GenericShip ship)
             {
                 OnFaceupCritCardReadyToBeDealtGlobal -= MaarekStelePilotAbility;
                 OnDestroyed -= RemoveMaarekSteleAbility;

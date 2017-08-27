@@ -80,7 +80,6 @@ namespace Upgrade
 
                 if (SpendsTargetLockOnTargetToShoot)
                 {
-                    Combat.Defender.RemoveToken(typeof(Tokens.RedTargetLockToken), letter);
                     Combat.Attacker.SpendToken(typeof(Tokens.BlueTargetLockToken), callBack, letter);
                 }
                 else

@@ -39,7 +39,7 @@ namespace Ship
         public event EventHandlerShipCritArgs OnAssignCrit;
         
 
-        public event EventHandler OnDestroyed;
+        public event EventHandlerShip OnDestroyed;
 
         public event EventHandlerShip AfterAttackWindow;
 
@@ -303,7 +303,7 @@ namespace Ship
             Phases.OnCombatSubPhaseRequiredPilotSkillIsChanged -= PerformShipDestruction;
             Roster.DestroyShip(this.GetTag());
 
-            if (OnDestroyed != null) OnDestroyed();
+            if (OnDestroyed != null) OnDestroyed(this);
         }
 
         public List<CriticalHitCard.GenericCriticalHit> GetAssignedCritCards()

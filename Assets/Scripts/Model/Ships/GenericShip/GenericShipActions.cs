@@ -331,10 +331,18 @@ namespace Ship
                 {
                     if (assignedToken.GetType().BaseType == typeof(Tokens.GenericTargetLockToken))
                     {
+                        AssignedTokens.Remove(assignedToken);
+                        if (AfterTokenIsRemoved != null) AfterTokenIsRemoved(this, type);
+
+                        GenericShip otherTokenOwner = (assignedToken as Tokens.GenericTargetLockToken).OtherTokenOwner;
                         Actions.ReleaseTargetLockLetter((assignedToken as Tokens.GenericTargetLockToken).Letter);
+                        System.Type oppositeType = (assignedToken.GetType() == typeof(Tokens.BlueTargetLockToken)) ? typeof(Tokens.RedTargetLockToken) : typeof(Tokens.BlueTargetLockToken);
+
+                        if (otherTokenOwner.HasToken(oppositeType, letter))
+                        {
+                            otherTokenOwner.RemoveToken(oppositeType, letter);
+                        }
                     }
-                    AssignedTokens.Remove(assignedToken);
-                    if (AfterTokenIsRemoved != null) AfterTokenIsRemoved(this, type);
                 }
             }
         }

@@ -25,7 +25,6 @@ namespace ActionsList
                 char letter = ' ';
                 letter = Actions.GetTargetLocksLetterPair(Combat.Attacker, Combat.Defender);
 
-                Combat.Defender.RemoveToken(typeof(Tokens.RedTargetLockToken), letter);
                 Selection.ActiveShip.SpendToken(typeof(Tokens.BlueTargetLockToken), diceRerollManager.Start, letter);
             }
         }

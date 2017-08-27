@@ -21,6 +21,7 @@ public static class Rules
     public static InitiativeRule Initiative { get; private set; }
     public static TargetIsLegalForShotRule TargetIsLegalForShot { get; private set; }
     public static IonizationRule Ionization { get; private set; }
+    public static TargetLocksRule TargetLocks { get; private set; }
 
     private static GameManagerScript Game;
 
@@ -43,6 +44,7 @@ public static class Rules
         Initiative = new InitiativeRule();
         TargetIsLegalForShot = new TargetIsLegalForShotRule();
         Ionization = new IonizationRule();
+        TargetLocks = new TargetLocksRule();
     }
 
 }

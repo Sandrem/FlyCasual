@@ -11,6 +11,7 @@ public enum DiceKind
 public partial class Dice
 {
     private DiceRoll ParentDiceRoll;
+    private DiceKind Type;
 
     private static Vector3 rotationCrit = new Vector3(325f, 120f, 135f);
     private static Vector3 rotationSuccess = new Vector3(330f, 120f, 40f);
@@ -30,8 +31,7 @@ public partial class Dice
     public Dice(DiceRoll diceRoll, DiceKind type, DiceSide side = DiceSide.Unknown)
     {
         ParentDiceRoll = diceRoll;
-
-        Model = SpawnDice(type);
+        Type = type;
 
         Sides = new List<DiceSide>
         {
@@ -50,8 +50,6 @@ public partial class Dice
         if (side != DiceSide.Unknown)
         {
             Side = side;
-            //TODO: Not only success
-            Model.transform.Find("Dice").localEulerAngles = rotationSuccess;
         }
         else
         {
@@ -75,12 +73,14 @@ public partial class Dice
 
     public void ShowWithoutRoll()
     {
+        if (Model == null) Model = SpawnDice(Type);
         Model.gameObject.SetActive(true);
         Model.transform.Find("Dice").transform.localPosition = positionGround;
     }
 
     public void Roll()
     {
+        if (Model == null) Model = SpawnDice(Type);
         modelRollingIsFinished = false;
         RandomizeDice();
         Model.gameObject.SetActive(true);

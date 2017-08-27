@@ -20,7 +20,9 @@ namespace Ship
             public override void InitializePilot()
             {
                 base.InitializePilot();
+
                 RulesList.TargetIsLegalForShotRule.OnCheckTargetIsLegal += CanPerformAttack;
+                OnDestroyed += RemoveBiggsDarklighterAbility;
             }
 
             public void CanPerformAttack(ref bool result, GenericShip attacker, GenericShip defender)
@@ -56,6 +58,12 @@ namespace Ship
                     }
                     result = false;
                 }
+            }
+
+            private void RemoveBiggsDarklighterAbility()
+            {
+                RulesList.TargetIsLegalForShotRule.OnCheckTargetIsLegal -= CanPerformAttack;
+                OnDestroyed -= RemoveBiggsDarklighterAbility;
             }
         }
     }

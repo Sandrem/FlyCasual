@@ -7,7 +7,7 @@ public class Global : MonoBehaviour {
 
     public static string test = "I am accessible from every scene";
 
-    public static string Playmat = "Endor";
+    public static string Playmat;
 
     private static List<ShipConfiguration> shipConfigurations = new List<ShipConfiguration>();
 
@@ -36,6 +36,7 @@ public class Global : MonoBehaviour {
     void Start()
     {
         DontDestroyOnLoad(this.gameObject);
+        Options.LoadOptions();
     }
 
     void Update()

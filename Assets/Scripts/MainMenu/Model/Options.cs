@@ -9,10 +9,12 @@ public static class Options
     private static OptionsUI optionsUI;
 
     public static string Playmat;
+    public static int MusicVolume;
 
     static Options()
     {
         Playmat = PlayerPrefs.GetString("PlaymatName", "Endor");
+        MusicVolume = PlayerPrefs.GetInt("Music Volume", 4);
     }
 
     public static void InitializePanel()
@@ -20,6 +22,7 @@ public static class Options
         optionsUI = GameObject.Find("UI/Panels/OptionsPanel").GetComponentInChildren<OptionsUI>();
 
         SetPlaymatOption();
+        UpdateVolume();
     }
 
     private static void SetPlaymatOption()
@@ -32,6 +35,31 @@ public static class Options
                 break;
             }
         }
+    }
+
+    public static void ChangeParameterValue(string parameter, int value)
+    {
+        PlayerPrefs.SetInt(parameter, value);
+        PlayerPrefs.Save();
+
+        switch (parameter)
+        {
+            case "Music Volume":
+                SetMusicVolume(value);
+                break;
+            default:
+                break;
+        }
+    }
+
+    public static void UpdateVolume()
+    {
+        SetMusicVolume(PlayerPrefs.GetInt("Music Volume", 4));
+    }
+
+    private static void SetMusicVolume(int value)
+    {
+        GameObject.Find("Music").GetComponent<AudioSource>().volume = value * 1f / 5f;
     }
 }
 

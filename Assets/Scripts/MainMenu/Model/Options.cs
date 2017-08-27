@@ -10,11 +10,13 @@ public static class Options
 
     public static string Playmat;
     public static int MusicVolume;
+    public static int SfxVolume;
 
     static Options()
     {
         Playmat = PlayerPrefs.GetString("PlaymatName", "Endor");
         MusicVolume = PlayerPrefs.GetInt("Music Volume", 4);
+        SfxVolume = PlayerPrefs.GetInt("Sfx Volume", 4);
     }
 
     public static void InitializePanel()
@@ -45,7 +47,11 @@ public static class Options
         switch (parameter)
         {
             case "Music Volume":
+                MusicVolume = value;
                 SetMusicVolume(value);
+                break;
+            case "SFX Volume":
+                SfxVolume = value;
                 break;
             default:
                 break;

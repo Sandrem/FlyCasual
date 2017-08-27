@@ -8,9 +8,11 @@ public static class Options
 {
     private static OptionsUI optionsUI;
 
-    public static void LoadOptions()
+    public static string Playmat;
+
+    static Options()
     {
-        Global.Playmat = PlayerPrefs.GetString("PlaymatName", "Endor");
+        Playmat = PlayerPrefs.GetString("PlaymatName", "Endor");
     }
 
     public static void InitializePanel()
@@ -24,7 +26,7 @@ public static class Options
     {
         foreach (Transform playmatImage in optionsUI.transform.Find("PlaymatsSelection/ImageList"))
         {
-            if (playmatImage.name == Global.Playmat)
+            if (playmatImage.name == Playmat)
             {
                 optionsUI.PlaymatSelector.transform.position = playmatImage.transform.position;
                 break;

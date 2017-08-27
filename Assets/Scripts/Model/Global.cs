@@ -7,8 +7,6 @@ public class Global : MonoBehaviour {
 
     public static string test = "I am accessible from every scene";
 
-    public static string Playmat;
-
     private static List<ShipConfiguration> shipConfigurations = new List<ShipConfiguration>();
 
     private static List<System.Type> playerTypes = new List<System.Type>();
@@ -36,7 +34,6 @@ public class Global : MonoBehaviour {
     void Start()
     {
         DontDestroyOnLoad(this.gameObject);
-        Options.LoadOptions();
     }
 
     void Update()

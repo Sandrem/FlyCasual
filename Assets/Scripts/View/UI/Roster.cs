@@ -6,7 +6,6 @@ using UnityEngine.EventSystems;
 using Players;
 using System.Linq;
 
-//TODO: Change direction of rows in tokens
 public static partial class Roster {
 
     private static List<GameObject> rosterPlayer1 = new List<GameObject>();
@@ -249,8 +248,8 @@ public static partial class Roster {
             MonoBehaviour.Destroy(icon);
         }
 
-        float offset = 0;
-        float row = 0;
+        int columnCounter = 0;
+        int rowCounter = 0;
         foreach (var token in thisShip.GetAssignedTokens())
         {
             for (int i = 0; i < token.Count; i++)
@@ -267,15 +266,12 @@ public static partial class Roster {
                 }
 
                 tokenPanel.SetActive(true);
-                tokenPanel.GetComponent<RectTransform>().localPosition = new Vector3(offset, tokenPanel.GetComponent<RectTransform>().localPosition.y + 35 * row, tokenPanel.GetComponent<RectTransform>().localPosition.z);
-                if (i > (row * 5) + 3)
+                tokenPanel.GetComponent<RectTransform>().localPosition = new Vector3(columnCounter * 37, tokenPanel.GetComponent<RectTransform>().localPosition.y + -37 * rowCounter, tokenPanel.GetComponent<RectTransform>().localPosition.z);
+                columnCounter++;
+                if (columnCounter == 5)
                 {
-                    row++;
-                    offset = 0;
-                }
-                else
-                {
-                    offset += 32 + 3;
+                    rowCounter++;
+                    columnCounter = 0;
                 }
             }
         }

@@ -11,12 +11,16 @@ public static class Options
     public static string Playmat;
     public static int MusicVolume;
     public static int SfxVolume;
+    public static int AnimationSpeed;
+    public static int ManeuverSpeed;
 
     static Options()
     {
         Playmat = PlayerPrefs.GetString("PlaymatName", "Endor");
         MusicVolume = PlayerPrefs.GetInt("Music Volume", 4);
         SfxVolume = PlayerPrefs.GetInt("Sfx Volume", 4);
+        AnimationSpeed = PlayerPrefs.GetInt("Animation Speed", 1);
+        ManeuverSpeed = PlayerPrefs.GetInt("Maneuver Speed", 1);
     }
 
     public static void InitializePanel()
@@ -52,6 +56,12 @@ public static class Options
                 break;
             case "SFX Volume":
                 SfxVolume = value;
+                break;
+            case "Animation Speed":
+                AnimationSpeed = value;
+                break;
+            case "Maneuver Speed":
+                ManeuverSpeed = value;
                 break;
             default:
                 break;

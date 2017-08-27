@@ -281,9 +281,11 @@ namespace SubPhases
 
         private void DoBarrelRollAnimation()
         {
-            float progressStep = 0.5f * Time.deltaTime;
-            Selection.ThisShip.SetPosition(Vector3.MoveTowards(Selection.ThisShip.GetPosition(), ShipStand.transform.position, progressStep));
+            float progressStep = 0.5f * Time.deltaTime * Options.AnimationSpeed;
+            progressStep = Mathf.Min(progressStep, progressTarget-progressCurrent);
             progressCurrent += progressStep;
+
+            Selection.ThisShip.SetPosition(Vector3.MoveTowards(Selection.ThisShip.GetPosition(), ShipStand.transform.position, progressStep));
             Selection.ThisShip.RotateModelDuringBarrelRoll(progressCurrent / progressTarget, helperDirection);
             Selection.ThisShip.MoveUpwards(progressCurrent / progressTarget);
             if (progressCurrent >= progressTarget)

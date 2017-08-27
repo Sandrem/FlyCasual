@@ -28,6 +28,8 @@ public class GameManagerScript : MonoBehaviour {
     private void SetApplicationParameters()
     {
         Application.targetFrameRate = 100;
+
+        Options.UpdateVolume();
     }
 
     private void InitializeScripts()

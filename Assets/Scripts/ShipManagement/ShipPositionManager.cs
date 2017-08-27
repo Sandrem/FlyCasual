@@ -312,7 +312,7 @@ public class ShipPositionManager : MonoBehaviour
 
     private void DoKoiogranTurnAnimation()
     {
-        float progressStep = Mathf.Min(Time.deltaTime*KOIOGRAN_ANIMATION_SPEED, progressTarget-progressCurrent);
+        float progressStep = Mathf.Min(Time.deltaTime * KOIOGRAN_ANIMATION_SPEED * Options.AnimationSpeed, progressTarget-progressCurrent);
         progressCurrent += progressStep;
 
         Selection.ThisShip.RotateAround(Selection.ThisShip.GetCenter(), progressStep);

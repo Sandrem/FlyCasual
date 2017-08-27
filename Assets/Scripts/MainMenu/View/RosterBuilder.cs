@@ -61,6 +61,7 @@ public static partial class RosterBuilder {
                 AddUpgradeTooltip(upgradeLine.gameObject);
             }
 
+            SubscribeShipDropdown(playerNo, newPanel);
             SubscribePilotDropdown(playerNo, newPanel);
             AddPilotTooltip(newPanel.transform.Find("GroupShip/DropdownPilot").gameObject);
 

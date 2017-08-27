@@ -116,8 +116,27 @@ namespace SubPhases
                 Messages.ShowErrorToHuman("Cannot perform any actions");
                 CallBack();
             }
+        }
 
+        public void ShowActionDecisionPanel()
+        {
+            List<ActionsList.GenericAction> availableActions = Selection.ThisShip.GetAvailableActionsList();
+            foreach (var action in availableActions)
+            {
+                AddDecision(action.Name, delegate {
+                    Tooltips.EndTooltip();
+                    Game.UI.HideNextButton();
+                    Selection.ThisShip.AddAlreadyExecutedAction(action);
+                    action.ActionTake();
+                });
+                AddTooltip(action.Name, action.ImageUrl);
+            }
+        }
 
+        public override void Resume()
+        {
+            base.Resume();
+            Initialize();
         }
 
     }

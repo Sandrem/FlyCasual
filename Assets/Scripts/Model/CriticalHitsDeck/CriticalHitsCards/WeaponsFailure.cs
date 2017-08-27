@@ -34,7 +34,7 @@ namespace CriticalHitCard
             Game.UI.AddTestLogEntry("Number of attack dices is restored");
             host.RemoveToken(typeof(Tokens.WeaponsFailureCritToken));
 
-            host.AfterGetPilotSkill -= ReduceNumberOfAttackDices;
+            host.AfterGotNumberOfPrimaryWeaponAttackDices -= ReduceNumberOfAttackDices;
 
             host.AfterGenerateAvailableActionsList -= AddCancelCritAction;
         }

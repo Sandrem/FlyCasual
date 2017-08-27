@@ -60,10 +60,11 @@ public static partial class Actions {
         Letters.Add('C', true);
         Letters.Add('D', true);
         Letters.Add('E', true);
+        Letters.Add('F', true);
         Letters.Add('G', true);
         Letters.Add('H', true);
-        Letters.Add('I', true);
 
+        Letters.Add('I', true);
         Letters.Add('J', true);
         Letters.Add('K', true);
         Letters.Add('L', true);
@@ -71,7 +72,6 @@ public static partial class Actions {
         Letters.Add('N', true);
         Letters.Add('O', true);
         Letters.Add('P', true);
-        Letters.Add('Q', true);
     }
 
     private static char GetFreeTargetLockLetter()

@@ -388,6 +388,8 @@ public static partial class RosterBuilder {
             Ship.GenericShip newPilot = (Ship.GenericShip)Activator.CreateInstance(Type.GetType(AllPilots[pilotName]));
             if (newPilot.faction != playerFaction) RemoveShip(playerNo, shipPanel.gameObject);
         }
+
+        AddInitialShips();
     }
 
     //Get GameObjects

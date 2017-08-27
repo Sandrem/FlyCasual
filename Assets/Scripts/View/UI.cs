@@ -14,9 +14,21 @@ public class UI : MonoBehaviour {
 
     private int minimapSize = 256;
 
+    public bool ShowShipIds;
+
     public void Initialize()
     {
         Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
+    }
+
+    public void Update()
+    {
+        UpdateShipIds();
+    }
+
+    private void UpdateShipIds()
+    {
+        ShowShipIds = Input.GetKey(KeyCode.LeftAlt);
     }
 
     //Move to context menu

@@ -199,11 +199,14 @@ namespace Players
 
             if (DebugManager.DebugAI) Debug.Log("AI checks target for attack: " + targetShip);
 
+            if (DebugManager.DebugAI) Debug.Log("Ship is selected before validation: " + selectedTargetShip);
+            Selection.TryToChangeAnotherShip("ShipId:" + selectedTargetShip.ShipId);
+
             Ship.IShipWeapon chosenWeapon = null;
 
             foreach (var upgrade in Selection.ThisShip.InstalledUpgrades)
             {
-                Upgrade.GenericSecondaryWeapon secondaryWeapon = (upgrade.Value as Upgrade.GenericSecondaryWeapon);
+                Ship.IShipWeapon secondaryWeapon = (upgrade.Value as Ship.IShipWeapon);
                 if (secondaryWeapon != null)
                 {
                     if (secondaryWeapon.IsShotAvailable(targetShip))
@@ -213,9 +216,6 @@ namespace Players
                     }
                 }
             }
-
-            if (DebugManager.DebugAI) Debug.Log("Ship is selected before validation: " + selectedTargetShip);
-            Selection.TryToChangeAnotherShip("ShipId:" + selectedTargetShip.ShipId);
 
             chosenWeapon = chosenWeapon ?? Selection.ThisShip.PrimaryWeapon;
             Combat.ChosenWeapon = chosenWeapon;
@@ -250,8 +250,6 @@ namespace Players
         {
             Dictionary<Ship.GenericShip, float> results = new Dictionary<Ship.GenericShip, float>();
 
-            Combat.ChosenWeapon = thisShip.PrimaryWeapon;
-
             foreach (var shipHolder in Roster.GetPlayer(Roster.AnotherPlayer(thisShip.Owner.PlayerNo)).Ships)
             {
                 if (!shipHolder.Value.IsDestroyed)
@@ -277,8 +275,8 @@ namespace Players
 
                     if (inArcAndRange)
                     {
-                        Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(thisShip, shipHolder.Value, Combat.ChosenWeapon);
-                        if ((shotInfo.Range > 3) || (!shotInfo.InShotAngle))
+                        Board.ShipDistanceInformation distanceInfo = new Board.ShipDistanceInformation(thisShip, shipHolder.Value);
+                        if ((distanceInfo.Range > 3))
                         {
                             continue;
                         }

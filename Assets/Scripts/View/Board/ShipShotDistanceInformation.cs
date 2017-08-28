@@ -43,6 +43,7 @@ namespace Board
             // TODO: another types of primaty arcs
             Dictionary <string, Vector3> shootingPoints = (!ChosenWeapon.CanShootOutsideArc) ? ThisShip.GetStandFrontPoints() : ThisShip.GetStandPoints();
 
+            // TODO: change to use geometry insted of dots
             foreach (var objThis in shootingPoints)
             {
                 foreach (var objAnother in AnotherShip.GetStandPoints())
@@ -50,18 +51,18 @@ namespace Board
 
                     // TODO: check this part
                     Vector3 vectorToTarget = objAnother.Value - objThis.Value;
-                    float angle = Mathf.Abs(Vector3.Angle(vectorToTarget, vectorFacing));
+                    float angle = Mathf.Abs(Vector3.SignedAngle(vectorToTarget, vectorFacing, Vector3.up));
 
-                    if (ChosenWeapon.CanShootOutsideArc || ChosenWeapon.Host.ArcInfo.InAttackAngle(AnotherShip))
+                    if (ChosenWeapon.CanShootOutsideArc || ChosenWeapon.Host.ArcInfo.InAttackAngle(angle))
                     {
                         InShotAngle = true;
 
-                        if (ChosenWeapon.Host.ArcInfo.InArc(AnotherShip))
+                        if (ChosenWeapon.Host.ArcInfo.InArc(angle))
                         {
                             InArc = true;
                         }
 
-                        if (ChosenWeapon.Host.ArcInfo.InPrimaryArc(AnotherShip))
+                        if (ChosenWeapon.Host.ArcInfo.InPrimaryArc(angle))
                         {
                             InPrimaryArc = true;
                         }
@@ -85,6 +86,10 @@ namespace Board
                     }
                 }
             }
+
+            Debug.Log("InShotAngle: " + InShotAngle);
+            Debug.Log("InArc: " + InArc);
+            Debug.Log("InPrimaryArc: " + InPrimaryArc);
         }
 
         public void CheckFirelineCollisions(System.Action callBack)

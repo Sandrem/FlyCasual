@@ -14,7 +14,7 @@ namespace Arcs
             CanShootOutsideArc = true;
         }
 
-        public override bool InAttackAngle(GenericShip targetShip)
+        public override bool InAttackAngle(float angle)
         {
             return true;
         }

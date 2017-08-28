@@ -71,7 +71,6 @@ public static partial class Combat
         }
         else
         {
-            ChosenWeapon = Selection.ThisShip.PrimaryWeapon;
             TryPerformAttack();
         }
     }

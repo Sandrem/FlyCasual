@@ -34,9 +34,11 @@ namespace Arcs
         protected readonly List<ArcInfo> primaryArcAngle = new List<ArcInfo> { new ArcInfo(-40f, 40f) };
         protected List<ArcInfo> attackAngles = new List<ArcInfo> { new ArcInfo(-40f, 40f) };
 
-        public GenericArc()
-        {
+        public bool CanShootOutsideArc { get; protected set; }
 
+        public GenericArc(GenericShip host)
+        {
+            Host = host;
         }
 
         public virtual bool InAttackAngle(GenericShip targetShip)
@@ -56,9 +58,11 @@ namespace Arcs
 
         private bool CheckAngle(GenericShip targetShip, List<ArcInfo> requiredAngles)
         {
+            Debug.Log("CheckAngle is called");
+
             Vector3 vectorFacing = Host.GetFrontFacing();
 
-            foreach (var objThis in Host.GetStandFrontPoins())
+            foreach (var objThis in Host.GetStandFrontPoints())
             {
                 foreach (var objAnother in targetShip.GetStandPoints())
                 {

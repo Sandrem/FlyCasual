@@ -21,7 +21,7 @@ namespace UpgradesList
             MaxRange = 2;
             AttackValue = 3;
 
-            IsTurret = true;
+            CanShootOutsideArc = true;
         }
 
         public override void AttachToShip(Ship.GenericShip host)

@@ -115,6 +115,8 @@ namespace Players
 
             Ship.GenericShip targetForAttack = null;
 
+            // TODO: Fix bug with missing chosen weapon
+
             if (Selection.ThisShip != null)
             {
                 if (!DebugManager.DebugNoCombat)
@@ -191,7 +193,7 @@ namespace Players
 
 
             if (DebugManager.DebugAI) Debug.Log("Ship is selected before validation: " + selectedTargetShip);
-            Combat.SelectWeapon(chosenWeapon);
+            Combat.ChosenWeapon = chosenWeapon;
             Selection.TryToChangeAnotherShip("ShipId:" + selectedTargetShip.ShipId);
 
             if (Rules.TargetIsLegalForShot.IsLegal())
@@ -247,8 +249,8 @@ namespace Players
 
                     if (inArcAndRange)
                     {
-                        Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(thisShip, shipHolder.Value);
-                        if ((shotInfo.Range > 3) || (!shotInfo.InArc))
+                        Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(thisShip, shipHolder.Value, Combat.ChosenWeapon);
+                        if ((shotInfo.Range > 3) || (!shotInfo.InShotAngle))
                         {
                             continue;
                         }

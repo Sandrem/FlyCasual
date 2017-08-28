@@ -147,7 +147,9 @@ namespace SubPhases
             {
                 if (targetShip.Owner.PlayerNo != Phases.CurrentSubPhase.RequiredPlayer)
                 {
-                    Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(Selection.ThisShip, targetShip);
+                    //TODO: what to show is there are 2 ways (arc and not arc) ?
+
+                    Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(Selection.ThisShip, targetShip, Selection.ThisShip.PrimaryWeapon);
                     MovementTemplates.ShowFiringArcRange(shotInfo);
                     result = true;
                 }

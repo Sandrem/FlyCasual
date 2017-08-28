@@ -41,7 +41,7 @@ public static partial class Combat
     public static Ship.GenericShip Attacker;
     public static Ship.GenericShip Defender;
 
-    public static Upgrade.GenericSecondaryWeapon SecondaryWeapon;
+    public static Ship.IShipWeapon ChosenWeapon;
 
     public static CriticalHitCard.GenericCriticalHit CurrentCriticalHitCard;
 
@@ -57,19 +57,19 @@ public static partial class Combat
     {
         Game.UI.HideContextMenu();
 
-        int attackTypesAreAvailable = Selection.ThisShip.GetAttackTypes();
+        int anotherAttacksTypesCount = Selection.ThisShip.GetAnotherAttackTypesCount();
 
-        if (attackTypesAreAvailable > 1)
+        if (anotherAttacksTypesCount > 0)
         {
             Phases.StartTemporarySubPhase(
                 "Choose weapon for attack",
                 typeof(SubPhases.WeaponSelectionDecisionSubPhase),
-                Combat.TryPerformAttack
+                TryPerformAttack
             );
         }
         else
         {
-            SelectWeapon();
+            ChosenWeapon = Selection.ThisShip.PrimaryWeapon;
             TryPerformAttack();
         }
     }
@@ -81,7 +81,7 @@ public static partial class Combat
 
         if (Rules.TargetIsLegalForShot.IsLegal())
         {
-            ShipShotDistanceInformation shotInfo = new ShipShotDistanceInformation(Selection.ThisShip, Selection.AnotherShip);
+            ShipShotDistanceInformation shotInfo = new ShipShotDistanceInformation(Selection.ThisShip, Selection.AnotherShip, Combat.ChosenWeapon);
             shotInfo.CheckFirelineCollisions(delegate { PerformAttack(Selection.ThisShip, Selection.AnotherShip); });
         }
         else
@@ -115,14 +115,7 @@ public static partial class Combat
         AttackStep = CombatStep.Attack;
         CallAttackStartEvents();
         Selection.ActiveShip = Attacker;
-        if (SecondaryWeapon != null)
-        {
-            SecondaryWeapon.PayAttackCost(callBack);
-        }
-        else
-        {
-            callBack();
-        }
+        ChosenWeapon.PayAttackCost(callBack);
     }
 
     private static void AttackDiceRoll()
@@ -136,14 +129,15 @@ public static partial class Combat
 
     public static void ShowAttackAnimationAndSound()
     {
-        if (SecondaryWeapon != null)
+        Upgrade.GenericSecondaryWeapon chosenSecondaryWeapon = ChosenWeapon as Upgrade.GenericSecondaryWeapon;
+        if (chosenSecondaryWeapon != null)
         {
-            if (SecondaryWeapon.Type == Upgrade.UpgradeType.Torpedoes || SecondaryWeapon.Type == Upgrade.UpgradeType.Missiles)
+            if (chosenSecondaryWeapon.Type == Upgrade.UpgradeType.Torpedoes || chosenSecondaryWeapon.Type == Upgrade.UpgradeType.Missiles)
             {
                 Sounds.PlayShots("Proton-Torpedoes", 1);
                 Selection.ThisShip.AnimateMunitionsShot();
             }
-            else if (SecondaryWeapon.Type == Upgrade.UpgradeType.Turret)
+            else if (chosenSecondaryWeapon.Type == Upgrade.UpgradeType.Turret)
             {
                 Sounds.PlayShots(Selection.ActiveShip.SoundShotsPath, Selection.ActiveShip.ShotsCount);
                 Selection.ThisShip.AnimateTurretWeapon();
@@ -237,7 +231,8 @@ public static partial class Combat
 
     private static void CheckTwinAttack()
     {
-        if (SecondaryWeapon != null && SecondaryWeapon.IsTwinAttack)
+        Upgrade.GenericSecondaryWeapon chosenSecondaryWeapon = ChosenWeapon as Upgrade.GenericSecondaryWeapon;
+        if (chosenSecondaryWeapon != null && chosenSecondaryWeapon.IsTwinAttack)
         {
             if (attacksCounter == 0)
             {
@@ -264,15 +259,20 @@ public static partial class Combat
         Attacker.CallCombatEnd();
         Defender.CallCombatEnd();
 
+        CleanupCombatData();
+
         if (Roster.NoSamePlayerAndPilotSkillNotAttacked(Selection.ThisShip))
         {
             Phases.FinishSubPhase(typeof(SubPhases.CombatSubPhase));
         }
     }
 
-    public static void SelectWeapon(Upgrade.GenericSecondaryWeapon secondaryWeapon = null)
+    private static void CleanupCombatData()
     {
-        SecondaryWeapon = secondaryWeapon;
+        AttackStep = CombatStep.None;
+        Attacker = null;
+        Defender = null;
+        ChosenWeapon = null;
     }
 
     public static void ConfirmDiceResults()
@@ -329,51 +329,47 @@ namespace SubPhases
 
         public override void Prepare()
         {
-            ShipShotDistanceInformation shotInfo = new ShipShotDistanceInformation(Selection.ThisShip, Selection.AnotherShip);
-            infoText = "Choose weapon for attack (Range " + shotInfo.Range + ")";
+            List<Ship.IShipWeapon> allWeapons = GetAllWeapons();
 
-            if (shotInfo.Range <= 3 && shotInfo.InArc)
-            {
-                AddDecision("Primary", PerformPrimaryAttack);
-            }
+            //TODO: Range?
+            infoText = "Choose weapon for attack";
 
-            foreach (var upgrade in Selection.ThisShip.InstalledUpgrades)
+            foreach (var weapon in allWeapons)
             {
-                Upgrade.GenericSecondaryWeapon secondaryWeapon = upgrade.Value as Upgrade.GenericSecondaryWeapon;
-                if (secondaryWeapon != null)
+                if (weapon.IsShotAvailable(Selection.AnotherShip))
                 {
-                    if (secondaryWeapon.IsShotAvailable(Selection.AnotherShip))
-                    {
-                        AddDecision(secondaryWeapon.Name, delegate { PerformSecondaryWeaponAttack(secondaryWeapon, null); });
-                        AddTooltip(secondaryWeapon.Name, secondaryWeapon.ImageUrl);
-                    }
+                    AddDecision(weapon.Name, delegate { PerformAttackWithWeapon(weapon); });
+                    AddTooltip(weapon.Name, (weapon as Upgrade.GenericSecondaryWeapon != null) ? (weapon as Upgrade.GenericSecondaryWeapon).ImageUrl : null );
                 }
             }
+
             defaultDecision = GetDecisions().Last().Key;
         }
 
-        private void PerformPrimaryAttack(object sender, EventArgs e)
+        private static List<Ship.IShipWeapon> GetAllWeapons()
         {
-            Combat.SelectWeapon();
-            Phases.FinishSubPhase(typeof(WeaponSelectionDecisionSubPhase));
-            CallBack();
+            List<Ship.IShipWeapon> allWeapons = new List<Ship.IShipWeapon>();
+
+            allWeapons.Add(Selection.ThisShip.PrimaryWeapon);
+
+            foreach (var upgrade in Selection.ThisShip.InstalledUpgrades)
+            {
+                Ship.IShipWeapon secondaryWeapon = upgrade.Value as Ship.IShipWeapon;
+                if (secondaryWeapon != null) allWeapons.Add(secondaryWeapon);
+            }
+
+            return allWeapons;
         }
 
-        public void PerformSecondaryWeaponAttack(object sender, EventArgs e)
+        public void PerformAttackWithWeapon(Ship.IShipWeapon weapon)
         {
             Tooltips.EndTooltip();
 
-            Upgrade.GenericSecondaryWeapon secondaryWeapon = null;
-            secondaryWeapon = sender as Upgrade.GenericSecondaryWeapon;
+            Combat.ChosenWeapon = weapon;
 
-            if (secondaryWeapon == null) Debug.Log("Ooops! Secondary weapon is incorrect!");
-
-            Combat.SelectWeapon(secondaryWeapon);
-
-            Messages.ShowInfo("Attack with " + secondaryWeapon.Name);
+            Messages.ShowInfo("Attack with " + weapon.Name);
 
             Phases.FinishSubPhase(typeof(WeaponSelectionDecisionSubPhase));
-
             CallBack();
         }
 

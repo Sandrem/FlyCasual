@@ -37,14 +37,7 @@ namespace Ship
                         {
                             if (!attacker.ShipsBumped.Contains(this))
                             {
-                                if (Combat.SecondaryWeapon == null)
-                                {
-                                    if (attacker.InPrimaryWeaponFireZone(this)) abilityIsActive = true;
-                                }
-                                else
-                                {
-                                    if (Combat.SecondaryWeapon.IsShotAvailable(this)) abilityIsActive = true;
-                                }
+                                if (Combat.ChosenWeapon.IsShotAvailable(this)) abilityIsActive = true;
                             }
                         }
                     }

@@ -6,19 +6,29 @@ using System.Linq;
 namespace Board
 {
 
-    public class ShipShotDistanceInformation : ShipDistanceInformation
+    public class ShipShotDistanceInformation : GeneralShipDistanceInformation
     {
         public bool IsObstructed { get; private set; }
         public List<GameObject> FiringLines { get; private set; }
         private System.Action CallBack;
 
+        public bool InShotAngle { get; private set; }
+        public bool InPrimaryArc { get; private set; }
         public bool InArc { get; private set; }
+
+        IShipWeapon ChosenWeapon { get; set; }
 
         private List<List<Vector3>> parallelPointsList;
 
         private int updatesCount = 0;
 
-        public ShipShotDistanceInformation(GenericShip thisShip, GenericShip anotherShip) : base(thisShip, anotherShip) { }
+        public ShipShotDistanceInformation(GenericShip thisShip, GenericShip anotherShip, IShipWeapon chosenWeapon) : base(thisShip, anotherShip)
+        {
+            Debug.Log("ShipShotDistanceInformation is called");
+
+            ChosenWeapon = chosenWeapon;
+            CalculateFields();
+        }
 
         protected override void CalculateFields()
         {
@@ -30,16 +40,31 @@ namespace Board
 
             parallelPointsList = new List<List<Vector3>>();
 
-            foreach (var objThis in ThisShip.GetStandFrontPoins())
+            // TODO: another types of primaty arcs
+            Dictionary <string, Vector3> shootingPoints = (!ChosenWeapon.CanShootOutsideArc) ? ThisShip.GetStandFrontPoints() : ThisShip.GetStandPoints();
+
+            foreach (var objThis in shootingPoints)
             {
                 foreach (var objAnother in AnotherShip.GetStandPoints())
                 {
+
+                    // TODO: check this part
                     Vector3 vectorToTarget = objAnother.Value - objThis.Value;
                     float angle = Mathf.Abs(Vector3.Angle(vectorToTarget, vectorFacing));
 
-                    if (angle <= 40f)
+                    if (ChosenWeapon.CanShootOutsideArc || ChosenWeapon.Host.ArcInfo.InAttackAngle(AnotherShip))
                     {
-                        InArc = true;
+                        InShotAngle = true;
+
+                        if (ChosenWeapon.Host.ArcInfo.InArc(AnotherShip))
+                        {
+                            InArc = true;
+                        }
+
+                        if (ChosenWeapon.Host.ArcInfo.InPrimaryArc(AnotherShip))
+                        {
+                            InPrimaryArc = true;
+                        }
 
                         float distance = Vector3.Distance(objThis.Value, objAnother.Value);
                         if (distance < Distance - PRECISION)

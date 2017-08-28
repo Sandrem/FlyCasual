@@ -102,7 +102,7 @@ public static class MovementTemplates {
 
     public static void ShowFiringArcRange(ShipShotDistanceInformation shotInfo)
     {
-        if (shotInfo.InArc)
+        if (shotInfo.InShotAngle)
         {
             ShowRangeRuler(shotInfo);
         }
@@ -113,7 +113,7 @@ public static class MovementTemplates {
         }
     }
 
-    public static void ShowRangeRuler(ShipDistanceInformation shipDistanceInfo)
+    public static void ShowRangeRuler(GeneralShipDistanceInformation shipDistanceInfo)
     {
         Templates.Find("RangeRuler").position = shipDistanceInfo.ThisShipNearestPoint;
         Templates.Find("RangeRuler").rotation = Quaternion.LookRotation(shipDistanceInfo.Vector);

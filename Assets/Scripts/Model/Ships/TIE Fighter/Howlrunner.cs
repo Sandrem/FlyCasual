@@ -58,7 +58,7 @@ namespace ActionsList
             bool result = false;
             if (Combat.AttackStep == CombatStep.Attack)
             {
-                if (Combat.SecondaryWeapon == null)
+                if (Combat.ChosenWeapon.GetType() == typeof(Ship.PrimaryWeaponClass))
                 {
                     if (Combat.Attacker.GetType() != typeof(Ship.TIEFighter.Howlrunner))
                     {

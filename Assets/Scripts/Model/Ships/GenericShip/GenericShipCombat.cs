@@ -5,10 +5,91 @@ using UnityEngine;
 
 namespace Ship
 {
+    public interface IShipWeapon
+    {
+        GenericShip Host { get; set; }
+        string Name { get; set; }
+
+        int MinRange { get; set; }
+        int MaxRange { get; set; }
+        int AttackValue { get; set; }
+
+        bool CanShootOutsideArc { get; set; }
+
+        bool IsShotAvailable(GenericShip targetShip);
+        void PayAttackCost(Action callBack);
+    }
+
+    public class PrimaryWeaponClass : IShipWeapon
+    {
+        public GenericShip Host { get; set; }
+        public string Name { get; set; }
+
+        public int MinRange { get; set; }
+        public int MaxRange { get; set; }
+
+        private int attackValue;
+        public int AttackValue
+        {
+            get
+            {
+                int result = attackValue;
+                Host.CallAfterGotNumberOfPrimaryWeaponAttackDices(ref result);
+                return result;
+            }
+            set { attackValue = value; }
+        }
+
+        public bool CanShootOutsideArc { get; set; }
+
+        public PrimaryWeaponClass(GenericShip host)
+        {
+            Host = host;
+            Name = "Primary Weapon";
+
+            MinRange = 1;
+            MaxRange = 3;
+
+            AttackValue = Host.Firepower;
+
+            CanShootOutsideArc = Host.ArcInfo.CanShootOutsideArc;
+        }
+
+        public bool IsShotAvailable(GenericShip targetShip)
+        {
+            bool result = true;
+
+            int range;
+            if (!CanShootOutsideArc)
+            {
+                Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(Host, targetShip, this);
+                range = shotInfo.Range;
+
+                //TODO: Change to munitions arc
+                if (!shotInfo.InPrimaryArc) return false;
+            }
+            else
+            {
+                Board.ShipDistanceInformation distanceInfo = new Board.ShipDistanceInformation(Host, targetShip);
+                range = distanceInfo.Range;
+            }
+
+            if (range < MinRange) return false;
+            if (range > MaxRange) return false;
+
+            return result;
+        }
+
+        public void PayAttackCost(Action callBack)
+        {
+            callBack();
+        }
+    }
 
     public partial class GenericShip
     {
-        public Arcs.GenericArc Arc = new Arcs.GenericArc();
+        public Arcs.GenericArc ArcInfo;
+        public PrimaryWeaponClass PrimaryWeapon;
 
         private List<CriticalHitCard.GenericCriticalHit> AssignedCritCards = new List<CriticalHitCard.GenericCriticalHit>();
         private List<CriticalHitCard.GenericCriticalHit> AssignedDamageCards = new List<CriticalHitCard.GenericCriticalHit>();
@@ -20,6 +101,7 @@ namespace Ship
         public event EventHandlerShip OnCombatPhaseStart;
 
         public event EventHandlerBool OnTryPerformAttack;
+        public static event EventHandlerBool OnTryPerformAttackGlobal;
 
         public event EventHandler OnAttack;
         public event EventHandler OnDefence;
@@ -60,6 +142,8 @@ namespace Ship
         public bool CallCanPerformAttack(bool result = true)
         {
             if (OnTryPerformAttack != null) OnTryPerformAttack(ref result);
+
+            if (OnTryPerformAttackGlobal != null) OnTryPerformAttackGlobal(ref result);
 
             return result;
         }
@@ -103,15 +187,7 @@ namespace Ship
         {
             int result = 0;
 
-            if (Combat.SecondaryWeapon == null)
-            {
-                result = Firepower;
-                if (AfterGotNumberOfPrimaryWeaponAttackDices != null) AfterGotNumberOfPrimaryWeaponAttackDices(ref result);
-            }
-            else
-            {
-                result = Combat.SecondaryWeapon.GetAttackValue();
-            }
+            result = Combat.ChosenWeapon.AttackValue;
 
             if (AfterGotNumberOfAttackDices != null) AfterGotNumberOfAttackDices(ref result);
 
@@ -119,11 +195,16 @@ namespace Ship
             return result;
         }
 
+        public void CallAfterGotNumberOfPrimaryWeaponAttackDices(ref int result)
+        {
+            if (AfterGotNumberOfPrimaryWeaponAttackDices != null) AfterGotNumberOfPrimaryWeaponAttackDices(ref result);
+        }
+
         public int GetNumberOfDefenceDices(GenericShip attackerShip)
         {
             int result = Agility;
 
-            if (Combat.SecondaryWeapon == null)
+            if (Combat.ChosenWeapon.GetType() == typeof(PrimaryWeaponClass))
             {
                 if (AfterGotNumberOfPrimaryWeaponDefenceDices != null) AfterGotNumberOfPrimaryWeaponDefenceDices(ref result);
             }
@@ -326,16 +407,13 @@ namespace Ship
 
         // ATTACK TYPES
 
-        public int GetAttackTypes()
+        public int GetAnotherAttackTypesCount()
         {
             int result = 0;
 
-            Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(Selection.ThisShip, Selection.AnotherShip);
-            if (InPrimaryWeaponFireZone(shotInfo.Range, shotInfo.InArc)) result++;
-
             foreach (var upgrade in InstalledUpgrades)
             {
-                Upgrade.GenericSecondaryWeapon secondaryWeapon = upgrade.Value as Upgrade.GenericSecondaryWeapon;
+                IShipWeapon secondaryWeapon = upgrade.Value as IShipWeapon;
                 if (secondaryWeapon != null)
                 {
                     if (secondaryWeapon.IsShotAvailable(Selection.AnotherShip)) result++;
@@ -348,8 +426,8 @@ namespace Ship
         public bool InPrimaryWeaponFireZone(GenericShip anotherShip)
         {
             bool result = true;
-            Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(this, anotherShip);
-            result = InPrimaryWeaponFireZone(shotInfo.Range, shotInfo.InArc);
+            Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(this, anotherShip, PrimaryWeapon);
+            result = InPrimaryWeaponFireZone(shotInfo.Range, shotInfo.InPrimaryArc);
             return result;
         }
 

@@ -2,15 +2,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Ship;
 
 namespace Upgrade
 {
 
-    public class GenericSecondaryWeapon : GenericUpgrade
+    public class GenericSecondaryWeapon : GenericUpgrade, IShipWeapon
     {
-        public int MinRange;
-        public int MaxRange;
-        public int AttackValue;
+        public int MinRange { get; set; }
+        public int MaxRange { get; set; }
+        public int AttackValue { get; set; }
+        public bool CanShootOutsideArc { get; set; }
 
         public bool RequiresFocusToShoot;
         public bool RequiresTargetLockOnTargetToShoot;
@@ -20,41 +22,37 @@ namespace Upgrade
 
         public bool IsTwinAttack;
 
-        public bool IsTurret;
-
         public GenericSecondaryWeapon() : base()
         {
 
         }
 
-        public virtual bool IsShotAvailable(Ship.GenericShip anotherShip)
+        public virtual bool IsShotAvailable(Ship.GenericShip targetShip)
         {
             bool result = true;
 
             if (isDiscarded) return false;
 
-            if (!IsTurret)
+            int range;
+            if (!CanShootOutsideArc)
             {
-                Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(Host, anotherShip);
+                Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(Host, targetShip, this);
+                range = shotInfo.Range;
 
-                int range = shotInfo.Range;
-                if (range < MinRange) return false;
-                if (range > MaxRange) return false;
-
-                if (!shotInfo.InArc) return false;
+                if (!shotInfo.InShotAngle) return false;
             }
             else
             {
-                Board.ShipDistanceInformation distanceInfo = new Board.ShipDistanceInformation(Host, anotherShip);
-
-                int range = distanceInfo.Range;
-                if (range < MinRange) return false;
-                if (range > MaxRange) return false;
+                Board.ShipDistanceInformation distanceInfo = new Board.ShipDistanceInformation(Host, targetShip);
+                range = distanceInfo.Range;
             }
+
+            if (range < MinRange) return false;
+            if (range > MaxRange) return false;
 
             if (RequiresTargetLockOnTargetToShoot)
             {
-                if (!Actions.HasTargetLockOn(Host, anotherShip)) return false;
+                if (!Actions.HasTargetLockOn(Host, targetShip)) return false;
             }
 
             if (RequiresFocusToShoot)

@@ -81,14 +81,7 @@ namespace ActionsList
 
             if (Combat.AttackStep != CombatStep.Attack) result = false;
 
-            if (Combat.SecondaryWeapon == null)
-            {
-                result = false;
-            }
-            else
-            {
-                if (Combat.SecondaryWeapon != Source) result = false;
-            }
+            if (Combat.ChosenWeapon != Source) result = false;
 
             return result;
         }

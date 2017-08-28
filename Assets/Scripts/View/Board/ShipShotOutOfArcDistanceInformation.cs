@@ -6,9 +6,13 @@ using System.Linq;
 namespace Board
 {
 
-    public class ShipShotOutOfArcDistanceInformation : ShipDistanceInformation
+    public class ShipShotOutOfArcDistanceInformation : GeneralShipDistanceInformation
     {
-        public ShipShotOutOfArcDistanceInformation(GenericShip thisShip, GenericShip anotherShip) : base(thisShip, anotherShip) { }
+
+        public ShipShotOutOfArcDistanceInformation(GenericShip thisShip, GenericShip anotherShip) : base(thisShip, anotherShip)
+        {
+            CalculateFields();
+        }
 
         protected override void CalculateFields()
         {

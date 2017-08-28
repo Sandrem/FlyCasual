@@ -31,15 +31,18 @@ namespace Ship
 
             private void DoSecondAction(GenericShip ship)
             {
-                Triggers.RegisterTrigger(
-                    new Trigger()
-                    {
-                        Name = "Darth Vader: Second action",
-                        TriggerOwner = Owner.PlayerNo,
-                        TriggerType = TriggerTypes.OnFreeActionPlanned,
-                        EventHandler = PerformFreeAction
-                    }
-                );
+                if (!HasToken(typeof(Tokens.StressToken)))
+                {
+                    Triggers.RegisterTrigger(
+                        new Trigger()
+                        {
+                            Name = "Darth Vader: Second action",
+                            TriggerOwner = Owner.PlayerNo,
+                            TriggerType = TriggerTypes.OnFreeActionPlanned,
+                            EventHandler = PerformFreeAction
+                        }
+                    );
+                }
             }
 
             private void PerformFreeAction(object sender, System.EventArgs e)

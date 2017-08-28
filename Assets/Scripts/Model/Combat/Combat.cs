@@ -47,6 +47,8 @@ public static partial class Combat
 
     private static int attacksCounter;
 
+    public static ShipShotDistanceInformation ShotInfo;
+
     // Use this for initialization
     static Combat()
     {
@@ -81,8 +83,8 @@ public static partial class Combat
 
         if (Rules.TargetIsLegalForShot.IsLegal())
         {
-            ShipShotDistanceInformation shotInfo = new ShipShotDistanceInformation(Selection.ThisShip, Selection.AnotherShip, Combat.ChosenWeapon);
-            shotInfo.CheckFirelineCollisions(delegate { PerformAttack(Selection.ThisShip, Selection.AnotherShip); });
+            ShotInfo = (ChosenWeapon.GetType() == typeof(Ship.PrimaryWeaponClass)) ? ShotInfo : new ShipShotDistanceInformation(Selection.ThisShip, Selection.AnotherShip, ChosenWeapon);
+            ShotInfo.CheckFirelineCollisions(delegate { PerformAttack(Selection.ThisShip, Selection.AnotherShip); });
         }
         else
         {
@@ -273,6 +275,7 @@ public static partial class Combat
         Attacker = null;
         Defender = null;
         ChosenWeapon = null;
+        ShotInfo = null;
     }
 
     public static void ConfirmDiceResults()

@@ -60,18 +60,31 @@ namespace Ship
             bool result = true;
 
             int range;
-            if (!CanShootOutsideArc)
-            {
-                Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(Host, targetShip, this);
-                range = shotInfo.Range;
 
-                //TODO: Change to munitions arc
-                if (!shotInfo.InPrimaryArc) return false;
+            if (Combat.ShotInfo.GetType() == GetType())
+            {
+                range = Combat.ShotInfo.Range;
+                if (!CanShootOutsideArc)
+                {
+                    //TODO: Change to munitions arc
+                    if (!Combat.ShotInfo.InPrimaryArc) return false;
+                }
             }
             else
             {
-                Board.ShipDistanceInformation distanceInfo = new Board.ShipDistanceInformation(Host, targetShip);
-                range = distanceInfo.Range;
+                if (!CanShootOutsideArc)
+                {
+                    Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(Host, targetShip, this);
+                    range = shotInfo.Range;
+
+                    //TODO: Change to munitions arc
+                    if (!shotInfo.InPrimaryArc) return false;
+                }
+                else
+                {
+                    Board.ShipDistanceInformation distanceInfo = new Board.ShipDistanceInformation(Host, targetShip);
+                    range = distanceInfo.Range;
+                }
             }
 
             if (range < MinRange) return false;

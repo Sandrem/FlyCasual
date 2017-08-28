@@ -12,16 +12,13 @@ namespace CriticalHitCard
         {
             Name = "Weapons Failure";
             Type = CriticalCardType.Ship;
-            ImageUrl = "http://i.imgur.com/nUj64yn.jpg";
+            ImageUrl = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/damage-decks/core-tfa/weapons-failure.png";
             CancelDiceResults.Add(DiceSide.Success);
             CancelDiceResults.Add(DiceSide.Crit);
         }
 
         public override void ApplyEffect(object sender, EventArgs e)
         {
-            Messages.ShowInfo("When attacking, roll 1 fewer attack dice");
-            Game.UI.AddTestLogEntry("When attacking, roll 1 fewer attack dice");
-
             Host.AfterGotNumberOfPrimaryWeaponAttackDices += ReduceNumberOfAttackDices;
             Host.AfterGenerateAvailableActionsList += AddCancelCritAction;
 
@@ -31,18 +28,16 @@ namespace CriticalHitCard
         public override void DiscardEffect(Ship.GenericShip host)
         {
             Messages.ShowInfo("Number of attack dices is restored");
-            Game.UI.AddTestLogEntry("Number of attack dices is restored");
+
             host.RemoveToken(typeof(Tokens.WeaponsFailureCritToken));
-
             host.AfterGotNumberOfPrimaryWeaponAttackDices -= ReduceNumberOfAttackDices;
-
             host.AfterGenerateAvailableActionsList -= AddCancelCritAction;
         }
 
         private void ReduceNumberOfAttackDices(ref int value)
         {
             Messages.ShowInfo("Weapons Failure: Number of attack dices is reduced");
-            Game.UI.AddTestLogEntry("Weapons Failure: Number of attack dices is reduced");
+
             value--;
         }
 

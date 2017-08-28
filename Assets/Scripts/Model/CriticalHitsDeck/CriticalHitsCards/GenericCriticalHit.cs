@@ -25,7 +25,6 @@ namespace CriticalHitCard
         public void AssignCrit(Ship.GenericShip host)
         {
             this.Host = host;
-            Inform();
 
             Triggers.RegisterTrigger(new Trigger() {
                 Name = "Apply critical hit card effect",
@@ -35,12 +34,6 @@ namespace CriticalHitCard
             });
 
             Triggers.ResolveTriggers(TriggerTypes.OnFaceupCritCardIsDealt, Triggers.FinishTrigger);
-        }
-
-        private void Inform()
-        {
-            Messages.ShowInfo("Crit: " + Name);
-            Game.UI.AddTestLogEntry("Crit: " + Name);
         }
 
         public virtual void ApplyEffect(object sender, EventArgs e)

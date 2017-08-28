@@ -12,14 +12,11 @@ namespace CriticalHitCard
         {
             Name = "Loose Stabilizer";
             Type = CriticalCardType.Ship;
-            ImageUrl = "http://i.imgur.com/Kouy0v8.jpg";
+            ImageUrl = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/damage-decks/core-tfa/loose-stabilizer.png";
         }
 
         public override void ApplyEffect(object sender, EventArgs e)
         {
-            Messages.ShowInfo("After you execute a white maneuver, receive 1 stress token");
-            Game.UI.AddTestLogEntry("After you execute a white maneuver, receive 1 stress token");
-
             Host.OnMovementFinish += PlanStressAfterWhiteManeuvers;
             Host.AfterGenerateAvailableActionsList += AddCancelCritAction;
 
@@ -29,9 +26,7 @@ namespace CriticalHitCard
         public override void DiscardEffect(Ship.GenericShip host)
         {
             Messages.ShowInfo("No stress after white maneuvers");
-            Game.UI.AddTestLogEntry("No stress after white maneuvers");
             host.RemoveToken(typeof(Tokens.LooseStabilizerCritToken));
-
             host.OnMovementExecuted -= PlanStressAfterWhiteManeuvers;
             host.AfterGenerateAvailableActionsList -= AddCancelCritAction;
         }

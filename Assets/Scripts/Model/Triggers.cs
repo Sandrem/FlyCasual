@@ -21,6 +21,7 @@ public enum TriggerTypes
     OnCombatPhaseStart,
     OnAttackHit,
     OnFaceupCritCardReadyToBeDealt,
+    OnFaceupCritCardReadyToBeDealtUI,
     OnDamageIsDealt,
     OnFaceupCritCardIsDealt,
     OnMajorExplosionCrit,

@@ -29,7 +29,6 @@ namespace UpgradesList
         {
             if (crit.Type == CriticalCardType.Pilot) {
                 Messages.ShowInfo("Determination: Crit with \"Pilot\" trait is discarded");
-                Game.UI.AddTestLogEntry("Determination: Crit with \"Pilot\" trait is discarded");
                 crit = null;
             }
         }

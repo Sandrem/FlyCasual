@@ -12,14 +12,11 @@ namespace CriticalHitCard
         {
             Name = "Console Fire";
             Type = CriticalCardType.Ship;
-            ImageUrl = "http://i.imgur.com/Jamd8dB.jpg";
+            ImageUrl = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/damage-decks/core-tfa/console-fire.png";
         }
 
         public override void ApplyEffect(object sender, EventArgs e)
         {
-            Messages.ShowInfo("At the start of each Combat phase, roll 1 attack die.");
-            Game.UI.AddTestLogEntry("At the start of each Combat phase, roll 1 attack die.");
-
             Host.OnCombatPhaseStart += PlanRollForDamage;
             Host.AfterGenerateAvailableActionsList += AddCancelCritAction;
 
@@ -95,7 +92,6 @@ namespace SubPhases
         private void SufferDamage()
         {
             Messages.ShowError("Console Fire: ship suffered damage");
-            Game.UI.AddTestLogEntry("Console Fire: ship suffered damage");
 
             Selection.ActiveShip.AssignedDamageDiceroll.DiceList.Add(CurrentDiceRoll.DiceList[0]);
 

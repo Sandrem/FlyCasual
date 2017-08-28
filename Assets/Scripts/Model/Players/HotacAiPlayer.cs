@@ -27,10 +27,18 @@ namespace Players
             if (anotherShip == null) anotherShip = FindNearestEnemyShip(ship);
             if (inDebug) Debug.Log("Nearest enemy is " + anotherShip.PilotName + " (" + anotherShip.ShipId + ")");
 
-            ship.AssignedManeuver = ship.HotacManeuverTable.GetManeuver(ship, anotherShip);
+            // TODO: remove null variant
+            if (anotherShip != null)
+            {
+                ship.AssignedManeuver = ship.HotacManeuverTable.GetManeuver(ship, anotherShip);
+            }
+            else
+            {
+                ship.AssignedManeuver = new Movement.StraightMovement(2, Movement.ManeuverDirection.Forward, Movement.ManeuverBearing.Straight, Movement.ManeuverColor.White);
+            }
 
             ship.GenerateAvailableActionsList();
-            foreach (var action in ship.GetAvailableActionsList())
+            if (anotherShip != null) foreach (var action in ship.GetAvailableActionsList())
             {
                 if (action.GetType() == typeof(ActionsList.TargetLockAction))
                 {

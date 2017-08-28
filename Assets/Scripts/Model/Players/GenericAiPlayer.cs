@@ -172,9 +172,9 @@ namespace Players
         {
             Ship.GenericShip selectedTargetShip = targetShip;
 
-            if (DebugManager.DebugAI) Debug.Log("AI checks taget for attack: " + targetShip);
+            if (DebugManager.DebugAI) Debug.Log("AI checks target for attack: " + targetShip);
 
-            Upgrade.GenericSecondaryWeapon chosenWeapon = null;
+            Ship.IShipWeapon chosenWeapon = null;
 
             foreach (var upgrade in Selection.ThisShip.InstalledUpgrades)
             {
@@ -189,14 +189,13 @@ namespace Players
                 }
             }
 
-            if (DebugManager.DebugAI) Debug.Log("Selected weapon: " + chosenWeapon);
-
-
             if (DebugManager.DebugAI) Debug.Log("Ship is selected before validation: " + selectedTargetShip);
-            Combat.ChosenWeapon = chosenWeapon;
             Selection.TryToChangeAnotherShip("ShipId:" + selectedTargetShip.ShipId);
 
-            if (Rules.TargetIsLegalForShot.IsLegal())
+            chosenWeapon = chosenWeapon ?? Selection.ThisShip.PrimaryWeapon;
+            Combat.ChosenWeapon = chosenWeapon;
+
+            if (Rules.TargetIsLegalForShot.IsLegal() && Combat.ChosenWeapon.IsShotAvailable(Selection.AnotherShip))
             {
                 if (DebugManager.DebugAI) Debug.Log("AI target legal: " + Selection.AnotherShip);
             }
@@ -225,10 +224,13 @@ namespace Players
         {
             Dictionary<Ship.GenericShip, float> results = new Dictionary<Ship.GenericShip, float>();
 
+            Combat.ChosenWeapon = thisShip.PrimaryWeapon;
+
             foreach (var shipHolder in Roster.GetPlayer(Roster.AnotherPlayer(thisShip.Owner.PlayerNo)).Ships)
             {
                 if (!shipHolder.Value.IsDestroyed)
                 {
+
                     if (ignoreCollided)
                     {
                         if (thisShip.LastShipCollision != null)

@@ -38,13 +38,16 @@ namespace UpgradesList
 
         private void RegisterIonTurretEffect()
         {
-            Triggers.RegisterTrigger(new Trigger()
+            if (Combat.ChosenWeapon == this)
             {
-                Name = "Ion Cannon Turret effect",
-                TriggerType = TriggerTypes.OnAttackHit,
-                TriggerOwner = Combat.Attacker.Owner.PlayerNo,
-                EventHandler = IonTurretEffect
-            });
+                Triggers.RegisterTrigger(new Trigger()
+                {
+                    Name = "Ion Cannon Turret effect",
+                    TriggerType = TriggerTypes.OnAttackHit,
+                    TriggerOwner = Combat.Attacker.Owner.PlayerNo,
+                    EventHandler = IonTurretEffect
+                });
+            }
         }
 
         private void IonTurretEffect(object sender, System.EventArgs e)

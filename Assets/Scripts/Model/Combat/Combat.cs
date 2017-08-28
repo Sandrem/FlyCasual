@@ -81,7 +81,7 @@ public static partial class Combat
         Game.UI.HideContextMenu();
         MovementTemplates.ReturnRangeRuler();
 
-        if (Rules.TargetIsLegalForShot.IsLegal())
+        if (Rules.TargetIsLegalForShot.IsLegal() && ChosenWeapon.IsShotAvailable(Selection.AnotherShip))
         {
             ShotInfo = (ChosenWeapon.GetType() == typeof(Ship.PrimaryWeaponClass)) ? ShotInfo : new ShipShotDistanceInformation(Selection.ThisShip, Selection.AnotherShip, ChosenWeapon);
             ShotInfo.CheckFirelineCollisions(delegate { PerformAttack(Selection.ThisShip, Selection.AnotherShip); });
@@ -90,6 +90,15 @@ public static partial class Combat
         {
             if (Roster.GetPlayer(Phases.CurrentPhasePlayer).GetType() == typeof(Players.HumanPlayer))
             {
+                if (!ShotInfo.InShotAngle && !ChosenWeapon.CanShootOutsideArc)
+                {
+                    Messages.ShowError("Target is outside your firing arc");
+                }
+                else if (ShotInfo.Distance > ChosenWeapon.MaxRange || ShotInfo.Distance < ChosenWeapon.MinRange)
+                {
+                    Messages.ShowError("Target is outside your firing range");
+                }
+
                 //TODO: except non-legal targets, bupmed for example, biggs?
                 Roster.HighlightShipsFiltered(Roster.AnotherPlayer(Phases.CurrentPhasePlayer));
                 Game.UI.HighlightNextButton();

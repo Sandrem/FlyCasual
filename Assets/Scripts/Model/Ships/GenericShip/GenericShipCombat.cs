@@ -61,7 +61,8 @@ namespace Ship
 
             int range;
 
-            if (Combat.ShotInfo.GetType() == GetType())
+            Debug.Log(Combat.ChosenWeapon.GetType());
+            if (Combat.ChosenWeapon.GetType() == GetType())
             {
                 range = Combat.ShotInfo.Range;
                 if (!CanShootOutsideArc)

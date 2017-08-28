@@ -13,14 +13,11 @@ namespace CriticalHitCard
         {
             Name = "Damaged Cockpit";
             Type = CriticalCardType.Ship;
-            ImageUrl = "http://i.imgur.com/SJjkO3L.jpg";
+            ImageUrl = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/damage-decks/core-tfa/damaged-cockpit.png";
         }
 
         public override void ApplyEffect(object sender, EventArgs e)
         {
-            Messages.ShowInfo("Pilot Skill is set to 0");
-            Game.UI.AddTestLogEntry("Pilot Skill is set to 0");
-
             Phases.OnRoundStart += ApplyDelayedEffect;
 
             Host.AssignToken(new Tokens.DamagedCockpitCritToken(), Triggers.FinishTrigger);
@@ -35,7 +32,6 @@ namespace CriticalHitCard
         public override void DiscardEffect(Ship.GenericShip host)
         {
             Messages.ShowInfo("Pilot Skill is restored");
-            Game.UI.AddTestLogEntry("Pilot Skill is restored");
 
             host.RemoveToken(typeof(Tokens.DamagedCockpitCritToken));
             host.RemovePilotSkillModifier(this);

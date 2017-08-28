@@ -8,6 +8,7 @@ using System;
 
 public static partial class Phases
 {
+    public static int RoundCounter;
 
     private static GameManagerScript Game;
 

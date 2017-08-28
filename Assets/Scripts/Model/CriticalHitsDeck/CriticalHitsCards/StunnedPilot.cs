@@ -12,14 +12,11 @@ namespace CriticalHitCard
         {
             Name = "Stunned Pilot";
             Type = CriticalCardType.Pilot;
-            ImageUrl = "http://i.imgur.com/J9knseg.jpg";
+            ImageUrl = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/damage-decks/core-tfa/stunned-pilot.png";
         }
 
         public override void ApplyEffect(object sender, EventArgs e)
         {
-            Messages.ShowInfo("After you execute a maneuver, if you are touching another ship or overlapping an obstacle token, suffer 1 damage");
-            Game.UI.AddTestLogEntry("After you execute a maneuver, if you are touching another ship or overlapping an obstacle token, suffer 1 damage");
-
             Host.OnMovementFinish += CheckCollisionDamage;
             Host.AssignToken(new Tokens.StunnedPilotCritToken(), Triggers.FinishTrigger);
         }
@@ -29,7 +26,6 @@ namespace CriticalHitCard
             if (host.IsBumped || host.IsLandedOnObstacle)
             {
                 Messages.ShowInfo("Stunned Pilot: Ship suffered damage");
-                Game.UI.AddTestLogEntry("Stunned Pilot: Ship suffered damage");
 
                 Selection.ThisShip.AssignedDamageDiceroll.AddDice(DiceSide.Success);
 

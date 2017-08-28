@@ -212,6 +212,14 @@ namespace Ship
 
                 if (OnFaceupCritCardReadyToBeDealtGlobal != null) OnFaceupCritCardReadyToBeDealtGlobal(this, ref Combat.CurrentCriticalHitCard, e);
 
+                Triggers.RegisterTrigger(new Trigger
+                {
+                    Name = "Information about faceup damage card",
+                    TriggerOwner = this.Owner.PlayerNo,
+                    TriggerType = TriggerTypes.OnFaceupCritCardReadyToBeDealtUI,
+                    EventHandler = delegate { InformCrit.LoadAndShow(); }
+                });
+
                 Triggers.ResolveTriggers(TriggerTypes.OnFaceupCritCardReadyToBeDealt, SufferHullDamagePart2);
             }
             else
@@ -222,6 +230,11 @@ namespace Ship
         }
 
         private void SufferHullDamagePart2()
+        {
+            Triggers.ResolveTriggers(TriggerTypes.OnFaceupCritCardReadyToBeDealtUI, SufferHullDamagePart3);
+        }
+
+        private void SufferHullDamagePart3()
         {
             if (OnAssignCrit != null) OnAssignCrit(this, ref Combat.CurrentCriticalHitCard);
 
@@ -280,7 +293,7 @@ namespace Ship
 
         public void DestroyShip(Action callBack, bool forced = false)
         {
-            Game.UI.AddTestLogEntry(PilotName + "\'s ship is destroyed");
+            Game.UI.AddTestLogEntry("Ship with ID " + ShipId + " is destroyed");
 
             IsDestroyed = true;
             PlayDestroyedAnimSound(delegate { CheckShipModelDestruction(forced); callBack(); });

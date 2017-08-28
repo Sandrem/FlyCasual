@@ -12,14 +12,11 @@ namespace CriticalHitCard
         {
             Name = "Shaken Pilot";
             Type = CriticalCardType.Pilot;
-            ImageUrl = "http://i.imgur.com/BGMZR5Q.jpg";
+            ImageUrl = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/damage-decks/core-tfa/shaken-pilot.png";
         }
 
         public override void ApplyEffect(object sender, EventArgs e)
         {
-            Messages.ShowInfo("Cannot be assigned straight maneuvers");
-            Game.UI.AddTestLogEntry("Cannot be assigned straight maneuvers");
-
             Host.AfterGetManeuverAvailablity += CannotBeAssignedStraightManeuvers;
             Host.OnMovementFinish += DiscardEffect;
 
@@ -29,7 +26,6 @@ namespace CriticalHitCard
         public override void DiscardEffect(Ship.GenericShip host)
         {
             Messages.ShowInfo("Can be assigned straight maneuvers");
-            Game.UI.AddTestLogEntry("Can be assigned straight maneuvers");
             host.RemoveToken(typeof(Tokens.ShakenPilotCritToken));
 
             host.AfterGetManeuverAvailablity -= CannotBeAssignedStraightManeuvers;

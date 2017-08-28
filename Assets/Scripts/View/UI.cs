@@ -261,6 +261,11 @@ public class UI : MonoBehaviour {
         Tooltips.EndTooltip();
     }
 
+    public void HideInformCritPanel()
+    {
+        InformCrit.HidePanel();
+    }
+
     public void QuitGame()
     {
         Application.Quit();

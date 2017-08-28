@@ -89,7 +89,7 @@ public static partial class Combat
         {
             if (Roster.GetPlayer(Phases.CurrentPhasePlayer).GetType() == typeof(Players.HumanPlayer))
             {
-                if (!ShotInfo.InShotAngle && !ChosenWeapon.CanShootOutsideArc)
+                if (!ShotInfo.InShotAngle)
                 {
                     Messages.ShowError("Target is outside your firing arc");
                 }

@@ -61,7 +61,6 @@ namespace Ship
 
             int range;
 
-            Debug.Log(Combat.ChosenWeapon.GetType());
             if (Combat.ChosenWeapon.GetType() == GetType())
             {
                 range = Combat.ShotInfo.Range;

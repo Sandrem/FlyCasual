@@ -24,8 +24,6 @@ namespace Board
 
         public ShipShotDistanceInformation(GenericShip thisShip, GenericShip anotherShip, IShipWeapon chosenWeapon) : base(thisShip, anotherShip)
         {
-            Debug.Log("ShipShotDistanceInformation is called");
-
             ChosenWeapon = chosenWeapon;
             CalculateFields();
         }
@@ -87,10 +85,13 @@ namespace Board
                 }
             }
 
-            Debug.Log("InShotAngle: " + InShotAngle);
-            Debug.Log("InArc: " + InArc);
-            Debug.Log("InPrimaryArc: " + InPrimaryArc);
-            Debug.Log("Range: " + Range);
+            if (DebugManager.DebugArcsAndDistance)
+            {
+                Debug.Log("InShotAngle: " + InShotAngle);
+                Debug.Log("InArc: " + InArc);
+                Debug.Log("InPrimaryArc: " + InPrimaryArc);
+                Debug.Log("Range: " + Range);
+            }
         }
 
         public void CheckFirelineCollisions(System.Action callBack)

@@ -132,7 +132,7 @@ namespace SubPhases
             {
                 AddDecision(action.Name, delegate {
                     Tooltips.EndTooltip();
-                    Game.UI.HideNextButton();
+                    Game.UI.HideSkipButton();
                     Selection.ThisShip.AddAlreadyExecutedAction(action);
                     action.ActionTake();
                 });
@@ -144,6 +144,12 @@ namespace SubPhases
         {
             base.Resume();
             Initialize();
+        }
+
+        public override void SkipButton()
+        {
+            Game.UI.HideSkipButton();
+            CallBack();
         }
 
     }
@@ -179,7 +185,7 @@ namespace SubPhases
             {
                 AddDecision(action.Name, delegate {
                     Tooltips.EndTooltip();
-                    Game.UI.HideNextButton();
+                    Game.UI.HideSkipButton();
                     Selection.ThisShip.AddAlreadyExecutedAction(action);
                     action.ActionTake();
                 });
@@ -191,6 +197,12 @@ namespace SubPhases
         {
             base.Resume();
             Initialize();
+        }
+
+        public override void SkipButton()
+        {
+            Game.UI.HideSkipButton();
+            CallBack();
         }
 
     }

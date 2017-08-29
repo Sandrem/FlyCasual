@@ -123,6 +123,7 @@ namespace SubPhases
 
         public override void FinishPhase()
         {
+            Game.UI.HideSkipButton();
             Phases.CurrentPhase.NextPhase();
         }
 
@@ -198,6 +199,18 @@ namespace SubPhases
                     Roster.RosterPanelHighlightOn(ship.Value);
                 }
             }
+        }
+
+        public override void SkipButton()
+        {
+            foreach (var shipHolder in Roster.GetPlayer(Phases.CurrentPhasePlayer).Ships)
+            {
+                if (shipHolder.Value.PilotSkill == Phases.CurrentSubPhase.RequiredPilotSkill)
+                {
+                    shipHolder.Value.IsAttackPerformed = true;
+                }
+            }
+            Next();
         }
 
     }

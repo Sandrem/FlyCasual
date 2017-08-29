@@ -133,6 +133,16 @@ namespace SubPhases
 
         }
 
+        public virtual void NextButton()
+        {
+
+        }
+
+        public virtual void SkipButton()
+        {
+
+        }
+
     }
 
 }

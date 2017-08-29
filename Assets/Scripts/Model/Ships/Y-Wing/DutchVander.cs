@@ -20,10 +20,10 @@ namespace Ship
             public override void InitializePilot()
             {
                 base.InitializePilot();
-                OnTokenIsAssigned += GarvenDreisPilotAbility;
+                OnTokenIsAssigned += DutchVanderPilotAbility;
             }
 
-            private void GarvenDreisPilotAbility(GenericShip ship, System.Type tokenType)
+            private void DutchVanderPilotAbility(GenericShip ship, System.Type tokenType)
             {
                 if (tokenType == typeof(Tokens.BlueTargetLockToken))
                 {

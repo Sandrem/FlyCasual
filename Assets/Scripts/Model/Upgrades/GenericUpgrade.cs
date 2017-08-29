@@ -29,14 +29,14 @@ namespace Upgrade
     {
         protected GameManagerScript Game;
 
-        protected Ship.GenericShip Host;
+        public Ship.GenericShip Host { get; set; }
 
         public int Cost;
         public UpgradeType Type;
         public bool isUnique = false;
         public bool Limited = false;
         public bool isDiscarded = false;
-        public string Name;
+        public string Name { get; set; }
         public string ShortName;
         public string ImageUrl;
         //public bool FactionRestriction

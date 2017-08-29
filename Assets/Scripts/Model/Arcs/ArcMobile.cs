@@ -31,7 +31,7 @@ namespace Arcs
             { ArcFacing.Rear,       new ArcInfo(-140f, 140f) }
         };
 
-        public ArcMobile()
+        public ArcMobile(GenericShip host) : base(host)
         {
             attackAngles = new List<ArcInfo> { new ArcInfo(-40f, 40f), mobileArcFacings[ArcFacing.Forward] };
         }

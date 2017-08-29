@@ -133,7 +133,7 @@ public static partial class Actions {
 
     public static int GetFiringRangeAndShow(Ship.GenericShip thisShip, Ship.GenericShip anotherShip)
     {
-        ShipShotDistanceInformation shotInfo = new ShipShotDistanceInformation(thisShip, anotherShip);
+        ShipShotDistanceInformation shotInfo = new ShipShotDistanceInformation(thisShip, anotherShip, thisShip.PrimaryWeapon);
         MovementTemplates.ShowFiringArcRange(shotInfo);
         return shotInfo.Range;
     }
@@ -142,8 +142,8 @@ public static partial class Actions {
     {
         foreach (var anotherShip in Roster.GetPlayer(Roster.AnotherPlayer(thisShip.Owner.PlayerNo)).Ships)
         {
-            ShipShotDistanceInformation shotInfo = new ShipShotDistanceInformation(thisShip, anotherShip.Value);
-            if ((shotInfo.Range < 4) && (shotInfo.InArc))
+            ShipShotDistanceInformation shotInfo = new ShipShotDistanceInformation(thisShip, anotherShip.Value, thisShip.PrimaryWeapon);
+            if ((shotInfo.Range < 4) && (shotInfo.InShotAngle))
             {
                 return true;
             }
@@ -158,8 +158,8 @@ public static partial class Actions {
 
         foreach (var anotherShip in Roster.GetPlayer(Roster.AnotherPlayer(thisShip.Owner.PlayerNo)).Ships)
         {
-            ShipShotDistanceInformation shotInfo = new ShipShotDistanceInformation(anotherShip.Value, thisShip);
-            if ((shotInfo.Range < 4) && (shotInfo.InArc))
+            ShipShotDistanceInformation shotInfo = new ShipShotDistanceInformation(anotherShip.Value, thisShip, anotherShip.Value.PrimaryWeapon);
+            if ((shotInfo.Range < 4) && (shotInfo.InShotAngle))
             {
                 result++;
             }

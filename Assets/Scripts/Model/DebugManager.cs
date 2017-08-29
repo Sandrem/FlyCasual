@@ -66,4 +66,15 @@ public static class DebugManager
         set { debugDamage = value; }
     }
 
+    private static bool debugArcsAndDistance;
+    public static bool DebugArcsAndDistance
+    {
+        get
+        {
+            if (FullDebug) return true;
+            return debugArcsAndDistance;
+        }
+        set { debugArcsAndDistance = value; }
+    }
+
 }

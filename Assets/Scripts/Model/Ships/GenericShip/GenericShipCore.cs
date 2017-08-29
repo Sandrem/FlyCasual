@@ -118,6 +118,9 @@ namespace Ship
         {
             Shields = MaxShields;
             Hull = MaxHull;
+
+            ArcInfo = new Arcs.GenericArc(this);
+            PrimaryWeapon = new PrimaryWeaponClass(this);
         }
 
         public virtual void InitializePilot()

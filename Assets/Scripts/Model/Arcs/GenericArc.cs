@@ -34,44 +34,36 @@ namespace Arcs
         protected readonly List<ArcInfo> primaryArcAngle = new List<ArcInfo> { new ArcInfo(-40f, 40f) };
         protected List<ArcInfo> attackAngles = new List<ArcInfo> { new ArcInfo(-40f, 40f) };
 
-        public GenericArc()
-        {
+        public bool CanShootOutsideArc { get; protected set; }
 
+        public GenericArc(GenericShip host)
+        {
+            Host = host;
         }
 
-        public virtual bool InAttackAngle(GenericShip targetShip)
+        public virtual bool InAttackAngle(float angle)
         {
-            return CheckAngle(targetShip, attackAngles);
+            return CheckAngle(angle, attackAngles);
         }
 
-        public virtual bool InArc(GenericShip targetShip)
+        public virtual bool InArc(float angle)
         {
-            return CheckAngle(targetShip, attackAngles);
+            return CheckAngle(angle, attackAngles);
         }
 
-        public virtual bool InPrimaryArc(GenericShip targetShip)
+        public virtual bool InPrimaryArc(float angle)
         {
-            return CheckAngle(targetShip, primaryArcAngle);
+            return CheckAngle(angle, primaryArcAngle);
         }
 
-        private bool CheckAngle(GenericShip targetShip, List<ArcInfo> requiredAngles)
+        private bool CheckAngle(float angle, List<ArcInfo> requiredAngles)
         {
-            Vector3 vectorFacing = Host.GetFrontFacing();
 
-            foreach (var objThis in Host.GetStandFrontPoins())
+            foreach (var arcInfo in requiredAngles)
             {
-                foreach (var objAnother in targetShip.GetStandPoints())
+                if (angle >= arcInfo.MinAngle && angle <= arcInfo.MaxAngle)
                 {
-                    Vector3 vectorToTarget = objAnother.Value - objThis.Value;
-                    float angle = Vector3.SignedAngle(vectorToTarget, vectorFacing, Vector3.up);
-
-                    foreach (var arcInfo in requiredAngles)
-                    {
-                        if (angle >= arcInfo.MinAngle && angle <= arcInfo.MaxAngle)
-                        {
-                            return true;
-                        }
-                    }
+                    return true;
                 }
             }
 

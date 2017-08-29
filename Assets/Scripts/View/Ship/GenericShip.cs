@@ -236,7 +236,7 @@ namespace Ship
             Transform launchOrigin = modelCenter.Find("MunitionsLauncherPoint/MunitionsLauncherDirection");
             if (launchOrigin != null)
             {
-                Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(Combat.Attacker, Combat.Defender);
+                Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(Combat.Attacker, Combat.Defender, Combat.ChosenWeapon);
                 float distance = shotInfo.Distance;
 
                 Vector3 targetPoint = Selection.AnotherShip.GetModelCenter();

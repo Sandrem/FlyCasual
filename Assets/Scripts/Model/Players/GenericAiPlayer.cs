@@ -101,19 +101,11 @@ namespace Players
         {
             if (DebugManager.DebugAI) Debug.Log("AI wants to attack!");
 
-            foreach (var shipHolder in Roster.GetPlayer(Phases.CurrentPhasePlayer).Ships)
-            {
-                if (shipHolder.Value.PilotSkill == Phases.CurrentSubPhase.RequiredPilotSkill)
-                {
-                    if (!shipHolder.Value.IsAttackPerformed)
-                    {
-                        Selection.ChangeActiveShip("ShipId:" + shipHolder.Value.ShipId);
-                        break;
-                    }
-                }
-            }
+            SelectShipThatCanAttack();
 
             Ship.GenericShip targetForAttack = null;
+
+            // TODO: Fix bug with missing chosen weapon
 
             if (Selection.ThisShip != null)
             {
@@ -121,34 +113,15 @@ namespace Players
                 {
                     Dictionary<Ship.GenericShip, float> enemyShips = GetEnemyShipsAndDistance(Selection.ThisShip, ignoreCollided: true, inArcAndRange: true);
 
-                    foreach (var shipHolder in enemyShips)
-                    {
-                        if (Actions.GetTargetLocksLetterPair(Selection.ThisShip, shipHolder.Key) != ' ')
-                        {
-                            targetForAttack = TryToDeclareTarget(shipHolder.Key, shipHolder.Value);
-                        }
-                    }
+                    targetForAttack = GetTargetWithAssignedTargetLock(enemyShips);
 
                     if (DebugManager.DebugAI) Debug.Log("AI has target for attack by target lock? " + targetForAttack);
+
                     if (targetForAttack == null)
                     {
-                        foreach (var shipHolder in enemyShips)
-                        {
-                            Ship.GenericShip newTarget = null;
-                            newTarget = TryToDeclareTarget(shipHolder.Key, shipHolder.Value);
-
-                            if (newTarget != null)
-                            {
-                                if (DebugManager.DebugAI) Debug.Log("Previous target for attack: " + targetForAttack);
-                                if (DebugManager.DebugAI) if (targetForAttack != null) Debug.Log("Previous target has higher distance: " + (enemyShips[targetForAttack] > enemyShips[newTarget]));
-                                if ((targetForAttack == null) || (enemyShips[targetForAttack] > enemyShips[newTarget]))
-                                {
-                                    targetForAttack = newTarget;
-                                    if (DebugManager.DebugAI) Debug.Log("AI has target for attack with primary weapon: " + targetForAttack);
-                                }
-                            }
-                        }
+                        targetForAttack = SelectNearestTarget(enemyShips);
                     }
+
                 }
                 Selection.ThisShip.IsAttackPerformed = true;
             }
@@ -166,17 +139,74 @@ namespace Players
 
         }
 
+        private Ship.GenericShip SelectNearestTarget(Dictionary<Ship.GenericShip, float> enemyShips)
+        {
+            Ship.GenericShip targetForAttack = null;
+
+            foreach (var shipHolder in enemyShips)
+            {
+                Ship.GenericShip newTarget = null;
+                newTarget = TryToDeclareTarget(shipHolder.Key, shipHolder.Value);
+
+                if (newTarget != null)
+                {
+                    if (DebugManager.DebugAI) Debug.Log("Previous target for attack: " + targetForAttack);
+                    if (DebugManager.DebugAI) if (targetForAttack != null) Debug.Log("Previous target has higher distance: " + (enemyShips[targetForAttack] > enemyShips[newTarget]));
+                    if ((targetForAttack == null) || (enemyShips[targetForAttack] > enemyShips[newTarget]))
+                    {
+                        targetForAttack = newTarget;
+                        if (DebugManager.DebugAI) Debug.Log("AI has target for attack with primary weapon: " + targetForAttack);
+                    }
+                }
+            }
+
+            return targetForAttack;
+        }
+
+        private Ship.GenericShip GetTargetWithAssignedTargetLock(Dictionary<Ship.GenericShip, float> enemyShips)
+        {
+            Ship.GenericShip targetForAttack = null;
+
+            foreach (var shipHolder in enemyShips)
+            {
+                if (Actions.GetTargetLocksLetterPair(Selection.ThisShip, shipHolder.Key) != ' ')
+                {
+                    return TryToDeclareTarget(shipHolder.Key, shipHolder.Value);
+                }
+            }
+
+            return targetForAttack;
+        }
+
+        private static void SelectShipThatCanAttack()
+        {
+            foreach (var shipHolder in Roster.GetPlayer(Phases.CurrentPhasePlayer).Ships)
+            {
+                if (shipHolder.Value.PilotSkill == Phases.CurrentSubPhase.RequiredPilotSkill)
+                {
+                    if (!shipHolder.Value.IsAttackPerformed)
+                    {
+                        Selection.ChangeActiveShip("ShipId:" + shipHolder.Value.ShipId);
+                        break;
+                    }
+                }
+            }
+        }
+
         private Ship.GenericShip TryToDeclareTarget(Ship.GenericShip targetShip, float distance)
         {
             Ship.GenericShip selectedTargetShip = targetShip;
 
-            if (DebugManager.DebugAI) Debug.Log("AI checks taget for attack: " + targetShip);
+            if (DebugManager.DebugAI) Debug.Log("AI checks target for attack: " + targetShip);
 
-            Upgrade.GenericSecondaryWeapon chosenWeapon = null;
+            if (DebugManager.DebugAI) Debug.Log("Ship is selected before validation: " + selectedTargetShip);
+            Selection.TryToChangeAnotherShip("ShipId:" + selectedTargetShip.ShipId);
+
+            Ship.IShipWeapon chosenWeapon = null;
 
             foreach (var upgrade in Selection.ThisShip.InstalledUpgrades)
             {
-                Upgrade.GenericSecondaryWeapon secondaryWeapon = (upgrade.Value as Upgrade.GenericSecondaryWeapon);
+                Ship.IShipWeapon secondaryWeapon = (upgrade.Value as Ship.IShipWeapon);
                 if (secondaryWeapon != null)
                 {
                     if (secondaryWeapon.IsShotAvailable(targetShip))
@@ -187,20 +217,17 @@ namespace Players
                 }
             }
 
-            if (DebugManager.DebugAI) Debug.Log("Selected weapon: " + chosenWeapon);
+            chosenWeapon = chosenWeapon ?? Selection.ThisShip.PrimaryWeapon;
+            Combat.ChosenWeapon = chosenWeapon;
 
-
-            if (DebugManager.DebugAI) Debug.Log("Ship is selected before validation: " + selectedTargetShip);
-            Combat.SelectWeapon(chosenWeapon);
-            Selection.TryToChangeAnotherShip("ShipId:" + selectedTargetShip.ShipId);
-
-            if (Rules.TargetIsLegalForShot.IsLegal())
+            if (Rules.TargetIsLegalForShot.IsLegal() && Combat.ChosenWeapon.IsShotAvailable(Selection.AnotherShip))
             {
                 if (DebugManager.DebugAI) Debug.Log("AI target legal: " + Selection.AnotherShip);
             }
             else
             {
                 if (DebugManager.DebugAI) Debug.Log("But validation is not passed: " + selectedTargetShip);
+                selectedTargetShip = null;
             }
 
             if (DebugManager.DebugAI) Debug.Log("AI decision about " + targetShip + " : " + selectedTargetShip);
@@ -227,6 +254,7 @@ namespace Players
             {
                 if (!shipHolder.Value.IsDestroyed)
                 {
+
                     if (ignoreCollided)
                     {
                         if (thisShip.LastShipCollision != null)
@@ -247,8 +275,8 @@ namespace Players
 
                     if (inArcAndRange)
                     {
-                        Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(thisShip, shipHolder.Value);
-                        if ((shotInfo.Range > 3) || (!shotInfo.InArc))
+                        Board.ShipDistanceInformation distanceInfo = new Board.ShipDistanceInformation(thisShip, shipHolder.Value);
+                        if ((distanceInfo.Range > 3))
                         {
                             continue;
                         }

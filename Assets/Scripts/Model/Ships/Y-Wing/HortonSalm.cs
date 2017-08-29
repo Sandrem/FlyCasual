@@ -54,7 +54,7 @@ namespace PilotAbilities
         public override bool IsActionEffectAvailable()
         {
             bool result = false;
-            Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(Selection.ThisShip, Selection.AnotherShip);
+            Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(Combat.Attacker, Combat.Defender, Combat.ChosenWeapon);
             if ((Combat.AttackStep == CombatStep.Attack) && (shotInfo.Range > 1))
             {
                 result = true;

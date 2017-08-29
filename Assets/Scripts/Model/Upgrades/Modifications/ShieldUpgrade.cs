@@ -7,8 +7,7 @@ namespace UpgradesList
     {
         public ShieldUpgrade() : base()
         {
-
-            Type = UpgradeSlot.Modification;
+            Type = UpgradeType.Modification;
             Name = ShortName = "Shield Upgrade";
             ImageUrl = "https://vignette1.wikia.nocookie.net/xwing-miniatures/images/d/df/Shield_Upgrade.png";
             Cost = 4;

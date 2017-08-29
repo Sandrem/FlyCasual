@@ -8,7 +8,7 @@ namespace UpgradesList
         public HullUpgrade() : base()
         {
 
-            Type = UpgradeSlot.Modification;
+            Type = UpgradeType.Modification;
             Name = ShortName = "Hull Upgrade";
             ImageUrl = "https://vignette1.wikia.nocookie.net/xwing-miniatures/images/2/21/Hull_Modification.png";
             Cost = 3;

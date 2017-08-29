@@ -14,7 +14,7 @@ namespace Ship
 
         private void AddCoreUpgradeSlots()
         {
-            AddUpgradeSlot(Upgrade.UpgradeSlot.Modification);
+            AddUpgradeSlot(Upgrade.UpgradeType.Modification);
         }
 
         protected void AddUpgradeSlot(Upgrade.UpgradeType slot)
@@ -39,7 +39,7 @@ namespace Ship
             {
                 newUpgrade.AttachToShip(this);
                 InstalledUpgrades.Add(new KeyValuePair<Upgrade.UpgradeType, Upgrade.GenericUpgrade>(newUpgrade.Type, newUpgrade));
-                Roster.UpdateUpgradesPanel(this, this.InfoPanel);
+                //Roster.UpdateUpgradesPanel(this, this.InfoPanel);
                 Roster.OrganizeRosters();
             }
         }

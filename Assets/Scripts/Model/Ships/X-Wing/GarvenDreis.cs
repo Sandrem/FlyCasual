@@ -43,7 +43,6 @@ namespace Ship
                         "Select target for Garven Dreis' ability",
                         typeof(SubPhases.GarvenDreisAbilityTargetSubPhase),
                         delegate {
-                            Phases.FinishSubPhase(typeof(SubPhases.GarvenDreisAbilityTargetSubPhase));
                             Phases.CurrentSubPhase.Resume();
                             Triggers.FinishTrigger();
                         }
@@ -78,10 +77,21 @@ namespace SubPhases
         {
             MovementTemplates.ReturnRangeRuler();
 
-            TargetShip.AssignToken(new Tokens.FocusToken(), delegate { CallBack(); });
+            TargetShip.AssignToken(
+                new Tokens.FocusToken(),
+                delegate {
+                    Phases.FinishSubPhase(typeof(GarvenDreisAbilityTargetSubPhase));
+                    CallBack();
+                });
         }
 
         protected override void RevertSubPhase() { }
+
+        public override void SkipButton()
+        {
+            Phases.FinishSubPhase(typeof(GarvenDreisAbilityTargetSubPhase));
+            CallBack();
+        }
 
     }
 

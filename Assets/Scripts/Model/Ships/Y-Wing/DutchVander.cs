@@ -107,6 +107,12 @@ namespace SubPhases
             );
         }
 
+        public override void SkipButton()
+        {
+            Phases.FinishSubPhase(typeof(SubPhases.DutchVanderAbilityTargetSubPhase));
+            Triggers.FinishTrigger();
+        }
+
     }
 
     public class FreeSelectTargetLockSubPhase : SelectShipSubPhase
@@ -134,6 +140,12 @@ namespace SubPhases
         }
 
         protected override void RevertSubPhase() { }
+
+        public override void SkipButton()
+        {
+            Phases.FinishSubPhase(typeof(FreeSelectTargetLockSubPhase));
+            Triggers.FinishTrigger();
+        }
 
     }
 

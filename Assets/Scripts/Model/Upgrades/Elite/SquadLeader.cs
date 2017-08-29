@@ -108,6 +108,12 @@ namespace SubPhases
             TargetShip.AskPerformFreeAction(actions, Triggers.FinishTrigger);
         }
 
+        public override void SkipButton()
+        {
+            Phases.FinishSubPhase(this.GetType());
+            CallBack();
+        }
+
     }
 
 }

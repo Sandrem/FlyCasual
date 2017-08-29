@@ -109,6 +109,12 @@ namespace SubPhases
             }
         }
 
+        public override void SkipButton()
+        {
+            Phases.FinishSubPhase(this.GetType());
+            CallBack();
+        }
+
     }
 
 }

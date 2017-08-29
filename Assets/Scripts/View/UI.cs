@@ -203,17 +203,7 @@ public class UI : MonoBehaviour {
     {
         HideNextButton();
         Roster.AllShipsHighlightOff();
-        /*if (Phases.CurrentSubPhase.GetType() == typeof(SubPhases.CombatSubPhase))
-        {
-            foreach (var shipHolder in Roster.GetPlayer(Phases.CurrentPhasePlayer).Ships)
-            {
-                if (shipHolder.Value.PilotSkill == Phases.CurrentSubPhase.RequiredPilotSkill)
-                {
-                    shipHolder.Value.IsAttackPerformed = true;
-                }
-            }
-        }
-        Phases.CallNextSubPhase();*/
+
         Phases.CurrentSubPhase.NextButton();
     }
 
@@ -221,17 +211,7 @@ public class UI : MonoBehaviour {
     {
         HideNextButton();
         Roster.AllShipsHighlightOff();
-        /*if (Phases.CurrentSubPhase.GetType() == typeof(SubPhases.CombatSubPhase))
-        {
-            foreach (var shipHolder in Roster.GetPlayer(Phases.CurrentPhasePlayer).Ships)
-            {
-                if (shipHolder.Value.PilotSkill == Phases.CurrentSubPhase.RequiredPilotSkill)
-                {
-                    shipHolder.Value.IsAttackPerformed = true;
-                }
-            }
-        }
-        Phases.CallNextSubPhase();*/
+
         Phases.CurrentSubPhase.SkipButton();
     }
 
@@ -242,14 +222,12 @@ public class UI : MonoBehaviour {
 
     public void ShowNextButton()
     {
-        Debug.Log("Show Next");
         Game.PrefabsList.NextButtonPanel.SetActive(true);
         Game.PrefabsList.NextButtonPanel.transform.Find("NextButton").GetComponent<Animator>().enabled = false;
     }
 
     public void HideNextButton()
     {
-        Debug.Log("Hide Next");
         Game.PrefabsList.NextButtonPanel.SetActive(false);
         Game.PrefabsList.NextButtonPanel.transform.Find("NextButton").GetComponent<Animator>().enabled = false;
 
@@ -260,13 +238,11 @@ public class UI : MonoBehaviour {
 
     public void ShowSkipButton()
     {
-        Debug.Log("Show Skip");
         Game.PrefabsList.SkipButtonPanel.SetActive(true);
     }
 
     public void HideSkipButton()
     {
-        Debug.Log("Hide Skip");
         Game.PrefabsList.SkipButtonPanel.SetActive(false);
     }
 

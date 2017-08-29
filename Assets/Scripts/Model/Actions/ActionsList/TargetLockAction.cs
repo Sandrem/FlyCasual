@@ -111,6 +111,11 @@ namespace SubPhases
             base.RevertSubPhase();
         }
 
+        public override void SkipButton()
+        {
+            RevertSubPhase();
+        }
+
     }
 
 }

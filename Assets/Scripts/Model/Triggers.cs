@@ -13,7 +13,7 @@ public enum TriggerTypes
     OnShipMovementFinish,
     OnPositionFinish,
     OnActionSubPhaseStart,
-    OnActionSubPhaseEnd,
+    OnActionDecisionSubPhaseEnd,
     OnFreeActionPlanned,
     OnFreeAction,
     OnTokenIsAssigned,

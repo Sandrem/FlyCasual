@@ -26,7 +26,7 @@ namespace Ship
         public static event EventHandler AfterGenerateAvailableActionEffectsListGlobal;
         public event EventHandlerActionBool OnTryAddAvailableActionEffect;
 
-        public event EventHandlerShip OnActionSubphaseEnd;
+        public event EventHandlerShip OnActionDecisionSubphaseEnd;
 
         public event EventHandlerShipType OnTokenIsAssigned;
         public static event EventHandlerShipType OnTokenIsAssignedGlobal;
@@ -34,9 +34,9 @@ namespace Ship
         public event EventHandlerShipType AfterTokenIsRemoved;
 
         // ACTIONS
-        public void CallOnActionSubphaseEnd()
+        public void CallOnActionDecisionSubphaseEnd()
         {
-            if (OnActionSubphaseEnd != null) OnActionSubphaseEnd(this);
+            if (OnActionDecisionSubphaseEnd != null) OnActionDecisionSubphaseEnd(this);
         }
 
         private void AddBuiltInActions()

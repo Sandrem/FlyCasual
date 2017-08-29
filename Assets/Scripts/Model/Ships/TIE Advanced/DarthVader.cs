@@ -26,7 +26,7 @@ namespace Ship
             {
                 base.InitializePilot();
 
-                OnActionSubphaseEnd += DoSecondAction;
+                OnActionDecisionSubphaseEnd += DoSecondAction;
             }
 
             private void DoSecondAction(GenericShip ship)

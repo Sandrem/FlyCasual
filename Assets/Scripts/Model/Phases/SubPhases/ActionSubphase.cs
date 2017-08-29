@@ -50,18 +50,25 @@ namespace SubPhases
             Phases.StartTemporarySubPhase(
                 "Action Decision",
                 typeof(ActionDecisonSubPhase),
-                delegate () {
+                EndActionDecisionSubhase
+            );
+        }
+
+        private void EndActionDecisionSubhase()
+        {
+            Selection.ThisShip.CallOnActionDecisionSubphaseEnd();
+
+            Triggers.ResolveTriggers(
+                TriggerTypes.OnActionDecisionSubPhaseEnd,
+                delegate {
                     Phases.FinishSubPhase(typeof(ActionDecisonSubPhase));
                     Triggers.FinishTrigger();
-                }
-            );
+                });
         }
 
         public override void Next()
         {
-            Selection.ThisShip.CallOnActionSubphaseEnd();
-
-            Triggers.ResolveTriggers(TriggerTypes.OnActionSubPhaseEnd, FinishPhase);
+            FinishPhase();
         }
 
         public override void Pause()

@@ -20,7 +20,9 @@ namespace Ship
             public override void InitializePilot()
             {
                 base.InitializePilot();
+
                 RulesList.TargetIsLegalForShotRule.OnCheckTargetIsLegal += CanPerformAttack;
+                OnDestroyed += RemoveBiggsDarklighterAbility;
             }
 
             public void CanPerformAttack(ref bool result, GenericShip attacker, GenericShip defender)
@@ -35,14 +37,7 @@ namespace Ship
                         {
                             if (!attacker.ShipsBumped.Contains(this))
                             {
-                                if (Combat.SecondaryWeapon == null)
-                                {
-                                    if (attacker.InPrimaryWeaponFireZone(this)) abilityIsActive = true;
-                                }
-                                else
-                                {
-                                    if (Combat.SecondaryWeapon.IsShotAvailable(this)) abilityIsActive = true;
-                                }
+                                if (Combat.ChosenWeapon.IsShotAvailable(this)) abilityIsActive = true;
                             }
                         }
                     }
@@ -56,6 +51,12 @@ namespace Ship
                     }
                     result = false;
                 }
+            }
+
+            private void RemoveBiggsDarklighterAbility(GenericShip ship)
+            {
+                RulesList.TargetIsLegalForShotRule.OnCheckTargetIsLegal -= CanPerformAttack;
+                OnDestroyed -= RemoveBiggsDarklighterAbility;
             }
         }
     }

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System.Linq;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
@@ -11,17 +12,17 @@ public enum CombatStep
     Defence
 }
 
+public class DamageSourceEventArgs : EventArgs
+{
+    public object Source { get; set; }
+    public DamageTypes DamageType { get; set; }
+}
+
 public enum DamageTypes
 {
     ShipAttack,
     ObstacleCollision,
     CriticalHitCard
-}
-
-public class DamageSourceEventArgs : EventArgs
-{
-    public object Source { get; set; }
-    public DamageTypes DamageType { get; set; }
 }
 
 public static partial class Combat
@@ -40,12 +41,17 @@ public static partial class Combat
     public static Ship.GenericShip Attacker;
     public static Ship.GenericShip Defender;
 
-    public static Upgrade.GenericSecondaryWeapon SecondaryWeapon;
+    public static Ship.IShipWeapon ChosenWeapon;
 
     public static CriticalHitCard.GenericCriticalHit CurrentCriticalHitCard;
 
+    private static int attacksCounter;
+
+    public static ShipShotDistanceInformation ShotInfo;
+
     // Use this for initialization
-    static Combat() {
+    static Combat()
+    {
         Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
     }
 
@@ -53,17 +59,18 @@ public static partial class Combat
     {
         Game.UI.HideContextMenu();
 
-        ShipShotDistanceInformation shotInfo = new ShipShotDistanceInformation(Selection.ThisShip, Selection.AnotherShip);
+        int anotherAttacksTypesCount = Selection.ThisShip.GetAnotherAttackTypesCount();
 
-        int attackTypesAreAvailable = Selection.ThisShip.GetAttackTypes(shotInfo.Range, shotInfo.InArc);
-
-        if (attackTypesAreAvailable > 1)
+        if (anotherAttacksTypesCount > 0)
         {
-            Phases.StartTemporarySubPhase("Choose weapon for attack", typeof(SubPhases.WeaponSelectionDecisionSubPhase));
+            Phases.StartTemporarySubPhase(
+                "Choose weapon for attack",
+                typeof(SubPhases.WeaponSelectionDecisionSubPhase),
+                TryPerformAttack
+            );
         }
         else
         {
-            SelectWeapon();
             TryPerformAttack();
         }
     }
@@ -73,15 +80,26 @@ public static partial class Combat
         Game.UI.HideContextMenu();
         MovementTemplates.ReturnRangeRuler();
 
-        if (Rules.TargetIsLegalForShot.IsLegal())
+        if (Rules.TargetIsLegalForShot.IsLegal() && ChosenWeapon.IsShotAvailable(Selection.AnotherShip))
         {
-            ShipShotDistanceInformation shotInfo = new ShipShotDistanceInformation(Selection.ThisShip, Selection.AnotherShip);
-            shotInfo.CheckFirelineCollisions(CallPerformAttack);
+            Game.UI.HideSkipButton();
+            ShotInfo = (ChosenWeapon.GetType() == typeof(Ship.PrimaryWeaponClass)) ? ShotInfo : new ShipShotDistanceInformation(Selection.ThisShip, Selection.AnotherShip, ChosenWeapon);
+            ShotInfo.CheckFirelineCollisions(delegate { PerformAttack(Selection.ThisShip, Selection.AnotherShip); });
         }
         else
         {
             if (Roster.GetPlayer(Phases.CurrentPhasePlayer).GetType() == typeof(Players.HumanPlayer))
             {
+                if (!ShotInfo.InShotAngle)
+                {
+                    Messages.ShowError("Target is outside your firing arc");
+                }
+                else if (ShotInfo.Distance > ChosenWeapon.MaxRange || ShotInfo.Distance < ChosenWeapon.MinRange)
+                {
+                    Messages.ShowError("Target is outside your firing range");
+                }
+
+                //TODO: except non-legal targets, bupmed for example, biggs?
                 Roster.HighlightShipsFiltered(Roster.AnotherPlayer(Phases.CurrentPhasePlayer));
                 Game.UI.HighlightNextButton();
             }
@@ -98,38 +116,44 @@ public static partial class Combat
         if (DebugManager.DebugPhases) Debug.Log("Attack is started: " + attacker + " vs " + defender);
         Attacker = attacker;
         Defender = defender;
-        InitializeAttack();
-
-        AttackDiceRoll();
+        InitializeAttack(AttackDiceRoll);
     }
 
-    public static void CallPerformAttack()
-    {
-        PerformAttack(Selection.ThisShip, Selection.AnotherShip);
-    }
-
-    private static void InitializeAttack()
+    private static void InitializeAttack(Action callBack)
     {
         Roster.AllShipsHighlightOff();
 
         AttackStep = CombatStep.Attack;
         CallAttackStartEvents();
         Selection.ActiveShip = Attacker;
-        if (SecondaryWeapon != null) SecondaryWeapon.PayAttackCost();
+        ChosenWeapon.PayAttackCost(callBack);
     }
 
     private static void AttackDiceRoll()
     {
         Selection.ActiveShip = Selection.ThisShip;
-        Phases.StartTemporarySubPhase("Attack dice roll", typeof(SubPhases.AttackDiceRollCombatSubPhase));
+        Phases.StartTemporarySubPhase(
+            "Attack dice roll",
+            typeof(SubPhases.AttackDiceRollCombatSubPhase)
+        );
     }
 
     public static void ShowAttackAnimationAndSound()
     {
-        if (SecondaryWeapon != null)
+        Upgrade.GenericSecondaryWeapon chosenSecondaryWeapon = ChosenWeapon as Upgrade.GenericSecondaryWeapon;
+        if (chosenSecondaryWeapon != null)
         {
-            Sounds.PlayShots("Proton-Torpedoes", 1);
-            //Selection.ThisShip.AnimateTorpedoes();
+            if (chosenSecondaryWeapon.Type == Upgrade.UpgradeType.Torpedoes || chosenSecondaryWeapon.Type == Upgrade.UpgradeType.Missiles)
+            {
+                Sounds.PlayShots("Proton-Torpedoes", 1);
+                Selection.ThisShip.AnimateMunitionsShot();
+            }
+            else if (chosenSecondaryWeapon.Type == Upgrade.UpgradeType.Turret)
+            {
+                Sounds.PlayShots(Selection.ActiveShip.SoundShotsPath, Selection.ActiveShip.ShotsCount);
+                Selection.ThisShip.AnimateTurretWeapon();
+            }
+
         }
         else
         {
@@ -157,7 +181,10 @@ public static partial class Combat
     private static void DefenceDiceRoll()
     {
         Selection.ActiveShip = Selection.AnotherShip;
-        Phases.StartTemporarySubPhase("Defence dice roll", typeof(SubPhases.DefenceDiceRollCombatSubPhase));
+        Phases.StartTemporarySubPhase(
+            "Defence dice roll",
+            typeof(SubPhases.DefenceDiceRollCombatSubPhase)
+        );
     }
 
     public static void CalculateAttackResults(Ship.GenericShip attacker, Ship.GenericShip defender)
@@ -167,39 +194,75 @@ public static partial class Combat
 
         if (DiceRollAttack.Successes > 0)
         {
-            defender.AssignedDamageDiceroll = DiceRollAttack;
+            Attacker.CallOnAttackHitAsAttacker();
+            Defender.CallOnAttackHitAsDefender();
 
-            foreach (var dice in DiceRollAttack.DiceList)
+            Triggers.ResolveTriggers(TriggerTypes.OnAttackHit, delegate { ResolveCombatDamage(SufferDamage); });
+        }
+        else
+        {
+            SufferDamage();
+        }        
+    }
+
+    private static void ResolveCombatDamage(Action callBack)
+    {
+        Defender.AssignedDamageDiceroll = DiceRollAttack;
+
+        foreach (var dice in DiceRollAttack.DiceList)
+        {
+            Triggers.RegisterTrigger(new Trigger()
             {
-                Triggers.RegisterTrigger(new Trigger() {
-                    Name = "Suffer damage",
-                    TriggerType = TriggerTypes.OnDamageIsDealt,
-                    TriggerOwner = defender.Owner.PlayerNo,
-                    EventHandler = defender.SufferDamage,
-                    Skippable = true
-                });
-            }
+                Name = "Suffer damage",
+                TriggerType = TriggerTypes.OnDamageIsDealt,
+                TriggerOwner = Defender.Owner.PlayerNo,
+                EventHandler = Defender.SufferDamage,
+                EventArgs = new DamageSourceEventArgs()
+                {
+                    Source = Attacker,
+                    DamageType = DamageTypes.ShipAttack
+                },
+                Skippable = true
+            });
         }
 
-        SufferDamage();
+        callBack();
     }
 
     private static void SufferDamage()
     {
-        Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, CallCombatEndEvents);
+        Triggers.ResolveTriggers(
+            TriggerTypes.OnDamageIsDealt,
+            delegate {
+                Phases.FinishSubPhase(typeof(SubPhases.CompareResultsSubPhase));
+                CheckTwinAttack();
+            }
+        );
     }
 
-    public static void CallAttackStartEvents()
+    private static void CheckTwinAttack()
     {
-        Attacker.CallAttackStart();
-        //BUG: NullReferenceException: Object reference not set to an instance of an object
-        Defender.CallAttackStart();
-    }
+        Upgrade.GenericSecondaryWeapon chosenSecondaryWeapon = ChosenWeapon as Upgrade.GenericSecondaryWeapon;
+        if (chosenSecondaryWeapon != null && chosenSecondaryWeapon.IsTwinAttack)
+        {
+            if (attacksCounter == 0)
+            {
+                attacksCounter++;
 
-    public static void CallDefenceStartEvents()
-    {
-        Attacker.CallDefenceStart();
-        Defender.CallDefenceStart();
+                AttackStep = CombatStep.Attack;
+                Selection.ActiveShip = Attacker;
+                AttackDiceRoll();
+            }
+            else
+            {
+                attacksCounter = 0;
+                CallCombatEndEvents();
+            }
+        }
+        else
+        {
+            CallCombatEndEvents();
+        }
     }
 
     private static void CallCombatEndEvents()
@@ -207,7 +270,7 @@ public static partial class Combat
         Attacker.CallCombatEnd();
         Defender.CallCombatEnd();
 
-        Phases.FinishSubPhase(typeof(SubPhases.CompareResultsSubPhase));
+        CleanupCombatData();
 
         if (Roster.NoSamePlayerAndPilotSkillNotAttacked(Selection.ThisShip))
         {
@@ -215,9 +278,13 @@ public static partial class Combat
         }
     }
 
-    public static void SelectWeapon(Upgrade.GenericSecondaryWeapon secondaryWeapon = null)
+    private static void CleanupCombatData()
     {
-        SecondaryWeapon = secondaryWeapon;
+        AttackStep = CombatStep.None;
+        Attacker = null;
+        Defender = null;
+        ChosenWeapon = null;
+        ShotInfo = null;
     }
 
     public static void ConfirmDiceResults()
@@ -252,6 +319,19 @@ public static partial class Combat
         Phases.StartTemporarySubPhase("Compare results", typeof(SubPhases.CompareResultsSubPhase));
     }
 
+    public static void CallAttackStartEvents()
+    {
+        Attacker.CallAttackStart();
+        //BUG: NullReferenceException: Object reference not set to an instance of an object
+        Defender.CallAttackStart();
+    }
+
+    public static void CallDefenceStartEvents()
+    {
+        Attacker.CallDefenceStart();
+        Defender.CallDefenceStart();
+    }
+
 }
 
 namespace SubPhases
@@ -261,42 +341,48 @@ namespace SubPhases
 
         public override void Prepare()
         {
-            ShipShotDistanceInformation shotInfo = new ShipShotDistanceInformation(Selection.ThisShip, Selection.AnotherShip);
-            infoText = "Choose weapon for attack (Range " + shotInfo.Range + ")";
+            List<Ship.IShipWeapon> allWeapons = GetAllWeapons();
 
-            AddDecision("Primary", PerformPrimaryAttack);
-            AddDecision("Proton Torpedoes", PerformTorpedoesAttack);
+            //TODO: Range?
+            infoText = "Choose weapon for attack";
 
-            //Temporary
-            tooltips.Add("Proton Torpedoes", "https://vignette2.wikia.nocookie.net/xwing-miniatures/images/e/eb/Proton-torpedoes.png");
+            foreach (var weapon in allWeapons)
+            {
+                if (weapon.IsShotAvailable(Selection.AnotherShip))
+                {
+                    AddDecision(weapon.Name, delegate { PerformAttackWithWeapon(weapon); });
+                    AddTooltip(weapon.Name, (weapon as Upgrade.GenericSecondaryWeapon != null) ? (weapon as Upgrade.GenericSecondaryWeapon).ImageUrl : null );
+                }
+            }
 
-            defaultDecision = "Proton Torpedoes";
+            defaultDecision = GetDecisions().Last().Key;
         }
 
-        private void PerformPrimaryAttack(object sender, EventArgs e)
+        private static List<Ship.IShipWeapon> GetAllWeapons()
         {
-            Combat.SelectWeapon();
-            Phases.FinishSubPhase(typeof(WeaponSelectionDecisionSubPhase));
-            Combat.TryPerformAttack();
+            List<Ship.IShipWeapon> allWeapons = new List<Ship.IShipWeapon>();
+
+            allWeapons.Add(Selection.ThisShip.PrimaryWeapon);
+
+            foreach (var upgrade in Selection.ThisShip.InstalledUpgrades)
+            {
+                Ship.IShipWeapon secondaryWeapon = upgrade.Value as Ship.IShipWeapon;
+                if (secondaryWeapon != null) allWeapons.Add(secondaryWeapon);
+            }
+
+            return allWeapons;
         }
 
-        public void PerformTorpedoesAttack(object sender, EventArgs e)
+        public void PerformAttackWithWeapon(Ship.IShipWeapon weapon)
         {
             Tooltips.EndTooltip();
 
-            //TODO: Get upgrade correctly
-            Upgrade.GenericSecondaryWeapon secondaryWeapon = null;
-            foreach (var upgrade in Selection.ThisShip.InstalledUpgrades)
-            {
-                if (upgrade.Key == Upgrade.UpgradeSlot.Torpedoes) secondaryWeapon = upgrade.Value as Upgrade.GenericSecondaryWeapon;
-            }
-            Combat.SelectWeapon(secondaryWeapon);
+            Combat.ChosenWeapon = weapon;
 
-            Messages.ShowInfo("Attack with " + secondaryWeapon.Name);
+            Messages.ShowInfo("Attack with " + weapon.Name);
 
             Phases.FinishSubPhase(typeof(WeaponSelectionDecisionSubPhase));
-
-            Combat.TryPerformAttack();
+            CallBack();
         }
 
     }
@@ -330,12 +416,12 @@ namespace SubPhases
 
         public override void Pause()
         {
-            Game.PrefabsList.DiceResultsMenu.SetActive(false);
+            Game.PrefabsList.CombatDiceResultsMenu.SetActive(false);
         }
 
         public override void Resume()
         {
-            Game.PrefabsList.DiceResultsMenu.SetActive(true);
+            Game.PrefabsList.CombatDiceResultsMenu.SetActive(true);
         }
 
     }

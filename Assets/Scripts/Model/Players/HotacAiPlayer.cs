@@ -20,26 +20,57 @@ namespace Players
         {
             if (inDebug) Debug.Log("=== " + ship.PilotName + " (" + ship.ShipId + ") ===");
 
+            bool isTargetLockPerformed = false;
+
             Ship.GenericShip anotherShip = FindNearestEnemyShip(ship, ignoreCollided: true, inArcAndRange: true);
             if (anotherShip == null) anotherShip = FindNearestEnemyShip(ship, ignoreCollided: true);
             if (anotherShip == null) anotherShip = FindNearestEnemyShip(ship);
             if (inDebug) Debug.Log("Nearest enemy is " + anotherShip.PilotName + " (" + anotherShip.ShipId + ")");
 
+            // TODO: remove null variant
+            if (anotherShip != null)
+            {
+                ship.AssignedManeuver = ship.HotacManeuverTable.GetManeuver(ship, anotherShip);
+            }
+            else
+            {
+                ship.AssignedManeuver = new Movement.StraightMovement(2, Movement.ManeuverDirection.Forward, Movement.ManeuverBearing.Straight, Movement.ManeuverColor.White);
+            }
+
             ship.GenerateAvailableActionsList();
-            foreach (var action in ship.GetAvailableActionsList())
+            if (anotherShip != null) foreach (var action in ship.GetAvailableActionsList())
             {
                 if (action.GetType() == typeof(ActionsList.TargetLockAction))
                 {
-                    Actions.AssignTargetLockToPair(ship, anotherShip);
+                    isTargetLockPerformed = true;
+                    Actions.AssignTargetLockToPair(
+                        ship,
+                        anotherShip,
+                        delegate { PerformManeuverOfShip(ship); },
+                        delegate { PerformManeuverOfShip(ship); }
+                    );
                     break;
                 }
             }
 
-            ship.AssignedManeuver = ship.HotacManeuverTable.GetManeuver(ship, anotherShip);
-            PerformManeuverOfShip(ship);
+            if (!isTargetLockPerformed)
+            {
+                PerformManeuverOfShip(ship);
+            }
+            
         }
 
         public override void PerformAction()
+        {
+            PerformActionFromList(Selection.ThisShip.GetAvailableActionsList());
+        }
+
+        public override void PerformFreeAction()
+        {
+            PerformActionFromList(Selection.ThisShip.GetAvailableFreeActionsList());
+        }
+
+        private void PerformActionFromList(List<ActionsList.GenericAction> actionsList)
         {
             bool isActionTaken = false;
 
@@ -49,7 +80,7 @@ namespace Players
             }
             else
             {
-                List<ActionsList.GenericAction> availableActionsList = Selection.ThisShip.GetAvailableActionsList();
+                List<ActionsList.GenericAction> availableActionsList = actionsList;
 
                 Dictionary<ActionsList.GenericAction, int> actionsPriority = new Dictionary<ActionsList.GenericAction, int>();
 
@@ -67,6 +98,7 @@ namespace Players
                     if (prioritizedActions.Value > 0)
                     {
                         isActionTaken = true;
+                        Selection.ThisShip.AddAlreadyExecutedAction(prioritizedActions.Key);
                         prioritizedActions.Key.ActionTake();
                     }
                 }

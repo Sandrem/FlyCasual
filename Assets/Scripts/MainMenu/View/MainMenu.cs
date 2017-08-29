@@ -37,7 +37,11 @@ public partial class MainMenu : MonoBehaviour {
     {
         switch (panelName)
         {
-            case "RosterBuilderPanel": RosterBuilder.Initialize();
+            case "RosterBuilderPanel":
+                RosterBuilder.Initialize();
+                break;
+            case "OptionsPanel":
+                Options.InitializePanel();
                 break;
         }
     }

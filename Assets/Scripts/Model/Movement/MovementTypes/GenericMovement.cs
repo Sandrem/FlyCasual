@@ -173,7 +173,7 @@ namespace Movement
         public virtual void Initialize()
         {
             ProgressTarget = SetProgressTarget();
-            AnimationSpeed = SetAnimationSpeed();
+            AnimationSpeed = Options.ManeuverSpeed * SetAnimationSpeed();
         }
 
         protected virtual float SetProgressTarget() { return 0; }

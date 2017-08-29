@@ -123,6 +123,7 @@ namespace SubPhases
 
         public override void FinishPhase()
         {
+            Game.UI.HideSkipButton();
             Phases.CurrentPhase.NextPhase();
         }
 
@@ -147,8 +148,11 @@ namespace SubPhases
             {
                 if (targetShip.Owner.PlayerNo != Phases.CurrentSubPhase.RequiredPlayer)
                 {
-                    Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(Selection.ThisShip, targetShip);
-                    MovementTemplates.ShowFiringArcRange(shotInfo);
+                    //TODO: what to show is there are 2 ways (arc and not arc) ?
+                    //TODO: clear on skip combat
+                    Combat.ChosenWeapon = Selection.ThisShip.PrimaryWeapon;
+                    Combat.ShotInfo = new Board.ShipShotDistanceInformation(Selection.ThisShip, targetShip, Combat.ChosenWeapon);
+                    MovementTemplates.ShowFiringArcRange(Combat.ShotInfo);
                     result = true;
                 }
                 else
@@ -195,6 +199,18 @@ namespace SubPhases
                     Roster.RosterPanelHighlightOn(ship.Value);
                 }
             }
+        }
+
+        public override void SkipButton()
+        {
+            foreach (var shipHolder in Roster.GetPlayer(Phases.CurrentPhasePlayer).Ships)
+            {
+                if (shipHolder.Value.PilotSkill == Phases.CurrentSubPhase.RequiredPilotSkill)
+                {
+                    shipHolder.Value.IsAttackPerformed = true;
+                }
+            }
+            Next();
         }
 
     }

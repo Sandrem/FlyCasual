@@ -16,19 +16,26 @@ namespace Ship
                 IsUnique = true;
                 PilotSkill = 8;
                 Cost = 18;
-                AddUpgradeSlot(Upgrade.UpgradeSlot.Elite);
+                AddUpgradeSlot(Upgrade.UpgradeType.Elite);
             }
 
             public override void InitializePilot()
             {
                 base.InitializePilot();
 
-                GenericShip.AfterGenerateAvailableActionEffectsListGlobal += HowlrunnerAbility;
+                AfterGenerateAvailableActionEffectsListGlobal += HowlrunnerAbility;
+                OnDestroyed += RemoveHowlrunnerAbility;
             }
 
             private void HowlrunnerAbility()
             {
                 Combat.Attacker.AddAvailableActionEffect(new ActionsList.HowlrunnerAction());
+            }
+
+            private void RemoveHowlrunnerAbility(GenericShip ship)
+            {
+                AfterGenerateAvailableActionEffectsListGlobal -= HowlrunnerAbility;
+                OnDestroyed -= RemoveHowlrunnerAbility;
             }
 
         }
@@ -51,7 +58,7 @@ namespace ActionsList
             bool result = false;
             if (Combat.AttackStep == CombatStep.Attack)
             {
-                if (Combat.SecondaryWeapon == null)
+                if (Combat.ChosenWeapon.GetType() == typeof(Ship.PrimaryWeaponClass))
                 {
                     if (Combat.Attacker.GetType() != typeof(Ship.TIEFighter.Howlrunner))
                     {

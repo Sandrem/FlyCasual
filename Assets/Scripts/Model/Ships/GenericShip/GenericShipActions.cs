@@ -8,7 +8,7 @@ namespace Ship
     public partial class GenericShip
     {
 
-        protected   List<ActionsList.GenericAction> BuiltInActions                  = new List<ActionsList.GenericAction>();
+        public      List<ActionsList.GenericAction> BuiltInActions                  = new List<ActionsList.GenericAction>();
         private     List<ActionsList.GenericAction> AvailableActionsList            = new List<ActionsList.GenericAction>();
         private     List<ActionsList.GenericAction> AvailableFreeActionsList        = new List<ActionsList.GenericAction>();
         private     List<ActionsList.GenericAction> AlreadyExecutedActions          = new List<ActionsList.GenericAction>();
@@ -26,19 +26,18 @@ namespace Ship
         public static event EventHandler AfterGenerateAvailableActionEffectsListGlobal;
         public event EventHandlerActionBool OnTryAddAvailableActionEffect;
 
-        public event EventHandlerShipType AfterActionIsPerformed;
+        public event EventHandlerShip OnActionDecisionSubphaseEnd;
 
-        public event EventHandlerShipType AfterTokenIsAssigned;
+        public event EventHandlerShipType OnTokenIsAssigned;
+        public static event EventHandlerShipType OnTokenIsAssignedGlobal;
         public event EventHandlerShipType AfterTokenIsSpent;
         public event EventHandlerShipType AfterTokenIsRemoved;
 
         // ACTIONS
-        public void CallAfterActionIsPerformed(System.Type actionType)
+        public void CallOnActionDecisionSubphaseEnd()
         {
-            if (AfterActionIsPerformed != null) AfterActionIsPerformed(this, actionType);
+            if (OnActionDecisionSubphaseEnd != null) OnActionDecisionSubphaseEnd(this);
         }
-
-        
 
         private void AddBuiltInActions()
         {
@@ -95,7 +94,16 @@ namespace Ship
                     TriggerOwner = Phases.CurrentPhasePlayer,
                     TriggerType = TriggerTypes.OnFreeAction,
                     EventHandler = delegate {
-                        Phases.StartTemporarySubPhase("Free action", typeof(SubPhases.FreeActionSubPhase), callBack);
+                        Phases.StartTemporarySubPhase
+                        (
+                            "Free action decision",
+                            typeof(SubPhases.FreeActionDecisonSubPhase),
+                            delegate
+                            {
+                                Phases.FinishSubPhase(typeof(SubPhases.FreeActionDecisonSubPhase));
+                                callBack();
+                            }
+                        );
                     }
                 }
             );
@@ -291,7 +299,7 @@ namespace Ship
             return result;
         }
 
-        public void AssignToken(Tokens.GenericToken token, char letter = ' ')
+        public void AssignToken(Tokens.GenericToken token, Action callBack, char letter = ' ')
         {
             Tokens.GenericToken assignedToken = GetToken(token.GetType(), letter);
 
@@ -304,7 +312,11 @@ namespace Ship
                 AssignedTokens.Add(token);
             }
 
-            if (AfterTokenIsAssigned != null) AfterTokenIsAssigned(this, token.GetType());
+            if (OnTokenIsAssigned != null) OnTokenIsAssigned(this, token.GetType());
+
+            if (OnTokenIsAssignedGlobal != null) OnTokenIsAssignedGlobal(this, token.GetType());
+
+            Triggers.ResolveTriggers(TriggerTypes.OnTokenIsAssigned, callBack);
         }
 
         public void RemoveToken(System.Type type, char letter = ' ', bool recursive = false)
@@ -326,20 +338,30 @@ namespace Ship
                 }
                 else
                 {
-                    if (assignedToken.GetType().BaseType == typeof(Tokens.GenericTargetLockToken))
-                    {
-                        Actions.ReleaseTargetLockLetter((assignedToken as Tokens.GenericTargetLockToken).Letter);
-                    }
                     AssignedTokens.Remove(assignedToken);
                     if (AfterTokenIsRemoved != null) AfterTokenIsRemoved(this, type);
+
+                    if (assignedToken.GetType().BaseType == typeof(Tokens.GenericTargetLockToken))
+                    {
+                        GenericShip otherTokenOwner = (assignedToken as Tokens.GenericTargetLockToken).OtherTokenOwner;
+                        Actions.ReleaseTargetLockLetter((assignedToken as Tokens.GenericTargetLockToken).Letter);
+                        System.Type oppositeType = (assignedToken.GetType() == typeof(Tokens.BlueTargetLockToken)) ? typeof(Tokens.RedTargetLockToken) : typeof(Tokens.BlueTargetLockToken);
+
+                        if (otherTokenOwner.HasToken(oppositeType, letter))
+                        {
+                            otherTokenOwner.RemoveToken(oppositeType, letter);
+                        }
+                    }
                 }
             }
         }
 
-        public void SpendToken(System.Type type, char letter = ' ')
+        public void SpendToken(System.Type type, Action callBack, char letter = ' ')
         {
             RemoveToken(type, letter);
             if (AfterTokenIsSpent != null) AfterTokenIsSpent(this, type);
+
+            Triggers.ResolveTriggers(TriggerTypes.OnTokenIsSpent, callBack);
         }
 
         public List<Tokens.GenericToken> GetAssignedTokens()

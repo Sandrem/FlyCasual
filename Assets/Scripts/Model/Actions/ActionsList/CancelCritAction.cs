@@ -7,7 +7,6 @@ namespace ActionsList
 
     public class CancelCritAction : GenericAction
     {
-        private Ship.GenericShip host;
         private CriticalHitCard.GenericCriticalHit CritCard;
 
         public CancelCritAction()
@@ -29,10 +28,10 @@ namespace ActionsList
         {
             Selection.ActiveShip = Selection.ThisShip;
 
-            host = Selection.ThisShip;
+            Host = Selection.ThisShip;
             if (CritCard.CancelDiceResults.Count == 0)
             {
-                CritCard.DiscardEffect(host);
+                CritCard.DiscardEffect(Host);
                 Phases.FinishSubPhase(typeof(SubPhases.CancelCritCheckSubPhase));
                 Phases.CurrentSubPhase.CallBack();
             }
@@ -81,7 +80,6 @@ namespace SubPhases
 
             Selection.ActiveShip = Selection.ThisShip;
             if (Actions.SelectedCriticalHitCard.CancelDiceResults.Contains(CurrentDiceRoll.DiceList[0].Side)) Actions.SelectedCriticalHitCard.DiscardEffect(Actions.SelectedCriticalHitCard.Host);
-            base.CheckResults(CurrentDiceRoll);
 
             CallBack();
         }

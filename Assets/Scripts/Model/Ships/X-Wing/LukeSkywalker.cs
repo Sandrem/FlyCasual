@@ -15,7 +15,7 @@ namespace Ship
                 IsUnique = true;
                 PilotSkill = 8;
                 Cost = 28;
-                AddUpgradeSlot(Upgrade.UpgradeSlot.Elite);
+                AddUpgradeSlot(Upgrade.UpgradeType.Elite);
             }
 
             public override void InitializePilot()
@@ -38,7 +38,6 @@ namespace PilotAbilities
 {
     public class LukeSkywalkerAction : ActionsList.GenericAction
     {
-        private Ship.GenericShip host;
 
         public LukeSkywalkerAction()
         {

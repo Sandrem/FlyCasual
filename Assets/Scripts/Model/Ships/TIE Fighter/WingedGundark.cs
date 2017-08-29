@@ -35,7 +35,6 @@ namespace PilotAbilities
 {
     public class WingedGundarkAction : ActionsList.GenericAction
     {
-        private Ship.GenericShip host;
 
         public WingedGundarkAction()
         {
@@ -53,7 +52,7 @@ namespace PilotAbilities
             bool result = false;
             if (Combat.AttackStep == CombatStep.Attack)
             {
-                Board.ShipShotDistanceInformation shotInformation = new Board.ShipShotDistanceInformation(Combat.Attacker, Combat.Defender);
+                Board.ShipShotDistanceInformation shotInformation = new Board.ShipShotDistanceInformation(Combat.Attacker, Combat.Defender, Combat.ChosenWeapon);
                 if (shotInformation.Range == 1)
                 {
                     result = true;

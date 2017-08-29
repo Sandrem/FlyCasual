@@ -12,7 +12,7 @@ namespace RulesList
 
         private void SubscribeEvents()
         {
-            RulesList.TargetIsLegalForShotRule.OnCheckTargetIsLegal += CanPerformAttack;
+            Ship.GenericShip.OnTryPerformAttackGlobal += CanPerformAttack;
             Ship.GenericShip.OnPositionFinishGlobal += InformLandedOnAsteroid;
         }
 
@@ -24,9 +24,9 @@ namespace RulesList
             }
         }
 
-        public void CanPerformAttack(ref bool result, Ship.GenericShip attacker, Ship.GenericShip defender)
+        public void CanPerformAttack(ref bool result)
         {
-            if (attacker.IsLandedOnObstacle)
+            if (Selection.ThisShip.IsLandedOnObstacle)
             {
                 Messages.ShowErrorToHuman("Landed on asteroid - cannot attack");
                 result = false;

@@ -16,9 +16,13 @@ namespace SubPhases
 
         public override void Initialize()
         {
-            Phases.CallEndPhaseTrigger();
+            Phases.CallEndPhaseTrigger(EndRound);
+        }
+
+        private void EndRound()
+        {
             Phases.CallRoundEndTrigger();
-            Next();
+            if (!Phases.GameIsEnded) Next();
         }
 
         public override void Next()

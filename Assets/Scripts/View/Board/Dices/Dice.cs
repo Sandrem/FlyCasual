@@ -10,6 +10,8 @@ public enum DiceKind
 
 public partial class Dice
 {
+    private DiceRoll ParentDiceRoll;
+    private DiceKind Type;
 
     private static Vector3 rotationCrit = new Vector3(325f, 120f, 135f);
     private static Vector3 rotationSuccess = new Vector3(330f, 120f, 40f);
@@ -26,20 +28,21 @@ public partial class Dice
 
     public GameObject Model { get; private set; }
 
-    public Dice(DiceKind type, DiceSide side = DiceSide.Unknown)
+    public Dice(DiceRoll diceRoll, DiceKind type, DiceSide side = DiceSide.Unknown)
     {
+        ParentDiceRoll = diceRoll;
+        Type = type;
 
-        Model = SpawnDice(type);
-
-        Sides = new List<DiceSide>();
-
-        Sides.Add(DiceSide.Blank);
-        Sides.Add(DiceSide.Blank);
-        Sides.Add(DiceSide.Focus);
-        Sides.Add(DiceSide.Focus);
-        Sides.Add(DiceSide.Success);
-        Sides.Add(DiceSide.Success);
-        Sides.Add(DiceSide.Success);
+        Sides = new List<DiceSide>
+        {
+            DiceSide.Blank,
+            DiceSide.Blank,
+            DiceSide.Focus,
+            DiceSide.Focus,
+            DiceSide.Success,
+            DiceSide.Success,
+            DiceSide.Success
+        };
 
         if (type == DiceKind.Attack) Sides.Add(DiceSide.Crit);
         if (type == DiceKind.Defence) Sides.Add(DiceSide.Blank);
@@ -47,8 +50,6 @@ public partial class Dice
         if (side != DiceSide.Unknown)
         {
             Side = side;
-            //TODO: Not only success
-            Model.transform.Find("Dice").localEulerAngles = rotationSuccess;
         }
         else
         {
@@ -59,7 +60,7 @@ public partial class Dice
     private GameObject SpawnDice(DiceKind type)
     {
         GameObject prefabDiceType = (type == DiceKind.Attack) ? DicesManager.DiceAttack : DicesManager.DiceDefence;
-        Transform diceSpawningPoint = DicesManager.DiceSpawningPoint;
+        Transform diceSpawningPoint = ParentDiceRoll.SpawningPoint;
         GameObject model = MonoBehaviour.Instantiate(prefabDiceType, diceSpawningPoint.transform.position, prefabDiceType.transform.rotation, diceSpawningPoint.transform);
         model.name = "DiceN" + diceIDcounter++;
         return model;
@@ -70,14 +71,16 @@ public partial class Dice
         Model.transform.Find("Dice").transform.eulerAngles = new Vector3(Random.Range(0, 360), Random.Range(0, 360), Random.Range(0, 360));
     }
 
-    public void NoRoll()
+    public void ShowWithoutRoll()
     {
+        if (Model == null) Model = SpawnDice(Type);
         Model.gameObject.SetActive(true);
         Model.transform.Find("Dice").transform.localPosition = positionGround;
     }
 
     public void Roll()
     {
+        if (Model == null) Model = SpawnDice(Type);
         modelRollingIsFinished = false;
         RandomizeDice();
         Model.gameObject.SetActive(true);
@@ -89,7 +92,7 @@ public partial class Dice
         ToggleSelected(false);
         IsRerolled = true;
 
-        Transform diceSpawningPoint = DicesManager.DiceSpawningPoint;
+        Transform diceSpawningPoint = ParentDiceRoll.SpawningPoint;
         Model.transform.Find("Dice").transform.position = diceSpawningPoint.position;
         Roll();
     }

@@ -5,13 +5,108 @@ using UnityEngine;
 
 namespace Ship
 {
+    public interface IShipWeapon
+    {
+        GenericShip Host { get; set; }
+        string Name { get; set; }
+
+        int MinRange { get; set; }
+        int MaxRange { get; set; }
+        int AttackValue { get; set; }
+
+        bool CanShootOutsideArc { get; set; }
+
+        bool IsShotAvailable(GenericShip targetShip);
+        void PayAttackCost(Action callBack);
+    }
+
+    public class PrimaryWeaponClass : IShipWeapon
+    {
+        public GenericShip Host { get; set; }
+        public string Name { get; set; }
+
+        public int MinRange { get; set; }
+        public int MaxRange { get; set; }
+
+        private int attackValue;
+        public int AttackValue
+        {
+            get
+            {
+                int result = attackValue;
+                Host.CallAfterGotNumberOfPrimaryWeaponAttackDices(ref result);
+                return result;
+            }
+            set { attackValue = value; }
+        }
+
+        public bool CanShootOutsideArc { get; set; }
+
+        public PrimaryWeaponClass(GenericShip host)
+        {
+            Host = host;
+            Name = "Primary Weapon";
+
+            MinRange = 1;
+            MaxRange = 3;
+
+            AttackValue = Host.Firepower;
+
+            CanShootOutsideArc = Host.ArcInfo.CanShootOutsideArc;
+        }
+
+        public bool IsShotAvailable(GenericShip targetShip)
+        {
+            bool result = true;
+
+            int range;
+
+            if (Combat.ChosenWeapon.GetType() == GetType())
+            {
+                range = Combat.ShotInfo.Range;
+                if (!CanShootOutsideArc)
+                {
+                    //TODO: Change to munitions arc
+                    if (!Combat.ShotInfo.InPrimaryArc) return false;
+                }
+            }
+            else
+            {
+                if (!CanShootOutsideArc)
+                {
+                    Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(Host, targetShip, this);
+                    range = shotInfo.Range;
+
+                    //TODO: Change to munitions arc
+                    if (!shotInfo.InPrimaryArc) return false;
+                }
+                else
+                {
+                    Board.ShipDistanceInformation distanceInfo = new Board.ShipDistanceInformation(Host, targetShip);
+                    range = distanceInfo.Range;
+                }
+            }
+
+            if (range < MinRange) return false;
+            if (range > MaxRange) return false;
+
+            return result;
+        }
+
+        public void PayAttackCost(Action callBack)
+        {
+            callBack();
+        }
+    }
 
     public partial class GenericShip
     {
- 
+        public Arcs.GenericArc ArcInfo;
+        public PrimaryWeaponClass PrimaryWeapon;
+
         private List<CriticalHitCard.GenericCriticalHit> AssignedCritCards = new List<CriticalHitCard.GenericCriticalHit>();
         private List<CriticalHitCard.GenericCriticalHit> AssignedDamageCards = new List<CriticalHitCard.GenericCriticalHit>();
-        public DiceRoll AssignedDamageDiceroll = new DiceRoll(DiceKind.Attack, 0);
+        public DiceRoll AssignedDamageDiceroll = new DiceRoll(DiceKind.Attack, 0, DiceRollCheckType.Virtual);
 
         // EVENTS
 
@@ -19,9 +114,13 @@ namespace Ship
         public event EventHandlerShip OnCombatPhaseStart;
 
         public event EventHandlerBool OnTryPerformAttack;
+        public static event EventHandlerBool OnTryPerformAttackGlobal;
 
         public event EventHandler OnAttack;
         public event EventHandler OnDefence;
+
+        public event EventHandler OnAttackHitAsAttacker;
+        public event EventHandler OnAttackHitAsDefender;
 
         public event EventHandlerInt AfterGotNumberOfPrimaryWeaponAttackDices;
         public event EventHandlerInt AfterGotNumberOfPrimaryWeaponDefenceDices;
@@ -35,7 +134,7 @@ namespace Ship
         public event EventHandlerShipCritArgs OnAssignCrit;
         
 
-        public event EventHandler OnDestroyed;
+        public event EventHandlerShip OnDestroyed;
 
         public event EventHandlerShip AfterAttackWindow;
 
@@ -57,6 +156,8 @@ namespace Ship
         {
             if (OnTryPerformAttack != null) OnTryPerformAttack(ref result);
 
+            if (OnTryPerformAttackGlobal != null) OnTryPerformAttackGlobal(ref result);
+
             return result;
         }
 
@@ -71,6 +172,16 @@ namespace Ship
         {
             ClearAlreadyExecutedActionEffects();
             if (OnDefence != null) OnDefence();
+        }
+
+        public void CallOnAttackHitAsAttacker()
+        {
+            if (OnAttackHitAsAttacker != null) OnAttackHitAsAttacker();
+        }
+
+        public void CallOnAttackHitAsDefender()
+        {
+            if (OnAttackHitAsDefender != null) OnAttackHitAsDefender();
         }
 
         public void CallAfterAttackWindow()
@@ -89,15 +200,7 @@ namespace Ship
         {
             int result = 0;
 
-            if (Combat.SecondaryWeapon == null)
-            {
-                result = Firepower;
-                if (AfterGotNumberOfPrimaryWeaponAttackDices != null) AfterGotNumberOfPrimaryWeaponAttackDices(ref result);
-            }
-            else
-            {
-                result = Combat.SecondaryWeapon.GetAttackValue();
-            }
+            result = Combat.ChosenWeapon.AttackValue;
 
             if (AfterGotNumberOfAttackDices != null) AfterGotNumberOfAttackDices(ref result);
 
@@ -105,11 +208,16 @@ namespace Ship
             return result;
         }
 
+        public void CallAfterGotNumberOfPrimaryWeaponAttackDices(ref int result)
+        {
+            if (AfterGotNumberOfPrimaryWeaponAttackDices != null) AfterGotNumberOfPrimaryWeaponAttackDices(ref result);
+        }
+
         public int GetNumberOfDefenceDices(GenericShip attackerShip)
         {
             int result = Agility;
 
-            if (Combat.SecondaryWeapon == null)
+            if (Combat.ChosenWeapon.GetType() == typeof(PrimaryWeaponClass))
             {
                 if (AfterGotNumberOfPrimaryWeaponDefenceDices != null) AfterGotNumberOfPrimaryWeaponDefenceDices(ref result);
             }
@@ -142,10 +250,35 @@ namespace Ship
             return result;
         }
 
+        public bool TryDiscardFaceDownDamageCard()
+        {
+            bool result = false;
+
+            if (AssignedDamageCards.Count != 0)
+            {
+                result = true;
+                int random = UnityEngine.Random.Range(0, AssignedDamageCards.Count);
+                AssignedDamageCards.RemoveAt(random);
+                Hull++;
+                AfterAssignedDamageIsChanged(this);
+            }
+            return result;
+        }
+
+        public void FlipFacedownFaceupDamageCard(CriticalHitCard.GenericCriticalHit critCard)
+        {
+            critCard.DiscardEffect(this);
+            AssignedCritCards.Remove(critCard);
+            if (Owner.GetType() == typeof(Players.HumanPlayer)) Messages.ShowInfoToHuman("Critical damage card \"" + critCard.Name + "\" is flipped facedown");
+        }
+
         // DAMAGE
 
         public void SufferDamage(object sender, EventArgs e)
         {
+            if (DebugManager.DebugDamage) Debug.Log("+++ Source: " + (e as DamageSourceEventArgs).Source);
+            if (DebugManager.DebugDamage) Debug.Log("+++ DamageType: " + (e as DamageSourceEventArgs).DamageType);
+
             if (Shields > 0)
             {
                 SufferShieldDamage();
@@ -153,45 +286,61 @@ namespace Ship
             else
             {
                 bool isCritical = (AssignedDamageDiceroll.RegularSuccesses == 0);
-                SufferHullDamage(CheckFaceupCrit(isCritical));
+                SufferHullDamage(CheckFaceupCrit(isCritical), e);
             }
         }
 
-        public void SufferHullDamage(bool isCritical)
+        public void SufferHullDamage(bool isCritical, EventArgs e)
         {
+            AssignedDamageDiceroll.CancelHits(1);
+
             if (DebugManager.DebugAllDamageIsCrits) isCritical = true;
 
             if (isCritical)
             {
                 Combat.CurrentCriticalHitCard = CriticalHitsDeck.GetCritCard();
 
-                //if (DebugManager.DebugDamage) Debug.Log("+++ Crit: " + Combat.CurrentCriticalHitCard.Name);
-                //if (DebugManager.DebugDamage) Debug.Log("+++ Source: " + (e as DamageSourceEventArgs).Source);
-                //if (DebugManager.DebugDamage) Debug.Log("+++ DamageType: " + (e as DamageSourceEventArgs).DamageType);
+                if (DebugManager.DebugDamage) Debug.Log("+++ Crit: " + Combat.CurrentCriticalHitCard.Name);
 
                 if (OnFaceupCritCardReadyToBeDealt != null) OnFaceupCritCardReadyToBeDealt(this, ref Combat.CurrentCriticalHitCard);
 
-                if (OnFaceupCritCardReadyToBeDealtGlobal != null) OnFaceupCritCardReadyToBeDealtGlobal(this, ref Combat.CurrentCriticalHitCard);
+                if (OnFaceupCritCardReadyToBeDealtGlobal != null) OnFaceupCritCardReadyToBeDealtGlobal(this, ref Combat.CurrentCriticalHitCard, e);
 
-                if (OnAssignCrit != null) OnAssignCrit(this, ref Combat.CurrentCriticalHitCard);
+                Triggers.RegisterTrigger(new Trigger
+                {
+                    Name = "Information about faceup damage card",
+                    TriggerOwner = this.Owner.PlayerNo,
+                    TriggerType = TriggerTypes.OnFaceupCritCardReadyToBeDealtUI,
+                    EventHandler = delegate { InformCrit.LoadAndShow(); }
+                });
 
-                if (Combat.CurrentCriticalHitCard != null)
-                {
-                    AssignedCritCards.Add(Combat.CurrentCriticalHitCard);
-                    DecreaseHullValue(delegate { Combat.CurrentCriticalHitCard.AssignCrit(this); });                    
-                }
-                else
-                {
-                    Triggers.FinishTrigger();
-                }
+                Triggers.ResolveTriggers(TriggerTypes.OnFaceupCritCardReadyToBeDealt, SufferHullDamagePart2);
             }
             else
             {
                 AssignedDamageCards.Add(CriticalHitsDeck.GetCritCard());
                 DecreaseHullValue(Triggers.FinishTrigger);
             }
+        }
 
-            AssignedDamageDiceroll.CancelHits(1);
+        private void SufferHullDamagePart2()
+        {
+            Triggers.ResolveTriggers(TriggerTypes.OnFaceupCritCardReadyToBeDealtUI, SufferHullDamagePart3);
+        }
+
+        private void SufferHullDamagePart3()
+        {
+            if (OnAssignCrit != null) OnAssignCrit(this, ref Combat.CurrentCriticalHitCard);
+
+            if (Combat.CurrentCriticalHitCard != null)
+            {
+                AssignedCritCards.Add(Combat.CurrentCriticalHitCard);
+                DecreaseHullValue(delegate { Combat.CurrentCriticalHitCard.AssignCrit(this); });
+            }
+            else
+            {
+                Triggers.FinishTrigger();
+            }
         }
 
         public void DecreaseHullValue(Action callBack)
@@ -217,8 +366,9 @@ namespace Ship
 
         public void SufferShieldDamage()
         {
-            Shields--;
             AssignedDamageDiceroll.CancelHits(1);
+
+            Shields--;
             CallAfterAssignedDamageIsChanged();
             Triggers.FinishTrigger();
         }
@@ -237,7 +387,7 @@ namespace Ship
 
         public void DestroyShip(Action callBack, bool forced = false)
         {
-            Game.UI.AddTestLogEntry(PilotName + "\'s ship is destroyed");
+            Game.UI.AddTestLogEntry("Ship with ID " + ShipId + " is destroyed");
 
             IsDestroyed = true;
             PlayDestroyedAnimSound(delegate { CheckShipModelDestruction(forced); callBack(); });
@@ -260,7 +410,7 @@ namespace Ship
             Phases.OnCombatSubPhaseRequiredPilotSkillIsChanged -= PerformShipDestruction;
             Roster.DestroyShip(this.GetTag());
 
-            if (OnDestroyed != null) OnDestroyed();
+            if (OnDestroyed != null) OnDestroyed(this);
         }
 
         public List<CriticalHitCard.GenericCriticalHit> GetAssignedCritCards()
@@ -270,19 +420,16 @@ namespace Ship
 
         // ATTACK TYPES
 
-        //Todo: Rework
-
-        public int GetAttackTypes(int range, bool inArc)
+        public int GetAnotherAttackTypesCount()
         {
             int result = 0;
 
-            if (InPrimaryWeaponFireZone(range, inArc)) result++;
-
             foreach (var upgrade in InstalledUpgrades)
             {
-                if (upgrade.Value.Type == Upgrade.UpgradeSlot.Torpedoes)
+                IShipWeapon secondaryWeapon = upgrade.Value as IShipWeapon;
+                if (secondaryWeapon != null)
                 {
-                    if ((upgrade.Value as Upgrade.GenericSecondaryWeapon).IsShotAvailable(Selection.AnotherShip)) result++;
+                    if (secondaryWeapon.IsShotAvailable(Selection.AnotherShip)) result++;
                 }
             }
 
@@ -292,8 +439,8 @@ namespace Ship
         public bool InPrimaryWeaponFireZone(GenericShip anotherShip)
         {
             bool result = true;
-            Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(this, anotherShip);
-            result = InPrimaryWeaponFireZone(shotInfo.Range, shotInfo.InArc);
+            Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(this, anotherShip, PrimaryWeapon);
+            result = InPrimaryWeaponFireZone(shotInfo.Range, shotInfo.InPrimaryArc);
             return result;
         }
 

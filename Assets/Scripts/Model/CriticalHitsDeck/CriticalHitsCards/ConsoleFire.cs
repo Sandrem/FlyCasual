@@ -12,20 +12,15 @@ namespace CriticalHitCard
         {
             Name = "Console Fire";
             Type = CriticalCardType.Ship;
-            ImageUrl = "http://i.imgur.com/Jamd8dB.jpg";
+            ImageUrl = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/damage-decks/core-tfa/console-fire.png";
         }
 
         public override void ApplyEffect(object sender, EventArgs e)
         {
-            Messages.ShowInfo("At the start of each Combat phase, roll 1 attack die.");
-            Game.UI.AddTestLogEntry("At the start of each Combat phase, roll 1 attack die.");
-            Host.AssignToken(new Tokens.ConsoleFireCritToken());
-
             Host.OnCombatPhaseStart += PlanRollForDamage;
-
             Host.AfterGenerateAvailableActionsList += AddCancelCritAction;
 
-            Triggers.FinishTrigger();
+            Host.AssignToken(new Tokens.ConsoleFireCritToken(), Triggers.FinishTrigger);
         }
 
         private void PlanRollForDamage(Ship.GenericShip host)
@@ -97,7 +92,6 @@ namespace SubPhases
         private void SufferDamage()
         {
             Messages.ShowError("Console Fire: ship suffered damage");
-            Game.UI.AddTestLogEntry("Console Fire: ship suffered damage");
 
             Selection.ActiveShip.AssignedDamageDiceroll.DiceList.Add(CurrentDiceRoll.DiceList[0]);
 
@@ -106,7 +100,12 @@ namespace SubPhases
                 Name = "Suffer damage",
                 TriggerType = TriggerTypes.OnDamageIsDealt,
                 TriggerOwner = Selection.ActiveShip.Owner.PlayerNo,
-                EventHandler = Selection.ActiveShip.SufferDamage
+                EventHandler = Selection.ActiveShip.SufferDamage,
+                EventArgs = new DamageSourceEventArgs()
+                {
+                    Source = "Critical hit card",
+                    DamageType = DamageTypes.CriticalHitCard
+                }
             });
 
             Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, CallBack);

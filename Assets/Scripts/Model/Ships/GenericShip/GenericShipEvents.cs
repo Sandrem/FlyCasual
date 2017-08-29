@@ -18,7 +18,6 @@ namespace Ship
         public delegate void EventHandlerShipCritArgs(GenericShip ship, ref CriticalHitCard.GenericCriticalHit crit, EventArgs e = null);
 
         public event EventHandlerShip AfterStatsAreChanged;
-        public event EventHandlerInt AfterGetPilotSkill;
         public event EventHandlerInt AfterGetAgility;
         public event EventHandlerInt AfterGetMaxHull;
         public event EventHandlerInt AfterGetMaxShields;

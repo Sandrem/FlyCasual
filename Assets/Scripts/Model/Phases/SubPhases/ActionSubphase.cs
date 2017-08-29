@@ -48,33 +48,37 @@ namespace SubPhases
         private void StartActionDecisionSubphase(object sender, System.EventArgs e)
         {
             Phases.StartTemporarySubPhase(
-                "Action",
+                "Action Decision",
                 typeof(ActionDecisonSubPhase),
-                delegate () {
+                EndActionDecisionSubhase
+            );
+        }
+
+        private void EndActionDecisionSubhase()
+        {
+            Selection.ThisShip.CallOnActionDecisionSubphaseEnd();
+
+            Triggers.ResolveTriggers(
+                TriggerTypes.OnActionDecisionSubPhaseEnd,
+                delegate {
                     Phases.FinishSubPhase(typeof(ActionDecisonSubPhase));
                     Triggers.FinishTrigger();
-                }
-            );
+                });
         }
 
         public override void Next()
         {
-            Selection.ThisShip.CallAfterActionIsPerformed(this.GetType());
-
-            if (Phases.CurrentSubPhase.GetType() == this.GetType())
-            {
-                FinishPhase();
-            }
+            FinishPhase();
         }
 
         public override void Pause()
         {
-            Actions.CloseActionsPanel();
+            
         }
 
         public override void Resume()
         {
-            Actions.ShowActionsPanel();
+            
         }
 
         public override void FinishPhase()
@@ -119,8 +123,86 @@ namespace SubPhases
                 Messages.ShowErrorToHuman("Cannot perform any actions");
                 CallBack();
             }
+        }
 
+        public void ShowActionDecisionPanel()
+        {
+            List<ActionsList.GenericAction> availableActions = Selection.ThisShip.GetAvailableActionsList();
+            foreach (var action in availableActions)
+            {
+                AddDecision(action.Name, delegate {
+                    Tooltips.EndTooltip();
+                    Game.UI.HideSkipButton();
+                    Selection.ThisShip.AddAlreadyExecutedAction(action);
+                    action.ActionTake();
+                });
+                AddTooltip(action.Name, action.ImageUrl);
+            }
+        }
 
+        public override void Resume()
+        {
+            base.Resume();
+            Initialize();
+        }
+
+        public override void SkipButton()
+        {
+            Game.UI.HideSkipButton();
+            CallBack();
+        }
+
+    }
+
+}
+
+namespace SubPhases
+{
+
+    public class FreeActionDecisonSubPhase : DecisionSubPhase
+    {
+
+        public override void Prepare()
+        {
+            infoText = "Select free action";
+            List<ActionsList.GenericAction> availableActions = Selection.ThisShip.GetAvailableFreeActionsList();
+
+            if (availableActions.Count > 0)
+            {
+                Roster.GetPlayer(Phases.CurrentPhasePlayer).PerformFreeAction();
+            }
+            else
+            {
+                Messages.ShowErrorToHuman("Cannot perform any actions");
+                CallBack();
+            }
+        }
+
+        public void ShowActionDecisionPanel()
+        {
+            List<ActionsList.GenericAction> availableActions = Selection.ThisShip.GetAvailableFreeActionsList();
+            foreach (var action in availableActions)
+            {
+                AddDecision(action.Name, delegate {
+                    Tooltips.EndTooltip();
+                    Game.UI.HideSkipButton();
+                    Selection.ThisShip.AddAlreadyExecutedAction(action);
+                    action.ActionTake();
+                });
+                AddTooltip(action.Name, action.ImageUrl);
+            }
+        }
+
+        public override void Resume()
+        {
+            base.Resume();
+            Initialize();
+        }
+
+        public override void SkipButton()
+        {
+            Game.UI.HideSkipButton();
+            CallBack();
         }
 
     }

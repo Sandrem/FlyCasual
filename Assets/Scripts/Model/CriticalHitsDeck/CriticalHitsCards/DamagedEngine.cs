@@ -12,24 +12,19 @@ namespace CriticalHitCard
         {
             Name = "Damaged Engine";
             Type = CriticalCardType.Ship;
-            ImageUrl = "http://i.imgur.com/BvKig48.jpg";
+            ImageUrl = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/damage-decks/core-tfa/damaged-engine.png";
         }
 
         public override void ApplyEffect(object sender, EventArgs e)
         {
-            Messages.ShowInfo("Treat all turn maneuvers as red maneuvers");
-            Game.UI.AddTestLogEntry("Treat all turn maneuvers as red maneuvers");
-            Host.AssignToken(new Tokens.DamagedEngineCritToken());
-
             Host.AfterGetManeuverColorIncreaseComplexity += TurnManeuversAreRed;
 
-            Triggers.FinishTrigger();
+            Host.AssignToken(new Tokens.DamagedEngineCritToken(), Triggers.FinishTrigger);
         }
 
         public override void DiscardEffect(Ship.GenericShip host)
         {
             Messages.ShowInfo("Turn maneuvers regained normal colors");
-            Game.UI.AddTestLogEntry("Turn maneuvers regained normal colors");
             host.RemoveToken(typeof(Tokens.DamagedEngineCritToken));
 
             host.AfterGetManeuverColorIncreaseComplexity -= TurnManeuversAreRed;

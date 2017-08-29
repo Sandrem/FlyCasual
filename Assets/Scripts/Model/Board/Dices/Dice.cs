@@ -45,12 +45,6 @@ public partial class Dice
         Side = side;
     }
 
-    public string Type
-    {
-        get;
-        private set;
-    }
-
     public DiceSide Side
     {
         get;

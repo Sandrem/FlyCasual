@@ -12,14 +12,14 @@ public static class Rules
     public static StressRule Stress { get; private set; }
     public static OffTheBoardRule OffTheBoard { get; private set; }
     public static CollisionRules Collision { get; private set; }
-    public static FiringRangeLimit FiringRange { get; private set; }
-    public static FiringArcRule FiringArc { get; private set; }
     public static DuplicatedActionsRule DuplicatedActions { get; private set; }
     public static AsteroidLandedRule AsteroidLanded { get; private set; }
     public static AsteroidHitRule AsteroidHit { get; private set; }
     public static AsteroidObstructionRule AsteroidObstruction { get; private set; }
     public static InitiativeRule Initiative { get; private set; }
     public static TargetIsLegalForShotRule TargetIsLegalForShot { get; private set; }
+    public static IonizationRule Ionization { get; private set; }
+    public static TargetLocksRule TargetLocks { get; private set; }
 
     private static GameManagerScript Game;
 
@@ -33,14 +33,14 @@ public static class Rules
         Stress = new StressRule();
         OffTheBoard = new OffTheBoardRule(Game);
         Collision = new CollisionRules();
-        FiringRange = new FiringRangeLimit();
-        FiringArc = new FiringArcRule();
         DuplicatedActions = new DuplicatedActionsRule();
         AsteroidLanded = new AsteroidLandedRule();
         AsteroidHit = new AsteroidHitRule();
         AsteroidObstruction = new AsteroidObstructionRule();
         Initiative = new InitiativeRule();
         TargetIsLegalForShot = new TargetIsLegalForShotRule();
+        Ionization = new IonizationRule();
+        TargetLocks = new TargetLocksRule();
     }
 
 }

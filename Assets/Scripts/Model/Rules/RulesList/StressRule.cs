@@ -5,26 +5,42 @@ namespace RulesList
     public class StressRule
     {
 
-        public void CheckStress(Ship.GenericShip ship)
+        public void PlanCheckStress(Ship.GenericShip ship)
         {
-            switch (ship.GetLastManeuverColor())
+            Triggers.RegisterTrigger(new Trigger()
+            {
+                Name = "Check stress",
+                TriggerOwner = ship.Owner.PlayerNo,
+                TriggerType = TriggerTypes.OnShipMovementExecuted,
+                EventHandler = CheckStress
+            });
+        }
+
+        private static void CheckStress(object sender, System.EventArgs e)
+        {
+            switch (Selection.ThisShip.GetLastManeuverColor())
             {
                 case Movement.ManeuverColor.Red:
-                    if (ship.Owner.GetType() != typeof(Players.HotacAiPlayer))
+                    if (Selection.ThisShip.Owner.GetType() != typeof(Players.HotacAiPlayer))
                     {
-                        ship.AssignToken(new Tokens.StressToken());
+                        Selection.ThisShip.IsSkipsActionSubPhase = true;
+                        Selection.ThisShip.AssignToken(new Tokens.StressToken(), Triggers.FinishTrigger);
                     }
                     else
                     {
-                        ship.IsSkipsActionSubPhase = true;
+                        Selection.ThisShip.IsSkipsActionSubPhase = true;
+                        Triggers.FinishTrigger();
                     }
-                    ship.IsSkipsActionSubPhase = true;
                     break;
                 case Movement.ManeuverColor.Green:
-                    if (ship.Owner.GetType() != typeof(Players.HotacAiPlayer))
+                    if (Selection.ThisShip.Owner.GetType() != typeof(Players.HotacAiPlayer))
                     {
-                        ship.RemoveToken(typeof(Tokens.StressToken));
-                    }                    
+                        Selection.ThisShip.RemoveToken(typeof(Tokens.StressToken));
+                    }
+                    Triggers.FinishTrigger();
+                    break;
+                default:
+                    Triggers.FinishTrigger();
                     break;
             }
         }

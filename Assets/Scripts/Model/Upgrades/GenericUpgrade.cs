@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Upgrade
 {
-    public enum UpgradeSlot
+    public enum UpgradeType
     {
         Elite,
         Astromech,
@@ -29,14 +29,14 @@ namespace Upgrade
     {
         protected GameManagerScript Game;
 
-        protected Ship.GenericShip Host;
+        public Ship.GenericShip Host { get; set; }
 
         public int Cost;
-        public UpgradeSlot Type;
+        public UpgradeType Type;
         public bool isUnique = false;
         public bool Limited = false;
         public bool isDiscarded = false;
-        public string Name;
+        public string Name { get; set; }
         public string ShortName;
         public string ImageUrl;
         //public bool FactionRestriction

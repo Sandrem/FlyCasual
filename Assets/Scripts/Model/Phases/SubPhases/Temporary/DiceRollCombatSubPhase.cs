@@ -29,7 +29,7 @@ namespace SubPhases
 
         public override void Initialize()
         {
-            Game.PrefabsList.DiceResultsMenu.SetActive(true);
+            Game.PrefabsList.CombatDiceResultsMenu.SetActive(true);
 
             if (Combat.AttackStep == CombatStep.Attack)
             {
@@ -37,7 +37,7 @@ namespace SubPhases
             }
 
             DiceRoll DiceRollCheck;
-            DiceRollCheck = new DiceRoll(dicesType, dicesCount);
+            DiceRollCheck = new DiceRoll(dicesType, dicesCount, DiceRollCheckType.Combat);
             DiceRollCheck.Roll(checkResults);
         }
 
@@ -47,7 +47,7 @@ namespace SubPhases
             {
                 if (Roster.GetPlayer(Selection.ActiveShip.Owner.PlayerNo).GetType() == typeof(Players.HumanPlayer))
                 {
-                    Button closeButton = Game.PrefabsList.DiceResultsMenu.transform.Find("DiceModificationsPanel/Confirm").GetComponent<Button>();
+                    Button closeButton = Game.PrefabsList.CombatDiceResultsMenu.transform.Find("DiceModificationsPanel/Confirm").GetComponent<Button>();
                     closeButton.onClick.RemoveAllListeners();
                     closeButton.onClick.AddListener(delegate { CallBack(); });
 
@@ -56,7 +56,7 @@ namespace SubPhases
             }
             else
             {
-                Game.PrefabsList.DiceResultsMenu.transform.Find("DiceModificationsPanel/Confirm").gameObject.SetActive(false);
+                Game.PrefabsList.CombatDiceResultsMenu.transform.Find("DiceModificationsPanel/Confirm").gameObject.SetActive(false);
             }
         }
 
@@ -75,14 +75,14 @@ namespace SubPhases
 
         public void HideDiceResultMenu()
         {
-            Game.PrefabsList.DiceResultsMenu.SetActive(false);
+            Game.PrefabsList.CombatDiceResultsMenu.SetActive(false);
             HideDiceModificationButtons();
             CurentDiceRoll.RemoveDiceModels();
         }
 
         public void HideDiceModificationButtons()
         {
-            foreach (Transform button in Game.PrefabsList.DiceResultsMenu.transform.Find("DiceModificationsPanel"))
+            foreach (Transform button in Game.PrefabsList.CombatDiceResultsMenu.transform.Find("DiceModificationsPanel"))
             {
                 if (button.name.StartsWith("Button"))
                 {
@@ -90,6 +90,16 @@ namespace SubPhases
                 }
             }
             ToggleConfirmDiceResultsButton(false);
+        }
+
+        public override void Pause()
+        {
+            Game.PrefabsList.CombatDiceResultsMenu.SetActive(false);
+        }
+
+        public override void Resume()
+        {
+            Game.PrefabsList.CombatDiceResultsMenu.SetActive(true);
         }
 
         public override void Next()

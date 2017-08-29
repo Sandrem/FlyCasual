@@ -20,6 +20,9 @@ namespace ActionsList
         public bool IsTurnsOneFocusIntoSuccess = false;
         public bool IsTurnsAllFocusIntoSuccess = false;
 
+        public Ship.GenericShip Host;
+        public Upgrade.GenericUpgrade Source;
+
         public GenericAction()
         {
             Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();

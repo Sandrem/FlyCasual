@@ -3,6 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+public enum DiceRollCheckType
+{
+    Combat,
+    Check,
+    Virtual
+}
+
 public partial class DiceRoll
 {
     public List<Dice> DiceList
@@ -17,23 +24,63 @@ public partial class DiceRoll
         private set;
     }
 
+    public DiceRollCheckType CheckType
+    {
+        get;
+        private set;
+    }
+
+    public Transform SpawningPoint;
+    public Transform FinalPositionPoint;
+
     public int Number { get; private set; }
 
     private DelegateDiceroll callBack;
 
-    public DiceRoll(DiceKind type, int number)
+    public DiceRoll(DiceKind type, int number, DiceRollCheckType checkType)
     {
         Type = type;
         Number = number;
-        GenerateDiceRoll(type, number);
+        CheckType = checkType;
+
+        if (checkType != DiceRollCheckType.Virtual) SetSpawningPoint();
+
+        GenerateDiceRoll();
     }
 
-    private void GenerateDiceRoll(DiceKind type, int number)
+    private void GenerateDiceRoll()
     {
         DiceList = new List<Dice>();
-        for (int i = 0; i < number; i++)
+        for (int i = 0; i < Number; i++)
         {
-            DiceList.Add(new Dice(type));
+            AddDice();
+        }
+    }
+
+    public Dice AddDice(DiceSide side = DiceSide.Unknown)
+    {
+        Dice newDice = new Dice(this, Type, side);
+        DiceList.Add(newDice);
+        return newDice;
+    }
+
+    private void SetSpawningPoint()
+    {
+        //Temporary
+        GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
+
+        switch (CheckType)
+        {
+            case DiceRollCheckType.Combat:
+                SpawningPoint = Game.PrefabsList.CombatDiceSpawningPoint;
+                FinalPositionPoint = Game.PrefabsList.CombatDiceField;
+                break;
+            case DiceRollCheckType.Check:
+                SpawningPoint = Game.PrefabsList.CheckDiceSpawningPoint;
+                FinalPositionPoint = Game.PrefabsList.CheckDiceField;
+                break;
+            default:
+                break;
         }
     }
 
@@ -132,9 +179,7 @@ public partial class DiceRoll
 
     public void ApplyEvade()
     {
-        Dice addEvade = new Dice(DiceKind.Defence, DiceSide.Success);
-        DiceList.Add(addEvade);
-        addEvade.NoRoll();
+        AddDice(DiceSide.Success).ShowWithoutRoll();
 
         OrganizeDicePositions();
         UpdateDiceCompareHelperPrediction();
@@ -166,11 +211,6 @@ public partial class DiceRoll
         }
     }
 
-    private void AddDice(DiceSide side = DiceSide.Unknown)
-    {
-        DiceList.Add(new Dice(Type, side));
-    }
-
     private void CancelHit()
     {
         if (!CancelType(DiceSide.Success))
@@ -181,8 +221,7 @@ public partial class DiceRoll
 
     public void RemoveAllFailures()
     {
-        List<Dice> dices = new List<Dice>();
-        dices.AddRange(DiceList);
+        List<Dice> dices = new List<Dice>(DiceList);
 
         foreach (Dice dice in dices)
         {
@@ -213,6 +252,16 @@ public partial class DiceRoll
         for (int i = 0; i < numToCancel; i++)
         {
             CancelHit();
+        }
+    }
+
+    public void CancelAllResults()
+    {
+        List<Dice> dicesListCopy = new List<Dice>(DiceList);
+
+        foreach (var dice in dicesListCopy)
+        {
+            dice.Cancel();
         }
     }
 
@@ -271,7 +320,7 @@ public partial class DiceRoll
     {
         for (int i = 0; i < DiceList.Count; i++)
         {
-            DiceList[i].SetPosition(DicesManager.DiceField.position + DicesManager.DicePositions[DiceList.Count-1][i]);
+            DiceList[i].SetPosition(FinalPositionPoint.position + DicesManager.DicePositions[DiceList.Count-1][i]);
             if (DiceList[i].IsDiceFaceVisibilityWrong())
             {
                 DiceList[i].SetModelSide(DiceList[i].Side);

@@ -12,8 +12,6 @@ public static class DicesManager {
 
     public static GameObject DiceAttack;
     public static GameObject DiceDefence;
-    public static Transform DiceSpawningPoint;
-    public static Transform DiceField;
 
     // Use this for initialization
     static DicesManager() {
@@ -21,8 +19,6 @@ public static class DicesManager {
 
         DiceAttack = Game.PrefabsList.DiceAttack;
         DiceDefence = Game.PrefabsList.DiceDefence;
-        DiceSpawningPoint = Game.PrefabsList.DiceSpawningPoint;
-        DiceField = Game.PrefabsList.DiceField;
 
         GenerateDicePositions();
     }

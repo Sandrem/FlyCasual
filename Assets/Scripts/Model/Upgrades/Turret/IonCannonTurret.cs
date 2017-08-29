@@ -10,9 +10,7 @@ namespace UpgradesList
     {
         public IonCannonTurret() : base()
         {
-            IsHidden = true;
-
-            Type = UpgradeSlot.Turret;
+            Type = UpgradeType.Turret;
 
             Name = "Ion Cannon Turret";
             ShortName = "Ion Cannon Turret";
@@ -22,25 +20,68 @@ namespace UpgradesList
             MinRange = 1;
             MaxRange = 2;
             AttackValue = 3;
+
+            CanShootOutsideArc = true;
         }
 
         public override void AttachToShip(Ship.GenericShip host)
         {
             base.AttachToShip(host);
+
+            SubscribeOnHit();
         }
 
-        public override bool IsShotAvailable(Ship.GenericShip anotherShip)
+        private void SubscribeOnHit()
         {
-            bool result = true;
+            Host.OnAttackHitAsAttacker += RegisterIonTurretEffect;
+        }
 
-            if (isDiscarded) return false;
+        private void RegisterIonTurretEffect()
+        {
+            if (Combat.ChosenWeapon == this)
+            {
+                Triggers.RegisterTrigger(new Trigger()
+                {
+                    Name = "Ion Cannon Turret effect",
+                    TriggerType = TriggerTypes.OnAttackHit,
+                    TriggerOwner = Combat.Attacker.Owner.PlayerNo,
+                    EventHandler = IonTurretEffect
+                });
+            }
+        }
 
-            Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(Host, anotherShip);
-            int range = shotInfo.Range;
-            if (range < MinRange) return false;
-            if (range > MaxRange) return false;
+        private void IonTurretEffect(object sender, System.EventArgs e)
+        {
+            Combat.DiceRollAttack.CancelAllResults();
+            Combat.DiceRollAttack.RemoveAllFailures();
 
-            return result;
+            Combat.Defender.AssignToken(
+                new Tokens.IonToken(),
+                delegate {
+                    Game.Wait(2, DefenderSuffersDamage);
+                }
+            );
+        }
+
+        private void DefenderSuffersDamage()
+        {
+            Combat.Defender.AssignedDamageDiceroll.AddDice(DiceSide.Success);
+
+            Triggers.RegisterTrigger(new Trigger()
+            {
+                Name = "Suffer damage",
+                TriggerType = TriggerTypes.OnDamageIsDealt,
+                TriggerOwner = Combat.Defender.Owner.PlayerNo,
+                EventHandler = Combat.Defender.SufferDamage,
+                EventArgs = new DamageSourceEventArgs()
+                {
+                    Source = Combat.Attacker,
+                    DamageType = DamageTypes.ShipAttack
+                },
+                Skippable = true
+            });
+
+            Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, Triggers.FinishTrigger);
         }
 
     }

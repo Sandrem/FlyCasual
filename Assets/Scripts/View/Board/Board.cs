@@ -35,7 +35,7 @@ namespace Board
 
         private static void SetPlaymatImage()
         {
-            Texture playmatTexture = (Texture)Resources.Load("Playmats/Playmat" + Global.Playmat + "Texture", typeof(Texture));
+            Texture playmatTexture = (Texture)Resources.Load("Playmats/Playmat" + Options.Playmat + "Texture", typeof(Texture));
             BoardTransform.Find("Playmat").GetComponent<Renderer>().material.mainTexture = playmatTexture;        
         }
 

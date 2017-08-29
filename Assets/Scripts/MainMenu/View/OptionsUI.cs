@@ -8,7 +8,9 @@ public class OptionsUI : MonoBehaviour {
 
     public void OnClickPlaymatChange(GameObject playmatImage)
     {
-        Global.Playmat = playmatImage.name;
+        PlayerPrefs.SetString("PlaymatName", playmatImage.name);
+        PlayerPrefs.Save();
+
         PlaymatSelector.transform.position = playmatImage.transform.position;
     }
 

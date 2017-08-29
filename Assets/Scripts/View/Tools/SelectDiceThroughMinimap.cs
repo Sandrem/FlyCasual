@@ -9,7 +9,7 @@ public class SelectDiceThroughMinimap : MonoBehaviour {
     // Use this for initialization
     void Start ()
     {
-        diceCamera = GameObject.Find("SceneHolder/Board/DiceHolder/DiceCamera").GetComponent<Camera>();
+        diceCamera = GameObject.Find("SceneHolder/Board/CombatDiceHolder/DiceCamera").GetComponent<Camera>();
     }
 	
 	// Update is called once per frame

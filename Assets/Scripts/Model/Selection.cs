@@ -23,7 +23,7 @@ public static class Selection {
     {
         if (!EventSystem.current.IsPointerOverGameObject())
         {
-            TryMarkShip();
+            TryMarkShipByModel();
             if (Input.GetKeyUp(KeyCode.Mouse0) == true)
             {
                 bool isShipHit = false;
@@ -44,29 +44,34 @@ public static class Selection {
         }
     }
 
-    private static void TryMarkShip()
+    private static void TryMarkShipByModel()
     {
         RaycastHit hitInfo = new RaycastHit();
         if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitInfo))
         {
-            if (hitInfo.transform.tag.StartsWith("ShipId:"))
-            {
-                TryUnmarkPreviousHoveredShip();
-                HoveredShip = Roster.AllShips[hitInfo.transform.tag];
-                if ((HoveredShip != ThisShip) && (HoveredShip != AnotherShip))
-                {
-                    HoveredShip.HighlightAnyHovered();
-                    Roster.MarkShip(HoveredShip, Color.yellow);
-                }
-            }
-            else
-            {
-                TryUnmarkPreviousHoveredShip();
-            }
+            TryMarkShip(hitInfo.transform.tag);
         }
     }
 
-    private static void TryUnmarkPreviousHoveredShip()
+    public static void TryMarkShip(string tag)
+    {
+        if (tag.StartsWith("ShipId:"))
+        {
+            TryUnmarkPreviousHoveredShip();
+            HoveredShip = Roster.AllShips[tag];
+            if ((HoveredShip != ThisShip) && (HoveredShip != AnotherShip))
+            {
+                HoveredShip.HighlightAnyHovered();
+                Roster.MarkShip(HoveredShip, Color.yellow);
+            }
+        }
+        else
+        {
+            TryUnmarkPreviousHoveredShip();
+        }
+    }
+
+    public static void TryUnmarkPreviousHoveredShip()
     {
         if (HoveredShip != null)
         {

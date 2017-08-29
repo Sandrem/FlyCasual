@@ -11,7 +11,7 @@ namespace UpgradesList
 
         public R2F2() : base()
         {
-            Type = UpgradeSlot.Astromech;
+            Type = UpgradeType.Astromech;
             Name = ShortName = "R2-F2";
             ImageUrl = "https://vignette4.wikia.nocookie.net/xwing-miniatures/images/8/86/R2-F2.jpg";
             isUnique = true;
@@ -54,9 +54,8 @@ namespace ActionsList
 
             host = Selection.ThisShip;
             host.ChangeAgilityBy(+1);
-            host.AssignToken(new Conditions.R2F2Condition());
             Phases.OnEndPhaseStart += R2F2DecreaseAgility;
-            Phases.CurrentSubPhase.CallBack();
+            host.AssignToken(new Conditions.R2F2Condition(), Phases.CurrentSubPhase.CallBack);
         }
 
         public override int GetActionPriority()

@@ -17,22 +17,14 @@ namespace Players
 
         public override void PerformAction()
         {
-
-            List<ActionsList.GenericAction> availableActions = Selection.ThisShip.GetAvailableActionsList();
-            foreach (var action in availableActions)
-            {
-                (Phases.CurrentSubPhase as SubPhases.DecisionSubPhase).AddDecision(action.Name, delegate {
-                    Tooltips.EndTooltip();
-                    Game.UI.HideNextButton();
-                    Selection.ThisShip.AddAlreadyExecutedAction(action);
-                    action.ActionTake();
-                });
-            }
+            (Phases.CurrentSubPhase as SubPhases.ActionDecisonSubPhase).ShowActionDecisionPanel();
+            Game.UI.ShowSkipButton();
         }
 
         public override void PerformFreeAction()
         {
-            Actions.ShowFreeActionsPanel();
+            (Phases.CurrentSubPhase as SubPhases.FreeActionDecisonSubPhase).ShowActionDecisionPanel();
+            Game.UI.ShowSkipButton();
         }
 
         public override void PerformAttack()

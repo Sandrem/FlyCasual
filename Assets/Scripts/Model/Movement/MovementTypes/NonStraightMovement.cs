@@ -37,7 +37,6 @@ namespace Movement
         public override void UpdateMovementExecution()
         {
             float progressDelta = AnimationSpeed * Time.deltaTime;
-
             progressDelta = Mathf.Clamp(progressDelta, 0, Mathf.Abs(ProgressTarget - ProgressCurrent));
             ProgressCurrent += progressDelta;
 
@@ -86,7 +85,7 @@ namespace Movement
             Vector3 TargetPosition = new Vector3(0, 0, GetMovement1());
             ProgressTarget = TargetPosition.z * finisherTargetSuccess;
 
-            AnimationSpeed = 0.75f;
+            AnimationSpeed = Options.ManeuverSpeed * 0.75f;
 
             movementFinisherLaunched = true;
         }

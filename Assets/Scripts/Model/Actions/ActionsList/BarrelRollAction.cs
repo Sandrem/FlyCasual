@@ -15,6 +15,7 @@ namespace ActionsList
         public override void ActionTake()
         {
             Phases.CurrentSubPhase.Pause();
+
             Phases.StartTemporarySubPhase(
                 "Barrel Roll",
                 typeof(SubPhases.BarrelRollPlanningSubPhase),
@@ -280,9 +281,11 @@ namespace SubPhases
 
         private void DoBarrelRollAnimation()
         {
-            float progressStep = 0.5f * Time.deltaTime;
-            Selection.ThisShip.SetPosition(Vector3.MoveTowards(Selection.ThisShip.GetPosition(), ShipStand.transform.position, progressStep));
+            float progressStep = 0.5f * Time.deltaTime * Options.AnimationSpeed;
+            progressStep = Mathf.Min(progressStep, progressTarget-progressCurrent);
             progressCurrent += progressStep;
+
+            Selection.ThisShip.SetPosition(Vector3.MoveTowards(Selection.ThisShip.GetPosition(), ShipStand.transform.position, progressStep));
             Selection.ThisShip.RotateModelDuringBarrelRoll(progressCurrent / progressTarget, helperDirection);
             Selection.ThisShip.MoveUpwards(progressCurrent / progressTarget);
             if (progressCurrent >= progressTarget)
@@ -305,13 +308,14 @@ namespace SubPhases
             Selection.ThisShip.FinishPosition(delegate() { });
 
             Phases.FinishSubPhase(typeof(BarrelRollExecutionSubPhase));
+
             CallBack();
         }
 
         public override void Next()
         {
-            Phases.CurrentSubPhase = PreviousSubPhase;
-            Phases.CurrentSubPhase.Next();
+            Phases.CurrentSubPhase = Phases.CurrentSubPhase.PreviousSubPhase;
+            Phases.CurrentSubPhase = Phases.CurrentSubPhase.PreviousSubPhase;
             UpdateHelpInfo();
         }
 

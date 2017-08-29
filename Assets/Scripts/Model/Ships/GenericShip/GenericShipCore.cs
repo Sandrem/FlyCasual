@@ -83,11 +83,13 @@ namespace Ship
         public void AddPilotSkillModifier(IModifyPilotSkill modifier)
         {
             PilotSkillModifiers.Insert(0, modifier);
+            Roster.UpdateShipStats(this);
         }
 
         public void RemovePilotSkillModifier(IModifyPilotSkill modifier)
         {
             PilotSkillModifiers.Remove(modifier);
+            Roster.UpdateShipStats(this);
         }
 
         private int agility;
@@ -115,8 +117,8 @@ namespace Ship
             factions = new List<Faction>();
             SoundFlyPaths = new List<string> ();
             Maneuvers = new Dictionary<string, Movement.ManeuverColor>();
-            BuiltInSlots = new Dictionary<Upgrade.UpgradeSlot, int>();
-            InstalledUpgrades = new List<KeyValuePair<Upgrade.UpgradeSlot, Upgrade.GenericUpgrade>>();
+            BuiltInSlots = new Dictionary<Upgrade.UpgradeType, int>();
+            InstalledUpgrades = new List<KeyValuePair<Upgrade.UpgradeType, Upgrade.GenericUpgrade>>();
             PilotSkillModifiers = new List<IModifyPilotSkill>();
 
             AddCoreUpgradeSlots();
@@ -152,6 +154,9 @@ namespace Ship
         {
             Shields = MaxShields;
             Hull = MaxHull;
+
+            ArcInfo = new Arcs.GenericArc(this);
+            PrimaryWeapon = new PrimaryWeaponClass(this);
         }
 
         public virtual void InitializePilot()

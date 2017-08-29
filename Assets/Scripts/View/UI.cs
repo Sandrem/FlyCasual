@@ -221,12 +221,6 @@ public class UI : MonoBehaviour {
         Combat.DeclareTarget();
     }
 
-    public void CloseActionsPanel()
-    {
-        Actions.CloseActionsPanel();
-        Phases.CurrentSubPhase.CallBack();
-    }
-
     public void ShowNextButton()
     {
         Game.PrefabsList.NextButtonPanel.SetActive(true);

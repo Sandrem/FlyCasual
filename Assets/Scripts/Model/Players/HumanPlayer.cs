@@ -22,7 +22,7 @@ namespace Players
 
         public override void PerformFreeAction()
         {
-            Actions.ShowFreeActionsPanel();
+            (Phases.CurrentSubPhase as SubPhases.FreeActionDecisonSubPhase).ShowActionDecisionPanel();
         }
 
         public override void PerformAttack()

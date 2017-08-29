@@ -73,12 +73,12 @@ namespace SubPhases
 
         public override void Pause()
         {
-            Actions.CloseActionsPanel();
+            
         }
 
         public override void Resume()
         {
-            Actions.ShowActionsPanel();
+            
         }
 
         public override void FinishPhase()
@@ -128,6 +128,53 @@ namespace SubPhases
         public void ShowActionDecisionPanel()
         {
             List<ActionsList.GenericAction> availableActions = Selection.ThisShip.GetAvailableActionsList();
+            foreach (var action in availableActions)
+            {
+                AddDecision(action.Name, delegate {
+                    Tooltips.EndTooltip();
+                    Game.UI.HideNextButton();
+                    Selection.ThisShip.AddAlreadyExecutedAction(action);
+                    action.ActionTake();
+                });
+                AddTooltip(action.Name, action.ImageUrl);
+            }
+        }
+
+        public override void Resume()
+        {
+            base.Resume();
+            Initialize();
+        }
+
+    }
+
+}
+
+namespace SubPhases
+{
+
+    public class FreeActionDecisonSubPhase : DecisionSubPhase
+    {
+
+        public override void Prepare()
+        {
+            infoText = "Select free action";
+            List<ActionsList.GenericAction> availableActions = Selection.ThisShip.GetAvailableFreeActionsList();
+
+            if (availableActions.Count > 0)
+            {
+                Roster.GetPlayer(Phases.CurrentPhasePlayer).PerformFreeAction();
+            }
+            else
+            {
+                Messages.ShowErrorToHuman("Cannot perform any actions");
+                CallBack();
+            }
+        }
+
+        public void ShowActionDecisionPanel()
+        {
+            List<ActionsList.GenericAction> availableActions = Selection.ThisShip.GetAvailableFreeActionsList();
             foreach (var action in availableActions)
             {
                 AddDecision(action.Name, delegate {

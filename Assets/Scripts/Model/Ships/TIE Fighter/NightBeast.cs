@@ -42,13 +42,7 @@ namespace Ship
             {
                 List<ActionsList.GenericAction> actions = new List<ActionsList.GenericAction>() { new ActionsList.FocusAction() };
 
-                AskPerformFreeAction(
-                    actions,
-                    delegate {
-                        Phases.FinishSubPhase(typeof(SubPhases.FreeActionSubPhase));
-                        Triggers.FinishTrigger();
-                    }
-                );
+                AskPerformFreeAction(actions, Triggers.FinishTrigger);
             }
         }
     }

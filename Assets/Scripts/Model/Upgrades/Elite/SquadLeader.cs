@@ -105,13 +105,7 @@ namespace SubPhases
             Selection.ThisShip.GenerateAvailableActionsList();
             List<ActionsList.GenericAction> actions = Selection.ThisShip.GetAvailableActionsList();
 
-            TargetShip.AskPerformFreeAction(
-                actions,
-                delegate {
-                    Phases.FinishSubPhase(typeof(FreeActionSubPhase));
-                    Triggers.FinishTrigger();
-                }
-            );
+            TargetShip.AskPerformFreeAction(actions, Triggers.FinishTrigger);
         }
 
     }

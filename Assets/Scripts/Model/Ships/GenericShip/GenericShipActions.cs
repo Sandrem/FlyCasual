@@ -94,7 +94,16 @@ namespace Ship
                     TriggerOwner = Phases.CurrentPhasePlayer,
                     TriggerType = TriggerTypes.OnFreeAction,
                     EventHandler = delegate {
-                        Phases.StartTemporarySubPhase("Free action", typeof(SubPhases.FreeActionSubPhase), callBack);
+                        Phases.StartTemporarySubPhase
+                        (
+                            "Free action decision",
+                            typeof(SubPhases.FreeActionDecisonSubPhase),
+                            delegate
+                            {
+                                Phases.FinishSubPhase(typeof(SubPhases.FreeActionDecisonSubPhase));
+                                callBack();
+                            }
+                        );
                     }
                 }
             );

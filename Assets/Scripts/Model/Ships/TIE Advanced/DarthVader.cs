@@ -50,13 +50,7 @@ namespace Ship
                 GenerateAvailableActionsList();
                 List<ActionsList.GenericAction> actions = Selection.ThisShip.GetAvailableActionsList();
 
-                AskPerformFreeAction(
-                    actions,
-                    delegate {
-                        Phases.FinishSubPhase(typeof(SubPhases.FreeActionSubPhase));
-                        Triggers.FinishTrigger();
-                    }
-                );
+                AskPerformFreeAction(actions, Triggers.FinishTrigger);
             }
 
         }

@@ -75,26 +75,6 @@ namespace Players
             Game.Movement.PerformStoredManeuver();
         }
 
-        public override void PerformAction()
-        {
-            //Stub
-            Phases.Next();
-        }
-
-        public override void PerformFreeAction()
-        {
-            if (Selection.ThisShip.GetAvailableFreeActionsList().Count > 0)
-            {
-                ActionsList.GenericAction action = Selection.ThisShip.GetAvailableFreeActionsList()[0];
-                Selection.ThisShip.AddAlreadyExecutedAction(action);
-                action.ActionTake();
-            }
-            else
-            {
-                Phases.Next();
-            }
-        }
-
         //TODOL Don't skip attack of all PS ships if one cannot attack (Biggs interaction)
 
         public override void PerformAttack()

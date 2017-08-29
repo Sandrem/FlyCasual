@@ -62,6 +62,16 @@ namespace Players
 
         public override void PerformAction()
         {
+            PerformActionFromList(Selection.ThisShip.GetAvailableActionsList());
+        }
+
+        public override void PerformFreeAction()
+        {
+            PerformActionFromList(Selection.ThisShip.GetAvailableFreeActionsList());
+        }
+
+        private void PerformActionFromList(List<ActionsList.GenericAction> actionsList)
+        {
             bool isActionTaken = false;
 
             if (Selection.ThisShip.GetToken(typeof(Tokens.StressToken)) != null)
@@ -70,7 +80,7 @@ namespace Players
             }
             else
             {
-                List<ActionsList.GenericAction> availableActionsList = Selection.ThisShip.GetAvailableActionsList();
+                List<ActionsList.GenericAction> availableActionsList = actionsList;
 
                 Dictionary<ActionsList.GenericAction, int> actionsPriority = new Dictionary<ActionsList.GenericAction, int>();
 

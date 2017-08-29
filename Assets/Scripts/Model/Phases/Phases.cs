@@ -9,6 +9,7 @@ using System;
 public static partial class Phases
 {
     public static int RoundCounter;
+    public static bool GameIsEnded;
 
     private static GameManagerScript Game;
 

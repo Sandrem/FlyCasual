@@ -22,7 +22,7 @@ namespace SubPhases
         private void EndRound()
         {
             Phases.CallRoundEndTrigger();
-            Next();
+            if (!Phases.GameIsEnded) Next();
         }
 
         public override void Next()

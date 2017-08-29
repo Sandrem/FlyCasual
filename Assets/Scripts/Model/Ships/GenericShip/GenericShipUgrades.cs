@@ -39,7 +39,6 @@ namespace Ship
             {
                 newUpgrade.AttachToShip(this);
                 InstalledUpgrades.Add(new KeyValuePair<Upgrade.UpgradeType, Upgrade.GenericUpgrade>(newUpgrade.Type, newUpgrade));
-                //Roster.UpdateUpgradesPanel(this, this.InfoPanel);
                 Roster.OrganizeRosters();
             }
         }

@@ -13,7 +13,7 @@ namespace Ship
             public SoontirFel() : base()
             {
                 PilotName = "Soontir Fel";
-                ImageUrl = "https://vignette4.wikia.nocookie.net/xwing-miniatures/images/c/c2/Alpha_Squadron_Pilot.png";
+                ImageUrl = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/pilots/Galactic%20Empire/TIE%20Interceptor/soontir-fel.png";
                 PilotSkill = 9;
                 Cost = 27;
 

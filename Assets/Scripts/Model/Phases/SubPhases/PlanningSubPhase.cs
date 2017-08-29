@@ -85,7 +85,7 @@ namespace SubPhases
 
         public override void NextButton()
         {
-            FinishPhase();
+            Next();
         }
 
     }

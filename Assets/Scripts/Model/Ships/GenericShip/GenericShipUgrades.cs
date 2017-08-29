@@ -14,7 +14,7 @@ namespace Ship
 
         private void AddCoreUpgradeSlots()
         {
-            //AddUpgradeSlot(Upgrade.UpgradeSlot.Modification);
+            AddUpgradeSlot(Upgrade.UpgradeSlot.Modification);
         }
 
         protected void AddUpgradeSlot(Upgrade.UpgradeType slot)

@@ -124,20 +124,6 @@ public static partial class Roster {
     {
         int panelHeight = 80;
 
-        //Tokens
-
-        int iconsCount = 0;
-        foreach (Transform icon in panel.transform.Find("ShipInfo/TokensBar").transform)
-        {
-            if (icon.gameObject.activeSelf)
-            {
-                iconsCount++;
-            }
-        }
-
-        int iconsLines = (iconsCount + 4) / 5;
-        panelHeight += 35 * iconsLines + 3;
-
         //Upgrades
 
         float upgradesVisible = 0;
@@ -150,7 +136,24 @@ public static partial class Roster {
             }
         }
 
-        panelHeight += Mathf.CeilToInt(upgradesVisible/2) * 20;
+        int upgdaresHeight = Mathf.CeilToInt(upgradesVisible / 2) * 20;
+        panelHeight += upgdaresHeight;
+
+        //Tokens
+
+        panel.transform.Find("ShipInfo/TokensBar").GetComponent<RectTransform>().localPosition = new Vector2(10, -65 - upgdaresHeight);
+
+        int iconsCount = 0;
+        foreach (Transform icon in panel.transform.Find("ShipInfo/TokensBar").transform)
+        {
+            if (icon.gameObject.activeSelf)
+            {
+                iconsCount++;
+            }
+        }
+
+        int iconsLines = (iconsCount + 4) / 5;
+        panelHeight += 35 * iconsLines + 3;
 
         panel.transform.Find("Mark").GetComponent<RectTransform>().sizeDelta = new Vector2(10, panelHeight);
 

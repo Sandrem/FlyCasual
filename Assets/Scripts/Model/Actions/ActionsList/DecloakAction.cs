@@ -57,8 +57,7 @@ namespace SubPhases
             ShipStand.transform.Find("ShipStandTemplate").Find("ShipStandInsert").Find("ShipStandInsertImage").Find("default").GetComponent<Renderer>().material = Selection.ThisShip.Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("ShipStand").Find("ShipStandInsert").Find("ShipStandInsertImage").Find("default").GetComponent<Renderer>().material;
             obstaclesStayDetectorBase = ShipStand.GetComponentInChildren<ObstaclesStayDetectorForced>();
 
-            MovementTemplates.CurrentTemplate = MovementTemplates.GetMovement1Ruler();
-            MovementTemplates.SaveCurrentMovementRulerPosition();
+            MovementTemplates.CurrentTemplate = MovementTemplates.GetMovement2Ruler();
             MovementTemplates.CurrentTemplate.position = Selection.ThisShip.TransformPoint(new Vector3(0.5f, 0, -0.25f));
             obstaclesStayDetectorMovementTemplate = MovementTemplates.CurrentTemplate.GetComponentInChildren<ObstaclesStayDetectorForced>();
 
@@ -70,6 +69,7 @@ namespace SubPhases
         {
             if (inReposition)
             {
+                //Select dekloak helper first
                 PerfromDrag();
             }
         }
@@ -116,7 +116,7 @@ namespace SubPhases
 
             if (newPosition.x > 0f)
             {
-                fixedPositionRel = new Vector3(2, fixedPositionRel.y, fixedPositionRel.z);
+                fixedPositionRel = new Vector3(3, fixedPositionRel.y, fixedPositionRel.z);
 
                 helperDirection = 1f;
                 MovementTemplates.CurrentTemplate.eulerAngles = Selection.ThisShip.Model.transform.eulerAngles + new Vector3(0, 180, 0);
@@ -124,7 +124,7 @@ namespace SubPhases
 
             if (newPosition.x < 0f)
             {
-                fixedPositionRel = new Vector3(-2, fixedPositionRel.y, fixedPositionRel.z);
+                fixedPositionRel = new Vector3(-3, fixedPositionRel.y, fixedPositionRel.z);
 
                 helperDirection = -1f;
                 MovementTemplates.CurrentTemplate.eulerAngles = Selection.ThisShip.Model.transform.eulerAngles;

@@ -136,7 +136,16 @@ public static class MovementTemplates {
 
     public static Transform GetMovement1Ruler()
     {
-        return Templates.Find("straight1");
+        CurrentTemplate = Templates.Find("straight1");
+        SaveCurrentMovementRulerPosition();
+        return CurrentTemplate;
+    }
+
+    public static Transform GetMovement2Ruler()
+    {
+        CurrentTemplate = Templates.Find("straight2");
+        SaveCurrentMovementRulerPosition();
+        return CurrentTemplate;
     }
 
 }

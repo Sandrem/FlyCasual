@@ -10,6 +10,7 @@ namespace ActionsList
     {
         public CloakAction() {
             Name = "Cloak";
+            ImageUrl = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/reference-cards/CloakAction.png";
         }
 
         public override void ActionTake()

@@ -51,6 +51,8 @@ namespace SubPhases
             IsTemporary = true;
             UpdateHelpInfo();
 
+            //Game.UI.ShowSkipButton();
+
             StartDecloakPlanning();
         }
 
@@ -248,6 +250,8 @@ namespace SubPhases
             Selection.ThisShip.ToggleShipStandAndPeg(false);
             MovementTemplates.CurrentTemplate.gameObject.SetActive(false);
 
+            //Game.UI.HideSkipButton();
+
             Phases.StartTemporarySubPhase(
                 "Decloak execution",
                 typeof(DecloakExecutionSubPhase),
@@ -359,6 +363,13 @@ namespace SubPhases
         public override bool AnotherShipCanBeSelected(Ship.GenericShip anotherShip)
         {
             return false;
+        }
+
+        public override void SkipButton()
+        {
+            StopPlanning();
+            CancelDecloak();
+            HidePlanningTemplates();
         }
 
     }

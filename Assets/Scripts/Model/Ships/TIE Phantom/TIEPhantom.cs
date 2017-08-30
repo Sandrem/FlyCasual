@@ -43,7 +43,7 @@ namespace Ship
                 base.InitializeShip();
                 BuiltInActions.Add(new ActionsList.TargetLockAction());
                 BuiltInActions.Add(new ActionsList.BarrelRollAction());
-                BuiltInActions.Add(new ActionsList.CloakAction());
+                BuiltInActions.Add(new ActionsList.DecloakAction());
             }
 
             private void AssignTemporaryManeuvers()

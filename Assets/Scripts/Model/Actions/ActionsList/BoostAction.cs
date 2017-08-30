@@ -35,7 +35,7 @@ namespace SubPhases
         public bool inReposition;
 
         Dictionary<string, Vector3> AvailableBoostDirections = new Dictionary<string, Vector3>();
-        private string selectedBoostHelper;
+        public string SelectedBoostHelper;
 
         public override void Start()
         {
@@ -94,11 +94,11 @@ namespace SubPhases
         {
             // TODO: hide template
 
-            if (selectedBoostHelper != name)
+            if (SelectedBoostHelper != name)
             {
-                if (!string.IsNullOrEmpty(selectedBoostHelper))
+                if (!string.IsNullOrEmpty(SelectedBoostHelper))
                 {
-                    Selection.ThisShip.GetBoosterHelper().Find(selectedBoostHelper).gameObject.SetActive(false);
+                    Selection.ThisShip.GetBoosterHelper().Find(SelectedBoostHelper).gameObject.SetActive(false);
                 }
                 Selection.ThisShip.GetBoosterHelper().Find(name).gameObject.SetActive(true);
 
@@ -106,7 +106,7 @@ namespace SubPhases
                 ShipStand.transform.position = newBase.position;
                 ShipStand.transform.rotation = newBase.rotation;
 
-                selectedBoostHelper = name;
+                SelectedBoostHelper = name;
             }
         }
 
@@ -186,7 +186,7 @@ namespace SubPhases
         {
             inReposition = false;
 
-            Selection.ThisShip.GetBoosterHelper().Find(selectedBoostHelper).gameObject.SetActive(false);
+            Selection.ThisShip.GetBoosterHelper().Find(SelectedBoostHelper).gameObject.SetActive(false);
             MonoBehaviour.Destroy(ShipStand);
 
             Roster.SetRaycastTargets(true);
@@ -249,7 +249,24 @@ namespace SubPhases
 
         private void StartBoostExecution()
         {
-            Movement.GenericMovement boostMovement = new Movement.StraightBoost(1, Movement.ManeuverDirection.Forward, Movement.ManeuverBearing.Straight, Movement.ManeuverColor.None);
+            Movement.GenericMovement boostMovement;
+            switch ((PreviousSubPhase as BoostPlanningSubPhase).SelectedBoostHelper)
+            {
+                case "Straight1":
+                    boostMovement = new Movement.StraightBoost(1, Movement.ManeuverDirection.Forward, Movement.ManeuverBearing.Straight, Movement.ManeuverColor.None);
+                    break;
+                case "Bank1Left":
+                    boostMovement = new Movement.BankBoost(1, Movement.ManeuverDirection.Left, Movement.ManeuverBearing.Bank, Movement.ManeuverColor.None);
+                    break;
+                case "Bank1Right":
+                    boostMovement = new Movement.BankBoost(1, Movement.ManeuverDirection.Right, Movement.ManeuverBearing.Bank, Movement.ManeuverColor.None);
+                    break;
+                default:
+                    boostMovement = new Movement.StraightBoost(1, Movement.ManeuverDirection.Forward, Movement.ManeuverBearing.Straight, Movement.ManeuverColor.None);
+                    break;
+            }
+
+            MovementTemplates.ApplyMovementRuler(Selection.ThisShip, boostMovement);
 
             //TEMPORARY
             boostMovement.Perform();

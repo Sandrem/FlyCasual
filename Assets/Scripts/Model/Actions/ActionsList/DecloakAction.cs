@@ -238,14 +238,12 @@ namespace SubPhases
 
         public override void ProcessClick()
         {
-            StopDrag();
+            StopPlanning();
             TryConfirmDecloakPosition();
         }
 
         private void StartDecloakExecution(Ship.GenericShip ship)
         {
-            Pause();
-
             Selection.ThisShip.ToggleShipStandAndPeg(false);
             MovementTemplates.CurrentTemplate.gameObject.SetActive(false);
 
@@ -270,7 +268,7 @@ namespace SubPhases
             PreviousSubPhase.Resume();
         }
 
-        private void StopDrag()
+        private void StopPlanning()
         {
             Roster.SetRaycastTargets(true);
             inReposition = false;
@@ -313,6 +311,13 @@ namespace SubPhases
             {
                 CancelDecloak();
             }
+
+            HidePlanningTemplates();
+        }
+
+        private void HidePlanningTemplates()
+        {
+            Selection.ThisShip.GetDecloakHelper().Find(SelectedDecloakHelper).gameObject.SetActive(false);
         }
 
         private bool IsDecloakAllowed()

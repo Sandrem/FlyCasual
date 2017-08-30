@@ -90,7 +90,12 @@ public static partial class Combat
         {
             if (Roster.GetPlayer(Phases.CurrentPhasePlayer).GetType() == typeof(Players.HumanPlayer))
             {
-                if (!ShotInfo.InShotAngle)
+                // TODO: Better explanations
+                if (!Rules.TargetIsLegalForShot.IsLegal())
+                {
+                    Messages.ShowError("Attack is not legal (this ship cannot attack or target cannot be attacked)");
+                }
+                else if (!ShotInfo.InShotAngle)
                 {
                     Messages.ShowError("Target is outside your firing arc");
                 }

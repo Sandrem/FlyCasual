@@ -6,13 +6,32 @@ using Board;
 namespace ActionsList
 {
 
-    public class DecloakAction : GenericAction
+    public class CloakAction : GenericAction
     {
-        public DecloakAction() {
-            Name = "Decloak";
+        public CloakAction() {
+            Name = "Cloak";
         }
 
         public override void ActionTake()
+        {
+            Selection.ThisShip.AssignToken(new Tokens.CloakToken(), SubscribeCloakTokenEffects);
+        }
+
+        private void SubscribeCloakTokenEffects()
+        {
+            Selection.ThisShip.ChangeAgilityBy(+2);
+
+            Selection.ThisShip.OnTryPerformAttack += CannotAttackWhileCloaked;
+
+            Phases.CurrentSubPhase.CallBack();
+        }
+
+        private void CannotAttackWhileCloaked(ref bool result)
+        {
+            result = false;
+        }
+
+        private void Decloack()
         {
             Phases.CurrentSubPhase.Pause();
 
@@ -261,7 +280,7 @@ namespace SubPhases
 
         private void CancelDecloak()
         {
-            Selection.ThisShip.RemoveAlreadyExecutedAction(typeof(ActionsList.DecloakAction));
+            Selection.ThisShip.RemoveAlreadyExecutedAction(typeof(ActionsList.CloakAction));
             Selection.ThisShip.IsLandedOnObstacle = false;
             inReposition = false;
             MonoBehaviour.Destroy(ShipStand);

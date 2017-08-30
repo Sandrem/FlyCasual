@@ -8,7 +8,6 @@ namespace Movement
 
     public class BankBoost : BankMovement
     {
-        private readonly float[] BANK_SCALES = new float[] { 4.6f, 7.4f, 10.4f };
 
         public BankBoost(int speed, ManeuverDirection direction, ManeuverBearing bearing, ManeuverColor color) : base(speed, direction, bearing, color)
         {

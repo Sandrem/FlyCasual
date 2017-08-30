@@ -200,6 +200,11 @@ namespace Ship
             shipAllParts.Find("ShipPeg").gameObject.SetActive(value);
         }
 
+        public Transform GetBoosterHelper()
+        {
+            return Model.transform.Find("RotationHelper/RotationHelper2/BoostHelper");
+        }
+
         public void AnimatePrimaryWeapon()
         {
             Transform shotsTransform = modelCenter.Find("Shots");

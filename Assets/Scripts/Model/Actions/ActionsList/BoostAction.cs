@@ -35,6 +35,9 @@ namespace SubPhases
         public float helperDirection;
         public bool inReposition;
 
+        Dictionary<string, Vector3> AvailableBoostDirections = new Dictionary<string, Vector3>();
+        private string selectedBoostHelper;
+
         public override void Start()
         {
             Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
@@ -47,6 +50,20 @@ namespace SubPhases
 
         public void StartBoostPlanning()
         {
+            foreach (Transform boostHelper in Selection.ThisShip.GetBoosterHelper())
+            {
+                AvailableBoostDirections.Add(boostHelper.name, boostHelper.Find("Finisher").position);
+            }
+
+            ShipStand = MonoBehaviour.Instantiate(Game.Position.prefabShipStand, Selection.ThisShip.GetPosition(), Selection.ThisShip.GetRotation(), BoardManager.GetBoard());
+            ShipStand.transform.Find("ShipStandTemplate").Find("ShipStandInsert").Find("ShipStandInsertImage").Find("default").GetComponent<Renderer>().material = Selection.ThisShip.Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("ShipStand").Find("ShipStandInsert").Find("ShipStandInsertImage").Find("default").GetComponent<Renderer>().material;
+            Roster.SetRaycastTargets(false);
+
+            inReposition = true;
+        }
+
+        /*public void StartBoostPlanningOld()
+        {
             ShipStand = MonoBehaviour.Instantiate(Game.Position.prefabShipStand, Selection.ThisShip.GetPosition(), Selection.ThisShip.GetRotation(), BoardManager.GetBoard());
 
             ShipStand.transform.Find("ShipStandTemplate").Find("ShipStandInsert").Find("ShipStandInsertImage").Find("default").GetComponent<Renderer>().material = Selection.ThisShip.Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("ShipStand").Find("ShipStandInsert").Find("ShipStandInsertImage").Find("default").GetComponent<Renderer>().material;
@@ -56,13 +73,13 @@ namespace SubPhases
             MovementTemplates.CurrentTemplate = MovementTemplates.GetMovement1Ruler();
             MovementTemplates.SaveCurrentMovementRulerPosition();
             MovementTemplates.CurrentTemplate.position = Selection.ThisShip.TransformPoint(new Vector3(0.5f, 0, -0.25f));
-        }
+        }*/
 
         public override void Update()
         {
             if (inReposition)
             {
-                PerfromDrag();
+                SelectBoosterHelper();
             }
         }
 
@@ -76,7 +93,63 @@ namespace SubPhases
             inReposition = true;
         }
 
-        private void PerfromDrag()
+        private void SelectBoosterHelper()
+        {
+            RaycastHit hit;
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+            if (Physics.Raycast(ray, out hit))
+            {
+                ShowNearestBoosterHelper(GetNearestBoosterHelper(new Vector3(hit.point.x, 0f, hit.point.z)));
+            }
+        }
+
+        private void ShowNearestBoosterHelper(string name)
+        {
+            if (selectedBoostHelper != name)
+            {
+                if (!string.IsNullOrEmpty(selectedBoostHelper))
+                {
+                    Selection.ThisShip.GetBoosterHelper().Find(selectedBoostHelper).gameObject.SetActive(false);
+                }
+                Selection.ThisShip.GetBoosterHelper().Find(name).gameObject.SetActive(true);
+
+                Transform newBase = Selection.ThisShip.GetBoosterHelper().Find(name + "/Finisher/BasePosition");
+                ShipStand.transform.position = newBase.position;
+                ShipStand.transform.rotation = newBase.rotation;
+
+                selectedBoostHelper = name;
+            }
+        }
+
+        private string GetNearestBoosterHelper(Vector3 point)
+        {
+            float minDistance = float.MaxValue;
+            KeyValuePair<string, Vector3> nearestBoosterHelper = new KeyValuePair<string, Vector3>();
+
+            foreach (var boostDirection in AvailableBoostDirections)
+            {
+                if (string.IsNullOrEmpty(nearestBoosterHelper.Key))
+                {
+                    nearestBoosterHelper = boostDirection;
+                    minDistance = Vector3.Distance(point, boostDirection.Value);
+                    continue;
+                }
+                else
+                {
+                    float currentDistance = Vector3.Distance(point, boostDirection.Value);
+                    if (currentDistance < minDistance)
+                    {
+                        nearestBoosterHelper = boostDirection;
+                        minDistance = currentDistance;
+                    }
+                }
+            }
+
+            return nearestBoosterHelper.Key;
+        }
+
+        /*private void PerfromDragOld()
         {
             RaycastHit hit;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -89,9 +162,9 @@ namespace SubPhases
                     ApplyBoostRepositionLimits();
                 }
             }
-        }
+        }*/
 
-        private void ApplyBoostRepositionLimits()
+        /*private void ApplyBoostRepositionLimits()
         {
             Vector3 newPosition = Selection.ThisShip.InverseTransformPoint(ShipStand.transform.position);
             Vector3 fixedPositionRel = newPosition;
@@ -140,7 +213,7 @@ namespace SubPhases
 
             Vector3 fixedPositionAbs = Selection.ThisShip.TransformPoint(fixedPositionRel);
             ShipStand.transform.position = fixedPositionAbs;
-        }
+        }*/
 
         public override void ProcessClick()
         {

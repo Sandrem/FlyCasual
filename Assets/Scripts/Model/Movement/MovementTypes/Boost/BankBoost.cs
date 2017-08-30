@@ -6,18 +6,17 @@ using System;
 namespace Movement
 {
 
-    public class StraightBoost : StraightMovement
+    public class BankBoost : BankMovement
     {
-        public StraightBoost(int speed, ManeuverDirection direction, ManeuverBearing bearing, ManeuverColor color) : base(speed, direction, bearing, color)
+        private readonly float[] BANK_SCALES = new float[] { 4.6f, 7.4f, 10.4f };
+
+        public BankBoost(int speed, ManeuverDirection direction, ManeuverBearing bearing, ManeuverColor color) : base(speed, direction, bearing, color)
         {
 
         }
 
         public override void Perform()
         {
-            ProgressTarget = SetProgressTarget();
-            AnimationSpeed = Options.ManeuverSpeed * SetAnimationSpeed();
-
             Initialize();
 
             //Temporary
@@ -37,12 +36,12 @@ namespace Movement
             GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
             Game.Movement.FuncsToUpdate.Remove(UpdateBoost);
 
+            MovementTemplates.HideLastMovementRuler();
             Selection.ThisShip.ResetRotationHelpers();
 
             Phases.FinishSubPhase(typeof(SubPhases.BoostExecutionSubPhase));
             Triggers.FinishTrigger();
         }
-
     }
 
 }

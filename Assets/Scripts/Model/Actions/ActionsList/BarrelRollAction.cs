@@ -170,6 +170,7 @@ namespace SubPhases
 
         private void CancelBarrelRoll()
         {
+            Selection.ThisShip.RemoveAlreadyExecutedAction(typeof(ActionsList.BarrelRollAction));
             Selection.ThisShip.IsLandedOnObstacle = false;
             inReposition = false;
             MonoBehaviour.Destroy(ShipStand);

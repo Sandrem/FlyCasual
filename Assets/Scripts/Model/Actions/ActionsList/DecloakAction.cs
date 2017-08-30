@@ -64,7 +64,6 @@ namespace SubPhases
 
             MovementTemplates.CurrentTemplate = MovementTemplates.GetMovement2Ruler();
             MovementTemplates.CurrentTemplate.position = Selection.ThisShip.TransformPoint(new Vector3(0.5f, 0, -0.25f));
-            obstaclesStayDetectorMovementTemplate = MovementTemplates.CurrentTemplate.GetComponentInChildren<ObstaclesStayDetectorForced>();
 
             foreach (Transform decloakHelper in Selection.ThisShip.GetDecloakHelper())
             {
@@ -119,6 +118,8 @@ namespace SubPhases
                     }
 
                     MovementTemplates.CurrentTemplate.gameObject.SetActive(true);
+                    obstaclesStayDetectorMovementTemplate = MovementTemplates.CurrentTemplate.GetComponentInChildren<ObstaclesStayDetectorForced>();
+
                     PerfromDrag();
                 }
 

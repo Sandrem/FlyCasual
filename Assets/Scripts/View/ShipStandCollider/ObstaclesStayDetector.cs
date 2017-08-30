@@ -7,14 +7,18 @@ public class ObstaclesStayDetector: MonoBehaviour {
     private GameManagerScript Game;
 
     public bool checkCollisions = false;
+    public bool checkCollisionsNow = false;
 
     public bool OverlapsShip = false;
+    public bool OverlapsShipNow = false;
     public List<Ship.GenericShip> OverlapedShips = new List<Ship.GenericShip>();
 
     public bool OverlapsAsteroid = false;
+    public bool OverlapsAsteroidNow = false;
     public List<Collider> OverlapedAsteroids = new List<Collider>();
 
     public bool OffTheBoard = false;
+    public bool OffTheBoardNow = false;
 
     // Use this for initialization
     void Start () {
@@ -22,9 +26,10 @@ public class ObstaclesStayDetector: MonoBehaviour {
     }
 	
 	// Update is called once per frame
-	void Update () {
+	void Update ()
+    {
 
-	}
+    }
 
     void OnTriggerEnter(Collider collisionInfo)
     {
@@ -61,19 +66,40 @@ public class ObstaclesStayDetector: MonoBehaviour {
         }
     }
 
+    public void ReCheckCollisionsStart()
+    {
+        OverlapsAsteroidNow = false;
+        OverlapsShipNow = false;
+        OffTheBoardNow = false;
+
+        checkCollisionsNow = true;
+    }
+
+    public void ReCheckCollisionsFinish()
+    {
+        checkCollisionsNow = false;
+    }
+
     void OnTriggerStay(Collider collisionInfo)
     {
-        //TODO: Change to OnTriggerEnter
-        /*if (checkCollisions)
+        if (checkCollisionsNow)
         {
-            if (collisionInfo.name == "ObstaclesStayDetector")
+            if (collisionInfo.tag == "Asteroid")
+            {
+                OverlapsAsteroidNow = true;
+            }
+            else if (collisionInfo.name == "OffTheBoard")
+            {
+                OffTheBoardNow = true;
+            }
+            else if (collisionInfo.name == "ObstaclesStayDetector")
             {
                 if (collisionInfo.tag != this.tag)
                 {
-                    Game.Movement.CollidedWith = collisionInfo;
+                    OverlapsShipNow = true;
                 }
             }
-        }*/
+        }
     }
 
     void OnTriggerExit(Collider collisionInfo)

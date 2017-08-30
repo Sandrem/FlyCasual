@@ -32,7 +32,11 @@ namespace SubPhases
 
     public class BarrelRollPlanningSubPhase : GenericSubPhase
     {
+        private int updatesCount = 0;
+
         public GameObject ShipStand;
+        private ObstaclesStayDetector obstaclesStayDetector;
+
         public float helperDirection;
         public bool inReposition;
 
@@ -51,6 +55,7 @@ namespace SubPhases
             ShipStand = MonoBehaviour.Instantiate(Game.Position.prefabShipStand, Selection.ThisShip.GetPosition(), Selection.ThisShip.GetRotation(), BoardManager.GetBoard());
 
             ShipStand.transform.Find("ShipStandTemplate").Find("ShipStandInsert").Find("ShipStandInsertImage").Find("default").GetComponent<Renderer>().material = Selection.ThisShip.Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("ShipStand").Find("ShipStandInsert").Find("ShipStandInsertImage").Find("default").GetComponent<Renderer>().material;
+            obstaclesStayDetector = ShipStand.GetComponentInChildren<ObstaclesStayDetector>();
 
             Roster.SetRaycastTargets(false);
             inReposition = true;
@@ -145,27 +150,8 @@ namespace SubPhases
 
         public override void ProcessClick()
         {
-            TryConfirmPosition(Selection.ThisShip);
-        }
-
-        private bool TryConfirmPosition(Ship.GenericShip ship)
-        {
             StopDrag();
-
-            bool result = false;
-
-            result = TryConfirmBarrelRollPosition(ship);
-
-            if (result)
-            {
-                StartBarrelRollExecution(ship);
-            }
-            else
-            {
-                CancelBarrelRoll();
-            }
-
-            return result;
+            TryConfirmBarrelRollPosition();
         }
 
         private void StartBarrelRollExecution(Ship.GenericShip ship)
@@ -199,27 +185,59 @@ namespace SubPhases
             inReposition = false;
         }
 
-        private bool TryConfirmBarrelRollPosition(Ship.GenericShip ship)
+        private void TryConfirmBarrelRollPosition()
         {
+            obstaclesStayDetector.ReCheckCollisionsStart();
+            Game.Movement.FuncsToUpdate.Add(UpdateColisionDetection);
+        }
+
+        private bool UpdateColisionDetection()
+        {
+            bool isFinished = false;
+
+            if (updatesCount > 1)
+            {
+                GetResults();
+                isFinished = true;
+            }
+            else
+            {
+                updatesCount++;
+            }
+
+            return isFinished;
+        }
+
+        private void GetResults()
+        {
+            obstaclesStayDetector.ReCheckCollisionsFinish();
+
             bool allow = true;
 
-            if (Game.Movement.CollidedWith != null)
+            if (obstaclesStayDetector.OverlapsShipNow)
             {
                 Messages.ShowError("Cannot collide with another ships");
                 allow = false;
             }
-            else if (ship.IsLandedOnObstacle)
+            else if (obstaclesStayDetector.OverlapsAsteroidNow)
             {
                 Messages.ShowError("Cannot land on Asteroid");
                 allow = false;
             }
-            else if (!BoardManager.ShipStandIsInside(ShipStand, BoardManager.BoardTransform.Find("Playmat")))
+            else if (obstaclesStayDetector.OffTheBoardNow)
             {
                 Messages.ShowError("Cannot leave the battlefield");
                 allow = false;
             }
 
-            return allow;
+            if (allow)
+            {
+                StartBarrelRollExecution(Selection.ThisShip);
+            }
+            else
+            {
+                CancelBarrelRoll();
+            }
         }
 
         public override void Next()

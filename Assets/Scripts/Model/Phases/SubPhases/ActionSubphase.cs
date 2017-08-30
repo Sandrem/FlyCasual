@@ -144,6 +144,8 @@ namespace SubPhases
         {
             base.Resume();
             Initialize();
+
+            Game.UI.ShowSkipButton();
         }
 
         public override void SkipButton()

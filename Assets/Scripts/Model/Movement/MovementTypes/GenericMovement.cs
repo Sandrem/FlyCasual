@@ -236,6 +236,11 @@ namespace Movement
             Sounds.PlayFly();
             AdaptSuccessProgress();
 
+            LaunchSimple();
+        }
+
+        public virtual void LaunchSimple()
+        {
             //TEMP
             GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
             Game.Movement.isMoving = true;

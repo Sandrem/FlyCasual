@@ -32,8 +32,15 @@ namespace SubPhases
     public class BoostPlanningSubPhase : GenericSubPhase
     {
         public GameObject ShipStand;
-        public float helperDirection;
+        private ObstaclesStayDetectorForced obstaclesStayDetectorBase;
+        private ObstaclesStayDetectorForced obstaclesStayDetectorMovementTemplate;
+
         public bool inReposition;
+
+        private int updatesCount = 0;
+
+        Dictionary<string, Vector3> AvailableBoostDirections = new Dictionary<string, Vector3>();
+        public string SelectedBoostHelper;
 
         public override void Start()
         {
@@ -42,138 +49,110 @@ namespace SubPhases
             IsTemporary = true;
             UpdateHelpInfo();
 
-            StartBarrelRollPlanning();
+            StartBoostPlanning();
         }
 
-        public void StartBarrelRollPlanning()
+        public void StartBoostPlanning()
         {
+            foreach (Transform boostHelper in Selection.ThisShip.GetBoosterHelper())
+            {
+                AvailableBoostDirections.Add(boostHelper.name, boostHelper.Find("Finisher").position);
+            }
+
             ShipStand = MonoBehaviour.Instantiate(Game.Position.prefabShipStand, Selection.ThisShip.GetPosition(), Selection.ThisShip.GetRotation(), BoardManager.GetBoard());
-
             ShipStand.transform.Find("ShipStandTemplate").Find("ShipStandInsert").Find("ShipStandInsertImage").Find("default").GetComponent<Renderer>().material = Selection.ThisShip.Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("ShipStand").Find("ShipStandInsert").Find("ShipStandInsertImage").Find("default").GetComponent<Renderer>().material;
-
+            obstaclesStayDetectorBase = ShipStand.GetComponentInChildren<ObstaclesStayDetectorForced>();
             Roster.SetRaycastTargets(false);
+
             inReposition = true;
-            MovementTemplates.CurrentTemplate = MovementTemplates.GetMovement1Ruler();
-            MovementTemplates.SaveCurrentMovementRulerPosition();
-            MovementTemplates.CurrentTemplate.position = Selection.ThisShip.TransformPoint(new Vector3(0.5f, 0, -0.25f));
         }
 
         public override void Update()
         {
             if (inReposition)
             {
-                PerfromDrag();
+                SelectBoosterHelper();
             }
         }
 
         public override void Pause()
         {
-            inReposition = false;
+
         }
 
         public override void Resume()
         {
-            inReposition = true;
+
         }
 
-        private void PerfromDrag()
+        private void SelectBoosterHelper()
         {
             RaycastHit hit;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
             if (Physics.Raycast(ray, out hit))
             {
-                if (ShipStand != null)
-                {
-                    ShipStand.transform.position = new Vector3(hit.point.x, 0f, hit.point.z);
-                    ApplyBarrelRollRepositionLimits();
-                }
+                ShowNearestBoosterHelper(GetNearestBoosterHelper(new Vector3(hit.point.x, 0f, hit.point.z)));
             }
         }
 
-        private void ApplyBarrelRollRepositionLimits()
+        private void ShowNearestBoosterHelper(string name)
         {
-            Vector3 newPosition = Selection.ThisShip.InverseTransformPoint(ShipStand.transform.position);
-            Vector3 fixedPositionRel = newPosition;
+            // TODO: hide template
 
-            if (newPosition.z > 0.5f)
+            if (SelectedBoostHelper != name)
             {
-                fixedPositionRel = new Vector3(fixedPositionRel.x, fixedPositionRel.y, 0.5f);
+                if (!string.IsNullOrEmpty(SelectedBoostHelper))
+                {
+                    Selection.ThisShip.GetBoosterHelper().Find(SelectedBoostHelper).gameObject.SetActive(false);
+                }
+                Selection.ThisShip.GetBoosterHelper().Find(name).gameObject.SetActive(true);
+
+                Transform newBase = Selection.ThisShip.GetBoosterHelper().Find(name + "/Finisher/BasePosition");
+                ShipStand.transform.position = newBase.position;
+                ShipStand.transform.rotation = newBase.rotation;
+
+                obstaclesStayDetectorMovementTemplate = Selection.ThisShip.GetBoosterHelper().Find(name).GetComponentInChildren<ObstaclesStayDetectorForced>();
+
+                SelectedBoostHelper = name;
+            }
+        }
+
+        private string GetNearestBoosterHelper(Vector3 point)
+        {
+            float minDistance = float.MaxValue;
+            KeyValuePair<string, Vector3> nearestBoosterHelper = new KeyValuePair<string, Vector3>();
+
+            foreach (var boostDirection in AvailableBoostDirections)
+            {
+                if (string.IsNullOrEmpty(nearestBoosterHelper.Key))
+                {
+                    nearestBoosterHelper = boostDirection;
+                    minDistance = Vector3.Distance(point, boostDirection.Value);
+                    continue;
+                }
+                else
+                {
+                    float currentDistance = Vector3.Distance(point, boostDirection.Value);
+                    if (currentDistance < minDistance)
+                    {
+                        nearestBoosterHelper = boostDirection;
+                        minDistance = currentDistance;
+                    }
+                }
             }
 
-            if (newPosition.z < -0.5f)
-            {
-                fixedPositionRel = new Vector3(fixedPositionRel.x, fixedPositionRel.y, -0.5f);
-            }
-
-            if (newPosition.x > 0f)
-            {
-                fixedPositionRel = new Vector3(2, fixedPositionRel.y, fixedPositionRel.z);
-
-                helperDirection = 1f;
-                MovementTemplates.CurrentTemplate.eulerAngles = Selection.ThisShip.Model.transform.eulerAngles + new Vector3(0, 180, 0);
-            }
-
-            if (newPosition.x < 0f)
-            {
-                fixedPositionRel = new Vector3(-2, fixedPositionRel.y, fixedPositionRel.z);
-
-                helperDirection = -1f;
-                MovementTemplates.CurrentTemplate.eulerAngles = Selection.ThisShip.Model.transform.eulerAngles;
-            }
-
-            Vector3 helperPositionRel = Selection.ThisShip.InverseTransformPoint(MovementTemplates.CurrentTemplate.position);
-            helperPositionRel = new Vector3(helperDirection * Mathf.Abs(helperPositionRel.x), helperPositionRel.y, helperPositionRel.z);
-
-            if (helperPositionRel.z + 0.25f > fixedPositionRel.z)
-            {
-                helperPositionRel = new Vector3(helperDirection * Mathf.Abs(helperPositionRel.x), helperPositionRel.y, fixedPositionRel.z - 0.25f);
-            }
-
-            if (helperPositionRel.z + 0.75f < fixedPositionRel.z)
-            {
-                helperPositionRel = new Vector3(helperDirection * Mathf.Abs(helperPositionRel.x), helperPositionRel.y, fixedPositionRel.z - 0.75f);
-            }
-
-            Vector3 helperPositionAbs = Selection.ThisShip.TransformPoint(helperPositionRel);
-            MovementTemplates.CurrentTemplate.position = helperPositionAbs;
-
-            Vector3 fixedPositionAbs = Selection.ThisShip.TransformPoint(fixedPositionRel);
-            ShipStand.transform.position = fixedPositionAbs;
+            return nearestBoosterHelper.Key;
         }
 
         public override void ProcessClick()
         {
-            TryConfirmPosition(Selection.ThisShip);
+            StopPlanning();
+            TryConfirmBoostPosition();
         }
 
-        private bool TryConfirmPosition(Ship.GenericShip ship)
+        private void StartBoostExecution(Ship.GenericShip ship)
         {
-            StopDrag();
-
-            bool result = false;
-
-            result = TryConfirmBarrelRollPosition(ship);
-
-            if (result)
-            {
-                StartBarrelRollExecution(ship);
-            }
-            else
-            {
-                CancelBarrelRoll();
-            }
-
-            return result;
-        }
-
-        private void StartBarrelRollExecution(Ship.GenericShip ship)
-        {
-            Pause();
-
-            Selection.ThisShip.ToggleShipStandAndPeg(false);
-            MovementTemplates.CurrentTemplate.gameObject.SetActive(false);
-
             Phases.StartTemporarySubPhase(
                 "Boost execution",
                 typeof(BoostExecutionSubPhase),
@@ -181,7 +160,7 @@ namespace SubPhases
             );
         }
 
-        private void CancelBarrelRoll()
+        private void CancelBoost()
         {
             Selection.ThisShip.IsLandedOnObstacle = false;
             inReposition = false;
@@ -192,27 +171,75 @@ namespace SubPhases
             PreviousSubPhase.Resume();
         }
 
-        private void StopDrag()
+        private void StopPlanning()
         {
-            Roster.SetRaycastTargets(true);
             inReposition = false;
         }
 
-        private bool TryConfirmBarrelRollPosition(Ship.GenericShip ship)
+        private void HidePlanningTemplates()
+        {
+            Selection.ThisShip.GetBoosterHelper().Find(SelectedBoostHelper).gameObject.SetActive(false);
+            MonoBehaviour.Destroy(ShipStand);
+
+            Roster.SetRaycastTargets(true);
+        }
+
+        private void TryConfirmBoostPosition()
+        {
+            obstaclesStayDetectorBase.ReCheckCollisionsStart();
+            obstaclesStayDetectorMovementTemplate.ReCheckCollisionsStart();
+            Game.Movement.FuncsToUpdate.Add(UpdateColisionDetection);
+        }
+
+        private bool UpdateColisionDetection()
+        {
+            bool isFinished = false;
+
+            if (updatesCount > 1)
+            {
+                GetResults();
+                isFinished = true;
+            }
+            else
+            {
+                updatesCount++;
+            }
+
+            return isFinished;
+        }
+
+        private void GetResults()
+        {
+            obstaclesStayDetectorBase.ReCheckCollisionsFinish();
+            obstaclesStayDetectorMovementTemplate.ReCheckCollisionsFinish();
+
+            if (IsBoostAllowed())
+            {
+                StartBoostExecution(Selection.ThisShip);
+            }
+            else
+            {
+                CancelBoost();
+            }
+
+            HidePlanningTemplates();
+        }
+
+        private bool IsBoostAllowed()
         {
             bool allow = true;
 
-            if (Game.Movement.CollidedWith != null)
+            if (obstaclesStayDetectorBase.OverlapsShipNow || obstaclesStayDetectorMovementTemplate.OverlapsShipNow)
             {
-                Messages.ShowError("Cannot collide with another ships");
+                Messages.ShowError("Cannot overlap another ship");
                 allow = false;
             }
-            else if (ship.IsLandedOnObstacle)
+            else if (obstaclesStayDetectorBase.OverlapsAsteroidNow || obstaclesStayDetectorMovementTemplate.OverlapsAsteroidNow)
             {
-                Messages.ShowError("Cannot land on Asteroid");
+                Messages.ShowError("Cannot overlap asteroid");
                 allow = false;
             }
-            else if (!BoardManager.ShipStandIsInside(ShipStand, BoardManager.BoardTransform.Find("Playmat")))
+            else if (obstaclesStayDetectorBase.OffTheBoardNow || obstaclesStayDetectorMovementTemplate.OffTheBoardNow)
             {
                 Messages.ShowError("Cannot leave the battlefield");
                 allow = false;
@@ -242,69 +269,48 @@ namespace SubPhases
 
     public class BoostExecutionSubPhase : GenericSubPhase
     {
-        private float progressCurrent;
-        private float progressTarget;
-
-        private bool performingAnimation;
-
-        private GameObject ShipStand;
-        private float helperDirection;
 
         public override void Start()
         {
             Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-            Name = "Barrel Roll execution";
+            Name = "Boost execution";
             IsTemporary = true;
             UpdateHelpInfo();
 
-            StartBarrelRollExecution();
+            StartBoostExecution();
         }
 
-        private void StartBarrelRollExecution()
+        private void StartBoostExecution()
         {
-            ShipStand = (PreviousSubPhase as BarrelRollPlanningSubPhase).ShipStand;
-            helperDirection = (PreviousSubPhase as BarrelRollPlanningSubPhase).helperDirection;
-
-            progressCurrent = 0;
-            progressTarget = Vector3.Distance(Selection.ThisShip.GetPosition(), ShipStand.transform.position);
-
-            Sounds.PlayFly();
-
-            performingAnimation = true;
-        }
-
-        public override void Update()
-        {
-            if (performingAnimation) DoBarrelRollAnimation();
-        }
-
-        private void DoBarrelRollAnimation()
-        {
-            float progressStep = 0.5f * Time.deltaTime;
-            Selection.ThisShip.SetPosition(Vector3.MoveTowards(Selection.ThisShip.GetPosition(), ShipStand.transform.position, progressStep));
-            progressCurrent += progressStep;
-            Selection.ThisShip.RotateModelDuringBarrelRoll(progressCurrent / progressTarget, helperDirection);
-            Selection.ThisShip.MoveUpwards(progressCurrent / progressTarget);
-            if (progressCurrent >= progressTarget)
+            Movement.GenericMovement boostMovement;
+            switch ((PreviousSubPhase as BoostPlanningSubPhase).SelectedBoostHelper)
             {
-                FinishBarrelRollAnimation();
+                case "Straight1":
+                    boostMovement = new Movement.StraightBoost(1, Movement.ManeuverDirection.Forward, Movement.ManeuverBearing.Straight, Movement.ManeuverColor.None);
+                    break;
+                case "Bank1Left":
+                    boostMovement = new Movement.BankBoost(1, Movement.ManeuverDirection.Left, Movement.ManeuverBearing.Bank, Movement.ManeuverColor.None);
+                    break;
+                case "Bank1Right":
+                    boostMovement = new Movement.BankBoost(1, Movement.ManeuverDirection.Right, Movement.ManeuverBearing.Bank, Movement.ManeuverColor.None);
+                    break;
+                default:
+                    boostMovement = new Movement.StraightBoost(1, Movement.ManeuverDirection.Forward, Movement.ManeuverBearing.Straight, Movement.ManeuverColor.None);
+                    break;
             }
+
+            MovementTemplates.ApplyMovementRuler(Selection.ThisShip, boostMovement);
+
+            //TEMPORARY
+            boostMovement.Perform();
+            Sounds.PlayFly();
         }
 
-        private void FinishBarrelRollAnimation()
+        private void FinishBoostAnimation()
         {
-            performingAnimation = false;
-
-            MonoBehaviour.Destroy(ShipStand);
-            Game.Movement.CollidedWith = null;
-
-            MovementTemplates.HideLastMovementRuler();
-            MovementTemplates.CurrentTemplate.gameObject.SetActive(true);
-
-            Selection.ThisShip.ToggleShipStandAndPeg(true);
             Selection.ThisShip.FinishPosition(delegate() { });
 
-            Phases.FinishSubPhase(typeof(BarrelRollExecutionSubPhase));
+            Phases.FinishSubPhase(typeof(BoostExecutionSubPhase));
             CallBack();
         }
 

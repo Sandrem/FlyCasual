@@ -56,7 +56,7 @@ public class ObstaclesStayDetectorForced: MonoBehaviour {
             }
             else if (collisionInfo.name == "ObstaclesStayDetector")
             {
-                if (collisionInfo.tag != Selection.ThisShip.GetTag())
+                if (collisionInfo.tag != "Untagged" && collisionInfo.tag != Selection.ThisShip.GetTag())
                 {
                     OverlapsShipNow = true;
                 }

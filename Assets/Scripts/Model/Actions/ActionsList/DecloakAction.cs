@@ -38,6 +38,9 @@ namespace SubPhases
         private ObstaclesStayDetectorForced obstaclesStayDetectorBase;
         private ObstaclesStayDetectorForced obstaclesStayDetectorMovementTemplate;
 
+        Dictionary<string, Vector3> AvailableDecloakDirections = new Dictionary<string, Vector3>();
+        public string SelectedDecloakHelper;
+
         public float helperDirection;
         public bool inReposition;
 
@@ -57,9 +60,16 @@ namespace SubPhases
             ShipStand.transform.Find("ShipStandTemplate").Find("ShipStandInsert").Find("ShipStandInsertImage").Find("default").GetComponent<Renderer>().material = Selection.ThisShip.Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("ShipStand").Find("ShipStandInsert").Find("ShipStandInsertImage").Find("default").GetComponent<Renderer>().material;
             obstaclesStayDetectorBase = ShipStand.GetComponentInChildren<ObstaclesStayDetectorForced>();
 
+            // TODO: 2 ways of collisions!!!
+
             MovementTemplates.CurrentTemplate = MovementTemplates.GetMovement2Ruler();
             MovementTemplates.CurrentTemplate.position = Selection.ThisShip.TransformPoint(new Vector3(0.5f, 0, -0.25f));
             obstaclesStayDetectorMovementTemplate = MovementTemplates.CurrentTemplate.GetComponentInChildren<ObstaclesStayDetectorForced>();
+
+            foreach (Transform decloakHelper in Selection.ThisShip.GetDecloakHelper())
+            {
+                AvailableDecloakDirections.Add(decloakHelper.name, decloakHelper.Find("Finisher").position);
+            }
 
             Roster.SetRaycastTargets(false);
             inReposition = true;
@@ -69,9 +79,85 @@ namespace SubPhases
         {
             if (inReposition)
             {
-                //Select dekloak helper first
-                PerfromDrag();
+                SelectDecloakHelper();
             }
+        }
+
+        private void SelectDecloakHelper()
+        {
+            RaycastHit hit;
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+            if (Physics.Raycast(ray, out hit))
+            {
+                ShowNearestDecloakHelper(GetNearestDecloakHelper(new Vector3(hit.point.x, 0f, hit.point.z)));
+            }
+        }
+
+        private void ShowNearestDecloakHelper(string name)
+        {
+            if (SelectedDecloakHelper != name)
+            {
+                if (name == "Forward")
+                {
+                    MovementTemplates.CurrentTemplate.gameObject.SetActive(false);
+
+                    Selection.ThisShip.GetDecloakHelper().Find(name).gameObject.SetActive(true);
+
+                    Transform newBase = Selection.ThisShip.GetDecloakHelper().Find(name + "/Finisher/BasePosition");
+                    ShipStand.transform.position = newBase.position;
+                    ShipStand.transform.rotation = newBase.rotation;
+
+                    obstaclesStayDetectorMovementTemplate = Selection.ThisShip.GetDecloakHelper().Find(name).GetComponentInChildren<ObstaclesStayDetectorForced>();
+
+                }
+                else
+                {
+                    if (!string.IsNullOrEmpty(SelectedDecloakHelper))
+                    {
+                        Selection.ThisShip.GetDecloakHelper().Find(SelectedDecloakHelper).gameObject.SetActive(false);
+                    }
+
+                    MovementTemplates.CurrentTemplate.gameObject.SetActive(true);
+                    PerfromDrag();
+                }
+
+                SelectedDecloakHelper = name;
+            }
+            else
+            {
+                if (name != "Forward")
+                {
+                    PerfromDrag();
+                }
+            }
+        }
+
+        private string GetNearestDecloakHelper(Vector3 point)
+        {
+            float minDistance = float.MaxValue;
+            KeyValuePair<string, Vector3> nearestDecloakHelper = new KeyValuePair<string, Vector3>();
+
+            foreach (var decloakDirection in AvailableDecloakDirections)
+            {
+                if (string.IsNullOrEmpty(nearestDecloakHelper.Key))
+                {
+                    nearestDecloakHelper = decloakDirection;
+                    minDistance = Vector3.Distance(point, decloakDirection.Value);
+                    continue;
+                }
+                else
+                {
+                    float currentDistance = Vector3.Distance(point, decloakDirection.Value);
+                    if (currentDistance < minDistance)
+                    {
+                        nearestDecloakHelper = decloakDirection;
+                        minDistance = currentDistance;
+                    }
+                }
+            }
+
+            return nearestDecloakHelper.Key;
         }
 
         public override void Pause()
@@ -177,7 +263,9 @@ namespace SubPhases
             inReposition = false;
             MonoBehaviour.Destroy(ShipStand);
             Game.Movement.CollidedWith = null;
+
             MovementTemplates.HideLastMovementRuler();
+            MovementTemplates.CurrentTemplate.gameObject.SetActive(true);
 
             PreviousSubPhase.Resume();
         }

@@ -42,10 +42,10 @@ namespace SubPhases
             IsTemporary = true;
             UpdateHelpInfo();
 
-            StartBarrelRollPlanning();
+            StartBoostPlanning();
         }
 
-        public void StartBarrelRollPlanning()
+        public void StartBoostPlanning()
         {
             ShipStand = MonoBehaviour.Instantiate(Game.Position.prefabShipStand, Selection.ThisShip.GetPosition(), Selection.ThisShip.GetRotation(), BoardManager.GetBoard());
 
@@ -86,12 +86,12 @@ namespace SubPhases
                 if (ShipStand != null)
                 {
                     ShipStand.transform.position = new Vector3(hit.point.x, 0f, hit.point.z);
-                    ApplyBarrelRollRepositionLimits();
+                    ApplyBoostRepositionLimits();
                 }
             }
         }
 
-        private void ApplyBarrelRollRepositionLimits()
+        private void ApplyBoostRepositionLimits()
         {
             Vector3 newPosition = Selection.ThisShip.InverseTransformPoint(ShipStand.transform.position);
             Vector3 fixedPositionRel = newPosition;
@@ -153,21 +153,21 @@ namespace SubPhases
 
             bool result = false;
 
-            result = TryConfirmBarrelRollPosition(ship);
+            result = TryConfirmBoostPosition(ship);
 
             if (result)
             {
-                StartBarrelRollExecution(ship);
+                StartBoostExecution(ship);
             }
             else
             {
-                CancelBarrelRoll();
+                CancelBoost();
             }
 
             return result;
         }
 
-        private void StartBarrelRollExecution(Ship.GenericShip ship)
+        private void StartBoostExecution(Ship.GenericShip ship)
         {
             Pause();
 
@@ -181,7 +181,7 @@ namespace SubPhases
             );
         }
 
-        private void CancelBarrelRoll()
+        private void CancelBoost()
         {
             Selection.ThisShip.IsLandedOnObstacle = false;
             inReposition = false;
@@ -198,7 +198,7 @@ namespace SubPhases
             inReposition = false;
         }
 
-        private bool TryConfirmBarrelRollPosition(Ship.GenericShip ship)
+        private bool TryConfirmBoostPosition(Ship.GenericShip ship)
         {
             bool allow = true;
 
@@ -253,17 +253,17 @@ namespace SubPhases
         public override void Start()
         {
             Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-            Name = "Barrel Roll execution";
+            Name = "Boost execution";
             IsTemporary = true;
             UpdateHelpInfo();
 
-            StartBarrelRollExecution();
+            StartBoostExecution();
         }
 
-        private void StartBarrelRollExecution()
+        private void StartBoostExecution()
         {
-            ShipStand = (PreviousSubPhase as BarrelRollPlanningSubPhase).ShipStand;
-            helperDirection = (PreviousSubPhase as BarrelRollPlanningSubPhase).helperDirection;
+            ShipStand = (PreviousSubPhase as BoostPlanningSubPhase).ShipStand;
+            helperDirection = (PreviousSubPhase as BoostPlanningSubPhase).helperDirection;
 
             progressCurrent = 0;
             progressTarget = Vector3.Distance(Selection.ThisShip.GetPosition(), ShipStand.transform.position);
@@ -275,10 +275,10 @@ namespace SubPhases
 
         public override void Update()
         {
-            if (performingAnimation) DoBarrelRollAnimation();
+            if (performingAnimation) DoBoostAnimation();
         }
 
-        private void DoBarrelRollAnimation()
+        private void DoBoostAnimation()
         {
             float progressStep = 0.5f * Time.deltaTime;
             Selection.ThisShip.SetPosition(Vector3.MoveTowards(Selection.ThisShip.GetPosition(), ShipStand.transform.position, progressStep));
@@ -287,11 +287,11 @@ namespace SubPhases
             Selection.ThisShip.MoveUpwards(progressCurrent / progressTarget);
             if (progressCurrent >= progressTarget)
             {
-                FinishBarrelRollAnimation();
+                FinishBoostAnimation();
             }
         }
 
-        private void FinishBarrelRollAnimation()
+        private void FinishBoostAnimation()
         {
             performingAnimation = false;
 
@@ -304,7 +304,7 @@ namespace SubPhases
             Selection.ThisShip.ToggleShipStandAndPeg(true);
             Selection.ThisShip.FinishPosition(delegate() { });
 
-            Phases.FinishSubPhase(typeof(BarrelRollExecutionSubPhase));
+            Phases.FinishSubPhase(typeof(BoostExecutionSubPhase));
             CallBack();
         }
 

@@ -22,9 +22,10 @@ public class ObstaclesStayDetector: MonoBehaviour {
     }
 	
 	// Update is called once per frame
-	void Update () {
+	void Update ()
+    {
 
-	}
+    }
 
     void OnTriggerEnter(Collider collisionInfo)
     {
@@ -63,35 +64,12 @@ public class ObstaclesStayDetector: MonoBehaviour {
 
     void OnTriggerStay(Collider collisionInfo)
     {
-        //TODO: Change to OnTriggerEnter
-        /*if (checkCollisions)
-        {
-            if (collisionInfo.name == "ObstaclesStayDetector")
-            {
-                if (collisionInfo.tag != this.tag)
-                {
-                    Game.Movement.CollidedWith = collisionInfo;
-                }
-            }
-        }*/
+
     }
 
     void OnTriggerExit(Collider collisionInfo)
     {
-        /*if (checkCollisions)
-        {
-            if (collisionInfo.name == "ObstaclesStayDetector")
-            {
-                Game.Movement.CollidedWith = null;
-                Selection.ThisShip.LastShipCollision = Roster.GetShipById(collisionInfo.tag);
-            }
 
-            if (collisionInfo.tag == "Asteroid")
-            {
-                Game.Movement.ObstacleExit = collisionInfo;
-                OverlapsAsteroid = false;
-            }
-        }*/
     }
 
 }

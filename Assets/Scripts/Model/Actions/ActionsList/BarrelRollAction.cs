@@ -35,7 +35,8 @@ namespace SubPhases
         private int updatesCount = 0;
 
         public GameObject ShipStand;
-        private ObstaclesStayDetector obstaclesStayDetector;
+        private ObstaclesStayDetectorForced obstaclesStayDetectorBase;
+        private ObstaclesStayDetectorForced obstaclesStayDetectorMovementTemplate;
 
         public float helperDirection;
         public bool inReposition;
@@ -53,15 +54,16 @@ namespace SubPhases
         public void StartBarrelRollPlanning()
         {
             ShipStand = MonoBehaviour.Instantiate(Game.Position.prefabShipStand, Selection.ThisShip.GetPosition(), Selection.ThisShip.GetRotation(), BoardManager.GetBoard());
-
             ShipStand.transform.Find("ShipStandTemplate").Find("ShipStandInsert").Find("ShipStandInsertImage").Find("default").GetComponent<Renderer>().material = Selection.ThisShip.Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("ShipStand").Find("ShipStandInsert").Find("ShipStandInsertImage").Find("default").GetComponent<Renderer>().material;
-            obstaclesStayDetector = ShipStand.GetComponentInChildren<ObstaclesStayDetector>();
+            obstaclesStayDetectorBase = ShipStand.GetComponentInChildren<ObstaclesStayDetectorForced>();
 
-            Roster.SetRaycastTargets(false);
-            inReposition = true;
             MovementTemplates.CurrentTemplate = MovementTemplates.GetMovement1Ruler();
             MovementTemplates.SaveCurrentMovementRulerPosition();
             MovementTemplates.CurrentTemplate.position = Selection.ThisShip.TransformPoint(new Vector3(0.5f, 0, -0.25f));
+            obstaclesStayDetectorMovementTemplate = MovementTemplates.CurrentTemplate.GetComponentInChildren<ObstaclesStayDetectorForced>();
+
+            Roster.SetRaycastTargets(false);
+            inReposition = true;
         }
 
         public override void Update()
@@ -188,7 +190,8 @@ namespace SubPhases
 
         private void TryConfirmBarrelRollPosition()
         {
-            obstaclesStayDetector.ReCheckCollisionsStart();
+            obstaclesStayDetectorBase.ReCheckCollisionsStart();
+            obstaclesStayDetectorMovementTemplate.ReCheckCollisionsStart();
             Game.Movement.FuncsToUpdate.Add(UpdateColisionDetection);
         }
 
@@ -211,27 +214,10 @@ namespace SubPhases
 
         private void GetResults()
         {
-            obstaclesStayDetector.ReCheckCollisionsFinish();
+            obstaclesStayDetectorBase.ReCheckCollisionsFinish();
+            obstaclesStayDetectorMovementTemplate.ReCheckCollisionsFinish();
 
-            bool allow = true;
-
-            if (obstaclesStayDetector.OverlapsShipNow)
-            {
-                Messages.ShowError("Cannot collide with another ships");
-                allow = false;
-            }
-            else if (obstaclesStayDetector.OverlapsAsteroidNow)
-            {
-                Messages.ShowError("Cannot land on Asteroid");
-                allow = false;
-            }
-            else if (obstaclesStayDetector.OffTheBoardNow)
-            {
-                Messages.ShowError("Cannot leave the battlefield");
-                allow = false;
-            }
-
-            if (allow)
+            if (IsBarrelRollAllowed())
             {
                 StartBarrelRollExecution(Selection.ThisShip);
             }
@@ -239,6 +225,29 @@ namespace SubPhases
             {
                 CancelBarrelRoll();
             }
+        }
+
+        private bool IsBarrelRollAllowed()
+        {
+            bool allow = true;
+
+            if (obstaclesStayDetectorBase.OverlapsShipNow || obstaclesStayDetectorMovementTemplate.OverlapsShipNow)
+            {
+                Messages.ShowError("Cannot overlap another ship");
+                allow = false;
+            }
+            else if (obstaclesStayDetectorBase.OverlapsAsteroidNow || obstaclesStayDetectorMovementTemplate.OverlapsAsteroidNow)
+            {
+                Messages.ShowError("Cannot overlap asteroid");
+                allow = false;
+            }
+            else if (obstaclesStayDetectorBase.OffTheBoardNow || obstaclesStayDetectorMovementTemplate.OffTheBoardNow)
+            {
+                Messages.ShowError("Cannot leave the battlefield");
+                allow = false;
+            }
+
+            return allow;
         }
 
         public override void Next()

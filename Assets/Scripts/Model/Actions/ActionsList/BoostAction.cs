@@ -32,7 +32,12 @@ namespace SubPhases
     public class BoostPlanningSubPhase : GenericSubPhase
     {
         public GameObject ShipStand;
+        private ObstaclesStayDetectorForced obstaclesStayDetectorBase;
+        private ObstaclesStayDetectorForced obstaclesStayDetectorMovementTemplate;
+
         public bool inReposition;
+
+        private int updatesCount = 0;
 
         Dictionary<string, Vector3> AvailableBoostDirections = new Dictionary<string, Vector3>();
         public string SelectedBoostHelper;
@@ -56,6 +61,7 @@ namespace SubPhases
 
             ShipStand = MonoBehaviour.Instantiate(Game.Position.prefabShipStand, Selection.ThisShip.GetPosition(), Selection.ThisShip.GetRotation(), BoardManager.GetBoard());
             ShipStand.transform.Find("ShipStandTemplate").Find("ShipStandInsert").Find("ShipStandInsertImage").Find("default").GetComponent<Renderer>().material = Selection.ThisShip.Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("ShipStand").Find("ShipStandInsert").Find("ShipStandInsertImage").Find("default").GetComponent<Renderer>().material;
+            obstaclesStayDetectorBase = ShipStand.GetComponentInChildren<ObstaclesStayDetectorForced>();
             Roster.SetRaycastTargets(false);
 
             inReposition = true;
@@ -106,6 +112,8 @@ namespace SubPhases
                 ShipStand.transform.position = newBase.position;
                 ShipStand.transform.rotation = newBase.rotation;
 
+                obstaclesStayDetectorMovementTemplate = Selection.ThisShip.GetBoosterHelper().Find(name).GetComponentInChildren<ObstaclesStayDetectorForced>();
+
                 SelectedBoostHelper = name;
             }
         }
@@ -139,27 +147,8 @@ namespace SubPhases
 
         public override void ProcessClick()
         {
-            TryConfirmPosition(Selection.ThisShip);
-        }
-
-        private bool TryConfirmPosition(Ship.GenericShip ship)
-        {
             StopPlanning();
-
-            bool result = false;
-
-            result = TryConfirmBoostPosition(ship);
-
-            if (result)
-            {
-                StartBoostExecution(ship);
-            }
-            else
-            {
-                CancelBoost();
-            }
-
-            return result;
+            TryConfirmBoostPosition();
         }
 
         private void StartBoostExecution(Ship.GenericShip ship)
@@ -185,32 +174,76 @@ namespace SubPhases
         private void StopPlanning()
         {
             inReposition = false;
+        }
 
+        private void HidePlanningTemplates()
+        {
             Selection.ThisShip.GetBoosterHelper().Find(SelectedBoostHelper).gameObject.SetActive(false);
             MonoBehaviour.Destroy(ShipStand);
 
             Roster.SetRaycastTargets(true);
         }
 
-        private bool TryConfirmBoostPosition(Ship.GenericShip ship)
+        private void TryConfirmBoostPosition()
+        {
+            obstaclesStayDetectorBase.ReCheckCollisionsStart();
+            obstaclesStayDetectorMovementTemplate.ReCheckCollisionsStart();
+            Game.Movement.FuncsToUpdate.Add(UpdateColisionDetection);
+        }
+
+        private bool UpdateColisionDetection()
+        {
+            bool isFinished = false;
+
+            if (updatesCount > 1)
+            {
+                GetResults();
+                isFinished = true;
+            }
+            else
+            {
+                updatesCount++;
+            }
+
+            return isFinished;
+        }
+
+        private void GetResults()
+        {
+            obstaclesStayDetectorBase.ReCheckCollisionsFinish();
+            obstaclesStayDetectorMovementTemplate.ReCheckCollisionsFinish();
+
+            if (IsBoostAllowed())
+            {
+                StartBoostExecution(Selection.ThisShip);
+            }
+            else
+            {
+                CancelBoost();
+            }
+
+            HidePlanningTemplates();
+        }
+
+        private bool IsBoostAllowed()
         {
             bool allow = true;
 
-            /*if (Game.Movement.CollidedWith != null)
+            if (obstaclesStayDetectorBase.OverlapsShipNow || obstaclesStayDetectorMovementTemplate.OverlapsShipNow)
             {
-                Messages.ShowError("Cannot collide with another ships");
+                Messages.ShowError("Cannot overlap another ship");
                 allow = false;
             }
-            else if (ship.IsLandedOnObstacle)
+            else if (obstaclesStayDetectorBase.OverlapsAsteroidNow || obstaclesStayDetectorMovementTemplate.OverlapsAsteroidNow)
             {
-                Messages.ShowError("Cannot land on Asteroid");
+                Messages.ShowError("Cannot overlap asteroid");
                 allow = false;
             }
-            else if (!BoardManager.ShipStandIsInside(ShipStand, BoardManager.BoardTransform.Find("Playmat")))
+            else if (obstaclesStayDetectorBase.OffTheBoardNow || obstaclesStayDetectorMovementTemplate.OffTheBoardNow)
             {
                 Messages.ShowError("Cannot leave the battlefield");
                 allow = false;
-            }*/
+            }
 
             return allow;
         }

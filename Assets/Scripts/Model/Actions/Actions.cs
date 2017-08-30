@@ -6,16 +6,9 @@ using Board;
 
 public static partial class Actions {
 
-    private static GameManagerScript Game;
-
     private static Dictionary<char, bool> Letters = new Dictionary<char, bool>();
 
     public static CriticalHitCard.GenericCriticalHit SelectedCriticalHitCard;
-
-    static Actions()
-    {
-        Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-    }
 
     public static void AssignTargetLockToPair(Ship.GenericShip thisShip, Ship.GenericShip targetShip, Action successCallback, Action failureCallback)
     {

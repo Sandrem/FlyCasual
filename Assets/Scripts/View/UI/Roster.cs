@@ -322,6 +322,7 @@ public static partial class Roster {
             upgradeNamePanel.SetActive(true);
             index++;
         }
+        OrganizeRosters();
     }
 
     public static void SubscribeUpgradesPanel(Ship.GenericShip newShip, GameObject newPanel)

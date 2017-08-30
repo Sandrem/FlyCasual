@@ -32,7 +32,6 @@ namespace SubPhases
     public class BoostPlanningSubPhase : GenericSubPhase
     {
         public GameObject ShipStand;
-        public float helperDirection;
         public bool inReposition;
 
         Dictionary<string, Vector3> AvailableBoostDirections = new Dictionary<string, Vector3>();
@@ -62,19 +61,6 @@ namespace SubPhases
             inReposition = true;
         }
 
-        /*public void StartBoostPlanningOld()
-        {
-            ShipStand = MonoBehaviour.Instantiate(Game.Position.prefabShipStand, Selection.ThisShip.GetPosition(), Selection.ThisShip.GetRotation(), BoardManager.GetBoard());
-
-            ShipStand.transform.Find("ShipStandTemplate").Find("ShipStandInsert").Find("ShipStandInsertImage").Find("default").GetComponent<Renderer>().material = Selection.ThisShip.Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("ShipStand").Find("ShipStandInsert").Find("ShipStandInsertImage").Find("default").GetComponent<Renderer>().material;
-
-            Roster.SetRaycastTargets(false);
-            inReposition = true;
-            MovementTemplates.CurrentTemplate = MovementTemplates.GetMovement1Ruler();
-            MovementTemplates.SaveCurrentMovementRulerPosition();
-            MovementTemplates.CurrentTemplate.position = Selection.ThisShip.TransformPoint(new Vector3(0.5f, 0, -0.25f));
-        }*/
-
         public override void Update()
         {
             if (inReposition)
@@ -85,12 +71,12 @@ namespace SubPhases
 
         public override void Pause()
         {
-            inReposition = false;
+
         }
 
         public override void Resume()
         {
-            inReposition = true;
+
         }
 
         private void SelectBoosterHelper()
@@ -106,6 +92,8 @@ namespace SubPhases
 
         private void ShowNearestBoosterHelper(string name)
         {
+            // TODO: hide template
+
             if (selectedBoostHelper != name)
             {
                 if (!string.IsNullOrEmpty(selectedBoostHelper))
@@ -149,72 +137,6 @@ namespace SubPhases
             return nearestBoosterHelper.Key;
         }
 
-        /*private void PerfromDragOld()
-        {
-            RaycastHit hit;
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-            if (Physics.Raycast(ray, out hit))
-            {
-                if (ShipStand != null)
-                {
-                    ShipStand.transform.position = new Vector3(hit.point.x, 0f, hit.point.z);
-                    ApplyBoostRepositionLimits();
-                }
-            }
-        }*/
-
-        /*private void ApplyBoostRepositionLimits()
-        {
-            Vector3 newPosition = Selection.ThisShip.InverseTransformPoint(ShipStand.transform.position);
-            Vector3 fixedPositionRel = newPosition;
-
-            if (newPosition.z > 0.5f)
-            {
-                fixedPositionRel = new Vector3(fixedPositionRel.x, fixedPositionRel.y, 0.5f);
-            }
-
-            if (newPosition.z < -0.5f)
-            {
-                fixedPositionRel = new Vector3(fixedPositionRel.x, fixedPositionRel.y, -0.5f);
-            }
-
-            if (newPosition.x > 0f)
-            {
-                fixedPositionRel = new Vector3(2, fixedPositionRel.y, fixedPositionRel.z);
-
-                helperDirection = 1f;
-                MovementTemplates.CurrentTemplate.eulerAngles = Selection.ThisShip.Model.transform.eulerAngles + new Vector3(0, 180, 0);
-            }
-
-            if (newPosition.x < 0f)
-            {
-                fixedPositionRel = new Vector3(-2, fixedPositionRel.y, fixedPositionRel.z);
-
-                helperDirection = -1f;
-                MovementTemplates.CurrentTemplate.eulerAngles = Selection.ThisShip.Model.transform.eulerAngles;
-            }
-
-            Vector3 helperPositionRel = Selection.ThisShip.InverseTransformPoint(MovementTemplates.CurrentTemplate.position);
-            helperPositionRel = new Vector3(helperDirection * Mathf.Abs(helperPositionRel.x), helperPositionRel.y, helperPositionRel.z);
-
-            if (helperPositionRel.z + 0.25f > fixedPositionRel.z)
-            {
-                helperPositionRel = new Vector3(helperDirection * Mathf.Abs(helperPositionRel.x), helperPositionRel.y, fixedPositionRel.z - 0.25f);
-            }
-
-            if (helperPositionRel.z + 0.75f < fixedPositionRel.z)
-            {
-                helperPositionRel = new Vector3(helperDirection * Mathf.Abs(helperPositionRel.x), helperPositionRel.y, fixedPositionRel.z - 0.75f);
-            }
-
-            Vector3 helperPositionAbs = Selection.ThisShip.TransformPoint(helperPositionRel);
-            MovementTemplates.CurrentTemplate.position = helperPositionAbs;
-
-            Vector3 fixedPositionAbs = Selection.ThisShip.TransformPoint(fixedPositionRel);
-            ShipStand.transform.position = fixedPositionAbs;
-        }*/
-
         public override void ProcessClick()
         {
             TryConfirmPosition(Selection.ThisShip);
@@ -222,7 +144,7 @@ namespace SubPhases
 
         private bool TryConfirmPosition(Ship.GenericShip ship)
         {
-            StopDrag();
+            StopPlanning();
 
             bool result = false;
 
@@ -242,11 +164,6 @@ namespace SubPhases
 
         private void StartBoostExecution(Ship.GenericShip ship)
         {
-            Pause();
-
-            Selection.ThisShip.ToggleShipStandAndPeg(false);
-            MovementTemplates.CurrentTemplate.gameObject.SetActive(false);
-
             Phases.StartTemporarySubPhase(
                 "Boost execution",
                 typeof(BoostExecutionSubPhase),
@@ -265,17 +182,21 @@ namespace SubPhases
             PreviousSubPhase.Resume();
         }
 
-        private void StopDrag()
+        private void StopPlanning()
         {
-            Roster.SetRaycastTargets(true);
             inReposition = false;
+
+            Selection.ThisShip.GetBoosterHelper().Find(selectedBoostHelper).gameObject.SetActive(false);
+            MonoBehaviour.Destroy(ShipStand);
+
+            Roster.SetRaycastTargets(true);
         }
 
         private bool TryConfirmBoostPosition(Ship.GenericShip ship)
         {
             bool allow = true;
 
-            if (Game.Movement.CollidedWith != null)
+            /*if (Game.Movement.CollidedWith != null)
             {
                 Messages.ShowError("Cannot collide with another ships");
                 allow = false;
@@ -289,7 +210,7 @@ namespace SubPhases
             {
                 Messages.ShowError("Cannot leave the battlefield");
                 allow = false;
-            }
+            }*/
 
             return allow;
         }
@@ -315,13 +236,6 @@ namespace SubPhases
 
     public class BoostExecutionSubPhase : GenericSubPhase
     {
-        private float progressCurrent;
-        private float progressTarget;
-
-        private bool performingAnimation;
-
-        private GameObject ShipStand;
-        private float helperDirection;
 
         public override void Start()
         {
@@ -335,46 +249,15 @@ namespace SubPhases
 
         private void StartBoostExecution()
         {
-            ShipStand = (PreviousSubPhase as BoostPlanningSubPhase).ShipStand;
-            helperDirection = (PreviousSubPhase as BoostPlanningSubPhase).helperDirection;
+            Movement.GenericMovement boostMovement = new Movement.StraightBoost(1, Movement.ManeuverDirection.Forward, Movement.ManeuverBearing.Straight, Movement.ManeuverColor.None);
 
-            progressCurrent = 0;
-            progressTarget = Vector3.Distance(Selection.ThisShip.GetPosition(), ShipStand.transform.position);
-
+            //TEMPORARY
+            boostMovement.Perform();
             Sounds.PlayFly();
-
-            performingAnimation = true;
-        }
-
-        public override void Update()
-        {
-            if (performingAnimation) DoBoostAnimation();
-        }
-
-        private void DoBoostAnimation()
-        {
-            float progressStep = 0.5f * Time.deltaTime;
-            Selection.ThisShip.SetPosition(Vector3.MoveTowards(Selection.ThisShip.GetPosition(), ShipStand.transform.position, progressStep));
-            progressCurrent += progressStep;
-            Selection.ThisShip.RotateModelDuringBarrelRoll(progressCurrent / progressTarget, helperDirection);
-            Selection.ThisShip.MoveUpwards(progressCurrent / progressTarget);
-            if (progressCurrent >= progressTarget)
-            {
-                FinishBoostAnimation();
-            }
         }
 
         private void FinishBoostAnimation()
         {
-            performingAnimation = false;
-
-            MonoBehaviour.Destroy(ShipStand);
-            Game.Movement.CollidedWith = null;
-
-            MovementTemplates.HideLastMovementRuler();
-            MovementTemplates.CurrentTemplate.gameObject.SetActive(true);
-
-            Selection.ThisShip.ToggleShipStandAndPeg(true);
             Selection.ThisShip.FinishPosition(delegate() { });
 
             Phases.FinishSubPhase(typeof(BoostExecutionSubPhase));

@@ -12,7 +12,7 @@ namespace UpgradesList
 
         public Determination() : base()
         {
-            Type = UpgradeSlot.Elite;
+            Type = UpgradeType.Elite;
             Name = ShortName = "Determination";
             ImageUrl = "https://vignette1.wikia.nocookie.net/xwing-miniatures/images/f/fc/Determination.jpg";
             Cost = 1;
@@ -29,7 +29,6 @@ namespace UpgradesList
         {
             if (crit.Type == CriticalCardType.Pilot) {
                 Messages.ShowInfo("Determination: Crit with \"Pilot\" trait is discarded");
-                Game.UI.AddTestLogEntry("Determination: Crit with \"Pilot\" trait is discarded");
                 crit = null;
             }
         }

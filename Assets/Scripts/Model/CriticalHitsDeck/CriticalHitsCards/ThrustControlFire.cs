@@ -12,17 +12,12 @@ namespace CriticalHitCard
         {
             Name = "Thrust Control Fire";
             Type = CriticalCardType.Ship;
-            ImageUrl = "http://i.imgur.com/kUvUwHQ.jpg";
+            ImageUrl = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/damage-decks/core-tfa/thrust-control-fire.png";
         }
 
         public override void ApplyEffect(object sender, EventArgs e)
         {
-            Messages.ShowInfo("Received stress token");
-            Game.UI.AddTestLogEntry("Received stress token");
-
-            Host.AssignToken(new Tokens.StressToken());
-
-            Triggers.FinishTrigger();
+            Host.AssignToken(new Tokens.StressToken(), Triggers.FinishTrigger);
         }
 
     }

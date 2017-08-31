@@ -25,12 +25,7 @@ public static class ShipFactory {
         Vector3 position = Vector3.zero;
 
         Ship.GenericShip newShipContainer = (Ship.GenericShip) System.Activator.CreateInstance(System.Type.GetType(shipConfig.PilotName));
-        newShipContainer.InitializeGenericShip(shipConfig.PlayerNo, id, position);
-
-        foreach (var upgrade in shipConfig.Upgrades)
-        {
-            newShipContainer.InstallUpgrade(upgrade);
-        }
+        newShipContainer.InitializeGenericShip(shipConfig.PlayerNo, id, position, shipConfig.Upgrades);
 
         Roster.SubscribeActions(newShipContainer.InfoPanel.transform.Find("ShipInfo").gameObject);
         Roster.SubscribeUpgradesPanel(newShipContainer, newShipContainer.InfoPanel);
@@ -45,11 +40,12 @@ public static class ShipFactory {
         newShipContainer.OnMovementStart += MovementTemplates.ApplyMovementRuler;
         newShipContainer.OnMovementStart += MovementTemplates.CallReturnRangeRuler;
         newShipContainer.OnPositionFinish += Rules.OffTheBoard.CheckOffTheBoard;
-        newShipContainer.OnMovementExecuted += Rules.Stress.CheckStress;
+        newShipContainer.OnMovementExecuted += Rules.Stress.PlanCheckStress;
         newShipContainer.OnMovementFinish += Rules.AsteroidHit.CheckDamage;
         newShipContainer.AfterGetManeuverAvailablity += Rules.Stress.CannotPerformRedManeuversWhileStressed;
+        newShipContainer.OnDestroyed += Rules.TargetLocks.RemoveTargetLocksOnDestruction;
 
-        newShipContainer.AfterTokenIsAssigned += Roster.UpdateTokensIndicator;
+        newShipContainer.OnTokenIsAssigned += Roster.UpdateTokensIndicator;
         newShipContainer.AfterTokenIsRemoved += Roster.UpdateTokensIndicator;
         newShipContainer.AfterAssignedDamageIsChanged += Roster.UpdateRosterHullDamageIndicators;
         newShipContainer.AfterAssignedDamageIsChanged += Roster.UpdateRosterShieldsDamageIndicators;

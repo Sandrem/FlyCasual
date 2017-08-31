@@ -33,6 +33,8 @@ namespace RulesList
                     Game.UI.AddTestLogEntry("Draw!");
                     Game.UI.ShowGameResults("Draw!");
                 }
+
+                Phases.GameIsEnded = true;
             }
         }
     }

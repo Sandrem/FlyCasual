@@ -4,18 +4,20 @@ using UnityEngine;
 
 public class LookAtCamera : MonoBehaviour {
 
-	// Update is called once per frame
-	void Update ()
-    {
-        if (Input.GetKey(KeyCode.LeftAlt))
-        {
-            gameObject.GetComponent<Renderer>().enabled = true;
-            transform.forward = GameObject.Find("CameraHolder/Main Camera").transform.forward;
-        }
+    GameManagerScript Game;
 
-        if (Input.GetKeyUp(KeyCode.LeftAlt))
+    private void Start()
+    {
+        Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
+    }
+
+    // Update is called once per frame
+    void Update ()
+    {
+        gameObject.GetComponent<Renderer>().enabled = Game.UI.ShowShipIds;
+        if (Game.UI.ShowShipIds)
         {
-            gameObject.GetComponent<Renderer>().enabled = false;
+            transform.forward = GameObject.Find("CameraHolder/Main Camera").transform.forward;
         }
 	}
 }

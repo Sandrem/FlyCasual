@@ -19,7 +19,7 @@ namespace SubPhases
 
         public string Name;
 
-        public System.Action callBack;
+        public System.Action CallBack;
 
         public bool IsTemporary = false;
 
@@ -129,6 +129,16 @@ namespace SubPhases
         }
 
         public virtual void DoDefault()
+        {
+
+        }
+
+        public virtual void NextButton()
+        {
+
+        }
+
+        public virtual void SkipButton()
         {
 
         }

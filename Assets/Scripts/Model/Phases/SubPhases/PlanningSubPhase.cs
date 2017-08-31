@@ -83,6 +83,11 @@ namespace SubPhases
             }
         }
 
+        public override void NextButton()
+        {
+            Next();
+        }
+
     }
 
 }

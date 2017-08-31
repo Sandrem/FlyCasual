@@ -88,12 +88,12 @@ namespace SubPhases
                 case DiceSide.Success:
                     Messages.ShowErrorToHuman("Damage is dealt!");
                     SufferDamage();
-                    Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, callBack);
+                    Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, CallBack);
                     break;
                 case DiceSide.Crit:
                     Messages.ShowErrorToHuman("Critical damage is dealt!");
                     SufferDamage();
-                    Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, callBack);
+                    Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, CallBack);
                     break;
                 default:
                     break;
@@ -103,7 +103,7 @@ namespace SubPhases
         private void NoDamage()
         {
             Messages.ShowInfoToHuman("No damage");
-            callBack();
+            CallBack();
         }
 
         private void SufferDamage()
@@ -116,7 +116,12 @@ namespace SubPhases
                     Name = "Suffer asteroid damage",
                     TriggerType = TriggerTypes.OnDamageIsDealt,
                     TriggerOwner = Selection.ActiveShip.Owner.PlayerNo,
-                    EventHandler = Selection.ActiveShip.SufferDamage
+                    EventHandler = Selection.ActiveShip.SufferDamage,
+                    EventArgs = new DamageSourceEventArgs()
+                    {
+                        Source = "Asteroid",
+                        DamageType = DamageTypes.ObstacleCollision
+                    }
                 });
             }
         }

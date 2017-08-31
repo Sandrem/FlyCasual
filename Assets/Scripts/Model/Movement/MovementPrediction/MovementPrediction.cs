@@ -8,8 +8,10 @@ namespace Movement
 
     public class MovementPrediction
     {
+        private Action CallBack;
+
         private int updatesCount = 0;
-        private GenericMovement currentMovement;
+        public GenericMovement CurrentMovement;
         private GameObject[] generatedShipStands;
 
         private bool isBumped;
@@ -22,10 +24,13 @@ namespace Movement
         public List<Collider> AsteroidsHit = new List<Collider>();
         public bool IsLandedOnAsteroid { get; private set; }
         public float SuccessfullMovementProgress { get; private set; }
+        public bool IsOffTheBoard;
 
-        public MovementPrediction(GenericMovement movement)
+        public MovementPrediction(GenericMovement movement, Action callBack)
         {
-            currentMovement = movement;
+            CurrentMovement = movement;
+            CallBack = callBack;
+
             Selection.ThisShip.ToggleColliders(false);
             GenerateShipStands();
 
@@ -35,7 +40,7 @@ namespace Movement
 
         private void GenerateShipStands()
         {
-            generatedShipStands = currentMovement.PlanMovement();
+            generatedShipStands = CurrentMovement.PlanMovement();
         }
 
         private bool UpdateColisionDetection()
@@ -74,6 +79,7 @@ namespace Movement
                     }
                     else
                     {
+                        IsOffTheBoard = obstacleStayDetector.OffTheBoard;
                         IsLandedOnAsteroid = obstacleStayDetector.OverlapsAsteroid;
                         SuccessfullMovementProgress = (i + 1f) / generatedShipStands.Length;
 
@@ -117,7 +123,7 @@ namespace Movement
 
             DestroyGeneratedShipStands();
 
-            currentMovement.LaunchShipMovement();
+            CallBack();
         }
 
         private void DestroyGeneratedShipStands()

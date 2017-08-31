@@ -71,14 +71,16 @@ namespace Ship
             string materialName = PilotName;
             materialName = materialName.Replace(' ', '_');
             materialName = materialName.Replace('"', '_');
-            Material shipBaseInsert = (Material)Resources.Load("ShipStandInsert/Materials/" + materialName, typeof(Material));
+            string pathToResource = "ShipStandInsert/" + Type + "/Materials/" + materialName;
+
+            Material shipBaseInsert = (Material)Resources.Load(pathToResource, typeof(Material));
             if (shipBaseInsert != null)
             {
                 shipAllParts.Find("ShipStand/ShipStandInsert/ShipStandInsertImage/default").GetComponent<Renderer>().material = shipBaseInsert;
             }
             else
             {
-                Debug.Log("Cannot find: " + materialName);
+                Debug.Log("Cannot find: " + pathToResource);
             }
             
         }
@@ -128,6 +130,24 @@ namespace Ship
         public void ToggleDamaged(bool isDamaged)
         {
             shipAllParts.Find("ShipModels/" + Type + "/ModelCenter/DamageParticles").gameObject.SetActive(isDamaged);
+        }
+
+        public void ToggleIonized(bool isIonized)
+        {
+            if (isIonized) Sounds.PlaySoundOnce("Ionization");
+            shipAllParts.Find("Ionization").gameObject.SetActive(isIonized);
+        }
+
+        public void PlayDestroyedAnimSound(System.Action callBack)
+        {
+            int random = Random.Range(1, 8);
+            Sounds.PlaySoundOnce("Explosion-" + random);
+            shipAllParts.Find("Explosion/Explosion").GetComponent<ParticleSystem>().Play();
+            shipAllParts.Find("Explosion/Debris").GetComponent<ParticleSystem>().Play();
+            shipAllParts.Find("Explosion/Sparks").GetComponent<ParticleSystem>().Play();
+            shipAllParts.Find("Explosion/Ring").GetComponent<ParticleSystem>().Play();
+
+            Game.Wait(1, delegate { callBack(); });
         }
 
         public void MoveUpwards(float progress)
@@ -180,6 +200,16 @@ namespace Ship
             shipAllParts.Find("ShipPeg").gameObject.SetActive(value);
         }
 
+        public Transform GetBoosterHelper()
+        {
+            return Model.transform.Find("RotationHelper/RotationHelper2/BoostHelper");
+        }
+
+        public Transform GetDecloakHelper()
+        {
+            return Model.transform.Find("RotationHelper/RotationHelper2/DecloakHelper");
+        }
+
         public void AnimatePrimaryWeapon()
         {
             Transform shotsTransform = modelCenter.Find("Shots");
@@ -198,10 +228,50 @@ namespace Ship
             }
         }
 
+        public void AnimateTurretWeapon()
+        {
+            Transform origin = modelCenter.Find("TurretShots/Rotation");
+
+            Vector3 targetPoint = Selection.AnotherShip.GetModelCenter();
+            origin.LookAt(targetPoint);
+            ParticleSystem.MainModule particles = origin.GetComponentInChildren<ParticleSystem>().main;
+            particles.startLifetimeMultiplier = (Vector3.Distance(origin.position, targetPoint) * 0.25f / (10 / 3));
+
+            origin.gameObject.SetActive(true);
+            Game.StartCoroutine(TurnOffTurretShots(ShotsCount));
+        }
+
+        public void AnimateMunitionsShot()
+        {
+            Transform launchOrigin = modelCenter.Find("MunitionsLauncherPoint/MunitionsLauncherDirection");
+            if (launchOrigin != null)
+            {
+                Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(Combat.Attacker, Combat.Defender, Combat.ChosenWeapon);
+                float distance = shotInfo.Distance;
+
+                Vector3 targetPoint = Selection.AnotherShip.GetModelCenter();
+                launchOrigin.LookAt(targetPoint);
+
+                GameObject munition = MonoBehaviour.Instantiate(shipAllParts.Find("Munition").gameObject, launchOrigin);
+                munition.GetComponent<MunitionMovement>().selfDescructTimer = distance;
+                munition.SetActive(true);
+            }
+        }
+
         private IEnumerator TurnOffShots(float shotsCount)
         {
             yield return new WaitForSeconds(shotsCount * 0.5f + 0.4f);
             Transform shotsTransform = modelCenter.Find("Shots");
+            if (shotsTransform != null)
+            {
+                shotsTransform.gameObject.SetActive(false);
+            }
+        }
+
+        private IEnumerator TurnOffTurretShots(float shotsCount)
+        {
+            yield return new WaitForSeconds(shotsCount * 0.5f + 0.4f);
+            Transform shotsTransform = modelCenter.Find("TurretShots/Rotation");
             if (shotsTransform != null)
             {
                 shotsTransform.gameObject.SetActive(false);

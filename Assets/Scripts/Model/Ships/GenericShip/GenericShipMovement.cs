@@ -25,7 +25,7 @@ namespace Ship
         public GenericShip LastShipCollision { get; set; }
 
         public Dictionary<string, Movement.ManeuverColor> Maneuvers { get; private set; }
-        public GenericAiTable HotacManeuverTable { get; protected set; }
+        public AI.GenericAiTable HotacManeuverTable { get; protected set; }
 
         // EVENTS
 
@@ -33,6 +33,7 @@ namespace Ship
         public event EventHandlerShipMovement AfterGetManeuverColorIncreaseComplexity;
         public event EventHandlerShipMovement AfterGetManeuverAvailablity;
 
+        public event EventHandlerShip OnManeuverIsReadyToBeRevealed;
         public event EventHandlerShip OnMovementStart;
         public event EventHandlerShip OnMovementExecuted;
         public event EventHandlerShip OnMovementFinish;
@@ -41,6 +42,11 @@ namespace Ship
         public static event EventHandler OnPositionFinishGlobal;
 
         // TRIGGERS
+
+        public void CallManeuverIsReadyToBeRevealed()
+        {
+            if (OnManeuverIsReadyToBeRevealed != null) OnManeuverIsReadyToBeRevealed(this);
+        }
 
         public void StartMoving()
         {
@@ -99,6 +105,22 @@ namespace Ship
             }
 
             return result;
+        }
+
+        public bool HasManeuver(string maneuverString)
+        {
+            bool result = false;
+            if (Maneuvers.ContainsKey(maneuverString))
+            {
+                result = (Maneuvers[maneuverString] != Movement.ManeuverColor.None);
+            }
+            return result;
+        }
+
+        public bool HasManeuver(Movement.MovementStruct maneuverStruct)
+        {
+            string maneuverString = maneuverStruct.ToString();
+            return HasManeuver(maneuverString);
         }
 
     }

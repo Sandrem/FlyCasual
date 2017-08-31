@@ -2,13 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-// TODO:
-// Correct work with combat subphase
-// What if there is no another frienly ships
-// What if I do not want assign token
-// What revert should be done if selected ship does not fulfill all requirements
-// What revert should be done if selected ship cannot get target lock on first target
-
 namespace Ship
 {
     namespace YWing
@@ -17,8 +10,6 @@ namespace Ship
         {
             public DutchVander() : base()
             {
-                IsHidden = true;
-
                 PilotName = "\"Dutch\" Vander";
                 ImageUrl = "https://vignette3.wikia.nocookie.net/xwing-miniatures/images/b/bf/Dutch_Vander.png";
                 IsUnique = true;
@@ -29,18 +20,40 @@ namespace Ship
             public override void InitializePilot()
             {
                 base.InitializePilot();
-                AfterTokenIsAssigned += GarvenDreisPilotAbility;
+                OnTokenIsAssigned += DutchVanderPilotAbility;
             }
 
-            private void GarvenDreisPilotAbility(GenericShip ship, System.Type type)
+            private void DutchVanderPilotAbility(GenericShip ship, System.Type tokenType)
             {
-                if (type == typeof(Tokens.BlueTargetLockToken))
+                if (tokenType == typeof(Tokens.BlueTargetLockToken))
                 {
-                    if (ship.Owner.Ships.Count > 1)
+                    Triggers.RegisterTrigger(new Trigger()
                     {
-                        Selection.ActiveShip = ship;
-                        Phases.StartTemporarySubPhase("Choose another friendly ship at range 1-2, it will acquire target lock", typeof(SubPhases.DutchVanderAbilitySubPhase));
-                    }
+                        Name = "\"Dutch\" Vander: Aquire Tarhet Lock",
+                        TriggerOwner = ship.Owner.PlayerNo,
+                        TriggerType = TriggerTypes.OnTokenIsAssigned,
+                        EventHandler = StartSubphaseForDutchVanderPilotAbility
+                    });
+                }
+            }
+
+            private void StartSubphaseForDutchVanderPilotAbility(object sender, System.EventArgs e)
+            {
+                Selection.ThisShip = this;
+                if (Owner.Ships.Count > 1)
+                {
+                    Phases.StartTemporarySubPhase(
+                        "Select target for \"Dutch\" Vander's ability",
+                        typeof(SubPhases.DutchVanderAbilityTargetSubPhase),
+                        delegate {
+                            Phases.FinishSubPhase(typeof(SubPhases.DutchVanderAbilityTargetSubPhase));
+                            Triggers.FinishTrigger();
+                        }
+                    );
+                }
+                else
+                {
+                    Triggers.FinishTrigger();
                 }
             }
 
@@ -51,37 +64,87 @@ namespace Ship
 namespace SubPhases
 {
 
-    public class DutchVanderAbilitySubPhase : SelectShipSubPhase
+    public class DutchVanderAbilityTargetSubPhase : SelectShipSubPhase
     {
 
         public override void Prepare()
         {
             isFriendlyAllowed = true;
             maxRange = 2;
-
-            finishAction = AcquireTargetLock;
+            finishAction = SelectGarvenDreisAbilityTarget;
 
             Game.UI.ShowSkipButton();
         }
 
-        public override void Next()
+        private void SelectGarvenDreisAbilityTarget()
         {
-            Game.UI.HideNextButton();
-            PreviousSubPhase.Resume();
-            base.Next();
+            MovementTemplates.ReturnRangeRuler();
+
+            Triggers.RegisterTrigger(new Trigger()
+            {
+                Name = "Select target for Target Lock",
+                TriggerOwner = TargetShip.Owner.PlayerNo,
+                TriggerType = TriggerTypes.OnAbilityTargetIsSelected,
+                EventHandler = StartSubphaseForTargetLock
+            });
+
+            Triggers.ResolveTriggers(TriggerTypes.OnAbilityTargetIsSelected, CallBack);
         }
 
-        private void AcquireTargetLock()
+        protected override void RevertSubPhase() { }
+
+        private void StartSubphaseForTargetLock(object sender, System.EventArgs e)
         {
             Selection.ThisShip = TargetShip;
-            Selection.ActiveShip = TargetShip;
-            Phases.CancelScheduledFinish(typeof(SelectTargetLockSubPhase));
-            Phases.StartTemporarySubPhase("Select target for Target Lock", typeof(SelectTargetLockSubPhase));
+
+            Phases.StartTemporarySubPhase(
+                "Select target for Target Lock",
+                typeof(FreeSelectTargetLockSubPhase),
+                delegate {
+                    Phases.FinishSubPhase(typeof(FreeSelectTargetLockSubPhase));
+                    Triggers.FinishTrigger();
+                }
+            );
         }
 
-        protected override void RevertSubPhase()
+        public override void SkipButton()
         {
-            Game.UI.HighlightNextButton();
+            Phases.FinishSubPhase(typeof(SubPhases.DutchVanderAbilityTargetSubPhase));
+            Triggers.FinishTrigger();
+        }
+
+    }
+
+    public class FreeSelectTargetLockSubPhase : SelectShipSubPhase
+    {
+
+        public override void Prepare()
+        {
+            isEnemyAllowed = true;
+            finishAction = TrySelectTargetLock;
+
+            Game.UI.ShowSkipButton();
+        }
+
+        private void TrySelectTargetLock()
+        {
+            Actions.AssignTargetLockToPair(
+                Selection.ThisShip,
+                TargetShip,
+                delegate {
+                    Phases.FinishSubPhase(typeof(FreeSelectTargetLockSubPhase));
+                    CallBack();
+                },
+                RevertSubPhase
+            );
+        }
+
+        protected override void RevertSubPhase() { }
+
+        public override void SkipButton()
+        {
+            Phases.FinishSubPhase(typeof(FreeSelectTargetLockSubPhase));
+            Triggers.FinishTrigger();
         }
 
     }

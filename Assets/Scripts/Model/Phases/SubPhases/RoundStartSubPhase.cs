@@ -18,8 +18,16 @@ namespace SubPhases
 
         public override void Initialize()
         {
+            InformAboutNewRoundStart();
+
             Phases.CallRoundStartTrigger();
             Phases.FinishSubPhase(this.GetType());
+        }
+
+        private void InformAboutNewRoundStart()
+        {
+            Phases.RoundCounter++;
+            Game.UI.AddTestLogEntry("Round " + Phases.RoundCounter + " is started");
         }
 
         public override void Next()

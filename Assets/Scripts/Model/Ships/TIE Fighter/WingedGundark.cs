@@ -35,16 +35,16 @@ namespace PilotAbilities
 {
     public class WingedGundarkAction : ActionsList.GenericAction
     {
-        private Ship.GenericShip host;
 
         public WingedGundarkAction()
         {
             Name = EffectName = "\"Winged Gundark\"'s ability";
         }
 
-        public override void ActionEffect()
+        public override void ActionEffect(System.Action callBack)
         {
             Combat.CurentDiceRoll.ChangeOne(DiceSide.Success, DiceSide.Crit);
+            callBack();
         }
 
         public override bool IsActionEffectAvailable()
@@ -52,12 +52,24 @@ namespace PilotAbilities
             bool result = false;
             if (Combat.AttackStep == CombatStep.Attack)
             {
-                Board.ShipShotDistanceInformation shotInformation = new Board.ShipShotDistanceInformation(Combat.Attacker, Combat.Defender);
+                Board.ShipShotDistanceInformation shotInformation = new Board.ShipShotDistanceInformation(Combat.Attacker, Combat.Defender, Combat.ChosenWeapon);
                 if (shotInformation.Range == 1)
                 {
                     result = true;
                 }
             }
+            return result;
+        }
+
+        public override int GetActionEffectPriority()
+        {
+            int result = 0;
+
+            if (Combat.AttackStep == CombatStep.Attack)
+            {
+                if (Combat.DiceRollAttack.RegularSuccesses > 0) result = 20;
+            }
+
             return result;
         }
 

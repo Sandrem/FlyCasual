@@ -8,6 +8,8 @@ using System;
 
 public static partial class Phases
 {
+    public static int RoundCounter;
+    public static bool GameIsEnded;
 
     private static GameManagerScript Game;
 
@@ -27,9 +29,6 @@ public static partial class Phases
     {
         get { return CurrentSubPhase.RequiredPlayer; }
     }
-
-    private static List<System.Type> subPhasesToStart = new List<System.Type>();
-    private static List<System.Type> subPhasesToFinish = new List<System.Type>();
 
     // EVENTS
     public delegate void EventHandler();
@@ -89,62 +88,6 @@ public static partial class Phases
         CurrentSubPhase.CallNextSubPhase();
     }
 
-    public static void CheckScheduledChanges()
-    {
-        CheckScheduledFinishes();
-        CheckScheduledStarts();
-    }
-
-    private static void CheckScheduledFinishes()
-    {
-        if (subPhasesToFinish.Count != 0)
-        {
-            List<System.Type> tempList = new List<System.Type>();
-            foreach (var subPhaseType in subPhasesToFinish)
-            {
-                tempList.Add(subPhaseType);
-            }
-
-            foreach (var subPhaseType in tempList)
-            {
-                if (CurrentSubPhase.GetType() == subPhaseType)
-                {
-                    subPhasesToFinish.Remove(subPhaseType);
-                    Next();
-                }
-            }
-        }
-    }
-
-    public static void CancelScheduledFinish(System.Type subPhaseType)
-    {
-        if (subPhasesToFinish.Contains(subPhaseType))
-        {
-            Debug.Log(subPhaseType + " is removed from scheduled finish list");
-            subPhasesToFinish.Remove(subPhaseType);
-        }
-    }
-
-    private static void CheckScheduledStarts()
-    {
-        if (!InTemporarySubPhase)
-        {
-            if (subPhasesToStart.Count != 0)
-            {
-                StartTemporarySubPhase("SCHEDULED", subPhasesToStart[0]);
-                subPhasesToStart.RemoveAt(0);
-            }
-        }
-    }
-
-    public static IEnumerator WaitForTemporarySubPhasesFinish()
-    {
-        while (Phases.CurrentSubPhase.IsTemporary)
-        {
-            yield return new WaitForSeconds(0.1f);
-        }
-    }
-
     // TRIGGERS
 
     public static void CallRoundStartTrigger()
@@ -167,6 +110,13 @@ public static partial class Phases
     public static void CallActivationPhaseTrigger()
     {
         if (OnActivationPhaseStart != null) OnActivationPhaseStart();
+        foreach (var shipHolder in Roster.AllShips)
+        {
+            shipHolder.Value.CallOnActivationPhaseStart();
+        }
+
+        Triggers.ResolveTriggers(TriggerTypes.OnActionPhaseStart, delegate () { FinishSubPhase(typeof(ActivationStartSubPhase)); });
+
     }
 
     public static void CallCombatPhaseTrigger()
@@ -180,9 +130,11 @@ public static partial class Phases
         Triggers.ResolveTriggers(TriggerTypes.OnCombatPhaseStart, delegate () { FinishSubPhase(typeof(CombatStartSubPhase)); });
     }
 
-    public static void CallEndPhaseTrigger()
+    public static void CallEndPhaseTrigger(Action callBack)
     {
         if (OnEndPhaseStart != null) OnEndPhaseStart();
+
+        Triggers.ResolveTriggers(TriggerTypes.OnEndPhaseStart, callBack);
     }
 
     public static void CallRoundEndTrigger()
@@ -217,7 +169,7 @@ public static partial class Phases
         GenericSubPhase previousSubPhase = CurrentSubPhase;
         CurrentSubPhase = (GenericSubPhase)System.Activator.CreateInstance(subPhaseType);
         CurrentSubPhase.Name = name;
-        CurrentSubPhase.callBack = callBack;
+        CurrentSubPhase.CallBack = callBack;
         CurrentSubPhase.PreviousSubPhase = previousSubPhase;
         CurrentSubPhase.RequiredPlayer = previousSubPhase.RequiredPlayer;
         CurrentSubPhase.RequiredPilotSkill = previousSubPhase.RequiredPilotSkill;

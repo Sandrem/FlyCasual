@@ -120,7 +120,7 @@ public static partial class RosterBuilder {
         return result;
     }
 
-    private static List<string> GetUpgrades(Upgrade.UpgradeSlot slot)
+    private static List<string> GetUpgrades(Upgrade.UpgradeType slot)
     {
         List<string> results = new List<string>();
 
@@ -213,10 +213,13 @@ public static partial class RosterBuilder {
             }
         }
 
-        if (squadCost > 100)
+        if (!DebugManager.DebugNoSquadPointsLimit)
         {
-            Messages.ShowError("Cost of squadron cannot be more than 100");
-            result = false;
+            if (squadCost > 100)
+            {
+                Messages.ShowError("Cost of squadron cannot be more than 100");
+                result = false;
+            }
         }
 
         return result;

@@ -20,11 +20,11 @@ namespace Ship
                 MaxHull = 3;
                 MaxShields = 2;
 
-                AddUpgradeSlot(Upgrade.UpgradeSlot.Astromech);
-                AddUpgradeSlot(Upgrade.UpgradeSlot.Torpedoes);
+                AddUpgradeSlot(Upgrade.UpgradeType.Astromech);
+                AddUpgradeSlot(Upgrade.UpgradeType.Torpedoes);
 
                 AssignTemporaryManeuvers();
-                HotacManeuverTable = new XWingTable();
+                HotacManeuverTable = new AI.XWingTable();
 
                 factions.Add(Faction.Rebels);
                 faction = Faction.Rebels;

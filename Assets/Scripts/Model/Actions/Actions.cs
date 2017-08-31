@@ -6,21 +6,12 @@ using Board;
 
 public static partial class Actions {
 
-    private static GameManagerScript Game;
-
     private static Dictionary<char, bool> Letters = new Dictionary<char, bool>();
 
     public static CriticalHitCard.GenericCriticalHit SelectedCriticalHitCard;
 
-    static Actions()
+    public static void AssignTargetLockToPair(Ship.GenericShip thisShip, Ship.GenericShip targetShip, Action successCallback, Action failureCallback)
     {
-        Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-    }
-
-    public static bool AssignTargetLockToPair(Ship.GenericShip thisShip, Ship.GenericShip targetShip)
-    {
-        bool result = false;
-
         if (Letters.Count == 0) InitializeTargetLockLetters();
 
         ShipDistanceInformation distanceInfo = new ShipDistanceInformation(thisShip, targetShip);
@@ -29,10 +20,6 @@ public static partial class Actions {
             Tokens.GenericToken existingBlueToken = thisShip.GetToken(typeof(Tokens.BlueTargetLockToken), '*');
             if (existingBlueToken != null)
             {
-                if ((existingBlueToken as Tokens.BlueTargetLockToken).LockedShip != null)
-                {
-                    (existingBlueToken as Tokens.BlueTargetLockToken).LockedShip.RemoveToken(typeof(Tokens.RedTargetLockToken), (existingBlueToken as Tokens.BlueTargetLockToken).Letter);
-                }
                 thisShip.RemoveToken(typeof(Tokens.BlueTargetLockToken), (existingBlueToken as Tokens.BlueTargetLockToken).Letter);
             }
 
@@ -40,22 +27,23 @@ public static partial class Actions {
             Tokens.RedTargetLockToken tokenRed = new Tokens.RedTargetLockToken();
 
             char letter = GetFreeTargetLockLetter();
+
             tokenBlue.Letter = letter;
-            tokenBlue.LockedShip = targetShip;
+            tokenBlue.OtherTokenOwner = targetShip;
+
             tokenRed.Letter = letter;
+            tokenRed.OtherTokenOwner = Selection.ThisShip;
+
             TakeTargetLockLetter(letter);
 
-            Selection.ThisShip.AssignToken(tokenBlue);
-            targetShip.AssignToken(tokenRed);
-
-            result = true;
+            targetShip.AssignToken(tokenRed, delegate { } );
+            Selection.ThisShip.AssignToken(tokenBlue, successCallback);
         }
         else
         {
             Messages.ShowErrorToHuman("Target is out of range of Target Lock");
+            failureCallback();
         }
-
-        return result;
     }
 
     private static void InitializeTargetLockLetters()
@@ -65,10 +53,11 @@ public static partial class Actions {
         Letters.Add('C', true);
         Letters.Add('D', true);
         Letters.Add('E', true);
+        Letters.Add('F', true);
         Letters.Add('G', true);
         Letters.Add('H', true);
-        Letters.Add('I', true);
 
+        Letters.Add('I', true);
         Letters.Add('J', true);
         Letters.Add('K', true);
         Letters.Add('L', true);
@@ -76,7 +65,6 @@ public static partial class Actions {
         Letters.Add('N', true);
         Letters.Add('O', true);
         Letters.Add('P', true);
-        Letters.Add('Q', true);
     }
 
     private static char GetFreeTargetLockLetter()
@@ -138,7 +126,7 @@ public static partial class Actions {
 
     public static int GetFiringRangeAndShow(Ship.GenericShip thisShip, Ship.GenericShip anotherShip)
     {
-        ShipShotDistanceInformation shotInfo = new ShipShotDistanceInformation(thisShip, anotherShip);
+        ShipShotDistanceInformation shotInfo = new ShipShotDistanceInformation(thisShip, anotherShip, thisShip.PrimaryWeapon);
         MovementTemplates.ShowFiringArcRange(shotInfo);
         return shotInfo.Range;
     }
@@ -147,14 +135,30 @@ public static partial class Actions {
     {
         foreach (var anotherShip in Roster.GetPlayer(Roster.AnotherPlayer(thisShip.Owner.PlayerNo)).Ships)
         {
-            ShipShotDistanceInformation shotInfo = new ShipShotDistanceInformation(thisShip, anotherShip.Value);
-            if ((shotInfo.Range < 4) && (shotInfo.InArc))
+            ShipShotDistanceInformation shotInfo = new ShipShotDistanceInformation(thisShip, anotherShip.Value, thisShip.PrimaryWeapon);
+            if ((shotInfo.Range < 4) && (shotInfo.InShotAngle))
             {
                 return true;
             }
         }
 
         return false;
+    }
+
+    public static int CountEnemiesTargeting(Ship.GenericShip thisShip)
+    {
+        int result = 0;
+
+        foreach (var anotherShip in Roster.GetPlayer(Roster.AnotherPlayer(thisShip.Owner.PlayerNo)).Ships)
+        {
+            ShipShotDistanceInformation shotInfo = new ShipShotDistanceInformation(anotherShip.Value, thisShip, anotherShip.Value.PrimaryWeapon);
+            if ((shotInfo.Range < 4) && (shotInfo.InShotAngle))
+            {
+                result++;
+            }
+        }
+
+        return result;
     }
 
     public static bool HasTargetLockOn(Ship.GenericShip attacker, Ship.GenericShip defender)

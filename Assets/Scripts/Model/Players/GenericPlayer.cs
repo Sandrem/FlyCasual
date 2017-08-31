@@ -34,7 +34,6 @@ namespace Players
         private int id;
         public int Id { get { return (PlayerNo == PlayerNo.Player1) ? 1 : 2; } }
 
-
         protected GameManagerScript Game;
 
         public GenericPlayer()
@@ -64,6 +63,8 @@ namespace Players
         public virtual void UseDiceModifications() { }
 
         public virtual void TakeDecision() { }
+
+        public virtual void AfterShipMovementPrediction() { }
     }
 
 }

@@ -6,7 +6,6 @@ using UnityEngine.EventSystems;
 using Players;
 using System.Linq;
 
-//TODO: Change direction of rows in tokens
 public static partial class Roster {
 
     private static List<GameObject> rosterPlayer1 = new List<GameObject>();
@@ -25,6 +24,12 @@ public static partial class Roster {
         newPanel.transform.Find("ShipIdText").localPosition = new Vector3((newShip.Owner.PlayerNo == PlayerNo.Player1) ? 205 : -50, 0, 0);
         newPanel.transform.Find("ShipIdText").gameObject.SetActive(true);
 
+        newPanel.transform.Find("ShipInfo/ShipFirepowerText").GetComponent<Text>().text = newShip.Firepower.ToString();
+        newPanel.transform.Find("ShipInfo/ShipAgilityText").GetComponent<Text>().text = newShip.Agility.ToString();
+        newPanel.transform.Find("ShipInfo/ShipHullText").GetComponent<Text>().text = newShip.MaxHull.ToString();
+        newPanel.transform.Find("ShipInfo/ShipShieldsText").GetComponent<Text>().text = newShip.MaxShields.ToString();
+
+        //Tooltips
         GameObject pilotNameGO = newPanel.transform.Find("ShipInfo/ShipPilotNameText").gameObject;
         pilotNameGO.GetComponent<Text>().text = newShip.PilotName;
         Tooltips.AddTooltip(pilotNameGO, newShip.ImageUrl);
@@ -35,13 +40,9 @@ public static partial class Roster {
         Tooltips.AddTooltip(shipTypeGO, newShip.ManeuversImageUrl);
         SubscribeActions(shipTypeGO);
 
-        newPanel.transform.Find("ShipInfo/ShipFirepowerText").GetComponent<Text>().text = newShip.Firepower.ToString();
-        newPanel.transform.Find("ShipInfo/ShipAgilityText").GetComponent<Text>().text = newShip.Agility.ToString();
-        newPanel.transform.Find("ShipInfo/ShipHullText").GetComponent<Text>().text = newShip.MaxHull.ToString();
-        newPanel.transform.Find("ShipInfo/ShipShieldsText").GetComponent<Text>().text = newShip.MaxShields.ToString();
-
         //Mark
         newPanel.transform.Find("Mark").localPosition = new Vector3((newShip.Owner.PlayerNo == PlayerNo.Player1) ? 198 : -8, 0, 0);
+        SubscribeMarkByHover(newPanel);
 
         //Hull and shields
         float panelWidth = 200 - 10;
@@ -70,9 +71,7 @@ public static partial class Roster {
 
         //Finish
         newPanel.transform.Find("ShipInfo").tag = "ShipId:" + newShip.ShipId.ToString();
-
         AddToRoster(newShip, newPanel);
-
         newPanel.transform.Find("ShipInfo").gameObject.SetActive(true);
 
         return newPanel;
@@ -125,20 +124,6 @@ public static partial class Roster {
     {
         int panelHeight = 80;
 
-        //Tokens
-
-        int iconsCount = 0;
-        foreach (Transform icon in panel.transform.Find("ShipInfo/TokensBar").transform)
-        {
-            if (icon.gameObject.activeSelf)
-            {
-                iconsCount++;
-            }
-        }
-
-        int iconsLines = (iconsCount + 4) / 5;
-        panelHeight += 35 * iconsLines + 3;
-
         //Upgrades
 
         float upgradesVisible = 0;
@@ -151,7 +136,24 @@ public static partial class Roster {
             }
         }
 
-        panelHeight += Mathf.CeilToInt(upgradesVisible/2) * 20;
+        int upgdaresHeight = Mathf.CeilToInt(upgradesVisible / 2) * 20;
+        panelHeight += upgdaresHeight;
+
+        //Tokens
+
+        panel.transform.Find("ShipInfo/TokensBar").GetComponent<RectTransform>().localPosition = new Vector2(10, -65 - upgdaresHeight);
+
+        int iconsCount = 0;
+        foreach (Transform icon in panel.transform.Find("ShipInfo/TokensBar").transform)
+        {
+            if (icon.gameObject.activeSelf)
+            {
+                iconsCount++;
+            }
+        }
+
+        int iconsLines = (iconsCount + 4) / 5;
+        panelHeight += 35 * iconsLines + 3;
 
         panel.transform.Find("Mark").GetComponent<RectTransform>().sizeDelta = new Vector2(10, panelHeight);
 
@@ -182,7 +184,6 @@ public static partial class Roster {
         }
     }
 
-    //TODO: rewrite to support TARGETSHIP
     public static void SelectShipByRosterClick(PointerEventData data)
     {
         foreach (var item in data.hovered)
@@ -192,6 +193,37 @@ public static partial class Roster {
             }
         }
         Game.UI.HideTemporaryMenus();
+    }
+
+    public static void SubscribeMarkByHover(GameObject sender)
+    {
+        EventTrigger trigger = sender.GetComponent<EventTrigger>();
+        if (trigger == null)
+        {
+            sender.AddComponent<EventTrigger>();
+            trigger = sender.GetComponent<EventTrigger>();
+        }
+
+        EventTrigger.Entry entry = new EventTrigger.Entry();
+        entry.eventID = EventTriggerType.PointerEnter;
+        entry.callback.AddListener((data) => { HoverShipByRosterClick((PointerEventData)data); });
+        trigger.triggers.Add(entry);
+
+        entry = new EventTrigger.Entry();
+        entry.eventID = EventTriggerType.PointerExit;
+        entry.callback.AddListener((data) => { Selection.TryUnmarkPreviousHoveredShip(); });
+        trigger.triggers.Add(entry);
+    }
+
+    public static void HoverShipByRosterClick(PointerEventData data)
+    {
+        foreach (var item in data.hovered)
+        {
+            if (item.tag.StartsWith("ShipId:"))
+            {
+                Selection.TryMarkShip(item.tag);
+            }
+        }
     }
 
     //UPDATE
@@ -249,8 +281,8 @@ public static partial class Roster {
             MonoBehaviour.Destroy(icon);
         }
 
-        float offset = 0;
-        float row = 0;
+        int columnCounter = 0;
+        int rowCounter = 0;
         foreach (var token in thisShip.GetAssignedTokens())
         {
             for (int i = 0; i < token.Count; i++)
@@ -267,15 +299,12 @@ public static partial class Roster {
                 }
 
                 tokenPanel.SetActive(true);
-                tokenPanel.GetComponent<RectTransform>().localPosition = new Vector3(offset, tokenPanel.GetComponent<RectTransform>().localPosition.y + 35 * row, tokenPanel.GetComponent<RectTransform>().localPosition.z);
-                if (i > (row * 5) + 3)
+                tokenPanel.GetComponent<RectTransform>().localPosition = new Vector3(columnCounter * 37, tokenPanel.GetComponent<RectTransform>().localPosition.y + -37 * rowCounter, tokenPanel.GetComponent<RectTransform>().localPosition.z);
+                columnCounter++;
+                if (columnCounter == 5)
                 {
-                    row++;
-                    offset = 0;
-                }
-                else
-                {
-                    offset += 32 + 3;
+                    rowCounter++;
+                    columnCounter = 0;
                 }
             }
         }
@@ -293,6 +322,7 @@ public static partial class Roster {
             upgradeNamePanel.SetActive(true);
             index++;
         }
+        OrganizeRosters();
     }
 
     public static void SubscribeUpgradesPanel(Ship.GenericShip newShip, GameObject newPanel)
@@ -313,7 +343,7 @@ public static partial class Roster {
     {
         foreach (Transform upgradeLine in host.InfoPanel.transform.Find("ShipInfo/UpgradesBar").transform)
         {
-            if (upgradeLine.GetComponent<Text>().text == upgradeShortName)
+            if (upgradeLine.GetComponent<Text>().text == upgradeShortName && upgradeLine.GetComponent<Text>().color != Color.gray)
             {
                 upgradeLine.GetComponent<Text>().color = Color.gray;
                 return;

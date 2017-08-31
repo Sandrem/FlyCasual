@@ -12,7 +12,7 @@ namespace UpgradesList
 
         public R2D2() : base()
         {
-            Type = UpgradeSlot.Astromech;
+            Type = UpgradeType.Astromech;
             Name = ShortName = "R2-D2";
             ImageUrl = "https://vignette2.wikia.nocookie.net/xwing-miniatures/images/5/57/R2-d2.png";
             isUnique = true;
@@ -32,7 +32,12 @@ namespace UpgradesList
             {
                 if (host.Shields < host.MaxShields)
                 {
-                    Triggers.RegisterTrigger(new Trigger() { Name = "R2-D2: Regen Shield", TriggerOwner = host.Owner.PlayerNo, TriggerType = TriggerTypes.OnShipMovementExecuted, EventHandler = R2D2RegenShield });
+                    Triggers.RegisterTrigger(new Trigger() {
+                        Name = "R2-D2: Regen Shield",
+                        TriggerOwner = host.Owner.PlayerNo,
+                        TriggerType = TriggerTypes.OnShipMovementExecuted,
+                        EventHandler = R2D2RegenShield
+                    });
                 }
             }
         }

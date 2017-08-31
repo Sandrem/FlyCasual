@@ -58,6 +58,26 @@ public class ShipPositionManager : MonoBehaviour
             Phases.CurrentSubPhase.Update();
         }
 
+        if (Phases.CurrentSubPhase.GetType() == typeof(SubPhases.BoostPlanningSubPhase))
+        {
+            Phases.CurrentSubPhase.Update();
+        }
+
+        if (Phases.CurrentSubPhase.GetType() == typeof(SubPhases.BoostExecutionSubPhase))
+        {
+            Phases.CurrentSubPhase.Update();
+        }
+
+        if (Phases.CurrentSubPhase.GetType() == typeof(SubPhases.DecloakPlanningSubPhase))
+        {
+            Phases.CurrentSubPhase.Update();
+        }
+
+        if (Phases.CurrentSubPhase.GetType() == typeof(SubPhases.DecloakExecutionSubPhase))
+        {
+            Phases.CurrentSubPhase.Update();
+        }
+
         if (inKoiogranTurn)
         {
             DoKoiogranTurnAnimation();
@@ -312,7 +332,7 @@ public class ShipPositionManager : MonoBehaviour
 
     private void DoKoiogranTurnAnimation()
     {
-        float progressStep = Mathf.Min(Time.deltaTime*KOIOGRAN_ANIMATION_SPEED, progressTarget-progressCurrent);
+        float progressStep = Mathf.Min(Time.deltaTime * KOIOGRAN_ANIMATION_SPEED * Options.AnimationSpeed, progressTarget-progressCurrent);
         progressCurrent += progressStep;
 
         Selection.ThisShip.RotateAround(Selection.ThisShip.GetCenter(), progressStep);

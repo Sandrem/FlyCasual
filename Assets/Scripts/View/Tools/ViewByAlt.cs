@@ -4,17 +4,15 @@ using UnityEngine;
 
 public class ViewByAlt : MonoBehaviour {
 
-	// Update is called once per frame
-	void Update ()
-    {
-        if (Input.GetKey(KeyCode.LeftAlt))
-        {
-            gameObject.GetComponent<Canvas>().enabled = true;
-        }
+    GameManagerScript Game;
 
-        if (Input.GetKeyUp(KeyCode.LeftAlt))
-        {
-            gameObject.GetComponent<Canvas>().enabled = false;
-        }
-	}
+    private void Start()
+    {
+        Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
+    }
+
+    void Update ()
+    {
+        gameObject.GetComponent<Canvas>().enabled = Game.UI.ShowShipIds;
+    }
 }

@@ -28,7 +28,6 @@ public class ShipMovementScript : MonoBehaviour {
         Selection.UpdateSelection();
         UpdateMovement();
         UpdateSubscribedFuncs();
-        Phases.CheckScheduledChanges();
 
         ClearCollision();
     }
@@ -78,33 +77,35 @@ public class ShipMovementScript : MonoBehaviour {
         }
     }
 
-    public Movement.GenericMovement MovementFromString(string parameters)
+    public Movement.GenericMovement MovementFromStruct(Movement.MovementStruct movementStruct)
     {
-        Movement.MovementStruct movementStruct = ManeuverFromString(parameters);
-
-        string[] arrParameters = parameters.Split('.');
-        int speed = int.Parse(arrParameters[0]);
-
         Movement.GenericMovement result = null;
 
         if (movementStruct.Bearing == Movement.ManeuverBearing.Straight)
         {
-            result = new Movement.StraightMovement(speed, movementStruct.Direction, movementStruct.Bearing, movementStruct.ColorComplexity);
+            result = new Movement.StraightMovement(movementStruct.SpeedInt, movementStruct.Direction, movementStruct.Bearing, movementStruct.ColorComplexity);
         }
         else if (movementStruct.Bearing == Movement.ManeuverBearing.KoiogranTurn)
         {
-            result = new Movement.KoiogranTurnMovement(speed, movementStruct.Direction, movementStruct.Bearing, movementStruct.ColorComplexity);
+            result = new Movement.KoiogranTurnMovement(movementStruct.SpeedInt, movementStruct.Direction, movementStruct.Bearing, movementStruct.ColorComplexity);
         }
         else if (movementStruct.Bearing == Movement.ManeuverBearing.Turn)
         {
-            result = new Movement.TurnMovement(speed, movementStruct.Direction, movementStruct.Bearing, movementStruct.ColorComplexity);
+            result = new Movement.TurnMovement(movementStruct.SpeedInt, movementStruct.Direction, movementStruct.Bearing, movementStruct.ColorComplexity);
         }
         else if (movementStruct.Bearing == Movement.ManeuverBearing.Bank)
         {
-            result = new Movement.BankMovement(speed, movementStruct.Direction, movementStruct.Bearing, movementStruct.ColorComplexity);
+            result = new Movement.BankMovement(movementStruct.SpeedInt, movementStruct.Direction, movementStruct.Bearing, movementStruct.ColorComplexity);
         }
 
         return result;
+    }
+
+    public Movement.GenericMovement MovementFromString(string parameters)
+    {
+        Movement.MovementStruct movementStruct = ManeuverFromString(parameters);
+
+        return MovementFromStruct(movementStruct);
     }
 
     public Movement.MovementStruct ManeuverFromString(string parameters)

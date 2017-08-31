@@ -27,7 +27,14 @@ namespace Ship
             {
                 if (AssignedManeuver.ColorComplexity == Movement.ManeuverColor.Green)
                 {
-                    Triggers.RegisterTrigger(new Trigger() { Name = "Night Beast: Free Focus action", TriggerOwner = ship.Owner.PlayerNo, TriggerType = TriggerTypes.OnShipMovementFinish, EventHandler = PerformFreeFocusAction });
+                    Triggers.RegisterTrigger(
+                        new Trigger() {
+                            Name = "Night Beast: Free Focus action",
+                            TriggerOwner = ship.Owner.PlayerNo,
+                            TriggerType = TriggerTypes.OnShipMovementFinish,
+                            EventHandler = PerformFreeFocusAction
+                        }
+                    );
                 }
             }
 
@@ -35,13 +42,7 @@ namespace Ship
             {
                 List<ActionsList.GenericAction> actions = new List<ActionsList.GenericAction>() { new ActionsList.FocusAction() };
 
-                AskPerformFreeAction(
-                    actions,
-                    delegate {
-                        Phases.FinishSubPhase(typeof(SubPhases.FreeActionSubPhase));
-                        Triggers.FinishTrigger();
-                    }
-                );
+                AskPerformFreeAction(actions, Triggers.FinishTrigger);
             }
         }
     }

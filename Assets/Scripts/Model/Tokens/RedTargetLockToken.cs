@@ -7,7 +7,8 @@ namespace Tokens
 
     public class RedTargetLockToken : GenericTargetLockToken
     {
-        public RedTargetLockToken() {
+        public RedTargetLockToken()
+        {
             Name = "Red Target Lock Token";
         }
     }

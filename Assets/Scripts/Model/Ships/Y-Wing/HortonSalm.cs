@@ -10,8 +10,6 @@ namespace Ship
         {
             public HortonSalm() : base()
             {
-                IsHidden = true;
-
                 PilotName = "Horton Salm";
                 ImageUrl = "https://vignette4.wikia.nocookie.net/xwing-miniatures/images/5/56/Horton_Salm.png";
                 IsUnique = true;
@@ -37,26 +35,42 @@ namespace PilotAbilities
 {
     public class HortonSalmAction : ActionsList.GenericAction
     {
-        private Ship.GenericShip host;
-
         public HortonSalmAction()
         {
             Name = EffectName = "Horton Salm's ability";
             IsReroll = true;
         }
 
-        public override void ActionEffect()
+        public override void ActionEffect(System.Action callBack)
         {
-            Combat.CurentDiceRoll.Reroll("blank");
+            DiceRerollManager diceRerollManager = new DiceRerollManager
+            {
+                SidesCanBeRerolled = new List<DiceSide> { DiceSide.Blank },
+                CallBack = callBack
+            };
+            diceRerollManager.Start();
         }
 
         public override bool IsActionEffectAvailable()
         {
             bool result = false;
-            /*if ((Combat.AttackStep == CombatStep.Attack) && (Actions.GetRange(Selection.ThisShip, Selection.AnotherShip) > 1))
+            Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(Combat.Attacker, Combat.Defender, Combat.ChosenWeapon);
+            if ((Combat.AttackStep == CombatStep.Attack) && (shotInfo.Range > 1))
             {
                 result = true;
-            }*/
+            }
+            return result;
+        }
+
+        public override int GetActionEffectPriority()
+        {
+            int result = 0;
+
+            if (Combat.AttackStep == CombatStep.Attack)
+            {
+                if (Combat.DiceRollAttack.Blanks > 0) result = 95;
+            }
+
             return result;
         }
 

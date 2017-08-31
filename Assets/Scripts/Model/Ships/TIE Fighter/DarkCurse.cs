@@ -29,7 +29,7 @@ namespace Ship
                 if ((Combat.AttackStep == CombatStep.Attack) && (Combat.Defender.PilotName == PilotName))
                 {
                     Combat.Attacker.OnTryAddAvailableActionEffect += UseDarkCurseRestriction;
-                    Combat.Attacker.AssignToken(new Conditions.DarkCurseCondition());
+                    Combat.Attacker.AssignToken(new Conditions.DarkCurseCondition(), delegate { });
                 }
             }
 

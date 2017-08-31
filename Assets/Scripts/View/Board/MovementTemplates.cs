@@ -53,19 +53,23 @@ public static class MovementTemplates {
 
         if (Selection.ThisShip.AssignedManeuver.Speed != 0)
         {
-            CurrentTemplate = GetMovementRuler();
-
-            SaveCurrentMovementRulerPosition();
-
-            CurrentTemplate.position = thisShip.GetPosition();
-            CurrentTemplate.eulerAngles = thisShip.GetAngles() + new Vector3(0f, 90f, 0f);
-            if (Selection.ThisShip.AssignedManeuver.Direction == Movement.ManeuverDirection.Left)
-            {
-                CurrentTemplate.eulerAngles = CurrentTemplate.eulerAngles + new Vector3(180f, 0f, 0f);
-            }
-        }
-        
+            ApplyMovementRuler(thisShip, thisShip.AssignedManeuver);
+        }        
 	}
+
+    public static void ApplyMovementRuler(Ship.GenericShip thisShip, Movement.GenericMovement movement)
+    {
+        CurrentTemplate = GetMovementRuler(movement);
+
+        SaveCurrentMovementRulerPosition();
+
+        CurrentTemplate.position = thisShip.GetPosition();
+        CurrentTemplate.eulerAngles = thisShip.GetAngles() + new Vector3(0f, 90f, 0f);
+        if (movement.Direction == Movement.ManeuverDirection.Left)
+        {
+            CurrentTemplate.eulerAngles = CurrentTemplate.eulerAngles + new Vector3(180f, 0f, 0f);
+        }
+    }
 
     public static void SaveCurrentMovementRulerPosition()
     {
@@ -73,19 +77,19 @@ public static class MovementTemplates {
         savedRulerRotation = CurrentTemplate.eulerAngles;
     }
 
-    private static Transform GetMovementRuler()
+    private static Transform GetMovementRuler(Movement.GenericMovement movement)
     {
         Transform result = null;
-        switch (Selection.ThisShip.AssignedManeuver.Bearing)
+        switch (movement.Bearing)
         {
             case Movement.ManeuverBearing.Straight:
-                return Templates.Find("straight" + Selection.ThisShip.AssignedManeuver.Speed);
+                return Templates.Find("straight" + movement.Speed);
             case Movement.ManeuverBearing.Bank:
-                return Templates.Find("bank" + Selection.ThisShip.AssignedManeuver.Speed);
+                return Templates.Find("bank" + movement.Speed);
             case Movement.ManeuverBearing.Turn:
-                return Templates.Find("turn" + Selection.ThisShip.AssignedManeuver.Speed);
+                return Templates.Find("turn" + movement.Speed);
             case Movement.ManeuverBearing.KoiogranTurn:
-                return Templates.Find("straight" + Selection.ThisShip.AssignedManeuver.Speed);
+                return Templates.Find("straight" + movement.Speed);
         }
         return result;
     }
@@ -102,7 +106,7 @@ public static class MovementTemplates {
 
     public static void ShowFiringArcRange(ShipShotDistanceInformation shotInfo)
     {
-        if (shotInfo.InArc)
+        if (shotInfo.InShotAngle)
         {
             ShowRangeRuler(shotInfo);
         }
@@ -113,7 +117,7 @@ public static class MovementTemplates {
         }
     }
 
-    public static void ShowRangeRuler(ShipDistanceInformation shipDistanceInfo)
+    public static void ShowRangeRuler(GeneralShipDistanceInformation shipDistanceInfo)
     {
         Templates.Find("RangeRuler").position = shipDistanceInfo.ThisShipNearestPoint;
         Templates.Find("RangeRuler").rotation = Quaternion.LookRotation(shipDistanceInfo.Vector);
@@ -132,7 +136,16 @@ public static class MovementTemplates {
 
     public static Transform GetMovement1Ruler()
     {
-        return Templates.Find("straight1");
+        CurrentTemplate = Templates.Find("straight1");
+        SaveCurrentMovementRulerPosition();
+        return CurrentTemplate;
+    }
+
+    public static Transform GetMovement2Ruler()
+    {
+        CurrentTemplate = Templates.Find("straight2");
+        SaveCurrentMovementRulerPosition();
+        return CurrentTemplate;
     }
 
 }

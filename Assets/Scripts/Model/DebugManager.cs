@@ -8,6 +8,10 @@ public static class DebugManager
 
     public static bool DebugAllDamageIsCrits;
 
+    public static bool DebugNoSquadPointsLimit;
+
+    public static bool DebugNoCombat;
+
     private static bool debugPhases;
     public static bool DebugPhases
     {
@@ -60,6 +64,17 @@ public static class DebugManager
             return debugDamage;
         }
         set { debugDamage = value; }
+    }
+
+    private static bool debugArcsAndDistance;
+    public static bool DebugArcsAndDistance
+    {
+        get
+        {
+            if (FullDebug) return true;
+            return debugArcsAndDistance;
+        }
+        set { debugArcsAndDistance = value; }
     }
 
 }

@@ -70,7 +70,7 @@ namespace Ship
             return GetPoints(standPoints);
         }
 
-        public Dictionary<string, Vector3> GetStandFrontPoins()
+        public Dictionary<string, Vector3> GetStandFrontPoints()
         {
             return GetPoints(standFrontPoints);
         }

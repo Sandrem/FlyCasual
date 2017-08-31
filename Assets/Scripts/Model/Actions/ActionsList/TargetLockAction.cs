@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace ActionsList
@@ -12,25 +13,20 @@ namespace ActionsList
             IsReroll = true;
         }
 
-        public override void ActionEffect()
+        public override void ActionEffect(System.Action callBack)
         {
             if (Actions.HasTargetLockOn(Combat.Attacker, Combat.Defender))
             {
+                DiceRerollManager diceRerollManager = new DiceRerollManager()
+                {
+                    CallBack = callBack
+                };
+
                 char letter = ' ';
                 letter = Actions.GetTargetLocksLetterPair(Combat.Attacker, Combat.Defender);
 
-                Selection.ActiveShip.SpendToken(typeof(Tokens.BlueTargetLockToken), letter);
-                Combat.Defender.RemoveToken(typeof(Tokens.RedTargetLockToken), letter);
-
-                //TODO: 2 Kinds of reroll
-                //TODO: Block buttons
-                Dices.RerollDices(Combat.CurentDiceRoll, "failures", Unblock);
+                Selection.ActiveShip.SpendToken(typeof(Tokens.BlueTargetLockToken), diceRerollManager.Start, letter);
             }
-        }
-
-        private void Unblock(DiceRoll diceRoll)
-        {
-            //Todo: Unblock buttons
         }
 
         public override bool IsActionEffectAvailable()
@@ -46,12 +42,35 @@ namespace ActionsList
             return result;
         }
 
+        public override int GetActionEffectPriority()
+        {
+            int result = 0;
+
+            if (Combat.AttackStep == CombatStep.Attack)
+            {
+                int attackFocuses = Combat.DiceRollAttack.FocusesNotRerolled;
+                int attackBlanks = Combat.DiceRollAttack.BlanksNotRerolled;
+
+                //if (Combat.Attacker.HasToken(typeof(Tokens.FocusToken)))
+                if (Combat.Attacker.GetAvailableActionEffectsList().Count(n => n.IsTurnsAllFocusIntoSuccess) > 0)
+                {
+                    if (attackBlanks > 0) result = 80;
+                }
+                else
+                {
+                    if (attackBlanks + attackFocuses > 0) result = 80;
+                }
+            }
+
+            return result;
+        }
+
         public override void ActionTake()
         {
             Phases.StartTemporarySubPhase(
                 "Select target for Target Lock",
                 typeof(SubPhases.SelectTargetLockSubPhase),
-                Phases.CurrentSubPhase.callBack
+                Phases.CurrentSubPhase.CallBack
             );
         }
 
@@ -75,16 +94,26 @@ namespace SubPhases
 
         private void TrySelectTargetLock()
         {
-            if (!Actions.AssignTargetLockToPair(Selection.ThisShip, TargetShip))
-            {
-                RevertSubPhase();
-            }
+            Actions.AssignTargetLockToPair(
+                Selection.ThisShip,
+                TargetShip,
+                delegate {
+                    Phases.FinishSubPhase(typeof(SelectTargetLockSubPhase));
+                    CallBack();
+                },
+                RevertSubPhase
+            );
         }
 
         protected override void RevertSubPhase()
         {
             Selection.ThisShip.RemoveAlreadyExecutedAction(typeof(ActionsList.TargetLockAction));
             base.RevertSubPhase();
+        }
+
+        public override void SkipButton()
+        {
+            RevertSubPhase();
         }
 
     }

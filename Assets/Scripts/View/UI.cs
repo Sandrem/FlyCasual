@@ -14,9 +14,21 @@ public class UI : MonoBehaviour {
 
     private int minimapSize = 256;
 
+    public bool ShowShipIds;
+
     public void Initialize()
     {
         Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
+    }
+
+    public void Update()
+    {
+        UpdateShipIds();
+    }
+
+    private void UpdateShipIds()
+    {
+        ShowShipIds = Input.GetKey(KeyCode.LeftAlt);
     }
 
     //Move to context menu
@@ -191,17 +203,16 @@ public class UI : MonoBehaviour {
     {
         HideNextButton();
         Roster.AllShipsHighlightOff();
-        if (Phases.CurrentSubPhase.GetType() == typeof(SubPhases.CombatSubPhase))
-        {
-            foreach (var shipHolder in Roster.GetPlayer(Phases.CurrentPhasePlayer).Ships)
-            {
-                if (shipHolder.Value.PilotSkill == Phases.CurrentSubPhase.RequiredPilotSkill)
-                {
-                    shipHolder.Value.IsAttackPerformed = true;
-                }
-            }
-        }
-        Phases.CallNextSubPhase();
+
+        Phases.CurrentSubPhase.NextButton();
+    }
+
+    public void ClickSkipPhase()
+    {
+        HideNextButton();
+        Roster.AllShipsHighlightOff();
+
+        Phases.CurrentSubPhase.SkipButton();
     }
 
     public void ClickDeclareTarget()
@@ -209,34 +220,30 @@ public class UI : MonoBehaviour {
         Combat.DeclareTarget();
     }
 
-    public void CloseActionsPanel()
-    {
-        Actions.CloseActionsPanel();
-        Phases.CurrentSubPhase.callBack();
-    }
-
     public void ShowNextButton()
     {
         Game.PrefabsList.NextButtonPanel.SetActive(true);
         Game.PrefabsList.NextButtonPanel.transform.Find("NextButton").GetComponent<Animator>().enabled = false;
-        Game.PrefabsList.NextButtonPanel.transform.Find("NextButton").GetComponentInChildren<Text>().text = "NEXT";
-    }
-
-    public void ShowSkipButton()
-    {
-        Game.PrefabsList.NextButtonPanel.SetActive(true);
-        Game.PrefabsList.NextButtonPanel.transform.Find("NextButton").GetComponentInChildren<Text>().text = "SKIP";
     }
 
     public void HideNextButton()
     {
         Game.PrefabsList.NextButtonPanel.SetActive(false);
-
         Game.PrefabsList.NextButtonPanel.transform.Find("NextButton").GetComponent<Animator>().enabled = false;
 
         ColorBlock colors = Game.PrefabsList.NextButtonPanel.transform.Find("NextButton").GetComponent<Button>().colors;
         colors.normalColor = new Color32(0, 0, 0, 200);
         Game.PrefabsList.NextButtonPanel.transform.Find("NextButton").GetComponent<Button>().colors = colors;
+    }
+
+    public void ShowSkipButton()
+    {
+        Game.PrefabsList.SkipButtonPanel.SetActive(true);
+    }
+
+    public void HideSkipButton()
+    {
+        Game.PrefabsList.SkipButtonPanel.SetActive(false);
     }
 
     public void HighlightNextButton()
@@ -247,6 +254,11 @@ public class UI : MonoBehaviour {
     public void CallHideTooltip()
     {
         Tooltips.EndTooltip();
+    }
+
+    public void HideInformCritPanel()
+    {
+        InformCrit.HidePanel();
     }
 
     public void QuitGame()

@@ -110,6 +110,7 @@ namespace Ship
 
         // EVENTS
 
+        public event EventHandlerShip OnActivationPhaseStart;
         public event EventHandlerShip OnActionSubPhaseStart;
         public event EventHandlerShip OnCombatPhaseStart;
 
@@ -141,6 +142,11 @@ namespace Ship
         public event EventHandlerShip AfterCombatEnd;
 
         // TRIGGERS
+
+        public void CallOnActivationPhaseStart()
+        {
+            if (OnActivationPhaseStart != null) OnActivationPhaseStart(this);
+        }
 
         public void CallOnActionSubPhaseStart()
         {

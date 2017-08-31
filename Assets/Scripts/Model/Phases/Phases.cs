@@ -110,6 +110,13 @@ public static partial class Phases
     public static void CallActivationPhaseTrigger()
     {
         if (OnActivationPhaseStart != null) OnActivationPhaseStart();
+        foreach (var shipHolder in Roster.AllShips)
+        {
+            shipHolder.Value.CallOnActivationPhaseStart();
+        }
+
+        Triggers.ResolveTriggers(TriggerTypes.OnActionPhaseStart, delegate () { FinishSubPhase(typeof(ActivationStartSubPhase)); });
+
     }
 
     public static void CallCombatPhaseTrigger()

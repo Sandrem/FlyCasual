@@ -30,7 +30,8 @@ namespace Ship
 
         public event EventHandlerShipType OnTokenIsAssigned;
         public static event EventHandlerShipType OnTokenIsAssignedGlobal;
-        public event EventHandlerShipType AfterTokenIsSpent;
+        public event EventHandlerShipType OnTokenIsSpent;
+        public static event EventHandlerShipType OnTokenIsSpentGlobal;
         public event EventHandlerShipType AfterTokenIsRemoved;
 
         // ACTIONS
@@ -359,7 +360,10 @@ namespace Ship
         public void SpendToken(System.Type type, Action callBack, char letter = ' ')
         {
             RemoveToken(type, letter);
-            if (AfterTokenIsSpent != null) AfterTokenIsSpent(this, type);
+
+            if (OnTokenIsSpent != null) OnTokenIsSpent(this, type);
+
+            if (OnTokenIsSpentGlobal != null) OnTokenIsSpentGlobal(this, type);
 
             Triggers.ResolveTriggers(TriggerTypes.OnTokenIsSpent, callBack);
         }

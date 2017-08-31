@@ -205,6 +205,11 @@ namespace Ship
             return Model.transform.Find("RotationHelper/RotationHelper2/BoostHelper");
         }
 
+        public Transform GetDecloakHelper()
+        {
+            return Model.transform.Find("RotationHelper/RotationHelper2/DecloakHelper");
+        }
+
         public void AnimatePrimaryWeapon()
         {
             Transform shotsTransform = modelCenter.Find("Shots");

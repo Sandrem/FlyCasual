@@ -20,6 +20,7 @@ public static class Rules
     public static TargetIsLegalForShotRule TargetIsLegalForShot { get; private set; }
     public static IonizationRule Ionization { get; private set; }
     public static TargetLocksRule TargetLocks { get; private set; }
+    public static CloakRule Cloak { get; private set; }
 
     private static GameManagerScript Game;
 
@@ -41,6 +42,7 @@ public static class Rules
         TargetIsLegalForShot = new TargetIsLegalForShotRule();
         Ionization = new IonizationRule();
         TargetLocks = new TargetLocksRule();
+        Cloak = new CloakRule();
     }
 
 }

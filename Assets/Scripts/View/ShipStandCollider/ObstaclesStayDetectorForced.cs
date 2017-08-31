@@ -4,24 +4,11 @@ using UnityEngine;
 
 public class ObstaclesStayDetectorForced: MonoBehaviour {
 
-    private GameManagerScript Game;
-
     public bool checkCollisionsNow = false;
 
     public bool OverlapsShipNow = false;
     public bool OverlapsAsteroidNow = false;
     public bool OffTheBoardNow = false;
-
-    // Use this for initialization
-    void Start () {
-        Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-    }
-	
-	// Update is called once per frame
-	void Update ()
-    {
-
-    }
 
     void OnTriggerEnter(Collider collisionInfo)
     {

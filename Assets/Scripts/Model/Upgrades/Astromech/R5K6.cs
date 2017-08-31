@@ -22,7 +22,7 @@ namespace UpgradesList
         {
             base.AttachToShip(host);
 
-            host.AfterTokenIsSpent += R5K6Ability;
+            host.OnTokenIsSpent += R5K6Ability;
         }
 
         private void R5K6Ability(Ship.GenericShip ship, System.Type type)

@@ -68,6 +68,16 @@ public class ShipPositionManager : MonoBehaviour
             Phases.CurrentSubPhase.Update();
         }
 
+        if (Phases.CurrentSubPhase.GetType() == typeof(SubPhases.DecloakPlanningSubPhase))
+        {
+            Phases.CurrentSubPhase.Update();
+        }
+
+        if (Phases.CurrentSubPhase.GetType() == typeof(SubPhases.DecloakExecutionSubPhase))
+        {
+            Phases.CurrentSubPhase.Update();
+        }
+
         if (inKoiogranTurn)
         {
             DoKoiogranTurnAnimation();

@@ -20,7 +20,7 @@ namespace Ship
             public override void InitializePilot()
             {
                 base.InitializePilot();
-                AfterTokenIsSpent += RegisterGarvenDreisPilotAbility;
+                OnTokenIsSpent += RegisterGarvenDreisPilotAbility;
             }
 
             private void RegisterGarvenDreisPilotAbility(GenericShip ship, System.Type type)

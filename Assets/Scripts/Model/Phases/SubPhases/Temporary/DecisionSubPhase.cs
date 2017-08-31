@@ -110,7 +110,7 @@ namespace SubPhases
         {
             Phases.CurrentSubPhase = this;
             UpdateHelpInfo();
-            decisionPanel.SetActive(true);
+            Initialize();
         }
 
         public override void Next()

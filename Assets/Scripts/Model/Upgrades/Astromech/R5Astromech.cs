@@ -88,6 +88,7 @@ namespace SubPhases
         private void DiscardCrit(CriticalHitCard.GenericCriticalHit critCard)
         {
             Selection.ActiveShip.FlipFacedownFaceupDamageCard(critCard);
+            Sounds.PlaySoundOnce("R2D2-Proud");
             ConfirmDecision();
         }
 

@@ -79,6 +79,7 @@ namespace SubPhases
 
             if (CurrentDiceRoll.DiceList[0].Side == DiceSide.Success)
             {
+                Sounds.PlaySoundOnce("R2D2-Proud");
                 Actions.AssignTargetLockToPair(Combat.Attacker, Combat.Defender, CallBack, CallBack);
 
                 //TODO: Avoid code after callback

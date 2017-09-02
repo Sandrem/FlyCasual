@@ -37,6 +37,8 @@ public partial class DiceRoll
 
     private DelegateDiceroll callBack;
 
+    private bool isRolling;
+
     public DiceRoll(DiceKind type, int number, DiceRollCheckType checkType)
     {
         Type = type;
@@ -267,25 +269,34 @@ public partial class DiceRoll
 
     public void CalculateResults()
     {
+        isRolling = true;
+
         // TODO: Rewrite
         GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
         Game.Movement.FuncsToUpdate.Add(CheckDiceMovementFinish);
+        Game.Wait(5, CalculateWaitedResults);
     }
 
     private bool CheckDiceMovementFinish()
     {
         bool result = false;
 
-        int dicesStillRolling = DiceList.Count;
-        foreach (var dice in DiceList)
+        if (isRolling)
         {
-            if (dice.IsModelRollingFinished()) dicesStillRolling--;
-        }
+            int dicesStillRolling = DiceList.Count;
+            foreach (var dice in DiceList)
+            {
+                if (dice.IsModelRollingFinished()) dicesStillRolling--;
+            }
 
-        if (dicesStillRolling == 0)
+            if (dicesStillRolling == 0)
+            {
+                CalculateWaitedResults();
+                result = true;
+            }
+        }
+        else
         {
-            CalculateWaitedResults();
-            callBack(this);
             result = true;
         }
 
@@ -294,18 +305,25 @@ public partial class DiceRoll
 
     private void CalculateWaitedResults()
     {
-        foreach (Dice dice in DiceList)
+        if (isRolling)
         {
-            DiceSide face = dice.GetModelFace();
-            dice.SetSide(face);
-        }
+            isRolling = false;
 
-        if (IsDiceFacesVisibilityWrong())
-        {
-            OrganizeDicePositions();
-        }
+            foreach (Dice dice in DiceList)
+            {
+                DiceSide face = dice.GetModelFace();
+                dice.SetSide(face);
+            }
 
-        UpdateDiceCompareHelperPrediction();
+            if (IsDiceFacesVisibilityWrong())
+            {
+                OrganizeDicePositions();
+            }
+
+            UpdateDiceCompareHelperPrediction();
+
+            callBack(this);
+        }
     }
 
     public void RemoveDiceModels()

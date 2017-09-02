@@ -41,7 +41,7 @@ namespace Ship
             public override void InitializeShip()
             {
                 base.InitializeShip();
-                BuiltInActions.Add(new ActionsList.TargetLockAction());
+                BuiltInActions.Add(new ActionsList.EvadeAction());
                 BuiltInActions.Add(new ActionsList.BarrelRollAction());
                 BuiltInActions.Add(new ActionsList.CloakAction());
             }

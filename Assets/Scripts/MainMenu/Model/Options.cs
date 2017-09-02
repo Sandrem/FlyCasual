@@ -28,7 +28,6 @@ public static class Options
         optionsUI = GameObject.Find("UI/Panels/OptionsPanel").GetComponentInChildren<OptionsUI>();
 
         SetPlaymatOption();
-        UpdateVolume();
     }
 
     private static void SetPlaymatOption()
@@ -75,7 +74,7 @@ public static class Options
 
     private static void SetMusicVolume(int value)
     {
-        GameObject.Find("Music").GetComponent<AudioSource>().volume = value * 1f / 5f;
+        GameObject.Find("Music").GetComponent<AudioSource>().volume = 0.3f * value * 1f / 5f;
     }
 }
 

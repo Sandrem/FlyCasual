@@ -36,6 +36,7 @@ namespace CriticalHitCard
         private void RollForDamage(object sender, EventArgs e)
         {
             Selection.ActiveShip = Host;
+            Selection.ThisShip = Host;
             Phases.StartTemporarySubPhase(
                 "Console Fire",
                 typeof(SubPhases.ConsoleFireCheckSubPhase),

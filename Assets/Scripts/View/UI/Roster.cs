@@ -245,9 +245,12 @@ public static partial class Roster {
 
     public static void UpdateShipStats(Ship.GenericShip thisShip)
     {
-        thisShip.InfoPanel.transform.Find("ShipInfo/ShipPilotSkillText").GetComponent<Text>().text = thisShip.PilotSkill.ToString();
-        thisShip.InfoPanel.transform.Find("ShipInfo/ShipFirepowerText").GetComponent<Text>().text = thisShip.Firepower.ToString();
-        thisShip.InfoPanel.transform.Find("ShipInfo/ShipAgilityText").GetComponent<Text>().text = thisShip.Agility.ToString();
+        if (thisShip.InfoPanel != null)
+        {
+            thisShip.InfoPanel.transform.Find("ShipInfo/ShipPilotSkillText").GetComponent<Text>().text = thisShip.PilotSkill.ToString();
+            thisShip.InfoPanel.transform.Find("ShipInfo/ShipFirepowerText").GetComponent<Text>().text = thisShip.Firepower.ToString();
+            thisShip.InfoPanel.transform.Find("ShipInfo/ShipAgilityText").GetComponent<Text>().text = thisShip.Agility.ToString();
+        }
     }
 
     public static void UpdateRosterHullDamageIndicators(Ship.GenericShip thisShip)

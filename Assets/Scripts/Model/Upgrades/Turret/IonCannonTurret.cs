@@ -52,14 +52,13 @@ namespace UpgradesList
 
         private void IonTurretEffect(object sender, System.EventArgs e)
         {
-            GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-
             Combat.DiceRollAttack.CancelAllResults();
             Combat.DiceRollAttack.RemoveAllFailures();
 
             Combat.Defender.AssignToken(
                 new Tokens.IonToken(),
                 delegate {
+                    GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
                     Game.Wait(2, DefenderSuffersDamage);
                 }
             );

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public delegate void CallBackFunction();
 
@@ -20,6 +21,14 @@ public class GameManagerScript : MonoBehaviour {
 
         Roster.Start();
         Phases.StartPhases();
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            SceneManager.LoadScene("MainMenu");
+        }
     }
 
     private void SetApplicationParameters()

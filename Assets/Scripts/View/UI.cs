@@ -25,12 +25,12 @@ public class UI : MonoBehaviour {
     }
 
     //Move to context menu
-    public void CallContextMenu(Ship.GenericShip ship)
+    public static void CallContextMenu(Ship.GenericShip ship)
     {
         ShowContextMenu(ship, Input.mousePosition + new Vector3(0f, 0f, 0f));
     }
 
-    private void ShowContextMenu(Ship.GenericShip ship, Vector3 position)
+    private static void ShowContextMenu(Ship.GenericShip ship, Vector3 position)
     {
         HideDirectionMenu();
         HideContextMenuButtons();
@@ -47,7 +47,7 @@ public class UI : MonoBehaviour {
 
     }
 
-    private void HideContextMenuButtons()
+    private static void HideContextMenuButtons()
     {
         foreach (Transform button in GameObject.Find("UI").transform.Find("ContextMenuPanel"))
         {
@@ -124,7 +124,7 @@ public class UI : MonoBehaviour {
         HideDirectionMenu();
     }
 
-    private Vector3 FixMenuPosition(GameObject menuPanel, Vector3 position) {
+    private static Vector3 FixMenuPosition(GameObject menuPanel, Vector3 position) {
         if (position.x + menuPanel.GetComponent<RectTransform>().rect.width > Screen.width) {
             position = new Vector3(Screen.width - menuPanel.GetComponent<RectTransform>().rect.width - 5, position.y, 0);
         }

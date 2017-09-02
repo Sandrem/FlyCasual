@@ -6,19 +6,16 @@ public delegate void DelegateDiceroll(DiceRoll diceRoll);
 
 public static class DicesManager {
 
-    private static GameManagerScript Game;
-
     public static List<List<Vector3>> DicePositions = new List<List<Vector3>>();
 
     public static GameObject DiceAttack;
     public static GameObject DiceDefence;
 
     // Use this for initialization
-    static DicesManager() {
-        Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-
-        DiceAttack = Game.PrefabsList.DiceAttack;
-        DiceDefence = Game.PrefabsList.DiceDefence;
+    static DicesManager()
+    {
+        DiceAttack = (GameObject)Resources.Load("Prefabs/DiceAttack", typeof(GameObject));
+        DiceDefence = (GameObject)Resources.Load("Prefabs/DiceDefence", typeof(GameObject));
 
         GenerateDicePositions();
     }

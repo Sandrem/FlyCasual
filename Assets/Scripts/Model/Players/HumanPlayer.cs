@@ -18,18 +18,18 @@ namespace Players
         public override void PerformAction()
         {
             (Phases.CurrentSubPhase as SubPhases.ActionDecisonSubPhase).ShowActionDecisionPanel();
-            Game.UI.ShowSkipButton();
+            UI.ShowSkipButton();
         }
 
         public override void PerformFreeAction()
         {
             (Phases.CurrentSubPhase as SubPhases.FreeActionDecisonSubPhase).ShowActionDecisionPanel();
-            Game.UI.ShowSkipButton();
+            UI.ShowSkipButton();
         }
 
         public override void PerformAttack()
         {
-            Game.UI.ShowSkipButton();
+            UI.ShowSkipButton();
         }
 
         public override void UseDiceModifications()
@@ -39,7 +39,7 @@ namespace Players
 
         public override void TakeDecision()
         {
-            Game.PrefabsList.PanelDecisions.SetActive(true);
+            GameObject.Find("UI").transform.Find("DecisionsPanel").gameObject.SetActive(true);
         }
 
         public override void AfterShipMovementPrediction()

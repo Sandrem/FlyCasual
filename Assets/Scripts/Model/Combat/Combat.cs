@@ -28,8 +28,6 @@ public enum DamageTypes
 public static partial class Combat
 {
 
-    private static GameManagerScript Game;
-
     public static DiceRoll DiceRollAttack;
     public static DiceRoll DiceRollDefence;
     public static DiceRoll CurentDiceRoll;
@@ -49,15 +47,9 @@ public static partial class Combat
 
     public static ShipShotDistanceInformation ShotInfo;
 
-    // Use this for initialization
-    static Combat()
-    {
-        Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-    }
-
     public static void DeclareTarget()
     {
-        Game.UI.HideContextMenu();
+        UI.HideContextMenu();
 
         int anotherAttacksTypesCount = Selection.ThisShip.GetAnotherAttackTypesCount();
 
@@ -77,12 +69,12 @@ public static partial class Combat
 
     public static void TryPerformAttack()
     {
-        Game.UI.HideContextMenu();
+        UI.HideContextMenu();
         MovementTemplates.ReturnRangeRuler();
 
         if (Rules.TargetIsLegalForShot.IsLegal() && ChosenWeapon.IsShotAvailable(Selection.AnotherShip))
         {
-            Game.UI.HideSkipButton();
+            UI.HideSkipButton();
             ShotInfo = (ChosenWeapon.GetType() == typeof(Ship.PrimaryWeaponClass)) ? ShotInfo : new ShipShotDistanceInformation(Selection.ThisShip, Selection.AnotherShip, ChosenWeapon);
             ShotInfo.CheckFirelineCollisions(delegate { PerformAttack(Selection.ThisShip, Selection.AnotherShip); });
         }
@@ -106,7 +98,7 @@ public static partial class Combat
 
                 //TODO: except non-legal targets, bupmed for example, biggs?
                 Roster.HighlightShipsFiltered(Roster.AnotherPlayer(Phases.CurrentPhasePlayer));
-                Game.UI.HighlightNextButton();
+                UI.HighlightNextButton();
             }
             else
             {
@@ -421,12 +413,12 @@ namespace SubPhases
 
         public override void Pause()
         {
-            Game.PrefabsList.CombatDiceResultsMenu.SetActive(false);
+            GameObject.Find("UI/CombatDiceResultsPanel").gameObject.SetActive(false);
         }
 
         public override void Resume()
         {
-            Game.PrefabsList.CombatDiceResultsMenu.SetActive(true);
+            GameObject.Find("UI/CombatDiceResultsPanel").gameObject.SetActive(true);
         }
 
     }
@@ -460,7 +452,6 @@ namespace SubPhases
     {
         public override void Start()
         {
-            Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
             Name = "Compare results";
             UpdateHelpInfo();
 

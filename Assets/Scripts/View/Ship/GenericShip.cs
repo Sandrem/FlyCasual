@@ -28,7 +28,8 @@ namespace Ship
 
             position = new Vector3(0, 0, (Owner.PlayerNo == Players.PlayerNo.Player1) ? -4 : 4);
 
-            GameObject newShip = MonoBehaviour.Instantiate(Game.PrefabsList.ShipModel, position + new Vector3(0, 0.03f, 0), Quaternion.Euler(facing), Board.BoardManager.GetBoard());
+            GameObject prefab = (GameObject)Resources.Load("Prefabs/ShipModel", typeof(GameObject));
+            GameObject newShip = MonoBehaviour.Instantiate(prefab, position + new Vector3(0, 0.03f, 0), Quaternion.Euler(facing), Board.BoardManager.GetBoard());
             newShip.transform.Find("RotationHelper/RotationHelper2/ShipAllParts/ShipModels/" + Type).gameObject.SetActive(true);
 
             ShipId = ShipFactory.lastId;
@@ -147,6 +148,7 @@ namespace Ship
             shipAllParts.Find("Explosion/Sparks").GetComponent<ParticleSystem>().Play();
             shipAllParts.Find("Explosion/Ring").GetComponent<ParticleSystem>().Play();
 
+            GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
             Game.Wait(1, delegate { callBack(); });
         }
 
@@ -224,6 +226,7 @@ namespace Ship
                 }
 
                 shotsTransform.gameObject.SetActive(true);
+                GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
                 Game.StartCoroutine(TurnOffShots(ShotsCount));
             }
         }
@@ -238,6 +241,8 @@ namespace Ship
             particles.startLifetimeMultiplier = (Vector3.Distance(origin.position, targetPoint) * 0.25f / (10 / 3));
 
             origin.gameObject.SetActive(true);
+
+            GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
             Game.StartCoroutine(TurnOffTurretShots(ShotsCount));
         }
 

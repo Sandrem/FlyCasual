@@ -89,7 +89,7 @@ namespace SubPhases
             isEnemyAllowed = true;
             finishAction = TrySelectTargetLock;
 
-            Game.UI.ShowSkipButton();
+            UI.ShowSkipButton();
         }
 
         private void TrySelectTargetLock()

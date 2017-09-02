@@ -71,7 +71,7 @@ namespace SubPhases
             maxRange = 2;
             finishAction = SelectSquadLeaderTarget;
 
-            Game.UI.ShowSkipButton();
+            UI.ShowSkipButton();
         }
 
         private void SelectSquadLeaderTarget()

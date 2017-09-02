@@ -38,7 +38,7 @@ public static class Selection {
                 if (!isShipHit)
                 {
                     ProcessClick();
-                    Game.UI.HideTemporaryMenus();
+                    UI.HideTemporaryMenus();
                 }
             }
         }

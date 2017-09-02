@@ -7,8 +7,6 @@ namespace ActionsList
 
     public class GenericAction
     {
-        protected GameManagerScript Game;
-
         public string Name;
         public string EffectName;
         public string ImageUrl;
@@ -22,11 +20,6 @@ namespace ActionsList
 
         public Ship.GenericShip Host;
         public Upgrade.GenericUpgrade Source;
-
-        public GenericAction()
-        {
-            Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-        }
 
         public virtual void ActionEffect(System.Action callBack)
         {

@@ -8,7 +8,6 @@ namespace CriticalHitCard
 
     public class GenericCriticalHit
     {
-        protected GameManagerScript Game;
 
         public Ship.GenericShip Host;
 
@@ -16,11 +15,6 @@ namespace CriticalHitCard
         public CriticalCardType Type;
         public List<DiceSide> CancelDiceResults = new List<DiceSide>();
         public string ImageUrl;
-
-        public GenericCriticalHit()
-        {
-            Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-        }
 
         public void AssignCrit(Ship.GenericShip host)
         {

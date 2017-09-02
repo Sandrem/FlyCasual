@@ -192,7 +192,7 @@ public static partial class Roster {
                 if (Selection.TryToChangeShip(item.tag)) return;
             }
         }
-        Game.UI.HideTemporaryMenus();
+        UI.HideTemporaryMenus();
     }
 
     public static void SubscribeMarkByHover(GameObject sender)

@@ -62,9 +62,9 @@ public class UI : MonoBehaviour {
         }
     }
 
-    public void HideContextMenu()
+    public static void HideContextMenu()
     {
-        Game.PrefabsList.ContextMenuPanel.SetActive(false);
+        GameObject.Find("UI").transform.Find("ContextMenuPanel").gameObject.SetActive(false);
     }
 
     public void ShowDirectionMenu()
@@ -100,7 +100,7 @@ public class UI : MonoBehaviour {
 
     private void SetManeuverIcon(GameObject button, KeyValuePair<string, Movement.ManeuverColor> maneuverData)
     {
-        Movement.MovementStruct movement = Game.Movement.ManeuverFromString(maneuverData.Key);
+        Movement.MovementStruct movement = new Movement.MovementStruct(maneuverData.Key);
 
         string imageName = "";
 
@@ -120,12 +120,12 @@ public class UI : MonoBehaviour {
         button.GetComponent<Image>().sprite = image;
     }
 
-    public void HideDirectionMenu()
+    public static void HideDirectionMenu()
     {
-        Game.PrefabsList.DirectionsMenu.SetActive(false);
+        GameObject.Find("UI").transform.Find("DirectionsPanel").gameObject.SetActive(false);
     }
 
-    public void HideTemporaryMenus()
+    public static void HideTemporaryMenus()
     {
         HideContextMenu();
         HideDirectionMenu();
@@ -145,7 +145,7 @@ public class UI : MonoBehaviour {
     public static void ShowGameResults(string results)
     {
         GameObject gameResultsPanel = GameObject.Find("UI/GameResultsPanel").gameObject;
-        gameResultsPanel.transform.Find("Panel/Congratulations").GetComponent<Text>().text = results;
+        gameResultsPanel.transform.Find("Panel").transform.Find("Congratulations").GetComponent<Text>().text = results;
         gameResultsPanel.SetActive(true);
     }
 
@@ -222,48 +222,48 @@ public class UI : MonoBehaviour {
         Combat.DeclareTarget();
     }
 
-    public void ShowNextButton()
+    public static void ShowNextButton()
     {
-        Game.PrefabsList.NextButtonPanel.SetActive(true);
-        Game.PrefabsList.NextButtonPanel.transform.Find("NextButton").GetComponent<Animator>().enabled = false;
+        GameObject.Find("UI").transform.Find("NextPanel").gameObject.SetActive(true);
+        GameObject.Find("UI/NextPanel").transform.Find("NextButton").GetComponent<Animator>().enabled = false;
     }
 
-    public void HideNextButton()
+    public static void HideNextButton()
     {
-        Game.PrefabsList.NextButtonPanel.SetActive(false);
-        Game.PrefabsList.NextButtonPanel.transform.Find("NextButton").GetComponent<Animator>().enabled = false;
+        GameObject.Find("UI/NextPanel").gameObject.SetActive(false);
+        GameObject.Find("UI").transform.Find("NextPanel").Find("NextButton").GetComponent<Animator>().enabled = false;
 
-        ColorBlock colors = Game.PrefabsList.NextButtonPanel.transform.Find("NextButton").GetComponent<Button>().colors;
+        ColorBlock colors = GameObject.Find("UI").transform.Find("NextPanel").Find("NextButton").GetComponent<Button>().colors;
         colors.normalColor = new Color32(0, 0, 0, 200);
-        Game.PrefabsList.NextButtonPanel.transform.Find("NextButton").GetComponent<Button>().colors = colors;
+        GameObject.Find("UI").transform.Find("NextPanel").Find("NextButton").GetComponent<Button>().colors = colors;
     }
 
-    public void ShowSkipButton()
+    public static void ShowSkipButton()
     {
-        Game.PrefabsList.SkipButtonPanel.SetActive(true);
+        GameObject.Find("UI").transform.Find("SkipPanel").gameObject.SetActive(true);
     }
 
-    public void HideSkipButton()
+    public static void HideSkipButton()
     {
-        Game.PrefabsList.SkipButtonPanel.SetActive(false);
+        GameObject.Find("UI").transform.Find("SkipPanel").gameObject.SetActive(false);
     }
 
-    public void HighlightNextButton()
+    public static void HighlightNextButton()
     {
-        Game.PrefabsList.NextButtonPanel.transform.Find("NextButton").GetComponent<Animator>().enabled = true;
+        GameObject.Find("UI").transform.Find("NextPanel").Find("NextButton").GetComponent<Animator>().enabled = true;
     }
 
-    public void CallHideTooltip()
+    public static void CallHideTooltip()
     {
         Tooltips.EndTooltip();
     }
 
-    public void HideInformCritPanel()
+    public static void HideInformCritPanel()
     {
         InformCrit.HidePanel();
     }
 
-    public void QuitGame()
+    public static void QuitGame()
     {
         Application.Quit();
     }

@@ -11,8 +11,6 @@ public static partial class Phases
     public static int RoundCounter;
     public static bool GameIsEnded;
 
-    private static GameManagerScript Game;
-
     public static GenericPhase CurrentPhase { get; set; }
     public static GenericSubPhase CurrentSubPhase { get; set; }
 

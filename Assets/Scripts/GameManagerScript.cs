@@ -36,7 +36,6 @@ public class GameManagerScript : MonoBehaviour {
         UI.Initialize();
         
         Movement = this.GetComponent<ShipMovementScript>();
-        Movement.Initialize();
         Position = this.GetComponent<ShipPositionManager>();
     }
 

@@ -17,7 +17,6 @@ namespace SubPhases
 
         public override void Start()
         {
-            Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
             IsTemporary = true;
             CallBack = FinishAction;
 
@@ -29,7 +28,7 @@ namespace SubPhases
 
         public override void Initialize()
         {
-            Game.PrefabsList.CombatDiceResultsMenu.SetActive(true);
+            GameObject.Find("UI").transform.Find("CombatDiceResultsPanel").gameObject.SetActive(true);
 
             if (Combat.AttackStep == CombatStep.Attack)
             {
@@ -47,7 +46,7 @@ namespace SubPhases
             {
                 if (Roster.GetPlayer(Selection.ActiveShip.Owner.PlayerNo).GetType() == typeof(Players.HumanPlayer))
                 {
-                    Button closeButton = Game.PrefabsList.CombatDiceResultsMenu.transform.Find("DiceModificationsPanel/Confirm").GetComponent<Button>();
+                    Button closeButton = GameObject.Find("UI/CombatDiceResultsPanel").transform.Find("DiceModificationsPanel/Confirm").GetComponent<Button>();
                     closeButton.onClick.RemoveAllListeners();
                     closeButton.onClick.AddListener(delegate { CallBack(); });
 
@@ -56,7 +55,7 @@ namespace SubPhases
             }
             else
             {
-                Game.PrefabsList.CombatDiceResultsMenu.transform.Find("DiceModificationsPanel/Confirm").gameObject.SetActive(false);
+                GameObject.Find("UI/CombatDiceResultsPanel").transform.Find("DiceModificationsPanel/Confirm").gameObject.SetActive(false);
             }
         }
 
@@ -75,14 +74,14 @@ namespace SubPhases
 
         public void HideDiceResultMenu()
         {
-            Game.PrefabsList.CombatDiceResultsMenu.SetActive(false);
+            GameObject.Find("UI/CombatDiceResultsPanel").gameObject.SetActive(false);
             HideDiceModificationButtons();
             CurentDiceRoll.RemoveDiceModels();
         }
 
         public void HideDiceModificationButtons()
         {
-            foreach (Transform button in Game.PrefabsList.CombatDiceResultsMenu.transform.Find("DiceModificationsPanel"))
+            foreach (Transform button in GameObject.Find("UI/CombatDiceResultsPanel").transform.Find("DiceModificationsPanel"))
             {
                 if (button.name.StartsWith("Button"))
                 {
@@ -94,12 +93,12 @@ namespace SubPhases
 
         public override void Pause()
         {
-            Game.PrefabsList.CombatDiceResultsMenu.SetActive(false);
+            GameObject.Find("UI/CombatDiceResultsPanel").gameObject.SetActive(false);
         }
 
         public override void Resume()
         {
-            Game.PrefabsList.CombatDiceResultsMenu.SetActive(true);
+            GameObject.Find("UI/CombatDiceResultsPanel").gameObject.SetActive(true);
         }
 
         public override void Next()

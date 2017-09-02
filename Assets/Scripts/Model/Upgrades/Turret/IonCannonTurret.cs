@@ -52,6 +52,8 @@ namespace UpgradesList
 
         private void IonTurretEffect(object sender, System.EventArgs e)
         {
+            GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
+
             Combat.DiceRollAttack.CancelAllResults();
             Combat.DiceRollAttack.RemoveAllFailures();
 

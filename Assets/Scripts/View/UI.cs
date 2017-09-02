@@ -7,19 +7,12 @@ using UnityEngine.UI;
 
 public class UI : MonoBehaviour {
 
-    private GameManagerScript Game;
-
     private static float lastLogTextPosition = -5;
     private static float lastLogTextStep = -20;
 
     private int minimapSize = 256;
 
     public static bool ShowShipIds;
-
-    public void Initialize()
-    {
-        Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-    }
 
     public void Update()
     {
@@ -43,20 +36,20 @@ public class UI : MonoBehaviour {
         HideContextMenuButtons();
         if (Phases.CurrentSubPhase.CountActiveButtons(ship) > 0)
         {
-            Game.PrefabsList.ContextMenuPanel.SetActive(true);
-            position = FixMenuPosition(Game.PrefabsList.ContextMenuPanel, position);
-            Game.PrefabsList.ContextMenuPanel.transform.position = position;
+            GameObject.Find("UI").transform.Find("ContextMenuPanel").gameObject.SetActive(true);
+            position = FixMenuPosition(GameObject.Find("UI").transform.Find("ContextMenuPanel").gameObject, position);
+            GameObject.Find("UI").transform.Find("ContextMenuPanel").position = position;
         }
         else
         {
-            Game.PrefabsList.ContextMenuPanel.SetActive(false);
+            GameObject.Find("UI").transform.Find("ContextMenuPanel").gameObject.SetActive(false);
         }
 
     }
 
     private void HideContextMenuButtons()
     {
-        foreach (Transform button in Game.PrefabsList.ContextMenuPanel.transform)
+        foreach (Transform button in GameObject.Find("UI").transform.Find("ContextMenuPanel"))
         {
             button.gameObject.SetActive(false);
         }
@@ -69,10 +62,10 @@ public class UI : MonoBehaviour {
 
     public void ShowDirectionMenu()
     {
-        Game.PrefabsList.ContextMenuPanel.SetActive(false);
+        GameObject.Find("UI").transform.Find("ContextMenuPanel").gameObject.SetActive(false);
         SetAvailableManeurs();
-        Game.PrefabsList.DirectionsMenu.transform.position = FixMenuPosition(Game.PrefabsList.DirectionsMenu, Game.PrefabsList.ContextMenuPanel.transform.position);
-        Game.PrefabsList.DirectionsMenu.SetActive(true);
+        GameObject.Find("UI").transform.Find("DirectionsPanel").position = FixMenuPosition(GameObject.Find("UI").transform.Find("DirectionsPanel").gameObject, GameObject.Find("UI").transform.Find("ContextMenuPanel").position);
+        GameObject.Find("UI").transform.Find("DirectionsPanel").gameObject.SetActive(true);
     }
 
     //Add icons
@@ -85,13 +78,13 @@ public class UI : MonoBehaviour {
 
             if (maneuverData.Value == Movement.ManeuverColor.None)
             {
-                Game.PrefabsList.DirectionsMenu.transform.Find("Speed" + maneuverSpeed + "/" + maneuverData.Key).gameObject.SetActive(false);
+                GameObject.Find("UI").transform.Find("DirectionsPanel").Find("Speed" + maneuverSpeed + "/" + maneuverData.Key).gameObject.SetActive(false);
             }
             else
             {
-                Game.PrefabsList.DirectionsMenu.transform.Find("Speed" + maneuverSpeed + "/" + maneuverData.Key).gameObject.SetActive(true);
+                GameObject.Find("UI").transform.Find("DirectionsPanel").Find("Speed" + maneuverSpeed + "/" + maneuverData.Key).gameObject.SetActive(true);
 
-                GameObject button = Game.PrefabsList.DirectionsMenu.transform.Find("Speed" + maneuverSpeed).Find(maneuverData.Key).gameObject;
+                GameObject button = GameObject.Find("UI").transform.Find("DirectionsPanel").Find("Speed" + maneuverSpeed).Find(maneuverData.Key).gameObject;
                 SetManeuverIcon(button, maneuverData);
             }
 
@@ -116,7 +109,7 @@ public class UI : MonoBehaviour {
         if (maneuverData.Value == Movement.ManeuverColor.White) imageName += "White";
         if (maneuverData.Value == Movement.ManeuverColor.Red) imageName += "Red";
 
-        Sprite image = Game.PrefabsList.ImageStorageDirections.transform.Find(imageName).GetComponent<Image>().sprite;
+        Sprite image = GameObject.Find("UI").transform.Find("DirectionsPanel").Find("ImageStorageDirections").Find(imageName).GetComponent<Image>().sprite;
         button.GetComponent<Image>().sprite = image;
     }
 
@@ -162,19 +155,19 @@ public class UI : MonoBehaviour {
             default:
                 break;
         }
-        Game.PrefabsList.MinimapPanel.GetComponent<RectTransform>().sizeDelta = new Vector2(minimapSize, minimapSize);
+        GameObject.Find("UI").transform.Find("MiniMapHolder").GetComponent<RectTransform>().sizeDelta = new Vector2(minimapSize, minimapSize);
     }
 
     public void ToggleMinimap()
     {
-        Game.PrefabsList.GameLogPanel.SetActive(false);
-        Game.PrefabsList.MinimapPanel.SetActive(!Game.PrefabsList.MinimapPanel.activeSelf);
+        GameObject.Find("UI").transform.Find("GameLogHolder").gameObject.SetActive(false);
+        GameObject.Find("UI").transform.Find("MiniMapHolder").gameObject.SetActive(!GameObject.Find("UI").transform.Find("MiniMapHolder").gameObject.activeSelf);
     }
 
     public void ToggleGameLog()
     {
-        Game.PrefabsList.MinimapPanel.SetActive(false);
-        Game.PrefabsList.GameLogPanel.SetActive(!Game.PrefabsList.GameLogPanel.activeSelf);
+        GameObject.Find("UI").transform.Find("MiniMapHolder").gameObject.SetActive(false);
+        GameObject.Find("UI").transform.Find("GameLogHolder").gameObject.SetActive(!GameObject.Find("UI").transform.Find("GameLogHolder").gameObject.activeSelf);
     }
 
     public static void AddTestLogEntry(string text)
@@ -192,12 +185,13 @@ public class UI : MonoBehaviour {
     public void ShowDecisionsPanel()
     {
         //start subphase
-        Game.PrefabsList.PanelDecisions.SetActive(true);
+
+        GameObject.Find("UI").transform.Find("DecisionsPanel").gameObject.SetActive(true);
     }
 
     public void HideDecisionsPanel()
     {
-        Game.PrefabsList.PanelDecisions.SetActive(false);
+        GameObject.Find("UI").transform.Find("DecisionsPanel").gameObject.SetActive(false);
         //end subphase
     }
 

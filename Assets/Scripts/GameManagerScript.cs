@@ -33,7 +33,6 @@ public class GameManagerScript : MonoBehaviour {
     {
         PrefabsList = this.GetComponent<PrefabsList>();
         UI = this.GetComponent<UI>();
-        UI.Initialize();
         
         Movement = this.GetComponent<ShipMovementScript>();
         Position = this.GetComponent<ShipPositionManager>();

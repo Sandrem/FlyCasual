@@ -27,8 +27,6 @@ namespace Upgrade
 
     public class GenericUpgrade
     {
-        protected GameManagerScript Game;
-
         public Ship.GenericShip Host { get; set; }
 
         public int Cost;
@@ -53,7 +51,6 @@ namespace Upgrade
 
         public virtual void AttachToShip(Ship.GenericShip host)
         {
-            Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
             Host = host;
         }
 

@@ -11,8 +11,6 @@ namespace MainPhases
 
         public override void StartPhase()
         {
-            Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-
             Name = "Combat Phase";
 
             Phases.CurrentSubPhase = new CombatStartSubPhase();

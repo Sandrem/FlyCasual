@@ -26,21 +26,10 @@ public static partial class Roster
     private static Dictionary<string, Ship.GenericShip> shipsPlayer2;
     public static Dictionary<string, Ship.GenericShip> ShipsPlayer2 {get { return Players[1].Ships; } }
 
-    private static GameManagerScript Game;
-
     public static void Start()
     {
         CreatePlayers();
         SpawnAllShips();
-    }
-
-    // Use this for initialization
-    static Roster()
-    {
-        Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-
-        //TODO: ???
-        //Game.Phases.OnCombatPhaseStart += HideAssignedDials;
     }
 
     //PLAYERS CREATION

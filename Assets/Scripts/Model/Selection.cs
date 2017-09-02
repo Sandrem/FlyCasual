@@ -6,17 +6,10 @@ using UnityEngine.EventSystems;
 
 public static class Selection {
 
-    private static GameManagerScript Game;
-
     public static Ship.GenericShip ThisShip;
     public static Ship.GenericShip AnotherShip;
     public static Ship.GenericShip ActiveShip;
     public static Ship.GenericShip HoveredShip;
-
-    // Use this for initialization
-    static Selection() {
-        Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-    }
 	
     //TODO: BUG - enemy ship can be selected
     public static void UpdateSelection()

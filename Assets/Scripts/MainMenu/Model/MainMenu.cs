@@ -13,6 +13,8 @@ public partial class MainMenu : MonoBehaviour {
     {
         SetPositions();
         SetCurrentPanel();
+
+        Options.UpdateVolume();
     }
 
     public void StartBattle()

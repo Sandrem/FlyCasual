@@ -1,4 +1,6 @@
 ﻿using Ship;
+using UnityEngine;
+using System.Linq;
 
 namespace Upgrade
 {
@@ -14,7 +16,8 @@ namespace Upgrade
 
         private void AddAction(Ship.GenericShip host)
         {
-            host.AddAvailableAction(new T());
+            var alreadyHasAction = host.BuiltInActions.Find(n => n.GetType() == typeof(T));
+            if (alreadyHasAction == null) host.AddAvailableAction(new T());
         }
     }
 }

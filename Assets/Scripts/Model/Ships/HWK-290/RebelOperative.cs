@@ -12,7 +12,7 @@ namespace Ship
             {
                 PilotName = "Rebel Operative";
                 ImageUrl = "https://vignette3.wikia.nocookie.net/xwing-miniatures/images/e/ea/Rebel_Operative.png";
-                PilotSkill = 1;
+                PilotSkill = 2;
                 Cost = 16;
             }
         }

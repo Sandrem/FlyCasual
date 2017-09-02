@@ -63,7 +63,15 @@ namespace ActionsList
         {
             bool hasBarrelRollAction = (Host.BuiltInActions.Count(n => n.GetType() == typeof(BarrelRollAction)) != 0);
 
-            if (!hasBarrelRollAction) Host.AssignToken(new Tokens.StressToken(), RemoveTargetLock);
+            if (hasBarrelRollAction)
+            {
+                RemoveTargetLock();
+            }
+            else
+            {
+                Host.AssignToken(new Tokens.StressToken(), RemoveTargetLock);
+            }
+            
         }
 
         private void RemoveTargetLock()

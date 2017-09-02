@@ -6,9 +6,6 @@ public delegate void CallBackFunction();
 
 public class GameManagerScript : MonoBehaviour {
 
-    //Move to board consts
-    public readonly float PLAYMAT_SIZE = 10;
-
     public PrefabsList PrefabsList;
 
     public UI UI;

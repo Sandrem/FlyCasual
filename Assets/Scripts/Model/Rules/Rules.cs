@@ -22,17 +22,13 @@ public static class Rules
     public static TargetLocksRule TargetLocks { get; private set; }
     public static CloakRule Cloak { get; private set; }
 
-    private static GameManagerScript Game;
-
     static Rules()
     {
-        Game = UnityEngine.GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-
-        WinConditions = new WinConditionsRule(Game);
+        WinConditions = new WinConditionsRule();
         DistanceBonus = new DistanceBonusRule();
         EndPhase = new EndPhaseCleanupRule();
         Stress = new StressRule();
-        OffTheBoard = new OffTheBoardRule(Game);
+        OffTheBoard = new OffTheBoardRule();
         Collision = new CollisionRules();
         DuplicatedActions = new DuplicatedActionsRule();
         AsteroidLanded = new AsteroidLandedRule();

@@ -9,12 +9,12 @@ public class UI : MonoBehaviour {
 
     private GameManagerScript Game;
 
-    private float lastLogTextPosition = -5;
-    private float lastLogTextStep = -20;
+    private static float lastLogTextPosition = -5;
+    private static float lastLogTextStep = -20;
 
     private int minimapSize = 256;
 
-    public bool ShowShipIds;
+    public static bool ShowShipIds;
 
     public void Initialize()
     {
@@ -142,10 +142,11 @@ public class UI : MonoBehaviour {
         return position;
     }
 
-    public void ShowGameResults(string results)
+    public static void ShowGameResults(string results)
     {
-        Game.PrefabsList.GameResultsPanel.transform.Find("Panel/Congratulations").GetComponent<Text>().text = results;
-        Game.PrefabsList.GameResultsPanel.SetActive(true);
+        GameObject gameResultsPanel = GameObject.Find("UI/GameResultsPanel").gameObject;
+        gameResultsPanel.transform.Find("Panel/Congratulations").GetComponent<Text>().text = results;
+        gameResultsPanel.SetActive(true);
     }
 
     public void CallChangeMiniMapSize()
@@ -176,14 +177,15 @@ public class UI : MonoBehaviour {
         Game.PrefabsList.GameLogPanel.SetActive(!Game.PrefabsList.GameLogPanel.activeSelf);
     }
 
-    public void AddTestLogEntry(string text)
+    public static void AddTestLogEntry(string text)
     {
-        Transform area = Game.PrefabsList.GameLogPanel.transform.Find("Scroll/Viewport/Content");
-        GameObject newLogEntry = Instantiate(Game.PrefabsList.LogText, area);
+        GameObject area = GameObject.Find("UI").transform.Find("GameLogHolder").Find("Scroll").Find("Viewport").Find("Content").gameObject;
+        GameObject logText = (GameObject)Resources.Load("Prefabs/LogText", typeof(GameObject));
+        GameObject newLogEntry = Instantiate(logText, area.transform);
         newLogEntry.transform.localPosition = new Vector3(5, lastLogTextPosition, 0);
         lastLogTextPosition += lastLogTextStep;
         if (area.GetComponent<RectTransform>().sizeDelta.y < Mathf.Abs(lastLogTextPosition)) area.GetComponent<RectTransform>().sizeDelta = new Vector2(area.GetComponent<RectTransform>().sizeDelta.x, Mathf.Abs(lastLogTextPosition));
-        Game.PrefabsList.GameLogPanel.transform.Find("Scroll").GetComponent<ScrollRect>().verticalNormalizedPosition = 0;
+        GameObject.Find("UI").transform.Find("GameLogHolder").Find ("Scroll").GetComponent<ScrollRect>().verticalNormalizedPosition = 0;
         newLogEntry.GetComponent<Text>().text = text;
     }
 

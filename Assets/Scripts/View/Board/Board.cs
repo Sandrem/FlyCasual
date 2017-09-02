@@ -23,12 +23,10 @@ namespace Board
 
         static BoardManager()
         {
-            Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-
-            BoardTransform = Game.PrefabsList.BoardTransform;
-            RulersHolderTransform = Game.PrefabsList.RulersHolderTransform;
-            StartingZone1 = Game.PrefabsList.StartingZone1;
-            StartingZone2 = Game.PrefabsList.StartingZone2;
+            BoardTransform = GameObject.Find("SceneHolder/Board").transform;
+            RulersHolderTransform = BoardTransform.Find("RulersHolder");
+            StartingZone1 = BoardTransform.Find("Playmat/StaringZone1").gameObject;
+            StartingZone2 = BoardTransform.Find("Playmat/StaringZone2").gameObject;
 
             SetPlaymatImage();
         }

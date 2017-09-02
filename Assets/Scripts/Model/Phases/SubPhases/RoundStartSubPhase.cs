@@ -27,7 +27,7 @@ namespace SubPhases
         private void InformAboutNewRoundStart()
         {
             Phases.RoundCounter++;
-            Game.UI.AddTestLogEntry("Round " + Phases.RoundCounter + " is started");
+            UI.AddTestLogEntry("Round " + Phases.RoundCounter + " is started");
         }
 
         public override void Next()

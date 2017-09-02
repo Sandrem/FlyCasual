@@ -99,12 +99,12 @@ namespace Board
             if (DebugManager.DebugBoard) Debug.Log("Obstacle checker is launched: " + ThisShip + " vs " + AnotherShip);
 
             FiringLines = new List<GameObject>();
-            GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
+            GameObject prefab = (GameObject)Resources.Load("Prefabs/FiringLine", typeof(GameObject));
             float SIZE_ANY = 91.44f;
 
             foreach (var parallelPoints in parallelPointsList)
             {
-                GameObject FiringLine = MonoBehaviour.Instantiate(Game.PrefabsList.FiringLine, parallelPoints[0], Quaternion.LookRotation(parallelPoints[1]-parallelPoints[0]), BoardManager.GetBoard());
+                GameObject FiringLine = MonoBehaviour.Instantiate(prefab, parallelPoints[0], Quaternion.LookRotation(parallelPoints[1]-parallelPoints[0]), BoardManager.GetBoard());
                 FiringLine.transform.localScale = new Vector3(1, 1, Vector3.Distance(parallelPoints[0], parallelPoints[1]) * SIZE_ANY / 100);
                 FiringLine.SetActive(true);
                 FiringLine.GetComponentInChildren<ObstaclesFiringLineDetector>().PointStart = parallelPoints[0];
@@ -112,6 +112,7 @@ namespace Board
                 FiringLines.Add(FiringLine);
             }
 
+            GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
             Game.Movement.FuncsToUpdate.Add(UpdateColisionDetection);
 
             CallBack = callBack;

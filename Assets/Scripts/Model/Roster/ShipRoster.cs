@@ -8,7 +8,7 @@ public static partial class Roster
 {
     //Players
 
-    public static List<GenericPlayer> Players = new List<GenericPlayer>();
+    public static List<GenericPlayer> Players;
 
     private static GenericPlayer player1;
     public static GenericPlayer Player1 { get { return Players[0]; } }
@@ -18,7 +18,7 @@ public static partial class Roster
 
     //Ships
 
-    public static Dictionary<string, Ship.GenericShip> AllShips = new Dictionary<string, Ship.GenericShip>();
+    public static Dictionary<string, Ship.GenericShip> AllShips;
 
     private static Dictionary<string, Ship.GenericShip> shipsPlayer1;
     public static Dictionary<string, Ship.GenericShip> ShipsPlayer1 { get { return Players[0].Ships; } }

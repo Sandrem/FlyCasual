@@ -19,6 +19,8 @@ public class GameManagerScript : MonoBehaviour {
 
         Global.Initialize();
 
+        Board.BoardManager.Initialize();
+        Roster.Initialize();
         Roster.Start();
         Phases.StartPhases();
     }

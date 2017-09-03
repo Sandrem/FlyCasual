@@ -8,8 +8,16 @@ using System.Linq;
 
 public static partial class Roster {
 
-    private static List<GameObject> rosterPlayer1 = new List<GameObject>();
-    private static List<GameObject> rosterPlayer2 = new List<GameObject>();
+    private static List<GameObject> rosterPlayer1;
+    private static List<GameObject> rosterPlayer2;
+
+    public static void Initialize()
+    {
+        Players = new List<GenericPlayer>();
+        rosterPlayer1 = new List<GameObject>();
+        rosterPlayer2 = new List<GameObject>();
+        AllShips = new Dictionary<string, Ship.GenericShip>();
+    }
     
     public static GameObject CreateRosterInfo(Ship.GenericShip newShip)
     {
@@ -364,7 +372,7 @@ public static partial class Roster {
 
     public static void RosterAllPanelsHighlightOff()
     {
-        foreach (var ship in Roster.AllShips)
+        foreach (var ship in AllShips)
         {
             RosterPanelHighlightOff(ship.Value);
         }

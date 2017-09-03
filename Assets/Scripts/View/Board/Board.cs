@@ -21,7 +21,7 @@ namespace Board
         public static readonly float DISTANCE_1 = 4f;
         public static readonly float RANGE_1 = 10f;
 
-        static BoardManager()
+        public static void Initialize()
         {
             BoardTransform = GameObject.Find("SceneHolder/Board").transform;
             RulersHolderTransform = BoardTransform.Find("RulersHolder");

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 //Todo: Move to different scripts by menu names
 
@@ -137,9 +138,15 @@ public class UI : MonoBehaviour {
 
     public static void ShowGameResults(string results)
     {
-        GameObject gameResultsPanel = GameObject.Find("UI/GameResultsPanel").gameObject;
+        GameObject gameResultsPanel = GameObject.Find("UI").transform.Find("GameResultsPanel").gameObject;
         gameResultsPanel.transform.Find("Panel").transform.Find("Congratulations").GetComponent<Text>().text = results;
         gameResultsPanel.SetActive(true);
+    }
+
+    public static void ToggleInGameMenu()
+    {
+        GameObject gameResultsPanel = GameObject.Find("UI").transform.Find("GameResultsPanel").gameObject;
+        gameResultsPanel.SetActive(!gameResultsPanel.activeSelf);
     }
 
     public void CallChangeMiniMapSize()
@@ -224,7 +231,7 @@ public class UI : MonoBehaviour {
 
     public static void HideNextButton()
     {
-        GameObject.Find("UI/NextPanel").gameObject.SetActive(false);
+        GameObject.Find("UI").transform.Find("NextPanel").gameObject.SetActive(false);
         GameObject.Find("UI").transform.Find("NextPanel").Find("NextButton").GetComponent<Animator>().enabled = false;
 
         ColorBlock colors = GameObject.Find("UI").transform.Find("NextPanel").Find("NextButton").GetComponent<Button>().colors;
@@ -257,7 +264,12 @@ public class UI : MonoBehaviour {
         InformCrit.HidePanel();
     }
 
-    public static void QuitGame()
+    public void ReturnToMainMenu()
+    {
+        SceneManager.LoadScene("MainMenu");
+    }
+
+    public void QuitGame()
     {
         Application.Quit();
     }

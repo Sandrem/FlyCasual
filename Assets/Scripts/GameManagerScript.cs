@@ -29,7 +29,7 @@ public class GameManagerScript : MonoBehaviour {
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            SceneManager.LoadScene("MainMenu");
+            UI.ToggleInGameMenu();
         }
     }
 

@@ -131,7 +131,7 @@ namespace SubPhases
         private void Decloak(object sender, System.EventArgs e)
         {
             Phases.CurrentSubPhase.Pause();
-            Game.UI.CallHideTooltip();
+            UI.CallHideTooltip();
 
             Phases.StartTemporarySubPhase(
                 "Decloak",
@@ -142,7 +142,7 @@ namespace SubPhases
 
         private void SkipDecloak(object sender, System.EventArgs e)
         {
-            Game.UI.CallHideTooltip();
+            UI.CallHideTooltip();
             CallBack();
         }
 
@@ -169,7 +169,6 @@ namespace SubPhases
 
         public override void Start()
         {
-            Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
             Name = "Decloak planning";
             IsTemporary = true;
             UpdateHelpInfo();
@@ -181,7 +180,8 @@ namespace SubPhases
 
         public void StartDecloakPlanning()
         {
-            ShipStand = MonoBehaviour.Instantiate(Game.Position.prefabShipStand, Selection.ThisShip.GetPosition(), Selection.ThisShip.GetRotation(), Board.BoardManager.GetBoard());
+            GameObject prefab = (GameObject)Resources.Load("Prefabs/prefabShipStand", typeof(GameObject));
+            ShipStand = MonoBehaviour.Instantiate(prefab, Selection.ThisShip.GetPosition(), Selection.ThisShip.GetRotation(), Board.BoardManager.GetBoard());
             ShipStand.transform.Find("ShipStandTemplate").Find("ShipStandInsert").Find("ShipStandInsertImage").Find("default").GetComponent<Renderer>().material = Selection.ThisShip.Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("ShipStand").Find("ShipStandInsert").Find("ShipStandInsertImage").Find("default").GetComponent<Renderer>().material;
             obstaclesStayDetectorBase = ShipStand.GetComponentInChildren<ObstaclesStayDetectorForced>();
 
@@ -386,6 +386,8 @@ namespace SubPhases
             Selection.ThisShip.IsLandedOnObstacle = false;
             inReposition = false;
             MonoBehaviour.Destroy(ShipStand);
+
+            GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
             Game.Movement.CollidedWith = null;
 
             MovementTemplates.HideLastMovementRuler();
@@ -404,6 +406,8 @@ namespace SubPhases
         {
             obstaclesStayDetectorBase.ReCheckCollisionsStart();
             obstaclesStayDetectorMovementTemplate.ReCheckCollisionsStart();
+
+            GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
             Game.Movement.FuncsToUpdate.Add(UpdateColisionDetection);
         }
 
@@ -507,7 +511,6 @@ namespace SubPhases
 
         public override void Start()
         {
-            Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
             Name = "Decloak execution";
             IsTemporary = true;
             UpdateHelpInfo();
@@ -553,6 +556,8 @@ namespace SubPhases
             performingAnimation = false;
 
             MonoBehaviour.Destroy(ShipStand);
+
+            GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
             Game.Movement.CollidedWith = null;
 
             MovementTemplates.HideLastMovementRuler();

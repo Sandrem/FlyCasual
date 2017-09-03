@@ -11,8 +11,6 @@ public static partial class Phases
     public static int RoundCounter;
     public static bool GameIsEnded;
 
-    private static GameManagerScript Game;
-
     public static GenericPhase CurrentPhase { get; set; }
     public static GenericSubPhase CurrentSubPhase { get; set; }
 
@@ -47,10 +45,8 @@ public static partial class Phases
 
     public static void StartPhases()
     {
-        Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-
         CurrentPhase = new SetupPhase();
-        Game.UI.AddTestLogEntry("Game is started");
+        UI.AddTestLogEntry("Game is started");
         CurrentPhase.StartPhase();
     }
 

@@ -72,6 +72,8 @@ namespace Players
         protected void PerformManeuverOfShip(Ship.GenericShip ship)
         {
             Selection.ChangeActiveShip("ShipId:" + ship.ShipId);
+
+            GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
             Game.Movement.PerformStoredManeuver();
         }
 
@@ -295,6 +297,7 @@ namespace Players
                 {
                     isActionEffectTaken = true;
                     Messages.ShowInfo("AI uses \"" + prioritizedActionEffect.Key.Name + "\"");
+                    GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
                     Game.Wait(1, delegate {
                         Selection.ActiveShip.AddAlreadyExecutedActionEffect(prioritizedActionEffect.Key);
                         prioritizedActionEffect.Key.ActionEffect(UseDiceModifications);
@@ -304,6 +307,7 @@ namespace Players
 
             if (!isActionEffectTaken)
             {
+                GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
                 Game.Wait(2, delegate { Phases.CurrentSubPhase.CallBack(); });
             }
         }

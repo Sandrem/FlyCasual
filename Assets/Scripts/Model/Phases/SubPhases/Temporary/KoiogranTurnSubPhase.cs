@@ -10,11 +10,11 @@ namespace SubPhases
 
         public override void Start()
         {
-            Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
             Name = "Koiogran Turn SubPhase";
             IsTemporary = true;
             UpdateHelpInfo();
 
+            GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
             Game.Position.StartKoiogranTurn();
         }
 

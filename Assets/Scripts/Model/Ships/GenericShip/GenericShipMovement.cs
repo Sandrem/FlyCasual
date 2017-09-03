@@ -101,7 +101,7 @@ namespace Ship
 
             foreach (var maneuverHolder in Maneuvers)
             {
-                result.Add(maneuverHolder.Key, Game.Movement.ManeuverFromString(maneuverHolder.Key).ColorComplexity);
+                result.Add(maneuverHolder.Key, new Movement.MovementStruct(maneuverHolder.Key).ColorComplexity);
             }
 
             return result;

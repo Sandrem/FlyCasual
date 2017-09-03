@@ -12,7 +12,6 @@ namespace Ship
 
     public partial class GenericShip
     {
-        protected GameManagerScript Game;
 
         public int ShipId { get; private set; }
         public Players.GenericPlayer Owner { get; private set; }
@@ -126,8 +125,6 @@ namespace Ship
 
         public void InitializeGenericShip(Players.PlayerNo playerNo, int shipId, Vector3 position, List<string> upgrades)
         {
-            Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-
             Owner = Roster.GetPlayer(playerNo);
             ShipId = shipId;
 
@@ -139,7 +136,6 @@ namespace Ship
             InitializeShip();
             InitializePilot();
 
-
             foreach (var upgrade in upgrades)
             {
                 InstallUpgrade(upgrade);
@@ -147,7 +143,6 @@ namespace Ship
 
             InfoPanel = Roster.CreateRosterInfo(this);
             Roster.UpdateUpgradesPanel(this, this.InfoPanel);
-
         }
 
         public virtual void InitializeShip()

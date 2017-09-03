@@ -6,17 +6,10 @@ using UnityEngine.EventSystems;
 
 public static class Selection {
 
-    private static GameManagerScript Game;
-
     public static Ship.GenericShip ThisShip;
     public static Ship.GenericShip AnotherShip;
     public static Ship.GenericShip ActiveShip;
     public static Ship.GenericShip HoveredShip;
-
-    // Use this for initialization
-    static Selection() {
-        Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-    }
 	
     //TODO: BUG - enemy ship can be selected
     public static void UpdateSelection()
@@ -38,7 +31,7 @@ public static class Selection {
                 if (!isShipHit)
                 {
                     ProcessClick();
-                    Game.UI.HideTemporaryMenus();
+                    UI.HideTemporaryMenus();
                 }
             }
         }
@@ -103,6 +96,7 @@ public static class Selection {
     private static void ProcessClick()
     {
         Phases.CurrentSubPhase.ProcessClick();
+        GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
         if (Game.Position.inReposition)
         {
             Game.Position.TryConfirmPosition(Selection.ThisShip);
@@ -147,7 +141,7 @@ public static class Selection {
         Roster.MarkShip(ThisShip, Color.green);
         ThisShip.HighlightThisSelected();
         if (Phases.CurrentSubPhase.GetType() == typeof(SubPhases.CombatSubPhase)) Roster.HighlightShipsFiltered(Roster.AnotherPlayer(Phases.CurrentPhasePlayer));
-        if (Roster.GetPlayer(Phases.CurrentPhasePlayer).GetType() == typeof(Players.HumanPlayer)) Game.UI.CallContextMenu(ThisShip);
+        if (Roster.GetPlayer(Phases.CurrentPhasePlayer).GetType() == typeof(Players.HumanPlayer)) UI.CallContextMenu(ThisShip);
     }
 
     public static void DeselectThisShip()
@@ -170,7 +164,7 @@ public static class Selection {
         AnotherShip = Roster.GetShipById(shipId);
         Roster.MarkShip(AnotherShip, Color.red);
         AnotherShip.HighlightEnemySelected();
-        if (Roster.GetPlayer(Phases.CurrentPhasePlayer).GetType() == typeof(Players.HumanPlayer)) Game.UI.CallContextMenu(AnotherShip);
+        if (Roster.GetPlayer(Phases.CurrentPhasePlayer).GetType() == typeof(Players.HumanPlayer)) UI.CallContextMenu(AnotherShip);
         return true;
     }
 

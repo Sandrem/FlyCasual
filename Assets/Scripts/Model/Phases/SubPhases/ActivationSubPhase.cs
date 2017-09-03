@@ -11,7 +11,6 @@ namespace SubPhases
 
         public override void Start()
         {
-            Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
             Name = "Activation SubPhase";
         }
 
@@ -128,7 +127,7 @@ namespace SubPhases
             int result = 0;
             if (!Selection.ThisShip.IsManeuverPerformed)
             {
-                Game.PrefabsList.ContextMenuPanel.transform.Find("MovePerformButton").gameObject.SetActive(true);
+                GameObject.Find("UI").transform.Find("ContextMenuPanel").Find("MovePerformButton").gameObject.SetActive(true);
                 result++;
             }
             else

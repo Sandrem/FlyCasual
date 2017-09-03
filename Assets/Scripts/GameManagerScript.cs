@@ -1,13 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public delegate void CallBackFunction();
 
 public class GameManagerScript : MonoBehaviour {
-
-    //Move to board consts
-    public readonly float PLAYMAT_SIZE = 10;
 
     public PrefabsList PrefabsList;
 
@@ -21,8 +19,18 @@ public class GameManagerScript : MonoBehaviour {
 
         Global.Initialize();
 
+        Board.BoardManager.Initialize();
+        Roster.Initialize();
         Roster.Start();
         Phases.StartPhases();
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            UI.ToggleInGameMenu();
+        }
     }
 
     private void SetApplicationParameters()
@@ -36,10 +44,8 @@ public class GameManagerScript : MonoBehaviour {
     {
         PrefabsList = this.GetComponent<PrefabsList>();
         UI = this.GetComponent<UI>();
-        UI.Initialize();
         
         Movement = this.GetComponent<ShipMovementScript>();
-        Movement.Initialize();
         Position = this.GetComponent<ShipPositionManager>();
     }
 

@@ -48,7 +48,7 @@ namespace CriticalHitCard
         private void StressAfterWhiteManeuvers(object sender, System.EventArgs e)
         {
             Messages.ShowInfo("Loose Stabilizer: Stress token is assigned");
-            Game.UI.AddTestLogEntry("Loose Stabilizer: Stress token is assigned");
+            UI.AddTestLogEntry("Loose Stabilizer: Stress token is assigned");
             Selection.ThisShip.AssignToken(new Tokens.StressToken(), Triggers.FinishTrigger);
         }
 

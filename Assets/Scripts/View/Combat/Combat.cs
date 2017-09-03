@@ -12,8 +12,8 @@ public static partial class Combat
 
     public static void ShowDiceResultMenu(UnityEngine.Events.UnityAction closeAction)
     {
-        Button closeButton = Game.PrefabsList.CombatDiceResultsMenu.transform.Find("DiceModificationsPanel/Confirm").GetComponent<Button>();
-        Game.PrefabsList.CombatDiceResultsMenu.SetActive(true);
+        Button closeButton = GameObject.Find("UI/CombatDiceResultsPanel").transform.Find("DiceModificationsPanel/Confirm").GetComponent<Button>();
+        GameObject.Find("UI/CombatDiceResultsPanel").gameObject.SetActive(true);
         closeButton.onClick.RemoveAllListeners();
         closeButton.onClick.AddListener(closeAction);
     }
@@ -25,7 +25,7 @@ public static partial class Combat
         if (Roster.GetPlayer(Selection.ActiveShip.Owner.PlayerNo).Type == Players.PlayerType.Human)
         {
             float offset = 0;
-            Vector3 defaultPosition = Game.PrefabsList.CombatDiceResultsMenu.transform.Find("DiceModificationsPanel").position;
+            Vector3 defaultPosition = GameObject.Find("UI/CombatDiceResultsPanel").transform.Find("DiceModificationsPanel").position;
 
             foreach (var actionEffect in Selection.ActiveShip.GetAvailableActionEffectsList())
             {
@@ -48,7 +48,8 @@ public static partial class Combat
 
     private static void CreateDiceModificationsButton(ActionsList.GenericAction actionEffect, Vector3 position)
     {
-        GameObject newButton = MonoBehaviour.Instantiate(Game.PrefabsList.GenericButton, Game.PrefabsList.CombatDiceResultsMenu.transform.Find("DiceModificationsPanel"));
+        GameObject prefab = (GameObject)Resources.Load("Prefabs/GenericButton", typeof(GameObject));
+        GameObject newButton = MonoBehaviour.Instantiate(prefab, GameObject.Find("UI/CombatDiceResultsPanel").transform.Find("DiceModificationsPanel"));
         newButton.name = "Button" + actionEffect.EffectName;
         newButton.transform.GetComponentInChildren<Text>().text = actionEffect.EffectName;
         newButton.GetComponent<RectTransform>().position = position;
@@ -68,21 +69,21 @@ public static partial class Combat
     //REMOVE
     public static void HideDiceModificationButtons()
     {
-        foreach (Transform button in Game.PrefabsList.CombatDiceResultsMenu.transform.Find("DiceModificationsPanel"))
+        foreach (Transform button in GameObject.Find("UI").transform.Find("CombatDiceResultsPanel").Find("DiceModificationsPanel"))
         {
             if (button.name.StartsWith("Button"))
             {
                 MonoBehaviour.Destroy(button.gameObject);
             }
         }
-        Game.PrefabsList.CombatDiceResultsMenu.transform.Find("DiceModificationsPanel/Confirm").gameObject.SetActive(false);
+        GameObject.Find("UI").transform.Find("CombatDiceResultsPanel").Find("DiceModificationsPanel").Find("Confirm").gameObject.SetActive(false);
     }
 
 
     // REMOVE
     public static void HideDiceResultMenu()
     {
-        Game.PrefabsList.CombatDiceResultsMenu.SetActive(false);
+        GameObject.Find("UI").transform.Find("CombatDiceResultsPanel").gameObject.SetActive(false);
         HideDiceModificationButtons();
         CurentDiceRoll.RemoveDiceModels();
     }

@@ -393,7 +393,7 @@ namespace Ship
 
         public void DestroyShip(Action callBack, bool forced = false)
         {
-            Game.UI.AddTestLogEntry("Ship with ID " + ShipId + " is destroyed");
+            UI.AddTestLogEntry("Ship with ID " + ShipId + " is destroyed");
 
             IsDestroyed = true;
             PlayDestroyedAnimSound(delegate { CheckShipModelDestruction(forced); callBack(); });

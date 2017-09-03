@@ -58,6 +58,7 @@ namespace UpgradesList
             Combat.Defender.AssignToken(
                 new Tokens.IonToken(),
                 delegate {
+                    GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
                     Game.Wait(2, DefenderSuffersDamage);
                 }
             );

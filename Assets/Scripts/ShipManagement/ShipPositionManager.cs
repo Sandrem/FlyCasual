@@ -6,7 +6,6 @@ using Board;
 public class ShipPositionManager : MonoBehaviour
 {
 
-    private GameManagerScript Game;
     public bool inReposition;
 
     //TEMP
@@ -25,17 +24,9 @@ public class ShipPositionManager : MonoBehaviour
     private Transform StartingZone;
     private bool isInsideStartingZone;
 
-    // Use this for initialization
-    void Start()
-    {
-        Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-    }
-
     // Update is called once per frame
     void Update()
     {
-        if (Game == null) Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-
         if (!inReposition) {
             if (Selection.ThisShip != null)
             {
@@ -283,6 +274,8 @@ public class ShipPositionManager : MonoBehaviour
         //TODO:
         //Cannot leave board
         //Obstacles
+
+        GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
 
         if (Phases.CurrentSubPhase.GetType() == typeof(SubPhases.SetupSubPhase))
         {

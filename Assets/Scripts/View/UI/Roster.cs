@@ -8,12 +8,21 @@ using System.Linq;
 
 public static partial class Roster {
 
-    private static List<GameObject> rosterPlayer1 = new List<GameObject>();
-    private static List<GameObject> rosterPlayer2 = new List<GameObject>();
+    private static List<GameObject> rosterPlayer1;
+    private static List<GameObject> rosterPlayer2;
+
+    public static void Initialize()
+    {
+        Players = new List<GenericPlayer>();
+        rosterPlayer1 = new List<GameObject>();
+        rosterPlayer2 = new List<GameObject>();
+        AllShips = new Dictionary<string, Ship.GenericShip>();
+    }
     
     public static GameObject CreateRosterInfo(Ship.GenericShip newShip)
     {
-        GameObject newPanel = MonoBehaviour.Instantiate(Game.PrefabsList.RosterPanel, Game.PrefabsList.RostersHolder.transform.Find("TeamPlayer" + newShip.Owner.Id).Find("RosterHolder").transform);
+        GameObject prefab = (GameObject)Resources.Load("Prefabs/RosterPanel", typeof(GameObject));
+        GameObject newPanel = MonoBehaviour.Instantiate(prefab, GameObject.Find("UI/RostersHolder").transform.Find("TeamPlayer" + newShip.Owner.Id).Find("RosterHolder").transform);
 
         //Generic info
         newPanel.transform.Find("ShipInfo/ShipPilotSkillText").GetComponent<Text>().text = newShip.PilotSkill.ToString();
@@ -164,7 +173,7 @@ public static partial class Roster {
     {
         for (int i = 1; i < 3; i++)
         {
-            Vector3 defaultPosition = Game.PrefabsList.RostersHolder.transform.Find("TeamPlayer" + i + "/RosterHolder").transform.position + new Vector3(5f, 0f, 0f);
+            Vector3 defaultPosition = GameObject.Find("UI/RostersHolder").transform.Find("TeamPlayer" + i + "/RosterHolder").transform.position + new Vector3(5f, 0f, 0f);
 
             List<GameObject> rosterPlayer = (i == 1) ? rosterPlayer1 : rosterPlayer2;
             rosterPlayer = rosterPlayer
@@ -192,7 +201,7 @@ public static partial class Roster {
                 if (Selection.TryToChangeShip(item.tag)) return;
             }
         }
-        Game.UI.HideTemporaryMenus();
+        UI.HideTemporaryMenus();
     }
 
     public static void SubscribeMarkByHover(GameObject sender)
@@ -290,7 +299,8 @@ public static partial class Roster {
         {
             for (int i = 0; i < token.Count; i++)
             {
-                GameObject tokenPanel = MonoBehaviour.Instantiate(Game.PrefabsList.PanelToken, thisShip.InfoPanel.transform.Find("ShipInfo").Find("TokensBar"));
+                GameObject prefab = (GameObject)Resources.Load("Prefabs/PanelToken", typeof(GameObject));
+                GameObject tokenPanel = MonoBehaviour.Instantiate(prefab, thisShip.InfoPanel.transform.Find("ShipInfo").Find("TokensBar"));
                 tokenPanel.GetComponent<RectTransform>().localPosition = Vector3.zero;
                 tokenPanel.name = token.Name;
                 Tooltips.AddTooltip(tokenPanel, token.Tooltip);
@@ -362,7 +372,7 @@ public static partial class Roster {
 
     public static void RosterAllPanelsHighlightOff()
     {
-        foreach (var ship in Roster.AllShips)
+        foreach (var ship in AllShips)
         {
             RosterPanelHighlightOff(ship.Value);
         }

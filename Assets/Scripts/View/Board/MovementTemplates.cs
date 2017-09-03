@@ -6,8 +6,6 @@ using Board;
 
 public static class MovementTemplates {
 
-    private static GameManagerScript Game;
-
 	private static Vector3 savedRulerPosition;
 	private static Vector3 savedRulerRotation;
     private static List<Vector3> rulerCenterPoints = new List<Vector3>();
@@ -17,8 +15,7 @@ public static class MovementTemplates {
 
     static MovementTemplates()
     {
-        Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-        Templates = Game.PrefabsList.RulersHolderTransform;
+        Templates = GameObject.Find("SceneHolder/Board/RulersHolder").transform;
     }
 
     public static void AddRulerCenterPoint(Vector3 point)

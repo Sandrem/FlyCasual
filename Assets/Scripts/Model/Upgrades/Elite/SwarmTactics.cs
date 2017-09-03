@@ -70,7 +70,7 @@ namespace SubPhases
             maxRange = 1;
             finishAction = SelectSwarmTacticsTarget;
 
-            Game.UI.ShowSkipButton();
+            UI.ShowSkipButton();
         }
 
         private void SelectSwarmTacticsTarget()

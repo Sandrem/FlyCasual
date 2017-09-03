@@ -46,6 +46,72 @@ namespace Movement
         public ManeuverBearing Bearing;
         public ManeuverColor ColorComplexity;
 
+        public MovementStruct(string parameters)
+        {
+            string[] arrParameters = parameters.Split('.');
+
+            ManeuverSpeed speed = ManeuverSpeed.Speed1;
+
+            switch (arrParameters[0])
+            {
+                case "1":
+                    speed = ManeuverSpeed.Speed1;
+                    break;
+                case "2":
+                    speed = ManeuverSpeed.Speed2;
+                    break;
+                case "3":
+                    speed = ManeuverSpeed.Speed3;
+                    break;
+                case "4":
+                    speed = ManeuverSpeed.Speed4;
+                    break;
+                case "5":
+                    speed = ManeuverSpeed.Speed5;
+                    break;
+            }
+
+            ManeuverDirection direction = ManeuverDirection.Forward;
+
+            switch (arrParameters[1])
+            {
+                case "F":
+                    direction = ManeuverDirection.Forward;
+                    break;
+                case "L":
+                    direction = ManeuverDirection.Left;
+                    break;
+                case "R":
+                    direction = ManeuverDirection.Right;
+                    break;
+            }
+
+            ManeuverBearing bearing = ManeuverBearing.Straight;
+
+            switch (arrParameters[2])
+            {
+                case "S":
+                    bearing = ManeuverBearing.Straight;
+                    break;
+                case "R":
+                    bearing = ManeuverBearing.KoiogranTurn;
+                    break;
+                case "B":
+                    bearing = ManeuverBearing.Bank;
+                    break;
+                case "T":
+                    bearing = ManeuverBearing.Turn;
+                    break;
+            }
+
+            Speed = speed;
+            Direction = direction;
+            Bearing = bearing;
+            ColorComplexity = Selection.ThisShip.Maneuvers[parameters];
+
+            ColorComplexity = Selection.ThisShip.GetColorComplexityOfManeuver(this);
+        }
+
         public int SpeedInt
         {
             set
@@ -208,8 +274,7 @@ namespace Movement
 
         public virtual void Perform()
         {
-            GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-            Game.UI.HideContextMenu();
+            UI.HideContextMenu();
             ProgressCurrent = 0f;
         }
 

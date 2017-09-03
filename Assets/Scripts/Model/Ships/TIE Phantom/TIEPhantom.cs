@@ -13,6 +13,8 @@ namespace Ship
             public TIEPhantom() : base()
             {
                 Type = "TIE Phantom";
+                ShipBaseSize = BaseSize.Small;
+
                 ManeuversImageUrl = "https://vignette1.wikia.nocookie.net/xwing-miniatures/images/8/85/MI_TIE-ADVANCED.png";
 
                 Firepower = 4;

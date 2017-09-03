@@ -28,13 +28,12 @@ namespace Ship
 
             position = new Vector3(0, 0, (Owner.PlayerNo == Players.PlayerNo.Player1) ? -4 : 4);
 
-            GameObject prefab = (GameObject)Resources.Load("Prefabs/ShipModel", typeof(GameObject));
+            GameObject prefab = (GameObject)Resources.Load("Prefabs/ShipModel/ShipModel", typeof(GameObject));
             GameObject newShip = MonoBehaviour.Instantiate(prefab, position + new Vector3(0, 0.03f, 0), Quaternion.Euler(facing), Board.BoardManager.GetBoard());
             newShip.transform.Find("RotationHelper/RotationHelper2/ShipAllParts/ShipModels/" + Type).gameObject.SetActive(true);
 
             ShipId = ShipFactory.lastId;
             ShipFactory.lastId = ShipFactory.lastId + 1;
-            SetTagOfChildrenRecursive(newShip.transform, "ShipId:" + ShipId.ToString());
             SetShipIdText(newShip);
 
             return newShip;
@@ -67,7 +66,7 @@ namespace Ship
             }
         }
 
-        public void SetShipInstertImage()
+        public void SetShipInsertImage()
         {
             string materialName = PilotName;
             materialName = materialName.Replace(' ', '_');
@@ -77,7 +76,7 @@ namespace Ship
             Material shipBaseInsert = (Material)Resources.Load(pathToResource, typeof(Material));
             if (shipBaseInsert != null)
             {
-                shipAllParts.Find("ShipStand/ShipStandInsert/ShipStandInsertImage/default").GetComponent<Renderer>().material = shipBaseInsert;
+                shipAllParts.Find("ShipBase/ShipStandInsert/ShipStandInsertImage/default").GetComponent<Renderer>().material = shipBaseInsert;
             }
             else
             {
@@ -88,14 +87,14 @@ namespace Ship
 
         public void ToggleCollisionDetection(bool value)
         {
-            shipAllParts.Find("ShipStand/ObstaclesStayDetector").GetComponent<ObstaclesStayDetector>().checkCollisions = value;
-            shipAllParts.Find("ShipStand/ObstaclesHitsDetector").GetComponent<ObstaclesHitsDetector>().checkCollisions = value;
+            shipAllParts.Find("ShipBase/ObstaclesStayDetector").GetComponent<ObstaclesStayDetector>().checkCollisions = value;
+            shipAllParts.Find("ShipBase/ObstaclesHitsDetector").GetComponent<ObstaclesHitsDetector>().checkCollisions = value;
         }
 
         public void ToggleColliders(bool value)
         {
-            shipAllParts.Find("ShipStand/ObstaclesStayDetector").GetComponent<Collider>().enabled = value;
-            shipAllParts.Find("ShipStand/ObstaclesHitsDetector").GetComponent<Collider>().enabled = value;
+            shipAllParts.Find("ShipBase/ObstaclesStayDetector").GetComponent<Collider>().enabled = value;
+            shipAllParts.Find("ShipBase/ObstaclesHitsDetector").GetComponent<Collider>().enabled = value;
         }
 
         public void SetActive(bool argument)
@@ -198,7 +197,7 @@ namespace Ship
 
         public void ToggleShipStandAndPeg(bool value)
         {
-            shipAllParts.Find("ShipStand").gameObject.SetActive(value);
+            shipAllParts.Find("ShipBase").gameObject.SetActive(value);
             shipAllParts.Find("ShipPeg").gameObject.SetActive(value);
         }
 
@@ -281,6 +280,11 @@ namespace Ship
             {
                 shotsTransform.gameObject.SetActive(false);
             }
+        }
+
+        public Transform GetShipAllPartsTransform()
+        {
+            return shipAllParts;
         }
 
     }

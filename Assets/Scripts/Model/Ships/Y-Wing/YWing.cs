@@ -13,6 +13,8 @@ namespace Ship
             public YWing() : base()
             {
                 Type = "Y-Wing";
+                ShipBaseSize = BaseSize.Small;
+
                 ManeuversImageUrl = "https://vignette4.wikia.nocookie.net/xwing-miniatures/images/1/18/MR_Y-WING.png";
 
                 Firepower = 2;

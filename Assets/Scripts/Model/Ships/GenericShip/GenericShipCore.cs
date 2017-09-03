@@ -108,8 +108,11 @@ namespace Ship
             }
         }
 
-        public GameObject Model { get; private set; }
-        public GameObject InfoPanel { get; private set;  }
+        public GameObject Model { get; protected set; }
+        public GameObject InfoPanel { get; protected set;  }
+
+        public BaseSize ShipBaseSize { get; protected set; }
+        public GenericShipBase ShipBase { get; protected set; }
 
         public GenericShip()
         {
@@ -131,7 +134,6 @@ namespace Ship
             AddBuiltInActions();
 
             StartingPosition = position;
-            CreateModel(StartingPosition);
 
             InitializeShip();
             InitializePilot();
@@ -152,11 +154,31 @@ namespace Ship
 
             ArcInfo = new Arcs.GenericArc(this);
             PrimaryWeapon = new PrimaryWeaponClass(this);
+
+            CreateModel(StartingPosition);
+            InitializeShipBase();
+
+            SetTagOfChildrenRecursive(Model.transform, "ShipId:" + ShipId.ToString());
+        }
+
+        private void InitializeShipBase()
+        {
+            switch (ShipBaseSize)
+            {
+                case BaseSize.Small:
+                    ShipBase = new ShipBaseSmall(this);
+                    break;
+                case BaseSize.Large:
+                    ShipBase = new ShipBaseLarge(this);
+                    break;
+                default:
+                    break;
+            }
         }
 
         public virtual void InitializePilot()
         {
-            SetShipInstertImage();
+            SetShipInsertImage();
         }
 
         // STAT MODIFICATIONS

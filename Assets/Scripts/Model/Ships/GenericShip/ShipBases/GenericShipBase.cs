@@ -24,7 +24,7 @@ namespace Ship
             Host = host;
         }
 
-        protected void CreateShipBase()
+        protected virtual void CreateShipBase()
         {
             GameObject prefab = (GameObject)Resources.Load(PrefabPath, typeof(GameObject));
             GameObject shipBase = MonoBehaviour.Instantiate(

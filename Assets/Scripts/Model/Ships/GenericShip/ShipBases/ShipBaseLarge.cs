@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEngine;
 
 namespace Ship
 {
@@ -15,6 +16,13 @@ namespace Ship
             TemporaryPrefabPath = "Prefabs/ShipModel/ShipBase/TemporaryShipBaseLarge";
 
             CreateShipBase();
+        }
+
+        protected override void CreateShipBase()
+        {
+            base.CreateShipBase();
+
+            Host.GetShipAllPartsTransform().localPosition = Host.GetShipAllPartsTransform().localPosition + new Vector3(0, 0, -1);
         }
 
     }

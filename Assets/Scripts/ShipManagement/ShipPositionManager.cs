@@ -211,8 +211,8 @@ public class ShipPositionManager : MonoBehaviour
     {
         Dictionary<string, float> result = new Dictionary<string, float>();
 
-        Dictionary<string, float> thisShipBounds = thisShip.GetBounds();
-        Dictionary<string, float> anotherShipBounds = anotherShip.GetBounds();
+        Dictionary<string, float> thisShipBounds = thisShip.ShipBase.GetBounds();
+        Dictionary<string, float> anotherShipBounds = anotherShip.ShipBase.GetBounds();
 
         result.Add("Left", thisShipBounds["minX"] - anotherShipBounds["maxX"]);
         result.Add("Right", anotherShipBounds["minX"] - thisShipBounds["maxX"]);
@@ -244,7 +244,7 @@ public class ShipPositionManager : MonoBehaviour
     private void ApplySetupPositionLimits()
     {
         Vector3 newPosition = Selection.ThisShip.GetCenter();
-        Dictionary<string, float> newBounds = Selection.ThisShip.GetBounds();
+        Dictionary<string, float> newBounds = Selection.ThisShip.ShipBase.GetBounds();
 
         if (!isInsideStartingZone)
         {
@@ -279,7 +279,7 @@ public class ShipPositionManager : MonoBehaviour
 
         if (Phases.CurrentSubPhase.GetType() == typeof(SubPhases.SetupSubPhase))
         {
-            if (!ship.IsInside(StartingZone))
+            if (!ship.ShipBase.IsInside(StartingZone))
 
             {
                 Messages.ShowErrorToHuman("Place ship into highlighted area");

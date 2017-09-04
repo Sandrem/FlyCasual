@@ -15,6 +15,10 @@ namespace Ship
             PrefabPath = "Prefabs/ShipModel/ShipBase/ShipBaseSmall";
             TemporaryPrefabPath = "Prefabs/ShipModel/ShipBase/TemporaryShipBaseSmall";
 
+            HALF_OF_SHIPSTAND_SIZE = 0.5f;
+            SHIPSTAND_SIZE = 1f;
+            HALF_OF_FIRINGARC_SIZE = 0.425f;
+
             CreateShipBase();
         }
 

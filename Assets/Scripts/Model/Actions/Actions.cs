@@ -118,8 +118,8 @@ public static partial class Actions {
         if (range <= 1) return true;
         if (range >= 3) return false;
 
-        float distanceToFront = Vector3.Distance(thisShip.GetPosition(), anotherShip.GetCentralFrontPoint());
-        float distanceToBack = Vector3.Distance(thisShip.GetPosition(), anotherShip.GetCentralBackPoint());
+        float distanceToFront = Vector3.Distance(thisShip.GetPosition(), anotherShip.ShipBase.GetCentralFrontPoint());
+        float distanceToBack = Vector3.Distance(thisShip.GetPosition(), anotherShip.ShipBase.GetCentralBackPoint());
         result = (distanceToFront < distanceToBack) ? true : false;
         return result;
     }

@@ -97,8 +97,8 @@ namespace Movement
             if (Direction == ManeuverDirection.Right) turningDirection = 1;
             if (Direction == ManeuverDirection.Left) turningDirection = -1;
 
-            Vector3 point_ShipStandBack = Selection.ThisShip.GetCentralBackPoint();
-            Vector3 point_ShipStandFront = Selection.ThisShip.GetCentralFrontPoint();
+            Vector3 point_ShipStandBack = Selection.ThisShip.ShipBase.GetCentralBackPoint();
+            Vector3 point_ShipStandFront = Selection.ThisShip.ShipBase.GetCentralFrontPoint();
             float pathToProcessLeft = (MovementTemplates.CurrentTemplate.transform.InverseTransformPoint(point_ShipStandBack).x);
 
             if (pathToProcessLeft > 0)
@@ -118,7 +118,7 @@ namespace Movement
                 float rotationFix = angle_ToShipFront_CorrectStandPosition * turningDirection;
                 Selection.ThisShip.SetRotationHelper2Angles(new Vector3(0, rotationFix, 0));
 
-                Vector3 standOrientationVector = MovementTemplates.CurrentTemplate.transform.InverseTransformPoint(Selection.ThisShip.GetCentralFrontPoint()) - MovementTemplates.CurrentTemplate.transform.InverseTransformPoint(Selection.ThisShip.GetCentralBackPoint());
+                Vector3 standOrientationVector = MovementTemplates.CurrentTemplate.transform.InverseTransformPoint(Selection.ThisShip.ShipBase.GetCentralFrontPoint()) - MovementTemplates.CurrentTemplate.transform.InverseTransformPoint(Selection.ThisShip.ShipBase.GetCentralBackPoint());
                 float angleBetweenMinus = -Vector3.Angle(vector_RulerStart_ShipStandFront, standOrientationVector);
                 float angleFix = angleBetweenMinus * turningDirection;
                 Selection.ThisShip.UpdateRotationHelperAngles(new Vector3(0, angleFix, 0));
@@ -132,8 +132,8 @@ namespace Movement
         {
             if (MovementTemplates.CurrentTemplate.transform.Find("Finisher") != null) {
 
-                Vector3 point_ShipStandBack = Selection.ThisShip.GetCentralBackPoint();
-                Vector3 point_ShipStandFront = Selection.ThisShip.GetCentralFrontPoint();
+                Vector3 point_ShipStandBack = Selection.ThisShip.ShipBase.GetCentralBackPoint();
+                Vector3 point_ShipStandFront = Selection.ThisShip.ShipBase.GetCentralFrontPoint();
 
                 float pathToProcessFinishingLeft = (MovementTemplates.CurrentTemplate.transform.Find("Finisher").InverseTransformPoint(point_ShipStandFront).x);
 

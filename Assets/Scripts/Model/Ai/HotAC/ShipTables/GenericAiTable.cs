@@ -140,8 +140,8 @@ namespace AI
         public static bool IsClosing(Ship.GenericShip thisShip, Ship.GenericShip anotherShip)
         {
             bool result = false;
-            float distanceToFront = Vector3.Distance(thisShip.GetPosition(), anotherShip.GetCentralFrontPoint());
-            float distanceToBack = Vector3.Distance(thisShip.GetPosition(), anotherShip.GetCentralBackPoint());
+            float distanceToFront = Vector3.Distance(thisShip.GetPosition(), anotherShip.ShipBase.GetCentralFrontPoint());
+            float distanceToBack = Vector3.Distance(thisShip.GetPosition(), anotherShip.ShipBase.GetCentralBackPoint());
             result = (distanceToFront < distanceToBack) ? true : false;
             return result;
         }

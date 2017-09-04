@@ -14,8 +14,8 @@ public static class DicesManager {
     // Use this for initialization
     static DicesManager()
     {
-        DiceAttack = (GameObject)Resources.Load("Prefabs/DiceAttack", typeof(GameObject));
-        DiceDefence = (GameObject)Resources.Load("Prefabs/DiceDefence", typeof(GameObject));
+        DiceAttack = (GameObject)Resources.Load("Prefabs/Dice/DiceAttack", typeof(GameObject));
+        DiceDefence = (GameObject)Resources.Load("Prefabs/Dice/DiceDefence", typeof(GameObject));
 
         GenerateDicePositions();
     }

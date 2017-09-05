@@ -49,6 +49,11 @@ namespace Upgrade
 
         }
 
+        public virtual bool IsAllowedForShip(Ship.GenericShip ship)
+        {
+            return true;
+        }
+
         public virtual void AttachToShip(Ship.GenericShip host)
         {
             Host = host;

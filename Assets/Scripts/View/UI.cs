@@ -259,7 +259,7 @@ public class UI : MonoBehaviour {
         Tooltips.EndTooltip();
     }
 
-    public static void HideInformCritPanel()
+    public void HideInformCritPanel()
     {
         InformCrit.HidePanel();
     }

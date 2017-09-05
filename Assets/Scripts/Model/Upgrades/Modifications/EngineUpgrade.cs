@@ -8,7 +8,7 @@ namespace UpgradesList
 		{
 			Type = UpgradeType.Modification;
 			Name = ShortName = "Engine Upgrade";
-			ImageUrl = "https://vignette1.wikia.nocookie.net/xwing-miniatures/images/5/58/Swx53-vectored-thrusters.png";
+			ImageUrl = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/upgrades/Modification/engine-upgrade.png";
 			Cost = 4;
 		}        
 	}

@@ -16,7 +16,7 @@ namespace UpgradesList
 
             Name = "Twin Laser Turret";
             ShortName = "TLT";
-            ImageUrl = "";
+            ImageUrl = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/upgrades/Turret/twin-laser-turret.png";
             Cost = 6;
 
             MinRange = 2;

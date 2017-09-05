@@ -14,7 +14,7 @@ namespace UpgradesList
 
 			Name = "Ion Cannon";
 			ShortName = "Ion Cannon";
-			ImageUrl = "";
+			ImageUrl = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/upgrades/Cannon/ion-cannon.png";
 			Cost = 3;
 
 			MinRange = 1;

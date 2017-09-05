@@ -82,7 +82,7 @@ namespace Movement
         {
             ProgressCurrent = 0;
 
-            Vector3 TargetPosition = new Vector3(0, 0, GetMovement1());
+            Vector3 TargetPosition = new Vector3(0, 0, Selection.ThisShip.ShipBase.GetShipBaseDistance());
             ProgressTarget = TargetPosition.z * finisherTargetSuccess;
 
             AnimationSpeed = Options.ManeuverSpeed * 0.75f;
@@ -105,7 +105,7 @@ namespace Movement
             {
 
                 float distance_ShipStandFront_RulerStart = Vector3.Distance(MovementTemplates.CurrentTemplate.transform.position, point_ShipStandFront);
-                float length_ShipStandFront_ShipStandBack = GetMovement1();
+                float length_ShipStandFront_ShipStandBack = Selection.ThisShip.ShipBase.GetShipBaseDistance();
                 Vector3 vector_RulerStart_ShipStandFront = MovementTemplates.CurrentTemplate.transform.InverseTransformPoint(point_ShipStandFront);
                 Vector3 vector_RulerStart_RulerBack = Vector3.right; // Strange magic due to ruler's rotation
 

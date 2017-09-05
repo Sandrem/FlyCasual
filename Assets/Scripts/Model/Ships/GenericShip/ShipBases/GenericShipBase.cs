@@ -25,6 +25,7 @@ namespace Ship
         private Dictionary<string, Vector3> standPoints = new Dictionary<string, Vector3>();
         public float HALF_OF_SHIPSTAND_SIZE { get; protected set; }
         public float SHIPSTAND_SIZE { get; protected set; }
+        public float SHIPSTAND_SIZE_CM { get; protected set; }
         public float HALF_OF_FIRINGARC_SIZE { get; protected set; }
 
         public GenericShipBase(GenericShip host)
@@ -153,6 +154,12 @@ namespace Ship
             bounds.Add("maxZ", Mathf.Max(edgesList[0].z, edgesList[1].z, edgesList[2].z, edgesList[3].z));
 
             return bounds;
+        }
+
+        public float GetShipBaseDistance()
+        {
+            float result = Board.BoardManager.GetBoard().TransformVector(new Vector3(SHIPSTAND_SIZE_CM, 0, 0)).x;
+            return result;
         }
 
     }

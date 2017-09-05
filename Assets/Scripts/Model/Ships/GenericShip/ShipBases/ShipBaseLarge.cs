@@ -17,6 +17,7 @@ namespace Ship
 
             HALF_OF_SHIPSTAND_SIZE = 1f;
             SHIPSTAND_SIZE = 2f;
+            SHIPSTAND_SIZE_CM = 8f;
 
             //TODO: calculate
             HALF_OF_FIRINGARC_SIZE = 0.425f;

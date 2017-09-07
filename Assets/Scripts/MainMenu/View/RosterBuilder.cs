@@ -222,7 +222,7 @@ public static partial class RosterBuilder {
         {
             if (panel.transform.Find("GroupUpgrades/Upgrade" + slot.Key.ToString() + "Line") == null)
             {
-                AddUpgradeLine(playerNo, panel, slot.Key.ToString());
+                AddUpgradeLine(playerNo, panel, slot.Key.ToString(), ship);
             }
         }
 
@@ -260,7 +260,7 @@ public static partial class RosterBuilder {
         }
     }
 
-    private static void AddUpgradeLine(PlayerNo playerNo, GameObject panel, string upgradeId)
+    private static void AddUpgradeLine(PlayerNo playerNo, GameObject panel, string upgradeId, Ship.GenericShip ship)
     {
         GameObject prefab = GameObject.Find("ScriptHolder").GetComponent<MainMenu>().UpgradeLinePrefab;
         Transform parent = panel.transform.Find("GroupUpgrades");
@@ -275,7 +275,7 @@ public static partial class RosterBuilder {
         newUpgradeLine.transform.GetComponent<Dropdown>().AddOptions(emptySlotList);
 
         Type type = typeof(Upgrade.UpgradeType);
-        List<string> upgradeList = GetUpgrades((Upgrade.UpgradeType)Enum.Parse(type, upgradeId));
+        List<string> upgradeList = GetUpgrades((Upgrade.UpgradeType)Enum.Parse(type, upgradeId), ship);
         newUpgradeLine.transform.GetComponent<Dropdown>().AddOptions(upgradeList);
 
         SubscribeUpgradeDropdowns(playerNo, newUpgradeLine);

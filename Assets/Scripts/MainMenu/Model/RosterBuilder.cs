@@ -6,6 +6,7 @@ using System;
 using System.Reflection;
 using System.Linq;
 using Players;
+using Ship;
 
 public static partial class RosterBuilder {
 
@@ -120,7 +121,7 @@ public static partial class RosterBuilder {
         return result;
     }
 
-    private static List<string> GetUpgrades(Upgrade.UpgradeType slot)
+    private static List<string> GetUpgrades(Upgrade.UpgradeType slot, GenericShip ship)
     {
         List<string> results = new List<string>();
 
@@ -132,7 +133,7 @@ public static partial class RosterBuilder {
         {
             Upgrade.GenericUpgrade newUpgrade = (Upgrade.GenericUpgrade)System.Activator.CreateInstance(type);
             if (!newUpgrade.IsHidden){
-                if (newUpgrade.Type == slot)
+                if (newUpgrade.Type == slot && newUpgrade.IsAllowedForShip(ship))
                 {
                     string upgradeKey = newUpgrade.Name + " (" + newUpgrade.Cost + ")";
                     if (!AllUpgrades.ContainsKey(upgradeKey))
@@ -153,7 +154,7 @@ public static partial class RosterBuilder {
         Ship.GenericShip ship = (Ship.GenericShip)System.Activator.CreateInstance(System.Type.GetType(pilotId));
         foreach (var upgrade in ship.BuiltInSlots)
         {
-            AddUpgradeLine(playerNo, panel, upgrade.Key.ToString());
+            AddUpgradeLine(playerNo, panel, upgrade.Key.ToString(), ship);
         }
     }
 

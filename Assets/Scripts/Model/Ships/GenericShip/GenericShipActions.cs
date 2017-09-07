@@ -373,13 +373,23 @@ namespace Ship
             return AssignedTokens;
         }
 
+        public EventHandlerTokenBool BeforeRemovingTokenInEndPhase;
+
+        private bool ShoulRemoveTokenInEndPhase(Tokens.GenericToken token)
+        {
+            var remove = token.Temporary;
+            if (BeforeRemovingTokenInEndPhase != null) BeforeRemovingTokenInEndPhase(token, ref remove);
+            return remove;
+        }
+
+
         public void ClearAllTokens()
         {
             List<Tokens.GenericToken> keys = new List<Tokens.GenericToken>(AssignedTokens);
 
             foreach (var token in keys)
             {
-                if (token.Temporary)
+                if (ShoulRemoveTokenInEndPhase(token))
                 {
                     RemoveToken(token.GetType(), '*', true);
                 }

@@ -7,7 +7,7 @@ namespace Ship
 {
     namespace TIEBomber
     {
-        public class TIEBomber : GenericShip
+        public class TIEBomber : GenericShip, TIE
         {
 
             public TIEBomber() : base()

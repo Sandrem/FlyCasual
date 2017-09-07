@@ -22,6 +22,7 @@ namespace Ship
                 MaxHull = 4;
                 MaxShields = 1;
 
+                AddUpgradeSlot(Upgrade.UpgradeType.Title);
                 AddUpgradeSlot(Upgrade.UpgradeType.Turret);
                 AddUpgradeSlot(Upgrade.UpgradeType.Crew);
 

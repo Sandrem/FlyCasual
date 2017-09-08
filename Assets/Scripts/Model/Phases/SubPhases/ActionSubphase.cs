@@ -180,7 +180,8 @@ namespace SubPhases
         }
 
         public void ShowActionDecisionPanel()
-        {
+		{
+			Selection.ThisShip.IsFreeActionSkipped = false;
             List<ActionsList.GenericAction> availableActions = Selection.ThisShip.GetAvailableFreeActionsList();
             foreach (var action in availableActions)
             {
@@ -203,6 +204,7 @@ namespace SubPhases
         public override void SkipButton()
         {
             UI.HideSkipButton();
+			Selection.ThisShip.IsFreeActionSkipped = true;
             CallBack();
         }
 

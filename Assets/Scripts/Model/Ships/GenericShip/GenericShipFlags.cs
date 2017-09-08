@@ -11,6 +11,8 @@ namespace Ship
         public bool IsAttackPerformed { get; set; }
         public bool IsDestroyed { get; set; }
         public bool IsSkipsActionSubPhase { get; set; }
+
+		public bool IsFreeActionSkipped { get; set; }
     } 
 
 }

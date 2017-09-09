@@ -13,7 +13,6 @@ namespace Ship
             public EWing() : base()
             {
                 Type = "E-Wing";
-                ShipBaseSize = BaseSize.Small;
 
                 ManeuversImageUrl = "https://vignette1.wikia.nocookie.net/xwing-miniatures/images/3/3d/MR_T65-X-WING.png";
 

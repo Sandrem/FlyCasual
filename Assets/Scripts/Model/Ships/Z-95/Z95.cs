@@ -13,7 +13,6 @@ namespace Ship
             public Z95() : base()
             {
                 Type = "Z-95";
-                ShipBaseSize = BaseSize.Small;
 
                 ManeuversImageUrl = "https://vignette1.wikia.nocookie.net/xwing-miniatures/images/3/3d/MR_T65-X-WING.png";
 

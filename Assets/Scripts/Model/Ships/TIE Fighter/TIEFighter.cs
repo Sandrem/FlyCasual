@@ -13,7 +13,6 @@ namespace Ship
             public TIEFighter() : base()
             {
                 Type = "TIE Fighter";
-                ShipBaseSize = BaseSize.Small;
 
                 ManeuversImageUrl = "https://vignette1.wikia.nocookie.net/xwing-miniatures/images/b/b6/TIE_Fighter_Move.png";
 

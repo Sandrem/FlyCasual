@@ -24,15 +24,19 @@ namespace Upgrade
             AddSlot(UpgradeType.Modification);
         }
 
-        public void AddSlot(UpgradeType type, object grantedBy = null)
+        public void AddSlot(UpgradeType slotType)
         {
-            UpgradeSlot slot = new UpgradeSlot(type, grantedBy);
+            AddSlot(new UpgradeSlot(slotType));
+        }
+
+        public void AddSlot(UpgradeSlot slot)
+        {
             UpgradeSlots.Add(slot);
         }
 
-        public void RemoveSlot(System.Type type, object grantedBy = null)
+        public void RemoveSlot(UpgradeType upgradeType, object grantedBy = null)
         {
-            UpgradeSlot slot = UpgradeSlots.Find(n => (n.GetType() == type) && (n.GrantedBy == grantedBy));
+            UpgradeSlot slot = UpgradeSlots.Find(n => (n.Type == upgradeType) && (n.GrantedBy == grantedBy));
             if (slot != null) UpgradeSlots.Remove(slot);
         }
 
@@ -84,6 +88,16 @@ namespace Upgrade
         public int CountUpgradeSlotType(UpgradeType upgradeType)
         {
             return UpgradeSlots.Count(n => n.Type == upgradeType);
+        }
+
+        public void ForbidSlots(UpgradeType upgradeType)
+        {
+            ForbiddenSlots.Add(upgradeType);
+        }
+
+        public void AllowSlots(UpgradeType upgradeType)
+        {
+            if (ForbiddenSlots.Contains(upgradeType)) ForbiddenSlots.Remove(upgradeType);
         }
     }
 }

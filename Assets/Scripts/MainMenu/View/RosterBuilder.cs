@@ -106,7 +106,7 @@ public static partial class RosterBuilder {
         Dropdown upgradeDropdown = panel.transform.GetComponent<Dropdown>();
         upgradeDropdown.onValueChanged.AddListener(delegate
         {
-            OnUpgradeChanged(playerNo, panel.transform.parent.parent.gameObject);
+            OnUpgradeChanged(playerNo, panel);
         });
     }
 
@@ -138,7 +138,25 @@ public static partial class RosterBuilder {
 
     private static void OnUpgradeChanged(PlayerNo playerNo, GameObject panel)
     {
-        UpdateShipCost(playerNo, panel);
+        UpgradeEffectApply(playerNo, panel);
+        UpdateShipCost(playerNo, panel.transform.parent.parent.gameObject);
+    }
+
+    private static void UpgradeEffectApply(PlayerNo playerNo, GameObject panel)
+    {
+        Dropdown upgradeDropdown = panel.transform.GetComponent<Dropdown>();
+        string upgradeName = upgradeDropdown.captionText.text;
+        if (AllUpgrades.ContainsKey(upgradeName))
+        {
+            Upgrade.GenericUpgrade upgradeContainer = (Upgrade.GenericUpgrade)Activator.CreateInstance(System.Type.GetType(AllUpgrades[upgradeName]));
+
+            string pilotKey = panel.transform.parent.parent.Find("GroupShip/DropdownPilot").GetComponent<Dropdown>().captionText.text;
+            Ship.GenericShip shipContainer = (Ship.GenericShip)Activator.CreateInstance(Type.GetType(AllPilots[pilotKey]));
+
+            upgradeContainer.SquadBuilderEffectApply(shipContainer);
+
+            UpdateUpgradePanels(playerNo, panel.transform.parent.parent.gameObject);
+        }
     }
 
     //Tooltips
@@ -249,6 +267,10 @@ public static partial class RosterBuilder {
             {
                 toRemove.Add(group.gameObject);
             }
+            else
+            {
+                GenerateUpgradeOptions(group.gameObject, upgradeId, ship);
+            }
         }
         foreach (var group in toRemove)
         {
@@ -266,19 +288,24 @@ public static partial class RosterBuilder {
         newUpgradeLine.transform.localPosition = Vector3.zero;
         newUpgradeLine.name = "Upgrade" + upgradeId + "Line";
 
-        string emptySlot = "Empty Slot: " + upgradeId;
-        List<string> emptySlotList = new List<string>() { emptySlot };
-        newUpgradeLine.transform.GetComponent<Dropdown>().ClearOptions();
-        newUpgradeLine.transform.GetComponent<Dropdown>().AddOptions(emptySlotList);
-
-        Type type = typeof(Upgrade.UpgradeType);
-        List<string> upgradeList = GetUpgrades((Upgrade.UpgradeType)Enum.Parse(type, upgradeId), ship);
-        newUpgradeLine.transform.GetComponent<Dropdown>().AddOptions(upgradeList);
+        GenerateUpgradeOptions(newUpgradeLine, upgradeId, ship);
 
         SubscribeUpgradeDropdowns(playerNo, newUpgradeLine);
         AddUpgradeTooltip(newUpgradeLine);
 
         OrganizeUpgradeLines(panel);
+    }
+
+    private static void GenerateUpgradeOptions(GameObject upgradeLine, string upgradeId, Ship.GenericShip ship)
+    {
+        string emptySlot = "Empty Slot: " + upgradeId;
+        List<string> emptySlotList = new List<string>() { emptySlot };
+        upgradeLine.transform.GetComponent<Dropdown>().ClearOptions();
+        upgradeLine.transform.GetComponent<Dropdown>().AddOptions(emptySlotList);
+
+        Type type = typeof(Upgrade.UpgradeType);
+        List<string> upgradeList = GetUpgrades((Upgrade.UpgradeType)Enum.Parse(type, upgradeId), ship);
+        upgradeLine.transform.GetComponent<Dropdown>().AddOptions(upgradeList);
     }
 
     // Update Costs

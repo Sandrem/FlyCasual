@@ -9,7 +9,10 @@ namespace Upgrade
     public class UpgradeSlot
     {
         public UpgradeType Type { get; private set; }
-        public object GrantedBy { get; private set; }
+        public object GrantedBy { get; set; }
+        public int CostDecrease { get; set; }
+        public int MaxCost { get; set; }
+        public bool MustBeDifferent { get; set; }
         public GenericUpgrade InstalledUpgrade { get; private set; }
 
         public int InstalledUpgradeCostReduction { get; private set; }
@@ -21,10 +24,11 @@ namespace Upgrade
         }
 
 
-        public UpgradeSlot(UpgradeType type, object grantedBy)
+        public UpgradeSlot(UpgradeType type)
         {
             Type = type;
-            GrantedBy = grantedBy;
+            CostDecrease = 0;
+            MaxCost = int.MaxValue;
         }
 
         public void TryInstallUpgrade(GenericUpgrade upgrade, Ship.GenericShip host)

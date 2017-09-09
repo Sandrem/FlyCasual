@@ -159,8 +159,6 @@ namespace Movement
         {
             GameObject[] result = new GameObject[100];
 
-            //TEMP
-            GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
             float distancePart = ProgressTarget / 80;
             Vector3 position = Selection.ThisShip.GetPosition();
 

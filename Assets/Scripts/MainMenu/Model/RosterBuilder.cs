@@ -151,10 +151,11 @@ public static partial class RosterBuilder {
     private static void SetAvailableUpgrades(PlayerNo playerNo, GameObject panel, string pilotName)
     {
         string pilotId = AllPilots[pilotName];
-        Ship.GenericShip ship = (Ship.GenericShip)System.Activator.CreateInstance(System.Type.GetType(pilotId));
-        foreach (var upgrade in ship.BuiltInSlots)
+        GenericShip ship = (GenericShip)System.Activator.CreateInstance(System.Type.GetType(pilotId));
+        ship.InitializePilotForRosterBuilder();
+        foreach (var upgrade in ship.UpgradeBar.GetUpgradeSlots())
         {
-            AddUpgradeLine(playerNo, panel, upgrade.Key.ToString(), ship);
+            AddUpgradeLine(playerNo, panel, upgrade.Type.ToString(), ship);
         }
     }
 

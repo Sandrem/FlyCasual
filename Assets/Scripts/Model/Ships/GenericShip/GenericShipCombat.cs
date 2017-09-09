@@ -431,9 +431,9 @@ namespace Ship
         {
             int result = 0;
 
-            foreach (var upgrade in InstalledUpgrades)
+            foreach (var upgrade in UpgradeBar.GetInstalledUpgrades())
             {
-                IShipWeapon secondaryWeapon = upgrade.Value as IShipWeapon;
+                IShipWeapon secondaryWeapon = upgrade as IShipWeapon;
                 if (secondaryWeapon != null)
                 {
                     if (secondaryWeapon.IsShotAvailable(Selection.AnotherShip)) result++;

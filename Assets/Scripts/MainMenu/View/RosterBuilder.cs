@@ -217,12 +217,13 @@ public static partial class RosterBuilder {
         string pilotName = panel.transform.Find("GroupShip/DropdownPilot").GetComponent<Dropdown>().captionText.text;
         string pilotId = AllPilots[pilotName];
         Ship.GenericShip ship = (Ship.GenericShip)Activator.CreateInstance(Type.GetType(pilotId));
+        ship.InitializePilotForRosterBuilder();
 
-        foreach (var slot in ship.BuiltInSlots)
+        foreach (var slot in ship.UpgradeBar.GetUpgradeSlots())
         {
-            if (panel.transform.Find("GroupUpgrades/Upgrade" + slot.Key.ToString() + "Line") == null)
+            if (panel.transform.Find("GroupUpgrades/Upgrade" + slot.Type.ToString() + "Line") == null)
             {
-                AddUpgradeLine(playerNo, panel, slot.Key.ToString(), ship);
+                AddUpgradeLine(playerNo, panel, slot.Type.ToString(), ship);
             }
         }
 
@@ -244,11 +245,7 @@ public static partial class RosterBuilder {
                 existingUpgradeSlots.Add(slot, 1);
             }
 
-            if (!ship.BuiltInSlots.ContainsKey(slot))
-            {
-                toRemove.Add(group.gameObject);
-            }
-            else if (ship.BuiltInSlots[slot] < existingUpgradeSlots[slot])
+            if (existingUpgradeSlots[slot] > ship.UpgradeBar.CountUpgradeSlotType(slot))
             {
                 toRemove.Add(group.gameObject);
             }

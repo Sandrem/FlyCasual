@@ -155,27 +155,36 @@ namespace Ship
             modelCenter.localPosition = new Vector3(0, 3.67f + 4f * progress, 0);
         }
 
+        public Transform GetSelectionProjector()
+        {
+            return shipAllParts.Find("ShipBase").Find("SelectionProjector");
+        }
+
         public void HighlightThisSelected()
         {
-            shipAllParts.Find("SelectionProjector").gameObject.SetActive(true);
-            shipAllParts.Find("SelectionProjector").GetComponent<Projector>().material = (Material)Resources.Load("Projectors/Materials/SelectionThisProjector", typeof(Material));
+            Transform projector = GetSelectionProjector();
+            projector.gameObject.SetActive(true);
+            projector.GetComponent<Projector>().material = (Material)Resources.Load("Projectors/Materials/SelectionThisProjector", typeof(Material));
         }
 
         public void HighlightAnyHovered()
         {
-            shipAllParts.Find("SelectionProjector").gameObject.SetActive(true);
-            shipAllParts.Find("SelectionProjector").GetComponent<Projector>().material = (Material)Resources.Load("Projectors/Materials/SelectionAnyHovered", typeof(Material));
+            Transform projector = GetSelectionProjector();
+            projector.gameObject.SetActive(true);
+            projector.GetComponent<Projector>().material = (Material)Resources.Load("Projectors/Materials/SelectionAnyHovered", typeof(Material));
         }
 
         public void HighlightEnemySelected()
         {
-            shipAllParts.Find("SelectionProjector").gameObject.SetActive(true);
-            shipAllParts.Find("SelectionProjector").GetComponent<Projector>().material = (Material)Resources.Load("Projectors/Materials/SelectionEnemyProjector", typeof(Material));
+            Transform projector = GetSelectionProjector();
+            projector.gameObject.SetActive(true);
+            projector.GetComponent<Projector>().material = (Material)Resources.Load("Projectors/Materials/SelectionEnemyProjector", typeof(Material));
         }
 
         public void HighlightSelectedOff()
         {
-            shipAllParts.Find("SelectionProjector").gameObject.SetActive(false);
+            Transform projector = GetSelectionProjector();
+            projector.gameObject.SetActive(false);
         }
 
         public void HighlightCanBeSelectedOn()
@@ -196,7 +205,7 @@ namespace Ship
         public void ToggleShipStandAndPeg(bool value)
         {
             shipAllParts.Find("ShipBase").gameObject.SetActive(value);
-            shipAllParts.Find("ShipPeg").gameObject.SetActive(value);
+            shipAllParts.Find("ShipBase").Find("ShipPeg").gameObject.SetActive(value);
         }
 
         public Transform GetBoosterHelper()

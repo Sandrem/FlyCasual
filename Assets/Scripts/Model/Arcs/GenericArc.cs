@@ -6,6 +6,15 @@ using Ship;
 
 namespace Arcs
 {
+    public enum BaseArcsType
+    {
+        ArcDefault,
+        ArcRear,
+        Arc180,
+        Arc360,
+        ArcMobile
+    }
+
     public class ArcInfo
     {
         public float MinAngle;

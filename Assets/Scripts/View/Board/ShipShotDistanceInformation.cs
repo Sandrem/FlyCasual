@@ -39,12 +39,12 @@ namespace Board
             parallelPointsList = new List<List<Vector3>>();
 
             // TODO: another types of primaty arcs
-            Dictionary <string, Vector3> shootingPoints = (!ChosenWeapon.CanShootOutsideArc) ? ThisShip.GetStandFrontPoints() : ThisShip.GetStandPoints();
+            Dictionary <string, Vector3> shootingPoints = (!ChosenWeapon.CanShootOutsideArc) ? ThisShip.ShipBase.GetStandFrontPoints() : ThisShip.ShipBase.GetStandPoints();
 
             // TODO: change to use geometry insted of dots
             foreach (var objThis in shootingPoints)
             {
-                foreach (var objAnother in AnotherShip.GetStandPoints())
+                foreach (var objAnother in AnotherShip.ShipBase.GetStandPoints())
                 {
 
                     // TODO: check this part

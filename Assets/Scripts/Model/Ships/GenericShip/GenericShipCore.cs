@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Arcs;
 
 namespace Ship
 {
@@ -110,8 +111,14 @@ namespace Ship
             }
         }
 
-        public GameObject Model { get; private set; }
-        public GameObject InfoPanel { get; private set;  }
+        public GameObject Model { get; protected set; }
+        public GameObject InfoPanel { get; protected set;  }
+
+        public BaseSize ShipBaseSize { get; protected set; }
+        public GenericShipBase ShipBase { get; protected set; }
+
+        public BaseArcsType ShipBaseArcsType { get; protected set; }
+        public GenericArc ArcInfo { get; protected set; }
 
         public GenericShip()
         {
@@ -133,7 +140,6 @@ namespace Ship
             AddBuiltInActions();
 
             StartingPosition = position;
-            CreateModel(StartingPosition);
 
             InitializeShip();
             InitializePilot();
@@ -152,13 +158,57 @@ namespace Ship
             Shields = MaxShields;
             Hull = MaxHull;
 
-            ArcInfo = new Arcs.GenericArc(this);
             PrimaryWeapon = new PrimaryWeaponClass(this);
+
+            CreateModel(StartingPosition);
+            InitializeShipBase();
+            InitializeShipBaseArc();
+
+            SetTagOfChildrenRecursive(Model.transform, "ShipId:" + ShipId.ToString());
+        }
+
+        private void InitializeShipBase()
+        {
+            switch (ShipBaseSize)
+            {
+                case BaseSize.Small:
+                    ShipBase = new ShipBaseSmall(this);
+                    break;
+                case BaseSize.Large:
+                    ShipBase = new ShipBaseLarge(this);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void InitializeShipBaseArc()
+        {
+            switch (ShipBaseArcsType)
+            {
+                case BaseArcsType.ArcDefault:
+                    ArcInfo = new GenericArc(this);
+                    break;
+                case BaseArcsType.ArcRear:
+                    ArcInfo = new ArcRear(this);
+                    break;
+                case BaseArcsType.Arc180:
+                    ArcInfo = new Arc180(this);
+                    break;
+                case BaseArcsType.Arc360:
+                    ArcInfo = new Arc360(this);
+                    break;
+                case BaseArcsType.ArcMobile:
+                    ArcInfo = new ArcMobile(this);
+                    break;
+                default:
+                    break;
+            }
         }
 
         public virtual void InitializePilot()
         {
-            SetShipInstertImage();
+            SetShipInsertImage();
         }
 
         // STAT MODIFICATIONS

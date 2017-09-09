@@ -13,6 +13,7 @@ namespace Ship
             public TIEAdvanced() : base()
             {
                 Type = "TIE Advanced";
+
                 ManeuversImageUrl = "https://vignette1.wikia.nocookie.net/xwing-miniatures/images/8/85/MI_TIE-ADVANCED.png";
 
                 Firepower = 2;

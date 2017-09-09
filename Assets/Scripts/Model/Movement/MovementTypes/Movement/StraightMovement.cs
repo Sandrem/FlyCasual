@@ -23,7 +23,7 @@ namespace Movement
 
         protected override float SetProgressTarget()
         {
-            return GetMovement1() + Speed * GetMovement1();
+            return Selection.ThisShip.ShipBase.GetShipBaseDistance() + Speed * GetMovement1();
         }
 
         protected override float SetAnimationSpeed()
@@ -48,13 +48,14 @@ namespace Movement
 
             //TEMP
             GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-            float distancePart = (GetMovement1() + Speed * GetMovement1())/100f;
+            float distancePart = (Selection.ThisShip.ShipBase.GetShipBaseDistance() + Speed * GetMovement1())/100f;
             Vector3 position = Selection.ThisShip.GetPosition();
 
             for (int i = 1; i <= 100; i++)
             {
                 position = Vector3.MoveTowards(position, position + Selection.ThisShip.TransformDirection(Vector3.forward), distancePart);
-                GameObject ShipStand = MonoBehaviour.Instantiate(Game.Position.prefabShipStand, position, Selection.ThisShip.GetRotation(), Board.BoardManager.GetBoard());
+                GameObject prefab = (GameObject)Resources.Load(Selection.ThisShip.ShipBase.TemporaryPrefabPath, typeof(GameObject));
+                GameObject ShipStand = MonoBehaviour.Instantiate(prefab, position, Selection.ThisShip.GetRotation(), Board.BoardManager.GetBoard());
 
                 Renderer[] renderers = ShipStand.GetComponentsInChildren<Renderer>();
                 foreach (var render in renderers)

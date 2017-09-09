@@ -118,7 +118,7 @@ namespace Ship
         public GenericShipBase ShipBase { get; protected set; }
 
         public BaseArcsType ShipBaseArcsType { get; protected set; }
-        public GenericArc ShipBaseArc { get; protected set; }
+        public GenericArc ArcInfo { get; protected set; }
 
         public GenericShip()
         {
@@ -158,7 +158,6 @@ namespace Ship
             Shields = MaxShields;
             Hull = MaxHull;
 
-            ArcInfo = new Arcs.GenericArc(this);
             PrimaryWeapon = new PrimaryWeaponClass(this);
 
             CreateModel(StartingPosition);
@@ -188,19 +187,19 @@ namespace Ship
             switch (ShipBaseArcsType)
             {
                 case BaseArcsType.ArcDefault:
-                    ShipBaseArc = new GenericArc(this);
+                    ArcInfo = new GenericArc(this);
                     break;
                 case BaseArcsType.ArcRear:
-                    ShipBaseArc = new ArcRear(this);
+                    ArcInfo = new ArcRear(this);
                     break;
                 case BaseArcsType.Arc180:
-                    ShipBaseArc = new Arc180(this);
+                    ArcInfo = new Arc180(this);
                     break;
                 case BaseArcsType.Arc360:
-                    ShipBaseArc = new Arc360(this);
+                    ArcInfo = new Arc360(this);
                     break;
                 case BaseArcsType.ArcMobile:
-                    ShipBaseArc = new ArcMobile(this);
+                    ArcInfo = new ArcMobile(this);
                     break;
                 default:
                     break;

@@ -210,7 +210,7 @@ namespace Ship
 
         public Transform GetBoosterHelper()
         {
-            return Model.transform.Find("RotationHelper/RotationHelper2/BoostHelper");
+            return shipAllParts.Find("ShipBase/BoostHelper");
         }
 
         public Transform GetDecloakHelper()

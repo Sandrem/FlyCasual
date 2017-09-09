@@ -117,7 +117,11 @@ namespace AI
             Movement.GenericMovement result = movement;
             if (movement.Direction != Movement.ManeuverDirection.Forward)
             {
-                movement.Direction = (vector < 0) ? Movement.ManeuverDirection.Left : Movement.ManeuverDirection.Right;
+                if (vector < 0)
+                {
+                    if (movement.Direction == Movement.ManeuverDirection.Left) movement.Direction = Movement.ManeuverDirection.Right;
+                    else if (movement.Direction == Movement.ManeuverDirection.Right) movement.Direction = Movement.ManeuverDirection.Left;
+                }
             }
             return result;
         }

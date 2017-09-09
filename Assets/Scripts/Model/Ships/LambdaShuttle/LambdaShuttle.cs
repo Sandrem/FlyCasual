@@ -28,7 +28,7 @@ namespace Ship
                 AddUpgradeSlot(Upgrade.UpgradeType.Crew);
 
                 AssignTemporaryManeuvers();
-                HotacManeuverTable = new AI.XWingTable();
+                HotacManeuverTable = new AI.LambdaShuttleTable();
 
                 factions.Add(Faction.Empire);
                 faction = Faction.Empire;

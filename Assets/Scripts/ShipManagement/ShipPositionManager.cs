@@ -17,8 +17,6 @@ public class ShipPositionManager : MonoBehaviour
     private const float KOIOGRAN_ANIMATION_SPEED = 100;
     private int helperDirection;
 
-    public GameObject prefabShipStand;
-
     private GameObject ShipStand;
 
     private Transform StartingZone;

@@ -168,7 +168,8 @@ namespace Movement
             for (int i = 1; i <= 80; i++)
             {
                 float step = (float)i * distancePart;
-                GameObject ShipStand = MonoBehaviour.Instantiate(Game.Position.prefabShipStand, position, Selection.ThisShip.GetRotation(), Board.BoardManager.GetBoard());
+                GameObject prefab = (GameObject)Resources.Load(Selection.ThisShip.ShipBase.TemporaryPrefabPath, typeof(GameObject));
+                GameObject ShipStand = MonoBehaviour.Instantiate(prefab, position, Selection.ThisShip.GetRotation(), Board.BoardManager.GetBoard());
 
                 Renderer[] renderers = ShipStand.GetComponentsInChildren<Renderer>();
                 foreach (var render in renderers)
@@ -190,7 +191,8 @@ namespace Movement
             for (int i = 1; i <= 20; i++)
             {
                 position = Vector3.MoveTowards(position, position + lastShipStand.transform.TransformDirection(Vector3.forward), distancePart);
-                GameObject ShipStand = MonoBehaviour.Instantiate(Game.Position.prefabShipStand, position, lastShipStand.transform.rotation, Board.BoardManager.GetBoard());
+                GameObject prefab = (GameObject)Resources.Load(Selection.ThisShip.ShipBase.TemporaryPrefabPath, typeof(GameObject));
+                GameObject ShipStand = MonoBehaviour.Instantiate(prefab, position, lastShipStand.transform.rotation, Board.BoardManager.GetBoard());
 
                 Renderer[] renderers = ShipStand.GetComponentsInChildren<Renderer>();
                 foreach (var render in renderers)

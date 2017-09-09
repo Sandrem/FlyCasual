@@ -14,6 +14,7 @@ namespace Ship
             {
                 Type = "Firespray-31";
                 ShipBaseSize = BaseSize.Large;
+                ShipBaseArcsType = Arcs.BaseArcsType.ArcRear;
 
                 ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/4/4e/Firespray_31_Move.png";
 

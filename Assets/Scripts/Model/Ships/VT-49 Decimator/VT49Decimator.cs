@@ -14,6 +14,7 @@ namespace Ship
             {
                 Type = "VT-49 Decimator";
                 ShipBaseSize = BaseSize.Large;
+                ShipBaseArcsType = Arcs.BaseArcsType.Arc360;
 
                 ManeuversImageUrl = "https://vignette2.wikia.nocookie.net/xwing-miniatures/images/c/c3/MI_LAMBDA-SHUTTLE.png";
 

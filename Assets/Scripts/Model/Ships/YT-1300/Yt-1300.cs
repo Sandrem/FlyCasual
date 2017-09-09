@@ -14,6 +14,7 @@ namespace Ship
             {
                 Type = "YT-1300";
                 ShipBaseSize = BaseSize.Large;
+                ShipBaseArcsType = Arcs.BaseArcsType.Arc360;
 
                 ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/a/a0/YT_1300_Move.png";
 

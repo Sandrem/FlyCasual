@@ -75,7 +75,8 @@ namespace Upgrade
 
         public List<UpgradeSlot> GetUpgradeSlots()
         {
-            return UpgradeSlots;
+            List<UpgradeSlot> result = UpgradeSlots.Where(n => !ForbiddenSlots.Contains(n.Type)).ToList();
+            return result;
         }
 
         public bool HasUpgradeSlot(UpgradeType upgradeType)
@@ -93,6 +94,14 @@ namespace Upgrade
         public void ForbidSlots(UpgradeType upgradeType)
         {
             ForbiddenSlots.Add(upgradeType);
+
+            foreach (var slot in UpgradeSlots)
+            {
+                if (slot.Type == upgradeType)
+                {
+                    if (slot.InstalledUpgrade != null) slot.RemovePreInstallUpgrade();
+                }
+            }
         }
 
         public void AllowSlots(UpgradeType upgradeType)

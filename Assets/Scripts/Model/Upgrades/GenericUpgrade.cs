@@ -54,19 +54,19 @@ namespace Upgrade
             return true;
         }
 
-        public virtual void SquadBuilderEffectApply(Ship.GenericShip host)
-        {
-
-        }
-
-        public virtual void SquadBuilderEffectRemove(Ship.GenericShip host)
-        {
-
-        }
-
         public virtual void AttachToShip(Ship.GenericShip host)
         {
             Host = host;
+        }
+
+        public virtual void PreAttachToShip(Ship.GenericShip host)
+        {
+            Host = host;
+        }
+
+        public virtual void PreDettachFromShip()
+        {
+
         }
 
         public void Discard()

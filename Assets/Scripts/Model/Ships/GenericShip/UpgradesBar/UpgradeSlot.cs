@@ -43,6 +43,18 @@ namespace Upgrade
             }
         }
 
+        public void PreInstallUpgrade(GenericUpgrade upgrade, Ship.GenericShip host)
+        {
+            InstalledUpgrade = upgrade;
+            InstalledUpgrade.PreAttachToShip(host);
+        }
+
+        public void RemovePreInstallUpgrade()
+        {
+            InstalledUpgrade.PreDettachFromShip();
+            InstalledUpgrade = null;
+        }
+
         private void InstallUpgrade(GenericUpgrade upgrade, Ship.GenericShip host)
         {
             InstalledUpgrade = upgrade;

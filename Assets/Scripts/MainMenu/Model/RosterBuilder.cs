@@ -19,7 +19,6 @@ public static partial class RosterBuilder {
     private class SquadBuilderUpgrade
     {
         public UpgradeSlot Slot;
-        public GenericUpgrade InstalledUpgrade;
         public GameObject Panel;
 
         public SquadBuilderUpgrade(UpgradeSlot slot, GameObject panel)
@@ -165,10 +164,9 @@ public static partial class RosterBuilder {
         SetShipsDropdown(squadBuilderShip, shipResults);
         SetPilotsDropdown(squadBuilderShip, pilotResults);
         SetAvailableUpgrades(squadBuilderShip);
+
         OrganizeUpgradeLines(panel);
-
         UpdateShipCost(squadBuilderShip);
-
         OrganizeShipsList(playerNo);
     }
 
@@ -176,7 +174,7 @@ public static partial class RosterBuilder {
     {
         squadBuilderShip.UpdateShip(ChangeShipHolder(squadBuilderShip));
 
-        UpdateUpgradePanels(squadBuilderShip);
+        UpdateUpgradePanelsFull(squadBuilderShip);
         UpdateShipCost(squadBuilderShip);
 
         OrganizeShipsList(squadBuilderShip.Player);
@@ -205,7 +203,7 @@ public static partial class RosterBuilder {
 
         //SetAvailableUpgrades(squadBuilderShip);
         //OrganizeUpgradeLines(squadBuilderShip.Panel);
-        UpdateUpgradePanels(squadBuilderShip);
+        UpdateUpgradePanelsFull(squadBuilderShip);
         UpdateShipCost(squadBuilderShip);
 
         OrganizeShipsList(squadBuilderShip.Player);
@@ -226,14 +224,14 @@ public static partial class RosterBuilder {
         string upgradeId = GetNameOfUpgrade(upgrade);
         if (!string.IsNullOrEmpty(upgradeId))
         {
-            upgrade.InstalledUpgrade = (GenericUpgrade)Activator.CreateInstance(Type.GetType(upgradeId));
+            upgrade.Slot.PreInstallUpgrade((GenericUpgrade)Activator.CreateInstance(Type.GetType(upgradeId)), squadBuilderShip.Ship);
         }
         else
         {
-            upgrade.InstalledUpgrade = null;
+            upgrade.Slot.RemovePreInstallUpgrade();
         }
 
-        UpdateShipCost(squadBuilderShip);
+        UpdateUpgradePanelsDiff(squadBuilderShip);
     }
 
     private static List<string> GetShipsByFaction(Faction faction)

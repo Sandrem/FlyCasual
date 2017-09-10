@@ -20,15 +20,19 @@ namespace UpgradesList
             return ship is TIEAdvanced;
         }
 
-        public override void SquadBuilderEffectApply(GenericShip host)
+        public override void PreAttachToShip(GenericShip host)
         {
+            base.PreAttachToShip(host);
+
             UpgradeSlot newSlot = new UpgradeSlot(UpgradeType.System) { GrantedBy = this, CostDecrease = 4 };
             host.UpgradeBar.AddSlot(newSlot);
         }
 
-        public override void SquadBuilderEffectRemove(GenericShip host)
+        public override void PreDettachFromShip()
         {
-            host.UpgradeBar.RemoveSlot(UpgradeType.System, this);
+            base.PreDettachFromShip();
+
+            Host.UpgradeBar.RemoveSlot(UpgradeType.System, this);
         }
     }
 }

@@ -20,15 +20,19 @@ namespace UpgradesList
             return ((ship is AWing) && (ship.PilotSkill > 1));
         }
 
-        public override void SquadBuilderEffectApply(GenericShip host)
+        public override void PreAttachToShip(GenericShip host)
         {
+            base.PreAttachToShip(host);
+
             UpgradeSlot newSlot = new UpgradeSlot(UpgradeType.Elite) { GrantedBy = this, MustBeDifferent = true };
             host.UpgradeBar.AddSlot(newSlot);
         }
 
-        public override void SquadBuilderEffectRemove(GenericShip host)
+        public override void PreDettachFromShip()
         {
-            host.UpgradeBar.RemoveSlot(UpgradeType.Elite, this);
+            base.PreDettachFromShip();
+
+            Host.UpgradeBar.RemoveSlot(UpgradeType.Elite, this);
         }
     }
 }

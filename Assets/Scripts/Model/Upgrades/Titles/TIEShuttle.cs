@@ -20,8 +20,10 @@ namespace UpgradesList
             return ship is TIEBomber;
         }
 
-        public override void SquadBuilderEffectApply(GenericShip host)
+        public override void PreAttachToShip(GenericShip host)
         {
+            base.PreAttachToShip(host);
+
             host.UpgradeBar.ForbidSlots(UpgradeType.Torpedoes);
             host.UpgradeBar.ForbidSlots(UpgradeType.Missiles);
             host.UpgradeBar.ForbidSlots(UpgradeType.Bomb);
@@ -33,14 +35,16 @@ namespace UpgradesList
             host.UpgradeBar.AddSlot(crew2);
         }
 
-        public override void SquadBuilderEffectRemove(GenericShip host)
+        public override void PreDettachFromShip()
         {
-            host.UpgradeBar.AllowSlots(UpgradeType.Torpedoes);
-            host.UpgradeBar.AllowSlots(UpgradeType.Missiles);
-            host.UpgradeBar.AllowSlots(UpgradeType.Bomb);
+            base.PreDettachFromShip();
 
-            host.UpgradeBar.RemoveSlot(UpgradeType.Crew, this);
-            host.UpgradeBar.RemoveSlot(UpgradeType.Crew, this);
+            Host.UpgradeBar.AllowSlots(UpgradeType.Torpedoes);
+            Host.UpgradeBar.AllowSlots(UpgradeType.Missiles);
+            Host.UpgradeBar.AllowSlots(UpgradeType.Bomb);
+
+            Host.UpgradeBar.RemoveSlot(UpgradeType.Crew, this);
+            Host.UpgradeBar.RemoveSlot(UpgradeType.Crew, this);
         }
     }
 }

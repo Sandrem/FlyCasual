@@ -31,7 +31,7 @@ public static partial class RosterBuilder {
 
             List<string> upgradesList = new List<string>();
 
-            foreach (var upgrade in ship.Upgrades.Where(n => n.InstalledUpgrade != null))
+            foreach (var upgrade in ship.Upgrades.Where(n => n.Slot.InstalledUpgrade != null))
             {
                 string upgradeName = GetNameOfUpgrade(upgrade);
                 upgradesList.Add(upgradeName);
@@ -221,8 +221,7 @@ public static partial class RosterBuilder {
         AddPilotTooltip(squadBuilderShip.Panel.transform.Find("GroupShip/DropdownPilot").gameObject);
     }
 
-    //TODO: Rework
-    private static void UpdateUpgradePanels(SquadBuilderShip squadBuilderShip)
+    private static void UpdateUpgradePanelsFull(SquadBuilderShip squadBuilderShip)
     {
         List<SquadBuilderUpgrade> upgrades = new List<SquadBuilderUpgrade>(squadBuilderShip.Upgrades);
 
@@ -235,6 +234,35 @@ public static partial class RosterBuilder {
         SetAvailableUpgrades(squadBuilderShip);
         OrganizeUpgradeLines(squadBuilderShip.Panel);
 
+        OrganizeShipsList(squadBuilderShip.Player);
+    }
+
+    private static void UpdateUpgradePanelsDiff(SquadBuilderShip squadBuilderShip)
+    {
+        List<SquadBuilderUpgrade> oldUpgrades = new List<SquadBuilderUpgrade>(squadBuilderShip.Upgrades);
+        List<UpgradeSlot> newUpgrades = squadBuilderShip.Ship.UpgradeBar.GetUpgradeSlots();
+
+        foreach (var oldUpgradeSlot in oldUpgrades)
+        {
+            UpgradeSlot newUpgrade = newUpgrades.Find(n => n == oldUpgradeSlot.Slot);
+            if (newUpgrade == null)
+            {
+                squadBuilderShip.Upgrades.Remove(oldUpgradeSlot);
+                MonoBehaviour.DestroyImmediate(oldUpgradeSlot.Panel);
+            }
+        }
+
+        foreach (var newUpgradeSlot in newUpgrades)
+        {
+            SquadBuilderUpgrade oldUpgrade = oldUpgrades.Find(n => n.Slot == newUpgradeSlot);
+            if (oldUpgrade == null)
+            {
+                AddUpgrade(squadBuilderShip, newUpgradeSlot);
+            }
+        }
+
+        OrganizeUpgradeLines(squadBuilderShip.Panel);
+        UpdateShipCost(squadBuilderShip);
         OrganizeShipsList(squadBuilderShip.Player);
     }
 
@@ -277,9 +305,9 @@ public static partial class RosterBuilder {
 
         foreach (var upgrade in squadBuilderShip.Upgrades)
         {
-            if (upgrade.InstalledUpgrade != null)
+            if (!upgrade.Slot.IsEmpty)
             {
-                totalShipCost += upgrade.InstalledUpgrade.Cost;
+                totalShipCost += upgrade.Slot.InstalledUpgrade.Cost;
             }
         }
 

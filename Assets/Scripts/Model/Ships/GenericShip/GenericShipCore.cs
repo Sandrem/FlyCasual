@@ -160,7 +160,7 @@ namespace Ship
 
         public virtual void InitializeShip()
         {
-            InitializePilotForRosterBuilder();
+            InitializePilotForSquadBuilder();
 
             Shields = MaxShields;
             Hull = MaxHull;
@@ -213,7 +213,7 @@ namespace Ship
             }
         }
 
-        public void InitializePilotForRosterBuilder()
+        public void InitializePilotForSquadBuilder()
         {
             InitializeSlots();
         }

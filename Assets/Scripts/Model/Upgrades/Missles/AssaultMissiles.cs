@@ -22,9 +22,9 @@ namespace UpgradesList
 			MaxRange = 3;
 			AttackValue = 4;
 
-			RequiresTargetLockOnTargetToShoot = false; // true
-			SpendsTargetLockOnTargetToShoot = false; // true
-			IsDiscardedForShot = false; // true
+			RequiresTargetLockOnTargetToShoot = true;
+			SpendsTargetLockOnTargetToShoot = true;
+			IsDiscardedForShot = true;
 		}
 
 		public override void AttachToShip(Ship.GenericShip host)
@@ -50,7 +50,6 @@ namespace UpgradesList
 						TriggerOwner = Combat.Attacker.Owner.PlayerNo,
 						EventHandler = delegate{
 							AssaultMissilesHitEffect();
-							Triggers.FinishTrigger();
 						}
 					});
 			}
@@ -59,8 +58,14 @@ namespace UpgradesList
 		private void AssaultMissilesHitEffect(){
 			var ships = Roster.AllShips.Select (x => x.Value).ToList();
 
-
 			foreach (Ship.GenericShip ship in ships) {
+
+				// null refs?
+				if (ship.Model == null || Combat.Defender == null || Combat.Defender.Model == null) {
+					continue;
+				}
+
+				// Defending ship shouldn't suffer additional damage
 				if (ship.Model == Combat.Defender.Model)
 					continue;
 
@@ -68,14 +73,13 @@ namespace UpgradesList
 
 				if (shotInfo.Range == 1) {
 
-					Messages.ShowErrorToHuman(string.Format("{0} within range 1 of {1}; taking damage", ship.PilotName, Combat.Defender.PilotName));
-
-					Selection.ActiveShip = ship;
+					Messages.ShowErrorToHuman(string.Format("{0} is within range 1 of {1}; assault missile deals 1 damage!",
+						ship.PilotName, Combat.Defender.PilotName));
 
 					var diceRoll = new DiceRoll (DiceKind.Attack, 0, DiceRollCheckType.Combat);
 					diceRoll.AddDice (DiceSide.Success);
 					var hitDie = diceRoll.DiceList [0];
-					Selection.ActiveShip.AssignedDamageDiceroll.DiceList.Add(hitDie);
+					ship.AssignedDamageDiceroll.DiceList.Add(hitDie);
 
 					Triggers.RegisterTrigger(new Trigger() {
 						Name = "Suffer Assault Missle Damage",
@@ -89,9 +93,7 @@ namespace UpgradesList
 						}
 					});
 
-
-					/*
-					*/
+					Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, Triggers.FinishTrigger);
 				}
 			}
 		}

@@ -133,7 +133,7 @@ namespace Ship
             PilotSkillModifiers = new List<IModifyPilotSkill>();
         }
 
-        public void InitializeGenericShip(Players.PlayerNo playerNo, int shipId, Vector3 position, List<string> upgrades)
+        public void InitializeGenericShip(Players.PlayerNo playerNo, int shipId, Vector3 position)
         {
             Owner = Roster.GetPlayer(playerNo);
             ShipId = shipId;
@@ -144,17 +144,17 @@ namespace Ship
 
             InitializeShip();
             InitializePilot();
-            InitializeUpgrades(upgrades);
+            InitializeUpgrades();
 
             InfoPanel = Roster.CreateRosterInfo(this);
             Roster.UpdateUpgradesPanel(this, this.InfoPanel);
         }
 
-        public virtual void InitializeUpgrades(List<string> upgrades)
+        public virtual void InitializeUpgrades()
         {
-            foreach (var upgrade in upgrades)
+            foreach (var slot in UpgradeBar.GetUpgradeSlots())
             {
-                UpgradeBar.TryInstallUpgrade(upgrade);
+                slot.TryInstallUpgrade(slot.InstalledUpgrade, this);
             }
         }
 

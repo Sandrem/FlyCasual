@@ -81,6 +81,11 @@ public static partial class RosterBuilder {
         {
             return roster.Where(n => n.Player == playerNo).ToList();
         }
+
+        public static List<SquadBuilderShip> GetShips()
+        {
+            return roster;
+        }
     }
     
 
@@ -125,8 +130,12 @@ public static partial class RosterBuilder {
     private static void GeneratePlayersShipConfigurations()
     {
         Global.RemoveAllShips();
-        GeneratePlayerShipConfigurations(PlayerNo.Player1);
-        GeneratePlayerShipConfigurations(PlayerNo.Player2);
+        foreach (var ship in SquadBuilderRoster.GetShips())
+        {
+            int shipCost = GetShipCostCalculated(ship);
+
+            Global.AddShip(ship.Ship, ship.Player, shipCost);
+        }
     }
 
     private static void AddInitialShips()
@@ -390,15 +399,13 @@ public static partial class RosterBuilder {
 
         foreach (var shipConfig in Global.ShipConfigurations)
         {
-            if (shipConfig.PlayerNo == playerNo)
+            if (shipConfig.Player == playerNo)
             {
-                GenericShip shipContainer = (GenericShip)System.Activator.CreateInstance(System.Type.GetType(shipConfig.PilotName));
-                squadCost += shipContainer.Cost;
+                squadCost += shipConfig.Ship.Cost;
 
-                foreach (var upgrade in shipConfig.Upgrades)
+                foreach (var upgrade in shipConfig.Ship.UpgradeBar.GetInstalledUpgrades())
                 {
-                    GenericUpgrade upgradeContainer = (GenericUpgrade)System.Activator.CreateInstance(System.Type.GetType(upgrade));
-                    squadCost += upgradeContainer.Cost;
+                    squadCost += upgrade.Cost;
                 }
             }
         }
@@ -422,21 +429,18 @@ public static partial class RosterBuilder {
         List<string> uniqueCards = new List<string>();
         foreach (var shipConfig in Global.ShipConfigurations)
         {
-            if (shipConfig.PlayerNo == playerNo)
+            if (shipConfig.Player == playerNo)
             {
-                GenericShip shipContainer = (GenericShip)System.Activator.CreateInstance(System.Type.GetType(shipConfig.PilotName));
-
-                if (shipContainer.IsUnique)
+                if (shipConfig.Ship.IsUnique)
                 {
-                    if (CheckDuplicate(uniqueCards, shipContainer.PilotName)) return false;
+                    if (CheckDuplicate(uniqueCards, shipConfig.Ship.PilotName)) return false;
                 }
 
-                foreach (var upgrade in shipConfig.Upgrades)
+                foreach (var upgrade in shipConfig.Ship.UpgradeBar.GetInstalledUpgrades())
                 {
-                    GenericUpgrade upgradeContainer = (GenericUpgrade)System.Activator.CreateInstance(System.Type.GetType(upgrade));
-                    if (upgradeContainer.isUnique)
+                    if (upgrade.isUnique)
                     {
-                        if (CheckDuplicate(uniqueCards, upgradeContainer.Name)) return false;
+                        if (CheckDuplicate(uniqueCards, upgrade.Name)) return false;
                     }
                 }
             }

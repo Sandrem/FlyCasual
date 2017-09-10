@@ -23,26 +23,6 @@ public static partial class RosterBuilder {
         return newPanel;
     }
 
-    private static void GeneratePlayerShipConfigurations(PlayerNo playerNo)
-    {
-        foreach (var ship in SquadBuilderRoster.GetShipsByPlayer(playerNo))
-        {
-            string pilotNameId = GetNameOfPilot(ship);
-
-            List<string> upgradesList = new List<string>();
-
-            foreach (var upgrade in ship.Upgrades.Where(n => n.Slot.InstalledUpgrade != null))
-            {
-                string upgradeName = GetNameOfUpgrade(upgrade);
-                upgradesList.Add(upgradeName);
-            }
-
-            int shipCost = int.Parse(ship.Panel.transform.Find("Panel/CostPanel").GetComponentInChildren<Text>().text);
-
-            Global.AddShip(pilotNameId, upgradesList, playerNo, shipCost);
-        }
-    }
-
     private static void CopyShip(PlayerNo playerNo, GameObject panel)
     {
         /*if (GetShipsCount(playerNo) < 8)
@@ -331,9 +311,14 @@ public static partial class RosterBuilder {
         GetPlayerPanel(playerNo).Find("SquadCostPanel/CostCurrent").GetComponent<Text>().color = (squadCost > 100) ? Color.red : Color.white;
     }
 
-    private static int GetShipCostCalculated(PlayerNo playerNo)
+    private static int GetPlayerShipsCostCalculated(PlayerNo playerNo)
     {
         return int.Parse(GetPlayerPanel(playerNo).Find("SquadCostPanel/CostCurrent").GetComponent<Text>().text);
+    }
+
+    private static int GetShipCostCalculated(SquadBuilderShip ship)
+    {
+        return int.Parse(ship.Panel.transform.Find("Panel/CostPanel").GetComponentInChildren<Text>().text);
     }
 
     //Get information from panels

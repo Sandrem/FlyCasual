@@ -33,14 +33,16 @@ namespace Upgrade
 
         public void TryInstallUpgrade(GenericUpgrade upgrade, Ship.GenericShip host)
         {
-            if (CheckRequirements(upgrade))
+            if (upgrade != null) InstallUpgrade();
+
+            /*if (CheckRequirements(upgrade))
             {
                 InstallUpgrade(upgrade, host);
             }
             else
             {
                 Debug.Log("Requirements are not met: " + upgrade.Name);
-            }
+            }*/
         }
 
         public void PreInstallUpgrade(GenericUpgrade upgrade, Ship.GenericShip host)
@@ -55,10 +57,10 @@ namespace Upgrade
             InstalledUpgrade = null;
         }
 
-        private void InstallUpgrade(GenericUpgrade upgrade, Ship.GenericShip host)
+        private void InstallUpgrade()
         {
-            InstalledUpgrade = upgrade;
-            InstalledUpgrade.AttachToShip(host);
+            //TODO: Remove host paramater
+            InstalledUpgrade.AttachToShip(InstalledUpgrade.Host);
         }
 
         private bool CheckRequirements(GenericUpgrade upgrade)

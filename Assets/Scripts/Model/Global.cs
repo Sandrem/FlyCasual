@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Players;
+using Ship;
 
 public class Global : MonoBehaviour {
 
@@ -58,7 +59,7 @@ public class Global : MonoBehaviour {
         {
             result = new List<ShipConfiguration>()
                 {
-                new ShipConfiguration
+                /*new ShipConfiguration
                 (
                     "Ship.YT1300.OuterRimSmuggler",
                     new List<string>(),
@@ -72,7 +73,7 @@ public class Global : MonoBehaviour {
                     PlayerNo.Player2,
                     0
                 )
-                /*new ShipConfiguration
+                new ShipConfiguration
                 (
                     "Ship.XWing.LukeSkywalker",
                     new List<string>() { "UpgradesList.R2D2", "UpgradesList.Marksmanship", "UpgradesList.ProtonTorpedoes" },
@@ -140,10 +141,10 @@ public class Global : MonoBehaviour {
         playerFactions.Add(factionType);
     }
 
-    public static void AddShip(string name, List<string> upgradeList, PlayerNo playerNo, int shipCost)
+    public static void AddShip(GenericShip ship, PlayerNo playerNo, int shipCost)
     {
-        Debug.Log(name + " " + upgradeList.Count + " " + playerNo + " " + shipCost);
-        shipConfigurations.Add(new ShipConfiguration(name, upgradeList, playerNo, shipCost));
+        Debug.Log(ship.PilotName + " " + ship.UpgradeBar.GetInstalledUpgrades().Count + " " + playerNo + " " + shipCost);
+        shipConfigurations.Add(new ShipConfiguration(ship, playerNo, shipCost));
     }
 
     public static Faction GetPlayerFaction(PlayerNo playerNo)

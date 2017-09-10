@@ -60,7 +60,7 @@ public class Global : MonoBehaviour {
                 {
                 new ShipConfiguration
                 (
-                    "Ship.XWing.RookiePilot",
+                    "Ship.YT1300.OuterRimSmuggler",
                     new List<string>(),
                     PlayerNo.Player1,
                     0

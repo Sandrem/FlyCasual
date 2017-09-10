@@ -7,7 +7,6 @@ namespace Ship
     public partial class GenericShip
     {
 
-        private const float HALF_OF_FIRINGARC_SIZE = 0.425f;
         private Transform shipAllParts;
         private Transform modelCenter;
 
@@ -18,7 +17,6 @@ namespace Ship
             modelCenter = shipAllParts.Find("ShipModels/" + Type + "/ModelCenter").transform;
             SetRaycastTarget(true);
             SetSpotlightMask();
-            SetShipBaseEdges();
         }
 
         public GameObject CreateShipModel(Vector3 position)
@@ -28,13 +26,12 @@ namespace Ship
 
             position = new Vector3(0, 0, (Owner.PlayerNo == Players.PlayerNo.Player1) ? -4 : 4);
 
-            GameObject prefab = (GameObject)Resources.Load("Prefabs/ShipModel", typeof(GameObject));
+            GameObject prefab = (GameObject)Resources.Load("Prefabs/ShipModel/ShipModel", typeof(GameObject));
             GameObject newShip = MonoBehaviour.Instantiate(prefab, position + new Vector3(0, 0.03f, 0), Quaternion.Euler(facing), Board.BoardManager.GetBoard());
             newShip.transform.Find("RotationHelper/RotationHelper2/ShipAllParts/ShipModels/" + Type).gameObject.SetActive(true);
 
             ShipId = ShipFactory.lastId;
             ShipFactory.lastId = ShipFactory.lastId + 1;
-            SetTagOfChildrenRecursive(newShip.transform, "ShipId:" + ShipId.ToString());
             SetShipIdText(newShip);
 
             return newShip;
@@ -67,7 +64,7 @@ namespace Ship
             }
         }
 
-        public void SetShipInstertImage()
+        public void SetShipInsertImage()
         {
             string materialName = PilotName;
             materialName = materialName.Replace(' ', '_');
@@ -77,7 +74,7 @@ namespace Ship
             Material shipBaseInsert = (Material)Resources.Load(pathToResource, typeof(Material));
             if (shipBaseInsert != null)
             {
-                shipAllParts.Find("ShipStand/ShipStandInsert/ShipStandInsertImage/default").GetComponent<Renderer>().material = shipBaseInsert;
+                shipAllParts.Find("ShipBase/ShipStandInsert/ShipStandInsertImage/default").GetComponent<Renderer>().material = shipBaseInsert;
             }
             else
             {
@@ -88,14 +85,14 @@ namespace Ship
 
         public void ToggleCollisionDetection(bool value)
         {
-            shipAllParts.Find("ShipStand/ObstaclesStayDetector").GetComponent<ObstaclesStayDetector>().checkCollisions = value;
-            shipAllParts.Find("ShipStand/ObstaclesHitsDetector").GetComponent<ObstaclesHitsDetector>().checkCollisions = value;
+            shipAllParts.Find("ShipBase/ObstaclesStayDetector").GetComponent<ObstaclesStayDetector>().checkCollisions = value;
+            shipAllParts.Find("ShipBase/ObstaclesHitsDetector").GetComponent<ObstaclesHitsDetector>().checkCollisions = value;
         }
 
         public void ToggleColliders(bool value)
         {
-            shipAllParts.Find("ShipStand/ObstaclesStayDetector").GetComponent<Collider>().enabled = value;
-            shipAllParts.Find("ShipStand/ObstaclesHitsDetector").GetComponent<Collider>().enabled = value;
+            shipAllParts.Find("ShipBase/ObstaclesStayDetector").GetComponent<Collider>().enabled = value;
+            shipAllParts.Find("ShipBase/ObstaclesHitsDetector").GetComponent<Collider>().enabled = value;
         }
 
         public void SetActive(bool argument)
@@ -158,27 +155,36 @@ namespace Ship
             modelCenter.localPosition = new Vector3(0, 3.67f + 4f * progress, 0);
         }
 
+        public Transform GetSelectionProjector()
+        {
+            return shipAllParts.Find("ShipBase").Find("SelectionProjector");
+        }
+
         public void HighlightThisSelected()
         {
-            shipAllParts.Find("SelectionProjector").gameObject.SetActive(true);
-            shipAllParts.Find("SelectionProjector").GetComponent<Projector>().material = (Material)Resources.Load("Projectors/Materials/SelectionThisProjector", typeof(Material));
+            Transform projector = GetSelectionProjector();
+            projector.gameObject.SetActive(true);
+            projector.GetComponent<Projector>().material = (Material)Resources.Load("Projectors/Materials/SelectionThisProjector", typeof(Material));
         }
 
         public void HighlightAnyHovered()
         {
-            shipAllParts.Find("SelectionProjector").gameObject.SetActive(true);
-            shipAllParts.Find("SelectionProjector").GetComponent<Projector>().material = (Material)Resources.Load("Projectors/Materials/SelectionAnyHovered", typeof(Material));
+            Transform projector = GetSelectionProjector();
+            projector.gameObject.SetActive(true);
+            projector.GetComponent<Projector>().material = (Material)Resources.Load("Projectors/Materials/SelectionAnyHovered", typeof(Material));
         }
 
         public void HighlightEnemySelected()
         {
-            shipAllParts.Find("SelectionProjector").gameObject.SetActive(true);
-            shipAllParts.Find("SelectionProjector").GetComponent<Projector>().material = (Material)Resources.Load("Projectors/Materials/SelectionEnemyProjector", typeof(Material));
+            Transform projector = GetSelectionProjector();
+            projector.gameObject.SetActive(true);
+            projector.GetComponent<Projector>().material = (Material)Resources.Load("Projectors/Materials/SelectionEnemyProjector", typeof(Material));
         }
 
         public void HighlightSelectedOff()
         {
-            shipAllParts.Find("SelectionProjector").gameObject.SetActive(false);
+            Transform projector = GetSelectionProjector();
+            projector.gameObject.SetActive(false);
         }
 
         public void HighlightCanBeSelectedOn()
@@ -198,13 +204,13 @@ namespace Ship
 
         public void ToggleShipStandAndPeg(bool value)
         {
-            shipAllParts.Find("ShipStand").gameObject.SetActive(value);
-            shipAllParts.Find("ShipPeg").gameObject.SetActive(value);
+            shipAllParts.Find("ShipBase").gameObject.SetActive(value);
+            shipAllParts.Find("ShipBase").Find("ShipPeg").gameObject.SetActive(value);
         }
 
         public Transform GetBoosterHelper()
         {
-            return Model.transform.Find("RotationHelper/RotationHelper2/BoostHelper");
+            return shipAllParts.Find("ShipBase/BoostHelper");
         }
 
         public Transform GetDecloakHelper()
@@ -281,6 +287,11 @@ namespace Ship
             {
                 shotsTransform.gameObject.SetActive(false);
             }
+        }
+
+        public Transform GetShipAllPartsTransform()
+        {
+            return shipAllParts;
         }
 
     }

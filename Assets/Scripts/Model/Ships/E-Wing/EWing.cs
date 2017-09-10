@@ -13,6 +13,7 @@ namespace Ship
             public EWing() : base()
             {
                 Type = "E-Wing";
+
                 ManeuversImageUrl = "https://vignette1.wikia.nocookie.net/xwing-miniatures/images/3/3d/MR_T65-X-WING.png";
 
                 Firepower = 3;

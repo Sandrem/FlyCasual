@@ -13,6 +13,7 @@ namespace Ship
             public TIEFighter() : base()
             {
                 Type = "TIE Fighter";
+
                 ManeuversImageUrl = "https://vignette1.wikia.nocookie.net/xwing-miniatures/images/b/b6/TIE_Fighter_Move.png";
 
                 Firepower = 2;

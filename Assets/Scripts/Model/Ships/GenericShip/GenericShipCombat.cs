@@ -40,7 +40,11 @@ namespace Ship
             set { attackValue = value; }
         }
 
-        public bool CanShootOutsideArc { get; set; }
+        public bool CanShootOutsideArc
+        {
+            set {}
+            get { return Host.ArcInfo.CanShootOutsideArc; }
+        }
 
         public PrimaryWeaponClass(GenericShip host)
         {
@@ -51,8 +55,6 @@ namespace Ship
             MaxRange = 3;
 
             AttackValue = Host.Firepower;
-
-            CanShootOutsideArc = Host.ArcInfo.CanShootOutsideArc;
         }
 
         public bool IsShotAvailable(GenericShip targetShip)
@@ -101,7 +103,6 @@ namespace Ship
 
     public partial class GenericShip
     {
-        public Arcs.GenericArc ArcInfo;
         public PrimaryWeaponClass PrimaryWeapon;
 
         private List<CriticalHitCard.GenericCriticalHit> AssignedCritCards = new List<CriticalHitCard.GenericCriticalHit>();

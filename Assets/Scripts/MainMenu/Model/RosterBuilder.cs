@@ -116,15 +116,15 @@ public static partial class RosterBuilder {
 
     private static void AddInitialShips()
     {
-        if (GetShipsCount(PlayerNo.Player1) == 0) AddShip(PlayerNo.Player1);
-        if (GetShipsCount(PlayerNo.Player2) == 0) AddShip(PlayerNo.Player2);
+        if (GetShipsCount(PlayerNo.Player1) == 0) TryAddShip(PlayerNo.Player1);
+        if (GetShipsCount(PlayerNo.Player2) == 0) TryAddShip(PlayerNo.Player2);
     }
 
-    public static void AddShip(PlayerNo playerNo)
+    public static void TryAddShip(PlayerNo playerNo)
     {
         if (GetShipsCount(playerNo) < 8)
         {
-            CreateShip(playerNo);
+            AddShip(playerNo);
         }
         else
         {
@@ -132,7 +132,7 @@ public static partial class RosterBuilder {
         }
     }
 
-    private static void CreateShip(PlayerNo playerNo)
+    private static void AddShip(PlayerNo playerNo)
     {
         List<string> shipResults = GetShipsByFaction(Global.GetPlayerFaction(playerNo));
         string shipNameId = AllShips[shipResults.First()];
@@ -162,6 +162,8 @@ public static partial class RosterBuilder {
 
         UpdateUpgradePanels(squadBuilderShip);
         UpdateShipCost(squadBuilderShip);
+
+        OrganizeShipsList(squadBuilderShip.Player);
     }
 
     private static GenericShip ChangeShipHolder(SquadBuilderShip squadBuilderShip)
@@ -169,7 +171,36 @@ public static partial class RosterBuilder {
         GenericShip result = null;
 
         string shipName = GetNameOfChangedShip(squadBuilderShip);
-        List<string> results = GetPilotsList(shipName).OrderByDescending(n => PilotSkill[n]).ToList();
+        List<string> pilotResults = GetPilotsList(shipName).OrderByDescending(n => PilotSkill[n]).ToList();
+
+        string pilotId = AllPilots[pilotResults.First()];
+        GenericShip ship = (GenericShip)Activator.CreateInstance(Type.GetType(pilotId));
+
+        SetPilotsDropdown(squadBuilderShip, pilotResults);
+        //UpdateAvailableUpgrades(squadBuilderShip);
+        //OrganizeUpgradeLines(panel);
+
+        return result;
+    }
+
+    private static void ChangePilot(SquadBuilderShip squadBuilderShip)
+    {
+        squadBuilderShip.Ship = ChangePilotHolder(squadBuilderShip);
+
+        //SetAvailableUpgrades(squadBuilderShip);
+        //OrganizeUpgradeLines(squadBuilderShip.Panel);
+        UpdateUpgradePanels(squadBuilderShip);
+        UpdateShipCost(squadBuilderShip);
+
+        OrganizeShipsList(squadBuilderShip.Player);
+    }
+
+    private static GenericShip ChangePilotHolder(SquadBuilderShip squadBuilderShip)
+    {
+        GenericShip result = null;
+
+        string pilotId = GetNameOfChangedPilot(squadBuilderShip);
+        GenericShip ship = (GenericShip)Activator.CreateInstance(Type.GetType(pilotId));
 
         return result;
     }

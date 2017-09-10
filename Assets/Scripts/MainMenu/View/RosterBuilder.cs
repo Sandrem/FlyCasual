@@ -88,39 +88,39 @@ public static partial class RosterBuilder {
 
     private static void SubscribeShipDropdown(SquadBuilderShip squadBuilderShip)
     {
-        /*Dropdown shipDropdown = squadBuilderShip.Panel.transform.Find("GroupShip/DropdownShip").GetComponent<Dropdown>();
+        Dropdown shipDropdown = squadBuilderShip.Panel.transform.Find("GroupShip/DropdownShip").GetComponent<Dropdown>();
         shipDropdown.onValueChanged.AddListener(delegate
         {
             OnShipChanged(squadBuilderShip);
-        });*/
+        });
     }
 
     private static void SubscribePilotDropdown(SquadBuilderShip squadBuilderShip)
     {
-        /*Dropdown pilotDropdown = squadBuilderShip.Panel.transform.Find("GroupShip/DropdownPilot").GetComponent<Dropdown>();
+        Dropdown pilotDropdown = squadBuilderShip.Panel.transform.Find("GroupShip/DropdownPilot").GetComponent<Dropdown>();
         pilotDropdown.onValueChanged.AddListener(delegate
         {
             OnPilotChanged(squadBuilderShip);
-        });*/
+        });
     }
 
     private static void SubscribeUpgradeDropdowns(SquadBuilderShip squadBuilderShip, SquadBuilderUpgrade upgrade)
     {
-        /*Dropdown upgradeDropdown = upgrade.Panel.transform.GetComponent<Dropdown>();
+        Dropdown upgradeDropdown = upgrade.Panel.transform.GetComponent<Dropdown>();
         upgradeDropdown.onValueChanged.AddListener(delegate
         {
             OnUpgradeChanged(squadBuilderShip, upgrade);
-        });*/
+        });
     }
 
     private static void SubscribeControlButtons(PlayerNo playerNo, GameObject panel)
     {
-        /*panel.transform.Find("Panel/RemoveButton").GetComponent<Button>().onClick.AddListener(delegate
+        panel.transform.Find("Panel/RemoveButton").GetComponent<Button>().onClick.AddListener(delegate
         {
             RemoveShip(playerNo, panel);
         });
 
-        panel.transform.Find("Panel/CopyButton").GetComponent<Button>().onClick.AddListener(delegate
+        /*panel.transform.Find("Panel/CopyButton").GetComponent<Button>().onClick.AddListener(delegate
         {
             CopyShip(playerNo, panel);
         });*/
@@ -128,10 +128,7 @@ public static partial class RosterBuilder {
 
     private static void OnPilotChanged(SquadBuilderShip squadBuilderShip)
     {
-        /*SetAvailableUpgrades(squadBuilderShip);
-        OrganizeUpgradeLines(squadBuilderShip.Panel);
-        UpdateUpgradePanels(squadBuilderShip);
-        UpdateShipCost(squadBuilderShip);*/
+        ChangePilot(squadBuilderShip);
     }
 
     private static void OnShipChanged(SquadBuilderShip squadBuilderShip)
@@ -142,6 +139,11 @@ public static partial class RosterBuilder {
     private static string GetNameOfChangedShip(SquadBuilderShip squadBuilderShip)
     {
         return AllShips[squadBuilderShip.Panel.transform.Find("GroupShip/DropdownShip").GetComponent<Dropdown>().captionText.text];
+    }
+
+    private static string GetNameOfChangedPilot(SquadBuilderShip squadBuilderShip)
+    {
+        return AllPilots[squadBuilderShip.Panel.transform.Find("GroupShip/DropdownPilot").GetComponent<Dropdown>().captionText.text];
     }
 
     private static void OnUpgradeChanged(SquadBuilderShip squadBuilderShip, SquadBuilderUpgrade upgrade)

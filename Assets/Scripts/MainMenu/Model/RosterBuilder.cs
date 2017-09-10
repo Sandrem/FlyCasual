@@ -26,7 +26,7 @@ public static partial class RosterBuilder {
 
     private class SquadBuilderShip
     {
-        public GenericShip Ship;
+        public GenericShip Ship { get; private set; }
         public GameObject Panel;
         public PlayerNo Player;
 
@@ -38,6 +38,12 @@ public static partial class RosterBuilder {
             Panel = panel;
             Player = playerNo;
 
+            InitializeShip();
+        }
+
+        public void UpdateShip(GenericShip ship)
+        {
+            Ship = ship;
             InitializeShip();
         }
 
@@ -138,7 +144,7 @@ public static partial class RosterBuilder {
         string shipNameId = AllShips[shipResults.First()];
 
         List<string> pilotResults = GetPilotsList(shipNameId).OrderByDescending(n => PilotSkill[n]).ToList();
-        string pilotId = AllPilots[pilotResults.First()];
+        string pilotId = AllPilots[pilotResults.Last()];
         GenericShip ship = (GenericShip)Activator.CreateInstance(Type.GetType(pilotId));
 
         GameObject panel = CreateShipPanel(playerNo);
@@ -158,7 +164,7 @@ public static partial class RosterBuilder {
 
     private static void ChangeShip(SquadBuilderShip squadBuilderShip)
     {
-        squadBuilderShip.Ship = ChangeShipHolder(squadBuilderShip);
+        squadBuilderShip.UpdateShip(ChangeShipHolder(squadBuilderShip));
 
         UpdateUpgradePanels(squadBuilderShip);
         UpdateShipCost(squadBuilderShip);
@@ -174,7 +180,7 @@ public static partial class RosterBuilder {
         List<string> pilotResults = GetPilotsList(shipName).OrderByDescending(n => PilotSkill[n]).ToList();
 
         string pilotId = AllPilots[pilotResults.First()];
-        GenericShip ship = (GenericShip)Activator.CreateInstance(Type.GetType(pilotId));
+        result = (GenericShip)Activator.CreateInstance(Type.GetType(pilotId));
 
         SetPilotsDropdown(squadBuilderShip, pilotResults);
         //UpdateAvailableUpgrades(squadBuilderShip);
@@ -185,7 +191,7 @@ public static partial class RosterBuilder {
 
     private static void ChangePilot(SquadBuilderShip squadBuilderShip)
     {
-        squadBuilderShip.Ship = ChangePilotHolder(squadBuilderShip);
+        squadBuilderShip.UpdateShip(ChangePilotHolder(squadBuilderShip));
 
         //SetAvailableUpgrades(squadBuilderShip);
         //OrganizeUpgradeLines(squadBuilderShip.Panel);
@@ -200,9 +206,24 @@ public static partial class RosterBuilder {
         GenericShip result = null;
 
         string pilotId = GetNameOfChangedPilot(squadBuilderShip);
-        GenericShip ship = (GenericShip)Activator.CreateInstance(Type.GetType(pilotId));
+        result = (GenericShip)Activator.CreateInstance(Type.GetType(pilotId));
 
         return result;
+    }
+
+    private static void ChangeUpgrade(SquadBuilderShip squadBuilderShip, SquadBuilderUpgrade upgrade)
+    {
+        string upgradeId = GetNameOfChangedUpgrade(upgrade);
+        if (!string.IsNullOrEmpty(upgradeId))
+        {
+            upgrade.InstalledUpgrade = (GenericUpgrade)Activator.CreateInstance(Type.GetType(upgradeId));
+        }
+        else
+        {
+            upgrade.InstalledUpgrade = null;
+        }
+
+        UpdateShipCost(squadBuilderShip);
     }
 
     private static List<string> GetShipsByFaction(Faction faction)
@@ -300,7 +321,7 @@ public static partial class RosterBuilder {
 
         foreach (var type in typelist)
         {
-            Upgrade.GenericUpgrade newUpgrade = (Upgrade.GenericUpgrade)System.Activator.CreateInstance(type);
+            GenericUpgrade newUpgrade = (GenericUpgrade)System.Activator.CreateInstance(type);
             if (!newUpgrade.IsHidden)
             {
                 if (newUpgrade.Type == upgradeSlot.Type && newUpgrade.IsAllowedForShip(squadBuilderShip.Ship))
@@ -368,7 +389,7 @@ public static partial class RosterBuilder {
 
                 foreach (var upgrade in shipConfig.Upgrades)
                 {
-                    Upgrade.GenericUpgrade upgradeContainer = (Upgrade.GenericUpgrade)System.Activator.CreateInstance(System.Type.GetType(upgrade));
+                    GenericUpgrade upgradeContainer = (GenericUpgrade)System.Activator.CreateInstance(System.Type.GetType(upgrade));
                     squadCost += upgradeContainer.Cost;
                 }
             }

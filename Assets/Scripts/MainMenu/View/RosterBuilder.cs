@@ -25,7 +25,7 @@ public static partial class RosterBuilder {
 
     private static void GeneratePlayerShipConfigurations(PlayerNo playerNo)
     {
-        foreach (Transform shipPanel in GetShipsPanel(playerNo))
+        /*foreach (Transform shipPanel in GetShipsPanel(playerNo))
         {
             if (shipPanel.name == "AddShipPanel") continue;
             string pilotNameFull = shipPanel.Find("GroupShip/DropdownPilot").GetComponent<Dropdown>().captionText.text;
@@ -45,7 +45,7 @@ public static partial class RosterBuilder {
             int shipCost = int.Parse(shipPanel.Find("Panel/CostPanel").GetComponentInChildren<Text>().text);
 
             Global.AddShip(pilotNameId, upgradesList, playerNo, shipCost);
-        }
+        }*/
     }
 
     private static void CopyShip(PlayerNo playerNo, GameObject panel)
@@ -148,8 +148,15 @@ public static partial class RosterBuilder {
 
     private static void OnUpgradeChanged(SquadBuilderShip squadBuilderShip, SquadBuilderUpgrade upgrade)
     {
-        /*UpgradeEffectApply(playerNo, panel);
-        UpdateShipCost(playerNo, panel.transform.parent.parent.gameObject);*/
+        ChangeUpgrade(squadBuilderShip, upgrade);
+    }
+
+    private static string GetNameOfChangedUpgrade(SquadBuilderUpgrade upgrade)
+    {
+        string result = "";
+        string upgradeName = upgrade.Panel.transform.GetComponent<Dropdown>().captionText.text;
+        if (AllUpgrades.ContainsKey(upgradeName)) result = AllUpgrades[upgradeName];
+        return result;
     }
 
     private static void UpgradeEffectApply(PlayerNo playerNo, GameObject panel)
@@ -219,53 +226,21 @@ public static partial class RosterBuilder {
         AddPilotTooltip(squadBuilderShip.Panel.transform.Find("GroupShip/DropdownPilot").gameObject);
     }
 
+    //TODO: Rework
     private static void UpdateUpgradePanels(SquadBuilderShip squadBuilderShip)
     {
-        string pilotName = squadBuilderShip.Panel.transform.Find("GroupShip/DropdownPilot").GetComponent<Dropdown>().captionText.text;
-        string pilotId = AllPilots[pilotName];
-        Ship.GenericShip ship = (Ship.GenericShip)Activator.CreateInstance(Type.GetType(pilotId));
-        ship.InitializePilotForSquadBuilder();
+        List<SquadBuilderUpgrade> upgrades = new List<SquadBuilderUpgrade>(squadBuilderShip.Upgrades);
 
-        foreach (var slot in ship.UpgradeBar.GetUpgradeSlots())
+        foreach (var upgrade in upgrades)
         {
-            if (squadBuilderShip.Panel.transform.Find("GroupUpgrades/Upgrade" + slot.Type.ToString() + "Line") == null)
-            {
-                AddUpgrade(squadBuilderShip, slot);
-            }
+            squadBuilderShip.Upgrades.Remove(upgrade);
+            MonoBehaviour.DestroyImmediate(upgrade.Panel);
         }
 
-        List<GameObject> toRemove = new List<GameObject>();
-        Dictionary<UpgradeType, int> existingUpgradeSlots = new Dictionary<UpgradeType, int>();
-        foreach (Transform group in squadBuilderShip.Panel.transform.Find("GroupUpgrades"))
-        {
-            Type type = typeof(UpgradeType);
-            string upgradeId = group.GetComponent<Dropdown>().options[0].text;
-            upgradeId = upgradeId.Substring(upgradeId.IndexOf(':') + 2);
-            UpgradeType slot = (UpgradeType)Enum.Parse(type, upgradeId);
+        SetAvailableUpgrades(squadBuilderShip);
+        OrganizeUpgradeLines(squadBuilderShip.Panel);
 
-            if (existingUpgradeSlots.ContainsKey(slot))
-            {
-                existingUpgradeSlots[slot]++;
-            }
-            else
-            {
-                existingUpgradeSlots.Add(slot, 1);
-            }
-
-            if (existingUpgradeSlots[slot] > ship.UpgradeBar.CountUpgradeSlotType(slot))
-            {
-                toRemove.Add(group.gameObject);
-            }
-            else
-            {
-                //GenerateUpgradeOptions(group.gameObject, upgradeId, ship);
-            }
-        }
-        foreach (var group in toRemove)
-        {
-            MonoBehaviour.DestroyImmediate(group);
-            OrganizeUpgradeLines(squadBuilderShip.Panel);
-        }
+        OrganizeShipsList(squadBuilderShip.Player);
     }
 
     private static GameObject CreateUpgradePanel(SquadBuilderShip squadBuilderShip, UpgradeSlot upgradeSlot)
@@ -303,18 +278,13 @@ public static partial class RosterBuilder {
     {
         int totalShipCost = 0;
 
-        string pilotKey = squadBuilderShip.Panel.transform.Find("GroupShip/DropdownPilot").GetComponent<Dropdown>().captionText.text;
-        Ship.GenericShip shipContainer = (Ship.GenericShip)Activator.CreateInstance(Type.GetType(AllPilots[pilotKey]));
-        totalShipCost += shipContainer.Cost;
+        totalShipCost += squadBuilderShip.Ship.Cost;
 
-        foreach (Transform upgradePanel in squadBuilderShip.Panel.transform.Find("GroupUpgrades"))
+        foreach (var upgrade in squadBuilderShip.Upgrades)
         {
-            string upgradeName = upgradePanel.transform.GetComponent<Dropdown>().captionText.text;
-            
-            if (AllUpgrades.ContainsKey(upgradeName))
+            if (upgrade.InstalledUpgrade != null)
             {
-                GenericUpgrade upgradeContainer = (GenericUpgrade)Activator.CreateInstance(System.Type.GetType(AllUpgrades[upgradeName]));
-                totalShipCost += upgradeContainer.Cost;
+                totalShipCost += upgrade.InstalledUpgrade.Cost;
             }
         }
 
@@ -384,6 +354,7 @@ public static partial class RosterBuilder {
 
     //Faction change
 
+    //TODO: Change
     private static void CheckPlayerFactonChange(PlayerNo playerNo)
     {
         Faction playerFaction = GetPlayerFaction(playerNo);

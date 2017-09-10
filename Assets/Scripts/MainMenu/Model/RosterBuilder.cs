@@ -9,6 +9,11 @@ using Players;
 using Ship;
 using Upgrade;
 
+// TODO
+// 1) Save installed upgrades, if possible
+// 2) Copy ship
+// 3) Special upgrades
+
 public static partial class RosterBuilder {
 
     private class SquadBuilderUpgrade
@@ -71,6 +76,11 @@ public static partial class RosterBuilder {
         {
             SquadBuilderShip ship = roster.Find(n => n.Panel == panel);
             if (ship != null) RemoveShip(ship);
+        }
+
+        public static List<SquadBuilderShip> GetShipsByPlayer(PlayerNo playerNo)
+        {
+            return roster.Where(n => n.Player == playerNo).ToList();
         }
     }
     
@@ -176,7 +186,7 @@ public static partial class RosterBuilder {
     {
         GenericShip result = null;
 
-        string shipName = GetNameOfChangedShip(squadBuilderShip);
+        string shipName = GetNameOfShip(squadBuilderShip);
         List<string> pilotResults = GetPilotsList(shipName).OrderByDescending(n => PilotSkill[n]).ToList();
 
         string pilotId = AllPilots[pilotResults.First()];
@@ -205,7 +215,7 @@ public static partial class RosterBuilder {
     {
         GenericShip result = null;
 
-        string pilotId = GetNameOfChangedPilot(squadBuilderShip);
+        string pilotId = GetNameOfPilot(squadBuilderShip);
         result = (GenericShip)Activator.CreateInstance(Type.GetType(pilotId));
 
         return result;
@@ -213,7 +223,7 @@ public static partial class RosterBuilder {
 
     private static void ChangeUpgrade(SquadBuilderShip squadBuilderShip, SquadBuilderUpgrade upgrade)
     {
-        string upgradeId = GetNameOfChangedUpgrade(upgrade);
+        string upgradeId = GetNameOfUpgrade(upgrade);
         if (!string.IsNullOrEmpty(upgradeId))
         {
             upgrade.InstalledUpgrade = (GenericUpgrade)Activator.CreateInstance(Type.GetType(upgradeId));

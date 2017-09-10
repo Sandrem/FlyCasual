@@ -25,27 +25,22 @@ public static partial class RosterBuilder {
 
     private static void GeneratePlayerShipConfigurations(PlayerNo playerNo)
     {
-        /*foreach (Transform shipPanel in GetShipsPanel(playerNo))
+        foreach (var ship in SquadBuilderRoster.GetShipsByPlayer(playerNo))
         {
-            if (shipPanel.name == "AddShipPanel") continue;
-            string pilotNameFull = shipPanel.Find("GroupShip/DropdownPilot").GetComponent<Dropdown>().captionText.text;
-            string pilotNameId = AllPilots[pilotNameFull];
+            string pilotNameId = GetNameOfPilot(ship);
 
             List<string> upgradesList = new List<string>();
 
-            foreach (Transform upgradePanel in shipPanel.transform.Find("GroupUpgrades"))
+            foreach (var upgrade in ship.Upgrades.Where(n => n.InstalledUpgrade != null))
             {
-                string upgradeName = upgradePanel.GetComponent<Dropdown>().captionText.text;
-                if (AllUpgrades.ContainsKey(upgradeName))
-                {
-                    upgradesList.Add(AllUpgrades[upgradeName]);
-                }
+                string upgradeName = GetNameOfUpgrade(upgrade);
+                upgradesList.Add(upgradeName);
             }
 
-            int shipCost = int.Parse(shipPanel.Find("Panel/CostPanel").GetComponentInChildren<Text>().text);
+            int shipCost = int.Parse(ship.Panel.transform.Find("Panel/CostPanel").GetComponentInChildren<Text>().text);
 
             Global.AddShip(pilotNameId, upgradesList, playerNo, shipCost);
-        }*/
+        }
     }
 
     private static void CopyShip(PlayerNo playerNo, GameObject panel)
@@ -136,12 +131,12 @@ public static partial class RosterBuilder {
         ChangeShip(squadBuilderShip);
     }
 
-    private static string GetNameOfChangedShip(SquadBuilderShip squadBuilderShip)
+    private static string GetNameOfShip(SquadBuilderShip squadBuilderShip)
     {
         return AllShips[squadBuilderShip.Panel.transform.Find("GroupShip/DropdownShip").GetComponent<Dropdown>().captionText.text];
     }
 
-    private static string GetNameOfChangedPilot(SquadBuilderShip squadBuilderShip)
+    private static string GetNameOfPilot(SquadBuilderShip squadBuilderShip)
     {
         return AllPilots[squadBuilderShip.Panel.transform.Find("GroupShip/DropdownPilot").GetComponent<Dropdown>().captionText.text];
     }
@@ -151,7 +146,7 @@ public static partial class RosterBuilder {
         ChangeUpgrade(squadBuilderShip, upgrade);
     }
 
-    private static string GetNameOfChangedUpgrade(SquadBuilderUpgrade upgrade)
+    private static string GetNameOfUpgrade(SquadBuilderUpgrade upgrade)
     {
         string result = "";
         string upgradeName = upgrade.Panel.transform.GetComponent<Dropdown>().captionText.text;

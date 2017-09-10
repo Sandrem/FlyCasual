@@ -142,6 +142,7 @@ public class Global : MonoBehaviour {
 
     public static void AddShip(string name, List<string> upgradeList, PlayerNo playerNo, int shipCost)
     {
+        Debug.Log(name + " " + upgradeList.Count + " " + playerNo + " " + shipCost);
         shipConfigurations.Add(new ShipConfiguration(name, upgradeList, playerNo, shipCost));
     }
 

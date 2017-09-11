@@ -11,9 +11,11 @@ namespace Upgrade
         public UpgradeType Type { get; private set; }
         public object GrantedBy { get; set; }
         public int Counter { get; set; }
+
         public int CostDecrease { get; set; }
         public int MaxCost { get; set; }
         public bool MustBeDifferent { get; set; }
+
         public GenericUpgrade InstalledUpgrade { get; private set; }
 
         public int InstalledUpgradeCostReduction { get; private set; }

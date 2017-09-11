@@ -10,10 +10,6 @@ using Ship;
 using Upgrade;
 using UnityEngine.UI;
 
-// TODO
-// 2) Copy ship
-// 3) Special upgrades
-
 public static partial class RosterBuilder {
 
     private class SquadBuilderUpgrade
@@ -279,7 +275,7 @@ public static partial class RosterBuilder {
         }
         else
         {
-            upgrade.Slot.RemovePreInstallUpgrade();
+            if (upgrade.Slot.InstalledUpgrade != null) upgrade.Slot.RemovePreInstallUpgrade();
         }
 
         UpdateUpgradePanelsDiff(squadBuilderShip);

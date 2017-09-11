@@ -6,6 +6,7 @@ using System;
 using System.Linq;
 using Players;
 using Upgrade;
+using Ship;
 
 public static partial class RosterBuilder {
 
@@ -25,29 +26,75 @@ public static partial class RosterBuilder {
 
     private static void CopyShip(PlayerNo playerNo, GameObject panel)
     {
-        /*if (GetShipsCount(playerNo) < 8)
+        if (GetShipsCount(playerNo) < 8)
         {
-            Transform parent = panel.transform.parent;
-            GameObject newPanel = MonoBehaviour.Instantiate(panel, parent);
+            SquadBuilderShip originalShip = SquadBuilderRoster.GetShips().Find(n => n.Panel == panel);
 
-            SubscribeControlButtons(playerNo, newPanel);
-            foreach (Transform upgradeLine in newPanel.transform.Find("GroupUpgrades"))
-            {
-                SubscribeUpgradeDropdowns(playerNo, upgradeLine.gameObject);
-                AddUpgradeTooltip(upgradeLine.gameObject);
-            }
+            AddShip(playerNo);
+            SquadBuilderShip copiedShip = SquadBuilderRoster.GetShipsByPlayer(playerNo).Last();
 
-            SubscribeShipDropdown(playerNo, newPanel);
-            SubscribePilotDropdown(playerNo, newPanel);
-            AddPilotTooltip(newPanel.transform.Find("GroupShip/DropdownPilot").gameObject);
+            CopyShipType(originalShip, copiedShip);
+            CopyShipPilot(originalShip, copiedShip);
+            CopyShipUpgrades(originalShip, copiedShip);
 
-            UpdateShipCost(playerNo, panel);
-            OrganizeAllShipsLists();
         }
         else
         {
             Messages.ShowError("You cannot have more than 8 ships");
-        }*/
+        }
+    }
+
+    private static void CopyShipType(SquadBuilderShip originalShip, SquadBuilderShip copiedShip)
+    {
+        Dropdown copiedShipDropdown = copiedShip.Panel.transform.Find("GroupShip/DropdownShip").GetComponent<Dropdown>();
+        string originalShipName = originalShip.Panel.transform.Find("GroupShip/DropdownShip").GetComponent<Dropdown>().captionText.text;
+
+        for (int i = 0; i < copiedShipDropdown.options.Count; i++)
+        {
+            if (copiedShipDropdown.options[i].text == originalShipName)
+            {
+                copiedShipDropdown.value = i;
+                break;
+            }
+        }
+    }
+
+    private static void CopyShipPilot(SquadBuilderShip originalShip, SquadBuilderShip copiedShip)
+    {
+        Dropdown copiedPilotDropdown = copiedShip.Panel.transform.Find("GroupShip/DropdownPilot").GetComponent<Dropdown>();
+        string originalPilotName = originalShip.Panel.transform.Find("GroupShip/DropdownPilot").GetComponent<Dropdown>().captionText.text;
+
+        for (int i = 0; i < copiedPilotDropdown.options.Count; i++)
+        {
+            if (copiedPilotDropdown.options[i].text == originalPilotName)
+            {
+                copiedPilotDropdown.value = i;
+                break;
+            }
+        }
+    }
+
+    private static void CopyShipUpgrades(SquadBuilderShip originalShip, SquadBuilderShip copiedShip)
+    {
+        List<SquadBuilderUpgrade> copiedUpgrades = new List<SquadBuilderUpgrade>(copiedShip.GetUpgrades());
+
+        foreach (var copiedUpgrade in copiedUpgrades)
+        {
+            Debug.Log(copiedUpgrade.Slot.Type + " " + copiedUpgrade.Slot.GrantedBy);
+
+            SquadBuilderUpgrade originalUpgrade = originalShip.GetUpgrades().Find(n => n.Slot.Type == copiedUpgrade.Slot.Type && n.Slot.Counter == copiedUpgrade.Slot.Counter);
+            Dropdown copiedUpgradeDropdown = copiedUpgrade.Panel.GetComponent<Dropdown>();
+            string originalUpgradeName = originalUpgrade.Panel.GetComponent<Dropdown>().captionText.text;
+
+            for (int i = 0; i < copiedUpgradeDropdown.options.Count; i++)
+            {
+                if (copiedUpgradeDropdown.options[i].text == originalUpgradeName)
+                {
+                    copiedUpgradeDropdown.value = i;
+                    break;
+                }
+            }
+        }
     }
 
     private static void RemoveShip(PlayerNo playerNo, GameObject panel)
@@ -95,10 +142,10 @@ public static partial class RosterBuilder {
             RemoveShip(playerNo, panel);
         });
 
-        /*panel.transform.Find("Panel/CopyButton").GetComponent<Button>().onClick.AddListener(delegate
+        panel.transform.Find("Panel/CopyButton").GetComponent<Button>().onClick.AddListener(delegate
         {
             CopyShip(playerNo, panel);
-        });*/
+        });
     }
 
     private static void OnPilotChanged(SquadBuilderShip squadBuilderShip)
@@ -165,7 +212,7 @@ public static partial class RosterBuilder {
     private static string GetPilotTooltipImage(GameObject panel)
     {
         string pilotKey = panel.GetComponent<Dropdown>().captionText.text;
-        Ship.GenericShip ship = (Ship.GenericShip)Activator.CreateInstance(Type.GetType(AllPilots[pilotKey]));
+        GenericShip ship = (GenericShip)Activator.CreateInstance(Type.GetType(AllPilots[pilotKey]));
         return ship.ImageUrl;
     }
 

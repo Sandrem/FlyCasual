@@ -286,7 +286,7 @@ public static partial class RosterBuilder {
         {
             if (!upgrade.Slot.IsEmpty)
             {
-                totalShipCost += upgrade.Slot.InstalledUpgrade.Cost;
+                totalShipCost += upgrade.Slot.InstalledUpgrade.Cost - upgrade.Slot.CostDecrease;
             }
         }
 

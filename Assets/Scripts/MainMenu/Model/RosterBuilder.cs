@@ -382,7 +382,7 @@ public static partial class RosterBuilder {
             {
                 if (newUpgrade.Type == upgradeSlot.Type && newUpgrade.IsAllowedForShip(squadBuilderShip.Ship))
                 {
-                    string upgradeKey = newUpgrade.Name + " (" + newUpgrade.Cost + ")";
+                    string upgradeKey = newUpgrade.Name + " (" + (newUpgrade.Cost - upgradeSlot.CostDecrease) + ")";
                     if (!AllUpgrades.ContainsKey(upgradeKey))
                     {
                         AllUpgrades.Add(upgradeKey, type.ToString());
@@ -466,9 +466,12 @@ public static partial class RosterBuilder {
             {
                 squadCost += shipConfig.Ship.Cost;
 
-                foreach (var upgrade in shipConfig.Ship.UpgradeBar.GetInstalledUpgrades())
+                foreach (var upgradeSlot in shipConfig.Ship.UpgradeBar.GetUpgradeSlots())
                 {
-                    squadCost += upgrade.Cost;
+                    if (!upgradeSlot.IsEmpty)
+                    {
+                        squadCost += upgradeSlot.InstalledUpgrade.Cost - upgradeSlot.CostDecrease;
+                    }
                 }
             }
         }

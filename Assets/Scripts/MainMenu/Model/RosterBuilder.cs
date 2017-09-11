@@ -11,7 +11,6 @@ using Upgrade;
 using UnityEngine.UI;
 
 // TODO
-// 1) Save installed upgrades, if possible
 // 2) Copy ship
 // 3) Special upgrades
 
@@ -421,6 +420,7 @@ public static partial class RosterBuilder {
     {
         if (!ValidatePlayerRoster(PlayerNo.Player1)) return false;
         if (!ValidatePlayerRoster(PlayerNo.Player2)) return false;
+        if (!ValidateDifferentUpgradesInAdditionalSlots()) return false;
         return true;
     }
 
@@ -429,6 +429,29 @@ public static partial class RosterBuilder {
         if (!ValidateUniqueCards(playerNo)) return false;
         if (!ValidateSquadCost(playerNo)) return false;
         return true;
+    }
+
+    private static bool ValidateDifferentUpgradesInAdditionalSlots()
+    {
+        bool result = true;
+
+        foreach (var shipHolder in SquadBuilderRoster.GetShips())
+        {
+            foreach (var upgradeSlot in shipHolder.Ship.UpgradeBar.GetUpgradeSlots())
+            {
+                if (upgradeSlot.MustBeDifferent)
+                {
+                    int countDuplicates = shipHolder.Ship.UpgradeBar.GetInstalledUpgrades().Count(n => n.Name == upgradeSlot.InstalledUpgrade.Name);
+                    if (countDuplicates > 1)
+                    {
+                        Messages.ShowError("Upgrades must be different: " + upgradeSlot.InstalledUpgrade.Name);
+                        return false;
+                    }
+                }
+            }
+        }
+
+        return result;
     }
 
     private static bool ValidateSquadCost(PlayerNo playerNo)

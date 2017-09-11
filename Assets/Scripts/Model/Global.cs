@@ -109,8 +109,8 @@ public class Global : MonoBehaviour {
         {
             List<System.Type> result = new List<System.Type>
                 {
-                    typeof(Players.HumanPlayer),
-                    typeof(Players.HumanPlayer)
+                    typeof(HumanPlayer),
+                    typeof(HotacAiPlayer)
                 };
             return result;
         }
@@ -143,7 +143,6 @@ public class Global : MonoBehaviour {
 
     public static void AddShip(GenericShip ship, PlayerNo playerNo, int shipCost)
     {
-        Debug.Log(ship.PilotName + " " + ship.UpgradeBar.GetInstalledUpgrades().Count + " " + playerNo + " " + shipCost);
         shipConfigurations.Add(new ShipConfiguration(ship, playerNo, shipCost));
     }
 

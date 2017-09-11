@@ -76,13 +76,9 @@ public static partial class RosterBuilder {
 
     private static void CopyShipUpgrades(SquadBuilderShip originalShip, SquadBuilderShip copiedShip)
     {
-        List<SquadBuilderUpgrade> copiedUpgrades = new List<SquadBuilderUpgrade>(copiedShip.GetUpgrades());
-
-        foreach (var copiedUpgrade in copiedUpgrades)
+        foreach (var originalUpgrade in originalShip.GetUpgrades())
         {
-            Debug.Log(copiedUpgrade.Slot.Type + " " + copiedUpgrade.Slot.GrantedBy);
-
-            SquadBuilderUpgrade originalUpgrade = originalShip.GetUpgrades().Find(n => n.Slot.Type == copiedUpgrade.Slot.Type && n.Slot.Counter == copiedUpgrade.Slot.Counter);
+            SquadBuilderUpgrade copiedUpgrade = copiedShip.GetUpgrades().Find(n => n.Slot.Type == originalUpgrade.Slot.Type && n.Slot.Counter == originalUpgrade.Slot.Counter);
             Dropdown copiedUpgradeDropdown = copiedUpgrade.Panel.GetComponent<Dropdown>();
             string originalUpgradeName = originalUpgrade.Panel.GetComponent<Dropdown>().captionText.text;
 

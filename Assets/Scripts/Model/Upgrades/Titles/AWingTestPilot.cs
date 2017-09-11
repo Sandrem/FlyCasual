@@ -24,8 +24,6 @@ namespace UpgradesList
         {
             base.PreAttachToShip(host);
 
-            Debug.Log("!!!");
-
             UpgradeSlot newSlot = new UpgradeSlot(UpgradeType.Elite) { GrantedBy = this, MustBeDifferent = true };
             host.UpgradeBar.AddSlot(newSlot);
         }

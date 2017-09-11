@@ -435,7 +435,7 @@ public static partial class RosterBuilder {
         {
             foreach (var upgradeSlot in shipHolder.Ship.UpgradeBar.GetUpgradeSlots())
             {
-                if (upgradeSlot.MustBeDifferent)
+                if (upgradeSlot.MustBeDifferent && !upgradeSlot.IsEmpty)
                 {
                     int countDuplicates = shipHolder.Ship.UpgradeBar.GetInstalledUpgrades().Count(n => n.Name == upgradeSlot.InstalledUpgrade.Name);
                     if (countDuplicates > 1)

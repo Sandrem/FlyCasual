@@ -23,10 +23,10 @@ namespace Ship
                 MaxHull = 6;
                 MaxShields = 4;
 
-                AddUpgradeSlot(Upgrade.UpgradeType.Cannon);
-                AddUpgradeSlot(Upgrade.UpgradeType.Bomb);
-                AddUpgradeSlot(Upgrade.UpgradeType.Crew);
-                AddUpgradeSlot(Upgrade.UpgradeType.Missiles);
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Cannon);
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Bomb);
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Crew);
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Missiles);
 
                 AssignTemporaryManeuvers();
                 HotacManeuverTable = new AI.Firespray31Table();

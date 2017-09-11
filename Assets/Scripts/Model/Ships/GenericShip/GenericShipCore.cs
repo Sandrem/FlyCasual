@@ -120,19 +120,20 @@ namespace Ship
         public BaseArcsType ShipBaseArcsType { get; protected set; }
         public GenericArc ArcInfo { get; protected set; }
 
+        public Upgrade.ShipUpgradeBar UpgradeBar { get; protected set; }
+        public List<Upgrade.UpgradeType> PrintedUpgradeIcons { get; protected set; }
+
         public GenericShip()
         {
             factions = new List<Faction>();
             SoundFlyPaths = new List<string> ();
             Maneuvers = new Dictionary<string, Movement.ManeuverColor>();
-            BuiltInSlots = new Dictionary<Upgrade.UpgradeType, int>();
-            InstalledUpgrades = new List<KeyValuePair<Upgrade.UpgradeType, Upgrade.GenericUpgrade>>();
+            UpgradeBar = new Upgrade.ShipUpgradeBar(this);
+            PrintedUpgradeIcons = new List<Upgrade.UpgradeType>();
             PilotSkillModifiers = new List<IModifyPilotSkill>();
-
-            AddCoreUpgradeSlots();
         }
 
-        public void InitializeGenericShip(Players.PlayerNo playerNo, int shipId, Vector3 position, List<string> upgrades)
+        public void InitializeGenericShip(Players.PlayerNo playerNo, int shipId, Vector3 position)
         {
             Owner = Roster.GetPlayer(playerNo);
             ShipId = shipId;
@@ -143,18 +144,24 @@ namespace Ship
 
             InitializeShip();
             InitializePilot();
-
-            foreach (var upgrade in upgrades)
-            {
-                InstallUpgrade(upgrade);
-            }
+            InitializeUpgrades();
 
             InfoPanel = Roster.CreateRosterInfo(this);
             Roster.UpdateUpgradesPanel(this, this.InfoPanel);
         }
 
+        public virtual void InitializeUpgrades()
+        {
+            foreach (var slot in UpgradeBar.GetUpgradeSlots())
+            {
+                slot.TryInstallUpgrade(slot.InstalledUpgrade, this);
+            }
+        }
+
         public virtual void InitializeShip()
         {
+            InitializePilotForSquadBuilder();
+
             Shields = MaxShields;
             Hull = MaxHull;
 
@@ -206,9 +213,22 @@ namespace Ship
             }
         }
 
+        public void InitializePilotForSquadBuilder()
+        {
+            InitializeSlots();
+        }
+
         public virtual void InitializePilot()
         {
             SetShipInsertImage();
+        }
+
+        private void InitializeSlots()
+        {
+            foreach (var slot in PrintedUpgradeIcons)
+            {
+                UpgradeBar.AddSlot(slot);
+            }
         }
 
         // STAT MODIFICATIONS

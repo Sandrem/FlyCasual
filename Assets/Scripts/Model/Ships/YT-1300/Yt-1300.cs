@@ -23,8 +23,8 @@ namespace Ship
                 MaxHull = 6;
                 MaxShields = 4;
 
-                AddUpgradeSlot(Upgrade.UpgradeType.Crew);
-                AddUpgradeSlot(Upgrade.UpgradeType.Crew);
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Crew);
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Crew);
 
                 AssignTemporaryManeuvers();
                 HotacManeuverTable = new AI.YT1300Table();

@@ -21,8 +21,8 @@ namespace Ship
                 MaxHull = 3;
                 MaxShields = 2;
 
-                AddUpgradeSlot(Upgrade.UpgradeType.Astromech);
-                AddUpgradeSlot(Upgrade.UpgradeType.Torpedoes);
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Astromech);
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Torpedoes);
 
                 AssignTemporaryManeuvers();
                 HotacManeuverTable = new AI.XWingTable();

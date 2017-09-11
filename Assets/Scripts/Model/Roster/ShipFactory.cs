@@ -24,8 +24,8 @@ public static class ShipFactory {
         int id = 1;
         Vector3 position = Vector3.zero;
 
-        Ship.GenericShip newShipContainer = (Ship.GenericShip) System.Activator.CreateInstance(System.Type.GetType(shipConfig.PilotName));
-        newShipContainer.InitializeGenericShip(shipConfig.PlayerNo, id, position, shipConfig.Upgrades);
+        Ship.GenericShip newShipContainer = shipConfig.Ship;
+        newShipContainer.InitializeGenericShip(shipConfig.Player, id, position);
 
         Roster.SubscribeActions(newShipContainer.InfoPanel.transform.Find("ShipInfo").gameObject);
         Roster.SubscribeUpgradesPanel(newShipContainer, newShipContainer.InfoPanel);

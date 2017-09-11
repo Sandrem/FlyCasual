@@ -59,6 +59,16 @@ namespace Upgrade
             Host = host;
         }
 
+        public virtual void PreAttachToShip(Ship.GenericShip host)
+        {
+            Host = host;
+        }
+
+        public virtual void PreDettachFromShip()
+        {
+
+        }
+
         public void Discard()
         {
             isDiscarded = true;

@@ -380,7 +380,7 @@ public static partial class RosterBuilder {
             GenericUpgrade newUpgrade = (GenericUpgrade)System.Activator.CreateInstance(type);
             if (!newUpgrade.IsHidden)
             {
-                if (newUpgrade.Type == upgradeSlot.Type && newUpgrade.IsAllowedForShip(squadBuilderShip.Ship))
+                if (newUpgrade.Type == upgradeSlot.Type && newUpgrade.IsAllowedForShip(squadBuilderShip.Ship) && upgradeSlot.UpgradeIsAllowed(newUpgrade))
                 {
                     string upgradeKey = newUpgrade.Name + " (" + (newUpgrade.Cost - upgradeSlot.CostDecrease) + ")";
                     if (!AllUpgrades.ContainsKey(upgradeKey))
@@ -530,7 +530,7 @@ public static partial class RosterBuilder {
 
     private static void TryToReinstallUpgrade(SquadBuilderShip squadBuilderShip, SquadBuilderUpgrade squadUpgrade, GenericUpgrade oldUpgrade)
     {
-        if (oldUpgrade.IsAllowedForShip(squadBuilderShip.Ship))
+        if (oldUpgrade.IsAllowedForShip(squadBuilderShip.Ship) && squadUpgrade.Slot.UpgradeIsAllowed(oldUpgrade))
         {
             Dropdown upgradeDropbox = squadUpgrade.Panel.transform.GetComponent<Dropdown>();
             string upgradeDropboxName = AllUpgrades.Where(n => n.Value == oldUpgrade.GetType().ToString()).First().Key;

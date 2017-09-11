@@ -71,5 +71,18 @@ namespace Upgrade
             return result;
         }
 
+        public bool UpgradeIsAllowed(GenericUpgrade upgrade)
+        {
+            bool result = true;
+
+            if (upgrade.Cost > MaxCost)
+            {
+                //Messages.ShowError(upgrade.Name + "cannot be installed. Max cost: " + MaxCost);
+                result = false;
+            }
+
+            return result;
+        }
+
     }
 }

@@ -8,6 +8,7 @@ using System.Linq;
 using Players;
 using Ship;
 using Upgrade;
+using UnityEngine.UI;
 
 // TODO
 // 1) Save installed upgrades, if possible
@@ -34,7 +35,7 @@ public static partial class RosterBuilder {
         public GameObject Panel;
         public PlayerNo Player;
 
-        public List<SquadBuilderUpgrade> Upgrades = new List<SquadBuilderUpgrade>();
+        private List<SquadBuilderUpgrade> Upgrades = new List<SquadBuilderUpgrade>();
 
         public SquadBuilderShip(GenericShip ship, GameObject panel, PlayerNo playerNo)
         {
@@ -54,6 +55,50 @@ public static partial class RosterBuilder {
         private void InitializeShip()
         {
             Ship.InitializePilotForSquadBuilder();
+        }
+
+        public void AddUpgrade(SquadBuilderUpgrade upgradeHolder)
+        {
+            Upgrades.Add(upgradeHolder);
+
+            UpdateUpgradeDropdowList(upgradeHolder);
+
+            SubscribeUpgradeDropdowns(this, upgradeHolder);
+            AddUpgradeTooltip(upgradeHolder.Panel);
+        }
+
+        public void RemoveUpgrade(SquadBuilderUpgrade upgradeHolder)
+        {
+            Upgrades.Remove(upgradeHolder);
+            MonoBehaviour.DestroyImmediate(upgradeHolder.Panel);
+        }
+
+        public void ChangeUpgradeSlot(SquadBuilderUpgrade upgradeHolder, UpgradeSlot newSlot)
+        {
+            UpgradeSlot oldUpgradeSlot = upgradeHolder.Slot;
+
+            upgradeHolder.Slot = newSlot;
+
+            UpdateUpgradeDropdowList(upgradeHolder);
+
+            if (oldUpgradeSlot.InstalledUpgrade != null)
+            {
+                if (Ship.UpgradeBar.HasFreeUpgradeSlot(oldUpgradeSlot.InstalledUpgrade.Type))
+                {
+                    TryToReinstallUpgrade(this, upgradeHolder, oldUpgradeSlot.InstalledUpgrade);
+                }
+            }
+        }
+
+        private void UpdateUpgradeDropdowList(SquadBuilderUpgrade upgradeHolder)
+        {
+            List<string> upgradeList = GetUpgradesList(this, upgradeHolder.Slot);
+            SetUpgradesDropdown(this, upgradeHolder, upgradeList);
+        }
+
+        public List<SquadBuilderUpgrade> GetUpgrades()
+        {
+            return Upgrades;
         }
     }
 
@@ -132,9 +177,7 @@ public static partial class RosterBuilder {
         Global.RemoveAllShips();
         foreach (var ship in SquadBuilderRoster.GetShips())
         {
-            int shipCost = GetShipCostCalculated(ship);
-
-            Global.AddShip(ship.Ship, ship.Player, shipCost);
+            Global.AddShip(ship.Ship, ship.Player, GetShipCostCalculated(ship));
         }
     }
 
@@ -196,7 +239,7 @@ public static partial class RosterBuilder {
         string shipName = GetNameOfShip(squadBuilderShip);
         List<string> pilotResults = GetPilotsList(shipName).OrderByDescending(n => PilotSkill[n]).ToList();
 
-        string pilotId = AllPilots[pilotResults.First()];
+        string pilotId = AllPilots[pilotResults.Last()];
         result = (GenericShip)Activator.CreateInstance(Type.GetType(pilotId));
 
         SetPilotsDropdown(squadBuilderShip, pilotResults);
@@ -212,7 +255,7 @@ public static partial class RosterBuilder {
 
         //SetAvailableUpgrades(squadBuilderShip);
         //OrganizeUpgradeLines(squadBuilderShip.Panel);
-        UpdateUpgradePanelsFull(squadBuilderShip);
+        UpdateUpgradePanelsDiff(squadBuilderShip);
         UpdateShipCost(squadBuilderShip);
 
         OrganizeShipsList(squadBuilderShip.Player);
@@ -319,13 +362,10 @@ public static partial class RosterBuilder {
 
     private static void AddUpgrade(SquadBuilderShip squadBuilderShip, UpgradeSlot upgradeSlot)
     {
-        List<string> upgradeList = GetUpgradesList(squadBuilderShip, upgradeSlot);
         GameObject panel = CreateUpgradePanel(squadBuilderShip, upgradeSlot);
 
         SquadBuilderUpgrade upgrade = new SquadBuilderUpgrade(upgradeSlot, panel);
-        squadBuilderShip.Upgrades.Add(upgrade);
-
-        SetUpgradesDropdown(squadBuilderShip, upgrade, upgradeList);
+        squadBuilderShip.AddUpgrade(upgrade);
     }
 
     private static List<string> GetUpgradesList(SquadBuilderShip squadBuilderShip, UpgradeSlot upgradeSlot)
@@ -459,6 +499,28 @@ public static partial class RosterBuilder {
         {
             uniqueCards.Add(cardName);
             return false;
+        }
+    }
+
+    private static void TryToReinstallUpgrade(SquadBuilderShip squadBuilderShip, SquadBuilderUpgrade squadUpgrade, GenericUpgrade oldUpgrade)
+    {
+        if (oldUpgrade.IsAllowedForShip(squadBuilderShip.Ship))
+        {
+            Dropdown upgradeDropbox = squadUpgrade.Panel.transform.GetComponent<Dropdown>();
+            string upgradeDropboxName = AllUpgrades.Where(n => n.Value == oldUpgrade.GetType().ToString()).First().Key;
+
+            bool isFound = false;
+            for (int i = 0; i < upgradeDropbox.options.Count; i++)
+            {
+                if (upgradeDropbox.options[i].text == upgradeDropboxName)
+                {
+                    upgradeDropbox.value = i;
+                    squadUpgrade.Slot.PreInstallUpgrade(oldUpgrade, squadBuilderShip.Ship);
+                    isFound = true;
+                    break;
+                }
+            }
+            if (!isFound) upgradeDropbox.value = 0;
         }
     }
 

@@ -31,6 +31,7 @@ namespace Upgrade
 
         public void AddSlot(UpgradeSlot slot)
         {
+            slot.Counter = UpgradeSlots.Count(n => n.Type == slot.Type) + 1;
             UpgradeSlots.Add(slot);
         }
 
@@ -83,6 +84,13 @@ namespace Upgrade
         {
             bool result = false;
             result = (UpgradeSlots.Find(n => n.Type == upgradeType) != null);
+            return result;
+        }
+
+        public bool HasFreeUpgradeSlot(UpgradeType upgradeType)
+        {
+            bool result = false;
+            result = (UpgradeSlots.Find(n => n.Type == upgradeType && n.InstalledUpgrade == null) != null);
             return result;
         }
 

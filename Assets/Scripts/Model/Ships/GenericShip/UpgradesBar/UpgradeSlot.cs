@@ -10,6 +10,7 @@ namespace Upgrade
     {
         public UpgradeType Type { get; private set; }
         public object GrantedBy { get; set; }
+        public int Counter { get; set; }
         public int CostDecrease { get; set; }
         public int MaxCost { get; set; }
         public bool MustBeDifferent { get; set; }
@@ -27,6 +28,7 @@ namespace Upgrade
         public UpgradeSlot(UpgradeType type)
         {
             Type = type;
+
             CostDecrease = 0;
             MaxCost = int.MaxValue;
         }

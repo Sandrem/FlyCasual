@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Players;
+using Ship;
 
 public class Global : MonoBehaviour {
 
@@ -60,15 +61,13 @@ public class Global : MonoBehaviour {
                 {
                 new ShipConfiguration
                 (
-                    "Ship.YT1300.OuterRimSmuggler",
-                    new List<string>(),
+                    new Ship.YT1300.OuterRimSmuggler(),
                     PlayerNo.Player1,
                     0
                 ),
                 new ShipConfiguration
                 (
-                    "Ship.TIEAdvanced.TempestSquadronPilot",
-                    new List<string>(),
+                    new Ship.TIEAdvanced.TempestSquadronPilot(),
                     PlayerNo.Player2,
                     0
                 )
@@ -108,8 +107,8 @@ public class Global : MonoBehaviour {
         {
             List<System.Type> result = new List<System.Type>
                 {
-                    typeof(Players.HumanPlayer),
-                    typeof(Players.HumanPlayer)
+                    typeof(HumanPlayer),
+                    typeof(HotacAiPlayer)
                 };
             return result;
         }
@@ -140,9 +139,9 @@ public class Global : MonoBehaviour {
         playerFactions.Add(factionType);
     }
 
-    public static void AddShip(string name, List<string> upgradeList, PlayerNo playerNo, int shipCost)
+    public static void AddShip(GenericShip ship, PlayerNo playerNo, int shipCost)
     {
-        shipConfigurations.Add(new ShipConfiguration(name, upgradeList, playerNo, shipCost));
+        shipConfigurations.Add(new ShipConfiguration(ship, playerNo, shipCost));
     }
 
     public static Faction GetPlayerFaction(PlayerNo playerNo)

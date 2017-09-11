@@ -1,19 +1,19 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Ship;
+using Players;
 
 public partial class ShipConfiguration
 {
-    public string PilotName { get; private set; }
-    public List<string> Upgrades { get; private set; }
-    public Players.PlayerNo PlayerNo { get; private set; }
+    public GenericShip Ship { get; private set; }
+    public PlayerNo Player { get; private set; }
     public int ShipCost { get; private set; }
 
-    public ShipConfiguration(string pilotName, List<string> upgrades, Players.PlayerNo playerNo, int shipCost)
+    public ShipConfiguration(GenericShip ship, PlayerNo playerNo, int shipCost)
     {
-        PilotName = pilotName;
-        Upgrades = upgrades;
-        PlayerNo = playerNo;
+        Ship = ship;
+        Player = playerNo;
         ShipCost = shipCost;
     }
 

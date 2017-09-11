@@ -361,9 +361,9 @@ namespace SubPhases
 
             allWeapons.Add(Selection.ThisShip.PrimaryWeapon);
 
-            foreach (var upgrade in Selection.ThisShip.InstalledUpgrades)
+            foreach (var upgrade in Selection.ThisShip.UpgradeBar.GetInstalledUpgrades())
             {
-                Ship.IShipWeapon secondaryWeapon = upgrade.Value as Ship.IShipWeapon;
+                Ship.IShipWeapon secondaryWeapon = upgrade as Ship.IShipWeapon;
                 if (secondaryWeapon != null) allWeapons.Add(secondaryWeapon);
             }
 

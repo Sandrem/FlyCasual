@@ -59,21 +59,19 @@ public class Global : MonoBehaviour {
         {
             result = new List<ShipConfiguration>()
                 {
-                /*new ShipConfiguration
+                new ShipConfiguration
                 (
-                    "Ship.YT1300.OuterRimSmuggler",
-                    new List<string>(),
+                    new Ship.YT1300.OuterRimSmuggler(),
                     PlayerNo.Player1,
                     0
                 ),
                 new ShipConfiguration
                 (
-                    "Ship.TIEAdvanced.TempestSquadronPilot",
-                    new List<string>(),
+                    new Ship.TIEAdvanced.TempestSquadronPilot(),
                     PlayerNo.Player2,
                     0
                 )
-                new ShipConfiguration
+                /*new ShipConfiguration
                 (
                     "Ship.XWing.LukeSkywalker",
                     new List<string>() { "UpgradesList.R2D2", "UpgradesList.Marksmanship", "UpgradesList.ProtonTorpedoes" },

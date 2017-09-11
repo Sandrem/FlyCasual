@@ -186,9 +186,9 @@ namespace Players
 
             Ship.IShipWeapon chosenWeapon = null;
 
-            foreach (var upgrade in Selection.ThisShip.InstalledUpgrades)
+            foreach (var upgrade in Selection.ThisShip.UpgradeBar.GetInstalledUpgrades())
             {
-                Ship.IShipWeapon secondaryWeapon = (upgrade.Value as Ship.IShipWeapon);
+                Ship.IShipWeapon secondaryWeapon = (upgrade as Ship.IShipWeapon);
                 if (secondaryWeapon != null)
                 {
                     if (secondaryWeapon.IsShotAvailable(targetShip))

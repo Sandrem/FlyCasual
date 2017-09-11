@@ -328,10 +328,10 @@ public static partial class Roster {
     public static void UpdateUpgradesPanel(Ship.GenericShip newShip, GameObject newPanel)
     {
         int index = 1;
-        foreach (var upgrade in newShip.InstalledUpgrades)
+        foreach (var upgrade in newShip.UpgradeBar.GetInstalledUpgrades())
         {
             GameObject upgradeNamePanel = newPanel.transform.Find("ShipInfo/UpgradesBar/Upgrade"+index).gameObject;
-            upgradeNamePanel.GetComponent<Text>().text = upgrade.Value.ShortName;
+            upgradeNamePanel.GetComponent<Text>().text = upgrade.ShortName;
             upgradeNamePanel.SetActive(true);
             index++;
         }
@@ -341,12 +341,12 @@ public static partial class Roster {
     public static void SubscribeUpgradesPanel(Ship.GenericShip newShip, GameObject newPanel)
     {
         int index = 1;
-        foreach (var upgrade in newShip.InstalledUpgrades)
+        foreach (var upgrade in newShip.UpgradeBar.GetInstalledUpgrades())
         {
             GameObject upgradeNamePanel = newPanel.transform.Find("ShipInfo/UpgradesBar/Upgrade" + index).gameObject;
 
             SubscribeActions(upgradeNamePanel);
-            Tooltips.AddTooltip(upgradeNamePanel, upgrade.Value.ImageUrl);
+            Tooltips.AddTooltip(upgradeNamePanel, upgrade.ImageUrl);
 
             index++;
         }

@@ -177,23 +177,6 @@ public static partial class RosterBuilder {
         return result;
     }
 
-    private static void UpgradeEffectApply(PlayerNo playerNo, GameObject panel)
-    {
-        /*Dropdown upgradeDropdown = panel.transform.GetComponent<Dropdown>();
-        string upgradeName = upgradeDropdown.captionText.text;
-        if (AllUpgrades.ContainsKey(upgradeName))
-        {
-            Upgrade.GenericUpgrade upgradeContainer = (Upgrade.GenericUpgrade)Activator.CreateInstance(System.Type.GetType(AllUpgrades[upgradeName]));
-
-            string pilotKey = panel.transform.parent.parent.Find("GroupShip/DropdownPilot").GetComponent<Dropdown>().captionText.text;
-            Ship.GenericShip shipContainer = (Ship.GenericShip)Activator.CreateInstance(Type.GetType(AllPilots[pilotKey]));
-
-            upgradeContainer.SquadBuilderEffectApply(shipContainer);
-
-            UpdateUpgradePanels(playerNo, panel.transform.parent.parent.gameObject);
-        }*/
-    }
-
     //Tooltips
     private static void AddPilotTooltip(GameObject panel)
     {

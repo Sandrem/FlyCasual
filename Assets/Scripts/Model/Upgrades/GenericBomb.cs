@@ -19,11 +19,11 @@ namespace Upgrade
 
         }
 
-        public override void AttachToShip(Ship.GenericShip host)
+        public override void AttachToShip(GenericShip host)
         {
             base.AttachToShip(host);
 
-            if (IsDropAfterManeuverRevealed) host.OnMovementStart += AskDropBomb;
+            if (IsDropAfterManeuverRevealed) host.OnMovementStart += RegisterAskDropBomb;
             if (IsDropAsAction) host.AfterGenerateAvailableActionsList += PerformDropBombAction;
         }
 
@@ -34,9 +34,24 @@ namespace Upgrade
             callBack();
         }
 
-        public virtual void AskDropBomb(GenericShip ship)
+        public virtual void RegisterAskDropBomb(GenericShip host)
         {
-            Messages.ShowInfo("Bomb can be dropped");
+            Triggers.RegisterTrigger(new Trigger()
+            {
+                Name = Name + " : Ask to drop",
+                TriggerOwner = host.Owner.PlayerNo,
+                TriggerType = TriggerTypes.OnShipMovementStart,
+                EventHandler = AskDropBomb
+            });
+        }
+
+        public virtual void AskDropBomb(object sender, System.EventArgs e)
+        {
+            Phases.StartTemporarySubPhase(
+                Name,
+                typeof(SubPhases.DropBombDecisionSubPhase),
+                delegate () { Triggers.FinishTrigger(); }
+            );
         }
 
         public virtual void PerformDropBombAction(GenericShip ship)
@@ -65,6 +80,43 @@ namespace ActionsList
             Messages.ShowInfo("Bomb is dropped");
             Phases.CurrentSubPhase.CallBack();
         }
+    }
+
+}
+
+namespace SubPhases
+{
+
+    public class DropBombDecisionSubPhase : DecisionSubPhase
+    {
+
+        public override void Prepare()
+        {
+            infoText = "Drop " + Phases.CurrentSubPhase.Name + "?";
+
+            AddDecision("Yes", DropBomb);
+            AddDecision("No", SkipDropBomb);
+
+            defaultDecision = "No";
+        }
+
+        private void DropBomb(object sender, System.EventArgs e)
+        {
+            Messages.ShowInfo("Bomb was dropped");
+            ConfirmDecision();
+        }
+
+        private void SkipDropBomb(object sender, System.EventArgs e)
+        {
+            ConfirmDecision();
+        }
+
+        private void ConfirmDecision()
+        {
+            Phases.FinishSubPhase(this.GetType());
+            CallBack();
+        }
+
     }
 
 }

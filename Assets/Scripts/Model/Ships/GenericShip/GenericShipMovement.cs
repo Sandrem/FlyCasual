@@ -48,9 +48,11 @@ namespace Ship
             if (OnManeuverIsReadyToBeRevealed != null) OnManeuverIsReadyToBeRevealed(this);
         }
 
-        public void StartMoving()
+        public void StartMoving(System.Action callback)
         {
             if (OnMovementStart != null) OnMovementStart(this);
+
+            Triggers.ResolveTriggers(TriggerTypes.OnShipMovementStart, callback);
         }
 
         public void CallExecuteMoving()

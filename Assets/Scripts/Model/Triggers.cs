@@ -9,6 +9,7 @@ public enum TriggerTypes
 {
     None,
     OnSetupPhaseStart,
+    OnShipMovementStart,
     OnShipMovementExecuted,
     OnShipMovementFinish,
     OnPositionFinish,

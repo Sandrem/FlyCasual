@@ -280,8 +280,11 @@ namespace Movement
 
         public virtual void LaunchShipMovement()
         {
-            Selection.ThisShip.StartMoving();
+            Selection.ThisShip.StartMoving(LaunchShipMovementContinue);
+        }
 
+        private void LaunchShipMovementContinue()
+        {
             Selection.ThisShip.ShipsBumped.AddRange(movementPrediction.ShipsBumped);
             foreach (var bumpedShip in Selection.ThisShip.ShipsBumped)
             {

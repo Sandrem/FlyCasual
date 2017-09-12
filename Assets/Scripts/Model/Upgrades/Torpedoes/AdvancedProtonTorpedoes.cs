@@ -91,8 +91,8 @@ namespace ActionsList
 
 			if (Combat.AttackStep == CombatStep.Attack)
 			{
-				int attackFocuses = Combat.DiceRollAttack.Focuses;
-				if (attackFocuses > 0) result = 70;
+				int blanks = Combat.DiceRollAttack.Blanks;
+				if (blanks > 0) result = 100;
 			}
 
 			return result;

@@ -20,6 +20,7 @@ namespace UpgradesList{
 
 		private void StealthDeviceCleanup()
 		{
+			Host.OnAttackHitAsDefender -= StealthDeviceCleanup;
 			Messages.ShowError("Hit! Discarding Stealth Device!");
 			Host.ChangeAgilityBy (-1);
 			Discard ();

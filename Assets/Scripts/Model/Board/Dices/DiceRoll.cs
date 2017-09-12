@@ -187,6 +187,15 @@ public partial class DiceRoll
         UpdateDiceCompareHelperPrediction();
     }
 
+	public void Change(DiceSide oldSide, DiceSide newSide, int count)
+	{
+		for (int i = 0; i < count; i++) {
+			ChangeDice (oldSide, newSide, true);
+		}
+
+		UpdateDiceCompareHelperPrediction ();
+	}
+
     public void ChangeOne(DiceSide oldSide, DiceSide newSide)
     {
         ChangeDice(oldSide, newSide, true);

@@ -25,7 +25,7 @@ namespace UpgradesList
 
 		private void DoSecondAction(Ship.GenericShip ship)
 		{
-			if (!ship.HasToken(typeof(Tokens.StressToken)))
+			if (!ship.HasToken(typeof(Tokens.StressToken)) || ship.CanPerformActionsWhileStressed)
 			{
 				Triggers.RegisterTrigger(
 					new Trigger()

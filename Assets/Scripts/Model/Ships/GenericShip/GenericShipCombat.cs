@@ -459,6 +459,11 @@ namespace Ship
             return result;
         }
 
+        public virtual bool CanAttackBumpedTarget(GenericShip defender)
+        {
+            return false;
+        }
+
     }
 
 }

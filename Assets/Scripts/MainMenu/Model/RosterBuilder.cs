@@ -331,6 +331,9 @@ public static partial class RosterBuilder {
 
         foreach (var type in typelist)
         {
+			if (type.MemberType == MemberTypes.NestedType)
+				continue;
+
             Ship.GenericShip newShipContainer = (Ship.GenericShip)System.Activator.CreateInstance(type);
             if ((newShipContainer.PilotName != null) && (!newShipContainer.IsHidden))
             {

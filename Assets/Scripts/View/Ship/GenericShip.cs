@@ -69,6 +69,7 @@ namespace Ship
             string materialName = PilotName;
             materialName = materialName.Replace(' ', '_');
             materialName = materialName.Replace('"', '_');
+			materialName = materialName.Replace("\'","");
             string pathToResource = "ShipStandInsert/" + Type + "/Materials/" + materialName;
 
             Material shipBaseInsert = (Material)Resources.Load(pathToResource, typeof(Material));

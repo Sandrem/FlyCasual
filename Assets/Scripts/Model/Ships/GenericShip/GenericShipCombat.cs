@@ -380,7 +380,7 @@ namespace Ship
             Triggers.FinishTrigger();
         }
 
-        public void IsHullDestroyedCheck(Action callBack)
+        public virtual void IsHullDestroyedCheck(Action callBack)
         {
             if (Hull == 0 && !IsDestroyed)
             {

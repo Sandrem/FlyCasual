@@ -435,6 +435,7 @@ namespace SubPhases
 
             if (IsDecloakAllowed())
             {
+                CheckMines();
                 StartDecloakExecution(Selection.ThisShip);
             }
             else
@@ -443,6 +444,15 @@ namespace SubPhases
             }
 
             HidePlanningTemplates();
+        }
+
+        private void CheckMines()
+        {
+            foreach (var mineCollider in obstaclesStayDetectorMovementTemplate.OverlapedMines)
+            {
+                GameObject mineObject = mineCollider.transform.parent.gameObject;
+                if (!Selection.ThisShip.MinesHit.Contains(mineObject)) Selection.ThisShip.MinesHit.Add(mineObject);
+            }
         }
 
         private void HidePlanningTemplates()
@@ -564,8 +574,11 @@ namespace SubPhases
             MovementTemplates.CurrentTemplate.gameObject.SetActive(true);
 
             Selection.ThisShip.ToggleShipStandAndPeg(true);
-            Selection.ThisShip.FinishPosition(delegate () { });
+            Selection.ThisShip.FinishPosition(FinishDecloakAnimationPart2);
+        }
 
+        private void FinishDecloakAnimationPart2()
+        {
             Phases.FinishSubPhase(typeof(DecloakExecutionSubPhase));
 
             Selection.ThisShip.SpendToken(typeof(Tokens.CloakToken), CallBack);

@@ -15,10 +15,10 @@ namespace RulesList
 
         private void SubscribeEvents()
         {
-            GenericShip.OnMovementFinishGlobal += CheckDamage;
+            GenericShip.OnPositionFinishGlobal += CheckDamage;
         }
 
-        private void CheckDamage(GenericShip ship)
+        private void CheckDamage()
         {
             if (Selection.ThisShip.MinesHit.Count > 0)
             {
@@ -30,7 +30,7 @@ namespace RulesList
                         TriggerOwner = Selection.ThisShip.Owner.PlayerNo,
                         TriggerType = TriggerTypes.OnShipMovementFinish,
                         EventHandler = BombsManager.GetMineByObject(mine).Detonate,
-                        Sender = ship
+                        Sender = Selection.ThisShip
                     });
                 }
             }

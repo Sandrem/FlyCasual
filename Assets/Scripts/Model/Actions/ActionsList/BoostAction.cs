@@ -220,6 +220,7 @@ namespace SubPhases
 
             if (IsBoostAllowed())
             {
+                CheckMines();
                 StartBoostExecution(Selection.ThisShip);
             }
             else
@@ -228,6 +229,15 @@ namespace SubPhases
             }
 
             HidePlanningTemplates();
+        }
+
+        private void CheckMines()
+        {
+            foreach (var mineCollider in obstaclesStayDetectorMovementTemplate.OverlapedMines)
+            {
+                GameObject mineObject = mineCollider.transform.parent.gameObject;
+                if (!Selection.ThisShip.MinesHit.Contains(mineObject)) Selection.ThisShip.MinesHit.Add(mineObject);
+            }
         }
 
         private bool IsBoostAllowed()
@@ -312,8 +322,11 @@ namespace SubPhases
 
         private void FinishBoostAnimation()
         {
-            Selection.ThisShip.FinishPosition(delegate() { });
+            Selection.ThisShip.FinishPosition(FinishBoostAnimationPart2);
+        }
 
+        private void FinishBoostAnimationPart2()
+        {
             Phases.FinishSubPhase(typeof(BoostExecutionSubPhase));
             CallBack();
         }

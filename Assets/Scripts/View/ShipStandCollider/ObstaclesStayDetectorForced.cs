@@ -9,6 +9,7 @@ public class ObstaclesStayDetectorForced: MonoBehaviour {
     public bool OverlapsShipNow = false;
     public bool OverlapsAsteroidNow = false;
     public bool OffTheBoardNow = false;
+    public List<Collider> OverlapedMines = new List<Collider>();
 
     void OnTriggerEnter(Collider collisionInfo)
     {
@@ -20,6 +21,7 @@ public class ObstaclesStayDetectorForced: MonoBehaviour {
         OverlapsAsteroidNow = false;
         OverlapsShipNow = false;
         OffTheBoardNow = false;
+        OverlapedMines = new List<Collider>();
 
         checkCollisionsNow = true;
     }
@@ -36,6 +38,10 @@ public class ObstaclesStayDetectorForced: MonoBehaviour {
             if (collisionInfo.tag == "Asteroid")
             {
                 OverlapsAsteroidNow = true;
+            }
+            else if (collisionInfo.tag == "Mine")
+            {
+                if (!OverlapedMines.Contains(collisionInfo)) OverlapedMines.Add(collisionInfo);
             }
             else if (collisionInfo.name == "OffTheBoard")
             {

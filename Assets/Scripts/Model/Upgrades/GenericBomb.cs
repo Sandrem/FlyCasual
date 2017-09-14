@@ -47,6 +47,7 @@ namespace Upgrade
 
         public virtual void AskDropBomb(object sender, System.EventArgs e)
         {
+            Bombs.CurrentBombToDrop = this;
             Phases.StartTemporarySubPhase(
                 Name,
                 typeof(SubPhases.DropBombDecisionSubPhase),
@@ -58,7 +59,13 @@ namespace Upgrade
         {
             ActionsList.GenericAction action = new ActionsList.BombDropAction();
             action.Name = "Drop " + Name;
+            action.Source = this;
             Host.AddAvailableAction(action);
+        }
+
+        public void ActivateBomb(GameObject bombObject)
+        {
+            //TODO: Activate dropped bomb
         }
 
     }
@@ -83,8 +90,11 @@ namespace SubPhases
 
         private void DropBomb(object sender, System.EventArgs e)
         {
-            Messages.ShowInfo("Bomb was dropped");
-            ConfirmDecision();
+            Phases.StartTemporarySubPhase(
+                "Bomb drop planning",
+                typeof(SubPhases.BombDropPlanningSubPhase),
+                ConfirmDecision
+            );
         }
 
         private void SkipDropBomb(object sender, System.EventArgs e)

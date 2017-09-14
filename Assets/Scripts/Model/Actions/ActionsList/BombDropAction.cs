@@ -16,6 +16,8 @@ namespace ActionsList
         public override void ActionTake()
         {
             Phases.CurrentSubPhase.Pause();
+
+            Bombs.CurrentBombToDrop = Source as Upgrade.GenericBomb;
             Phases.StartTemporarySubPhase(
                 "Bomb drop planning",
                 typeof(SubPhases.BombDropPlanningSubPhase),
@@ -52,10 +54,7 @@ namespace SubPhases
                 AvailableBombDropDirections.Add(bombDropHelper.name, bombDropHelper.Find("Finisher").position);
             }
 
-            //Temp
-            string bombPrefabPath = "Prefabs/Bombs/ProximityMine";
-
-            GameObject prefab = (GameObject)Resources.Load(bombPrefabPath, typeof(GameObject));
+            GameObject prefab = (GameObject)Resources.Load(Bombs.CurrentBombToDrop.bombPrefabPath, typeof(GameObject));
             BombObject = MonoBehaviour.Instantiate(prefab, Selection.ThisShip.GetPosition(), Selection.ThisShip.GetRotation(), BoardManager.GetBoard());
             Roster.SetRaycastTargets(false);
 
@@ -145,9 +144,7 @@ namespace SubPhases
 
         private void BombDropExecute()
         {
-            Messages.ShowInfo("Bomb is dropped to position");
-
-            // TODO: Activate bomb here
+            Bombs.CurrentBombToDrop.ActivateBomb(BombObject);
 
             Phases.FinishSubPhase(typeof(BombDropPlanningSubPhase));
             CallBack();

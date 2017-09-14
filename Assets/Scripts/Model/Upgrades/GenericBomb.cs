@@ -56,30 +56,11 @@ namespace Upgrade
 
         public virtual void PerformDropBombAction(GenericShip ship)
         {
-            ActionsList.GenericAction action = new ActionsList.DropBombAction();
+            ActionsList.GenericAction action = new ActionsList.BombDropAction();
             action.Name = "Drop " + Name;
             Host.AddAvailableAction(action);
         }
 
-    }
-
-}
-
-namespace ActionsList
-{
-
-    public class DropBombAction : GenericAction
-    {
-        public DropBombAction()
-        {
-            Name = EffectName = "Drop Bomb";
-        }
-
-        public override void ActionTake()
-        {
-            Messages.ShowInfo("Bomb is dropped");
-            Phases.CurrentSubPhase.CallBack();
-        }
     }
 
 }

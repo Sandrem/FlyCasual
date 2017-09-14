@@ -37,41 +37,12 @@ public class ShipPositionManager : MonoBehaviour
             PerformDrag();
         }
 
-        if (Phases.CurrentSubPhase.GetType() == typeof(SubPhases.BarrelRollPlanningSubPhase))
-        {
-            Phases.CurrentSubPhase.Update();
-        }
-
-        if (Phases.CurrentSubPhase.GetType() == typeof(SubPhases.BarrelRollExecutionSubPhase))
-        {
-            Phases.CurrentSubPhase.Update();
-        }
-
-        if (Phases.CurrentSubPhase.GetType() == typeof(SubPhases.BoostPlanningSubPhase))
-        {
-            Phases.CurrentSubPhase.Update();
-        }
-
-        if (Phases.CurrentSubPhase.GetType() == typeof(SubPhases.BoostExecutionSubPhase))
-        {
-            Phases.CurrentSubPhase.Update();
-        }
-
-        if (Phases.CurrentSubPhase.GetType() == typeof(SubPhases.DecloakPlanningSubPhase))
-        {
-            Phases.CurrentSubPhase.Update();
-        }
-
-        if (Phases.CurrentSubPhase.GetType() == typeof(SubPhases.DecloakExecutionSubPhase))
-        {
-            Phases.CurrentSubPhase.Update();
-        }
-
         if (inKoiogranTurn)
         {
             DoKoiogranTurnAnimation();
         }
 
+        Phases.CurrentSubPhase.Update();
     }
 
     public void StartDrag()

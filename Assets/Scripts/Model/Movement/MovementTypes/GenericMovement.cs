@@ -300,6 +300,11 @@ namespace Movement
                 Selection.ThisShip.ObstaclesHit.AddRange(movementPrediction.AsteroidsHit);
             }
 
+            if (movementPrediction.MinesHit.Count > 0)
+            {
+                Selection.ThisShip.MinesHit.AddRange(movementPrediction.MinesHit);
+            }
+
             Sounds.PlayFly();
             AdaptSuccessProgress();
 

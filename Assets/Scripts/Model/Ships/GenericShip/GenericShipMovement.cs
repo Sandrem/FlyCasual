@@ -15,6 +15,8 @@ namespace Ship
         public bool IsLandedOnObstacle;
         public List<Collider> ObstaclesHit = new List<Collider>();
 
+        public List<GameObject> MinesHit = new List<GameObject>();
+
         public bool IsBumped
         {
             get { return ShipsBumped.Count != 0; }
@@ -38,6 +40,7 @@ namespace Ship
         public event EventHandlerShip OnMovementStart;
         public event EventHandlerShip OnMovementExecuted;
         public event EventHandlerShip OnMovementFinish;
+        public static event EventHandlerShip OnMovementFinishGlobal;
 
         public event EventHandlerShip OnPositionFinish;
         public static event EventHandler OnPositionFinishGlobal;
@@ -73,6 +76,7 @@ namespace Ship
         public void CallFinishMovement()
         {
             if (OnMovementFinish != null) OnMovementFinish(this);
+            if (OnMovementFinishGlobal != null) OnMovementFinishGlobal(this);
 
             Triggers.ResolveTriggers(TriggerTypes.OnShipMovementFinish, delegate () { Selection.ThisShip.FinishPosition(delegate () { Phases.FinishSubPhase(typeof(SubPhases.MovementExecutionSubPhase)); }); });
         }

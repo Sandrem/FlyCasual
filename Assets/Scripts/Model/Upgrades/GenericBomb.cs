@@ -83,7 +83,7 @@ namespace Upgrade
             }
             else if (IsDetonationByContact)
             {
-                // TODO: Activate collisions
+                BombsManager.RegisterMine(bombObject, this);
             }
         }
 
@@ -103,26 +103,36 @@ namespace Upgrade
         {
             Messages.ShowError("BOOM!!!");
 
-            GameObject.Destroy(BombObject);
             if (IsDetonationPlanned)
             {
                 Phases.OnActivationPhaseEnd -= PlanTimedDetonation;
+                foreach (var ship in GetShipsInRange())
+                {
+                    RegisterDetonationTriggerForShip(ship);
+                }
             }
-
-            foreach (var ship in GetShipsInRange())
+            else if (IsDetonationByContact)
             {
-                Triggers.RegisterTrigger(new Trigger{
-                    Name = ship.ShipId + " : Detonation of " + Name,
-                    TriggerType = TriggerTypes.OnBombDetonated,
-                    TriggerOwner = ship.Owner.PlayerNo,
-                    EventHandler = delegate
-                    {
-                        ExplosionEffect(ship, Triggers.FinishTrigger);
-                    }
-                });
+                BombsManager.UnregisterMine(BombObject);
+                RegisterDetonationTriggerForShip(sender as GenericShip);
             }
+            GameObject.Destroy(BombObject);
 
             Triggers.ResolveTriggers(TriggerTypes.OnBombDetonated, Triggers.FinishTrigger);
+        }
+
+        private void RegisterDetonationTriggerForShip(GenericShip ship)
+        {
+            Triggers.RegisterTrigger(new Trigger
+            {
+                Name = ship.ShipId + " : Detonation of " + Name,
+                TriggerType = TriggerTypes.OnBombDetonated,
+                TriggerOwner = ship.Owner.PlayerNo,
+                EventHandler = delegate
+                {
+                    ExplosionEffect(ship, Triggers.FinishTrigger);
+                }
+            });
         }
 
         public virtual List<GenericShip> GetShipsInRange()

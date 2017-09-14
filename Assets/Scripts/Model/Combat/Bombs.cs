@@ -21,7 +21,9 @@ namespace Bombs
     public static class BombsManager
     {
         public static GenericBomb CurrentBombToDrop { get; set; }
+
         private static List<Vector3> generatedBombPoints = new List<Vector3>();
+        private static Dictionary<GameObject, GenericBomb> minesList = new Dictionary<GameObject, GenericBomb>();
 
         public static List<Vector3> GetBombPoints()
         {
@@ -38,6 +40,21 @@ namespace Bombs
             }
 
             return generatedBombPoints;
+        }
+
+        public static void RegisterMine(GameObject mineObject, GenericBomb bombUpgrade)
+        {
+            minesList.Add(mineObject, bombUpgrade);
+        }
+
+        public static void UnregisterMine(GameObject mineObject)
+        {
+            minesList.Remove(mineObject);
+        }
+
+        public static GenericBomb GetMineByObject(GameObject mineObject)
+        {
+            return minesList[mineObject];
         }
     }
 }

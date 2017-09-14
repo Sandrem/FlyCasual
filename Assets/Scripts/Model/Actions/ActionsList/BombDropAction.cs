@@ -134,7 +134,7 @@ namespace SubPhases
                 Selection.ThisShip.GetBombDropHelper().Find(name).gameObject.SetActive(true);
 
                 Transform newBase = Selection.ThisShip.GetBombDropHelper().Find(name + "/Finisher/BasePosition");
-                BombObject.transform.position = newBase.position;
+                BombObject.transform.position = new Vector3(newBase.position.x, 0, newBase.position.z);
                 BombObject.transform.rotation = newBase.rotation;
 
                 SelectedBombDropHelper = name;
@@ -170,8 +170,11 @@ namespace SubPhases
 
         public override void ProcessClick()
         {
-            StopPlanning();
-            SelectBombPosition();
+            if (inReposition)
+            {
+                StopPlanning();
+                SelectBombPosition();
+            }
         }
 
         private void SelectBombPosition()

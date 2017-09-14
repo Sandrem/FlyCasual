@@ -29,7 +29,23 @@ namespace UpgradesList
         public override void ExplosionEffect(GenericShip ship, Action callBack)
         {
             //Roll 3 dice - suffer all results
-            callBack();
+
+            ship.AssignedDamageDiceroll.AddDice(DiceSide.Success);
+
+            Triggers.RegisterTrigger(new Trigger()
+            {
+                Name = "Suffer damage from bomb",
+                TriggerType = TriggerTypes.OnDamageIsDealt,
+                TriggerOwner = ship.Owner.PlayerNo,
+                EventHandler = ship.SufferDamage,
+                EventArgs = new DamageSourceEventArgs()
+                {
+                    Source = this,
+                    DamageType = DamageTypes.BombDetonation
+                }
+            });
+
+            Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, callBack);
         }
 
     }

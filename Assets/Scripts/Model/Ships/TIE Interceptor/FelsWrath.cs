@@ -52,6 +52,7 @@ namespace Ship
 			}
 
 			private void CleanUpFelsWrath(object sender, System.EventArgs e){
+
 				if (isDestructionIsDelayed) {
 					Selection.ThisShip = this;
 					DestroyShip (Triggers.FinishTrigger, true);

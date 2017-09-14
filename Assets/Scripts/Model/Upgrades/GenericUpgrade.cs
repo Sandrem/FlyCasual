@@ -69,7 +69,7 @@ namespace Upgrade
 
         }
 
-        public void Discard()
+        public virtual void Discard()
         {
             isDiscarded = true;
             Roster.DiscardUpgrade(Host, ShortName);

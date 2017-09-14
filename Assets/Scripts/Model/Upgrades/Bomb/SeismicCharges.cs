@@ -8,7 +8,7 @@ using Ship;
 namespace UpgradesList
 {
 
-    public class SeismicCharges : GenericBomb
+    public class SeismicCharges : GenericTimedBomb
     {
 
         public SeismicCharges() : base()
@@ -19,9 +19,6 @@ namespace UpgradesList
             Cost = 2;
 
             bombPrefabPath = "Prefabs/Bombs/SeismicCharge";
-
-            IsDropAfterManeuverRevealed = true;
-            IsDetonationPlanned = true;
 
             IsDiscardedAfterDropped = true;
         }

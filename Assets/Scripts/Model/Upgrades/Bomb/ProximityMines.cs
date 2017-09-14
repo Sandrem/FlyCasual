@@ -8,7 +8,7 @@ using Ship;
 namespace UpgradesList
 {
 
-    public class ProximityMines : GenericBomb
+    public class ProximityMines : GenericContactMine
     {
 
         public ProximityMines() : base()
@@ -19,9 +19,6 @@ namespace UpgradesList
             Cost = 3;
 
             bombPrefabPath = "Prefabs/Bombs/ProximityMine";
-
-            IsDropAsAction = true;
-            IsDetonationByContact = true;
 
             IsDiscardedAfterDropped = true;
         }

@@ -9,18 +9,9 @@ using System.Linq;
 namespace Upgrade
 {
 
-    public class GenericBomb : GenericUpgrade
+    abstract public class GenericTimedBomb : GenericBomb
     {
-        public string bombPrefabPath;
-        public bool IsDiscardedAfterDropped;
-        public bool IsDropAfterManeuverRevealed;
-        public bool IsDropAsAction;
-        public bool IsDetonationPlanned;
-        public bool IsDetonationByContact;
-
-        public GameObject BombObject { get; private set; }
-
-        public GenericBomb() : base()
+        public GenericTimedBomb() : base()
         {
 
         }
@@ -29,18 +20,10 @@ namespace Upgrade
         {
             base.AttachToShip(host);
 
-            if (IsDropAfterManeuverRevealed) host.OnManeuverIsRevealed += RegisterAskDropBomb;
-            if (IsDropAsAction) host.AfterGenerateAvailableActionsList += PerformDropBombAction;
+            host.OnManeuverIsRevealed += RegisterAskDropBomb;
         }
 
-        public virtual void PayDropCost(Action callBack)
-        {
-            if (IsDiscardedAfterDropped) Discard();
-
-            callBack();
-        }
-
-        public virtual void RegisterAskDropBomb(GenericShip host)
+        private void RegisterAskDropBomb(GenericShip host)
         {
             Triggers.RegisterTrigger(new Trigger()
             {
@@ -51,7 +34,7 @@ namespace Upgrade
             });
         }
 
-        public virtual void AskDropBomb(object sender, System.EventArgs e)
+        private void AskDropBomb(object sender, System.EventArgs e)
         {
             BombsManager.CurrentBombToDrop = this;
             Phases.StartTemporarySubPhase(
@@ -61,30 +44,11 @@ namespace Upgrade
             );
         }
 
-        public virtual void PerformDropBombAction(GenericShip ship)
+        public override void ActivateBomb(GameObject bombObject)
         {
-            ActionsList.GenericAction action = new ActionsList.BombDropAction()
-            {
-                Name = "Drop " + Name,
-                Source = this
-            };
-            Host.AddAvailableAction(action);
-        }
+            base.ActivateBomb(bombObject);
 
-        public void ActivateBomb(GameObject bombObject)
-        {
-            BombObject = bombObject;
-            Host.IsBombAlreadyDropped = true;
-            Discard();
-
-            if (IsDetonationPlanned)
-            {
-                Phases.OnActivationPhaseEnd += PlanTimedDetonation;
-            }
-            else if (IsDetonationByContact)
-            {
-                BombsManager.RegisterMine(bombObject, this);
-            }
+            Phases.OnActivationPhaseEnd += PlanTimedDetonation;
         }
 
         private void PlanTimedDetonation()
@@ -99,43 +63,20 @@ namespace Upgrade
             });
         }
 
-        public virtual void Detonate(object sender, EventArgs e)
+        public override void Detonate(object sender, EventArgs e)
         {
             Messages.ShowError("BOOM!!!");
 
-            if (IsDetonationPlanned)
+            Phases.OnActivationPhaseEnd -= PlanTimedDetonation;
+            foreach (var ship in GetShipsInRange())
             {
-                Phases.OnActivationPhaseEnd -= PlanTimedDetonation;
-                foreach (var ship in GetShipsInRange())
-                {
-                    RegisterDetonationTriggerForShip(ship);
-                }
+                RegisterDetonationTriggerForShip(ship);
             }
-            else if (IsDetonationByContact)
-            {
-                BombsManager.UnregisterMine(BombObject);
-                RegisterDetonationTriggerForShip(sender as GenericShip);
-            }
-            GameObject.Destroy(BombObject);
-
-            Triggers.ResolveTriggers(TriggerTypes.OnBombDetonated, Triggers.FinishTrigger);
+        
+            base.Detonate(sender, e);
         }
 
-        private void RegisterDetonationTriggerForShip(GenericShip ship)
-        {
-            Triggers.RegisterTrigger(new Trigger
-            {
-                Name = ship.ShipId + " : Detonation of " + Name,
-                TriggerType = TriggerTypes.OnBombDetonated,
-                TriggerOwner = ship.Owner.PlayerNo,
-                EventHandler = delegate
-                {
-                    ExplosionEffect(ship, Triggers.FinishTrigger);
-                }
-            });
-        }
-
-        public virtual List<GenericShip> GetShipsInRange()
+        private List<GenericShip> GetShipsInRange()
         {
             List<GenericShip> result = new List<GenericShip>();
 
@@ -172,10 +113,11 @@ namespace Upgrade
             return false;
         }
 
-
-        public virtual void ExplosionEffect(GenericShip ship, Action callBack)
+        public override void Discard()
         {
-            callBack();
+            Host.OnManeuverIsRevealed -= RegisterAskDropBomb;
+
+            base.Discard();
         }
 
     }

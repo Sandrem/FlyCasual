@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Ship;
 using Bombs;
+using System.Linq;
 
 namespace Upgrade
 {
@@ -14,6 +15,10 @@ namespace Upgrade
         public bool IsDiscardedAfterDropped;
         public bool IsDropAfterManeuverRevealed;
         public bool IsDropAsAction;
+        public bool IsDetonationPlanned;
+        public bool IsDetonationByContact;
+
+        public GameObject BombObject { get; private set; }
 
         public GenericBomb() : base()
         {
@@ -58,16 +63,109 @@ namespace Upgrade
 
         public virtual void PerformDropBombAction(GenericShip ship)
         {
-            ActionsList.GenericAction action = new ActionsList.BombDropAction();
-            action.Name = "Drop " + Name;
-            action.Source = this;
+            ActionsList.GenericAction action = new ActionsList.BombDropAction()
+            {
+                Name = "Drop " + Name,
+                Source = this
+            };
             Host.AddAvailableAction(action);
         }
 
         public void ActivateBomb(GameObject bombObject)
         {
+            BombObject = bombObject;
             Host.IsBombAlreadyDropped = true;
-            //TODO: Activate dropped bomb
+            Discard();
+
+            if (IsDetonationPlanned)
+            {
+                Phases.OnActivationPhaseEnd += PlanTimedDetonation;
+            }
+            else if (IsDetonationByContact)
+            {
+                // TODO: Activate collisions
+            }
+        }
+
+        private void PlanTimedDetonation()
+        {
+            Triggers.RegisterTrigger(new Trigger()
+            {
+                Name = "Detonation of " + Name,
+                TriggerType = TriggerTypes.OnActivationPhaseEnd,
+                TriggerOwner = Host.Owner.PlayerNo,
+                EventHandler = Detonate,
+                Sender = BombObject
+            });
+        }
+
+        public virtual void Detonate(object sender, EventArgs e)
+        {
+            Messages.ShowError("BOOM!!!");
+
+            GameObject.Destroy(BombObject);
+            if (IsDetonationPlanned)
+            {
+                Phases.OnActivationPhaseEnd -= PlanTimedDetonation;
+            }
+
+            foreach (var ship in GetShipsInRange())
+            {
+                Triggers.RegisterTrigger(new Trigger{
+                    Name = ship.ShipId + " : Detonation of " + Name,
+                    TriggerType = TriggerTypes.OnBombDetonated,
+                    TriggerOwner = ship.Owner.PlayerNo,
+                    EventHandler = delegate
+                    {
+                        ExplosionEffect(ship, Triggers.FinishTrigger);
+                    }
+                });
+            }
+
+            Triggers.ResolveTriggers(TriggerTypes.OnBombDetonated, Triggers.FinishTrigger);
+        }
+
+        public virtual List<GenericShip> GetShipsInRange()
+        {
+            List<GenericShip> result = new List<GenericShip>();
+
+            foreach (var ship in Roster.AllShips.Select(n => n.Value))
+            {
+                if (!ship.IsDestroyed)
+                {
+                    if (IsShipInDetonationRange(ship))
+                    {
+                        result.Add(ship);
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        private bool IsShipInDetonationRange(GenericShip ship)
+        {
+            List<Vector3> bombPoints = BombsManager.GetBombPoints();
+
+            foreach (var localBombPoint in bombPoints)
+            {
+                Vector3 globalBombPoint = BombObject.transform.TransformPoint(localBombPoint);
+                foreach (var globalShipBasePoint in ship.ShipBase.GetStandPoints().Select(n => n.Value))
+                {
+                    if (Board.BoardManager.GetRangeBetweenPoints(globalBombPoint, globalShipBasePoint) == 1)
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
+
+        public virtual void ExplosionEffect(GenericShip ship, Action callBack)
+        {
+            callBack();
         }
 
     }

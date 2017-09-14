@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Upgrade;
+using Ship;
 
 namespace UpgradesList
 {
@@ -20,7 +21,15 @@ namespace UpgradesList
             bombPrefabPath = "Prefabs/Bombs/ProximityMine";
 
             IsDropAsAction = true;
+            IsDetonationByContact = true;
+
             IsDiscardedAfterDropped = true;
+        }
+
+        public override void ExplosionEffect(GenericShip ship, Action callBack)
+        {
+            //Roll 3 dice - suffer all results
+            callBack();
         }
 
     }

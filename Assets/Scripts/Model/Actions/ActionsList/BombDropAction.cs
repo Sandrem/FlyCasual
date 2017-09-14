@@ -56,7 +56,35 @@ namespace SubPhases
 
         public void StartBombDropPlanning()
         {
+            CreateBombObject();
+            GenerateAllowedBombDropDirections();
+
+            Roster.SetRaycastTargets(false);
+
+            if (AvailableBombDropDirections.Count == 1)
+            {
+                ShowNearestBombDropHelper(AvailableBombDropDirections.First().Key);
+
+                //Temporary
+                GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
+                Game.Wait(1, SelectBombPosition);
+            }
+            else
+            {
+                inReposition = true;
+            }
+        }
+
+        private void CreateBombObject()
+        {
+            GameObject prefab = (GameObject)Resources.Load(BombsManager.CurrentBombToDrop.bombPrefabPath, typeof(GameObject));
+            BombObject = MonoBehaviour.Instantiate(prefab, Selection.ThisShip.GetPosition(), Selection.ThisShip.GetRotation(), BoardManager.GetBoard());
+        }
+
+        private void GenerateAllowedBombDropDirections()
+        {
             List<BombDropTemplates> allowedTemplates = Selection.ThisShip.GetAvailableBombDropTemplates();
+
             foreach (Transform bombDropHelper in Selection.ThisShip.GetBombDropHelper())
             {
                 if (allowedTemplates.Contains((BombDropTemplates)System.Enum.Parse(typeof(BombDropTemplates), bombDropHelper.name)))
@@ -64,12 +92,6 @@ namespace SubPhases
                     AvailableBombDropDirections.Add(bombDropHelper.name, bombDropHelper.Find("Finisher").position);
                 }
             }
-
-            GameObject prefab = (GameObject)Resources.Load(BombsManager.CurrentBombToDrop.bombPrefabPath, typeof(GameObject));
-            BombObject = MonoBehaviour.Instantiate(prefab, Selection.ThisShip.GetPosition(), Selection.ThisShip.GetRotation(), BoardManager.GetBoard());
-            Roster.SetRaycastTargets(false);
-
-            inReposition = true;
         }
 
         public override void Update()
@@ -149,6 +171,11 @@ namespace SubPhases
         public override void ProcessClick()
         {
             StopPlanning();
+            SelectBombPosition();
+        }
+
+        private void SelectBombPosition()
+        {
             HidePlanningTemplates();
             BombDropExecute();
         }

@@ -84,6 +84,11 @@ namespace Board
             return BoardTransform.TransformPoint(position);
         }
 
+        public static Vector3 WorldIntoBoard(Vector3 position)
+        {
+            return BoardTransform.InverseTransformPoint(position);
+        }
+
         //GET TRANSFORMS
 
         public static Transform GetBoard()
@@ -123,6 +128,18 @@ namespace Board
                     break;
                 }
             }
+            return result;
+        }
+
+        public static int GetRangeBetweenPoints(Vector3 pointA, Vector3 pointB)
+        {
+            int result = 0;
+
+            Vector3 boardPointA = WorldIntoBoard(pointA);
+            Vector3 boardPointB = WorldIntoBoard(pointB);
+
+            result = Mathf.CeilToInt(Vector3.Distance(boardPointA, boardPointB) / RANGE_1);
+
             return result;
         }
 

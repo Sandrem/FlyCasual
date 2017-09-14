@@ -20,7 +20,8 @@ public enum TriggerTypes
     OnFreeAction,
     OnTokenIsAssigned,
     OnTokenIsSpent,
-    OnActionPhaseStart,
+    OnActivationPhaseStart,
+    OnActivationPhaseEnd,
     OnCombatPhaseStart,
     OnAttackHit,
     OnFaceupCritCardReadyToBeDealt,
@@ -29,7 +30,8 @@ public enum TriggerTypes
     OnFaceupCritCardIsDealt,
     OnMajorExplosionCrit,
     OnAbilityTargetIsSelected,
-    OnEndPhaseStart
+    OnEndPhaseStart,
+    OnBombDetonated
 }
 
 public class Trigger

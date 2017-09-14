@@ -6,26 +6,23 @@ using System.Linq;
 namespace SubPhases
 {
 
-    public class ActivationStartSubPhase : GenericSubPhase
+    public class ActivationEndSubPhase : GenericSubPhase
     {
 
         public override void Start()
         {
-            Name = "Activation start";
+            Name = "Activation end";
             UpdateHelpInfo();
         }
 
         public override void Initialize()
         {
-            Phases.CallActivationPhaseStartTrigger();
+            Phases.CallActivationPhaseEndTrigger();
         }
 
         public override void Next()
         {
-            Phases.CurrentSubPhase = new ActivationSubPhase();
-            Phases.CurrentSubPhase.Start();
-            Phases.CurrentSubPhase.Prepare();
-            Phases.CurrentSubPhase.Initialize();
+            Phases.NextPhase();
         }
 
         public override bool ThisShipCanBeSelected(Ship.GenericShip ship)

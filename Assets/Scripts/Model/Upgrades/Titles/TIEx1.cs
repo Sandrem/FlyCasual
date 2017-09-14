@@ -1,11 +1,11 @@
 ﻿using Ship;
 using Ship.TIEAdvanced;
 using Upgrade;
-using UnityEngine;
+using System.Collections.Generic;
 
 namespace UpgradesList
 {
-    public class TIEx1 : GenericUpgrade
+    public class TIEx1 : GenericUpgradeSlotUpgrade
     {
         public TIEx1() : base()
         {
@@ -13,26 +13,15 @@ namespace UpgradesList
             Name = ShortName = "TIE/x1";
             ImageUrl = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/upgrades/Title/tie-x1.png";
             Cost = 0;
+            AddedSlots = new List<UpgradeSlot>
+            {
+                new UpgradeSlot(UpgradeType.System) { CostDecrease = 4 }
+            };
         }
 
         public override bool IsAllowedForShip(GenericShip ship)
         {
             return ship is TIEAdvanced;
-        }
-
-        public override void PreAttachToShip(GenericShip host)
-        {
-            base.PreAttachToShip(host);
-
-            UpgradeSlot newSlot = new UpgradeSlot(UpgradeType.System) { GrantedBy = this, CostDecrease = 4 };
-            host.UpgradeBar.AddSlot(newSlot);
-        }
-
-        public override void PreDettachFromShip()
-        {
-            base.PreDettachFromShip();
-
-            Host.UpgradeBar.RemoveSlot(UpgradeType.System, this);
         }
     }
 }

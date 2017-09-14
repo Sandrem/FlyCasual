@@ -24,7 +24,7 @@ namespace Upgrade
         {
             base.AttachToShip(host);
 
-            if (IsDropAfterManeuverRevealed) host.OnMovementStart += RegisterAskDropBomb;
+            if (IsDropAfterManeuverRevealed) host.OnManeuverIsRevealed += RegisterAskDropBomb;
             if (IsDropAsAction) host.AfterGenerateAvailableActionsList += PerformDropBombAction;
         }
 
@@ -41,7 +41,7 @@ namespace Upgrade
             {
                 Name = Name + " : Ask to drop",
                 TriggerOwner = host.Owner.PlayerNo,
-                TriggerType = TriggerTypes.OnShipMovementStart,
+                TriggerType = TriggerTypes.OnManeuverIsRevealed,
                 EventHandler = AskDropBomb
             });
         }
@@ -52,7 +52,7 @@ namespace Upgrade
             Phases.StartTemporarySubPhase(
                 Name,
                 typeof(SubPhases.DropBombDecisionSubPhase),
-                delegate () { Triggers.FinishTrigger(); }
+                delegate { Triggers.FinishTrigger(); }
             );
         }
 

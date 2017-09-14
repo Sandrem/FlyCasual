@@ -20,13 +20,15 @@ namespace SubPhases
 
         public override void Initialize()
         {
+            UI.HideContextMenu();
+
             Selection.ThisShip.IsManeuverPerformed = true;
             Roster.AllShipsHighlightOff();
             Selection.ThisShip.ObstaclesHit = new List<Collider>();
 
             Selection.ThisShip.CallManeuverIsReadyToBeRevealed();
 
-            Selection.ThisShip.AssignedManeuver.Perform();
+            Selection.ThisShip.CallManeuverIsRevealed(Selection.ThisShip.AssignedManeuver.Perform);
         }
 
         public override void Next()

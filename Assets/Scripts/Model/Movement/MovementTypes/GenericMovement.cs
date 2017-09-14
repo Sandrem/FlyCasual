@@ -274,7 +274,6 @@ namespace Movement
 
         public virtual void Perform()
         {
-            UI.HideContextMenu();
             ProgressCurrent = 0f;
         }
 

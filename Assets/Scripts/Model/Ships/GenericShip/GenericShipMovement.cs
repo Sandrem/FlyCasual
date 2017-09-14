@@ -34,6 +34,7 @@ namespace Ship
         public event EventHandlerShipMovement AfterGetManeuverAvailablity;
 
         public event EventHandlerShip OnManeuverIsReadyToBeRevealed;
+        public event EventHandlerShip OnManeuverIsRevealed;
         public event EventHandlerShip OnMovementStart;
         public event EventHandlerShip OnMovementExecuted;
         public event EventHandlerShip OnMovementFinish;
@@ -46,6 +47,13 @@ namespace Ship
         public void CallManeuverIsReadyToBeRevealed()
         {
             if (OnManeuverIsReadyToBeRevealed != null) OnManeuverIsReadyToBeRevealed(this);
+        }
+
+        public void CallManeuverIsRevealed(System.Action callBack)
+        {
+            if (OnManeuverIsRevealed != null) OnManeuverIsRevealed(this);
+
+            Triggers.ResolveTriggers(TriggerTypes.OnManeuverIsRevealed, callBack);
         }
 
         public void StartMoving(System.Action callback)

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Ship;
+using Bombs;
 
 namespace Upgrade
 {
@@ -47,7 +48,7 @@ namespace Upgrade
 
         public virtual void AskDropBomb(object sender, System.EventArgs e)
         {
-            Bombs.CurrentBombToDrop = this;
+            BombsManager.CurrentBombToDrop = this;
             Phases.StartTemporarySubPhase(
                 Name,
                 typeof(SubPhases.DropBombDecisionSubPhase),
@@ -92,7 +93,7 @@ namespace SubPhases
         {
             Phases.StartTemporarySubPhase(
                 "Bomb drop planning",
-                typeof(SubPhases.BombDropPlanningSubPhase),
+                typeof(BombDropPlanningSubPhase),
                 ConfirmDecision
             );
         }

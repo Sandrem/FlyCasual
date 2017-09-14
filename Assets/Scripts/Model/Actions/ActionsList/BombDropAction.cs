@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Board;
+using Bombs;
+using System.Linq;
 
 namespace ActionsList
 {
@@ -17,7 +19,7 @@ namespace ActionsList
         {
             Phases.CurrentSubPhase.Pause();
 
-            Bombs.CurrentBombToDrop = Source as Upgrade.GenericBomb;
+            BombsManager.CurrentBombToDrop = Source as Upgrade.GenericBomb;
             Phases.StartTemporarySubPhase(
                 "Bomb drop planning",
                 typeof(SubPhases.BombDropPlanningSubPhase),
@@ -49,12 +51,16 @@ namespace SubPhases
 
         public void StartBombDropPlanning()
         {
+            List<BombDropTemplates> allowedTemplates = Selection.ThisShip.GetAvailableBombDropTemplates();
             foreach (Transform bombDropHelper in Selection.ThisShip.GetBombDropHelper())
             {
-                AvailableBombDropDirections.Add(bombDropHelper.name, bombDropHelper.Find("Finisher").position);
+                if (allowedTemplates.Contains((BombDropTemplates)System.Enum.Parse(typeof(BombDropTemplates), bombDropHelper.name)))
+                {
+                    AvailableBombDropDirections.Add(bombDropHelper.name, bombDropHelper.Find("Finisher").position);
+                }
             }
 
-            GameObject prefab = (GameObject)Resources.Load(Bombs.CurrentBombToDrop.bombPrefabPath, typeof(GameObject));
+            GameObject prefab = (GameObject)Resources.Load(BombsManager.CurrentBombToDrop.bombPrefabPath, typeof(GameObject));
             BombObject = MonoBehaviour.Instantiate(prefab, Selection.ThisShip.GetPosition(), Selection.ThisShip.GetRotation(), BoardManager.GetBoard());
             Roster.SetRaycastTargets(false);
 
@@ -144,7 +150,7 @@ namespace SubPhases
 
         private void BombDropExecute()
         {
-            Bombs.CurrentBombToDrop.ActivateBomb(BombObject);
+            BombsManager.CurrentBombToDrop.ActivateBomb(BombObject);
 
             Phases.FinishSubPhase(typeof(BombDropPlanningSubPhase));
             CallBack();

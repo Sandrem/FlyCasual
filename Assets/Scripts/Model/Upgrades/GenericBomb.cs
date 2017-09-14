@@ -66,6 +66,7 @@ namespace Upgrade
 
         public void ActivateBomb(GameObject bombObject)
         {
+            Host.IsBombAlreadyDropped = true;
             //TODO: Activate dropped bomb
         }
 

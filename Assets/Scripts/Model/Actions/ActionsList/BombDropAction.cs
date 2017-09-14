@@ -26,6 +26,11 @@ namespace ActionsList
                 Phases.CurrentSubPhase.CallBack
             );
         }
+
+        public override bool IsActionAvailable()
+        {
+            return !Selection.ThisShip.IsBombAlreadyDropped;
+        }
     }
 
 }

@@ -75,7 +75,7 @@ namespace Ship
 
         public bool CanPerformAction(ActionsList.GenericAction action)
         {
-            bool result = true;
+            bool result = action.IsActionAvailable();
 
             if (OnTryAddAvailableAction != null) OnTryAddAvailableAction(action, ref result);
 

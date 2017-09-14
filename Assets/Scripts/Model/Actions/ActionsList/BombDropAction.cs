@@ -149,9 +149,7 @@ namespace SubPhases
 
             // TODO: Activate bomb here
 
-            Debug.Log(Phases.CurrentSubPhase);
             Phases.FinishSubPhase(typeof(BombDropPlanningSubPhase));
-            Debug.Log(Phases.CurrentSubPhase);
             CallBack();
         }
 
@@ -169,7 +167,6 @@ namespace SubPhases
         public override void Next()
         {
             Phases.CurrentSubPhase = PreviousSubPhase;
-            Phases.CurrentSubPhase.Next();
             UpdateHelpInfo();
         }
 

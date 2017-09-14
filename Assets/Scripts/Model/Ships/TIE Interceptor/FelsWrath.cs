@@ -25,6 +25,7 @@ namespace Ship
 			public override void InitializePilot ()
 			{
 				base.InitializePilot ();
+				Phases.OnEndPhaseStart += ProcessFelsWrath;
 			}
 
 			public override void IsHullDestroyedCheck(Action callBack)
@@ -32,27 +33,31 @@ namespace Ship
 				if (Hull == 0 && !IsDestroyed && !isDestructionIsDelayed)
 				{
 					isDestructionIsDelayed = true;
+				}
 
-					Triggers.RegisterTrigger(
-						new Trigger()
-						{
-							Name = "Fel's Wrath Ability",
-							TriggerOwner = this.Owner.PlayerNo,
-							TriggerType = TriggerTypes.OnEndPhaseStart,
-							EventHandler = delegate{
-								CleanUpFelsWrath(callBack);
-							}
-						}
-					);
-				}
-				else
-				{
-					callBack();
-				}
+				callBack();
 			}
 
-			private void CleanUpFelsWrath(Action callBack){
-				DestroyShip(callBack, true);
+			public void ProcessFelsWrath()
+			{
+				Triggers.RegisterTrigger(
+					new Trigger()
+					{
+						Name = "Fel's Wrath Ability",
+						TriggerOwner = this.Owner.PlayerNo,
+						TriggerType = TriggerTypes.OnEndPhaseStart,
+						EventHandler = CleanUpFelsWrath
+					}
+				);
+			}
+
+			private void CleanUpFelsWrath(object sender, System.EventArgs e){
+				if (isDestructionIsDelayed) {
+					Selection.ThisShip = this;
+					DestroyShip (Triggers.FinishTrigger, true);
+				} else {
+					Triggers.FinishTrigger ();
+				}
 			}
 		}
 	}

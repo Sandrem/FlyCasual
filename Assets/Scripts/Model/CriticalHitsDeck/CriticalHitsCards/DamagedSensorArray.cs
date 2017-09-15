@@ -12,7 +12,6 @@ namespace CriticalHitCard
         {
             Name = "Damaged Sensor Array";
             Type = CriticalCardType.Ship;
-            ImageUrl = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/damage-decks/core-tfa/damaged-sensor-array.png";
             CancelDiceResults.Add(DiceSide.Success);
             CancelDiceResults.Add(DiceSide.Crit);
         }

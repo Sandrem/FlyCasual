@@ -14,7 +14,19 @@ namespace CriticalHitCard
         public string Name;
         public CriticalCardType Type;
         public List<DiceSide> CancelDiceResults = new List<DiceSide>();
-        public string ImageUrl;
+
+        private string imageUrl;
+        public string ImageUrl
+        {
+            get
+            {
+                return imageUrl ?? ImageUrls.GetImageUrl(this);
+            }
+            set
+            {
+                imageUrl = value;
+            }
+        }
 
         public void AssignCrit(Ship.GenericShip host)
         {

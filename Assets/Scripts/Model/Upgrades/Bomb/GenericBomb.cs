@@ -1,10 +1,8 @@
-﻿using System;
+﻿using UnityEngine;
+using Ship;
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using Ship;
-using Bombs;
-using System.Linq;
 
 namespace Upgrade
 {
@@ -26,24 +24,26 @@ namespace Upgrade
             base.AttachToShip(host);
         }
 
-        public virtual void PayDropCost(Action callBack)
+        public virtual void PayDropCost()
         {
             if (IsDiscardedAfterDropped) Discard();
-
-            callBack();
         }
 
         public virtual void ActivateBomb(GameObject bombObject, Action callBack)
         {
             BombObject = bombObject;
             Host.IsBombAlreadyDropped = true;
-            Discard();
+            PayDropCost();
         }
 
         public virtual void Detonate(object sender, EventArgs e)
         {
-            GameObject.Destroy(BombObject);
+            PlayDetonationAnimSound(ResolveDetonationTriggers);
+        }
 
+        private void ResolveDetonationTriggers()
+        {
+            GameObject.Destroy(BombObject);
             Triggers.ResolveTriggers(TriggerTypes.OnBombDetonated, Triggers.FinishTrigger);
         }
 
@@ -62,6 +62,11 @@ namespace Upgrade
         }
 
         public virtual void ExplosionEffect(GenericShip ship, Action callBack)
+        {
+            callBack();
+        }
+
+        public virtual void PlayDetonationAnimSound(Action callBack)
         {
             callBack();
         }

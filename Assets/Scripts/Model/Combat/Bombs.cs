@@ -20,7 +20,7 @@ namespace Bombs
 
     public static class BombsManager
     {
-        public static GenericBomb CurrentBombToDrop { get; set; }
+        public static GenericBomb CurrentBomb { get; set; }
 
         private static List<Vector3> generatedBombPoints = new List<Vector3>();
         private static Dictionary<GameObject, GenericBomb> minesList = new Dictionary<GameObject, GenericBomb>();

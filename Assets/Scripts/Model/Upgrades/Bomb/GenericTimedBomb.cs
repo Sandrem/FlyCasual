@@ -36,7 +36,7 @@ namespace Upgrade
 
         private void AskDropBomb(object sender, System.EventArgs e)
         {
-            BombsManager.CurrentBombToDrop = this;
+            BombsManager.CurrentBomb = this;
             Phases.StartTemporarySubPhase(
                 Name,
                 typeof(SubPhases.DropBombDecisionSubPhase),

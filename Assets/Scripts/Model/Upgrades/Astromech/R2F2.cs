@@ -50,7 +50,7 @@ namespace ActionsList
 
         public override void ActionTake()
         {
-            Sounds.PlaySoundOnce("Astromech-Beeping-and-whistling");
+            Sounds.PlayShipSound("Astromech-Beeping-and-whistling");
 
             host = Selection.ThisShip;
             host.ChangeAgilityBy(+1);

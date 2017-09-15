@@ -19,7 +19,7 @@ namespace ActionsList
         {
             Phases.CurrentSubPhase.Pause();
 
-            BombsManager.CurrentBombToDrop = Source as Upgrade.GenericBomb;
+            BombsManager.CurrentBomb = Source as Upgrade.GenericBomb;
             Phases.StartTemporarySubPhase(
                 "Bomb drop planning",
                 typeof(SubPhases.BombDropPlanningSubPhase),
@@ -67,7 +67,7 @@ namespace SubPhases
 
                 //Temporary
                 GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-                Game.Wait(1, SelectBombPosition);
+                Game.Wait(0.5f, SelectBombPosition);
             }
             else
             {
@@ -77,7 +77,7 @@ namespace SubPhases
 
         private void CreateBombObject()
         {
-            GameObject prefab = (GameObject)Resources.Load(BombsManager.CurrentBombToDrop.bombPrefabPath, typeof(GameObject));
+            GameObject prefab = (GameObject)Resources.Load(BombsManager.CurrentBomb.bombPrefabPath, typeof(GameObject));
             BombObject = MonoBehaviour.Instantiate(prefab, Selection.ThisShip.GetPosition(), Selection.ThisShip.GetRotation(), BoardManager.GetBoard());
         }
 
@@ -185,7 +185,7 @@ namespace SubPhases
 
         private void BombDropExecute()
         {
-            BombsManager.CurrentBombToDrop.ActivateBomb(BombObject, FinishAction);
+            BombsManager.CurrentBomb.ActivateBomb(BombObject, FinishAction);
         }
 
         private void FinishAction()

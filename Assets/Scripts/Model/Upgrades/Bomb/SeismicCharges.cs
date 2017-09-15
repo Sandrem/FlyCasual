@@ -43,6 +43,23 @@ namespace UpgradesList
             Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, callBack);
         }
 
+        public override void PlayDetonationAnimSound(Action callBack)
+        {
+            BombObject.transform.Find("Explosion/Explosion").GetComponent<ParticleSystem>().Play();
+
+            GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
+            Game.Wait(1, delegate { PlayDefferedSound(callBack); });
+        }
+
+        private void PlayDefferedSound(Action callBack)
+        {
+            Sounds.PlayBombSound("SeismicBomb");
+            BombObject.transform.Find("Explosion/Ring").GetComponent<ParticleSystem>().Play();
+
+            GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
+            Game.Wait(1.4f, delegate { callBack(); });
+        }
+
     }
 
 }

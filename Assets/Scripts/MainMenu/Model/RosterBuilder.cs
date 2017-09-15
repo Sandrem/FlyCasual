@@ -267,6 +267,8 @@ public static partial class RosterBuilder {
 
         //SetAvailableUpgrades(squadBuilderShip);
         //OrganizeUpgradeLines(squadBuilderShip.Panel);
+
+        SetSkinsDropdown(squadBuilderShip, GetSkins(squadBuilderShip.Ship));
         UpdateUpgradePanelsDiff(squadBuilderShip);
         UpdateShipCost(squadBuilderShip);
 

@@ -14,6 +14,8 @@ namespace Ship
                 ImageUrl = "https://vignette4.wikia.nocookie.net/xwing-miniatures/images/6/61/Blue-squadron-pilot.png";
                 PilotSkill = 2;
                 Cost = 22;
+
+                nameOfSkin = "Blue";
             }
         }
     }

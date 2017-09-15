@@ -221,6 +221,7 @@ namespace Ship
         public virtual void InitializePilot()
         {
             SetShipInsertImage();
+            SetShipSkin();
         }
 
         private void InitializeSlots()

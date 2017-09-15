@@ -12,9 +12,12 @@ namespace Ship
             {
                 PilotName = "Horton Salm";
                 ImageUrl = "https://vignette4.wikia.nocookie.net/xwing-miniatures/images/5/56/Horton_Salm.png";
-                IsUnique = true;
                 PilotSkill = 8;
                 Cost = 25;
+
+                IsUnique = true;
+
+                nameOfSkin = "Gray";
             }
 
             public override void InitializePilot()

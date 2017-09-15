@@ -32,6 +32,8 @@ namespace Ship
                 factions.Add(Faction.Rebels);
                 faction = Faction.Rebels;
 
+                nameOfSkin = "Yellow";
+
                 SoundShotsPath = "XWing-Laser";
                 ShotsCount = 2;
 

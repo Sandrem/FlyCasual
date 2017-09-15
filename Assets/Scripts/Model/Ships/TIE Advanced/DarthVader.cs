@@ -19,6 +19,9 @@ namespace Ship
                 IsUnique = true;
                 PilotSkill = 9;
                 Cost = 29;
+
+                nameOfSkin = "Blue";
+
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
             }
 

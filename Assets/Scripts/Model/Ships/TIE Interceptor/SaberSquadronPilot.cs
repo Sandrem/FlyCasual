@@ -16,6 +16,8 @@ namespace Ship
                 Cost = 21;
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
+
+                nameOfSkin = "Red Stripes";
             }
         }
     }

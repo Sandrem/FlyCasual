@@ -35,6 +35,8 @@ namespace Ship
                 factions.Add(Faction.Empire);
                 faction = Faction.Empire;
 
+                nameOfSkin = "Gray";
+
                 SoundShotsPath = "Slave1-Fire";
                 ShotsCount = 3;
 

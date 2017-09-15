@@ -236,6 +236,7 @@ public static partial class RosterBuilder {
     {
         squadBuilderShip.UpdateShip(ChangeShipHolder(squadBuilderShip));
 
+        SetSkinsDropdown(squadBuilderShip, GetSkins(squadBuilderShip.Ship));
         UpdateUpgradePanelsFull(squadBuilderShip);
         UpdateShipCost(squadBuilderShip);
 

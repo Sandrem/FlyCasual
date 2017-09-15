@@ -34,6 +34,7 @@ public static partial class RosterBuilder {
             SquadBuilderShip copiedShip = SquadBuilderRoster.GetShipsByPlayer(playerNo).Last();
 
             CopyShipType(originalShip, copiedShip);
+            CopySkinDropdown(originalShip, copiedShip);
             CopyShipPilot(originalShip, copiedShip);
             CopyShipUpgrades(originalShip, copiedShip);
 
@@ -57,6 +58,13 @@ public static partial class RosterBuilder {
                 break;
             }
         }
+    }
+
+    private static void CopySkinDropdown(SquadBuilderShip originalShip, SquadBuilderShip copiedShip)
+    {
+        Dropdown copiedShipDropdown = copiedShip.Panel.transform.Find("GroupShip/DropdownSkin").GetComponent<Dropdown>();
+        Dropdown originalShipDropdown = originalShip.Panel.transform.Find("GroupShip/DropdownSkin").GetComponent<Dropdown>();
+        copiedShipDropdown.value = originalShipDropdown.value;
     }
 
     private static void CopyShipPilot(SquadBuilderShip originalShip, SquadBuilderShip copiedShip)

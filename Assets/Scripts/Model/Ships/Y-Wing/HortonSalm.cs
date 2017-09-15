@@ -17,7 +17,11 @@ namespace Ship
 
                 IsUnique = true;
 
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Astromech);
+
                 SkinName = "Gray";
+
+                faction = Faction.Rebels;
             }
 
             public override void InitializePilot()

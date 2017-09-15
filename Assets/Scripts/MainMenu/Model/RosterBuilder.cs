@@ -331,7 +331,9 @@ public static partial class RosterBuilder {
 
         foreach (var type in typelist)
         {
-            Ship.GenericShip newShipContainer = (Ship.GenericShip)System.Activator.CreateInstance(type);
+            if (type.MemberType == MemberTypes.NestedType) continue;
+
+            GenericShip newShipContainer = (GenericShip)System.Activator.CreateInstance(type);
             if ((newShipContainer.PilotName != null) && (!newShipContainer.IsHidden))
             {
                 string pilotKey = newShipContainer.PilotName + " (" + newShipContainer.Cost + ")";
@@ -373,6 +375,8 @@ public static partial class RosterBuilder {
 
         foreach (var type in typelist)
         {
+            if (type.MemberType == MemberTypes.NestedType) continue;
+
             GenericUpgrade newUpgrade = (GenericUpgrade)System.Activator.CreateInstance(type);
             if (!newUpgrade.IsHidden)
             {

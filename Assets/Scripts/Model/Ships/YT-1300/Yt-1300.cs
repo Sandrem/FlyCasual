@@ -32,12 +32,12 @@ namespace Ship
                 factions.Add(Faction.Rebels);
                 faction = Faction.Rebels;
 
-                SoundShotsPath = "XWing-Laser";
+                SoundShotsPath = "Falcon-Fire";
                 ShotsCount = 2;
 
                 for (int i = 1; i < 4; i++)
                 {
-                    SoundFlyPaths.Add("XWing-Fly" + i);
+                    SoundFlyPaths.Add("Falcon-Fly" + i);
                 }
                 
             }

@@ -99,8 +99,6 @@ namespace Upgrade
 
         public override void Detonate(object sender, EventArgs e)
         {
-            Messages.ShowError("BOOM!!!");
-
             BombsManager.UnregisterMine(BombObject);
             RegisterDetonationTriggerForShip(sender as GenericShip);
 

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Upgrade;
 using Ship;
+using Bombs;
 
 namespace UpgradesList
 {
@@ -45,6 +46,7 @@ namespace UpgradesList
 
         public override void PlayDetonationAnimSound(Action callBack)
         {
+            BombsManager.CurrentBomb = this;
             BombObject.transform.Find("Explosion/Explosion").GetComponent<ParticleSystem>().Play();
 
             GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();

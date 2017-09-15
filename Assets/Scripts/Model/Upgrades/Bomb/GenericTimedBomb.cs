@@ -66,8 +66,6 @@ namespace Upgrade
 
         public override void Detonate(object sender, EventArgs e)
         {
-            Messages.ShowError("BOOM!!!");
-
             Phases.OnActivationPhaseEnd -= PlanTimedDetonation;
             foreach (var ship in GetShipsInRange())
             {
@@ -133,12 +131,19 @@ namespace SubPhases
 
         public override void Prepare()
         {
-            infoText = "Drop " + Phases.CurrentSubPhase.Name + "?";
+            if (!Selection.ThisShip.IsBombAlreadyDropped)
+            {
+                infoText = "Drop " + Phases.CurrentSubPhase.Name + "?";
 
-            AddDecision("Yes", DropBomb);
-            AddDecision("No", SkipDropBomb);
+                AddDecision("Yes", DropBomb);
+                AddDecision("No", SkipDropBomb);
 
-            defaultDecision = "No";
+                defaultDecision = "No";
+            }
+            else
+            {
+                SkipDropBomb(null, null);
+            }
         }
 
         private void DropBomb(object sender, System.EventArgs e)

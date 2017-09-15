@@ -17,7 +17,7 @@ namespace Ship
 
                 IsUnique = true;
 
-                nameOfSkin = "Gray";
+                SkinName = "Gray";
             }
 
             public override void InitializePilot()

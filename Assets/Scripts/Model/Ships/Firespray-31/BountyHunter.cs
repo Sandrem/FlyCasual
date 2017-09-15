@@ -15,7 +15,7 @@ namespace Ship
                 PilotSkill = 3;
                 Cost = 33;
 
-                nameOfSkin = "Bounty Hunter";
+                SkinName = "Bounty Hunter";
             }
         }
     }

@@ -10,7 +10,7 @@ namespace Ship
         private Transform shipAllParts;
         private Transform modelCenter;
 
-        protected string nameOfSkin;
+        public string SkinName;
 
         public void CreateModel(Vector3 position)
         {
@@ -86,9 +86,9 @@ namespace Ship
 
         public void SetShipSkin()
         {
-            if (!string.IsNullOrEmpty(nameOfSkin))
+            if (!string.IsNullOrEmpty(SkinName))
             {
-                Texture skin = (Texture)Resources.Load("ShipSkins/" + Type + "/" + nameOfSkin, typeof(Texture));
+                Texture skin = (Texture)Resources.Load("ShipSkins/" + Type + "/" + SkinName, typeof(Texture));
 
                 foreach (Transform modelPart in GetModelTransform())
                 {

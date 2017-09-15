@@ -17,7 +17,7 @@ namespace Ship
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
-                nameOfSkin = "Royal Guard";
+                SkinName = "Royal Guard";
             }
         }
     }

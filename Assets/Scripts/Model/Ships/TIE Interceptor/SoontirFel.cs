@@ -21,7 +21,7 @@ namespace Ship
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
-                nameOfSkin = "Red Stripes";
+                SkinName = "Red Stripes";
             }
 
             public override void InitializePilot()

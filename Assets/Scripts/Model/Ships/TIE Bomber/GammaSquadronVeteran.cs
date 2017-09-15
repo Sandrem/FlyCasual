@@ -17,7 +17,7 @@ namespace Ship
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
-                nameOfSkin = "White Stripes";
+                SkinName = "White Stripes";
             }
         }
     }

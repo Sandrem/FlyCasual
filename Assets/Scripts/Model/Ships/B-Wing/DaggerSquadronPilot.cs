@@ -15,7 +15,7 @@ namespace Ship
                 PilotSkill = 4;
                 Cost = 24;
 
-                nameOfSkin = "Red";
+                SkinName = "Red";
             }
         }
     }

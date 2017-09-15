@@ -232,7 +232,15 @@ public static partial class RosterBuilder {
         Dropdown skinDropdown = squadBuilderShip.Panel.transform.Find("GroupShip/DropdownSkin").GetComponent<Dropdown>();
         skinDropdown.ClearOptions();
         skinDropdown.AddOptions(skinNames);
-        SubscribeShipDropdown(squadBuilderShip);
+
+        for (int i = 0; i < skinDropdown.options.Count; i++)
+        {
+            if (skinDropdown.options[i].text == squadBuilderShip.Ship.SkinName)
+            {
+                skinDropdown.value = i;
+                break;
+            }
+        }
     }
 
     private static void UpdateUpgradePanelsFull(SquadBuilderShip squadBuilderShip)

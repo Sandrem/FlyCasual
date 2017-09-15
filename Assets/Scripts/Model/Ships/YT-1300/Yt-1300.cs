@@ -32,6 +32,8 @@ namespace Ship
                 factions.Add(Faction.Rebels);
                 faction = Faction.Rebels;
 
+                SkinName = "YT-1300";
+
                 SoundShotsPath = "Falcon-Fire";
                 ShotsCount = 2;
 

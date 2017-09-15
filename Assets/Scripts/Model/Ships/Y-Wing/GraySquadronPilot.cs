@@ -14,6 +14,8 @@ namespace Ship
                 ImageUrl = "https://vignette3.wikia.nocookie.net/xwing-miniatures/images/c/ca/Grey_Squadron_Pilot.jpg";
                 PilotSkill = 4;
                 Cost = 20;
+
+                SkinName = "Gray";
             }
         }
     }

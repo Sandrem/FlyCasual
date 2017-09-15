@@ -18,7 +18,10 @@ namespace Ship
                 Cost = 27;
 
                 IsUnique = true;
+
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
+
+                SkinName = "Red Stripes";
             }
 
             public override void InitializePilot()

@@ -10,6 +10,8 @@ namespace Ship
         private Transform shipAllParts;
         private Transform modelCenter;
 
+        public string SkinName;
+
         public void CreateModel(Vector3 position)
         {
             Model = CreateShipModel(position);
@@ -80,8 +82,21 @@ namespace Ship
             {
                 Debug.Log("Cannot find: " + pathToResource);
             }
-            
         }
+
+        public void SetShipSkin()
+        {
+            if (!string.IsNullOrEmpty(SkinName))
+            {
+                Texture skin = (Texture)Resources.Load("ShipSkins/" + Type + "/" + SkinName, typeof(Texture));
+
+                foreach (Transform modelPart in GetModelTransform())
+                {
+                    modelPart.GetComponent<Renderer>().material.SetTexture("_MainTex", skin);
+                }
+            }
+        }
+
 
         public void ToggleCollisionDetection(bool value)
         {
@@ -297,6 +312,11 @@ namespace Ship
         public Transform GetShipAllPartsTransform()
         {
             return shipAllParts;
+        }
+
+        public Transform GetModelTransform()
+        {
+            return shipAllParts.Find("ShipModels/" + Type + "/ModelCenter/Model");
         }
 
     }

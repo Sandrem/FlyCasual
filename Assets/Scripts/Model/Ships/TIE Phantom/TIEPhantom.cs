@@ -30,6 +30,8 @@ namespace Ship
                 factions.Add(Faction.Empire);
                 faction = Faction.Empire;
 
+                SkinName = "Gray";
+
                 SoundShotsPath = "TIE-Fire";
                 ShotsCount = 4;
 

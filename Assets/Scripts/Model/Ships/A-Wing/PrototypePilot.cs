@@ -14,6 +14,8 @@ namespace Ship
                 ImageUrl = "https://vignette2.wikia.nocookie.net/xwing-miniatures/images/f/fc/Prototype_Pilot.png";
                 PilotSkill = 1;
                 Cost = 17;
+
+                SkinName = "Blue";
             }
         }
     }

@@ -172,6 +172,7 @@ public static partial class RosterBuilder {
         Global.RemoveAllShips();
         foreach (var ship in SquadBuilderRoster.GetShips())
         {
+            ship.Ship.SkinName = GetSkinName(ship);
             Global.AddShip(ship.Ship, ship.Player, GetShipCostCalculated(ship));
         }
     }
@@ -210,11 +211,25 @@ public static partial class RosterBuilder {
 
         SetShipsDropdown(squadBuilderShip, shipResults);
         SetPilotsDropdown(squadBuilderShip, pilotResults);
+        SetSkinsDropdown(squadBuilderShip, GetSkins(ship));
         SetAvailableUpgrades(squadBuilderShip);
 
         OrganizeUpgradeLines(panel);
         UpdateShipCost(squadBuilderShip);
         OrganizeShipsList(playerNo);
+    }
+
+    private static List<string> GetSkins(GenericShip ship)
+    {
+        List<string> result = new List<string>();
+
+        UnityEngine.Object[] textures = Resources.LoadAll("ShipSkins/" + ship.Type + "/");
+        foreach (var texture in textures)
+        {
+            result.Add(texture.name);
+        }
+
+        return result;
     }
 
     private static void ChangeShip(SquadBuilderShip squadBuilderShip)

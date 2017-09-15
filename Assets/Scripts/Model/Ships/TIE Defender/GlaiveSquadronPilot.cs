@@ -16,6 +16,8 @@ namespace Ship
                 Cost = 34;
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
+
+                SkinName = "Royal Guard";
             }
         }
     }

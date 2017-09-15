@@ -7,6 +7,7 @@ namespace UpgradesList
 {
 	public class PushTheLimit : GenericUpgrade
 	{
+        private bool IsUsed = false;
 
 		public PushTheLimit() : base()
 		{
@@ -21,21 +22,24 @@ namespace UpgradesList
 			base.AttachToShip(host);
 
 			host.OnActionDecisionSubphaseEnd += DoSecondAction;
-		}
+
+            Phases.OnEndPhaseStart += Cleanup;
+        }
 
 		private void DoSecondAction(Ship.GenericShip ship)
 		{
-			if (!ship.HasToken(typeof(Tokens.StressToken)))
+			if (!IsUsed && (!ship.HasToken(typeof(Tokens.StressToken)) || ship.CanPerformActionsWhileStressed))
 			{
-				Triggers.RegisterTrigger(
-					new Trigger()
-					{
-						Name = "Push The Limit Action",
-						TriggerOwner = ship.Owner.PlayerNo,
-						TriggerType = TriggerTypes.OnFreeAction,
-						EventHandler = PerformPushAction
-					}
-				);
+                IsUsed = true;
+                Triggers.RegisterTrigger(
+                    new Trigger()
+                    {
+                        Name = "Push The Limit Action",
+                        TriggerOwner = ship.Owner.PlayerNo,
+                        TriggerType = TriggerTypes.OnFreeAction,
+                        EventHandler = PerformPushAction
+                    }
+                );
 			}
 		}
 
@@ -45,6 +49,11 @@ namespace UpgradesList
 			List<ActionsList.GenericAction> actions = Selection.ThisShip.GetAvailableActionsList();
 			base.Host.AskPerformFreeAction(actions, AddStressToken);
 		}
+
+        private void Cleanup()
+        {
+            IsUsed = false;
+        }
 
 		private void AddStressToken()
 		{

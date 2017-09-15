@@ -269,13 +269,10 @@ public static partial class RosterBuilder {
     private static void ChangeUpgrade(SquadBuilderShip squadBuilderShip, SquadBuilderUpgrade upgrade)
     {
         string upgradeId = GetNameOfUpgrade(upgrade);
+        if (upgrade.Slot.InstalledUpgrade != null) upgrade.Slot.RemovePreInstallUpgrade();
         if (!string.IsNullOrEmpty(upgradeId))
         {
             upgrade.Slot.PreInstallUpgrade((GenericUpgrade)Activator.CreateInstance(Type.GetType(upgradeId)), squadBuilderShip.Ship);
-        }
-        else
-        {
-            if (upgrade.Slot.InstalledUpgrade != null) upgrade.Slot.RemovePreInstallUpgrade();
         }
 
         UpdateUpgradePanelsDiff(squadBuilderShip);

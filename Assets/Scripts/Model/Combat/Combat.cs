@@ -22,7 +22,8 @@ public enum DamageTypes
 {
     ShipAttack,
     ObstacleCollision,
-    CriticalHitCard
+    CriticalHitCard,
+    BombDetonation
 }
 
 public static partial class Combat

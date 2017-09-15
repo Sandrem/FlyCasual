@@ -132,14 +132,14 @@ namespace Ship
 
         public void ToggleIonized(bool isIonized)
         {
-            if (isIonized) Sounds.PlaySoundOnce("Ionization");
+            if (isIonized) Sounds.PlayShipSound("Ionization");
             shipAllParts.Find("Ionization").gameObject.SetActive(isIonized);
         }
 
         public void PlayDestroyedAnimSound(System.Action callBack)
         {
             int random = Random.Range(1, 8);
-            Sounds.PlaySoundOnce("Explosion-" + random);
+            Sounds.PlayShipSound("Explosion-" + random);
             shipAllParts.Find("Explosion/Explosion").GetComponent<ParticleSystem>().Play();
             shipAllParts.Find("Explosion/Debris").GetComponent<ParticleSystem>().Play();
             shipAllParts.Find("Explosion/Sparks").GetComponent<ParticleSystem>().Play();
@@ -211,6 +211,11 @@ namespace Ship
         public Transform GetBoosterHelper()
         {
             return shipAllParts.Find("ShipBase/BoostHelper");
+        }
+
+        public Transform GetBombDropHelper()
+        {
+            return shipAllParts.Find("ShipBase/BombDropHelper");
         }
 
         public Transform GetDecloakHelper()

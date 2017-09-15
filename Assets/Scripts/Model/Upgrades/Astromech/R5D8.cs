@@ -84,7 +84,7 @@ namespace SubPhases
             {
                 if (Selection.ThisShip.TryDiscardFaceDownDamageCard())
                 {
-                    Sounds.PlaySoundOnce("R2D2-Proud");
+                    Sounds.PlayShipSound("R2D2-Proud");
                     Messages.ShowInfoToHuman("Facedown Damage card is discarded");
                 }
             }

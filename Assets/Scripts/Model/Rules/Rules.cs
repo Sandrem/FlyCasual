@@ -15,6 +15,7 @@ public static class Rules
     public static DuplicatedActionsRule DuplicatedActions { get; private set; }
     public static AsteroidLandedRule AsteroidLanded { get; private set; }
     public static AsteroidHitRule AsteroidHit { get; private set; }
+    public static MineHitRule MineHit { get; private set; }
     public static AsteroidObstructionRule AsteroidObstruction { get; private set; }
     public static InitiativeRule Initiative { get; private set; }
     public static TargetIsLegalForShotRule TargetIsLegalForShot { get; private set; }
@@ -33,6 +34,7 @@ public static class Rules
         DuplicatedActions = new DuplicatedActionsRule();
         AsteroidLanded = new AsteroidLandedRule();
         AsteroidHit = new AsteroidHitRule();
+        MineHit = new MineHitRule();
         AsteroidObstruction = new AsteroidObstructionRule();
         Initiative = new InitiativeRule();
         TargetIsLegalForShot = new TargetIsLegalForShotRule();

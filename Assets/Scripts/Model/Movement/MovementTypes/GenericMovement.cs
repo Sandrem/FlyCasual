@@ -274,14 +274,16 @@ namespace Movement
 
         public virtual void Perform()
         {
-            UI.HideContextMenu();
             ProgressCurrent = 0f;
         }
 
         public virtual void LaunchShipMovement()
         {
-            Selection.ThisShip.StartMoving();
+            Selection.ThisShip.StartMoving(LaunchShipMovementContinue);
+        }
 
+        private void LaunchShipMovementContinue()
+        {
             Selection.ThisShip.ShipsBumped.AddRange(movementPrediction.ShipsBumped);
             foreach (var bumpedShip in Selection.ThisShip.ShipsBumped)
             {
@@ -296,6 +298,11 @@ namespace Movement
             if (movementPrediction.AsteroidsHit.Count > 0)
             {
                 Selection.ThisShip.ObstaclesHit.AddRange(movementPrediction.AsteroidsHit);
+            }
+
+            if (movementPrediction.MinesHit.Count > 0)
+            {
+                Selection.ThisShip.MinesHit.AddRange(movementPrediction.MinesHit);
             }
 
             Sounds.PlayFly();

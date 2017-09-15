@@ -34,12 +34,12 @@ namespace Ship
                 factions.Add(Faction.Empire);
                 faction = Faction.Empire;
 
-                SoundShotsPath = "XWing-Laser";
+                SoundShotsPath = "Slave1-Fire";
                 ShotsCount = 3;
 
-                for (int i = 1; i < 4; i++)
+                for (int i = 1; i < 3; i++)
                 {
-                    SoundFlyPaths.Add("XWing-Fly" + i);
+                    SoundFlyPaths.Add("Slave1-Fly" + i);
                 }
                 
             }

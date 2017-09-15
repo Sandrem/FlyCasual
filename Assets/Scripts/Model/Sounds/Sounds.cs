@@ -5,11 +5,22 @@ using Players;
 
 public static class Sounds {
 
-    public static void PlaySoundOnce(string path)
+    public static void PlayShipSound(string path)
     {
-        AudioSource audio = Selection.ThisShip.Model.GetComponent<AudioSource>();
-        audio.volume = Options.SfxVolume * 1f / 5f;
-        audio.PlayOneShot((AudioClip)Resources.Load("Sounds/" + path));
+        AudioSource audioSource = Selection.ThisShip.Model.GetComponent<AudioSource>();
+        PlaySound(audioSource, path);
+    }
+
+    public static void PlayBombSound(string path)
+    {
+        AudioSource audioSource = Bombs.BombsManager.CurrentBomb.BombObject.transform.GetComponentInChildren<AudioSource>();
+        PlaySound(audioSource, path);
+    }
+
+    private static void PlaySound(AudioSource audioSource, string path)
+    {
+        audioSource.volume = Options.SfxVolume * 1f / 5f;
+        audioSource.PlayOneShot((AudioClip)Resources.Load("Sounds/" + path));
     }
 
     public static void PlayShots(string path, int times)
@@ -28,7 +39,7 @@ public static class Sounds {
         int soundsCount = Selection.ThisShip.SoundFlyPaths.Count;
         int selectedIndex = Random.Range(0, soundsCount);
 
-        PlaySoundOnce(Selection.ThisShip.SoundFlyPaths[selectedIndex]);
+        PlayShipSound(Selection.ThisShip.SoundFlyPaths[selectedIndex]);
     }
 
 }

@@ -66,6 +66,11 @@ namespace ActionsList
 
         }
 
+        public virtual bool IsActionAvailable()
+        {
+            return true;
+        }
+
         public virtual int GetActionPriority()
         {
             int result = 0;

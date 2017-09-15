@@ -86,6 +86,14 @@ public partial class DiceRoll
         }
     }
 
+    public bool IsEmpty
+    {
+        get
+        {
+            return DiceList.Count == 0;
+        }
+    }
+
     public int Successes
     {
         get

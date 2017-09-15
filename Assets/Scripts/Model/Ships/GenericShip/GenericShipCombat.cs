@@ -134,13 +134,14 @@ namespace Ship
         public event EventHandlerShipCritArgs OnFaceupCritCardReadyToBeDealt;
         public static event EventHandlerShipCritArgs OnFaceupCritCardReadyToBeDealtGlobal;
         public event EventHandlerShipCritArgs OnAssignCrit;
-        
 
         public event EventHandlerShip OnDestroyed;
 
         public event EventHandlerShip AfterAttackWindow;
 
         public event EventHandlerShip AfterCombatEnd;
+
+        public event EventHandlerBombDropTemplates OnGetAvailableBombDropTemplates;
 
         // TRIGGERS
 
@@ -459,6 +460,15 @@ namespace Ship
             return result;
         }
 
+        public List<Bombs.BombDropTemplates> GetAvailableBombDropTemplates()
+        {
+            List<Bombs.BombDropTemplates> availableTemplates = new List<Bombs.BombDropTemplates>() { Bombs.BombDropTemplates.Straight1 };
+
+            if (OnGetAvailableBombDropTemplates != null) OnGetAvailableBombDropTemplates(availableTemplates);
+
+            return availableTemplates;
+        }
+      
         public virtual bool CanAttackBumpedTarget(GenericShip defender)
         {
             return false;

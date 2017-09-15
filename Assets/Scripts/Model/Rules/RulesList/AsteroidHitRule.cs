@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using Ship;
 
 namespace RulesList
 {
@@ -13,10 +14,11 @@ namespace RulesList
 
         private void SubscribeEvents()
         {
+            GenericShip.OnMovementFinishGlobal += CheckDamage;
             Phases.BeforeActionSubPhaseStart += CheckSkipPerformAction;
         }
 
-        public void CheckSkipPerformAction()
+        private void CheckSkipPerformAction()
         {
             if (Selection.ThisShip.ObstaclesHit.Count > 0)
             {
@@ -25,7 +27,7 @@ namespace RulesList
             }
         }
 
-        public void CheckDamage(Ship.GenericShip ship)
+        private void CheckDamage(GenericShip ship)
         {
             if (Selection.ThisShip.ObstaclesHit.Count > 0)
             {

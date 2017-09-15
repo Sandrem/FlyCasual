@@ -15,7 +15,6 @@ namespace UpgradesList
 
             Name = "Mangler Cannon";
             ShortName = "Mangler";
-            ImageUrl = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/upgrades/Cannon/mangler-cannon.png";
             Cost = 4;
 
             MinRange = 1;

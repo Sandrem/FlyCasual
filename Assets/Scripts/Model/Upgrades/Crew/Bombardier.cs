@@ -10,7 +10,6 @@ namespace UpgradesList
         {
             Type = UpgradeType.Crew;
             Name = ShortName = "Bombardier";
-            ImageUrl = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/upgrades/Crew/bombardier.png";
             Cost = 1;
         }
 

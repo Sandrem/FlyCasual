@@ -10,7 +10,6 @@ namespace UpgradesList
         {
             Type = UpgradeType.Title;
             Name = ShortName = "Millennium Falcon";
-            ImageUrl = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/upgrades/Title/millennium-falcon.png";
             Cost = 1;
             isUnique = true;
         }

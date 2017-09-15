@@ -10,7 +10,7 @@ namespace UpgradesList
             Type = UpgradeType.Modification;
             Name = "Twin Ion Engine Mk. II";
             ShortName = "TIE MkII";
-            ImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/5/51/Twin-ion-engine-mk2-1-.png";
+            ImageUrl = ImageUrls.GetImageUrl(this, "twin-ion-engine-mk2.png");
             Cost = 1;
         }
 

@@ -15,7 +15,6 @@ namespace UpgradesList
 
             Type = UpgradeType.Elite;
             Name = ShortName = "Lone Wolf";
-            ImageUrl = "https://vignette3.wikia.nocookie.net/xwing-miniatures/images/6/60/Lone-wolf.png";
             Cost = 2;
         }
 

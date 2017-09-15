@@ -11,7 +11,6 @@ namespace UpgradesList
         {
             Type = UpgradeType.Title;
             Name = ShortName = "TIE Shuttle";
-            ImageUrl = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/upgrades/Title/tie-shuttle.png";
             Cost = 0;
             AddedSlots = new List<UpgradeSlot>
             {

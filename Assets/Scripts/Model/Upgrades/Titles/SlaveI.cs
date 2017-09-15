@@ -11,7 +11,6 @@ namespace UpgradesList
         {
             Type = UpgradeType.Title;
             Name = ShortName = "Slave I";
-            ImageUrl = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/upgrades/Title/slave-i.png";
             Cost = 0;
             isUnique = true;
             AddedSlots = new List<UpgradeSlot>

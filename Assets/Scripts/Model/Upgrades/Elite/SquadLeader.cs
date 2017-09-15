@@ -13,7 +13,6 @@ namespace UpgradesList
         {
             Type = UpgradeType.Elite;
             Name = ShortName = "Squad Leader";
-            ImageUrl = "https://vignette2.wikia.nocookie.net/xwing-miniatures/images/c/cd/Squad_Leader.png";
             isUnique = true;
             Cost = 2;
         }

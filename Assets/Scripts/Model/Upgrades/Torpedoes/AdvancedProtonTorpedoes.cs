@@ -15,7 +15,6 @@ namespace UpgradesList
 
 			Name = "Advanced Proton Torpedoes";
 			ShortName = "Adv Proton Torp.";
-			ImageUrl = "https://vignette2.wikia.nocookie.net/xwing-miniatures/images/c/c6/Advanced_Proton_Torpedoes.png";
 			Cost = 6;
 
 			MinRange = 1;

@@ -11,7 +11,6 @@ namespace UpgradesList
         {
             Type = UpgradeType.Torpedo;
             Name = ShortName = "Bomb Loadout";
-            ImageUrl = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/upgrades/Torpedo/bomb-loadout.png";
             Cost = 0;
             Limited = true;
             AddedSlots = new List<UpgradeSlot>

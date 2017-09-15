@@ -13,7 +13,6 @@ namespace UpgradesList
         {
             Type = UpgradeType.Astromech;
             Name = ShortName = "R5-K6";
-            ImageUrl = "https://vignette4.wikia.nocookie.net/xwing-miniatures/images/d/df/R5-K6.png";
             isUnique = true;
             Cost = 2;
         }

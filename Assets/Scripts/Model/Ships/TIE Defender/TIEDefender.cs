@@ -22,7 +22,7 @@ namespace Ship
                 MaxShields = 3;
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Cannon);
-                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Missiles);
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Missile);
 
                 AssignTemporaryManeuvers();
                 HotacManeuverTable = new AI.TIEDefenderTable();

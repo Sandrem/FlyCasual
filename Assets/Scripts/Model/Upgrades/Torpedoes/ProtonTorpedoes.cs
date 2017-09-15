@@ -11,11 +11,10 @@ namespace UpgradesList
     {
         public ProtonTorpedoes() : base()
         {
-            Type = UpgradeType.Torpedoes;
+            Type = UpgradeType.Torpedo;
 
             Name = "Proton Torpedoes";
             ShortName = "Proton Torp.";
-            ImageUrl = "https://vignette2.wikia.nocookie.net/xwing-miniatures/images/e/eb/Proton-torpedoes.png";
             Cost = 4;
 
             MinRange = 2;

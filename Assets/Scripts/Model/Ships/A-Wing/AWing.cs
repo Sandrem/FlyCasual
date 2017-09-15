@@ -21,7 +21,7 @@ namespace Ship
                 MaxHull = 2;
                 MaxShields = 2;
 
-                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Missiles);
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Missile);
 
                 AssignTemporaryManeuvers();
                 HotacManeuverTable = new AI.AWingTable();

@@ -14,7 +14,6 @@ namespace UpgradesList
 
             Name = "Ion Cannon Turret";
             ShortName = "Ion Cannon Turret";
-            ImageUrl = "https://vignette4.wikia.nocookie.net/xwing-miniatures/images/f/f3/Ion_Cannon_Turret.png";
             Cost = 5;
 
             MinRange = 1;

@@ -12,7 +12,6 @@ namespace UpgradesList
         {
             Type = UpgradeType.Title;
             Name = ShortName = "A-Wing Test Pilot";
-            ImageUrl = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/upgrades/Title/a-wing-test-pilot.png";
             Cost = 0;
             AddedSlots = new List<UpgradeSlot>
             {

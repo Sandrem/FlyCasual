@@ -7,7 +7,6 @@ namespace UpgradesList{
 			Type = UpgradeType.Modification;
 			Name = "Stealth Device";
 			ShortName = "Slth Dev";
-			ImageUrl = "https://vignette2.wikia.nocookie.net/xwing-miniatures/images/f/f8/Stealth_Device.png";
 			Cost = 3;
 		}
 

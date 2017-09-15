@@ -9,7 +9,6 @@ namespace UpgradesList
         {
             Type = UpgradeType.Modification;
             Name = ShortName = "Vectored Thrusters";
-            ImageUrl = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/upgrades/Modification/vectored-thrusters.png";
             Cost = 2;
         }
 

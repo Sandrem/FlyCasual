@@ -13,7 +13,6 @@ namespace UpgradesList
 		{
 			Type = UpgradeType.Elite;
 			Name = ShortName = "Push The Limit";
-			ImageUrl = "https://vignette3.wikia.nocookie.net/xwing-miniatures/images/5/59/Push_The_Limit.png";
 			Cost = 3;
 		}
 

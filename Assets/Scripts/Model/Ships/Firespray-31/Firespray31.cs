@@ -26,7 +26,7 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Cannon);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Bomb);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Crew);
-                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Missiles);
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Missile);
 
                 AssignTemporaryManeuvers();
                 HotacManeuverTable = new AI.Firespray31Table();

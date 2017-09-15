@@ -8,7 +8,6 @@ namespace UpgradesList
         {
             Type = UpgradeType.Elite;
             Name = ShortName = "Wired";
-            ImageUrl = "https://vignette3.wikia.nocookie.net/xwing-miniatures/images/e/e2/Wired-0.png";
             Cost = 1;
         }
 

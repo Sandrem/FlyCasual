@@ -8,7 +8,6 @@ namespace UpgradesList
         {
             Type = UpgradeType.Crew;
             Name = ShortName = "Nien Nunb";
-            ImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/0/07/Nien_Nunb.png";
             Cost = 2;
             isUnique = true;
         }

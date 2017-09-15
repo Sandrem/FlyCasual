@@ -24,7 +24,7 @@ namespace Ship
                 MaxShields = 5;
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Cannon);
-                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Missiles);
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Missile);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Crew);
 
                 AssignTemporaryManeuvers();

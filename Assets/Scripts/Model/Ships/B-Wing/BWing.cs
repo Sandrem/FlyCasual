@@ -23,8 +23,8 @@ namespace Ship
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.System);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Cannon);
-                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Torpedoes);
-                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Torpedoes);
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Torpedo);
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Torpedo);
 
                 AssignTemporaryManeuvers();
                 HotacManeuverTable = new AI.BWingTable();

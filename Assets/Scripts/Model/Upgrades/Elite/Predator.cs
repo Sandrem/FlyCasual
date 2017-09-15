@@ -14,7 +14,6 @@ namespace UpgradesList
         {
             Type = UpgradeType.Elite;
             Name = ShortName = "Predator";
-            ImageUrl = "https://vignette2.wikia.nocookie.net/xwing-miniatures/images/e/e9/Predator.png";
             Cost = 3;
         }
 

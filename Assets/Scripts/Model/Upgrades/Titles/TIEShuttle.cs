@@ -20,8 +20,8 @@ namespace UpgradesList
             };
             ForbiddenSlots = new List<UpgradeType>
             {
-                UpgradeType.Torpedoes,
-                UpgradeType.Missiles,
+                UpgradeType.Torpedo,
+                UpgradeType.Missile,
                 UpgradeType.Bomb
             };
         }

@@ -12,7 +12,7 @@ namespace UpgradesList
     {
         public ConcussionMissiles() : base()
         {
-            Type = UpgradeType.Missiles;
+            Type = UpgradeType.Missile;
 
             Name = "Concussion Missiles";
             ShortName = "Conc. Missiles";

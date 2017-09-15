@@ -22,7 +22,7 @@ namespace Ship
                 MaxShields = 2;
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Astromech);
-                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Torpedoes);
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Torpedo);
 
                 AssignTemporaryManeuvers();
                 HotacManeuverTable = new AI.XWingTable();

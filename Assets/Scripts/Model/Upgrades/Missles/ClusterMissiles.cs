@@ -11,7 +11,7 @@ namespace UpgradesList
     {
         public ClusterMissiles() : base()
         {
-            Type = UpgradeType.Missiles;
+            Type = UpgradeType.Missile;
 
             Name = "Cluster Missiles";
             ShortName = "Cluster Missiles";

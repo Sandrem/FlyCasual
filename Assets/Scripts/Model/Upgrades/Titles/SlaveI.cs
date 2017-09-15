@@ -16,7 +16,7 @@ namespace UpgradesList
             isUnique = true;
             AddedSlots = new List<UpgradeSlot>
             {
-                new UpgradeSlot(UpgradeType.Torpedoes)
+                new UpgradeSlot(UpgradeType.Torpedo)
             };
         }
 

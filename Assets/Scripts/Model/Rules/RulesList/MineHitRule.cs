@@ -28,7 +28,7 @@ namespace RulesList
                     {
                         Name = "Damage from mine",
                         TriggerOwner = Selection.ThisShip.Owner.PlayerNo,
-                        TriggerType = TriggerTypes.OnShipMovementFinish,
+                        TriggerType = TriggerTypes.OnPositionFinish,
                         EventHandler = BombsManager.GetMineByObject(mine).Detonate,
                         Sender = Selection.ThisShip
                     });

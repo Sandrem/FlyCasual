@@ -33,7 +33,7 @@ namespace Upgrade
             callBack();
         }
 
-        public virtual void ActivateBomb(GameObject bombObject)
+        public virtual void ActivateBomb(GameObject bombObject, Action callBack)
         {
             BombObject = bombObject;
             Host.IsBombAlreadyDropped = true;

@@ -185,8 +185,11 @@ namespace SubPhases
 
         private void BombDropExecute()
         {
-            BombsManager.CurrentBombToDrop.ActivateBomb(BombObject);
+            BombsManager.CurrentBombToDrop.ActivateBomb(BombObject, FinishAction);
+        }
 
+        private void FinishAction()
+        {
             Phases.FinishSubPhase(typeof(BombDropPlanningSubPhase));
             CallBack();
         }

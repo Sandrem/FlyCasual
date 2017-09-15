@@ -44,11 +44,12 @@ namespace Upgrade
             );
         }
 
-        public override void ActivateBomb(GameObject bombObject)
+        public override void ActivateBomb(GameObject bombObject, Action callBack)
         {
-            base.ActivateBomb(bombObject);
+            base.ActivateBomb(bombObject, callBack);
 
             Phases.OnActivationPhaseEnd += PlanTimedDetonation;
+            callBack();
         }
 
         private void PlanTimedDetonation()

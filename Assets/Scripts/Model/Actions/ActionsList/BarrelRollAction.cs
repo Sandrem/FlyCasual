@@ -233,7 +233,7 @@ namespace SubPhases
 
         private void CheckMines()
         {
-            foreach (var mineCollider in obstaclesStayDetectorMovementTemplate.OverlapedMines)
+            foreach (var mineCollider in obstaclesStayDetectorMovementTemplate.OverlapedMinesNow)
             {
                 GameObject mineObject = mineCollider.transform.parent.gameObject;
                 if (!Selection.ThisShip.MinesHit.Contains(mineObject)) Selection.ThisShip.MinesHit.Add(mineObject);

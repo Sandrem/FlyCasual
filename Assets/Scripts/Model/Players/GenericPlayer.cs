@@ -6,7 +6,8 @@ using UnityEngine;
 public enum Faction
 {
     Rebels,
-    Empire
+    Empire,
+    Scum
 }
 
 namespace Players

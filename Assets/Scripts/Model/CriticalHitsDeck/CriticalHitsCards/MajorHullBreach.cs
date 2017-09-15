@@ -12,7 +12,6 @@ namespace CriticalHitCard
         {
             Name = "Major Hull Breach";
             Type = CriticalCardType.Ship;
-            ImageUrl = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/damage-decks/core-tfa/major-hull-breach.png";
         }
 
         public override void ApplyEffect(object sender, EventArgs e)

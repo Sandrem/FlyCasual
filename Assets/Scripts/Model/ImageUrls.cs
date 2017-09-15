@@ -4,11 +4,17 @@ public static class ImageUrls
 {
     private const string RootURL = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/";
     private const string UpgradesPath = "upgrades/";
+    private const string DamageDeckPath = "damage-decks/core-tfa/";
     private const string PilotsPath = "pilots/";
 
     public static string GetImageUrl(Upgrade.GenericUpgrade upgrade, string filename = null)
     {
         return GetImageUrl(UpgradesPath + upgrade.Type.ToString(), upgrade.Name, filename);
+    }
+
+    public static string GetImageUrl(CriticalHitCard.GenericCriticalHit crit, string filename = null)
+    {
+        return GetImageUrl(DamageDeckPath, crit.Name, filename);
     }
 
     public static string GetImageUrl(Ship.GenericShip ship, string filename = null)

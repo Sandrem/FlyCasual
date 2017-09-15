@@ -17,7 +17,12 @@ namespace RulesList
         {
             if (tokenType == typeof(IonToken))
             {
-                if (ship.GetToken(typeof(IonToken)).Count == 1)
+                if ((ship.GetToken(typeof(IonToken)).Count == 1) && ship.ShipBaseSize == BaseSize.Small )
+                {
+                    Messages.ShowError("Ship is ionized!");
+                    DoIonized(ship);
+                }
+                if ((ship.GetToken(typeof(IonToken)).Count == 2) && ship.ShipBaseSize == BaseSize.Large)
                 {
                     Messages.ShowError("Ship is ionized!");
                     DoIonized(ship);

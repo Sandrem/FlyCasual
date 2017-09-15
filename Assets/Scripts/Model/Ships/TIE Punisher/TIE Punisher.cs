@@ -5,26 +5,28 @@ using Movement;
 
 namespace Ship
 {
-    namespace TIEBomber
+    namespace TIEPunisher
     {
-        public class TIEBomber : GenericShip, TIE
+        public class TIEPunisher : GenericShip, TIE
         {
 
-            public TIEBomber() : base()
+            public TIEPunisher() : base()
             {
-                Type = "TIE Bomber";
+                Type = "TIE Punisher";
 
-                ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/9/96/MI_TIE-BOMBER.png";
+                ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/7/72/MI_TIE-PUNISHER.png";
 
                 Firepower = 2;
-                Agility = 2;
+                Agility = 1;
                 MaxHull = 6;
-                MaxShields = 0;
+                MaxShields = 3;
 
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.System);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Torpedoes);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Torpedoes);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Missiles);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Missiles);
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Bomb);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Bomb);
 
                 AssignTemporaryManeuvers();
@@ -48,7 +50,7 @@ namespace Ship
             {
                 base.InitializeShip();
                 BuiltInActions.Add(new ActionsList.TargetLockAction());
-                BuiltInActions.Add(new ActionsList.BarrelRollAction());
+                BuiltInActions.Add(new ActionsList.BoostAction());
             }
 
             private void AssignTemporaryManeuvers()

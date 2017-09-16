@@ -11,7 +11,7 @@ namespace Ship
             public BlackSunAssassin() : base()
             {
                 PilotName = "Black Sun Assassin";
-                ImageUrl = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/pilots/Scum%20and%20Villainy/StarViper/black-sun-enforcer.png";
+                ImageUrl = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/pilots/Scum%20and%20Villainy/StarViper/black-sun-assassin.png";
                 PilotSkill = 5;
                 Cost = 28;
 

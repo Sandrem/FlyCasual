@@ -22,7 +22,6 @@ namespace Ship
                 MaxShields = 3;
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Turret);
-                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Astromech);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Torpedo);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Torpedo);
 
@@ -30,7 +29,7 @@ namespace Ship
                 HotacManeuverTable = new AI.YWingTable();
 
                 factions.Add(Faction.Rebels);
-                faction = Faction.Rebels;
+                factions.Add(Faction.Scum);
 
                 SkinName = "Yellow";
 

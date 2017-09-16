@@ -12,9 +12,14 @@ namespace Ship
             {
                 PilotName = "\"Dutch\" Vander";
                 ImageUrl = "https://vignette3.wikia.nocookie.net/xwing-miniatures/images/b/bf/Dutch_Vander.png";
-                IsUnique = true;
                 PilotSkill = 6;
                 Cost = 23;
+
+                IsUnique = true;
+
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Astromech);
+
+                faction = Faction.Rebels;
             }
 
             public override void InitializePilot()

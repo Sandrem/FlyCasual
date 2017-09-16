@@ -32,7 +32,7 @@ namespace Ship
                 HotacManeuverTable = new AI.Firespray31Table();
 
                 factions.Add(Faction.Empire);
-                faction = Faction.Empire;
+                factions.Add(Faction.Scum);
 
                 SoundShotsPath = "Slave1-Fire";
                 ShotsCount = 3;

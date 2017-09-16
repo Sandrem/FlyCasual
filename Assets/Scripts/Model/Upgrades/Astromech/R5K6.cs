@@ -13,7 +13,6 @@ namespace UpgradesList
         {
             Type = UpgradeType.Astromech;
             Name = ShortName = "R5-K6";
-            ImageUrl = "https://vignette4.wikia.nocookie.net/xwing-miniatures/images/d/df/R5-K6.png";
             isUnique = true;
             Cost = 2;
         }
@@ -79,7 +78,7 @@ namespace SubPhases
 
             if (CurrentDiceRoll.DiceList[0].Side == DiceSide.Success)
             {
-                Sounds.PlaySoundOnce("R2D2-Proud");
+                Sounds.PlayShipSound("R2D2-Proud");
                 Actions.AssignTargetLockToPair(Combat.Attacker, Combat.Defender, CallBack, CallBack);
 
                 //TODO: Avoid code after callback

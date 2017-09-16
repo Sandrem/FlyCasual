@@ -10,6 +10,8 @@ namespace Ship
         private Transform shipAllParts;
         private Transform modelCenter;
 
+        public string SkinName;
+
         public void CreateModel(Vector3 position)
         {
             Model = CreateShipModel(position);
@@ -80,8 +82,21 @@ namespace Ship
             {
                 Debug.Log("Cannot find: " + pathToResource);
             }
-            
         }
+
+        public void SetShipSkin()
+        {
+            if (!string.IsNullOrEmpty(SkinName))
+            {
+                Texture skin = (Texture)Resources.Load("ShipSkins/" + Type + "/" + SkinName, typeof(Texture));
+
+                foreach (Transform modelPart in GetModelTransform())
+                {
+                    modelPart.GetComponent<Renderer>().material.SetTexture("_MainTex", skin);
+                }
+            }
+        }
+
 
         public void ToggleCollisionDetection(bool value)
         {
@@ -132,14 +147,14 @@ namespace Ship
 
         public void ToggleIonized(bool isIonized)
         {
-            if (isIonized) Sounds.PlaySoundOnce("Ionization");
+            if (isIonized) Sounds.PlayShipSound("Ionization");
             shipAllParts.Find("Ionization").gameObject.SetActive(isIonized);
         }
 
         public void PlayDestroyedAnimSound(System.Action callBack)
         {
             int random = Random.Range(1, 8);
-            Sounds.PlaySoundOnce("Explosion-" + random);
+            Sounds.PlayShipSound("Explosion-" + random);
             shipAllParts.Find("Explosion/Explosion").GetComponent<ParticleSystem>().Play();
             shipAllParts.Find("Explosion/Debris").GetComponent<ParticleSystem>().Play();
             shipAllParts.Find("Explosion/Sparks").GetComponent<ParticleSystem>().Play();
@@ -211,6 +226,11 @@ namespace Ship
         public Transform GetBoosterHelper()
         {
             return shipAllParts.Find("ShipBase/BoostHelper");
+        }
+
+        public Transform GetBombDropHelper()
+        {
+            return shipAllParts.Find("ShipBase/BombDropHelper");
         }
 
         public Transform GetDecloakHelper()
@@ -292,6 +312,11 @@ namespace Ship
         public Transform GetShipAllPartsTransform()
         {
             return shipAllParts;
+        }
+
+        public Transform GetModelTransform()
+        {
+            return shipAllParts.Find("ShipModels/" + Type + "/ModelCenter/Model");
         }
 
     }

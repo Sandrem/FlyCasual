@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 namespace Ship
 {
@@ -75,12 +76,14 @@ namespace Ship
 
         public bool CanPerformAction(ActionsList.GenericAction action)
         {
-            bool result = true;
+            bool result = action.IsActionAvailable();
 
             if (OnTryAddAvailableAction != null) OnTryAddAvailableAction(action, ref result);
 
             return result;
         }
+
+        public bool CanPerformActionsWhileStressed { get; protected set; }
 
 
         // TODO: move actions list into subphase
@@ -205,6 +208,11 @@ namespace Ship
         public void AddAlreadyExecutedActionEffect(ActionsList.GenericAction action)
         {
             AlreadyExecutedActionEffects.Add(action);
+        }
+
+        public void RemoveAlreadyExecutedActionEffect(ActionsList.GenericAction action)
+        {
+            AlreadyExecutedActionEffects.RemoveAll(a => a.GetType() == action.GetType());
         }
 
         public void ClearAlreadyExecutedActionEffects()

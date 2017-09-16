@@ -13,7 +13,6 @@ namespace UpgradesList
         {
             Type = UpgradeType.Astromech;
             Name = ShortName = "R2-F2";
-            ImageUrl = "https://vignette4.wikia.nocookie.net/xwing-miniatures/images/8/86/R2-F2.jpg";
             isUnique = true;
             Cost = 3;
         }
@@ -50,7 +49,7 @@ namespace ActionsList
 
         public override void ActionTake()
         {
-            Sounds.PlaySoundOnce("Astromech-Beeping-and-whistling");
+            Sounds.PlayShipSound("Astromech-Beeping-and-whistling");
 
             host = Selection.ThisShip;
             host.ChangeAgilityBy(+1);

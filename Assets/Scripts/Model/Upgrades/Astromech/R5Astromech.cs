@@ -14,7 +14,6 @@ namespace UpgradesList
         {
             Type = UpgradeType.Astromech;
             Name = ShortName = "R5 Astromech";
-            ImageUrl = "https://vignette3.wikia.nocookie.net/xwing-miniatures/images/3/3a/R5_Astromech.jpg";
             Cost = 1;
         }
 
@@ -88,7 +87,7 @@ namespace SubPhases
         private void DiscardCrit(CriticalHitCard.GenericCriticalHit critCard)
         {
             Selection.ActiveShip.FlipFacedownFaceupDamageCard(critCard);
-            Sounds.PlaySoundOnce("R2D2-Proud");
+            Sounds.PlayShipSound("R2D2-Proud");
             ConfirmDecision();
         }
 

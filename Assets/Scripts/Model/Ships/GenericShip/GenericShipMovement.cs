@@ -15,6 +15,8 @@ namespace Ship
         public bool IsLandedOnObstacle;
         public List<Collider> ObstaclesHit = new List<Collider>();
 
+        public List<GameObject> MinesHit = new List<GameObject>();
+
         public bool IsBumped
         {
             get { return ShipsBumped.Count != 0; }
@@ -34,9 +36,11 @@ namespace Ship
         public event EventHandlerShipMovement AfterGetManeuverAvailablity;
 
         public event EventHandlerShip OnManeuverIsReadyToBeRevealed;
+        public event EventHandlerShip OnManeuverIsRevealed;
         public event EventHandlerShip OnMovementStart;
         public event EventHandlerShip OnMovementExecuted;
         public event EventHandlerShip OnMovementFinish;
+        public static event EventHandlerShip OnMovementFinishGlobal;
 
         public event EventHandlerShip OnPositionFinish;
         public static event EventHandler OnPositionFinishGlobal;
@@ -48,9 +52,18 @@ namespace Ship
             if (OnManeuverIsReadyToBeRevealed != null) OnManeuverIsReadyToBeRevealed(this);
         }
 
-        public void StartMoving()
+        public void CallManeuverIsRevealed(System.Action callBack)
+        {
+            if (OnManeuverIsRevealed != null) OnManeuverIsRevealed(this);
+
+            Triggers.ResolveTriggers(TriggerTypes.OnManeuverIsRevealed, callBack);
+        }
+
+        public void StartMoving(System.Action callback)
         {
             if (OnMovementStart != null) OnMovementStart(this);
+
+            Triggers.ResolveTriggers(TriggerTypes.OnShipMovementStart, callback);
         }
 
         public void CallExecuteMoving()
@@ -63,6 +76,7 @@ namespace Ship
         public void CallFinishMovement()
         {
             if (OnMovementFinish != null) OnMovementFinish(this);
+            if (OnMovementFinishGlobal != null) OnMovementFinishGlobal(this);
 
             Triggers.ResolveTriggers(TriggerTypes.OnShipMovementFinish, delegate () { Selection.ThisShip.FinishPosition(delegate () { Phases.FinishSubPhase(typeof(SubPhases.MovementExecutionSubPhase)); }); });
         }

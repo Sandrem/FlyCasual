@@ -12,7 +12,6 @@ namespace CriticalHitCard
         {
             Name = "Stunned Pilot";
             Type = CriticalCardType.Pilot;
-            ImageUrl = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/damage-decks/core-tfa/stunned-pilot.png";
         }
 
         public override void ApplyEffect(object sender, EventArgs e)

@@ -23,14 +23,16 @@ namespace Ship
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Turret);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Astromech);
-                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Torpedoes);
-                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Torpedoes);
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Torpedo);
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Torpedo);
 
                 AssignTemporaryManeuvers();
                 HotacManeuverTable = new AI.YWingTable();
 
                 factions.Add(Faction.Rebels);
                 faction = Faction.Rebels;
+
+                SkinName = "Yellow";
 
                 SoundShotsPath = "XWing-Laser";
                 ShotsCount = 2;

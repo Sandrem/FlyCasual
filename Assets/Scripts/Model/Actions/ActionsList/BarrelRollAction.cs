@@ -222,11 +222,21 @@ namespace SubPhases
 
             if (IsBarrelRollAllowed())
             {
+                CheckMines();
                 StartBarrelRollExecution(Selection.ThisShip);
             }
             else
             {
                 CancelBarrelRoll();
+            }
+        }
+
+        private void CheckMines()
+        {
+            foreach (var mineCollider in obstaclesStayDetectorMovementTemplate.OverlapedMinesNow)
+            {
+                GameObject mineObject = mineCollider.transform.parent.gameObject;
+                if (!Selection.ThisShip.MinesHit.Contains(mineObject)) Selection.ThisShip.MinesHit.Add(mineObject);
             }
         }
 
@@ -337,10 +347,12 @@ namespace SubPhases
             MovementTemplates.CurrentTemplate.gameObject.SetActive(true);
 
             Selection.ThisShip.ToggleShipStandAndPeg(true);
-            Selection.ThisShip.FinishPosition(delegate() { });
+            Selection.ThisShip.FinishPosition(FinishBarrelRollAnimationPart2);
+        }
 
+        private void FinishBarrelRollAnimationPart2()
+        {
             Phases.FinishSubPhase(typeof(BarrelRollExecutionSubPhase));
-
             CallBack();
         }
 

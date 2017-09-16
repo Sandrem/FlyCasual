@@ -21,10 +21,10 @@ namespace Ship
                 MaxHull = 6;
                 MaxShields = 0;
 
-                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Torpedoes);
-                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Torpedoes);
-                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Missiles);
-                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Missiles);
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Torpedo);
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Torpedo);
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Missile);
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Missile);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Bomb);
 
                 AssignTemporaryManeuvers();
@@ -32,6 +32,8 @@ namespace Ship
 
                 factions.Add(Faction.Empire);
                 faction = Faction.Empire;
+
+                SkinName = "Blue";
 
                 SoundShotsPath = "TIE-Fire";
                 ShotsCount = 2;

@@ -21,13 +21,15 @@ namespace Ship
                 MaxHull = 2;
                 MaxShields = 2;
 
-                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Missiles);
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Missile);
 
                 AssignTemporaryManeuvers();
                 HotacManeuverTable = new AI.Z95Table();
 
                 factions.Add(Faction.Rebels);
                 faction = Faction.Rebels;
+
+                SkinName = "Yellow";
 
                 SoundShotsPath = "XWing-Laser";
                 ShotsCount = 2;

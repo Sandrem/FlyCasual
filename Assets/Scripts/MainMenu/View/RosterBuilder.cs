@@ -34,6 +34,7 @@ public static partial class RosterBuilder {
             SquadBuilderShip copiedShip = SquadBuilderRoster.GetShipsByPlayer(playerNo).Last();
 
             CopyShipType(originalShip, copiedShip);
+            CopySkinDropdown(originalShip, copiedShip);
             CopyShipPilot(originalShip, copiedShip);
             CopyShipUpgrades(originalShip, copiedShip);
 
@@ -57,6 +58,13 @@ public static partial class RosterBuilder {
                 break;
             }
         }
+    }
+
+    private static void CopySkinDropdown(SquadBuilderShip originalShip, SquadBuilderShip copiedShip)
+    {
+        Dropdown copiedShipDropdown = copiedShip.Panel.transform.Find("GroupShip/DropdownSkin").GetComponent<Dropdown>();
+        Dropdown originalShipDropdown = originalShip.Panel.transform.Find("GroupShip/DropdownSkin").GetComponent<Dropdown>();
+        copiedShipDropdown.value = originalShipDropdown.value;
     }
 
     private static void CopyShipPilot(SquadBuilderShip originalShip, SquadBuilderShip copiedShip)
@@ -225,6 +233,22 @@ public static partial class RosterBuilder {
         SubscribePilotDropdown(squadBuilderShip);
 
         AddPilotTooltip(squadBuilderShip.Panel.transform.Find("GroupShip/DropdownPilot").gameObject);
+    }
+
+    private static void SetSkinsDropdown(SquadBuilderShip squadBuilderShip, List<string> skinNames)
+    {
+        Dropdown skinDropdown = squadBuilderShip.Panel.transform.Find("GroupShip/DropdownSkin").GetComponent<Dropdown>();
+        skinDropdown.ClearOptions();
+        skinDropdown.AddOptions(skinNames);
+
+        for (int i = 0; i < skinDropdown.options.Count; i++)
+        {
+            if (skinDropdown.options[i].text == squadBuilderShip.Ship.SkinName)
+            {
+                skinDropdown.value = i;
+                break;
+            }
+        }
     }
 
     private static void UpdateUpgradePanelsFull(SquadBuilderShip squadBuilderShip)
@@ -476,9 +500,14 @@ public static partial class RosterBuilder {
 
         if (i % 2 == 1) offset = offset - 30;
         if (i == 0) offset = offset + 10;
-        panel.GetComponent<RectTransform>().sizeDelta = new Vector2(580, -offset + 50);
+        panel.GetComponent<RectTransform>().sizeDelta = new Vector2(580, -offset + 90);
 
         OrganizeAllShipsLists();
+    }
+
+    private static string GetSkinName(SquadBuilderShip ship)
+    {
+        return ship.Panel.transform.Find("GroupShip/DropdownSkin").GetComponent<Dropdown>().captionText.text; ;
     }
 
 }

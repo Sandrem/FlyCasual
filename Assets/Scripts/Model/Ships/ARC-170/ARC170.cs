@@ -5,26 +5,27 @@ using Movement;
 
 namespace Ship
 {
-    namespace BWing
+    namespace ARC170
     {
-        public class BWing : GenericShip
+        public class ARC170 : GenericShip
         {
 
-            public BWing() : base()
+            public ARC170() : base()
             {
-                Type = "B-Wing";
+                Type = "ARC-170";
 
-                ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/3/32/MR_B-WING.png";
+                ShipBaseArcsType = Arcs.BaseArcsType.ArcRear;
 
-                Firepower = 3;
+                ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/2/2f/MR_ARC-170.png";
+
+                Firepower = 2;
                 Agility = 1;
-                MaxHull = 3;
-                MaxShields = 5;
+                MaxHull = 6;
+                MaxShields = 3;
 
-                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.System);
-                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Cannon);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Torpedoes);
-                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Torpedoes);
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Crew);
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Astromech);
 
                 AssignTemporaryManeuvers();
                 HotacManeuverTable = new AI.BWingTable();
@@ -32,10 +33,10 @@ namespace Ship
                 factions.Add(Faction.Rebels);
                 faction = Faction.Rebels;
 
-                SkinName = "Teal";
+                SkinName = "ARC-170";
 
                 SoundShotsPath = "XWing-Laser";
-                ShotsCount = 3;
+                ShotsCount = 2;
 
                 for (int i = 1; i < 4; i++)
                 {
@@ -48,7 +49,6 @@ namespace Ship
             {
                 base.InitializeShip();
                 BuiltInActions.Add(new ActionsList.TargetLockAction());
-                BuiltInActions.Add(new ActionsList.BarrelRollAction());
             }
 
             private void AssignTemporaryManeuvers()

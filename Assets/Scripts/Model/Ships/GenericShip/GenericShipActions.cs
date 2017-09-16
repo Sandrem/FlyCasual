@@ -28,6 +28,7 @@ namespace Ship
         public event EventHandlerActionBool OnTryAddAvailableActionEffect;
 
         public event EventHandlerShip OnActionDecisionSubphaseEnd;
+        public event EventHandlerAction OnActionIsPerformed;
 
         public event EventHandlerShipType OnTokenIsAssigned;
         public static event EventHandlerShipType OnTokenIsAssignedGlobal;
@@ -41,6 +42,10 @@ namespace Ship
             if (OnActionDecisionSubphaseEnd != null) OnActionDecisionSubphaseEnd(this);
         }
 
+        public void CallActionIsTaken(ActionsList.GenericAction action)
+        {
+            if (OnActionIsPerformed != null) OnActionIsPerformed(action);
+        }
         private void AddBuiltInActions()
         {
             BuiltInActions.Add(new ActionsList.FocusAction());

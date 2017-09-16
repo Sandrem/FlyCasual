@@ -11,7 +11,6 @@ namespace UpgradesList
         {
             Type = UpgradeType.Title;
             Name = ShortName = "Royal Guard TIE";
-            ImageUrl = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/upgrades/Title/royal-guard-tie.png";
             Cost = 0;
             AddedSlots = new List<UpgradeSlot>
             {

@@ -11,7 +11,6 @@ namespace UpgradesList
         {
             Type = UpgradeType.Title;
             Name = ShortName = "Andrasta";
-            ImageUrl = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/upgrades/Title/andrasta.png";
             Cost = 0;
             isUnique = true;
             AddedSlots = new List<UpgradeSlot>

@@ -11,7 +11,6 @@ namespace UpgradesList
         {
             Type = UpgradeType.Modification;
             Name = ShortName = "B-Wing/E2";
-            ImageUrl = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/upgrades/Modification/b-wing-e2.png";
             Cost = 1;
             AddedSlots = new List<UpgradeSlot>
             {

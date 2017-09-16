@@ -8,13 +8,13 @@ namespace Upgrade
     {
         Elite,
         Astromech,
-        Torpedoes,
-        Missiles,
+        Torpedo,
+        Missile,
         Cannon,
         Turret,
         Bomb,
         Crew,
-        SalvagedAstromechs,
+        SalvagedAstromech,
         System,
         Title,
         Modification,
@@ -36,7 +36,19 @@ namespace Upgrade
         public bool isDiscarded = false;
         public string Name { get; set; }
         public string ShortName;
-        public string ImageUrl;
+
+        private string imageUrl;
+        public string ImageUrl
+        {
+            get
+            {
+                return imageUrl ?? ImageUrls.GetImageUrl(this);
+            }
+            set
+            {
+                imageUrl = value;
+            }
+        }
         //public bool FactionRestriction
         //public bool SizeRestriction
         //public bool ShipTypeRestriction

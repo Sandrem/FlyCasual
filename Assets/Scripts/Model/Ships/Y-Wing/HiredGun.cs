@@ -15,7 +15,7 @@ namespace Ship
                 PilotSkill = 4;
                 Cost = 20;
 
-                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.SalvagedAstromechs);
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.SalvagedAstromech);
 
                 faction = Faction.Scum;
 

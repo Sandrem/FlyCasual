@@ -21,7 +21,7 @@ namespace Ship
                 MaxHull = 4;
                 MaxShields = 1;
 
-                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Torpedoes);
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Torpedo);
 
                 AssignTemporaryManeuvers();
                 HotacManeuverTable = new AI.TIEInterceptorTable();

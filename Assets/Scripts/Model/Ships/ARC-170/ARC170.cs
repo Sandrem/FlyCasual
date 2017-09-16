@@ -23,7 +23,7 @@ namespace Ship
                 MaxHull = 6;
                 MaxShields = 3;
 
-                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Torpedoes);
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Torpedo);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Crew);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Astromech);
 

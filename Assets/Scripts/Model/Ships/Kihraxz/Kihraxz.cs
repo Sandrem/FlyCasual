@@ -21,7 +21,7 @@ namespace Ship
                 MaxHull = 4;
                 MaxShields = 1;
 
-                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Missiles);
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Missile);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Illicit);
 
                 AssignTemporaryManeuvers();

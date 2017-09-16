@@ -22,10 +22,10 @@ namespace Ship
                 MaxShields = 3;
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.System);
-                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Torpedoes);
-                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Torpedoes);
-                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Missiles);
-                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Missiles);
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Torpedo);
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Torpedo);
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Missile);
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Missile);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Bomb);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Bomb);
 

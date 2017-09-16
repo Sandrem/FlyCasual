@@ -22,7 +22,7 @@ namespace Ship
                 MaxShields = 3;
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Astromech);
-                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Torpedoes);
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Torpedo);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Tech);
 
                 AssignTemporaryManeuvers();

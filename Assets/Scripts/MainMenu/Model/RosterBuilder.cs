@@ -224,7 +224,7 @@ public static partial class RosterBuilder {
     {
         List<string> result = new List<string>();
 
-        UnityEngine.Object[] textures = Resources.LoadAll("ShipSkins/" + ship.Type + "/");
+        UnityEngine.Object[] textures = Resources.LoadAll("ShipSkins/" + ship.FixTypeName(ship.Type) + "/");
         foreach (var texture in textures)
         {
             result.Add(texture.name);

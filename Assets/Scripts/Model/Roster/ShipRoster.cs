@@ -69,8 +69,13 @@ public static partial class Roster
 
     public static void DestroyShip(string id)
     {
-        GetShipById(id).SetActive(false);
-        GetShipById(id).InfoPanel.SetActive(false);
+		var ship = GetShipById (id);
+        
+		if (ship != null) {
+			ship.SetActive(false);
+			ship.InfoPanel.SetActive(false);
+		}
+
         OrganizeRosterPositions();
 
         RemoveShipFromLists(id);
@@ -78,7 +83,12 @@ public static partial class Roster
 
     private static void RemoveShipFromLists(string id)
     {
-        GetShipById(id).Owner.Ships.Remove(id);
+		var ship = GetShipById (id);
+
+		if (ship == null)
+			return;
+
+        ship.Owner.Ships.Remove(id);
         AllShips.Remove(id);
     }
 
@@ -86,7 +96,11 @@ public static partial class Roster
 
     public static Ship.GenericShip GetShipById(string id)
     {
-        return AllShips[id];
+		if (AllShips.Any (x => x.Key == id)) {
+			return AllShips[id];
+		}
+
+		return null;
     }
 
     public static GenericPlayer GetPlayer(PlayerNo playerNo)

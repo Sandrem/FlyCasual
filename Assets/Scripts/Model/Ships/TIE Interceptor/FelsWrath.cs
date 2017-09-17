@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using Movement;
 
 namespace Ship
 {
@@ -10,9 +6,9 @@ namespace Ship
 	{
 		public class FelsWrath : TIEInterceptor
 		{
-			protected bool isDestructionIsDelayed = false;
+			protected bool IsDestructionIsDelayed;
 
-			public FelsWrath() : base()
+			public FelsWrath()
 			{
 				PilotName = "\"Fel's Wrath\"";
 				ImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/1/12/Fel%27s_Wrath.png";
@@ -25,14 +21,14 @@ namespace Ship
 			public override void InitializePilot ()
 			{
 				base.InitializePilot ();
-				Phases.OnEndPhaseStart += ProcessFelsWrath;
+				Phases.OnCombatPhaseEnd += ProcessFelsWrath;
 			}
 
 			public override void IsHullDestroyedCheck(Action callBack)
 			{
-				if (Hull == 0 && !IsDestroyed && !isDestructionIsDelayed)
+				if (Hull == 0 && !IsDestroyed && !IsDestructionIsDelayed)
 				{
-					isDestructionIsDelayed = true;
+					IsDestructionIsDelayed = true;
 				}
 
 				callBack();
@@ -44,16 +40,16 @@ namespace Ship
 					new Trigger()
 					{
 						Name = "Fel's Wrath Ability",
-						TriggerOwner = this.Owner.PlayerNo,
+						TriggerOwner = Owner.PlayerNo,
 						TriggerType = TriggerTypes.OnEndPhaseStart,
 						EventHandler = CleanUpFelsWrath
 					}
 				);
 			}
 
-			private void CleanUpFelsWrath(object sender, System.EventArgs e){
+			private void CleanUpFelsWrath(object sender, EventArgs e){
 
-				if (isDestructionIsDelayed) {
+				if (IsDestructionIsDelayed) {
 					Selection.ThisShip = this;
 					DestroyShip (Triggers.FinishTrigger, true);
 				} else {

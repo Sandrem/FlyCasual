@@ -10,16 +10,56 @@ public delegate void DiceModification();
 public static partial class Combat
 {
 
-    public static void ShowDiceResultMenu(UnityEngine.Events.UnityAction closeAction)
+    public static void ShowDiceResultMenu()
     {
-        Button closeButton = GameObject.Find("UI/CombatDiceResultsPanel").transform.Find("DiceModificationsPanel/Confirm").GetComponent<Button>();
         GameObject.Find("UI/CombatDiceResultsPanel").gameObject.SetActive(true);
-        closeButton.onClick.RemoveAllListeners();
-        closeButton.onClick.AddListener(closeAction);
+    }
+
+    public static void ShowOppositeDiceModificationButtons()
+    {
+        Selection.ActiveShip = (AttackStep == CombatStep.Attack) ? Defender : Attacker;
+
+        ToggleConfirmDiceResultsButton(true);
+
+        Selection.ActiveShip.GenerateAvailableOppositeActionEffectsList();
+
+        if (Selection.ActiveShip.GetAvailableOppositeActionEffectsList().Count > 0)
+        {
+            if (Roster.GetPlayer(Selection.ActiveShip.Owner.PlayerNo).Type == Players.PlayerType.Human)
+            {
+                float offset = 0;
+                Vector3 defaultPosition = GameObject.Find("UI/CombatDiceResultsPanel").transform.Find("DiceModificationsPanel").position;
+
+                foreach (var oppositeActionEffect in Selection.ActiveShip.GetAvailableOppositeActionEffectsList())
+                {
+                    Vector3 position = defaultPosition + new Vector3(0, -offset, 0);
+                    CreateDiceModificationsButton(oppositeActionEffect, position);
+                    offset += 40;
+                }
+            }
+
+            Button closeButton = GameObject.Find("UI/CombatDiceResultsPanel").transform.Find("DiceModificationsPanel/Confirm").GetComponent<Button>();
+            closeButton.onClick.RemoveAllListeners();
+            closeButton.onClick.AddListener(SwitchToOwnDiceModifications);
+
+            Roster.GetPlayer(Selection.ActiveShip.Owner.PlayerNo).UseDiceModifications();
+        }
+        else
+        {
+            SwitchToOwnDiceModifications();
+        }
+    }
+
+    private static void SwitchToOwnDiceModifications()
+    {
+        HideDiceModificationButtons();
+        ShowDiceModificationButtons();
     }
 
     public static void ShowDiceModificationButtons()
     {
+        Selection.ActiveShip = (AttackStep == CombatStep.Attack) ? Attacker : Defender;
+
         Selection.ActiveShip.GenerateAvailableActionEffectsList();
 
         if (Roster.GetPlayer(Selection.ActiveShip.Owner.PlayerNo).Type == Players.PlayerType.Human)
@@ -33,7 +73,13 @@ public static partial class Combat
                 CreateDiceModificationsButton(actionEffect, position);
                 offset += 40;
             }
+
+            ToggleConfirmDiceResultsButton(true);
         }
+
+        Button closeButton = GameObject.Find("UI/CombatDiceResultsPanel").transform.Find("DiceModificationsPanel/Confirm").GetComponent<Button>();
+        closeButton.onClick.RemoveAllListeners();
+        closeButton.onClick.AddListener(Combat.ConfirmDiceResults);
 
         Roster.GetPlayer(Selection.ActiveShip.Owner.PlayerNo).UseDiceModifications();
     }
@@ -57,7 +103,16 @@ public static partial class Combat
         {
             Tooltips.EndTooltip();
             newButton.GetComponent<Button>().interactable = false;
-            Selection.ActiveShip.AddAlreadyExecutedActionEffect(actionEffect);
+            if (!actionEffect.IsOpposite)
+            {
+                Selection.ActiveShip = (AttackStep == CombatStep.Attack) ? Attacker : Defender;
+                Selection.ActiveShip.AddAlreadyExecutedActionEffect(actionEffect);
+            }
+            else
+            {
+                Selection.ActiveShip = (AttackStep == CombatStep.Attack) ? Defender : Attacker;
+                Selection.ActiveShip.AddAlreadyExecutedOppositeActionEffect(actionEffect);
+            }
             actionEffect.ActionEffect(delegate { });
         });
         Tooltips.AddTooltip(newButton, actionEffect.ImageUrl);
@@ -76,7 +131,7 @@ public static partial class Combat
                 MonoBehaviour.Destroy(button.gameObject);
             }
         }
-        GameObject.Find("UI").transform.Find("CombatDiceResultsPanel").Find("DiceModificationsPanel").Find("Confirm").gameObject.SetActive(false);
+        ToggleConfirmDiceResultsButton(false);
     }
 
 

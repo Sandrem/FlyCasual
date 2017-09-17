@@ -55,7 +55,7 @@ namespace SubPhases
             }
             else
             {
-                GameObject.Find("UI/CombatDiceResultsPanel").transform.Find("DiceModificationsPanel/Confirm").gameObject.SetActive(false);
+                GameObject.Find("UI").transform.Find("CombatDiceResultsPanel").Find("DiceModificationsPanel").Find("Confirm").gameObject.SetActive(false);
             }
         }
 
@@ -63,7 +63,7 @@ namespace SubPhases
         {
             CurentDiceRoll = diceRoll;
             Combat.ToggleConfirmDiceResultsButton(true);
-            Combat.ShowDiceModificationButtons();
+            Combat.ShowOppositeDiceModificationButtons();
         }
 
         protected virtual void FinishAction()

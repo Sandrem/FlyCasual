@@ -177,6 +177,7 @@ namespace Ship
 
         public void CallAttackStart()
         {
+            ClearAlreadyExecutedOppositeActionEffects();
             ClearAlreadyExecutedActionEffects();
             if (Combat.Attacker.ShipId == this.ShipId) IsAttackPerformed = true;
             if (OnAttack != null) OnAttack();
@@ -184,6 +185,7 @@ namespace Ship
 
         public void CallDefenceStart()
         {
+            ClearAlreadyExecutedOppositeActionEffects();
             ClearAlreadyExecutedActionEffects();
             if (OnDefence != null) OnDefence();
         }

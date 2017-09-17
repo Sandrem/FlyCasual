@@ -10,6 +10,7 @@ public partial class DiceRerollManager
 
     public List<DiceSide> SidesCanBeRerolled;
     public int NumberOfDicesCanBeRerolled;
+    public bool IsOpposite;
 
     public System.Action CallBack;
 
@@ -64,6 +65,18 @@ public partial class DiceRerollManager
 
     private void DoDefaultSelection()
     {
+        if (!IsOpposite)
+        {
+            DoDefaultSelectionOwnDice();
+        }
+        else
+        {
+            DoDefaultSelectionOppositeDice();
+        }
+    }
+
+    private void DoDefaultSelectionOwnDice()
+    {
         List<DiceSide> diceSides = new List<DiceSide>();
 
         if (SidesCanBeRerolled.Contains(DiceSide.Blank))
@@ -75,6 +88,32 @@ public partial class DiceRerollManager
         {
             //if (!Selection.ActiveShip.HasToken(typeof(Tokens.FocusToken)))
             if (Combat.Attacker.GetAvailableActionEffectsList().Count(n => n.IsTurnsAllFocusIntoSuccess) == 0)
+            {
+                diceSides.Add(DiceSide.Focus);
+            }
+        }
+
+        Combat.CurentDiceRoll.SelectBySides(diceSides, NumberOfDicesCanBeRerolled);
+    }
+
+    private void DoDefaultSelectionOppositeDice()
+    {
+        List<DiceSide> diceSides = new List<DiceSide>();
+
+        if (SidesCanBeRerolled.Contains(DiceSide.Crit))
+        {
+            diceSides.Add(DiceSide.Crit);
+        }
+
+        if (SidesCanBeRerolled.Contains(DiceSide.Success))
+        {
+            diceSides.Add(DiceSide.Success);
+        }
+
+        if (SidesCanBeRerolled.Contains(DiceSide.Focus))
+        {
+            //if (!Selection.ActiveShip.HasToken(typeof(Tokens.FocusToken)))
+            if ((Combat.Attacker.GetAvailableActionEffectsList().Count(n => n.IsTurnsAllFocusIntoSuccess) > 0))
             {
                 diceSides.Add(DiceSide.Focus);
             }
@@ -153,7 +192,14 @@ public partial class DiceRerollManager
         if (isActive)
         {
             Combat.ToggleConfirmDiceResultsButton(true);
-            Combat.ShowDiceModificationButtons();
+            if (!IsOpposite)
+            {
+                Combat.ShowDiceModificationButtons();
+            }
+            else
+            {
+                Combat.ShowOppositeDiceModificationButtons();
+            }
         }
         else
         {

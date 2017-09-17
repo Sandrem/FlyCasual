@@ -34,7 +34,7 @@ namespace Players
 
         public override void UseDiceModifications()
         {
-            Combat.ShowDiceResultMenu(Combat.ConfirmDiceResults);
+            Combat.ShowDiceResultMenu();
         }
 
         public override void TakeDecision()

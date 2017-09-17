@@ -10,7 +10,6 @@ namespace UpgradesList
         {
             Type = UpgradeType.Title;
             Name = ShortName = "Moldy Crow";
-            ImageUrl = "https://vignette4.wikia.nocookie.net/xwing-miniatures/images/7/72/Moldy-crow.png";
             Cost = 3;
             isUnique = true;
         }

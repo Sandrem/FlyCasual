@@ -22,7 +22,7 @@ namespace Ship
                 MaxShields = 3;
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.System);
-                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Torpedoes);
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Torpedo);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Astromech);
 
                 AssignTemporaryManeuvers();
@@ -30,6 +30,8 @@ namespace Ship
 
                 factions.Add(Faction.Rebels);
                 faction = Faction.Rebels;
+
+                SkinName = "Red";
 
                 SoundShotsPath = "XWing-Laser";
                 ShotsCount = 3;

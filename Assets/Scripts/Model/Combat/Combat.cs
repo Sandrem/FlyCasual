@@ -22,7 +22,8 @@ public enum DamageTypes
 {
     ShipAttack,
     ObstacleCollision,
-    CriticalHitCard
+    CriticalHitCard,
+    BombDetonation
 }
 
 public static partial class Combat
@@ -140,7 +141,7 @@ public static partial class Combat
         Upgrade.GenericSecondaryWeapon chosenSecondaryWeapon = ChosenWeapon as Upgrade.GenericSecondaryWeapon;
         if (chosenSecondaryWeapon != null)
         {
-            if (chosenSecondaryWeapon.Type == Upgrade.UpgradeType.Torpedoes || chosenSecondaryWeapon.Type == Upgrade.UpgradeType.Missiles)
+            if (chosenSecondaryWeapon.Type == Upgrade.UpgradeType.Torpedo || chosenSecondaryWeapon.Type == Upgrade.UpgradeType.Missile)
             {
                 Sounds.PlayShots("Proton-Torpedoes", 1);
                 Selection.ThisShip.AnimateMunitionsShot();

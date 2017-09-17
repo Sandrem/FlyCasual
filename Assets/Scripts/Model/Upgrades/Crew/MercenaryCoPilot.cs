@@ -8,7 +8,6 @@ namespace UpgradesList
         {
             Type = UpgradeType.Crew;
             Name = ShortName = "Mercenary Copilot";
-            ImageUrl = "https://vignette2.wikia.nocookie.net/xwing-miniatures/images/8/88/Mercenary_Copilot.png";
             Cost = 2;
         }
 

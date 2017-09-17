@@ -23,7 +23,7 @@ namespace Ship
                 MaxHull = 12;
                 MaxShields = 4;
 
-                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Torpedoes);
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Torpedo);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Crew);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Crew);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Crew);
@@ -35,14 +35,16 @@ namespace Ship
                 factions.Add(Faction.Empire);
                 faction = Faction.Empire;
 
-                SoundShotsPath = "XWing-Laser";
+                SkinName = "Gray";
+
+                SoundShotsPath = "Slave1-Fire";
                 ShotsCount = 3;
 
-                for (int i = 1; i < 4; i++)
+                for (int i = 1; i < 3; i++)
                 {
-                    SoundFlyPaths.Add("XWing-Fly" + i);
+                    SoundFlyPaths.Add("Slave1-Fly" + i);
                 }
-                
+
             }
 
             public override void InitializeShip()

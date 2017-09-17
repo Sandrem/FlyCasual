@@ -14,17 +14,17 @@ namespace Ship
             {
                 Type = "TIE Bomber";
 
-                ManeuversImageUrl = "https://vignette1.wikia.nocookie.net/xwing-miniatures/images/8/85/MI_TIE-ADVANCED.png";
+                ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/9/96/MI_TIE-BOMBER.png";
 
                 Firepower = 2;
                 Agility = 2;
                 MaxHull = 6;
                 MaxShields = 0;
 
-                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Torpedoes);
-                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Torpedoes);
-                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Missiles);
-                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Missiles);
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Torpedo);
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Torpedo);
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Missile);
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Missile);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Bomb);
 
                 AssignTemporaryManeuvers();
@@ -32,6 +32,8 @@ namespace Ship
 
                 factions.Add(Faction.Empire);
                 faction = Faction.Empire;
+
+                SkinName = "Blue";
 
                 SoundShotsPath = "TIE-Fire";
                 ShotsCount = 2;

@@ -34,6 +34,7 @@ public static partial class RosterBuilder {
             SquadBuilderShip copiedShip = SquadBuilderRoster.GetShipsByPlayer(playerNo).Last();
 
             CopyShipType(originalShip, copiedShip);
+            CopySkinDropdown(originalShip, copiedShip);
             CopyShipPilot(originalShip, copiedShip);
             CopyShipUpgrades(originalShip, copiedShip);
 
@@ -57,6 +58,13 @@ public static partial class RosterBuilder {
                 break;
             }
         }
+    }
+
+    private static void CopySkinDropdown(SquadBuilderShip originalShip, SquadBuilderShip copiedShip)
+    {
+        Dropdown copiedShipDropdown = copiedShip.Panel.transform.Find("GroupShip/DropdownSkin").GetComponent<Dropdown>();
+        Dropdown originalShipDropdown = originalShip.Panel.transform.Find("GroupShip/DropdownSkin").GetComponent<Dropdown>();
+        copiedShipDropdown.value = originalShipDropdown.value;
     }
 
     private static void CopyShipPilot(SquadBuilderShip originalShip, SquadBuilderShip copiedShip)
@@ -227,6 +235,22 @@ public static partial class RosterBuilder {
         AddPilotTooltip(squadBuilderShip.Panel.transform.Find("GroupShip/DropdownPilot").gameObject);
     }
 
+    private static void SetSkinsDropdown(SquadBuilderShip squadBuilderShip, List<string> skinNames)
+    {
+        Dropdown skinDropdown = squadBuilderShip.Panel.transform.Find("GroupShip/DropdownSkin").GetComponent<Dropdown>();
+        skinDropdown.ClearOptions();
+        skinDropdown.AddOptions(skinNames);
+
+        for (int i = 0; i < skinDropdown.options.Count; i++)
+        {
+            if (skinDropdown.options[i].text == squadBuilderShip.Ship.SkinName)
+            {
+                skinDropdown.value = i;
+                break;
+            }
+        }
+    }
+
     private static void UpdateUpgradePanelsFull(SquadBuilderShip squadBuilderShip)
     {
         List<SquadBuilderUpgrade> upgrades = new List<SquadBuilderUpgrade>(squadBuilderShip.GetUpgrades());
@@ -350,15 +374,22 @@ public static partial class RosterBuilder {
 
     private static Faction GetPlayerFaction(PlayerNo playerNo)
     {
+        Faction result = Faction.Empire;
         int index = GetPlayerPanel(playerNo).Find("GroupFaction/Dropdown").GetComponent<Dropdown>().value;
         switch (index)
         {
             case 0:
-                return Faction.Rebels;
+                result = Faction.Rebels;
+                break;
             case 1:
-                return Faction.Empire;
+                result = Faction.Empire;
+                break;
+            case 2:
+                result = Faction.Scum;
+                break;
         }
-        return Faction.Empire;
+        SquadBuilderRoster.playerFactions[playerNo] = result;
+        return result;
     }
 
     private static Type GetPlayerType(PlayerNo playerNo)
@@ -402,7 +433,7 @@ public static partial class RosterBuilder {
         {
             if (shipPanel.name == "AddShipPanel") continue;
             string pilotName = shipPanel.Find("GroupShip/DropdownPilot").GetComponent<Dropdown>().captionText.text;
-            Ship.GenericShip newPilot = (Ship.GenericShip)Activator.CreateInstance(Type.GetType(AllPilots[pilotName]));
+            GenericShip newPilot = (GenericShip)Activator.CreateInstance(Type.GetType(AllPilots[pilotName]));
             if (newPilot.faction != playerFaction) RemoveShip(playerNo, shipPanel.gameObject);
         }
 
@@ -476,9 +507,14 @@ public static partial class RosterBuilder {
 
         if (i % 2 == 1) offset = offset - 30;
         if (i == 0) offset = offset + 10;
-        panel.GetComponent<RectTransform>().sizeDelta = new Vector2(580, -offset + 50);
+        panel.GetComponent<RectTransform>().sizeDelta = new Vector2(580, -offset + 90);
 
         OrganizeAllShipsLists();
+    }
+
+    private static string GetSkinName(SquadBuilderShip ship)
+    {
+        return ship.Panel.transform.Find("GroupShip/DropdownSkin").GetComponent<Dropdown>().captionText.text; ;
     }
 
 }

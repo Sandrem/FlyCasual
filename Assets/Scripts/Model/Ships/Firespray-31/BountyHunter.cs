@@ -14,6 +14,10 @@ namespace Ship
                 ImageUrl = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/pilots/Galactic%20Empire/Firespray-31/bounty-hunter.png";
                 PilotSkill = 3;
                 Cost = 33;
+
+                SkinName = "Bounty Hunter";
+
+                faction = Faction.Empire;
             }
         }
     }

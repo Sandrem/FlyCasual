@@ -26,20 +26,20 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Cannon);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Bomb);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Crew);
-                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Missiles);
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Missile);
 
                 AssignTemporaryManeuvers();
                 HotacManeuverTable = new AI.Firespray31Table();
 
                 factions.Add(Faction.Empire);
-                faction = Faction.Empire;
+                factions.Add(Faction.Scum);
 
-                SoundShotsPath = "XWing-Laser";
+                SoundShotsPath = "Slave1-Fire";
                 ShotsCount = 3;
 
-                for (int i = 1; i < 4; i++)
+                for (int i = 1; i < 3; i++)
                 {
-                    SoundFlyPaths.Add("XWing-Fly" + i);
+                    SoundFlyPaths.Add("Slave1-Fly" + i);
                 }
                 
             }

@@ -12,7 +12,6 @@ namespace CriticalHitCard
         {
             Name = "Loose Stabilizer";
             Type = CriticalCardType.Ship;
-            ImageUrl = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/damage-decks/core-tfa/loose-stabilizer.png";
         }
 
         public override void ApplyEffect(object sender, EventArgs e)

@@ -21,13 +21,15 @@ namespace Ship
                 MaxHull = 3;
                 MaxShields = 2;
 
-                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Missiles);
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Missile);
 
                 AssignTemporaryManeuvers();
                 HotacManeuverTable = new AI.TIEAdvancedTable();
 
                 factions.Add(Faction.Empire);
                 faction = Faction.Empire;
+
+                SkinName = "Gray";
 
                 SoundShotsPath = "TIE-Fire";
                 ShotsCount = 2;

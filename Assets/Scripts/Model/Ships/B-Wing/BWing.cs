@@ -14,7 +14,7 @@ namespace Ship
             {
                 Type = "B-Wing";
 
-                ManeuversImageUrl = "https://vignette1.wikia.nocookie.net/xwing-miniatures/images/3/3d/MR_T65-X-WING.png";
+                ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/3/32/MR_B-WING.png";
 
                 Firepower = 3;
                 Agility = 1;
@@ -23,14 +23,16 @@ namespace Ship
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.System);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Cannon);
-                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Torpedoes);
-                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Torpedoes);
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Torpedo);
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Torpedo);
 
                 AssignTemporaryManeuvers();
                 HotacManeuverTable = new AI.BWingTable();
 
                 factions.Add(Faction.Rebels);
                 faction = Faction.Rebels;
+
+                SkinName = "Teal";
 
                 SoundShotsPath = "XWing-Laser";
                 ShotsCount = 3;

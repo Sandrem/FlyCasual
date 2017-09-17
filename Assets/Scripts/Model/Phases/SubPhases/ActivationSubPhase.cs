@@ -104,7 +104,10 @@ namespace SubPhases
 
         public override void FinishPhase()
         {
-            Phases.NextPhase();
+            Phases.CurrentSubPhase = new ActivationEndSubPhase();
+            Phases.CurrentSubPhase.Start();
+            Phases.CurrentSubPhase.Prepare();
+            Phases.CurrentSubPhase.Initialize();
         }
 
         public override bool ThisShipCanBeSelected(Ship.GenericShip ship)

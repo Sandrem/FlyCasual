@@ -13,7 +13,6 @@ namespace UpgradesList
         {
             Type = UpgradeType.Astromech;
             Name = ShortName = "R5-D8";
-            ImageUrl = "https://vignette3.wikia.nocookie.net/xwing-miniatures/images/f/ff/R5-D8.jpg";
             isUnique = true;
             Cost = 3;
         }
@@ -84,7 +83,7 @@ namespace SubPhases
             {
                 if (Selection.ThisShip.TryDiscardFaceDownDamageCard())
                 {
-                    Sounds.PlaySoundOnce("R2D2-Proud");
+                    Sounds.PlayShipSound("R2D2-Proud");
                     Messages.ShowInfoToHuman("Facedown Damage card is discarded");
                 }
             }

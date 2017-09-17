@@ -25,7 +25,10 @@ namespace Ship
                 HotacManeuverTable = new AI.TIEFighterTable();
 
                 factions.Add(Faction.Empire);
+                factions.Add(Faction.Rebels);
                 faction = Faction.Empire;
+
+                SkinName = "Gray";
 
                 SoundShotsPath = "TIE-Fire";
                 ShotsCount = 2;

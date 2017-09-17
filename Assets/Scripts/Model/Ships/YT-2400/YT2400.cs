@@ -24,7 +24,7 @@ namespace Ship
                 MaxShields = 5;
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Cannon);
-                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Missiles);
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Missile);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Crew);
 
                 AssignTemporaryManeuvers();
@@ -33,14 +33,16 @@ namespace Ship
                 factions.Add(Faction.Rebels);
                 faction = Faction.Rebels;
 
-                SoundShotsPath = "XWing-Laser";
+                SkinName = "YT-2400";
+
+                SoundShotsPath = "Falcon-Fire";
                 ShotsCount = 2;
 
                 for (int i = 1; i < 4; i++)
                 {
-                    SoundFlyPaths.Add("XWing-Fly" + i);
+                    SoundFlyPaths.Add("Falcon-Fly" + i);
                 }
-                
+
             }
 
             public override void InitializeShip()

@@ -16,6 +16,8 @@ namespace Ship
                 Cost = 19;
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
+
+                SkinName = "White Stripes";
             }
         }
     }

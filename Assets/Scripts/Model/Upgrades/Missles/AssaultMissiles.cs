@@ -11,11 +11,10 @@ namespace UpgradesList
 	{
 		public AssaultMissiles () : base()
 		{
-			Type = UpgradeType.Missiles;
+			Type = UpgradeType.Missile;
 
 			Name = "Assault Missiles";
 			ShortName = "Assa. Missiles";
-			ImageUrl = "https://vignette3.wikia.nocookie.net/xwing-miniatures/images/b/b0/Assault_Missiles.png";
 
 			Cost = 5;
 			MinRange = 2;

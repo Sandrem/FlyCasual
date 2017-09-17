@@ -27,7 +27,7 @@ namespace Ship
                 HotacManeuverTable = new AI.Z95Table();
 
                 factions.Add(Faction.Rebels);
-                faction = Faction.Rebels;
+                factions.Add(Faction.Scum);
 
                 SkinName = "Yellow";
 

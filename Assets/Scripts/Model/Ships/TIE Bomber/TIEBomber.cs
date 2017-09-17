@@ -14,7 +14,7 @@ namespace Ship
             {
                 Type = "TIE Bomber";
 
-                ManeuversImageUrl = "https://vignette1.wikia.nocookie.net/xwing-miniatures/images/8/85/MI_TIE-ADVANCED.png";
+                ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/9/96/MI_TIE-BOMBER.png";
 
                 Firepower = 2;
                 Agility = 2;

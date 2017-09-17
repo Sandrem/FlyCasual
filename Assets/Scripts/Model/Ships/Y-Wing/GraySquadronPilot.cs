@@ -15,7 +15,11 @@ namespace Ship
                 PilotSkill = 4;
                 Cost = 20;
 
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Astromech);
+
                 SkinName = "Gray";
+
+                faction = Faction.Rebels;
             }
         }
     }

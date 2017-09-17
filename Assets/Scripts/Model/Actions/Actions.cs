@@ -36,8 +36,11 @@ public static partial class Actions {
 
             TakeTargetLockLetter(letter);
 
-            targetShip.AssignToken(tokenRed, delegate { } );
-            Selection.ThisShip.AssignToken(tokenBlue, successCallback);
+            targetShip.AssignToken(
+                tokenRed,
+                delegate{
+                    thisShip.AssignToken(tokenBlue, successCallback);
+                } );
         }
         else
         {

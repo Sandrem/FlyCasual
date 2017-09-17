@@ -6,7 +6,7 @@ public partial class Dice
 {
     public bool IsSelected { get; private set; }
 
-    public bool IsRerolled { get; private set; }
+    public bool IsRerolled { get; set; }
     public bool IsShowRerolledLock { get; private set; }
 
     public void ToggleSelected(bool isSelected)

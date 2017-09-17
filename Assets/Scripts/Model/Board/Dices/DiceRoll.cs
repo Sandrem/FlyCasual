@@ -204,9 +204,9 @@ public partial class DiceRoll
 		UpdateDiceCompareHelperPrediction ();
 	}
 
-    public void ChangeOne(DiceSide oldSide, DiceSide newSide)
+    public void ChangeOne(DiceSide oldSide, DiceSide newSide, bool cannotBeRerolled = false)
     {
-        ChangeDice(oldSide, newSide, true);
+        ChangeDice(oldSide, newSide, true, cannotBeRerolled);
         UpdateDiceCompareHelperPrediction();
     }
 
@@ -216,7 +216,7 @@ public partial class DiceRoll
         UpdateDiceCompareHelperPrediction();
     }
 
-    private void ChangeDice(DiceSide oldSide, DiceSide newSide, bool onlyOne)
+    private void ChangeDice(DiceSide oldSide, DiceSide newSide, bool onlyOne, bool cannotBeRerolled = false)
     {
         OrganizeDicePositions();
         foreach (Dice dice in DiceList)
@@ -225,6 +225,7 @@ public partial class DiceRoll
             {
                 dice.SetSide(newSide);
                 dice.SetModelSide(newSide);
+                if (cannotBeRerolled) dice.IsRerolled = true;
                 if (onlyOne) return;
             }
         }

@@ -6,28 +6,26 @@ using System.Linq;
 namespace SubPhases
 {
 
-    public class CombatStartSubPhase : GenericSubPhase
+    public class CombatEndSubPhase : GenericSubPhase
     {
 
         public override void Start()
         {
-            Name = "Combat start";
+            Name = "Combat end";
             UpdateHelpInfo();
 
-            if (DebugManager.DebugPhases) Debug.Log("Combat Start - Started");
+            if (DebugManager.DebugPhases) Debug.Log("Combat End - Started");
         }
 
         public override void Initialize()
         {
-            Phases.CallCombatPhaseStartTrigger();
+            Phases.CallCombatPhaseEndTrigger();
         }
 
         public override void Next()
         {
-            Phases.CurrentSubPhase = new CombatSubPhase();
-            Phases.CurrentSubPhase.Start();
-            Phases.CurrentSubPhase.Prepare();
-            Phases.CurrentSubPhase.Initialize();
+            UI.HideSkipButton();
+            Phases.CurrentPhase.NextPhase();
         }
 
         public override bool ThisShipCanBeSelected(Ship.GenericShip ship)

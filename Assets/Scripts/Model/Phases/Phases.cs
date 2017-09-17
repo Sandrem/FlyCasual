@@ -143,7 +143,7 @@ public static partial class Phases
             shipHolder.Value.CallOnCombatPhaseEnd();
         }
 
-        Triggers.ResolveTriggers(TriggerTypes.OnCombatPhaseStart, delegate () { FinishSubPhase(typeof(CombatEndSubPhase)); });
+        Triggers.ResolveTriggers(TriggerTypes.OnCombatPhaseEnd, delegate () { FinishSubPhase(typeof(CombatEndSubPhase)); });
     }
 
     public static void CallEndPhaseTrigger(Action callBack)

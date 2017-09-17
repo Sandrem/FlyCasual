@@ -23,6 +23,7 @@ public enum TriggerTypes
     OnActivationPhaseStart,
     OnActivationPhaseEnd,
     OnCombatPhaseStart,
+    OnCombatPhaseEnd,
     OnAttackHit,
     OnFaceupCritCardReadyToBeDealt,
     OnFaceupCritCardReadyToBeDealtUI,

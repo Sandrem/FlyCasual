@@ -114,6 +114,7 @@ namespace Ship
         public event EventHandlerShip OnActivationPhaseStart;
         public event EventHandlerShip OnActionSubPhaseStart;
         public event EventHandlerShip OnCombatPhaseStart;
+        public event EventHandlerShip OnCombatPhaseEnd;
 
         public event EventHandlerBool OnTryPerformAttack;
         public static event EventHandlerBool OnTryPerformAttackGlobal;
@@ -159,7 +160,12 @@ namespace Ship
         {
             if (OnCombatPhaseStart != null) OnCombatPhaseStart(this);
         }
-        
+
+        public void CallOnCombatPhaseEnd()
+        {
+            if (OnCombatPhaseEnd != null) OnCombatPhaseEnd(this);
+        }
+
         public bool CallCanPerformAttack(bool result = true)
         {
             if (OnTryPerformAttack != null) OnTryPerformAttack(ref result);

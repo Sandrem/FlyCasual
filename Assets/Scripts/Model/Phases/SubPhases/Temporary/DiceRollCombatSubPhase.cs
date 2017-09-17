@@ -62,8 +62,8 @@ namespace SubPhases
         protected virtual void CheckResults(DiceRoll diceRoll)
         {
             CurentDiceRoll = diceRoll;
-            Combat.ToggleConfirmDiceResultsButton(true);
-            Combat.ShowOppositeDiceModificationButtons();
+            Selection.ActiveShip = (Combat.AttackStep == CombatStep.Attack) ? Combat.Defender : Combat.Attacker;
+            Selection.ActiveShip.Owner.UseOppositeDiceModifications();
         }
 
         protected virtual void FinishAction()

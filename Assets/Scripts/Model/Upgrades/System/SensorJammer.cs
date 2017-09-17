@@ -60,7 +60,7 @@ namespace ActionsList
         {
             bool result = false;
 
-            if (Combat.AttackStep == CombatStep.Attack)
+            if (Combat.AttackStep == CombatStep.Attack && Combat.DiceRollAttack.RegularSuccesses > 0)
             {
                 result = true;
             }

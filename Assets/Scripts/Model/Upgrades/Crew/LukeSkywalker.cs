@@ -71,7 +71,7 @@ namespace UpgradesList
 
         public void AddLukeSkywalkerCrewAbility(GenericShip ship)
         {
-            ship.AddAvailableActionEffect(new LukeSkywalkerCrewAction());
+            ship.AddAvailableActionEffect(new ActionsList.LukeSkywalkerCrewAction());
         }
 
         public void RemoveLukeSkywalkerCrewAbility(GenericShip ship)
@@ -80,70 +80,41 @@ namespace UpgradesList
             ship.AfterGenerateAvailableActionEffectsList -= AddLukeSkywalkerCrewAbility;
         }
 
-        private class LukeSkywalkerCrewAction : ActionsList.GenericAction
-        {
-
-            public LukeSkywalkerCrewAction()
-            {
-                Name = EffectName = "Luke Skywalker's ability";
-
-                IsTurnsOneFocusIntoSuccess = true;
-            }
-
-            public override void ActionEffect(System.Action callBack)
-            {
-                Combat.CurentDiceRoll.ChangeOne(DiceSide.Focus, DiceSide.Crit);
-                callBack();
-            }
-
-            public override bool IsActionEffectAvailable()
-            {
-                bool result = false;
-                if (Combat.AttackStep == CombatStep.Attack) result = true;
-                return result;
-            }
-
-            public override int GetActionEffectPriority()
-            {
-                int result = 0;
-
-                if (Combat.AttackStep == CombatStep.Attack && Combat.DiceRollAttack.Focuses > 0) result = 100;
-
-                return result;
-            }
-
-        }
     }
 }
 
-namespace SubPhases
+namespace ActionsList
 {
-    public class SelectTargetForSecondAttackSubPhase : SelectShipSubPhase
+    public class LukeSkywalkerCrewAction : GenericAction
     {
 
-        public override void Prepare()
+        public LukeSkywalkerCrewAction()
         {
-            isEnemyAllowed = true;
-            finishAction = FinishActon;
+            Name = EffectName = "Luke Skywalker's ability";
 
-            UI.ShowSkipButton();
+            IsTurnsOneFocusIntoSuccess = true;
         }
 
-        private void FinishActon()
+        public override void ActionEffect(System.Action callBack)
         {
-            Selection.AnotherShip = TargetShip;
-            Combat.ChosenWeapon = Selection.ThisShip.PrimaryWeapon;
-            Combat.ShotInfo = new Board.ShipShotDistanceInformation(Selection.ThisShip, TargetShip, Combat.ChosenWeapon);
-            MovementTemplates.ShowFiringArcRange(Combat.ShotInfo);
-            CallBack();
+            Combat.CurentDiceRoll.ChangeOne(DiceSide.Focus, DiceSide.Crit);
+            callBack();
         }
 
-        protected override void RevertSubPhase() { }
-
-        public override void SkipButton()
+        public override bool IsActionEffectAvailable()
         {
-            Phases.FinishSubPhase(typeof(SelectTargetForSecondAttackSubPhase));
-            Triggers.FinishTrigger();
+            bool result = false;
+            if (Combat.AttackStep == CombatStep.Attack) result = true;
+            return result;
+        }
+
+        public override int GetActionEffectPriority()
+        {
+            int result = 0;
+
+            if (Combat.AttackStep == CombatStep.Attack && Combat.DiceRollAttack.Focuses > 0) result = 100;
+
+            return result;
         }
 
     }

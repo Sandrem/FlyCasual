@@ -149,6 +149,8 @@ namespace Ship
 
         public event EventHandlerBombDropTemplates OnGetAvailableBombDropTemplates;
 
+        public event EventHandlerDiceroll OnImmediatelyAfterRolling;
+
         // TRIGGERS
 
         public void CallOnActivationPhaseStart()
@@ -230,6 +232,11 @@ namespace Ship
         public void CallCombatEnd()
         {
             if (AfterCombatEnd != null) AfterCombatEnd(this);
+        }
+
+        public void CallOnImmediatelyAfterRolling(DiceRoll diceroll)
+        {
+            if (OnImmediatelyAfterRolling != null) OnImmediatelyAfterRolling(diceroll);
         }
 
         // DICES

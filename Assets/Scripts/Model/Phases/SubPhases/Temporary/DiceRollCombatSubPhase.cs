@@ -37,7 +37,14 @@ namespace SubPhases
 
             DiceRoll DiceRollCheck;
             DiceRollCheck = new DiceRoll(dicesType, dicesCount, DiceRollCheckType.Combat);
-            DiceRollCheck.Roll(checkResults);
+            DiceRollCheck.Roll(ImmediatelyAfterRolling);
+        }
+
+        private void ImmediatelyAfterRolling(DiceRoll diceroll)
+        {
+            Selection.ActiveShip = (Combat.AttackStep == CombatStep.Attack) ? Combat.Attacker : Combat.Defender;
+            Selection.ActiveShip.CallOnImmediatelyAfterRolling(diceroll);
+            checkResults(diceroll);
         }
 
         public void ToggleConfirmDiceResultsButton(bool isActive)

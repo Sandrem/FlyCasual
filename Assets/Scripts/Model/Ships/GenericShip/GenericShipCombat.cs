@@ -109,6 +109,8 @@ namespace Ship
         private List<CriticalHitCard.GenericCriticalHit> AssignedDamageCards = new List<CriticalHitCard.GenericCriticalHit>();
         public DiceRoll AssignedDamageDiceroll = new DiceRoll(DiceKind.Attack, 0, DiceRollCheckType.Virtual);
 
+        public bool IsCannotAttackSecondTime { get; set; }
+
         // EVENTS
 
         public event EventHandlerShip OnActivationPhaseStart;
@@ -124,6 +126,8 @@ namespace Ship
 
         public event EventHandler OnAttackHitAsAttacker;
         public event EventHandler OnAttackHitAsDefender;
+        public event EventHandler OnAttackMissedAsAttacker;
+        public event EventHandler OnAttackMissedAsDefender;
 
         public event EventHandlerInt AfterGotNumberOfPrimaryWeaponAttackDices;
         public event EventHandlerInt AfterGotNumberOfPrimaryWeaponDefenceDices;
@@ -139,6 +143,7 @@ namespace Ship
         public event EventHandlerShip OnDestroyed;
 
         public event EventHandlerShip AfterAttackWindow;
+        public event EventHandlerShip OnCheckSecondAttack;
 
         public event EventHandlerShip AfterCombatEnd;
 
@@ -200,9 +205,26 @@ namespace Ship
             if (OnAttackHitAsDefender != null) OnAttackHitAsDefender();
         }
 
+        public void CallOnAttackMissedAsAttacker()
+        {
+            if (OnAttackMissedAsAttacker != null) OnAttackMissedAsAttacker();
+        }
+
+        public void CallOnAttackMissedAsDefender()
+        {
+            if (OnAttackMissedAsDefender != null) OnAttackMissedAsDefender();
+        }
+
         public void CallAfterAttackWindow()
         {
             if (AfterAttackWindow != null) AfterAttackWindow(this);
+        }
+
+        public void CallCheckSecondAttack(Action callBack)
+        {
+            if (OnCheckSecondAttack != null) OnCheckSecondAttack(this);
+
+            Triggers.ResolveTriggers(TriggerTypes.OnCheckSecondAttack, callBack);
         }
 
         public void CallCombatEnd()

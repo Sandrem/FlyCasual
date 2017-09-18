@@ -199,6 +199,9 @@ public static partial class Combat
         }
         else
         {
+            Attacker.CallOnAttackMissedAsAttacker();
+            Defender.CallOnAttackMissedAsDefender();
+
             SufferDamage();
         }        
     }
@@ -265,11 +268,30 @@ public static partial class Combat
 
     private static void CallCombatEndEvents()
     {
+        Selection.ThisShip = Attacker;
+
         Attacker.CallCombatEnd();
         Defender.CallCombatEnd();
 
         CleanupCombatData();
 
+        if (!Selection.ThisShip.IsCannotAttackSecondTime)
+        {
+            CheckSecondAttack(CheckFinishCombatSubPhase);
+        }
+        else
+        {
+            CheckFinishCombatSubPhase();
+        }
+    }
+
+    private static void CheckSecondAttack(Action callBack)
+    {
+        Selection.ThisShip.CallCheckSecondAttack(callBack);
+    }
+
+    private static void CheckFinishCombatSubPhase()
+    {
         if (Roster.NoSamePlayerAndPilotSkillNotAttacked(Selection.ThisShip))
         {
             Phases.FinishSubPhase(typeof(SubPhases.CombatSubPhase));

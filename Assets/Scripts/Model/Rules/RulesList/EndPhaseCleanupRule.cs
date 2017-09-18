@@ -38,6 +38,7 @@ namespace RulesList
             ship.IsManeuverPerformed = false;
             ship.IsSkipsActionSubPhase = false;
             ship.IsBombAlreadyDropped = false;
+            ship.IsCannotAttackSecondTime = false;
         }
 
         private void ClearAssignedManeuvers(Ship.GenericShip ship)

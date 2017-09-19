@@ -58,15 +58,23 @@ public class ShipMovementScript : MonoBehaviour {
 
         Selection.ThisShip.AssignedManeuver = MovementFromString(parameters);
 
-        Selection.ThisShip.InfoPanel.transform.Find("DialAssigned" + Selection.ThisShip.Owner.Id).gameObject.SetActive(true);
-        Roster.HighlightShipOff(Selection.ThisShip);
-
         UI.HideDirectionMenu();
 
-        if (Roster.AllManuersAreAssigned(Phases.CurrentPhasePlayer))
+        if (Phases.CurrentSubPhase.GetType() == typeof(SubPhases.PlanningSubPhase))
         {
-            UI.ShowNextButton();
-            UI.HighlightNextButton();
+            Selection.ThisShip.InfoPanel.transform.Find("DialAssigned" + Selection.ThisShip.Owner.Id).gameObject.SetActive(true);
+            Roster.HighlightShipOff(Selection.ThisShip);
+
+            if (Roster.AllManuersAreAssigned(Phases.CurrentPhasePlayer))
+            {
+                UI.ShowNextButton();
+                UI.HighlightNextButton();
+            }
+        }
+        else
+        {
+            Messages.ShowInfo("Finish trigger");
+            Triggers.FinishTrigger();
         }
     }
 

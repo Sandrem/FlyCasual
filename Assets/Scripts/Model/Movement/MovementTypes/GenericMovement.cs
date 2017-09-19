@@ -9,6 +9,7 @@ namespace Movement
     public enum ManeuverSpeed
     {
         AdditionalMovement,
+        Speed0,
         Speed1,
         Speed2,
         Speed3,
@@ -58,6 +59,9 @@ namespace Movement
 
             switch (arrParameters[0])
             {
+                case "0":
+                    speed = ManeuverSpeed.Speed0;
+                    break;
                 case "1":
                     speed = ManeuverSpeed.Speed1;
                     break;
@@ -95,7 +99,7 @@ namespace Movement
             switch (arrParameters[2])
             {
                 case "S":
-                    bearing = ManeuverBearing.Straight;
+                    bearing = (speed != ManeuverSpeed.Speed0) ? ManeuverBearing.Straight : ManeuverBearing.Stationary;
                     break;
                 case "R":
                     bearing = (direction == ManeuverDirection.Forward) ? ManeuverBearing.KoiogranTurn : ManeuverBearing.SegnorsLoop;
@@ -123,6 +127,9 @@ namespace Movement
                 ManeuverSpeed speed = ManeuverSpeed.Speed1;
                 switch (value)
                 {
+                    case 0:
+                        speed = ManeuverSpeed.Speed0;
+                        break;
                     case 1:
                         speed = ManeuverSpeed.Speed1;
                         break;
@@ -150,6 +157,9 @@ namespace Movement
                 switch (Speed)
                 {
                     case ManeuverSpeed.AdditionalMovement:
+                        break;
+                    case ManeuverSpeed.Speed0:
+                        speed = 0;
                         break;
                     case ManeuverSpeed.Speed1:
                         speed = 1;
@@ -208,6 +218,12 @@ namespace Movement
                 case ManeuverBearing.KoiogranTurn:
                     maneuverString += "R";
                     break;
+                case ManeuverBearing.SegnorsLoop:
+                    maneuverString += "R";
+                    break;
+                case ManeuverBearing.Stationary:
+                    maneuverString += "S";
+                    break;
                 default:
                     break;
             }
@@ -256,6 +272,9 @@ namespace Movement
 
             switch (speed)
             {
+                case 0:
+                    maneuverSpeed = ManeuverSpeed.Speed0;
+                    break;
                 case 1:
                     maneuverSpeed = ManeuverSpeed.Speed1;
                     break;
@@ -408,6 +427,12 @@ namespace Movement
                     break;
                 case ManeuverBearing.KoiogranTurn:
                     maneuverString += "R";
+                    break;
+                case ManeuverBearing.SegnorsLoop:
+                    maneuverString += "R";
+                    break;
+                case ManeuverBearing.Stationary:
+                    maneuverString += "S";
                     break;
                 default:
                     break;

@@ -73,7 +73,6 @@ public class ShipMovementScript : MonoBehaviour {
         }
         else
         {
-            Messages.ShowInfo("Finish trigger");
             Triggers.FinishTrigger();
         }
     }

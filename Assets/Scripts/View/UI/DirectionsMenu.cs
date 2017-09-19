@@ -7,10 +7,10 @@ using UnityEngine.UI;
 
 public static class DirectionsMenu
 {
-    public static void Show()
+    public static void Show(Func<string, bool> filter = null)
     {
         GameObject.Find("UI").transform.Find("ContextMenuPanel").gameObject.SetActive(false);
-        CustomizeDirectionsMenu();
+        CustomizeDirectionsMenu(filter);
         GameObject.Find("UI").transform.Find("DirectionsPanel").position = FixMenuPosition(GameObject.Find("UI").transform.Find("DirectionsPanel").gameObject, GameObject.Find("UI").transform.Find("ContextMenuPanel").position);
         GameObject.Find("UI").transform.Find("DirectionsPanel").gameObject.SetActive(true);
     }
@@ -30,7 +30,7 @@ public static class DirectionsMenu
         }
     }
 
-    private static void CustomizeDirectionsMenu()
+    private static void CustomizeDirectionsMenu(Func<string, bool> filter = null)
     {
         ClearAvailableManeuvers();
         RestoreDirectionsMenu();
@@ -45,13 +45,16 @@ public static class DirectionsMenu
             GameObject button = GameObject.Find("UI").transform.Find("DirectionsPanel").Find("Directions").Find("Speed" + maneuverSpeed).Find(maneuverData.Key).gameObject;
             if (maneuverData.Value != Movement.ManeuverColor.None)
             {
-                if (!linesExist.Contains(int.Parse(maneuverSpeed))) linesExist.Add(int.Parse(maneuverSpeed));
+                if (filter == null || filter(maneuverData.Key))
+                {
+                    if (!linesExist.Contains(int.Parse(maneuverSpeed))) linesExist.Add(int.Parse(maneuverSpeed));
 
-                SetManeuverColor(button, maneuverData);
-                button.SetActive(true);
+                    SetManeuverColor(button, maneuverData);
+                    button.SetActive(true);
 
-                GameObject number = GameObject.Find("UI").transform.Find("DirectionsPanel").Find("Numbers").Find("Speed" + maneuverSpeed).Find("Number").gameObject;
-                number.SetActive(true);
+                    GameObject number = GameObject.Find("UI").transform.Find("DirectionsPanel").Find("Numbers").Find("Speed" + maneuverSpeed).Find("Number").gameObject;
+                    number.SetActive(true);
+                }
             }
         }
 
@@ -98,8 +101,9 @@ public static class DirectionsMenu
 
     private static void RestoreDirectionsMenu()
     {
-        GameObject numbersLinePanel = GameObject.Find("UI").transform.Find("DirectionsPanel").Find("Numbers").gameObject;
-        GameObject directionsLinePanel = GameObject.Find("UI").transform.Find("DirectionsPanel").Find("Directions").gameObject;
+        GameObject directionsMenuPanel = GameObject.Find("UI").transform.Find("DirectionsPanel").gameObject;
+        GameObject numbersLinePanel = directionsMenuPanel.transform.Find("Numbers").gameObject;
+        GameObject directionsLinePanel = directionsMenuPanel.transform.Find("Directions").gameObject;
         for (int i = 0; i < 7; i++)
         {
             numbersLinePanel.transform.Find("Speed" + i).gameObject.SetActive(true);
@@ -107,6 +111,7 @@ public static class DirectionsMenu
         }
         numbersLinePanel.GetComponent<RectTransform>().sizeDelta = new Vector3(numbersLinePanel.GetComponent<RectTransform>().sizeDelta.x, 290);
         directionsLinePanel.GetComponent<RectTransform>().sizeDelta = new Vector3(410, 290);
+        directionsLinePanel.GetComponent<RectTransform>().sizeDelta = new Vector3(450, 290);
 
         for (int i = -1; i < 7; i++)
         {
@@ -135,15 +140,18 @@ public static class DirectionsMenu
     {
         int rowFixed = (row != -1) ? row : 6;
 
-        GameObject numbersLinePanel = GameObject.Find("UI").transform.Find("DirectionsPanel").Find("Numbers").gameObject;
+        GameObject directionsMenuPanel = GameObject.Find("UI").transform.Find("DirectionsPanel").gameObject;
+        directionsMenuPanel.GetComponent<RectTransform>().sizeDelta = new Vector3(directionsMenuPanel.GetComponent<RectTransform>().sizeDelta.x, directionsMenuPanel.GetComponent<RectTransform>().sizeDelta.y - 40);
+
+        GameObject numbersLinePanel = directionsMenuPanel.transform.Find("Numbers").gameObject;
         numbersLinePanel.transform.Find("Speed" + rowFixed).gameObject.SetActive(false);
         numbersLinePanel.GetComponent<RectTransform>().sizeDelta = new Vector3(numbersLinePanel.GetComponent<RectTransform>().sizeDelta.x, numbersLinePanel.GetComponent<RectTransform>().sizeDelta.y - 40);
 
-        GameObject directionsLinePanel = GameObject.Find("UI").transform.Find("DirectionsPanel").Find("Directions").gameObject;
+        GameObject directionsLinePanel = directionsMenuPanel.transform.Find("Directions").gameObject;
         directionsLinePanel.transform.Find("Speed" + rowFixed).gameObject.SetActive(false);
         directionsLinePanel.GetComponent<RectTransform>().sizeDelta = new Vector3(directionsLinePanel.GetComponent<RectTransform>().sizeDelta.x, directionsLinePanel.GetComponent<RectTransform>().sizeDelta.y - 40);
 
-        if (row > 3)
+        if (row > -1)
         {
             for (int i = -1; i < rowFixed; i++)
             {

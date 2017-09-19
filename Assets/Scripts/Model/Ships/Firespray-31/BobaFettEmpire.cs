@@ -41,8 +41,25 @@ namespace Ship
 
             private void AskChangeManeuver(object sender, System.EventArgs e)
             {
-                GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-                Game.UI.ShowDirectionMenu();
+                if (Selection.ThisShip.AssignedManeuver.Bearing == Movement.ManeuverBearing.Bank)
+                {
+                    DirectionsMenu.Show(IsBankManeuversSameSpeed);
+                }
+                else
+                {
+                    Triggers.FinishTrigger();
+                }                
+            }
+
+            private bool IsBankManeuversSameSpeed(string maneuverString)
+            {
+                bool result = false;
+                Movement.MovementStruct movementStruct = new Movement.MovementStruct(maneuverString);
+                if (movementStruct.Bearing == Movement.ManeuverBearing.Bank && movementStruct.Speed == Selection.ThisShip.AssignedManeuver.ManeuverSpeed)
+                {
+                    result = true;
+                }
+                return result;
             }
         }
     }

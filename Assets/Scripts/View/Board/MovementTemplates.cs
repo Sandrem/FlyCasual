@@ -83,6 +83,8 @@ public static class MovementTemplates {
                 return Templates.Find("straight" + movement.Speed);
             case Movement.ManeuverBearing.Bank:
                 return Templates.Find("bank" + movement.Speed);
+            case Movement.ManeuverBearing.SegnorsLoop:
+                return Templates.Find("bank" + movement.Speed);
             case Movement.ManeuverBearing.Turn:
                 return Templates.Find("turn" + movement.Speed);
             case Movement.ManeuverBearing.KoiogranTurn:

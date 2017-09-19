@@ -28,7 +28,11 @@ namespace Movement
         Straight,
         Bank,
         Turn,
-        KoiogranTurn
+        KoiogranTurn,
+        SegnorsLoop,
+        TallonRoll,
+        Stationary,
+        Reverse
     }
 
     public enum ManeuverColor
@@ -94,7 +98,7 @@ namespace Movement
                     bearing = ManeuverBearing.Straight;
                     break;
                 case "R":
-                    bearing = ManeuverBearing.KoiogranTurn;
+                    bearing = (direction == ManeuverDirection.Forward) ? ManeuverBearing.KoiogranTurn : ManeuverBearing.SegnorsLoop;
                     break;
                 case "B":
                     bearing = ManeuverBearing.Bank;

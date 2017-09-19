@@ -168,9 +168,7 @@ public static class DirectionsMenu
 
     private static void SetManeuverColor(GameObject button, KeyValuePair<string, Movement.ManeuverColor> maneuverData)
     {
-        Movement.MovementStruct movement = new Movement.MovementStruct(maneuverData.Key);
         Color maneuverColor = Color.yellow;
-
         if (maneuverData.Value == Movement.ManeuverColor.Green) maneuverColor = Color.green;
         if (maneuverData.Value == Movement.ManeuverColor.White) maneuverColor = Color.white;
         if (maneuverData.Value == Movement.ManeuverColor.Red) maneuverColor = Color.red;

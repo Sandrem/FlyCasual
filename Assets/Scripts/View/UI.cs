@@ -73,7 +73,7 @@ public class UI : MonoBehaviour {
     public static void HideTemporaryMenus()
     {
         HideContextMenu();
-        HideDirectionMenu();
+        if (Phases.CurrentSubPhase.GetType() == typeof(SubPhases.PlanningSubPhase)) HideDirectionMenu();
     }
 
     //TODO: use in static generic UI class

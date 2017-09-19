@@ -109,9 +109,9 @@ public static class DirectionsMenu
             numbersLinePanel.transform.Find("Speed" + i).gameObject.SetActive(true);
             directionsLinePanel.transform.Find("Speed" + i).gameObject.SetActive(true);
         }
+        directionsMenuPanel.GetComponent<RectTransform>().sizeDelta = new Vector3(450, 290);
         numbersLinePanel.GetComponent<RectTransform>().sizeDelta = new Vector3(numbersLinePanel.GetComponent<RectTransform>().sizeDelta.x, 290);
         directionsLinePanel.GetComponent<RectTransform>().sizeDelta = new Vector3(410, 290);
-        directionsLinePanel.GetComponent<RectTransform>().sizeDelta = new Vector3(450, 290);
 
         for (int i = -1; i < 7; i++)
         {

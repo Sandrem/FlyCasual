@@ -52,14 +52,14 @@ namespace Arcs
             Host = host;
         }
 
-        public virtual bool InAttackAngle(float angle)
+        public virtual bool InAttackAngle(float angle, bool isReverse = false)
         {
-            return CheckAngle(angle, attackAngles);
+            return CheckAngle(angle, attackAngles, isReverse);
         }
 
-        public virtual bool InArc(float angle)
+        public virtual bool InArc(float angle, bool isReverse = false)
         {
-            return CheckAngle(angle, attackAngles);
+            return CheckAngle(angle, attackAngles, isReverse);
         }
 
         public virtual bool InPrimaryArc(float angle)
@@ -67,25 +67,35 @@ namespace Arcs
             return CheckAngle(angle, primaryArcAngle);
         }
 
-        private bool CheckAngle(float angle, List<ArcInfo> requiredAngles)
+        private bool CheckAngle(float angle, List<ArcInfo> requiredAngles, bool isReverse = false)
         {
 
             foreach (var arcInfo in requiredAngles)
             {
-                if (!arcInfo.IsReverse)
+                if (!isReverse && !arcInfo.IsReverse)
                 {
                     if (angle >= arcInfo.MinAngle && angle <= arcInfo.MaxAngle)
                     {
                         return true;
                     }
                 }
-                else if (angle <= arcInfo.MinAngle || angle >= arcInfo.MaxAngle)
+                else if ((isReverse) && (arcInfo.IsReverse) && (angle <= arcInfo.MinAngle || angle >= arcInfo.MaxAngle))
                 {
                     return true;
                 }
             }
 
             return false;
+        }
+
+        public bool HasRearFacingArc()
+        {
+            bool result = false;
+            foreach (var arc in attackAngles)
+            {
+                if (arc.IsReverse) return true;
+            }
+            return result;
         }
 
     }

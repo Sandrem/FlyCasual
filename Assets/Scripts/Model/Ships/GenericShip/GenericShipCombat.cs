@@ -69,7 +69,7 @@ namespace Ship
                 if (!CanShootOutsideArc)
                 {
                     //TODO: Change to munitions arc
-                    if (!Combat.ShotInfo.InPrimaryArc) return false;
+                    if (!Combat.ShotInfo.InShotAngle) return false;
                 }
             }
             else
@@ -80,7 +80,7 @@ namespace Ship
                     range = shotInfo.Range;
 
                     //TODO: Change to munitions arc
-                    if (!shotInfo.InPrimaryArc) return false;
+                    if (!shotInfo.InShotAngle) return false;
                 }
                 else
                 {

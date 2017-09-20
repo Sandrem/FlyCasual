@@ -48,7 +48,7 @@ namespace PilotAbilities
 
         public override void ActionEffect(System.Action callBack)
         {
-            Combat.CurentDiceRoll.ChangeOne(DiceSide.Focus, DiceSide.Success);
+            Combat.CurentDiceRoll.ChangeOne(DieSide.Focus, DieSide.Success);
             callBack();
         }
 

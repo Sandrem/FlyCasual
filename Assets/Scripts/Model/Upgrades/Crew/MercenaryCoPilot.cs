@@ -44,7 +44,7 @@ namespace ActionsList
 
         public override void ActionEffect(System.Action callBack)
         {
-            Combat.CurentDiceRoll.ChangeOne(DiceSide.Success, DiceSide.Crit);
+            Combat.CurentDiceRoll.ChangeOne(DieSide.Success, DieSide.Crit);
             callBack();
         }
 

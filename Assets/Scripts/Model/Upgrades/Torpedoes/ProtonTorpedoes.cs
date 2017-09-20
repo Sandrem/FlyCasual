@@ -100,7 +100,7 @@ namespace ActionsList
 
         public override void ActionEffect(System.Action callBack)
         {
-            Combat.CurentDiceRoll.ChangeOne(DiceSide.Focus, DiceSide.Crit);
+            Combat.CurentDiceRoll.ChangeOne(DieSide.Focus, DieSide.Crit);
             callBack();
         }
 

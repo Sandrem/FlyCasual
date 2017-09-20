@@ -34,7 +34,7 @@ namespace Ship
             get
             {
                 int result = attackValue;
-                Host.CallAfterGotNumberOfPrimaryWeaponAttackDices(ref result);
+                Host.CallAfterGotNumberOfPrimaryWeaponAttackDice(ref result);
                 return result;
             }
             set { attackValue = value; }
@@ -129,9 +129,9 @@ namespace Ship
         public event EventHandler OnAttackMissedAsAttacker;
         public event EventHandler OnAttackMissedAsDefender;
 
-        public event EventHandlerInt AfterGotNumberOfPrimaryWeaponAttackDices;
-        public event EventHandlerInt AfterGotNumberOfPrimaryWeaponDefenceDices;
-        public event EventHandlerInt AfterGotNumberOfAttackDices;
+        public event EventHandlerInt AfterGotNumberOfPrimaryWeaponAttackDice;
+        public event EventHandlerInt AfterGotNumberOfPrimaryWeaponDefenceDice;
+        public event EventHandlerInt AfterGotNumberOfAttackDice;
 
         public event EventHandlerShip AfterAssignedDamageIsChanged;
 
@@ -239,32 +239,32 @@ namespace Ship
             if (OnImmediatelyAfterRolling != null) OnImmediatelyAfterRolling(diceroll);
         }
 
-        // DICES
+        // DICE
 
-        public int GetNumberOfAttackDices(GenericShip targetShip)
+        public int GetNumberOfAttackDice(GenericShip targetShip)
         {
             int result = 0;
 
             result = Combat.ChosenWeapon.AttackValue;
 
-            if (AfterGotNumberOfAttackDices != null) AfterGotNumberOfAttackDices(ref result);
+            if (AfterGotNumberOfAttackDice != null) AfterGotNumberOfAttackDice(ref result);
 
             if (result < 0) result = 0;
             return result;
         }
 
-        public void CallAfterGotNumberOfPrimaryWeaponAttackDices(ref int result)
+        public void CallAfterGotNumberOfPrimaryWeaponAttackDice(ref int result)
         {
-            if (AfterGotNumberOfPrimaryWeaponAttackDices != null) AfterGotNumberOfPrimaryWeaponAttackDices(ref result);
+            if (AfterGotNumberOfPrimaryWeaponAttackDice != null) AfterGotNumberOfPrimaryWeaponAttackDice(ref result);
         }
 
-        public int GetNumberOfDefenceDices(GenericShip attackerShip)
+        public int GetNumberOfDefenceDice(GenericShip attackerShip)
         {
             int result = Agility;
 
             if (Combat.ChosenWeapon.GetType() == typeof(PrimaryWeaponClass))
             {
-                if (AfterGotNumberOfPrimaryWeaponDefenceDices != null) AfterGotNumberOfPrimaryWeaponDefenceDices(ref result);
+                if (AfterGotNumberOfPrimaryWeaponDefenceDice != null) AfterGotNumberOfPrimaryWeaponDefenceDice(ref result);
             }
             return result;
         }

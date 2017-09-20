@@ -1,4 +1,4 @@
-﻿public enum DiceSide
+﻿public enum DieSide
 {
     Unknown,
     Blank,

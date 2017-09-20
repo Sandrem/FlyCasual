@@ -70,7 +70,7 @@ namespace ActionsList
         
         public override void ActionEffect(System.Action callBack)
         {
-            Combat.DiceRollAttack.ChangeOne(DiceSide.Success, DiceSide.Focus, true);
+            Combat.DiceRollAttack.ChangeOne(DieSide.Success, DieSide.Focus, true);
             callBack();
         }
 

@@ -417,8 +417,8 @@ namespace SubPhases
         {
             CanBePaused = true;
 
-            dicesType = DiceKind.Attack;
-            dicesCount = Combat.Attacker.GetNumberOfAttackDices(Combat.Defender);
+            diceType = DiceKind.Attack;
+            diceCount = Combat.Attacker.GetNumberOfAttackDice(Combat.Defender);
 
             checkResults = CheckResults;
             CallBack = Combat.ConfirmAttackDiceResults;
@@ -450,8 +450,8 @@ namespace SubPhases
     {
         public override void Prepare()
         {
-            dicesType = DiceKind.Defence;
-            dicesCount = Combat.Defender.GetNumberOfDefenceDices(Combat.Attacker);
+            diceType = DiceKind.Defence;
+            diceCount = Combat.Defender.GetNumberOfDefenceDice(Combat.Attacker);
 
             checkResults = CheckResults;
             CallBack = Combat.ConfirmDefenceDiceResults;

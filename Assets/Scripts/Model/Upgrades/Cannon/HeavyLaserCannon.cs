@@ -34,7 +34,7 @@ namespace UpgradesList
         {
             if (Combat.ChosenWeapon == this)
             {
-                diceroll.ChangeAll(DiceSide.Crit, DiceSide.Success);
+                diceroll.ChangeAll(DieSide.Crit, DieSide.Success);
             }
         }
 

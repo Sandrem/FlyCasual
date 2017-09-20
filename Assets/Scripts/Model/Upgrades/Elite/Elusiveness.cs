@@ -77,7 +77,7 @@ namespace ActionsList
         {
             DiceRerollManager diceRerollManager = new DiceRerollManager
             {
-                NumberOfDicesCanBeRerolled = 1,
+                NumberOfDiceCanBeRerolled = 1,
                 IsOpposite = true,
                 CallBack = delegate {
                     AssignStress(callBack);

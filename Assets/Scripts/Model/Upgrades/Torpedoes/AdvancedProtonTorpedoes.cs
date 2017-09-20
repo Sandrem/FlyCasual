@@ -99,7 +99,7 @@ namespace ActionsList
 
 		public override void ActionEffect(System.Action callBack)
 		{
-			Combat.CurentDiceRoll.Change(DiceSide.Blank, DiceSide.Focus, 3);
+			Combat.CurentDiceRoll.Change(DieSide.Blank, DieSide.Focus, 3);
 			callBack();
 		}
 	}

@@ -25,7 +25,7 @@ namespace UpgradesList
 
         public override void ExplosionEffect(GenericShip ship, Action callBack)
         {
-            ship.AssignedDamageDiceroll.AddDice(DiceSide.Success);
+            ship.AssignedDamageDiceroll.AddDice(DieSide.Success);
 
             Triggers.RegisterTrigger(new Trigger()
             {

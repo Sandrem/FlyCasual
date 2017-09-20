@@ -94,8 +94,8 @@ namespace ActionsList
         {
             DiceRerollManager diceRerollManager = new DiceRerollManager
             {
-                NumberOfDicesCanBeRerolled = 1,
-                SidesCanBeRerolled = new List<DiceSide> { DiceSide.Blank },
+                NumberOfDiceCanBeRerolled = 1,
+                SidesCanBeRerolled = new List<DieSide> { DieSide.Blank },
                 CallBack = callBack
             };
             diceRerollManager.Start();

@@ -109,7 +109,7 @@ namespace ActionsList
 
         public override void ActionEffect(System.Action callBack)
         {
-            Combat.CurentDiceRoll.ChangeOne(DiceSide.Blank, DiceSide.Success);
+            Combat.CurentDiceRoll.ChangeOne(DieSide.Blank, DieSide.Success);
             callBack();
         }
 

@@ -52,7 +52,7 @@ namespace PilotAbilities
         {
             DiceRerollManager diceRerollManager = new DiceRerollManager
             {
-                SidesCanBeRerolled = new List<DiceSide> { DiceSide.Blank },
+                SidesCanBeRerolled = new List<DieSide> { DieSide.Blank },
                 CallBack = callBack
             };
             diceRerollManager.Start();

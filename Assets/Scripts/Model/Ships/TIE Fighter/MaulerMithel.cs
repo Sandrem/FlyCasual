@@ -21,7 +21,7 @@ namespace Ship
             public override void InitializePilot()
             {
                 base.InitializePilot();
-                AfterGotNumberOfPrimaryWeaponAttackDices += MaulerMithelPilotAbility;
+                AfterGotNumberOfPrimaryWeaponAttackDice += MaulerMithelPilotAbility;
             }
 
             private void MaulerMithelPilotAbility(ref int result)

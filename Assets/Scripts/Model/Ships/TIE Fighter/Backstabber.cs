@@ -20,7 +20,7 @@ namespace Ship
             public override void InitializePilot()
             {
                 base.InitializePilot();
-                AfterGotNumberOfAttackDices += BackstabberPilotAbility;
+                AfterGotNumberOfAttackDice += BackstabberPilotAbility;
             }
 
             private void BackstabberPilotAbility(ref int diceNumber)

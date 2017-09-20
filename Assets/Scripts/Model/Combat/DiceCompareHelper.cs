@@ -31,26 +31,26 @@ public class DiceCompareHelper
         iconPrefabHit = helperPanel.transform.Find("DiceImages").gameObject.transform.Find("AttackHit").gameObject;
         iconPrefabCrit = helperPanel.transform.Find("DiceImages").gameObject.transform.Find("AttackCrit").gameObject;
 
-        CreateIcons(DiceSide.Crit, AttackDiceroll.CriticalSuccesses);
-        CreateIcons(DiceSide.Success, AttackDiceroll.RegularSuccesses);
+        CreateIcons(DieSide.Crit, AttackDiceroll.CriticalSuccesses);
+        CreateIcons(DieSide.Success, AttackDiceroll.RegularSuccesses);
 
         UpdatePanelSize();
     }
 
-    private void CreateIcons(DiceSide diceSide, int count)
+    private void CreateIcons(DieSide dieSide, int count)
     {
         for (int i = 0; i < count; i++)
         {
-            CreateIcon(diceSide);
+            CreateIcon(dieSide);
         }
     }
 
-    private void CreateIcon(DiceSide diceSide)
+    private void CreateIcon(DieSide dieSide)
     {
-        GameObject iconPrefab = (diceSide == DiceSide.Success) ? iconPrefabHit : iconPrefabCrit;
+        GameObject iconPrefab = (dieSide == DieSide.Success) ? iconPrefabHit : iconPrefabCrit;
         GameObject newIcon = MonoBehaviour.Instantiate(iconPrefab, helperPanel.transform.Find("DiceImages"));
         newIcon.transform.localPosition = new Vector3(iconsCount * 100, 0, 0);
-        newIcon.name = (diceSide == DiceSide.Success) ? "Hit" : "Crit";
+        newIcon.name = (dieSide == DieSide.Success) ? "Hit" : "Crit";
         newIcon.SetActive(true);
 
         diceIcons.Add(newIcon);

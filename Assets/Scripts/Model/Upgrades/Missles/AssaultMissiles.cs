@@ -76,7 +76,7 @@ namespace UpgradesList
 						ship.PilotName, Combat.Defender.PilotName));
 
 					var diceRoll = new DiceRoll (DiceKind.Attack, 0, DiceRollCheckType.Combat);
-					diceRoll.AddDice (DiceSide.Success);
+					diceRoll.AddDice (DieSide.Success);
 					var hitDie = diceRoll.DiceList [0];
 					ship.AssignedDamageDiceroll.DiceList.Add(hitDie);
 

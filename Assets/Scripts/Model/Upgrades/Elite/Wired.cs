@@ -66,8 +66,8 @@ namespace ActionsList
         {
             DiceRerollManager diceRerollManager = new DiceRerollManager
             {
-                SidesCanBeRerolled = new System.Collections.Generic.List<DiceSide> { DiceSide.Focus },
-                NumberOfDicesCanBeRerolled = 1,
+                SidesCanBeRerolled = new System.Collections.Generic.List<DieSide> { DieSide.Focus },
+                NumberOfDiceCanBeRerolled = 1,
                 CallBack = callBack
             };
             diceRerollManager.Start();

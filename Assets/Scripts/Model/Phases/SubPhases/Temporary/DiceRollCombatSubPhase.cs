@@ -9,8 +9,8 @@ namespace SubPhases
 
     public class DiceRollCombatSubPhase : GenericSubPhase
     {
-        protected DiceKind dicesType;
-        protected int dicesCount;
+        protected DiceKind diceType;
+        protected int diceCount;
 
         protected DiceRoll CurentDiceRoll;
         protected DelegateDiceroll checkResults;
@@ -36,7 +36,7 @@ namespace SubPhases
             }
 
             DiceRoll DiceRollCheck;
-            DiceRollCheck = new DiceRoll(dicesType, dicesCount, DiceRollCheckType.Combat);
+            DiceRollCheck = new DiceRoll(diceType, diceCount, DiceRollCheckType.Combat);
             DiceRollCheck.Roll(ImmediatelyAfterRolling);
         }
 

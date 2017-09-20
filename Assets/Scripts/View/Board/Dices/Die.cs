@@ -8,7 +8,7 @@ public enum DiceKind
     Defence
 }
 
-public partial class Dice
+public partial class Die
 {
     private DiceRoll ParentDiceRoll;
     private DiceKind Type;
@@ -28,26 +28,26 @@ public partial class Dice
 
     public GameObject Model { get; private set; }
 
-    public Dice(DiceRoll diceRoll, DiceKind type, DiceSide side = DiceSide.Unknown)
+    public Die(DiceRoll diceRoll, DiceKind type, DieSide side = DieSide.Unknown)
     {
         ParentDiceRoll = diceRoll;
         Type = type;
 
-        Sides = new List<DiceSide>
+        Sides = new List<DieSide>
         {
-            DiceSide.Blank,
-            DiceSide.Blank,
-            DiceSide.Focus,
-            DiceSide.Focus,
-            DiceSide.Success,
-            DiceSide.Success,
-            DiceSide.Success
+            DieSide.Blank,
+            DieSide.Blank,
+            DieSide.Focus,
+            DieSide.Focus,
+            DieSide.Success,
+            DieSide.Success,
+            DieSide.Success
         };
 
-        if (type == DiceKind.Attack) Sides.Add(DiceSide.Crit);
-        if (type == DiceKind.Defence) Sides.Add(DiceSide.Blank);
+        if (type == DiceKind.Attack) Sides.Add(DieSide.Crit);
+        if (type == DiceKind.Defence) Sides.Add(DieSide.Blank);
 
-        if (side != DiceSide.Unknown)
+        if (side != DieSide.Unknown)
         {
             Side = side;
         }
@@ -59,7 +59,7 @@ public partial class Dice
 
     private GameObject SpawnDice(DiceKind type)
     {
-        GameObject prefabDiceType = (type == DiceKind.Attack) ? DicesManager.DiceAttack : DicesManager.DiceDefence;
+        GameObject prefabDiceType = (type == DiceKind.Attack) ? DiceManager.DiceAttack : DiceManager.DiceDefence;
         Transform diceSpawningPoint = ParentDiceRoll.SpawningPoint;
         GameObject model = MonoBehaviour.Instantiate(prefabDiceType, diceSpawningPoint.transform.position, prefabDiceType.transform.rotation, diceSpawningPoint.transform);
         model.name = "DiceN" + diceIDcounter++;
@@ -97,20 +97,20 @@ public partial class Dice
         Roll();
     }
 
-    public void SetModelSide(DiceSide newSide)
+    public void SetModelSide(DieSide newSide)
     {
         switch (newSide)
         {
-            case DiceSide.Success:
+            case DieSide.Success:
                 Model.transform.Find("Dice").localEulerAngles = rotationSuccess;
                 break;
-            case DiceSide.Crit:
+            case DieSide.Crit:
                 Model.transform.Find("Dice").localEulerAngles = rotationCrit;
                 break;
-            case DiceSide.Focus:
+            case DieSide.Focus:
                 Model.transform.Find("Dice").localEulerAngles = rotationFocus;
                 break;
-            case DiceSide.Blank:
+            case DieSide.Blank:
                 Model.transform.Find("Dice").localEulerAngles = rotationBlank;
                 break;
         }
@@ -122,10 +122,10 @@ public partial class Dice
         Model.transform.Find("Dice").position = new Vector3 (position.x, Model.transform.Find("Dice").position.y, position.z);
     }
 
-    public DiceSide GetModelFace()
+    public DieSide GetModelFace()
     {
         string resultName = "";
-        DiceSide resultSide = DiceSide.Unknown;
+        DieSide resultSide = DieSide.Unknown;
         float resultHighest = float.MinValue;
 
         //TODO: Bug??? (TargetLock using)
@@ -142,16 +142,16 @@ public partial class Dice
         switch (resultName)
         {
             case "empty":
-                resultSide = DiceSide.Blank;
+                resultSide = DieSide.Blank;
                 break;
             case "focus":
-                resultSide = DiceSide.Focus;
+                resultSide = DieSide.Focus;
                 break;
             case "success":
-                resultSide = DiceSide.Success;
+                resultSide = DieSide.Success;
                 break;
             case "crit":
-                resultSide = DiceSide.Crit;
+                resultSide = DieSide.Crit;
                 break;
         }
 

@@ -139,7 +139,7 @@ public static partial class Combat
     public static void ShowAttackAnimationAndSound()
     {
         Upgrade.GenericSecondaryWeapon chosenSecondaryWeapon = ChosenWeapon as Upgrade.GenericSecondaryWeapon;
-        if (chosenSecondaryWeapon != null)
+        if (chosenSecondaryWeapon != null && chosenSecondaryWeapon.Type != Upgrade.UpgradeType.Cannon)
         {
             if (chosenSecondaryWeapon.Type == Upgrade.UpgradeType.Torpedo || chosenSecondaryWeapon.Type == Upgrade.UpgradeType.Missile)
             {
@@ -151,7 +151,6 @@ public static partial class Combat
                 Sounds.PlayShots(Selection.ActiveShip.SoundShotsPath, Selection.ActiveShip.ShotsCount);
                 Selection.ThisShip.AnimateTurretWeapon();
             }
-
         }
         else
         {

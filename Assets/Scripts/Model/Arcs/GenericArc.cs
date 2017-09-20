@@ -19,11 +19,13 @@ namespace Arcs
     {
         public float MinAngle;
         public float MaxAngle;
+        public bool IsReverse;
 
-        public ArcInfo(float minAngle, float maxAngle)
+        public ArcInfo(float minAngle, float maxAngle, bool isReverse = false)
         {
             MinAngle = minAngle;
             MaxAngle = maxAngle;
+            IsReverse = isReverse;
         }
     }
 
@@ -70,7 +72,14 @@ namespace Arcs
 
             foreach (var arcInfo in requiredAngles)
             {
-                if (angle >= arcInfo.MinAngle && angle <= arcInfo.MaxAngle)
+                if (!arcInfo.IsReverse)
+                {
+                    if (angle >= arcInfo.MinAngle && angle <= arcInfo.MaxAngle)
+                    {
+                        return true;
+                    }
+                }
+                else if (angle <= arcInfo.MinAngle || angle >= arcInfo.MaxAngle)
                 {
                     return true;
                 }

@@ -92,7 +92,7 @@ public static partial class Combat
                 {
                     Messages.ShowError("Target is outside your firing arc");
                 }
-                else if (ShotInfo.Distance > ChosenWeapon.MaxRange || ShotInfo.Distance < ChosenWeapon.MinRange)
+                else if (ShotInfo.Range > ChosenWeapon.MaxRange || ShotInfo.Distance < ChosenWeapon.MinRange)
                 {
                     Messages.ShowError("Target is outside your firing range");
                 }

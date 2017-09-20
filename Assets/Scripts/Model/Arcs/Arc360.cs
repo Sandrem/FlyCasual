@@ -14,7 +14,7 @@ namespace Arcs
             CanShootOutsideArc = true;
         }
 
-        public override bool InAttackAngle(float angle)
+        public override bool InAttackAngle(float angle, bool isReverse = false)
         {
             return true;
         }

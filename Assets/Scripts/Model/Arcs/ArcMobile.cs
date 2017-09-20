@@ -28,7 +28,7 @@ namespace Arcs
             { ArcFacing.Forward,    new ArcInfo( -40f,  40f) },
             { ArcFacing.Left,       new ArcInfo(-140f, -40f) },
             { ArcFacing.Right,      new ArcInfo(  40f, 140f) },
-            { ArcFacing.Rear,       new ArcInfo(-140f, 140f) }
+            { ArcFacing.Rear,       new ArcInfo(-140f, 140f, true) }
         };
 
         public ArcMobile(GenericShip host) : base(host)

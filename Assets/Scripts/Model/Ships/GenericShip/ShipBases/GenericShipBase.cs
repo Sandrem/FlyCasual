@@ -21,6 +21,7 @@ namespace Ship
 
         protected Dictionary<string, Vector3> standFrontEdgePoints = new Dictionary<string, Vector3>();
         private Dictionary<string, Vector3> standFrontPoints = new Dictionary<string, Vector3>();
+        private Dictionary<string, Vector3> standBackPoints = new Dictionary<string, Vector3>();
         private Dictionary<string, Vector3> standEdgePoints = new Dictionary<string, Vector3>();
         private Dictionary<string, Vector3> standPoints = new Dictionary<string, Vector3>();
         public float HALF_OF_SHIPSTAND_SIZE { get; protected set; }
@@ -61,6 +62,14 @@ namespace Ship
             for (int i = 1; i < PRECISION + 1; i++)
             {
                 standFrontPoints.Add("F" + i, new Vector3((float)i * ((2 * HALF_OF_FIRINGARC_SIZE) / (float)(PRECISION + 1)) - HALF_OF_FIRINGARC_SIZE, 0f, 0f));
+            }
+
+            standBackPoints = new Dictionary<string, Vector3>();
+            standBackPoints.Add("LB", new Vector3(-HALF_OF_SHIPSTAND_SIZE, 0f, -2 * HALF_OF_SHIPSTAND_SIZE));
+            standBackPoints.Add("RB", new Vector3(HALF_OF_SHIPSTAND_SIZE, 0f, -2 * HALF_OF_SHIPSTAND_SIZE));
+            for (int i = 1; i < PRECISION + 1; i++)
+            {
+                standBackPoints.Add("B" + i, new Vector3((float)i * ((2 * HALF_OF_FIRINGARC_SIZE) / (float)(PRECISION + 1)) - HALF_OF_FIRINGARC_SIZE, 0f, -2 * HALF_OF_SHIPSTAND_SIZE));
             }
 
             standEdgePoints.Add("LF", new Vector3(-HALF_OF_SHIPSTAND_SIZE, 0f, 0f));
@@ -108,6 +117,11 @@ namespace Ship
         public Dictionary<string, Vector3> GetStandFrontPoints()
         {
             return GetPoints(standFrontPoints);
+        }
+
+        public Dictionary<string, Vector3> GetStandBackPoints()
+        {
+            return GetPoints(standBackPoints);
         }
 
         private Dictionary<string, Vector3> GetPoints(Dictionary<string, Vector3> points)

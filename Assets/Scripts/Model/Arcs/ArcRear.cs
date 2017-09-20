@@ -10,7 +10,7 @@ namespace Arcs
     {
         public ArcRear(GenericShip host) : base(host)
         {
-            attackAngles = new List<ArcInfo> { new ArcInfo(-40f, 40f), new ArcInfo(-140f, 140f) };
+            attackAngles = new List<ArcInfo> { new ArcInfo(-40f, 40f), new ArcInfo(-140f, 140f, true) };
         }
     }
 }

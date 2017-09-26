@@ -14,7 +14,6 @@ namespace Ship
             {
                 Type = "YV-666";
                 ShipBaseSize = BaseSize.Large;
-
                 ShipBaseArcsType = Arcs.BaseArcsType.Arc180;
 
                 ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/b/be/MS_YV-666-FREIGHTER.png";

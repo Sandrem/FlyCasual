@@ -19,21 +19,62 @@ namespace Arcs
             set
             {
                 mobileArcFacing = value;
-                attackAngles[1] = mobileArcFacings[value];
+                ArcsList[1] = mobileArcFacings[value];
             }
         }
 
-        private Dictionary<ArcFacing, ArcInfo> mobileArcFacings = new Dictionary<ArcFacing, ArcInfo>
-        {
-            { ArcFacing.Forward,    new ArcInfo( -40f,  40f) },
-            { ArcFacing.Left,       new ArcInfo(-140f, -40f) },
-            { ArcFacing.Right,      new ArcInfo(  40f, 140f) },
-            { ArcFacing.Rear,       new ArcInfo(-140f, 140f, true) }
-        };
+        private Dictionary<ArcFacing, ArcInfo> mobileArcFacings;
 
         public ArcMobile(GenericShip host) : base(host)
         {
-            attackAngles = new List<ArcInfo> { new ArcInfo(-40f, 40f), mobileArcFacings[ArcFacing.Forward] };
+            mobileArcFacings = new Dictionary<ArcFacing, ArcInfo>(){
+                {
+                    ArcFacing.Forward,
+                    new ArcInfo()
+                    {
+                        ShipBase = Host.ShipBase,
+                        MinAngle = -40f,
+                        MaxAngle = 40f,
+                        Facing = ArcFacing.Forward
+                    }
+                },
+                {
+                    ArcFacing.Left,
+                    new ArcInfo()
+                    {
+                        ShipBase = Host.ShipBase,
+                        MinAngle = -140f,
+                        MaxAngle = -40f,
+                        Facing = ArcFacing.Left
+                    }
+                },
+                {
+                    ArcFacing.Right,
+                    new ArcInfo()
+                    {
+                        ShipBase = Host.ShipBase,
+                        MinAngle = 40f,
+                        MaxAngle = 140f,
+                        Facing = ArcFacing.Right
+                    }
+                },
+                {
+                    ArcFacing.Rear,
+                    new ArcInfo()
+                    {
+                        ShipBase = Host.ShipBase,
+                        MinAngle = -140f,
+                        MaxAngle = 140f,
+                        Facing = ArcFacing.Rear
+                    }
+                }
+            };
+
+            ArcsList = new List<ArcInfo>
+            {
+                primaryArc,
+                mobileArcFacings[ArcFacing.Forward]
+            };
         }
     }
 }

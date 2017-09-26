@@ -7,7 +7,6 @@ namespace SubPhases
 
     public class KoiogranTurnSubPhase : GenericSubPhase
     {
-        private bool inProgress;
         private float progressCurrent;
         private float progressTarget;
         private const float ANIMATION_SPEED = 100;
@@ -17,8 +16,6 @@ namespace SubPhases
             Name = "Koiogran Turn SubPhase";
             IsTemporary = true;
             UpdateHelpInfo();
-
-            GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
             StartKoiogranTurn();
         }
 
@@ -26,7 +23,6 @@ namespace SubPhases
         {
             progressCurrent = 0;
             progressTarget = 180;
-            inProgress = true;
         }
 
         public override void Update()
@@ -45,7 +41,6 @@ namespace SubPhases
 
         private void EndKoiogranTurn()
         {
-            inProgress = false;
             Phases.FinishSubPhase(typeof(KoiogranTurnSubPhase));
         }
 

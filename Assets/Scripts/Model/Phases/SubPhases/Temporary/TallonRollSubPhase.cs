@@ -7,7 +7,6 @@ namespace SubPhases
 
     public class TallonRollSubPhase : GenericSubPhase
     {
-        private bool inProgress;
         private float progressCurrent;
         private float progressTarget;
         private const float ANIMATION_SPEED = 100;
@@ -18,8 +17,6 @@ namespace SubPhases
             Name = "Tallon Roll SubPhase";
             IsTemporary = true;
             UpdateHelpInfo();
-
-            GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
             StartTallonRoll();
         }
 
@@ -43,12 +40,10 @@ namespace SubPhases
             direction = (Selection.ThisShip.AssignedManeuver.Direction == Movement.ManeuverDirection.Left) ? -1 : 1;
             progressCurrent = 0;
             progressTarget = 90;
-            inProgress = true;
         }
 
         private void EndTallonRoll()
         {
-            inProgress = false;
             Phases.FinishSubPhase(typeof(TallonRollSubPhase));
         }
 

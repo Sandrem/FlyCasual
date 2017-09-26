@@ -101,6 +101,10 @@ public class ShipMovementScript : MonoBehaviour {
         {
             result = new Movement.SegnorsLoopMovement(movementStruct.SpeedInt, movementStruct.Direction, movementStruct.Bearing, movementStruct.ColorComplexity);
         }
+        else if (movementStruct.Bearing == Movement.ManeuverBearing.TallonRoll)
+        {
+            result = new Movement.TallonRollMovement(movementStruct.SpeedInt, movementStruct.Direction, movementStruct.Bearing, movementStruct.ColorComplexity);
+        }
         else if (movementStruct.Bearing == Movement.ManeuverBearing.Stationary)
         {
             result = new Movement.StationaryMovement(movementStruct.SpeedInt, movementStruct.Direction, movementStruct.Bearing, movementStruct.ColorComplexity);
@@ -112,7 +116,6 @@ public class ShipMovementScript : MonoBehaviour {
     public Movement.GenericMovement MovementFromString(string parameters)
     {
         Movement.MovementStruct movementStruct = new Movement.MovementStruct(parameters);
-
         return MovementFromStruct(movementStruct);
     }
 

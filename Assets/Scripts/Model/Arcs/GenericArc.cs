@@ -88,26 +88,28 @@ namespace Arcs
             };
         }
 
-        public virtual bool InAttackAngle(float angle)
+        public virtual bool InAttackAngle(string originPoint, float angle)
         {
-            return CheckAngle(angle, ArcsList);
+            return CheckRay(originPoint, angle, ArcsList);
         }
 
-        public virtual bool InArc(float angle)
+        public virtual bool InArc(string originPoint, float angle)
         {
-            return CheckAngle(angle, ArcsList);
+            return CheckRay(originPoint, angle, ArcsList);
         }
 
-        public virtual bool InPrimaryArc(float angle)
+        public virtual bool InPrimaryArc(string originPoint, float angle)
         {
-            return CheckAngle(angle, new List<ArcInfo>() { primaryArc });
+            return CheckRay(originPoint, angle, new List<ArcInfo>() { primaryArc });
         }
 
-        private bool CheckAngle(float angle, List<ArcInfo> arcList)
+        private bool CheckRay(string originPoint, float angle, List<ArcInfo> arcList)
         {
 
             foreach (var arcInfo in arcList)
             {
+                if (!arcInfo.GetArcPoints().ContainsKey(originPoint)) continue;
+
                 if (arcInfo.Facing != ArcFacing.Rear)
                 {
                     if (angle >= arcInfo.MinAngle && angle <= arcInfo.MaxAngle)

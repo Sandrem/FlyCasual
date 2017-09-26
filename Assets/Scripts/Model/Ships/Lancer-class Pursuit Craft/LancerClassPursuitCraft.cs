@@ -50,6 +50,7 @@ namespace Ship
                 base.InitializeShip();
                 BuiltInActions.Add(new ActionsList.TargetLockAction());
                 BuiltInActions.Add(new ActionsList.EvadeAction());
+                BuiltInActions.Add(new ActionsList.RotateArcAction());
             }
 
             private void AssignTemporaryManeuvers()

@@ -9,7 +9,7 @@ namespace Arcs
 
     public class ArcMobile : GenericArc
     {
-        private ArcFacing mobileArcFacing = ArcFacing.Forward;
+        private ArcFacing mobileArcFacing = ArcFacing.Front;
         public ArcFacing MobileArcFacing
         {
             get
@@ -29,13 +29,13 @@ namespace Arcs
         {
             mobileArcFacings = new Dictionary<ArcFacing, ArcInfo>(){
                 {
-                    ArcFacing.Forward,
+                    ArcFacing.Front,
                     new ArcInfo()
                     {
                         ShipBase = Host.ShipBase,
                         MinAngle = -40f,
                         MaxAngle = 40f,
-                        Facing = ArcFacing.Forward
+                        Facing = ArcFacing.Front
                     }
                 },
                 {
@@ -73,7 +73,7 @@ namespace Arcs
             ArcsList = new List<ArcInfo>
             {
                 primaryArc,
-                mobileArcFacings[ArcFacing.Forward]
+                mobileArcFacings[ArcFacing.Front]
             };
         }
     }

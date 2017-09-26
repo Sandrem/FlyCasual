@@ -29,7 +29,7 @@ namespace Arcs
 
             switch (Facing)
             {
-                case ArcFacing.Forward:
+                case ArcFacing.Front:
                     results = ShipBase.GetStandFrontPoints();
                     break;
                 case ArcFacing.Left:
@@ -54,7 +54,7 @@ namespace Arcs
 
     public enum ArcFacing
     {
-        Forward,
+        Front,
         Left,
         Right,
         Rear,
@@ -79,7 +79,7 @@ namespace Arcs
                 ShipBase = Host.ShipBase,
                 MaxAngle = -40f,
                 MinAngle = 40f,
-                Facing = ArcFacing.Forward
+                Facing = ArcFacing.Front
             };
 
             ArcsList = new List<ArcInfo>

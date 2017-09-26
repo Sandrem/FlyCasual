@@ -15,7 +15,6 @@ namespace UpgradesList
             Type = UpgradeType.Turret;
 
             Name = "Twin Laser Turret";
-            ShortName = "TLT";
             Cost = 6;
 
             MinRange = 2;

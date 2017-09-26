@@ -9,7 +9,7 @@ namespace UpgradesList
         public MillenniumFalcon() : base()
         {
             Type = UpgradeType.Title;
-            Name = ShortName = "Millennium Falcon";
+            Name = "Millennium Falcon";
             Cost = 1;
             isUnique = true;
         }

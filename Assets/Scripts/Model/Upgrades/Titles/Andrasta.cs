@@ -10,7 +10,7 @@ namespace UpgradesList
         public Andrasta() : base()
         {
             Type = UpgradeType.Title;
-            Name = ShortName = "Andrasta";
+            Name = "Andrasta";
             Cost = 0;
             isUnique = true;
             AddedSlots = new List<UpgradeSlot>

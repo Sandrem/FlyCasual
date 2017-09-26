@@ -12,7 +12,7 @@ namespace UpgradesList
 		public PushTheLimit() : base()
 		{
 			Type = UpgradeType.Elite;
-			Name = ShortName = "Push The Limit";
+			Name = "Push The Limit";
 			Cost = 3;
 		}
 

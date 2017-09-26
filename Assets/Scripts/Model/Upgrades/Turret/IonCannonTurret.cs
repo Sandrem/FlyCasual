@@ -13,7 +13,6 @@ namespace UpgradesList
             Type = UpgradeType.Turret;
 
             Name = "Ion Cannon Turret";
-            ShortName = "Ion Cannon Turret";
             Cost = 5;
 
             MinRange = 1;

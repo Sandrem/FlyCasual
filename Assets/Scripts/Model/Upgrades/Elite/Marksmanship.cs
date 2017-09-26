@@ -12,7 +12,7 @@ namespace UpgradesList
         public Marksmanship() : base()
         {
             Type = UpgradeType.Elite;
-            Name = ShortName = "Marksmanship";
+            Name = "Marksmanship";
             Cost = 3;
         }
 

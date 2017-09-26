@@ -14,7 +14,6 @@ namespace UpgradesList
             Type = UpgradeType.Cannon;
 
             Name = "Mangler Cannon";
-            ShortName = "Mangler";
             Cost = 4;
 
             MinRange = 1;

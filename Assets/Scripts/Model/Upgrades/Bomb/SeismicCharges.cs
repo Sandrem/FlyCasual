@@ -15,7 +15,7 @@ namespace UpgradesList
         public SeismicCharges() : base()
         {
             Type = UpgradeType.Bomb;
-            Name = ShortName = "Seismic Charges";
+            Name = "Seismic Charges";
             Cost = 2;
 
             bombPrefabPath = "Prefabs/Bombs/SeismicCharge";

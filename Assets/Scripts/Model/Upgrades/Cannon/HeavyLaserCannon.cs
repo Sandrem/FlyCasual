@@ -14,7 +14,6 @@ namespace UpgradesList
             Type = UpgradeType.Cannon;
 
             Name = "Heavy Laser Cannon";
-            ShortName = "HLC";
             Cost = 7;
 
             MinRange = 2;

@@ -6,7 +6,6 @@ namespace UpgradesList{
 		public StealthDevice() : base() {
 			Type = UpgradeType.Modification;
 			Name = "Stealth Device";
-			ShortName = "Slth Dev";
 			Cost = 3;
 		}
 

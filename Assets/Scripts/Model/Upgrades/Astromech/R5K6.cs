@@ -12,7 +12,7 @@ namespace UpgradesList
         public R5K6() : base()
         {
             Type = UpgradeType.Astromech;
-            Name = ShortName = "R5-K6";
+            Name = "R5-K6";
             isUnique = true;
             Cost = 2;
         }

@@ -14,7 +14,6 @@ namespace UpgradesList
 			Type = UpgradeType.Torpedo;
 
 			Name = "Advanced Proton Torpedoes";
-			ShortName = "Adv Proton Torp.";
 			Cost = 6;
 
 			MinRange = 1;

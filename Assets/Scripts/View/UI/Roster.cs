@@ -333,7 +333,7 @@ public static partial class Roster {
         foreach (var upgrade in newShip.UpgradeBar.GetInstalledUpgrades())
         {
             GameObject upgradeNamePanel = newPanel.transform.Find("ShipInfo/UpgradesBar/Upgrade"+index).gameObject;
-            upgradeNamePanel.GetComponent<Text>().text = upgrade.ShortName;
+            upgradeNamePanel.GetComponent<Text>().text = upgrade.Name;
             upgradeNamePanel.SetActive(true);
             index++;
         }

@@ -77,8 +77,8 @@ namespace Arcs
             primaryArc = new ArcInfo()
             {
                 ShipBase = Host.ShipBase,
-                MaxAngle = -40f,
-                MinAngle = 40f,
+                MinAngle = -40f,
+                MaxAngle =  40f,
                 Facing = ArcFacing.Front
             };
 

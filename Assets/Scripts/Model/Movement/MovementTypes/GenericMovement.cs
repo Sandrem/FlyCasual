@@ -104,6 +104,9 @@ namespace Movement
                 case "R":
                     bearing = (direction == ManeuverDirection.Forward) ? ManeuverBearing.KoiogranTurn : ManeuverBearing.SegnorsLoop;
                     break;
+                case "E":
+                    bearing = ManeuverBearing.TallonRoll;
+                    break;
                 case "B":
                     bearing = ManeuverBearing.Bank;
                     break;
@@ -223,6 +226,9 @@ namespace Movement
                     break;
                 case ManeuverBearing.SegnorsLoop:
                     maneuverString += "R";
+                    break;
+                case ManeuverBearing.TallonRoll:
+                    maneuverString += "E";
                     break;
                 case ManeuverBearing.Stationary:
                     maneuverString += "S";
@@ -433,6 +439,9 @@ namespace Movement
                     break;
                 case ManeuverBearing.SegnorsLoop:
                     maneuverString += "R";
+                    break;
+                case ManeuverBearing.TallonRoll:
+                    maneuverString += "E";
                     break;
                 case ManeuverBearing.Stationary:
                     maneuverString += "S";

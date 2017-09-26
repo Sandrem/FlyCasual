@@ -92,6 +92,8 @@ public static class MovementTemplates {
                     return Templates.Find("bank" + movement.Speed);
                 case Movement.ManeuverBearing.Turn:
                     return Templates.Find("turn" + movement.Speed);
+                case Movement.ManeuverBearing.TallonRoll:
+                    return Templates.Find("turn" + movement.Speed);
                 case Movement.ManeuverBearing.KoiogranTurn:
                     return Templates.Find("straight" + movement.Speed);
                 case Movement.ManeuverBearing.Stationary:

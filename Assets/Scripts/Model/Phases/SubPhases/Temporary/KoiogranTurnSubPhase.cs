@@ -7,6 +7,10 @@ namespace SubPhases
 
     public class KoiogranTurnSubPhase : GenericSubPhase
     {
+        private bool inProgress;
+        private float progressCurrent;
+        private float progressTarget;
+        private const float ANIMATION_SPEED = 100;
 
         public override void Start()
         {
@@ -15,7 +19,34 @@ namespace SubPhases
             UpdateHelpInfo();
 
             GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-            Game.Position.StartKoiogranTurn();
+            StartKoiogranTurn();
+        }
+
+        public void StartKoiogranTurn()
+        {
+            progressCurrent = 0;
+            progressTarget = 180;
+            inProgress = true;
+        }
+
+        public override void Update()
+        {
+            float progressStep = Mathf.Min(Time.deltaTime * ANIMATION_SPEED * Options.AnimationSpeed, progressTarget - progressCurrent);
+            progressCurrent += progressStep;
+
+            Selection.ThisShip.RotateAround(Selection.ThisShip.GetCenter(), progressStep);
+
+            float positionY = (progressCurrent < 90) ? progressCurrent : 180 - progressCurrent;
+            positionY = positionY / 90;
+            Selection.ThisShip.SetHeight(positionY);
+
+            if (progressCurrent == progressTarget) EndKoiogranTurn();
+        }
+
+        private void EndKoiogranTurn()
+        {
+            inProgress = false;
+            Phases.FinishSubPhase(typeof(KoiogranTurnSubPhase));
         }
 
         public override void Next()

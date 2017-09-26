@@ -10,11 +10,9 @@ public class ShipPositionManager : MonoBehaviour
 
     //TEMP
     private bool inBarrelRoll;
-    private bool inKoiogranTurn;
     private Ship.GenericShip RollingShip;
     private float progressCurrent;
     private float progressTarget;
-    private const float KOIOGRAN_ANIMATION_SPEED = 100;
     private int helperDirection;
 
     private GameObject ShipStand;
@@ -35,11 +33,6 @@ public class ShipPositionManager : MonoBehaviour
         {
             PerformRotation();
             PerformDrag();
-        }
-
-        if (inKoiogranTurn)
-        {
-            DoKoiogranTurnAnimation();
         }
 
         Phases.CurrentSubPhase.Update();
@@ -283,33 +276,6 @@ public class ShipPositionManager : MonoBehaviour
         }
 
         Phases.Next();
-    }
-
-    public void StartKoiogranTurn()
-    {
-        progressCurrent = 0;
-        progressTarget = 180;
-        inKoiogranTurn = true;
-    }
-
-    private void DoKoiogranTurnAnimation()
-    {
-        float progressStep = Mathf.Min(Time.deltaTime * KOIOGRAN_ANIMATION_SPEED * Options.AnimationSpeed, progressTarget-progressCurrent);
-        progressCurrent += progressStep;
-
-        Selection.ThisShip.RotateAround(Selection.ThisShip.GetCenter(), progressStep);
-
-        float positionY = (progressCurrent < 90) ? progressCurrent : 180 - progressCurrent;
-        positionY = positionY / 90;
-        Selection.ThisShip.SetHeight(positionY);
-
-        if (progressCurrent == progressTarget) EndKoiogranTurn();
-    }
-
-    private void EndKoiogranTurn()
-    {
-        inKoiogranTurn = false;
-        Phases.FinishSubPhase(typeof(SubPhases.KoiogranTurnSubPhase));
     }
 
 }

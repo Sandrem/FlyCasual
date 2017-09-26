@@ -10,7 +10,17 @@ namespace Arcs
     {
         public Arc180(GenericShip host) : base(host)
         {
-            attackAngles = new List<ArcInfo> { new ArcInfo(-90f, 90f) };
+            ArcsList = new List<ArcInfo>
+            {
+                primaryArc,
+                new ArcInfo()
+                {
+                    ShipBase = Host.ShipBase,
+                    MinAngle = -90f,
+                    MaxAngle = 90f,
+                    Facing = ArcFacing.Forward180
+                }
+            };
         }
     }
 }

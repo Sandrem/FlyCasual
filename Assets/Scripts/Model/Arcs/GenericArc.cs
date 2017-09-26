@@ -17,83 +17,130 @@ namespace Arcs
 
     public class ArcInfo
     {
+        public GenericShipBase ShipBase;
         public float MinAngle;
         public float MaxAngle;
-        public bool IsReverse;
+        public ArcFacing Facing;
+        public bool CanShoot = true;
 
-        public ArcInfo(float minAngle, float maxAngle, bool isReverse = false)
+        public virtual Dictionary<string, Vector3> GetArcPoints()
         {
-            MinAngle = minAngle;
-            MaxAngle = maxAngle;
-            IsReverse = isReverse;
+            Dictionary<string, Vector3> results = new Dictionary<string, Vector3>();
+
+            switch (Facing)
+            {
+                case ArcFacing.Front:
+                    results = ShipBase.GetStandFrontPoints();
+                    break;
+                case ArcFacing.Left:
+                    results = ShipBase.GetStandLeftPoints();
+                    break;
+                case ArcFacing.Right:
+                    results = ShipBase.GetStandRightPoints();
+                    break;
+                case ArcFacing.Rear:
+                    results = ShipBase.GetStandBackPoints();
+                    break;
+                case ArcFacing.Forward180:
+                    results = ShipBase.GetStandFront180Points();
+                    break;
+                default:
+                    break;
+            }
+
+            return results;
         }
     }
 
     public enum ArcFacing
     {
-        Forward,
+        Front,
         Left,
         Right,
-        Rear
+        Rear,
+        Forward180
     }
 
     public class GenericArc
     {
-
         public GenericShip Host;
 
-        protected readonly List<ArcInfo> primaryArcAngle = new List<ArcInfo> { new ArcInfo(-40f, 40f) };
-        protected List<ArcInfo> attackAngles = new List<ArcInfo> { new ArcInfo(-40f, 40f) };
+        protected readonly ArcInfo primaryArc;
+        protected List<ArcInfo> ArcsList;
 
         public bool CanShootOutsideArc { get; protected set; }
 
         public GenericArc(GenericShip host)
         {
             Host = host;
-        }
 
-        public virtual bool InAttackAngle(float angle, bool isReverse = false)
-        {
-            return CheckAngle(angle, attackAngles, isReverse);
-        }
-
-        public virtual bool InArc(float angle, bool isReverse = false)
-        {
-            return CheckAngle(angle, attackAngles, isReverse);
-        }
-
-        public virtual bool InPrimaryArc(float angle)
-        {
-            return CheckAngle(angle, primaryArcAngle);
-        }
-
-        private bool CheckAngle(float angle, List<ArcInfo> requiredAngles, bool isReverse = false)
-        {
-
-            foreach (var arcInfo in requiredAngles)
+            primaryArc = new ArcInfo()
             {
-                if (!isReverse && !arcInfo.IsReverse)
+                ShipBase = Host.ShipBase,
+                MinAngle = -40f,
+                MaxAngle =  40f,
+                Facing = ArcFacing.Front
+            };
+
+            ArcsList = new List<ArcInfo>
+            {
+                primaryArc
+            };
+        }
+
+        public virtual bool InAttackAngle(string originPoint, float angle)
+        {
+            return CheckRay(originPoint, angle, ArcsList);
+        }
+
+        public virtual bool InArc(string originPoint, float angle)
+        {
+            return CheckRay(originPoint, angle, ArcsList);
+        }
+
+        public virtual bool InPrimaryArc(string originPoint, float angle)
+        {
+            return CheckRay(originPoint, angle, new List<ArcInfo>() { primaryArc });
+        }
+
+        private bool CheckRay(string originPoint, float angle, List<ArcInfo> arcList)
+        {
+
+            foreach (var arcInfo in arcList)
+            {
+                if (!arcInfo.GetArcPoints().ContainsKey(originPoint)) continue;
+
+                if (arcInfo.Facing != ArcFacing.Rear)
                 {
                     if (angle >= arcInfo.MinAngle && angle <= arcInfo.MaxAngle)
                     {
                         return true;
                     }
                 }
-                else if ((isReverse) && (arcInfo.IsReverse) && (angle <= arcInfo.MinAngle || angle >= arcInfo.MaxAngle))
+                else
                 {
-                    return true;
+                    if (angle <= arcInfo.MinAngle || angle >= arcInfo.MaxAngle)
+                    {
+                        return true;
+                    }
                 }
             }
 
             return false;
         }
 
-        public bool HasRearFacingArc()
+        public virtual Dictionary<string, Vector3> GetArcsPoints()
         {
-            bool result = false;
-            foreach (var arc in attackAngles)
+            Dictionary<string, Vector3> result = new Dictionary<string, Vector3>();
+            foreach (var arc in ArcsList)
             {
-                if (arc.IsReverse) return true;
+                foreach (var point in arc.GetArcPoints())
+                {
+                    if (!result.ContainsKey(point.Key))
+                    {
+                        result.Add(point.Key, point.Value);
+                    }
+                }
             }
             return result;
         }

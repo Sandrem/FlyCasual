@@ -39,93 +39,51 @@ namespace Board
             parallelPointsList = new List<List<Vector3>>();
 
             // TODO: another types of primaty arcs
-            Dictionary <string, Vector3> shootingPoints = (!ChosenWeapon.CanShootOutsideArc) ? ThisShip.ShipBase.GetStandFrontPoints() : ThisShip.ShipBase.GetStandPoints();
+            Dictionary <string, Vector3> shootingPoints = (!ChosenWeapon.CanShootOutsideArc) ? ThisShip.ArcInfo.GetArcsPoints() : ThisShip.ShipBase.GetStandPoints();
 
             // TODO: change to use geometry instead of dots
 
             float distance = float.MaxValue;
 
-            foreach (var objThis in shootingPoints)
+            foreach (var pointThis in shootingPoints)
             {
-                foreach (var objAnother in AnotherShip.ShipBase.GetStandPoints())
+                foreach (var pointAnother in AnotherShip.ShipBase.GetStandPoints())
                 {
                     // TODO: check this part
-                    Vector3 vectorToTarget = objAnother.Value - objThis.Value;
+                    Vector3 vectorToTarget = pointAnother.Value - pointThis.Value;
                     float angle = Mathf.Abs(Vector3.SignedAngle(vectorToTarget, vectorFacing, Vector3.up));
 
                     // TODO: Different checks for primary arc and 360 arc
 
-                    if (ChosenWeapon.CanShootOutsideArc || ChosenWeapon.Host.ArcInfo.InAttackAngle(angle))
+                    if (ChosenWeapon.CanShootOutsideArc || ChosenWeapon.Host.ArcInfo.InAttackAngle(pointThis.Key, angle))
                     {
                         InShotAngle = true;
 
-                        if (ChosenWeapon.Host.ArcInfo.InArc(angle))
+                        if (ChosenWeapon.Host.ArcInfo.InArc(pointThis.Key, angle))
                         {
                             InArc = true;
                         }
 
-                        if (ChosenWeapon.Host.ArcInfo.InPrimaryArc(angle))
+                        if (ChosenWeapon.Host.ArcInfo.InPrimaryArc(pointThis.Key, angle))
                         {
                             InPrimaryArc = true;
                         }
 
-                        distance = Vector3.Distance(objThis.Value, objAnother.Value);
+                        distance = Vector3.Distance(pointThis.Value, pointAnother.Value);
                         if (distance < Distance - PRECISION)
                         {
                             parallelPointsList = new List<List<Vector3>>();
 
                             Distance = distance;
 
-                            ThisShipNearestPoint = objThis.Value;
-                            AnotherShipNearestPoint = objAnother.Value;
+                            ThisShipNearestPoint = pointThis.Value;
+                            AnotherShipNearestPoint = pointAnother.Value;
 
-                            parallelPointsList.Add(new List<Vector3>() { objThis.Value, objAnother.Value });
+                            parallelPointsList.Add(new List<Vector3>() { pointThis.Value, pointAnother.Value });
                         }
                         else if (Mathf.Abs(Distance - distance) < PRECISION)
                         {
-                            parallelPointsList.Add(new List<Vector3>() { objThis.Value, objAnother.Value });
-                        }
-                    }
-                }
-            }
-
-            if (ThisShip.ArcInfo.HasRearFacingArc())
-            {
-                shootingPoints = ThisShip.ShipBase.GetStandBackPoints();
-
-                foreach (var objThis in shootingPoints)
-                {
-                    foreach (var objAnother in AnotherShip.ShipBase.GetStandPoints())
-                    {
-                        // TODO: check this part
-                        Vector3 vectorToTarget = objAnother.Value - objThis.Value;
-                        float angle = Mathf.Abs(Vector3.SignedAngle(vectorToTarget, vectorFacing, Vector3.up));
-
-                        if (ChosenWeapon.Host.ArcInfo.InAttackAngle(angle, true))
-                        {
-                            InShotAngle = true;
-
-                            if (ChosenWeapon.Host.ArcInfo.InArc(angle, true))
-                            {
-                                InArc = true;
-                            }
-
-                            distance = Vector3.Distance(objThis.Value, objAnother.Value);
-                            if (distance < Distance - PRECISION)
-                            {
-                                parallelPointsList = new List<List<Vector3>>();
-
-                                Distance = distance;
-
-                                ThisShipNearestPoint = objThis.Value;
-                                AnotherShipNearestPoint = objAnother.Value;
-
-                                parallelPointsList.Add(new List<Vector3>() { objThis.Value, objAnother.Value });
-                            }
-                            else if (Mathf.Abs(Distance - distance) < PRECISION)
-                            {
-                                parallelPointsList.Add(new List<Vector3>() { objThis.Value, objAnother.Value });
-                            }
+                            parallelPointsList.Add(new List<Vector3>() { pointThis.Value, pointAnother.Value });
                         }
                     }
                 }

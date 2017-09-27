@@ -9,7 +9,7 @@ namespace UpgradesList
         public Bombardier() : base()
         {
             Type = UpgradeType.Crew;
-            Name = ShortName = "Bombardier";
+            Name = "Bombardier";
             Cost = 1;
         }
 

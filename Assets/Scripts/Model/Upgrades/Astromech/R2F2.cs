@@ -12,7 +12,7 @@ namespace UpgradesList
         public R2F2() : base()
         {
             Type = UpgradeType.Astromech;
-            Name = ShortName = "R2-F2";
+            Name = "R2-F2";
             isUnique = true;
             Cost = 3;
         }

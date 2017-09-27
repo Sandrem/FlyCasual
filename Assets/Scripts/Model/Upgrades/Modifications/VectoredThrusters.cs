@@ -8,7 +8,7 @@ namespace UpgradesList
         public VectoredThrusters() : base()
         {
             Type = UpgradeType.Modification;
-            Name = ShortName = "Vectored Thrusters";
+            Name = "Vectored Thrusters";
             Cost = 2;
         }
 

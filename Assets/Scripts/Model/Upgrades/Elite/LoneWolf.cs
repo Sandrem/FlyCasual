@@ -14,7 +14,7 @@ namespace UpgradesList
             isUnique = true;
 
             Type = UpgradeType.Elite;
-            Name = ShortName = "Lone Wolf";
+            Name = "Lone Wolf";
             Cost = 2;
         }
 

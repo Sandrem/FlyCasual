@@ -15,7 +15,6 @@ namespace UpgradesList
             Type = UpgradeType.Missile;
 
             Name = "Concussion Missiles";
-            ShortName = "Conc. Missiles";
             Cost = 4;
 
             MinRange = 2;

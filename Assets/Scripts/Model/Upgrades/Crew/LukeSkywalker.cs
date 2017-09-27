@@ -11,7 +11,7 @@ namespace UpgradesList
         public LukeSkywalker() : base()
         {
             Type = UpgradeType.Crew;
-            Name = ShortName = "Luke Skywalker";
+            Name = "Luke Skywalker";
             Cost = 7;
             isUnique = true;
         }

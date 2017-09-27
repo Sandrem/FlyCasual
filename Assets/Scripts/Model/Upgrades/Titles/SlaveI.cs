@@ -10,7 +10,7 @@ namespace UpgradesList
         public SlaveI() : base()
         {
             Type = UpgradeType.Title;
-            Name = ShortName = "Slave I";
+            Name = "Slave I";
             Cost = 0;
             isUnique = true;
             AddedSlots = new List<UpgradeSlot>

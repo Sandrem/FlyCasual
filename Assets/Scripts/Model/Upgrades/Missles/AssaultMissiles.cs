@@ -14,7 +14,6 @@ namespace UpgradesList
 			Type = UpgradeType.Missile;
 
 			Name = "Assault Missiles";
-			ShortName = "Assa. Missiles";
 
 			Cost = 5;
 			MinRange = 2;

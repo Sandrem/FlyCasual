@@ -14,7 +14,6 @@ namespace UpgradesList
         {
             Type = UpgradeType.Elite;
             Name = "Expert Handling";
-            ShortName = "Exp. Handling";
             Cost = 2;
         }
 

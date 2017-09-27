@@ -13,7 +13,6 @@ namespace UpgradesList
 			Type = UpgradeType.Cannon;
 
 			Name = "Ion Cannon";
-			ShortName = "Ion Cannon";
 			Cost = 3;
 
 			MinRange = 1;

@@ -9,8 +9,7 @@ namespace UpgradesList
         {
             Type = UpgradeType.Modification;
             Name = "Twin Ion Engine Mk. II";
-            ShortName = "TIE MkII";
-            ImageUrl = ImageUrls.GetImageUrl(this, "twin-ion-engine-mk2.png");
+            ImageUrl = ImageUrls.GetImageUrl(this, "twin-ion-engine-mkii.png");
             Cost = 1;
         }
 

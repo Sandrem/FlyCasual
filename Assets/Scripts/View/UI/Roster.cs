@@ -11,6 +11,10 @@ public static partial class Roster {
     private static List<GameObject> rosterPlayer1;
     private static List<GameObject> rosterPlayer2;
 
+    private static int SHIP_PANEL_WIDTH = 300;
+    private static int SHIP_PANEL_HEIGHT = 110;
+    private static int SPACE_BETWEEN_PANELS = 15;
+
     public static void Initialize()
     {
         Players = new List<GenericPlayer>();
@@ -30,7 +34,7 @@ public static partial class Roster {
         newPanel.transform.Find("ShipInfo/ShipId").GetComponent<Text>().text = newShip.ShipId.ToString();
         newPanel.transform.Find("ShipIdText/Text").GetComponent<Text>().text = newShip.ShipId.ToString();
         newPanel.transform.Find("ShipIdText/Text").GetComponent<Text>().color = (newShip.Owner.PlayerNo == PlayerNo.Player1) ? Color.green : Color.red;
-        newPanel.transform.Find("ShipIdText").localPosition = new Vector3((newShip.Owner.PlayerNo == PlayerNo.Player1) ? 205 : -50, 0, 0);
+        newPanel.transform.Find("ShipIdText").localPosition = new Vector3((newShip.Owner.PlayerNo == PlayerNo.Player1) ? SHIP_PANEL_WIDTH + 5 : -50, 0, 0);
         newPanel.transform.Find("ShipIdText").gameObject.SetActive(true);
 
         newPanel.transform.Find("ShipInfo/ShipFirepowerText").GetComponent<Text>().text = newShip.Firepower.ToString();
@@ -50,11 +54,11 @@ public static partial class Roster {
         SubscribeActions(shipTypeGO);
 
         //Mark
-        newPanel.transform.Find("Mark").localPosition = new Vector3((newShip.Owner.PlayerNo == PlayerNo.Player1) ? 198 : -8, 0, 0);
+        newPanel.transform.Find("Mark").localPosition = new Vector3((newShip.Owner.PlayerNo == PlayerNo.Player1) ? SHIP_PANEL_WIDTH - 2 : -8, 0, 0);
         SubscribeMarkByHover(newPanel);
 
         //Hull and shields
-        float panelWidth = 200 - 10;
+        float panelWidth = SHIP_PANEL_WIDTH - 10;
         float hullAndShield = newShip.MaxHull + newShip.MaxShields;
         float panelWidthNoDividers = panelWidth - (1 * (hullAndShield - 1));
         float damageIndicatorWidth = panelWidthNoDividers / hullAndShield;
@@ -118,24 +122,23 @@ public static partial class Roster {
     {
         foreach (GameObject panel in rosterPlayer1)
         {
-            panel.transform.Find("ShipInfo").GetComponent<RectTransform>().sizeDelta = new Vector2(200, CalculateRosterPanelSize(panel));
+            panel.transform.Find("ShipInfo").GetComponent<RectTransform>().sizeDelta = new Vector2(SHIP_PANEL_WIDTH, CalculateRosterPanelSize(panel));
         }
 
         //same
         foreach (GameObject panel in rosterPlayer2)
         {
-            panel.transform.Find("ShipInfo").GetComponent<RectTransform>().sizeDelta = new Vector2(200, CalculateRosterPanelSize(panel));
+            panel.transform.Find("ShipInfo").GetComponent<RectTransform>().sizeDelta = new Vector2(SHIP_PANEL_WIDTH, CalculateRosterPanelSize(panel));
         }
 
     }
 
     private static int CalculateRosterPanelSize(GameObject panel)
     {
-        int panelHeight = 80;
-
         //Upgrades
+        int currentPanelHeight = SHIP_PANEL_HEIGHT;
 
-        float upgradesVisible = 0;
+        int upgradesVisible = 0;
 
         foreach (Transform icon in panel.transform.Find("ShipInfo/UpgradesBar").transform)
         {
@@ -145,12 +148,12 @@ public static partial class Roster {
             }
         }
 
-        int upgdaresHeight = Mathf.CeilToInt(upgradesVisible / 2) * 20;
-        panelHeight += upgdaresHeight;
+        int upgdaresHeight = upgradesVisible * 20;
+        currentPanelHeight += upgdaresHeight;
 
         //Tokens
 
-        panel.transform.Find("ShipInfo/TokensBar").GetComponent<RectTransform>().localPosition = new Vector2(10, -65 - upgdaresHeight);
+        panel.transform.Find("ShipInfo/TokensBar").GetComponent<RectTransform>().localPosition = new Vector2(5, -97 - upgdaresHeight);
 
         int iconsCount = 0;
         foreach (Transform icon in panel.transform.Find("ShipInfo/TokensBar").transform)
@@ -161,12 +164,12 @@ public static partial class Roster {
             }
         }
 
-        int iconsLines = (iconsCount + 4) / 5;
-        panelHeight += 35 * iconsLines + 3;
+        int iconsLines = (iconsCount + 7) / 8;
+        currentPanelHeight += 35 * iconsLines + 3;
 
-        panel.transform.Find("Mark").GetComponent<RectTransform>().sizeDelta = new Vector2(10, panelHeight);
+        panel.transform.Find("Mark").GetComponent<RectTransform>().sizeDelta = new Vector2(10, currentPanelHeight);
 
-        return panelHeight;
+        return currentPanelHeight;
     }
 
     private static void OrganizeRosterPositions()
@@ -187,7 +190,7 @@ public static partial class Roster {
                 if (item.activeSelf)
                 {
                     item.transform.position = defaultPosition + new Vector3(0f, -offset, 0f);
-                    offset += item.transform.Find("ShipInfo").GetComponent<RectTransform>().sizeDelta.y + 5;
+                    offset += item.transform.Find("ShipInfo").GetComponent<RectTransform>().sizeDelta.y + SPACE_BETWEEN_PANELS;
                 }
             }
         }
@@ -314,7 +317,7 @@ public static partial class Roster {
                 tokenPanel.SetActive(true);
                 tokenPanel.GetComponent<RectTransform>().localPosition = new Vector3(columnCounter * 37, tokenPanel.GetComponent<RectTransform>().localPosition.y + -37 * rowCounter, tokenPanel.GetComponent<RectTransform>().localPosition.z);
                 columnCounter++;
-                if (columnCounter == 5)
+                if (columnCounter == 8)
                 {
                     rowCounter++;
                     columnCounter = 0;
@@ -331,7 +334,7 @@ public static partial class Roster {
         foreach (var upgrade in newShip.UpgradeBar.GetInstalledUpgrades())
         {
             GameObject upgradeNamePanel = newPanel.transform.Find("ShipInfo/UpgradesBar/Upgrade"+index).gameObject;
-            upgradeNamePanel.GetComponent<Text>().text = upgrade.ShortName;
+            upgradeNamePanel.GetComponent<Text>().text = upgrade.Name;
             upgradeNamePanel.SetActive(true);
             index++;
         }

@@ -9,7 +9,7 @@ namespace UpgradesList
         {
 
             Type = UpgradeType.Modification;
-            Name = ShortName = "Hull Upgrade";
+            Name = "Hull Upgrade";
             Cost = 3;
         }
 

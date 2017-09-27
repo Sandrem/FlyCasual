@@ -7,7 +7,7 @@ namespace UpgradesList
         public Wired() : base()
         {
             Type = UpgradeType.Elite;
-            Name = ShortName = "Wired";
+            Name = "Wired";
             Cost = 1;
         }
 

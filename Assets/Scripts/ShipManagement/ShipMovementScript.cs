@@ -62,7 +62,7 @@ public class ShipMovementScript : MonoBehaviour {
 
         if (Phases.CurrentSubPhase.GetType() == typeof(SubPhases.PlanningSubPhase))
         {
-            Selection.ThisShip.InfoPanel.transform.Find("DialAssigned" + Selection.ThisShip.Owner.Id).gameObject.SetActive(true);
+            //Selection.ThisShip.InfoPanel.transform.Find("DialAssigned" + Selection.ThisShip.Owner.Id).gameObject.SetActive(true);
             Roster.HighlightShipOff(Selection.ThisShip);
 
             if (Roster.AllManuersAreAssigned(Phases.CurrentPhasePlayer))

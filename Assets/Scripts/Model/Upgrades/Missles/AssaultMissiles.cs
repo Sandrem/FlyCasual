@@ -84,16 +84,17 @@ namespace UpgradesList
 						TriggerType = TriggerTypes.OnDamageIsDealt,
 						TriggerOwner = ship.Owner.PlayerNo,
 						EventHandler = ship.SufferDamage,
+                        Skippable = true,
 						EventArgs = new DamageSourceEventArgs()
 						{
 							Source = "Assault Missle",
 							DamageType = DamageTypes.ShipAttack
 						}
 					});
-
-					Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, Triggers.FinishTrigger);
 				}
-			}
+            }
+
+            Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, Triggers.FinishTrigger);
 		}
 	}
 }

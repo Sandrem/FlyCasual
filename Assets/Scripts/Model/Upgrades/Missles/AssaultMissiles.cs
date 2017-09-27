@@ -71,8 +71,7 @@ namespace UpgradesList
 
 				if (shotInfo.Range == 1) {
 
-					Messages.ShowErrorToHuman(string.Format("{0} is within range 1 of {1}; assault missile deals 1 damage!",
-						ship.PilotName, Combat.Defender.PilotName));
+					//Messages.ShowErrorToHuman(string.Format("{0} is within range 1 of {1}; assault missile deals 1 damage!", ship.PilotName, Combat.Defender.PilotName));
 
 					var diceRoll = new DiceRoll (DiceKind.Attack, 0, DiceRollCheckType.Combat);
 					diceRoll.AddDice (DieSide.Success);

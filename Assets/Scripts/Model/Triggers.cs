@@ -16,7 +16,6 @@ public enum TriggerTypes
     OnPositionFinish,
     OnActionSubPhaseStart,
     OnActionDecisionSubPhaseEnd,
-    OnActionTaken,
     OnFreeActionPlanned,
     OnFreeAction,
     OnTokenIsAssigned,

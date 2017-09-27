@@ -24,7 +24,7 @@ namespace UpgradesList
                 Triggers.RegisterTrigger(new Trigger()
                     {
                         Name = "Recon Specialist's ability",
-                        TriggerType = TriggerTypes.OnActionTaken,
+                        TriggerType = TriggerTypes.OnActionDecisionSubPhaseEnd,
                         TriggerOwner = Host.Owner.PlayerNo,
                         EventHandler = ReconSpecialistAbility
                     });

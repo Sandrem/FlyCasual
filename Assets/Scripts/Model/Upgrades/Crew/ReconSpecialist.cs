@@ -8,20 +8,31 @@ namespace UpgradesList
         public ReconSpecialist() : base()
         {
             Type = UpgradeType.Crew;
-            Name = ShortName = "Recon Specialist";
+            Name = "Recon Specialist";
             Cost = 3;
         }
         public override void AttachToShip(Ship.GenericShip host)
         {
             base.AttachToShip(host);
 
-            host.OnActionIsPerformed += ReconSpecialistAbility;
-        }
+            host.OnActionIsPerformed += RegisterTrigger;
+       } 
 
-        private void ReconSpecialistAbility(GenericAction action)
+        private void RegisterTrigger(GenericAction action)
         {
             if (action is FocusAction)
-                Host.AssignToken(new Tokens.FocusToken(), delegate { });
+                Triggers.RegisterTrigger(new Trigger()
+                    {
+                        Name = "Recon Specialist's ability",
+                        TriggerType = TriggerTypes.OnActionTaken,
+                        TriggerOwner = Host.Owner.PlayerNo,
+                        EventHandler = ReconSpecialistAbility
+                    });
+        }
+
+        private void ReconSpecialistAbility(object sender, System.EventArgs e)
+        {
+            Host.AssignToken(new Tokens.FocusToken(), Triggers.FinishTrigger);
         }
     }
 }

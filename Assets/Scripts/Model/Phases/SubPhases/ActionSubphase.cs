@@ -136,6 +136,7 @@ namespace SubPhases
                     ship.AddAlreadyExecutedAction(action);
                     action.ActionTake();
                     ship.CallActionIsTaken(action);
+                    Triggers.ResolveTriggers(TriggerTypes.OnActionTaken, Triggers.FinishTrigger);
                 });
                 AddTooltip(action.Name, action.ImageUrl);
             }

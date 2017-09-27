@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
-static class DamageNumbers
+static partial class DamageNumbers
 {
     private struct HpInfo
     {
@@ -22,7 +19,6 @@ static class DamageNumbers
 
     public static void UpdateSavedHP()
     {
-        Debug.Log("Updated");
         SavedHP = new Dictionary<string, HpInfo>();
 
         foreach (var shipHolder in Roster.AllShips)
@@ -33,7 +29,6 @@ static class DamageNumbers
 
     public static void ShowChangedHP()
     {
-        Debug.Log("Show");
         foreach (var shipHolder in Roster.AllShips)
         {
             int hullChanged = SavedHP[shipHolder.Key].Hull - shipHolder.Value.Hull;
@@ -41,7 +36,7 @@ static class DamageNumbers
 
             if ((hullChanged != 0) || (shieldsChanged != 0))
             {
-                Debug.Log(shipHolder.Value.PilotName + " lost " + hullChanged + " hull and " + shieldsChanged + " shields");
+                CreateDamageNumbersPanel(shipHolder.Value, hullChanged, shieldsChanged);
             }
         }
     }

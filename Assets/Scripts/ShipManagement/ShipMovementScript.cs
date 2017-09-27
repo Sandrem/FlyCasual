@@ -21,7 +21,6 @@ public class ShipMovementScript : MonoBehaviour {
         Selection.UpdateSelection();
         UpdateMovement();
         UpdateSubscribedFuncs();
-
         ClearCollision();
     }
 

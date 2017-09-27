@@ -16,6 +16,8 @@ namespace Ship
                 Cost = 33;
 
                 SkinName = "Bounty Hunter";
+
+                faction = Faction.Empire;
             }
         }
     }

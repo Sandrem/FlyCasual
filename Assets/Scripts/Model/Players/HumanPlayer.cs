@@ -32,9 +32,14 @@ namespace Players
             UI.ShowSkipButton();
         }
 
-        public override void UseDiceModifications()
+        public override void UseOwnDiceModifications()
         {
-            Combat.ShowDiceResultMenu(Combat.ConfirmDiceResults);
+            Combat.ShowOwnDiceResultMenu();
+        }
+
+        public override void UseOppositeDiceModifications()
+        {
+            Combat.ShowOppositeDiceResultMenu();
         }
 
         public override void TakeDecision()

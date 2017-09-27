@@ -6,7 +6,8 @@ using UnityEngine;
 public enum Faction
 {
     Rebels,
-    Empire
+    Empire,
+    Scum
 }
 
 namespace Players
@@ -57,7 +58,9 @@ namespace Players
 
         public virtual void PerformAttack() { }
 
-        public virtual void UseDiceModifications() { }
+        public virtual void UseOwnDiceModifications() { }
+
+        public virtual void UseOppositeDiceModifications() { }
 
         public virtual void TakeDecision() { }
 

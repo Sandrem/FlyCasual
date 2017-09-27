@@ -26,7 +26,7 @@ namespace CriticalHitCard
             {
                 Messages.ShowInfo("Stunned Pilot: Ship suffered damage");
 
-                Selection.ThisShip.AssignedDamageDiceroll.AddDice(DiceSide.Success);
+                Selection.ThisShip.AssignedDamageDiceroll.AddDice(DieSide.Success);
 
                 Triggers.RegisterTrigger(new Trigger()
                 {

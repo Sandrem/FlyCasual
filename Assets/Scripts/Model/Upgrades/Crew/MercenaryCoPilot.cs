@@ -7,7 +7,7 @@ namespace UpgradesList
         public MercenaryCopilot() : base()
         {
             Type = UpgradeType.Crew;
-            Name = ShortName = "Mercenary Copilot";
+            Name = "Mercenary Copilot";
             Cost = 2;
         }
 
@@ -44,7 +44,7 @@ namespace ActionsList
 
         public override void ActionEffect(System.Action callBack)
         {
-            Combat.CurentDiceRoll.ChangeOne(DiceSide.Success, DiceSide.Crit);
+            Combat.CurentDiceRoll.ChangeOne(DieSide.Success, DieSide.Crit);
             callBack();
         }
 

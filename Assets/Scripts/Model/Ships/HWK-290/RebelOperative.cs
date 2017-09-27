@@ -14,6 +14,8 @@ namespace Ship
                 ImageUrl = "https://vignette3.wikia.nocookie.net/xwing-miniatures/images/e/ea/Rebel_Operative.png";
                 PilotSkill = 2;
                 Cost = 16;
+
+                faction = Faction.Rebels;
             }
         }
     }

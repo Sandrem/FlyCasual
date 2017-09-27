@@ -7,7 +7,7 @@ namespace UpgradesList
 		public EngineUpgrade() : base()
 		{
 			Type = UpgradeType.Modification;
-			Name = ShortName = "Engine Upgrade";
+			Name = "Engine Upgrade";
 			Cost = 4;
 		}        
 	}

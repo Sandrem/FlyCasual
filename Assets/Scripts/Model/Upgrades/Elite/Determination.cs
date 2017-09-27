@@ -13,7 +13,7 @@ namespace UpgradesList
         public Determination() : base()
         {
             Type = UpgradeType.Elite;
-            Name = ShortName = "Determination";
+            Name = "Determination";
             Cost = 1;
         }
 

@@ -15,7 +15,7 @@ namespace UpgradesList
         public SeismicCharges() : base()
         {
             Type = UpgradeType.Bomb;
-            Name = ShortName = "Seismic Charges";
+            Name = "Seismic Charges";
             Cost = 2;
 
             bombPrefabPath = "Prefabs/Bombs/SeismicCharge";
@@ -25,7 +25,7 @@ namespace UpgradesList
 
         public override void ExplosionEffect(GenericShip ship, Action callBack)
         {
-            ship.AssignedDamageDiceroll.AddDice(DiceSide.Success);
+            ship.AssignedDamageDiceroll.AddDice(DieSide.Success);
 
             Triggers.RegisterTrigger(new Trigger()
             {

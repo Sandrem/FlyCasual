@@ -68,8 +68,8 @@ namespace SubPhases
 
         public override void Prepare()
         {
-            dicesType = DiceKind.Attack;
-            dicesCount = 1;
+            diceType = DiceKind.Attack;
+            diceCount = 1;
 
             finishAction = FinishAction;
         }
@@ -81,18 +81,18 @@ namespace SubPhases
 
             switch (CurrentDiceRoll.DiceList[0].Side)
             {
-                case DiceSide.Blank:
+                case DieSide.Blank:
                     NoDamage();
                     break;
-                case DiceSide.Focus:
+                case DieSide.Focus:
                     NoDamage();                    
                     break;
-                case DiceSide.Success:
+                case DieSide.Success:
                     Messages.ShowErrorToHuman("Damage is dealt!");
                     SufferDamage();
                     Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, CallBack);
                     break;
-                case DiceSide.Crit:
+                case DieSide.Crit:
                     Messages.ShowErrorToHuman("Critical damage is dealt!");
                     SufferDamage();
                     Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, CallBack);

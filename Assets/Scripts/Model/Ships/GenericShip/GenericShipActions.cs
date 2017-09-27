@@ -9,12 +9,14 @@ namespace Ship
     public partial class GenericShip
     {
 
-        public      List<ActionsList.GenericAction> BuiltInActions                  = new List<ActionsList.GenericAction>();
-        private     List<ActionsList.GenericAction> AvailableActionsList            = new List<ActionsList.GenericAction>();
-        private     List<ActionsList.GenericAction> AvailableFreeActionsList        = new List<ActionsList.GenericAction>();
-        private     List<ActionsList.GenericAction> AlreadyExecutedActions          = new List<ActionsList.GenericAction>();
-        private     List<ActionsList.GenericAction> AvailableActionEffects          = new List<ActionsList.GenericAction>();
-        private     List<ActionsList.GenericAction> AlreadyExecutedActionEffects    = new List<ActionsList.GenericAction>();
+        public      List<ActionsList.GenericAction> BuiltInActions                          = new List<ActionsList.GenericAction>();
+        private     List<ActionsList.GenericAction> AvailableActionsList                    = new List<ActionsList.GenericAction>();
+        private     List<ActionsList.GenericAction> AvailableFreeActionsList                = new List<ActionsList.GenericAction>();
+        private     List<ActionsList.GenericAction> AlreadyExecutedActions                  = new List<ActionsList.GenericAction>();
+        private     List<ActionsList.GenericAction> AvailableActionEffects                  = new List<ActionsList.GenericAction>();
+        private     List<ActionsList.GenericAction> AvailableOppositeActionEffects          = new List<ActionsList.GenericAction>();
+        private     List<ActionsList.GenericAction> AlreadyExecutedActionEffects            = new List<ActionsList.GenericAction>();
+        private     List<ActionsList.GenericAction> AlreadyExecutedOppositeActionEffects    = new List<ActionsList.GenericAction>();
 
         private     List<Tokens.GenericToken> AssignedTokens = new List<Tokens.GenericToken>();
 
@@ -26,6 +28,10 @@ namespace Ship
         public event EventHandlerShip AfterGenerateAvailableActionEffectsList;
         public static event EventHandler AfterGenerateAvailableActionEffectsListGlobal;
         public event EventHandlerActionBool OnTryAddAvailableActionEffect;
+
+        public event EventHandlerShip AfterGenerateAvailableOppositeActionEffectsList;
+        public static event EventHandler AfterGenerateAvailableOppositeActionEffectsListGlobal;
+        public event EventHandlerActionBool OnTryAddAvailableOppositeActionEffect;
 
         public event EventHandlerShip OnActionDecisionSubphaseEnd;
         public event EventHandlerAction OnActionIsPerformed;
@@ -199,7 +205,6 @@ namespace Ship
             if (AfterGenerateAvailableActionEffectsList != null) AfterGenerateAvailableActionEffectsList(this);
 
             if (AfterGenerateAvailableActionEffectsListGlobal != null) AfterGenerateAvailableActionEffectsListGlobal();
-
         }
 
         public void AddAvailableActionEffect(ActionsList.GenericAction action)
@@ -231,7 +236,7 @@ namespace Ship
 
             if (!action.IsActionEffectAvailable()) result = false;
 
-            if (IsAlreadyExecuted(action)) result = false;
+            if (IsOppositeActionEffectAlreadyExecuted(action)) result = false;
 
             if (result)
             {
@@ -241,7 +246,7 @@ namespace Ship
             return result;
         }
 
-        private bool IsAlreadyExecuted(ActionsList.GenericAction action)
+        private bool IsActionEffectAlreadyExecuted(ActionsList.GenericAction action)
         {
             bool result = false;
 
@@ -260,6 +265,77 @@ namespace Ship
         public List<ActionsList.GenericAction> GetAvailableActionEffectsList()
         {
             return AvailableActionEffects;
+        }
+
+        // OPPOSITE ACTION EFFECTS
+
+        public void GenerateAvailableOppositeActionEffectsList()
+        {
+            AvailableOppositeActionEffects = new List<ActionsList.GenericAction>();
+
+            if (AfterGenerateAvailableOppositeActionEffectsList != null) AfterGenerateAvailableOppositeActionEffectsList(this);
+
+            if (AfterGenerateAvailableOppositeActionEffectsListGlobal != null) AfterGenerateAvailableOppositeActionEffectsListGlobal();
+        }
+
+        public void AddAvailableOppositeActionEffect(ActionsList.GenericAction action)
+        {
+            if (CanUseOppositeActionEffect(action))
+            {
+                AvailableOppositeActionEffects.Add(action);
+            }
+        }
+
+        public void AddAlreadyExecutedOppositeActionEffect(ActionsList.GenericAction action)
+        {
+            AlreadyExecutedOppositeActionEffects.Add(action);
+        }
+
+        public void RemoveAlreadyExecutedOppositeActionEffect(ActionsList.GenericAction action)
+        {
+            AlreadyExecutedOppositeActionEffects.RemoveAll(a => a.GetType() == action.GetType());
+        }
+
+        public void ClearAlreadyExecutedOppositeActionEffects()
+        {
+            AlreadyExecutedOppositeActionEffects = new List<ActionsList.GenericAction>();
+        }
+
+        public bool CanUseOppositeActionEffect(ActionsList.GenericAction action)
+        {
+            bool result = true;
+
+            if (!action.IsActionEffectAvailable()) result = false;
+
+            if (IsOppositeActionEffectAlreadyExecuted(action)) result = false;
+
+            if (result)
+            {
+                if (OnTryAddAvailableOppositeActionEffect != null) OnTryAddAvailableOppositeActionEffect(action, ref result);
+            }
+
+            return result;
+        }
+
+        private bool IsOppositeActionEffectAlreadyExecuted(ActionsList.GenericAction action)
+        {
+            bool result = false;
+
+            foreach (var alreadyExecuedOppositeAction in AlreadyExecutedOppositeActionEffects)
+            {
+                if (alreadyExecuedOppositeAction.GetType() == action.GetType())
+                {
+                    result = true;
+                    break;
+                }
+            }
+
+            return result;
+        }
+
+        public List<ActionsList.GenericAction> GetAvailableOppositeActionEffectsList()
+        {
+            return AvailableOppositeActionEffects;
         }
 
         // TOKENS

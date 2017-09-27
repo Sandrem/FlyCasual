@@ -34,7 +34,7 @@ namespace Ship
             get
             {
                 int result = attackValue;
-                Host.CallAfterGotNumberOfPrimaryWeaponAttackDices(ref result);
+                Host.CallAfterGotNumberOfPrimaryWeaponAttackDice(ref result);
                 return result;
             }
             set { attackValue = value; }
@@ -69,7 +69,7 @@ namespace Ship
                 if (!CanShootOutsideArc)
                 {
                     //TODO: Change to munitions arc
-                    if (!Combat.ShotInfo.InPrimaryArc) return false;
+                    if (!Combat.ShotInfo.InShotAngle) return false;
                 }
             }
             else
@@ -80,7 +80,7 @@ namespace Ship
                     range = shotInfo.Range;
 
                     //TODO: Change to munitions arc
-                    if (!shotInfo.InPrimaryArc) return false;
+                    if (!shotInfo.InShotAngle) return false;
                 }
                 else
                 {
@@ -109,11 +109,14 @@ namespace Ship
         private List<CriticalHitCard.GenericCriticalHit> AssignedDamageCards = new List<CriticalHitCard.GenericCriticalHit>();
         public DiceRoll AssignedDamageDiceroll = new DiceRoll(DiceKind.Attack, 0, DiceRollCheckType.Virtual);
 
+        public bool IsCannotAttackSecondTime { get; set; }
+
         // EVENTS
 
         public event EventHandlerShip OnActivationPhaseStart;
         public event EventHandlerShip OnActionSubPhaseStart;
         public event EventHandlerShip OnCombatPhaseStart;
+        public event EventHandlerShip OnCombatPhaseEnd;
 
         public event EventHandlerBool OnTryPerformAttack;
         public static event EventHandlerBool OnTryPerformAttackGlobal;
@@ -123,10 +126,12 @@ namespace Ship
 
         public event EventHandler OnAttackHitAsAttacker;
         public event EventHandler OnAttackHitAsDefender;
+        public event EventHandler OnAttackMissedAsAttacker;
+        public event EventHandler OnAttackMissedAsDefender;
 
-        public event EventHandlerInt AfterGotNumberOfPrimaryWeaponAttackDices;
-        public event EventHandlerInt AfterGotNumberOfPrimaryWeaponDefenceDices;
-        public event EventHandlerInt AfterGotNumberOfAttackDices;
+        public event EventHandlerInt AfterGotNumberOfPrimaryWeaponAttackDice;
+        public event EventHandlerInt AfterGotNumberOfPrimaryWeaponDefenceDice;
+        public event EventHandlerInt AfterGotNumberOfAttackDice;
 
         public event EventHandlerShip AfterAssignedDamageIsChanged;
 
@@ -138,10 +143,13 @@ namespace Ship
         public event EventHandlerShip OnDestroyed;
 
         public event EventHandlerShip AfterAttackWindow;
+        public event EventHandlerShip OnCheckSecondAttack;
 
         public event EventHandlerShip AfterCombatEnd;
 
         public event EventHandlerBombDropTemplates OnGetAvailableBombDropTemplates;
+
+        public event EventHandlerDiceroll OnImmediatelyAfterRolling;
 
         // TRIGGERS
 
@@ -159,7 +167,12 @@ namespace Ship
         {
             if (OnCombatPhaseStart != null) OnCombatPhaseStart(this);
         }
-        
+
+        public void CallOnCombatPhaseEnd()
+        {
+            if (OnCombatPhaseEnd != null) OnCombatPhaseEnd(this);
+        }
+
         public bool CallCanPerformAttack(bool result = true)
         {
             if (OnTryPerformAttack != null) OnTryPerformAttack(ref result);
@@ -171,6 +184,7 @@ namespace Ship
 
         public void CallAttackStart()
         {
+            ClearAlreadyExecutedOppositeActionEffects();
             ClearAlreadyExecutedActionEffects();
             if (Combat.Attacker.ShipId == this.ShipId) IsAttackPerformed = true;
             if (OnAttack != null) OnAttack();
@@ -178,6 +192,7 @@ namespace Ship
 
         public void CallDefenceStart()
         {
+            ClearAlreadyExecutedOppositeActionEffects();
             ClearAlreadyExecutedActionEffects();
             if (OnDefence != null) OnDefence();
         }
@@ -192,9 +207,26 @@ namespace Ship
             if (OnAttackHitAsDefender != null) OnAttackHitAsDefender();
         }
 
+        public void CallOnAttackMissedAsAttacker()
+        {
+            if (OnAttackMissedAsAttacker != null) OnAttackMissedAsAttacker();
+        }
+
+        public void CallOnAttackMissedAsDefender()
+        {
+            if (OnAttackMissedAsDefender != null) OnAttackMissedAsDefender();
+        }
+
         public void CallAfterAttackWindow()
         {
             if (AfterAttackWindow != null) AfterAttackWindow(this);
+        }
+
+        public void CallCheckSecondAttack(Action callBack)
+        {
+            if (OnCheckSecondAttack != null) OnCheckSecondAttack(this);
+
+            Triggers.ResolveTriggers(TriggerTypes.OnCheckSecondAttack, callBack);
         }
 
         public void CallCombatEnd()
@@ -202,32 +234,37 @@ namespace Ship
             if (AfterCombatEnd != null) AfterCombatEnd(this);
         }
 
-        // DICES
+        public void CallOnImmediatelyAfterRolling(DiceRoll diceroll)
+        {
+            if (OnImmediatelyAfterRolling != null) OnImmediatelyAfterRolling(diceroll);
+        }
 
-        public int GetNumberOfAttackDices(GenericShip targetShip)
+        // DICE
+
+        public int GetNumberOfAttackDice(GenericShip targetShip)
         {
             int result = 0;
 
             result = Combat.ChosenWeapon.AttackValue;
 
-            if (AfterGotNumberOfAttackDices != null) AfterGotNumberOfAttackDices(ref result);
+            if (AfterGotNumberOfAttackDice != null) AfterGotNumberOfAttackDice(ref result);
 
             if (result < 0) result = 0;
             return result;
         }
 
-        public void CallAfterGotNumberOfPrimaryWeaponAttackDices(ref int result)
+        public void CallAfterGotNumberOfPrimaryWeaponAttackDice(ref int result)
         {
-            if (AfterGotNumberOfPrimaryWeaponAttackDices != null) AfterGotNumberOfPrimaryWeaponAttackDices(ref result);
+            if (AfterGotNumberOfPrimaryWeaponAttackDice != null) AfterGotNumberOfPrimaryWeaponAttackDice(ref result);
         }
 
-        public int GetNumberOfDefenceDices(GenericShip attackerShip)
+        public int GetNumberOfDefenceDice(GenericShip attackerShip)
         {
             int result = Agility;
 
             if (Combat.ChosenWeapon.GetType() == typeof(PrimaryWeaponClass))
             {
-                if (AfterGotNumberOfPrimaryWeaponDefenceDices != null) AfterGotNumberOfPrimaryWeaponDefenceDices(ref result);
+                if (AfterGotNumberOfPrimaryWeaponDefenceDice != null) AfterGotNumberOfPrimaryWeaponDefenceDice(ref result);
             }
             return result;
         }
@@ -381,7 +418,7 @@ namespace Ship
             Triggers.FinishTrigger();
         }
 
-        public void IsHullDestroyedCheck(Action callBack)
+        public virtual void IsHullDestroyedCheck(Action callBack)
         {
             if (Hull == 0 && !IsDestroyed)
             {

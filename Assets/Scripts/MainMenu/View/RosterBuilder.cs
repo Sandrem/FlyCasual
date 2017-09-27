@@ -374,15 +374,22 @@ public static partial class RosterBuilder {
 
     private static Faction GetPlayerFaction(PlayerNo playerNo)
     {
+        Faction result = Faction.Empire;
         int index = GetPlayerPanel(playerNo).Find("GroupFaction/Dropdown").GetComponent<Dropdown>().value;
         switch (index)
         {
             case 0:
-                return Faction.Rebels;
+                result = Faction.Rebels;
+                break;
             case 1:
-                return Faction.Empire;
+                result = Faction.Empire;
+                break;
+            case 2:
+                result = Faction.Scum;
+                break;
         }
-        return Faction.Empire;
+        SquadBuilderRoster.playerFactions[playerNo] = result;
+        return result;
     }
 
     private static Type GetPlayerType(PlayerNo playerNo)
@@ -426,7 +433,7 @@ public static partial class RosterBuilder {
         {
             if (shipPanel.name == "AddShipPanel") continue;
             string pilotName = shipPanel.Find("GroupShip/DropdownPilot").GetComponent<Dropdown>().captionText.text;
-            Ship.GenericShip newPilot = (Ship.GenericShip)Activator.CreateInstance(Type.GetType(AllPilots[pilotName]));
+            GenericShip newPilot = (GenericShip)Activator.CreateInstance(Type.GetType(AllPilots[pilotName]));
             if (newPilot.faction != playerFaction) RemoveShip(playerNo, shipPanel.gameObject);
         }
 

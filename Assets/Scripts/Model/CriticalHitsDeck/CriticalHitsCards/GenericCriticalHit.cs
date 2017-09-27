@@ -13,7 +13,7 @@ namespace CriticalHitCard
 
         public string Name;
         public CriticalCardType Type;
-        public List<DiceSide> CancelDiceResults = new List<DiceSide>();
+        public List<DieSide> CancelDiceResults = new List<DieSide>();
 
         private string imageUrl;
         public string ImageUrl

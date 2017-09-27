@@ -38,6 +38,7 @@ public static partial class Phases
     public static event EventHandler OnActionSubPhaseStart;
     public static event EventHandler OnActivationPhaseEnd;
     public static event EventHandler OnCombatPhaseStart;
+    public static event EventHandler OnCombatPhaseEnd;
     public static event EventHandler OnCombatSubPhaseRequiredPilotSkillIsChanged;
     public static event EventHandler OnEndPhaseStart;
     public static event EventHandler OnRoundEnd;
@@ -123,7 +124,7 @@ public static partial class Phases
     }
 
 
-    public static void CallCombatPhaseTrigger()
+    public static void CallCombatPhaseStartTrigger()
     {
         if (OnCombatPhaseStart != null) OnCombatPhaseStart();
         foreach (var shipHolder in Roster.AllShips)
@@ -132,6 +133,17 @@ public static partial class Phases
         }
 
         Triggers.ResolveTriggers(TriggerTypes.OnCombatPhaseStart, delegate () { FinishSubPhase(typeof(CombatStartSubPhase)); });
+    }
+
+    public static void CallCombatPhaseEndTrigger()
+    {
+        if (OnCombatPhaseEnd != null) OnCombatPhaseEnd();
+        foreach (var shipHolder in Roster.AllShips)
+        {
+            shipHolder.Value.CallOnCombatPhaseEnd();
+        }
+
+        Triggers.ResolveTriggers(TriggerTypes.OnCombatPhaseEnd, delegate () { FinishSubPhase(typeof(CombatEndSubPhase)); });
     }
 
     public static void CallEndPhaseTrigger(Action callBack)

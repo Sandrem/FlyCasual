@@ -15,7 +15,6 @@ namespace UpgradesList
             Type = UpgradeType.Turret;
 
             Name = "Twin Laser Turret";
-            ShortName = "TLT";
             Cost = 6;
 
             MinRange = 2;
@@ -59,7 +58,7 @@ namespace UpgradesList
 		}
 		private void DefenderSuffersDamage()
 		{
-			Combat.Defender.AssignedDamageDiceroll.AddDice(DiceSide.Success);
+			Combat.Defender.AssignedDamageDiceroll.AddDice(DieSide.Success);
 
 			Triggers.RegisterTrigger(new Trigger()
 				{

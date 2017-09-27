@@ -7,7 +7,7 @@ namespace UpgradesList
         public TargetingComputer() : base()
         {
             Type = UpgradeType.Modification;
-            Name = ShortName = "Targeting Computer";
+            Name = "Targeting Computer";
             Cost = 2;
         }
     }

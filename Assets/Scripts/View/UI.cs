@@ -45,7 +45,6 @@ public class UI : MonoBehaviour {
         {
             GameObject.Find("UI").transform.Find("ContextMenuPanel").gameObject.SetActive(false);
         }
-
     }
 
     private static void HideContextMenuButtons()
@@ -63,68 +62,21 @@ public class UI : MonoBehaviour {
 
     public void ShowDirectionMenu()
     {
-        GameObject.Find("UI").transform.Find("ContextMenuPanel").gameObject.SetActive(false);
-        SetAvailableManeurs();
-        GameObject.Find("UI").transform.Find("DirectionsPanel").position = FixMenuPosition(GameObject.Find("UI").transform.Find("DirectionsPanel").gameObject, GameObject.Find("UI").transform.Find("ContextMenuPanel").position);
-        GameObject.Find("UI").transform.Find("DirectionsPanel").gameObject.SetActive(true);
-    }
-
-    //Add icons
-    private void SetAvailableManeurs()
-    {
-        foreach (KeyValuePair<string, Movement.ManeuverColor> maneuverData in Selection.ThisShip.GetManeuvers())
-        {
-            string[] parameters = maneuverData.Key.Split('.');
-            string maneuverSpeed = parameters[0];
-
-            if (maneuverData.Value == Movement.ManeuverColor.None)
-            {
-                GameObject.Find("UI").transform.Find("DirectionsPanel").Find("Speed" + maneuverSpeed + "/" + maneuverData.Key).gameObject.SetActive(false);
-            }
-            else
-            {
-                GameObject.Find("UI").transform.Find("DirectionsPanel").Find("Speed" + maneuverSpeed + "/" + maneuverData.Key).gameObject.SetActive(true);
-
-                GameObject button = GameObject.Find("UI").transform.Find("DirectionsPanel").Find("Speed" + maneuverSpeed).Find(maneuverData.Key).gameObject;
-                SetManeuverIcon(button, maneuverData);
-            }
-
-        }
-    }
-
-    private void SetManeuverIcon(GameObject button, KeyValuePair<string, Movement.ManeuverColor> maneuverData)
-    {
-        Movement.MovementStruct movement = new Movement.MovementStruct(maneuverData.Key);
-
-        string imageName = "";
-
-        if ((movement.Direction == Movement.ManeuverDirection.Forward) && (movement.Bearing == Movement.ManeuverBearing.Straight)) imageName += "Straight";
-        if ((movement.Direction == Movement.ManeuverDirection.Forward) && (movement.Bearing == Movement.ManeuverBearing.KoiogranTurn)) imageName += "Koiogran";
-        if (movement.Bearing == Movement.ManeuverBearing.Bank) imageName += "Bank";
-        if (movement.Bearing == Movement.ManeuverBearing.Turn) imageName += "Turn";
-
-        if (movement.Direction == Movement.ManeuverDirection.Left) imageName += "Left";
-        if (movement.Direction == Movement.ManeuverDirection.Right) imageName += "Right";
-
-        if (maneuverData.Value == Movement.ManeuverColor.Green) imageName += "Green";
-        if (maneuverData.Value == Movement.ManeuverColor.White) imageName += "White";
-        if (maneuverData.Value == Movement.ManeuverColor.Red) imageName += "Red";
-
-        Sprite image = GameObject.Find("UI").transform.Find("DirectionsPanel").Find("ImageStorageDirections").Find(imageName).GetComponent<Image>().sprite;
-        button.GetComponent<Image>().sprite = image;
+        DirectionsMenu.Show();
     }
 
     public static void HideDirectionMenu()
     {
-        GameObject.Find("UI").transform.Find("DirectionsPanel").gameObject.SetActive(false);
+        DirectionsMenu.Hide();
     }
 
     public static void HideTemporaryMenus()
     {
         HideContextMenu();
-        HideDirectionMenu();
+        if (Phases.CurrentSubPhase.GetType() == typeof(SubPhases.PlanningSubPhase)) HideDirectionMenu();
     }
 
+    //TODO: use in static generic UI class
     private static Vector3 FixMenuPosition(GameObject menuPanel, Vector3 position) {
         if (position.x + menuPanel.GetComponent<RectTransform>().rect.width > Screen.width) {
             position = new Vector3(Screen.width - menuPanel.GetComponent<RectTransform>().rect.width - 5, position.y, 0);

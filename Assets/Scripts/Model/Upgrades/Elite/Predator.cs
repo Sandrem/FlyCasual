@@ -13,7 +13,7 @@ namespace UpgradesList
         public Predator() : base()
         {
             Type = UpgradeType.Elite;
-            Name = ShortName = "Predator";
+            Name = "Predator";
             Cost = 3;
         }
 
@@ -79,7 +79,7 @@ namespace ActionsList
         {
             DiceRerollManager diceRerollManager = new DiceRerollManager
             {
-                NumberOfDicesCanBeRerolled = (Combat.Defender.PilotSkill > 2) ? 1 : 2,
+                NumberOfDiceCanBeRerolled = (Combat.Defender.PilotSkill > 2) ? 1 : 2,
                 CallBack = callBack
             };
             diceRerollManager.Start();

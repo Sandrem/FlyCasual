@@ -9,8 +9,8 @@ namespace SubPhases
 
     public class DiceRollCombatSubPhase : GenericSubPhase
     {
-        protected DiceKind dicesType;
-        protected int dicesCount;
+        protected DiceKind diceType;
+        protected int diceCount;
 
         protected DiceRoll CurentDiceRoll;
         protected DelegateDiceroll checkResults;
@@ -36,8 +36,15 @@ namespace SubPhases
             }
 
             DiceRoll DiceRollCheck;
-            DiceRollCheck = new DiceRoll(dicesType, dicesCount, DiceRollCheckType.Combat);
-            DiceRollCheck.Roll(checkResults);
+            DiceRollCheck = new DiceRoll(diceType, diceCount, DiceRollCheckType.Combat);
+            DiceRollCheck.Roll(ImmediatelyAfterRolling);
+        }
+
+        private void ImmediatelyAfterRolling(DiceRoll diceroll)
+        {
+            Selection.ActiveShip = (Combat.AttackStep == CombatStep.Attack) ? Combat.Attacker : Combat.Defender;
+            Selection.ActiveShip.CallOnImmediatelyAfterRolling(diceroll);
+            checkResults(diceroll);
         }
 
         public void ToggleConfirmDiceResultsButton(bool isActive)
@@ -55,15 +62,15 @@ namespace SubPhases
             }
             else
             {
-                GameObject.Find("UI/CombatDiceResultsPanel").transform.Find("DiceModificationsPanel/Confirm").gameObject.SetActive(false);
+                GameObject.Find("UI").transform.Find("CombatDiceResultsPanel").Find("DiceModificationsPanel").Find("Confirm").gameObject.SetActive(false);
             }
         }
 
         protected virtual void CheckResults(DiceRoll diceRoll)
         {
             CurentDiceRoll = diceRoll;
-            Combat.ToggleConfirmDiceResultsButton(true);
-            Combat.ShowDiceModificationButtons();
+            Selection.ActiveShip = (Combat.AttackStep == CombatStep.Attack) ? Combat.Defender : Combat.Attacker;
+            Selection.ActiveShip.Owner.UseOppositeDiceModifications();
         }
 
         protected virtual void FinishAction()

@@ -12,7 +12,7 @@ namespace CriticalHitCard
         {
             Name = "Structural Damage";
             Type = CriticalCardType.Ship;
-            CancelDiceResults.Add(DiceSide.Success);
+            CancelDiceResults.Add(DieSide.Success);
         }
 
         public override void ApplyEffect(object sender, EventArgs e)

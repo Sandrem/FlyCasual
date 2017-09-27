@@ -122,8 +122,10 @@ namespace SubPhases
 
         public override void FinishPhase()
         {
-            UI.HideSkipButton();
-            Phases.CurrentPhase.NextPhase();
+            Phases.CurrentSubPhase = new CombatEndSubPhase();
+            Phases.CurrentSubPhase.Start();
+            Phases.CurrentSubPhase.Prepare();
+            Phases.CurrentSubPhase.Initialize();
         }
 
         public override bool ThisShipCanBeSelected(Ship.GenericShip ship)

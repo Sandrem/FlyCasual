@@ -2,59 +2,118 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public partial class Dice
-{
-    public bool IsSelected { get; private set; }
+public delegate void DelegateDiceroll(DiceRoll diceRoll);
 
-    public bool IsRerolled { get; private set; }
-    public bool IsShowRerolledLock { get; private set; }
+public static class DiceManager {
 
-    public void ToggleSelected(bool isSelected)
+    public static List<List<Vector3>> DicePositions = new List<List<Vector3>>();
+
+    public static GameObject DiceAttack;
+    public static GameObject DiceDefence;
+
+    // Use this for initialization
+    static DiceManager()
     {
-        IsSelected = isSelected;
-        TurnOnDiceOverlay();
-        Model.transform.Find("DiceOverlay/SelectionProjector").gameObject.SetActive(isSelected);
+        DiceAttack = (GameObject)Resources.Load("Prefabs/Dice/DiceAttack", typeof(GameObject));
+        DiceDefence = (GameObject)Resources.Load("Prefabs/Dice/DiceDefence", typeof(GameObject));
+
+        GenerateDicePositions();
     }
 
-    public void ToggleRerolledLock(bool isActive)
+    private static void GenerateDicePositions()
     {
-        if (IsRerolled)
+        List<Vector3> DicePositions1 = new List<Vector3>
         {
-            if (IsShowRerolledLock != isActive)
-            {
-                IsShowRerolledLock = isActive;
-                TurnOnDiceOverlay();
-                Model.transform.Find("DiceOverlay/LockedSprite").gameObject.SetActive(isActive);
-            }
-        }
-    }
+            Vector3.zero
+        };
+        DicePositions.Add(DicePositions1);
 
-    private void TurnOnDiceOverlay()
-    {
-        Model.transform.Find("DiceOverlay").gameObject.transform.position = Model.transform.Find("Dice").position;
-        Model.transform.Find("DiceOverlay").gameObject.SetActive(true);
-    }
+        List<Vector3> DicePositions2 = new List<Vector3>
+        {
+            new Vector3(-0.1f, 0, 0),
+            new Vector3( 0.1f, 0, 0)
+        };
+        DicePositions.Add(DicePositions2);
 
-    public void Cancel()
-    {
-        Side = DiceSide.Blank;
-    }
+        List<Vector3> DicePositions3 = new List<Vector3>
+        {
+            new Vector3(-0.1f, 0,  0.06f),
+            new Vector3( 0.1f, 0,  0.06f),
+            new Vector3(   0f, 0, -0.1f)
+        };
+        DicePositions.Add(DicePositions3);
 
-    public void SetSide(DiceSide side)
-    {
-        Side = side;
-    }
+        List<Vector3> DicePositions4 = new List<Vector3>
+        {
+            new Vector3(-0.1f, 0, -0.1f),
+            new Vector3( 0.1f, 0, -0.1f),
+            new Vector3(-0.1f, 0,  0.1f),
+            new Vector3( 0.1f, 0,  0.1f)
+        };
+        DicePositions.Add(DicePositions4);
 
-    public DiceSide Side
-    {
-        get;
-        private set;
-    }
+        List<Vector3> DicePositions5 = new List<Vector3>
+        {
+            new Vector3(    0f, 0,  0.16f),
+            new Vector3(-0.16f, 0,  0.04f),
+            new Vector3( 0.16f, 0,  0.04f),
+            new Vector3(-0.08f, 0, -0.14f),
+            new Vector3( 0.08f, 0, -0.14f)
+        };
+        DicePositions.Add(DicePositions5);
 
-    private List<DiceSide> Sides
-    {
-        get;
-        set;
-    }
+        List<Vector3> DicePositions6 = new List<Vector3>
+        {
+            new Vector3(-0.08f, 0,  0.14f),
+            new Vector3( 0.08f, 0,  0.04f),
+            new Vector3(-0.16f, 0,     0f),
+            new Vector3( 0.16f, 0,     0f),
+            new Vector3(-0.08f, 0, -0.14f),
+            new Vector3( 0.08f, 0, -0.14f)
+        };
+        DicePositions.Add(DicePositions6);
 
+        List<Vector3> DicePositions7 = new List<Vector3>
+        {
+            new Vector3(-0.08f, 0,  0.14f),
+            new Vector3( 0.08f, 0,  0.04f),
+            new Vector3(-0.16f, 0,     0f),
+            Vector3.zero,
+            new Vector3( 0.16f, 0,     0f),
+            new Vector3(-0.08f, 0, -0.14f),
+            new Vector3( 0.08f, 0, -0.14f)
+        };
+        DicePositions.Add(DicePositions7);
+
+        List<Vector3> DicePositions8 = new List<Vector3>
+        {
+            new Vector3(-0.08f, 0,   0.2f),
+            new Vector3( 0.08f, 0,   0.2f),
+            new Vector3( -0.2f, 0,  0.08f),
+            new Vector3(  0.2f, 0,  0.08f),
+            new Vector3( -0.2f, 0, -0.08f),
+            new Vector3(  0.2f, 0, -0.08f),
+            new Vector3(-0.08f, 0,  -0.2f),
+            new Vector3( 0.08f, 0,  -0.2f)
+        };
+        DicePositions.Add(DicePositions8);
+
+        List<Vector3> DicePositions9 = new List<Vector3>
+        {
+            new Vector3(-0.08f, 0,   0.2f),
+            new Vector3( 0.08f, 0,   0.2f),
+            new Vector3( -0.2f, 0,  0.08f),
+            new Vector3(  0.2f, 0,  0.08f),
+            Vector3.zero,
+            new Vector3( -0.2f, 0, -0.08f),
+            new Vector3(  0.2f, 0, -0.08f),
+            new Vector3(-0.08f, 0,  -0.2f),
+            new Vector3( 0.08f, 0,  -0.2f)
+        };
+        DicePositions.Add(DicePositions9);
+
+        // Add 10+ dice ???
+
+    }
+	
 }

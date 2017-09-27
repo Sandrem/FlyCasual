@@ -13,7 +13,6 @@ namespace UpgradesList
 			Type = UpgradeType.Cannon;
 
 			Name = "Ion Cannon";
-			ShortName = "Ion Cannon";
 			Cost = 3;
 
 			MinRange = 1;
@@ -63,7 +62,7 @@ namespace UpgradesList
 
 		private void DefenderSuffersDamage()
 		{
-			Combat.Defender.AssignedDamageDiceroll.AddDice(DiceSide.Success);
+			Combat.Defender.AssignedDamageDiceroll.AddDice(DieSide.Success);
 
 			Triggers.RegisterTrigger(new Trigger()
 				{

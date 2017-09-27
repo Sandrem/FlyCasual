@@ -100,6 +100,7 @@ public static partial class RosterBuilder {
     private static class SquadBuilderRoster
     {
         private static List<SquadBuilderShip> roster = new List<SquadBuilderShip>();
+        public static Dictionary<PlayerNo, Faction> playerFactions = new Dictionary<PlayerNo, Faction>();
 
         public static void AddShip(SquadBuilderShip ship)
         {
@@ -126,6 +127,12 @@ public static partial class RosterBuilder {
         {
             return roster;
         }
+
+        public static void ClearRoster()
+        {
+            roster = new List<SquadBuilderShip>();
+            playerFactions = new Dictionary<PlayerNo, Faction>();
+        }
     }
     
 
@@ -149,7 +156,7 @@ public static partial class RosterBuilder {
 
     private static void InitializeSquadBuilderRoster()
     {
-
+        SquadBuilderRoster.ClearRoster();
     }
 
     private static void SetPlayers()
@@ -200,18 +207,18 @@ public static partial class RosterBuilder {
         List<string> shipResults = GetShipsByFaction(Global.GetPlayerFaction(playerNo));
         string shipNameId = AllShips[shipResults.First()];
 
-        List<string> pilotResults = GetPilotsList(shipNameId).OrderByDescending(n => PilotSkill[n]).ToList();
+        List<string> pilotResults = GetPilotsList(shipNameId, SquadBuilderRoster.playerFactions[playerNo]).OrderByDescending(n => PilotSkill[n]).ToList();
         string pilotId = AllPilots[pilotResults.Last()];
-        GenericShip ship = (GenericShip)Activator.CreateInstance(Type.GetType(pilotId));
+        GenericShip pilot = (GenericShip)Activator.CreateInstance(Type.GetType(pilotId));
 
         GameObject panel = CreateShipPanel(playerNo);
 
-        SquadBuilderShip squadBuilderShip = new SquadBuilderShip(ship, panel, playerNo);
+        SquadBuilderShip squadBuilderShip = new SquadBuilderShip(pilot, panel, playerNo);
         SquadBuilderRoster.AddShip(squadBuilderShip);
 
         SetShipsDropdown(squadBuilderShip, shipResults);
         SetPilotsDropdown(squadBuilderShip, pilotResults);
-        SetSkinsDropdown(squadBuilderShip, GetSkins(ship));
+        SetSkinsDropdown(squadBuilderShip, GetSkins(pilot));
         SetAvailableUpgrades(squadBuilderShip);
 
         OrganizeUpgradeLines(panel);
@@ -223,7 +230,7 @@ public static partial class RosterBuilder {
     {
         List<string> result = new List<string>();
 
-        UnityEngine.Object[] textures = Resources.LoadAll("ShipSkins/" + ship.Type + "/");
+        UnityEngine.Object[] textures = Resources.LoadAll("ShipSkins/" + ship.FixTypeName(ship.Type) + "/");
         foreach (var texture in textures)
         {
             result.Add(texture.name);
@@ -248,7 +255,7 @@ public static partial class RosterBuilder {
         GenericShip result = null;
 
         string shipName = GetNameOfShip(squadBuilderShip);
-        List<string> pilotResults = GetPilotsList(shipName).OrderByDescending(n => PilotSkill[n]).ToList();
+        List<string> pilotResults = GetPilotsList(shipName, SquadBuilderRoster.playerFactions[squadBuilderShip.Player]).OrderByDescending(n => PilotSkill[n]).ToList();
 
         string pilotId = AllPilots[pilotResults.Last()];
         result = (GenericShip)Activator.CreateInstance(Type.GetType(pilotId));
@@ -266,6 +273,8 @@ public static partial class RosterBuilder {
 
         //SetAvailableUpgrades(squadBuilderShip);
         //OrganizeUpgradeLines(squadBuilderShip.Panel);
+
+        SetSkinsDropdown(squadBuilderShip, GetSkins(squadBuilderShip.Ship));
         UpdateUpgradePanelsDiff(squadBuilderShip);
         UpdateShipCost(squadBuilderShip);
 
@@ -300,7 +309,7 @@ public static partial class RosterBuilder {
         foreach (var ships in AllShips)
         {
             GenericShip newShip = (GenericShip)Activator.CreateInstance(Type.GetType(ships.Value + "." + ships.Value.Substring(5)));
-            if (newShip.faction == faction)
+            if (newShip.factions.Contains(faction))
             {
                 result.Add(ships.Key);
             }
@@ -325,7 +334,7 @@ public static partial class RosterBuilder {
             if (!namespaceList.Contains(ns))
             {
                 namespaceList.Add(ns);
-                Ship.GenericShip newShipTypeContainer = (Ship.GenericShip)System.Activator.CreateInstance(System.Type.GetType(ns + "." + ns.Substring(5)));
+                GenericShip newShipTypeContainer = (GenericShip)System.Activator.CreateInstance(System.Type.GetType(ns + "." + ns.Substring(5)));
                 if (!AllShips.ContainsKey(newShipTypeContainer.Type))
                 {
                     AllShips.Add(newShipTypeContainer.Type, ns);
@@ -334,7 +343,7 @@ public static partial class RosterBuilder {
         }
     }
 
-    private static List<string> GetPilotsList(string shipName)
+    private static List<string> GetPilotsList(string shipName, Faction faction)
     {
         List<string> result = new List<string>();
 
@@ -347,7 +356,7 @@ public static partial class RosterBuilder {
             if (type.MemberType == MemberTypes.NestedType) continue;
 
             GenericShip newShipContainer = (GenericShip)System.Activator.CreateInstance(type);
-            if ((newShipContainer.PilotName != null) && (!newShipContainer.IsHidden))
+            if ((newShipContainer.PilotName != null) && (!newShipContainer.IsHidden) && (newShipContainer.faction == faction))
             {
                 string pilotKey = newShipContainer.PilotName + " (" + newShipContainer.Cost + ")";
                 if (!AllPilots.ContainsKey(pilotKey))

@@ -29,9 +29,9 @@ namespace Ship
                 HotacManeuverTable = new AI.HWK290Table();
 
                 factions.Add(Faction.Rebels);
-                faction = Faction.Rebels;
+                factions.Add(Faction.Scum);
 
-                SkinName = "HWK-290";
+                SkinName = "Brown";
 
                 SoundShotsPath = "XWing-Laser";
                 ShotsCount = 1;

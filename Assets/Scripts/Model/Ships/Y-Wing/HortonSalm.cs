@@ -17,7 +17,11 @@ namespace Ship
 
                 IsUnique = true;
 
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Astromech);
+
                 SkinName = "Gray";
+
+                faction = Faction.Rebels;
             }
 
             public override void InitializePilot()
@@ -48,7 +52,7 @@ namespace PilotAbilities
         {
             DiceRerollManager diceRerollManager = new DiceRerollManager
             {
-                SidesCanBeRerolled = new List<DiceSide> { DiceSide.Blank },
+                SidesCanBeRerolled = new List<DieSide> { DieSide.Blank },
                 CallBack = callBack
             };
             diceRerollManager.Start();

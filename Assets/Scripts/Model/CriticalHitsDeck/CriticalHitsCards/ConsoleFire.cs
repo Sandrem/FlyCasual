@@ -65,8 +65,8 @@ namespace SubPhases
 
         public override void Prepare()
         {
-            dicesType = DiceKind.Attack;
-            dicesCount = 1;
+            diceType = DiceKind.Attack;
+            diceCount = 1;
 
             finishAction = FinishAction;
 
@@ -77,7 +77,7 @@ namespace SubPhases
         {
             HideDiceResultMenu();
 
-            if (CurrentDiceRoll.DiceList[0].Side == DiceSide.Success)
+            if (CurrentDiceRoll.DiceList[0].Side == DieSide.Success)
             {
                 SufferDamage();
             }

@@ -12,7 +12,7 @@ namespace UpgradesList
         public R5D8() : base()
         {
             Type = UpgradeType.Astromech;
-            Name = ShortName = "R5-D8";
+            Name = "R5-D8";
             isUnique = true;
             Cost = 3;
         }
@@ -69,8 +69,8 @@ namespace SubPhases
 
         public override void Prepare()
         {
-            dicesType = DiceKind.Defence;
-            dicesCount = 1;
+            diceType = DiceKind.Defence;
+            diceCount = 1;
 
             finishAction = FinishAction;
         }
@@ -79,7 +79,7 @@ namespace SubPhases
         {
             HideDiceResultMenu();
 
-            if (CurrentDiceRoll.DiceList[0].Side == DiceSide.Success || CurrentDiceRoll.DiceList[0].Side == DiceSide.Focus)
+            if (CurrentDiceRoll.DiceList[0].Side == DieSide.Success || CurrentDiceRoll.DiceList[0].Side == DieSide.Focus)
             {
                 if (Selection.ThisShip.TryDiscardFaceDownDamageCard())
                 {

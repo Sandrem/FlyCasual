@@ -7,7 +7,7 @@ namespace UpgradesList
         public NienNunb() : base()
         {
             Type = UpgradeType.Crew;
-            Name = ShortName = "Nien Nunb";
+            Name = "Nien Nunb";
             Cost = 2;
             isUnique = true;
         }

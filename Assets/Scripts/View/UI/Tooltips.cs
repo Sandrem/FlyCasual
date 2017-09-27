@@ -64,7 +64,7 @@ public static class Tooltips {
         WWW www = new WWW(url);
         yield return www;
 
-        if (TooltipsPanel.Find("TooltipImage") != null)
+        if (TooltipsPanel != null)
         {
             SetImageFromWeb(TooltipsPanel.Find("TooltipImage").gameObject, www);
             AdaptTooltipWindowSize();

@@ -13,6 +13,7 @@ public static partial class Roster {
 
     private static int SHIP_PANEL_WIDTH = 300;
     private static int SHIP_PANEL_HEIGHT = 110;
+    private static int SPACE_BETWEEN_PANELS = 15;
 
     public static void Initialize()
     {
@@ -189,7 +190,7 @@ public static partial class Roster {
                 if (item.activeSelf)
                 {
                     item.transform.position = defaultPosition + new Vector3(0f, -offset, 0f);
-                    offset += item.transform.Find("ShipInfo").GetComponent<RectTransform>().sizeDelta.y + 5;
+                    offset += item.transform.Find("ShipInfo").GetComponent<RectTransform>().sizeDelta.y + SPACE_BETWEEN_PANELS;
                 }
             }
         }

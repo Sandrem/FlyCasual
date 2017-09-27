@@ -153,7 +153,7 @@ public static partial class Roster {
 
         //Tokens
 
-        panel.transform.Find("ShipInfo/TokensBar").GetComponent<RectTransform>().localPosition = new Vector2(10, -65 - upgdaresHeight);
+        panel.transform.Find("ShipInfo/TokensBar").GetComponent<RectTransform>().localPosition = new Vector2(5, -97 - upgdaresHeight);
 
         int iconsCount = 0;
         foreach (Transform icon in panel.transform.Find("ShipInfo/TokensBar").transform)
@@ -164,7 +164,7 @@ public static partial class Roster {
             }
         }
 
-        int iconsLines = (iconsCount + 4) / 5;
+        int iconsLines = (iconsCount + 7) / 8;
         currentPanelHeight += 35 * iconsLines + 3;
 
         panel.transform.Find("Mark").GetComponent<RectTransform>().sizeDelta = new Vector2(10, currentPanelHeight);
@@ -317,7 +317,7 @@ public static partial class Roster {
                 tokenPanel.SetActive(true);
                 tokenPanel.GetComponent<RectTransform>().localPosition = new Vector3(columnCounter * 37, tokenPanel.GetComponent<RectTransform>().localPosition.y + -37 * rowCounter, tokenPanel.GetComponent<RectTransform>().localPosition.z);
                 columnCounter++;
-                if (columnCounter == 5)
+                if (columnCounter == 8)
                 {
                     rowCounter++;
                     columnCounter = 0;

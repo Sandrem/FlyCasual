@@ -39,7 +39,7 @@ namespace RulesList
 
         private void AssignWhiteForwardOneManeuver(GenericShip ship)
         {
-            ship.AssignedManeuver = new StraightMovement(1, ManeuverDirection.Forward, ManeuverBearing.Straight, ManeuverColor.White);
+            ship.SetAssignedManeuver(new StraightMovement(1, ManeuverDirection.Forward, ManeuverBearing.Straight, ManeuverColor.White));
 
             ship.OnManeuverIsReadyToBeRevealed -= AssignWhiteForwardOneManeuver;
         }

@@ -453,6 +453,76 @@ namespace Movement
             return maneuverString;
         }
 
+        public string GetBearingChar()
+        {
+            string result = "";
+
+            switch (Bearing)
+            {
+                case ManeuverBearing.Straight:
+                    result = "8";
+                    break;
+                case ManeuverBearing.Bank:
+                    result = (Direction == ManeuverDirection.Left) ? "7" : "9";
+                    break;
+                case ManeuverBearing.Turn:
+                    result = (Direction == ManeuverDirection.Left) ? "4" : "6";
+                    break;
+                case ManeuverBearing.KoiogranTurn:
+                    result = "2";
+                    break;
+                case ManeuverBearing.SegnorsLoop:
+                    result = (Direction == ManeuverDirection.Left) ? "1" : "3";
+                    break;
+                case ManeuverBearing.TallonRoll:
+                    result = (Direction == ManeuverDirection.Left) ? ":" : ";";
+                    break;
+                case ManeuverBearing.Stationary:
+                    result = "5";
+                    break;
+                case ManeuverBearing.Reverse:
+                    switch (Direction)
+                    {
+                        case ManeuverDirection.Left:
+                            result = "J";
+                            break;
+                        case ManeuverDirection.Forward:
+                            result = "K";
+                            break;
+                        case ManeuverDirection.Right:
+                            result = "L";
+                            break;
+                    }
+                    break;
+                default:
+                    break;
+            }
+
+            return result;
+        }
+
+        public Color GetColor()
+        {
+            Color result = Color.yellow;
+            switch (ColorComplexity)
+            {
+                case ManeuverColor.None:
+                    break;
+                case ManeuverColor.Green:
+                    result = Color.green;
+                    break;
+                case ManeuverColor.White:
+                    result = Color.white;
+                    break;
+                case ManeuverColor.Red:
+                    result = Color.red;
+                    break;
+                default:
+                    break;
+            }
+            return result;
+        }
+
     }
 
 }

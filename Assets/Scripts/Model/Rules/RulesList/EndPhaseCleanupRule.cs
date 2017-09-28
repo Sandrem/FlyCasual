@@ -43,7 +43,7 @@ namespace RulesList
 
         private void ClearAssignedManeuvers(Ship.GenericShip ship)
         {
-            ship.AssignedManeuver = null;
+            ship.ClearAssignedManeuver();
         }
     }
 }

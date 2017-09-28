@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using Players;
 using System.Linq;
+using Ship;
 
 public static partial class Roster {
 
@@ -20,10 +21,10 @@ public static partial class Roster {
         Players = new List<GenericPlayer>();
         rosterPlayer1 = new List<GameObject>();
         rosterPlayer2 = new List<GameObject>();
-        AllShips = new Dictionary<string, Ship.GenericShip>();
+        AllShips = new Dictionary<string, GenericShip>();
     }
     
-    public static GameObject CreateRosterInfo(Ship.GenericShip newShip)
+    public static GameObject CreateRosterInfo(GenericShip newShip)
     {
         GameObject prefab = (GameObject)Resources.Load("Prefabs/RosterPanel", typeof(GameObject));
         GameObject newPanel = MonoBehaviour.Instantiate(prefab, GameObject.Find("UI/RostersHolder").transform.Find("TeamPlayer" + newShip.Owner.Id).Find("RosterHolder").transform);
@@ -100,7 +101,7 @@ public static partial class Roster {
         trigger.triggers.Add(entry);
     }
 
-    private static void AddToRoster(Ship.GenericShip newShip, GameObject newPanel)
+    private static void AddToRoster(GenericShip newShip, GameObject newPanel)
     {
 
         List<GameObject> rosterPlayer = (newShip.Owner.PlayerNo == PlayerNo.Player1) ? rosterPlayer1 : rosterPlayer2;
@@ -240,7 +241,7 @@ public static partial class Roster {
 
     //UPDATE
 
-    public static void UpdateRosterShieldsDamageIndicators(Ship.GenericShip thisShip)
+    public static void UpdateRosterShieldsDamageIndicators(GenericShip thisShip)
     {
         thisShip.InfoPanel.transform.Find("ShipInfo/ShipShieldsText").GetComponent<Text>().text = thisShip.Shields.ToString();
         foreach (Transform damageIndicator in thisShip.InfoPanel.transform.Find("ShipInfo/DamageBarPanel").transform)
@@ -255,7 +256,7 @@ public static partial class Roster {
         }
     }
 
-    public static void UpdateShipStats(Ship.GenericShip thisShip)
+    public static void UpdateShipStats(GenericShip thisShip)
     {
         if (thisShip.InfoPanel != null)
         {
@@ -265,7 +266,7 @@ public static partial class Roster {
         }
     }
 
-    public static void UpdateRosterHullDamageIndicators(Ship.GenericShip thisShip)
+    public static void UpdateRosterHullDamageIndicators(GenericShip thisShip)
     {
         thisShip.InfoPanel.transform.Find("ShipInfo/ShipHullText").GetComponent<Text>().text = thisShip.Hull.ToString();
         foreach (Transform damageIndicator in thisShip.InfoPanel.transform.Find("ShipInfo/DamageBarPanel").transform)
@@ -283,7 +284,7 @@ public static partial class Roster {
         thisShip.ToggleDamaged(thisShip.Hull == 1);
     }
 
-    public static void UpdateTokensIndicator(Ship.GenericShip thisShip, System.Type type)
+    public static void UpdateTokensIndicator(GenericShip thisShip, System.Type type)
     {
         List<GameObject> keys = new List<GameObject>();
         foreach (Transform icon in thisShip.InfoPanel.transform.Find("ShipInfo/TokensBar").transform)
@@ -328,7 +329,7 @@ public static partial class Roster {
         OrganizeRosters();
     }
 
-    public static void UpdateUpgradesPanel(Ship.GenericShip newShip, GameObject newPanel)
+    public static void UpdateUpgradesPanel(GenericShip newShip, GameObject newPanel)
     {
         int index = 1;
         foreach (var upgrade in newShip.UpgradeBar.GetInstalledUpgrades())
@@ -341,7 +342,7 @@ public static partial class Roster {
         OrganizeRosters();
     }
 
-    public static void SubscribeUpgradesPanel(Ship.GenericShip newShip, GameObject newPanel)
+    public static void SubscribeUpgradesPanel(GenericShip newShip, GameObject newPanel)
     {
         int index = 1;
         foreach (var upgrade in newShip.UpgradeBar.GetInstalledUpgrades())
@@ -355,7 +356,7 @@ public static partial class Roster {
         }
     }
 
-    public static void DiscardUpgrade(Ship.GenericShip host, string upgradeShortName)
+    public static void DiscardUpgrade(GenericShip host, string upgradeShortName)
     {
         foreach (Transform upgradeLine in host.InfoPanel.transform.Find("ShipInfo/UpgradesBar").transform)
         {
@@ -381,26 +382,64 @@ public static partial class Roster {
         }
     }
 
-    public static void RosterPanelHighlightOn(Ship.GenericShip ship)
+    public static void RosterPanelHighlightOn(GenericShip ship)
     {
         ship.InfoPanel.transform.Find("ShipInfo").GetComponent<Animator>().enabled = true;
     }
 
-    public static void RosterPanelHighlightOff(Ship.GenericShip ship)
+    public static void RosterPanelHighlightOff(GenericShip ship)
     {
         ship.InfoPanel.transform.Find("ShipInfo").GetComponent<Animator>().enabled = false;
         ship.InfoPanel.transform.Find("ShipInfo").GetComponent<Image>().color = new Color32(0, 0, 0, 200);
     }
 
-    public static void MarkShip(Ship.GenericShip ship, Color color)
+    public static void MarkShip(GenericShip ship, Color color)
     {
         ship.InfoPanel.transform.Find("Mark").GetComponent<Canvas>().enabled = true;
         ship.InfoPanel.transform.Find("Mark").GetComponent<Image>().color = color;
     }
 
-    public static void UnMarkShip(Ship.GenericShip ship)
+    public static void UnMarkShip(GenericShip ship)
     {
         ship.InfoPanel.transform.Find("Mark").GetComponent<Canvas>().enabled = false;
+    }
+
+    public static void UpdateAssignedManeuverDial(GenericShip ship, Movement.GenericMovement maneuver)
+    {
+        GameObject maneuverDial = ship.InfoPanel.transform.Find("AssignedManeuverDial").gameObject;
+
+        Text maneuverSpeed = maneuverDial.transform.Find("ManeuverSpeed").GetComponent<Text>();
+        maneuverSpeed.text = maneuver.Speed.ToString();
+        maneuverSpeed.color = maneuver.GetColor();
+        maneuverSpeed.gameObject.SetActive(IsNeedToShowManeuver(ship));
+
+        Text maneuverBearing = maneuverDial.transform.Find("ManeuverBearing").GetComponent<Text>();
+        maneuverBearing.text = maneuver.GetBearingChar();
+        maneuverBearing.color = maneuver.GetColor();
+        maneuverBearing.gameObject.SetActive(IsNeedToShowManeuver(ship));
+
+        maneuverDial.transform.localPosition = (ship.Owner.PlayerNo == PlayerNo.Player1) ? new Vector3(320, -5, 0): new Vector3(-120, -5, 0);
+        maneuverDial.SetActive(true);
+    }
+
+    private static bool IsNeedToShowManeuver(GenericShip ship)
+    {
+        bool result = true;
+        if ((ship.Owner.GetType() == typeof(HotacAiPlayer)) && Phases.CurrentSubPhase.GetType() == typeof(SubPhases.PlanningSubPhase)) return false;
+        return result;
+    }
+
+    public static void RevealManeuver(GenericShip ship)
+    {
+        GameObject maneuverDial = ship.InfoPanel.transform.Find("AssignedManeuverDial").gameObject;
+        maneuverDial.transform.Find("ManeuverSpeed").gameObject.SetActive(true);
+        maneuverDial.transform.Find("ManeuverBearing").gameObject.SetActive(true);
+    }
+
+    public static void HideAssignedManeuverDial(GenericShip ship)
+    {
+        GameObject maneuverDial = ship.InfoPanel.transform.Find("AssignedManeuverDial").gameObject;
+        maneuverDial.SetActive(false);
     }
 
 }

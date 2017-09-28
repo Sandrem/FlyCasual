@@ -223,7 +223,7 @@ public partial class DiceRerollManager
         }
     }
 
-    private void ConfirmReroll()
+    public void ConfirmReroll()
     {
         if (Selection.ActiveShip.Owner.GetType() == typeof(Players.HumanPlayer)) BlockButtons();
         Combat.CurentDiceRoll.RerollSelected(UnblockButtons);

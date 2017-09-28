@@ -145,6 +145,12 @@ public partial class DiceRoll
         private set { }
     }
 
+    public int NotRerolled
+    {
+        get { return DiceList.Count(n => (n.IsRerolled == false)); }
+        private set { }
+    }
+
     public void Roll(DelegateDiceroll callBack)
     {
         this.callBack = callBack;

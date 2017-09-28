@@ -19,6 +19,62 @@ namespace Ship
 
                 faction = Faction.Empire;
             }
+
+            public override void InitializePilot()
+            {
+                base.InitializePilot();
+                AfterGenerateAvailableActionEffectsList += KrassisTrelixPilotAbility;
+            }
+
+            public void KrassisTrelixPilotAbility(GenericShip ship)
+            {
+                ship.AddAvailableActionEffect(new PilotAbilities.KrassisTrelixAction());
+            }
         }
+    }
+}
+
+namespace PilotAbilities
+{
+    public class KrassisTrelixAction : ActionsList.GenericAction
+    {
+        public KrassisTrelixAction()
+        {
+            Name = EffectName = "Krassis Trelix's ability";
+            IsReroll = true;
+        }
+
+        public override void ActionEffect(System.Action callBack)
+        {
+            DiceRerollManager diceRerollManager = new DiceRerollManager
+            {
+                NumberOfDiceCanBeRerolled = 1,
+                CallBack = callBack
+            };
+            diceRerollManager.Start();
+        }
+
+        public override bool IsActionEffectAvailable()
+        {
+            bool result = false;
+            if (Combat.AttackStep == CombatStep.Attack && (Combat.ChosenWeapon as Upgrade.GenericSecondaryWeapon) != null)
+            {
+                result = true;
+            }
+            return result;
+        }
+
+        public override int GetActionEffectPriority()
+        {
+            int result = 0;
+
+            if (Combat.AttackStep == CombatStep.Attack)
+            {
+                if (Combat.DiceRollAttack.Blanks > 0) result = 95;
+            }
+
+            return result;
+        }
+
     }
 }

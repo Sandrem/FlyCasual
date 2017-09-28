@@ -21,6 +21,34 @@ namespace Ship
 
                 SkinName = "Red Stripes";
             }
+
+            public override void InitializePilot()
+            {
+                base.InitializePilot();
+                OnAttackPerformed += RegisterTurrPhennirPilotAbility;
+            }
+
+            private void RegisterTurrPhennirPilotAbility()
+            {
+                Triggers.RegisterTrigger(new Trigger()
+                {
+                    Name = "Turr Phennir's ability",
+                    TriggerType = TriggerTypes.OnAttackPerformed,
+                    TriggerOwner = this.Owner.PlayerNo,
+                    EventHandler = TurrPhennirPilotAbility
+                });
+            }
+
+            private void TurrPhennirPilotAbility(object sender, System.EventArgs e)
+            {
+                AskPerformFreeAction(
+                    new List<ActionsList.GenericAction>()
+                    {
+                        new ActionsList.BoostAction(),
+                        new ActionsList.BarrelRollAction()
+                    },
+                    Triggers.FinishTrigger);
+            }
         }
     }
 }

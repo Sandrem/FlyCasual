@@ -233,11 +233,15 @@ public static partial class Combat
     {
         Triggers.ResolveTriggers(
             TriggerTypes.OnDamageIsDealt,
-            delegate {
-                Phases.FinishSubPhase(typeof(SubPhases.CompareResultsSubPhase));
-                CheckTwinAttack();
-            }
+            AfterAttackIsPerformed
         );
+    }
+
+    private static void AfterAttackIsPerformed()
+    {
+        Phases.FinishSubPhase(typeof(SubPhases.CompareResultsSubPhase));
+        Attacker.CallOnAttackPerformed();
+        Triggers.ResolveTriggers(TriggerTypes.OnAttackPerformed, CheckTwinAttack);
     }
 
     private static void CheckTwinAttack()

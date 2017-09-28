@@ -101,7 +101,6 @@ namespace SubPhases
 
         private void PerformFreeAction(object sender, System.EventArgs e)
         {
-            Selection.ThisShip.GenerateAvailableActionsList();
             List<ActionsList.GenericAction> actions = Selection.ThisShip.GetAvailablePrintedActionsList();
 
             TargetShip.AskPerformFreeAction(

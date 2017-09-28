@@ -124,6 +124,8 @@ namespace Ship
         public event EventHandler OnAttack;
         public event EventHandler OnDefence;
 
+        public event EventHandler OnAttackPerformed;
+
         public event EventHandler OnAttackHitAsAttacker;
         public event EventHandler OnAttackHitAsDefender;
         public event EventHandler OnAttackMissedAsAttacker;
@@ -237,6 +239,11 @@ namespace Ship
         public void CallOnImmediatelyAfterRolling(DiceRoll diceroll)
         {
             if (OnImmediatelyAfterRolling != null) OnImmediatelyAfterRolling(diceroll);
+        }
+
+        public void CallOnAttackPerformed()
+        {
+            if (OnAttackPerformed != null) OnAttackPerformed();
         }
 
         // DICE

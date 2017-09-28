@@ -241,7 +241,7 @@ namespace Ship
 
             if (!action.IsActionEffectAvailable()) result = false;
 
-            if (IsOppositeActionEffectAlreadyExecuted(action)) result = false;
+            if (IsActionEffectAlreadyExecuted(action)) result = false;
 
             if (result)
             {

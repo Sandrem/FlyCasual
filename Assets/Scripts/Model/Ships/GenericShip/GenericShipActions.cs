@@ -131,6 +131,11 @@ namespace Ship
             return AvailableActionsList;
         }
 
+        public List<ActionsList.GenericAction> GetAvailablePrintedActionsList()
+        {
+            return BuiltInActions;
+        }
+
         public List<ActionsList.GenericAction> GetAvailableFreeActionsList()
         {
             return AvailableFreeActionsList;

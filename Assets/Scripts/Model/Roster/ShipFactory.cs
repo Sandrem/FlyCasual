@@ -27,7 +27,7 @@ public static class ShipFactory {
         Ship.GenericShip newShipContainer = shipConfig.Ship;
         newShipContainer.InitializeGenericShip(shipConfig.Player, id, position);
 
-        Roster.SubscribeActions(newShipContainer.InfoPanel.transform.Find("ShipInfo").gameObject);
+        Roster.SubscribeSelectionByInfoPanel(newShipContainer.InfoPanel.transform.Find("ShipInfo").gameObject);
         Roster.SubscribeUpgradesPanel(newShipContainer, newShipContainer.InfoPanel);
 
         //TODO: Rework this

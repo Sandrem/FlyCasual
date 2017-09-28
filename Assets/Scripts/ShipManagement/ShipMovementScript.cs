@@ -55,7 +55,7 @@ public class ShipMovementScript : MonoBehaviour {
     {
         string parameters = EventSystem.current.currentSelectedGameObject.name;
 
-        Selection.ThisShip.AssignedManeuver = MovementFromString(parameters);
+        Selection.ThisShip.SetAssignedManeuver(MovementFromString(parameters));
 
         UI.HideDirectionMenu();
 

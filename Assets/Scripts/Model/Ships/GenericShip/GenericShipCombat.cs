@@ -121,6 +121,8 @@ namespace Ship
         public event EventHandlerBool OnTryPerformAttack;
         public static event EventHandlerBool OnTryPerformAttackGlobal;
 
+        public event EventHandlerTokensList OnGenerateAvailableAttackPaymentList;
+
         public event EventHandler OnAttack;
         public event EventHandler OnDefence;
 
@@ -250,6 +252,11 @@ namespace Ship
         public void CallOnAtLeastOneCritWasCancelledByDefender()
         {
             if (OnAtLeastOneCritWasCancelledByDefender != null) OnAtLeastOneCritWasCancelledByDefender();
+        }
+
+        public void CallOnGenerateAvailableAttackPaymentList(List<Tokens.GenericToken> tokens)
+        {
+            if (OnGenerateAvailableAttackPaymentList != null) OnGenerateAvailableAttackPaymentList(tokens);
         }
 
         // DICE

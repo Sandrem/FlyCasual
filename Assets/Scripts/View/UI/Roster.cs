@@ -234,16 +234,10 @@ public static partial class Roster {
 
     public static void ShowAssignedManeuverByHover(PointerEventData data)
     {
-        Debug.Log("+");
-        Debug.Log(data.hovered.Count);
         foreach (var item in data.hovered)
         {
-            Debug.Log(item.name + " " + item.tag);
             if (item.tag != "Untagged")
             {
-                Debug.Log("FOUND");
-                Debug.Log(AllShips[item.tag].Owner.PlayerNo);
-                Debug.Log(Phases.CurrentPhasePlayer);
                 if (AllShips[item.tag].Owner.PlayerNo == Phases.CurrentPhasePlayer)
                 {
                     ToggelManeuverVisibility(AllShips[item.tag], true);
@@ -262,18 +256,6 @@ public static partial class Roster {
                 ToggelManeuverVisibility(shipHoler.Value, false);
             }
         }
-        /*Debug.Log("-");
-        foreach (var item in data.hovered)
-        {
-            if (item.tag != "Untagged")
-            {
-                if (IsAssignedManeuverDialShouldBeHiddenAfterHover(AllShips[item.tag]))
-                {
-                    ToggelManeuverVisibility(AllShips[item.tag], false);
-                    return;
-                }
-            }
-        }*/
     }
 
     private static bool IsAssignedManeuverDialShouldBeHiddenAfterHover(GenericShip ship)
@@ -309,11 +291,8 @@ public static partial class Roster {
 
     public static void HoverShipByRosterClick(PointerEventData data)
     {
-        Debug.Log("!");
-        Debug.Log(data.hovered.Count);
         foreach (var item in data.hovered)
         {
-            Debug.Log(item.name + " " + item.tag);
             if (item.tag.StartsWith("ShipId:"))
             {
                 Selection.TryMarkShip(item.tag);

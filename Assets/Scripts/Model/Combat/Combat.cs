@@ -184,9 +184,28 @@ public static partial class Combat
         );
     }
 
-    public static void CalculateAttackResults(Ship.GenericShip attacker, Ship.GenericShip defender)
+    public static void CancelHitsByDefenceDice(Ship.GenericShip attacker, Ship.GenericShip defender)
     {
+        int crits = DiceRollAttack.CriticalSuccesses;
         DiceRollAttack.CancelHits(DiceRollDefence.Successes);
+        if (crits > DiceRollAttack.CriticalSuccesses)
+        {
+            attacker.CallOnAtLeastOneCritWasCancelledByDefender();
+            Triggers.ResolveTriggers(
+                TriggerTypes.OnAtLeastOneCritWasCancelledByDefender,
+                delegate
+                {
+                    CalculateAttackResults(attacker, defender);
+                });
+        }
+        else
+        {
+            CalculateAttackResults(attacker, defender);
+        }
+    }
+
+    private static void CalculateAttackResults(Ship.GenericShip attacker, Ship.GenericShip defender)
+    {
         DiceRollAttack.RemoveAllFailures();
 
         if (DiceRollAttack.Successes > 0)
@@ -202,7 +221,7 @@ public static partial class Combat
             Defender.CallOnAttackMissedAsDefender();
 
             SufferDamage();
-        }        
+        }
     }
 
     private static void ResolveCombatDamage(Action callBack)
@@ -492,7 +511,7 @@ namespace SubPhases
         private void DealDamage()
         {
             if (DebugManager.DebugPhases) Debug.Log("Deal Damage!");
-            Combat.CalculateAttackResults(Selection.ThisShip, Selection.AnotherShip);
+            Combat.CancelHitsByDefenceDice(Selection.ThisShip, Selection.AnotherShip);
         }
 
         public override void Next()

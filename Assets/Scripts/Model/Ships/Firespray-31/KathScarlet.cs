@@ -21,6 +21,29 @@ namespace Ship
 
                 faction = Faction.Empire;
             }
+
+            public override void InitializePilot()
+            {
+                base.InitializePilot();
+                OnAtLeastOneCritWasCancelledByDefender += RegisterKathScarletPilotAbility;
+            }
+
+            private void RegisterKathScarletPilotAbility()
+            {
+                Triggers.RegisterTrigger(new Trigger
+                {
+                    Name = "Kath Scarlet's ability",
+                    TriggerType = TriggerTypes.OnAtLeastOneCritWasCancelledByDefender,
+                    TriggerOwner = this.Owner.PlayerNo,
+                    EventHandler = KathScarletPilotAbility
+                });
+            }
+
+            private void KathScarletPilotAbility(object sender, System.EventArgs e)
+            {
+                Messages.ShowInfo("Critical hit was cancelled - stress token is assigned to the defender");
+                Combat.Defender.AssignToken(new Tokens.StressToken(), Triggers.FinishTrigger);
+            }
         }
     }
 }

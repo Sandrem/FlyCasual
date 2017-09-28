@@ -124,6 +124,7 @@ namespace Ship
         public event EventHandler OnAttack;
         public event EventHandler OnDefence;
 
+        public event EventHandler OnAtLeastOneCritWasCancelledByDefender;
         public event EventHandler OnAttackPerformed;
 
         public event EventHandler OnAttackHitAsAttacker;
@@ -244,6 +245,11 @@ namespace Ship
         public void CallOnAttackPerformed()
         {
             if (OnAttackPerformed != null) OnAttackPerformed();
+        }
+
+        public void CallOnAtLeastOneCritWasCancelledByDefender()
+        {
+            if (OnAtLeastOneCritWasCancelledByDefender != null) OnAtLeastOneCritWasCancelledByDefender();
         }
 
         // DICE

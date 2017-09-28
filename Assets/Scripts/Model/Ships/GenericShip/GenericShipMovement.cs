@@ -55,7 +55,7 @@ namespace Ship
 
         public void CallManeuverIsRevealed(System.Action callBack)
         {
-            Roster.RevealManeuver(Selection.ThisShip);
+            Roster.ToggelManeuverVisibility(Selection.ThisShip, true);
 
             if (OnManeuverIsRevealed != null) OnManeuverIsRevealed(this);
 

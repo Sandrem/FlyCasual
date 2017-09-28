@@ -429,11 +429,11 @@ public static partial class Roster {
         return result;
     }
 
-    public static void RevealManeuver(GenericShip ship)
+    public static void ToggelManeuverVisibility(GenericShip ship, bool isVisible)
     {
         GameObject maneuverDial = ship.InfoPanel.transform.Find("AssignedManeuverDial").gameObject;
-        maneuverDial.transform.Find("ManeuverSpeed").gameObject.SetActive(true);
-        maneuverDial.transform.Find("ManeuverBearing").gameObject.SetActive(true);
+        maneuverDial.transform.Find("ManeuverSpeed").gameObject.SetActive(isVisible);
+        maneuverDial.transform.Find("ManeuverBearing").gameObject.SetActive(isVisible);
     }
 
     public static void HideAssignedManeuverDial(GenericShip ship)

@@ -16,7 +16,7 @@ namespace Ship
         public delegate void EventHandlerShip(GenericShip ship);
         public delegate void EventHandlerShipType(GenericShip ship, System.Type type);
         public delegate void EventHandlerShipMovement(GenericShip ship, ref Movement.MovementStruct movement);
-        public delegate void EventHandlerShipCritArgs(GenericShip ship, ref CriticalHitCard.GenericCriticalHit crit, EventArgs e = null);
+        public delegate void EventHandlerShipCritArgs(GenericShip ship, CriticalHitCard.GenericCriticalHit crit, EventArgs e = null);
         public delegate void EventHandlerTokenBool(Tokens.GenericToken token, ref bool data);
         public delegate void EventHandlerBombDropTemplates(List<Bombs.BombDropTemplates> availableTemplates);
         public delegate void EventHandlerDiceroll(DiceRoll diceroll);

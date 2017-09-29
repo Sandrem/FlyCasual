@@ -30,7 +30,7 @@ namespace CriticalHitCard
 
         public void AssignCrit(Ship.GenericShip host)
         {
-            this.Host = host;
+            Host = host;
 
             Triggers.RegisterTrigger(new Trigger() {
                 Name = "Apply critical hit card effect",

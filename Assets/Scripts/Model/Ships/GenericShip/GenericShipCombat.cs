@@ -146,7 +146,7 @@ namespace Ship
         public static event EventHandlerShipCritArgs OnFaceupCritCardReadyToBeDealtGlobal;
         public event EventHandlerShipCritArgs OnAssignCrit;
 
-        public event EventHandlerShipCritArgs OnDamageCardIsDealt;
+        public event EventHandlerShip OnDamageCardIsDealt;
 
         public event EventHandlerShip OnDestroyed;
 
@@ -264,9 +264,9 @@ namespace Ship
             if (OnGenerateAvailableAttackPaymentList != null) OnGenerateAvailableAttackPaymentList(tokens);
         }
 
-        public void CallOnDamageCardIsDealt(CriticalHitCard.GenericCriticalHit damageCard, Action callBack)
+        public void CallOnDamageCardIsDealt(Action callBack)
         {
-            if (OnDamageCardIsDealt != null) OnDamageCardIsDealt(this, damageCard);
+            if (OnDamageCardIsDealt != null) OnDamageCardIsDealt(this);
 
             Triggers.ResolveTriggers(TriggerTypes.OnDamageCardIsDealt, callBack);
         }
@@ -395,16 +395,16 @@ namespace Ship
             }
             else
             {
-                CriticalHitCard.GenericCriticalHit damageCard = CriticalHitsDeck.GetCritCard();
-                CallOnDamageCardIsDealt(damageCard, delegate { DealRegularDamageCard(damageCard); });
+                Combat.CurrentCriticalHitCard = CriticalHitsDeck.GetCritCard();
+                CallOnDamageCardIsDealt(DealRegularDamageCard);
             }
         }
 
-        private void DealRegularDamageCard(CriticalHitCard.GenericCriticalHit damageCard)
+        private void DealRegularDamageCard()
         {
-            if (damageCard != null)
+            if (Combat.CurrentCriticalHitCard != null)
             {
-                AssignedDamageCards.Add(damageCard);
+                AssignedDamageCards.Add(Combat.CurrentCriticalHitCard);
                 DecreaseHullValue(Triggers.FinishTrigger);
             }
             else
@@ -424,7 +424,7 @@ namespace Ship
 
             if (Combat.CurrentCriticalHitCard != null)
             {
-                CallOnDamageCardIsDealt(Combat.CurrentCriticalHitCard, DealFaceupDamageCard);
+                CallOnDamageCardIsDealt(DealFaceupDamageCard);
             }
             else
             {

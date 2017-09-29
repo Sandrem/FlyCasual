@@ -131,6 +131,7 @@ namespace Ship
 
         public event EventHandler OnAttackHitAsAttacker;
         public event EventHandler OnAttackHitAsDefender;
+        public static event EventHandler OnAttackHitAsDefenderGlobal;
         public event EventHandler OnAttackMissedAsAttacker;
         public event EventHandler OnAttackMissedAsDefender;
 
@@ -209,6 +210,8 @@ namespace Ship
 
         public void CallOnAttackHitAsDefender()
         {
+            if (OnAttackHitAsDefenderGlobal != null) OnAttackHitAsDefenderGlobal();
+
             if (OnAttackHitAsDefender != null) OnAttackHitAsDefender();
         }
 

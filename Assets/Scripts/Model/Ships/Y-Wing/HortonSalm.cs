@@ -27,10 +27,10 @@ namespace Ship
             public override void InitializePilot()
             {
                 base.InitializePilot();
-                AfterGenerateAvailableActionEffectsList += WingedGundarkPilotAbility;
+                AfterGenerateAvailableActionEffectsList += HortonSalmPilotAbility;
             }
 
-            public void WingedGundarkPilotAbility(GenericShip ship)
+            public void HortonSalmPilotAbility(GenericShip ship)
             {
                 ship.AddAvailableActionEffect(new PilotAbilities.HortonSalmAction());
             }

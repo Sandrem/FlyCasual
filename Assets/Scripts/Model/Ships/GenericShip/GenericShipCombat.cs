@@ -121,11 +121,17 @@ namespace Ship
         public event EventHandlerBool OnTryPerformAttack;
         public static event EventHandlerBool OnTryPerformAttackGlobal;
 
+        public event EventHandlerTokensList OnGenerateAvailableAttackPaymentList;
+
         public event EventHandler OnAttack;
         public event EventHandler OnDefence;
 
+        public event EventHandler OnAtLeastOneCritWasCancelledByDefender;
+        public event EventHandler OnAttackPerformed;
+
         public event EventHandler OnAttackHitAsAttacker;
         public event EventHandler OnAttackHitAsDefender;
+        public static event EventHandler OnAttackHitAsDefenderGlobal;
         public event EventHandler OnAttackMissedAsAttacker;
         public event EventHandler OnAttackMissedAsDefender;
 
@@ -139,6 +145,8 @@ namespace Ship
         public event EventHandlerShipCritArgs OnFaceupCritCardReadyToBeDealt;
         public static event EventHandlerShipCritArgs OnFaceupCritCardReadyToBeDealtGlobal;
         public event EventHandlerShipCritArgs OnAssignCrit;
+
+        public event EventHandlerShip OnDamageCardIsDealt;
 
         public event EventHandlerShip OnDestroyed;
 
@@ -204,6 +212,8 @@ namespace Ship
 
         public void CallOnAttackHitAsDefender()
         {
+            if (OnAttackHitAsDefenderGlobal != null) OnAttackHitAsDefenderGlobal();
+
             if (OnAttackHitAsDefender != null) OnAttackHitAsDefender();
         }
 
@@ -237,6 +247,28 @@ namespace Ship
         public void CallOnImmediatelyAfterRolling(DiceRoll diceroll)
         {
             if (OnImmediatelyAfterRolling != null) OnImmediatelyAfterRolling(diceroll);
+        }
+
+        public void CallOnAttackPerformed()
+        {
+            if (OnAttackPerformed != null) OnAttackPerformed();
+        }
+
+        public void CallOnAtLeastOneCritWasCancelledByDefender()
+        {
+            if (OnAtLeastOneCritWasCancelledByDefender != null) OnAtLeastOneCritWasCancelledByDefender();
+        }
+
+        public void CallOnGenerateAvailableAttackPaymentList(List<Tokens.GenericToken> tokens)
+        {
+            if (OnGenerateAvailableAttackPaymentList != null) OnGenerateAvailableAttackPaymentList(tokens);
+        }
+
+        public void CallOnDamageCardIsDealt(Action callBack)
+        {
+            if (OnDamageCardIsDealt != null) OnDamageCardIsDealt(this);
+
+            Triggers.ResolveTriggers(TriggerTypes.OnDamageCardIsDealt, callBack);
         }
 
         // DICE
@@ -347,9 +379,9 @@ namespace Ship
 
                 if (DebugManager.DebugDamage) Debug.Log("+++ Crit: " + Combat.CurrentCriticalHitCard.Name);
 
-                if (OnFaceupCritCardReadyToBeDealt != null) OnFaceupCritCardReadyToBeDealt(this, ref Combat.CurrentCriticalHitCard);
+                if (OnFaceupCritCardReadyToBeDealt != null) OnFaceupCritCardReadyToBeDealt(this, Combat.CurrentCriticalHitCard);
 
-                if (OnFaceupCritCardReadyToBeDealtGlobal != null) OnFaceupCritCardReadyToBeDealtGlobal(this, ref Combat.CurrentCriticalHitCard, e);
+                if (OnFaceupCritCardReadyToBeDealtGlobal != null) OnFaceupCritCardReadyToBeDealtGlobal(this, Combat.CurrentCriticalHitCard, e);
 
                 Triggers.RegisterTrigger(new Trigger
                 {
@@ -359,24 +391,49 @@ namespace Ship
                     EventHandler = delegate { InformCrit.LoadAndShow(); }
                 });
 
-                Triggers.ResolveTriggers(TriggerTypes.OnFaceupCritCardReadyToBeDealt, SufferHullDamagePart2);
+                Triggers.ResolveTriggers(TriggerTypes.OnFaceupCritCardReadyToBeDealt, SufferFaceupDamageCard);
             }
             else
             {
-                AssignedDamageCards.Add(CriticalHitsDeck.GetCritCard());
-                DecreaseHullValue(Triggers.FinishTrigger);
+                Combat.CurrentCriticalHitCard = CriticalHitsDeck.GetCritCard();
+                CallOnDamageCardIsDealt(DealRegularDamageCard);
             }
         }
 
-        private void SufferHullDamagePart2()
+        private void DealRegularDamageCard()
         {
-            Triggers.ResolveTriggers(TriggerTypes.OnFaceupCritCardReadyToBeDealtUI, SufferHullDamagePart3);
+            if (Combat.CurrentCriticalHitCard != null)
+            {
+                AssignedDamageCards.Add(Combat.CurrentCriticalHitCard);
+                DecreaseHullValue(Triggers.FinishTrigger);
+            }
+            else
+            {
+                Triggers.FinishTrigger();
+            }
         }
 
-        private void SufferHullDamagePart3()
+        private void SufferFaceupDamageCard()
         {
-            if (OnAssignCrit != null) OnAssignCrit(this, ref Combat.CurrentCriticalHitCard);
+            Triggers.ResolveTriggers(TriggerTypes.OnFaceupCritCardReadyToBeDealtUI, SufferFaceupDamageCardPart2);
+        }
 
+        private void SufferFaceupDamageCardPart2()
+        {
+            if (OnAssignCrit != null) OnAssignCrit(this, Combat.CurrentCriticalHitCard);
+
+            if (Combat.CurrentCriticalHitCard != null)
+            {
+                CallOnDamageCardIsDealt(DealFaceupDamageCard);
+            }
+            else
+            {
+                Triggers.FinishTrigger();
+            }
+        }
+
+        private void DealFaceupDamageCard()
+        {
             if (Combat.CurrentCriticalHitCard != null)
             {
                 AssignedCritCards.Add(Combat.CurrentCriticalHitCard);

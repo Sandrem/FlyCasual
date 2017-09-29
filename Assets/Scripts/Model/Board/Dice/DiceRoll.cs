@@ -145,13 +145,19 @@ public partial class DiceRoll
         private set { }
     }
 
+    public int NotRerolled
+    {
+        get { return DiceList.Count(n => (n.IsRerolled == false)); }
+        private set { }
+    }
+
     public void Roll(DelegateDiceroll callBack)
     {
         this.callBack = callBack;
 
-        foreach (Die dice in DiceList)
+        foreach (Die die in DiceList)
         {
-            dice.Roll();
+            die.Roll();
         }
 
         CalculateResults();
@@ -255,11 +261,11 @@ public partial class DiceRoll
     private bool CancelType(DieSide type)
     {
         bool found = false;
-        foreach (Die dice in DiceList)
+        foreach (Die die in DiceList)
         {
-            if (dice.Side == type)
+            if (die.Side == type)
             {
-                dice.Cancel();
+                die.Cancel();
                 found = true;
                 return found;
             }

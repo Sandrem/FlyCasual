@@ -90,12 +90,10 @@ namespace SubPhases
                 case DieSide.Success:
                     Messages.ShowErrorToHuman("Damage is dealt!");
                     SufferDamage();
-                    Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, CallBack);
                     break;
                 case DieSide.Crit:
                     Messages.ShowErrorToHuman("Critical damage is dealt!");
                     SufferDamage();
-                    Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, CallBack);
                     break;
                 default:
                     break;
@@ -126,6 +124,8 @@ namespace SubPhases
                     }
                 });
             }
+
+            Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, CallBack);
         }
 
     }

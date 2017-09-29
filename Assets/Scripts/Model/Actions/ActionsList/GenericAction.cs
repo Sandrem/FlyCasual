@@ -15,6 +15,7 @@ namespace ActionsList
 
         public bool IsSpendFocus;
         public bool IsReroll;
+        public bool IsSpendEvade;
         public bool IsTurnsOneFocusIntoSuccess;
         public bool IsTurnsAllFocusIntoSuccess;
 

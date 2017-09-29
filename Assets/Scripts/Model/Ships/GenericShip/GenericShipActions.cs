@@ -131,6 +131,11 @@ namespace Ship
             return AvailableActionsList;
         }
 
+        public List<ActionsList.GenericAction> GetAvailablePrintedActionsList()
+        {
+            return BuiltInActions;
+        }
+
         public List<ActionsList.GenericAction> GetAvailableFreeActionsList()
         {
             return AvailableFreeActionsList;
@@ -236,7 +241,7 @@ namespace Ship
 
             if (!action.IsActionEffectAvailable()) result = false;
 
-            if (IsOppositeActionEffectAlreadyExecuted(action)) result = false;
+            if (IsActionEffectAlreadyExecuted(action)) result = false;
 
             if (result)
             {

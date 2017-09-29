@@ -51,7 +51,7 @@ namespace Ship
                     Phases.StartTemporarySubPhase(
                         "Soontir Fel's decision",
                         typeof(SubPhases.SoontirFelDecisionSubPhase),
-                        delegate () { Triggers.FinishTrigger(); }
+                        Triggers.FinishTrigger
                     );
                 }
                 else

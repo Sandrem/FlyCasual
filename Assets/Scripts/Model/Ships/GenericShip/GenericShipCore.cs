@@ -234,6 +234,12 @@ namespace Ship
 
         // STAT MODIFICATIONS
 
+        public void ChangeFirepowerBy(int value)
+        {
+            Firepower += value;
+            if (AfterStatsAreChanged != null) AfterStatsAreChanged(this);
+        }
+
         public void ChangeAgilityBy(int value)
         {
             Agility += value;

@@ -51,6 +51,7 @@ public partial class MainMenu : MonoBehaviour {
         GameObject panel = GameObject.Find("UI/Panels").transform.Find("MainMenuPanel").Find("NewVersionIsAvailable").gameObject;
 
         panel.transform.Find("Text").GetComponent<Text>().text = "New version\nis available!\n\n" + newVersion;
+        panel.transform.position = new Vector2(Screen.width - 20,  20);
         NewVersionUrl = downloadUrl;
 
         panel.SetActive(true);

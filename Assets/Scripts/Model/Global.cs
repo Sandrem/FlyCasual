@@ -8,7 +8,7 @@ public class Global : MonoBehaviour {
 
     public static string test = "I am accessible from every scene";
 
-    public static string CurrentVersion = "development";
+    public static string CurrentVersion = "0.2.0 test 30.09";
 
     private static List<ShipConfiguration> shipConfigurations = new List<ShipConfiguration>();
 

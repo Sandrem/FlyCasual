@@ -30,7 +30,12 @@ namespace SubPhases
 
             Selection.ThisShip.CallManeuverIsReadyToBeRevealed();
 
-            Selection.ThisShip.CallManeuverIsRevealed(Selection.ThisShip.AssignedManeuver.Perform);
+            Selection.ThisShip.CallManeuverIsRevealed(PerformAssignedManeuver);
+        }
+
+        private void PerformAssignedManeuver()
+        {
+            Selection.ThisShip.AssignedManeuver.Perform();
         }
 
         public override void Next()

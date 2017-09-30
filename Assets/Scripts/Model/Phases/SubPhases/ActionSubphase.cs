@@ -130,9 +130,11 @@ namespace SubPhases
             foreach (var action in availableActions)
             {
                 AddDecision(action.Name, delegate {
+                    var ship = Selection.ThisShip;
                     Tooltips.EndTooltip();
                     UI.HideSkipButton();
-                    Selection.ThisShip.AddAlreadyExecutedAction(action);
+                    ship.AddAlreadyExecutedAction(action);
+                    ship.CallActionIsTaken(action);
                     action.ActionTake();
                 });
                 AddTooltip(action.Name, action.ImageUrl);
@@ -186,9 +188,11 @@ namespace SubPhases
             foreach (var action in availableActions)
             {
                 AddDecision(action.Name, delegate {
+                    var ship = Selection.ThisShip;
                     Tooltips.EndTooltip();
                     UI.HideSkipButton();
-                    Selection.ThisShip.AddAlreadyExecutedAction(action);
+                    ship.AddAlreadyExecutedAction(action);
+                    ship.CallActionIsTaken(action);
                     action.ActionTake();
                 });
                 AddTooltip(action.Name, action.ImageUrl);

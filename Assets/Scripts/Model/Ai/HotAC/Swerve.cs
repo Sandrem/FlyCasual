@@ -60,8 +60,10 @@ namespace AI
 
                 alternativeManeuvers = new List<MovementStruct>();
 
-                Selection.ThisShip.AssignedManeuver = movementPrediction.CurrentMovement;
-                Selection.ThisShip.AssignedManeuver.movementPrediction = movementPrediction;
+                GenericMovement assignedManeuver = movementPrediction.CurrentMovement;
+                assignedManeuver.movementPrediction = movementPrediction;
+
+                Selection.ThisShip.SetAssignedManeuver(assignedManeuver);
                 Selection.ThisShip.AssignedManeuver.LaunchShipMovement();
             }
             else

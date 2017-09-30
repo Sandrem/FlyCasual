@@ -14,7 +14,6 @@ namespace Ship
             {
                 Type = "YV-666";
                 ShipBaseSize = BaseSize.Large;
-
                 ShipBaseArcsType = Arcs.BaseArcsType.Arc180;
 
                 ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/b/be/MS_YV-666-FREIGHTER.png";
@@ -57,28 +56,21 @@ namespace Ship
 
             private void AssignTemporaryManeuvers()
             {
-                Maneuvers.Add("1.L.T", ManeuverColor.None);
+                Maneuvers.Add("0.S.S", ManeuverColor.Red);
                 Maneuvers.Add("1.L.B", ManeuverColor.Green);
                 Maneuvers.Add("1.F.S", ManeuverColor.Green);
                 Maneuvers.Add("1.R.B", ManeuverColor.Green);
-                Maneuvers.Add("1.R.T", ManeuverColor.None);
-                Maneuvers.Add("1.F.R", ManeuverColor.None);
                 Maneuvers.Add("2.L.T", ManeuverColor.Red);
                 Maneuvers.Add("2.L.B", ManeuverColor.White);
                 Maneuvers.Add("2.F.S", ManeuverColor.Green);
                 Maneuvers.Add("2.R.B", ManeuverColor.White);
                 Maneuvers.Add("2.R.T", ManeuverColor.Red);
-                Maneuvers.Add("2.F.R", ManeuverColor.None);
-                Maneuvers.Add("3.L.T", ManeuverColor.None);
-                Maneuvers.Add("3.L.B", ManeuverColor.Red);
-                Maneuvers.Add("3.F.S", ManeuverColor.White);
-                Maneuvers.Add("3.R.B", ManeuverColor.Red);
-                Maneuvers.Add("3.R.T", ManeuverColor.None);
-                Maneuvers.Add("3.F.R", ManeuverColor.None);
-                Maneuvers.Add("4.F.S", ManeuverColor.None);
-                Maneuvers.Add("4.F.R", ManeuverColor.None);
-                Maneuvers.Add("5.F.S", ManeuverColor.None);
-                Maneuvers.Add("5.F.R", ManeuverColor.None);
+                Maneuvers.Add("3.L.T", ManeuverColor.White);
+                Maneuvers.Add("3.L.B", ManeuverColor.White);
+                Maneuvers.Add("3.F.S", ManeuverColor.Green);
+                Maneuvers.Add("3.R.B", ManeuverColor.White);
+                Maneuvers.Add("3.R.T", ManeuverColor.White);
+                Maneuvers.Add("4.F.S", ManeuverColor.White);
             }
 
         }

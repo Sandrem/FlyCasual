@@ -9,8 +9,8 @@ namespace SubPhases
 
     public class DiceRollCheckSubPhase : GenericSubPhase
     {
-        protected DiceKind dicesType;
-        protected int dicesCount;
+        protected DiceKind diceType;
+        protected int diceCount;
 
         protected DiceRoll CurrentDiceRoll;
         protected DelegateDiceroll checkResults;
@@ -35,7 +35,7 @@ namespace SubPhases
             GameObject.Find("UI").transform.Find("CheckDiceResultsPanel").gameObject.SetActive(true);
 
             DiceRoll DiceRollCheck;
-            DiceRollCheck = new DiceRoll(dicesType, dicesCount, DiceRollCheckType.Check);
+            DiceRollCheck = new DiceRoll(diceType, diceCount, DiceRollCheckType.Check);
             DiceRollCheck.Roll(checkResults);
         }
 

@@ -30,6 +30,8 @@ namespace SubPhases
         {
             if (Roster.AllManuersAreAssigned(RequiredPlayer))
             {
+                HideAssignedManeuversInHotSeatGame();
+
                 if (RequiredPlayer == Phases.PlayerWithInitiative)
                 {
                     RequiredPlayer = Roster.AnotherPlayer(RequiredPlayer);
@@ -41,6 +43,17 @@ namespace SubPhases
                 else
                 {
                     FinishPhase();
+                }
+            }
+        }
+
+        private void HideAssignedManeuversInHotSeatGame()
+        {
+            if (Roster.GetPlayer(Roster.AnotherPlayer(RequiredPlayer)).GetType() != typeof(Players.HotacAiPlayer))
+            {
+                foreach (var shipHolder in Roster.GetPlayer(RequiredPlayer).Ships)
+                {
+                    Roster.ToggelManeuverVisibility(shipHolder.Value, false);
                 }
             }
         }

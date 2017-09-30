@@ -35,7 +35,7 @@ namespace Players
             foreach (var shipHolder in Ships)
             {
                 Selection.ChangeActiveShip("ShipId:" + shipHolder.Value.ShipId);
-                shipHolder.Value.AssignedManeuver = new Movement.StraightMovement(2, Movement.ManeuverDirection.Forward, Movement.ManeuverBearing.Straight, Movement.ManeuverColor.White);
+                shipHolder.Value.SetAssignedManeuver(new Movement.StraightMovement(2, Movement.ManeuverDirection.Forward, Movement.ManeuverBearing.Straight, Movement.ManeuverColor.White));
             }
             Phases.Next();
         }
@@ -273,8 +273,10 @@ namespace Players
             return results;
         }
 
-        public override void UseDiceModifications()
+        public override void UseOwnDiceModifications()
         {
+            Selection.ActiveShip = (Combat.AttackStep == CombatStep.Attack) ? Combat.Attacker : Combat.Defender;
+
             Selection.ActiveShip.GenerateAvailableActionEffectsList();
             List<ActionsList.GenericAction> availableActionEffectsList = Selection.ActiveShip.GetAvailableActionEffectsList();
 
@@ -300,7 +302,7 @@ namespace Players
                     GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
                     Game.Wait(1, delegate {
                         Selection.ActiveShip.AddAlreadyExecutedActionEffect(prioritizedActionEffect.Key);
-                        prioritizedActionEffect.Key.ActionEffect(UseDiceModifications);
+                        prioritizedActionEffect.Key.ActionEffect(UseOwnDiceModifications);
                     });                    
                 }
             }
@@ -309,6 +311,45 @@ namespace Players
             {
                 GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
                 Game.Wait(2, delegate { Phases.CurrentSubPhase.CallBack(); });
+            }
+        }
+
+        public override void UseOppositeDiceModifications()
+        {
+            Selection.ActiveShip.GenerateAvailableOppositeActionEffectsList();
+            List<ActionsList.GenericAction> availableOppositeActionEffectsList = Selection.ActiveShip.GetAvailableOppositeActionEffectsList();
+
+            Dictionary<ActionsList.GenericAction, int> oppositeActionsPriority = new Dictionary<ActionsList.GenericAction, int>();
+
+            foreach (var oppositeActionEffect in availableOppositeActionEffectsList)
+            {
+                int priority = oppositeActionEffect.GetActionEffectPriority();
+                oppositeActionsPriority.Add(oppositeActionEffect, priority);
+            }
+
+            oppositeActionsPriority = oppositeActionsPriority.OrderByDescending(n => n.Value).ToDictionary(n => n.Key, n => n.Value);
+
+            bool isActionEffectTaken = false;
+
+            if (oppositeActionsPriority.Count > 0)
+            {
+                KeyValuePair<ActionsList.GenericAction, int> prioritizedOppositeActionEffect = oppositeActionsPriority.First();
+                if (prioritizedOppositeActionEffect.Value > 0)
+                {
+                    isActionEffectTaken = true;
+                    Messages.ShowInfo("AI uses \"" + prioritizedOppositeActionEffect.Key.Name + "\"");
+                    GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
+                    Game.Wait(1, delegate {
+                        Selection.ActiveShip.AddAlreadyExecutedOppositeActionEffect(prioritizedOppositeActionEffect.Key);
+                        prioritizedOppositeActionEffect.Key.ActionEffect(UseOppositeDiceModifications);
+                    });
+                }
+            }
+
+            if (!isActionEffectTaken)
+            {
+                Selection.ActiveShip = (Combat.AttackStep == CombatStep.Attack) ? Combat.Attacker : Combat.Defender;
+                Selection.ActiveShip.Owner.UseOwnDiceModifications();
             }
         }
 

@@ -13,7 +13,6 @@ namespace UpgradesList
             Type = UpgradeType.Turret;
 
             Name = "Ion Cannon Turret";
-            ShortName = "Ion Cannon Turret";
             Cost = 5;
 
             MinRange = 1;
@@ -65,7 +64,7 @@ namespace UpgradesList
 
         private void DefenderSuffersDamage()
         {
-            Combat.Defender.AssignedDamageDiceroll.AddDice(DiceSide.Success);
+            Combat.Defender.AssignedDamageDiceroll.AddDice(DieSide.Success);
 
             Triggers.RegisterTrigger(new Trigger()
             {

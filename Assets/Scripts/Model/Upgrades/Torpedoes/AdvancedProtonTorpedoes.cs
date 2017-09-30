@@ -14,7 +14,6 @@ namespace UpgradesList
 			Type = UpgradeType.Torpedo;
 
 			Name = "Advanced Proton Torpedoes";
-			ShortName = "Adv Proton Torp.";
 			Cost = 6;
 
 			MinRange = 1;
@@ -99,7 +98,7 @@ namespace ActionsList
 
 		public override void ActionEffect(System.Action callBack)
 		{
-			Combat.CurentDiceRoll.Change(DiceSide.Blank, DiceSide.Focus, 3);
+			Combat.CurentDiceRoll.Change(DieSide.Blank, DieSide.Focus, 3);
 			callBack();
 		}
 	}

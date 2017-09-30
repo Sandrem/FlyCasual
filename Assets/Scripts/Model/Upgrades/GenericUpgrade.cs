@@ -35,7 +35,6 @@ namespace Upgrade
         public bool Limited = false;
         public bool isDiscarded = false;
         public string Name { get; set; }
-        public string ShortName;
 
         private string imageUrl;
         public string ImageUrl
@@ -84,7 +83,7 @@ namespace Upgrade
         public virtual void Discard()
         {
             isDiscarded = true;
-            Roster.DiscardUpgrade(Host, ShortName);
+            Roster.DiscardUpgrade(Host, Name);
         }
 
     }

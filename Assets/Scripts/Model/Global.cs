@@ -8,6 +8,8 @@ public class Global : MonoBehaviour {
 
     public static string test = "I am accessible from every scene";
 
+    public static string CurrentVersion = "development";
+
     private static List<ShipConfiguration> shipConfigurations = new List<ShipConfiguration>();
 
     private static List<System.Type> playerTypes = new List<System.Type>();

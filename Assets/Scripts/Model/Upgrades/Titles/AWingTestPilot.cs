@@ -11,7 +11,7 @@ namespace UpgradesList
         public AWingTestPilot() : base()
         {
             Type = UpgradeType.Title;
-            Name = ShortName = "A-Wing Test Pilot";
+            Name = "A-Wing Test Pilot";
             Cost = 0;
             AddedSlots = new List<UpgradeSlot>
             {

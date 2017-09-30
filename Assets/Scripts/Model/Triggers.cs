@@ -23,7 +23,12 @@ public enum TriggerTypes
     OnActivationPhaseStart,
     OnActivationPhaseEnd,
     OnCombatPhaseStart,
+    OnCombatPhaseEnd,
     OnAttackHit,
+    OnAtLeastOneCritWasCancelledByDefender,
+    OnDamageCardIsDealt,
+    OnAttackPerformed,
+    OnCheckSecondAttack,
     OnFaceupCritCardReadyToBeDealt,
     OnFaceupCritCardReadyToBeDealtUI,
     OnDamageIsDealt,
@@ -124,6 +129,9 @@ public static partial class Triggers
     public static void ResolveTriggers(TriggerTypes triggerType, Action callBack = null)
     {
         if (DebugManager.DebugTriggers) Debug.Log("Triggers are resolved: " + triggerType);
+
+        if (triggerType == TriggerTypes.OnDamageIsDealt && callBack != null) DamageNumbers.UpdateSavedHP();
+
         StackLevel currentLevel = GetCurrentLevel();
 
         if (currentLevel == null || currentLevel.IsActive)
@@ -154,6 +162,7 @@ public static partial class Triggers
             }
             else
             {
+                if (triggerType == TriggerTypes.OnDamageIsDealt) DamageNumbers.ShowChangedHP();
                 DoCallBack();
             }
         }

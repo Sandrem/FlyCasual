@@ -28,7 +28,7 @@ namespace Ship
                 OnDestroyed += RemoveMaarekSteleAbility;
             }
 
-            private void MaarekStelePilotAbility(GenericShip ship, ref CriticalHitCard.GenericCriticalHit crit, EventArgs e)
+            private void MaarekStelePilotAbility(GenericShip ship, CriticalHitCard.GenericCriticalHit crit, EventArgs e)
             {
                 if ((e as DamageSourceEventArgs) == null) return;
                 else if ((((e as DamageSourceEventArgs).Source) as GenericShip) == this)

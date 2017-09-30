@@ -15,7 +15,6 @@ namespace UpgradesList
             Type = UpgradeType.Missile;
 
             Name = "Concussion Missiles";
-            ShortName = "Conc. Missiles";
             Cost = 4;
 
             MinRange = 2;
@@ -109,7 +108,7 @@ namespace ActionsList
 
         public override void ActionEffect(System.Action callBack)
         {
-            Combat.CurentDiceRoll.ChangeOne(DiceSide.Blank, DiceSide.Success);
+            Combat.CurentDiceRoll.ChangeOne(DieSide.Blank, DieSide.Success);
             callBack();
         }
 

@@ -14,7 +14,6 @@ namespace UpgradesList
 			Type = UpgradeType.Missile;
 
 			Name = "Assault Missiles";
-			ShortName = "Assa. Missiles";
 
 			Cost = 5;
 			MinRange = 2;
@@ -72,11 +71,10 @@ namespace UpgradesList
 
 				if (shotInfo.Range == 1) {
 
-					Messages.ShowErrorToHuman(string.Format("{0} is within range 1 of {1}; assault missile deals 1 damage!",
-						ship.PilotName, Combat.Defender.PilotName));
+					//Messages.ShowErrorToHuman(string.Format("{0} is within range 1 of {1}; assault missile deals 1 damage!", ship.PilotName, Combat.Defender.PilotName));
 
 					var diceRoll = new DiceRoll (DiceKind.Attack, 0, DiceRollCheckType.Combat);
-					diceRoll.AddDice (DiceSide.Success);
+					diceRoll.AddDice (DieSide.Success);
 					var hitDie = diceRoll.DiceList [0];
 					ship.AssignedDamageDiceroll.DiceList.Add(hitDie);
 
@@ -85,16 +83,17 @@ namespace UpgradesList
 						TriggerType = TriggerTypes.OnDamageIsDealt,
 						TriggerOwner = ship.Owner.PlayerNo,
 						EventHandler = ship.SufferDamage,
+                        Skippable = true,
 						EventArgs = new DamageSourceEventArgs()
 						{
 							Source = "Assault Missle",
 							DamageType = DamageTypes.ShipAttack
 						}
 					});
-
-					Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, Triggers.FinishTrigger);
 				}
-			}
+            }
+
+            Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, Triggers.FinishTrigger);
 		}
 	}
 }

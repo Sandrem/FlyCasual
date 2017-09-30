@@ -9,6 +9,7 @@ namespace Movement
     public enum ManeuverSpeed
     {
         AdditionalMovement,
+        Speed0,
         Speed1,
         Speed2,
         Speed3,
@@ -28,7 +29,11 @@ namespace Movement
         Straight,
         Bank,
         Turn,
-        KoiogranTurn
+        KoiogranTurn,
+        SegnorsLoop,
+        TallonRoll,
+        Stationary,
+        Reverse
     }
 
     public enum ManeuverColor
@@ -54,6 +59,9 @@ namespace Movement
 
             switch (arrParameters[0])
             {
+                case "0":
+                    speed = ManeuverSpeed.Speed0;
+                    break;
                 case "1":
                     speed = ManeuverSpeed.Speed1;
                     break;
@@ -91,10 +99,13 @@ namespace Movement
             switch (arrParameters[2])
             {
                 case "S":
-                    bearing = ManeuverBearing.Straight;
+                    bearing = (speed != ManeuverSpeed.Speed0) ? ManeuverBearing.Straight : ManeuverBearing.Stationary;
                     break;
                 case "R":
-                    bearing = ManeuverBearing.KoiogranTurn;
+                    bearing = (direction == ManeuverDirection.Forward) ? ManeuverBearing.KoiogranTurn : ManeuverBearing.SegnorsLoop;
+                    break;
+                case "E":
+                    bearing = ManeuverBearing.TallonRoll;
                     break;
                 case "B":
                     bearing = ManeuverBearing.Bank;
@@ -107,6 +118,9 @@ namespace Movement
             Speed = speed;
             Direction = direction;
             Bearing = bearing;
+
+            if (!Selection.ThisShip.Maneuvers.ContainsKey(parameters)) Debug.Log("ERROR: Ship doesn't have required maneuver. Seems that AI maneuver table is wrong.");
+
             ColorComplexity = Selection.ThisShip.Maneuvers[parameters];
 
             ColorComplexity = Selection.ThisShip.GetColorComplexityOfManeuver(this);
@@ -119,6 +133,9 @@ namespace Movement
                 ManeuverSpeed speed = ManeuverSpeed.Speed1;
                 switch (value)
                 {
+                    case 0:
+                        speed = ManeuverSpeed.Speed0;
+                        break;
                     case 1:
                         speed = ManeuverSpeed.Speed1;
                         break;
@@ -146,6 +163,9 @@ namespace Movement
                 switch (Speed)
                 {
                     case ManeuverSpeed.AdditionalMovement:
+                        break;
+                    case ManeuverSpeed.Speed0:
+                        speed = 0;
                         break;
                     case ManeuverSpeed.Speed1:
                         speed = 1;
@@ -204,6 +224,15 @@ namespace Movement
                 case ManeuverBearing.KoiogranTurn:
                     maneuverString += "R";
                     break;
+                case ManeuverBearing.SegnorsLoop:
+                    maneuverString += "R";
+                    break;
+                case ManeuverBearing.TallonRoll:
+                    maneuverString += "E";
+                    break;
+                case ManeuverBearing.Stationary:
+                    maneuverString += "S";
+                    break;
                 default:
                     break;
             }
@@ -252,6 +281,9 @@ namespace Movement
 
             switch (speed)
             {
+                case 0:
+                    maneuverSpeed = ManeuverSpeed.Speed0;
+                    break;
                 case 1:
                     maneuverSpeed = ManeuverSpeed.Speed1;
                     break;
@@ -405,11 +437,90 @@ namespace Movement
                 case ManeuverBearing.KoiogranTurn:
                     maneuverString += "R";
                     break;
+                case ManeuverBearing.SegnorsLoop:
+                    maneuverString += "R";
+                    break;
+                case ManeuverBearing.TallonRoll:
+                    maneuverString += "E";
+                    break;
+                case ManeuverBearing.Stationary:
+                    maneuverString += "S";
+                    break;
                 default:
                     break;
             }
 
             return maneuverString;
+        }
+
+        public string GetBearingChar()
+        {
+            string result = "";
+
+            switch (Bearing)
+            {
+                case ManeuverBearing.Straight:
+                    result = "8";
+                    break;
+                case ManeuverBearing.Bank:
+                    result = (Direction == ManeuverDirection.Left) ? "7" : "9";
+                    break;
+                case ManeuverBearing.Turn:
+                    result = (Direction == ManeuverDirection.Left) ? "4" : "6";
+                    break;
+                case ManeuverBearing.KoiogranTurn:
+                    result = "2";
+                    break;
+                case ManeuverBearing.SegnorsLoop:
+                    result = (Direction == ManeuverDirection.Left) ? "1" : "3";
+                    break;
+                case ManeuverBearing.TallonRoll:
+                    result = (Direction == ManeuverDirection.Left) ? ":" : ";";
+                    break;
+                case ManeuverBearing.Stationary:
+                    result = "5";
+                    break;
+                case ManeuverBearing.Reverse:
+                    switch (Direction)
+                    {
+                        case ManeuverDirection.Left:
+                            result = "J";
+                            break;
+                        case ManeuverDirection.Forward:
+                            result = "K";
+                            break;
+                        case ManeuverDirection.Right:
+                            result = "L";
+                            break;
+                    }
+                    break;
+                default:
+                    break;
+            }
+
+            return result;
+        }
+
+        public Color GetColor()
+        {
+            Color result = Color.yellow;
+            switch (ColorComplexity)
+            {
+                case ManeuverColor.None:
+                    break;
+                case ManeuverColor.Green:
+                    result = Color.green;
+                    break;
+                case ManeuverColor.White:
+                    result = Color.white;
+                    break;
+                case ManeuverColor.Red:
+                    result = Color.red;
+                    break;
+                default:
+                    break;
+            }
+            return result;
         }
 
     }

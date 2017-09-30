@@ -14,7 +14,6 @@ namespace UpgradesList
             Type = UpgradeType.Missile;
 
             Name = "Cluster Missiles";
-            ShortName = "Cluster Missiles";
             Cost = 4;
 
             MinRange = 1;

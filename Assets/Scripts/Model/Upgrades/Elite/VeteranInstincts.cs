@@ -10,7 +10,6 @@ namespace UpgradesList
 
             Type = UpgradeType.Elite;
             Name = "Veteran Instincts";
-            ShortName = "Vet. Instincts";
             Cost = 1;
         }
 

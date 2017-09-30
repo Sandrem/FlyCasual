@@ -12,7 +12,7 @@ namespace UpgradesList
         public R5K6() : base()
         {
             Type = UpgradeType.Astromech;
-            Name = ShortName = "R5-K6";
+            Name = "R5-K6";
             isUnique = true;
             Cost = 2;
         }
@@ -66,8 +66,8 @@ namespace SubPhases
 
         public override void Prepare()
         {
-            dicesType = DiceKind.Defence;
-            dicesCount = 1;
+            diceType = DiceKind.Defence;
+            diceCount = 1;
 
             finishAction = FinishAction;
         }
@@ -76,7 +76,7 @@ namespace SubPhases
         {
             HideDiceResultMenu();
 
-            if (CurrentDiceRoll.DiceList[0].Side == DiceSide.Success)
+            if (CurrentDiceRoll.DiceList[0].Side == DieSide.Success)
             {
                 Sounds.PlayShipSound("R2D2-Proud");
                 Actions.AssignTargetLockToPair(Combat.Attacker, Combat.Defender, CallBack, CallBack);

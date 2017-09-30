@@ -113,7 +113,7 @@ namespace ActionsList
         {
             DiceRerollManager diceRerollManager = new DiceRerollManager
             {
-                NumberOfDicesCanBeRerolled = 1,
+                NumberOfDiceCanBeRerolled = 1,
                 CallBack = callBack
             };
             diceRerollManager.Start();

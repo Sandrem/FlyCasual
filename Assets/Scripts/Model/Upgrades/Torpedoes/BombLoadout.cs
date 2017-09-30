@@ -10,7 +10,7 @@ namespace UpgradesList
         public BombLoadout() : base()
         {
             Type = UpgradeType.Torpedo;
-            Name = ShortName = "Bomb Loadout";
+            Name = "Bomb Loadout";
             Cost = 0;
             Limited = true;
             AddedSlots = new List<UpgradeSlot>

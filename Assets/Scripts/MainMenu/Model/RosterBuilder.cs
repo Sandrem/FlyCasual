@@ -127,6 +127,12 @@ public static partial class RosterBuilder {
         {
             return roster;
         }
+
+        public static void ClearRoster()
+        {
+            roster = new List<SquadBuilderShip>();
+            playerFactions = new Dictionary<PlayerNo, Faction>();
+        }
     }
     
 
@@ -150,7 +156,7 @@ public static partial class RosterBuilder {
 
     private static void InitializeSquadBuilderRoster()
     {
-
+        SquadBuilderRoster.ClearRoster();
     }
 
     private static void SetPlayers()

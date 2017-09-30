@@ -21,7 +21,6 @@ public class ShipMovementScript : MonoBehaviour {
         Selection.UpdateSelection();
         UpdateMovement();
         UpdateSubscribedFuncs();
-
         ClearCollision();
     }
 
@@ -56,17 +55,24 @@ public class ShipMovementScript : MonoBehaviour {
     {
         string parameters = EventSystem.current.currentSelectedGameObject.name;
 
-        Selection.ThisShip.AssignedManeuver = MovementFromString(parameters);
-
-        Selection.ThisShip.InfoPanel.transform.Find("DialAssigned" + Selection.ThisShip.Owner.Id).gameObject.SetActive(true);
-        Roster.HighlightShipOff(Selection.ThisShip);
+        Selection.ThisShip.SetAssignedManeuver(MovementFromString(parameters));
 
         UI.HideDirectionMenu();
 
-        if (Roster.AllManuersAreAssigned(Phases.CurrentPhasePlayer))
+        if (Phases.CurrentSubPhase.GetType() == typeof(SubPhases.PlanningSubPhase))
         {
-            UI.ShowNextButton();
-            UI.HighlightNextButton();
+            //Selection.ThisShip.InfoPanel.transform.Find("DialAssigned" + Selection.ThisShip.Owner.Id).gameObject.SetActive(true);
+            Roster.HighlightShipOff(Selection.ThisShip);
+
+            if (Roster.AllManuersAreAssigned(Phases.CurrentPhasePlayer))
+            {
+                UI.ShowNextButton();
+                UI.HighlightNextButton();
+            }
+        }
+        else
+        {
+            Triggers.FinishTrigger();
         }
     }
 
@@ -90,6 +96,18 @@ public class ShipMovementScript : MonoBehaviour {
         {
             result = new Movement.BankMovement(movementStruct.SpeedInt, movementStruct.Direction, movementStruct.Bearing, movementStruct.ColorComplexity);
         }
+        else if (movementStruct.Bearing == Movement.ManeuverBearing.SegnorsLoop)
+        {
+            result = new Movement.SegnorsLoopMovement(movementStruct.SpeedInt, movementStruct.Direction, movementStruct.Bearing, movementStruct.ColorComplexity);
+        }
+        else if (movementStruct.Bearing == Movement.ManeuverBearing.TallonRoll)
+        {
+            result = new Movement.TallonRollMovement(movementStruct.SpeedInt, movementStruct.Direction, movementStruct.Bearing, movementStruct.ColorComplexity);
+        }
+        else if (movementStruct.Bearing == Movement.ManeuverBearing.Stationary)
+        {
+            result = new Movement.StationaryMovement(movementStruct.SpeedInt, movementStruct.Direction, movementStruct.Bearing, movementStruct.ColorComplexity);
+        }
 
         return result;
     }
@@ -97,7 +115,6 @@ public class ShipMovementScript : MonoBehaviour {
     public Movement.GenericMovement MovementFromString(string parameters)
     {
         Movement.MovementStruct movementStruct = new Movement.MovementStruct(parameters);
-
         return MovementFromStruct(movementStruct);
     }
 

@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: d3b63628f1f1a9a408061893d681345d
+timeCreated: 1505745903
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: x-wing-symbols
+  fontNames:
+  - x-wing-symbols
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

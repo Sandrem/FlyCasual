@@ -41,7 +41,7 @@ namespace Ship
 					{
 						Name = "Fel's Wrath Ability",
 						TriggerOwner = Owner.PlayerNo,
-						TriggerType = TriggerTypes.OnEndPhaseStart,
+						TriggerType = TriggerTypes.OnCombatPhaseEnd,
 						EventHandler = CleanUpFelsWrath
 					}
 				);

@@ -11,12 +11,15 @@ namespace ActionsList
         public string EffectName;
         public string ImageUrl;
 
-        public bool IsCritCancelAction = false;
+        public bool IsCritCancelAction;
 
-        public bool IsSpendFocus = false;
-        public bool IsReroll = false;
-        public bool IsTurnsOneFocusIntoSuccess = false;
-        public bool IsTurnsAllFocusIntoSuccess = false;
+        public bool IsSpendFocus;
+        public bool IsReroll;
+        public bool IsSpendEvade;
+        public bool IsTurnsOneFocusIntoSuccess;
+        public bool IsTurnsAllFocusIntoSuccess;
+
+        public bool IsOpposite;
 
         public Ship.GenericShip Host;
         public Upgrade.GenericUpgrade Source;

@@ -15,7 +15,7 @@ namespace UpgradesList
         public ProximityMines() : base()
         {
             Type = UpgradeType.Bomb;
-            Name = ShortName = "Proximity Mines";
+            Name = "Proximity Mines";
             Cost = 3;
 
             bombPrefabPath = "Prefabs/Bombs/ProximityMine";
@@ -58,8 +58,8 @@ namespace SubPhases
 
         public override void Prepare()
         {
-            dicesType = DiceKind.Attack;
-            dicesCount = 3;
+            diceType = DiceKind.Attack;
+            diceCount = 3;
 
             finishAction = FinishAction;
         }

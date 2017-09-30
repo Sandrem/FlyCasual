@@ -9,7 +9,7 @@ namespace UpgradesList
         public ChardaanRefit() : base()
         {
             Type = UpgradeType.Missile;
-            Name = ShortName = "Chardaan Refit";
+            Name = "Chardaan Refit";
             Cost = -2;
         }
 

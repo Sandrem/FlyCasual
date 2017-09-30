@@ -28,6 +28,8 @@ namespace Board
             StartingZone1 = BoardTransform.Find("Playmat/StaringZone1").gameObject;
             StartingZone2 = BoardTransform.Find("Playmat/StaringZone2").gameObject;
 
+            MovementTemplates.PrepareMovementTemplates();
+
             SetPlaymatImage();
         }
 

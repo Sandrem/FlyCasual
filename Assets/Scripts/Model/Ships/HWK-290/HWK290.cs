@@ -13,6 +13,7 @@ namespace Ship
             public HWK290() : base()
             {
                 Type = "HWK-290";
+
                 ManeuversImageUrl = "https://vignette1.wikia.nocookie.net/xwing-miniatures/images/3/3d/MR_T65-X-WING.png";
 
                 Firepower = 1;
@@ -20,14 +21,17 @@ namespace Ship
                 MaxHull = 4;
                 MaxShields = 1;
 
-                AddUpgradeSlot(Upgrade.UpgradeType.Turret);
-                AddUpgradeSlot(Upgrade.UpgradeType.Crew);
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Title);
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Turret);
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Crew);
 
                 AssignTemporaryManeuvers();
                 HotacManeuverTable = new AI.HWK290Table();
 
                 factions.Add(Faction.Rebels);
-                faction = Faction.Rebels;
+                factions.Add(Faction.Scum);
+
+                SkinName = "Brown";
 
                 SoundShotsPath = "XWing-Laser";
                 ShotsCount = 1;

@@ -16,7 +16,7 @@ namespace Board
 
         protected override void CalculateFields()
         {
-            CalculateFieldUsingPoints(ThisShip.GetStandFrontEdgePoins(), AnotherShip.GetStandPoints());
+            CalculateFieldUsingPoints(ThisShip.ShipBase.GetStandFrontEdgePoins(), AnotherShip.ShipBase.GetStandPoints());
         }
 
     }

@@ -11,8 +11,6 @@ public static partial class Phases
     public static int RoundCounter;
     public static bool GameIsEnded;
 
-    private static GameManagerScript Game;
-
     public static GenericPhase CurrentPhase { get; set; }
     public static GenericSubPhase CurrentSubPhase { get; set; }
 
@@ -38,7 +36,9 @@ public static partial class Phases
     public static event EventHandler OnActivationPhaseStart;
     public static event EventHandler BeforeActionSubPhaseStart;
     public static event EventHandler OnActionSubPhaseStart;
+    public static event EventHandler OnActivationPhaseEnd;
     public static event EventHandler OnCombatPhaseStart;
+    public static event EventHandler OnCombatPhaseEnd;
     public static event EventHandler OnCombatSubPhaseRequiredPilotSkillIsChanged;
     public static event EventHandler OnEndPhaseStart;
     public static event EventHandler OnRoundEnd;
@@ -47,10 +47,8 @@ public static partial class Phases
 
     public static void StartPhases()
     {
-        Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-
         CurrentPhase = new SetupPhase();
-        Game.UI.AddTestLogEntry("Game is started");
+        UI.AddTestLogEntry("Game is started");
         CurrentPhase.StartPhase();
     }
 
@@ -107,7 +105,7 @@ public static partial class Phases
         if (OnPlanningPhaseStart != null) OnPlanningPhaseStart();
     }
 
-    public static void CallActivationPhaseTrigger()
+    public static void CallActivationPhaseStartTrigger()
     {
         if (OnActivationPhaseStart != null) OnActivationPhaseStart();
         foreach (var shipHolder in Roster.AllShips)
@@ -115,11 +113,18 @@ public static partial class Phases
             shipHolder.Value.CallOnActivationPhaseStart();
         }
 
-        Triggers.ResolveTriggers(TriggerTypes.OnActionPhaseStart, delegate () { FinishSubPhase(typeof(ActivationStartSubPhase)); });
-
+        Triggers.ResolveTriggers(TriggerTypes.OnActivationPhaseStart, delegate () { FinishSubPhase(typeof(ActivationStartSubPhase)); });
     }
 
-    public static void CallCombatPhaseTrigger()
+    public static void CallActivationPhaseEndTrigger()
+    {
+        if (OnActivationPhaseEnd!= null) OnActivationPhaseEnd();
+
+        Triggers.ResolveTriggers(TriggerTypes.OnActivationPhaseEnd, delegate () { FinishSubPhase(typeof(ActivationEndSubPhase)); });
+    }
+
+
+    public static void CallCombatPhaseStartTrigger()
     {
         if (OnCombatPhaseStart != null) OnCombatPhaseStart();
         foreach (var shipHolder in Roster.AllShips)
@@ -128,6 +133,17 @@ public static partial class Phases
         }
 
         Triggers.ResolveTriggers(TriggerTypes.OnCombatPhaseStart, delegate () { FinishSubPhase(typeof(CombatStartSubPhase)); });
+    }
+
+    public static void CallCombatPhaseEndTrigger()
+    {
+        if (OnCombatPhaseEnd != null) OnCombatPhaseEnd();
+        foreach (var shipHolder in Roster.AllShips)
+        {
+            shipHolder.Value.CallOnCombatPhaseEnd();
+        }
+
+        Triggers.ResolveTriggers(TriggerTypes.OnCombatPhaseEnd, delegate () { FinishSubPhase(typeof(CombatEndSubPhase)); });
     }
 
     public static void CallEndPhaseTrigger(Action callBack)

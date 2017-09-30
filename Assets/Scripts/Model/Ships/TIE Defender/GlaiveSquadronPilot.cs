@@ -15,7 +15,9 @@ namespace Ship
                 PilotSkill = 6;
                 Cost = 34;
 
-                AddUpgradeSlot(Upgrade.UpgradeType.Elite);
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
+
+                SkinName = "Crimson";
             }
         }
     }

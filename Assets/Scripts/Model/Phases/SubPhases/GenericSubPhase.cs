@@ -13,8 +13,6 @@ namespace SubPhases
 
     public class GenericSubPhase
     {
-        protected GameManagerScript Game;
-
         public GenericSubPhase PreviousSubPhase { get; set; }
 
         public string Name;
@@ -112,7 +110,7 @@ namespace SubPhases
         //TODO: What is this?
         public virtual void CallNextSubPhase()
         {
-            Game.UI.HideTemporaryMenus();
+            UI.HideTemporaryMenus();
             MovementTemplates.ReturnRangeRuler();
             Next();
         }

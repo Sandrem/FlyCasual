@@ -15,7 +15,9 @@ namespace Ship
                 PilotSkill = 5;
                 Cost = 19;
 
-                AddUpgradeSlot(Upgrade.UpgradeType.Elite);
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
+
+                SkinName = "White Stripes";
             }
         }
     }

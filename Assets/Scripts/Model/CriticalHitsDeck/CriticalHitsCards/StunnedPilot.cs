@@ -12,7 +12,6 @@ namespace CriticalHitCard
         {
             Name = "Stunned Pilot";
             Type = CriticalCardType.Pilot;
-            ImageUrl = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/damage-decks/core-tfa/stunned-pilot.png";
         }
 
         public override void ApplyEffect(object sender, EventArgs e)
@@ -27,7 +26,7 @@ namespace CriticalHitCard
             {
                 Messages.ShowInfo("Stunned Pilot: Ship suffered damage");
 
-                Selection.ThisShip.AssignedDamageDiceroll.AddDice(DiceSide.Success);
+                Selection.ThisShip.AssignedDamageDiceroll.AddDice(DieSide.Success);
 
                 Triggers.RegisterTrigger(new Trigger()
                 {

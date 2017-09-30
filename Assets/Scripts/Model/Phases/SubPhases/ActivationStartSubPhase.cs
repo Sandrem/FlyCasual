@@ -11,14 +11,13 @@ namespace SubPhases
 
         public override void Start()
         {
-            Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
             Name = "Activation start";
             UpdateHelpInfo();
         }
 
         public override void Initialize()
         {
-            Phases.CallActivationPhaseTrigger();
+            Phases.CallActivationPhaseStartTrigger();
         }
 
         public override void Next()

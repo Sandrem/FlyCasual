@@ -7,12 +7,13 @@ namespace Ship
 {
     namespace TIEInterceptor
     {
-        public class TIEInterceptor : GenericShip
+        public class TIEInterceptor : GenericShip, TIE
         {
 
             public TIEInterceptor() : base()
             {
                 Type = "TIE Interceptor";
+
                 ManeuversImageUrl = "https://vignette1.wikia.nocookie.net/xwing-miniatures/images/8/85/MI_TIE-ADVANCED.png";
 
                 Firepower = 3;
@@ -25,6 +26,8 @@ namespace Ship
 
                 factions.Add(Faction.Empire);
                 faction = Faction.Empire;
+
+                SkinName = "Blue";
 
                 SoundShotsPath = "TIE-Fire";
                 ShotsCount = 3;

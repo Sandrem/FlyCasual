@@ -7,8 +7,7 @@ namespace UpgradesList
         public TargetingComputer() : base()
         {
             Type = UpgradeType.Modification;
-            Name = ShortName = "Targeting Computer";
-            ImageUrl = "https://vignette2.wikia.nocookie.net/xwing-miniatures/images/5/50/Target_Computer.png";
+            Name = "Targeting Computer";
             Cost = 2;
         }
     }

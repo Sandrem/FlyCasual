@@ -13,6 +13,7 @@ namespace Ship
             public YWing() : base()
             {
                 Type = "Y-Wing";
+
                 ManeuversImageUrl = "https://vignette4.wikia.nocookie.net/xwing-miniatures/images/1/18/MR_Y-WING.png";
 
                 Firepower = 2;
@@ -20,16 +21,17 @@ namespace Ship
                 MaxHull = 5;
                 MaxShields = 3;
 
-                AddUpgradeSlot(Upgrade.UpgradeType.Turret);
-                AddUpgradeSlot(Upgrade.UpgradeType.Astromech);
-                AddUpgradeSlot(Upgrade.UpgradeType.Torpedoes);
-                AddUpgradeSlot(Upgrade.UpgradeType.Torpedoes);
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Turret);
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Torpedo);
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Torpedo);
 
                 AssignTemporaryManeuvers();
                 HotacManeuverTable = new AI.YWingTable();
 
                 factions.Add(Faction.Rebels);
-                faction = Faction.Rebels;
+                factions.Add(Faction.Scum);
+
+                SkinName = "Yellow";
 
                 SoundShotsPath = "XWing-Laser";
                 ShotsCount = 2;

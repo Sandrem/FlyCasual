@@ -9,6 +9,7 @@ public static class Options
     private static OptionsUI optionsUI;
 
     public static string Playmat;
+    public static string CheckVersionUrl;
     public static int MusicVolume;
     public static int SfxVolume;
     public static int AnimationSpeed;
@@ -17,6 +18,7 @@ public static class Options
     static Options()
     {
         Playmat = PlayerPrefs.GetString("PlaymatName", "Endor");
+        CheckVersionUrl = PlayerPrefs.GetString("CheckVersionUrl", "http://sandrem.freeasphost.net/data/currentversion.txt");
         MusicVolume = PlayerPrefs.GetInt("Music Volume", 4);
         SfxVolume = PlayerPrefs.GetInt("Sfx Volume", 4);
         AnimationSpeed = PlayerPrefs.GetInt("Animation Speed", 1);
@@ -75,6 +77,12 @@ public static class Options
     private static void SetMusicVolume(int value)
     {
         GameObject.Find("Music").GetComponent<AudioSource>().volume = 0.3f * value * 1f / 5f;
+    }
+
+    public static void SetCheckVersionUrl(string newUrl)
+    {
+        PlayerPrefs.SetString("CheckVersionUrl", newUrl);
+        CheckVersionUrl = newUrl;
     }
 }
 

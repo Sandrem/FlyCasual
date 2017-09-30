@@ -6,7 +6,7 @@ public class RosterBuilderUI : MonoBehaviour {
 
     public void AddShip(int playerNo)
     {
-        RosterBuilder.AddShip(Tools.IntToPlayer(playerNo));
+        RosterBuilder.TryAddShip(Tools.IntToPlayer(playerNo));
     }
 
     public void OnPlayerFactionChanged()

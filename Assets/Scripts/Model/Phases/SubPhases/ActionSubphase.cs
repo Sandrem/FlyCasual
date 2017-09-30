@@ -10,7 +10,6 @@ namespace SubPhases
 
         public override void Start()
         {
-            Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
             Name = "Action SubPhase";
             RequiredPilotSkill = PreviousSubPhase.RequiredPilotSkill;
             RequiredPlayer = PreviousSubPhase.RequiredPlayer;
@@ -131,9 +130,11 @@ namespace SubPhases
             foreach (var action in availableActions)
             {
                 AddDecision(action.Name, delegate {
+                    var ship = Selection.ThisShip;
                     Tooltips.EndTooltip();
-                    Game.UI.HideSkipButton();
-                    Selection.ThisShip.AddAlreadyExecutedAction(action);
+                    UI.HideSkipButton();
+                    ship.AddAlreadyExecutedAction(action);
+                    ship.CallActionIsTaken(action);
                     action.ActionTake();
                 });
                 AddTooltip(action.Name, action.ImageUrl);
@@ -145,12 +146,12 @@ namespace SubPhases
             base.Resume();
             Initialize();
 
-            Game.UI.ShowSkipButton();
+            UI.ShowSkipButton();
         }
 
         public override void SkipButton()
         {
-            Game.UI.HideSkipButton();
+            UI.HideSkipButton();
             CallBack();
         }
 
@@ -181,14 +182,17 @@ namespace SubPhases
         }
 
         public void ShowActionDecisionPanel()
-        {
+		{
+			Selection.ThisShip.IsFreeActionSkipped = false;
             List<ActionsList.GenericAction> availableActions = Selection.ThisShip.GetAvailableFreeActionsList();
             foreach (var action in availableActions)
             {
                 AddDecision(action.Name, delegate {
+                    var ship = Selection.ThisShip;
                     Tooltips.EndTooltip();
-                    Game.UI.HideSkipButton();
-                    Selection.ThisShip.AddAlreadyExecutedAction(action);
+                    UI.HideSkipButton();
+                    ship.AddAlreadyExecutedAction(action);
+                    ship.CallActionIsTaken(action);
                     action.ActionTake();
                 });
                 AddTooltip(action.Name, action.ImageUrl);
@@ -203,7 +207,8 @@ namespace SubPhases
 
         public override void SkipButton()
         {
-            Game.UI.HideSkipButton();
+            UI.HideSkipButton();
+			Selection.ThisShip.IsFreeActionSkipped = true;
             CallBack();
         }
 

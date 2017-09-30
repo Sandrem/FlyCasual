@@ -11,7 +11,6 @@ using UnityEngine;
 
 public class CameraScript : MonoBehaviour {
 
-    private GameManagerScript Game;
     private Transform Camera;
 
     private const float SENSITIVITY_MOVE = 0.125f;
@@ -25,13 +24,14 @@ public class CameraScript : MonoBehaviour {
     private const float MIN_ROTATION = 0f;
 
     // Use this for initialization
-    void Start() {
-        Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
+    void Start()
+    {
         Camera = transform.Find("Main Camera");
     }
 
     // Update is called once per frame
-    void Update() {
+    void Update()
+    {
         //TODO: Call hide context menu only once
         CamMoveByAxis();
         CamMoveByMouse();
@@ -42,7 +42,8 @@ public class CameraScript : MonoBehaviour {
 
     // Movement, Rotation, Zoom
 
-    private void CamMoveByAxis() {
+    private void CamMoveByAxis()
+    {
         float x = Input.GetAxis("Horizontal") * SENSITIVITY_MOVE;
         float y = Input.GetAxis("Vertical") * SENSITIVITY_MOVE;
         if ((x != 0) || (y != 0)) WhenViewChanged();
@@ -63,7 +64,8 @@ public class CameraScript : MonoBehaviour {
         transform.Translate(x, y, 0);
     }
 
-    private void CamZoomByMouseScroll() {
+    private void CamZoomByMouseScroll()
+    {
 		float zoom = Input.GetAxis ("Mouse ScrollWheel") * SENSITIVITY_ZOOM;
 		if (zoom != 0) {
 			Vector3 newPosition = transform.position + (Camera.TransformDirection(0, 0, zoom));
@@ -81,7 +83,8 @@ public class CameraScript : MonoBehaviour {
         }	
 	}
 
-	private void CamRotateByMouse() {
+	private void CamRotateByMouse()
+    {
 		if (Input.GetKey(KeyCode.Mouse1) || Input.GetKey(KeyCode.Mouse2)) {
 			
 			float turnX = Input.GetAxis ("Mouse Y") * -SENSITIVITY_TURN;
@@ -97,7 +100,8 @@ public class CameraScript : MonoBehaviour {
 
     // Restrictions for movement and rotation 
 
-    private float CamClampRotation(float turnX) {
+    private float CamClampRotation(float turnX)
+    {
 		float currentTurnX = Camera.eulerAngles.x;
 		float newTurnX = turnX + currentTurnX;
 		if (newTurnX > MAX_ROTATION) {
@@ -109,7 +113,8 @@ public class CameraScript : MonoBehaviour {
 		return turnX;
 	}
 
-	private void CamClampPosition() {
+	private void CamClampPosition()
+    {
 		transform.position = new Vector3 (
 			Mathf.Clamp(transform.position.x, -BORDER_SQUARE, BORDER_SQUARE),
 			Mathf.Clamp(transform.position.y, MIN_HEIGHT, MAX_HEIGHT),
@@ -119,12 +124,9 @@ public class CameraScript : MonoBehaviour {
 
     // What to do when view is changed
 
-    private void WhenViewChanged() {
-        HideTemporaryMenus();
-    }
-
-    private void HideTemporaryMenus() {
-        Game.UI.HideTemporaryMenus();
+    private void WhenViewChanged()
+    {
+        UI.HideTemporaryMenus();
     }
 
 }

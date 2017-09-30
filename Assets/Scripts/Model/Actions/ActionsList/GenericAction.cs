@@ -7,26 +7,22 @@ namespace ActionsList
 
     public class GenericAction
     {
-        protected GameManagerScript Game;
-
         public string Name;
         public string EffectName;
         public string ImageUrl;
 
-        public bool IsCritCancelAction = false;
+        public bool IsCritCancelAction;
 
-        public bool IsSpendFocus = false;
-        public bool IsReroll = false;
-        public bool IsTurnsOneFocusIntoSuccess = false;
-        public bool IsTurnsAllFocusIntoSuccess = false;
+        public bool IsSpendFocus;
+        public bool IsReroll;
+        public bool IsSpendEvade;
+        public bool IsTurnsOneFocusIntoSuccess;
+        public bool IsTurnsAllFocusIntoSuccess;
+
+        public bool IsOpposite;
 
         public Ship.GenericShip Host;
         public Upgrade.GenericUpgrade Source;
-
-        public GenericAction()
-        {
-            Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-        }
 
         public virtual void ActionEffect(System.Action callBack)
         {
@@ -71,6 +67,11 @@ namespace ActionsList
         public virtual void ActionTake()
         {
 
+        }
+
+        public virtual bool IsActionAvailable()
+        {
+            return true;
         }
 
         public virtual int GetActionPriority()

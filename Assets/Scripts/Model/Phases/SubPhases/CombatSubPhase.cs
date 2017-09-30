@@ -11,7 +11,6 @@ namespace SubPhases
 
         public override void Start()
         {
-            Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
             Name = "Combat SubPhase";
 
             if (DebugManager.DebugPhases) Debug.Log("Combat - Started");
@@ -123,8 +122,10 @@ namespace SubPhases
 
         public override void FinishPhase()
         {
-            Game.UI.HideSkipButton();
-            Phases.CurrentPhase.NextPhase();
+            Phases.CurrentSubPhase = new CombatEndSubPhase();
+            Phases.CurrentSubPhase.Start();
+            Phases.CurrentSubPhase.Prepare();
+            Phases.CurrentSubPhase.Initialize();
         }
 
         public override bool ThisShipCanBeSelected(Ship.GenericShip ship)
@@ -176,7 +177,7 @@ namespace SubPhases
                 {
                     if (Selection.ThisShip.IsAttackPerformed != true)
                     {
-                        Game.PrefabsList.ContextMenuPanel.transform.Find("FireButton").gameObject.SetActive(true);
+                        GameObject.Find("UI").transform.Find("ContextMenuPanel").Find("FireButton").gameObject.SetActive(true);
                         result++;
                     }
                     else

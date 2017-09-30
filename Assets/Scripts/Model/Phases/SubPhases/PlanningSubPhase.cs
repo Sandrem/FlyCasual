@@ -10,7 +10,6 @@ namespace SubPhases
 
         public override void Start()
         {
-            Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
             Name = "Planning SubPhase";
         }
 
@@ -31,6 +30,8 @@ namespace SubPhases
         {
             if (Roster.AllManuersAreAssigned(RequiredPlayer))
             {
+                HideAssignedManeuversInHotSeatGame();
+
                 if (RequiredPlayer == Phases.PlayerWithInitiative)
                 {
                     RequiredPlayer = Roster.AnotherPlayer(RequiredPlayer);
@@ -42,6 +43,17 @@ namespace SubPhases
                 else
                 {
                     FinishPhase();
+                }
+            }
+        }
+
+        private void HideAssignedManeuversInHotSeatGame()
+        {
+            if (Roster.GetPlayer(Roster.AnotherPlayer(RequiredPlayer)).GetType() != typeof(Players.HotacAiPlayer))
+            {
+                foreach (var shipHolder in Roster.GetPlayer(RequiredPlayer).Ships)
+                {
+                    Roster.ToggelManeuverVisibility(shipHolder.Value, false);
                 }
             }
         }
@@ -68,7 +80,7 @@ namespace SubPhases
         public override int CountActiveButtons(Ship.GenericShip ship)
         {
             int result = 0;
-            Game.PrefabsList.ContextMenuPanel.transform.Find("MoveMenuButton").gameObject.SetActive(true);
+            GameObject.Find("UI").transform.Find("ContextMenuPanel").Find("MoveMenuButton").gameObject.SetActive(true);
             result++;
             return result;
         }

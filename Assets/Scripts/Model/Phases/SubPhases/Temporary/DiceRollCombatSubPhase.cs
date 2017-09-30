@@ -9,15 +9,14 @@ namespace SubPhases
 
     public class DiceRollCombatSubPhase : GenericSubPhase
     {
-        protected DiceKind dicesType;
-        protected int dicesCount;
+        protected DiceKind diceType;
+        protected int diceCount;
 
         protected DiceRoll CurentDiceRoll;
         protected DelegateDiceroll checkResults;
 
         public override void Start()
         {
-            Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
             IsTemporary = true;
             CallBack = FinishAction;
 
@@ -29,7 +28,7 @@ namespace SubPhases
 
         public override void Initialize()
         {
-            Game.PrefabsList.CombatDiceResultsMenu.SetActive(true);
+            GameObject.Find("UI").transform.Find("CombatDiceResultsPanel").gameObject.SetActive(true);
 
             if (Combat.AttackStep == CombatStep.Attack)
             {
@@ -37,8 +36,15 @@ namespace SubPhases
             }
 
             DiceRoll DiceRollCheck;
-            DiceRollCheck = new DiceRoll(dicesType, dicesCount, DiceRollCheckType.Combat);
-            DiceRollCheck.Roll(checkResults);
+            DiceRollCheck = new DiceRoll(diceType, diceCount, DiceRollCheckType.Combat);
+            DiceRollCheck.Roll(ImmediatelyAfterRolling);
+        }
+
+        private void ImmediatelyAfterRolling(DiceRoll diceroll)
+        {
+            Selection.ActiveShip = (Combat.AttackStep == CombatStep.Attack) ? Combat.Attacker : Combat.Defender;
+            Selection.ActiveShip.CallOnImmediatelyAfterRolling(diceroll);
+            checkResults(diceroll);
         }
 
         public void ToggleConfirmDiceResultsButton(bool isActive)
@@ -47,7 +53,7 @@ namespace SubPhases
             {
                 if (Roster.GetPlayer(Selection.ActiveShip.Owner.PlayerNo).GetType() == typeof(Players.HumanPlayer))
                 {
-                    Button closeButton = Game.PrefabsList.CombatDiceResultsMenu.transform.Find("DiceModificationsPanel/Confirm").GetComponent<Button>();
+                    Button closeButton = GameObject.Find("UI/CombatDiceResultsPanel").transform.Find("DiceModificationsPanel/Confirm").GetComponent<Button>();
                     closeButton.onClick.RemoveAllListeners();
                     closeButton.onClick.AddListener(delegate { CallBack(); });
 
@@ -56,15 +62,15 @@ namespace SubPhases
             }
             else
             {
-                Game.PrefabsList.CombatDiceResultsMenu.transform.Find("DiceModificationsPanel/Confirm").gameObject.SetActive(false);
+                GameObject.Find("UI").transform.Find("CombatDiceResultsPanel").Find("DiceModificationsPanel").Find("Confirm").gameObject.SetActive(false);
             }
         }
 
         protected virtual void CheckResults(DiceRoll diceRoll)
         {
             CurentDiceRoll = diceRoll;
-            Combat.ToggleConfirmDiceResultsButton(true);
-            Combat.ShowDiceModificationButtons();
+            Selection.ActiveShip = (Combat.AttackStep == CombatStep.Attack) ? Combat.Defender : Combat.Attacker;
+            Selection.ActiveShip.Owner.UseOppositeDiceModifications();
         }
 
         protected virtual void FinishAction()
@@ -75,14 +81,14 @@ namespace SubPhases
 
         public void HideDiceResultMenu()
         {
-            Game.PrefabsList.CombatDiceResultsMenu.SetActive(false);
+            GameObject.Find("UI/CombatDiceResultsPanel").gameObject.SetActive(false);
             HideDiceModificationButtons();
             CurentDiceRoll.RemoveDiceModels();
         }
 
         public void HideDiceModificationButtons()
         {
-            foreach (Transform button in Game.PrefabsList.CombatDiceResultsMenu.transform.Find("DiceModificationsPanel"))
+            foreach (Transform button in GameObject.Find("UI/CombatDiceResultsPanel").transform.Find("DiceModificationsPanel"))
             {
                 if (button.name.StartsWith("Button"))
                 {
@@ -94,12 +100,12 @@ namespace SubPhases
 
         public override void Pause()
         {
-            Game.PrefabsList.CombatDiceResultsMenu.SetActive(false);
+            GameObject.Find("UI/CombatDiceResultsPanel").gameObject.SetActive(false);
         }
 
         public override void Resume()
         {
-            Game.PrefabsList.CombatDiceResultsMenu.SetActive(true);
+            GameObject.Find("UI/CombatDiceResultsPanel").gameObject.SetActive(true);
         }
 
         public override void Next()

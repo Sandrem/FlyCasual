@@ -18,7 +18,10 @@ namespace Ship
                 Cost = 27;
 
                 IsUnique = true;
-                AddUpgradeSlot(Upgrade.UpgradeType.Elite);
+
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
+
+                SkinName = "Red Stripes";
             }
 
             public override void InitializePilot()
@@ -48,7 +51,7 @@ namespace Ship
                     Phases.StartTemporarySubPhase(
                         "Soontir Fel's decision",
                         typeof(SubPhases.SoontirFelDecisionSubPhase),
-                        delegate () { Triggers.FinishTrigger(); }
+                        Triggers.FinishTrigger
                     );
                 }
                 else

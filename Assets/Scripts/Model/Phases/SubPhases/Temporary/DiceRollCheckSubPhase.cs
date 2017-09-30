@@ -9,8 +9,8 @@ namespace SubPhases
 
     public class DiceRollCheckSubPhase : GenericSubPhase
     {
-        protected DiceKind dicesType;
-        protected int dicesCount;
+        protected DiceKind diceType;
+        protected int diceCount;
 
         protected DiceRoll CurrentDiceRoll;
         protected DelegateDiceroll checkResults;
@@ -20,7 +20,6 @@ namespace SubPhases
 
         public override void Start()
         {
-            Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
             IsTemporary = true;
             finishAction = FinishAction;
             checkResults = CheckResults;
@@ -33,10 +32,10 @@ namespace SubPhases
 
         public override void Initialize()
         {
-            Game.PrefabsList.CheckDiceResultsMenu.SetActive(true);
+            GameObject.Find("UI").transform.Find("CheckDiceResultsPanel").gameObject.SetActive(true);
 
             DiceRoll DiceRollCheck;
-            DiceRollCheck = new DiceRoll(dicesType, dicesCount, DiceRollCheckType.Check);
+            DiceRollCheck = new DiceRoll(diceType, diceCount, DiceRollCheckType.Check);
             DiceRollCheck.Roll(checkResults);
         }
 
@@ -45,7 +44,7 @@ namespace SubPhases
             // BUG after koiogran asteroid?
             if (Roster.GetPlayer(Selection.ActiveShip.Owner.PlayerNo).GetType() == typeof(Players.HumanPlayer))
             {
-                Button closeButton = Game.PrefabsList.CheckDiceResultsMenu.transform.Find("DiceModificationsPanel/Confirm").GetComponent<Button>();
+                Button closeButton = GameObject.Find("UI").transform.Find("CheckDiceResultsPanel").Find("DiceModificationsPanel").Find("Confirm").GetComponent<Button>();
                 closeButton.onClick.RemoveAllListeners();
                 closeButton.onClick.AddListener(finishAction);
 
@@ -71,21 +70,21 @@ namespace SubPhases
 
         public void HideDiceResultMenu()
         {
-            Game.PrefabsList.CheckDiceResultsMenu.SetActive(false);
+            GameObject.Find("UI").transform.Find("CheckDiceResultsPanel").gameObject.SetActive(false);
             HideDiceModificationButtons();
             CurrentDiceRoll.RemoveDiceModels();
         }
 
         public void HideDiceModificationButtons()
         {
-            foreach (Transform button in Game.PrefabsList.CheckDiceResultsMenu.transform.Find("DiceModificationsPanel"))
+            foreach (Transform button in GameObject.Find("UI").transform.Find("CheckDiceResultsPanel").Find("DiceModificationsPanel"))
             {
                 if (button.name.StartsWith("Button"))
                 {
                     MonoBehaviour.Destroy(button.gameObject);
                 }
             }
-            Game.PrefabsList.CheckDiceResultsMenu.transform.Find("DiceModificationsPanel/Confirm").gameObject.SetActive(false);
+            GameObject.Find("UI").transform.Find("CheckDiceResultsPanel").Find("DiceModificationsPanel").Find("Confirm").gameObject.SetActive(false);
         }
 
         public override void Next()

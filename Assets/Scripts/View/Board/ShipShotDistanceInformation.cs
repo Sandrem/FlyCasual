@@ -39,47 +39,51 @@ namespace Board
             parallelPointsList = new List<List<Vector3>>();
 
             // TODO: another types of primaty arcs
-            Dictionary <string, Vector3> shootingPoints = (!ChosenWeapon.CanShootOutsideArc) ? ThisShip.GetStandFrontPoints() : ThisShip.GetStandPoints();
+            Dictionary <string, Vector3> shootingPoints = (!ChosenWeapon.CanShootOutsideArc) ? ThisShip.ArcInfo.GetArcsPoints() : ThisShip.ShipBase.GetStandPoints();
 
-            // TODO: change to use geometry insted of dots
-            foreach (var objThis in shootingPoints)
+            // TODO: change to use geometry instead of dots
+
+            float distance = float.MaxValue;
+
+            foreach (var pointThis in shootingPoints)
             {
-                foreach (var objAnother in AnotherShip.GetStandPoints())
+                foreach (var pointAnother in AnotherShip.ShipBase.GetStandPoints())
                 {
-
                     // TODO: check this part
-                    Vector3 vectorToTarget = objAnother.Value - objThis.Value;
+                    Vector3 vectorToTarget = pointAnother.Value - pointThis.Value;
                     float angle = Mathf.Abs(Vector3.SignedAngle(vectorToTarget, vectorFacing, Vector3.up));
 
-                    if (ChosenWeapon.CanShootOutsideArc || ChosenWeapon.Host.ArcInfo.InAttackAngle(angle))
+                    // TODO: Different checks for primary arc and 360 arc
+
+                    if (ChosenWeapon.CanShootOutsideArc || ChosenWeapon.Host.ArcInfo.InAttackAngle(pointThis.Key, angle))
                     {
                         InShotAngle = true;
 
-                        if (ChosenWeapon.Host.ArcInfo.InArc(angle))
+                        if (ChosenWeapon.Host.ArcInfo.InArc(pointThis.Key, angle))
                         {
                             InArc = true;
                         }
 
-                        if (ChosenWeapon.Host.ArcInfo.InPrimaryArc(angle))
+                        if (ChosenWeapon.Host.ArcInfo.InPrimaryArc(pointThis.Key, angle))
                         {
                             InPrimaryArc = true;
                         }
 
-                        float distance = Vector3.Distance(objThis.Value, objAnother.Value);
+                        distance = Vector3.Distance(pointThis.Value, pointAnother.Value);
                         if (distance < Distance - PRECISION)
                         {
                             parallelPointsList = new List<List<Vector3>>();
 
                             Distance = distance;
 
-                            ThisShipNearestPoint = objThis.Value;
-                            AnotherShipNearestPoint = objAnother.Value;
+                            ThisShipNearestPoint = pointThis.Value;
+                            AnotherShipNearestPoint = pointAnother.Value;
 
-                            parallelPointsList.Add(new List<Vector3>() { objThis.Value, objAnother.Value });
+                            parallelPointsList.Add(new List<Vector3>() { pointThis.Value, pointAnother.Value });
                         }
                         else if (Mathf.Abs(Distance - distance) < PRECISION)
                         {
-                            parallelPointsList.Add(new List<Vector3>() { objThis.Value, objAnother.Value });
+                            parallelPointsList.Add(new List<Vector3>() { pointThis.Value, pointAnother.Value });
                         }
                     }
                 }
@@ -99,12 +103,12 @@ namespace Board
             if (DebugManager.DebugBoard) Debug.Log("Obstacle checker is launched: " + ThisShip + " vs " + AnotherShip);
 
             FiringLines = new List<GameObject>();
-            GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
+            GameObject prefab = (GameObject)Resources.Load("Prefabs/FiringLine", typeof(GameObject));
             float SIZE_ANY = 91.44f;
 
             foreach (var parallelPoints in parallelPointsList)
             {
-                GameObject FiringLine = MonoBehaviour.Instantiate(Game.PrefabsList.FiringLine, parallelPoints[0], Quaternion.LookRotation(parallelPoints[1]-parallelPoints[0]), BoardManager.GetBoard());
+                GameObject FiringLine = MonoBehaviour.Instantiate(prefab, parallelPoints[0], Quaternion.LookRotation(parallelPoints[1]-parallelPoints[0]), BoardManager.GetBoard());
                 FiringLine.transform.localScale = new Vector3(1, 1, Vector3.Distance(parallelPoints[0], parallelPoints[1]) * SIZE_ANY / 100);
                 FiringLine.SetActive(true);
                 FiringLine.GetComponentInChildren<ObstaclesFiringLineDetector>().PointStart = parallelPoints[0];
@@ -112,6 +116,7 @@ namespace Board
                 FiringLines.Add(FiringLine);
             }
 
+            GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
             Game.Movement.FuncsToUpdate.Add(UpdateColisionDetection);
 
             CallBack = callBack;

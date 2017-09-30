@@ -13,8 +13,6 @@ namespace UpgradesList
             Type = UpgradeType.Turret;
 
             Name = "Ion Cannon Turret";
-            ShortName = "Ion Cannon Turret";
-            ImageUrl = "https://vignette4.wikia.nocookie.net/xwing-miniatures/images/f/f3/Ion_Cannon_Turret.png";
             Cost = 5;
 
             MinRange = 1;
@@ -58,6 +56,7 @@ namespace UpgradesList
             Combat.Defender.AssignToken(
                 new Tokens.IonToken(),
                 delegate {
+                    GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
                     Game.Wait(2, DefenderSuffersDamage);
                 }
             );
@@ -65,7 +64,7 @@ namespace UpgradesList
 
         private void DefenderSuffersDamage()
         {
-            Combat.Defender.AssignedDamageDiceroll.AddDice(DiceSide.Success);
+            Combat.Defender.AssignedDamageDiceroll.AddDice(DieSide.Success);
 
             Triggers.RegisterTrigger(new Trigger()
             {

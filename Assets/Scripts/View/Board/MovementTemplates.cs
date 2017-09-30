@@ -6,8 +6,6 @@ using Board;
 
 public static class MovementTemplates {
 
-    private static GameManagerScript Game;
-
 	private static Vector3 savedRulerPosition;
 	private static Vector3 savedRulerRotation;
     private static List<Vector3> rulerCenterPoints = new List<Vector3>();
@@ -17,8 +15,7 @@ public static class MovementTemplates {
 
     static MovementTemplates()
     {
-        Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-        Templates = Game.PrefabsList.RulersHolderTransform;
+        Templates = GameObject.Find("SceneHolder/Board/RulersHolder").transform;
     }
 
     public static void AddRulerCenterPoint(Vector3 point)
@@ -61,13 +58,16 @@ public static class MovementTemplates {
     {
         CurrentTemplate = GetMovementRuler(movement);
 
-        SaveCurrentMovementRulerPosition();
-
-        CurrentTemplate.position = thisShip.GetPosition();
-        CurrentTemplate.eulerAngles = thisShip.GetAngles() + new Vector3(0f, 90f, 0f);
-        if (movement.Direction == Movement.ManeuverDirection.Left)
+        if (CurrentTemplate != null)
         {
-            CurrentTemplate.eulerAngles = CurrentTemplate.eulerAngles + new Vector3(180f, 0f, 0f);
+            SaveCurrentMovementRulerPosition();
+
+            CurrentTemplate.position = thisShip.GetPosition();
+            CurrentTemplate.eulerAngles = thisShip.GetAngles() + new Vector3(0f, 90f, 0f);
+            if (movement.Direction == Movement.ManeuverDirection.Left)
+            {
+                CurrentTemplate.eulerAngles = CurrentTemplate.eulerAngles + new Vector3(180f, 0f, 0f);
+            }
         }
     }
 
@@ -80,23 +80,35 @@ public static class MovementTemplates {
     private static Transform GetMovementRuler(Movement.GenericMovement movement)
     {
         Transform result = null;
-        switch (movement.Bearing)
+        if (movement != null)
         {
-            case Movement.ManeuverBearing.Straight:
-                return Templates.Find("straight" + movement.Speed);
-            case Movement.ManeuverBearing.Bank:
-                return Templates.Find("bank" + movement.Speed);
-            case Movement.ManeuverBearing.Turn:
-                return Templates.Find("turn" + movement.Speed);
-            case Movement.ManeuverBearing.KoiogranTurn:
-                return Templates.Find("straight" + movement.Speed);
+            switch (movement.Bearing)
+            {
+                case Movement.ManeuverBearing.Straight:
+                    return Templates.Find("straight" + movement.Speed);
+                case Movement.ManeuverBearing.Bank:
+                    return Templates.Find("bank" + movement.Speed);
+                case Movement.ManeuverBearing.SegnorsLoop:
+                    return Templates.Find("bank" + movement.Speed);
+                case Movement.ManeuverBearing.Turn:
+                    return Templates.Find("turn" + movement.Speed);
+                case Movement.ManeuverBearing.TallonRoll:
+                    return Templates.Find("turn" + movement.Speed);
+                case Movement.ManeuverBearing.KoiogranTurn:
+                    return Templates.Find("straight" + movement.Speed);
+                case Movement.ManeuverBearing.Stationary:
+                    return null;
+            }
         }
         return result;
     }
 
     public static void HideLastMovementRuler(){
-        CurrentTemplate.position = savedRulerPosition;
-		CurrentTemplate.eulerAngles = savedRulerRotation;
+        if (CurrentTemplate != null)
+        {
+            CurrentTemplate.position = savedRulerPosition;
+            CurrentTemplate.eulerAngles = savedRulerRotation;
+        }
 	}
 
     public static void ShowRange(Ship.GenericShip thisShip, Ship.GenericShip anotherShip)

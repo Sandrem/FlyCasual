@@ -14,6 +14,8 @@ namespace Ship
                 ImageUrl = "https://vignette2.wikia.nocookie.net/xwing-miniatures/images/d/d0/Gamma_Squadron_Pilot.png";
                 PilotSkill = 4;
                 Cost = 18;
+
+                SkinName = "White Stripes";
             }
         }
     }

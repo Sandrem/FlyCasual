@@ -12,7 +12,6 @@ namespace CriticalHitCard
         {
             Name = "Major Explosion";
             Type = CriticalCardType.Ship;
-            ImageUrl = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/damage-decks/core-tfa/major-explosion.png";
         }
 
         public override void ApplyEffect(object sender, EventArgs e)
@@ -53,8 +52,8 @@ namespace SubPhases
 
         public override void Prepare()
         {
-            dicesType = DiceKind.Attack;
-            dicesCount = 1;
+            diceType = DiceKind.Attack;
+            diceCount = 1;
 
             finishAction = FinishAction;
         }
@@ -63,7 +62,7 @@ namespace SubPhases
         {
             HideDiceResultMenu();
 
-            if (CurrentDiceRoll.DiceList[0].Side == DiceSide.Success)
+            if (CurrentDiceRoll.DiceList[0].Side == DieSide.Success)
             {
                 DealDamage();
             }
@@ -77,7 +76,7 @@ namespace SubPhases
         {
             Messages.ShowInfo("Major Explosion: Suffer 1 additional critical damage");
 
-            Selection.ActiveShip.AssignedDamageDiceroll.AddDice(DiceSide.Crit);
+            Selection.ActiveShip.AssignedDamageDiceroll.AddDice(DieSide.Crit);
 
             Triggers.RegisterTrigger(new Trigger()
             {

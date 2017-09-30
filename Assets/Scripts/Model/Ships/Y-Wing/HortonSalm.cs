@@ -12,18 +12,25 @@ namespace Ship
             {
                 PilotName = "Horton Salm";
                 ImageUrl = "https://vignette4.wikia.nocookie.net/xwing-miniatures/images/5/56/Horton_Salm.png";
-                IsUnique = true;
                 PilotSkill = 8;
                 Cost = 25;
+
+                IsUnique = true;
+
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Astromech);
+
+                SkinName = "Gray";
+
+                faction = Faction.Rebels;
             }
 
             public override void InitializePilot()
             {
                 base.InitializePilot();
-                AfterGenerateAvailableActionEffectsList += WingedGundarkPilotAbility;
+                AfterGenerateAvailableActionEffectsList += HortonSalmPilotAbility;
             }
 
-            public void WingedGundarkPilotAbility(GenericShip ship)
+            public void HortonSalmPilotAbility(GenericShip ship)
             {
                 ship.AddAvailableActionEffect(new PilotAbilities.HortonSalmAction());
             }
@@ -45,7 +52,7 @@ namespace PilotAbilities
         {
             DiceRerollManager diceRerollManager = new DiceRerollManager
             {
-                SidesCanBeRerolled = new List<DiceSide> { DiceSide.Blank },
+                SidesCanBeRerolled = new List<DieSide> { DieSide.Blank },
                 CallBack = callBack
             };
             diceRerollManager.Start();

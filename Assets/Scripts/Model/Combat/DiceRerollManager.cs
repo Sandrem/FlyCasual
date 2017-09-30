@@ -6,18 +6,16 @@ using UnityEngine.UI;
 
 public partial class DiceRerollManager
 {
-    private GameManagerScript Game;
-
     public static DiceRerollManager currentDiceRerollManager;
 
-    public List<DiceSide> SidesCanBeRerolled;
-    public int NumberOfDicesCanBeRerolled;
+    public List<DieSide> SidesCanBeRerolled;
+    public int NumberOfDiceCanBeRerolled;
+    public bool IsOpposite;
 
     public System.Action CallBack;
 
     public DiceRerollManager()
     {
-        Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
         currentDiceRerollManager = this;
     }
 
@@ -41,18 +39,18 @@ public partial class DiceRerollManager
     {
         if (SidesCanBeRerolled == null)
         {
-            SidesCanBeRerolled = new List<DiceSide>
+            SidesCanBeRerolled = new List<DieSide>
             {
-                DiceSide.Blank,
-                DiceSide.Focus,
-                DiceSide.Success,
-                DiceSide.Crit
+                DieSide.Blank,
+                DieSide.Focus,
+                DieSide.Success,
+                DieSide.Crit
             };
         }
 
-        if (NumberOfDicesCanBeRerolled == 0)
+        if (NumberOfDiceCanBeRerolled == 0)
         {
-            NumberOfDicesCanBeRerolled = int.MaxValue;
+            NumberOfDiceCanBeRerolled = int.MaxValue;
         }
     }
 
@@ -67,60 +65,99 @@ public partial class DiceRerollManager
 
     private void DoDefaultSelection()
     {
-        List<DiceSide> diceSides = new List<DiceSide>();
-
-        if (SidesCanBeRerolled.Contains(DiceSide.Blank))
+        if (!IsOpposite)
         {
-            diceSides.Add(DiceSide.Blank);
+            DoDefaultSelectionOwnDice();
+        }
+        else
+        {
+            DoDefaultSelectionOppositeDice();
+        }
+    }
+
+    private void DoDefaultSelectionOwnDice()
+    {
+        List<DieSide> dieSides = new List<DieSide>();
+
+        if (SidesCanBeRerolled.Contains(DieSide.Blank))
+        {
+            dieSides.Add(DieSide.Blank);
         }
 
-        if (SidesCanBeRerolled.Contains(DiceSide.Focus))
+        if (SidesCanBeRerolled.Contains(DieSide.Focus))
         {
             //if (!Selection.ActiveShip.HasToken(typeof(Tokens.FocusToken)))
             if (Combat.Attacker.GetAvailableActionEffectsList().Count(n => n.IsTurnsAllFocusIntoSuccess) == 0)
             {
-                diceSides.Add(DiceSide.Focus);
+                dieSides.Add(DieSide.Focus);
             }
         }
 
-        Combat.CurentDiceRoll.SelectBySides(diceSides, NumberOfDicesCanBeRerolled);
+        Combat.CurentDiceRoll.SelectBySides(dieSides, NumberOfDiceCanBeRerolled);
+    }
+
+    private void DoDefaultSelectionOppositeDice()
+    {
+        List<DieSide> dieSides = new List<DieSide>();
+
+        if (SidesCanBeRerolled.Contains(DieSide.Crit))
+        {
+            dieSides.Add(DieSide.Crit);
+        }
+
+        if (SidesCanBeRerolled.Contains(DieSide.Success))
+        {
+            dieSides.Add(DieSide.Success);
+        }
+
+        if (SidesCanBeRerolled.Contains(DieSide.Focus))
+        {
+            //if (!Selection.ActiveShip.HasToken(typeof(Tokens.FocusToken)))
+            if ((Combat.Attacker.GetAvailableActionEffectsList().Count(n => n.IsTurnsAllFocusIntoSuccess) > 0))
+            {
+                dieSides.Add(DieSide.Focus);
+            }
+        }
+
+        Combat.CurentDiceRoll.SelectBySides(dieSides, NumberOfDiceCanBeRerolled);
     }
 
     private void GenerateSelectionButtons()
     {
         if (Selection.ActiveShip.Owner.GetType() == typeof(Players.HumanPlayer))
         {
-            Dictionary<string, List<DiceSide>> options = new Dictionary<string, List<DiceSide>>();
+            Dictionary<string, List<DieSide>> options = new Dictionary<string, List<DieSide>>();
 
-            if (SidesCanBeRerolled.Contains(DiceSide.Blank))
+            if (SidesCanBeRerolled.Contains(DieSide.Blank))
             {
                 options.Add(
                     "Select only blanks",
-                    new List<DiceSide>() {
-                    DiceSide.Blank
+                    new List<DieSide>() {
+                    DieSide.Blank
                     });
             }
 
-            if ((SidesCanBeRerolled.Contains(DiceSide.Focus)) && (SidesCanBeRerolled.Contains(DiceSide.Blank)) && (NumberOfDicesCanBeRerolled > 1))
+            if ((SidesCanBeRerolled.Contains(DieSide.Focus)) && (SidesCanBeRerolled.Contains(DieSide.Blank)) && (NumberOfDiceCanBeRerolled > 1))
             {
                 options.Add(
                     "Select only blanks and focuses",
-                    new List<DiceSide>() {
-                    DiceSide.Blank,
-                    DiceSide.Focus
+                    new List<DieSide>() {
+                    DieSide.Blank,
+                    DieSide.Focus
                     });
             }
 
             int offset = 0;
             foreach (var option in options)
             {
-                GameObject newButton = MonoBehaviour.Instantiate(Game.PrefabsList.GenericButton, Game.PrefabsList.CombatDiceResultsMenu.transform.Find("DiceRerollsPanel"));
+                GameObject prefab = (GameObject)Resources.Load("Prefabs/GenericButton", typeof(GameObject));
+                GameObject newButton = MonoBehaviour.Instantiate(prefab, GameObject.Find("UI/CombatDiceResultsPanel").transform.Find("DiceRerollsPanel"));
                 newButton.name = "Button" + option.Key;
                 newButton.transform.GetComponentInChildren<Text>().text = option.Key;
                 newButton.GetComponent<RectTransform>().localPosition = new Vector3(0, -offset, 0);
                 newButton.GetComponent<Button>().onClick.AddListener(delegate
                 {
-                    SelectDicesByFilter(option.Value, NumberOfDicesCanBeRerolled);
+                    SelectDiceByFilter(option.Value, NumberOfDiceCanBeRerolled);
                 });
                 newButton.SetActive(true);
                 offset += 40;
@@ -128,16 +165,16 @@ public partial class DiceRerollManager
         }
     }
 
-    private void SelectDicesByFilter(List<DiceSide> diceSides, int number)
+    private void SelectDiceByFilter(List<DieSide> dieSides, int number)
     {
-        Combat.CurentDiceRoll.SelectBySides(diceSides, number);
+        Combat.CurentDiceRoll.SelectBySides(dieSides, number);
     }
 
     private void SetConfirmButtonAction()
     {
         if (Selection.ActiveShip.Owner.GetType() == typeof(Players.HumanPlayer))
         {
-            Button closeButton = Game.PrefabsList.CombatDiceResultsMenu.transform.Find("DiceRerollsPanel/Confirm").GetComponent<Button>();
+            Button closeButton = GameObject.Find("UI/CombatDiceResultsPanel").transform.Find("DiceRerollsPanel/Confirm").GetComponent<Button>();
             closeButton.onClick.RemoveAllListeners();
             closeButton.onClick.AddListener(ConfirmReroll);
             closeButton.gameObject.SetActive(true);
@@ -150,12 +187,19 @@ public partial class DiceRerollManager
 
     private void ToggleDiceModificationsPanel(bool isActive)
     {
-        Game.PrefabsList.CombatDiceResultsMenu.transform.Find("DiceModificationsPanel").gameObject.SetActive(isActive);
+        GameObject.Find("UI/CombatDiceResultsPanel").transform.Find("DiceModificationsPanel").gameObject.SetActive(isActive);
 
         if (isActive)
         {
             Combat.ToggleConfirmDiceResultsButton(true);
-            Combat.ShowDiceModificationButtons();
+            if (!IsOpposite)
+            {
+                Combat.ShowDiceModificationButtons();
+            }
+            else
+            {
+                Combat.ShowOppositeDiceModificationButtons();
+            }
         }
         else
         {
@@ -165,11 +209,11 @@ public partial class DiceRerollManager
 
     private void ToggleDiceRerollsPanel(bool isActive)
     {
-        Game.PrefabsList.CombatDiceResultsMenu.transform.Find("DiceRerollsPanel").gameObject.SetActive(isActive);
+        GameObject.Find("UI/CombatDiceResultsPanel").transform.Find("DiceRerollsPanel").gameObject.SetActive(isActive);
 
         if (!isActive)
         {
-            foreach (Transform button in Game.PrefabsList.CombatDiceResultsMenu.transform.Find("DiceRerollsPanel"))
+            foreach (Transform button in GameObject.Find("UI/CombatDiceResultsPanel").transform.Find("DiceRerollsPanel"))
             {
                 if (button.name.StartsWith("Button"))
                 {
@@ -179,7 +223,7 @@ public partial class DiceRerollManager
         }
     }
 
-    private void ConfirmReroll()
+    public void ConfirmReroll()
     {
         if (Selection.ActiveShip.Owner.GetType() == typeof(Players.HumanPlayer)) BlockButtons();
         Combat.CurentDiceRoll.RerollSelected(UnblockButtons);

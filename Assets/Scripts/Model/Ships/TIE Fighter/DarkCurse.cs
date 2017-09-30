@@ -33,17 +33,17 @@ namespace Ship
                 }
             }
 
-            private void UseDarkCurseRestriction(ActionsList.GenericAction action, ref bool result)
+            private void UseDarkCurseRestriction(ActionsList.GenericAction action, ref bool canBeUsed)
             {
                 if (action.IsSpendFocus)
                 {
                     Messages.ShowErrorToHuman("Dark Curse: Cannot spend focus");
-                    result = false;
+                    canBeUsed = false;
                 }
                 if (action.IsReroll)
                 {
                     Messages.ShowErrorToHuman("Dark Curse: Cannot reroll");
-                    result = false;
+                    canBeUsed = false;
                 }
             }
 

@@ -5,8 +5,6 @@ using UnityEngine.EventSystems;
 
 public class ShipMovementScript : MonoBehaviour {
 
-    private GameManagerScript Game;
-
     //TODO: Refactor old
     public Collider CollidedWith;
     public Collider ObstacleEnter;
@@ -18,17 +16,11 @@ public class ShipMovementScript : MonoBehaviour {
 
     public bool isMoving;
 
-    public void Initialize()
-    {
-        Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-    }
-
     void Update ()
     {
         Selection.UpdateSelection();
         UpdateMovement();
         UpdateSubscribedFuncs();
-
         ClearCollision();
     }
 
@@ -63,17 +55,24 @@ public class ShipMovementScript : MonoBehaviour {
     {
         string parameters = EventSystem.current.currentSelectedGameObject.name;
 
-        Selection.ThisShip.AssignedManeuver = MovementFromString(parameters);
+        Selection.ThisShip.SetAssignedManeuver(MovementFromString(parameters));
 
-        Selection.ThisShip.InfoPanel.transform.Find("DialAssigned" + Selection.ThisShip.Owner.Id).gameObject.SetActive(true);
-        Roster.HighlightShipOff(Selection.ThisShip);
+        UI.HideDirectionMenu();
 
-        Game.UI.HideDirectionMenu();
-
-        if (Roster.AllManuersAreAssigned(Phases.CurrentPhasePlayer))
+        if (Phases.CurrentSubPhase.GetType() == typeof(SubPhases.PlanningSubPhase))
         {
-            Game.UI.ShowNextButton();
-            Game.UI.HighlightNextButton();
+            //Selection.ThisShip.InfoPanel.transform.Find("DialAssigned" + Selection.ThisShip.Owner.Id).gameObject.SetActive(true);
+            Roster.HighlightShipOff(Selection.ThisShip);
+
+            if (Roster.AllManuersAreAssigned(Phases.CurrentPhasePlayer))
+            {
+                UI.ShowNextButton();
+                UI.HighlightNextButton();
+            }
+        }
+        else
+        {
+            Triggers.FinishTrigger();
         }
     }
 
@@ -97,87 +96,26 @@ public class ShipMovementScript : MonoBehaviour {
         {
             result = new Movement.BankMovement(movementStruct.SpeedInt, movementStruct.Direction, movementStruct.Bearing, movementStruct.ColorComplexity);
         }
+        else if (movementStruct.Bearing == Movement.ManeuverBearing.SegnorsLoop)
+        {
+            result = new Movement.SegnorsLoopMovement(movementStruct.SpeedInt, movementStruct.Direction, movementStruct.Bearing, movementStruct.ColorComplexity);
+        }
+        else if (movementStruct.Bearing == Movement.ManeuverBearing.TallonRoll)
+        {
+            result = new Movement.TallonRollMovement(movementStruct.SpeedInt, movementStruct.Direction, movementStruct.Bearing, movementStruct.ColorComplexity);
+        }
+        else if (movementStruct.Bearing == Movement.ManeuverBearing.Stationary)
+        {
+            result = new Movement.StationaryMovement(movementStruct.SpeedInt, movementStruct.Direction, movementStruct.Bearing, movementStruct.ColorComplexity);
+        }
 
         return result;
     }
 
     public Movement.GenericMovement MovementFromString(string parameters)
     {
-        Movement.MovementStruct movementStruct = ManeuverFromString(parameters);
-
+        Movement.MovementStruct movementStruct = new Movement.MovementStruct(parameters);
         return MovementFromStruct(movementStruct);
-    }
-
-    public Movement.MovementStruct ManeuverFromString(string parameters)
-    {
-        string[] arrParameters = parameters.Split('.');
-
-        Movement.ManeuverSpeed speed = Movement.ManeuverSpeed.Speed1;
-
-        switch (arrParameters[0])
-        {
-            case "1":
-                speed = Movement.ManeuverSpeed.Speed1;
-                break;
-            case "2":
-                speed = Movement.ManeuverSpeed.Speed2;
-                break;
-            case "3":
-                speed = Movement.ManeuverSpeed.Speed3;
-                break;
-            case "4":
-                speed = Movement.ManeuverSpeed.Speed4;
-                break;
-            case "5":
-                speed = Movement.ManeuverSpeed.Speed5;
-                break;
-        }
-
-        Movement.ManeuverDirection direction = Movement.ManeuverDirection.Forward;
-
-        switch (arrParameters[1])
-        {
-            case "F":
-                direction = Movement.ManeuverDirection.Forward;
-                break;
-            case "L":
-                direction = Movement.ManeuverDirection.Left;
-                break;
-            case "R":
-                direction = Movement.ManeuverDirection.Right;
-                break;
-        }
-
-        Movement.ManeuverBearing bearing = Movement.ManeuverBearing.Straight;
-
-        switch (arrParameters[2])
-        {
-            case "S":
-                bearing = Movement.ManeuverBearing.Straight;
-                break;
-            case "R":
-                bearing = Movement.ManeuverBearing.KoiogranTurn;
-                break;
-            case "B":
-                bearing = Movement.ManeuverBearing.Bank;
-                break;
-            case "T":
-                bearing = Movement.ManeuverBearing.Turn;
-                break;
-        }
-
-        Movement.MovementStruct result = new Movement.MovementStruct()
-        {
-            Speed = speed,
-            Direction = direction,
-            Bearing = bearing,
-            ColorComplexity = Selection.ThisShip.Maneuvers[parameters]
-        };
-
-        Movement.ManeuverColor color = Selection.ThisShip.GetColorComplexityOfManeuver(result);
-        result.ColorComplexity = color;
-
-        return result;
     }
 
     public void PerformStoredManeuver()

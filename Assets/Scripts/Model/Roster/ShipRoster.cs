@@ -8,7 +8,7 @@ public static partial class Roster
 {
     //Players
 
-    public static List<GenericPlayer> Players = new List<GenericPlayer>();
+    public static List<GenericPlayer> Players;
 
     private static GenericPlayer player1;
     public static GenericPlayer Player1 { get { return Players[0]; } }
@@ -18,7 +18,7 @@ public static partial class Roster
 
     //Ships
 
-    public static Dictionary<string, Ship.GenericShip> AllShips = new Dictionary<string, Ship.GenericShip>();
+    public static Dictionary<string, Ship.GenericShip> AllShips;
 
     private static Dictionary<string, Ship.GenericShip> shipsPlayer1;
     public static Dictionary<string, Ship.GenericShip> ShipsPlayer1 { get { return Players[0].Ships; } }
@@ -26,21 +26,10 @@ public static partial class Roster
     private static Dictionary<string, Ship.GenericShip> shipsPlayer2;
     public static Dictionary<string, Ship.GenericShip> ShipsPlayer2 {get { return Players[1].Ships; } }
 
-    private static GameManagerScript Game;
-
     public static void Start()
     {
         CreatePlayers();
         SpawnAllShips();
-    }
-
-    // Use this for initialization
-    static Roster()
-    {
-        Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-
-        //TODO: ???
-        //Game.Phases.OnCombatPhaseStart += HideAssignedDials;
     }
 
     //PLAYERS CREATION
@@ -80,8 +69,13 @@ public static partial class Roster
 
     public static void DestroyShip(string id)
     {
-        GetShipById(id).SetActive(false);
-        GetShipById(id).InfoPanel.SetActive(false);
+		var ship = GetShipById (id);
+        
+		if (ship != null) {
+			ship.SetActive(false);
+			ship.InfoPanel.SetActive(false);
+		}
+
         OrganizeRosterPositions();
 
         RemoveShipFromLists(id);
@@ -89,7 +83,12 @@ public static partial class Roster
 
     private static void RemoveShipFromLists(string id)
     {
-        GetShipById(id).Owner.Ships.Remove(id);
+		var ship = GetShipById (id);
+
+		if (ship == null)
+			return;
+
+        ship.Owner.Ships.Remove(id);
         AllShips.Remove(id);
     }
 
@@ -97,7 +96,11 @@ public static partial class Roster
 
     public static Ship.GenericShip GetShipById(string id)
     {
-        return AllShips[id];
+		if (AllShips.Any (x => x.Key == id)) {
+			return AllShips[id];
+		}
+
+		return null;
     }
 
     public static GenericPlayer GetPlayer(PlayerNo playerNo)

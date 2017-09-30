@@ -10,8 +10,6 @@ namespace UpgradesList
 
             Type = UpgradeType.Elite;
             Name = "Veteran Instincts";
-            ShortName = "Vet. Instincts";
-            ImageUrl = "https://vignette1.wikia.nocookie.net/xwing-miniatures/images/f/f3/Veteran_Instincts.png";
             Cost = 1;
         }
 

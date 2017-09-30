@@ -10,7 +10,6 @@ namespace SubPhases
 
         public override void Start()
         {
-            Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
             Name = "Movement";
             RequiredPilotSkill = PreviousSubPhase.RequiredPilotSkill;
             RequiredPlayer = PreviousSubPhase.RequiredPlayer;
@@ -21,12 +20,21 @@ namespace SubPhases
 
         public override void Initialize()
         {
+            UI.HideContextMenu();
+
             Selection.ThisShip.IsManeuverPerformed = true;
             Roster.AllShipsHighlightOff();
+
             Selection.ThisShip.ObstaclesHit = new List<Collider>();
+            Selection.ThisShip.MinesHit = new List<GameObject>();
 
             Selection.ThisShip.CallManeuverIsReadyToBeRevealed();
 
+            Selection.ThisShip.CallManeuverIsRevealed(PerformAssignedManeuver);
+        }
+
+        private void PerformAssignedManeuver()
+        {
             Selection.ThisShip.AssignedManeuver.Perform();
         }
 

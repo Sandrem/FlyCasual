@@ -13,6 +13,7 @@ namespace Ship
             public EWing() : base()
             {
                 Type = "E-Wing";
+
                 ManeuversImageUrl = "https://vignette1.wikia.nocookie.net/xwing-miniatures/images/3/3d/MR_T65-X-WING.png";
 
                 Firepower = 3;
@@ -20,15 +21,17 @@ namespace Ship
                 MaxHull = 2;
                 MaxShields = 3;
 
-                AddUpgradeSlot(Upgrade.UpgradeType.System);
-                AddUpgradeSlot(Upgrade.UpgradeType.Torpedoes);
-                AddUpgradeSlot(Upgrade.UpgradeType.Astromech);
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.System);
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Torpedo);
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Astromech);
 
                 AssignTemporaryManeuvers();
                 HotacManeuverTable = new AI.EWingTable();
 
                 factions.Add(Faction.Rebels);
                 faction = Faction.Rebels;
+
+                SkinName = "Red";
 
                 SoundShotsPath = "XWing-Laser";
                 ShotsCount = 3;

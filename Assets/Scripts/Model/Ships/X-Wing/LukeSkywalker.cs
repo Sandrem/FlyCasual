@@ -15,7 +15,7 @@ namespace Ship
                 IsUnique = true;
                 PilotSkill = 8;
                 Cost = 28;
-                AddUpgradeSlot(Upgrade.UpgradeType.Elite);
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
             }
 
             public override void InitializePilot()
@@ -48,7 +48,7 @@ namespace PilotAbilities
 
         public override void ActionEffect(System.Action callBack)
         {
-            Combat.CurentDiceRoll.ChangeOne(DiceSide.Focus, DiceSide.Success);
+            Combat.CurentDiceRoll.ChangeOne(DieSide.Focus, DieSide.Success);
             callBack();
         }
 

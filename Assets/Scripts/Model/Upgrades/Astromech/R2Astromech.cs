@@ -12,8 +12,7 @@ namespace UpgradesList
         public R2Astromech() : base()
         {
             Type = UpgradeType.Astromech;
-            Name = ShortName = "R2 Astromech";
-            ImageUrl = "https://vignette1.wikia.nocookie.net/xwing-miniatures/images/6/6a/R2_Astromech.jpg";
+            Name = "R2 Astromech";
             Cost = 1;
         }
 

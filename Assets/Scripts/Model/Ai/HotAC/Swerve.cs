@@ -11,14 +11,10 @@ namespace AI
         protected List<MovementStruct> alternativeManeuvers = new List<MovementStruct>();
         protected List<MovementStruct> failedManeuvers = new List<MovementStruct>();
 
-        protected GameManagerScript Game;
-
         private bool IsForced;
 
         public Swerve(bool isForced = false)
         {
-            Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-
             IsForced = isForced;
 
             alternativeManeuvers = GetAlternativeManeuvers(Selection.ThisShip.AssignedManeuver);
@@ -38,6 +34,7 @@ namespace AI
                 }
                 else
                 {
+                    GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
                     GenericMovement newMovementAttempt = Game.Movement.MovementFromStruct(maneuver);
 
                     if (DebugManager.DebugAI) Debug.Log("Tries: " + newMovementAttempt);
@@ -63,8 +60,10 @@ namespace AI
 
                 alternativeManeuvers = new List<MovementStruct>();
 
-                Selection.ThisShip.AssignedManeuver = movementPrediction.CurrentMovement;
-                Selection.ThisShip.AssignedManeuver.movementPrediction = movementPrediction;
+                GenericMovement assignedManeuver = movementPrediction.CurrentMovement;
+                assignedManeuver.movementPrediction = movementPrediction;
+
+                Selection.ThisShip.SetAssignedManeuver(assignedManeuver);
                 Selection.ThisShip.AssignedManeuver.LaunchShipMovement();
             }
             else

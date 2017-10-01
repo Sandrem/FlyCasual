@@ -311,7 +311,8 @@ namespace Movement
 
         public virtual void LaunchShipMovement()
         {
-            Selection.ThisShip.StartMoving(LaunchShipMovementContinue);
+            GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
+            Game.Wait(1, delegate { Selection.ThisShip.StartMoving(LaunchShipMovementContinue); });
         }
 
         private void LaunchShipMovementContinue()

@@ -371,6 +371,7 @@ namespace Movement
             GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
             Game.Movement.isMoving = false;
 
+            Selection.ThisShip.ApplyRotationHelpers();
             Selection.ThisShip.ResetRotationHelpers();
 
             ManeuverEndRotation(FinishMovementEvents);

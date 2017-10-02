@@ -12,6 +12,7 @@ namespace Movement
         protected float finisherTargetSuccess = 1;
         protected bool movementFinisherLaunched;
         private float lastPlanningRotation = 0;
+        private float lastPlanningRotation2 = 0;
 
         public NonStraightMovement(int speed, ManeuverDirection direction, ManeuverBearing bearing, ManeuverColor color) : base(speed, direction, bearing, color)
         {
@@ -215,7 +216,7 @@ namespace Movement
             if (MovementTemplates.CurrentTemplate.transform.Find("Finisher") != null)
             {
                 //Debug.Log("lastPlanningRotation: " + lastPlanningRotation);
-                temporaryShipStand.transform.localEulerAngles += new Vector3(0f, lastPlanningRotation, 0f);
+                temporaryShipStand.transform.localEulerAngles += new Vector3(0f, lastPlanningRotation+lastPlanningRotation2, 0f);
 
                 Vector3 point_ShipStandBack = temporaryShipStand.transform.TransformPoint(new Vector3(0f, 0f, -2 * Selection.ThisShip.ShipBase.HALF_OF_SHIPSTAND_SIZE));
                 //Selection.ThisShip.ShipBase.GetCentralBackPoint();
@@ -231,12 +232,14 @@ namespace Movement
                     if (Direction == ManeuverDirection.Left) turningDirection = -1;
 
                     Vector3 point_NearestMovementRulerCenter = MovementTemplates.FindNearestRulerCenterPoint(point_ShipStandBack);
+                    //Debug.Log("Back: " + point_ShipStandBack.x + " " + point_ShipStandBack.z + " / Nearest: " + point_NearestMovementRulerCenter.x + " " + point_NearestMovementRulerCenter.z);
 
                     Vector3 vector_ShipBackStand_ShipStandFront = point_ShipStandFront - point_ShipStandBack;
                     Vector3 vector_NearestMovementRulerCenter_ShipStandFront = point_ShipStandFront - point_NearestMovementRulerCenter;
                     float angle_ToShipStandBack_ToNearestMovementRulerCenter = Vector3.Angle(vector_ShipBackStand_ShipStandFront, vector_NearestMovementRulerCenter_ShipStandFront);
 
                     temporaryShipStand.transform.localEulerAngles += new Vector3(0, angle_ToShipStandBack_ToNearestMovementRulerCenter * turningDirection, 0);
+                    lastPlanningRotation2 += angle_ToShipStandBack_ToNearestMovementRulerCenter * turningDirection;
                     //lastPlanningRotation += angle_ToShipStandBack_ToNearestMovementRulerCenter;
                     //Debug.Log("Planning: current is " + temporaryShipStand.transform.localEulerAngles.y + ", adaptation is " + -angle_ToShipStandBack_ToNearestMovementRulerCenter);
                 }

@@ -56,10 +56,13 @@ namespace Movement
                 GameObject ShipStand = MonoBehaviour.Instantiate(prefab, position, Selection.ThisShip.GetRotation(), Board.BoardManager.GetBoard());
 
                 Renderer[] renderers = ShipStand.GetComponentsInChildren<Renderer>();
-                foreach (var render in renderers)
+                if (!DebugManager.DebugMovement)
                 {
-                    render.enabled = false;
-                }
+                    foreach (var render in renderers)
+                    {
+                        render.enabled = false;
+                    }
+                } 
 
                 result[i - 1] = ShipStand;
             }

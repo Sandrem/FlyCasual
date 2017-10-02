@@ -203,6 +203,8 @@ namespace Movement
                     float angle_ToShipStandBack_ToNearestMovementRulerCenter = Vector3.Angle(vector_ShipBackStand_ShipStandFront, vector_NearestMovementRulerCenter_ShipStandFront);
 
                     Selection.ThisShip.SetRotationHelper2Angles(new Vector3(0, angle_ToShipStandBack_ToNearestMovementRulerCenter * turningDirection, 0));
+
+                    //Debug.Log("Execution: current is " + Selection.ThisShip.Model.transform.localEulerAngles.y + ", adaptation is " + -angle_ToShipStandBack_ToNearestMovementRulerCenter);
                 }
 
             }
@@ -212,6 +214,8 @@ namespace Movement
         {
             if (MovementTemplates.CurrentTemplate.transform.Find("Finisher") != null)
             {
+                //Debug.Log("lastPlanningRotation: " + lastPlanningRotation);
+                temporaryShipStand.transform.localEulerAngles += new Vector3(0f, lastPlanningRotation, 0f);
 
                 Vector3 point_ShipStandBack = temporaryShipStand.transform.TransformPoint(new Vector3(0f, 0f, -2 * Selection.ThisShip.ShipBase.HALF_OF_SHIPSTAND_SIZE));
                 //Selection.ThisShip.ShipBase.GetCentralBackPoint();
@@ -232,8 +236,9 @@ namespace Movement
                     Vector3 vector_NearestMovementRulerCenter_ShipStandFront = point_ShipStandFront - point_NearestMovementRulerCenter;
                     float angle_ToShipStandBack_ToNearestMovementRulerCenter = Vector3.Angle(vector_ShipBackStand_ShipStandFront, vector_NearestMovementRulerCenter_ShipStandFront);
 
-                    temporaryShipStand.transform.localEulerAngles += new Vector3(0, -angle_ToShipStandBack_ToNearestMovementRulerCenter * turningDirection, 0);
-                    //Debug.Log(angle_ToShipStandBack_ToNearestMovementRulerCenter);
+                    temporaryShipStand.transform.localEulerAngles += new Vector3(0, angle_ToShipStandBack_ToNearestMovementRulerCenter * turningDirection, 0);
+                    //lastPlanningRotation += angle_ToShipStandBack_ToNearestMovementRulerCenter;
+                    //Debug.Log("Planning: current is " + temporaryShipStand.transform.localEulerAngles.y + ", adaptation is " + -angle_ToShipStandBack_ToNearestMovementRulerCenter);
                 }
 
             }

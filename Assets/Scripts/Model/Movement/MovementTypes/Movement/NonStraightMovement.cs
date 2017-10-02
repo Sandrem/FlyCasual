@@ -62,7 +62,6 @@ namespace Movement
                 UpdateRotationFinisher();
             }
 
-
             base.UpdateMovementExecution();
         }
 
@@ -283,7 +282,7 @@ namespace Movement
             savedShipStand.transform.localEulerAngles -= new Vector3(0f, lastPlanningRotation, 0f);
 
             position = lastShipStand.transform.position;
-            distancePart = GetMovement1() / 20;
+            distancePart = Selection.ThisShip.ShipBase.GetShipBaseDistance() / 20;
             for (int i = 1; i <= 20; i++)
             {
                 position = Vector3.MoveTowards(position, position + savedShipStand.transform.TransformDirection(Vector3.forward), distancePart);

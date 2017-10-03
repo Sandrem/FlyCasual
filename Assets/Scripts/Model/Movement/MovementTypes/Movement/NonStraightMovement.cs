@@ -107,38 +107,18 @@ namespace Movement
 
         public void UpdateRotation()
         {
-
-            float turningDirection = GetDirectionModifier();
-
-            Vector3 point_ShipStandBack = Selection.ThisShip.ShipBase.GetCentralBackPoint();
             Vector3 point_ShipStandFront = Selection.ThisShip.ShipBase.GetCentralFrontPoint();
-            float pathToProcessLeft = (MovementTemplates.CurrentTemplate.transform.InverseTransformPoint(point_ShipStandBack).x);
 
-            if (pathToProcessLeft > 0)
+            if (GetPathToProcessLeft(Selection.ThisShip.Model) > 0)
             {
-
-                float distance_ShipStandFront_RulerStart = Vector3.Distance(MovementTemplates.CurrentTemplate.transform.position, point_ShipStandFront);
-                float length_ShipStandFront_ShipStandBack = Selection.ThisShip.ShipBase.GetShipBaseDistance();
-                Vector3 vector_RulerStart_ShipStandFront = MovementTemplates.CurrentTemplate.transform.InverseTransformPoint(point_ShipStandFront);
-                Vector3 vector_RulerStart_RulerBack = Vector3.right; // Strange magic due to ruler's rotation
-
-                float angle_ToShipFront_ToRulerBack = Vector3.Angle(vector_RulerStart_ShipStandFront, vector_RulerStart_RulerBack);
-
-                float sinSecondAngle = (distance_ShipStandFront_RulerStart / length_ShipStandFront_ShipStandBack) * Mathf.Sin(angle_ToShipFront_ToRulerBack * Mathf.Deg2Rad);
-                float secondAngle = Mathf.Asin(sinSecondAngle) * Mathf.Rad2Deg;
-
-                float angle_ToShipFront_CorrectStandPosition = -(180 - secondAngle - angle_ToShipFront_ToRulerBack);
-                float rotationFix = angle_ToShipFront_CorrectStandPosition * turningDirection;
+                float rotationFix = GetRotationFix(Selection.ThisShip.Model);
                 Selection.ThisShip.SetRotationHelper2Angles(new Vector3(0, rotationFix, 0));
 
-                Vector3 standOrientationVector = MovementTemplates.CurrentTemplate.transform.InverseTransformPoint(Selection.ThisShip.ShipBase.GetCentralFrontPoint()) - MovementTemplates.CurrentTemplate.transform.InverseTransformPoint(Selection.ThisShip.ShipBase.GetCentralBackPoint());
-                float angleBetweenMinus = -Vector3.Angle(vector_RulerStart_ShipStandFront, standOrientationVector);
-                float angleFix = angleBetweenMinus * turningDirection;
+                float angleFix = GetAngleFix(Selection.ThisShip.Model);
                 Selection.ThisShip.UpdateRotationHelperAngles(new Vector3(0, angleFix, 0));
             }
 
-            MovementTemplates.AddRulerCenterPoint(point_ShipStandFront);
-
+            AddMovementTemplateCenterPoint(Selection.ThisShip.Model);
         }
 
         public void UpdateRotationFinisher()

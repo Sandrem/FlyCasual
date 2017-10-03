@@ -14,6 +14,8 @@ namespace Movement
         private float lastPlanningRotation = 0;
         private float lastPlanningRotation2 = 0;
 
+        // GENERAL
+
         public NonStraightMovement(int speed, ManeuverDirection direction, ManeuverBearing bearing, ManeuverColor color) : base(speed, direction, bearing, color)
         {
 
@@ -35,6 +37,14 @@ namespace Movement
         {
             return 0;
         }
+
+        public override void AdaptSuccessProgress()
+        {
+            ProgressTarget *= (movementPrediction.SuccessfullMovementProgress >= 0.8f) ? 1f : 10f * movementPrediction.SuccessfullMovementProgress / 8f;
+            finisherTargetSuccess *= (movementPrediction.SuccessfullMovementProgress >= 0.8f) ? 10f * (movementPrediction.SuccessfullMovementProgress - 0.8f) / 2f : 0f;
+        }
+
+        // MOVEMENT EXECUTION
 
         public override void UpdateMovementExecution()
         {
@@ -93,6 +103,8 @@ namespace Movement
             movementFinisherLaunched = true;
         }
 
+        // ROTATION
+
         public void UpdateRotation()
         {
 
@@ -129,62 +141,10 @@ namespace Movement
 
         }
 
-        public void UpdatePlanningRotation(GameObject temporaryShipStand)
-        {
-
-            float turningDirection = GetDirectionModifier();
-
-            temporaryShipStand.transform.localEulerAngles += new Vector3(0, lastPlanningRotation, 0);
-
-            Vector3 point_ShipStandBack = GetShipBaseBackPoint(temporaryShipStand);
-            //Debug.Log("point_ShipStandBack: " + point_ShipStandBack.x + " " + point_ShipStandBack.z);
-            //Selection.ThisShip.ShipBase.GetCentralBackPoint();
-            Vector3 point_ShipStandFront = temporaryShipStand.transform.TransformPoint(Vector3.zero);
-            //Selection.ThisShip.ShipBase.GetCentralFrontPoint();
-
-            temporaryShipStand.transform.localEulerAngles -= new Vector3(0, lastPlanningRotation, 0);
-
-            float pathToProcessLeft = (MovementTemplates.CurrentTemplate.transform.InverseTransformPoint(point_ShipStandBack).x);
-
-            if (pathToProcessLeft > 0)
-            {
-                float distance_ShipStandFront_RulerStart = Vector3.Distance(MovementTemplates.CurrentTemplate.transform.position, point_ShipStandFront);
-                float length_ShipStandFront_ShipStandBack = Selection.ThisShip.ShipBase.GetShipBaseDistance();
-                Vector3 vector_RulerStart_ShipStandFront = MovementTemplates.CurrentTemplate.transform.InverseTransformPoint(point_ShipStandFront);
-                Vector3 vector_RulerStart_RulerBack = Vector3.right; // Strange magic due to ruler's rotation
-
-                float angle_ToShipFront_ToRulerBack = Vector3.Angle(vector_RulerStart_ShipStandFront, vector_RulerStart_RulerBack);
-
-                float sinSecondAngle = (distance_ShipStandFront_RulerStart / length_ShipStandFront_ShipStandBack) * Mathf.Sin(angle_ToShipFront_ToRulerBack * Mathf.Deg2Rad);
-                float secondAngle = Mathf.Asin(sinSecondAngle) * Mathf.Rad2Deg;
-
-                float angle_ToShipFront_CorrectStandPosition = -(180 - secondAngle - angle_ToShipFront_ToRulerBack);
-                float rotationFix = angle_ToShipFront_CorrectStandPosition * turningDirection;
-                temporaryShipStand.transform.localEulerAngles += new Vector3(0, rotationFix, 0);
-                //Selection.ThisShip.SetRotationHelper2Angles(new Vector3(0, rotationFix, 0));
-
-
-                Vector3 standOrientationVector = MovementTemplates.CurrentTemplate.transform.InverseTransformPoint(Selection.ThisShip.ShipBase.GetCentralFrontPoint()) - MovementTemplates.CurrentTemplate.transform.InverseTransformPoint(Selection.ThisShip.ShipBase.GetCentralBackPoint());
-                float angleBetweenMinus = -Vector3.Angle(vector_RulerStart_ShipStandFront, standOrientationVector);
-                float angleFix = angleBetweenMinus * turningDirection;
-                temporaryShipStand.transform.localEulerAngles += new Vector3(0, angleFix, 0);
-                //Selection.ThisShip.UpdateRotationHelperAngles(new Vector3(0, angleFix, 0));
-
-                lastPlanningRotation = rotationFix + angleFix;
-            }
-            else
-            {
-                temporaryShipStand.transform.localEulerAngles += new Vector3(0, lastPlanningRotation, 0);
-                //Debug.Log(lastPlanningRotation);*/
-            }
-
-            MovementTemplates.AddRulerCenterPoint(point_ShipStandFront);
-
-        }
-
         public void UpdateRotationFinisher()
         {
-            if (MovementTemplates.CurrentTemplate.transform.Find("Finisher") != null) {
+            if (MovementTemplates.CurrentTemplate.transform.Find("Finisher") != null)
+            {
 
                 Vector3 point_ShipStandBack = Selection.ThisShip.ShipBase.GetCentralBackPoint();
                 Vector3 point_ShipStandFront = Selection.ThisShip.ShipBase.GetCentralFrontPoint();
@@ -207,6 +167,105 @@ namespace Movement
                 }
 
             }
+        }
+
+        // PLANNING
+
+        public override GameObject[] PlanMovement()
+        {
+            //Temporary
+            MovementTemplates.ApplyMovementRuler(Selection.ThisShip);
+
+            GameObject[] result = new GameObject[100];
+
+            float distancePart = ProgressTarget / 80;
+            Vector3 position = Selection.ThisShip.GetPosition();
+
+            GameObject lastShipStand = null;
+            for (int i = 1; i <= 80; i++)
+            {
+                float step = (float)i * distancePart;
+                GameObject prefab = (GameObject)Resources.Load(Selection.ThisShip.ShipBase.TemporaryPrefabPath, typeof(GameObject));
+                GameObject ShipStand = MonoBehaviour.Instantiate(prefab, position, Selection.ThisShip.GetRotation(), Board.BoardManager.GetBoard());
+
+                Renderer[] renderers = ShipStand.GetComponentsInChildren<Renderer>();
+                if (!DebugManager.DebugMovement)
+                {
+                    foreach (var render in renderers)
+                    {
+                        render.enabled = false;
+                    }
+                }
+
+                float turningDirection = (Direction == ManeuverDirection.Right) ? 1 : -1;
+                int progressDirection = 1;
+                ShipStand.transform.RotateAround(Selection.ThisShip.TransformPoint(new Vector3(turningAroundDistance * turningDirection, 0, 0)), new Vector3(0, 1, 0), turningDirection * step * progressDirection);
+
+                UpdatePlanningRotation(ShipStand);
+
+                if (i == 80) lastShipStand = ShipStand;
+
+                result[i - 1] = ShipStand;
+
+                ShipStand.name = "Main" + i;
+            }
+
+            GameObject savedShipStand = MonoBehaviour.Instantiate(lastShipStand);
+            savedShipStand.transform.localEulerAngles -= new Vector3(0f, lastPlanningRotation, 0f);
+
+            position = lastShipStand.transform.position;
+            distancePart = Selection.ThisShip.ShipBase.GetShipBaseDistance() / 20;
+            for (int i = 1; i <= 20; i++)
+            {
+                position = Vector3.MoveTowards(position, position + savedShipStand.transform.TransformDirection(Vector3.forward), distancePart);
+                GameObject prefab = (GameObject)Resources.Load(Selection.ThisShip.ShipBase.TemporaryPrefabPath, typeof(GameObject));
+                GameObject ShipStand = MonoBehaviour.Instantiate(prefab, position, savedShipStand.transform.rotation, Board.BoardManager.GetBoard());
+
+                Renderer[] renderers = ShipStand.GetComponentsInChildren<Renderer>();
+                if (!DebugManager.DebugMovement)
+                {
+                    foreach (var render in renderers)
+                    {
+                        render.enabled = false;
+                    }
+                }
+
+                UpdatePlanningRotationFinisher(ShipStand);
+
+                result[i + 80 - 1] = ShipStand;
+
+                ShipStand.name = "Finishing" + i;
+            }
+
+            MonoBehaviour.Destroy(savedShipStand);
+
+            MovementTemplates.HideLastMovementRuler();
+
+            return result;
+        }
+
+        // PLANNING ROTATION
+
+        public void UpdatePlanningRotation(GameObject temporaryShipStand)
+        {
+            float pathToProcessLeft = GetPathToProcessLeft(temporaryShipStand);
+
+            if (pathToProcessLeft > 0)
+            {
+                float rotationFix = GetRotationFix(temporaryShipStand);
+                temporaryShipStand.transform.localEulerAngles += new Vector3(0, rotationFix, 0);
+
+                float angleFix = GetAngleFix(temporaryShipStand);
+                temporaryShipStand.transform.localEulerAngles += new Vector3(0, angleFix, 0);
+
+                lastPlanningRotation = rotationFix + angleFix;
+            }
+            else
+            {
+                AdaptShipBaseToPreviousRotation(temporaryShipStand);
+            }
+
+            AddMovementTemplateCenterPoint(temporaryShipStand);
         }
 
         public void UpdatePlanningRotationFinisher(GameObject temporaryShipStand)
@@ -297,6 +356,8 @@ namespace Movement
             }
         }
 
+        // SUBS
+
         private Vector3 FindNearestRulerCenterPointUsingRotation(GameObject shipBase)
         {
             Vector3 result = new Vector3(float.MaxValue, float.MaxValue, float.MaxValue);
@@ -342,83 +403,65 @@ namespace Movement
             return result;
         }
 
-        public override GameObject[] PlanMovement()
+        private void AdaptShipBaseToPreviousRotation(GameObject shipBase, bool isReverse = false)
         {
-            //Temporary
-            MovementTemplates.ApplyMovementRuler(Selection.ThisShip);
+            int modifier = (isReverse) ? -1 : 1;
+            shipBase.transform.localEulerAngles += new Vector3(0, modifier * lastPlanningRotation, 0);
+        }
 
-            GameObject[] result = new GameObject[100];
+        private float GetRotationFix(GameObject shipBase)
+        {
+            float result = 0;
 
-            float distancePart = ProgressTarget / 80;
-            Vector3 position = Selection.ThisShip.GetPosition();
+            Vector3 point_ShipStandFront = shipBase.transform.TransformPoint(Vector3.zero);
+            Vector3 vector_RulerStart_ShipStandFront = MovementTemplates.CurrentTemplate.transform.InverseTransformPoint(point_ShipStandFront);
 
-            GameObject lastShipStand = null;
-            for (int i = 1; i <= 80; i++)
-            {
-                float step = (float)i * distancePart;
-                GameObject prefab = (GameObject)Resources.Load(Selection.ThisShip.ShipBase.TemporaryPrefabPath, typeof(GameObject));
-                GameObject ShipStand = MonoBehaviour.Instantiate(prefab, position, Selection.ThisShip.GetRotation(), Board.BoardManager.GetBoard());
+            float distance_ShipStandFront_RulerStart = Vector3.Distance(MovementTemplates.CurrentTemplate.transform.position, point_ShipStandFront);
+            float length_ShipStandFront_ShipStandBack = Selection.ThisShip.ShipBase.GetShipBaseDistance();
 
-                Renderer[] renderers = ShipStand.GetComponentsInChildren<Renderer>();
-                if (!DebugManager.DebugMovement)
-                {
-                    foreach (var render in renderers)
-                    {
-                        render.enabled = false;
-                    }
-                }
+            Vector3 vector_RulerStart_RulerBack = Vector3.right; // Strange magic due to ruler's rotation
 
-                float turningDirection = (Direction == ManeuverDirection.Right) ? 1 : -1;
-                int progressDirection = 1;
-                ShipStand.transform.RotateAround(Selection.ThisShip.TransformPoint(new Vector3(turningAroundDistance * turningDirection, 0, 0)), new Vector3(0, 1, 0), turningDirection * step * progressDirection);
+            float angle_ToShipFront_ToRulerBack = Vector3.Angle(vector_RulerStart_ShipStandFront, vector_RulerStart_RulerBack);
 
-                UpdatePlanningRotation(ShipStand);
+            float sinSecondAngle = (distance_ShipStandFront_RulerStart / length_ShipStandFront_ShipStandBack) * Mathf.Sin(angle_ToShipFront_ToRulerBack * Mathf.Deg2Rad);
+            float secondAngle = Mathf.Asin(sinSecondAngle) * Mathf.Rad2Deg;
 
-                if (i == 80) lastShipStand = ShipStand;
-
-                result[i - 1] = ShipStand;
-
-                ShipStand.name = "Main" + i;
-            }
-
-            GameObject savedShipStand = MonoBehaviour.Instantiate(lastShipStand);
-            savedShipStand.transform.localEulerAngles -= new Vector3(0f, lastPlanningRotation, 0f);
-
-            position = lastShipStand.transform.position;
-            distancePart = Selection.ThisShip.ShipBase.GetShipBaseDistance() / 20;
-            for (int i = 1; i <= 20; i++)
-            {
-                position = Vector3.MoveTowards(position, position + savedShipStand.transform.TransformDirection(Vector3.forward), distancePart);
-                GameObject prefab = (GameObject)Resources.Load(Selection.ThisShip.ShipBase.TemporaryPrefabPath, typeof(GameObject));
-                GameObject ShipStand = MonoBehaviour.Instantiate(prefab, position, savedShipStand.transform.rotation, Board.BoardManager.GetBoard());
-
-                Renderer[] renderers = ShipStand.GetComponentsInChildren<Renderer>();
-                if (!DebugManager.DebugMovement)
-                {
-                    foreach (var render in renderers)
-                    {
-                        render.enabled = false;
-                    }
-                }
-
-                UpdatePlanningRotationFinisher(ShipStand);
-
-                result[i + 80 - 1] = ShipStand;
-
-                ShipStand.name = "Finishing" + i;
-            }
-
-            MonoBehaviour.Destroy(savedShipStand);
-
-            MovementTemplates.HideLastMovementRuler();
+            float angle_ToShipFront_CorrectStandPosition = -(180 - secondAngle - angle_ToShipFront_ToRulerBack);
+            result = angle_ToShipFront_CorrectStandPosition * GetDirectionModifier();
 
             return result;
         }
 
-        public override void AdaptSuccessProgress()
+        private float GetAngleFix(GameObject shipBase)
         {
-            ProgressTarget *= (movementPrediction.SuccessfullMovementProgress >= 0.8f) ? 1f : 10f * movementPrediction.SuccessfullMovementProgress / 8f;
-            finisherTargetSuccess *= (movementPrediction.SuccessfullMovementProgress >= 0.8f) ? 10f * (movementPrediction.SuccessfullMovementProgress - 0.8f) / 2f : 0f;
+            float result = 0;
+
+            Vector3 point_ShipStandFront = shipBase.transform.TransformPoint(Vector3.zero);
+            Vector3 vector_RulerStart_ShipStandFront = MovementTemplates.CurrentTemplate.transform.InverseTransformPoint(point_ShipStandFront);
+
+            Vector3 standOrientationVector = MovementTemplates.CurrentTemplate.transform.InverseTransformPoint(Selection.ThisShip.ShipBase.GetCentralFrontPoint()) - MovementTemplates.CurrentTemplate.transform.InverseTransformPoint(Selection.ThisShip.ShipBase.GetCentralBackPoint());
+            float angleBetweenMinus = -Vector3.Angle(vector_RulerStart_ShipStandFront, standOrientationVector);
+            result = angleBetweenMinus * GetDirectionModifier();
+
+            return result;
+        }
+
+        private static void AddMovementTemplateCenterPoint(GameObject shipBase)
+        {
+            Vector3 point_ShipStandFront = shipBase.transform.TransformPoint(Vector3.zero);
+            MovementTemplates.AddRulerCenterPoint(point_ShipStandFront);
+        }
+
+        private float GetPathToProcessLeft(GameObject shipBase)
+        {
+            AdaptShipBaseToPreviousRotation(shipBase);
+
+            Vector3 point_ShipStandBack = GetShipBaseBackPoint(shipBase);
+            float pathToProcessLeft = (MovementTemplates.CurrentTemplate.transform.InverseTransformPoint(point_ShipStandBack).x);
+
+            AdaptShipBaseToPreviousRotation(shipBase, true);
+
+            return pathToProcessLeft;
         }
 
     }

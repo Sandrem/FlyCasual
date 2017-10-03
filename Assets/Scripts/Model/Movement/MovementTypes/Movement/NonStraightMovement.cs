@@ -96,9 +96,7 @@ namespace Movement
         public void UpdateRotation()
         {
 
-            float turningDirection = 0;
-            if (Direction == ManeuverDirection.Right) turningDirection = 1;
-            if (Direction == ManeuverDirection.Left) turningDirection = -1;
+            float turningDirection = GetDirectionModifier();
 
             Vector3 point_ShipStandBack = Selection.ThisShip.ShipBase.GetCentralBackPoint();
             Vector3 point_ShipStandFront = Selection.ThisShip.ShipBase.GetCentralFrontPoint();
@@ -134,13 +132,11 @@ namespace Movement
         public void UpdatePlanningRotation(GameObject temporaryShipStand)
         {
 
-            float turningDirection = 0;
-            if (Direction == ManeuverDirection.Right) turningDirection = 1;
-            if (Direction == ManeuverDirection.Left) turningDirection = -1;
+            float turningDirection = GetDirectionModifier();
 
             temporaryShipStand.transform.localEulerAngles += new Vector3(0, lastPlanningRotation, 0);
 
-            Vector3 point_ShipStandBack = temporaryShipStand.transform.TransformPoint(new Vector3(0f, 0f, -2 * Selection.ThisShip.ShipBase.HALF_OF_SHIPSTAND_SIZE));
+            Vector3 point_ShipStandBack = GetShipBaseBackPoint(temporaryShipStand);
             //Debug.Log("point_ShipStandBack: " + point_ShipStandBack.x + " " + point_ShipStandBack.z);
             //Selection.ThisShip.ShipBase.GetCentralBackPoint();
             Vector3 point_ShipStandFront = temporaryShipStand.transform.TransformPoint(Vector3.zero);
@@ -197,9 +193,7 @@ namespace Movement
 
                 if (pathToProcessFinishingLeft > 0)
                 {
-                    float turningDirection = 0;
-                    if (Direction == ManeuverDirection.Right) turningDirection = 1;
-                    if (Direction == ManeuverDirection.Left) turningDirection = -1;
+                    float turningDirection = GetDirectionModifier();
 
                     Vector3 point_NearestMovementRulerCenter = MovementTemplates.FindNearestRulerCenterPoint(point_ShipStandBack);
 
@@ -222,14 +216,12 @@ namespace Movement
                 //Debug.Log("lastPlanningRotation: " + lastPlanningRotation);
                 temporaryShipStand.transform.localEulerAngles += new Vector3(0f, lastPlanningRotation, 0f);
 
-                Vector3 point_ShipStandBack = temporaryShipStand.transform.TransformPoint(new Vector3(0f, 0f, -2 * Selection.ThisShip.ShipBase.HALF_OF_SHIPSTAND_SIZE));
+                Vector3 point_ShipStandBack = GetShipBaseBackPoint(temporaryShipStand);
                 //Selection.ThisShip.ShipBase.GetCentralBackPoint();
                 Vector3 point_ShipStandFront = temporaryShipStand.transform.TransformPoint(Vector3.zero);
                 //Selection.ThisShip.ShipBase.GetCentralFrontPoint();
 
-                float turningDirection = 0;
-                if (Direction == ManeuverDirection.Right) turningDirection = 1;
-                if (Direction == ManeuverDirection.Left) turningDirection = -1;
+                float turningDirection = GetDirectionModifier();
 
                 float distance_ShipStandFront_RulerStart = Vector3.Distance(MovementTemplates.CurrentTemplate.transform.position, point_ShipStandFront);
                 float length_ShipStandFront_ShipStandBack = Selection.ThisShip.ShipBase.GetShipBaseDistance();
@@ -264,7 +256,7 @@ namespace Movement
 
                     //Debug.Log("angleFix " + angleFix);
 
-                    point_ShipStandBack = temporaryShipStand.transform.TransformPoint(new Vector3(0f, 0f, -2 * Selection.ThisShip.ShipBase.HALF_OF_SHIPSTAND_SIZE));
+                    point_ShipStandBack = GetShipBaseBackPoint(temporaryShipStand);
                     float pathToProcessLeft = (MovementTemplates.CurrentTemplate.transform.InverseTransformPoint(point_ShipStandBack).x);
                     //Debug.Log("pathToProcessLeft " + pathToProcessLeft);
                     
@@ -281,27 +273,21 @@ namespace Movement
 
                 if (!isSuccesfull)
                 {
-                    Debug.Log("Plan B");
-
                     float pathToProcessFinishingLeft = (MovementTemplates.CurrentTemplate.transform.Find("Finisher").InverseTransformPoint(point_ShipStandFront).x);
 
                     if (pathToProcessFinishingLeft > 0)
                     {
                         temporaryShipStand.transform.localEulerAngles += new Vector3(0f, lastPlanningRotation2, 0f);
-                        Debug.Log("lastPlanningRotation2 " + lastPlanningRotation2);
 
                         point_ShipStandBack = temporaryShipStand.transform.TransformPoint(new Vector3(0f, 0f, -2 * Selection.ThisShip.ShipBase.HALF_OF_SHIPSTAND_SIZE));
 
-                        Vector3 point_NearestMovementRulerCenter = MovementTemplates.FindNearestRulerCenterPoint(point_ShipStandBack);
-                        Debug.Log("Back: " + point_ShipStandBack.x + " " + point_ShipStandBack.z + " / Nearest: " + point_NearestMovementRulerCenter.x + " " + point_NearestMovementRulerCenter.z);
-
+                        Vector3 point_NearestMovementRulerCenter = FindNearestRulerCenterPointUsingRotation(temporaryShipStand);
+                        
                         Vector3 vector_ShipBackStand_ShipStandFront = point_ShipStandFront - point_ShipStandBack;
                         Vector3 vector_NearestMovementRulerCenter_ShipStandFront = point_ShipStandFront - point_NearestMovementRulerCenter;
                         float angle_ToShipStandBack_ToNearestMovementRulerCenter = Vector3.Angle(vector_ShipBackStand_ShipStandFront, vector_NearestMovementRulerCenter_ShipStandFront);
 
-                        Debug.Log("angle_ToShipStandBack_ToNearestMovementRulerCenter " + angle_ToShipStandBack_ToNearestMovementRulerCenter * turningDirection);
-
-                        //temporaryShipStand.transform.localEulerAngles += new Vector3(0, angle_ToShipStandBack_ToNearestMovementRulerCenter * turningDirection, 0);
+                        temporaryShipStand.transform.localEulerAngles += new Vector3(0, angle_ToShipStandBack_ToNearestMovementRulerCenter * turningDirection, 0);
                         //lastPlanningRotation2 += angle_ToShipStandBack_ToNearestMovementRulerCenter * turningDirection;
                         //lastPlanningRotation += angle_ToShipStandBack_ToNearestMovementRulerCenter;
                         //Debug.Log("Planning: current is " + temporaryShipStand.transform.localEulerAngles.y + ", adaptation is " + -angle_ToShipStandBack_ToNearestMovementRulerCenter);
@@ -309,6 +295,51 @@ namespace Movement
                 }
 
             }
+        }
+
+        private Vector3 FindNearestRulerCenterPointUsingRotation(GameObject shipBase)
+        {
+            Vector3 result = new Vector3(float.MaxValue, float.MaxValue, float.MaxValue);
+            Vector3 savedRotation = shipBase.transform.localEulerAngles;
+            float minDistance = float.MaxValue;
+            float distanceToNearestPoint = float.MaxValue;
+
+            do
+            {
+                minDistance = distanceToNearestPoint;
+
+                Vector3 point_ShipStandBack = GetShipBaseBackPoint(shipBase);
+                Vector3 point_NearestMovementRulerCenter = MovementTemplates.FindNearestRulerCenterPoint(point_ShipStandBack);
+
+                distanceToNearestPoint = Vector3.Distance(point_ShipStandBack, point_NearestMovementRulerCenter);
+
+                if (distanceToNearestPoint < minDistance)
+                {
+                    result = point_NearestMovementRulerCenter;
+                }
+
+                int directionModifier = GetDirectionModifier();
+                shipBase.transform.localEulerAngles += new Vector3(0, 1 * directionModifier, 0);
+
+            }
+            while (distanceToNearestPoint < minDistance);
+
+            shipBase.transform.localEulerAngles = savedRotation;
+
+            return result;
+        }
+
+        private Vector3 GetShipBaseBackPoint(GameObject shipBase)
+        {
+            return shipBase.transform.TransformPoint(new Vector3(0f, 0f, -2 * Selection.ThisShip.ShipBase.HALF_OF_SHIPSTAND_SIZE));
+        }
+
+        private int GetDirectionModifier()
+        {
+            int result = 0;
+            if (Direction == ManeuverDirection.Right) result = 1;
+            if (Direction == ManeuverDirection.Left) result = -1;
+            return result;
         }
 
         public override GameObject[] PlanMovement()

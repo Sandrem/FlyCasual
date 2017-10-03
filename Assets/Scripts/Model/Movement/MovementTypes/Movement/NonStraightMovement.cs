@@ -125,27 +125,38 @@ namespace Movement
         {
             if (MovementTemplates.CurrentTemplate.transform.Find("Finisher") != null)
             {
+                //bool isSuccessfull = TryRotateUsingStarter(Selection.ThisShip.Model);
+                bool isSuccessfull = false;
 
-                Vector3 point_ShipStandBack = Selection.ThisShip.ShipBase.GetCentralBackPoint();
-                Vector3 point_ShipStandFront = Selection.ThisShip.ShipBase.GetCentralFrontPoint();
-
-                float pathToProcessFinishingLeft = (MovementTemplates.CurrentTemplate.transform.Find("Finisher").InverseTransformPoint(point_ShipStandFront).x);
-
-                if (pathToProcessFinishingLeft > 0)
+                if (!isSuccessfull)
                 {
-                    float turningDirection = GetDirectionModifier();
-
-                    Vector3 point_NearestMovementRulerCenter = MovementTemplates.FindNearestRulerCenterPoint(point_ShipStandBack);
-
-                    Vector3 vector_ShipBackStand_ShipStandFront = point_ShipStandFront - point_ShipStandBack;
-                    Vector3 vector_NearestMovementRulerCenter_ShipStandFront = point_ShipStandFront - point_NearestMovementRulerCenter;
-                    float angle_ToShipStandBack_ToNearestMovementRulerCenter = Vector3.Angle(vector_ShipBackStand_ShipStandFront, vector_NearestMovementRulerCenter_ShipStandFront);
-
-                    Selection.ThisShip.SetRotationHelper2Angles(new Vector3(0, angle_ToShipStandBack_ToNearestMovementRulerCenter * turningDirection, 0));
-
-                    //Debug.Log("Execution: current is " + Selection.ThisShip.Model.transform.localEulerAngles.y + ", adaptation is " + -angle_ToShipStandBack_ToNearestMovementRulerCenter);
+                    if (GetPathToProcessFinisherLeft(Selection.ThisShip.Model) > 0)
+                    {
+                        float angleToNearestCenterPoint = GetAngleToLastSavedTemplateCenterPoint(Selection.ThisShip.Model);
+                        Debug.Log(angleToNearestCenterPoint);
+                        Selection.ThisShip.SetRotationHelper2Angles(new Vector3(0, angleToNearestCenterPoint * GetDirectionModifier(), 0));
+                    }
                 }
+            }
+        }
 
+        //TEMPORARY
+        public void UpdatePlanningRotationFinisher1(GameObject temporaryShipStand)
+        {
+            if (MovementTemplates.CurrentTemplate.transform.Find("Finisher") != null)
+            {
+                bool isSuccessfull = TryPlanningRotateUsingStarter(temporaryShipStand);
+
+                if (!isSuccessfull)
+                {
+                    if (GetPathToProcessFinisherLeft(temporaryShipStand) > 0)
+                    {
+                        AdaptShipBaseToRotation(temporaryShipStand, lastPlanningRotation2);
+
+                        float angleToNearestCenterPoint = GetAngleToLastSavedTemplateCenterPoint(temporaryShipStand);
+                        temporaryShipStand.transform.localEulerAngles += new Vector3(0, angleToNearestCenterPoint * GetDirectionModifier(), 0);
+                    }
+                }
             }
         }
 
@@ -228,11 +239,11 @@ namespace Movement
 
         public void UpdatePlanningRotation(GameObject temporaryShipStand)
         {
-            AdaptShipBaseToPreviousRotation(temporaryShipStand, lastPlanningRotation);
+            AdaptShipBaseToRotation(temporaryShipStand, lastPlanningRotation);
 
             float pathToProcessLeft = GetPathToProcessLeft(temporaryShipStand);
 
-            AdaptShipBaseToPreviousRotation(temporaryShipStand, lastPlanningRotation, true);
+            AdaptShipBaseToRotation(temporaryShipStand, lastPlanningRotation, true);
 
             if (pathToProcessLeft > 0)
             {
@@ -246,7 +257,7 @@ namespace Movement
             }
             else
             {
-                AdaptShipBaseToPreviousRotation(temporaryShipStand, lastPlanningRotation);
+                AdaptShipBaseToRotation(temporaryShipStand, lastPlanningRotation);
             }
 
             AddMovementTemplateCenterPoint(temporaryShipStand);
@@ -256,13 +267,13 @@ namespace Movement
         {
             if (MovementTemplates.CurrentTemplate.transform.Find("Finisher") != null)
             {
-                bool isSuccessfull = TryRotateUsingStarter(temporaryShipStand);
+                bool isSuccessfull = TryPlanningRotateUsingStarter(temporaryShipStand);
 
                 if (!isSuccessfull)
                 {
                     if (GetPathToProcessFinisherLeft(temporaryShipStand) > 0)
                     {
-                        AdaptShipBaseToPreviousRotation(temporaryShipStand, lastPlanningRotation2);
+                        AdaptShipBaseToRotation(temporaryShipStand, lastPlanningRotation2);
 
                         float angleToNearestCenterPoint = GetAngleToLastSavedTemplateCenterPoint(temporaryShipStand);
                         temporaryShipStand.transform.localEulerAngles += new Vector3(0, angleToNearestCenterPoint * GetDirectionModifier(), 0);
@@ -331,7 +342,7 @@ namespace Movement
             return (Direction == ManeuverDirection.Right) ? 1 : -1;
         }
 
-        private void AdaptShipBaseToPreviousRotation(GameObject shipBase, float value, bool isReverse = false)
+        private void AdaptShipBaseToRotation(GameObject shipBase, float value, bool isReverse = false)
         {
             int modifier = (isReverse) ? -1 : 1;
             shipBase.transform.localEulerAngles += new Vector3(0, modifier * value, 0);
@@ -429,9 +440,9 @@ namespace Movement
             return result;
         }
 
-        private bool TryRotateUsingStarter(GameObject shipBase)
+        private bool TryPlanningRotateUsingStarter(GameObject shipBase)
         {
-            AdaptShipBaseToPreviousRotation(shipBase, lastPlanningRotation);
+            AdaptShipBaseToRotation(shipBase, lastPlanningRotation);
 
             float rotationFix = TryGetRotationFixFinisher(shipBase);
 
@@ -443,7 +454,7 @@ namespace Movement
 
                 float angleFix = GetAngleFixRotation(shipBase);
 
-                AdaptShipBaseToPreviousRotation(shipBase, rotationFix + angleFix);
+                AdaptShipBaseToRotation(shipBase, rotationFix + angleFix);
 
                 if (GetPathToProcessLeft(shipBase) > 0)
                 {
@@ -452,7 +463,35 @@ namespace Movement
                 else
                 {
                     result = false;
-                    AdaptShipBaseToPreviousRotation(shipBase, rotationFix + angleFix, true);
+                    AdaptShipBaseToRotation(shipBase, rotationFix + angleFix, true);
+                }
+            }
+
+            return result;
+        }
+
+        private bool TryRotateUsingStarter(GameObject shipBase)
+        {
+            float rotationFix = TryGetRotationFixFinisher(shipBase);
+
+            bool result = false;
+
+            if (!float.IsNaN(rotationFix))
+            {
+                result = true;
+
+                float angleFix = GetAngleFixRotation(shipBase);
+
+                Selection.ThisShip.SetRotationHelper2Angles(new Vector3(0, rotationFix, 0));
+                Selection.ThisShip.UpdateRotationHelperAngles(new Vector3(0, angleFix, 0));
+
+                if (GetPathToProcessLeft(shipBase) <= 0)
+                {
+                    result = false;
+
+                    //POSSIBLE PROBLEM, MAYBE RESTORATION IS NEEDED
+                    Selection.ThisShip.SetRotationHelper2Angles(new Vector3(0, -rotationFix, 0));
+                    Selection.ThisShip.UpdateRotationHelperAngles(new Vector3(0, -angleFix, 0));
                 }
             }
 

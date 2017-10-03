@@ -348,10 +348,7 @@ namespace Movement
 
         private int GetDirectionModifier()
         {
-            int result = 0;
-            if (Direction == ManeuverDirection.Right) result = 1;
-            if (Direction == ManeuverDirection.Left) result = -1;
-            return result;
+            return (Direction == ManeuverDirection.Right) ? 1 : -1;
         }
 
         private void AdaptShipBaseToPreviousRotation(GameObject shipBase, float value, bool isReverse = false)

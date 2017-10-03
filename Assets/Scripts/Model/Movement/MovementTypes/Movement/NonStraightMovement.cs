@@ -280,26 +280,31 @@ namespace Movement
 
                 if (!isSuccessfull)
                 {
-                    Vector3 point_ShipStandFront = temporaryShipStand.transform.TransformPoint(Vector3.zero);
-                    float pathToProcessFinishingLeft = (MovementTemplates.CurrentTemplate.transform.Find("Finisher").InverseTransformPoint(point_ShipStandFront).x);
-
-                    if (pathToProcessFinishingLeft > 0)
+                    if (GetPathToProcessFinisherLeft(temporaryShipStand) > 0)
                     {
-                        temporaryShipStand.transform.localEulerAngles += new Vector3(0f, lastPlanningRotation2, 0f);
+                        AdaptShipBaseToPreviousRotation(temporaryShipStand, lastPlanningRotation2);
 
-                        Vector3 point_ShipStandBack = temporaryShipStand.transform.TransformPoint(new Vector3(0f, 0f, -2 * Selection.ThisShip.ShipBase.HALF_OF_SHIPSTAND_SIZE));
-
-                        Vector3 point_NearestMovementRulerCenter = FindNearestRulerCenterPointUsingRotation(temporaryShipStand);
-                        
-                        Vector3 vector_ShipBackStand_ShipStandFront = point_ShipStandFront - point_ShipStandBack;
-                        Vector3 vector_NearestMovementRulerCenter_ShipStandFront = point_ShipStandFront - point_NearestMovementRulerCenter;
-                        float angle_ToShipStandBack_ToNearestMovementRulerCenter = Vector3.Angle(vector_ShipBackStand_ShipStandFront, vector_NearestMovementRulerCenter_ShipStandFront);
-
-                        temporaryShipStand.transform.localEulerAngles += new Vector3(0, angle_ToShipStandBack_ToNearestMovementRulerCenter * GetDirectionModifier(), 0);
+                        float angleToNearestCenterPoint = GetAngleToLastSavedTemplateCenterPoint(temporaryShipStand);
+                        temporaryShipStand.transform.localEulerAngles += new Vector3(0, angleToNearestCenterPoint * GetDirectionModifier(), 0);
                     }
                 }
-
             }
+        }
+
+        private float GetAngleToLastSavedTemplateCenterPoint(GameObject shipBase)
+        {
+            float result = 0;
+
+            Vector3 point_ShipStandBack = GetShipBaseBackPoint(shipBase);
+            Vector3 point_ShipStandFront = shipBase.transform.TransformPoint(Vector3.zero);
+
+            Vector3 point_NearestMovementRulerCenter = FindNearestRulerCenterPointUsingRotation(shipBase);
+
+            Vector3 vector_ShipBackStand_ShipStandFront = point_ShipStandFront - point_ShipStandBack;
+            Vector3 vector_NearestMovementRulerCenter_ShipStandFront = point_ShipStandFront - point_NearestMovementRulerCenter;
+            result = Vector3.Angle(vector_ShipBackStand_ShipStandFront, vector_NearestMovementRulerCenter_ShipStandFront);
+
+            return result;
         }
 
         // SUBS
@@ -401,9 +406,13 @@ namespace Movement
         private float GetPathToProcessLeft(GameObject shipBase)
         {
             Vector3 point_ShipStandBack = GetShipBaseBackPoint(shipBase);
-            float pathToProcessLeft = (MovementTemplates.CurrentTemplate.transform.InverseTransformPoint(point_ShipStandBack).x);
+            return MovementTemplates.CurrentTemplate.transform.InverseTransformPoint(point_ShipStandBack).x;
+        }
 
-            return pathToProcessLeft;
+        private float GetPathToProcessFinisherLeft(GameObject shipBase)
+        {
+            Vector3 point_ShipStandFront = shipBase.transform.TransformPoint(Vector3.zero);
+            return MovementTemplates.CurrentTemplate.transform.Find("Finisher").InverseTransformPoint(point_ShipStandFront).x;
         }
 
         private float TryGetRotationFixFinisher(GameObject shipStand)

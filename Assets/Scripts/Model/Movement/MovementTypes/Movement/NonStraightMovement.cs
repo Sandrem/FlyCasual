@@ -110,12 +110,12 @@ namespace Movement
         {
             Vector3 point_ShipStandFront = Selection.ThisShip.ShipBase.GetCentralFrontPoint();
 
-            if (GetPathToProcessLeft(Selection.ThisShip.Model.transform.Find("RotationHelper/RotationHelper2").gameObject) > 0)
+            if (GetPathToProcessLeft(Selection.ThisShip.GetModelOrientation()) > 0)
             {
-                float rotationFix = GetRotationFix(Selection.ThisShip.Model.transform.Find("RotationHelper/RotationHelper2").gameObject);
+                float rotationFix = GetRotationFix(Selection.ThisShip.GetModelOrientation());
                 Selection.ThisShip.SetRotationHelper2Angles(new Vector3(0, rotationFix, 0));
 
-                float angleFix = GetAngleFix(Selection.ThisShip.Model.transform.Find("RotationHelper/RotationHelper2").gameObject);
+                float angleFix = GetAngleFix(Selection.ThisShip.GetModelOrientation());
                 Selection.ThisShip.UpdateRotationHelperAngles(new Vector3(0, angleFix, 0));
             }
 
@@ -127,14 +127,14 @@ namespace Movement
             if (MovementTemplates.CurrentTemplate.transform.Find("Finisher") != null)
             {
                 Selection.ThisShip.SimplifyRotationHelpers();
-                bool isSuccessfull = TryRotateUsingStarter(Selection.ThisShip.Model.transform.Find("RotationHelper/RotationHelper2").gameObject);
+                bool isSuccessfull = TryRotateUsingStarter(Selection.ThisShip.GetModelOrientation());
                 //bool isSuccessfull = false;
 
                 if (!isSuccessfull)
                 {
                     if (GetPathToProcessFinisherLeft(Selection.ThisShip.Model) > 0)
                     {
-                        float angleToNearestCenterPoint = GetAngleToLastSavedTemplateCenterPoint(Selection.ThisShip.Model.transform.Find("RotationHelper/RotationHelper2").gameObject);
+                        float angleToNearestCenterPoint = GetAngleToLastSavedTemplateCenterPoint(Selection.ThisShip.GetModelOrientation());
                         Selection.ThisShip.UpdateRotationHelper2Angles(new Vector3(0, angleToNearestCenterPoint * GetDirectionModifier(), 0));
                     }
                 }

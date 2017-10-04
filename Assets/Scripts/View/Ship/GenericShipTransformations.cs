@@ -52,6 +52,11 @@ namespace Ship
             return modelCenter.position;
         }
 
+        public GameObject GetModelOrientation()
+        {
+            return Model.transform.Find("RotationHelper/RotationHelper2").gameObject;
+        }           
+
         // ROTATION HELPERS
 
         public void UpdateRotationHelperAngles(Vector3 angles)

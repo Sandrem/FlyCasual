@@ -77,7 +77,7 @@ public static class DebugManager
         set { debugArcsAndDistance = value; }
     }
 
-    private static bool debugMovement = true;
+    private static bool debugMovement;
     public static bool DebugMovement
     {
         get

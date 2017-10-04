@@ -126,8 +126,9 @@ namespace Movement
         {
             if (MovementTemplates.CurrentTemplate.transform.Find("Finisher") != null)
             {
-                //bool isSuccessfull = TryRotateUsingStarter(Selection.ThisShip.Model);
-                bool isSuccessfull = false;
+                Selection.ThisShip.SimplifyRotationHelpers();
+                bool isSuccessfull = TryRotateUsingStarter(Selection.ThisShip.Model.transform.Find("RotationHelper/RotationHelper2").gameObject);
+                //bool isSuccessfull = false;
 
                 if (!isSuccessfull)
                 {

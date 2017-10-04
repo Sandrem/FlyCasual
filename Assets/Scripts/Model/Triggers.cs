@@ -27,6 +27,7 @@ public enum TriggerTypes
     OnAttackHit,
     OnAtLeastOneCritWasCancelledByDefender,
     OnDamageCardIsDealt,
+    OnAttackStart,
     OnAttackPerformed,
     OnCheckSecondAttack,
     OnFaceupCritCardReadyToBeDealt,

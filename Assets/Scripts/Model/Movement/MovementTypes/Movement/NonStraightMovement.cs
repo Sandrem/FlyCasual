@@ -100,6 +100,7 @@ namespace Movement
 
             AnimationSpeed = Options.ManeuverSpeed * 0.75f;
 
+            Selection.ThisShip.SimplifyRotationHelpers();
             movementFinisherLaunched = true;
         }
 
@@ -109,12 +110,12 @@ namespace Movement
         {
             Vector3 point_ShipStandFront = Selection.ThisShip.ShipBase.GetCentralFrontPoint();
 
-            if (GetPathToProcessLeft(Selection.ThisShip.Model) > 0)
+            if (GetPathToProcessLeft(Selection.ThisShip.Model.transform.Find("RotationHelper/RotationHelper2").gameObject) > 0)
             {
-                float rotationFix = GetRotationFix(Selection.ThisShip.Model);
+                float rotationFix = GetRotationFix(Selection.ThisShip.Model.transform.Find("RotationHelper/RotationHelper2").gameObject);
                 Selection.ThisShip.SetRotationHelper2Angles(new Vector3(0, rotationFix, 0));
 
-                float angleFix = GetAngleFix(Selection.ThisShip.Model);
+                float angleFix = GetAngleFix(Selection.ThisShip.Model.transform.Find("RotationHelper/RotationHelper2").gameObject);
                 Selection.ThisShip.UpdateRotationHelperAngles(new Vector3(0, angleFix, 0));
             }
 
@@ -132,9 +133,8 @@ namespace Movement
                 {
                     if (GetPathToProcessFinisherLeft(Selection.ThisShip.Model) > 0)
                     {
-                        float angleToNearestCenterPoint = GetAngleToLastSavedTemplateCenterPoint(Selection.ThisShip.Model);
-                        Debug.Log(angleToNearestCenterPoint);
-                        Selection.ThisShip.SetRotationHelper2Angles(new Vector3(0, angleToNearestCenterPoint * GetDirectionModifier(), 0));
+                        float angleToNearestCenterPoint = GetAngleToLastSavedTemplateCenterPoint(Selection.ThisShip.Model.transform.Find("RotationHelper/RotationHelper2").gameObject);
+                        Selection.ThisShip.UpdateRotationHelper2Angles(new Vector3(0, angleToNearestCenterPoint * GetDirectionModifier(), 0));
                     }
                 }
             }
@@ -293,7 +293,7 @@ namespace Movement
 
             Vector3 vector_ShipBackStand_ShipStandFront = point_ShipStandFront - point_ShipStandBack;
             Vector3 vector_NearestMovementRulerCenter_ShipStandFront = point_ShipStandFront - point_NearestMovementRulerCenter;
-            result = Vector3.Angle(vector_ShipBackStand_ShipStandFront, vector_NearestMovementRulerCenter_ShipStandFront);
+            result = GetDirectionModifier() * Vector3.SignedAngle(vector_ShipBackStand_ShipStandFront, vector_NearestMovementRulerCenter_ShipStandFront, Vector3.up);
 
             return result;
         }
@@ -321,8 +321,7 @@ namespace Movement
                     result = point_NearestMovementRulerCenter;
                 }
 
-                int directionModifier = GetDirectionModifier();
-                shipBase.transform.localEulerAngles += new Vector3(0, 1 * directionModifier, 0);
+                shipBase.transform.localEulerAngles += new Vector3(0, 1 * GetDirectionModifier(), 0);
 
             }
             while (distanceToNearestPoint < minDistance);

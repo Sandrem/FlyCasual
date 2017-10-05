@@ -11,6 +11,8 @@ public class OptionsUI : MonoBehaviour {
         PlayerPrefs.SetString("PlaymatName", playmatImage.name);
         PlayerPrefs.Save();
 
+        Options.Playmat = playmatImage.name;
+
         PlaymatSelector.transform.position = playmatImage.transform.position;
     }
 

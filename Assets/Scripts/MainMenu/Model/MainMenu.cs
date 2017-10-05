@@ -16,6 +16,7 @@ public partial class MainMenu : MonoBehaviour {
         SetPositions();
         SetCurrentPanel();
 
+        Options.ReadOptions();
         Options.UpdateVolume();
         StartCoroutine(CheckUpdates());
     }

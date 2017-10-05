@@ -43,7 +43,7 @@ public partial class MainMenu : MonoBehaviour {
         string[] separator = new string[] { "\r\n" };
         string[] wwwdata = www.text.Split(separator, System.StringSplitOptions.RemoveEmptyEntries);
 
-        if (wwwdata.Length > 0)
+        if (wwwdata.Length > 0 && !wwwdata[0].Contains("DOCTYPE"))
         {
             if (wwwdata.Length == 3)
             {

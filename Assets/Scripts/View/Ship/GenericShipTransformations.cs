@@ -52,11 +52,21 @@ namespace Ship
             return modelCenter.position;
         }
 
+        public GameObject GetModelOrientation()
+        {
+            return Model.transform.Find("RotationHelper/RotationHelper2").gameObject;
+        }           
+
         // ROTATION HELPERS
 
         public void UpdateRotationHelperAngles(Vector3 angles)
         {
             Model.transform.Find("RotationHelper").localEulerAngles = new Vector3(angles.x, angles.y + Model.transform.Find("RotationHelper").localEulerAngles.y, angles.z);
+        }
+
+        public void UpdateRotationHelper2Angles(Vector3 angles)
+        {
+            Model.transform.Find("RotationHelper/RotationHelper2").localEulerAngles = new Vector3(angles.x, angles.y + Model.transform.Find("RotationHelper/RotationHelper2").localEulerAngles.y, angles.z);
         }
 
         public void SetRotationHelper2Angles(Vector3 angles)

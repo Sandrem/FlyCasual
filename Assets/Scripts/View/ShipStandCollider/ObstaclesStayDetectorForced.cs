@@ -17,11 +17,6 @@ public class ObstaclesStayDetectorForced: MonoBehaviour {
     public bool OffTheBoardNow = false;
     public List<Collider> OverlapedMinesNow = new List<Collider>();
 
-    void OnTriggerEnter(Collider collisionInfo)
-    {
-
-    }
-
     public void ReCheckCollisionsStart()
     {
         OverlapsAsteroidNow = false;
@@ -61,11 +56,6 @@ public class ObstaclesStayDetectorForced: MonoBehaviour {
                 }
             }
         }
-    }
-
-    void OnTriggerExit(Collider collisionInfo)
-    {
-
     }
 
 }

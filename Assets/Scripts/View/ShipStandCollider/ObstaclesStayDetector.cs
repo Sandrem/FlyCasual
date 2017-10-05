@@ -15,12 +15,6 @@ public class ObstaclesStayDetector: MonoBehaviour {
     public List<Collider> OverlapedMines = new List<Collider>();
 
     public bool OffTheBoard = false;
-	
-	// Update is called once per frame
-	void Update ()
-    {
-
-    }
 
     void OnTriggerEnter(Collider collisionInfo)
     {
@@ -59,16 +53,6 @@ public class ObstaclesStayDetector: MonoBehaviour {
                 }
             }
         }
-    }
-
-    void OnTriggerStay(Collider collisionInfo)
-    {
-
-    }
-
-    void OnTriggerExit(Collider collisionInfo)
-    {
-
     }
 
 }

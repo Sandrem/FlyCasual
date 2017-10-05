@@ -108,8 +108,6 @@ namespace Movement
 
         public void UpdateRotation()
         {
-            Vector3 point_ShipStandFront = Selection.ThisShip.ShipBase.GetCentralFrontPoint();
-
             if (GetPathToProcessLeft(Selection.ThisShip.GetModelOrientation()) > 0)
             {
                 float rotationFix = GetRotationFix(Selection.ThisShip.GetModelOrientation());
@@ -407,7 +405,6 @@ namespace Movement
         {
             float result = 0;
 
-            Vector3 point_ShipStandBack = GetShipBaseBackPoint(shipStand);
             Vector3 point_ShipStandFront = shipStand.transform.TransformPoint(Vector3.zero);
 
             float distance_ShipStandFront_RulerStart = Vector3.Distance(MovementTemplates.CurrentTemplate.transform.position, point_ShipStandFront);

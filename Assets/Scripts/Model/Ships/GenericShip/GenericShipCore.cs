@@ -32,6 +32,9 @@ namespace Ship
         public int Shields { get; protected set; }
         public int Cost { get; protected set; }
 
+        public int TargetLockMinRange { get; protected set; }
+        public int TargetLockMaxRange { get; protected set; }
+
         private int maxHull;
         public int MaxHull
         {
@@ -131,6 +134,9 @@ namespace Ship
             UpgradeBar = new Upgrade.ShipUpgradeBar(this);
             PrintedUpgradeIcons = new List<Upgrade.UpgradeType>();
             PilotSkillModifiers = new List<IModifyPilotSkill>();
+
+            TargetLockMinRange = 1;
+            TargetLockMaxRange = 3;
         }
 
         public void InitializeGenericShip(Players.PlayerNo playerNo, int shipId, Vector3 position)
@@ -256,6 +262,12 @@ namespace Ship
         {
             Shields += value;
             if (AfterStatsAreChanged != null) AfterStatsAreChanged(this);
+        }
+
+        public void SetTargetLockRange(int min, int max)
+        {
+            TargetLockMinRange = min;
+            TargetLockMaxRange = max;
         }
 
     }

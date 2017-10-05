@@ -14,7 +14,7 @@ namespace Ship
             {
                 Type = "E-Wing";
 
-                ManeuversImageUrl = "https://vignette1.wikia.nocookie.net/xwing-miniatures/images/3/3d/MR_T65-X-WING.png";
+                ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/a/aa/MR_E-WING.png";
 
                 Firepower = 3;
                 Agility = 3;

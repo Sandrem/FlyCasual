@@ -61,8 +61,9 @@ namespace SubPhases
 
             GameObject prefab = (GameObject)Resources.Load(Selection.ThisShip.ShipBase.TemporaryPrefabPath, typeof(GameObject));
             ShipStand = MonoBehaviour.Instantiate(prefab, Selection.ThisShip.GetPosition(), Selection.ThisShip.GetRotation(), BoardManager.GetBoard());
+            ShipStand.transform.position = new Vector3(ShipStand.transform.position.x, 0, ShipStand.transform.position.z);
             ShipStand.transform.Find("ShipBase").Find("ShipStandInsert").Find("ShipStandInsertImage").Find("default").GetComponent<Renderer>().material = Selection.ThisShip.Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("ShipBase").Find("ShipStandInsert").Find("ShipStandInsertImage").Find("default").GetComponent<Renderer>().material;
-            ShipStand.AddComponent<ObstaclesStayDetectorForced>();
+            ShipStand.transform.Find("ShipBase").Find("ObstaclesStayDetector").gameObject.AddComponent<ObstaclesStayDetectorForced>();
             obstaclesStayDetectorBase = ShipStand.GetComponentInChildren<ObstaclesStayDetectorForced>();
             Roster.SetRaycastTargets(false);
 
@@ -111,7 +112,7 @@ namespace SubPhases
                 Selection.ThisShip.GetBoosterHelper().Find(name).gameObject.SetActive(true);
 
                 Transform newBase = Selection.ThisShip.GetBoosterHelper().Find(name + "/Finisher/BasePosition");
-                ShipStand.transform.position = newBase.position;
+                ShipStand.transform.position = new Vector3(newBase.position.x, 0, newBase.position.z);
                 ShipStand.transform.rotation = newBase.rotation;
 
                 obstaclesStayDetectorMovementTemplate = Selection.ThisShip.GetBoosterHelper().Find(name).GetComponentInChildren<ObstaclesStayDetectorForced>();
@@ -218,6 +219,10 @@ namespace SubPhases
         {
             obstaclesStayDetectorBase.ReCheckCollisionsFinish();
             obstaclesStayDetectorMovementTemplate.ReCheckCollisionsFinish();
+
+            Debug.Log("OverlapsShipNow: " + obstaclesStayDetectorBase.OverlapsShipNow);
+            Debug.Log("OverlapsAsteroidNow: " + obstaclesStayDetectorBase.OverlapsAsteroidNow);
+            Debug.Log("OffTheBoardNow: " + obstaclesStayDetectorBase.OffTheBoardNow);
 
             if (IsBoostAllowed())
             {

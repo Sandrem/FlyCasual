@@ -24,7 +24,7 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Tech);
 
                 AssignTemporaryManeuvers();
-                HotacManeuverTable = new AI.TIEFighterTable();
+                HotacManeuverTable = null;
 
                 factions.Add(Faction.Empire);
                 faction = Faction.Empire;

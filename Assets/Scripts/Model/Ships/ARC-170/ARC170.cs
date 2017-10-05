@@ -28,7 +28,7 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Astromech);
 
                 AssignTemporaryManeuvers();
-                HotacManeuverTable = new AI.BWingTable();
+                HotacManeuverTable = null;
 
                 factions.Add(Faction.Rebels);
                 faction = Faction.Rebels;

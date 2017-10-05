@@ -22,7 +22,7 @@ namespace Ship
                 MaxShields = 1;
 
                 AssignTemporaryManeuvers();
-                HotacManeuverTable = new AI.TIEFighterTable();
+                HotacManeuverTable = null;
 
                 factions.Add(Faction.Scum);
                 faction = Faction.Scum;

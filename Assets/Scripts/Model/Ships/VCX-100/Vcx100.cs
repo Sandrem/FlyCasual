@@ -31,7 +31,7 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Crew);
 
                 AssignTemporaryManeuvers();
-                HotacManeuverTable = new AI.YT1300Table();
+                HotacManeuverTable = null;
 
                 factions.Add(Faction.Rebels);
                 faction = Faction.Rebels;

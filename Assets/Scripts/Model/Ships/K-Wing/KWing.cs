@@ -32,7 +32,7 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Bomb);
 
                 AssignTemporaryManeuvers();
-                HotacManeuverTable = new AI.YWingTable();
+                HotacManeuverTable = null;
 
                 factions.Add(Faction.Rebels);
 

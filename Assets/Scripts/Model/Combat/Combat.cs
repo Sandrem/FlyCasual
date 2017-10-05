@@ -125,7 +125,10 @@ public static partial class Combat
         AttackStep = CombatStep.Attack;
         CallAttackStartEvents();
         Selection.ActiveShip = Attacker;
-        ChosenWeapon.PayAttackCost(callBack);
+        Triggers.ResolveTriggers(TriggerTypes.OnAttackStart, delegate
+        {
+            ChosenWeapon.PayAttackCost(callBack);
+        });
     }
 
     private static void AttackDiceRoll()

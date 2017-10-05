@@ -33,7 +33,7 @@ namespace Ship
         {
             get
             {
-                int result = attackValue;
+                int result = Host.Firepower;
                 Host.CallAfterGotNumberOfPrimaryWeaponAttackDice(ref result);
                 return result;
             }
@@ -53,8 +53,6 @@ namespace Ship
 
             MinRange = 1;
             MaxRange = 3;
-
-            AttackValue = Host.Firepower;
         }
 
         public bool IsShotAvailable(GenericShip targetShip)

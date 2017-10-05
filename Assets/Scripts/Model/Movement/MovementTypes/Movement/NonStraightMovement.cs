@@ -61,7 +61,7 @@ namespace Movement
                 int progressDirection = 1;
                 Selection.ThisShip.RotateAround(Selection.ThisShip.TransformPoint(new Vector3(turningAroundDistance * turningDirection, 0, 0)), turningDirection * progressDelta * progressDirection);
 
-                Selection.ThisShip.RotateModelDuringTurn((ProgressCurrent / ProgressTarget) * (1 - 0.2f*finisherTargetSuccess));
+                if (ProgressTarget != 0) Selection.ThisShip.RotateModelDuringTurn((ProgressCurrent / ProgressTarget) * (1 - 0.2f*finisherTargetSuccess));
                 UpdateRotation();
             }
             else
@@ -482,6 +482,7 @@ namespace Movement
 
                 float angleFix = GetAngleFixRotation(shipBase);
 
+                float savedRotation = Selection.ThisShip.GetModelOrientation().transform.localEulerAngles.y;
                 Selection.ThisShip.SetRotationHelper2Angles(new Vector3(0, rotationFix, 0));
                 Selection.ThisShip.UpdateRotationHelperAngles(new Vector3(0, angleFix, 0));
 
@@ -489,8 +490,7 @@ namespace Movement
                 {
                     result = false;
 
-                    //POSSIBLE PROBLEM, MAYBE RESTORATION IS NEEDED
-                    Selection.ThisShip.SetRotationHelper2Angles(new Vector3(0, -rotationFix, 0));
+                    Selection.ThisShip.SetRotationHelper2Angles(new Vector3(0, savedRotation, 0));
                     Selection.ThisShip.UpdateRotationHelperAngles(new Vector3(0, -angleFix, 0));
                 }
             }

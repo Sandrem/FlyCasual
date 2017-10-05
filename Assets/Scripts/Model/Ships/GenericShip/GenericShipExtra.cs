@@ -7,7 +7,20 @@ namespace Ship
 
     public partial class GenericShip
     {
-        public string ImageUrl { get; protected set; }
+
+        private string imageUrl;
+        public string ImageUrl
+        {
+            get
+            {
+                return imageUrl ?? ImageUrls.GetImageUrl(this);
+            }
+            protected set
+            {
+                imageUrl = value;
+            }
+        }
+
         public string ManeuversImageUrl { get; protected set; }
 
         public string SoundShotsPath { get; protected set; }

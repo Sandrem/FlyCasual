@@ -1,15 +1,12 @@
-﻿using System.Collections;
-using UnityEngine;
-using System;
-using System.Linq;
-using Players;
-using Tokens;
+﻿using Tokens;
 using Ship;
 
 namespace RulesList
 {
     public class TargetLocksRule
     {
+        public static event GenericShip.EventHandler2Ships OnCheckTargetLockIsAllowed;
+
         public void RemoveTargetLocksOnDestruction(GenericShip ship)
         {
             while (true)
@@ -38,6 +35,14 @@ namespace RulesList
                 }
             }
 
+        }
+
+        public bool TargetLockIsAllowed(GenericShip attacker, GenericShip target)
+        {
+            bool result = true;
+
+            if (OnCheckTargetLockIsAllowed != null) OnCheckTargetLockIsAllowed(ref result, attacker, target);
+            return result;
         }
     } 
 }

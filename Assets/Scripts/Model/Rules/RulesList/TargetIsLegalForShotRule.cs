@@ -1,13 +1,11 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using Ship;
 
 namespace RulesList
 {
     public class TargetIsLegalForShotRule
     {
         //EVENTS
-        public delegate void EventHandler2Ships(ref bool result, Ship.GenericShip attacker, Ship.GenericShip defender);
-        public static event EventHandler2Ships OnCheckTargetIsLegal;
+        public static event GenericShip.EventHandler2Ships OnCheckTargetIsLegal;
 
         public bool IsLegal()
         {

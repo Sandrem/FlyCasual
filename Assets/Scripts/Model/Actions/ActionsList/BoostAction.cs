@@ -220,10 +220,6 @@ namespace SubPhases
             obstaclesStayDetectorBase.ReCheckCollisionsFinish();
             obstaclesStayDetectorMovementTemplate.ReCheckCollisionsFinish();
 
-            Debug.Log("OverlapsShipNow: " + obstaclesStayDetectorBase.OverlapsShipNow);
-            Debug.Log("OverlapsAsteroidNow: " + obstaclesStayDetectorBase.OverlapsAsteroidNow);
-            Debug.Log("OffTheBoardNow: " + obstaclesStayDetectorBase.OffTheBoardNow);
-
             if (IsBoostAllowed())
             {
                 CheckMines();
@@ -326,22 +322,18 @@ namespace SubPhases
             Sounds.PlayFly();
         }
 
-        private void FinishBoostAnimation()
-        {
-            Selection.ThisShip.FinishPosition(FinishBoostAnimationPart2);
-        }
-
-        private void FinishBoostAnimationPart2()
-        {
-            Phases.FinishSubPhase(typeof(BoostExecutionSubPhase));
-            CallBack();
-        }
-
         public override void Next()
         {
-            Phases.CurrentSubPhase = PreviousSubPhase;
-            Phases.CurrentSubPhase.Next();
+            Selection.ThisShip.FinishPosition(FinishBoostAnimation);
+        }
+
+        private void FinishBoostAnimation()
+        {
+            Phases.CurrentSubPhase = Phases.CurrentSubPhase.PreviousSubPhase;
+            Phases.CurrentSubPhase = Phases.CurrentSubPhase.PreviousSubPhase;
             UpdateHelpInfo();
+
+            CallBack();
         }
 
         public override bool ThisShipCanBeSelected(Ship.GenericShip ship)

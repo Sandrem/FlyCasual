@@ -47,6 +47,9 @@ public static partial class Phases
 
     public static void StartPhases()
     {
+        RoundCounter = 0;
+        GameIsEnded = false;
+
         CurrentPhase = new SetupPhase();
         UI.AddTestLogEntry("Game is started");
         CurrentPhase.StartPhase();

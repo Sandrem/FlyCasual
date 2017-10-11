@@ -34,6 +34,7 @@ namespace Ship
             get
             {
                 int result = Host.Firepower;
+                if (attackValue == int.MaxValue) Debug.Log(attackValue);
                 Host.CallAfterGotNumberOfPrimaryWeaponAttackDice(ref result);
                 return result;
             }

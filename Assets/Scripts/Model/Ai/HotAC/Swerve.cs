@@ -158,6 +158,7 @@ namespace AI
                 }
             }
 
+            result.UpdateColorComplexity();
             return result;
         }
 

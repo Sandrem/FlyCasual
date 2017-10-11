@@ -120,9 +120,16 @@ namespace Movement
             Bearing = bearing;
 
             if (!Selection.ThisShip.Maneuvers.ContainsKey(parameters)) Debug.Log("ERROR: Ship doesn't have required maneuver. Seems that AI maneuver table is wrong.");
-
             ColorComplexity = Selection.ThisShip.Maneuvers[parameters];
+            ColorComplexity = Selection.ThisShip.GetColorComplexityOfManeuver(this);
+        }
 
+        public void UpdateColorComplexity()
+        {
+            string parameters = this.ToString();
+
+            if (!Selection.ThisShip.Maneuvers.ContainsKey(parameters)) Debug.Log("ERROR: Ship doesn't have required maneuver. Seems that AI maneuver table is wrong.");
+            ColorComplexity = Selection.ThisShip.Maneuvers[parameters];
             ColorComplexity = Selection.ThisShip.GetColorComplexityOfManeuver(this);
         }
 

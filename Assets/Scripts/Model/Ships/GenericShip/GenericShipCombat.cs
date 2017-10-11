@@ -64,11 +64,12 @@ namespace Ship
 
             if (Combat.ChosenWeapon.GetType() == GetType())
             {
-                range = Combat.ShotInfo.Range;
+                Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(Host, targetShip, this);
+                range = shotInfo.Range;
                 if (!CanShootOutsideArc)
                 {
                     //TODO: Change to munitions arc
-                    if (!Combat.ShotInfo.InShotAngle) return false;
+                    if (!shotInfo.InShotAngle) return false;
                 }
             }
             else

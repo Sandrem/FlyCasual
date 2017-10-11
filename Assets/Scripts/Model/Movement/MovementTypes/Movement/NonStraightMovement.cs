@@ -166,13 +166,13 @@ namespace Movement
             //Temporary
             MovementTemplates.ApplyMovementRuler(Selection.ThisShip);
 
-            GameObject[] result = new GameObject[100];
+            GameObject[] result = new GameObject[101];
 
             float distancePart = ProgressTarget / 80;
             Vector3 position = Selection.ThisShip.GetPosition();
 
             GameObject lastShipStand = null;
-            for (int i = 1; i <= 80; i++)
+            for (int i = 0; i <= 80; i++)
             {
                 float step = (float)i * distancePart;
                 GameObject prefab = (GameObject)Resources.Load(Selection.ThisShip.ShipBase.TemporaryPrefabPath, typeof(GameObject));
@@ -187,15 +187,17 @@ namespace Movement
                     }
                 }
 
-                float turningDirection = (Direction == ManeuverDirection.Right) ? 1 : -1;
-                int progressDirection = 1;
-                ShipStand.transform.RotateAround(Selection.ThisShip.TransformPoint(new Vector3(turningAroundDistance * turningDirection, 0, 0)), new Vector3(0, 1, 0), turningDirection * step * progressDirection);
+                if (i > 0)
+                {
+                    float turningDirection = (Direction == ManeuverDirection.Right) ? 1 : -1;
+                    ShipStand.transform.RotateAround(Selection.ThisShip.TransformPoint(new Vector3(turningAroundDistance * turningDirection, 0, 0)), new Vector3(0, 1, 0), turningDirection * step);
 
-                UpdatePlanningRotation(ShipStand);
+                    UpdatePlanningRotation(ShipStand);
 
-                if (i == 80) lastShipStand = ShipStand;
+                    if (i == 80) lastShipStand = ShipStand;
+                }
 
-                result[i - 1] = ShipStand;
+                result[i] = ShipStand;
 
                 ShipStand.name = "Main" + i;
             }
@@ -222,7 +224,7 @@ namespace Movement
 
                 UpdatePlanningRotationFinisher(ShipStand);
 
-                result[i + 80 - 1] = ShipStand;
+                result[i + 80] = ShipStand;
 
                 ShipStand.name = "Finishing" + i;
             }

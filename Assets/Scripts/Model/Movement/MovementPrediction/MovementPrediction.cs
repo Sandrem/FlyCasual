@@ -82,7 +82,7 @@ namespace Movement
                     {
                         IsOffTheBoard = obstacleStayDetector.OffTheBoard;
                         IsLandedOnAsteroid = obstacleStayDetector.OverlapsAsteroid;
-                        SuccessfullMovementProgress = (i + 1f) / generatedShipStands.Length;
+                        SuccessfullMovementProgress = (float)(i) / (generatedShipStands.Length - 1);
 
                         if (lastShipBumpDetector != null)
                         {

@@ -345,11 +345,18 @@ namespace Movement
             LaunchSimple();
         }
 
-        public virtual void LaunchSimple()
+        public void LaunchSimple()
         {
             //TEMP
-            GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-            Game.Movement.isMoving = true;
+            if (ProgressTarget > 0)
+            {
+                GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
+                Game.Movement.isMoving = true;
+            }
+            else
+            {
+                FinishMovement();
+            }
         }
 
         public virtual void UpdateMovementExecution()

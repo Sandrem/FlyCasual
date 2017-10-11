@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 namespace Ship
 {
@@ -68,9 +69,20 @@ namespace PilotAbilities
         {
             int result = 0;
 
-            if (Combat.AttackStep == CombatStep.Attack)
+            if (Combat.AttackStep == CombatStep.Attack && (Combat.ChosenWeapon as Upgrade.GenericSecondaryWeapon) != null)
             {
-                if (Combat.DiceRollAttack.Blanks > 0) result = 95;
+                if (Combat.DiceRollAttack.Blanks > 0)
+                {
+                    result = 90;
+                }
+                else if (Combat.DiceRollAttack.Focuses > 0 && Combat.Attacker.GetAvailableActionEffectsList().Count(n => n.IsTurnsAllFocusIntoSuccess) == 0)
+                {
+                    result = 90;
+                }
+                else if (Combat.DiceRollAttack.Focuses > 0)
+                {
+                    result = 30;
+                }
             }
 
             return result;

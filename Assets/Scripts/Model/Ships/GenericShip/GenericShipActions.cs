@@ -451,6 +451,23 @@ namespace Ship
             }
         }
 
+        public void ReassignTargetLockToken(Type type, char letter, GenericShip newOwner, Action callback)
+        {
+            Tokens.GenericTargetLockToken assignedToken = GetToken(type, letter) as Tokens.GenericTargetLockToken;
+
+            if (assignedToken != null)
+            {
+                AssignedTokens.Remove(assignedToken);
+                if (AfterTokenIsRemoved != null) AfterTokenIsRemoved(this, type);
+
+                var oppositeType = (assignedToken.GetType() == typeof(Tokens.BlueTargetLockToken)) ? typeof(Tokens.RedTargetLockToken) : typeof(Tokens.BlueTargetLockToken);
+                var otherToken = assignedToken.OtherTokenOwner.GetToken(oppositeType, letter) as Tokens.GenericTargetLockToken;
+
+                otherToken.OtherTokenOwner = newOwner;
+                newOwner.AssignToken(assignedToken, callback, letter);
+            }
+        }
+
         public void SpendToken(System.Type type, Action callBack, char letter = ' ')
         {
             RemoveToken(type, letter);

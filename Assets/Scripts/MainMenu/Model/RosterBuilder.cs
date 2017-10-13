@@ -12,6 +12,9 @@ using UnityEngine.UI;
 
 public static partial class RosterBuilder {
 
+    // TEST
+    static int testCounter = 0;
+
     private class SquadBuilderUpgrade
     {
         public UpgradeSlot Slot;
@@ -440,8 +443,17 @@ public static partial class RosterBuilder {
 
     public static void StartNetworkGame()
     {
-        Network.Test();
-        Network.RosterTest();
+        if (testCounter == 0)
+        {
+            Network.Test();
+            Network.RosterTest();
+            testCounter++;
+        }
+        else if (testCounter == 1)
+        {
+            Network.ShowVariable();
+            testCounter = 0;
+        }
     }
 
     // TEST

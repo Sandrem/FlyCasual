@@ -27,6 +27,7 @@ public class NetworkPlayer : NetworkBehaviour {
     [Command]
     public void CmdRosterTest()
     {
+        Network.AllShipNames = "";
         RpcRosterTest();
     }
 
@@ -35,7 +36,26 @@ public class NetworkPlayer : NetworkBehaviour {
     {
         string text = (isServer) ? "Hello from server" : "Hello from client";
         text += "\nMy first ship is " + RosterBuilder.TestGetNameOfFirstShipInRoster();
+        Network.UpdateAllShipNames(RosterBuilder.TestGetNameOfFirstShipInRoster() + "\n");
         Network.ShowMessage(text);
+    }
+
+    [Command]
+    public void CmdUpdateAllShipNames(string text)
+    {
+        Network.AllShipNames += text;
+    }
+
+    [Command]
+    public void CmdShowVariable()
+    {
+        RpcShowVariable(Network.AllShipNames);
+    }
+
+    [ClientRpc]
+    private void RpcShowVariable(string text)
+    {
+        Messages.ShowInfo(text);
     }
 
     // MESSAGES

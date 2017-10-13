@@ -16,7 +16,7 @@ namespace Ship
                 ShipBaseSize = BaseSize.Large;
                 ShipBaseArcsType = Arcs.BaseArcsType.Arc360;
 
-                ManeuversImageUrl = "https://vignette2.wikia.nocookie.net/xwing-miniatures/images/c/c3/MI_LAMBDA-SHUTTLE.png";
+                ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/f/fe/MI_VT-49-DECIMATOR.png";
 
                 Firepower = 3;
                 Agility = 0;

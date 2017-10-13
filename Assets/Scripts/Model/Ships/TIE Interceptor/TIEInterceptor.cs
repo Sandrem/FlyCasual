@@ -14,7 +14,7 @@ namespace Ship
             {
                 Type = "TIE Interceptor";
 
-                ManeuversImageUrl = "https://vignette1.wikia.nocookie.net/xwing-miniatures/images/8/85/MI_TIE-ADVANCED.png";
+                ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/8/8e/MI_TIE-INTERCEPTOR.png";
 
                 Firepower = 3;
                 Agility = 3;

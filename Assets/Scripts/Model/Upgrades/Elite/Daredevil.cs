@@ -10,6 +10,8 @@ namespace UpgradesList
             Type = UpgradeType.Elite;
             Name = "Daredevil";
             Cost = 3;
+
+            IsHidden = true;
         }
     }
 }

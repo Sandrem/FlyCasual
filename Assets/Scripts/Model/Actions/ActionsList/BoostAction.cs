@@ -61,7 +61,9 @@ namespace SubPhases
 
             GameObject prefab = (GameObject)Resources.Load(Selection.ThisShip.ShipBase.TemporaryPrefabPath, typeof(GameObject));
             ShipStand = MonoBehaviour.Instantiate(prefab, Selection.ThisShip.GetPosition(), Selection.ThisShip.GetRotation(), BoardManager.GetBoard());
+            ShipStand.transform.position = new Vector3(ShipStand.transform.position.x, 0, ShipStand.transform.position.z);
             ShipStand.transform.Find("ShipBase").Find("ShipStandInsert").Find("ShipStandInsertImage").Find("default").GetComponent<Renderer>().material = Selection.ThisShip.Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("ShipBase").Find("ShipStandInsert").Find("ShipStandInsertImage").Find("default").GetComponent<Renderer>().material;
+            ShipStand.transform.Find("ShipBase").Find("ObstaclesStayDetector").gameObject.AddComponent<ObstaclesStayDetectorForced>();
             obstaclesStayDetectorBase = ShipStand.GetComponentInChildren<ObstaclesStayDetectorForced>();
             Roster.SetRaycastTargets(false);
 
@@ -110,7 +112,7 @@ namespace SubPhases
                 Selection.ThisShip.GetBoosterHelper().Find(name).gameObject.SetActive(true);
 
                 Transform newBase = Selection.ThisShip.GetBoosterHelper().Find(name + "/Finisher/BasePosition");
-                ShipStand.transform.position = newBase.position;
+                ShipStand.transform.position = new Vector3(newBase.position.x, 0, newBase.position.z);
                 ShipStand.transform.rotation = newBase.rotation;
 
                 obstaclesStayDetectorMovementTemplate = Selection.ThisShip.GetBoosterHelper().Find(name).GetComponentInChildren<ObstaclesStayDetectorForced>();
@@ -320,22 +322,18 @@ namespace SubPhases
             Sounds.PlayFly();
         }
 
-        private void FinishBoostAnimation()
-        {
-            Selection.ThisShip.FinishPosition(FinishBoostAnimationPart2);
-        }
-
-        private void FinishBoostAnimationPart2()
-        {
-            Phases.FinishSubPhase(typeof(BoostExecutionSubPhase));
-            CallBack();
-        }
-
         public override void Next()
         {
-            Phases.CurrentSubPhase = PreviousSubPhase;
-            Phases.CurrentSubPhase.Next();
+            Selection.ThisShip.FinishPosition(FinishBoostAnimation);
+        }
+
+        private void FinishBoostAnimation()
+        {
+            Phases.CurrentSubPhase = Phases.CurrentSubPhase.PreviousSubPhase;
+            Phases.CurrentSubPhase = Phases.CurrentSubPhase.PreviousSubPhase;
             UpdateHelpInfo();
+
+            CallBack();
         }
 
         public override bool ThisShipCanBeSelected(Ship.GenericShip ship)

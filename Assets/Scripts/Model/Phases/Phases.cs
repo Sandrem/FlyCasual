@@ -47,6 +47,9 @@ public static partial class Phases
 
     public static void StartPhases()
     {
+        RoundCounter = 0;
+        GameIsEnded = false;
+
         CurrentPhase = new SetupPhase();
         UI.AddTestLogEntry("Game is started");
         CurrentPhase.StartPhase();
@@ -62,11 +65,6 @@ public static partial class Phases
         else
         {
             Debug.Log("OOPS! YOU WANT TO FINISH " + subPhaseType + " SUBPHASE, BUT NOW IS " + CurrentSubPhase.GetType() + " SUBPHASE!");
-            /*if (!subPhasesToFinish.Contains(subPhaseType))
-            {
-                Debug.Log("Phase " + subPhaseType + " is planned to finish");
-                subPhasesToFinish.Add(subPhaseType);
-            }*/
         }
     }
 

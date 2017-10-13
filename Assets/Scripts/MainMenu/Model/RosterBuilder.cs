@@ -450,6 +450,7 @@ public static partial class RosterBuilder {
     {
         if (!ValidateUniqueCards(playerNo)) return false;
         if (!ValidateSquadCost(playerNo)) return false;
+        if (!ValidateShipAiReady(playerNo)) return false;
         return true;
     }
 
@@ -548,6 +549,25 @@ public static partial class RosterBuilder {
             uniqueCards.Add(cardName);
             return false;
         }
+    }
+
+    private static bool ValidateShipAiReady(PlayerNo playerNo)
+    {
+        bool result = true;
+
+        foreach (var shipConfig in Global.ShipConfigurations)
+        {
+            if (shipConfig.Player == playerNo && GetPlayerType(playerNo) == typeof(HotacAiPlayer))
+            {
+                if (shipConfig.Ship.HotacManeuverTable == null)
+                {
+                    Messages.ShowError("AI for " + shipConfig.Ship.Type + " is not ready. It can be controlled only by human.");
+                    return false;
+                }
+            }
+        }
+
+        return result;
     }
 
     private static void TryToReinstallUpgrade(SquadBuilderShip squadBuilderShip, SquadBuilderUpgrade squadUpgrade, GenericUpgrade oldUpgrade)

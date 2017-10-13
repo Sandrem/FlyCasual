@@ -111,6 +111,8 @@ namespace Players
             if (targetForAttack != null)
             {
                 if (DebugManager.DebugAI) Debug.Log("AI launches attack!");
+
+                Selection.TryToChangeAnotherShip("ShipId:" + targetForAttack.ShipId);
                 Combat.TryPerformAttack();
             }
             else

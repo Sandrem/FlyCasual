@@ -50,15 +50,25 @@ namespace ActionsList
         public override void ActionTake()
         {
             Phases.CurrentSubPhase.Pause();
-            Phases.StartTemporarySubPhase(
-                "Expert Handling: Barrel Roll",
-                typeof(SubPhases.BarrelRollPlanningSubPhase),
-                CheckStress
-            );
+            if (!Selection.ThisShip.IsAlreadyExecutedAction(typeof(BarrelRollAction)))
+            {
+                Phases.StartTemporarySubPhase(
+                    "Expert Handling: Barrel Roll",
+                    typeof(SubPhases.BarrelRollPlanningSubPhase),
+                    CheckStress
+                );
+            }
+            else
+            {
+                Messages.ShowError("Cannot use Expert Handling: Barrel Roll is already executed");
+                Phases.CurrentSubPhase.Resume();
+            }
         }
 
         private void CheckStress()
         {
+            Selection.ThisShip.AddAlreadyExecutedAction(new BarrelRollAction());
+
             bool hasBarrelRollAction = (Host.BuiltInActions.Count(n => n.GetType() == typeof(BarrelRollAction)) != 0);
 
             if (hasBarrelRollAction)

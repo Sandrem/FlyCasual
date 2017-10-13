@@ -71,6 +71,7 @@ namespace SubPhases
         public override void Prepare()
         {
             infoText = "Use ability of Chewbacca (crew)?";
+            RequiredPlayer = Selection.ActiveShip.Owner.PlayerNo;
 
             AddDecision("Yes", UseChewbaccaCrewAbility);
             AddDecision("No", DontUseChewbaccaCrewAbility);

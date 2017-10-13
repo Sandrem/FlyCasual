@@ -42,6 +42,8 @@ namespace Upgrade
                 range = shotInfo.Range;
 
                 if (!shotInfo.InShotAngle) return false;
+
+                if (!shotInfo.CanShootSecondaryWeapon) return false;
             }
             else
             {

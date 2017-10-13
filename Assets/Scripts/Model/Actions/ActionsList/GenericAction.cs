@@ -42,12 +42,14 @@ namespace ActionsList
             * 100 - Free change limited by side if 1
             * 95 - Free rerolls limited by side
             * 90 - Free rerolls
+            * 85 - Reroll of all rerollable dice if bad result
             * 80 - Rerolls TL
             * 70 - Free focus to crit
             * 60 - Free focus to crit, another to hits
             * 55 - Free side to hit
             * 50 - Regular Focus to hits if 1+
             * 40 - Regular Focus to hits if 1
+            * 30 - Reroll of focus is focus token is available
             * 20 - Hits to crits
             */
 

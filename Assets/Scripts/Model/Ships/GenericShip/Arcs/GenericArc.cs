@@ -22,6 +22,7 @@ namespace Arcs
         public float MaxAngle;
         public ArcFacing Facing;
         public bool CanShoot = true;
+        public bool CanShootSecondaryWeapon = false;
 
         public virtual Dictionary<string, Vector3> GetArcPoints()
         {
@@ -78,8 +79,9 @@ namespace Arcs
             {
                 ShipBase = Host.ShipBase,
                 MinAngle = -40f,
-                MaxAngle =  40f,
-                Facing = ArcFacing.Front
+                MaxAngle = 40f,
+                Facing = ArcFacing.Front,
+                CanShootSecondaryWeapon = true
             };
 
             ArcsList = new List<ArcInfo>
@@ -101,6 +103,11 @@ namespace Arcs
         public virtual bool InPrimaryArc(string originPoint, float angle)
         {
             return CheckRay(originPoint, angle, new List<ArcInfo>() { primaryArc });
+        }
+
+        public virtual bool CanShootSecondaryWeapon(string originPoint, float angle)
+        {
+            return CheckRay(originPoint, angle, ArcsList.Where(n => n.CanShootSecondaryWeapon).ToList());
         }
 
         private bool CheckRay(string originPoint, float angle, List<ArcInfo> arcList)

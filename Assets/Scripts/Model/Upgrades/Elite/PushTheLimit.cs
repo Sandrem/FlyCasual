@@ -57,10 +57,10 @@ namespace UpgradesList
 		private void AddStressToken()
 		{
 			if (!base.Host.IsFreeActionSkipped) {
-				base.Host.AssignToken (new Tokens.StressToken(), delegate {
-					Phases.CurrentSubPhase.CallBack();
-					Triggers.FinishTrigger();
-				});	
+				base.Host.AssignToken (
+                    new Tokens.StressToken(),
+					Triggers.FinishTrigger
+                );	
 			}
 			else
 			{

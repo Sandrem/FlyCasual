@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 namespace Ship
 {
@@ -90,9 +91,55 @@ namespace PilotAbilities
         {
             int result = 0;
 
-            if (Combat.AttackStep == CombatStep.Attack)
+            if (Combat.AttackStep == CombatStep.Attack && Combat.DiceRollAttack.NotRerolled > 0)
             {
-                if (Combat.DiceRollAttack.Blanks > 0) result = 95;
+                int focusToTurnIntoHit = 0;
+                int focusToTurnIntoHitLeft = 0;
+                if (Combat.Attacker.GetAvailableActionEffectsList().Count(n => n.IsTurnsAllFocusIntoSuccess) > 0)
+                {
+                    focusToTurnIntoHit = int.MaxValue;
+                }
+                else if (Combat.Attacker.GetAvailableActionEffectsList().Count(n => n.IsTurnsOneFocusIntoSuccess) > 0)
+                {
+                    focusToTurnIntoHit = 1;
+                }
+                focusToTurnIntoHitLeft = focusToTurnIntoHit;
+
+                int currentHits = 0;
+                foreach (var die in Combat.DiceRollAttack.DiceList.Where(n => !n.IsRerolled))
+                {
+                    if (die.IsSuccess)
+                    {
+                        currentHits++;
+                    }
+                    else if (die.Side == DieSide.Focus)
+                    {
+                        if (focusToTurnIntoHitLeft > 0)
+                        {
+                            currentHits++;
+                            focusToTurnIntoHitLeft--;
+                        }
+                    }
+                }
+
+                float averagePossibleHits = 0;
+                if (focusToTurnIntoHit == int.MaxValue)
+                {
+                    averagePossibleHits = (6 / 8) * Combat.DiceRollAttack.NotRerolled;
+                }
+                else if (focusToTurnIntoHit == 1)
+                {
+                    if (Combat.DiceRollAttack.NotRerolled > 0)
+                    {
+                        averagePossibleHits = (6 / 8) + (4 / 8) * Combat.DiceRollAttack.NotRerolled-1;
+                    }
+                }
+                else
+                {
+                    averagePossibleHits = (4 / 8) * Combat.DiceRollAttack.NotRerolled;
+                }
+
+                if (averagePossibleHits > currentHits) result = 85;
             }
 
             return result;

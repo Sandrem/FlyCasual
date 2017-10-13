@@ -44,24 +44,27 @@ namespace Movement
 
         public override GameObject[] PlanMovement()
         {
-            GameObject[] result = new GameObject[100];
+            GameObject[] result = new GameObject[101];
 
             float distancePart = (Selection.ThisShip.ShipBase.GetShipBaseDistance() + Speed * GetMovement1())/100f;
             Vector3 position = Selection.ThisShip.GetPosition();
 
-            for (int i = 1; i <= 100; i++)
+            for (int i = 0; i <= 100; i++)
             {
-                position = Vector3.MoveTowards(position, position + Selection.ThisShip.TransformDirection(Vector3.forward), distancePart);
+                if (i > 0) position = Vector3.MoveTowards(position, position + Selection.ThisShip.TransformDirection(Vector3.forward), distancePart);
                 GameObject prefab = (GameObject)Resources.Load(Selection.ThisShip.ShipBase.TemporaryPrefabPath, typeof(GameObject));
                 GameObject ShipStand = MonoBehaviour.Instantiate(prefab, position, Selection.ThisShip.GetRotation(), Board.BoardManager.GetBoard());
 
                 Renderer[] renderers = ShipStand.GetComponentsInChildren<Renderer>();
-                foreach (var render in renderers)
+                if (!DebugManager.DebugMovement)
                 {
-                    render.enabled = false;
-                }
+                    foreach (var render in renderers)
+                    {
+                        render.enabled = false;
+                    }
+                } 
 
-                result[i - 1] = ShipStand;
+                result[i] = ShipStand;
             }
 
             return result;

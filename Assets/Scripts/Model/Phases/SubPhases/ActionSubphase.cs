@@ -203,6 +203,8 @@ namespace SubPhases
         {
             base.Resume();
             Initialize();
+
+            UI.ShowSkipButton();
         }
 
         public override void SkipButton()

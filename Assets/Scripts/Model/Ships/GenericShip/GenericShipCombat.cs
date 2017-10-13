@@ -33,7 +33,8 @@ namespace Ship
         {
             get
             {
-                int result = attackValue;
+                int result = Host.Firepower;
+                if (attackValue == int.MaxValue) Debug.Log(attackValue);
                 Host.CallAfterGotNumberOfPrimaryWeaponAttackDice(ref result);
                 return result;
             }
@@ -53,8 +54,6 @@ namespace Ship
 
             MinRange = 1;
             MaxRange = 3;
-
-            AttackValue = Host.Firepower;
         }
 
         public bool IsShotAvailable(GenericShip targetShip)
@@ -65,11 +64,12 @@ namespace Ship
 
             if (Combat.ChosenWeapon.GetType() == GetType())
             {
-                range = Combat.ShotInfo.Range;
+                Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(Host, targetShip, this);
+                range = shotInfo.Range;
                 if (!CanShootOutsideArc)
                 {
                     //TODO: Change to munitions arc
-                    if (!Combat.ShotInfo.InShotAngle) return false;
+                    if (!shotInfo.InShotAngle) return false;
                 }
             }
             else

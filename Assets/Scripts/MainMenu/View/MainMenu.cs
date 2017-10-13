@@ -18,6 +18,8 @@ public partial class MainMenu : MonoBehaviour {
     {
         GameObject.Find("UI/Panels/MainMenuPanel").transform.position = new Vector3(Screen.width / 20, Screen.height - Screen.height / 20, 0.0f);
         GameObject.Find("UI/BackgroundImage").GetComponent<RectTransform>().sizeDelta = new Vector2(Screen.height * 16f / 9f, Screen.height);
+
+        GameObject.Find("UI/Panels/Version").transform.position = new Vector3(Screen.width / 20, GameObject.Find("UI/Panels/Version").transform.position.y, 0.0f);
     }
 
     private void SetCurrentPanel()
@@ -51,6 +53,7 @@ public partial class MainMenu : MonoBehaviour {
         GameObject panel = GameObject.Find("UI/Panels").transform.Find("MainMenuPanel").Find("NewVersionIsAvailable").gameObject;
 
         panel.transform.Find("Text").GetComponent<Text>().text = "New version\nis available!\n\n" + newVersion;
+        panel.transform.position = new Vector2(Screen.width - 20,  20);
         NewVersionUrl = downloadUrl;
 
         panel.SetActive(true);

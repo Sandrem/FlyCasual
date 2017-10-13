@@ -39,7 +39,6 @@ namespace Movement
             Selection.ThisShip.ResetRotationHelpers();
 
             Phases.FinishSubPhase(typeof(SubPhases.BoostExecutionSubPhase));
-            Triggers.FinishTrigger();
         }
     }
 

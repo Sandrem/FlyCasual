@@ -13,7 +13,7 @@ public static class MovementTemplates {
     private static Transform Templates;
     public static Transform CurrentTemplate;
 
-    static MovementTemplates()
+    public static void PrepareMovementTemplates()
     {
         Templates = GameObject.Find("SceneHolder/Board/RulersHolder").transform;
     }

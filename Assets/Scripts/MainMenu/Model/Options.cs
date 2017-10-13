@@ -15,7 +15,7 @@ public static class Options
     public static int AnimationSpeed;
     public static int ManeuverSpeed;
 
-    static Options()
+    public static void ReadOptions()
     {
         Playmat = PlayerPrefs.GetString("PlaymatName", "Endor");
         CheckVersionUrl = PlayerPrefs.GetString("CheckVersionUrl", "http://sandrem.freeasphost.net/data/currentversion.txt");

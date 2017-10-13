@@ -15,6 +15,7 @@ namespace Board
         public bool InShotAngle { get; private set; }
         public bool InPrimaryArc { get; private set; }
         public bool InArc { get; private set; }
+        public bool CanShootSecondaryWeapon { get; private set; }
 
         IShipWeapon ChosenWeapon { get; set; }
 
@@ -67,6 +68,11 @@ namespace Board
                         if (ChosenWeapon.Host.ArcInfo.InPrimaryArc(pointThis.Key, angle))
                         {
                             InPrimaryArc = true;
+                        }
+
+                        if (ChosenWeapon.Host.ArcInfo.CanShootSecondaryWeapon(pointThis.Key, angle))
+                        {
+                            CanShootSecondaryWeapon = true;
                         }
 
                         distance = Vector3.Distance(pointThis.Value, pointAnother.Value);

@@ -438,6 +438,11 @@ public static partial class RosterBuilder {
         }
     }
 
+    public static void StartNetworkGame()
+    {
+        Network.Test();
+    }
+
     private static bool ValidatePlayersRosters()
     {
         if (!ValidatePlayerRoster(PlayerNo.Player1)) return false;

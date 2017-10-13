@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-public static class Network
+public static partial class Network
 {
     public static NetworkPlayer CurrentPlayer;
 
@@ -17,19 +17,14 @@ public static class Network
         CurrentPlayer.CmdTest();
     }
 
-    public static void RosterTest()
-    {
-        CurrentPlayer.CmdRosterTest();
-    }
-
     public static void UpdateAllShipNames(string text)
     {
         CurrentPlayer.CmdUpdateAllShipNames(text);
     }
 
-    public static void ShowVariable()
+    public static void CallBacksTest()
     {
-        CurrentPlayer.CmdShowVariable();
+        CurrentPlayer.CmdCallBacksTest();
     }
 
     // TOOLS

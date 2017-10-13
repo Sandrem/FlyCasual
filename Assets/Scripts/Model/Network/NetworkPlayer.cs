@@ -25,6 +25,12 @@ public class NetworkPlayer : NetworkBehaviour {
     }
 
     [Command]
+    public void CmdCallBacksTest()
+    {
+        Network.ExecuteWithCallBack(CmdRosterTest, CmdShowVariable);
+    }
+
+    [Command]
     public void CmdRosterTest()
     {
         Network.AllShipNames = "";
@@ -38,6 +44,8 @@ public class NetworkPlayer : NetworkBehaviour {
         text += "\nMy first ship is " + RosterBuilder.TestGetNameOfFirstShipInRoster();
         Network.UpdateAllShipNames(RosterBuilder.TestGetNameOfFirstShipInRoster() + "\n");
         Network.ShowMessage(text);
+
+        Network.FinishTask();
     }
 
     [Command]
@@ -70,5 +78,13 @@ public class NetworkPlayer : NetworkBehaviour {
     private void RpcShowMessage(string text)
     {
         Messages.ShowInfo(text);
+    }
+
+    // CALLBACKS
+
+    [Command]
+    public void CmdFinishTask()
+    {
+        Network.ServerFinishTask();
     }
 }

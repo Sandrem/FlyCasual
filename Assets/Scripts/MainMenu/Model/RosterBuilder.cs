@@ -443,17 +443,8 @@ public static partial class RosterBuilder {
 
     public static void StartNetworkGame()
     {
-        if (testCounter == 0)
-        {
-            Network.Test();
-            Network.RosterTest();
-            testCounter++;
-        }
-        else if (testCounter == 1)
-        {
-            Network.ShowVariable();
-            testCounter = 0;
-        }
+        Network.Test();
+        Network.CallBacksTest();
     }
 
     // TEST

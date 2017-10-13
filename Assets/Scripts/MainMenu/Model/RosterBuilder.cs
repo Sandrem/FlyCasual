@@ -441,6 +441,16 @@ public static partial class RosterBuilder {
     public static void StartNetworkGame()
     {
         Network.Test();
+        Network.RosterTest();
+    }
+
+    // TEST
+
+    public static string TestGetNameOfFirstShipInRoster()
+    {
+        string result = "";
+        result = SquadBuilderRoster.GetShips()[0].Ship.Type;
+        return result;
     }
 
     private static bool ValidatePlayersRosters()

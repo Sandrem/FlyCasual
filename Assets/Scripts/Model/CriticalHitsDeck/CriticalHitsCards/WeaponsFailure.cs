@@ -12,14 +12,13 @@ namespace CriticalHitCard
         {
             Name = "Weapons Failure";
             Type = CriticalCardType.Ship;
-            ImageUrl = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/damage-decks/core-tfa/weapons-failure.png";
-            CancelDiceResults.Add(DiceSide.Success);
-            CancelDiceResults.Add(DiceSide.Crit);
+            CancelDiceResults.Add(DieSide.Success);
+            CancelDiceResults.Add(DieSide.Crit);
         }
 
         public override void ApplyEffect(object sender, EventArgs e)
         {
-            Host.AfterGotNumberOfPrimaryWeaponAttackDices += ReduceNumberOfAttackDices;
+            Host.AfterGotNumberOfPrimaryWeaponAttackDice += ReduceNumberOfAttackDice;
             Host.AfterGenerateAvailableActionsList += AddCancelCritAction;
 
             Host.AssignToken(new Tokens.WeaponsFailureCritToken(), Triggers.FinishTrigger);
@@ -27,16 +26,16 @@ namespace CriticalHitCard
 
         public override void DiscardEffect(Ship.GenericShip host)
         {
-            Messages.ShowInfo("Number of attack dices is restored");
+            Messages.ShowInfo("Number of attack dice is restored");
 
             host.RemoveToken(typeof(Tokens.WeaponsFailureCritToken));
-            host.AfterGotNumberOfPrimaryWeaponAttackDices -= ReduceNumberOfAttackDices;
+            host.AfterGotNumberOfPrimaryWeaponAttackDice -= ReduceNumberOfAttackDice;
             host.AfterGenerateAvailableActionsList -= AddCancelCritAction;
         }
 
-        private void ReduceNumberOfAttackDices(ref int value)
+        private void ReduceNumberOfAttackDice(ref int value)
         {
-            Messages.ShowInfo("Weapons Failure: Number of attack dices is reduced");
+            Messages.ShowInfo("Weapons Failure: Number of attack dice is reduced");
 
             value--;
         }

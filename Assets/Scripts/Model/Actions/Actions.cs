@@ -15,7 +15,7 @@ public static partial class Actions {
         if (Letters.Count == 0) InitializeTargetLockLetters();
 
         ShipDistanceInformation distanceInfo = new ShipDistanceInformation(thisShip, targetShip);
-        if (distanceInfo.Range < 4)
+        if (distanceInfo.Range >= thisShip.TargetLockMinRange && distanceInfo.Range <= thisShip.TargetLockMaxRange)
         {
             Tokens.GenericToken existingBlueToken = thisShip.GetToken(typeof(Tokens.BlueTargetLockToken), '*');
             if (existingBlueToken != null)
@@ -36,8 +36,11 @@ public static partial class Actions {
 
             TakeTargetLockLetter(letter);
 
-            targetShip.AssignToken(tokenRed, delegate { } );
-            Selection.ThisShip.AssignToken(tokenBlue, successCallback);
+            targetShip.AssignToken(
+                tokenRed,
+                delegate{
+                    thisShip.AssignToken(tokenBlue, successCallback);
+                } );
         }
         else
         {
@@ -118,8 +121,8 @@ public static partial class Actions {
         if (range <= 1) return true;
         if (range >= 3) return false;
 
-        float distanceToFront = Vector3.Distance(thisShip.GetPosition(), anotherShip.GetCentralFrontPoint());
-        float distanceToBack = Vector3.Distance(thisShip.GetPosition(), anotherShip.GetCentralBackPoint());
+        float distanceToFront = Vector3.Distance(thisShip.GetPosition(), anotherShip.ShipBase.GetCentralFrontPoint());
+        float distanceToBack = Vector3.Distance(thisShip.GetPosition(), anotherShip.ShipBase.GetCentralBackPoint());
         result = (distanceToFront < distanceToBack) ? true : false;
         return result;
     }

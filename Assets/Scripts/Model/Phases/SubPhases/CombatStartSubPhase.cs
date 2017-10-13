@@ -11,7 +11,6 @@ namespace SubPhases
 
         public override void Start()
         {
-            Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
             Name = "Combat start";
             UpdateHelpInfo();
 
@@ -20,7 +19,7 @@ namespace SubPhases
 
         public override void Initialize()
         {
-            Phases.CallCombatPhaseTrigger();
+            Phases.CallCombatPhaseStartTrigger();
         }
 
         public override void Next()

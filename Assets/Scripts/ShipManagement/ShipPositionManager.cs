@@ -6,36 +6,23 @@ using Board;
 public class ShipPositionManager : MonoBehaviour
 {
 
-    private GameManagerScript Game;
     public bool inReposition;
 
     //TEMP
     private bool inBarrelRoll;
-    private bool inKoiogranTurn;
     private Ship.GenericShip RollingShip;
     private float progressCurrent;
     private float progressTarget;
-    private const float KOIOGRAN_ANIMATION_SPEED = 100;
     private int helperDirection;
-
-    public GameObject prefabShipStand;
 
     private GameObject ShipStand;
 
     private Transform StartingZone;
     private bool isInsideStartingZone;
 
-    // Use this for initialization
-    void Start()
-    {
-        Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-    }
-
     // Update is called once per frame
     void Update()
     {
-        if (Game == null) Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-
         if (!inReposition) {
             if (Selection.ThisShip != null)
             {
@@ -48,41 +35,7 @@ public class ShipPositionManager : MonoBehaviour
             PerformDrag();
         }
 
-        if (Phases.CurrentSubPhase.GetType() == typeof(SubPhases.BarrelRollPlanningSubPhase))
-        {
-            Phases.CurrentSubPhase.Update();
-        }
-
-        if (Phases.CurrentSubPhase.GetType() == typeof(SubPhases.BarrelRollExecutionSubPhase))
-        {
-            Phases.CurrentSubPhase.Update();
-        }
-
-        if (Phases.CurrentSubPhase.GetType() == typeof(SubPhases.BoostPlanningSubPhase))
-        {
-            Phases.CurrentSubPhase.Update();
-        }
-
-        if (Phases.CurrentSubPhase.GetType() == typeof(SubPhases.BoostExecutionSubPhase))
-        {
-            Phases.CurrentSubPhase.Update();
-        }
-
-        if (Phases.CurrentSubPhase.GetType() == typeof(SubPhases.DecloakPlanningSubPhase))
-        {
-            Phases.CurrentSubPhase.Update();
-        }
-
-        if (Phases.CurrentSubPhase.GetType() == typeof(SubPhases.DecloakExecutionSubPhase))
-        {
-            Phases.CurrentSubPhase.Update();
-        }
-
-        if (inKoiogranTurn)
-        {
-            DoKoiogranTurnAnimation();
-        }
-
+        Phases.CurrentSubPhase.Update();
     }
 
     public void StartDrag()
@@ -220,8 +173,8 @@ public class ShipPositionManager : MonoBehaviour
     {
         Dictionary<string, float> result = new Dictionary<string, float>();
 
-        Dictionary<string, float> thisShipBounds = thisShip.GetBounds();
-        Dictionary<string, float> anotherShipBounds = anotherShip.GetBounds();
+        Dictionary<string, float> thisShipBounds = thisShip.ShipBase.GetBounds();
+        Dictionary<string, float> anotherShipBounds = anotherShip.ShipBase.GetBounds();
 
         result.Add("Left", thisShipBounds["minX"] - anotherShipBounds["maxX"]);
         result.Add("Right", anotherShipBounds["minX"] - thisShipBounds["maxX"]);
@@ -253,7 +206,7 @@ public class ShipPositionManager : MonoBehaviour
     private void ApplySetupPositionLimits()
     {
         Vector3 newPosition = Selection.ThisShip.GetCenter();
-        Dictionary<string, float> newBounds = Selection.ThisShip.GetBounds();
+        Dictionary<string, float> newBounds = Selection.ThisShip.ShipBase.GetBounds();
 
         if (!isInsideStartingZone)
         {
@@ -284,9 +237,11 @@ public class ShipPositionManager : MonoBehaviour
         //Cannot leave board
         //Obstacles
 
+        GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
+
         if (Phases.CurrentSubPhase.GetType() == typeof(SubPhases.SetupSubPhase))
         {
-            if (!ship.IsInside(StartingZone))
+            if (!ship.ShipBase.IsInside(StartingZone))
 
             {
                 Messages.ShowErrorToHuman("Place ship into highlighted area");
@@ -321,33 +276,6 @@ public class ShipPositionManager : MonoBehaviour
         }
 
         Phases.Next();
-    }
-
-    public void StartKoiogranTurn()
-    {
-        progressCurrent = 0;
-        progressTarget = 180;
-        inKoiogranTurn = true;
-    }
-
-    private void DoKoiogranTurnAnimation()
-    {
-        float progressStep = Mathf.Min(Time.deltaTime * KOIOGRAN_ANIMATION_SPEED * Options.AnimationSpeed, progressTarget-progressCurrent);
-        progressCurrent += progressStep;
-
-        Selection.ThisShip.RotateAround(Selection.ThisShip.GetCenter(), progressStep);
-
-        float positionY = (progressCurrent < 90) ? progressCurrent : 180 - progressCurrent;
-        positionY = positionY / 90;
-        Selection.ThisShip.SetHeight(positionY);
-
-        if (progressCurrent == progressTarget) EndKoiogranTurn();
-    }
-
-    private void EndKoiogranTurn()
-    {
-        inKoiogranTurn = false;
-        Phases.FinishSubPhase(typeof(SubPhases.KoiogranTurnSubPhase));
     }
 
 }

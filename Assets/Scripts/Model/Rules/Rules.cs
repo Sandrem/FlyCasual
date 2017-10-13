@@ -15,6 +15,7 @@ public static class Rules
     public static DuplicatedActionsRule DuplicatedActions { get; private set; }
     public static AsteroidLandedRule AsteroidLanded { get; private set; }
     public static AsteroidHitRule AsteroidHit { get; private set; }
+    public static MineHitRule MineHit { get; private set; }
     public static AsteroidObstructionRule AsteroidObstruction { get; private set; }
     public static InitiativeRule Initiative { get; private set; }
     public static TargetIsLegalForShotRule TargetIsLegalForShot { get; private set; }
@@ -22,21 +23,18 @@ public static class Rules
     public static TargetLocksRule TargetLocks { get; private set; }
     public static CloakRule Cloak { get; private set; }
 
-    private static GameManagerScript Game;
-
     static Rules()
     {
-        Game = UnityEngine.GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-
-        WinConditions = new WinConditionsRule(Game);
+        WinConditions = new WinConditionsRule();
         DistanceBonus = new DistanceBonusRule();
         EndPhase = new EndPhaseCleanupRule();
         Stress = new StressRule();
-        OffTheBoard = new OffTheBoardRule(Game);
+        OffTheBoard = new OffTheBoardRule();
         Collision = new CollisionRules();
         DuplicatedActions = new DuplicatedActionsRule();
         AsteroidLanded = new AsteroidLandedRule();
         AsteroidHit = new AsteroidHitRule();
+        MineHit = new MineHitRule();
         AsteroidObstruction = new AsteroidObstructionRule();
         Initiative = new InitiativeRule();
         TargetIsLegalForShot = new TargetIsLegalForShotRule();

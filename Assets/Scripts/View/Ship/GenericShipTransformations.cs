@@ -16,7 +16,7 @@ namespace Ship
 
         public void SetCenter(Vector3 position)
         {
-            position = position + Model.transform.TransformVector(0, 0, HALF_OF_SHIPSTAND_SIZE);
+            position = position + Model.transform.TransformVector(0, 0, ShipBase.HALF_OF_SHIPSTAND_SIZE);
             Model.transform.position = position;
         }
 
@@ -43,25 +43,8 @@ namespace Ship
         public Vector3 GetCenter()
         {
             Vector3 result;
-            result = Model.transform.TransformPoint(0, 0, -HALF_OF_SHIPSTAND_SIZE);
+            result = Model.transform.TransformPoint(0, 0, -ShipBase.HALF_OF_SHIPSTAND_SIZE);
             return result;
-        }
-
-        public Dictionary<string, float> GetBounds()
-        {
-            List<Vector3> edgesList = new List<Vector3>();
-            edgesList.Add(Model.transform.TransformPoint(standEdgePoints["RF"]));
-            edgesList.Add(Model.transform.TransformPoint(standEdgePoints["LF"]));
-            edgesList.Add(Model.transform.TransformPoint(standEdgePoints["RB"]));
-            edgesList.Add(Model.transform.TransformPoint(standEdgePoints["LB"]));
-
-            Dictionary<string, float> bounds = new Dictionary<string, float>();
-            bounds.Add("minX", Mathf.Min(edgesList[0].x, edgesList[1].x, edgesList[2].x, edgesList[3].x));
-            bounds.Add("maxX", Mathf.Max(edgesList[0].x, edgesList[1].x, edgesList[2].x, edgesList[3].x));
-            bounds.Add("minZ", Mathf.Min(edgesList[0].z, edgesList[1].z, edgesList[2].z, edgesList[3].z));
-            bounds.Add("maxZ", Mathf.Max(edgesList[0].z, edgesList[1].z, edgesList[2].z, edgesList[3].z));
-
-            return bounds;
         }
 
         public Vector3 GetModelCenter()
@@ -69,11 +52,21 @@ namespace Ship
             return modelCenter.position;
         }
 
+        public GameObject GetModelOrientation()
+        {
+            return Model.transform.Find("RotationHelper/RotationHelper2").gameObject;
+        }           
+
         // ROTATION HELPERS
 
         public void UpdateRotationHelperAngles(Vector3 angles)
         {
             Model.transform.Find("RotationHelper").localEulerAngles = new Vector3(angles.x, angles.y + Model.transform.Find("RotationHelper").localEulerAngles.y, angles.z);
+        }
+
+        public void UpdateRotationHelper2Angles(Vector3 angles)
+        {
+            Model.transform.Find("RotationHelper/RotationHelper2").localEulerAngles = new Vector3(angles.x, angles.y + Model.transform.Find("RotationHelper/RotationHelper2").localEulerAngles.y, angles.z);
         }
 
         public void SetRotationHelper2Angles(Vector3 angles)
@@ -129,7 +122,7 @@ namespace Ship
 
         public void Rotate180()
         {
-            Model.transform.RotateAround(Model.transform.TransformPoint(new Vector3(0, 0, -HALF_OF_SHIPSTAND_SIZE)), Vector3.up, 180);
+            Model.transform.RotateAround(Model.transform.TransformPoint(new Vector3(0, 0, -ShipBase.HALF_OF_SHIPSTAND_SIZE)), Vector3.up, 180);
         }
 
         public void RotateModelDuringTurn(float progress)

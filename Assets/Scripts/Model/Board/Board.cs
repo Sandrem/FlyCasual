@@ -5,9 +5,9 @@ using UnityEngine;
 namespace Board
 {
 
-    public static partial class BoardManager { 
+    public static partial class BoardManager {
 
-        public static GameManagerScript Game;
+        public static readonly float PLAYMAT_SIZE = 10;
 
         public static void SetShips()
         {

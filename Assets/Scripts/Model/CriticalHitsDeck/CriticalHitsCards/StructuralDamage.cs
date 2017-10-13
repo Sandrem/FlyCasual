@@ -12,8 +12,7 @@ namespace CriticalHitCard
         {
             Name = "Structural Damage";
             Type = CriticalCardType.Ship;
-            ImageUrl = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/damage-decks/core-tfa/structural-damage.png";
-            CancelDiceResults.Add(DiceSide.Success);
+            CancelDiceResults.Add(DieSide.Success);
         }
 
         public override void ApplyEffect(object sender, EventArgs e)

@@ -12,8 +12,7 @@ namespace UpgradesList
         public SquadLeader() : base()
         {
             Type = UpgradeType.Elite;
-            Name = ShortName = "Squad Leader";
-            ImageUrl = "https://vignette2.wikia.nocookie.net/xwing-miniatures/images/c/cd/Squad_Leader.png";
+            Name = "Squad Leader";
             isUnique = true;
             Cost = 2;
         }
@@ -71,7 +70,7 @@ namespace SubPhases
             maxRange = 2;
             finishAction = SelectSquadLeaderTarget;
 
-            Game.UI.ShowSkipButton();
+            UI.ShowSkipButton();
         }
 
         private void SelectSquadLeaderTarget()

@@ -7,12 +7,13 @@ namespace Ship
 {
     namespace TIEFighter
     {
-        public class TIEFighter : GenericShip
+        public class TIEFighter : GenericShip, TIE
         {
 
             public TIEFighter() : base()
             {
                 Type = "TIE Fighter";
+
                 ManeuversImageUrl = "https://vignette1.wikia.nocookie.net/xwing-miniatures/images/b/b6/TIE_Fighter_Move.png";
 
                 Firepower = 2;
@@ -24,7 +25,10 @@ namespace Ship
                 HotacManeuverTable = new AI.TIEFighterTable();
 
                 factions.Add(Faction.Empire);
+                factions.Add(Faction.Rebels);
                 faction = Faction.Empire;
+
+                SkinName = "Gray";
 
                 SoundShotsPath = "TIE-Fire";
                 ShotsCount = 2;

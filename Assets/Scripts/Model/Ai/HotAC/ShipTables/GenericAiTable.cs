@@ -117,7 +117,11 @@ namespace AI
             Movement.GenericMovement result = movement;
             if (movement.Direction != Movement.ManeuverDirection.Forward)
             {
-                movement.Direction = (vector < 0) ? Movement.ManeuverDirection.Left : Movement.ManeuverDirection.Right;
+                if (vector < 0)
+                {
+                    if (movement.Direction == Movement.ManeuverDirection.Left) movement.Direction = Movement.ManeuverDirection.Right;
+                    else if (movement.Direction == Movement.ManeuverDirection.Right) movement.Direction = Movement.ManeuverDirection.Left;
+                }
             }
             return result;
         }
@@ -140,8 +144,8 @@ namespace AI
         public static bool IsClosing(Ship.GenericShip thisShip, Ship.GenericShip anotherShip)
         {
             bool result = false;
-            float distanceToFront = Vector3.Distance(thisShip.GetPosition(), anotherShip.GetCentralFrontPoint());
-            float distanceToBack = Vector3.Distance(thisShip.GetPosition(), anotherShip.GetCentralBackPoint());
+            float distanceToFront = Vector3.Distance(thisShip.GetPosition(), anotherShip.ShipBase.GetCentralFrontPoint());
+            float distanceToBack = Vector3.Distance(thisShip.GetPosition(), anotherShip.ShipBase.GetCentralBackPoint());
             result = (distanceToFront < distanceToBack) ? true : false;
             return result;
         }

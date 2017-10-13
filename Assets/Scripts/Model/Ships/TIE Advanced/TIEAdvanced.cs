@@ -7,12 +7,13 @@ namespace Ship
 {
     namespace TIEAdvanced
     {
-        public class TIEAdvanced : GenericShip
+        public class TIEAdvanced : GenericShip, TIE
         {
 
             public TIEAdvanced() : base()
             {
                 Type = "TIE Advanced";
+
                 ManeuversImageUrl = "https://vignette1.wikia.nocookie.net/xwing-miniatures/images/8/85/MI_TIE-ADVANCED.png";
 
                 Firepower = 2;
@@ -20,13 +21,15 @@ namespace Ship
                 MaxHull = 3;
                 MaxShields = 2;
 
-                AddUpgradeSlot(Upgrade.UpgradeType.Missiles);
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Missile);
 
                 AssignTemporaryManeuvers();
                 HotacManeuverTable = new AI.TIEAdvancedTable();
 
                 factions.Add(Faction.Empire);
                 faction = Faction.Empire;
+
+                SkinName = "Gray";
 
                 SoundShotsPath = "TIE-Fire";
                 ShotsCount = 2;

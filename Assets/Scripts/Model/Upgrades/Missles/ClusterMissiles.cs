@@ -11,11 +11,9 @@ namespace UpgradesList
     {
         public ClusterMissiles() : base()
         {
-            Type = UpgradeType.Missiles;
+            Type = UpgradeType.Missile;
 
             Name = "Cluster Missiles";
-            ShortName = "Cluster Missiles";
-            ImageUrl = "https://vignette2.wikia.nocookie.net/xwing-miniatures/images/1/10/Cluster_Missiles.png";
             Cost = 4;
 
             MinRange = 1;

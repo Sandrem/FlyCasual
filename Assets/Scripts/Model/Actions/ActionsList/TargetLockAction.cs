@@ -86,10 +86,14 @@ namespace SubPhases
 
         public override void Prepare()
         {
+            var ship = Selection.ThisShip;
+            minRange = ship.TargetLockMinRange;
+            maxRange = ship.TargetLockMaxRange;
+
             isEnemyAllowed = true;
             finishAction = TrySelectTargetLock;
 
-            Game.UI.ShowSkipButton();
+            UI.ShowSkipButton();
         }
 
         private void TrySelectTargetLock()

@@ -12,11 +12,9 @@ namespace UpgradesList
     {
         public ConcussionMissiles() : base()
         {
-            Type = UpgradeType.Missiles;
+            Type = UpgradeType.Missile;
 
             Name = "Concussion Missiles";
-            ShortName = "Conc. Missiles";
-            ImageUrl = "https://vignette1.wikia.nocookie.net/xwing-miniatures/images/7/70/Concussion_Missiles.png";
             Cost = 4;
 
             MinRange = 2;
@@ -110,7 +108,7 @@ namespace ActionsList
 
         public override void ActionEffect(System.Action callBack)
         {
-            Combat.CurentDiceRoll.ChangeOne(DiceSide.Blank, DiceSide.Success);
+            Combat.CurentDiceRoll.ChangeOne(DieSide.Blank, DieSide.Success);
             callBack();
         }
 

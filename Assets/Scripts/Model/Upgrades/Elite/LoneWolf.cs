@@ -14,8 +14,7 @@ namespace UpgradesList
             isUnique = true;
 
             Type = UpgradeType.Elite;
-            Name = ShortName = "Lone Wolf";
-            ImageUrl = "https://vignette3.wikia.nocookie.net/xwing-miniatures/images/6/60/Lone-wolf.png";
+            Name = "Lone Wolf";
             Cost = 2;
         }
 
@@ -95,8 +94,8 @@ namespace ActionsList
         {
             DiceRerollManager diceRerollManager = new DiceRerollManager
             {
-                NumberOfDicesCanBeRerolled = 1,
-                SidesCanBeRerolled = new List<DiceSide> { DiceSide.Blank },
+                NumberOfDiceCanBeRerolled = 1,
+                SidesCanBeRerolled = new List<DieSide> { DieSide.Blank },
                 CallBack = callBack
             };
             diceRerollManager.Start();

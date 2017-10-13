@@ -13,8 +13,7 @@ namespace UpgradesList
         public R2D2() : base()
         {
             Type = UpgradeType.Astromech;
-            Name = ShortName = "R2-D2";
-            ImageUrl = "https://vignette2.wikia.nocookie.net/xwing-miniatures/images/5/57/R2-d2.png";
+            Name = "R2-D2";
             isUnique = true;
             Cost = 4;
         }
@@ -46,7 +45,7 @@ namespace UpgradesList
         {
             if (Host.TryRegenShields())
             {
-                Sounds.PlaySoundOnce("R2D2-Proud");
+                Sounds.PlayShipSound("R2D2-Proud");
                 Messages.ShowInfo("R2-D2: Shield is restored");
             }
             Triggers.FinishTrigger();

@@ -10,6 +10,8 @@ namespace ActionsList
 
         public EvadeAction() {
             Name = EffectName = "Evade";
+
+            IsSpendEvade = true;
         }
 
         public override void ActionEffect(System.Action callBack)

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using Ship;
 
 namespace RulesList
 {
@@ -13,10 +14,11 @@ namespace RulesList
 
         private void SubscribeEvents()
         {
+            GenericShip.OnMovementFinishGlobal += CheckDamage;
             Phases.BeforeActionSubPhaseStart += CheckSkipPerformAction;
         }
 
-        public void CheckSkipPerformAction()
+        private void CheckSkipPerformAction()
         {
             if (Selection.ThisShip.ObstaclesHit.Count > 0)
             {
@@ -25,7 +27,7 @@ namespace RulesList
             }
         }
 
-        public void CheckDamage(Ship.GenericShip ship)
+        private void CheckDamage(GenericShip ship)
         {
             if (Selection.ThisShip.ObstaclesHit.Count > 0)
             {
@@ -66,8 +68,8 @@ namespace SubPhases
 
         public override void Prepare()
         {
-            dicesType = DiceKind.Attack;
-            dicesCount = 1;
+            diceType = DiceKind.Attack;
+            diceCount = 1;
 
             finishAction = FinishAction;
         }
@@ -79,21 +81,19 @@ namespace SubPhases
 
             switch (CurrentDiceRoll.DiceList[0].Side)
             {
-                case DiceSide.Blank:
+                case DieSide.Blank:
                     NoDamage();
                     break;
-                case DiceSide.Focus:
+                case DieSide.Focus:
                     NoDamage();                    
                     break;
-                case DiceSide.Success:
+                case DieSide.Success:
                     Messages.ShowErrorToHuman("Damage is dealt!");
                     SufferDamage();
-                    Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, CallBack);
                     break;
-                case DiceSide.Crit:
+                case DieSide.Crit:
                     Messages.ShowErrorToHuman("Critical damage is dealt!");
                     SufferDamage();
-                    Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, CallBack);
                     break;
                 default:
                     break;
@@ -124,6 +124,8 @@ namespace SubPhases
                     }
                 });
             }
+
+            Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, CallBack);
         }
 
     }

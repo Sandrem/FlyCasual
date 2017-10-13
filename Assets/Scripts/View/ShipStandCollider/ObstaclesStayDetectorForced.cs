@@ -1,25 +1,28 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Ship;
 
 public class ObstaclesStayDetectorForced: MonoBehaviour {
 
     public bool checkCollisionsNow = false;
 
-    public bool OverlapsShipNow = false;
+    public bool OverlapsShipNow
+    {
+        get { return OverlappedShipsNow.Count > 0; }
+    }
+
+    public List<GenericShip> OverlappedShipsNow = new List<GenericShip>();
     public bool OverlapsAsteroidNow = false;
     public bool OffTheBoardNow = false;
-
-    void OnTriggerEnter(Collider collisionInfo)
-    {
-
-    }
+    public List<Collider> OverlapedMinesNow = new List<Collider>();
 
     public void ReCheckCollisionsStart()
     {
         OverlapsAsteroidNow = false;
-        OverlapsShipNow = false;
+        OverlappedShipsNow = new List<GenericShip>();
         OffTheBoardNow = false;
+        OverlapedMinesNow = new List<Collider>();
 
         checkCollisionsNow = true;
     }
@@ -37,6 +40,10 @@ public class ObstaclesStayDetectorForced: MonoBehaviour {
             {
                 OverlapsAsteroidNow = true;
             }
+            else if (collisionInfo.tag == "Mine")
+            {
+                if (!OverlapedMinesNow.Contains(collisionInfo)) OverlapedMinesNow.Add(collisionInfo);
+            }
             else if (collisionInfo.name == "OffTheBoard")
             {
                 OffTheBoardNow = true;
@@ -45,15 +52,10 @@ public class ObstaclesStayDetectorForced: MonoBehaviour {
             {
                 if (collisionInfo.tag != "Untagged" && collisionInfo.tag != Selection.ThisShip.GetTag())
                 {
-                    OverlapsShipNow = true;
+                    OverlappedShipsNow.Add(Roster.GetShipById(collisionInfo.tag));
                 }
             }
         }
-    }
-
-    void OnTriggerExit(Collider collisionInfo)
-    {
-
     }
 
 }

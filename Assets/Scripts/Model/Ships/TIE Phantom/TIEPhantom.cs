@@ -7,27 +7,30 @@ namespace Ship
 {
     namespace TIEPhantom
     {
-        public class TIEPhantom : GenericShip
+        public class TIEPhantom : GenericShip, TIE
         {
 
             public TIEPhantom() : base()
             {
                 Type = "TIE Phantom";
-                ManeuversImageUrl = "https://vignette1.wikia.nocookie.net/xwing-miniatures/images/8/85/MI_TIE-ADVANCED.png";
+
+                ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/c/ce/MI_TIE-PHANTOM.png";
 
                 Firepower = 4;
                 Agility = 2;
                 MaxHull = 2;
                 MaxShields = 2;
 
-                AddUpgradeSlot(Upgrade.UpgradeType.System);
-                AddUpgradeSlot(Upgrade.UpgradeType.Crew);
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.System);
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Crew);
 
                 AssignTemporaryManeuvers();
                 HotacManeuverTable = new AI.TIEPhantomTable();
 
                 factions.Add(Faction.Empire);
                 faction = Faction.Empire;
+
+                SkinName = "Gray";
 
                 SoundShotsPath = "TIE-Fire";
                 ShotsCount = 4;

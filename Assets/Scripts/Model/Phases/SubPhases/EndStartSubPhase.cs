@@ -10,7 +10,6 @@ namespace SubPhases
 
         public override void Start()
         {
-            Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
             Name = "End start";
         }
 

@@ -41,9 +41,14 @@ namespace SubPhases
         public float helperDirection;
         public bool inReposition;
 
+        private float barrelRollDistance;
+        private float barrelRollTemplateDistance;
+
+        private float battelRollTemplateLimitTop;
+        private float battelRollTemplateLimitBottom;
+
         public override void Start()
         {
-            Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
             Name = "Barrel Roll planning";
             IsTemporary = true;
             UpdateHelpInfo();
@@ -53,12 +58,19 @@ namespace SubPhases
 
         public void StartBarrelRollPlanning()
         {
-            ShipStand = MonoBehaviour.Instantiate(Game.Position.prefabShipStand, Selection.ThisShip.GetPosition(), Selection.ThisShip.GetRotation(), BoardManager.GetBoard());
-            ShipStand.transform.Find("ShipStandTemplate").Find("ShipStandInsert").Find("ShipStandInsertImage").Find("default").GetComponent<Renderer>().material = Selection.ThisShip.Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("ShipStand").Find("ShipStandInsert").Find("ShipStandInsertImage").Find("default").GetComponent<Renderer>().material;
+            GameObject prefab = (GameObject)Resources.Load(Selection.ThisShip.ShipBase.TemporaryPrefabPath, typeof(GameObject));
+            ShipStand = MonoBehaviour.Instantiate(prefab, Selection.ThisShip.GetPosition(), Selection.ThisShip.GetRotation(), BoardManager.GetBoard());
+            ShipStand.transform.Find("ShipBase").Find("ShipStandInsert").Find("ShipStandInsertImage").Find("default").GetComponent<Renderer>().material = Selection.ThisShip.Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("ShipBase").Find("ShipStandInsert").Find("ShipStandInsertImage").Find("default").GetComponent<Renderer>().material;
+            ShipStand.transform.Find("ShipBase").Find("ObstaclesStayDetector").gameObject.AddComponent<ObstaclesStayDetectorForced>();
             obstaclesStayDetectorBase = ShipStand.GetComponentInChildren<ObstaclesStayDetectorForced>();
 
+            barrelRollDistance = (Selection.ThisShip.ShipBaseSize == Ship.BaseSize.Small) ? 2f : 2.5f;
+            barrelRollTemplateDistance = (Selection.ThisShip.ShipBaseSize == Ship.BaseSize.Small) ? 0.5f : 1.25f;
+            battelRollTemplateLimitTop = (Selection.ThisShip.ShipBaseSize == Ship.BaseSize.Small) ? 0.25f : 1f;
+            battelRollTemplateLimitBottom = (Selection.ThisShip.ShipBaseSize == Ship.BaseSize.Small) ? 0.75f : 2f;
+
             MovementTemplates.CurrentTemplate = MovementTemplates.GetMovement1Ruler();
-            MovementTemplates.CurrentTemplate.position = Selection.ThisShip.TransformPoint(new Vector3(0.5f, 0, -0.25f));
+            MovementTemplates.CurrentTemplate.position = Selection.ThisShip.TransformPoint(new Vector3(barrelRollTemplateDistance, 0, -battelRollTemplateLimitTop));
             obstaclesStayDetectorMovementTemplate = MovementTemplates.CurrentTemplate.GetComponentInChildren<ObstaclesStayDetectorForced>();
 
             Roster.SetRaycastTargets(false);
@@ -103,43 +115,43 @@ namespace SubPhases
             Vector3 newPosition = Selection.ThisShip.InverseTransformPoint(ShipStand.transform.position);
             Vector3 fixedPositionRel = newPosition;
 
-            if (newPosition.z > 0.5f)
+            if (newPosition.z > Selection.ThisShip.ShipBase.HALF_OF_SHIPSTAND_SIZE)
             {
-                fixedPositionRel = new Vector3(fixedPositionRel.x, fixedPositionRel.y, 0.5f);
+                fixedPositionRel = new Vector3(fixedPositionRel.x, fixedPositionRel.y, Selection.ThisShip.ShipBase.HALF_OF_SHIPSTAND_SIZE);
             }
 
-            if (newPosition.z < -0.5f)
+            if (newPosition.z < -Selection.ThisShip.ShipBase.HALF_OF_SHIPSTAND_SIZE)
             {
-                fixedPositionRel = new Vector3(fixedPositionRel.x, fixedPositionRel.y, -0.5f);
+                fixedPositionRel = new Vector3(fixedPositionRel.x, fixedPositionRel.y, -Selection.ThisShip.ShipBase.HALF_OF_SHIPSTAND_SIZE);
             }
 
             if (newPosition.x > 0f)
             {
-                fixedPositionRel = new Vector3(2, fixedPositionRel.y, fixedPositionRel.z);
+                fixedPositionRel = new Vector3(barrelRollDistance, fixedPositionRel.y, fixedPositionRel.z);
 
                 helperDirection = 1f;
-                MovementTemplates.CurrentTemplate.eulerAngles = Selection.ThisShip.Model.transform.eulerAngles + new Vector3(0, 180, 0);
+                MovementTemplates.CurrentTemplate.eulerAngles = Selection.ThisShip.Model.transform.eulerAngles + new Vector3(0, (Selection.ThisShip.ShipBaseSize == Ship.BaseSize.Small) ? 180 : 90, 0);
             }
 
             if (newPosition.x < 0f)
             {
-                fixedPositionRel = new Vector3(-2, fixedPositionRel.y, fixedPositionRel.z);
+                fixedPositionRel = new Vector3(-barrelRollDistance, fixedPositionRel.y, fixedPositionRel.z);
 
                 helperDirection = -1f;
-                MovementTemplates.CurrentTemplate.eulerAngles = Selection.ThisShip.Model.transform.eulerAngles;
+                MovementTemplates.CurrentTemplate.eulerAngles = Selection.ThisShip.Model.transform.eulerAngles + new Vector3(0, (Selection.ThisShip.ShipBaseSize == Ship.BaseSize.Small) ? 0 : 90, 0);
             }
 
             Vector3 helperPositionRel = Selection.ThisShip.InverseTransformPoint(MovementTemplates.CurrentTemplate.position);
             helperPositionRel = new Vector3(helperDirection * Mathf.Abs(helperPositionRel.x), helperPositionRel.y, helperPositionRel.z);
 
-            if (helperPositionRel.z + 0.25f > fixedPositionRel.z)
+            if (helperPositionRel.z + battelRollTemplateLimitTop > fixedPositionRel.z)
             {
-                helperPositionRel = new Vector3(helperDirection * Mathf.Abs(helperPositionRel.x), helperPositionRel.y, fixedPositionRel.z - 0.25f);
+                helperPositionRel = new Vector3(helperDirection * Mathf.Abs(helperPositionRel.x), helperPositionRel.y, fixedPositionRel.z - battelRollTemplateLimitTop);
             }
 
-            if (helperPositionRel.z + 0.75f < fixedPositionRel.z)
+            if (helperPositionRel.z + battelRollTemplateLimitBottom < fixedPositionRel.z)
             {
-                helperPositionRel = new Vector3(helperDirection * Mathf.Abs(helperPositionRel.x), helperPositionRel.y, fixedPositionRel.z - 0.75f);
+                helperPositionRel = new Vector3(helperDirection * Mathf.Abs(helperPositionRel.x), helperPositionRel.y, fixedPositionRel.z - battelRollTemplateLimitBottom);
             }
 
             Vector3 helperPositionAbs = Selection.ThisShip.TransformPoint(helperPositionRel);
@@ -175,6 +187,8 @@ namespace SubPhases
             Selection.ThisShip.IsLandedOnObstacle = false;
             inReposition = false;
             MonoBehaviour.Destroy(ShipStand);
+
+            GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
             Game.Movement.CollidedWith = null;
             MovementTemplates.HideLastMovementRuler();
 
@@ -191,6 +205,8 @@ namespace SubPhases
         {
             obstaclesStayDetectorBase.ReCheckCollisionsStart();
             obstaclesStayDetectorMovementTemplate.ReCheckCollisionsStart();
+
+            GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
             Game.Movement.FuncsToUpdate.Add(UpdateColisionDetection);
         }
 
@@ -218,11 +234,21 @@ namespace SubPhases
 
             if (IsBarrelRollAllowed())
             {
+                CheckMines();
                 StartBarrelRollExecution(Selection.ThisShip);
             }
             else
             {
                 CancelBarrelRoll();
+            }
+        }
+
+        private void CheckMines()
+        {
+            foreach (var mineCollider in obstaclesStayDetectorMovementTemplate.OverlapedMinesNow)
+            {
+                GameObject mineObject = mineCollider.transform.parent.gameObject;
+                if (!Selection.ThisShip.MinesHit.Contains(mineObject)) Selection.ThisShip.MinesHit.Add(mineObject);
             }
         }
 
@@ -280,7 +306,6 @@ namespace SubPhases
 
         public override void Start()
         {
-            Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
             Name = "Barrel Roll execution";
             IsTemporary = true;
             UpdateHelpInfo();
@@ -326,16 +351,20 @@ namespace SubPhases
             performingAnimation = false;
 
             MonoBehaviour.Destroy(ShipStand);
+
+            GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
             Game.Movement.CollidedWith = null;
 
             MovementTemplates.HideLastMovementRuler();
             MovementTemplates.CurrentTemplate.gameObject.SetActive(true);
 
             Selection.ThisShip.ToggleShipStandAndPeg(true);
-            Selection.ThisShip.FinishPosition(delegate() { });
+            Selection.ThisShip.FinishPosition(FinishBarrelRollAnimationPart2);
+        }
 
+        private void FinishBarrelRollAnimationPart2()
+        {
             Phases.FinishSubPhase(typeof(BarrelRollExecutionSubPhase));
-
             CallBack();
         }
 

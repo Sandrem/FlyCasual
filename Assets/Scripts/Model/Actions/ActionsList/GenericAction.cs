@@ -7,26 +7,22 @@ namespace ActionsList
 
     public class GenericAction
     {
-        protected GameManagerScript Game;
-
         public string Name;
         public string EffectName;
         public string ImageUrl;
 
-        public bool IsCritCancelAction = false;
+        public bool IsCritCancelAction;
 
-        public bool IsSpendFocus = false;
-        public bool IsReroll = false;
-        public bool IsTurnsOneFocusIntoSuccess = false;
-        public bool IsTurnsAllFocusIntoSuccess = false;
+        public bool IsSpendFocus;
+        public bool IsReroll;
+        public bool IsSpendEvade;
+        public bool IsTurnsOneFocusIntoSuccess;
+        public bool IsTurnsAllFocusIntoSuccess;
+
+        public bool IsOpposite;
 
         public Ship.GenericShip Host;
         public Upgrade.GenericUpgrade Source;
-
-        public GenericAction()
-        {
-            Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-        }
 
         public virtual void ActionEffect(System.Action callBack)
         {
@@ -46,12 +42,14 @@ namespace ActionsList
             * 100 - Free change limited by side if 1
             * 95 - Free rerolls limited by side
             * 90 - Free rerolls
+            * 85 - Reroll of all rerollable dice if bad result
             * 80 - Rerolls TL
             * 70 - Free focus to crit
             * 60 - Free focus to crit, another to hits
             * 55 - Free side to hit
             * 50 - Regular Focus to hits if 1+
             * 40 - Regular Focus to hits if 1
+            * 30 - Reroll of focus is focus token is available
             * 20 - Hits to crits
             */
 
@@ -71,6 +69,11 @@ namespace ActionsList
         public virtual void ActionTake()
         {
 
+        }
+
+        public virtual bool IsActionAvailable()
+        {
+            return true;
         }
 
         public virtual int GetActionPriority()

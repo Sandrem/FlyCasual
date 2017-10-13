@@ -30,11 +30,11 @@ namespace Players
             // TODO: remove null variant
             if (anotherShip != null)
             {
-                ship.AssignedManeuver = ship.HotacManeuverTable.GetManeuver(ship, anotherShip);
+                ship.SetAssignedManeuver(ship.HotacManeuverTable.GetManeuver(ship, anotherShip));
             }
             else
             {
-                ship.AssignedManeuver = new Movement.StraightMovement(2, Movement.ManeuverDirection.Forward, Movement.ManeuverBearing.Straight, Movement.ManeuverColor.White);
+                ship.SetAssignedManeuver(new Movement.StraightMovement(2, Movement.ManeuverDirection.Forward, Movement.ManeuverBearing.Straight, Movement.ManeuverColor.White));
             }
 
             ship.GenerateAvailableActionsList();

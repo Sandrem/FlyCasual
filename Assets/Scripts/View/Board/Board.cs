@@ -21,14 +21,14 @@ namespace Board
         public static readonly float DISTANCE_1 = 4f;
         public static readonly float RANGE_1 = 10f;
 
-        static BoardManager()
+        public static void Initialize()
         {
-            Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
+            BoardTransform = GameObject.Find("SceneHolder/Board").transform;
+            RulersHolderTransform = BoardTransform.Find("RulersHolder");
+            StartingZone1 = BoardTransform.Find("Playmat/StaringZone1").gameObject;
+            StartingZone2 = BoardTransform.Find("Playmat/StaringZone2").gameObject;
 
-            BoardTransform = Game.PrefabsList.BoardTransform;
-            RulersHolderTransform = Game.PrefabsList.RulersHolderTransform;
-            StartingZone1 = Game.PrefabsList.StartingZone1;
-            StartingZone2 = Game.PrefabsList.StartingZone2;
+            MovementTemplates.PrepareMovementTemplates();
 
             SetPlaymatImage();
         }
@@ -86,6 +86,11 @@ namespace Board
             return BoardTransform.TransformPoint(position);
         }
 
+        public static Vector3 WorldIntoBoard(Vector3 position)
+        {
+            return BoardTransform.InverseTransformPoint(position);
+        }
+
         //GET TRANSFORMS
 
         public static Transform GetBoard()
@@ -125,6 +130,18 @@ namespace Board
                     break;
                 }
             }
+            return result;
+        }
+
+        public static int GetRangeBetweenPoints(Vector3 pointA, Vector3 pointB)
+        {
+            int result = 0;
+
+            Vector3 boardPointA = WorldIntoBoard(pointA);
+            Vector3 boardPointB = WorldIntoBoard(pointB);
+
+            result = Mathf.CeilToInt(Vector3.Distance(boardPointA, boardPointB) / RANGE_1);
+
             return result;
         }
 

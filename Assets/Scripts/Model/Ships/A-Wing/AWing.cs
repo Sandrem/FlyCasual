@@ -13,20 +13,23 @@ namespace Ship
             public AWing() : base()
             {
                 Type = "A-Wing";
-                ManeuversImageUrl = "https://vignette1.wikia.nocookie.net/xwing-miniatures/images/3/3d/MR_T65-X-WING.png";
+
+                ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/0/0c/MR_A-WING.png";
 
                 Firepower = 2;
                 Agility = 3;
                 MaxHull = 2;
                 MaxShields = 2;
 
-                AddUpgradeSlot(Upgrade.UpgradeType.Missiles);
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Missile);
 
                 AssignTemporaryManeuvers();
                 HotacManeuverTable = new AI.AWingTable();
 
                 factions.Add(Faction.Rebels);
                 faction = Faction.Rebels;
+
+                SkinName = "Red";
 
                 SoundShotsPath = "XWing-Laser";
                 ShotsCount = 2;

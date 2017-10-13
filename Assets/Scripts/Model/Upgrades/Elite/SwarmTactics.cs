@@ -13,8 +13,7 @@ namespace UpgradesList
         public SwarmTactics() : base()
         {
             Type = UpgradeType.Elite;
-            Name = ShortName = "Swarm Tactics";
-            ImageUrl = "https://vignette1.wikia.nocookie.net/xwing-miniatures/images/7/75/Swarm_Tactics.png";
+            Name = "Swarm Tactics";
             Cost = 2;
         }
 
@@ -70,7 +69,7 @@ namespace SubPhases
             maxRange = 1;
             finishAction = SelectSwarmTacticsTarget;
 
-            Game.UI.ShowSkipButton();
+            UI.ShowSkipButton();
         }
 
         private void SelectSwarmTacticsTarget()

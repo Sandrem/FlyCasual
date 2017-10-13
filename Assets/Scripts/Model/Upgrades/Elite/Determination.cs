@@ -13,8 +13,7 @@ namespace UpgradesList
         public Determination() : base()
         {
             Type = UpgradeType.Elite;
-            Name = ShortName = "Determination";
-            ImageUrl = "https://vignette1.wikia.nocookie.net/xwing-miniatures/images/f/fc/Determination.jpg";
+            Name = "Determination";
             Cost = 1;
         }
 
@@ -25,7 +24,7 @@ namespace UpgradesList
             host.OnAssignCrit += CancelPilotCrits;
         }
 
-        private void CancelPilotCrits(Ship.GenericShip ship, ref CriticalHitCard.GenericCriticalHit crit, EventArgs e)
+        private void CancelPilotCrits(Ship.GenericShip ship, CriticalHitCard.GenericCriticalHit crit, EventArgs e)
         {
             if (crit.Type == CriticalCardType.Pilot) {
                 Messages.ShowInfo("Determination: Crit with \"Pilot\" trait is discarded");

@@ -33,7 +33,7 @@ namespace Board
 
         protected virtual void CalculateFields()
         {
-            CalculateFieldUsingPoints(ThisShip.GetStandPoints(), AnotherShip.GetStandPoints());
+            CalculateFieldUsingPoints(ThisShip.ShipBase.GetStandPoints(), AnotherShip.ShipBase.GetStandPoints());
         }
 
         protected virtual void CalculateFieldUsingPoints(Dictionary<string, Vector3> pointsStart, Dictionary<string, Vector3> pointsEnd)

@@ -19,7 +19,6 @@ namespace SubPhases
 
         public override void Start()
         {
-            Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
             IsTemporary = true;
 
             Prepare();
@@ -118,7 +117,7 @@ namespace SubPhases
             if (isThisAllowed)
             {
                 TargetShip = Selection.ThisShip;
-                Game.UI.HideNextButton();
+                UI.HideNextButton();
                 finishAction.Invoke();
             }
             else
@@ -136,7 +135,7 @@ namespace SubPhases
             if ((range >= minRange) && (range <= maxRange))
             {
                 TargetShip = ship;
-                Game.UI.HideNextButton();
+                UI.HideNextButton();
                 MovementTemplates.ShowRange(Selection.ThisShip, ship);
                 finishAction.Invoke(); 
             }

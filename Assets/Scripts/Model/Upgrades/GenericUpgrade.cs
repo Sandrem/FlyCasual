@@ -8,13 +8,13 @@ namespace Upgrade
     {
         Elite,
         Astromech,
-        Torpedoes,
-        Missiles,
+        Torpedo,
+        Missile,
         Cannon,
         Turret,
         Bomb,
         Crew,
-        SalvagedAstromechs,
+        SalvagedAstromech,
         System,
         Title,
         Modification,
@@ -27,8 +27,6 @@ namespace Upgrade
 
     public class GenericUpgrade
     {
-        protected GameManagerScript Game;
-
         public Ship.GenericShip Host { get; set; }
 
         public int Cost;
@@ -37,8 +35,19 @@ namespace Upgrade
         public bool Limited = false;
         public bool isDiscarded = false;
         public string Name { get; set; }
-        public string ShortName;
-        public string ImageUrl;
+
+        private string imageUrl;
+        public string ImageUrl
+        {
+            get
+            {
+                return imageUrl ?? ImageUrls.GetImageUrl(this);
+            }
+            set
+            {
+                imageUrl = value;
+            }
+        }
         //public bool FactionRestriction
         //public bool SizeRestriction
         //public bool ShipTypeRestriction
@@ -51,16 +60,30 @@ namespace Upgrade
 
         }
 
+        public virtual bool IsAllowedForShip(Ship.GenericShip ship)
+        {
+            return true;
+        }
+
         public virtual void AttachToShip(Ship.GenericShip host)
         {
-            Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
             Host = host;
         }
 
-        public void Discard()
+        public virtual void PreAttachToShip(Ship.GenericShip host)
+        {
+            Host = host;
+        }
+
+        public virtual void PreDettachFromShip()
+        {
+
+        }
+
+        public virtual void Discard()
         {
             isDiscarded = true;
-            Roster.DiscardUpgrade(Host, ShortName);
+            Roster.DiscardUpgrade(Host, Name);
         }
 
     }

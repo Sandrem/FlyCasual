@@ -22,6 +22,7 @@ namespace Movement
 
         public List<Ship.GenericShip> ShipsBumped = new List<Ship.GenericShip>();
         public List<Collider> AsteroidsHit = new List<Collider>();
+        public List<GameObject> MinesHit = new List<GameObject>();
         public bool IsLandedOnAsteroid { get; private set; }
         public float SuccessfullMovementProgress { get; private set; }
         public bool IsOffTheBoard;
@@ -81,7 +82,7 @@ namespace Movement
                     {
                         IsOffTheBoard = obstacleStayDetector.OffTheBoard;
                         IsLandedOnAsteroid = obstacleStayDetector.OverlapsAsteroid;
-                        SuccessfullMovementProgress = (i + 1f) / generatedShipStands.Length;
+                        SuccessfullMovementProgress = (float)(i) / (generatedShipStands.Length - 1);
 
                         if (lastShipBumpDetector != null)
                         {
@@ -102,6 +103,15 @@ namespace Movement
                             }
                         }
 
+                        foreach (var mineHit in obstacleStayDetector.OverlapedMines)
+                        {
+                            GameObject MineObject = mineHit.transform.parent.gameObject;
+                            if (!MinesHit.Contains(MineObject))
+                            {
+                                MinesHit.Add(MineObject);
+                            }
+                        }
+
                         finalPositionFound = true;
                         //break;
                     }
@@ -113,6 +123,14 @@ namespace Movement
                         if (!AsteroidsHit.Contains(asteroidHit))
                         {
                             AsteroidsHit.Add(asteroidHit);
+                        }
+                    }
+                    foreach (var mineHit in obstacleHitsDetector.OverlapedMines)
+                    {
+                        GameObject MineObject = mineHit.transform.parent.gameObject;
+                        if (!MinesHit.Contains(MineObject))
+                        {
+                            MinesHit.Add(MineObject);
                         }
                     }
                 }
@@ -128,10 +146,14 @@ namespace Movement
 
         private void DestroyGeneratedShipStands()
         {
-            foreach (var shipStand in generatedShipStands)
+            if (!DebugManager.DebugMovement)
             {
-                GameObject.Destroy(shipStand);
+                foreach (var shipStand in generatedShipStands)
+                {
+                    GameObject.Destroy(shipStand);
+                }
             }
+
         }
     }
 

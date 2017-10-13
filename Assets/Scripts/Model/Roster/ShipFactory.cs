@@ -24,16 +24,16 @@ public static class ShipFactory {
         int id = 1;
         Vector3 position = Vector3.zero;
 
-        Ship.GenericShip newShipContainer = (Ship.GenericShip) System.Activator.CreateInstance(System.Type.GetType(shipConfig.PilotName));
-        newShipContainer.InitializeGenericShip(shipConfig.PlayerNo, id, position, shipConfig.Upgrades);
+        Ship.GenericShip newShipContainer = shipConfig.Ship;
+        newShipContainer.InitializeGenericShip(shipConfig.Player, id, position);
 
-        Roster.SubscribeActions(newShipContainer.InfoPanel.transform.Find("ShipInfo").gameObject);
+        Roster.SubscribeSelectionByInfoPanel(newShipContainer.InfoPanel.transform.Find("ShipInfo").gameObject);
         Roster.SubscribeUpgradesPanel(newShipContainer, newShipContainer.InfoPanel);
 
         //TODO: Rework this
-        newShipContainer.AfterGotNumberOfPrimaryWeaponAttackDices += Rules.DistanceBonus.CheckAttackDistanceBonus;
-        newShipContainer.AfterGotNumberOfPrimaryWeaponDefenceDices += Rules.DistanceBonus.CheckDefenceDistanceBonus;
-        newShipContainer.AfterGotNumberOfPrimaryWeaponDefenceDices += Rules.AsteroidObstruction.CheckDefenceDistanceBonus;
+        newShipContainer.AfterGotNumberOfPrimaryWeaponAttackDice += Rules.DistanceBonus.CheckAttackDistanceBonus;
+        newShipContainer.AfterGotNumberOfPrimaryWeaponDefenceDice += Rules.DistanceBonus.CheckDefenceDistanceBonus;
+        newShipContainer.AfterGotNumberOfPrimaryWeaponDefenceDice += Rules.AsteroidObstruction.CheckDefenceDistanceBonus;
         newShipContainer.OnTryAddAvailableAction += Rules.Stress.CanPerformActions;
         newShipContainer.OnTryAddAvailableAction += Rules.DuplicatedActions.CanPerformActions;
         newShipContainer.OnMovementStart += Rules.Collision.ClearBumps;
@@ -41,7 +41,6 @@ public static class ShipFactory {
         newShipContainer.OnMovementStart += MovementTemplates.CallReturnRangeRuler;
         newShipContainer.OnPositionFinish += Rules.OffTheBoard.CheckOffTheBoard;
         newShipContainer.OnMovementExecuted += Rules.Stress.PlanCheckStress;
-        newShipContainer.OnMovementFinish += Rules.AsteroidHit.CheckDamage;
         newShipContainer.AfterGetManeuverAvailablity += Rules.Stress.CannotPerformRedManeuversWhileStressed;
         newShipContainer.OnDestroyed += Rules.TargetLocks.RemoveTargetLocksOnDestruction;
 

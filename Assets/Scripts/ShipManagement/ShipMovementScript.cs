@@ -59,17 +59,18 @@ public class ShipMovementScript : MonoBehaviour {
 
         if (!Network.IsNetworkGame)
         {
-            AssignManeuver(maneuverCode);
+            AssignManeuver(Selection.ThisShip.ShipId, maneuverCode);
         }
         else
         {
-            Network.AssignManeuver(maneuverCode);
+            Network.AssignManeuver(Selection.ThisShip.ShipId, maneuverCode);
         }
         
     }
 
-    public void AssignManeuver(string maneuverCode)
+    public void AssignManeuver(int shipId, string maneuverCode)
     {
+        Selection.ChangeActiveShip("ShipId:" + shipId);
         Selection.ThisShip.SetAssignedManeuver(MovementFromString(maneuverCode));
 
         if (Phases.CurrentSubPhase.GetType() == typeof(SubPhases.PlanningSubPhase))

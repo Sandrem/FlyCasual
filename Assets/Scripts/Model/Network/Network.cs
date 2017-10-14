@@ -67,9 +67,9 @@ public static partial class Network
 
     // ASSING MANEUVER
 
-    public static void AssignManeuver(string maneuverCode)
+    public static void AssignManeuver(int shipId, string maneuverCode)
     {
-        CurrentPlayer.CmdAssignManeuver(maneuverCode);
+        CurrentPlayer.CmdAssignManeuver(shipId, maneuverCode);
     }
 
     // NEXT BUTTON

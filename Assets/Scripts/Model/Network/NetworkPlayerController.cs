@@ -117,17 +117,17 @@ public class NetworkPlayerController : NetworkBehaviour {
     // ASSIGN MANEUVER
 
     [Command]
-    public void CmdAssignManeuver(string maneuverCode)
+    public void CmdAssignManeuver(int shipId, string maneuverCode)
     {
-        RpcAssignManeuver(maneuverCode);
+        RpcAssignManeuver(shipId, maneuverCode);
     }
 
     [ClientRpc]
-    private void RpcAssignManeuver(string maneuverCode)
+    private void RpcAssignManeuver(int shipId, string maneuverCode)
     {
         // Temporary
         GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-        Game.Movement.AssignManeuver(maneuverCode);
+        Game.Movement.AssignManeuver(shipId, maneuverCode);
     }
 
     // NEXT BUTTON

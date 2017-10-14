@@ -27,6 +27,12 @@ public class CameraScript : MonoBehaviour {
     void Start()
     {
         Camera = transform.Find("Main Camera");
+
+        if (!Network.IsServer)
+        {
+            Camera.transform.parent.localPosition = new Vector3(Camera.transform.parent.localPosition.x, Camera.transform.parent.localPosition.y, -Camera.transform.parent.localPosition.z);
+            Camera.transform.parent.localEulerAngles = new Vector3(Camera.transform.parent.localEulerAngles.x, Camera.transform.parent.localEulerAngles.y, Camera.transform.parent.localEulerAngles.z + 180);
+        }
     }
 
     // Update is called once per frame

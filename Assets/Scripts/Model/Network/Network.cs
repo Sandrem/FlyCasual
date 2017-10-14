@@ -6,9 +6,14 @@ using UnityEngine;
 
 public static partial class Network
 {
-    public static NetworkPlayer CurrentPlayer;
+    public static NetworkPlayerController CurrentPlayer;
 
     public static string AllShipNames;
+
+    public static bool IsServer
+    {
+        get { return CurrentPlayer.IsServer; }
+    }
 
     // TESTS
 
@@ -32,5 +37,12 @@ public static partial class Network
     public static void ShowMessage(string text)
     {
         CurrentPlayer.CmdShowMessage(text);
+    }
+
+    // BATTLE START
+
+    public static void LoadBattleScene()
+    {
+        CurrentPlayer.CmdLoadBattleScene();
     }
 }

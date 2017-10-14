@@ -3,11 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class NetworkPlayer : NetworkBehaviour {
+public class NetworkPlayerController : NetworkBehaviour {
 
     private void Start()
     {
         if (isLocalPlayer) Network.CurrentPlayer = this;
+        DontDestroyOnLoad(this.gameObject);
+    }
+
+    public bool IsServer
+    {
+        get { return isServer; }
     }
 
     // TESTS
@@ -64,6 +70,20 @@ public class NetworkPlayer : NetworkBehaviour {
     private void RpcShowVariable(string text)
     {
         Messages.ShowInfo(text);
+    }
+
+    // START OF BATTLE
+
+    [Command]
+    public void CmdLoadBattleScene()
+    {
+        RpcLoadBattleScene();
+    }
+
+    [ClientRpc]
+    public void RpcLoadBattleScene()
+    {
+        RosterBuilder.LoadBattleScene();
     }
 
     // MESSAGES

@@ -12,9 +12,6 @@ using UnityEngine.UI;
 
 public static partial class RosterBuilder {
 
-    // TEST
-    static int testCounter = 0;
-
     private class SquadBuilderUpgrade
     {
         public UpgradeSlot Slot;
@@ -437,14 +434,20 @@ public static partial class RosterBuilder {
         GeneratePlayersShipConfigurations();
         if (ValidatePlayersRosters())
         {
-            SceneManager.LoadScene("Battle");
+            LoadBattleScene();
         }
     }
 
     public static void StartNetworkGame()
     {
-        Network.Test();
-        Network.CallBacksTest();
+        //Network.Test();
+        //Network.CallBacksTest();
+        Network.LoadBattleScene();
+    }
+
+    public static void LoadBattleScene()
+    {
+        SceneManager.LoadScene("Battle");
     }
 
     // TEST

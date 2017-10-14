@@ -59,42 +59,66 @@ public class Global : MonoBehaviour {
         }
         else
         {
-            result = new List<ShipConfiguration>()
+            if (Network.IsServer)
                 {
-                new ShipConfiguration
-                (
-                    new Ship.YT1300.OuterRimSmuggler(),
-                    PlayerNo.Player1,
-                    0
-                ),
-                new ShipConfiguration
-                (
-                    new Ship.TIEAdvanced.TempestSquadronPilot(),
-                    PlayerNo.Player2,
-                    0
-                )
-                /*new ShipConfiguration
-                (
-                    "Ship.XWing.LukeSkywalker",
-                    new List<string>() { "UpgradesList.R2D2", "UpgradesList.Marksmanship", "UpgradesList.ProtonTorpedoes" },
-                    PlayerNo.Player1,
-                    1
-                ),
-                new ShipConfiguration
-                (
-                    "Ship.TIEFighter.MaulerMithel",
-                    new List<string>() { "UpgradesList.Determination" },
-                    PlayerNo.Player2,
-                    1
-                ),
-                new ShipConfiguration
-                (
-                    "Ship.TIEFighter.NightBeast",
-                    new List<string>(),
-                    PlayerNo.Player2,
-                    1
-                )*/
-            };  
+                result = new List<ShipConfiguration>()
+                    {
+                    new ShipConfiguration
+                    (
+                        new Ship.XWing.RedSquadronPilot(),
+                        PlayerNo.Player1,
+                        0
+                    ),
+                    new ShipConfiguration
+                    (
+                        new Ship.XWing.RedSquadronPilot(),
+                        PlayerNo.Player1,
+                        0
+                    ),
+                    new ShipConfiguration
+                    (
+                        new Ship.TIEAdvanced.TempestSquadronPilot(),
+                        PlayerNo.Player2,
+                        0
+                    ),
+                    new ShipConfiguration
+                    (
+                        new Ship.TIEAdvanced.TempestSquadronPilot(),
+                        PlayerNo.Player2,
+                        0
+                    )
+                };
+            }
+            else
+            {
+                result = new List<ShipConfiguration>()
+                    {
+                    new ShipConfiguration
+                    (
+                        new Ship.TIEAdvanced.TempestSquadronPilot(),
+                        PlayerNo.Player2,
+                        0
+                    ),
+                    new ShipConfiguration
+                    (
+                        new Ship.TIEAdvanced.TempestSquadronPilot(),
+                        PlayerNo.Player2,
+                        0
+                    ),
+                    new ShipConfiguration
+                    (
+                        new Ship.XWing.RedSquadronPilot(),
+                        PlayerNo.Player1,
+                        0
+                    ),
+                    new ShipConfiguration
+                    (
+                        new Ship.XWing.RedSquadronPilot(),
+                        PlayerNo.Player1,
+                        0
+                    )
+                };
+            }
         }
         return result;
     }
@@ -107,11 +131,23 @@ public class Global : MonoBehaviour {
         }
         else
         {
-            List<System.Type> result = new List<System.Type>
+            List<System.Type> result = null;
+            if (Network.IsServer)
+            {
+                result = new List<System.Type>
                 {
                     typeof(HumanPlayer),
-                    typeof(HotacAiPlayer)
+                    typeof(NetworkPlayerController)
                 };
+            }
+            else
+            {
+                result = new List<System.Type>
+                {
+                    typeof(NetworkPlayerController),
+                    typeof(HumanPlayer)
+                };
+            }
             return result;
         }
     }

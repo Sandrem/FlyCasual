@@ -21,7 +21,8 @@ namespace Players
     public enum PlayerType
     {
         Human,
-        Ai
+        Ai,
+        Network
     }
 
     public partial class GenericPlayer

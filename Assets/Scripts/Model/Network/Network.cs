@@ -64,4 +64,25 @@ public static partial class Network
     {
         CurrentPlayer.CmdConfirmShipSetup(shipId, position, angles);
     }
+
+    // ASSING MANEUVER
+
+    public static void AssignManeuver(string maneuverCode)
+    {
+        CurrentPlayer.CmdAssignManeuver(maneuverCode);
+    }
+
+    // NEXT BUTTON
+
+    public static void NextButtonEffect()
+    {
+        CurrentPlayer.CmdNextButtonEffect();
+    }
+
+    // SKIP BUTTON
+
+    public static void SkipButtonEffect()
+    {
+        CurrentPlayer.CmdSkipButtonEffect();
+    }
 }

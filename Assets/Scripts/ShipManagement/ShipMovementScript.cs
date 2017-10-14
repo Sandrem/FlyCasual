@@ -51,17 +51,29 @@ public class ShipMovementScript : MonoBehaviour {
 
     //Assignment and launch of execution of meneuver
 
-    public void AssignManeuver()
+    public void AssignManeuverButtonPressed()
     {
-        string parameters = EventSystem.current.currentSelectedGameObject.name;
-
-        Selection.ThisShip.SetAssignedManeuver(MovementFromString(parameters));
-
         UI.HideDirectionMenu();
+
+        string maneuverCode = EventSystem.current.currentSelectedGameObject.name;
+
+        if (!Network.IsNetworkGame)
+        {
+            AssignManeuver(maneuverCode);
+        }
+        else
+        {
+            Network.AssignManeuver(maneuverCode);
+        }
+        
+    }
+
+    public void AssignManeuver(string maneuverCode)
+    {
+        Selection.ThisShip.SetAssignedManeuver(MovementFromString(maneuverCode));
 
         if (Phases.CurrentSubPhase.GetType() == typeof(SubPhases.PlanningSubPhase))
         {
-            //Selection.ThisShip.InfoPanel.transform.Find("DialAssigned" + Selection.ThisShip.Owner.Id).gameObject.SetActive(true);
             Roster.HighlightShipOff(Selection.ThisShip);
 
             if (Roster.AllManuersAreAssigned(Phases.CurrentPhasePlayer))

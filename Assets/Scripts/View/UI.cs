@@ -159,6 +159,18 @@ public class UI : MonoBehaviour {
         HideNextButton();
         Roster.AllShipsHighlightOff();
 
+        if (!Network.IsNetworkGame)
+        {
+            NextButtonEffect();
+        }
+        else
+        {
+            Network.NextButtonEffect();
+        }
+    }
+
+    public static void NextButtonEffect()
+    {
         Phases.CurrentSubPhase.NextButton();
     }
 
@@ -167,6 +179,18 @@ public class UI : MonoBehaviour {
         HideNextButton();
         Roster.AllShipsHighlightOff();
 
+        if (!Network.IsNetworkGame)
+        {
+            SkipButtonEffect();
+        }
+        else
+        {
+            Network.SkipButtonEffect();
+        }
+    }
+
+    public static void SkipButtonEffect()
+    {
         Phases.CurrentSubPhase.SkipButton();
     }
 

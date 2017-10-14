@@ -114,6 +114,50 @@ public class NetworkPlayerController : NetworkBehaviour {
         (Phases.CurrentSubPhase as SubPhases.SetupSubPhase).ConfirmShipSetup(shipId, position, angles);
     }
 
+    // ASSIGN MANEUVER
+
+    [Command]
+    public void CmdAssignManeuver(string maneuverCode)
+    {
+        RpcAssignManeuver(maneuverCode);
+    }
+
+    [ClientRpc]
+    private void RpcAssignManeuver(string maneuverCode)
+    {
+        // Temporary
+        GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
+        Game.Movement.AssignManeuver(maneuverCode);
+    }
+
+    // NEXT BUTTON
+    
+    [Command]
+    public void CmdNextButtonEffect()
+    {
+        RpcNextButtonEffect();
+    }
+
+    [ClientRpc]
+    private void RpcNextButtonEffect()
+    {
+        UI.NextButtonEffect();
+    }
+
+    // SKIP BUTTON
+
+    [Command]
+    public void CmdSkipButtonEffect()
+    {
+        RpcSkipButtonEffect();
+    }
+
+    [ClientRpc]
+    private void RpcSkipButtonEffect()
+    {
+        UI.SkipButtonEffect();
+    }
+
     // MESSAGES
 
     [Command]

@@ -266,16 +266,20 @@ public class ShipPositionManager : MonoBehaviour
     {
         HideSetupHelpers();
         Roster.SetRaycastTargets(true);
-        inReposition = false;
 
         if (Phases.CurrentSubPhase.GetType() == typeof(SubPhases.SetupSubPhase))
         {
-            Selection.ThisShip.IsSetupPerformed = true;
-            Selection.DeselectThisShip();
-            BoardManager.TurnOffStartingZones();
+            if (!Network.IsNetworkGame)
+            {
+                (Phases.CurrentSubPhase as SubPhases.SetupSubPhase).ConfirmShipSetup(Selection.ThisShip.ShipId, Selection.ThisShip.GetPosition(), Selection.ThisShip.GetAngles());
+            }
+            else
+            {
+                Network.ConfirmShipSetup(Selection.ThisShip.ShipId, Selection.ThisShip.GetPosition(), Selection.ThisShip.GetAngles());
+            }
         }
 
-        Phases.Next();
+        //Phases.Next(); // Moved to ConfirmShipSetup
     }
 
 }

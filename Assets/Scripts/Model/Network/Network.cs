@@ -57,4 +57,11 @@ public static partial class Network
     {
         CurrentPlayer.CmdTakeDecision(decisionName);
     }
+
+    // SETUP
+
+    public static void ConfirmShipSetup(int shipId, Vector3 position, Vector3 angles)
+    {
+        CurrentPlayer.CmdConfirmShipSetup(shipId, position, angles);
+    }
 }

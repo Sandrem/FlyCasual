@@ -59,54 +59,27 @@ public class Global : MonoBehaviour {
         }
         else
         {
-            if (Network.IsServer)
+            result = new List<ShipConfiguration>()
                 {
-                result = new List<ShipConfiguration>()
-                    {
-                    new ShipConfiguration
-                    (
-                        new Ship.XWing.RookiePilot(),
-                        PlayerNo.Player1,
-                        21
-                    ),
-                    new ShipConfiguration
-                    (
-                        new Ship.TIEFighter.AcademyPilot(),
-                        PlayerNo.Player2,
-                        12
-                    ),
-                    new ShipConfiguration
-                    (
-                        new Ship.TIEFighter.AcademyPilot(),
-                        PlayerNo.Player2,
-                        12
-                    )
-                };
-            }
-            else
-            {
-                result = new List<ShipConfiguration>()
-                    {
-                    new ShipConfiguration
-                    (
-                        new Ship.TIEFighter.AcademyPilot(),
-                        PlayerNo.Player2,
-                        21
-                    ),
-                    new ShipConfiguration
-                    (
-                        new Ship.TIEFighter.AcademyPilot(),
-                        PlayerNo.Player2,
-                        12
-                    ),
-                    new ShipConfiguration
-                    (
-                        new Ship.XWing.RookiePilot(),
-                        PlayerNo.Player1,
-                        12
-                    )
-                };
-            }
+                new ShipConfiguration
+                (
+                    new Ship.XWing.RookiePilot(),
+                    PlayerNo.Player1,
+                    21
+                ),
+                new ShipConfiguration
+                (
+                    new Ship.TIEFighter.AcademyPilot(),
+                    PlayerNo.Player2,
+                    12
+                ),
+                new ShipConfiguration
+                (
+                    new Ship.TIEFighter.AcademyPilot(),
+                    PlayerNo.Player2,
+                    12
+                )
+            };
         }
         return result;
     }

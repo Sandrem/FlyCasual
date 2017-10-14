@@ -100,6 +100,20 @@ public class NetworkPlayerController : NetworkBehaviour {
         (Phases.CurrentSubPhase as SubPhases.DecisionSubPhase).ExecuteDecision(decisionName);
     }
 
+    // SETUP
+
+    [Command]
+    public void CmdConfirmShipSetup(int shipId, Vector3 position, Vector3 angles)
+    {
+        RpcConfirmShipSetup(shipId, position, angles);
+    }
+
+    [ClientRpc]
+    private void RpcConfirmShipSetup(int shipId, Vector3 position, Vector3 angles)
+    {
+        (Phases.CurrentSubPhase as SubPhases.SetupSubPhase).ConfirmShipSetup(shipId, position, angles);
+    }
+
     // MESSAGES
 
     [Command]

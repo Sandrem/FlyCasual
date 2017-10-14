@@ -114,7 +114,21 @@ namespace SubPhases
             {
                 if (ship.IsSetupPerformed == false)
                 {
-                    result = true;
+                    if (Network.IsNetworkGame)
+                    {
+                        if ((Network.IsServer && ship.Owner.PlayerNo == Players.PlayerNo.Player1) || (!Network.IsServer && ship.Owner.PlayerNo == Players.PlayerNo.Player2))
+                        {
+                            result = true;
+                        }
+                        else
+                        {
+                            Messages.ShowErrorToHuman("Ship cannot be selected: Belongs to network opponent");
+                        }
+                    }
+                    else
+                    {
+                        result = true;
+                    }
                 }
                 else
                 {
@@ -139,6 +153,24 @@ namespace SubPhases
                     Roster.RosterPanelHighlightOn(ship.Value);
                 }
             }
+        }
+
+        public void ConfirmShipSetup(int shipId, Vector3 position, Vector3 angles)
+        {
+            //Temporary
+            GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
+            Game.Position.inReposition = false;
+
+            Selection.ChangeActiveShip("ShipId:" + shipId);
+
+            Selection.ThisShip.SetPosition(position);
+            Selection.ThisShip.SetAngles(angles);
+            Selection.ThisShip.IsSetupPerformed = true;
+
+            Selection.DeselectThisShip();
+            Board.BoardManager.TurnOffStartingZones();
+
+            Phases.Next();
         }
 
     }

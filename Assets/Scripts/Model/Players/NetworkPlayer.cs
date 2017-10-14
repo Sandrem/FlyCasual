@@ -6,13 +6,18 @@ using UnityEngine;
 namespace Players
 {
 
-    public partial class NetworkPlayer : GenericPlayer
+    public partial class NetworkOpponentPlayer : GenericPlayer
     {
 
-        public NetworkPlayer() : base()
+        public NetworkOpponentPlayer() : base()
         {
             Type = PlayerType.Network;
             Name = "Network";
+        }
+
+        public override void TakeDecision()
+        {
+            Messages.ShowInfo("Network Player is asked to take decision");
         }
 
     }

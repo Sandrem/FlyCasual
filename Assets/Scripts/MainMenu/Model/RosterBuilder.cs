@@ -146,7 +146,8 @@ public static partial class RosterBuilder {
     public static void Initialize()
     {
         InitializeSquadBuilderRoster();
-        SetPlayers();
+        // FOR TESTING PURPOSES
+        // SetPlayers();
         SetPlayerFactions();
         GenerateShipsList();
         AddInitialShips();

@@ -137,14 +137,14 @@ public class Global : MonoBehaviour {
                 result = new List<System.Type>
                 {
                     typeof(HumanPlayer),
-                    typeof(NetworkPlayerController)
+                    typeof(NetworkOpponentPlayer)
                 };
             }
             else
             {
                 result = new List<System.Type>
                 {
-                    typeof(NetworkPlayerController),
+                    typeof(NetworkOpponentPlayer),
                     typeof(HumanPlayer)
                 };
             }

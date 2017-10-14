@@ -96,6 +96,7 @@ namespace SubPhases
                 decisionPanel.GetComponent<RectTransform>().sizeDelta = new Vector3(decisionPanel.GetComponent<RectTransform>().sizeDelta.x, defaultWindowHeight + ((i + 1) / 2) * buttonHeight);
 
                 if (DecisionOwner == null) DecisionOwner = Roster.GetPlayer(Phases.CurrentPhasePlayer);
+
                 DecisionOwner.TakeDecision();
             }
         }

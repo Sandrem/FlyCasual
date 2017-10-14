@@ -85,4 +85,11 @@ public static partial class Network
     {
         CurrentPlayer.CmdSkipButtonEffect();
     }
+
+    // PERFORM MANEUVER
+
+    public static void PerformStoredManeuver(int shipId)
+    {
+        CurrentPlayer.CmdPerformStoredManeuver(shipId);
+    }
 }

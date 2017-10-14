@@ -131,8 +131,21 @@ public class ShipMovementScript : MonoBehaviour {
         return MovementFromStruct(movementStruct);
     }
 
-    public void PerformStoredManeuver()
+    public void PerformStoredManeuverButtonIsPressed()
     {
+        if (!Network.IsNetworkGame)
+        {
+            PerformStoredManeuver(Selection.ThisShip.ShipId);
+        }
+        else
+        {
+            Network.PerformStoredManeuver(Selection.ThisShip.ShipId);
+        }
+    }
+
+    public void PerformStoredManeuver(int shipId)
+    {
+        Selection.ChangeActiveShip("ShipId:" + shipId);
         Phases.StartTemporarySubPhase("Movement", typeof(SubPhases.MovementExecutionSubPhase));
     }
 

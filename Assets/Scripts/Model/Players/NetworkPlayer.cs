@@ -20,6 +20,11 @@ namespace Players
             Messages.ShowInfo("Network Player is asked to take decision");
         }
 
+        public override void AfterShipMovementPrediction()
+        {
+            Selection.ThisShip.AssignedManeuver.LaunchShipMovement();
+        }
+
     }
 
 }

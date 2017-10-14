@@ -71,10 +71,8 @@ namespace Players
 
         protected void PerformManeuverOfShip(Ship.GenericShip ship)
         {
-            Selection.ChangeActiveShip("ShipId:" + ship.ShipId);
-
             GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-            Game.Movement.PerformStoredManeuver();
+            Game.Movement.PerformStoredManeuver(ship.ShipId);
         }
 
         //TODOL Don't skip attack of all PS ships if one cannot attack (Biggs interaction)

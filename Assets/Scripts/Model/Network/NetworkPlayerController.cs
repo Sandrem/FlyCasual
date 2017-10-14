@@ -158,6 +158,22 @@ public class NetworkPlayerController : NetworkBehaviour {
         UI.SkipButtonEffect();
     }
 
+    // SHIP MOVEMENT
+
+    [Command]
+    public void CmdPerformStoredManeuver(int shipId)
+    {
+        RpcPerformStoredManeuver(shipId);
+    }
+
+    [ClientRpc]
+    private void RpcPerformStoredManeuver(int shipId)
+    {
+        // Temporary
+        GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
+        Game.Movement.PerformStoredManeuver(shipId);
+    }
+
     // MESSAGES
 
     [Command]

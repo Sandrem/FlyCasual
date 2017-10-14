@@ -10,6 +10,11 @@ public static partial class Network
 
     public static string AllShipNames;
 
+    public static bool IsNetworkGame
+    {
+        get { return CurrentPlayer != null; }
+    }
+
     public static bool IsServer
     {
         get { return CurrentPlayer.IsServer; }
@@ -44,5 +49,12 @@ public static partial class Network
     public static void LoadBattleScene()
     {
         CurrentPlayer.CmdLoadBattleScene();
+    }
+
+    // DECISIONS
+
+    public static void TakeDecision(string decisionName)
+    {
+        CurrentPlayer.CmdTakeDecision(decisionName);
     }
 }

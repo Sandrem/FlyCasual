@@ -86,6 +86,20 @@ public class NetworkPlayerController : NetworkBehaviour {
         RosterBuilder.LoadBattleScene();
     }
 
+    // DECISIONS
+
+    [Command]
+    public void CmdTakeDecision(string decisionName)
+    {
+        RpcTakeDecision(decisionName);
+    }
+
+    [ClientRpc]
+    private void RpcTakeDecision(string decisionName)
+    {
+        (Phases.CurrentSubPhase as SubPhases.DecisionSubPhase).ExecuteDecision(decisionName);
+    }
+
     // MESSAGES
 
     [Command]

@@ -88,7 +88,19 @@ namespace SubPhases
                     EventTrigger trigger = button.AddComponent<EventTrigger>();
                     EventTrigger.Entry entry = new EventTrigger.Entry();
                     entry.eventID = EventTriggerType.PointerClick;
-                    entry.callback.AddListener((data) => { item.Value.Invoke(button, null); });
+                    entry.callback.AddListener(
+                        (data) => {
+                            if (!Network.IsNetworkGame)
+                            {
+                                item.Value.Invoke(button, null);
+                            }
+                            else
+                            {
+                                Network.TakeDecision(item.Key);
+                            }
+                            
+                        }
+                    );
                     trigger.triggers.Add(entry);
 
                     i++;
@@ -144,6 +156,11 @@ namespace SubPhases
         public override void DoDefault()
         {
             decisions[defaultDecision].Invoke(null, null);
+        }
+
+        public void ExecuteDecision(string decisionName)
+        {
+            decisions[decisionName].Invoke(null, null);
         }
 
     }

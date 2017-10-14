@@ -65,27 +65,21 @@ public class Global : MonoBehaviour {
                     {
                     new ShipConfiguration
                     (
-                        new Ship.XWing.RedSquadronPilot(),
+                        new Ship.XWing.RookiePilot(),
                         PlayerNo.Player1,
-                        0
+                        21
                     ),
                     new ShipConfiguration
                     (
-                        new Ship.XWing.RedSquadronPilot(),
-                        PlayerNo.Player1,
-                        0
-                    ),
-                    new ShipConfiguration
-                    (
-                        new Ship.TIEAdvanced.TempestSquadronPilot(),
+                        new Ship.TIEFighter.AcademyPilot(),
                         PlayerNo.Player2,
-                        0
+                        12
                     ),
                     new ShipConfiguration
                     (
-                        new Ship.TIEAdvanced.TempestSquadronPilot(),
+                        new Ship.TIEFighter.AcademyPilot(),
                         PlayerNo.Player2,
-                        0
+                        12
                     )
                 };
             }
@@ -95,27 +89,21 @@ public class Global : MonoBehaviour {
                     {
                     new ShipConfiguration
                     (
-                        new Ship.TIEAdvanced.TempestSquadronPilot(),
+                        new Ship.TIEFighter.AcademyPilot(),
                         PlayerNo.Player2,
-                        0
+                        21
                     ),
                     new ShipConfiguration
                     (
-                        new Ship.TIEAdvanced.TempestSquadronPilot(),
+                        new Ship.TIEFighter.AcademyPilot(),
                         PlayerNo.Player2,
-                        0
+                        12
                     ),
                     new ShipConfiguration
                     (
-                        new Ship.XWing.RedSquadronPilot(),
+                        new Ship.XWing.RookiePilot(),
                         PlayerNo.Player1,
-                        0
-                    ),
-                    new ShipConfiguration
-                    (
-                        new Ship.XWing.RedSquadronPilot(),
-                        PlayerNo.Player1,
-                        0
+                        12
                     )
                 };
             }

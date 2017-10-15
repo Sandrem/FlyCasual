@@ -37,6 +37,16 @@ namespace Players
             (Phases.CurrentSubPhase as SubPhases.DiceRollCheckSubPhase).ShowConfirmButton();
         }
 
+        public override void UseOwnDiceModifications()
+        {
+            Combat.ShowOwnDiceResultMenu();
+        }
+
+        public override void UseOppositeDiceModifications()
+        {
+            Combat.ShowOppositeDiceResultMenu();
+        }
+
     }
 
 }

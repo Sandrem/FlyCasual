@@ -34,8 +34,7 @@ public class ShipPositionManager : MonoBehaviour
             PerformRotation();
             PerformDrag();
         }
-
-        Phases.CurrentSubPhase.Update();
+        if (Phases.CurrentSubPhase != null) Phases.CurrentSubPhase.Update();
     }
 
     public void StartDrag()

@@ -23,8 +23,14 @@ public class GameManagerScript : MonoBehaviour {
         Roster.Initialize();
         Roster.Start();
 
-        HideOpponentSquad();
-        Phases.StartPhases();
+        if (!Network.IsNetworkGame)
+        {
+            Global.StartBattle();
+        }
+        else
+        {
+            Network.FinishTask();
+        }
     }
 
     private void Update()
@@ -49,12 +55,6 @@ public class GameManagerScript : MonoBehaviour {
         
         Movement = this.GetComponent<ShipMovementScript>();
         Position = this.GetComponent<ShipPositionManager>();
-    }
-
-    private static void HideOpponentSquad()
-    {
-        Transform opponentSquad = GameObject.Find("UI").transform.Find("OpponentSquad");
-        if (opponentSquad != null) opponentSquad.gameObject.SetActive(false);
     }
 
     public void Wait(float seconds, CallBackFunction callBack)

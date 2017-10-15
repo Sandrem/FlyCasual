@@ -46,9 +46,9 @@ public static partial class Network
 
     // BATTLE START
 
-    public static void LoadBattleScene()
+    public static void StartNetworkGame()
     {
-        CurrentPlayer.CmdLoadBattleScene();
+        CurrentPlayer.CmdStartNetworkGame();
     }
 
     // DECISIONS

@@ -456,14 +456,15 @@ public static partial class RosterBuilder {
         //Network.Test();
         //Network.CallBacksTest();
 
-        ShowOpponentSquad();
-        Network.LoadBattleScene();
+        Network.StartNetworkGame();
     }
 
-    private static void ShowOpponentSquad()
+    public static void ShowOpponentSquad()
     {
-        GameObject opponentSquad = GameObject.Find("UI").transform.Find("OpponentSquad").gameObject;
-        MonoBehaviour.DontDestroyOnLoad(opponentSquad);
+        GameObject globalUI = GameObject.Find("GlobalUI").gameObject;
+        MonoBehaviour.DontDestroyOnLoad(globalUI);
+
+        GameObject opponentSquad = globalUI.transform.Find("OpponentSquad").gameObject;
         opponentSquad.SetActive(true);
     }
 

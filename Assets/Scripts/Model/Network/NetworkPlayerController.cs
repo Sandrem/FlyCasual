@@ -75,6 +75,12 @@ public class NetworkPlayerController : NetworkBehaviour {
     // START OF BATTLE
 
     [Command]
+    public void CmdStartNetworkGame()
+    {
+        Network.ExecuteWithCallBack(CmdLoadBattleScene, CmdStartBattle);
+    }
+
+    [Command]
     public void CmdLoadBattleScene()
     {
         RpcLoadBattleScene();
@@ -83,7 +89,20 @@ public class NetworkPlayerController : NetworkBehaviour {
     [ClientRpc]
     public void RpcLoadBattleScene()
     {
+        RosterBuilder.ShowOpponentSquad();
         RosterBuilder.LoadBattleScene();
+    }
+
+    [Command]
+    public void CmdStartBattle()
+    {
+        RpcStartBattle();
+    }
+
+    [ClientRpc]
+    public void RpcStartBattle()
+    {
+        Global.StartBattle();
     }
 
     // DECISIONS

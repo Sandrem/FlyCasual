@@ -145,4 +145,16 @@ public class Global : MonoBehaviour {
         return result;
     }
 
+    public static void StartBattle()
+    {
+        HideOpponentSquad();
+        Phases.StartPhases();
+    }
+
+    private static void HideOpponentSquad()
+    {
+        Transform opponentSquad = GameObject.Find("GlobalUI").transform.Find("OpponentSquad");
+        if (opponentSquad != null) opponentSquad.gameObject.SetActive(false);
+    }
+
 }

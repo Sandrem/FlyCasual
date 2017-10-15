@@ -71,6 +71,8 @@ public class ShipMovementScript : MonoBehaviour {
     public void AssignManeuver(int shipId, string maneuverCode)
     {
         Selection.ChangeActiveShip("ShipId:" + shipId);
+        UI.HideContextMenu();
+
         Selection.ThisShip.SetAssignedManeuver(MovementFromString(maneuverCode));
 
         if (Phases.CurrentSubPhase.GetType() == typeof(SubPhases.PlanningSubPhase))

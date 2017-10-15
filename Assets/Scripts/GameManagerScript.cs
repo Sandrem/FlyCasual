@@ -22,6 +22,8 @@ public class GameManagerScript : MonoBehaviour {
         Board.BoardManager.Initialize();
         Roster.Initialize();
         Roster.Start();
+
+        HideOpponentSquad();
         Phases.StartPhases();
     }
 
@@ -47,6 +49,12 @@ public class GameManagerScript : MonoBehaviour {
         
         Movement = this.GetComponent<ShipMovementScript>();
         Position = this.GetComponent<ShipPositionManager>();
+    }
+
+    private static void HideOpponentSquad()
+    {
+        Transform opponentSquad = GameObject.Find("UI").transform.Find("OpponentSquad");
+        if (opponentSquad != null) opponentSquad.gameObject.SetActive(false);
     }
 
     public void Wait(float seconds, CallBackFunction callBack)

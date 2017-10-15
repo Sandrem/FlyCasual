@@ -455,7 +455,16 @@ public static partial class RosterBuilder {
     {
         //Network.Test();
         //Network.CallBacksTest();
+
+        ShowOpponentSquad();
         Network.LoadBattleScene();
+    }
+
+    private static void ShowOpponentSquad()
+    {
+        GameObject opponentSquad = GameObject.Find("UI").transform.Find("OpponentSquad").gameObject;
+        MonoBehaviour.DontDestroyOnLoad(opponentSquad);
+        opponentSquad.SetActive(true);
     }
 
     public static void LoadBattleScene()

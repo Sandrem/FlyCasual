@@ -63,21 +63,15 @@ public class Global : MonoBehaviour {
                 {
                 new ShipConfiguration
                 (
-                    new Ship.XWing.RookiePilot(),
+                    new Ship.XWing.RedSquadronPilot(),
                     PlayerNo.Player1,
+                    23
+                ),
+                new ShipConfiguration
+                (
+                    new Ship.TIEAdvanced.TempestSquadronPilot(),
+                    PlayerNo.Player2,
                     21
-                ),
-                new ShipConfiguration
-                (
-                    new Ship.TIEFighter.AcademyPilot(),
-                    PlayerNo.Player2,
-                    12
-                ),
-                new ShipConfiguration
-                (
-                    new Ship.TIEFighter.AcademyPilot(),
-                    PlayerNo.Player2,
-                    12
                 )
             };
         }

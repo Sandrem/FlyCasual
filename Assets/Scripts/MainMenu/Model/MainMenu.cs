@@ -23,8 +23,7 @@ public partial class MainMenu : MonoBehaviour {
 
     public void StartBattle()
     {
-        //RosterBuilder.StartGame();
-        RosterBuilder.StartNetworkGame();
+        RosterBuilder.StartGame();
     }
 
     public void QuitGame()

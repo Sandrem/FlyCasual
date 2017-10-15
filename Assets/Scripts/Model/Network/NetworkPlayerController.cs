@@ -188,6 +188,20 @@ public class NetworkPlayerController : NetworkBehaviour {
         Combat.DeclareTarget(attackerId, defenderId);
     }
 
+    // CONFIRM DICE RESULTS MODIFICATIONS
+
+    [Command]
+    public void CmdConfirmDiceResults()
+    {
+        RpcConfirmDiceResults();
+    }
+
+    [ClientRpc]
+    private void RpcConfirmDiceResults()
+    {
+        Combat.ConfirmDiceResultsClient();
+    }
+
     // MESSAGES
 
     [Command]

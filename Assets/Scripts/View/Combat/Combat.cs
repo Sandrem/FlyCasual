@@ -110,27 +110,40 @@ public static partial class Combat
         newButton.name = "Button" + actionEffect.EffectName;
         newButton.transform.GetComponentInChildren<Text>().text = actionEffect.EffectName;
         newButton.GetComponent<RectTransform>().position = position;
-        newButton.GetComponent<Button>().onClick.AddListener(delegate
-        {
-            Tooltips.EndTooltip();
-            newButton.GetComponent<Button>().interactable = false;
-            if (!actionEffect.IsOpposite)
+        newButton.GetComponent<Button>().onClick.AddListener(
+            delegate
             {
-                Selection.ActiveShip = (AttackStep == CombatStep.Attack) ? Attacker : Defender;
-                Selection.ActiveShip.AddAlreadyExecutedActionEffect(actionEffect);
+                if (!Network.IsNetworkGame)
+                {
+                    UseDiceModification(newButton, actionEffect);
+                }
+                else
+                {
+                    Network.ShowMessage(actionEffect.EffectName);
+                }
             }
-            else
-            {
-                Selection.ActiveShip = (AttackStep == CombatStep.Attack) ? Defender : Attacker;
-                Selection.ActiveShip.AddAlreadyExecutedOppositeActionEffect(actionEffect);
-            }
-            actionEffect.ActionEffect(delegate { });
-        });
+        );
         Tooltips.AddTooltip(newButton, actionEffect.ImageUrl);
         newButton.GetComponent<Button>().interactable = true;
         newButton.SetActive(true);
     }
 
+    private static void UseDiceModification(GameObject newButton, ActionsList.GenericAction actionEffect)
+    {
+        Tooltips.EndTooltip();
+        newButton.GetComponent<Button>().interactable = false;
+        if (!actionEffect.IsOpposite)
+        {
+            Selection.ActiveShip = (AttackStep == CombatStep.Attack) ? Attacker : Defender;
+            Selection.ActiveShip.AddAlreadyExecutedActionEffect(actionEffect);
+        }
+        else
+        {
+            Selection.ActiveShip = (AttackStep == CombatStep.Attack) ? Defender : Attacker;
+            Selection.ActiveShip.AddAlreadyExecutedOppositeActionEffect(actionEffect);
+        }
+        actionEffect.ActionEffect(delegate { });
+    }
 
     //REMOVE
     public static void HideDiceModificationButtons()

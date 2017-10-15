@@ -344,6 +344,18 @@ public static partial class Combat
 
     public static void ConfirmDiceResults()
     {
+        if (!Network.IsNetworkGame)
+        {
+            ConfirmDiceResultsClient();
+        }
+        else
+        {
+            Network.ConfirmDiceResults();
+        }
+    }
+
+    public static void ConfirmDiceResultsClient()
+    {
         switch (AttackStep)
         {
             case CombatStep.Attack:

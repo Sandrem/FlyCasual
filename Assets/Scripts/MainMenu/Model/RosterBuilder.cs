@@ -431,6 +431,18 @@ public static partial class RosterBuilder {
 
     public static void StartGame()
     {
+        if (!Network.IsNetworkGame)
+        {
+            StartLocalGame();
+        }
+        else
+        {
+            StartNetworkGame();
+        }
+    }
+
+    private static void StartLocalGame()
+    {
         SetPlayers();
         GeneratePlayersShipConfigurations();
         if (ValidatePlayersRosters())
@@ -439,7 +451,7 @@ public static partial class RosterBuilder {
         }
     }
 
-    public static void StartNetworkGame()
+    private static void StartNetworkGame()
     {
         //Network.Test();
         //Network.CallBacksTest();

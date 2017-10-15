@@ -99,5 +99,13 @@ public static partial class Network
     {
         CurrentPlayer.CmdDeclareTarget(attackerId, defenderId);
     }
-    
+
+    // CONFIRM DICE RESULTS MODIFICATION
+
+    public static void ConfirmDiceResults()
+    {
+        CurrentPlayer.CmdConfirmDiceResults();
+    }
+
+
 }

@@ -77,7 +77,10 @@ public class NetworkPlayerController : NetworkBehaviour {
     [Command]
     public void CmdStartNetworkGame()
     {
-        Network.ExecuteWithCallBack(CmdLoadBattleScene, CmdStartBattle);
+        Network.ExecuteWithCallBack(
+            CmdLoadBattleScene,
+            CmdStartBattle
+        );
     }
 
     [Command]
@@ -182,15 +185,36 @@ public class NetworkPlayerController : NetworkBehaviour {
     [Command]
     public void CmdPerformStoredManeuver(int shipId)
     {
-        RpcPerformStoredManeuver(shipId);
+        Network.ExecuteWithCallBack(
+            delegate { CmdLaunchStoredManeuver(shipId); },
+            delegate { CmdFinishManeuver(shipId); }
+        );
+    }
+
+    [Command]
+    public void CmdLaunchStoredManeuver(int shipId)
+    {
+        RpcLaunchStoredManeuver(shipId);
     }
 
     [ClientRpc]
-    private void RpcPerformStoredManeuver(int shipId)
+    private void RpcLaunchStoredManeuver(int shipId)
     {
         // Temporary
         GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
         Game.Movement.PerformStoredManeuver(shipId);
+    }
+
+    [Command]
+    public void CmdFinishManeuver(int shipId)
+    {
+        RpcFinishManeuver(shipId);
+    }
+
+    [ClientRpc]
+    private void RpcFinishManeuver(int shipId)
+    {
+        Phases.FinishSubPhase(typeof(SubPhases.MovementExecutionSubPhase));
     }
 
     // DECLARE ATTACK TARGET

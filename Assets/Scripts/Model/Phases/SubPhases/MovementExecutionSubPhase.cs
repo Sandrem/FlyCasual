@@ -38,6 +38,18 @@ namespace SubPhases
             Selection.ThisShip.AssignedManeuver.Perform();
         }
 
+        public void CallFinish()
+        {
+            if (!Network.IsNetworkGame)
+            {
+                Next();
+            }
+            else
+            {
+                Network.FinishTask();
+            }
+        }
+
         public override void Next()
         {
             GenericSubPhase actionSubPhase = new ActionSubPhase();

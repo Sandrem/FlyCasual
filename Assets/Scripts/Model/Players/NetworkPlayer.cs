@@ -15,14 +15,21 @@ namespace Players
             Name = "Network";
         }
 
-        public override void TakeDecision()
-        {
-            Messages.ShowInfo("Network Player is asked to take decision");
-        }
-
         public override void AfterShipMovementPrediction()
         {
             Selection.ThisShip.AssignedManeuver.LaunchShipMovement();
+        }
+
+        public override void PerformAction()
+        {
+            (Phases.CurrentSubPhase as SubPhases.ActionDecisonSubPhase).ShowActionDecisionPanel();
+            UI.ShowSkipButton();
+        }
+
+        public override void PerformFreeAction()
+        {
+            (Phases.CurrentSubPhase as SubPhases.FreeActionDecisonSubPhase).ShowActionDecisionPanel();
+            UI.ShowSkipButton();
         }
 
     }

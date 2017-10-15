@@ -39,27 +39,24 @@ namespace SubPhases
             DiceRollCheck.Roll(checkResults);
         }
 
-        public void ShowConfirmDiceResultsButton()
+        public void PrepareConfirm()
         {
-            // BUG after koiogran asteroid?
-            if (Roster.GetPlayer(Selection.ActiveShip.Owner.PlayerNo).GetType() == typeof(Players.HumanPlayer))
-            {
-                Button closeButton = GameObject.Find("UI").transform.Find("CheckDiceResultsPanel").Find("DiceModificationsPanel").Find("Confirm").GetComponent<Button>();
-                closeButton.onClick.RemoveAllListeners();
-                closeButton.onClick.AddListener(finishAction);
+            Roster.GetPlayer(Selection.ActiveShip.Owner.PlayerNo).ConfirmDiceCheck();
+        }
 
-                closeButton.gameObject.SetActive(true);
-            }
-            else
-            {
-                finishAction.Invoke();
-            }
+        public void ShowConfirmButton()
+        {
+            Button closeButton = GameObject.Find("UI").transform.Find("CheckDiceResultsPanel").Find("DiceModificationsPanel").Find("Confirm").GetComponent<Button>();
+            closeButton.onClick.RemoveAllListeners();
+            closeButton.onClick.AddListener(finishAction);
+
+            closeButton.gameObject.SetActive(true);
         }
 
         protected virtual void CheckResults(DiceRoll diceRoll)
         {
             CurrentDiceRoll = diceRoll;
-            ShowConfirmDiceResultsButton();
+            PrepareConfirm();
         }
 
         protected virtual void FinishAction()
@@ -103,6 +100,11 @@ namespace SubPhases
         {
             bool result = false;
             return result;
+        }
+
+        public void Confirm()
+        {
+            finishAction.Invoke();
         }
 
     }

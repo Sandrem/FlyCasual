@@ -92,4 +92,12 @@ public static partial class Network
     {
         CurrentPlayer.CmdPerformStoredManeuver(shipId);
     }
+
+    // DECLARE COMBAT TARGET
+
+    public static void DeclareTarget(int attackerId, int defenderId)
+    {
+        CurrentPlayer.CmdDeclareTarget(attackerId, defenderId);
+    }
+    
 }

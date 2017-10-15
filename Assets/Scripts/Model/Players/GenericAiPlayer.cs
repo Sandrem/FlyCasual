@@ -358,6 +358,11 @@ namespace Players
             Phases.CurrentSubPhase.DoDefault();
         }
 
+        public override void ConfirmDiceCheck()
+        {
+            (Phases.CurrentSubPhase as SubPhases.DiceRollCheckSubPhase).Confirm();
+        }
+
     }
 
 }

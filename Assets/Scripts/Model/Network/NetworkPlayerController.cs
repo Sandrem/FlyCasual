@@ -174,6 +174,20 @@ public class NetworkPlayerController : NetworkBehaviour {
         Game.Movement.PerformStoredManeuver(shipId);
     }
 
+    // DECLARE ATTACK TARGET
+
+    [Command]
+    public void CmdDeclareTarget(int attackerId, int defenderId)
+    {
+        RpcDeclareTarget(attackerId, defenderId);
+    }
+
+    [ClientRpc]
+    private void RpcDeclareTarget(int attackerId, int defenderId)
+    {
+        Combat.DeclareTarget(attackerId, defenderId);
+    }
+
     // MESSAGES
 
     [Command]

@@ -66,6 +66,10 @@ namespace Players
         public virtual void TakeDecision() { }
 
         public virtual void AfterShipMovementPrediction() { }
+
+        public virtual void ConfirmDiceCheck() { }
+
+        public virtual void ToggleCombatDiceResults(bool isActive) { }
     }
 
 }

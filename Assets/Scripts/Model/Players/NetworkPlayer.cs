@@ -32,6 +32,11 @@ namespace Players
             UI.ShowSkipButton();
         }
 
+        public override void ConfirmDiceCheck()
+        {
+            (Phases.CurrentSubPhase as SubPhases.DiceRollCheckSubPhase).ShowConfirmButton();
+        }
+
     }
 
 }

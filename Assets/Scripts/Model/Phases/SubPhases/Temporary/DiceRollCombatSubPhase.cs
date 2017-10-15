@@ -47,23 +47,9 @@ namespace SubPhases
             checkResults(diceroll);
         }
 
-        public void ToggleConfirmDiceResultsButton(bool isActive)
+        public void PrepareToggleConfirmButton(bool isActive)
         {
-            if (isActive)
-            {
-                if (Roster.GetPlayer(Selection.ActiveShip.Owner.PlayerNo).GetType() == typeof(Players.HumanPlayer))
-                {
-                    Button closeButton = GameObject.Find("UI/CombatDiceResultsPanel").transform.Find("DiceModificationsPanel/Confirm").GetComponent<Button>();
-                    closeButton.onClick.RemoveAllListeners();
-                    closeButton.onClick.AddListener(delegate { CallBack(); });
-
-                    closeButton.gameObject.SetActive(true);
-                }
-            }
-            else
-            {
-                GameObject.Find("UI").transform.Find("CombatDiceResultsPanel").Find("DiceModificationsPanel").Find("Confirm").gameObject.SetActive(false);
-            }
+            Roster.GetPlayer(Selection.ActiveShip.Owner.PlayerNo).ToggleCombatDiceResults(isActive);
         }
 
         protected virtual void CheckResults(DiceRoll diceRoll)
@@ -95,7 +81,7 @@ namespace SubPhases
                     MonoBehaviour.Destroy(button.gameObject);
                 }
             }
-            ToggleConfirmDiceResultsButton(false);
+            PrepareToggleConfirmButton(false);
         }
 
         public override void Pause()
@@ -124,6 +110,17 @@ namespace SubPhases
         {
             bool result = false;
             return result;
+        }
+
+        public void ToggleConfirmButton(bool isActive)
+        {
+            Button closeButton = GameObject.Find("UI/CombatDiceResultsPanel").transform.Find("DiceModificationsPanel/Confirm").GetComponent<Button>();
+            if (isActive)
+            {
+                closeButton.onClick.RemoveAllListeners();
+                closeButton.onClick.AddListener(delegate { CallBack(); });
+            }
+            closeButton.gameObject.SetActive(isActive);
         }
 
     }

@@ -52,6 +52,16 @@ namespace Players
             Selection.ThisShip.AssignedManeuver.LaunchShipMovement();
         }
 
+        public override void ConfirmDiceCheck()
+        {
+            (Phases.CurrentSubPhase as SubPhases.DiceRollCheckSubPhase).ShowConfirmButton();
+        }
+
+        public override void ToggleCombatDiceResults(bool isActive)
+        {
+            (Phases.CurrentSubPhase as SubPhases.DiceRollCombatSubPhase).ToggleConfirmButton(isActive);
+        }
+
     }
 
 }

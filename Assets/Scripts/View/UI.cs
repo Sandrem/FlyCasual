@@ -196,7 +196,14 @@ public class UI : MonoBehaviour {
 
     public void ClickDeclareTarget()
     {
-        Combat.DeclareTarget();
+        if (!Network.IsNetworkGame)
+        {
+            Combat.DeclareTarget(Selection.ThisShip.ShipId, Selection.AnotherShip.ShipId);
+        }
+        else
+        {
+            Network.DeclareTarget(Selection.ThisShip.ShipId, Selection.AnotherShip.ShipId);
+        }
     }
 
     public static void ShowNextButton()

@@ -155,6 +155,32 @@ public partial class DiceRoll
     {
         this.callBack = callBack;
 
+        if (!Network.IsNetworkGame)
+        {
+            foreach (Die die in DiceList)
+            {
+                die.RandomizeRotation();
+            }
+            RollPreparedDice();
+        }
+        else
+        {
+            Network.GenerateRandom(new Vector2(0, 360), DiceList.Count * 3, SetDiceInitialRotation, RollPreparedDice);
+        }
+    }
+
+    private void SetDiceInitialRotation(int[] randomHolder)
+    {
+        int counter = 0;
+        foreach (Die die in DiceList)
+        {
+            die.SetInitialRotation(new Vector3(randomHolder[counter], randomHolder[counter+1], randomHolder[counter+2]));
+            counter += 3;
+        }
+    }
+
+    private void RollPreparedDice()
+    {
         foreach (Die die in DiceList)
         {
             die.Roll();

@@ -470,10 +470,33 @@ public static partial class RosterBuilder {
 
     public static void LoadBattleScene()
     {
+        //TestRandom();
         SceneManager.LoadScene("Battle");
     }
 
     // TEST
+
+    private static int storedRandomValue;
+
+    private static void TestRandom()
+    {
+        Network.GenerateRandom(
+            new Vector2(1, 10),
+            1,
+            TestStore,
+            TestCallBack
+        );
+    }
+
+    private static void TestStore(int[] randomHolder)
+    {
+        storedRandomValue = randomHolder[0];
+    }
+
+    private static void TestCallBack()
+    {
+        Messages.ShowInfo("Random Value is " + storedRandomValue);
+    }
 
     public static string TestGetNameOfFirstShipInRoster()
     {
@@ -481,6 +504,8 @@ public static partial class RosterBuilder {
         result = SquadBuilderRoster.GetShips()[0].Ship.Type;
         return result;
     }
+    
+    // END TEST
 
     private static bool ValidatePlayersRosters()
     {

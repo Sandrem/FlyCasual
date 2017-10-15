@@ -107,5 +107,4 @@ public static partial class Network
         CurrentPlayer.CmdConfirmDiceResults();
     }
 
-
 }

@@ -9,6 +9,8 @@ public static partial class Network
     private static Action callBack;
     private static int responcesGot;
 
+    private static int MAX_PLAYERS = 2;
+
     public static void ExecuteWithCallBack(Action toExecute, Action toCallBack)
     {
         responcesGot = 0;
@@ -19,7 +21,7 @@ public static partial class Network
     public static void ServerFinishTask()
     {
         responcesGot++;
-        if (responcesGot == 2) callBack();
+        if (responcesGot == MAX_PLAYERS) callBack();
     }
 
     public static void FinishTask()

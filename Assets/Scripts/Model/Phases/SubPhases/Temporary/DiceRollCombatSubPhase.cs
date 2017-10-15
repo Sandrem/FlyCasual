@@ -114,7 +114,7 @@ namespace SubPhases
 
         public void ToggleConfirmButton(bool isActive)
         {
-            Button closeButton = GameObject.Find("UI/CombatDiceResultsPanel").transform.Find("DiceModificationsPanel/Confirm").GetComponent<Button>();
+            Button closeButton = GameObject.Find("UI").transform.Find("CombatDiceResultsPanel").Find("DiceModificationsPanel").Find("Confirm").GetComponent<Button>();
             if (isActive)
             {
                 closeButton.onClick.RemoveAllListeners();

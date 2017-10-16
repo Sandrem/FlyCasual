@@ -147,7 +147,7 @@ public class Global : MonoBehaviour {
 
     public static void StartBattle()
     {
-        HideOpponentSquad();
+        if (Network.IsNetworkGame) HideOpponentSquad();
         Phases.StartPhases();
     }
 

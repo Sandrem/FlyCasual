@@ -28,7 +28,7 @@ public class CameraScript : MonoBehaviour {
     {
         Camera = transform.Find("Main Camera");
 
-        if (!Network.IsServer)
+        if (Network.IsNetworkGame && !Network.IsServer)
         {
             Camera.transform.parent.localPosition = new Vector3(Camera.transform.parent.localPosition.x, Camera.transform.parent.localPosition.y, -Camera.transform.parent.localPosition.z);
             Camera.transform.parent.localEulerAngles = new Vector3(Camera.transform.parent.localEulerAngles.x, Camera.transform.parent.localEulerAngles.y, Camera.transform.parent.localEulerAngles.z + 180);

@@ -16,6 +16,7 @@ namespace Ship
                 PilotSkill = 6;
                 Cost = 19;
             }
+
             public override void InitializePilot()
             {
                 base.InitializePilot();
@@ -24,22 +25,23 @@ namespace Ship
                 OnDestroyed += RemoveEpsilonLeaderAbility;
             }
 
-			private void EpsilonLeaderAbility(GenericShip genericShip)
+            private void EpsilonLeaderAbility(GenericShip genericShip)
             {
                 Ship.GenericShip EpsilonLeader = this;
-				// remove a stress from yourself
-				this.RemoveToken(typeof(Tokens.StressToken));
+                // remove a stress from yourself
+                this.RemoveToken(typeof(Tokens.StressToken));
 
-				// remove a stress from friendly ships at range 1
-				foreach (var friendlyShip in this.Owner.Ships) {
-					Ship.GenericShip friendlyShipDefined = friendlyShip.Value;
-					Board.ShipDistanceInformation positionInfo = new Board.ShipDistanceInformation(EpsilonLeader, friendlyShipDefined);
-	                if (positionInfo.Range == 1)
-	                {
-						// remove 1 stress token if it exists
-						friendlyShipDefined.RemoveToken(typeof(Tokens.StressToken));
-	                }
-	            }
+                // remove a stress from friendly ships at range 1
+                foreach (var friendlyShip in this.Owner.Ships)
+                {
+                    Ship.GenericShip friendlyShipDefined = friendlyShip.Value;
+                    Board.ShipDistanceInformation positionInfo = new Board.ShipDistanceInformation(EpsilonLeader, friendlyShipDefined);
+                    if (positionInfo.Range == 1)
+                    {
+                        // remove 1 stress token if it exists
+                        friendlyShipDefined.RemoveToken(typeof(Tokens.StressToken));
+                    }
+                }
             }
 
             private void RemoveEpsilonLeaderAbility(GenericShip ship)

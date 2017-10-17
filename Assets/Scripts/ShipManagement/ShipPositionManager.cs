@@ -265,6 +265,7 @@ public class ShipPositionManager : MonoBehaviour
     {
         HideSetupHelpers();
         Roster.SetRaycastTargets(true);
+        inReposition = false;
 
         if (Phases.CurrentSubPhase.GetType() == typeof(SubPhases.SetupSubPhase))
         {

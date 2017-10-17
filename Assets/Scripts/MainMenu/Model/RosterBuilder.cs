@@ -9,6 +9,7 @@ using Players;
 using Ship;
 using Upgrade;
 using UnityEngine.UI;
+using UnityEngine.Networking;
 
 public static partial class RosterBuilder {
 
@@ -466,6 +467,11 @@ public static partial class RosterBuilder {
 
         GameObject opponentSquad = globalUI.transform.Find("OpponentSquad").gameObject;
         opponentSquad.SetActive(true);
+    }
+
+    public static void HideNetworkManagerHUD()
+    {
+        GameObject.Find("NetworkManager").GetComponent<NetworkManagerHUD>().showGUI = false;
     }
 
     public static void LoadBattleScene()

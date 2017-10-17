@@ -92,6 +92,7 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     [ClientRpc]
     public void RpcLoadBattleScene()
     {
+        RosterBuilder.HideNetworkManagerHUD();
         RosterBuilder.ShowOpponentSquad();
         RosterBuilder.LoadBattleScene();
     }

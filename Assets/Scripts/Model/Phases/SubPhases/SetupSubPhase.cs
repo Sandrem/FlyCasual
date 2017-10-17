@@ -157,6 +157,8 @@ namespace SubPhases
 
         public void ConfirmShipSetup(int shipId, Vector3 position, Vector3 angles)
         {
+            Roster.SetRaycastTargets(true);
+
             //Temporary
             GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
             Game.Position.inReposition = false;

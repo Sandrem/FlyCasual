@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Ship;
 using UnityEngine;
 
 namespace Players
@@ -60,6 +61,11 @@ namespace Players
         public override void ToggleCombatDiceResults(bool isActive)
         {
             (Phases.CurrentSubPhase as SubPhases.DiceRollCombatSubPhase).ToggleConfirmButton(isActive);
+        }
+
+        public override bool IsNeedToShowManeuver(GenericShip ship)
+        {
+            return true;
         }
 
     }

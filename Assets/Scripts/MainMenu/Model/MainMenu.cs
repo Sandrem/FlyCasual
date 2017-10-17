@@ -61,4 +61,14 @@ public partial class MainMenu : MonoBehaviour {
         }
     }
 
+    public void ImportSquadList()
+    {
+        RosterBuilder.ImportSquadList();
+    }
+
+    public void ExportSquadList()
+    {
+        RosterBuilder.ExportSquadList();
+    }
+
 }

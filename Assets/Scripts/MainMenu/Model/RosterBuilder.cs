@@ -661,4 +661,65 @@ public static partial class RosterBuilder {
         }
     }
 
+    // IMPORT / EXPORT
+
+    [Serializable]
+    public class SquadList
+    {
+        public string name;
+        public string faction;
+        public int points;
+        public string version;
+        public string description;
+        public SquadPilot[] pilots;
+    }
+
+    [Serializable]
+    public class SquadPilot
+    {
+        public string name;
+        public string ship;
+        public SquadUpgrade[] upgrades;
+    }
+
+    [Serializable]
+    public class SquadUpgrade
+    {
+
+    }
+
+    public static void ImportSquadList()
+    {
+
+    }
+
+    public static void ExportSquadList()
+    {
+        SquadList squadList = new SquadList()
+        {
+            name = "New squad",
+            faction = GetPlayerFaction(PlayerNo.Player1).ToString(),
+            points = GetPlayerShipsCostCalculated(PlayerNo.Player1),
+            version = "0.3.0",
+            description = "No descripton"
+        };
+
+        List<SquadBuilderShip> playerShipConfigs = SquadBuilderRoster.GetShips().Where(n => n.Player == PlayerNo.Player1).ToList();
+
+        SquadPilot[] squadPilotArray = new SquadPilot[playerShipConfigs.Count];
+        for (int i = 0; i < squadPilotArray.Length; i++)
+        {
+            SquadPilot squadPilot = new SquadPilot()
+            {
+                name = playerShipConfigs[i].Ship.PilotName,
+                ship = playerShipConfigs[i].Ship.Type
+            };
+            squadPilotArray[i] = squadPilot;
+        }
+
+        squadList.pilots = squadPilotArray;
+
+        Debug.Log(JsonUtility.ToJson(squadList));
+    }
+
 }

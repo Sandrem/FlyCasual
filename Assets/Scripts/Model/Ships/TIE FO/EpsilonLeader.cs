@@ -22,7 +22,6 @@ namespace Ship
 				base.InitializePilot ();
 
 				OnCombatPhaseStart += RegisterEpsilonLeaderAbility;
-				//OnDestroyed += RemoveEpsilonLeaderAbility;
 			}
 
 			private void RegisterEpsilonLeaderAbility (GenericShip genericShip)
@@ -32,17 +31,14 @@ namespace Ship
                     Name = "Epsilon Leader Ability",
                     TriggerOwner = this.Owner.PlayerNo,
                     TriggerType = TriggerTypes.OnCombatPhaseStart,
-                    EventHandler = StartSubphaseForEpsilonLeaderAbility
+                    EventHandler = UseEpsilonLeaderAbility
                 });
 			}
 
-            private void StartSubphaseForEpsilonLeaderAbility(object sender, System.EventArgs e)
+            private void UseEpsilonLeaderAbility(object sender, System.EventArgs e)
             {
                 Selection.ThisShip = this;
                 Ship.GenericShip EpsilonLeader = Selection.ThisShip;
-                // remove a stress from yourself
-                EpsilonLeader.RemoveToken (typeof(Tokens.StressToken));
-
                 // remove a stress from friendly ships at range 1
                 foreach (var friendlyShip in EpsilonLeader.Owner.Ships) {
                     Ship.GenericShip friendlyShipDefined = friendlyShip.Value;

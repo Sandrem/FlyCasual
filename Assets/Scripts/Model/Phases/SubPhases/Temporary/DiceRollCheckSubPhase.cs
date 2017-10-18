@@ -39,16 +39,28 @@ namespace SubPhases
             DiceRollCheck.Roll(checkResults);
         }
 
-        public void PrepareConfirm()
+        public void PrepareConfirmation()
         {
             Roster.GetPlayer(Selection.ActiveShip.Owner.PlayerNo).ConfirmDiceCheck();
         }
 
         public void ShowConfirmButton()
         {
+            if (!Network.IsNetworkGame)
+            {
+                ShowDiceRollCheckConfirmButton();
+            }
+            else
+            {
+                Network.ConfirmDiceRollCheckResults();
+            }
+        }
+
+        public void ShowDiceRollCheckConfirmButton()
+        {
             Button closeButton = GameObject.Find("UI").transform.Find("CheckDiceResultsPanel").Find("DiceModificationsPanel").Find("Confirm").GetComponent<Button>();
             closeButton.onClick.RemoveAllListeners();
-            closeButton.onClick.AddListener(finishAction);
+            closeButton.onClick.AddListener(PressConfirmButton);
 
             closeButton.gameObject.SetActive(true);
         }
@@ -56,7 +68,7 @@ namespace SubPhases
         protected virtual void CheckResults(DiceRoll diceRoll)
         {
             CurrentDiceRoll = diceRoll;
-            PrepareConfirm();
+            PrepareConfirmation();
         }
 
         protected virtual void FinishAction()
@@ -68,19 +80,12 @@ namespace SubPhases
         public void HideDiceResultMenu()
         {
             GameObject.Find("UI").transform.Find("CheckDiceResultsPanel").gameObject.SetActive(false);
-            HideDiceModificationButtons();
+            HideConfirmDiceButton();
             CurrentDiceRoll.RemoveDiceModels();
         }
 
-        public void HideDiceModificationButtons()
+        public void HideConfirmDiceButton()
         {
-            foreach (Transform button in GameObject.Find("UI").transform.Find("CheckDiceResultsPanel").Find("DiceModificationsPanel"))
-            {
-                if (button.name.StartsWith("Button"))
-                {
-                    MonoBehaviour.Destroy(button.gameObject);
-                }
-            }
             GameObject.Find("UI").transform.Find("CheckDiceResultsPanel").Find("DiceModificationsPanel").Find("Confirm").gameObject.SetActive(false);
         }
 
@@ -100,6 +105,19 @@ namespace SubPhases
         {
             bool result = false;
             return result;
+        }
+
+        private void PressConfirmButton()
+        {
+            HideConfirmDiceButton();
+            if (!Network.IsNetworkGame)
+            {
+                Confirm();
+            }
+            else
+            {
+                Network.FinishTask();
+            }
         }
 
         public void Confirm()

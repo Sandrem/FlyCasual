@@ -107,4 +107,11 @@ public static partial class Network
         CurrentPlayer.CmdConfirmDiceResults();
     }
 
+    // CONFIRM DICE ROLL CHECK
+
+    public static void ConfirmDiceRollCheckResults()
+    {
+        CurrentPlayer.CmdConfirmDiceRollCheckResults();
+    }
+
 }

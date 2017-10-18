@@ -246,6 +246,41 @@ public partial class NetworkPlayerController : NetworkBehaviour {
         Combat.ConfirmDiceResultsClient();
     }
 
+    // CONFIRM DICE ROLL CHECK
+
+    [Command]
+    public void CmdConfirmDiceRollCheckResults()
+    {
+        Network.ExecuteWithCallBack(
+            CmdShowDiceRollCheckConfirmButton,
+            CmdConfirmDiceRerollCheckResults
+        );
+    }
+
+    [Command]
+    private void CmdShowDiceRollCheckConfirmButton()
+    {
+        RpcShowDiceRollCheckConfirmButton();
+    }
+
+    [ClientRpc]
+    private void RpcShowDiceRollCheckConfirmButton()
+    {
+        (Phases.CurrentSubPhase as SubPhases.DiceRollCheckSubPhase).ShowDiceRollCheckConfirmButton();
+    }
+
+    [Command]
+    private void CmdConfirmDiceRerollCheckResults()
+    {
+        RpcConfirmDiceRerollCheckResults();
+    }
+
+    [ClientRpc]
+    private void RpcConfirmDiceRerollCheckResults()
+    {
+        (Phases.CurrentSubPhase as SubPhases.DiceRollCheckSubPhase).Confirm();
+    }
+
     // MESSAGES
 
     [Command]

@@ -13,14 +13,18 @@ public static partial class Network
 
     public static void ExecuteWithCallBack(Action toExecute, Action toCallBack)
     {
-        responcesGot = 0;
-        callBack = toCallBack;
+        if (IsServer)
+        {
+            responcesGot = 0;
+            callBack = toCallBack;
+        }
+
         toExecute();
     }
 
     public static void ServerFinishTask()
     {
-        responcesGot++;
+        if (IsServer) responcesGot++;
         if (responcesGot == MAX_PLAYERS) callBack();
     }
 

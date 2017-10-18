@@ -275,6 +275,20 @@ public partial class NetworkPlayerController : NetworkBehaviour {
         (Phases.CurrentSubPhase as SubPhases.DiceRollCheckSubPhase).Confirm();
     }
 
+    // DICE ROLL SYNC
+
+    [Command]
+    public void CmdSendDiceRollResultsToClients(DieSide[] dieSideResults, DiceRollCheckType checkType)
+    {
+        RpcSendDiceRollResultsToClients(dieSideResults, checkType);
+    }
+
+    [ClientRpc]
+    private void RpcSendDiceRollResultsToClients(DieSide[] dieSideResults, DiceRollCheckType checkType)
+    {
+        Network.CompareDiceSidesAgainstServer(dieSideResults, checkType);
+    }
+
     // MESSAGES
 
     [Command]

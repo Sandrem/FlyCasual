@@ -37,7 +37,20 @@ namespace SubPhases
 
             DiceRoll DiceRollCheck;
             DiceRollCheck = new DiceRoll(diceType, diceCount, DiceRollCheckType.Combat);
-            DiceRollCheck.Roll(ImmediatelyAfterRolling);
+            DiceRollCheck.Roll(SyncDiceResults);
+        }
+
+        private void SyncDiceResults(DiceRoll diceroll)
+        {
+            if (!Network.IsNetworkGame)
+            {
+                ImmediatelyAfterRolling(diceroll);
+            }
+            else
+            {
+                Network.SyncDiceResults(diceroll, ImmediatelyAfterRolling);
+                ImmediatelyAfterRolling(diceroll);
+            }
         }
 
         private void ImmediatelyAfterRolling(DiceRoll diceroll)

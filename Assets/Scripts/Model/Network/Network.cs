@@ -128,4 +128,57 @@ public static partial class Network
         if (IsServer) CurrentPlayer.CmdConfirmDiceRollCheckResults();
     }
 
+    // SYNC DICE ROLL
+
+    public static void SyncDiceResults(DiceRoll diceroll, DelegateDiceroll callBack)
+    {
+        SendDiceRollResultsToClients(diceroll);
+
+        //TODO: CallBack for clients
+
+        /*new NetworkExecuteWithCallback(
+            delegate { SendDiceRollResultsToClients(diceroll); },
+            delegate { callBack(diceroll); }
+        );*/
+    }
+
+    private static void SendDiceRollResultsToClients(DiceRoll diceroll)
+    {
+        if (IsServer)
+        {
+            DieSide[] dieSideResults = diceroll.DiceList.Select(n => n.Side).ToArray();
+            CurrentPlayer.CmdSendDiceRollResultsToClients(dieSideResults, diceroll.CheckType);
+        }
+    }
+
+    public static void CompareDiceSidesAgainstServer(DieSide[] dieSides, DiceRollCheckType checkType)
+    {
+        DiceRoll clientDiceRoll = null;
+        if (checkType == DiceRollCheckType.Combat) clientDiceRoll = Combat.CurentDiceRoll;
+        // TODO: Sync for checks
+
+        bool syncIsNeeded = false;
+        for (int i = 0; i < clientDiceRoll.DiceList.Count; i++)
+        {
+            if (clientDiceRoll.DiceList[i].GetModelFace() != dieSides[i])
+            {
+                syncIsNeeded = true;
+                clientDiceRoll.DiceList[i].SetSide(dieSides[i]);
+                clientDiceRoll.DiceList[i].SetModelSide(dieSides[i]);
+            }
+        }
+
+        if (syncIsNeeded)
+        {
+            clientDiceRoll.OrganizeDicePositions();
+            Messages.ShowInfo("Dice results are synchronized with server");
+        }
+        else
+        {
+            Messages.ShowInfo("NO PROBLEMS");
+        }
+
+        Network.FinishTask();
+    }
+
 }

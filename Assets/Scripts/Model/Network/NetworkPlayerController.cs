@@ -33,7 +33,7 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     [Command]
     public void CmdCallBacksTest()
     {
-        Network.ExecuteWithCallBack(CmdRosterTest, CmdShowVariable);
+        new NetworkExecuteWithCallback(CmdRosterTest, CmdShowVariable);
     }
 
     [Command]
@@ -77,10 +77,7 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     [Command]
     public void CmdStartNetworkGame()
     {
-        Network.ExecuteWithCallBack(
-            CmdLoadBattleScene,
-            CmdStartBattle
-        );
+        new NetworkExecuteWithCallback(CmdLoadBattleScene, CmdStartBattle);
     }
 
     [Command]
@@ -186,7 +183,7 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     [Command]
     public void CmdPerformStoredManeuver(int shipId)
     {
-        Network.ExecuteWithCallBack(
+        new NetworkExecuteWithCallback(
             delegate { CmdLaunchStoredManeuver(shipId); },
             delegate { CmdFinishManeuver(shipId); }
         );
@@ -251,10 +248,7 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     [Command]
     public void CmdConfirmDiceRollCheckResults()
     {
-        Network.ExecuteWithCallBack(
-            CmdShowDiceRollCheckConfirmButton,
-            CmdConfirmDiceRerollCheckResults
-        );
+        new NetworkExecuteWithCallback(CmdShowDiceRollCheckConfirmButton, CmdConfirmDiceRerollCheckResults);
     }
 
     [Command]

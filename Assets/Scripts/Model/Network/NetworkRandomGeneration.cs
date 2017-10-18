@@ -14,7 +14,8 @@ public static partial class Network
     {
         storeGeneratedRandomValues = store;
         generateRandomValuesCallBack = callBack;
-        CurrentPlayer.CmdGenerateRandomValues(range, count);
+
+        if (IsServer) CurrentPlayer.CmdGenerateRandomValues(range, count);
     }
 
     public static void StoreGeneratedRandomValues(int[] randomHolders)
@@ -41,7 +42,7 @@ public partial class NetworkPlayerController : NetworkBehaviour
             randomHolder[i] = UnityEngine.Random.Range((int)range.x, (int)range.y+1);
         }
 
-        Network.ExecuteWithCallBack(
+        new NetworkExecuteWithCallback(
             delegate { CmdStoreGeneratedRandomValues(randomHolder); },
             CmdGenerateRandomValuesCallBack
         );

@@ -8,6 +8,8 @@ public static partial class Network
 {
     public static NetworkPlayerController CurrentPlayer;
 
+    public static NetworkExecuteWithCallback LastNetworkCallback;
+
     public static string AllShipNames;
 
     public static bool IsNetworkGame
@@ -35,6 +37,18 @@ public static partial class Network
     public static void CallBacksTest()
     {
         CurrentPlayer.CmdCallBacksTest();
+    }
+
+    // CALLBACKS
+
+    public static void FinishTask()
+    {
+        CurrentPlayer.CmdFinishTask();
+    }
+
+    public static void ServerFinishTask()
+    {
+        LastNetworkCallback.ServerFinishTask();
     }
 
     // TOOLS
@@ -111,7 +125,7 @@ public static partial class Network
 
     public static void ConfirmDiceRollCheckResults()
     {
-        CurrentPlayer.CmdConfirmDiceRollCheckResults();
+        if (IsServer) CurrentPlayer.CmdConfirmDiceRollCheckResults();
     }
 
 }

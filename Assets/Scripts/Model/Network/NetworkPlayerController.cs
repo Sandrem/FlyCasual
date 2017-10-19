@@ -350,6 +350,20 @@ public partial class NetworkPlayerController : NetworkBehaviour {
 
     }
 
+    // DICE MODIFICATIONS
+
+    [Command]
+    public void CmdUseDiceModification(string diceModificationName)
+    {
+        RpcUseDiceModification(diceModificationName);
+    }
+
+    [ClientRpc]
+    private void RpcUseDiceModification(string diceModificationName)
+    {
+        Combat.UseDiceModification(diceModificationName);
+    }
+
     // MESSAGES
 
     [Command]

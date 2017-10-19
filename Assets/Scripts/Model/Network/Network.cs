@@ -173,4 +173,11 @@ public static partial class Network
         Network.FinishTask();
     }
 
+    // DICE MODIFICATIONS
+
+    public static void UseDiceModification(string diceModificationName)
+    {
+        CurrentPlayer.CmdUseDiceModification(diceModificationName);
+    }
+
 }

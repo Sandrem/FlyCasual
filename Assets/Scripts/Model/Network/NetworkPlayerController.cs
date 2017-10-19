@@ -380,6 +380,20 @@ public partial class NetworkPlayerController : NetworkBehaviour {
         Combat.UseDiceModification(diceModificationName);
     }
 
+    // BARREL ROLL
+
+    [Command]
+    public void CmdTryConfirmBarrelRoll(Vector3 shipPosition, Vector3 movementTemplatePosition)
+    {
+        RpcTryConfirmBarrelRoll(shipPosition, movementTemplatePosition);
+    }
+
+    [ClientRpc]
+    private void RpcTryConfirmBarrelRoll(Vector3 shipPosition, Vector3 movementTemplatePosition)
+    {
+        (Phases.CurrentSubPhase as SubPhases.BarrelRollPlanningSubPhase).TryConfirmBarrelRollNetwork(shipPosition, movementTemplatePosition);
+    }
+
     // MESSAGES
 
     [Command]

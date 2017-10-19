@@ -275,6 +275,38 @@ public partial class NetworkPlayerController : NetworkBehaviour {
         (Phases.CurrentSubPhase as SubPhases.DiceRollCheckSubPhase).Confirm();
     }
 
+    // CONFIRM INFORM CRIT WINDOW
+
+    [Command]
+    public void CmdCallInformCritWindow()
+    {
+        new NetworkExecuteWithCallback(CmdShowInformCritWindow, CmdHideInformCritWindow);
+    }
+
+    [Command]
+    private void CmdShowInformCritWindow()
+    {
+        RpcShowInformCritWindow();
+    }
+
+    [ClientRpc]
+    private void RpcShowInformCritWindow()
+    {
+        InformCrit.ShowPanelVisible();
+    }
+
+    [Command]
+    private void CmdHideInformCritWindow()
+    {
+        RpcHideInformCritWindow();
+    }
+
+    [ClientRpc]
+    private void RpcHideInformCritWindow()
+    {
+        Triggers.FinishTrigger();
+    }
+
     // DICE ROLL SYNC
 
     [Command]

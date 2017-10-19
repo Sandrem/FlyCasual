@@ -247,7 +247,7 @@ public class UI : MonoBehaviour {
 
     public void HideInformCritPanel()
     {
-        InformCrit.HidePanel();
+        InformCrit.ButtonConfirm();
     }
 
     public void ReturnToMainMenu()

@@ -114,6 +114,13 @@ public static partial class Network
         CurrentPlayer.CmdDeclareTarget(attackerId, defenderId);
     }
 
+    // SELECT TARGET SHIP
+
+    public static void SelectTargetShip(int targetId)
+    {
+        CurrentPlayer.CmdSelectTargetShip(targetId);
+    }
+
     // CONFIRM DICE RESULTS MODIFICATION
 
     public static void ConfirmDiceResults()

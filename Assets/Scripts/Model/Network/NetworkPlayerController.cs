@@ -229,6 +229,22 @@ public partial class NetworkPlayerController : NetworkBehaviour {
         Combat.DeclareTarget(attackerId, defenderId);
     }
 
+    // SELECT TARGET SHIP
+
+    [Command]
+    public void CmdSelectTargetShip(int targetId)
+    {
+        RpcSelectTargetShip(targetId);
+    }
+
+    [ClientRpc]
+    private void RpcSelectTargetShip(int targetId)
+    {
+        SubPhases.SelectShipSubPhase currentSubPhase = (Phases.CurrentSubPhase as SubPhases.SelectShipSubPhase);
+        currentSubPhase.TargetShip = Roster.GetShipById("ShipId:" + targetId);
+        currentSubPhase.InvokeFinish();
+    }
+
     // CONFIRM DICE RESULTS MODIFICATIONS
 
     [Command]

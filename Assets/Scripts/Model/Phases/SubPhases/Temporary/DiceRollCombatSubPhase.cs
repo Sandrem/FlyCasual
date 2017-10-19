@@ -48,9 +48,13 @@ namespace SubPhases
             }
             else
             {
-                Network.SyncDiceResults(diceroll, ImmediatelyAfterRolling);
-                ImmediatelyAfterRolling(diceroll);
+                Network.SyncDiceResults();
             }
+        }
+
+        public void CalculateDice()
+        {
+            ImmediatelyAfterRolling(DiceRoll.CurrentDiceRoll);
         }
 
         private void ImmediatelyAfterRolling(DiceRoll diceroll)

@@ -278,15 +278,44 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     // DICE ROLL SYNC
 
     [Command]
-    public void CmdSendDiceRollResultsToClients(DieSide[] dieSideResults, DiceRollCheckType checkType)
+    public void CmdSyncDiceResults()
     {
-        RpcSendDiceRollResultsToClients(dieSideResults, checkType);
+        new NetworkExecuteWithCallback(
+            CmdSendDiceRollResultsToClients,
+            CmdCalculateDiceRoll
+        );
+    }
+
+    [Command]
+    public void CmdSendDiceRollResultsToClients()
+    {
+        RpcSendDiceRollResultsToClients(DiceRoll.CurrentDiceRoll.ResultsArray);
     }
 
     [ClientRpc]
-    private void RpcSendDiceRollResultsToClients(DieSide[] dieSideResults, DiceRollCheckType checkType)
+    private void RpcSendDiceRollResultsToClients(DieSide[] dieSideResults)
     {
-        Network.CompareDiceSidesAgainstServer(dieSideResults, checkType);
+        Network.CompareDiceSidesAgainstServer(dieSideResults);
+    }
+
+    [Command]
+    public void CmdCalculateDiceRoll()
+    {
+        RpcCalculateDiceRoll();
+    }
+
+    [ClientRpc]
+    private void RpcCalculateDiceRoll()
+    {
+        if (DiceRoll.CurrentDiceRoll.CheckType == DiceRollCheckType.Combat)
+        {
+            (Phases.CurrentSubPhase as SubPhases.DiceRollCombatSubPhase).CalculateDice();
+        }
+        else if (DiceRoll.CurrentDiceRoll.CheckType == DiceRollCheckType.Check)
+        {
+            (Phases.CurrentSubPhase as SubPhases.DiceRollCheckSubPhase).CalculateDice();
+        }
+
     }
 
     // MESSAGES

@@ -30,6 +30,8 @@ public partial class DiceRoll
         private set;
     }
 
+    public static DiceRoll CurrentDiceRoll;
+
     public Transform SpawningPoint;
     public Transform FinalPositionPoint;
 
@@ -38,6 +40,11 @@ public partial class DiceRoll
     private DelegateDiceroll callBack;
 
     private bool isRolling;
+
+    public DieSide[] ResultsArray
+    {
+        get { return this.DiceList.Select(n => n.Side).ToArray();}
+    }
 
     public DiceRoll(DiceKind type, int number, DiceRollCheckType checkType)
     {
@@ -153,6 +160,8 @@ public partial class DiceRoll
 
     public void Roll(DelegateDiceroll callBack)
     {
+        DiceRoll.CurrentDiceRoll = this;
+
         this.callBack = callBack;
 
         if (!Network.IsNetworkGame)

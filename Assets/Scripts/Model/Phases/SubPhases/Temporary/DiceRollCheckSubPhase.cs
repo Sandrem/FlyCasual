@@ -36,7 +36,19 @@ namespace SubPhases
 
             DiceRoll DiceRollCheck;
             DiceRollCheck = new DiceRoll(diceType, diceCount, DiceRollCheckType.Check);
-            DiceRollCheck.Roll(checkResults);
+            DiceRollCheck.Roll(SyncDiceResults);
+        }
+
+        private void SyncDiceResults(DiceRoll diceroll)
+        {
+            if (!Network.IsNetworkGame)
+            {
+                checkResults(diceroll);
+            }
+            else
+            {
+                Network.SyncDiceResults();
+            }
         }
 
         public void PrepareConfirmation()
@@ -63,6 +75,11 @@ namespace SubPhases
             closeButton.onClick.AddListener(PressConfirmButton);
 
             closeButton.gameObject.SetActive(true);
+        }
+
+        public void CalculateDice()
+        {
+            CheckResults(DiceRoll.CurrentDiceRoll);
         }
 
         protected virtual void CheckResults(DiceRoll diceRoll)

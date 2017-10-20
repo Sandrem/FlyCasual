@@ -134,14 +134,17 @@ public class UI : MonoBehaviour {
 
     public static void AddTestLogEntry(string text)
     {
-        GameObject area = GameObject.Find("UI").transform.Find("GameLogHolder").Find("Scroll").Find("Viewport").Find("Content").gameObject;
-        GameObject logText = (GameObject)Resources.Load("Prefabs/LogText", typeof(GameObject));
-        GameObject newLogEntry = Instantiate(logText, area.transform);
-        newLogEntry.transform.localPosition = new Vector3(5, lastLogTextPosition, 0);
-        lastLogTextPosition += lastLogTextStep;
-        if (area.GetComponent<RectTransform>().sizeDelta.y < Mathf.Abs(lastLogTextPosition)) area.GetComponent<RectTransform>().sizeDelta = new Vector2(area.GetComponent<RectTransform>().sizeDelta.x, Mathf.Abs(lastLogTextPosition));
-        GameObject.Find("UI").transform.Find("GameLogHolder").Find ("Scroll").GetComponent<ScrollRect>().verticalNormalizedPosition = 0;
-        newLogEntry.GetComponent<Text>().text = text;
+        if (GameObject.Find("UI").transform.Find("GameLogHolder") != null)
+        {
+            GameObject area = GameObject.Find("UI").transform.Find("GameLogHolder").Find("Scroll").Find("Viewport").Find("Content").gameObject;
+            GameObject logText = (GameObject)Resources.Load("Prefabs/LogText", typeof(GameObject));
+            GameObject newLogEntry = Instantiate(logText, area.transform);
+            newLogEntry.transform.localPosition = new Vector3(5, lastLogTextPosition, 0);
+            lastLogTextPosition += lastLogTextStep;
+            if (area.GetComponent<RectTransform>().sizeDelta.y < Mathf.Abs(lastLogTextPosition)) area.GetComponent<RectTransform>().sizeDelta = new Vector2(area.GetComponent<RectTransform>().sizeDelta.x, Mathf.Abs(lastLogTextPosition));
+            GameObject.Find("UI").transform.Find("GameLogHolder").Find("Scroll").GetComponent<ScrollRect>().verticalNormalizedPosition = 0;
+            newLogEntry.GetComponent<Text>().text = text;
+        }
     }
 
     public void ShowDecisionsPanel()

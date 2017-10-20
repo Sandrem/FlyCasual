@@ -184,7 +184,7 @@ namespace SubPhases
             }
         }
 
-        private void StartBarrelRollExecution(Ship.GenericShip ship)
+        public void StartBarrelRollExecution(Ship.GenericShip ship)
         {
             Pause();
 
@@ -228,10 +228,12 @@ namespace SubPhases
             Vector3 newPosition = Selection.ThisShip.InverseTransformPoint(ShipStand.transform.position);
             if (newPosition.x > 0f)
             {
+                helperDirection = 1;
                 MovementTemplates.CurrentTemplate.eulerAngles = Selection.ThisShip.Model.transform.eulerAngles + new Vector3(0, (Selection.ThisShip.ShipBaseSize == Ship.BaseSize.Small) ? 180 : 90, 0);
             }
             if (newPosition.x < 0f)
             {
+                helperDirection = -1;
                 MovementTemplates.CurrentTemplate.eulerAngles = Selection.ThisShip.Model.transform.eulerAngles + new Vector3(0, (Selection.ThisShip.ShipBaseSize == Ship.BaseSize.Small) ? 0 : 90, 0);
             }
             MovementTemplates.CurrentTemplate.position = movementTemplatePosition;
@@ -273,7 +275,14 @@ namespace SubPhases
             if (IsBarrelRollAllowed())
             {
                 CheckMines();
-                StartBarrelRollExecution(Selection.ThisShip);
+                if (!Network.IsNetworkGame)
+                {
+                    StartBarrelRollExecution(Selection.ThisShip);
+                }
+                else
+                {
+                    Network.PerformBarrelRoll();
+                }
             }
             else
             {
@@ -380,11 +389,20 @@ namespace SubPhases
             Selection.ThisShip.MoveUpwards(progressCurrent / progressTarget);
             if (progressCurrent >= progressTarget)
             {
-                FinishBarrelRollAnimation();
+                performingAnimation = false;
+                if (!Network.IsNetworkGame)
+                {
+                    FinishBarrelRollAnimation();
+                }
+                else
+                {
+                    Network.FinishTask();
+                }
+                
             }
         }
 
-        private void FinishBarrelRollAnimation()
+        public void FinishBarrelRollAnimation()
         {
             performingAnimation = false;
 

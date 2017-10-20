@@ -107,6 +107,13 @@ public static partial class Network
         CurrentPlayer.CmdPerformStoredManeuver(shipId);
     }
 
+    // PERFORM BARREL ROLL
+
+    public static void PerformBarrelRoll()
+    {
+        if (IsServer) CurrentPlayer.CmdPerformBarrelRoll();
+    }
+
     // DECLARE COMBAT TARGET
 
     public static void DeclareTarget(int attackerId, int defenderId)

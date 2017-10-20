@@ -215,6 +215,41 @@ public partial class NetworkPlayerController : NetworkBehaviour {
         Phases.FinishSubPhase(typeof(SubPhases.MovementExecutionSubPhase));
     }
 
+    // BARREL ROLL
+
+    [Command]
+    public void CmdPerformBarrelRoll()
+    {
+        new NetworkExecuteWithCallback(
+            CmdLaunchBarrelRoll,
+            CmdFinishBarrelRoll
+        );
+    }
+
+    [Command]
+    public void CmdLaunchBarrelRoll()
+    {
+        RpcLaunchBarrelRoll();
+    }
+
+    [ClientRpc]
+    private void RpcLaunchBarrelRoll()
+    {
+        (Phases.CurrentSubPhase as SubPhases.BarrelRollPlanningSubPhase).StartBarrelRollExecution(Selection.ThisShip);
+    }
+
+    [Command]
+    public void CmdFinishBarrelRoll()
+    {
+        RpcFinishBarrelRoll();
+    }
+
+    [ClientRpc]
+    private void RpcFinishBarrelRoll()
+    {
+        (Phases.CurrentSubPhase as SubPhases.BarrelRollExecutionSubPhase).FinishBarrelRollAnimation();
+    }
+
     // DECLARE ATTACK TARGET
 
     [Command]

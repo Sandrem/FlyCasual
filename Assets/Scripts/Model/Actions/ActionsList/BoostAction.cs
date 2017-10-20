@@ -171,7 +171,7 @@ namespace SubPhases
             
         }
 
-        private void StartBoostExecution(Ship.GenericShip ship)
+        public void StartBoostExecution(Ship.GenericShip ship)
         {
             Phases.StartTemporarySubPhase(
                 "Boost execution",
@@ -247,7 +247,14 @@ namespace SubPhases
             if (IsBoostAllowed())
             {
                 CheckMines();
-                StartBoostExecution(Selection.ThisShip);
+                if (!Network.IsNetworkGame)
+                {
+                    StartBoostExecution(Selection.ThisShip);
+                }
+                else
+                {
+                    Network.PerformBoost();
+                }
             }
             else
             {
@@ -344,6 +351,18 @@ namespace SubPhases
             //TEMPORARY
             boostMovement.Perform();
             Sounds.PlayFly();
+        }
+
+        public void FinishBoost()
+        {
+            if (!Network.IsNetworkGame)
+            {
+                Phases.FinishSubPhase(this.GetType());
+            }
+            else
+            {
+                Network.FinishTask();
+            }
         }
 
         public override void Next()

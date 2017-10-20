@@ -398,7 +398,6 @@ namespace SubPhases
                 {
                     Network.FinishTask();
                 }
-                
             }
         }
 

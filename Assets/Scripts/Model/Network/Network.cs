@@ -114,6 +114,13 @@ public static partial class Network
         if (IsServer) CurrentPlayer.CmdPerformBarrelRoll();
     }
 
+    // PERFORM BOOST
+
+    public static void PerformBoost()
+    {
+        if (IsServer) CurrentPlayer.CmdPerformBoost();
+    }
+
     // DECLARE COMBAT TARGET
 
     public static void DeclareTarget(int attackerId, int defenderId)

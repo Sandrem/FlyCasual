@@ -250,6 +250,41 @@ public partial class NetworkPlayerController : NetworkBehaviour {
         (Phases.CurrentSubPhase as SubPhases.BarrelRollExecutionSubPhase).FinishBarrelRollAnimation();
     }
 
+    // BOOST
+
+    [Command]
+    public void CmdPerformBoost()
+    {
+        new NetworkExecuteWithCallback(
+            CmdLaunchBoost,
+            CmdFinishBoost
+        );
+    }
+
+    [Command]
+    public void CmdLaunchBoost()
+    {
+        RpcLaunchBoost();
+    }
+
+    [ClientRpc]
+    private void RpcLaunchBoost()
+    {
+        (Phases.CurrentSubPhase as SubPhases.BoostPlanningSubPhase).StartBoostExecution(Selection.ThisShip);
+    }
+
+    [Command]
+    public void CmdFinishBoost()
+    {
+        RpcFinishBoost();
+    }
+
+    [ClientRpc]
+    private void RpcFinishBoost()
+    {
+        Phases.FinishSubPhase(typeof(SubPhases.BoostExecutionSubPhase));
+    }
+
     // DECLARE ATTACK TARGET
 
     [Command]

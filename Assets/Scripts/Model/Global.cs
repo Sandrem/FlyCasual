@@ -63,9 +63,9 @@ public class Global : MonoBehaviour {
                 {
                 new ShipConfiguration
                 (
-                    new Ship.XWing.RedSquadronPilot(),
+                    new Ship.AWing.GreenSquadronPilot(),
                     PlayerNo.Player1,
-                    23
+                    19
                 ),
                 new ShipConfiguration
                 (

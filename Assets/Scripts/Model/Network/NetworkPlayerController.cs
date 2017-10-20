@@ -415,7 +415,7 @@ public partial class NetworkPlayerController : NetworkBehaviour {
         Combat.UseDiceModification(diceModificationName);
     }
 
-    // BARREL ROLL
+    // BARREL ROLL PLANNING
 
     [Command]
     public void CmdTryConfirmBarrelRoll(Vector3 shipPosition, Vector3 movementTemplatePosition)
@@ -427,6 +427,20 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     private void RpcTryConfirmBarrelRoll(Vector3 shipPosition, Vector3 movementTemplatePosition)
     {
         (Phases.CurrentSubPhase as SubPhases.BarrelRollPlanningSubPhase).TryConfirmBarrelRollNetwork(shipPosition, movementTemplatePosition);
+    }
+
+    // BOOST PLANNING
+
+    [Command]
+    public void CmdTryConfirmBoostPosition(string SelectedBoostHelper)
+    {
+        RpcTryConfirmBoostPosition(SelectedBoostHelper);
+    }
+
+    [ClientRpc]
+    private void RpcTryConfirmBoostPosition(string SelectedBoostHelper)
+    {
+        (Phases.CurrentSubPhase as SubPhases.BoostPlanningSubPhase).TryConfirmBoostPositionNetwork(SelectedBoostHelper);
     }
 
     // MESSAGES

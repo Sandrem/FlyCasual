@@ -194,11 +194,18 @@ public static partial class Network
         CurrentPlayer.CmdUseDiceModification(diceModificationName);
     }
 
-    // BARREL ROLL
+    // BARREL ROLL PLANNING
 
     public static void TryConfirmBarrelRoll(Vector3 shipPosition, Vector3 movementTemplatePosition)
     {
         CurrentPlayer.CmdTryConfirmBarrelRoll(shipPosition, movementTemplatePosition);
+    }
+
+    // BOOST PLANNING
+
+    public static void TryConfirmBoostPosition(string SelectedBoostHelper)
+    {
+        CurrentPlayer.CmdTryConfirmBoostPosition(SelectedBoostHelper);
     }
 
 }

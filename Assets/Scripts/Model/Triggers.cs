@@ -38,7 +38,8 @@ public enum TriggerTypes
     OnFaceupCritCardIsDealt,
     OnMajorExplosionCrit,
     OnEndPhaseStart,
-    OnBombDetonated
+    OnBombDetonated,
+    OnFinishSlam
 }
 
 public class Trigger

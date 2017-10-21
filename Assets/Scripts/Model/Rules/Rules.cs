@@ -23,6 +23,7 @@ public static class Rules
     public static JammedRule Jammed { get; private set; }
     public static TargetLocksRule TargetLocks { get; private set; }
     public static CloakRule Cloak { get; private set; }
+    public static WeaponsDisabledRule WeaponsDisabled { get; private set; }
 
     static Rules()
     {
@@ -43,6 +44,7 @@ public static class Rules
         Jammed = new JammedRule();
         TargetLocks = new TargetLocksRule();
         Cloak = new CloakRule();
+        WeaponsDisabled = new WeaponsDisabledRule();
     }
 
 }

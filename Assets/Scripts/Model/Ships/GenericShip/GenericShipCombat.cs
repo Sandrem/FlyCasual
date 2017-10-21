@@ -159,6 +159,8 @@ namespace Ship
 
         public event EventHandlerDiceroll OnImmediatelyAfterRolling;
 
+        public event EventHandlerBool OnWeaponsDisabledCheck;
+
         // TRIGGERS
 
         public void CallOnActivationPhaseStart()
@@ -566,6 +568,18 @@ namespace Ship
         public virtual bool CanAttackBumpedTarget(GenericShip defender)
         {
             return false;
+        }
+
+        public bool AreWeaponsNotDisabled()
+        {
+            bool result = !HasToken(typeof(Tokens.WeaponsDisabledToken));
+
+            if (result == false)
+            {
+                if (OnWeaponsDisabledCheck != null) OnWeaponsDisabledCheck(ref result);
+            }
+
+            return result;
         }
 
     }

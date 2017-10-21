@@ -8,7 +8,7 @@ using System.Linq;
 namespace UpgradesList
 {
 
-	public class LinkedBattery : GenericSecondaryWeapon
+	public class LinkedBattery : GenericUpgrade
 	{
 		public LinkedBattery() : base()
 		{

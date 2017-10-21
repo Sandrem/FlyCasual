@@ -31,7 +31,7 @@ namespace UpgradesList
         {
             foreach (var upgrade in Host.UpgradeBar.GetInstalledUpgrades())
             {
-                if (upgrade.Type == UpgradeType.Torpedo || upgrade.Type == UpgradeType.Missile)
+                if (upgrade.Type == UpgradeType.Torpedo || upgrade.Type == UpgradeType.Missile || upgrade.Type == UpgradeType.Bomb)
                 {
                     SetOrdnanceToken(upgrade);
                 }

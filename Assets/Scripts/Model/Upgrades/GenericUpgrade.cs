@@ -28,6 +28,8 @@ namespace Upgrade
 
     public class GenericUpgrade
     {
+        public static GenericUpgrade CurrentUpgrade;
+
         public Ship.GenericShip Host { get; set; }
 
         public int Cost;
@@ -49,10 +51,6 @@ namespace Upgrade
                 imageUrl = value;
             }
         }
-        //public bool FactionRestriction
-        //public bool SizeRestriction
-        //public bool ShipTypeRestriction
-        //public bool PilotLevelRestriction
 
         public bool IsHidden;
 
@@ -83,7 +81,20 @@ namespace Upgrade
 
         public virtual void TryDiscard(Action callBack)
         {
-            Discard(callBack);
+            CurrentUpgrade = this;
+            Host.CallDiscardUpgrade(delegate { AfterTriedDiscard(callBack); });
+        }
+
+        private void AfterTriedDiscard(Action callBack)
+        {
+            if (CurrentUpgrade != null)
+            {
+                Discard(callBack);
+            }
+            else
+            {
+                callBack();
+            }
         }
 
         public virtual void Discard(Action callBack)

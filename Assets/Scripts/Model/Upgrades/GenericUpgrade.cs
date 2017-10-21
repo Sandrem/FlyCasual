@@ -105,6 +105,14 @@ namespace Upgrade
             callBack();
         }
 
+        public virtual void FlipFaceup()
+        {
+            isDiscarded = false;
+            Roster.FlipFaceupUpgrade(Host, Name);
+
+            Messages.ShowInfo(Name + " is flipped face up");
+        }
+
     }
 
 }

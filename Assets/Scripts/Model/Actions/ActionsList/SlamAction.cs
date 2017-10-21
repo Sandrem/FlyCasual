@@ -15,7 +15,63 @@ namespace ActionsList
 
         public override void ActionTake()
         {
-            Messages.ShowError("Not implemented");
+            Phases.CurrentSubPhase.Pause();
+
+            Triggers.RegisterTrigger(
+                new Trigger(){
+                    Name = "SLAM Planning",
+                    TriggerType = TriggerTypes.OnAbilityDirect,
+                    TriggerOwner = Selection.ThisShip.Owner.PlayerNo,
+                    EventHandler = SelectSlamManeuver
+                }
+            );
+
+            Triggers.ResolveTriggers(TriggerTypes.OnAbilityDirect, RegisterSlamManeuverExecutionTrigger);
+        }
+
+        private void SelectSlamManeuver(object sender, System.EventArgs e)
+        {
+            DirectionsMenu.Show(IsSameSpeed);
+        }
+
+        private void RegisterSlamManeuverExecutionTrigger()
+        {
+            Triggers.RegisterTrigger(new Trigger()
+            {
+                Name = "SLAM Execution",
+                TriggerType = TriggerTypes.OnManeuver,
+                TriggerOwner = Selection.ThisShip.Owner.PlayerNo,
+                EventHandler = PerformSlamManeuver
+            });
+
+            Triggers.ResolveTriggers(
+                TriggerTypes.OnManeuver,
+                AssignWeaponsDisabledToken
+            );
+        }
+
+        private void AssignWeaponsDisabledToken()
+        {
+            Selection.ThisShip.AssignToken(
+                new Tokens.WeaponsDisabledToken(),
+                Phases.CurrentSubPhase.CallBack
+            );
+        }
+
+        private void PerformSlamManeuver(object sender, System.EventArgs e)
+        {
+            Selection.ThisShip.AssignedManeuver.Perform();
+        }
+
+        private bool IsSameSpeed(string maneuverString)
+        {
+            bool result = false;
+            Movement.MovementStruct movementStruct = new Movement.MovementStruct(maneuverString);
+            if (movementStruct.Speed == Selection.ThisShip.AssignedManeuver.ManeuverSpeed)
+            {
+                result = true;
+            }
+            return result;
         }
 
         public override int GetActionPriority()

@@ -8,7 +8,9 @@ using SubPhases;
 public enum TriggerTypes
 {
     None,
+    OnAbilityDirect,
     OnSetupPhaseStart,
+    OnManeuver,
     OnManeuverIsRevealed,
     OnShipMovementStart,
     OnShipMovementExecuted,
@@ -35,7 +37,6 @@ public enum TriggerTypes
     OnDamageIsDealt,
     OnFaceupCritCardIsDealt,
     OnMajorExplosionCrit,
-    OnAbilityTargetIsSelected,
     OnEndPhaseStart,
     OnBombDetonated
 }

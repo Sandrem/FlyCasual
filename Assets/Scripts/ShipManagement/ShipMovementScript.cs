@@ -120,6 +120,23 @@ public class ShipMovementScript : MonoBehaviour {
 
     public void PerformStoredManeuver()
     {
+        Triggers.RegisterTrigger(new Trigger() {
+            Name = "Maneuver",
+            TriggerType = TriggerTypes.OnManeuver,
+            TriggerOwner = Selection.ThisShip.Owner.PlayerNo,
+            EventHandler = StartMovementExecutionSubphase
+        });
+
+        Triggers.ResolveTriggers(
+            TriggerTypes.OnManeuver,
+            delegate {
+                Phases.FinishSubPhase(typeof(SubPhases.MovementExecutionSubPhase));
+            }
+        );
+    }
+
+    private void StartMovementExecutionSubphase(object sender, System.EventArgs e)
+    {
         Phases.StartTemporarySubPhase("Movement", typeof(SubPhases.MovementExecutionSubPhase));
     }
 

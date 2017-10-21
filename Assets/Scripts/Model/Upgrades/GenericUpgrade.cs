@@ -32,7 +32,7 @@ namespace Upgrade
         public int Cost;
         public UpgradeType Type;
         public bool isUnique = false;
-        public bool Limited = false;
+        public bool isLimited = false;
         public bool isDiscarded = false;
         public string Name { get; set; }
 

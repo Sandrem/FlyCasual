@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -80,10 +81,17 @@ namespace Upgrade
 
         }
 
-        public virtual void Discard()
+        public virtual void TryDiscard(Action callBack)
+        {
+            Discard(callBack);
+        }
+
+        public virtual void Discard(Action callBack)
         {
             isDiscarded = true;
             Roster.DiscardUpgrade(Host, Name);
+
+            callBack();
         }
 
     }

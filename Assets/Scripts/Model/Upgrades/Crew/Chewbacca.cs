@@ -1,4 +1,5 @@
 ﻿using Ship;
+using System;
 using UnityEngine;
 using Upgrade;
 
@@ -38,10 +39,10 @@ namespace UpgradesList
             });
         }
 
-        public override void Discard()
+        public override void Discard(Action callBack)
         {
             Host.OnDamageCardIsDealt -= RegisterChewbaccaCrewTrigger;
-            base.Discard();
+            base.Discard(callBack);
         }
 
         private void AskUseChewbaccaCrewAbility(object sender, System.EventArgs e)
@@ -85,8 +86,9 @@ namespace SubPhases
             Messages.ShowInfo("Chewbacca (crew) is used");
             Combat.CurrentCriticalHitCard = null;
             if (Selection.ActiveShip.TryRegenShields()) Messages.ShowInfo("Shield is restored");
-            Selection.ActiveShip.UpgradeBar.GetInstalledUpgrades().Find(n => n.GetType() == typeof(UpgradesList.Chewbacca)).Discard();
-            ConfirmDecision();
+
+            UpgradesList.Chewbacca chewbaccaUpgrade = Selection.ActiveShip.UpgradeBar.GetInstalledUpgrades().Find(n => n.GetType() == typeof(UpgradesList.Chewbacca)) as UpgradesList.Chewbacca;
+            chewbaccaUpgrade.TryDiscard(ConfirmDecision);
         }
 
         private void DontUseChewbaccaCrewAbility(object sender, System.EventArgs e)

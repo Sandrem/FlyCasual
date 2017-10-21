@@ -37,7 +37,7 @@ namespace UpgradesList
         {
             if (Combat.ChosenWeapon == this)
             {
-                if (Combat.Attacker.AssignedManeuver != null) diceCount += Combat.Attacker.AssignedManeuver.Speed;
+                if (Combat.Attacker.AssignedManeuver != null) diceCount += Mathf.Min(Combat.Attacker.AssignedManeuver.Speed, 4);
             }
         }
 

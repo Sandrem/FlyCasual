@@ -138,6 +138,7 @@ namespace Ship
         public event EventHandlerInt AfterGotNumberOfPrimaryWeaponAttackDice;
         public event EventHandlerInt AfterGotNumberOfPrimaryWeaponDefenceDice;
         public event EventHandlerInt AfterGotNumberOfAttackDice;
+        public event EventHandlerInt AfterGotNumberOfDefenceDice;
 
         public event EventHandlerShip AfterAssignedDamageIsChanged;
 
@@ -277,9 +278,7 @@ namespace Ship
 
         public int GetNumberOfAttackDice(GenericShip targetShip)
         {
-            int result = 0;
-
-            result = Combat.ChosenWeapon.AttackValue;
+            int result = Combat.ChosenWeapon.AttackValue;
 
             if (AfterGotNumberOfAttackDice != null) AfterGotNumberOfAttackDice(ref result);
 
@@ -295,6 +294,8 @@ namespace Ship
         public int GetNumberOfDefenceDice(GenericShip attackerShip)
         {
             int result = Agility;
+
+            if (AfterGotNumberOfDefenceDice != null) AfterGotNumberOfDefenceDice(ref result);
 
             if (Combat.ChosenWeapon.GetType() == typeof(PrimaryWeaponClass))
             {

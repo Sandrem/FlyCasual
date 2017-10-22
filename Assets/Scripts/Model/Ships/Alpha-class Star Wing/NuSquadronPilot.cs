@@ -11,7 +11,7 @@ namespace Ship
             public NuSquadronPilot() : base()
             {
                 PilotName = "Nu Squadron Pilot";
-                ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/05/52/05525d95-f15a-4719-a6c4-b6e18b754d9a/swx69-nu-squadron-pilot.png";
+                ImageUrl = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/pilots/Galactic%20Empire/Alpha-class%20Star%20Wing/nu-squadron-pilot.png";
                 PilotSkill = 2;
                 Cost = 18;
             }

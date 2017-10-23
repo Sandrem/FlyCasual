@@ -7,7 +7,8 @@ public class OptionsValueController : MonoBehaviour
 {
     public void Start()
     {
-        SetValue(PlayerPrefs.GetInt(this.transform.Find("Text").GetComponent<Text>().text, 4));
+        Messages.ShowInfo(this.transform.Find("Text").GetComponent<Text>().text);
+        SetValue(PlayerPrefs.GetInt(this.transform.Find("Text").GetComponent<Text>().text, 2));
     }
 
     public void SetValue(int value)

@@ -34,7 +34,7 @@ namespace Ship
                 SkinName = "Alpha-class Star Wing";
 
                 SoundShotsPath = "Slave1-Fire";
-                ShotsCount = 3;
+                ShotsCount = 2;
 
                 for (int i = 1; i < 3; i++)
                 {

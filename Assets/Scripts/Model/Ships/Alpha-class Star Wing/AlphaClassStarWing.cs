@@ -26,7 +26,7 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Missile);
 
                 AssignTemporaryManeuvers();
-                HotacManeuverTable = null;
+                HotacManeuverTable = new AI.AlphaClassStarWingTable();
 
                 factions.Add(Faction.Empire);
                 faction = Faction.Empire;

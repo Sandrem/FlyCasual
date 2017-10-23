@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Upgrade;
 using Tokens;
+using System.Linq;
 
 namespace ActionsList
 {
@@ -31,6 +32,10 @@ namespace ActionsList
         public override int GetActionPriority()
         {
             int result = 0;
+
+            int discardedOrdnance = Selection.ThisShip.UpgradeBar.GetInstalledUpgrades().Count(n => (n.Type == UpgradeType.Missile || n.Type == UpgradeType.Torpedo) && n.isDiscarded);
+            result = discardedOrdnance * 30;
+
             return result;
         }
 

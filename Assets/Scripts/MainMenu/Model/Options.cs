@@ -23,7 +23,6 @@ public static class Options
         SfxVolume = PlayerPrefs.GetInt("Sfx Volume", 2);
         AnimationSpeed = PlayerPrefs.GetInt("Animation Speed", 2);
         ManeuverSpeed = PlayerPrefs.GetInt("Maneuver Speed", 2);
-        Messages.ShowInfo(ManeuverSpeed.ToString());
     }
 
     public static void InitializePanel()

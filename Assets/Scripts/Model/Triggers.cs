@@ -110,9 +110,14 @@ public class StackLevel
 
 public static partial class Triggers
 {
-    private static List<StackLevel> TriggersStack = new List<StackLevel>();
+    private static List<StackLevel> TriggersStack;
 
     // PUBLIC
+
+    public static void Initialize()
+    {
+        TriggersStack = new List<StackLevel>();
+    }
 
     public static void RegisterTrigger(Trigger trigger)
     {

@@ -1,7 +1,5 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public delegate void CallBackFunction();
 
@@ -22,6 +20,11 @@ public class GameManagerScript : MonoBehaviour {
         Board.BoardManager.Initialize();
         Roster.Initialize();
         Roster.Start();
+        Selection.Initialize();
+        CriticalHitsDeck.InitializeDeck();
+        Bombs.BombsManager.Initialize();
+        Actions.Initialize();
+        Triggers.Initialize();
         Phases.StartPhases();
     }
 

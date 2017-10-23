@@ -224,7 +224,7 @@ public static partial class Combat
             Attacker.CallOnAttackMissedAsAttacker();
             Defender.CallOnAttackMissedAsDefender();
 
-            SufferDamage();
+            Triggers.ResolveTriggers(TriggerTypes.OnAttackMissed, SufferDamage);
         }
     }
 

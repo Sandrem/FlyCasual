@@ -27,6 +27,7 @@ public enum TriggerTypes
     OnCombatPhaseStart,
     OnCombatPhaseEnd,
     OnAttackHit,
+    OnAttackMissed,
     OnAtLeastOneCritWasCancelledByDefender,
     OnDamageCardIsDealt,
     OnAttackStart,

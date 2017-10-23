@@ -9,13 +9,16 @@ namespace Ship
         public class ZetaLeader : TIEFO
         {
             public bool abilityUsed = false;
+
             public ZetaLeader () : base ()
             {
                 PilotName = "Zeta Leader";
                 ImageUrl = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/pilots/First%20Order/TIE-fo%20Fighter/zeta-leader.png";
-                IsUnique = true;
                 PilotSkill = 7;
                 Cost = 20;
+
+                IsUnique = true;
+
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
             }
 
@@ -24,7 +27,7 @@ namespace Ship
                 base.InitializePilot ();
 
                 OnCombatPhaseStart += RegisterEpsilonLeaderAbility;
-                OnCombatPhaseEnd += DeregisterEpsilonLeaderAbility;
+                OnCombatPhaseEnd += RemoveEpsilonLeaderAbility;
             }
 
             private void RegisterEpsilonLeaderAbility (GenericShip genericShip)
@@ -41,42 +44,29 @@ namespace Ship
             private void ShowDecision(object sender, System.EventArgs e)
             {
                 Selection.ThisShip = this;
-                Ship.GenericShip ZetaLeader = Selection.ThisShip;
+
                 // check if this ship is stressed
-                if (!ZetaLeader.HasToken (typeof(Tokens.StressToken))) {
+                if (!this.HasToken(typeof(Tokens.StressToken))) {
                     // give user the option to use ability
                     Phases.StartTemporarySubPhase (
                         "Ability of Zeta Leader",
                         typeof(SubPhases.AddAttackDiceDecisionSubPhase),
-                        delegate () { Triggers.FinishTrigger(); }
+                        Triggers.FinishTrigger
                     );
                 } else {
                     Triggers.FinishTrigger ();
                 }
             }
 
-            private void DeregisterEpsilonLeaderAbility ( GenericShip genericShip)
+            private void RemoveEpsilonLeaderAbility ( GenericShip genericShip)
             {
                 // At the end of combat phase, need to remove attack value increase
-                Triggers.RegisterTrigger (new Trigger () {
-                    Name = "Zeta Leader Ability Expired",
-                    TriggerOwner = this.Owner.PlayerNo,
-                    TriggerType = TriggerTypes.OnCombatPhaseEnd,
-                    EventHandler = RemoveAbility
-                });
-            }
-
-            private void RemoveAbility(object sender, System.EventArgs e)
-            {
-                Selection.ThisShip = this;
-                Ship.TIEFO.ZetaLeader ZetaLeader = (Ship.TIEFO.ZetaLeader)Selection.ThisShip;
-                if (ZetaLeader.abilityUsed) {
-                    ZetaLeader.ChangeFirepowerBy (-1);
-                    ZetaLeader.abilityUsed = false;
+                if (this.abilityUsed)
+                {
+                    this.ChangeFirepowerBy(-1);
+                    this.abilityUsed = false;
                 }
-                Triggers.FinishTrigger ();
             }
-
         }
     }
 }
@@ -89,14 +79,15 @@ namespace SubPhases
         {
             infoText = "Use Zeta Leaders Ability?";
 
-            AddDecision( "Use Pilot Ability", UseAbility);
-            AddDecision ("Cancel", DoNotUseAbility );
-           /* AddTooltip(
-                ZetaLeader.PilotName,
-                ZetaLeader.ImageUrl
-            );*/
+            AddDecision("Use Pilot Ability", UseAbility);
+            AddDecision("Cancel", DoNotUseAbility );
 
-            //defaultDecision = none;
+            defaultDecision = ShouldUsePilotAbility() ? "Use Pilot Ability" : "Cancel";
+        }
+
+        private bool ShouldUsePilotAbility()
+        {
+            return Actions.HasTarget(Selection.ThisShip);
         }
 
         private void UseAbility(object sender, System.EventArgs e)
@@ -106,9 +97,7 @@ namespace SubPhases
             Ship.TIEFO.ZetaLeader ZetaLeader = (Ship.TIEFO.ZetaLeader)Selection.ThisShip;
             ZetaLeader.abilityUsed = true;
             Selection.ThisShip.ChangeFirepowerBy (1);
-            Selection.ThisShip.AssignToken(new Tokens.StressToken(), delegate {} );
-
-            ConfirmDecision();
+            Selection.ThisShip.AssignToken(new Tokens.StressToken(), ConfirmDecision);
         }
 
         private void DoNotUseAbility(object sender, System.EventArgs e)
@@ -118,7 +107,6 @@ namespace SubPhases
 
         private void ConfirmDecision()
         {
-            Tooltips.EndTooltip();
             Phases.FinishSubPhase(this.GetType());
             CallBack();
         }

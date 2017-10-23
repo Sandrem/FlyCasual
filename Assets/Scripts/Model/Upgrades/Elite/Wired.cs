@@ -70,7 +70,6 @@ namespace ActionsList
             DiceRerollManager diceRerollManager = new DiceRerollManager
             {
                 SidesCanBeRerolled = new System.Collections.Generic.List<DieSide> { DieSide.Focus },
-                NumberOfDiceCanBeRerolled = 0,
                 CallBack = callBack
             };
             diceRerollManager.Start();

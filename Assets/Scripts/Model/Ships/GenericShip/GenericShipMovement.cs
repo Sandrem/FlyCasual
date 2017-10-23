@@ -43,6 +43,8 @@ namespace Ship
         public event EventHandlerShip OnMovementFinish;
         public static event EventHandlerShip OnMovementFinishGlobal;
 
+        public event EventHandler OnFinishSlam;
+
         public event EventHandlerShip OnPositionFinish;
         public static event EventHandler OnPositionFinishGlobal;
 
@@ -85,7 +87,9 @@ namespace Ship
                 TriggerTypes.OnShipMovementFinish,
                 delegate () {
                     Roster.HideAssignedManeuverDial(this);
-                    Selection.ThisShip.FinishPosition(delegate () { Phases.FinishSubPhase(typeof(SubPhases.MovementExecutionSubPhase)); });
+                    Selection.ThisShip.FinishPosition(delegate () {
+                        Triggers.FinishTrigger();
+                    });
                 });
         }
 
@@ -95,6 +99,13 @@ namespace Ship
             if (OnPositionFinishGlobal != null) OnPositionFinishGlobal();
 
             Triggers.ResolveTriggers(TriggerTypes.OnPositionFinish, callback);
+        }
+
+        public void CallFinishSlam(System.Action callback)
+        {
+            if (OnFinishSlam != null) OnFinishSlam();
+
+            Triggers.ResolveTriggers(TriggerTypes.OnFinishSlam, callback);
         }
 
         // MANEUVERS

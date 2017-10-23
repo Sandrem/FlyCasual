@@ -43,7 +43,7 @@ namespace UpgradesList
 			{
 				Triggers.RegisterTrigger(new Trigger()
 					{
-						Name = "Assault Missle Hit",
+						Name = "Assault Missile Hit",
 						TriggerType = TriggerTypes.OnAttackHit,
 						TriggerOwner = Combat.Attacker.Owner.PlayerNo,
 						EventHandler = delegate{
@@ -79,15 +79,15 @@ namespace UpgradesList
 					ship.AssignedDamageDiceroll.DiceList.Add(hitDie);
 
 					Triggers.RegisterTrigger(new Trigger() {
-						Name = "Suffer Assault Missle Damage",
+						Name = "Suffer Assault Missile Damage",
 						TriggerType = TriggerTypes.OnDamageIsDealt,
 						TriggerOwner = ship.Owner.PlayerNo,
 						EventHandler = ship.SufferDamage,
                         Skippable = true,
 						EventArgs = new DamageSourceEventArgs()
 						{
-							Source = "Assault Missle",
-							DamageType = DamageTypes.ShipAttack
+							Source = "Assault Missile",
+							DamageType = DamageTypes.CardAbility
 						}
 					});
 				}

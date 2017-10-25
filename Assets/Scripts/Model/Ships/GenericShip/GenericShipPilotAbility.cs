@@ -30,7 +30,7 @@ namespace Ship
          * @param sender the paramater passed from the trigger.
          * @return true as the default value.
          */
-        protected bool ShouldShowDecision(object sender){
+        protected virtual bool ShouldShowDecision(object sender){
             return true;
         }
 
@@ -38,11 +38,11 @@ namespace Ship
          * Remove the pilot ability.
          * Implement for any additional requirements.
          */
-        protected void RemovePilotDecisionAbility ( GenericShip genericShip) { 
+        protected virtual void RemovePilotDecisionAbility ( GenericShip genericShip) { 
             this.abilityUsed = false;
         }
 
-        public void UsePilotAbility(SubPhases.PilotDecisionSubPhase subPhase)
+        public virtual void UsePilotAbility(SubPhases.PilotDecisionSubPhase subPhase)
         {
             this.abilityUsed = true;
         }
@@ -57,18 +57,6 @@ namespace Ship
         {
             this.triggerTypes = triggerTypes;
             this.PilotAbilityName = PilotName + " Ability";
-            /*
-            if (pilotAbilityPhaseStart != null) {
-                pilotAbilityPhaseStart += RegisterPilotDecisionAbility;
-            }
-            // TODO else raise an error
-            if (pilotAbilityPhaseEnd != null) {
-                pilotAbilityPhaseEnd += RemovePilotDecisionAbility;
-            }
-            // TODO else raise an error
-            * the phase that the pilot decision should be registered.
-            * the phase that the pilot deicsion should be removed.
-            */
         }
 
         /**
@@ -123,7 +111,6 @@ namespace SubPhases
         private void UseAbility(object sender, System.EventArgs e) { 
             Ship.GenericShip ship = (Ship.GenericShip)Selection.ThisShip;
             ship.UsePilotAbility(this);
-            ship.abilityUsed = true;
         }
 
         private void DoNotUseAbility(object sender, System.EventArgs e)

@@ -30,7 +30,7 @@ namespace Ship
             }
 
             // ==== Pilot Ability ==== //
-            new protected bool ShouldShowDecision(object sender)
+            protected override bool ShouldShowDecision(object sender)
             {
                 Selection.ThisShip = this;
                 // check if this ship is stressed
@@ -40,14 +40,14 @@ namespace Ship
                 return false;
             }
 
-            new public void UsePilotAbility(SubPhases.PilotDecisionSubPhase subPhase)
+            public override void UsePilotAbility(SubPhases.PilotDecisionSubPhase subPhase)
             {
                 base.UsePilotAbility (subPhase);
                 this.ChangeFirepowerBy (1);
                 this.AssignToken(new Tokens.StressToken(), subPhase.ConfirmDecision);
             }
 
-            new protected void RemovePilotDecisionAbility ( GenericShip genericShip)
+            protected override void RemovePilotDecisionAbility ( GenericShip genericShip)
             { 
                 // At the end of combat phase, need to remove attack value increase
                 if (this.abilityUsed)

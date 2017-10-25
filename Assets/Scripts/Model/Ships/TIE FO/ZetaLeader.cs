@@ -8,8 +8,6 @@ namespace Ship
     {
         public class ZetaLeader : TIEFO
         {
-            public bool abilityUsed = false;
-
             public ZetaLeader () : base ()
             {
                 PilotName = "Zeta Leader";
@@ -26,89 +24,38 @@ namespace Ship
             {
                 base.InitializePilot ();
 
-                OnCombatPhaseStart += RegisterEpsilonLeaderAbility;
-                OnCombatPhaseEnd += RemoveEpsilonLeaderAbility;
+                setupDecisionPilotAbility (TriggerTypes.OnAttackStart);
+                OnCombatPhaseStart += this.RegisterPilotDecisionAbility;
+                OnCombatPhaseEnd += this.RemovePilotDecisionAbility;
             }
 
-            private void RegisterEpsilonLeaderAbility (GenericShip genericShip)
-            {
-                Triggers.RegisterTrigger(new Trigger()
-                {
-                    Name = "Zeta Leader Ability",
-                    TriggerOwner = this.Owner.PlayerNo,
-                    TriggerType = TriggerTypes.OnAttackStart,
-                    EventHandler = ShowDecision
-                });
-            }
-
-            private void ShowDecision(object sender, System.EventArgs e)
+            // ==== Pilot Ability ==== //
+            new protected bool ShouldShowDecision(object sender)
             {
                 Selection.ThisShip = this;
-
                 // check if this ship is stressed
                 if (!this.HasToken(typeof(Tokens.StressToken))) {
-                    // give user the option to use ability
-                    Phases.StartTemporarySubPhase (
-                        "Ability of Zeta Leader",
-                        typeof(SubPhases.AddAttackDiceDecisionSubPhase),
-                        Triggers.FinishTrigger
-                    );
-                } else {
-                    Triggers.FinishTrigger ();
+                    return true;
                 }
+                return false;
             }
 
-            private void RemoveEpsilonLeaderAbility ( GenericShip genericShip)
+            new public void UsePilotAbility(SubPhases.PilotDecisionSubPhase subPhase)
             {
+                base.UsePilotAbility (subPhase);
+                this.ChangeFirepowerBy (1);
+                this.AssignToken(new Tokens.StressToken(), subPhase.ConfirmDecision);
+            }
+
+            new protected void RemovePilotDecisionAbility ( GenericShip genericShip)
+            { 
                 // At the end of combat phase, need to remove attack value increase
                 if (this.abilityUsed)
                 {
                     this.ChangeFirepowerBy(-1);
-                    this.abilityUsed = false;
                 }
+                base.RemovePilotDecisionAbility (genericShip);
             }
-        }
-    }
-}
-
-namespace SubPhases
-{
-    public class AddAttackDiceDecisionSubPhase : DecisionSubPhase
-    {
-        public override void Prepare()
-        {
-            infoText = "Use Zeta Leaders Ability?";
-
-            AddDecision("Use Pilot Ability", UseAbility);
-            AddDecision("Cancel", DoNotUseAbility );
-
-            defaultDecision = ShouldUsePilotAbility() ? "Use Pilot Ability" : "Cancel";
-        }
-
-        private bool ShouldUsePilotAbility()
-        {
-            return Actions.HasTarget(Selection.ThisShip);
-        }
-
-        private void UseAbility(object sender, System.EventArgs e)
-        {
-            // don't need to check stressed as done already
-            // add an attack dice
-            Ship.TIEFO.ZetaLeader ZetaLeader = (Ship.TIEFO.ZetaLeader)Selection.ThisShip;
-            ZetaLeader.abilityUsed = true;
-            Selection.ThisShip.ChangeFirepowerBy (1);
-            Selection.ThisShip.AssignToken(new Tokens.StressToken(), ConfirmDecision);
-        }
-
-        private void DoNotUseAbility(object sender, System.EventArgs e)
-        {
-            ConfirmDecision();
-        }
-
-        private void ConfirmDecision()
-        {
-            Phases.FinishSubPhase(this.GetType());
-            CallBack();
         }
     }
 }

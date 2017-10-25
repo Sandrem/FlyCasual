@@ -72,6 +72,16 @@ namespace Ship
                 EventHandler = ShowDecision
             });
         }
+        protected void RegisterEventHandlerPilotDecisionAbility()
+        {
+            Triggers.RegisterTrigger(new Trigger()
+            {
+                Name = this.PilotAbilityName,
+                TriggerOwner = this.Owner.PlayerNo,
+                TriggerType = this.triggerTypes,
+                EventHandler = ShowDecision
+            });
+        }
 
         protected void ShowDecision(object sender, System.EventArgs e)
         {

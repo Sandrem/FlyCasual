@@ -669,31 +669,6 @@ public static partial class RosterBuilder {
 
     // IMPORT / EXPORT
 
-    [Serializable]
-    public class SquadList
-    {
-        public string name;
-        public string faction;
-        public int points;
-        public string version;
-        public string description;
-        public SquadPilot[] pilots;
-    }
-
-    [Serializable]
-    public class SquadPilot
-    {
-        public string name;
-        public string ship;
-        public SquadUpgrade[] upgrades;
-    }
-
-    [Serializable]
-    public class SquadUpgrade
-    {
-
-    }
-
     public static void ImportSquadList()
     {
 
@@ -701,31 +676,110 @@ public static partial class RosterBuilder {
 
     public static void ExportSquadList()
     {
-        SquadList squadList = new SquadList()
-        {
-            name = "New squad",
-            faction = GetPlayerFaction(PlayerNo.Player1).ToString(),
-            points = GetPlayerShipsCostCalculated(PlayerNo.Player1),
-            version = "0.3.0",
-            description = "No descripton"
-        };
+        JSONObject squadJson = new JSONObject();
+        //squadJson.AddField("name", "New Squad");
+        squadJson.AddField("faction", FactionToXWS(GetPlayerFaction(PlayerNo.Player1)));
+        squadJson.AddField("points", GetPlayerShipsCostCalculated(PlayerNo.Player1));
+        squadJson.AddField("version", "0.3.0");
+        //squadJson.AddField("description", "No descripton");
 
         List<SquadBuilderShip> playerShipConfigs = SquadBuilderRoster.GetShips().Where(n => n.Player == PlayerNo.Player1).ToList();
-
-        SquadPilot[] squadPilotArray = new SquadPilot[playerShipConfigs.Count];
-        for (int i = 0; i < squadPilotArray.Length; i++)
+        JSONObject[] squadPilotsArrayJson = new JSONObject[playerShipConfigs.Count];
+        for (int i = 0; i < squadPilotsArrayJson.Length; i++)
         {
-            SquadPilot squadPilot = new SquadPilot()
+            squadPilotsArrayJson[i] = GenerateSquadPilot(playerShipConfigs[i]);
+        }
+        JSONObject squadPilotsJson = new JSONObject(squadPilotsArrayJson);
+        squadJson.AddField("pilots", squadPilotsJson);
+
+        Debug.Log(squadJson);
+    }
+
+    private static JSONObject GenerateSquadPilot(SquadBuilderShip shipHolder)
+    {
+        JSONObject pilotJson = new JSONObject();
+        pilotJson.AddField("name", shipHolder.Ship.PilotNameCanonical);
+        pilotJson.AddField("points", GetShipCostCalculated(shipHolder));
+        pilotJson.AddField("ship", shipHolder.Ship.ShipTypeCanonical);
+
+        Dictionary<string, JSONObject> upgradesDict = new Dictionary<string, JSONObject>();
+        foreach (var slotHolder in shipHolder.GetUpgrades())
+        {
+            if (slotHolder.Slot.InstalledUpgrade != null)
             {
-                name = playerShipConfigs[i].Ship.PilotName,
-                ship = playerShipConfigs[i].Ship.Type
-            };
-            squadPilotArray[i] = squadPilot;
+                string slotName = UpgradeTypeToXWS(slotHolder.Slot.Type);
+                if (!upgradesDict.ContainsKey(slotName))
+                {
+                    JSONObject upgrade = new JSONObject();
+                    upgrade.Add(slotHolder.Slot.InstalledUpgrade.NameCanonical);
+                    upgradesDict.Add(slotName, upgrade);
+                }
+                else
+                {
+                    upgradesDict[slotName].Add(slotHolder.Slot.InstalledUpgrade.NameCanonical);
+                }
+            }
+        }
+        JSONObject upgradesDictJson = new JSONObject(upgradesDict);
+
+        pilotJson.AddField("upgrades", upgradesDictJson);
+
+        JSONObject vendorJson = new JSONObject();
+        JSONObject skinJson = new JSONObject();
+        skinJson.AddField("skin", GetSkinName(shipHolder));
+        vendorJson.AddField("Sandrem.FlyCasual", skinJson);
+
+        pilotJson.AddField("vendor", vendorJson);
+
+        return pilotJson;
+    }
+
+    private static string FactionToXWS(Faction faction)
+    {
+        string result = "";
+
+        switch (faction)
+        {
+            case Faction.Rebels:
+                result = "rebel";
+                break;
+            case Faction.Empire:
+                result = "imperial";
+                break;
+            case Faction.Scum:
+                result = "scum";
+                break;
+            default:
+                break;
         }
 
-        squadList.pilots = squadPilotArray;
+        return result;  
+    }
 
-        Debug.Log(JsonUtility.ToJson(squadList));
+    private static string UpgradeTypeToXWS(UpgradeType upgradeType)
+    {
+        string result = "";
+
+        switch (upgradeType)
+        {
+            case UpgradeType.Elite:
+                result = "ept";
+                break;
+            case UpgradeType.Astromech:
+                result = "amd";
+                break;
+            case UpgradeType.SalvagedAstromech:
+                result = "samd";
+                break;
+            case UpgradeType.Modification:
+                result = "mod";
+                break;
+            default:
+                result = upgradeType.ToString().ToLower();
+                break;
+        }
+
+        return result;
     }
 
 }

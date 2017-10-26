@@ -15,6 +15,11 @@ public static class Options
     public static int AnimationSpeed;
     public static int ManeuverSpeed;
 
+    static Options()
+    {
+        ReadOptions();
+    }
+
     public static void ReadOptions()
     {
         Playmat = PlayerPrefs.GetString("PlaymatName", "Endor");

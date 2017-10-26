@@ -206,7 +206,7 @@ public static partial class RosterBuilder {
         }
     }
 
-    private static void AddShip(PlayerNo playerNo)
+    private static SquadBuilderShip AddShip(PlayerNo playerNo)
     {
         List<string> shipResults = GetShipsByFaction(Global.GetPlayerFaction(playerNo));
         string shipNameId = AllShips[shipResults.First()];
@@ -228,6 +228,8 @@ public static partial class RosterBuilder {
         OrganizeUpgradeLines(panel);
         UpdateShipCost(squadBuilderShip);
         OrganizeShipsList(playerNo);
+
+        return squadBuilderShip;
     }
 
     private static List<string> GetSkins(GenericShip ship)
@@ -702,12 +704,22 @@ public static partial class RosterBuilder {
 
     private static void SetSquadFromImportedJson(JSONObject squadJson)
     {
-        // set faction
+        if (squadJson.HasField("pilots"))
+        {
+            JSONObject pilotJsons = squadJson["pilots"];
+            foreach (JSONObject pilotJson in pilotJsons.list)
+            {
+                SquadBuilderShip newShip = AddShip(PlayerNo.Player1);
 
-        // set ship
-        // set pilot
-        // set upgrades
+                string shipNameXws = pilotJson["ship"].str;
+                string shipNamePath = AllShipsXws[shipNameXws];
+                string shipNameGeneral = AllShips.Where(n => n.Value == shipNamePath).First().Key;
+                Dropdown shipDropdown = newShip.Panel.transform.Find("GroupShip/DropdownShip").GetComponent<Dropdown>();
+                shipDropdown.value = shipDropdown.options.IndexOf(shipDropdown.options.Find(n => n.text == shipNameGeneral));
 
+                OnShipChanged(newShip);
+            }
+        }
     }
 
     private static void LogImportedSquad(JSONObject squadJson)

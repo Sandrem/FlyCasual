@@ -692,7 +692,9 @@ public static partial class RosterBuilder {
         JSONObject squadPilotsJson = new JSONObject(squadPilotsArrayJson);
         squadJson.AddField("pilots", squadPilotsJson);
 
-        Debug.Log(squadJson);
+        GameObject importExportPanel = GameObject.Find("UI/Panels").transform.Find("ImportExportPanel").gameObject;
+        MainMenu.CurrentMainMenu.ChangePanel(importExportPanel);
+        importExportPanel.transform.Find("InputField").GetComponent<InputField>().text = squadJson.ToString();
     }
 
     private static JSONObject GenerateSquadPilot(SquadBuilderShip shipHolder)

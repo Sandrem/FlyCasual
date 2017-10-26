@@ -6,6 +6,8 @@ public partial class MainMenu : MonoBehaviour {
 
     string NewVersionUrl;
 
+    public static MainMenu CurrentMainMenu;
+
     // Use this for initialization
     void Start () {
         InitializeMenu();
@@ -13,6 +15,8 @@ public partial class MainMenu : MonoBehaviour {
 
     private void InitializeMenu()
     {
+        CurrentMainMenu = this;
+
         SetPositions();
         SetCurrentPanel();
 

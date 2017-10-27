@@ -27,7 +27,10 @@ public class RosterBuilderUI : MonoBehaviour {
 
     public void Import()
     {
-        RosterBuilder.CreateSquadFromImportedjson(GameObject.Find("UI/Panels/ImportExportPanel/InputField").GetComponent<InputField>().text);
+        RosterBuilder.CreateSquadFromImportedjson(GameObject.Find("UI/Panels/ImportExportPanel/InputField").GetComponent<InputField>().text, Players.PlayerNo.Player1);
+
+        GameObject rosterBuilderPanel = GameObject.Find("UI/Panels").transform.Find("RosterBuilderPanel").gameObject;
+        MainMenu.CurrentMainMenu.ChangePanel(rosterBuilderPanel);
     }
 
 }

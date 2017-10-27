@@ -12,6 +12,8 @@ public static partial class Network
 
     public static string AllShipNames;
 
+    public static JSONObject SquadJsons;
+
     public static bool IsNetworkGame
     {
         get { return CurrentPlayer != null; }
@@ -20,6 +22,20 @@ public static partial class Network
     public static bool IsServer
     {
         get { return CurrentPlayer.IsServer; }
+    }
+
+    // SQUAD LISTS
+
+    public static void ImportSquad(string squadList, bool isServer)
+    {
+        string squadName = (isServer) ? "Server" : "Client";
+        JSONObject squadListJson = new JSONObject(squadList);
+        SquadJsons.AddField(squadName, squadListJson);
+    }
+
+    public static void StoreSquadList(string localSquadList, bool isServer)
+    {
+        CurrentPlayer.CmdStoreSquadList(localSquadList.ToString(), isServer);
     }
 
     // TESTS

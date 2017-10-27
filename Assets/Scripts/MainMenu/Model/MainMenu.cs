@@ -72,7 +72,7 @@ public partial class MainMenu : MonoBehaviour {
 
     public void ExportSquadList()
     {
-        RosterBuilder.ExportSquadList();
+        RosterBuilder.ExportSquadList(Players.PlayerNo.Player1);
     }
 
 }

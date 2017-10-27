@@ -77,7 +77,51 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     [Command]
     public void CmdStartNetworkGame()
     {
-        new NetworkExecuteWithCallback(CmdLoadBattleScene, CmdStartBattle);
+        //new NetworkExecuteWithCallback(CmdLoadBattleScene, CmdStartBattle);
+        new NetworkExecuteWithCallback(CmdGetSquadList, CmdSendSquadToOpponent);
+    }
+
+    [Command]
+    public void CmdGetSquadList()
+    {
+        Network.SquadJsons = new JSONObject();
+        RpcGetSquadList();
+    }
+
+    [ClientRpc]
+    public void RpcGetSquadList()
+    {
+        JSONObject localSquadList = RosterBuilder.GetSquadInJson(Players.PlayerNo.Player1);
+        Network.StoreSquadList(localSquadList.ToString(), isServer);
+        Network.FinishTask();
+    }
+
+    [Command]
+    public void CmdStoreSquadList(string squadJson, bool isServer)
+    {
+        Network.ImportSquad(squadJson, isServer);
+    }
+
+    [Command]
+    public void CmdSendSquadToOpponent()
+    {
+        RpcSendSquadToOpponent(Network.SquadJsons.ToString());
+    }
+
+    [ClientRpc]
+    public void RpcSendSquadToOpponent(string squadsJsonString)
+    {
+        JSONObject squadsJson = new JSONObject(squadsJsonString);
+        string opponentSquadName = (isServer) ? "Client" : "Server";
+        if (squadsJson.HasField(opponentSquadName))
+        {
+            JSONObject squadJson = squadsJson[opponentSquadName];
+            RosterBuilder.SetPlayerSquadFromImportedJson(squadJson, Players.PlayerNo.Player2);
+        }
+        else
+        {
+            Messages.ShowError("No ships");
+        }
     }
 
     [Command]

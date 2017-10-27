@@ -691,16 +691,12 @@ public static partial class RosterBuilder {
         MainMenu.CurrentMainMenu.ChangePanel(importExportPanel);
     }
 
-    public static void CreateSquadFromImportedjson(string jsonString)
+    public static void CreateSquadFromImportedjson(string jsonString, PlayerNo playerNo)
     {
         JSONObject squadJson = new JSONObject(jsonString);
         //LogImportedSquad(squadJson);
 
-        RemoveAllShipsByPlayer(PlayerNo.Player1);
-
-        SetPlayerSquadFromImportedJson(squadJson, PlayerNo.Player1);
-
-        ReturnToRoster();
+        SetPlayerSquadFromImportedJson(squadJson, playerNo);
     }
 
     private static void RemoveAllShipsByPlayer(PlayerNo playerNo)
@@ -712,8 +708,10 @@ public static partial class RosterBuilder {
         }
     }
 
-    private static void SetPlayerSquadFromImportedJson(JSONObject squadJson, PlayerNo playerNo)
+    public static void SetPlayerSquadFromImportedJson(JSONObject squadJson, PlayerNo playerNo)
     {
+        RemoveAllShipsByPlayer(playerNo);
+
         if (squadJson.HasField("pilots"))
         {
             JSONObject pilotJsons = squadJson["pilots"];
@@ -738,12 +736,10 @@ public static partial class RosterBuilder {
                 OnPilotChanged(newShip);
             }
         }
-    }
-
-    private static void ReturnToRoster()
-    {
-        GameObject rosterBuilderPanel = GameObject.Find("UI/Panels").transform.Find("RosterBuilderPanel").gameObject;
-        MainMenu.CurrentMainMenu.ChangePanel(rosterBuilderPanel);
+        else
+        {
+            Messages.ShowError("No pilots");
+        }
     }
 
     private static void LogImportedSquad(JSONObject squadJson)
@@ -763,16 +759,23 @@ public static partial class RosterBuilder {
         }
     }
 
-    public static void ExportSquadList()
+    public static void ExportSquadList(PlayerNo playerNo)
+    {
+        GameObject importExportPanel = GameObject.Find("UI/Panels").transform.Find("ImportExportPanel").gameObject;
+        MainMenu.CurrentMainMenu.ChangePanel(importExportPanel);
+        importExportPanel.transform.Find("InputField").GetComponent<InputField>().text = GetSquadInJson(playerNo).ToString();
+    }
+
+    public static JSONObject GetSquadInJson(PlayerNo playerNo)
     {
         JSONObject squadJson = new JSONObject();
         //squadJson.AddField("name", "New Squad");
-        squadJson.AddField("faction", FactionToXWS(GetPlayerFaction(PlayerNo.Player1)));
-        squadJson.AddField("points", GetPlayerShipsCostCalculated(PlayerNo.Player1));
+        squadJson.AddField("faction", FactionToXWS(GetPlayerFaction(playerNo)));
+        squadJson.AddField("points", GetPlayerShipsCostCalculated(playerNo));
         squadJson.AddField("version", "0.3.0");
         //squadJson.AddField("description", "No descripton");
 
-        List<SquadBuilderShip> playerShipConfigs = SquadBuilderRoster.GetShips().Where(n => n.Player == PlayerNo.Player1).ToList();
+        List<SquadBuilderShip> playerShipConfigs = SquadBuilderRoster.GetShips().Where(n => n.Player == playerNo).ToList();
         JSONObject[] squadPilotsArrayJson = new JSONObject[playerShipConfigs.Count];
         for (int i = 0; i < squadPilotsArrayJson.Length; i++)
         {
@@ -781,9 +784,7 @@ public static partial class RosterBuilder {
         JSONObject squadPilotsJson = new JSONObject(squadPilotsArrayJson);
         squadJson.AddField("pilots", squadPilotsJson);
 
-        GameObject importExportPanel = GameObject.Find("UI/Panels").transform.Find("ImportExportPanel").gameObject;
-        MainMenu.CurrentMainMenu.ChangePanel(importExportPanel);
-        importExportPanel.transform.Find("InputField").GetComponent<InputField>().text = squadJson.ToString();
+        return squadJson;
     }
 
     private static JSONObject GenerateSquadPilot(SquadBuilderShip shipHolder)

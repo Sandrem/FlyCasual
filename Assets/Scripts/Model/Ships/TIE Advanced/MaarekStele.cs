@@ -40,14 +40,14 @@ namespace Ship
                                 Name = "Maarker Stele ability",
                                 TriggerType = TriggerTypes.OnFaceupCritCardReadyToBeDealt,
                                 TriggerOwner = ((e as DamageSourceEventArgs).Source as GenericShip).Owner.PlayerNo,
-                                EventHandler = ShowDecision
+                                EventHandler = ShowMaarekSteleDecision
                             }
                         );
                     }
                 }
             }
 
-            private static void ShowDecision(object sender, EventArgs e)
+            private static void ShowMaarekSteleDecision(object sender, EventArgs e)
             {
                 Phases.StartTemporarySubPhase(
                     "Ability of Maarek Stele",

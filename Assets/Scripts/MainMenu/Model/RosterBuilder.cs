@@ -171,7 +171,7 @@ public static partial class RosterBuilder {
         Global.AddFaction(GetPlayerFaction(PlayerNo.Player2));
     }
 
-    private static void GeneratePlayersShipConfigurations()
+    public static void GeneratePlayersShipConfigurations()
     {
         Global.RemoveAllShips();
         foreach (var ship in SquadBuilderRoster.GetShips())
@@ -696,19 +696,32 @@ public static partial class RosterBuilder {
         JSONObject squadJson = new JSONObject(jsonString);
         //LogImportedSquad(squadJson);
 
-        SetPlayerSquadFromImportedJson(squadJson, playerNo);
+        SetPlayerSquadFromImportedJson(squadJson, playerNo, ShowRoster);
     }
 
     private static void RemoveAllShipsByPlayer(PlayerNo playerNo)
     {
-        List<SquadBuilderShip> shipsList = SquadBuilderRoster.GetShipsByPlayer(PlayerNo.Player1);
+        List<SquadBuilderShip> shipsList = SquadBuilderRoster.GetShipsByPlayer(playerNo);
         foreach (var ship in shipsList)
         {
-            RemoveShip(PlayerNo.Player1, ship.Panel);
+            RemoveShip(playerNo, ship.Panel);
         }
     }
 
-    public static void SetPlayerSquadFromImportedJson(JSONObject squadJson, PlayerNo playerNo)
+    private static void ShowRoster()
+    {
+        GameObject rosterBuilderPanel = GameObject.Find("UI/Panels").transform.Find("RosterBuilderPanel").gameObject;
+        MainMenu.CurrentMainMenu.ChangePanel(rosterBuilderPanel);
+    }
+
+    public static void SwapRosters(Action callBack)
+    {
+        JSONObject p1squad = GetSquadInJson(PlayerNo.Player1);
+
+        SetPlayerSquadFromImportedJson(p1squad, PlayerNo.Player2, callBack);
+    }
+
+    public static void SetPlayerSquadFromImportedJson(JSONObject squadJson, PlayerNo playerNo, Action callBack)
     {
         RemoveAllShipsByPlayer(playerNo);
 
@@ -740,6 +753,8 @@ public static partial class RosterBuilder {
         {
             Messages.ShowError("No pilots");
         }
+
+        callBack();
     }
 
     private static void LogImportedSquad(JSONObject squadJson)

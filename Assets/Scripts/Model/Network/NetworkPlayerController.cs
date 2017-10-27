@@ -77,8 +77,10 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     [Command]
     public void CmdStartNetworkGame()
     {
-        //new NetworkExecuteWithCallback(CmdLoadBattleScene, CmdStartBattle);
-        new NetworkExecuteWithCallback(CmdGetSquadList, CmdSendSquadToOpponent);
+        new NetworkExecuteWithCallback(
+            delegate { new NetworkExecuteWithCallback(CmdGetSquadList, CmdSendSquadToOpponent); },
+            delegate { new NetworkExecuteWithCallback(CmdLoadBattleScene, CmdStartBattle); }
+        );
     }
 
     [Command]
@@ -116,7 +118,14 @@ public partial class NetworkPlayerController : NetworkBehaviour {
         if (squadsJson.HasField(opponentSquadName))
         {
             JSONObject squadJson = squadsJson[opponentSquadName];
-            RosterBuilder.SetPlayerSquadFromImportedJson(squadJson, Players.PlayerNo.Player2);
+            if (isServer)
+            {
+                RosterBuilder.SetPlayerSquadFromImportedJson(squadJson, Players.PlayerNo.Player2, Network.FinishTask);
+            }
+            else
+            {
+                RosterBuilder.SwapRosters(delegate { RosterBuilder.SetPlayerSquadFromImportedJson(squadJson, Players.PlayerNo.Player1, Network.FinishTask); });
+            }
         }
         else
         {
@@ -133,6 +142,8 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     [ClientRpc]
     public void RpcLoadBattleScene()
     {
+        RosterBuilder.GeneratePlayersShipConfigurations();
+
         RosterBuilder.HideNetworkManagerHUD();
         RosterBuilder.ShowOpponentSquad();
         RosterBuilder.LoadBattleScene();

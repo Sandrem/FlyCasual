@@ -184,10 +184,14 @@ public static partial class RosterBuilder {
 
     private static void AddInitialShips()
     {
-        RemoveAllShipsByPlayer(PlayerNo.Player1);
-        RemoveAllShipsByPlayer(PlayerNo.Player2);
-        if (GetShipsCount(PlayerNo.Player1) == 0) TryAddShip(PlayerNo.Player1);
-        if (GetShipsCount(PlayerNo.Player2) == 0) TryAddShip(PlayerNo.Player2);
+        AddInitialShip(PlayerNo.Player1);
+        AddInitialShip(PlayerNo.Player2);
+    }
+
+    private static void AddInitialShip(PlayerNo playerNo)
+    {
+        RemoveAllShipsByPlayer(playerNo);
+        if (GetShipsCount(playerNo) == 0) TryAddShip(playerNo);
     }
 
     public static void TryAddShip(PlayerNo playerNo)

@@ -148,20 +148,13 @@ public static partial class RosterBuilder {
 
     public static void Initialize()
     {
-        InitializeSquadBuilderRoster();
-        // FOR TESTING PURPOSES
-        // SetPlayers();
+        SetPlayers();
         SetPlayerFactions();
         GenerateShipsList();
         AddInitialShips();
     }
 
     //Initialization
-
-    private static void InitializeSquadBuilderRoster()
-    {
-        SquadBuilderRoster.ClearRoster();
-    }
 
     private static void SetPlayers()
     {
@@ -186,10 +179,13 @@ public static partial class RosterBuilder {
             ship.Ship.SkinName = GetSkinName(ship);
             Global.AddShip(ship.Ship, ship.Player, GetShipCostCalculated(ship));
         }
+        SquadBuilderRoster.ClearRoster();
     }
 
     private static void AddInitialShips()
     {
+        RemoveAllShipsByPlayer(PlayerNo.Player1);
+        RemoveAllShipsByPlayer(PlayerNo.Player2);
         if (GetShipsCount(PlayerNo.Player1) == 0) TryAddShip(PlayerNo.Player1);
         if (GetShipsCount(PlayerNo.Player2) == 0) TryAddShip(PlayerNo.Player2);
     }

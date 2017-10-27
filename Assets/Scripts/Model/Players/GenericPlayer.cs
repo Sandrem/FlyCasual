@@ -5,6 +5,7 @@ using UnityEngine;
 
 public enum Faction
 {
+    None,
     Rebels,
     Empire,
     Scum

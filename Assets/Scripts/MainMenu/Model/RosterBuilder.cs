@@ -345,18 +345,17 @@ public static partial class RosterBuilder {
                 if (!AllShips.ContainsKey(newShipTypeContainer.Type))
                 {
                     AllShips.Add(newShipTypeContainer.Type, ns);
-                }
 
-                string shipTypeXws = newShipTypeContainer.ShipTypeCanonical;
-                if (!AllShipsXws.ContainsKey(shipTypeXws))
-                {
+                    string shipTypeXws = newShipTypeContainer.ShipTypeCanonical;
                     AllShipsXws.Add(shipTypeXws, ns);
+
+                    GetPilotsList(newShipTypeContainer.Type);
                 }
             }
         }
     }
 
-    private static List<string> GetPilotsList(string shipName, Faction faction)
+    private static List<string> GetPilotsList(string shipName, Faction faction = Faction.None)
     {
         List<string> result = new List<string>();
 
@@ -369,23 +368,24 @@ public static partial class RosterBuilder {
             if (type.MemberType == MemberTypes.NestedType) continue;
 
             GenericShip newShipContainer = (GenericShip)System.Activator.CreateInstance(type);
-            if ((newShipContainer.PilotName != null) && (!newShipContainer.IsHidden) && (newShipContainer.faction == faction))
+            if ((newShipContainer.PilotName != null) && (!newShipContainer.IsHidden))
             {
-                string pilotKey = newShipContainer.PilotName + " (" + newShipContainer.Cost + ")";
-
-                if (!AllPilots.ContainsKey(pilotKey))
+                if ((newShipContainer.faction == faction) || faction == Faction.None)
                 {
-                    AllPilots.Add(pilotKey, type.ToString());
-                    PilotSkill.Add(pilotKey, newShipContainer.PilotSkill);
-                }
+                    string pilotKey = newShipContainer.PilotName + " (" + newShipContainer.Cost + ")";
 
-                string pilotNameXws = newShipContainer.PilotNameCanonical;
-                if (!AllPilotsXws.ContainsKey(pilotNameXws))
-                {
-                    AllPilotsXws.Add(pilotNameXws, shipName);
-                }
+                    if (!AllPilots.ContainsKey(pilotKey))
+                    {
+                        AllPilots.Add(pilotKey, type.ToString());
+                        PilotSkill.Add(pilotKey, newShipContainer.PilotSkill);
 
-                result.Add(pilotKey);
+                        string pilotNameXws = newShipContainer.PilotNameCanonical;
+                        AllPilotsXws.Add(pilotNameXws, type.ToString());
+                    }
+
+                    result.Add(pilotKey);
+                }
+                
             }
         }
 
@@ -691,6 +691,7 @@ public static partial class RosterBuilder {
     public static void ImportSquadList()
     {
         GameObject importExportPanel = GameObject.Find("UI/Panels").transform.Find("ImportExportPanel").gameObject;
+        importExportPanel.transform.Find("InputField").GetComponent<InputField>().text = "";
         MainMenu.CurrentMainMenu.ChangePanel(importExportPanel);
     }
 
@@ -699,17 +700,30 @@ public static partial class RosterBuilder {
         JSONObject squadJson = new JSONObject(jsonString);
         //LogImportedSquad(squadJson);
 
-        SetSquadFromImportedJson(squadJson);
+        RemoveAllShipsByPlayer(PlayerNo.Player1);
+
+        SetPlayerSquadFromImportedJson(squadJson, PlayerNo.Player1);
+
+        ReturnToRoster();
     }
 
-    private static void SetSquadFromImportedJson(JSONObject squadJson)
+    private static void RemoveAllShipsByPlayer(PlayerNo playerNo)
+    {
+        List<SquadBuilderShip> shipsList = SquadBuilderRoster.GetShipsByPlayer(PlayerNo.Player1);
+        foreach (var ship in shipsList)
+        {
+            RemoveShip(PlayerNo.Player1, ship.Panel);
+        }
+    }
+
+    private static void SetPlayerSquadFromImportedJson(JSONObject squadJson, PlayerNo playerNo)
     {
         if (squadJson.HasField("pilots"))
         {
             JSONObject pilotJsons = squadJson["pilots"];
             foreach (JSONObject pilotJson in pilotJsons.list)
             {
-                SquadBuilderShip newShip = AddShip(PlayerNo.Player1);
+                SquadBuilderShip newShip = AddShip(playerNo);
 
                 string shipNameXws = pilotJson["ship"].str;
                 string shipNamePath = AllShipsXws[shipNameXws];
@@ -718,8 +732,22 @@ public static partial class RosterBuilder {
                 shipDropdown.value = shipDropdown.options.IndexOf(shipDropdown.options.Find(n => n.text == shipNameGeneral));
 
                 OnShipChanged(newShip);
+
+                string pilotNameXws = pilotJson["name"].str;
+                string pilotNamePath = AllPilotsXws[pilotNameXws];
+                string pilotNameGeneral = AllPilots.Where(n => n.Value == pilotNamePath).First().Key;
+                Dropdown pilotDropdown = newShip.Panel.transform.Find("GroupShip/DropdownPilot").GetComponent<Dropdown>();
+                pilotDropdown.value = pilotDropdown.options.IndexOf(pilotDropdown.options.Find(n => n.text == pilotNameGeneral));
+
+                OnPilotChanged(newShip);
             }
         }
+    }
+
+    private static void ReturnToRoster()
+    {
+        GameObject rosterBuilderPanel = GameObject.Find("UI/Panels").transform.Find("RosterBuilderPanel").gameObject;
+        MainMenu.CurrentMainMenu.ChangePanel(rosterBuilderPanel);
     }
 
     private static void LogImportedSquad(JSONObject squadJson)

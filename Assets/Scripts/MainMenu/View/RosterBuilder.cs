@@ -514,7 +514,7 @@ public static partial class RosterBuilder {
 
     private static string GetSkinName(SquadBuilderShip ship)
     {
-        return ship.Panel.transform.Find("GroupShip/DropdownSkin").GetComponent<Dropdown>().captionText.text; ;
+        return ship.Panel.transform.Find("GroupShip/DropdownSkin").GetComponent<Dropdown>().captionText.text;
     }
 
 }

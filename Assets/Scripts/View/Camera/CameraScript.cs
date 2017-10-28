@@ -36,6 +36,18 @@ public class CameraScript : MonoBehaviour {
         Camera = transform.Find("Main Camera");
     }
 
+    private void SetDefaultCameraPosition()
+    {
+        bool isSecondPlayer = (Network.IsNetworkGame && !Network.IsServer);
+
+        Camera camera = Camera.GetComponent<Camera>();
+        camera.orthographicSize = 6;
+
+        Camera.localEulerAngles = (cameraMode == CameraModes.Free) ? new Vector3(-50, 0, 0) : new Vector3(0, 0, 0);
+        transform.localEulerAngles = new Vector3(90, 0, (!isSecondPlayer) ? 0 : 180);
+        transform.localPosition = (cameraMode == CameraModes.Free) ? new Vector3(0, 6, (!isSecondPlayer) ? -8 : 8) : Vector3.zero;
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -62,11 +74,8 @@ public class CameraScript : MonoBehaviour {
 
         Camera camera = Camera.GetComponent<Camera>();
         camera.orthographic = !camera.orthographic;
-        camera.orthographicSize = 6;
 
-        Camera.localEulerAngles = (cameraMode == CameraModes.Free) ? new Vector3(-50, 0, 0) : new Vector3(0, 0, 0);
-        transform.localEulerAngles = new Vector3(90, 0, 0);
-        transform.localPosition = (cameraMode == CameraModes.Free) ? new Vector3(0, 6, -8) : Vector3.zero;
+        SetDefaultCameraPosition();
     }
 
     // Movement, Rotation, Zoom

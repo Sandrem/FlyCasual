@@ -23,8 +23,10 @@ namespace RulesList
                 case Movement.ManeuverColor.Red:
                     if (Selection.ThisShip.Owner.GetType() != typeof(Players.HotacAiPlayer))
                     {
-                        Selection.ThisShip.IsSkipsActionSubPhase = !Selection.ThisShip.CanPerformActionsWhileStressed;
-                        Selection.ThisShip.AssignToken(new Tokens.StressToken(), Triggers.FinishTrigger);
+                        Selection.ThisShip.AssignToken(new Tokens.StressToken(), delegate {
+                            Selection.ThisShip.IsSkipsActionSubPhase = Selection.ThisShip.HasToken(typeof(Tokens.StressToken)) && !Selection.ThisShip.CanPerformActionsWhileStressed;
+                            Triggers.FinishTrigger();
+                        });
                     }
                     else
                     {

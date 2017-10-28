@@ -357,7 +357,12 @@ namespace Ship
 
         public int TokenCount(Type type)
         {
-            return AssignedTokens.Where(token => token.GetType() == type).Count();
+            var token = GetToken(type);
+
+            if (token == null)
+                return 0;
+            else
+                return token.Count;
         }
 
         public Tokens.GenericToken GetToken(System.Type type, char letter = ' ')

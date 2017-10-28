@@ -51,17 +51,32 @@ public class ShipMovementScript : MonoBehaviour {
 
     //Assignment and launch of execution of meneuver
 
-    public void AssignManeuver()
+    public void AssignManeuverButtonPressed()
     {
-        string parameters = EventSystem.current.currentSelectedGameObject.name;
-
-        Selection.ThisShip.SetAssignedManeuver(MovementFromString(parameters));
-
         UI.HideDirectionMenu();
+
+        string maneuverCode = EventSystem.current.currentSelectedGameObject.name;
+
+        if (!Network.IsNetworkGame)
+        {
+            AssignManeuver(Selection.ThisShip.ShipId, maneuverCode);
+        }
+        else
+        {
+            Network.AssignManeuver(Selection.ThisShip.ShipId, maneuverCode);
+        }
+        
+    }
+
+    public void AssignManeuver(int shipId, string maneuverCode)
+    {
+        Selection.ChangeActiveShip("ShipId:" + shipId);
+        UI.HideContextMenu();
+
+        Selection.ThisShip.SetAssignedManeuver(MovementFromString(maneuverCode));
 
         if (Phases.CurrentSubPhase.GetType() == typeof(SubPhases.PlanningSubPhase))
         {
-            //Selection.ThisShip.InfoPanel.transform.Find("DialAssigned" + Selection.ThisShip.Owner.Id).gameObject.SetActive(true);
             Roster.HighlightShipOff(Selection.ThisShip);
 
             if (Roster.AllManuersAreAssigned(Phases.CurrentPhasePlayer))
@@ -118,13 +133,33 @@ public class ShipMovementScript : MonoBehaviour {
         return MovementFromStruct(movementStruct);
     }
 
-    public void PerformStoredManeuver()
+    public void PerformStoredManeuverButtonIsPressed()
     {
-        Triggers.RegisterTrigger(new Trigger() {
+        if (!Network.IsNetworkGame)
+        {
+            PerformStoredManeuver(Selection.ThisShip.ShipId);
+        }
+        else
+        {
+            Network.PerformStoredManeuver(Selection.ThisShip.ShipId);
+        }
+    }
+
+    private void DoMovementTriggerHandler(object sender, System.EventArgs e)
+    {
+        Phases.StartTemporarySubPhase("Movement", typeof(SubPhases.MovementExecutionSubPhase));
+    }
+
+    public void PerformStoredManeuver(int shipId)
+    {
+        Selection.ChangeActiveShip("ShipId:" + shipId);
+
+        Triggers.RegisterTrigger(new Trigger()
+        {
             Name = "Maneuver",
             TriggerType = TriggerTypes.OnManeuver,
             TriggerOwner = Selection.ThisShip.Owner.PlayerNo,
-            EventHandler = StartMovementExecutionSubphase
+            EventHandler = DoMovementTriggerHandler
         });
 
         Triggers.ResolveTriggers(
@@ -133,11 +168,6 @@ public class ShipMovementScript : MonoBehaviour {
                 Phases.FinishSubPhase(typeof(SubPhases.MovementExecutionSubPhase));
             }
         );
-    }
-
-    private void StartMovementExecutionSubphase(object sender, System.EventArgs e)
-    {
-        Phases.StartTemporarySubPhase("Movement", typeof(SubPhases.MovementExecutionSubPhase));
     }
 
 }

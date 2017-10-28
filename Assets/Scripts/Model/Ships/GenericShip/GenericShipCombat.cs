@@ -43,7 +43,7 @@ namespace Ship
 
         public bool CanShootOutsideArc
         {
-            set {}
+            set { }
             get { return Host.ArcInfo.CanShootOutsideArc; }
         }
 
@@ -278,7 +278,9 @@ namespace Ship
 
         public int GetNumberOfAttackDice(GenericShip targetShip)
         {
-            int result = Combat.ChosenWeapon.AttackValue;
+            int result = 0;
+
+            result = Combat.ChosenWeapon.AttackValue;
 
             if (AfterGotNumberOfAttackDice != null) AfterGotNumberOfAttackDice(ref result);
 
@@ -378,29 +380,31 @@ namespace Ship
 
             if (isCritical)
             {
-                Combat.CurrentCriticalHitCard = CriticalHitsDeck.GetCritCard();
-
-                if (DebugManager.DebugDamage) Debug.Log("+++ Crit: " + Combat.CurrentCriticalHitCard.Name);
-
-                if (OnFaceupCritCardReadyToBeDealt != null) OnFaceupCritCardReadyToBeDealt(this, Combat.CurrentCriticalHitCard);
-
-                if (OnFaceupCritCardReadyToBeDealtGlobal != null) OnFaceupCritCardReadyToBeDealtGlobal(this, Combat.CurrentCriticalHitCard, e);
-
-                Triggers.RegisterTrigger(new Trigger
-                {
-                    Name = "Information about faceup damage card",
-                    TriggerOwner = this.Owner.PlayerNo,
-                    TriggerType = TriggerTypes.OnFaceupCritCardReadyToBeDealtUI,
-                    EventHandler = delegate { InformCrit.LoadAndShow(); }
-                });
-
-                Triggers.ResolveTriggers(TriggerTypes.OnFaceupCritCardReadyToBeDealt, SufferFaceupDamageCard);
+                CriticalHitsDeck.GetCritCard(delegate { SufferChosenCriticalHitCard(e); });
             }
             else
             {
-                Combat.CurrentCriticalHitCard = CriticalHitsDeck.GetCritCard();
-                CallOnDamageCardIsDealt(DealRegularDamageCard);
+                CriticalHitsDeck.GetCritCard(delegate { CallOnDamageCardIsDealt(DealRegularDamageCard); });
             }
+        }
+
+        public void SufferChosenCriticalHitCard(EventArgs e)
+        {
+            if (DebugManager.DebugDamage) Debug.Log("+++ Crit: " + Combat.CurrentCriticalHitCard.Name);
+
+            if (OnFaceupCritCardReadyToBeDealt != null) OnFaceupCritCardReadyToBeDealt(this, Combat.CurrentCriticalHitCard);
+
+            if (OnFaceupCritCardReadyToBeDealtGlobal != null) OnFaceupCritCardReadyToBeDealtGlobal(this, Combat.CurrentCriticalHitCard, e);
+
+            Triggers.RegisterTrigger(new Trigger
+            {
+                Name = "Information about faceup damage card",
+                TriggerOwner = this.Owner.PlayerNo,
+                TriggerType = TriggerTypes.OnFaceupCritCardReadyToBeDealtUI,
+                EventHandler = delegate { InformCrit.LoadAndShow(); }
+            });
+
+            Triggers.ResolveTriggers(TriggerTypes.OnFaceupCritCardReadyToBeDealt, SufferFaceupDamageCard);
         }
 
         private void DealRegularDamageCard()
@@ -565,7 +569,7 @@ namespace Ship
 
             return availableTemplates;
         }
-      
+
         public virtual bool CanAttackBumpedTarget(GenericShip defender)
         {
             return false;

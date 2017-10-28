@@ -49,13 +49,33 @@ public static class InformCrit
     
     private static void ShowPanel()
     {
-        InformCritPanel.gameObject.SetActive(true);
+        if (!Network.IsNetworkGame)
+        {
+            ShowPanelVisible();
+        }
+        else
+        {
+            Network.CallInformCritWindow();
+        }
     }
 
-    public static void HidePanel()
+    public static void ShowPanelVisible()
     {
-        InformCritPanel.gameObject.SetActive(false);
-        Triggers.FinishTrigger();
+        InformCritPanel.gameObject.SetActive(true);
+        InformCritPanel.Find("Confirm").gameObject.SetActive(true);
+    }
+
+    public static void ButtonConfirm()
+    {
+        InformCritPanel.Find("Confirm").gameObject.SetActive(false);
+        if (!Network.IsNetworkGame)
+        {
+            Triggers.FinishTrigger();
+        }
+        else
+        {
+            Network.FinishTask();
+        }
     }
 
 }

@@ -12,6 +12,8 @@ namespace Ship
         {
             public MaarekStele() : base()
             {
+                IsHidden = true;
+
                 PilotName = "Maarek Stele";
                 ImageUrl = "https://vignette3.wikia.nocookie.net/xwing-miniatures/images/4/41/Maarek_Stele.png";
                 IsUnique = true;
@@ -80,7 +82,7 @@ namespace SubPhases
             criticalHitCardsToChoose.Add(Combat.CurrentCriticalHitCard);
             for (int i = 0; i < 2; i++)
             {
-                criticalHitCardsToChoose.Add(CriticalHitsDeck.GetCritCard());
+                //criticalHitCardsToChoose.Add(CriticalHitsDeck.GetCritCard());
             }
 
             foreach (var critCard in criticalHitCardsToChoose)

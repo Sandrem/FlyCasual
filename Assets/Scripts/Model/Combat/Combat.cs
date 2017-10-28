@@ -49,8 +49,17 @@ public static partial class Combat
 
     public static ShipShotDistanceInformation ShotInfo;
 
-    public static void DeclareTarget()
+    public static void DeclareTarget(int attackerId, int defenderID)
     {
+        Selection.ChangeActiveShip("ShipId:" + attackerId);
+        Selection.ChangeAnotherShip("ShipId:" + defenderID);
+
+        if (Network.IsNetworkGame)
+        {
+            ChosenWeapon = Selection.ThisShip.PrimaryWeapon;
+            ShotInfo = new ShipShotDistanceInformation(Selection.ThisShip, Selection.AnotherShip, ChosenWeapon);
+        }
+
         UI.HideContextMenu();
 
         int anotherAttacksTypesCount = Selection.ThisShip.GetAnotherAttackTypesCount();
@@ -224,7 +233,7 @@ public static partial class Combat
             Attacker.CallOnAttackMissedAsAttacker();
             Defender.CallOnAttackMissedAsDefender();
 
-            Triggers.ResolveTriggers(TriggerTypes.OnAttackMissed, SufferDamage);
+            SufferDamage();
         }
     }
 
@@ -334,6 +343,18 @@ public static partial class Combat
     }
 
     public static void ConfirmDiceResults()
+    {
+        if (!Network.IsNetworkGame)
+        {
+            ConfirmDiceResultsClient();
+        }
+        else
+        {
+            Network.ConfirmDiceResults();
+        }
+    }
+
+    public static void ConfirmDiceResultsClient()
     {
         switch (AttackStep)
         {
@@ -469,7 +490,6 @@ namespace SubPhases
         {
             GameObject.Find("UI/CombatDiceResultsPanel").gameObject.SetActive(true);
         }
-
     }
 
     public class DefenceDiceRollCombatSubPhase : DiceRollCombatSubPhase

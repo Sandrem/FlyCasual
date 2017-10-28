@@ -41,16 +41,31 @@ public static class CriticalHitsDeck{
         }
     }
 
-    public static CriticalHitCard.GenericCriticalHit GetCritCard()
+    public static void GetCritCard(Action SufferChosenCriticalHitCard)
     {
         int deckSize = CheckDeck();
 
+        if (!Network.IsNetworkGame)
+        {
+            int[] randomHolder = new int[1];
+            randomHolder[0] = UnityEngine.Random.Range(0, deckSize);
+            SetCurrentCriticalCardByIndex(randomHolder);
+            SufferChosenCriticalHitCard();
+        }
+        else
+        {
+            Network.GenerateRandom(new Vector2(0, deckSize - 1), 1, SetCurrentCriticalCardByIndex, SufferChosenCriticalHitCard);
+        }
+    }
+
+    private static void SetCurrentCriticalCardByIndex(int[] randomHolder)
+    {
         CriticalHitCard.GenericCriticalHit critCard = null;
-        int index = UnityEngine.Random.Range(0, deckSize);
-        critCard = Deck[index];
+
+        critCard = Deck[randomHolder[0]];
         Deck.Remove(critCard);
 
-        return critCard;
+        Combat.CurrentCriticalHitCard = critCard;
     }
 
     private static int CheckDeck()

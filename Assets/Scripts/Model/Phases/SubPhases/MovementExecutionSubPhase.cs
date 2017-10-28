@@ -25,6 +25,9 @@ namespace SubPhases
             Selection.ThisShip.IsManeuverPerformed = true;
             Roster.AllShipsHighlightOff();
 
+            Selection.ThisShip.ObstaclesHit = new List<Collider>();
+            Selection.ThisShip.MinesHit = new List<GameObject>();
+
             Selection.ThisShip.CallManeuverIsReadyToBeRevealed();
 
             Selection.ThisShip.CallManeuverIsRevealed(PerformAssignedManeuver);
@@ -33,6 +36,18 @@ namespace SubPhases
         private void PerformAssignedManeuver()
         {
             Selection.ThisShip.AssignedManeuver.Perform();
+        }
+
+        public void CallFinish()
+        {
+            if (!Network.IsNetworkGame)
+            {
+                Next();
+            }
+            else
+            {
+                Network.FinishTask();
+            }
         }
 
         public override void Next()

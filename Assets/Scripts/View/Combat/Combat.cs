@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-//Todo: Move to different scripts by menu names
-
-public delegate void DiceModification();
-
 public static partial class Combat
 {
+
+    public static Dictionary<string, ActionsList.GenericAction> AvailableDecisions;
 
     public static void ShowOwnDiceResultMenu()
     {
@@ -26,6 +24,7 @@ public static partial class Combat
 
         ToggleConfirmDiceResultsButton(true);
 
+        AvailableDecisions = new Dictionary<string, ActionsList.GenericAction>();
         Selection.ActiveShip.GenerateAvailableOppositeActionEffectsList();
 
         if (Selection.ActiveShip.GetAvailableOppositeActionEffectsList().Count > 0)
@@ -36,6 +35,8 @@ public static partial class Combat
 
             foreach (var oppositeActionEffect in Selection.ActiveShip.GetAvailableOppositeActionEffectsList())
             {
+                AvailableDecisions.Add(oppositeActionEffect.Name, oppositeActionEffect);
+
                 Vector3 position = defaultPosition + new Vector3(0, -offset, 0);
                 CreateDiceModificationsButton(oppositeActionEffect, position);
                 offset += 40;
@@ -71,22 +72,22 @@ public static partial class Combat
     {
         Selection.ActiveShip = (AttackStep == CombatStep.Attack) ? Attacker : Defender;
 
+        AvailableDecisions = new Dictionary<string, ActionsList.GenericAction>();
         Selection.ActiveShip.GenerateAvailableActionEffectsList();
 
-        if (Roster.GetPlayer(Selection.ActiveShip.Owner.PlayerNo).Type == Players.PlayerType.Human)
+        float offset = 0;
+        Vector3 defaultPosition = GameObject.Find("UI/CombatDiceResultsPanel").transform.Find("DiceModificationsPanel").position;
+
+        foreach (var actionEffect in Selection.ActiveShip.GetAvailableActionEffectsList())
         {
-            float offset = 0;
-            Vector3 defaultPosition = GameObject.Find("UI/CombatDiceResultsPanel").transform.Find("DiceModificationsPanel").position;
+            AvailableDecisions.Add(actionEffect.Name, actionEffect);
 
-            foreach (var actionEffect in Selection.ActiveShip.GetAvailableActionEffectsList())
-            {
-                Vector3 position = defaultPosition + new Vector3(0, -offset, 0);
-                CreateDiceModificationsButton(actionEffect, position);
-                offset += 40;
-            }
-
-            ToggleConfirmDiceResultsButton(true);
+            Vector3 position = defaultPosition + new Vector3(0, -offset, 0);
+            CreateDiceModificationsButton(actionEffect, position);
+            offset += 40;
         }
+
+        ToggleConfirmDiceResultsButton(true);
 
         Button closeButton = GameObject.Find("UI/CombatDiceResultsPanel").transform.Find("DiceModificationsPanel/Confirm").GetComponent<Button>();
         closeButton.onClick.RemoveAllListeners();
@@ -99,7 +100,7 @@ public static partial class Combat
     {
         if (Selection.ActiveShip.Owner.GetType() == typeof(Players.HumanPlayer))
         {
-            (Phases.CurrentSubPhase as SubPhases.DiceRollCombatSubPhase).ToggleConfirmDiceResultsButton(isActive);
+            (Phases.CurrentSubPhase as SubPhases.DiceRollCombatSubPhase).PrepareToggleConfirmButton(isActive);
         }
     }
 
@@ -110,27 +111,48 @@ public static partial class Combat
         newButton.name = "Button" + actionEffect.EffectName;
         newButton.transform.GetComponentInChildren<Text>().text = actionEffect.EffectName;
         newButton.GetComponent<RectTransform>().position = position;
-        newButton.GetComponent<Button>().onClick.AddListener(delegate
-        {
-            Tooltips.EndTooltip();
-            newButton.GetComponent<Button>().interactable = false;
-            if (!actionEffect.IsOpposite)
+        newButton.GetComponent<Button>().onClick.AddListener(
+            delegate
             {
-                Selection.ActiveShip = (AttackStep == CombatStep.Attack) ? Attacker : Defender;
-                Selection.ActiveShip.AddAlreadyExecutedActionEffect(actionEffect);
+                if (!Network.IsNetworkGame)
+                {
+                    UseDiceModification(actionEffect.Name);
+                }
+                else
+                {
+                    Network.UseDiceModification(actionEffect.EffectName);
+                }
             }
-            else
-            {
-                Selection.ActiveShip = (AttackStep == CombatStep.Attack) ? Defender : Attacker;
-                Selection.ActiveShip.AddAlreadyExecutedOppositeActionEffect(actionEffect);
-            }
-            actionEffect.ActionEffect(delegate { });
-        });
+        );
         Tooltips.AddTooltip(newButton, actionEffect.ImageUrl);
         newButton.GetComponent<Button>().interactable = true;
-        newButton.SetActive(true);
+
+        newButton.SetActive(Selection.ActiveShip.Owner.GetType() == typeof(Players.HumanPlayer));
     }
 
+    public static void UseDiceModification(string diceModificationName)
+    {
+        Tooltips.EndTooltip();
+
+        GameObject DiceModificationButton = GameObject.Find("UI/CombatDiceResultsPanel").transform.Find("DiceModificationsPanel").Find("Button" + diceModificationName).gameObject;
+        DiceModificationButton.GetComponent<Button>().interactable = false;
+
+        ActionsList.GenericAction diceModification = AvailableDecisions[diceModificationName];
+
+        if (!diceModification.IsOpposite)
+        {
+            Selection.ActiveShip = (AttackStep == CombatStep.Attack) ? Attacker : Defender;
+            Selection.ActiveShip.AddAlreadyExecutedActionEffect(diceModification);
+        }
+        else
+        {
+            Selection.ActiveShip = (AttackStep == CombatStep.Attack) ? Defender : Attacker;
+            Selection.ActiveShip.AddAlreadyExecutedOppositeActionEffect(diceModification);
+        }
+
+        //TODO: Re-generate list instead
+        diceModification.ActionEffect(delegate { });
+    }
 
     //REMOVE
     public static void HideDiceModificationButtons()

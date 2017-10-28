@@ -67,7 +67,12 @@ namespace SubPhases
             obstaclesStayDetectorBase = ShipStand.GetComponentInChildren<ObstaclesStayDetectorForced>();
             Roster.SetRaycastTargets(false);
 
-            inReposition = true;
+            TurnOnDragging();
+        }
+
+        private void TurnOnDragging()
+        {
+            if (Selection.ThisShip.Owner.GetType() == typeof(Players.HumanPlayer)) inReposition = true;
         }
 
         public override void Update()
@@ -151,10 +156,22 @@ namespace SubPhases
         public override void ProcessClick()
         {
             StopPlanning();
-            TryConfirmBoostPosition();
+
+            if (!Network.IsNetworkGame)
+            {
+                TryConfirmBoostPosition();
+            }
+            else
+            {
+                if (Selection.ThisShip.Owner.GetType() == typeof(Players.HumanPlayer))
+                {
+                    Network.TryConfirmBoostPosition(SelectedBoostHelper);
+                }
+            }
+            
         }
 
-        private void StartBoostExecution(Ship.GenericShip ship)
+        public void StartBoostExecution(Ship.GenericShip ship)
         {
             Phases.StartTemporarySubPhase(
                 "Boost execution",
@@ -187,6 +204,13 @@ namespace SubPhases
             MonoBehaviour.Destroy(ShipStand);
 
             Roster.SetRaycastTargets(true);
+        }
+
+        public void TryConfirmBoostPositionNetwork(string selectedBoostHelper)
+        {
+            ShowNearestBoosterHelper(selectedBoostHelper);
+
+            TryConfirmBoostPosition();
         }
 
         private void TryConfirmBoostPosition()
@@ -223,7 +247,14 @@ namespace SubPhases
             if (IsBoostAllowed())
             {
                 CheckMines();
-                StartBoostExecution(Selection.ThisShip);
+                if (!Network.IsNetworkGame)
+                {
+                    StartBoostExecution(Selection.ThisShip);
+                }
+                else
+                {
+                    Network.PerformBoost();
+                }
             }
             else
             {
@@ -320,6 +351,18 @@ namespace SubPhases
             //TEMPORARY
             boostMovement.Perform();
             Sounds.PlayFly();
+        }
+
+        public void FinishBoost()
+        {
+            if (!Network.IsNetworkGame)
+            {
+                Phases.FinishSubPhase(this.GetType());
+            }
+            else
+            {
+                Network.FinishTask();
+            }
         }
 
         public override void Next()

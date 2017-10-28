@@ -38,6 +38,7 @@ public enum TriggerTypes
     OnDamageIsDealt,
     OnFaceupCritCardIsDealt,
     OnMajorExplosionCrit,
+    OnAbilityTargetIsSelected,
     OnEndPhaseStart,
     OnBombDetonated,
     OnFinishSlam,

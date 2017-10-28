@@ -39,6 +39,18 @@ namespace Upgrade
         public bool isDiscarded = false;
         public string Name { get; set; }
 
+        private string nameCanonical;
+        public string NameCanonical
+        {
+            get
+            {
+                if (!string.IsNullOrEmpty(nameCanonical)) return nameCanonical;
+
+                return Tools.Canonicalize(Name);
+            }
+            set { nameCanonical = value; }
+        }
+
         private string imageUrl;
         public string ImageUrl
         {

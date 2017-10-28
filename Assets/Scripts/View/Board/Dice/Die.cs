@@ -66,9 +66,9 @@ public partial class Die
         return model;
     }
 
-    private void RandomizeDice()
+    public void RandomizeRotation()
     {
-        Model.transform.Find("Dice").transform.eulerAngles = new Vector3(Random.Range(0, 360), Random.Range(0, 360), Random.Range(0, 360));
+        SetInitialRotation(new Vector3(Random.Range(0, 360), Random.Range(0, 360), Random.Range(0, 360)));
     }
 
     public void ShowWithoutRoll()
@@ -78,11 +78,16 @@ public partial class Die
         Model.transform.Find("Dice").transform.localPosition = positionGround;
     }
 
+    public void SetInitialRotation(Vector3 rotationAngles)
+    {
+        if (Model == null) Model = SpawnDice(Type);
+        Model.transform.Find("Dice").transform.eulerAngles = new Vector3(rotationAngles.x, rotationAngles.y, rotationAngles.z);
+    }
+
     public void Roll()
     {
         if (Model == null) Model = SpawnDice(Type);
         modelRollingIsFinished = false;
-        RandomizeDice();
         Model.gameObject.SetActive(true);
         Model.transform.Find("Dice").GetComponent<Rigidbody>().isKinematic = false;
     }

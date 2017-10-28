@@ -703,7 +703,7 @@ public static partial class RosterBuilder {
         SetPlayerSquadFromImportedJson(squadJson, playerNo, ShowRoster);
     }
 
-    private static void RemoveAllShipsByPlayer(PlayerNo playerNo)
+    public static void RemoveAllShipsByPlayer(PlayerNo playerNo)
     {
         List<SquadBuilderShip> shipsList = SquadBuilderRoster.GetShipsByPlayer(playerNo);
         foreach (var ship in shipsList)

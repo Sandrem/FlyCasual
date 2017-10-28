@@ -214,8 +214,11 @@ public class UI : MonoBehaviour {
 
     public static void ShowNextButton()
     {
-        GameObject.Find("UI").transform.Find("NextPanel").gameObject.SetActive(true);
-        GameObject.Find("UI/NextPanel").transform.Find("NextButton").GetComponent<Animator>().enabled = false;
+        if (Roster.GetPlayer(Phases.CurrentPhasePlayer).Type == Players.PlayerType.Human)
+        {
+            GameObject.Find("UI").transform.Find("NextPanel").gameObject.SetActive(true);
+            GameObject.Find("UI/NextPanel").transform.Find("NextButton").GetComponent<Animator>().enabled = false;
+        }
     }
 
     public static void HideNextButton()
@@ -230,7 +233,7 @@ public class UI : MonoBehaviour {
 
     public static void ShowSkipButton()
     {
-        GameObject.Find("UI").transform.Find("SkipPanel").gameObject.SetActive(true);
+        if (Roster.GetPlayer(Phases.CurrentPhasePlayer).Type == Players.PlayerType.Human) GameObject.Find("UI").transform.Find("SkipPanel").gameObject.SetActive(true);
     }
 
     public static void HideSkipButton()

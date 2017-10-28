@@ -34,6 +34,8 @@ public class CameraScript : MonoBehaviour {
     void Start()
     {
         Camera = transform.Find("Main Camera");
+
+        SetDefaultCameraPosition();
     }
 
     private void SetDefaultCameraPosition()

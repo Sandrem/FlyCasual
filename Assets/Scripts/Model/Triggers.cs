@@ -8,9 +8,7 @@ using SubPhases;
 public enum TriggerTypes
 {
     None,
-    OnAbilityDirect,
     OnSetupPhaseStart,
-    OnManeuver,
     OnManeuverIsRevealed,
     OnShipMovementStart,
     OnShipMovementExecuted,
@@ -27,7 +25,6 @@ public enum TriggerTypes
     OnCombatPhaseStart,
     OnCombatPhaseEnd,
     OnAttackHit,
-    OnAttackMissed,
     OnAtLeastOneCritWasCancelledByDefender,
     OnDamageCardIsDealt,
     OnAttackStart,
@@ -38,10 +35,9 @@ public enum TriggerTypes
     OnDamageIsDealt,
     OnFaceupCritCardIsDealt,
     OnMajorExplosionCrit,
+    OnAbilityTargetIsSelected,
     OnEndPhaseStart,
-    OnBombDetonated,
-    OnFinishSlam,
-    OnDiscard
+    OnBombDetonated
 }
 
 public class Trigger
@@ -114,14 +110,9 @@ public class StackLevel
 
 public static partial class Triggers
 {
-    private static List<StackLevel> TriggersStack;
+    private static List<StackLevel> TriggersStack = new List<StackLevel>();
 
     // PUBLIC
-
-    public static void Initialize()
-    {
-        TriggersStack = new List<StackLevel>();
-    }
 
     public static void RegisterTrigger(Trigger trigger)
     {

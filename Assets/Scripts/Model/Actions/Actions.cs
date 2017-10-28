@@ -6,14 +6,9 @@ using Board;
 
 public static partial class Actions {
 
-    private static Dictionary<char, bool> Letters;
+    private static Dictionary<char, bool> Letters = new Dictionary<char, bool>();
 
     public static CriticalHitCard.GenericCriticalHit SelectedCriticalHitCard;
-
-    public static void Initialize()
-    {
-        Letters = new Dictionary<char, bool>();
-    }
 
     public static void AssignTargetLockToPair(Ship.GenericShip thisShip, Ship.GenericShip targetShip, Action successCallback, Action failureCallback)
     {

@@ -38,14 +38,10 @@ namespace Upgrade
 
         public override void ActivateBomb(GameObject bombObject, Action callBack)
         {
+            base.ActivateBomb(bombObject, callBack);
+
+            BombsManager.RegisterMine(bombObject, this);
             CallBack = callBack;
-
-            base.ActivateBomb(bombObject, RegisterMine);
-        }
-
-        private void RegisterMine()
-        {
-            BombsManager.RegisterMine(BombObject, this);
             CheckImmediateDetonation();
         }
 
@@ -109,11 +105,11 @@ namespace Upgrade
             base.Detonate(sender, e);
         }
 
-        public override void Discard(Action callBack)
+        public override void Discard()
         {
             Host.AfterGenerateAvailableActionsList -= PerformDropBombAction;
 
-            base.Discard(callBack);
+            base.Discard();
         }
 
     }

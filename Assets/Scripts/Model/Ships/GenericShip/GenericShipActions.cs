@@ -352,11 +352,6 @@ namespace Ship
             return result;
         }
 
-        public List<Tokens.GenericToken> GetAllTokens()
-        {
-            return AssignedTokens;
-        }
-
         public Tokens.GenericToken GetToken(System.Type type, char letter = ' ')
         {
             Tokens.GenericToken result = null;

@@ -24,16 +24,16 @@ namespace Upgrade
             base.AttachToShip(host);
         }
 
-        public virtual void PayDropCost(Action callBack)
+        public virtual void PayDropCost()
         {
-            if (IsDiscardedAfterDropped) TryDiscard(callBack);
+            if (IsDiscardedAfterDropped) Discard();
         }
 
         public virtual void ActivateBomb(GameObject bombObject, Action callBack)
         {
             BombObject = bombObject;
             Host.IsBombAlreadyDropped = true;
-            PayDropCost(callBack);
+            PayDropCost();
         }
 
         public virtual void Detonate(object sender, EventArgs e)

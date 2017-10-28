@@ -313,9 +313,6 @@ namespace Movement
 
         public virtual void Perform()
         {
-            Selection.ThisShip.ObstaclesHit = new List<Collider>();
-            Selection.ThisShip.MinesHit = new List<GameObject>();
-
             ProgressCurrent = 0f;
         }
 

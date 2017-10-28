@@ -27,6 +27,12 @@ namespace UpgradesList
 
             IsTwinAttack = true;
         }
+
+        public override void AttachToShip(Ship.GenericShip host)
+        {
+            base.AttachToShip(host);
+        }
+
     }
 
 }

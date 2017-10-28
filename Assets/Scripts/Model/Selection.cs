@@ -11,14 +11,6 @@ public static class Selection {
     public static Ship.GenericShip ActiveShip;
     public static Ship.GenericShip HoveredShip;
 	
-    public static void Initialize()
-    {
-        ThisShip = null;
-        AnotherShip = null;
-        ActiveShip = null;
-        HoveredShip = null;
-    }
-
     //TODO: BUG - enemy ship can be selected
     public static void UpdateSelection()
     {

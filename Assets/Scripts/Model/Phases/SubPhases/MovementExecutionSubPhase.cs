@@ -25,6 +25,9 @@ namespace SubPhases
             Selection.ThisShip.IsManeuverPerformed = true;
             Roster.AllShipsHighlightOff();
 
+            Selection.ThisShip.ObstaclesHit = new List<Collider>();
+            Selection.ThisShip.MinesHit = new List<GameObject>();
+
             Selection.ThisShip.CallManeuverIsReadyToBeRevealed();
 
             Selection.ThisShip.CallManeuverIsRevealed(PerformAssignedManeuver);

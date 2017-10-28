@@ -82,23 +82,8 @@ namespace Upgrade
 
         public virtual void PayAttackCost(Action callBack)
         {
-            PayDiscardCost(delegate { PayTokenCost(callBack); });
-        }
+            if (IsDiscardedForShot) Discard();
 
-        private void PayDiscardCost(Action callBack)
-        {
-            if (IsDiscardedForShot)
-                {
-                    TryDiscard(callBack);
-                }
-            else
-            {
-                callBack();
-            };
-        }
-
-        private void PayTokenCost(Action callBack)
-        {
             if (RequiresTargetLockOnTargetToShoot)
             {
                 if (SpendsTargetLockOnTargetToShoot)
@@ -114,7 +99,7 @@ namespace Upgrade
                     if (waysToPay.Count == 1)
                     {
                         Combat.Attacker.SpendToken(
-                            waysToPay[0].GetType(),
+                            waysToPay[0].GetType(), 
                             callBack,
                             (waysToPay[0] as BlueTargetLockToken != null) ? (waysToPay[0] as BlueTargetLockToken).Letter : ' '
                         );
@@ -137,6 +122,7 @@ namespace Upgrade
             {
                 callBack();
             }
+
         }
 
     }

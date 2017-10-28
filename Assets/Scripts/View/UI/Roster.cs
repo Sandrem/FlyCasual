@@ -429,24 +429,6 @@ public static partial class Roster {
         }
     }
 
-    public static void FlipFaceupUpgrade(GenericShip host, string upgradeShortName)
-    {
-        foreach (Transform upgradeLine in host.InfoPanel.transform.Find("ShipInfo/UpgradesBar").transform)
-        {
-            if (upgradeLine.GetComponent<Text>().text == upgradeShortName && upgradeLine.GetComponent<Text>().color == Color.gray)
-            {
-                upgradeLine.GetComponent<Text>().color = Color.white;
-                return;
-            }
-        }
-    }
-
-    private static void HideAssignedDials()
-    {
-        foreach (var panel in rosterPlayer1) panel.transform.Find("DialAssigned1").gameObject.SetActive(false);
-        foreach (var panel in rosterPlayer2) panel.transform.Find("DialAssigned2").gameObject.SetActive(false);
-    }
-
     public static void RosterAllPanelsHighlightOff()
     {
         foreach (var ship in AllShips)

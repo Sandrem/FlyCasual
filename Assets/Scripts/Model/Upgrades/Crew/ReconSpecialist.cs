@@ -11,13 +11,12 @@ namespace UpgradesList
             Name = "Recon Specialist";
             Cost = 3;
         }
-
         public override void AttachToShip(Ship.GenericShip host)
         {
             base.AttachToShip(host);
 
             host.OnActionIsPerformed += RegisterTrigger;
-        }
+       } 
 
         private void RegisterTrigger(GenericAction action)
         {

@@ -583,7 +583,6 @@ public static partial class RosterBuilder {
                 if (upgradeDropbox.options[i].text == upgradeDropboxName)
                 {
                     upgradeDropbox.value = i;
-                    if (squadUpgrade.Slot.InstalledUpgrade != null) squadUpgrade.Slot.RemovePreInstallUpgrade();
                     squadUpgrade.Slot.PreInstallUpgrade(oldUpgrade, squadBuilderShip.Ship);
                     isFound = true;
                     break;

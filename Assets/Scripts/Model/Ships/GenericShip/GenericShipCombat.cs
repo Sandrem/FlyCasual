@@ -138,7 +138,6 @@ namespace Ship
         public event EventHandlerInt AfterGotNumberOfPrimaryWeaponAttackDice;
         public event EventHandlerInt AfterGotNumberOfPrimaryWeaponDefenceDice;
         public event EventHandlerInt AfterGotNumberOfAttackDice;
-        public event EventHandlerInt AfterGotNumberOfDefenceDice;
 
         public event EventHandlerShip AfterAssignedDamageIsChanged;
 
@@ -159,8 +158,6 @@ namespace Ship
         public event EventHandlerBombDropTemplates OnGetAvailableBombDropTemplates;
 
         public event EventHandlerDiceroll OnImmediatelyAfterRolling;
-
-        public event EventHandlerBool OnWeaponsDisabledCheck;
 
         // TRIGGERS
 
@@ -278,7 +275,9 @@ namespace Ship
 
         public int GetNumberOfAttackDice(GenericShip targetShip)
         {
-            int result = Combat.ChosenWeapon.AttackValue;
+            int result = 0;
+
+            result = Combat.ChosenWeapon.AttackValue;
 
             if (AfterGotNumberOfAttackDice != null) AfterGotNumberOfAttackDice(ref result);
 
@@ -294,8 +293,6 @@ namespace Ship
         public int GetNumberOfDefenceDice(GenericShip attackerShip)
         {
             int result = Agility;
-
-            if (AfterGotNumberOfDefenceDice != null) AfterGotNumberOfDefenceDice(ref result);
 
             if (Combat.ChosenWeapon.GetType() == typeof(PrimaryWeaponClass))
             {
@@ -569,18 +566,6 @@ namespace Ship
         public virtual bool CanAttackBumpedTarget(GenericShip defender)
         {
             return false;
-        }
-
-        public bool AreWeaponsNotDisabled()
-        {
-            bool result = !HasToken(typeof(Tokens.WeaponsDisabledToken));
-
-            if (result == false)
-            {
-                if (OnWeaponsDisabledCheck != null) OnWeaponsDisabledCheck(ref result);
-            }
-
-            return result;
         }
 
     }

@@ -30,7 +30,6 @@ public static partial class Phases
 
     // EVENTS
     public delegate void EventHandler();
-    public static event EventHandler OnGameStart;
     public static event EventHandler OnRoundStart;
     public static event EventHandler OnSetupPhaseStart;
     public static event EventHandler OnPlanningPhaseStart;
@@ -48,19 +47,9 @@ public static partial class Phases
 
     public static void StartPhases()
     {
-        CallGameStart();
-        StartGame();
-    }
-
-    private static void CallGameStart()
-    {
-        if (OnGameStart != null) OnGameStart();
-    }
-
-    private static void StartGame()
-    {
         RoundCounter = 0;
         GameIsEnded = false;
+
         CurrentPhase = new SetupPhase();
         UI.AddTestLogEntry("Game is started");
         CurrentPhase.StartPhase();

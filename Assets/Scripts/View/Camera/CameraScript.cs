@@ -23,13 +23,6 @@ public class CameraScript : MonoBehaviour {
     private const float MAX_ROTATION = 89.99f;
     private const float MIN_ROTATION = 0f;
 
-    private enum CameraModes
-    {
-        Free,
-        TopDown
-    }
-    private CameraModes cameraMode = CameraModes.Free;
-
     // Use this for initialization
     void Start()
     {
@@ -40,33 +33,11 @@ public class CameraScript : MonoBehaviour {
     void Update()
     {
         //TODO: Call hide context menu only once
-        CheckChangeMode();
-
         CamMoveByAxis();
         CamMoveByMouse();
         CamZoomByMouseScroll();
         CamRotateByMouse();
         CamClampPosition();
-    }
-
-    // CAMERA MODES
-
-    private void CheckChangeMode()
-    {
-        if (Input.GetKeyDown(KeyCode.CapsLock)) ChangeMode();
-    }
-
-    private void ChangeMode()
-    {
-        cameraMode = (cameraMode == CameraModes.Free) ? CameraModes.TopDown : CameraModes.Free;
-
-        Camera camera = Camera.GetComponent<Camera>();
-        camera.orthographic = !camera.orthographic;
-        camera.orthographicSize = 6;
-
-        Camera.localEulerAngles = (cameraMode == CameraModes.Free) ? new Vector3(-50, 0, 0) : new Vector3(0, 0, 0);
-        transform.localEulerAngles = new Vector3(90, 0, 0);
-        transform.localPosition = (cameraMode == CameraModes.Free) ? new Vector3(0, 6, -8) : Vector3.zero;
     }
 
     // Movement, Rotation, Zoom
@@ -96,28 +67,17 @@ public class CameraScript : MonoBehaviour {
     private void CamZoomByMouseScroll()
     {
 		float zoom = Input.GetAxis ("Mouse ScrollWheel") * SENSITIVITY_ZOOM;
-		if (zoom != 0)
-        {
-            if (cameraMode == CameraModes.Free)
+		if (zoom != 0) {
+			Vector3 newPosition = transform.position + (Camera.TransformDirection(0, 0, zoom));
+			float zoomClampRate = 1;
+			if (newPosition.y <= MIN_HEIGHT) {
+				zoomClampRate = (transform.position.y - MIN_HEIGHT) / zoom;
+			}
+            if (newPosition.y >= MAX_HEIGHT)
             {
-                Vector3 newPosition = transform.position + (Camera.TransformDirection(0, 0, zoom));
-                float zoomClampRate = 1;
-                if (newPosition.y <= MIN_HEIGHT)
-                {
-                    zoomClampRate = (transform.position.y - MIN_HEIGHT) / zoom;
-                }
-                if (newPosition.y >= MAX_HEIGHT)
-                {
-                    zoomClampRate = (transform.position.y - MAX_HEIGHT) / zoom;
-                }
-                transform.Translate(transform.InverseTransformDirection(Camera.TransformDirection(0, 0, zoom * zoomClampRate)));
+                zoomClampRate = (transform.position.y - MAX_HEIGHT) / zoom;
             }
-            else
-            {
-                Camera camera = Camera.GetComponent<Camera>();
-                camera.orthographicSize -= zoom;
-                camera.orthographicSize = Mathf.Clamp(camera.orthographicSize, 1, 6);
-            }
+            transform.Translate (transform.InverseTransformDirection (Camera.TransformDirection (0, 0, zoom * zoomClampRate)));
 
             WhenViewChanged();
         }	
@@ -125,20 +85,16 @@ public class CameraScript : MonoBehaviour {
 
 	private void CamRotateByMouse()
     {
-        if (cameraMode == CameraModes.Free)
-        {
-            if (Input.GetKey(KeyCode.Mouse1) || Input.GetKey(KeyCode.Mouse2))
-            {
+		if (Input.GetKey(KeyCode.Mouse1) || Input.GetKey(KeyCode.Mouse2)) {
+			
+			float turnX = Input.GetAxis ("Mouse Y") * -SENSITIVITY_TURN;
+			turnX = CamClampRotation (turnX);
+			Camera.Rotate (turnX, 0, 0);
 
-                float turnX = Input.GetAxis("Mouse Y") * -SENSITIVITY_TURN;
-                turnX = CamClampRotation(turnX);
-                Camera.Rotate(turnX, 0, 0);
+			float turnY = Input.GetAxis ("Mouse X")  * -SENSITIVITY_TURN;
+			transform.Rotate (0, 0, turnY);
 
-                float turnY = Input.GetAxis("Mouse X") * -SENSITIVITY_TURN;
-                transform.Rotate(0, 0, turnY);
-
-                if ((turnX != 0) || (turnY != 0)) WhenViewChanged();
-            }
+            if ((turnX != 0) || (turnY != 0)) WhenViewChanged();
         }
 	}
 

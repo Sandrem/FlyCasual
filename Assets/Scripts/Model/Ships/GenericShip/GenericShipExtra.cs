@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -16,15 +15,6 @@ namespace Ship
         public List<string> SoundFlyPaths { get; protected set; }
 
         public bool IsHidden { get; set; }
-
-        public event EventHandler OnDiscardUpgrade;
-
-        public void CallDiscardUpgrade(Action callBack)
-        {
-            if (OnDiscardUpgrade != null) OnDiscardUpgrade();
-
-            Triggers.ResolveTriggers(TriggerTypes.OnDiscard, callBack);
-        }
     }
 
 }

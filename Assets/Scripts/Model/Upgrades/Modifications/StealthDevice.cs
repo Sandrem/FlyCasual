@@ -1,11 +1,8 @@
-﻿using System;
-using Ship;
+﻿using Ship;
 using Upgrade;
 
-namespace UpgradesList
-{
-	public class StealthDevice : GenericUpgrade
-    {
+namespace UpgradesList{
+	public class StealthDevice : GenericUpgrade {
 		public StealthDevice() : base() {
 			Type = UpgradeType.Modification;
 			Name = "Stealth Device";
@@ -16,32 +13,15 @@ namespace UpgradesList
 		{
 			base.AttachToShip (host);
 			host.ChangeAgilityBy (1);
-			host.OnAttackHitAsDefender += RegisterStealthDeviceCleanup;
+			host.OnAttackHitAsDefender += StealthDeviceCleanup;
 		}
 
-		private void RegisterStealthDeviceCleanup()
+		private void StealthDeviceCleanup()
 		{
-            Triggers.RegisterTrigger(new Trigger {
-                Name = "Discard Stealth Device",
-                TriggerType = TriggerTypes.OnAttackHit,
-                TriggerOwner = Host.Owner.PlayerNo,
-                EventHandler = StealthDeviceClenup
-            });
+			Host.OnAttackHitAsDefender -= StealthDeviceCleanup;
+			Messages.ShowError("Hit! Discarding Stealth Device!");
+			Host.ChangeAgilityBy (-1);
+			Discard ();
 		}
-
-        private void StealthDeviceClenup(object sender, System.EventArgs e)
-        {
-            Host.OnAttackHitAsDefender -= RegisterStealthDeviceCleanup;
-            
-            TryDiscard(Triggers.FinishTrigger);
-        }
-
-        public override void Discard(Action callBack)
-        {
-            Messages.ShowError("Hit! Discarding Stealth Device!");
-            Host.ChangeAgilityBy(-1);
-
-            base.Discard(callBack);
-        }
-    }
+	}
 }

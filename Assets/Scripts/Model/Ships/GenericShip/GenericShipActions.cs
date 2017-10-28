@@ -20,6 +20,8 @@ namespace Ship
 
         private     List<Tokens.GenericToken> AssignedTokens = new List<Tokens.GenericToken>();
 
+        public Tokens.GenericToken TokenToAssign;
+
         // EVENTS
 
         public event EventHandlerShip AfterGenerateAvailableActionsList;
@@ -37,6 +39,7 @@ namespace Ship
         public event EventHandlerAction OnActionIsPerformed;
 
         public event EventHandlerShipType OnTokenIsAssigned;
+        public static event EventHandlerShipType BeforeTokenIsAssignedGlobal;
         public static event EventHandlerShipType OnTokenIsAssignedGlobal;
         public event EventHandlerShipType OnTokenIsSpent;
         public static event EventHandlerShipType OnTokenIsSpentGlobal;
@@ -352,6 +355,11 @@ namespace Ship
             return result;
         }
 
+        public int TokenCount(Type type)
+        {
+            return AssignedTokens.Where(token => token.GetType() == type).Count();
+        }
+
         public Tokens.GenericToken GetToken(System.Type type, char letter = ' ')
         {
             Tokens.GenericToken result = null;
@@ -396,13 +404,29 @@ namespace Ship
 
         public void AssignToken(Tokens.GenericToken token, Action callBack, char letter = ' ')
         {
+            TokenToAssign = token;
+            if (BeforeTokenIsAssignedGlobal != null) BeforeTokenIsAssignedGlobal(this, token.GetType());
+
+            Triggers.ResolveTriggers(TriggerTypes.OnBeforeTokenIsAssigned, delegate { FinalizeAssignToken(callBack, letter); });
+        }
+
+        private void FinalizeAssignToken(Action callBack, char letter = ' ')
+        {
+            if (TokenToAssign == null)
+            {
+                callBack();
+                return;
+            }
+
+            var token = TokenToAssign;
+
             Tokens.GenericToken assignedToken = GetToken(token.GetType(), letter);
 
             if (assignedToken != null)
             {
                 assignedToken.Count++;
             }
-            else                
+            else
             {
                 AssignedTokens.Add(token);
             }
@@ -410,6 +434,8 @@ namespace Ship
             if (OnTokenIsAssigned != null) OnTokenIsAssigned(this, token.GetType());
 
             if (OnTokenIsAssignedGlobal != null) OnTokenIsAssignedGlobal(this, token.GetType());
+
+            TokenToAssign = null;
 
             Triggers.ResolveTriggers(TriggerTypes.OnTokenIsAssigned, callBack);
         }

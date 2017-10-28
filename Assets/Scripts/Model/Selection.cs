@@ -10,6 +10,9 @@ public static class Selection {
     public static Ship.GenericShip AnotherShip;
     public static Ship.GenericShip ActiveShip;
     public static Ship.GenericShip HoveredShip;
+
+    //TODO: temporary key-based storage of ship references for abilities that need to reference multiple ships in a subphase. Should be removed this when phases are reworked
+    public static Dictionary<string, Ship.GenericShip> ShipReferences = new Dictionary<string, Ship.GenericShip>();
 	
     //TODO: BUG - enemy ship can be selected
     public static void UpdateSelection()

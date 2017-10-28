@@ -378,29 +378,31 @@ namespace Ship
 
             if (isCritical)
             {
-                Combat.CurrentCriticalHitCard = CriticalHitsDeck.GetCritCard();
-
-                if (DebugManager.DebugDamage) Debug.Log("+++ Crit: " + Combat.CurrentCriticalHitCard.Name);
-
-                if (OnFaceupCritCardReadyToBeDealt != null) OnFaceupCritCardReadyToBeDealt(this, Combat.CurrentCriticalHitCard);
-
-                if (OnFaceupCritCardReadyToBeDealtGlobal != null) OnFaceupCritCardReadyToBeDealtGlobal(this, Combat.CurrentCriticalHitCard, e);
-
-                Triggers.RegisterTrigger(new Trigger
-                {
-                    Name = "Information about faceup damage card",
-                    TriggerOwner = this.Owner.PlayerNo,
-                    TriggerType = TriggerTypes.OnFaceupCritCardReadyToBeDealtUI,
-                    EventHandler = delegate { InformCrit.LoadAndShow(); }
-                });
-
-                Triggers.ResolveTriggers(TriggerTypes.OnFaceupCritCardReadyToBeDealt, SufferFaceupDamageCard);
+                CriticalHitsDeck.GetCritCard(delegate { SufferChosenCriticalHitCard(e); });
             }
             else
             {
-                Combat.CurrentCriticalHitCard = CriticalHitsDeck.GetCritCard();
-                CallOnDamageCardIsDealt(DealRegularDamageCard);
+                CriticalHitsDeck.GetCritCard(delegate { CallOnDamageCardIsDealt(DealRegularDamageCard); });
             }
+        }
+
+        public void SufferChosenCriticalHitCard(EventArgs e)
+        {
+            if (DebugManager.DebugDamage) Debug.Log("+++ Crit: " + Combat.CurrentCriticalHitCard.Name);
+
+            if (OnFaceupCritCardReadyToBeDealt != null) OnFaceupCritCardReadyToBeDealt(this, Combat.CurrentCriticalHitCard);
+
+            if (OnFaceupCritCardReadyToBeDealtGlobal != null) OnFaceupCritCardReadyToBeDealtGlobal(this, Combat.CurrentCriticalHitCard, e);
+
+            Triggers.RegisterTrigger(new Trigger
+            {
+                Name = "Information about faceup damage card",
+                TriggerOwner = this.Owner.PlayerNo,
+                TriggerType = TriggerTypes.OnFaceupCritCardReadyToBeDealtUI,
+                EventHandler = delegate { InformCrit.LoadAndShow(); }
+            });
+
+            Triggers.ResolveTriggers(TriggerTypes.OnFaceupCritCardReadyToBeDealt, SufferFaceupDamageCard);
         }
 
         private void DealRegularDamageCard()

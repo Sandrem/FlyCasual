@@ -87,9 +87,12 @@ namespace Ship
                 TriggerTypes.OnShipMovementFinish,
                 delegate () {
                     Roster.HideAssignedManeuverDial(this);
-                    Selection.ThisShip.FinishPosition(delegate () {
-                        Triggers.FinishTrigger();
-                    });
+                    Selection.ThisShip.FinishPosition(
+                        delegate
+                        {
+                            (Phases.CurrentSubPhase as SubPhases.MovementExecutionSubPhase).CallFinish();
+                        }
+                    );
                 });
         }
 

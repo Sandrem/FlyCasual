@@ -34,8 +34,7 @@ public class ShipPositionManager : MonoBehaviour
             PerformRotation();
             PerformDrag();
         }
-
-        Phases.CurrentSubPhase.Update();
+        if (Phases.CurrentSubPhase != null) Phases.CurrentSubPhase.Update();
     }
 
     public void StartDrag()
@@ -270,12 +269,17 @@ public class ShipPositionManager : MonoBehaviour
 
         if (Phases.CurrentSubPhase.GetType() == typeof(SubPhases.SetupSubPhase))
         {
-            Selection.ThisShip.IsSetupPerformed = true;
-            Selection.DeselectThisShip();
-            BoardManager.TurnOffStartingZones();
+            if (!Network.IsNetworkGame)
+            {
+                (Phases.CurrentSubPhase as SubPhases.SetupSubPhase).ConfirmShipSetup(Selection.ThisShip.ShipId, Selection.ThisShip.GetPosition(), Selection.ThisShip.GetAngles());
+            }
+            else
+            {
+                Network.ConfirmShipSetup(Selection.ThisShip.ShipId, Selection.ThisShip.GetPosition(), Selection.ThisShip.GetAngles());
+            }
         }
 
-        Phases.Next();
+        //Phases.Next(); // Moved to ConfirmShipSetup
     }
 
 }

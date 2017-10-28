@@ -126,6 +126,30 @@ namespace Ship
         public Upgrade.ShipUpgradeBar UpgradeBar { get; protected set; }
         public List<Upgrade.UpgradeType> PrintedUpgradeIcons { get; protected set; }
 
+        private string pilotNameCanonical;
+        public string PilotNameCanonical
+        {
+            get
+            {
+                if (!string.IsNullOrEmpty(pilotNameCanonical)) return pilotNameCanonical;
+
+                return Tools.Canonicalize(PilotName);
+            }
+            set { pilotNameCanonical = value; }
+        }
+
+        private string shipTypeCanonical;
+        public string ShipTypeCanonical
+        {
+            get
+            {
+                if (!string.IsNullOrEmpty(shipTypeCanonical)) return shipTypeCanonical;
+
+                return Tools.Canonicalize(Type);
+            }
+            set { shipTypeCanonical = value; }
+        }
+
         public GenericShip()
         {
             factions = new List<Faction>();

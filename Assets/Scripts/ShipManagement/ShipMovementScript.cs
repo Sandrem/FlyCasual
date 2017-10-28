@@ -120,7 +120,6 @@ public class ShipMovementScript : MonoBehaviour {
 
     public void PerformStoredManeuver()
     {
-<<<<<<< HEAD
         Triggers.RegisterTrigger(new Trigger() {
             Name = "Maneuver",
             TriggerType = TriggerTypes.OnManeuver,
@@ -138,9 +137,6 @@ public class ShipMovementScript : MonoBehaviour {
 
     private void StartMovementExecutionSubphase(object sender, System.EventArgs e)
     {
-=======
-        Selection.ChangeActiveShip("ShipId:" + shipId);
->>>>>>> parent of ac3144f... Merge branch 'development' into Network-multiplayer
         Phases.StartTemporarySubPhase("Movement", typeof(SubPhases.MovementExecutionSubPhase));
     }
 

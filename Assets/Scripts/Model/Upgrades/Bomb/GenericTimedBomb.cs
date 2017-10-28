@@ -46,10 +46,9 @@ namespace Upgrade
 
         public override void ActivateBomb(GameObject bombObject, Action callBack)
         {
-            base.ActivateBomb(bombObject, callBack);
-
             Phases.OnActivationPhaseEnd += PlanTimedDetonation;
-            callBack();
+
+            base.ActivateBomb(bombObject, callBack);
         }
 
         private void PlanTimedDetonation()
@@ -112,11 +111,11 @@ namespace Upgrade
             return false;
         }
 
-        public override void Discard()
+        public override void Discard(Action callBack)
         {
             Host.OnManeuverIsRevealed -= RegisterAskDropBomb;
 
-            base.Discard();
+            base.Discard(callBack);
         }
 
     }

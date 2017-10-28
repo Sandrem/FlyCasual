@@ -52,6 +52,7 @@ namespace Ship
             {
                 base.InitializeShip();
                 BuiltInActions.Add(new ActionsList.TargetLockAction());
+                BuiltInActions.Add(new ActionsList.SlamAction());
             }
 
             private void AssignTemporaryManeuvers()

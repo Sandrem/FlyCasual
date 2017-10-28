@@ -73,10 +73,7 @@ public class UI : MonoBehaviour {
     public static void HideTemporaryMenus()
     {
         HideContextMenu();
-        if (Phases.CurrentSubPhase != null)
-        {
-            if (Phases.CurrentSubPhase.GetType() == typeof(SubPhases.PlanningSubPhase)) HideDirectionMenu();
-        }
+        if (Phases.CurrentSubPhase.GetType() == typeof(SubPhases.PlanningSubPhase)) HideDirectionMenu();
     }
 
     //TODO: use in static generic UI class
@@ -134,17 +131,14 @@ public class UI : MonoBehaviour {
 
     public static void AddTestLogEntry(string text)
     {
-        if (GameObject.Find("UI").transform.Find("GameLogHolder") != null)
-        {
-            GameObject area = GameObject.Find("UI").transform.Find("GameLogHolder").Find("Scroll").Find("Viewport").Find("Content").gameObject;
-            GameObject logText = (GameObject)Resources.Load("Prefabs/LogText", typeof(GameObject));
-            GameObject newLogEntry = Instantiate(logText, area.transform);
-            newLogEntry.transform.localPosition = new Vector3(5, lastLogTextPosition, 0);
-            lastLogTextPosition += lastLogTextStep;
-            if (area.GetComponent<RectTransform>().sizeDelta.y < Mathf.Abs(lastLogTextPosition)) area.GetComponent<RectTransform>().sizeDelta = new Vector2(area.GetComponent<RectTransform>().sizeDelta.x, Mathf.Abs(lastLogTextPosition));
-            GameObject.Find("UI").transform.Find("GameLogHolder").Find("Scroll").GetComponent<ScrollRect>().verticalNormalizedPosition = 0;
-            newLogEntry.GetComponent<Text>().text = text;
-        }
+        GameObject area = GameObject.Find("UI").transform.Find("GameLogHolder").Find("Scroll").Find("Viewport").Find("Content").gameObject;
+        GameObject logText = (GameObject)Resources.Load("Prefabs/LogText", typeof(GameObject));
+        GameObject newLogEntry = Instantiate(logText, area.transform);
+        newLogEntry.transform.localPosition = new Vector3(5, lastLogTextPosition, 0);
+        lastLogTextPosition += lastLogTextStep;
+        if (area.GetComponent<RectTransform>().sizeDelta.y < Mathf.Abs(lastLogTextPosition)) area.GetComponent<RectTransform>().sizeDelta = new Vector2(area.GetComponent<RectTransform>().sizeDelta.x, Mathf.Abs(lastLogTextPosition));
+        GameObject.Find("UI").transform.Find("GameLogHolder").Find ("Scroll").GetComponent<ScrollRect>().verticalNormalizedPosition = 0;
+        newLogEntry.GetComponent<Text>().text = text;
     }
 
     public void ShowDecisionsPanel()
@@ -165,18 +159,6 @@ public class UI : MonoBehaviour {
         HideNextButton();
         Roster.AllShipsHighlightOff();
 
-        if (!Network.IsNetworkGame)
-        {
-            NextButtonEffect();
-        }
-        else
-        {
-            Network.NextButtonEffect();
-        }
-    }
-
-    public static void NextButtonEffect()
-    {
         Phases.CurrentSubPhase.NextButton();
     }
 
@@ -185,31 +167,12 @@ public class UI : MonoBehaviour {
         HideNextButton();
         Roster.AllShipsHighlightOff();
 
-        if (!Network.IsNetworkGame)
-        {
-            SkipButtonEffect();
-        }
-        else
-        {
-            Network.SkipButtonEffect();
-        }
-    }
-
-    public static void SkipButtonEffect()
-    {
         Phases.CurrentSubPhase.SkipButton();
     }
 
     public void ClickDeclareTarget()
     {
-        if (!Network.IsNetworkGame)
-        {
-            Combat.DeclareTarget(Selection.ThisShip.ShipId, Selection.AnotherShip.ShipId);
-        }
-        else
-        {
-            Network.DeclareTarget(Selection.ThisShip.ShipId, Selection.AnotherShip.ShipId);
-        }
+        Combat.DeclareTarget();
     }
 
     public static void ShowNextButton()
@@ -250,7 +213,7 @@ public class UI : MonoBehaviour {
 
     public void HideInformCritPanel()
     {
-        InformCrit.ButtonConfirm();
+        InformCrit.HidePanel();
     }
 
     public void ReturnToMainMenu()

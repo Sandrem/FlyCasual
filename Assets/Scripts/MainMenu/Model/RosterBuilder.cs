@@ -9,7 +9,6 @@ using Players;
 using Ship;
 using Upgrade;
 using UnityEngine.UI;
-using UnityEngine.Networking;
 
 public static partial class RosterBuilder {
 
@@ -138,16 +137,15 @@ public static partial class RosterBuilder {
     
 
     private static Dictionary<string, string> AllShips = new Dictionary<string, string>();
-    private static Dictionary<string, string> AllShipsXws = new Dictionary<string, string>();
 
     private static Dictionary<string, string> AllPilots = new Dictionary<string, string>();
-    private static Dictionary<string, string> AllPilotsXws = new Dictionary<string, string>();
     private static Dictionary<string, int> PilotSkill = new Dictionary<string, int>();
 
     private static Dictionary<string, string> AllUpgrades = new Dictionary<string, string>();
 
     public static void Initialize()
     {
+        InitializeSquadBuilderRoster();
         SetPlayers();
         SetPlayerFactions();
         GenerateShipsList();
@@ -155,6 +153,11 @@ public static partial class RosterBuilder {
     }
 
     //Initialization
+
+    private static void InitializeSquadBuilderRoster()
+    {
+        SquadBuilderRoster.ClearRoster();
+    }
 
     private static void SetPlayers()
     {
@@ -171,7 +174,7 @@ public static partial class RosterBuilder {
         Global.AddFaction(GetPlayerFaction(PlayerNo.Player2));
     }
 
-    public static void GeneratePlayersShipConfigurations()
+    private static void GeneratePlayersShipConfigurations()
     {
         Global.RemoveAllShips();
         foreach (var ship in SquadBuilderRoster.GetShips())
@@ -179,19 +182,12 @@ public static partial class RosterBuilder {
             ship.Ship.SkinName = GetSkinName(ship);
             Global.AddShip(ship.Ship, ship.Player, GetShipCostCalculated(ship));
         }
-        SquadBuilderRoster.ClearRoster();
     }
 
     private static void AddInitialShips()
     {
-        AddInitialShip(PlayerNo.Player1);
-        AddInitialShip(PlayerNo.Player2);
-    }
-
-    private static void AddInitialShip(PlayerNo playerNo)
-    {
-        RemoveAllShipsByPlayer(playerNo);
-        if (GetShipsCount(playerNo) == 0) TryAddShip(playerNo);
+        if (GetShipsCount(PlayerNo.Player1) == 0) TryAddShip(PlayerNo.Player1);
+        if (GetShipsCount(PlayerNo.Player2) == 0) TryAddShip(PlayerNo.Player2);
     }
 
     public static void TryAddShip(PlayerNo playerNo)
@@ -206,7 +202,7 @@ public static partial class RosterBuilder {
         }
     }
 
-    private static SquadBuilderShip AddShip(PlayerNo playerNo)
+    private static void AddShip(PlayerNo playerNo)
     {
         List<string> shipResults = GetShipsByFaction(Global.GetPlayerFaction(playerNo));
         string shipNameId = AllShips[shipResults.First()];
@@ -228,8 +224,6 @@ public static partial class RosterBuilder {
         OrganizeUpgradeLines(panel);
         UpdateShipCost(squadBuilderShip);
         OrganizeShipsList(playerNo);
-
-        return squadBuilderShip;
     }
 
     private static List<string> GetSkins(GenericShip ship)
@@ -341,21 +335,15 @@ public static partial class RosterBuilder {
             {
                 namespaceList.Add(ns);
                 GenericShip newShipTypeContainer = (GenericShip)System.Activator.CreateInstance(System.Type.GetType(ns + "." + ns.Substring(5)));
-
                 if (!AllShips.ContainsKey(newShipTypeContainer.Type))
                 {
                     AllShips.Add(newShipTypeContainer.Type, ns);
-
-                    string shipTypeXws = newShipTypeContainer.ShipTypeCanonical;
-                    AllShipsXws.Add(shipTypeXws, ns);
-
-                    GetPilotsList(newShipTypeContainer.Type);
                 }
             }
         }
     }
 
-    private static List<string> GetPilotsList(string shipName, Faction faction = Faction.None)
+    private static List<string> GetPilotsList(string shipName, Faction faction)
     {
         List<string> result = new List<string>();
 
@@ -368,24 +356,15 @@ public static partial class RosterBuilder {
             if (type.MemberType == MemberTypes.NestedType) continue;
 
             GenericShip newShipContainer = (GenericShip)System.Activator.CreateInstance(type);
-            if ((newShipContainer.PilotName != null) && (!newShipContainer.IsHidden))
+            if ((newShipContainer.PilotName != null) && (!newShipContainer.IsHidden) && (newShipContainer.faction == faction))
             {
-                if ((newShipContainer.faction == faction) || faction == Faction.None)
+                string pilotKey = newShipContainer.PilotName + " (" + newShipContainer.Cost + ")";
+                if (!AllPilots.ContainsKey(pilotKey))
                 {
-                    string pilotKey = newShipContainer.PilotName + " (" + newShipContainer.Cost + ")";
-
-                    if (!AllPilots.ContainsKey(pilotKey))
-                    {
-                        AllPilots.Add(pilotKey, type.ToString());
-                        PilotSkill.Add(pilotKey, newShipContainer.PilotSkill);
-
-                        string pilotNameXws = newShipContainer.PilotNameCanonical;
-                        AllPilotsXws.Add(pilotNameXws, type.ToString());
-                    }
-
-                    result.Add(pilotKey);
+                    AllPilots.Add(pilotKey, type.ToString());
+                    PilotSkill.Add(pilotKey, newShipContainer.PilotSkill);
                 }
-                
+                result.Add(pilotKey);
             }
         }
 
@@ -451,86 +430,13 @@ public static partial class RosterBuilder {
 
     public static void StartGame()
     {
-        if (!Network.IsNetworkGame)
-        {
-            StartLocalGame();
-        }
-        else
-        {
-            StartNetworkGame();
-        }
-    }
-
-    private static void StartLocalGame()
-    {
         SetPlayers();
         GeneratePlayersShipConfigurations();
         if (ValidatePlayersRosters())
         {
-            LoadBattleScene();
+            SceneManager.LoadScene("Battle");
         }
     }
-
-    private static void StartNetworkGame()
-    {
-        //Network.Test();
-        //Network.CallBacksTest();
-
-        Network.StartNetworkGame();
-    }
-
-    public static void ShowOpponentSquad()
-    {
-        GameObject globalUI = GameObject.Find("GlobalUI").gameObject;
-        MonoBehaviour.DontDestroyOnLoad(globalUI);
-
-        GameObject opponentSquad = globalUI.transform.Find("OpponentSquad").gameObject;
-        opponentSquad.SetActive(true);
-    }
-
-    public static void HideNetworkManagerHUD()
-    {
-        GameObject.Find("NetworkManager").GetComponent<NetworkManagerHUD>().showGUI = false;
-    }
-
-    public static void LoadBattleScene()
-    {
-        //TestRandom();
-        SceneManager.LoadScene("Battle");
-    }
-
-    // TEST
-
-    private static int storedRandomValue;
-
-    private static void TestRandom()
-    {
-        Network.GenerateRandom(
-            new Vector2(1, 10),
-            1,
-            TestStore,
-            TestCallBack
-        );
-    }
-
-    private static void TestStore(int[] randomHolder)
-    {
-        storedRandomValue = randomHolder[0];
-    }
-
-    private static void TestCallBack()
-    {
-        Messages.ShowInfo("Random Value is " + storedRandomValue);
-    }
-
-    public static string TestGetNameOfFirstShipInRoster()
-    {
-        string result = "";
-        result = SquadBuilderRoster.GetShips()[0].Ship.Type;
-        return result;
-    }
-    
-    // END TEST
 
     private static bool ValidatePlayersRosters()
     {
@@ -685,242 +591,6 @@ public static partial class RosterBuilder {
             }
             if (!isFound) upgradeDropbox.value = 0;
         }
-    }
-
-    // IMPORT / EXPORT
-
-    public static void ImportSquadList()
-    {
-        GameObject importExportPanel = GameObject.Find("UI/Panels").transform.Find("ImportExportPanel").gameObject;
-        importExportPanel.transform.Find("InputField").GetComponent<InputField>().text = "";
-        MainMenu.CurrentMainMenu.ChangePanel(importExportPanel);
-    }
-
-    public static void CreateSquadFromImportedjson(string jsonString, PlayerNo playerNo)
-    {
-        JSONObject squadJson = new JSONObject(jsonString);
-        //LogImportedSquad(squadJson);
-
-        SetPlayerSquadFromImportedJson(squadJson, playerNo, ShowRoster);
-    }
-
-    public static void RemoveAllShipsByPlayer(PlayerNo playerNo)
-    {
-        List<SquadBuilderShip> shipsList = SquadBuilderRoster.GetShipsByPlayer(playerNo);
-        foreach (var ship in shipsList)
-        {
-            RemoveShip(playerNo, ship.Panel);
-        }
-    }
-
-    private static void ShowRoster()
-    {
-        GameObject rosterBuilderPanel = GameObject.Find("UI/Panels").transform.Find("RosterBuilderPanel").gameObject;
-        MainMenu.CurrentMainMenu.ChangePanel(rosterBuilderPanel);
-    }
-
-    public static void SwapRosters(Action callBack)
-    {
-        JSONObject p1squad = GetSquadInJson(PlayerNo.Player1);
-
-        SetPlayerSquadFromImportedJson(p1squad, PlayerNo.Player2, callBack);
-    }
-
-    public static void SetPlayerSquadFromImportedJson(JSONObject squadJson, PlayerNo playerNo, Action callBack)
-    {
-        string factionNameXws = squadJson["faction"].str;
-        string factionName = XWSToFactionName(factionNameXws);
-        Dropdown factionDropdown = GetPlayerPanel(playerNo).Find("GroupFaction/Dropdown").GetComponent<Dropdown>();
-        factionDropdown.value = factionDropdown.options.IndexOf(factionDropdown.options.Find(n => n.text == factionName));
-
-        CheckPlayerFactonChange(playerNo);
-
-        RemoveAllShipsByPlayer(playerNo);
-
-        if (squadJson.HasField("pilots"))
-        {
-            JSONObject pilotJsons = squadJson["pilots"];
-            foreach (JSONObject pilotJson in pilotJsons.list)
-            {
-                SquadBuilderShip newShip = AddShip(playerNo);
-
-                string shipNameXws = pilotJson["ship"].str;
-                string shipNamePath = AllShipsXws[shipNameXws];
-                string shipNameGeneral = AllShips.Where(n => n.Value == shipNamePath).First().Key;
-                Dropdown shipDropdown = newShip.Panel.transform.Find("GroupShip/DropdownShip").GetComponent<Dropdown>();
-                shipDropdown.value = shipDropdown.options.IndexOf(shipDropdown.options.Find(n => n.text == shipNameGeneral));
-
-                OnShipChanged(newShip);
-
-                string pilotNameXws = pilotJson["name"].str;
-                string pilotNamePath = AllPilotsXws[pilotNameXws];
-                string pilotNameGeneral = AllPilots.Where(n => n.Value == pilotNamePath).First().Key;
-                Dropdown pilotDropdown = newShip.Panel.transform.Find("GroupShip/DropdownPilot").GetComponent<Dropdown>();
-                pilotDropdown.value = pilotDropdown.options.IndexOf(pilotDropdown.options.Find(n => n.text == pilotNameGeneral));
-
-                OnPilotChanged(newShip);
-            }
-        }
-        else
-        {
-            Messages.ShowError("No pilots");
-        }
-
-        callBack();
-    }
-
-    private static void LogImportedSquad(JSONObject squadJson)
-    {
-        if (squadJson.HasField("faction")) Debug.Log("Faction is " + squadJson["faction"]);
-        if (squadJson.HasField("points")) Debug.Log("Points " + squadJson["points"]);
-
-        if (squadJson.HasField("pilots"))
-        {
-            JSONObject pilotJsons = squadJson["pilots"];
-            foreach (JSONObject pilotJson in pilotJsons.list)
-            {
-                Debug.Log("PilotName " + pilotJson["name"]);
-                Debug.Log("Points " + pilotJson["points"]);
-                Debug.Log("ShipType " + pilotJson["ship"]);
-            }
-        }
-    }
-
-    public static void ExportSquadList(PlayerNo playerNo)
-    {
-        GameObject importExportPanel = GameObject.Find("UI/Panels").transform.Find("ImportExportPanel").gameObject;
-        MainMenu.CurrentMainMenu.ChangePanel(importExportPanel);
-        importExportPanel.transform.Find("InputField").GetComponent<InputField>().text = GetSquadInJson(playerNo).ToString();
-    }
-
-    public static JSONObject GetSquadInJson(PlayerNo playerNo)
-    {
-        JSONObject squadJson = new JSONObject();
-        //squadJson.AddField("name", "New Squad");
-        squadJson.AddField("faction", FactionToXWS(GetPlayerFaction(playerNo)));
-        squadJson.AddField("points", GetPlayerShipsCostCalculated(playerNo));
-        squadJson.AddField("version", "0.3.0");
-        //squadJson.AddField("description", "No descripton");
-
-        List<SquadBuilderShip> playerShipConfigs = SquadBuilderRoster.GetShips().Where(n => n.Player == playerNo).ToList();
-        JSONObject[] squadPilotsArrayJson = new JSONObject[playerShipConfigs.Count];
-        for (int i = 0; i < squadPilotsArrayJson.Length; i++)
-        {
-            squadPilotsArrayJson[i] = GenerateSquadPilot(playerShipConfigs[i]);
-        }
-        JSONObject squadPilotsJson = new JSONObject(squadPilotsArrayJson);
-        squadJson.AddField("pilots", squadPilotsJson);
-
-        return squadJson;
-    }
-
-    private static JSONObject GenerateSquadPilot(SquadBuilderShip shipHolder)
-    {
-        JSONObject pilotJson = new JSONObject();
-        pilotJson.AddField("name", shipHolder.Ship.PilotNameCanonical);
-        pilotJson.AddField("points", GetShipCostCalculated(shipHolder));
-        pilotJson.AddField("ship", shipHolder.Ship.ShipTypeCanonical);
-
-        Dictionary<string, JSONObject> upgradesDict = new Dictionary<string, JSONObject>();
-        foreach (var slotHolder in shipHolder.GetUpgrades())
-        {
-            if (slotHolder.Slot.InstalledUpgrade != null)
-            {
-                string slotName = UpgradeTypeToXWS(slotHolder.Slot.Type);
-                if (!upgradesDict.ContainsKey(slotName))
-                {
-                    JSONObject upgrade = new JSONObject();
-                    upgrade.Add(slotHolder.Slot.InstalledUpgrade.NameCanonical);
-                    upgradesDict.Add(slotName, upgrade);
-                }
-                else
-                {
-                    upgradesDict[slotName].Add(slotHolder.Slot.InstalledUpgrade.NameCanonical);
-                }
-            }
-        }
-        JSONObject upgradesDictJson = new JSONObject(upgradesDict);
-
-        pilotJson.AddField("upgrades", upgradesDictJson);
-
-        JSONObject vendorJson = new JSONObject();
-        JSONObject skinJson = new JSONObject();
-        skinJson.AddField("skin", GetSkinName(shipHolder));
-        vendorJson.AddField("Sandrem.FlyCasual", skinJson);
-
-        pilotJson.AddField("vendor", vendorJson);
-
-        return pilotJson;
-    }
-
-    private static string FactionToXWS(Faction faction)
-    {
-        string result = "";
-
-        switch (faction)
-        {
-            case Faction.Rebels:
-                result = "rebel";
-                break;
-            case Faction.Empire:
-                result = "imperial";
-                break;
-            case Faction.Scum:
-                result = "scum";
-                break;
-            default:
-                break;
-        }
-
-        return result;  
-    }
-
-    private static string XWSToFactionName(string factionXWS)
-    {
-        string result = "";
-
-        switch (factionXWS)
-        {
-            case "rebel":
-                result = "Rebels";
-                break;
-            case "imperial":
-                result = "Empire";
-                break;
-            case "scum":
-                result = "Scum";
-                break;
-            default:
-                break;
-        }
-
-        return result;
-    }
-
-    private static string UpgradeTypeToXWS(UpgradeType upgradeType)
-    {
-        string result = "";
-
-        switch (upgradeType)
-        {
-            case UpgradeType.Elite:
-                result = "ept";
-                break;
-            case UpgradeType.Astromech:
-                result = "amd";
-                break;
-            case UpgradeType.SalvagedAstromech:
-                result = "samd";
-                break;
-            case UpgradeType.Modification:
-                result = "mod";
-                break;
-            default:
-                result = upgradeType.ToString().ToLower();
-                break;
-        }
-
-        return result;
     }
 
 }

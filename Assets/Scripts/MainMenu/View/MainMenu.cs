@@ -30,17 +30,17 @@ public partial class MainMenu : MonoBehaviour {
     public void ChangePanel(GameObject panel)
     {
         CurrentPanel.SetActive(false);
-        InitializePanelContent(panel.name, CurrentPanel.name);
+        InitializePanelContent(panel.name);
         panel.SetActive(true);
         CurrentPanel = panel;
     }
 
-    private void InitializePanelContent(string panelName, string previousPanelName)
+    private void InitializePanelContent(string panelName)
     {
         switch (panelName)
         {
             case "RosterBuilderPanel":
-                if (previousPanelName == "MainMenuPanel") RosterBuilder.Initialize();
+                RosterBuilder.Initialize();
                 break;
             case "OptionsPanel":
                 Options.InitializePanel();

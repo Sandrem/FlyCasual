@@ -135,7 +135,7 @@ public static class Selection {
 
         if (result == true)
         {
-            ChangeActiveShip(shipId);
+            Selection.ChangeActiveShip(shipId);
         }
 
         return result;
@@ -161,7 +161,7 @@ public static class Selection {
         }
     }
 
-    public static bool ChangeAnotherShip(string shipId)
+    private static bool ChangeAnotherShip(string shipId)
     {
         //Should I can target my own ships???
         if (AnotherShip != null)

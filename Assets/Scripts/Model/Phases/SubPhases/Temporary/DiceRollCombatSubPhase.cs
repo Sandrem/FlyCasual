@@ -37,24 +37,7 @@ namespace SubPhases
 
             DiceRoll DiceRollCheck;
             DiceRollCheck = new DiceRoll(diceType, diceCount, DiceRollCheckType.Combat);
-            DiceRollCheck.Roll(SyncDiceResults);
-        }
-
-        private void SyncDiceResults(DiceRoll diceroll)
-        {
-            if (!Network.IsNetworkGame)
-            {
-                ImmediatelyAfterRolling(diceroll);
-            }
-            else
-            {
-                Network.SyncDiceResults();
-            }
-        }
-
-        public void CalculateDice()
-        {
-            ImmediatelyAfterRolling(DiceRoll.CurrentDiceRoll);
+            DiceRollCheck.Roll(ImmediatelyAfterRolling);
         }
 
         private void ImmediatelyAfterRolling(DiceRoll diceroll)
@@ -64,9 +47,23 @@ namespace SubPhases
             checkResults(diceroll);
         }
 
-        public void PrepareToggleConfirmButton(bool isActive)
+        public void ToggleConfirmDiceResultsButton(bool isActive)
         {
-            Roster.GetPlayer(Selection.ActiveShip.Owner.PlayerNo).ToggleCombatDiceResults(isActive);
+            if (isActive)
+            {
+                if (Roster.GetPlayer(Selection.ActiveShip.Owner.PlayerNo).GetType() == typeof(Players.HumanPlayer))
+                {
+                    Button closeButton = GameObject.Find("UI/CombatDiceResultsPanel").transform.Find("DiceModificationsPanel/Confirm").GetComponent<Button>();
+                    closeButton.onClick.RemoveAllListeners();
+                    closeButton.onClick.AddListener(delegate { CallBack(); });
+
+                    closeButton.gameObject.SetActive(true);
+                }
+            }
+            else
+            {
+                GameObject.Find("UI").transform.Find("CombatDiceResultsPanel").Find("DiceModificationsPanel").Find("Confirm").gameObject.SetActive(false);
+            }
         }
 
         protected virtual void CheckResults(DiceRoll diceRoll)
@@ -98,7 +95,7 @@ namespace SubPhases
                     MonoBehaviour.Destroy(button.gameObject);
                 }
             }
-            PrepareToggleConfirmButton(false);
+            ToggleConfirmDiceResultsButton(false);
         }
 
         public override void Pause()
@@ -127,17 +124,6 @@ namespace SubPhases
         {
             bool result = false;
             return result;
-        }
-
-        public void ToggleConfirmButton(bool isActive)
-        {
-            Button closeButton = GameObject.Find("UI").transform.Find("CombatDiceResultsPanel").Find("DiceModificationsPanel").Find("Confirm").GetComponent<Button>();
-            if (isActive)
-            {
-                closeButton.onClick.RemoveAllListeners();
-                closeButton.onClick.AddListener(delegate { CallBack(); });
-            }
-            closeButton.gameObject.SetActive(isActive);
         }
 
     }

@@ -15,7 +15,7 @@ namespace SubPhases
 
         protected UnityEngine.Events.UnityAction finishAction;
 
-        public Ship.GenericShip TargetShip;
+        protected Ship.GenericShip TargetShip;
 
         public override void Start()
         {
@@ -118,7 +118,7 @@ namespace SubPhases
             {
                 TargetShip = Selection.ThisShip;
                 UI.HideNextButton();
-                TargetShipIsSelected();
+                finishAction.Invoke();
             }
             else
             {
@@ -137,7 +137,7 @@ namespace SubPhases
                 TargetShip = ship;
                 UI.HideNextButton();
                 MovementTemplates.ShowRange(Selection.ThisShip, ship);
-                TargetShipIsSelected();
+                finishAction.Invoke(); 
             }
             else
             {
@@ -152,24 +152,6 @@ namespace SubPhases
             Roster.AllShipsHighlightOff();
             Phases.CurrentSubPhase.Resume();
             UpdateHelpInfo();
-        }
-
-        private void TargetShipIsSelected()
-        {
-            if (!Network.IsNetworkGame)
-            {
-                InvokeFinish();
-            }
-            else
-            {
-                Network.SelectTargetShip(TargetShip.ShipId);
-            }
-            
-        }
-
-        public void InvokeFinish()
-        {
-            finishAction.Invoke();
         }
 
     }

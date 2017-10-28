@@ -30,8 +30,6 @@ public partial class DiceRoll
         private set;
     }
 
-    public static DiceRoll CurrentDiceRoll;
-
     public Transform SpawningPoint;
     public Transform FinalPositionPoint;
 
@@ -40,11 +38,6 @@ public partial class DiceRoll
     private DelegateDiceroll callBack;
 
     private bool isRolling;
-
-    public DieSide[] ResultsArray
-    {
-        get { return this.DiceList.Select(n => n.Side).ToArray();}
-    }
 
     public DiceRoll(DiceKind type, int number, DiceRollCheckType checkType)
     {
@@ -160,36 +153,8 @@ public partial class DiceRoll
 
     public void Roll(DelegateDiceroll callBack)
     {
-        DiceRoll.CurrentDiceRoll = this;
-
         this.callBack = callBack;
 
-        if (!Network.IsNetworkGame)
-        {
-            foreach (Die die in DiceList)
-            {
-                die.RandomizeRotation();
-            }
-            RollPreparedDice();
-        }
-        else
-        {
-            Network.GenerateRandom(new Vector2(0, 360), DiceList.Count * 3, SetDiceInitialRotation, RollPreparedDice);
-        }
-    }
-
-    private void SetDiceInitialRotation(int[] randomHolder)
-    {
-        int counter = 0;
-        foreach (Die die in DiceList)
-        {
-            die.SetInitialRotation(new Vector3(randomHolder[counter], randomHolder[counter+1], randomHolder[counter+2]));
-            counter += 3;
-        }
-    }
-
-    private void RollPreparedDice()
-    {
         foreach (Die die in DiceList)
         {
             die.Roll();

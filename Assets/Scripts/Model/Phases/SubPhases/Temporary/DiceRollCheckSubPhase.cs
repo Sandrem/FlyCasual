@@ -36,56 +36,30 @@ namespace SubPhases
 
             DiceRoll DiceRollCheck;
             DiceRollCheck = new DiceRoll(diceType, diceCount, DiceRollCheckType.Check);
-            DiceRollCheck.Roll(SyncDiceResults);
+            DiceRollCheck.Roll(checkResults);
         }
 
-        private void SyncDiceResults(DiceRoll diceroll)
+        public void ShowConfirmDiceResultsButton()
         {
-            if (!Network.IsNetworkGame)
+            // BUG after koiogran asteroid?
+            if (Roster.GetPlayer(Selection.ActiveShip.Owner.PlayerNo).GetType() == typeof(Players.HumanPlayer))
             {
-                checkResults(diceroll);
+                Button closeButton = GameObject.Find("UI").transform.Find("CheckDiceResultsPanel").Find("DiceModificationsPanel").Find("Confirm").GetComponent<Button>();
+                closeButton.onClick.RemoveAllListeners();
+                closeButton.onClick.AddListener(finishAction);
+
+                closeButton.gameObject.SetActive(true);
             }
             else
             {
-                Network.SyncDiceResults();
+                finishAction.Invoke();
             }
-        }
-
-        public void PrepareConfirmation()
-        {
-            Roster.GetPlayer(Selection.ActiveShip.Owner.PlayerNo).ConfirmDiceCheck();
-        }
-
-        public void ShowConfirmButton()
-        {
-            if (!Network.IsNetworkGame)
-            {
-                ShowDiceRollCheckConfirmButton();
-            }
-            else
-            {
-                Network.ConfirmDiceRollCheckResults();
-            }
-        }
-
-        public void ShowDiceRollCheckConfirmButton()
-        {
-            Button closeButton = GameObject.Find("UI").transform.Find("CheckDiceResultsPanel").Find("DiceModificationsPanel").Find("Confirm").GetComponent<Button>();
-            closeButton.onClick.RemoveAllListeners();
-            closeButton.onClick.AddListener(PressConfirmButton);
-
-            closeButton.gameObject.SetActive(true);
-        }
-
-        public void CalculateDice()
-        {
-            CheckResults(DiceRoll.CurrentDiceRoll);
         }
 
         protected virtual void CheckResults(DiceRoll diceRoll)
         {
             CurrentDiceRoll = diceRoll;
-            PrepareConfirmation();
+            ShowConfirmDiceResultsButton();
         }
 
         protected virtual void FinishAction()
@@ -97,12 +71,19 @@ namespace SubPhases
         public void HideDiceResultMenu()
         {
             GameObject.Find("UI").transform.Find("CheckDiceResultsPanel").gameObject.SetActive(false);
-            HideConfirmDiceButton();
+            HideDiceModificationButtons();
             CurrentDiceRoll.RemoveDiceModels();
         }
 
-        public void HideConfirmDiceButton()
+        public void HideDiceModificationButtons()
         {
+            foreach (Transform button in GameObject.Find("UI").transform.Find("CheckDiceResultsPanel").Find("DiceModificationsPanel"))
+            {
+                if (button.name.StartsWith("Button"))
+                {
+                    MonoBehaviour.Destroy(button.gameObject);
+                }
+            }
             GameObject.Find("UI").transform.Find("CheckDiceResultsPanel").Find("DiceModificationsPanel").Find("Confirm").gameObject.SetActive(false);
         }
 
@@ -122,24 +103,6 @@ namespace SubPhases
         {
             bool result = false;
             return result;
-        }
-
-        private void PressConfirmButton()
-        {
-            HideConfirmDiceButton();
-            if (!Network.IsNetworkGame)
-            {
-                Confirm();
-            }
-            else
-            {
-                Network.FinishTask();
-            }
-        }
-
-        public void Confirm()
-        {
-            finishAction.Invoke();
         }
 
     }

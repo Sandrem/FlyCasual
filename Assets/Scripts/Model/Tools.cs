@@ -34,19 +34,4 @@ public static partial class Tools
         return result;
     }
 
-    public static string Canonicalize(string originalString)
-    {
-        string result = originalString.ToLower();
-
-        string[] signsToReplace = new string[] { " ", "\"", "/", "'", "-" };
-        foreach (var sign in signsToReplace)
-        {
-            result = result.Replace(sign, "");
-        }
-
-        result = result.Replace("advanced", "adv");
-
-        return result;
-    }
-
 }

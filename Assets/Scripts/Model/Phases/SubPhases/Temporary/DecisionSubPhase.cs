@@ -88,19 +88,7 @@ namespace SubPhases
                     EventTrigger trigger = button.AddComponent<EventTrigger>();
                     EventTrigger.Entry entry = new EventTrigger.Entry();
                     entry.eventID = EventTriggerType.PointerClick;
-                    entry.callback.AddListener(
-                        (data) => {
-                            if (!Network.IsNetworkGame)
-                            {
-                                item.Value.Invoke(button, null);
-                            }
-                            else
-                            {
-                                Network.TakeDecision(item.Key);
-                            }
-                            
-                        }
-                    );
+                    entry.callback.AddListener((data) => { item.Value.Invoke(button, null); });
                     trigger.triggers.Add(entry);
 
                     i++;
@@ -108,7 +96,6 @@ namespace SubPhases
                 decisionPanel.GetComponent<RectTransform>().sizeDelta = new Vector3(decisionPanel.GetComponent<RectTransform>().sizeDelta.x, defaultWindowHeight + ((i + 1) / 2) * buttonHeight);
 
                 if (DecisionOwner == null) DecisionOwner = Roster.GetPlayer(Phases.CurrentPhasePlayer);
-
                 DecisionOwner.TakeDecision();
             }
         }
@@ -156,11 +143,6 @@ namespace SubPhases
         public override void DoDefault()
         {
             decisions[defaultDecision].Invoke(null, null);
-        }
-
-        public void ExecuteDecision(string decisionName)
-        {
-            decisions[decisionName].Invoke(null, null);
         }
 
     }

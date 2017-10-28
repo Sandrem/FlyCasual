@@ -38,7 +38,7 @@ namespace Movement
             MovementTemplates.HideLastMovementRuler();
             Selection.ThisShip.ResetRotationHelpers();
 
-            (Phases.CurrentSubPhase as SubPhases.BoostExecutionSubPhase).FinishBoost();
+            Phases.FinishSubPhase(typeof(SubPhases.BoostExecutionSubPhase));
         }
     }
 

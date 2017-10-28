@@ -429,20 +429,15 @@ public static partial class RosterBuilder {
             playerShips.Add(shipPanel);
         }
 
-        bool isFactionChanged = false;
         foreach (Transform shipPanel in playerShips)
         {
             if (shipPanel.name == "AddShipPanel") continue;
             string pilotName = shipPanel.Find("GroupShip/DropdownPilot").GetComponent<Dropdown>().captionText.text;
             GenericShip newPilot = (GenericShip)Activator.CreateInstance(Type.GetType(AllPilots[pilotName]));
-            if (newPilot.faction != playerFaction)
-            {
-                isFactionChanged = true;
-                RemoveShip(playerNo, shipPanel.gameObject);
-            }
+            if (newPilot.faction != playerFaction) RemoveShip(playerNo, shipPanel.gameObject);
         }
 
-        if (isFactionChanged) AddInitialShip(playerNo);
+        AddInitialShips();
     }
 
     //Get GameObjects
@@ -519,7 +514,7 @@ public static partial class RosterBuilder {
 
     private static string GetSkinName(SquadBuilderShip ship)
     {
-        return ship.Panel.transform.Find("GroupShip/DropdownSkin").GetComponent<Dropdown>().captionText.text;
+        return ship.Panel.transform.Find("GroupShip/DropdownSkin").GetComponent<Dropdown>().captionText.text; ;
     }
 
 }

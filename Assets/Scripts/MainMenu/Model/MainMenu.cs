@@ -6,8 +6,6 @@ public partial class MainMenu : MonoBehaviour {
 
     string NewVersionUrl;
 
-    public static MainMenu CurrentMainMenu;
-
     // Use this for initialization
     void Start () {
         InitializeMenu();
@@ -15,8 +13,6 @@ public partial class MainMenu : MonoBehaviour {
 
     private void InitializeMenu()
     {
-        CurrentMainMenu = this;
-
         SetPositions();
         SetCurrentPanel();
 
@@ -63,16 +59,6 @@ public partial class MainMenu : MonoBehaviour {
                 }
             }
         }
-    }
-
-    public void ImportSquadList()
-    {
-        RosterBuilder.ImportSquadList();
-    }
-
-    public void ExportSquadList()
-    {
-        RosterBuilder.ExportSquadList(Players.PlayerNo.Player1);
     }
 
 }

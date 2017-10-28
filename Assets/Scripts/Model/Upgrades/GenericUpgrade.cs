@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -27,12 +28,14 @@ namespace Upgrade
 
     public class GenericUpgrade
     {
+        public static GenericUpgrade CurrentUpgrade;
+
         public Ship.GenericShip Host { get; set; }
 
         public int Cost;
         public UpgradeType Type;
         public bool isUnique = false;
-        public bool Limited = false;
+        public bool isLimited = false;
         public bool isDiscarded = false;
         public string Name { get; set; }
 
@@ -60,10 +63,6 @@ namespace Upgrade
                 imageUrl = value;
             }
         }
-        //public bool FactionRestriction
-        //public bool SizeRestriction
-        //public bool ShipTypeRestriction
-        //public bool PilotLevelRestriction
 
         public bool IsHidden;
 
@@ -92,10 +91,38 @@ namespace Upgrade
 
         }
 
-        public virtual void Discard()
+        public virtual void TryDiscard(Action callBack)
+        {
+            CurrentUpgrade = this;
+            Host.CallDiscardUpgrade(delegate { AfterTriedDiscard(callBack); });
+        }
+
+        private void AfterTriedDiscard(Action callBack)
+        {
+            if (CurrentUpgrade != null)
+            {
+                Discard(callBack);
+            }
+            else
+            {
+                callBack();
+            }
+        }
+
+        public virtual void Discard(Action callBack)
         {
             isDiscarded = true;
             Roster.DiscardUpgrade(Host, Name);
+
+            callBack();
+        }
+
+        public virtual void FlipFaceup()
+        {
+            isDiscarded = false;
+            Roster.FlipFaceupUpgrade(Host, Name);
+
+            Messages.ShowInfo(Name + " is flipped face up");
         }
 
     }

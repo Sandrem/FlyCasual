@@ -89,11 +89,11 @@ namespace SubPhases
             {
                 Name = "Select target for Target Lock",
                 TriggerOwner = TargetShip.Owner.PlayerNo,
-                TriggerType = TriggerTypes.OnAbilityTargetIsSelected,
+                TriggerType = TriggerTypes.OnAbilityDirect,
                 EventHandler = StartSubphaseForTargetLock
             });
 
-            Triggers.ResolveTriggers(TriggerTypes.OnAbilityTargetIsSelected, CallBack);
+            Triggers.ResolveTriggers(TriggerTypes.OnAbilityDirect, CallBack);
         }
 
         protected override void RevertSubPhase() { }

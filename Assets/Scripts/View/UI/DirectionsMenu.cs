@@ -11,7 +11,7 @@ public static class DirectionsMenu
     {
         GameObject.Find("UI").transform.Find("ContextMenuPanel").gameObject.SetActive(false);
         CustomizeDirectionsMenu(filter);
-        GameObject.Find("UI").transform.Find("DirectionsPanel").position = FixMenuPosition(GameObject.Find("UI").transform.Find("DirectionsPanel").gameObject, GameObject.Find("UI").transform.Find("ContextMenuPanel").position);
+        GameObject.Find("UI").transform.Find("DirectionsPanel").position = FixMenuPosition(GameObject.Find("UI").transform.Find("DirectionsPanel").gameObject, Input.mousePosition);
         GameObject.Find("UI").transform.Find("DirectionsPanel").gameObject.SetActive(true);
     }
 

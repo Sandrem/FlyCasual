@@ -22,7 +22,7 @@ namespace Board
         }
         public int Range
         {
-            get { return Mathf.CeilToInt(Distance / DISTANCE_1); }
+            get { return Mathf.Max(1, Mathf.CeilToInt(Distance / DISTANCE_1)); }
         }
 
         public GeneralShipDistanceInformation(GenericShip thisShip, GenericShip anotherShip)
@@ -33,7 +33,15 @@ namespace Board
 
         protected virtual void CalculateFields()
         {
-            CalculateFieldUsingPoints(ThisShip.ShipBase.GetStandPoints(), AnotherShip.ShipBase.GetStandPoints());
+            if (ThisShip.ShipId != AnotherShip.ShipId)
+            {
+                CalculateFieldUsingPoints(ThisShip.ShipBase.GetStandPoints(), AnotherShip.ShipBase.GetStandPoints());
+            }
+            else
+            {
+                Distance = 0;
+            }
+            
         }
 
         protected virtual void CalculateFieldUsingPoints(Dictionary<string, Vector3> pointsStart, Dictionary<string, Vector3> pointsEnd)

@@ -43,6 +43,8 @@ namespace Ship
         public event EventHandlerShip OnMovementFinish;
         public static event EventHandlerShip OnMovementFinishGlobal;
 
+        public event EventHandler OnFinishSlam;
+
         public event EventHandlerShip OnPositionFinish;
         public static event EventHandler OnPositionFinishGlobal;
 
@@ -100,6 +102,13 @@ namespace Ship
             if (OnPositionFinishGlobal != null) OnPositionFinishGlobal();
 
             Triggers.ResolveTriggers(TriggerTypes.OnPositionFinish, callback);
+        }
+
+        public void CallFinishSlam(System.Action callback)
+        {
+            if (OnFinishSlam != null) OnFinishSlam();
+
+            Triggers.ResolveTriggers(TriggerTypes.OnFinishSlam, callback);
         }
 
         // MANEUVERS

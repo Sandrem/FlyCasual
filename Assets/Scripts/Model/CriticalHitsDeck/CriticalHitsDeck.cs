@@ -12,10 +12,12 @@ public enum CriticalCardType
 
 public static class CriticalHitsDeck{
 
-    private static List<CriticalHitCard.GenericCriticalHit> Deck = new List<CriticalHitCard.GenericCriticalHit>();
+    private static List<CriticalHitCard.GenericCriticalHit> Deck;
 
     public static void InitializeDeck()
     {
+        Deck = new List<CriticalHitCard.GenericCriticalHit>();
+
         for (int i = 0; i < 7; i++) // Max should be 7
         {
             Deck.Add(new CriticalHitCard.DirectHit());

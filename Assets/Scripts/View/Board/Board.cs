@@ -35,8 +35,11 @@ namespace Board
 
         private static void SetPlaymatImage()
         {
-            Texture playmatTexture = (Texture)Resources.Load("Playmats/Playmat" + Options.Playmat + "Texture", typeof(Texture));
-            BoardTransform.Find("Playmat").GetComponent<Renderer>().material.mainTexture = playmatTexture;        
+            if (!string.IsNullOrEmpty(Options.Playmat))
+            {
+                Texture playmatTexture = (Texture)Resources.Load("Playmats/Playmat" + Options.Playmat + "Texture", typeof(Texture));
+                BoardTransform.Find("Playmat").GetComponent<Renderer>().material.mainTexture = playmatTexture;
+            }
         }
 
         private static void SetShip(Ship.GenericShip ship, int count)

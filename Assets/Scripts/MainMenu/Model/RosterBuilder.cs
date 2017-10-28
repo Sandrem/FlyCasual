@@ -727,6 +727,13 @@ public static partial class RosterBuilder {
 
     public static void SetPlayerSquadFromImportedJson(JSONObject squadJson, PlayerNo playerNo, Action callBack)
     {
+        string factionNameXws = squadJson["faction"].str;
+        string factionName = XWSToFactionName(factionNameXws);
+        Dropdown factionDropdown = GetPlayerPanel(playerNo).Find("GroupFaction/Dropdown").GetComponent<Dropdown>();
+        factionDropdown.value = factionDropdown.options.IndexOf(factionDropdown.options.Find(n => n.text == factionName));
+
+        CheckPlayerFactonChange(playerNo);
+
         RemoveAllShipsByPlayer(playerNo);
 
         if (squadJson.HasField("pilots"))
@@ -865,6 +872,28 @@ public static partial class RosterBuilder {
         }
 
         return result;  
+    }
+
+    private static string XWSToFactionName(string factionXWS)
+    {
+        string result = "";
+
+        switch (factionXWS)
+        {
+            case "rebel":
+                result = "Rebels";
+                break;
+            case "imperial":
+                result = "Empire";
+                break;
+            case "scum":
+                result = "Scum";
+                break;
+            default:
+                break;
+        }
+
+        return result;
     }
 
     private static string UpgradeTypeToXWS(UpgradeType upgradeType)

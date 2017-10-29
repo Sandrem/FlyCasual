@@ -102,6 +102,13 @@ public static partial class Phases
         if (OnRoundStart != null) OnRoundStart();
     }
 
+    public static void CallGameStartTrigger(Action callBack)
+    {
+        if (OnGameStart != null) OnGameStart();
+
+        Triggers.ResolveTriggers(TriggerTypes.OnGameStart, callBack);
+    }
+
     public static void CallSetupPhaseTrigger()
     {
         if (OnSetupPhaseStart != null) OnSetupPhaseStart();

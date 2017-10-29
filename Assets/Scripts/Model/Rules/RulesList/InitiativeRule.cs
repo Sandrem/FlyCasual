@@ -15,10 +15,23 @@ namespace RulesList
 
         private void SubscribeEvents()
         {
+            Phases.OnGameStart += DetermineOwnerOfDecision;
             Phases.OnSetupPhaseStart += DeterminePlayerWithInitiative;
         }
 
-        public static void DeterminePlayerWithInitiative()
+        public static void DetermineOwnerOfDecision()
+        {
+            Triggers.RegisterTrigger(new Trigger()
+            {
+                Name = "Initiative decision owner",
+                TriggerOwner = Phases.PlayerWithInitiative,
+                TriggerType = TriggerTypes.OnGameStart,
+                EventHandler = DetermineOwnerOfDecisionTrigger,
+                Skippable = true
+            });
+        }
+
+        private static void DetermineOwnerOfDecisionTrigger(object sender, System.EventArgs e)
         {
             int costP1 = Roster.GetPlayer(PlayerNo.Player1).SquadCost;
             int costP2 = Roster.GetPlayer(PlayerNo.Player2).SquadCost;
@@ -26,17 +39,40 @@ namespace RulesList
             if (costP1 < costP2)
             {
                 Phases.PlayerWithInitiative = PlayerNo.Player1;
+                Triggers.FinishTrigger();
             }
             else if (costP1 > costP2)
             {
                 Phases.PlayerWithInitiative = PlayerNo.Player2;
+                Triggers.FinishTrigger();
             }
             else
             {
-                int randomPlayer = UnityEngine.Random.Range(1, 3);
-                Phases.PlayerWithInitiative = Tools.IntToPlayer(randomPlayer);
+                if (!Network.IsNetworkGame)
+                {
+                    int randomPlayer = UnityEngine.Random.Range(1, 3);
+                    Phases.PlayerWithInitiative = Tools.IntToPlayer(randomPlayer);
+                    Triggers.FinishTrigger();
+                }
+                else
+                {
+                    Network.GenerateRandom(
+                        new Vector2(1, 2),
+                        1,
+                        StorePlayerWithInitiative,
+                        Triggers.FinishTrigger
+                    );
+                }
             }
+        }
 
+        private static void StorePlayerWithInitiative(int[] randomHolder)
+        {
+            Phases.PlayerWithInitiative = Tools.IntToPlayer(randomHolder[0]);
+        }
+
+        public static void DeterminePlayerWithInitiative()
+        {
             Phases.CurrentSubPhase.RequiredPlayer = Phases.PlayerWithInitiative;
             Triggers.RegisterTrigger(new Trigger() {
                 Name = "Initiative decision",

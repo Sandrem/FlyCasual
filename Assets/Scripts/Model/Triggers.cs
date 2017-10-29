@@ -9,6 +9,7 @@ public enum TriggerTypes
 {
     None,
     OnAbilityDirect,
+    OnGameStart,
     OnSetupPhaseStart,
     OnManeuver,
     OnManeuverIsRevealed,

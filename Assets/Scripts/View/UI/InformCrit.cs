@@ -61,8 +61,17 @@ public static class InformCrit
 
     public static void ButtonConfirm()
     {
+        GameMode.CurrentGameMode.ConfirmCrit();
+    }
+
+    public static void HidePanel()
+    {
+        InformCritPanel.gameObject.SetActive(false);
+    }
+
+    public static void DisableConfirmButton()
+    {
         InformCritPanel.Find("Confirm").gameObject.SetActive(false);
-        GameMode.CurrentGameMode.FinishTask();
     }
 
 }

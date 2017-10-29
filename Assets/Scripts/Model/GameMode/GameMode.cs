@@ -8,7 +8,7 @@ namespace GameModes
     {
         public static GameMode CurrentGameMode;
 
-        public abstract void FinishTask();
+        public abstract void ConfirmCrit();
 
         public abstract void DeclareTarget(int thisShip, int AnotherShip);
 

@@ -6,8 +6,9 @@ namespace GameModes
 {
     public class LocalGame : GameMode
     {
-        public override void FinishTask()
+        public override void ConfirmCrit()
         {
+            InformCrit.HidePanel();
             Triggers.FinishTrigger();
         }
 

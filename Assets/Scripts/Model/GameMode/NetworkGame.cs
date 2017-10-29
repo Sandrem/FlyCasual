@@ -6,8 +6,10 @@ namespace GameModes
 { 
     public class NetworkGame : GameMode
     {
-        public override void FinishTask()
+        public override void ConfirmCrit()
         {
+            if (DebugManager.DebugNetwork) UI.AddTestLogEntry("NetworkGame.FinishTask");
+            InformCrit.DisableConfirmButton();
             Network.FinishTask();
         }
 

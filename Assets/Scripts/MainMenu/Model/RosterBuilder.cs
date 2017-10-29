@@ -10,6 +10,7 @@ using Ship;
 using Upgrade;
 using UnityEngine.UI;
 using UnityEngine.Networking;
+using GameModes;
 
 public static partial class RosterBuilder {
 
@@ -179,7 +180,9 @@ public static partial class RosterBuilder {
 
     public static void GeneratePlayersShipConfigurations()
     {
+        ShipFactory.Initialize();
         Global.RemoveAllShips();
+
         foreach (var ship in SquadBuilderRoster.GetShips())
         {
             ship.Ship.SkinName = GetSkinName(ship);
@@ -457,6 +460,8 @@ public static partial class RosterBuilder {
 
     public static void StartLocalGame()
     {
+        GameMode.CurrentGameMode = new LocalGame();
+
         SetPlayers();
         GeneratePlayersShipConfigurations();
         if (ValidatePlayersRosters())

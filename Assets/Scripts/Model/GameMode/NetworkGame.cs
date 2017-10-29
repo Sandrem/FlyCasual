@@ -41,11 +41,6 @@ namespace GameModes
             Network.AssignManeuver(Selection.ThisShip.ShipId, maneuverCode);
         }
 
-        public override void StartGame()
-        {
-            RosterBuilder.StartNetworkGame();
-        }
-
         public override void FinishMovementExecution()
         {
             Network.FinishTask();

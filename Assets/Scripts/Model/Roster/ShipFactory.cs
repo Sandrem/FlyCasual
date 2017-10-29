@@ -7,14 +7,14 @@ public static class ShipFactory {
 
     //private static GameManagerScript Game;
 
-    public static int lastId = 1;
+    public static int lastId;
 
 	public static readonly Vector3 ROTATION_FORWARD = new Vector3 (0, 0, 0);
     public static readonly Vector3 ROTATION_BACKWARD = new Vector3 (0, 180, 0);
 
-    static ShipFactory()
+    public static void Initialize()
     {
-        //Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
+        lastId = 1;
     }
 
 	//TODO: REWRITE ASAP

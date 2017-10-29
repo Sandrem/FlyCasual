@@ -41,11 +41,6 @@ namespace GameModes
             ShipMovementScript.AssignManeuver(Selection.ThisShip.ShipId, maneuverCode);
         }
 
-        public override void StartGame()
-        {
-            RosterBuilder.StartLocalGame();
-        }
-
         public override void FinishMovementExecution()
         {
             Phases.CurrentSubPhase.Next();

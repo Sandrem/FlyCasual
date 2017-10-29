@@ -12,7 +12,7 @@ public static class DebugManager
 
     public static bool DebugNoCombat;
 
-    private static bool debugNetwork;
+    private static bool debugNetwork = true;
     public static bool DebugNetwork
     {
         get

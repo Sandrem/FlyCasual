@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
+using GameModes;
 
 public partial class NetworkPlayerController : NetworkBehaviour {
 
@@ -93,9 +94,10 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     [ClientRpc]
     public void RpcGetSquadList()
     {
+        GameMode.CurrentGameMode = new NetworkGame();
+
         RosterBuilder.ShowOpponentSquad();
         RosterBuilder.HideNetworkManagerHUD();
-
 
         Global.RemoveAllPlayers();
         if (IsServer)
@@ -130,9 +132,6 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     public void RpcSendSquadToOpponent(string squadsJsonString)
     {
         JSONObject squadsJson = new JSONObject(squadsJsonString);
-
-        RosterBuilder.RemoveAllShipsByPlayer(Players.PlayerNo.Player1);
-        RosterBuilder.RemoveAllShipsByPlayer(Players.PlayerNo.Player2);
 
         if (squadsJson.HasField("Server"))
         {
@@ -178,12 +177,19 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     [Command]
     public void CmdTakeDecision(string decisionName)
     {
+        if (DebugManager.DebugNetwork) UI.AddTestLogEntry("S: CmdTakeDecision");
         RpcTakeDecision(decisionName);
     }
 
     [ClientRpc]
     private void RpcTakeDecision(string decisionName)
     {
+        if (DebugManager.DebugNetwork) UI.AddTestLogEntry("C: RpcTakeDecision");
+        if (Phases.CurrentSubPhase as SubPhases.DecisionSubPhase == null)
+        {
+            UI.AddTestLogEntry("Error, SubPhase is " + Phases.CurrentSubPhase.GetType());
+            Messages.ShowError("Error, SubPhase is " + Phases.CurrentSubPhase.GetType());
+        }
         (Phases.CurrentSubPhase as SubPhases.DecisionSubPhase).ExecuteDecision(decisionName);
     }
 
@@ -248,6 +254,7 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     [Command]
     public void CmdPerformStoredManeuver(int shipId)
     {
+        if (DebugManager.DebugNetwork) UI.AddTestLogEntry("S: CmdPerformStoredManeuver");
         new NetworkExecuteWithCallback(
             delegate { CmdLaunchStoredManeuver(shipId); },
             delegate { CmdFinishManeuver(shipId); }
@@ -257,24 +264,28 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     [Command]
     public void CmdLaunchStoredManeuver(int shipId)
     {
+        if (DebugManager.DebugNetwork) UI.AddTestLogEntry("S: CmdLaunchStoredManeuver");
         RpcLaunchStoredManeuver(shipId);
     }
 
     [ClientRpc]
     private void RpcLaunchStoredManeuver(int shipId)
     {
+        if (DebugManager.DebugNetwork) UI.AddTestLogEntry("C: RpcLaunchStoredManeuver");
         ShipMovementScript.PerformStoredManeuver(shipId);
     }
 
     [Command]
     public void CmdFinishManeuver(int shipId)
     {
+        if (DebugManager.DebugNetwork) UI.AddTestLogEntry("S: CmdFinishManeuver");
         RpcFinishManeuver(shipId);
     }
 
     [ClientRpc]
     private void RpcFinishManeuver(int shipId)
     {
+        if (DebugManager.DebugNetwork) UI.AddTestLogEntry("S: RpcFinishManeuver");
         Phases.FinishSubPhase(typeof(SubPhases.MovementExecutionSubPhase));
     }
 

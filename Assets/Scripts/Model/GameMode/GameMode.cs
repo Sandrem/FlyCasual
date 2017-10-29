@@ -22,8 +22,6 @@ namespace GameModes
 
         public abstract void PerformStoredManeuver(int shipId);
 
-        public abstract void StartGame();
-
         public abstract void FinishMovementExecution();
 
         public abstract void GiveInitiativeToRandomPlayer();

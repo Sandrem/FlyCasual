@@ -30,14 +30,12 @@ public partial class MainMenu : MonoBehaviour {
     {
         if (!Network.IsNetworkGame)
         {
-            GameMode.CurrentGameMode = new LocalGame();
+            RosterBuilder.StartLocalGame();
         }
         else
         {
-            GameMode.CurrentGameMode = new NetworkGame();
+            RosterBuilder.StartNetworkGame();
         }
-        
-        GameMode.CurrentGameMode.StartGame();
     }
 
     public void QuitGame()

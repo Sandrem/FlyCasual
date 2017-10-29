@@ -91,6 +91,16 @@ public partial class NetworkPlayerController : NetworkBehaviour
     [ClientRpc]
     private void RpcStoreGeneratedRandomValues(int[] randomHolder)
     {
+        if (DebugManager.DebugNetwork)
+        {
+            string str = "RNG: ";
+            for (int i = 0; i < randomHolder.Length; i++)
+            {
+                str += randomHolder[i] + "; ";
+            }
+            UI.AddTestLogEntry(str);
+        }
+
         Network.StoreGeneratedRandomValues(randomHolder);
     }
 

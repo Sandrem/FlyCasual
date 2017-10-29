@@ -39,11 +39,6 @@ namespace SubPhases
             Selection.ThisShip.AssignedManeuver.Perform();
         }
 
-        public void CallFinish()
-        {
-            GameMode.CurrentGameMode.FinishMovementExecution();
-        }
-
         public override void Next()
         {
             GenericSubPhase actionSubPhase = new ActionSubPhase();

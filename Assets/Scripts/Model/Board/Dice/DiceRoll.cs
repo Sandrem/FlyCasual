@@ -174,6 +174,7 @@ public partial class DiceRoll
         }
         else
         {
+            if (DebugManager.DebugNetwork) UI.AddTestLogEntry("DiceRoll.Roll");
             Network.GenerateRandom(new Vector2(0, 360), DiceList.Count * 3, SetDiceInitialRotation, RollPreparedDice);
         }
     }

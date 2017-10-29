@@ -33,6 +33,7 @@ namespace GameModes
 
         public override void PerformStoredManeuver(int shipId)
         {
+            if (DebugManager.DebugNetwork) UI.AddTestLogEntry("PERFORM STORED MANEUVER");
             Network.PerformStoredManeuver(Selection.ThisShip.ShipId);
         }
 
@@ -41,13 +42,9 @@ namespace GameModes
             Network.AssignManeuver(Selection.ThisShip.ShipId, maneuverCode);
         }
 
-        public override void FinishMovementExecution()
-        {
-            Network.FinishTask();
-        }
-
         public override void GiveInitiativeToRandomPlayer()
         {
+            if (DebugManager.DebugNetwork) UI.AddTestLogEntry("NetworkGame.GiveInitiativeToRandomPlayer");
             Network.GenerateRandom(
                 new Vector2(1, 2),
                 1,
@@ -123,6 +120,7 @@ namespace GameModes
 
         public override void GetCritCard(Action callBack)
         {
+            if (DebugManager.DebugNetwork) UI.AddTestLogEntry("NetworkGame.GetCritCard");
             Network.GenerateRandom(new Vector2(0, CriticalHitsDeck.GetDeckSize() - 1), 1, CriticalHitsDeck.SetCurrentCriticalCardByIndex, callBack);
         }
 
@@ -130,6 +128,11 @@ namespace GameModes
         public override void TakeDecision(KeyValuePair<string, EventHandler> decision, GameObject button)
         {
             Network.TakeDecision(decision.Key);
+        }
+
+        public override void FinishMovementExecution()
+        {
+            Network.FinishTask();
         }
     }
 }

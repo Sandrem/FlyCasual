@@ -148,12 +148,12 @@ public class ShipMovementScript : MonoBehaviour {
             EventHandler = DoMovementTriggerHandler
         });
 
-        Triggers.ResolveTriggers(
-            TriggerTypes.OnManeuver,
-            delegate {
-                Phases.FinishSubPhase(typeof(SubPhases.MovementExecutionSubPhase));
-            }
-        );
+        Triggers.ResolveTriggers(TriggerTypes.OnManeuver, FinishManeuverExecution);
+    }
+
+    private static void FinishManeuverExecution()
+    {
+        GameMode.CurrentGameMode.FinishMovementExecution();
     }
 
 }

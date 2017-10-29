@@ -255,6 +255,7 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     public void CmdPerformStoredManeuver(int shipId)
     {
         if (DebugManager.DebugNetwork) UI.AddTestLogEntry("S: CmdPerformStoredManeuver");
+
         new NetworkExecuteWithCallback(
             delegate { CmdLaunchStoredManeuver(shipId); },
             delegate { CmdFinishManeuver(shipId); }

@@ -70,6 +70,7 @@ public partial class NetworkPlayerController : NetworkBehaviour
     [Command]
     public void CmdGenerateRandomValues(Vector2 range, int count)
     {
+        if (DebugManager.DebugNetwork) UI.AddTestLogEntry("S: CmdGenerateRandomValues");
         int[] randomHolder = new int[count];
         for (int i = 0; i < count; i++)
         {
@@ -85,12 +86,14 @@ public partial class NetworkPlayerController : NetworkBehaviour
     [Command]
     private void CmdStoreGeneratedRandomValues(int[] randomHolder)
     {
+        if (DebugManager.DebugNetwork) UI.AddTestLogEntry("S: CmdStoreGeneratedRandomValues");
         RpcStoreGeneratedRandomValues(randomHolder);
     }
 
     [ClientRpc]
     private void RpcStoreGeneratedRandomValues(int[] randomHolder)
     {
+        if (DebugManager.DebugNetwork) UI.AddTestLogEntry("C: RpcStoreGeneratedRandomValues");
         if (DebugManager.DebugNetwork)
         {
             string str = "RNG: ";
@@ -107,12 +110,14 @@ public partial class NetworkPlayerController : NetworkBehaviour
     [Command]
     private void CmdGenerateRandomValuesCallBack()
     {
+        if (DebugManager.DebugNetwork) UI.AddTestLogEntry("S: CmdGenerateRandomValuesCallBack");
         RpcGenerateRandomValuesCallBack();
     }
 
     [ClientRpc]
     private void RpcGenerateRandomValuesCallBack()
     {
+        if (DebugManager.DebugNetwork) UI.AddTestLogEntry("C: RpcGenerateRandomValuesCallBack");
         Network.GenerateRandomValuesCallBack();
     }
 }

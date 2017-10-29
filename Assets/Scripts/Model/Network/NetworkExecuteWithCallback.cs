@@ -15,6 +15,7 @@ public class NetworkExecuteWithCallback
 
     public NetworkExecuteWithCallback(Action toExecute, Action toCallBack)
     {
+        if (DebugManager.DebugNetwork) UI.AddTestLogEntry("NetworkExecuteWithCallback is created");
         if (Network.IsServer)
         {
             responcesGot = 0;
@@ -43,9 +44,11 @@ public class NetworkExecuteWithCallback
         if (Network.IsServer)
         {
             responcesGot++;
+            if (DebugManager.DebugNetwork) UI.AddTestLogEntry("NetworkExecuteWithCallback got responce: " + responcesGot + "/" + MAX_PLAYERS);
 
             if (responcesGot == MAX_PLAYERS)
             {
+                if (DebugManager.DebugNetwork) UI.AddTestLogEntry("NetworkExecuteWithCallback calls callback");
                 UnregisterNetworkCallback();
                 callBack();
             }

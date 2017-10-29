@@ -41,11 +41,6 @@ namespace GameModes
             ShipMovementScript.AssignManeuver(Selection.ThisShip.ShipId, maneuverCode);
         }
 
-        public override void FinishMovementExecution()
-        {
-            Phases.CurrentSubPhase.Next();
-        }
-
         public override void GiveInitiativeToRandomPlayer()
         {
             int randomPlayer = UnityEngine.Random.Range(1, 3);
@@ -118,6 +113,11 @@ namespace GameModes
         public override void TakeDecision(KeyValuePair<string, EventHandler> decision, GameObject button)
         {
             decision.Value.Invoke(button, null);
+        }
+
+        public override void FinishMovementExecution()
+        {
+            Phases.FinishSubPhase(typeof(SubPhases.MovementExecutionSubPhase));
         }
     }
 }

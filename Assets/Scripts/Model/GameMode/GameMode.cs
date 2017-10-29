@@ -22,8 +22,6 @@ namespace GameModes
 
         public abstract void PerformStoredManeuver(int shipId);
 
-        public abstract void FinishMovementExecution();
-
         public abstract void GiveInitiativeToRandomPlayer();
 
         public abstract void ShowInformCritPanel();
@@ -49,5 +47,7 @@ namespace GameModes
         public abstract void GetCritCard(Action callBack);
 
         public abstract void TakeDecision(KeyValuePair<string, EventHandler> decision, GameObject button);
+
+        public abstract void FinishMovementExecution();
     }
 }

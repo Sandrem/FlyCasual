@@ -3,6 +3,7 @@ using UnityEngine;
 using System;
 using System.Linq;
 using Players;
+using GameModes;
 
 namespace RulesList
 {
@@ -48,27 +49,8 @@ namespace RulesList
             }
             else
             {
-                if (!Network.IsNetworkGame)
-                {
-                    int randomPlayer = UnityEngine.Random.Range(1, 3);
-                    Phases.PlayerWithInitiative = Tools.IntToPlayer(randomPlayer);
-                    Triggers.FinishTrigger();
-                }
-                else
-                {
-                    Network.GenerateRandom(
-                        new Vector2(1, 2),
-                        1,
-                        StorePlayerWithInitiative,
-                        Triggers.FinishTrigger
-                    );
-                }
+                GameMode.CurrentGameMode.GiveInitiativeToRandomPlayer();
             }
-        }
-
-        private static void StorePlayerWithInitiative(int[] randomHolder)
-        {
-            Phases.PlayerWithInitiative = Tools.IntToPlayer(randomHolder[0]);
         }
 
         public static void DeterminePlayerWithInitiative()

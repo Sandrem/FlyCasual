@@ -34,8 +34,7 @@ namespace AI
                 }
                 else
                 {
-                    GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-                    GenericMovement newMovementAttempt = Game.Movement.MovementFromStruct(maneuver);
+                    GenericMovement newMovementAttempt = ShipMovementScript.MovementFromStruct(maneuver);
 
                     if (DebugManager.DebugAI) Debug.Log("Tries: " + newMovementAttempt);
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using GameModes;
 
 //Todo: Move to different scripts by menu names
 
@@ -165,14 +166,7 @@ public class UI : MonoBehaviour {
         HideNextButton();
         Roster.AllShipsHighlightOff();
 
-        if (!Network.IsNetworkGame)
-        {
-            NextButtonEffect();
-        }
-        else
-        {
-            Network.NextButtonEffect();
-        }
+        GameMode.CurrentGameMode.NextButtonEffect();
     }
 
     public static void NextButtonEffect()
@@ -185,14 +179,7 @@ public class UI : MonoBehaviour {
         HideNextButton();
         Roster.AllShipsHighlightOff();
 
-        if (!Network.IsNetworkGame)
-        {
-            SkipButtonEffect();
-        }
-        else
-        {
-            Network.SkipButtonEffect();
-        }
+        GameMode.CurrentGameMode.SkipButtonEffect();
     }
 
     public static void SkipButtonEffect()
@@ -202,14 +189,7 @@ public class UI : MonoBehaviour {
 
     public void ClickDeclareTarget()
     {
-        if (!Network.IsNetworkGame)
-        {
-            Combat.DeclareTarget(Selection.ThisShip.ShipId, Selection.AnotherShip.ShipId);
-        }
-        else
-        {
-            Network.DeclareTarget(Selection.ThisShip.ShipId, Selection.AnotherShip.ShipId);
-        }
+        GameMode.CurrentGameMode.DeclareTarget(Selection.ThisShip.ShipId, Selection.AnotherShip.ShipId);
     }
 
     public static void ShowNextButton()

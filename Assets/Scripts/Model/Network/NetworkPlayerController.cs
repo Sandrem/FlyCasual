@@ -212,9 +212,7 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     [ClientRpc]
     private void RpcAssignManeuver(int shipId, string maneuverCode)
     {
-        // Temporary
-        GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-        Game.Movement.AssignManeuver(shipId, maneuverCode);
+        ShipMovementScript.AssignManeuver(shipId, maneuverCode);
     }
 
     // NEXT BUTTON
@@ -265,9 +263,7 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     [ClientRpc]
     private void RpcLaunchStoredManeuver(int shipId)
     {
-        // Temporary
-        GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-        Game.Movement.PerformStoredManeuver(shipId);
+        ShipMovementScript.PerformStoredManeuver(shipId);
     }
 
     [Command]

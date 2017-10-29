@@ -455,19 +455,7 @@ public static partial class RosterBuilder {
 
     //Go to battle
 
-    public static void StartGame()
-    {
-        if (!Network.IsNetworkGame)
-        {
-            StartLocalGame();
-        }
-        else
-        {
-            StartNetworkGame();
-        }
-    }
-
-    private static void StartLocalGame()
+    public static void StartLocalGame()
     {
         SetPlayers();
         GeneratePlayersShipConfigurations();
@@ -477,7 +465,7 @@ public static partial class RosterBuilder {
         }
     }
 
-    private static void StartNetworkGame()
+    public static void StartNetworkGame()
     {
         //Network.Test();
         //Network.CallBacksTest();

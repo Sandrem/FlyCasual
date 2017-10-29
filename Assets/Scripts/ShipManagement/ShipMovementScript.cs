@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using GameModes;
 
 public class ShipMovementScript : MonoBehaviour {
 
@@ -57,18 +58,10 @@ public class ShipMovementScript : MonoBehaviour {
 
         string maneuverCode = EventSystem.current.currentSelectedGameObject.name;
 
-        if (!Network.IsNetworkGame)
-        {
-            AssignManeuver(Selection.ThisShip.ShipId, maneuverCode);
-        }
-        else
-        {
-            Network.AssignManeuver(Selection.ThisShip.ShipId, maneuverCode);
-        }
-        
+        GameMode.CurrentGameMode.AssignManeuver(Selection.ThisShip.ShipId, maneuverCode);
     }
 
-    public void AssignManeuver(int shipId, string maneuverCode)
+    public static void AssignManeuver(int shipId, string maneuverCode)
     {
         Selection.ChangeActiveShip("ShipId:" + shipId);
         UI.HideContextMenu();
@@ -91,7 +84,7 @@ public class ShipMovementScript : MonoBehaviour {
         }
     }
 
-    public Movement.GenericMovement MovementFromStruct(Movement.MovementStruct movementStruct)
+    public static Movement.GenericMovement MovementFromStruct(Movement.MovementStruct movementStruct)
     {
         Movement.GenericMovement result = null;
 
@@ -127,7 +120,7 @@ public class ShipMovementScript : MonoBehaviour {
         return result;
     }
 
-    public Movement.GenericMovement MovementFromString(string parameters)
+    public static Movement.GenericMovement MovementFromString(string parameters)
     {
         Movement.MovementStruct movementStruct = new Movement.MovementStruct(parameters);
         return MovementFromStruct(movementStruct);
@@ -135,22 +128,15 @@ public class ShipMovementScript : MonoBehaviour {
 
     public void PerformStoredManeuverButtonIsPressed()
     {
-        if (!Network.IsNetworkGame)
-        {
-            PerformStoredManeuver(Selection.ThisShip.ShipId);
-        }
-        else
-        {
-            Network.PerformStoredManeuver(Selection.ThisShip.ShipId);
-        }
+        GameMode.CurrentGameMode.PerformStoredManeuver(Selection.ThisShip.ShipId);
     }
 
-    private void DoMovementTriggerHandler(object sender, System.EventArgs e)
+    private static void DoMovementTriggerHandler(object sender, System.EventArgs e)
     {
         Phases.StartTemporarySubPhase("Movement", typeof(SubPhases.MovementExecutionSubPhase));
     }
 
-    public void PerformStoredManeuver(int shipId)
+    public static void PerformStoredManeuver(int shipId)
     {
         Selection.ChangeActiveShip("ShipId:" + shipId);
 

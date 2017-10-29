@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using Board;
+using GameModes;
 
 public enum CombatStep
 {
@@ -344,14 +345,7 @@ public static partial class Combat
 
     public static void ConfirmDiceResults()
     {
-        if (!Network.IsNetworkGame)
-        {
-            ConfirmDiceResultsClient();
-        }
-        else
-        {
-            Network.ConfirmDiceResults();
-        }
+        GameMode.CurrentGameMode.ConfirmDiceResults();
     }
 
     public static void ConfirmDiceResultsClient()

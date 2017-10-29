@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using GameModes;
 
 public delegate void CallBackFunction();
 
@@ -28,14 +28,7 @@ public class GameManagerScript : MonoBehaviour {
         Actions.Initialize();
         Triggers.Initialize();
 
-        if (!Network.IsNetworkGame)
-        {
-            Global.StartBattle();
-        }
-        else
-        {
-            Network.FinishTask();
-        }
+        GameMode.CurrentGameMode.StartBattle();
     }
 
     private void Update()

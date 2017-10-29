@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using GameModes;
 
 public enum CriticalCardType
 {
@@ -41,24 +42,12 @@ public static class CriticalHitsDeck{
         }
     }
 
-    public static void GetCritCard(Action SufferChosenCriticalHitCard)
+    public static void GetCritCard(Action callBack)
     {
-        int deckSize = CheckDeck();
-
-        if (!Network.IsNetworkGame)
-        {
-            int[] randomHolder = new int[1];
-            randomHolder[0] = UnityEngine.Random.Range(0, deckSize);
-            SetCurrentCriticalCardByIndex(randomHolder);
-            SufferChosenCriticalHitCard();
-        }
-        else
-        {
-            Network.GenerateRandom(new Vector2(0, deckSize - 1), 1, SetCurrentCriticalCardByIndex, SufferChosenCriticalHitCard);
-        }
+        GameMode.CurrentGameMode.GetCritCard(callBack);
     }
 
-    private static void SetCurrentCriticalCardByIndex(int[] randomHolder)
+    public static void SetCurrentCriticalCardByIndex(int[] randomHolder)
     {
         CriticalHitCard.GenericCriticalHit critCard = null;
 
@@ -68,7 +57,7 @@ public static class CriticalHitsDeck{
         Combat.CurrentCriticalHitCard = critCard;
     }
 
-    private static int CheckDeck()
+    public static int GetDeckSize()
     {
         int deckSize = Deck.Count;
 

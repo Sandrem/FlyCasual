@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using GameModes;
 
 namespace SubPhases
 {
@@ -40,14 +41,7 @@ namespace SubPhases
 
         public void CallFinish()
         {
-            if (!Network.IsNetworkGame)
-            {
-                Next();
-            }
-            else
-            {
-                Network.FinishTask();
-            }
+            GameMode.CurrentGameMode.FinishMovementExecution();
         }
 
         public override void Next()

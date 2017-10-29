@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Board;
+using GameModes;
 
 namespace ActionsList
 {
@@ -157,18 +158,7 @@ namespace SubPhases
         {
             StopPlanning();
 
-            if (!Network.IsNetworkGame)
-            {
-                TryConfirmBoostPosition();
-            }
-            else
-            {
-                if (Selection.ThisShip.Owner.GetType() == typeof(Players.HumanPlayer))
-                {
-                    Network.TryConfirmBoostPosition(SelectedBoostHelper);
-                }
-            }
-            
+            GameMode.CurrentGameMode.TryConfirmBoostPosition(SelectedBoostHelper);
         }
 
         public void StartBoostExecution(Ship.GenericShip ship)
@@ -213,7 +203,7 @@ namespace SubPhases
             TryConfirmBoostPosition();
         }
 
-        private void TryConfirmBoostPosition()
+        public void TryConfirmBoostPosition()
         {
             obstaclesStayDetectorBase.ReCheckCollisionsStart();
             obstaclesStayDetectorMovementTemplate.ReCheckCollisionsStart();
@@ -247,14 +237,7 @@ namespace SubPhases
             if (IsBoostAllowed())
             {
                 CheckMines();
-                if (!Network.IsNetworkGame)
-                {
-                    StartBoostExecution(Selection.ThisShip);
-                }
-                else
-                {
-                    Network.PerformBoost();
-                }
+                GameMode.CurrentGameMode.StartBoostExecution(Selection.ThisShip);
             }
             else
             {
@@ -355,14 +338,7 @@ namespace SubPhases
 
         public void FinishBoost()
         {
-            if (!Network.IsNetworkGame)
-            {
-                Phases.FinishSubPhase(this.GetType());
-            }
-            else
-            {
-                Network.FinishTask();
-            }
+            GameMode.CurrentGameMode.FinishBoost();
         }
 
         public override void Next()

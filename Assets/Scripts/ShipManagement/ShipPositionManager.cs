@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Board;
+using GameModes;
 
 public class ShipPositionManager : MonoBehaviour
 {
@@ -267,17 +268,8 @@ public class ShipPositionManager : MonoBehaviour
         Roster.SetRaycastTargets(true);
         inReposition = false;
 
-        if (Phases.CurrentSubPhase.GetType() == typeof(SubPhases.SetupSubPhase))
-        {
-            if (!Network.IsNetworkGame)
-            {
-                (Phases.CurrentSubPhase as SubPhases.SetupSubPhase).ConfirmShipSetup(Selection.ThisShip.ShipId, Selection.ThisShip.GetPosition(), Selection.ThisShip.GetAngles());
-            }
-            else
-            {
-                Network.ConfirmShipSetup(Selection.ThisShip.ShipId, Selection.ThisShip.GetPosition(), Selection.ThisShip.GetAngles());
-            }
-        }
+        //if (Phases.CurrentSubPhase.GetType() == typeof(SubPhases.SetupSubPhase))
+        GameMode.CurrentGameMode.ConfirmShipSetup(Selection.ThisShip.ShipId, Selection.ThisShip.GetPosition(), Selection.ThisShip.GetAngles());
 
         //Phases.Next(); // Moved to ConfirmShipSetup
     }

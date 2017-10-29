@@ -98,17 +98,7 @@ namespace SubPhases
                     EventTrigger.Entry entry = new EventTrigger.Entry();
                     entry.eventID = EventTriggerType.PointerClick;
                     entry.callback.AddListener(
-                        (data) => {
-                            if (!Network.IsNetworkGame)
-                            {
-                                item.Value.Invoke(button, null);
-                            }
-                            else
-                            {
-                                Network.TakeDecision(item.Key);
-                            }
-                            
-                        }
+                        (data) => { GameModes.GameMode.CurrentGameMode.TakeDecision(item, button); }
                     );
                     trigger.triggers.Add(entry);
 

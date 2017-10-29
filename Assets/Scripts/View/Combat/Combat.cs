@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using GameModes;
 
 public static partial class Combat
 {
@@ -112,17 +113,7 @@ public static partial class Combat
         newButton.transform.GetComponentInChildren<Text>().text = actionEffect.EffectName;
         newButton.GetComponent<RectTransform>().position = position;
         newButton.GetComponent<Button>().onClick.AddListener(
-            delegate
-            {
-                if (!Network.IsNetworkGame)
-                {
-                    UseDiceModification(actionEffect.Name);
-                }
-                else
-                {
-                    Network.UseDiceModification(actionEffect.EffectName);
-                }
-            }
+            delegate { GameMode.CurrentGameMode.UseDiceModification(actionEffect.EffectName); }
         );
         Tooltips.AddTooltip(newButton, actionEffect.ImageUrl);
         newButton.GetComponent<Button>().interactable = true;

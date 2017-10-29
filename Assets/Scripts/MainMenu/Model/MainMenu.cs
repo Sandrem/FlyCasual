@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using GameModes;
 
 public partial class MainMenu : MonoBehaviour {
 
@@ -27,7 +28,16 @@ public partial class MainMenu : MonoBehaviour {
 
     public void StartBattle()
     {
-        RosterBuilder.StartGame();
+        if (!Network.IsNetworkGame)
+        {
+            GameMode.CurrentGameMode = new LocalGame();
+        }
+        else
+        {
+            GameMode.CurrentGameMode = new NetworkGame();
+        }
+        
+        GameMode.CurrentGameMode.StartGame();
     }
 
     public void QuitGame()

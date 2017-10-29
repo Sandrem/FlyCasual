@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Board;
+using GameModes;
 
 namespace ActionsList
 {
@@ -171,17 +172,7 @@ namespace SubPhases
         {
             StopDrag();
 
-            if (!Network.IsNetworkGame)
-            {
-                TryConfirmBarrelRollPosition();
-            }
-            else
-            {
-                if (Selection.ThisShip.Owner.GetType() == typeof(Players.HumanPlayer))
-                {
-                    Network.TryConfirmBarrelRoll(ShipStand.transform.position, MovementTemplates.CurrentTemplate.position);
-                }
-            }
+            GameMode.CurrentGameMode.TryConfirmBarrelRollPosition(ShipStand.transform.position, MovementTemplates.CurrentTemplate.position);
         }
 
         public void StartBarrelRollExecution(Ship.GenericShip ship)
@@ -241,7 +232,7 @@ namespace SubPhases
             TryConfirmBarrelRollPosition();
         }
 
-        private void TryConfirmBarrelRollPosition()
+        public void TryConfirmBarrelRollPosition()
         {
             obstaclesStayDetectorBase.ReCheckCollisionsStart();
             obstaclesStayDetectorMovementTemplate.ReCheckCollisionsStart();
@@ -275,14 +266,7 @@ namespace SubPhases
             if (IsBarrelRollAllowed())
             {
                 CheckMines();
-                if (!Network.IsNetworkGame)
-                {
-                    StartBarrelRollExecution(Selection.ThisShip);
-                }
-                else
-                {
-                    Network.PerformBarrelRoll();
-                }
+                GameMode.CurrentGameMode.StartBarrelRollExecution(Selection.ThisShip);
             }
             else
             {
@@ -390,14 +374,7 @@ namespace SubPhases
             if (progressCurrent >= progressTarget)
             {
                 performingAnimation = false;
-                if (!Network.IsNetworkGame)
-                {
-                    FinishBarrelRollAnimation();
-                }
-                else
-                {
-                    Network.FinishTask();
-                }
+                GameMode.CurrentGameMode.FinishBarrelRoll();
             }
         }
 

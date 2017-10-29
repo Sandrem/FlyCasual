@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using GameModes;
 
 public static class InformCrit
 {
@@ -49,14 +50,7 @@ public static class InformCrit
     
     private static void ShowPanel()
     {
-        if (!Network.IsNetworkGame)
-        {
-            ShowPanelVisible();
-        }
-        else
-        {
-            Network.CallInformCritWindow();
-        }
+        GameMode.CurrentGameMode.ShowInformCritPanel();
     }
 
     public static void ShowPanelVisible()
@@ -68,14 +62,7 @@ public static class InformCrit
     public static void ButtonConfirm()
     {
         InformCritPanel.Find("Confirm").gameObject.SetActive(false);
-        if (!Network.IsNetworkGame)
-        {
-            Triggers.FinishTrigger();
-        }
-        else
-        {
-            Network.FinishTask();
-        }
+        GameMode.CurrentGameMode.FinishTask();
     }
 
 }

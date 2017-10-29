@@ -26,7 +26,16 @@ namespace SubPhases
 
             decisionPanel = GameObject.Find("UI").transform.Find("DecisionsPanel").gameObject;
 
-            Prepare();
+            PrepareDecision(StartIsFinished);
+        }
+
+        public virtual void PrepareDecision(Action callBack)
+        {
+            callBack();
+        }
+
+        private void StartIsFinished()
+        {
             Initialize();
 
             UpdateHelpInfo();

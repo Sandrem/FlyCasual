@@ -113,7 +113,7 @@ namespace SubPhases
     public class ExpertHandlingTargetLockDecisionSubPhase : DecisionSubPhase
     {
 
-        public override void Prepare()
+        public override void PrepareDecision(System.Action callBack)
         {
             infoText = "Select target lock to remove";
 
@@ -131,6 +131,8 @@ namespace SubPhases
             AddDecision("Don't remove", delegate { ConfirmDecision(); });
 
             defaultDecision = GetDecisions().First().Key;
+
+            callBack();
         }
 
         private void RemoveRedTargetLockToken(char letter)

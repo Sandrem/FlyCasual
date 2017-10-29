@@ -63,7 +63,7 @@ namespace SubPhases
     public class WhisperDecisionSubPhase : DecisionSubPhase
     {
 
-        public override void Prepare()
+        public override void PrepareDecision(System.Action callBack)
         {
             infoText = "Whisper: Assign Focus token?";
 
@@ -72,6 +72,8 @@ namespace SubPhases
             AddDecision("Always", AlwaysAssignToken);
 
             defaultDecision = "Always";
+
+            callBack();
         }
 
         private void AssignToken(object sender, System.EventArgs e)

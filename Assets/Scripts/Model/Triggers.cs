@@ -276,7 +276,7 @@ public static partial class Triggers
     private class TriggersOrderSubPhase : DecisionSubPhase
     {
 
-        public override void Prepare()
+        public override void PrepareDecision(System.Action callBack)
         {
             infoText = "Select a trigger to resolve";
 
@@ -297,6 +297,8 @@ public static partial class Triggers
 
             DecisionOwner = Roster.GetPlayer(currentPlayer);
             defaultDecision = GetDecisions().First().Key;
+
+            callBack();
         }
 
     }

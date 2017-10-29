@@ -27,7 +27,6 @@ public class GameManagerScript : MonoBehaviour {
         Bombs.BombsManager.Initialize();
         Actions.Initialize();
         Triggers.Initialize();
-        Phases.StartPhases();
 
         if (!Network.IsNetworkGame)
         {

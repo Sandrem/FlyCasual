@@ -72,7 +72,7 @@ namespace SubPhases
     public class LieutenantKarsabiDecisionSubphase : DecisionSubPhase
     {
 
-        public override void Prepare()
+        public override void PrepareDecision(System.Action callBack)
         {
             infoText = "Use Lieutenant Karsabi's ability?";
 
@@ -80,6 +80,8 @@ namespace SubPhases
             AddDecision("No", DontUseAbility);
 
             defaultDecision = "Yes";
+
+            callBack();
         }
 
         private void UseAbility(object sender, System.EventArgs e)

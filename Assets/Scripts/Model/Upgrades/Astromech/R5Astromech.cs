@@ -71,7 +71,7 @@ namespace SubPhases
     public class R5AstromechDecisionSubPhase : DecisionSubPhase
     {
 
-        public override void Prepare()
+        public override void PrepareDecision(System.Action callBack)
         {
             infoText = "R5 Astromech: Select faceup ship Crit";
 
@@ -82,6 +82,8 @@ namespace SubPhases
             }
 
             defaultDecision = GetDecisions().First().Key;
+
+            callBack();
         }
 
         private void DiscardCrit(CriticalHitCard.GenericCriticalHit critCard)

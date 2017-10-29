@@ -75,7 +75,7 @@ namespace SubPhases
     {
         private List<CriticalHitCard.GenericCriticalHit> criticalHitCardsToChoose = new List<CriticalHitCard.GenericCriticalHit>();
 
-        public override void Prepare()
+        public override void PrepareDecision(Action callBack)
         {
             infoText = "Select Critical Hit card to deal";
 
@@ -98,6 +98,8 @@ namespace SubPhases
             }
 
             defaultDecision = Combat.CurrentCriticalHitCard.Name;
+
+            callBack();
         }
 
         private void DealCard(CriticalHitCard.GenericCriticalHit critCard)

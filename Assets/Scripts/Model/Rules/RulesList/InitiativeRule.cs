@@ -63,7 +63,7 @@ namespace SubPhases
     public class InitialiveDecisionSubPhase : DecisionSubPhase
     {
 
-        public override void Prepare()
+        public override void PrepareDecision(Action callBack)
         {
             infoText = "Player " + Tools.PlayerToInt(Phases.PlayerWithInitiative) + ", what player will have initiative?";
 
@@ -71,6 +71,8 @@ namespace SubPhases
             AddDecision("Opponent", GiveInitiative);
 
             defaultDecision = "Opponent";
+
+            callBack();
         }
 
         private void GiveInitiative(object sender, EventArgs e)

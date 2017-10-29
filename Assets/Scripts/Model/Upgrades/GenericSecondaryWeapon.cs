@@ -149,7 +149,7 @@ namespace SubPhases
     public class PayAttackCostDecisionSubPhase : DecisionSubPhase
     {
 
-        public override void Prepare()
+        public override void PrepareDecision(System.Action callBack)
         {
             infoText = "Choose how to pay attack cost";
 
@@ -181,6 +181,8 @@ namespace SubPhases
             }
 
             defaultDecision = GetDecisions().First().Key;
+
+            callBack();
         }
 
         private void PayCost(GenericToken token)

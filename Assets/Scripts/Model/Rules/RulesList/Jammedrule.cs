@@ -63,7 +63,7 @@ namespace SubPhases
     public class JammedDecisionSubPhase : DecisionSubPhase
     {
 
-        public override void Prepare()
+        public override void PrepareDecision(System.Action callBack)
         {
             infoText = "Select token to remove";
 
@@ -90,6 +90,8 @@ namespace SubPhases
             {
                 defaultDecision = GetDecisions().First().Key;
             }
+
+            callBack();
         }
 
         private void RemoveToken(GenericToken token)

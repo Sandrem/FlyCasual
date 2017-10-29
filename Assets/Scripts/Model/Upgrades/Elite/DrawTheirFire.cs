@@ -73,7 +73,7 @@ namespace SubPhases
     public class DrawTheirFireDecisionSubPhase : DecisionSubPhase
     {
 
-        public override void Prepare()
+        public override void PrepareDecision(System.Action callBack)
         {
             infoText = "Use ability of Draw Their Fire?";
 
@@ -81,6 +81,8 @@ namespace SubPhases
             AddDecision("No", DontUseAbility);
 
             defaultDecision = "Yes";
+
+            callBack();
         }
 
         private void UseAbility(object sender, System.EventArgs e)

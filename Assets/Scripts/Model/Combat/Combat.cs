@@ -406,7 +406,7 @@ namespace SubPhases
     public class WeaponSelectionDecisionSubPhase : DecisionSubPhase
     {
 
-        public override void Prepare()
+        public override void PrepareDecision(System.Action callBack)
         {
             List<Ship.IShipWeapon> allWeapons = GetAllWeapons();
 
@@ -423,6 +423,8 @@ namespace SubPhases
             }
 
             defaultDecision = GetDecisions().Last().Key;
+
+            callBack();
         }
 
         private static List<Ship.IShipWeapon> GetAllWeapons()

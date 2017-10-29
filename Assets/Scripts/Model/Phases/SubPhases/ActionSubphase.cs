@@ -108,7 +108,7 @@ namespace SubPhases
     public class ActionDecisonSubPhase : DecisionSubPhase
     {
 
-        public override void Prepare()
+        public override void PrepareDecision(System.Action callBack)
         {
             infoText = "Select action";
             List<ActionsList.GenericAction> availableActions = Selection.ThisShip.GetAvailableActionsList();
@@ -116,6 +116,7 @@ namespace SubPhases
             if (availableActions.Count > 0)
             {
                 Roster.GetPlayer(Phases.CurrentPhasePlayer).PerformAction();
+                callBack();
             }
             else
             {
@@ -165,7 +166,7 @@ namespace SubPhases
     public class FreeActionDecisonSubPhase : DecisionSubPhase
     {
 
-        public override void Prepare()
+        public override void PrepareDecision(System.Action callBack)
         {
             infoText = "Select free action";
             List<ActionsList.GenericAction> availableActions = Selection.ThisShip.GetAvailableFreeActionsList();
@@ -173,6 +174,7 @@ namespace SubPhases
             if (availableActions.Count > 0)
             {
                 Roster.GetPlayer(Phases.CurrentPhasePlayer).PerformFreeAction();
+                callBack();
             }
             else
             {

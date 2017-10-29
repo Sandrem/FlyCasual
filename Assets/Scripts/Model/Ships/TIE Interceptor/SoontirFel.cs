@@ -69,7 +69,7 @@ namespace SubPhases
     public class SoontirFelDecisionSubPhase : DecisionSubPhase
     {
 
-        public override void Prepare()
+        public override void PrepareDecision(System.Action callBack)
         {
             infoText = "Soontir Fel: Assign Focus token?";
 
@@ -78,6 +78,8 @@ namespace SubPhases
             AddDecision("Always", AlwaysAssignToken);
 
             defaultDecision = "Always";
+
+            callBack();
         }
 
         private void AssignToken(object sender, System.EventArgs e)

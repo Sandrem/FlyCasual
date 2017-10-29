@@ -69,7 +69,7 @@ namespace SubPhases
     public class ChewbaccaCrewDecisionSubPhase : DecisionSubPhase
     {
 
-        public override void Prepare()
+        public override void PrepareDecision(System.Action callBack)
         {
             infoText = "Use ability of Chewbacca (crew)?";
             RequiredPlayer = Selection.ActiveShip.Owner.PlayerNo;
@@ -78,6 +78,8 @@ namespace SubPhases
             AddDecision("No", DontUseChewbaccaCrewAbility);
 
             defaultDecision = "Yes";
+
+            callBack();
         }
 
         private void UseChewbaccaCrewAbility(object sender, System.EventArgs e)

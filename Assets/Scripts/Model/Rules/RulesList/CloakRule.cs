@@ -114,7 +114,7 @@ namespace SubPhases
     public class DecloakDecisionSubPhase : DecisionSubPhase
     {
 
-        public override void Prepare()
+        public override void PrepareDecision(System.Action callBack)
         {
             infoText = "Perform decloak?";
 
@@ -126,6 +126,8 @@ namespace SubPhases
             AddTooltip("Yes", "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/reference-cards/Decloak.png");
 
             defaultDecision = "No";
+
+            callBack();
         }
 
         private void Decloak(object sender, System.EventArgs e)

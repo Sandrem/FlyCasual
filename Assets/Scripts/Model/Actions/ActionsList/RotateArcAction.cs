@@ -32,7 +32,7 @@ namespace SubPhases
     public class RotateArcDecisionSubPhase : DecisionSubPhase
     {
 
-        public override void Prepare()
+        public override void PrepareDecision(System.Action callBack)
         {
             infoText = "Rotate Arc";
 
@@ -42,6 +42,8 @@ namespace SubPhases
             AddDecision("Rear",  delegate { ChangeMobileArcFacing(ArcFacing.Rear); });
 
             defaultDecision = GetDefaultDecision();
+
+            callBack();
         }
 
         //TODO: Update for AI

@@ -75,7 +75,7 @@ namespace SubPhases
 {
     public class AddAttackDiceDecisionSubPhase : DecisionSubPhase
     {
-        public override void Prepare()
+        public override void PrepareDecision(System.Action callBack)
         {
             infoText = "Use Zeta Leaders Ability?";
 
@@ -83,6 +83,8 @@ namespace SubPhases
             AddDecision("Cancel", DoNotUseAbility );
 
             defaultDecision = ShouldUsePilotAbility() ? "Use Pilot Ability" : "Cancel";
+
+            callBack();
         }
 
         private bool ShouldUsePilotAbility()

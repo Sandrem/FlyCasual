@@ -128,7 +128,7 @@ namespace SubPhases
     public class DropBombDecisionSubPhase : DecisionSubPhase
     {
 
-        public override void Prepare()
+        public override void PrepareDecision(System.Action callBack)
         {
             if (!Selection.ThisShip.IsBombAlreadyDropped)
             {
@@ -138,6 +138,8 @@ namespace SubPhases
                 AddDecision("No", SkipDropBomb);
 
                 defaultDecision = "No";
+
+                callBack();
             }
             else
             {

@@ -84,7 +84,7 @@ namespace SubPhases
     public class ExtraMunitionsDecisionSubphase : DecisionSubPhase
     {
 
-        public override void Prepare()
+        public override void PrepareDecision(System.Action callBack)
         {
             infoText = "Spend Ordnance token?";
 
@@ -92,6 +92,8 @@ namespace SubPhases
             AddDecision("No", DontUseAbility);
 
             defaultDecision = "Yes";
+
+            callBack();
         }
 
         private void UseAbility(object sender, System.EventArgs e)

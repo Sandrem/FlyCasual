@@ -105,7 +105,7 @@ namespace SubPhases
         {
             bool result = false;
 
-            if (Roster.GetPlayer(RequiredPlayer).GetType() == typeof(Players.HumanPlayer))
+            if (Roster.GetPlayer(RequiredPlayer).GetType() != typeof(Players.NetworkOpponentPlayer))
             {
                 if (isEnemyAllowed)
                 {

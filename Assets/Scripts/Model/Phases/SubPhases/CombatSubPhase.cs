@@ -145,7 +145,7 @@ namespace SubPhases
         public override bool AnotherShipCanBeSelected(Ship.GenericShip targetShip)
         {
             bool result = false;
-            if (Roster.GetPlayer(RequiredPlayer).GetType() == typeof(Players.HumanPlayer))
+            if (Roster.GetPlayer(RequiredPlayer).GetType() != typeof(Players.NetworkOpponentPlayer))
             {
                 if (Selection.ThisShip != null)
                 {

@@ -83,7 +83,7 @@ namespace SubPhases
         public virtual bool ThisShipCanBeSelected(Ship.GenericShip ship)
         {
             bool result = false;
-            if ((ship.Owner.PlayerNo == RequiredPlayer) && (ship.PilotSkill == RequiredPilotSkill))
+            if ((ship.Owner.PlayerNo == RequiredPlayer) && (ship.PilotSkill == RequiredPilotSkill) && (Roster.GetPlayer(RequiredPlayer).GetType() == typeof(Players.HumanPlayer)))
             {
                 result = true;
             }

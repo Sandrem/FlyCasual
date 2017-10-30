@@ -110,25 +110,11 @@ namespace SubPhases
         public override bool ThisShipCanBeSelected(Ship.GenericShip ship)
         {
             bool result = false;
-            if ((ship.Owner.PlayerNo == RequiredPlayer) && (ship.PilotSkill == RequiredPilotSkill))
+            if ((ship.Owner.PlayerNo == RequiredPlayer) && (ship.PilotSkill == RequiredPilotSkill) && (Roster.GetPlayer(RequiredPlayer).GetType() == typeof(Players.HumanPlayer)))
             {
                 if (ship.IsSetupPerformed == false)
                 {
-                    if (Network.IsNetworkGame)
-                    {
-                        if ((Network.IsServer && ship.Owner.PlayerNo == Players.PlayerNo.Player1) || (!Network.IsServer && ship.Owner.PlayerNo == Players.PlayerNo.Player2))
-                        {
-                            result = true;
-                        }
-                        else
-                        {
-                            Messages.ShowErrorToHuman("Ship cannot be selected: Belongs to network opponent");
-                        }
-                    }
-                    else
-                    {
-                        result = true;
-                    }
+                    result = true;
                 }
                 else
                 {

@@ -77,21 +77,25 @@ namespace SubPhases
         {
             bool result = false;
 
-            if (isFriendlyAllowed)
+            if (Roster.GetPlayer(RequiredPlayer).GetType() == typeof(Players.HumanPlayer))
             {
-                if (ship == Selection.ThisShip)
+
+                if (isFriendlyAllowed)
                 {
-                    TryToSelectThisShip();
+                    if (ship == Selection.ThisShip)
+                    {
+                        TryToSelectThisShip();
+                    }
+                    else
+                    {
+                        TrySelectShipByRange(ship);
+                    }
                 }
                 else
                 {
-                    TrySelectShipByRange(ship);
+                    Messages.ShowErrorToHuman("Friendly ship cannot be selected");
+                    RevertSubPhase();
                 }
-            }
-            else
-            {
-                Messages.ShowErrorToHuman("Friendly ship cannot be selected");
-                RevertSubPhase();
             }
             return result;
         }
@@ -100,14 +104,17 @@ namespace SubPhases
         {
             bool result = false;
 
-            if (isEnemyAllowed)
+            if (Roster.GetPlayer(RequiredPlayer).GetType() == typeof(Players.HumanPlayer))
             {
-                TrySelectShipByRange(anotherShip);
-            }
-            else
-            {
-                Messages.ShowErrorToHuman("Enemy ship cannot be selected");
-                RevertSubPhase();
+                if (isEnemyAllowed)
+                {
+                    TrySelectShipByRange(anotherShip);
+                }
+                else
+                {
+                    Messages.ShowErrorToHuman("Enemy ship cannot be selected");
+                    RevertSubPhase();
+                }
             }
             return result;
         }

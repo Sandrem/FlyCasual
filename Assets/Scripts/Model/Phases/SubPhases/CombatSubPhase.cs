@@ -131,7 +131,7 @@ namespace SubPhases
         public override bool ThisShipCanBeSelected(Ship.GenericShip ship)
         {
             bool result = false;
-            if ((ship.Owner.PlayerNo == RequiredPlayer) && (ship.PilotSkill == RequiredPilotSkill))
+            if ((ship.Owner.PlayerNo == RequiredPlayer) && (ship.PilotSkill == RequiredPilotSkill) && (Roster.GetPlayer(RequiredPlayer).GetType() == typeof(Players.HumanPlayer)))
             {
                 result = true;
             }
@@ -145,25 +145,28 @@ namespace SubPhases
         public override bool AnotherShipCanBeSelected(Ship.GenericShip targetShip)
         {
             bool result = false;
-            if (Selection.ThisShip != null)
+            if (Roster.GetPlayer(RequiredPlayer).GetType() == typeof(Players.HumanPlayer))
             {
-                if (targetShip.Owner.PlayerNo != Phases.CurrentSubPhase.RequiredPlayer)
+                if (Selection.ThisShip != null)
                 {
-                    //TODO: what to show is there are 2 ways (arc and not arc) ?
-                    //TODO: clear on skip combat
-                    Combat.ChosenWeapon = Selection.ThisShip.PrimaryWeapon;
-                    Combat.ShotInfo = new Board.ShipShotDistanceInformation(Selection.ThisShip, targetShip, Combat.ChosenWeapon);
-                    MovementTemplates.ShowFiringArcRange(Combat.ShotInfo);
-                    result = true;
+                    if (targetShip.Owner.PlayerNo != Phases.CurrentSubPhase.RequiredPlayer)
+                    {
+                        //TODO: what to show is there are 2 ways (arc and not arc) ?
+                        //TODO: clear on skip combat
+                        Combat.ChosenWeapon = Selection.ThisShip.PrimaryWeapon;
+                        Combat.ShotInfo = new Board.ShipShotDistanceInformation(Selection.ThisShip, targetShip, Combat.ChosenWeapon);
+                        MovementTemplates.ShowFiringArcRange(Combat.ShotInfo);
+                        result = true;
+                    }
+                    else
+                    {
+                        Messages.ShowErrorToHuman("Ship cannot be selected as attack target: Friendly ship");
+                    }
                 }
                 else
                 {
-                    Messages.ShowErrorToHuman("Ship cannot be selected as attack target: Friendly ship");
+                    Messages.ShowErrorToHuman("Ship cannot be selected as attack target:\nFirst select attacker");
                 }
-            }
-            else
-            {
-                Messages.ShowErrorToHuman("Ship cannot be selected as attack target:\nFirst select attacker");
             }
             return result;
         }

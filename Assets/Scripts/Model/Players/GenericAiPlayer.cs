@@ -362,6 +362,12 @@ namespace Players
             (Phases.CurrentSubPhase as SubPhases.DiceRollCheckSubPhase).Confirm();
         }
 
+        public override void OnTargetNotLegalForAttack()
+        {
+            Selection.ThisShip.IsAttackPerformed = true;
+            Phases.FinishSubPhase(typeof(SubPhases.CombatSubPhase));
+        }
+
     }
 
 }

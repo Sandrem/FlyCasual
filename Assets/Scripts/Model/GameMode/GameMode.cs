@@ -8,6 +8,8 @@ namespace GameModes
     {
         public static GameMode CurrentGameMode;
 
+        public abstract void RevertSubPhase();
+
         public abstract void ConfirmCrit();
 
         public abstract void DeclareTarget(int thisShip, int AnotherShip);

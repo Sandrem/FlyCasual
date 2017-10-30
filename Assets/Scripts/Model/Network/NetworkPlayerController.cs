@@ -414,6 +414,18 @@ public partial class NetworkPlayerController : NetworkBehaviour {
         currentSubPhase.InvokeFinish();
     }
 
+    [Command]
+    public void CmdRevertSubPhase()
+    {
+        RpcRevertSubPhase();
+    }
+
+    [ClientRpc]
+    private void RpcRevertSubPhase()
+    {
+        (Phases.CurrentSubPhase as SubPhases.SelectShipSubPhase).CallRevertSubPhase();
+    }
+
     // CONFIRM DICE RESULTS MODIFICATIONS
 
     [Command]

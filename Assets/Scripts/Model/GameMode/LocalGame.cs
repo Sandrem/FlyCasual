@@ -6,6 +6,11 @@ namespace GameModes
 {
     public class LocalGame : GameMode
     {
+        public override void RevertSubPhase()
+        {
+            (Phases.CurrentSubPhase as SubPhases.SelectShipSubPhase).CallRevertSubPhase();
+        }
+
         public override void ConfirmCrit()
         {
             InformCrit.HidePanel();

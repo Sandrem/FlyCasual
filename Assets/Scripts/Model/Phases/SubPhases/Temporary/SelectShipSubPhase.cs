@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using GameModes;
 
 namespace SubPhases
 {
@@ -94,7 +95,7 @@ namespace SubPhases
                 else
                 {
                     Messages.ShowErrorToHuman("Friendly ship cannot be selected");
-                    RevertSubPhase();
+                    CancelShipSelection();
                 }
             }
             return result;
@@ -113,7 +114,7 @@ namespace SubPhases
                 else
                 {
                     Messages.ShowErrorToHuman("Enemy ship cannot be selected");
-                    RevertSubPhase();
+                    CancelShipSelection();
                 }
             }
             return result;
@@ -130,7 +131,7 @@ namespace SubPhases
             else
             {
                 Messages.ShowErrorToHuman("Another ship should be selected");
-                RevertSubPhase();
+                CancelShipSelection();
             }
         }
 
@@ -149,8 +150,18 @@ namespace SubPhases
             else
             {
                 Messages.ShowErrorToHuman("Ship is outside of range");
-                RevertSubPhase();
+                CancelShipSelection();
             }
+        }
+
+        private void CancelShipSelection()
+        {
+            GameMode.CurrentGameMode.RevertSubPhase();
+        }
+
+        public void CallRevertSubPhase()
+        {
+            RevertSubPhase();
         }
 
         protected virtual void RevertSubPhase()

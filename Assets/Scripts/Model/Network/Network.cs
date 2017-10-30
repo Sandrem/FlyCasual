@@ -69,6 +69,13 @@ public static partial class Network
         LastNetworkCallback.ServerFinishTask();
     }
 
+    // SELECT SHIP
+
+    public static void RevertSubPhase()
+    {
+        if (IsServer) CurrentPlayer.CmdRevertSubPhase();
+    }
+
     // TOOLS
 
     public static void ShowMessage(string text)

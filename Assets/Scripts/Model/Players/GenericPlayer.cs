@@ -73,6 +73,8 @@ namespace Players
         public virtual void ToggleCombatDiceResults(bool isActive) { }
 
         public virtual bool IsNeedToShowManeuver(Ship.GenericShip ship) { return false; }
+
+        public virtual void OnTargetNotLegalForAttack() { }
     }
 
 }

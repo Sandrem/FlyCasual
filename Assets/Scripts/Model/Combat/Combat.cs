@@ -92,31 +92,7 @@ public static partial class Combat
         }
         else
         {
-            if (Roster.GetPlayer(Phases.CurrentPhasePlayer).GetType() == typeof(Players.HumanPlayer))
-            {
-                // TODO: Better explanations
-                if (!Rules.TargetIsLegalForShot.IsLegal())
-                {
-                    Messages.ShowError("Attack is not legal (this ship cannot attack or target cannot be attacked)");
-                }
-                else if (!ShotInfo.InShotAngle)
-                {
-                    Messages.ShowError("Target is outside your firing arc");
-                }
-                else if (ShotInfo.Range > ChosenWeapon.MaxRange || ShotInfo.Distance < ChosenWeapon.MinRange)
-                {
-                    Messages.ShowError("Target is outside your firing range");
-                }
-
-                //TODO: except non-legal targets, bupmed for example, biggs?
-                Roster.HighlightShipsFiltered(Roster.AnotherPlayer(Phases.CurrentPhasePlayer));
-                UI.HighlightNextButton();
-            }
-            else
-            {
-                Selection.ThisShip.IsAttackPerformed = true;
-                Phases.FinishSubPhase(typeof(SubPhases.CombatSubPhase));
-            }
+            Roster.GetPlayer(Phases.CurrentPhasePlayer).OnTargetNotLegalForAttack();
         }
     }
 

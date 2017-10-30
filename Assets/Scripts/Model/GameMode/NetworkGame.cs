@@ -6,6 +6,11 @@ namespace GameModes
 { 
     public class NetworkGame : GameMode
     {
+        public override void RevertSubPhase()
+        {
+            Network.RevertSubPhase();
+        }
+
         public override void ConfirmCrit()
         {
             if (DebugManager.DebugNetwork) UI.AddTestLogEntry("NetworkGame.FinishTask");

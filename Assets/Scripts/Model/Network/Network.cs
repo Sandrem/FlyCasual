@@ -132,11 +132,21 @@ public static partial class Network
         if (IsServer) CurrentPlayer.CmdPerformBarrelRoll();
     }
 
+    public static void CancelBarrelRoll()
+    {
+        if (IsServer) CurrentPlayer.CmdCancelBarrelRoll();
+    }
+
     // PERFORM BOOST
 
     public static void PerformBoost()
     {
         if (IsServer) CurrentPlayer.CmdPerformBoost();
+    }
+
+    public static void CancelBoost()
+    {
+        if (IsServer) CurrentPlayer.CmdCancelBoost();
     }
 
     // DECLARE COMBAT TARGET

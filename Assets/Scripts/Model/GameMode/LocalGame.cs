@@ -76,6 +76,11 @@ namespace GameModes
             (Phases.CurrentSubPhase as SubPhases.BarrelRollExecutionSubPhase).FinishBarrelRollAnimation();
         }
 
+        public override void CancelBarrelRoll()
+        {
+            (Phases.CurrentSubPhase as SubPhases.BarrelRollPlanningSubPhase).CancelBarrelRoll();
+        }
+
         // BOOST
 
         public override void TryConfirmBoostPosition(string selectedBoostHelper)
@@ -91,6 +96,11 @@ namespace GameModes
         public override void FinishBoost()
         {
             Phases.FinishSubPhase(typeof(SubPhases.BoostExecutionSubPhase));
+        }
+
+        public override void CancelBoost()
+        {
+            (Phases.CurrentSubPhase as SubPhases.BoostPlanningSubPhase).CancelBoost();
         }
 
         public override void UseDiceModification(string effectName)

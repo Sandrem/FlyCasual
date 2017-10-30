@@ -189,7 +189,7 @@ namespace SubPhases
             );
         }
 
-        private void CancelBarrelRoll()
+        public void CancelBarrelRoll()
         {
             Selection.ThisShip.RemoveAlreadyExecutedAction(typeof(ActionsList.BarrelRollAction));
             Selection.ThisShip.IsLandedOnObstacle = false;
@@ -270,7 +270,7 @@ namespace SubPhases
             }
             else
             {
-                CancelBarrelRoll();
+                GameMode.CurrentGameMode.CancelBarrelRoll();
             }
         }
 

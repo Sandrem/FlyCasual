@@ -90,6 +90,11 @@ namespace GameModes
             Network.FinishTask();
         }
 
+        public override void CancelBarrelRoll()
+        {
+            Network.CancelBarrelRoll();
+        }
+
         // BOOST
 
         public override void TryConfirmBoostPosition(string selectedBoostHelper)
@@ -108,6 +113,11 @@ namespace GameModes
         public override void FinishBoost()
         {
             Network.FinishTask();
+        }
+
+        public override void CancelBoost()
+        {
+            Network.CancelBoost();
         }
 
         public override void UseDiceModification(string effectName)

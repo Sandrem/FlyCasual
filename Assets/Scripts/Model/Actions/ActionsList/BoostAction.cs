@@ -170,7 +170,7 @@ namespace SubPhases
             );
         }
 
-        private void CancelBoost()
+        public void CancelBoost()
         {
             Selection.ThisShip.IsLandedOnObstacle = false;
             inReposition = false;
@@ -241,7 +241,7 @@ namespace SubPhases
             }
             else
             {
-                CancelBoost();
+                GameMode.CurrentGameMode.CancelBoost();
             }
 
             HidePlanningTemplates();

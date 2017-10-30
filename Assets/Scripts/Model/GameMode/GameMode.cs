@@ -32,11 +32,15 @@ namespace GameModes
 
         public abstract void StartBarrelRollExecution(Ship.GenericShip ship);
 
+        public abstract void CancelBarrelRoll();
+
         public abstract void FinishBarrelRoll();
 
         public abstract void TryConfirmBoostPosition(string selectedBoostHelper);
 
         public abstract void StartBoostExecution(Ship.GenericShip ship);
+
+        public abstract void CancelBoost();
 
         public abstract void FinishBoost();
 

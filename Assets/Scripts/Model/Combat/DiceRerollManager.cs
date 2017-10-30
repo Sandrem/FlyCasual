@@ -226,7 +226,7 @@ public partial class DiceRerollManager
     public void ConfirmReroll()
     {
         if (Selection.ActiveShip.Owner.GetType() == typeof(Players.HumanPlayer)) BlockButtons();
-        Combat.CurentDiceRoll.RerollSelected(UnblockButtons);
+        Combat.CurentDiceRoll.RerollSelected(TryUnblockButtons);
     }
 
     private void BlockButtons()
@@ -234,7 +234,19 @@ public partial class DiceRerollManager
         ToggleDiceRerollsPanel(false);
     }
 
-    private void UnblockButtons(DiceRoll diceRoll)
+    private void TryUnblockButtons(DiceRoll diceRoll)
+    {
+        if (!Network.IsNetworkGame)
+        {
+            UnblockButtons();
+        }
+        else
+        {
+            Network.SyncDiceRerollResults();
+        }
+    }
+
+    public void UnblockButtons()
     {
         DiceRerollManager.currentDiceRerollManager = null;
 

@@ -550,7 +550,31 @@ public partial class NetworkPlayerController : NetworkBehaviour {
         {
             (Phases.CurrentSubPhase as SubPhases.DiceRollCheckSubPhase).CalculateDice();
         }
+    }
 
+    // DICE REROLL SYNC
+
+    // DICE ROLL SYNC
+
+    [Command]
+    public void CmdSyncDiceRerollResults()
+    {
+        new NetworkExecuteWithCallback(
+            CmdSendDiceRollResultsToClients,
+            CmdCalculateDiceReroll
+        );
+    }
+
+    [Command]
+    public void CmdCalculateDiceReroll()
+    {
+        RpcCalculateDiceReroll();
+    }
+
+    [ClientRpc]
+    private void RpcCalculateDiceReroll()
+    {
+        DiceRerollManager.currentDiceRerollManager.UnblockButtons();
     }
 
     // DICE MODIFICATIONS

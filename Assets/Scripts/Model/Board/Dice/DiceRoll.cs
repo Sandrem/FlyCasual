@@ -189,6 +189,16 @@ public partial class DiceRoll
         }
     }
 
+    private void SetSelectedDiceInitialRotation(int[] randomHolder)
+    {
+        int counter = 0;
+        foreach (Die die in DiceList.Where(n => n.IsSelected))
+        {
+            die.SetInitialRotation(new Vector3(randomHolder[counter], randomHolder[counter + 1], randomHolder[counter + 2]));
+            counter += 3;
+        }
+    }
+
     private void RollPreparedDice()
     {
         foreach (Die die in DiceList)
@@ -199,11 +209,38 @@ public partial class DiceRoll
         CalculateResults();
     }
 
+    private void RerollPreparedDice()
+    {
+        foreach (Die die in DiceList.Where(n => n.IsSelected))
+        {
+            die.Reroll();
+        }
+
+        CalculateResults();
+    }
+
     public void RerollSelected(DelegateDiceroll callBack)
     {
         this.callBack = callBack;
 
-        foreach (var dice in DiceList)
+        if (!Network.IsNetworkGame)
+        {
+            foreach (Die die in DiceList)
+            {
+                if (die.IsSelected)
+                {
+                    die.RandomizeRotation();
+                }
+            }
+            RerollPreparedDice();
+        }
+        else
+        {
+            if (DebugManager.DebugNetwork) UI.AddTestLogEntry("DiceRoll.RerollSelected");
+            Network.GenerateRandom(new Vector2(0, 360), DiceList.Count(n => n.IsSelected) * 3, SetSelectedDiceInitialRotation, RerollPreparedDice);
+        }
+
+        /*foreach (var dice in DiceList)
         {
             if (dice.IsSelected)
             {
@@ -211,7 +248,7 @@ public partial class DiceRoll
             }
         }
 
-        CalculateResults();
+        CalculateResults();*/
     }
 
     public void ToggleRerolledLocks(bool isActive)

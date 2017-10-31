@@ -255,4 +255,11 @@ public static partial class Network
         CurrentPlayer.CmdTryConfirmBoostPosition(SelectedBoostHelper);
     }
 
+    // DICE SELECTION SYNC
+
+    public static void SyncSelectedDiceAndReroll()
+    {
+        if (IsServer) CurrentPlayer.CmdSyncSelectedDiceAndReroll();
+    }
+
 }

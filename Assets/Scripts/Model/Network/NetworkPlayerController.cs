@@ -619,6 +619,45 @@ public partial class NetworkPlayerController : NetworkBehaviour {
         (Phases.CurrentSubPhase as SubPhases.BoostPlanningSubPhase).TryConfirmBoostPositionNetwork(SelectedBoostHelper);
     }
 
+    // SELECTED DICE SYNC
+
+    [Command]
+    public void CmdSyncSelectedDiceAndReroll()
+    {
+        if (DebugManager.DebugNetwork) UI.AddTestLogEntry("S: CmdSyncSelectedDice");
+
+        int[] selectedDiceIds = new int[DiceRoll.CurrentDiceRoll.SelectedCount];
+        for (int i = 0; i < DiceRoll.CurrentDiceRoll.SelectedCount; i++)
+        {
+            selectedDiceIds[i] = int.Parse(DiceRoll.CurrentDiceRoll.Selected[i].Model.name.Replace("DiceN", ""));
+        }
+
+        RpcSyncSelectedDiceAndReroll(selectedDiceIds);
+    }
+
+    [ClientRpc]
+    private void RpcSyncSelectedDiceAndReroll(int[] selectedDiceIds)
+    {
+        if (DebugManager.DebugNetwork) UI.AddTestLogEntry("C: RpcSyncSelectedDice");
+
+        foreach (var die in DiceRoll.CurrentDiceRoll.DiceList)
+        {
+            int diceId = int.Parse(die.Model.name.Replace("DiceN", ""));
+            bool isFound = false;
+            for (int i = 0; i < selectedDiceIds.Length; i++)
+            {
+                if (selectedDiceIds[i] == diceId)
+                {
+                    isFound = true;
+                    break;
+                }
+            }
+            die.ToggleSelected(isFound);
+        }
+
+        DiceRoll.CurrentDiceRoll.RandomizeAndRerollSelected();
+    }
+
     // MESSAGES
 
     [Command]

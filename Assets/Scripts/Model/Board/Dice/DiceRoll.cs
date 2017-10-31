@@ -158,6 +158,18 @@ public partial class DiceRoll
         private set { }
     }
 
+    public List<Die> Selected
+    {
+        get { return DiceList.Where(n => (n.IsSelected)).ToList(); }
+        private set { }
+    }
+
+    public int SelectedCount
+    {
+        get { return DiceList.Count(n => (n.IsSelected)); }
+        private set { }
+    }
+
     public void Roll(DelegateDiceroll callBack)
     {
         DiceRoll.CurrentDiceRoll = this;
@@ -236,19 +248,15 @@ public partial class DiceRoll
         }
         else
         {
-            if (DebugManager.DebugNetwork) UI.AddTestLogEntry("DiceRoll.RerollSelected");
-            Network.GenerateRandom(new Vector2(0, 360), DiceList.Count(n => n.IsSelected) * 3, SetSelectedDiceInitialRotation, RerollPreparedDice);
+            if (DebugManager.DebugNetwork) UI.AddTestLogEntry("DiceRoll.SyncSelectedDice");
+            Network.SyncSelectedDiceAndReroll();
         }
+    }
 
-        /*foreach (var dice in DiceList)
-        {
-            if (dice.IsSelected)
-            {
-                dice.Reroll();
-            }
-        }
-
-        CalculateResults();*/
+    public void RandomizeAndRerollSelected()
+    {
+        if (DebugManager.DebugNetwork) UI.AddTestLogEntry("DiceRoll.RerollSelected");
+        Network.GenerateRandom(new Vector2(0, 360), SelectedCount * 3, SetSelectedDiceInitialRotation, RerollPreparedDice);
     }
 
     public void ToggleRerolledLocks(bool isActive)

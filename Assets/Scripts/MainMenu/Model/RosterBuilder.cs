@@ -141,11 +141,12 @@ public static partial class RosterBuilder {
     private static Dictionary<string, string> AllShips = new Dictionary<string, string>();
     private static Dictionary<string, string> AllShipsXws = new Dictionary<string, string>();
 
+    private static Dictionary<string, string> AllUpgrades = new Dictionary<string, string>();
+    private static Dictionary<string, string> AllUpgradesXws = new Dictionary<string, string>();
+
     private static Dictionary<string, string> AllPilots = new Dictionary<string, string>();
     private static Dictionary<string, string> AllPilotsXws = new Dictionary<string, string>();
     private static Dictionary<string, int> PilotSkill = new Dictionary<string, int>();
-
-    private static Dictionary<string, string> AllUpgrades = new Dictionary<string, string>();
 
     public static void Initialize()
     {
@@ -153,6 +154,7 @@ public static partial class RosterBuilder {
         SetPlayers();
         SetPlayerFactions();
         GenerateShipsList();
+        GenerateUpgradesList();
         AddInitialShips();
     }
 
@@ -399,6 +401,32 @@ public static partial class RosterBuilder {
         }
 
         return result;
+    }
+
+    private static void GenerateUpgradesList()
+    {
+        List<Type> typelist = Assembly.GetExecutingAssembly().GetTypes()
+            .Where(t => String.Equals(t.Namespace, "UpgradesList", StringComparison.Ordinal))
+            .ToList();
+
+        foreach (var type in typelist)
+        {
+            if (type.MemberType == MemberTypes.NestedType) continue;
+
+            GenericUpgrade newUpgradeContainer = (GenericUpgrade)System.Activator.CreateInstance(type);
+            if ((newUpgradeContainer.Name != null) && (!newUpgradeContainer.IsHidden))
+            {
+                string upgradeKey = newUpgradeContainer.Name + " (" + newUpgradeContainer.Cost + ")";
+
+                if (!AllUpgrades.ContainsKey(upgradeKey))
+                {
+                    AllUpgrades.Add(upgradeKey, type.ToString());
+
+                    string upgradeNameXws = newUpgradeContainer.NameCanonical;
+                    AllUpgradesXws.Add(upgradeNameXws, type.ToString());
+                }
+            }
+        }
     }
 
     private static void SetAvailableUpgrades(SquadBuilderShip squadBuilderShip)
@@ -749,15 +777,25 @@ public static partial class RosterBuilder {
                 Dropdown shipDropdown = newShip.Panel.transform.Find("GroupShip/DropdownShip").GetComponent<Dropdown>();
                 shipDropdown.value = shipDropdown.options.IndexOf(shipDropdown.options.Find(n => n.text == shipNameGeneral));
 
-                OnShipChanged(newShip);
-
                 string pilotNameXws = pilotJson["name"].str;
                 string pilotNamePath = AllPilotsXws[pilotNameXws];
                 string pilotNameGeneral = AllPilots.Where(n => n.Value == pilotNamePath).First().Key;
                 Dropdown pilotDropdown = newShip.Panel.transform.Find("GroupShip/DropdownPilot").GetComponent<Dropdown>();
                 pilotDropdown.value = pilotDropdown.options.IndexOf(pilotDropdown.options.Find(n => n.text == pilotNameGeneral));
 
-                OnPilotChanged(newShip);
+                JSONObject upgradeJsons = pilotJson["upgrades"];
+                foreach (string upgradeType in upgradeJsons.keys)
+                {
+                    JSONObject upgradeNames = upgradeJsons[upgradeType];
+                    foreach (JSONObject upgradeName in upgradeNames.list)
+                    {
+                        InstallUpgradeIntoShipPanel(
+                            newShip,
+                            XwsToUpgradeType(upgradeType),
+                            AllUpgrades.Where(n => n.Value == AllUpgradesXws[upgradeName.str]).First().Key
+                        );
+                    }
+                }
             }
         }
         else
@@ -766,6 +804,23 @@ public static partial class RosterBuilder {
         }
 
         callBack();
+    }
+
+    private static void InstallUpgradeIntoShipPanel(SquadBuilderShip ship, UpgradeType upgradeType, string upgradeNameWithCost)
+    {
+        Transform upgradesGroup = ship.Panel.transform.Find("GroupUpgrades");
+        foreach (Transform upgradeLine in upgradesGroup)
+        {
+            if (upgradeLine.name == "Upgrade" + upgradeType.ToString() + "Line")
+            {
+                Dropdown upgradeDropdown = upgradeLine.GetComponent<Dropdown>();
+                if (upgradeDropdown.value == 0)
+                {
+                    upgradeDropdown.value = upgradeDropdown.options.IndexOf(upgradeDropdown.options.Find(n => n.text == upgradeNameWithCost));
+                    break;
+                }
+            }
+        }
     }
 
     private static void LogImportedSquad(JSONObject squadJson)
@@ -916,6 +971,33 @@ public static partial class RosterBuilder {
                 break;
             default:
                 result = upgradeType.ToString().ToLower();
+                break;
+        }
+
+        return result;
+    }
+
+    private static UpgradeType XwsToUpgradeType(string upgradeXws)
+    {
+        UpgradeType result = UpgradeType.Astromech;
+
+        switch (upgradeXws)
+        {
+            case "ept":
+                result = UpgradeType.Elite;
+                break;
+            case "amd":
+                result = UpgradeType.Astromech;
+                break;
+            case "samd":
+                result = UpgradeType.SalvagedAstromech;
+                break;
+            case "mod":
+                result = UpgradeType.Modification;
+                break;
+            default:
+                string capitalizedName = upgradeXws.First().ToString().ToUpper() + upgradeXws.Substring(1);
+                result = (UpgradeType) Enum.Parse(typeof(UpgradeType), capitalizedName);
                 break;
         }
 

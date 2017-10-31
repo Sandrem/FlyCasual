@@ -12,7 +12,7 @@ namespace Ship
             public MajorVynder() : base()
             {
                 PilotName = "Major Vynder";
-                ImageUrl = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/pilots/Galactic%20Empire/Alpha-class%20Star%20Wing/lieutenant-karsabi.png";
+                ImageUrl = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/pilots/Galactic%20Empire/Alpha-class%20Star%20Wing/major-vynder.png";
                 PilotSkill = 7;
                 Cost = 26;
 

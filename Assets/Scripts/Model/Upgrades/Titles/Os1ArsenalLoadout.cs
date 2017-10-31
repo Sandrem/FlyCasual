@@ -11,7 +11,7 @@ namespace UpgradesList
         {
             Type = UpgradeType.Title;
             Name = "Os-1 Arsenal Loadout";
-            Cost = 1;
+            Cost = 2;
             AddedSlots = new List<UpgradeSlot>
             {
                 new UpgradeSlot(UpgradeType.Torpedo),

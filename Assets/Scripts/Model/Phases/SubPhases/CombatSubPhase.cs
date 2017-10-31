@@ -30,6 +30,9 @@ namespace SubPhases
         public override void Next()
         {
             if (DebugManager.DebugPhases) Debug.Log("Combat SubPhase - Next");
+
+            UI.HideSkipButton();
+
             if (Selection.ThisShip != null)
             {
                 Selection.ThisShip.CallAfterAttackWindow();

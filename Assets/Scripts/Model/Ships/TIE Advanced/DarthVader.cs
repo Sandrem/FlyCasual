@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Ship;
 
 // Second->First: Two same actions
 // Triggers are empty
@@ -11,51 +12,50 @@ namespace Ship
     {
         public class DarthVader : TIEAdvanced
         {
-
             public DarthVader() : base()
             {
                 PilotName = "Darth Vader";
                 ImageUrl = "https://vignette1.wikia.nocookie.net/xwing-miniatures/images/f/f7/Darth_Vader.png";
-                IsUnique = true;
                 PilotSkill = 9;
                 Cost = 29;
 
-                SkinName = "Blue";
+                IsUnique = true;
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
-            }
 
-            public override void InitializePilot()
+                SkinName = "Blue";
+
+                PilotAbilitiesList.Add(new PilotAbilities.DarthVaderAbility());
+            }
+        }
+    }
+}
+
+namespace PilotAbilities
+{
+    public class DarthVaderAbility : GenericPilotAbility
+    {
+        public override void Initialize(GenericShip host)
+        {
+            base.Initialize(host);
+
+            Host.OnActionDecisionSubphaseEnd += DoSecondAction;
+        }
+
+        private void DoSecondAction(GenericShip ship)
+        {
+            if (!Host.HasToken(typeof(Tokens.StressToken)))
             {
-                base.InitializePilot();
-
-                OnActionDecisionSubphaseEnd += DoSecondAction;
+                RegisterAbilityTrigger(TriggerTypes.OnFreeActionPlanned, PerformFreeAction);
             }
+        }
 
-            private void DoSecondAction(GenericShip ship)
-            {
-                if (!HasToken(typeof(Tokens.StressToken)))
-                {
-                    Triggers.RegisterTrigger(
-                        new Trigger()
-                        {
-                            Name = "Darth Vader: Second action",
-                            TriggerOwner = Owner.PlayerNo,
-                            TriggerType = TriggerTypes.OnFreeActionPlanned,
-                            EventHandler = PerformFreeAction
-                        }
-                    );
-                }
-            }
+        private void PerformFreeAction(object sender, System.EventArgs e)
+        {
+            Host.GenerateAvailableActionsList();
+            List<ActionsList.GenericAction> actions = Selection.ThisShip.GetAvailableActionsList();
 
-            private void PerformFreeAction(object sender, System.EventArgs e)
-            {
-                GenerateAvailableActionsList();
-                List<ActionsList.GenericAction> actions = Selection.ThisShip.GetAvailableActionsList();
-
-                AskPerformFreeAction(actions, Triggers.FinishTrigger);
-            }
-
+            Host.AskPerformFreeAction(actions, Triggers.FinishTrigger);
         }
     }
 }

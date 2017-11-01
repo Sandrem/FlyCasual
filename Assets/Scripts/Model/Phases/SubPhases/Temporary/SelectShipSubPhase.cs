@@ -5,16 +5,20 @@ using GameModes;
 
 namespace SubPhases
 {
+    public enum TargetTypes
+    {
+        This,
+        OtherFriendly,
+        Enemy
+    }
 
     public class SelectShipSubPhase : GenericSubPhase
     {
-        protected bool isEnemyAllowed;
-        protected bool isFriendlyAllowed;
-        protected bool isThisAllowed;
+        protected List<TargetTypes> targetsAllowed = new List<TargetTypes>();
         protected int minRange = 1;
         protected int maxRange = 3;
 
-        protected UnityEngine.Events.UnityAction finishAction;
+        protected System.Action finishAction;
 
         public Ship.GenericShip TargetShip;
 
@@ -35,11 +39,22 @@ namespace SubPhases
 
         }
 
+        public void PrepareByParameters(System.Action selectTargetAction, List<TargetTypes> targetTypes, Vector2 rangeLimits, bool showSkipButton = false)
+        {
+            targetsAllowed.AddRange(targetTypes);
+            minRange = (int) rangeLimits.x;
+            maxRange = (int) rangeLimits.y;
+
+            finishAction = selectTargetAction;
+
+            if (showSkipButton) UI.ShowSkipButton();
+        }
+
         public override void Initialize()
         {
             Players.PlayerNo playerNo = Players.PlayerNo.Player1;
-            if (isFriendlyAllowed) playerNo = Phases.CurrentPhasePlayer;
-            if (isEnemyAllowed) playerNo = Roster.AnotherPlayer(Phases.CurrentPhasePlayer);
+            if (targetsAllowed.Contains(TargetTypes.OtherFriendly)) playerNo = Phases.CurrentPhasePlayer;
+            if (targetsAllowed.Contains(TargetTypes.Enemy)) playerNo = Roster.AnotherPlayer(Phases.CurrentPhasePlayer);
             Roster.HighlightShipsFiltered(playerNo, -1, GenerateListOfExceptions());
         }
 
@@ -49,11 +64,11 @@ namespace SubPhases
 
             if (Selection.ThisShip != null)
             {
-                if (isThisAllowed) exceptShips.Add(Selection.ThisShip);
+                if (targetsAllowed.Contains(TargetTypes.This)) exceptShips.Add(Selection.ThisShip);
 
                 foreach (var ship in Roster.AllShips)
                 {
-                    if ((isFriendlyAllowed && ship.Value.Owner.PlayerNo == Selection.ThisShip.Owner.PlayerNo) || (isEnemyAllowed && ship.Value.Owner.PlayerNo != Selection.ThisShip.Owner.PlayerNo))
+                    if ((targetsAllowed.Contains(TargetTypes.OtherFriendly) && ship.Value.Owner.PlayerNo == Selection.ThisShip.Owner.PlayerNo) || (targetsAllowed.Contains(TargetTypes.Enemy) && ship.Value.Owner.PlayerNo != Selection.ThisShip.Owner.PlayerNo))
                     {
                         Board.ShipDistanceInformation distanceInfo = new Board.ShipDistanceInformation(Selection.ThisShip, ship.Value);
                         if ((distanceInfo.Range < minRange) || (distanceInfo.Range > maxRange))
@@ -80,8 +95,7 @@ namespace SubPhases
 
             if (Roster.GetPlayer(RequiredPlayer).GetType() == typeof(Players.HumanPlayer))
             {
-
-                if (isFriendlyAllowed)
+                if (targetsAllowed.Contains(TargetTypes.OtherFriendly))
                 {
                     if (ship == Selection.ThisShip)
                     {
@@ -107,7 +121,7 @@ namespace SubPhases
 
             if (Roster.GetPlayer(RequiredPlayer).GetType() != typeof(Players.NetworkOpponentPlayer))
             {
-                if (isEnemyAllowed)
+                if (targetsAllowed.Contains(TargetTypes.Enemy))
                 {
                     TrySelectShipByRange(anotherShip);
                 }
@@ -122,7 +136,7 @@ namespace SubPhases
 
         private void TryToSelectThisShip()
         {
-            if (isThisAllowed)
+            if (targetsAllowed.Contains(TargetTypes.This))
             {
                 TargetShip = Selection.ThisShip;
                 UI.HideNextButton();

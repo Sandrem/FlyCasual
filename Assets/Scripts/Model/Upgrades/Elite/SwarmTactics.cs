@@ -65,7 +65,7 @@ namespace SubPhases
 
         public override void Prepare()
         {
-            isFriendlyAllowed = true;
+            targetsAllowed.Add(TargetTypes.OtherFriendly);
             maxRange = 1;
             finishAction = SelectSwarmTacticsTarget;
 

@@ -66,7 +66,7 @@ namespace SubPhases
 
         public override void Prepare()
         {
-            isFriendlyAllowed = true;
+            targetsAllowed.Add(TargetTypes.OtherFriendly);
             maxRange = 2;
             finishAction = SelectSquadLeaderTarget;
 

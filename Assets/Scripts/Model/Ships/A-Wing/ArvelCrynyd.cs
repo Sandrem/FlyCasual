@@ -12,12 +12,22 @@
                 Cost = 23;
 
                 IsUnique = true;
-            }
 
-            public override bool CanAttackBumpedTarget(GenericShip defender)
-            {
-                return true;
+                PilotAbilitiesList.Add(new PilotAbilities.ArvelCrynydAbility());
             }
+        }
+    }
+}
+
+namespace PilotAbilities
+{
+    public class ArvelCrynydAbility : GenericPilotAbility
+    {
+        public override void Initialize(Ship.GenericShip host)
+        {
+            base.Initialize(host);
+
+            Host.CanAttackBumpedTarget = true;
         }
     }
 }

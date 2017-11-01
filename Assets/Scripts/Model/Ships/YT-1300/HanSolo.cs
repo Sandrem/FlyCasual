@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using Ship;
 
 namespace Ship
 {
@@ -24,17 +25,8 @@ namespace Ship
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Missile);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
-            }
 
-            public override void InitializePilot()
-            {
-                base.InitializePilot();
-                AfterGenerateAvailableActionEffectsList += HanSoloPilotAbility;
-            }
-
-            public void HanSoloPilotAbility(GenericShip ship)
-            {
-                ship.AddAvailableActionEffect(new PilotAbilities.HanSoloAction());
+                PilotAbilitiesList.Add(new PilotAbilities.HanSoloAbility());
             }
         }
     }
@@ -42,108 +34,123 @@ namespace Ship
 
 namespace PilotAbilities
 {
-    public class HanSoloAction : ActionsList.GenericAction
+    public class HanSoloAbility : GenericPilotAbility
     {
-        public HanSoloAction()
+        public override void Initialize(GenericShip host)
         {
-            Name = EffectName = "Han Solo's ability";
-            IsReroll = true;
+            base.Initialize(host);
+
+            Host.AfterGenerateAvailableActionEffectsList += HanSoloPilotAbility;
         }
 
-        public override void ActionEffect(System.Action callBack)
+        public void HanSoloPilotAbility(GenericShip ship)
         {
-            DiceRerollManager diceRerollManager = new DiceRerollManager
+            ship.AddAvailableActionEffect(new HanSoloAction());
+        }
+
+        private class HanSoloAction : ActionsList.GenericAction
+        {
+            public HanSoloAction()
             {
-                CallBack = callBack
-            };
-            diceRerollManager.Start();
-            SelectAllRerolableDices();
-            diceRerollManager.ConfirmReroll();
-        }
-
-        private static void SelectAllRerolableDices()
-        {
-            Combat.CurentDiceRoll.SelectBySides
-            (
-                new List<DieSide>(){
-                    DieSide.Blank,
-                    DieSide.Focus,
-                    DieSide.Success,
-                    DieSide.Crit
-                },
-                int.MaxValue
-            );
-        }
-
-        public override bool IsActionEffectAvailable()
-        {
-            bool result = false;
-
-            if (Combat.AttackStep == CombatStep.Attack && Combat.DiceRollAttack.NotRerolled > 0)
-            {
-                result = true;
+                Name = EffectName = "Han Solo's ability";
+                IsReroll = true;
             }
 
-            return result;
-        }
-
-        public override int GetActionEffectPriority()
-        {
-            int result = 0;
-
-            if (Combat.AttackStep == CombatStep.Attack && Combat.DiceRollAttack.NotRerolled > 0)
+            public override void ActionEffect(System.Action callBack)
             {
-                int focusToTurnIntoHit = 0;
-                int focusToTurnIntoHitLeft = 0;
-                if (Combat.Attacker.GetAvailableActionEffectsList().Count(n => n.IsTurnsAllFocusIntoSuccess) > 0)
+                DiceRerollManager diceRerollManager = new DiceRerollManager
                 {
-                    focusToTurnIntoHit = int.MaxValue;
-                }
-                else if (Combat.Attacker.GetAvailableActionEffectsList().Count(n => n.IsTurnsOneFocusIntoSuccess) > 0)
-                {
-                    focusToTurnIntoHit = 1;
-                }
-                focusToTurnIntoHitLeft = focusToTurnIntoHit;
+                    CallBack = callBack
+                };
+                diceRerollManager.Start();
+                SelectAllRerolableDices();
+                diceRerollManager.ConfirmReroll();
+            }
 
-                int currentHits = 0;
-                foreach (var die in Combat.DiceRollAttack.DiceList.Where(n => !n.IsRerolled))
+            private static void SelectAllRerolableDices()
+            {
+                Combat.CurentDiceRoll.SelectBySides
+                (
+                    new List<DieSide>(){
+                        DieSide.Blank,
+                        DieSide.Focus,
+                        DieSide.Success,
+                        DieSide.Crit
+                    },
+                    int.MaxValue
+                );
+            }
+
+            public override bool IsActionEffectAvailable()
+            {
+                bool result = false;
+
+                if (Combat.AttackStep == CombatStep.Attack && Combat.DiceRollAttack.NotRerolled > 0)
                 {
-                    if (die.IsSuccess)
+                    result = true;
+                }
+
+                return result;
+            }
+
+            public override int GetActionEffectPriority()
+            {
+                int result = 0;
+
+                if (Combat.AttackStep == CombatStep.Attack && Combat.DiceRollAttack.NotRerolled > 0)
+                {
+                    int focusToTurnIntoHit = 0;
+                    int focusToTurnIntoHitLeft = 0;
+                    if (Combat.Attacker.GetAvailableActionEffectsList().Count(n => n.IsTurnsAllFocusIntoSuccess) > 0)
                     {
-                        currentHits++;
+                        focusToTurnIntoHit = int.MaxValue;
                     }
-                    else if (die.Side == DieSide.Focus)
+                    else if (Combat.Attacker.GetAvailableActionEffectsList().Count(n => n.IsTurnsOneFocusIntoSuccess) > 0)
                     {
-                        if (focusToTurnIntoHitLeft > 0)
+                        focusToTurnIntoHit = 1;
+                    }
+                    focusToTurnIntoHitLeft = focusToTurnIntoHit;
+
+                    int currentHits = 0;
+                    foreach (var die in Combat.DiceRollAttack.DiceList.Where(n => !n.IsRerolled))
+                    {
+                        if (die.IsSuccess)
                         {
                             currentHits++;
-                            focusToTurnIntoHitLeft--;
+                        }
+                        else if (die.Side == DieSide.Focus)
+                        {
+                            if (focusToTurnIntoHitLeft > 0)
+                            {
+                                currentHits++;
+                                focusToTurnIntoHitLeft--;
+                            }
                         }
                     }
-                }
 
-                float averagePossibleHits = 0;
-                if (focusToTurnIntoHit == int.MaxValue)
-                {
-                    averagePossibleHits = (6 / 8) * Combat.DiceRollAttack.NotRerolled;
-                }
-                else if (focusToTurnIntoHit == 1)
-                {
-                    if (Combat.DiceRollAttack.NotRerolled > 0)
+                    float averagePossibleHits = 0;
+                    if (focusToTurnIntoHit == int.MaxValue)
                     {
-                        averagePossibleHits = (6 / 8) + (4 / 8) * Combat.DiceRollAttack.NotRerolled-1;
+                        averagePossibleHits = (6 / 8) * Combat.DiceRollAttack.NotRerolled;
                     }
-                }
-                else
-                {
-                    averagePossibleHits = (4 / 8) * Combat.DiceRollAttack.NotRerolled;
+                    else if (focusToTurnIntoHit == 1)
+                    {
+                        if (Combat.DiceRollAttack.NotRerolled > 0)
+                        {
+                            averagePossibleHits = (6 / 8) + (4 / 8) * Combat.DiceRollAttack.NotRerolled - 1;
+                        }
+                    }
+                    else
+                    {
+                        averagePossibleHits = (4 / 8) * Combat.DiceRollAttack.NotRerolled;
+                    }
+
+                    if (averagePossibleHits > currentHits) result = 85;
                 }
 
-                if (averagePossibleHits > currentHits) result = 85;
+                return result;
             }
 
-            return result;
         }
-
     }
 }

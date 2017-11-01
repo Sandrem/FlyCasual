@@ -15,35 +15,40 @@ namespace Ship
                 PilotSkill = 7;
                 Cost = 38;
 
-                SkinName = "Kath Scarlet";
+                IsUnique = true;
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
                 faction = Faction.Empire;
-            }
 
-            public override void InitializePilot()
-            {
-                base.InitializePilot();
-                OnAtLeastOneCritWasCancelledByDefender += RegisterKathScarletPilotAbility;
-            }
+                SkinName = "Kath Scarlet";
 
-            private void RegisterKathScarletPilotAbility()
-            {
-                Triggers.RegisterTrigger(new Trigger
-                {
-                    Name = "Kath Scarlet's ability",
-                    TriggerType = TriggerTypes.OnAtLeastOneCritWasCancelledByDefender,
-                    TriggerOwner = this.Owner.PlayerNo,
-                    EventHandler = KathScarletPilotAbility
-                });
+                PilotAbilitiesList.Add(new PilotAbilities.KathScarletEmpireAbility());
             }
+        }
+    }
+}
 
-            private void KathScarletPilotAbility(object sender, System.EventArgs e)
-            {
-                Messages.ShowInfo("Critical hit was cancelled - stress token is assigned to the defender");
-                Combat.Defender.AssignToken(new Tokens.StressToken(), Triggers.FinishTrigger);
-            }
+namespace PilotAbilities
+{
+    public class KathScarletEmpireAbility : GenericPilotAbility
+    {
+        public override void Initialize(Ship.GenericShip host)
+        {
+            base.Initialize(host);
+
+            Host.OnAtLeastOneCritWasCancelledByDefender += RegisterKathScarletPilotAbility;
+        }
+
+        private void RegisterKathScarletPilotAbility()
+        {
+            RegisterAbilityTrigger(TriggerTypes.OnAtLeastOneCritWasCancelledByDefender, KathScarletPilotAbility);
+        }
+
+        private void KathScarletPilotAbility(object sender, System.EventArgs e)
+        {
+            Messages.ShowInfo("Critical hit was cancelled - stress token is assigned to the defender");
+            Combat.Defender.AssignToken(new Tokens.StressToken(), Triggers.FinishTrigger);
         }
     }
 }

@@ -90,7 +90,7 @@ namespace SubPhases
             minRange = ship.TargetLockMinRange;
             maxRange = ship.TargetLockMaxRange;
 
-            isEnemyAllowed = true;
+            targetsAllowed.Add(TargetTypes.Enemy);
             finishAction = TrySelectTargetLock;
 
             UI.ShowSkipButton();

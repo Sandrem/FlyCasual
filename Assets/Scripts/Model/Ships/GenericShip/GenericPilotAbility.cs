@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Ship;
 using SubPhases;
+using UnityEngine;
 
 namespace PilotAbilities
 {
@@ -24,6 +25,8 @@ namespace PilotAbilities
             Name = Host.PilotName + "'s ability";
         }
 
+        // REGISTER TRIGGER
+
         protected void RegisterAbilityTrigger(TriggerTypes triggerType, EventHandler eventHandler)
         {
             Triggers.RegisterTrigger(new Trigger()
@@ -35,6 +38,8 @@ namespace PilotAbilities
                 Sender = Host
             });
         }
+
+        // DECISION USE ABILITY YES/NO
 
         protected void AskToUseAbility(Func<bool> useByDefault, EventHandler useAbility, EventHandler dontUseAbility = null)
         {
@@ -56,11 +61,52 @@ namespace PilotAbilities
             pilotAbilityDecision.Start();
         }
 
-        public class PilotAbilityDecisionSubphase : DecisionSubPhase { }
+        private class PilotAbilityDecisionSubphase : DecisionSubPhase { }
 
         private void DontUseAbility(object sender, System.EventArgs e)
         {
             DecisionSubPhase.ConfirmDecision();
+        }
+
+        // SELECT SHIP AS TARGET OF ABILITY
+
+        protected GenericShip TargetShip;
+
+        protected void SelectTargetForAbility(System.Action selectTargetAction, List<TargetTypes> targetTypes, Vector2 rangeLimits, bool showSkipButton = false)
+        {
+            SelectShipSubPhase selectTargetSubPhase = (SelectShipSubPhase) Phases.StartTemporarySubPhaseNew(
+                "Select target for Lando Calrissian's ability",
+                typeof(PilotAbilitySelectTarget),
+                Triggers.FinishTrigger
+            );
+
+            selectTargetSubPhase.PrepareByParameters(
+                delegate { SelectShipForAbility(selectTargetAction); },
+                targetTypes,
+                rangeLimits,
+                showSkipButton
+            );
+
+            selectTargetSubPhase.Start();
+        }
+
+        private void SelectShipForAbility(System.Action selectTargetAction)
+        {
+            MovementTemplates.ReturnRangeRuler();
+
+            TargetShip = (Phases.CurrentSubPhase as SelectShipSubPhase).TargetShip;
+            selectTargetAction();
+        }
+
+        private class PilotAbilitySelectTarget: SelectShipSubPhase
+        {
+            protected override void RevertSubPhase() { }
+
+            public override void SkipButton()
+            {
+                Phases.FinishSubPhase(this.GetType());
+                Triggers.FinishTrigger();
+            }
         }
     }
 }

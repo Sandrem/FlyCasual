@@ -110,6 +110,7 @@ namespace Ship
         public DiceRoll AssignedDamageDiceroll = new DiceRoll(DiceKind.Attack, 0, DiceRollCheckType.Virtual);
 
         public bool IsCannotAttackSecondTime { get; set; }
+        public bool CanAttackBumpedTarget { get; set; }
 
         // EVENTS
 
@@ -568,11 +569,6 @@ namespace Ship
             if (OnGetAvailableBombDropTemplates != null) OnGetAvailableBombDropTemplates(availableTemplates);
 
             return availableTemplates;
-        }
-
-        public virtual bool CanAttackBumpedTarget(GenericShip defender)
-        {
-            return false;
         }
 
         public bool AreWeaponsNotDisabled()

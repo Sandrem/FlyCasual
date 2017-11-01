@@ -74,7 +74,7 @@ namespace SubPhases
 
         public override void Prepare()
         {
-            isFriendlyAllowed = true;
+            targetsAllowed.Add(TargetTypes.OtherFriendly);
             maxRange = 2;
             finishAction = SelectGarvenDreisAbilityTarget;
 
@@ -125,7 +125,7 @@ namespace SubPhases
 
         public override void Prepare()
         {
-            isEnemyAllowed = true;
+            targetsAllowed.Add(TargetTypes.Enemy);
             finishAction = TrySelectTargetLock;
 
             UI.ShowSkipButton();

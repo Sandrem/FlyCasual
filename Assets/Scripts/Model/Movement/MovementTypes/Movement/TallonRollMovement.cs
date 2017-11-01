@@ -41,7 +41,7 @@ namespace Movement
         {
             if (!Selection.ThisShip.IsBumped)
             {
-                Phases.StartTemporarySubPhase("Tallon Roll", typeof(SubPhases.TallonRollSubPhase), callBack);
+                Phases.StartTemporarySubPhaseOld("Tallon Roll", typeof(SubPhases.TallonRollSubPhase), callBack);
             }
             else
             {

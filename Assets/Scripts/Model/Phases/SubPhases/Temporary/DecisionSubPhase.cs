@@ -11,10 +11,10 @@ namespace SubPhases
     public class DecisionSubPhase : GenericSubPhase
     {
         private GameObject decisionPanel;
-        protected string infoText;
+        public string InfoText;
         private Dictionary<string, EventHandler> decisions = new Dictionary<string, EventHandler>();
         protected Dictionary<string, string> tooltips = new Dictionary<string, string>();
-        protected string defaultDecision;
+        public string DefaultDecision;
         protected Players.GenericPlayer DecisionOwner;
 
         private const float defaultWindowHeight = 55;
@@ -76,7 +76,7 @@ namespace SubPhases
         {
             if (decisions.Count != 0)
             {
-                decisionPanel.transform.Find("InformationPanel").GetComponentInChildren<Text>().text = infoText;
+                decisionPanel.transform.Find("InformationPanel").GetComponentInChildren<Text>().text = InfoText;
 
                 int i = 0;
                 foreach (var item in decisions)
@@ -154,12 +154,21 @@ namespace SubPhases
 
         public override void DoDefault()
         {
-            decisions[defaultDecision].Invoke(null, null);
+            decisions[DefaultDecision].Invoke(null, null);
         }
 
         public void ExecuteDecision(string decisionName)
         {
             decisions[decisionName].Invoke(null, null);
+        }
+
+        public static void ConfirmDecision()
+        {
+            Tooltips.EndTooltip();
+
+            Action callBack = Phases.CurrentSubPhase.CallBack;
+            Phases.FinishSubPhase(Phases.CurrentSubPhase.GetType());
+            callBack();
         }
 
     }

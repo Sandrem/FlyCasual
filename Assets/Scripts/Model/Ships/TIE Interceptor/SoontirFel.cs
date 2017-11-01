@@ -48,7 +48,7 @@ namespace Ship
             {
                 if (!alwaysUseAbility)
                 {
-                    Phases.StartTemporarySubPhase(
+                    Phases.StartTemporarySubPhaseOld(
                         "Soontir Fel's decision",
                         typeof(SubPhases.SoontirFelDecisionSubPhase),
                         Triggers.FinishTrigger
@@ -71,13 +71,13 @@ namespace SubPhases
 
         public override void PrepareDecision(System.Action callBack)
         {
-            infoText = "Soontir Fel: Assign Focus token?";
+            InfoText = "Soontir Fel: Assign Focus token?";
 
             AddDecision("Yes", AssignToken);
             AddDecision("No", NotAssignToken);
             AddDecision("Always", AlwaysAssignToken);
 
-            defaultDecision = "Always";
+            DefaultDecision = "Always";
 
             callBack();
         }
@@ -96,12 +96,6 @@ namespace SubPhases
         {
             (Selection.ThisShip as Ship.TIEInterceptor.SoontirFel).alwaysUseAbility = true;
             Selection.ThisShip.AssignToken(new Tokens.FocusToken(), ConfirmDecision);
-        }
-
-        private void ConfirmDecision()
-        {
-            Phases.FinishSubPhase(this.GetType());
-            CallBack();
         }
 
     }

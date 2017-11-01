@@ -47,7 +47,7 @@ namespace RulesList
         {
             Selection.ActiveShip = sender as GenericShip;
 
-            Phases.StartTemporarySubPhase(
+            Phases.StartTemporarySubPhaseOld(
                 "Jammed",
                 typeof(SubPhases.JammedDecisionSubPhase),
                 Triggers.FinishTrigger
@@ -65,7 +65,7 @@ namespace SubPhases
 
         public override void PrepareDecision(System.Action callBack)
         {
-            infoText = "Select token to remove";
+            InfoText = "Select token to remove";
 
             DecisionOwner = Selection.ActiveShip.Owner;
 
@@ -88,7 +88,7 @@ namespace SubPhases
 
             if (GetDecisions().Count != 0)
             {
-                defaultDecision = GetDecisions().First().Key;
+                DefaultDecision = GetDecisions().First().Key;
             }
 
             callBack();

@@ -48,7 +48,7 @@ namespace Ship
                 // check if this ship is stressed
                 if (!this.HasToken(typeof(Tokens.StressToken))) {
                     // give user the option to use ability
-                    Phases.StartTemporarySubPhase (
+                    Phases.StartTemporarySubPhaseOld (
                         "Ability of Zeta Leader",
                         typeof(SubPhases.AddAttackDiceDecisionSubPhase),
                         Triggers.FinishTrigger
@@ -77,12 +77,12 @@ namespace SubPhases
     {
         public override void PrepareDecision(System.Action callBack)
         {
-            infoText = "Use Zeta Leaders Ability?";
+            InfoText = "Use Zeta Leaders Ability?";
 
             AddDecision("Use Pilot Ability", UseAbility);
             AddDecision("Cancel", DoNotUseAbility );
 
-            defaultDecision = ShouldUsePilotAbility() ? "Use Pilot Ability" : "Cancel";
+            DefaultDecision = ShouldUsePilotAbility() ? "Use Pilot Ability" : "Cancel";
 
             callBack();
         }
@@ -105,12 +105,6 @@ namespace SubPhases
         private void DoNotUseAbility(object sender, System.EventArgs e)
         {
             ConfirmDecision();
-        }
-
-        private void ConfirmDecision()
-        {
-            Phases.FinishSubPhase(this.GetType());
-            CallBack();
         }
     }
 }

@@ -67,7 +67,7 @@ public static partial class Combat
 
         if (anotherAttacksTypesCount > 0)
         {
-            Phases.StartTemporarySubPhase(
+            Phases.StartTemporarySubPhaseOld(
                 "Choose weapon for attack",
                 typeof(SubPhases.WeaponSelectionDecisionSubPhase),
                 TryPerformAttack
@@ -120,7 +120,7 @@ public static partial class Combat
     private static void AttackDiceRoll()
     {
         Selection.ActiveShip = Selection.ThisShip;
-        Phases.StartTemporarySubPhase(
+        Phases.StartTemporarySubPhaseOld(
             "Attack dice roll",
             typeof(SubPhases.AttackDiceRollCombatSubPhase)
         );
@@ -168,7 +168,7 @@ public static partial class Combat
     private static void DefenceDiceRoll()
     {
         Selection.ActiveShip = Selection.AnotherShip;
-        Phases.StartTemporarySubPhase(
+        Phases.StartTemporarySubPhaseOld(
             "Defence dice roll",
             typeof(SubPhases.DefenceDiceRollCombatSubPhase)
         );
@@ -353,7 +353,7 @@ public static partial class Combat
 
         MovementTemplates.ReturnRangeRuler();
 
-        Phases.StartTemporarySubPhase("Compare results", typeof(SubPhases.CompareResultsSubPhase));
+        Phases.StartTemporarySubPhaseOld("Compare results", typeof(SubPhases.CompareResultsSubPhase));
     }
 
     public static void CallAttackStartEvents()
@@ -381,7 +381,7 @@ namespace SubPhases
             List<Ship.IShipWeapon> allWeapons = GetAllWeapons();
 
             //TODO: Range?
-            infoText = "Choose weapon for attack";
+            InfoText = "Choose weapon for attack";
 
             foreach (var weapon in allWeapons)
             {
@@ -392,7 +392,7 @@ namespace SubPhases
                 }
             }
 
-            defaultDecision = GetDecisions().Last().Key;
+            DefaultDecision = GetDecisions().Last().Key;
 
             callBack();
         }

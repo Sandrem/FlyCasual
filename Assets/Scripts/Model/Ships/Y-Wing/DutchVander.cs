@@ -47,7 +47,7 @@ namespace Ship
                 Selection.ThisShip = this;
                 if (Owner.Ships.Count > 1)
                 {
-                    Phases.StartTemporarySubPhase(
+                    Phases.StartTemporarySubPhaseOld(
                         "Select target for \"Dutch\" Vander's ability",
                         typeof(SubPhases.DutchVanderAbilityTargetSubPhase),
                         delegate {
@@ -102,7 +102,7 @@ namespace SubPhases
         {
             Selection.ThisShip = TargetShip;
 
-            Phases.StartTemporarySubPhase(
+            Phases.StartTemporarySubPhaseOld(
                 "Select target for Target Lock",
                 typeof(FreeSelectTargetLockSubPhase),
                 delegate {

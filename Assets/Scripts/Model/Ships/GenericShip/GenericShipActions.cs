@@ -94,8 +94,7 @@ namespace Ship
             return result;
         }
 
-        public bool CanPerformActionsWhileStressed { get; protected set; }
-
+        public bool CanPerformActionsWhileStressed;
 
         // TODO: move actions list into subphase
         public void AskPerformFreeAction(List<ActionsList.GenericAction> freeActions, Action callBack)
@@ -109,7 +108,7 @@ namespace Ship
                     TriggerOwner = Phases.CurrentPhasePlayer,
                     TriggerType = TriggerTypes.OnFreeAction,
                     EventHandler = delegate {
-                        Phases.StartTemporarySubPhase
+                        Phases.StartTemporarySubPhaseOld
                         (
                             "Free action decision",
                             typeof(SubPhases.FreeActionDecisonSubPhase),

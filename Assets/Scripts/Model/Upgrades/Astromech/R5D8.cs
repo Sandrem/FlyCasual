@@ -48,7 +48,7 @@ namespace ActionsList
         public override void ActionTake()
         {
             Selection.ActiveShip = Selection.ThisShip;
-            Phases.StartTemporarySubPhase(
+            Phases.StartTemporarySubPhaseOld(
                 "R5-D8: Try to repair",
                 typeof(SubPhases.R5D8CheckSubPhase),
                 delegate {

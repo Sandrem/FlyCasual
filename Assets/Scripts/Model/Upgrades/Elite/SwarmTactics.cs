@@ -41,7 +41,7 @@ namespace UpgradesList
             Selection.ThisShip = Host;
             if (Host.Owner.Ships.Count > 1)
             {
-                Phases.StartTemporarySubPhase(
+                Phases.StartTemporarySubPhaseOld(
                     "Select target for Swarm Tactics",
                     typeof(SubPhases.SelectSwarmTacticsTargetSubPhase),
                     Triggers.FinishTrigger

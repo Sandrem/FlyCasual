@@ -51,7 +51,7 @@ namespace UpgradesList
         {
             Selection.ThisShip.IsCannotAttackSecondTime = true;
 
-            Phases.StartTemporarySubPhase(
+            Phases.StartTemporarySubPhaseOld(
                 "Second attack",
                 typeof(SelectTargetForSecondAttackSubPhase),
                 delegate {

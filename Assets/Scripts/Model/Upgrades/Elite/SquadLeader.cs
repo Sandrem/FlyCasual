@@ -47,7 +47,7 @@ namespace ActionsList
 
         public override void ActionTake()
         {
-            Phases.StartTemporarySubPhase(
+            Phases.StartTemporarySubPhaseOld(
                 "Select target for Squad Leader",
                 typeof(SubPhases.SelectSquadLeaderTargetSubPhase),
                 delegate {}

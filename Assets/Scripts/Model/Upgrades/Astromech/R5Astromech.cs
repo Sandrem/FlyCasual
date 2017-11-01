@@ -49,7 +49,7 @@ namespace UpgradesList
             }
             else if (shipCritsList.Count > 1)
             {
-                Phases.StartTemporarySubPhase(
+                Phases.StartTemporarySubPhaseOld(
                     "R5 Astromech: Select faceup ship Crit",
                     typeof(SubPhases.R5AstromechDecisionSubPhase),
                     delegate () { Triggers.FinishTrigger(); }
@@ -73,7 +73,7 @@ namespace SubPhases
 
         public override void PrepareDecision(System.Action callBack)
         {
-            infoText = "R5 Astromech: Select faceup ship Crit";
+            InfoText = "R5 Astromech: Select faceup ship Crit";
 
             foreach (var shipCrit in Selection.ActiveShip.GetAssignedCritCards().Where(n => n.Type == CriticalCardType.Ship).ToList())
             {
@@ -81,7 +81,7 @@ namespace SubPhases
                 AddDecision(shipCrit.Name, delegate { DiscardCrit(shipCrit); });
             }
 
-            defaultDecision = GetDecisions().First().Key;
+            DefaultDecision = GetDecisions().First().Key;
 
             callBack();
         }
@@ -91,12 +91,6 @@ namespace SubPhases
             Selection.ActiveShip.FlipFacedownFaceupDamageCard(critCard);
             Sounds.PlayShipSound("R2D2-Proud");
             ConfirmDecision();
-        }
-
-        private void ConfirmDecision()
-        {
-            Phases.FinishSubPhase(this.GetType());
-            CallBack();
         }
 
     }

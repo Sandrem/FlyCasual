@@ -66,7 +66,7 @@ namespace RulesList
 
         private static void ShowDecision(object sender, EventArgs e)
         {
-            Phases.StartTemporarySubPhase(
+            Phases.StartTemporarySubPhaseOld(
                 "Initiative",
                 typeof(SubPhases.InitialiveDecisionSubPhase),
                 delegate() { Triggers.FinishTrigger();
@@ -83,12 +83,12 @@ namespace SubPhases
 
         public override void PrepareDecision(Action callBack)
         {
-            infoText = "Player " + Tools.PlayerToInt(Phases.PlayerWithInitiative) + ", what player will have initiative?";
+            InfoText = "Player " + Tools.PlayerToInt(Phases.PlayerWithInitiative) + ", what player will have initiative?";
 
             AddDecision("I", StayWithInitiative);
             AddDecision("Opponent", GiveInitiative);
 
-            defaultDecision = "Opponent";
+            DefaultDecision = "Opponent";
 
             callBack();
         }
@@ -96,15 +96,15 @@ namespace SubPhases
         private void GiveInitiative(object sender, EventArgs e)
         {
             Phases.PlayerWithInitiative = Roster.AnotherPlayer(Phases.PlayerWithInitiative);
-            ConfirmDecision();
+            InformConfirmDecision();
         }
 
         private void StayWithInitiative(object sender, EventArgs e)
         {
-            ConfirmDecision();
+            InformConfirmDecision();
         }
 
-        private void ConfirmDecision()
+        private void InformConfirmDecision()
         {
             Messages.ShowInfo("Player " + Tools.PlayerToInt(Phases.PlayerWithInitiative) + " has Initiative");
             Phases.FinishSubPhase(this.GetType());

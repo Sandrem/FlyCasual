@@ -42,7 +42,7 @@ namespace Ship
             {
                 if (!alwaysUseAbility)
                 {
-                    Phases.StartTemporarySubPhase(
+                    Phases.StartTemporarySubPhaseOld(
                         "Whisper's decision",
                         typeof(SubPhases.WhisperDecisionSubPhase),
                         delegate () { Triggers.FinishTrigger(); }
@@ -65,13 +65,13 @@ namespace SubPhases
 
         public override void PrepareDecision(System.Action callBack)
         {
-            infoText = "Whisper: Assign Focus token?";
+            InfoText = "Whisper: Assign Focus token?";
 
             AddDecision("Yes", AssignToken);
             AddDecision("No", NotAssignToken);
             AddDecision("Always", AlwaysAssignToken);
 
-            defaultDecision = "Always";
+            DefaultDecision = "Always";
 
             callBack();
         }
@@ -90,12 +90,6 @@ namespace SubPhases
         {
             (Selection.ThisShip as Ship.TIEPhantom.Whisper).alwaysUseAbility = true;
             Selection.ThisShip.AssignToken(new Tokens.FocusToken(), ConfirmDecision);
-        }
-
-        private void ConfirmDecision()
-        {
-            Phases.FinishSubPhase(this.GetType());
-            CallBack();
         }
 
     }

@@ -51,7 +51,7 @@ namespace Ship
 
             private static void ShowDecision(object sender, EventArgs e)
             {
-                Phases.StartTemporarySubPhase(
+                Phases.StartTemporarySubPhaseOld(
                     "Ability of Maarek Stele",
                     typeof(SubPhases.CritToDealDecisionSubPhase),
                     Triggers.FinishTrigger
@@ -77,7 +77,7 @@ namespace SubPhases
 
         public override void PrepareDecision(Action callBack)
         {
-            infoText = "Select Critical Hit card to deal";
+            InfoText = "Select Critical Hit card to deal";
 
             criticalHitCardsToChoose.Add(Combat.CurrentCriticalHitCard);
             for (int i = 0; i < 2; i++)
@@ -97,7 +97,7 @@ namespace SubPhases
                 );
             }
 
-            defaultDecision = Combat.CurrentCriticalHitCard.Name;
+            DefaultDecision = Combat.CurrentCriticalHitCard.Name;
 
             callBack();
         }
@@ -106,14 +106,6 @@ namespace SubPhases
         {
             Combat.CurrentCriticalHitCard = critCard;
             ConfirmDecision();
-        }
-
-        private void ConfirmDecision()
-        {
-            Tooltips.EndTooltip();
-
-            Phases.FinishSubPhase(this.GetType());
-            CallBack();
         }
 
     }

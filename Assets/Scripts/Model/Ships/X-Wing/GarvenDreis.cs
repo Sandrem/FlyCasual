@@ -39,7 +39,7 @@ namespace Ship
                 Selection.ThisShip = this;
                 if (Owner.Ships.Count > 1)
                 {
-                    Phases.StartTemporarySubPhase(
+                    Phases.StartTemporarySubPhaseOld(
                         "Select target for Garven Dreis' ability",
                         typeof(SubPhases.GarvenDreisAbilityTargetSubPhase),
                         delegate {

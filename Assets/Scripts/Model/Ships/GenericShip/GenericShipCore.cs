@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Arcs;
+using PilotAbilities;
 
 namespace Ship
 {
@@ -150,6 +151,8 @@ namespace Ship
             set { shipTypeCanonical = value; }
         }
 
+        public List<GenericPilotAbility> PilotAbilitiesList = new List<GenericPilotAbility>();
+
         public GenericShip()
         {
             factions = new List<Faction>();
@@ -252,6 +255,15 @@ namespace Ship
         {
             SetShipInsertImage();
             SetShipSkin();
+            InitializePilotAbilities();
+        }
+
+        private void InitializePilotAbilities()
+        {
+            foreach (var pilotAbility in PilotAbilitiesList)
+            {
+                pilotAbility.Initialize(this);
+            }
         }
 
         private void InitializeSlots()

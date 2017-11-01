@@ -17,7 +17,7 @@ namespace ActionsList
         public override void ActionTake()
         {
             Phases.CurrentSubPhase.Pause();
-            Phases.StartTemporarySubPhase(
+            Phases.StartTemporarySubPhaseOld(
                 "Boost",
                 typeof(SubPhases.BoostPlanningSubPhase),
                 Phases.CurrentSubPhase.CallBack
@@ -163,7 +163,7 @@ namespace SubPhases
 
         public void StartBoostExecution(Ship.GenericShip ship)
         {
-            Phases.StartTemporarySubPhase(
+            Phases.StartTemporarySubPhaseOld(
                 "Boost execution",
                 typeof(BoostExecutionSubPhase),
                 CallBack

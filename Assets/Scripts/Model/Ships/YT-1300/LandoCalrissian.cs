@@ -47,7 +47,7 @@ namespace Ship
 
             private void LandoCalrissianPilotAbility(object sender, System.EventArgs e)
             {
-                Phases.StartTemporarySubPhase(
+                Phases.StartTemporarySubPhaseOld(
                     "Select target for Lando Calrissian's ability",
                     typeof(SubPhases.SelectLandoCalrissianPilotAbilityTargetSubPhase),
                     Triggers.FinishTrigger

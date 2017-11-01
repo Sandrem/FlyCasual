@@ -36,7 +36,7 @@ namespace CriticalHitCard
         {
             Selection.ActiveShip = Host;
             Selection.ThisShip = Host;
-            Phases.StartTemporarySubPhase(
+            Phases.StartTemporarySubPhaseOld(
                 "Console Fire",
                 typeof(SubPhases.ConsoleFireCheckSubPhase),
                 delegate {

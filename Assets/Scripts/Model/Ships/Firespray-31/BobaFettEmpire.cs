@@ -24,13 +24,13 @@ namespace Ship
 
                 SkinName = "Boba Fett";
 
-                PilotAbilitiesList.Add(new PilotAbilities.BobaFettEmpireAbility());
+                PilotAbilities.Add(new PilotAbilitiesNamespace.BobaFettEmpireAbility());
             }
         }
     }
 }
 
-namespace PilotAbilities
+namespace PilotAbilitiesNamespace
 {
     public class BobaFettEmpireAbility : GenericPilotAbility
     {

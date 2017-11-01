@@ -24,13 +24,13 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Missile);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
-                PilotAbilitiesList.Add(new PilotAbilities.ChewbaccaAbility());
+                PilotAbilities.Add(new PilotAbilitiesNamespace.ChewbaccaAbility());
             }
         }
     }
 }
 
-namespace PilotAbilities
+namespace PilotAbilitiesNamespace
 {
     public class ChewbaccaAbility : GenericPilotAbility
     {

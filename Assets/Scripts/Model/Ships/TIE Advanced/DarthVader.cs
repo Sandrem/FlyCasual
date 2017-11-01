@@ -25,13 +25,13 @@ namespace Ship
 
                 SkinName = "Blue";
 
-                PilotAbilitiesList.Add(new PilotAbilities.DarthVaderAbility());
+                PilotAbilities.Add(new PilotAbilitiesNamespace.DarthVaderAbility());
             }
         }
     }
 }
 
-namespace PilotAbilities
+namespace PilotAbilitiesNamespace
 {
     public class DarthVaderAbility : GenericPilotAbility
     {

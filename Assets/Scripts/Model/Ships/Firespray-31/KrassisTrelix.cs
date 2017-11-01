@@ -19,7 +19,7 @@ namespace Ship
 
                 IsUnique = true;
 
-                PilotAbilitiesList.Add(new PilotAbilities.KrassisTrelixAbility());
+                PilotAbilities.Add(new PilotAbilitiesNamespace.KrassisTrelixAbility());
 
                 faction = Faction.Empire;
 
@@ -29,7 +29,7 @@ namespace Ship
     }
 }
 
-namespace PilotAbilities
+namespace PilotAbilitiesNamespace
 {
     public class KrassisTrelixAbility : GenericPilotAbility
     {

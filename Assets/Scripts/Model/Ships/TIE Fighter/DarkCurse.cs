@@ -17,13 +17,13 @@ namespace Ship
 
                 IsUnique = true;
 
-                PilotAbilitiesList.Add(new PilotAbilities.DarkCurseAbility());
+                PilotAbilities.Add(new PilotAbilitiesNamespace.DarkCurseAbility());
             }
         }
     }
 }
 
-namespace PilotAbilities
+namespace PilotAbilitiesNamespace
 {
     public class DarkCurseAbility : GenericPilotAbility
     {

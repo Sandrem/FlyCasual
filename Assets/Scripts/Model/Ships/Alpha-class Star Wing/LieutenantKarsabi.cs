@@ -21,13 +21,13 @@ namespace Ship
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
-                PilotAbilitiesList.Add(new PilotAbilities.LieutenantKarsabiAbility());
+                PilotAbilities.Add(new PilotAbilitiesNamespace.LieutenantKarsabiAbility());
             }
         }
     }
 }
 
-namespace PilotAbilities
+namespace PilotAbilitiesNamespace
 {
     public class LieutenantKarsabiAbility : GenericPilotAbility
     {
@@ -50,17 +50,12 @@ namespace PilotAbilities
         {
             if (!Host.HasToken(typeof(StressToken)))
             {
-                AskToUseAbility(IsUseByDefault, UseAbility);
+                AskToUseAbility(AlwaysUseByDefault, UseAbility);
             }
             else
             {
                 Triggers.FinishTrigger();
             }
-        }
-
-        private bool IsUseByDefault()
-        {
-            return true;
         }
 
         private void UseAbility(object sender, System.EventArgs e)

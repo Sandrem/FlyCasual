@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Arcs;
-using PilotAbilities;
+using PilotAbilitiesNamespace;
 
 namespace Ship
 {
@@ -151,7 +151,7 @@ namespace Ship
             set { shipTypeCanonical = value; }
         }
 
-        public List<GenericPilotAbility> PilotAbilitiesList = new List<GenericPilotAbility>();
+        public List<GenericPilotAbility> PilotAbilities = new List<GenericPilotAbility>();
 
         public GenericShip()
         {
@@ -260,7 +260,7 @@ namespace Ship
 
         private void InitializePilotAbilities()
         {
-            foreach (var pilotAbility in PilotAbilitiesList)
+            foreach (var pilotAbility in PilotAbilities)
             {
                 pilotAbility.Initialize(this);
             }

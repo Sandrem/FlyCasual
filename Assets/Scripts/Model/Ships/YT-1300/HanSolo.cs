@@ -26,13 +26,13 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Missile);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
-                PilotAbilitiesList.Add(new PilotAbilities.HanSoloAbility());
+                PilotAbilities.Add(new PilotAbilitiesNamespace.HanSoloAbility());
             }
         }
     }
 }
 
-namespace PilotAbilities
+namespace PilotAbilitiesNamespace
 {
     public class HanSoloAbility : GenericPilotAbility
     {

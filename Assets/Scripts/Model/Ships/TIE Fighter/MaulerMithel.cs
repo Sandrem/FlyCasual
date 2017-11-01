@@ -19,13 +19,13 @@ namespace Ship
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
-                PilotAbilitiesList.Add(new PilotAbilities.MaulerMithelAbility());
+                PilotAbilities.Add(new PilotAbilitiesNamespace.MaulerMithelAbility());
             }
         }
     }
 }
 
-namespace PilotAbilities
+namespace PilotAbilitiesNamespace
 {
     public class MaulerMithelAbility : GenericPilotAbility
     {

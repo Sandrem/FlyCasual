@@ -21,13 +21,13 @@ namespace Ship
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
-                PilotAbilitiesList.Add(new PilotAbilities.HowlrunnerAbility());
+                PilotAbilities.Add(new PilotAbilitiesNamespace.HowlrunnerAbility());
             }
         }
     }
 }
 
-namespace PilotAbilities
+namespace PilotAbilitiesNamespace
 {
     public class HowlrunnerAbility : GenericPilotAbility
     {

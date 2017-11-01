@@ -1,4 +1,6 @@
-﻿using System;
+﻿//TODO: USE NEW SYSTEM OF PILOT ABILITIES
+
+using System;
 using System.Linq;
 using System.Collections;
 using System.Collections.Generic;

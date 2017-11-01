@@ -15,13 +15,13 @@
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
-                PilotAbilitiesList.Add(new PilotAbilities.TychoCelchuAbility());
+                PilotAbilities.Add(new PilotAbilitiesNamespace.TychoCelchuAbility());
             }
         }
     }
 }
 
-namespace PilotAbilities
+namespace PilotAbilitiesNamespace
 {
     public class TychoCelchuAbility : GenericPilotAbility
     {

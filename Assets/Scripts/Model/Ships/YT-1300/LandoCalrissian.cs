@@ -26,13 +26,13 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Missile);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
-                PilotAbilitiesList.Add(new PilotAbilities.LandoCalrissianAbility());
+                PilotAbilities.Add(new PilotAbilitiesNamespace.LandoCalrissianAbility());
             }
         }
     }
 }
 
-namespace PilotAbilities
+namespace PilotAbilitiesNamespace
 {
     public class LandoCalrissianAbility : GenericPilotAbility
     {

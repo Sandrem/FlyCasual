@@ -6,7 +6,7 @@ using Ship;
 using SubPhases;
 using UnityEngine;
 
-namespace PilotAbilities
+namespace PilotAbilitiesNamespace
 {
     public class GenericPilotAbility
     {
@@ -41,7 +41,9 @@ namespace PilotAbilities
 
         // DECISION USE ABILITY YES/NO
 
-        protected void AskToUseAbility(Func<bool> useByDefault, EventHandler useAbility, EventHandler dontUseAbility = null)
+        protected bool alwaysUseAbility;
+
+        protected void AskToUseAbility(Func<bool> useByDefault, EventHandler useAbility, EventHandler dontUseAbility = null, bool showAlwaysUseOption = false)
         {
             if (dontUseAbility == null) dontUseAbility = DontUseAbility;
 
@@ -55,6 +57,7 @@ namespace PilotAbilities
 
             pilotAbilityDecision.AddDecision("Yes", useAbility);
             pilotAbilityDecision.AddDecision("No", dontUseAbility);
+            if (showAlwaysUseOption) pilotAbilityDecision.AddDecision("Always", delegate { SetAlwaysUse(useAbility); });
 
             pilotAbilityDecision.DefaultDecision = (useByDefault()) ? "Yes" : "No";
 
@@ -66,6 +69,17 @@ namespace PilotAbilities
         private void DontUseAbility(object sender, System.EventArgs e)
         {
             DecisionSubPhase.ConfirmDecision();
+        }
+
+        protected bool AlwaysUseByDefault()
+        {
+            return true;
+        }
+
+        protected void SetAlwaysUse(EventHandler useAbility)
+        {
+            alwaysUseAbility = true;
+            useAbility(null, null);
         }
 
         // SELECT SHIP AS TARGET OF ABILITY

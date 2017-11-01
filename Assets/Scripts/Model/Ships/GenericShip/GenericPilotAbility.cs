@@ -36,7 +36,7 @@ namespace PilotAbilities
             });
         }
 
-        protected void AskToUseAbility(bool useByDefault, EventHandler useAbility, EventHandler dontUseAbility = null)
+        protected void AskToUseAbility(Func<bool> useByDefault, EventHandler useAbility, EventHandler dontUseAbility = null)
         {
             if (dontUseAbility == null) dontUseAbility = DontUseAbility;
 
@@ -51,7 +51,7 @@ namespace PilotAbilities
             pilotAbilityDecision.AddDecision("Yes", useAbility);
             pilotAbilityDecision.AddDecision("No", dontUseAbility);
 
-            pilotAbilityDecision.DefaultDecision = (useByDefault) ? "Yes" : "No";
+            pilotAbilityDecision.DefaultDecision = (useByDefault()) ? "Yes" : "No";
 
             pilotAbilityDecision.Start();
         }

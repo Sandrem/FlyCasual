@@ -50,12 +50,17 @@ namespace PilotAbilities
         {
             if (!Host.HasToken(typeof(StressToken)))
             {
-                AskToUseAbility(true, UseAbility);
+                AskToUseAbility(IsUseByDefault, UseAbility);
             }
             else
             {
                 Triggers.FinishTrigger();
             }
+        }
+
+        private bool IsUseByDefault()
+        {
+            return true;
         }
 
         private void UseAbility(object sender, System.EventArgs e)

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Ship;
 
 namespace Ship
 {
@@ -8,8 +9,6 @@ namespace Ship
     {
         public class ZetaLeader : TIEFO
         {
-            public bool abilityUsed = false;
-
             public ZetaLeader () : base ()
             {
                 PilotName = "Zeta Leader";
@@ -20,91 +19,66 @@ namespace Ship
                 IsUnique = true;
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
-            }
 
-            public override void InitializePilot ()
-            {
-                base.InitializePilot ();
-
-                OnCombatPhaseStart += RegisterEpsilonLeaderAbility;
-                OnCombatPhaseEnd += RemoveEpsilonLeaderAbility;
-            }
-
-            private void RegisterEpsilonLeaderAbility (GenericShip genericShip)
-            {
-                Triggers.RegisterTrigger(new Trigger()
-                {
-                    Name = "Zeta Leader Ability",
-                    TriggerOwner = this.Owner.PlayerNo,
-                    TriggerType = TriggerTypes.OnAttackStart,
-                    EventHandler = ShowDecision
-                });
-            }
-
-            private void ShowDecision(object sender, System.EventArgs e)
-            {
-                Selection.ThisShip = this;
-
-                // check if this ship is stressed
-                if (!this.HasToken(typeof(Tokens.StressToken))) {
-                    // give user the option to use ability
-                    Phases.StartTemporarySubPhaseOld (
-                        "Ability of Zeta Leader",
-                        typeof(SubPhases.AddAttackDiceDecisionSubPhase),
-                        Triggers.FinishTrigger
-                    );
-                } else {
-                    Triggers.FinishTrigger ();
-                }
-            }
-
-            private void RemoveEpsilonLeaderAbility ( GenericShip genericShip)
-            {
-                // At the end of combat phase, need to remove attack value increase
-                if (this.abilityUsed)
-                {
-                    this.ChangeFirepowerBy(-1);
-                    this.abilityUsed = false;
-                }
+                PilotAbilities.Add(new PilotAbilitiesNamespace.ZetaLeaderAbility());
             }
         }
     }
 }
 
-namespace SubPhases
+namespace PilotAbilitiesNamespace
 {
-    public class AddAttackDiceDecisionSubPhase : DecisionSubPhase
+    public class ZetaLeaderAbility : GenericPilotAbility
     {
-        public override void PrepareDecision(System.Action callBack)
+        public override void Initialize(GenericShip host)
         {
-            InfoText = "Use Zeta Leaders Ability?";
+            base.Initialize(host);
 
-            AddDecision("Use Pilot Ability", UseAbility);
-            AddDecision("Cancel", DoNotUseAbility );
+            Host.OnCombatPhaseStart += RegisterEpsilonLeaderAbility;
+            Host.OnCombatPhaseEnd += RemoveEpsilonLeaderAbility;
+        }
 
-            DefaultDecision = ShouldUsePilotAbility() ? "Use Pilot Ability" : "Cancel";
+        private void RegisterEpsilonLeaderAbility(GenericShip genericShip)
+        {
+            RegisterAbilityTrigger(TriggerTypes.OnAttackStart, ShowDecision);
+        }
 
-            callBack();
+        private void ShowDecision(object sender, System.EventArgs e)
+        {
+            // check if this ship is stressed
+            if (!Host.HasToken(typeof(Tokens.StressToken)))
+            {
+                // give user the option to use ability
+                AskToUseAbility(ShouldUsePilotAbility, UseAbility);
+            }
+            else
+            {
+                Triggers.FinishTrigger();
+            }
         }
 
         private bool ShouldUsePilotAbility()
         {
-            return Actions.HasTarget(Selection.ThisShip);
+            return Actions.HasTarget(Host);
         }
 
         private void UseAbility(object sender, System.EventArgs e)
         {
             // don't need to check stressed as done already
             // add an attack dice
-            Ship.TIEFO.ZetaLeader ZetaLeader = (Ship.TIEFO.ZetaLeader)Selection.ThisShip;
-            ZetaLeader.abilityUsed = true;
-            Selection.ThisShip.ChangeFirepowerBy (1);
-            Selection.ThisShip.AssignToken(new Tokens.StressToken(), ConfirmDecision);
+            isAbilityUsed = true;
+            Host.ChangeFirepowerBy(+1);
+            Host.AssignToken(new Tokens.StressToken(), SubPhases.DecisionSubPhase.ConfirmDecision);
         }
 
-        private void DoNotUseAbility(object sender, System.EventArgs e)
+        private void RemoveEpsilonLeaderAbility(GenericShip genericShip)
         {
-            ConfirmDecision();
+            // At the end of combat phase, need to remove attack value increase
+            if (isAbilityUsed)
+            {
+                Host.ChangeFirepowerBy(-1);
+                isAbilityUsed = false;
+            }
         }
     }
 }

@@ -11,8 +11,10 @@ namespace PilotAbilitiesNamespace
     public class GenericPilotAbility
     {
         public string Name;
-        private GenericShip host;
 
+        protected bool isAbilityUsed;
+
+        private GenericShip host;
         public GenericShip Host
         {
             get { return host; }
@@ -119,6 +121,7 @@ namespace PilotAbilitiesNamespace
             public override void SkipButton()
             {
                 Phases.FinishSubPhase(this.GetType());
+                Phases.CurrentSubPhase.Resume();
                 Triggers.FinishTrigger();
             }
         }

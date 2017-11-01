@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Ship;
 
 namespace Ship
 {
@@ -22,82 +23,47 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
                 SkinName = "Red Stripes";
-            }
 
-            public override void InitializePilot()
-            {
-                base.InitializePilot();
-                OnTokenIsAssigned += SoontirFelAbility;
-            }
-
-            public void SoontirFelAbility(GenericShip ship, System.Type tokenType)
-            {
-                if (tokenType == typeof(Tokens.StressToken))
-                {
-                    Triggers.RegisterTrigger(new Trigger()
-                    {
-                        Name = "Soontir Fel: Assign Focus",
-                        TriggerOwner = ship.Owner.PlayerNo,
-                        TriggerType = TriggerTypes.OnTokenIsAssigned,
-                        EventHandler = AskAssignFocus
-                    });
-                }
-            }
-
-            private void AskAssignFocus(object sender, System.EventArgs e)
-            {
-                if (!alwaysUseAbility)
-                {
-                    Phases.StartTemporarySubPhaseOld(
-                        "Soontir Fel's decision",
-                        typeof(SubPhases.SoontirFelDecisionSubPhase),
-                        Triggers.FinishTrigger
-                    );
-                }
-                else
-                {
-                    Selection.ThisShip.AssignToken(new Tokens.FocusToken(), Triggers.FinishTrigger);
-                }
+                PilotAbilities.Add(new PilotAbilitiesNamespace.SoontirFelAbility());
             }
         }
     }
 }
 
-namespace SubPhases
+namespace PilotAbilitiesNamespace
 {
-
-    public class SoontirFelDecisionSubPhase : DecisionSubPhase
+    public class SoontirFelAbility : GenericPilotAbility
     {
-
-        public override void PrepareDecision(System.Action callBack)
+        public override void Initialize(GenericShip host)
         {
-            InfoText = "Soontir Fel: Assign Focus token?";
+            base.Initialize(host);
 
-            AddDecision("Yes", AssignToken);
-            AddDecision("No", NotAssignToken);
-            AddDecision("Always", AlwaysAssignToken);
+            Host.OnTokenIsAssigned += RegisterSoontirFelAbility;
+        }
 
-            DefaultDecision = "Always";
+        private void RegisterSoontirFelAbility(GenericShip ship, System.Type tokenType)
+        {
+            if (tokenType == typeof(Tokens.StressToken))
+            {
+                RegisterAbilityTrigger(TriggerTypes.OnTokenIsAssigned, AskAssignFocus);
+            }
+        }
 
-            callBack();
+        private void AskAssignFocus(object sender, System.EventArgs e)
+        {
+            if (!alwaysUseAbility)
+            {
+                AskToUseAbility(AlwaysUseByDefault, AssignToken, null, true);
+            }
+            else
+            {
+                Selection.ThisShip.AssignToken(new Tokens.FocusToken(), Triggers.FinishTrigger);
+            }
         }
 
         private void AssignToken(object sender, System.EventArgs e)
         {
-            Selection.ThisShip.AssignToken(new Tokens.FocusToken(), ConfirmDecision);
+            Host.AssignToken(new Tokens.FocusToken(), SubPhases.DecisionSubPhase.ConfirmDecision);
         }
-
-        private void NotAssignToken(object sender, System.EventArgs e)
-        {
-            ConfirmDecision();
-        }
-
-        private void AlwaysAssignToken(object sender, System.EventArgs e)
-        {
-            (Selection.ThisShip as Ship.TIEInterceptor.SoontirFel).alwaysUseAbility = true;
-            Selection.ThisShip.AssignToken(new Tokens.FocusToken(), ConfirmDecision);
-        }
-
     }
-
 }

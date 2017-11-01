@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿//TODO: Set ability from FAQ
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 

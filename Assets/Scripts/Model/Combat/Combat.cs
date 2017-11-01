@@ -460,7 +460,7 @@ namespace SubPhases
 
         public override void Resume()
         {
-            GameObject.Find("UI/CombatDiceResultsPanel").gameObject.SetActive(true);
+            GameObject.Find("UI").transform.Find("CombatDiceResultsPanel").gameObject.SetActive(true);
         }
     }
 

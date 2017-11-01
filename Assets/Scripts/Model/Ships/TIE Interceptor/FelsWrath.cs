@@ -1,4 +1,6 @@
-﻿using System;
+﻿//TODO: Adapt to new Pilot abilities system
+
+using System;
 
 namespace Ship
 {

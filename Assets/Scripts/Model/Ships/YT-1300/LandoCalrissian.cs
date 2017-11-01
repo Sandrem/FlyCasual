@@ -80,6 +80,7 @@ namespace PilotAbilitiesNamespace
                 TargetShip.GetAvailablePrintedActionsList(),
                 delegate {
                     Selection.ThisShip = Host;
+                    Phases.CurrentSubPhase.Resume();
                     Triggers.FinishTrigger();
                 });
         }

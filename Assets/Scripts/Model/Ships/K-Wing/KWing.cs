@@ -35,6 +35,7 @@ namespace Ship
                 HotacManeuverTable = null;
 
                 factions.Add(Faction.Rebels);
+                faction = Faction.Rebels;
 
                 SkinName = "White";
 

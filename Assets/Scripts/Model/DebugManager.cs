@@ -6,7 +6,7 @@ public static class DebugManager
 {
     public static bool FullDebug;
 
-    public static bool DebugTemporary = true;
+    public static bool DebugTemporary;
 
     public static bool DebugAllDamageIsCrits;
 

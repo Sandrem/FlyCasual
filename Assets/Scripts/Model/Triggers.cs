@@ -11,6 +11,7 @@ public enum TriggerTypes
     OnAbilityDirect,
     OnGameStart,
     OnSetupPhaseStart,
+    OnBeforePlaceForces,
     OnManeuver,
     OnManeuverIsRevealed,
     OnShipMovementStart,

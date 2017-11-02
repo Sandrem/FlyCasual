@@ -67,7 +67,7 @@ namespace SubPhases
             return newName;
         }
 
-        protected Dictionary<string, EventHandler> GetDecisions()
+        public Dictionary<string, EventHandler> GetDecisions()
         {
             return decisions;
         }

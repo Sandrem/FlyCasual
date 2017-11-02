@@ -33,6 +33,7 @@ public static partial class Phases
     public static event EventHandler OnGameStart;
     public static event EventHandler OnRoundStart;
     public static event EventHandler OnSetupPhaseStart;
+    public static event EventHandler OnBeforePlaceForces;
     public static event EventHandler OnPlanningPhaseStart;
     public static event EventHandler OnActivationPhaseStart;
     public static event EventHandler BeforeActionSubPhaseStart;
@@ -113,7 +114,14 @@ public static partial class Phases
     {
         if (OnSetupPhaseStart != null) OnSetupPhaseStart();
 
-        Triggers.ResolveTriggers(TriggerTypes.OnSetupPhaseStart, delegate() { FinishSubPhase(typeof(SetupStartSubPhase)); });
+        Triggers.ResolveTriggers(TriggerTypes.OnSetupPhaseStart, CallBeforePlaceForces);
+    }
+
+    public static void CallBeforePlaceForces()
+    {
+        if (OnBeforePlaceForces != null) OnBeforePlaceForces();
+
+        Triggers.ResolveTriggers(TriggerTypes.OnBeforePlaceForces, delegate { FinishSubPhase(typeof(SetupStartSubPhase)); });
     }
 
     public static void CallPlanningPhaseTrigger()

@@ -78,6 +78,11 @@ namespace PilotAbilitiesNamespace
             return true;
         }
 
+        protected bool NeverUseByDefault()
+        {
+            return true;
+        }
+
         protected void SetAlwaysUse(EventHandler useAbility)
         {
             alwaysUseAbility = true;
@@ -88,7 +93,7 @@ namespace PilotAbilitiesNamespace
 
         protected GenericShip TargetShip;
 
-        protected void SelectTargetForAbility(System.Action selectTargetAction, List<TargetTypes> targetTypes, Vector2 rangeLimits, bool showSkipButton = false)
+        protected void SelectTargetForAbility(System.Action selectTargetAction, List<TargetTypes> targetTypes, Vector2 rangeLimits, bool showSkipButton = true)
         {
             SelectShipSubPhase selectTargetSubPhase = (SelectShipSubPhase) Phases.StartTemporarySubPhaseNew(
                 "Select target for Lando Calrissian's ability",
@@ -120,9 +125,7 @@ namespace PilotAbilitiesNamespace
 
             public override void SkipButton()
             {
-                Phases.FinishSubPhase(this.GetType());
-                Phases.CurrentSubPhase.Resume();
-                Triggers.FinishTrigger();
+                FinishSelection();
             }
         }
     }

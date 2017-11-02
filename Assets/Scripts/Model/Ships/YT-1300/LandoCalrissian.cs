@@ -56,8 +56,8 @@ namespace PilotAbilitiesNamespace
             SelectTargetForAbility(
                 GrantFreeAction,
                 new List<TargetTypes>() {TargetTypes.OtherFriendly},
-                new Vector2(1, 1),
-                true);
+                new Vector2(1, 1)
+            );
         }
 
         private void GrantFreeAction()
@@ -66,12 +66,7 @@ namespace PilotAbilitiesNamespace
 
             RegisterAbilityTrigger(TriggerTypes.OnFreeActionPlanned, PerformFreeAction);
 
-            Triggers.ResolveTriggers(
-                TriggerTypes.OnFreeActionPlanned,
-                delegate {
-                    Phases.FinishSubPhase(Phases.CurrentSubPhase.GetType());
-                    Triggers.FinishTrigger();
-                });
+            Triggers.ResolveTriggers(TriggerTypes.OnFreeActionPlanned, SelectShipSubPhase.FinishSelection);
         }
 
         private void PerformFreeAction(object sender, System.EventArgs e)

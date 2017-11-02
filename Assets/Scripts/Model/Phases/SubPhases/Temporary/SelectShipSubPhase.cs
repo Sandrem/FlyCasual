@@ -204,6 +204,13 @@ namespace SubPhases
             finishAction.Invoke();
         }
 
+        public static void FinishSelection()
+        {
+            Phases.FinishSubPhase(Phases.CurrentSubPhase.GetType());
+            Phases.CurrentSubPhase.Resume();
+            Triggers.FinishTrigger();
+        }
+
     }
 
 }

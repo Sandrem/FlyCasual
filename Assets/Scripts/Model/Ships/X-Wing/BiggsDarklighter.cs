@@ -1,8 +1,7 @@
-﻿//TODO: Set ability from FAQ
-
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Ship;
 
 namespace Ship
 {
@@ -14,52 +13,115 @@ namespace Ship
             {
                 PilotName = "Biggs Darklighter";
                 ImageUrl = "https://vignette3.wikia.nocookie.net/xwing-miniatures/images/9/90/Biggs-darklighter.png";
-                IsUnique = true;
                 PilotSkill = 5;
                 Cost = 25;
+
+                IsUnique = true;
+
+                PilotAbilities.Add(new PilotAbilitiesNamespace.BiggsDarklighterAbility());
             }
+        }
+    }
+}
 
-            public override void InitializePilot()
+namespace PilotAbilitiesNamespace
+{
+    public class BiggsDarklighterAbility : GenericPilotAbility
+    {
+        public override void Initialize(GenericShip host)
+        {
+            base.Initialize(host);
+
+            Phases.OnCombatPhaseStart += RegisterAskBiggsAbility;
+        }
+
+        private void RegisterAskBiggsAbility()
+        {
+            if (!isAbilityUsed)
             {
-                base.InitializePilot();
-
-                RulesList.TargetIsLegalForShotRule.OnCheckTargetIsLegal += CanPerformAttack;
-                OnDestroyed += RemoveBiggsDarklighterAbility;
+                RegisterAbilityTrigger(TriggerTypes.OnCombatPhaseStart, AskUseAbility);
             }
+        }
 
-            public void CanPerformAttack(ref bool result, GenericShip attacker, GenericShip defender)
+        private void AskUseAbility(object sender, System.EventArgs e)
+        {
+            AskToUseAbility(NeverUseByDefault, ActivateBiggsAbility);
+        }
+
+        private void ActivateBiggsAbility(object sender, System.EventArgs e)
+        {
+            isAbilityUsed = true;
+            Host.AssignToken(new Conditions.BiggsDarklighterCondition(), delegate { });
+
+            RulesList.TargetIsLegalForShotRule.OnCheckTargetIsLegal += CanPerformAttack;
+
+            Host.OnDestroyed += RemoveBiggsDarklighterAbility;
+            Phases.OnCombatPhaseEnd += RemoveBiggsDarklighterAbility;
+
+            SubPhases.DecisionSubPhase.ConfirmDecision();
+        }
+
+        public void CanPerformAttack(ref bool result, GenericShip attacker, GenericShip defender)
+        {
+            bool shipIsProtected = false;
+            if (defender.ShipId != Host.ShipId)
             {
-                bool abilityIsActive = false;
-                if (defender.ShipId != this.ShipId)
+                if (defender.Owner.PlayerNo == Host.Owner.PlayerNo)
                 {
-                    if (defender.Owner.PlayerNo == this.Owner.PlayerNo)
+                    Board.ShipDistanceInformation positionInfo = new Board.ShipDistanceInformation(defender, Host);
+                    if (positionInfo.Range <= 1)
                     {
-                        Board.ShipDistanceInformation positionInfo = new Board.ShipDistanceInformation(defender, this);
-                        if (positionInfo.Range <= 1)
+                        if (!attacker.ShipsBumped.Contains(Host))
                         {
-                            if (!attacker.ShipsBumped.Contains(this))
-                            {
-                                if (Combat.ChosenWeapon.IsShotAvailable(this)) abilityIsActive = true;
-                            }
+                            if (Combat.ChosenWeapon.IsShotAvailable(Host)) shipIsProtected = true;
                         }
                     }
                 }
-
-                if (abilityIsActive)
-                {
-                    if (Roster.GetPlayer(Phases.CurrentPhasePlayer).GetType() == typeof(Players.HumanPlayer))
-                    {
-                        Messages.ShowErrorToHuman("Biggs DarkLighter: You cannot attack target ship");
-                    }
-                    result = false;
-                }
             }
 
-            private void RemoveBiggsDarklighterAbility(GenericShip ship)
+            if (shipIsProtected)
             {
-                RulesList.TargetIsLegalForShotRule.OnCheckTargetIsLegal -= CanPerformAttack;
-                OnDestroyed -= RemoveBiggsDarklighterAbility;
+                if (Roster.GetPlayer(Phases.CurrentPhasePlayer).GetType() == typeof(Players.HumanPlayer))
+                {
+                    Messages.ShowErrorToHuman("Biggs DarkLighter: You cannot attack target ship");
+                }
+                result = false;
             }
+        }
+
+        private void RemoveBiggsDarklighterAbility(GenericShip ship)
+        {
+            RemoveBiggsDarklighterAbility();
+        }
+
+        private void RemoveBiggsDarklighterAbility(object sender, System.EventArgs e)
+        {
+            RemoveBiggsDarklighterAbility();
+        }
+
+        private void RemoveBiggsDarklighterAbility()
+        {
+            Host.RemoveToken(typeof(Conditions.BiggsDarklighterCondition));
+
+            RulesList.TargetIsLegalForShotRule.OnCheckTargetIsLegal -= CanPerformAttack;
+
+            Host.OnDestroyed -= RemoveBiggsDarklighterAbility;
+            Phases.OnCombatPhaseEnd -= RemoveBiggsDarklighterAbility;
+
+            Phases.OnCombatPhaseStart -= RegisterAskBiggsAbility;
+        }
+    }
+}
+
+namespace Conditions
+{
+    public class BiggsDarklighterCondition : Tokens.GenericToken
+    {
+        public BiggsDarklighterCondition()
+        {
+            Name = "Buff Token";
+            Temporary = false;
+            Tooltip = new Ship.XWing.BiggsDarklighter().ImageUrl;
         }
     }
 }

@@ -42,16 +42,31 @@ namespace PilotAbilitiesNamespace
             if (Selection.ThisShip.ShipId == Host.ShipId)
             {
                 Messages.ShowError("Wedge Antilles: Agility is decreased");
-                Selection.AnotherShip.ChangeAgilityBy(-1);
-                Selection.AnotherShip.AfterCombatEnd += RemoveWedgeAntillesAbility;
+                Combat.Defender.AssignToken(new Conditions.WedgeAntillesCondition(), delegate { });
+                Combat.Defender.ChangeAgilityBy(-1);
+                Combat.Defender.AfterCombatEnd += RemoveWedgeAntillesAbility;
             }
         }
 
         public void RemoveWedgeAntillesAbility(GenericShip ship)
         {
             Messages.ShowInfo("Agility is restored");
+            Combat.Defender.RemoveToken(typeof(Conditions.WedgeAntillesCondition));
             ship.ChangeAgilityBy(+1);
             ship.AfterCombatEnd -= RemoveWedgeAntillesAbility;
+        }
+    }
+}
+
+namespace Conditions
+{
+    public class WedgeAntillesCondition : Tokens.GenericToken
+    {
+        public WedgeAntillesCondition()
+        {
+            Name = "Debuff Token";
+            Temporary = false;
+            Tooltip = new Ship.XWing.WedgeAntilles().ImageUrl;
         }
     }
 }

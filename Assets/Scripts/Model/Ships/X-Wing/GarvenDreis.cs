@@ -48,8 +48,7 @@ namespace PilotAbilitiesNamespace
                 SelectTargetForAbility(
                     SelectGarvenDreisAbilityTarget,
                     new List<TargetTypes>() { TargetTypes.OtherFriendly },
-                    new Vector2(1, 2),
-                    true
+                    new Vector2(1, 2)
                 );
             }
             else
@@ -62,13 +61,7 @@ namespace PilotAbilitiesNamespace
         {
             MovementTemplates.ReturnRangeRuler();
 
-            TargetShip.AssignToken(
-                new Tokens.FocusToken(),
-                delegate {
-                    Phases.FinishSubPhase(Phases.CurrentSubPhase.GetType());
-                    Phases.CurrentSubPhase.Resume();
-                    Triggers.FinishTrigger();
-                });
+            TargetShip.AssignToken(new Tokens.FocusToken(), SelectShipSubPhase.FinishSelection);
         }
     }
 }

@@ -178,7 +178,7 @@ namespace SubPhases
             RevertSubPhase();
         }
 
-        protected virtual void RevertSubPhase()
+        public virtual void RevertSubPhase()
         {
             Phases.CurrentSubPhase = PreviousSubPhase;
             Roster.AllShipsHighlightOff();

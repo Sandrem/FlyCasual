@@ -96,7 +96,7 @@ namespace PilotAbilitiesNamespace
         protected void SelectTargetForAbility(System.Action selectTargetAction, List<TargetTypes> targetTypes, Vector2 rangeLimits, bool showSkipButton = true)
         {
             SelectShipSubPhase selectTargetSubPhase = (SelectShipSubPhase) Phases.StartTemporarySubPhaseNew(
-                "Select target for Lando Calrissian's ability",
+                "Select target for " + Name,
                 typeof(PilotAbilitySelectTarget),
                 Triggers.FinishTrigger
             );
@@ -121,7 +121,7 @@ namespace PilotAbilitiesNamespace
 
         private class PilotAbilitySelectTarget: SelectShipSubPhase
         {
-            protected override void RevertSubPhase() { }
+            public override void RevertSubPhase() { }
 
             public override void SkipButton()
             {

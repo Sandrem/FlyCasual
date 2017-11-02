@@ -97,7 +97,7 @@ namespace SubPhases
             });
         }
 
-        protected override void RevertSubPhase() { }
+        public override void RevertSubPhase() { }
 
         private void PerformFreeAction(object sender, System.EventArgs e)
         {

@@ -109,7 +109,7 @@ namespace SubPhases
             );
         }
 
-        protected override void RevertSubPhase()
+        public override void RevertSubPhase()
         {
             Selection.ThisShip.RemoveAlreadyExecutedAction(typeof(ActionsList.TargetLockAction));
             base.RevertSubPhase();

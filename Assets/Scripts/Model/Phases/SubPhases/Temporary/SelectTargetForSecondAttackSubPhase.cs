@@ -20,7 +20,7 @@
             CallBack();
         }
 
-        protected override void RevertSubPhase() { }
+        public override void RevertSubPhase() { }
 
         public override void SkipButton()
         {

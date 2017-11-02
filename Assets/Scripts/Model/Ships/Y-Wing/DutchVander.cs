@@ -1,8 +1,8 @@
-﻿//TODO: USE NEW SYSTEM OF PILOT ABILITIES
-
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Ship;
+using SubPhases;
 
 namespace Ship
 {
@@ -22,83 +22,55 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Astromech);
 
                 faction = Faction.Rebels;
-            }
 
-            public override void InitializePilot()
-            {
-                base.InitializePilot();
-                OnTokenIsAssigned += DutchVanderPilotAbility;
+                PilotAbilities.Add(new PilotAbilitiesNamespace.DutchVanderAbility());
             }
-
-            private void DutchVanderPilotAbility(GenericShip ship, System.Type tokenType)
-            {
-                if (tokenType == typeof(Tokens.BlueTargetLockToken))
-                {
-                    Triggers.RegisterTrigger(new Trigger()
-                    {
-                        Name = "\"Dutch\" Vander: Aquire Tarhet Lock",
-                        TriggerOwner = ship.Owner.PlayerNo,
-                        TriggerType = TriggerTypes.OnTokenIsAssigned,
-                        EventHandler = StartSubphaseForDutchVanderPilotAbility
-                    });
-                }
-            }
-
-            private void StartSubphaseForDutchVanderPilotAbility(object sender, System.EventArgs e)
-            {
-                Selection.ThisShip = this;
-                if (Owner.Ships.Count > 1)
-                {
-                    Phases.StartTemporarySubPhaseOld(
-                        "Select target for \"Dutch\" Vander's ability",
-                        typeof(SubPhases.DutchVanderAbilityTargetSubPhase),
-                        delegate {
-                            Phases.FinishSubPhase(typeof(SubPhases.DutchVanderAbilityTargetSubPhase));
-                            Triggers.FinishTrigger();
-                        }
-                    );
-                }
-                else
-                {
-                    Triggers.FinishTrigger();
-                }
-            }
-
         }
     }
 }
 
-namespace SubPhases
+namespace PilotAbilitiesNamespace
 {
-
-    public class DutchVanderAbilityTargetSubPhase : SelectShipSubPhase
+    public class DutchVanderAbility : GenericPilotAbility
     {
-
-        public override void Prepare()
+        public override void Initialize(GenericShip host)
         {
-            targetsAllowed.Add(TargetTypes.OtherFriendly);
-            maxRange = 2;
-            finishAction = SelectGarvenDreisAbilityTarget;
+            base.Initialize(host);
 
-            UI.ShowSkipButton();
+            Host.OnTokenIsAssigned += DutchVanderPilotAbility;
         }
 
-        private void SelectGarvenDreisAbilityTarget()
+        private void DutchVanderPilotAbility(GenericShip ship, System.Type tokenType)
         {
-            MovementTemplates.ReturnRangeRuler();
-
-            Triggers.RegisterTrigger(new Trigger()
+            if (tokenType == typeof(Tokens.BlueTargetLockToken))
             {
-                Name = "Select target for Target Lock",
-                TriggerOwner = TargetShip.Owner.PlayerNo,
-                TriggerType = TriggerTypes.OnAbilityDirect,
-                EventHandler = StartSubphaseForTargetLock
-            });
-
-            Triggers.ResolveTriggers(TriggerTypes.OnAbilityDirect, CallBack);
+                RegisterAbilityTrigger(TriggerTypes.OnTokenIsAssigned, StartSubphaseForDutchVanderPilotAbility);
+            }
         }
 
-        protected override void RevertSubPhase() { }
+        private void StartSubphaseForDutchVanderPilotAbility(object sender, System.EventArgs e)
+        {
+            Selection.ThisShip = Host;
+            if (Host.Owner.Ships.Count > 1)
+            {
+                SelectTargetForAbility(
+                    GrantFreeTargetLock,
+                    new List<TargetTypes>() { TargetTypes.OtherFriendly },
+                    new Vector2(1, 2)
+                );
+            }
+            else
+            {
+                Triggers.FinishTrigger();
+            }
+        }
+
+        private void GrantFreeTargetLock()
+        {
+            RegisterAbilityTrigger(TriggerTypes.OnAbilityDirect, StartSubphaseForTargetLock);
+
+            Triggers.ResolveTriggers(TriggerTypes.OnAbilityDirect, SelectShipSubPhase.FinishSelection);
+        }
 
         private void StartSubphaseForTargetLock(object sender, System.EventArgs e)
         {
@@ -107,21 +79,24 @@ namespace SubPhases
             Phases.StartTemporarySubPhaseOld(
                 "Select target for Target Lock",
                 typeof(FreeSelectTargetLockSubPhase),
-                delegate {
-                    Phases.FinishSubPhase(typeof(FreeSelectTargetLockSubPhase));
-                    Triggers.FinishTrigger();
-                }
+                SelectShipSubPhase.FinishSelection
             );
         }
 
-        public override void SkipButton()
+        private void TrySelectTargetLock()
         {
-            Phases.FinishSubPhase(typeof(SubPhases.DutchVanderAbilityTargetSubPhase));
-            Triggers.FinishTrigger();
+            Actions.AssignTargetLockToPair(
+                Selection.ThisShip,
+                TargetShip,
+                SelectShipSubPhase.FinishSelection,
+                (Phases.CurrentSubPhase as SelectShipSubPhase).RevertSubPhase
+            );
         }
-
     }
+}
 
+namespace SubPhases
+{
     public class FreeSelectTargetLockSubPhase : SelectShipSubPhase
     {
 
@@ -138,22 +113,18 @@ namespace SubPhases
             Actions.AssignTargetLockToPair(
                 Selection.ThisShip,
                 TargetShip,
-                delegate {
-                    Phases.FinishSubPhase(typeof(FreeSelectTargetLockSubPhase));
-                    CallBack();
-                },
+                CallBack,
                 RevertSubPhase
             );
         }
 
-        protected override void RevertSubPhase() { }
+        public override void RevertSubPhase() { }
 
         public override void SkipButton()
         {
-            Phases.FinishSubPhase(typeof(FreeSelectTargetLockSubPhase));
-            Triggers.FinishTrigger();
+            CallBack();
         }
 
     }
-
 }
+

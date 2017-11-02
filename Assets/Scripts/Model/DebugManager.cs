@@ -6,6 +6,8 @@ public static class DebugManager
 {
     public static bool FullDebug;
 
+    public static bool DebugTemporary = true;
+
     public static bool DebugAllDamageIsCrits;
 
     public static bool DebugNoSquadPointsLimit;

@@ -68,7 +68,7 @@ namespace UpgradesList
         private void StartSaturationSalvoCheckSubPhase(object sender, System.EventArgs e)
         {
             Selection.ActiveShip = sender as GenericShip;
-            Phases.StartTemporarySubPhase(
+            Phases.StartTemporarySubPhaseOld(
                 Selection.ActiveShip.ShipId + ": Saturation Salvo Check",
                 typeof(SubPhases.SaturationSalvoCheckSubPhase),
                 delegate

@@ -17,7 +17,7 @@ namespace Movement
         {
             if (!Selection.ThisShip.IsBumped)
             {
-                Phases.StartTemporarySubPhase("Koiogran Turn", typeof(SubPhases.KoiogranTurnSubPhase), callBack);
+                Phases.StartTemporarySubPhaseOld("Koiogran Turn", typeof(SubPhases.KoiogranTurnSubPhase), callBack);
             }
             else
             {

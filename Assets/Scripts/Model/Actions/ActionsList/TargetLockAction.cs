@@ -67,7 +67,7 @@ namespace ActionsList
 
         public override void ActionTake()
         {
-            Phases.StartTemporarySubPhase(
+            Phases.StartTemporarySubPhaseOld(
                 "Select target for Target Lock",
                 typeof(SubPhases.SelectTargetLockSubPhase),
                 Phases.CurrentSubPhase.CallBack
@@ -90,7 +90,7 @@ namespace SubPhases
             minRange = ship.TargetLockMinRange;
             maxRange = ship.TargetLockMaxRange;
 
-            isEnemyAllowed = true;
+            targetsAllowed.Add(TargetTypes.Enemy);
             finishAction = TrySelectTargetLock;
 
             UI.ShowSkipButton();
@@ -109,7 +109,7 @@ namespace SubPhases
             );
         }
 
-        protected override void RevertSubPhase()
+        public override void RevertSubPhase()
         {
             Selection.ThisShip.RemoveAlreadyExecutedAction(typeof(ActionsList.TargetLockAction));
             base.RevertSubPhase();

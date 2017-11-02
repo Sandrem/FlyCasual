@@ -24,10 +24,7 @@ namespace Ship
                 MaxShields = 4;
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
-                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Torpedo);
-                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Torpedo);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Crew);
-                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.SalvagedAstromech);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Illicit);
 
                 AssignTemporaryManeuvers();

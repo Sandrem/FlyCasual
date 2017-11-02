@@ -133,7 +133,7 @@ public class ShipMovementScript : MonoBehaviour {
 
     private static void DoMovementTriggerHandler(object sender, System.EventArgs e)
     {
-        Phases.StartTemporarySubPhase("Movement", typeof(SubPhases.MovementExecutionSubPhase));
+        Phases.StartTemporarySubPhaseOld("Movement", typeof(SubPhases.MovementExecutionSubPhase));
     }
 
     public static void PerformStoredManeuver(int shipId)

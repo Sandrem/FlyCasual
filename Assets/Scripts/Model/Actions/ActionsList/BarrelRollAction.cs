@@ -17,7 +17,7 @@ namespace ActionsList
         {
             Phases.CurrentSubPhase.Pause();
 
-            Phases.StartTemporarySubPhase(
+            Phases.StartTemporarySubPhaseOld(
                 "Barrel Roll",
                 typeof(SubPhases.BarrelRollPlanningSubPhase),
                 Phases.CurrentSubPhase.CallBack
@@ -182,7 +182,7 @@ namespace SubPhases
             Selection.ThisShip.ToggleShipStandAndPeg(false);
             MovementTemplates.CurrentTemplate.gameObject.SetActive(false);
 
-            Phases.StartTemporarySubPhase(
+            Phases.StartTemporarySubPhaseOld(
                 "Barrel Roll execution",
                 typeof(BarrelRollExecutionSubPhase),
                 CallBack

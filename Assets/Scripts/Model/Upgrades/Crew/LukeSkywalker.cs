@@ -60,7 +60,7 @@ namespace UpgradesList
             Selection.ThisShip.AfterGenerateAvailableActionEffectsList += AddLukeSkywalkerCrewAbility;
             Selection.ThisShip.AfterAttackWindow += RemoveLukeSkywalkerCrewAbility;
 
-            Phases.StartTemporarySubPhase(
+            Phases.StartTemporarySubPhaseOld(
                 "Second attack",
                 typeof(SelectTargetForSecondAttackSubPhase),
                 delegate {

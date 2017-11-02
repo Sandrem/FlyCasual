@@ -19,19 +19,27 @@ namespace Ship
                 IsUnique = true;
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
-            }
 
-            public override void InitializePilot()
-            {
-                base.InitializePilot();
-
-                AfterGotNumberOfDefenceDice += MajorVynderAbility;
+                PilotAbilities.Add(new PilotAbilitiesNamespace.MajorVynderAbility());
             }
+        }
+    }
+}
 
-            private void MajorVynderAbility(ref int diceNumber)
-            {
-                if (HasToken(typeof(WeaponsDisabledToken))) diceNumber++;
-            }
+namespace PilotAbilitiesNamespace
+{
+    public class MajorVynderAbility : GenericPilotAbility
+    {
+        public override void Initialize(Ship.GenericShip host)
+        {
+            base.Initialize(host);
+
+            Host.AfterGotNumberOfDefenceDice += IncreaseDefenceDiceNumber;
+        }
+
+        private void IncreaseDefenceDiceNumber(ref int diceNumber)
+        {
+            if (Host.HasToken(typeof(WeaponsDisabledToken))) diceNumber++;
         }
     }
 }

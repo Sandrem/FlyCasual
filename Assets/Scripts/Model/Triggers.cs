@@ -11,6 +11,7 @@ public enum TriggerTypes
     OnAbilityDirect,
     OnGameStart,
     OnSetupPhaseStart,
+    OnBeforePlaceForces,
     OnManeuver,
     OnManeuverIsRevealed,
     OnShipMovementStart,
@@ -220,7 +221,7 @@ public static partial class Triggers
 
     private static void RunDecisionSubPhase()
     {
-        Phases.StartTemporarySubPhase("Triggers Order", typeof(TriggersOrderSubPhase));
+        Phases.StartTemporarySubPhaseOld("Triggers Order", typeof(TriggersOrderSubPhase));
     }
 
     private static void DoCallBack()
@@ -279,7 +280,7 @@ public static partial class Triggers
 
         public override void PrepareDecision(System.Action callBack)
         {
-            infoText = "Select a trigger to resolve";
+            InfoText = "Select a trigger to resolve";
 
             List<Trigger> currentTriggersList = Triggers.GetCurrentLevel().GetTriggersByPlayer(Phases.PlayerWithInitiative);
             Players.PlayerNo currentPlayer = (currentTriggersList.Count > 0) ? Phases.PlayerWithInitiative : Roster.AnotherPlayer(Phases.PlayerWithInitiative);
@@ -297,7 +298,7 @@ public static partial class Triggers
             }
 
             DecisionOwner = Roster.GetPlayer(currentPlayer);
-            defaultDecision = GetDecisions().First().Key;
+            DefaultDecision = GetDecisions().First().Key;
 
             callBack();
         }

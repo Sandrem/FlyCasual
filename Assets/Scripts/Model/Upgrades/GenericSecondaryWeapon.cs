@@ -121,7 +121,7 @@ namespace Upgrade
                     }
                     else
                     {
-                        Phases.StartTemporarySubPhase(
+                        Phases.StartTemporarySubPhaseOld(
                             "Choose how to pay attack cost",
                             typeof(SubPhases.PayAttackCostDecisionSubPhase),
                             callBack
@@ -151,7 +151,7 @@ namespace SubPhases
 
         public override void PrepareDecision(System.Action callBack)
         {
-            infoText = "Choose how to pay attack cost";
+            InfoText = "Choose how to pay attack cost";
 
             List<GenericToken> waysToPay = new List<GenericToken>();
 
@@ -180,7 +180,7 @@ namespace SubPhases
                 }
             }
 
-            defaultDecision = GetDecisions().First().Key;
+            DefaultDecision = GetDecisions().First().Key;
 
             callBack();
         }
@@ -192,12 +192,6 @@ namespace SubPhases
                 ConfirmDecision,
                 (token as BlueTargetLockToken != null) ? (token as BlueTargetLockToken).Letter : ' '
             );
-        }
-
-        private void ConfirmDecision()
-        {
-            Phases.FinishSubPhase(this.GetType());
-            CallBack();
         }
 
     }

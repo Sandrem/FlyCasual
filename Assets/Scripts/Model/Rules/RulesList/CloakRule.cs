@@ -94,7 +94,7 @@ namespace RulesList
         {
             //Phases.CurrentSubPhase.Pause();
 
-            Phases.StartTemporarySubPhase(
+            Phases.StartTemporarySubPhaseOld(
                 "Decloak Decision",
                 typeof(SubPhases.DecloakDecisionSubPhase),
                 delegate
@@ -116,7 +116,7 @@ namespace SubPhases
 
         public override void PrepareDecision(System.Action callBack)
         {
-            infoText = "Perform decloak?";
+            InfoText = "Perform decloak?";
 
             DecisionOwner = Selection.ThisShip.Owner;
 
@@ -125,7 +125,7 @@ namespace SubPhases
 
             AddTooltip("Yes", "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/reference-cards/Decloak.png");
 
-            defaultDecision = "No";
+            DefaultDecision = "No";
 
             callBack();
         }
@@ -135,7 +135,7 @@ namespace SubPhases
             Phases.CurrentSubPhase.Pause();
             UI.CallHideTooltip();
 
-            Phases.StartTemporarySubPhase(
+            Phases.StartTemporarySubPhaseOld(
                 "Decloak",
                 typeof(DecloakPlanningSubPhase),
                 Phases.CurrentSubPhase.CallBack
@@ -376,7 +376,7 @@ namespace SubPhases
 
             //Game.UI.HideSkipButton();
 
-            Phases.StartTemporarySubPhase(
+            Phases.StartTemporarySubPhaseOld(
                 "Decloak execution",
                 typeof(DecloakExecutionSubPhase),
                 CallBack

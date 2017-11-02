@@ -57,7 +57,7 @@ public class CameraScript : MonoBehaviour {
         CheckChangeMode();
 
         CamMoveByAxis();
-        //CamMoveByMouse();
+        if (!DebugManager.DebugTemporary) CamMoveByMouse();
         CamZoomByMouseScroll();
         CamRotateByMouse();
         CamClampPosition();

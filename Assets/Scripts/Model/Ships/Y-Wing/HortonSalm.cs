@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Ship;
 
 namespace Ship
 {
@@ -19,66 +20,72 @@ namespace Ship
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Astromech);
 
+                faction = Faction.Rebels;
+
                 SkinName = "Gray";
 
-                faction = Faction.Rebels;
-            }
-
-            public override void InitializePilot()
-            {
-                base.InitializePilot();
-                AfterGenerateAvailableActionEffectsList += HortonSalmPilotAbility;
-            }
-
-            public void HortonSalmPilotAbility(GenericShip ship)
-            {
-                ship.AddAvailableActionEffect(new PilotAbilities.HortonSalmAction());
+                PilotAbilities.Add(new PilotAbilitiesNamespace.HortonSalmAbility());
             }
         }
     }
 }
 
-namespace PilotAbilities
+namespace PilotAbilitiesNamespace
 {
-    public class HortonSalmAction : ActionsList.GenericAction
+    public class HortonSalmAbility : GenericPilotAbility
     {
-        public HortonSalmAction()
+        public override void Initialize(GenericShip host)
         {
-            Name = EffectName = "Horton Salm's ability";
-            IsReroll = true;
+            base.Initialize(host);
+
+            Host.AfterGenerateAvailableActionEffectsList += HortonSalmPilotAbility;
         }
 
-        public override void ActionEffect(System.Action callBack)
+        public void HortonSalmPilotAbility(GenericShip ship)
         {
-            DiceRerollManager diceRerollManager = new DiceRerollManager
-            {
-                SidesCanBeRerolled = new List<DieSide> { DieSide.Blank },
-                CallBack = callBack
-            };
-            diceRerollManager.Start();
+            ship.AddAvailableActionEffect(new HortonSalmAction());
         }
 
-        public override bool IsActionEffectAvailable()
+        private class HortonSalmAction : ActionsList.GenericAction
         {
-            bool result = false;
-            Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(Combat.Attacker, Combat.Defender, Combat.ChosenWeapon);
-            if ((Combat.AttackStep == CombatStep.Attack) && (shotInfo.Range > 1))
+            public HortonSalmAction()
             {
-                result = true;
-            }
-            return result;
-        }
-
-        public override int GetActionEffectPriority()
-        {
-            int result = 0;
-
-            if (Combat.AttackStep == CombatStep.Attack)
-            {
-                if (Combat.DiceRollAttack.Blanks > 0) result = 95;
+                Name = EffectName = "Horton Salm's ability";
+                IsReroll = true;
             }
 
-            return result;
+            public override void ActionEffect(System.Action callBack)
+            {
+                DiceRerollManager diceRerollManager = new DiceRerollManager
+                {
+                    SidesCanBeRerolled = new List<DieSide> { DieSide.Blank },
+                    CallBack = callBack
+                };
+                diceRerollManager.Start();
+            }
+
+            public override bool IsActionEffectAvailable()
+            {
+                bool result = false;
+                Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(Combat.Attacker, Combat.Defender, Combat.ChosenWeapon);
+                if ((Combat.AttackStep == CombatStep.Attack) && (shotInfo.Range > 1))
+                {
+                    result = true;
+                }
+                return result;
+            }
+
+            public override int GetActionEffectPriority()
+            {
+                int result = 0;
+
+                if (Combat.AttackStep == CombatStep.Attack)
+                {
+                    if (Combat.DiceRollAttack.Blanks > 0) result = 95;
+                }
+
+                return result;
+            }
         }
 
     }

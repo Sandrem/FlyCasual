@@ -49,7 +49,7 @@ namespace RulesList
             Messages.ShowErrorToHuman("Hit asteroid during movement - rolling for damage");
 
             Selection.ActiveShip = Selection.ThisShip;
-            Phases.StartTemporarySubPhase(
+            Phases.StartTemporarySubPhaseOld(
                 "Damage from asteroid collision",
                 typeof(SubPhases.AsteroidHitCheckSubPhase),
                 delegate {

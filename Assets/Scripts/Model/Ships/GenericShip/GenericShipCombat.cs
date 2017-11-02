@@ -110,6 +110,8 @@ namespace Ship
         public DiceRoll AssignedDamageDiceroll = new DiceRoll(DiceKind.Attack, 0, DiceRollCheckType.Virtual);
 
         public bool IsCannotAttackSecondTime { get; set; }
+        public bool CanAttackBumpedTarget { get; set; }
+        public bool PreventDestruction { get; set; }
 
         // EVENTS
 
@@ -149,6 +151,7 @@ namespace Ship
 
         public event EventHandlerShip OnDamageCardIsDealt;
 
+        public event EventHandlerShip OnReadyToBeDestroyed;
         public event EventHandlerShip OnDestroyed;
 
         public event EventHandlerShip AfterAttackWindow;
@@ -486,7 +489,16 @@ namespace Ship
         {
             if (Hull == 0 && !IsDestroyed)
             {
-                DestroyShip(callBack);
+                if (OnReadyToBeDestroyed != null) OnReadyToBeDestroyed(this);
+
+                if (!PreventDestruction)
+                {
+                    DestroyShip(callBack);
+                }
+                else
+                {
+                    callBack();
+                }
             }
             else
             {
@@ -568,11 +580,6 @@ namespace Ship
             if (OnGetAvailableBombDropTemplates != null) OnGetAvailableBombDropTemplates(availableTemplates);
 
             return availableTemplates;
-        }
-
-        public virtual bool CanAttackBumpedTarget(GenericShip defender)
-        {
-            return false;
         }
 
         public bool AreWeaponsNotDisabled()

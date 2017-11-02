@@ -18,86 +18,47 @@ namespace Ship
                 Cost = 32;
 
                 IsUnique = true;
+
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
-            }
 
-            public override void InitializePilot()
-            {
-                base.InitializePilot();
-                OnAttackHitAsAttacker += WhisperAbility;
-            }
-
-            public void WhisperAbility()
-            {
-                Triggers.RegisterTrigger(new Trigger()
-                {
-                    Name = "Whisper: Assign Focus",
-                    TriggerOwner = Owner.PlayerNo,
-                    TriggerType = TriggerTypes.OnAttackHit,
-                    EventHandler = AskAssignFocus
-                });
-            }
-
-            private void AskAssignFocus(object sender, System.EventArgs e)
-            {
-                if (!alwaysUseAbility)
-                {
-                    Phases.StartTemporarySubPhase(
-                        "Whisper's decision",
-                        typeof(SubPhases.WhisperDecisionSubPhase),
-                        delegate () { Triggers.FinishTrigger(); }
-                    );
-                }
-                else
-                {
-                    Selection.ThisShip.AssignToken(new Tokens.FocusToken(), Triggers.FinishTrigger);
-                }
+                PilotAbilities.Add(new PilotAbilitiesNamespace.WhisperAbility());
             }
         }
     }
 }
 
-namespace SubPhases
+namespace PilotAbilitiesNamespace
 {
-
-    public class WhisperDecisionSubPhase : DecisionSubPhase
+    public class WhisperAbility : GenericPilotAbility
     {
-
-        public override void PrepareDecision(System.Action callBack)
+        public override void Initialize(Ship.GenericShip host)
         {
-            infoText = "Whisper: Assign Focus token?";
+            base.Initialize(host);
 
-            AddDecision("Yes", AssignToken);
-            AddDecision("No", NotAssignToken);
-            AddDecision("Always", AlwaysAssignToken);
+            Host.OnAttackHitAsAttacker += RegisterWhisperAbility;
+        }
 
-            defaultDecision = "Always";
+        public void RegisterWhisperAbility()
+        {
+            RegisterAbilityTrigger(TriggerTypes.OnAttackHit, AskAssignFocus);
+        }
 
-            callBack();
+        private void AskAssignFocus(object sender, System.EventArgs e)
+        {
+            if (!alwaysUseAbility)
+            {
+                AskToUseAbility(AlwaysUseByDefault, AssignToken, null, true);
+            }
+            else
+            {
+                Selection.ThisShip.AssignToken(new Tokens.FocusToken(), Triggers.FinishTrigger);
+            }
         }
 
         private void AssignToken(object sender, System.EventArgs e)
         {
-            Selection.ThisShip.AssignToken(new Tokens.FocusToken(), ConfirmDecision);
+            Selection.ThisShip.AssignToken(new Tokens.FocusToken(), SubPhases.DecisionSubPhase.ConfirmDecision);
         }
-
-        private void NotAssignToken(object sender, System.EventArgs e)
-        {
-            ConfirmDecision();
-        }
-
-        private void AlwaysAssignToken(object sender, System.EventArgs e)
-        {
-            (Selection.ThisShip as Ship.TIEPhantom.Whisper).alwaysUseAbility = true;
-            Selection.ThisShip.AssignToken(new Tokens.FocusToken(), ConfirmDecision);
-        }
-
-        private void ConfirmDecision()
-        {
-            Phases.FinishSubPhase(this.GetType());
-            CallBack();
-        }
-
     }
 
 }

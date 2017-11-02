@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Ship;
 
 namespace Ship
 {
@@ -15,52 +16,57 @@ namespace Ship
                 PilotSkill = 8;
                 Cost = 39;
 
-                SkinName = "Boba Fett";
+                IsUnique = true;
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
                 faction = Faction.Empire;
-            }
 
-            public override void InitializePilot()
+                SkinName = "Boba Fett";
+
+                PilotAbilities.Add(new PilotAbilitiesNamespace.BobaFettEmpireAbility());
+            }
+        }
+    }
+}
+
+namespace PilotAbilitiesNamespace
+{
+    public class BobaFettEmpireAbility : GenericPilotAbility
+    {
+        public override void Initialize(Ship.GenericShip host)
+        {
+            base.Initialize(host);
+
+            Host.OnManeuverIsRevealed += RegisterAskChangeManeuver;
+        }
+
+        private void RegisterAskChangeManeuver(GenericShip ship)
+        {
+            RegisterAbilityTrigger(TriggerTypes.OnManeuverIsRevealed, AskChangeManeuver);
+        }
+
+        private void AskChangeManeuver(object sender, System.EventArgs e)
+        {
+            if (Host.AssignedManeuver.Bearing == Movement.ManeuverBearing.Bank)
             {
-                base.InitializePilot();
-
-                OnManeuverIsRevealed += RegisterAskChangeManeuver;
+                DirectionsMenu.Show(IsBankManeuversSameSpeed);
             }
-
-            private void RegisterAskChangeManeuver(GenericShip ship)
+            else
             {
-                Triggers.RegisterTrigger(new Trigger() {
-                    Name = "Boba Fett's ability",
-                    TriggerType = TriggerTypes.OnManeuverIsRevealed,
-                    TriggerOwner = ship.Owner.PlayerNo,
-                    EventHandler = AskChangeManeuver
-                });
+                Triggers.FinishTrigger();
             }
+        }
 
-            private void AskChangeManeuver(object sender, System.EventArgs e)
+        private bool IsBankManeuversSameSpeed(string maneuverString)
+        {
+            bool result = false;
+            Movement.MovementStruct movementStruct = new Movement.MovementStruct(maneuverString);
+            if (movementStruct.Bearing == Movement.ManeuverBearing.Bank && movementStruct.Speed == Host.AssignedManeuver.ManeuverSpeed)
             {
-                if (Selection.ThisShip.AssignedManeuver.Bearing == Movement.ManeuverBearing.Bank)
-                {
-                    DirectionsMenu.Show(IsBankManeuversSameSpeed);
-                }
-                else
-                {
-                    Triggers.FinishTrigger();
-                }                
+                result = true;
             }
-
-            private bool IsBankManeuversSameSpeed(string maneuverString)
-            {
-                bool result = false;
-                Movement.MovementStruct movementStruct = new Movement.MovementStruct(maneuverString);
-                if (movementStruct.Bearing == Movement.ManeuverBearing.Bank && movementStruct.Speed == Selection.ThisShip.AssignedManeuver.ManeuverSpeed)
-                {
-                    result = true;
-                }
-                return result;
-            }
+            return result;
         }
     }
 }

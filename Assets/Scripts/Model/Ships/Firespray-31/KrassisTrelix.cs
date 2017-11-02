@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using Ship;
 
 namespace Ship
 {
@@ -16,77 +17,85 @@ namespace Ship
                 PilotSkill = 5;
                 Cost = 36;
 
-                SkinName = "Krassis Trelix";
+                IsUnique = true;
+
+                PilotAbilities.Add(new PilotAbilitiesNamespace.KrassisTrelixAbility());
 
                 faction = Faction.Empire;
-            }
 
-            public override void InitializePilot()
-            {
-                base.InitializePilot();
-                AfterGenerateAvailableActionEffectsList += KrassisTrelixPilotAbility;
-            }
-
-            public void KrassisTrelixPilotAbility(GenericShip ship)
-            {
-                ship.AddAvailableActionEffect(new PilotAbilities.KrassisTrelixAction());
+                SkinName = "Krassis Trelix";
             }
         }
     }
 }
 
-namespace PilotAbilities
+namespace PilotAbilitiesNamespace
 {
-    public class KrassisTrelixAction : ActionsList.GenericAction
+    public class KrassisTrelixAbility : GenericPilotAbility
     {
-        public KrassisTrelixAction()
+        public override void Initialize(GenericShip host)
         {
-            Name = EffectName = "Krassis Trelix's ability";
-            IsReroll = true;
+            base.Initialize(host);
+
+            Host.AfterGenerateAvailableActionEffectsList += KrassisTrelixPilotAbility;
         }
 
-        public override void ActionEffect(System.Action callBack)
+        public void KrassisTrelixPilotAbility(GenericShip ship)
         {
-            DiceRerollManager diceRerollManager = new DiceRerollManager
-            {
-                NumberOfDiceCanBeRerolled = 1,
-                CallBack = callBack
-            };
-            diceRerollManager.Start();
+            ship.AddAvailableActionEffect(new KrassisTrelixAction());
         }
 
-        public override bool IsActionEffectAvailable()
+        private class KrassisTrelixAction : ActionsList.GenericAction
         {
-            bool result = false;
-            if (Combat.AttackStep == CombatStep.Attack && (Combat.ChosenWeapon as Upgrade.GenericSecondaryWeapon) != null)
+            public KrassisTrelixAction()
             {
-                result = true;
-            }
-            return result;
-        }
-
-        public override int GetActionEffectPriority()
-        {
-            int result = 0;
-
-            if (Combat.AttackStep == CombatStep.Attack && (Combat.ChosenWeapon as Upgrade.GenericSecondaryWeapon) != null)
-            {
-                if (Combat.DiceRollAttack.Blanks > 0)
-                {
-                    result = 90;
-                }
-                else if (Combat.DiceRollAttack.Focuses > 0 && Combat.Attacker.GetAvailableActionEffectsList().Count(n => n.IsTurnsAllFocusIntoSuccess) == 0)
-                {
-                    result = 90;
-                }
-                else if (Combat.DiceRollAttack.Focuses > 0)
-                {
-                    result = 30;
-                }
+                Name = EffectName = "Krassis Trelix's ability";
+                IsReroll = true;
             }
 
-            return result;
-        }
+            public override void ActionEffect(System.Action callBack)
+            {
+                DiceRerollManager diceRerollManager = new DiceRerollManager
+                {
+                    NumberOfDiceCanBeRerolled = 1,
+                    CallBack = callBack
+                };
+                diceRerollManager.Start();
+            }
 
+            public override bool IsActionEffectAvailable()
+            {
+                bool result = false;
+                if (Combat.AttackStep == CombatStep.Attack && (Combat.ChosenWeapon as Upgrade.GenericSecondaryWeapon) != null)
+                {
+                    result = true;
+                }
+                return result;
+            }
+
+            public override int GetActionEffectPriority()
+            {
+                int result = 0;
+
+                if (Combat.AttackStep == CombatStep.Attack && (Combat.ChosenWeapon as Upgrade.GenericSecondaryWeapon) != null)
+                {
+                    if (Combat.DiceRollAttack.Blanks > 0)
+                    {
+                        result = 90;
+                    }
+                    else if (Combat.DiceRollAttack.Focuses > 0 && Combat.Attacker.GetAvailableActionEffectsList().Count(n => n.IsTurnsAllFocusIntoSuccess) == 0)
+                    {
+                        result = 90;
+                    }
+                    else if (Combat.DiceRollAttack.Focuses > 0)
+                    {
+                        result = 30;
+                    }
+                }
+
+                return result;
+            }
+
+        }
     }
 }

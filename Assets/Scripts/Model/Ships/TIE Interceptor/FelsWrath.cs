@@ -1,6 +1,5 @@
-﻿//TODO: Adapt to new Pilot abilities system
-
-using System;
+﻿using System;
+using Ship;
 
 namespace Ship
 {
@@ -10,54 +9,53 @@ namespace Ship
 		{
 			protected bool IsDestructionIsDelayed;
 
-			public FelsWrath()
-			{
-				PilotName = "\"Fel's Wrath\"";
-				ImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/1/12/Fel%27s_Wrath.png";
-				PilotSkill = 5;
-				Cost = 23;
+            public FelsWrath()
+            {
+                PilotName = "\"Fel's Wrath\"";
+                ImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/1/12/Fel%27s_Wrath.png";
+                PilotSkill = 5;
+                Cost = 23;
 
-				IsUnique = true;
-			}
+                IsUnique = true;
 
-			public override void InitializePilot ()
-			{
-				base.InitializePilot ();
-				Phases.OnCombatPhaseEnd += ProcessFelsWrath;
-			}
-
-			public override void IsHullDestroyedCheck(Action callBack)
-			{
-				if (Hull == 0 && !IsDestroyed && !IsDestructionIsDelayed)
-				{
-					IsDestructionIsDelayed = true;
-				}
-
-				callBack();
-			}
-
-			public void ProcessFelsWrath()
-			{
-				Triggers.RegisterTrigger(
-					new Trigger()
-					{
-						Name = "Fel's Wrath Ability",
-						TriggerOwner = Owner.PlayerNo,
-						TriggerType = TriggerTypes.OnCombatPhaseEnd,
-						EventHandler = CleanUpFelsWrath
-					}
-				);
-			}
-
-			private void CleanUpFelsWrath(object sender, EventArgs e){
-
-				if (IsDestructionIsDelayed) {
-					Selection.ThisShip = this;
-					DestroyShip (Triggers.FinishTrigger, true);
-				} else {
-					Triggers.FinishTrigger ();
-				}
-			}
+                PilotAbilities.Add(new PilotAbilitiesNamespace.FelsWrathAbility());
+            }
 		}
 	}
+}
+
+namespace PilotAbilitiesNamespace
+{
+    public class FelsWrathAbility : GenericPilotAbility
+    {
+        public override void Initialize(GenericShip host)
+        {
+            base.Initialize(host);
+
+            Host.OnReadyToBeDestroyed += ActivateAbility;
+        }
+
+        private void ActivateAbility(GenericShip ship)
+        {
+            Host.OnReadyToBeDestroyed -= ActivateAbility;
+
+            Host.PreventDestruction = true;
+
+            Phases.OnCombatPhaseEnd += ProcessFelsWrath;
+        }
+
+        public void ProcessFelsWrath()
+        {
+            RegisterAbilityTrigger(TriggerTypes.OnCombatPhaseEnd, CleanUpFelsWrath);
+        }
+
+        private void CleanUpFelsWrath(object sender, EventArgs e)
+        {
+            Host.PreventDestruction = false;
+            Phases.OnCombatPhaseEnd -= ProcessFelsWrath;
+
+            Selection.ThisShip = Host;
+            Host.DestroyShip(Triggers.FinishTrigger, true);
+        }
+    }
 }

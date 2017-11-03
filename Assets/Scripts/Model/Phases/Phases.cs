@@ -49,13 +49,7 @@ public static partial class Phases
 
     public static void StartPhases()
     {
-        CallGameStart();
         StartGame();
-    }
-
-    private static void CallGameStart()
-    {
-        if (OnGameStart != null) OnGameStart();
     }
 
     private static void StartGame()

@@ -6,7 +6,8 @@ using UnityEngine.UI;
 public enum LogTypes
 {
     Everything,
-    Errors
+    Errors,
+    Triggers
 }
 
 public class Console : MonoBehaviour {
@@ -17,6 +18,7 @@ public class Console : MonoBehaviour {
 
     private static string logEverything = "\n";
     private static string logErrors = "\n";
+    private static string logTriggers = "\n";
 
     private static GameObject ConsoleWindow;
     private static Text ConsoleOutput;
@@ -37,7 +39,8 @@ public class Console : MonoBehaviour {
         logs = new Dictionary<LogTypes, string>()
         {
             { LogTypes.Everything, logEverything },
-            { LogTypes.Errors, logErrors }
+            { LogTypes.Errors, logErrors },
+            { LogTypes.Triggers, logTriggers },
         };
         currentLogTypeToShow = LogTypes.Everything;
     }
@@ -57,6 +60,7 @@ public class Console : MonoBehaviour {
     {
         if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.BackQuote))
         {
+            if (logs == null) InitializeLogs();
             IsActive = !IsActive;
         }
 
@@ -68,6 +72,8 @@ public class Console : MonoBehaviour {
 
     public static void Write(string text, LogTypes logType = LogTypes.Everything, bool isBold = false, string color = "")
     {
+        Debug.Log(text);
+
         if (logs == null) InitializeLogs();
 
         string logString = text;
@@ -102,7 +108,8 @@ public class Console : MonoBehaviour {
     private void ShowNextLog()
     {
         if (currentLogTypeToShow == LogTypes.Everything) currentLogTypeToShow = LogTypes.Errors;
-        else currentLogTypeToShow = LogTypes.Everything;
+        else if (currentLogTypeToShow == LogTypes.Errors) currentLogTypeToShow = LogTypes.Triggers;
+        else if (currentLogTypeToShow == LogTypes.Triggers) currentLogTypeToShow = LogTypes.Everything;
 
         ConsoleOutput.text = logs[currentLogTypeToShow];
         IsActive = false;

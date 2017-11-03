@@ -26,9 +26,9 @@ public partial class Console : MonoBehaviour {
         }
     }
 
-    private static LogTypes currentLogTypeToShow;
-
     private static List<LogEntry> logs;
+    private static LogTypes currentLogTypeToShow;
+    private static List<LogTypes> logsList = new List<LogTypes>() { LogTypes.Everything, LogTypes.Errors, LogTypes.Triggers };
 
     private void Start()
     {

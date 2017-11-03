@@ -91,9 +91,15 @@ public partial class Console : MonoBehaviour {
 
     private void ShowNextLog()
     {
-        if (currentLogTypeToShow == LogTypes.Everything) currentLogTypeToShow = LogTypes.Errors;
-        else if (currentLogTypeToShow == LogTypes.Errors) currentLogTypeToShow = LogTypes.Triggers;
-        else if (currentLogTypeToShow == LogTypes.Triggers) currentLogTypeToShow = LogTypes.Everything;
+        int currentIndex = logsList.IndexOf(currentLogTypeToShow);
+        if (currentIndex != logsList.Count - 1)
+        {
+            currentLogTypeToShow = logsList[currentIndex + 1];
+        }
+        else
+        {
+            currentLogTypeToShow = logsList[0];
+        }
 
         ShowFilteredByType(currentLogTypeToShow);
     }

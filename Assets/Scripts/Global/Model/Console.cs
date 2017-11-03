@@ -8,7 +8,8 @@ public enum LogTypes
 {
     Everything,
     Errors,
-    Triggers
+    Triggers,
+    AI
 }
 
 public partial class Console : MonoBehaviour {
@@ -28,7 +29,7 @@ public partial class Console : MonoBehaviour {
 
     private static List<LogEntry> logs;
     private static LogTypes currentLogTypeToShow;
-    private static List<LogTypes> logsList = new List<LogTypes>() { LogTypes.Everything, LogTypes.Errors, LogTypes.Triggers };
+    private static List<LogTypes> logsList = new List<LogTypes>() { LogTypes.Everything, LogTypes.Errors, LogTypes.Triggers, LogTypes.AI };
 
     private void Start()
     {

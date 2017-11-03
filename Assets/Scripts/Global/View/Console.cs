@@ -35,6 +35,10 @@ public partial class Console : MonoBehaviour {
         {
             if (logs == null) InitializeLogs();
             IsActive = !IsActive;
+            if (IsActive)
+            {
+                ConsoleWindow.GetComponentInChildren<InputField>().Select();
+            }
         }
 
         if (Input.GetKeyDown(KeyCode.Tab))
@@ -107,5 +111,14 @@ public partial class Console : MonoBehaviour {
         {
             ShowLogEntry(filteredRecord);
         }
+    }
+
+    public void OnEndEdit(GameObject input)
+    {
+        InputField inputField = input.GetComponent<InputField>();
+        ProcessCommand(inputField.text);
+        inputField.text = "";
+        inputField.Select();
+        inputField.ActivateInputField();
     }
 }

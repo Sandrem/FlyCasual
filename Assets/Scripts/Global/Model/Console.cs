@@ -66,4 +66,11 @@ public partial class Console : MonoBehaviour {
             Write("\n" + logString + "\n\n" + stackTrace, LogTypes.Errors, true, "red");
         }
     }
+
+    private void ProcessCommand(string inputText)
+    {
+        if (inputText.ToLower() == "finishtrigger") Triggers.FinishTrigger();
+        else if (inputText.ToLower() == "finishsubphase") Phases.FinishSubPhase(Phases.CurrentSubPhase.GetType());
+        else Console.Write("Unknown command", LogTypes.Everything, false, "red");
+    }
 }

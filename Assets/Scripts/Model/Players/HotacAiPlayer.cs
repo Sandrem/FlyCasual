@@ -9,8 +9,6 @@ namespace Players
 
     public partial class HotacAiPlayer : GenericAiPlayer
     {
-        private bool inDebug = false;
-
         public HotacAiPlayer() : base()
         {
             Name = "HotAC AI";
@@ -18,14 +16,14 @@ namespace Players
 
         public override void ActivateShip(Ship.GenericShip ship)
         {
-            if (inDebug) Debug.Log("=== " + ship.PilotName + " (" + ship.ShipId + ") ===");
+            Console.Write(ship.PilotName + " (" + ship.ShipId + ") is activated to perform maneuver", LogTypes.AI);
 
             bool isTargetLockPerformed = false;
 
             Ship.GenericShip anotherShip = FindNearestEnemyShip(ship, ignoreCollided: true, inArcAndRange: true);
             if (anotherShip == null) anotherShip = FindNearestEnemyShip(ship, ignoreCollided: true);
             if (anotherShip == null) anotherShip = FindNearestEnemyShip(ship);
-            if (inDebug) Debug.Log("Nearest enemy is " + anotherShip.PilotName + " (" + anotherShip.ShipId + ")");
+            Console.Write("Nearest enemy is " + ship.PilotName + " (" + ship.ShipId + ")", LogTypes.AI);
 
             // TODO: remove null variant
             if (anotherShip != null)
@@ -114,7 +112,7 @@ namespace Players
             if (Selection.ThisShip.AssignedManeuver.movementPrediction.IsOffTheBoard)
             {
                 leaveMovementAsIs = false;
-                if (DebugManager.DebugAI) Debug.Log("AI predicts off the board maneuver!");
+                Console.Write("Ship predicts off the board maneuver!", LogTypes.AI);
                 AvoidOffTheBoard();
             }
             else
@@ -122,12 +120,16 @@ namespace Players
                 if (Selection.ThisShip.AssignedManeuver.movementPrediction.AsteroidsHit.Count != 0)
                 {
                     leaveMovementAsIs = false;
-                    if (DebugManager.DebugAI) Debug.Log("AI predicts asteroid hit!");
+                    Console.Write("Ship predicts collision with asteroid!", LogTypes.AI);
                     Swerve();
                 }
             }
 
-            if (leaveMovementAsIs) Selection.ThisShip.AssignedManeuver.LaunchShipMovement();
+            if (leaveMovementAsIs)
+            {
+                Console.Write("Ship executes selected maneuver\n", LogTypes.AI, true);
+                Selection.ThisShip.AssignedManeuver.LaunchShipMovement();
+            }
         }
 
         private void Swerve()

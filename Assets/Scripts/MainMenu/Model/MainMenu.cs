@@ -10,7 +10,8 @@ public partial class MainMenu : MonoBehaviour {
     public static MainMenu CurrentMainMenu;
 
     // Use this for initialization
-    void Start () {
+    void Start ()
+    {
         InitializeMenu();
     }
 
@@ -20,6 +21,8 @@ public partial class MainMenu : MonoBehaviour {
 
         SetPositions();
         SetCurrentPanel();
+
+        DontDestroyOnLoad(GameObject.Find("GlobalUI").gameObject);
 
         Options.ReadOptions();
         Options.UpdateVolume();
@@ -40,7 +43,9 @@ public partial class MainMenu : MonoBehaviour {
 
     public void QuitGame()
     {
-        Application.Quit();
+        Ship.GenericShip test = null;
+        Debug.Log(test.PilotName);
+        //Application.Quit();
     }
 
     public void OnUpdateAvailableClick()

@@ -13,9 +13,10 @@ public class NetworkExecuteWithCallback
 
     private int MAX_PLAYERS = 2;
 
-    public NetworkExecuteWithCallback(Action toExecute, Action toCallBack)
+    public NetworkExecuteWithCallback(string name, Action toExecute, Action toCallBack)
     {
-        if (DebugManager.DebugNetwork) UI.AddTestLogEntry("NetworkExecuteWithCallback is created");
+        Console.Write(name, LogTypes.Network, true, "yellow");
+
         if (Network.IsServer)
         {
             responcesGot = 0;
@@ -44,11 +45,11 @@ public class NetworkExecuteWithCallback
         if (Network.IsServer)
         {
             responcesGot++;
-            if (DebugManager.DebugNetwork) UI.AddTestLogEntry("NetworkExecuteWithCallback got responce: " + responcesGot + "/" + MAX_PLAYERS);
+            Console.Write("Server confirmed finished task: " + responcesGot + "/" + MAX_PLAYERS, LogTypes.Network);
 
             if (responcesGot == MAX_PLAYERS)
             {
-                if (DebugManager.DebugNetwork) UI.AddTestLogEntry("NetworkExecuteWithCallback calls callback");
+                Console.Write("Server allows to continue\n", LogTypes.Network, true, "yellow");
                 UnregisterNetworkCallback();
                 callBack();
             }

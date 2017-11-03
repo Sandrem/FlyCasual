@@ -59,13 +59,13 @@ public static partial class Network
 
     public static void FinishTask()
     {
-        if (DebugManager.DebugNetwork) UI.AddTestLogEntry("Network.FinishTask");
+        string logEntryPostfix = (IsServer) ? "" : "\n";
+        Console.Write("Client finished task" + logEntryPostfix, LogTypes.Network);
         CurrentPlayer.CmdFinishTask();
     }
 
     public static void ServerFinishTask()
     {
-        if (DebugManager.DebugNetwork) UI.AddTestLogEntry("S: Network.FinishTask");
         LastNetworkCallback.ServerFinishTask();
     }
 

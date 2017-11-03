@@ -78,6 +78,7 @@ public partial class NetworkPlayerController : NetworkBehaviour
         }
 
         new NetworkExecuteWithCallback(
+            "Wait sync random numbers then callback",
             delegate { CmdStoreGeneratedRandomValues(randomHolder); },
             CmdGenerateRandomValuesCallBack
         );

@@ -34,7 +34,7 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     [Command]
     public void CmdCallBacksTest()
     {
-        new NetworkExecuteWithCallback(CmdRosterTest, CmdShowVariable);
+        new NetworkExecuteWithCallback("Test", CmdRosterTest, CmdShowVariable);
     }
 
     [Command]
@@ -79,8 +79,9 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     public void CmdStartNetworkGame()
     {
         new NetworkExecuteWithCallback(
-            delegate { new NetworkExecuteWithCallback(CmdGetSquadList, CmdSendSquadToOpponent); },
-            delegate { new NetworkExecuteWithCallback(CmdLoadBattleScene, CmdStartBattle); }
+            "Wait sync squad list, then start battle",
+            delegate { new NetworkExecuteWithCallback("Wait gather squad lists, then sync squad lists", CmdGetSquadList, CmdSendSquadToOpponent); },
+            delegate { new NetworkExecuteWithCallback("Wait battle scene loading finish, then start battle", CmdLoadBattleScene, CmdStartBattle); }
         );
     }
 
@@ -257,6 +258,7 @@ public partial class NetworkPlayerController : NetworkBehaviour {
         if (DebugManager.DebugNetwork) UI.AddTestLogEntry("S: CmdPerformStoredManeuver");
 
         new NetworkExecuteWithCallback(
+            "Wait maneuver execution",
             delegate { CmdLaunchStoredManeuver(shipId); },
             delegate { CmdFinishManeuver(shipId); }
         );
@@ -296,6 +298,7 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     public void CmdPerformBarrelRoll()
     {
         new NetworkExecuteWithCallback(
+            "Wait barrel roll execution",
             CmdLaunchBarrelRoll,
             CmdFinishBarrelRoll
         );
@@ -343,6 +346,7 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     public void CmdPerformBoost()
     {
         new NetworkExecuteWithCallback(
+            "Wait boost execution",
             CmdLaunchBoost,
             CmdFinishBoost
         );
@@ -445,7 +449,7 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     [Command]
     public void CmdConfirmDiceRollCheckResults()
     {
-        new NetworkExecuteWithCallback(CmdShowDiceRollCheckConfirmButton, CmdConfirmDiceRerollCheckResults);
+        new NetworkExecuteWithCallback("Wait all confirm dice results", CmdShowDiceRollCheckConfirmButton, CmdConfirmDiceRerollCheckResults);
     }
 
     [Command]
@@ -478,7 +482,7 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     public void CmdCallInformCritWindow()
     {
         if (DebugManager.DebugNetwork) UI.AddTestLogEntry("S: CmdCallInformCritWindow");
-        new NetworkExecuteWithCallback(CmdShowInformCritWindow, CmdHideInformCritWindow);
+        new NetworkExecuteWithCallback("Wait all confirm faceup crit card results", CmdShowInformCritWindow, CmdHideInformCritWindow);
     }
 
     [Command]
@@ -516,6 +520,7 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     public void CmdSyncDiceResults()
     {
         new NetworkExecuteWithCallback(
+            "Wait sync dice results than calculate attack results prediction",
             CmdSendDiceRollResultsToClients,
             CmdCalculateDiceRoll
         );
@@ -560,6 +565,7 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     public void CmdSyncDiceRerollResults()
     {
         new NetworkExecuteWithCallback(
+            "Wait sync dice reroll results than calculate attack results prediction",
             CmdSendDiceRollResultsToClients,
             CmdCalculateDiceReroll
         );

@@ -9,7 +9,8 @@ public enum LogTypes
     Everything,
     Errors,
     Triggers,
-    AI
+    AI,
+    Network
 }
 
 public partial class Console : MonoBehaviour {
@@ -29,7 +30,7 @@ public partial class Console : MonoBehaviour {
 
     private static List<LogEntry> logs;
     private static LogTypes currentLogTypeToShow;
-    private static List<LogTypes> logsList = new List<LogTypes>() { LogTypes.Everything, LogTypes.Errors, LogTypes.Triggers, LogTypes.AI };
+    private static List<LogTypes> logsList = new List<LogTypes>() { LogTypes.Everything, LogTypes.Errors, LogTypes.Triggers, LogTypes.AI, LogTypes.Network };
 
     private void Start()
     {
@@ -70,13 +71,16 @@ public partial class Console : MonoBehaviour {
 
     private void ProcessCommand(string inputText)
     {
-        if (inputText.ToLower() == "help") {
+        if (inputText.ToLower() == "help")
+        {
             Console.Write("\nAvailable commands:", LogTypes.Everything, true);
             Console.Write("FinishTrigger", LogTypes.Everything);
             Console.Write("FinishSubPhase", LogTypes.Everything);
+            Console.Write("FinishNetworkTask", LogTypes.Everything);
         }
         else if (inputText.ToLower() == "finishtrigger") Triggers.FinishTrigger();
         else if (inputText.ToLower() == "finishsubphase") Phases.FinishSubPhase(Phases.CurrentSubPhase.GetType());
-        else Console.Write("Unknown command", LogTypes.Everything, false, "red");
+        else if (inputText.ToLower() == "finishnetworktask") Network.FinishTask();
+        else if (!string.IsNullOrEmpty(inputText)) Console.Write("Unknown command", LogTypes.Everything, false, "red");
     }
 }

@@ -43,9 +43,7 @@ public partial class MainMenu : MonoBehaviour {
 
     public void QuitGame()
     {
-        Ship.GenericShip test = null;
-        Debug.Log(test.PilotName);
-        //Application.Quit();
+        Application.Quit();
     }
 
     public void OnUpdateAvailableClick()

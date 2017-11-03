@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Linq;
 
 public enum LogTypes
 {
@@ -12,22 +13,34 @@ public enum LogTypes
 
 public class Console : MonoBehaviour {
 
+    private class LogEntry
+    {
+        public string Text;
+        public LogTypes Type;
+        public float CalculatedPrefferedHeight;
+
+        public LogEntry(string text, LogTypes logType)
+        {
+            Text = text;
+            Type = logType;
+        }
+    }
+
     private static LogTypes currentLogTypeToShow;
 
-    private static Dictionary<LogTypes, string> logs;
-
-    private static string logEverything = "\n";
-    private static string logErrors = "\n";
-    private static string logTriggers = "\n";
+    private static List<LogEntry> logs;
 
     private static GameObject ConsoleWindow;
-    private static Text ConsoleOutput;
+    private static GameObject ConsoleOutput;
 
     public static bool IsActive
     {
         get { return ConsoleWindow.activeSelf; }
         set { ConsoleWindow.SetActive(value); }
     }
+
+    private static readonly int LOG_ENTRY_MARGIN = 10;
+    private static float totalLogEntryHeight;
 
     private void Start()
     {
@@ -36,19 +49,14 @@ public class Console : MonoBehaviour {
 
     private static void InitializeLogs()
     {
-        logs = new Dictionary<LogTypes, string>()
-        {
-            { LogTypes.Everything, logEverything },
-            { LogTypes.Errors, logErrors },
-            { LogTypes.Triggers, logTriggers },
-        };
+        logs = new List<LogEntry>();
         currentLogTypeToShow = LogTypes.Everything;
     }
 
     private void Awake()
     {
         ConsoleWindow = transform.Find("Console").gameObject;
-        ConsoleOutput = transform.Find("Console").Find("Viewport").Find("Output").GetComponent<Text>();
+        ConsoleOutput = transform.Find("Console").Find("Viewport").Find("Output").gameObject;
     }
 
     private void Update ()
@@ -72,26 +80,56 @@ public class Console : MonoBehaviour {
 
     public static void Write(string text, LogTypes logType = LogTypes.Everything, bool isBold = false, string color = "")
     {
-        Debug.Log(text);
-
         if (logs == null) InitializeLogs();
 
         string logString = text;
         if (isBold) logString = "<b>" + logString + "</b>";
         if (color != "") logString = "<color="+ color + ">" + logString + "</color>";
 
-        logs[logType] += logString + "\n";
-
-        if (logType != LogTypes.Everything)
-        {
-            logs[LogTypes.Everything] += logString + "\n";
-        }
+        LogEntry logEntry = new LogEntry(logString + "\n", logType);
+        logs.Add(logEntry);
 
         if (currentLogTypeToShow == logType || currentLogTypeToShow == LogTypes.Everything)
         {
-            ConsoleOutput.text = logs[currentLogTypeToShow];
-            UpdateViewPosition();
+            ShowLogEntry(logEntry);
         }
+    }
+
+    private static void ShowLogEntry(LogEntry logEntry)
+    {
+        GameObject logEntryPrefab = (GameObject)Resources.Load("Prefabs/UI/LogEntry", typeof(GameObject));
+        GameObject newLogEntry = Instantiate(logEntryPrefab, ConsoleOutput.transform);
+
+        newLogEntry.GetComponent<Text>().text = logEntry.Text;
+
+        float prefferedHeight = 0;
+
+        if (logEntry.CalculatedPrefferedHeight == 0)
+        {
+            newLogEntry.GetComponent<RectTransform>().sizeDelta = new Vector2(
+                Screen.width - 2 * LOG_ENTRY_MARGIN,
+                0
+            );
+
+            prefferedHeight = newLogEntry.GetComponent<Text>().preferredHeight - 16;
+            logEntry.CalculatedPrefferedHeight = prefferedHeight;
+        }
+        else
+        {
+            prefferedHeight = logEntry.CalculatedPrefferedHeight;
+        }
+
+        newLogEntry.GetComponent<RectTransform>().sizeDelta = new Vector2(
+            Screen.width - 2 * LOG_ENTRY_MARGIN,
+            prefferedHeight
+        );
+
+        newLogEntry.transform.localPosition = new Vector3(newLogEntry.transform.localPosition.x, -(LOG_ENTRY_MARGIN + totalLogEntryHeight));
+        totalLogEntryHeight += newLogEntry.GetComponent<RectTransform>().sizeDelta.y;
+
+        ConsoleOutput.GetComponent<RectTransform>().sizeDelta = new Vector2(ConsoleOutput.GetComponent<RectTransform>().sizeDelta.x, LOG_ENTRY_MARGIN + totalLogEntryHeight);
+
+        UpdateViewPosition();
     }
 
     private static void UpdateViewPosition()
@@ -101,8 +139,11 @@ public class Console : MonoBehaviour {
 
     private void ProcessUnityLog(string logString, string stackTrace, LogType type)
     {
-        IsActive = true;
-        Write("\n" + logString + "\n\n" + stackTrace, LogTypes.Errors, true, "red");
+        if (type == LogType.Error || type == LogType.Exception)
+        {
+            IsActive = true;
+            Write("\n" + logString + "\n\n" + stackTrace, LogTypes.Errors, true, "red");
+        }
     }
 
     private void ShowNextLog()
@@ -111,9 +152,21 @@ public class Console : MonoBehaviour {
         else if (currentLogTypeToShow == LogTypes.Errors) currentLogTypeToShow = LogTypes.Triggers;
         else if (currentLogTypeToShow == LogTypes.Triggers) currentLogTypeToShow = LogTypes.Everything;
 
-        ConsoleOutput.text = logs[currentLogTypeToShow];
-        IsActive = false;
-        IsActive = true;
-        UpdateViewPosition();
+        ShowFilteredByType(currentLogTypeToShow);
+    }
+
+    private void ShowFilteredByType(LogTypes type)
+    {
+        foreach (Transform oldRecord in ConsoleOutput.transform)
+        {
+            Destroy(oldRecord.gameObject);
+            totalLogEntryHeight = 0;
+        }
+
+        List<LogEntry> logEntriesToShow = (type == LogTypes.Everything) ? logs : logs.Where(n => n.Type == type).ToList();
+        foreach (var filteredRecord in logEntriesToShow)
+        {
+            ShowLogEntry(filteredRecord);
+        }
     }
 }

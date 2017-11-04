@@ -285,6 +285,11 @@ public static partial class Combat
         Attacker.CallCombatEnd();
         Defender.CallCombatEnd();
 
+        Triggers.ResolveTriggers(TriggerTypes.OnCombatEnd, CombatEnd);
+    }
+
+    private static void CombatEnd()
+    {
         CleanupCombatData();
 
         if (!Selection.ThisShip.IsCannotAttackSecondTime)

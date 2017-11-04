@@ -44,7 +44,8 @@ public enum TriggerTypes
     OnEndPhaseStart,
     OnBombDetonated,
     OnFinishSlam,
-    OnDiscard
+    OnDiscard,
+    OnCombatEnd
 }
 
 public class Trigger

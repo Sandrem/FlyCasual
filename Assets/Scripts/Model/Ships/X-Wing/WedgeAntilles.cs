@@ -44,7 +44,7 @@ namespace PilotAbilitiesNamespace
                 Messages.ShowError("Wedge Antilles: Agility is decreased");
                 Combat.Defender.AssignToken(new Conditions.WedgeAntillesCondition(), delegate { });
                 Combat.Defender.ChangeAgilityBy(-1);
-                Combat.Defender.AfterCombatEnd += RemoveWedgeAntillesAbility;
+                Combat.Defender.OnCombatEnd += RemoveWedgeAntillesAbility;
             }
         }
 
@@ -53,7 +53,7 @@ namespace PilotAbilitiesNamespace
             Messages.ShowInfo("Agility is restored");
             Combat.Defender.RemoveToken(typeof(Conditions.WedgeAntillesCondition));
             ship.ChangeAgilityBy(+1);
-            ship.AfterCombatEnd -= RemoveWedgeAntillesAbility;
+            ship.OnCombatEnd -= RemoveWedgeAntillesAbility;
         }
     }
 }

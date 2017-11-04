@@ -157,7 +157,7 @@ namespace Ship
         public event EventHandlerShip AfterAttackWindow;
         public event EventHandlerShip OnCheckSecondAttack;
 
-        public event EventHandlerShip AfterCombatEnd;
+        public event EventHandlerShip OnCombatEnd;
 
         public event EventHandlerBombDropTemplates OnGetAvailableBombDropTemplates;
 
@@ -247,7 +247,7 @@ namespace Ship
 
         public void CallCombatEnd()
         {
-            if (AfterCombatEnd != null) AfterCombatEnd(this);
+            if (OnCombatEnd != null) OnCombatEnd(this);
         }
 
         public void CallOnImmediatelyAfterRolling(DiceRoll diceroll)

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using SubPhases;
 
 namespace Ship
 {
@@ -32,6 +33,46 @@ namespace PilotAbilitiesNamespace
         public override void Initialize(Ship.GenericShip host)
         {
             base.Initialize(host);
+
+            Phases.OnCombatPhaseStart += RegisterAbilityTrigger;
+        }
+
+        private void RegisterAbilityTrigger()
+        {
+            RegisterAbilityTrigger(TriggerTypes.OnCombatPhaseStart, SelectShipForAbility);
+        }
+
+        private void SelectShipForAbility(object sender, System.EventArgs e)
+        {
+            SelectTargetForAbility(
+                CheckIsTargetInBullseyeArc,
+                new List<TargetTypes>() { TargetTypes.Enemy },
+                new Vector2(1, 3)
+            );
+        }
+
+        private void CheckIsTargetInBullseyeArc()
+        {
+            Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(Host, TargetShip, Host.PrimaryWeapon);
+            if (shotInfo.InBullseyeArc)
+            {
+                Messages.ShowErrorToHuman("Target Lock is aquired");
+                Actions.AssignTargetLockToPair(Host, TargetShip, SuccessfullSelection, UnSuccessfullSelection);
+            }
+            else
+            {
+                Messages.ShowErrorToHuman("Selected ship is not in bullseye arc");
+            }
+        }
+
+        private void SuccessfullSelection()
+        {
+            SelectShipSubPhase.FinishSelection();
+        }
+
+        private void UnSuccessfullSelection()
+        {
+            Messages.ShowErrorToHuman("Cannot aquire Target Lock");
         }
     }
 }

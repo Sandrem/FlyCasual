@@ -5,7 +5,7 @@
 
         public override void Prepare()
         {
-            isEnemyAllowed = true;
+            targetsAllowed.Add(TargetTypes.Enemy);
             finishAction = FinishActon;
 
             UI.ShowSkipButton();
@@ -20,7 +20,7 @@
             CallBack();
         }
 
-        protected override void RevertSubPhase() { }
+        public override void RevertSubPhase() { }
 
         public override void SkipButton()
         {

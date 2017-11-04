@@ -17,7 +17,7 @@ namespace SubPhases
 
         public override void Initialize()
         {
-            Phases.CallSetupPhaseTrigger();
+            Phases.CallGameStartTrigger(Phases.CallSetupPhaseTrigger);
         }
 
         public override void Next()

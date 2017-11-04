@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using GameModes;
 
 public static class InformCrit
 {
@@ -49,13 +50,28 @@ public static class InformCrit
     
     private static void ShowPanel()
     {
+        GameMode.CurrentGameMode.ShowInformCritPanel();
+    }
+
+    public static void ShowPanelVisible()
+    {
         InformCritPanel.gameObject.SetActive(true);
+        InformCritPanel.Find("Confirm").gameObject.SetActive(true);
+    }
+
+    public static void ButtonConfirm()
+    {
+        GameMode.CurrentGameMode.ConfirmCrit();
     }
 
     public static void HidePanel()
     {
         InformCritPanel.gameObject.SetActive(false);
-        Triggers.FinishTrigger();
+    }
+
+    public static void DisableConfirmButton()
+    {
+        InformCritPanel.Find("Confirm").gameObject.SetActive(false);
     }
 
 }

@@ -43,7 +43,7 @@ namespace UpgradesList
             Phases.CurrentSubPhase.Pause();
 
             Selection.ActiveShip = Selection.ThisShip;
-            Phases.StartTemporarySubPhase(
+            Phases.StartTemporarySubPhaseOld(
                 "R5-K6: Try to re-aquire Target Lock",
                 typeof(SubPhases.R5K6CheckSubPhase),
                 delegate {

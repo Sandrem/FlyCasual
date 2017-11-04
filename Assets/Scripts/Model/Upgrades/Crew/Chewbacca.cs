@@ -50,7 +50,7 @@ namespace UpgradesList
             GenericShip previousShip = Selection.ActiveShip;
             Selection.ActiveShip = sender as GenericShip;
 
-            Phases.StartTemporarySubPhase(
+            Phases.StartTemporarySubPhaseOld(
                 "Ability of Chewbacca (crew)",
                 typeof(SubPhases.ChewbaccaCrewDecisionSubPhase),
                 delegate
@@ -69,15 +69,17 @@ namespace SubPhases
     public class ChewbaccaCrewDecisionSubPhase : DecisionSubPhase
     {
 
-        public override void Prepare()
+        public override void PrepareDecision(System.Action callBack)
         {
-            infoText = "Use ability of Chewbacca (crew)?";
+            InfoText = "Use ability of Chewbacca (crew)?";
             RequiredPlayer = Selection.ActiveShip.Owner.PlayerNo;
 
             AddDecision("Yes", UseChewbaccaCrewAbility);
             AddDecision("No", DontUseChewbaccaCrewAbility);
 
-            defaultDecision = "Yes";
+            DefaultDecision = "Yes";
+
+            callBack();
         }
 
         private void UseChewbaccaCrewAbility(object sender, System.EventArgs e)
@@ -94,12 +96,6 @@ namespace SubPhases
         private void DontUseChewbaccaCrewAbility(object sender, System.EventArgs e)
         {
             ConfirmDecision();
-        }
-
-        private void ConfirmDecision()
-        {
-            Phases.FinishSubPhase(this.GetType());
-            CallBack();
         }
 
     }

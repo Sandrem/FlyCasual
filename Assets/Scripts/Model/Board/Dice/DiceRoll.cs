@@ -30,6 +30,8 @@ public partial class DiceRoll
         private set;
     }
 
+    public static DiceRoll CurrentDiceRoll;
+
     public Transform SpawningPoint;
     public Transform FinalPositionPoint;
 
@@ -38,6 +40,11 @@ public partial class DiceRoll
     private DelegateDiceroll callBack;
 
     private bool isRolling;
+
+    public DieSide[] ResultsArray
+    {
+        get { return this.DiceList.Select(n => n.Side).ToArray();}
+    }
 
     public DiceRoll(DiceKind type, int number, DiceRollCheckType checkType)
     {
@@ -151,13 +158,74 @@ public partial class DiceRoll
         private set { }
     }
 
+    public List<Die> Selected
+    {
+        get { return DiceList.Where(n => (n.IsSelected)).ToList(); }
+        private set { }
+    }
+
+    public int SelectedCount
+    {
+        get { return DiceList.Count(n => (n.IsSelected)); }
+        private set { }
+    }
+
     public void Roll(DelegateDiceroll callBack)
     {
+        DiceRoll.CurrentDiceRoll = this;
+
         this.callBack = callBack;
 
+        if (!Network.IsNetworkGame)
+        {
+            foreach (Die die in DiceList)
+            {
+                die.RandomizeRotation();
+            }
+            RollPreparedDice();
+        }
+        else
+        {
+            if (DebugManager.DebugNetwork) UI.AddTestLogEntry("DiceRoll.Roll");
+            Network.GenerateRandom(new Vector2(0, 360), DiceList.Count * 3, SetDiceInitialRotation, RollPreparedDice);
+        }
+    }
+
+    private void SetDiceInitialRotation(int[] randomHolder)
+    {
+        int counter = 0;
+        foreach (Die die in DiceList)
+        {
+            die.SetInitialRotation(new Vector3(randomHolder[counter], randomHolder[counter+1], randomHolder[counter+2]));
+            counter += 3;
+        }
+    }
+
+    private void SetSelectedDiceInitialRotation(int[] randomHolder)
+    {
+        int counter = 0;
+        foreach (Die die in DiceList.Where(n => n.IsSelected))
+        {
+            die.SetInitialRotation(new Vector3(randomHolder[counter], randomHolder[counter + 1], randomHolder[counter + 2]));
+            counter += 3;
+        }
+    }
+
+    private void RollPreparedDice()
+    {
         foreach (Die die in DiceList)
         {
             die.Roll();
+        }
+
+        CalculateResults();
+    }
+
+    private void RerollPreparedDice()
+    {
+        foreach (Die die in DiceList.Where(n => n.IsSelected))
+        {
+            die.Reroll();
         }
 
         CalculateResults();
@@ -167,15 +235,28 @@ public partial class DiceRoll
     {
         this.callBack = callBack;
 
-        foreach (var dice in DiceList)
+        if (!Network.IsNetworkGame)
         {
-            if (dice.IsSelected)
+            foreach (Die die in DiceList)
             {
-                dice.Reroll();
+                if (die.IsSelected)
+                {
+                    die.RandomizeRotation();
+                }
             }
+            RerollPreparedDice();
         }
+        else
+        {
+            if (DebugManager.DebugNetwork) UI.AddTestLogEntry("DiceRoll.SyncSelectedDice");
+            Network.SyncSelectedDiceAndReroll();
+        }
+    }
 
-        CalculateResults();
+    public void RandomizeAndRerollSelected()
+    {
+        if (DebugManager.DebugNetwork) UI.AddTestLogEntry("DiceRoll.RerollSelected");
+        Network.GenerateRandom(new Vector2(0, 360), SelectedCount * 3, SetSelectedDiceInitialRotation, RerollPreparedDice);
     }
 
     public void ToggleRerolledLocks(bool isActive)

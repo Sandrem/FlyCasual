@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Board;
+using GameModes;
 
 public class ShipPositionManager : MonoBehaviour
 {
@@ -34,8 +35,7 @@ public class ShipPositionManager : MonoBehaviour
             PerformRotation();
             PerformDrag();
         }
-
-        Phases.CurrentSubPhase.Update();
+        if (Phases.CurrentSubPhase != null) Phases.CurrentSubPhase.Update();
     }
 
     public void StartDrag()
@@ -268,14 +268,10 @@ public class ShipPositionManager : MonoBehaviour
         Roster.SetRaycastTargets(true);
         inReposition = false;
 
-        if (Phases.CurrentSubPhase.GetType() == typeof(SubPhases.SetupSubPhase))
-        {
-            Selection.ThisShip.IsSetupPerformed = true;
-            Selection.DeselectThisShip();
-            BoardManager.TurnOffStartingZones();
-        }
+        //if (Phases.CurrentSubPhase.GetType() == typeof(SubPhases.SetupSubPhase))
+        GameMode.CurrentGameMode.ConfirmShipSetup(Selection.ThisShip.ShipId, Selection.ThisShip.GetPosition(), Selection.ThisShip.GetAngles());
 
-        Phases.Next();
+        //Phases.Next(); // Moved to ConfirmShipSetup
     }
 
 }

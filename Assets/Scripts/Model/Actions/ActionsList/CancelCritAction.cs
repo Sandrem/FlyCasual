@@ -39,7 +39,7 @@ namespace ActionsList
             {
                 Actions.SelectedCriticalHitCard = CritCard;
                 Selection.ActiveShip = Selection.ThisShip;
-                Phases.StartTemporarySubPhase(
+                Phases.StartTemporarySubPhaseOld(
                     "Trying to flip critical card",
                     typeof(SubPhases.CancelCritCheckSubPhase),
                     delegate {

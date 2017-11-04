@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Ship;
+using SubPhases;
 
 namespace Ship
 {
@@ -12,87 +14,54 @@ namespace Ship
             {
                 PilotName = "Garven Dreis";
                 ImageUrl = "https://vignette3.wikia.nocookie.net/xwing-miniatures/images/f/f8/Garven-dreis.png";
-                IsUnique = true;
                 PilotSkill = 6;
                 Cost = 26;
-            }
 
-            public override void InitializePilot()
-            {
-                base.InitializePilot();
-                OnTokenIsSpent += RegisterGarvenDreisPilotAbility;
-            }
+                IsUnique = true;
 
-            private void RegisterGarvenDreisPilotAbility(GenericShip ship, System.Type type)
-            {
-                Triggers.RegisterTrigger(new Trigger()
-                {
-                    Name = "Garven Dreis' ability",
-                    TriggerOwner = ship.Owner.PlayerNo,
-                    TriggerType = TriggerTypes.OnTokenIsSpent,
-                    EventHandler = StartSubphaseForGarvenDreisPilotAbility
-                });
+                PilotAbilities.Add(new PilotAbilitiesNamespace.GarvenDreisAbility());
             }
-
-            private void StartSubphaseForGarvenDreisPilotAbility(object sender, System.EventArgs e)
-            {
-                Selection.ThisShip = this;
-                if (Owner.Ships.Count > 1)
-                {
-                    Phases.StartTemporarySubPhase(
-                        "Select target for Garven Dreis' ability",
-                        typeof(SubPhases.GarvenDreisAbilityTargetSubPhase),
-                        delegate {
-                            Phases.CurrentSubPhase.Resume();
-                            Triggers.FinishTrigger();
-                        }
-                    );
-                }
-                else
-                {
-                    Triggers.FinishTrigger();
-                }
-            }
-
         }
     }
 }
 
-namespace SubPhases
+namespace PilotAbilitiesNamespace
 {
-
-    public class GarvenDreisAbilityTargetSubPhase : SelectShipSubPhase
+    public class GarvenDreisAbility : GenericPilotAbility
     {
-
-        public override void Prepare()
+        public override void Initialize(GenericShip host)
         {
-            isFriendlyAllowed = true;
-            maxRange = 2;
-            finishAction = SelectGarvenDreisAbilityTarget;
+            base.Initialize(host);
 
-            UI.ShowSkipButton();
+            Host.OnTokenIsSpent += RegisterGarvenDreisPilotAbility;
+        }
+
+        private void RegisterGarvenDreisPilotAbility(GenericShip ship, System.Type type)
+        {
+            RegisterAbilityTrigger(TriggerTypes.OnTokenIsSpent, StartSubphaseForGarvenDreisPilotAbility);
+        }
+
+        private void StartSubphaseForGarvenDreisPilotAbility(object sender, System.EventArgs e)
+        {
+            if (Host.Owner.Ships.Count > 1)
+            {
+                SelectTargetForAbility(
+                    SelectGarvenDreisAbilityTarget,
+                    new List<TargetTypes>() { TargetTypes.OtherFriendly },
+                    new Vector2(1, 2)
+                );
+            }
+            else
+            {
+                Triggers.FinishTrigger();
+            }
         }
 
         private void SelectGarvenDreisAbilityTarget()
         {
             MovementTemplates.ReturnRangeRuler();
 
-            TargetShip.AssignToken(
-                new Tokens.FocusToken(),
-                delegate {
-                    Phases.FinishSubPhase(typeof(GarvenDreisAbilityTargetSubPhase));
-                    CallBack();
-                });
+            TargetShip.AssignToken(new Tokens.FocusToken(), SelectShipSubPhase.FinishSelection);
         }
-
-        protected override void RevertSubPhase() { }
-
-        public override void SkipButton()
-        {
-            Phases.FinishSubPhase(typeof(GarvenDreisAbilityTargetSubPhase));
-            CallBack();
-        }
-
     }
-
 }

@@ -1,5 +1,7 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using GameModes;
 
 public delegate void CallBackFunction();
 
@@ -25,7 +27,8 @@ public class GameManagerScript : MonoBehaviour {
         Bombs.BombsManager.Initialize();
         Actions.Initialize();
         Triggers.Initialize();
-        Phases.StartPhases();
+
+        GameMode.CurrentGameMode.StartBattle();
     }
 
     private void Update()

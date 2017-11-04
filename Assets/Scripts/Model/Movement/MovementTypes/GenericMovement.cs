@@ -313,9 +313,6 @@ namespace Movement
 
         public virtual void Perform()
         {
-            Selection.ThisShip.ObstaclesHit = new List<Collider>();
-            Selection.ThisShip.MinesHit = new List<GameObject>();
-
             ProgressCurrent = 0f;
         }
 
@@ -323,7 +320,6 @@ namespace Movement
         {
             GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
             Game.Wait(0.5f, delegate { Selection.ThisShip.StartMoving(LaunchShipMovementContinue); });
-            //Selection.ThisShip.StartMoving(LaunchShipMovementContinue);
         }
 
         private void LaunchShipMovementContinue()

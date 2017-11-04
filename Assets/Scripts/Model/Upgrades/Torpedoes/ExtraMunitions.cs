@@ -69,7 +69,7 @@ namespace UpgradesList
 
         private void AskExtraMunitionsDecision(object sender, System.EventArgs e)
         {
-            Phases.StartTemporarySubPhase(
+            Phases.StartTemporarySubPhaseOld(
                 "Extra Munitions",
                 typeof(SubPhases.ExtraMunitionsDecisionSubphase),
                 Triggers.FinishTrigger
@@ -84,14 +84,16 @@ namespace SubPhases
     public class ExtraMunitionsDecisionSubphase : DecisionSubPhase
     {
 
-        public override void Prepare()
+        public override void PrepareDecision(System.Action callBack)
         {
-            infoText = "Spend Ordnance token?";
+            InfoText = "Spend Ordnance token?";
 
             AddDecision("Yes", UseAbility);
             AddDecision("No", DontUseAbility);
 
-            defaultDecision = "Yes";
+            DefaultDecision = "Yes";
+
+            callBack();
         }
 
         private void UseAbility(object sender, System.EventArgs e)
@@ -109,12 +111,6 @@ namespace SubPhases
         private void DontUseAbility(object sender, System.EventArgs e)
         {
             ConfirmDecision();
-        }
-
-        private void ConfirmDecision()
-        {
-            Phases.FinishSubPhase(this.GetType());
-            CallBack();
         }
 
     }

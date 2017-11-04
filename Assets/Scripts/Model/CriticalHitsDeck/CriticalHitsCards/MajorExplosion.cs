@@ -31,7 +31,7 @@ namespace CriticalHitCard
 
         private void RollForDamage(object sender, EventArgs e)
         {
-            Phases.StartTemporarySubPhase(
+            Phases.StartTemporarySubPhaseOld(
                 "Major Explosion",
                 typeof(SubPhases.MajorExplosionCheckSubPhase),
                 delegate {

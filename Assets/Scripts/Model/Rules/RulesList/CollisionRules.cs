@@ -42,7 +42,7 @@ namespace RulesList
         {
             if ((attacker.IsBumped) && (attacker.ShipsBumped.Contains(defender)) && (defender.ShipsBumped.Contains(attacker)))
             {
-                if (!attacker.CanAttackBumpedTarget(defender))
+                if (!attacker.CanAttackBumpedTarget)
                 {
                     Messages.ShowErrorToHuman("Cannot attack ship that you are touching");
                     result = false;

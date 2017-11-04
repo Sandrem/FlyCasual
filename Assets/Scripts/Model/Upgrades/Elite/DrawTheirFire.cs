@@ -48,7 +48,7 @@ namespace UpgradesList
             if (Combat.DiceRollAttack.CriticalSuccesses > 0)
             {
                 Selection.ActiveShip = Host;
-                Phases.StartTemporarySubPhase(
+                Phases.StartTemporarySubPhaseOld(
                     "Draw Their Fire",
                     typeof(SubPhases.DrawTheirFireDecisionSubPhase),
                     Triggers.FinishTrigger
@@ -73,14 +73,16 @@ namespace SubPhases
     public class DrawTheirFireDecisionSubPhase : DecisionSubPhase
     {
 
-        public override void Prepare()
+        public override void PrepareDecision(System.Action callBack)
         {
-            infoText = "Use ability of Draw Their Fire?";
+            InfoText = "Use ability of Draw Their Fire?";
 
             AddDecision("Yes", UseAbility);
             AddDecision("No", DontUseAbility);
 
-            defaultDecision = "Yes";
+            DefaultDecision = "Yes";
+
+            callBack();
         }
 
         private void UseAbility(object sender, System.EventArgs e)
@@ -109,12 +111,6 @@ namespace SubPhases
         private void DontUseAbility(object sender, System.EventArgs e)
         {
             ConfirmDecision();
-        }
-
-        private void ConfirmDecision()
-        {
-            Phases.FinishSubPhase(this.GetType());
-            CallBack();
         }
 
     }

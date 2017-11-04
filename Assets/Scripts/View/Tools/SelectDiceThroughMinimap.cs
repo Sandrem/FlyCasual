@@ -40,6 +40,9 @@ public class SelectDiceThroughMinimap : MonoBehaviour {
 
     private void TrySelectDice(GameObject Dice)
     {
-        Combat.CurentDiceRoll.TrySelectDiceByModel(Dice);
+        if (Roster.GetPlayer(Phases.CurrentPhasePlayer).GetType() == typeof(Players.HumanPlayer))
+        {
+            Combat.CurentDiceRoll.TrySelectDiceByModel(Dice);
+        }
     }
 }

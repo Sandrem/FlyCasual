@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Board;
+using GameModes;
 
 namespace ActionsList
 {
@@ -16,7 +17,7 @@ namespace ActionsList
         {
             Phases.CurrentSubPhase.Pause();
 
-            Phases.StartTemporarySubPhase(
+            Phases.StartTemporarySubPhaseOld(
                 "Barrel Roll",
                 typeof(SubPhases.BarrelRollPlanningSubPhase),
                 Phases.CurrentSubPhase.CallBack
@@ -63,6 +64,7 @@ namespace SubPhases
             ShipStand.transform.Find("ShipBase").Find("ShipStandInsert").Find("ShipStandInsertImage").Find("default").GetComponent<Renderer>().material = Selection.ThisShip.Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("ShipBase").Find("ShipStandInsert").Find("ShipStandInsertImage").Find("default").GetComponent<Renderer>().material;
             ShipStand.transform.Find("ShipBase").Find("ObstaclesStayDetector").gameObject.AddComponent<ObstaclesStayDetectorForced>();
             obstaclesStayDetectorBase = ShipStand.GetComponentInChildren<ObstaclesStayDetectorForced>();
+            if (Selection.ThisShip.Owner.GetType() != typeof(Players.HumanPlayer)) ShipStand.SetActive(false);
 
             barrelRollDistance = (Selection.ThisShip.ShipBaseSize == Ship.BaseSize.Small) ? 2f : 2.5f;
             barrelRollTemplateDistance = (Selection.ThisShip.ShipBaseSize == Ship.BaseSize.Small) ? 0.5f : 1.25f;
@@ -70,11 +72,16 @@ namespace SubPhases
             battelRollTemplateLimitBottom = (Selection.ThisShip.ShipBaseSize == Ship.BaseSize.Small) ? 0.75f : 2f;
 
             MovementTemplates.CurrentTemplate = MovementTemplates.GetMovement1Ruler();
-            MovementTemplates.CurrentTemplate.position = Selection.ThisShip.TransformPoint(new Vector3(barrelRollTemplateDistance, 0, -battelRollTemplateLimitTop));
+            if (Selection.ThisShip.Owner.GetType() == typeof(Players.HumanPlayer)) MovementTemplates.CurrentTemplate.position = Selection.ThisShip.TransformPoint(new Vector3(barrelRollTemplateDistance, 0, -battelRollTemplateLimitTop));
             obstaclesStayDetectorMovementTemplate = MovementTemplates.CurrentTemplate.GetComponentInChildren<ObstaclesStayDetectorForced>();
 
             Roster.SetRaycastTargets(false);
-            inReposition = true;
+            TurnOnDragging();
+        }
+
+        private void TurnOnDragging()
+        {
+            if (Selection.ThisShip.Owner.GetType()==typeof(Players.HumanPlayer)) inReposition = true;
         }
 
         public override void Update()
@@ -92,7 +99,7 @@ namespace SubPhases
 
         public override void Resume()
         {
-            inReposition = true;
+            TurnOnDragging();
         }
 
         private void PerfromDrag()
@@ -164,24 +171,25 @@ namespace SubPhases
         public override void ProcessClick()
         {
             StopDrag();
-            TryConfirmBarrelRollPosition();
+
+            GameMode.CurrentGameMode.TryConfirmBarrelRollPosition(ShipStand.transform.position, MovementTemplates.CurrentTemplate.position);
         }
 
-        private void StartBarrelRollExecution(Ship.GenericShip ship)
+        public void StartBarrelRollExecution(Ship.GenericShip ship)
         {
             Pause();
 
             Selection.ThisShip.ToggleShipStandAndPeg(false);
             MovementTemplates.CurrentTemplate.gameObject.SetActive(false);
 
-            Phases.StartTemporarySubPhase(
+            Phases.StartTemporarySubPhaseOld(
                 "Barrel Roll execution",
                 typeof(BarrelRollExecutionSubPhase),
                 CallBack
             );
         }
 
-        private void CancelBarrelRoll()
+        public void CancelBarrelRoll()
         {
             Selection.ThisShip.RemoveAlreadyExecutedAction(typeof(ActionsList.BarrelRollAction));
             Selection.ThisShip.IsLandedOnObstacle = false;
@@ -201,7 +209,30 @@ namespace SubPhases
             inReposition = false;
         }
 
-        private void TryConfirmBarrelRollPosition()
+        public void TryConfirmBarrelRollNetwork(Vector3 shipPosition, Vector3 movementTemplatePosition)
+        {
+            ShipStand.SetActive(true);
+            StopDrag();
+
+            ShipStand.transform.position = shipPosition;
+
+            Vector3 newPosition = Selection.ThisShip.InverseTransformPoint(ShipStand.transform.position);
+            if (newPosition.x > 0f)
+            {
+                helperDirection = 1;
+                MovementTemplates.CurrentTemplate.eulerAngles = Selection.ThisShip.Model.transform.eulerAngles + new Vector3(0, (Selection.ThisShip.ShipBaseSize == Ship.BaseSize.Small) ? 180 : 90, 0);
+            }
+            if (newPosition.x < 0f)
+            {
+                helperDirection = -1;
+                MovementTemplates.CurrentTemplate.eulerAngles = Selection.ThisShip.Model.transform.eulerAngles + new Vector3(0, (Selection.ThisShip.ShipBaseSize == Ship.BaseSize.Small) ? 0 : 90, 0);
+            }
+            MovementTemplates.CurrentTemplate.position = movementTemplatePosition;
+
+            TryConfirmBarrelRollPosition();
+        }
+
+        public void TryConfirmBarrelRollPosition()
         {
             obstaclesStayDetectorBase.ReCheckCollisionsStart();
             obstaclesStayDetectorMovementTemplate.ReCheckCollisionsStart();
@@ -235,11 +266,11 @@ namespace SubPhases
             if (IsBarrelRollAllowed())
             {
                 CheckMines();
-                StartBarrelRollExecution(Selection.ThisShip);
+                GameMode.CurrentGameMode.StartBarrelRollExecution(Selection.ThisShip);
             }
             else
             {
-                CancelBarrelRoll();
+                GameMode.CurrentGameMode.CancelBarrelRoll();
             }
         }
 
@@ -342,11 +373,12 @@ namespace SubPhases
             Selection.ThisShip.MoveUpwards(progressCurrent / progressTarget);
             if (progressCurrent >= progressTarget)
             {
-                FinishBarrelRollAnimation();
+                performingAnimation = false;
+                GameMode.CurrentGameMode.FinishBarrelRoll();
             }
         }
 
-        private void FinishBarrelRollAnimation()
+        public void FinishBarrelRollAnimation()
         {
             performingAnimation = false;
 

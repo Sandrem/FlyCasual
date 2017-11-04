@@ -41,7 +41,7 @@ namespace UpgradesList
             Selection.ThisShip = Host;
             if (Host.Owner.Ships.Count > 1)
             {
-                Phases.StartTemporarySubPhase(
+                Phases.StartTemporarySubPhaseOld(
                     "Select target for Swarm Tactics",
                     typeof(SubPhases.SelectSwarmTacticsTargetSubPhase),
                     Triggers.FinishTrigger
@@ -65,7 +65,7 @@ namespace SubPhases
 
         public override void Prepare()
         {
-            isFriendlyAllowed = true;
+            targetsAllowed.Add(TargetTypes.OtherFriendly);
             maxRange = 1;
             finishAction = SelectSwarmTacticsTarget;
 
@@ -81,7 +81,7 @@ namespace SubPhases
             CallBack();
         }
 
-        protected override void RevertSubPhase() { }
+        public override void RevertSubPhase() { }
 
         private class SwarmTacticsPilotSkillModifier : Ship.IModifyPilotSkill
         {

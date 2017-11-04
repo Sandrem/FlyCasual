@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Board;
+using GameModes;
 
 namespace ActionsList
 {
@@ -16,7 +17,7 @@ namespace ActionsList
         public override void ActionTake()
         {
             Phases.CurrentSubPhase.Pause();
-            Phases.StartTemporarySubPhase(
+            Phases.StartTemporarySubPhaseOld(
                 "Boost",
                 typeof(SubPhases.BoostPlanningSubPhase),
                 Phases.CurrentSubPhase.CallBack
@@ -67,7 +68,12 @@ namespace SubPhases
             obstaclesStayDetectorBase = ShipStand.GetComponentInChildren<ObstaclesStayDetectorForced>();
             Roster.SetRaycastTargets(false);
 
-            inReposition = true;
+            TurnOnDragging();
+        }
+
+        private void TurnOnDragging()
+        {
+            if (Selection.ThisShip.Owner.GetType() == typeof(Players.HumanPlayer)) inReposition = true;
         }
 
         public override void Update()
@@ -151,19 +157,20 @@ namespace SubPhases
         public override void ProcessClick()
         {
             StopPlanning();
-            TryConfirmBoostPosition();
+
+            GameMode.CurrentGameMode.TryConfirmBoostPosition(SelectedBoostHelper);
         }
 
-        private void StartBoostExecution(Ship.GenericShip ship)
+        public void StartBoostExecution(Ship.GenericShip ship)
         {
-            Phases.StartTemporarySubPhase(
+            Phases.StartTemporarySubPhaseOld(
                 "Boost execution",
                 typeof(BoostExecutionSubPhase),
                 CallBack
             );
         }
 
-        private void CancelBoost()
+        public void CancelBoost()
         {
             Selection.ThisShip.IsLandedOnObstacle = false;
             inReposition = false;
@@ -189,7 +196,14 @@ namespace SubPhases
             Roster.SetRaycastTargets(true);
         }
 
-        private void TryConfirmBoostPosition()
+        public void TryConfirmBoostPositionNetwork(string selectedBoostHelper)
+        {
+            ShowNearestBoosterHelper(selectedBoostHelper);
+
+            TryConfirmBoostPosition();
+        }
+
+        public void TryConfirmBoostPosition()
         {
             obstaclesStayDetectorBase.ReCheckCollisionsStart();
             obstaclesStayDetectorMovementTemplate.ReCheckCollisionsStart();
@@ -223,11 +237,11 @@ namespace SubPhases
             if (IsBoostAllowed())
             {
                 CheckMines();
-                StartBoostExecution(Selection.ThisShip);
+                GameMode.CurrentGameMode.StartBoostExecution(Selection.ThisShip);
             }
             else
             {
-                CancelBoost();
+                GameMode.CurrentGameMode.CancelBoost();
             }
 
             HidePlanningTemplates();
@@ -320,6 +334,11 @@ namespace SubPhases
             //TEMPORARY
             boostMovement.Perform();
             Sounds.PlayFly();
+        }
+
+        public void FinishBoost()
+        {
+            GameMode.CurrentGameMode.FinishBoost();
         }
 
         public override void Next()

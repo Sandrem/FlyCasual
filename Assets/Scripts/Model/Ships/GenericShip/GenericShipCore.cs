@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Arcs;
+using PilotAbilitiesNamespace;
 
 namespace Ship
 {
@@ -126,6 +127,32 @@ namespace Ship
         public Upgrade.ShipUpgradeBar UpgradeBar { get; protected set; }
         public List<Upgrade.UpgradeType> PrintedUpgradeIcons { get; protected set; }
 
+        private string pilotNameCanonical;
+        public string PilotNameCanonical
+        {
+            get
+            {
+                if (!string.IsNullOrEmpty(pilotNameCanonical)) return pilotNameCanonical;
+
+                return Tools.Canonicalize(PilotName);
+            }
+            set { pilotNameCanonical = value; }
+        }
+
+        private string shipTypeCanonical;
+        public string ShipTypeCanonical
+        {
+            get
+            {
+                if (!string.IsNullOrEmpty(shipTypeCanonical)) return shipTypeCanonical;
+
+                return Tools.Canonicalize(Type);
+            }
+            set { shipTypeCanonical = value; }
+        }
+
+        public List<GenericPilotAbility> PilotAbilities = new List<GenericPilotAbility>();
+
         public GenericShip()
         {
             factions = new List<Faction>();
@@ -228,6 +255,15 @@ namespace Ship
         {
             SetShipInsertImage();
             SetShipSkin();
+            InitializePilotAbilities();
+        }
+
+        private void InitializePilotAbilities()
+        {
+            foreach (var pilotAbility in PilotAbilities)
+            {
+                pilotAbility.Initialize(this);
+            }
         }
 
         private void InitializeSlots()

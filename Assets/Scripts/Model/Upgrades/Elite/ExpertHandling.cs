@@ -52,7 +52,7 @@ namespace ActionsList
             Phases.CurrentSubPhase.Pause();
             if (!Selection.ThisShip.IsAlreadyExecutedAction(typeof(BarrelRollAction)))
             {
-                Phases.StartTemporarySubPhase(
+                Phases.StartTemporarySubPhaseOld(
                     "Expert Handling: Barrel Roll",
                     typeof(SubPhases.BarrelRollPlanningSubPhase),
                     CheckStress
@@ -86,7 +86,7 @@ namespace ActionsList
         {
             if (Host.HasToken(typeof(Tokens.RedTargetLockToken), '*'))
             {
-                Phases.StartTemporarySubPhase(
+                Phases.StartTemporarySubPhaseOld(
                     "Expert Handling: Select target lock to remove",
                     typeof(SubPhases.ExpertHandlingTargetLockDecisionSubPhase),
                     Finish
@@ -113,9 +113,9 @@ namespace SubPhases
     public class ExpertHandlingTargetLockDecisionSubPhase : DecisionSubPhase
     {
 
-        public override void Prepare()
+        public override void PrepareDecision(System.Action callBack)
         {
-            infoText = "Select target lock to remove";
+            InfoText = "Select target lock to remove";
 
             foreach (var token in Selection.ThisShip.GetAssignedTokens())
             {
@@ -130,20 +130,15 @@ namespace SubPhases
 
             AddDecision("Don't remove", delegate { ConfirmDecision(); });
 
-            defaultDecision = GetDecisions().First().Key;
+            DefaultDecision = GetDecisions().First().Key;
+
+            callBack();
         }
 
         private void RemoveRedTargetLockToken(char letter)
         {
             Selection.ThisShip.RemoveToken(typeof(Tokens.RedTargetLockToken), letter);
             ConfirmDecision();
-        }
-
-
-        private void ConfirmDecision()
-        {
-            Phases.FinishSubPhase(this.GetType());
-            CallBack();
         }
 
     }

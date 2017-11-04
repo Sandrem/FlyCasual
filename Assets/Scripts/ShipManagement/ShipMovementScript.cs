@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using GameModes;
 
 public class ShipMovementScript : MonoBehaviour {
 
@@ -51,17 +52,24 @@ public class ShipMovementScript : MonoBehaviour {
 
     //Assignment and launch of execution of meneuver
 
-    public void AssignManeuver()
+    public void AssignManeuverButtonPressed()
     {
-        string parameters = EventSystem.current.currentSelectedGameObject.name;
-
-        Selection.ThisShip.SetAssignedManeuver(MovementFromString(parameters));
-
         UI.HideDirectionMenu();
+
+        string maneuverCode = EventSystem.current.currentSelectedGameObject.name;
+
+        GameMode.CurrentGameMode.AssignManeuver(Selection.ThisShip.ShipId, maneuverCode);
+    }
+
+    public static void AssignManeuver(int shipId, string maneuverCode)
+    {
+        Selection.ChangeActiveShip("ShipId:" + shipId);
+        UI.HideContextMenu();
+
+        Selection.ThisShip.SetAssignedManeuver(MovementFromString(maneuverCode));
 
         if (Phases.CurrentSubPhase.GetType() == typeof(SubPhases.PlanningSubPhase))
         {
-            //Selection.ThisShip.InfoPanel.transform.Find("DialAssigned" + Selection.ThisShip.Owner.Id).gameObject.SetActive(true);
             Roster.HighlightShipOff(Selection.ThisShip);
 
             if (Roster.AllManuersAreAssigned(Phases.CurrentPhasePlayer))
@@ -76,7 +84,7 @@ public class ShipMovementScript : MonoBehaviour {
         }
     }
 
-    public Movement.GenericMovement MovementFromStruct(Movement.MovementStruct movementStruct)
+    public static Movement.GenericMovement MovementFromStruct(Movement.MovementStruct movementStruct)
     {
         Movement.GenericMovement result = null;
 
@@ -112,32 +120,40 @@ public class ShipMovementScript : MonoBehaviour {
         return result;
     }
 
-    public Movement.GenericMovement MovementFromString(string parameters)
+    public static Movement.GenericMovement MovementFromString(string parameters)
     {
         Movement.MovementStruct movementStruct = new Movement.MovementStruct(parameters);
         return MovementFromStruct(movementStruct);
     }
 
-    public void PerformStoredManeuver()
+    public void PerformStoredManeuverButtonIsPressed()
     {
-        Triggers.RegisterTrigger(new Trigger() {
+        GameMode.CurrentGameMode.PerformStoredManeuver(Selection.ThisShip.ShipId);
+    }
+
+    private static void DoMovementTriggerHandler(object sender, System.EventArgs e)
+    {
+        Phases.StartTemporarySubPhaseOld("Movement", typeof(SubPhases.MovementExecutionSubPhase));
+    }
+
+    public static void PerformStoredManeuver(int shipId)
+    {
+        Selection.ChangeActiveShip("ShipId:" + shipId);
+
+        Triggers.RegisterTrigger(new Trigger()
+        {
             Name = "Maneuver",
             TriggerType = TriggerTypes.OnManeuver,
             TriggerOwner = Selection.ThisShip.Owner.PlayerNo,
-            EventHandler = StartMovementExecutionSubphase
+            EventHandler = DoMovementTriggerHandler
         });
 
-        Triggers.ResolveTriggers(
-            TriggerTypes.OnManeuver,
-            delegate {
-                Phases.FinishSubPhase(typeof(SubPhases.MovementExecutionSubPhase));
-            }
-        );
+        Triggers.ResolveTriggers(TriggerTypes.OnManeuver, FinishManeuverExecution);
     }
 
-    private void StartMovementExecutionSubphase(object sender, System.EventArgs e)
+    private static void FinishManeuverExecution()
     {
-        Phases.StartTemporarySubPhase("Movement", typeof(SubPhases.MovementExecutionSubPhase));
+        GameMode.CurrentGameMode.FinishMovementExecution();
     }
 
 }

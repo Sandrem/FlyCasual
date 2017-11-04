@@ -3,6 +3,7 @@ using UnityEngine;
 using System;
 using System.Linq;
 using Players;
+using GameModes;
 
 namespace RulesList
 {
@@ -15,10 +16,23 @@ namespace RulesList
 
         private void SubscribeEvents()
         {
+            Phases.OnGameStart += DetermineOwnerOfDecision;
             Phases.OnSetupPhaseStart += DeterminePlayerWithInitiative;
         }
 
-        public static void DeterminePlayerWithInitiative()
+        public static void DetermineOwnerOfDecision()
+        {
+            Triggers.RegisterTrigger(new Trigger()
+            {
+                Name = "Initiative decision owner",
+                TriggerOwner = Phases.PlayerWithInitiative,
+                TriggerType = TriggerTypes.OnGameStart,
+                EventHandler = DetermineOwnerOfDecisionTrigger,
+                Skippable = true
+            });
+        }
+
+        private static void DetermineOwnerOfDecisionTrigger(object sender, System.EventArgs e)
         {
             int costP1 = Roster.GetPlayer(PlayerNo.Player1).SquadCost;
             int costP2 = Roster.GetPlayer(PlayerNo.Player2).SquadCost;
@@ -26,17 +40,21 @@ namespace RulesList
             if (costP1 < costP2)
             {
                 Phases.PlayerWithInitiative = PlayerNo.Player1;
+                Triggers.FinishTrigger();
             }
             else if (costP1 > costP2)
             {
                 Phases.PlayerWithInitiative = PlayerNo.Player2;
+                Triggers.FinishTrigger();
             }
             else
             {
-                int randomPlayer = UnityEngine.Random.Range(1, 3);
-                Phases.PlayerWithInitiative = Tools.IntToPlayer(randomPlayer);
+                GameMode.CurrentGameMode.GiveInitiativeToRandomPlayer();
             }
+        }
 
+        public static void DeterminePlayerWithInitiative()
+        {
             Phases.CurrentSubPhase.RequiredPlayer = Phases.PlayerWithInitiative;
             Triggers.RegisterTrigger(new Trigger() {
                 Name = "Initiative decision",
@@ -48,7 +66,7 @@ namespace RulesList
 
         private static void ShowDecision(object sender, EventArgs e)
         {
-            Phases.StartTemporarySubPhase(
+            Phases.StartTemporarySubPhaseOld(
                 "Initiative",
                 typeof(SubPhases.InitialiveDecisionSubPhase),
                 delegate() { Triggers.FinishTrigger();
@@ -63,28 +81,30 @@ namespace SubPhases
     public class InitialiveDecisionSubPhase : DecisionSubPhase
     {
 
-        public override void Prepare()
+        public override void PrepareDecision(Action callBack)
         {
-            infoText = "Player " + Tools.PlayerToInt(Phases.PlayerWithInitiative) + ", what player will have initiative?";
+            InfoText = "Player " + Tools.PlayerToInt(Phases.PlayerWithInitiative) + ", what player will have initiative?";
 
             AddDecision("I", StayWithInitiative);
             AddDecision("Opponent", GiveInitiative);
 
-            defaultDecision = "Opponent";
+            DefaultDecision = "Opponent";
+
+            callBack();
         }
 
         private void GiveInitiative(object sender, EventArgs e)
         {
             Phases.PlayerWithInitiative = Roster.AnotherPlayer(Phases.PlayerWithInitiative);
-            ConfirmDecision();
+            InformConfirmDecision();
         }
 
         private void StayWithInitiative(object sender, EventArgs e)
         {
-            ConfirmDecision();
+            InformConfirmDecision();
         }
 
-        private void ConfirmDecision()
+        private void InformConfirmDecision()
         {
             Messages.ShowInfo("Player " + Tools.PlayerToInt(Phases.PlayerWithInitiative) + " has Initiative");
             Phases.FinishSubPhase(this.GetType());

@@ -26,7 +26,7 @@ namespace UpgradesList
         public override void ExplosionEffect(GenericShip ship, Action callBack)
         {
             Selection.ActiveShip = ship;
-            Phases.StartTemporarySubPhase(
+            Phases.StartTemporarySubPhaseOld(
                 "Damage from " + Name,
                 typeof(SubPhases.ProximityMinesCheckSubPhase),
                 delegate {

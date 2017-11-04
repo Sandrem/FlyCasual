@@ -205,7 +205,10 @@ namespace Ship
 
         public void HighlightCanBeSelectedOn()
         {
-            shipAllParts.Find("Spotlight").gameObject.SetActive(true);
+            if (!DebugManager.DebugTemporary)
+            {
+                shipAllParts.Find("Spotlight").gameObject.SetActive(true);
+            }
         }
 
         public void HighlightCanBeSelectedOff()

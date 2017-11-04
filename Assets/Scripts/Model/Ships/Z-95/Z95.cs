@@ -12,7 +12,7 @@ namespace Ship
 
             public Z95() : base()
             {
-                Type = "Z-95";
+                Type = "Z-95 Headhunter";
 
                 ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/3/39/MR_Z-95.png";
 

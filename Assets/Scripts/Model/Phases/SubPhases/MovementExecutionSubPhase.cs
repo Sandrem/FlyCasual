@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using GameModes;
 
 namespace SubPhases
 {
@@ -24,6 +25,9 @@ namespace SubPhases
 
             Selection.ThisShip.IsManeuverPerformed = true;
             Roster.AllShipsHighlightOff();
+
+            Selection.ThisShip.ObstaclesHit = new List<Collider>();
+            Selection.ThisShip.MinesHit = new List<GameObject>();
 
             Selection.ThisShip.CallManeuverIsReadyToBeRevealed();
 

@@ -10,20 +10,19 @@ namespace Ship
         public class EpsilonAce : TIEFO,IModifyPilotSkill
         {
             private int TruePilotSkill = 4;
-            private int PilotAbilitySkill = 12;
 
             public EpsilonAce () : base ()
             {
                 PilotName  = "Epsilon Ace";
                 ImageUrl   = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/pilots/First%20Order/TIE-fo%20Fighter/epsilon-ace.png";
-                PilotSkill = 4;
+                PilotSkill = 12;
                 Cost       = 17;
                 IsUnique   = true;
                 PilotAbilities.Add(new PilotAbilitiesNamespace.EpsilonAce());
             }
             public void ModifyPilotSkill(ref int pilotSkill)
             {
-                this.PilotSkill += this.TruePilotSkill;
+                this.PilotSkill = this.TruePilotSkill;
             }
         }
     }
@@ -42,16 +41,14 @@ namespace PilotAbilitiesNamespace
 
         private void RegisterEpsilonAceAbility (GenericShip ship)
         {
-            RegisterAbilityTriggers (TriggerTypes.OnDamgeCardIsDealt, UseEpsilonAceAbility);
+            RegisterAbilityTrigger (TriggerTypes.OnDamageCardIsDealt, UseEpsilonAceAbility);
         }
 
         private void UseEpsilonAceAbility(object sender, System.EventArgs e)
         {
-            if (Combat.Defender == this && this.Hull != this.MaxHull){
+            if (Combat.Defender == Host && Host.Hull != Host.MaxHull){
                 // lose the pilot skill
-                Host.AddPilotSkillModifier(this);
-                // remove
-                OnDamageCardIsDealt -= RegisterEpsilonAceAbility;
+                Host.AddPilotSkillModifier((IModifyPilotSkill)Host);
                 Triggers.FinishTrigger ();
             }
         }

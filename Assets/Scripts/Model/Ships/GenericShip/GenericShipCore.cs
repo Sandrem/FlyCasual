@@ -241,6 +241,9 @@ namespace Ship
                 case BaseArcsType.ArcMobile:
                     ArcInfo = new ArcMobile(this);
                     break;
+                case BaseArcsType.ArcBullseye:
+                    ArcInfo = new ArcBullseye(this);
+                    break;
                 default:
                     break;
             }

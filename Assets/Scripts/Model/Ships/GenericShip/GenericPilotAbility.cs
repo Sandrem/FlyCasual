@@ -95,6 +95,8 @@ namespace PilotAbilitiesNamespace
 
         protected void SelectTargetForAbility(System.Action selectTargetAction, List<TargetTypes> targetTypes, Vector2 rangeLimits, bool showSkipButton = true)
         {
+            Selection.ThisShip = Host;
+
             SelectShipSubPhase selectTargetSubPhase = (SelectShipSubPhase) Phases.StartTemporarySubPhaseNew(
                 "Select target for " + Name,
                 typeof(PilotAbilitySelectTarget),

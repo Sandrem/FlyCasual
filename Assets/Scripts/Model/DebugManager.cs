@@ -35,17 +35,6 @@ public static class DebugManager
         set { debugPhases = value; }
     }
 
-    private static bool debugTriggers;
-    public static bool DebugTriggers
-    {
-        get
-        {
-            if (FullDebug) return true;
-            return debugTriggers;
-        }
-        set { debugTriggers = value; }
-    }
-
     private static bool debugAI;
     public static bool DebugAI
     {

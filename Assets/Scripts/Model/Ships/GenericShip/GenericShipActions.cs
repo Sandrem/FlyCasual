@@ -28,6 +28,7 @@ namespace Ship
         public event EventHandlerShip AfterGenerateAvailableActionEffectsList;
         public static event EventHandler AfterGenerateAvailableActionEffectsListGlobal;
         public event EventHandlerActionBool OnTryAddAvailableActionEffect;
+        public static event EventHandlerShipActionBool OnTryAddAvailableActionEffectGlobal;
 
         public event EventHandlerShip AfterGenerateAvailableOppositeActionEffectsList;
         public static event EventHandler AfterGenerateAvailableOppositeActionEffectsListGlobal;
@@ -245,6 +246,8 @@ namespace Ship
             if (result)
             {
                 if (OnTryAddAvailableActionEffect != null) OnTryAddAvailableActionEffect(action, ref result);
+
+                if (OnTryAddAvailableActionEffectGlobal != null) OnTryAddAvailableActionEffectGlobal(this, action, ref result);
             }
 
             return result;

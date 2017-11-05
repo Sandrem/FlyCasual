@@ -44,7 +44,8 @@ public enum TriggerTypes
     OnEndPhaseStart,
     OnBombDetonated,
     OnFinishSlam,
-    OnDiscard
+    OnDiscard,
+    OnCombatEnd
 }
 
 public class Trigger
@@ -128,7 +129,7 @@ public static partial class Triggers
 
     public static void RegisterTrigger(Trigger trigger)
     {
-        if (DebugManager.DebugTriggers) Debug.Log("Trigger is registered: " + trigger.Name);
+        Console.Write(trigger.Name + " is registed", LogTypes.Triggers);
         if (NewLevelIsRequired())
         {
             CreateTriggerInNewLevel(trigger);
@@ -141,7 +142,14 @@ public static partial class Triggers
 
     public static void ResolveTriggers(TriggerTypes triggerType, Action callBack = null)
     {
-        if (DebugManager.DebugTriggers) Debug.Log("Triggers are resolved: " + triggerType);
+        if (callBack != null)
+        {
+            Console.Write(triggerType.ToString(), LogTypes.Triggers, true, "yellow");
+        }
+        else
+        {
+            Console.Write(triggerType + " is resolved again", LogTypes.Triggers, false, "yellow");
+        }
 
         if (triggerType == TriggerTypes.OnDamageIsDealt && callBack != null) DamageNumbers.UpdateSavedHP();
 
@@ -184,7 +192,7 @@ public static partial class Triggers
 
     public static void FireTrigger(Trigger trigger)
     {
-        if (DebugManager.DebugTriggers) Debug.Log("Trigger is fired: " + trigger.Name);
+        Console.Write(trigger.Name + " is fired", LogTypes.Triggers);
         trigger.Fire();
     }
 
@@ -196,7 +204,7 @@ public static partial class Triggers
 
         Trigger currentTrigger = currentStackLevel.GetCurrentTrigger();
 
-        if (DebugManager.DebugTriggers) Debug.Log("Trigger is finished: " + currentTrigger.Name);
+        Console.Write(currentTrigger.Name + " is finished", LogTypes.Triggers);
 
         currentStackLevel.RemoveTrigger(currentTrigger);
         currentStackLevel.IsActive = false;
@@ -228,7 +236,16 @@ public static partial class Triggers
     {
         Action callBack = GetCurrentLevel().CallBack;
         RemoveLastLevelOfStack();
-        if (DebugManager.DebugTriggers) Debug.Log("Trigger's callback is called");
+
+        if (GetCurrentLevel() == null)
+        {
+            Console.Write("Callback, stack is empty\n", LogTypes.Triggers, true);
+        }
+        else
+        {
+            Console.Write("Callback, stack level: " + (GetCurrentLevel().level + 1), LogTypes.Triggers, true);
+        }
+
         callBack();
     }
 

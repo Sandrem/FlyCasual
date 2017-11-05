@@ -12,7 +12,8 @@ namespace Arcs
         ArcRear,
         Arc180,
         Arc360,
-        ArcMobile
+        ArcMobile,
+        ArcBullseye
     }
 
     public class ArcInfo
@@ -45,6 +46,9 @@ namespace Arcs
                 case ArcFacing.Forward180:
                     results = ShipBase.GetStandFront180Points();
                     break;
+                case ArcFacing.Bullseye:
+                    results = ShipBase.GetStandBullseyePoints();
+                    break;
                 default:
                     break;
             }
@@ -59,7 +63,8 @@ namespace Arcs
         Left,
         Right,
         Rear,
-        Forward180
+        Forward180,
+        Bullseye
     }
 
     public class GenericArc
@@ -108,6 +113,19 @@ namespace Arcs
         public virtual bool CanShootSecondaryWeapon(string originPoint, float angle)
         {
             return CheckRay(originPoint, angle, ArcsList.Where(n => n.CanShootSecondaryWeapon).ToList());
+        }
+
+        public virtual bool InBullseyeArc(string originPoint, float angle)
+        {
+            bool result = false;
+            foreach (var arc in ArcsList)
+            {
+                if (arc.Facing == ArcFacing.Bullseye)
+                {
+                    result = CheckRay(originPoint, angle, new List<ArcInfo>() { arc });
+                }
+            }
+            return result;
         }
 
         private bool CheckRay(string originPoint, float angle, List<ArcInfo> arcList)

@@ -78,7 +78,7 @@ namespace Players
 
         public override void PerformAttack()
         {
-            if (DebugManager.DebugAI) Debug.Log("AI wants to attack!");
+            Console.Write("AI is going to perform attack", LogTypes.AI);
 
             SelectShipThatCanAttack();
 
@@ -94,11 +94,26 @@ namespace Players
 
                     targetForAttack = GetTargetWithAssignedTargetLock(enemyShips);
 
-                    if (DebugManager.DebugAI) Debug.Log("AI has target for attack by target lock? " + targetForAttack);
+                    if (targetForAttack != null)
+                    {
+                        Console.Write("Ship has Target Lock on " + targetForAttack.PilotName + "(" + targetForAttack.ShipId + ")", LogTypes.AI);
+                    }
+                    else
+                    {
+                        Console.Write("Ship doesn't have Target Lock on enemy", LogTypes.AI);
+                    }
 
                     if (targetForAttack == null)
                     {
                         targetForAttack = SelectNearestTarget(enemyShips);
+                        if (targetForAttack != null)
+                        {
+                            Console.Write("Ship selected nearest target " + targetForAttack.PilotName + "(" + targetForAttack.ShipId + ")", LogTypes.AI);
+                        }
+                        else
+                        {
+                            Console.Write("Ship cannot find valid enemy for attack", LogTypes.AI);
+                        }
                     }
 
                 }
@@ -107,14 +122,14 @@ namespace Players
 
             if (targetForAttack != null)
             {
-                if (DebugManager.DebugAI) Debug.Log("AI launches attack!");
+                Console.Write("Ship attacks target\n", LogTypes.AI, true, "yellow");
 
                 Selection.TryToChangeAnotherShip("ShipId:" + targetForAttack.ShipId);
                 Combat.TryPerformAttack();
             }
             else
             {
-                if (DebugManager.DebugAI) Debug.Log("AI didn't performed attack and goes NEXT");
+                Console.Write("Attack is skipped\n", LogTypes.AI, true, "yellow");
                 Phases.Next();
             }
 
@@ -168,6 +183,7 @@ namespace Players
                     if (!shipHolder.Value.IsAttackPerformed)
                     {
                         Selection.ChangeActiveShip("ShipId:" + shipHolder.Value.ShipId);
+                        Console.Write(Selection.ThisShip.PilotName + "(" + Selection.ThisShip.ShipId + ") is selected as attacker", LogTypes.AI);
                         break;
                     }
                 }

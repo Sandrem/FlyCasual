@@ -14,6 +14,7 @@ namespace Board
 
         public bool InShotAngle { get; private set; }
         public bool InPrimaryArc { get; private set; }
+        public bool InBullseyeArc { get; private set; }
         public bool InArc { get; private set; }
         public bool CanShootSecondaryWeapon { get; private set; }
 
@@ -68,6 +69,11 @@ namespace Board
                         if (ChosenWeapon.Host.ArcInfo.InPrimaryArc(pointThis.Key, angle))
                         {
                             InPrimaryArc = true;
+                        }
+
+                        if (ChosenWeapon.Host.ArcInfo.InBullseyeArc(pointThis.Key, angle))
+                        {
+                            InBullseyeArc = true;
                         }
 
                         if (ChosenWeapon.Host.ArcInfo.CanShootSecondaryWeapon(pointThis.Key, angle))

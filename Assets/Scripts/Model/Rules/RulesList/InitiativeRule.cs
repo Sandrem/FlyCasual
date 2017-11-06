@@ -83,9 +83,9 @@ namespace SubPhases
 
         public override void PrepareDecision(Action callBack)
         {
-            InfoText = "Player " + Tools.PlayerToInt(Phases.PlayerWithInitiative) + ", what player will have initiative?";
+            InfoText = "Player " + Tools.PlayerToInt(Phases.PlayerWithInitiative) + ", which player should have initiative?";
 
-            AddDecision("I", StayWithInitiative);
+            AddDecision("Me", StayWithInitiative);
             AddDecision("Opponent", GiveInitiative);
 
             DefaultDecision = "Opponent";

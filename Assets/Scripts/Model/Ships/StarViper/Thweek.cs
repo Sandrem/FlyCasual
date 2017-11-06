@@ -34,6 +34,8 @@ namespace PilotAbilitiesNamespace
         {
             base.Initialize(host);
 
+            AppliesConditionCard = true;
+
             Phases.OnBeforePlaceForces += RegisterSelectThweekTarget;
         }
 
@@ -108,16 +110,25 @@ namespace PilotAbilitiesNamespace
 
         private void Mimicked(GenericShip targetShip)
         {
-            if (targetShip.PilotAbilities.Count > 0)
+            bool abilityIsFound = false;
+            foreach (var ability in targetShip.PilotAbilities)
             {
-                Messages.ShowInfo("Ability of " + targetShip.PilotName + " is mimicked");
+                if (!ability.AppliesConditionCard)
+                {
+                    Messages.ShowInfo("Ability of " + targetShip.PilotName + " is mimicked");
 
-                Host.PilotAbilities.Add(targetShip.PilotAbilities[0]);
-                Host.PilotAbilities[1].Initialize(Host);
+                    Host.PilotAbilities.Add( (GenericPilotAbility) Activator.CreateInstance(ability.GetType()) );
+                    Host.PilotAbilities[1].Initialize(Host);
+
+                    abilityIsFound = true;
+
+                    break;
+                }
             }
-            else
-            {
-                Messages.ShowInfo("Pilot without ablities is mimicked");
+
+            if (!abilityIsFound)
+            { 
+                Messages.ShowError(targetShip.PilotName + " doesn't have abilities to be mimicked");
             }
             targetShip.AssignToken(new Conditions.Mimicked(), delegate { });
             SubPhases.DecisionSubPhase.ConfirmDecision();

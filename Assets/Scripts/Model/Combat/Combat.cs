@@ -129,23 +129,20 @@ public static partial class Combat
     public static void ShowAttackAnimationAndSound()
     {
         Upgrade.GenericSecondaryWeapon chosenSecondaryWeapon = ChosenWeapon as Upgrade.GenericSecondaryWeapon;
-        if (chosenSecondaryWeapon != null && chosenSecondaryWeapon.Type != Upgrade.UpgradeType.Cannon)
-        {
-            if (chosenSecondaryWeapon.Type == Upgrade.UpgradeType.Torpedo || chosenSecondaryWeapon.Type == Upgrade.UpgradeType.Missile)
-            {
-                Sounds.PlayShots("Proton-Torpedoes", 1);
-                Selection.ThisShip.AnimateMunitionsShot();
-            }
-            else if (chosenSecondaryWeapon.Type == Upgrade.UpgradeType.Turret)
-            {
-                Sounds.PlayShots(Selection.ActiveShip.SoundShotsPath, Selection.ActiveShip.ShotsCount);
-                Selection.ThisShip.AnimateTurretWeapon();
-            }
-        }
-        else
-        {
+        if (chosenSecondaryWeapon == null || chosenSecondaryWeapon.Type == Upgrade.UpgradeType.Cannon || chosenSecondaryWeapon.Type == Upgrade.UpgradeType.Illicit)
+        { // Primary Weapons, Cannons, and Illicits (HotShotBlaster)
             Sounds.PlayShots(Selection.ActiveShip.SoundShotsPath, Selection.ActiveShip.ShotsCount);
             Selection.ThisShip.AnimatePrimaryWeapon();
+        }
+        else if (chosenSecondaryWeapon.Type == Upgrade.UpgradeType.Torpedo || chosenSecondaryWeapon.Type == Upgrade.UpgradeType.Missile)
+        { // Torpedos and Missiles
+            Sounds.PlayShots("Proton-Torpedoes", 1);
+            Selection.ThisShip.AnimateMunitionsShot();
+        }
+        else if (chosenSecondaryWeapon.Type == Upgrade.UpgradeType.Turret)
+        { // Turrets
+            Sounds.PlayShots(Selection.ActiveShip.SoundShotsPath, Selection.ActiveShip.ShotsCount);
+            Selection.ThisShip.AnimateTurretWeapon();
         }
     }
 

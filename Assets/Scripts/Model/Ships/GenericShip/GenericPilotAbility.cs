@@ -12,6 +12,8 @@ namespace PilotAbilitiesNamespace
     {
         public string Name;
 
+        public bool AppliesConditionCard;
+
         protected bool isAbilityUsed;
 
         private GenericShip host;

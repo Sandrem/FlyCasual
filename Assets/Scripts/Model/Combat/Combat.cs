@@ -361,6 +361,7 @@ public static partial class Combat
     public static void CallAttackStartEvents()
     {
         Attacker.CallAttackStart();
+        Attacker.CallAttackStartAsAttacker();
         //BUG: NullReferenceException: Object reference not set to an instance of an object
         Defender.CallAttackStart();
     }

@@ -126,6 +126,7 @@ namespace Ship
         public event EventHandlerTokensList OnGenerateAvailableAttackPaymentList;
 
         public event EventHandler OnAttack;
+        public static event EventHandler OnAttackAsAttackerGlobal;
         public event EventHandler OnDefence;
 
         public event EventHandler OnAtLeastOneCritWasCancelledByDefender;
@@ -201,7 +202,13 @@ namespace Ship
             ClearAlreadyExecutedOppositeActionEffects();
             ClearAlreadyExecutedActionEffects();
             if (Combat.Attacker.ShipId == this.ShipId) IsAttackPerformed = true;
+
             if (OnAttack != null) OnAttack();
+        }
+
+        public void CallAttackStartAsAttacker()
+        {
+            if (OnAttackAsAttackerGlobal != null) OnAttackAsAttackerGlobal();
         }
 
         public void CallDefenceStart()

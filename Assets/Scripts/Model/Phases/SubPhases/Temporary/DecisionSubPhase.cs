@@ -169,6 +169,7 @@ namespace SubPhases
 
             Action callBack = Phases.CurrentSubPhase.CallBack;
             Phases.FinishSubPhase(Phases.CurrentSubPhase.GetType());
+            Phases.CurrentSubPhase.Resume();
             callBack();
         }
 

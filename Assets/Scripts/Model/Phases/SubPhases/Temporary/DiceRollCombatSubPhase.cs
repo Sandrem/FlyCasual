@@ -60,7 +60,11 @@ namespace SubPhases
         private void ImmediatelyAfterRolling(DiceRoll diceroll)
         {
             Selection.ActiveShip = (Combat.AttackStep == CombatStep.Attack) ? Combat.Attacker : Combat.Defender;
-            Selection.ActiveShip.CallOnImmediatelyAfterRolling(diceroll);
+            Selection.ActiveShip.CallOnImmediatelyAfterRolling(diceroll, delegate { FinallyCheckResults(diceroll); });
+        }
+
+        private void FinallyCheckResults(DiceRoll diceroll)
+        {
             checkResults(diceroll);
         }
 

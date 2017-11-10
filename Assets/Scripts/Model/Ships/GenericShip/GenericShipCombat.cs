@@ -257,9 +257,11 @@ namespace Ship
             if (OnCombatEnd != null) OnCombatEnd(this);
         }
 
-        public void CallOnImmediatelyAfterRolling(DiceRoll diceroll)
+        public void CallOnImmediatelyAfterRolling(DiceRoll diceroll, Action callBack)
         {
             if (OnImmediatelyAfterRolling != null) OnImmediatelyAfterRolling(diceroll);
+
+            Triggers.ResolveTriggers(TriggerTypes.OnImmediatelyAfterRolling, callBack);
         }
 
         public void CallOnAttackPerformed()

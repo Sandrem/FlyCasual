@@ -44,6 +44,8 @@ public static class ImageUrls
     {
         return name
             .ToLower()
+            .Replace("(", "")
+            .Replace(")", "")
             .Replace(' ', '-')
             .Replace('/', '-');
     }

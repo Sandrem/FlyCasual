@@ -21,6 +21,8 @@ namespace Ship
                 MaxHull = 4;
                 MaxShields = 0;
 
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Torpedo);
+
                 AssignTemporaryManeuvers();
                 HotacManeuverTable = null;
 

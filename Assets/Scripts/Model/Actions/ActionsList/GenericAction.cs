@@ -56,6 +56,7 @@ namespace ActionsList
 
             /* DEFENCE
             * 110 - Free add dice with value
+            * 100 - Free change limited by side if 1
             * 95 - Free rerolls limited by side
             * 90 - Free rerolls
             * 80 - Free focus to evades

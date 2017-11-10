@@ -18,11 +18,27 @@ namespace Board
         public bool InArc { get; private set; }
         public bool CanShootSecondaryWeapon { get; private set; }
 
+        public new int Range
+        {
+            get
+            {
+                int distance = Mathf.Max(1, Mathf.CeilToInt(Distance / DISTANCE_1));
+
+                if (OnRangeIsMeasured != null) OnRangeIsMeasured(ThisShip, AnotherShip, ref distance);
+
+                return distance;
+            }
+        }
+
         IShipWeapon ChosenWeapon { get; set; }
 
         private List<List<Vector3>> parallelPointsList;
 
         private int updatesCount = 0;
+
+        //EVENTS
+        public delegate void EventHandlerShipShipInt(GenericShip thisShip, GenericShip anotherShip, ref int range);
+        public static event EventHandlerShipShipInt OnRangeIsMeasured;
 
         public ShipShotDistanceInformation(GenericShip thisShip, GenericShip anotherShip, IShipWeapon chosenWeapon) : base(thisShip, anotherShip)
         {

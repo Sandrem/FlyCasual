@@ -14,6 +14,12 @@ namespace Ship
         public GenericMovement AssignedManeuver { get; private set; }
 
         public bool IsLandedOnObstacle;
+
+        public bool IsHitObstacles
+        {
+            get { return ObstaclesHit.Count != 0; }
+        }
+
         public List<Collider> ObstaclesHit = new List<Collider>();
 
         public List<GameObject> MinesHit = new List<GameObject>();

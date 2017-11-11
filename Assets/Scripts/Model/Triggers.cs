@@ -8,45 +8,53 @@ using SubPhases;
 public enum TriggerTypes
 {
     None,
+
     OnAbilityDirect,
+
     OnGameStart,
     OnSetupPhaseStart,
     OnBeforePlaceForces,
+    OnActionSubPhaseStart,
+    OnActionDecisionSubPhaseEnd,
+    OnActivationPhaseStart,
+    OnActivationPhaseEnd,
+    OnCombatPhaseStart,
+    OnCombatPhaseEnd,
+    OnEndPhaseStart,
+
     OnManeuver,
     OnManeuverIsRevealed,
     OnShipMovementStart,
     OnShipMovementExecuted,
     OnShipMovementFinish,
     OnPositionFinish,
-    OnActionSubPhaseStart,
-    OnActionDecisionSubPhaseEnd,
+    
     OnFreeActionPlanned,
     OnFreeAction,
+
     OnTokenIsAssigned,
     OnTokenIsSpent,
-    OnActivationPhaseStart,
-    OnActivationPhaseEnd,
-    OnCombatPhaseStart,
-    OnCombatPhaseEnd,
-    OnAttackHit,
-    OnImmediatelyAfterRolling,
-    OnAttackMissed,
-    OnAtLeastOneCritWasCancelledByDefender,
-    OnDamageCardIsDealt,
+
     OnAttackStart,
-    OnAttackPerformed,
+    OnShotStart,
+    OnImmediatelyAfterRolling,
+    OnAttackHit,
     OnCheckSecondAttack,
+    OnAttackFinish,
+    OnAttackMissed,
+
+    OnAtLeastOneCritWasCancelledByDefender,
+    OnDamageIsDealt,
+    OnDamageCardIsDealt,
     OnFaceupCritCardReadyToBeDealt,
     OnFaceupCritCardReadyToBeDealtUI,
-    OnDamageIsDealt,
     OnFaceupCritCardIsDealt,
+
     OnMajorExplosionCrit,
     OnAbilityTargetIsSelected,
-    OnEndPhaseStart,
     OnBombDetonated,
     OnFinishSlam,
-    OnDiscard,
-    OnCombatEnd
+    OnDiscard
 }
 
 public class Trigger

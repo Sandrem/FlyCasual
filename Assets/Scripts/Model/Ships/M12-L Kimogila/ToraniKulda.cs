@@ -37,14 +37,14 @@ namespace PilotAbilitiesNamespace
         {
             base.Initialize(host);
 
-            Host.OnAttackPerformed += RegisterPilotAbility;
+            Host.OnAttackFinish += RegisterPilotAbility;
         }
 
-        private void RegisterPilotAbility()
+        private void RegisterPilotAbility(GenericShip ship)
         {
             if (Combat.Attacker.ShipId == Host.ShipId)
             {
-                RegisterAbilityTrigger(TriggerTypes.OnAttackPerformed, TryRegisterAbility);
+                RegisterAbilityTrigger(TriggerTypes.OnAttackFinish, TryRegisterAbility);
             }
         }
 

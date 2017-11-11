@@ -125,12 +125,16 @@ namespace Ship
 
         public event EventHandlerTokensList OnGenerateAvailableAttackPaymentList;
 
-        public event EventHandler OnAttack;
-        public static event EventHandler OnAttackAsAttackerGlobal;
+        public event EventHandler OnAttackStartAsAttacker;
+        public static event EventHandler OnAttackStartAsAttackerGlobal;
+        public event EventHandler OnAttackStartAsDefender;
+
+        public event EventHandler OnShotStartAsAttacker;
+        public event EventHandler OnShotStartAsDefender;
+
         public event EventHandler OnDefence;
 
         public event EventHandler OnAtLeastOneCritWasCancelledByDefender;
-        public event EventHandler OnAttackPerformed;
 
         public event EventHandler OnAttackHitAsAttacker;
         public event EventHandler OnAttackHitAsDefender;
@@ -158,7 +162,7 @@ namespace Ship
         public event EventHandlerShip AfterAttackWindow;
         public event EventHandlerShip OnCheckSecondAttack;
 
-        public event EventHandlerShip OnCombatEnd;
+        public event EventHandlerShip OnAttackFinish;
 
         public event EventHandlerBombDropTemplates OnGetAvailableBombDropTemplates;
 
@@ -199,16 +203,32 @@ namespace Ship
 
         public void CallAttackStart()
         {
-            ClearAlreadyExecutedOppositeActionEffects();
-            ClearAlreadyExecutedActionEffects();
-            if (Combat.Attacker.ShipId == this.ShipId) IsAttackPerformed = true;
+            if (Combat.Attacker.ShipId == this.ShipId)
+            {
+                IsAttackPerformed = true;
 
-            if (OnAttack != null) OnAttack();
+                if (OnAttackStartAsAttacker != null) OnAttackStartAsAttacker();
+                if (OnAttackStartAsAttackerGlobal != null) OnAttackStartAsAttackerGlobal();
+            }
+            else if (Combat.Defender.ShipId == this.ShipId)
+            {
+                if (OnAttackStartAsDefender != null) OnAttackStartAsDefender();
+            }
         }
 
-        public void CallAttackStartAsAttacker()
+        public void CallShotStart()
         {
-            if (OnAttackAsAttackerGlobal != null) OnAttackAsAttackerGlobal();
+            ClearAlreadyExecutedOppositeActionEffects();
+            ClearAlreadyExecutedActionEffects();
+
+            if (Combat.Attacker.ShipId == this.ShipId)
+            {
+                if (OnShotStartAsAttacker != null) OnShotStartAsAttacker();
+            }
+            else if (Combat.Defender.ShipId == this.ShipId)
+            {
+                if (OnShotStartAsDefender != null) OnShotStartAsDefender();
+            }
         }
 
         public void CallDefenceStart()
@@ -252,9 +272,9 @@ namespace Ship
             Triggers.ResolveTriggers(TriggerTypes.OnCheckSecondAttack, callBack);
         }
 
-        public void CallCombatEnd()
+        public void CallAttackFinish()
         {
-            if (OnCombatEnd != null) OnCombatEnd(this);
+            if (OnAttackFinish != null) OnAttackFinish(this);
         }
 
         public void CallOnImmediatelyAfterRolling(DiceRoll diceroll, Action callBack)
@@ -262,11 +282,6 @@ namespace Ship
             if (OnImmediatelyAfterRolling != null) OnImmediatelyAfterRolling(diceroll);
 
             Triggers.ResolveTriggers(TriggerTypes.OnImmediatelyAfterRolling, callBack);
-        }
-
-        public void CallOnAttackPerformed()
-        {
-            if (OnAttackPerformed != null) OnAttackPerformed();
         }
 
         public void CallOnAtLeastOneCritWasCancelledByDefender()

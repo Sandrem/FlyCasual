@@ -19,7 +19,7 @@ namespace GameModes
 
         public override void DeclareTarget(int thisShipId, int anotherShipId)
         {
-            Combat.DeclareTarget(thisShipId, anotherShipId);
+            Combat.DeclareIntentToAttack(thisShipId, anotherShipId);
         }
 
         public override void NextButtonEffect()

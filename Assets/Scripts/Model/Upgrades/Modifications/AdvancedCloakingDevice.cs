@@ -24,15 +24,15 @@ namespace UpgradesList
         {
             base.AttachToShip(host);
 
-            host.OnAttackPerformed += RegisterPerformFreeCloakAction;
+            host.OnAttackFinish += RegisterPerformFreeCloakAction;
         }
 
-        private void RegisterPerformFreeCloakAction()
+        private void RegisterPerformFreeCloakAction(GenericShip ship)
         {
             Triggers.RegisterTrigger(new Trigger()
             {
                 Name = "Advanced Cloaking Device",
-                TriggerType = TriggerTypes.OnAttackPerformed,
+                TriggerType = TriggerTypes.OnAttackFinish,
                 TriggerOwner = Host.Owner.PlayerNo,
                 EventHandler = PerformFreeCloakAction
             });

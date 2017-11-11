@@ -255,10 +255,7 @@ public static partial class Combat
         {
             hitsCounter++;
 
-            Attacker.CallOnAttackHitAsAttacker();
-            Defender.CallOnAttackHitAsDefender();
-
-            Triggers.ResolveTriggers(TriggerTypes.OnAttackHit, ResolveCombatDamage);
+            ResolveCombatDamage();
         }
         else
         {
@@ -331,12 +328,20 @@ public static partial class Combat
 
     private static void CheckMissedAttack()
     {
-        if (hitsCounter == 0)
+        if (hitsCounter > 0)
+        {
+            Attacker.CallOnAttackHitAsAttacker();
+            Defender.CallOnAttackHitAsDefender();
+
+            Triggers.ResolveTriggers(TriggerTypes.OnAttackHit, FinishAttack);
+        }
+        else
         {
             Attacker.CallOnAttackMissedAsAttacker();
             Defender.CallOnAttackMissedAsDefender();
+
+            FinishAttack();
         }
-        FinishAttack();
     }
 
     private static void FinishAttack()

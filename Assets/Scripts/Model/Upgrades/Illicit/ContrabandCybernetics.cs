@@ -9,6 +9,8 @@ namespace UpgradesList
     {
         public ContrabandCybernetics() : base()
         {
+            IsHidden = true;
+
             Type = UpgradeType.Illicit;
             Name = "Contraband Cybernetics";
             Cost = 1;

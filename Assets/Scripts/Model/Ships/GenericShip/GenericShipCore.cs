@@ -232,6 +232,9 @@ namespace Ship
                 case BaseArcsType.ArcRear:
                     ArcInfo = new ArcRear(this);
                     break;
+                case BaseArcsType.ArcGhost:
+                    ArcInfo = new ArcGhost(this);
+                    break;
                 case BaseArcsType.Arc180:
                     ArcInfo = new Arc180(this);
                     break;

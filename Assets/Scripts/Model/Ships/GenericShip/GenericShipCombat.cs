@@ -44,7 +44,7 @@ namespace Ship
         public bool CanShootOutsideArc
         {
             set { }
-            get { return Host.ArcInfo.CanShootOutsideArc; }
+            get { return Host.ArcInfo.OutOfArcShotPermissions.CanShootPrimaryWeapon; }
         }
 
         public PrimaryWeaponClass(GenericShip host)
@@ -81,6 +81,8 @@ namespace Ship
 
                     //TODO: Change to munitions arc
                     if (!shotInfo.InShotAngle) return false;
+
+                    if (!shotInfo.CanShootPrimaryWeapon) return false;
                 }
                 else
                 {

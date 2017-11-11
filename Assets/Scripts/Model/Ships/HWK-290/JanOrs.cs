@@ -36,13 +36,13 @@ namespace PilotAbilitiesNamespace
         {
             base.Initialize(host);
 
-            GenericShip.OnAttackAsAttackerGlobal += RegisterJanOrsAbility;
+            GenericShip.OnAttackStartAsAttackerGlobal += RegisterJanOrsAbility;
             Host.OnDestroyed += RemoveAbility;
         }
 
         private void RemoveAbility(GenericShip ship)
         {
-            GenericShip.OnAttackAsAttackerGlobal -= RegisterJanOrsAbility;
+            GenericShip.OnAttackStartAsAttackerGlobal -= RegisterJanOrsAbility;
         }
 
         private void RegisterJanOrsAbility()

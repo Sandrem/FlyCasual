@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Ship;
 
 namespace Ship
 {
@@ -35,12 +36,12 @@ namespace PilotAbilitiesNamespace
         {
             base.Initialize(host);
 
-            Host.OnAttackPerformed += RegisterTurrPhennirPilotAbility;
+            Host.OnAttackFinish += RegisterTurrPhennirPilotAbility;
         }
 
-        private void RegisterTurrPhennirPilotAbility()
+        private void RegisterTurrPhennirPilotAbility(GenericShip ship)
         {
-            RegisterAbilityTrigger(TriggerTypes.OnAttackPerformed, TurrPhennirPilotAbility);
+            RegisterAbilityTrigger(TriggerTypes.OnAttackFinish, TurrPhennirPilotAbility);
         }
 
         private void TurrPhennirPilotAbility(object sender, System.EventArgs e)

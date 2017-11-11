@@ -399,7 +399,7 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     [ClientRpc]
     private void RpcDeclareTarget(int attackerId, int defenderId)
     {
-        Combat.DeclareTarget(attackerId, defenderId);
+        Combat.DeclareIntentToAttack(attackerId, defenderId);
     }
 
     // SELECT TARGET SHIP

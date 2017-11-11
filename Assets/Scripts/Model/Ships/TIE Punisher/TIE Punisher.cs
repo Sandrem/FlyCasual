@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Movement;
+using ActionsList;
 
 namespace Ship
 {
@@ -29,6 +30,9 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Bomb);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Bomb);
 
+                PrintedActions.Add(new TargetLockAction());
+                PrintedActions.Add(new BoostAction());
+
                 AssignTemporaryManeuvers();
                 HotacManeuverTable = null;
 
@@ -44,13 +48,6 @@ namespace Ship
                 {
                     SoundFlyPaths.Add("TIE-Fly" + i);
                 }
-            }
-
-            public override void InitializeShip()
-            {
-                base.InitializeShip();
-                BuiltInActions.Add(new ActionsList.TargetLockAction());
-                BuiltInActions.Add(new ActionsList.BoostAction());
             }
 
             private void AssignTemporaryManeuvers()

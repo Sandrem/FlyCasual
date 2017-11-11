@@ -16,7 +16,7 @@ namespace Upgrade
 
         private void AddAction(Ship.GenericShip host)
         {
-            var alreadyHasAction = host.BuiltInActions.Find(n => n.GetType() == typeof(T));
+            var alreadyHasAction = host.PrintedActions.Find(n => n.GetType() == typeof(T));
             if (alreadyHasAction == null) host.AddAvailableAction(new T());
         }
     }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Movement;
+using ActionsList;
 
 namespace Ship
 {
@@ -27,6 +28,8 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Crew);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Astromech);
 
+                PrintedActions.Add(new TargetLockAction());
+
                 AssignTemporaryManeuvers();
                 HotacManeuverTable = null;
 
@@ -43,12 +46,6 @@ namespace Ship
                     SoundFlyPaths.Add("XWing-Fly" + i);
                 }
                 
-            }
-
-            public override void InitializeShip()
-            {
-                base.InitializeShip();
-                BuiltInActions.Add(new ActionsList.TargetLockAction());
             }
 
             private void AssignTemporaryManeuvers()

@@ -190,7 +190,6 @@ public static partial class RosterBuilder {
             ship.Ship.SkinName = GetSkinName(ship);
             Global.AddShip(ship.Ship, ship.Player, GetShipCostCalculated(ship));
         }
-        SquadBuilderRoster.ClearRoster();
     }
 
     private static void AddInitialShips()
@@ -523,6 +522,8 @@ public static partial class RosterBuilder {
     public static void LoadBattleScene()
     {
         //TestRandom();
+        SquadBuilderRoster.ClearRoster();
+
         SceneManager.LoadScene("Battle");
     }
 
@@ -571,6 +572,7 @@ public static partial class RosterBuilder {
     {
         if (!ValidateUniqueCards(playerNo)) return false;
         if (!ValidateSquadCost(playerNo)) return false;
+        if (!ValidateLimitedCards(playerNo)) return false;
         if (!ValidateShipAiReady(playerNo)) return false;
         return true;
     }
@@ -670,6 +672,38 @@ public static partial class RosterBuilder {
             uniqueCards.Add(cardName);
             return false;
         }
+    }
+
+    private static bool ValidateLimitedCards(PlayerNo playerNo)
+    {
+        bool result = true;
+
+        foreach (var shipConfig in Global.ShipConfigurations)
+        {
+            if (shipConfig.Player == playerNo)
+            {
+                List<string> limitedCards = new List<string>();
+
+                foreach (var upgrade in shipConfig.Ship.UpgradeBar.GetInstalledUpgrades())
+                {
+                    if (upgrade.isLimited)
+                    {
+                        if (!limitedCards.Contains(upgrade.Name))
+                        {
+                            limitedCards.Add(upgrade.Name);
+                        }
+                        else
+                        {
+                            Messages.ShowError("A ship cannot equip multiple copies of the same limited card: " + upgrade.Name);
+                            result = false;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+        return result;
     }
 
     private static bool ValidateShipAiReady(PlayerNo playerNo)

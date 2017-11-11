@@ -39,9 +39,9 @@ public enum TriggerTypes
     OnShotStart,
     OnImmediatelyAfterRolling,
     OnAttackHit,
-    OnCheckSecondAttack,
-    OnAttackFinish,
     OnAttackMissed,
+    OnAttackFinish,
+    OnCheckSecondAttack,
 
     OnAtLeastOneCritWasCancelledByDefender,
     OnDamageIsDealt,

@@ -82,7 +82,7 @@ namespace Movement
                     {
                         IsOffTheBoard = obstacleStayDetector.OffTheBoard;
                         IsLandedOnAsteroid = obstacleStayDetector.OverlapsAsteroid;
-                        SuccessfullMovementProgress = (i + 1f) / generatedShipStands.Length;
+                        SuccessfullMovementProgress = (float)(i) / (generatedShipStands.Length - 1);
 
                         if (lastShipBumpDetector != null)
                         {
@@ -146,10 +146,14 @@ namespace Movement
 
         private void DestroyGeneratedShipStands()
         {
-            foreach (var shipStand in generatedShipStands)
+            if (!DebugManager.DebugMovement)
             {
-                GameObject.Destroy(shipStand);
+                foreach (var shipStand in generatedShipStands)
+                {
+                    GameObject.Destroy(shipStand);
+                }
             }
+
         }
     }
 

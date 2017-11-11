@@ -47,7 +47,7 @@ namespace ActionsList
 
         public override void ActionTake()
         {
-            Phases.StartTemporarySubPhase(
+            Phases.StartTemporarySubPhaseOld(
                 "Select target for Squad Leader",
                 typeof(SubPhases.SelectSquadLeaderTargetSubPhase),
                 delegate {}
@@ -66,7 +66,7 @@ namespace SubPhases
 
         public override void Prepare()
         {
-            isFriendlyAllowed = true;
+            targetsAllowed.Add(TargetTypes.OtherFriendly);
             maxRange = 2;
             finishAction = SelectSquadLeaderTarget;
 
@@ -97,7 +97,7 @@ namespace SubPhases
             });
         }
 
-        protected override void RevertSubPhase() { }
+        public override void RevertSubPhase() { }
 
         private void PerformFreeAction(object sender, System.EventArgs e)
         {

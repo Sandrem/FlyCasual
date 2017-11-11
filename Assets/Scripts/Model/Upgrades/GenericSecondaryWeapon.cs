@@ -42,6 +42,8 @@ namespace Upgrade
                 range = shotInfo.Range;
 
                 if (!shotInfo.InShotAngle) return false;
+
+                if (!shotInfo.CanShootSecondaryWeapon) return false;
             }
             else
             {
@@ -80,8 +82,23 @@ namespace Upgrade
 
         public virtual void PayAttackCost(Action callBack)
         {
-            if (IsDiscardedForShot) Discard();
+            PayDiscardCost(delegate { PayTokenCost(callBack); });
+        }
 
+        private void PayDiscardCost(Action callBack)
+        {
+            if (IsDiscardedForShot)
+                {
+                    TryDiscard(callBack);
+                }
+            else
+            {
+                callBack();
+            };
+        }
+
+        private void PayTokenCost(Action callBack)
+        {
             if (RequiresTargetLockOnTargetToShoot)
             {
                 if (SpendsTargetLockOnTargetToShoot)
@@ -97,14 +114,14 @@ namespace Upgrade
                     if (waysToPay.Count == 1)
                     {
                         Combat.Attacker.SpendToken(
-                            waysToPay[0].GetType(), 
+                            waysToPay[0].GetType(),
                             callBack,
                             (waysToPay[0] as BlueTargetLockToken != null) ? (waysToPay[0] as BlueTargetLockToken).Letter : ' '
                         );
                     }
                     else
                     {
-                        Phases.StartTemporarySubPhase(
+                        Phases.StartTemporarySubPhaseOld(
                             "Choose how to pay attack cost",
                             typeof(SubPhases.PayAttackCostDecisionSubPhase),
                             callBack
@@ -120,7 +137,6 @@ namespace Upgrade
             {
                 callBack();
             }
-
         }
 
     }
@@ -133,9 +149,9 @@ namespace SubPhases
     public class PayAttackCostDecisionSubPhase : DecisionSubPhase
     {
 
-        public override void Prepare()
+        public override void PrepareDecision(System.Action callBack)
         {
-            infoText = "Choose how to pay attack cost";
+            InfoText = "Choose how to pay attack cost";
 
             List<GenericToken> waysToPay = new List<GenericToken>();
 
@@ -164,7 +180,9 @@ namespace SubPhases
                 }
             }
 
-            defaultDecision = GetDecisions().First().Key;
+            DefaultDecision = GetDecisions().First().Key;
+
+            callBack();
         }
 
         private void PayCost(GenericToken token)
@@ -174,12 +192,6 @@ namespace SubPhases
                 ConfirmDecision,
                 (token as BlueTargetLockToken != null) ? (token as BlueTargetLockToken).Letter : ' '
             );
-        }
-
-        private void ConfirmDecision()
-        {
-            Phases.FinishSubPhase(this.GetType());
-            CallBack();
         }
 
     }

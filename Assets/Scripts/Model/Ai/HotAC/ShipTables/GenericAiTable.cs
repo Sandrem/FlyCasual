@@ -133,12 +133,9 @@ namespace AI
             if (inDebug) Debug.Log("Random is: " + random);
             result = table[random];
 
-            //Temporary
-            GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-
             if (inDebug) Debug.Log("Result is: " + result);
 
-            return Game.Movement.MovementFromString(result);
+            return ShipMovementScript.MovementFromString(result);
         }
 
         public static bool IsClosing(Ship.GenericShip thisShip, Ship.GenericShip anotherShip)

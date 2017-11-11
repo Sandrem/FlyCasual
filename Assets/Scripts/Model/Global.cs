@@ -8,7 +8,7 @@ public class Global : MonoBehaviour {
 
     public static string test = "I am accessible from every scene";
 
-    public static string CurrentVersion = "development";
+    public static string CurrentVersion = "0.2.1";
 
     private static List<ShipConfiguration> shipConfigurations = new List<ShipConfiguration>();
 
@@ -63,38 +63,17 @@ public class Global : MonoBehaviour {
                 {
                 new ShipConfiguration
                 (
-                    new Ship.YT1300.OuterRimSmuggler(),
+                    new Ship.AWing.GreenSquadronPilot(),
                     PlayerNo.Player1,
-                    0
+                    19
                 ),
                 new ShipConfiguration
                 (
                     new Ship.TIEAdvanced.TempestSquadronPilot(),
                     PlayerNo.Player2,
-                    0
+                    21
                 )
-                /*new ShipConfiguration
-                (
-                    "Ship.XWing.LukeSkywalker",
-                    new List<string>() { "UpgradesList.R2D2", "UpgradesList.Marksmanship", "UpgradesList.ProtonTorpedoes" },
-                    PlayerNo.Player1,
-                    1
-                ),
-                new ShipConfiguration
-                (
-                    "Ship.TIEFighter.MaulerMithel",
-                    new List<string>() { "UpgradesList.Determination" },
-                    PlayerNo.Player2,
-                    1
-                ),
-                new ShipConfiguration
-                (
-                    "Ship.TIEFighter.NightBeast",
-                    new List<string>(),
-                    PlayerNo.Player2,
-                    1
-                )*/
-            };  
+            };
         }
         return result;
     }
@@ -107,11 +86,23 @@ public class Global : MonoBehaviour {
         }
         else
         {
-            List<System.Type> result = new List<System.Type>
+            List<System.Type> result = null;
+            if (Network.IsServer)
+            {
+                result = new List<System.Type>
                 {
                     typeof(HumanPlayer),
-                    typeof(HotacAiPlayer)
+                    typeof(NetworkOpponentPlayer)
                 };
+            }
+            else
+            {
+                result = new List<System.Type>
+                {
+                    typeof(NetworkOpponentPlayer),
+                    typeof(HumanPlayer)
+                };
+            }
             return result;
         }
     }
@@ -152,6 +143,18 @@ public class Global : MonoBehaviour {
         if (playerNo == PlayerNo.Player1) result = playerFactions[0];
         if (playerNo == PlayerNo.Player2) result = playerFactions[1];
         return result;
+    }
+
+    public static void StartBattle()
+    {
+        if (Network.IsNetworkGame) HideOpponentSquad();
+        Phases.StartPhases();
+    }
+
+    private static void HideOpponentSquad()
+    {
+        Transform opponentSquad = GameObject.Find("GlobalUI").transform.Find("OpponentSquad");
+        if (opponentSquad != null) opponentSquad.gameObject.SetActive(false);
     }
 
 }

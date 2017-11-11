@@ -33,7 +33,8 @@ namespace Ship
         {
             get
             {
-                int result = attackValue;
+                int result = Host.Firepower;
+                if (attackValue == int.MaxValue) Debug.Log(attackValue);
                 Host.CallAfterGotNumberOfPrimaryWeaponAttackDice(ref result);
                 return result;
             }
@@ -42,7 +43,7 @@ namespace Ship
 
         public bool CanShootOutsideArc
         {
-            set {}
+            set { }
             get { return Host.ArcInfo.CanShootOutsideArc; }
         }
 
@@ -53,8 +54,6 @@ namespace Ship
 
             MinRange = 1;
             MaxRange = 3;
-
-            AttackValue = Host.Firepower;
         }
 
         public bool IsShotAvailable(GenericShip targetShip)
@@ -65,11 +64,12 @@ namespace Ship
 
             if (Combat.ChosenWeapon.GetType() == GetType())
             {
-                range = Combat.ShotInfo.Range;
+                Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(Host, targetShip, this);
+                range = shotInfo.Range;
                 if (!CanShootOutsideArc)
                 {
                     //TODO: Change to munitions arc
-                    if (!Combat.ShotInfo.InShotAngle) return false;
+                    if (!shotInfo.InShotAngle) return false;
                 }
             }
             else
@@ -110,6 +110,8 @@ namespace Ship
         public DiceRoll AssignedDamageDiceroll = new DiceRoll(DiceKind.Attack, 0, DiceRollCheckType.Virtual);
 
         public bool IsCannotAttackSecondTime { get; set; }
+        public bool CanAttackBumpedTarget { get; set; }
+        public bool PreventDestruction { get; set; }
 
         // EVENTS
 
@@ -124,6 +126,7 @@ namespace Ship
         public event EventHandlerTokensList OnGenerateAvailableAttackPaymentList;
 
         public event EventHandler OnAttack;
+        public static event EventHandler OnAttackAsAttackerGlobal;
         public event EventHandler OnDefence;
 
         public event EventHandler OnAtLeastOneCritWasCancelledByDefender;
@@ -138,6 +141,7 @@ namespace Ship
         public event EventHandlerInt AfterGotNumberOfPrimaryWeaponAttackDice;
         public event EventHandlerInt AfterGotNumberOfPrimaryWeaponDefenceDice;
         public event EventHandlerInt AfterGotNumberOfAttackDice;
+        public event EventHandlerInt AfterGotNumberOfDefenceDice;
 
         public event EventHandlerShip AfterAssignedDamageIsChanged;
 
@@ -148,16 +152,19 @@ namespace Ship
 
         public event EventHandlerShip OnDamageCardIsDealt;
 
+        public event EventHandlerShip OnReadyToBeDestroyed;
         public event EventHandlerShip OnDestroyed;
 
         public event EventHandlerShip AfterAttackWindow;
         public event EventHandlerShip OnCheckSecondAttack;
 
-        public event EventHandlerShip AfterCombatEnd;
+        public event EventHandlerShip OnCombatEnd;
 
         public event EventHandlerBombDropTemplates OnGetAvailableBombDropTemplates;
 
         public event EventHandlerDiceroll OnImmediatelyAfterRolling;
+
+        public event EventHandlerBool OnWeaponsDisabledCheck;
 
         // TRIGGERS
 
@@ -195,7 +202,13 @@ namespace Ship
             ClearAlreadyExecutedOppositeActionEffects();
             ClearAlreadyExecutedActionEffects();
             if (Combat.Attacker.ShipId == this.ShipId) IsAttackPerformed = true;
+
             if (OnAttack != null) OnAttack();
+        }
+
+        public void CallAttackStartAsAttacker()
+        {
+            if (OnAttackAsAttackerGlobal != null) OnAttackAsAttackerGlobal();
         }
 
         public void CallDefenceStart()
@@ -241,12 +254,14 @@ namespace Ship
 
         public void CallCombatEnd()
         {
-            if (AfterCombatEnd != null) AfterCombatEnd(this);
+            if (OnCombatEnd != null) OnCombatEnd(this);
         }
 
-        public void CallOnImmediatelyAfterRolling(DiceRoll diceroll)
+        public void CallOnImmediatelyAfterRolling(DiceRoll diceroll, Action callBack)
         {
             if (OnImmediatelyAfterRolling != null) OnImmediatelyAfterRolling(diceroll);
+
+            Triggers.ResolveTriggers(TriggerTypes.OnImmediatelyAfterRolling, callBack);
         }
 
         public void CallOnAttackPerformed()
@@ -293,6 +308,8 @@ namespace Ship
         public int GetNumberOfDefenceDice(GenericShip attackerShip)
         {
             int result = Agility;
+
+            if (AfterGotNumberOfDefenceDice != null) AfterGotNumberOfDefenceDice(ref result);
 
             if (Combat.ChosenWeapon.GetType() == typeof(PrimaryWeaponClass))
             {
@@ -375,29 +392,31 @@ namespace Ship
 
             if (isCritical)
             {
-                Combat.CurrentCriticalHitCard = CriticalHitsDeck.GetCritCard();
-
-                if (DebugManager.DebugDamage) Debug.Log("+++ Crit: " + Combat.CurrentCriticalHitCard.Name);
-
-                if (OnFaceupCritCardReadyToBeDealt != null) OnFaceupCritCardReadyToBeDealt(this, Combat.CurrentCriticalHitCard);
-
-                if (OnFaceupCritCardReadyToBeDealtGlobal != null) OnFaceupCritCardReadyToBeDealtGlobal(this, Combat.CurrentCriticalHitCard, e);
-
-                Triggers.RegisterTrigger(new Trigger
-                {
-                    Name = "Information about faceup damage card",
-                    TriggerOwner = this.Owner.PlayerNo,
-                    TriggerType = TriggerTypes.OnFaceupCritCardReadyToBeDealtUI,
-                    EventHandler = delegate { InformCrit.LoadAndShow(); }
-                });
-
-                Triggers.ResolveTriggers(TriggerTypes.OnFaceupCritCardReadyToBeDealt, SufferFaceupDamageCard);
+                CriticalHitsDeck.GetCritCard(delegate { SufferChosenCriticalHitCard(e); });
             }
             else
             {
-                Combat.CurrentCriticalHitCard = CriticalHitsDeck.GetCritCard();
-                CallOnDamageCardIsDealt(DealRegularDamageCard);
+                CriticalHitsDeck.GetCritCard(delegate { CallOnDamageCardIsDealt(DealRegularDamageCard); });
             }
+        }
+
+        public void SufferChosenCriticalHitCard(EventArgs e)
+        {
+            if (DebugManager.DebugDamage) Debug.Log("+++ Crit: " + Combat.CurrentCriticalHitCard.Name);
+
+            if (OnFaceupCritCardReadyToBeDealt != null) OnFaceupCritCardReadyToBeDealt(this, Combat.CurrentCriticalHitCard);
+
+            if (OnFaceupCritCardReadyToBeDealtGlobal != null) OnFaceupCritCardReadyToBeDealtGlobal(this, Combat.CurrentCriticalHitCard, e);
+
+            Triggers.RegisterTrigger(new Trigger
+            {
+                Name = "Information about faceup damage card",
+                TriggerOwner = this.Owner.PlayerNo,
+                TriggerType = TriggerTypes.OnFaceupCritCardReadyToBeDealtUI,
+                EventHandler = delegate { InformCrit.LoadAndShow(); }
+            });
+
+            Triggers.ResolveTriggers(TriggerTypes.OnFaceupCritCardReadyToBeDealt, SufferFaceupDamageCard);
         }
 
         private void DealRegularDamageCard()
@@ -479,7 +498,16 @@ namespace Ship
         {
             if (Hull == 0 && !IsDestroyed)
             {
-                DestroyShip(callBack);
+                if (OnReadyToBeDestroyed != null) OnReadyToBeDestroyed(this);
+
+                if (!PreventDestruction)
+                {
+                    DestroyShip(callBack);
+                }
+                else
+                {
+                    callBack();
+                }
             }
             else
             {
@@ -562,10 +590,17 @@ namespace Ship
 
             return availableTemplates;
         }
-      
-        public virtual bool CanAttackBumpedTarget(GenericShip defender)
+
+        public bool AreWeaponsNotDisabled()
         {
-            return false;
+            bool result = !HasToken(typeof(Tokens.WeaponsDisabledToken));
+
+            if (result == false)
+            {
+                if (OnWeaponsDisabledCheck != null) OnWeaponsDisabledCheck(ref result);
+            }
+
+            return result;
         }
 
     }

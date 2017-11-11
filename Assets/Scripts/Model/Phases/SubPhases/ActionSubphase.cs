@@ -46,7 +46,7 @@ namespace SubPhases
 
         private void StartActionDecisionSubphase(object sender, System.EventArgs e)
         {
-            Phases.StartTemporarySubPhase(
+            Phases.StartTemporarySubPhaseOld(
                 "Action Decision",
                 typeof(ActionDecisonSubPhase),
                 EndActionDecisionSubhase
@@ -108,14 +108,15 @@ namespace SubPhases
     public class ActionDecisonSubPhase : DecisionSubPhase
     {
 
-        public override void Prepare()
+        public override void PrepareDecision(System.Action callBack)
         {
-            infoText = "Select action";
+            InfoText = "Select action";
             List<ActionsList.GenericAction> availableActions = Selection.ThisShip.GetAvailableActionsList();
 
             if (availableActions.Count > 0)
             {
                 Roster.GetPlayer(Phases.CurrentPhasePlayer).PerformAction();
+                callBack();
             }
             else
             {
@@ -165,14 +166,15 @@ namespace SubPhases
     public class FreeActionDecisonSubPhase : DecisionSubPhase
     {
 
-        public override void Prepare()
+        public override void PrepareDecision(System.Action callBack)
         {
-            infoText = "Select free action";
+            InfoText = "Select free action";
             List<ActionsList.GenericAction> availableActions = Selection.ThisShip.GetAvailableFreeActionsList();
 
             if (availableActions.Count > 0)
             {
                 Roster.GetPlayer(Phases.CurrentPhasePlayer).PerformFreeAction();
+                callBack();
             }
             else
             {
@@ -203,6 +205,8 @@ namespace SubPhases
         {
             base.Resume();
             Initialize();
+
+            UI.ShowSkipButton();
         }
 
         public override void SkipButton()

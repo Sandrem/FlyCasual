@@ -32,9 +32,10 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Bomb);
 
                 AssignTemporaryManeuvers();
-                HotacManeuverTable = new AI.YWingTable();
+                HotacManeuverTable = null;
 
                 factions.Add(Faction.Rebels);
+                faction = Faction.Rebels;
 
                 SkinName = "White";
 
@@ -52,6 +53,7 @@ namespace Ship
             {
                 base.InitializeShip();
                 BuiltInActions.Add(new ActionsList.TargetLockAction());
+                BuiltInActions.Add(new ActionsList.SlamAction());
             }
 
             private void AssignTemporaryManeuvers()

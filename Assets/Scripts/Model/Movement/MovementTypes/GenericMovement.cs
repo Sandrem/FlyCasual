@@ -120,9 +120,16 @@ namespace Movement
             Bearing = bearing;
 
             if (!Selection.ThisShip.Maneuvers.ContainsKey(parameters)) Debug.Log("ERROR: Ship doesn't have required maneuver. Seems that AI maneuver table is wrong.");
-
             ColorComplexity = Selection.ThisShip.Maneuvers[parameters];
+            ColorComplexity = Selection.ThisShip.GetColorComplexityOfManeuver(this);
+        }
 
+        public void UpdateColorComplexity()
+        {
+            string parameters = this.ToString();
+
+            if (!Selection.ThisShip.Maneuvers.ContainsKey(parameters)) Debug.Log("ERROR: Ship doesn't have required maneuver. Seems that AI maneuver table is wrong.");
+            ColorComplexity = Selection.ThisShip.Maneuvers[parameters];
             ColorComplexity = Selection.ThisShip.GetColorComplexityOfManeuver(this);
         }
 
@@ -311,7 +318,8 @@ namespace Movement
 
         public virtual void LaunchShipMovement()
         {
-            Selection.ThisShip.StartMoving(LaunchShipMovementContinue);
+            GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
+            Game.Wait(0.5f, delegate { Selection.ThisShip.StartMoving(LaunchShipMovementContinue); });
         }
 
         private void LaunchShipMovementContinue()
@@ -343,11 +351,18 @@ namespace Movement
             LaunchSimple();
         }
 
-        public virtual void LaunchSimple()
+        public void LaunchSimple()
         {
             //TEMP
-            GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-            Game.Movement.isMoving = true;
+            if (ProgressTarget > 0)
+            {
+                GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
+                Game.Movement.isMoving = true;
+            }
+            else
+            {
+                FinishMovement();
+            }
         }
 
         public virtual void UpdateMovementExecution()
@@ -371,6 +386,7 @@ namespace Movement
             GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
             Game.Movement.isMoving = false;
 
+            Selection.ThisShip.ApplyRotationHelpers();
             Selection.ThisShip.ResetRotationHelpers();
 
             ManeuverEndRotation(FinishMovementEvents);

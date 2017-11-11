@@ -66,7 +66,7 @@ namespace SubPhases
         public override bool ThisShipCanBeSelected(Ship.GenericShip ship)
         {
             bool result = false;
-            if (ship.Owner.PlayerNo == RequiredPlayer)
+            if ((ship.Owner.PlayerNo == RequiredPlayer) && (Roster.GetPlayer(RequiredPlayer).GetType() == typeof(Players.HumanPlayer)))
             {
                 result = true;
             }

@@ -20,35 +20,38 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
                 SkinName = "Red Stripes";
-            }
 
-            public override void InitializePilot()
-            {
-                base.InitializePilot();
-                OnAttackPerformed += RegisterTurrPhennirPilotAbility;
+                PilotAbilities.Add(new PilotAbilitiesNamespace.TurrPhennirAbility());
             }
+        }
+    }
+}
 
-            private void RegisterTurrPhennirPilotAbility()
-            {
-                Triggers.RegisterTrigger(new Trigger()
+namespace PilotAbilitiesNamespace
+{
+    public class TurrPhennirAbility : GenericPilotAbility
+    {
+        public override void Initialize(Ship.GenericShip host)
+        {
+            base.Initialize(host);
+
+            Host.OnAttackPerformed += RegisterTurrPhennirPilotAbility;
+        }
+
+        private void RegisterTurrPhennirPilotAbility()
+        {
+            RegisterAbilityTrigger(TriggerTypes.OnAttackPerformed, TurrPhennirPilotAbility);
+        }
+
+        private void TurrPhennirPilotAbility(object sender, System.EventArgs e)
+        {
+            Host.AskPerformFreeAction(
+                new List<ActionsList.GenericAction>()
                 {
-                    Name = "Turr Phennir's ability",
-                    TriggerType = TriggerTypes.OnAttackPerformed,
-                    TriggerOwner = this.Owner.PlayerNo,
-                    EventHandler = TurrPhennirPilotAbility
-                });
-            }
-
-            private void TurrPhennirPilotAbility(object sender, System.EventArgs e)
-            {
-                AskPerformFreeAction(
-                    new List<ActionsList.GenericAction>()
-                    {
-                        new ActionsList.BoostAction(),
-                        new ActionsList.BarrelRollAction()
-                    },
-                    Triggers.FinishTrigger);
-            }
+                    new ActionsList.BoostAction(),
+                    new ActionsList.BarrelRollAction()
+                },
+                Triggers.FinishTrigger);
         }
     }
 }

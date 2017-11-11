@@ -16,7 +16,7 @@ namespace Ship
                 ShipBaseSize = BaseSize.Large;
                 ShipBaseArcsType = Arcs.BaseArcsType.ArcRear;
 
-                ManeuversImageUrl = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/pilots/Rebel%20Alliance/VCX-100/lothal-rebel.png";
+                ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/c/cf/MR_VCX-100.png";
 
                 Firepower = 4;
                 Agility = 0;
@@ -31,7 +31,7 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Crew);
 
                 AssignTemporaryManeuvers();
-                HotacManeuverTable = new AI.YT1300Table();
+                HotacManeuverTable = null;
 
                 factions.Add(Faction.Rebels);
                 faction = Faction.Rebels;

@@ -18,15 +18,28 @@ namespace ActionsList
         {
             if (Actions.HasTargetLockOn(Combat.Attacker, Combat.Defender))
             {
-                DiceRerollManager diceRerollManager = new DiceRerollManager()
-                {
-                    CallBack = callBack
-                };
-
                 char letter = ' ';
                 letter = Actions.GetTargetLocksLetterPair(Combat.Attacker, Combat.Defender);
 
-                Selection.ActiveShip.SpendToken(typeof(Tokens.BlueTargetLockToken), diceRerollManager.Start, letter);
+                if (Combat.Attacker.GetToken(typeof(Tokens.BlueTargetLockToken), letter).CanBeUsed)
+                {
+                    DiceRerollManager diceRerollManager = new DiceRerollManager()
+                    {
+                        CallBack = callBack
+                    };
+
+                    Selection.ActiveShip.SpendToken(typeof(Tokens.BlueTargetLockToken), diceRerollManager.Start, letter);
+                }
+                else
+                {
+                    Messages.ShowErrorToHuman("Cannot use current Target Lock on defender");
+                    callBack();
+                }
+            }
+            else
+            {
+                Messages.ShowErrorToHuman("No Target Lock on defender");
+                callBack();
             }
         }
 
@@ -68,7 +81,7 @@ namespace ActionsList
 
         public override void ActionTake()
         {
-            Phases.StartTemporarySubPhase(
+            Phases.StartTemporarySubPhaseOld(
                 "Select target for Target Lock",
                 typeof(SubPhases.SelectTargetLockSubPhase),
                 Phases.CurrentSubPhase.CallBack
@@ -91,7 +104,7 @@ namespace SubPhases
             minRange = ship.TargetLockMinRange;
             maxRange = ship.TargetLockMaxRange;
 
-            isEnemyAllowed = true;
+            targetsAllowed.Add(TargetTypes.Enemy);
             finishAction = TrySelectTargetLock;
 
             UI.ShowSkipButton();
@@ -118,7 +131,7 @@ namespace SubPhases
             }
         }
 
-        protected override void RevertSubPhase()
+        public override void RevertSubPhase()
         {
             Selection.ThisShip.RemoveAlreadyExecutedAction(typeof(ActionsList.TargetLockAction));
             base.RevertSubPhase();

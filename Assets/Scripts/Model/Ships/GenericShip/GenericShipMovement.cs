@@ -14,6 +14,12 @@ namespace Ship
         public GenericMovement AssignedManeuver { get; private set; }
 
         public bool IsLandedOnObstacle;
+
+        public bool IsHitObstacles
+        {
+            get { return ObstaclesHit.Count != 0; }
+        }
+
         public List<Collider> ObstaclesHit = new List<Collider>();
 
         public List<GameObject> MinesHit = new List<GameObject>();
@@ -42,6 +48,8 @@ namespace Ship
         public event EventHandlerShip OnMovementExecuted;
         public event EventHandlerShip OnMovementFinish;
         public static event EventHandlerShip OnMovementFinishGlobal;
+
+        public event EventHandler OnFinishSlam;
 
         public event EventHandlerShip OnPositionFinish;
         public static event EventHandler OnPositionFinishGlobal;
@@ -85,7 +93,9 @@ namespace Ship
                 TriggerTypes.OnShipMovementFinish,
                 delegate () {
                     Roster.HideAssignedManeuverDial(this);
-                    Selection.ThisShip.FinishPosition(delegate () { Phases.FinishSubPhase(typeof(SubPhases.MovementExecutionSubPhase)); });
+                    Selection.ThisShip.FinishPosition(delegate () {
+                        Triggers.FinishTrigger();
+                    });
                 });
         }
 
@@ -95,6 +105,13 @@ namespace Ship
             if (OnPositionFinishGlobal != null) OnPositionFinishGlobal();
 
             Triggers.ResolveTriggers(TriggerTypes.OnPositionFinish, callback);
+        }
+
+        public void CallFinishSlam(System.Action callback)
+        {
+            if (OnFinishSlam != null) OnFinishSlam();
+
+            Triggers.ResolveTriggers(TriggerTypes.OnFinishSlam, callback);
         }
 
         // MANEUVERS

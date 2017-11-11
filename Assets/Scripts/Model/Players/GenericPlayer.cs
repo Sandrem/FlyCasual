@@ -5,6 +5,7 @@ using UnityEngine;
 
 public enum Faction
 {
+    None,
     Rebels,
     Empire,
     Scum
@@ -21,7 +22,8 @@ namespace Players
     public enum PlayerType
     {
         Human,
-        Ai
+        Ai,
+        Network
     }
 
     public partial class GenericPlayer
@@ -65,6 +67,14 @@ namespace Players
         public virtual void TakeDecision() { }
 
         public virtual void AfterShipMovementPrediction() { }
+
+        public virtual void ConfirmDiceCheck() { }
+
+        public virtual void ToggleCombatDiceResults(bool isActive) { }
+
+        public virtual bool IsNeedToShowManeuver(Ship.GenericShip ship) { return false; }
+
+        public virtual void OnTargetNotLegalForAttack() { }
     }
 
 }

@@ -29,7 +29,7 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Bomb);
 
                 AssignTemporaryManeuvers();
-                HotacManeuverTable = new AI.TIEBomberTable();
+                HotacManeuverTable = null;
 
                 factions.Add(Faction.Scum);
                 faction = Faction.Scum;

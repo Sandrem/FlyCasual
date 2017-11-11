@@ -24,14 +24,11 @@ namespace Ship
                 MaxShields = 4;
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
-                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Torpedo);
-                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Torpedo);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Crew);
-                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.SalvagedAstromech);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Illicit);
 
                 AssignTemporaryManeuvers();
-                HotacManeuverTable = new AI.YT2400Table();
+                HotacManeuverTable = null;
 
                 factions.Add(Faction.Scum);
                 faction = Faction.Scum;

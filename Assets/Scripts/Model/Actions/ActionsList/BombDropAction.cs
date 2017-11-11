@@ -20,7 +20,7 @@ namespace ActionsList
             Phases.CurrentSubPhase.Pause();
 
             BombsManager.CurrentBomb = Source as Upgrade.GenericBomb;
-            Phases.StartTemporarySubPhase(
+            Phases.StartTemporarySubPhaseOld(
                 "Bomb drop planning",
                 typeof(SubPhases.BombDropPlanningSubPhase),
                 Phases.CurrentSubPhase.CallBack

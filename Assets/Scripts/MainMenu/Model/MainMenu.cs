@@ -1,28 +1,44 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using GameModes;
 
 public partial class MainMenu : MonoBehaviour {
 
     string NewVersionUrl;
 
+    public static MainMenu CurrentMainMenu;
+
     // Use this for initialization
-    void Start () {
+    void Start ()
+    {
         InitializeMenu();
     }
 
     private void InitializeMenu()
     {
+        CurrentMainMenu = this;
+
         SetPositions();
         SetCurrentPanel();
 
+        DontDestroyOnLoad(GameObject.Find("GlobalUI").gameObject);
+
+        Options.ReadOptions();
         Options.UpdateVolume();
         StartCoroutine(CheckUpdates());
     }
 
     public void StartBattle()
     {
-        RosterBuilder.StartGame();
+        if (!Network.IsNetworkGame)
+        {
+            RosterBuilder.StartLocalGame();
+        }
+        else
+        {
+            RosterBuilder.StartNetworkGame();
+        }
     }
 
     public void QuitGame()
@@ -43,7 +59,7 @@ public partial class MainMenu : MonoBehaviour {
         string[] separator = new string[] { "\r\n" };
         string[] wwwdata = www.text.Split(separator, System.StringSplitOptions.RemoveEmptyEntries);
 
-        if (wwwdata.Length > 0)
+        if (wwwdata.Length > 0 && !wwwdata[0].Contains("DOCTYPE"))
         {
             if (wwwdata.Length == 3)
             {
@@ -58,6 +74,16 @@ public partial class MainMenu : MonoBehaviour {
                 }
             }
         }
+    }
+
+    public void ImportSquadList()
+    {
+        RosterBuilder.ImportSquadList();
+    }
+
+    public void ExportSquadList()
+    {
+        RosterBuilder.ExportSquadList(Players.PlayerNo.Player1);
     }
 
 }

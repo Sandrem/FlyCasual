@@ -28,13 +28,18 @@ namespace Board
             StartingZone1 = BoardTransform.Find("Playmat/StaringZone1").gameObject;
             StartingZone2 = BoardTransform.Find("Playmat/StaringZone2").gameObject;
 
+            MovementTemplates.PrepareMovementTemplates();
+
             SetPlaymatImage();
         }
 
         private static void SetPlaymatImage()
         {
-            Texture playmatTexture = (Texture)Resources.Load("Playmats/Playmat" + Options.Playmat + "Texture", typeof(Texture));
-            BoardTransform.Find("Playmat").GetComponent<Renderer>().material.mainTexture = playmatTexture;        
+            if (!string.IsNullOrEmpty(Options.Playmat))
+            {
+                Texture playmatTexture = (Texture)Resources.Load("Playmats/Playmat" + Options.Playmat + "Texture", typeof(Texture));
+                BoardTransform.Find("Playmat").GetComponent<Renderer>().material.mainTexture = playmatTexture;
+            }
         }
 
         private static void SetShip(Ship.GenericShip ship, int count)

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using GameModes;
 
 //Todo: Move to different scripts by menu names
 
@@ -73,7 +74,10 @@ public class UI : MonoBehaviour {
     public static void HideTemporaryMenus()
     {
         HideContextMenu();
-        if (Phases.CurrentSubPhase.GetType() == typeof(SubPhases.PlanningSubPhase)) HideDirectionMenu();
+        if (Phases.CurrentSubPhase != null)
+        {
+            if (Phases.CurrentSubPhase.GetType() == typeof(SubPhases.PlanningSubPhase)) HideDirectionMenu();
+        }
     }
 
     //TODO: use in static generic UI class
@@ -131,14 +135,17 @@ public class UI : MonoBehaviour {
 
     public static void AddTestLogEntry(string text)
     {
-        GameObject area = GameObject.Find("UI").transform.Find("GameLogHolder").Find("Scroll").Find("Viewport").Find("Content").gameObject;
-        GameObject logText = (GameObject)Resources.Load("Prefabs/LogText", typeof(GameObject));
-        GameObject newLogEntry = Instantiate(logText, area.transform);
-        newLogEntry.transform.localPosition = new Vector3(5, lastLogTextPosition, 0);
-        lastLogTextPosition += lastLogTextStep;
-        if (area.GetComponent<RectTransform>().sizeDelta.y < Mathf.Abs(lastLogTextPosition)) area.GetComponent<RectTransform>().sizeDelta = new Vector2(area.GetComponent<RectTransform>().sizeDelta.x, Mathf.Abs(lastLogTextPosition));
-        GameObject.Find("UI").transform.Find("GameLogHolder").Find ("Scroll").GetComponent<ScrollRect>().verticalNormalizedPosition = 0;
-        newLogEntry.GetComponent<Text>().text = text;
+        if (GameObject.Find("UI").transform.Find("GameLogHolder") != null)
+        {
+            GameObject area = GameObject.Find("UI").transform.Find("GameLogHolder").Find("Scroll").Find("Viewport").Find("Content").gameObject;
+            GameObject logText = (GameObject)Resources.Load("Prefabs/LogText", typeof(GameObject));
+            GameObject newLogEntry = Instantiate(logText, area.transform);
+            newLogEntry.transform.localPosition = new Vector3(5, lastLogTextPosition, 0);
+            lastLogTextPosition += lastLogTextStep;
+            if (area.GetComponent<RectTransform>().sizeDelta.y < Mathf.Abs(lastLogTextPosition)) area.GetComponent<RectTransform>().sizeDelta = new Vector2(area.GetComponent<RectTransform>().sizeDelta.x, Mathf.Abs(lastLogTextPosition));
+            GameObject.Find("UI").transform.Find("GameLogHolder").Find("Scroll").GetComponent<ScrollRect>().verticalNormalizedPosition = 0;
+            newLogEntry.GetComponent<Text>().text = text;
+        }
     }
 
     public void ShowDecisionsPanel()
@@ -159,6 +166,11 @@ public class UI : MonoBehaviour {
         HideNextButton();
         Roster.AllShipsHighlightOff();
 
+        GameMode.CurrentGameMode.NextButtonEffect();
+    }
+
+    public static void NextButtonEffect()
+    {
         Phases.CurrentSubPhase.NextButton();
     }
 
@@ -167,18 +179,26 @@ public class UI : MonoBehaviour {
         HideNextButton();
         Roster.AllShipsHighlightOff();
 
+        GameMode.CurrentGameMode.SkipButtonEffect();
+    }
+
+    public static void SkipButtonEffect()
+    {
         Phases.CurrentSubPhase.SkipButton();
     }
 
     public void ClickDeclareTarget()
     {
-        Combat.DeclareTarget();
+        GameMode.CurrentGameMode.DeclareTarget(Selection.ThisShip.ShipId, Selection.AnotherShip.ShipId);
     }
 
     public static void ShowNextButton()
     {
-        GameObject.Find("UI").transform.Find("NextPanel").gameObject.SetActive(true);
-        GameObject.Find("UI/NextPanel").transform.Find("NextButton").GetComponent<Animator>().enabled = false;
+        if (Roster.GetPlayer(Phases.CurrentPhasePlayer).Type == Players.PlayerType.Human)
+        {
+            GameObject.Find("UI").transform.Find("NextPanel").gameObject.SetActive(true);
+            GameObject.Find("UI/NextPanel").transform.Find("NextButton").GetComponent<Animator>().enabled = false;
+        }
     }
 
     public static void HideNextButton()
@@ -193,7 +213,7 @@ public class UI : MonoBehaviour {
 
     public static void ShowSkipButton()
     {
-        GameObject.Find("UI").transform.Find("SkipPanel").gameObject.SetActive(true);
+        if (Roster.GetPlayer(Phases.CurrentPhasePlayer).Type == Players.PlayerType.Human) GameObject.Find("UI").transform.Find("SkipPanel").gameObject.SetActive(true);
     }
 
     public static void HideSkipButton()
@@ -213,7 +233,7 @@ public class UI : MonoBehaviour {
 
     public void HideInformCritPanel()
     {
-        InformCrit.HidePanel();
+        InformCrit.ButtonConfirm();
     }
 
     public void ReturnToMainMenu()

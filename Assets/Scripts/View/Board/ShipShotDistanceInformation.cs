@@ -14,13 +14,31 @@ namespace Board
 
         public bool InShotAngle { get; private set; }
         public bool InPrimaryArc { get; private set; }
+        public bool InBullseyeArc { get; private set; }
         public bool InArc { get; private set; }
+        public bool CanShootSecondaryWeapon { get; private set; }
+
+        public new int Range
+        {
+            get
+            {
+                int distance = Mathf.Max(1, Mathf.CeilToInt(Distance / DISTANCE_1));
+
+                if (OnRangeIsMeasured != null) OnRangeIsMeasured(ThisShip, AnotherShip, ref distance);
+
+                return distance;
+            }
+        }
 
         IShipWeapon ChosenWeapon { get; set; }
 
         private List<List<Vector3>> parallelPointsList;
 
         private int updatesCount = 0;
+
+        //EVENTS
+        public delegate void EventHandlerShipShipInt(GenericShip thisShip, GenericShip anotherShip, ref int range);
+        public static event EventHandlerShipShipInt OnRangeIsMeasured;
 
         public ShipShotDistanceInformation(GenericShip thisShip, GenericShip anotherShip, IShipWeapon chosenWeapon) : base(thisShip, anotherShip)
         {
@@ -67,6 +85,16 @@ namespace Board
                         if (ChosenWeapon.Host.ArcInfo.InPrimaryArc(pointThis.Key, angle))
                         {
                             InPrimaryArc = true;
+                        }
+
+                        if (ChosenWeapon.Host.ArcInfo.InBullseyeArc(pointThis.Key, angle))
+                        {
+                            InBullseyeArc = true;
+                        }
+
+                        if (ChosenWeapon.Host.ArcInfo.CanShootSecondaryWeapon(pointThis.Key, angle))
+                        {
+                            CanShootSecondaryWeapon = true;
                         }
 
                         distance = Vector3.Distance(pointThis.Value, pointAnother.Value);

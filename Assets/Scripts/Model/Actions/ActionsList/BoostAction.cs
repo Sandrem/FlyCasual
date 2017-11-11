@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Board;
+using GameModes;
 
 namespace ActionsList
 {
@@ -16,7 +17,7 @@ namespace ActionsList
         public override void ActionTake()
         {
             Phases.CurrentSubPhase.Pause();
-            Phases.StartTemporarySubPhase(
+            Phases.StartTemporarySubPhaseOld(
                 "Boost",
                 typeof(SubPhases.BoostPlanningSubPhase),
                 Phases.CurrentSubPhase.CallBack
@@ -61,11 +62,18 @@ namespace SubPhases
 
             GameObject prefab = (GameObject)Resources.Load(Selection.ThisShip.ShipBase.TemporaryPrefabPath, typeof(GameObject));
             ShipStand = MonoBehaviour.Instantiate(prefab, Selection.ThisShip.GetPosition(), Selection.ThisShip.GetRotation(), BoardManager.GetBoard());
+            ShipStand.transform.position = new Vector3(ShipStand.transform.position.x, 0, ShipStand.transform.position.z);
             ShipStand.transform.Find("ShipBase").Find("ShipStandInsert").Find("ShipStandInsertImage").Find("default").GetComponent<Renderer>().material = Selection.ThisShip.Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("ShipBase").Find("ShipStandInsert").Find("ShipStandInsertImage").Find("default").GetComponent<Renderer>().material;
+            ShipStand.transform.Find("ShipBase").Find("ObstaclesStayDetector").gameObject.AddComponent<ObstaclesStayDetectorForced>();
             obstaclesStayDetectorBase = ShipStand.GetComponentInChildren<ObstaclesStayDetectorForced>();
             Roster.SetRaycastTargets(false);
 
-            inReposition = true;
+            TurnOnDragging();
+        }
+
+        private void TurnOnDragging()
+        {
+            if (Selection.ThisShip.Owner.GetType() == typeof(Players.HumanPlayer)) inReposition = true;
         }
 
         public override void Update()
@@ -110,7 +118,7 @@ namespace SubPhases
                 Selection.ThisShip.GetBoosterHelper().Find(name).gameObject.SetActive(true);
 
                 Transform newBase = Selection.ThisShip.GetBoosterHelper().Find(name + "/Finisher/BasePosition");
-                ShipStand.transform.position = newBase.position;
+                ShipStand.transform.position = new Vector3(newBase.position.x, 0, newBase.position.z);
                 ShipStand.transform.rotation = newBase.rotation;
 
                 obstaclesStayDetectorMovementTemplate = Selection.ThisShip.GetBoosterHelper().Find(name).GetComponentInChildren<ObstaclesStayDetectorForced>();
@@ -149,19 +157,20 @@ namespace SubPhases
         public override void ProcessClick()
         {
             StopPlanning();
-            TryConfirmBoostPosition();
+
+            GameMode.CurrentGameMode.TryConfirmBoostPosition(SelectedBoostHelper);
         }
 
-        private void StartBoostExecution(Ship.GenericShip ship)
+        public void StartBoostExecution(Ship.GenericShip ship)
         {
-            Phases.StartTemporarySubPhase(
+            Phases.StartTemporarySubPhaseOld(
                 "Boost execution",
                 typeof(BoostExecutionSubPhase),
                 CallBack
             );
         }
 
-        private void CancelBoost()
+        public void CancelBoost()
         {
             Selection.ThisShip.IsLandedOnObstacle = false;
             inReposition = false;
@@ -187,7 +196,14 @@ namespace SubPhases
             Roster.SetRaycastTargets(true);
         }
 
-        private void TryConfirmBoostPosition()
+        public void TryConfirmBoostPositionNetwork(string selectedBoostHelper)
+        {
+            ShowNearestBoosterHelper(selectedBoostHelper);
+
+            TryConfirmBoostPosition();
+        }
+
+        public void TryConfirmBoostPosition()
         {
             obstaclesStayDetectorBase.ReCheckCollisionsStart();
             obstaclesStayDetectorMovementTemplate.ReCheckCollisionsStart();
@@ -221,11 +237,11 @@ namespace SubPhases
             if (IsBoostAllowed())
             {
                 CheckMines();
-                StartBoostExecution(Selection.ThisShip);
+                GameMode.CurrentGameMode.StartBoostExecution(Selection.ThisShip);
             }
             else
             {
-                CancelBoost();
+                GameMode.CurrentGameMode.CancelBoost();
             }
 
             HidePlanningTemplates();
@@ -320,22 +336,23 @@ namespace SubPhases
             Sounds.PlayFly();
         }
 
-        private void FinishBoostAnimation()
+        public void FinishBoost()
         {
-            Selection.ThisShip.FinishPosition(FinishBoostAnimationPart2);
-        }
-
-        private void FinishBoostAnimationPart2()
-        {
-            Phases.FinishSubPhase(typeof(BoostExecutionSubPhase));
-            CallBack();
+            GameMode.CurrentGameMode.FinishBoost();
         }
 
         public override void Next()
         {
-            Phases.CurrentSubPhase = PreviousSubPhase;
-            Phases.CurrentSubPhase.Next();
+            Selection.ThisShip.FinishPosition(FinishBoostAnimation);
+        }
+
+        private void FinishBoostAnimation()
+        {
+            Phases.CurrentSubPhase = Phases.CurrentSubPhase.PreviousSubPhase;
+            Phases.CurrentSubPhase = Phases.CurrentSubPhase.PreviousSubPhase;
             UpdateHelpInfo();
+
+            CallBack();
         }
 
         public override bool ThisShipCanBeSelected(Ship.GenericShip ship)

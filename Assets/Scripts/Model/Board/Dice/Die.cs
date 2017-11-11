@@ -9,6 +9,22 @@ public partial class Die
     public bool IsRerolled { get; set; }
     public bool IsShowRerolledLock { get; private set; }
 
+    public bool IsSuccess
+    {
+        get
+        {
+            if (Side == DieSide.Success || Side == DieSide.Crit)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+    }
+
+
     public void ToggleSelected(bool isSelected)
     {
         IsSelected = isSelected;

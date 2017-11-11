@@ -9,6 +9,8 @@ namespace UpgradesList
             Type = UpgradeType.Crew;
             Name = "Weapon Engineer";
             Cost = 3;
+
+            IsHidden = true;
         }
     }
 }

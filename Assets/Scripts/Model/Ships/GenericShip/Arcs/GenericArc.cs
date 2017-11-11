@@ -12,7 +12,8 @@ namespace Arcs
         ArcRear,
         Arc180,
         Arc360,
-        ArcMobile
+        ArcMobile,
+        ArcBullseye
     }
 
     public class ArcInfo
@@ -22,6 +23,7 @@ namespace Arcs
         public float MaxAngle;
         public ArcFacing Facing;
         public bool CanShoot = true;
+        public bool CanShootSecondaryWeapon = false;
 
         public virtual Dictionary<string, Vector3> GetArcPoints()
         {
@@ -44,6 +46,9 @@ namespace Arcs
                 case ArcFacing.Forward180:
                     results = ShipBase.GetStandFront180Points();
                     break;
+                case ArcFacing.Bullseye:
+                    results = ShipBase.GetStandBullseyePoints();
+                    break;
                 default:
                     break;
             }
@@ -58,7 +63,8 @@ namespace Arcs
         Left,
         Right,
         Rear,
-        Forward180
+        Forward180,
+        Bullseye
     }
 
     public class GenericArc
@@ -78,8 +84,9 @@ namespace Arcs
             {
                 ShipBase = Host.ShipBase,
                 MinAngle = -40f,
-                MaxAngle =  40f,
-                Facing = ArcFacing.Front
+                MaxAngle = 40f,
+                Facing = ArcFacing.Front,
+                CanShootSecondaryWeapon = true
             };
 
             ArcsList = new List<ArcInfo>
@@ -101,6 +108,24 @@ namespace Arcs
         public virtual bool InPrimaryArc(string originPoint, float angle)
         {
             return CheckRay(originPoint, angle, new List<ArcInfo>() { primaryArc });
+        }
+
+        public virtual bool CanShootSecondaryWeapon(string originPoint, float angle)
+        {
+            return CheckRay(originPoint, angle, ArcsList.Where(n => n.CanShootSecondaryWeapon).ToList());
+        }
+
+        public virtual bool InBullseyeArc(string originPoint, float angle)
+        {
+            bool result = false;
+            foreach (var arc in ArcsList)
+            {
+                if (arc.Facing == ArcFacing.Bullseye)
+                {
+                    result = CheckRay(originPoint, angle, new List<ArcInfo>() { arc });
+                }
+            }
+            return result;
         }
 
         private bool CheckRay(string originPoint, float angle, List<ArcInfo> arcList)

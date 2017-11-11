@@ -30,8 +30,10 @@ public static partial class Phases
 
     // EVENTS
     public delegate void EventHandler();
+    public static event EventHandler OnGameStart;
     public static event EventHandler OnRoundStart;
     public static event EventHandler OnSetupPhaseStart;
+    public static event EventHandler OnBeforePlaceForces;
     public static event EventHandler OnPlanningPhaseStart;
     public static event EventHandler OnActivationPhaseStart;
     public static event EventHandler BeforeActionSubPhaseStart;
@@ -47,6 +49,13 @@ public static partial class Phases
 
     public static void StartPhases()
     {
+        StartGame();
+    }
+
+    private static void StartGame()
+    {
+        RoundCounter = 0;
+        GameIsEnded = false;
         CurrentPhase = new SetupPhase();
         UI.AddTestLogEntry("Game is started");
         CurrentPhase.StartPhase();
@@ -62,11 +71,6 @@ public static partial class Phases
         else
         {
             Debug.Log("OOPS! YOU WANT TO FINISH " + subPhaseType + " SUBPHASE, BUT NOW IS " + CurrentSubPhase.GetType() + " SUBPHASE!");
-            /*if (!subPhasesToFinish.Contains(subPhaseType))
-            {
-                Debug.Log("Phase " + subPhaseType + " is planned to finish");
-                subPhasesToFinish.Add(subPhaseType);
-            }*/
         }
     }
 
@@ -93,11 +97,25 @@ public static partial class Phases
         if (OnRoundStart != null) OnRoundStart();
     }
 
+    public static void CallGameStartTrigger(Action callBack)
+    {
+        if (OnGameStart != null) OnGameStart();
+
+        Triggers.ResolveTriggers(TriggerTypes.OnGameStart, callBack);
+    }
+
     public static void CallSetupPhaseTrigger()
     {
         if (OnSetupPhaseStart != null) OnSetupPhaseStart();
 
-        Triggers.ResolveTriggers(TriggerTypes.OnSetupPhaseStart, delegate() { FinishSubPhase(typeof(SetupStartSubPhase)); });
+        Triggers.ResolveTriggers(TriggerTypes.OnSetupPhaseStart, CallBeforePlaceForces);
+    }
+
+    public static void CallBeforePlaceForces()
+    {
+        if (OnBeforePlaceForces != null) OnBeforePlaceForces();
+
+        Triggers.ResolveTriggers(TriggerTypes.OnBeforePlaceForces, delegate { FinishSubPhase(typeof(SetupStartSubPhase)); });
     }
 
     public static void CallPlanningPhaseTrigger()
@@ -178,7 +196,7 @@ public static partial class Phases
 
     // TEMPORARY SUBPHASES
 
-    public static void StartTemporarySubPhase(string name, System.Type subPhaseType, Action callBack = null)
+    public static void StartTemporarySubPhaseOld(string name, System.Type subPhaseType, Action callBack = null)
     {
         CurrentSubPhase.Pause();
         if (DebugManager.DebugPhases) Debug.Log("Temporary phase " + subPhaseType + " is started directly");
@@ -192,6 +210,21 @@ public static partial class Phases
         CurrentSubPhase.Start();
     }
 
- }
+    public static GenericSubPhase StartTemporarySubPhaseNew(string name, System.Type subPhaseType, Action callBack)
+    {
+        CurrentSubPhase.Pause();
+        if (DebugManager.DebugPhases) Debug.Log("Temporary phase " + subPhaseType + " is started directly");
+        GenericSubPhase previousSubPhase = CurrentSubPhase;
+        CurrentSubPhase = (GenericSubPhase)System.Activator.CreateInstance(subPhaseType);
+        CurrentSubPhase.Name = name;
+        CurrentSubPhase.CallBack = callBack;
+        CurrentSubPhase.PreviousSubPhase = previousSubPhase;
+        CurrentSubPhase.RequiredPlayer = previousSubPhase.RequiredPlayer;
+        CurrentSubPhase.RequiredPilotSkill = previousSubPhase.RequiredPilotSkill;
+
+        return CurrentSubPhase;
+    }
+
+}
 
 

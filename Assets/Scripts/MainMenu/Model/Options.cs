@@ -17,12 +17,17 @@ public static class Options
 
     static Options()
     {
+        ReadOptions();
+    }
+
+    public static void ReadOptions()
+    {
         Playmat = PlayerPrefs.GetString("PlaymatName", "Endor");
         CheckVersionUrl = PlayerPrefs.GetString("CheckVersionUrl", "http://sandrem.freeasphost.net/data/currentversion.txt");
-        MusicVolume = PlayerPrefs.GetInt("Music Volume", 4);
-        SfxVolume = PlayerPrefs.GetInt("Sfx Volume", 4);
-        AnimationSpeed = PlayerPrefs.GetInt("Animation Speed", 1);
-        ManeuverSpeed = PlayerPrefs.GetInt("Maneuver Speed", 1);
+        MusicVolume = PlayerPrefs.GetInt("Music Volume", 2);
+        SfxVolume = PlayerPrefs.GetInt("Sfx Volume", 2);
+        AnimationSpeed = PlayerPrefs.GetInt("Animation Speed", 2);
+        ManeuverSpeed = PlayerPrefs.GetInt("Maneuver Speed", 2);
     }
 
     public static void InitializePanel()
@@ -71,7 +76,7 @@ public static class Options
 
     public static void UpdateVolume()
     {
-        SetMusicVolume(PlayerPrefs.GetInt("Music Volume", 4));
+        SetMusicVolume(PlayerPrefs.GetInt("Music Volume", 2));
     }
 
     private static void SetMusicVolume(int value)

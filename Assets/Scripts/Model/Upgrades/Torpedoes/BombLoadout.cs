@@ -12,7 +12,7 @@ namespace UpgradesList
             Type = UpgradeType.Torpedo;
             Name = "Bomb Loadout";
             Cost = 0;
-            Limited = true;
+            isLimited = true;
             AddedSlots = new List<UpgradeSlot>
             {
                 new UpgradeSlot(UpgradeType.Bomb)

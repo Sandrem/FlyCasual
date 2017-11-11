@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using GameModes;
 
 public delegate void CallBackFunction();
 
@@ -22,7 +22,13 @@ public class GameManagerScript : MonoBehaviour {
         Board.BoardManager.Initialize();
         Roster.Initialize();
         Roster.Start();
-        Phases.StartPhases();
+        Selection.Initialize();
+        CriticalHitsDeck.InitializeDeck();
+        Bombs.BombsManager.Initialize();
+        Actions.Initialize();
+        Triggers.Initialize();
+
+        GameMode.CurrentGameMode.StartBattle();
     }
 
     private void Update()

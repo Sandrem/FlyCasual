@@ -11,10 +11,10 @@ namespace SubPhases
     public class DecisionSubPhase : GenericSubPhase
     {
         private GameObject decisionPanel;
-        protected string infoText;
+        public string InfoText;
         private Dictionary<string, EventHandler> decisions = new Dictionary<string, EventHandler>();
         protected Dictionary<string, string> tooltips = new Dictionary<string, string>();
-        protected string defaultDecision;
+        public string DefaultDecision;
         protected Players.GenericPlayer DecisionOwner;
 
         private const float defaultWindowHeight = 55;
@@ -26,7 +26,16 @@ namespace SubPhases
 
             decisionPanel = GameObject.Find("UI").transform.Find("DecisionsPanel").gameObject;
 
-            Prepare();
+            PrepareDecision(StartIsFinished);
+        }
+
+        public virtual void PrepareDecision(Action callBack)
+        {
+            callBack();
+        }
+
+        private void StartIsFinished()
+        {
             Initialize();
 
             UpdateHelpInfo();
@@ -58,7 +67,7 @@ namespace SubPhases
             return newName;
         }
 
-        protected Dictionary<string, EventHandler> GetDecisions()
+        public Dictionary<string, EventHandler> GetDecisions()
         {
             return decisions;
         }
@@ -67,7 +76,7 @@ namespace SubPhases
         {
             if (decisions.Count != 0)
             {
-                decisionPanel.transform.Find("InformationPanel").GetComponentInChildren<Text>().text = infoText;
+                decisionPanel.transform.Find("InformationPanel").GetComponentInChildren<Text>().text = InfoText;
 
                 int i = 0;
                 foreach (var item in decisions)
@@ -88,7 +97,9 @@ namespace SubPhases
                     EventTrigger trigger = button.AddComponent<EventTrigger>();
                     EventTrigger.Entry entry = new EventTrigger.Entry();
                     entry.eventID = EventTriggerType.PointerClick;
-                    entry.callback.AddListener((data) => { item.Value.Invoke(button, null); });
+                    entry.callback.AddListener(
+                        (data) => { GameModes.GameMode.CurrentGameMode.TakeDecision(item, button); }
+                    );
                     trigger.triggers.Add(entry);
 
                     i++;
@@ -96,6 +107,7 @@ namespace SubPhases
                 decisionPanel.GetComponent<RectTransform>().sizeDelta = new Vector3(decisionPanel.GetComponent<RectTransform>().sizeDelta.x, defaultWindowHeight + ((i + 1) / 2) * buttonHeight);
 
                 if (DecisionOwner == null) DecisionOwner = Roster.GetPlayer(Phases.CurrentPhasePlayer);
+
                 DecisionOwner.TakeDecision();
             }
         }
@@ -142,7 +154,23 @@ namespace SubPhases
 
         public override void DoDefault()
         {
-            decisions[defaultDecision].Invoke(null, null);
+            decisions[DefaultDecision].Invoke(null, null);
+        }
+
+        public void ExecuteDecision(string decisionName)
+        {
+            decisions[decisionName].Invoke(null, null);
+        }
+
+        public static void ConfirmDecision()
+        {
+            Tooltips.EndTooltip();
+            UI.HideSkipButton();
+
+            Action callBack = Phases.CurrentSubPhase.CallBack;
+            Phases.FinishSubPhase(Phases.CurrentSubPhase.GetType());
+            Phases.CurrentSubPhase.Resume();
+            callBack();
         }
 
     }

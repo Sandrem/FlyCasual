@@ -43,7 +43,7 @@ namespace UpgradesList
             Phases.CurrentSubPhase.Pause();
 
             Selection.ActiveShip = Selection.ThisShip;
-            Phases.StartTemporarySubPhase(
+            Phases.StartTemporarySubPhaseOld(
                 "R5-K6: Try to re-aquire Target Lock",
                 typeof(SubPhases.R5K6CheckSubPhase),
                 delegate {
@@ -86,7 +86,7 @@ namespace SubPhases
                 Tokens.GenericToken newTargetLockToken = Combat.Attacker.GetToken(typeof(Tokens.BlueTargetLockToken), newTargetLockTokenLetter);
                 newTargetLockToken.CanBeUsed = false;
 
-                Combat.Attacker.AfterCombatEnd += delegate { newTargetLockToken.CanBeUsed = true; };
+                Combat.Attacker.OnCombatEnd += delegate { newTargetLockToken.CanBeUsed = true; };
             }
             else
             {

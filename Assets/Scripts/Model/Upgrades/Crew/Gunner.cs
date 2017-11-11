@@ -51,12 +51,12 @@ namespace UpgradesList
         {
             Selection.ThisShip.IsCannotAttackSecondTime = true;
 
-            Phases.StartTemporarySubPhase(
+            Phases.StartTemporarySubPhaseOld(
                 "Second attack",
                 typeof(SelectTargetForSecondAttackSubPhase),
                 delegate {
                     Phases.FinishSubPhase(typeof(SelectTargetForSecondAttackSubPhase));
-                    Combat.DeclareTarget();
+                    Combat.DeclareTarget(Selection.ThisShip.ShipId, Selection.AnotherShip.ShipId);
                 });
         }
     }

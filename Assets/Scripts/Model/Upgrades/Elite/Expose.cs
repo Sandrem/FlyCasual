@@ -65,9 +65,7 @@ namespace ActionsList
 
         public override int GetActionPriority()
         {
-            int result = 0;
-            if (Actions.HasTarget(Selection.ThisShip)) result = 60;
-            return result;
+            return 10;
         }
 
     }

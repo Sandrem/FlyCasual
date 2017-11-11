@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using GameModes;
 
 public enum CriticalCardType
 {
@@ -12,10 +13,12 @@ public enum CriticalCardType
 
 public static class CriticalHitsDeck{
 
-    private static List<CriticalHitCard.GenericCriticalHit> Deck = new List<CriticalHitCard.GenericCriticalHit>();
+    private static List<CriticalHitCard.GenericCriticalHit> Deck;
 
     public static void InitializeDeck()
     {
+        Deck = new List<CriticalHitCard.GenericCriticalHit>();
+
         for (int i = 0; i < 7; i++) // Max should be 7
         {
             Deck.Add(new CriticalHitCard.DirectHit());
@@ -39,19 +42,22 @@ public static class CriticalHitsDeck{
         }
     }
 
-    public static CriticalHitCard.GenericCriticalHit GetCritCard()
+    public static void GetCritCard(Action callBack)
     {
-        int deckSize = CheckDeck();
-
-        CriticalHitCard.GenericCriticalHit critCard = null;
-        int index = UnityEngine.Random.Range(0, deckSize);
-        critCard = Deck[index];
-        Deck.Remove(critCard);
-
-        return critCard;
+        GameMode.CurrentGameMode.GetCritCard(callBack);
     }
 
-    private static int CheckDeck()
+    public static void SetCurrentCriticalCardByIndex(int[] randomHolder)
+    {
+        CriticalHitCard.GenericCriticalHit critCard = null;
+
+        critCard = Deck[randomHolder[0]];
+        Deck.Remove(critCard);
+
+        Combat.CurrentCriticalHitCard = critCard;
+    }
+
+    public static int GetDeckSize()
     {
         int deckSize = Deck.Count;
 

@@ -41,7 +41,7 @@ namespace Movement
         {
             if (!Selection.ThisShip.IsBumped)
             {
-                Phases.StartTemporarySubPhase("Segnor's Loop", typeof(SubPhases.KoiogranTurnSubPhase), callBack);
+                Phases.StartTemporarySubPhaseOld("Segnor's Loop", typeof(SubPhases.KoiogranTurnSubPhase), callBack);
             }
             else
             {

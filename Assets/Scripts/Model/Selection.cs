@@ -14,6 +14,14 @@ public static class Selection {
     //TODO: temporary key-based storage of ship references for abilities that need to reference multiple ships in a subphase. Should be removed this when phases are reworked
     public static Dictionary<string, Ship.GenericShip> ShipReferences = new Dictionary<string, Ship.GenericShip>();
 	
+    public static void Initialize()
+    {
+        ThisShip = null;
+        AnotherShip = null;
+        ActiveShip = null;
+        HoveredShip = null;
+    }
+
     //TODO: BUG - enemy ship can be selected
     public static void UpdateSelection()
     {
@@ -156,7 +164,7 @@ public static class Selection {
         }
     }
 
-    private static bool ChangeAnotherShip(string shipId)
+    public static bool ChangeAnotherShip(string shipId)
     {
         //Should I can target my own ships???
         if (AnotherShip != null)

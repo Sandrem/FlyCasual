@@ -21,8 +21,10 @@ namespace Ship
                 MaxHull = 4;
                 MaxShields = 0;
 
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Torpedo);
+
                 AssignTemporaryManeuvers();
-                HotacManeuverTable = new AI.TIEInterceptorTable();
+                HotacManeuverTable = null;
 
                 factions.Add(Faction.Scum);
                 faction = Faction.Scum;

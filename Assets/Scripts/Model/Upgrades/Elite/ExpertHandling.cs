@@ -50,15 +50,25 @@ namespace ActionsList
         public override void ActionTake()
         {
             Phases.CurrentSubPhase.Pause();
-            Phases.StartTemporarySubPhase(
-                "Expert Handling: Barrel Roll",
-                typeof(SubPhases.BarrelRollPlanningSubPhase),
-                CheckStress
-            );
+            if (!Selection.ThisShip.IsAlreadyExecutedAction(typeof(BarrelRollAction)))
+            {
+                Phases.StartTemporarySubPhaseOld(
+                    "Expert Handling: Barrel Roll",
+                    typeof(SubPhases.BarrelRollPlanningSubPhase),
+                    CheckStress
+                );
+            }
+            else
+            {
+                Messages.ShowError("Cannot use Expert Handling: Barrel Roll is already executed");
+                Phases.CurrentSubPhase.Resume();
+            }
         }
 
         private void CheckStress()
         {
+            Selection.ThisShip.AddAlreadyExecutedAction(new BarrelRollAction());
+
             bool hasBarrelRollAction = (Host.BuiltInActions.Count(n => n.GetType() == typeof(BarrelRollAction)) != 0);
 
             if (hasBarrelRollAction)
@@ -76,7 +86,7 @@ namespace ActionsList
         {
             if (Host.HasToken(typeof(Tokens.RedTargetLockToken), '*'))
             {
-                Phases.StartTemporarySubPhase(
+                Phases.StartTemporarySubPhaseOld(
                     "Expert Handling: Select target lock to remove",
                     typeof(SubPhases.ExpertHandlingTargetLockDecisionSubPhase),
                     Finish
@@ -103,9 +113,9 @@ namespace SubPhases
     public class ExpertHandlingTargetLockDecisionSubPhase : DecisionSubPhase
     {
 
-        public override void Prepare()
+        public override void PrepareDecision(System.Action callBack)
         {
-            infoText = "Select target lock to remove";
+            InfoText = "Select target lock to remove";
 
             foreach (var token in Selection.ThisShip.GetAssignedTokens())
             {
@@ -120,20 +130,15 @@ namespace SubPhases
 
             AddDecision("Don't remove", delegate { ConfirmDecision(); });
 
-            defaultDecision = GetDecisions().First().Key;
+            DefaultDecision = GetDecisions().First().Key;
+
+            callBack();
         }
 
         private void RemoveRedTargetLockToken(char letter)
         {
             Selection.ThisShip.RemoveToken(typeof(Tokens.RedTargetLockToken), letter);
             ConfirmDecision();
-        }
-
-
-        private void ConfirmDecision()
-        {
-            Phases.FinishSubPhase(this.GetType());
-            CallBack();
         }
 
     }

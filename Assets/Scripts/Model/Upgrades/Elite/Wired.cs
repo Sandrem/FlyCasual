@@ -1,4 +1,5 @@
 ﻿using Upgrade;
+using System.Linq;
 
 namespace UpgradesList
 {
@@ -43,15 +44,17 @@ namespace ActionsList
         public override int GetActionEffectPriority()
         {
             int result = 0;
-                        
-            if (Combat.AttackStep == CombatStep.Defence && Combat.DiceRollAttack.Successes > Combat.DiceRollDefence.Successes && Combat.DiceRollDefence.Focuses > 0)
+                
+            if (Combat.Attacker.HasToken(typeof(Tokens.StressToken)))
             {
-                result = 30;
-            }
-
-            if (Combat.AttackStep == CombatStep.Attack && Combat.DiceRollAttack.Focuses > 0)
-            {
-                result = 30;                    
+                if (Combat.DiceRollAttack.Focuses > 0 && Combat.Attacker.GetAvailableActionEffectsList().Count(n => n.IsTurnsAllFocusIntoSuccess) == 0)
+                {
+                    result = 95;
+                }
+                else
+                {
+                    result = 30;
+                }
             }
             
             return result;            
@@ -67,7 +70,6 @@ namespace ActionsList
             DiceRerollManager diceRerollManager = new DiceRerollManager
             {
                 SidesCanBeRerolled = new System.Collections.Generic.List<DieSide> { DieSide.Focus },
-                NumberOfDiceCanBeRerolled = 1,
                 CallBack = callBack
             };
             diceRerollManager.Start();

@@ -30,6 +30,7 @@ namespace Ship
         public event EventHandlerShip AfterGenerateAvailableActionEffectsList;
         public static event EventHandler AfterGenerateAvailableActionEffectsListGlobal;
         public event EventHandlerActionBool OnTryAddAvailableActionEffect;
+        public static event EventHandlerShipActionBool OnTryAddAvailableActionEffectGlobal;
 
         public event EventHandlerShip AfterGenerateAvailableOppositeActionEffectsList;
         public static event EventHandler AfterGenerateAvailableOppositeActionEffectsListGlobal;
@@ -97,8 +98,7 @@ namespace Ship
             return result;
         }
 
-        public bool CanPerformActionsWhileStressed { get; protected set; }
-
+        public bool CanPerformActionsWhileStressed;
 
         // TODO: move actions list into subphase
         public void AskPerformFreeAction(List<ActionsList.GenericAction> freeActions, Action callBack)
@@ -112,7 +112,7 @@ namespace Ship
                     TriggerOwner = Phases.CurrentPhasePlayer,
                     TriggerType = TriggerTypes.OnFreeAction,
                     EventHandler = delegate {
-                        Phases.StartTemporarySubPhase
+                        Phases.StartTemporarySubPhaseOld
                         (
                             "Free action decision",
                             typeof(SubPhases.FreeActionDecisonSubPhase),
@@ -249,6 +249,8 @@ namespace Ship
             if (result)
             {
                 if (OnTryAddAvailableActionEffect != null) OnTryAddAvailableActionEffect(action, ref result);
+
+                if (OnTryAddAvailableActionEffectGlobal != null) OnTryAddAvailableActionEffectGlobal(this, action, ref result);
             }
 
             return result;
@@ -363,6 +365,11 @@ namespace Ship
                 return 0;
             else
                 return token.Count;
+        }
+
+        public List<Tokens.GenericToken> GetAllTokens()
+        {
+            return AssignedTokens;
         }
 
         public Tokens.GenericToken GetToken(System.Type type, char letter = ' ')

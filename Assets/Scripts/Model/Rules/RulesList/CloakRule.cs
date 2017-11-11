@@ -94,7 +94,7 @@ namespace RulesList
         {
             //Phases.CurrentSubPhase.Pause();
 
-            Phases.StartTemporarySubPhase(
+            Phases.StartTemporarySubPhaseOld(
                 "Decloak Decision",
                 typeof(SubPhases.DecloakDecisionSubPhase),
                 delegate
@@ -114,9 +114,9 @@ namespace SubPhases
     public class DecloakDecisionSubPhase : DecisionSubPhase
     {
 
-        public override void Prepare()
+        public override void PrepareDecision(System.Action callBack)
         {
-            infoText = "Perform decloak?";
+            InfoText = "Perform decloak?";
 
             DecisionOwner = Selection.ThisShip.Owner;
 
@@ -125,7 +125,9 @@ namespace SubPhases
 
             AddTooltip("Yes", "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/reference-cards/Decloak.png");
 
-            defaultDecision = "No";
+            DefaultDecision = "No";
+
+            callBack();
         }
 
         private void Decloak(object sender, System.EventArgs e)
@@ -133,9 +135,9 @@ namespace SubPhases
             Phases.CurrentSubPhase.Pause();
             UI.CallHideTooltip();
 
-            Phases.StartTemporarySubPhase(
+            Phases.StartTemporarySubPhaseOld(
                 "Decloak",
-                typeof(SubPhases.DecloakPlanningSubPhase),
+                typeof(DecloakPlanningSubPhase),
                 Phases.CurrentSubPhase.CallBack
             );
         }
@@ -183,6 +185,7 @@ namespace SubPhases
             GameObject prefab = (GameObject)Resources.Load(Selection.ThisShip.ShipBase.TemporaryPrefabPath, typeof(GameObject));
             ShipStand = MonoBehaviour.Instantiate(prefab, Selection.ThisShip.GetPosition(), Selection.ThisShip.GetRotation(), Board.BoardManager.GetBoard());
             ShipStand.transform.Find("ShipBase").Find("ShipStandInsert").Find("ShipStandInsertImage").Find("default").GetComponent<Renderer>().material = Selection.ThisShip.Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("ShipBase").Find("ShipStandInsert").Find("ShipStandInsertImage").Find("default").GetComponent<Renderer>().material;
+            ShipStand.transform.Find("ShipBase").Find("ObstaclesStayDetector").gameObject.AddComponent<ObstaclesStayDetectorForced>();
             obstaclesStayDetectorBase = ShipStand.GetComponentInChildren<ObstaclesStayDetectorForced>();
 
             MovementTemplates.CurrentTemplate = MovementTemplates.GetMovement2Ruler();
@@ -373,7 +376,7 @@ namespace SubPhases
 
             //Game.UI.HideSkipButton();
 
-            Phases.StartTemporarySubPhase(
+            Phases.StartTemporarySubPhaseOld(
                 "Decloak execution",
                 typeof(DecloakExecutionSubPhase),
                 CallBack

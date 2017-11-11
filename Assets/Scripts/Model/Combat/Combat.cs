@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using Board;
+using GameModes;
 
 public enum CombatStep
 {
@@ -49,15 +50,24 @@ public static partial class Combat
 
     public static ShipShotDistanceInformation ShotInfo;
 
-    public static void DeclareTarget()
+    public static void DeclareTarget(int attackerId, int defenderID)
     {
+        Selection.ChangeActiveShip("ShipId:" + attackerId);
+        Selection.ChangeAnotherShip("ShipId:" + defenderID);
+
+        if (Network.IsNetworkGame)
+        {
+            ChosenWeapon = Selection.ThisShip.PrimaryWeapon;
+            ShotInfo = new ShipShotDistanceInformation(Selection.ThisShip, Selection.AnotherShip, ChosenWeapon);
+        }
+
         UI.HideContextMenu();
 
         int anotherAttacksTypesCount = Selection.ThisShip.GetAnotherAttackTypesCount();
 
         if (anotherAttacksTypesCount > 0)
         {
-            Phases.StartTemporarySubPhase(
+            Phases.StartTemporarySubPhaseOld(
                 "Choose weapon for attack",
                 typeof(SubPhases.WeaponSelectionDecisionSubPhase),
                 TryPerformAttack
@@ -82,31 +92,7 @@ public static partial class Combat
         }
         else
         {
-            if (Roster.GetPlayer(Phases.CurrentPhasePlayer).GetType() == typeof(Players.HumanPlayer))
-            {
-                // TODO: Better explanations
-                if (!Rules.TargetIsLegalForShot.IsLegal())
-                {
-                    Messages.ShowError("Attack is not legal (this ship cannot attack or target cannot be attacked)");
-                }
-                else if (!ShotInfo.InShotAngle)
-                {
-                    Messages.ShowError("Target is outside your firing arc");
-                }
-                else if (ShotInfo.Range > ChosenWeapon.MaxRange || ShotInfo.Distance < ChosenWeapon.MinRange)
-                {
-                    Messages.ShowError("Target is outside your firing range");
-                }
-
-                //TODO: except non-legal targets, bupmed for example, biggs?
-                Roster.HighlightShipsFiltered(Roster.AnotherPlayer(Phases.CurrentPhasePlayer));
-                UI.HighlightNextButton();
-            }
-            else
-            {
-                Selection.ThisShip.IsAttackPerformed = true;
-                Phases.FinishSubPhase(typeof(SubPhases.CombatSubPhase));
-            }
+            Roster.GetPlayer(Phases.CurrentPhasePlayer).OnTargetNotLegalForAttack();
         }
     }
 
@@ -134,7 +120,7 @@ public static partial class Combat
     private static void AttackDiceRoll()
     {
         Selection.ActiveShip = Selection.ThisShip;
-        Phases.StartTemporarySubPhase(
+        Phases.StartTemporarySubPhaseOld(
             "Attack dice roll",
             typeof(SubPhases.AttackDiceRollCombatSubPhase)
         );
@@ -143,23 +129,20 @@ public static partial class Combat
     public static void ShowAttackAnimationAndSound()
     {
         Upgrade.GenericSecondaryWeapon chosenSecondaryWeapon = ChosenWeapon as Upgrade.GenericSecondaryWeapon;
-        if (chosenSecondaryWeapon != null && chosenSecondaryWeapon.Type != Upgrade.UpgradeType.Cannon)
-        {
-            if (chosenSecondaryWeapon.Type == Upgrade.UpgradeType.Torpedo || chosenSecondaryWeapon.Type == Upgrade.UpgradeType.Missile)
-            {
-                Sounds.PlayShots("Proton-Torpedoes", 1);
-                Selection.ThisShip.AnimateMunitionsShot();
-            }
-            else if (chosenSecondaryWeapon.Type == Upgrade.UpgradeType.Turret)
-            {
-                Sounds.PlayShots(Selection.ActiveShip.SoundShotsPath, Selection.ActiveShip.ShotsCount);
-                Selection.ThisShip.AnimateTurretWeapon();
-            }
-        }
-        else
-        {
+        if (chosenSecondaryWeapon == null || chosenSecondaryWeapon.Type == Upgrade.UpgradeType.Cannon || chosenSecondaryWeapon.Type == Upgrade.UpgradeType.Illicit)
+        { // Primary Weapons, Cannons, and Illicits (HotShotBlaster)
             Sounds.PlayShots(Selection.ActiveShip.SoundShotsPath, Selection.ActiveShip.ShotsCount);
             Selection.ThisShip.AnimatePrimaryWeapon();
+        }
+        else if (chosenSecondaryWeapon.Type == Upgrade.UpgradeType.Torpedo || chosenSecondaryWeapon.Type == Upgrade.UpgradeType.Missile)
+        { // Torpedos and Missiles
+            Sounds.PlayShots("Proton-Torpedoes", 1);
+            Selection.ThisShip.AnimateMunitionsShot();
+        }
+        else if (chosenSecondaryWeapon.Type == Upgrade.UpgradeType.Turret)
+        { // Turrets
+            Sounds.PlayShots(Selection.ActiveShip.SoundShotsPath, Selection.ActiveShip.ShotsCount);
+            Selection.ThisShip.AnimateTurretWeapon();
         }
     }
 
@@ -182,7 +165,7 @@ public static partial class Combat
     private static void DefenceDiceRoll()
     {
         Selection.ActiveShip = Selection.AnotherShip;
-        Phases.StartTemporarySubPhase(
+        Phases.StartTemporarySubPhaseOld(
             "Defence dice roll",
             typeof(SubPhases.DefenceDiceRollCombatSubPhase)
         );
@@ -299,6 +282,11 @@ public static partial class Combat
         Attacker.CallCombatEnd();
         Defender.CallCombatEnd();
 
+        Triggers.ResolveTriggers(TriggerTypes.OnCombatEnd, CombatEnd);
+    }
+
+    private static void CombatEnd()
+    {
         CleanupCombatData();
 
         if (!Selection.ThisShip.IsCannotAttackSecondTime)
@@ -335,6 +323,11 @@ public static partial class Combat
 
     public static void ConfirmDiceResults()
     {
+        GameMode.CurrentGameMode.ConfirmDiceResults();
+    }
+
+    public static void ConfirmDiceResultsClient()
+    {
         switch (AttackStep)
         {
             case CombatStep.Attack:
@@ -362,12 +355,13 @@ public static partial class Combat
 
         MovementTemplates.ReturnRangeRuler();
 
-        Phases.StartTemporarySubPhase("Compare results", typeof(SubPhases.CompareResultsSubPhase));
+        Phases.StartTemporarySubPhaseOld("Compare results", typeof(SubPhases.CompareResultsSubPhase));
     }
 
     public static void CallAttackStartEvents()
     {
         Attacker.CallAttackStart();
+        Attacker.CallAttackStartAsAttacker();
         //BUG: NullReferenceException: Object reference not set to an instance of an object
         Defender.CallAttackStart();
     }
@@ -385,12 +379,12 @@ namespace SubPhases
     public class WeaponSelectionDecisionSubPhase : DecisionSubPhase
     {
 
-        public override void Prepare()
+        public override void PrepareDecision(System.Action callBack)
         {
             List<Ship.IShipWeapon> allWeapons = GetAllWeapons();
 
             //TODO: Range?
-            infoText = "Choose weapon for attack";
+            InfoText = "Choose weapon for attack";
 
             foreach (var weapon in allWeapons)
             {
@@ -401,7 +395,9 @@ namespace SubPhases
                 }
             }
 
-            defaultDecision = GetDecisions().Last().Key;
+            DefaultDecision = GetDecisions().Last().Key;
+
+            callBack();
         }
 
         private static List<Ship.IShipWeapon> GetAllWeapons()
@@ -467,9 +463,8 @@ namespace SubPhases
 
         public override void Resume()
         {
-            GameObject.Find("UI/CombatDiceResultsPanel").gameObject.SetActive(true);
+            GameObject.Find("UI").transform.Find("CombatDiceResultsPanel").gameObject.SetActive(true);
         }
-
     }
 
     public class DefenceDiceRollCombatSubPhase : DiceRollCombatSubPhase

@@ -37,7 +37,7 @@ namespace Upgrade
         private void AskDropBomb(object sender, System.EventArgs e)
         {
             BombsManager.CurrentBomb = this;
-            Phases.StartTemporarySubPhase(
+            Phases.StartTemporarySubPhaseOld(
                 Name,
                 typeof(SubPhases.DropBombDecisionSubPhase),
                 delegate { Triggers.FinishTrigger(); }
@@ -46,10 +46,9 @@ namespace Upgrade
 
         public override void ActivateBomb(GameObject bombObject, Action callBack)
         {
-            base.ActivateBomb(bombObject, callBack);
-
             Phases.OnActivationPhaseEnd += PlanTimedDetonation;
-            callBack();
+
+            base.ActivateBomb(bombObject, callBack);
         }
 
         private void PlanTimedDetonation()
@@ -112,11 +111,11 @@ namespace Upgrade
             return false;
         }
 
-        public override void Discard()
+        public override void Discard(Action callBack)
         {
             Host.OnManeuverIsRevealed -= RegisterAskDropBomb;
 
-            base.Discard();
+            base.Discard(callBack);
         }
 
     }
@@ -129,16 +128,18 @@ namespace SubPhases
     public class DropBombDecisionSubPhase : DecisionSubPhase
     {
 
-        public override void Prepare()
+        public override void PrepareDecision(System.Action callBack)
         {
             if (!Selection.ThisShip.IsBombAlreadyDropped)
             {
-                infoText = "Drop " + Phases.CurrentSubPhase.Name + "?";
+                InfoText = "Drop " + Phases.CurrentSubPhase.Name + "?";
 
                 AddDecision("Yes", DropBomb);
                 AddDecision("No", SkipDropBomb);
 
-                defaultDecision = "No";
+                DefaultDecision = "No";
+
+                callBack();
             }
             else
             {
@@ -148,7 +149,7 @@ namespace SubPhases
 
         private void DropBomb(object sender, System.EventArgs e)
         {
-            Phases.StartTemporarySubPhase(
+            Phases.StartTemporarySubPhaseOld(
                 "Bomb drop planning",
                 typeof(BombDropPlanningSubPhase),
                 ConfirmDecision
@@ -158,12 +159,6 @@ namespace SubPhases
         private void SkipDropBomb(object sender, System.EventArgs e)
         {
             ConfirmDecision();
-        }
-
-        private void ConfirmDecision()
-        {
-            Phases.FinishSubPhase(this.GetType());
-            CallBack();
         }
 
     }

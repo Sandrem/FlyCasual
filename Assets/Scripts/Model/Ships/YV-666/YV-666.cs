@@ -31,7 +31,7 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Illicit);
 
                 AssignTemporaryManeuvers();
-                HotacManeuverTable = new AI.LambdaShuttleTable();
+                HotacManeuverTable = null;
 
                 factions.Add(Faction.Scum);
                 faction = Faction.Scum;

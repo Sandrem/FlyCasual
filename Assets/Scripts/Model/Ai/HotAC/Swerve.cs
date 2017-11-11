@@ -34,8 +34,7 @@ namespace AI
                 }
                 else
                 {
-                    GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-                    GenericMovement newMovementAttempt = Game.Movement.MovementFromStruct(maneuver);
+                    GenericMovement newMovementAttempt = ShipMovementScript.MovementFromStruct(maneuver);
 
                     if (DebugManager.DebugAI) Debug.Log("Tries: " + newMovementAttempt);
 
@@ -45,8 +44,7 @@ namespace AI
             }
             else
             {
-                if (DebugManager.DebugAI) Messages.ShowInfo("AI doesn't see alternatives to the asteroid collision");
-                if (DebugManager.DebugAI) Debug.Log("So AI decides to left it as is...");
+                Console.Write("Ship doesn't see alternatives to the asteroid collision", LogTypes.AI, false, "yellow");
                 Selection.ThisShip.AssignedManeuver.LaunchShipMovement();
             }
         }
@@ -56,7 +54,7 @@ namespace AI
             if ((movementPrediction.AsteroidsHit.Count == 0) && (!movementPrediction.IsOffTheBoard))
             {
                 if (DebugManager.DebugAI) Debug.Log("And it works!");
-                if (DebugManager.DebugAI) Messages.ShowInfo("AI avoids asteroid collision");
+                Console.Write("Ship found maneuver to avoid asteroid collision\n", LogTypes.AI, true, "yellow");
 
                 alternativeManeuvers = new List<MovementStruct>();
 
@@ -158,6 +156,7 @@ namespace AI
                 }
             }
 
+            result.UpdateColorComplexity();
             return result;
         }
 

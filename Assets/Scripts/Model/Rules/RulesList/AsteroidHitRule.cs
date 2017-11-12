@@ -20,7 +20,7 @@ namespace RulesList
 
         private void CheckSkipPerformAction()
         {
-            if (Selection.ThisShip.ObstaclesHit.Count > 0)
+            if (Selection.ThisShip.IsHitObstacles)
             {
                 Messages.ShowErrorToHuman("Hit asteroid during movement - action subphase is skipped");
                 Selection.ThisShip.IsSkipsActionSubPhase = true;
@@ -29,7 +29,7 @@ namespace RulesList
 
         private void CheckDamage(GenericShip ship)
         {
-            if (Selection.ThisShip.ObstaclesHit.Count > 0)
+            if (Selection.ThisShip.IsHitObstacles)
             {
                 foreach (var asteroid in Selection.ThisShip.ObstaclesHit)
                 {

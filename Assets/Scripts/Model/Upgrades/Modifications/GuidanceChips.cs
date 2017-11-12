@@ -18,11 +18,11 @@ namespace UpgradesList
         {
             base.AttachToShip(host);
 
-            host.AfterGenerateAvailableActionEffectsList += LoneWolfActionEffect;
+            host.AfterGenerateAvailableActionEffectsList += GuidanceChipsActionEffect;
             Phases.OnRoundEnd += ClearUsed;
         }
 
-        private void LoneWolfActionEffect(GenericShip host)
+        private void GuidanceChipsActionEffect(GenericShip host)
         {
             ActionsList.GenericAction newAction = new ActionsList.GuidanceChipsEffect()
             {
@@ -59,9 +59,12 @@ namespace ActionsList
             if (Combat.AttackStep == CombatStep.Attack && !(Source as UpgradesList.GuidanceChips).isUsed)
             {
                 GenericSecondaryWeapon secondaryWeapon = (Combat.ChosenWeapon as GenericSecondaryWeapon);
-                if (secondaryWeapon.Type == UpgradeType.Torpedo || secondaryWeapon.Type == UpgradeType.Missile)
+                if (secondaryWeapon != null)
                 {
-                    result = true;
+                    if (secondaryWeapon.Type == UpgradeType.Torpedo || secondaryWeapon.Type == UpgradeType.Missile)
+                    {
+                        result = true;
+                    }
                 }
             }
 

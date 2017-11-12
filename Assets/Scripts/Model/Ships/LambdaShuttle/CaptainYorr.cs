@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Ship;
+using SubPhases;
+using System;
 
 namespace Ship
 {
@@ -12,95 +14,61 @@ namespace Ship
                 PilotSkill = 4;
                 Cost = 24;
                 IsUnique = true;
-            }
 
-            public override void InitializePilot()
-            {
-                base.InitializePilot();
-
-                GenericShip.BeforeTokenIsAssignedGlobal += CaptainYorrAbility;
-
-                OnDestroyed += RemoveCaptainYorrAbility;
-            }
-
-            private void CaptainYorrAbility(GenericShip ship, System.Type tokenType)
-            {
-                if (tokenType == typeof(Tokens.StressToken) && ship.Owner == this.Owner && ship != this && this.TokenCount(typeof(Tokens.StressToken)) <= 2)
-                {
-
-                    Board.ShipDistanceInformation positionInfo = new Board.ShipDistanceInformation(ship, this);
-                    if (positionInfo.Range <= 2)
-                    {
-                        Selection.ShipReferences.Add("CaptainYorrAbility_YorrsShip", this);
-                        Selection.ShipReferences.Add("CaptainYorrAbility_TargetShip", ship);
-                        Triggers.RegisterTrigger(
-                            new Trigger()
-                            {
-                                Name = "Captain Yorr's ability",
-                                TriggerType = TriggerTypes.OnBeforeTokenIsAssigned,
-                                TriggerOwner = this.Owner.PlayerNo,
-                                EventHandler = ShowDecision
-                            }
-                        );
-                    }
-                }
-            }
-
-            private void ShowDecision(object sender, EventArgs e)
-            {
-                Phases.StartTemporarySubPhase(
-                    "Captain Yorr's ability",
-                    typeof(SubPhases.CaptainYorrDecisionSubPhase),
-                    Triggers.FinishTrigger
-                );
-            }
-
-            private void RemoveCaptainYorrAbility(GenericShip ship)
-            {
-                GenericShip.BeforeTokenIsAssignedGlobal -= CaptainYorrAbility;
-                OnDestroyed -= RemoveCaptainYorrAbility;
+                PilotAbilities.Add(new PilotAbilitiesNamespace.CaptainYorrAbility());
             }
         }
     }
 }
 
 
-namespace SubPhases
+
+namespace PilotAbilitiesNamespace
 {
-    public class CaptainYorrDecisionSubPhase : DecisionSubPhase
+    public class CaptainYorrAbility : GenericPilotAbility
     {
-        public override void Prepare()
+
+        public override void Initialize(GenericShip host)
         {
-            infoText = "Use Captain Yorr's ability?";
+            base.Initialize(host);
 
-            AddDecision("Yes", UseCaptainYorrAbility);
-            AddDecision("No", DontUseCaptainYorrAbility);            
+            GenericShip.BeforeTokenIsAssignedGlobal += CaptainYorrPilotAbility;
 
-            defaultDecision = "No";
+            host.OnDestroyed += RemoveCaptainYorrAbility;
+        }
+
+        private void CaptainYorrPilotAbility(GenericShip ship, System.Type tokenType)
+        {
+            if (tokenType == typeof(Tokens.StressToken) && ship.Owner == Host.Owner && ship != Host && Host.TokenCount(typeof(Tokens.StressToken)) <= 2)
+            {
+
+                Board.ShipDistanceInformation positionInfo = new Board.ShipDistanceInformation(ship, Host);
+                if (positionInfo.Range <= 2)
+                {
+                    TargetShip = ship;
+                    RegisterAbilityTrigger(TriggerTypes.OnBeforeTokenIsAssigned, ShowDecision);
+                }
+            }
+        }
+
+        private void ShowDecision(object sender, EventArgs e)
+        {
+            AskToUseAbility(NeverUseByDefault, UseCaptainYorrAbility);
         }
 
         private void UseCaptainYorrAbility(object sender, System.EventArgs e)
-        {
-            var yorrsShip = Selection.ShipReferences["CaptainYorrAbility_YorrsShip"];
-            var targetShip = Selection.ShipReferences["CaptainYorrAbility_TargetShip"];
-
-            yorrsShip.AssignToken(targetShip.TokenToAssign, delegate {
-                targetShip.TokenToAssign = null;
-                ConfirmDecision();
+        {            
+            Host.AssignToken(TargetShip.TokenToAssign, delegate {
+                TargetShip.TokenToAssign = null;
+                TargetShip = null;
+                DecisionSubPhase.ConfirmDecision();
             });
         }
 
-        private void DontUseCaptainYorrAbility(object sender, System.EventArgs e)
+        private void RemoveCaptainYorrAbility(GenericShip ship)
         {
-            ConfirmDecision();
-        }
-
-        private void ConfirmDecision()
-        {
-            Selection.ShipReferences.Remove("CaptainYorrAbility_YorrsShip");
-            Selection.ShipReferences.Remove("CaptainYorrAbility_TargetShip");
-            Phases.FinishSubPhase(this.GetType());
-            CallBack();
+            GenericShip.BeforeTokenIsAssignedGlobal -= CaptainYorrPilotAbility;
+            Host.OnDestroyed -= RemoveCaptainYorrAbility;
         }
     }
 }

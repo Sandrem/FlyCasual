@@ -115,6 +115,11 @@ namespace Arcs
             return ArcsList[0];
         }
 
+        public List<ArcInfo> GetAllArcs()
+        {
+            return ArcsList;
+        }
+
         public virtual bool InAttackAngle(string originPoint, float angle)
         {
             return CheckRay(originPoint, angle, ArcsList);

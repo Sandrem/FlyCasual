@@ -110,6 +110,11 @@ namespace Arcs
             };
         }
 
+        public ArcInfo GetPrimaryArc()
+        {
+            return ArcsList[0];
+        }
+
         public virtual bool InAttackAngle(string originPoint, float angle)
         {
             return CheckRay(originPoint, angle, ArcsList);

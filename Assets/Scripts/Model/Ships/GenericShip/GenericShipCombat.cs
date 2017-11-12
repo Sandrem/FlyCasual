@@ -44,7 +44,7 @@ namespace Ship
         public bool CanShootOutsideArc
         {
             set { }
-            get { return Host.ArcInfo.CanShootOutsideArc; }
+            get { return Host.ArcInfo.OutOfArcShotPermissions.CanShootPrimaryWeapon; }
         }
 
         public PrimaryWeaponClass(GenericShip host)
@@ -62,31 +62,13 @@ namespace Ship
 
             int range;
 
-            if (Combat.ChosenWeapon.GetType() == GetType())
+            Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(Host, targetShip, this);
+            range = shotInfo.Range;
+            if (!CanShootOutsideArc)
             {
-                Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(Host, targetShip, this);
-                range = shotInfo.Range;
-                if (!CanShootOutsideArc)
-                {
-                    //TODO: Change to munitions arc
-                    if (!shotInfo.InShotAngle) return false;
-                }
-            }
-            else
-            {
-                if (!CanShootOutsideArc)
-                {
-                    Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(Host, targetShip, this);
-                    range = shotInfo.Range;
+                if (!shotInfo.InShotAngle) return false;
 
-                    //TODO: Change to munitions arc
-                    if (!shotInfo.InShotAngle) return false;
-                }
-                else
-                {
-                    Board.ShipDistanceInformation distanceInfo = new Board.ShipDistanceInformation(Host, targetShip);
-                    range = distanceInfo.Range;
-                }
+                if (!shotInfo.CanShootPrimaryWeapon) return false;
             }
 
             if (range < MinRange) return false;

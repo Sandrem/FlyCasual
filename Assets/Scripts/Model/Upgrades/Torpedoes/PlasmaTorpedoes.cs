@@ -11,6 +11,8 @@ namespace UpgradesList
     {
         public PlasmaTorpedoes() : base()
         {
+            IsHidden = true;
+
             Type = UpgradeType.Torpedo;
 
             Name = "Plasma Torpedoes";

@@ -15,7 +15,7 @@ namespace Ship
             {
                 Type = "VCX-100";
                 ShipBaseSize = BaseSize.Large;
-                ShipBaseArcsType = Arcs.BaseArcsType.ArcRear;
+                ShipBaseArcsType = Arcs.BaseArcsType.ArcGhost;
 
                 ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/c/cf/MR_VCX-100.png";
 

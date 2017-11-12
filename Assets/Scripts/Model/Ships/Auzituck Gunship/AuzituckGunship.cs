@@ -26,7 +26,8 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Crew);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Crew);
 
-                //PrintedActions.Add(new ReinfoceAction());
+                PrintedActions.Add(new ReinforceForeAction() { Host = this });
+                PrintedActions.Add(new ReinforceAftAction() { Host = this });
 
                 AssignTemporaryManeuvers();
                 HotacManeuverTable = null;

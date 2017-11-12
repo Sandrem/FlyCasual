@@ -51,5 +51,13 @@ namespace UpgradesList
             }
         }
 
+        private void TurnOffOutriferAbilityIfCannon()
+        {
+            if (CurrentUpgrade.Type == UpgradeType.Cannon)
+            {
+                ToggleOutriderAbility(false);
+            }
+        }
+
     }
 }

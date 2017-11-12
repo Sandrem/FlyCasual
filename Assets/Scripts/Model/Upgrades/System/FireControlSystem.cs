@@ -35,8 +35,8 @@ namespace UpgradesList
         }
 
         private void AskAquireTargetLock(object sender, System.EventArgs e)
-        {
-            Phases.StartTemporarySubPhase(
+        {            
+            Phases.StartTemporarySubPhaseOld(
                 "Fire-Control System's decision",
                 typeof(SubPhases.FireControlSystemDecisionSubPhase),
                 Triggers.FinishTrigger
@@ -53,14 +53,16 @@ namespace SubPhases
     public class FireControlSystemDecisionSubPhase : DecisionSubPhase
     {
 
-        public override void Prepare()
+        public override void PrepareDecision(System.Action callBack)
         {
-            infoText = "Fire-Control System: Aquire target lock?";
+            InfoText = "Fire-Control System: Aquire target lock?";
 
             AddDecision("Yes", AcquireTargetLock);
             AddDecision("No", NotAssignToken);
 
-            defaultDecision = "Yes";
+            DefaultDecision = "Yes";
+
+            callBack();
         }
 
         private void AcquireTargetLock(object sender, System.EventArgs e)
@@ -71,12 +73,6 @@ namespace SubPhases
         private void NotAssignToken(object sender, System.EventArgs e)
         {
             ConfirmDecision();
-        }
-
-        private void ConfirmDecision()
-        {
-            Phases.FinishSubPhase(this.GetType());
-            CallBack();
         }
     }
 }

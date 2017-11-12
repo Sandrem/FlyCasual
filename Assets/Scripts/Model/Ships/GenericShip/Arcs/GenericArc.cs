@@ -83,7 +83,7 @@ namespace Arcs
         protected readonly ArcInfo primaryArc;
         protected List<ArcInfo> ArcsList;
 
-        public ArcShotPermissions OutOfArcShotPermissions = new ArcShotPermissions();
+        public ArcShotPermissions OutOfArcShotPermissions = new ArcShotPermissions() { CanShootPrimaryWeapon = false };
 
         public GenericArc(GenericShip host)
         {

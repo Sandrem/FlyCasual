@@ -162,6 +162,9 @@ namespace Ship
             PrintedUpgradeIcons = new List<Upgrade.UpgradeType>();
             PilotSkillModifiers = new List<IModifyPilotSkill>();
 
+            PrintedActions = new List<ActionsList.GenericAction>();
+            PrintedActions.Add(new ActionsList.FocusAction());
+
             TargetLockMinRange = 1;
             TargetLockMaxRange = 3;
         }
@@ -170,8 +173,6 @@ namespace Ship
         {
             Owner = Roster.GetPlayer(playerNo);
             ShipId = shipId;
-
-            AddBuiltInActions();
 
             StartingPosition = position;
 

@@ -100,6 +100,9 @@ public static partial class Combat
         {
             UI.HideSkipButton();
             Roster.AllShipsHighlightOff();
+
+            DeclareAttackerAndDefender();
+
             CheckFireLineCollisions();
         }
         else
@@ -138,7 +141,6 @@ public static partial class Combat
     public static void StartAttack()
     {
         AttackStep = CombatStep.Attack;
-        DeclareAttackerAndDefender();
         Selection.ActiveShip = Attacker;
 
         CallAttackStart();

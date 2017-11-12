@@ -53,10 +53,6 @@ namespace Ship
         {
             if (OnActionIsPerformed != null) OnActionIsPerformed(action);
         }
-        private void AddBuiltInActions()
-        {
-            PrintedActions.Add(new ActionsList.FocusAction());
-        }
 
         public List<ActionsList.GenericAction> GetActionsFromActionBar()
         {

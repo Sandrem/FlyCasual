@@ -134,14 +134,6 @@ namespace Board
                     }
                 }
             }
-
-            if (DebugManager.DebugArcsAndDistance)
-            {
-                Debug.Log("InShotAngle: " + InShotAngle);
-                Debug.Log("InArc: " + InArc);
-                Debug.Log("InPrimaryArc: " + InPrimaryArc);
-                Debug.Log("Range: " + Range);
-            }
         }
 
         public void CheckFirelineCollisions(System.Action callBack)

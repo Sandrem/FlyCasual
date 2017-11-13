@@ -38,6 +38,8 @@ public enum TriggerTypes
     OnAttackStart,
     OnShotStart,
     OnImmediatelyAfterRolling,
+    OnShotHit,
+    OnTryDamagePrevention,
     OnAttackHit,
     OnAttackMissed,
     OnAttackFinish,

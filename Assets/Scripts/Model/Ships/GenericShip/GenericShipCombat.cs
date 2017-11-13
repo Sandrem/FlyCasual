@@ -118,6 +118,12 @@ namespace Ship
 
         public event EventHandler OnAtLeastOneCritWasCancelledByDefender;
 
+        public event EventHandler OnShotHitAsAttacker;
+        public event EventHandler OnShotHitAsDefender;
+        public static event EventHandler OnShotHitAsDefenderGlobal;
+
+        public static event EventHandler OnTryDamagePreventionGlobal;
+
         public event EventHandler OnAttackHitAsAttacker;
         public event EventHandler OnAttackHitAsDefender;
         public static event EventHandler OnAttackHitAsDefenderGlobal;
@@ -218,6 +224,25 @@ namespace Ship
             ClearAlreadyExecutedOppositeActionEffects();
             ClearAlreadyExecutedActionEffects();
             if (OnDefence != null) OnDefence();
+        }
+
+        public void CallShotHitAsAttacker()
+        {
+            if (OnShotHitAsAttacker != null) OnShotHitAsAttacker();
+        }
+
+        public void CallShotHitAsDefender()
+        {
+            if (OnShotHitAsDefenderGlobal != null) OnShotHitAsDefenderGlobal();
+
+            if (OnShotHitAsDefender != null) OnShotHitAsDefender();
+        }
+
+        public void CallTryDamagePrevention(Action callBack)
+        {
+            if (OnTryDamagePreventionGlobal != null) OnTryDamagePreventionGlobal();
+
+            Triggers.ResolveTriggers(TriggerTypes.OnTryDamagePrevention, callBack);
         }
 
         public void CallOnAttackHitAsAttacker()

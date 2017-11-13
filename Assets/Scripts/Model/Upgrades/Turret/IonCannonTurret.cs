@@ -31,7 +31,7 @@ namespace UpgradesList
 
         private void SubscribeOnHit()
         {
-            Host.OnAttackHitAsAttacker += RegisterIonTurretEffect;
+            Host.OnShotHitAsAttacker += RegisterIonTurretEffect;
         }
 
         private void RegisterIonTurretEffect()
@@ -41,7 +41,7 @@ namespace UpgradesList
                 Triggers.RegisterTrigger(new Trigger()
                 {
                     Name = "Ion Cannon Turret effect",
-                    TriggerType = TriggerTypes.OnAttackHit,
+                    TriggerType = TriggerTypes.OnShotHit,
                     TriggerOwner = Combat.Attacker.Owner.PlayerNo,
                     EventHandler = IonTurretEffect
                 });

@@ -34,7 +34,7 @@ namespace UpgradesList
 			
 		private void SubscribeOnHit()
 		{
-			Host.OnAttackHitAsAttacker += RegisterTwinLaserTurretEffect;
+			Host.OnShotHitAsAttacker += RegisterTwinLaserTurretEffect;
 		}
 
 		private void RegisterTwinLaserTurretEffect()
@@ -44,7 +44,7 @@ namespace UpgradesList
 				Triggers.RegisterTrigger(new Trigger()
 					{
 						Name = "Twin Laser Turret effect",
-						TriggerType = TriggerTypes.OnAttackHit,
+						TriggerType = TriggerTypes.OnShotHit,
 						TriggerOwner = Combat.Attacker.Owner.PlayerNo,
 						EventHandler = TwinLaserTurretEffect
 					});

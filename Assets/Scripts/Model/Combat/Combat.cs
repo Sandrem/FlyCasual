@@ -255,14 +255,27 @@ public static partial class Combat
 
         if (DiceRollAttack.Successes > 0)
         {
-            hitsCounter++;
-
-            ResolveCombatDamage();
+            AttackHit();
         }
         else
         {
-            SufferDamage();
+            AfterShotIsPerformed();
         }
+    }
+
+    private static void AttackHit()
+    {
+        hitsCounter++;
+
+        Attacker.CallShotHitAsAttacker();
+        Defender.CallShotHitAsDefender();
+
+        Triggers.ResolveTriggers(TriggerTypes.OnShotHit, TryDamagePrevention);
+    }
+
+    private static void TryDamagePrevention()
+    {
+        Defender.CallTryDamagePrevention(ResolveCombatDamage);
     }
 
     private static void ResolveCombatDamage()

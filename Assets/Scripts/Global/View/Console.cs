@@ -18,10 +18,20 @@ public partial class Console : MonoBehaviour {
     private static readonly int LOG_ENTRY_MARGIN = 10;
     private static float totalLogEntryHeight;
 
-    private void Awake()
+    private static bool isAlreadyInitialized;
+
+    public void Awake()
     {
-        ConsoleWindow = transform.Find("ConsoleWindow").gameObject;
-        ConsoleOutput = transform.Find("ConsoleWindow").Find("ScrollRect").Find("Viewport").Find("Output").gameObject;
+        if (!isAlreadyInitialized)
+        {
+            isAlreadyInitialized = true;
+            ConsoleWindow = transform.Find("ConsoleWindow").gameObject;
+            ConsoleOutput = transform.Find("ConsoleWindow").Find("ScrollRect").Find("Viewport").Find("Output").gameObject;
+        }
+        else
+        {
+            Destroy(this.gameObject);
+        }
     }
 
     private void Update ()

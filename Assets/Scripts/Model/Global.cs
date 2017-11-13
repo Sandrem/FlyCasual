@@ -6,6 +6,8 @@ using Ship;
 
 public class Global : MonoBehaviour {
 
+    private static bool isAlreadyInitialized;
+
     public static string test = "I am accessible from every scene";
 
     public static string CurrentVersion = "0.2.1";
@@ -34,9 +36,17 @@ public class Global : MonoBehaviour {
         private set { shipConfigurations = value; }
     }
 
-    void Start()
+    void Awake()
     {
-        DontDestroyOnLoad(this.gameObject);
+        if (!isAlreadyInitialized)
+        {
+            isAlreadyInitialized = true;
+            DontDestroyOnLoad(this.gameObject);
+        }
+        else
+        {
+            Destroy(this.gameObject);
+        }
     }
 
     void Update()

@@ -508,7 +508,6 @@ public static partial class RosterBuilder {
     public static void ShowOpponentSquad()
     {
         GameObject globalUI = GameObject.Find("GlobalUI").gameObject;
-        MonoBehaviour.DontDestroyOnLoad(globalUI);
 
         GameObject opponentSquad = globalUI.transform.Find("OpponentSquad").gameObject;
         opponentSquad.SetActive(true);

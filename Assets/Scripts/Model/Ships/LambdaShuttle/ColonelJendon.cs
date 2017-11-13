@@ -1,4 +1,7 @@
-﻿using System.Linq;
+﻿using Ship;
+using SubPhases;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Ship
 {
@@ -12,145 +15,94 @@ namespace Ship
                 PilotSkill = 6;
                 Cost = 26;
                 IsUnique = true;
-            }
 
-            public override void InitializePilot()
-            {
-                base.InitializePilot();
-
-                Phases.OnCombatPhaseStart += RegisterColonelJendonAbility;
-            }
-
-            private void RegisterColonelJendonAbility()
-            {
-                Triggers.RegisterTrigger(new Trigger()
-                {
-                    Name = "Colonel Jendon' ability",
-                    TriggerOwner = this.Owner.PlayerNo,
-                    TriggerType = TriggerTypes.OnCombatPhaseStart,
-                    EventHandler = StartSubphaseForColonelJendonAbility
-                });
-            }
-
-
-            private void StartSubphaseForColonelJendonAbility(object sender, System.EventArgs e)
-            {
-                Selection.ThisShip = this;
-                if (Owner.Ships.Count > 1 && this.HasToken(typeof(Tokens.BlueTargetLockToken), '*'))
-                {
-                    Phases.StartTemporarySubPhase(
-                        "Colonel Jendon's ability",
-                        typeof(SubPhases.ColonelJendonDecisionSubPhase),
-                        delegate {
-                            Phases.CurrentSubPhase.Resume();
-                            Triggers.FinishTrigger();
-                        }
-                    );
-                }
-                else
-                {
-                    Triggers.FinishTrigger();
-                }
+                PilotAbilities.Add(new PilotAbilitiesNamespace.ColonelJendonAbility());
             }
         }
     }
 }
 
-
-namespace SubPhases
+namespace PilotAbilitiesNamespace
 {
-    public class ColonelJendonDecisionSubPhase : DecisionSubPhase
+    public class ColonelJendonAbility : GenericPilotAbility
     {
-
-        public override void Prepare()
+        public override void Initialize(GenericShip host)
         {
-            infoText = "Use Colonel Jendon's ability?";
+            base.Initialize(host);
 
-            var blueTargetLocks = Selection.ThisShip.GetAssignedTokens()
-                .Where(t => t is Tokens.BlueTargetLockToken)
-                .Select(x => (Tokens.BlueTargetLockToken)x).ToList();
-
-            AddDecision("No", DontUseColonelJendonAbility);
-
-            blueTargetLocks.ForEach(l => {
-                var name = "Target Lock " + l.Letter;
-                AddDecision(name, delegate { UseColonelJendonAbility(l.Letter); });
-                AddTooltip(name, l.OtherTokenOwner.ImageUrl);
-            });
-            
-            defaultDecision = "No";
+            Phases.OnCombatPhaseStart += RegisterColonelJendonAbility;
         }
 
+        private void RegisterColonelJendonAbility()
+        {
+            RegisterAbilityTrigger(TriggerTypes.OnCombatPhaseStart, StartSubphaseForColonelJendonAbility);            
+        }
+        
+        private void StartSubphaseForColonelJendonAbility(object sender, System.EventArgs e)
+        {
+            if (Host.Owner.Ships.Count > 1 && Host.HasToken(typeof(Tokens.BlueTargetLockToken), '*'))
+            {
+                var pilotAbilityDecision = (DecisionSubPhase)Phases.StartTemporarySubPhaseNew(
+                    Name,
+                    typeof(DecisionSubPhase),
+                    Triggers.FinishTrigger
+                );
+
+                pilotAbilityDecision.InfoText = "Use Colonel Jendon's ability?";
+
+                var blueTargetLocks = Host.GetAssignedTokens()
+                   .Where(t => t is Tokens.BlueTargetLockToken)
+                   .Select(x => (Tokens.BlueTargetLockToken)x)
+                   .OrderBy(y => y.Letter)
+                   .ToList();
+
+                pilotAbilityDecision.AddDecision("No", DontUseColonelJendonAbility);
+
+                blueTargetLocks.ForEach(l => {
+                    var name = "Target Lock " + l.Letter;
+                    pilotAbilityDecision.AddDecision(name, delegate { UseColonelJendonAbility(l.Letter); });
+                    pilotAbilityDecision.AddTooltip(name, l.OtherTokenOwner.ImageUrl);
+                });
+
+                pilotAbilityDecision.DefaultDecision = "No";
+
+                pilotAbilityDecision.Start();
+            }
+            else
+            {
+                Triggers.FinishTrigger();
+            }
+        }
+
+        
         private void UseColonelJendonAbility(char letter)
         {
-            Phases.StartTemporarySubPhase(
-                "Select target for Colonel Jendon's ability",
-                typeof(ColonelJendonAbilityTargetSubPhase),
-                ConfirmDecision
+            SelectTargetForAbility(
+                SelectColonelJendonAbilityTarget,
+                new List<TargetTypes> { TargetTypes.OtherFriendly },
+                new UnityEngine.Vector2(1, 1)
             );
+        }
+
+
+        private void SelectColonelJendonAbilityTarget()
+        {
+            if (TargetShip.HasToken(typeof(Tokens.BlueTargetLockToken), '*'))
+            {
+                Messages.ShowErrorToHuman("Only ships without blue target lock tokens can be selected");
+                return;
+            }
+
+            MovementTemplates.ReturnRangeRuler();
+
+            var token = Host.GetToken(typeof(Tokens.BlueTargetLockToken), '*') as Tokens.BlueTargetLockToken;
+
+            Host.ReassignTargetLockToken(typeof(Tokens.BlueTargetLockToken), token.Letter, TargetShip, DecisionSubPhase.ConfirmDecision);
         }
 
         private void DontUseColonelJendonAbility(object sender, System.EventArgs e)
         {
-            ConfirmDecision();
+            DecisionSubPhase.ConfirmDecision();
         }
-
-        private void ConfirmDecision()
-        {
-            Phases.FinishSubPhase(this.GetType());
-            CallBack();
-        }
-
     }
-
-    public class ColonelJendonAbilityTargetSubPhase : SelectShipSubPhase
-    {
-
-        public override void Prepare()
-        {
-            isFriendlyAllowed = true;
-            maxRange = 1;
-            finishAction = SelectColonelJendonAbilityTarget;
-
-            UI.ShowSkipButton();
-        }
-
-        public override bool ThisShipCanBeSelected(Ship.GenericShip ship)
-        {
-            if (ship.HasToken(typeof(Tokens.BlueTargetLockToken), '*'))
-            {
-                Messages.ShowErrorToHuman("Only ships without blue target lock tokens can be selected");
-                RevertSubPhase();
-                return false;
-            }
-            else
-            {
-                return base.ThisShipCanBeSelected(ship);
-            }
-        }
-
-        private void SelectColonelJendonAbilityTarget()
-        {
-            MovementTemplates.ReturnRangeRuler();
-
-            var token = Selection.ThisShip.GetToken(typeof(Tokens.BlueTargetLockToken), '*') as Tokens.BlueTargetLockToken;
-            
-            Selection.ThisShip.ReassignTargetLockToken(typeof(Tokens.BlueTargetLockToken), token.Letter, TargetShip, 
-                delegate {
-                    Phases.FinishSubPhase(typeof(ColonelJendonAbilityTargetSubPhase));
-                    CallBack();
-                });
-        }
-
-        protected override void RevertSubPhase() { }
-
-        public override void SkipButton()
-        {
-            Phases.FinishSubPhase(typeof(ColonelJendonAbilityTargetSubPhase));
-            CallBack();
-        }
-
-    }
-
 }
-

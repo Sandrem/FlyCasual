@@ -7,6 +7,12 @@ using UnityEngine;
 
 namespace Bombs
 {
+    public class BombDetonationEventArgs : EventArgs
+    {
+        public Ship.GenericShip DetonatedShip;
+        public GameObject BombObject;
+    }
+
     public enum BombDropTemplates
     {
         Straight1,
@@ -48,9 +54,12 @@ namespace Bombs
             return generatedBombPoints;
         }
 
-        public static void RegisterMine(GameObject mineObject, GenericBomb bombUpgrade)
+        public static void RegisterMines(List<GameObject> mineObjects, GenericBomb bombUpgrade)
         {
-            minesList.Add(mineObject, bombUpgrade);
+            foreach (var mineObject in mineObjects)
+            {
+                minesList.Add(mineObject, bombUpgrade);
+            }
         }
 
         public static void UnregisterMine(GameObject mineObject)

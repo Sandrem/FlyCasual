@@ -11,9 +11,9 @@ public static class Sounds {
         PlaySound(audioSource, path);
     }
 
-    public static void PlayBombSound(string path)
+    public static void PlayBombSound(GameObject bombObject, string path)
     {
-        AudioSource audioSource = Bombs.BombsManager.CurrentBomb.BombObject.transform.GetComponentInChildren<AudioSource>();
+        AudioSource audioSource = bombObject.transform.GetComponentInChildren<AudioSource>();
         PlaySound(audioSource, path);
     }
 

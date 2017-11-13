@@ -9,16 +9,19 @@ using System.Linq;
 namespace UpgradesList
 {
 
-    public class ProximityMines : GenericContactMine
+    public class ClusterMines : GenericContactMine
     {
 
-        public ProximityMines() : base()
+        public ClusterMines() : base()
         {
             Type = UpgradeType.Bomb;
-            Name = "Proximity Mines";
-            Cost = 3;
+            Name = "Cluster Mines";
+            Cost = 4;
 
-            bombPrefabPath = "Prefabs/Bombs/ProximityMine";
+            bombPrefabPath = "Prefabs/Bombs/ClusterMinesCentral";
+
+            bombSidePrefabPath = "Prefabs/Bombs/ClusterMinesSide";
+            bombSideDistance = 0.4472877f;
 
             IsDiscardedAfterDropped = true;
         }
@@ -28,9 +31,9 @@ namespace UpgradesList
             Selection.ActiveShip = ship;
             Phases.StartTemporarySubPhaseOld(
                 "Damage from " + Name,
-                typeof(SubPhases.ProximityMinesCheckSubPhase),
+                typeof(SubPhases.ClusterMinesCheckSubPhase),
                 delegate {
-                    Phases.FinishSubPhase(typeof(SubPhases.ProximityMinesCheckSubPhase));
+                    Phases.FinishSubPhase(typeof(SubPhases.ClusterMinesCheckSubPhase));
                     callBack();
                 });
         }
@@ -53,13 +56,13 @@ namespace UpgradesList
 namespace SubPhases
 {
 
-    public class ProximityMinesCheckSubPhase : DiceRollCheckSubPhase
+    public class ClusterMinesCheckSubPhase : DiceRollCheckSubPhase
     {
 
         public override void Prepare()
         {
             diceType = DiceKind.Attack;
-            diceCount = 3;
+            diceCount = 2;
 
             finishAction = FinishAction;
         }
@@ -71,6 +74,11 @@ namespace SubPhases
             CurrentDiceRoll.RemoveAllFailures();
             if (!CurrentDiceRoll.IsEmpty)
             {
+                foreach (Die die in CurrentDiceRoll.DiceList)
+                {
+                    if (die.Side == DieSide.Crit) die.SetSide(DieSide.Success);
+                }
+
                 SufferDamage();
             }
             else
@@ -82,7 +90,7 @@ namespace SubPhases
 
         private void SufferDamage()
         {
-            Messages.ShowError("Proximity Mines: ship suffered damage");
+            Messages.ShowError("Cluster Mines: ship suffered damage");
 
             for (int i = 0; i < CurrentDiceRoll.DiceList.Count; i++)
             {
@@ -96,7 +104,7 @@ namespace SubPhases
                     EventHandler = Selection.ActiveShip.SufferDamage,
                     EventArgs = new DamageSourceEventArgs()
                     {
-                        Source = "Proximity Mines",
+                        Source = "Cluster Mines",
                         DamageType = DamageTypes.BombDetonation
                     },
                     Skippable = true

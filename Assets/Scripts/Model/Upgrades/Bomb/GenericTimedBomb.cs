@@ -44,29 +44,36 @@ namespace Upgrade
             );
         }
 
-        public override void ActivateBomb(GameObject bombObject, Action callBack)
+        public override void ActivateBombs(List<GameObject> bombObjects, Action callBack)
         {
             Phases.OnActivationPhaseEnd += PlanTimedDetonation;
 
-            base.ActivateBomb(bombObject, callBack);
+            base.ActivateBombs(bombObjects, callBack);
         }
 
         private void PlanTimedDetonation()
         {
-            Triggers.RegisterTrigger(new Trigger()
+            foreach (var bombObject in BombObjects)
             {
-                Name = "Detonation of " + Name,
-                TriggerType = TriggerTypes.OnActivationPhaseEnd,
-                TriggerOwner = Host.Owner.PlayerNo,
-                EventHandler = Detonate,
-                Sender = BombObject
-            });
+                Triggers.RegisterTrigger(new Trigger()
+                {
+                    Name = "Detonation of " + Name,
+                    TriggerType = TriggerTypes.OnActivationPhaseEnd,
+                    TriggerOwner = Host.Owner.PlayerNo,
+                    EventHandler = Detonate,
+                    EventArgs = new BombDetonationEventArgs()
+                    {
+                        BombObject = bombObject
+                    }
+                });
+            }
         }
 
         public override void Detonate(object sender, EventArgs e)
         {
+            GameObject bombObject = (e as BombDetonationEventArgs).BombObject;
             Phases.OnActivationPhaseEnd -= PlanTimedDetonation;
-            foreach (var ship in GetShipsInRange())
+            foreach (var ship in GetShipsInRange(bombObject))
             {
                 RegisterDetonationTriggerForShip(ship);
             }
@@ -74,7 +81,7 @@ namespace Upgrade
             base.Detonate(sender, e);
         }
 
-        private List<GenericShip> GetShipsInRange()
+        private List<GenericShip> GetShipsInRange(GameObject bombObject)
         {
             List<GenericShip> result = new List<GenericShip>();
 
@@ -82,7 +89,7 @@ namespace Upgrade
             {
                 if (!ship.IsDestroyed)
                 {
-                    if (IsShipInDetonationRange(ship))
+                    if (IsShipInDetonationRange(ship, bombObject))
                     {
                         result.Add(ship);
                     }
@@ -92,13 +99,13 @@ namespace Upgrade
             return result;
         }
 
-        private bool IsShipInDetonationRange(GenericShip ship)
+        private bool IsShipInDetonationRange(GenericShip ship, GameObject bombObject)
         {
             List<Vector3> bombPoints = BombsManager.GetBombPoints();
 
             foreach (var localBombPoint in bombPoints)
             {
-                Vector3 globalBombPoint = BombObject.transform.TransformPoint(localBombPoint);
+                Vector3 globalBombPoint = bombObject.transform.TransformPoint(localBombPoint);
                 foreach (var globalShipBasePoint in ship.ShipBase.GetStandPoints().Select(n => n.Value))
                 {
                     if (Board.BoardManager.GetRangeBetweenPoints(globalBombPoint, globalShipBasePoint) == 1)

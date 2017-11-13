@@ -24,6 +24,7 @@ namespace Ship
 
                 PrintedActions.Add(new EvadeAction());
                 PrintedActions.Add(new BarrelRollAction());
+                PrintedActions.Add(new TargetLockAction());
 
                 AssignTemporaryManeuvers();
                 HotacManeuverTable = null;
@@ -41,7 +42,7 @@ namespace Ship
                     SoundFlyPaths.Add("TIE-Fly" + i);
                 }
             }
-
+            
             private void AssignTemporaryManeuvers()
             {
                 Maneuvers.Add("1.L.T", ManeuverColor.White);

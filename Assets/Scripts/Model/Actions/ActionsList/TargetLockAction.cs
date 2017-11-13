@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using RulesList;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -111,15 +112,23 @@ namespace SubPhases
 
         private void TrySelectTargetLock()
         {
-            Actions.AssignTargetLockToPair(
-                Selection.ThisShip,
-                TargetShip,
-                delegate {
-                    Phases.FinishSubPhase(typeof(SelectTargetLockSubPhase));
-                    CallBack();
-                },
-                RevertSubPhase
-            );
+            if (Rules.TargetLocks.TargetLockIsAllowed(Selection.ThisShip, TargetShip))
+            {
+                Actions.AssignTargetLockToPair(
+                    Selection.ThisShip,
+                    TargetShip,
+                    delegate
+                    {
+                        Phases.FinishSubPhase(typeof(SelectTargetLockSubPhase));
+                        CallBack();
+                    },
+                    RevertSubPhase
+                );
+            }
+            else
+            {
+                RevertSubPhase();
+            }
         }
 
         public override void RevertSubPhase()

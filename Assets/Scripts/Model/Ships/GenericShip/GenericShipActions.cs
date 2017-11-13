@@ -20,6 +20,8 @@ namespace Ship
 
         private     List<Tokens.GenericToken> AssignedTokens = new List<Tokens.GenericToken>();
 
+        public Tokens.GenericToken TokenToAssign;
+
         // EVENTS
 
         public event EventHandlerShip AfterGenerateAvailableActionsList;
@@ -38,6 +40,7 @@ namespace Ship
         public event EventHandlerAction OnActionIsPerformed;
 
         public event EventHandlerShipType OnTokenIsAssigned;
+        public static event EventHandlerShipType BeforeTokenIsAssignedGlobal;
         public static event EventHandlerShipType OnTokenIsAssignedGlobal;
         public event EventHandlerShipType OnTokenIsSpent;
         public static event EventHandlerShipType OnTokenIsSpentGlobal;
@@ -350,6 +353,16 @@ namespace Ship
             return result;
         }
 
+        public int TokenCount(Type type)
+        {
+            var token = GetToken(type);
+
+            if (token == null)
+                return 0;
+            else
+                return token.Count;
+        }
+
         public List<Tokens.GenericToken> GetAllTokens()
         {
             return AssignedTokens;
@@ -399,13 +412,29 @@ namespace Ship
 
         public void AssignToken(Tokens.GenericToken token, Action callBack, char letter = ' ')
         {
+            TokenToAssign = token;
+            if (BeforeTokenIsAssignedGlobal != null) BeforeTokenIsAssignedGlobal(this, token.GetType());
+
+            Triggers.ResolveTriggers(TriggerTypes.OnBeforeTokenIsAssigned, delegate { FinalizeAssignToken(callBack, letter); });
+        }
+
+        private void FinalizeAssignToken(Action callBack, char letter = ' ')
+        {
+            if (TokenToAssign == null)
+            {
+                callBack();
+                return;
+            }
+
+            var token = TokenToAssign;
+
             Tokens.GenericToken assignedToken = GetToken(token.GetType(), letter);
 
             if (assignedToken != null)
             {
                 assignedToken.Count++;
             }
-            else                
+            else
             {
                 AssignedTokens.Add(token);
             }
@@ -413,6 +442,8 @@ namespace Ship
             if (OnTokenIsAssigned != null) OnTokenIsAssigned(this, token.GetType());
 
             if (OnTokenIsAssignedGlobal != null) OnTokenIsAssignedGlobal(this, token.GetType());
+
+            TokenToAssign = null;
 
             Triggers.ResolveTriggers(TriggerTypes.OnTokenIsAssigned, callBack);
         }
@@ -451,6 +482,23 @@ namespace Ship
                         }
                     }
                 }
+            }
+        }
+
+        public void ReassignTargetLockToken(Type type, char letter, GenericShip newOwner, Action callback)
+        {
+            Tokens.GenericTargetLockToken assignedToken = GetToken(type, letter) as Tokens.GenericTargetLockToken;
+
+            if (assignedToken != null)
+            {
+                AssignedTokens.Remove(assignedToken);
+                if (AfterTokenIsRemoved != null) AfterTokenIsRemoved(this, type);
+
+                var oppositeType = (assignedToken.GetType() == typeof(Tokens.BlueTargetLockToken)) ? typeof(Tokens.RedTargetLockToken) : typeof(Tokens.BlueTargetLockToken);
+                var otherToken = assignedToken.OtherTokenOwner.GetToken(oppositeType, letter) as Tokens.GenericTargetLockToken;
+
+                otherToken.OtherTokenOwner = newOwner;
+                newOwner.AssignToken(assignedToken, callback, letter);
             }
         }
 

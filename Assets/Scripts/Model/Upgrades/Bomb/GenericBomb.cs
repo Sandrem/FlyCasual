@@ -12,7 +12,8 @@ namespace Upgrade
         public string bombPrefabPath;
 
         public string bombSidePrefabPath;
-        public float bombSideDistance;
+        public float bombSideDistanceX;
+        public float bombSideDistanceZ;
 
         public bool IsDiscardedAfterDropped;
 

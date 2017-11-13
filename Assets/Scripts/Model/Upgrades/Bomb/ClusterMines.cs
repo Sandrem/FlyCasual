@@ -21,7 +21,8 @@ namespace UpgradesList
             bombPrefabPath = "Prefabs/Bombs/ClusterMinesCentral";
 
             bombSidePrefabPath = "Prefabs/Bombs/ClusterMinesSide";
-            bombSideDistance = 0.4472877f;
+            bombSideDistanceX = 2.362f;
+            bombSideDistanceZ = 0.0764f;
 
             IsDiscardedAfterDropped = true;
         }

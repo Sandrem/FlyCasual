@@ -141,10 +141,49 @@ namespace SubPhases
                 Selection.ThisShip.GetBombDropHelper().Find(name).gameObject.SetActive(true);
 
                 Transform newBase = Selection.ThisShip.GetBombDropHelper().Find(name + "/Finisher/BasePosition");
-                foreach (var bombObject in BombObjects)
+
+                for (int i = 0; i < BombObjects.Count; i++)
                 {
-                    bombObject.transform.position = new Vector3(newBase.position.x, 0, newBase.position.z);
-                    bombObject.transform.rotation = newBase.rotation;
+                    switch (i)
+                    {
+                        case 0:
+                            BombObjects[i].transform.position = new Vector3(
+                                newBase.position.x,
+                                0,
+                                newBase.position.z
+                            );
+                            break;
+                        case 1:
+                            BombObjects[i].transform.position = new Vector3(
+                                newBase.position.x,
+                                0,
+                                newBase.position.z)
+                                + 
+                                newBase.TransformVector(new Vector3(
+                                    BombsManager.CurrentBomb.bombSideDistanceX,
+                                    0,
+                                    BombsManager.CurrentBomb.bombSideDistanceZ
+                                )
+                            );
+                            break;
+                        case 2:
+                            BombObjects[i].transform.position = new Vector3(
+                                newBase.position.x,
+                                0,
+                                newBase.position.z)
+                                +
+                                newBase.TransformVector(new Vector3(
+                                    -BombsManager.CurrentBomb.bombSideDistanceX,
+                                    0,
+                                    BombsManager.CurrentBomb.bombSideDistanceZ
+                                )
+                            );
+                            break;
+                        default:
+                            break;
+                    }
+                    
+                    BombObjects[i].transform.rotation = newBase.rotation;
                 }
 
                 SelectedBombDropHelper = name;

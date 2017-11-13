@@ -31,7 +31,7 @@ namespace PilotAbilitiesNamespace
         {
             base.Initialize(host);
 
-            Host.OnAttack += AddDarkCursePilotAbility;
+            Host.OnAttackStartAsDefender += AddDarkCursePilotAbility;
             Host.OnDefence += RemoveDarkCursePilotAbility;
         }
 

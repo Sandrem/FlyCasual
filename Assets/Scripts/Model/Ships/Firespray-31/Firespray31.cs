@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Movement;
+using ActionsList;
 
 namespace Ship
 {
@@ -28,6 +29,9 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Crew);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Missile);
 
+                PrintedActions.Add(new TargetLockAction());
+                PrintedActions.Add(new EvadeAction());
+
                 AssignTemporaryManeuvers();
                 HotacManeuverTable = new AI.Firespray31Table();
 
@@ -42,13 +46,6 @@ namespace Ship
                     SoundFlyPaths.Add("Slave1-Fly" + i);
                 }
                 
-            }
-
-            public override void InitializeShip()
-            {
-                base.InitializeShip();
-                BuiltInActions.Add(new ActionsList.TargetLockAction());
-                BuiltInActions.Add(new ActionsList.EvadeAction());
             }
 
             private void AssignTemporaryManeuvers()

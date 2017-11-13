@@ -11,7 +11,7 @@ namespace Arcs
 
         public Arc360(GenericShip host) : base(host)
         {
-            CanShootOutsideArc = true;
+            OutOfArcShotPermissions.CanShootPrimaryWeapon = true;
         }
 
         public override bool InAttackAngle(string origianPoint, float angle)

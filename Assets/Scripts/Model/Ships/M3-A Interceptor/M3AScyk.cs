@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Movement;
+using ActionsList;
 
 namespace Ship
 {
@@ -21,6 +22,10 @@ namespace Ship
                 MaxHull = 2;
                 MaxShields = 1;
 
+                PrintedActions.Add(new EvadeAction());
+                PrintedActions.Add(new BarrelRollAction());
+                PrintedActions.Add(new TargetLockAction());
+
                 AssignTemporaryManeuvers();
                 HotacManeuverTable = null;
 
@@ -37,15 +42,7 @@ namespace Ship
                     SoundFlyPaths.Add("TIE-Fly" + i);
                 }
             }
-
-            public override void InitializeShip()
-            {
-                base.InitializeShip();
-                BuiltInActions.Add(new ActionsList.EvadeAction());
-                BuiltInActions.Add(new ActionsList.BarrelRollAction());
-                BuiltInActions.Add(new ActionsList.TargetLockAction());
-            }
-
+            
             private void AssignTemporaryManeuvers()
             {
                 Maneuvers.Add("1.L.T", ManeuverColor.White);

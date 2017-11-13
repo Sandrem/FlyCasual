@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Movement;
+using ActionsList;
 
 namespace Ship
 {
@@ -14,7 +15,7 @@ namespace Ship
             {
                 Type = "VCX-100";
                 ShipBaseSize = BaseSize.Large;
-                ShipBaseArcsType = Arcs.BaseArcsType.ArcRear;
+                ShipBaseArcsType = Arcs.BaseArcsType.ArcGhost;
 
                 ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/c/cf/MR_VCX-100.png";
 
@@ -29,6 +30,9 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Torpedo);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Crew);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Crew);
+
+                PrintedActions.Add(new TargetLockAction());
+                PrintedActions.Add(new EvadeAction());
 
                 AssignTemporaryManeuvers();
                 HotacManeuverTable = null;
@@ -45,14 +49,6 @@ namespace Ship
                 {
                     SoundFlyPaths.Add("Falcon-Fly" + i);
                 }
-                
-            }
-
-            public override void InitializeShip()
-            {
-                base.InitializeShip();
-                BuiltInActions.Add(new ActionsList.TargetLockAction());
-                BuiltInActions.Add(new ActionsList.EvadeAction());
             }
 
             private void AssignTemporaryManeuvers()

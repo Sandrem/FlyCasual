@@ -41,7 +41,7 @@ namespace RulesList
             //TODO: filter action in window instead
 
             ActionsList.GenericAction cloakAction = null;
-            foreach (var action in ship.BuiltInActions)
+            foreach (var action in ship.PrintedActions)
             {
                 if (action.GetType() == typeof(ActionsList.CloakAction))
                 {
@@ -49,7 +49,7 @@ namespace RulesList
                     break;
                 }
             }
-            ship.BuiltInActions.Remove(cloakAction);
+            ship.PrintedActions.Remove(cloakAction);
 
             ship.ChangeAgilityBy(+2);
             ship.OnTryPerformAttack += CannotAttackWhileCloaked;
@@ -58,7 +58,7 @@ namespace RulesList
 
         private void RemoveCloakEffects(Ship.GenericShip ship)
         {
-            ship.BuiltInActions.Add(new ActionsList.CloakAction());
+            ship.PrintedActions.Add(new ActionsList.CloakAction());
             ship.ChangeAgilityBy(-2);
             ship.OnTryPerformAttack -= CannotAttackWhileCloaked;
             Phases.OnActivationPhaseStart -= RegisterAskDecloak;
@@ -439,6 +439,7 @@ namespace SubPhases
             if (IsDecloakAllowed())
             {
                 CheckMines();
+                Selection.ThisShip.IsLandedOnObstacle = obstaclesStayDetectorBase.OverlapsAsteroidNow;
                 StartDecloakExecution(Selection.ThisShip);
             }
             else
@@ -472,7 +473,7 @@ namespace SubPhases
                 Messages.ShowError("Cannot overlap another ship");
                 allow = false;
             }
-            else if (obstaclesStayDetectorBase.OverlapsAsteroidNow || obstaclesStayDetectorMovementTemplate.OverlapsAsteroidNow)
+            else if ((!Selection.ThisShip.IsIgnoreObstacles) && (obstaclesStayDetectorBase.OverlapsAsteroidNow || obstaclesStayDetectorMovementTemplate.OverlapsAsteroidNow))
             {
                 Messages.ShowError("Cannot overlap asteroid");
                 allow = false;

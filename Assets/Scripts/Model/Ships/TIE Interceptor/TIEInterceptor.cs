@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Movement;
+using ActionsList;
 
 namespace Ship
 {
@@ -21,6 +22,10 @@ namespace Ship
                 MaxHull = 3;
                 MaxShields = 0;
 
+                PrintedActions.Add(new EvadeAction());
+                PrintedActions.Add(new BarrelRollAction());
+                PrintedActions.Add(new BoostAction());
+
                 AssignTemporaryManeuvers();
                 HotacManeuverTable = new AI.TIEInterceptorTable();
 
@@ -36,14 +41,6 @@ namespace Ship
                 {
                     SoundFlyPaths.Add("TIE-Fly" + i);
                 }
-            }
-
-            public override void InitializeShip()
-            {
-                base.InitializeShip();
-                BuiltInActions.Add(new ActionsList.EvadeAction());
-                BuiltInActions.Add(new ActionsList.BarrelRollAction());
-                BuiltInActions.Add(new ActionsList.BoostAction());
             }
 
             private void AssignTemporaryManeuvers()

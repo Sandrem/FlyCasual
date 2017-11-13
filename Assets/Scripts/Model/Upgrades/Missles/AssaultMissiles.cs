@@ -34,7 +34,7 @@ namespace UpgradesList
 
 		private void SubscribeOnHit()
 		{
-			Host.OnAttackHitAsAttacker += RegisterAssaultMissleHit;
+			Host.OnShotHitAsAttacker += RegisterAssaultMissleHit;
 		}
 
 		private void RegisterAssaultMissleHit()
@@ -44,7 +44,7 @@ namespace UpgradesList
 				Triggers.RegisterTrigger(new Trigger()
 					{
 						Name = "Assault Missile Hit",
-						TriggerType = TriggerTypes.OnAttackHit,
+						TriggerType = TriggerTypes.OnShotHit,
 						TriggerOwner = Combat.Attacker.Owner.PlayerNo,
 						EventHandler = delegate{
 							AssaultMissilesHitEffect();

@@ -79,7 +79,7 @@ namespace ActionsList
                 targetLockLetter = Actions.GetTargetLocksLetterPair(Combat.Attacker, Combat.Defender);
                 Combat.Attacker.GetToken(typeof(Tokens.BlueTargetLockToken), targetLockLetter).CanBeUsed = false;
 
-                Combat.Attacker.OnAttackPerformed += SetTargetLockCanBeUsed;
+                Combat.Attacker.OnAttackFinish += SetTargetLockCanBeUsed;
             }
             else
             {
@@ -89,11 +89,11 @@ namespace ActionsList
             callBack();
         }
 
-        private void SetTargetLockCanBeUsed()
+        private void SetTargetLockCanBeUsed(GenericShip ship)
         {
             Combat.Attacker.GetToken(typeof(Tokens.BlueTargetLockToken), targetLockLetter).CanBeUsed = true;
 
-            Combat.Attacker.OnAttackPerformed -= SetTargetLockCanBeUsed;
+            Combat.Attacker.OnAttackFinish -= SetTargetLockCanBeUsed;
         }
 
     }

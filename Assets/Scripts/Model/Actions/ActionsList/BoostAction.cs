@@ -237,6 +237,7 @@ namespace SubPhases
             if (IsBoostAllowed())
             {
                 CheckMines();
+                Selection.ThisShip.IsLandedOnObstacle = obstaclesStayDetectorBase.OverlapsAsteroidNow;
                 GameMode.CurrentGameMode.StartBoostExecution(Selection.ThisShip);
             }
             else
@@ -265,7 +266,7 @@ namespace SubPhases
                 Messages.ShowError("Cannot overlap another ship");
                 allow = false;
             }
-            else if (obstaclesStayDetectorBase.OverlapsAsteroidNow || obstaclesStayDetectorMovementTemplate.OverlapsAsteroidNow)
+            else if ((!Selection.ThisShip.IsIgnoreObstacles) && (obstaclesStayDetectorBase.OverlapsAsteroidNow || obstaclesStayDetectorMovementTemplate.OverlapsAsteroidNow))
             {
                 Messages.ShowError("Cannot overlap asteroid");
                 allow = false;

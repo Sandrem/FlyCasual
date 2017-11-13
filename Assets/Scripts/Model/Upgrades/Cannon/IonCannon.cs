@@ -29,7 +29,7 @@ namespace UpgradesList
 
 		private void SubscribeOnHit()
 		{
-			Host.OnAttackHitAsAttacker += RegisterIonCannonEffect;
+			Host.OnShotHitAsAttacker += RegisterIonCannonEffect;
 		}
 
 		private void RegisterIonCannonEffect()
@@ -39,7 +39,7 @@ namespace UpgradesList
 				Triggers.RegisterTrigger(new Trigger()
 					{
 						Name = "Ion Cannon effect",
-						TriggerType = TriggerTypes.OnAttackHit,
+						TriggerType = TriggerTypes.OnShotHit,
 						TriggerOwner = Combat.Attacker.Owner.PlayerNo,
 						EventHandler = IonCannonEffect
 					});

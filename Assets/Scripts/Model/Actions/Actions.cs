@@ -153,7 +153,7 @@ public static partial class Actions {
         return false;
     }
 
-    public static int CountEnemiesTargeting(Ship.GenericShip thisShip)
+    public static int CountEnemiesTargeting(Ship.GenericShip thisShip, int direction = 0)
     {
         int result = 0;
 
@@ -162,7 +162,23 @@ public static partial class Actions {
             ShipShotDistanceInformation shotInfo = new ShipShotDistanceInformation(anotherShip.Value, thisShip, anotherShip.Value.PrimaryWeapon);
             if ((shotInfo.Range < 4) && (shotInfo.InShotAngle))
             {
-                result++;
+                if (direction == 0)
+                {
+                    result++;
+                }
+                else
+                {
+                    ShipShotDistanceInformation reverseShotInfo = new ShipShotDistanceInformation(thisShip, anotherShip.Value, thisShip.PrimaryWeapon);
+                    if (direction == 1)
+                    {
+                        if (reverseShotInfo.InArc) result++;
+                    }
+                    else if (direction == -1)
+                    {
+                        if (!reverseShotInfo.InArc) result++;
+                    }
+                }
+                
             }
         }
 

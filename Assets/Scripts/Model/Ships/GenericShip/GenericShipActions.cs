@@ -9,7 +9,7 @@ namespace Ship
     public partial class GenericShip
     {
 
-        public      List<ActionsList.GenericAction> BuiltInActions                          = new List<ActionsList.GenericAction>();
+        public      List<ActionsList.GenericAction> PrintedActions                          = new List<ActionsList.GenericAction>();
         private     List<ActionsList.GenericAction> AvailableActionsList                    = new List<ActionsList.GenericAction>();
         private     List<ActionsList.GenericAction> AvailableFreeActionsList                = new List<ActionsList.GenericAction>();
         private     List<ActionsList.GenericAction> AlreadyExecutedActions                  = new List<ActionsList.GenericAction>();
@@ -56,21 +56,17 @@ namespace Ship
         {
             if (OnActionIsPerformed != null) OnActionIsPerformed(action);
         }
-        private void AddBuiltInActions()
-        {
-            BuiltInActions.Add(new ActionsList.FocusAction());
-        }
 
         public List<ActionsList.GenericAction> GetActionsFromActionBar()
         {
-            return BuiltInActions;
+            return PrintedActions;
         }
 
         public void GenerateAvailableActionsList()
         {
             AvailableActionsList = new List<ActionsList.GenericAction>();
 
-            foreach (var action in BuiltInActions)
+            foreach (var action in PrintedActions)
             {
                 AddAvailableAction(action);
             }
@@ -136,7 +132,7 @@ namespace Ship
 
         public List<ActionsList.GenericAction> GetAvailablePrintedActionsList()
         {
-            return BuiltInActions;
+            return PrintedActions;
         }
 
         public List<ActionsList.GenericAction> GetAvailableFreeActionsList()

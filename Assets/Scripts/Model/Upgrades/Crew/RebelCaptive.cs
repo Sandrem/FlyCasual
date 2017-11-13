@@ -23,7 +23,7 @@ namespace UpgradesList
         {
             base.AttachToShip(host);
 
-            host.OnAttack += RegisterTrigger;
+            host.OnAttackStartAsDefender += RegisterTrigger;
 
             Phases.OnEndPhaseStart += Cleanup;
         }

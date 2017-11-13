@@ -44,7 +44,7 @@ namespace Ship
         public bool CanShootOutsideArc
         {
             set { }
-            get { return Host.ArcInfo.CanShootOutsideArc; }
+            get { return Host.ArcInfo.OutOfArcShotPermissions.CanShootPrimaryWeapon; }
         }
 
         public PrimaryWeaponClass(GenericShip host)
@@ -62,31 +62,13 @@ namespace Ship
 
             int range;
 
-            if (Combat.ChosenWeapon.GetType() == GetType())
+            Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(Host, targetShip, this);
+            range = shotInfo.Range;
+            if (!CanShootOutsideArc)
             {
-                Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(Host, targetShip, this);
-                range = shotInfo.Range;
-                if (!CanShootOutsideArc)
-                {
-                    //TODO: Change to munitions arc
-                    if (!shotInfo.InShotAngle) return false;
-                }
-            }
-            else
-            {
-                if (!CanShootOutsideArc)
-                {
-                    Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(Host, targetShip, this);
-                    range = shotInfo.Range;
+                if (!shotInfo.InShotAngle) return false;
 
-                    //TODO: Change to munitions arc
-                    if (!shotInfo.InShotAngle) return false;
-                }
-                else
-                {
-                    Board.ShipDistanceInformation distanceInfo = new Board.ShipDistanceInformation(Host, targetShip);
-                    range = distanceInfo.Range;
-                }
+                if (!shotInfo.CanShootPrimaryWeapon) return false;
             }
 
             if (range < MinRange) return false;
@@ -125,12 +107,22 @@ namespace Ship
 
         public event EventHandlerTokensList OnGenerateAvailableAttackPaymentList;
 
-        public event EventHandler OnAttack;
-        public static event EventHandler OnAttackAsAttackerGlobal;
+        public event EventHandler OnAttackStartAsAttacker;
+        public static event EventHandler OnAttackStartAsAttackerGlobal;
+        public event EventHandler OnAttackStartAsDefender;
+
+        public event EventHandler OnShotStartAsAttacker;
+        public event EventHandler OnShotStartAsDefender;
+
         public event EventHandler OnDefence;
 
         public event EventHandler OnAtLeastOneCritWasCancelledByDefender;
-        public event EventHandler OnAttackPerformed;
+
+        public event EventHandler OnShotHitAsAttacker;
+        public event EventHandler OnShotHitAsDefender;
+        public static event EventHandler OnShotHitAsDefenderGlobal;
+
+        public static event EventHandler OnTryDamagePreventionGlobal;
 
         public event EventHandler OnAttackHitAsAttacker;
         public event EventHandler OnAttackHitAsDefender;
@@ -158,7 +150,7 @@ namespace Ship
         public event EventHandlerShip AfterAttackWindow;
         public event EventHandlerShip OnCheckSecondAttack;
 
-        public event EventHandlerShip OnCombatEnd;
+        public event EventHandlerShip OnAttackFinish;
 
         public event EventHandlerBombDropTemplates OnGetAvailableBombDropTemplates;
 
@@ -199,16 +191,32 @@ namespace Ship
 
         public void CallAttackStart()
         {
-            ClearAlreadyExecutedOppositeActionEffects();
-            ClearAlreadyExecutedActionEffects();
-            if (Combat.Attacker.ShipId == this.ShipId) IsAttackPerformed = true;
+            if (Combat.Attacker.ShipId == this.ShipId)
+            {
+                IsAttackPerformed = true;
 
-            if (OnAttack != null) OnAttack();
+                if (OnAttackStartAsAttacker != null) OnAttackStartAsAttacker();
+                if (OnAttackStartAsAttackerGlobal != null) OnAttackStartAsAttackerGlobal();
+            }
+            else if (Combat.Defender.ShipId == this.ShipId)
+            {
+                if (OnAttackStartAsDefender != null) OnAttackStartAsDefender();
+            }
         }
 
-        public void CallAttackStartAsAttacker()
+        public void CallShotStart()
         {
-            if (OnAttackAsAttackerGlobal != null) OnAttackAsAttackerGlobal();
+            ClearAlreadyExecutedOppositeActionEffects();
+            ClearAlreadyExecutedActionEffects();
+
+            if (Combat.Attacker.ShipId == this.ShipId)
+            {
+                if (OnShotStartAsAttacker != null) OnShotStartAsAttacker();
+            }
+            else if (Combat.Defender.ShipId == this.ShipId)
+            {
+                if (OnShotStartAsDefender != null) OnShotStartAsDefender();
+            }
         }
 
         public void CallDefenceStart()
@@ -216,6 +224,25 @@ namespace Ship
             ClearAlreadyExecutedOppositeActionEffects();
             ClearAlreadyExecutedActionEffects();
             if (OnDefence != null) OnDefence();
+        }
+
+        public void CallShotHitAsAttacker()
+        {
+            if (OnShotHitAsAttacker != null) OnShotHitAsAttacker();
+        }
+
+        public void CallShotHitAsDefender()
+        {
+            if (OnShotHitAsDefenderGlobal != null) OnShotHitAsDefenderGlobal();
+
+            if (OnShotHitAsDefender != null) OnShotHitAsDefender();
+        }
+
+        public void CallTryDamagePrevention(Action callBack)
+        {
+            if (OnTryDamagePreventionGlobal != null) OnTryDamagePreventionGlobal();
+
+            Triggers.ResolveTriggers(TriggerTypes.OnTryDamagePrevention, callBack);
         }
 
         public void CallOnAttackHitAsAttacker()
@@ -252,9 +279,9 @@ namespace Ship
             Triggers.ResolveTriggers(TriggerTypes.OnCheckSecondAttack, callBack);
         }
 
-        public void CallCombatEnd()
+        public void CallAttackFinish()
         {
-            if (OnCombatEnd != null) OnCombatEnd(this);
+            if (OnAttackFinish != null) OnAttackFinish(this);
         }
 
         public void CallOnImmediatelyAfterRolling(DiceRoll diceroll, Action callBack)
@@ -262,11 +289,6 @@ namespace Ship
             if (OnImmediatelyAfterRolling != null) OnImmediatelyAfterRolling(diceroll);
 
             Triggers.ResolveTriggers(TriggerTypes.OnImmediatelyAfterRolling, callBack);
-        }
-
-        public void CallOnAttackPerformed()
-        {
-            if (OnAttackPerformed != null) OnAttackPerformed();
         }
 
         public void CallOnAtLeastOneCritWasCancelledByDefender()

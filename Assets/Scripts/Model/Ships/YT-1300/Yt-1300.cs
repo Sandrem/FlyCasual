@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Movement;
+using ActionsList;
 
 namespace Ship
 {
@@ -26,6 +27,8 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Crew);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Crew);
 
+                PrintedActions.Add(new TargetLockAction());
+
                 AssignTemporaryManeuvers();
                 HotacManeuverTable = new AI.YT1300Table();
 
@@ -41,13 +44,7 @@ namespace Ship
                 {
                     SoundFlyPaths.Add("Falcon-Fly" + i);
                 }
-                
-            }
 
-            public override void InitializeShip()
-            {
-                base.InitializeShip();
-                BuiltInActions.Add(new ActionsList.TargetLockAction());
             }
 
             private void AssignTemporaryManeuvers()

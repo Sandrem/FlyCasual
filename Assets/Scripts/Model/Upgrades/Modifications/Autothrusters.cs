@@ -17,10 +17,7 @@ namespace UpgradesList
 
         public override bool IsAllowedForShip(GenericShip ship)
         {
-            //TODO: Fix restrictions
-            //return (ship.BuiltInActions.Count(n => n.GetType() == typeof(BoostAction)) != 0);
-
-            return true;
+            return (ship.PrintedActions.Count(n => n.GetType() == typeof(BoostAction)) != 0);
         }
 
         public override void AttachToShip(GenericShip host)

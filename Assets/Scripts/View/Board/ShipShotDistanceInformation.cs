@@ -16,7 +16,10 @@ namespace Board
         public bool InPrimaryArc { get; private set; }
         public bool InBullseyeArc { get; private set; }
         public bool InArc { get; private set; }
-        public bool CanShootSecondaryWeapon { get; private set; }
+        public bool CanShootPrimaryWeapon { get; private set; }
+        public bool CanShootTorpedoes { get; private set; }
+        public bool CanShootMissiles { get; private set; }
+        public bool CanShootCannon { get; private set; }
 
         public new int Range
         {
@@ -92,9 +95,24 @@ namespace Board
                             InBullseyeArc = true;
                         }
 
-                        if (ChosenWeapon.Host.ArcInfo.CanShootSecondaryWeapon(pointThis.Key, angle))
+                        if (ChosenWeapon.Host.ArcInfo.CanShootPrimaryWeapon(pointThis.Key, angle))
                         {
-                            CanShootSecondaryWeapon = true;
+                            CanShootPrimaryWeapon = true;
+                        }
+
+                        if (ChosenWeapon.Host.ArcInfo.CanShootTorpedoes(pointThis.Key, angle))
+                        {
+                            CanShootTorpedoes = true;
+                        }
+
+                        if (ChosenWeapon.Host.ArcInfo.CanShootMissiles(pointThis.Key, angle))
+                        {
+                            CanShootMissiles = true;
+                        }
+
+                        if (ChosenWeapon.Host.ArcInfo.CanShootCannon(pointThis.Key, angle))
+                        {
+                            CanShootCannon = true;
                         }
 
                         distance = Vector3.Distance(pointThis.Value, pointAnother.Value);
@@ -115,14 +133,6 @@ namespace Board
                         }
                     }
                 }
-            }
-
-            if (DebugManager.DebugArcsAndDistance)
-            {
-                Debug.Log("InShotAngle: " + InShotAngle);
-                Debug.Log("InArc: " + InArc);
-                Debug.Log("InPrimaryArc: " + InPrimaryArc);
-                Debug.Log("Range: " + Range);
             }
         }
 

@@ -1,6 +1,7 @@
 ﻿using Upgrade;
 using UnityEngine;
 using Ship;
+using SubPhases;
 
 namespace UpgradesList
 {
@@ -16,7 +17,7 @@ namespace UpgradesList
         public override void AttachToShip(GenericShip host)
         {
             base.AttachToShip(host);
-            GenericShip.OnAttackHitAsDefenderGlobal += CheckDrawTheirFireAbility;
+            GenericShip.OnTryDamagePreventionGlobal += CheckDrawTheirFireAbility;
             Host.OnDestroyed += RemoveDrawTheirFireAbility;
         }
 
@@ -37,7 +38,7 @@ namespace UpgradesList
             Triggers.RegisterTrigger(new Trigger()
             {
                 Name = "Draw Their Fire",
-                TriggerType = TriggerTypes.OnAttackHit,
+                TriggerType = TriggerTypes.OnTryDamagePrevention,
                 TriggerOwner = Host.Owner.PlayerNo,
                 EventHandler = UseDrawTheirFireAbility
             });
@@ -47,12 +48,13 @@ namespace UpgradesList
         {
             if (Combat.DiceRollAttack.CriticalSuccesses > 0)
             {
-                Selection.ActiveShip = Host;
-                Phases.StartTemporarySubPhaseOld(
+                DrawTheirFireDecisionSubPhase decisionSubPhase = (DrawTheirFireDecisionSubPhase) Phases.StartTemporarySubPhaseNew(
                     "Draw Their Fire",
-                    typeof(SubPhases.DrawTheirFireDecisionSubPhase),
+                    typeof(DrawTheirFireDecisionSubPhase),
                     Triggers.FinishTrigger
                 );
+                decisionSubPhase.DrawTheirFireUpgrade = this;
+                decisionSubPhase.Start();
             }
             else
             {
@@ -62,7 +64,7 @@ namespace UpgradesList
 
         private void RemoveDrawTheirFireAbility(GenericShip ship)
         {
-            GenericShip.OnAttackHitAsDefenderGlobal -= CheckDrawTheirFireAbility;
+            GenericShip.OnTryDamagePreventionGlobal -= CheckDrawTheirFireAbility;
         }
     }
 }
@@ -72,6 +74,7 @@ namespace SubPhases
 
     public class DrawTheirFireDecisionSubPhase : DecisionSubPhase
     {
+        public UpgradesList.DrawTheirFire DrawTheirFireUpgrade;
 
         public override void PrepareDecision(System.Action callBack)
         {
@@ -90,14 +93,14 @@ namespace SubPhases
             Die criticalHitDice = Combat.DiceRollAttack.DiceList.Find(n => n.Side == DieSide.Crit);
 
             Combat.DiceRollAttack.DiceList.Remove(criticalHitDice);
-            Selection.ActiveShip.AssignedDamageDiceroll.DiceList.Add(criticalHitDice);
+            DrawTheirFireUpgrade.Host.AssignedDamageDiceroll.DiceList.Add(criticalHitDice);
 
             Triggers.RegisterTrigger(new Trigger()
             {
                 Name = "Suffer damage from Draw Their Fire",
-                TriggerType = TriggerTypes.OnDamageIsDealt,
-                TriggerOwner = Selection.ActiveShip.Owner.PlayerNo,
-                EventHandler = Selection.ActiveShip.SufferDamage,
+                TriggerType = TriggerTypes.OnTryDamagePrevention,
+                TriggerOwner = DrawTheirFireUpgrade.Host.Owner.PlayerNo,
+                EventHandler = DrawTheirFireUpgrade.Host.SufferDamage,
                 EventArgs = new DamageSourceEventArgs()
                 {
                     Source = "Draw Their Fire",

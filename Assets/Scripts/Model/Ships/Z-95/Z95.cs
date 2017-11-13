@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Movement;
+using ActionsList;
 
 namespace Ship
 {
@@ -29,6 +30,8 @@ namespace Ship
                 factions.Add(Faction.Rebels);
                 factions.Add(Faction.Scum);
 
+                PrintedActions.Add(new TargetLockAction());
+
                 SkinName = "Yellow";
 
                 SoundShotsPath = "XWing-Laser";
@@ -39,12 +42,6 @@ namespace Ship
                     SoundFlyPaths.Add("XWing-Fly" + i);
                 }
                 
-            }
-
-            public override void InitializeShip()
-            {
-                base.InitializeShip();
-                BuiltInActions.Add(new ActionsList.TargetLockAction());
             }
 
             private void AssignTemporaryManeuvers()

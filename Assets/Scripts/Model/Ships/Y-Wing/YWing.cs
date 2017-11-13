@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Movement;
+using ActionsList;
 
 namespace Ship
 {
@@ -25,6 +26,8 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Torpedo);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Torpedo);
 
+                PrintedActions.Add(new TargetLockAction());
+
                 AssignTemporaryManeuvers();
                 HotacManeuverTable = new AI.YWingTable();
 
@@ -40,14 +43,8 @@ namespace Ship
                 {
                     SoundFlyPaths.Add("YWing-Fly" + i);
                 }
-                
             }
 
-            public override void InitializeShip()
-            {
-                base.InitializeShip();
-                BuiltInActions.Add(new ActionsList.TargetLockAction());
-            }
 
             private void AssignTemporaryManeuvers()
             {

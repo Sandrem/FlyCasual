@@ -42,6 +42,9 @@ namespace ActionsList
         public FlightInstructorActionEffect()
         {
             Name = EffectName = "Flight Instructor";
+
+            // Used for abilities like Dark Curse's that can prevent rerolls
+            IsReroll = true;
         }
 
         public override bool IsActionEffectAvailable()

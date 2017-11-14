@@ -18,6 +18,7 @@ namespace Upgrade
 
         public bool RequiresFocusToShoot;
         public bool RequiresTargetLockOnTargetToShoot;
+        public bool SpendsFocusToShoot;
         public bool SpendsTargetLockOnTargetToShoot;
 
         public bool IsDiscardedForShot;
@@ -146,6 +147,10 @@ namespace Upgrade
                     callBack();
                 }
             }
+            else if (RequiresFocusToShoot && SpendsFocusToShoot)
+            {
+                Combat.Attacker.SpendToken(typeof(FocusToken), callBack);
+            }
             else
             {
                 callBack();
@@ -176,7 +181,7 @@ namespace SubPhases
 
             foreach (var wayToPay in waysToPay)
             {
-                if (wayToPay.GetType() == typeof(BlueTargetLockToken)) { 
+                if (wayToPay.GetType() == typeof(BlueTargetLockToken)) {
                     AddDecision(
                         "Target Lock token",
                         delegate {

@@ -42,9 +42,9 @@ namespace PilotAbilitiesNamespace
         {
             if (Host.Owner.Ships.Count > 1 && Host.HasToken(typeof(Tokens.BlueTargetLockToken), '*'))
             {
-                var pilotAbilityDecision = (DecisionSubPhase)Phases.StartTemporarySubPhaseNew(
+                var pilotAbilityDecision = (ColonelJendonDecisionSubPhase)Phases.StartTemporarySubPhaseNew(
                     Name,
-                    typeof(DecisionSubPhase),
+                    typeof(ColonelJendonDecisionSubPhase),
                     Triggers.FinishTrigger
                 );
 
@@ -77,6 +77,8 @@ namespace PilotAbilitiesNamespace
         
         private void UseColonelJendonAbility(char letter)
         {
+            Tooltips.EndTooltip();
+
             SelectTargetForAbility(
                 SelectColonelJendonAbilityTarget,
                 new List<TargetTypes> { TargetTypes.OtherFriendly },
@@ -97,12 +99,27 @@ namespace PilotAbilitiesNamespace
 
             var token = Host.GetToken(typeof(Tokens.BlueTargetLockToken), '*') as Tokens.BlueTargetLockToken;
 
-            Host.ReassignTargetLockToken(typeof(Tokens.BlueTargetLockToken), token.Letter, TargetShip, DecisionSubPhase.ConfirmDecision);
+            Host.ReassignTargetLockToken(
+                typeof(Tokens.BlueTargetLockToken),
+                token.Letter,
+                TargetShip,
+                delegate{
+                    Phases.FinishSubPhase(Phases.CurrentSubPhase.GetType());
+                    DecisionSubPhase.ConfirmDecision();
+                });
         }
 
         private void DontUseColonelJendonAbility(object sender, System.EventArgs e)
         {
             DecisionSubPhase.ConfirmDecision();
+        }
+
+        private class ColonelJendonDecisionSubPhase : DecisionSubPhase
+        {
+            public override void SkipButton()
+            {
+                ConfirmDecision();
+            }
         }
     }
 }

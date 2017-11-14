@@ -8,6 +8,7 @@ namespace UpgradesList
 
     public class K4SecurityDroid : GenericUpgrade
     {
+        // This is used to set the Action Name, so user can distinguish what Free Action they are performing
         private string ActionName;
 
         public K4SecurityDroid() : base()
@@ -34,6 +35,12 @@ namespace UpgradesList
         {
             if (host.AssignedManeuver.ColorComplexity == Movement.ManeuverColor.Green)
             {
+                /*
+                     This uses OnMovementFinish instead of OnMovementExecuted so user doesn't have to make decision
+                     between resolving "Check Stress" (which happens OnMovementExecuted) and "K4 Security Droid: Target Lock".
+                     That made for a weird situation where a ship with a stress token could choose to use K4 Security Droid before
+                     Check Stress, which would cause K4 Security Droid to fail.
+                */
                 Triggers.RegisterTrigger(new Trigger() {
                     Name = ActionName,
                     TriggerOwner = host.Owner.PlayerNo,

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Arcs;
 using PilotAbilitiesNamespace;
+using System;
 
 namespace Ship
 {
@@ -24,6 +25,36 @@ namespace Ship
 
         public Faction faction { get; protected set; }
         public List<Faction> factions { get; protected set; }
+
+        private SubFaction? subFaction { get; set; }
+        public SubFaction SubFaction
+        {
+            get
+            {
+                if (subFaction != null)
+                {
+                    return subFaction.Value;
+                }
+                else
+                {
+                    switch (faction)
+                    {
+                        case Faction.Imperial:
+                            return SubFaction.GalacticEmpire;
+                        case Faction.Rebel:
+                            return SubFaction.RebelAlliance;
+                        case Faction.Scum:
+                            return SubFaction.ScumAndVillainy;
+                        default:
+                            throw new NotImplementedException("Invalid faction: " + faction.ToString());
+                    }
+                }
+            }
+            set
+            {
+                subFaction = value;
+            }
+        }
         
         public string PilotName { get; protected set; }
         public bool IsUnique { get; protected set; }

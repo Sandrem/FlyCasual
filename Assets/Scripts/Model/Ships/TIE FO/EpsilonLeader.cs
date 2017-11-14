@@ -12,12 +12,11 @@ namespace Ship
 			public EpsilonLeader () : base ()
 			{
 				PilotName = "Epsilon Leader";
-				ImageUrl = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/pilots/First%20Order/TIE-fo%20Fighter/epsilon-leader.png";
 				PilotSkill = 6;
 				Cost = 19;
+                SubFaction = SubFaction.FirstOrder;
 
                 IsUnique = true;
-
                 PilotAbilities.Add(new PilotAbilitiesNamespace.EpsilonLeader());
             }
 		}

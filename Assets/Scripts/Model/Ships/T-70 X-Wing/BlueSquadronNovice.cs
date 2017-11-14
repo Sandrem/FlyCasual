@@ -11,9 +11,9 @@ namespace Ship
             public BlueSquadronNovice() : base()
             {
                 PilotName = "Blue Squadron Novice";
-                ImageUrl = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/pilots/Resistance/T-70%20X-wing/blue-squadron-novice.png";
                 PilotSkill = 2;
                 Cost = 24;
+                SubFaction = SubFaction.Resistance;
             }
         }
     }

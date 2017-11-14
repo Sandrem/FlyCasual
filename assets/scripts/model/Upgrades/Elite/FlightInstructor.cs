@@ -12,7 +12,7 @@ namespace UpgradesList
 
         public FlightInstructor() : base()
         {
-            Type = UpgradeType.Elite;
+            Type = UpgradeType.Crew;
             Name = "Flight Instructor";
             Cost = 4;
         }
@@ -76,11 +76,18 @@ namespace ActionsList
 
         public override void ActionEffect(System.Action callBack)
         {
+            // Can reroll focus if Attacker PS > 2, focus or blank if Attacker PS <= 2
+            System.Collections.Generic.List<DieSide> allowedRerolls =
+                (Combat.Attacker.PilotSkill > 2) ?
+                new System.Collections.Generic.List<DieSide> { DieSide.Focus } :
+                new System.Collections.Generic.List<DieSide> { DieSide.Blank, DieSide.Focus };
+
             DiceRerollManager diceRerollManager = new DiceRerollManager
             {
-                NumberOfDiceCanBeRerolled = (Combat.Attacker.PilotSkill > 2) ? 1 : 2,
+                SidesCanBeRerolled = allowedRerolls,
                 CallBack = callBack
             };
+
             diceRerollManager.Start();
         }
 

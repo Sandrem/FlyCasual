@@ -43,6 +43,9 @@ namespace ActionsList
         public PredatorActionEffect()
         {
             Name = EffectName = "Predator";
+
+            // Used for abilities like Dark Curse's that can prevent rerolls
+            IsReroll = true;
         }
 
         public override bool IsActionEffectAvailable()

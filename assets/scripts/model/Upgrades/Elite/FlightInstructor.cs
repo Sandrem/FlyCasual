@@ -58,16 +58,22 @@ namespace ActionsList
 
             if (Combat.AttackStep == CombatStep.Defence)
             {
-                int defenceFocuses = Combat.DiceRollDefence.FocusesNotRerolled;
-                int defenceBlanks = Combat.DiceRollDefence.BlanksNotRerolled;
+                bool canRerollBlank = Combat.Attacker.PilotSkill <= 2 && Combat.DiceRollDefence.BlanksNotRerolled > 0;
+                bool canRerollFocus = Combat.DiceRollDefence.FocusesNotRerolled > 0;
 
                 if (Combat.Defender.GetAvailableActionEffectsList().Count(n => n.IsTurnsAllFocusIntoSuccess) > 0 )
                 {
-                    if (defenceBlanks > 0) result = 90;
+                    if (canRerollBlank)
+                    {
+                        result = 95;
+                    }
                 }
                 else
                 {
-                    if (defenceBlanks + defenceFocuses > 0) result = 90;
+                    if (canRerollBlank || canRerollFocus)
+                    {
+                        result = 95;
+                    }
                 }
             }
 

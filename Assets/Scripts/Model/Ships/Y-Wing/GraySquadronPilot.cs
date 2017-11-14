@@ -19,7 +19,7 @@ namespace Ship
 
                 SkinName = "Gray";
 
-                faction = Faction.Rebels;
+                faction = Faction.Rebel;
             }
         }
     }

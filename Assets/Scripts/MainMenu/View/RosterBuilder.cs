@@ -374,15 +374,15 @@ public static partial class RosterBuilder {
 
     private static Faction GetPlayerFaction(PlayerNo playerNo)
     {
-        Faction result = Faction.Empire;
+        Faction result = Faction.Imperial;
         int index = GetPlayerPanel(playerNo).Find("GroupFaction/Dropdown").GetComponent<Dropdown>().value;
         switch (index)
         {
             case 0:
-                result = Faction.Rebels;
+                result = Faction.Rebel;
                 break;
             case 1:
-                result = Faction.Empire;
+                result = Faction.Imperial;
                 break;
             case 2:
                 result = Faction.Scum;

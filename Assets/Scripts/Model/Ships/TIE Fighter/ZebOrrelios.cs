@@ -15,7 +15,7 @@ namespace Ship
                 PilotSkill = 4;
                 Cost = 14;
 
-                faction = Faction.Rebels;
+                faction = Faction.Rebel;
             }
         }
     }

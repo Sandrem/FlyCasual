@@ -31,10 +31,12 @@ public static class ImageUrls
     {
         switch (faction)
         {
-            case Faction.Rebels:
+            case Faction.Rebel:
                 return "Rebel Alliance";
-            case Faction.Empire:
+            case Faction.Imperial:
                 return "Galactic Empire";
+            case Faction.Scum:
+                return "Scum and Villainy";
             default:
                 throw new NotImplementedException();
         }

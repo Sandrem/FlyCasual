@@ -17,7 +17,7 @@ namespace Ship
 
                 SkinName = "Bounty Hunter";
 
-                faction = Faction.Empire;
+                faction = Faction.Imperial;
             }
         }
     }

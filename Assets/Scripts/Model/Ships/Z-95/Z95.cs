@@ -27,7 +27,7 @@ namespace Ship
                 AssignTemporaryManeuvers();
                 HotacManeuverTable = new AI.Z95Table();
 
-                factions.Add(Faction.Rebels);
+                factions.Add(Faction.Rebel);
                 factions.Add(Faction.Scum);
 
                 PrintedActions.Add(new TargetLockAction());

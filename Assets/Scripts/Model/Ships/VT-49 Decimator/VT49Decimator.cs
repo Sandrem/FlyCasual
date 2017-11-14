@@ -35,8 +35,8 @@ namespace Ship
                 AssignTemporaryManeuvers();
                 HotacManeuverTable = new AI.VT49DecimatorTable();
 
-                factions.Add(Faction.Empire);
-                faction = Faction.Empire;
+                factions.Add(Faction.Imperial);
+                faction = Faction.Imperial;
 
                 SkinName = "Gray";
 

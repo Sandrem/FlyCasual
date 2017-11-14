@@ -31,8 +31,8 @@ namespace Ship
                 AssignTemporaryManeuvers();
                 HotacManeuverTable = null;
 
-                factions.Add(Faction.Empire);
-                faction = Faction.Empire;
+                factions.Add(Faction.Imperial);
+                faction = Faction.Imperial;
 
                 SkinName = "First Order";
 

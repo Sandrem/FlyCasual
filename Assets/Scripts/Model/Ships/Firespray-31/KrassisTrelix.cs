@@ -21,7 +21,7 @@ namespace Ship
 
                 PilotAbilities.Add(new PilotAbilitiesNamespace.KrassisTrelixAbility());
 
-                faction = Faction.Empire;
+                faction = Faction.Imperial;
 
                 SkinName = "Krassis Trelix";
             }

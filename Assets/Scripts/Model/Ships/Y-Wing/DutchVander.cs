@@ -21,7 +21,7 @@ namespace Ship
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Astromech);
 
-                faction = Faction.Rebels;
+                faction = Faction.Rebel;
 
                 PilotAbilities.Add(new PilotAbilitiesNamespace.DutchVanderAbility());
             }

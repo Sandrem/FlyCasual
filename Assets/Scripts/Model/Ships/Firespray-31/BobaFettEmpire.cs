@@ -20,7 +20,7 @@ namespace Ship
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
-                faction = Faction.Empire;
+                faction = Faction.Imperial;
 
                 SkinName = "Boba Fett";
 

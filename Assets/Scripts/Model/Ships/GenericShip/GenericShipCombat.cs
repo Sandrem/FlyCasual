@@ -102,8 +102,8 @@ namespace Ship
         public event EventHandlerShip OnCombatPhaseStart;
         public event EventHandlerShip OnCombatPhaseEnd;
 
-        public event EventHandlerBool OnTryPerformAttack;
-        public static event EventHandlerBool OnTryPerformAttackGlobal;
+        public event EventHandlerBoolStringList OnTryPerformAttack;
+        public static event EventHandlerBoolStringList OnTryPerformAttackGlobal;
 
         public event EventHandlerTokensList OnGenerateAvailableAttackPaymentList;
 
@@ -180,11 +180,21 @@ namespace Ship
             if (OnCombatPhaseEnd != null) OnCombatPhaseEnd(this);
         }
 
-        public bool CallCanPerformAttack(bool result = true)
+        public bool CallCanPerformAttack(bool result = true, List<string> stringList = null, bool isSilent = false)
         {
-            if (OnTryPerformAttack != null) OnTryPerformAttack(ref result);
+            if (stringList == null) stringList = new List<string>();
 
-            if (OnTryPerformAttackGlobal != null) OnTryPerformAttackGlobal(ref result);
+            if (OnTryPerformAttack != null) OnTryPerformAttack(ref result, stringList);
+
+            if (OnTryPerformAttackGlobal != null) OnTryPerformAttackGlobal(ref result, stringList);
+
+            if (!isSilent && stringList.Count > 0)
+            {
+                foreach (var errorMessage in stringList)
+                {
+                    Messages.ShowErrorToHuman(errorMessage);
+                }
+            }
 
             return result;
         }
@@ -613,11 +623,11 @@ namespace Ship
             return availableTemplates;
         }
 
-        public bool AreWeaponsNotDisabled()
+        public bool AreWeaponsDisabled()
         {
-            bool result = !HasToken(typeof(Tokens.WeaponsDisabledToken));
+            bool result = HasToken(typeof(Tokens.WeaponsDisabledToken));
 
-            if (result == false)
+            if (result == true)
             {
                 if (OnWeaponsDisabledCheck != null) OnWeaponsDisabledCheck(ref result);
             }

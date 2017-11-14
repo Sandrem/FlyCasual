@@ -36,7 +36,7 @@ namespace UpgradesList
             GenericSecondaryWeapon secondaryWeapon = Combat.ChosenWeapon as GenericSecondaryWeapon;
             if (secondaryWeapon != null)
             {
-                if (secondaryWeapon.Type == UpgradeType.Cannon && secondaryWeapon.Cost <= 2) result = true;
+                if (secondaryWeapon.Type == UpgradeType.Cannon && secondaryWeapon.Cost <= 2) result = false;
             }
         }
     }

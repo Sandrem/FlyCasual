@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace RulesList
 {
@@ -15,11 +16,13 @@ namespace RulesList
             Ship.GenericShip.OnTryPerformAttackGlobal += CanPerformAttack;
         }
 
-        public void CanPerformAttack(ref bool result)
+        public void CanPerformAttack(ref bool result, List<string> stringList)
         {
-            result = Selection.ThisShip.AreWeaponsNotDisabled();
-
-            if (result == false) Messages.ShowErrorToHuman("Cannot attack: Weapons Disabled Token");
+            if (Selection.ThisShip.AreWeaponsDisabled())
+            {
+                stringList.Add("Cannot attack while weapons are disabled");
+                result = false;
+            }
         }
 
     }

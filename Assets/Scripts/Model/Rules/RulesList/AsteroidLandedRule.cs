@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace RulesList
 {
@@ -24,11 +25,11 @@ namespace RulesList
             }
         }
 
-        public void CanPerformAttack(ref bool result)
+        public void CanPerformAttack(ref bool result, List<string> stringList)
         {
             if (Selection.ThisShip.IsLandedOnObstacle)
             {
-                Messages.ShowErrorToHuman("Landed on asteroid - cannot attack");
+                stringList.Add("Landed on asteroid - cannot attack");
                 result = false;
             }
         }

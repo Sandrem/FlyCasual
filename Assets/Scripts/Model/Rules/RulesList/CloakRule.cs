@@ -64,8 +64,9 @@ namespace RulesList
             Phases.OnActivationPhaseStart -= RegisterAskDecloak;
         }
 
-        private void CannotAttackWhileCloaked(ref bool result)
+        private void CannotAttackWhileCloaked(ref bool result, List<string> stringList)
         {
+            stringList.Add("Cannot attack while Cloaked");
             result = false;
         }
 

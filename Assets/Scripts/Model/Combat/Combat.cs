@@ -115,7 +115,7 @@ public static partial class Combat
     {
         bool result = false;
 
-        if (Rules.TargetIsLegalForShot.IsLegal() && ChosenWeapon.IsShotAvailable(Selection.AnotherShip))
+        if (Rules.TargetIsLegalForShot.IsLegal(true) && ChosenWeapon.IsShotAvailable(Selection.AnotherShip))
         {
             result = true;
         }

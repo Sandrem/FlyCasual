@@ -62,7 +62,9 @@ public static class ImageUrls
             .Replace("(", "")
             .Replace(")", "")
             .Replace(' ', '-')
-            .Replace('/', '-');
+            .Replace('/', '-')
+            .Replace('\'', '-')
+            .Replace("\"", "");
     }
 }
 

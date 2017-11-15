@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
+using UnityEngine.Networking;
 
 public static partial class Network
 {
@@ -260,6 +261,14 @@ public static partial class Network
     public static void SyncSelectedDiceAndReroll()
     {
         if (IsServer) CurrentPlayer.CmdSyncSelectedDiceAndReroll();
+    }
+
+    // UI
+
+    public static void EnableNetwork()
+    {
+        NetworkManagerHUD netUI = GameObject.Find("NetworkManager").GetComponentInChildren<NetworkManagerHUD>();
+        netUI.showGUI = !netUI.showGUI;
     }
 
 }

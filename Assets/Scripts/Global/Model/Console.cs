@@ -74,13 +74,31 @@ public partial class Console : MonoBehaviour {
         if (inputText.ToLower() == "help")
         {
             Console.Write("\nAvailable commands:", LogTypes.Everything, true);
+            Console.Write("Multiplayer", LogTypes.Everything);
+            Console.Write("Copy", LogTypes.Everything);
             Console.Write("FinishTrigger", LogTypes.Everything);
             Console.Write("FinishSubPhase", LogTypes.Everything);
             Console.Write("FinishNetworkTask", LogTypes.Everything);
+            Console.Write("Close", LogTypes.Everything);
         }
+        else if (inputText.ToLower() == "copy") CopyToClipboard();
         else if (inputText.ToLower() == "finishtrigger") Triggers.FinishTrigger();
         else if (inputText.ToLower() == "finishsubphase") Phases.FinishSubPhase(Phases.CurrentSubPhase.GetType());
         else if (inputText.ToLower() == "finishnetworktask") Network.FinishTask();
+        else if (inputText.ToLower() == "multiplayer") Network.EnableNetwork();
+        else if (inputText.ToLower() == "close") ToggleConsole();
         else if (!string.IsNullOrEmpty(inputText)) Console.Write("Unknown command", LogTypes.Everything, false, "red");
+    }
+
+    private void CopyToClipboard()
+    {
+        string allLog = "";
+        foreach (var logEntry in logs)
+        {
+            allLog += logEntry.Text;
+        }
+        GUIUtility.systemCopyBuffer = allLog;
+
+        Console.Write("Logs are copied to clipboard");
     }
 }

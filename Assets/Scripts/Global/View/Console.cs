@@ -43,17 +43,22 @@ public partial class Console : MonoBehaviour {
     {
         if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.BackQuote))
         {
-            if (logs == null) InitializeLogs();
-            IsActive = !IsActive;
-            if (IsActive)
-            {
-                ConsoleWindow.GetComponentInChildren<InputField>().Select();
-            }
+            ToggleConsole();
         }
 
         if (Input.GetKeyDown(KeyCode.Tab))
         {
             if (IsActive) ShowNextLog();
+        }
+    }
+
+    private void ToggleConsole()
+    {
+        if (logs == null) InitializeLogs();
+        IsActive = !IsActive;
+        if (IsActive)
+        {
+            ConsoleWindow.GetComponentInChildren<InputField>().Select();
         }
     }
 

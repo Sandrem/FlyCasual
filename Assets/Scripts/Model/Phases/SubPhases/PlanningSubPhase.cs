@@ -28,7 +28,7 @@ namespace SubPhases
 
         public override void Next()
         {
-            if (Roster.AllManuersAreAssigned(RequiredPlayer))
+            if (Roster.AllManuversAreAssigned(RequiredPlayer))
             {
                 HideAssignedManeuversInHotSeatGame();
 

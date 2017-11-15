@@ -42,7 +42,7 @@ namespace GameModes
             ShipMovementScript.PerformStoredManeuver(Selection.ThisShip.ShipId);
         }
 
-        public override void AssignManeuver(int shipId, string maneuverCode)
+        public override void AssignManeuver(string maneuverCode)
         {
             ShipMovementScript.AssignManeuver(Selection.ThisShip.ShipId, maneuverCode);
         }

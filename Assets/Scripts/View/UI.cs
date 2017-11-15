@@ -20,11 +20,17 @@ public class UI : MonoBehaviour {
     {
         UpdateShipIds();
         UpdateDirectionsMenu();
+        CheckSwarmManager();
     }
 
     private void UpdateShipIds()
     {
         ShowShipIds = Input.GetKey(KeyCode.LeftAlt);
+    }
+
+    private void CheckSwarmManager()
+    {
+        SwarmManager.CheckActivation();
     }
 
     private void UpdateDirectionsMenu()
@@ -69,7 +75,7 @@ public class UI : MonoBehaviour {
 
     public void ShowDirectionMenu()
     {
-        DirectionsMenu.Show();
+        DirectionsMenu.Show(GameMode.CurrentGameMode.AssignManeuver);
     }
 
     public static void HideDirectionMenu()
@@ -82,7 +88,10 @@ public class UI : MonoBehaviour {
         HideContextMenu();
         if (Phases.CurrentSubPhase != null)
         {
-            if (Phases.CurrentSubPhase.GetType() == typeof(SubPhases.PlanningSubPhase)) HideDirectionMenu();
+            if (Phases.CurrentSubPhase.GetType() == typeof(SubPhases.PlanningSubPhase) && !SwarmManager.IsActive)
+            {
+                HideDirectionMenu();
+            }
         }
     }
 

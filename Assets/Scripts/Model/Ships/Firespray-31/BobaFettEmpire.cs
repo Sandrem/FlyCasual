@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Ship;
+using GameModes;
 
 namespace Ship
 {
@@ -49,7 +50,7 @@ namespace PilotAbilitiesNamespace
         {
             if (Host.AssignedManeuver.Bearing == Movement.ManeuverBearing.Bank)
             {
-                DirectionsMenu.Show(IsBankManeuversSameSpeed);
+                DirectionsMenu.Show(GameMode.CurrentGameMode.AssignManeuver, IsBankManeuversSameSpeed);
             }
             else
             {

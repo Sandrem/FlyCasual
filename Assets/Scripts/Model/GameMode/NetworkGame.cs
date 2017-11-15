@@ -44,7 +44,7 @@ namespace GameModes
             Network.PerformStoredManeuver(Selection.ThisShip.ShipId);
         }
 
-        public override void AssignManeuver(int shipId, string maneuverCode)
+        public override void AssignManeuver(string maneuverCode)
         {
             Network.AssignManeuver(Selection.ThisShip.ShipId, maneuverCode);
         }

@@ -145,7 +145,7 @@ public static partial class Roster
 
     // CHECK ALL SHIPS IN ROSTER
 
-    public static bool AllManuersAreAssigned(PlayerNo playerNo)
+    public static bool AllManuversAreAssigned(PlayerNo playerNo)
     {
         var results =
             from n in AllShips

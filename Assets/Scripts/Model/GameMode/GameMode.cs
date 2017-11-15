@@ -20,7 +20,7 @@ namespace GameModes
 
         public abstract void ConfirmShipSetup(int shipId, Vector3 position, Vector3 angles);
 
-        public abstract void AssignManeuver(int shipId, string maneuverCode);
+        public abstract void AssignManeuver(string maneuverCode);
 
         public abstract void PerformStoredManeuver(int shipId);
 

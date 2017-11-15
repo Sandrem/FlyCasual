@@ -51,7 +51,7 @@ namespace Movement
         public ManeuverBearing Bearing;
         public ManeuverColor ColorComplexity;
 
-        public MovementStruct(string parameters)
+        public MovementStruct(string parameters, Ship.GenericShip ship = null)
         {
             string[] arrParameters = parameters.Split('.');
 
@@ -119,9 +119,10 @@ namespace Movement
             Direction = direction;
             Bearing = bearing;
 
-            if (!Selection.ThisShip.Maneuvers.ContainsKey(parameters)) Debug.Log("ERROR: Ship doesn't have required maneuver. Seems that AI maneuver table is wrong.");
-            ColorComplexity = Selection.ThisShip.Maneuvers[parameters];
-            ColorComplexity = Selection.ThisShip.GetColorComplexityOfManeuver(this);
+            if (ship == null) ship = Selection.ThisShip;
+            if (!ship.Maneuvers.ContainsKey(parameters)) Debug.Log("ERROR: Ship doesn't have required maneuver. Seems that AI maneuver table is wrong.");
+            ColorComplexity = ship.Maneuvers[parameters];
+            ColorComplexity = ship.GetColorComplexityOfManeuver(this);
         }
 
         public void UpdateColorComplexity()
@@ -536,6 +537,57 @@ namespace Movement
                 default:
                     break;
             }
+            return result;
+        }
+
+        public static List<string> GetAllManeuvers()
+        {
+            List<string> result = new List<string>();
+
+            result.Add("1.L.T");
+            result.Add("2.L.T");
+            result.Add("3.L.T");
+
+            result.Add("1.L.B");
+            result.Add("2.L.B");
+            result.Add("3.L.B");
+
+            result.Add("1.F.S");
+            result.Add("2.F.S");
+            result.Add("3.F.S");
+            result.Add("4.F.S");
+            result.Add("5.F.S");
+
+            result.Add("1.R.B");
+            result.Add("2.R.B");
+            result.Add("3.R.B");
+
+            result.Add("1.R.T");
+            result.Add("2.R.T");
+            result.Add("3.R.T");
+
+            result.Add("1.L.R");
+            result.Add("2.L.R");
+            result.Add("3.L.R");
+
+            result.Add("1.L.E");
+            result.Add("2.L.E");
+            result.Add("3.L.E");
+
+            result.Add("1.F.R");
+            result.Add("2.F.R");
+            result.Add("3.F.R");
+            result.Add("4.F.R");
+            result.Add("5.F.R");
+
+            result.Add("1.R.E");
+            result.Add("2.R.E");
+            result.Add("3.R.E");
+
+            result.Add("1.R.R");
+            result.Add("2.R.R");
+            result.Add("3.R.R");
+
             return result;
         }
 

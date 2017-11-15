@@ -140,6 +140,13 @@ public class ShipMovementScript : MonoBehaviour {
     {
         Selection.ChangeActiveShip("ShipId:" + shipId);
 
+        UI.HideContextMenu();
+
+        Selection.ThisShip.CallActivateShip(LaunchMovementTrigger);
+    }
+
+    private static void LaunchMovementTrigger()
+    {
         Triggers.RegisterTrigger(new Trigger()
         {
             Name = "Maneuver",

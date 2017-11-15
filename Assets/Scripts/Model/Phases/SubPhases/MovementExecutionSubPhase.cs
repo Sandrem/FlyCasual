@@ -39,8 +39,11 @@ namespace SubPhases
         {
             if (Selection.ThisShip.AssignedManeuver.ColorComplexity == ManeuverColor.Red && Selection.ThisShip.HasToken(typeof(Tokens.StressToken)))
             {
-                Messages.ShowErrorToHuman("Red maneuver while stresses: Maneuver is changed to white straight 2");
-                Selection.ThisShip.SetAssignedManeuver(new StraightMovement(2, ManeuverDirection.Forward, ManeuverBearing.Straight, ManeuverColor.White));
+                if (!Selection.ThisShip.CanPerformRedManeuversWhileStressed)
+                {
+                    Messages.ShowErrorToHuman("Red maneuver while stresses: Maneuver is changed to white straight 2");
+                    Selection.ThisShip.SetAssignedManeuver(new StraightMovement(2, ManeuverDirection.Forward, ManeuverBearing.Straight, ManeuverColor.White));
+                }
             }
 
             PerformAssignedManeuver();

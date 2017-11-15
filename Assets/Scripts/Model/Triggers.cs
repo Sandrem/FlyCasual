@@ -22,6 +22,8 @@ public enum TriggerTypes
     OnCombatPhaseEnd,
     OnEndPhaseStart,
 
+    OnActivateShip,
+
     OnManeuver,
     OnManeuverIsRevealed,
     OnShipMovementStart,

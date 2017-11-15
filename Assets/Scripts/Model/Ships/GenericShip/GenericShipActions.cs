@@ -23,6 +23,7 @@ namespace Ship
         public Tokens.GenericToken TokenToAssign;
 
         // EVENTS
+        public event EventHandlerShip OnActivateShip;
 
         public event EventHandlerShip AfterGenerateAvailableActionsList;
         public event EventHandlerActionBool OnTryAddAvailableAction;
@@ -47,6 +48,14 @@ namespace Ship
         public event EventHandlerShipType AfterTokenIsRemoved;
 
         // ACTIONS
+
+        public void CallActivateShip(Action callBack)
+        {
+            if (OnActivateShip != null) OnActivateShip(this);
+
+            Triggers.ResolveTriggers(TriggerTypes.OnActivateShip, callBack);
+        }
+
         public void CallOnActionDecisionSubphaseEnd()
         {
             if (OnActionDecisionSubphaseEnd != null) OnActionDecisionSubphaseEnd(this);
@@ -93,8 +102,6 @@ namespace Ship
 
             return result;
         }
-
-        public bool CanPerformActionsWhileStressed;
 
         // TODO: move actions list into subphase
         public void AskPerformFreeAction(List<ActionsList.GenericAction> freeActions, Action callBack)

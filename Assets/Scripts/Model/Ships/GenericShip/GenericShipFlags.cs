@@ -14,6 +14,9 @@ namespace Ship
         public bool IsBombAlreadyDropped { get; set; }
 
         public bool IsFreeActionSkipped { get; set; }
+
+        public bool CanPerformActionsWhileStressed;
+        public bool CanPerformRedManeuversWhileStressed;
     } 
 
 }

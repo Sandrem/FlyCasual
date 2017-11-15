@@ -60,7 +60,10 @@ namespace RulesList
             //TODO: Should I show red maneuvers if I have stress?
             if ((movement.ColorComplexity == Movement.ManeuverColor.Red) && (ship.GetToken(typeof(Tokens.StressToken)) != null))
             {
-                movement.ColorComplexity = Movement.ManeuverColor.None;
+                if (!DirectionsMenu.ForceShowRedManeuvers)
+                {
+                    movement.ColorComplexity = Movement.ManeuverColor.None;
+                }
             }
         }
 

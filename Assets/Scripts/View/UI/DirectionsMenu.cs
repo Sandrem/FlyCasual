@@ -1,18 +1,41 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
 
 public static class DirectionsMenu
 {
+    public static bool ForceShowRedManeuvers;
+    public static bool IsVisible;
+
+    private static Func<string, bool> currentFilter;
+
     public static void Show(Func<string, bool> filter = null)
     {
+        currentFilter = filter;
+
         GameObject.Find("UI").transform.Find("ContextMenuPanel").gameObject.SetActive(false);
         CustomizeDirectionsMenu(filter);
-        GameObject.Find("UI").transform.Find("DirectionsPanel").position = FixMenuPosition(GameObject.Find("UI").transform.Find("DirectionsPanel").gameObject, Input.mousePosition);
-        GameObject.Find("UI").transform.Find("DirectionsPanel").gameObject.SetActive(true);
+        GameObject.Find("UI").transform.Find("DirectionsPanel").position = FixMenuPosition(
+            GameObject.Find("UI").transform.Find("DirectionsPanel").gameObject,
+            Input.mousePosition
+        );
+        ToggleVisibility(true);
+    }
+
+    private static void ShowUpdated()
+    {
+        CustomizeDirectionsMenu(currentFilter);
+        GameObject.Find("UI").transform.Find("DirectionsPanel").position = FixMenuPosition(
+            GameObject.Find("UI").transform.Find("DirectionsPanel").gameObject,
+            GameObject.Find("UI").transform.Find("DirectionsPanel").position
+        );
+    }
+
+    private static void ToggleVisibility(bool value)
+    {
+        IsVisible = value;
+        GameObject.Find("UI").transform.Find("DirectionsPanel").gameObject.SetActive(value);
     }
 
     private static void ClearAvailableManeuvers()
@@ -190,6 +213,21 @@ public static class DirectionsMenu
 
     public static void Hide()
     {
-        GameObject.Find("UI").transform.Find("DirectionsPanel").gameObject.SetActive(false);
+        ToggleVisibility(false);
+    }
+
+    public static void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.LeftControl))
+        {
+            ForceShowRedManeuvers = true;
+            if (IsVisible) ShowUpdated();
+        }
+
+        if (Input.GetKeyUp(KeyCode.LeftControl))
+        {
+            ForceShowRedManeuvers = false;
+            if (IsVisible) ShowUpdated();
+        }
     }
 }

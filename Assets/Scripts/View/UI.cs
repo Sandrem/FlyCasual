@@ -19,11 +19,17 @@ public class UI : MonoBehaviour {
     public void Update()
     {
         UpdateShipIds();
+        UpdateDirectionsMenu();
     }
 
     private void UpdateShipIds()
     {
         ShowShipIds = Input.GetKey(KeyCode.LeftAlt);
+    }
+
+    private void UpdateDirectionsMenu()
+    {
+        DirectionsMenu.Update();
     }
 
     //Move to context menu

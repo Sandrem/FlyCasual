@@ -13,7 +13,7 @@ namespace Ship
 
             public M12LKimogila() : base()
             {
-                Type = "M12-L Kimogila";
+                Type = "M12-L Kimogila Fighter";
 
                 ShipBaseArcsType = Arcs.BaseArcsType.ArcBullseye;
 

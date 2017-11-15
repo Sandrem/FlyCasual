@@ -59,7 +59,6 @@ public class ObstaclesStayDetector: MonoBehaviour {
     {
         if (checkCollisions)
         {
-            GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
             if (collisionInfo.name == "ObstaclesStayDetector")
             {
                 if (collisionInfo.tag != this.tag)

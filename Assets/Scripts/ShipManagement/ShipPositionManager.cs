@@ -234,8 +234,6 @@ public class ShipPositionManager : MonoBehaviour
     {
         bool result = true;
 
-        GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-
         if (Phases.CurrentSubPhase.GetType() == typeof(SubPhases.SetupSubPhase))
         {
             if (!ship.ShipBase.IsInside(StartingZone))

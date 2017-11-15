@@ -11,7 +11,6 @@ namespace Ship
             public MoraloEval() : base()
             {
                 PilotName = "Moralo Eval";
-                ImageUrl = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/pilots/Scum%20and%20Villainy/YV-666/moralo-eval.png";
                 PilotSkill = 6;
                 Cost = 34;
 

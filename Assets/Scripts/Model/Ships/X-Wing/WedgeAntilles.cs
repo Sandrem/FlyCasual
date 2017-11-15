@@ -12,7 +12,6 @@ namespace Ship
             public WedgeAntilles() : base()
             {
                 PilotName = "Wedge Antilles";
-                ImageUrl = "https://vignette2.wikia.nocookie.net/xwing-miniatures/images/8/80/Wedge-antilles.png";
                 PilotSkill = 9;
                 Cost = 29;
 

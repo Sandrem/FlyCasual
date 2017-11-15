@@ -11,7 +11,6 @@ namespace Ship
             public GraySquadronPilot() : base()
             {
                 PilotName = "Gray Squadron Pilot";
-                ImageUrl = "https://vignette3.wikia.nocookie.net/xwing-miniatures/images/c/ca/Grey_Squadron_Pilot.jpg";
                 PilotSkill = 4;
                 Cost = 20;
 

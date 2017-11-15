@@ -22,6 +22,8 @@ namespace Ship
                 MaxHull = 3;
                 MaxShields = 3;
 
+                SubFaction = SubFaction.Resistance;
+
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Astromech);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Torpedo);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Tech);

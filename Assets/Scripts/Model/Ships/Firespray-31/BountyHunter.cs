@@ -11,7 +11,6 @@ namespace Ship
             public BountyHunter() : base()
             {
                 PilotName = "Bounty Hunter";
-                ImageUrl = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/pilots/Galactic%20Empire/Firespray-31/bounty-hunter.png";
                 PilotSkill = 3;
                 Cost = 33;
 

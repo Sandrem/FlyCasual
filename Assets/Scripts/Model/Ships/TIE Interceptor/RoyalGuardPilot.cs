@@ -11,7 +11,6 @@ namespace Ship
             public RoyalGuardPilot() : base()
             {
                 PilotName = "Royal Guard Pilot";
-                ImageUrl = "https://vignette1.wikia.nocookie.net/xwing-miniatures/images/d/d0/Royal_Guard_TIE.png";
                 PilotSkill = 6;
                 Cost = 22;
 

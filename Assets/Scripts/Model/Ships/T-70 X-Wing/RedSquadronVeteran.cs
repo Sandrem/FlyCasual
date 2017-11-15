@@ -11,7 +11,6 @@ namespace Ship
             public RedSquadronVeteran() : base()
             {
                 PilotName = "Red Squadron Veteran";
-                ImageUrl = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/pilots/Resistance/T-70%20X-wing/red-squadron-veteran.png";
                 PilotSkill = 4;
                 Cost = 26;
 

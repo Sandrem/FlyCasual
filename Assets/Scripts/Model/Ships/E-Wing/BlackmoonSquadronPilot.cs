@@ -11,7 +11,6 @@ namespace Ship
             public BlackmoonSquadronPilot() : base()
             {
                 PilotName = "Blackmoon Squadron Pilot";
-                ImageUrl = "https://vignette3.wikia.nocookie.net/xwing-miniatures/images/6/68/Pic2034070.png";
                 PilotSkill = 3;
                 Cost = 29;
             }

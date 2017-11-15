@@ -12,7 +12,6 @@ namespace Ship
             public NeraDantels() : base()
             {
                 PilotName = "Nera Dantels";
-                ImageUrl = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/pilots/Rebel%20Alliance/B-wing/nera-dantels.png";
                 PilotSkill = 5;
                 Cost = 26;
 

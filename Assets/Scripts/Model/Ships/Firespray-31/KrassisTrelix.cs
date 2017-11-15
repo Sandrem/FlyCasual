@@ -13,7 +13,6 @@ namespace Ship
             public KrassisTrelix() : base()
             {
                 PilotName = "Krassis Trelix";
-                ImageUrl = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/pilots/Galactic%20Empire/Firespray-31/krassis-trelix.png";
                 PilotSkill = 5;
                 Cost = 36;
 

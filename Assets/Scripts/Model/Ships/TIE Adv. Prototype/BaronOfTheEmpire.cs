@@ -11,7 +11,6 @@ namespace Ship
             public BaronOfTheEmpire() : base()
             {
                 PilotName = "Baron of the Empire";
-                ImageUrl = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/pilots/Galactic%20Empire/TIE%20Adv.%20Prototype/baron-of-the-empire.png";
                 PilotSkill = 4;
                 Cost = 19;
 

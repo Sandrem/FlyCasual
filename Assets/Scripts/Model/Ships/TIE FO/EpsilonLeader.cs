@@ -14,7 +14,6 @@ namespace Ship
 				PilotName = "Epsilon Leader";
 				PilotSkill = 6;
 				Cost = 19;
-                SubFaction = SubFaction.FirstOrder;
 
                 IsUnique = true;
                 PilotAbilities.Add(new PilotAbilitiesNamespace.EpsilonLeader());

@@ -12,7 +12,6 @@ namespace Ship
             public TheInquisitor() : base()
             {
                 PilotName = "The Inquisitor";
-                ImageUrl = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/pilots/Galactic%20Empire/TIE%20Adv.%20Prototype/the-inquisitor.png";
                 PilotSkill = 8;
                 Cost = 25;
 

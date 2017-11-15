@@ -11,7 +11,6 @@ namespace Ship
             public WookieeLiberator() : base()
             {
                 PilotName = "Wookiee Liberator";
-                ImageUrl = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/pilots/Rebel%20Alliance/Auzituck%20Gunship/wookiee-liberator.png";
                 PilotSkill = 3;
                 Cost = 26;
 

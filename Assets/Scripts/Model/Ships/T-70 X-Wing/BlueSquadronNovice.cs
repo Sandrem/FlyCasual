@@ -13,7 +13,6 @@ namespace Ship
                 PilotName = "Blue Squadron Novice";
                 PilotSkill = 2;
                 Cost = 24;
-                SubFaction = SubFaction.Resistance;
             }
         }
     }

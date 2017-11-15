@@ -23,6 +23,8 @@ namespace Ship
                 MaxHull = 8;
                 MaxShields = 5;
 
+                SubFaction = SubFaction.FirstOrder;
+
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Missile);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 

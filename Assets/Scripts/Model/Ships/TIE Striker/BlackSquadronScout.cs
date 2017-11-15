@@ -11,7 +11,6 @@ namespace Ship
             public BlackSquadronScout() : base()
             {
                 PilotName = "Black Squadron Scout";
-                ImageUrl = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/pilots/Galactic%20Empire/TIE%20Striker/black-squadron-scout.png";
                 PilotSkill = 4;
                 Cost = 20;
 

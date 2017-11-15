@@ -12,7 +12,6 @@ namespace Ship
             public BobaFettEmpire() : base()
             {
                 PilotName = "Boba Fett";
-                ImageUrl = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/pilots/Galactic%20Empire/Firespray-31/boba-fett.png";
                 PilotSkill = 8;
                 Cost = 39;
 

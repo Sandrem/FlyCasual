@@ -378,7 +378,7 @@ public static partial class RosterBuilder {
             if (type.MemberType == MemberTypes.NestedType) continue;
 
             GenericShip newShipContainer = (GenericShip)System.Activator.CreateInstance(type);
-            if ((newShipContainer.PilotName != null) && (!newShipContainer.IsHidden))
+            if ((newShipContainer.PilotName != null) && (!newShipContainer.IsHidden) && (!newShipContainer.IsCustomContent))
             {
                 if ((newShipContainer.faction == faction) || faction == Faction.None)
                 {

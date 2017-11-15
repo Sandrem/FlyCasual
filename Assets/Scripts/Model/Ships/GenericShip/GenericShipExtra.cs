@@ -30,6 +30,8 @@ namespace Ship
 
         public bool IsHidden { get; set; }
 
+        public bool IsCustomContent { get; set; }
+
         public event EventHandler OnDiscardUpgrade;
 
         public void CallDiscardUpgrade(Action callBack)

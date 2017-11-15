@@ -15,7 +15,6 @@ namespace Ship
             public ToraniKulda() : base()
             {
                 PilotName = "Torani Kulda";
-                ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/23/8d/238d3ebc-519d-4593-884b-3379d72e5f60/swx70-torani-kulda.png";
                 PilotSkill = 8;
                 Cost = 27;
 

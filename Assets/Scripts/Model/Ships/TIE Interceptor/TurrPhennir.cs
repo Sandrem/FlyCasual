@@ -12,7 +12,6 @@ namespace Ship
             public TurrPhennir() : base()
             {
                 PilotName = "Turr Phennir";
-                ImageUrl = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/pilots/Galactic%20Empire/TIE%20Interceptor/turr-phennir.png";
                 PilotSkill = 7;
                 Cost = 25;
 

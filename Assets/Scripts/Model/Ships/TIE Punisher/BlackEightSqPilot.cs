@@ -11,7 +11,7 @@ namespace Ship
             public BlackEightSqPilot() : base()
             {
                 PilotName = "Black Eight Sq. Pilot";
-                ImageUrl = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/pilots/Galactic%20Empire/TIE%20Punisher/black-eight-squadron-pilot.png";
+                ImageUrl = ImageUrls.GetImageUrl(this, "black-eight-squadron-pilot.png");
                 PilotSkill = 4;
                 Cost = 23;
             }

@@ -12,7 +12,6 @@ namespace Ship
             public FelsWrath()
             {
                 PilotName = "\"Fel's Wrath\"";
-                ImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/1/12/Fel%27s_Wrath.png";
                 PilotSkill = 5;
                 Cost = 23;
 

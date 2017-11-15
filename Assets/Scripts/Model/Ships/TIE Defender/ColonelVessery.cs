@@ -11,7 +11,6 @@ namespace Ship
             public ColonelVessery() : base()
             {
                 PilotName = "Colonel Vessery";
-                ImageUrl = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/pilots/Galactic%20Empire/TIE%20Defender/colonel-vessery.png";
                 PilotSkill = 6;
                 Cost = 35;
 

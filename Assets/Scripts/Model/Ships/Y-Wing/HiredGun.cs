@@ -11,7 +11,6 @@ namespace Ship
             public HiredGun() : base()
             {
                 PilotName = "Hired Gun";
-                ImageUrl = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/pilots/Scum%20and%20Villainy/Y-wing/hired-gun.png";
                 PilotSkill = 4;
                 Cost = 20;
 

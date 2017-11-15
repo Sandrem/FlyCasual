@@ -946,10 +946,10 @@ public static partial class RosterBuilder {
 
         switch (faction)
         {
-            case Faction.Rebels:
+            case Faction.Rebel:
                 result = "rebel";
                 break;
-            case Faction.Empire:
+            case Faction.Imperial:
                 result = "imperial";
                 break;
             case Faction.Scum:

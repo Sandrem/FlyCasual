@@ -13,7 +13,6 @@ namespace Ship
             public HanSolo() : base()
             {
                 PilotName = "Han Solo";
-                ImageUrl = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/pilots/Rebel%20Alliance/YT-1300/han-solo.png";
                 PilotSkill = 9;
                 Cost = 46;
 

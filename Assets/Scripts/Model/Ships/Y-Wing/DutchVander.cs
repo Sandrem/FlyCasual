@@ -13,7 +13,6 @@ namespace Ship
             public DutchVander() : base()
             {
                 PilotName = "\"Dutch\" Vander";
-                ImageUrl = "https://vignette3.wikia.nocookie.net/xwing-miniatures/images/b/bf/Dutch_Vander.png";
                 PilotSkill = 6;
                 Cost = 23;
 
@@ -21,7 +20,7 @@ namespace Ship
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Astromech);
 
-                faction = Faction.Rebels;
+                faction = Faction.Rebel;
 
                 PilotAbilities.Add(new PilotAbilitiesNamespace.DutchVanderAbility());
             }

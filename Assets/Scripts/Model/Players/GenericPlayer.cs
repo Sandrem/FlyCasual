@@ -6,9 +6,19 @@ using UnityEngine;
 public enum Faction
 {
     None,
-    Rebels,
-    Empire,
+    Rebel,
+    Imperial,
     Scum
+}
+
+public enum SubFaction
+{
+    None,
+    RebelAlliance,
+    Resistance,
+    GalacticEmpire,
+    FirstOrder,
+    ScumAndVillainy
 }
 
 namespace Players

@@ -22,6 +22,8 @@ namespace Ship
                 MaxHull = 3;
                 MaxShields = 1;
 
+                SubFaction = SubFaction.FirstOrder;
+
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Tech);
 
                 PrintedActions.Add(new TargetLockAction());
@@ -31,8 +33,8 @@ namespace Ship
                 AssignTemporaryManeuvers();
                 HotacManeuverTable = null;
 
-                factions.Add(Faction.Empire);
-                faction = Faction.Empire;
+                factions.Add(Faction.Imperial);
+                faction = Faction.Imperial;
 
                 SkinName = "First Order";
 

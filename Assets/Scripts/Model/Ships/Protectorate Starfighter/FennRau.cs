@@ -11,7 +11,6 @@ namespace Ship
             public FennRau() : base()
             {
                 PilotName = "Fenn Rau";
-                ImageUrl = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/pilots/Scum%20and%20Villainy/Protectorate%20Starfighter/fenn-rau.png";
                 PilotSkill = 9;
                 Cost = 28;
 

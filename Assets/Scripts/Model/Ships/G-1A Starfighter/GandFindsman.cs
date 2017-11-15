@@ -11,7 +11,6 @@ namespace Ship
             public GandFindsman() : base()
             {
                 PilotName = "Gand Findsman";
-                ImageUrl = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/pilots/Scum%20and%20Villainy/G-1A%20Starfighter/gand-findsman.png";
                 PilotSkill = 5;
                 Cost = 25;
 

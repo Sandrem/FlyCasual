@@ -12,7 +12,6 @@ namespace Ship
             public WingedGundark() : base()
             {
                 PilotName = "\"Winged Gundark\"";
-                ImageUrl = "https://vignette2.wikia.nocookie.net/xwing-miniatures/images/9/9d/Winged-gundark.png";
                 PilotSkill = 5;
                 Cost = 15;
 

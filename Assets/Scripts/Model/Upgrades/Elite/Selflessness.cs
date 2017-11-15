@@ -23,7 +23,7 @@ namespace UpgradesList
             bool result = true;
 
             if (ship.ShipBaseSize != BaseSize.Small) result = false;
-            else if (ship.faction != Faction.Rebels) result = false;
+            else if (ship.faction != Faction.Rebel) result = false;
 
             return result;
         }

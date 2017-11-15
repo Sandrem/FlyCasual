@@ -12,7 +12,6 @@ namespace Ship
             public DalanOberos() : base()
             {
                 PilotName = "Dalan Oberos";
-                ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/19/b3/19b3a603-f973-4064-ab69-fdf72f6d79e8/swx70-dalan-oberos.png";
                 PilotSkill = 7;
                 Cost = 25;
 

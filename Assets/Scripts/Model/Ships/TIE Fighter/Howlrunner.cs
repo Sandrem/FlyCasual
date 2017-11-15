@@ -13,7 +13,6 @@ namespace Ship
             public Howlrunner() : base()
             {
                 PilotName = "\"Howlrunner\"";
-                ImageUrl = "https://vignette4.wikia.nocookie.net/xwing-miniatures/images/7/71/Howlrunner.png";
                 PilotSkill = 8;
                 Cost = 18;
 

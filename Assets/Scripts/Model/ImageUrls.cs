@@ -19,7 +19,7 @@ public static class ImageUrls
 
     public static string GetImageUrl(Ship.GenericShip ship, string filename = null)
     {
-        return GetImageUrl(PilotsPath + FormatFaction(ship.faction) + "/" + ship.Type, ship.PilotName, filename);
+        return GetImageUrl(PilotsPath + FormatFaction(ship.SubFaction) + "/" + FormatShipType(ship.Type), ship.PilotName, filename);
     }
 
     private static string GetImageUrl(string subpath, string cardName, string filename)
@@ -27,14 +27,29 @@ public static class ImageUrls
         return RootURL + subpath + "/" + (filename ?? FormatName(cardName) + ".png");
     }
 
-    private static string FormatFaction(Faction faction)
+    private static string FormatShipType(string type)
+    {
+        return type
+            .Replace("-Wing", "-wing")
+            .Replace("/FO", "/fo")
+            .Replace("/SF", "/sf")
+            .Replace('/', '-');
+    }
+
+    private static string FormatFaction(SubFaction faction)
     {
         switch (faction)
         {
-            case Faction.Rebels:
+            case SubFaction.RebelAlliance:
                 return "Rebel Alliance";
-            case Faction.Empire:
+            case SubFaction.Resistance:
+                return "Resistance";
+            case SubFaction.GalacticEmpire:
                 return "Galactic Empire";
+            case SubFaction.FirstOrder:
+                return "First Order";
+            case SubFaction.ScumAndVillainy:
+                return "Scum and Villainy";
             default:
                 throw new NotImplementedException();
         }
@@ -47,7 +62,9 @@ public static class ImageUrls
             .Replace("(", "")
             .Replace(")", "")
             .Replace(' ', '-')
-            .Replace('/', '-');
+            .Replace('/', '-')
+            .Replace('\'', '-')
+            .Replace("\"", "");
     }
 }
 

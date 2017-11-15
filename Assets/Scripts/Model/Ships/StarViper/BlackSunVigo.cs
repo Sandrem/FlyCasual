@@ -11,7 +11,6 @@ namespace Ship
             public BlackSunVigo() : base()
             {
                 PilotName = "Black Sun Vigo";
-                ImageUrl = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/pilots/Scum%20and%20Villainy/StarViper/black-sun-vigo.png";
                 PilotSkill = 3;
                 Cost = 27;
 

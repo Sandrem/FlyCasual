@@ -12,7 +12,6 @@ namespace Ship
             public NightBeast() : base()
             {
                 PilotName = "\"Night Beast\"";
-                ImageUrl = "https://vignette2.wikia.nocookie.net/xwing-miniatures/images/b/ba/Night_Beast.png";
                 PilotSkill = 5;
                 Cost = 15;
 

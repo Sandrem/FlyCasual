@@ -11,7 +11,6 @@ namespace Ship
             public DarkCurse() : base()
             {
                 PilotName = "\"Dark Curse\"";
-                ImageUrl = "https://vignette1.wikia.nocookie.net/xwing-miniatures/images/4/49/Dark_Curse.png";
                 PilotSkill = 6;
                 Cost = 16;
 

@@ -33,8 +33,8 @@ namespace Ship
                 AssignTemporaryManeuvers();
                 HotacManeuverTable = new AI.BWingTable();
 
-                factions.Add(Faction.Rebels);
-                faction = Faction.Rebels;
+                factions.Add(Faction.Rebel);
+                faction = Faction.Rebel;
 
                 SkinName = "Teal";
 

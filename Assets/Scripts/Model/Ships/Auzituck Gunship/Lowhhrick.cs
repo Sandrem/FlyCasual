@@ -14,7 +14,6 @@ namespace Ship
             public Lowhhrick() : base()
             {
                 PilotName = "Lowhhrick";
-                ImageUrl = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/pilots/Rebel%20Alliance/Auzituck%20Gunship/lowhhrick.png";
                 PilotSkill = 5;
                 Cost = 28;
 

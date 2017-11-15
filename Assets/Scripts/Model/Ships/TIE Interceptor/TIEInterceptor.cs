@@ -29,8 +29,8 @@ namespace Ship
                 AssignTemporaryManeuvers();
                 HotacManeuverTable = new AI.TIEInterceptorTable();
 
-                factions.Add(Faction.Empire);
-                faction = Faction.Empire;
+                factions.Add(Faction.Imperial);
+                faction = Faction.Imperial;
 
                 SkinName = "Blue";
 

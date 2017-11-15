@@ -11,7 +11,6 @@ namespace Ship
             public PatrolLeader() : base()
             {
                 PilotName = "Patrol Leader";
-                ImageUrl = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/pilots/Galactic%20Empire/VT-49%20Decimator/patrol-leader.png";
                 PilotSkill = 3;
                 Cost = 40;
             }

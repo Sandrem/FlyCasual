@@ -11,7 +11,6 @@ namespace Ship
             public KathScarletEmpire() : base()
             {
                 PilotName = "Kath Scarlet";
-                ImageUrl = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/pilots/Galactic%20Empire/Firespray-31/kath-scarlet.png";
                 PilotSkill = 7;
                 Cost = 38;
 
@@ -19,7 +18,7 @@ namespace Ship
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
-                faction = Faction.Empire;
+                faction = Faction.Imperial;
 
                 SkinName = "Kath Scarlet";
 

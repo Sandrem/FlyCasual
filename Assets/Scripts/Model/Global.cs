@@ -149,7 +149,7 @@ public class Global : MonoBehaviour {
 
     public static Faction GetPlayerFaction(PlayerNo playerNo)
     {
-        Faction result = Faction.Rebels;
+        Faction result = Faction.Rebel;
         if (playerNo == PlayerNo.Player1) result = playerFactions[0];
         if (playerNo == PlayerNo.Player2) result = playerFactions[1];
         return result;

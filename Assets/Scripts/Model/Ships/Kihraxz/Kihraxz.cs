@@ -13,7 +13,7 @@ namespace Ship
 
             public Kihraxz() : base()
             {
-                Type = "Kihraxz";
+                Type = "Kihraxz Fighter";
 
                 ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/d/d8/MS_KIHRAXZ-FIGHTER.png";
 

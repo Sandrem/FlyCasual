@@ -11,11 +11,10 @@ namespace Ship
             public TalaSquadronPilot() : base()
             {
                 PilotName = "Tala Squadron Pilot";
-                ImageUrl = "http://vignette1.wikia.nocookie.net/xwing-miniatures/images/b/b0/Tala-squadron-pilot.png";
                 PilotSkill = 4;
                 Cost = 13;
 
-                faction = Faction.Rebels;
+                faction = Faction.Rebel;
             }
         }
     }

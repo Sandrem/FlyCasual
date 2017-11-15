@@ -12,7 +12,6 @@ namespace Ship
             public BiggsDarklighter() : base()
             {
                 PilotName = "Biggs Darklighter";
-                ImageUrl = "https://vignette3.wikia.nocookie.net/xwing-miniatures/images/9/90/Biggs-darklighter.png";
                 PilotSkill = 5;
                 Cost = 25;
 

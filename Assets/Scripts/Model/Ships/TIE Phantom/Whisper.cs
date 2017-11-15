@@ -13,7 +13,6 @@ namespace Ship
             public Whisper() : base()
             {
                 PilotName = "\"Whisper\"";
-                ImageUrl = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/pilots/Galactic%20Empire/TIE%20Phantom/whisper.png";
                 PilotSkill = 7;
                 Cost = 32;
 

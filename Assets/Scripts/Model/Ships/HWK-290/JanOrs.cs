@@ -12,7 +12,6 @@ namespace Ship
             public JanOrs() : base()
             {
                 PilotName = "Jan Ors";
-                ImageUrl = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/pilots/Rebel%20Alliance/HWK-290/jan-ors.png";
                 PilotSkill = 8;
                 Cost = 25;
 
@@ -20,7 +19,7 @@ namespace Ship
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
-                faction = Faction.Rebels;
+                faction = Faction.Rebel;
 
                 PilotAbilities.Add(new PilotAbilitiesNamespace.JanOrsAbility());
             }

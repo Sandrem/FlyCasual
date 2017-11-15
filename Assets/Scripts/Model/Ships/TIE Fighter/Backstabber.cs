@@ -11,7 +11,6 @@ namespace Ship
             public Backstabber() : base()
             {
                 PilotName = "\"Backstabber\"";
-                ImageUrl = "https://vignette3.wikia.nocookie.net/xwing-miniatures/images/5/52/Backstabber.png";
                 PilotSkill = 6;
                 Cost = 16;
 

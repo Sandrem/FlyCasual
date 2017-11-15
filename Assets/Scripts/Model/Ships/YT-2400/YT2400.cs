@@ -34,8 +34,8 @@ namespace Ship
                 AssignTemporaryManeuvers();
                 HotacManeuverTable = new AI.YT2400Table();
 
-                factions.Add(Faction.Rebels);
-                faction = Faction.Rebels;
+                factions.Add(Faction.Rebel);
+                faction = Faction.Rebel;
 
                 SkinName = "YT-2400";
 

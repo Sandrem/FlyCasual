@@ -11,7 +11,6 @@ namespace Ship
             public SyndicateThug() : base()
             {
                 PilotName = "Syndicate Thug";
-                ImageUrl = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/pilots/Scum%20and%20Villainy/Y-wing/syndicate-thug.png";
                 PilotSkill = 2;
                 Cost = 18;
 

@@ -11,7 +11,6 @@ namespace Ship
             public ScarifDefender() : base()
             {
                 PilotName = "Scarif Defender";
-                ImageUrl = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/pilots/Galactic%20Empire/TIE%20Striker/scarif-defender.png";
                 PilotSkill = 3;
                 Cost = 18;
             }

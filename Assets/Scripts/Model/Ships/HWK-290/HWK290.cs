@@ -30,7 +30,7 @@ namespace Ship
                 AssignTemporaryManeuvers();
                 HotacManeuverTable = new AI.HWK290Table();
 
-                factions.Add(Faction.Rebels);
+                factions.Add(Faction.Rebel);
                 factions.Add(Faction.Scum);
 
                 SkinName = "Brown";

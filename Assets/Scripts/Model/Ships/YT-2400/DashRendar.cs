@@ -11,7 +11,6 @@ namespace Ship
             public DashRendar() : base()
             {
                 PilotName = "Dash Rendar";
-                ImageUrl = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/pilots/Rebel%20Alliance/YT-2400/dash-rendar.png";
                 PilotSkill = 7;
                 Cost = 36;
 

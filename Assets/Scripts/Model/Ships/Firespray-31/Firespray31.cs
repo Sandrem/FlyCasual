@@ -35,7 +35,7 @@ namespace Ship
                 AssignTemporaryManeuvers();
                 HotacManeuverTable = new AI.Firespray31Table();
 
-                factions.Add(Faction.Empire);
+                factions.Add(Faction.Imperial);
                 factions.Add(Faction.Scum);
 
                 SoundShotsPath = "Slave1-Fire";

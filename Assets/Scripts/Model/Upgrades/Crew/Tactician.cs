@@ -20,27 +20,9 @@ namespace UpgradesList
             host.OnAttackFinish += RegisterTrigger;
         }
 
-        private bool AbilityShouldTrigger()
-        {
-            if (Combat.Attacker == Host)
-            {
-                Board.ShipDistanceInformation shipDistance = new Board.ShipDistanceInformation(Host, Combat.Defender);
-                if (shipDistance.Range <= 2)
-                {
-                    Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(Host, Combat.Defender, Combat.ChosenWeapon);
-                    if (shotInfo.InArc)
-                    {
-                        return true;
-                    }
-                }
-            }
-
-            return false;
-        }
-
         private void RegisterTrigger(GenericShip ship)
         {            
-            if (AbilityShouldTrigger())
+            if (Combat.Attacker == Host && Combat.ShotInfo.InArc && Combat.ShotInfo.Range == 2)
                 Triggers.RegisterTrigger(new Trigger()
                 {
                     Name = "Tactician's ability",

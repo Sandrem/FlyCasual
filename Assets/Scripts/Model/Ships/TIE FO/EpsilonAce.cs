@@ -15,22 +15,46 @@ namespace Ship
             {
                 PilotName  = "Epsilon Ace";
                 ImageUrl   = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/pilots/First%20Order/TIE-fo%20Fighter/epsilon-ace.png";
-                PilotSkill = 12;
+                PilotSkill = TruePilotSkill;
                 Cost       = 17;
                 IsUnique   = true;
-                PilotAbilities.Add(new PilotAbilitiesNamespace.EpsilonAce());
+
+                PilotAbilities.Add(new PilotAbilitiesNamespace.EpsilonAceStartAbility());
+                PilotAbilities.Add(new PilotAbilitiesNamespace.EpsilonAceEndAbility());
             }
             public void ModifyPilotSkill(ref int pilotSkill)
             {
-                this.PilotSkill = this.TruePilotSkill;
+                pilotSkill = 12;
             }
         }
     }
 }
 
+
 namespace PilotAbilitiesNamespace
 {
-    public class EpsilonAce : GenericPilotAbility
+    public class EpsilonAceStartAbility : GenericPilotAbility
+    {
+        public override void Initialize(GenericShip host)
+        {
+            base.Initialize(host);
+
+            Phases.OnGameStart += RegisterEpsilonAceStartAbility;
+        }
+        private void RegisterEpsilonAceStartAbility ()
+        {
+            RegisterAbilityTrigger (TriggerTypes.OnGameStart, UseEpsilonAceStartAbility);
+        }
+        private void UseEpsilonAceStartAbility(object sender, System.EventArgs e)
+        {
+            //psModifier = (IModifyPilotSkill)this.Host;
+            //Host.AddPilotSkillModifier (psModifier);
+            Host.AddPilotSkillModifier ((IModifyPilotSkill)Host);
+            Triggers.FinishTrigger ();
+        }
+    }
+
+    public class EpsilonAceEndAbility : GenericPilotAbility
     {
         public override void Initialize(GenericShip host)
         {
@@ -38,7 +62,6 @@ namespace PilotAbilitiesNamespace
 
             Host.OnDamageCardIsDealt += RegisterEpsilonAceAbility;
         }
-
         private void RegisterEpsilonAceAbility (GenericShip ship)
         {
             RegisterAbilityTrigger (TriggerTypes.OnDamageCardIsDealt, UseEpsilonAceAbility);
@@ -46,11 +69,10 @@ namespace PilotAbilitiesNamespace
 
         private void UseEpsilonAceAbility(object sender, System.EventArgs e)
         {
-            if (Combat.Defender == Host && Host.Hull != Host.MaxHull){
-                // lose the pilot skill
-                Host.AddPilotSkillModifier((IModifyPilotSkill)Host);
-                Triggers.FinishTrigger ();
+            if (Combat.CurrentCriticalHitCard != null) {
+                Host.RemovePilotSkillModifier ((IModifyPilotSkill)Host);
             }
+            Triggers.FinishTrigger ();
         }
     }
 }

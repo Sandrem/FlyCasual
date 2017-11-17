@@ -92,7 +92,7 @@ namespace Ship
         public DiceRoll AssignedDamageDiceroll = new DiceRoll(DiceKind.Attack, 0, DiceRollCheckType.Virtual);
 
         public bool IsCannotAttackSecondTime { get; set; }
-        public bool CanAttackBumpedTarget { get; set; }
+        public bool CanAttackBumpedTargetAlways { get; set; }
         public bool PreventDestruction { get; set; }
 
         // EVENTS
@@ -159,6 +159,9 @@ namespace Ship
         public event EventHandlerDiceroll OnImmediatelyAfterRolling;
 
         public event EventHandlerBool OnWeaponsDisabledCheck;
+
+        public event EventHandler2Ships OnCanAttackBumpedTarget;
+        public static event EventHandler2Ships OnCanAttackBumpedTargetGlobal;
 
         // TRIGGERS
 
@@ -638,6 +641,19 @@ namespace Ship
             {
                 if (OnWeaponsDisabledCheck != null) OnWeaponsDisabledCheck(ref result);
             }
+
+            return result;
+        }
+
+        public bool CanAttackBumpedTarget(GenericShip defender)
+        {
+            bool result = false;
+
+            if (CanAttackBumpedTargetAlways) result = true;
+
+            if (OnCanAttackBumpedTarget != null) OnCanAttackBumpedTarget(ref result, this, defender);
+
+            if (OnCanAttackBumpedTargetGlobal != null) OnCanAttackBumpedTargetGlobal(ref result, this, defender);
 
             return result;
         }

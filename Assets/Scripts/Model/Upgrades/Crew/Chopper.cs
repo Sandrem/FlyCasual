@@ -43,7 +43,7 @@ namespace UpgradesList
 
         private void DoDamage(object sender, System.EventArgs e)
         {
-            Messages.ShowInfo("\"Chopper\": Damage is dealt");
+            Messages.ShowError("\"Chopper\": Damage is dealt");
 
             Triggers.RegisterTrigger(new Trigger()
             {

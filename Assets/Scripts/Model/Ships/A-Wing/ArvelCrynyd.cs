@@ -26,7 +26,7 @@ namespace PilotAbilitiesNamespace
         {
             base.Initialize(host);
 
-            Host.CanAttackBumpedTarget = true;
+            Host.CanAttackBumpedTargetAlways = true;
         }
     }
 }

@@ -13,7 +13,6 @@ namespace Ship
             public Rey() : base()
             {
                 PilotName = "Rey";
-                ImageUrl = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/pilots/Resistance/YT-1300/rey.png";
                 PilotSkill = 8;
                 Cost = 45;
 
@@ -23,7 +22,7 @@ namespace Ship
                 MaxHull = 8;
                 MaxShields = 5;
 
-                SubFaction = SubFaction.FirstOrder;
+                SubFaction = SubFaction.Resistance;
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Missile);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);

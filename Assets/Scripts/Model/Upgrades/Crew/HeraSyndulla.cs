@@ -28,7 +28,7 @@ namespace UpgradesList
 
         public override void Discard(Action callBack)
         {
-            Host.CanPerformRedManeuversWhileStressed = true;
+            Host.CanPerformRedManeuversWhileStressed = false;
 
             base.Discard(callBack);
         }

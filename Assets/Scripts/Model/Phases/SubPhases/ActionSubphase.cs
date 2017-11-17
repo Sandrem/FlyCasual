@@ -135,8 +135,7 @@ namespace SubPhases
                     Tooltips.EndTooltip();
                     UI.HideSkipButton();
                     ship.AddAlreadyExecutedAction(action);
-                    ship.CallActionIsTaken(action);
-                    action.ActionTake();
+                    ship.CallActionIsTaken(action, action.ActionTake);
                 });
                 AddTooltip(action.Name, action.ImageUrl);
             }
@@ -194,8 +193,7 @@ namespace SubPhases
                     Tooltips.EndTooltip();
                     UI.HideSkipButton();
                     ship.AddAlreadyExecutedAction(action);
-                    ship.CallActionIsTaken(action);
-                    action.ActionTake();
+                    ship.CallActionIsTaken(action, action.ActionTake);
                 });
                 AddTooltip(action.Name, action.ImageUrl);
             }

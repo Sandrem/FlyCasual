@@ -61,9 +61,11 @@ namespace Ship
             if (OnActionDecisionSubphaseEnd != null) OnActionDecisionSubphaseEnd(this);
         }
 
-        public void CallActionIsTaken(ActionsList.GenericAction action)
+        public void CallActionIsTaken(ActionsList.GenericAction action, Action callBack)
         {
             if (OnActionIsPerformed != null) OnActionIsPerformed(action);
+
+            Triggers.ResolveTriggers(TriggerTypes.OnActionIsPerformed, callBack);
         }
 
         public List<ActionsList.GenericAction> GetActionsFromActionBar()

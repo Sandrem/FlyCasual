@@ -156,7 +156,7 @@ namespace SubPhases
                     {
                         //TODO: what to show is there are 2 ways (arc and not arc) ?
                         //TODO: clear on skip combat
-                        if (Combat.ChosenWeapon == null) Combat.ChosenWeapon = Selection.ThisShip.PrimaryWeapon;
+                        if (Combat.ChosenWeapon == null || Combat.ChosenWeapon.Host.ShipId != Selection.ThisShip.ShipId) Combat.ChosenWeapon = Selection.ThisShip.PrimaryWeapon;
                         Combat.ShotInfo = new Board.ShipShotDistanceInformation(Selection.ThisShip, targetShip, Combat.ChosenWeapon);
                         MovementTemplates.ShowFiringArcRange(Combat.ShotInfo);
                         result = true;

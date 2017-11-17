@@ -114,6 +114,8 @@ namespace Ship
         public event EventHandler OnShotStartAsAttacker;
         public event EventHandler OnShotStartAsDefender;
 
+        public event EventHandlerShip OnCheckCancelCritsFirst;
+
         public event EventHandler OnDefence;
 
         public event EventHandler OnAtLeastOneCritWasCancelledByDefender;
@@ -227,6 +229,11 @@ namespace Ship
             {
                 if (OnShotStartAsDefender != null) OnShotStartAsDefender();
             }
+        }
+
+        public void CallCheckCancelCritsFirst()
+        {
+            if (OnCheckCancelCritsFirst != null) OnCheckCancelCritsFirst(this);
         }
 
         public void CallDefenceStart()

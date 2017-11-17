@@ -32,6 +32,8 @@ public partial class DiceRoll
 
     public static DiceRoll CurrentDiceRoll;
 
+    public bool CancelCritsFirst;
+
     public Transform SpawningPoint;
     public Transform FinalPositionPoint;
 
@@ -320,9 +322,23 @@ public partial class DiceRoll
 
     private void CancelHit()
     {
-        if (!CancelType(DieSide.Success))
+        DieSide cancelFirst = DieSide.Unknown;
+        DieSide cancelLast= DieSide.Unknown;
+
+        if (!CancelCritsFirst)
         {
-            CancelType(DieSide.Crit);
+            cancelFirst = DieSide.Success;
+            cancelLast = DieSide.Crit;
+        }
+        else
+        {
+            cancelFirst = DieSide.Crit;
+            cancelLast = DieSide.Success;
+        }
+
+        if (!CancelType(cancelFirst))
+        {
+            CancelType(cancelLast);
         }
     }
 

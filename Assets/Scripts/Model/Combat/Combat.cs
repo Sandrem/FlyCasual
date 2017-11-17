@@ -487,6 +487,9 @@ namespace SubPhases
             Combat.CurentDiceRoll = diceRoll;
             Combat.DiceRollAttack = diceRoll;
 
+            Combat.Attacker.CallCheckCancelCritsFirst();
+            Combat.Defender.CallCheckCancelCritsFirst();
+
             base.CheckResults(diceRoll);
         }
 

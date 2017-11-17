@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 namespace Ship
@@ -66,15 +67,30 @@ namespace Ship
             }
         }
 
+        private Material CreateMaterial(string texturePath)
+        {
+            if (!File.Exists(texturePath))
+                return null;
+
+            var texture = new Texture2D(1, 1);
+            texture.LoadImage(File.ReadAllBytes(texturePath));
+
+            var material = new Material(Shader.Find("Standard"));
+            material.SetTexture("_MainTex", texture);
+
+            return material;
+        }
+
         public void SetShipInsertImage()
         {
             string materialName = PilotName;
             materialName = materialName.Replace(' ', '_');
             materialName = materialName.Replace('"', '_');
             materialName = materialName.Replace("'", "");
-            string pathToResource = "ShipStandInsert/" + FixTypeName(Type) + "/Materials/" + materialName;
 
-            Material shipBaseInsert = (Material)Resources.Load(pathToResource, typeof(Material));
+            var pathToResource = "Assets/Resources/ShipStandInsert/" + FixTypeName(Type) + "/" + materialName + ".jpg";
+            var shipBaseInsert = CreateMaterial(pathToResource);
+
             if (shipBaseInsert != null)
             {
                 shipAllParts.Find("ShipBase/ShipStandInsert/ShipStandInsertImage/default").GetComponent<Renderer>().material = shipBaseInsert;

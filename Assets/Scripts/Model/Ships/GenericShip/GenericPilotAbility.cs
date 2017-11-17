@@ -59,6 +59,8 @@ namespace PilotAbilitiesNamespace
 
             pilotAbilityDecision.InfoText = "Use " + Name + "?";
 
+            pilotAbilityDecision.RequiredPlayer = Host.Owner.PlayerNo;
+
             pilotAbilityDecision.AddDecision("Yes", useAbility);
             pilotAbilityDecision.AddDecision("No", dontUseAbility);
             if (showAlwaysUseOption) pilotAbilityDecision.AddDecision("Always", delegate { SetAlwaysUse(useAbility); });

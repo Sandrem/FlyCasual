@@ -28,7 +28,7 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Astromech);
 
                 PrintedActions.Add(new TargetLockAction());
-                //PrintedActions.Add(new CoodrinateAction());
+                PrintedActions.Add(new CoordinateAction());
 
                 AssignTemporaryManeuvers();
                 HotacManeuverTable = null;

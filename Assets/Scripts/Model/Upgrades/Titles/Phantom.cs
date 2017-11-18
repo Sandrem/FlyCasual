@@ -3,6 +3,7 @@ using Ship.AttackShuttle;
 using Upgrade;
 using System.Linq;
 using System;
+using UnityEngine;
 
 namespace UpgradesList
 {
@@ -26,14 +27,23 @@ namespace UpgradesList
         {
             base.AttachToShip(host);
 
-
+            Host.OnDocked += OnDocked;
+            Host.OnUndocked += OnUndocked;
         }
 
-        public override void Discard(Action callBack)
+        private void OnDocked(GenericShip dockingHost)
         {
-            
+            dockingHost.OnAttackStartAsAttacker += TestAbility;
+        }
 
-            base.Discard(callBack);
+        private void OnUndocked(GenericShip dockingHost)
+        {
+            dockingHost.OnAttackStartAsAttacker -= TestAbility;
+        }
+
+        private void TestAbility()
+        {
+            Debug.Log("Ability of docked Phantom");
         }
 
     }

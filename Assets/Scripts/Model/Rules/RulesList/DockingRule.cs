@@ -43,6 +43,8 @@ namespace RulesList
                     host.DockedShips.Add(docked);
                     docked.Model.SetActive(false);
 
+                    docked.CallDocked(host);
+
                     host.OnMovementExecuted += AskUndock;
                 }
             }
@@ -62,9 +64,11 @@ namespace RulesList
             host.DockedShips.Remove(docked);
             docked.Model.SetActive(true);
 
-            docked.SetAssignedManeuver(new Movement.StraightMovement(2, Movement.ManeuverDirection.Forward, Movement.ManeuverBearing.Straight, Movement.ManeuverColor.White));
+            docked.CallUndocked(host);
 
             host.OnMovementExecuted -= AskUndock;
+
+            docked.SetAssignedManeuver(new Movement.StraightMovement(2, Movement.ManeuverDirection.Forward, Movement.ManeuverBearing.Straight, Movement.ManeuverColor.White));
         }
 
         private void SetUndockPosition(GenericShip host, GenericShip docked)

@@ -8,7 +8,6 @@ namespace Ship
 
     public partial class GenericShip
     {
-
         private string imageUrl;
         public string ImageUrl
         {
@@ -40,6 +39,8 @@ namespace Ship
 
             Triggers.ResolveTriggers(TriggerTypes.OnDiscard, callBack);
         }
+
+        public List<GenericShip> DockedShips = new List<GenericShip>();
     }
 
 }

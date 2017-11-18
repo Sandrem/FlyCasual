@@ -70,7 +70,7 @@ namespace RulesList
         private void SetUndockPosition(GenericShip host, GenericShip docked)
         {
             docked.SetPosition(host.GetBack());
-            docked.SetAngles(host.GetAngles() + new Vector3(0, 180, 9));
+            docked.SetAngles(host.GetAngles() + new Vector3(0, 180, 0));
         }
 
     }

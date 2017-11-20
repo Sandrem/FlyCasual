@@ -16,6 +16,8 @@ namespace UpgradesList
             Cost = 0;
 
             isUnique = true;
+
+            IsHidden = true;
         }
 
         public override bool IsAllowedForShip(GenericShip ship)

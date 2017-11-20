@@ -136,17 +136,35 @@ public static partial class RosterBuilder {
             playerFactions = new Dictionary<PlayerNo, Faction>();
         }
     }
-    
 
-    private static Dictionary<string, string> AllShips = new Dictionary<string, string>();
-    private static Dictionary<string, string> AllShipsXws = new Dictionary<string, string>();
+    public class ShipRecord
+    {
+        public string ShipName;
+        public string ShipNameCanonical;
+        public string ShipNamespace;
+    }
 
-    private static Dictionary<string, string> AllUpgrades = new Dictionary<string, string>();
-    private static Dictionary<string, string> AllUpgradesXws = new Dictionary<string, string>();
+    public class PilotRecord
+    {
+        public string PilotName;
+        public string PilotNameWithCost;
+        public string PilotTypeName;
+        public string PilotNameCanonical;
+        public int PilotSkill;
+        public ShipRecord PilotShip;
+    }
 
-    private static Dictionary<string, string> AllPilots = new Dictionary<string, string>();
-    private static Dictionary<string, string> AllPilotsXws = new Dictionary<string, string>();
-    private static Dictionary<string, int> PilotSkill = new Dictionary<string, int>();
+    public class UpgradeRecord
+    {
+        public string UpgradeName;
+        public string UpgradeNameWithCost;
+        public string UpgradeNameCanonical;
+        public string UpgradeTypeName;
+    }
+
+    public static List<PilotRecord> AllPilots = new List<PilotRecord>();
+    public static List<ShipRecord> AllShips = new List<ShipRecord>();
+    public static List<UpgradeRecord> AllUpgrades = new List<UpgradeRecord>();
 
     public static void Initialize()
     {
@@ -219,10 +237,10 @@ public static partial class RosterBuilder {
     private static SquadBuilderShip AddShip(PlayerNo playerNo)
     {
         List<string> shipResults = GetShipsByFaction(Global.GetPlayerFaction(playerNo));
-        string shipNameId = AllShips[shipResults.First()];
+        string shipNameId = AllShips.Find(n => n.ShipName == shipResults.First()).ShipNamespace;
 
-        List<string> pilotResults = GetPilotsList(shipNameId, SquadBuilderRoster.playerFactions[playerNo]).OrderByDescending(n => PilotSkill[n]).ToList();
-        string pilotId = AllPilots[pilotResults.Last()];
+        List<string> pilotResults = GetPilotsList(shipNameId, SquadBuilderRoster.playerFactions[playerNo]).OrderByDescending(n => AllPilots.Find(m => m.PilotNameWithCost == n).PilotSkill).ToList();
+        string pilotId = AllPilots.Find(n => n.PilotNameWithCost == pilotResults.Last()).PilotTypeName;
         GenericShip pilot = (GenericShip)Activator.CreateInstance(Type.GetType(pilotId));
 
         GameObject panel = CreateShipPanel(playerNo);
@@ -270,10 +288,10 @@ public static partial class RosterBuilder {
     {
         GenericShip result = null;
 
-        string shipName = GetNameOfShip(squadBuilderShip);
-        List<string> pilotResults = GetPilotsList(shipName, SquadBuilderRoster.playerFactions[squadBuilderShip.Player]).OrderByDescending(n => PilotSkill[n]).ToList();
+        string shipNameId = GetNameOfShip(squadBuilderShip);
+        List<string> pilotResults = GetPilotsList(shipNameId, SquadBuilderRoster.playerFactions[squadBuilderShip.Player]).OrderByDescending(n => AllPilots.Find(m => m.PilotNameWithCost == n).PilotSkill).ToList();
 
-        string pilotId = AllPilots[pilotResults.Last()];
+        string pilotId = AllPilots.Find(n => n.PilotNameWithCost == pilotResults.Last()).PilotTypeName;
         result = (GenericShip)Activator.CreateInstance(Type.GetType(pilotId));
 
         SetPilotsDropdown(squadBuilderShip, pilotResults);
@@ -322,12 +340,12 @@ public static partial class RosterBuilder {
     private static List<string> GetShipsByFaction(Faction faction)
     {
         List <string> result = new List<string>();
-        foreach (var ships in AllShips)
+        foreach (var ship in AllShips)
         {
-            GenericShip newShip = (GenericShip)Activator.CreateInstance(Type.GetType(ships.Value + "." + ships.Value.Substring(5)));
+            GenericShip newShip = (GenericShip)Activator.CreateInstance(Type.GetType(ship.ShipNamespace + "." + ship.ShipNamespace.Substring(5)));
             if (newShip.factions.Contains(faction))
             {
-                result.Add(ships.Key);
+                result.Add(ship.ShipName);
             }
         }
 
@@ -352,17 +370,21 @@ public static partial class RosterBuilder {
                 namespaceList.Add(ns);
                 GenericShip newShipTypeContainer = (GenericShip)System.Activator.CreateInstance(System.Type.GetType(ns + "." + ns.Substring(5)));
 
-                if (!AllShips.ContainsKey(newShipTypeContainer.Type))
+                if (AllShips.Find(n => n.ShipName == newShipTypeContainer.Type) == null)
                 {
-                    AllShips.Add(newShipTypeContainer.Type, ns);
+                    AllShips.Add(new ShipRecord() {
+                        ShipName = newShipTypeContainer.Type,
+                        ShipNameCanonical = newShipTypeContainer.ShipTypeCanonical,
+                        ShipNamespace = ns
+                    });
 
-                    string shipTypeXws = newShipTypeContainer.ShipTypeCanonical;
-                    AllShipsXws.Add(shipTypeXws, ns);
-
-                    GetPilotsList(newShipTypeContainer.Type);
+                    GetPilotsList(ns);
                 }
             }
         }
+
+        Messages.ShowInfo("Ships loaded: " + AllShips.Count);
+        Messages.ShowInfo("Pilots loaded: " + AllPilots.Count);
     }
 
     private static List<string> GetPilotsList(string shipName, Faction faction = Faction.None)
@@ -384,18 +406,21 @@ public static partial class RosterBuilder {
                 {
                     string pilotKey = newShipContainer.PilotName + " (" + newShipContainer.Cost + ")";
 
-                    if (!AllPilots.ContainsKey(pilotKey))
+                    if (AllPilots.Find(n => n.PilotName == newShipContainer.PilotName && n.PilotShip.ShipName == newShipContainer.Type) == null)
                     {
-                        AllPilots.Add(pilotKey, type.ToString());
-                        PilotSkill.Add(pilotKey, newShipContainer.PilotSkill);
-
-                        string pilotNameXws = newShipContainer.PilotNameCanonical;
-                        AllPilotsXws.Add(pilotNameXws, type.ToString());
+                        AllPilots.Add(new PilotRecord()
+                        {
+                            PilotName = newShipContainer.PilotName,
+                            PilotNameWithCost = pilotKey,
+                            PilotTypeName = type.ToString(),
+                            PilotNameCanonical = newShipContainer.PilotNameCanonical,
+                            PilotSkill = newShipContainer.PilotSkill,
+                            PilotShip = AllShips.Find(n => n.ShipName == newShipContainer.Type)
+                        });
                     }
 
                     result.Add(pilotKey);
                 }
-                
             }
         }
 
@@ -415,17 +440,20 @@ public static partial class RosterBuilder {
             GenericUpgrade newUpgradeContainer = (GenericUpgrade)System.Activator.CreateInstance(type);
             if ((newUpgradeContainer.Name != null) && (!newUpgradeContainer.IsHidden))
             {
-                string upgradeKey = newUpgradeContainer.Name + " (" + newUpgradeContainer.Cost + ")";
-
-                if (!AllUpgrades.ContainsKey(upgradeKey))
+                if (AllUpgrades.Find(n => n.UpgradeName == newUpgradeContainer.Name) == null)
                 {
-                    AllUpgrades.Add(upgradeKey, type.ToString());
-
-                    string upgradeNameXws = newUpgradeContainer.NameCanonical;
-                    AllUpgradesXws.Add(upgradeNameXws, type.ToString());
+                    AllUpgrades.Add(new UpgradeRecord()
+                    {
+                        UpgradeName = newUpgradeContainer.Name,
+                        UpgradeNameCanonical = newUpgradeContainer.NameCanonical,
+                        UpgradeNameWithCost = newUpgradeContainer.Name + " (" + newUpgradeContainer.Cost + ")",
+                        UpgradeTypeName = type.ToString()
+                    });
                 }
             }
         }
+
+        Messages.ShowInfo("Upgrades loaded: " + AllUpgrades.Count);
     }
 
     private static void SetAvailableUpgrades(SquadBuilderShip squadBuilderShip)
@@ -462,10 +490,6 @@ public static partial class RosterBuilder {
                 if (newUpgrade.Type == upgradeSlot.Type && newUpgrade.IsAllowedForShip(squadBuilderShip.Ship) && upgradeSlot.UpgradeIsAllowed(newUpgrade))
                 {
                     string upgradeKey = newUpgrade.Name + " (" + (newUpgrade.Cost - upgradeSlot.CostDecrease) + ")";
-                    if (!AllUpgrades.ContainsKey(upgradeKey))
-                    {
-                        AllUpgrades.Add(upgradeKey, type.ToString());
-                    }
                     results.Add(upgradeKey);
                 }
             }
@@ -729,7 +753,7 @@ public static partial class RosterBuilder {
         if (oldUpgrade.IsAllowedForShip(squadBuilderShip.Ship) && squadUpgrade.Slot.UpgradeIsAllowed(oldUpgrade))
         {
             Dropdown upgradeDropbox = squadUpgrade.Panel.transform.GetComponent<Dropdown>();
-            string upgradeDropboxName = AllUpgrades.Where(n => n.Value == oldUpgrade.GetType().ToString()).First().Key;
+            string upgradeDropboxName = AllUpgrades.Where(n => n.UpgradeNameWithCost == oldUpgrade.GetType().ToString()).First().UpgradeName;
 
             bool isFound = false;
             for (int i = 0; i < upgradeDropbox.options.Count; i++)
@@ -805,14 +829,12 @@ public static partial class RosterBuilder {
                 SquadBuilderShip newShip = AddShip(playerNo);
 
                 string shipNameXws = pilotJson["ship"].str;
-                string shipNamePath = AllShipsXws[shipNameXws];
-                string shipNameGeneral = AllShips.Where(n => n.Value == shipNamePath).First().Key;
+                string shipNameGeneral = AllShips.Find(n => n.ShipNameCanonical == shipNameXws).ShipName;
                 Dropdown shipDropdown = newShip.Panel.transform.Find("GroupShip/DropdownShip").GetComponent<Dropdown>();
                 shipDropdown.value = shipDropdown.options.IndexOf(shipDropdown.options.Find(n => n.text == shipNameGeneral));
 
                 string pilotNameXws = pilotJson["name"].str;
-                string pilotNamePath = AllPilotsXws[pilotNameXws];
-                string pilotNameGeneral = AllPilots.Where(n => n.Value == pilotNamePath).First().Key;
+                string pilotNameGeneral = AllPilots.Find(n => n.PilotNameCanonical == pilotNameXws).PilotNameWithCost;
                 Dropdown pilotDropdown = newShip.Panel.transform.Find("GroupShip/DropdownPilot").GetComponent<Dropdown>();
                 pilotDropdown.value = pilotDropdown.options.IndexOf(pilotDropdown.options.Find(n => n.text == pilotNameGeneral));
 
@@ -825,7 +847,7 @@ public static partial class RosterBuilder {
                         InstallUpgradeIntoShipPanel(
                             newShip,
                             XwsToUpgradeType(upgradeType),
-                            AllUpgrades.Where(n => n.Value == AllUpgradesXws[upgradeName.str]).First().Key
+                            AllUpgrades.Find(n => n.UpgradeNameCanonical == upgradeName.str).UpgradeNameWithCost
                         );
                     }
                 }

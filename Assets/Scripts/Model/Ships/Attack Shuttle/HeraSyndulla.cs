@@ -14,8 +14,6 @@ namespace Ship
                 PilotSkill = 7;
                 Cost = 22;
 
-                PilotNameCanonical = "herasyndulla-attackshuttle";
-
                 IsUnique = true;
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);

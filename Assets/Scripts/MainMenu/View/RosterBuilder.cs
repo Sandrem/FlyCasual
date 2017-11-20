@@ -164,12 +164,12 @@ public static partial class RosterBuilder {
 
     private static string GetNameOfShip(SquadBuilderShip squadBuilderShip)
     {
-        return AllShips[squadBuilderShip.Panel.transform.Find("GroupShip/DropdownShip").GetComponent<Dropdown>().captionText.text];
+        return AllShips.Find(n => n.ShipName == squadBuilderShip.Panel.transform.Find("GroupShip/DropdownShip").GetComponent<Dropdown>().captionText.text).ShipNamespace;
     }
 
     private static string GetNameOfPilot(SquadBuilderShip squadBuilderShip)
     {
-        return AllPilots[squadBuilderShip.Panel.transform.Find("GroupShip/DropdownPilot").GetComponent<Dropdown>().captionText.text];
+        return AllPilots.Find(n => n.PilotNameWithCost == squadBuilderShip.Panel.transform.Find("GroupShip/DropdownPilot").GetComponent<Dropdown>().captionText.text).PilotTypeName;
     }
 
     private static void OnUpgradeChanged(SquadBuilderShip squadBuilderShip, SquadBuilderUpgrade upgrade)
@@ -181,7 +181,7 @@ public static partial class RosterBuilder {
     {
         string result = "";
         string upgradeName = upgrade.Panel.transform.GetComponent<Dropdown>().captionText.text;
-        if (AllUpgrades.ContainsKey(upgradeName)) result = AllUpgrades[upgradeName];
+        if (AllUpgrades.Find(n => n.UpgradeNameWithCost == upgradeName) != null) result = AllUpgrades.Find(n => n.UpgradeNameWithCost == upgradeName).UpgradeTypeName;
         return result;
     }
 
@@ -199,16 +199,19 @@ public static partial class RosterBuilder {
     private static string GetPilotTooltipImage(GameObject panel)
     {
         string pilotKey = panel.GetComponent<Dropdown>().captionText.text;
-        GenericShip ship = (GenericShip)Activator.CreateInstance(Type.GetType(AllPilots[pilotKey]));
+        GenericShip ship = (GenericShip)Activator.CreateInstance(Type.GetType(AllPilots.Find(n => n.PilotNameWithCost == pilotKey).PilotTypeName));
         return ship.ImageUrl;
     }
 
     private static string GetUpgradeTooltipImage(GameObject panel)
     {
         string upgradeKey = panel.GetComponent<Dropdown>().captionText.text;
-        if (AllUpgrades.ContainsKey(upgradeKey))
+
+        if (AllUpgrades.Find(n => n.UpgradeNameWithCost == upgradeKey) == null) return null;
+
+        if (AllUpgrades.Find(n => n.UpgradeNameWithCost == upgradeKey).UpgradeTypeName != null)
         {
-            GenericUpgrade upgrade = (GenericUpgrade)Activator.CreateInstance(Type.GetType(AllUpgrades[upgradeKey]));
+            GenericUpgrade upgrade = (GenericUpgrade)Activator.CreateInstance(Type.GetType(AllUpgrades.Find(n => n.UpgradeNameWithCost == upgradeKey).UpgradeTypeName));
             return upgrade.ImageUrl;
         }
         return null;
@@ -434,7 +437,7 @@ public static partial class RosterBuilder {
         {
             if (shipPanel.name == "AddShipPanel") continue;
             string pilotName = shipPanel.Find("GroupShip/DropdownPilot").GetComponent<Dropdown>().captionText.text;
-            GenericShip newPilot = (GenericShip)Activator.CreateInstance(Type.GetType(AllPilots[pilotName]));
+            GenericShip newPilot = (GenericShip)Activator.CreateInstance(Type.GetType(AllPilots.Find(n => n.PilotNameWithCost == pilotName).PilotTypeName));
             if (newPilot.faction != playerFaction)
             {
                 isFactionChanged = true;

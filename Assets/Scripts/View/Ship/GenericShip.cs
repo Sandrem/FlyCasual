@@ -69,11 +69,10 @@ namespace Ship
 
         private Material CreateMaterial(string texturePath)
         {
-            if (!File.Exists(texturePath))
-                return null;
+            var texture = Resources.Load<Texture2D>(texturePath);
 
-            var texture = new Texture2D(1, 1);
-            texture.LoadImage(File.ReadAllBytes(texturePath));
+            if (texture == null)
+                return null;
 
             var material = new Material(Shader.Find("Standard"));
             material.SetTexture("_MainTex", texture);
@@ -88,7 +87,7 @@ namespace Ship
             materialName = materialName.Replace('"', '_');
             materialName = materialName.Replace("'", "");
 
-            var pathToResource = "Assets/Resources/ShipStandInsert/" + FixTypeName(Type) + "/" + materialName + ".jpg";
+            var pathToResource = "ShipStandInsert/" + FixTypeName(Type) + "/" + materialName;
             var shipBaseInsert = CreateMaterial(pathToResource);
 
             if (shipBaseInsert != null)

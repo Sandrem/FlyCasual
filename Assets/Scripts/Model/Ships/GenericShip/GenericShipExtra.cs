@@ -11,6 +11,8 @@ namespace Ship
         public event EventHandlerShip OnDocked;
         public event EventHandlerShip OnUndocked;
 
+        public GenericShip Host;
+
         private string imageUrl;
         public string ImageUrl
         {

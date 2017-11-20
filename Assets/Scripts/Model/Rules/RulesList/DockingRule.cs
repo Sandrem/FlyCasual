@@ -42,6 +42,7 @@ namespace RulesList
                 {
                     Roster.HideShip("ShipId:" + docked.ShipId);
                     host.DockedShips.Add(docked);
+                    docked.Host = host;
                     docked.Model.SetActive(false);
 
                     docked.CallDocked(host);
@@ -88,7 +89,82 @@ namespace RulesList
 
             host.OnMovementFinish -= RegisterAskUndock;
 
-            docked.SetAssignedManeuver(new Movement.StraightMovement(2, Movement.ManeuverDirection.Forward, Movement.ManeuverBearing.Straight, Movement.ManeuverColor.White));
+            AskAssignManeuver(host, docked);
+        }
+
+        private void AskAssignManeuver(GenericShip host, GenericShip docked)
+        {
+            Selection.ChangeActiveShip("ShipId:" + docked.ShipId);
+
+            Triggers.RegisterTrigger(new Trigger()
+            {
+                Name = "Assign undocking maneuver",
+                TriggerType = TriggerTypes.OnAbilityDirect,
+                TriggerOwner = docked.Owner.PlayerNo,
+                EventHandler = AskChangeManeuver
+            });
+
+            Triggers.ResolveTriggers(TriggerTypes.OnAbilityDirect, RegisterPerformManeuver);
+        }
+
+        private void AskChangeManeuver(object sender, System.EventArgs e)
+        {
+            DirectionsMenu.Show(GameMode.CurrentGameMode.AssignManeuver);
+        }
+
+        private void RegisterPerformManeuver()
+        {
+            Triggers.RegisterTrigger(new Trigger()
+            {
+                Name = "Undocking Execution",
+                TriggerType = TriggerTypes.OnManeuver,
+                TriggerOwner = Selection.ThisShip.Owner.PlayerNo,
+                EventHandler = PerformManeuver
+            });
+
+            Triggers.ResolveTriggers(
+                TriggerTypes.OnManeuver,
+                AfterUndockingManeuverIsFinished
+            );
+        }
+
+        private void PerformManeuver(object sender, EventArgs e)
+        {
+            Selection.ThisShip.IsManeuverPerformed = true;
+            Roster.AllShipsHighlightOff();
+
+            Selection.ThisShip.ObstaclesHit = new List<Collider>();
+            Selection.ThisShip.MinesHit = new List<GameObject>();
+
+            Selection.ThisShip.AssignedManeuver.Perform();
+        }
+
+        private void AfterUndockingManeuverIsFinished()
+        {
+            Triggers.RegisterTrigger(
+                new Trigger()
+                {
+                    Name = "Action after Undocking",
+                    TriggerOwner = Selection.ThisShip.Owner.PlayerNo,
+                    TriggerType = TriggerTypes.OnFreeAction,
+                    EventHandler = PerformFreeAction
+                }
+            );
+
+            Triggers.ResolveTriggers(TriggerTypes.OnFreeAction, AfterUndockingFinished);
+        }
+
+        private void PerformFreeAction(object sender, System.EventArgs e)
+        {
+            Selection.ThisShip.GenerateAvailableActionsList();
+            List<ActionsList.GenericAction> actions = Selection.ThisShip.GetAvailableActionsList();
+            Selection.ThisShip.AskPerformFreeAction(actions, Triggers.FinishTrigger);
+        }
+
+        private void AfterUndockingFinished()
+        {
+            Selection.ChangeActiveShip("ShipId:" + Selection.ThisShip.Host.ShipId);
+            Triggers.FinishTrigger();
         }
 
         private void SetUndockPosition(GenericShip host, GenericShip docked)
@@ -124,8 +200,8 @@ namespace SubPhases
 
         private void Undock(object sender, System.EventArgs e)
         {
+            ConfirmDecisionNoCallback();
             YesAction();
-            ConfirmDecision();
         }
 
         private void SkipUndock(object sender, System.EventArgs e)

@@ -43,12 +43,13 @@ namespace UpgradesList
             {
                 foreach (var upgrade in shipHolder.Value.UpgradeBar.GetInstalledUpgrades())
                 {
-                    result = upgrade.Host;
-                    break;
+                    if (upgrade.GetType() == typeof(UpgradesList.Phantom))
+                    {
+                        result = upgrade.Host;
+                        break;
+                    }
                 }
             }
-
-            if (result == null) Messages.ShowErrorToHuman("\"Phantom\" is not found, docking is cancelled");
 
             return result;
         }

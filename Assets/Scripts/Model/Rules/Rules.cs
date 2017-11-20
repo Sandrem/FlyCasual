@@ -25,6 +25,7 @@ public static class Rules
     public static CloakRule Cloak { get; private set; }
     public static WeaponsDisabledRule WeaponsDisabled { get; private set; }
     public static BullseyeArcRule BullseyeArc { get; private set; }
+    public static DockingRule Docking { get; private set; }
 
     static Rules()
     {
@@ -47,6 +48,7 @@ public static class Rules
         Cloak = new CloakRule();
         WeaponsDisabled = new WeaponsDisabledRule();
         BullseyeArc = new BullseyeArcRule();
+        Docking = new DockingRule();
     }
 
 }

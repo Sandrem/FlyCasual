@@ -173,6 +173,15 @@ namespace SubPhases
             callBack();
         }
 
+        public static void ConfirmDecisionNoCallback()
+        {
+            Tooltips.EndTooltip();
+            UI.HideSkipButton();
+
+            Phases.FinishSubPhase(Phases.CurrentSubPhase.GetType());
+            Phases.CurrentSubPhase.Resume();
+        }
+
     }
 
 }

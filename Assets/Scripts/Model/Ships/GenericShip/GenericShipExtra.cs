@@ -8,6 +8,10 @@ namespace Ship
 
     public partial class GenericShip
     {
+        public event EventHandlerShip OnDocked;
+        public event EventHandlerShip OnUndocked;
+
+        public GenericShip Host;
 
         private string imageUrl;
         public string ImageUrl
@@ -40,6 +44,19 @@ namespace Ship
 
             Triggers.ResolveTriggers(TriggerTypes.OnDiscard, callBack);
         }
+
+        public List<GenericShip> DockedShips = new List<GenericShip>();
+
+        public void CallDocked(GenericShip host)
+        {
+            if (OnDocked != null) OnDocked(host);
+        }
+
+        public void CallUndocked(GenericShip host)
+        {
+            if (OnUndocked != null) OnUndocked(host);
+        }
+
     }
 
 }

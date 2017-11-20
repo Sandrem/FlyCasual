@@ -48,6 +48,8 @@ namespace UpgradesList
                 }
             }
 
+            if (result == null) Messages.ShowErrorToHuman("\"Phantom\" is not found, docking is cancelled");
+
             return result;
         }
 

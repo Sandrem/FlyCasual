@@ -6,6 +6,7 @@ using System.Linq;
 using Players;
 using GameModes;
 using Ship;
+using SubPhases;
 
 namespace RulesList
 {
@@ -45,15 +46,34 @@ namespace RulesList
 
                     docked.CallDocked(host);
 
-                    host.OnMovementExecuted += AskUndock;
+                    host.OnMovementFinish += RegisterAskUndock;
                 }
             }
         }
 
-        private void AskUndock(GenericShip ship)
+        private void RegisterAskUndock(GenericShip ship)
         {
-            Debug.Log("Ask Undock");
-            Undock(ship, ship.DockedShips[0]);
+            Triggers.RegisterTrigger(new Trigger()
+            {
+                Name = "Undocking decision",
+                TriggerType = TriggerTypes.OnShipMovementFinish,
+                TriggerOwner = ship.Owner.PlayerNo,
+                EventHandler = AskUndock
+            });
+        }
+
+        private void AskUndock(object sender, EventArgs e)
+        {
+            GenericShip ship = Selection.ThisShip;
+
+            UndockingDecisionSubPhase newSubphase = (UndockingDecisionSubPhase)Phases.StartTemporarySubPhaseNew(
+                "Undocking decision",
+                typeof(UndockingDecisionSubPhase),
+                Triggers.FinishTrigger
+            );
+
+            newSubphase.YesAction = delegate { Undock(ship, ship.DockedShips[0]); };
+            newSubphase.Start();            
         }
 
         private void Undock(GenericShip host, GenericShip docked)
@@ -66,7 +86,7 @@ namespace RulesList
 
             docked.CallUndocked(host);
 
-            host.OnMovementExecuted -= AskUndock;
+            host.OnMovementFinish -= RegisterAskUndock;
 
             docked.SetAssignedManeuver(new Movement.StraightMovement(2, Movement.ManeuverDirection.Forward, Movement.ManeuverBearing.Straight, Movement.ManeuverColor.White));
         }
@@ -75,6 +95,47 @@ namespace RulesList
         {
             docked.SetPosition(host.GetBack());
             docked.SetAngles(host.GetAngles() + new Vector3(0, 180, 0));
+        }
+
+    }
+
+}
+
+namespace SubPhases
+{
+
+    public class UndockingDecisionSubPhase : DecisionSubPhase
+    {
+        public Action YesAction;
+
+        public override void PrepareDecision(System.Action callBack)
+        {
+            InfoText = "Perform undocking?";
+
+            AddDecision("Yes", Undock);
+            AddDecision("No", SkipUndock);
+
+            DefaultDecision = "No";
+
+            UI.ShowSkipButton();
+
+            callBack();
+        }
+
+        private void Undock(object sender, System.EventArgs e)
+        {
+            YesAction();
+            ConfirmDecision();
+        }
+
+        private void SkipUndock(object sender, System.EventArgs e)
+        {
+            ConfirmDecision();
+        }
+
+        public override void SkipButton()
+        {
+            ConfirmDecision();
         }
 
     }

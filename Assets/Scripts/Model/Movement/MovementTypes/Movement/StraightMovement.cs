@@ -28,7 +28,7 @@ namespace Movement
 
         protected override float SetAnimationSpeed()
         {
-            return 0.75f;
+            return 5f;
         }
 
         public override void UpdateMovementExecution()

@@ -7,20 +7,25 @@ public class OptionsValueController : MonoBehaviour
 {
     public void Start()
     {
-        SetValue(PlayerPrefs.GetInt(this.transform.Find("Text").GetComponent<Text>().text, 2));
+        SetValue(PlayerPrefs.GetFloat(this.transform.Find("Text").GetComponent<Text>().text, 0.25f));
     }
 
-    public void SetValue(int value)
+    public void UpdateProgressByClick()
     {
-        Options.ChangeParameterValue(this.transform.Find("Text").GetComponent<Text>().text, value);
+        float percentage = (Input.mousePosition.x - this.gameObject.transform.position.x - 20) / 520;
+        if (percentage < 0.05) percentage = 0;
+        else if (percentage > 0.95) percentage = 1;
+
+        SetValue(percentage);
+    }
+
+    public void SetValue(float percentage)
+    {
+        Options.ChangeParameterValue(this.transform.Find("Text").GetComponent<Text>().text, percentage);
         PlayerPrefs.Save();
 
-        int i = 1;
-        foreach (Transform scalePanel in this.transform.Find("ValueList"))
-        {
-            scalePanel.GetComponent<Image>().color = (i <= value) ? Color.blue : new Color(1, 1, 1, 100f/255f);
-            i++;
-        }
+        this.transform.Find("ValueList/PanelValue").GetComponent<RectTransform>().sizeDelta = new Vector2(520f * percentage, 50);
+        this.transform.Find("ValueList/PanelEmpty").GetComponent<RectTransform>().sizeDelta = new Vector2(520f * (1f - percentage), 50);
     }
 
 }

@@ -386,8 +386,8 @@ public static partial class RosterBuilder {
             }
         }
 
-        Messages.ShowInfo("Ships loaded: " + AllShips.Count);
-        Messages.ShowInfo("Pilots loaded: " + AllPilots.Count);
+        //Messages.ShowInfo("Ships loaded: " + AllShips.Count);
+        //Messages.ShowInfo("Pilots loaded: " + AllPilots.Count);
     }
 
     private static List<string> GetPilotsList(string shipName, Faction faction = Faction.None)
@@ -458,7 +458,7 @@ public static partial class RosterBuilder {
             }
         }
 
-        Messages.ShowInfo("Upgrades loaded: " + AllUpgrades.Count);
+        //Messages.ShowInfo("Upgrades loaded: " + AllUpgrades.Count);
     }
 
     private static void SetAvailableUpgrades(SquadBuilderShip squadBuilderShip)

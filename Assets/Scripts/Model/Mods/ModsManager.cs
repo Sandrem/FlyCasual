@@ -45,6 +45,7 @@ namespace Mods
             Type modType = Type.GetType(modTypeName);
             Mods[modType].IsOn = value;
             PlayerPrefs.SetInt("mods/" + modTypeName, (value == true) ? 1 : 0);
+            PlayerPrefs.Save();
         }
     }
 }

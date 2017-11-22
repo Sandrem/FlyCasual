@@ -553,7 +553,7 @@ namespace SubPhases
 
         private void DoDecloakAnimation()
         {
-            float progressStep = 0.5f * Time.deltaTime * Options.AnimationSpeed;
+            float progressStep = 2.5f * Time.deltaTime * Options.AnimationSpeed;
             progressStep = Mathf.Min(progressStep, progressTarget - progressCurrent);
             progressCurrent += progressStep;
 

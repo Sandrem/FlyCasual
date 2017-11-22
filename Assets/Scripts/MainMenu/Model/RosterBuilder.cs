@@ -180,6 +180,7 @@ public static partial class RosterBuilder {
 
     private static void InitializeSquadBuilderRoster()
     {
+        RemoveAllShips();
         SquadBuilderRoster.ClearRoster();
     }
 
@@ -791,6 +792,12 @@ public static partial class RosterBuilder {
         //LogImportedSquad(squadJson);
 
         SetPlayerSquadFromImportedJson(squadJson, playerNo, ShowRoster);
+    }
+
+    public static void RemoveAllShips()
+    {
+        RemoveAllShipsByPlayer(PlayerNo.Player1);
+        RemoveAllShipsByPlayer(PlayerNo.Player2);
     }
 
     public static void RemoveAllShipsByPlayer(PlayerNo playerNo)

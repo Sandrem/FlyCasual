@@ -1,4 +1,6 @@
-﻿namespace Ship
+﻿using Mods.ModsList;
+
+namespace Ship
 {
     namespace AWing
     {
@@ -6,6 +8,8 @@
         {
             public HeraSyndulla() : base()
             {
+                FromMod = typeof(PhoenixSquadronMod);
+
                 PilotName = "Hera Syndulla";
                 PilotSkill = 7;
                 Cost = 25;

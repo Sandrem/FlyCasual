@@ -12,7 +12,7 @@ namespace Mods
         public string Name;
         public string Description;
 
-        public bool IsActive;
+        public bool IsOn;
     }
 
     public static class ModsManager
@@ -38,6 +38,13 @@ namespace Mods
         public static void InitializePanel()
         {
             UI.InitializePanel();
+        }
+
+        public static void ModToggleIsActive(string modTypeName, bool value)
+        {
+            Type modType = Type.GetType(modTypeName);
+            Mods[modType].IsOn = value;
+            PlayerPrefs.SetInt("mods/" + modTypeName, (value == true) ? 1 : 0);
         }
     }
 }

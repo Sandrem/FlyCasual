@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
+using Mods;
 
 public static class Options
 {
@@ -28,6 +29,16 @@ public static class Options
         SfxVolume = PlayerPrefs.GetInt("Sfx Volume", 2);
         AnimationSpeed = PlayerPrefs.GetInt("Animation Speed", 2);
         ManeuverSpeed = PlayerPrefs.GetInt("Maneuver Speed", 2);
+
+        ReadMods();
+    }
+
+    private static void ReadMods()
+    {
+        foreach (var modHolder in ModsManager.Mods)
+        {
+            modHolder.Value.IsOn = PlayerPrefs.GetInt("mods/" + modHolder.Key.ToString(), 0) == 1;
+        }
     }
 
     public static void InitializePanel()

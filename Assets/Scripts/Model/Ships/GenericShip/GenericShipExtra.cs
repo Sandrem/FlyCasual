@@ -64,7 +64,7 @@ namespace Ship
 
             if (IsHidden) return false;
 
-            if (FromMod != null && ModsManager.Mods[FromMod].IsActive) return false;
+            if (FromMod != null && !ModsManager.Mods[FromMod].IsOn) return false;
 
             return result;
         }

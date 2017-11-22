@@ -356,6 +356,9 @@ public static partial class RosterBuilder {
 
     private static void GenerateShipsList()
     {
+        AllShips = new List<ShipRecord>();
+        AllPilots = new List<PilotRecord>();
+
         IEnumerable<string> namespaceIEnum =
             from types in Assembly.GetExecutingAssembly().GetTypes()
             where types.Namespace != null
@@ -429,6 +432,8 @@ public static partial class RosterBuilder {
 
     private static void GenerateUpgradesList()
     {
+        AllUpgrades = new List<UpgradeRecord>();
+
         List<Type> typelist = Assembly.GetExecutingAssembly().GetTypes()
             .Where(t => String.Equals(t.Namespace, "UpgradesList", StringComparison.Ordinal))
             .ToList();

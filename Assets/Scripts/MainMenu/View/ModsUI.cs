@@ -8,11 +8,6 @@ public class ModsUI : MonoBehaviour {
 
     public const float FREE_SPACE = 20f;
 
-    public void OnClickModActivationChange(GameObject ModGO)
-    {
-        Messages.ShowInfo(ModGO.name);
-    }
-
     public void Start()
     {
         ModsManager.UI = this;
@@ -28,20 +23,33 @@ public class ModsUI : MonoBehaviour {
 
         foreach (var mod in ModsManager.Mods)
         {
-            GameObject ModRecord = MonoBehaviour.Instantiate(prefab, ModsPanel.transform);
-            ModRecord.transform.position = currentPosition;
+            Transform existingModeRecord = ModsPanel.transform.Find(mod.Key.ToString());
+            GameObject ModRecord;
 
-            ModRecord.transform.Find("Label").GetComponent<Text>().text = mod.Value.Name;
+            if (existingModeRecord == null)
+            {
+                ModRecord = MonoBehaviour.Instantiate(prefab, ModsPanel.transform);
+                ModRecord.transform.position = currentPosition;
+                ModRecord.name = mod.Key.ToString();
 
-            Text description = ModRecord.transform.Find("Text").GetComponent<Text>();
-            description.text = mod.Value.Description;
-            RectTransform descriptionRectTransform = description.GetComponent<RectTransform>();
-            descriptionRectTransform.sizeDelta = new Vector2(descriptionRectTransform.sizeDelta.x, description.preferredHeight);
+                ModRecord.transform.Find("Label").GetComponent<Text>().text = mod.Value.Name;
 
-            RectTransform modRecordRectTransform = ModRecord.GetComponent<RectTransform>();
-            modRecordRectTransform.sizeDelta = new Vector2(modRecordRectTransform.sizeDelta.x, modRecordRectTransform.sizeDelta.y + description.preferredHeight);
+                Text description = ModRecord.transform.Find("Text").GetComponent<Text>();
+                description.text = mod.Value.Description;
+                RectTransform descriptionRectTransform = description.GetComponent<RectTransform>();
+                descriptionRectTransform.sizeDelta = new Vector2(descriptionRectTransform.sizeDelta.x, description.preferredHeight);
 
-            currentPosition = new Vector3(currentPosition.x, currentPosition.y - modRecordRectTransform.sizeDelta.y - FREE_SPACE, currentPosition.z);
+                RectTransform modRecordRectTransform = ModRecord.GetComponent<RectTransform>();
+                modRecordRectTransform.sizeDelta = new Vector2(modRecordRectTransform.sizeDelta.x, modRecordRectTransform.sizeDelta.y + description.preferredHeight);
+
+                currentPosition = new Vector3(currentPosition.x, currentPosition.y - modRecordRectTransform.sizeDelta.y - FREE_SPACE, currentPosition.z);
+            }
+            else
+            {
+                ModRecord = existingModeRecord.gameObject;
+            }
+
+            ModRecord.transform.Find("Toggle").GetComponent<Toggle>().isOn = ModsManager.Mods[mod.Key].IsOn;
         }
     }
 

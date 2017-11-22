@@ -753,7 +753,7 @@ public static partial class RosterBuilder {
         if (oldUpgrade.IsAllowedForShip(squadBuilderShip.Ship) && squadUpgrade.Slot.UpgradeIsAllowed(oldUpgrade))
         {
             Dropdown upgradeDropbox = squadUpgrade.Panel.transform.GetComponent<Dropdown>();
-            string upgradeDropboxName = AllUpgrades.Where(n => n.UpgradeNameWithCost == oldUpgrade.GetType().ToString()).First().UpgradeName;
+            string upgradeDropboxName = AllUpgrades.Where(n => n.UpgradeTypeName == oldUpgrade.GetType().ToString()).First().UpgradeNameWithCost;
 
             bool isFound = false;
             for (int i = 0; i < upgradeDropbox.options.Count; i++)

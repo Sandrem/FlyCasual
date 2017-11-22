@@ -35,10 +35,10 @@ public static class Options
 
     private static void ReadMods()
     {
-        /*foreach (var modHolder in ModsManager.Mods)
+        foreach (var modHolder in ModsManager.Mods)
         {
             modHolder.Value.IsOn = PlayerPrefs.GetInt("mods/" + modHolder.Key.ToString(), 0) == 1;
-        }*/
+        }
     }
 
     public static void InitializePanel()
@@ -46,6 +46,7 @@ public static class Options
         optionsUI = GameObject.Find("UI/Panels/OptionsPanel").GetComponentInChildren<OptionsUI>();
 
         SetPlaymatOption();
+        SetValueControllers();
     }
 
     private static void SetPlaymatOption()
@@ -57,6 +58,14 @@ public static class Options
                 optionsUI.PlaymatSelector.transform.position = playmatImage.transform.position;
                 break;
             }
+        }
+    }
+
+    private static void SetValueControllers()
+    {
+        foreach (OptionsValueController valueController in GameObject.Find("UI/Panels/OptionsPanel").GetComponentsInChildren<OptionsValueController>())
+        {
+            valueController.Start();
         }
     }
 
@@ -87,7 +96,7 @@ public static class Options
 
     public static void UpdateVolume()
     {
-        SetMusicVolume(PlayerPrefs.GetFloat("Music Volume", 0.5f));
+        SetMusicVolume(PlayerPrefs.GetFloat("Music Volume", 0.25f));
     }
 
     private static void SetMusicVolume(float value)

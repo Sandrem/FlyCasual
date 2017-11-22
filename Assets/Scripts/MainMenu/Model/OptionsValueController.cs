@@ -13,8 +13,18 @@ public class OptionsValueController : MonoBehaviour
     public void UpdateProgressByClick()
     {
         float percentage = (Input.mousePosition.x - this.gameObject.transform.position.x - 20) / 520;
-        if (percentage < 0.05) percentage = 0;
-        else if (percentage > 0.95) percentage = 1;
+
+        string optionName = this.transform.Find("Text").GetComponent<Text>().text;
+        if (optionName.Contains("Speed"))
+        {
+            if (percentage < 0.05f) percentage = 0.05f;
+        }
+        else
+        {
+            if (percentage < 0.05f) percentage = 0f;
+        }
+
+        if (percentage > 0.95f) percentage = 1f;
 
         SetValue(percentage);
     }

@@ -180,6 +180,7 @@ public static partial class RosterBuilder {
 
     private static void InitializeSquadBuilderRoster()
     {
+        RemoveAllShips();
         SquadBuilderRoster.ClearRoster();
     }
 
@@ -356,6 +357,9 @@ public static partial class RosterBuilder {
 
     private static void GenerateShipsList()
     {
+        AllShips = new List<ShipRecord>();
+        AllPilots = new List<PilotRecord>();
+
         IEnumerable<string> namespaceIEnum =
             from types in Assembly.GetExecutingAssembly().GetTypes()
             where types.Namespace != null
@@ -383,8 +387,8 @@ public static partial class RosterBuilder {
             }
         }
 
-        Messages.ShowInfo("Ships loaded: " + AllShips.Count);
-        Messages.ShowInfo("Pilots loaded: " + AllPilots.Count);
+        //Messages.ShowInfo("Ships loaded: " + AllShips.Count);
+        //Messages.ShowInfo("Pilots loaded: " + AllPilots.Count);
     }
 
     private static List<string> GetPilotsList(string shipName, Faction faction = Faction.None)
@@ -400,7 +404,7 @@ public static partial class RosterBuilder {
             if (type.MemberType == MemberTypes.NestedType) continue;
 
             GenericShip newShipContainer = (GenericShip)System.Activator.CreateInstance(type);
-            if ((newShipContainer.PilotName != null) && (!newShipContainer.IsHidden) && (!newShipContainer.IsCustomContent))
+            if ((newShipContainer.PilotName != null) && (newShipContainer.IsAllowedForSquadBuilder()))
             {
                 if ((newShipContainer.faction == faction) || faction == Faction.None)
                 {
@@ -429,6 +433,8 @@ public static partial class RosterBuilder {
 
     private static void GenerateUpgradesList()
     {
+        AllUpgrades = new List<UpgradeRecord>();
+
         List<Type> typelist = Assembly.GetExecutingAssembly().GetTypes()
             .Where(t => String.Equals(t.Namespace, "UpgradesList", StringComparison.Ordinal))
             .ToList();
@@ -453,7 +459,7 @@ public static partial class RosterBuilder {
             }
         }
 
-        Messages.ShowInfo("Upgrades loaded: " + AllUpgrades.Count);
+        //Messages.ShowInfo("Upgrades loaded: " + AllUpgrades.Count);
     }
 
     private static void SetAvailableUpgrades(SquadBuilderShip squadBuilderShip)
@@ -786,6 +792,12 @@ public static partial class RosterBuilder {
         //LogImportedSquad(squadJson);
 
         SetPlayerSquadFromImportedJson(squadJson, playerNo, ShowRoster);
+    }
+
+    public static void RemoveAllShips()
+    {
+        RemoveAllShipsByPlayer(PlayerNo.Player1);
+        RemoveAllShipsByPlayer(PlayerNo.Player2);
     }
 
     public static void RemoveAllShipsByPlayer(PlayerNo playerNo)

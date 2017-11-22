@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
+using SubPhases;
 
 public static class SwarmManager
 {
@@ -11,6 +12,8 @@ public static class SwarmManager
     public static void CheckActivation()
     {
         //Debug.Log(!IsActive + " " + (Phases.CurrentSubPhase.GetType() == typeof(SubPhases.PlanningSubPhase)).ToString() + " " + (Roster.GetPlayer(Phases.CurrentSubPhase.RequiredPlayer).GetType() == typeof(Players.HumanPlayer)).ToString());
+        if (Phases.CurrentSubPhase == null) return;
+
         if (!IsActive && Phases.CurrentSubPhase.GetType() == typeof(SubPhases.PlanningSubPhase) && Roster.GetPlayer(Phases.CurrentSubPhase.RequiredPlayer).GetType() == typeof(Players.HumanPlayer))
         {
             if (Input.GetKey(KeyCode.LeftControl) && (Input.GetKey(KeyCode.A)))
@@ -31,11 +34,12 @@ public static class SwarmManager
             EventHandler = ShowSwarmManagerWindow
         });
 
-        Triggers.ResolveTriggers(TriggerTypes.OnAbilityDirect, delegate { });
+        Triggers.ResolveTriggers(TriggerTypes.OnAbilityDirect, delegate { Phases.FinishSubPhase(typeof(SwarmManagerSubPhase)); });
     }
 
     private static void ShowSwarmManagerWindow(object sender, EventArgs e)
     {
+        Phases.StartTemporarySubPhaseNew("Swarm Manager", typeof(SwarmManagerSubPhase), delegate { });
         DirectionsMenu.ShowForAll(AssignManeuverToAllShips, AnyShipHasManeuver);
     }
 
@@ -76,4 +80,35 @@ public static class SwarmManager
         return result;
     }
 
+}
+
+namespace SubPhases
+{
+    public class SwarmManagerSubPhase: GenericSubPhase
+    {
+        public override void Start()
+        {
+            Name = "Swarm Manager";
+            IsTemporary = true;
+            UpdateHelpInfo();
+        }
+
+        public override void Next()
+        {
+            Phases.CurrentSubPhase = PreviousSubPhase;
+            UpdateHelpInfo();
+        }
+
+        public override bool ThisShipCanBeSelected(Ship.GenericShip ship)
+        {
+            bool result = false;
+            return result;
+        }
+
+        public override bool AnotherShipCanBeSelected(Ship.GenericShip anotherShip)
+        {
+            bool result = false;
+            return result;
+        }
+    }
 }

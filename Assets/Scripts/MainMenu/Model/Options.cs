@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
+using Mods;
 
 public static class Options
 {
@@ -10,10 +11,10 @@ public static class Options
 
     public static string Playmat;
     public static string CheckVersionUrl;
-    public static int MusicVolume;
-    public static int SfxVolume;
-    public static int AnimationSpeed;
-    public static int ManeuverSpeed;
+    public static float MusicVolume;
+    public static float SfxVolume;
+    public static float AnimationSpeed;
+    public static float ManeuverSpeed;
 
     static Options()
     {
@@ -24,10 +25,20 @@ public static class Options
     {
         Playmat = PlayerPrefs.GetString("PlaymatName", "Endor");
         CheckVersionUrl = PlayerPrefs.GetString("CheckVersionUrl", "http://sandrem.freeasphost.net/data/currentversion.txt");
-        MusicVolume = PlayerPrefs.GetInt("Music Volume", 2);
-        SfxVolume = PlayerPrefs.GetInt("Sfx Volume", 2);
-        AnimationSpeed = PlayerPrefs.GetInt("Animation Speed", 2);
-        ManeuverSpeed = PlayerPrefs.GetInt("Maneuver Speed", 2);
+        MusicVolume = PlayerPrefs.GetFloat("Music Volume", 0.25f);
+        SfxVolume = PlayerPrefs.GetFloat("Sfx Volume", 0.25f);
+        AnimationSpeed = PlayerPrefs.GetFloat("Animation Speed", 0.25f);
+        ManeuverSpeed = PlayerPrefs.GetFloat("Maneuver Speed", 0.25f);
+
+        ReadMods();
+    }
+
+    private static void ReadMods()
+    {
+        foreach (var modHolder in ModsManager.Mods)
+        {
+            modHolder.Value.IsOn = PlayerPrefs.GetInt("mods/" + modHolder.Key.ToString(), 0) == 1;
+        }
     }
 
     public static void InitializePanel()
@@ -35,6 +46,7 @@ public static class Options
         optionsUI = GameObject.Find("UI/Panels/OptionsPanel").GetComponentInChildren<OptionsUI>();
 
         SetPlaymatOption();
+        SetValueControllers();
     }
 
     private static void SetPlaymatOption()
@@ -49,9 +61,17 @@ public static class Options
         }
     }
 
-    public static void ChangeParameterValue(string parameter, int value)
+    private static void SetValueControllers()
     {
-        PlayerPrefs.SetInt(parameter, value);
+        foreach (OptionsValueController valueController in GameObject.Find("UI/Panels/OptionsPanel").GetComponentsInChildren<OptionsValueController>())
+        {
+            valueController.Start();
+        }
+    }
+
+    public static void ChangeParameterValue(string parameter, float value)
+    {
+        PlayerPrefs.SetFloat(parameter, value);
         PlayerPrefs.Save();
 
         switch (parameter)
@@ -76,12 +96,12 @@ public static class Options
 
     public static void UpdateVolume()
     {
-        SetMusicVolume(PlayerPrefs.GetInt("Music Volume", 2));
+        SetMusicVolume(PlayerPrefs.GetFloat("Music Volume", 0.25f));
     }
 
-    private static void SetMusicVolume(int value)
+    private static void SetMusicVolume(float value)
     {
-        GameObject.Find("Music").GetComponent<AudioSource>().volume = 0.3f * value * 1f / 5f;
+        GameObject.Find("Music").GetComponent<AudioSource>().volume = value * 0.2f;
     }
 
     public static void SetCheckVersionUrl(string newUrl)

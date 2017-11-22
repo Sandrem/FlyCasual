@@ -6,6 +6,7 @@ using System;
 using System.Reflection;
 using System.Linq;
 using Players;
+using Mods;
 
 public partial class MainMenu : MonoBehaviour {
 
@@ -44,6 +45,9 @@ public partial class MainMenu : MonoBehaviour {
                 break;
             case "OptionsPanel":
                 Options.InitializePanel();
+                break;
+            case "ModsPanel":
+                ModsManager.InitializePanel();
                 break;
         }
     }

@@ -98,7 +98,7 @@ namespace Movement
             Vector3 TargetPosition = new Vector3(0, 0, Selection.ThisShip.ShipBase.GetShipBaseDistance());
             ProgressTarget = TargetPosition.z * finisherTargetSuccess;
 
-            AnimationSpeed = Options.ManeuverSpeed * 0.75f;
+            AnimationSpeed = Options.ManeuverSpeed * 5f;
 
             Selection.ThisShip.SimplifyRotationHelpers();
             movementFinisherLaunched = true;

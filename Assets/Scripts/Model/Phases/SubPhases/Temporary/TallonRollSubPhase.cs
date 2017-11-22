@@ -9,7 +9,7 @@ namespace SubPhases
     {
         private float progressCurrent;
         private float progressTarget;
-        private const float ANIMATION_SPEED = 100;
+        private const float ANIMATION_SPEED = 700;
         private int direction;
 
         public override void Start()

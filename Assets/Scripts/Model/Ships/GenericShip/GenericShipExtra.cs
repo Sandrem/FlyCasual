@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Mods;
 
 namespace Ship
 {
@@ -34,7 +35,7 @@ namespace Ship
 
         public bool IsHidden { get; set; }
 
-        public bool IsCustomContent { get; set; }
+        public Type FromMod { get; set; }
 
         public event EventHandler OnDiscardUpgrade;
 
@@ -55,6 +56,17 @@ namespace Ship
         public void CallUndocked(GenericShip host)
         {
             if (OnUndocked != null) OnUndocked(host);
+        }
+
+        public virtual bool IsAllowedForSquadBuilder()
+        {
+            bool result = true;
+
+            if (IsHidden) return false;
+
+            if (FromMod != null && !ModsManager.Mods[FromMod].IsOn) return false;
+
+            return result;
         }
 
     }

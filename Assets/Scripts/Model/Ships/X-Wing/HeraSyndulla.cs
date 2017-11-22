@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Mods.ModsList;
 
 namespace Ship
 {
@@ -10,6 +11,8 @@ namespace Ship
         {
             public HeraSyndulla() : base()
             {
+                FromMod = typeof(PhoenixSquadronMod);
+
                 PilotName = "Hera Syndulla";
                 PilotSkill = 7;
                 Cost = 27;

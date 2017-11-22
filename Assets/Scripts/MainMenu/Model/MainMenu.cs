@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using GameModes;
+using Mods;
 
 public partial class MainMenu : MonoBehaviour {
 
@@ -24,6 +24,7 @@ public partial class MainMenu : MonoBehaviour {
 
         DontDestroyOnLoad(GameObject.Find("GlobalUI").gameObject);
 
+        ModsManager.Initialize();
         Options.ReadOptions();
         Options.UpdateVolume();
         StartCoroutine(CheckUpdates());

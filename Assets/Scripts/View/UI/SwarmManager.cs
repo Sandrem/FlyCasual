@@ -11,6 +11,8 @@ public static class SwarmManager
     public static void CheckActivation()
     {
         //Debug.Log(!IsActive + " " + (Phases.CurrentSubPhase.GetType() == typeof(SubPhases.PlanningSubPhase)).ToString() + " " + (Roster.GetPlayer(Phases.CurrentSubPhase.RequiredPlayer).GetType() == typeof(Players.HumanPlayer)).ToString());
+        if (Phases.CurrentSubPhase == null) return;
+
         if (!IsActive && Phases.CurrentSubPhase.GetType() == typeof(SubPhases.PlanningSubPhase) && Roster.GetPlayer(Phases.CurrentSubPhase.RequiredPlayer).GetType() == typeof(Players.HumanPlayer))
         {
             if (Input.GetKey(KeyCode.LeftControl) && (Input.GetKey(KeyCode.A)))

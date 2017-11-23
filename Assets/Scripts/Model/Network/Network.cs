@@ -290,4 +290,11 @@ public static partial class Network
         netUI.showGUI = !netUI.showGUI;
     }
 
+    // SWARM MANAGER
+
+    public static void SetSwarmManagerManeuver(string maneuverCode)
+    {
+        CurrentPlayer.CmdSetSwarmManagerManeuver(maneuverCode);
+    }
+
 }

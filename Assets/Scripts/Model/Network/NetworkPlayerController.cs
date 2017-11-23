@@ -747,4 +747,16 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     {
         Network.ServerFinishTask();
     }
+
+    [Command]
+    public void CmdSetSwarmManagerManeuver(string maneuverCode)
+    {
+        RpcSetSwarmManagerManeuver(maneuverCode);
+    }
+
+    [ClientRpc]
+    public void RpcSetSwarmManagerManeuver(string maneuverCode)
+    {
+        SwarmManager.SetManeuver(maneuverCode);
+    }
 }

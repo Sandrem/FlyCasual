@@ -157,5 +157,12 @@ namespace GameModes
         {
             Phases.FinishSubPhase(typeof(SubPhases.MovementExecutionSubPhase));
         }
+
+        // Swarm Manager
+
+        public override void SetSwarmManagerManeuver(string maneuverCode)
+        {
+            SwarmManager.SetManeuver(maneuverCode);
+        }
     }
 }

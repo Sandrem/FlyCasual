@@ -63,5 +63,7 @@ namespace GameModes
         public abstract void TakeDecision(KeyValuePair<string, EventHandler> decision, GameObject button);
 
         public abstract void FinishMovementExecution();
+
+        public abstract void SetSwarmManagerManeuver(string maneuverCode);
     }
 }

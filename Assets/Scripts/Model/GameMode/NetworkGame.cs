@@ -176,5 +176,12 @@ namespace GameModes
         {
             Network.FinishTask();
         }
+
+        // Swarm Manager
+
+        public override void SetSwarmManagerManeuver(string maneuverCode)
+        {
+            Network.SetSwarmManagerManeuver(maneuverCode);
+        }
     }
 }

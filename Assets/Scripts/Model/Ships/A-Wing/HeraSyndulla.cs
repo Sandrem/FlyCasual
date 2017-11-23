@@ -14,7 +14,7 @@ namespace Ship
                 PilotSkill = 7;
                 Cost = 25;
 
-                ImageUrl = "https://i.imgur.com/zKSEmAL.png";
+                ImageUrl = "https://i.imgur.com/4zfSMcc.png";
 
                 IsUnique = true;
 

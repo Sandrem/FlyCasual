@@ -388,6 +388,54 @@ public partial class NetworkPlayerController : NetworkBehaviour {
         (Phases.CurrentSubPhase as SubPhases.BoostPlanningSubPhase).CancelBoost();
     }
 
+    // DECLOAK
+
+    [Command]
+    public void CmdPerformDecloak()
+    {
+        new NetworkExecuteWithCallback(
+            "Wait decloak execution",
+            CmdLaunchDecloak,
+            CmdFinishDecloak
+        );
+    }
+
+    [Command]
+    public void CmdLaunchDecloak()
+    {
+        RpcLaunchDecloak();
+    }
+
+    [ClientRpc]
+    private void RpcLaunchDecloak()
+    {
+        (Phases.CurrentSubPhase as SubPhases.DecloakPlanningSubPhase).StartDecloakExecution(Selection.ThisShip);
+    }
+
+    [Command]
+    public void CmdFinishDecloak()
+    {
+        RpcFinishDecloak();
+    }
+
+    [ClientRpc]
+    private void RpcFinishDecloak()
+    {
+        (Phases.CurrentSubPhase as SubPhases.DecloakExecutionSubPhase).FinishDecloakAnimation();
+    }
+
+    [Command]
+    public void CmdCancelDecloak()
+    {
+        RpcCancelDecloak();
+    }
+
+    [ClientRpc]
+    private void RpcCancelDecloak()
+    {
+        (Phases.CurrentSubPhase as SubPhases.DecloakPlanningSubPhase).CancelDecloak();
+    }
+
     // DECLARE ATTACK TARGET
 
     [Command]
@@ -609,6 +657,20 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     private void RpcTryConfirmBarrelRoll(Vector3 shipPosition, Vector3 movementTemplatePosition)
     {
         (Phases.CurrentSubPhase as SubPhases.BarrelRollPlanningSubPhase).TryConfirmBarrelRollNetwork(shipPosition, movementTemplatePosition);
+    }
+
+    // DECLOAK PLANNING
+
+    [Command]
+    public void CmdTryConfirmDecloak(Vector3 shipPosition, string decloakHelper, Vector3 movementTemplatePosition, Vector3 movementTemplateAngles)
+    {
+        RpcTryConfirmDecloak(shipPosition, decloakHelper, movementTemplatePosition, movementTemplateAngles);
+    }
+
+    [ClientRpc]
+    private void RpcTryConfirmDecloak(Vector3 shipPosition, string decloakHelper, Vector3 movementTemplatePosition, Vector3 movementTemplateAngles)
+    {
+        (Phases.CurrentSubPhase as SubPhases.DecloakPlanningSubPhase).TryConfirmDecloakNetwork(shipPosition, decloakHelper, movementTemplatePosition, movementTemplateAngles);
     }
 
     // BOOST PLANNING

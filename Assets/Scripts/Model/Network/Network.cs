@@ -145,6 +145,18 @@ public static partial class Network
         if (IsServer) CurrentPlayer.CmdCancelBarrelRoll();
     }
 
+    // PERFORM DECLOAK
+
+    public static void PerformDecloak()
+    {
+        if (IsServer) CurrentPlayer.CmdPerformDecloak();
+    }
+
+    public static void CancelDecloak()
+    {
+        if (IsServer) CurrentPlayer.CmdCancelDecloak();
+    }
+
     // PERFORM BOOST
 
     public static void PerformBoost()
@@ -247,6 +259,13 @@ public static partial class Network
     public static void TryConfirmBarrelRoll(Vector3 shipPosition, Vector3 movementTemplatePosition)
     {
         CurrentPlayer.CmdTryConfirmBarrelRoll(shipPosition, movementTemplatePosition);
+    }
+
+    // DECLOAK PLANNING
+
+    public static void TryConfirmDecloak(Vector3 shipPosition, string decloakHelper, Vector3 movementTemplatePosition, Vector3 movementTemplateAngles)
+    {
+        CurrentPlayer.CmdTryConfirmDecloak(shipPosition, decloakHelper, movementTemplatePosition, movementTemplateAngles);
     }
 
     // BOOST PLANNING

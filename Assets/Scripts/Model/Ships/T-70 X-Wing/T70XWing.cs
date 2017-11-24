@@ -32,7 +32,7 @@ namespace Ship
                 PrintedActions.Add(new BoostAction());
 
                 AssignTemporaryManeuvers();
-                HotacManeuverTable = null;
+                HotacManeuverTable = new AI.T70XWingTable();
 
                 factions.Add(Faction.Rebel);
                 faction = Faction.Rebel;

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 using SubPhases;
+using GameModes;
 
 public static class SwarmManager
 {
@@ -45,6 +46,15 @@ public static class SwarmManager
 
     private static void AssignManeuverToAllShips(string maneuverCode)
     {
+        IsActive = false;
+
+        GameMode.CurrentGameMode.SetSwarmManagerManeuver(maneuverCode);
+
+        Triggers.FinishTrigger();
+    }
+
+    public static void SetManeuver(string maneuverCode)
+    {
         foreach (var shipHolder in Roster.GetPlayer(Phases.CurrentSubPhase.RequiredPlayer).Ships)
         {
             if (shipHolder.Value.HasManeuver(maneuverCode))
@@ -59,9 +69,6 @@ public static class SwarmManager
             UI.ShowNextButton();
             UI.HighlightNextButton();
         }
-
-        IsActive = false;
-        Triggers.FinishTrigger();
     }
 
     private static bool AnyShipHasManeuver(string maneuverCode)

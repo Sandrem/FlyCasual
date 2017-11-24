@@ -120,7 +120,10 @@ namespace Movement
             Bearing = bearing;
 
             if (ship == null) ship = Selection.ThisShip;
-            if (!ship.Maneuvers.ContainsKey(parameters)) Debug.Log("ERROR: Ship doesn't have required maneuver. Seems that AI maneuver table is wrong.");
+            if (!ship.Maneuvers.ContainsKey(parameters))
+            {
+                Console.Write("<b>Ship " + ship.Type + " doesn't have maneuver " + parameters + "</b>", LogTypes.Errors, true, "red");
+            }
             ColorComplexity = ship.Maneuvers[parameters];
             ColorComplexity = ship.GetColorComplexityOfManeuver(this);
         }

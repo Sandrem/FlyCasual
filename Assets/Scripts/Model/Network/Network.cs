@@ -145,6 +145,18 @@ public static partial class Network
         if (IsServer) CurrentPlayer.CmdCancelBarrelRoll();
     }
 
+    // PERFORM DECLOAK
+
+    public static void PerformDecloak()
+    {
+        if (IsServer) CurrentPlayer.CmdPerformDecloak();
+    }
+
+    public static void CancelDecloak()
+    {
+        if (IsServer) CurrentPlayer.CmdCancelDecloak();
+    }
+
     // PERFORM BOOST
 
     public static void PerformBoost()
@@ -249,6 +261,13 @@ public static partial class Network
         CurrentPlayer.CmdTryConfirmBarrelRoll(shipPosition, movementTemplatePosition);
     }
 
+    // DECLOAK PLANNING
+
+    public static void TryConfirmDecloak(Vector3 shipPosition, string decloakHelper, Vector3 movementTemplatePosition, Vector3 movementTemplateAngles)
+    {
+        CurrentPlayer.CmdTryConfirmDecloak(shipPosition, decloakHelper, movementTemplatePosition, movementTemplateAngles);
+    }
+
     // BOOST PLANNING
 
     public static void TryConfirmBoostPosition(string SelectedBoostHelper)
@@ -269,6 +288,13 @@ public static partial class Network
     {
         NetworkManagerHUD netUI = GameObject.Find("NetworkManager").GetComponentInChildren<NetworkManagerHUD>();
         netUI.showGUI = !netUI.showGUI;
+    }
+
+    // SWARM MANAGER
+
+    public static void SetSwarmManagerManeuver(string maneuverCode)
+    {
+        CurrentPlayer.CmdSetSwarmManagerManeuver(maneuverCode);
     }
 
 }

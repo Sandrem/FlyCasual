@@ -344,6 +344,7 @@ public static partial class RosterBuilder {
         foreach (var ship in AllShips)
         {
             GenericShip newShip = (GenericShip)Activator.CreateInstance(Type.GetType(ship.ShipNamespace + "." + ship.ShipNamespace.Substring(5)));
+            //newShip.CheckAITable();
             if (newShip.factions.Contains(faction))
             {
                 result.Add(ship.ShipName);

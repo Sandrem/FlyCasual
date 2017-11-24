@@ -14,6 +14,8 @@ namespace Ship
                 PilotSkill = 5;
                 Cost = 23;
 
+                ImageUrl = "https://i.imgur.com/yRrheRR.png";
+
                 IsUnique = true;
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);

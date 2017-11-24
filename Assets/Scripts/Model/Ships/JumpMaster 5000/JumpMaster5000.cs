@@ -32,7 +32,7 @@ namespace Ship
                 PrintedActions.Add(new BarrelRollAction());
 
                 AssignTemporaryManeuvers();
-                HotacManeuverTable = null;
+                HotacManeuverTable = new AI.Jumpmaster5000Table();
 
                 factions.Add(Faction.Scum);
                 faction = Faction.Scum;

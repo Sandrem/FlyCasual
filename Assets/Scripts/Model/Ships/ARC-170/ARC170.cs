@@ -31,7 +31,7 @@ namespace Ship
                 PrintedActions.Add(new TargetLockAction());
 
                 AssignTemporaryManeuvers();
-                HotacManeuverTable = null;
+                HotacManeuverTable = new AI.Arc170Table();
 
                 factions.Add(Faction.Rebel);
                 faction = Faction.Rebel;

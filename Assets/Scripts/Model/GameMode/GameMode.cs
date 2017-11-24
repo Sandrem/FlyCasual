@@ -38,6 +38,14 @@ namespace GameModes
 
         public abstract void FinishBarrelRoll();
 
+        public abstract void TryConfirmDecloakPosition(Vector3 shipBasePosition, string helperName, Vector3 movementTemplatePosition, Vector3 movementTemplateAngles);
+
+        public abstract void StartDecloakExecution(Ship.GenericShip ship);
+
+        public abstract void CancelDecloak();
+
+        public abstract void FinishDecloak();
+
         public abstract void TryConfirmBoostPosition(string selectedBoostHelper);
 
         public abstract void StartBoostExecution(Ship.GenericShip ship);
@@ -55,5 +63,7 @@ namespace GameModes
         public abstract void TakeDecision(KeyValuePair<string, EventHandler> decision, GameObject button);
 
         public abstract void FinishMovementExecution();
+
+        public abstract void SetSwarmManagerManeuver(string maneuverCode);
     }
 }

@@ -86,6 +86,28 @@ namespace GameModes
             (Phases.CurrentSubPhase as SubPhases.BarrelRollPlanningSubPhase).CancelBarrelRoll();
         }
 
+        // DECLOAK
+
+        public override void TryConfirmDecloakPosition(Vector3 shipBasePosition, string decloakHelper, Vector3 movementTemplatePosition, Vector3 movementTemplateAngles)
+        {
+            (Phases.CurrentSubPhase as SubPhases.DecloakPlanningSubPhase).TryConfirmDecloakPosition();
+        }
+
+        public override void StartDecloakExecution(Ship.GenericShip ship)
+        {
+            (Phases.CurrentSubPhase as SubPhases.DecloakPlanningSubPhase).StartDecloakExecution(ship);
+        }
+
+        public override void FinishDecloak()
+        {
+            (Phases.CurrentSubPhase as SubPhases.DecloakExecutionSubPhase).FinishDecloakAnimation();
+        }
+
+        public override void CancelDecloak()
+        {
+            (Phases.CurrentSubPhase as SubPhases.DecloakPlanningSubPhase).CancelDecloak();
+        }
+
         // BOOST
 
         public override void TryConfirmBoostPosition(string selectedBoostHelper)
@@ -134,6 +156,13 @@ namespace GameModes
         public override void FinishMovementExecution()
         {
             Phases.FinishSubPhase(typeof(SubPhases.MovementExecutionSubPhase));
+        }
+
+        // Swarm Manager
+
+        public override void SetSwarmManagerManeuver(string maneuverCode)
+        {
+            SwarmManager.SetManeuver(maneuverCode);
         }
     }
 }

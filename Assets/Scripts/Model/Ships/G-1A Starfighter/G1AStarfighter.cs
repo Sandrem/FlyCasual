@@ -30,7 +30,7 @@ namespace Ship
                 PrintedActions.Add(new EvadeAction());
 
                 AssignTemporaryManeuvers();
-                HotacManeuverTable = null;
+                HotacManeuverTable = new AI.G1AStarfighterTable();
 
                 factions.Add(Faction.Scum);
                 faction = Faction.Scum;

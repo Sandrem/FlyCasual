@@ -34,7 +34,7 @@ namespace Ship
                 PrintedActions.Add(new TargetLockAction());
 
                 AssignTemporaryManeuvers();
-                HotacManeuverTable = null;
+                HotacManeuverTable = new AI.UpsilonShuttleTable();
 
                 factions.Add(Faction.Imperial);
                 faction = Faction.Imperial;

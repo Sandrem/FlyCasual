@@ -100,6 +100,31 @@ namespace GameModes
             Network.CancelBarrelRoll();
         }
 
+        // DECLOAK
+
+        public override void TryConfirmDecloakPosition(Vector3 shipBasePosition, string decloakHelper, Vector3 movementTemplatePosition, Vector3 movementTemplateAngles)
+        {
+            if (Selection.ThisShip.Owner.GetType() == typeof(Players.HumanPlayer))
+            {
+                Network.TryConfirmDecloak(shipBasePosition, decloakHelper, movementTemplatePosition, movementTemplateAngles);
+            }
+        }
+
+        public override void StartDecloakExecution(Ship.GenericShip ship)
+        {
+            Network.PerformDecloak();
+        }
+
+        public override void FinishDecloak()
+        {
+            Network.FinishTask();
+        }
+
+        public override void CancelDecloak()
+        {
+            Network.CancelDecloak();
+        }
+
         // BOOST
 
         public override void TryConfirmBoostPosition(string selectedBoostHelper)
@@ -150,6 +175,13 @@ namespace GameModes
         public override void FinishMovementExecution()
         {
             Network.FinishTask();
+        }
+
+        // Swarm Manager
+
+        public override void SetSwarmManagerManeuver(string maneuverCode)
+        {
+            Network.SetSwarmManagerManeuver(maneuverCode);
         }
     }
 }

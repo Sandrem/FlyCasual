@@ -9,9 +9,9 @@ namespace AI
 
         public LambdaShuttleTable() : base()
         {
-            FrontManeuversInner.Add("1.F.S"); //0
-            FrontManeuversInner.Add("1.F.S"); //0
-            FrontManeuversInner.Add("1.F.S"); //0
+            FrontManeuversInner.Add("0.S.S");
+            FrontManeuversInner.Add("0.S.S");
+            FrontManeuversInner.Add("0.S.S");
             FrontManeuversInner.Add("1.F.S");
             FrontManeuversInner.Add("1.R.B");
             FrontManeuversInner.Add("1.L.B");
@@ -23,7 +23,7 @@ namespace AI
             FrontManeuversOuter.Add("2.F.S");
             FrontManeuversOuter.Add("1.F.S");
 
-            FrontSideManeuversInner.Add("1.F.S"); //0
+            FrontSideManeuversInner.Add("0.S.S");
             FrontSideManeuversInner.Add("1.F.S");
             FrontSideManeuversInner.Add("1.R.B");
             FrontSideManeuversInner.Add("1.R.B");
@@ -37,7 +37,7 @@ namespace AI
             FrontSideManeuversOuter.Add("2.R.B");
             FrontSideManeuversOuter.Add("2.R.T");
 
-            SideManeuversInner.Add("1.F.S"); //0
+            SideManeuversInner.Add("0.S.S");
             SideManeuversInner.Add("2.R.T");
             SideManeuversInner.Add("2.R.T");
             SideManeuversInner.Add("2.R.T");
@@ -51,7 +51,7 @@ namespace AI
             SideManeuversOuter.Add("2.R.B");
             SideManeuversOuter.Add("3.R.B");
 
-            BackSideManeuversInner.Add("1.F.S"); //0
+            BackSideManeuversInner.Add("0.S.S");
             BackSideManeuversInner.Add("2.R.T"); 
             BackSideManeuversInner.Add("2.R.T");
             BackSideManeuversInner.Add("2.R.T");
@@ -65,8 +65,8 @@ namespace AI
             BackSideManeuversOuter.Add("1.R.B");
             BackSideManeuversOuter.Add("1.R.B");
 
-            BackManeuversInner.Add("1.F.S"); //0
-            BackManeuversInner.Add("1.F.S"); //0
+            BackManeuversInner.Add("0.S.S");
+            BackManeuversInner.Add("0.S.S");
             BackManeuversInner.Add("2.R.T");
             BackManeuversInner.Add("2.L.T");
             BackManeuversInner.Add("3.R.B");

@@ -69,6 +69,14 @@ namespace Ship
             return result;
         }
 
+        public void CheckAITable()
+        {
+            if (HotacManeuverTable != null)
+            {
+                HotacManeuverTable.Check(this.Maneuvers);
+            }
+        }
+
     }
 
 }

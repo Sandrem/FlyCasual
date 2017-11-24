@@ -35,7 +35,7 @@ namespace AI
             FrontSideManeuversOuter.Add("3.R.B");
             FrontSideManeuversOuter.Add("3.R.B");
             FrontSideManeuversOuter.Add("3.R.B");
-            FrontSideManeuversOuter.Add("3.R.T");
+            FrontSideManeuversOuter.Add("2.R.T");
 
             SideManeuversInner.Add("1.R.B");
             SideManeuversInner.Add("2.R.B");

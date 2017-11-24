@@ -58,7 +58,7 @@ namespace AI
             BackSideManeuversInner.Add("1.R.T");
             BackSideManeuversInner.Add("1.R.T");
 
-            BackSideManeuversOuter.Add("2.L.R");
+            BackSideManeuversOuter.Add("3.L.R");
             BackSideManeuversOuter.Add("3.L.R");
             BackSideManeuversOuter.Add("2.R.T");
             BackSideManeuversOuter.Add("2.R.T");

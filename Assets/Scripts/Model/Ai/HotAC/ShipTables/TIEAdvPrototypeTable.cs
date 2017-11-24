@@ -23,7 +23,7 @@ namespace AI
             FrontManeuversOuter.Add("4.F.S");
             FrontManeuversOuter.Add("3.F.S");
 
-            FrontSideManeuversInner.Add("1.F.S");
+            FrontSideManeuversInner.Add("2.F.S");
             FrontSideManeuversInner.Add("1.R.T");
             FrontSideManeuversInner.Add("1.R.T");
             FrontSideManeuversInner.Add("1.R.B");

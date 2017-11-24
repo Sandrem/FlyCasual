@@ -28,7 +28,7 @@ namespace AI
             FrontSideManeuversInner.Add("2.R.B");
             FrontSideManeuversInner.Add("1.R.B");
             FrontSideManeuversInner.Add("1.R.B");
-            FrontSideManeuversInner.Add("5.R.T");
+            FrontSideManeuversInner.Add("5.F.R");
 
             FrontSideManeuversOuter.Add("2.F.S");
             FrontSideManeuversOuter.Add("2.R.B");
@@ -42,7 +42,7 @@ namespace AI
             SideManeuversInner.Add("1.R.T");
             SideManeuversInner.Add("1.R.T");
             SideManeuversInner.Add("2.R.T");
-            SideManeuversInner.Add("5.F.S");
+            SideManeuversInner.Add("5.F.R");
 
             SideManeuversOuter.Add("1.R.B");
             SideManeuversOuter.Add("2.R.B");

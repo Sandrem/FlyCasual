@@ -31,7 +31,7 @@ namespace Ship
                 PrintedActions.Add(new EvadeAction());
 
                 AssignTemporaryManeuvers();
-                HotacManeuverTable = null;
+                HotacManeuverTable = new AI.TIEFOTable();
 
                 factions.Add(Faction.Imperial);
                 faction = Faction.Imperial;

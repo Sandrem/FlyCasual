@@ -35,7 +35,7 @@ namespace Ship
                 PrintedActions.Add(new BoostAction());
 
                 AssignTemporaryManeuvers();
-                HotacManeuverTable = null;
+                HotacManeuverTable = new AI.AgressorTable();
 
                 factions.Add(Faction.Scum);
                 faction = Faction.Scum;

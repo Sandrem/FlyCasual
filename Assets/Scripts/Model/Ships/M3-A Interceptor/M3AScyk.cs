@@ -27,7 +27,7 @@ namespace Ship
                 PrintedActions.Add(new TargetLockAction());
 
                 AssignTemporaryManeuvers();
-                HotacManeuverTable = null;
+                HotacManeuverTable = new AI.M3AScykTable();
 
                 factions.Add(Faction.Scum);
                 faction = Faction.Scum;

@@ -33,7 +33,7 @@ namespace Ship
                 PrintedActions.Add(new RotateArcAction());
 
                 AssignTemporaryManeuvers();
-                HotacManeuverTable = null;
+                HotacManeuverTable = new AI.LancerPursuitCraftTable();
 
                 factions.Add(Faction.Scum);
                 faction = Faction.Scum;

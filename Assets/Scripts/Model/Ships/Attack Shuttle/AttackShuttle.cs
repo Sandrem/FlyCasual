@@ -29,7 +29,7 @@ namespace Ship
                 PrintedActions.Add(new EvadeAction());
 
                 AssignTemporaryManeuvers();
-                HotacManeuverTable = null;
+                HotacManeuverTable = new AI.AttackShuttleTable();
 
                 factions.Add(Faction.Rebel);
                 faction = Faction.Rebel;

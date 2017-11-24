@@ -36,7 +36,7 @@ namespace Ship
                 PrintedActions.Add(new SlamAction());
 
                 AssignTemporaryManeuvers();
-                HotacManeuverTable = null;
+                HotacManeuverTable = new AI.KWingTable();
 
                 factions.Add(Faction.Rebel);
                 faction = Faction.Rebel;

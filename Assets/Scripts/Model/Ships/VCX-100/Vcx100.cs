@@ -35,7 +35,7 @@ namespace Ship
                 PrintedActions.Add(new EvadeAction());
 
                 AssignTemporaryManeuvers();
-                HotacManeuverTable = null;
+                HotacManeuverTable = new AI.VCX100Table();
 
                 factions.Add(Faction.Rebel);
                 faction = Faction.Rebel;

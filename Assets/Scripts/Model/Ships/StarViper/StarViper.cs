@@ -29,7 +29,7 @@ namespace Ship
                 PrintedActions.Add(new BoostAction());
 
                 AssignTemporaryManeuvers();
-                HotacManeuverTable = null;
+                HotacManeuverTable = new AI.StarviperTable();
 
                 factions.Add(Faction.Scum);
                 faction = Faction.Scum;

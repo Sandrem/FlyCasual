@@ -4,10 +4,10 @@ using UnityEngine;
 
 namespace AI
 {
-    public class LambdaShuttleTable : GenericAiTable
+    public class UpsilonShuttleTable : GenericAiTable
     {
 
-        public LambdaShuttleTable() : base()
+        public UpsilonShuttleTable() : base()
         {
             FrontManeuversInner.Add("0.S.S");
             FrontManeuversInner.Add("0.S.S");
@@ -30,12 +30,12 @@ namespace AI
             FrontSideManeuversInner.Add("1.R.B");
             FrontSideManeuversInner.Add("2.R.T");
 
-            FrontSideManeuversOuter.Add("2.F.S");
+            FrontSideManeuversOuter.Add("2.R.T");
             FrontSideManeuversOuter.Add("3.R.B");
             FrontSideManeuversOuter.Add("2.R.B");
             FrontSideManeuversOuter.Add("2.R.B");
             FrontSideManeuversOuter.Add("2.R.B");
-            FrontSideManeuversOuter.Add("2.R.T");
+            FrontSideManeuversOuter.Add("3.R.T");
 
             SideManeuversInner.Add("0.S.S");
             SideManeuversInner.Add("2.R.T");

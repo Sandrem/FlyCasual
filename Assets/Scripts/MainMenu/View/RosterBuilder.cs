@@ -315,16 +315,19 @@ public static partial class RosterBuilder {
 
     private static void SetUpgradesDropdown(SquadBuilderShip squadBuilderShip, SquadBuilderUpgrade upgrade, List<String> upgradeList)
     {
-        Dropdown upgradesDropdown = upgrade.Panel.transform.GetComponent<Dropdown>();
-        upgradesDropdown.ClearOptions();
+        if (upgrade.Panel != null)
+        {
+            Dropdown upgradesDropdown = upgrade.Panel.transform.GetComponent<Dropdown>();
+            upgradesDropdown.ClearOptions();
 
-        string emptySlot = "Empty Slot: " + upgrade.Slot.Type;
-        List<string> emptySlotList = new List<string>() { emptySlot };
-        upgradesDropdown.AddOptions(emptySlotList);
+            string emptySlot = "Empty Slot: " + upgrade.Slot.Type;
+            List<string> emptySlotList = new List<string>() { emptySlot };
+            upgradesDropdown.AddOptions(emptySlotList);
 
-        upgradesDropdown.AddOptions(upgradeList);
+            upgradesDropdown.AddOptions(upgradeList);
 
-        OrganizeUpgradeLines(squadBuilderShip.Panel);
+            OrganizeUpgradeLines(squadBuilderShip.Panel);
+        }
     }
 
     // Update Costs

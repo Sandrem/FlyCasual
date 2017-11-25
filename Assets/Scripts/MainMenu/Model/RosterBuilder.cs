@@ -84,6 +84,13 @@ public static partial class RosterBuilder {
                 {
                     TryToReinstallUpgrade(this, upgradeHolder, oldUpgradeSlot.InstalledUpgrade);
                 }
+
+                if (!oldUpgradeSlot.InstalledUpgrade.IsAllowedForShip(oldUpgradeSlot.InstalledUpgrade.Host))
+                {
+                    oldUpgradeSlot.RemovePreInstallUpgrade();
+                    upgradeHolder.Panel.GetComponentInChildren<Dropdown>().value = 0;
+                    UpdateUpgradePanelsDiff(this);
+                }
             }
         }
 
@@ -445,7 +452,7 @@ public static partial class RosterBuilder {
             if (type.MemberType == MemberTypes.NestedType) continue;
 
             GenericUpgrade newUpgradeContainer = (GenericUpgrade)System.Activator.CreateInstance(type);
-            if ((newUpgradeContainer.Name != null) && (!newUpgradeContainer.IsHidden))
+            if ((newUpgradeContainer.Name != null) && (newUpgradeContainer.IsAllowedForSquadBuilder()))
             {
                 if (AllUpgrades.Find(n => n.UpgradeName == newUpgradeContainer.Name) == null)
                 {
@@ -492,7 +499,7 @@ public static partial class RosterBuilder {
             if (type.MemberType == MemberTypes.NestedType) continue;
 
             GenericUpgrade newUpgrade = (GenericUpgrade)System.Activator.CreateInstance(type);
-            if (!newUpgrade.IsHidden)
+            if (newUpgrade.IsAllowedForSquadBuilder())
             {
                 if (newUpgrade.Type == upgradeSlot.Type && newUpgrade.IsAllowedForShip(squadBuilderShip.Ship) && upgradeSlot.UpgradeIsAllowed(newUpgrade))
                 {

@@ -92,7 +92,7 @@ namespace PilotAbilitiesNamespace
             {
                 int result = 0;
 
-                if (Combat.CurentDiceRoll.BlanksNotRerolled > 0) result = 95;
+                if (Combat.CurrentDiceRoll.BlanksNotRerolled > 0) result = 95;
 
                 return result;
             }

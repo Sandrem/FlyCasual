@@ -16,7 +16,7 @@ namespace ActionsList
 
         public override void ActionEffect(System.Action callBack)
         {
-            Combat.CurentDiceRoll.ApplyEvade();
+            Combat.CurrentDiceRoll.ApplyEvade();
             Selection.ActiveShip.SpendToken(typeof(Tokens.EvadeToken), callBack);
         }
 

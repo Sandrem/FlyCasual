@@ -68,7 +68,7 @@ namespace PilotAbilitiesNamespace
 
             private static void SelectAllRerolableDices()
             {
-                Combat.CurentDiceRoll.SelectBySides
+                Combat.CurrentDiceRoll.SelectBySides
                 (
                     new List<DieSide>(){
                         DieSide.Blank,

@@ -53,7 +53,7 @@ namespace ActionsList
         {
             if (Host.HasToken(typeof(Tokens.StressToken)))
             {
-                Combat.CurentDiceRoll.ChangeOne(DieSide.Focus, DieSide.Crit);
+                Combat.CurrentDiceRoll.ChangeOne(DieSide.Focus, DieSide.Crit);
             }
             else
             {

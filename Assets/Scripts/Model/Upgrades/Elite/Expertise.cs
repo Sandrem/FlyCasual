@@ -71,7 +71,7 @@ namespace ActionsList
         {
             if (!Host.HasToken(typeof(Tokens.StressToken)))
             {
-                Combat.CurentDiceRoll.ChangeAll(DieSide.Focus, DieSide.Success);
+                Combat.CurrentDiceRoll.ChangeAll(DieSide.Focus, DieSide.Success);
             }
             else
             {

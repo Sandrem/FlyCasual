@@ -17,7 +17,7 @@ namespace ActionsList
 
         public override void ActionEffect(System.Action callBack)
         {
-            Combat.CurentDiceRoll.ApplyFocus();
+            Combat.CurrentDiceRoll.ApplyFocus();
             Selection.ActiveShip.SpendToken(typeof(Tokens.FocusToken), callBack);
         }
 

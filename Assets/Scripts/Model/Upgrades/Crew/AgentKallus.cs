@@ -142,7 +142,7 @@ namespace ActionsList
         {
             int result = 0;
 
-            if (Combat.CurentDiceRoll.Focuses > 0)
+            if (Combat.CurrentDiceRoll.Focuses > 0)
             {
                 result = 100;
             }
@@ -152,9 +152,9 @@ namespace ActionsList
 
         public override void ActionEffect(System.Action callBack)
         {
-            if (Combat.CurentDiceRoll.Focuses > 0)
+            if (Combat.CurrentDiceRoll.Focuses > 0)
             {
-                Combat.CurentDiceRoll.Change(DieSide.Focus, DieSide.Success, 1);
+                Combat.CurrentDiceRoll.Change(DieSide.Focus, DieSide.Success, 1);
             }
             else
             {

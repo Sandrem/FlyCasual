@@ -12,18 +12,16 @@ namespace UpgradesList
             Cost = 4;
         }
 
-        public override void PreAttachToShip(GenericShip host)
+        public override void AttachToShip(GenericShip host)
         {
-            base.PreAttachToShip(host);
-
-            Host.MaxShields++;
+            base.AttachToShip(host);
+            host.ChangeShieldBy(1);
+            host.AfterGetMaxShields += IncreaseMaxShields;
         }
 
-        public override void PreDettachFromShip()
+        private void IncreaseMaxShields(ref int maxShields)
         {
-            base.PreDettachFromShip();
-
-            Host.MaxShields--;
+            maxShields++;
         }
     }
 }

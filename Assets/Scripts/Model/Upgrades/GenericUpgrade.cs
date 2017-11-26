@@ -1,5 +1,4 @@
-﻿using Mods;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -67,8 +66,6 @@ namespace Upgrade
 
         public bool IsHidden;
 
-        public Type FromMod { get; set; }
-
         public GenericUpgrade()
         {
 
@@ -77,17 +74,6 @@ namespace Upgrade
         public virtual bool IsAllowedForShip(Ship.GenericShip ship)
         {
             return true;
-        }
-
-        public virtual bool IsAllowedForSquadBuilder()
-        {
-            bool result = true;
-
-            if (IsHidden) return false;
-
-            if (FromMod != null && !ModsManager.Mods[FromMod].IsOn) return false;
-
-            return result;
         }
 
         public virtual void AttachToShip(Ship.GenericShip host)

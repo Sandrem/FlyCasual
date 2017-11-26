@@ -88,9 +88,10 @@ namespace Ship
             get
             {
                 int result = maxShields;
+                if (AfterGetMaxShields != null) AfterGetMaxShields(ref result);
                 return Mathf.Max(result, 0);
             }
-            set
+            protected set
             {
                 maxShields = Mathf.Max(value, 0);
             }

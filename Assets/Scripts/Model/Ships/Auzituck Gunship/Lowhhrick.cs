@@ -105,7 +105,7 @@ namespace PilotAbilitiesNamespace
 
             public override void ActionEffect(System.Action callBack)
             {
-                Combat.CurrentDiceRoll.ApplyEvade();
+                Combat.CurentDiceRoll.ApplyEvade();
 
                 GenericToken reinforceToken = (Host.HasToken(typeof(ReinforceForeToken))) ? Host.GetToken(typeof(ReinforceForeToken)) : Host.GetToken(typeof(ReinforceAftToken));
                 Host.SpendToken(reinforceToken.GetType(), callBack);

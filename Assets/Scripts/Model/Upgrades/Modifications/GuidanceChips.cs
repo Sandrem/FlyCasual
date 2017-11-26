@@ -75,9 +75,9 @@ namespace ActionsList
         {
             int result = 0;
 
-            if (Combat.CurrentDiceRoll.Blanks == 1) result = 100;
-            else if (Combat.CurrentDiceRoll.Blanks > 1) result = 55;
-            else if (Combat.CurrentDiceRoll.Focuses == 1) result = 55;
+            if (Combat.CurentDiceRoll.Blanks == 1) result = 100;
+            else if (Combat.CurentDiceRoll.Blanks > 1) result = 55;
+            else if (Combat.CurentDiceRoll.Focuses == 1) result = 55;
             else result = 30;
 
             return result;
@@ -88,11 +88,11 @@ namespace ActionsList
             DieSide newResult = (Host.Firepower >= 3) ? DieSide.Crit : DieSide.Success;
 
             DieSide oldResult = DieSide.Crit;
-            if (Combat.CurrentDiceRoll.Blanks > 0) oldResult = DieSide.Blank;
-            else if (Combat.CurrentDiceRoll.Focuses > 0) oldResult = DieSide.Focus;
-            else if (Combat.CurrentDiceRoll.RegularSuccesses > 0) oldResult = DieSide.Success;
+            if (Combat.CurentDiceRoll.Blanks > 0) oldResult = DieSide.Blank;
+            else if (Combat.CurentDiceRoll.Focuses > 0) oldResult = DieSide.Focus;
+            else if (Combat.CurentDiceRoll.RegularSuccesses > 0) oldResult = DieSide.Success;
 
-            Combat.CurrentDiceRoll.ChangeOne(oldResult, newResult);
+            Combat.CurentDiceRoll.ChangeOne(oldResult, newResult);
 
             (Source as UpgradesList.GuidanceChips).isUsed = true;
         }

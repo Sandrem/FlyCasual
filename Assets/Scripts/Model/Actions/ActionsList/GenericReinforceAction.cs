@@ -12,7 +12,7 @@
 
         public override void ActionEffect(System.Action callBack)
         {
-            Combat.CurrentDiceRoll.ApplyEvade();
+            Combat.CurentDiceRoll.ApplyEvade();
             callBack();
         }
 

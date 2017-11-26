@@ -180,7 +180,7 @@ public static partial class Combat
     {
         GameObject.Find("UI").transform.Find("CombatDiceResultsPanel").gameObject.SetActive(false);
         HideDiceModificationButtons();
-        CurrentDiceRoll.RemoveDiceModels();
+        CurentDiceRoll.RemoveDiceModels();
     }
 
 }

@@ -52,7 +52,7 @@ namespace ActionsList
         {
             int result = 0;
 
-            if (Combat.CurrentDiceRoll.Blanks > 0) result = 100;
+            if (Combat.CurentDiceRoll.Blanks > 0) result = 100;
 
             return result;
         }
@@ -81,7 +81,7 @@ namespace ActionsList
 
         public override void ActionEffect(System.Action callBack)
         {
-            Combat.CurrentDiceRoll.ChangeOne(DieSide.Blank, DieSide.Success);
+            Combat.CurentDiceRoll.ChangeOne(DieSide.Blank, DieSide.Success);
 
             callBack();
         }

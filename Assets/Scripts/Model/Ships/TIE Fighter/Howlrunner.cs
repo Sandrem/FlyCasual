@@ -40,7 +40,7 @@ namespace PilotAbilitiesNamespace
 
         private void AddHowlrunnerAbility()
         {
-            Combat.Attacker.AddAvailableActionEffect(new HowlrunnerAction() { Host = this.Host });
+            Combat.Attacker.AddAvailableActionEffect(new HowlrunnerAction());
         }
 
         private void RemoveHowlrunnerAbility(GenericShip ship)

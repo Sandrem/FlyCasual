@@ -99,7 +99,7 @@ namespace ActionsList
 
         public override void ActionEffect(System.Action callBack)
         {
-            Combat.CurrentDiceRoll.ChangeOne(DieSide.Focus, DieSide.Crit);
+            Combat.CurentDiceRoll.ChangeOne(DieSide.Focus, DieSide.Crit);
             callBack();
         }
 

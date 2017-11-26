@@ -73,8 +73,8 @@ namespace ActionsList
         {
             if (Actions.HasTargetLockOn(Combat.Attacker, Combat.Defender))
             {
-                Combat.CurrentDiceRoll.AddDice(DieSide.Crit).ShowWithoutRoll();
-                Combat.CurrentDiceRoll.OrganizeDicePositions();
+                Combat.CurentDiceRoll.AddDice(DieSide.Crit).ShowWithoutRoll();
+                Combat.CurentDiceRoll.OrganizeDicePositions();
 
                 targetLockLetter = Actions.GetTargetLocksLetterPair(Combat.Attacker, Combat.Defender);
                 Combat.Attacker.GetToken(typeof(Tokens.BlueTargetLockToken), targetLockLetter).CanBeUsed = false;

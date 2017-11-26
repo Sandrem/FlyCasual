@@ -31,8 +31,8 @@ public partial class DiceRerollManager
 
     private void OrganizeDiceView()
     {
-        Combat.CurrentDiceRoll.OrganizeDicePositions();
-        Combat.CurrentDiceRoll.ToggleRerolledLocks(true);
+        Combat.CurentDiceRoll.OrganizeDicePositions();
+        Combat.CurentDiceRoll.ToggleRerolledLocks(true);
     }
 
     private void CheckParameters()
@@ -93,7 +93,7 @@ public partial class DiceRerollManager
             }
         }
 
-        Combat.CurrentDiceRoll.SelectBySides(dieSides, NumberOfDiceCanBeRerolled);
+        Combat.CurentDiceRoll.SelectBySides(dieSides, NumberOfDiceCanBeRerolled);
     }
 
     private void DoDefaultSelectionOppositeDice()
@@ -119,7 +119,7 @@ public partial class DiceRerollManager
             }
         }
 
-        Combat.CurrentDiceRoll.SelectBySides(dieSides, NumberOfDiceCanBeRerolled);
+        Combat.CurentDiceRoll.SelectBySides(dieSides, NumberOfDiceCanBeRerolled);
     }
 
     private void GenerateSelectionButtons()
@@ -167,7 +167,7 @@ public partial class DiceRerollManager
 
     private void SelectDiceByFilter(List<DieSide> dieSides, int number)
     {
-        Combat.CurrentDiceRoll.SelectBySides(dieSides, number);
+        Combat.CurentDiceRoll.SelectBySides(dieSides, number);
     }
 
     private void SetConfirmButtonAction()
@@ -226,7 +226,7 @@ public partial class DiceRerollManager
     public void ConfirmReroll()
     {
         if (Selection.ActiveShip.Owner.GetType() == typeof(Players.HumanPlayer)) BlockButtons();
-        Combat.CurrentDiceRoll.RerollSelected(TryUnblockButtons);
+        Combat.CurentDiceRoll.RerollSelected(TryUnblockButtons);
     }
 
     private void BlockButtons()
@@ -250,7 +250,7 @@ public partial class DiceRerollManager
     {
         DiceRerollManager.currentDiceRerollManager = null;
 
-        Combat.CurrentDiceRoll.ToggleRerolledLocks(false);
+        Combat.CurentDiceRoll.ToggleRerolledLocks(false);
         if (Selection.ActiveShip.Owner.GetType() == typeof(Players.HumanPlayer)) ToggleDiceModificationsPanel(true);
 
         if (CallBack!=null) CallBack();

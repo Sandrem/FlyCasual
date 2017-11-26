@@ -94,7 +94,7 @@ namespace ActionsList
 
         public override void ActionEffect(System.Action callBack)
         {
-			Combat.CurrentDiceRoll.ChangeOne(DieSide.Success, DieSide.Crit);
+			Combat.CurentDiceRoll.ChangeOne(DieSide.Success, DieSide.Crit);
             callBack();
         }
 

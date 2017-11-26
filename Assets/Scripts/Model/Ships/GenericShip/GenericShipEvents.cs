@@ -29,6 +29,7 @@ namespace Ship
         public event EventHandlerShip AfterStatsAreChanged;
         public event EventHandlerInt AfterGetAgility;
         public event EventHandlerInt AfterGetMaxHull;
+        public event EventHandlerInt AfterGetMaxShields;
 
     }
 

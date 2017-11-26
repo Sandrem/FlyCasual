@@ -52,7 +52,7 @@ namespace PilotAbilitiesNamespace
 
             public override void ActionEffect(System.Action callBack)
             {
-                Combat.CurrentDiceRoll.ChangeOne(DieSide.Focus, DieSide.Success);
+                Combat.CurentDiceRoll.ChangeOne(DieSide.Focus, DieSide.Success);
                 callBack();
             }
 

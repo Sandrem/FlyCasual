@@ -33,7 +33,7 @@ public static partial class Combat
 
     public static DiceRoll DiceRollAttack;
     public static DiceRoll DiceRollDefence;
-    public static DiceRoll CurrentDiceRoll;
+    public static DiceRoll CurentDiceRoll;
 
     public static bool IsObstructed;
 
@@ -484,7 +484,7 @@ namespace SubPhases
         {
             Selection.ActiveShip = Selection.ThisShip;
 
-            Combat.CurrentDiceRoll = diceRoll;
+            Combat.CurentDiceRoll = diceRoll;
             Combat.DiceRollAttack = diceRoll;
 
             Combat.Attacker.CallCheckCancelCritsFirst();
@@ -521,7 +521,7 @@ namespace SubPhases
         {
             Selection.ActiveShip = Selection.AnotherShip;
 
-            Combat.CurrentDiceRoll = diceRoll;
+            Combat.CurentDiceRoll = diceRoll;
             Combat.DiceRollDefence = diceRoll;
 
             base.CheckResults(diceRoll);

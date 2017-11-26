@@ -53,8 +53,8 @@ namespace ActionsList
 
         public override void ActionEffect(System.Action callBack)
         {
-            Combat.CurrentDiceRoll.AddDice(DieSide.Blank).ShowWithoutRoll();
-            Combat.CurrentDiceRoll.OrganizeDicePositions();
+            Combat.CurentDiceRoll.AddDice(DieSide.Blank).ShowWithoutRoll();
+            Combat.CurentDiceRoll.OrganizeDicePositions();
 
             callBack();
         }

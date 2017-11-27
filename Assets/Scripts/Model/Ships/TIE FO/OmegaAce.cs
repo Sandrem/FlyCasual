@@ -49,9 +49,9 @@ namespace PilotAbilities
             Combat.CurrentDiceRoll.ChangeAll(DieSide.Blank,DieSide.Crit);
             Combat.CurrentDiceRoll.ChangeAll(DieSide.Focus,DieSide.Crit);
             Combat.CurrentDiceRoll.ChangeAll(DieSide.Success,DieSide.Crit);
+            Combat.Attacker.SpendToken(typeof(Tokens.FocusToken), callBack);
+            Combat.Attacker.SpendToken(typeof(Tokens.BlueTargetLockToken),callBack,targetLock);
             IsSpendEvade = true;
-            Combat.Attacker.SpendToken(typeof(Tokens.FocusToken),null);
-            Combat.Attacker.SpendToken(typeof(Tokens.BlueTargetLockToken),null,targetLock);
         }
 
         public override bool IsActionEffectAvailable()

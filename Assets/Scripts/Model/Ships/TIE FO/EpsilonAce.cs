@@ -13,7 +13,7 @@ namespace Ship
 
             public EpsilonAce () : base ()
             {
-                PilotName  = "\"Epsilon Ace\"";
+                PilotName  = "Epsilon Ace";
                 PilotSkill = TruePilotSkill;
                 Cost       = 17;
                 IsUnique   = true;

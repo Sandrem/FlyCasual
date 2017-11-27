@@ -10,7 +10,7 @@ namespace Ship
         {
             public OmegaAce () : base ()
             {
-                PilotName = "\"Omega Ace\"";
+                PilotName = "Omega Ace";
                 PilotSkill = 7;
                 Cost = 20;
 

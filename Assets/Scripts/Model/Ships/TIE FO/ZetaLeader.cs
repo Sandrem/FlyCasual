@@ -11,7 +11,7 @@ namespace Ship
         {
             public ZetaLeader () : base ()
             {
-                PilotName = "\"Zeta Leader\"";
+                PilotName = "Zeta Leader";
                 PilotSkill = 7;
                 Cost = 20;
 

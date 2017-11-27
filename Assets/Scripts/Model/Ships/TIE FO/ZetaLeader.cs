@@ -11,20 +11,18 @@ namespace Ship
         {
             public ZetaLeader () : base ()
             {
-                PilotName = "\"Zeta Leader\"";
+                PilotName = "Zeta Leader";
                 PilotSkill = 7;
                 Cost = 20;
 
                 IsUnique = true;
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
-
                 PilotAbilities.Add(new PilotAbilitiesNamespace.ZetaLeaderAbility());
             }
         }
     }
 }
-
 namespace PilotAbilitiesNamespace
 {
     public class ZetaLeaderAbility : GenericPilotAbility

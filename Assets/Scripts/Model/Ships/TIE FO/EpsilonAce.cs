@@ -13,15 +13,12 @@ namespace Ship
 
             public EpsilonAce () : base ()
             {
-                PilotName  = "Epsilon Ace";
-                ImageUrl   = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/pilots/First%20Order/TIE-fo%20Fighter/epsilon-ace.png";
+                PilotName  = "\"Epsilon Ace\"";
                 PilotSkill = TruePilotSkill;
                 Cost       = 17;
                 IsUnique   = true;
 
                 PilotAbilities.Add(new PilotAbilitiesNamespace.EpsilonAceAbility());
-                //PilotAbilities.Add(new PilotAbilitiesNamespace.EpsilonAceStartAbility());
-                //PilotAbilities.Add(new PilotAbilitiesNamespace.EpsilonAceEndAbility());
             }
             public void ModifyPilotSkill(ref int pilotSkill)
             {

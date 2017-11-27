@@ -10,8 +10,7 @@ namespace Ship
         {
             public OmegaAce () : base ()
             {
-                PilotName = "Omega Ace";
-                ImageUrl = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/pilots/First%20Order/TIE-fo%20Fighter/omega-ace.png";
+                PilotName = "\"Omega Ace\"";
                 PilotSkill = 7;
                 Cost = 20;
 
@@ -47,12 +46,12 @@ namespace PilotAbilities
 
         public override void ActionEffect(System.Action callBack)
         {
-            Combat.CurentDiceRoll.ChangeOne(DieSide.Focus, DieSide.Success);
             Combat.CurentDiceRoll.ChangeAll(DieSide.Blank,DieSide.Crit);
             Combat.CurentDiceRoll.ChangeAll(DieSide.Focus,DieSide.Crit);
             Combat.CurentDiceRoll.ChangeAll(DieSide.Success,DieSide.Crit);
-            Combat.Attacker.RemoveToken(typeof(Tokens.FocusToken));
-            Combat.Attacker.RemoveToken (typeof(Tokens.BlueTargetLockToken),targetLock);
+            IsSpendEvade = true;
+            Combat.Attacker.SpendToken (typeof(Tokens.FocusToken));
+            Combat.Attacker.SpendToken (typeof(Tokens.BlueTargetLockToken),targetLock);
             callBack();
         }
 
@@ -85,7 +84,7 @@ namespace PilotAbilities
             {
                 if (Combat.DiceRollAttack.Successes > Combat.DiceRollDefence.Successes)
                 {
-                    if (Combat.DiceRollDefence.Focuses > 0) result = 80;
+                    if (Combat.DiceRollDefence.Focuses > 0) result = 90;
                 }
             }
 

@@ -46,9 +46,9 @@ namespace PilotAbilities
 
         public override void ActionEffect(System.Action callBack)
         {
-            Combat.CurentDiceRoll.ChangeAll(DieSide.Blank,DieSide.Crit);
-            Combat.CurentDiceRoll.ChangeAll(DieSide.Focus,DieSide.Crit);
-            Combat.CurentDiceRoll.ChangeAll(DieSide.Success,DieSide.Crit);
+            Combat.CurrentDiceRoll.ChangeAll(DieSide.Blank,DieSide.Crit);
+            Combat.CurrentDiceRoll.ChangeAll(DieSide.Focus,DieSide.Crit);
+            Combat.CurrentDiceRoll.ChangeAll(DieSide.Success,DieSide.Crit);
             IsSpendEvade = true;
             Combat.Attacker.SpendToken (typeof(Tokens.FocusToken));
             Combat.Attacker.SpendToken (typeof(Tokens.BlueTargetLockToken),targetLock);

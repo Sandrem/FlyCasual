@@ -147,5 +147,60 @@ namespace AI
             return result;
         }
 
+        public void Check(Dictionary<string, Movement.ManeuverColor> maneuvers)
+        {
+
+            foreach (var maneuver in FrontManeuversInner)
+            {
+                if (!maneuvers.ContainsKey(maneuver)) Debug.Log(this.ToString() + " has incorrect maneuver: " + maneuver);
+            }
+
+            foreach (var maneuver in FrontManeuversOuter)
+            {
+                if (!maneuvers.ContainsKey(maneuver)) Debug.Log(this.ToString() + " has incorrect maneuver: " + maneuver);
+            }
+
+            foreach (var maneuver in FrontSideManeuversInner)
+            {
+                if (!maneuvers.ContainsKey(maneuver)) Debug.Log(this.ToString() + " has incorrect maneuver: " + maneuver);
+            }
+
+            foreach (var maneuver in FrontSideManeuversOuter)
+            {
+                if (!maneuvers.ContainsKey(maneuver)) Debug.Log(this.ToString() + " has incorrect maneuver: " + maneuver);
+            }
+
+            foreach (var maneuver in SideManeuversInner)
+            {
+                if (!maneuvers.ContainsKey(maneuver)) Debug.Log(this.ToString() + " has incorrect maneuver: " + maneuver);
+            }
+
+            foreach (var maneuver in SideManeuversOuter)
+            {
+                if (!maneuvers.ContainsKey(maneuver)) Debug.Log(this.ToString() + " has incorrect maneuver: " + maneuver);
+            }
+
+            foreach (var maneuver in BackSideManeuversInner)
+            {
+                if (!maneuvers.ContainsKey(maneuver)) Debug.Log(this.ToString() + " has incorrect maneuver: " + maneuver);
+            }
+
+            foreach (var maneuver in BackSideManeuversOuter)
+            {
+                if (!maneuvers.ContainsKey(maneuver)) Debug.Log(this.ToString() + " has incorrect maneuver: " + maneuver);
+            }
+
+            foreach (var maneuver in BackManeuversInner)
+            {
+                if (!maneuvers.ContainsKey(maneuver)) Debug.Log(this.ToString() + " has incorrect maneuver: " + maneuver);
+            }
+
+            foreach (var maneuver in BackManeuversOuter)
+            {
+                if (!maneuvers.ContainsKey(maneuver)) Debug.Log(this.ToString() + " has incorrect maneuver: " + maneuver);
+            }
+
+        }
+
     }
 }

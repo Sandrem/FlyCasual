@@ -30,7 +30,7 @@ namespace UpgradesList
         public override void AttachToShip(GenericShip host)
         {
             base.AttachToShip(host);
-            Host.OnAttack += CheckHomingMissilesAbility;
+            Host.OnAttackStartAsAttacker += CheckHomingMissilesAbility;
         }
 
         private void CheckHomingMissilesAbility()
@@ -49,7 +49,7 @@ namespace UpgradesList
             Combat.Defender.OnTryAddAvailableActionEffect += UseHomingMissilesRestriction;
             Combat.Defender.AssignToken(new Conditions.HomingMissilesCondition(), delegate { });
 
-            Host.OnAttackPerformed += RemoveHomingMissilesAbility;
+            Host.OnAttackFinish += RemoveHomingMissilesAbility;
         }
 
         private void UseHomingMissilesRestriction(ActionsList.GenericAction action, ref bool canBeUsed)
@@ -61,12 +61,12 @@ namespace UpgradesList
             }
         }
 
-        private void RemoveHomingMissilesAbility()
+        private void RemoveHomingMissilesAbility(GenericShip ship)
         {
             Combat.Defender.OnTryAddAvailableActionEffect -= UseHomingMissilesRestriction;
             Combat.Defender.RemoveToken(typeof(Conditions.HomingMissilesCondition));
 
-            Host.OnAttackPerformed -= RemoveHomingMissilesAbility;
+            Host.OnAttackFinish -= RemoveHomingMissilesAbility;
         }
     }
 }

@@ -11,7 +11,6 @@ namespace Ship
             public MandalorianMercenary() : base()
             {
                 PilotName = "Mandalorian Mercenary";
-                ImageUrl = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/pilots/Galactic%20Empire/Firespray-31/bounty-hunter.png";
                 PilotSkill = 5;
                 Cost = 35;
 

@@ -30,7 +30,11 @@ namespace RulesList
                         TriggerOwner = Selection.ThisShip.Owner.PlayerNo,
                         TriggerType = TriggerTypes.OnPositionFinish,
                         EventHandler = BombsManager.GetMineByObject(mine).Detonate,
-                        Sender = Selection.ThisShip
+                        EventArgs = new BombDetonationEventArgs()
+                        {
+                            DetonatedShip = Selection.ThisShip,
+                            BombObject = mine
+                        }
                     });
                 }
             }

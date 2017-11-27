@@ -29,7 +29,7 @@ namespace UpgradesList
 
 		private void SubscribeOnHit()
 		{
-			Host.OnAttackHitAsAttacker += RegisterFlechetteCannonEffect;
+			Host.OnShotHitAsAttacker += RegisterFlechetteCannonEffect;
 		}
 
 		private void RegisterFlechetteCannonEffect()
@@ -39,7 +39,7 @@ namespace UpgradesList
 				Triggers.RegisterTrigger(new Trigger()
 					{
 						Name = "Flechette Cannon effect",
-						TriggerType = TriggerTypes.OnAttackHit,
+						TriggerType = TriggerTypes.OnShotHit,
 						TriggerOwner = Combat.Attacker.Owner.PlayerNo,
 						EventHandler = FlechetteCannonEffect
                 });

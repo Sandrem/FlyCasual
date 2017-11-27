@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Movement;
+using ActionsList;
 
 namespace Ship
 {
@@ -22,17 +23,21 @@ namespace Ship
                 MaxHull = 6;
                 MaxShields = 6;
 
+                SubFaction = SubFaction.FirstOrder;
+
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.System);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Crew);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Crew);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Tech);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Tech);
 
-                AssignTemporaryManeuvers();
-                HotacManeuverTable = null;
+                PrintedActions.Add(new TargetLockAction());
 
-                factions.Add(Faction.Empire);
-                faction = Faction.Empire;
+                AssignTemporaryManeuvers();
+                HotacManeuverTable = new AI.UpsilonShuttleTable();
+
+                factions.Add(Faction.Imperial);
+                faction = Faction.Imperial;
 
                 SkinName = "Upsilon-class Shuttle";
 
@@ -43,13 +48,6 @@ namespace Ship
                 {
                     SoundFlyPaths.Add("Slave1-Fly" + i);
                 }
-
-            }
-
-            public override void InitializeShip()
-            {
-                base.InitializeShip();
-                BuiltInActions.Add(new ActionsList.TargetLockAction());
             }
 
             private void AssignTemporaryManeuvers()

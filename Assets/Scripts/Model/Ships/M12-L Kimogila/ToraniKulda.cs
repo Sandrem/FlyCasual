@@ -1,4 +1,4 @@
-﻿using System;
+﻿/*using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,7 +15,6 @@ namespace Ship
             public ToraniKulda() : base()
             {
                 PilotName = "Torani Kulda";
-                ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/23/8d/238d3ebc-519d-4593-884b-3379d72e5f60/swx70-torani-kulda.png";
                 PilotSkill = 8;
                 Cost = 27;
 
@@ -37,14 +36,14 @@ namespace PilotAbilitiesNamespace
         {
             base.Initialize(host);
 
-            Host.OnAttackPerformed += RegisterPilotAbility;
+            Host.OnAttackFinish += RegisterPilotAbility;
         }
 
-        private void RegisterPilotAbility()
+        private void RegisterPilotAbility(GenericShip ship)
         {
             if (Combat.Attacker.ShipId == Host.ShipId)
             {
-                RegisterAbilityTrigger(TriggerTypes.OnAttackPerformed, TryRegisterAbility);
+                RegisterAbilityTrigger(TriggerTypes.OnAttackFinish, TryRegisterAbility);
             }
         }
 
@@ -131,4 +130,4 @@ namespace SubPhases
             Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, ConfirmDecision);
         }
     }
-}
+}*/

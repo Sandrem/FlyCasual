@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using Ship;
 
 namespace Tokens
 {
@@ -8,11 +6,17 @@ namespace Tokens
     public class GenericToken
     {
         public string Name;
+        public GenericShip Host;
         public bool Temporary = true;
         public ActionsList.GenericAction Action = null;
         public bool CanBeUsed = true;
         public int Count = 1;
         public string Tooltip;
+
+        public GenericToken(GenericShip host = null)
+        {
+            Host = host;
+        }
 
         public virtual ActionsList.GenericAction GetAvailableEffects()
         {

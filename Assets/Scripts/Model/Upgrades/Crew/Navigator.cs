@@ -1,5 +1,6 @@
 ﻿using Upgrade;
 using Ship;
+using GameModes;
 
 namespace UpgradesList
 {
@@ -32,7 +33,7 @@ namespace UpgradesList
 
         private void AskChangeManeuver(object sender, System.EventArgs e)
         {
-            DirectionsMenu.Show(IsSameBearingAndDirection);
+            DirectionsMenu.Show(GameMode.CurrentGameMode.AssignManeuver, IsSameBearingAndDirection);
         }
 
         private bool IsSameBearingAndDirection(string maneuverString)

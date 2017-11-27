@@ -13,7 +13,6 @@ namespace Ship
             public GarvenDreis() : base()
             {
                 PilotName = "Garven Dreis";
-                ImageUrl = "https://vignette3.wikia.nocookie.net/xwing-miniatures/images/f/f8/Garven-dreis.png";
                 PilotSkill = 6;
                 Cost = 26;
 

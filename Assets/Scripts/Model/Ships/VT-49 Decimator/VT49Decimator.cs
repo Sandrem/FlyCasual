@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Movement;
+using ActionsList;
 
 namespace Ship
 {
@@ -29,11 +30,13 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Crew);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Bomb);
 
+                PrintedActions.Add(new TargetLockAction());
+
                 AssignTemporaryManeuvers();
                 HotacManeuverTable = new AI.VT49DecimatorTable();
 
-                factions.Add(Faction.Empire);
-                faction = Faction.Empire;
+                factions.Add(Faction.Imperial);
+                faction = Faction.Imperial;
 
                 SkinName = "Gray";
 
@@ -45,12 +48,6 @@ namespace Ship
                     SoundFlyPaths.Add("Slave1-Fly" + i);
                 }
 
-            }
-
-            public override void InitializeShip()
-            {
-                base.InitializeShip();
-                BuiltInActions.Add(new ActionsList.TargetLockAction());
             }
 
             private void AssignTemporaryManeuvers()

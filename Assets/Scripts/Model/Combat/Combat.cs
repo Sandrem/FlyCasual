@@ -33,7 +33,7 @@ public static partial class Combat
 
     public static DiceRoll DiceRollAttack;
     public static DiceRoll DiceRollDefence;
-    public static DiceRoll CurentDiceRoll;
+    public static DiceRoll CurrentDiceRoll;
 
     public static bool IsObstructed;
 
@@ -47,10 +47,13 @@ public static partial class Combat
     public static CriticalHitCard.GenericCriticalHit CurrentCriticalHitCard;
 
     private static int attacksCounter;
+    private static int hitsCounter;
 
     public static ShipShotDistanceInformation ShotInfo;
 
-    public static void DeclareTarget(int attackerId, int defenderID)
+    // DECLARE INTENT TO ATTACK
+
+    public static void DeclareIntentToAttack(int attackerId, int defenderID)
     {
         Selection.ChangeActiveShip("ShipId:" + attackerId);
         Selection.ChangeAnotherShip("ShipId:" + defenderID);
@@ -63,6 +66,13 @@ public static partial class Combat
 
         UI.HideContextMenu();
 
+        SelectWeapon();
+    }
+
+    // CHECK AVAILABLE WEAPONS TO ATTACK THIS TARGET
+
+    private static void SelectWeapon()
+    {
         int anotherAttacksTypesCount = Selection.ThisShip.GetAnotherAttackTypesCount();
 
         if (anotherAttacksTypesCount > 0)
@@ -79,16 +89,21 @@ public static partial class Combat
         }
     }
 
+    // CHECK LEGALITY OF ATTACK
+
     public static void TryPerformAttack()
     {
         UI.HideContextMenu();
         MovementTemplates.ReturnRangeRuler();
 
-        if (Rules.TargetIsLegalForShot.IsLegal() && ChosenWeapon.IsShotAvailable(Selection.AnotherShip))
+        if (IsTargetLegalForAttack())
         {
             UI.HideSkipButton();
-            ShotInfo = (ChosenWeapon.GetType() == typeof(Ship.PrimaryWeaponClass)) ? ShotInfo : new ShipShotDistanceInformation(Selection.ThisShip, Selection.AnotherShip, ChosenWeapon);
-            ShotInfo.CheckFirelineCollisions(delegate { PerformAttack(Selection.ThisShip, Selection.AnotherShip); });
+            Roster.AllShipsHighlightOff();
+
+            DeclareAttackerAndDefender();
+
+            CheckFireLineCollisions();
         }
         else
         {
@@ -96,25 +111,65 @@ public static partial class Combat
         }
     }
 
-    public static void PerformAttack(Ship.GenericShip attacker, Ship.GenericShip defender)
+    private static bool IsTargetLegalForAttack()
     {
-        if (DebugManager.DebugPhases) Debug.Log("Attack is started: " + attacker + " vs " + defender);
-        Attacker = attacker;
-        Defender = defender;
-        InitializeAttack(AttackDiceRoll);
+        bool result = false;
+
+        if (Rules.TargetIsLegalForShot.IsLegal(true) && ChosenWeapon.IsShotAvailable(Selection.AnotherShip))
+        {
+            result = true;
+        }
+
+        return result;
     }
 
-    private static void InitializeAttack(Action callBack)
+    private static void CheckFireLineCollisions()
     {
-        Roster.AllShipsHighlightOff();
+        ShotInfo = (ChosenWeapon.GetType() == typeof(Ship.PrimaryWeaponClass)) ? ShotInfo : new ShipShotDistanceInformation(Selection.ThisShip, Selection.AnotherShip, ChosenWeapon);
+        ShotInfo.CheckFirelineCollisions(PayAttackCost);
+    }
 
+    // PAY ATTACK COST
+
+    private static void PayAttackCost()
+    {
+        ChosenWeapon.PayAttackCost(StartAttack);
+    }
+
+    // DECLARE REAL ATTACK
+
+    public static void StartAttack()
+    {
         AttackStep = CombatStep.Attack;
-        CallAttackStartEvents();
         Selection.ActiveShip = Attacker;
-        Triggers.ResolveTriggers(TriggerTypes.OnAttackStart, delegate
-        {
-            ChosenWeapon.PayAttackCost(callBack);
-        });
+
+        CallAttackStart();
+    }
+
+    private static void DeclareAttackerAndDefender()
+    {
+        if (DebugManager.DebugPhases) Debug.Log("Attack is started: " + Selection.ThisShip + " vs " + Selection.AnotherShip);
+
+        Attacker = Selection.ThisShip;
+        Defender = Selection.AnotherShip;        
+    }
+
+    public static void CallAttackStart()
+    {
+        Attacker.CallAttackStart();
+        Defender.CallAttackStart();
+
+        Triggers.ResolveTriggers(TriggerTypes.OnAttackStart, ShotStart);
+    }
+
+    // SHOT OF ATTACK (TWICE FOR TWIN ATTACK)
+
+    private static void ShotStart()
+    {
+        Attacker.CallShotStart();
+        Defender.CallShotStart();
+
+        Triggers.ResolveTriggers(TriggerTypes.OnShotStart, AttackDiceRoll);
     }
 
     private static void AttackDiceRoll()
@@ -126,40 +181,30 @@ public static partial class Combat
         );
     }
 
-    public static void ShowAttackAnimationAndSound()
+    public static void ConfirmAttackDiceResults()
     {
-        Upgrade.GenericSecondaryWeapon chosenSecondaryWeapon = ChosenWeapon as Upgrade.GenericSecondaryWeapon;
-        if (chosenSecondaryWeapon == null || chosenSecondaryWeapon.Type == Upgrade.UpgradeType.Cannon || chosenSecondaryWeapon.Type == Upgrade.UpgradeType.Illicit)
-        { // Primary Weapons, Cannons, and Illicits (HotShotBlaster)
-            Sounds.PlayShots(Selection.ActiveShip.SoundShotsPath, Selection.ActiveShip.ShotsCount);
-            Selection.ThisShip.AnimatePrimaryWeapon();
-        }
-        else if (chosenSecondaryWeapon.Type == Upgrade.UpgradeType.Torpedo || chosenSecondaryWeapon.Type == Upgrade.UpgradeType.Missile)
-        { // Torpedos and Missiles
-            Sounds.PlayShots("Proton-Torpedoes", 1);
-            Selection.ThisShip.AnimateMunitionsShot();
-        }
-        else if (chosenSecondaryWeapon.Type == Upgrade.UpgradeType.Turret)
-        { // Turrets
-            Sounds.PlayShots(Selection.ActiveShip.SoundShotsPath, Selection.ActiveShip.ShotsCount);
-            Selection.ThisShip.AnimateTurretWeapon();
-        }
+        HideDiceResultMenu();
+        Phases.FinishSubPhase(typeof(SubPhases.AttackDiceRollCombatSubPhase));
+
+        PerformDefence();
     }
 
-    public static void PerformDefence(Ship.GenericShip attacker, Ship.GenericShip defender)
+    // DEFENCE
+
+    public static void PerformDefence()
     {
-        Attacker = attacker;
-        Defender = defender;
-        InitializeDefence();
+        AttackStep = CombatStep.Defence;
+
+        CallDefenceStartEvents();
+        Selection.ActiveShip = Defender;
 
         DefenceDiceRoll();
     }
 
-    private static void InitializeDefence()
+    public static void CallDefenceStartEvents()
     {
-        AttackStep = CombatStep.Defence;
-        CallDefenceStartEvents();
-        Selection.ActiveShip = Defender;
+        Attacker.CallDefenceStart();
+        Defender.CallDefenceStart();
     }
 
     private static void DefenceDiceRoll()
@@ -171,47 +216,69 @@ public static partial class Combat
         );
     }
 
-    public static void CancelHitsByDefenceDice(Ship.GenericShip attacker, Ship.GenericShip defender)
+    // COMPARE RESULTS
+
+    public static void ConfirmDefenceDiceResults()
+    {
+        DiceCompareHelper.currentDiceCompareHelper.Close();
+        HideDiceResultMenu();
+        Phases.FinishSubPhase(typeof(SubPhases.DefenceDiceRollCombatSubPhase));
+
+        MovementTemplates.ReturnRangeRuler();
+
+        Phases.StartTemporarySubPhaseOld("Compare results", typeof(SubPhases.CompareResultsSubPhase));
+    }
+
+    public static void CancelHitsByDefenceDice()
     {
         int crits = DiceRollAttack.CriticalSuccesses;
         DiceRollAttack.CancelHits(DiceRollDefence.Successes);
         if (crits > DiceRollAttack.CriticalSuccesses)
         {
-            attacker.CallOnAtLeastOneCritWasCancelledByDefender();
+            Attacker.CallOnAtLeastOneCritWasCancelledByDefender();
             Triggers.ResolveTriggers(
                 TriggerTypes.OnAtLeastOneCritWasCancelledByDefender,
                 delegate
                 {
-                    CalculateAttackResults(attacker, defender);
+                    CalculateAttackResults();
                 });
         }
         else
         {
-            CalculateAttackResults(attacker, defender);
+            CalculateAttackResults();
         }
     }
 
-    private static void CalculateAttackResults(Ship.GenericShip attacker, Ship.GenericShip defender)
+    private static void CalculateAttackResults()
     {
         DiceRollAttack.RemoveAllFailures();
 
         if (DiceRollAttack.Successes > 0)
         {
-            Attacker.CallOnAttackHitAsAttacker();
-            Defender.CallOnAttackHitAsDefender();
-
-            Triggers.ResolveTriggers(TriggerTypes.OnAttackHit, delegate { ResolveCombatDamage(SufferDamage); });
+            AttackHit();
         }
         else
         {
-            Attacker.CallOnAttackMissedAsAttacker();
-            Defender.CallOnAttackMissedAsDefender();
-
-            SufferDamage();
+            AfterShotIsPerformed();
         }
     }
 
-    private static void ResolveCombatDamage(Action callBack)
+    private static void AttackHit()
+    {
+        hitsCounter++;
+
+        Attacker.CallShotHitAsAttacker();
+        Defender.CallShotHitAsDefender();
+
+        Triggers.ResolveTriggers(TriggerTypes.OnShotHit, TryDamagePrevention);
+    }
+
+    private static void TryDamagePrevention()
+    {
+        Defender.CallTryDamagePrevention(ResolveCombatDamage);
+    }
+
+    private static void ResolveCombatDamage()
     {
         Defender.AssignedDamageDiceroll = DiceRollAttack;
 
@@ -232,23 +299,21 @@ public static partial class Combat
             });
         }
 
-        callBack();
+        SufferDamage();
     }
 
     private static void SufferDamage()
     {
-        Triggers.ResolveTriggers(
-            TriggerTypes.OnDamageIsDealt,
-            AfterAttackIsPerformed
-        );
+        Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, AfterShotIsPerformed);
     }
 
-    private static void AfterAttackIsPerformed()
+    private static void AfterShotIsPerformed()
     {
         Phases.FinishSubPhase(typeof(SubPhases.CompareResultsSubPhase));
-        Attacker.CallOnAttackPerformed();
-        Triggers.ResolveTriggers(TriggerTypes.OnAttackPerformed, CheckTwinAttack);
+        CheckTwinAttack();
     }
+
+    // TWIN ATTACK
 
     private static void CheckTwinAttack()
     {
@@ -259,30 +324,49 @@ public static partial class Combat
             {
                 attacksCounter++;
 
+                //Here start attack
                 AttackStep = CombatStep.Attack;
                 Selection.ActiveShip = Attacker;
-                AttackDiceRoll();
+                ShotStart();
             }
             else
             {
                 attacksCounter = 0;
-                CallCombatEndEvents();
+                CheckMissedAttack();
             }
         }
         else
         {
-            CallCombatEndEvents();
+            CheckMissedAttack();
         }
     }
 
-    private static void CallCombatEndEvents()
+    private static void CheckMissedAttack()
+    {
+        if (hitsCounter > 0)
+        {
+            Attacker.CallOnAttackHitAsAttacker();
+            Defender.CallOnAttackHitAsDefender();
+
+            Triggers.ResolveTriggers(TriggerTypes.OnAttackHit, FinishAttack);
+        }
+        else
+        {
+            Attacker.CallOnAttackMissedAsAttacker();
+            Defender.CallOnAttackMissedAsDefender();
+
+            FinishAttack();
+        }
+    }
+
+    private static void FinishAttack()
     {
         Selection.ThisShip = Attacker;
 
-        Attacker.CallCombatEnd();
-        Defender.CallCombatEnd();
+        Attacker.CallAttackFinish();
+        Defender.CallAttackFinish();
 
-        Triggers.ResolveTriggers(TriggerTypes.OnCombatEnd, CombatEnd);
+        Triggers.ResolveTriggers(TriggerTypes.OnAttackFinish, CombatEnd);
     }
 
     private static void CombatEnd()
@@ -299,6 +383,16 @@ public static partial class Combat
         }
     }
 
+    private static void CleanupCombatData()
+    {
+        AttackStep = CombatStep.None;
+        Attacker = null;
+        Defender = null;
+        ChosenWeapon = null;
+        ShotInfo = null;
+        hitsCounter = 0;
+    }
+
     private static void CheckSecondAttack(Action callBack)
     {
         Selection.ThisShip.CallCheckSecondAttack(callBack);
@@ -310,65 +404,6 @@ public static partial class Combat
         {
             Phases.FinishSubPhase(typeof(SubPhases.CombatSubPhase));
         }
-    }
-
-    private static void CleanupCombatData()
-    {
-        AttackStep = CombatStep.None;
-        Attacker = null;
-        Defender = null;
-        ChosenWeapon = null;
-        ShotInfo = null;
-    }
-
-    public static void ConfirmDiceResults()
-    {
-        GameMode.CurrentGameMode.ConfirmDiceResults();
-    }
-
-    public static void ConfirmDiceResultsClient()
-    {
-        switch (AttackStep)
-        {
-            case CombatStep.Attack:
-                ConfirmAttackDiceResults();
-                break;
-            case CombatStep.Defence:
-                ConfirmDefenceDiceResults();
-                break;
-        }
-    }
-
-    public static void ConfirmAttackDiceResults()
-    {
-        HideDiceResultMenu();
-        Phases.FinishSubPhase(typeof(SubPhases.AttackDiceRollCombatSubPhase));
-
-        PerformDefence(Selection.ThisShip, Selection.AnotherShip);
-    }
-
-    public static void ConfirmDefenceDiceResults()
-    {
-        DiceCompareHelper.currentDiceCompareHelper.Close();
-        HideDiceResultMenu();
-        Phases.FinishSubPhase(typeof(SubPhases.DefenceDiceRollCombatSubPhase));
-
-        MovementTemplates.ReturnRangeRuler();
-
-        Phases.StartTemporarySubPhaseOld("Compare results", typeof(SubPhases.CompareResultsSubPhase));
-    }
-
-    public static void CallAttackStartEvents()
-    {
-        Attacker.CallAttackStart();
-        //BUG: NullReferenceException: Object reference not set to an instance of an object
-        Defender.CallAttackStart();
-    }
-
-    public static void CallDefenceStartEvents()
-    {
-        Attacker.CallDefenceStart();
-        Defender.CallDefenceStart();
     }
 
 }
@@ -449,8 +484,11 @@ namespace SubPhases
         {
             Selection.ActiveShip = Selection.ThisShip;
 
-            Combat.CurentDiceRoll = diceRoll;
+            Combat.CurrentDiceRoll = diceRoll;
             Combat.DiceRollAttack = diceRoll;
+
+            Combat.Attacker.CallCheckCancelCritsFirst();
+            Combat.Defender.CallCheckCancelCritsFirst();
 
             base.CheckResults(diceRoll);
         }
@@ -483,7 +521,7 @@ namespace SubPhases
         {
             Selection.ActiveShip = Selection.AnotherShip;
 
-            Combat.CurentDiceRoll = diceRoll;
+            Combat.CurrentDiceRoll = diceRoll;
             Combat.DiceRollDefence = diceRoll;
 
             base.CheckResults(diceRoll);
@@ -509,7 +547,7 @@ namespace SubPhases
         private void DealDamage()
         {
             if (DebugManager.DebugPhases) Debug.Log("Deal Damage!");
-            Combat.CancelHitsByDefenceDice(Selection.ThisShip, Selection.AnotherShip);
+            Combat.CancelHitsByDefenceDice();
         }
 
         public override void Next()

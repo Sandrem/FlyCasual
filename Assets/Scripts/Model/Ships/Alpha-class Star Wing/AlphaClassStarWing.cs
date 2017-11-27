@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Movement;
+using ActionsList;
 
 namespace Ship
 {
@@ -25,11 +26,15 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Torpedo);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Missile);
 
+                PrintedActions.Add(new TargetLockAction());
+                PrintedActions.Add(new SlamAction());
+                PrintedActions.Add(new ReloadAction());
+
                 AssignTemporaryManeuvers();
                 HotacManeuverTable = new AI.AlphaClassStarWingTable();
 
-                factions.Add(Faction.Empire);
-                faction = Faction.Empire;
+                factions.Add(Faction.Imperial);
+                faction = Faction.Imperial;
 
                 SkinName = "Alpha-class Star Wing";
 
@@ -41,14 +46,6 @@ namespace Ship
                     SoundFlyPaths.Add("Slave1-Fly" + i);
                 }
 
-            }
-
-            public override void InitializeShip()
-            {
-                base.InitializeShip();
-                BuiltInActions.Add(new ActionsList.TargetLockAction());
-                BuiltInActions.Add(new ActionsList.SlamAction());
-                BuiltInActions.Add(new ActionsList.ReloadAction());
             }
 
             private void AssignTemporaryManeuvers()

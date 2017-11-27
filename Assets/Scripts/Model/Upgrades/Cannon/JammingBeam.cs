@@ -29,7 +29,7 @@ namespace UpgradesList
 
 		private void SubscribeOnHit()
 		{
-			Host.OnAttackHitAsAttacker += RegisterJammingBeamEffect;
+			Host.OnShotHitAsAttacker += RegisterJammingBeamEffect;
 		}
 
 		private void RegisterJammingBeamEffect()
@@ -39,7 +39,7 @@ namespace UpgradesList
 				Triggers.RegisterTrigger(
                     new Trigger(){
 					    Name = "Jamming Beam effect",
-					    TriggerType = TriggerTypes.OnAttackHit,
+					    TriggerType = TriggerTypes.OnShotHit,
 					    TriggerOwner = Combat.Attacker.Owner.PlayerNo,
 					    EventHandler = JammingBeamEffect
                     });

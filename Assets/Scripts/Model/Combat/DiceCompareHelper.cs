@@ -31,8 +31,16 @@ public class DiceCompareHelper
         iconPrefabHit = helperPanel.transform.Find("DiceImages").gameObject.transform.Find("AttackHit").gameObject;
         iconPrefabCrit = helperPanel.transform.Find("DiceImages").gameObject.transform.Find("AttackCrit").gameObject;
 
-        CreateIcons(DieSide.Crit, AttackDiceroll.CriticalSuccesses);
-        CreateIcons(DieSide.Success, AttackDiceroll.RegularSuccesses);
+        if (!AttackDiceroll.CancelCritsFirst)
+        {
+            CreateIcons(DieSide.Crit, AttackDiceroll.CriticalSuccesses);
+            CreateIcons(DieSide.Success, AttackDiceroll.RegularSuccesses);
+        }
+        else
+        {
+            CreateIcons(DieSide.Success, AttackDiceroll.RegularSuccesses);
+            CreateIcons(DieSide.Crit, AttackDiceroll.CriticalSuccesses);
+        }
 
         UpdatePanelSize();
     }
@@ -90,14 +98,29 @@ public class DiceCompareHelper
         int cancelsNum = defenceDiceRoll.Successes;
 
         int regularHits = AttackDiceroll.RegularSuccesses;
-        cancelledRegularHits = (cancelsNum > regularHits) ? regularHits: cancelsNum;
-        cancelsNum = cancelsNum - cancelledRegularHits;
+        int criticalHits = AttackDiceroll.CriticalSuccesses;
 
-        if (cancelsNum > 0)
+        if (!AttackDiceroll.CancelCritsFirst)
         {
-            int criticalHits = AttackDiceroll.CriticalSuccesses;
+            cancelledRegularHits = (cancelsNum > regularHits) ? regularHits : cancelsNum;
+            cancelsNum = cancelsNum - cancelledRegularHits;
+
+            if (cancelsNum > 0)
+            {
+                cancelledCriticalHits = (cancelsNum > criticalHits) ? criticalHits : cancelsNum;
+                cancelsNum = cancelsNum - cancelledCriticalHits;
+            }
+        }
+        else
+        {
             cancelledCriticalHits = (cancelsNum > criticalHits) ? criticalHits : cancelsNum;
             cancelsNum = cancelsNum - cancelledCriticalHits;
+
+            if (cancelsNum > 0)
+            {
+                cancelledRegularHits = (cancelsNum > regularHits) ? regularHits : cancelsNum;
+                cancelsNum = cancelsNum - cancelledRegularHits;
+            }
         }
 
         List<GameObject> reversedDiceIcons = new List<GameObject>(diceIcons);

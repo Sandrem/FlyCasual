@@ -11,7 +11,6 @@ namespace Ship
             public ZetaSquadronPilot() : base()
             {
                 PilotName = "Zeta Squadron Pilot";
-                ImageUrl = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/pilots/First%20Order/TIE-fo%20Fighter/zeta-squadron-pilot.png";
                 PilotSkill = 3;
                 Cost = 16;
 

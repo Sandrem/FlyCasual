@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Movement;
+using ActionsList;
 
 namespace Ship
 {
@@ -24,10 +25,12 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Turret);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Crew);
 
+                PrintedActions.Add(new TargetLockAction());
+
                 AssignTemporaryManeuvers();
                 HotacManeuverTable = new AI.HWK290Table();
 
-                factions.Add(Faction.Rebels);
+                factions.Add(Faction.Rebel);
                 factions.Add(Faction.Scum);
 
                 SkinName = "Brown";
@@ -40,12 +43,6 @@ namespace Ship
                     SoundFlyPaths.Add("XWing-Fly" + i);
                 }
                 
-            }
-
-            public override void InitializeShip()
-            {
-                base.InitializeShip();
-                BuiltInActions.Add(new ActionsList.TargetLockAction());
             }
 
             private void AssignTemporaryManeuvers()

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using RulesList;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -17,15 +18,28 @@ namespace ActionsList
         {
             if (Actions.HasTargetLockOn(Combat.Attacker, Combat.Defender))
             {
-                DiceRerollManager diceRerollManager = new DiceRerollManager()
-                {
-                    CallBack = callBack
-                };
-
                 char letter = ' ';
                 letter = Actions.GetTargetLocksLetterPair(Combat.Attacker, Combat.Defender);
 
-                Selection.ActiveShip.SpendToken(typeof(Tokens.BlueTargetLockToken), diceRerollManager.Start, letter);
+                if (Combat.Attacker.GetToken(typeof(Tokens.BlueTargetLockToken), letter).CanBeUsed)
+                {
+                    DiceRerollManager diceRerollManager = new DiceRerollManager()
+                    {
+                        CallBack = callBack
+                    };
+
+                    Selection.ActiveShip.SpendToken(typeof(Tokens.BlueTargetLockToken), diceRerollManager.Start, letter);
+                }
+                else
+                {
+                    Messages.ShowErrorToHuman("Cannot use current Target Lock on defender");
+                    callBack();
+                }
+            }
+            else
+            {
+                Messages.ShowErrorToHuman("No Target Lock on defender");
+                callBack();
             }
         }
 
@@ -98,15 +112,23 @@ namespace SubPhases
 
         private void TrySelectTargetLock()
         {
-            Actions.AssignTargetLockToPair(
-                Selection.ThisShip,
-                TargetShip,
-                delegate {
-                    Phases.FinishSubPhase(typeof(SelectTargetLockSubPhase));
-                    CallBack();
-                },
-                RevertSubPhase
-            );
+            if (Rules.TargetLocks.TargetLockIsAllowed(Selection.ThisShip, TargetShip))
+            {
+                Actions.AssignTargetLockToPair(
+                    Selection.ThisShip,
+                    TargetShip,
+                    delegate
+                    {
+                        Phases.FinishSubPhase(typeof(SelectTargetLockSubPhase));
+                        CallBack();
+                    },
+                    RevertSubPhase
+                );
+            }
+            else
+            {
+                RevertSubPhase();
+            }
         }
 
         public override void RevertSubPhase()

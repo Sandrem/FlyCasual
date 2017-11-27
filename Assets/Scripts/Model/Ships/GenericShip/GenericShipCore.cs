@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Arcs;
 using PilotAbilitiesNamespace;
+using System;
 
 namespace Ship
 {
@@ -24,6 +25,36 @@ namespace Ship
 
         public Faction faction { get; protected set; }
         public List<Faction> factions { get; protected set; }
+
+        private SubFaction? subFaction { get; set; }
+        public SubFaction SubFaction
+        {
+            get
+            {
+                if (subFaction != null)
+                {
+                    return subFaction.Value;
+                }
+                else
+                {
+                    switch (faction)
+                    {
+                        case Faction.Imperial:
+                            return SubFaction.GalacticEmpire;
+                        case Faction.Rebel:
+                            return SubFaction.RebelAlliance;
+                        case Faction.Scum:
+                            return SubFaction.ScumAndVillainy;
+                        default:
+                            throw new NotImplementedException("Invalid faction: " + faction.ToString());
+                    }
+                }
+            }
+            set
+            {
+                subFaction = value;
+            }
+        }
         
         public string PilotName { get; protected set; }
         public bool IsUnique { get; protected set; }
@@ -57,10 +88,9 @@ namespace Ship
             get
             {
                 int result = maxShields;
-                if (AfterGetMaxShields != null) AfterGetMaxShields(ref result);
                 return Mathf.Max(result, 0);
             }
-            protected set
+            set
             {
                 maxShields = Mathf.Max(value, 0);
             }
@@ -162,6 +192,9 @@ namespace Ship
             PrintedUpgradeIcons = new List<Upgrade.UpgradeType>();
             PilotSkillModifiers = new List<IModifyPilotSkill>();
 
+            PrintedActions = new List<ActionsList.GenericAction>();
+            PrintedActions.Add(new ActionsList.FocusAction());
+
             TargetLockMinRange = 1;
             TargetLockMaxRange = 3;
         }
@@ -170,8 +203,6 @@ namespace Ship
         {
             Owner = Roster.GetPlayer(playerNo);
             ShipId = shipId;
-
-            AddBuiltInActions();
 
             StartingPosition = position;
 
@@ -231,6 +262,9 @@ namespace Ship
                     break;
                 case BaseArcsType.ArcRear:
                     ArcInfo = new ArcRear(this);
+                    break;
+                case BaseArcsType.ArcGhost:
+                    ArcInfo = new ArcGhost(this);
                     break;
                 case BaseArcsType.Arc180:
                     ArcInfo = new Arc180(this);

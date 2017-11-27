@@ -10,7 +10,7 @@ public static class Selection {
     public static Ship.GenericShip AnotherShip;
     public static Ship.GenericShip ActiveShip;
     public static Ship.GenericShip HoveredShip;
-	
+    	
     public static void Initialize()
     {
         ThisShip = null;

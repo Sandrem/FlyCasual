@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Movement;
+using ActionsList;
 
 namespace Ship
 {
@@ -27,11 +28,13 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Crew);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Astromech);
 
-                AssignTemporaryManeuvers();
-                HotacManeuverTable = null;
+                PrintedActions.Add(new TargetLockAction());
 
-                factions.Add(Faction.Rebels);
-                faction = Faction.Rebels;
+                AssignTemporaryManeuvers();
+                HotacManeuverTable = new AI.Arc170Table();
+
+                factions.Add(Faction.Rebel);
+                faction = Faction.Rebel;
 
                 SkinName = "ARC-170";
 
@@ -43,12 +46,6 @@ namespace Ship
                     SoundFlyPaths.Add("XWing-Fly" + i);
                 }
                 
-            }
-
-            public override void InitializeShip()
-            {
-                base.InitializeShip();
-                BuiltInActions.Add(new ActionsList.TargetLockAction());
             }
 
             private void AssignTemporaryManeuvers()

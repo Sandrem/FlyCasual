@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Movement;
+using ActionsList;
 
 namespace Ship
 {
@@ -25,11 +26,14 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Crew);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Crew);
 
+                PrintedActions.Add(new ReinforceForeAction() { Host = this });
+                PrintedActions.Add(new ReinforceAftAction() { Host = this });
+
                 AssignTemporaryManeuvers();
                 HotacManeuverTable = null;
 
-                factions.Add(Faction.Rebels);
-                faction = Faction.Rebels;
+                factions.Add(Faction.Rebel);
+                faction = Faction.Rebel;
 
                 SkinName = "Kashyyyk Defender";
 
@@ -41,13 +45,6 @@ namespace Ship
                     SoundFlyPaths.Add("XWing-Fly" + i);
                 }
                 
-            }
-
-            public override void InitializeShip()
-            {
-                base.InitializeShip();
-
-                // TODO: Reinforce
             }
 
             private void AssignTemporaryManeuvers()

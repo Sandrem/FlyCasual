@@ -1,18 +1,16 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using Ship;
 
 namespace RulesList
 {
     public class TargetIsLegalForShotRule
     {
         //EVENTS
-        public delegate void EventHandler2Ships(ref bool result, Ship.GenericShip attacker, Ship.GenericShip defender);
-        public static event EventHandler2Ships OnCheckTargetIsLegal;
+        public static event GenericShip.EventHandler2Ships OnCheckTargetIsLegal;
 
-        public bool IsLegal()
+        public bool IsLegal(bool isSilent = false)
         {
             bool result = true;
-            result = Selection.ThisShip.CallCanPerformAttack(result);
+            result = Selection.ThisShip.CallCanPerformAttack(result, null, isSilent);
 
             if (result) OnCheckTargetIsLegal(ref result, Selection.ThisShip, Selection.AnotherShip);
             return result;

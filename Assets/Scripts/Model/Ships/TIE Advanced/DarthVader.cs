@@ -15,7 +15,6 @@ namespace Ship
             public DarthVader() : base()
             {
                 PilotName = "Darth Vader";
-                ImageUrl = "https://vignette1.wikia.nocookie.net/xwing-miniatures/images/f/f7/Darth_Vader.png";
                 PilotSkill = 9;
                 Cost = 29;
 

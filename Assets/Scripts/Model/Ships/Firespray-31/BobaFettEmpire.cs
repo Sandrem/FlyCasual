@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Ship;
+using GameModes;
 
 namespace Ship
 {
@@ -12,7 +13,6 @@ namespace Ship
             public BobaFettEmpire() : base()
             {
                 PilotName = "Boba Fett";
-                ImageUrl = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/pilots/Galactic%20Empire/Firespray-31/boba-fett.png";
                 PilotSkill = 8;
                 Cost = 39;
 
@@ -20,7 +20,7 @@ namespace Ship
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
-                faction = Faction.Empire;
+                faction = Faction.Imperial;
 
                 SkinName = "Boba Fett";
 
@@ -50,7 +50,7 @@ namespace PilotAbilitiesNamespace
         {
             if (Host.AssignedManeuver.Bearing == Movement.ManeuverBearing.Bank)
             {
-                DirectionsMenu.Show(IsBankManeuversSameSpeed);
+                DirectionsMenu.Show(GameMode.CurrentGameMode.AssignManeuver, IsBankManeuversSameSpeed);
             }
             else
             {

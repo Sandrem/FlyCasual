@@ -12,7 +12,6 @@ namespace Ship
             public HortonSalm() : base()
             {
                 PilotName = "Horton Salm";
-                ImageUrl = "https://vignette4.wikia.nocookie.net/xwing-miniatures/images/5/56/Horton_Salm.png";
                 PilotSkill = 8;
                 Cost = 25;
 
@@ -20,7 +19,7 @@ namespace Ship
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Astromech);
 
-                faction = Faction.Rebels;
+                faction = Faction.Rebel;
 
                 SkinName = "Gray";
 

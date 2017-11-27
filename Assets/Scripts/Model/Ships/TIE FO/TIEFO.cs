@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Movement;
+using ActionsList;
 
 namespace Ship
 {
@@ -21,13 +22,19 @@ namespace Ship
                 MaxHull = 3;
                 MaxShields = 1;
 
+                SubFaction = SubFaction.FirstOrder;
+
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Tech);
 
-                AssignTemporaryManeuvers();
-                HotacManeuverTable = null;
+                PrintedActions.Add(new TargetLockAction());
+                PrintedActions.Add(new BarrelRollAction());
+                PrintedActions.Add(new EvadeAction());
 
-                factions.Add(Faction.Empire);
-                faction = Faction.Empire;
+                AssignTemporaryManeuvers();
+                HotacManeuverTable = new AI.TIEFOTable();
+
+                factions.Add(Faction.Imperial);
+                faction = Faction.Imperial;
 
                 SkinName = "First Order";
 
@@ -38,14 +45,6 @@ namespace Ship
                 {
                     SoundFlyPaths.Add("TIE-Fly" + i);
                 }
-            }
-
-            public override void InitializeShip()
-            {
-                base.InitializeShip();
-                BuiltInActions.Add(new ActionsList.TargetLockAction());
-                BuiltInActions.Add(new ActionsList.BarrelRollAction());
-                BuiltInActions.Add(new ActionsList.EvadeAction());
             }
 
             private void AssignTemporaryManeuvers()

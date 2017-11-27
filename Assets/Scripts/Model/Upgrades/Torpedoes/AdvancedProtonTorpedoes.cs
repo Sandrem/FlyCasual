@@ -98,7 +98,7 @@ namespace ActionsList
 
 		public override void ActionEffect(System.Action callBack)
 		{
-			Combat.CurentDiceRoll.Change(DieSide.Blank, DieSide.Focus, 3);
+			Combat.CurrentDiceRoll.Change(DieSide.Blank, DieSide.Focus, 3);
 			callBack();
 		}
 	}

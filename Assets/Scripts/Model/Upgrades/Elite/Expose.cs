@@ -80,7 +80,6 @@ namespace Conditions
         public ExposeCondition()
         {
             Name = "Buff Token";
-            Temporary = false;
             Tooltip = new UpgradesList.Expose().ImageUrl;
         }
     }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Movement;
+using ActionsList;
 
 namespace Ship
 {
@@ -29,11 +30,14 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Bomb);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Bomb);
 
-                AssignTemporaryManeuvers();
-                HotacManeuverTable = null;
+                PrintedActions.Add(new TargetLockAction());
+                PrintedActions.Add(new BoostAction());
 
-                factions.Add(Faction.Empire);
-                faction = Faction.Empire;
+                AssignTemporaryManeuvers();
+                HotacManeuverTable = new AI.TIEPunisherTable();
+
+                factions.Add(Faction.Imperial);
+                faction = Faction.Imperial;
 
                 SkinName = "Blue";
 
@@ -44,13 +48,6 @@ namespace Ship
                 {
                     SoundFlyPaths.Add("TIE-Fly" + i);
                 }
-            }
-
-            public override void InitializeShip()
-            {
-                base.InitializeShip();
-                BuiltInActions.Add(new ActionsList.TargetLockAction());
-                BuiltInActions.Add(new ActionsList.BoostAction());
             }
 
             private void AssignTemporaryManeuvers()

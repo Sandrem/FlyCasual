@@ -69,7 +69,7 @@ namespace ActionsList
         {
             Selection.ThisShip.AddAlreadyExecutedAction(new BarrelRollAction());
 
-            bool hasBarrelRollAction = (Host.BuiltInActions.Count(n => n.GetType() == typeof(BarrelRollAction)) != 0);
+            bool hasBarrelRollAction = (Host.PrintedActions.Count(n => n.GetType() == typeof(BarrelRollAction)) != 0);
 
             if (hasBarrelRollAction)
             {

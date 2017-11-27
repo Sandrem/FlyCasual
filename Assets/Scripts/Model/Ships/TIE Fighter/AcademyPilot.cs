@@ -11,7 +11,6 @@ namespace Ship
             public AcademyPilot() : base()
             {
                 PilotName = "Academy Pilot";
-                ImageUrl = "https://vignette2.wikia.nocookie.net/xwing-miniatures/images/4/41/Academy-pilot.png";
                 PilotSkill = 1;
                 Cost = 12;
             }

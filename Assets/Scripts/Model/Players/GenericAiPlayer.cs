@@ -217,7 +217,7 @@ namespace Players
             chosenWeapon = chosenWeapon ?? Selection.ThisShip.PrimaryWeapon;
             Combat.ChosenWeapon = chosenWeapon;
 
-            if (Rules.TargetIsLegalForShot.IsLegal() && Combat.ChosenWeapon.IsShotAvailable(Selection.AnotherShip))
+            if (Rules.TargetIsLegalForShot.IsLegal(true) && Combat.ChosenWeapon.IsShotAvailable(Selection.AnotherShip))
             {
                 if (DebugManager.DebugAI) Debug.Log("AI target legal: " + Selection.AnotherShip);
             }

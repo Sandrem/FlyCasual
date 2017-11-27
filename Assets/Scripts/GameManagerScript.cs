@@ -37,6 +37,11 @@ public class GameManagerScript : MonoBehaviour {
         {
             UI.ToggleInGameMenu();
         }
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            UI.GoNextShortcut();
+        }
     }
 
     private void SetApplicationParameters()

@@ -11,7 +11,6 @@ namespace Ship
             public SaberSquadronPilot() : base()
             {
                 PilotName = "Saber Squadron Pilot";
-                ImageUrl = "https://vignette1.wikia.nocookie.net/xwing-miniatures/images/5/5f/Saber_Squadron_Pilot.png";
                 PilotSkill = 4;
                 Cost = 21;
 

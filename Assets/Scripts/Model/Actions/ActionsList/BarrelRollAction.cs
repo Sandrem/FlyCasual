@@ -266,6 +266,7 @@ namespace SubPhases
             if (IsBarrelRollAllowed())
             {
                 CheckMines();
+                Selection.ThisShip.IsLandedOnObstacle = obstaclesStayDetectorBase.OverlapsAsteroidNow;
                 GameMode.CurrentGameMode.StartBarrelRollExecution(Selection.ThisShip);
             }
             else
@@ -292,7 +293,7 @@ namespace SubPhases
                 Messages.ShowError("Cannot overlap another ship");
                 allow = false;
             }
-            else if (obstaclesStayDetectorBase.OverlapsAsteroidNow || obstaclesStayDetectorMovementTemplate.OverlapsAsteroidNow)
+            else if ((!Selection.ThisShip.IsIgnoreObstacles) && (obstaclesStayDetectorBase.OverlapsAsteroidNow || obstaclesStayDetectorMovementTemplate.OverlapsAsteroidNow))
             {
                 Messages.ShowError("Cannot overlap asteroid");
                 allow = false;
@@ -364,7 +365,7 @@ namespace SubPhases
 
         private void DoBarrelRollAnimation()
         {
-            float progressStep = 0.5f * Time.deltaTime * Options.AnimationSpeed;
+            float progressStep = 2.5f * Time.deltaTime * Options.AnimationSpeed;
             progressStep = Mathf.Min(progressStep, progressTarget-progressCurrent);
             progressCurrent += progressStep;
 

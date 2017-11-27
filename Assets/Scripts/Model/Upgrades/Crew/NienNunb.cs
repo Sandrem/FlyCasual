@@ -14,7 +14,7 @@ namespace UpgradesList
 
         public override bool IsAllowedForShip(Ship.GenericShip ship)
         {
-            return ship.faction == Faction.Rebels;
+            return ship.faction == Faction.Rebel;
         }
 
         public override void AttachToShip(Ship.GenericShip host)

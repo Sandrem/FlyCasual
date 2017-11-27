@@ -11,7 +11,6 @@ namespace Ship
             public ImperialTrainee() : base()
             {
                 PilotName = "Imperial Trainee";
-                ImageUrl = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/pilots/Galactic%20Empire/TIE%20Striker/imperial-trainee.png";
                 PilotSkill = 1;
                 Cost = 17;
             }

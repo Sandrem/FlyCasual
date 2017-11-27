@@ -11,15 +11,15 @@ public static class Sounds {
         PlaySound(audioSource, path);
     }
 
-    public static void PlayBombSound(string path)
+    public static void PlayBombSound(GameObject bombObject, string path)
     {
-        AudioSource audioSource = Bombs.BombsManager.CurrentBomb.BombObject.transform.GetComponentInChildren<AudioSource>();
+        AudioSource audioSource = bombObject.transform.GetComponentInChildren<AudioSource>();
         PlaySound(audioSource, path);
     }
 
     private static void PlaySound(AudioSource audioSource, string path)
     {
-        audioSource.volume = Options.SfxVolume * 1f / 5f;
+        audioSource.volume = Options.SfxVolume;
         audioSource.PlayOneShot((AudioClip)Resources.Load("Sounds/" + path));
     }
 
@@ -28,7 +28,7 @@ public static class Sounds {
         for (int i = 0; i < times; i++)
         {
             AudioSource audio = Selection.AnotherShip.Model.GetComponents<AudioSource>()[i];
-            audio.volume = Options.SfxVolume * 1f / 5f;
+            audio.volume = Options.SfxVolume;
             audio.clip = (AudioClip)Resources.Load("Sounds/" + path);
             audio.PlayDelayed(i * 0.5f);
         }

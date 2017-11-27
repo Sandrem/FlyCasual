@@ -47,6 +47,7 @@ public class ShipPositionManager : MonoBehaviour
             Roster.SetRaycastTargets(false);
             Roster.AllShipsHighlightOff();
             BoardManager.HighlightStartingZones();
+            Selection.ThisShip.Model.GetComponentInChildren<ObstaclesStayDetector>().checkCollisions = true;
             inReposition = true;
         }
     }
@@ -233,12 +234,6 @@ public class ShipPositionManager : MonoBehaviour
     {
         bool result = true;
 
-        //TODO:
-        //Cannot leave board
-        //Obstacles
-
-        GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-
         if (Phases.CurrentSubPhase.GetType() == typeof(SubPhases.SetupSubPhase))
         {
             if (!ship.ShipBase.IsInside(StartingZone))
@@ -248,7 +243,7 @@ public class ShipPositionManager : MonoBehaviour
                 result = false;
             }
 
-            if (Game.Movement.CollidedWith != null)
+            if (Selection.ThisShip.Model.GetComponentInChildren<ObstaclesStayDetector>().OverlapedShips.Count > 0)
             {
                 Messages.ShowErrorToHuman("This ship shouldn't collide with another ships");
                 result = false;
@@ -266,6 +261,7 @@ public class ShipPositionManager : MonoBehaviour
     {
         HideSetupHelpers();
         Roster.SetRaycastTargets(true);
+        Selection.ThisShip.Model.GetComponentInChildren<ObstaclesStayDetector>().checkCollisions = false;
         inReposition = false;
 
         //if (Phases.CurrentSubPhase.GetType() == typeof(SubPhases.SetupSubPhase))

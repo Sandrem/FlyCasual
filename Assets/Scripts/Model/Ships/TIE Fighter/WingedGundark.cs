@@ -12,7 +12,6 @@ namespace Ship
             public WingedGundark() : base()
             {
                 PilotName = "\"Winged Gundark\"";
-                ImageUrl = "https://vignette2.wikia.nocookie.net/xwing-miniatures/images/9/9d/Winged-gundark.png";
                 PilotSkill = 5;
                 Cost = 15;
 
@@ -50,7 +49,7 @@ namespace PilotAbilitiesNamespace
 
             public override void ActionEffect(System.Action callBack)
             {
-                Combat.CurentDiceRoll.ChangeOne(DieSide.Success, DieSide.Crit);
+                Combat.CurrentDiceRoll.ChangeOne(DieSide.Success, DieSide.Crit);
                 callBack();
             }
 

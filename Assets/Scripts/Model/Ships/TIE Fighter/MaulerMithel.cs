@@ -11,7 +11,6 @@ namespace Ship
             public MaulerMithel() : base()
             {
                 PilotName = "\"Mauler Mithel\"";
-                ImageUrl = "https://vignette2.wikia.nocookie.net/xwing-miniatures/images/e/e8/Mauler-mithel.png";
                 PilotSkill = 7;
                 Cost = 17;
 

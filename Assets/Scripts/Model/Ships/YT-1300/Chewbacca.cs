@@ -11,7 +11,6 @@ namespace Ship
             public Chewbacca() : base()
             {
                 PilotName = "Chewbacca";
-                ImageUrl = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/pilots/Rebel%20Alliance/YT-1300/chewbacca.png";
                 PilotSkill = 5;
                 Cost = 42;
 

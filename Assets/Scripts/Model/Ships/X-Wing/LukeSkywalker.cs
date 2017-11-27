@@ -12,7 +12,6 @@ namespace Ship
             public LukeSkywalker() : base()
             {
                 PilotName = "Luke Skywalker";
-                ImageUrl = "https://vignette3.wikia.nocookie.net/xwing-miniatures/images/8/8c/Luke-skywalker.png";
                 PilotSkill = 8;
                 Cost = 28;
 
@@ -53,7 +52,7 @@ namespace PilotAbilitiesNamespace
 
             public override void ActionEffect(System.Action callBack)
             {
-                Combat.CurentDiceRoll.ChangeOne(DieSide.Focus, DieSide.Success);
+                Combat.CurrentDiceRoll.ChangeOne(DieSide.Focus, DieSide.Success);
                 callBack();
             }
 

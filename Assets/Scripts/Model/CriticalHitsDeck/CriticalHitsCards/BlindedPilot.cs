@@ -21,9 +21,9 @@ namespace CriticalHitCard
             Host.AssignToken(new Tokens.BlindedPilotCritToken(), Triggers.FinishTrigger);
         }
 
-        private void OnTryPreformAttack(ref bool result)
+        private void OnTryPreformAttack(ref bool result, List<string> stringList)
         {
-            Messages.ShowErrorToHuman("Blinded Pilot: Cannot perfom attack now");
+            stringList.Add("Blinded Pilot: Cannot perfom attack now");
             result = false;
         }
 

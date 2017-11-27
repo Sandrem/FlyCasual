@@ -29,7 +29,7 @@ namespace Movement
 
         protected override float SetAnimationSpeed()
         {
-            return 60f / Speed;
+            return 240f / Speed;
         }
 
         protected override float SetTurningAroundDistance()

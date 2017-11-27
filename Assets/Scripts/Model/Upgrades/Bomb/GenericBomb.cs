@@ -10,9 +10,14 @@ namespace Upgrade
     abstract public class GenericBomb : GenericUpgrade
     {
         public string bombPrefabPath;
+
+        public string bombSidePrefabPath;
+        public float bombSideDistanceX;
+        public float bombSideDistanceZ;
+
         public bool IsDiscardedAfterDropped;
 
-        public GameObject BombObject { get; private set; }
+        public List<GameObject> BombObjects = new List<GameObject>();
 
         public GenericBomb() : base()
         {
@@ -29,21 +34,22 @@ namespace Upgrade
             if (IsDiscardedAfterDropped) TryDiscard(callBack);
         }
 
-        public virtual void ActivateBomb(GameObject bombObject, Action callBack)
+        public virtual void ActivateBombs(List<GameObject> bombObjects, Action callBack)
         {
-            BombObject = bombObject;
+            BombObjects = bombObjects;
             Host.IsBombAlreadyDropped = true;
             PayDropCost(callBack);
         }
 
         public virtual void Detonate(object sender, EventArgs e)
         {
-            PlayDetonationAnimSound(ResolveDetonationTriggers);
+            GameObject bombObject = (e as Bombs.BombDetonationEventArgs).BombObject;
+            PlayDetonationAnimSound(bombObject, delegate { ResolveDetonationTriggers(bombObject); });
         }
 
-        private void ResolveDetonationTriggers()
+        private void ResolveDetonationTriggers(GameObject bombObject)
         {
-            GameObject.Destroy(BombObject);
+            GameObject.Destroy(bombObject);
             Triggers.ResolveTriggers(TriggerTypes.OnBombDetonated, Triggers.FinishTrigger);
         }
 
@@ -66,7 +72,7 @@ namespace Upgrade
             callBack();
         }
 
-        public virtual void PlayDetonationAnimSound(Action callBack)
+        public virtual void PlayDetonationAnimSound(GameObject bombObject, Action callBack)
         {
             callBack();
         }

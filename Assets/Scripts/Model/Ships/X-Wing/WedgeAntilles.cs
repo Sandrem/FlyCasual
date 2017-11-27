@@ -12,7 +12,6 @@ namespace Ship
             public WedgeAntilles() : base()
             {
                 PilotName = "Wedge Antilles";
-                ImageUrl = "https://vignette2.wikia.nocookie.net/xwing-miniatures/images/8/80/Wedge-antilles.png";
                 PilotSkill = 9;
                 Cost = 29;
 
@@ -34,7 +33,7 @@ namespace PilotAbilitiesNamespace
         {
             base.Initialize(host);
 
-            Host.OnAttack += AddWedgeAntillesAbility;
+            Host.OnAttackStartAsAttacker += AddWedgeAntillesAbility;
         }
 
         public void AddWedgeAntillesAbility()
@@ -44,7 +43,7 @@ namespace PilotAbilitiesNamespace
                 Messages.ShowError("Wedge Antilles: Agility is decreased");
                 Combat.Defender.AssignToken(new Conditions.WedgeAntillesCondition(), delegate { });
                 Combat.Defender.ChangeAgilityBy(-1);
-                Combat.Defender.OnCombatEnd += RemoveWedgeAntillesAbility;
+                Combat.Defender.OnAttackFinish += RemoveWedgeAntillesAbility;
             }
         }
 
@@ -53,7 +52,7 @@ namespace PilotAbilitiesNamespace
             Messages.ShowInfo("Agility is restored");
             Combat.Defender.RemoveToken(typeof(Conditions.WedgeAntillesCondition));
             ship.ChangeAgilityBy(+1);
-            ship.OnCombatEnd -= RemoveWedgeAntillesAbility;
+            ship.OnAttackFinish -= RemoveWedgeAntillesAbility;
         }
     }
 }

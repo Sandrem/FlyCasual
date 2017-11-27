@@ -32,12 +32,32 @@ namespace SubPhases
 
             if (Combat.AttackStep == CombatStep.Attack)
             {
-                Combat.ShowAttackAnimationAndSound();
+                ShowAttackAnimationAndSound();
             }
 
             DiceRoll DiceRollCheck;
             DiceRollCheck = new DiceRoll(diceType, diceCount, DiceRollCheckType.Combat);
             DiceRollCheck.Roll(SyncDiceResults);
+        }
+
+        private void ShowAttackAnimationAndSound()
+        {
+            Upgrade.GenericSecondaryWeapon chosenSecondaryWeapon = Combat.ChosenWeapon as Upgrade.GenericSecondaryWeapon;
+            if (chosenSecondaryWeapon == null || chosenSecondaryWeapon.Type == Upgrade.UpgradeType.Cannon || chosenSecondaryWeapon.Type == Upgrade.UpgradeType.Illicit)
+            { // Primary Weapons, Cannons, and Illicits (HotShotBlaster)
+                Sounds.PlayShots(Selection.ActiveShip.SoundShotsPath, Selection.ActiveShip.ShotsCount);
+                Selection.ThisShip.AnimatePrimaryWeapon();
+            }
+            else if (chosenSecondaryWeapon.Type == Upgrade.UpgradeType.Torpedo || chosenSecondaryWeapon.Type == Upgrade.UpgradeType.Missile)
+            { // Torpedos and Missiles
+                Sounds.PlayShots("Proton-Torpedoes", 1);
+                Selection.ThisShip.AnimateMunitionsShot();
+            }
+            else if (chosenSecondaryWeapon.Type == Upgrade.UpgradeType.Turret)
+            { // Turrets
+                Sounds.PlayShots(Selection.ActiveShip.SoundShotsPath, Selection.ActiveShip.ShotsCount);
+                Selection.ThisShip.AnimateTurretWeapon();
+            }
         }
 
         private void SyncDiceResults(DiceRoll diceroll)
@@ -60,7 +80,11 @@ namespace SubPhases
         private void ImmediatelyAfterRolling(DiceRoll diceroll)
         {
             Selection.ActiveShip = (Combat.AttackStep == CombatStep.Attack) ? Combat.Attacker : Combat.Defender;
-            Selection.ActiveShip.CallOnImmediatelyAfterRolling(diceroll);
+            Selection.ActiveShip.CallOnImmediatelyAfterRolling(diceroll, delegate { FinallyCheckResults(diceroll); });
+        }
+
+        private void FinallyCheckResults(DiceRoll diceroll)
+        {
             checkResults(diceroll);
         }
 

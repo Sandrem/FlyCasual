@@ -1,18 +1,57 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
 
 public static class DirectionsMenu
 {
-    public static void Show(Func<string, bool> filter = null)
+    public static bool ForceShowRedManeuvers;
+    public static bool IsVisible;
+    public static Action<string> Callback;
+
+    private static Func<string, bool> currentFilter;
+
+    public static void Show(Action<string> callback, Func<string, bool> filter = null)
     {
+        Callback = callback;
+        currentFilter = filter;
+
         GameObject.Find("UI").transform.Find("ContextMenuPanel").gameObject.SetActive(false);
         CustomizeDirectionsMenu(filter);
-        GameObject.Find("UI").transform.Find("DirectionsPanel").position = FixMenuPosition(GameObject.Find("UI").transform.Find("DirectionsPanel").gameObject, Input.mousePosition);
-        GameObject.Find("UI").transform.Find("DirectionsPanel").gameObject.SetActive(true);
+        GameObject.Find("UI").transform.Find("DirectionsPanel").position = FixMenuPosition(
+            GameObject.Find("UI").transform.Find("DirectionsPanel").gameObject,
+            Input.mousePosition
+        );
+        ToggleVisibility(true);
+    }
+
+    public static void ShowForAll(Action<string> callback, Func<string, bool> filter = null)
+    {
+        Callback = callback;
+        currentFilter = filter;
+
+        GameObject.Find("UI").transform.Find("ContextMenuPanel").gameObject.SetActive(false);
+        CustomizeDirectionsMenuAll(filter);
+        GameObject.Find("UI").transform.Find("DirectionsPanel").position = FixMenuPosition(
+            GameObject.Find("UI").transform.Find("DirectionsPanel").gameObject,
+            Input.mousePosition
+        );
+        ToggleVisibility(true);
+    }
+
+    private static void ShowUpdated()
+    {
+        CustomizeDirectionsMenu(currentFilter);
+        GameObject.Find("UI").transform.Find("DirectionsPanel").position = FixMenuPosition(
+            GameObject.Find("UI").transform.Find("DirectionsPanel").gameObject,
+            GameObject.Find("UI").transform.Find("DirectionsPanel").position
+        );
+    }
+
+    private static void ToggleVisibility(bool value)
+    {
+        IsVisible = value;
+        GameObject.Find("UI").transform.Find("DirectionsPanel").gameObject.SetActive(value);
     }
 
     private static void ClearAvailableManeuvers()
@@ -56,6 +95,37 @@ public static class DirectionsMenu
                     number.SetActive(true);
                 }
             }
+        }
+
+        HideExtraLines(linesExist);
+        HideExtraColumns();
+    }
+
+    private static void CustomizeDirectionsMenuAll(Func<string, bool> filter = null)
+    {
+        ClearAvailableManeuvers();
+        RestoreDirectionsMenu();
+
+        List<int> linesExist = new List<int>();
+
+        foreach (string maneuverCode in Movement.GenericMovement.GetAllManeuvers())
+        {
+            string[] parameters = maneuverCode.Split('.');
+            string maneuverSpeed = parameters[0];
+
+            GameObject button = GameObject.Find("UI").transform.Find("DirectionsPanel").Find("Directions").Find("Speed" + maneuverSpeed).Find(maneuverCode).gameObject;
+
+            if (filter == null || filter(maneuverCode))
+            {
+                if (!linesExist.Contains(int.Parse(maneuverSpeed))) linesExist.Add(int.Parse(maneuverSpeed));
+
+                SetManeuverColor(button, new KeyValuePair<string, Movement.ManeuverColor>(maneuverCode, Movement.ManeuverColor.White));
+                button.SetActive(true);
+
+                GameObject number = GameObject.Find("UI").transform.Find("DirectionsPanel").Find("Numbers").Find("Speed" + maneuverSpeed).Find("Number").gameObject;
+                number.SetActive(true);
+            }
+
         }
 
         HideExtraLines(linesExist);
@@ -190,6 +260,21 @@ public static class DirectionsMenu
 
     public static void Hide()
     {
-        GameObject.Find("UI").transform.Find("DirectionsPanel").gameObject.SetActive(false);
+        ToggleVisibility(false);
+    }
+
+    public static void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.LeftControl))
+        {
+            ForceShowRedManeuvers = true;
+            if (IsVisible && !SwarmManager.IsActive) ShowUpdated();
+        }
+
+        if (Input.GetKeyUp(KeyCode.LeftControl))
+        {
+            ForceShowRedManeuvers = false;
+            if (IsVisible && !SwarmManager.IsActive) ShowUpdated();
+        }
     }
 }

@@ -11,7 +11,6 @@ namespace Ship
             public ObsidianSquadronPilot() : base()
             {
                 PilotName = "Obsidian Squadron Pilot";
-                ImageUrl = "https://vignette3.wikia.nocookie.net/xwing-miniatures/images/e/ef/Obsidian-squadron-pilot.png";
                 PilotSkill = 3;
                 Cost = 13;
             }

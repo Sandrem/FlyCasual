@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Movement;
+using ActionsList;
 
 namespace Ship
 {
@@ -21,15 +22,20 @@ namespace Ship
                 MaxHull = 3;
                 MaxShields = 3;
 
+                SubFaction = SubFaction.Resistance;
+
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Astromech);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Torpedo);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Tech);
 
-                AssignTemporaryManeuvers();
-                HotacManeuverTable = null;
+                PrintedActions.Add(new TargetLockAction());
+                PrintedActions.Add(new BoostAction());
 
-                factions.Add(Faction.Rebels);
-                faction = Faction.Rebels;
+                AssignTemporaryManeuvers();
+                HotacManeuverTable = new AI.T70XWingTable();
+
+                factions.Add(Faction.Rebel);
+                faction = Faction.Rebel;
 
                 SkinName = "Blue";
 
@@ -40,14 +46,6 @@ namespace Ship
                 {
                     SoundFlyPaths.Add("XWing-Fly" + i);
                 }
-                
-            }
-
-            public override void InitializeShip()
-            {
-                base.InitializeShip();
-                BuiltInActions.Add(new ActionsList.TargetLockAction());
-                BuiltInActions.Add(new ActionsList.BoostAction());
             }
 
             private void AssignTemporaryManeuvers()

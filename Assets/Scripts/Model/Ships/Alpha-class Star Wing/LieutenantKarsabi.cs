@@ -13,7 +13,6 @@ namespace Ship
             public LieutenantKarsabi() : base()
             {
                 PilotName = "Lieutenant Karsabi";
-                ImageUrl = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/pilots/Galactic%20Empire/Alpha-class%20Star%20Wing/lieutenant-karsabi.png";
                 PilotSkill = 5;
                 Cost = 24;
 

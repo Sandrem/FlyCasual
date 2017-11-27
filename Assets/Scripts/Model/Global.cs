@@ -6,9 +6,11 @@ using Ship;
 
 public class Global : MonoBehaviour {
 
+    private static bool isAlreadyInitialized;
+
     public static string test = "I am accessible from every scene";
 
-    public static string CurrentVersion = "0.2.1";
+    public static string CurrentVersion = "0.3.0";
 
     private static List<ShipConfiguration> shipConfigurations = new List<ShipConfiguration>();
 
@@ -34,9 +36,17 @@ public class Global : MonoBehaviour {
         private set { shipConfigurations = value; }
     }
 
-    void Start()
+    void Awake()
     {
-        DontDestroyOnLoad(this.gameObject);
+        if (!isAlreadyInitialized)
+        {
+            isAlreadyInitialized = true;
+            DontDestroyOnLoad(this.gameObject);
+        }
+        else
+        {
+            Destroy(this.gameObject);
+        }
     }
 
     void Update()
@@ -139,7 +149,7 @@ public class Global : MonoBehaviour {
 
     public static Faction GetPlayerFaction(PlayerNo playerNo)
     {
-        Faction result = Faction.Rebels;
+        Faction result = Faction.Rebel;
         if (playerNo == PlayerNo.Player1) result = playerFactions[0];
         if (playerNo == PlayerNo.Player2) result = playerFactions[1];
         return result;

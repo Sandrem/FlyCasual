@@ -13,7 +13,16 @@ namespace Arcs
         Arc180,
         Arc360,
         ArcMobile,
-        ArcBullseye
+        ArcBullseye,
+        ArcGhost
+    }
+
+    public class ArcShotPermissions
+    {
+        public bool CanShootPrimaryWeapon = true;
+        public bool CanShootTorpedoes = false;
+        public bool CanShootMissiles = false;
+        public bool CanShootCannon = false;
     }
 
     public class ArcInfo
@@ -22,8 +31,8 @@ namespace Arcs
         public float MinAngle;
         public float MaxAngle;
         public ArcFacing Facing;
-        public bool CanShoot = true;
-        public bool CanShootSecondaryWeapon = false;
+
+        public ArcShotPermissions ShotPermissions = new ArcShotPermissions();
 
         public virtual Dictionary<string, Vector3> GetArcPoints()
         {
@@ -74,7 +83,7 @@ namespace Arcs
         protected readonly ArcInfo primaryArc;
         protected List<ArcInfo> ArcsList;
 
-        public bool CanShootOutsideArc { get; protected set; }
+        public ArcShotPermissions OutOfArcShotPermissions = new ArcShotPermissions() { CanShootPrimaryWeapon = false };
 
         public GenericArc(GenericShip host)
         {
@@ -86,13 +95,29 @@ namespace Arcs
                 MinAngle = -40f,
                 MaxAngle = 40f,
                 Facing = ArcFacing.Front,
-                CanShootSecondaryWeapon = true
+                ShotPermissions = new ArcShotPermissions()
+                {
+                    CanShootPrimaryWeapon = true,
+                    CanShootTorpedoes = true,
+                    CanShootMissiles = true,
+                    CanShootCannon = true
+                }
             };
 
             ArcsList = new List<ArcInfo>
             {
                 primaryArc
             };
+        }
+
+        public ArcInfo GetPrimaryArc()
+        {
+            return ArcsList[0];
+        }
+
+        public List<ArcInfo> GetAllArcs()
+        {
+            return ArcsList;
         }
 
         public virtual bool InAttackAngle(string originPoint, float angle)
@@ -110,9 +135,24 @@ namespace Arcs
             return CheckRay(originPoint, angle, new List<ArcInfo>() { primaryArc });
         }
 
-        public virtual bool CanShootSecondaryWeapon(string originPoint, float angle)
+        public virtual bool CanShootPrimaryWeapon(string originPoint, float angle)
         {
-            return CheckRay(originPoint, angle, ArcsList.Where(n => n.CanShootSecondaryWeapon).ToList());
+            return CheckRay(originPoint, angle, ArcsList.Where(n => n.ShotPermissions.CanShootPrimaryWeapon).ToList());
+        }
+
+        public virtual bool CanShootTorpedoes(string originPoint, float angle)
+        {
+            return CheckRay(originPoint, angle, ArcsList.Where(n => n.ShotPermissions.CanShootTorpedoes).ToList());
+        }
+
+        public virtual bool CanShootMissiles(string originPoint, float angle)
+        {
+            return CheckRay(originPoint, angle, ArcsList.Where(n => n.ShotPermissions.CanShootMissiles).ToList());
+        }
+
+        public virtual bool CanShootCannon(string originPoint, float angle)
+        {
+            return CheckRay(originPoint, angle, ArcsList.Where(n => n.ShotPermissions.CanShootCannon).ToList());
         }
 
         public virtual bool InBullseyeArc(string originPoint, float angle)

@@ -1,4 +1,5 @@
 ﻿using ActionsList;
+using UnityEngine;
 using Upgrade;
 
 namespace UpgradesList
@@ -16,19 +17,28 @@ namespace UpgradesList
         {
             base.AttachToShip(host);
 
-            host.OnActionIsPerformed += RegisterTrigger;
+            host.OnActionIsPerformed += CheckConditions;
         }
 
-        private void RegisterTrigger(GenericAction action)
+        private void CheckConditions(GenericAction action)
         {
             if (action is FocusAction)
-                Triggers.RegisterTrigger(new Trigger()
-                    {
-                        Name = "Recon Specialist's ability",
-                        TriggerType = TriggerTypes.OnActionDecisionSubPhaseEnd,
-                        TriggerOwner = Host.Owner.PlayerNo,
-                        EventHandler = ReconSpecialistAbility
-                    });
+            {
+                Host.OnActionDecisionSubphaseEnd += RegisterTrigger;
+            }
+        }
+
+        private void RegisterTrigger(Ship.GenericShip ship)
+        {
+            Host.OnActionDecisionSubphaseEnd -= RegisterTrigger;
+
+            Triggers.RegisterTrigger(new Trigger()
+                {
+                    Name = "Recon Specialist's ability",
+                    TriggerType = TriggerTypes.OnActionDecisionSubPhaseEnd,
+                    TriggerOwner = Host.Owner.PlayerNo,
+                    EventHandler = ReconSpecialistAbility
+                });
         }
 
         private void ReconSpecialistAbility(object sender, System.EventArgs e)

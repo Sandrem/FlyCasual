@@ -13,7 +13,6 @@ namespace Ship
             public Howlrunner() : base()
             {
                 PilotName = "\"Howlrunner\"";
-                ImageUrl = "https://vignette4.wikia.nocookie.net/xwing-miniatures/images/7/71/Howlrunner.png";
                 PilotSkill = 8;
                 Cost = 18;
 
@@ -41,7 +40,7 @@ namespace PilotAbilitiesNamespace
 
         private void AddHowlrunnerAbility()
         {
-            Combat.Attacker.AddAvailableActionEffect(new HowlrunnerAction());
+            Combat.Attacker.AddAvailableActionEffect(new HowlrunnerAction() { Host = this.Host });
         }
 
         private void RemoveHowlrunnerAbility(GenericShip ship)

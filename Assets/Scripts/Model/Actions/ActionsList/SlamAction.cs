@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using GameModes;
 
 namespace ActionsList
 {
@@ -31,7 +32,7 @@ namespace ActionsList
 
         private void SelectSlamManeuver(object sender, System.EventArgs e)
         {
-            DirectionsMenu.Show(IsSameSpeed);
+            DirectionsMenu.Show(GameMode.CurrentGameMode.AssignManeuver, IsSameSpeed);
         }
 
         private void RegisterSlamManeuverExecutionTrigger()

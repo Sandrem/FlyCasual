@@ -145,7 +145,24 @@ public static partial class Combat
         diceModification.ActionEffect(delegate { });
     }
 
-    //REMOVE
+    public static void ConfirmDiceResults()
+    {
+        GameMode.CurrentGameMode.ConfirmDiceResults();
+    }
+
+    public static void ConfirmDiceResultsClient()
+    {
+        switch (AttackStep)
+        {
+            case CombatStep.Attack:
+                ConfirmAttackDiceResults();
+                break;
+            case CombatStep.Defence:
+                ConfirmDefenceDiceResults();
+                break;
+        }
+    }
+
     public static void HideDiceModificationButtons()
     {
         foreach (Transform button in GameObject.Find("UI").transform.Find("CombatDiceResultsPanel").Find("DiceModificationsPanel"))
@@ -159,12 +176,11 @@ public static partial class Combat
     }
 
 
-    // REMOVE
     public static void HideDiceResultMenu()
     {
         GameObject.Find("UI").transform.Find("CombatDiceResultsPanel").gameObject.SetActive(false);
         HideDiceModificationButtons();
-        CurentDiceRoll.RemoveDiceModels();
+        CurrentDiceRoll.RemoveDiceModels();
     }
 
 }

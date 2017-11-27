@@ -23,8 +23,10 @@ namespace RulesList
                 case Movement.ManeuverColor.Red:
                     if (Selection.ThisShip.Owner.GetType() != typeof(Players.HotacAiPlayer))
                     {
-                        Selection.ThisShip.IsSkipsActionSubPhase = !Selection.ThisShip.CanPerformActionsWhileStressed;
-                        Selection.ThisShip.AssignToken(new Tokens.StressToken(), Triggers.FinishTrigger);
+                        Selection.ThisShip.AssignToken(new Tokens.StressToken(), delegate {
+                            Selection.ThisShip.IsSkipsActionSubPhase = Selection.ThisShip.HasToken(typeof(Tokens.StressToken)) && !Selection.ThisShip.CanPerformActionsWhileStressed;
+                            Triggers.FinishTrigger();
+                        });
                     }
                     else
                     {
@@ -58,7 +60,10 @@ namespace RulesList
             //TODO: Should I show red maneuvers if I have stress?
             if ((movement.ColorComplexity == Movement.ManeuverColor.Red) && (ship.GetToken(typeof(Tokens.StressToken)) != null))
             {
-                movement.ColorComplexity = Movement.ManeuverColor.None;
+                if (!ship.CanPerformRedManeuversWhileStressed && !DirectionsMenu.ForceShowRedManeuvers)
+                {
+                    movement.ColorComplexity = Movement.ManeuverColor.None;
+                }
             }
         }
 

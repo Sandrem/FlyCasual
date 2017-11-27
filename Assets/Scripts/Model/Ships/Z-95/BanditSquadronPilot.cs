@@ -11,11 +11,10 @@ namespace Ship
             public BanditSquadronPilot() : base()
             {
                 PilotName = "Bandit Squadron Pilot";
-                ImageUrl = "https://vignette3.wikia.nocookie.net/xwing-miniatures/images/5/5d/Bandit-squadron-pilot.png";
                 PilotSkill = 2;
                 Cost = 12;
 
-                faction = Faction.Rebels;
+                faction = Faction.Rebel;
             }
         }
     }

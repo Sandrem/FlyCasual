@@ -18,6 +18,7 @@ namespace Upgrade
 
         public bool RequiresFocusToShoot;
         public bool RequiresTargetLockOnTargetToShoot;
+        public bool SpendsFocusToShoot;
         public bool SpendsTargetLockOnTargetToShoot;
 
         public bool IsDiscardedForShot;
@@ -43,7 +44,20 @@ namespace Upgrade
 
                 if (!shotInfo.InShotAngle) return false;
 
-                if (!shotInfo.CanShootSecondaryWeapon) return false;
+                switch (Type)
+                {
+                    case UpgradeType.Missile:
+                        if (!shotInfo.CanShootMissiles) return false;
+                        break;
+                    case UpgradeType.Cannon:
+                        if (!shotInfo.CanShootCannon) return false;
+                        break;
+                    case UpgradeType.Torpedo:
+                        if (!shotInfo.CanShootTorpedoes) return false;
+                        break;
+                    default:
+                        break;
+                }
             }
             else
             {
@@ -133,6 +147,10 @@ namespace Upgrade
                     callBack();
                 }
             }
+            else if (RequiresFocusToShoot && SpendsFocusToShoot)
+            {
+                Combat.Attacker.SpendToken(typeof(FocusToken), callBack);
+            }
             else
             {
                 callBack();
@@ -163,7 +181,7 @@ namespace SubPhases
 
             foreach (var wayToPay in waysToPay)
             {
-                if (wayToPay.GetType() == typeof(BlueTargetLockToken)) { 
+                if (wayToPay.GetType() == typeof(BlueTargetLockToken)) {
                     AddDecision(
                         "Target Lock token",
                         delegate {

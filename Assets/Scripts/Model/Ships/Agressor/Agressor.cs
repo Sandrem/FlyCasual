@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Movement;
+using ActionsList;
 
 namespace Ship
 {
@@ -29,8 +30,12 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Bomb);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Illicit);
 
+                PrintedActions.Add(new TargetLockAction());
+                PrintedActions.Add(new BarrelRollAction());
+                PrintedActions.Add(new BoostAction());
+
                 AssignTemporaryManeuvers();
-                HotacManeuverTable = null;
+                HotacManeuverTable = new AI.AgressorTable();
 
                 factions.Add(Faction.Scum);
                 faction = Faction.Scum;
@@ -45,14 +50,6 @@ namespace Ship
                     SoundFlyPaths.Add("Falcon-Fly" + i);
                 }
                 
-            }
-
-            public override void InitializeShip()
-            {
-                base.InitializeShip();
-                BuiltInActions.Add(new ActionsList.TargetLockAction());
-                BuiltInActions.Add(new ActionsList.BarrelRollAction());
-                BuiltInActions.Add(new ActionsList.BoostAction());
             }
 
             private void AssignTemporaryManeuvers()

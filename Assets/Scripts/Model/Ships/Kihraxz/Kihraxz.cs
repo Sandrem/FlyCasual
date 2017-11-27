@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Movement;
+using ActionsList;
 
 namespace Ship
 {
@@ -12,7 +13,7 @@ namespace Ship
 
             public Kihraxz() : base()
             {
-                Type = "Kihraxz";
+                Type = "Kihraxz Fighter";
 
                 ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/d/d8/MS_KIHRAXZ-FIGHTER.png";
 
@@ -24,8 +25,10 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Missile);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Illicit);
 
+                PrintedActions.Add(new TargetLockAction());
+
                 AssignTemporaryManeuvers();
-                HotacManeuverTable = null;
+                HotacManeuverTable = new AI.KihraxzTable();
 
                 factions.Add(Faction.Scum);
                 faction = Faction.Scum;
@@ -40,12 +43,6 @@ namespace Ship
                     SoundFlyPaths.Add("XWing-Fly" + i);
                 }
                 
-            }
-
-            public override void InitializeShip()
-            {
-                base.InitializeShip();
-                BuiltInActions.Add(new ActionsList.TargetLockAction());
             }
 
             private void AssignTemporaryManeuvers()

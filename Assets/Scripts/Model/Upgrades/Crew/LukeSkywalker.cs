@@ -18,7 +18,7 @@ namespace UpgradesList
 
         public override bool IsAllowedForShip(GenericShip ship)
         {
-            return ship.faction == Faction.Rebels;
+            return ship.faction == Faction.Rebel;
         }
 
         public override void AttachToShip(GenericShip host)
@@ -65,7 +65,7 @@ namespace UpgradesList
                 typeof(SelectTargetForSecondAttackSubPhase),
                 delegate {
                     Phases.FinishSubPhase(typeof(SelectTargetForSecondAttackSubPhase));
-                    Combat.DeclareTarget(Selection.ThisShip.ShipId, Selection.AnotherShip.ShipId);
+                    Combat.DeclareIntentToAttack(Selection.ThisShip.ShipId, Selection.AnotherShip.ShipId);
                 });
         }
 
@@ -97,7 +97,7 @@ namespace ActionsList
 
         public override void ActionEffect(System.Action callBack)
         {
-            Combat.CurentDiceRoll.ChangeOne(DieSide.Focus, DieSide.Crit);
+            Combat.CurrentDiceRoll.ChangeOne(DieSide.Focus, DieSide.Crit);
             callBack();
         }
 

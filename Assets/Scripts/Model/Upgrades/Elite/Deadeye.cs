@@ -16,6 +16,11 @@ namespace UpgradesList
             Cost = 1;
         }
 
+        public override bool IsAllowedForShip(GenericShip ship)
+        {
+            return ship.ShipBaseSize == BaseSize.Small;
+        }
+
         public override void AttachToShip(GenericShip host)
         {
             base.AttachToShip(host);

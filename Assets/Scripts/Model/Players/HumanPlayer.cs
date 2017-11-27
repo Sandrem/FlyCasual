@@ -73,15 +73,15 @@ namespace Players
             // TODO: Better explanations
             if (!Rules.TargetIsLegalForShot.IsLegal())
             {
-                Messages.ShowError("Attack is not legal (this ship cannot attack or target cannot be attacked)");
+                //automatic error messages
             }
             else if (!Combat.ShotInfo.InShotAngle)
             {
-                Messages.ShowError("Target is outside your firing arc");
+                Messages.ShowErrorToHuman("Target is outside your firing arc");
             }
             else if (Combat.ShotInfo.Range > Combat.ChosenWeapon.MaxRange || Combat.ShotInfo.Distance < Combat.ChosenWeapon.MinRange)
             {
-                Messages.ShowError("Target is outside your firing range");
+                Messages.ShowErrorToHuman("Target is outside your firing range");
             }
 
             //TODO: except non-legal targets, bupmed for example, biggs?

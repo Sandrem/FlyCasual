@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Movement;
+using ActionsList;
 
 namespace Ship
 {
@@ -21,8 +22,14 @@ namespace Ship
                 MaxHull = 4;
                 MaxShields = 0;
 
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Torpedo);
+
+                PrintedActions.Add(new TargetLockAction());
+                PrintedActions.Add(new BarrelRollAction());
+                PrintedActions.Add(new BoostAction());
+
                 AssignTemporaryManeuvers();
-                HotacManeuverTable = null;
+                HotacManeuverTable = new AI.ProtectorateStarfighterTable();
 
                 factions.Add(Faction.Scum);
                 faction = Faction.Scum;
@@ -36,14 +43,6 @@ namespace Ship
                 {
                     SoundFlyPaths.Add("TIE-Fly" + i);
                 }
-            }
-
-            public override void InitializeShip()
-            {
-                base.InitializeShip();
-                BuiltInActions.Add(new ActionsList.TargetLockAction());
-                BuiltInActions.Add(new ActionsList.BarrelRollAction());
-                BuiltInActions.Add(new ActionsList.BoostAction());
             }
 
             private void AssignTemporaryManeuvers()

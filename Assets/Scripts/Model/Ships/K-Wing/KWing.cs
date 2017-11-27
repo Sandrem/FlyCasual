@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Movement;
+using ActionsList;
 
 namespace Ship
 {
@@ -31,11 +32,14 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Bomb);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Bomb);
 
-                AssignTemporaryManeuvers();
-                HotacManeuverTable = null;
+                PrintedActions.Add(new TargetLockAction());
+                PrintedActions.Add(new SlamAction());
 
-                factions.Add(Faction.Rebels);
-                faction = Faction.Rebels;
+                AssignTemporaryManeuvers();
+                HotacManeuverTable = new AI.KWingTable();
+
+                factions.Add(Faction.Rebel);
+                faction = Faction.Rebel;
 
                 SkinName = "White";
 
@@ -46,14 +50,6 @@ namespace Ship
                 {
                     SoundFlyPaths.Add("YWing-Fly" + i);
                 }
-                
-            }
-
-            public override void InitializeShip()
-            {
-                base.InitializeShip();
-                BuiltInActions.Add(new ActionsList.TargetLockAction());
-                BuiltInActions.Add(new ActionsList.SlamAction());
             }
 
             private void AssignTemporaryManeuvers()

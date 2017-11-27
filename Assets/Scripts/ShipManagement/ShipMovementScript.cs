@@ -57,8 +57,7 @@ public class ShipMovementScript : MonoBehaviour {
         UI.HideDirectionMenu();
 
         string maneuverCode = EventSystem.current.currentSelectedGameObject.name;
-
-        GameMode.CurrentGameMode.AssignManeuver(Selection.ThisShip.ShipId, maneuverCode);
+        DirectionsMenu.Callback(maneuverCode);
     }
 
     public static void AssignManeuver(int shipId, string maneuverCode)
@@ -72,7 +71,7 @@ public class ShipMovementScript : MonoBehaviour {
         {
             Roster.HighlightShipOff(Selection.ThisShip);
 
-            if (Roster.AllManuersAreAssigned(Phases.CurrentPhasePlayer))
+            if (Roster.AllManuversAreAssigned(Phases.CurrentPhasePlayer))
             {
                 UI.ShowNextButton();
                 UI.HighlightNextButton();
@@ -120,9 +119,9 @@ public class ShipMovementScript : MonoBehaviour {
         return result;
     }
 
-    public static Movement.GenericMovement MovementFromString(string parameters)
+    public static Movement.GenericMovement MovementFromString(string parameters, Ship.GenericShip ship = null)
     {
-        Movement.MovementStruct movementStruct = new Movement.MovementStruct(parameters);
+        Movement.MovementStruct movementStruct = new Movement.MovementStruct(parameters, ship);
         return MovementFromStruct(movementStruct);
     }
 
@@ -140,6 +139,13 @@ public class ShipMovementScript : MonoBehaviour {
     {
         Selection.ChangeActiveShip("ShipId:" + shipId);
 
+        UI.HideContextMenu();
+
+        Selection.ThisShip.CallActivateShip(LaunchMovementTrigger);
+    }
+
+    private static void LaunchMovementTrigger()
+    {
         Triggers.RegisterTrigger(new Trigger()
         {
             Name = "Maneuver",

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Ship;
 
 namespace Ship
 {
@@ -11,7 +12,6 @@ namespace Ship
             public TurrPhennir() : base()
             {
                 PilotName = "Turr Phennir";
-                ImageUrl = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/pilots/Galactic%20Empire/TIE%20Interceptor/turr-phennir.png";
                 PilotSkill = 7;
                 Cost = 25;
 
@@ -35,12 +35,12 @@ namespace PilotAbilitiesNamespace
         {
             base.Initialize(host);
 
-            Host.OnAttackPerformed += RegisterTurrPhennirPilotAbility;
+            Host.OnAttackFinish += RegisterTurrPhennirPilotAbility;
         }
 
-        private void RegisterTurrPhennirPilotAbility()
+        private void RegisterTurrPhennirPilotAbility(GenericShip ship)
         {
-            RegisterAbilityTrigger(TriggerTypes.OnAttackPerformed, TurrPhennirPilotAbility);
+            RegisterAbilityTrigger(TriggerTypes.OnAttackFinish, TurrPhennirPilotAbility);
         }
 
         private void TurrPhennirPilotAbility(object sender, System.EventArgs e)

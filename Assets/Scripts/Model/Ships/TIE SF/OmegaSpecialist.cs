@@ -11,7 +11,6 @@ namespace Ship
             public OmegaSpecialist() : base()
             {
                 PilotName = "Omega Specialist";
-                ImageUrl = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/pilots/First%20Order/TIE-sf%20Fighter/omega-specialist.png";
                 PilotSkill = 5;
                 Cost = 25;
 

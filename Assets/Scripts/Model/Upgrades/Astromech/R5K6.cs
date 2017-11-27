@@ -86,7 +86,7 @@ namespace SubPhases
                 Tokens.GenericToken newTargetLockToken = Combat.Attacker.GetToken(typeof(Tokens.BlueTargetLockToken), newTargetLockTokenLetter);
                 newTargetLockToken.CanBeUsed = false;
 
-                Combat.Attacker.OnCombatEnd += delegate { newTargetLockToken.CanBeUsed = true; };
+                Combat.Attacker.OnAttackFinish += delegate { newTargetLockToken.CanBeUsed = true; };
             }
             else
             {

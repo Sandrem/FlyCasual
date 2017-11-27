@@ -17,7 +17,7 @@ namespace SubPhases
         public string DefaultDecision;
         protected Players.GenericPlayer DecisionOwner;
 
-        private const float defaultWindowHeight = 55;
+        private const float defaultWindowHeight = 75;
         private const float buttonHeight = 45;
 
         public override void Start()
@@ -169,7 +169,17 @@ namespace SubPhases
 
             Action callBack = Phases.CurrentSubPhase.CallBack;
             Phases.FinishSubPhase(Phases.CurrentSubPhase.GetType());
+            Phases.CurrentSubPhase.Resume();
             callBack();
+        }
+
+        public static void ConfirmDecisionNoCallback()
+        {
+            Tooltips.EndTooltip();
+            UI.HideSkipButton();
+
+            Phases.FinishSubPhase(Phases.CurrentSubPhase.GetType());
+            Phases.CurrentSubPhase.Resume();
         }
 
     }

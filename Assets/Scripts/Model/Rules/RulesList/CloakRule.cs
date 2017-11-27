@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using GameModes;
 
 //TODO: Decloak by pilot skill
 
@@ -41,7 +42,7 @@ namespace RulesList
             //TODO: filter action in window instead
 
             ActionsList.GenericAction cloakAction = null;
-            foreach (var action in ship.BuiltInActions)
+            foreach (var action in ship.PrintedActions)
             {
                 if (action.GetType() == typeof(ActionsList.CloakAction))
                 {
@@ -49,7 +50,7 @@ namespace RulesList
                     break;
                 }
             }
-            ship.BuiltInActions.Remove(cloakAction);
+            ship.PrintedActions.Remove(cloakAction);
 
             ship.ChangeAgilityBy(+2);
             ship.OnTryPerformAttack += CannotAttackWhileCloaked;
@@ -58,14 +59,15 @@ namespace RulesList
 
         private void RemoveCloakEffects(Ship.GenericShip ship)
         {
-            ship.BuiltInActions.Add(new ActionsList.CloakAction());
+            ship.PrintedActions.Add(new ActionsList.CloakAction());
             ship.ChangeAgilityBy(-2);
             ship.OnTryPerformAttack -= CannotAttackWhileCloaked;
             Phases.OnActivationPhaseStart -= RegisterAskDecloak;
         }
 
-        private void CannotAttackWhileCloaked(ref bool result)
+        private void CannotAttackWhileCloaked(ref bool result, List<string> stringList)
         {
+            stringList.Add("Cannot attack while Cloaked");
             result = false;
         }
 
@@ -197,7 +199,12 @@ namespace SubPhases
             }
 
             Roster.SetRaycastTargets(false);
-            inReposition = true;
+            TurnOnDragging();
+        }
+
+        private void TurnOnDragging()
+        {
+            if (Selection.ThisShip.Owner.GetType() == typeof(Players.HumanPlayer)) inReposition = true;
         }
 
         public override void Update()
@@ -206,6 +213,16 @@ namespace SubPhases
             {
                 SelectDecloakHelper();
             }
+        }
+
+        public override void Pause()
+        {
+            inReposition = false;
+        }
+
+        public override void Resume()
+        {
+            TurnOnDragging();
         }
 
         private void SelectDecloakHelper()
@@ -227,24 +244,20 @@ namespace SubPhases
                 {
                     MovementTemplates.CurrentTemplate.gameObject.SetActive(false);
 
-                    Selection.ThisShip.GetDecloakHelper().Find(name).gameObject.SetActive(true);
+                    GetDecloakHelperByName(name).gameObject.SetActive(true);
 
                     Transform newBase = Selection.ThisShip.GetDecloakHelper().Find(name + "/Finisher/BasePosition");
                     ShipStand.transform.position = newBase.position;
                     ShipStand.transform.rotation = newBase.rotation;
-
-                    obstaclesStayDetectorMovementTemplate = Selection.ThisShip.GetDecloakHelper().Find(name).GetComponentInChildren<ObstaclesStayDetectorForced>();
-
                 }
                 else
                 {
                     if (!string.IsNullOrEmpty(SelectedDecloakHelper))
                     {
-                        Selection.ThisShip.GetDecloakHelper().Find(SelectedDecloakHelper).gameObject.SetActive(false);
+                        GetDecloakHelperByName(SelectedDecloakHelper).gameObject.SetActive(false);
                     }
 
                     MovementTemplates.CurrentTemplate.gameObject.SetActive(true);
-                    obstaclesStayDetectorMovementTemplate = MovementTemplates.CurrentTemplate.GetComponentInChildren<ObstaclesStayDetectorForced>();
 
                     PerfromDrag();
                 }
@@ -258,6 +271,22 @@ namespace SubPhases
                     PerfromDrag();
                 }
             }
+        }
+
+        private GameObject GetDecloakHelperByName(string name)
+        {
+            GameObject result = null;
+
+            if (name == "Forward")
+            {
+                result = Selection.ThisShip.GetDecloakHelper().Find(name).gameObject;
+            }
+            else
+            {
+                result = MovementTemplates.CurrentTemplate.gameObject;
+            }
+
+            return result;
         }
 
         private string GetNearestDecloakHelper(Vector3 point)
@@ -285,16 +314,6 @@ namespace SubPhases
             }
 
             return nearestDecloakHelper.Key;
-        }
-
-        public override void Pause()
-        {
-            inReposition = false;
-        }
-
-        public override void Resume()
-        {
-            inReposition = true;
         }
 
         private void PerfromDrag()
@@ -366,11 +385,13 @@ namespace SubPhases
         public override void ProcessClick()
         {
             StopPlanning();
-            TryConfirmDecloakPosition();
+            GameMode.CurrentGameMode.TryConfirmDecloakPosition(ShipStand.transform.position, SelectedDecloakHelper, GetDecloakHelperByName(SelectedDecloakHelper).transform.position, GetDecloakHelperByName(SelectedDecloakHelper).transform.eulerAngles);
         }
 
-        private void StartDecloakExecution(Ship.GenericShip ship)
+        public void StartDecloakExecution(Ship.GenericShip ship)
         {
+            Pause();
+
             Selection.ThisShip.ToggleShipStandAndPeg(false);
             MovementTemplates.CurrentTemplate.gameObject.SetActive(false);
 
@@ -383,7 +404,7 @@ namespace SubPhases
             );
         }
 
-        private void CancelDecloak()
+        public void CancelDecloak()
         {
             Selection.ThisShip.RemoveAlreadyExecutedAction(typeof(ActionsList.CloakAction));
             Selection.ThisShip.IsLandedOnObstacle = false;
@@ -405,9 +426,27 @@ namespace SubPhases
             inReposition = false;
         }
 
-        private void TryConfirmDecloakPosition()
+        public void TryConfirmDecloakNetwork(Vector3 shipPosition, string decloakHelper, Vector3 movementTemplatePosition, Vector3 movementTemplateAngles)
+        {
+
+            ShipStand.SetActive(true);
+            StopPlanning();
+
+            ShipStand.transform.position = shipPosition;
+
+            SelectedDecloakHelper = decloakHelper;
+
+            GetDecloakHelperByName(SelectedDecloakHelper).transform.eulerAngles = movementTemplateAngles;
+            GetDecloakHelperByName(SelectedDecloakHelper).transform.position = movementTemplatePosition;
+
+            TryConfirmDecloakPosition();
+        }
+
+        public void TryConfirmDecloakPosition()
         {
             obstaclesStayDetectorBase.ReCheckCollisionsStart();
+
+            obstaclesStayDetectorMovementTemplate = GetDecloakHelperByName(SelectedDecloakHelper).GetComponentInChildren<ObstaclesStayDetectorForced>();
             obstaclesStayDetectorMovementTemplate.ReCheckCollisionsStart();
 
             GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
@@ -439,11 +478,12 @@ namespace SubPhases
             if (IsDecloakAllowed())
             {
                 CheckMines();
-                StartDecloakExecution(Selection.ThisShip);
+                Selection.ThisShip.IsLandedOnObstacle = obstaclesStayDetectorBase.OverlapsAsteroidNow;
+                GameMode.CurrentGameMode.StartDecloakExecution(Selection.ThisShip);
             }
             else
             {
-                CancelDecloak();
+                GameMode.CurrentGameMode.CancelDecloak();
             }
 
             HidePlanningTemplates();
@@ -472,7 +512,7 @@ namespace SubPhases
                 Messages.ShowError("Cannot overlap another ship");
                 allow = false;
             }
-            else if (obstaclesStayDetectorBase.OverlapsAsteroidNow || obstaclesStayDetectorMovementTemplate.OverlapsAsteroidNow)
+            else if ((!Selection.ThisShip.IsIgnoreObstacles) && (obstaclesStayDetectorBase.OverlapsAsteroidNow || obstaclesStayDetectorMovementTemplate.OverlapsAsteroidNow))
             {
                 Messages.ShowError("Cannot overlap asteroid");
                 allow = false;
@@ -551,7 +591,7 @@ namespace SubPhases
 
         private void DoDecloakAnimation()
         {
-            float progressStep = 0.5f * Time.deltaTime * Options.AnimationSpeed;
+            float progressStep = 2.5f * Time.deltaTime * Options.AnimationSpeed;
             progressStep = Mathf.Min(progressStep, progressTarget - progressCurrent);
             progressCurrent += progressStep;
 
@@ -560,11 +600,12 @@ namespace SubPhases
             Selection.ThisShip.MoveUpwards(progressCurrent / progressTarget);
             if (progressCurrent >= progressTarget)
             {
-                FinishDecloakAnimation();
+                performingAnimation = false;
+                GameMode.CurrentGameMode.FinishDecloak();
             }
         }
 
-        private void FinishDecloakAnimation()
+        public void FinishDecloakAnimation()
         {
             performingAnimation = false;
 

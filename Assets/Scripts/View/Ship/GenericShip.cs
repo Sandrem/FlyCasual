@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 namespace Ship
@@ -30,7 +31,9 @@ namespace Ship
 
             GameObject prefab = (GameObject)Resources.Load("Prefabs/ShipModel/ShipModel", typeof(GameObject));
             GameObject newShip = MonoBehaviour.Instantiate(prefab, position + new Vector3(0, 0.03f, 0), Quaternion.Euler(facing), Board.BoardManager.GetBoard());
-            newShip.transform.Find("RotationHelper/RotationHelper2/ShipAllParts/ShipModels/" + FixTypeName(Type)).gameObject.SetActive(true);
+            Transform modelTranform = newShip.transform.Find("RotationHelper/RotationHelper2/ShipAllParts/ShipModels/" + FixTypeName(Type));
+            if (modelTranform == null) Console.Write("<b>Missing model: " + FixTypeName(Type) + "</b>", LogTypes.Errors, true, "red");
+            modelTranform.gameObject.SetActive(true);
 
             ShipId = ShipFactory.lastId;
             ShipFactory.lastId = ShipFactory.lastId + 1;
@@ -66,15 +69,29 @@ namespace Ship
             }
         }
 
+        private Material CreateMaterial(string texturePath)
+        {
+            var texture = Resources.Load<Texture2D>(texturePath);
+
+            if (texture == null)
+                return null;
+
+            var material = new Material(Shader.Find("Standard"));
+            material.SetTexture("_MainTex", texture);
+
+            return material;
+        }
+
         public void SetShipInsertImage()
         {
             string materialName = PilotName;
             materialName = materialName.Replace(' ', '_');
             materialName = materialName.Replace('"', '_');
             materialName = materialName.Replace("'", "");
-            string pathToResource = "ShipStandInsert/" + FixTypeName(Type) + "/Materials/" + materialName;
 
-            Material shipBaseInsert = (Material)Resources.Load(pathToResource, typeof(Material));
+            var pathToResource = "ShipStandInsert/" + FixTypeName(Type) + "/" + materialName;
+            var shipBaseInsert = CreateMaterial(pathToResource);
+
             if (shipBaseInsert != null)
             {
                 shipAllParts.Find("ShipBase/ShipStandInsert/ShipStandInsertImage/default").GetComponent<Renderer>().material = shipBaseInsert;

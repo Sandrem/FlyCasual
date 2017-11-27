@@ -40,7 +40,7 @@ namespace UpgradesList
                 {
                     if (Actions.HasTargetLockOn(Selection.ThisShip, Selection.AnotherShip))
                     {
-                        result = true;
+                        result = false;
                     }
                 };
             }

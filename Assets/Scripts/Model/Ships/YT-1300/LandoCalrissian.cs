@@ -13,7 +13,6 @@ namespace Ship
             public LandoCalrissian() : base()
             {
                 PilotName = "Lando Calrissian";
-                ImageUrl = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/pilots/Rebel%20Alliance/YT-1300/lando-calrissian.png";
                 PilotSkill = 7;
                 Cost = 44;
 

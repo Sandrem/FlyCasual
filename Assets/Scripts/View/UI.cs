@@ -19,11 +19,23 @@ public class UI : MonoBehaviour {
     public void Update()
     {
         UpdateShipIds();
+        UpdateDirectionsMenu();
+        CheckSwarmManager();
     }
 
     private void UpdateShipIds()
     {
         ShowShipIds = Input.GetKey(KeyCode.LeftAlt);
+    }
+
+    private void CheckSwarmManager()
+    {
+        SwarmManager.CheckActivation();
+    }
+
+    private void UpdateDirectionsMenu()
+    {
+        DirectionsMenu.Update();
     }
 
     //Move to context menu
@@ -63,7 +75,7 @@ public class UI : MonoBehaviour {
 
     public void ShowDirectionMenu()
     {
-        DirectionsMenu.Show();
+        DirectionsMenu.Show(GameMode.CurrentGameMode.AssignManeuver);
     }
 
     public static void HideDirectionMenu()
@@ -76,7 +88,10 @@ public class UI : MonoBehaviour {
         HideContextMenu();
         if (Phases.CurrentSubPhase != null)
         {
-            if (Phases.CurrentSubPhase.GetType() == typeof(SubPhases.PlanningSubPhase)) HideDirectionMenu();
+            if (Phases.CurrentSubPhase.GetType() == typeof(SubPhases.PlanningSubPhase) && !SwarmManager.IsActive)
+            {
+                HideDirectionMenu();
+            }
         }
     }
 
@@ -244,6 +259,18 @@ public class UI : MonoBehaviour {
     public void QuitGame()
     {
         Application.Quit();
+    }
+
+    public void GoNextShortcut()
+    {
+        bool pressNext = false;
+        bool pressCancel = false;
+
+        if (GameObject.Find("UI").transform.Find("NextPanel").gameObject.activeSelf) pressNext = true;
+        else if (GameObject.Find("UI").transform.Find("SkipPanel").gameObject.activeSelf) pressCancel = true;
+
+        if (pressNext) ClickNextPhase();
+        else if (pressCancel) ClickSkipPhase();
     }
 
 }

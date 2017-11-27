@@ -11,7 +11,6 @@ namespace Ship
             public GuardianSquadronPilot() : base()
             {
                 PilotName = "Guardian Squadron Pilot";
-                ImageUrl = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/pilots/Rebel%20Alliance/K-wing/guardian-squadron-pilot.png";
                 PilotSkill = 4;
                 Cost = 25;
             }

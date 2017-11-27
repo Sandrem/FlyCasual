@@ -11,7 +11,6 @@ namespace Ship
             public SpiceRunner() : base()
             {
                 PilotName = "Spice Runner";
-                ImageUrl = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/pilots/Scum%20and%20Villainy/HWK-290/spice-runner.png";
                 PilotSkill = 1;
                 Cost = 16;
 

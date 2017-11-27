@@ -9,6 +9,8 @@ namespace UpgradesList
     {
         public DeadMansSwitch() : base()
         {
+            IsHidden = true;
+
             Type = UpgradeType.Illicit;
             Name = "Dead Man's Switch";
             Cost = 2;

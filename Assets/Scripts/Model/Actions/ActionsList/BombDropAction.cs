@@ -42,7 +42,7 @@ namespace SubPhases
     {
         Dictionary<string, Vector3> AvailableBombDropDirections = new Dictionary<string, Vector3>();
         public string SelectedBombDropHelper;
-        private GameObject BombObject;
+        private List<GameObject> BombObjects = new List<GameObject>();
         private bool inReposition;
 
         public override void Start()
@@ -56,7 +56,7 @@ namespace SubPhases
 
         public void StartBombDropPlanning()
         {
-            CreateBombObject();
+            CreateBombObject(Selection.ThisShip.GetPosition(), Selection.ThisShip.GetRotation());
             GenerateAllowedBombDropDirections();
 
             Roster.SetRaycastTargets(false);
@@ -75,10 +75,17 @@ namespace SubPhases
             }
         }
 
-        private void CreateBombObject()
+        private void CreateBombObject(Vector3 bombPosition, Quaternion bombRotation)
         {
             GameObject prefab = (GameObject)Resources.Load(BombsManager.CurrentBomb.bombPrefabPath, typeof(GameObject));
-            BombObject = MonoBehaviour.Instantiate(prefab, Selection.ThisShip.GetPosition(), Selection.ThisShip.GetRotation(), BoardManager.GetBoard());
+            BombObjects.Add(MonoBehaviour.Instantiate(prefab, bombPosition, bombRotation, BoardManager.GetBoard()));
+
+            if (!string.IsNullOrEmpty(BombsManager.CurrentBomb.bombSidePrefabPath))
+            {
+                GameObject prefabSide = (GameObject)Resources.Load(BombsManager.CurrentBomb.bombSidePrefabPath, typeof(GameObject));
+                BombObjects.Add(MonoBehaviour.Instantiate(prefabSide, bombPosition, bombRotation, BoardManager.GetBoard()));
+                BombObjects.Add(MonoBehaviour.Instantiate(prefabSide, bombPosition, bombRotation, BoardManager.GetBoard()));
+            }
         }
 
         private void GenerateAllowedBombDropDirections()
@@ -134,8 +141,50 @@ namespace SubPhases
                 Selection.ThisShip.GetBombDropHelper().Find(name).gameObject.SetActive(true);
 
                 Transform newBase = Selection.ThisShip.GetBombDropHelper().Find(name + "/Finisher/BasePosition");
-                BombObject.transform.position = new Vector3(newBase.position.x, 0, newBase.position.z);
-                BombObject.transform.rotation = newBase.rotation;
+
+                for (int i = 0; i < BombObjects.Count; i++)
+                {
+                    switch (i)
+                    {
+                        case 0:
+                            BombObjects[i].transform.position = new Vector3(
+                                newBase.position.x,
+                                0,
+                                newBase.position.z
+                            );
+                            break;
+                        case 1:
+                            BombObjects[i].transform.position = new Vector3(
+                                newBase.position.x,
+                                0,
+                                newBase.position.z)
+                                + 
+                                newBase.TransformVector(new Vector3(
+                                    BombsManager.CurrentBomb.bombSideDistanceX,
+                                    0,
+                                    BombsManager.CurrentBomb.bombSideDistanceZ
+                                )
+                            );
+                            break;
+                        case 2:
+                            BombObjects[i].transform.position = new Vector3(
+                                newBase.position.x,
+                                0,
+                                newBase.position.z)
+                                +
+                                newBase.TransformVector(new Vector3(
+                                    -BombsManager.CurrentBomb.bombSideDistanceX,
+                                    0,
+                                    BombsManager.CurrentBomb.bombSideDistanceZ
+                                )
+                            );
+                            break;
+                        default:
+                            break;
+                    }
+                    
+                    BombObjects[i].transform.rotation = newBase.rotation;
+                }
 
                 SelectedBombDropHelper = name;
             }
@@ -185,7 +234,7 @@ namespace SubPhases
 
         private void BombDropExecute()
         {
-            BombsManager.CurrentBomb.ActivateBomb(BombObject, FinishAction);
+            BombsManager.CurrentBomb.ActivateBombs(BombObjects, FinishAction);
         }
 
         private void FinishAction()

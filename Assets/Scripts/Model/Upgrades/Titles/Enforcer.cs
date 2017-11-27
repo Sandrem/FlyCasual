@@ -1,4 +1,4 @@
-﻿using Ship;
+﻿/*using Ship;
 using Ship.M12LKimogila;
 using UnityEngine;
 using Upgrade;
@@ -25,7 +25,7 @@ namespace UpgradesList
         {
             base.AttachToShip(host);
 
-            Host.OnCombatEnd += TryRegisterStressEffect;
+            Host.OnAttackFinish += TryRegisterStressEffect;
         }
 
         private void TryRegisterStressEffect(GenericShip ship)
@@ -36,7 +36,7 @@ namespace UpgradesList
                 Triggers.RegisterTrigger(new Trigger()
                 {
                     Name = "Endorcer's ability",
-                    TriggerType = TriggerTypes.OnCombatEnd,
+                    TriggerType = TriggerTypes.OnAttackFinish,
                     TriggerOwner = ship.Owner.PlayerNo,
                     EventHandler = StressEffect
                 });
@@ -49,4 +49,4 @@ namespace UpgradesList
             Combat.Attacker.AssignToken(new Tokens.StressToken(), Triggers.FinishTrigger);
         }
     }
-}
+}*/

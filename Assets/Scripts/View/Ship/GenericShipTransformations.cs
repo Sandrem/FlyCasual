@@ -47,6 +47,13 @@ namespace Ship
             return result;
         }
 
+        public Vector3 GetBack()
+        {
+            Vector3 result;
+            result = Model.transform.TransformPoint(0, 0, -2*ShipBase.HALF_OF_SHIPSTAND_SIZE);
+            return result;
+        }
+
         public Vector3 GetModelCenter()
         {
             return modelCenter.position;

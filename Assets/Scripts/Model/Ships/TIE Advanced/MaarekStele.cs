@@ -16,7 +16,6 @@ namespace Ship
                 IsHidden = true;
 
                 PilotName = "Maarek Stele";
-                ImageUrl = "https://vignette3.wikia.nocookie.net/xwing-miniatures/images/4/41/Maarek_Stele.png";
                 PilotSkill = 7;
                 Cost = 27;
 

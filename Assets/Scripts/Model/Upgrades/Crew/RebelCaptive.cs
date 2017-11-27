@@ -16,14 +16,14 @@ namespace UpgradesList
 
         public override bool IsAllowedForShip(Ship.GenericShip ship)
         {
-            return ship.faction == Faction.Empire;
+            return ship.faction == Faction.Imperial;
         }
 
         public override void AttachToShip(Ship.GenericShip host)
         {
             base.AttachToShip(host);
 
-            host.OnAttack += RegisterTrigger;
+            host.OnAttackStartAsDefender += RegisterTrigger;
 
             Phases.OnEndPhaseStart += Cleanup;
         }

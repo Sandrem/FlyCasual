@@ -55,4 +55,21 @@ public class ObstaclesStayDetector: MonoBehaviour {
         }
     }
 
+    private void OnTriggerExit(Collider collisionInfo)
+    {
+        if (checkCollisions)
+        {
+            if (collisionInfo.name == "ObstaclesStayDetector")
+            {
+                if (collisionInfo.tag != this.tag)
+                {
+                    if (OverlapedShips.Contains(Roster.GetShipById(collisionInfo.tag)))
+                    {
+                        OverlapedShips.Remove(Roster.GetShipById(collisionInfo.tag));
+                    }
+                }
+            }
+        }
+    }
+
 }

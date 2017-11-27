@@ -261,4 +261,16 @@ public class UI : MonoBehaviour {
         Application.Quit();
     }
 
+    public void GoNextShortcut()
+    {
+        bool pressNext = false;
+        bool pressCancel = false;
+
+        if (GameObject.Find("UI").transform.Find("NextPanel").gameObject.activeSelf) pressNext = true;
+        else if (GameObject.Find("UI").transform.Find("SkipPanel").gameObject.activeSelf) pressCancel = true;
+
+        if (pressNext) ClickNextPhase();
+        else if (pressCancel) ClickSkipPhase();
+    }
+
 }

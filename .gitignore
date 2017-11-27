@@ -73,4 +73,10 @@ ExportedObj/
 *.svd
 *.pdb
 
+# Linux development
 ProjectSettings.asset
+Packages/
+ProjectSettings/
+run.x86_64
+run_Data/
+

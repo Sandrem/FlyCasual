@@ -15,6 +15,8 @@ namespace Ship
                 Cost = 16;
 
                 IsUnique = true;
+
+                PilotAbilities.Add(new PilotAbilitiesNamespace.ZebOrreliosPilotAbility());
             }
         }
     }

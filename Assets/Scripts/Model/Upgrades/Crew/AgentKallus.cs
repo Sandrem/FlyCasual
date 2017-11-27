@@ -59,7 +59,7 @@ namespace UpgradesList
             selectAgentKallusTargetDecisionSubPhase.InfoText = "Agent Kallus: Select enemy ship";
 
             GenericShip bestEnemyAce = GetEnemyPilotWithHighestSkill();
-            selectAgentKallusTargetDecisionSubPhase.DefaultDecision = bestEnemyAce.Shields + ": " + bestEnemyAce.PilotName;
+            selectAgentKallusTargetDecisionSubPhase.DefaultDecision = bestEnemyAce.ShipId + ": " + bestEnemyAce.PilotName;
 
             selectAgentKallusTargetDecisionSubPhase.RequiredPlayer = Host.Owner.PlayerNo;
 
@@ -68,6 +68,8 @@ namespace UpgradesList
 
         private void SelectTarget(GenericShip targetShip)
         {
+            Messages.ShowInfo("Agent Kallus: " + targetShip.PilotName + " (" + targetShip.ShipId + ") is selected");
+
             AgentKallusSelectedTarget = targetShip;
 
             Host.AfterGenerateAvailableActionEffectsList += AddAgentKallusDiceModification;
@@ -160,6 +162,7 @@ namespace ActionsList
             {
                 Messages.ShowError("No Focus results to change");
             }
+            callBack();
         }
 
     }

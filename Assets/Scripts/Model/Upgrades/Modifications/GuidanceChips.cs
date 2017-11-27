@@ -95,6 +95,8 @@ namespace ActionsList
             Combat.CurrentDiceRoll.ChangeOne(oldResult, newResult);
 
             (Source as UpgradesList.GuidanceChips).isUsed = true;
+
+            callBack();
         }
 
     }

@@ -19,8 +19,9 @@ namespace Ship
                 Cost       = 17;
                 IsUnique   = true;
 
-                PilotAbilities.Add(new PilotAbilitiesNamespace.EpsilonAceStartAbility());
-                PilotAbilities.Add(new PilotAbilitiesNamespace.EpsilonAceEndAbility());
+                PilotAbilities.Add(new PilotAbilitiesNamespace.EpsilonAceAbility());
+                //PilotAbilities.Add(new PilotAbilitiesNamespace.EpsilonAceStartAbility());
+                //PilotAbilities.Add(new PilotAbilitiesNamespace.EpsilonAceEndAbility());
             }
             public void ModifyPilotSkill(ref int pilotSkill)
             {
@@ -33,41 +34,29 @@ namespace Ship
 
 namespace PilotAbilitiesNamespace
 {
-    public class EpsilonAceStartAbility : GenericPilotAbility
+    public class EpsilonAceAbility : GenericPilotAbility
     {
         public override void Initialize(GenericShip host)
         {
             base.Initialize(host);
 
-            Phases.OnGameStart += RegisterEpsilonAceStartAbility;
+            Phases.OnGameStart       += RegisterEpsilonAceStartAbility;
+            Host.OnDamageCardIsDealt += RegisterEpsilonAceEndAbility;
         }
         private void RegisterEpsilonAceStartAbility ()
         {
             RegisterAbilityTrigger (TriggerTypes.OnGameStart, UseEpsilonAceStartAbility);
         }
+        private void RegisterEpsilonAceEndAbility (GenericShip ship)
+        {
+            RegisterAbilityTrigger (TriggerTypes.OnDamageCardIsDealt, UseEpsilonAceEndAbility);
+        }
         private void UseEpsilonAceStartAbility(object sender, System.EventArgs e)
         {
-            //psModifier = (IModifyPilotSkill)this.Host;
-            //Host.AddPilotSkillModifier (psModifier);
             Host.AddPilotSkillModifier ((IModifyPilotSkill)Host);
             Triggers.FinishTrigger ();
         }
-    }
-
-    public class EpsilonAceEndAbility : GenericPilotAbility
-    {
-        public override void Initialize(GenericShip host)
-        {
-            base.Initialize(host);
-
-            Host.OnDamageCardIsDealt += RegisterEpsilonAceAbility;
-        }
-        private void RegisterEpsilonAceAbility (GenericShip ship)
-        {
-            RegisterAbilityTrigger (TriggerTypes.OnDamageCardIsDealt, UseEpsilonAceAbility);
-        }
-
-        private void UseEpsilonAceAbility(object sender, System.EventArgs e)
+        private void UseEpsilonAceEndAbility(object sender, System.EventArgs e)
         {
             if (Combat.CurrentCriticalHitCard != null) {
                 Host.RemovePilotSkillModifier ((IModifyPilotSkill)Host);

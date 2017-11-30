@@ -14,6 +14,8 @@ namespace Ship
                 PilotSkill = 9;
                 Cost = 28;
 
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
+
                 PilotAbilities.Add(new PilotAbilitiesNamespace.FennRauAbility());
             }
         }

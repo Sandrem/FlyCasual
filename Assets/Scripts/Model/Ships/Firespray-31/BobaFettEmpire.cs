@@ -34,7 +34,7 @@ namespace PilotAbilitiesNamespace
 {
     public class BobaFettEmpireAbility : GenericPilotAbility
     {
-        public override void Initialize(Ship.GenericShip host)
+        public override void Initialize(GenericShip host)
         {
             base.Initialize(host);
 
@@ -50,7 +50,7 @@ namespace PilotAbilitiesNamespace
         {
             if (Host.AssignedManeuver.Bearing == Movement.ManeuverBearing.Bank)
             {
-                DirectionsMenu.Show(GameMode.CurrentGameMode.AssignManeuver, IsBankManeuversSameSpeed);
+                Host.Owner.ChangeManeuver(GameMode.CurrentGameMode.AssignManeuver, IsBankManeuversSameSpeed);
             }
             else
             {

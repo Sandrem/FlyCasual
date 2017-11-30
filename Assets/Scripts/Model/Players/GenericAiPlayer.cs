@@ -384,6 +384,10 @@ namespace Players
             Phases.FinishSubPhase(typeof(SubPhases.CombatSubPhase));
         }
 
+        public override void ChangeManeuver(Action<string> callback, Func<string, bool> filter = null)
+        {
+            callback(Selection.ThisShip.AssignedManeuver.ToString());
+        }
     }
 
 }

@@ -89,6 +89,11 @@ namespace Players
             UI.HighlightNextButton();
         }
 
+        public override void ChangeManeuver(Action<string> callback, Func<string, bool> filter = null)
+        {
+            DirectionsMenu.Show(callback, filter);
+        }
+
     }
 
 }

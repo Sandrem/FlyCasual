@@ -33,7 +33,7 @@ namespace UpgradesList
 
         private void AskChangeManeuver(object sender, System.EventArgs e)
         {
-            DirectionsMenu.Show(GameMode.CurrentGameMode.AssignManeuver, IsSameBearingAndDirection);
+            Host.Owner.ChangeManeuver(GameMode.CurrentGameMode.AssignManeuver, IsSameBearingAndDirection);
         }
 
         private bool IsSameBearingAndDirection(string maneuverString)

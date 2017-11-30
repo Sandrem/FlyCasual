@@ -85,6 +85,8 @@ namespace Players
         public virtual bool IsNeedToShowManeuver(Ship.GenericShip ship) { return false; }
 
         public virtual void OnTargetNotLegalForAttack() { }
+
+        public virtual void ChangeManeuver(Action<string> callback, Func<string, bool> filter = null) { }
     }
 
 }

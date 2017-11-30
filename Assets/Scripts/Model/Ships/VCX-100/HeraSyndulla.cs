@@ -44,7 +44,7 @@ namespace PilotAbilitiesNamespace
         {
             if (Host.AssignedManeuver.ColorComplexity == Movement.ManeuverColor.Green || Host.AssignedManeuver.ColorComplexity == Movement.ManeuverColor.Red)
             {
-                DirectionsMenu.Show(GameMode.CurrentGameMode.AssignManeuver, IsSameComplexity);
+                Host.Owner.ChangeManeuver(GameMode.CurrentGameMode.AssignManeuver, IsSameComplexity);
             }
             else
             {

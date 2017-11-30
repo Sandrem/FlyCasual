@@ -37,6 +37,7 @@ public enum TriggerTypes
     OnBeforeTokenIsAssigned,
     OnTokenIsAssigned,
     OnTokenIsSpent,
+    OnCoordinateTargetIsSelected,
 
     OnAttackStart,
     OnShotStart,

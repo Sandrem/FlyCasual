@@ -47,6 +47,8 @@ namespace Ship
         public static event EventHandlerShipType OnTokenIsSpentGlobal;
         public event EventHandlerShipType AfterTokenIsRemoved;
 
+        public event EventHandlerShip OnCoordinateTargetIsSelected;
+
         // ACTIONS
 
         public void CallActivateShip(Action callBack)
@@ -548,6 +550,15 @@ namespace Ship
                     RemoveToken(token.GetType(), '*', true);
                 }
             }
+        }
+
+        // Coordinate
+
+        public void CallCoordinateTargetIsSelected(GenericShip targetShip, Action callback)
+        {
+            if (OnCoordinateTargetIsSelected != null) OnCoordinateTargetIsSelected(targetShip);
+
+            Triggers.ResolveTriggers(TriggerTypes.OnCoordinateTargetIsSelected, callback);
         }
 
     }

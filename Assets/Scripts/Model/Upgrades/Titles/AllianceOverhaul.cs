@@ -54,6 +54,8 @@ namespace ActionsList
         {
             Name = EffectName = "Alliance Overhaul";
 
+            IsSpendTargetLock = true;
+
             IsTurnsAllFocusIntoSuccess = true; // incorrect flag
             IsTurnsOneFocusIntoSuccess = true;
         }

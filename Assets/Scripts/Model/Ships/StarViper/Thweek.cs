@@ -62,7 +62,7 @@ namespace PilotAbilitiesNamespace
             selectTargetForThweekDecisionSubPhase.InfoText = "Thweek: Select enemy ship";
 
             GenericShip bestEnemyAce = GetEnemyPilotWithHighestSkill();
-            selectTargetForThweekDecisionSubPhase.DefaultDecision = bestEnemyAce.Shields + ": " + bestEnemyAce.PilotName;
+            selectTargetForThweekDecisionSubPhase.DefaultDecision = bestEnemyAce.ShipId + ": " + bestEnemyAce.PilotName;
 
             selectTargetForThweekDecisionSubPhase.RequiredPlayer = Host.Owner.PlayerNo;
 

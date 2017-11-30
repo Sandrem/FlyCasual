@@ -44,7 +44,6 @@ namespace Players
         public int SquadCost;
         public Dictionary<string, Ship.GenericShip> Ships = new Dictionary<string, Ship.GenericShip>();
 
-        private int id;
         public int Id { get { return (PlayerNo == PlayerNo.Player1) ? 1 : 2; } }
 
         public GenericPlayer()
@@ -87,6 +86,8 @@ namespace Players
         public virtual void OnTargetNotLegalForAttack() { }
 
         public virtual void ChangeManeuver(Action<string> callback, Func<string, bool> filter = null) { }
+
+        public virtual void SelectManeuver(Action<string> callback, Func<string, bool> filter = null) { }
     }
 
 }

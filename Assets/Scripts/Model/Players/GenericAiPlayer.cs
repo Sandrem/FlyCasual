@@ -388,6 +388,11 @@ namespace Players
         {
             callback(Selection.ThisShip.AssignedManeuver.ToString());
         }
+
+        public override void SelectManeuver(Action<string> callback, Func<string, bool> filter = null)
+        {
+            callback(Selection.ThisShip.AssignedManeuver.ToString());
+        }
     }
 
 }

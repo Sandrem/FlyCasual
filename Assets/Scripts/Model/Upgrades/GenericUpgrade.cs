@@ -139,6 +139,11 @@ namespace Upgrade
             Messages.ShowInfo(Name + " is flipped face up");
         }
 
+        public virtual bool IsAllowedForSquadBuilderPostCheck(RosterBuilder.SquadBuilderUpgrade upgradeHolder)
+        {
+            return true;
+        }
+
     }
 
 }

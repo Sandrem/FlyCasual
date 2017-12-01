@@ -49,6 +49,8 @@ namespace Ship
 
         public event EventHandlerShip OnCoordinateTargetIsSelected;
 
+        public event EventHandlerShip OnRerollIsConfirmed;
+
         // ACTIONS
 
         public void CallActivateShip(Action callBack)
@@ -559,6 +561,15 @@ namespace Ship
             if (OnCoordinateTargetIsSelected != null) OnCoordinateTargetIsSelected(targetShip);
 
             Triggers.ResolveTriggers(TriggerTypes.OnCoordinateTargetIsSelected, callback);
+        }
+
+        // Reroll is confirmed
+
+        public void CallRerollIsConfirmed(Action callback)
+        {
+            if (OnRerollIsConfirmed != null) OnRerollIsConfirmed(this);
+
+            Triggers.ResolveTriggers(TriggerTypes.OnRerollIsConfirmed, callback);
         }
 
     }

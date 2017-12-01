@@ -15,7 +15,7 @@ public class SelectDiceThroughMinimap : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
-        if (DiceRerollManager.currentDiceRerollManager != null)
+        if (DiceRerollManager.CurrentDiceRerollManager != null)
         {
             if (Input.GetMouseButtonDown(0))
             {

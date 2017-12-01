@@ -69,9 +69,12 @@ public partial class MainMenu : MonoBehaviour {
             }
             else
             {
-                if (wwwdata[0] != Global.CurrentVersion)
+                if (wwwdata.Length == 2)
                 {
-                    ShowNewVersionIsAvailable(wwwdata[0], wwwdata[1]);
+                    if (wwwdata[0] != Global.CurrentVersion)
+                    {
+                        ShowNewVersionIsAvailable(wwwdata[0], wwwdata[1]);
+                    }
                 }
             }
         }

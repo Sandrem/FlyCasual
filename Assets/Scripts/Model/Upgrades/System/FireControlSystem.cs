@@ -22,15 +22,18 @@ namespace UpgradesList
 
         private void FireControlSystemAbility(GenericShip ship)
         {
-            if (!Combat.Defender.IsDestroyed)
+            if (Combat.Attacker.ShipId == Host.ShipId)
             {
-                Triggers.RegisterTrigger(new Trigger()
+                if (!Combat.Defender.IsDestroyed)
                 {
-                    Name = "Fire-Control System: Aquire target lock",
-                    TriggerOwner = Host.Owner.PlayerNo,
-                    TriggerType = TriggerTypes.OnAttackFinish,
-                    EventHandler = AskAquireTargetLock
-                });
+                    Triggers.RegisterTrigger(new Trigger()
+                    {
+                        Name = "Fire-Control System: Aquire target lock",
+                        TriggerOwner = Host.Owner.PlayerNo,
+                        TriggerType = TriggerTypes.OnAttackFinish,
+                        EventHandler = AskAquireTargetLock
+                    });
+                }
             }
         }
 

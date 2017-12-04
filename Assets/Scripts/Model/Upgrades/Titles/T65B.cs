@@ -1,7 +1,6 @@
 ﻿using Ship;
 using Ship.XWing;
 using Upgrade;
-using System.Collections.Generic;
 using Mods.ModsList;
 
 namespace UpgradesList
@@ -16,7 +15,7 @@ namespace UpgradesList
             Name = "T-65B";
             Cost = -1;
 
-            ImageUrl = "https://media.discordapp.net/attachments/307486197905620993/386997692997435401/T-65B.png?width=195&height=300";
+            ImageUrl = "https://i.imgur.com/Kz6l6SZ.png";
         }
 
         public override bool IsAllowedForShip(GenericShip ship)

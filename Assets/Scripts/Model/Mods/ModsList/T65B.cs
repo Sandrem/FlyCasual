@@ -7,7 +7,7 @@
             public T65BMod()
             {
                 Name = "T-65B X-Wing & Friends";
-                Description = "Adds a cheap new titles for T65 X-Wing and TIE Fighters";
+                Description = "Titles for T-65 X-Wing: T-65A, T-65B, T-65D-A1\nTitle for TIE Fighter: TIE/LN";
             }
         }
     }

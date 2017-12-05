@@ -7,7 +7,7 @@
             public PartisanXWingMod()
             {
                 Name = "Partisan X-Wing";
-                Description = "Adds new titile for T-65 X-Wing";
+                Description = "Title for T-65 X-Wing";
             }
         }
     }

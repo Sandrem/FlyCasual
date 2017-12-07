@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Ship;
 using SubPhases;
 using UnityEngine;
 using Upgrade;
-using Players;
 
 namespace AbilitiesNamespace
 {
@@ -52,6 +49,12 @@ namespace AbilitiesNamespace
             HostUpgrade = hostUpgrade;
             Name = hostUpgrade.Name + "'s ability";
         }
+
+        // ACTIVATE AND DEACTIVATE
+
+        public virtual void ActivateAbility() { }
+
+        public virtual void DeactivateAbility() { }
 
         // REGISTER TRIGGER
 

@@ -18,21 +18,21 @@ namespace Ship
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
-                PilotAbilities.Add(new PilotAbilitiesNamespace.ColonelVesseryAbility());
+                PilotAbilities.Add(new AbilitiesNamespace.ColonelVesseryAbility());
             }
         }
     }
 }
 
-namespace PilotAbilitiesNamespace
+namespace AbilitiesNamespace
 {
-    public class ColonelVesseryAbility : GenericPilotAbility
+    public class ColonelVesseryAbility : GenericAbility
     {
         public override void Initialize(Ship.GenericShip host)
         {
             base.Initialize(host);
 
-            Host.OnImmediatelyAfterRolling += RegisterColonelVesseryAbility;
+            HostShip.OnImmediatelyAfterRolling += RegisterColonelVesseryAbility;
         }
 
         private void RegisterColonelVesseryAbility(DiceRoll diceroll)

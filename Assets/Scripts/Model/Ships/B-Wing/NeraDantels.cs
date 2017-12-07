@@ -21,22 +21,22 @@ namespace Ship
 
                 SkinName = "Red";
 
-                PilotAbilities.Add(new PilotAbilitiesNamespace.NeraDantelsAbility());
+                PilotAbilities.Add(new AbilitiesNamespace.NeraDantelsAbility());
             }
         }
     }
 }
 
-namespace PilotAbilitiesNamespace
+namespace AbilitiesNamespace
 {
-    public class NeraDantelsAbility : GenericPilotAbility
+    public class NeraDantelsAbility : GenericAbility
     {
         public override void Initialize(Ship.GenericShip host)
         {
             base.Initialize(host);
 
-            Host.ArcInfo.OutOfArcShotPermissions.CanShootTorpedoes = true;
-            foreach (Upgrade.GenericSecondaryWeapon torpedo in Host.UpgradeBar.GetInstalledUpgrades().Where(n => n.Type == Upgrade.UpgradeType.Torpedo))
+            HostShip.ArcInfo.OutOfArcShotPermissions.CanShootTorpedoes = true;
+            foreach (Upgrade.GenericSecondaryWeapon torpedo in HostShip.UpgradeBar.GetInstalledUpgrades().Where(n => n.Type == Upgrade.UpgradeType.Torpedo))
             {
                 torpedo.CanShootOutsideArc = true;
             }

@@ -23,21 +23,21 @@ namespace Ship
 
                 SkinName = "Red Stripes";
 
-                PilotAbilities.Add(new PilotAbilitiesNamespace.SoontirFelAbility());
+                PilotAbilities.Add(new AbilitiesNamespace.SoontirFelAbility());
             }
         }
     }
 }
 
-namespace PilotAbilitiesNamespace
+namespace AbilitiesNamespace
 {
-    public class SoontirFelAbility : GenericPilotAbility
+    public class SoontirFelAbility : GenericAbility
     {
         public override void Initialize(GenericShip host)
         {
             base.Initialize(host);
 
-            Host.OnTokenIsAssigned += RegisterSoontirFelAbility;
+            HostShip.OnTokenIsAssigned += RegisterSoontirFelAbility;
         }
 
         private void RegisterSoontirFelAbility(GenericShip ship, System.Type tokenType)
@@ -52,7 +52,7 @@ namespace PilotAbilitiesNamespace
         {
             if (!alwaysUseAbility)
             {
-                AskToUseAbility(AlwaysUseByDefault, AssignToken, null, true);
+                AskToUseAbility(AlwaysUseByDefault, AssignToken, null, null, true);
             }
             else
             {
@@ -62,7 +62,7 @@ namespace PilotAbilitiesNamespace
 
         private void AssignToken(object sender, System.EventArgs e)
         {
-            Host.AssignToken(new Tokens.FocusToken(), SubPhases.DecisionSubPhase.ConfirmDecision);
+            HostShip.AssignToken(new Tokens.FocusToken(), SubPhases.DecisionSubPhase.ConfirmDecision);
         }
     }
 }

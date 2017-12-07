@@ -5,41 +5,66 @@ using System.Text;
 using Ship;
 using SubPhases;
 using UnityEngine;
+using Upgrade;
+using Players;
 
-namespace PilotAbilitiesNamespace
+namespace AbilitiesNamespace
 {
-    public class GenericPilotAbility
+    public class GenericAbility
     {
-        public string Name;
+        public string Name { get; private set; }
 
-        public bool AppliesConditionCard;
+        public bool IsAppliesConditionCard { get; protected set; }
+        protected bool IsAbilityUsed { get; set; }
 
-        protected bool isAbilityUsed;
-
-        private GenericShip host;
-        public GenericShip Host
+        private object hostReal;
+        public object HostReal
         {
-            get { return host; }
-            private set { host = value; }
+            get { return hostReal; }
+            private set { hostReal = value; }
         }
 
-        public virtual void Initialize(GenericShip host)
+        private GenericShip hostShip;
+        public GenericShip HostShip
         {
-            Host = host;
-            Name = Host.PilotName + "'s ability";
+            get { return hostShip; }
+            private set { hostShip = value; }
+        }
+
+        private GenericUpgrade hostUpgrade;
+        public GenericUpgrade HostUpgrade
+        {
+            get { return hostUpgrade; }
+            private set { hostUpgrade = value; }
+        }
+
+        public virtual void Initialize(GenericShip hostShip)
+        {
+            HostReal = hostShip;
+            HostShip = hostShip;
+            Name = HostShip.PilotName + "'s ability";
+        }
+
+        public virtual void Initialize(GenericUpgrade hostUpgrade)
+        {
+            HostReal = hostUpgrade;
+            HostShip = hostUpgrade.Host;
+            HostUpgrade = hostUpgrade;
+            Name = hostUpgrade.Name + "'s ability";
         }
 
         // REGISTER TRIGGER
 
-        protected void RegisterAbilityTrigger(TriggerTypes triggerType, EventHandler eventHandler)
+        protected void RegisterAbilityTrigger(TriggerTypes triggerType, EventHandler eventHandler, System.EventArgs e = null)
         {
             Triggers.RegisterTrigger(new Trigger()
             {
                 Name = Name,
                 TriggerType = triggerType,
-                TriggerOwner = Host.Owner.PlayerNo,
+                TriggerOwner = HostShip.Owner.PlayerNo,
                 EventHandler = eventHandler,
-                Sender = Host
+                Sender = hostReal,
+                EventArgs = e
             });
         }
 
@@ -47,19 +72,21 @@ namespace PilotAbilitiesNamespace
 
         protected bool alwaysUseAbility;
 
-        protected void AskToUseAbility(Func<bool> useByDefault, EventHandler useAbility, EventHandler dontUseAbility = null, bool showAlwaysUseOption = false)
+        protected void AskToUseAbility(Func<bool> useByDefault, EventHandler useAbility, EventHandler dontUseAbility = null, Action callback = null, bool showAlwaysUseOption = false)
         {
             if (dontUseAbility == null) dontUseAbility = DontUseAbility;
 
+            if (callback == null) callback = Triggers.FinishTrigger;
+
             DecisionSubPhase pilotAbilityDecision = (DecisionSubPhase) Phases.StartTemporarySubPhaseNew(
                 Name,
-                typeof(PilotAbilityDecisionSubphase),
-                Triggers.FinishTrigger
+                typeof(AbilityDecisionSubphase),
+                callback
             );
 
             pilotAbilityDecision.InfoText = "Use " + Name + "?";
 
-            pilotAbilityDecision.RequiredPlayer = Host.Owner.PlayerNo;
+            pilotAbilityDecision.RequiredPlayer = HostShip.Owner.PlayerNo;
 
             pilotAbilityDecision.AddDecision("Yes", useAbility);
             pilotAbilityDecision.AddDecision("No", dontUseAbility);
@@ -70,7 +97,7 @@ namespace PilotAbilitiesNamespace
             pilotAbilityDecision.Start();
         }
 
-        private class PilotAbilityDecisionSubphase : DecisionSubPhase { }
+        private class AbilityDecisionSubphase : DecisionSubPhase { }
 
         private void DontUseAbility(object sender, System.EventArgs e)
         {
@@ -97,14 +124,16 @@ namespace PilotAbilitiesNamespace
 
         protected GenericShip TargetShip;
 
-        protected void SelectTargetForAbility(System.Action selectTargetAction, List<TargetTypes> targetTypes, Vector2 rangeLimits, bool showSkipButton = true)
+        protected void SelectTargetForAbility(System.Action selectTargetAction, List<TargetTypes> targetTypes, Vector2 rangeLimits, Action callback = null, bool showSkipButton = true)
         {
-            Selection.ThisShip = Host;
+            if (callback == null) callback = Triggers.FinishTrigger;
+
+            Selection.ThisShip = HostShip;
 
             SelectShipSubPhase selectTargetSubPhase = (SelectShipSubPhase) Phases.StartTemporarySubPhaseNew(
                 "Select target for " + Name,
-                typeof(PilotAbilitySelectTarget),
-                Triggers.FinishTrigger
+                typeof(AbilitySelectTarget),
+                callback
             );
 
             selectTargetSubPhase.PrepareByParameters(
@@ -125,7 +154,7 @@ namespace PilotAbilitiesNamespace
             selectTargetAction();
         }
 
-        private class PilotAbilitySelectTarget: SelectShipSubPhase
+        private class AbilitySelectTarget: SelectShipSubPhase
         {
             public override void RevertSubPhase() { }
 

@@ -25,21 +25,21 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Missile);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
-                PilotAbilities.Add(new PilotAbilitiesNamespace.LandoCalrissianAbility());
+                PilotAbilities.Add(new AbilitiesNamespace.LandoCalrissianAbility());
             }
         }
     }
 }
 
-namespace PilotAbilitiesNamespace
+namespace AbilitiesNamespace
 {
-    public class LandoCalrissianAbility : GenericPilotAbility
+    public class LandoCalrissianAbility : GenericAbility
     {
         public override void Initialize(GenericShip host)
         {
             base.Initialize(host);
 
-            Host.OnMovementExecuted += CheckLandoCalrissianPilotAbility;
+            HostShip.OnMovementExecuted += CheckLandoCalrissianPilotAbility;
         }
 
         private void CheckLandoCalrissianPilotAbility(GenericShip ship)
@@ -73,7 +73,7 @@ namespace PilotAbilitiesNamespace
             TargetShip.AskPerformFreeAction(
                 TargetShip.GetAvailablePrintedActionsList(),
                 delegate {
-                    Selection.ThisShip = Host;
+                    Selection.ThisShip = HostShip;
                     Phases.CurrentSubPhase.Resume();
                     Triggers.FinishTrigger();
                 });

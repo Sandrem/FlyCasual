@@ -17,22 +17,22 @@ namespace Ship
 
                 faction = Faction.Rebel;
 
-                PilotAbilities.Add(new PilotAbilitiesNamespace.RoarkGarnetAbility());
+                PilotAbilities.Add(new AbilitiesNamespace.RoarkGarnetAbility());
             }
         }
     }
 }
 
-namespace PilotAbilitiesNamespace
+namespace AbilitiesNamespace
 {
-    public class RoarkGarnetAbility : GenericPilotAbility, IModifyPilotSkill
+    public class RoarkGarnetAbility : GenericAbility, IModifyPilotSkill
     {
         public override void Initialize(GenericShip host)
         {
             base.Initialize(host);
 
             Phases.OnCombatPhaseStart += RegisterAbility;
-            Host.OnDestroyed += RemoveAbility;
+            HostShip.OnDestroyed += RemoveAbility;
         }
 
         private void RegisterAbility()
@@ -47,12 +47,13 @@ namespace PilotAbilitiesNamespace
 
         private void Ability(object sender, EventArgs e)
         {
-            if (Host.Owner.Ships.Count > 1)
+            if (HostShip.Owner.Ships.Count > 1)
             {
                 SelectTargetForAbility(
                     SelectAbilityTarget, 
                     new List<TargetTypes> { TargetTypes.OtherFriendly }, 
-                    new UnityEngine.Vector2(1, 3), 
+                    new UnityEngine.Vector2(1, 3),
+                    null,
                     false);                
             }
             else

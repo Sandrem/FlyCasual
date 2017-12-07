@@ -22,21 +22,21 @@ namespace Ship
 
                 faction = Faction.Rebel;
 
-                PilotAbilities.Add(new PilotAbilitiesNamespace.DutchVanderAbility());
+                PilotAbilities.Add(new AbilitiesNamespace.DutchVanderAbility());
             }
         }
     }
 }
 
-namespace PilotAbilitiesNamespace
+namespace AbilitiesNamespace
 {
-    public class DutchVanderAbility : GenericPilotAbility
+    public class DutchVanderAbility : GenericAbility
     {
         public override void Initialize(GenericShip host)
         {
             base.Initialize(host);
 
-            Host.OnTokenIsAssigned += DutchVanderPilotAbility;
+            HostShip.OnTokenIsAssigned += DutchVanderPilotAbility;
         }
 
         private void DutchVanderPilotAbility(GenericShip ship, System.Type tokenType)
@@ -49,8 +49,8 @@ namespace PilotAbilitiesNamespace
 
         private void StartSubphaseForDutchVanderPilotAbility(object sender, System.EventArgs e)
         {
-            Selection.ThisShip = Host;
-            if (Host.Owner.Ships.Count > 1)
+            Selection.ThisShip = HostShip;
+            if (HostShip.Owner.Ships.Count > 1)
             {
                 SelectTargetForAbility(
                     GrantFreeTargetLock,

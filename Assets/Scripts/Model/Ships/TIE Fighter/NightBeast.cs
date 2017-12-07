@@ -17,26 +17,26 @@ namespace Ship
 
                 IsUnique = true;
 
-                PilotAbilities.Add(new PilotAbilitiesNamespace.NightBeastAbility());
+                PilotAbilities.Add(new AbilitiesNamespace.NightBeastAbility());
             }
         }
     }
 }
 
-namespace PilotAbilitiesNamespace
+namespace AbilitiesNamespace
 {
-    public class NightBeastAbility : GenericPilotAbility
+    public class NightBeastAbility : GenericAbility
     {
         public override void Initialize(GenericShip host)
         {
             base.Initialize(host);
 
-            Host.OnMovementFinish += NightBeastPilotAbility;
+            HostShip.OnMovementFinish += NightBeastPilotAbility;
         }
 
         private void NightBeastPilotAbility(GenericShip ship)
         {
-            if (Host.AssignedManeuver.ColorComplexity == Movement.ManeuverColor.Green)
+            if (HostShip.AssignedManeuver.ColorComplexity == Movement.ManeuverColor.Green)
             {
                 Triggers.RegisterTrigger(
                     new Trigger()
@@ -54,7 +54,7 @@ namespace PilotAbilitiesNamespace
         {
             List<ActionsList.GenericAction> actions = new List<ActionsList.GenericAction>() { new ActionsList.FocusAction() };
 
-            Host.AskPerformFreeAction(actions, Triggers.FinishTrigger);
+            HostShip.AskPerformFreeAction(actions, Triggers.FinishTrigger);
         }
     }
 }

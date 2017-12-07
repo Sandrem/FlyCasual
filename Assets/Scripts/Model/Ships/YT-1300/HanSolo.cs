@@ -25,21 +25,21 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Missile);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
-                PilotAbilities.Add(new PilotAbilitiesNamespace.HanSoloAbility());
+                PilotAbilities.Add(new AbilitiesNamespace.HanSoloAbility());
             }
         }
     }
 }
 
-namespace PilotAbilitiesNamespace
+namespace AbilitiesNamespace
 {
-    public class HanSoloAbility : GenericPilotAbility
+    public class HanSoloAbility : GenericAbility
     {
         public override void Initialize(GenericShip host)
         {
             base.Initialize(host);
 
-            Host.AfterGenerateAvailableActionEffectsList += HanSoloPilotAbility;
+            HostShip.AfterGenerateAvailableActionEffectsList += HanSoloPilotAbility;
         }
 
         public void HanSoloPilotAbility(GenericShip ship)

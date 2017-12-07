@@ -13,16 +13,16 @@ namespace Ship
                 Cost = 27;
                 IsUnique = true;
 
-                PilotAbilities.Add(new PilotAbilitiesNamespace.CaptainKagiAbility());
+                PilotAbilities.Add(new AbilitiesNamespace.CaptainKagiAbility());
             }
         }
     }
 }
 
 
-namespace PilotAbilitiesNamespace
+namespace AbilitiesNamespace
 {
-    public class CaptainKagiAbility : GenericPilotAbility
+    public class CaptainKagiAbility : GenericAbility
     {
 
         public override void Initialize(GenericShip host)
@@ -37,11 +37,11 @@ namespace PilotAbilitiesNamespace
         public void CanPerformTargetLock(ref bool result, GenericShip attacker, GenericShip defender)
         {
             bool abilityIsActive = false;
-            if (defender.ShipId != Host.ShipId)
+            if (defender.ShipId != HostShip.ShipId)
             {
-                if (defender.Owner.PlayerNo == Host.Owner.PlayerNo)
+                if (defender.Owner.PlayerNo == HostShip.Owner.PlayerNo)
                 {
-                    Board.ShipDistanceInformation positionInfo = new Board.ShipDistanceInformation(attacker, Host);
+                    Board.ShipDistanceInformation positionInfo = new Board.ShipDistanceInformation(attacker, HostShip);
                     if (positionInfo.Range >= attacker.TargetLockMinRange && positionInfo.Range <= attacker.TargetLockMaxRange)
                     {
                         abilityIsActive = true;
@@ -62,7 +62,7 @@ namespace PilotAbilitiesNamespace
         private void RemoveCaptainKagiAbility(GenericShip ship)
         {
             RulesList.TargetLocksRule.OnCheckTargetLockIsAllowed -= CanPerformTargetLock;
-            Host.OnDestroyed -= RemoveCaptainKagiAbility;
+            HostShip.OnDestroyed -= RemoveCaptainKagiAbility;
         }
 
     }

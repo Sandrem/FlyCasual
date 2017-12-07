@@ -12,21 +12,21 @@
 
                 IsUnique = true;
 
-                PilotAbilities.Add(new PilotAbilitiesNamespace.ArvelCrynydAbility());
+                PilotAbilities.Add(new AbilitiesNamespace.ArvelCrynydAbility());
             }
         }
     }
 }
 
-namespace PilotAbilitiesNamespace
+namespace AbilitiesNamespace
 {
-    public class ArvelCrynydAbility : GenericPilotAbility
+    public class ArvelCrynydAbility : GenericAbility
     {
         public override void Initialize(Ship.GenericShip host)
         {
             base.Initialize(host);
 
-            Host.CanAttackBumpedTargetAlways = true;
+            HostShip.CanAttackBumpedTargetAlways = true;
         }
     }
 }

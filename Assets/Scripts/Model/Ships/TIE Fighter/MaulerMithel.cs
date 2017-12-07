@@ -18,21 +18,21 @@ namespace Ship
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
-                PilotAbilities.Add(new PilotAbilitiesNamespace.MaulerMithelAbility());
+                PilotAbilities.Add(new AbilitiesNamespace.MaulerMithelAbility());
             }
         }
     }
 }
 
-namespace PilotAbilitiesNamespace
+namespace AbilitiesNamespace
 {
-    public class MaulerMithelAbility : GenericPilotAbility
+    public class MaulerMithelAbility : GenericAbility
     {
         public override void Initialize(Ship.GenericShip host)
         {
             base.Initialize(host);
 
-            Host.AfterGotNumberOfPrimaryWeaponAttackDice += MaulerMithelPilotAbility;
+            HostShip.AfterGotNumberOfPrimaryWeaponAttackDice += MaulerMithelPilotAbility;
         }
 
         private void MaulerMithelPilotAbility(ref int result)

@@ -19,21 +19,21 @@ namespace Ship
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
-                PilotAbilities.Add(new PilotAbilitiesNamespace.LukeSkywalkerAbility());
+                PilotAbilities.Add(new AbilitiesNamespace.LukeSkywalkerAbility());
             }
         }
     }
 }
 
-namespace PilotAbilitiesNamespace
+namespace AbilitiesNamespace
 {
-    public class LukeSkywalkerAbility : GenericPilotAbility
+    public class LukeSkywalkerAbility : GenericAbility
     {
         public override void Initialize(GenericShip host)
         {
             base.Initialize(host);
 
-            Host.AfterGenerateAvailableActionEffectsList += AddLukeSkywalkerPilotAbility;
+            HostShip.AfterGenerateAvailableActionEffectsList += AddLukeSkywalkerPilotAbility;
         }
 
         private void AddLukeSkywalkerPilotAbility(GenericShip ship)

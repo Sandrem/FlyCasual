@@ -17,15 +17,15 @@ namespace Ship
 
                 IsUnique = true;
 
-                PilotAbilities.Add(new PilotAbilitiesNamespace.KananJarrusPilotAbility());
+                PilotAbilities.Add(new AbilitiesNamespace.KananJarrusPilotAbility());
             }
         }
     }
 }
 
-namespace PilotAbilitiesNamespace
+namespace AbilitiesNamespace
 {
-    public class KananJarrusPilotAbility : GenericPilotAbility
+    public class KananJarrusPilotAbility : GenericAbility
     {
         public override void Initialize(GenericShip host)
         {
@@ -36,9 +36,9 @@ namespace PilotAbilitiesNamespace
 
         private void CheckPilotAbility()
         {
-            bool IsDifferentPlayer = (Host.Owner.PlayerNo != Combat.Attacker.Owner.PlayerNo);
-            bool HasFocusTokens = Host.HasToken(typeof(Tokens.FocusToken));
-            Board.ShipDistanceInformation distanceInfo = new Board.ShipDistanceInformation(Host, Combat.Attacker);
+            bool IsDifferentPlayer = (HostShip.Owner.PlayerNo != Combat.Attacker.Owner.PlayerNo);
+            bool HasFocusTokens = HostShip.HasToken(typeof(Tokens.FocusToken));
+            Board.ShipDistanceInformation distanceInfo = new Board.ShipDistanceInformation(HostShip, Combat.Attacker);
 
             if (IsDifferentPlayer && HasFocusTokens && distanceInfo.Range < 3)
             {
@@ -50,12 +50,12 @@ namespace PilotAbilitiesNamespace
         private void AskDecreaseAttack(object sender, System.EventArgs e)
         {
             Debug.Log("Ask decision");
-            AskToUseAbility(AlwaysUseByDefault, DecreaseAttack, null, true);
+            AskToUseAbility(AlwaysUseByDefault, DecreaseAttack, null, null, true);
         }
 
         private void DecreaseAttack(object sender, System.EventArgs e)
         {
-            Host.SpendToken(typeof(Tokens.FocusToken), RegisterDecreaseNumberOfAttackDice);
+            HostShip.SpendToken(typeof(Tokens.FocusToken), RegisterDecreaseNumberOfAttackDice);
             SubPhases.DecisionSubPhase.ConfirmDecision();
         }
 

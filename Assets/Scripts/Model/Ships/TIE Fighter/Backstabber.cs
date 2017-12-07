@@ -16,21 +16,21 @@ namespace Ship
 
                 IsUnique = true;
 
-                PilotAbilities.Add(new PilotAbilitiesNamespace.BackstabberAbility());
+                PilotAbilities.Add(new AbilitiesNamespace.BackstabberAbility());
             }
         }
     }
 }
 
-namespace PilotAbilitiesNamespace
+namespace AbilitiesNamespace
 {
-    public class BackstabberAbility : GenericPilotAbility
+    public class BackstabberAbility : GenericAbility
     {
         public override void Initialize(Ship.GenericShip host)
         {
             base.Initialize(host);
 
-            Host.AfterGotNumberOfAttackDice += BackstabberPilotAbility;
+            HostShip.AfterGotNumberOfAttackDice += BackstabberPilotAbility;
         }
 
         private void BackstabberPilotAbility(ref int diceNumber)

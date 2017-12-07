@@ -16,21 +16,21 @@ namespace Ship
 
                 IsUnique = true;
 
-                PilotAbilities.Add(new PilotAbilitiesNamespace.MoraloEvalAbility());
+                PilotAbilities.Add(new AbilitiesNamespace.MoraloEvalAbility());
             }
         }
     }
 }
 
-namespace PilotAbilitiesNamespace
+namespace AbilitiesNamespace
 {
-    public class MoraloEvalAbility : GenericPilotAbility
+    public class MoraloEvalAbility : GenericAbility
     {
         public override void Initialize(Ship.GenericShip host)
         {
             base.Initialize(host);
 
-            foreach (Arcs.ArcInfo arc in Host.ArcInfo.GetAllArcs())
+            foreach (Arcs.ArcInfo arc in HostShip.ArcInfo.GetAllArcs())
             {
                 arc.ShotPermissions.CanShootCannon = true;
             }

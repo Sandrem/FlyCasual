@@ -23,33 +23,33 @@ namespace Ship
 
                 SkinName = "Lowhhrick";
 
-                PilotAbilities.Add(new PilotAbilitiesNamespace.LowhhrickAbility());
+                PilotAbilities.Add(new AbilitiesNamespace.LowhhrickAbility());
             }
         }
     }
 }
 
-namespace PilotAbilitiesNamespace
+namespace AbilitiesNamespace
 {
-    public class LowhhrickAbility : GenericPilotAbility
+    public class LowhhrickAbility : GenericAbility
     {
         public override void Initialize(GenericShip host)
         {
             base.Initialize(host);
 
             GenericShip.AfterGenerateAvailableActionEffectsListGlobal += AddLowhhrickAbility;
-            Host.OnDestroyed += RemoveLowhhrickAbility;
+            HostShip.OnDestroyed += RemoveLowhhrickAbility;
         }
 
         private void AddLowhhrickAbility()
         {
-            Combat.Defender.AddAvailableActionEffect(new DiceModificationAction() { Host = this.Host });
+            Combat.Defender.AddAvailableActionEffect(new DiceModificationAction() { Host = this.HostShip });
         }
 
         private void RemoveLowhhrickAbility(GenericShip ship)
         {
             GenericShip.AfterGenerateAvailableActionEffectsListGlobal -= AddLowhhrickAbility;
-            Host.OnDestroyed -= RemoveLowhhrickAbility;
+            HostShip.OnDestroyed -= RemoveLowhhrickAbility;
         }
 
         private class DiceModificationAction : ActionsList.GenericAction

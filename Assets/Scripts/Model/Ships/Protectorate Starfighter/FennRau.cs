@@ -16,22 +16,22 @@ namespace Ship
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
-                PilotAbilities.Add(new PilotAbilitiesNamespace.FennRauAbility());
+                PilotAbilities.Add(new AbilitiesNamespace.FennRauAbility());
             }
         }
     }
 }
 
-namespace PilotAbilitiesNamespace
+namespace AbilitiesNamespace
 {
-    public class FennRauAbility : GenericPilotAbility
+    public class FennRauAbility : GenericAbility
     {
         public override void Initialize(Ship.GenericShip host)
         {
             base.Initialize(host);
 
-            Host.AfterGotNumberOfAttackDice += CheckFennRauAbility;
-            Host.AfterGotNumberOfDefenceDice += CheckFennRauAbility;
+            HostShip.AfterGotNumberOfAttackDice += CheckFennRauAbility;
+            HostShip.AfterGotNumberOfDefenceDice += CheckFennRauAbility;
         }
 
         private void CheckFennRauAbility(ref int value)

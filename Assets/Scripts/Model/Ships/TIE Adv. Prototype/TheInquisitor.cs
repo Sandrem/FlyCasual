@@ -17,15 +17,15 @@ namespace Ship
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
-                PilotAbilities.Add(new PilotAbilitiesNamespace.TheInquisitorAbility());
+                PilotAbilities.Add(new AbilitiesNamespace.TheInquisitorAbility());
             }
         }
     }
 }
 
-namespace PilotAbilitiesNamespace
+namespace AbilitiesNamespace
 {
-    public class TheInquisitorAbility : GenericPilotAbility
+    public class TheInquisitorAbility : GenericAbility
     {
         public override void Initialize(GenericShip host)
         {
@@ -36,7 +36,7 @@ namespace PilotAbilitiesNamespace
 
         private void SetRangeToOne(GenericShip thisShip, GenericShip anotherShip, ref int range)
         {
-            if (thisShip.ShipId == Host.ShipId) range = 1;
+            if (thisShip.ShipId == HostShip.ShipId) range = 1;
         }
     }
 }

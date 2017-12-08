@@ -140,11 +140,12 @@ namespace GameModes
             Combat.ConfirmDiceResultsClient();
         }
 
-        public override void GetCritCard(Action callBack)
+        public override void GetCritCard(bool isFaceUp, Action callBack)
         {
             int[] randomHolder = new int[1];
             randomHolder[0] = UnityEngine.Random.Range(0, CriticalHitsDeck.GetDeckSize());
             CriticalHitsDeck.SetCurrentCriticalCardByIndex(randomHolder);
+            Combat.CurrentCriticalHitCard.IsFaceUp = isFaceUp;
             callBack();
         }
 

@@ -434,11 +434,11 @@ namespace Ship
 
             if (isCritical)
             {
-                CriticalHitsDeck.GetCritCard(delegate { SufferChosenCriticalHitCard(e); });
+                CriticalHitsDeck.GetCritCard(isCritical, delegate { SufferChosenCriticalHitCard(e); });
             }
             else
             {
-                CriticalHitsDeck.GetCritCard(delegate { CallOnDamageCardIsDealt(DealRegularDamageCard); });
+                CriticalHitsDeck.GetCritCard(isCritical, delegate { CallOnDamageCardIsDealt(DealRegularDamageCard); });
             }
         }
 

@@ -14,8 +14,11 @@ namespace ActionsList
         public bool IsCritCancelAction;
 
         public bool IsSpendFocus;
-        public bool IsReroll;
         public bool IsSpendEvade;
+        public bool IsSpendTargetLock;
+
+        public bool IsReroll;
+
         public bool IsTurnsOneFocusIntoSuccess;
         public bool IsTurnsAllFocusIntoSuccess;
 

@@ -3,48 +3,54 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Upgrade;
+using Abilities;
 
 namespace UpgradesList
 {
 
     public class R5Astromech : GenericUpgrade
     {
-
         public R5Astromech() : base()
         {
             Type = UpgradeType.Astromech;
             Name = "R5 Astromech";
             Cost = 1;
+
+            UpgradeAbilities.Add(new R5AstromechAbility());
+        }
+    }
+
+}
+
+namespace Abilities
+{
+    public class R5AstromechAbility : GenericAbility
+    {
+        public override void ActivateAbility()
+        {
+            Phases.OnEndPhaseStart += RegisterR5AstromechAbility;
         }
 
-        public override void AttachToShip(Ship.GenericShip host)
+        public override void DeactivateAbility()
         {
-            Host = host;
-            base.AttachToShip(host);
-
-            Phases.OnEndPhaseStart += RegisterR5AstromechAbility;
+            Phases.OnEndPhaseStart -= RegisterR5AstromechAbility;
         }
 
         private void RegisterR5AstromechAbility()
         {
-            Triggers.RegisterTrigger(new Trigger()
-            {
-                Name = "R5 Astromech: Flip facedown Ship Crit",
-                TriggerOwner = Host.Owner.PlayerNo,
-                TriggerType = TriggerTypes.OnEndPhaseStart,
-                EventHandler = R5AstromechAbility
-            });
+            RegisterAbilityTrigger(TriggerTypes.OnEndPhaseStart, R5AstromechAbilityEffect);
         }
 
-        private void R5AstromechAbility(object sender, System.EventArgs e)
+        private void R5AstromechAbilityEffect(object sender, System.EventArgs e)
         {
-            Selection.ActiveShip = Host;
+            Selection.ActiveShip = HostShip;
 
-            List<CriticalHitCard.GenericCriticalHit> shipCritsList = Host.GetAssignedCritCards().Where(n => n.Type == CriticalCardType.Ship).ToList();
+            List<CriticalHitCard.GenericCriticalHit> shipCritsList = HostShip.GetAssignedCritCards().Where(n => n.Type == CriticalCardType.Ship).ToList();
 
             if (shipCritsList.Count == 1)
             {
                 Selection.ActiveShip.FlipFacedownFaceupDamageCard(shipCritsList.First());
+                Sounds.PlayShipSound("R2D2-Proud");
                 Triggers.FinishTrigger();
             }
             else if (shipCritsList.Count > 1)
@@ -52,7 +58,7 @@ namespace UpgradesList
                 Phases.StartTemporarySubPhaseOld(
                     "R5 Astromech: Select faceup ship Crit",
                     typeof(SubPhases.R5AstromechDecisionSubPhase),
-                    delegate () { Triggers.FinishTrigger(); }
+                    Triggers.FinishTrigger
                 );
             }
             else
@@ -60,9 +66,7 @@ namespace UpgradesList
                 Triggers.FinishTrigger();
             }
         }
-
     }
-
 }
 
 namespace SubPhases

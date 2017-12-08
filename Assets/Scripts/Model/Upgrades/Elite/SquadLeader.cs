@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Upgrade;
+using SubPhases;
+using Ship;
 
 namespace UpgradesList
 {
@@ -26,7 +28,7 @@ namespace UpgradesList
 
         private void SquadLeaderAddAction(Ship.GenericShip host)
         {
-            ActionsList.GenericAction newAction = new ActionsList.SquadLeaderAction() { ImageUrl = ImageUrl };
+            ActionsList.GenericAction newAction = new ActionsList.SquadLeaderAction() { ImageUrl = ImageUrl, Host = this.Host };
             host.AddAvailableAction(newAction);
         }
 
@@ -47,11 +49,13 @@ namespace ActionsList
 
         public override void ActionTake()
         {
-            Phases.StartTemporarySubPhaseOld(
+            SelectSquadLeaderTargetSubPhase newPhase = (SelectSquadLeaderTargetSubPhase) Phases.StartTemporarySubPhaseNew(
                 "Select target for Squad Leader",
-                typeof(SubPhases.SelectSquadLeaderTargetSubPhase),
+                typeof(SelectSquadLeaderTargetSubPhase),
                 delegate {}
             );
+            newPhase.SquadLeaderOwner = this.Host;
+            newPhase.Start();
         }
 
     }
@@ -63,6 +67,7 @@ namespace SubPhases
 
     public class SelectSquadLeaderTargetSubPhase : SelectShipSubPhase
     {
+        public GenericShip SquadLeaderOwner;
 
         public override void Prepare()
         {
@@ -75,26 +80,33 @@ namespace SubPhases
 
         private void SelectSquadLeaderTarget()
         {
-            Selection.ThisShip = TargetShip;
+            if (TargetShip.PilotSkill < SquadLeaderOwner.PilotSkill)
+            {
+                Selection.ThisShip = TargetShip;
 
-            Triggers.RegisterTrigger(
-                new Trigger()
-                {
-                    Name = "Squad Leader: Free action",
-                    TriggerOwner = Selection.ThisShip.Owner.PlayerNo,
-                    TriggerType = TriggerTypes.OnFreeActionPlanned,
-                    EventHandler = PerformFreeAction
-                }
-            );
+                Triggers.RegisterTrigger(
+                    new Trigger()
+                    {
+                        Name = "Squad Leader: Free action",
+                        TriggerOwner = Selection.ThisShip.Owner.PlayerNo,
+                        TriggerType = TriggerTypes.OnFreeActionPlanned,
+                        EventHandler = PerformFreeAction
+                    }
+                );
 
-            MovementTemplates.ReturnRangeRuler();
+                MovementTemplates.ReturnRangeRuler();
 
-            Triggers.ResolveTriggers(TriggerTypes.OnFreeActionPlanned, delegate {
-                Phases.FinishSubPhase(typeof(SelectSquadLeaderTargetSubPhase));
-                Phases.FinishSubPhase(typeof(ActionDecisonSubPhase));
-                Triggers.FinishTrigger();
-                CallBack();
-            });
+                Triggers.ResolveTriggers(TriggerTypes.OnFreeActionPlanned, delegate {
+                    Phases.FinishSubPhase(typeof(SelectSquadLeaderTargetSubPhase));
+                    Phases.FinishSubPhase(typeof(ActionDecisonSubPhase));
+                    Triggers.FinishTrigger();
+                    CallBack();
+                });
+            }
+            else
+            {
+                Messages.ShowInfo("Target must have lower pilot skill than owner of Squad Leader");
+            }
         }
 
         public override void RevertSubPhase() { }

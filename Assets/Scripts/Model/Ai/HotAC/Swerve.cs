@@ -8,6 +8,7 @@ namespace AI
     public class Swerve
     {
         protected MovementPrediction movementPrediction;
+        protected GenericMovement originalMovement;
         protected List<MovementStruct> alternativeManeuvers = new List<MovementStruct>();
         protected List<MovementStruct> failedManeuvers = new List<MovementStruct>();
 
@@ -17,6 +18,7 @@ namespace AI
         {
             IsForced = isForced;
 
+            originalMovement = Selection.ThisShip.AssignedManeuver;
             alternativeManeuvers = GetAlternativeManeuvers(Selection.ThisShip.AssignedManeuver);
             TryAlternativeMovement();
         }
@@ -38,6 +40,7 @@ namespace AI
 
                     if (DebugManager.DebugAI) Debug.Log("Tries: " + newMovementAttempt);
 
+                    Selection.ThisShip.SetAssignedManeuver(newMovementAttempt);
                     newMovementAttempt.Initialize();
                     movementPrediction = new MovementPrediction(newMovementAttempt, CheckSwerveAlternativePrediction);
                 }
@@ -45,6 +48,7 @@ namespace AI
             else
             {
                 Console.Write("Ship doesn't see alternatives to the asteroid collision", LogTypes.AI, false, "yellow");
+                Selection.ThisShip.SetAssignedManeuver(originalMovement);
                 Selection.ThisShip.AssignedManeuver.LaunchShipMovement();
             }
         }

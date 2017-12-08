@@ -14,22 +14,24 @@ namespace Ship
                 PilotSkill = 9;
                 Cost = 28;
 
-                PilotAbilities.Add(new PilotAbilitiesNamespace.FennRauAbility());
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
+
+                PilotAbilities.Add(new Abilities.FennRauAbility());
             }
         }
     }
 }
 
-namespace PilotAbilitiesNamespace
+namespace Abilities
 {
-    public class FennRauAbility : GenericPilotAbility
+    public class FennRauAbility : GenericAbility
     {
         public override void Initialize(Ship.GenericShip host)
         {
             base.Initialize(host);
 
-            Host.AfterGotNumberOfAttackDice += CheckFennRauAbility;
-            Host.AfterGotNumberOfDefenceDice += CheckFennRauAbility;
+            HostShip.AfterGotNumberOfAttackDice += CheckFennRauAbility;
+            HostShip.AfterGotNumberOfDefenceDice += CheckFennRauAbility;
         }
 
         private void CheckFennRauAbility(ref int value)

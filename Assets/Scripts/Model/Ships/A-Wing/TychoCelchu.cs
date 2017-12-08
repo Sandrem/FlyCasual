@@ -14,21 +14,21 @@
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
-                PilotAbilities.Add(new PilotAbilitiesNamespace.TychoCelchuAbility());
+                PilotAbilities.Add(new Abilities.TychoCelchuAbility());
             }
         }
     }
 }
 
-namespace PilotAbilitiesNamespace
+namespace Abilities
 {
-    public class TychoCelchuAbility : GenericPilotAbility
+    public class TychoCelchuAbility : GenericAbility
     {
         public override void Initialize(Ship.GenericShip host)
         {
             base.Initialize(host);
 
-            Host.CanPerformActionsWhileStressed = true;
+            HostShip.CanPerformActionsWhileStressed = true;
         }
     }
 }

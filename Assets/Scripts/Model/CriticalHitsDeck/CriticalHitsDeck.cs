@@ -42,9 +42,9 @@ public static class CriticalHitsDeck{
         }
     }
 
-    public static void GetCritCard(Action callBack)
+    public static void GetCritCard(bool isFaceUp, Action callBack)
     {
-        GameMode.CurrentGameMode.GetCritCard(callBack);
+        GameMode.CurrentGameMode.GetCritCard(isFaceUp, callBack);
     }
 
     public static void SetCurrentCriticalCardByIndex(int[] randomHolder)

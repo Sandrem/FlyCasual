@@ -16,15 +16,15 @@ namespace Ship
                 Cost = 26;
                 IsUnique = true;
 
-                PilotAbilities.Add(new PilotAbilitiesNamespace.ColonelJendonAbility());
+                PilotAbilities.Add(new Abilities.ColonelJendonAbility());
             }
         }
     }
 }
 
-namespace PilotAbilitiesNamespace
+namespace Abilities
 {
-    public class ColonelJendonAbility : GenericPilotAbility
+    public class ColonelJendonAbility : GenericAbility
     {
         public override void Initialize(GenericShip host)
         {
@@ -40,7 +40,7 @@ namespace PilotAbilitiesNamespace
         
         private void StartSubphaseForColonelJendonAbility(object sender, System.EventArgs e)
         {
-            if (Host.Owner.Ships.Count > 1 && Host.HasToken(typeof(Tokens.BlueTargetLockToken), '*'))
+            if (HostShip.Owner.Ships.Count > 1 && HostShip.HasToken(typeof(Tokens.BlueTargetLockToken), '*'))
             {
                 var pilotAbilityDecision = (ColonelJendonDecisionSubPhase)Phases.StartTemporarySubPhaseNew(
                     Name,
@@ -50,7 +50,7 @@ namespace PilotAbilitiesNamespace
 
                 pilotAbilityDecision.InfoText = "Use Colonel Jendon's ability?";
 
-                var blueTargetLocks = Host.GetAssignedTokens()
+                var blueTargetLocks = HostShip.GetAssignedTokens()
                    .Where(t => t is Tokens.BlueTargetLockToken)
                    .Select(x => (Tokens.BlueTargetLockToken)x)
                    .OrderBy(y => y.Letter)
@@ -97,9 +97,9 @@ namespace PilotAbilitiesNamespace
 
             MovementTemplates.ReturnRangeRuler();
 
-            var token = Host.GetToken(typeof(Tokens.BlueTargetLockToken), '*') as Tokens.BlueTargetLockToken;
+            var token = HostShip.GetToken(typeof(Tokens.BlueTargetLockToken), '*') as Tokens.BlueTargetLockToken;
 
-            Host.ReassignTargetLockToken(
+            HostShip.ReassignTargetLockToken(
                 typeof(Tokens.BlueTargetLockToken),
                 token.Letter,
                 TargetShip,

@@ -17,15 +17,15 @@ namespace Ship
 
                 IsUnique = true;
 
-                PilotAbilities.Add(new PilotAbilitiesNamespace.BiggsDarklighterAbility());
+                PilotAbilities.Add(new Abilities.BiggsDarklighterAbility());
             }
         }
     }
 }
 
-namespace PilotAbilitiesNamespace
+namespace Abilities
 {
-    public class BiggsDarklighterAbility : GenericPilotAbility
+    public class BiggsDarklighterAbility : GenericAbility
     {
         public override void Initialize(GenericShip host)
         {
@@ -36,7 +36,7 @@ namespace PilotAbilitiesNamespace
 
         private void RegisterAskBiggsAbility()
         {
-            if (!isAbilityUsed)
+            if (!IsAbilityUsed)
             {
                 RegisterAbilityTrigger(TriggerTypes.OnCombatPhaseStart, AskUseAbility);
             }
@@ -49,30 +49,30 @@ namespace PilotAbilitiesNamespace
 
         private void ActivateBiggsAbility(object sender, System.EventArgs e)
         {
-            isAbilityUsed = true;
-            Host.AssignToken(new Conditions.BiggsDarklighterCondition(), delegate { });
+            IsAbilityUsed = true;
+            HostShip.AssignToken(new Conditions.BiggsDarklighterCondition(), delegate { });
 
-            RulesList.TargetIsLegalForShotRule.OnCheckTargetIsLegal += CanPerformAttack;
+            GenericShip.OnTryPerformAttackGlobal += CanPerformAttack;
 
-            Host.OnDestroyed += RemoveBiggsDarklighterAbility;
+            HostShip.OnDestroyed += RemoveBiggsDarklighterAbility;
             Phases.OnCombatPhaseEnd += RemoveBiggsDarklighterAbility;
 
             SubPhases.DecisionSubPhase.ConfirmDecision();
         }
 
-        public void CanPerformAttack(ref bool result, GenericShip attacker, GenericShip defender)
+        public void CanPerformAttack(ref bool result, List<string> stringList)
         {
             bool shipIsProtected = false;
-            if (defender.ShipId != Host.ShipId)
+            if (Selection.AnotherShip.ShipId != HostShip.ShipId)
             {
-                if (defender.Owner.PlayerNo == Host.Owner.PlayerNo)
+                if (Selection.AnotherShip.Owner.PlayerNo == HostShip.Owner.PlayerNo)
                 {
-                    Board.ShipDistanceInformation positionInfo = new Board.ShipDistanceInformation(defender, Host);
+                    Board.ShipDistanceInformation positionInfo = new Board.ShipDistanceInformation(Selection.AnotherShip, HostShip);
                     if (positionInfo.Range <= 1)
                     {
-                        if (!attacker.ShipsBumped.Contains(Host))
+                        if (!Selection.ThisShip.ShipsBumped.Contains(HostShip))
                         {
-                            if (Combat.ChosenWeapon.IsShotAvailable(Host)) shipIsProtected = true;
+                            if (Combat.ChosenWeapon.IsShotAvailable(HostShip)) shipIsProtected = true;
                         }
                     }
                 }
@@ -82,7 +82,7 @@ namespace PilotAbilitiesNamespace
             {
                 if (Roster.GetPlayer(Phases.CurrentPhasePlayer).GetType() == typeof(Players.HumanPlayer))
                 {
-                    Messages.ShowErrorToHuman("Biggs DarkLighter: You cannot attack target ship");
+                    stringList.Add("Biggs DarkLighter: You cannot attack target ship");
                 }
                 result = false;
             }
@@ -100,11 +100,11 @@ namespace PilotAbilitiesNamespace
 
         private void RemoveBiggsDarklighterAbility()
         {
-            Host.RemoveToken(typeof(Conditions.BiggsDarklighterCondition));
+            HostShip.RemoveToken(typeof(Conditions.BiggsDarklighterCondition));
 
-            RulesList.TargetIsLegalForShotRule.OnCheckTargetIsLegal -= CanPerformAttack;
+            GenericShip.OnTryPerformAttackGlobal -= CanPerformAttack;
 
-            Host.OnDestroyed -= RemoveBiggsDarklighterAbility;
+            HostShip.OnDestroyed -= RemoveBiggsDarklighterAbility;
             Phases.OnCombatPhaseEnd -= RemoveBiggsDarklighterAbility;
 
             Phases.OnCombatPhaseStart -= RegisterAskBiggsAbility;

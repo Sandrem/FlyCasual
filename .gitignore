@@ -73,8 +73,3 @@ ExportedObj/
 *.svd
 *.pdb
 
-# Linux development
-ProjectSettings.asset
-Packages/
-run.x86_64
-run_Data/

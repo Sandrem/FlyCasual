@@ -21,21 +21,21 @@ namespace Ship
 
                 SkinName = "Red Stripes";
 
-                PilotAbilities.Add(new PilotAbilitiesNamespace.TurrPhennirAbility());
+                PilotAbilities.Add(new Abilities.TurrPhennirAbility());
             }
         }
     }
 }
 
-namespace PilotAbilitiesNamespace
+namespace Abilities
 {
-    public class TurrPhennirAbility : GenericPilotAbility
+    public class TurrPhennirAbility : GenericAbility
     {
         public override void Initialize(Ship.GenericShip host)
         {
             base.Initialize(host);
 
-            Host.OnAttackFinish += RegisterTurrPhennirPilotAbility;
+            HostShip.OnAttackFinish += RegisterTurrPhennirPilotAbility;
         }
 
         private void RegisterTurrPhennirPilotAbility(GenericShip ship)
@@ -45,7 +45,7 @@ namespace PilotAbilitiesNamespace
 
         private void TurrPhennirPilotAbility(object sender, System.EventArgs e)
         {
-            Host.AskPerformFreeAction(
+            HostShip.AskPerformFreeAction(
                 new List<ActionsList.GenericAction>()
                 {
                     new ActionsList.BoostAction(),

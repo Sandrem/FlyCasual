@@ -119,6 +119,7 @@ namespace SubPhases
                     TargetShip,
                     delegate
                     {
+                        UI.HideSkipButton();
                         Phases.FinishSubPhase(typeof(SelectTargetLockSubPhase));
                         CallBack();
                     },

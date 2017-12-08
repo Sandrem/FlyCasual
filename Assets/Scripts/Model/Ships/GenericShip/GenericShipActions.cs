@@ -47,6 +47,10 @@ namespace Ship
         public static event EventHandlerShipType OnTokenIsSpentGlobal;
         public event EventHandlerShipType AfterTokenIsRemoved;
 
+        public event EventHandlerShip OnCoordinateTargetIsSelected;
+
+        public event EventHandlerShip OnRerollIsConfirmed;
+
         // ACTIONS
 
         public void CallActivateShip(Action callBack)
@@ -548,6 +552,24 @@ namespace Ship
                     RemoveToken(token.GetType(), '*', true);
                 }
             }
+        }
+
+        // Coordinate
+
+        public void CallCoordinateTargetIsSelected(GenericShip targetShip, Action callback)
+        {
+            if (OnCoordinateTargetIsSelected != null) OnCoordinateTargetIsSelected(targetShip);
+
+            Triggers.ResolveTriggers(TriggerTypes.OnCoordinateTargetIsSelected, callback);
+        }
+
+        // Reroll is confirmed
+
+        public void CallRerollIsConfirmed(Action callback)
+        {
+            if (OnRerollIsConfirmed != null) OnRerollIsConfirmed(this);
+
+            Triggers.ResolveTriggers(TriggerTypes.OnRerollIsConfirmed, callback);
         }
 
     }

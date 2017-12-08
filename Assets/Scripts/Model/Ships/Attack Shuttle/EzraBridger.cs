@@ -19,21 +19,21 @@ namespace Ship
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
-                PilotAbilities.Add(new PilotAbilitiesNamespace.EzraBridgerPilotAbility());
+                PilotAbilities.Add(new Abilities.EzraBridgerPilotAbility());
             }
         }
     }
 }
 
-namespace PilotAbilitiesNamespace
+namespace Abilities
 {
-    public class EzraBridgerPilotAbility : GenericPilotAbility
+    public class EzraBridgerPilotAbility : GenericAbility
     {
         public override void Initialize(GenericShip host)
         {
             base.Initialize(host);
 
-            Host.AfterGenerateAvailableActionEffectsList += AddEzraBridgerPilotAbility;
+            HostShip.AfterGenerateAvailableActionEffectsList += AddEzraBridgerPilotAbility;
         }
 
         private void AddEzraBridgerPilotAbility(GenericShip ship)

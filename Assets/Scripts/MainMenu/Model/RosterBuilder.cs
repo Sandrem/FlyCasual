@@ -14,19 +14,21 @@ using GameModes;
 
 public static partial class RosterBuilder {
 
-    private class SquadBuilderUpgrade
+    public class SquadBuilderUpgrade
     {
+        public SquadBuilderShip Host;
         public UpgradeSlot Slot;
         public GameObject Panel;
 
-        public SquadBuilderUpgrade(UpgradeSlot slot, GameObject panel)
+        public SquadBuilderUpgrade(SquadBuilderShip host, UpgradeSlot slot, GameObject panel)
         {
+            Host = host;
             Slot = slot;
             Panel = panel;
         }
     }
 
-    private class SquadBuilderShip
+    public class SquadBuilderShip
     {
         public GenericShip Ship { get; private set; }
         public GameObject Panel;
@@ -106,7 +108,7 @@ public static partial class RosterBuilder {
         }
     }
 
-    private static class SquadBuilderRoster
+    public static class SquadBuilderRoster
     {
         private static List<SquadBuilderShip> roster = new List<SquadBuilderShip>();
         public static Dictionary<PlayerNo, Faction> playerFactions = new Dictionary<PlayerNo, Faction>();
@@ -482,7 +484,7 @@ public static partial class RosterBuilder {
     {
         GameObject panel = CreateUpgradePanel(squadBuilderShip, upgradeSlot);
 
-        SquadBuilderUpgrade upgrade = new SquadBuilderUpgrade(upgradeSlot, panel);
+        SquadBuilderUpgrade upgrade = new SquadBuilderUpgrade(squadBuilderShip, upgradeSlot, panel);
         squadBuilderShip.AddUpgrade(upgrade);
     }
 
@@ -611,7 +613,26 @@ public static partial class RosterBuilder {
         if (!ValidateSquadCost(playerNo)) return false;
         if (!ValidateLimitedCards(playerNo)) return false;
         if (!ValidateShipAiReady(playerNo)) return false;
+        if (!ValidateUpgradePostChecks(playerNo)) return false;
         return true;
+    }
+
+    private static bool ValidateUpgradePostChecks(PlayerNo playerNo)
+    {
+        bool result = true;
+
+        foreach (var shipHolder in SquadBuilderRoster.GetShips())
+        {
+            foreach (var upgradeHolder in shipHolder.GetUpgrades())
+            {
+                if (!upgradeHolder.Slot.IsEmpty)
+                {
+                    if (!upgradeHolder.Slot.InstalledUpgrade.IsAllowedForSquadBuilderPostCheck(upgradeHolder)) return false;
+                }
+            }
+        }
+
+        return result;
     }
 
     private static bool ValidateDifferentUpgradesInAdditionalSlots()

@@ -43,9 +43,10 @@ namespace Board
         public delegate void EventHandlerShipShipInt(GenericShip thisShip, GenericShip anotherShip, ref int range);
         public static event EventHandlerShipShipInt OnRangeIsMeasured;
 
-        public ShipShotDistanceInformation(GenericShip thisShip, GenericShip anotherShip, IShipWeapon chosenWeapon) : base(thisShip, anotherShip)
+        public ShipShotDistanceInformation(GenericShip thisShip, GenericShip anotherShip, IShipWeapon chosenWeapon = null) : base(thisShip, anotherShip)
         {
-            ChosenWeapon = chosenWeapon;
+            ChosenWeapon = chosenWeapon ?? thisShip.PrimaryWeapon;
+            
             CalculateFields();
         }
 

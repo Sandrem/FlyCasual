@@ -139,21 +139,24 @@ namespace Movement
 
             Selection.ThisShip.ToggleColliders(true);
 
-            DestroyGeneratedShipStands();
-
-            CallBack();
+            if (!DebugManager.DebugMovement)
+            {
+                DestroyGeneratedShipStands();
+                CallBack();
+            }
+            else
+            {
+                GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
+                Game.Wait(2, delegate { DestroyGeneratedShipStands(); CallBack(); });
+            }
         }
 
         private void DestroyGeneratedShipStands()
         {
-            if (!DebugManager.DebugMovement)
+            foreach (var shipStand in generatedShipStands)
             {
-                foreach (var shipStand in generatedShipStands)
-                {
-                    GameObject.Destroy(shipStand);
-                }
+                GameObject.Destroy(shipStand);
             }
-
         }
     }
 

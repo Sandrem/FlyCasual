@@ -16,21 +16,21 @@ namespace Ship
 				Cost = 19;
 
                 IsUnique = true;
-                PilotAbilities.Add(new PilotAbilitiesNamespace.EpsilonLeader());
+                PilotAbilities.Add(new Abilities.EpsilonLeader());
             }
 		}
 	}
 }
 
-namespace PilotAbilitiesNamespace
+namespace Abilities
 {
-    public class EpsilonLeader : GenericPilotAbility
+    public class EpsilonLeader : GenericAbility
     {
         public override void Initialize(GenericShip host)
         {
             base.Initialize(host);
 
-            Host.OnCombatPhaseStart += RegisterEpsilonLeaderAbility;
+            HostShip.OnCombatPhaseStart += RegisterEpsilonLeaderAbility;
         }
 
         private void RegisterEpsilonLeaderAbility(GenericShip genericShip)

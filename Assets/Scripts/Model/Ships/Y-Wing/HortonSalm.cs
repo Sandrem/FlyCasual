@@ -23,21 +23,21 @@ namespace Ship
 
                 SkinName = "Gray";
 
-                PilotAbilities.Add(new PilotAbilitiesNamespace.HortonSalmAbility());
+                PilotAbilities.Add(new Abilities.HortonSalmAbility());
             }
         }
     }
 }
 
-namespace PilotAbilitiesNamespace
+namespace Abilities
 {
-    public class HortonSalmAbility : GenericPilotAbility
+    public class HortonSalmAbility : GenericAbility
     {
         public override void Initialize(GenericShip host)
         {
             base.Initialize(host);
 
-            Host.AfterGenerateAvailableActionEffectsList += HortonSalmPilotAbility;
+            HostShip.AfterGenerateAvailableActionEffectsList += HortonSalmPilotAbility;
         }
 
         public void HortonSalmPilotAbility(GenericShip ship)

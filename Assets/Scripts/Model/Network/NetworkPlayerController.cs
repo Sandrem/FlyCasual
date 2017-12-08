@@ -628,7 +628,7 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     [ClientRpc]
     private void RpcCalculateDiceReroll()
     {
-        DiceRerollManager.currentDiceRerollManager.UnblockButtons();
+        DiceRerollManager.CurrentDiceRerollManager.UnblockButtons();
     }
 
     // DICE MODIFICATIONS

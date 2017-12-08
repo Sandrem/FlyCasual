@@ -23,7 +23,7 @@ public static class MovementTemplates {
         rulerCenterPoints.Add(point);
     }
 
-    public static void ResetRuler(Ship.GenericShip ship)
+    public static void ResetRuler()
     {
         rulerCenterPoints = new List<Vector3>();
         HideLastMovementRuler();
@@ -77,8 +77,10 @@ public static class MovementTemplates {
         savedRulerRotation = CurrentTemplate.eulerAngles;
     }
 
-    private static Transform GetMovementRuler(Movement.GenericMovement movement)
+    public static Transform GetMovementRuler(Movement.GenericMovement movement)
     {
+        ResetRuler();
+
         Transform result = null;
         if (movement != null)
         {

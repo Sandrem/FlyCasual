@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public partial class DiceRerollManager
 {
-    public static DiceRerollManager currentDiceRerollManager;
+    public static DiceRerollManager CurrentDiceRerollManager;
 
     public List<DieSide> SidesCanBeRerolled;
     public int NumberOfDiceCanBeRerolled;
@@ -16,7 +16,7 @@ public partial class DiceRerollManager
 
     public DiceRerollManager()
     {
-        currentDiceRerollManager = this;
+        CurrentDiceRerollManager = this;
     }
 
     public void Start()
@@ -225,8 +225,25 @@ public partial class DiceRerollManager
 
     public void ConfirmReroll()
     {
+        Selection.ThisShip.CallRerollIsConfirmed(RerollSelected);
+    }
+
+    private void RerollSelected()
+    {
         if (Selection.ActiveShip.Owner.GetType() == typeof(Players.HumanPlayer)) BlockButtons();
         Combat.CurrentDiceRoll.RerollSelected(TryUnblockButtons);
+    }
+
+    public List<Die> GetDiceReadyForReroll()
+    {
+        List<Die> diceReadyForReroll = new List<Die>();
+
+        foreach (var die in Combat.CurrentDiceRoll.DiceList)
+        {
+            if (die.IsSelected) diceReadyForReroll.Add(die);
+        }
+
+        return diceReadyForReroll;
     }
 
     private void BlockButtons()
@@ -248,7 +265,7 @@ public partial class DiceRerollManager
 
     public void UnblockButtons()
     {
-        DiceRerollManager.currentDiceRerollManager = null;
+        DiceRerollManager.CurrentDiceRerollManager = null;
 
         Combat.CurrentDiceRoll.ToggleRerolledLocks(false);
         if (Selection.ActiveShip.Owner.GetType() == typeof(Players.HumanPlayer)) ToggleDiceModificationsPanel(true);

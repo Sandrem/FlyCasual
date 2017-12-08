@@ -40,10 +40,13 @@ namespace Abilities
         {
             if (Selection.ThisShip.ShipId == HostShip.ShipId)
             {
-                Messages.ShowError("Wedge Antilles: Agility is decreased");
-                Combat.Defender.AssignToken(new Conditions.WedgeAntillesCondition(), delegate { });
-                Combat.Defender.ChangeAgilityBy(-1);
-                Combat.Defender.OnAttackFinish += RemoveWedgeAntillesAbility;
+                if (Combat.Defender.Agility != 0)
+                {
+                    Messages.ShowError("Wedge Antilles: Agility is decreased");
+                    Combat.Defender.AssignToken(new Conditions.WedgeAntillesCondition(), delegate { });
+                    Combat.Defender.ChangeAgilityBy(-1);
+                    Combat.Defender.OnAttackFinish += RemoveWedgeAntillesAbility;
+                }
             }
         }
 

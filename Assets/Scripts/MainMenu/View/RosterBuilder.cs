@@ -180,8 +180,27 @@ public static partial class RosterBuilder {
     private static string GetNameOfUpgrade(SquadBuilderUpgrade upgrade)
     {
         string result = "";
-        string upgradeName = upgrade.Panel.transform.GetComponent<Dropdown>().captionText.text;
-        if (AllUpgrades.Find(n => n.UpgradeNameWithCost == upgradeName) != null) result = AllUpgrades.Find(n => n.UpgradeNameWithCost == upgradeName).UpgradeTypeName;
+        string upgradeNameWithAnyCost = upgrade.Panel.transform.GetComponent<Dropdown>().captionText.text;
+
+        int indexOfCostStart = upgradeNameWithAnyCost.IndexOf('(');
+
+        if (indexOfCostStart != -1)
+        {
+            string upgradeNameWithoutCost = upgradeNameWithAnyCost.Substring(0, indexOfCostStart);
+
+            foreach (var upgradeHolder in AllUpgrades)
+            {
+                if (upgradeHolder.UpgradeNameWithCost.StartsWith(upgradeNameWithoutCost))
+                {
+                    result = upgradeHolder.UpgradeTypeName;
+                    break;
+                }
+            }
+        }
+
+        //OLD
+        //if (AllUpgrades.Find(n => n.UpgradeNameWithCost == upgradeNameWithAnyCost) != null) result = AllUpgrades.Find(n => n.UpgradeNameWithCost == upgradeNameWithAnyCost).UpgradeTypeName;
+
         return result;
     }
 

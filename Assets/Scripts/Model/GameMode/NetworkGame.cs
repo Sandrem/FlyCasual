@@ -160,10 +160,18 @@ namespace GameModes
             Network.ConfirmDiceResults();
         }
 
-        public override void GetCritCard(Action callBack)
+        public override void GetCritCard(bool isFaceUp, Action callBack)
         {
             if (DebugManager.DebugNetwork) UI.AddTestLogEntry("NetworkGame.GetCritCard");
-            Network.GenerateRandom(new Vector2(0, CriticalHitsDeck.GetDeckSize() - 1), 1, CriticalHitsDeck.SetCurrentCriticalCardByIndex, callBack);
+            Network.GenerateRandom(
+                new Vector2(0, CriticalHitsDeck.GetDeckSize() - 1),
+                1, 
+                CriticalHitsDeck.SetCurrentCriticalCardByIndex,
+                delegate ()
+                {
+                    Combat.CurrentCriticalHitCard.IsFaceUp = isFaceUp;
+                    callBack();
+                });
         }
 
 

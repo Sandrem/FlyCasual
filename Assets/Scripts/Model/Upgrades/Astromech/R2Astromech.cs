@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Upgrade;
-using AbilitiesNamespace;
+using Abilities;
 
 namespace UpgradesList
 {
@@ -16,14 +16,14 @@ namespace UpgradesList
             Name = "R2 Astromech";
             Cost = 1;
 
-            UpgadeAbilities.Add(new R2AstromechAbility());
+            UpgradeAbilities.Add(new R2AstromechAbility());
         }
 
     }
 
 }
 
-namespace AbilitiesNamespace
+namespace Abilities
 {
     public class R2AstromechAbility : GenericAbility
     {

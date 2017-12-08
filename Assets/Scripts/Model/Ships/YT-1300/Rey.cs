@@ -27,13 +27,13 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Missile);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
-                PilotAbilities.Add(new AbilitiesNamespace.ReyAbility());
+                PilotAbilities.Add(new Abilities.ReyAbility());
             }
         }
     }
 }
 
-namespace AbilitiesNamespace
+namespace Abilities
 {
     public class ReyAbility : GenericAbility
     {

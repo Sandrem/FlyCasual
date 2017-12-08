@@ -17,13 +17,13 @@ namespace Ship
 
                 IsUnique = true;
 
-                PilotAbilities.Add(new AbilitiesNamespace.ChopperPilotAbility());
+                PilotAbilities.Add(new Abilities.ChopperPilotAbility());
             }
         }
     }
 }
 
-namespace AbilitiesNamespace
+namespace Abilities
 {
     public class ChopperPilotAbility : GenericAbility
     {

@@ -17,13 +17,13 @@ namespace Ship
 
                 IsUnique = true;
 
-                PilotAbilities.Add(new AbilitiesNamespace.WingedGundarkAbility());
+                PilotAbilities.Add(new Abilities.WingedGundarkAbility());
             }
         }
     }
 }
 
-namespace AbilitiesNamespace
+namespace Abilities
 {
     public class WingedGundarkAbility : GenericAbility
     {

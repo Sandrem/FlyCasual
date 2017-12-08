@@ -18,13 +18,13 @@ namespace Ship
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
-                PilotAbilities.Add(new AbilitiesNamespace.ColonelVesseryAbility());
+                PilotAbilities.Add(new Abilities.ColonelVesseryAbility());
             }
         }
     }
 }
 
-namespace AbilitiesNamespace
+namespace Abilities
 {
     public class ColonelVesseryAbility : GenericAbility
     {

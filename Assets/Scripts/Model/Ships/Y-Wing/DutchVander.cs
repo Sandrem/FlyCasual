@@ -22,13 +22,13 @@ namespace Ship
 
                 faction = Faction.Rebel;
 
-                PilotAbilities.Add(new AbilitiesNamespace.DutchVanderAbility());
+                PilotAbilities.Add(new Abilities.DutchVanderAbility());
             }
         }
     }
 }
 
-namespace AbilitiesNamespace
+namespace Abilities
 {
     public class DutchVanderAbility : GenericAbility
     {

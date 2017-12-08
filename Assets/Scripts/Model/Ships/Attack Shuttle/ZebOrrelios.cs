@@ -17,13 +17,13 @@ namespace Ship
 
                 IsUnique = true;
 
-                PilotAbilities.Add(new AbilitiesNamespace.ZebOrreliosPilotAbility());
+                PilotAbilities.Add(new Abilities.ZebOrreliosPilotAbility());
             }
         }
     }
 }
 
-namespace AbilitiesNamespace
+namespace Abilities
 {
     public class ZebOrreliosPilotAbility : GenericAbility
     {

@@ -23,13 +23,13 @@ namespace Ship
 
                 SkinName = "Lowhhrick";
 
-                PilotAbilities.Add(new AbilitiesNamespace.LowhhrickAbility());
+                PilotAbilities.Add(new Abilities.LowhhrickAbility());
             }
         }
     }
 }
 
-namespace AbilitiesNamespace
+namespace Abilities
 {
     public class LowhhrickAbility : GenericAbility
     {

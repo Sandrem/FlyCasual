@@ -18,13 +18,13 @@ namespace Ship
 
                 IsUnique = true;
 
-                PilotAbilities.Add(new AbilitiesNamespace.AP5PilotAbility());
+                PilotAbilities.Add(new Abilities.AP5PilotAbility());
             }
         }
     }
 }
 
-namespace AbilitiesNamespace
+namespace Abilities
 {
     public class AP5PilotAbility : GenericAbility
     {

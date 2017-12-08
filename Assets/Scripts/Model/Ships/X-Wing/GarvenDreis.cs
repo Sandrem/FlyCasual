@@ -18,13 +18,13 @@ namespace Ship
 
                 IsUnique = true;
 
-                PilotAbilities.Add(new AbilitiesNamespace.GarvenDreisAbility());
+                PilotAbilities.Add(new Abilities.GarvenDreisAbility());
             }
         }
     }
 }
 
-namespace AbilitiesNamespace
+namespace Abilities
 {
     public class GarvenDreisAbility : GenericAbility
     {

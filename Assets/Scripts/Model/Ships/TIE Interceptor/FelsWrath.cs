@@ -17,13 +17,13 @@ namespace Ship
 
                 IsUnique = true;
 
-                PilotAbilities.Add(new AbilitiesNamespace.FelsWrathAbility());
+                PilotAbilities.Add(new Abilities.FelsWrathAbility());
             }
 		}
 	}
 }
 
-namespace AbilitiesNamespace
+namespace Abilities
 {
     public class FelsWrathAbility : GenericAbility
     {

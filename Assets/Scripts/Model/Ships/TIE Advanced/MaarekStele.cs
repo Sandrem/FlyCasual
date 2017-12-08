@@ -23,13 +23,13 @@ namespace Ship
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
-                PilotAbilities.Add(new AbilitiesNamespace.MaarekSteleAbility());
+                PilotAbilities.Add(new Abilities.MaarekSteleAbility());
             }
         }
     }
 }
 
-namespace AbilitiesNamespace
+namespace Abilities
 {
     public class MaarekSteleAbility : GenericAbility
     {

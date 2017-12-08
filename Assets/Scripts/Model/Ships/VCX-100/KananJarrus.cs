@@ -17,13 +17,13 @@ namespace Ship
 
                 IsUnique = true;
 
-                PilotAbilities.Add(new AbilitiesNamespace.KananJarrusPilotAbility());
+                PilotAbilities.Add(new Abilities.KananJarrusPilotAbility());
             }
         }
     }
 }
 
-namespace AbilitiesNamespace
+namespace Abilities
 {
     public class KananJarrusPilotAbility : GenericAbility
     {

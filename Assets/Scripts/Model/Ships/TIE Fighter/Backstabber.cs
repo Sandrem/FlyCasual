@@ -16,13 +16,13 @@ namespace Ship
 
                 IsUnique = true;
 
-                PilotAbilities.Add(new AbilitiesNamespace.BackstabberAbility());
+                PilotAbilities.Add(new Abilities.BackstabberAbility());
             }
         }
     }
 }
 
-namespace AbilitiesNamespace
+namespace Abilities
 {
     public class BackstabberAbility : GenericAbility
     {

@@ -12,13 +12,13 @@
 
                 IsUnique = true;
 
-                PilotAbilities.Add(new AbilitiesNamespace.ArvelCrynydAbility());
+                PilotAbilities.Add(new Abilities.ArvelCrynydAbility());
             }
         }
     }
 }
 
-namespace AbilitiesNamespace
+namespace Abilities
 {
     public class ArvelCrynydAbility : GenericAbility
     {

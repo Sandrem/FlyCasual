@@ -18,13 +18,13 @@ namespace Ship
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
-                PilotAbilities.Add(new AbilitiesNamespace.DashRendarAbility());
+                PilotAbilities.Add(new Abilities.DashRendarAbility());
             }
         }
     }
 }
 
-namespace AbilitiesNamespace
+namespace Abilities
 {
     public class DashRendarAbility : GenericAbility
     {

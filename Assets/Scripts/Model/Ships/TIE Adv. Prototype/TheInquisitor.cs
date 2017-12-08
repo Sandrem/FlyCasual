@@ -17,13 +17,13 @@ namespace Ship
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
-                PilotAbilities.Add(new AbilitiesNamespace.TheInquisitorAbility());
+                PilotAbilities.Add(new Abilities.TheInquisitorAbility());
             }
         }
     }
 }
 
-namespace AbilitiesNamespace
+namespace Abilities
 {
     public class TheInquisitorAbility : GenericAbility
     {

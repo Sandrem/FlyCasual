@@ -16,13 +16,13 @@ namespace Ship
                 Cost = 26;
                 IsUnique = true;
 
-                PilotAbilities.Add(new AbilitiesNamespace.ColonelJendonAbility());
+                PilotAbilities.Add(new Abilities.ColonelJendonAbility());
             }
         }
     }
 }
 
-namespace AbilitiesNamespace
+namespace Abilities
 {
     public class ColonelJendonAbility : GenericAbility
     {

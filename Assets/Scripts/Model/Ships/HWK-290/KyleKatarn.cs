@@ -17,13 +17,13 @@ namespace Ship
 
                 faction = Faction.Rebel;
 
-                PilotAbilities.Add(new AbilitiesNamespace.KyleKatarnAbility());
+                PilotAbilities.Add(new Abilities.KyleKatarnAbility());
             }
         }
     }
 }
 
-namespace AbilitiesNamespace
+namespace Abilities
 {
     public class KyleKatarnAbility : GenericAbility
     {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Arcs;
-using AbilitiesNamespace;
+using Abilities;
 using System;
 
 namespace Ship

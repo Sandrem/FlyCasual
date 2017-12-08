@@ -19,13 +19,13 @@ namespace Ship
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
-                PilotAbilities.Add(new AbilitiesNamespace.ZetaLeaderAbility());
+                PilotAbilities.Add(new Abilities.ZetaLeaderAbility());
             }
         }
     }
 }
 
-namespace AbilitiesNamespace
+namespace Abilities
 {
     public class ZetaLeaderAbility : GenericAbility
     {

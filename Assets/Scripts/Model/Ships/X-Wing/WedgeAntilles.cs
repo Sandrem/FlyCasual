@@ -19,13 +19,13 @@ namespace Ship
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
-                PilotAbilities.Add(new AbilitiesNamespace.WedgeAntillesAbility());
+                PilotAbilities.Add(new Abilities.WedgeAntillesAbility());
             }
         }
     }
 }
 
-namespace AbilitiesNamespace
+namespace Abilities
 {
     public class WedgeAntillesAbility : GenericAbility
     {

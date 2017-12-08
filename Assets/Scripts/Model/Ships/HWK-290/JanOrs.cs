@@ -21,13 +21,13 @@ namespace Ship
 
                 faction = Faction.Rebel;
 
-                PilotAbilities.Add(new AbilitiesNamespace.JanOrsAbility());
+                PilotAbilities.Add(new Abilities.JanOrsAbility());
             }
         }
     }
 }
 
-namespace AbilitiesNamespace
+namespace Abilities
 {
     public class JanOrsAbility : GenericAbility
     {

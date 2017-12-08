@@ -20,13 +20,13 @@ namespace Ship
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
-                PilotAbilities.Add(new AbilitiesNamespace.NorraWexleyPilotAbility());
+                PilotAbilities.Add(new Abilities.NorraWexleyPilotAbility());
             }
         }
     }
 }
 
-namespace AbilitiesNamespace
+namespace Abilities
 {
     public class NorraWexleyPilotAbility : GenericAbility
     {

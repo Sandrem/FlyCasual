@@ -22,13 +22,13 @@ namespace Ship
 
                 SkinName = "Kath Scarlet";
 
-                PilotAbilities.Add(new AbilitiesNamespace.KathScarletEmpireAbility());
+                PilotAbilities.Add(new Abilities.KathScarletEmpireAbility());
             }
         }
     }
 }
 
-namespace AbilitiesNamespace
+namespace Abilities
 {
     public class KathScarletEmpireAbility : GenericAbility
     {

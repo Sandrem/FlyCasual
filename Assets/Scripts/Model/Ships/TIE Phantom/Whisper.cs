@@ -20,13 +20,13 @@ namespace Ship
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
-                PilotAbilities.Add(new AbilitiesNamespace.WhisperAbility());
+                PilotAbilities.Add(new Abilities.WhisperAbility());
             }
         }
     }
 }
 
-namespace AbilitiesNamespace
+namespace Abilities
 {
     public class WhisperAbility : GenericAbility
     {

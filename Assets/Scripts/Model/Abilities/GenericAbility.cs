@@ -5,7 +5,7 @@ using SubPhases;
 using UnityEngine;
 using Upgrade;
 
-namespace AbilitiesNamespace
+namespace Abilities
 {
     public class GenericAbility
     {

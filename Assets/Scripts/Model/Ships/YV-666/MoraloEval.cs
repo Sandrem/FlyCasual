@@ -16,13 +16,13 @@ namespace Ship
 
                 IsUnique = true;
 
-                PilotAbilities.Add(new AbilitiesNamespace.MoraloEvalAbility());
+                PilotAbilities.Add(new Abilities.MoraloEvalAbility());
             }
         }
     }
 }
 
-namespace AbilitiesNamespace
+namespace Abilities
 {
     public class MoraloEvalAbility : GenericAbility
     {

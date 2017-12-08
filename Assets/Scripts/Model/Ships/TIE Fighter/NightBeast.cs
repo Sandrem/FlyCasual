@@ -17,13 +17,13 @@ namespace Ship
 
                 IsUnique = true;
 
-                PilotAbilities.Add(new AbilitiesNamespace.NightBeastAbility());
+                PilotAbilities.Add(new Abilities.NightBeastAbility());
             }
         }
     }
 }
 
-namespace AbilitiesNamespace
+namespace Abilities
 {
     public class NightBeastAbility : GenericAbility
     {

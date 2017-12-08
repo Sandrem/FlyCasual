@@ -23,13 +23,13 @@ namespace Ship
 
                 SkinName = "Red Stripes";
 
-                PilotAbilities.Add(new AbilitiesNamespace.SoontirFelAbility());
+                PilotAbilities.Add(new Abilities.SoontirFelAbility());
             }
         }
     }
 }
 
-namespace AbilitiesNamespace
+namespace Abilities
 {
     public class SoontirFelAbility : GenericAbility
     {

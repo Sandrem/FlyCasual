@@ -23,13 +23,13 @@ namespace Ship
 
                 SkinName = "Gray";
 
-                PilotAbilities.Add(new AbilitiesNamespace.HortonSalmAbility());
+                PilotAbilities.Add(new Abilities.HortonSalmAbility());
             }
         }
     }
 }
 
-namespace AbilitiesNamespace
+namespace Abilities
 {
     public class HortonSalmAbility : GenericAbility
     {

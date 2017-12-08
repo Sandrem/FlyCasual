@@ -19,13 +19,13 @@ namespace Ship
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
-                PilotAbilities.Add(new AbilitiesNamespace.MajorVynderAbility());
+                PilotAbilities.Add(new Abilities.MajorVynderAbility());
             }
         }
     }
 }
 
-namespace AbilitiesNamespace
+namespace Abilities
 {
     public class MajorVynderAbility : GenericAbility
     {

@@ -5,7 +5,7 @@ using UnityEngine;
 using Upgrade;
 using System.Linq;
 using Ship;
-using AbilitiesNamespace;
+using Abilities;
 
 namespace UpgradesList
 {
@@ -18,13 +18,13 @@ namespace UpgradesList
             Name = "Flight-Assist Astromech";
             Cost = 1;
 
-            UpgadeAbilities.Add(new FlightAssistAstromechAbility());
+            UpgradeAbilities.Add(new FlightAssistAstromechAbility());
         }
     }
 
 }
 
-namespace AbilitiesNamespace
+namespace Abilities
 {
     public class FlightAssistAstromechAbility: GenericAbility
     {

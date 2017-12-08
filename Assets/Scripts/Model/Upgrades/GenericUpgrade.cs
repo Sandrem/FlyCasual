@@ -1,4 +1,4 @@
-﻿using AbilitiesNamespace;
+﻿using Abilities;
 using Mods;
 using System;
 using System.Collections;
@@ -38,7 +38,7 @@ namespace Upgrade
         public int Cost;
         public UpgradeType Type;
 
-        public List<GenericAbility> UpgadeAbilities = new List<GenericAbility>();
+        public List<GenericAbility> UpgradeAbilities = new List<GenericAbility>();
 
         public bool isUnique = false;
         public bool isLimited = false;
@@ -117,7 +117,7 @@ namespace Upgrade
 
         private void InitializeAbility()
         {
-            foreach (var ability in UpgadeAbilities)
+            foreach (var ability in UpgradeAbilities)
             {
                 ability.Initialize(this);
             }
@@ -125,7 +125,7 @@ namespace Upgrade
 
         private void ActivateAbility()
         {
-            foreach (var ability in UpgadeAbilities)
+            foreach (var ability in UpgradeAbilities)
             {
                 ability.ActivateAbility();
             }
@@ -133,7 +133,7 @@ namespace Upgrade
 
         private void DeactivateAbility()
         {
-            foreach (var ability in UpgadeAbilities)
+            foreach (var ability in UpgradeAbilities)
             {
                 ability.DeactivateAbility();
             }

@@ -15,7 +15,7 @@ namespace Ship
                 Cost = 24;
                 IsUnique = true;
 
-                PilotAbilities.Add(new AbilitiesNamespace.CaptainYorrAbility());
+                PilotAbilities.Add(new Abilities.CaptainYorrAbility());
             }
         }
     }
@@ -23,7 +23,7 @@ namespace Ship
 
 
 
-namespace AbilitiesNamespace
+namespace Abilities
 {
     public class CaptainYorrAbility : GenericAbility
     {

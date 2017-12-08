@@ -19,13 +19,13 @@ namespace Ship
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
-                PilotAbilities.Add(new AbilitiesNamespace.LukeSkywalkerAbility());
+                PilotAbilities.Add(new Abilities.LukeSkywalkerAbility());
             }
         }
     }
 }
 
-namespace AbilitiesNamespace
+namespace Abilities
 {
     public class LukeSkywalkerAbility : GenericAbility
     {

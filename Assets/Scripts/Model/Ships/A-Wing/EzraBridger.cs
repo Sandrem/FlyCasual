@@ -22,7 +22,7 @@ namespace Ship
 
                 SkinName = "Blue";
 
-                PilotAbilities.Add(new AbilitiesNamespace.EzraBridgerPilotAbility());
+                PilotAbilities.Add(new Abilities.EzraBridgerPilotAbility());
             }
         }
     }

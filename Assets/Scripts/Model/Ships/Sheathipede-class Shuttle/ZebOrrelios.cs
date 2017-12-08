@@ -16,7 +16,7 @@ namespace Ship
 
                 IsUnique = true;
 
-                PilotAbilities.Add(new AbilitiesNamespace.ZebOrreliosPilotAbility());
+                PilotAbilities.Add(new Abilities.ZebOrreliosPilotAbility());
             }
         }
     }

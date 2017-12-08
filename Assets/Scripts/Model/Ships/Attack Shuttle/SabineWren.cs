@@ -19,13 +19,13 @@ namespace Ship
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
-                PilotAbilities.Add(new AbilitiesNamespace.SabineWrenPilotAbility());
+                PilotAbilities.Add(new Abilities.SabineWrenPilotAbility());
             }
         }
     }
 }
 
-namespace AbilitiesNamespace
+namespace Abilities
 {
     public class SabineWrenPilotAbility : GenericAbility
     {

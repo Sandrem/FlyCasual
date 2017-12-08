@@ -18,13 +18,13 @@ namespace Ship
 
                 IsUnique = true;
 
-                PilotAbilities.Add(new AbilitiesNamespace.HeraSyndullaAbility());
+                PilotAbilities.Add(new Abilities.HeraSyndullaAbility());
             }
         }
     }
 }
 
-namespace AbilitiesNamespace
+namespace Abilities
 {
     public class HeraSyndullaAbility : GenericAbility
     {

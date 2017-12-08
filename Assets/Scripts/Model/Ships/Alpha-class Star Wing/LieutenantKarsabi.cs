@@ -20,13 +20,13 @@ namespace Ship
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
-                PilotAbilities.Add(new AbilitiesNamespace.LieutenantKarsabiAbility());
+                PilotAbilities.Add(new Abilities.LieutenantKarsabiAbility());
             }
         }
     }
 }
 
-namespace AbilitiesNamespace
+namespace Abilities
 {
     public class LieutenantKarsabiAbility : GenericAbility
     {

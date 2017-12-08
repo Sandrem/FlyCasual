@@ -2,37 +2,49 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Upgrade;
+using Abilities;
 
 namespace UpgradesList
 {
 
     public class R5D8 : GenericUpgrade
     {
-
         public R5D8() : base()
         {
             Type = UpgradeType.Astromech;
             Name = "R5-D8";
             isUnique = true;
             Cost = 3;
+
+            UpgradeAbilities.Add(new R5D8Ability());
+        }
+    }
+
+}
+
+namespace Abilities
+{
+    public class R5D8Ability : GenericAbility
+    {
+        public override void ActivateAbility()
+        {
+            HostShip.AfterGenerateAvailableActionsList += R5D8AddAction;
         }
 
-        public override void AttachToShip(Ship.GenericShip host)
+        public override void DeactivateAbility()
         {
-            base.AttachToShip(host);
-
-            host.AfterGenerateAvailableActionsList += R5D8AddAction;
+            HostShip.AfterGenerateAvailableActionsList -= R5D8AddAction;
         }
 
         private void R5D8AddAction(Ship.GenericShip host)
         {
-            ActionsList.GenericAction action = new ActionsList.R5D8Action();
-            action.ImageUrl = ImageUrl;
+            ActionsList.GenericAction action = new ActionsList.R5D8Action()
+            {
+                ImageUrl = HostUpgrade.ImageUrl
+            };
             host.AddAvailableAction(action);
         }
-
     }
-
 }
 
 namespace ActionsList

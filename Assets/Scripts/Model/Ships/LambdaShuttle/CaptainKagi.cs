@@ -13,14 +13,14 @@ namespace Ship
                 Cost = 27;
                 IsUnique = true;
 
-                PilotAbilities.Add(new AbilitiesNamespace.CaptainKagiAbility());
+                PilotAbilities.Add(new Abilities.CaptainKagiAbility());
             }
         }
     }
 }
 
 
-namespace AbilitiesNamespace
+namespace Abilities
 {
     public class CaptainKagiAbility : GenericAbility
     {

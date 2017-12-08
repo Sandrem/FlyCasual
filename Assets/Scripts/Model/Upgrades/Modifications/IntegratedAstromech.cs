@@ -5,7 +5,7 @@ using UnityEngine;
 using Upgrade;
 using Ship.XWing;
 using Ship.T70XWing;
-using AbilitiesNamespace;
+using Abilities;
 using System.Linq;
 using CriticalHitCard;
 
@@ -19,7 +19,7 @@ namespace UpgradesList
             Name = "Integrated Astromech";
             Cost = 0;
 
-            UpgadeAbilities.Add(new IntegratedAstromechAbility());
+            UpgradeAbilities.Add(new IntegratedAstromechAbility());
         }
 
         public override bool IsAllowedForShip(GenericShip ship)
@@ -29,7 +29,7 @@ namespace UpgradesList
     }
 }
 
-namespace AbilitiesNamespace
+namespace Abilities
 {
     public class IntegratedAstromechAbility : GenericAbility
     {
@@ -83,7 +83,7 @@ namespace AbilitiesNamespace
             {
                 Sounds.PlayShipSound("R2D2-Killed");
                 Messages.ShowInfo("Integrated Astromech is used");
-                Messages.ShowInfo(astromech.Name + "is discarded");
+                Messages.ShowInfo(astromech.Name + " is discarded");
                 Combat.CurrentCriticalHitCard = null;
                 astromech.Discard(DiscardModification);
             }

@@ -17,13 +17,13 @@ namespace Ship
 
                 faction = Faction.Rebel;
 
-                PilotAbilities.Add(new AbilitiesNamespace.RoarkGarnetAbility());
+                PilotAbilities.Add(new Abilities.RoarkGarnetAbility());
             }
         }
     }
 }
 
-namespace AbilitiesNamespace
+namespace Abilities
 {
     public class RoarkGarnetAbility : GenericAbility, IModifyPilotSkill
     {

@@ -19,13 +19,13 @@ namespace Ship
 
                 IsUnique = true;
 
-                PilotAbilities.Add(new AbilitiesNamespace.ThweekAbility());
+                PilotAbilities.Add(new Abilities.ThweekAbility());
             }
         }
     }
 }
 
-namespace AbilitiesNamespace
+namespace Abilities
 {
     public class ThweekAbility : GenericAbility
     {

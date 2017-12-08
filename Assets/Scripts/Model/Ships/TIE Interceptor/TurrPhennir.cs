@@ -21,13 +21,13 @@ namespace Ship
 
                 SkinName = "Red Stripes";
 
-                PilotAbilities.Add(new AbilitiesNamespace.TurrPhennirAbility());
+                PilotAbilities.Add(new Abilities.TurrPhennirAbility());
             }
         }
     }
 }
 
-namespace AbilitiesNamespace
+namespace Abilities
 {
     public class TurrPhennirAbility : GenericAbility
     {

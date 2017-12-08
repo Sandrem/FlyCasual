@@ -21,13 +21,13 @@ namespace Ship
 
                 SkinName = "Red";
 
-                PilotAbilities.Add(new AbilitiesNamespace.NeraDantelsAbility());
+                PilotAbilities.Add(new Abilities.NeraDantelsAbility());
             }
         }
     }
 }
 
-namespace AbilitiesNamespace
+namespace Abilities
 {
     public class NeraDantelsAbility : GenericAbility
     {

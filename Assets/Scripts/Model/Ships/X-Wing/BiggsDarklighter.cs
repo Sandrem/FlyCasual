@@ -17,13 +17,13 @@ namespace Ship
 
                 IsUnique = true;
 
-                PilotAbilities.Add(new AbilitiesNamespace.BiggsDarklighterAbility());
+                PilotAbilities.Add(new Abilities.BiggsDarklighterAbility());
             }
         }
     }
 }
 
-namespace AbilitiesNamespace
+namespace Abilities
 {
     public class BiggsDarklighterAbility : GenericAbility
     {

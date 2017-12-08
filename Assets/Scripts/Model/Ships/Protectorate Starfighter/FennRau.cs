@@ -16,13 +16,13 @@ namespace Ship
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
-                PilotAbilities.Add(new AbilitiesNamespace.FennRauAbility());
+                PilotAbilities.Add(new Abilities.FennRauAbility());
             }
         }
     }
 }
 
-namespace AbilitiesNamespace
+namespace Abilities
 {
     public class FennRauAbility : GenericAbility
     {

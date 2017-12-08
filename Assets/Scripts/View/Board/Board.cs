@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Ship;
 using UnityEngine;
 
 namespace Board
@@ -62,7 +63,7 @@ namespace Board
             StartingZone2.SetActive(false);
         }
 
-        public static void SetShips(Dictionary<string, Ship.GenericShip> shipsPlayer1, Dictionary<string, Ship.GenericShip> shipsPlayer2)
+        public static void SetShips(Dictionary<string, GenericShip> shipsPlayer1, Dictionary<string, Ship.GenericShip> shipsPlayer2)
         {
 
             int i = 1;
@@ -148,6 +149,44 @@ namespace Board
             return result;
         }
 
+        //util functions
+        public static int GetRangeOfShips(GenericShip from, GenericShip to)
+        {
+            Board.ShipDistanceInformation positionInfo = new Board.ShipDistanceInformation(from, to);
+            return positionInfo.Range;
+        }
+
+        public static List<GenericShip> GetShipsAtRange(GenericShip ship, Vector2 fromto, Team.Type team = Team.Type.Any)
+        {
+            List<GenericShip> ships = new List<GenericShip>();
+            foreach (var kv in Roster.AllShips)
+            {
+                GenericShip othership = kv.Value;
+
+                if (team == Team.Type.Friendly && ship.Owner.Id != othership.Owner.Id)
+                    continue;
+
+                if (team == Team.Type.Enemy && ship.Owner.Id == othership.Owner.Id)
+                    continue;
+
+                int range = GetRangeOfShips(ship, othership);
+                if (range >= fromto.x && range <= fromto.y)
+                {
+                    ships.Add(othership);
+                }
+            }
+
+            return ships;
+        }
     }
 
+}
+
+namespace Team
+{
+    public enum Type{
+         Friendly,
+         Enemy,
+         Any
+    }
 }

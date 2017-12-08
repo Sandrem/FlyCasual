@@ -349,6 +349,18 @@ public static partial class RosterBuilder {
         }
     }
 
+    // Helper function for reducing costs.
+    private static int ReduceUpgradeCost(int cost, int decrease)
+    {
+        if(cost >= 0)
+        {
+            cost = Math.Max(cost - decrease, 0);
+        }
+
+        return cost;
+    }
+
+
     // Update Costs
 
     private static void UpdateShipCost(SquadBuilderShip squadBuilderShip)
@@ -361,7 +373,7 @@ public static partial class RosterBuilder {
         {
             if (!upgrade.Slot.IsEmpty)
             {
-                totalShipCost += upgrade.Slot.InstalledUpgrade.Cost - upgrade.Slot.CostDecrease;
+                totalShipCost += ReduceUpgradeCost(upgrade.Slot.InstalledUpgrade.Cost, upgrade.Slot.CostDecrease);
             }
         }
 

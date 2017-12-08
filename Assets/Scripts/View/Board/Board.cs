@@ -156,21 +156,27 @@ namespace Board
             return positionInfo.Range;
         }
 
-        public static IEnumerable<GenericShip> GetShipsAtRange(GenericShip ship, Vector2 fromto, Team.Type team = Team.Type.Any)
+        public static List<GenericShip> GetShipsAtRange(GenericShip ship, Vector2 fromto, Team.Type team = Team.Type.Any)
         {
-
+            List<GenericShip> ships = new List<GenericShip>();
             foreach (var kv in Roster.AllShips)
             {
                 GenericShip othership = kv.Value;
 
+                if (team == Team.Type.Friendly && ship.Owner.Id != othership.Owner.Id)
+                    continue;
+
+                if (team == Team.Type.Enemy && ship.Owner.Id == othership.Owner.Id)
+                    continue;
+
                 int range = GetRangeOfShips(ship, othership);
                 if (range >= fromto.x && range <= fromto.y)
                 {
-                    yield return ship;
+                    ships.Add(othership);
                 }
             }
 
-            yield break;
+            return ships;
         }
     }
 

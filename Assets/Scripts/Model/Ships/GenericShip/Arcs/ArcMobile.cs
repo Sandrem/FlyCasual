@@ -9,6 +9,16 @@ namespace Arcs
 
     public class ArcMobile : GenericArc
     {
+        private Transform MobileArcPointer;
+
+        private static Dictionary<ArcFacing, float> MobileArcRotationValues = new Dictionary<ArcFacing, float>
+        {
+            { ArcFacing.Front, 0f },
+            { ArcFacing.Right, 90f },
+            { ArcFacing.Rear, 180f },
+            { ArcFacing.Left, 270f }
+        };
+
         private ArcFacing mobileArcFacing = ArcFacing.Front;
         public ArcFacing MobileArcFacing
         {
@@ -16,7 +26,7 @@ namespace Arcs
             {
                 return mobileArcFacing;
             }
-            set
+            private set
             {
                 mobileArcFacing = value;
                 ArcsList[1] = mobileArcFacings[value];
@@ -75,6 +85,20 @@ namespace Arcs
                 primaryArc,
                 mobileArcFacings[ArcFacing.Front]
             };
+
+            ShowMobileArcPointer();
+        }
+
+        public void ShowMobileArcPointer()
+        {
+            MobileArcPointer = Host.GetShipAllPartsTransform().Find("ShipBase").Find("MobileArcPointer");
+            MobileArcPointer.gameObject.SetActive(true);
+        }
+
+        public void RotateArc(ArcFacing facing)
+        {
+            MobileArcFacing = facing;
+            MobileArcPointer.localEulerAngles = new Vector3(0f, MobileArcRotationValues[facing], 0f);
         }
     }
 }

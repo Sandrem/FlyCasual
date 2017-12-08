@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Ship;
+using Abilities;
 
 namespace Ship
 {
@@ -16,29 +17,28 @@ namespace Ship
                 Cost = 21;
 
                 IsUnique = true;
-                PilotAbilities.Add(new PilotAbilitiesNamespace.OmegaLeaderAbility());
+                PilotAbilities.Add(new OmegaLeaderAbility());
             }
         }
     }
 }
 
-namespace PilotAbilitiesNamespace
+namespace Abilities
 {
-    public class OmegaLeaderAbility : GenericPilotAbility
+    public class OmegaLeaderAbility : GenericAbility
     {
-        public override void Initialize(Ship.GenericShip host)
+        public override void Initialize(GenericShip host)
         {
             base.Initialize(host);
 
-            Host.OnAttackStartAsAttacker += AddOmegaLeaderPilotAbility;
-            Host.OnAttackStartAsDefender += AddOmegaLeaderPilotAbility;
+            HostShip.OnAttackStartAsAttacker += AddOmegaLeaderPilotAbility;
+            HostShip.OnAttackStartAsDefender += AddOmegaLeaderPilotAbility;
         }
 
         private void AddOmegaLeaderPilotAbility()
         {
-            Messages.ShowErrorToHuman("Test.");
             GenericShip enemyship;
-            if (Combat.Defender.ShipId == Host.ShipId)
+            if (Combat.Defender.ShipId == HostShip.ShipId)
             {
                 enemyship = Combat.Attacker;
             }
@@ -47,7 +47,7 @@ namespace PilotAbilitiesNamespace
                 enemyship = Combat.Defender;
             }
 
-            char targetLock = Host.GetTargetLockLetterPair(enemyship);
+            char targetLock = HostShip.GetTargetLockLetterPair(enemyship);
             if (targetLock != ' ')
             {
                 enemyship.OnTryAddAvailableActionEffect += UseOmegaLeaderRestriction;

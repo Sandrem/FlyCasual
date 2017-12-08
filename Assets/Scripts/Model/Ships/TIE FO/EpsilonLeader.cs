@@ -41,7 +41,7 @@ namespace Abilities
         private void UseEpsilonLeaderAbility(object sender, System.EventArgs e)
         {
             Vector2 range = new Vector2(1, 1);
-            foreach(GenericShip friendlyShip in Board.BoardManager.GetShipsAtRange(Host, range, Team.Type.Friendly))
+            foreach(GenericShip friendlyShip in Board.BoardManager.GetShipsAtRange(HostShip, range, Team.Type.Friendly))
             {
                 friendlyShip.RemoveToken(typeof(Tokens.StressToken));
             }

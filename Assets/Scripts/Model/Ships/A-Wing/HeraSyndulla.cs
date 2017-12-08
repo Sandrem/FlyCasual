@@ -20,7 +20,7 @@ namespace Ship
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
-                PilotAbilities.Add(new PilotAbilitiesNamespace.HeraSyndullaAbility());
+                PilotAbilities.Add(new Abilities.HeraSyndullaAbility());
             }
         }
     }

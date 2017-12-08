@@ -16,27 +16,27 @@ namespace Ship
 
                 IsUnique = true;
 
-                PilotAbilities.Add(new PilotAbilitiesNamespace.DarkCurseAbility());
+                PilotAbilities.Add(new Abilities.DarkCurseAbility());
             }
         }
     }
 }
 
-namespace PilotAbilitiesNamespace
+namespace Abilities
 {
-    public class DarkCurseAbility : GenericPilotAbility
+    public class DarkCurseAbility : GenericAbility
     {
         public override void Initialize(Ship.GenericShip host)
         {
             base.Initialize(host);
 
-            Host.OnAttackStartAsDefender += AddDarkCursePilotAbility;
-            Host.OnDefence += RemoveDarkCursePilotAbility;
+            HostShip.OnAttackStartAsDefender += AddDarkCursePilotAbility;
+            HostShip.OnDefence += RemoveDarkCursePilotAbility;
         }
 
         private void AddDarkCursePilotAbility()
         {
-            if ((Combat.AttackStep == CombatStep.Attack) && (Combat.Defender.ShipId == Host.ShipId))
+            if ((Combat.AttackStep == CombatStep.Attack) && (Combat.Defender.ShipId == HostShip.ShipId))
             {
                 Combat.Attacker.OnTryAddAvailableActionEffect += UseDarkCurseRestriction;
                 //TODO: Use assign condition token instead
@@ -60,7 +60,7 @@ namespace PilotAbilitiesNamespace
 
         private void RemoveDarkCursePilotAbility()
         {
-            if ((Combat.AttackStep == CombatStep.Defence) && (Combat.Defender.ShipId == Host.ShipId))
+            if ((Combat.AttackStep == CombatStep.Defence) && (Combat.Defender.ShipId == HostShip.ShipId))
             {
                 Combat.Attacker.OnTryAddAvailableActionEffect -= UseDarkCurseRestriction;
                 Combat.Attacker.RemoveToken(typeof(Conditions.DarkCurseCondition));

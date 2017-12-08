@@ -27,21 +27,21 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Missile);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
-                PilotAbilities.Add(new PilotAbilitiesNamespace.ReyAbility());
+                PilotAbilities.Add(new Abilities.ReyAbility());
             }
         }
     }
 }
 
-namespace PilotAbilitiesNamespace
+namespace Abilities
 {
-    public class ReyAbility : GenericPilotAbility
+    public class ReyAbility : GenericAbility
     {
         public override void Initialize(GenericShip host)
         {
             base.Initialize(host);
 
-            Host.AfterGenerateAvailableActionEffectsList += ReyPilotAbility;
+            HostShip.AfterGenerateAvailableActionEffectsList += ReyPilotAbility;
         }
 
         public void ReyPilotAbility(GenericShip ship)

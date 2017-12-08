@@ -18,7 +18,7 @@ namespace Ship
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
-                PilotAbilities.Add(new PilotAbilitiesNamespace.EzraBridgerPilotAbility());
+                PilotAbilities.Add(new Abilities.EzraBridgerPilotAbility());
             }
         }
     }

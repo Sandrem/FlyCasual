@@ -18,21 +18,21 @@ namespace Ship
 
                 IsUnique = true;
 
-                PilotAbilities.Add(new PilotAbilitiesNamespace.GarvenDreisAbility());
+                PilotAbilities.Add(new Abilities.GarvenDreisAbility());
             }
         }
     }
 }
 
-namespace PilotAbilitiesNamespace
+namespace Abilities
 {
-    public class GarvenDreisAbility : GenericPilotAbility
+    public class GarvenDreisAbility : GenericAbility
     {
         public override void Initialize(GenericShip host)
         {
             base.Initialize(host);
 
-            Host.OnTokenIsSpent += RegisterGarvenDreisPilotAbility;
+            HostShip.OnTokenIsSpent += RegisterGarvenDreisPilotAbility;
         }
 
         private void RegisterGarvenDreisPilotAbility(GenericShip ship, System.Type type)
@@ -42,7 +42,7 @@ namespace PilotAbilitiesNamespace
 
         private void StartSubphaseForGarvenDreisPilotAbility(object sender, System.EventArgs e)
         {
-            if (Host.Owner.Ships.Count > 1)
+            if (HostShip.Owner.Ships.Count > 1)
             {
                 SelectTargetForAbility(
                     SelectGarvenDreisAbilityTarget,

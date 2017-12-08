@@ -20,26 +20,26 @@ namespace Ship
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
-                PilotAbilities.Add(new PilotAbilitiesNamespace.NorraWexleyPilotAbility());
+                PilotAbilities.Add(new Abilities.NorraWexleyPilotAbility());
             }
         }
     }
 }
 
-namespace PilotAbilitiesNamespace
+namespace Abilities
 {
-    public class NorraWexleyPilotAbility : GenericPilotAbility
+    public class NorraWexleyPilotAbility : GenericAbility
     {
         public override void Initialize(GenericShip host)
         {
             base.Initialize(host);
 
-            Host.AfterGenerateAvailableActionEffectsList += AddNorraWexleyPilotAbility;
+            HostShip.AfterGenerateAvailableActionEffectsList += AddNorraWexleyPilotAbility;
         }
 
         private void AddNorraWexleyPilotAbility(GenericShip ship)
         {
-            NorraWexleyAction newAction = new NorraWexleyAction() { Host = this.Host };
+            NorraWexleyAction newAction = new NorraWexleyAction() { Host = this.HostShip };
             ship.AddAvailableActionEffect(newAction);
         }
 

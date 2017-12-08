@@ -7,7 +7,7 @@
             public PhoenixSquadronMod()
             {
                 Name = "Phoenix squadron";
-                Description = "Adds Hera as X-Wing pilot\nAdds Hera, Sabine and Ezra as A-Wing pilots";
+                Description = "Hera as X-Wing pilot\nHera, Sabine and Ezra as A-Wing pilots";
             }
         }
     }

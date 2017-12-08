@@ -21,22 +21,22 @@ namespace Ship
 
                 faction = Faction.Rebel;
 
-                PilotAbilities.Add(new PilotAbilitiesNamespace.JanOrsAbility());
+                PilotAbilities.Add(new Abilities.JanOrsAbility());
             }
         }
     }
 }
 
-namespace PilotAbilitiesNamespace
+namespace Abilities
 {
-    public class JanOrsAbility : GenericPilotAbility
+    public class JanOrsAbility : GenericAbility
     {
         public override void Initialize(GenericShip host)
         {
             base.Initialize(host);
 
             GenericShip.OnAttackStartAsAttackerGlobal += RegisterJanOrsAbility;
-            Host.OnDestroyed += RemoveAbility;
+            HostShip.OnDestroyed += RemoveAbility;
         }
 
         private void RemoveAbility(GenericShip ship)
@@ -46,9 +46,9 @@ namespace PilotAbilitiesNamespace
 
         private void RegisterJanOrsAbility()
         {
-            if (Combat.Attacker.Owner.PlayerNo == Host.Owner.PlayerNo && Combat.Attacker.ShipId != Host.ShipId)
+            if (Combat.Attacker.Owner.PlayerNo == HostShip.Owner.PlayerNo && Combat.Attacker.ShipId != HostShip.ShipId)
             {
-                Board.ShipDistanceInformation distanceInfo = new Board.ShipDistanceInformation(Combat.Attacker, Host);
+                Board.ShipDistanceInformation distanceInfo = new Board.ShipDistanceInformation(Combat.Attacker, HostShip);
                 if (distanceInfo.Range < 4)
                 {
                     RegisterAbilityTrigger(TriggerTypes.OnAttackStart, AskJanOrsAbility);
@@ -58,7 +58,7 @@ namespace PilotAbilitiesNamespace
 
         private void AskJanOrsAbility(object sender, System.EventArgs e)
         {
-            if (!Host.HasToken(typeof(Tokens.StressToken)))
+            if (!HostShip.HasToken(typeof(Tokens.StressToken)))
             {
                 AskToUseAbility(AlwaysUseByDefault, UseJanOrsAbility);
             }
@@ -70,7 +70,7 @@ namespace PilotAbilitiesNamespace
 
         private void UseJanOrsAbility(object sender, System.EventArgs e)
         {
-            Host.AssignToken(new Tokens.StressToken(), AllowRollAdditionalDice);
+            HostShip.AssignToken(new Tokens.StressToken(), AllowRollAdditionalDice);
         }
 
         private void AllowRollAdditionalDice()

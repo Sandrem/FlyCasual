@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Arcs;
-using PilotAbilitiesNamespace;
+using Abilities;
 using System;
 
 namespace Ship
@@ -181,7 +181,7 @@ namespace Ship
             set { shipTypeCanonical = value; }
         }
 
-        public List<GenericPilotAbility> PilotAbilities = new List<GenericPilotAbility>();
+        public List<GenericAbility> PilotAbilities = new List<GenericAbility>();
 
         public GenericShip()
         {

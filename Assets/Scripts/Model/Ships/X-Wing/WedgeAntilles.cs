@@ -19,31 +19,34 @@ namespace Ship
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
-                PilotAbilities.Add(new PilotAbilitiesNamespace.WedgeAntillesAbility());
+                PilotAbilities.Add(new Abilities.WedgeAntillesAbility());
             }
         }
     }
 }
 
-namespace PilotAbilitiesNamespace
+namespace Abilities
 {
-    public class WedgeAntillesAbility : GenericPilotAbility
+    public class WedgeAntillesAbility : GenericAbility
     {
         public override void Initialize(GenericShip host)
         {
             base.Initialize(host);
 
-            Host.OnAttackStartAsAttacker += AddWedgeAntillesAbility;
+            HostShip.OnAttackStartAsAttacker += AddWedgeAntillesAbility;
         }
 
         public void AddWedgeAntillesAbility()
         {
-            if (Selection.ThisShip.ShipId == Host.ShipId)
+            if (Selection.ThisShip.ShipId == HostShip.ShipId)
             {
-                Messages.ShowError("Wedge Antilles: Agility is decreased");
-                Combat.Defender.AssignToken(new Conditions.WedgeAntillesCondition(), delegate { });
-                Combat.Defender.ChangeAgilityBy(-1);
-                Combat.Defender.OnAttackFinish += RemoveWedgeAntillesAbility;
+                if (Combat.Defender.Agility != 0)
+                {
+                    Messages.ShowError("Wedge Antilles: Agility is decreased");
+                    Combat.Defender.AssignToken(new Conditions.WedgeAntillesCondition(), delegate { });
+                    Combat.Defender.ChangeAgilityBy(-1);
+                    Combat.Defender.OnAttackFinish += RemoveWedgeAntillesAbility;
+                }
             }
         }
 

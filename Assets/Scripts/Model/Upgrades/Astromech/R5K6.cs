@@ -2,39 +2,45 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Upgrade;
+using Abilities;
 
 namespace UpgradesList
 {
 
     public class R5K6 : GenericUpgrade
     {
-
         public R5K6() : base()
         {
             Type = UpgradeType.Astromech;
             Name = "R5-K6";
             isUnique = true;
             Cost = 2;
-        }
 
-        public override void AttachToShip(Ship.GenericShip host)
+            UpgradeAbilities.Add(new R5K6Ability());
+        }
+    }
+
+}
+
+namespace Abilities
+{
+    public class R5K6Ability : GenericAbility
+    {
+        public override void ActivateAbility()
         {
-            base.AttachToShip(host);
-
-            host.OnTokenIsSpent += R5K6Ability;
+            HostShip.OnTokenIsSpent += RegisterR5K6Ability;
         }
 
-        private void R5K6Ability(Ship.GenericShip ship, System.Type type)
+        public override void DeactivateAbility()
+        {
+            HostShip.OnTokenIsSpent -= RegisterR5K6Ability;
+        }
+
+        private void RegisterR5K6Ability(Ship.GenericShip ship, System.Type type)
         {
             if (type == typeof(Tokens.BlueTargetLockToken))
             {
-                Triggers.RegisterTrigger(new Trigger()
-                {
-                    Name = "R5-K6' ability",
-                    TriggerOwner = ship.Owner.PlayerNo,
-                    TriggerType = TriggerTypes.OnTokenIsSpent,
-                    EventHandler = StartSubphaseForR5K6Ability
-                });
+                RegisterAbilityTrigger(TriggerTypes.OnTokenIsSpent, StartSubphaseForR5K6Ability);
             }
         }
 
@@ -53,9 +59,7 @@ namespace UpgradesList
                 }
             );
         }
-
     }
-
 }
 
 namespace SubPhases

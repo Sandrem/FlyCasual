@@ -17,21 +17,21 @@ namespace Ship
 
                 IsUnique = true;
 
-                PilotAbilities.Add(new PilotAbilitiesNamespace.WingedGundarkAbility());
+                PilotAbilities.Add(new Abilities.WingedGundarkAbility());
             }
         }
     }
 }
 
-namespace PilotAbilitiesNamespace
+namespace Abilities
 {
-    public class WingedGundarkAbility : GenericPilotAbility
+    public class WingedGundarkAbility : GenericAbility
     {
         public override void Initialize(GenericShip host)
         {
             base.Initialize(host);
 
-            Host.AfterGenerateAvailableActionEffectsList += WingedGundarkPilotAbility;
+            HostShip.AfterGenerateAvailableActionEffectsList += WingedGundarkPilotAbility;
         }
 
         private void WingedGundarkPilotAbility(GenericShip ship)

@@ -18,15 +18,15 @@ namespace Ship
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
-                PilotAbilities.Add(new PilotAbilitiesNamespace.DashRendarAbility());
+                PilotAbilities.Add(new Abilities.DashRendarAbility());
             }
         }
     }
 }
 
-namespace PilotAbilitiesNamespace
+namespace Abilities
 {
-    public class DashRendarAbility : GenericPilotAbility
+    public class DashRendarAbility : GenericAbility
     {
         public override void Initialize(Ship.GenericShip host)
         {
@@ -38,12 +38,12 @@ namespace PilotAbilitiesNamespace
 
         private void ActivateDashRendarAbility()
         {
-            Host.IsIgnoreObstacles = true;
+            HostShip.IsIgnoreObstacles = true;
         }
 
         private void DeactivateDashRendarAbility()
         {
-            Host.IsIgnoreObstacles = false;
+            HostShip.IsIgnoreObstacles = false;
         }
     }
 }

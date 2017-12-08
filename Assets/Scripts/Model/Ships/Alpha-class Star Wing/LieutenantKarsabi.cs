@@ -20,21 +20,21 @@ namespace Ship
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
-                PilotAbilities.Add(new PilotAbilitiesNamespace.LieutenantKarsabiAbility());
+                PilotAbilities.Add(new Abilities.LieutenantKarsabiAbility());
             }
         }
     }
 }
 
-namespace PilotAbilitiesNamespace
+namespace Abilities
 {
-    public class LieutenantKarsabiAbility : GenericPilotAbility
+    public class LieutenantKarsabiAbility : GenericAbility
     {
         public override void Initialize(Ship.GenericShip host)
         {
             base.Initialize(host);
 
-            Host.OnTokenIsAssigned += RegisterLieutenantKarsabiAbility;
+            HostShip.OnTokenIsAssigned += RegisterLieutenantKarsabiAbility;
         }
 
         private void RegisterLieutenantKarsabiAbility(Ship.GenericShip ship, System.Type tokenType)
@@ -47,7 +47,7 @@ namespace PilotAbilitiesNamespace
 
         private void CheckStress(object sender, System.EventArgs e)
         {
-            if (!Host.HasToken(typeof(StressToken)))
+            if (!HostShip.HasToken(typeof(StressToken)))
             {
                 AskToUseAbility(AlwaysUseByDefault, UseAbility);
             }
@@ -59,8 +59,8 @@ namespace PilotAbilitiesNamespace
 
         private void UseAbility(object sender, System.EventArgs e)
         {
-            if (Host.HasToken(typeof(WeaponsDisabledToken))) Host.RemoveToken(typeof(WeaponsDisabledToken));
-            Host.AssignToken(new StressToken(), DecisionSubPhase.ConfirmDecision);
+            if (HostShip.HasToken(typeof(WeaponsDisabledToken))) HostShip.RemoveToken(typeof(WeaponsDisabledToken));
+            HostShip.AssignToken(new StressToken(), DecisionSubPhase.ConfirmDecision);
         }
     }
 }

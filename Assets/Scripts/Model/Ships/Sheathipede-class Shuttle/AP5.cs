@@ -18,15 +18,15 @@ namespace Ship
 
                 IsUnique = true;
 
-                PilotAbilities.Add(new PilotAbilitiesNamespace.AP5PilotAbility());
+                PilotAbilities.Add(new Abilities.AP5PilotAbility());
             }
         }
     }
 }
 
-namespace PilotAbilitiesNamespace
+namespace Abilities
 {
-    public class AP5PilotAbility : GenericPilotAbility
+    public class AP5PilotAbility : GenericAbility
     {
         private class TwoShipsArguments: System.EventArgs
         {
@@ -38,7 +38,7 @@ namespace PilotAbilitiesNamespace
         {
             base.Initialize(host);
 
-            Host.OnCoordinateTargetIsSelected += RegisterAP5PilotAbilty;
+            HostShip.OnCoordinateTargetIsSelected += RegisterAP5PilotAbilty;
         }
 
         private void RegisterAP5PilotAbilty(GenericShip targetShip)
@@ -47,11 +47,11 @@ namespace PilotAbilitiesNamespace
             {
                 Name = "AP-5's effect",
                 TriggerType = TriggerTypes.OnCoordinateTargetIsSelected,
-                TriggerOwner = Host.Owner.PlayerNo,
+                TriggerOwner = HostShip.Owner.PlayerNo,
                 EventHandler = AskAP5PilotAbility,
                 EventArgs = new TwoShipsArguments()
                 {
-                    Host = this.Host,
+                    Host = this.HostShip,
                     Target = targetShip
                 }
             });

@@ -17,15 +17,15 @@ namespace Ship
 
                 IsUnique = true;
 
-                PilotAbilities.Add(new PilotAbilitiesNamespace.ChopperPilotAbility());
+                PilotAbilities.Add(new Abilities.ChopperPilotAbility());
             }
         }
     }
 }
 
-namespace PilotAbilitiesNamespace
+namespace Abilities
 {
-    public class ChopperPilotAbility : GenericPilotAbility
+    public class ChopperPilotAbility : GenericAbility
     {
         private List<GenericShip> shipsToAssignStress;
 
@@ -33,7 +33,7 @@ namespace PilotAbilitiesNamespace
         {
             base.Initialize(host);
 
-            Host.OnCombatPhaseStart += RegisterPilotAbility;
+            HostShip.OnCombatPhaseStart += RegisterPilotAbility;
         }
 
         private void RegisterPilotAbility(GenericShip ship)
@@ -43,7 +43,7 @@ namespace PilotAbilitiesNamespace
 
         private void AssignStressTokens(object sender, System.EventArgs e)
         {
-            shipsToAssignStress = new List<GenericShip>(Host.ShipsBumped);
+            shipsToAssignStress = new List<GenericShip>(HostShip.ShipsBumped);
             AssignStressTokenRecursive();
         }
 

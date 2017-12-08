@@ -23,21 +23,21 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Missile);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
-                PilotAbilities.Add(new PilotAbilitiesNamespace.ChewbaccaAbility());
+                PilotAbilities.Add(new Abilities.ChewbaccaAbility());
             }
         }
     }
 }
 
-namespace PilotAbilitiesNamespace
+namespace Abilities
 {
-    public class ChewbaccaAbility : GenericPilotAbility
+    public class ChewbaccaAbility : GenericAbility
     {
         public override void Initialize(Ship.GenericShip host)
         {
             base.Initialize(host);
 
-            Host.OnCheckFaceupCrit += FlipCrits;
+            HostShip.OnCheckFaceupCrit += FlipCrits;
         }
 
         private void FlipCrits(ref bool result)

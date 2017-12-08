@@ -18,21 +18,21 @@ namespace Ship
 
                 IsUnique = true;
 
-                PilotAbilities.Add(new PilotAbilitiesNamespace.HeraSyndullaAbility());
+                PilotAbilities.Add(new Abilities.HeraSyndullaAbility());
             }
         }
     }
 }
 
-namespace PilotAbilitiesNamespace
+namespace Abilities
 {
-    public class HeraSyndullaAbility : GenericPilotAbility
+    public class HeraSyndullaAbility : GenericAbility
     {
         public override void Initialize(GenericShip host)
         {
             base.Initialize(host);
 
-            Host.OnManeuverIsRevealed += RegisterAskChangeManeuver;
+            HostShip.OnManeuverIsRevealed += RegisterAskChangeManeuver;
         }
 
         private void RegisterAskChangeManeuver(GenericShip ship)
@@ -42,9 +42,9 @@ namespace PilotAbilitiesNamespace
 
         private void AskChangeManeuver(object sender, System.EventArgs e)
         {
-            if (Host.AssignedManeuver.ColorComplexity == Movement.ManeuverColor.Green || Host.AssignedManeuver.ColorComplexity == Movement.ManeuverColor.Red)
+            if (HostShip.AssignedManeuver.ColorComplexity == Movement.ManeuverColor.Green || HostShip.AssignedManeuver.ColorComplexity == Movement.ManeuverColor.Red)
             {
-                Host.Owner.ChangeManeuver(GameMode.CurrentGameMode.AssignManeuver, IsSameComplexity);
+                HostShip.Owner.ChangeManeuver(GameMode.CurrentGameMode.AssignManeuver, IsSameComplexity);
             }
             else
             {
@@ -56,7 +56,7 @@ namespace PilotAbilitiesNamespace
         {
             bool result = false;
             Movement.MovementStruct movementStruct = new Movement.MovementStruct(maneuverString);
-            if (movementStruct.ColorComplexity == Host.AssignedManeuver.ColorComplexity)
+            if (movementStruct.ColorComplexity == HostShip.AssignedManeuver.ColorComplexity)
             {
                 result = true;
             }

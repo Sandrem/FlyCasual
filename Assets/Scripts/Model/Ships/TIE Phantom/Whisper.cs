@@ -20,21 +20,21 @@ namespace Ship
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
-                PilotAbilities.Add(new PilotAbilitiesNamespace.WhisperAbility());
+                PilotAbilities.Add(new Abilities.WhisperAbility());
             }
         }
     }
 }
 
-namespace PilotAbilitiesNamespace
+namespace Abilities
 {
-    public class WhisperAbility : GenericPilotAbility
+    public class WhisperAbility : GenericAbility
     {
         public override void Initialize(Ship.GenericShip host)
         {
             base.Initialize(host);
 
-            Host.OnAttackHitAsAttacker += RegisterWhisperAbility;
+            HostShip.OnAttackHitAsAttacker += RegisterWhisperAbility;
         }
 
         public void RegisterWhisperAbility()
@@ -46,7 +46,7 @@ namespace PilotAbilitiesNamespace
         {
             if (!alwaysUseAbility)
             {
-                AskToUseAbility(AlwaysUseByDefault, AssignToken, null, true);
+                AskToUseAbility(AlwaysUseByDefault, AssignToken, null, null, true);
             }
             else
             {

@@ -5,47 +5,50 @@ using UnityEngine;
 using Upgrade;
 using System.Linq;
 using Ship;
+using Abilities;
 
 namespace UpgradesList
 {
 
     public class FlightAssistAstromech : GenericUpgrade
     {
-        private List<IShipWeapon> turnedOffOutOfArcWeapons = new List<IShipWeapon>();
-
         public FlightAssistAstromech() : base()
         {
             Type = UpgradeType.Astromech;
             Name = "Flight-Assist Astromech";
             Cost = 1;
+
+            UpgradeAbilities.Add(new FlightAssistAstromechAbility());
         }
+    }
 
-        public override void AttachToShip(GenericShip host)
-        {
-            base.AttachToShip(host);
+}
 
-            Phases.OnGameStart += ActivateAbility;
-        }
+namespace Abilities
+{
+    public class FlightAssistAstromechAbility: GenericAbility
+    {
+        private List<IShipWeapon> turnedOffOutOfArcWeapons = new List<IShipWeapon>();
 
-        private void ActivateAbility()
+        public override void ActivateAbility()
         {
             SetCannotAttackOutsideArc();
-            Host.OnMovementFinish += FlightAssistAstromechAbility;
+            HostShip.OnMovementFinish += RegisterFlightAssistAstromechAbility;
         }
 
-        private void DeactivateAbility()
+        public override void DeactivateAbility()
         {
             foreach (var weapon in turnedOffOutOfArcWeapons)
             {
                 weapon.CanShootOutsideArc = true;
             }
 
-            Host.OnMovementFinish -= FlightAssistAstromechAbility;
+            HostShip.OnMovementFinish -= RegisterFlightAssistAstromechAbility;
         }
 
         private void SetCannotAttackOutsideArc()
         {
-            foreach (IShipWeapon weapon in Host.UpgradeBar.GetInstalledUpgrades().Where(n => n is IShipWeapon))
+            foreach (IShipWeapon weapon in HostShip.UpgradeBar.GetInstalledUpgrades().Where(n => n is IShipWeapon))
             {
                 if (weapon.CanShootOutsideArc)
                 {
@@ -55,16 +58,11 @@ namespace UpgradesList
             }
         }
 
-        private void FlightAssistAstromechAbility(GenericShip host)
+        private void RegisterFlightAssistAstromechAbility(GenericShip host)
         {
             if (!Selection.ThisShip.IsBumped && !Selection.ThisShip.IsHitObstacles && IsNoEnemyInArcAndDistance())
             {
-                Triggers.RegisterTrigger(new Trigger() {
-                    Name = "R2-D2: Regen Shield",
-                    TriggerOwner = host.Owner.PlayerNo,
-                    TriggerType = TriggerTypes.OnShipMovementExecuted,
-                    EventHandler = AskPerformFreeActions
-                });
+                RegisterAbilityTrigger(TriggerTypes.OnShipMovementExecuted, AskPerformFreeActions);
             }
         }
 
@@ -72,13 +70,11 @@ namespace UpgradesList
         {
             bool result = true;
 
-            foreach (var enemyShip in Roster.GetPlayer(Roster.AnotherPlayer(Host.Owner.PlayerNo)).Ships)
+            foreach (var enemyShip in HostShip.Owner.EnemyShips)
             {
-                Debug.Log("Checking " + enemyShip.Value.ShipId);
-                Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(Host, enemyShip.Value, Host.PrimaryWeapon);
+                Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(HostShip, enemyShip.Value);
                 if (shotInfo.InArc && shotInfo.Range >= 1 && shotInfo.Range <= 3)
                 {
-                    Debug.Log("!!! SEE " + enemyShip.Value.ShipId);
                     return false;
                 }
             }
@@ -90,16 +86,8 @@ namespace UpgradesList
         {
             List<ActionsList.GenericAction> actions = new List<ActionsList.GenericAction>() { new ActionsList.BoostAction(), new ActionsList.BarrelRollAction() };
 
-            Host.AskPerformFreeAction(actions, Triggers.FinishTrigger);
-        }
-
-        public override void Discard(Action callBack)
-        {
-            DeactivateAbility();
-
-            base.Discard(callBack);
+            HostShip.AskPerformFreeAction(actions, Triggers.FinishTrigger);
         }
 
     }
-
 }

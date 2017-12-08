@@ -16,21 +16,21 @@ namespace Ship
 				Cost = 19;
 
                 IsUnique = true;
-                PilotAbilities.Add(new PilotAbilitiesNamespace.EpsilonLeader());
+                PilotAbilities.Add(new Abilities.EpsilonLeader());
             }
 		}
 	}
 }
 
-namespace PilotAbilitiesNamespace
+namespace Abilities
 {
-    public class EpsilonLeader : GenericPilotAbility
+    public class EpsilonLeader : GenericAbility
     {
         public override void Initialize(GenericShip host)
         {
             base.Initialize(host);
 
-            Host.OnCombatPhaseStart += RegisterEpsilonLeaderAbility;
+            HostShip.OnCombatPhaseStart += RegisterEpsilonLeaderAbility;
         }
 
         private void RegisterEpsilonLeaderAbility(GenericShip genericShip)
@@ -41,10 +41,10 @@ namespace PilotAbilitiesNamespace
         private void UseEpsilonLeaderAbility(object sender, System.EventArgs e)
         {
             // remove a stress from friendly ships at range 1
-            foreach (var friendlyShip in Host.Owner.Ships)
+            foreach (var friendlyShip in HostShip.Owner.Ships)
             {
                 GenericShip friendlyShipDefined = friendlyShip.Value;
-                Board.ShipDistanceInformation positionInfo = new Board.ShipDistanceInformation(Host, friendlyShipDefined);
+                Board.ShipDistanceInformation positionInfo = new Board.ShipDistanceInformation(HostShip, friendlyShipDefined);
                 if (positionInfo.Range == 1)
                 {
                     // remove 1 stress token if it exists

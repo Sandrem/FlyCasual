@@ -20,33 +20,33 @@ namespace Ship
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
-                PilotAbilities.Add(new PilotAbilitiesNamespace.HowlrunnerAbility());
+                PilotAbilities.Add(new Abilities.HowlrunnerAbility());
             }
         }
     }
 }
 
-namespace PilotAbilitiesNamespace
+namespace Abilities
 {
-    public class HowlrunnerAbility : GenericPilotAbility
+    public class HowlrunnerAbility : GenericAbility
     {
         public override void Initialize(GenericShip host)
         {
             base.Initialize(host);
 
             GenericShip.AfterGenerateAvailableActionEffectsListGlobal += AddHowlrunnerAbility;
-            Host.OnDestroyed += RemoveHowlrunnerAbility;
+            HostShip.OnDestroyed += RemoveHowlrunnerAbility;
         }
 
         private void AddHowlrunnerAbility()
         {
-            Combat.Attacker.AddAvailableActionEffect(new HowlrunnerAction() { Host = this.Host });
+            Combat.Attacker.AddAvailableActionEffect(new HowlrunnerAction() { Host = this.HostShip });
         }
 
         private void RemoveHowlrunnerAbility(GenericShip ship)
         {
             GenericShip.AfterGenerateAvailableActionEffectsListGlobal -= AddHowlrunnerAbility;
-            Host.OnDestroyed -= RemoveHowlrunnerAbility;
+            HostShip.OnDestroyed -= RemoveHowlrunnerAbility;
         }
 
         private class HowlrunnerAction : ActionsList.GenericAction

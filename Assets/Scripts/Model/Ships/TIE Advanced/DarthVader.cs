@@ -24,26 +24,26 @@ namespace Ship
 
                 SkinName = "Blue";
 
-                PilotAbilities.Add(new PilotAbilitiesNamespace.DarthVaderAbility());
+                PilotAbilities.Add(new Abilities.DarthVaderAbility());
             }
         }
     }
 }
 
-namespace PilotAbilitiesNamespace
+namespace Abilities
 {
-    public class DarthVaderAbility : GenericPilotAbility
+    public class DarthVaderAbility : GenericAbility
     {
         public override void Initialize(GenericShip host)
         {
             base.Initialize(host);
 
-            Host.OnActionDecisionSubphaseEnd += DoSecondAction;
+            HostShip.OnActionDecisionSubphaseEnd += DoSecondAction;
         }
 
         private void DoSecondAction(GenericShip ship)
         {
-            if (!Host.HasToken(typeof(Tokens.StressToken)))
+            if (!HostShip.HasToken(typeof(Tokens.StressToken)))
             {
                 RegisterAbilityTrigger(TriggerTypes.OnFreeActionPlanned, PerformFreeAction);
             }
@@ -51,10 +51,10 @@ namespace PilotAbilitiesNamespace
 
         private void PerformFreeAction(object sender, System.EventArgs e)
         {
-            Host.GenerateAvailableActionsList();
+            HostShip.GenerateAvailableActionsList();
             List<ActionsList.GenericAction> actions = Selection.ThisShip.GetAvailableActionsList();
 
-            Host.AskPerformFreeAction(actions, Triggers.FinishTrigger);
+            HostShip.AskPerformFreeAction(actions, Triggers.FinishTrigger);
         }
     }
 }

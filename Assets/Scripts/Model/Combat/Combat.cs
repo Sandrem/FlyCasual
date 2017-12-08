@@ -495,7 +495,7 @@ namespace SubPhases
 
         public override void Pause()
         {
-            GameObject.Find("UI/CombatDiceResultsPanel").gameObject.SetActive(false);
+            GameObject.Find("UI").transform.Find("CombatDiceResultsPanel").gameObject.SetActive(false);
         }
 
         public override void Resume()

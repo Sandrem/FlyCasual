@@ -162,5 +162,10 @@ public class DiceCompareHelper
         };
     }
 
+    public bool IsActive()
+    {
+        return helperPanel != null;
+    }
+
 }
 

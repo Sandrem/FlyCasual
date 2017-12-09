@@ -58,11 +58,8 @@ public static partial class Combat
         Selection.ChangeActiveShip("ShipId:" + attackerId);
         Selection.ChangeAnotherShip("ShipId:" + defenderID);
 
-        if (Network.IsNetworkGame)
-        {
-            ChosenWeapon = Selection.ThisShip.PrimaryWeapon;
-            ShotInfo = new ShipShotDistanceInformation(Selection.ThisShip, Selection.AnotherShip, ChosenWeapon);
-        }
+        ChosenWeapon = Selection.ThisShip.PrimaryWeapon;
+        ShotInfo = new ShipShotDistanceInformation(Selection.ThisShip, Selection.AnotherShip, ChosenWeapon);
 
         UI.HideContextMenu();
 

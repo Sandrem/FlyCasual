@@ -49,7 +49,6 @@ namespace Movement
         public override void UpdateMovementExecution()
         {
             float progressDelta = AnimationSpeed * Time.deltaTime;
-            if (DebugManager.DebugMovement) progressDelta *= 0.1f;
 
             progressDelta = Mathf.Clamp(progressDelta, 0, Mathf.Abs(ProgressTarget - ProgressCurrent));
             ProgressCurrent += progressDelta;
@@ -269,9 +268,11 @@ namespace Movement
             if (MovementTemplates.CurrentTemplate.transform.Find("Finisher") != null)
             {
                 bool isSuccessfull = TryPlanningRotateUsingStarter(temporaryShipStand);
+                //bool isSuccessfull = false;
 
                 if (!isSuccessfull)
                 {
+                    temporaryShipStand.name = "Finishing";
                     if (GetPathToProcessFinisherLeft(temporaryShipStand) > 0)
                     {
                         AdaptShipBaseToRotation(temporaryShipStand, lastPlanningRotation2);
@@ -294,7 +295,7 @@ namespace Movement
 
             Vector3 vector_ShipBackStand_ShipStandFront = point_ShipStandFront - point_ShipStandBack;
             Vector3 vector_NearestMovementRulerCenter_ShipStandFront = point_ShipStandFront - point_NearestMovementRulerCenter;
-            result = GetDirectionModifier() * Vector3.SignedAngle(vector_ShipBackStand_ShipStandFront, vector_NearestMovementRulerCenter_ShipStandFront, Vector3.up);
+            result = Vector3.Angle(vector_ShipBackStand_ShipStandFront, vector_NearestMovementRulerCenter_ShipStandFront);
 
             return result;
         }

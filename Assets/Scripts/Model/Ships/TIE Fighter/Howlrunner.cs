@@ -66,10 +66,13 @@ namespace Abilities
                     {
                         if (Combat.Attacker.ShipId != Host.ShipId)
                         {
-                            Board.ShipDistanceInformation positionInfo = new Board.ShipDistanceInformation(Host, Combat.Attacker);
-                            if (positionInfo.Range == 1)
+                            if (Combat.Attacker.Owner.PlayerNo == Host.Owner.PlayerNo)
                             {
-                                result = true;
+                                Board.ShipDistanceInformation positionInfo = new Board.ShipDistanceInformation(Host, Combat.Attacker);
+                                if (positionInfo.Range == 1)
+                                {
+                                    result = true;
+                                }
                             }
                         }
                     }

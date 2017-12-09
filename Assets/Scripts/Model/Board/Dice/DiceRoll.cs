@@ -567,7 +567,7 @@ public partial class DiceRoll
 
     private void UpdateDiceCompareHelperPrediction()
     {
-        if (DiceCompareHelper.currentDiceCompareHelper != null)
+        if (DiceCompareHelper.currentDiceCompareHelper != null && DiceCompareHelper.currentDiceCompareHelper.IsActive())
         {
             DiceCompareHelper.currentDiceCompareHelper.ShowCancelled(this);
         }

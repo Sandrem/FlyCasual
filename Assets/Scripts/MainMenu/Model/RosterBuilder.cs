@@ -505,7 +505,7 @@ public static partial class RosterBuilder {
             {
                 if (newUpgrade.Type == upgradeSlot.Type && newUpgrade.IsAllowedForShip(squadBuilderShip.Ship) && upgradeSlot.UpgradeIsAllowed(newUpgrade))
                 {
-                    string upgradeKey = newUpgrade.Name + " (" + (newUpgrade.Cost - upgradeSlot.CostDecrease) + ")";
+                    string upgradeKey = newUpgrade.Name + " (" + ReduceUpgradeCost(newUpgrade.Cost, upgradeSlot.CostDecrease) + ")";
                     results.Add(upgradeKey);
                 }
             }
@@ -674,7 +674,7 @@ public static partial class RosterBuilder {
                 {
                     if (!upgradeSlot.IsEmpty)
                     {
-                        squadCost += upgradeSlot.InstalledUpgrade.Cost - upgradeSlot.CostDecrease;
+                        squadCost += ReduceUpgradeCost(upgradeSlot.InstalledUpgrade.Cost, upgradeSlot.CostDecrease);
                     }
                 }
             }

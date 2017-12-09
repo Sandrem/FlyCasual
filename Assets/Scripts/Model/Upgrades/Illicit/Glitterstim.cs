@@ -95,6 +95,8 @@ namespace SubPhases
 
             DefaultDecision = (IsTimeToUseGlitterSteam()) ? "Yes" : "No";
 
+            UI.ShowSkipButton();
+
             callBack();
         }
 
@@ -131,6 +133,11 @@ namespace SubPhases
         }
 
         private void DontUseGlitterstimAbility(object sender, System.EventArgs e)
+        {
+            ConfirmDecision();
+        }
+
+        public override void SkipButton()
         {
             ConfirmDecision();
         }

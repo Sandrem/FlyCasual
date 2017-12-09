@@ -40,16 +40,10 @@ namespace Abilities
 
         private void UseEpsilonLeaderAbility(object sender, System.EventArgs e)
         {
-            // remove a stress from friendly ships at range 1
-            foreach (var friendlyShip in HostShip.Owner.Ships)
+            Vector2 range = new Vector2(1, 1);
+            foreach(GenericShip friendlyShip in Board.BoardManager.GetShipsAtRange(HostShip, range, Team.Type.Friendly))
             {
-                GenericShip friendlyShipDefined = friendlyShip.Value;
-                Board.ShipDistanceInformation positionInfo = new Board.ShipDistanceInformation(HostShip, friendlyShipDefined);
-                if (positionInfo.Range == 1)
-                {
-                    // remove 1 stress token if it exists
-                    friendlyShipDefined.RemoveToken(typeof(Tokens.StressToken));
-                }
+                friendlyShip.RemoveToken(typeof(Tokens.StressToken));
             }
             Triggers.FinishTrigger();
         }

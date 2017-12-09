@@ -57,7 +57,7 @@ public class CameraScript : MonoBehaviour {
         CheckChangeMode();
 
         CamMoveByAxis();
-        if (!DebugManager.DebugTemporary) CamMoveByMouse();
+        CamMoveByMouse();
         CamZoomByMouseScroll();
         CamRotateByMouse();
         CamClampPosition();
@@ -93,12 +93,12 @@ public class CameraScript : MonoBehaviour {
     private void CamMoveByMouse()
     {
         float x = 0;
-        if (Input.mousePosition.x < MOUSE_MOVE_START_OFFSET) x = -1f * SENSITIVITY_MOVE;
-        else if (Input.mousePosition.x > Screen.width - MOUSE_MOVE_START_OFFSET) x = 1f * SENSITIVITY_MOVE;
+        if (Input.mousePosition.x < MOUSE_MOVE_START_OFFSET && (Screen.fullScreen || Input.mousePosition.x >= 0)) x = -1f * SENSITIVITY_MOVE;
+        else if (Input.mousePosition.x > Screen.width - MOUSE_MOVE_START_OFFSET && (Screen.fullScreen || Input.mousePosition.x <= Screen.width)) x = 1f * SENSITIVITY_MOVE;
 
         float y = 0;
-        if (Input.mousePosition.y < MOUSE_MOVE_START_OFFSET) y = -1f * SENSITIVITY_MOVE;
-        else if (Input.mousePosition.y > Screen.height - MOUSE_MOVE_START_OFFSET) y = 1f * SENSITIVITY_MOVE;
+        if (Input.mousePosition.y < MOUSE_MOVE_START_OFFSET && (Screen.fullScreen || Input.mousePosition.y >= 0)) y = -1f * SENSITIVITY_MOVE;
+        else if (Input.mousePosition.y > Screen.height - MOUSE_MOVE_START_OFFSET && (Screen.fullScreen || Input.mousePosition.y <= Screen.height)) y = 1f * SENSITIVITY_MOVE;
 
         if ((x != 0) || (y != 0)) WhenViewChanged();
         transform.Translate(x, y, 0);

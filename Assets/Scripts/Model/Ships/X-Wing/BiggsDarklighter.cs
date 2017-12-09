@@ -52,7 +52,7 @@ namespace Abilities
             IsAbilityUsed = true;
             HostShip.AssignToken(new Conditions.BiggsDarklighterCondition(), delegate { });
 
-            RulesList.TargetIsLegalForShotRule.OnCheckTargetIsLegal += CanPerformAttack;
+            GenericShip.OnTryPerformAttackGlobal += CanPerformAttack;
 
             HostShip.OnDestroyed += RemoveBiggsDarklighterAbility;
             Phases.OnCombatPhaseEnd += RemoveBiggsDarklighterAbility;
@@ -60,17 +60,17 @@ namespace Abilities
             SubPhases.DecisionSubPhase.ConfirmDecision();
         }
 
-        public void CanPerformAttack(ref bool result, GenericShip attacker, GenericShip defender)
+        public void CanPerformAttack(ref bool result, List<string> stringList)
         {
             bool shipIsProtected = false;
-            if (defender.ShipId != HostShip.ShipId)
+            if (Selection.AnotherShip.ShipId != HostShip.ShipId)
             {
-                if (defender.Owner.PlayerNo == HostShip.Owner.PlayerNo)
+                if (Selection.AnotherShip.Owner.PlayerNo == HostShip.Owner.PlayerNo)
                 {
-                    Board.ShipDistanceInformation positionInfo = new Board.ShipDistanceInformation(defender, HostShip);
+                    Board.ShipDistanceInformation positionInfo = new Board.ShipDistanceInformation(Selection.AnotherShip, HostShip);
                     if (positionInfo.Range <= 1)
                     {
-                        if (!attacker.ShipsBumped.Contains(HostShip))
+                        if (!Selection.ThisShip.ShipsBumped.Contains(HostShip))
                         {
                             if (Combat.ChosenWeapon.IsShotAvailable(HostShip)) shipIsProtected = true;
                         }
@@ -82,7 +82,7 @@ namespace Abilities
             {
                 if (Roster.GetPlayer(Phases.CurrentPhasePlayer).GetType() == typeof(Players.HumanPlayer))
                 {
-                    Messages.ShowErrorToHuman("Biggs DarkLighter: You cannot attack target ship");
+                    stringList.Add("Biggs DarkLighter: You cannot attack target ship");
                 }
                 result = false;
             }
@@ -102,7 +102,7 @@ namespace Abilities
         {
             HostShip.RemoveToken(typeof(Conditions.BiggsDarklighterCondition));
 
-            RulesList.TargetIsLegalForShotRule.OnCheckTargetIsLegal -= CanPerformAttack;
+            GenericShip.OnTryPerformAttackGlobal -= CanPerformAttack;
 
             HostShip.OnDestroyed -= RemoveBiggsDarklighterAbility;
             Phases.OnCombatPhaseEnd -= RemoveBiggsDarklighterAbility;

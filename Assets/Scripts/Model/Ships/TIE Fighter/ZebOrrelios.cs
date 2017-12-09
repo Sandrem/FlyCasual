@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Abilities;
 
 namespace Ship
 {
@@ -10,11 +11,13 @@ namespace Ship
         {
             public ZebOrrelios() : base()
             {
-                PilotName = "Rebel TIE Generic";
-                PilotSkill = 4;
-                Cost = 14;
+                PilotName = "\"Zeb\" Orrelios";
+                PilotSkill = 3;
+                Cost = 13;
 
                 faction = Faction.Rebel;
+
+                PilotAbilities.Add(new ZebOrreliosPilotAbility());
             }
         }
     }

@@ -13,8 +13,8 @@ namespace RulesList
 
         private void SubscribeEvents()
         {
-            TargetIsLegalForShotRule.OnCheckTargetIsLegal += CanPerformAttack;
             Phases.BeforeActionSubPhaseStart += CheckSkipPerformAction;
+            Ship.GenericShip.OnTryPerformAttackGlobal += CanPerformAttack;
         }
 
         public void CheckSkipPerformAction()
@@ -38,13 +38,13 @@ namespace RulesList
             ship.ShipsBumped = new List<Ship.GenericShip>();
         }
 
-        public void CanPerformAttack(ref bool result, Ship.GenericShip attacker, Ship.GenericShip defender)
+        public void CanPerformAttack(ref bool result, List<string> stringList)
         {
-            if ((attacker.IsBumped) && (attacker.ShipsBumped.Contains(defender)) && (defender.ShipsBumped.Contains(attacker)))
+            if ((Selection.ThisShip.IsBumped) && (Selection.ThisShip.ShipsBumped.Contains(Selection.AnotherShip)) && (Selection.AnotherShip.ShipsBumped.Contains(Selection.ThisShip)))
             {
-                if (!attacker.CanAttackBumpedTarget(defender))
+                if (!Selection.ThisShip.CanAttackBumpedTarget(Selection.AnotherShip))
                 {
-                    Messages.ShowErrorToHuman("Cannot attack ship that you are touching");
+                    stringList.Add("Cannot attack ship that you are touching");
                     result = false;
                 }
             }

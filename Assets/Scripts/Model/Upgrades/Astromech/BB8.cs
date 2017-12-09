@@ -1,6 +1,7 @@
-﻿using Upgrade;
+﻿using System;
+using Upgrade;
+using Abilities;
 using Ship;
-using GameModes;
 using System.Collections.Generic;
 
 namespace UpgradesList
@@ -15,29 +16,35 @@ namespace UpgradesList
             Name = "BB-8";
             isUnique = true;
             Cost = 2;
+
+            UpgradeAbilities.Add(new BB8Ability());
+        }
+    }
+
+}
+
+namespace Abilities
+{
+    public class BB8Ability : GenericAbility
+    {
+        public override void ActivateAbility()
+        {
+            HostShip.OnManeuverIsRevealed += BB8PlanBarrelRoll;
         }
 
-        public override void AttachToShip(Ship.GenericShip host)
+        public override void DeactivateAbility()
         {
-            base.AttachToShip(host);
-
-            host.OnManeuverIsRevealed += AddAction;
+            HostShip.OnManeuverIsRevealed -= BB8PlanBarrelRoll;
         }
 
-        private void AddAction(Ship.GenericShip host)
+        private void BB8PlanBarrelRoll(GenericShip host)
         {
-            Triggers.RegisterTrigger(new Trigger()
-            {
-                Name = "BB-8's ability",
-                TriggerType = TriggerTypes.OnManeuverIsRevealed,
-                TriggerOwner = host.Owner.PlayerNo,
-                EventHandler = AskPerformFreeActions
-            });
+            RegisterAbilityTrigger(TriggerTypes.OnManeuverIsRevealed, BB8AskBarrelRoll);
         }
 
-        private void AskPerformFreeActions(object sender, System.EventArgs e)
+        private void BB8AskBarrelRoll(object sender, EventArgs e)
         {
-            Host.AskPerformFreeAction(new List<ActionsList.GenericAction>() { new ActionsList.BarrelRollAction() }, Triggers.FinishTrigger);
+            HostShip.AskPerformFreeAction(new List<ActionsList.GenericAction>() { new ActionsList.BarrelRollAction() }, Triggers.FinishTrigger);
         }
     }
 }

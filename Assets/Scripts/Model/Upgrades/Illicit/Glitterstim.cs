@@ -137,11 +137,6 @@ namespace SubPhases
             ConfirmDecision();
         }
 
-        public override void SkipButton()
-        {
-            ConfirmDecision();
-        }
-
     }
 
 }

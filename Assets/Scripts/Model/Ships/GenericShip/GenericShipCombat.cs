@@ -536,6 +536,12 @@ namespace Ship
             Triggers.FinishTrigger();
         }
 
+        public void LoseShield()
+        {
+            Shields--;
+            CallAfterAssignedDamageIsChanged();
+        }
+
         public virtual void IsHullDestroyedCheck(Action callBack)
         {
             if (Hull == 0 && !IsDestroyed)

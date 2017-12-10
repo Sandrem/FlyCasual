@@ -97,6 +97,8 @@ namespace Abilities
 
             pilotAbilityDecision.DefaultDecision = (useByDefault()) ? "Yes" : "No";
 
+            pilotAbilityDecision.ShowSkipButton = true;
+
             pilotAbilityDecision.Start();
         }
 

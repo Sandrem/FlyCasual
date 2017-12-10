@@ -49,8 +49,13 @@ namespace SubPhases
             Phases.StartTemporarySubPhaseOld(
                 "Action Decision",
                 typeof(ActionDecisonSubPhase),
-                EndActionDecisionSubhase
+                ActionIsTaken
             );
+        }
+
+        private void ActionIsTaken()
+        {
+            Selection.ThisShip.CallActionIsTaken(Actions.CurrentAction, EndActionDecisionSubhase);
         }
 
         private void EndActionDecisionSubhase()
@@ -130,13 +135,7 @@ namespace SubPhases
             List<ActionsList.GenericAction> availableActions = Selection.ThisShip.GetAvailableActionsList();
             foreach (var action in availableActions)
             {
-                AddDecision(action.Name, delegate {
-                    var ship = Selection.ThisShip;
-                    Tooltips.EndTooltip();
-                    UI.HideSkipButton();
-                    ship.AddAlreadyExecutedAction(action);
-                    ship.CallActionIsTaken(action, action.ActionTake);
-                });
+                AddDecision(action.Name, delegate { Actions.TakeAction(action); });
                 AddTooltip(action.Name, action.ImageUrl);
             }
         }
@@ -151,6 +150,7 @@ namespace SubPhases
 
         public override void SkipButton()
         {
+            Actions.CurrentAction = null;
             UI.HideSkipButton();
             CallBack();
         }
@@ -188,13 +188,7 @@ namespace SubPhases
             List<ActionsList.GenericAction> availableActions = Selection.ThisShip.GetAvailableFreeActionsList();
             foreach (var action in availableActions)
             {
-                AddDecision(action.Name, delegate {
-                    var ship = Selection.ThisShip;
-                    Tooltips.EndTooltip();
-                    UI.HideSkipButton();
-                    ship.AddAlreadyExecutedAction(action);
-                    ship.CallActionIsTaken(action, action.ActionTake);
-                });
+                AddDecision(action.Name, delegate { Actions.TakeAction(action); });
                 AddTooltip(action.Name, action.ImageUrl);
             }
         }
@@ -210,7 +204,8 @@ namespace SubPhases
         public override void SkipButton()
         {
             UI.HideSkipButton();
-			Selection.ThisShip.IsFreeActionSkipped = true;
+            Actions.CurrentAction = null;
+            Selection.ThisShip.IsFreeActionSkipped = true;
             CallBack();
         }
 

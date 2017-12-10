@@ -3,12 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Board;
+using ActionsList;
 
 public static partial class Actions {
 
     private static Dictionary<char, bool> Letters;
 
     public static CriticalHitCard.GenericCriticalHit SelectedCriticalHitCard;
+
+    public static GenericAction CurrentAction;
 
     public static void Initialize()
     {
@@ -192,6 +195,16 @@ public static partial class Actions {
         letter = Actions.GetTargetLocksLetterPair(attacker, defender);
         if (letter != ' ') result = true;
         return result;
+    }
+
+    public static void TakeAction(GenericAction action)
+    {
+        var ship = Selection.ThisShip;
+        Tooltips.EndTooltip();
+        UI.HideSkipButton();
+        ship.AddAlreadyExecutedAction(action);
+        CurrentAction = action;
+        action.ActionTake();
     }
 
 }

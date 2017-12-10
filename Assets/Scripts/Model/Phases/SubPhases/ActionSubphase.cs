@@ -49,25 +49,15 @@ namespace SubPhases
             Phases.StartTemporarySubPhaseOld(
                 "Action Decision",
                 typeof(ActionDecisonSubPhase),
-                ActionIsTaken
+                delegate { Actions.FinishAction(Finish); }
             );
         }
 
-        private void ActionIsTaken()
+        private void Finish()
         {
-            Selection.ThisShip.CallActionIsTaken(Actions.CurrentAction, EndActionDecisionSubhase);
-        }
-
-        private void EndActionDecisionSubhase()
-        {
-            Selection.ThisShip.CallOnActionDecisionSubphaseEnd();
-
-            Triggers.ResolveTriggers(
-                TriggerTypes.OnActionDecisionSubPhaseEnd,
-                delegate {
-                    Phases.FinishSubPhase(typeof(ActionDecisonSubPhase));
-                    Triggers.FinishTrigger();
-                });
+            UI.HideSkipButton();
+            Phases.FinishSubPhase(typeof(ActionDecisonSubPhase));
+            Triggers.FinishTrigger();
         }
 
         public override void Next()
@@ -151,7 +141,6 @@ namespace SubPhases
         public override void SkipButton()
         {
             Actions.CurrentAction = null;
-            UI.HideSkipButton();
             CallBack();
         }
 

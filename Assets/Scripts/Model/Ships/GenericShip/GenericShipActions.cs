@@ -60,9 +60,11 @@ namespace Ship
             Triggers.ResolveTriggers(TriggerTypes.OnActivateShip, callBack);
         }
 
-        public void CallOnActionDecisionSubphaseEnd()
+        public void CallOnActionDecisionSubphaseEnd(Action callback)
         {
             if (OnActionDecisionSubphaseEnd != null) OnActionDecisionSubphaseEnd(this);
+
+            Triggers.ResolveTriggers(TriggerTypes.OnActionDecisionSubPhaseEnd, callback);
         }
 
         public void CallActionIsTaken(ActionsList.GenericAction action, Action callBack)
@@ -110,7 +112,7 @@ namespace Ship
         }
 
         // TODO: move actions list into subphase
-        public void AskPerformFreeAction(List<ActionsList.GenericAction> freeActions, Action callBack)
+        public void AskPerformFreeAction(List<ActionsList.GenericAction> freeActions, Action callback)
         {
             GenerateAvailableFreeActionsList(freeActions);
 
@@ -125,17 +127,19 @@ namespace Ship
                         (
                             "Free action decision",
                             typeof(SubPhases.FreeActionDecisonSubPhase),
-                            delegate
-                            {
-                                Phases.FinishSubPhase(typeof(SubPhases.FreeActionDecisonSubPhase));
-                                callBack();
-                            }
+                            delegate { Actions.FinishAction(delegate { FinishFreeActionDecision(callback); }); }
                         );
                     }
                 }
             );
 
             Triggers.ResolveTriggers(TriggerTypes.OnFreeAction, Triggers.FinishTrigger);
+        }
+
+        private void FinishFreeActionDecision(Action callback)
+        {
+            Phases.FinishSubPhase(typeof(SubPhases.FreeActionDecisonSubPhase));
+            callback();
         }
 
         public List<ActionsList.GenericAction> GetAvailableActionsList()

@@ -197,6 +197,8 @@ public static partial class Actions {
         return result;
     }
 
+    // TAKE ACTION TRIGGERS
+
     public static void TakeAction(GenericAction action)
     {
         var ship = Selection.ThisShip;
@@ -205,6 +207,21 @@ public static partial class Actions {
         ship.AddAlreadyExecutedAction(action);
         CurrentAction = action;
         action.ActionTake();
+    }
+
+    public static void FinishAction(Action callback)
+    {
+        ActionIsTaken(callback);
+    }
+
+    private static void ActionIsTaken(Action callback)
+    {
+        Selection.ThisShip.CallActionIsTaken(Actions.CurrentAction, delegate { EndActionDecisionSubhase(callback); });
+    }
+
+    private static void EndActionDecisionSubhase(Action callback)
+    {
+        Selection.ThisShip.CallOnActionDecisionSubphaseEnd(callback);
     }
 
 }

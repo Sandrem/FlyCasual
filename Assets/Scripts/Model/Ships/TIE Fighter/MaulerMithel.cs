@@ -32,7 +32,7 @@ namespace Abilities
         {
             base.Initialize(host);
 
-            HostShip.AfterGotNumberOfPrimaryWeaponAttackDice += MaulerMithelPilotAbility;
+            HostShip.AfterGotNumberOfAttackDice += MaulerMithelPilotAbility;
         }
 
         private void MaulerMithelPilotAbility(ref int result)

@@ -9,7 +9,7 @@ namespace UpgradesList
         public AdvancedTargetingComputer() : base()
         {
             Type = UpgradeType.System;
-            Name = "Advanced Targeting Computer";
+            Name = "Adv. Targeting Computer";
             Cost = 5;
         }
 

@@ -45,7 +45,8 @@ namespace Arcs
                         ShipBase = Host.ShipBase,
                         MinAngle = -40f,
                         MaxAngle = 40f,
-                        Facing = ArcFacing.Front
+                        Facing = ArcFacing.Front,
+                        IsMobileArc = true
                     }
                 },
                 {
@@ -53,9 +54,10 @@ namespace Arcs
                     new ArcInfo()
                     {
                         ShipBase = Host.ShipBase,
-                        MinAngle = -140f,
-                        MaxAngle = -40f,
-                        Facing = ArcFacing.Left
+                        MinAngle = 40f,
+                        MaxAngle = 140f,
+                        Facing = ArcFacing.Left,
+                        IsMobileArc = true
                     }
                 },
                 {
@@ -63,9 +65,10 @@ namespace Arcs
                     new ArcInfo()
                     {
                         ShipBase = Host.ShipBase,
-                        MinAngle = 40f,
-                        MaxAngle = 140f,
-                        Facing = ArcFacing.Right
+                        MinAngle = -140f,
+                        MaxAngle = -40f,
+                        Facing = ArcFacing.Right,
+                        IsMobileArc = true
                     }
                 },
                 {
@@ -75,7 +78,8 @@ namespace Arcs
                         ShipBase = Host.ShipBase,
                         MinAngle = -140f,
                         MaxAngle = 140f,
-                        Facing = ArcFacing.Rear
+                        Facing = ArcFacing.Rear,
+                        IsMobileArc = true
                     }
                 }
             };

@@ -55,7 +55,7 @@ namespace Abilities
         private void CheckAssignStress()
         {
             ShipShotDistanceInformation shotInfo = new ShipShotDistanceInformation(HostShip, TargetShip);
-            if (shotInfo.InMobileArc && shotInfo.Distance >= 1 && shotInfo.Distance <= 2)
+            if (shotInfo.InMobileArc && shotInfo.Range >= 1 && shotInfo.Range <= 2)
             {
                 Messages.ShowError(HostShip.PilotName + " assigns Stress Token to " + TargetShip.PilotName);
                 TargetShip.AssignToken(new Tokens.StressToken(), SelectShipSubPhase.FinishSelection);

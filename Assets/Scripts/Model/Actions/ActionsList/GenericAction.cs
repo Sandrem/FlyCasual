@@ -64,9 +64,11 @@ namespace ActionsList
             * 90 - Free rerolls
             * 80 - Free focus to evades
             * 70 - Regular Evade if 1 uncancelled
+            * 65 - Not free Evade if 1 uncancelled
             * 50 - Regular Focus to evades if 1+
             * 40 - Regular Focus to evades if 1
             * 20 - Regular Evade if >1 uncancelled
+            * 15 - Not free Evade if >1 uncancelled
             */
 
             return result;

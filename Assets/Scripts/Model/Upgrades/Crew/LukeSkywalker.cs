@@ -65,6 +65,7 @@ namespace UpgradesList
                 typeof(SelectTargetForSecondAttackSubPhase),
                 delegate {
                     Phases.FinishSubPhase(typeof(SelectTargetForSecondAttackSubPhase));
+                    Selection.ThisShip.IsAttackPerformed = false;
                     Combat.DeclareIntentToAttack(Selection.ThisShip.ShipId, Selection.AnotherShip.ShipId);
                 });
         }

@@ -1,4 +1,5 @@
 ﻿using System;
+using Upgrade;
 
 public static class ImageUrls
 {
@@ -9,7 +10,7 @@ public static class ImageUrls
 
     public static string GetImageUrl(Upgrade.GenericUpgrade upgrade, string filename = null)
     {
-        return GetImageUrl(UpgradesPath + upgrade.Type.ToString(), upgrade.Name, filename);
+        return GetImageUrl(UpgradesPath + FormatUpgradeType(upgrade.Type), upgrade.Name, filename);
     }
 
     public static string GetImageUrl(CriticalHitCard.GenericCriticalHit crit, string filename = null)
@@ -34,6 +35,17 @@ public static class ImageUrls
             .Replace("/FO", "/fo")
             .Replace("/SF", "/sf")
             .Replace('/', '-');
+    }
+
+    private static string FormatUpgradeType(UpgradeType type)
+    {
+        switch (type)
+        {
+            case UpgradeType.SalvagedAstromech:
+                return "Salvaged Astromech";
+            default:
+                return type.ToString();
+        }
     }
 
     private static string FormatFaction(SubFaction faction)

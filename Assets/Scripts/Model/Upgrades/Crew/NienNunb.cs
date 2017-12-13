@@ -8,7 +8,7 @@ namespace UpgradesList
         {
             Type = UpgradeType.Crew;
             Name = "Nien Nunb";
-            Cost = 2;
+            Cost = 1;
             isUnique = true;
         }
 

@@ -15,6 +15,8 @@ namespace Ship
                 PilotSkill = 4;
                 Cost = 19;
 
+                IsUnique = true;
+
                 faction = Faction.Rebel;
 
                 PilotAbilities.Add(new Abilities.RoarkGarnetAbility());

@@ -15,6 +15,10 @@ namespace Ship
                 PilotSkill = 6;
                 Cost = 21;
 
+                IsUnique = true;
+
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
+
                 faction = Faction.Rebel;
 
                 PilotAbilities.Add(new Abilities.KyleKatarnAbility());

@@ -117,6 +117,8 @@ namespace Players
                     }
 
                 }
+
+                Selection.ThisShip.CallAfterAttackWindow();
                 Selection.ThisShip.IsAttackPerformed = true;
             }
 
@@ -381,7 +383,9 @@ namespace Players
 
         public override void OnTargetNotLegalForAttack()
         {
+            Selection.ThisShip.CallAfterAttackWindow();
             Selection.ThisShip.IsAttackPerformed = true;
+
             Phases.FinishSubPhase(typeof(SubPhases.CombatSubPhase));
         }
 

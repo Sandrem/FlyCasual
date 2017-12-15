@@ -33,11 +33,6 @@ namespace SubPhases
 
             UI.HideSkipButton();
 
-            if (Selection.ThisShip != null)
-            {
-                Selection.ThisShip.CallAfterAttackWindow();
-            }
-
             Selection.DeselectAllShips();
 
             bool success = GetNextActivation(RequiredPilotSkill);
@@ -211,6 +206,7 @@ namespace SubPhases
             {
                 if (shipHolder.Value.PilotSkill == Phases.CurrentSubPhase.RequiredPilotSkill)
                 {
+                    shipHolder.Value.CallAfterAttackWindow();
                     shipHolder.Value.IsAttackPerformed = true;
                 }
             }

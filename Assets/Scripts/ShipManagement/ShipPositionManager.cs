@@ -219,12 +219,12 @@ public class ShipPositionManager : MonoBehaviour
         
         if (isInsideStartingZone)
         {
-            if (newBounds["maxZ"] > StartingZone.TransformPoint(0.5f, 0.5f, 0.5f).z) newPosition.z = StartingZone.TransformPoint(0.5f, 0.5f, 0.5f).z - (newBounds["maxZ"] - newPosition.z);
-            if (newBounds["minZ"] < StartingZone.TransformPoint(-0.5f, -0.5f, -0.5f).z) newPosition.z = StartingZone.TransformPoint(-0.5f, -0.5f, -0.5f).z + (newPosition.z - newBounds["minZ"]);
+            if (newBounds["maxZ"] > StartingZone.TransformPoint(0.5f, 0.5f, 0.5f).z) newPosition.z = StartingZone.TransformPoint(0.5f, 0.5f, 0.5f).z - (newBounds["maxZ"] - newPosition.z + 0.01f);
+            if (newBounds["minZ"] < StartingZone.TransformPoint(-0.5f, -0.5f, -0.5f).z) newPosition.z = StartingZone.TransformPoint(-0.5f, -0.5f, -0.5f).z + (newPosition.z - newBounds["minZ"] + 0.01f);
         }
         
-        if (newBounds["maxX"] > StartingZone.TransformPoint( 0.5f,  0.5f,  0.5f).x) newPosition.x = StartingZone.TransformPoint( 0.5f,  0.5f,  0.5f).x - (newBounds["maxX"] - newPosition.x);
-        if (newBounds["minX"] < StartingZone.TransformPoint(-0.5f, -0.5f, -0.5f).x) newPosition.x = StartingZone.TransformPoint(-0.5f, -0.5f, -0.5f).x + (newPosition.x - newBounds["minX"]);
+        if (newBounds["maxX"] > StartingZone.TransformPoint( 0.5f,  0.5f,  0.5f).x) newPosition.x = StartingZone.TransformPoint( 0.5f,  0.5f,  0.5f).x - (newBounds["maxX"] - newPosition.x + 0.01f);
+        if (newBounds["minX"] < StartingZone.TransformPoint(-0.5f, -0.5f, -0.5f).x) newPosition.x = StartingZone.TransformPoint(-0.5f, -0.5f, -0.5f).x + (newPosition.x - newBounds["minX"] + 0.01f);
 
         Selection.ThisShip.SetCenter(newPosition);
     }

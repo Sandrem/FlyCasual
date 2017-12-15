@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Ship;
+using Upgrade;
 
 namespace ActionsList
 {
@@ -24,8 +26,27 @@ namespace ActionsList
 
         public bool IsOpposite;
 
-        public Ship.GenericShip Host;
-        public Upgrade.GenericUpgrade Source;
+        private GenericShip host;
+        public GenericShip Host
+        {
+            get
+            {
+                if (host == null) Console.Write(Name + " tries to get Host value, but it was not set", LogTypes.Errors, true, "red");
+                return host;
+            }
+            set { host = value; }
+        }
+
+        private GenericShip source;
+        public GenericShip Source
+        {
+            get
+            {
+                if (source == null) Console.Write(Name + " tries to get Source value, but it was not set", LogTypes.Errors, true, "red");
+                return source;
+            }
+            set { source = value; }
+        }
 
         public virtual void ActionEffect(System.Action callBack)
         {

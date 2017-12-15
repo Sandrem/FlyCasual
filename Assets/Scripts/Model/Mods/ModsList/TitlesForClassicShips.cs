@@ -2,11 +2,11 @@
 {
     namespace ModsList
     {
-        public class T65BMod : Mod
+        public class TitlesForClassicShips : Mod
         {
-            public T65BMod()
+            public TitlesForClassicShips()
             {
-                Name = "T-65B X-Wing & Friends";
+                Name = "Titles for classic ships";
                 Description = "Titles for T-65 X-Wing: T-65A, T-65B, T-65D-A1\nTitle for TIE Fighter: TIE/LN";
             }
         }

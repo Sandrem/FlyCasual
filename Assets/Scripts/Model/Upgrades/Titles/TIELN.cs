@@ -11,7 +11,7 @@ namespace UpgradesList
 
         public TIELN() : base()
         {
-            FromMod = typeof(T65BMod);
+            FromMod = typeof(TitlesForClassicShips);
 
             Type = UpgradeType.Title;
             Name = "TIE/LN";

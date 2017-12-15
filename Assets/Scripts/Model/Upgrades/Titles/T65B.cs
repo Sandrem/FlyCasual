@@ -9,7 +9,7 @@ namespace UpgradesList
     {
         public T65B() : base()
         {
-            FromMod = typeof(T65BMod);
+            FromMod = typeof(TitlesForClassicShips);
 
             Type = UpgradeType.Title;
             Name = "T-65B";

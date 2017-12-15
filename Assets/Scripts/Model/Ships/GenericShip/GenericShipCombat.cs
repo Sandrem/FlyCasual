@@ -587,6 +587,10 @@ namespace Ship
         {
             Phases.OnCombatSubPhaseRequiredPilotSkillIsChanged -= PerformShipDestruction;
             Roster.DestroyShip(this.GetTag());
+            foreach (var pilotAbility in PilotAbilities)
+            {
+                pilotAbility.DeactivateAbility();
+            }
 
             if (OnDestroyed != null) OnDestroyed(this);
         }

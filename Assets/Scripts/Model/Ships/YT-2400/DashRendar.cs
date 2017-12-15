@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Ship;
 
 namespace Ship
 {
@@ -34,6 +35,7 @@ namespace Abilities
 
             Phases.OnActivationPhaseStart += ActivateDashRendarAbility;
             Phases.OnCombatPhaseStart += DeactivateDashRendarAbility;
+            HostShip.OnDestroyed += DeactivateDashRendarAbilityOnDestroyed;
         }
 
         private void ActivateDashRendarAbility()
@@ -44,6 +46,11 @@ namespace Abilities
         private void DeactivateDashRendarAbility()
         {
             HostShip.IsIgnoreObstacles = false;
+        }
+
+        private void DeactivateDashRendarAbilityOnDestroyed(GenericShip host)
+        {
+            Phases.OnActivationPhaseStart -= ActivateDashRendarAbility;
         }
     }
 }

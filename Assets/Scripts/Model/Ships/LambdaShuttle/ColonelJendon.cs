@@ -26,11 +26,14 @@ namespace Abilities
 {
     public class ColonelJendonAbility : GenericAbility
     {
-        public override void Initialize(GenericShip host)
+        public override void ActivateAbility()
         {
-            base.Initialize(host);
-
             Phases.OnCombatPhaseStart += RegisterColonelJendonAbility;
+        }
+
+        public override void DeactivateAbility()
+        {
+            Phases.OnCombatPhaseStart -= RegisterColonelJendonAbility;
         }
 
         private void RegisterColonelJendonAbility()

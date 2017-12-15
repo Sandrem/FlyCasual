@@ -31,11 +31,14 @@ namespace Abilities
     public class AsajjVentressPilotAbility : GenericAbility
     {
 
-        public override void Initialize(GenericShip hostShip)
+        public override void ActivateAbility()
         {
-            base.Initialize(hostShip);
-
             Phases.OnCombatPhaseStart += TryRegisterAsajjVentressPilotAbility;
+        }
+
+        public override void DeactivateAbility()
+        {
+            Phases.OnCombatPhaseStart -= TryRegisterAsajjVentressPilotAbility;
         }
 
         private void TryRegisterAsajjVentressPilotAbility()

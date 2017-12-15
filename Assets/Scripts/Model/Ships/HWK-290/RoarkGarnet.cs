@@ -73,6 +73,7 @@ namespace Abilities
 
         private void RemovePilotSkillModifieer()
         {
+            Phases.OnEndPhaseStart -= RemovePilotSkillModifieer;
             TargetShip.RemovePilotSkillModifier(this);
         }
 

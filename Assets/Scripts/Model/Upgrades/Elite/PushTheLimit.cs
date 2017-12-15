@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Upgrade;
+using Ship;
 
 namespace UpgradesList
 {
@@ -24,6 +25,7 @@ namespace UpgradesList
             host.OnActionIsPerformed += CheckConditions;
 
             Phases.OnEndPhaseStart += Cleanup;
+            Host.OnDestroyed += StopAbility;
         }
 
         private void CheckConditions(GenericAction action)
@@ -78,5 +80,11 @@ namespace UpgradesList
 				Triggers.FinishTrigger();
 			}
 		}
-	}
+
+        private void StopAbility(GenericShip host)
+        {
+            Phases.OnEndPhaseStart -= Cleanup;
+        }
+
+    }
 }

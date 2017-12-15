@@ -24,6 +24,8 @@ namespace CriticalHitCard
 
         private void ApplyDelayedEffect()
         {
+            Phases.OnRoundStart -= ApplyDelayedEffect;
+
             Host.AddPilotSkillModifier(this);
             Roster.UpdateShipStats(Host);
         }

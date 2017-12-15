@@ -40,6 +40,8 @@ namespace Abilities
             HostReal = hostShip;
             HostShip = hostShip;
             Name = HostShip.PilotName + "'s ability";
+
+            ActivateAbility();
         }
 
         public virtual void Initialize(GenericUpgrade hostUpgrade)

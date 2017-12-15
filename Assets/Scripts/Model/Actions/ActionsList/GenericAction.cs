@@ -37,8 +37,8 @@ namespace ActionsList
             set { host = value; }
         }
 
-        private GenericShip source;
-        public GenericShip Source
+        private GenericUpgrade source;
+        public GenericUpgrade Source
         {
             get
             {

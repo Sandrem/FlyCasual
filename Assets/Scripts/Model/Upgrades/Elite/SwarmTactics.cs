@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Upgrade;
+using Ship;
 
 namespace UpgradesList
 {
@@ -23,6 +24,7 @@ namespace UpgradesList
             base.AttachToShip(host);
 
             Phases.OnCombatPhaseStart += PlanSwarmTacticsPilotAbility;
+            Host.OnDestroyed += RemoveAbility;
         }
 
         private void PlanSwarmTacticsPilotAbility()
@@ -51,6 +53,11 @@ namespace UpgradesList
             {
                 Triggers.FinishTrigger();
             }
+        }
+
+        private void RemoveAbility(GenericShip host)
+        {
+            Phases.OnCombatPhaseStart -= PlanSwarmTacticsPilotAbility;
         }
 
     }

@@ -18,8 +18,24 @@ namespace Ship
             Model = CreateShipModel(position);
             shipAllParts = Model.transform.Find("RotationHelper/RotationHelper2/ShipAllParts").transform;
             modelCenter = shipAllParts.Find("ShipModels/" + FixTypeName(Type) + "/ModelCenter").transform;
+            InitializeShipBase();
             SetRaycastTarget(true);
             SetSpotlightMask();
+        }
+
+        private void InitializeShipBase()
+        {
+            switch (ShipBaseSize)
+            {
+                case BaseSize.Small:
+                    ShipBase = new ShipBaseSmall(this);
+                    break;
+                case BaseSize.Large:
+                    ShipBase = new ShipBaseLarge(this);
+                    break;
+                default:
+                    break;
+            }
         }
 
         public GameObject CreateShipModel(Vector3 position)

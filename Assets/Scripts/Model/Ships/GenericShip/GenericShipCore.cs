@@ -232,25 +232,9 @@ namespace Ship
             PrimaryWeapon = new PrimaryWeaponClass(this);
 
             CreateModel(StartingPosition);
-            InitializeShipBase();
             InitializeShipBaseArc();
 
             SetTagOfChildrenRecursive(Model.transform, "ShipId:" + ShipId.ToString());
-        }
-
-        private void InitializeShipBase()
-        {
-            switch (ShipBaseSize)
-            {
-                case BaseSize.Small:
-                    ShipBase = new ShipBaseSmall(this);
-                    break;
-                case BaseSize.Large:
-                    ShipBase = new ShipBaseLarge(this);
-                    break;
-                default:
-                    break;
-            }
         }
 
         private void InitializeShipBaseArc()

@@ -67,9 +67,16 @@ namespace Ship
         {
             Roster.ToggelManeuverVisibility(Selection.ThisShip, true);
 
-            if (OnManeuverIsRevealed != null) OnManeuverIsRevealed(this);
+            if (Selection.ThisShip.AssignedManeuver.IsRealMovement)
+            {
+                if (OnManeuverIsRevealed != null) OnManeuverIsRevealed(this);
 
-            Triggers.ResolveTriggers(TriggerTypes.OnManeuverIsRevealed, callBack);
+                Triggers.ResolveTriggers(TriggerTypes.OnManeuverIsRevealed, callBack);
+            }
+            else // For ionized ships
+            {
+                callBack();
+            }
         }
 
         public void StartMoving(System.Action callback)

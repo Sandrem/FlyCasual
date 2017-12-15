@@ -16,10 +16,10 @@ public class ModsUI : MonoBehaviour {
     public void InitializePanel()
     {
         GameObject prefab = (GameObject)Resources.Load("Prefabs/UI/ModPanel", typeof(GameObject));
-        GameObject ModsPanel = GameObject.Find("UI/Panels").transform.Find("ModsPanel").gameObject;
+        GameObject ModsPanel = GameObject.Find("UI/Panels").transform.Find("ModsPanel").Find("Scroll View/Viewport/Content").gameObject;
 
         RectTransform modsPanelRectTransform = ModsPanel.GetComponent<RectTransform>();
-        Vector3 currentPosition = new Vector3(ModsPanel.transform.position.x - modsPanelRectTransform.sizeDelta.x/2 + FREE_SPACE, ModsPanel.transform.position.y + modsPanelRectTransform.sizeDelta.y / 2 - FREE_SPACE, ModsPanel.transform.position.z);
+        Vector3 currentPosition = new Vector3(ModsPanel.transform.position.x - modsPanelRectTransform.sizeDelta.x/2 + FREE_SPACE, ModsPanel.transform.position.y - FREE_SPACE, ModsPanel.transform.position.z);
 
         foreach (var mod in ModsManager.Mods)
         {
@@ -43,6 +43,7 @@ public class ModsUI : MonoBehaviour {
                 modRecordRectTransform.sizeDelta = new Vector2(modRecordRectTransform.sizeDelta.x, modRecordRectTransform.sizeDelta.y + description.preferredHeight);
 
                 currentPosition = new Vector3(currentPosition.x, currentPosition.y - modRecordRectTransform.sizeDelta.y - FREE_SPACE, currentPosition.z);
+                modsPanelRectTransform.sizeDelta = new Vector2(modsPanelRectTransform.sizeDelta.x, modsPanelRectTransform.sizeDelta.y + modRecordRectTransform.sizeDelta.y + FREE_SPACE);
             }
             else
             {

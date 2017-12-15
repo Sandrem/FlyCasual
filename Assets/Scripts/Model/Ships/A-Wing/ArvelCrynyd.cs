@@ -22,11 +22,14 @@ namespace Abilities
 {
     public class ArvelCrynydAbility : GenericAbility
     {
-        public override void Initialize(Ship.GenericShip host)
+        public override void ActivateAbility()
         {
-            base.Initialize(host);
-
             HostShip.CanAttackBumpedTargetAlways = true;
+        }
+
+        public override void DeactivateAbility()
+        {
+            HostShip.CanAttackBumpedTargetAlways = false;
         }
     }
 }

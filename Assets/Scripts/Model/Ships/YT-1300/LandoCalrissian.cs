@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Ship;
 using SubPhases;
+using System;
 
 namespace Ship
 {
@@ -35,11 +36,14 @@ namespace Abilities
 {
     public class LandoCalrissianAbility : GenericAbility
     {
-        public override void Initialize(GenericShip host)
+        public override void ActivateAbility()
         {
-            base.Initialize(host);
-
             HostShip.OnMovementExecuted += CheckLandoCalrissianPilotAbility;
+        }
+
+        public override void DeactivateAbility()
+        {
+            HostShip.OnMovementExecuted -= CheckLandoCalrissianPilotAbility;
         }
 
         private void CheckLandoCalrissianPilotAbility(GenericShip ship)

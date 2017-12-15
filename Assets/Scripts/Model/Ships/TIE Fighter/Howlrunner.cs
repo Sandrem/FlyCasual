@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Ship;
+using System;
 
 namespace Ship
 {
@@ -30,23 +31,19 @@ namespace Abilities
 {
     public class HowlrunnerAbility : GenericAbility
     {
-        public override void Initialize(GenericShip host)
+        public override void ActivateAbility()
         {
-            base.Initialize(host);
-
             GenericShip.AfterGenerateAvailableActionEffectsListGlobal += AddHowlrunnerAbility;
-            HostShip.OnDestroyed += RemoveHowlrunnerAbility;
+        }
+
+        public override void DeactivateAbility()
+        {
+            GenericShip.AfterGenerateAvailableActionEffectsListGlobal -= AddHowlrunnerAbility;
         }
 
         private void AddHowlrunnerAbility()
         {
             Combat.Attacker.AddAvailableActionEffect(new HowlrunnerAction() { Host = this.HostShip });
-        }
-
-        private void RemoveHowlrunnerAbility(GenericShip ship)
-        {
-            GenericShip.AfterGenerateAvailableActionEffectsListGlobal -= AddHowlrunnerAbility;
-            HostShip.OnDestroyed -= RemoveHowlrunnerAbility;
         }
 
         private class HowlrunnerAction : ActionsList.GenericAction

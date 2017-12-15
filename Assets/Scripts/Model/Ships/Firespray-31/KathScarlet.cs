@@ -32,11 +32,14 @@ namespace Abilities
 {
     public class KathScarletEmpireAbility : GenericAbility
     {
-        public override void Initialize(Ship.GenericShip host)
+        public override void ActivateAbility()
         {
-            base.Initialize(host);
-
             HostShip.OnAtLeastOneCritWasCancelledByDefender += RegisterKathScarletPilotAbility;
+        }
+
+        public override void DeactivateAbility()
+        {
+            HostShip.OnAtLeastOneCritWasCancelledByDefender -= RegisterKathScarletPilotAbility;
         }
 
         private void RegisterKathScarletPilotAbility()

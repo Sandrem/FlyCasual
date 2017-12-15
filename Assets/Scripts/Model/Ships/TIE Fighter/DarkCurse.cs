@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -26,12 +27,16 @@ namespace Abilities
 {
     public class DarkCurseAbility : GenericAbility
     {
-        public override void Initialize(Ship.GenericShip host)
+        public override void ActivateAbility()
         {
-            base.Initialize(host);
-
             HostShip.OnAttackStartAsDefender += AddDarkCursePilotAbility;
             HostShip.OnDefence += RemoveDarkCursePilotAbility;
+        }
+
+        public override void DeactivateAbility()
+        {
+            HostShip.OnAttackStartAsDefender -= AddDarkCursePilotAbility;
+            HostShip.OnDefence -= RemoveDarkCursePilotAbility;
         }
 
         private void AddDarkCursePilotAbility()

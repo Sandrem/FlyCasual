@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Ship;
 using Abilities;
+using System;
 
 namespace Ship
 {
@@ -27,12 +28,16 @@ namespace Abilities
 {
     public class OmegaLeaderAbility : GenericAbility
     {
-        public override void Initialize(GenericShip host)
+        public override void ActivateAbility()
         {
-            base.Initialize(host);
-
             HostShip.OnAttackStartAsAttacker += AddOmegaLeaderPilotAbility;
             HostShip.OnAttackStartAsDefender += AddOmegaLeaderPilotAbility;
+        }
+
+        public override void DeactivateAbility()
+        {
+            HostShip.OnAttackStartAsAttacker -= AddOmegaLeaderPilotAbility;
+            HostShip.OnAttackStartAsDefender -= AddOmegaLeaderPilotAbility;
         }
 
         private void AddOmegaLeaderPilotAbility()

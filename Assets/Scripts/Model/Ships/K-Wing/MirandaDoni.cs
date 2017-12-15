@@ -4,6 +4,7 @@ using UnityEngine;
 using Abilities;
 using SubPhases;
 using Ship;
+using System;
 
 namespace Ship
 {
@@ -29,13 +30,16 @@ namespace Abilities
 {
     public class MirandaDoniAbility : GenericAbility
     {
-        public override void Initialize(GenericShip host)
+        public override void ActivateAbility()
         {
-            base.Initialize(host);
-
             HostShip.OnShotStartAsAttacker += CheckConditions;
             Phases.OnRoundEnd += ClearAbility;
-            HostShip.OnDestroyed += StopAbility;
+        }
+
+        public override void DeactivateAbility()
+        {
+            HostShip.OnShotStartAsAttacker -= CheckConditions;
+            Phases.OnRoundEnd -= ClearAbility;
         }
 
         private void CheckConditions()
@@ -125,11 +129,6 @@ namespace Abilities
         private void ClearAbility()
         {
             IsAbilityUsed = false;
-        }
-
-        private void StopAbility(GenericShip host)
-        {
-            Phases.OnRoundEnd -= ClearAbility;
         }
 
         private class MirandaDoniDecisionSubPhase : DecisionSubPhase { }

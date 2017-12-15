@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Ship;
+using System;
 
 namespace Ship
 {
@@ -31,15 +32,12 @@ namespace Abilities
 {
     public class JanOrsAbility : GenericAbility
     {
-        public override void Initialize(GenericShip host)
+        public override void ActivateAbility()
         {
-            base.Initialize(host);
-
             GenericShip.OnAttackStartAsAttackerGlobal += RegisterJanOrsAbility;
-            HostShip.OnDestroyed += RemoveAbility;
         }
 
-        private void RemoveAbility(GenericShip ship)
+        public override void DeactivateAbility()
         {
             GenericShip.OnAttackStartAsAttackerGlobal -= RegisterJanOrsAbility;
         }

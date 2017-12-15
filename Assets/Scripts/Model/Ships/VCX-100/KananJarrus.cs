@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Ship;
+using System;
 
 namespace Ship
 {
@@ -27,11 +28,14 @@ namespace Abilities
 {
     public class KananJarrusPilotAbility : GenericAbility
     {
-        public override void Initialize(GenericShip host)
+        public override void ActivateAbility()
         {
-            base.Initialize(host);
-
             GenericShip.OnAttackStartAsAttackerGlobal += CheckPilotAbility;
+        }
+
+        public override void DeactivateAbility()
+        {
+            GenericShip.OnAttackStartAsAttackerGlobal -= CheckPilotAbility;
         }
 
         private void CheckPilotAbility()

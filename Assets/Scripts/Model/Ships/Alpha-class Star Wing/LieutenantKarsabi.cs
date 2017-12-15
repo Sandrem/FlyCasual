@@ -30,11 +30,14 @@ namespace Abilities
 {
     public class LieutenantKarsabiAbility : GenericAbility
     {
-        public override void Initialize(Ship.GenericShip host)
+        public override void ActivateAbility()
         {
-            base.Initialize(host);
-
             HostShip.OnTokenIsAssigned += RegisterLieutenantKarsabiAbility;
+        }
+
+        public override void DeactivateAbility()
+        {
+            HostShip.OnTokenIsAssigned -= RegisterLieutenantKarsabiAbility;
         }
 
         private void RegisterLieutenantKarsabiAbility(Ship.GenericShip ship, System.Type tokenType)

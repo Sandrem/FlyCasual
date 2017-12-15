@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -30,11 +31,14 @@ namespace Abilities
 {
     public class WhisperAbility : GenericAbility
     {
-        public override void Initialize(Ship.GenericShip host)
+        public override void ActivateAbility()
         {
-            base.Initialize(host);
-
             HostShip.OnAttackHitAsAttacker += RegisterWhisperAbility;
+        }
+
+        public override void DeactivateAbility()
+        {
+            HostShip.OnAttackHitAsAttacker -= RegisterWhisperAbility;
         }
 
         public void RegisterWhisperAbility()

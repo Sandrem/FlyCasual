@@ -32,11 +32,14 @@ namespace Abilities
 {
     public class KrassisTrelixAbility : GenericAbility
     {
-        public override void Initialize(GenericShip host)
+        public override void ActivateAbility()
         {
-            base.Initialize(host);
-
             HostShip.AfterGenerateAvailableActionEffectsList += KrassisTrelixPilotAbility;
+        }
+
+        public override void DeactivateAbility()
+        {
+            HostShip.AfterGenerateAvailableActionEffectsList -= KrassisTrelixPilotAbility;
         }
 
         public void KrassisTrelixPilotAbility(GenericShip ship)

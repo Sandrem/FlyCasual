@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using Ship;
+using System;
 
 namespace Ship
 {
@@ -37,11 +38,14 @@ namespace Abilities
 {
     public class ReyAbility : GenericAbility
     {
-        public override void Initialize(GenericShip host)
+        public override void ActivateAbility()
         {
-            base.Initialize(host);
-
             HostShip.AfterGenerateAvailableActionEffectsList += ReyPilotAbility;
+        }
+
+        public override void DeactivateAbility()
+        {
+            HostShip.AfterGenerateAvailableActionEffectsList -= ReyPilotAbility;
         }
 
         public void ReyPilotAbility(GenericShip ship)

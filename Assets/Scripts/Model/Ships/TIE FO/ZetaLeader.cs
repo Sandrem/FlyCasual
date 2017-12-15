@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Ship;
+using System;
 
 namespace Ship
 {
@@ -29,12 +30,16 @@ namespace Abilities
 {
     public class ZetaLeaderAbility : GenericAbility
     {
-        public override void Initialize(GenericShip host)
+        public override void ActivateAbility()
         {
-            base.Initialize(host);
-
             HostShip.OnCombatPhaseStart += RegisterEpsilonLeaderAbility;
             HostShip.OnCombatPhaseEnd += RemoveEpsilonLeaderAbility;
+        }
+
+        public override void DeactivateAbility()
+        {
+            HostShip.OnCombatPhaseStart -= RegisterEpsilonLeaderAbility;
+            HostShip.OnCombatPhaseEnd -= RemoveEpsilonLeaderAbility;
         }
 
         private void RegisterEpsilonLeaderAbility(GenericShip genericShip)

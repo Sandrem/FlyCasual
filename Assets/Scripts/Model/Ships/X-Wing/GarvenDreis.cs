@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Ship;
 using SubPhases;
+using System;
 
 namespace Ship
 {
@@ -28,11 +29,14 @@ namespace Abilities
 {
     public class GarvenDreisAbility : GenericAbility
     {
-        public override void Initialize(GenericShip host)
+        public override void ActivateAbility()
         {
-            base.Initialize(host);
-
             HostShip.OnTokenIsSpent += RegisterGarvenDreisPilotAbility;
+        }
+
+        public override void DeactivateAbility()
+        {
+            HostShip.OnTokenIsSpent -= RegisterGarvenDreisPilotAbility;
         }
 
         private void RegisterGarvenDreisPilotAbility(GenericShip ship, System.Type type)

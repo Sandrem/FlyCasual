@@ -1,4 +1,5 @@
-﻿using Ship;
+﻿using System;
+using Ship;
 
 namespace Ship
 {
@@ -25,14 +26,15 @@ namespace Abilities
     public class CaptainKagiAbility : GenericAbility
     {
 
-        public override void Initialize(GenericShip host)
+        public override void ActivateAbility()
         {
-            base.Initialize(host);
-
             RulesList.TargetLocksRule.OnCheckTargetLockIsAllowed += CanPerformTargetLock;
-            host.OnDestroyed += RemoveCaptainKagiAbility;
         }
 
+        public override void DeactivateAbility()
+        {
+            RulesList.TargetLocksRule.OnCheckTargetLockIsAllowed -= CanPerformTargetLock;
+        }
 
         public void CanPerformTargetLock(ref bool result, GenericShip attacker, GenericShip defender)
         {
@@ -57,12 +59,6 @@ namespace Abilities
                 }
                 result = false;
             }
-        }
-
-        private void RemoveCaptainKagiAbility(GenericShip ship)
-        {
-            RulesList.TargetLocksRule.OnCheckTargetLockIsAllowed -= CanPerformTargetLock;
-            HostShip.OnDestroyed -= RemoveCaptainKagiAbility;
         }
 
     }

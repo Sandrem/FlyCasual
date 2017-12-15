@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Ship;
+using System;
 
 namespace Ship
 {
@@ -31,10 +32,13 @@ namespace Abilities
 {
     public class TurrPhennirAbility : GenericAbility
     {
-        public override void Initialize(Ship.GenericShip host)
+        public override void ActivateAbility()
         {
-            base.Initialize(host);
+            HostShip.OnAttackFinish += RegisterTurrPhennirPilotAbility;
+        }
 
+        public override void DeactivateAbility()
+        {
             HostShip.OnAttackFinish += RegisterTurrPhennirPilotAbility;
         }
 

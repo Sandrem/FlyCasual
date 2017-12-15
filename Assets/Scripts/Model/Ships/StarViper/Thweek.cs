@@ -34,8 +34,16 @@ namespace Abilities
             base.Initialize(host);
 
             IsAppliesConditionCard = true;
+        }
 
+        public override void ActivateAbility()
+        {
             Phases.OnBeforePlaceForces += RegisterSelectThweekTarget;
+        }
+
+        public override void DeactivateAbility()
+        {
+            Phases.OnBeforePlaceForces -= RegisterSelectThweekTarget;
         }
 
         private void RegisterSelectThweekTarget()

@@ -27,11 +27,14 @@ namespace Abilities
 {
     public class FelsWrathAbility : GenericAbility
     {
-        public override void Initialize(GenericShip host)
+        public override void ActivateAbility()
         {
-            base.Initialize(host);
-
             HostShip.OnReadyToBeDestroyed += ActivateAbility;
+        }
+
+        public override void DeactivateAbility()
+        {
+            HostShip.OnReadyToBeDestroyed -= ActivateAbility;
         }
 
         private void ActivateAbility(GenericShip ship)

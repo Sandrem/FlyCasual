@@ -30,11 +30,14 @@ namespace Abilities
 {
     public class NorraWexleyPilotAbility : GenericAbility
     {
-        public override void Initialize(GenericShip host)
+        public override void ActivateAbility()
         {
-            base.Initialize(host);
-
             HostShip.AfterGenerateAvailableActionEffectsList += AddNorraWexleyPilotAbility;
+        }
+
+        public override void DeactivateAbility()
+        {
+            HostShip.AfterGenerateAvailableActionEffectsList -= AddNorraWexleyPilotAbility;
         }
 
         private void AddNorraWexleyPilotAbility(GenericShip ship)

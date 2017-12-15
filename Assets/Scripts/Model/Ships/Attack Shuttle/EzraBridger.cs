@@ -29,12 +29,16 @@ namespace Abilities
 {
     public class EzraBridgerPilotAbility : GenericAbility
     {
-        public override void Initialize(GenericShip host)
+        public override void ActivateAbility()
         {
-            base.Initialize(host);
-
             HostShip.AfterGenerateAvailableActionEffectsList += AddEzraBridgerPilotAbility;
         }
+
+        public override void DeactivateAbility()
+        {
+            HostShip.AfterGenerateAvailableActionEffectsList -= AddEzraBridgerPilotAbility;
+        }
+
 
         private void AddEzraBridgerPilotAbility(GenericShip ship)
         {

@@ -29,22 +29,19 @@ namespace Abilities
 {
     public class RoarkGarnetAbility : GenericAbility, IModifyPilotSkill
     {
-        public override void Initialize(GenericShip host)
+        public override void ActivateAbility()
         {
-            base.Initialize(host);
-
             Phases.OnCombatPhaseStart += RegisterAbility;
-            HostShip.OnDestroyed += RemoveAbility;
+        }
+
+        public override void DeactivateAbility()
+        {
+            Phases.OnCombatPhaseStart -= RegisterAbility;
         }
 
         private void RegisterAbility()
         {
             RegisterAbilityTrigger(TriggerTypes.OnCombatPhaseStart, Ability);
-        }
-
-        private void RemoveAbility(GenericShip ship)
-        {
-            Phases.OnCombatPhaseStart -= RegisterAbility;
         }
 
         private void Ability(object sender, EventArgs e)

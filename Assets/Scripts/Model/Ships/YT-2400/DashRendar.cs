@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Ship;
+using System;
 
 namespace Ship
 {
@@ -29,13 +30,16 @@ namespace Abilities
 {
     public class DashRendarAbility : GenericAbility
     {
-        public override void Initialize(Ship.GenericShip host)
+        public override void ActivateAbility()
         {
-            base.Initialize(host);
-
             Phases.OnActivationPhaseStart += ActivateDashRendarAbility;
             Phases.OnCombatPhaseStart += DeactivateDashRendarAbility;
-            HostShip.OnDestroyed += DeactivateDashRendarAbilityOnDestroyed;
+        }
+
+        public override void DeactivateAbility()
+        {
+            Phases.OnActivationPhaseStart -= ActivateDashRendarAbility;
+            Phases.OnCombatPhaseStart -= DeactivateDashRendarAbility;
         }
 
         private void ActivateDashRendarAbility()
@@ -48,9 +52,5 @@ namespace Abilities
             HostShip.IsIgnoreObstacles = false;
         }
 
-        private void DeactivateDashRendarAbilityOnDestroyed(GenericShip host)
-        {
-            Phases.OnActivationPhaseStart -= ActivateDashRendarAbility;
-        }
     }
 }

@@ -33,23 +33,19 @@ namespace Abilities
 {
     public class LowhhrickAbility : GenericAbility
     {
-        public override void Initialize(GenericShip host)
+        public override void ActivateAbility()
         {
-            base.Initialize(host);
-
             GenericShip.AfterGenerateAvailableActionEffectsListGlobal += AddLowhhrickAbility;
-            HostShip.OnDestroyed += RemoveLowhhrickAbility;
+        }
+
+        public override void DeactivateAbility()
+        {
+            GenericShip.AfterGenerateAvailableActionEffectsListGlobal -= AddLowhhrickAbility;
         }
 
         private void AddLowhhrickAbility()
         {
             Combat.Defender.AddAvailableActionEffect(new DiceModificationAction() { Host = this.HostShip });
-        }
-
-        private void RemoveLowhhrickAbility(GenericShip ship)
-        {
-            GenericShip.AfterGenerateAvailableActionEffectsListGlobal -= AddLowhhrickAbility;
-            HostShip.OnDestroyed -= RemoveLowhhrickAbility;
         }
 
         private class DiceModificationAction : ActionsList.GenericAction

@@ -34,12 +34,16 @@ namespace Abilities
 {
     public class BobaFettEmpireAbility : GenericAbility
     {
-        public override void Initialize(GenericShip host)
+        public override void ActivateAbility()
         {
-            base.Initialize(host);
-
             HostShip.OnManeuverIsRevealed += RegisterAskChangeManeuver;
         }
+
+        public override void DeactivateAbility()
+        {
+            HostShip.OnManeuverIsRevealed -= RegisterAskChangeManeuver;
+        }
+
 
         private void RegisterAskChangeManeuver(GenericShip ship)
         {

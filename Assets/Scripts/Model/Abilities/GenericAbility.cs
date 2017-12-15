@@ -7,7 +7,7 @@ using Upgrade;
 
 namespace Abilities
 {
-    public class GenericAbility
+    public abstract class GenericAbility
     {
         public string Name { get; private set; }
 
@@ -54,9 +54,9 @@ namespace Abilities
 
         // ACTIVATE AND DEACTIVATE
 
-        public virtual void ActivateAbility() { }
+        public abstract void ActivateAbility();
 
-        public virtual void DeactivateAbility() { }
+        public abstract void DeactivateAbility();
 
         // REGISTER TRIGGER
 

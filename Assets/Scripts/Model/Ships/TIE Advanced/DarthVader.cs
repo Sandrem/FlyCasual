@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Ship;
+using System;
 
 // Second->First: Two same actions
 // Triggers are empty
@@ -34,11 +35,14 @@ namespace Abilities
 {
     public class DarthVaderAbility : GenericAbility
     {
-        public override void Initialize(GenericShip host)
+        public override void ActivateAbility()
         {
-            base.Initialize(host);
-
             HostShip.OnActionDecisionSubphaseEnd += DoSecondAction;
+        }
+
+        public override void DeactivateAbility()
+        {
+            HostShip.OnActionDecisionSubphaseEnd -= DoSecondAction;
         }
 
         private void DoSecondAction(GenericShip ship)

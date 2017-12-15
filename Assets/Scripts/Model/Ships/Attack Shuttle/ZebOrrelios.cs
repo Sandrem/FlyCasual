@@ -27,11 +27,14 @@ namespace Abilities
 {
     public class ZebOrreliosPilotAbility : GenericAbility
     {
-        public override void Initialize(GenericShip host)
+        public override void ActivateAbility()
         {
-            base.Initialize(host);
-
             HostShip.OnCheckCancelCritsFirst += CancelCritsFirstIfDefender;
+        }
+
+        public override void DeactivateAbility()
+        {
+            HostShip.OnCheckCancelCritsFirst -= CancelCritsFirstIfDefender;
         }
 
         private void CancelCritsFirstIfDefender(GenericShip ship)

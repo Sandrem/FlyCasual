@@ -29,11 +29,14 @@ namespace Abilities
 {
     public class MajorVynderAbility : GenericAbility
     {
-        public override void Initialize(Ship.GenericShip host)
+        public override void ActivateAbility()
         {
-            base.Initialize(host);
-
             HostShip.AfterGotNumberOfDefenceDice += IncreaseDefenceDiceNumber;
+        }
+
+        public override void DeactivateAbility()
+        {
+            HostShip.AfterGotNumberOfDefenceDice -= IncreaseDefenceDiceNumber;
         }
 
         private void IncreaseDefenceDiceNumber(ref int diceNumber)

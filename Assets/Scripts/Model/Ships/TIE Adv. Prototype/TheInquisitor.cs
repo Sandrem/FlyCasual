@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Ship;
+using System;
 
 namespace Ship
 {
@@ -27,11 +28,14 @@ namespace Abilities
 {
     public class TheInquisitorAbility : GenericAbility
     {
-        public override void Initialize(GenericShip host)
+        public override void ActivateAbility()
         {
-            base.Initialize(host);
-
             Board.ShipShotDistanceInformation.OnRangeIsMeasured += SetRangeToOne;
+        }
+
+        public override void DeactivateAbility()
+        {
+            Board.ShipShotDistanceInformation.OnRangeIsMeasured -= SetRangeToOne;
         }
 
         private void SetRangeToOne(GenericShip thisShip, GenericShip anotherShip, ref int range)

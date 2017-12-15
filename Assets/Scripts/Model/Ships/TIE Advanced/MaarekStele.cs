@@ -33,12 +33,14 @@ namespace Abilities
 {
     public class MaarekSteleAbility : GenericAbility
     {
-        public override void Initialize(GenericShip host)
+        public override void ActivateAbility()
         {
-            base.Initialize(host);
-
             GenericShip.OnFaceupCritCardReadyToBeDealtGlobal += MaarekStelePilotAbility;
-            HostShip.OnDestroyed += RemoveMaarekSteleAbility;
+        }
+
+        public override void DeactivateAbility()
+        {
+            GenericShip.OnFaceupCritCardReadyToBeDealtGlobal -= MaarekStelePilotAbility;
         }
 
         private void MaarekStelePilotAbility(GenericShip ship, CriticalHitCard.GenericCriticalHit crit, EventArgs e)
@@ -62,11 +64,6 @@ namespace Abilities
             );
         }
 
-        private void RemoveMaarekSteleAbility(GenericShip ship)
-        {
-            GenericShip.OnFaceupCritCardReadyToBeDealtGlobal -= MaarekStelePilotAbility;
-            HostShip.OnDestroyed -= RemoveMaarekSteleAbility;
-        }
     }
 }
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Ship;
+using System;
 
 namespace Ship
 {
@@ -29,11 +30,14 @@ namespace Abilities
     {
         private List<GenericShip> shipsToAssignStress;
 
-        public override void Initialize(GenericShip host)
+        public override void ActivateAbility()
         {
-            base.Initialize(host);
-
             HostShip.OnCombatPhaseStart += RegisterPilotAbility;
+        }
+
+        public override void DeactivateAbility()
+        {
+            HostShip.OnCombatPhaseStart -= RegisterPilotAbility;
         }
 
         private void RegisterPilotAbility(GenericShip ship)

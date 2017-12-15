@@ -28,13 +28,14 @@ namespace Abilities
     public class CaptainYorrAbility : GenericAbility
     {
 
-        public override void Initialize(GenericShip host)
+        public override void ActivateAbility()
         {
-            base.Initialize(host);
-
             GenericShip.BeforeTokenIsAssignedGlobal += CaptainYorrPilotAbility;
+        }
 
-            host.OnDestroyed += RemoveCaptainYorrAbility;
+        public override void DeactivateAbility()
+        {
+            GenericShip.BeforeTokenIsAssignedGlobal -= CaptainYorrPilotAbility;
         }
 
         private void CaptainYorrPilotAbility(GenericShip ship, System.Type tokenType)
@@ -65,10 +66,5 @@ namespace Abilities
             });
         }
 
-        private void RemoveCaptainYorrAbility(GenericShip ship)
-        {
-            GenericShip.BeforeTokenIsAssignedGlobal -= CaptainYorrPilotAbility;
-            HostShip.OnDestroyed -= RemoveCaptainYorrAbility;
-        }
     }
 }

@@ -29,11 +29,14 @@ namespace Abilities
 {
     public class SabineWrenPilotAbility : GenericAbility
     {
-        public override void Initialize(GenericShip host)
+        public override void ActivateAbility()
         {
-            base.Initialize(host);
-
             HostShip.OnManeuverIsRevealed += RegisterSabineWrenPilotAbility;
+        }
+
+        public override void DeactivateAbility()
+        {
+            HostShip.OnManeuverIsRevealed -= RegisterSabineWrenPilotAbility;
         }
 
         private void RegisterSabineWrenPilotAbility(GenericShip ship)

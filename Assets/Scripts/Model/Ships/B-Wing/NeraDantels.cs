@@ -31,14 +31,22 @@ namespace Abilities
 {
     public class NeraDantelsAbility : GenericAbility
     {
-        public override void Initialize(Ship.GenericShip host)
+        public override void ActivateAbility()
         {
-            base.Initialize(host);
+            ToggleAbility(true);
+        }
 
-            HostShip.ArcInfo.OutOfArcShotPermissions.CanShootTorpedoes = true;
+        public override void DeactivateAbility()
+        {
+            ToggleAbility(false);
+        }
+
+        private void ToggleAbility(bool isActive)
+        {
+            HostShip.ArcInfo.OutOfArcShotPermissions.CanShootTorpedoes = isActive;
             foreach (Upgrade.GenericSecondaryWeapon torpedo in HostShip.UpgradeBar.GetInstalledUpgrades().Where(n => n.Type == Upgrade.UpgradeType.Torpedo))
             {
-                torpedo.CanShootOutsideArc = true;
+                torpedo.CanShootOutsideArc = isActive;
             }
         }
     }

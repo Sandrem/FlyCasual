@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -26,14 +27,23 @@ namespace Abilities
 {
     public class MoraloEvalAbility : GenericAbility
     {
-        public override void Initialize(Ship.GenericShip host)
+        public override void ActivateAbility()
         {
-            base.Initialize(host);
+            ToggleAbility(true);
+        }
 
+        public override void DeactivateAbility()
+        {
+            ToggleAbility(false);
+        }
+
+        private void ToggleAbility(bool isActive)
+        {
             foreach (Arcs.ArcInfo arc in HostShip.ArcInfo.GetAllArcs())
             {
-                arc.ShotPermissions.CanShootCannon = true;
+                arc.ShotPermissions.CanShootCannon = isActive;
             }
         }
+
     }
 }

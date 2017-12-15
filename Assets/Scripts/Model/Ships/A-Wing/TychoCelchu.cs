@@ -24,11 +24,14 @@ namespace Abilities
 {
     public class TychoCelchuAbility : GenericAbility
     {
-        public override void Initialize(Ship.GenericShip host)
+        public override void ActivateAbility()
         {
-            base.Initialize(host);
-
             HostShip.CanPerformActionsWhileStressed = true;
+        }
+
+        public override void DeactivateAbility()
+        {
+            HostShip.CanPerformActionsWhileStressed = false;
         }
     }
 }

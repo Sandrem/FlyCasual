@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Ship;
 using Tokens;
+using System;
 
 namespace Ship
 {
@@ -34,11 +35,14 @@ namespace Abilities
             public GenericShip Target;
         }
 
-        public override void Initialize(GenericShip host)
+        public override void ActivateAbility()
         {
-            base.Initialize(host);
-
             HostShip.OnCoordinateTargetIsSelected += RegisterAP5PilotAbilty;
+        }
+
+        public override void DeactivateAbility()
+        {
+            HostShip.OnCoordinateTargetIsSelected -= RegisterAP5PilotAbilty;
         }
 
         private void RegisterAP5PilotAbilty(GenericShip targetShip)

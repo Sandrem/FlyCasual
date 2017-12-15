@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Ship;
+using System;
 
 namespace Ship
 {
@@ -33,10 +34,13 @@ namespace Abilities
 {
     public class SoontirFelAbility : GenericAbility
     {
-        public override void Initialize(GenericShip host)
+        public override void ActivateAbility()
         {
-            base.Initialize(host);
+            HostShip.OnTokenIsAssigned += RegisterSoontirFelAbility;
+        }
 
+        public override void DeactivateAbility()
+        {
             HostShip.OnTokenIsAssigned += RegisterSoontirFelAbility;
         }
 

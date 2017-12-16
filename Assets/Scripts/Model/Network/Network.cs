@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.Networking.Match;
 
 public static partial class Network
 {
@@ -297,4 +298,71 @@ public static partial class Network
         CurrentPlayer.CmdSetSwarmManagerManeuver(maneuverCode);
     }
 
+    // UI
+
+    public static void CreateMatch()
+    {
+        NetworkManager.singleton.StartMatchMaker();
+        NetworkManager.singleton.matchMaker.CreateMatch("Test Match", 2, true, "", "", "", 0, 0, OnInternetMatchCreate);
+    }
+
+    private static void OnInternetMatchCreate(bool success, string extendedInfo, MatchInfo matchInfo)
+    {
+        if (success)
+        {
+            Messages.ShowInfo("Create match succeeded");
+
+            MatchInfo hostInfo = matchInfo;
+            NetworkServer.Listen(hostInfo, 9000);
+
+            NetworkManager.singleton.StartHost(hostInfo);
+        }
+        else
+        {
+            Messages.ShowError("Create match failed");
+        }
+    }
+
+    public static void BrowseMatches()
+    {
+        NetworkManager.singleton.StartMatchMaker();
+        NetworkManager.singleton.matchMaker.ListMatches(0, int.MaxValue, "", false, 0, 0, OnInternetMatchList);
+    }
+
+    private static void OnInternetMatchList(bool success, string extendedInfo, List<MatchInfoSnapshot> matches)
+    {
+        if (success)
+        {
+            if (matches.Count != 0)
+            {
+                Messages.ShowInfo("A list of matches was returned");
+
+                //join the last server (just in case there are two...)
+                NetworkManager.singleton.matchMaker.JoinMatch(matches[matches.Count - 1].networkId, "", "", "", 0, 0, OnJoinInternetMatch);
+            }
+            else
+            {
+                Messages.ShowError("No matches in requested room!");
+            }
+        }
+        else
+        {
+            Messages.ShowError("Couldn't connect to match maker");
+        }
+    }
+
+    private static void OnJoinInternetMatch(bool success, string extendedInfo, MatchInfo matchInfo)
+    {
+        if (success)
+        {
+            Debug.Log("Able to join a match");
+
+            MatchInfo hostInfo = matchInfo;
+            NetworkManager.singleton.StartClient(hostInfo);
+        }
+        else
+        {
+            Debug.LogError("Join match failed");
+        }
+    }
 }

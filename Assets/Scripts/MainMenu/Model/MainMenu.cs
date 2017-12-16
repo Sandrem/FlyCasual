@@ -90,4 +90,14 @@ public partial class MainMenu : MonoBehaviour {
         RosterBuilder.ExportSquadList(Players.PlayerNo.Player1);
     }
 
+    public void CreateMatch()
+    {
+        Network.CreateMatch();
+    }
+
+    public void BrowseMatches()
+    {
+        Network.BrowseMatches();
+    }
+
 }

@@ -89,7 +89,7 @@ public static class Selection {
         }
     }
 
-    public static bool TryToChangeShip(string shipId, int mouseKeyIsPressed)
+    public static bool TryToChangeShip(string shipId, int mouseKeyIsPressed = 1)
     {
         bool result = false;
 
@@ -120,7 +120,7 @@ public static class Selection {
     {
         bool result = false;
         Ship.GenericShip targetShip = Roster.GetShipById(shipId);
-        result = Phases.CurrentSubPhase.AnotherShipCanBeSelected(targetShip);
+        result = Phases.CurrentSubPhase.AnotherShipCanBeSelected(targetShip, mouseKeyIsPressed);
 
         if (result == true)
         {
@@ -136,7 +136,7 @@ public static class Selection {
 
         Ship.GenericShip ship = Roster.GetShipById(shipId);
 
-        result = Phases.CurrentSubPhase.ThisShipCanBeSelected(ship);
+        result = Phases.CurrentSubPhase.ThisShipCanBeSelected(ship, mouseKeyIsPressed);
 
         if (result == true)
         {

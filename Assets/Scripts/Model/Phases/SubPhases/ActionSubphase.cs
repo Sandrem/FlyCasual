@@ -86,7 +86,7 @@ namespace SubPhases
             Phases.CurrentSubPhase.Next();
         }
 
-        public override bool ThisShipCanBeSelected(Ship.GenericShip ship)
+        public override bool ThisShipCanBeSelected(Ship.GenericShip ship, int mouseKeyIsPressed)
         {
             bool result = false;
             Messages.ShowErrorToHuman("Ship cannot be selected: Perform action first");

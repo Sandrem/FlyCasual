@@ -229,16 +229,14 @@ public static partial class Roster {
         }
     }
 
+    // RMB is not supported
     public static void SelectShipByRosterClick(PointerEventData data)
     {
         foreach (var item in data.hovered)
         {
-            int mouseKeyIsPressed = 0;
-            if (data.button == PointerEventData.InputButton.Left) mouseKeyIsPressed = 1;
-            else if (data.button == PointerEventData.InputButton.Right) mouseKeyIsPressed = 2;
             if (item.tag != "Untagged")
             {
-                if (Selection.TryToChangeShip(item.tag, mouseKeyIsPressed)) return;
+                if (Selection.TryToChangeShip(item.tag)) return;
             }
         }
         UI.HideTemporaryMenus();

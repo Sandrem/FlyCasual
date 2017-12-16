@@ -60,7 +60,7 @@ namespace Abilities
             ShipShotDistanceInformation shotInfo = new ShipShotDistanceInformation(HostShip, TargetShip);
             if (shotInfo.InMobileArc && shotInfo.Range >= 1 && shotInfo.Range <= 2)
             {
-                Messages.ShowError(HostShip.PilotName + " assigns Stress Token to " + TargetShip.PilotName);
+                Messages.ShowError(HostShip.PilotName + " assigns Stress Token\nto " + TargetShip.PilotName);
                 TargetShip.AssignToken(new Tokens.StressToken(), SelectShipSubPhase.FinishSelection);
             }
             else

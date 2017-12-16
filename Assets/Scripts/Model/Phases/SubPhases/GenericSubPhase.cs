@@ -54,7 +54,7 @@ namespace SubPhases
 
         public virtual void FinishPhase() { }
 
-        public virtual bool ThisShipCanBeSelected(GenericShip ship)
+        public virtual bool ThisShipCanBeSelected(GenericShip ship, int mouseKeyIsPressed)
         {
             bool result = false;
             if ((ship.Owner.PlayerNo == RequiredPlayer) && (ship.PilotSkill == RequiredPilotSkill) && (Roster.GetPlayer(RequiredPlayer).GetType() == typeof(Players.HumanPlayer)))
@@ -68,7 +68,7 @@ namespace SubPhases
             return result;
         }
 
-        public virtual bool AnotherShipCanBeSelected(GenericShip targetShip)
+        public virtual bool AnotherShipCanBeSelected(GenericShip targetShip, int mouseKeyIsPressed)
         {
             bool result = false;
             Messages.ShowErrorToHuman("Ship of another player");

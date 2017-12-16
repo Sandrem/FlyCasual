@@ -9,7 +9,8 @@ namespace ActionsList
 
     public class TargetLockAction : GenericAction
     {
-        public TargetLockAction() {
+        public TargetLockAction()
+        {
             Name = EffectName = "Target Lock";
             IsReroll = true;
         }
@@ -100,6 +101,8 @@ namespace SubPhases
 
         public override void Prepare()
         {
+            CanMeasureRangeBeforeSelection = false;
+
             var ship = Selection.ThisShip;
             minRange = ship.TargetLockMinRange;
             maxRange = ship.TargetLockMaxRange;

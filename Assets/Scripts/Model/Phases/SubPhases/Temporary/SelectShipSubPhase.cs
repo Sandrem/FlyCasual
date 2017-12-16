@@ -18,6 +18,8 @@ namespace SubPhases
         protected int minRange = 1;
         protected int maxRange = 3;
 
+        protected bool CanMeasureRangeBeforeSelection = true;
+
         protected System.Action finishAction;
 
         public Ship.GenericShip TargetShip;
@@ -89,7 +91,7 @@ namespace SubPhases
             UpdateHelpInfo();
         }
 
-        public override bool ThisShipCanBeSelected(Ship.GenericShip ship)
+        public override bool ThisShipCanBeSelected(Ship.GenericShip ship, int mouseKeyIsPressed)
         {
             bool result = false;
 
@@ -103,7 +105,21 @@ namespace SubPhases
                     }
                     else
                     {
-                        TrySelectShipByRange(ship);
+                        if (mouseKeyIsPressed == 1)
+                        {
+                            TrySelectShipByRange(ship);
+                        }
+                        else if (mouseKeyIsPressed == 2)
+                        {
+                            if (CanMeasureRangeBeforeSelection)
+                            {
+                                Actions.GetRangeAndShow(Selection.ThisShip, ship);
+                            }
+                            else
+                            {
+                                Messages.ShowError("Cannot measure range before selection");
+                            }
+                        }
                     }
                 }
                 else
@@ -115,7 +131,7 @@ namespace SubPhases
             return result;
         }
 
-        public override bool AnotherShipCanBeSelected(Ship.GenericShip anotherShip)
+        public override bool AnotherShipCanBeSelected(Ship.GenericShip anotherShip, int mouseKeyIsPressed)
         {
             bool result = false;
 
@@ -123,7 +139,21 @@ namespace SubPhases
             {
                 if (targetsAllowed.Contains(TargetTypes.Enemy))
                 {
-                    TrySelectShipByRange(anotherShip);
+                    if (mouseKeyIsPressed == 1)
+                    {
+                        TrySelectShipByRange(anotherShip);
+                    }
+                    else if (mouseKeyIsPressed == 2)
+                    {
+                        if (CanMeasureRangeBeforeSelection)
+                        {
+                            Actions.GetRangeAndShow(Selection.ThisShip, anotherShip);
+                        }
+                        else
+                        {
+                            Messages.ShowError("Cannot measure range before selection");
+                        }
+                    }
                 }
                 else
                 {

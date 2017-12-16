@@ -64,7 +64,7 @@ namespace SubPhases
             Phases.CurrentPhase.NextPhase();
         }
 
-        public override bool ThisShipCanBeSelected(GenericShip ship)
+        public override bool ThisShipCanBeSelected(GenericShip ship, int mouseKeyIsPressed)
         {
             bool result = false;
             if ((ship.Owner.PlayerNo == RequiredPlayer) && (Roster.GetPlayer(RequiredPlayer).GetType() == typeof(Players.HumanPlayer)))

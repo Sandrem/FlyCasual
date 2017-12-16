@@ -155,7 +155,7 @@ namespace SubPhases
             }
         }
 
-        public override void DoSelectThisShip(GenericShip ship)
+        public override void DoSelectThisShip(GenericShip ship, int mouseKeyIsPressed)
         {
             if (!ship.IsManeuverPerformed)
             {

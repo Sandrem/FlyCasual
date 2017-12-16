@@ -233,8 +233,12 @@ public static partial class Roster {
     {
         foreach (var item in data.hovered)
         {
-            if (item.tag != "Untagged") {
-                if (Selection.TryToChangeShip(item.tag)) return;
+            int mouseKeyIsPressed = 0;
+            if (data.button == PointerEventData.InputButton.Left) mouseKeyIsPressed = 1;
+            else if (data.button == PointerEventData.InputButton.Right) mouseKeyIsPressed = 2;
+            if (item.tag != "Untagged")
+            {
+                if (Selection.TryToChangeShip(item.tag, mouseKeyIsPressed)) return;
             }
         }
         UI.HideTemporaryMenus();

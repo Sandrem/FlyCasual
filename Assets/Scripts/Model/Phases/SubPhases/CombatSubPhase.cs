@@ -214,9 +214,16 @@ namespace SubPhases
             Next();
         }
 
-        public override void DoSelectAnotherShip(GenericShip ship)
+        public override void DoSelectAnotherShip(GenericShip ship, int mouseKeyIsPressed)
         {
-            UI.ClickDeclareTarget();
+            if (mouseKeyIsPressed == 1)
+            {
+                UI.ClickDeclareTarget();
+            }
+            else if (mouseKeyIsPressed == 2)
+            {
+                UI.CheckFiringRangeAndShow();
+            }
         }
 
     }

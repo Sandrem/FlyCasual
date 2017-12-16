@@ -107,9 +107,9 @@ namespace SubPhases
 
         public virtual void SkipButton() { }
 
-        public virtual void DoSelectThisShip(GenericShip ship) { }
+        public virtual void DoSelectThisShip(GenericShip ship, int mouseKeyIsPressed) { }
 
-        public virtual void DoSelectAnotherShip(GenericShip ship) { }
+        public virtual void DoSelectAnotherShip(GenericShip ship, int mouseKeyIsPressed) { }
 
     }
 

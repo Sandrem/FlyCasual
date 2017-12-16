@@ -138,7 +138,8 @@ public static partial class Actions {
     public static int GetFiringRangeAndShow(Ship.GenericShip thisShip, Ship.GenericShip anotherShip)
     {
         ShipShotDistanceInformation shotInfo = new ShipShotDistanceInformation(thisShip, anotherShip, thisShip.PrimaryWeapon);
-        MovementTemplates.ShowFiringArcRange(shotInfo);
+        bool inArc = MovementTemplates.ShowFiringArcRange(shotInfo);
+        if (!inArc) Messages.ShowInfoToHuman("Out of primary weapon arc");
         return shotInfo.Range;
     }
 

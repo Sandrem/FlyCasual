@@ -207,6 +207,20 @@ public class UI : MonoBehaviour {
         GameMode.CurrentGameMode.DeclareTarget(Selection.ThisShip.ShipId, Selection.AnotherShip.ShipId);
     }
 
+    public static void CheckFiringRangeAndShow()
+    {
+        int range = Actions.GetFiringRangeAndShow(Selection.ThisShip, Selection.AnotherShip);
+        if (range < 4)
+        {
+            Messages.ShowInfo("Range " + range);
+        }
+        else
+        {
+            Messages.ShowError("Out of range");
+        }
+        
+    }
+
     public static void ShowNextButton()
     {
         if (Roster.GetPlayer(Phases.CurrentPhasePlayer).Type == Players.PlayerType.Human)

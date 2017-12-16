@@ -101,7 +101,7 @@ namespace SubPhases
             Next();
         }
 
-        public override void DoSelectThisShip(GenericShip ship)
+        public override void DoSelectThisShip(GenericShip ship, int mouseKeyIsPressed)
         {
             UI.ShowDirectionMenu();
         }

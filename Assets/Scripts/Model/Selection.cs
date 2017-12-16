@@ -121,6 +121,7 @@ public static class Selection {
         if (result == true)
         {
             ChangeAnotherShip(shipId);
+            DoSelectAnotherShip();
         }
         return result;
     }
@@ -136,6 +137,7 @@ public static class Selection {
         if (result == true)
         {
             Selection.ChangeActiveShip(shipId);
+            DoSelectThisShip();
         }
 
         return result;
@@ -149,7 +151,11 @@ public static class Selection {
         Roster.MarkShip(ThisShip, Color.green);
         ThisShip.HighlightThisSelected();
         if (Phases.CurrentSubPhase.GetType() == typeof(SubPhases.CombatSubPhase)) Roster.HighlightShipsFiltered(Roster.AnotherPlayer(Phases.CurrentPhasePlayer));
-        if (Roster.GetPlayer(Phases.CurrentPhasePlayer).GetType() == typeof(Players.HumanPlayer)) UI.CallContextMenu(ThisShip);
+    }
+
+    private static void DoSelectThisShip()
+    {
+        if (Roster.GetPlayer(Phases.CurrentPhasePlayer).GetType() == typeof(Players.HumanPlayer)) Phases.CurrentSubPhase.DoSelectThisShip(ThisShip);
     }
 
     public static void DeselectThisShip()
@@ -161,9 +167,8 @@ public static class Selection {
         }
     }
 
-    public static bool ChangeAnotherShip(string shipId)
+    public static void ChangeAnotherShip(string shipId)
     {
-        //Should I can target my own ships???
         if (AnotherShip != null)
         {
             Roster.UnMarkShip(AnotherShip);
@@ -172,8 +177,11 @@ public static class Selection {
         AnotherShip = Roster.GetShipById(shipId);
         Roster.MarkShip(AnotherShip, Color.red);
         AnotherShip.HighlightEnemySelected();
-        if (Roster.GetPlayer(Phases.CurrentPhasePlayer).GetType() == typeof(Players.HumanPlayer)) UI.CallContextMenu(AnotherShip);
-        return true;
+    }
+
+    private static void DoSelectAnotherShip()
+    {
+        if (Roster.GetPlayer(Phases.CurrentPhasePlayer).GetType() == typeof(Players.HumanPlayer)) Phases.CurrentSubPhase.DoSelectAnotherShip(AnotherShip);
     }
 
     public static void DeselectAnotherShip()

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using Ship;
 
 namespace SubPhases
 {
@@ -126,7 +127,7 @@ namespace SubPhases
             Phases.CurrentSubPhase.Initialize();
         }
 
-        public override bool ThisShipCanBeSelected(Ship.GenericShip ship)
+        public override bool ThisShipCanBeSelected(GenericShip ship)
         {
             bool result = false;
             if ((ship.Owner.PlayerNo == RequiredPlayer) && (ship.PilotSkill == RequiredPilotSkill) && (Roster.GetPlayer(RequiredPlayer).GetType() == typeof(Players.HumanPlayer)))
@@ -140,7 +141,7 @@ namespace SubPhases
             return result;
         }
 
-        public override bool AnotherShipCanBeSelected(Ship.GenericShip targetShip)
+        public override bool AnotherShipCanBeSelected(GenericShip targetShip)
         {
             bool result = false;
             if (Roster.GetPlayer(RequiredPlayer).GetType() != typeof(Players.NetworkOpponentPlayer))
@@ -166,7 +167,7 @@ namespace SubPhases
             return result;
         }
 
-        public override int CountActiveButtons(Ship.GenericShip ship)
+        public override int CountActiveButtons(GenericShip ship)
         {
             int result = 0;
             if (Selection.ThisShip != null)
@@ -211,6 +212,11 @@ namespace SubPhases
                 }
             }
             Next();
+        }
+
+        public override void DoSelectAnotherShip(GenericShip ship)
+        {
+            UI.ClickDeclareTarget();
         }
 
     }

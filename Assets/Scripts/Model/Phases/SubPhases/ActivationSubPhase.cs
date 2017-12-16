@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using Ship;
 
 namespace SubPhases
 {
@@ -110,7 +111,7 @@ namespace SubPhases
             Phases.CurrentSubPhase.Initialize();
         }
 
-        public override bool ThisShipCanBeSelected(Ship.GenericShip ship)
+        public override bool ThisShipCanBeSelected(GenericShip ship)
         {
             bool result = false;
 
@@ -125,7 +126,8 @@ namespace SubPhases
             return result;
         }
 
-        public override int CountActiveButtons(Ship.GenericShip ship)
+        // OUTDATED
+        public override int CountActiveButtons(GenericShip ship)
         {
             int result = 0;
             if (!Selection.ThisShip.IsManeuverPerformed)
@@ -151,6 +153,18 @@ namespace SubPhases
                     Roster.RosterPanelHighlightOn(ship.Value);
                 }
             }
+        }
+
+        public override void DoSelectThisShip(GenericShip ship)
+        {
+            if (!ship.IsManeuverPerformed)
+            {
+                ShipMovementScript.PerformStoredManeuver(ship.ShipId);
+            }
+            else
+            {
+                Messages.ShowErrorToHuman("This ship has already executed his maneuver");
+            };
         }
 
     }

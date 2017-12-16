@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Ship;
 
 namespace SubPhases
 {
@@ -63,7 +64,7 @@ namespace SubPhases
             Phases.CurrentPhase.NextPhase();
         }
 
-        public override bool ThisShipCanBeSelected(Ship.GenericShip ship)
+        public override bool ThisShipCanBeSelected(GenericShip ship)
         {
             bool result = false;
             if ((ship.Owner.PlayerNo == RequiredPlayer) && (Roster.GetPlayer(RequiredPlayer).GetType() == typeof(Players.HumanPlayer)))
@@ -77,7 +78,7 @@ namespace SubPhases
             return result;
         }
 
-        public override int CountActiveButtons(Ship.GenericShip ship)
+        public override int CountActiveButtons(GenericShip ship)
         {
             int result = 0;
             GameObject.Find("UI").transform.Find("ContextMenuPanel").Find("MoveMenuButton").gameObject.SetActive(true);
@@ -98,6 +99,11 @@ namespace SubPhases
         public override void NextButton()
         {
             Next();
+        }
+
+        public override void DoSelectThisShip(GenericShip ship)
+        {
+            UI.ShowDirectionMenu();
         }
 
     }

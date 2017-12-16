@@ -26,6 +26,8 @@ namespace ActionsList
 
         public bool IsOpposite;
 
+        public bool CanBePerformedWhileStressed;
+
         private GenericShip host;
         public GenericShip Host
         {

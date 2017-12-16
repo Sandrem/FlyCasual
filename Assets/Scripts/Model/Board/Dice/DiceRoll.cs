@@ -394,8 +394,15 @@ public partial class DiceRoll
 
         // TODO: Rewrite
         GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-        Game.Movement.FuncsToUpdate.Add(CheckDiceMovementFinish);
+        Game.Wait(1, StartWaitingForFinish);
         Game.Wait(5, CalculateWaitedResults);
+    }
+
+    private void StartWaitingForFinish()
+    {
+        // TODO: Rewrite
+        GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
+        Game.Movement.FuncsToUpdate.Add(CheckDiceMovementFinish);
     }
 
     private bool CheckDiceMovementFinish()

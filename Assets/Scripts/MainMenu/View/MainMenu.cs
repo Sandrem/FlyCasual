@@ -15,14 +15,6 @@ public partial class MainMenu : MonoBehaviour {
 
     public GameObject CurrentPanel;
 
-    private void SetPositions()
-    {
-        GameObject.Find("UI/Panels/MainMenuPanel").transform.position = new Vector3(Screen.width / 20, Screen.height - Screen.height / 20, 0.0f);
-        GameObject.Find("UI/BackgroundImage").GetComponent<RectTransform>().sizeDelta = new Vector2(Screen.height * 16f / 9f, Screen.height);
-
-        //GameObject.Find("UI/Panels/Version").transform.position = new Vector3(Screen.width / 20, GameObject.Find("UI/Panels/Version").transform.position.y, 0.0f);
-    }
-
     private void SetCurrentPanel()
     {
         CurrentPanel = GameObject.Find("UI/Panels/MainMenuPanel");

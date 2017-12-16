@@ -19,7 +19,6 @@ public partial class MainMenu : MonoBehaviour {
     {
         CurrentMainMenu = this;
 
-        SetPositions();
         SetCurrentPanel();
 
         DontDestroyOnLoad(GameObject.Find("GlobalUI").gameObject);

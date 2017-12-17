@@ -306,19 +306,28 @@ public static partial class Network
 
     public static void CreateMatch(string roomName, string password)
     {
+        GameObject createRoomButton = GameObject.Find("UI/Panels/CreateMatchPanel/ContolsPanel/CreateRoomButton");
+        createRoomButton.SetActive(false);
+
         NetworkManager.singleton.StartMatchMaker();
         NetworkManager.singleton.matchMaker.CreateMatch(roomName, 2, true, password, "", "", 0, 0, OnInternetMatchCreate);
     }
 
     private static void OnInternetMatchCreate(bool success, string extendedInfo, MatchInfo matchInfo)
     {
+        GameObject createRoomButton = GameObject.Find("UI/Panels/CreateMatchPanel/ContolsPanel/CreateRoomButton");
+        createRoomButton.SetActive(true);
+
         if (success)
         {
-            Messages.ShowInfo("Create match succeeded");
+            string roomName = GameObject.Find("UI/Panels/CreateMatchPanel/Panel/Name").GetComponentInChildren<InputField>().text;
+
+            GameObject WaitingForOpponentPanelGO = GameObject.Find("UI/Panels").transform.Find("WaitingForOpponentsPanel").gameObject;
+            WaitingForOpponentPanelGO.transform.Find("Panel").Find("NameText").GetComponent<Text>().text = roomName;
+            MainMenu.CurrentMainMenu.ChangePanel(WaitingForOpponentPanelGO);
 
             MatchInfo hostInfo = matchInfo;
             NetworkServer.Listen(hostInfo, 9000);
-
             NetworkManager.singleton.StartHost(hostInfo);
         }
         else
@@ -436,6 +445,13 @@ public static partial class Network
     public static void JoinCurrentRoomByParameters(string password = "")
     {
         NetworkManager.singleton.matchMaker.JoinMatch(SelectedMatch.networkId, password, "", "", 0, 0, OnJoinInternetMatch);
+    }
+
+    public static void CancelWaitingForOpponent()
+    {
+        NetworkServer.Shutdown();
+        NetworkManager.singleton.StopHost();
+        NetworkManager.singleton.StopMatchMaker();
     }
 
 }

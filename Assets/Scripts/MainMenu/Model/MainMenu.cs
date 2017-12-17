@@ -109,4 +109,9 @@ public partial class MainMenu : MonoBehaviour {
         Network.JoinCurrentRoomByParameters(password);
     }
 
+    public void CancelWaitingForOpponent()
+    {
+        Network.CancelWaitingForOpponent();
+    }
+
 }

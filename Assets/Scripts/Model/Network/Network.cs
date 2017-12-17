@@ -18,6 +18,8 @@ public static partial class Network
 
     public static JSONObject SquadJsons;
 
+    public static MatchInfoSnapshot SelectedMatch;
+
     public static bool IsNetworkGame
     {
         get { return CurrentPlayer != null; }
@@ -355,14 +357,21 @@ public static partial class Network
     {
         if (success)
         {
-            Messages.ShowInfo("Able to join a match");
+            Messages.ShowInfo("Successfully joined match");
 
             MatchInfo hostInfo = matchInfo;
             NetworkManager.singleton.StartClient(hostInfo);
         }
         else
         {
-            Messages.ShowError("Join match failed");
+            if (SelectedMatch.isPrivate)
+            {
+                Messages.ShowError("Cannot join match - check password");
+            }
+            else
+            {
+                Messages.ShowError("Cannot join match");
+            }
         }
     }
 
@@ -391,7 +400,7 @@ public static partial class Network
             MatchRecord.transform.Find("Lock").gameObject.SetActive(match.isPrivate);
             MatchRecord.transform.Find("Join").gameObject.SetActive(match.currentSize == 1);
 
-            MatchRecord.transform.Find("Join").GetComponent<Button>().onClick.AddListener(delegate { JoinRoom(MatchRecord.name, ""); });
+            MatchRecord.transform.Find("Join").GetComponent<Button>().onClick.AddListener(delegate { ClickJoinRoom(match); });
 
             currentPosition = new Vector3(currentPosition.x, currentPosition.y - 90 - FREE_SPACE, currentPosition.z);
             matchsPanelRectTransform.sizeDelta = new Vector2(matchsPanelRectTransform.sizeDelta.x, matchsPanelRectTransform.sizeDelta.y + 90 + FREE_SPACE);
@@ -407,9 +416,26 @@ public static partial class Network
         }
     }
 
-    public static void JoinRoom(string name, string password)
+    public static void ClickJoinRoom(MatchInfoSnapshot match)
     {
-        NetworkID networkId = (NetworkID)UInt64.Parse(name);
-        NetworkManager.singleton.matchMaker.JoinMatch(networkId, password, "", "", 0, 0, OnJoinInternetMatch);
+        Messages.ShowInfo("Joining room...");
+        SelectedMatch = match;
+
+        if (!match.isPrivate)
+        {
+            JoinCurrentRoomByParameters();
+        }
+        else
+        {
+            GameObject JoinPrivateMatchPanelGO = GameObject.Find("UI/Panels").transform.Find("JoinPrivateMatchPanel").gameObject;
+            JoinPrivateMatchPanelGO.transform.Find("Panel").Find("Name").Find("InputField").GetComponent<InputField>().text = match.name;
+            MainMenu.CurrentMainMenu.ChangePanel(JoinPrivateMatchPanelGO);
+        }
     }
+
+    public static void JoinCurrentRoomByParameters(string password = "")
+    {
+        NetworkManager.singleton.matchMaker.JoinMatch(SelectedMatch.networkId, password, "", "", 0, 0, OnJoinInternetMatch);
+    }
+
 }

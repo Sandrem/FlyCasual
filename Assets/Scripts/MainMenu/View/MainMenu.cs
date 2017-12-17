@@ -33,7 +33,7 @@ public partial class MainMenu : MonoBehaviour {
         switch (panelName)
         {
             case "RosterBuilderPanel":
-                if (previousPanelName == "MainMenuPanel") RosterBuilder.Initialize();
+                if (previousPanelName == "GameModeDecisionPanel") RosterBuilder.Initialize();
                 break;
             case "OptionsPanel":
                 Options.InitializePanel();

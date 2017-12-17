@@ -114,4 +114,40 @@ public partial class MainMenu : MonoBehaviour {
         Network.CancelWaitingForOpponent();
     }
 
+    public void StartSquadBuilerMode(string modeName)
+    {
+        Messages.ShowInfo(modeName);
+
+        GameObject squadBuilerPanel = GameObject.Find("UI/Panels").transform.Find("RosterBuilderPanel").gameObject;
+        ChangePanel(squadBuilerPanel);
+
+        bool hideSecondPart = false;
+        int player1type = 0;
+        int player2type = 0;
+
+        switch (modeName)
+        {
+            case "vsAI":
+                player2type = 1;
+                break;
+            case "Internet":
+                hideSecondPart = true;
+                player2type = 2;
+                break;
+            case "HotSeat":
+                break;
+            case "AIvsAI":
+                player1type = 1;
+                player2type = 1;
+                break;
+            default:
+                break;
+        }
+
+        GameObject.Find("UI/Panels/RosterBuilderPanel/PlayersPanel/Player1Panel/GroupPlayer").GetComponentInChildren<Dropdown>().value = player1type;
+        GameObject.Find("UI/Panels/RosterBuilderPanel/PlayersPanel/Player2Panel/GroupPlayer").GetComponentInChildren<Dropdown>().value = player2type;
+
+        GameObject.Find("UI/Panels/RosterBuilderPanel/DisableSecondPlayer").SetActive(hideSecondPart);
+    }
+
 }

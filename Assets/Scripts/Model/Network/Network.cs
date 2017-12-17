@@ -425,7 +425,6 @@ public static partial class Network
 
         foreach (var match in matchesList)
         {
-            Transform existingModeRecord = MatchsPanel.transform.Find(match.name);
             GameObject MatchRecord;
 
             MatchRecord = MonoBehaviour.Instantiate(prefab, MatchsPanel.transform);

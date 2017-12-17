@@ -5,6 +5,8 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.Networking.Match;
+using UnityEngine.Networking.Types;
+using UnityEngine.UI;
 
 public static partial class Network
 {
@@ -300,10 +302,10 @@ public static partial class Network
 
     // UI
 
-    public static void CreateMatch()
+    public static void CreateMatch(string roomName, string password)
     {
         NetworkManager.singleton.StartMatchMaker();
-        NetworkManager.singleton.matchMaker.CreateMatch("Test Match", 2, true, "", "", "", 0, 0, OnInternetMatchCreate);
+        NetworkManager.singleton.matchMaker.CreateMatch(roomName, 2, true, password, "", "", 0, 0, OnInternetMatchCreate);
     }
 
     private static void OnInternetMatchCreate(bool success, string extendedInfo, MatchInfo matchInfo)
@@ -336,9 +338,7 @@ public static partial class Network
             if (matches.Count != 0)
             {
                 Messages.ShowInfo("A list of matches was returned");
-
-                //join the last server (just in case there are two...)
-                NetworkManager.singleton.matchMaker.JoinMatch(matches[matches.Count - 1].networkId, "", "", "", 0, 0, OnJoinInternetMatch);
+                ShowListOfRooms(matches);
             }
             else
             {
@@ -355,14 +355,61 @@ public static partial class Network
     {
         if (success)
         {
-            Debug.Log("Able to join a match");
+            Messages.ShowInfo("Able to join a match");
 
             MatchInfo hostInfo = matchInfo;
             NetworkManager.singleton.StartClient(hostInfo);
         }
         else
         {
-            Debug.LogError("Join match failed");
+            Messages.ShowError("Join match failed");
         }
+    }
+
+    public static void ShowListOfRooms(List<MatchInfoSnapshot> matchesList)
+    {
+        float FREE_SPACE = 10f;
+
+        ClearRoomsList();
+
+        GameObject prefab = (GameObject)Resources.Load("Prefabs/UI/MatchPanel", typeof(GameObject));
+        GameObject MatchsPanel = GameObject.Find("UI/Panels").transform.Find("JoinMatchPanel").Find("Scroll View/Viewport/Content").gameObject;
+
+        RectTransform matchsPanelRectTransform = MatchsPanel.GetComponent<RectTransform>();
+        Vector3 currentPosition = new Vector3(matchsPanelRectTransform.sizeDelta.x / 2 + FREE_SPACE, -FREE_SPACE, MatchsPanel.transform.localPosition.z);
+
+        foreach (var match in matchesList)
+        {
+            Transform existingModeRecord = MatchsPanel.transform.Find(match.name);
+            GameObject MatchRecord;
+
+            MatchRecord = MonoBehaviour.Instantiate(prefab, MatchsPanel.transform);
+            MatchRecord.transform.localPosition = currentPosition;
+            MatchRecord.name = match.networkId.ToString();
+
+            MatchRecord.transform.Find("Name").GetComponent<Text>().text = match.name;
+            MatchRecord.transform.Find("Lock").gameObject.SetActive(match.isPrivate);
+            MatchRecord.transform.Find("Join").gameObject.SetActive(match.currentSize == 1);
+
+            MatchRecord.transform.Find("Join").GetComponent<Button>().onClick.AddListener(delegate { JoinRoom(MatchRecord.name, ""); });
+
+            currentPosition = new Vector3(currentPosition.x, currentPosition.y - 90 - FREE_SPACE, currentPosition.z);
+            matchsPanelRectTransform.sizeDelta = new Vector2(matchsPanelRectTransform.sizeDelta.x, matchsPanelRectTransform.sizeDelta.y + 90 + FREE_SPACE);
+        }
+    }
+
+    public static void ClearRoomsList()
+    {
+        GameObject MatchsPanel = GameObject.Find("UI/Panels").transform.Find("JoinMatchPanel").Find("Scroll View/Viewport/Content").gameObject;
+        foreach (Transform matchRecord in MatchsPanel.transform)
+        {
+            GameObject.Destroy(matchRecord.gameObject);            
+        }
+    }
+
+    public static void JoinRoom(string name, string password)
+    {
+        NetworkID networkId = (NetworkID)UInt64.Parse(name);
+        NetworkManager.singleton.matchMaker.JoinMatch(networkId, password, "", "", 0, 0, OnJoinInternetMatch);
     }
 }

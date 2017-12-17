@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Mods;
+using UnityEngine.UI;
 
 public partial class MainMenu : MonoBehaviour {
 
@@ -91,12 +92,20 @@ public partial class MainMenu : MonoBehaviour {
 
     public void CreateMatch()
     {
-        Network.CreateMatch();
+        string roomName = GameObject.Find("UI/Panels/CreateMatchPanel/Panel/Name").GetComponentInChildren<InputField>().text;
+        string password = GameObject.Find("UI/Panels/CreateMatchPanel/Panel/Password").GetComponentInChildren<InputField>().text;
+        Network.CreateMatch(roomName, password);
     }
 
     public void BrowseMatches()
     {
         Network.BrowseMatches();
+    }
+
+    public void JoinMatch(GameObject panel)
+    {
+        Messages.ShowInfo("Joining room...");
+        Network.JoinRoom(panel.name, "");
     }
 
 }

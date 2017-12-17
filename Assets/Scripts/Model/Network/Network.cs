@@ -338,48 +338,75 @@ public static partial class Network
 
     public static void BrowseMatches()
     {
+        ToggleNoRoomsMessage(false);
+        ToggleBrowseRoomsControls(false);
+
         NetworkManager.singleton.StartMatchMaker();
         NetworkManager.singleton.matchMaker.ListMatches(0, int.MaxValue, "", false, 0, 0, OnInternetMatchList);
     }
 
     private static void OnInternetMatchList(bool success, string extendedInfo, List<MatchInfoSnapshot> matches)
     {
+        ToggleBrowseRoomsControls(true);
+
         if (success)
         {
             if (matches.Count != 0)
             {
-                Messages.ShowInfo("A list of matches was returned");
+                ToggleNoRoomsMessage(false);
+                //Messages.ShowInfo("A list of matches was returned");
                 ShowListOfRooms(matches);
             }
             else
             {
-                Messages.ShowError("No matches in requested room!");
+                ToggleNoRoomsMessage(true);
+                //Messages.ShowError("No matches in requested room!");
             }
         }
         else
         {
-            Messages.ShowError("Couldn't connect to match maker");
+            Messages.ShowError("Cannot connect to match maker\nCheck network connection");
         }
+    }
+
+    private static void ToggleNoRoomsMessage(bool isActive)
+    {
+        GameObject noRooms = GameObject.Find("UI/Panels/BrowseRoomsPanel").transform.Find("NoRooms").gameObject;
+        noRooms.SetActive(isActive);
+        if (isActive) noRooms.GetComponentInChildren<CountdownToRoomsRefresh>().Start();
+    }
+
+    private static void ToggleBrowseRoomsControls(bool isActive)
+    {
+        GameObject.Find("UI/Panels/BrowseRoomsPanel").transform.Find("ContolsPanel").gameObject.SetActive(isActive);
+    }
+
+    private static void ToggleBrowseRooms(bool isActive)
+    {
+        GameObject.Find("UI/Panels").transform.Find("BrowseRoomsPanel").gameObject.SetActive(isActive);
     }
 
     private static void OnJoinInternetMatch(bool success, string extendedInfo, MatchInfo matchInfo)
     {
+        if (!SelectedMatch.isPrivate) ToggleBrowseRooms(true);
+
         if (success)
         {
-            Messages.ShowInfo("Successfully joined match");
-
             MatchInfo hostInfo = matchInfo;
             NetworkManager.singleton.StartClient(hostInfo);
+
+            Messages.ShowInfo("Successfully joined match");
         }
         else
         {
             if (SelectedMatch.isPrivate)
             {
-                Messages.ShowError("Cannot join match - check password");
+                Messages.ShowError("Cannot join match\nCheck password");
             }
             else
             {
                 Messages.ShowError("Cannot join match");
+                BrowseMatches();
             }
         }
     }
@@ -391,7 +418,7 @@ public static partial class Network
         ClearRoomsList();
 
         GameObject prefab = (GameObject)Resources.Load("Prefabs/UI/MatchPanel", typeof(GameObject));
-        GameObject MatchsPanel = GameObject.Find("UI/Panels").transform.Find("JoinMatchPanel").Find("Scroll View/Viewport/Content").gameObject;
+        GameObject MatchsPanel = GameObject.Find("UI/Panels").transform.Find("BrowseRoomsPanel").Find("Scroll View/Viewport/Content").gameObject;
 
         RectTransform matchsPanelRectTransform = MatchsPanel.GetComponent<RectTransform>();
         Vector3 currentPosition = new Vector3(matchsPanelRectTransform.sizeDelta.x / 2 + FREE_SPACE, -FREE_SPACE, MatchsPanel.transform.localPosition.z);
@@ -418,7 +445,7 @@ public static partial class Network
 
     public static void ClearRoomsList()
     {
-        GameObject MatchsPanel = GameObject.Find("UI/Panels").transform.Find("JoinMatchPanel").Find("Scroll View/Viewport/Content").gameObject;
+        GameObject MatchsPanel = GameObject.Find("UI/Panels").transform.Find("BrowseRoomsPanel").Find("Scroll View/Viewport/Content").gameObject;
         foreach (Transform matchRecord in MatchsPanel.transform)
         {
             GameObject.Destroy(matchRecord.gameObject);            
@@ -444,6 +471,8 @@ public static partial class Network
 
     public static void JoinCurrentRoomByParameters(string password = "")
     {
+        if(!SelectedMatch.isPrivate) ToggleBrowseRooms(false);
+
         NetworkManager.singleton.matchMaker.JoinMatch(SelectedMatch.networkId, password, "", "", 0, 0, OnJoinInternetMatch);
     }
 

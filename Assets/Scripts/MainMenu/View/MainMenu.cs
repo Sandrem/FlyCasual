@@ -41,6 +41,9 @@ public partial class MainMenu : MonoBehaviour {
             case "ModsPanel":
                 ModsManager.InitializePanel();
                 break;
+            case "BrowseRoomsPanel":
+                Network.BrowseMatches();
+                break;
         }
     }
 

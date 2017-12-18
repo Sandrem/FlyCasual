@@ -436,6 +436,7 @@ public static partial class RosterBuilder {
         {
             case 0: return typeof(HumanPlayer);
             case 1: return typeof(HotacAiPlayer);
+            case 2: return typeof(NetworkOpponentPlayer);
         }
         return null;
     }

@@ -529,6 +529,8 @@ public static partial class RosterBuilder {
     {
         GameMode.CurrentGameMode = new LocalGame();
 
+        ShowOpponentSquad();
+
         SetPlayers();
         GeneratePlayersShipConfigurations();
         if (ValidatePlayersRosters())

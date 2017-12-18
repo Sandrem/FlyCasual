@@ -8,8 +8,19 @@ public partial class NetworkPlayerController : NetworkBehaviour {
 
     private void Start()
     {
-        if (isLocalPlayer) Network.CurrentPlayer = this;
         DontDestroyOnLoad(this.gameObject);
+
+        if (isLocalPlayer)
+        {
+            Network.CurrentPlayer = this;
+
+            if (Network.ReadyToStartMatch)
+            {
+                Network.ReadyToStartMatch = false;
+                RosterBuilder.StartNetworkGame();
+            }
+        }
+        
     }
 
     public bool IsServer

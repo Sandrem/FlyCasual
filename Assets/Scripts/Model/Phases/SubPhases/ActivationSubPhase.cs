@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using Ship;
+using GameModes;
 
 namespace SubPhases
 {
@@ -159,7 +160,7 @@ namespace SubPhases
         {
             if (!ship.IsManeuverPerformed)
             {
-                ShipMovementScript.PerformStoredManeuver(ship.ShipId);
+                GameMode.CurrentGameMode.PerformStoredManeuver(Selection.ThisShip.ShipId);
             }
             else
             {

@@ -12,6 +12,8 @@ public static partial class Network
 {
     public static NetworkPlayerController CurrentPlayer;
 
+    public static bool ReadyToStartMatch;
+
     public static NetworkExecuteWithCallback LastNetworkCallback;
 
     public static string AllShipNames;
@@ -302,7 +304,7 @@ public static partial class Network
         CurrentPlayer.CmdSetSwarmManagerManeuver(maneuverCode);
     }
 
-    // UI
+    // 0.3.2 UI
 
     public static void CreateMatch(string roomName, string password)
     {
@@ -386,31 +388,6 @@ public static partial class Network
         GameObject.Find("UI/Panels").transform.Find("BrowseRoomsPanel").gameObject.SetActive(isActive);
     }
 
-    private static void OnJoinInternetMatch(bool success, string extendedInfo, MatchInfo matchInfo)
-    {
-        if (!SelectedMatch.isPrivate) ToggleBrowseRooms(true);
-
-        if (success)
-        {
-            MatchInfo hostInfo = matchInfo;
-            NetworkManager.singleton.StartClient(hostInfo);
-
-            Messages.ShowInfo("Successfully joined match");
-        }
-        else
-        {
-            if (SelectedMatch.isPrivate)
-            {
-                Messages.ShowError("Cannot join match\nCheck password");
-            }
-            else
-            {
-                Messages.ShowError("Cannot join match");
-                BrowseMatches();
-            }
-        }
-    }
-
     public static void ShowListOfRooms(List<MatchInfoSnapshot> matchesList)
     {
         float FREE_SPACE = 10f;
@@ -473,6 +450,33 @@ public static partial class Network
         if(!SelectedMatch.isPrivate) ToggleBrowseRooms(false);
 
         NetworkManager.singleton.matchMaker.JoinMatch(SelectedMatch.networkId, password, "", "", 0, 0, OnJoinInternetMatch);
+    }
+
+    private static void OnJoinInternetMatch(bool success, string extendedInfo, MatchInfo matchInfo)
+    {
+        if (!SelectedMatch.isPrivate) ToggleBrowseRooms(true);
+
+        if (success)
+        {
+            MatchInfo hostInfo = matchInfo;
+            NetworkManager.singleton.StartClient(hostInfo);
+
+            Messages.ShowInfo("Successfully joined match");
+
+            Network.ReadyToStartMatch = true;
+        }
+        else
+        {
+            if (SelectedMatch.isPrivate)
+            {
+                Messages.ShowError("Cannot join match\nCheck password");
+            }
+            else
+            {
+                Messages.ShowError("Cannot join match");
+                BrowseMatches();
+            }
+        }
     }
 
     public static void CancelWaitingForOpponent()

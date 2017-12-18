@@ -32,14 +32,20 @@ public partial class MainMenu : MonoBehaviour {
 
     public void StartBattle()
     {
-        if (!Network.IsNetworkGame)
+        if (!IsNetworkGame())
         {
             RosterBuilder.StartLocalGame();
         }
         else
         {
-            RosterBuilder.StartNetworkGame();
+            GameObject squadBuilerPanel = GameObject.Find("UI/Panels").transform.Find("MultiplayerDecisionPanel").gameObject;
+            ChangePanel(squadBuilerPanel);
         }
+    }
+
+    private bool IsNetworkGame()
+    {
+        return GameObject.Find("UI/Panels/RosterBuilderPanel/PlayersPanel/Player2Panel/GroupPlayer").GetComponentInChildren<Dropdown>().value == 2;
     }
 
     public void QuitGame()
@@ -90,6 +96,8 @@ public partial class MainMenu : MonoBehaviour {
         RosterBuilder.ExportSquadList(Players.PlayerNo.Player1);
     }
 
+    // 0.3.2 UI
+
     public void CreateMatch()
     {
         string roomName = GameObject.Find("UI/Panels/CreateMatchPanel/Panel/Name").GetComponentInChildren<InputField>().text;
@@ -116,8 +124,6 @@ public partial class MainMenu : MonoBehaviour {
 
     public void StartSquadBuilerMode(string modeName)
     {
-        Messages.ShowInfo(modeName);
-
         GameObject squadBuilerPanel = GameObject.Find("UI/Panels").transform.Find("RosterBuilderPanel").gameObject;
         ChangePanel(squadBuilerPanel);
 

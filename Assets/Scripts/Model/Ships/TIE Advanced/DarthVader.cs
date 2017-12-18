@@ -47,7 +47,7 @@ namespace Abilities
 
         private void DoSecondAction(GenericShip ship)
         {
-            if (!HostShip.HasToken(typeof(Tokens.StressToken)))
+            if (!HostShip.HasToken(typeof(Tokens.StressToken)) && Phases.CurrentSubPhase.GetType() == typeof(SubPhases.ActionDecisonSubPhase))
             {
                 RegisterAbilityTrigger(TriggerTypes.OnFreeActionPlanned, PerformFreeAction);
             }

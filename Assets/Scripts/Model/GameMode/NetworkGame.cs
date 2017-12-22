@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 namespace GameModes
 { 
@@ -190,6 +191,11 @@ namespace GameModes
         public override void SetSwarmManagerManeuver(string maneuverCode)
         {
             Network.SetSwarmManagerManeuver(maneuverCode);
+        }
+
+        public override void ReturnToMainMenu()
+        {
+            Network.Disconnect(base.ReturnToMainMenu);
         }
     }
 }

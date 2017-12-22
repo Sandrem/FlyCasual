@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 namespace GameModes
 { 
@@ -65,5 +66,10 @@ namespace GameModes
         public abstract void FinishMovementExecution();
 
         public abstract void SetSwarmManagerManeuver(string maneuverCode);
+
+        public virtual void ReturnToMainMenu()
+        {
+            SceneManager.LoadScene("MainMenu");
+        }
     }
 }

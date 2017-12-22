@@ -267,7 +267,7 @@ public class UI : MonoBehaviour {
 
     public void ReturnToMainMenu()
     {
-        SceneManager.LoadScene("MainMenu");
+        GameMode.CurrentGameMode.ReturnToMainMenu();
     }
 
     public void QuitGame()

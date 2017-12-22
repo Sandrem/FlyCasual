@@ -20,7 +20,8 @@ public static partial class Network
 
     public static JSONObject SquadJsons;
 
-    public static MatchInfoSnapshot SelectedMatch;
+    public static MatchInfoSnapshot SelectedMatchSnapshot;
+    public static MatchInfo CurrentMatch;
 
     public static bool IsNetworkGame
     {
@@ -328,9 +329,10 @@ public static partial class Network
             WaitingForOpponentPanelGO.transform.Find("Panel").Find("NameText").GetComponent<Text>().text = roomName;
             MainMenu.CurrentMainMenu.ChangePanel(WaitingForOpponentPanelGO);
 
-            MatchInfo hostInfo = matchInfo;
-            NetworkServer.Listen(hostInfo, 9000);
-            NetworkManager.singleton.StartHost(hostInfo);
+            CurrentMatch = matchInfo;
+
+            NetworkServer.Listen(CurrentMatch, 9000);
+            NetworkManager.singleton.StartHost(CurrentMatch);
         }
         else
         {
@@ -431,7 +433,7 @@ public static partial class Network
     public static void ClickJoinRoom(MatchInfoSnapshot match)
     {
         Messages.ShowInfo("Joining room...");
-        SelectedMatch = match;
+        SelectedMatchSnapshot = match;
 
         if (!match.isPrivate)
         {
@@ -447,19 +449,19 @@ public static partial class Network
 
     public static void JoinCurrentRoomByParameters(string password = "")
     {
-        if(!SelectedMatch.isPrivate) ToggleBrowseRooms(false);
+        if(!SelectedMatchSnapshot.isPrivate) ToggleBrowseRooms(false);
 
-        NetworkManager.singleton.matchMaker.JoinMatch(SelectedMatch.networkId, password, "", "", 0, 0, OnJoinInternetMatch);
+        NetworkManager.singleton.matchMaker.JoinMatch(SelectedMatchSnapshot.networkId, password, "", "", 0, 0, OnJoinInternetMatch);
     }
 
     private static void OnJoinInternetMatch(bool success, string extendedInfo, MatchInfo matchInfo)
     {
-        if (!SelectedMatch.isPrivate) ToggleBrowseRooms(true);
+        if (!SelectedMatchSnapshot.isPrivate) ToggleBrowseRooms(true);
 
         if (success)
         {
-            MatchInfo hostInfo = matchInfo;
-            NetworkManager.singleton.StartClient(hostInfo);
+            CurrentMatch = matchInfo;
+            NetworkManager.singleton.StartClient(CurrentMatch);
 
             Messages.ShowInfo("Successfully joined match");
 
@@ -467,7 +469,7 @@ public static partial class Network
         }
         else
         {
-            if (SelectedMatch.isPrivate)
+            if (SelectedMatchSnapshot.isPrivate)
             {
                 Messages.ShowError("Cannot join match\nCheck password");
             }
@@ -484,6 +486,28 @@ public static partial class Network
         NetworkServer.Shutdown();
         NetworkManager.singleton.StopHost();
         NetworkManager.singleton.StopMatchMaker();
+    }
+
+    public static void Disconnect(Action callback)
+    {
+        NetworkManager.singleton.matchMaker.DestroyMatch(CurrentMatch.networkId, 0, delegate { DisconnectPart2(callback); });
+    }
+
+    private static void DisconnectPart2(Action callback)
+    {
+        if (IsServer)
+        {
+            NetworkServer.Shutdown();
+            NetworkManager.singleton.StopHost();
+            NetworkManager.singleton.StopMatchMaker();
+        }
+        else
+        {
+            NetworkManager.singleton.StopClient();
+            NetworkManager.singleton.StopMatchMaker();
+        }
+
+        callback();
     }
 
 }

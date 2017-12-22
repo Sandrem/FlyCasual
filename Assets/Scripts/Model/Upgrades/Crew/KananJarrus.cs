@@ -61,12 +61,6 @@ namespace Abilities
             }
         }
 
-        private class KananJarrusAbilityArgs: EventArgs
-        {
-            public KananJarrus KananJarrusUpgradeCard;
-            public GenericShip ShipToRemoveStress;
-        }
-
         private void AskKananJarrusAbility(object sender, System.EventArgs e)
         {
             if (ShipToRemoveStress.HasToken(typeof(StressToken)))

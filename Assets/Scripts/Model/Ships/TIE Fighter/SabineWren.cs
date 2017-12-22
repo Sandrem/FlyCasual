@@ -17,6 +17,8 @@ namespace Ship
 
                 faction = Faction.Rebel;
 
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
+
                 PilotAbilities.Add(new SabineWrenPilotAbility());
             }
         }

@@ -569,6 +569,7 @@ namespace Ship
             UI.AddTestLogEntry("Ship with ID " + ShipId + " is destroyed");
 
             IsDestroyed = true;
+
             PlayDestroyedAnimSound(delegate { CheckShipModelDestruction(forced); callBack(); });
         }
 
@@ -591,6 +592,13 @@ namespace Ship
             foreach (var pilotAbility in PilotAbilities)
             {
                 pilotAbility.DeactivateAbility();
+                foreach (var upgrade in UpgradeBar.GetInstalledUpgrades())
+                {
+                    foreach (var upgradeAbility in upgrade.UpgradeAbilities)
+                    {
+                        upgradeAbility.DeactivateAbility();
+                    }
+                }
             }
 
             if (OnDestroyed != null) OnDestroyed(this);

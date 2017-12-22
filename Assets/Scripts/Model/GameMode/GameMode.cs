@@ -69,6 +69,7 @@ namespace GameModes
 
         public virtual void ReturnToMainMenu()
         {
+            Phases.EndGame();
             SceneManager.LoadScene("MainMenu");
         }
     }

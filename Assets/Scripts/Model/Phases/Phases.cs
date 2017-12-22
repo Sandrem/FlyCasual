@@ -225,6 +225,27 @@ public static partial class Phases
         return CurrentSubPhase;
     }
 
+    public static void EndGame()
+    {
+        GameIsEnded = true;
+
+        foreach (var shipHolder in Roster.AllShips)
+        {
+            foreach (var ability in shipHolder.Value.PilotAbilities)
+            {
+                ability.DeactivateAbility();
+            }
+
+            foreach (var upgrade in shipHolder.Value.UpgradeBar.GetInstalledUpgrades())
+            {
+                foreach (var upgradeAbility in upgrade.UpgradeAbilities)
+                {
+                    upgradeAbility.DeactivateAbility();
+                }
+            }
+        }
+    }
+
 }
 
 

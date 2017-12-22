@@ -412,7 +412,7 @@ namespace SubPhases
 
         public override void PrepareDecision(System.Action callBack)
         {
-            List<Ship.IShipWeapon> allWeapons = GetAllWeapons();
+            List<Ship.IShipWeapon> allWeapons = Selection.ThisShip.GetAllWeapons();
 
             //TODO: Range?
             InfoText = "Choose weapon for attack";
@@ -429,21 +429,6 @@ namespace SubPhases
             DefaultDecision = GetDecisions().Last().Key;
 
             callBack();
-        }
-
-        private static List<Ship.IShipWeapon> GetAllWeapons()
-        {
-            List<Ship.IShipWeapon> allWeapons = new List<Ship.IShipWeapon>();
-
-            allWeapons.Add(Selection.ThisShip.PrimaryWeapon);
-
-            foreach (var upgrade in Selection.ThisShip.UpgradeBar.GetInstalledUpgrades())
-            {
-                Ship.IShipWeapon secondaryWeapon = upgrade as Ship.IShipWeapon;
-                if (secondaryWeapon != null) allWeapons.Add(secondaryWeapon);
-            }
-
-            return allWeapons;
         }
 
         public void PerformAttackWithWeapon(Ship.IShipWeapon weapon)

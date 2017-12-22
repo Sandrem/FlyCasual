@@ -62,7 +62,7 @@ namespace Board
             parallelPointsList = new List<List<Vector3>>();
 
             // TODO: another types of primaty arcs
-            Dictionary <string, Vector3> shootingPoints = (!ChosenWeapon.CanShootOutsideArc) ? ThisShip.ArcInfo.GetArcsPoints() : ThisShip.ShipBase.GetStandPoints();
+            Dictionary <string, Vector3> shootingPoints = (ThisShip.GetAllWeapons().Count(n => n.CanShootOutsideArc) == 0) ? ThisShip.ArcInfo.GetArcsPoints() : ThisShip.ShipBase.GetStandPoints();
 
             // TODO: change to use geometry instead of dots
 

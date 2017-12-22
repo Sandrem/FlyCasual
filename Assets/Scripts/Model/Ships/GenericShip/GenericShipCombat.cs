@@ -669,6 +669,21 @@ namespace Ship
             return result;
         }
 
+        public List<IShipWeapon> GetAllWeapons()
+        {
+            List<IShipWeapon> allWeapons = new List<IShipWeapon>();
+
+            allWeapons.Add(PrimaryWeapon);
+
+            foreach (var upgrade in UpgradeBar.GetInstalledUpgrades())
+            {
+                IShipWeapon secondaryWeapon = upgrade as IShipWeapon;
+                if (secondaryWeapon != null) allWeapons.Add(secondaryWeapon);
+            }
+
+            return allWeapons;
+        }
+
     }
 
 }

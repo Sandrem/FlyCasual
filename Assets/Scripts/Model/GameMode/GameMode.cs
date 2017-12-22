@@ -59,6 +59,8 @@ namespace GameModes
 
         public abstract void ConfirmDiceResults();
 
+        public abstract void SwitchToOwnDiceModifications();
+
         public abstract void GetCritCard(bool isFaceUp, Action callBack);
 
         public abstract void TakeDecision(KeyValuePair<string, EventHandler> decision, GameObject button);

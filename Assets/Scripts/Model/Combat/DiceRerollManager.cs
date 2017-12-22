@@ -268,7 +268,7 @@ public partial class DiceRerollManager
         DiceRerollManager.CurrentDiceRerollManager = null;
 
         Combat.CurrentDiceRoll.ToggleRerolledLocks(false);
-        if (Selection.ActiveShip.Owner.GetType() == typeof(Players.HumanPlayer)) ToggleDiceModificationsPanel(true);
+        if (Selection.ActiveShip.Owner.GetType() != typeof(Players.HotacAiPlayer)) ToggleDiceModificationsPanel(true);
 
         if (CallBack!=null) CallBack();
     }

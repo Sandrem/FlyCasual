@@ -198,6 +198,11 @@ public static partial class Network
         CurrentPlayer.CmdConfirmDiceResults();
     }
 
+    public static void SwitchToOwnDiceModifications()
+    {
+        CurrentPlayer.CmdSwitchToOwnDiceModifications();
+    }
+
     // CONFIRM DICE ROLL CHECK
 
     public static void ConfirmDiceRollCheckResults()

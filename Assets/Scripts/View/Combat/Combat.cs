@@ -22,6 +22,7 @@ public static partial class Combat
     public static void ShowOppositeDiceModificationButtons()
     {
         Selection.ActiveShip = (AttackStep == CombatStep.Attack) ? Defender : Attacker;
+        Phases.CurrentSubPhase.RequiredPlayer = Selection.ActiveShip.Owner.PlayerNo;
 
         ToggleConfirmDiceResultsButton(true);
 
@@ -53,19 +54,22 @@ public static partial class Combat
         }
         else
         {
-            ToggleConfirmDiceResultsButton(false);
-
-            Selection.ActiveShip = (AttackStep == CombatStep.Attack) ? Attacker : Defender;
-            Selection.ActiveShip.Owner.UseOwnDiceModifications();
+            SwitchToOwnDiceModificationsClient();
         }
     }
 
     private static void SwitchToOwnDiceModifications()
     {
+        GameMode.CurrentGameMode.SwitchToOwnDiceModifications();
+    }
+
+    public static void SwitchToOwnDiceModificationsClient()
+    {
         HideDiceModificationButtons();
         ToggleConfirmDiceResultsButton(false);
 
         Selection.ActiveShip = (AttackStep == CombatStep.Attack) ? Attacker : Defender;
+        Phases.CurrentSubPhase.RequiredPlayer = Selection.ActiveShip.Owner.PlayerNo;
         Selection.ActiveShip.Owner.UseOwnDiceModifications();
     }
 

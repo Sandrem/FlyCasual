@@ -161,6 +161,11 @@ namespace GameModes
             Network.ConfirmDiceResults();
         }
 
+        public override void SwitchToOwnDiceModifications()
+        {
+            Network.SwitchToOwnDiceModifications();
+        }
+
         public override void GetCritCard(bool isFaceUp, Action callBack)
         {
             if (DebugManager.DebugNetwork) UI.AddTestLogEntry("NetworkGame.GetCritCard");

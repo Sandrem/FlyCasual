@@ -503,6 +503,18 @@ public partial class NetworkPlayerController : NetworkBehaviour {
         Combat.ConfirmDiceResultsClient();
     }
 
+    [Command]
+    public void CmdSwitchToOwnDiceModifications()
+    {
+        RpcSwitchToOwnDiceModifications();
+    }
+
+    [ClientRpc]
+    private void RpcSwitchToOwnDiceModifications()
+    {
+        Combat.SwitchToOwnDiceModificationsClient();
+    }
+
     // CONFIRM DICE ROLL CHECK
 
     [Command]

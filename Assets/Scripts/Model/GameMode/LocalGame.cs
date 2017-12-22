@@ -140,6 +140,11 @@ namespace GameModes
             Combat.ConfirmDiceResultsClient();
         }
 
+        public override void SwitchToOwnDiceModifications()
+        {
+            Combat.SwitchToOwnDiceModificationsClient();
+        }
+
         public override void GetCritCard(bool isFaceUp, Action callBack)
         {
             int[] randomHolder = new int[1];

@@ -1,13 +1,12 @@
 ﻿using Upgrade;
 using System;
 using Ship;
+using Abilities;
 
 namespace UpgradesList
 {
     public class AgentKallus : GenericUpgrade
     {
-        public GenericShip AgentKallusSelectedTarget;
-
         public AgentKallus() : base()
         {
             Type = UpgradeType.Crew;
@@ -15,18 +14,32 @@ namespace UpgradesList
             Cost = 2;
 
             isUnique = true;
+
+            UpgradeAbilities.Add(new AgentKallusAbility());
         }
 
         public override bool IsAllowedForShip(GenericShip ship)
         {
             return ship.faction == Faction.Imperial;
         }
+    }
+}
 
-        public override void AttachToShip(GenericShip host)
+namespace Abilities
+{
+    public class AgentKallusAbility : GenericAbility
+    {
+
+        public GenericShip AgentKallusSelectedTarget;
+
+        public override void ActivateAbility()
         {
-            base.AttachToShip(host);
-
             Phases.OnGameStart += RegisterAgentKallusAbility;
+        }
+
+        public override void DeactivateAbility()
+        {
+            Phases.OnGameStart -= RegisterAgentKallusAbility;
         }
 
         private void RegisterAgentKallusAbility()
@@ -34,7 +47,7 @@ namespace UpgradesList
             Triggers.RegisterTrigger(new Trigger() {
                 Name = "Agent Kallus decision",
                 TriggerType = TriggerTypes.OnGameStart,
-                TriggerOwner = Host.Owner.PlayerNo,
+                TriggerOwner = HostShip.Owner.PlayerNo,
                 EventHandler = SelectAgentKallusTarget,
                 Skippable = true
             });
@@ -48,7 +61,7 @@ namespace UpgradesList
                 Triggers.FinishTrigger
             );
 
-            foreach (var enemyShip in Roster.GetPlayer(Roster.AnotherPlayer(Host.Owner.PlayerNo)).Ships)
+            foreach (var enemyShip in Roster.GetPlayer(Roster.AnotherPlayer(HostShip.Owner.PlayerNo)).Ships)
             {
                 selectAgentKallusTargetDecisionSubPhase.AddDecision(
                     enemyShip.Value.ShipId + ": " + enemyShip.Value.PilotName,
@@ -61,7 +74,7 @@ namespace UpgradesList
             GenericShip bestEnemyAce = GetEnemyPilotWithHighestSkill();
             selectAgentKallusTargetDecisionSubPhase.DefaultDecision = bestEnemyAce.ShipId + ": " + bestEnemyAce.PilotName;
 
-            selectAgentKallusTargetDecisionSubPhase.RequiredPlayer = Host.Owner.PlayerNo;
+            selectAgentKallusTargetDecisionSubPhase.RequiredPlayer = HostShip.Owner.PlayerNo;
 
             selectAgentKallusTargetDecisionSubPhase.Start();
         }
@@ -72,7 +85,7 @@ namespace UpgradesList
 
             AgentKallusSelectedTarget = targetShip;
 
-            Host.AfterGenerateAvailableActionEffectsList += AddAgentKallusDiceModification;
+            HostShip.AfterGenerateAvailableActionEffectsList += AddAgentKallusDiceModification;
 
             SubPhases.DecisionSubPhase.ConfirmDecision();
         }
@@ -81,7 +94,7 @@ namespace UpgradesList
         {
             ActionsList.GenericAction newAction = new ActionsList.AgentKallusDiceModification()
             {
-                ImageUrl = ImageUrl,
+                ImageUrl = HostUpgrade.ImageUrl,
                 Host = host,
                 AgentKallusSelectedTarget = AgentKallusSelectedTarget
             };
@@ -92,7 +105,7 @@ namespace UpgradesList
         {
             GenericShip bestAce = null;
             int maxPilotSkill = 0;
-            foreach (var enemyShip in Roster.GetPlayer(Roster.AnotherPlayer(Host.Owner.PlayerNo)).Ships)
+            foreach (var enemyShip in Roster.GetPlayer(Roster.AnotherPlayer(HostShip.Owner.PlayerNo)).Ships)
             {
                 if (enemyShip.Value.PilotSkill > maxPilotSkill)
                 {

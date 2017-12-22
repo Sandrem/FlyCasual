@@ -46,14 +46,12 @@ namespace Abilities
 
             if (IsDifferentPlayer && HasFocusTokens && distanceInfo.Range < 3)
             {
-                Debug.Log("Ability is registered");
                 RegisterAbilityTrigger(TriggerTypes.OnAttackStart, AskDecreaseAttack);
             }
         }
 
         private void AskDecreaseAttack(object sender, System.EventArgs e)
         {
-            Debug.Log("Ask decision");
             AskToUseAbility(AlwaysUseByDefault, DecreaseAttack, null, null, true);
         }
 

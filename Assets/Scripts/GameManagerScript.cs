@@ -28,6 +28,8 @@ public class GameManagerScript : MonoBehaviour {
         Actions.Initialize();
         Triggers.Initialize();
 
+        CheckRemoteSettings();
+
         GameMode.CurrentGameMode.StartBattle();
     }
 
@@ -69,6 +71,17 @@ public class GameManagerScript : MonoBehaviour {
     {
         yield return new WaitForSeconds(seconds);
         callBack();
+    }
+
+    private void CheckRemoteSettings()
+    {
+        bool showNeyYearTree = RemoteSettings.GetBool("ShowNewYearTree", false);
+        if (showNeyYearTree)
+        {
+            GameObject.Find("SceneHolder/Board").transform.Find("NewYearTree").gameObject.SetActive(true);
+            GameObject.Find("SceneHolder/Board/CombatDiceHolder").transform.localPosition = new Vector3(73, 0, 0);
+            GameObject.Find("SceneHolder/Board/CheckDiceHolder").transform.localPosition = new Vector3(85, 0, 0);
+        }
     }
 
 }

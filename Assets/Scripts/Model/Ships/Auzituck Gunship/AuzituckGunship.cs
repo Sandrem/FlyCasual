@@ -30,7 +30,7 @@ namespace Ship
                 PrintedActions.Add(new ReinforceAftAction() { Host = this });
 
                 AssignTemporaryManeuvers();
-                HotacManeuverTable = null;
+                HotacManeuverTable = new AI.AuzituckGunshipTable();
 
                 factions.Add(Faction.Rebel);
                 faction = Faction.Rebel;

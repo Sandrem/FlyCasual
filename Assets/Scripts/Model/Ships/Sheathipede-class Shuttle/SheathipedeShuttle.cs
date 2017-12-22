@@ -31,7 +31,7 @@ namespace Ship
                 PrintedActions.Add(new CoordinateAction());
 
                 AssignTemporaryManeuvers();
-                HotacManeuverTable = null;
+                HotacManeuverTable = new AI.SheathipedeShuttleTable();
 
                 factions.Add(Faction.Rebel);
                 faction = Faction.Rebel;

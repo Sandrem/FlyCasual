@@ -28,6 +28,7 @@ namespace ActionsList
             else
             {
                 Messages.ShowError("Sorry, barrel roll is disabled on mobile platforms due to bug");
+                Phases.CurrentSubPhase.CallBack();
             }
 
         }

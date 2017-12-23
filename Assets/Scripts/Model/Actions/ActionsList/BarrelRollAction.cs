@@ -15,13 +15,22 @@ namespace ActionsList
 
         public override void ActionTake()
         {
-            Phases.CurrentSubPhase.Pause();
+            if (!Application.isMobilePlatform)
+            {
+                Phases.CurrentSubPhase.Pause();
 
-            Phases.StartTemporarySubPhaseOld(
-                "Barrel Roll",
-                typeof(SubPhases.BarrelRollPlanningSubPhase),
-                Phases.CurrentSubPhase.CallBack
-            );
+                Phases.StartTemporarySubPhaseOld(
+                    "Barrel Roll",
+                    typeof(SubPhases.BarrelRollPlanningSubPhase),
+                    Phases.CurrentSubPhase.CallBack
+                );
+            }
+            else
+            {
+                Messages.ShowError("Sorry, barrel roll is disabled on mobile platforms due to bug");
+                Phases.CurrentSubPhase.CallBack();
+            }
+
         }
 
     }

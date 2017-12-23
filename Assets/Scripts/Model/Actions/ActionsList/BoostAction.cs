@@ -9,7 +9,8 @@ namespace ActionsList
 
     public class BoostAction : GenericAction
     {
-        public BoostAction() {
+        public BoostAction()
+        {
             Name = "Boost";
             ImageUrl = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/reference-cards/BoostAction.png";
         }
@@ -41,7 +42,7 @@ namespace SubPhases
 
         private int updatesCount = 0;
 
-        Dictionary<string, Vector3> AvailableBoostDirections = new Dictionary<string, Vector3>();
+        List<string> AvailableBoostDirections = new List<string>();
         public string SelectedBoostHelper;
 
         public override void Start()
@@ -57,108 +58,96 @@ namespace SubPhases
         {
             foreach (Transform boostHelper in Selection.ThisShip.GetBoosterHelper())
             {
-                AvailableBoostDirections.Add(boostHelper.name, boostHelper.Find("Finisher").position);
+                AvailableBoostDirections.Add(boostHelper.name);
             }
 
             GameObject prefab = (GameObject)Resources.Load(Selection.ThisShip.ShipBase.TemporaryPrefabPath, typeof(GameObject));
             ShipStand = MonoBehaviour.Instantiate(prefab, Selection.ThisShip.GetPosition(), Selection.ThisShip.GetRotation(), BoardManager.GetBoard());
             ShipStand.transform.position = new Vector3(ShipStand.transform.position.x, 0, ShipStand.transform.position.z);
-            ShipStand.transform.Find("ShipBase").Find("ShipStandInsert").Find("ShipStandInsertImage").Find("default").GetComponent<Renderer>().material = Selection.ThisShip.Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("ShipBase").Find("ShipStandInsert").Find("ShipStandInsertImage").Find("default").GetComponent<Renderer>().material;
+            foreach (Renderer render in ShipStand.transform.Find("ShipBase").GetComponentsInChildren<Renderer>())
+            {
+                render.enabled = false;
+            }
             ShipStand.transform.Find("ShipBase").Find("ObstaclesStayDetector").gameObject.AddComponent<ObstaclesStayDetectorForced>();
             obstaclesStayDetectorBase = ShipStand.GetComponentInChildren<ObstaclesStayDetectorForced>();
             Roster.SetRaycastTargets(false);
 
-            TurnOnDragging();
+            AskSelectTemplate();
         }
 
-        private void TurnOnDragging()
+        private void AskSelectTemplate()
         {
-            if (Selection.ThisShip.Owner.GetType() == typeof(Players.HumanPlayer)) inReposition = true;
-        }
-
-        public override void Update()
-        {
-            if (inReposition)
+            Triggers.RegisterTrigger(new Trigger()
             {
-                SelectBoosterHelper();
-            }
+                Name = "Select template for Boost",
+                TriggerType = TriggerTypes.OnAbilityDirect,
+                TriggerOwner = Selection.ThisShip.Owner.PlayerNo,
+                EventHandler = StartSelectTemplateDecision
+            });
+
+            Triggers.ResolveTriggers(TriggerTypes.OnAbilityDirect, SelectTemplateDecisionIsTaken);
         }
 
-        public override void Pause()
+        private void StartSelectTemplateDecision(object sender, System.EventArgs e)
         {
-
-        }
-
-        public override void Resume()
-        {
-
-        }
-
-        private void SelectBoosterHelper()
-        {
-            RaycastHit hit;
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-            if (Physics.Raycast(ray, out hit))
-            {
-                ShowNearestBoosterHelper(GetNearestBoosterHelper(new Vector3(hit.point.x, 0f, hit.point.z)));
-            }
-        }
-
-        private void ShowNearestBoosterHelper(string name)
-        {
-            // TODO: hide template
-
-            if (SelectedBoostHelper != name)
-            {
-                if (!string.IsNullOrEmpty(SelectedBoostHelper))
-                {
-                    Selection.ThisShip.GetBoosterHelper().Find(SelectedBoostHelper).gameObject.SetActive(false);
-                }
-                Selection.ThisShip.GetBoosterHelper().Find(name).gameObject.SetActive(true);
-
-                Transform newBase = Selection.ThisShip.GetBoosterHelper().Find(name + "/Finisher/BasePosition");
-                ShipStand.transform.position = new Vector3(newBase.position.x, 0, newBase.position.z);
-                ShipStand.transform.rotation = newBase.rotation;
-
-                obstaclesStayDetectorMovementTemplate = Selection.ThisShip.GetBoosterHelper().Find(name).GetComponentInChildren<ObstaclesStayDetectorForced>();
-
-                SelectedBoostHelper = name;
-            }
-        }
-
-        private string GetNearestBoosterHelper(Vector3 point)
-        {
-            float minDistance = float.MaxValue;
-            KeyValuePair<string, Vector3> nearestBoosterHelper = new KeyValuePair<string, Vector3>();
+            SelectBoostTemplateDecisionSubPhase selectBoostTemplateDecisionSubPhase = (SelectBoostTemplateDecisionSubPhase)Phases.StartTemporarySubPhaseNew(
+                "Select boost template decision",
+                typeof(SelectBoostTemplateDecisionSubPhase),
+                Triggers.FinishTrigger
+            );
 
             foreach (var boostDirection in AvailableBoostDirections)
             {
-                if (string.IsNullOrEmpty(nearestBoosterHelper.Key))
-                {
-                    nearestBoosterHelper = boostDirection;
-                    minDistance = Vector3.Distance(point, boostDirection.Value);
-                    continue;
-                }
-                else
-                {
-                    float currentDistance = Vector3.Distance(point, boostDirection.Value);
-                    if (currentDistance < minDistance)
-                    {
-                        nearestBoosterHelper = boostDirection;
-                        minDistance = currentDistance;
-                    }
-                }
+                selectBoostTemplateDecisionSubPhase.AddDecision(
+                    boostDirection,
+                    delegate { SelectTemplate(boostDirection); }
+                );
             }
 
-            return nearestBoosterHelper.Key;
+            selectBoostTemplateDecisionSubPhase.InfoText = "Select boost direction";
+
+            selectBoostTemplateDecisionSubPhase.DefaultDecision = "Straight 1";
+
+            selectBoostTemplateDecisionSubPhase.RequiredPlayer = Selection.ThisShip.Owner.PlayerNo;
+
+            selectBoostTemplateDecisionSubPhase.Start();
+            UI.ShowSkipButton();
         }
 
-        public override void ProcessClick()
-        {
-            StopPlanning();
+        private class SelectBoostTemplateDecisionSubPhase : DecisionSubPhase { }
 
+        private void SelectTemplate(string templateName)
+        {
+            SelectedBoostHelper = templateName;
+            DecisionSubPhase.ConfirmDecision();
+        }
+
+        private void SelectTemplateDecisionIsTaken()
+        {
+            if (SelectedBoostHelper != null)
+            {
+                TryPerformBoost();
+            }
+            else
+            {
+                CancelBoost();
+            }
+        }
+
+        private void TryPerformBoost()
+        {
             GameMode.CurrentGameMode.TryConfirmBoostPosition(SelectedBoostHelper);
+        }
+
+        private void ShowBoosterHelper()
+        {
+            Selection.ThisShip.GetBoosterHelper().Find(SelectedBoostHelper).gameObject.SetActive(true);
+
+            Transform newBase = Selection.ThisShip.GetBoosterHelper().Find(SelectedBoostHelper + "/Finisher/BasePosition");
+            ShipStand.transform.position = new Vector3(newBase.position.x, 0, newBase.position.z);
+            ShipStand.transform.rotation = newBase.rotation;
+
+            obstaclesStayDetectorMovementTemplate = Selection.ThisShip.GetBoosterHelper().Find(SelectedBoostHelper).GetComponentInChildren<ObstaclesStayDetectorForced>();
         }
 
         public void StartBoostExecution(Ship.GenericShip ship)
@@ -173,7 +162,6 @@ namespace SubPhases
         public void CancelBoost()
         {
             Selection.ThisShip.IsLandedOnObstacle = false;
-            inReposition = false;
             MonoBehaviour.Destroy(ShipStand);
 
             GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
@@ -181,11 +169,6 @@ namespace SubPhases
             MovementTemplates.HideLastMovementRuler();
 
             PreviousSubPhase.Resume();
-        }
-
-        private void StopPlanning()
-        {
-            inReposition = false;
         }
 
         private void HidePlanningTemplates()
@@ -198,13 +181,13 @@ namespace SubPhases
 
         public void TryConfirmBoostPositionNetwork(string selectedBoostHelper)
         {
-            ShowNearestBoosterHelper(selectedBoostHelper);
-
             TryConfirmBoostPosition();
         }
 
         public void TryConfirmBoostPosition()
         {
+            ShowBoosterHelper();
+
             obstaclesStayDetectorBase.ReCheckCollisionsStart();
             obstaclesStayDetectorMovementTemplate.ReCheckCollisionsStart();
 
@@ -316,13 +299,13 @@ namespace SubPhases
             Movement.GenericMovement boostMovement;
             switch ((PreviousSubPhase as BoostPlanningSubPhase).SelectedBoostHelper)
             {
-                case "Straight1":
+                case "Straight 1":
                     boostMovement = new Movement.StraightBoost(1, Movement.ManeuverDirection.Forward, Movement.ManeuverBearing.Straight, Movement.ManeuverColor.None);
                     break;
-                case "Bank1Left":
+                case "Bank 1 Left":
                     boostMovement = new Movement.BankBoost(1, Movement.ManeuverDirection.Left, Movement.ManeuverBearing.Bank, Movement.ManeuverColor.None);
                     break;
-                case "Bank1Right":
+                case "Bank 1 Right":
                     boostMovement = new Movement.BankBoost(1, Movement.ManeuverDirection.Right, Movement.ManeuverBearing.Bank, Movement.ManeuverColor.None);
                     break;
                 default:
@@ -332,7 +315,6 @@ namespace SubPhases
 
             MovementTemplates.ApplyMovementRuler(Selection.ThisShip, boostMovement);
 
-            //TEMPORARY
             boostMovement.Perform();
             Sounds.PlayFly();
         }

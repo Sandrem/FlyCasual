@@ -182,7 +182,7 @@ public static partial class RosterBuilder {
         string result = "";
         string upgradeNameWithAnyCost = upgrade.Panel.transform.GetComponent<Dropdown>().captionText.text;
 
-        int indexOfCostStart = upgradeNameWithAnyCost.IndexOf('(');
+        int indexOfCostStart = upgradeNameWithAnyCost.LastIndexOf('(');
 
         if (indexOfCostStart != -1)
         {

@@ -10,7 +10,7 @@ public class Global : MonoBehaviour {
 
     public static string test = "I am accessible from every scene";
 
-    public static string CurrentVersion = "0.3.2";
+    public static string CurrentVersion = "0.3.2 Hotfix 1";
 
     private static List<ShipConfiguration> shipConfigurations = new List<ShipConfiguration>();
 

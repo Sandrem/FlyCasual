@@ -62,7 +62,7 @@ namespace Abilities
                 delegate
                 {
                     Selection.ActiveShip = previousShip;
-                    Triggers.FinishTrigger();
+                    SubPhases.DecisionSubPhase.ConfirmDecision();
                 });
         }
 

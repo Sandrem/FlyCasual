@@ -34,7 +34,7 @@ namespace UpgradesList
 
         private void CheckTargetLockBonus(GenericAction action)
         {
-            if (action.GetType() == typeof(TargetLockAction))
+            if ((action != null) && (action.GetType() == typeof(TargetLockAction)))
             {
                 Triggers.RegisterTrigger(new Trigger()
                 {

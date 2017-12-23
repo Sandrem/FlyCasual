@@ -437,7 +437,7 @@ public static partial class Network
 
     public static void ClickJoinRoom(MatchInfoSnapshot match)
     {
-        Messages.ShowInfo("Joining room...");
+        //Messages.ShowInfo("Joining room...");
         SelectedMatchSnapshot = match;
 
         if (!match.isPrivate)
@@ -468,7 +468,7 @@ public static partial class Network
             CurrentMatch = matchInfo;
             NetworkManager.singleton.StartClient(CurrentMatch);
 
-            Messages.ShowInfo("Successfully joined match");
+            //Messages.ShowInfo("Successfully joined match");
 
             Network.ReadyToStartMatch = true;
         }

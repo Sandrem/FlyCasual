@@ -112,7 +112,7 @@ public partial class MainMenu : MonoBehaviour {
 
     public void JoinMatch(GameObject panel)
     {
-        Messages.ShowInfo("Joining room...");
+        //Messages.ShowInfo("Joining room...");
         string password = panel.transform.Find("Password").GetComponentInChildren<InputField>().text;
         Network.JoinCurrentRoomByParameters(password);
     }

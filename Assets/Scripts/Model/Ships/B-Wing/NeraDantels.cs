@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using Upgrade;
 
 namespace Ship
 {
@@ -17,7 +18,7 @@ namespace Ship
 
                 IsUnique = true;
 
-                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
+                PrintedUpgradeIcons.Add(UpgradeType.Elite);
 
                 SkinName = "Red";
 
@@ -44,9 +45,10 @@ namespace Abilities
         private void ToggleAbility(bool isActive)
         {
             HostShip.ArcInfo.OutOfArcShotPermissions.CanShootTorpedoes = isActive;
-            foreach (Upgrade.GenericSecondaryWeapon torpedo in HostShip.UpgradeBar.GetInstalledUpgrades().Where(n => n.Type == Upgrade.UpgradeType.Torpedo))
+            foreach (GenericUpgrade torpedo in HostShip.UpgradeBar.GetInstalledUpgrades().Where(n => n.Type == UpgradeType.Torpedo))
             {
-                torpedo.CanShootOutsideArc = isActive;
+                GenericSecondaryWeapon torpedoWeapon = torpedo as GenericSecondaryWeapon;
+                if (torpedoWeapon != null) torpedoWeapon.CanShootOutsideArc = isActive;
             }
         }
     }

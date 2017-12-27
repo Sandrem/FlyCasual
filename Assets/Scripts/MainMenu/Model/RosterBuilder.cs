@@ -529,12 +529,11 @@ public static partial class RosterBuilder {
     {
         GameMode.CurrentGameMode = new LocalGame();
 
-        ShowOpponentSquad();
-
         SetPlayers();
         GeneratePlayersShipConfigurations();
         if (ValidatePlayersRosters())
         {
+            ShowOpponentSquad();
             LoadBattleScene();
         }
     }
@@ -722,6 +721,7 @@ public static partial class RosterBuilder {
 
     private static bool CheckDuplicate(List<string> uniqueCards, string cardName)
     {
+        if (cardName.Contains("(")) cardName = cardName.Substring(0, cardName.LastIndexOf("(") - 1);
         if (uniqueCards.Contains(cardName))
         {
             Messages.ShowError("Only one card with unique name " + cardName + " can be present");

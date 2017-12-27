@@ -1,12 +1,13 @@
 ﻿using Ship;
 using UnityEngine;
 using System.Linq;
+using ActionsList;
 
 namespace Upgrade
 {
-    public class GenericActionBarUpgrade<T> : GenericUpgrade where T: ActionsList.GenericAction, new()
+    public class GenericActionBarUpgrade<T> : GenericUpgrade where T: GenericAction, new()
     {
-        protected ActionsList.GenericAction Action { get; set; }
+        protected GenericAction Action { get; set; }
 
         public override void AttachToShip(GenericShip host)
         {
@@ -14,10 +15,13 @@ namespace Upgrade
             host.AfterGenerateAvailableActionsList += AddAction;
         }
 
-        private void AddAction(Ship.GenericShip host)
+        private void AddAction(GenericShip host)
         {
-            var alreadyHasAction = host.PrintedActions.Find(n => n.GetType() == typeof(T));
-            if (alreadyHasAction == null) host.AddAvailableAction(new T());
+            if (!isDiscarded)
+            {
+                var alreadyHasAction = host.PrintedActions.Find(n => n.GetType() == typeof(T));
+                if (alreadyHasAction == null) host.AddAvailableAction(new T());
+            }
         }
     }
 }

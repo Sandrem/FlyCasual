@@ -53,8 +53,6 @@ namespace ActionsList
 
     public class R2F2Action : GenericAction
     {
-        private Ship.GenericShip host;
-
         public R2F2Action()
         {
             Name = EffectName = "R2-F2: Increase Agility";
@@ -66,7 +64,7 @@ namespace ActionsList
 
             Host.ChangeAgilityBy(+1);
             Phases.OnEndPhaseStart += R2F2DecreaseAgility;
-            host.AssignToken(new Conditions.R2F2Condition(), Phases.CurrentSubPhase.CallBack);
+            Host.AssignToken(new Conditions.R2F2Condition(), Phases.CurrentSubPhase.CallBack);
         }
 
         public override int GetActionPriority()
@@ -78,8 +76,8 @@ namespace ActionsList
 
         private void R2F2DecreaseAgility()
         {
-            host.ChangeAgilityBy(-1);
-            host.RemoveToken(typeof(Conditions.R2F2Condition));
+            Host.ChangeAgilityBy(-1);
+            Host.RemoveToken(typeof(Conditions.R2F2Condition));
             Phases.OnEndPhaseStart -= R2F2DecreaseAgility;
         }
 

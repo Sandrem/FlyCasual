@@ -1,5 +1,8 @@
 ﻿using System;
+using UnityEngine;
 using Upgrade;
+using Ship;
+using Tokens;
 
 namespace UpgradesList
 {
@@ -14,12 +17,12 @@ namespace UpgradesList
             isUnique = true;
         }
 
-        public override bool IsAllowedForShip(Ship.GenericShip ship)
+        public override bool IsAllowedForShip(GenericShip ship)
         {
             return ship.faction == Faction.Rebel;
         }
 
-        public override void AttachToShip(Ship.GenericShip host)
+        public override void AttachToShip(GenericShip host)
         {
             base.AttachToShip(host);
 
@@ -29,7 +32,7 @@ namespace UpgradesList
 
         private void RegisterDoDamageIfStressed(ActionsList.GenericAction action)
         {
-            if (Host.HasToken(typeof(Tokens.StressToken)))
+            if (Host.HasToken(typeof(StressToken)) && (action != null))
             {
                 Triggers.RegisterTrigger(new Trigger()
                 {

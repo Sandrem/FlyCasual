@@ -116,6 +116,7 @@ namespace SubPhases
             else
             {
                 Messages.ShowErrorToHuman("Cannot perform any actions");
+                Actions.CurrentAction = null;
                 CallBack();
             }
         }
@@ -167,6 +168,7 @@ namespace SubPhases
             else
             {
                 Messages.ShowErrorToHuman("Cannot perform any actions");
+                Actions.CurrentAction = null;
                 CallBack();
             }
         }

@@ -22,7 +22,21 @@ namespace UpgradesList
 
         private void CheckSlamAction(GenericAction action)
         {
-            if (action is SlamAction) RegisterTrigger();
+            if (action is SlamAction)
+            {
+                if (Host.IsBumped)
+                {
+                    Messages.ShowErrorToHuman("Overlaped another ship: Advanced SLAM is skipped");
+                }
+                else if (Host.IsHitObstacles)
+                {
+                    Messages.ShowErrorToHuman("Overlaped an obstacle: Advanced SLAM is skipped");
+                }
+                else
+                {
+                    RegisterTrigger();
+                }
+            }
         }
 
         private void RegisterTrigger()

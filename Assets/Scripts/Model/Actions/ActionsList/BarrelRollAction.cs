@@ -150,7 +150,7 @@ namespace SubPhases
         private void ShowBarrelRollTemplate()
         {
             GameObject template = GetCurrentBarrelRollHelperTemplateGO();
-            template.SetActive(true);
+            if (Selection.ThisShip.Owner.GetType() != typeof(Players.NetworkOpponentPlayer)) template.SetActive(true);
             HelperDirection = GetDirectionModifier(selectedTemplateVariant);
             obstaclesStayDetectorMovementTemplate = template.GetComponentInChildren<ObstaclesStayDetectorForced>();
         }
@@ -187,11 +187,14 @@ namespace SubPhases
 
         private void ShowTemporaryShipBase()
         {
-            GameObject prefab = (GameObject)Resources.Load(Selection.ThisShip.ShipBase.TemporaryPrefabPath, typeof(GameObject));
-            TemporaryShipBase = MonoBehaviour.Instantiate(prefab, GetCurrentBarrelRollHelperTemplateFinisherBasePositionGO().transform.position, GetCurrentBarrelRollHelperTemplateFinisherBasePositionGO().transform.rotation, BoardManager.GetBoard());
-            TemporaryShipBase.transform.Find("ShipBase").Find("ShipStandInsert").Find("ShipStandInsertImage").Find("default").GetComponent<Renderer>().material = Selection.ThisShip.Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("ShipBase").Find("ShipStandInsert").Find("ShipStandInsertImage").Find("default").GetComponent<Renderer>().material;
-            TemporaryShipBase.transform.Find("ShipBase").Find("ObstaclesStayDetector").gameObject.AddComponent<ObstaclesStayDetectorForced>();
-            obstaclesStayDetectorBase = TemporaryShipBase.GetComponentInChildren<ObstaclesStayDetectorForced>();
+            if (TemporaryShipBase == null)
+            {
+                GameObject prefab = (GameObject)Resources.Load(Selection.ThisShip.ShipBase.TemporaryPrefabPath, typeof(GameObject));
+                TemporaryShipBase = MonoBehaviour.Instantiate(prefab, GetCurrentBarrelRollHelperTemplateFinisherBasePositionGO().transform.position, GetCurrentBarrelRollHelperTemplateFinisherBasePositionGO().transform.rotation, BoardManager.GetBoard());
+                TemporaryShipBase.transform.Find("ShipBase").Find("ShipStandInsert").Find("ShipStandInsertImage").Find("default").GetComponent<Renderer>().material = Selection.ThisShip.Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("ShipBase").Find("ShipStandInsert").Find("ShipStandInsertImage").Find("default").GetComponent<Renderer>().material;
+                TemporaryShipBase.transform.Find("ShipBase").Find("ObstaclesStayDetector").gameObject.AddComponent<ObstaclesStayDetectorForced>();
+                obstaclesStayDetectorBase = TemporaryShipBase.GetComponentInChildren<ObstaclesStayDetectorForced>();
+            }
         }
 
         public override void Update()
@@ -341,6 +344,8 @@ namespace SubPhases
 
         public void TryConfirmBarrelRollPosition()
         {
+            BarrelRollTemplate.SetActive(true);
+
             obstaclesStayDetectorBase.ReCheckCollisionsStart();
             obstaclesStayDetectorMovementTemplate.ReCheckCollisionsStart();
 
@@ -499,7 +504,7 @@ namespace SubPhases
             Selection.ThisShip.ResetRotationHelpers();
             Selection.ThisShip.SetAngles(TemporaryShipBase.transform.eulerAngles);
 
-            MonoBehaviour.Destroy(TemporaryShipBase);
+            MonoBehaviour.DestroyImmediate(TemporaryShipBase);
 
             GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
             Game.Movement.CollidedWith = null;

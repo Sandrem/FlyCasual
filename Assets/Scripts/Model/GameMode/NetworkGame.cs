@@ -78,11 +78,11 @@ namespace GameModes
 
         // BARREL ROLL
 
-        public override void TryConfirmBarrelRollPosition(Vector3 shipBasePosition, Vector3 movementTemplatePosition)
+        public override void TryConfirmBarrelRollPosition(string templateName, Vector3 shipBasePosition, Vector3 movementTemplatePosition)
         {
             if (Selection.ThisShip.Owner.GetType() == typeof(Players.HumanPlayer))
             {
-                Network.TryConfirmBarrelRoll(shipBasePosition, movementTemplatePosition);
+                Network.TryConfirmBarrelRoll(templateName, shipBasePosition, movementTemplatePosition);
             }
         }
 

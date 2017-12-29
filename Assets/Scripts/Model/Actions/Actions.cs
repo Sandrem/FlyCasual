@@ -6,13 +6,33 @@ using Board;
 using ActionsList;
 using Ship;
 
-public static partial class Actions {
+public static partial class Actions
+{
 
     private static Dictionary<char, bool> Letters;
 
     public static CriticalHitCard.GenericCriticalHit SelectedCriticalHitCard;
 
     public static GenericAction CurrentAction;
+
+    public enum BarrelRollTemplates
+    {
+        Straight1,
+        Bank1,
+        Straight2
+    }
+
+    public enum BarrelRollTemplateVariants
+    {
+        Straight1Left,
+        Straight1Right,
+        Bank1LeftForward,
+        Bank1RightForward,
+        Bank1LeftBackwards,
+        Bank1RightBackwards,
+        Straight2Left,
+        Straight2Right
+    }
 
     public static void Initialize()
     {

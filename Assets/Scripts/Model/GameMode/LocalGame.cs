@@ -66,7 +66,7 @@ namespace GameModes
 
         // BARREL ROLL
 
-        public override void TryConfirmBarrelRollPosition(Vector3 shipBasePosition, Vector3 movementTemplatePosition)
+        public override void TryConfirmBarrelRollPosition(string templateName, Vector3 shipBasePosition, Vector3 movementTemplatePosition)
         {
             (Phases.CurrentSubPhase as SubPhases.BarrelRollPlanningSubPhase).TryConfirmBarrelRollPosition();
         }

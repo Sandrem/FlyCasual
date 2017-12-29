@@ -31,7 +31,7 @@ namespace GameModes
 
         public abstract void StartBattle();
 
-        public abstract void TryConfirmBarrelRollPosition(Vector3 shipBasePosition, Vector3 movementTemplatePosition);
+        public abstract void TryConfirmBarrelRollPosition(string templateName, Vector3 shipBasePosition, Vector3 movementTemplatePosition);
 
         public abstract void StartBarrelRollExecution(Ship.GenericShip ship);
 

@@ -265,6 +265,11 @@ namespace Ship
             return shipAllParts.Find("ShipBase/BoostHelper");
         }
 
+        public Transform GetBarrelRollHelper()
+        {
+            return shipAllParts.Find("ShipBase/BarrelRollHelper");
+        }
+
         public Transform GetBombDropHelper()
         {
             return shipAllParts.Find("ShipBase/BombDropHelper");

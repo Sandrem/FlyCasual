@@ -269,9 +269,9 @@ public static partial class Network
 
     // BARREL ROLL PLANNING
 
-    public static void TryConfirmBarrelRoll(Vector3 shipPosition, Vector3 movementTemplatePosition)
+    public static void TryConfirmBarrelRoll(string templateName, Vector3 shipPosition, Vector3 movementTemplatePosition)
     {
-        CurrentPlayer.CmdTryConfirmBarrelRoll(shipPosition, movementTemplatePosition);
+        CurrentPlayer.CmdTryConfirmBarrelRoll(templateName, shipPosition, movementTemplatePosition);
     }
 
     // DECLOAK PLANNING

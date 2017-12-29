@@ -155,6 +155,7 @@ namespace Ship
         public event EventHandlerShip OnAttackFinish;
 
         public event EventHandlerBombDropTemplates OnGetAvailableBombDropTemplates;
+        public event EventHandlerBarrelRollTemplates OnGetAvailableBarrelRollTemplates;
 
         public event EventHandlerDiceroll OnImmediatelyAfterRolling;
 
@@ -648,6 +649,15 @@ namespace Ship
             List<Bombs.BombDropTemplates> availableTemplates = new List<Bombs.BombDropTemplates>() { Bombs.BombDropTemplates.Straight1 };
 
             if (OnGetAvailableBombDropTemplates != null) OnGetAvailableBombDropTemplates(availableTemplates);
+
+            return availableTemplates;
+        }
+
+        public List<Actions.BarrelRollTemplates> GetAvailableBarrelRollTemplates()
+        {
+            List<Actions.BarrelRollTemplates> availableTemplates = new List<Actions.BarrelRollTemplates>() { Actions.BarrelRollTemplates.Straight1 };
+
+            if (OnGetAvailableBarrelRollTemplates != null) OnGetAvailableBarrelRollTemplates(availableTemplates);
 
             return availableTemplates;
         }

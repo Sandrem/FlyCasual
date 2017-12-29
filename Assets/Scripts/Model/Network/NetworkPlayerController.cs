@@ -671,15 +671,15 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     // BARREL ROLL PLANNING
 
     [Command]
-    public void CmdTryConfirmBarrelRoll(Vector3 shipPosition, Vector3 movementTemplatePosition)
+    public void CmdTryConfirmBarrelRoll(string templateName, Vector3 shipPosition, Vector3 movementTemplatePosition)
     {
-        RpcTryConfirmBarrelRoll(shipPosition, movementTemplatePosition);
+        RpcTryConfirmBarrelRoll(templateName, shipPosition, movementTemplatePosition);
     }
 
     [ClientRpc]
-    private void RpcTryConfirmBarrelRoll(Vector3 shipPosition, Vector3 movementTemplatePosition)
+    private void RpcTryConfirmBarrelRoll(string templateName, Vector3 shipPosition, Vector3 movementTemplatePosition)
     {
-        (Phases.CurrentSubPhase as SubPhases.BarrelRollPlanningSubPhase).TryConfirmBarrelRollNetwork(shipPosition, movementTemplatePosition);
+        (Phases.CurrentSubPhase as SubPhases.BarrelRollPlanningSubPhase).TryConfirmBarrelRollNetwork(templateName, shipPosition, movementTemplatePosition);
     }
 
     // DECLOAK PLANNING

@@ -45,6 +45,8 @@ namespace SubPhases
         ObstaclesStayDetectorForced obstaclesStayDetectorBase;
         ObstaclesStayDetectorForced obstaclesStayDetectorMovementTemplate;
 
+        private float templateWidth;
+
         private int updatesCount = 0;
 
         public bool inReposition;
@@ -57,13 +59,14 @@ namespace SubPhases
             IsTemporary = true;
             UpdateHelpInfo();
 
-            useModileControls = Application.isMobilePlatform;
-
             StartBarrelRollPlanning();
         }
 
         private void StartBarrelRollPlanning()
         {
+            useModileControls = Application.isMobilePlatform;
+            templateWidth = (Selection.ThisShip.ShipBaseSize == Ship.BaseSize.Small) ? Selection.ThisShip.ShipBase.HALF_OF_SHIPSTAND_SIZE : Selection.ThisShip.ShipBase.HALF_OF_SHIPSTAND_SIZE / 2;
+
             GenerateListOfAvailableTemplates();
             AskToSelectTemplate(PerfromTemplatePlanning);
         }
@@ -167,7 +170,7 @@ namespace SubPhases
         {
             Vector3 newPositionRel = Vector3.zero;
 
-            newPositionRel.x = HelperDirection * Selection.ThisShip.ShipBase.HALF_OF_SHIPSTAND_SIZE;
+            newPositionRel.x = HelperDirection * templateWidth;
             newPositionRel.z = value;
 
             Vector3 newPositionAbs = Selection.ThisShip.TransformPoint(newPositionRel);
@@ -297,7 +300,7 @@ namespace SubPhases
 
             Vector3 fixedPositionRel = newPosition;
 
-            fixedPositionRel.x = HelperDirection * Selection.ThisShip.ShipBase.HALF_OF_SHIPSTAND_SIZE;
+            fixedPositionRel.x = HelperDirection * templateWidth;
             fixedPositionRel.z = Mathf.Clamp(fixedPositionRel.z, -0.75f * Selection.ThisShip.ShipBase.SHIPSTAND_SIZE, -0.25f * Selection.ThisShip.ShipBase.SHIPSTAND_SIZE);
 
             Vector3 fixedPositionAbs = Selection.ThisShip.TransformPoint(fixedPositionRel);

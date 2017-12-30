@@ -8,9 +8,9 @@ public static class ImageUrls
     private const string DamageDeckPath = "damage-decks/core-tfa/";
     private const string PilotsPath = "pilots/";
 
-    public static string GetImageUrl(Upgrade.GenericUpgrade upgrade, string filename = null)
+    public static string GetImageUrl(GenericUpgrade upgrade, string filename = null)
     {
-        return GetImageUrl(UpgradesPath + FormatUpgradeType(upgrade.Type), upgrade.Name, filename);
+        return GetImageUrl(UpgradesPath + FormatUpgradeType(upgrade.Type), FormatUpgradeName(upgrade.Name), filename);
     }
 
     public static string GetImageUrl(CriticalHitCard.GenericCriticalHit crit, string filename = null)
@@ -46,6 +46,11 @@ public static class ImageUrls
             default:
                 return type.ToString();
         }
+    }
+
+    private static string FormatUpgradeName(string upgradeName)
+    {
+        return upgradeName.Replace('.', ' ');
     }
 
     private static string FormatFaction(SubFaction faction)

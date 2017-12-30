@@ -36,6 +36,8 @@ namespace SubPhases
 
     public class BarrelRollPlanningSubPhase : GenericSubPhase
     {
+        bool useModileControls;
+
         List<Actions.BarrelRollTemplates> availableTemplates = new List<Actions.BarrelRollTemplates>();
         Actions.BarrelRollTemplateVariants selectedTemplateVariant;
         public GameObject TemporaryShipBase;
@@ -54,6 +56,8 @@ namespace SubPhases
             Name = "Barrel Roll planning";
             IsTemporary = true;
             UpdateHelpInfo();
+
+            useModileControls = Application.isMobilePlatform;
 
             StartBarrelRollPlanning();
         }
@@ -144,7 +148,64 @@ namespace SubPhases
         {
             ShowBarrelRollTemplate();
 
-            StartReposition();
+            if (!useModileControls)
+            {
+                StartReposition();
+            }
+            else
+            {
+                SliderMenu.ShowSlider(
+                    -0.75f * Selection.ThisShip.ShipBase.SHIPSTAND_SIZE,
+                    -0.25f * Selection.ThisShip.ShipBase.SHIPSTAND_SIZE,
+                    -0.5f * Selection.ThisShip.ShipBase.SHIPSTAND_SIZE,
+                    ProcessTemplatePositionSlider
+                );
+            }
+        }
+
+        public void ProcessTemplatePositionSlider(float value)
+        {
+            Vector3 newPositionRel = Vector3.zero;
+
+            newPositionRel.x = HelperDirection * Selection.ThisShip.ShipBase.HALF_OF_SHIPSTAND_SIZE;
+            newPositionRel.z = value;
+
+            Vector3 newPositionAbs = Selection.ThisShip.TransformPoint(newPositionRel);
+
+            BarrelRollTemplate.transform.position = newPositionAbs;
+        }
+
+        public override void NextButton()
+        {
+            if (TemporaryShipBase == null)
+            {
+                SliderMenu.CloseSlider();
+
+                SliderMenu.ShowSlider(
+                    0.5f * 1.18f * Selection.ThisShip.ShipBase.SHIPSTAND_SIZE,
+                    1.5F * 1.18f * Selection.ThisShip.ShipBase.SHIPSTAND_SIZE,
+                    1.0F * 1.18f * Selection.ThisShip.ShipBase.SHIPSTAND_SIZE,
+                    ProcessTemporaryShipBaseSlider
+                );
+            }
+            else
+            {
+                SliderMenu.CloseSlider();
+            }
+
+            ConfirmPosition();
+        }
+
+        public void ProcessTemporaryShipBaseSlider(float value)
+        {
+            GameObject finisher = GetCurrentBarrelRollHelperTemplateFinisherGO();
+            Vector3 newPositionRel = Vector3.zero;
+
+            newPositionRel.x = HelperDirection * 1.18f * Selection.ThisShip.ShipBase.SHIPSTAND_SIZE;
+            newPositionRel.z = value;
+
+            Vector3 newPositionAbs = finisher.transform.TransformPoint(newPositionRel);
+            TemporaryShipBase.transform.position = newPositionAbs;
         }
 
         private void ShowBarrelRollTemplate()
@@ -157,10 +218,13 @@ namespace SubPhases
 
         private void StartReposition()
         {
-            Roster.SetRaycastTargets(false);
-            if (Selection.ThisShip.Owner.GetType() == typeof(Players.HumanPlayer))
+            if (!useModileControls)
             {
-                inReposition = true;
+                Roster.SetRaycastTargets(false);
+                if (Selection.ThisShip.Owner.GetType() == typeof(Players.HumanPlayer))
+                {
+                    inReposition = true;
+                }
             }
         }
 
@@ -194,6 +258,8 @@ namespace SubPhases
                 TemporaryShipBase.transform.Find("ShipBase").Find("ShipStandInsert").Find("ShipStandInsertImage").Find("default").GetComponent<Renderer>().material = Selection.ThisShip.Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("ShipBase").Find("ShipStandInsert").Find("ShipStandInsertImage").Find("default").GetComponent<Renderer>().material;
                 TemporaryShipBase.transform.Find("ShipBase").Find("ObstaclesStayDetector").gameObject.AddComponent<ObstaclesStayDetectorForced>();
                 obstaclesStayDetectorBase = TemporaryShipBase.GetComponentInChildren<ObstaclesStayDetectorForced>();
+
+                if (useModileControls) ProcessTemporaryShipBaseSlider(SliderMenu.GetSliderValue());
             }
         }
 
@@ -261,6 +327,12 @@ namespace SubPhases
         public override void ProcessClick()
         {
             StopDrag();
+
+            if (!useModileControls) ConfirmPosition();
+        }
+
+        private void ConfirmPosition()
+        {
             if (TemporaryShipBase == null)
             {
                 PerfromTemporaryShipBasePlanning();
@@ -269,7 +341,6 @@ namespace SubPhases
             {
                 GameMode.CurrentGameMode.TryConfirmBarrelRollPosition(selectedTemplateVariant.ToString(), TemporaryShipBase.transform.position, BarrelRollTemplate.transform.position);
             }
-                    
         }
 
         private void PerfromTemporaryShipBasePlanning()
@@ -467,7 +538,6 @@ namespace SubPhases
 
             initialRotation = (Selection.ThisShip.GetAngles().y < 180) ? Selection.ThisShip.GetAngles().y : -(360 - Selection.ThisShip.GetAngles().y);
             plannedRotation = (TemporaryShipBase.transform.eulerAngles.y - initialRotation < 180) ? TemporaryShipBase.transform.eulerAngles.y : -(360 - TemporaryShipBase.transform.eulerAngles.y);
-            //Debug.Log(TemporaryShipBase.transform.eulerAngles.y + " " + initialRotation + " " + (TemporaryShipBase.transform.eulerAngles.y - initialRotation < 180) + " " + plannedRotation);
 
             Sounds.PlayFly();
 

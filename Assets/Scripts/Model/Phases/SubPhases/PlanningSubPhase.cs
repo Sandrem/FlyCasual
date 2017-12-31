@@ -98,6 +98,7 @@ namespace SubPhases
 
         public override void NextButton()
         {
+            if (DirectionsMenu.IsVisible) UI.HideDirectionMenu();
             Next();
         }
 

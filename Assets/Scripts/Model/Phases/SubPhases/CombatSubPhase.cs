@@ -218,7 +218,14 @@ namespace SubPhases
         {
             if (mouseKeyIsPressed == 1)
             {
-                UI.ClickDeclareTarget();
+                if (Selection.ThisShip.IsAttackPerformed != true)
+                {
+                    UI.ClickDeclareTarget();
+                }
+                else
+                {
+                    Messages.ShowErrorToHuman("Your ship already has attacked");
+                }
             }
             else if (mouseKeyIsPressed == 2)
             {

@@ -28,7 +28,7 @@ namespace Board
             {
                 int distance = Mathf.Max(1, Mathf.CeilToInt(Distance / DISTANCE_1));
 
-                if (OnRangeIsMeasured != null) OnRangeIsMeasured(ThisShip, AnotherShip, ref distance);
+                if (OnRangeIsMeasured != null) OnRangeIsMeasured(ThisShip, AnotherShip, ChosenWeapon, ref distance);
 
                 return distance;
             }
@@ -41,8 +41,8 @@ namespace Board
         private int updatesCount = 0;
 
         //EVENTS
-        public delegate void EventHandlerShipShipInt(GenericShip thisShip, GenericShip anotherShip, ref int range);
-        public static event EventHandlerShipShipInt OnRangeIsMeasured;
+        public delegate void EventHandlerShipShipWeaponInt(GenericShip thisShip, GenericShip anotherShip, IShipWeapon chosenWeapon, ref int range);
+        public static event EventHandlerShipShipWeaponInt OnRangeIsMeasured;
 
         public ShipShotDistanceInformation(GenericShip thisShip, GenericShip anotherShip, IShipWeapon chosenWeapon = null) : base(thisShip, anotherShip)
         {

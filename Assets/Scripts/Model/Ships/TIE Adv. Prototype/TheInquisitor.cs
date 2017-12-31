@@ -38,9 +38,15 @@ namespace Abilities
             Board.ShipShotDistanceInformation.OnRangeIsMeasured -= SetRangeToOne;
         }
 
-        private void SetRangeToOne(GenericShip thisShip, GenericShip anotherShip, ref int range)
+        private void SetRangeToOne(GenericShip thisShip, GenericShip anotherShip, IShipWeapon chosenWeapon, ref int range)
         {
-            if (thisShip.ShipId == HostShip.ShipId) range = 1;
+            if (thisShip.ShipId == HostShip.ShipId)
+            {
+                if ((range <= 3) && (chosenWeapon.GetType() == typeof(PrimaryWeaponClass)))
+                {
+                    range = 1;
+                }
+            }
         }
     }
 }

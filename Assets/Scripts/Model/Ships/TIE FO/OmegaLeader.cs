@@ -18,6 +18,9 @@ namespace Ship
                 Cost = 21;
 
                 IsUnique = true;
+
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
+
                 PilotAbilities.Add(new OmegaLeaderAbility());
             }
         }

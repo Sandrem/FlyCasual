@@ -62,12 +62,15 @@ namespace Abilities
                 {
                     if (Combat.Defender.ShipId != Host.ShipId)
                     {
-                        if (Host.HasToken(typeof(ReinforceForeToken)) || Host.HasToken(typeof(ReinforceAftToken)))
+                        if (Combat.Defender.Owner.PlayerNo == Host.Owner.PlayerNo)
                         {
-                            Board.ShipDistanceInformation positionInfo = new Board.ShipDistanceInformation(Host, Combat.Defender);
-                            if (positionInfo.Range == 1)
+                            if (Host.HasToken(typeof(ReinforceForeToken)) || Host.HasToken(typeof(ReinforceAftToken)))
                             {
-                                result = true;
+                                Board.ShipDistanceInformation positionInfo = new Board.ShipDistanceInformation(Host, Combat.Defender);
+                                if (positionInfo.Range == 1)
+                                {
+                                    result = true;
+                                }
                             }
                         }
                     }

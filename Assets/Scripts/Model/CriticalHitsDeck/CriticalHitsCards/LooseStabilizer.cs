@@ -26,7 +26,7 @@ namespace CriticalHitCard
         {
             Messages.ShowInfo("No stress after white maneuvers");
             host.RemoveToken(typeof(Tokens.LooseStabilizerCritToken));
-            host.OnMovementExecuted -= PlanStressAfterWhiteManeuvers;
+            host.OnMovementFinish -= PlanStressAfterWhiteManeuvers;
             host.AfterGenerateAvailableActionsList -= AddCancelCritAction;
         }
 

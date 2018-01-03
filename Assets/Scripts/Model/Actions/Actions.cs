@@ -5,6 +5,7 @@ using UnityEngine;
 using Board;
 using ActionsList;
 using Ship;
+using System.ComponentModel;
 
 public static partial class Actions
 {
@@ -20,6 +21,20 @@ public static partial class Actions
         Straight1,
         Bank1,
         Straight2
+    }
+
+    public enum BoostTemplates
+    {
+        [Description("Straight 1")]
+        Straight1,
+        [Description("Bank 1 Right")]
+        RightBank1,
+        [Description("Bank 1 Left")]
+        LeftBank1,
+        [Description("Turn 1 Right")]
+        RightTurn1,
+        [Description("Turn 1 Left")]
+        LeftTurn1
     }
 
     public enum BarrelRollTemplateVariants

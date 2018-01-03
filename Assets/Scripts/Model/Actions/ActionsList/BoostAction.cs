@@ -56,9 +56,29 @@ namespace SubPhases
 
         public void StartBoostPlanning()
         {
-            foreach (Transform boostHelper in Selection.ThisShip.GetBoosterHelper())
+            foreach (Actions.BoostTemplates boostHelper in Selection.ThisShip.GetAvailableBoostTemplates())
             {
-                AvailableBoostDirections.Add(boostHelper.name);
+                switch (boostHelper)
+                {
+                    case Actions.BoostTemplates.Straight1:
+                        AvailableBoostDirections.Add("Straight 1");
+                        break;
+                    case Actions.BoostTemplates.RightBank1:
+                        AvailableBoostDirections.Add("Bank 1 Right");
+                        break;
+                    case Actions.BoostTemplates.LeftBank1:
+                        AvailableBoostDirections.Add("Bank 1 Left");
+                        break;
+                    case Actions.BoostTemplates.RightTurn1:
+                        AvailableBoostDirections.Add("Turn 1 Right");
+                        break;
+                    case Actions.BoostTemplates.LeftTurn1:
+                        AvailableBoostDirections.Add("Turn 1 Left");
+                        break;
+                    default:
+                        AvailableBoostDirections.Add("Straight 1");
+                        break;
+                }
             }
 
             GameObject prefab = (GameObject)Resources.Load(Selection.ThisShip.ShipBase.TemporaryPrefabPath, typeof(GameObject));
@@ -307,6 +327,12 @@ namespace SubPhases
                     break;
                 case "Bank 1 Right":
                     boostMovement = new Movement.BankBoost(1, Movement.ManeuverDirection.Right, Movement.ManeuverBearing.Bank, Movement.ManeuverColor.None);
+                    break;
+                case "Turn 1 Right":
+                    boostMovement = new Movement.TurnBoost(1, Movement.ManeuverDirection.Right, Movement.ManeuverBearing.Turn, Movement.ManeuverColor.None);
+                    break;
+                case "Turn 1 Left":
+                    boostMovement = new Movement.TurnBoost(1, Movement.ManeuverDirection.Left, Movement.ManeuverBearing.Turn, Movement.ManeuverColor.None);
                     break;
                 default:
                     boostMovement = new Movement.StraightBoost(1, Movement.ManeuverDirection.Forward, Movement.ManeuverBearing.Straight, Movement.ManeuverColor.None);

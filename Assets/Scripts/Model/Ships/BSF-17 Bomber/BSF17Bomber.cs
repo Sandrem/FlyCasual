@@ -1,4 +1,4 @@
-﻿/*using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Movement;
@@ -39,7 +39,7 @@ namespace Ship
                 factions.Add(Faction.Rebel);
                 faction = Faction.Rebel;
 
-                SkinName = "Crimson";
+                SkinName = "Blue";
 
                 SoundShotsPath = "Falcon-Fire";
                 ShotsCount = 2;
@@ -70,4 +70,4 @@ namespace Ship
 
         }
     }
-}*/
+}

@@ -1,4 +1,4 @@
-﻿/*using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Movement;
@@ -39,7 +39,7 @@ namespace Ship
                 factions.Add(Faction.Scum);
                 faction = Faction.Scum;
 
-                SkinName = "Inaldra";
+                SkinName = "Hutt Cartel";
 
                 SoundShotsPath = "XWing-Laser";
                 ShotsCount = 3;
@@ -72,4 +72,4 @@ namespace Ship
 
         }
     }
-}*/
+}

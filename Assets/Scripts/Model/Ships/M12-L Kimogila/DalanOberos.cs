@@ -1,7 +1,9 @@
-﻿/*using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using SubPhases;
+using Abilities;
+using System;
 
 namespace Ship
 {
@@ -27,14 +29,18 @@ namespace Ship
 
 namespace PilotAbilitiesNamespace
 {
-    public class DalanOberosAbility : GenericPilotAbility
+    public class DalanOberosAbility : GenericAbility
     {
-        public override void Initialize(Ship.GenericShip host)
+        public override void ActivateAbility()
         {
-            base.Initialize(host);
-
             Phases.OnCombatPhaseStart += RegisterAbilityTrigger;
         }
+
+        public override void DeactivateAbility()
+        {
+            Phases.OnCombatPhaseStart += RegisterAbilityTrigger;
+        }
+
 
         private void RegisterAbilityTrigger()
         {
@@ -52,11 +58,11 @@ namespace PilotAbilitiesNamespace
 
         private void CheckIsTargetInBullseyeArc()
         {
-            Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(Host, TargetShip, Host.PrimaryWeapon);
+            Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(HostShip, TargetShip, HostShip.PrimaryWeapon);
             if (shotInfo.InBullseyeArc)
             {
                 Messages.ShowErrorToHuman("Target Lock is aquired");
-                Actions.AssignTargetLockToPair(Host, TargetShip, SuccessfullSelection, UnSuccessfullSelection);
+                Actions.AssignTargetLockToPair(HostShip, TargetShip, SuccessfullSelection, UnSuccessfullSelection);
             }
             else
             {
@@ -74,4 +80,4 @@ namespace PilotAbilitiesNamespace
             Messages.ShowErrorToHuman("Cannot aquire Target Lock");
         }
     }
-}*/
+}

@@ -6,14 +6,15 @@ using ActionsList;
 
 namespace Ship
 {
-    namespace Agressor
+    namespace Aggressor
     {
-        public class Agressor : GenericShip
+        public class Aggressor : GenericShip
         {
 
-            public Agressor() : base()
+            public Aggressor() : base()
             {
-                Type = "Agressor";
+                Type = "Aggressor";
+                IconicPilot = "IG-88 Generic";
                 ShipBaseSize = BaseSize.Large;
 
                 ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/2/22/MS_AGGRESSOR-ASSAULT-FIGHTER.png";

@@ -14,6 +14,7 @@ namespace Ship
             public TIESilencer() : base()
             {
                 Type = "TIE Silencer";
+                IconicPilot = "First Order Test Pilot";
 
                 //ManeuversImageUrl = "";
 

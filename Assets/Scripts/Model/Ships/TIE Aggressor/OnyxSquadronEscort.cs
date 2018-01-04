@@ -4,9 +4,9 @@ using UnityEngine;
 
 namespace Ship
 {
-    namespace TIEAgressor
+    namespace TIEAggressor
     {
-        public class OnyxSquadronEscort : TIEAgressor
+        public class OnyxSquadronEscort : TIEAggressor
         {
             public OnyxSquadronEscort() : base()
             {

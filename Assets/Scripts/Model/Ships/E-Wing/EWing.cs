@@ -14,6 +14,7 @@ namespace Ship
             public EWing() : base()
             {
                 Type = "E-Wing";
+                IconicPilot = "Knave Squadron Pilot";
 
                 ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/a/aa/MR_E-WING.png";
 

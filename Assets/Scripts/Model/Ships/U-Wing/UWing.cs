@@ -14,6 +14,7 @@ namespace Ship
             public UWing() : base()
             {
                 Type = "U-Wing";
+                IconicPilot = "Blue Squadron Pathfinder";
                 ShipBaseSize = BaseSize.Large;
 
                 ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/c/c5/MR_U-WING.png";

@@ -14,6 +14,7 @@ namespace Ship
             public UpsilonShuttle() : base()
             {
                 Type = "Upsilon-class Shuttle";
+                IconicPilot = "Starkiller Base Pilot";
                 ShipBaseSize = BaseSize.Large;
 
                 ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/7/74/MI_UPSILON.PNG";

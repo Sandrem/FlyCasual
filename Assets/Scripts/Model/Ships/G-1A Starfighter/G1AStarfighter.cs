@@ -14,6 +14,7 @@ namespace Ship
             public G1AStarfighter() : base()
             {
                 Type = "G-1A Starfighter";
+                IconicPilot = "Gand Findsman";
 
                 ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/6/67/MS_G-1A-STARFIGHTER.png";
 

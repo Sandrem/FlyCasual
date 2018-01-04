@@ -14,6 +14,7 @@ namespace Ship
             public LancerClassPursuitCraft() : base()
             {
                 Type = "Lancer-class Pursuit Craft";
+                IconicPilot = "Asajj Ventress";
                 ShipBaseSize = BaseSize.Large;
                 ShipBaseArcsType = Arcs.BaseArcsType.ArcMobile;
 

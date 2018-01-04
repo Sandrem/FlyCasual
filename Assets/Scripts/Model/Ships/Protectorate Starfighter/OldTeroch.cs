@@ -16,6 +16,8 @@ namespace Ship
 				PilotSkill = 7;
 				Cost = 26;
 
+                IsUnique = true;
+
 				PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 				PilotAbilities.Add(new Abilities.OldTerochAbility());
 			}

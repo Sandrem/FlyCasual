@@ -15,6 +15,8 @@ namespace Ship
             {
                 Type = "A-Wing";
 
+                IconicPilot = "Tycho Celchu";
+
                 ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/0/0c/MR_A-WING.png";
 
                 Firepower = 2;

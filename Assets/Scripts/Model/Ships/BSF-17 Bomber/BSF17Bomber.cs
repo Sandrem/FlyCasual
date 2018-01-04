@@ -14,6 +14,7 @@ namespace Ship
             public BSF17Bomber() : base()
             {
                 Type = "B/SF-17 Bomber";
+                IconicPilot = "Crimson Squadron Pilot";
                 ShipBaseSize = BaseSize.Large;
                 ShipBaseArcsType = Arcs.BaseArcsType.Arc360;
 

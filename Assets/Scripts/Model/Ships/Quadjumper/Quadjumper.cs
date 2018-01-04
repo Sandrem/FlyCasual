@@ -14,6 +14,7 @@ namespace Ship
             public Quadjumper() : base()
             {
                 Type = "Quadjumper";
+                IconicPilot = "Jakku Gunrunner";
 
                 ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/4/4d/MS_QUADJUMPER.png";
 

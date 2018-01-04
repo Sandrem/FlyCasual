@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Linq;
 using Players;
 using Mods;
+using SquadBuilderNS;
 
 public partial class MainMenu : MonoBehaviour {
 
@@ -28,6 +29,12 @@ public partial class MainMenu : MonoBehaviour {
         CurrentPanel = panel;
     }
 
+    public void ChangePanel(string panelName)
+    {
+        GameObject panel = GameObject.Find("UI/Panels").transform.Find(panelName).gameObject;
+        ChangePanel(panel);
+    }
+
     private void InitializePanelContent(string panelName, string previousPanelName)
     {
         switch (panelName)
@@ -43,6 +50,14 @@ public partial class MainMenu : MonoBehaviour {
                 break;
             case "BrowseRoomsPanel":
                 Network.BrowseMatches();
+                break;
+            case "SelectFactionPanel":
+                SquadBuilder.Initialize();
+                break;
+            case "SquadBuilderPanel":
+                break;
+            case "SelectShipPanel":
+                SquadBuilder.ShowShipsFilteredByFaction();
                 break;
         }
     }

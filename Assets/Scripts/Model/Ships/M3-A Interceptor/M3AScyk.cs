@@ -14,6 +14,7 @@ namespace Ship
             public M3AScyk() : base()
             {
                 Type = "M3-A Interceptor";
+                IconicPilot = "Tansarii Point Veteran";
 
                 ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/4/48/MS_M3-A-INTERCEPTOR.png";
 

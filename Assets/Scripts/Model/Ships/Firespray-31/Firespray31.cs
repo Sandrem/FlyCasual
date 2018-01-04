@@ -14,6 +14,7 @@ namespace Ship
             public Firespray31() : base()
             {
                 Type = "Firespray-31";
+                IconicPilot = "Boba Fett";
                 ShipBaseSize = BaseSize.Large;
                 ShipBaseArcsType = Arcs.BaseArcsType.ArcRear;
 

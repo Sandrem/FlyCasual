@@ -14,6 +14,7 @@ namespace Ship
             public AlphaClassStarWing() : base()
             {
                 Type = "Alpha-class Star Wing";
+                IconicPilot = "Major Vynder";
 
                 ManeuversImageUrl = "https://i.imgur.com/aiSqTZA.jpg";
 

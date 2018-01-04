@@ -6,14 +6,15 @@ using ActionsList;
 
 namespace Ship
 {
-    namespace TIEAgressor
+    namespace TIEAggressor
     {
-        public class TIEAgressor : GenericShip, TIE
+        public class TIEAggressor : GenericShip, TIE
         {
 
-            public TIEAgressor() : base()
+            public TIEAggressor() : base()
             {
-                Type = "TIE Agressor";
+                Type = "TIE Aggressor";
+                IconicPilot = "Sienar Specialist";
 
                 ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/e/ee/36-36_I-BANK-RW.PNG";
 

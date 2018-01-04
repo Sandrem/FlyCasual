@@ -14,6 +14,7 @@ namespace Ship
             public HWK290() : base()
             {
                 Type = "HWK-290";
+                IconicPilot = "Kyle Katarn";
 
                 ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/d/d1/MR_HWK-290.png";
 

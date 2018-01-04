@@ -17,7 +17,7 @@ namespace Ship
 
                 ShipBaseArcsType = Arcs.BaseArcsType.ArcBullseye;
 
-                //ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/4/48/MS_M3-A-INTERCEPTOR.png";
+                ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/e/e7/Screenshot_2017-12-15_at_1.31.03_PM.png";
 
                 Firepower = 3;
                 Agility = 1;

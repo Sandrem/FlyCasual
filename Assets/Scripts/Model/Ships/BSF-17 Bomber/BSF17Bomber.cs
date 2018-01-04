@@ -17,7 +17,7 @@ namespace Ship
                 ShipBaseSize = BaseSize.Large;
                 ShipBaseArcsType = Arcs.BaseArcsType.Arc360;
 
-                //ManeuversImageUrl = "";
+                ManeuversImageUrl = "https://i.imgur.com/jvKq5hI.jpg";
 
                 Firepower = 2;
                 Agility = 1;

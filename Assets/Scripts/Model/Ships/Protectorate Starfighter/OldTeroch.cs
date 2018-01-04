@@ -15,8 +15,6 @@ namespace Ship
 				PilotName = "Old Teroch";
 				PilotSkill = 7;
 				Cost = 26;
-				IsUnique = false; // for debug only ;)
-				ImageUrl = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/pilots/Scum%20and%20Villainy/Protectorate%20Starfighter/old-teroch.png";
 
 				PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 				PilotAbilities.Add(new Abilities.OldTerochAbility());
@@ -50,23 +48,32 @@ namespace Abilities
 
 		private void AskSelectShip(object sender, System.EventArgs e)
 		{
-			// Available selection are only within Range 1.
-			// TODO : build the list if the enemy can fire to the ship
-			SelectTargetForAbility(ActivateOldTerochAbility, new List<TargetTypes>() { TargetTypes.Enemy }, new Vector2(1, 1), null, true);
+			// first check if there is at least one enemy at range 1
+			if (Board.BoardManager.GetShipsAtRange (HostShip, new Vector2 (1, 1), Team.Type.Enemy).Count >= 1) {
+				// Available selection are only within Range 1.
+				// TODO : build the list if the enemy can fire to the ship
+				SelectTargetForAbility (ActivateOldTerochAbility, new List<TargetTypes> () { TargetTypes.Enemy }, new Vector2 (1, 1), null, true);
+			} else {
+				// no enemy in range
+				Triggers.FinishTrigger ();
+			}
 		}
 			
 		private void ActivateOldTerochAbility()
 		{
-			Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(HostShip, TargetShip);
-			// Range is already checked in "SelectTargetForAbility", only check if the Target can fire to Host
-			if (TargetShip.InPrimaryWeaponFireZone(HostShip))
+			Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(TargetShip, HostShip);
+			// Range is already checked in "SelectTargetForAbility", only check if the Host is in the Target firing arc.
+			// Do not use InPrimaryWeaponFireZone, reason :
+			//		VCX-100 without docked Phantom cannot shoot using special rear arc,so InPrimaryWeaponFireZone
+			//		will be false but this is still arc, so ability should be active - so just InArc is checked,
+			//		even ship cannot shoot from it.
+			if (shotInfo.InArc == true)
 			{
 				Messages.ShowInfo(HostShip.PilotName + " removed focus and evade token\nto " + TargetShip.PilotName);
 				TargetShip.RemoveToken(typeof(Tokens.FocusToken), '*', true);
 				TargetShip.RemoveToken(typeof(Tokens.EvadeToken), '*', true);
 				SelectShipSubPhase.FinishSelection ();
-			}
-			else {
+			} else {
 				Messages.ShowError(HostShip.PilotName + " is not within " + TargetShip.PilotName + " firing arc.");
 			}
 		}

@@ -156,6 +156,7 @@ namespace Ship
 
         public event EventHandlerBombDropTemplates OnGetAvailableBombDropTemplates;
         public event EventHandlerBarrelRollTemplates OnGetAvailableBarrelRollTemplates;
+        public event EventHandlerBoostTemplates OnGetAvailableBoostTemplates;
 
         public event EventHandlerDiceroll OnImmediatelyAfterRolling;
 
@@ -659,6 +660,22 @@ namespace Ship
 
             if (OnGetAvailableBarrelRollTemplates != null) OnGetAvailableBarrelRollTemplates(availableTemplates);
 
+            return availableTemplates;
+        }
+
+        public List<Actions.BoostTemplates> GetAvailableBoostTemplates()
+        {
+            List<Actions.BoostTemplates> availableTemplates = new List<Actions.BoostTemplates>
+            {
+                Actions.BoostTemplates.LeftBank1,
+                Actions.BoostTemplates.Straight1,
+                Actions.BoostTemplates.RightBank1,
+            };
+
+            if (OnGetAvailableBoostTemplates != null)
+            {
+                OnGetAvailableBoostTemplates(availableTemplates);
+            }
             return availableTemplates;
         }
 

@@ -9,17 +9,18 @@ namespace SquadBuilderNS
     static partial class SquadBuilder
     {
         private static int availableShipsCounter;
+        private static int availablePilotsCounter;
 
         private static void ShowAvailableShips(Faction faction)
         {
             DeleteOldShips();
             availableShipsCounter = 0;
 
-            foreach (var ship in AllShips)
+            foreach (ShipRecord ship in AllShips)
             {
                 if (ship.Instance.factions.Contains(faction))
                 {
-                    ShowAvailableShips(ship);
+                    ShowAvailableShip(ship);
                 }
             }
         }
@@ -32,7 +33,7 @@ namespace SquadBuilderNS
             }
         }
 
-        private static void ShowAvailableShips(ShipRecord ship)
+        private static void ShowAvailableShip(ShipRecord ship)
         {
             int columnsCount = 5;
 
@@ -61,5 +62,45 @@ namespace SquadBuilderNS
 
             return image;
         }
+
+        private static void ShowAvailablePilots(Faction faction, string shipName)
+        {
+            DeleteOldPilots();
+            availablePilotsCounter = 0;
+            ShipRecord shipRecord = AllShips.Find(n => n.ShipName == shipName);
+
+            List<PilotRecord> AllPilotsFiltered = AllPilots.Where(n => n.PilotShip == shipRecord && n.Instance.faction == faction).OrderByDescending(n => n.PilotSkill).ToList();
+
+            foreach (PilotRecord pilot in AllPilotsFiltered)
+            {
+                ShowAvailablePilot(pilot);
+            }
+        }
+
+        private static void DeleteOldPilots()
+        {
+            foreach (Transform oldPilotPanel in GameObject.Find("UI/Panels/SelectPilotPanel/Panel/Scroll View/Viewport/Content").transform)
+            {
+                GameObject.Destroy(oldPilotPanel.gameObject);
+            }
+        }
+
+        private static void ShowAvailablePilot(PilotRecord pilotRecord)
+        {
+            GameObject prefab = (GameObject)Resources.Load("Prefabs/SquadBuilder/PilotPanel", typeof(GameObject));
+            Transform contentTransform = GameObject.Find("UI/Panels/SelectPilotPanel/Panel/Scroll View/Viewport/Content").transform;
+            GameObject newPilotPanel = MonoBehaviour.Instantiate(prefab, contentTransform);
+
+            newPilotPanel.GetComponent<PilotPanelSquadBuilder>().ImageUrl = pilotRecord.Instance.ImageUrl;
+            newPilotPanel.GetComponent<PilotPanelSquadBuilder>().PilotName = pilotRecord.PilotName;
+
+            int column = availablePilotsCounter;
+
+            newPilotPanel.transform.localPosition = new Vector3(20 + (300 + 20) * column, 209, 0);
+            contentTransform.GetComponent<RectTransform>().sizeDelta = new Vector2(newPilotPanel.transform.localPosition.x + 300f, 0);
+
+            availablePilotsCounter++;
+        }
+
     }
 }

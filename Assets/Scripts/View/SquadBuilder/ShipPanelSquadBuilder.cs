@@ -1,18 +1,21 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using SquadBuilderNS;
 
 public class ShipPanelSquadBuilder : MonoBehaviour {
 
-    public string ImageUrl = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/pilots/Rebel%20Alliance/X-wing/wedge-antilles.png";
-    public string ShipName = "X-Wing";
+    public string ImageUrl;
+    public string ShipName;
 
     // Use this for initialization
     void Start ()
     {
         LoadImage();
         SetName();
+        SetOnClickHandler();
     }
 
     private void LoadImage()
@@ -25,7 +28,7 @@ public class ShipPanelSquadBuilder : MonoBehaviour {
         transform.Find("ShipName").GetComponent<Text>().text = ShipName;
     }
 
-    private static IEnumerator LoadTooltipImage(GameObject thisGameObject, string url)
+    private IEnumerator LoadTooltipImage(GameObject thisGameObject, string url)
     {
         WWW www = new WWW(url);
         yield return www;
@@ -36,11 +39,26 @@ public class ShipPanelSquadBuilder : MonoBehaviour {
         }
     }
 
-    private static void SetImageFromWeb(GameObject targetObject, WWW www)
+    private void SetImageFromWeb(GameObject targetObject, WWW www)
     {
         Texture2D newTexture = new Texture2D(www.texture.height, www.texture.width);
         www.LoadImageIntoTexture(newTexture);
         Sprite newSprite = Sprite.Create(newTexture, new Rect(0, newTexture.height-124, newTexture.width, 124), Vector2.zero);
         targetObject.transform.GetComponent<Image>().sprite = newSprite;
+    }
+
+    private void SetOnClickHandler()
+    {
+        EventTrigger trigger = this.gameObject.AddComponent<EventTrigger>();
+        EventTrigger.Entry entry = new EventTrigger.Entry();
+        entry.eventID = EventTriggerType.PointerClick;
+        entry.callback.AddListener(delegate { SelectShip(ShipName); });
+        trigger.triggers.Add(entry);
+    }
+
+    private void SelectShip(string shipName)
+    {
+        SquadBuilder.CurrentShipToBrowsePilots = shipName;
+        MainMenu.CurrentMainMenu.ChangePanel("SelectPilotPanel");
     }
 }

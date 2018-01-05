@@ -50,6 +50,8 @@ namespace SquadBuilderNS
         public static List<ShipRecord> AllShips;
         public static List<PilotRecord> AllPilots;
 
+        public static string CurrentShipToBrowsePilots;
+
         public static void Initialize()
         {
             CurrentPlayer = PlayerNo.Player1;
@@ -152,6 +154,11 @@ namespace SquadBuilderNS
         public static void ShowShipsFilteredByFaction()
         {
             ShowAvailableShips(SquadLists[CurrentPlayer].SquadFaction);
+        }
+
+        public static void ShowPilotsFilteredByShipAndFaction()
+        {
+            ShowAvailablePilots(SquadLists[CurrentPlayer].SquadFaction, CurrentShipToBrowsePilots);
         }
     }
 }

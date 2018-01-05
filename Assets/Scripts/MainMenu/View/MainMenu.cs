@@ -59,6 +59,9 @@ public partial class MainMenu : MonoBehaviour {
             case "SelectShipPanel":
                 SquadBuilder.ShowShipsFilteredByFaction();
                 break;
+            case "SelectPilotPanel":
+                SquadBuilder.ShowPilotsFilteredByShipAndFaction();
+                break;
         }
     }
 

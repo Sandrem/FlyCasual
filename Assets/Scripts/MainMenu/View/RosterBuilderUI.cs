@@ -44,9 +44,4 @@ public class RosterBuilderUI : MonoBehaviour {
         MainMenu.CurrentMainMenu.ChangePanel("SquadBuilderPanel");
     }
 
-    public void OpenSelectShip()
-    {
-        MainMenu.CurrentMainMenu.ChangePanel("SelectShipPanel");
-    }
-
 }

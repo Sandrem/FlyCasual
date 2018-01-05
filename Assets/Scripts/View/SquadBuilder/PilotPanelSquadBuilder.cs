@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -7,7 +8,9 @@ using UnityEngine.UI;
 public class PilotPanelSquadBuilder : MonoBehaviour {
 
     public string ImageUrl = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/pilots/Rebel%20Alliance/X-wing/wedge-antilles.png";
+    public string ShipName = "X-Wing";
     public string PilotName = "Wedge Antilles";
+    public Action<string, string> OnClick;
 
     // Use this for initialization
     void Start ()
@@ -45,7 +48,7 @@ public class PilotPanelSquadBuilder : MonoBehaviour {
         EventTrigger trigger = this.gameObject.AddComponent<EventTrigger>();
         EventTrigger.Entry entry = new EventTrigger.Entry();
         entry.eventID = EventTriggerType.PointerClick;
-        entry.callback.AddListener(delegate { SelectShip(PilotName); });
+        entry.callback.AddListener(delegate { OnClick(PilotName, ShipName); });
         trigger.triggers.Add(entry);
     }
 

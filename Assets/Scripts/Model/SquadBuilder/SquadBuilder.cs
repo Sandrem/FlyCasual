@@ -11,6 +11,14 @@ namespace SquadBuilderNS
     public class SquadBuilderShip
     {
         public List<SquadBuilderUpgrade> InstalledUpgrades;
+        public GenericShip Instance;
+        public SquadList List;
+
+        public SquadBuilderShip(PilotRecord pilotRecord, SquadList list)
+        {
+            Instance = (GenericShip)Activator.CreateInstance(Type.GetType(pilotRecord.PilotTypeName));
+            List = list;
+        }
     }
 
     public class SquadBuilderUpgrade
@@ -20,8 +28,20 @@ namespace SquadBuilderNS
 
     public class SquadList
     {
-        public List<SquadBuilderShip> Ships;
+        private List<SquadBuilderShip> Ships;
         public Faction SquadFaction;
+
+        public void AddShip(PilotRecord pilotRecord)
+        {
+            if (Ships == null) Ships = new List<SquadBuilderShip>();
+            Ships.Add(new SquadBuilderShip(pilotRecord, this));
+        }
+
+        public List<SquadBuilderShip> GetShips()
+        {
+            if (Ships == null) Ships = new List<SquadBuilderShip>();
+            return Ships;
+        }
     }
 
     public class ShipRecord
@@ -46,6 +66,11 @@ namespace SquadBuilderNS
     {
         public static PlayerNo CurrentPlayer;
         public static Dictionary<PlayerNo, SquadList> SquadLists;
+        public static SquadList CurrentSquadList
+        {
+            get { return SquadLists[CurrentPlayer]; }
+        }
+
 
         public static List<ShipRecord> AllShips;
         public static List<PilotRecord> AllPilots;
@@ -142,23 +167,44 @@ namespace SquadBuilderNS
 
         public static void SetCurrentPlayerFaction(Faction faction)
         {
-            SquadLists[CurrentPlayer].SquadFaction = faction;
+            CurrentSquadList.SquadFaction = faction;
         }
 
         public static void ShowInfo()
         {
-            Messages.ShowInfo("Ships loaded: " + AllShips.Count);
-            Messages.ShowInfo("Pilots loaded: " + AllPilots.Count);
+            //Messages.ShowInfo("Ships loaded: " + AllShips.Count);
+            //Messages.ShowInfo("Pilots loaded: " + AllPilots.Count);
+
+            foreach (var ship in CurrentSquadList.GetShips())
+            {
+                Messages.ShowInfo(ship.Instance.PilotName);
+            }
         }
 
         public static void ShowShipsFilteredByFaction()
         {
-            ShowAvailableShips(SquadLists[CurrentPlayer].SquadFaction);
+            ShowAvailableShips(CurrentSquadList.SquadFaction);
         }
 
         public static void ShowPilotsFilteredByShipAndFaction()
         {
-            ShowAvailablePilots(SquadLists[CurrentPlayer].SquadFaction, CurrentShipToBrowsePilots);
+            ShowAvailablePilots(CurrentSquadList.SquadFaction, CurrentShipToBrowsePilots);
+        }
+
+        public static void AddPilotToSquad(string pilotName, string shipName)
+        {
+            PilotRecord pilotRecord = AllPilots.Find(n => n.PilotName == pilotName && n.PilotShip.ShipName == shipName);
+            CurrentSquadList.AddShip(pilotRecord);
+        }
+
+        public static void ShowShipsAndUpgrades()
+        {
+            GenerateShipWithUpgradesPanels();
+        }
+
+        public static void OpenSelectShip()
+        {
+            MainMenu.CurrentMainMenu.ChangePanel("SelectShipPanel");
         }
     }
 }

@@ -55,6 +55,7 @@ public partial class MainMenu : MonoBehaviour {
                 SquadBuilder.Initialize();
                 break;
             case "SquadBuilderPanel":
+                SquadBuilder.ShowShipsAndUpgrades();
                 break;
             case "SelectShipPanel":
                 SquadBuilder.ShowShipsFilteredByFaction();

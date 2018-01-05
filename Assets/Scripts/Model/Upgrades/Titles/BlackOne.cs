@@ -51,8 +51,8 @@ namespace Abilities
             if (shipAction is BoostAction || shipAction is BarrelRollAction)
             {
                 List<GenericShip> nearbyShips = Board.BoardManager.GetShipsAtRange(HostShip, new Vector2(1, 1), Team.Type.Friendly);
-                if (nearbyShips == null &&
-                    nearbyShips.Count <= 0 &&
+                if (nearbyShips == null ||
+                    nearbyShips.Count <= 0 ||
                     !DoNearbyShipsHaveRedTargetLock(nearbyShips)) //Verifies that at least one nearby ship has a target lock before continuing.
                 {
                     return;
@@ -75,18 +75,66 @@ namespace Abilities
             return nearbyShips.Any(ship => ship.HasToken(typeof(Tokens.RedTargetLockToken), '*'));
         }
 
+        private List<Tokens.RedTargetLockToken> GetShipRedTargetLocks(GenericShip hostShip)
+        {
+            List<Tokens.RedTargetLockToken> redTargetLocks = new List<Tokens.RedTargetLockToken>();
+            foreach (Tokens.GenericToken token in hostShip.GetAllTokens())
+            {
+                if (token is Tokens.RedTargetLockToken)
+                {
+                    redTargetLocks.Add(token as Tokens.RedTargetLockToken);
+                }
+            }
+            return redTargetLocks;
+        }
+
         private void RemoveEnemyTargetLock()
         {
             if (TargetShip.HasToken(typeof(Tokens.RedTargetLockToken), '*'))
             {
-                TargetShip.RemoveToken(typeof(Tokens.RedTargetLockToken), '*');
-                SelectShipSubPhase.FinishSelection();
-                Messages.ShowInfoToHuman(string.Format("Target Lock has been removed from {0}.", HostShip.PilotName));
+                if (GetShipRedTargetLocks(TargetShip).Count > 1)
+                {
+                    RegisterSubDecision();
+                }
+                else
+                {
+                    RemoveRedTargetLock('*');
+                }
             }
             else
             {
-                Messages.ShowErrorToHuman(string.Format("{0}'s ship does not have an enemy Target Lock.", HostShip.PilotName));
+                Messages.ShowErrorToHuman(string.Format("{0}'s ship does not have an enemy Target Lock.", TargetShip.PilotName));
             }
+        }
+
+        private void RegisterSubDecision()
+        {
+            DecisionSubPhase decisionPhase = (DecisionSubPhase)Phases.StartTemporarySubPhaseNew(
+                Name,
+                typeof(DecisionSubPhase),
+                Phases.CurrentSubPhase.FinishPhase);
+
+            decisionPhase.InfoText = "Determine which Target Lock to remove:";
+
+            foreach (Tokens.RedTargetLockToken token in GetShipRedTargetLocks(TargetShip))
+            {
+                decisionPhase.AddDecision(token.Letter.ToString(), delegate { RemoveTargetLockDecision(token.Letter); });
+            }
+
+            decisionPhase.Start();
+        }
+
+        private void RemoveTargetLockDecision(char targetLockTokenLetter)
+        {
+            DecisionSubPhase.ConfirmDecision();
+            RemoveRedTargetLock(targetLockTokenLetter);
+        }
+
+        private void RemoveRedTargetLock(char targetLockTokenLetter)
+        {
+            TargetShip.RemoveToken(typeof(Tokens.RedTargetLockToken), targetLockTokenLetter);
+            SelectShipSubPhase.FinishSelection();
+            Messages.ShowInfoToHuman(string.Format("Target Lock has been removed from {0}.", TargetShip.PilotName));
         }
     }
 }

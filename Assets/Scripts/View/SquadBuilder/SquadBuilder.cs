@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 namespace SquadBuilderNS
 {
@@ -136,7 +137,6 @@ namespace SquadBuilderNS
 
             CreateShipWithUpgradesPanels();
 
-            //if can add ship
             ShowAddShipPanel();
 
             OrganizeShipWithUpgradesPanels();
@@ -177,18 +177,25 @@ namespace SquadBuilderNS
 
         private static void ShowAddShipPanel()
         {
-            GameObject prefab = (GameObject)Resources.Load("Prefabs/SquadBuilder/ShipWithUpgradesPanel", typeof(GameObject));
-            GameObject addShipButtonPanel = MonoBehaviour.Instantiate(prefab, GameObject.Find("UI/Panels/SquadBuilderPanel/Panel/Centered/SquadListPanel").transform);
-            AddShipButtonPanel = new ShipWithUpgradesPanel(null, addShipButtonPanel);
+            if (GetSquadCost() < 89)
+            {
+                GameObject prefab = (GameObject)Resources.Load("Prefabs/SquadBuilder/ShipWithUpgradesPanel", typeof(GameObject));
+                GameObject addShipButtonPanel = MonoBehaviour.Instantiate(prefab, GameObject.Find("UI/Panels/SquadBuilderPanel/Panel/Centered/SquadListPanel").transform);
+                AddShipButtonPanel = new ShipWithUpgradesPanel(null, addShipButtonPanel);
 
-            prefab = (GameObject)Resources.Load("Prefabs/SquadBuilder/AddShipButton", typeof(GameObject));
-            GameObject addShipButton = MonoBehaviour.Instantiate(prefab, addShipButtonPanel.transform);
+                prefab = (GameObject)Resources.Load("Prefabs/SquadBuilder/AddShipButton", typeof(GameObject));
+                GameObject addShipButton = MonoBehaviour.Instantiate(prefab, addShipButtonPanel.transform);
 
-            EventTrigger trigger = addShipButton.AddComponent<EventTrigger>();
-            EventTrigger.Entry entry = new EventTrigger.Entry();
-            entry.eventID = EventTriggerType.PointerClick;
-            entry.callback.AddListener(delegate { OpenSelectShip(); });
-            trigger.triggers.Add(entry);
+                EventTrigger trigger = addShipButton.AddComponent<EventTrigger>();
+                EventTrigger.Entry entry = new EventTrigger.Entry();
+                entry.eventID = EventTriggerType.PointerClick;
+                entry.callback.AddListener(delegate { OpenSelectShip(); });
+                trigger.triggers.Add(entry);
+            }
+            else
+            {
+                AddShipButtonPanel = null;
+            }                
         }
 
         private static void OrganizeShipWithUpgradesPanels()
@@ -206,8 +213,11 @@ namespace SquadBuilderNS
                 allPanelsWidth += distanceBetweenX * (ShipWithUpgradesPanels.Count - 1);
             }
 
-            //if add ship is visible
-            allPanelsWidth += AddShipButtonPanel.Size.x;
+            if (AddShipButtonPanel != null)
+            {
+                allPanelsWidth += AddShipButtonPanel.Size.x;
+            }
+            
             if (ShipWithUpgradesPanels.Count > 0)
             {
                 allPanelsWidth += distanceBetweenX;
@@ -227,11 +237,12 @@ namespace SquadBuilderNS
         private static void ArrangeShipsWithUpgradesInOneLine(float allPanelsWidth)
         {
             float defaultWidth = 1326;
+            float defaultCardHeight = 418;
             float distanceBetweenX = 20;
             float offset = 0;
 
-            RectTransform centeredRectTransform = AddShipButtonPanel.Panel.transform.parent.parent.GetComponent<RectTransform>();
-            centeredRectTransform.sizeDelta = new Vector2(allPanelsWidth, AddShipButtonPanel.Size.y);
+            GameObject centerPanel = GameObject.Find("UI/Panels/SquadBuilderPanel/Panel/Centered");
+            centerPanel.GetComponent<RectTransform>().sizeDelta = new Vector2(allPanelsWidth, defaultCardHeight);
 
             foreach (ShipWithUpgradesPanel panel in ShipWithUpgradesPanels)
             {
@@ -239,26 +250,31 @@ namespace SquadBuilderNS
                 offset += panel.Size.x + distanceBetweenX;
             }
 
-            AddShipButtonPanel.Panel.transform.localPosition = new Vector2(offset, 0);
+            if (AddShipButtonPanel != null)
+            {
+                AddShipButtonPanel.Panel.transform.localPosition = new Vector2(offset, 0);
+            }
 
             float scale = Mathf.Min(defaultWidth / allPanelsWidth, 1);
-            AddShipButtonPanel.Panel.transform.parent.parent.localScale = new Vector2(scale, scale);
+            centerPanel.transform.localScale = new Vector2(scale, scale);
         }
 
         private static void ArrangeShipsWithUpgradesInTwoLines(float allPanelsWidth)
         {
             float defaultHeight = 600;
+            float defaultCardHeight = 418;
             float distanceBetweenX = 20;
             float distanceBetweenY = 20;
             float offset = 0;
 
             Dictionary<ShipWithUpgradesPanel, int> panelsByRow = GetArrangeShipsWithUpgradesIntoRowNumbers();
             float row1width = panelsByRow.Where(n => n.Value == 1).Sum(m => m.Key.Size.x) + distanceBetweenX * (panelsByRow.Count(n => n.Value == 1) - 1);
-            float row2width = panelsByRow.Where(n => n.Value == 2).Sum(m => m.Key.Size.x) + distanceBetweenX * (panelsByRow.Count(n => n.Value == 1) - 1) + AddShipButtonPanel.Size.x;
+            float row2width = panelsByRow.Where(n => n.Value == 2).Sum(m => m.Key.Size.x) + distanceBetweenX * (panelsByRow.Count(n => n.Value == 1) - 1);
+            if (AddShipButtonPanel != null) row2width += AddShipButtonPanel.Size.x;
             float maxWidth = Mathf.Max(row1width, row2width);
 
-            RectTransform centeredRectTransform = AddShipButtonPanel.Panel.transform.parent.parent.GetComponent<RectTransform>();
-            centeredRectTransform.sizeDelta = new Vector2(maxWidth, AddShipButtonPanel.Size.y*2 + distanceBetweenY);
+            GameObject centerPanel = GameObject.Find("UI/Panels/SquadBuilderPanel/Panel/Centered");
+            centerPanel.GetComponent<RectTransform>().sizeDelta = new Vector2(maxWidth, 2*defaultCardHeight + distanceBetweenY);
 
             offset = (maxWidth - row1width) / 2;
             foreach (var panel in panelsByRow.Where(n => n.Value == 1))
@@ -270,14 +286,17 @@ namespace SquadBuilderNS
             offset = (maxWidth - row2width) / 2;
             foreach (var panel in panelsByRow.Where(n => n.Value == 2))
             {
-                panel.Key.Panel.transform.localPosition = new Vector2(offset, -(AddShipButtonPanel.Size.y + distanceBetweenY));
+                panel.Key.Panel.transform.localPosition = new Vector2(offset, -(defaultCardHeight + distanceBetweenY));
                 offset += panel.Key.Size.x + distanceBetweenX;
             }
 
-            AddShipButtonPanel.Panel.transform.localPosition = new Vector2(offset, -(AddShipButtonPanel.Size.y + distanceBetweenY));
+            if (AddShipButtonPanel != null)
+            {
+                AddShipButtonPanel.Panel.transform.localPosition = new Vector2(offset, -(defaultCardHeight + distanceBetweenY));
+            }
 
-            float scale = Mathf.Min(AddShipButtonPanel.Size.y / defaultHeight, 1);
-            AddShipButtonPanel.Panel.transform.parent.parent.localScale = new Vector2(scale, scale);
+            float scale = Mathf.Min(defaultCardHeight / defaultHeight, 1);
+            centerPanel.transform.localScale = new Vector2(scale, scale);
         }
 
         private static Dictionary<ShipWithUpgradesPanel, int> GetArrangeShipsWithUpgradesIntoRowNumbers()
@@ -288,6 +307,7 @@ namespace SquadBuilderNS
             result.Add(maxSizePanel, 1);
 
             float maxWidth = ShipWithUpgradesPanels.Sum(n => n.Size.x) - maxSizePanel.Size.x;
+            if (AddShipButtonPanel != null) maxWidth += AddShipButtonPanel.Size.x;
             float difference = Mathf.Abs(maxWidth - maxSizePanel.Size.x);
 
             bool finished = false;
@@ -307,15 +327,19 @@ namespace SquadBuilderNS
                 {
                     result.Add(minSizePanel, 1);
                     difference -= minSizePanel.Size.x;
+                    maxWidth -= minSizePanel.Size.x;
                 }
             }
 
             return result;
         }
 
-        private static void OpenShipInfo(string pilotName, string shipName)
+        private static void UpdateSquadCost(int squadCost)
         {
-            Messages.ShowInfo("Ship info");
+            Text squadCostText = GameObject.Find("UI/Panels/SquadBuilderPanel/ControlsPanel/SquadCostText").GetComponent<Text>();
+            squadCostText.text = squadCost.ToString() + " / 100";
+
+            squadCostText.color = (squadCost > 100) ? Color.red : Color.black;
         }
 
     }

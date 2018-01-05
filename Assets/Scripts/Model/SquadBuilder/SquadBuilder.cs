@@ -199,12 +199,23 @@ namespace SquadBuilderNS
 
         public static void ShowShipsAndUpgrades()
         {
+            UpdateSquadCost(GetSquadCost());
             GenerateShipWithUpgradesPanels();
         }
 
         public static void OpenSelectShip()
         {
             MainMenu.CurrentMainMenu.ChangePanel("SelectShipPanel");
+        }
+
+        private static int GetSquadCost()
+        {
+            return CurrentSquadList.GetShips().Sum(n => n.Instance.Cost);
+        }
+
+        private static void OpenShipInfo(string pilotName, string shipName)
+        {
+            Messages.ShowInfo("Ship info");
         }
     }
 }

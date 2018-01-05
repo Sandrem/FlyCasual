@@ -9,6 +9,16 @@ namespace Arcs
 
     public class ArcMobile : GenericArc
     {
+        private Transform MobileArcPointer;
+
+        private static Dictionary<ArcFacing, float> MobileArcRotationValues = new Dictionary<ArcFacing, float>
+        {
+            { ArcFacing.Front, 0f },
+            { ArcFacing.Right, 90f },
+            { ArcFacing.Rear, 180f },
+            { ArcFacing.Left, 270f }
+        };
+
         private ArcFacing mobileArcFacing = ArcFacing.Front;
         public ArcFacing MobileArcFacing
         {
@@ -16,7 +26,7 @@ namespace Arcs
             {
                 return mobileArcFacing;
             }
-            set
+            private set
             {
                 mobileArcFacing = value;
                 ArcsList[1] = mobileArcFacings[value];
@@ -35,7 +45,8 @@ namespace Arcs
                         ShipBase = Host.ShipBase,
                         MinAngle = -40f,
                         MaxAngle = 40f,
-                        Facing = ArcFacing.Front
+                        Facing = ArcFacing.Front,
+                        IsMobileArc = true
                     }
                 },
                 {
@@ -43,9 +54,10 @@ namespace Arcs
                     new ArcInfo()
                     {
                         ShipBase = Host.ShipBase,
-                        MinAngle = -140f,
-                        MaxAngle = -40f,
-                        Facing = ArcFacing.Left
+                        MinAngle = 40f,
+                        MaxAngle = 140f,
+                        Facing = ArcFacing.Left,
+                        IsMobileArc = true
                     }
                 },
                 {
@@ -53,9 +65,10 @@ namespace Arcs
                     new ArcInfo()
                     {
                         ShipBase = Host.ShipBase,
-                        MinAngle = 40f,
-                        MaxAngle = 140f,
-                        Facing = ArcFacing.Right
+                        MinAngle = -140f,
+                        MaxAngle = -40f,
+                        Facing = ArcFacing.Right,
+                        IsMobileArc = true
                     }
                 },
                 {
@@ -65,7 +78,8 @@ namespace Arcs
                         ShipBase = Host.ShipBase,
                         MinAngle = -140f,
                         MaxAngle = 140f,
-                        Facing = ArcFacing.Rear
+                        Facing = ArcFacing.Rear,
+                        IsMobileArc = true
                     }
                 }
             };
@@ -75,6 +89,20 @@ namespace Arcs
                 primaryArc,
                 mobileArcFacings[ArcFacing.Front]
             };
+
+            ShowMobileArcPointer();
+        }
+
+        public void ShowMobileArcPointer()
+        {
+            MobileArcPointer = Host.GetShipAllPartsTransform().Find("ShipBase").Find("MobileArcPointer");
+            MobileArcPointer.gameObject.SetActive(true);
+        }
+
+        public void RotateArc(ArcFacing facing)
+        {
+            MobileArcFacing = facing;
+            MobileArcPointer.localEulerAngles = new Vector3(0f, MobileArcRotationValues[facing], 0f);
         }
     }
 }

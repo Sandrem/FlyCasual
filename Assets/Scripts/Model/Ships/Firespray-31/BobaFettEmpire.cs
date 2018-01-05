@@ -24,22 +24,26 @@ namespace Ship
 
                 SkinName = "Boba Fett";
 
-                PilotAbilities.Add(new PilotAbilitiesNamespace.BobaFettEmpireAbility());
+                PilotAbilities.Add(new Abilities.BobaFettEmpireAbility());
             }
         }
     }
 }
 
-namespace PilotAbilitiesNamespace
+namespace Abilities
 {
-    public class BobaFettEmpireAbility : GenericPilotAbility
+    public class BobaFettEmpireAbility : GenericAbility
     {
-        public override void Initialize(Ship.GenericShip host)
+        public override void ActivateAbility()
         {
-            base.Initialize(host);
-
-            Host.OnManeuverIsRevealed += RegisterAskChangeManeuver;
+            HostShip.OnManeuverIsRevealed += RegisterAskChangeManeuver;
         }
+
+        public override void DeactivateAbility()
+        {
+            HostShip.OnManeuverIsRevealed -= RegisterAskChangeManeuver;
+        }
+
 
         private void RegisterAskChangeManeuver(GenericShip ship)
         {
@@ -48,9 +52,9 @@ namespace PilotAbilitiesNamespace
 
         private void AskChangeManeuver(object sender, System.EventArgs e)
         {
-            if (Host.AssignedManeuver.Bearing == Movement.ManeuverBearing.Bank)
+            if (HostShip.AssignedManeuver.Bearing == Movement.ManeuverBearing.Bank)
             {
-                DirectionsMenu.Show(GameMode.CurrentGameMode.AssignManeuver, IsBankManeuversSameSpeed);
+                HostShip.Owner.ChangeManeuver(GameMode.CurrentGameMode.AssignManeuver, IsBankManeuversSameSpeed);
             }
             else
             {
@@ -62,7 +66,7 @@ namespace PilotAbilitiesNamespace
         {
             bool result = false;
             Movement.MovementStruct movementStruct = new Movement.MovementStruct(maneuverString);
-            if (movementStruct.Bearing == Movement.ManeuverBearing.Bank && movementStruct.Speed == Host.AssignedManeuver.ManeuverSpeed)
+            if (movementStruct.Bearing == Movement.ManeuverBearing.Bank && movementStruct.Speed == HostShip.AssignedManeuver.ManeuverSpeed)
             {
                 result = true;
             }

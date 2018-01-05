@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Ship;
+using System;
 
 // Second->First: Two same actions
 // Triggers are empty
@@ -24,26 +25,29 @@ namespace Ship
 
                 SkinName = "Blue";
 
-                PilotAbilities.Add(new PilotAbilitiesNamespace.DarthVaderAbility());
+                PilotAbilities.Add(new Abilities.DarthVaderAbility());
             }
         }
     }
 }
 
-namespace PilotAbilitiesNamespace
+namespace Abilities
 {
-    public class DarthVaderAbility : GenericPilotAbility
+    public class DarthVaderAbility : GenericAbility
     {
-        public override void Initialize(GenericShip host)
+        public override void ActivateAbility()
         {
-            base.Initialize(host);
+            HostShip.OnActionDecisionSubphaseEnd += DoSecondAction;
+        }
 
-            Host.OnActionDecisionSubphaseEnd += DoSecondAction;
+        public override void DeactivateAbility()
+        {
+            HostShip.OnActionDecisionSubphaseEnd -= DoSecondAction;
         }
 
         private void DoSecondAction(GenericShip ship)
         {
-            if (!Host.HasToken(typeof(Tokens.StressToken)))
+            if (!HostShip.HasToken(typeof(Tokens.StressToken)) && Phases.CurrentSubPhase.GetType() == typeof(SubPhases.ActionDecisonSubPhase))
             {
                 RegisterAbilityTrigger(TriggerTypes.OnFreeActionPlanned, PerformFreeAction);
             }
@@ -51,10 +55,10 @@ namespace PilotAbilitiesNamespace
 
         private void PerformFreeAction(object sender, System.EventArgs e)
         {
-            Host.GenerateAvailableActionsList();
+            HostShip.GenerateAvailableActionsList();
             List<ActionsList.GenericAction> actions = Selection.ThisShip.GetAvailableActionsList();
 
-            Host.AskPerformFreeAction(actions, Triggers.FinishTrigger);
+            HostShip.AskPerformFreeAction(actions, Triggers.FinishTrigger);
         }
     }
 }

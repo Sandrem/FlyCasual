@@ -3,19 +3,58 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Board;
+using ActionsList;
+using Ship;
+using System.ComponentModel;
 
-public static partial class Actions {
+public static partial class Actions
+{
 
     private static Dictionary<char, bool> Letters;
 
     public static CriticalHitCard.GenericCriticalHit SelectedCriticalHitCard;
+
+    public static GenericAction CurrentAction;
+
+    public enum BarrelRollTemplates
+    {
+        Straight1,
+        Bank1,
+        Straight2
+    }
+
+    public enum BoostTemplates
+    {
+        [Description("Straight 1")]
+        Straight1,
+        [Description("Bank 1 Right")]
+        RightBank1,
+        [Description("Bank 1 Left")]
+        LeftBank1,
+        [Description("Turn 1 Right")]
+        RightTurn1,
+        [Description("Turn 1 Left")]
+        LeftTurn1
+    }
+
+    public enum BarrelRollTemplateVariants
+    {
+        Straight1Left,
+        Straight1Right,
+        Bank1LeftForward,
+        Bank1RightForward,
+        Bank1LeftBackwards,
+        Bank1RightBackwards,
+        Straight2Left,
+        Straight2Right
+    }
 
     public static void Initialize()
     {
         Letters = new Dictionary<char, bool>();
     }
 
-    public static void AssignTargetLockToPair(Ship.GenericShip thisShip, Ship.GenericShip targetShip, Action successCallback, Action failureCallback)
+    public static void AssignTargetLockToPair(GenericShip thisShip, GenericShip targetShip, Action successCallback, Action failureCallback)
     {
         if (Letters.Count == 0) InitializeTargetLockLetters();
 
@@ -85,7 +124,7 @@ public static partial class Actions {
         return result;
     }
 
-    public static char GetTargetLocksLetterPair(Ship.GenericShip thisShip, Ship.GenericShip targetShip)
+    public static char GetTargetLocksLetterPair(GenericShip thisShip, GenericShip targetShip)
     {
         return thisShip.GetTargetLockLetterPair(targetShip);
     }
@@ -100,7 +139,7 @@ public static partial class Actions {
         Letters[takenLetter] = true;
     }
 
-    public static float GetVector(Ship.GenericShip thisShip, Ship.GenericShip anotherShip)
+    public static float GetVector(GenericShip thisShip, GenericShip anotherShip)
     {
         float result = 0;
 
@@ -117,7 +156,7 @@ public static partial class Actions {
         return result;
     }
 
-    public static bool IsClosing(Ship.GenericShip thisShip, Ship.GenericShip anotherShip)
+    public static bool IsClosing(GenericShip thisShip, GenericShip anotherShip)
     {
         bool result = false;
 
@@ -132,14 +171,33 @@ public static partial class Actions {
         return result;
     }
 
-    public static int GetFiringRangeAndShow(Ship.GenericShip thisShip, Ship.GenericShip anotherShip)
+    public static int GetFiringRangeAndShow(GenericShip thisShip, GenericShip anotherShip)
     {
         ShipShotDistanceInformation shotInfo = new ShipShotDistanceInformation(thisShip, anotherShip, thisShip.PrimaryWeapon);
-        MovementTemplates.ShowFiringArcRange(shotInfo);
+        bool inArc = MovementTemplates.ShowFiringArcRange(shotInfo);
+        if (!inArc) Messages.ShowInfoToHuman("Out of primary weapon arc");
         return shotInfo.Range;
     }
 
-    public static bool HasTarget(Ship.GenericShip thisShip)
+    public static int GetRangeAndShow(GenericShip thisShip, GenericShip anotherShip)
+    {
+        ShipDistanceInformation distanceInfo = new ShipDistanceInformation(thisShip, anotherShip);
+        MovementTemplates.ShowRangeRuler(distanceInfo);
+
+        int range = distanceInfo.Range;
+        if (range < 4)
+        {
+            Messages.ShowInfo("Range " + range);
+        }
+        else
+        {
+            Messages.ShowError("Out of range");
+        }
+        
+        return distanceInfo.Range;
+    }
+
+    public static bool HasTarget(GenericShip thisShip)
     {
         foreach (var anotherShip in Roster.GetPlayer(Roster.AnotherPlayer(thisShip.Owner.PlayerNo)).Ships)
         {
@@ -153,7 +211,7 @@ public static partial class Actions {
         return false;
     }
 
-    public static int CountEnemiesTargeting(Ship.GenericShip thisShip, int direction = 0)
+    public static int CountEnemiesTargeting(GenericShip thisShip, int direction = 0)
     {
         int result = 0;
 
@@ -185,13 +243,40 @@ public static partial class Actions {
         return result;
     }
 
-    public static bool HasTargetLockOn(Ship.GenericShip attacker, Ship.GenericShip defender)
+    public static bool HasTargetLockOn(GenericShip attacker, GenericShip defender)
     {
         bool result = false;
         char letter = ' ';
         letter = Actions.GetTargetLocksLetterPair(attacker, defender);
         if (letter != ' ') result = true;
         return result;
+    }
+
+    // TAKE ACTION TRIGGERS
+
+    public static void TakeAction(GenericAction action)
+    {
+        var ship = Selection.ThisShip;
+        Tooltips.EndTooltip();
+        UI.HideSkipButton();
+        ship.AddAlreadyExecutedAction(action);
+        CurrentAction = action;
+        action.ActionTake();
+    }
+
+    public static void FinishAction(Action callback)
+    {
+        ActionIsTaken(callback);
+    }
+
+    private static void ActionIsTaken(Action callback)
+    {
+        Selection.ThisShip.CallActionIsTaken(Actions.CurrentAction, delegate { EndActionDecisionSubhase(callback); });
+    }
+
+    private static void EndActionDecisionSubhase(Action callback)
+    {
+        Selection.ThisShip.CallOnActionDecisionSubphaseEnd(callback);
     }
 
 }

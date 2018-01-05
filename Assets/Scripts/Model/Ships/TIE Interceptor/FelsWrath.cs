@@ -17,28 +17,31 @@ namespace Ship
 
                 IsUnique = true;
 
-                PilotAbilities.Add(new PilotAbilitiesNamespace.FelsWrathAbility());
+                PilotAbilities.Add(new Abilities.FelsWrathAbility());
             }
 		}
 	}
 }
 
-namespace PilotAbilitiesNamespace
+namespace Abilities
 {
-    public class FelsWrathAbility : GenericPilotAbility
+    public class FelsWrathAbility : GenericAbility
     {
-        public override void Initialize(GenericShip host)
+        public override void ActivateAbility()
         {
-            base.Initialize(host);
+            HostShip.OnReadyToBeDestroyed += ActivateAbility;
+        }
 
-            Host.OnReadyToBeDestroyed += ActivateAbility;
+        public override void DeactivateAbility()
+        {
+            HostShip.OnReadyToBeDestroyed -= ActivateAbility;
         }
 
         private void ActivateAbility(GenericShip ship)
         {
-            Host.OnReadyToBeDestroyed -= ActivateAbility;
+            HostShip.OnReadyToBeDestroyed -= ActivateAbility;
 
-            Host.PreventDestruction = true;
+            HostShip.PreventDestruction = true;
 
             Phases.OnCombatPhaseEnd += ProcessFelsWrath;
         }
@@ -50,11 +53,11 @@ namespace PilotAbilitiesNamespace
 
         private void CleanUpFelsWrath(object sender, EventArgs e)
         {
-            Host.PreventDestruction = false;
+            HostShip.PreventDestruction = false;
             Phases.OnCombatPhaseEnd -= ProcessFelsWrath;
 
-            Selection.ThisShip = Host;
-            Host.DestroyShip(Triggers.FinishTrigger, true);
+            Selection.ThisShip = HostShip;
+            HostShip.DestroyShip(Triggers.FinishTrigger, true);
         }
     }
 }

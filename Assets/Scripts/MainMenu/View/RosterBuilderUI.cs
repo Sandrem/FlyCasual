@@ -1,9 +1,13 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using SquadBuilderNS;
 
 public class RosterBuilderUI : MonoBehaviour {
+
+    // OLD
 
     public void AddShip(int playerNo)
     {
@@ -28,6 +32,16 @@ public class RosterBuilderUI : MonoBehaviour {
     public void Import()
     {
         RosterBuilder.CreateSquadFromImportedjson(GameObject.Find("UI/Panels/ImportExportPanel/InputField").GetComponent<InputField>().text, Players.PlayerNo.Player1);
+    }
+
+    // NEW
+
+    public void SetCurrentPlayerFactionAndNext(string factionText)
+    {
+        Faction faction = (Faction) Enum.Parse(typeof(Faction), factionText);
+        SquadBuilder.SetCurrentPlayerFaction(faction);
+
+        MainMenu.CurrentMainMenu.ChangePanel("SquadBuilderPanel");
     }
 
 }

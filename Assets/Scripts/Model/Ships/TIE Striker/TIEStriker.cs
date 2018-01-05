@@ -14,6 +14,7 @@ namespace Ship
             public TIEStriker() : base()
             {
                 Type = "TIE Striker";
+                IconicPilot = "\"Pure Sabacc\"";
 
                 ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/9/9b/MI_TIE-STRIKER.png";
 
@@ -26,7 +27,7 @@ namespace Ship
                 PrintedActions.Add(new BarrelRollAction());
 
                 AssignTemporaryManeuvers();
-                HotacManeuverTable = null;
+                HotacManeuverTable = new AI.TIEStrikerTable();
 
                 factions.Add(Faction.Imperial);
                 faction = Faction.Imperial;

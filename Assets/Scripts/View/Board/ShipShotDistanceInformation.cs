@@ -15,6 +15,7 @@ namespace Board
         public bool InShotAngle { get; private set; }
         public bool InPrimaryArc { get; private set; }
         public bool InBullseyeArc { get; private set; }
+        public bool InMobileArc { get; private set; }
         public bool InArc { get; private set; }
         public bool CanShootPrimaryWeapon { get; private set; }
         public bool CanShootTorpedoes { get; private set; }
@@ -27,7 +28,7 @@ namespace Board
             {
                 int distance = Mathf.Max(1, Mathf.CeilToInt(Distance / DISTANCE_1));
 
-                if (OnRangeIsMeasured != null) OnRangeIsMeasured(ThisShip, AnotherShip, ref distance);
+                if (OnRangeIsMeasured != null) OnRangeIsMeasured(ThisShip, AnotherShip, ChosenWeapon, ref distance);
 
                 return distance;
             }
@@ -40,12 +41,13 @@ namespace Board
         private int updatesCount = 0;
 
         //EVENTS
-        public delegate void EventHandlerShipShipInt(GenericShip thisShip, GenericShip anotherShip, ref int range);
-        public static event EventHandlerShipShipInt OnRangeIsMeasured;
+        public delegate void EventHandlerShipShipWeaponInt(GenericShip thisShip, GenericShip anotherShip, IShipWeapon chosenWeapon, ref int range);
+        public static event EventHandlerShipShipWeaponInt OnRangeIsMeasured;
 
-        public ShipShotDistanceInformation(GenericShip thisShip, GenericShip anotherShip, IShipWeapon chosenWeapon) : base(thisShip, anotherShip)
+        public ShipShotDistanceInformation(GenericShip thisShip, GenericShip anotherShip, IShipWeapon chosenWeapon = null) : base(thisShip, anotherShip)
         {
-            ChosenWeapon = chosenWeapon;
+            ChosenWeapon = chosenWeapon ?? thisShip.PrimaryWeapon;
+            
             CalculateFields();
         }
 
@@ -60,7 +62,7 @@ namespace Board
             parallelPointsList = new List<List<Vector3>>();
 
             // TODO: another types of primaty arcs
-            Dictionary <string, Vector3> shootingPoints = (!ChosenWeapon.CanShootOutsideArc) ? ThisShip.ArcInfo.GetArcsPoints() : ThisShip.ShipBase.GetStandPoints();
+            Dictionary <string, Vector3> shootingPoints = (ThisShip.GetAllWeapons().Count(n => n.CanShootOutsideArc) == 0) ? ThisShip.ArcInfo.GetArcsPoints() : ThisShip.ShipBase.GetStandPoints();
 
             // TODO: change to use geometry instead of dots
 
@@ -72,7 +74,7 @@ namespace Board
                 {
                     // TODO: check this part
                     Vector3 vectorToTarget = pointAnother.Value - pointThis.Value;
-                    float angle = Mathf.Abs(Vector3.SignedAngle(vectorToTarget, vectorFacing, Vector3.up));
+                    float angle = Vector3.SignedAngle(vectorToTarget, vectorFacing, Vector3.up);
 
                     // TODO: Different checks for primary arc and 360 arc
 
@@ -93,6 +95,11 @@ namespace Board
                         if (ChosenWeapon.Host.ArcInfo.InBullseyeArc(pointThis.Key, angle))
                         {
                             InBullseyeArc = true;
+                        }
+
+                        if (ChosenWeapon.Host.ArcInfo.InMobileArc(pointThis.Key, angle))
+                        {
+                            InMobileArc = true;
                         }
 
                         if (ChosenWeapon.Host.ArcInfo.CanShootPrimaryWeapon(pointThis.Key, angle))

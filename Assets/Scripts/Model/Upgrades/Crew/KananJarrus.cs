@@ -4,9 +4,10 @@ using System;
 using SubPhases;
 using UpgradesList;
 using Tokens;
+using Abilities;
 
 namespace UpgradesList
-{ 
+{
     public class KananJarrus : GenericUpgrade
     {
         public bool IsAbilityUsed;
@@ -18,60 +19,53 @@ namespace UpgradesList
             Cost = 3;
 
             isUnique = true;
+
+            UpgradeAbilities.Add(new KananJarrusCrewAbility());
         }
 
         public override bool IsAllowedForShip(GenericShip ship)
         {
             return ship.faction == Faction.Rebel;
         }
+    }
+}
 
-        public override void AttachToShip(GenericShip host)
+namespace Abilities
+{
+    public class KananJarrusCrewAbility : GenericAbility
+    {
+        private GenericShip ShipToRemoveStress;
+
+        public override void ActivateAbility()
         {
-            base.AttachToShip(host);
-
             GenericShip.OnMovementFinishGlobal += CheckAbility;
             Phases.OnRoundEnd += ResetKananJarrusAbilityFlag;
+        }
 
-            host.OnDestroyed += RemoveKananJarrusAbility;
+        public override void DeactivateAbility()
+        {
+            GenericShip.OnMovementFinishGlobal -= CheckAbility;
+            Phases.OnRoundEnd -= ResetKananJarrusAbilityFlag;
         }
 
         private void CheckAbility(GenericShip ship)
         {
-            if (!IsAbilityUsed && ship.Owner.PlayerNo == Host.Owner.PlayerNo && ship.AssignedManeuver.ColorComplexity == Movement.ManeuverColor.White)
+            if (!IsAbilityUsed && ship.Owner.PlayerNo == HostShip.Owner.PlayerNo && ship.AssignedManeuver.ColorComplexity == Movement.ManeuverColor.White)
             {
-                Board.ShipDistanceInformation distanceInfo = new Board.ShipDistanceInformation(Host, ship);
+                Board.ShipDistanceInformation distanceInfo = new Board.ShipDistanceInformation(HostShip, ship);
                 if (distanceInfo.Range < 3)
                 {
-                    Triggers.RegisterTrigger(new Trigger()
-                    {
-                        Name = "Kanan Jarrus's ability",
-                        TriggerType = TriggerTypes.OnShipMovementFinish,
-                        TriggerOwner = Host.Owner.PlayerNo,
-                        EventHandler = AskKananJarrusAbility,
-                        EventArgs = new KananJarrusAbilityArgs()
-                        {
-                            KananJarrusUpgradeCard = this,
-                            ShipToRemoveStress = ship
-                        }
-                    });
+                    ShipToRemoveStress = ship;
+                    RegisterAbilityTrigger(TriggerTypes.OnShipMovementFinish, AskKananJarrusAbility);
                 }
             }
         }
 
-        private class KananJarrusAbilityArgs: EventArgs
-        {
-            public KananJarrus KananJarrusUpgradeCard;
-            public GenericShip ShipToRemoveStress;
-        }
-
         private void AskKananJarrusAbility(object sender, System.EventArgs e)
         {
-            if ((e as KananJarrusAbilityArgs).ShipToRemoveStress.HasToken(typeof(StressToken)))
+            if (ShipToRemoveStress.HasToken(typeof(StressToken)))
             {
-                KananJarrusDecisionSubPhase newSubphase = (KananJarrusDecisionSubPhase)Phases.StartTemporarySubPhaseNew("Remove stress from ship?", typeof(KananJarrusDecisionSubPhase), Triggers.FinishTrigger);
-                newSubphase.KananJarrusUpgradeCard = (e as KananJarrusAbilityArgs).KananJarrusUpgradeCard;
-                newSubphase.ShipToRemoveStress = (e as KananJarrusAbilityArgs).ShipToRemoveStress;
-                newSubphase.Start();
+                AskToUseAbility(AlwaysUseByDefault, RemoveStress, null, null, true);
             }
             else
             {
@@ -79,52 +73,18 @@ namespace UpgradesList
             }
         }
 
+        private void RemoveStress(object sender, EventArgs e)
+        {
+            ShipToRemoveStress.RemoveToken(typeof(StressToken));
+            IsAbilityUsed = true;
+
+            DecisionSubPhase.ConfirmDecision();
+        }
+
         private void ResetKananJarrusAbilityFlag()
         {
             IsAbilityUsed = false;
         }
 
-        private void RemoveKananJarrusAbility(GenericShip ship)
-        {
-            GenericShip.OnMovementFinishGlobal -= CheckAbility;
-            Phases.OnRoundEnd -= ResetKananJarrusAbilityFlag;
-        }
     }
-}
-
-namespace SubPhases
-{
-
-    public class KananJarrusDecisionSubPhase : DecisionSubPhase
-    {
-        public KananJarrus KananJarrusUpgradeCard;
-        public GenericShip ShipToRemoveStress;
-
-        public override void PrepareDecision(Action callBack)
-        {
-            InfoText = "Remove Stress token from ship?";
-
-            AddDecision("Yes", RemoveStress);
-            AddDecision("No", DontRemoveStress);
-
-            DefaultDecision = "No";
-
-            callBack();
-        }
-
-        private void RemoveStress(object sender, EventArgs e)
-        {
-            ShipToRemoveStress.RemoveToken(typeof(StressToken));
-            KananJarrusUpgradeCard.IsAbilityUsed = true;
-
-            ConfirmDecision();
-        }
-
-        private void DontRemoveStress(object sender, EventArgs e)
-        {
-            ConfirmDecision();
-        }
-
-    }
-
 }

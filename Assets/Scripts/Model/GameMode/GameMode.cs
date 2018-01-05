@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 namespace GameModes
 { 
@@ -30,7 +31,7 @@ namespace GameModes
 
         public abstract void StartBattle();
 
-        public abstract void TryConfirmBarrelRollPosition(Vector3 shipBasePosition, Vector3 movementTemplatePosition);
+        public abstract void TryConfirmBarrelRollPosition(string templateName, Vector3 shipBasePosition, Vector3 movementTemplatePosition);
 
         public abstract void StartBarrelRollExecution(Ship.GenericShip ship);
 
@@ -58,12 +59,20 @@ namespace GameModes
 
         public abstract void ConfirmDiceResults();
 
-        public abstract void GetCritCard(Action callBack);
+        public abstract void SwitchToOwnDiceModifications();
+
+        public abstract void GetCritCard(bool isFaceUp, Action callBack);
 
         public abstract void TakeDecision(KeyValuePair<string, EventHandler> decision, GameObject button);
 
         public abstract void FinishMovementExecution();
 
         public abstract void SetSwarmManagerManeuver(string maneuverCode);
+
+        public virtual void ReturnToMainMenu()
+        {
+            Phases.EndGame();
+            SceneManager.LoadScene("MainMenu");
+        }
     }
 }

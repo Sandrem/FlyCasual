@@ -70,6 +70,7 @@ namespace ActionsList
         {
             Host.RemoveToken(typeof(Conditions.MarksmanshipCondition));
             Host.AfterGenerateAvailableActionEffectsList -= MarksmanshipAddDiceModification;
+            Phases.OnEndPhaseStart -= MarksmanshipUnSubscribeToFiceModification;
         }
 
         public override bool IsActionEffectAvailable()

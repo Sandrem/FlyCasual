@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Ship;
+using System;
 
 namespace Ship
 {
@@ -17,45 +18,46 @@ namespace Ship
 
                 IsUnique = true;
 
-                PilotAbilities.Add(new PilotAbilitiesNamespace.KananJarrusPilotAbility());
+                PilotAbilities.Add(new Abilities.KananJarrusPilotAbility());
             }
         }
     }
 }
 
-namespace PilotAbilitiesNamespace
+namespace Abilities
 {
-    public class KananJarrusPilotAbility : GenericPilotAbility
+    public class KananJarrusPilotAbility : GenericAbility
     {
-        public override void Initialize(GenericShip host)
+        public override void ActivateAbility()
         {
-            base.Initialize(host);
-
             GenericShip.OnAttackStartAsAttackerGlobal += CheckPilotAbility;
+        }
+
+        public override void DeactivateAbility()
+        {
+            GenericShip.OnAttackStartAsAttackerGlobal -= CheckPilotAbility;
         }
 
         private void CheckPilotAbility()
         {
-            bool IsDifferentPlayer = (Host.Owner.PlayerNo != Combat.Attacker.Owner.PlayerNo);
-            bool HasFocusTokens = Host.HasToken(typeof(Tokens.FocusToken));
-            Board.ShipDistanceInformation distanceInfo = new Board.ShipDistanceInformation(Host, Combat.Attacker);
+            bool IsDifferentPlayer = (HostShip.Owner.PlayerNo != Combat.Attacker.Owner.PlayerNo);
+            bool HasFocusTokens = HostShip.HasToken(typeof(Tokens.FocusToken));
+            Board.ShipDistanceInformation distanceInfo = new Board.ShipDistanceInformation(HostShip, Combat.Attacker);
 
             if (IsDifferentPlayer && HasFocusTokens && distanceInfo.Range < 3)
             {
-                Debug.Log("Ability is registered");
                 RegisterAbilityTrigger(TriggerTypes.OnAttackStart, AskDecreaseAttack);
             }
         }
 
         private void AskDecreaseAttack(object sender, System.EventArgs e)
         {
-            Debug.Log("Ask decision");
-            AskToUseAbility(AlwaysUseByDefault, DecreaseAttack, null, true);
+            AskToUseAbility(AlwaysUseByDefault, DecreaseAttack, null, null, true);
         }
 
         private void DecreaseAttack(object sender, System.EventArgs e)
         {
-            Host.SpendToken(typeof(Tokens.FocusToken), RegisterDecreaseNumberOfAttackDice);
+            HostShip.SpendToken(typeof(Tokens.FocusToken), RegisterDecreaseNumberOfAttackDice);
             SubPhases.DecisionSubPhase.ConfirmDecision();
         }
 

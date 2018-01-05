@@ -15,24 +15,30 @@ namespace Ship
                 PilotSkill = 6;
                 Cost = 21;
 
+                IsUnique = true;
+
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
+
                 faction = Faction.Rebel;
 
-                PilotAbilities.Add(new PilotAbilitiesNamespace.KyleKatarnAbility());
+                PilotAbilities.Add(new Abilities.KyleKatarnAbility());
             }
         }
     }
 }
 
-namespace PilotAbilitiesNamespace
+namespace Abilities
 {
-    public class KyleKatarnAbility : GenericPilotAbility
+    public class KyleKatarnAbility : GenericAbility
     {
-        public override void Initialize(GenericShip host)
+        public override void ActivateAbility()
         {
-            base.Initialize(host);
-
             Phases.OnCombatPhaseStart += RegisterAbility;
-            Host.OnDestroyed += RemoveAbility;
+        }
+
+        public override void DeactivateAbility()
+        {
+            Phases.OnCombatPhaseStart -= RegisterAbility;
         }
 
         private void RegisterAbility()
@@ -40,14 +46,9 @@ namespace PilotAbilitiesNamespace
             RegisterAbilityTrigger(TriggerTypes.OnCombatPhaseStart, Ability);
         }
 
-        private void RemoveAbility(GenericShip ship)
-        {
-            Phases.OnCombatPhaseStart -= RegisterAbility;
-        }
-
         private void Ability(object sender, EventArgs e)
         {
-            if (Host.Owner.Ships.Count > 1 && Host.HasToken(typeof(Tokens.FocusToken)))
+            if (HostShip.Owner.Ships.Count > 1 && HostShip.HasToken(typeof(Tokens.FocusToken)))
             {
                 SelectTargetForAbility(
                     SelectAbilityTarget,
@@ -62,7 +63,7 @@ namespace PilotAbilitiesNamespace
 
         private void SelectAbilityTarget()
         {
-            Host.RemoveToken(typeof(Tokens.FocusToken));
+            HostShip.RemoveToken(typeof(Tokens.FocusToken));
             TargetShip.AssignToken(new Tokens.FocusToken(), SelectShipSubPhase.FinishSelection);           
         }
     }

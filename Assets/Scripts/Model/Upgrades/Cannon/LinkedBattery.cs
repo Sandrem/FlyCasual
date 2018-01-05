@@ -85,7 +85,7 @@ namespace ActionsList
         {
             int result = 0;
 
-            if (Combat.AttackStep == CombatStep.Attack && (Combat.ChosenWeapon as GenericSecondaryWeapon) != null)
+            if (Combat.AttackStep == CombatStep.Attack && (IsPrimaryWeapon() || IsCannon()))
             {
                 if (Combat.DiceRollAttack.Blanks > 0)
                 {

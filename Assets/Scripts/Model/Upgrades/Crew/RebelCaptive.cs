@@ -1,4 +1,5 @@
 ﻿using Upgrade;
+using Ship;
 
 namespace UpgradesList
 {
@@ -26,6 +27,7 @@ namespace UpgradesList
             host.OnAttackStartAsDefender += RegisterTrigger;
 
             Phases.OnEndPhaseStart += Cleanup;
+            Host.OnDestroyed += StopAbility;
         }
 
         private void RegisterTrigger()
@@ -56,6 +58,11 @@ namespace UpgradesList
         private void Cleanup()
         {
             IsUsed = false;
+        }
+
+        private void StopAbility(GenericShip host)
+        {
+            Phases.OnEndPhaseStart -= Cleanup;
         }
     }
 }

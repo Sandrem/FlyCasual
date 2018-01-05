@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 namespace GameModes
 { 
@@ -77,11 +78,11 @@ namespace GameModes
 
         // BARREL ROLL
 
-        public override void TryConfirmBarrelRollPosition(Vector3 shipBasePosition, Vector3 movementTemplatePosition)
+        public override void TryConfirmBarrelRollPosition(string templateName, Vector3 shipBasePosition, Vector3 movementTemplatePosition)
         {
             if (Selection.ThisShip.Owner.GetType() == typeof(Players.HumanPlayer))
             {
-                Network.TryConfirmBarrelRoll(shipBasePosition, movementTemplatePosition);
+                Network.TryConfirmBarrelRoll(templateName, shipBasePosition, movementTemplatePosition);
             }
         }
 
@@ -160,10 +161,23 @@ namespace GameModes
             Network.ConfirmDiceResults();
         }
 
-        public override void GetCritCard(Action callBack)
+        public override void SwitchToOwnDiceModifications()
+        {
+            Network.SwitchToOwnDiceModifications();
+        }
+
+        public override void GetCritCard(bool isFaceUp, Action callBack)
         {
             if (DebugManager.DebugNetwork) UI.AddTestLogEntry("NetworkGame.GetCritCard");
-            Network.GenerateRandom(new Vector2(0, CriticalHitsDeck.GetDeckSize() - 1), 1, CriticalHitsDeck.SetCurrentCriticalCardByIndex, callBack);
+            Network.GenerateRandom(
+                new Vector2(0, CriticalHitsDeck.GetDeckSize() - 1),
+                1, 
+                CriticalHitsDeck.SetCurrentCriticalCardByIndex,
+                delegate ()
+                {
+                    Combat.CurrentCriticalHitCard.IsFaceUp = isFaceUp;
+                    callBack();
+                });
         }
 
 
@@ -182,6 +196,11 @@ namespace GameModes
         public override void SetSwarmManagerManeuver(string maneuverCode)
         {
             Network.SetSwarmManagerManeuver(maneuverCode);
+        }
+
+        public override void ReturnToMainMenu()
+        {
+            Network.Disconnect(base.ReturnToMainMenu);
         }
     }
 }

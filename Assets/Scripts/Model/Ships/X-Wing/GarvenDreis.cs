@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Ship;
 using SubPhases;
+using System;
 
 namespace Ship
 {
@@ -18,21 +19,24 @@ namespace Ship
 
                 IsUnique = true;
 
-                PilotAbilities.Add(new PilotAbilitiesNamespace.GarvenDreisAbility());
+                PilotAbilities.Add(new Abilities.GarvenDreisAbility());
             }
         }
     }
 }
 
-namespace PilotAbilitiesNamespace
+namespace Abilities
 {
-    public class GarvenDreisAbility : GenericPilotAbility
+    public class GarvenDreisAbility : GenericAbility
     {
-        public override void Initialize(GenericShip host)
+        public override void ActivateAbility()
         {
-            base.Initialize(host);
+            HostShip.OnTokenIsSpent += RegisterGarvenDreisPilotAbility;
+        }
 
-            Host.OnTokenIsSpent += RegisterGarvenDreisPilotAbility;
+        public override void DeactivateAbility()
+        {
+            HostShip.OnTokenIsSpent -= RegisterGarvenDreisPilotAbility;
         }
 
         private void RegisterGarvenDreisPilotAbility(GenericShip ship, System.Type type)
@@ -42,7 +46,7 @@ namespace PilotAbilitiesNamespace
 
         private void StartSubphaseForGarvenDreisPilotAbility(object sender, System.EventArgs e)
         {
-            if (Host.Owner.Ships.Count > 1)
+            if (HostShip.Owner.Ships.Count > 1)
             {
                 SelectTargetForAbility(
                     SelectGarvenDreisAbilityTarget,

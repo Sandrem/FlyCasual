@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Ship;
+using System;
 
 namespace Ship
 {
@@ -19,21 +20,24 @@ namespace Ship
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
-                PilotAbilities.Add(new PilotAbilitiesNamespace.LukeSkywalkerAbility());
+                PilotAbilities.Add(new Abilities.LukeSkywalkerAbility());
             }
         }
     }
 }
 
-namespace PilotAbilitiesNamespace
+namespace Abilities
 {
-    public class LukeSkywalkerAbility : GenericPilotAbility
+    public class LukeSkywalkerAbility : GenericAbility
     {
-        public override void Initialize(GenericShip host)
+        public override void ActivateAbility()
         {
-            base.Initialize(host);
+            HostShip.AfterGenerateAvailableActionEffectsList += AddLukeSkywalkerPilotAbility;
+        }
 
-            Host.AfterGenerateAvailableActionEffectsList += AddLukeSkywalkerPilotAbility;
+        public override void DeactivateAbility()
+        {
+            HostShip.AfterGenerateAvailableActionEffectsList -= AddLukeSkywalkerPilotAbility;
         }
 
         private void AddLukeSkywalkerPilotAbility(GenericShip ship)

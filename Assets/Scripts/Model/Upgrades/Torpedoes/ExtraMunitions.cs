@@ -1,35 +1,46 @@
-﻿using Ship;
-using Ship.YWing;
-using Upgrade;
+﻿using Upgrade;
 using System.Collections.Generic;
-using UnityEngine;
+using Abilities;
+using SubPhases;
 
 namespace UpgradesList
 {
     public class ExtraMunitions : GenericUpgrade
     {
-        private List<GenericUpgrade> upgradesWithOrdnanceToken = new List<GenericUpgrade>();
-        private string ordnanceTokenMarker = " (EM)";
-
         public ExtraMunitions() : base()
         {
             Type = UpgradeType.Torpedo;
             Name = "Extra Munitions";
             Cost = 2;
             isLimited = true;
+
+            UpgradeAbilities.Add(new ExtraMunitionsAbility());
+        }
+    }
+}
+
+namespace Abilities
+{
+    public class ExtraMunitionsAbility : GenericAbility
+    {
+        private List<GenericUpgrade> upgradesWithOrdnanceToken = new List<GenericUpgrade>();
+        private string ordnanceTokenMarker = " (EM)";
+
+        public override void ActivateAbility()
+        {
+            Phases.OnGameStart += SetOrdnanceTokens;
+            HostShip.OnDiscardUpgrade += CheckOrdnanceToken;
         }
 
-        public override void AttachToShip(GenericShip host)
+        public override void DeactivateAbility()
         {
-            base.AttachToShip(host);
-
-            Phases.OnGameStart += SetOrdnanceTokens;
-            Host.OnDiscardUpgrade += CheckOrdnanceToken;
+            Phases.OnGameStart -= SetOrdnanceTokens;
+            HostShip.OnDiscardUpgrade -= CheckOrdnanceToken;
         }
 
         private void SetOrdnanceTokens()
         {
-            foreach (var upgrade in Host.UpgradeBar.GetInstalledUpgrades())
+            foreach (var upgrade in HostShip.UpgradeBar.GetInstalledUpgrades())
             {
                 if (upgrade.Type == UpgradeType.Torpedo || upgrade.Type == UpgradeType.Missile || upgrade.Type == UpgradeType.Bomb)
                 {
@@ -43,76 +54,39 @@ namespace UpgradesList
             upgradesWithOrdnanceToken.Add(upgrade);
             if (upgrade.Name != Name) upgrade.Name += ordnanceTokenMarker;
 
-            Roster.UpdateUpgradesPanel(Host, Host.InfoPanel);
+            Roster.UpdateUpgradesPanel(HostShip, HostShip.InfoPanel);
         }
 
         public void RemoveOrdnanceToken(GenericUpgrade upgrade)
         {
-            upgradesWithOrdnanceToken.Remove(CurrentUpgrade);
+            upgradesWithOrdnanceToken.Remove(GenericUpgrade.CurrentUpgrade);
 
-            CurrentUpgrade.Name = CurrentUpgrade.Name.Replace(ordnanceTokenMarker, "");
-            Roster.UpdateUpgradesPanel(Host, Host.InfoPanel);
+            GenericUpgrade.CurrentUpgrade.Name = GenericUpgrade.CurrentUpgrade.Name.Replace(ordnanceTokenMarker, "");
+            Roster.UpdateUpgradesPanel(HostShip, HostShip.InfoPanel);
         }
 
         private void CheckOrdnanceToken()
         {
-            if (upgradesWithOrdnanceToken.Contains(CurrentUpgrade))
+            if (upgradesWithOrdnanceToken.Contains(GenericUpgrade.CurrentUpgrade))
             {
-                Triggers.RegisterTrigger(new Trigger(){
-                    Name = "Extra Munitions",
-                    TriggerType = TriggerTypes.OnDiscard,
-                    TriggerOwner = Host.Owner.PlayerNo,
-                    EventHandler = AskExtraMunitionsDecision
-                });
+                RegisterAbilityTrigger(TriggerTypes.OnDiscard, AskExtraMunitionsDecision);
             }
         }
 
         private void AskExtraMunitionsDecision(object sender, System.EventArgs e)
         {
-            Phases.StartTemporarySubPhaseOld(
-                "Extra Munitions",
-                typeof(SubPhases.ExtraMunitionsDecisionSubphase),
-                Triggers.FinishTrigger
-            );
-        }
-    }
-}
-
-namespace SubPhases
-{
-
-    public class ExtraMunitionsDecisionSubphase : DecisionSubPhase
-    {
-
-        public override void PrepareDecision(System.Action callBack)
-        {
-            InfoText = "Spend Ordnance token?";
-
-            AddDecision("Yes", UseAbility);
-            AddDecision("No", DontUseAbility);
-
-            DefaultDecision = "Yes";
-
-            callBack();
+            AskToUseAbility(AlwaysUseByDefault, UseAbility, null, null, true);
         }
 
         private void UseAbility(object sender, System.EventArgs e)
         {
             Messages.ShowInfo("Ordnance token is discarded instead of " + GenericUpgrade.CurrentUpgrade.Name);
 
-            UpgradesList.ExtraMunitions extraMunitions = (GenericUpgrade.CurrentUpgrade.Host.UpgradeBar.GetInstalledUpgrades().Find(n => n.GetType() == typeof(UpgradesList.ExtraMunitions)) as UpgradesList.ExtraMunitions);
-            extraMunitions.RemoveOrdnanceToken(GenericUpgrade.CurrentUpgrade);
-            
+            RemoveOrdnanceToken(GenericUpgrade.CurrentUpgrade);
+
             GenericUpgrade.CurrentUpgrade = null;
 
-            ConfirmDecision();
+            DecisionSubPhase.ConfirmDecision();
         }
-
-        private void DontUseAbility(object sender, System.EventArgs e)
-        {
-            ConfirmDecision();
-        }
-
     }
-
 }

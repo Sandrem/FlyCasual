@@ -14,6 +14,7 @@ namespace Ship
             public ARC170() : base()
             {
                 Type = "ARC-170";
+                IconicPilot = "Norra Wexley";
 
                 ShipBaseArcsType = Arcs.BaseArcsType.ArcRear;
 

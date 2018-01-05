@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Ship;
+using System;
 
 namespace Ship
 {
@@ -17,26 +18,35 @@ namespace Ship
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
-                PilotAbilities.Add(new PilotAbilitiesNamespace.TheInquisitorAbility());
+                PilotAbilities.Add(new Abilities.TheInquisitorAbility());
             }
         }
     }
 }
 
-namespace PilotAbilitiesNamespace
+namespace Abilities
 {
-    public class TheInquisitorAbility : GenericPilotAbility
+    public class TheInquisitorAbility : GenericAbility
     {
-        public override void Initialize(GenericShip host)
+        public override void ActivateAbility()
         {
-            base.Initialize(host);
-
             Board.ShipShotDistanceInformation.OnRangeIsMeasured += SetRangeToOne;
         }
 
-        private void SetRangeToOne(GenericShip thisShip, GenericShip anotherShip, ref int range)
+        public override void DeactivateAbility()
         {
-            if (thisShip.ShipId == Host.ShipId) range = 1;
+            Board.ShipShotDistanceInformation.OnRangeIsMeasured -= SetRangeToOne;
+        }
+
+        private void SetRangeToOne(GenericShip thisShip, GenericShip anotherShip, IShipWeapon chosenWeapon, ref int range)
+        {
+            if (thisShip.ShipId == HostShip.ShipId)
+            {
+                if ((range <= 3) && (chosenWeapon.GetType() == typeof(PrimaryWeaponClass)))
+                {
+                    range = 1;
+                }
+            }
         }
     }
 }

@@ -18,7 +18,7 @@ namespace CriticalHitCard
 
         public override void ApplyEffect(object sender, EventArgs e)
         {
-            Host.AfterGotNumberOfPrimaryWeaponAttackDice += ReduceNumberOfAttackDice;
+            Host.AfterGotNumberOfAttackDice += ReduceNumberOfAttackDice;
             Host.AfterGenerateAvailableActionsList += AddCancelCritAction;
 
             Host.AssignToken(new Tokens.WeaponsFailureCritToken(), Triggers.FinishTrigger);
@@ -29,7 +29,7 @@ namespace CriticalHitCard
             Messages.ShowInfo("Number of attack dice is restored");
 
             host.RemoveToken(typeof(Tokens.WeaponsFailureCritToken));
-            host.AfterGotNumberOfPrimaryWeaponAttackDice -= ReduceNumberOfAttackDice;
+            host.AfterGotNumberOfAttackDice -= ReduceNumberOfAttackDice;
             host.AfterGenerateAvailableActionsList -= AddCancelCritAction;
         }
 

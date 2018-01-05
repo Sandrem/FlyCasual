@@ -20,6 +20,7 @@ namespace UpgradesList
 
             host.AfterGenerateAvailableActionEffectsList += GuidanceChipsActionEffect;
             Phases.OnRoundEnd += ClearUsed;
+            Host.OnDestroyed += StopAbility;
         }
 
         private void GuidanceChipsActionEffect(GenericShip host)
@@ -36,6 +37,11 @@ namespace UpgradesList
         private void ClearUsed()
         {
             isUsed = false;
+        }
+
+        private void StopAbility(GenericShip host)
+        {
+            Phases.OnRoundEnd -= ClearUsed;
         }
 
     }

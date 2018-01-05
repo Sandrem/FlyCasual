@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Ship;
 
 public enum Faction
 {
@@ -42,9 +43,25 @@ namespace Players
         public string Name;
         public PlayerNo PlayerNo;
         public int SquadCost;
-        public Dictionary<string, Ship.GenericShip> Ships = new Dictionary<string, Ship.GenericShip>();
 
-        private int id;
+        public Dictionary<string, GenericShip> Ships = new Dictionary<string, Ship.GenericShip>();
+
+        public Dictionary<string, GenericShip> EnemyShips
+        {
+            get
+            {
+                return AnotherPlayer.Ships;
+            }
+        }
+
+        public GenericPlayer AnotherPlayer
+        {
+            get
+            {
+                return Roster.GetPlayer(Roster.AnotherPlayer(PlayerNo));
+            }
+        }
+
         public int Id { get { return (PlayerNo == PlayerNo.Player1) ? 1 : 2; } }
 
         public GenericPlayer()
@@ -85,6 +102,10 @@ namespace Players
         public virtual bool IsNeedToShowManeuver(Ship.GenericShip ship) { return false; }
 
         public virtual void OnTargetNotLegalForAttack() { }
+
+        public virtual void ChangeManeuver(Action<string> callback, Func<string, bool> filter = null) { }
+
+        public virtual void SelectManeuver(Action<string> callback, Func<string, bool> filter = null) { }
     }
 
 }

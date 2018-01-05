@@ -1,4 +1,5 @@
 ﻿using System;
+using Upgrade;
 
 public static class ImageUrls
 {
@@ -7,9 +8,9 @@ public static class ImageUrls
     private const string DamageDeckPath = "damage-decks/core-tfa/";
     private const string PilotsPath = "pilots/";
 
-    public static string GetImageUrl(Upgrade.GenericUpgrade upgrade, string filename = null)
+    public static string GetImageUrl(GenericUpgrade upgrade, string filename = null)
     {
-        return GetImageUrl(UpgradesPath + upgrade.Type.ToString(), upgrade.Name, filename);
+        return GetImageUrl(UpgradesPath + FormatUpgradeType(upgrade.Type), FormatUpgradeName(upgrade.Name), filename);
     }
 
     public static string GetImageUrl(CriticalHitCard.GenericCriticalHit crit, string filename = null)
@@ -32,8 +33,24 @@ public static class ImageUrls
         return type
             .Replace("-Wing", "-wing")
             .Replace("/FO", "/fo")
-            .Replace("/SF", "/sf")
+            .Replace("TIE/SF", "TIE/sf")
             .Replace('/', '-');
+    }
+
+    private static string FormatUpgradeType(UpgradeType type)
+    {
+        switch (type)
+        {
+            case UpgradeType.SalvagedAstromech:
+                return "Salvaged Astromech";
+            default:
+                return type.ToString();
+        }
+    }
+
+    private static string FormatUpgradeName(string upgradeName)
+    {
+        return upgradeName.Replace('.', ' ');
     }
 
     private static string FormatFaction(SubFaction faction)

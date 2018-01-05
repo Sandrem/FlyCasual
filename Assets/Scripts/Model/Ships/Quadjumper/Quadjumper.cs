@@ -14,6 +14,7 @@ namespace Ship
             public Quadjumper() : base()
             {
                 Type = "Quadjumper";
+                IconicPilot = "Jakku Gunrunner";
 
                 ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/4/4d/MS_QUADJUMPER.png";
 
@@ -30,7 +31,7 @@ namespace Ship
                 PrintedActions.Add(new BarrelRollAction());
 
                 AssignTemporaryManeuvers();
-                HotacManeuverTable = null;
+                HotacManeuverTable = new AI.QuadjumperTable();
 
                 factions.Add(Faction.Scum);
                 faction = Faction.Scum;

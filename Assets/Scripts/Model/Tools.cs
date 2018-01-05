@@ -44,6 +44,7 @@ public static partial class Tools
             result = result.Replace(sign, "");
         }
 
+        result = result.Replace("adv.", "adv");
         result = result.Replace("advanced", "adv");
 
         return result;

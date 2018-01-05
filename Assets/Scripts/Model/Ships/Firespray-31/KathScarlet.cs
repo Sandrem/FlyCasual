@@ -22,21 +22,24 @@ namespace Ship
 
                 SkinName = "Kath Scarlet";
 
-                PilotAbilities.Add(new PilotAbilitiesNamespace.KathScarletEmpireAbility());
+                PilotAbilities.Add(new Abilities.KathScarletEmpireAbility());
             }
         }
     }
 }
 
-namespace PilotAbilitiesNamespace
+namespace Abilities
 {
-    public class KathScarletEmpireAbility : GenericPilotAbility
+    public class KathScarletEmpireAbility : GenericAbility
     {
-        public override void Initialize(Ship.GenericShip host)
+        public override void ActivateAbility()
         {
-            base.Initialize(host);
+            HostShip.OnAtLeastOneCritWasCancelledByDefender += RegisterKathScarletPilotAbility;
+        }
 
-            Host.OnAtLeastOneCritWasCancelledByDefender += RegisterKathScarletPilotAbility;
+        public override void DeactivateAbility()
+        {
+            HostShip.OnAtLeastOneCritWasCancelledByDefender -= RegisterKathScarletPilotAbility;
         }
 
         private void RegisterKathScarletPilotAbility()

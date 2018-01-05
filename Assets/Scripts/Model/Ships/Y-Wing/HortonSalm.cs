@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Ship;
+using System;
 
 namespace Ship
 {
@@ -23,21 +24,24 @@ namespace Ship
 
                 SkinName = "Gray";
 
-                PilotAbilities.Add(new PilotAbilitiesNamespace.HortonSalmAbility());
+                PilotAbilities.Add(new Abilities.HortonSalmAbility());
             }
         }
     }
 }
 
-namespace PilotAbilitiesNamespace
+namespace Abilities
 {
-    public class HortonSalmAbility : GenericPilotAbility
+    public class HortonSalmAbility : GenericAbility
     {
-        public override void Initialize(GenericShip host)
+        public override void ActivateAbility()
         {
-            base.Initialize(host);
+            HostShip.AfterGenerateAvailableActionEffectsList += HortonSalmPilotAbility;
+        }
 
-            Host.AfterGenerateAvailableActionEffectsList += HortonSalmPilotAbility;
+        public override void DeactivateAbility()
+        {
+            HostShip.AfterGenerateAvailableActionEffectsList -= HortonSalmPilotAbility;
         }
 
         public void HortonSalmPilotAbility(GenericShip ship)

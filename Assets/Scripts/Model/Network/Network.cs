@@ -4,16 +4,24 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.Networking.Match;
+using UnityEngine.Networking.Types;
+using UnityEngine.UI;
 
 public static partial class Network
 {
     public static NetworkPlayerController CurrentPlayer;
+
+    public static bool ReadyToStartMatch;
 
     public static NetworkExecuteWithCallback LastNetworkCallback;
 
     public static string AllShipNames;
 
     public static JSONObject SquadJsons;
+
+    public static MatchInfoSnapshot SelectedMatchSnapshot;
+    public static MatchInfo CurrentMatch;
 
     public static bool IsNetworkGame
     {
@@ -190,6 +198,11 @@ public static partial class Network
         CurrentPlayer.CmdConfirmDiceResults();
     }
 
+    public static void SwitchToOwnDiceModifications()
+    {
+        CurrentPlayer.CmdSwitchToOwnDiceModifications();
+    }
+
     // CONFIRM DICE ROLL CHECK
 
     public static void ConfirmDiceRollCheckResults()
@@ -256,9 +269,9 @@ public static partial class Network
 
     // BARREL ROLL PLANNING
 
-    public static void TryConfirmBarrelRoll(Vector3 shipPosition, Vector3 movementTemplatePosition)
+    public static void TryConfirmBarrelRoll(string templateName, Vector3 shipPosition, Vector3 movementTemplatePosition)
     {
-        CurrentPlayer.CmdTryConfirmBarrelRoll(shipPosition, movementTemplatePosition);
+        CurrentPlayer.CmdTryConfirmBarrelRoll(templateName, shipPosition, movementTemplatePosition);
     }
 
     // DECLOAK PLANNING
@@ -295,6 +308,211 @@ public static partial class Network
     public static void SetSwarmManagerManeuver(string maneuverCode)
     {
         CurrentPlayer.CmdSetSwarmManagerManeuver(maneuverCode);
+    }
+
+    // 0.3.2 UI
+
+    public static void CreateMatch(string roomName, string password)
+    {
+        GameObject createRoomButton = GameObject.Find("UI/Panels/CreateMatchPanel/ContolsPanel/CreateRoomButton");
+        createRoomButton.SetActive(false);
+
+        NetworkManager.singleton.StartMatchMaker();
+        NetworkManager.singleton.matchMaker.CreateMatch(roomName, 2, true, password, "", "", 0, 0, OnInternetMatchCreate);
+    }
+
+    private static void OnInternetMatchCreate(bool success, string extendedInfo, MatchInfo matchInfo)
+    {
+        GameObject createRoomButton = GameObject.Find("UI/Panels/CreateMatchPanel/ContolsPanel/CreateRoomButton");
+        createRoomButton.SetActive(true);
+
+        if (success)
+        {
+            string roomName = GameObject.Find("UI/Panels/CreateMatchPanel/Panel/Name").GetComponentInChildren<InputField>().text;
+
+            GameObject WaitingForOpponentPanelGO = GameObject.Find("UI/Panels").transform.Find("WaitingForOpponentsPanel").gameObject;
+            WaitingForOpponentPanelGO.transform.Find("Panel").Find("NameText").GetComponent<Text>().text = roomName;
+            MainMenu.CurrentMainMenu.ChangePanel(WaitingForOpponentPanelGO);
+
+            CurrentMatch = matchInfo;
+
+            NetworkServer.Listen(CurrentMatch, 9000);
+            NetworkManager.singleton.StartHost(CurrentMatch);
+        }
+        else
+        {
+            Messages.ShowError("Create match failed");
+        }
+    }
+
+    public static void BrowseMatches()
+    {
+        ToggleNoRoomsMessage(false);
+        ToggleBrowseRoomsControls(false);
+
+        NetworkManager.singleton.StartMatchMaker();
+        NetworkManager.singleton.matchMaker.ListMatches(0, int.MaxValue, "", false, 0, 0, OnInternetMatchList);
+    }
+
+    private static void OnInternetMatchList(bool success, string extendedInfo, List<MatchInfoSnapshot> matches)
+    {
+        ToggleBrowseRoomsControls(true);
+
+        if (success)
+        {
+            if (matches.Count != 0)
+            {
+                ToggleNoRoomsMessage(false);
+                //Messages.ShowInfo("A list of matches was returned");
+                ShowListOfRooms(matches);
+            }
+            else
+            {
+                ToggleNoRoomsMessage(true);
+                //Messages.ShowError("No matches in requested room!");
+            }
+        }
+        else
+        {
+            Messages.ShowError("Cannot connect to match maker\nCheck network connection");
+        }
+    }
+
+    private static void ToggleNoRoomsMessage(bool isActive)
+    {
+        GameObject noRooms = GameObject.Find("UI/Panels/BrowseRoomsPanel").transform.Find("NoRooms").gameObject;
+        noRooms.SetActive(isActive);
+        if (isActive) noRooms.GetComponentInChildren<CountdownToRoomsRefresh>().Start();
+    }
+
+    private static void ToggleBrowseRoomsControls(bool isActive)
+    {
+        GameObject.Find("UI/Panels/BrowseRoomsPanel").transform.Find("ContolsPanel").gameObject.SetActive(isActive);
+    }
+
+    private static void ToggleBrowseRooms(bool isActive)
+    {
+        GameObject.Find("UI/Panels").transform.Find("BrowseRoomsPanel").gameObject.SetActive(isActive);
+    }
+
+    public static void ShowListOfRooms(List<MatchInfoSnapshot> matchesList)
+    {
+        float FREE_SPACE = 10f;
+
+        ClearRoomsList();
+
+        GameObject prefab = (GameObject)Resources.Load("Prefabs/UI/MatchPanel", typeof(GameObject));
+        GameObject MatchsPanel = GameObject.Find("UI/Panels").transform.Find("BrowseRoomsPanel").Find("Scroll View/Viewport/Content").gameObject;
+
+        RectTransform matchsPanelRectTransform = MatchsPanel.GetComponent<RectTransform>();
+        Vector3 currentPosition = new Vector3(matchsPanelRectTransform.sizeDelta.x / 2 + FREE_SPACE, -FREE_SPACE, MatchsPanel.transform.localPosition.z);
+
+        foreach (var match in matchesList)
+        {
+            GameObject MatchRecord;
+
+            MatchRecord = MonoBehaviour.Instantiate(prefab, MatchsPanel.transform);
+            MatchRecord.transform.localPosition = currentPosition;
+            MatchRecord.name = match.networkId.ToString();
+
+            MatchRecord.transform.Find("Name").GetComponent<Text>().text = match.name;
+            MatchRecord.transform.Find("Lock").gameObject.SetActive(match.isPrivate);
+            MatchRecord.transform.Find("Join").gameObject.SetActive(match.currentSize == 1);
+
+            MatchRecord.transform.Find("Join").GetComponent<Button>().onClick.AddListener(delegate { ClickJoinRoom(match); });
+
+            currentPosition = new Vector3(currentPosition.x, currentPosition.y - 90 - FREE_SPACE, currentPosition.z);
+            matchsPanelRectTransform.sizeDelta = new Vector2(matchsPanelRectTransform.sizeDelta.x, matchsPanelRectTransform.sizeDelta.y + 90 + FREE_SPACE);
+        }
+    }
+
+    public static void ClearRoomsList()
+    {
+        GameObject MatchsPanel = GameObject.Find("UI/Panels").transform.Find("BrowseRoomsPanel").Find("Scroll View/Viewport/Content").gameObject;
+        foreach (Transform matchRecord in MatchsPanel.transform)
+        {
+            GameObject.Destroy(matchRecord.gameObject);            
+        }
+    }
+
+    public static void ClickJoinRoom(MatchInfoSnapshot match)
+    {
+        //Messages.ShowInfo("Joining room...");
+        SelectedMatchSnapshot = match;
+
+        if (!match.isPrivate)
+        {
+            JoinCurrentRoomByParameters();
+        }
+        else
+        {
+            GameObject JoinPrivateMatchPanelGO = GameObject.Find("UI/Panels").transform.Find("JoinPrivateMatchPanel").gameObject;
+            JoinPrivateMatchPanelGO.transform.Find("Panel").Find("Name").Find("InputField").GetComponent<InputField>().text = match.name;
+            MainMenu.CurrentMainMenu.ChangePanel(JoinPrivateMatchPanelGO);
+        }
+    }
+
+    public static void JoinCurrentRoomByParameters(string password = "")
+    {
+        if(!SelectedMatchSnapshot.isPrivate) ToggleBrowseRooms(false);
+
+        NetworkManager.singleton.matchMaker.JoinMatch(SelectedMatchSnapshot.networkId, password, "", "", 0, 0, OnJoinInternetMatch);
+    }
+
+    private static void OnJoinInternetMatch(bool success, string extendedInfo, MatchInfo matchInfo)
+    {
+        if (!SelectedMatchSnapshot.isPrivate) ToggleBrowseRooms(true);
+
+        if (success)
+        {
+            CurrentMatch = matchInfo;
+            NetworkManager.singleton.StartClient(CurrentMatch);
+
+            //Messages.ShowInfo("Successfully joined match");
+
+            Network.ReadyToStartMatch = true;
+        }
+        else
+        {
+            if (SelectedMatchSnapshot.isPrivate)
+            {
+                Messages.ShowError("Cannot join match\nCheck password");
+            }
+            else
+            {
+                Messages.ShowError("Cannot join match");
+                BrowseMatches();
+            }
+        }
+    }
+
+    public static void CancelWaitingForOpponent()
+    {
+        NetworkServer.Shutdown();
+        NetworkManager.singleton.StopHost();
+        NetworkManager.singleton.StopMatchMaker();
+    }
+
+    public static void Disconnect(Action callback)
+    {
+        NetworkManager.singleton.matchMaker.DestroyMatch(CurrentMatch.networkId, 0, delegate { DisconnectPart2(callback); });
+    }
+
+    private static void DisconnectPart2(Action callback)
+    {
+        if (IsServer)
+        {
+            NetworkServer.Shutdown();
+            NetworkManager.singleton.StopHost();
+            NetworkManager.singleton.StopMatchMaker();
+        }
+        else
+        {
+            NetworkManager.singleton.StopClient();
+            NetworkManager.singleton.StopMatchMaker();
+        }
+
+        callback();
     }
 
 }

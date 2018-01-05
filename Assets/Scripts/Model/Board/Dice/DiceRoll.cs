@@ -394,8 +394,15 @@ public partial class DiceRoll
 
         // TODO: Rewrite
         GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-        Game.Movement.FuncsToUpdate.Add(CheckDiceMovementFinish);
+        Game.Wait(1, StartWaitingForFinish);
         Game.Wait(5, CalculateWaitedResults);
+    }
+
+    private void StartWaitingForFinish()
+    {
+        // TODO: Rewrite
+        GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
+        Game.Movement.FuncsToUpdate.Add(CheckDiceMovementFinish);
     }
 
     private bool CheckDiceMovementFinish()
@@ -548,13 +555,13 @@ public partial class DiceRoll
                     return;
                 }
 
-                if (DiceRerollManager.currentDiceRerollManager.NumberOfDiceCanBeRerolled == GetSelectedNumber())
+                if (DiceRerollManager.CurrentDiceRerollManager.NumberOfDiceCanBeRerolled == GetSelectedNumber())
                 {
-                    Messages.ShowErrorToHuman("Only " + DiceRerollManager.currentDiceRerollManager.NumberOfDiceCanBeRerolled + " dice can be selected");
+                    Messages.ShowErrorToHuman("Only " + DiceRerollManager.CurrentDiceRerollManager.NumberOfDiceCanBeRerolled + " dice can be selected");
                     return;
                 }
 
-                if (!DiceRerollManager.currentDiceRerollManager.SidesCanBeRerolled.Contains(die.Side))
+                if (!DiceRerollManager.CurrentDiceRerollManager.SidesCanBeRerolled.Contains(die.Side))
                 {
                     Messages.ShowErrorToHuman("Dice with this result cannot be rerolled");
                     return;
@@ -567,7 +574,7 @@ public partial class DiceRoll
 
     private void UpdateDiceCompareHelperPrediction()
     {
-        if (DiceCompareHelper.currentDiceCompareHelper != null)
+        if (DiceCompareHelper.currentDiceCompareHelper != null && DiceCompareHelper.currentDiceCompareHelper.IsActive())
         {
             DiceCompareHelper.currentDiceCompareHelper.ShowCancelled(this);
         }

@@ -117,6 +117,8 @@ namespace Players
                     }
 
                 }
+
+                Selection.ThisShip.CallAfterAttackWindow();
                 Selection.ThisShip.IsAttackPerformed = true;
             }
 
@@ -216,6 +218,7 @@ namespace Players
 
             chosenWeapon = chosenWeapon ?? Selection.ThisShip.PrimaryWeapon;
             Combat.ChosenWeapon = chosenWeapon;
+            Combat.ShotInfo = new Board.ShipShotDistanceInformation(Selection.ThisShip, Selection.AnotherShip, Combat.ChosenWeapon);
 
             if (Rules.TargetIsLegalForShot.IsLegal(true) && Combat.ChosenWeapon.IsShotAvailable(Selection.AnotherShip))
             {
@@ -380,10 +383,21 @@ namespace Players
 
         public override void OnTargetNotLegalForAttack()
         {
+            Selection.ThisShip.CallAfterAttackWindow();
             Selection.ThisShip.IsAttackPerformed = true;
+
             Phases.FinishSubPhase(typeof(SubPhases.CombatSubPhase));
         }
 
+        public override void ChangeManeuver(Action<string> callback, Func<string, bool> filter = null)
+        {
+            callback(Selection.ThisShip.AssignedManeuver.ToString());
+        }
+
+        public override void SelectManeuver(Action<string> callback, Func<string, bool> filter = null)
+        {
+            callback(Selection.ThisShip.AssignedManeuver.ToString());
+        }
     }
 
 }

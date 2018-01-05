@@ -47,6 +47,10 @@ namespace Ship
         public static event EventHandlerShipType OnTokenIsSpentGlobal;
         public event EventHandlerShipType AfterTokenIsRemoved;
 
+        public event EventHandlerShip OnCoordinateTargetIsSelected;
+
+        public event EventHandlerShip OnRerollIsConfirmed;
+
         // ACTIONS
 
         public void CallActivateShip(Action callBack)
@@ -56,9 +60,11 @@ namespace Ship
             Triggers.ResolveTriggers(TriggerTypes.OnActivateShip, callBack);
         }
 
-        public void CallOnActionDecisionSubphaseEnd()
+        public void CallOnActionDecisionSubphaseEnd(Action callback)
         {
             if (OnActionDecisionSubphaseEnd != null) OnActionDecisionSubphaseEnd(this);
+
+            Triggers.ResolveTriggers(TriggerTypes.OnActionDecisionSubPhaseEnd, callback);
         }
 
         public void CallActionIsTaken(ActionsList.GenericAction action, Action callBack)
@@ -106,7 +112,7 @@ namespace Ship
         }
 
         // TODO: move actions list into subphase
-        public void AskPerformFreeAction(List<ActionsList.GenericAction> freeActions, Action callBack)
+        public void AskPerformFreeAction(List<ActionsList.GenericAction> freeActions, Action callback)
         {
             GenerateAvailableFreeActionsList(freeActions);
 
@@ -121,17 +127,19 @@ namespace Ship
                         (
                             "Free action decision",
                             typeof(SubPhases.FreeActionDecisonSubPhase),
-                            delegate
-                            {
-                                Phases.FinishSubPhase(typeof(SubPhases.FreeActionDecisonSubPhase));
-                                callBack();
-                            }
+                            delegate { Actions.FinishAction(delegate { FinishFreeActionDecision(callback); }); }
                         );
                     }
                 }
             );
 
             Triggers.ResolveTriggers(TriggerTypes.OnFreeAction, Triggers.FinishTrigger);
+        }
+
+        private void FinishFreeActionDecision(Action callback)
+        {
+            Phases.FinishSubPhase(typeof(SubPhases.FreeActionDecisonSubPhase));
+            callback();
         }
 
         public List<ActionsList.GenericAction> GetAvailableActionsList()
@@ -548,6 +556,24 @@ namespace Ship
                     RemoveToken(token.GetType(), '*', true);
                 }
             }
+        }
+
+        // Coordinate
+
+        public void CallCoordinateTargetIsSelected(GenericShip targetShip, Action callback)
+        {
+            if (OnCoordinateTargetIsSelected != null) OnCoordinateTargetIsSelected(targetShip);
+
+            Triggers.ResolveTriggers(TriggerTypes.OnCoordinateTargetIsSelected, callback);
+        }
+
+        // Reroll is confirmed
+
+        public void CallRerollIsConfirmed(Action callback)
+        {
+            if (OnRerollIsConfirmed != null) OnRerollIsConfirmed(this);
+
+            Triggers.ResolveTriggers(TriggerTypes.OnRerollIsConfirmed, callback);
         }
 
     }

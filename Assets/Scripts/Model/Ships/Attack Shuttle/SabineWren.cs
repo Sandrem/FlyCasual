@@ -19,21 +19,24 @@ namespace Ship
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
-                PilotAbilities.Add(new PilotAbilitiesNamespace.SabineWrenPilotAbility());
+                PilotAbilities.Add(new Abilities.SabineWrenPilotAbility());
             }
         }
     }
 }
 
-namespace PilotAbilitiesNamespace
+namespace Abilities
 {
-    public class SabineWrenPilotAbility : GenericPilotAbility
+    public class SabineWrenPilotAbility : GenericAbility
     {
-        public override void Initialize(GenericShip host)
+        public override void ActivateAbility()
         {
-            base.Initialize(host);
+            HostShip.OnManeuverIsRevealed += RegisterSabineWrenPilotAbility;
+        }
 
-            Host.OnManeuverIsRevealed += RegisterSabineWrenPilotAbility;
+        public override void DeactivateAbility()
+        {
+            HostShip.OnManeuverIsRevealed -= RegisterSabineWrenPilotAbility;
         }
 
         private void RegisterSabineWrenPilotAbility(GenericShip ship)
@@ -45,7 +48,7 @@ namespace PilotAbilitiesNamespace
         {
             List<ActionsList.GenericAction> actions = new List<ActionsList.GenericAction>() { new ActionsList.BoostAction(), new ActionsList.BarrelRollAction() };
 
-            Host.AskPerformFreeAction(actions, Triggers.FinishTrigger);
+            HostShip.AskPerformFreeAction(actions, Triggers.FinishTrigger);
         }
     }
 }

@@ -180,8 +180,27 @@ public static partial class RosterBuilder {
     private static string GetNameOfUpgrade(SquadBuilderUpgrade upgrade)
     {
         string result = "";
-        string upgradeName = upgrade.Panel.transform.GetComponent<Dropdown>().captionText.text;
-        if (AllUpgrades.Find(n => n.UpgradeNameWithCost == upgradeName) != null) result = AllUpgrades.Find(n => n.UpgradeNameWithCost == upgradeName).UpgradeTypeName;
+        string upgradeNameWithAnyCost = upgrade.Panel.transform.GetComponent<Dropdown>().captionText.text;
+
+        int indexOfCostStart = upgradeNameWithAnyCost.LastIndexOf('(');
+
+        if (indexOfCostStart != -1)
+        {
+            string upgradeNameWithoutCost = upgradeNameWithAnyCost.Substring(0, indexOfCostStart);
+
+            foreach (var upgradeHolder in AllUpgrades)
+            {
+                if (upgradeHolder.UpgradeNameWithCost.StartsWith(upgradeNameWithoutCost))
+                {
+                    result = upgradeHolder.UpgradeTypeName;
+                    break;
+                }
+            }
+        }
+
+        //OLD
+        //if (AllUpgrades.Find(n => n.UpgradeNameWithCost == upgradeNameWithAnyCost) != null) result = AllUpgrades.Find(n => n.UpgradeNameWithCost == upgradeNameWithAnyCost).UpgradeTypeName;
+
         return result;
     }
 
@@ -330,6 +349,18 @@ public static partial class RosterBuilder {
         }
     }
 
+    // Helper function for reducing costs.
+    private static int ReduceUpgradeCost(int cost, int decrease)
+    {
+        if(cost >= 0)
+        {
+            cost = Math.Max(cost - decrease, 0);
+        }
+
+        return cost;
+    }
+
+
     // Update Costs
 
     private static void UpdateShipCost(SquadBuilderShip squadBuilderShip)
@@ -342,7 +373,7 @@ public static partial class RosterBuilder {
         {
             if (!upgrade.Slot.IsEmpty)
             {
-                totalShipCost += upgrade.Slot.InstalledUpgrade.Cost - upgrade.Slot.CostDecrease;
+                totalShipCost += ReduceUpgradeCost(upgrade.Slot.InstalledUpgrade.Cost, upgrade.Slot.CostDecrease);
             }
         }
 
@@ -405,6 +436,7 @@ public static partial class RosterBuilder {
         {
             case 0: return typeof(HumanPlayer);
             case 1: return typeof(HotacAiPlayer);
+            case 2: return typeof(NetworkOpponentPlayer);
         }
         return null;
     }

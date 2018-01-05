@@ -19,23 +19,31 @@ namespace Ship
 
                 IsUnique = true;
 
-                PilotAbilities.Add(new PilotAbilitiesNamespace.ThweekAbility());
+                PilotAbilities.Add(new Abilities.ThweekAbility());
             }
         }
     }
 }
 
-namespace PilotAbilitiesNamespace
+namespace Abilities
 {
-    public class ThweekAbility : GenericPilotAbility
+    public class ThweekAbility : GenericAbility
     {
         public override void Initialize(GenericShip host)
         {
             base.Initialize(host);
 
-            AppliesConditionCard = true;
+            IsAppliesConditionCard = true;
+        }
 
+        public override void ActivateAbility()
+        {
             Phases.OnBeforePlaceForces += RegisterSelectThweekTarget;
+        }
+
+        public override void DeactivateAbility()
+        {
+            Phases.OnBeforePlaceForces -= RegisterSelectThweekTarget;
         }
 
         private void RegisterSelectThweekTarget()
@@ -51,7 +59,7 @@ namespace PilotAbilitiesNamespace
                 delegate {}
             );
 
-            foreach (var enemyShip in Roster.GetPlayer(Roster.AnotherPlayer(Host.Owner.PlayerNo)).Ships)
+            foreach (var enemyShip in Roster.GetPlayer(Roster.AnotherPlayer(HostShip.Owner.PlayerNo)).Ships)
             {
                 selectTargetForThweekDecisionSubPhase.AddDecision(
                     enemyShip.Value.ShipId + ": " + enemyShip.Value.PilotName,
@@ -62,9 +70,9 @@ namespace PilotAbilitiesNamespace
             selectTargetForThweekDecisionSubPhase.InfoText = "Thweek: Select enemy ship";
 
             GenericShip bestEnemyAce = GetEnemyPilotWithHighestSkill();
-            selectTargetForThweekDecisionSubPhase.DefaultDecision = bestEnemyAce.Shields + ": " + bestEnemyAce.PilotName;
+            selectTargetForThweekDecisionSubPhase.DefaultDecision = bestEnemyAce.ShipId + ": " + bestEnemyAce.PilotName;
 
-            selectTargetForThweekDecisionSubPhase.RequiredPlayer = Host.Owner.PlayerNo;
+            selectTargetForThweekDecisionSubPhase.RequiredPlayer = HostShip.Owner.PlayerNo;
 
             selectTargetForThweekDecisionSubPhase.Start();
         }
@@ -73,7 +81,7 @@ namespace PilotAbilitiesNamespace
         {
             GenericShip bestAce = null;
             int maxPilotSkill = 0;
-            foreach (var enemyShip in Roster.GetPlayer(Roster.AnotherPlayer(Host.Owner.PlayerNo)).Ships)
+            foreach (var enemyShip in Roster.GetPlayer(Roster.AnotherPlayer(HostShip.Owner.PlayerNo)).Ships)
             {
                 if (enemyShip.Value.PilotSkill > maxPilotSkill)
                 {
@@ -102,7 +110,7 @@ namespace PilotAbilitiesNamespace
             selectAbilityForThweekDecisionSubPhase.InfoText = "Thweek: Select ability";
             selectAbilityForThweekDecisionSubPhase.DefaultDecision = "Shadowed";
 
-            selectAbilityForThweekDecisionSubPhase.RequiredPlayer = Host.Owner.PlayerNo;
+            selectAbilityForThweekDecisionSubPhase.RequiredPlayer = HostShip.Owner.PlayerNo;
 
             selectAbilityForThweekDecisionSubPhase.Start();
         }
@@ -112,12 +120,12 @@ namespace PilotAbilitiesNamespace
             bool abilityIsFound = false;
             foreach (var ability in targetShip.PilotAbilities)
             {
-                if (!ability.AppliesConditionCard)
+                if (!ability.IsAppliesConditionCard)
                 {
                     Messages.ShowInfo("Ability of " + targetShip.PilotName + " is mimicked");
 
-                    Host.PilotAbilities.Add( (GenericPilotAbility) Activator.CreateInstance(ability.GetType()) );
-                    Host.PilotAbilities[1].Initialize(Host);
+                    HostShip.PilotAbilities.Add( (GenericAbility) Activator.CreateInstance(ability.GetType()) );
+                    HostShip.PilotAbilities[1].Initialize(HostShip);
 
                     abilityIsFound = true;
 
@@ -136,7 +144,7 @@ namespace PilotAbilitiesNamespace
         private void Shadowed(GenericShip targetShip)
         {
             Messages.ShowInfo("Pilot skill of " + targetShip.PilotName + " is shadowed");
-            new ThweekPilotSkillModifier(Host, targetShip.PilotSkill);
+            new ThweekPilotSkillModifier(HostShip, targetShip.PilotSkill);
             targetShip.AssignToken(new Conditions.Shadowed(), delegate { });
             SubPhases.DecisionSubPhase.ConfirmDecision();
         }

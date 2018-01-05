@@ -23,7 +23,7 @@ public static class MovementTemplates {
         rulerCenterPoints.Add(point);
     }
 
-    public static void ResetRuler(Ship.GenericShip ship)
+    public static void ResetRuler()
     {
         rulerCenterPoints = new List<Vector3>();
         HideLastMovementRuler();
@@ -77,8 +77,10 @@ public static class MovementTemplates {
         savedRulerRotation = CurrentTemplate.eulerAngles;
     }
 
-    private static Transform GetMovementRuler(Movement.GenericMovement movement)
+    public static Transform GetMovementRuler(Movement.GenericMovement movement)
     {
+        ResetRuler();
+
         Transform result = null;
         if (movement != null)
         {
@@ -116,7 +118,7 @@ public static class MovementTemplates {
         ShowRangeRuler(new ShipDistanceInformation(thisShip, anotherShip));
     }
 
-    public static void ShowFiringArcRange(ShipShotDistanceInformation shotInfo)
+    public static bool ShowFiringArcRange(ShipShotDistanceInformation shotInfo)
     {
         if (shotInfo.InShotAngle)
         {
@@ -124,9 +126,9 @@ public static class MovementTemplates {
         }
         else
         {
-            Messages.ShowErrorToHuman("Out of arc!");
             ShowRangeRuler(new ShipShotOutOfArcDistanceInformation(shotInfo.ThisShip, shotInfo.AnotherShip));
         }
+        return shotInfo.InShotAngle;
     }
 
     public static void ShowRangeRuler(GeneralShipDistanceInformation shipDistanceInfo)

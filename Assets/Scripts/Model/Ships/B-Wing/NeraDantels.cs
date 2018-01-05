@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using Upgrade;
 
 namespace Ship
 {
@@ -17,28 +18,37 @@ namespace Ship
 
                 IsUnique = true;
 
-                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
+                PrintedUpgradeIcons.Add(UpgradeType.Elite);
 
                 SkinName = "Red";
 
-                PilotAbilities.Add(new PilotAbilitiesNamespace.NeraDantelsAbility());
+                PilotAbilities.Add(new Abilities.NeraDantelsAbility());
             }
         }
     }
 }
 
-namespace PilotAbilitiesNamespace
+namespace Abilities
 {
-    public class NeraDantelsAbility : GenericPilotAbility
+    public class NeraDantelsAbility : GenericAbility
     {
-        public override void Initialize(Ship.GenericShip host)
+        public override void ActivateAbility()
         {
-            base.Initialize(host);
+            ToggleAbility(true);
+        }
 
-            Host.ArcInfo.OutOfArcShotPermissions.CanShootTorpedoes = true;
-            foreach (Upgrade.GenericSecondaryWeapon torpedo in Host.UpgradeBar.GetInstalledUpgrades().Where(n => n.Type == Upgrade.UpgradeType.Torpedo))
+        public override void DeactivateAbility()
+        {
+            ToggleAbility(false);
+        }
+
+        private void ToggleAbility(bool isActive)
+        {
+            HostShip.ArcInfo.OutOfArcShotPermissions.CanShootTorpedoes = isActive;
+            foreach (GenericUpgrade torpedo in HostShip.UpgradeBar.GetInstalledUpgrades().Where(n => n.Type == UpgradeType.Torpedo))
             {
-                torpedo.CanShootOutsideArc = true;
+                GenericSecondaryWeapon torpedoWeapon = torpedo as GenericSecondaryWeapon;
+                if (torpedoWeapon != null) torpedoWeapon.CanShootOutsideArc = isActive;
             }
         }
     }

@@ -254,6 +254,8 @@ namespace Movement
 
     public abstract class GenericMovement
     {
+        public bool IsRealMovement = true;
+
         public ManeuverSpeed ManeuverSpeed { get; set; }
         public int Speed { get; set; }
         public ManeuverDirection Direction { get; set; }

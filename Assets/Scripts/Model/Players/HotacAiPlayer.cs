@@ -107,27 +107,35 @@ namespace Players
 
         public override void AfterShipMovementPrediction()
         {
-            bool leaveMovementAsIs = true;
-
-            if (Selection.ThisShip.AssignedManeuver.movementPrediction.IsOffTheBoard)
+            if (Selection.ThisShip.AssignedManeuver.IsRealMovement)
             {
-                leaveMovementAsIs = false;
-                Console.Write("Ship predicts off the board maneuver!", LogTypes.AI);
-                AvoidOffTheBoard();
+                bool leaveMovementAsIs = true;
+
+                if (Selection.ThisShip.AssignedManeuver.movementPrediction.IsOffTheBoard)
+                {
+                    leaveMovementAsIs = false;
+                    Console.Write("Ship predicts off the board maneuver!", LogTypes.AI);
+                    AvoidOffTheBoard();
+                }
+                else
+                {
+                    if (Selection.ThisShip.AssignedManeuver.movementPrediction.AsteroidsHit.Count != 0)
+                    {
+                        leaveMovementAsIs = false;
+                        Console.Write("Ship predicts collision with asteroid!", LogTypes.AI);
+                        Swerve();
+                    }
+                }
+
+                if (leaveMovementAsIs)
+                {
+                    Console.Write("Ship executes selected maneuver\n", LogTypes.AI, true);
+                    Selection.ThisShip.AssignedManeuver.LaunchShipMovement();
+                }
             }
             else
             {
-                if (Selection.ThisShip.AssignedManeuver.movementPrediction.AsteroidsHit.Count != 0)
-                {
-                    leaveMovementAsIs = false;
-                    Console.Write("Ship predicts collision with asteroid!", LogTypes.AI);
-                    Swerve();
-                }
-            }
-
-            if (leaveMovementAsIs)
-            {
-                Console.Write("Ship executes selected maneuver\n", LogTypes.AI, true);
+                Console.Write("Ship is ionized and doesn't select maneuver\n", LogTypes.AI, true);
                 Selection.ThisShip.AssignedManeuver.LaunchShipMovement();
             }
         }

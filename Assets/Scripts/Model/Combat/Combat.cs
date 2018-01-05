@@ -58,11 +58,8 @@ public static partial class Combat
         Selection.ChangeActiveShip("ShipId:" + attackerId);
         Selection.ChangeAnotherShip("ShipId:" + defenderID);
 
-        if (Network.IsNetworkGame)
-        {
-            ChosenWeapon = Selection.ThisShip.PrimaryWeapon;
-            ShotInfo = new ShipShotDistanceInformation(Selection.ThisShip, Selection.AnotherShip, ChosenWeapon);
-        }
+        ChosenWeapon = Selection.ThisShip.PrimaryWeapon;
+        ShotInfo = new ShipShotDistanceInformation(Selection.ThisShip, Selection.AnotherShip, ChosenWeapon);
 
         UI.HideContextMenu();
 
@@ -415,7 +412,7 @@ namespace SubPhases
 
         public override void PrepareDecision(System.Action callBack)
         {
-            List<Ship.IShipWeapon> allWeapons = GetAllWeapons();
+            List<Ship.IShipWeapon> allWeapons = Selection.ThisShip.GetAllWeapons();
 
             //TODO: Range?
             InfoText = "Choose weapon for attack";
@@ -432,21 +429,6 @@ namespace SubPhases
             DefaultDecision = GetDecisions().Last().Key;
 
             callBack();
-        }
-
-        private static List<Ship.IShipWeapon> GetAllWeapons()
-        {
-            List<Ship.IShipWeapon> allWeapons = new List<Ship.IShipWeapon>();
-
-            allWeapons.Add(Selection.ThisShip.PrimaryWeapon);
-
-            foreach (var upgrade in Selection.ThisShip.UpgradeBar.GetInstalledUpgrades())
-            {
-                Ship.IShipWeapon secondaryWeapon = upgrade as Ship.IShipWeapon;
-                if (secondaryWeapon != null) allWeapons.Add(secondaryWeapon);
-            }
-
-            return allWeapons;
         }
 
         public void PerformAttackWithWeapon(Ship.IShipWeapon weapon)
@@ -495,7 +477,7 @@ namespace SubPhases
 
         public override void Pause()
         {
-            GameObject.Find("UI/CombatDiceResultsPanel").gameObject.SetActive(false);
+            GameObject.Find("UI").transform.Find("CombatDiceResultsPanel").gameObject.SetActive(false);
         }
 
         public override void Resume()
@@ -556,13 +538,13 @@ namespace SubPhases
             UpdateHelpInfo();
         }
 
-        public override bool ThisShipCanBeSelected(Ship.GenericShip ship)
+        public override bool ThisShipCanBeSelected(Ship.GenericShip ship, int mouseKeyIsPressed)
         {
             bool result = false;
             return result;
         }
 
-        public override bool AnotherShipCanBeSelected(Ship.GenericShip anotherShip)
+        public override bool AnotherShipCanBeSelected(Ship.GenericShip anotherShip, int mouseKeyIsPressed)
         {
             bool result = false;
             return result;

@@ -1,6 +1,7 @@
 ﻿using System;
 using Upgrade;
 using Ship;
+using Abilities;
 
 namespace UpgradesList
 {
@@ -13,31 +14,43 @@ namespace UpgradesList
             Cost = 1;
 
             isUnique = true;
+
+            UpgradeAbilities.Add(new ZebOrreliosCrewAbility());
         }
 
         public override bool IsAllowedForShip(GenericShip ship)
         {
             return ship.faction == Faction.Rebel;
         }
+    }
+}
 
-        public override void AttachToShip(GenericShip host)
+namespace Abilities
+{
+    public class ZebOrreliosCrewAbility : GenericAbility
+    {
+
+        public override void ActivateAbility()
         {
-            base.AttachToShip(host);
-
             GenericShip.OnCanAttackBumpedTargetGlobal += CanAttackIfInArc;
-            Host.OnDestroyed += RemoveEffect;
         }
+
+        public override void DeactivateAbility()
+        {
+            GenericShip.OnCanAttackBumpedTargetGlobal -= CanAttackIfInArc;
+        }
+
 
         private void CanAttackIfInArc(ref bool canAttack, GenericShip attacker, GenericShip defender)
         {
             if (attacker.ShipsBumped.Contains(defender))
             {
-                if (attacker.ShipId == Host.ShipId)
+                if (attacker.ShipId == HostShip.ShipId)
                 {
                     Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(attacker, defender, attacker.PrimaryWeapon);
                     if (shotInfo.InArc) canAttack = true;
                 }
-                else if (defender.ShipId == Host.ShipId)
+                else if (defender.ShipId == HostShip.ShipId)
                 {
                     Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(defender, attacker, defender.PrimaryWeapon);
                     if (shotInfo.InArc) canAttack = true;
@@ -45,16 +58,5 @@ namespace UpgradesList
             }
         }
 
-        private void RemoveEffect(GenericShip ship)
-        {
-            GenericShip.OnCanAttackBumpedTargetGlobal -= CanAttackIfInArc;
-        }
-
-        public override void Discard(Action callBack)
-        {
-            GenericShip.OnCanAttackBumpedTargetGlobal -= CanAttackIfInArc;
-
-            base.Discard(callBack);
-        }
     }
 }

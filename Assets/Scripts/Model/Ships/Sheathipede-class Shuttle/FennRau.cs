@@ -16,6 +16,8 @@ namespace Ship
 
                 IsUnique = true;
 
+                IsHidden = true;
+
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
             }
         }

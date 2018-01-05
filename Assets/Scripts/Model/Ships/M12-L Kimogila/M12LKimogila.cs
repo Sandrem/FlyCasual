@@ -1,4 +1,4 @@
-﻿/*using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Movement;
@@ -14,10 +14,11 @@ namespace Ship
             public M12LKimogila() : base()
             {
                 Type = "M12-L Kimogila Fighter";
+                IconicPilot = "Torani Kulda";
 
                 ShipBaseArcsType = Arcs.BaseArcsType.ArcBullseye;
 
-                //ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/4/48/MS_M3-A-INTERCEPTOR.png";
+                ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/e/e7/Screenshot_2017-12-15_at_1.31.03_PM.png";
 
                 Firepower = 3;
                 Agility = 1;
@@ -39,7 +40,7 @@ namespace Ship
                 factions.Add(Faction.Scum);
                 faction = Faction.Scum;
 
-                SkinName = "Inaldra";
+                SkinName = "Hutt Cartel";
 
                 SoundShotsPath = "XWing-Laser";
                 ShotsCount = 3;
@@ -53,22 +54,23 @@ namespace Ship
             private void AssignTemporaryManeuvers()
             {
                 Maneuvers.Add("1.L.T", ManeuverColor.Red);
-                Maneuvers.Add("1.L.B", ManeuverColor.Green);
+                Maneuvers.Add("1.L.B", ManeuverColor.White);
                 Maneuvers.Add("1.F.S", ManeuverColor.Green);
-                Maneuvers.Add("1.R.B", ManeuverColor.Green);
+                Maneuvers.Add("1.R.B", ManeuverColor.White);
                 Maneuvers.Add("1.R.T", ManeuverColor.Red);
                 Maneuvers.Add("2.L.T", ManeuverColor.Red);
-                Maneuvers.Add("2.L.B", ManeuverColor.White);
+                Maneuvers.Add("2.L.B", ManeuverColor.Green);
                 Maneuvers.Add("2.F.S", ManeuverColor.Green);
-                Maneuvers.Add("2.R.B", ManeuverColor.White);
+                Maneuvers.Add("2.R.B", ManeuverColor.Green);
                 Maneuvers.Add("2.R.T", ManeuverColor.Red);
+                Maneuvers.Add("3.L.T", ManeuverColor.White);
                 Maneuvers.Add("3.L.B", ManeuverColor.White);
-                Maneuvers.Add("3.F.S", ManeuverColor.White);
+                Maneuvers.Add("3.F.S", ManeuverColor.Green);
                 Maneuvers.Add("3.R.B", ManeuverColor.White);
-                Maneuvers.Add("4.F.S", ManeuverColor.White);
+                Maneuvers.Add("3.R.T", ManeuverColor.White);
                 Maneuvers.Add("4.F.R", ManeuverColor.Red);
             }
 
         }
     }
-}*/
+}

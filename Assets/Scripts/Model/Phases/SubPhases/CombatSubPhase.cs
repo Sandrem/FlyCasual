@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using Ship;
 
 namespace SubPhases
 {
@@ -32,11 +33,6 @@ namespace SubPhases
             if (DebugManager.DebugPhases) Debug.Log("Combat SubPhase - Next");
 
             UI.HideSkipButton();
-
-            if (Selection.ThisShip != null)
-            {
-                Selection.ThisShip.CallAfterAttackWindow();
-            }
 
             Selection.DeselectAllShips();
 
@@ -131,7 +127,7 @@ namespace SubPhases
             Phases.CurrentSubPhase.Initialize();
         }
 
-        public override bool ThisShipCanBeSelected(Ship.GenericShip ship)
+        public override bool ThisShipCanBeSelected(GenericShip ship, int mouseKeyIsPressed)
         {
             bool result = false;
             if ((ship.Owner.PlayerNo == RequiredPlayer) && (ship.PilotSkill == RequiredPilotSkill) && (Roster.GetPlayer(RequiredPlayer).GetType() == typeof(Players.HumanPlayer)))
@@ -145,7 +141,7 @@ namespace SubPhases
             return result;
         }
 
-        public override bool AnotherShipCanBeSelected(Ship.GenericShip targetShip)
+        public override bool AnotherShipCanBeSelected(GenericShip targetShip, int mouseKeyIsPressed)
         {
             bool result = false;
             if (Roster.GetPlayer(RequiredPlayer).GetType() != typeof(Players.NetworkOpponentPlayer))
@@ -154,11 +150,8 @@ namespace SubPhases
                 {
                     if (targetShip.Owner.PlayerNo != Phases.CurrentSubPhase.RequiredPlayer)
                     {
-                        //TODO: what to show is there are 2 ways (arc and not arc) ?
-                        //TODO: clear on skip combat
-                        if (Combat.ChosenWeapon == null || Combat.ChosenWeapon.Host.ShipId != Selection.ThisShip.ShipId) Combat.ChosenWeapon = Selection.ThisShip.PrimaryWeapon;
-                        Combat.ShotInfo = new Board.ShipShotDistanceInformation(Selection.ThisShip, targetShip, Combat.ChosenWeapon);
-                        MovementTemplates.ShowFiringArcRange(Combat.ShotInfo);
+                        Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(Selection.ThisShip, targetShip);
+                        MovementTemplates.ShowFiringArcRange(shotInfo);
                         result = true;
                     }
                     else
@@ -174,7 +167,7 @@ namespace SubPhases
             return result;
         }
 
-        public override int CountActiveButtons(Ship.GenericShip ship)
+        public override int CountActiveButtons(GenericShip ship)
         {
             int result = 0;
             if (Selection.ThisShip != null)
@@ -214,10 +207,30 @@ namespace SubPhases
             {
                 if (shipHolder.Value.PilotSkill == Phases.CurrentSubPhase.RequiredPilotSkill)
                 {
+                    shipHolder.Value.CallAfterAttackWindow();
                     shipHolder.Value.IsAttackPerformed = true;
                 }
             }
             Next();
+        }
+
+        public override void DoSelectAnotherShip(GenericShip ship, int mouseKeyIsPressed)
+        {
+            if (mouseKeyIsPressed == 1)
+            {
+                if (Selection.ThisShip.IsAttackPerformed != true)
+                {
+                    UI.ClickDeclareTarget();
+                }
+                else
+                {
+                    Messages.ShowErrorToHuman("Your ship already has attacked");
+                }
+            }
+            else if (mouseKeyIsPressed == 2)
+            {
+                UI.CheckFiringRangeAndShow();
+            }
         }
 
     }

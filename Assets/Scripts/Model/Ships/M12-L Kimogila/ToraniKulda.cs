@@ -1,10 +1,11 @@
-﻿/*using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using SubPhases;
 using Ship;
 using Tokens;
+using Abilities;
 
 namespace Ship
 {
@@ -30,18 +31,21 @@ namespace Ship
 
 namespace PilotAbilitiesNamespace
 {
-    public class ToraniKuldaAbility : GenericPilotAbility
+    public class ToraniKuldaAbility : GenericAbility
     {
-        public override void Initialize(GenericShip host)
+        public override void ActivateAbility()
         {
-            base.Initialize(host);
+            HostShip.OnAttackFinish += RegisterPilotAbility;
+        }
 
-            Host.OnAttackFinish += RegisterPilotAbility;
+        public override void DeactivateAbility()
+        {
+            HostShip.OnAttackFinish -= RegisterPilotAbility;
         }
 
         private void RegisterPilotAbility(GenericShip ship)
         {
-            if (Combat.Attacker.ShipId == Host.ShipId)
+            if (Combat.Attacker.ShipId == HostShip.ShipId)
             {
                 RegisterAbilityTrigger(TriggerTypes.OnAttackFinish, TryRegisterAbility);
             }
@@ -49,10 +53,10 @@ namespace PilotAbilitiesNamespace
 
         private void TryRegisterAbility(object sender, System.EventArgs e)
         {
-            Players.GenericPlayer opponent = Roster.GetPlayer(Roster.AnotherPlayer(Host.Owner.PlayerNo));
+            Players.GenericPlayer opponent = Roster.GetPlayer(Roster.AnotherPlayer(HostShip.Owner.PlayerNo));
             foreach (var ship in opponent.Ships)
             {
-                Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(Host, ship.Value, Host.PrimaryWeapon);
+                Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(HostShip, ship.Value, HostShip.PrimaryWeapon);
                 if (shotInfo.InBullseyeArc)
                 {
                     Triggers.RegisterTrigger(new Trigger() {
@@ -130,4 +134,4 @@ namespace SubPhases
             Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, ConfirmDecision);
         }
     }
-}*/
+}

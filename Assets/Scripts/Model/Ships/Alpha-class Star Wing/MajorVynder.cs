@@ -19,26 +19,29 @@ namespace Ship
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
-                PilotAbilities.Add(new PilotAbilitiesNamespace.MajorVynderAbility());
+                PilotAbilities.Add(new Abilities.MajorVynderAbility());
             }
         }
     }
 }
 
-namespace PilotAbilitiesNamespace
+namespace Abilities
 {
-    public class MajorVynderAbility : GenericPilotAbility
+    public class MajorVynderAbility : GenericAbility
     {
-        public override void Initialize(Ship.GenericShip host)
+        public override void ActivateAbility()
         {
-            base.Initialize(host);
+            HostShip.AfterGotNumberOfDefenceDice += IncreaseDefenceDiceNumber;
+        }
 
-            Host.AfterGotNumberOfDefenceDice += IncreaseDefenceDiceNumber;
+        public override void DeactivateAbility()
+        {
+            HostShip.AfterGotNumberOfDefenceDice -= IncreaseDefenceDiceNumber;
         }
 
         private void IncreaseDefenceDiceNumber(ref int diceNumber)
         {
-            if (Host.HasToken(typeof(WeaponsDisabledToken))) diceNumber++;
+            if (HostShip.HasToken(typeof(WeaponsDisabledToken))) diceNumber++;
         }
     }
 }

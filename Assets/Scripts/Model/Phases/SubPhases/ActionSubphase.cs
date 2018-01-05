@@ -49,20 +49,15 @@ namespace SubPhases
             Phases.StartTemporarySubPhaseOld(
                 "Action Decision",
                 typeof(ActionDecisonSubPhase),
-                EndActionDecisionSubhase
+                delegate { Actions.FinishAction(Finish); }
             );
         }
 
-        private void EndActionDecisionSubhase()
+        private void Finish()
         {
-            Selection.ThisShip.CallOnActionDecisionSubphaseEnd();
-
-            Triggers.ResolveTriggers(
-                TriggerTypes.OnActionDecisionSubPhaseEnd,
-                delegate {
-                    Phases.FinishSubPhase(typeof(ActionDecisonSubPhase));
-                    Triggers.FinishTrigger();
-                });
+            UI.HideSkipButton();
+            Phases.FinishSubPhase(typeof(ActionDecisonSubPhase));
+            Triggers.FinishTrigger();
         }
 
         public override void Next()
@@ -91,7 +86,7 @@ namespace SubPhases
             Phases.CurrentSubPhase.Next();
         }
 
-        public override bool ThisShipCanBeSelected(Ship.GenericShip ship)
+        public override bool ThisShipCanBeSelected(Ship.GenericShip ship, int mouseKeyIsPressed)
         {
             bool result = false;
             Messages.ShowErrorToHuman("Ship cannot be selected: Perform action first");
@@ -121,6 +116,7 @@ namespace SubPhases
             else
             {
                 Messages.ShowErrorToHuman("Cannot perform any actions");
+                Actions.CurrentAction = null;
                 CallBack();
             }
         }
@@ -130,13 +126,7 @@ namespace SubPhases
             List<ActionsList.GenericAction> availableActions = Selection.ThisShip.GetAvailableActionsList();
             foreach (var action in availableActions)
             {
-                AddDecision(action.Name, delegate {
-                    var ship = Selection.ThisShip;
-                    Tooltips.EndTooltip();
-                    UI.HideSkipButton();
-                    ship.AddAlreadyExecutedAction(action);
-                    ship.CallActionIsTaken(action, action.ActionTake);
-                });
+                AddDecision(action.Name, delegate { Actions.TakeAction(action); });
                 AddTooltip(action.Name, action.ImageUrl);
             }
         }
@@ -151,7 +141,7 @@ namespace SubPhases
 
         public override void SkipButton()
         {
-            UI.HideSkipButton();
+            Actions.CurrentAction = null;
             CallBack();
         }
 
@@ -178,6 +168,7 @@ namespace SubPhases
             else
             {
                 Messages.ShowErrorToHuman("Cannot perform any actions");
+                Actions.CurrentAction = null;
                 CallBack();
             }
         }
@@ -188,13 +179,7 @@ namespace SubPhases
             List<ActionsList.GenericAction> availableActions = Selection.ThisShip.GetAvailableFreeActionsList();
             foreach (var action in availableActions)
             {
-                AddDecision(action.Name, delegate {
-                    var ship = Selection.ThisShip;
-                    Tooltips.EndTooltip();
-                    UI.HideSkipButton();
-                    ship.AddAlreadyExecutedAction(action);
-                    ship.CallActionIsTaken(action, action.ActionTake);
-                });
+                AddDecision(action.Name, delegate { Actions.TakeAction(action); });
                 AddTooltip(action.Name, action.ImageUrl);
             }
         }
@@ -210,7 +195,8 @@ namespace SubPhases
         public override void SkipButton()
         {
             UI.HideSkipButton();
-			Selection.ThisShip.IsFreeActionSkipped = true;
+            Actions.CurrentAction = null;
+            Selection.ThisShip.IsFreeActionSkipped = true;
             CallBack();
         }
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Ship;
+using System;
 
 namespace Ship
 {
@@ -17,26 +18,29 @@ namespace Ship
 
                 IsUnique = true;
 
-                PilotAbilities.Add(new PilotAbilitiesNamespace.NightBeastAbility());
+                PilotAbilities.Add(new Abilities.NightBeastAbility());
             }
         }
     }
 }
 
-namespace PilotAbilitiesNamespace
+namespace Abilities
 {
-    public class NightBeastAbility : GenericPilotAbility
+    public class NightBeastAbility : GenericAbility
     {
-        public override void Initialize(GenericShip host)
+        public override void ActivateAbility()
         {
-            base.Initialize(host);
+            HostShip.OnMovementFinish += NightBeastPilotAbility;
+        }
 
-            Host.OnMovementFinish += NightBeastPilotAbility;
+        public override void DeactivateAbility()
+        {
+            HostShip.OnMovementFinish -= NightBeastPilotAbility;
         }
 
         private void NightBeastPilotAbility(GenericShip ship)
         {
-            if (Host.AssignedManeuver.ColorComplexity == Movement.ManeuverColor.Green)
+            if (HostShip.AssignedManeuver.ColorComplexity == Movement.ManeuverColor.Green)
             {
                 Triggers.RegisterTrigger(
                     new Trigger()
@@ -54,7 +58,7 @@ namespace PilotAbilitiesNamespace
         {
             List<ActionsList.GenericAction> actions = new List<ActionsList.GenericAction>() { new ActionsList.FocusAction() };
 
-            Host.AskPerformFreeAction(actions, Triggers.FinishTrigger);
+            HostShip.AskPerformFreeAction(actions, Triggers.FinishTrigger);
         }
     }
 }

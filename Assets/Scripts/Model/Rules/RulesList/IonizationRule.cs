@@ -39,7 +39,8 @@ namespace RulesList
 
         private void AssignWhiteForwardOneManeuver(GenericShip ship)
         {
-            ship.SetAssignedManeuver(new StraightMovement(1, ManeuverDirection.Forward, ManeuverBearing.Straight, ManeuverColor.White));
+            GenericMovement ionizedMovement = new StraightMovement(1, ManeuverDirection.Forward, ManeuverBearing.Straight, ManeuverColor.White) { IsRealMovement = false };
+            ship.SetAssignedManeuver(ionizedMovement);
 
             ship.OnManeuverIsReadyToBeRevealed -= AssignWhiteForwardOneManeuver;
         }

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -18,21 +19,24 @@ namespace Ship
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
-                PilotAbilities.Add(new PilotAbilitiesNamespace.ColonelVesseryAbility());
+                PilotAbilities.Add(new Abilities.ColonelVesseryAbility());
             }
         }
     }
 }
 
-namespace PilotAbilitiesNamespace
+namespace Abilities
 {
-    public class ColonelVesseryAbility : GenericPilotAbility
+    public class ColonelVesseryAbility : GenericAbility
     {
-        public override void Initialize(Ship.GenericShip host)
+        public override void ActivateAbility()
         {
-            base.Initialize(host);
+            HostShip.OnImmediatelyAfterRolling += RegisterColonelVesseryAbility;
+        }
 
-            Host.OnImmediatelyAfterRolling += RegisterColonelVesseryAbility;
+        public override void DeactivateAbility()
+        {
+            HostShip.OnImmediatelyAfterRolling -= RegisterColonelVesseryAbility;
         }
 
         private void RegisterColonelVesseryAbility(DiceRoll diceroll)

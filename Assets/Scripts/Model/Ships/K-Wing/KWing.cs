@@ -14,6 +14,7 @@ namespace Ship
             public KWing() : base()
             {
                 Type = "K-Wing";
+                IconicPilot = "Miranda Doni";
 
                 ShipBaseArcsType = Arcs.BaseArcsType.Arc360;
 

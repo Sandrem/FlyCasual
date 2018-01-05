@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -16,21 +17,24 @@ namespace Ship
 
                 IsUnique = true;
 
-                PilotAbilities.Add(new PilotAbilitiesNamespace.BackstabberAbility());
+                PilotAbilities.Add(new Abilities.BackstabberAbility());
             }
         }
     }
 }
 
-namespace PilotAbilitiesNamespace
+namespace Abilities
 {
-    public class BackstabberAbility : GenericPilotAbility
+    public class BackstabberAbility : GenericAbility
     {
-        public override void Initialize(Ship.GenericShip host)
+        public override void ActivateAbility()
         {
-            base.Initialize(host);
+            HostShip.AfterGotNumberOfAttackDice += BackstabberPilotAbility;
+        }
 
-            Host.AfterGotNumberOfAttackDice += BackstabberPilotAbility;
+        public override void DeactivateAbility()
+        {
+            HostShip.AfterGotNumberOfAttackDice -= BackstabberPilotAbility;
         }
 
         private void BackstabberPilotAbility(ref int diceNumber)

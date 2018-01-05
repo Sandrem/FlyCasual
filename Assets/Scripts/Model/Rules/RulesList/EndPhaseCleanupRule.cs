@@ -13,7 +13,7 @@ namespace RulesList
 
         private void SubscribeEvents()
         {
-            Phases.OnEndPhaseStart += EndPhaseClearAll;
+            Phases.OnRoundEnd += EndPhaseClearAll;
         }
 
         public void EndPhaseClearAll()

@@ -1,19 +1,22 @@
 ﻿using Upgrade;
 using Ship;
 using SubPhases;
+using Abilities;
+using System;
 
 namespace UpgradesList
 {
     public class LukeSkywalker : GenericUpgrade
     {
-        private bool IsAblilityActive;
-
         public LukeSkywalker() : base()
         {
             Type = UpgradeType.Crew;
             Name = "Luke Skywalker";
             Cost = 7;
+
             isUnique = true;
+
+            UpgradeAbilities.Add(new LukeSkywalkerCrewAbility());
         }
 
         public override bool IsAllowedForShip(GenericShip ship)
@@ -21,34 +24,41 @@ namespace UpgradesList
             return ship.faction == Faction.Rebel;
         }
 
-        public override void AttachToShip(GenericShip host)
-        {
-            base.AttachToShip(host);
+    }
+}
 
-            host.OnAttackMissedAsAttacker += LukeSkywalkerAbility;
+namespace Abilities
+{
+    public class LukeSkywalkerCrewAbility : GenericAbility
+    {
+
+        public override void ActivateAbility()
+        {
+            HostShip.OnAttackMissedAsAttacker += SubscribeToCheckSecondAttack;
         }
 
-        private void LukeSkywalkerAbility()
+        public override void DeactivateAbility()
         {
-            SubscribeToCheckSecondAttack();
+            HostShip.OnAttackMissedAsAttacker -= SubscribeToCheckSecondAttack;
         }
 
         private void SubscribeToCheckSecondAttack()
         {
-            if (!Host.IsCannotAttackSecondTime)
+            if (!HostShip.IsCannotAttackSecondTime)
             {
-                Host.OnCheckSecondAttack += RegisterSecondAttackTrigger;
+                HostShip.OnCheckSecondAttack += RegisterSecondAttackTrigger;
             }
         }
 
         private void RegisterSecondAttackTrigger(GenericShip ship)
         {
-            Host.OnCheckSecondAttack -= RegisterSecondAttackTrigger;
+            HostShip.OnCheckSecondAttack -= RegisterSecondAttackTrigger;
+
             Triggers.RegisterTrigger(new Trigger
             {
                 Name = "Luke Skywalker's ability",
                 TriggerType = TriggerTypes.OnCheckSecondAttack,
-                TriggerOwner = Host.Owner.PlayerNo,
+                TriggerOwner = HostShip.Owner.PlayerNo,
                 EventHandler = DoSecondAttack
             });
         }
@@ -58,13 +68,14 @@ namespace UpgradesList
             Selection.ThisShip.IsCannotAttackSecondTime = true;
 
             Selection.ThisShip.AfterGenerateAvailableActionEffectsList += AddLukeSkywalkerCrewAbility;
-            Selection.ThisShip.AfterAttackWindow += RemoveLukeSkywalkerCrewAbility;
+            Phases.OnCombatPhaseEnd += RemoveLukeSkywalkerCrewAbility;
 
             Phases.StartTemporarySubPhaseOld(
                 "Second attack",
                 typeof(SelectTargetForSecondAttackSubPhase),
                 delegate {
                     Phases.FinishSubPhase(typeof(SelectTargetForSecondAttackSubPhase));
+                    Selection.ThisShip.IsAttackPerformed = false;
                     Combat.DeclareIntentToAttack(Selection.ThisShip.ShipId, Selection.AnotherShip.ShipId);
                 });
         }
@@ -74,10 +85,10 @@ namespace UpgradesList
             ship.AddAvailableActionEffect(new ActionsList.LukeSkywalkerCrewAction());
         }
 
-        public void RemoveLukeSkywalkerCrewAbility(GenericShip ship)
+        public void RemoveLukeSkywalkerCrewAbility()
         {
-            ship.AfterAttackWindow -= RemoveLukeSkywalkerCrewAbility;
-            ship.AfterGenerateAvailableActionEffectsList -= AddLukeSkywalkerCrewAbility;
+            Phases.OnCombatPhaseEnd -= RemoveLukeSkywalkerCrewAbility;
+            HostShip.AfterGenerateAvailableActionEffectsList -= AddLukeSkywalkerCrewAbility;
         }
 
     }

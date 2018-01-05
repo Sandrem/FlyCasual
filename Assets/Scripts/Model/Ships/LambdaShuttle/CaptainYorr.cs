@@ -15,7 +15,7 @@ namespace Ship
                 Cost = 24;
                 IsUnique = true;
 
-                PilotAbilities.Add(new PilotAbilitiesNamespace.CaptainYorrAbility());
+                PilotAbilities.Add(new Abilities.CaptainYorrAbility());
             }
         }
     }
@@ -23,26 +23,27 @@ namespace Ship
 
 
 
-namespace PilotAbilitiesNamespace
+namespace Abilities
 {
-    public class CaptainYorrAbility : GenericPilotAbility
+    public class CaptainYorrAbility : GenericAbility
     {
 
-        public override void Initialize(GenericShip host)
+        public override void ActivateAbility()
         {
-            base.Initialize(host);
-
             GenericShip.BeforeTokenIsAssignedGlobal += CaptainYorrPilotAbility;
+        }
 
-            host.OnDestroyed += RemoveCaptainYorrAbility;
+        public override void DeactivateAbility()
+        {
+            GenericShip.BeforeTokenIsAssignedGlobal -= CaptainYorrPilotAbility;
         }
 
         private void CaptainYorrPilotAbility(GenericShip ship, System.Type tokenType)
         {
-            if (tokenType == typeof(Tokens.StressToken) && ship.Owner == Host.Owner && ship != Host && Host.TokenCount(typeof(Tokens.StressToken)) <= 2)
+            if (tokenType == typeof(Tokens.StressToken) && ship.Owner == HostShip.Owner && ship != HostShip && HostShip.TokenCount(typeof(Tokens.StressToken)) <= 2)
             {
 
-                Board.ShipDistanceInformation positionInfo = new Board.ShipDistanceInformation(ship, Host);
+                Board.ShipDistanceInformation positionInfo = new Board.ShipDistanceInformation(ship, HostShip);
                 if (positionInfo.Range <= 2)
                 {
                     TargetShip = ship;
@@ -58,17 +59,12 @@ namespace PilotAbilitiesNamespace
 
         private void UseCaptainYorrAbility(object sender, System.EventArgs e)
         {            
-            Host.AssignToken(TargetShip.TokenToAssign, delegate {
+            HostShip.AssignToken(TargetShip.TokenToAssign, delegate {
                 TargetShip.TokenToAssign = null;
                 TargetShip = null;
                 DecisionSubPhase.ConfirmDecision();
             });
         }
 
-        private void RemoveCaptainYorrAbility(GenericShip ship)
-        {
-            GenericShip.BeforeTokenIsAssignedGlobal -= CaptainYorrPilotAbility;
-            Host.OnDestroyed -= RemoveCaptainYorrAbility;
-        }
     }
 }

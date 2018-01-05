@@ -17,21 +17,24 @@ namespace Ship
 
                 IsUnique = true;
 
-                PilotAbilities.Add(new PilotAbilitiesNamespace.ZebOrreliosPilotAbility());
+                PilotAbilities.Add(new Abilities.ZebOrreliosPilotAbility());
             }
         }
     }
 }
 
-namespace PilotAbilitiesNamespace
+namespace Abilities
 {
-    public class ZebOrreliosPilotAbility : GenericPilotAbility
+    public class ZebOrreliosPilotAbility : GenericAbility
     {
-        public override void Initialize(GenericShip host)
+        public override void ActivateAbility()
         {
-            base.Initialize(host);
+            HostShip.OnCheckCancelCritsFirst += CancelCritsFirstIfDefender;
+        }
 
-            Host.OnCheckCancelCritsFirst += CancelCritsFirstIfDefender;
+        public override void DeactivateAbility()
+        {
+            HostShip.OnCheckCancelCritsFirst -= CancelCritsFirstIfDefender;
         }
 
         private void CancelCritsFirstIfDefender(GenericShip ship)

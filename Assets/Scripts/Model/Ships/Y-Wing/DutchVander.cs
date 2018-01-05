@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Ship;
 using SubPhases;
+using System;
 
 namespace Ship
 {
@@ -22,21 +23,24 @@ namespace Ship
 
                 faction = Faction.Rebel;
 
-                PilotAbilities.Add(new PilotAbilitiesNamespace.DutchVanderAbility());
+                PilotAbilities.Add(new Abilities.DutchVanderAbility());
             }
         }
     }
 }
 
-namespace PilotAbilitiesNamespace
+namespace Abilities
 {
-    public class DutchVanderAbility : GenericPilotAbility
+    public class DutchVanderAbility : GenericAbility
     {
-        public override void Initialize(GenericShip host)
+        public override void ActivateAbility()
         {
-            base.Initialize(host);
+            HostShip.OnTokenIsAssigned += DutchVanderPilotAbility;
+        }
 
-            Host.OnTokenIsAssigned += DutchVanderPilotAbility;
+        public override void DeactivateAbility()
+        {
+            HostShip.OnTokenIsAssigned -= DutchVanderPilotAbility;
         }
 
         private void DutchVanderPilotAbility(GenericShip ship, System.Type tokenType)
@@ -49,8 +53,8 @@ namespace PilotAbilitiesNamespace
 
         private void StartSubphaseForDutchVanderPilotAbility(object sender, System.EventArgs e)
         {
-            Selection.ThisShip = Host;
-            if (Host.Owner.Ships.Count > 1)
+            Selection.ThisShip = HostShip;
+            if (HostShip.Owner.Ships.Count > 1)
             {
                 SelectTargetForAbility(
                     GrantFreeTargetLock,

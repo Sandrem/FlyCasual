@@ -3,10 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Upgrade;
+using Ship;
+using Abilities;
 
 namespace UpgradesList
 {
-
     public class SwarmTactics : GenericUpgrade
     {
 
@@ -15,22 +16,32 @@ namespace UpgradesList
             Type = UpgradeType.Elite;
             Name = "Swarm Tactics";
             Cost = 2;
+
+            UpgradeAbilities.Add(new SwarmTacticsAbility());
+        }
+    }
+}
+
+namespace Abilities
+{
+    public class SwarmTacticsAbility : GenericAbility
+    {
+        public override void ActivateAbility()
+        {
+            Phases.OnCombatPhaseStart += PlanSwarmTacticsPilotAbility;
         }
 
-        public override void AttachToShip(Ship.GenericShip host)
+        public override void DeactivateAbility()
         {
-            Host = host;
-            base.AttachToShip(host);
-
-            Phases.OnCombatPhaseStart += PlanSwarmTacticsPilotAbility;
+            Phases.OnCombatPhaseStart -= PlanSwarmTacticsPilotAbility;
         }
 
         private void PlanSwarmTacticsPilotAbility()
         {
             Triggers.RegisterTrigger(new Trigger()
             {
-                Name = "#" + Host.ShipId + ": Swarm Tactics",
-                TriggerOwner = Host.Owner.PlayerNo,
+                Name = "#" + HostShip.ShipId + ": Swarm Tactics",
+                TriggerOwner = HostShip.Owner.PlayerNo,
                 TriggerType = TriggerTypes.OnCombatPhaseStart,
                 EventHandler = SwarmTacticsPilotAbility
             });
@@ -38,8 +49,8 @@ namespace UpgradesList
 
         private void SwarmTacticsPilotAbility(object sender, System.EventArgs e)
         {
-            Selection.ThisShip = Host;
-            if (Host.Owner.Ships.Count > 1)
+            Selection.ThisShip = HostShip;
+            if (HostShip.Owner.Ships.Count > 1)
             {
                 Phases.StartTemporarySubPhaseOld(
                     "Select target for Swarm Tactics",
@@ -83,12 +94,12 @@ namespace SubPhases
 
         public override void RevertSubPhase() { }
 
-        private class SwarmTacticsPilotSkillModifier : Ship.IModifyPilotSkill
+        private class SwarmTacticsPilotSkillModifier : IModifyPilotSkill
         {
-            private Ship.GenericShip host;
+            private GenericShip host;
             private int newPilotSkill;
 
-            public SwarmTacticsPilotSkillModifier(Ship.GenericShip host, int newPilotSkill)
+            public SwarmTacticsPilotSkillModifier(GenericShip host, int newPilotSkill)
             {
                 this.host = host;
                 this.newPilotSkill = newPilotSkill;

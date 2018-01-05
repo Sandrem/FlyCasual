@@ -29,12 +29,9 @@ namespace UpgradesList
 
         private void AddFocusTokenAsPayment(List<GenericToken> waysToPay)
         {
-            if (waysToPay.Find(n => n.GetType() == typeof(BlueTargetLockToken)) != null)
-            {
-                GenericToken focus = null;
-                if (Host.HasToken(typeof(FocusToken))) focus = Host.GetToken(typeof(FocusToken));
-                if (focus != null) waysToPay.Add(focus);
-            }
+            GenericToken focus = null;
+            if (Host.HasToken(typeof(FocusToken))) focus = Host.GetToken(typeof(FocusToken));
+            if (focus != null) waysToPay.Add(focus);
         }
     }
 }

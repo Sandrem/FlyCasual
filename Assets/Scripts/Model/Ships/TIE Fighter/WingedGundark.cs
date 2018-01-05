@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Ship;
+using System;
 
 namespace Ship
 {
@@ -17,21 +18,24 @@ namespace Ship
 
                 IsUnique = true;
 
-                PilotAbilities.Add(new PilotAbilitiesNamespace.WingedGundarkAbility());
+                PilotAbilities.Add(new Abilities.WingedGundarkAbility());
             }
         }
     }
 }
 
-namespace PilotAbilitiesNamespace
+namespace Abilities
 {
-    public class WingedGundarkAbility : GenericPilotAbility
+    public class WingedGundarkAbility : GenericAbility
     {
-        public override void Initialize(GenericShip host)
+        public override void ActivateAbility()
         {
-            base.Initialize(host);
+            HostShip.AfterGenerateAvailableActionEffectsList += WingedGundarkPilotAbility;
+        }
 
-            Host.AfterGenerateAvailableActionEffectsList += WingedGundarkPilotAbility;
+        public override void DeactivateAbility()
+        {
+            HostShip.AfterGenerateAvailableActionEffectsList -= WingedGundarkPilotAbility;
         }
 
         private void WingedGundarkPilotAbility(GenericShip ship)

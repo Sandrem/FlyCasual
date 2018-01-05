@@ -14,9 +14,9 @@ namespace Ship
             public AlphaClassStarWing() : base()
             {
                 Type = "Alpha-class Star Wing";
+                IconicPilot = "Major Vynder";
 
-                //TODO: Use table instead of dial
-                ManeuversImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/40/0b/400bd56b-4bb9-4046-a5b3-2575f7a40088/swx69_maneuver_dial.png";
+                ManeuversImageUrl = "https://i.imgur.com/aiSqTZA.jpg";
 
                 Firepower = 2;
                 Agility = 2;

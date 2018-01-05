@@ -155,6 +155,8 @@ namespace Ship
         public event EventHandlerShip OnAttackFinish;
 
         public event EventHandlerBombDropTemplates OnGetAvailableBombDropTemplates;
+        public event EventHandlerBarrelRollTemplates OnGetAvailableBarrelRollTemplates;
+        public event EventHandlerBoostTemplates OnGetAvailableBoostTemplates;
 
         public event EventHandlerDiceroll OnImmediatelyAfterRolling;
 
@@ -208,6 +210,7 @@ namespace Ship
         {
             if (Combat.Attacker.ShipId == this.ShipId)
             {
+                CallAfterAttackWindow();
                 IsAttackPerformed = true;
 
                 if (OnAttackStartAsAttacker != null) OnAttackStartAsAttacker();
@@ -434,11 +437,11 @@ namespace Ship
 
             if (isCritical)
             {
-                CriticalHitsDeck.GetCritCard(delegate { SufferChosenCriticalHitCard(e); });
+                CriticalHitsDeck.GetCritCard(isCritical, delegate { SufferChosenCriticalHitCard(e); });
             }
             else
             {
-                CriticalHitsDeck.GetCritCard(delegate { CallOnDamageCardIsDealt(DealRegularDamageCard); });
+                CriticalHitsDeck.GetCritCard(isCritical, delegate { CallOnDamageCardIsDealt(DealRegularDamageCard); });
             }
         }
 
@@ -536,6 +539,12 @@ namespace Ship
             Triggers.FinishTrigger();
         }
 
+        public void LoseShield()
+        {
+            Shields--;
+            CallAfterAssignedDamageIsChanged();
+        }
+
         public virtual void IsHullDestroyedCheck(Action callBack)
         {
             if (Hull == 0 && !IsDestroyed)
@@ -562,6 +571,7 @@ namespace Ship
             UI.AddTestLogEntry("Ship with ID " + ShipId + " is destroyed");
 
             IsDestroyed = true;
+
             PlayDestroyedAnimSound(delegate { CheckShipModelDestruction(forced); callBack(); });
         }
 
@@ -581,6 +591,17 @@ namespace Ship
         {
             Phases.OnCombatSubPhaseRequiredPilotSkillIsChanged -= PerformShipDestruction;
             Roster.DestroyShip(this.GetTag());
+            foreach (var pilotAbility in PilotAbilities)
+            {
+                pilotAbility.DeactivateAbility();
+                foreach (var upgrade in UpgradeBar.GetInstalledUpgrades())
+                {
+                    foreach (var upgradeAbility in upgrade.UpgradeAbilities)
+                    {
+                        upgradeAbility.DeactivateAbility();
+                    }
+                }
+            }
 
             if (OnDestroyed != null) OnDestroyed(this);
         }
@@ -633,6 +654,31 @@ namespace Ship
             return availableTemplates;
         }
 
+        public List<Actions.BarrelRollTemplates> GetAvailableBarrelRollTemplates()
+        {
+            List<Actions.BarrelRollTemplates> availableTemplates = new List<Actions.BarrelRollTemplates>() { Actions.BarrelRollTemplates.Straight1 };
+
+            if (OnGetAvailableBarrelRollTemplates != null) OnGetAvailableBarrelRollTemplates(availableTemplates);
+
+            return availableTemplates;
+        }
+
+        public List<Actions.BoostTemplates> GetAvailableBoostTemplates()
+        {
+            List<Actions.BoostTemplates> availableTemplates = new List<Actions.BoostTemplates>
+            {
+                Actions.BoostTemplates.LeftBank1,
+                Actions.BoostTemplates.Straight1,
+                Actions.BoostTemplates.RightBank1,
+            };
+
+            if (OnGetAvailableBoostTemplates != null)
+            {
+                OnGetAvailableBoostTemplates(availableTemplates);
+            }
+            return availableTemplates;
+        }
+
         public bool AreWeaponsDisabled()
         {
             bool result = HasToken(typeof(Tokens.WeaponsDisabledToken));
@@ -656,6 +702,21 @@ namespace Ship
             if (OnCanAttackBumpedTargetGlobal != null) OnCanAttackBumpedTargetGlobal(ref result, this, defender);
 
             return result;
+        }
+
+        public List<IShipWeapon> GetAllWeapons()
+        {
+            List<IShipWeapon> allWeapons = new List<IShipWeapon>();
+
+            allWeapons.Add(PrimaryWeapon);
+
+            foreach (var upgrade in UpgradeBar.GetInstalledUpgrades())
+            {
+                IShipWeapon secondaryWeapon = upgrade as IShipWeapon;
+                if (secondaryWeapon != null) allWeapons.Add(secondaryWeapon);
+            }
+
+            return allWeapons;
         }
 
     }

@@ -95,6 +95,8 @@ namespace SubPhases
 
             DefaultDecision = (IsTimeToUseGlitterSteam()) ? "Yes" : "No";
 
+            UI.ShowSkipButton();
+
             callBack();
         }
 

@@ -22,7 +22,7 @@ namespace Ship
 
                 SkinName = "Green";
 
-                PilotAbilities.Add(new PilotAbilitiesNamespace.SabineWrenPilotAbility());
+                PilotAbilities.Add(new Abilities.SabineWrenPilotAbility());
             }
         }
     }

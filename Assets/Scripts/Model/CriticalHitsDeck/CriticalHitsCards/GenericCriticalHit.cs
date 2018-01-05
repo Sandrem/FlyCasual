@@ -13,6 +13,7 @@ namespace CriticalHitCard
 
         public string Name;
         public CriticalCardType Type;
+        public bool IsFaceUp;
         public List<DieSide> CancelDiceResults = new List<DieSide>();
 
         private string imageUrl;

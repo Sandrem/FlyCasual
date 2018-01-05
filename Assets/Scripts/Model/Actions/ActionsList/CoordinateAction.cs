@@ -44,6 +44,11 @@ namespace SubPhases
 
         private void SelectCoordinateTarget()
         {
+            Selection.ThisShip.CallCoordinateTargetIsSelected(TargetShip, PerformCoordinateEffect);
+        }
+
+        private void PerformCoordinateEffect()
+        {
             Selection.ThisShip = TargetShip;
 
             Triggers.RegisterTrigger(

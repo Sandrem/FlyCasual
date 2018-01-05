@@ -1,7 +1,9 @@
-﻿using System.Collections;
+﻿using ActionsList;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Upgrade;
+using Ship;
 
 namespace UpgradesList
 {
@@ -20,14 +22,25 @@ namespace UpgradesList
 		{
 			base.AttachToShip(host);
 
-			host.OnActionDecisionSubphaseEnd += DoSecondAction;
+            host.OnActionIsPerformed += CheckConditions;
 
             Phases.OnEndPhaseStart += Cleanup;
+            Host.OnDestroyed += StopAbility;
+        }
+
+        private void CheckConditions(GenericAction action)
+        {
+            if (!IsUsed)
+            {
+                Host.OnActionDecisionSubphaseEnd += DoSecondAction;
+            }
         }
 
 		private void DoSecondAction(Ship.GenericShip ship)
 		{
-			if (!IsUsed && (!ship.HasToken(typeof(Tokens.StressToken)) || ship.CanPerformActionsWhileStressed))
+            Host.OnActionDecisionSubphaseEnd -= DoSecondAction;
+
+            if (!ship.HasToken(typeof(Tokens.StressToken)) || ship.CanPerformActionsWhileStressed)
 			{
                 IsUsed = true;
                 Triggers.RegisterTrigger(
@@ -45,7 +58,7 @@ namespace UpgradesList
 		private void PerformPushAction(object sender, System.EventArgs e)
 		{
 			base.Host.GenerateAvailableActionsList();
-			List<ActionsList.GenericAction> actions = Selection.ThisShip.GetAvailableActionsList();
+			List<GenericAction> actions = Selection.ThisShip.GetAvailableActionsList();
 			base.Host.AskPerformFreeAction(actions, AddStressToken);
 		}
 
@@ -67,5 +80,11 @@ namespace UpgradesList
 				Triggers.FinishTrigger();
 			}
 		}
-	}
+
+        private void StopAbility(GenericShip host)
+        {
+            Phases.OnEndPhaseStart -= Cleanup;
+        }
+
+    }
 }

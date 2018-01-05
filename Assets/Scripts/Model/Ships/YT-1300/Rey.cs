@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using Ship;
+using System;
 
 namespace Ship
 {
@@ -27,21 +28,24 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Missile);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
-                PilotAbilities.Add(new PilotAbilitiesNamespace.ReyAbility());
+                PilotAbilities.Add(new Abilities.ReyAbility());
             }
         }
     }
 }
 
-namespace PilotAbilitiesNamespace
+namespace Abilities
 {
-    public class ReyAbility : GenericPilotAbility
+    public class ReyAbility : GenericAbility
     {
-        public override void Initialize(GenericShip host)
+        public override void ActivateAbility()
         {
-            base.Initialize(host);
+            HostShip.AfterGenerateAvailableActionEffectsList += ReyPilotAbility;
+        }
 
-            Host.AfterGenerateAvailableActionEffectsList += ReyPilotAbility;
+        public override void DeactivateAbility()
+        {
+            HostShip.AfterGenerateAvailableActionEffectsList -= ReyPilotAbility;
         }
 
         public void ReyPilotAbility(GenericShip ship)

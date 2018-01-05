@@ -14,6 +14,7 @@ namespace Ship
             public AuzituckGunship() : base()
             {
                 Type = "Auzituck Gunship";
+                IconicPilot = "Lowhhrick";
                 ShipBaseArcsType = Arcs.BaseArcsType.Arc180;
 
                 ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/e/e3/36-36_R-SPACE.PNG";
@@ -30,7 +31,7 @@ namespace Ship
                 PrintedActions.Add(new ReinforceAftAction() { Host = this });
 
                 AssignTemporaryManeuvers();
-                HotacManeuverTable = null;
+                HotacManeuverTable = new AI.AuzituckGunshipTable();
 
                 factions.Add(Faction.Rebel);
                 faction = Faction.Rebel;

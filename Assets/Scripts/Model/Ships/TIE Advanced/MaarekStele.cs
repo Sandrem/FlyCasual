@@ -23,28 +23,30 @@ namespace Ship
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
-                PilotAbilities.Add(new PilotAbilitiesNamespace.MaarekSteleAbility());
+                PilotAbilities.Add(new Abilities.MaarekSteleAbility());
             }
         }
     }
 }
 
-namespace PilotAbilitiesNamespace
+namespace Abilities
 {
-    public class MaarekSteleAbility : GenericPilotAbility
+    public class MaarekSteleAbility : GenericAbility
     {
-        public override void Initialize(GenericShip host)
+        public override void ActivateAbility()
         {
-            base.Initialize(host);
-
             GenericShip.OnFaceupCritCardReadyToBeDealtGlobal += MaarekStelePilotAbility;
-            Host.OnDestroyed += RemoveMaarekSteleAbility;
+        }
+
+        public override void DeactivateAbility()
+        {
+            GenericShip.OnFaceupCritCardReadyToBeDealtGlobal -= MaarekStelePilotAbility;
         }
 
         private void MaarekStelePilotAbility(GenericShip ship, CriticalHitCard.GenericCriticalHit crit, EventArgs e)
         {
             if ((e as DamageSourceEventArgs) == null) return;
-            else if ((((e as DamageSourceEventArgs).Source) as GenericShip).ShipId == Host.ShipId)
+            else if ((((e as DamageSourceEventArgs).Source) as GenericShip).ShipId == HostShip.ShipId)
             {
                 if ((e as DamageSourceEventArgs).DamageType == DamageTypes.ShipAttack)
                 {
@@ -62,11 +64,6 @@ namespace PilotAbilitiesNamespace
             );
         }
 
-        private void RemoveMaarekSteleAbility(GenericShip ship)
-        {
-            GenericShip.OnFaceupCritCardReadyToBeDealtGlobal -= MaarekStelePilotAbility;
-            Host.OnDestroyed -= RemoveMaarekSteleAbility;
-        }
     }
 }
 

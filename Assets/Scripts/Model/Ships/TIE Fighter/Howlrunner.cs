@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Ship;
+using System;
 
 namespace Ship
 {
@@ -20,33 +21,29 @@ namespace Ship
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
-                PilotAbilities.Add(new PilotAbilitiesNamespace.HowlrunnerAbility());
+                PilotAbilities.Add(new Abilities.HowlrunnerAbility());
             }
         }
     }
 }
 
-namespace PilotAbilitiesNamespace
+namespace Abilities
 {
-    public class HowlrunnerAbility : GenericPilotAbility
+    public class HowlrunnerAbility : GenericAbility
     {
-        public override void Initialize(GenericShip host)
+        public override void ActivateAbility()
         {
-            base.Initialize(host);
-
             GenericShip.AfterGenerateAvailableActionEffectsListGlobal += AddHowlrunnerAbility;
-            Host.OnDestroyed += RemoveHowlrunnerAbility;
+        }
+
+        public override void DeactivateAbility()
+        {
+            GenericShip.AfterGenerateAvailableActionEffectsListGlobal -= AddHowlrunnerAbility;
         }
 
         private void AddHowlrunnerAbility()
         {
-            Combat.Attacker.AddAvailableActionEffect(new HowlrunnerAction() { Host = this.Host });
-        }
-
-        private void RemoveHowlrunnerAbility(GenericShip ship)
-        {
-            GenericShip.AfterGenerateAvailableActionEffectsListGlobal -= AddHowlrunnerAbility;
-            Host.OnDestroyed -= RemoveHowlrunnerAbility;
+            Combat.Attacker.AddAvailableActionEffect(new HowlrunnerAction() { Host = this.HostShip });
         }
 
         private class HowlrunnerAction : ActionsList.GenericAction
@@ -66,10 +63,13 @@ namespace PilotAbilitiesNamespace
                     {
                         if (Combat.Attacker.ShipId != Host.ShipId)
                         {
-                            Board.ShipDistanceInformation positionInfo = new Board.ShipDistanceInformation(Host, Combat.Attacker);
-                            if (positionInfo.Range == 1)
+                            if (Combat.Attacker.Owner.PlayerNo == Host.Owner.PlayerNo)
                             {
-                                result = true;
+                                Board.ShipDistanceInformation positionInfo = new Board.ShipDistanceInformation(Host, Combat.Attacker);
+                                if (positionInfo.Range == 1)
+                                {
+                                    result = true;
+                                }
                             }
                         }
                     }

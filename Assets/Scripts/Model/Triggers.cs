@@ -37,6 +37,8 @@ public enum TriggerTypes
     OnBeforeTokenIsAssigned,
     OnTokenIsAssigned,
     OnTokenIsSpent,
+    OnCoordinateTargetIsSelected,
+    OnRerollIsConfirmed,
 
     OnAttackStart,
     OnShotStart,
@@ -58,7 +60,6 @@ public enum TriggerTypes
     OnMajorExplosionCrit,
     OnAbilityTargetIsSelected,
     OnBombDetonated,
-    OnFinishSlam,
     OnDiscard
 }
 

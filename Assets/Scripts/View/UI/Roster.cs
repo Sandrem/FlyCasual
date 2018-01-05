@@ -229,11 +229,13 @@ public static partial class Roster {
         }
     }
 
+    // RMB is not supported
     public static void SelectShipByRosterClick(PointerEventData data)
     {
         foreach (var item in data.hovered)
         {
-            if (item.tag != "Untagged") {
+            if (item.tag != "Untagged")
+            {
                 if (Selection.TryToChangeShip(item.tag)) return;
             }
         }

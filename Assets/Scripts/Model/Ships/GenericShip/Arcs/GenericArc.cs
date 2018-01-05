@@ -31,6 +31,7 @@ namespace Arcs
         public float MinAngle;
         public float MaxAngle;
         public ArcFacing Facing;
+        public bool IsMobileArc;
 
         public ArcShotPermissions ShotPermissions = new ArcShotPermissions();
 
@@ -161,6 +162,19 @@ namespace Arcs
             foreach (var arc in ArcsList)
             {
                 if (arc.Facing == ArcFacing.Bullseye)
+                {
+                    result = CheckRay(originPoint, angle, new List<ArcInfo>() { arc });
+                }
+            }
+            return result;
+        }
+
+        public virtual bool InMobileArc(string originPoint, float angle)
+        {
+            bool result = false;
+            foreach (var arc in ArcsList)
+            {
+                if (arc.IsMobileArc)
                 {
                     result = CheckRay(originPoint, angle, new List<ArcInfo>() { arc });
                 }

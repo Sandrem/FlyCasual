@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Ship;
+using System;
 
 namespace Ship
 {
@@ -18,32 +20,37 @@ namespace Ship
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
-                PilotAbilities.Add(new PilotAbilitiesNamespace.DashRendarAbility());
+                PilotAbilities.Add(new Abilities.DashRendarAbility());
             }
         }
     }
 }
 
-namespace PilotAbilitiesNamespace
+namespace Abilities
 {
-    public class DashRendarAbility : GenericPilotAbility
+    public class DashRendarAbility : GenericAbility
     {
-        public override void Initialize(Ship.GenericShip host)
+        public override void ActivateAbility()
         {
-            base.Initialize(host);
-
             Phases.OnActivationPhaseStart += ActivateDashRendarAbility;
             Phases.OnCombatPhaseStart += DeactivateDashRendarAbility;
         }
 
+        public override void DeactivateAbility()
+        {
+            Phases.OnActivationPhaseStart -= ActivateDashRendarAbility;
+            Phases.OnCombatPhaseStart -= DeactivateDashRendarAbility;
+        }
+
         private void ActivateDashRendarAbility()
         {
-            Host.IsIgnoreObstacles = true;
+            HostShip.IsIgnoreObstacles = true;
         }
 
         private void DeactivateDashRendarAbility()
         {
-            Host.IsIgnoreObstacles = false;
+            HostShip.IsIgnoreObstacles = false;
         }
+
     }
 }

@@ -73,7 +73,7 @@ public class UI : MonoBehaviour {
         GameObject.Find("UI").transform.Find("ContextMenuPanel").gameObject.SetActive(false);
     }
 
-    public void ShowDirectionMenu()
+    public static void ShowDirectionMenu()
     {
         DirectionsMenu.Show(GameMode.CurrentGameMode.AssignManeuver);
     }
@@ -202,9 +202,23 @@ public class UI : MonoBehaviour {
         Phases.CurrentSubPhase.SkipButton();
     }
 
-    public void ClickDeclareTarget()
+    public static void ClickDeclareTarget()
     {
         GameMode.CurrentGameMode.DeclareTarget(Selection.ThisShip.ShipId, Selection.AnotherShip.ShipId);
+    }
+
+    public static void CheckFiringRangeAndShow()
+    {
+        int range = Actions.GetFiringRangeAndShow(Selection.ThisShip, Selection.AnotherShip);
+        if (range < 4)
+        {
+            Messages.ShowInfo("Range " + range);
+        }
+        else
+        {
+            Messages.ShowError("Out of range");
+        }
+        
     }
 
     public static void ShowNextButton()
@@ -253,7 +267,7 @@ public class UI : MonoBehaviour {
 
     public void ReturnToMainMenu()
     {
-        SceneManager.LoadScene("MainMenu");
+        GameMode.CurrentGameMode.ReturnToMainMenu();
     }
 
     public void QuitGame()

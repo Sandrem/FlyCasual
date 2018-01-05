@@ -1,6 +1,7 @@
 ﻿using Ship;
 using Upgrade;
 using Ship.TIEAdvanced;
+using Tokens;
 
 namespace UpgradesList
 {
@@ -9,7 +10,7 @@ namespace UpgradesList
         public AdvancedTargetingComputer() : base()
         {
             Type = UpgradeType.System;
-            Name = "Advanced Targeting Computer";
+            Name = "Adv. Targeting Computer";
             Cost = 5;
         }
 
@@ -77,7 +78,7 @@ namespace ActionsList
                 Combat.CurrentDiceRoll.OrganizeDicePositions();
 
                 targetLockLetter = Actions.GetTargetLocksLetterPair(Combat.Attacker, Combat.Defender);
-                Combat.Attacker.GetToken(typeof(Tokens.BlueTargetLockToken), targetLockLetter).CanBeUsed = false;
+                Combat.Attacker.GetToken(typeof(BlueTargetLockToken), targetLockLetter).CanBeUsed = false;
 
                 Combat.Attacker.OnAttackFinish += SetTargetLockCanBeUsed;
             }
@@ -91,7 +92,8 @@ namespace ActionsList
 
         private void SetTargetLockCanBeUsed(GenericShip ship)
         {
-            Combat.Attacker.GetToken(typeof(Tokens.BlueTargetLockToken), targetLockLetter).CanBeUsed = true;
+            BlueTargetLockToken ownTargetLockToken = (BlueTargetLockToken)Combat.Attacker.GetToken(typeof(BlueTargetLockToken), targetLockLetter);
+            if (ownTargetLockToken != null) ownTargetLockToken.CanBeUsed = true;
 
             Combat.Attacker.OnAttackFinish -= SetTargetLockCanBeUsed;
         }

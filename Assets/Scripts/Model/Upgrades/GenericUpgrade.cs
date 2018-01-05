@@ -1,4 +1,5 @@
-﻿using Mods;
+﻿using Abilities;
+using Mods;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -27,18 +28,21 @@ namespace Upgrade
         Tech
     }
 
-    public class GenericUpgrade
+    public abstract class GenericUpgrade
     {
         public static GenericUpgrade CurrentUpgrade;
 
         public Ship.GenericShip Host { get; set; }
 
+        public string Name { get; set; }
         public int Cost;
         public UpgradeType Type;
+
+        public List<GenericAbility> UpgradeAbilities = new List<GenericAbility>();
+
         public bool isUnique = false;
         public bool isLimited = false;
         public bool isDiscarded = false;
-        public string Name { get; set; }
 
         private string nameCanonical;
         public string NameCanonical
@@ -65,14 +69,11 @@ namespace Upgrade
             }
         }
 
+        // SQUAD BUILDER ONLY
+
         public bool IsHidden;
 
         public Type FromMod { get; set; }
-
-        public GenericUpgrade()
-        {
-
-        }
 
         public virtual bool IsAllowedForShip(Ship.GenericShip ship)
         {
@@ -90,9 +91,9 @@ namespace Upgrade
             return result;
         }
 
-        public virtual void AttachToShip(Ship.GenericShip host)
+        public virtual bool IsAllowedForSquadBuilderPostCheck(RosterBuilder.SquadBuilderUpgrade upgradeHolder)
         {
-            Host = host;
+            return true;
         }
 
         public virtual void PreAttachToShip(Ship.GenericShip host)
@@ -105,7 +106,42 @@ namespace Upgrade
 
         }
 
-        public virtual void TryDiscard(Action callBack)
+        // ATTACH TO SHIP
+
+        public virtual void AttachToShip(Ship.GenericShip host)
+        {
+            Host = host;
+            InitializeAbility();
+            ActivateAbility();
+        }
+
+        private void InitializeAbility()
+        {
+            foreach (var ability in UpgradeAbilities)
+            {
+                ability.Initialize(this);
+            }
+        }
+
+        private void ActivateAbility()
+        {
+            foreach (var ability in UpgradeAbilities)
+            {
+                ability.ActivateAbility();
+            }
+        }
+
+        private void DeactivateAbility()
+        {
+            foreach (var ability in UpgradeAbilities)
+            {
+                ability.DeactivateAbility();
+            }
+        }
+
+        // DISCARD
+
+        public void TryDiscard(Action callBack)
         {
             CurrentUpgrade = this;
             Host.CallDiscardUpgrade(delegate { AfterTriedDiscard(callBack); });
@@ -127,14 +163,18 @@ namespace Upgrade
         {
             isDiscarded = true;
             Roster.DiscardUpgrade(Host, Name);
+            DeactivateAbility();
 
             callBack();
         }
+
+        // FLIP FACEUP
 
         public virtual void FlipFaceup()
         {
             isDiscarded = false;
             Roster.FlipFaceupUpgrade(Host, Name);
+            ActivateAbility();
 
             Messages.ShowInfo(Name + " is flipped face up");
         }

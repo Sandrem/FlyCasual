@@ -8,8 +8,19 @@ public partial class NetworkPlayerController : NetworkBehaviour {
 
     private void Start()
     {
-        if (isLocalPlayer) Network.CurrentPlayer = this;
         DontDestroyOnLoad(this.gameObject);
+
+        if (isLocalPlayer)
+        {
+            Network.CurrentPlayer = this;
+
+            if (Network.ReadyToStartMatch)
+            {
+                Network.ReadyToStartMatch = false;
+                RosterBuilder.StartNetworkGame();
+            }
+        }
+        
     }
 
     public bool IsServer
@@ -492,6 +503,18 @@ public partial class NetworkPlayerController : NetworkBehaviour {
         Combat.ConfirmDiceResultsClient();
     }
 
+    [Command]
+    public void CmdSwitchToOwnDiceModifications()
+    {
+        RpcSwitchToOwnDiceModifications();
+    }
+
+    [ClientRpc]
+    private void RpcSwitchToOwnDiceModifications()
+    {
+        Combat.SwitchToOwnDiceModificationsClient();
+    }
+
     // CONFIRM DICE ROLL CHECK
 
     [Command]
@@ -628,7 +651,7 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     [ClientRpc]
     private void RpcCalculateDiceReroll()
     {
-        DiceRerollManager.currentDiceRerollManager.UnblockButtons();
+        DiceRerollManager.CurrentDiceRerollManager.UnblockButtons();
     }
 
     // DICE MODIFICATIONS
@@ -648,15 +671,15 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     // BARREL ROLL PLANNING
 
     [Command]
-    public void CmdTryConfirmBarrelRoll(Vector3 shipPosition, Vector3 movementTemplatePosition)
+    public void CmdTryConfirmBarrelRoll(string templateName, Vector3 shipPosition, Vector3 movementTemplatePosition)
     {
-        RpcTryConfirmBarrelRoll(shipPosition, movementTemplatePosition);
+        RpcTryConfirmBarrelRoll(templateName, shipPosition, movementTemplatePosition);
     }
 
     [ClientRpc]
-    private void RpcTryConfirmBarrelRoll(Vector3 shipPosition, Vector3 movementTemplatePosition)
+    private void RpcTryConfirmBarrelRoll(string templateName, Vector3 shipPosition, Vector3 movementTemplatePosition)
     {
-        (Phases.CurrentSubPhase as SubPhases.BarrelRollPlanningSubPhase).TryConfirmBarrelRollNetwork(shipPosition, movementTemplatePosition);
+        (Phases.CurrentSubPhase as SubPhases.BarrelRollPlanningSubPhase).TryConfirmBarrelRollNetwork(templateName, shipPosition, movementTemplatePosition);
     }
 
     // DECLOAK PLANNING

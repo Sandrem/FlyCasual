@@ -1,4 +1,5 @@
-﻿using Ship;
+﻿using System;
+using Ship;
 
 namespace Ship
 {
@@ -13,35 +14,36 @@ namespace Ship
                 Cost = 27;
                 IsUnique = true;
 
-                PilotAbilities.Add(new PilotAbilitiesNamespace.CaptainKagiAbility());
+                PilotAbilities.Add(new Abilities.CaptainKagiAbility());
             }
         }
     }
 }
 
 
-namespace PilotAbilitiesNamespace
+namespace Abilities
 {
-    public class CaptainKagiAbility : GenericPilotAbility
+    public class CaptainKagiAbility : GenericAbility
     {
 
-        public override void Initialize(GenericShip host)
+        public override void ActivateAbility()
         {
-            base.Initialize(host);
-
             RulesList.TargetLocksRule.OnCheckTargetLockIsAllowed += CanPerformTargetLock;
-            host.OnDestroyed += RemoveCaptainKagiAbility;
         }
 
+        public override void DeactivateAbility()
+        {
+            RulesList.TargetLocksRule.OnCheckTargetLockIsAllowed -= CanPerformTargetLock;
+        }
 
         public void CanPerformTargetLock(ref bool result, GenericShip attacker, GenericShip defender)
         {
             bool abilityIsActive = false;
-            if (defender.ShipId != Host.ShipId)
+            if (defender.ShipId != HostShip.ShipId)
             {
-                if (defender.Owner.PlayerNo == Host.Owner.PlayerNo)
+                if (defender.Owner.PlayerNo == HostShip.Owner.PlayerNo)
                 {
-                    Board.ShipDistanceInformation positionInfo = new Board.ShipDistanceInformation(attacker, Host);
+                    Board.ShipDistanceInformation positionInfo = new Board.ShipDistanceInformation(attacker, HostShip);
                     if (positionInfo.Range >= attacker.TargetLockMinRange && positionInfo.Range <= attacker.TargetLockMaxRange)
                     {
                         abilityIsActive = true;
@@ -57,12 +59,6 @@ namespace PilotAbilitiesNamespace
                 }
                 result = false;
             }
-        }
-
-        private void RemoveCaptainKagiAbility(GenericShip ship)
-        {
-            RulesList.TargetLocksRule.OnCheckTargetLockIsAllowed -= CanPerformTargetLock;
-            Host.OnDestroyed -= RemoveCaptainKagiAbility;
         }
 
     }

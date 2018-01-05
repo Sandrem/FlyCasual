@@ -16,6 +16,7 @@ namespace SubPhases
         protected Dictionary<string, string> tooltips = new Dictionary<string, string>();
         public string DefaultDecision;
         protected Players.GenericPlayer DecisionOwner;
+        public bool ShowSkipButton;
 
         private const float defaultWindowHeight = 75;
         private const float buttonHeight = 45;
@@ -108,6 +109,8 @@ namespace SubPhases
 
                 if (DecisionOwner == null) DecisionOwner = Roster.GetPlayer(Phases.CurrentPhasePlayer);
 
+                if (ShowSkipButton) UI.ShowSkipButton();
+
                 DecisionOwner.TakeDecision();
             }
         }
@@ -140,13 +143,13 @@ namespace SubPhases
             }
         }
 
-        public override bool ThisShipCanBeSelected(Ship.GenericShip ship)
+        public override bool ThisShipCanBeSelected(Ship.GenericShip ship, int mouseKeyIsPressed)
         {
             bool result = false;
             return result;
         }
 
-        public override bool AnotherShipCanBeSelected(Ship.GenericShip anotherShip)
+        public override bool AnotherShipCanBeSelected(Ship.GenericShip anotherShip, int mouseKeyIsPressed)
         {
             bool result = false;
             return result;
@@ -180,6 +183,11 @@ namespace SubPhases
 
             Phases.FinishSubPhase(Phases.CurrentSubPhase.GetType());
             Phases.CurrentSubPhase.Resume();
+        }
+
+        public override void SkipButton()
+        {
+            ConfirmDecision();
         }
 
     }

@@ -60,8 +60,11 @@ namespace ActionsList
 
             if (Combat.AttackStep == CombatStep.Attack)
             {
-                int attackFocuses = Combat.DiceRollAttack.Focuses;
-                if (attackFocuses > 0) result = 55;
+                if (!Host.HasToken(typeof(Tokens.StressToken)))
+                {
+                    int attackFocuses = Combat.DiceRollAttack.Focuses;
+                    if (attackFocuses > 0) result = 55;
+                }
             }
 
             return result;

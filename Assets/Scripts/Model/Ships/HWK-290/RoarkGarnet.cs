@@ -15,24 +15,28 @@ namespace Ship
                 PilotSkill = 4;
                 Cost = 19;
 
+                IsUnique = true;
+
                 faction = Faction.Rebel;
 
-                PilotAbilities.Add(new PilotAbilitiesNamespace.RoarkGarnetAbility());
+                PilotAbilities.Add(new Abilities.RoarkGarnetAbility());
             }
         }
     }
 }
 
-namespace PilotAbilitiesNamespace
+namespace Abilities
 {
-    public class RoarkGarnetAbility : GenericPilotAbility, IModifyPilotSkill
+    public class RoarkGarnetAbility : GenericAbility, IModifyPilotSkill
     {
-        public override void Initialize(GenericShip host)
+        public override void ActivateAbility()
         {
-            base.Initialize(host);
-
             Phases.OnCombatPhaseStart += RegisterAbility;
-            Host.OnDestroyed += RemoveAbility;
+        }
+
+        public override void DeactivateAbility()
+        {
+            Phases.OnCombatPhaseStart -= RegisterAbility;
         }
 
         private void RegisterAbility()
@@ -40,19 +44,15 @@ namespace PilotAbilitiesNamespace
             RegisterAbilityTrigger(TriggerTypes.OnCombatPhaseStart, Ability);
         }
 
-        private void RemoveAbility(GenericShip ship)
-        {
-            Phases.OnCombatPhaseStart -= RegisterAbility;
-        }
-
         private void Ability(object sender, EventArgs e)
         {
-            if (Host.Owner.Ships.Count > 1)
+            if (HostShip.Owner.Ships.Count > 1)
             {
                 SelectTargetForAbility(
                     SelectAbilityTarget, 
                     new List<TargetTypes> { TargetTypes.OtherFriendly }, 
-                    new UnityEngine.Vector2(1, 3), 
+                    new UnityEngine.Vector2(1, 3),
+                    null,
                     false);                
             }
             else
@@ -70,6 +70,7 @@ namespace PilotAbilitiesNamespace
 
         private void RemovePilotSkillModifieer()
         {
+            Phases.OnEndPhaseStart -= RemovePilotSkillModifieer;
             TargetShip.RemovePilotSkillModifier(this);
         }
 

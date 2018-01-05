@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Ship;
+using System;
 
 namespace Ship
 {
@@ -19,22 +20,26 @@ namespace Ship
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
-                PilotAbilities.Add(new PilotAbilitiesNamespace.ZetaLeaderAbility());
+                PilotAbilities.Add(new Abilities.ZetaLeaderAbility());
             }
         }
     }
 }
 
-namespace PilotAbilitiesNamespace
+namespace Abilities
 {
-    public class ZetaLeaderAbility : GenericPilotAbility
+    public class ZetaLeaderAbility : GenericAbility
     {
-        public override void Initialize(GenericShip host)
+        public override void ActivateAbility()
         {
-            base.Initialize(host);
+            HostShip.OnCombatPhaseStart += RegisterEpsilonLeaderAbility;
+            HostShip.OnCombatPhaseEnd += RemoveEpsilonLeaderAbility;
+        }
 
-            Host.OnCombatPhaseStart += RegisterEpsilonLeaderAbility;
-            Host.OnCombatPhaseEnd += RemoveEpsilonLeaderAbility;
+        public override void DeactivateAbility()
+        {
+            HostShip.OnCombatPhaseStart -= RegisterEpsilonLeaderAbility;
+            HostShip.OnCombatPhaseEnd -= RemoveEpsilonLeaderAbility;
         }
 
         private void RegisterEpsilonLeaderAbility(GenericShip genericShip)
@@ -45,7 +50,7 @@ namespace PilotAbilitiesNamespace
         private void ShowDecision(object sender, System.EventArgs e)
         {
             // check if this ship is stressed
-            if (!Host.HasToken(typeof(Tokens.StressToken)))
+            if (!HostShip.HasToken(typeof(Tokens.StressToken)))
             {
                 // give user the option to use ability
                 AskToUseAbility(ShouldUsePilotAbility, UseAbility);
@@ -58,25 +63,25 @@ namespace PilotAbilitiesNamespace
 
         private bool ShouldUsePilotAbility()
         {
-            return Actions.HasTarget(Host);
+            return Actions.HasTarget(HostShip);
         }
 
         private void UseAbility(object sender, System.EventArgs e)
         {
             // don't need to check stressed as done already
             // add an attack dice
-            isAbilityUsed = true;
-            Host.ChangeFirepowerBy(+1);
-            Host.AssignToken(new Tokens.StressToken(), SubPhases.DecisionSubPhase.ConfirmDecision);
+            IsAbilityUsed = true;
+            HostShip.ChangeFirepowerBy(+1);
+            HostShip.AssignToken(new Tokens.StressToken(), SubPhases.DecisionSubPhase.ConfirmDecision);
         }
 
         private void RemoveEpsilonLeaderAbility(GenericShip genericShip)
         {
             // At the end of combat phase, need to remove attack value increase
-            if (isAbilityUsed)
+            if (IsAbilityUsed)
             {
-                Host.ChangeFirepowerBy(-1);
-                isAbilityUsed = false;
+                HostShip.ChangeFirepowerBy(-1);
+                IsAbilityUsed = false;
             }
         }
     }

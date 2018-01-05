@@ -14,6 +14,7 @@ namespace Ship
             public BWing() : base()
             {
                 Type = "B-Wing";
+                IconicPilot = "Nera Dantels";
 
                 ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/3/32/MR_B-WING.png";
 

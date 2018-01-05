@@ -23,33 +23,29 @@ namespace Ship
 
                 SkinName = "Lowhhrick";
 
-                PilotAbilities.Add(new PilotAbilitiesNamespace.LowhhrickAbility());
+                PilotAbilities.Add(new Abilities.LowhhrickAbility());
             }
         }
     }
 }
 
-namespace PilotAbilitiesNamespace
+namespace Abilities
 {
-    public class LowhhrickAbility : GenericPilotAbility
+    public class LowhhrickAbility : GenericAbility
     {
-        public override void Initialize(GenericShip host)
+        public override void ActivateAbility()
         {
-            base.Initialize(host);
-
             GenericShip.AfterGenerateAvailableActionEffectsListGlobal += AddLowhhrickAbility;
-            Host.OnDestroyed += RemoveLowhhrickAbility;
+        }
+
+        public override void DeactivateAbility()
+        {
+            GenericShip.AfterGenerateAvailableActionEffectsListGlobal -= AddLowhhrickAbility;
         }
 
         private void AddLowhhrickAbility()
         {
-            Combat.Defender.AddAvailableActionEffect(new DiceModificationAction() { Host = this.Host });
-        }
-
-        private void RemoveLowhhrickAbility(GenericShip ship)
-        {
-            GenericShip.AfterGenerateAvailableActionEffectsListGlobal -= AddLowhhrickAbility;
-            Host.OnDestroyed -= RemoveLowhhrickAbility;
+            Combat.Defender.AddAvailableActionEffect(new DiceModificationAction() { Host = this.HostShip });
         }
 
         private class DiceModificationAction : ActionsList.GenericAction
@@ -66,12 +62,15 @@ namespace PilotAbilitiesNamespace
                 {
                     if (Combat.Defender.ShipId != Host.ShipId)
                     {
-                        if (Host.HasToken(typeof(ReinforceForeToken)) || Host.HasToken(typeof(ReinforceAftToken)))
+                        if (Combat.Defender.Owner.PlayerNo == Host.Owner.PlayerNo)
                         {
-                            Board.ShipDistanceInformation positionInfo = new Board.ShipDistanceInformation(Host, Combat.Defender);
-                            if (positionInfo.Range == 1)
+                            if (Host.HasToken(typeof(ReinforceForeToken)) || Host.HasToken(typeof(ReinforceAftToken)))
                             {
-                                result = true;
+                                Board.ShipDistanceInformation positionInfo = new Board.ShipDistanceInformation(Host, Combat.Defender);
+                                if (positionInfo.Range == 1)
+                                {
+                                    result = true;
+                                }
                             }
                         }
                     }

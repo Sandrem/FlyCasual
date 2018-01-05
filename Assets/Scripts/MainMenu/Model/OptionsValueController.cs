@@ -12,7 +12,8 @@ public class OptionsValueController : MonoBehaviour
 
     public void UpdateProgressByClick()
     {
-        float percentage = (Input.mousePosition.x - this.gameObject.transform.position.x - 20) / 520;
+        float UiScale = GameObject.Find("UI").GetComponent<RectTransform>().localScale.x;
+        float percentage = (Input.mousePosition.x - this.gameObject.transform.position.x - (20f * UiScale)) / (595f * UiScale);
 
         string optionName = this.transform.Find("Text").GetComponent<Text>().text;
         if (optionName.Contains("Speed"))
@@ -34,8 +35,8 @@ public class OptionsValueController : MonoBehaviour
         Options.ChangeParameterValue(this.transform.Find("Text").GetComponent<Text>().text, percentage);
         PlayerPrefs.Save();
 
-        this.transform.Find("ValueList/PanelValue").GetComponent<RectTransform>().sizeDelta = new Vector2(520f * percentage, 50);
-        this.transform.Find("ValueList/PanelEmpty").GetComponent<RectTransform>().sizeDelta = new Vector2(520f * (1f - percentage), 50);
+        this.transform.Find("ValueList/PanelValue").GetComponent<RectTransform>().sizeDelta = new Vector2(595f * percentage, 50);
+        this.transform.Find("ValueList/PanelEmpty").GetComponent<RectTransform>().sizeDelta = new Vector2(595f * (1f - percentage), 50);
     }
 
 }

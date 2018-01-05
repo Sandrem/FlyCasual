@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -18,21 +19,24 @@ namespace Ship
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
-                PilotAbilities.Add(new PilotAbilitiesNamespace.MaulerMithelAbility());
+                PilotAbilities.Add(new Abilities.MaulerMithelAbility());
             }
         }
     }
 }
 
-namespace PilotAbilitiesNamespace
+namespace Abilities
 {
-    public class MaulerMithelAbility : GenericPilotAbility
+    public class MaulerMithelAbility : GenericAbility
     {
-        public override void Initialize(Ship.GenericShip host)
+        public override void ActivateAbility()
         {
-            base.Initialize(host);
+            HostShip.AfterGotNumberOfAttackDice += MaulerMithelPilotAbility;
+        }
 
-            Host.AfterGotNumberOfPrimaryWeaponAttackDice += MaulerMithelPilotAbility;
+        public override void DeactivateAbility()
+        {
+            HostShip.AfterGotNumberOfAttackDice -= MaulerMithelPilotAbility;
         }
 
         private void MaulerMithelPilotAbility(ref int result)

@@ -2,37 +2,50 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Upgrade;
+using Abilities;
 
 namespace UpgradesList
 {
 
     public class R2F2 : GenericUpgrade
     {
-
         public R2F2() : base()
         {
             Type = UpgradeType.Astromech;
             Name = "R2-F2";
             isUnique = true;
             Cost = 3;
+
+            UpgradeAbilities.Add(new R2F2Ability());
+        }
+    }
+
+}
+
+namespace Abilities
+{
+    public class R2F2Ability : GenericAbility
+    {
+        public override void ActivateAbility()
+        {
+            HostShip.AfterGenerateAvailableActionsList += R2F2AddAction;
         }
 
-        public override void AttachToShip(Ship.GenericShip host)
+        public override void DeactivateAbility()
         {
-            base.AttachToShip(host);
-
-            host.AfterGenerateAvailableActionsList += R2F2AddAction;
+            HostShip.AfterGenerateAvailableActionsList -= R2F2AddAction;
         }
 
         private void R2F2AddAction(Ship.GenericShip host)
         {
-            ActionsList.GenericAction action = new ActionsList.R2F2Action();
-            action.ImageUrl = ImageUrl;
+            ActionsList.GenericAction action = new ActionsList.R2F2Action()
+            {
+                ImageUrl = HostUpgrade.ImageUrl,
+                Host = HostShip
+            };
             host.AddAvailableAction(action);
         }
-
     }
-
 }
 
 namespace ActionsList
@@ -40,8 +53,6 @@ namespace ActionsList
 
     public class R2F2Action : GenericAction
     {
-        private Ship.GenericShip host;
-
         public R2F2Action()
         {
             Name = EffectName = "R2-F2: Increase Agility";
@@ -51,10 +62,9 @@ namespace ActionsList
         {
             Sounds.PlayShipSound("Astromech-Beeping-and-whistling");
 
-            host = Selection.ThisShip;
-            host.ChangeAgilityBy(+1);
+            Host.ChangeAgilityBy(+1);
             Phases.OnEndPhaseStart += R2F2DecreaseAgility;
-            host.AssignToken(new Conditions.R2F2Condition(), Phases.CurrentSubPhase.CallBack);
+            Host.AssignToken(new Conditions.R2F2Condition(), Phases.CurrentSubPhase.CallBack);
         }
 
         public override int GetActionPriority()
@@ -66,8 +76,8 @@ namespace ActionsList
 
         private void R2F2DecreaseAgility()
         {
-            host.ChangeAgilityBy(-1);
-            host.RemoveToken(typeof(Conditions.R2F2Condition));
+            Host.ChangeAgilityBy(-1);
+            Host.RemoveToken(typeof(Conditions.R2F2Condition));
             Phases.OnEndPhaseStart -= R2F2DecreaseAgility;
         }
 

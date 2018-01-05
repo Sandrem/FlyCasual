@@ -105,7 +105,8 @@ namespace Upgrade
             immediateDetonationsCheckedCount++;
             int minesDropped = string.IsNullOrEmpty(bombSidePrefabPath) ? 1 : 3;
             if (immediateDetonationsCheckedCount == minesDropped)
-            { 
+            {
+                immediateDetonationsCheckedCount = 0;
                 Triggers.ResolveTriggers(TriggerTypes.OnBombDetonated, CallBack);
             }
         }

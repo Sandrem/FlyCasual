@@ -9,7 +9,8 @@ namespace ActionsList
     public class SlamAction : GenericAction
     {
 
-        public SlamAction() {
+        public SlamAction()
+        {
             Name = EffectName = "SLAM";
             ImageUrl = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/reference-cards/SlamAction.png";
         }
@@ -32,7 +33,7 @@ namespace ActionsList
 
         private void SelectSlamManeuver(object sender, System.EventArgs e)
         {
-            DirectionsMenu.Show(GameMode.CurrentGameMode.AssignManeuver, IsSameSpeed);
+            Selection.ThisShip.Owner.SelectManeuver(GameMode.CurrentGameMode.AssignManeuver, IsSameSpeed);
         }
 
         private void RegisterSlamManeuverExecutionTrigger()
@@ -55,13 +56,8 @@ namespace ActionsList
         {
             Selection.ThisShip.AssignToken(
                 new Tokens.WeaponsDisabledToken(),
-                FinishSlam
+                Phases.CurrentSubPhase.CallBack
             );
-        }
-
-        private void FinishSlam()
-        {
-            Selection.ThisShip.CallFinishSlam(Phases.CurrentSubPhase.CallBack);
         }
 
         private void PerformSlamManeuver(object sender, System.EventArgs e)

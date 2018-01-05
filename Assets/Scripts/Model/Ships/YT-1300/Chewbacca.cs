@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -23,21 +24,24 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Missile);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
-                PilotAbilities.Add(new PilotAbilitiesNamespace.ChewbaccaAbility());
+                PilotAbilities.Add(new Abilities.ChewbaccaAbility());
             }
         }
     }
 }
 
-namespace PilotAbilitiesNamespace
+namespace Abilities
 {
-    public class ChewbaccaAbility : GenericPilotAbility
+    public class ChewbaccaAbility : GenericAbility
     {
-        public override void Initialize(Ship.GenericShip host)
+        public override void ActivateAbility()
         {
-            base.Initialize(host);
+            HostShip.OnCheckFaceupCrit += FlipCrits;
+        }
 
-            Host.OnCheckFaceupCrit += FlipCrits;
+        public override void DeactivateAbility()
+        {
+            HostShip.OnCheckFaceupCrit -= FlipCrits;
         }
 
         private void FlipCrits(ref bool result)

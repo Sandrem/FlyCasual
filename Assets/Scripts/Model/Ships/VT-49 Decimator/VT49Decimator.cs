@@ -14,6 +14,7 @@ namespace Ship
             public VT49Decimator() : base()
             {
                 Type = "VT-49 Decimator";
+                IconicPilot = "Rear Admiral Chiraneau";
                 ShipBaseSize = BaseSize.Large;
                 ShipBaseArcsType = Arcs.BaseArcsType.Arc360;
 

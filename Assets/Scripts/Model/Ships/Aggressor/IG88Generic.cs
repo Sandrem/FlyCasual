@@ -4,9 +4,9 @@ using UnityEngine;
 
 namespace Ship
 {
-    namespace Agressor
+    namespace Aggressor
     {
-        public class IG88Generic : Agressor
+        public class IG88Generic : Aggressor
         {
             public IG88Generic() : base()
             {

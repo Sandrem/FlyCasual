@@ -14,6 +14,7 @@ namespace Ship
             public TIEPunisher() : base()
             {
                 Type = "TIE Punisher";
+                IconicPilot = "Black Eight Sq. Pilot";
 
                 ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/7/72/MI_TIE-PUNISHER.png";
 

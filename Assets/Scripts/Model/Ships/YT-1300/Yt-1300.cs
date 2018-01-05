@@ -14,6 +14,7 @@ namespace Ship
             public YT1300() : base()
             {
                 Type = "YT-1300";
+                IconicPilot = "Han Solo";
                 ShipBaseSize = BaseSize.Large;
                 ShipBaseArcsType = Arcs.BaseArcsType.Arc360;
 

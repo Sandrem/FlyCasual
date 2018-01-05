@@ -36,7 +36,7 @@ namespace SubPhases
 
     public class BarrelRollPlanningSubPhase : GenericSubPhase
     {
-        bool useModileControls;
+        bool useMobileControls;
 
         List<Actions.BarrelRollTemplates> availableTemplates = new List<Actions.BarrelRollTemplates>();
         Actions.BarrelRollTemplateVariants selectedTemplateVariant;
@@ -64,7 +64,7 @@ namespace SubPhases
 
         private void StartBarrelRollPlanning()
         {
-            useModileControls = Application.isMobilePlatform;
+            useMobileControls = Application.isMobilePlatform;
             templateWidth = (Selection.ThisShip.ShipBaseSize == Ship.BaseSize.Small) ? Selection.ThisShip.ShipBase.HALF_OF_SHIPSTAND_SIZE : Selection.ThisShip.ShipBase.HALF_OF_SHIPSTAND_SIZE / 2;
 
             GenerateListOfAvailableTemplates();
@@ -151,7 +151,7 @@ namespace SubPhases
         {
             ShowBarrelRollTemplate();
 
-            if (!useModileControls)
+            if (!useMobileControls)
             {
                 StartReposition();
             }
@@ -221,7 +221,7 @@ namespace SubPhases
 
         private void StartReposition()
         {
-            if (!useModileControls)
+            if (!useMobileControls)
             {
                 Roster.SetRaycastTargets(false);
                 if (Selection.ThisShip.Owner.GetType() == typeof(Players.HumanPlayer))
@@ -262,7 +262,7 @@ namespace SubPhases
                 TemporaryShipBase.transform.Find("ShipBase").Find("ObstaclesStayDetector").gameObject.AddComponent<ObstaclesStayDetectorForced>();
                 obstaclesStayDetectorBase = TemporaryShipBase.GetComponentInChildren<ObstaclesStayDetectorForced>();
 
-                if (useModileControls) ProcessTemporaryShipBaseSlider(SliderMenu.GetSliderValue());
+                if (useMobileControls) ProcessTemporaryShipBaseSlider(SliderMenu.GetSliderValue());
             }
         }
 
@@ -331,7 +331,7 @@ namespace SubPhases
         {
             StopDrag();
 
-            if (!useModileControls) ConfirmPosition();
+            if (!useMobileControls) ConfirmPosition();
         }
 
         private void ConfirmPosition()

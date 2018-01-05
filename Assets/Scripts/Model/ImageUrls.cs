@@ -33,7 +33,7 @@ public static class ImageUrls
         return type
             .Replace("-Wing", "-wing")
             .Replace("/FO", "/fo")
-            .Replace("/SF", "/sf")
+            .Replace("TIE/SF", "TIE/sf")
             .Replace('/', '-');
     }
 

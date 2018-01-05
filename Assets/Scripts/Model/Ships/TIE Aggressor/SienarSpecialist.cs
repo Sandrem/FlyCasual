@@ -4,9 +4,9 @@ using UnityEngine;
 
 namespace Ship
 {
-    namespace TIEAgressor
+    namespace TIEAggressor
     {
-        public class SienarSpecialist : TIEAgressor
+        public class SienarSpecialist : TIEAggressor
         {
             public SienarSpecialist() : base()
             {

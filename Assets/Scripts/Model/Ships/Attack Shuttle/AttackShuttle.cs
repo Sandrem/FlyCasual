@@ -14,6 +14,7 @@ namespace Ship
             public AttackShuttle() : base()
             {
                 Type = "Attack Shuttle";
+                IconicPilot = "\"Zeb\" Orrelios";
 
                 ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/1/12/MR_ATTACK-SHUTTLE.png";
 

@@ -14,6 +14,7 @@ namespace Ship
             public TIESF() : base()
             {
                 Type = "TIE/SF Fighter";
+                IconicPilot = "Omega Specialist";
 
                 ShipBaseArcsType = Arcs.BaseArcsType.ArcRear;
 

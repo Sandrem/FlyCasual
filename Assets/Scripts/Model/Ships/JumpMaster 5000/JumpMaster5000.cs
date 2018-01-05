@@ -14,6 +14,7 @@ namespace Ship
             public JumpMaster5000() : base()
             {
                 Type = "JumpMaster 5000";
+                IconicPilot = "Contracted Scout";
                 ShipBaseSize = BaseSize.Large;
                 ShipBaseArcsType = Arcs.BaseArcsType.Arc360;
 

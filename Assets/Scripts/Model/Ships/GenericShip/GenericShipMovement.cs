@@ -185,8 +185,7 @@ namespace Ship
         {
             if (Maneuvers.ContainsKey(maneuver))
             {
-                Maneuvers.Remove(maneuver);
-                Maneuvers.Add(maneuver, color);
+                Maneuvers[maneuver] = color;
             }
         }
     }

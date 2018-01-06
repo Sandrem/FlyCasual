@@ -15,6 +15,7 @@ namespace SquadBuilderNS
         public List<SquadBuilderUpgrade> InstalledUpgrades;
         public GenericShip Instance;
         public SquadList List;
+        public ShipWithUpgradesPanel Panel;
 
         public SquadBuilderShip(PilotRecord pilotRecord, SquadList list)
         {

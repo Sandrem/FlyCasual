@@ -9,21 +9,21 @@ using Upgrade;
 
 namespace SquadBuilderNS
 {
+    public class ShipWithUpgradesPanel
+    {
+        public GameObject Panel;
+        public Vector2 Size = new Vector2(300, 418);
+        public SquadBuilderShip Ship;
+
+        public ShipWithUpgradesPanel(SquadBuilderShip ship, GameObject panel)
+        {
+            Ship = ship;
+            Panel = panel;
+        }
+    }
+
     static partial class SquadBuilder
     {
-        private class ShipWithUpgradesPanel
-        {
-            public GameObject Panel;
-            public Vector2 Size = new Vector2(300, 418);
-            public SquadBuilderShip Ship;
-
-            public ShipWithUpgradesPanel(SquadBuilderShip ship, GameObject panel)
-            {
-                Ship = ship;
-                Panel = panel;
-            }
-        }
-
         private class UpgradeSlotPanel
         {
             public GameObject Panel;
@@ -168,12 +168,42 @@ namespace SquadBuilderNS
             GameObject shipWithUpgradesPanelGO = MonoBehaviour.Instantiate(prefab, GameObject.Find("UI/Panels/SquadBuilderPanel/Panel/Centered/SquadListPanel").transform);
             ShipWithUpgradesPanel shipWithUpgradesPanel = new ShipWithUpgradesPanel(ship, shipWithUpgradesPanelGO);
             ShipWithUpgradesPanels.Add(shipWithUpgradesPanel);
+            ship.Panel = shipWithUpgradesPanel;
 
             prefab = (GameObject)Resources.Load("Prefabs/SquadBuilder/PilotPanel", typeof(GameObject));
             GameObject pilotPanel = MonoBehaviour.Instantiate(prefab, shipWithUpgradesPanelGO.transform);
             pilotPanel.transform.localPosition = Vector3.zero;
+
             PilotPanelSquadBuilder script = pilotPanel.GetComponent<PilotPanelSquadBuilder>();
             script.Initialize(ship, OpenShipInfo);
+
+            ShowUpgradesOfPilot(ship);
+        }
+
+        private static void ShowUpgradesOfPilot(SquadBuilderShip ship)
+        {
+            foreach (GenericUpgrade upgrade in ship.Instance.UpgradeBar.GetInstalledUpgrades())
+            {
+                ShowUpgradeOfPilot(upgrade, ship);
+            }
+        }
+
+        private static void ShowUpgradeOfPilot(GenericUpgrade upgrade, SquadBuilderShip ship)
+        {
+            float widthBetweenX = 10;
+            float widthUpgrade = 194;
+
+            GameObject prefab = (GameObject)Resources.Load("Prefabs/SquadBuilder/UpgradePanel", typeof(GameObject));
+            Transform contentTransform = ship.Panel.Panel.transform;
+            GameObject newUpgradePanel = MonoBehaviour.Instantiate(prefab, contentTransform);
+
+            RectTransform contentRect = contentTransform.GetComponent<RectTransform>();
+            newUpgradePanel.transform.localPosition = new Vector2(contentRect.sizeDelta.x + widthBetweenX, 0);
+            contentRect.sizeDelta = new Vector2(contentRect.sizeDelta.x + widthBetweenX + widthUpgrade, contentRect.sizeDelta.y);
+            ship.Panel.Size = contentRect.sizeDelta;
+
+            UpgradePanelSquadBuilder script = newUpgradePanel.GetComponent<UpgradePanelSquadBuilder>();
+            script.Initialize(upgrade.Name, null, null, null);
         }
 
         private static void ShowAddShipPanel()
@@ -202,13 +232,14 @@ namespace SquadBuilderNS
         private static void OrganizeShipWithUpgradesPanels()
         {
             float allPanelsWidth = 0;
-            float distanceBetweenX = 20;
+            float distanceBetweenX = 40;
             float defaultWidth = 1326;
 
             foreach (ShipWithUpgradesPanel panel in ShipWithUpgradesPanels)
             {
                 allPanelsWidth = allPanelsWidth + panel.Size.x;
             }
+
             if (ShipWithUpgradesPanels.Count > 2)
             {
                 allPanelsWidth += distanceBetweenX * (ShipWithUpgradesPanels.Count - 1);
@@ -239,7 +270,7 @@ namespace SquadBuilderNS
         {
             float defaultWidth = 1326;
             float defaultCardHeight = 418;
-            float distanceBetweenX = 20;
+            float distanceBetweenX = 40;
             float offset = 0;
 
             GameObject centerPanel = GameObject.Find("UI/Panels/SquadBuilderPanel/Panel/Centered");
@@ -264,7 +295,7 @@ namespace SquadBuilderNS
         {
             float defaultHeight = 600;
             float defaultCardHeight = 418;
-            float distanceBetweenX = 20;
+            float distanceBetweenX = 40;
             float distanceBetweenY = 20;
             float offset = 0;
 

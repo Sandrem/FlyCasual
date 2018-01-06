@@ -5,6 +5,8 @@ using System.Text;
 using Players;
 using Ship;
 using System.Reflection;
+using UnityEngine;
+using Upgrade;
 
 namespace SquadBuilderNS
 {
@@ -16,8 +18,15 @@ namespace SquadBuilderNS
 
         public SquadBuilderShip(PilotRecord pilotRecord, SquadList list)
         {
-            Instance = (GenericShip)Activator.CreateInstance(Type.GetType(pilotRecord.PilotTypeName));
             List = list;
+
+            InitializeShip(pilotRecord);
+        }
+
+        private void InitializeShip(PilotRecord pilotRecord)
+        {
+            Instance = (GenericShip)Activator.CreateInstance(Type.GetType(pilotRecord.PilotTypeName));
+            Instance.InitializePilotForSquadBuilder();
         }
     }
 
@@ -35,6 +44,11 @@ namespace SquadBuilderNS
         {
             if (Ships == null) Ships = new List<SquadBuilderShip>();
             Ships.Add(new SquadBuilderShip(pilotRecord, this));
+        }
+
+        public void RemoveShip(SquadBuilderShip ship)
+        {
+            Ships.Remove(ship);
         }
 
         public List<SquadBuilderShip> GetShips()
@@ -62,6 +76,14 @@ namespace SquadBuilderNS
         public GenericShip Instance;
     }
 
+    public class UpgradeRecord
+    {
+        public string UpgradeName;
+        public string UpgradeNameCanonical;
+        public string UpgradeTypeName;
+        public GenericUpgrade Instance;
+    }
+
     static partial class SquadBuilder
     {
         public static PlayerNo CurrentPlayer;
@@ -71,11 +93,12 @@ namespace SquadBuilderNS
             get { return SquadLists[CurrentPlayer]; }
         }
 
-
         public static List<ShipRecord> AllShips;
         public static List<PilotRecord> AllPilots;
+        public static List<UpgradeRecord> AllUpgrades;
 
-        public static string CurrentShipToBrowsePilots;
+        public static string CurrentShip;
+        public static SquadBuilderShip CurrentSquadBuilderShip;
 
         public static void Initialize()
         {
@@ -87,6 +110,7 @@ namespace SquadBuilderNS
                 { PlayerNo.Player2, new SquadList() }
             };
             GenerateListOfShips();
+            GenerateUpgradesList();
         }
 
         private static void GenerateListOfShips()
@@ -148,7 +172,6 @@ namespace SquadBuilderNS
                             AllPilots.Add(new PilotRecord()
                             {
                                 PilotName = newShipContainer.PilotName,
-                                //PilotNameWithCost = pilotKey,
                                 PilotTypeName = type.ToString(),
                                 PilotNameCanonical = newShipContainer.PilotNameCanonical,
                                 PilotSkill = newShipContainer.PilotSkill,
@@ -163,6 +186,37 @@ namespace SquadBuilderNS
             }
 
             return result;
+        }
+
+        private static void GenerateUpgradesList()
+        {
+            AllUpgrades = new List<UpgradeRecord>();
+
+            List<Type> typelist = Assembly.GetExecutingAssembly().GetTypes()
+                .Where(t => String.Equals(t.Namespace, "UpgradesList", StringComparison.Ordinal))
+                .ToList();
+
+            foreach (var type in typelist)
+            {
+                if (type.MemberType == MemberTypes.NestedType) continue;
+
+                GenericUpgrade newUpgradeContainer = (GenericUpgrade)System.Activator.CreateInstance(type);
+                if ((newUpgradeContainer.Name != null) && (newUpgradeContainer.IsAllowedForSquadBuilder()))
+                {
+                    if (AllUpgrades.Find(n => n.UpgradeName == newUpgradeContainer.Name) == null)
+                    {
+                        AllUpgrades.Add(new UpgradeRecord()
+                        {
+                            UpgradeName = newUpgradeContainer.Name,
+                            UpgradeNameCanonical = newUpgradeContainer.NameCanonical,
+                            UpgradeTypeName = type.ToString(),
+                            Instance = newUpgradeContainer
+                        });
+                    }
+                }
+            }
+
+            //Messages.ShowInfo("Upgrades loaded: " + AllUpgrades.Count);
         }
 
         public static void SetCurrentPlayerFaction(Faction faction)
@@ -188,7 +242,7 @@ namespace SquadBuilderNS
 
         public static void ShowPilotsFilteredByShipAndFaction()
         {
-            ShowAvailablePilots(CurrentSquadList.SquadFaction, CurrentShipToBrowsePilots);
+            ShowAvailablePilots(CurrentSquadList.SquadFaction, CurrentShip);
         }
 
         public static void AddPilotToSquad(string pilotName, string shipName)
@@ -199,8 +253,14 @@ namespace SquadBuilderNS
 
         public static void ShowShipsAndUpgrades()
         {
-            UpdateSquadCost(GetSquadCost());
+            UpdateSquadCostForSquadBuilder(GetSquadCost());
             GenerateShipWithUpgradesPanels();
+        }
+
+        public static void ShowPilotWithSlots()
+        {
+            UpdateSquadCostForPilotMenu(GetSquadCost());
+            GenerateShipWithSlotsPanels();
         }
 
         public static void OpenSelectShip()
@@ -213,9 +273,15 @@ namespace SquadBuilderNS
             return CurrentSquadList.GetShips().Sum(n => n.Instance.Cost);
         }
 
-        private static void OpenShipInfo(string pilotName, string shipName)
+        private static void OpenShipInfo(SquadBuilderShip ship, string pilotName, string shipName)
         {
-            Messages.ShowInfo("Ship info");
+            CurrentSquadBuilderShip = ship;
+            MainMenu.CurrentMainMenu.ChangePanel("ShipSlotsPanel");
+        }
+
+        public static void RemoveCurrentShip()
+        {
+            CurrentSquadList.RemoveShip(CurrentSquadBuilderShip);
         }
     }
 }

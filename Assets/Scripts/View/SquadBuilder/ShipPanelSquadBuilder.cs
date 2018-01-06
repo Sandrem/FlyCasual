@@ -58,7 +58,7 @@ public class ShipPanelSquadBuilder : MonoBehaviour {
 
     private void SelectShip(string shipName)
     {
-        SquadBuilder.CurrentShipToBrowsePilots = shipName;
+        SquadBuilder.CurrentShip = shipName;
         MainMenu.CurrentMainMenu.ChangePanel("SelectPilotPanel");
     }
 }

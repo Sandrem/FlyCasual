@@ -6,35 +6,40 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using SquadBuilderNS;
 
-public class PilotPanelSquadBuilder : MonoBehaviour {
+public class UpgradePanelSquadBuilder : MonoBehaviour {
 
-    private SquadBuilderShip Ship;
     private string ImageUrl;
-    private string ShipName;
-    private string PilotName;
-    private Action<SquadBuilderShip, string, string> OnClick;
+    private string UpgradeName;
 
-    public void Initialize(string pilotName, string shipName, string imageUrl = null, Action<SquadBuilderShip, string, string> onClick = null)
+    public void Initialize(string upgradeName, string imageUrl = null)
     {
-        PilotName = pilotName;
-        ShipName = shipName;
+        UpgradeName = upgradeName;
         ImageUrl = imageUrl;
-        OnClick = onClick;
-    }
-
-    public void Initialize(SquadBuilderShip ship, Action<SquadBuilderShip, string, string> onClick = null)
-    {
-        Ship = ship;
-        PilotName = ship.Instance.PilotName;
-        ShipName = ship.Instance.Type;
-        ImageUrl = ship.Instance.ImageUrl;
-        OnClick = onClick;
     }
 
     void Start()
     {
-        LoadImage();
-        SetOnClickHandler();
+        if (IsSlotImage())
+        {
+            SetSlotImage();
+        }
+        else
+        {
+            LoadImage();
+        }
+        //SetOnClickHandler();
+    }
+
+    private bool IsSlotImage()
+    {
+        return UpgradeName.StartsWith("Slot:");
+    }
+
+    private void SetSlotImage()
+    {
+        string slotTypeName = UpgradeName.Substring(5, UpgradeName.Length - 5);
+        Sprite sprite = (Sprite)Resources.Load("Sprites/SquadBuiler/UpgradeSlots/" + slotTypeName, typeof(Sprite));
+        this.gameObject.transform.Find("UpgradeImage").GetComponent<Image>().sprite = sprite;
     }
 
     private void LoadImage()
@@ -46,9 +51,8 @@ public class PilotPanelSquadBuilder : MonoBehaviour {
     {
         if (url == null)
         {
-            Debug.Log(PilotName);
-            Debug.Log(ShipName);
-            url = SquadBuilder.AllPilots.Find(n => n.PilotName == PilotName && n.PilotShip.ShipName == ShipName).Instance.ImageUrl;
+            Debug.Log(UpgradeName);
+            url = SquadBuilder.AllUpgrades.Find(n => n.UpgradeName == UpgradeName).Instance.ImageUrl;
         }
 
         WWW www = new WWW(url);
@@ -56,7 +60,7 @@ public class PilotPanelSquadBuilder : MonoBehaviour {
 
         if (www.texture != null)
         {
-            SetImageFromWeb(thisGameObject.transform.Find("PilotImage").gameObject, www);
+            SetImageFromWeb(thisGameObject.transform.Find("UpgradeImage").gameObject, www);
         }
     }
 
@@ -68,7 +72,7 @@ public class PilotPanelSquadBuilder : MonoBehaviour {
         targetObject.transform.GetComponent<Image>().sprite = newSprite;
     }
 
-    private void SetOnClickHandler()
+    /*private void SetOnClickHandler()
     {
         if (OnClick != null)
         {
@@ -78,6 +82,5 @@ public class PilotPanelSquadBuilder : MonoBehaviour {
             entry.callback.AddListener(delegate { OnClick(Ship, PilotName, ShipName); });
             trigger.triggers.Add(entry);
         }
-    }
-
+    }*/
 }

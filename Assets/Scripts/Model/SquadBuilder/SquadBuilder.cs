@@ -273,7 +273,13 @@ namespace SquadBuilderNS
 
         private static int GetSquadCost()
         {
-            return CurrentSquadList.GetShips().Sum(n => n.Instance.Cost);
+            int result = 0;
+            foreach (var shipHolder in CurrentSquadList.GetShips())
+            {
+                result += shipHolder.Instance.Cost;
+                result += shipHolder.Instance.UpgradeBar.GetInstalledUpgrades().Sum(n => n.Cost);
+            }
+            return result;
         }
 
         private static void OpenShipInfo(SquadBuilderShip ship, string pilotName, string shipName)
@@ -291,6 +297,12 @@ namespace SquadBuilderNS
         {
             CurrentUpgradeSlot = slot;
             MainMenu.CurrentMainMenu.ChangePanel("SelectUpgradePanel");
+        }
+
+        private static void RemoveInstalledUpgrade(UpgradeSlot slot, string upgradeName)
+        {
+            slot.RemovePreInstallUpgrade();
+            ShowPilotWithSlots();
         }
 
         public static void ShowUpgradesList()

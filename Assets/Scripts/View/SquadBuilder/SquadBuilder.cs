@@ -28,10 +28,10 @@ namespace SquadBuilderNS
         {
             public GameObject Panel;
             public Vector2 Size = new Vector2(194, 300);
-            public SquadBuilderUpgrade Upgrade;
+            public GenericUpgrade Upgrade;
             public UpgradeType SlotType;
 
-            public UpgradeSlotPanel(SquadBuilderUpgrade upgrade, UpgradeType slotType, GameObject panel)
+            public UpgradeSlotPanel(GenericUpgrade upgrade, UpgradeType slotType, GameObject panel)
             {
                 Upgrade = upgrade;
                 SlotType = slotType;
@@ -388,9 +388,17 @@ namespace SquadBuilderNS
                 GameObject newUpgradePanel = MonoBehaviour.Instantiate(prefab, contentTransform);
 
                 UpgradePanelSquadBuilder script = newUpgradePanel.GetComponent<UpgradePanelSquadBuilder>();
-                script.Initialize("Slot:" + slot.Type.ToString(), slot, null, OpenSelectUpgradeMenu);
 
-                UpgradeSlotPanels.Add(new UpgradeSlotPanel(null, slot.Type, newUpgradePanel));
+                if (slot.InstalledUpgrade == null)
+                {
+                    script.Initialize("Slot:" + slot.Type.ToString(), slot, null, OpenSelectUpgradeMenu);
+                    UpgradeSlotPanels.Add(new UpgradeSlotPanel(null, slot.Type, newUpgradePanel));
+                }
+                else
+                {
+                    script.Initialize(slot.InstalledUpgrade.Name, slot, null, RemoveInstalledUpgrade);
+                    UpgradeSlotPanels.Add(new UpgradeSlotPanel(slot.InstalledUpgrade, slot.Type, newUpgradePanel));
+                }
             }
         }
 
@@ -472,7 +480,11 @@ namespace SquadBuilderNS
 
         private static void SelectUpgradeClicked(UpgradeSlot slot, string upgradeName)
         {
-            Messages.ShowInfo(upgradeName + " is selected");
+            string upgradeType = AllUpgrades.Find(n => n.UpgradeName == upgradeName).UpgradeTypeName;
+            GenericUpgrade newUpgrade = (GenericUpgrade)System.Activator.CreateInstance(Type.GetType(upgradeType));
+            CurrentUpgradeSlot.PreInstallUpgrade(newUpgrade, CurrentSquadBuilderShip.Instance);
+
+            MainMenu.CurrentMainMenu.ChangePanel("ShipSlotsPanel");
         }
     }
 

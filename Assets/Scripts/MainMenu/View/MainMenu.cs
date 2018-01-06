@@ -66,6 +66,9 @@ public partial class MainMenu : MonoBehaviour {
             case "ShipSlotsPanel":
                 SquadBuilder.ShowPilotWithSlots();
                 break;
+            case "SelectUpgradePanel":
+                SquadBuilder.ShowUpgradesList();
+                break;
         }
     }
 

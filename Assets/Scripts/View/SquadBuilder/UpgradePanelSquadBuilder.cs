@@ -5,16 +5,21 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using SquadBuilderNS;
+using Upgrade;
 
 public class UpgradePanelSquadBuilder : MonoBehaviour {
 
-    private string ImageUrl;
     private string UpgradeName;
+    private string ImageUrl;
+    private UpgradeSlot Slot;
+    private Action<UpgradeSlot, string> OnClick;
 
-    public void Initialize(string upgradeName, string imageUrl = null)
+    public void Initialize(string upgradeName, UpgradeSlot slot, string imageUrl = null, Action<UpgradeSlot, string> onClick = null)
     {
         UpgradeName = upgradeName;
         ImageUrl = imageUrl;
+        OnClick = onClick;
+        Slot = slot;
     }
 
     void Start()
@@ -27,7 +32,7 @@ public class UpgradePanelSquadBuilder : MonoBehaviour {
         {
             LoadImage();
         }
-        //SetOnClickHandler();
+        SetOnClickHandler();
     }
 
     private bool IsSlotImage()
@@ -51,7 +56,6 @@ public class UpgradePanelSquadBuilder : MonoBehaviour {
     {
         if (url == null)
         {
-            Debug.Log(UpgradeName);
             url = SquadBuilder.AllUpgrades.Find(n => n.UpgradeName == UpgradeName).Instance.ImageUrl;
         }
 
@@ -72,15 +76,15 @@ public class UpgradePanelSquadBuilder : MonoBehaviour {
         targetObject.transform.GetComponent<Image>().sprite = newSprite;
     }
 
-    /*private void SetOnClickHandler()
+    private void SetOnClickHandler()
     {
         if (OnClick != null)
         {
             EventTrigger trigger = this.gameObject.AddComponent<EventTrigger>();
             EventTrigger.Entry entry = new EventTrigger.Entry();
             entry.eventID = EventTriggerType.PointerClick;
-            entry.callback.AddListener(delegate { OnClick(Ship, PilotName, ShipName); });
+            entry.callback.AddListener(delegate { OnClick(Slot, UpgradeName); });
             trigger.triggers.Add(entry);
         }
-    }*/
+    }
 }

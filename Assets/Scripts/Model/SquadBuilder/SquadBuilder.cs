@@ -99,6 +99,7 @@ namespace SquadBuilderNS
 
         public static string CurrentShip;
         public static SquadBuilderShip CurrentSquadBuilderShip;
+        public static UpgradeSlot CurrentUpgradeSlot;
 
         public static void Initialize()
         {
@@ -216,6 +217,8 @@ namespace SquadBuilderNS
                 }
             }
 
+            AllUpgrades = AllUpgrades.OrderBy(n => n.Instance.Name).OrderBy(m => m.Instance.Cost).ToList();
+
             //Messages.ShowInfo("Upgrades loaded: " + AllUpgrades.Count);
         }
 
@@ -282,6 +285,18 @@ namespace SquadBuilderNS
         public static void RemoveCurrentShip()
         {
             CurrentSquadList.RemoveShip(CurrentSquadBuilderShip);
+        }
+
+        private static void OpenSelectUpgradeMenu(UpgradeSlot slot, string upgradeName)
+        {
+            CurrentUpgradeSlot = slot;
+            MainMenu.CurrentMainMenu.ChangePanel("SelectUpgradePanel");
+        }
+
+        public static void ShowUpgradesList()
+        {
+            UpdateSquadCostForUpgradesMenu(GetSquadCost());
+            ShowAvailableUpgrades(CurrentUpgradeSlot);
         }
     }
 }

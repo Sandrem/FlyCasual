@@ -13,6 +13,8 @@ public class ShipPanelSquadBuilder : MonoBehaviour {
     // Use this for initialization
     void Start ()
     {
+        this.gameObject.SetActive(false);
+
         LoadImage();
         SetName();
         SetOnClickHandler();
@@ -20,7 +22,7 @@ public class ShipPanelSquadBuilder : MonoBehaviour {
 
     private void LoadImage()
     {
-        if (ImageUrl != null) StartCoroutine(LoadTooltipImage(this.gameObject, ImageUrl));
+        if (ImageUrl != null) Global.Instance.StartCoroutine(LoadTooltipImage(this.gameObject, ImageUrl));
     }
 
     private void SetName()
@@ -30,7 +32,7 @@ public class ShipPanelSquadBuilder : MonoBehaviour {
 
     private IEnumerator LoadTooltipImage(GameObject thisGameObject, string url)
     {
-        WWW www = new WWW(url);
+        WWW www = ImageManager.GetImage(url);
         yield return www;
 
         if (www.texture != null)
@@ -45,6 +47,8 @@ public class ShipPanelSquadBuilder : MonoBehaviour {
         www.LoadImageIntoTexture(newTexture);
         Sprite newSprite = Sprite.Create(newTexture, new Rect(0, newTexture.height-124, newTexture.width, 124), Vector2.zero);
         targetObject.transform.GetComponent<Image>().sprite = newSprite;
+
+        this.gameObject.SetActive(true);
     }
 
     private void SetOnClickHandler()

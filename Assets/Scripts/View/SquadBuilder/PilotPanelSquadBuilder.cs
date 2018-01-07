@@ -33,25 +33,25 @@ public class PilotPanelSquadBuilder : MonoBehaviour {
 
     void Start()
     {
+        this.gameObject.SetActive(false);
+
         LoadImage();
         SetOnClickHandler();
     }
 
     private void LoadImage()
     {
-        StartCoroutine(LoadTooltipImage(this.gameObject, ImageUrl));
+        Global.Instance.StartCoroutine(LoadTooltipImage(this.gameObject, ImageUrl));
     }
 
     private IEnumerator LoadTooltipImage(GameObject thisGameObject, string url)
     {
         if (url == null)
         {
-            Debug.Log(PilotName);
-            Debug.Log(ShipName);
             url = SquadBuilder.AllPilots.Find(n => n.PilotName == PilotName && n.PilotShip.ShipName == ShipName).Instance.ImageUrl;
         }
 
-        WWW www = new WWW(url);
+        WWW www = ImageManager.GetImage(url);
         yield return www;
 
         if (www.texture != null)
@@ -65,7 +65,10 @@ public class PilotPanelSquadBuilder : MonoBehaviour {
         Texture2D newTexture = new Texture2D(www.texture.height, www.texture.width);
         www.LoadImageIntoTexture(newTexture);
         Sprite newSprite = Sprite.Create(newTexture, new Rect(0, 0, newTexture.width, newTexture.height), Vector2.zero);
-        targetObject.transform.GetComponent<Image>().sprite = newSprite;
+        Image image = targetObject.transform.GetComponent<Image>();
+        image.sprite = newSprite;
+
+        this.gameObject.SetActive(true);
     }
 
     private void SetOnClickHandler()

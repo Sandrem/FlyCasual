@@ -24,6 +24,8 @@ public class UpgradePanelSquadBuilder : MonoBehaviour {
 
     void Start()
     {
+        this.gameObject.SetActive(false);
+
         if (IsSlotImage())
         {
             SetSlotImage();
@@ -45,11 +47,13 @@ public class UpgradePanelSquadBuilder : MonoBehaviour {
         string slotTypeName = UpgradeName.Substring(5, UpgradeName.Length - 5);
         Sprite sprite = (Sprite)Resources.Load("Sprites/SquadBuiler/UpgradeSlots/" + slotTypeName, typeof(Sprite));
         this.gameObject.transform.Find("UpgradeImage").GetComponent<Image>().sprite = sprite;
+
+        this.gameObject.SetActive(true);
     }
 
     private void LoadImage()
     {
-        StartCoroutine(LoadTooltipImage(this.gameObject, ImageUrl));
+        Global.Instance.StartCoroutine(LoadTooltipImage(this.gameObject, ImageUrl));
     }
 
     private IEnumerator LoadTooltipImage(GameObject thisGameObject, string url)
@@ -59,7 +63,7 @@ public class UpgradePanelSquadBuilder : MonoBehaviour {
             url = SquadBuilder.AllUpgrades.Find(n => n.UpgradeName == UpgradeName).Instance.ImageUrl;
         }
 
-        WWW www = new WWW(url);
+        WWW www = ImageManager.GetImage(url);
         yield return www;
 
         if (www.texture != null)
@@ -73,7 +77,10 @@ public class UpgradePanelSquadBuilder : MonoBehaviour {
         Texture2D newTexture = new Texture2D(www.texture.height, www.texture.width);
         www.LoadImageIntoTexture(newTexture);
         Sprite newSprite = Sprite.Create(newTexture, new Rect(0, 0, newTexture.width, newTexture.height), Vector2.zero);
-        targetObject.transform.GetComponent<Image>().sprite = newSprite;
+        Image image = targetObject.transform.GetComponent<Image>();
+        image.sprite = newSprite;
+
+        this.gameObject.SetActive(true);
     }
 
     private void SetOnClickHandler()

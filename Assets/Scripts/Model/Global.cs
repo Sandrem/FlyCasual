@@ -6,6 +6,8 @@ using Ship;
 
 public class Global : MonoBehaviour {
 
+    public static Global Instance;
+
     private static bool isAlreadyInitialized;
 
     public static string test = "I am accessible from every scene";
@@ -40,6 +42,7 @@ public class Global : MonoBehaviour {
     {
         if (!isAlreadyInitialized)
         {
+            Instance = this;
             isAlreadyInitialized = true;
             DontDestroyOnLoad(this.gameObject);
         }

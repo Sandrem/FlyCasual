@@ -31,7 +31,7 @@ public static class InformCrit
 
     private static IEnumerator LoadTooltipImage(string url)
     {
-        WWW www = new WWW(url);
+        WWW www = ImageManager.GetImage(url);
         yield return www;
 
         //TODO: add exception handler here

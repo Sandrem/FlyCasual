@@ -121,6 +121,10 @@ namespace Abilities
                 decisionPhase.AddDecision(token.Letter.ToString(), delegate { RemoveTargetLockDecision(token.Letter); });
             }
 
+            //AI's default behavior.
+            decisionPhase.DefaultDecision = decisionPhase.GetDecisions().First().Key;
+            decisionPhase.RequiredPlayer = HostShip.Owner.PlayerNo;
+
             decisionPhase.Start();
         }
 
@@ -133,8 +137,8 @@ namespace Abilities
         private void RemoveRedTargetLock(char targetLockTokenLetter)
         {
             TargetShip.RemoveToken(typeof(Tokens.RedTargetLockToken), targetLockTokenLetter);
-            SelectShipSubPhase.FinishSelection();
             Messages.ShowInfoToHuman(string.Format("Target Lock has been removed from {0}.", TargetShip.PilotName));
+            SelectShipSubPhase.FinishSelection();            
         }
     }
 }

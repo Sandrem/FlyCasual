@@ -13,11 +13,11 @@ namespace UpgradesList
         {
             Type = UpgradeType.Title;
             Name = "Ghost (Phantom II)";
+            NameCanonical = "ghost-swx72";
+            ImageUrl = ImageUrls.GetImageUrl(this, NameCanonical + ".png");
             Cost = 0;
 
             isUnique = true;
-
-            NameCanonical = "ghost-swx72";
         }
 
         public override bool IsAllowedForShip(GenericShip ship)

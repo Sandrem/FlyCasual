@@ -236,7 +236,10 @@ public static partial class Roster {
         {
             if (item.tag != "Untagged")
             {
-                if (Selection.TryToChangeShip(item.tag)) return;
+                if (Roster.AllShips.ContainsKey(item.tag))
+                {
+                    if (Selection.TryToChangeShip(item.tag)) return;
+                }
             }
         }
         UI.HideTemporaryMenus();
@@ -317,7 +320,10 @@ public static partial class Roster {
         {
             if (item.tag.StartsWith("ShipId:"))
             {
-                Selection.TryMarkShip(item.tag);
+                if (Roster.AllShips.ContainsKey(item.tag))
+                {
+                    Selection.TryMarkShip(item.tag);
+                }
             }
         }
     }
@@ -343,6 +349,7 @@ public static partial class Roster {
     {
         if (thisShip.InfoPanel != null)
         {
+            thisShip.InfoPanel.transform.Find("ShipInfo/ShipPilotNameText").GetComponent<Text>().text = thisShip.PilotName;
             thisShip.InfoPanel.transform.Find("ShipInfo/ShipPilotSkillText").GetComponent<Text>().text = thisShip.PilotSkill.ToString();
             thisShip.InfoPanel.transform.Find("ShipInfo/ShipFirepowerText").GetComponent<Text>().text = thisShip.Firepower.ToString();
             thisShip.InfoPanel.transform.Find("ShipInfo/ShipAgilityText").GetComponent<Text>().text = thisShip.Agility.ToString();
@@ -534,6 +541,12 @@ public static partial class Roster {
     {
         GameObject maneuverDial = ship.InfoPanel.transform.Find("AssignedManeuverDial").gameObject;
         maneuverDial.SetActive(false);
+    }
+
+    private static void TogglePanelActive(GenericShip ship, bool isActive)
+    {
+        float colorCode = (isActive) ? 0f : 0.5f;
+        ship.InfoPanel.transform.Find("ShipInfo").GetComponent<Image>().color = new Color(colorCode, colorCode, colorCode, (float)(200f / 256f));
     }
 
 }

@@ -84,6 +84,19 @@ namespace Ship
             }
         }
 
+        public void SetDockedName(bool isActive)
+        {
+            string dockedPosfix = " (Docked)";
+            if (isActive)
+            {
+                PilotName = PilotName + dockedPosfix;
+            }
+            else
+            {
+                PilotName = PilotName.Replace(dockedPosfix, "");
+            }
+            Roster.UpdateShipStats(this);
+        }
     }
 
 }

@@ -44,7 +44,7 @@ namespace RulesList
         {
             if (host != null && docked != null)
             {
-                Roster.HideShip("ShipId:" + docked.ShipId);
+                Roster.DockShip("ShipId:" + docked.ShipId);
                 host.DockedShips.Add(docked);
                 docked.Host = host;
                 docked.Model.SetActive(false);
@@ -85,7 +85,7 @@ namespace RulesList
         {
             SetUndockPosition(host, docked);
 
-            Roster.ShowShip(docked);
+            Roster.UndockShip(docked);
             host.DockedShips.Remove(docked);
             host.ToggleDockedModel(docked, false);
             docked.Model.SetActive(true);

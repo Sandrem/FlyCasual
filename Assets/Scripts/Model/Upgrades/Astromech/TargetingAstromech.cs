@@ -39,35 +39,21 @@ namespace Abilities
 
         private void TargetingAstromechTargetLock(GenericShip hostShip)
         {
-            Movement.ManeuverColor movementColor = hostShip.GetLastManeuverColor();
+            Movement.ManeuverColor movementColor = HostShip.GetLastManeuverColor();
             if (movementColor != Movement.ManeuverColor.Red)
             {                
                 return;
-            }
+            }            
 
-            if (Actions.HasTarget(hostShip))
+            if (Actions.HasTarget(HostShip))
             {
-                RegisterAbilityTrigger(TriggerTypes.OnManeuver, SelectTargetForLock);
+                AssignAstromechTargetingLock(HostShip);
             }
         }
 
-        public void SelectTargetForLock(object sender, EventArgs e)
+        private void AssignAstromechTargetingLock(GenericShip hostShip)
         {
-            SelectTargetForAbility(AssignAstromechTargetingLock, new List<TargetTypes>() { TargetTypes.Enemy }, new Vector2(1, 3), null, true);            
-        }
-
-        private void AssignAstromechTargetingLock()
-        {
-            Actions.AssignTargetLockToPair(
-                HostShip,
-                TargetShip,
-                delegate
-                {
-                    UI.HideSkipButton();
-                    Phases.FinishSubPhase(typeof(SelectTargetLockSubPhase));
-                    DecisionSubPhase.ConfirmDecision();
-                },
-                DecisionSubPhase.ConfirmDecision);
+            hostShip.AcquireTargetLock(Phases.CurrentSubPhase.Next);
         }
     }
 }

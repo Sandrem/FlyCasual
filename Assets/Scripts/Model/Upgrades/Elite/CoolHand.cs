@@ -3,6 +3,7 @@ using UnityEngine;
 using Ship;
 using System;
 using SubPhases;
+using System.Linq;
 
 namespace UpgradesList
 {
@@ -13,8 +14,6 @@ namespace UpgradesList
             Type = UpgradeType.Elite;
             Name = "Cool Hand";
             Cost = 1;
-
-            isLimited = true;
         }
 
         public override void AttachToShip(GenericShip host)
@@ -26,7 +25,7 @@ namespace UpgradesList
 
         private void RegisterTrigger(GenericShip host, Type type)
         {
-            if (host.HasToken(typeof(Tokens.StressToken)))
+            if (type.FullName.Equals(typeof(Tokens.StressToken).ToString()))
             {
                 Triggers.RegisterTrigger(new Trigger()
                 {
@@ -64,6 +63,10 @@ namespace SubPhases
             AddDecision("Evade Token", delegate { AddEvade(upgrade); });
 
             ShowSkipButton = true;
+            RequiredPlayer = upgrade.Host.Owner.PlayerNo;
+
+            //Default AI behavior.
+            DefaultDecision = GetDecisions().First().Key;
 
             Start();            
         }
@@ -71,13 +74,13 @@ namespace SubPhases
         private void AddFocus(GenericUpgrade upgrade)
         {
             upgrade.Host.AssignToken(new Tokens.FocusToken(), ConfirmDecision);
-            upgrade.TryDiscard(ConfirmDecision);
+            upgrade.TryDiscard(Phases.CurrentSubPhase.Resume);
         }
 
         private void AddEvade(GenericUpgrade upgrade)
         {
             upgrade.Host.AssignToken(new Tokens.EvadeToken(), ConfirmDecision);
-            upgrade.TryDiscard(ConfirmDecision);
+            upgrade.TryDiscard(Phases.CurrentSubPhase.Resume);
         }
     }
 }

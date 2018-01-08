@@ -172,22 +172,6 @@ namespace Ship
         {
             AssignedManeuver = null;
         }
-
-        /// <summary>
-        /// Modifies an existing Maneuver to a different color.
-        /// <para>
-        /// This is done by removing the orignal, and adding a new maneuver of the same value, but different color.
-        /// </para>
-        /// </summary>
-        /// <param name="maneuver">Maneuver short name.</param>
-        /// <param name="color">Color the Maneuver should be changed to.</param>
-        public void ChangeManeuverColor(string maneuver, ManeuverColor color)
-        {
-            if (Maneuvers.ContainsKey(maneuver))
-            {
-                Maneuvers[maneuver] = color;
-            }
-        }
     }
 
 }

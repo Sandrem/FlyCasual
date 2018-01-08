@@ -44,29 +44,14 @@ namespace Abilities
         {
             if (!HostShip.HasToken(typeof(Tokens.StressToken)))
             {
-                RegisterAbilityTrigger(TriggerTypes.OnManeuver, AddWhiteTalonRoll);
+                HostShip.Maneuvers[LEFT_TALON_ROLL] = Movement.ManeuverColor.White;
+                HostShip.Maneuvers[RIGHT_TALON_ROLL] = Movement.ManeuverColor.White;
             }
             else
             {
-                RegisterAbilityTrigger(TriggerTypes.OnManeuver, AddRedTalonRoll);
+                HostShip.Maneuvers[LEFT_TALON_ROLL] = Movement.ManeuverColor.Red;
+                HostShip.Maneuvers[RIGHT_TALON_ROLL] = Movement.ManeuverColor.Red;
             }
-        }
-
-        private void AddWhiteTalonRoll(object sender, EventArgs e)
-        {
-            ChangeTalonRoll(Movement.ManeuverColor.White);
-        }
-
-        private void AddRedTalonRoll(object sender, EventArgs e)
-        {
-            ChangeTalonRoll(Movement.ManeuverColor.Red);
-        }
-
-        private void ChangeTalonRoll(Movement.ManeuverColor color)
-        {
-            HostShip.ChangeManeuverColor(LEFT_TALON_ROLL, color);
-            HostShip.ChangeManeuverColor(RIGHT_TALON_ROLL, color);
-            Triggers.FinishTrigger();
         }
     }
 }

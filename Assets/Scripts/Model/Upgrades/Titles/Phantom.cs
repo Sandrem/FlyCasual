@@ -4,6 +4,7 @@ using Upgrade;
 using System.Linq;
 using System;
 using UnityEngine;
+using Abilities;
 
 namespace UpgradesList
 {
@@ -17,35 +18,45 @@ namespace UpgradesList
 
             isUnique = true;
 
-            IsHidden = true;
+            UpgradeAbilities.Add(new PhantomTitleAbility());
         }
 
         public override bool IsAllowedForShip(GenericShip ship)
         {
             return ship is AttackShuttle;
         }
+    }
+}
 
-        public override void AttachToShip(GenericShip host)
+namespace Abilities
+{
+    public class PhantomTitleAbility : GenericAbility
+    {
+        public override void ActivateAbility()
         {
-            base.AttachToShip(host);
+            HostShip.OnDocked += OnDocked;
+            HostShip.OnUndocked += OnUndocked;
+        }
 
-            Host.OnDocked += OnDocked;
-            Host.OnUndocked += OnUndocked;
+        public override void DeactivateAbility()
+        {
+            HostShip.OnDocked -= OnDocked;
+            HostShip.OnUndocked -= OnUndocked;
         }
 
         private void OnDocked(GenericShip dockingHost)
         {
-            dockingHost.OnAttackStartAsAttacker += TestAbility;
+            Phases.OnCombatPhaseEnd += TestAbility;
         }
 
         private void OnUndocked(GenericShip dockingHost)
         {
-            dockingHost.OnAttackStartAsAttacker -= TestAbility;
+            Phases.OnCombatPhaseEnd -= TestAbility;
         }
 
         private void TestAbility()
         {
-            Debug.Log("Ability of docked Phantom");
+            Messages.ShowInfo("Ability of deocked Phantom");
         }
 
     }

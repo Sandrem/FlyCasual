@@ -50,6 +50,11 @@ namespace Ship
 
         public List<GenericShip> DockedShips = new List<GenericShip>();
 
+        public void ToggleDockedModel(GenericShip dockedShip, bool isVisible)
+        {
+            GetModelTransform().Find("DockedShips").transform.Find(dockedShip.Type).gameObject.SetActive(isVisible);
+        }
+
         public void CallDocked(GenericShip host)
         {
             if (OnDocked != null) OnDocked(host);

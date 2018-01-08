@@ -45,8 +45,15 @@ namespace ActionsList
 
         public override void ActionEffect(System.Action callBack)
         {
+            //This is done in cases where other abilities can be activated upon using a token.
+            //e.g. See Pilot Garven Dreis for synergy.
+            if (Combat.CurrentDiceRoll.Blanks <= 0)
+            {
+                Messages.ShowInfoToHuman("Focus token is spent, but there are no blanks.");
+            }
+
             Host.RemoveToken(typeof(Tokens.FocusToken));
-            Combat.CurrentDiceRoll.Change(DieSide.Blank, DieSide.Crit, 1);
+            Combat.CurrentDiceRoll.ChangeOne(DieSide.Blank, DieSide.Success);
             Combat.CurrentDiceRoll.OrganizeDicePositions();
 
             callBack();
@@ -55,8 +62,7 @@ namespace ActionsList
         public override bool IsActionEffectAvailable()
         {
             if (Combat.AttackStep == CombatStep.Attack 
-                && Host.HasToken(typeof(Tokens.FocusToken))
-                && Combat.CurrentDiceRoll.Blanks > 0)
+                && Host.HasToken(typeof(Tokens.FocusToken)))
             {
                 return true;
             }
@@ -66,7 +72,23 @@ namespace ActionsList
 
         public override int GetActionEffectPriority()
         {
-            int result = 110;
+            int result = 0;
+            DiceRoll diceValues = Combat.CurrentDiceRoll;
+            if (diceValues.Blanks > 0)
+            {
+                if (diceValues.Focuses == 0 && diceValues.Blanks == 1)
+                {
+                    result = 81;
+                }
+                else if (diceValues.Focuses > 1)
+                {
+                    result = 45;
+                }
+                else if (diceValues.Blanks == 1 && diceValues.Focuses == 1)
+                {
+                    result = 40;
+                }
+            }
 
             return result;
         }

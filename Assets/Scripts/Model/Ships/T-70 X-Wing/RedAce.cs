@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Ship;
+using System;
 
 namespace Ship
 {
@@ -29,26 +30,21 @@ namespace Abilities
         private int _originalShieldValue = 0;
 
         public override void ActivateAbility()
-        {   
-            //Gets shield values at the start of the round.         
-            Phases.OnPlanningPhaseStart += GetShipShields;
-
-            //Determines if abilities / debris damaged the ship.
-            Phases.OnActivationPhaseEnd += RegisterRedAceAbility;           
-            HostShip.OnAttackHitAsDefender += RegisterRedAceAbility;            
-
+        {
+            //Gets shield values at the start of the round.
+            Phases.OnRoundStart += GetShipShields;
             //Resets ability on round end.
             Phases.OnRoundEnd += ClearAbilityUsed;
+
+            HostShip.OnShieldLost += CanGetEvadeToken;
         }
 
         public override void DeactivateAbility()
         {
-            Phases.OnPlanningPhaseStart -= GetShipShields;
-
-            HostShip.OnAttackHitAsDefender -= RegisterRedAceAbility;
-            Phases.OnActivationPhaseEnd -= RegisterRedAceAbility;
-
+            Phases.OnRoundStart -= GetShipShields;
             Phases.OnRoundEnd -= ClearAbilityUsed;
+
+            HostShip.OnShieldLost -= CanGetEvadeToken;
         }
 
         private void GetShipShields()
@@ -59,28 +55,20 @@ namespace Abilities
             }
         }
 
-        private void CanGetEvadeToken(object sender, EventArgs e)
-        {            
-            if (IsAbilityUsed || _originalShieldValue == 0)
+        private void CanGetEvadeToken()
+        {
+            if (IsAbilityUsed || HostShip.Shields == 0)
             {
                 return;
             }
 
             IsAbilityUsed = true;
-            HostShip.AssignToken(new Tokens.EvadeToken(), Triggers.FinishTrigger);            
+            HostShip.AssignToken(new Tokens.EvadeToken(), Phases.CurrentSubPhase.Resume);
         }
 
         private void ClearAbilityUsed()
         {
             IsAbilityUsed = false;
-        }
-
-        private void RegisterRedAceAbility()
-        {
-            if (HostShip.Shields < _originalShieldValue)
-            {
-                RegisterAbilityTrigger(TriggerTypes.OnTokenIsAssigned, CanGetEvadeToken);
-            }            
         }
     }
 }

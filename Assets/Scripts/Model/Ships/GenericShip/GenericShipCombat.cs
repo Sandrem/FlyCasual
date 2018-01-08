@@ -131,6 +131,7 @@ namespace Ship
         public static event EventHandler OnAttackHitAsDefenderGlobal;
         public event EventHandler OnAttackMissedAsAttacker;
         public event EventHandler OnAttackMissedAsDefender;
+        public event EventHandler OnShieldLost;
 
         public event EventHandlerInt AfterGotNumberOfPrimaryWeaponAttackDice;
         public event EventHandlerInt AfterGotNumberOfPrimaryWeaponDefenceDice;
@@ -331,6 +332,11 @@ namespace Ship
             Triggers.ResolveTriggers(TriggerTypes.OnDamageCardIsDealt, callBack);
         }
 
+        public void CallOnShieldIsLost()
+        {
+            if (OnShieldLost != null) OnShieldLost();
+        }
+
         // DICE
 
         public int GetNumberOfAttackDice(GenericShip targetShip)
@@ -420,7 +426,7 @@ namespace Ship
 
             if (Shields > 0)
             {
-                SufferShieldDamage();
+                CallOnShieldIsLost();
             }
             else
             {
@@ -531,17 +537,17 @@ namespace Ship
         }
 
         public void SufferShieldDamage()
-        {
+        {            
             AssignedDamageDiceroll.CancelHits(1);
 
-            Shields--;
+            Shields--;            
             CallAfterAssignedDamageIsChanged();
             Triggers.FinishTrigger();
         }
 
         public void LoseShield()
         {
-            Shields--;
+            Shields--;            
             CallAfterAssignedDamageIsChanged();
         }
 

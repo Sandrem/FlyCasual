@@ -502,6 +502,16 @@ namespace Ship
             }
         }
 
+        public void AcquireTargetLock(Action callback)
+        {
+            SelectTargetLockSubPhase selectTargetLockSubPhase = (SelectTargetLockSubPhase)Phases.StartTemporarySubPhaseNew(
+                "Select target for Target Lock",
+                typeof(SubPhases.SelectTargetLockSubPhase),
+                callback);
+            
+            selectTargetLockSubPhase.Start();
+        }
+
         public void ReassignTargetLockToken(Type type, char letter, GenericShip newOwner, Action callback)
         {
             Tokens.GenericTargetLockToken assignedToken = GetToken(type, letter) as Tokens.GenericTargetLockToken;

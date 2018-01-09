@@ -33,5 +33,11 @@
             UI.HideSkipButton();
         }
 
+        public override void Resume()
+        {
+            UpdateHelpInfo();
+            UI.ShowSkipButton();
+        }
+
     }
 }

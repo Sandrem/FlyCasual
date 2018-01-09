@@ -53,6 +53,13 @@ public static partial class Combat
 
     public static ShipShotDistanceInformation ShotInfo;
 
+    public static Func<GenericShip, IShipWeapon, bool> ExtraAttackFilter;
+
+    public static void Initialize()
+    {
+        CleanupCombatData();
+    }
+
     // DECLARE INTENT TO ATTACK
 
     public static void DeclareIntentToAttack(int attackerId, int defenderID)
@@ -116,7 +123,10 @@ public static partial class Combat
 
         if (Rules.TargetIsLegalForShot.IsLegal(true) && ChosenWeapon.IsShotAvailable(Selection.AnotherShip))
         {
-            result = true;
+            if (ExtraAttackFilter == null || ExtraAttackFilter(Selection.AnotherShip, ChosenWeapon))
+            {
+                result = true;
+            }
         }
 
         return result;
@@ -124,7 +134,7 @@ public static partial class Combat
 
     private static void CheckFireLineCollisions()
     {
-        ShotInfo = (ChosenWeapon.GetType() == typeof(Ship.PrimaryWeaponClass)) ? ShotInfo : new ShipShotDistanceInformation(Selection.ThisShip, Selection.AnotherShip, ChosenWeapon);
+        ShotInfo = (ChosenWeapon.GetType() == typeof(PrimaryWeaponClass)) ? ShotInfo : new ShipShotDistanceInformation(Selection.ThisShip, Selection.AnotherShip, ChosenWeapon);
         ShotInfo.CheckFirelineCollisions(PayAttackCost);
     }
 
@@ -378,8 +388,13 @@ public static partial class Combat
         }
         else
         {
-            Phases.CurrentSubPhase.CallBack();
+            CheckExtraAttacks();
         }
+    }
+
+    private static void CheckExtraAttacks()
+    {
+        Triggers.ResolveTriggers(TriggerTypes.OnExtraAttack, Phases.CurrentSubPhase.CallBack);
     }
 
     private static void CleanupCombatData()
@@ -390,6 +405,8 @@ public static partial class Combat
         ChosenWeapon = null;
         ShotInfo = null;
         hitsCounter = 0;
+        IsObstructed = false;
+        ExtraAttackFilter = null;
     }
 
     private static void CheckSecondAttack(Action callBack)
@@ -407,19 +424,24 @@ public static partial class Combat
 
     // Extra Attacks
 
-    public static void StartAdditionalAttack(GenericShip ship, Action callback)
+    public static void StartAdditionalAttack(GenericShip ship, Action callback, Func<GenericShip, IShipWeapon, bool> extraAttackFilter = null)
     {
         Selection.ChangeActiveShip("ShipId:" + ship.ShipId);
 
         Phases.StartTemporarySubPhaseOld(
             "Second attack",
             typeof(SelectTargetForSecondAttackSubPhase),
-            delegate {
-                Phases.FinishSubPhase(typeof(SelectTargetForSecondAttackSubPhase));
-                Selection.ThisShip.IsAttackPerformed = false;
-                Phases.StartTemporarySubPhaseNew("Extra Attack", typeof(ExtraAttackSubPhase), callback);
-                Combat.DeclareIntentToAttack(Selection.ThisShip.ShipId, Selection.AnotherShip.ShipId);
-            });
+            delegate { ExtraAttackTargetSelected(callback, extraAttackFilter); }
+        );
+    }
+
+    private static void ExtraAttackTargetSelected(Action callback, Func<GenericShip, IShipWeapon, bool> extraAttackFilter)
+    {
+        Phases.FinishSubPhase(typeof(SelectTargetForSecondAttackSubPhase));
+        Selection.ThisShip.IsAttackPerformed = false;
+        Phases.StartTemporarySubPhaseNew("Extra Attack", typeof(ExtraAttackSubPhase), callback);
+        ExtraAttackFilter = extraAttackFilter;
+        Combat.DeclareIntentToAttack(Selection.ThisShip.ShipId, Selection.AnotherShip.ShipId);
     }
 
 }
@@ -581,10 +603,11 @@ namespace SubPhases
             CallBack();
         }
 
-        /*public override void Next()
+        public void RevertSubphase()
         {
-            UI.HideSkipButton();
-        }*/
+            Phases.CurrentSubPhase = PreviousSubPhase;
+            Phases.CurrentSubPhase.Resume();
+        }
     }
 
 }

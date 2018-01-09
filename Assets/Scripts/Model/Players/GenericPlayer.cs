@@ -44,7 +44,7 @@ namespace Players
         public PlayerNo PlayerNo;
         public int SquadCost;
 
-        public Dictionary<string, GenericShip> Ships = new Dictionary<string, Ship.GenericShip>();
+        public Dictionary<string, GenericShip> Ships = new Dictionary<string, GenericShip>();
 
         public Dictionary<string, GenericShip> EnemyShips
         {
@@ -99,7 +99,7 @@ namespace Players
 
         public virtual void ToggleCombatDiceResults(bool isActive) { }
 
-        public virtual bool IsNeedToShowManeuver(Ship.GenericShip ship) { return false; }
+        public virtual bool IsNeedToShowManeuver(GenericShip ship) { return false; }
 
         public virtual void OnTargetNotLegalForAttack() { }
 

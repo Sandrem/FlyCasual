@@ -14,7 +14,7 @@ namespace Ship
             public Aggressor() : base()
             {
                 Type = "Aggressor";
-                IconicPilot = "IG-88 Generic";
+                IconicPilot = "IG-88B";
                 ShipBaseSize = BaseSize.Large;
 
                 ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/2/22/MS_AGGRESSOR-ASSAULT-FIGHTER.png";

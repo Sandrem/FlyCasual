@@ -12,7 +12,7 @@ namespace Ship
         {
             public ZetaLeader () : base ()
             {
-                PilotName = "Zeta Leader";
+                PilotName = "\"Zeta Leader\"";
                 PilotSkill = 7;
                 Cost = 20;
 
@@ -32,18 +32,17 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            HostShip.OnAttackStartAsAttacker += RegisterEpsilonLeaderAbility;
-            HostShip.OnAttackFinish          += RemoveEpsilonLeaderAbility;
+            HostShip.OnCombatPhaseStart += RegisterEpsilonLeaderAbility;
+            HostShip.OnCombatPhaseEnd += RemoveEpsilonLeaderAbility;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.OnAttackStartAsAttacker -= RegisterEpsilonLeaderAbility;
-            HostShip.OnAttackFinish          -= RemoveEpsilonLeaderAbility;
+            HostShip.OnCombatPhaseStart -= RegisterEpsilonLeaderAbility;
+            HostShip.OnCombatPhaseEnd -= RemoveEpsilonLeaderAbility;
         }
 
-        //private void RegisterEpsilonLeaderAbility(GenericShip genericShip)
-        private void RegisterEpsilonLeaderAbility()
+        private void RegisterEpsilonLeaderAbility(GenericShip genericShip)
         {
             RegisterAbilityTrigger(TriggerTypes.OnAttackStart, ShowDecision);
         }

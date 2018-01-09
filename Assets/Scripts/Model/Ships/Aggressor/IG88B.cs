@@ -72,19 +72,7 @@ namespace Abilities
         private void UseIG88BAbility(object sender, System.EventArgs e)
         {
             Messages.ShowInfo(HostShip.PilotName + " can perform second attack\nfrom Cannon");
-            Combat.StartAdditionalAttack(HostShip, AfterExtraAttackSubPhase, IsCannonShot);
-        }
-
-        private void AfterExtraAttackSubPhase()
-        {
-            RevertToCombatSubphase();
-            Triggers.FinishTrigger();
-        }
-
-        private void RevertToCombatSubphase()
-        {
-            Phases.CurrentSubPhase = Phases.CurrentSubPhase.PreviousSubPhase;
-            Phases.CurrentSubPhase = Phases.CurrentSubPhase.PreviousSubPhase;
+            Combat.StartAdditionalAttack(HostShip, Triggers.FinishTrigger, IsCannonShot);
         }
 
         private bool IsCannonShot(GenericShip defender, IShipWeapon weapon)

@@ -439,7 +439,14 @@ public static partial class Combat
     {
         Phases.FinishSubPhase(typeof(SelectTargetForSecondAttackSubPhase));
         Selection.ThisShip.IsAttackPerformed = false;
-        Phases.StartTemporarySubPhaseNew("Extra Attack", typeof(ExtraAttackSubPhase), callback);
+        Phases.StartTemporarySubPhaseNew(
+            "Extra Attack",
+            typeof(ExtraAttackSubPhase),
+            delegate {
+                Phases.FinishSubPhase(typeof(ExtraAttackSubPhase));
+                callback();
+            }
+        );
         ExtraAttackFilter = extraAttackFilter;
         Combat.DeclareIntentToAttack(Selection.ThisShip.ShipId, Selection.AnotherShip.ShipId);
     }
@@ -607,6 +614,12 @@ namespace SubPhases
         {
             Phases.CurrentSubPhase = PreviousSubPhase;
             Phases.CurrentSubPhase.Resume();
+        }
+
+        public override void Next()
+        {
+            Phases.CurrentSubPhase = Phases.CurrentSubPhase.PreviousSubPhase;
+            Phases.CurrentSubPhase = Phases.CurrentSubPhase.PreviousSubPhase;
         }
     }
 

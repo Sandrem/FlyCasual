@@ -46,17 +46,47 @@ namespace Abilities
 
         private void OnDocked(GenericShip dockingHost)
         {
-            Phases.OnCombatPhaseEnd += TestAbility;
+            ToggleRearArc(true);
+            Phases.OnCombatPhaseEnd += RegisterExtraShotAbility;
         }
 
         private void OnUndocked(GenericShip dockingHost)
         {
-            Phases.OnCombatPhaseEnd -= TestAbility;
+            ToggleRearArc(false);
+            Phases.OnCombatPhaseEnd -= RegisterExtraShotAbility;
         }
 
-        private void TestAbility()
+        private void ToggleRearArc(bool isActive)
         {
-            Messages.ShowInfo("Ability of deocked Phantom");
+            HostShip.Host.ArcInfo.GetRearArc().ShotPermissions.CanShootPrimaryWeapon = isActive;
+        }
+
+        private void RegisterExtraShotAbility()
+        {
+            RegisterAbilityTrigger(TriggerTypes.OnCombatPhaseEnd, ExtraShotWithTurret);
+        }
+
+        private void ExtraShotWithTurret(object sender, System.EventArgs e)
+        {
+            Messages.ShowInfo(HostShip.Host.PilotName + " can perform second attack\nfrom Turret");
+            Combat.StartAdditionalAttack(HostShip.Host, Triggers.FinishTrigger, IsTurretAttack);
+        }
+
+        private bool IsTurretAttack(GenericShip target, IShipWeapon weapon)
+        {
+            bool result = false;
+
+            GenericUpgrade upgradeWeapon = weapon as GenericUpgrade;
+            if (upgradeWeapon != null && upgradeWeapon.Type == UpgradeType.Turret)
+            {
+                result = true;
+            }
+            else
+            {
+                Messages.ShowError("Attack must be performed from Turret");
+            }
+
+            return result;
         }
 
     }

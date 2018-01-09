@@ -5,6 +5,7 @@ using System.Linq;
 using System;
 using UnityEngine;
 using Abilities;
+using System.Collections.Generic;
 
 namespace UpgradesList
 {
@@ -46,17 +47,34 @@ namespace Abilities
 
         private void OnDocked(GenericShip dockingHost)
         {
-            Phases.OnCombatPhaseEnd += TestAbility;
+            ToggleRearArc(true);
+            Phases.OnActivationPhaseEnd += RegisterFreeCoordinateAbility;
         }
 
         private void OnUndocked(GenericShip dockingHost)
         {
-            Phases.OnCombatPhaseEnd -= TestAbility;
+            ToggleRearArc(false);
+            Phases.OnActivationPhaseEnd -= RegisterFreeCoordinateAbility;
         }
 
-        private void TestAbility()
+        private void ToggleRearArc(bool isActive)
         {
-            Messages.ShowInfo("Ability of docked Phantom II");
+            HostShip.Host.ArcInfo.GetRearArc().ShotPermissions.CanShootPrimaryWeapon = isActive;
+        }
+
+        private void RegisterFreeCoordinateAbility()
+        {
+            if (HostShip.Host.Owner.Ships.Count > 1)
+            {
+                RegisterAbilityTrigger(TriggerTypes.OnActivationPhaseEnd, FreeCoordinateAction);
+            }
+        }
+
+        private void FreeCoordinateAction(object sender, System.EventArgs e)
+        {
+            List<ActionsList.GenericAction> actions = new List<ActionsList.GenericAction>() { new ActionsList.CoordinateAction() };
+
+            HostShip.Host.AskPerformFreeAction(actions, Triggers.FinishTrigger);
         }
 
     }

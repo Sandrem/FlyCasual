@@ -89,15 +89,10 @@ namespace ActionsList
 
             if (Combat.AttackStep == CombatStep.Attack)
             {
-                if (Combat.DiceRollAttack.RegularSuccesses > 0) result = 55;
+                if (Combat.DiceRollAttack.RegularSuccesses > 0) result = 20;
             }
 
             return result;
-        }
-
-        public override int GetActionPriority()
-        {
-            return 60;
         }
     }
 }

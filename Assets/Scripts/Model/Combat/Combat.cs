@@ -5,6 +5,8 @@ using UnityEngine;
 using System;
 using Board;
 using GameModes;
+using Ship;
+using SubPhases;
 
 public enum CombatStep
 {
@@ -39,10 +41,10 @@ public static partial class Combat
 
     public static CombatStep AttackStep = CombatStep.None;
 
-    public static Ship.GenericShip Attacker;
-    public static Ship.GenericShip Defender;
+    public static GenericShip Attacker;
+    public static GenericShip Defender;
 
-    public static Ship.IShipWeapon ChosenWeapon;
+    public static IShipWeapon ChosenWeapon;
 
     public static CriticalHitCard.GenericCriticalHit CurrentCriticalHitCard;
 
@@ -76,7 +78,7 @@ public static partial class Combat
         {
             Phases.StartTemporarySubPhaseOld(
                 "Choose weapon for attack",
-                typeof(SubPhases.WeaponSelectionDecisionSubPhase),
+                typeof(WeaponSelectionDecisionSubPhase),
                 TryPerformAttack
             );
         }
@@ -174,14 +176,14 @@ public static partial class Combat
         Selection.ActiveShip = Selection.ThisShip;
         Phases.StartTemporarySubPhaseOld(
             "Attack dice roll",
-            typeof(SubPhases.AttackDiceRollCombatSubPhase)
+            typeof(AttackDiceRollCombatSubPhase)
         );
     }
 
     public static void ConfirmAttackDiceResults()
     {
         HideDiceResultMenu();
-        Phases.FinishSubPhase(typeof(SubPhases.AttackDiceRollCombatSubPhase));
+        Phases.FinishSubPhase(typeof(AttackDiceRollCombatSubPhase));
 
         PerformDefence();
     }
@@ -209,7 +211,7 @@ public static partial class Combat
         Selection.ActiveShip = Selection.AnotherShip;
         Phases.StartTemporarySubPhaseOld(
             "Defence dice roll",
-            typeof(SubPhases.DefenceDiceRollCombatSubPhase)
+            typeof(DefenceDiceRollCombatSubPhase)
         );
     }
 
@@ -219,11 +221,11 @@ public static partial class Combat
     {
         DiceCompareHelper.currentDiceCompareHelper.Close();
         HideDiceResultMenu();
-        Phases.FinishSubPhase(typeof(SubPhases.DefenceDiceRollCombatSubPhase));
+        Phases.FinishSubPhase(typeof(DefenceDiceRollCombatSubPhase));
 
         MovementTemplates.ReturnRangeRuler();
 
-        Phases.StartTemporarySubPhaseOld("Compare results", typeof(SubPhases.CompareResultsSubPhase));
+        Phases.StartTemporarySubPhaseOld("Compare results", typeof(CompareResultsSubPhase));
     }
 
     public static void CancelHitsByDefenceDice()
@@ -306,7 +308,7 @@ public static partial class Combat
 
     private static void AfterShotIsPerformed()
     {
-        Phases.FinishSubPhase(typeof(SubPhases.CompareResultsSubPhase));
+        Phases.FinishSubPhase(typeof(CompareResultsSubPhase));
         CheckTwinAttack();
     }
 
@@ -372,11 +374,11 @@ public static partial class Combat
 
         if (!Selection.ThisShip.IsCannotAttackSecondTime)
         {
-            CheckSecondAttack(CheckFinishCombatSubPhase);
+            CheckSecondAttack(Phases.CurrentSubPhase.CallBack);
         }
         else
         {
-            CheckFinishCombatSubPhase();
+            Phases.CurrentSubPhase.CallBack();
         }
     }
 
@@ -395,12 +397,29 @@ public static partial class Combat
         Selection.ThisShip.CallCheckSecondAttack(callBack);
     }
 
-    private static void CheckFinishCombatSubPhase()
+    public static void CheckFinishCombatSubPhase()
     {
         if (Roster.NoSamePlayerAndPilotSkillNotAttacked(Selection.ThisShip))
         {
-            Phases.FinishSubPhase(typeof(SubPhases.CombatSubPhase));
+            Phases.FinishSubPhase(typeof(CombatSubPhase));
         }
+    }
+
+    // Extra Attacks
+
+    public static void StartAdditionalAttack(GenericShip ship, Action callback)
+    {
+        Selection.ChangeActiveShip("ShipId:" + ship.ShipId);
+
+        Phases.StartTemporarySubPhaseOld(
+            "Second attack",
+            typeof(SelectTargetForSecondAttackSubPhase),
+            delegate {
+                Phases.FinishSubPhase(typeof(SelectTargetForSecondAttackSubPhase));
+                Selection.ThisShip.IsAttackPerformed = false;
+                Phases.StartTemporarySubPhaseNew("Extra Attack", typeof(ExtraAttackSubPhase), callback);
+                Combat.DeclareIntentToAttack(Selection.ThisShip.ShipId, Selection.AnotherShip.ShipId);
+            });
     }
 
 }
@@ -412,7 +431,7 @@ namespace SubPhases
 
         public override void PrepareDecision(System.Action callBack)
         {
-            List<Ship.IShipWeapon> allWeapons = Selection.ThisShip.GetAllWeapons();
+            List<IShipWeapon> allWeapons = Selection.ThisShip.GetAllWeapons();
 
             //TODO: Range?
             InfoText = "Choose weapon for attack";
@@ -431,7 +450,7 @@ namespace SubPhases
             callBack();
         }
 
-        public void PerformAttackWithWeapon(Ship.IShipWeapon weapon)
+        public void PerformAttackWithWeapon(IShipWeapon weapon)
         {
             Tooltips.EndTooltip();
 
@@ -444,10 +463,6 @@ namespace SubPhases
         }
 
     }
-}
-
-namespace SubPhases
-{
 
     public class AttackDiceRollCombatSubPhase : DiceRollCombatSubPhase
     {
@@ -538,17 +553,38 @@ namespace SubPhases
             UpdateHelpInfo();
         }
 
-        public override bool ThisShipCanBeSelected(Ship.GenericShip ship, int mouseKeyIsPressed)
+        public override bool ThisShipCanBeSelected(GenericShip ship, int mouseKeyIsPressed)
         {
             bool result = false;
             return result;
         }
 
-        public override bool AnotherShipCanBeSelected(Ship.GenericShip anotherShip, int mouseKeyIsPressed)
+        public override bool AnotherShipCanBeSelected(GenericShip anotherShip, int mouseKeyIsPressed)
         {
             bool result = false;
             return result;
         }
+    }
+
+    public class ExtraAttackSubPhase : GenericSubPhase
+    {
+        public override void Start()
+        {
+            Name = "Extra Attack";
+            UpdateHelpInfo();
+
+            UI.ShowSkipButton();
+        }
+
+        public override void SkipButton()
+        {
+            CallBack();
+        }
+
+        /*public override void Next()
+        {
+            UI.HideSkipButton();
+        }*/
     }
 
 }

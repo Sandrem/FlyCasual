@@ -28,5 +28,10 @@
             Triggers.FinishTrigger();
         }
 
+        public override void Next()
+        {
+            UI.HideSkipButton();
+        }
+
     }
 }

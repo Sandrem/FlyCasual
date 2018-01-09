@@ -14,6 +14,7 @@ public enum TriggerTypes
     OnGameStart,
     OnSetupPhaseStart,
     OnBeforePlaceForces,
+    OnRoundStart,
     OnActionSubPhaseStart,
     OnActionDecisionSubPhaseEnd,
     OnActivationPhaseStart,

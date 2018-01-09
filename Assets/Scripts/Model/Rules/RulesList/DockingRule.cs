@@ -191,7 +191,7 @@ namespace SubPhases
 
         public override void PrepareDecision(System.Action callBack)
         {
-            InfoText = "Perform undocking?";
+            InfoText = "Deploy docked ship?";
 
             AddDecision("Yes", Undock);
             AddDecision("No", SkipUndock);

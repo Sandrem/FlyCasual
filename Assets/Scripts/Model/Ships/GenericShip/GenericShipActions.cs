@@ -503,13 +503,14 @@ namespace Ship
             }
         }
 
-        public void AcquireTargetLock(Action callback)
+        public void AcquireTargetLock<T>(Action callback) where T : SelectTargetLockSubPhase
         {
-            SelectTargetLockSubPhase selectTargetLockSubPhase = (SelectTargetLockSubPhase)Phases.StartTemporarySubPhaseNew(
+            T selectTargetLockSubPhase = (T)Phases.StartTemporarySubPhaseNew(
                 "Select target for Target Lock",
-                typeof(SubPhases.SelectTargetLockSubPhase),
+                typeof(T),
                 callback);
-            
+
+            selectTargetLockSubPhase.RequiredPlayer = Owner.PlayerNo;
             selectTargetLockSubPhase.Start();
         }
 

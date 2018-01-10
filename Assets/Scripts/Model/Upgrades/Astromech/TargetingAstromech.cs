@@ -29,31 +29,71 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            HostShip.OnMovementFinish += TargetingAstromechTargetLock;
+            HostShip.OnActionSubPhaseStart += RegisterTargetingAstromech;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.OnMovementFinish -= TargetingAstromechTargetLock;
+            HostShip.OnActionSubPhaseStart -= RegisterTargetingAstromech;
         }
 
-        private void TargetingAstromechTargetLock(GenericShip hostShip)
+        private void RegisterTargetingAstromech(GenericShip hostShip)
         {
             Movement.ManeuverColor movementColor = HostShip.GetLastManeuverColor();
             if (movementColor != Movement.ManeuverColor.Red)
-            {                
-                return;
-            }            
-
-            if (Actions.HasTarget(HostShip))
             {
-                AssignAstromechTargetingLock(HostShip);
+                return;
             }
+
+            RegisterAbilityTrigger(
+                TriggerTypes.OnActionSubPhaseStart, 
+                delegate 
+                {
+                    AssignAstromechTargetingLock(hostShip);                    
+                });            
         }
 
         private void AssignAstromechTargetingLock(GenericShip hostShip)
         {
-            hostShip.AcquireTargetLock(Phases.CurrentSubPhase.Next);
+            hostShip.AcquireTargetLock<TargetingAstromechSubPhase>(Triggers.FinishTrigger);
+        }
+    }
+}
+
+namespace SubPhases
+{
+    public class TargetingAstromechSubPhase : SelectTargetLockSubPhase
+    {
+        public override void RevertSubPhase()
+        {
+            Triggers.FinishTrigger();
+        }
+
+        public override void SkipButton()
+        {
+            Phases.FinishSubPhase(typeof(TargetingAstromechSubPhase));
+            Triggers.FinishTrigger();
+        }
+
+        protected override void TrySelectTargetLock()
+        {
+            if (Rules.TargetLocks.TargetLockIsAllowed(Selection.ThisShip, TargetShip))
+            {
+                Actions.AssignTargetLockToPair(
+                    Selection.ThisShip,
+                    TargetShip,
+                    delegate
+                    {
+                        Phases.FinishSubPhase(typeof(TargetingAstromechSubPhase));
+                        Triggers.FinishTrigger();
+                    },
+                    RevertSubPhase
+                );
+            }
+            else
+            {
+                RevertSubPhase();
+            }
         }
     }
 }

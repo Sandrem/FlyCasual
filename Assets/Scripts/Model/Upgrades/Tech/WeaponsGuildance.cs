@@ -1,6 +1,8 @@
 ﻿using Upgrade;
 using Ship;
 using ActionsList;
+using System;
+using Abilities;
 
 namespace UpgradesList
 {
@@ -10,22 +12,34 @@ namespace UpgradesList
         {
             Type = UpgradeType.Tech;
             Name = "Weapons Guidance";
-            Cost = 2;            
+            Cost = 2;
+
+            UpgradeAbilities.Add(new WeaponsGuildanceAbility());
+        }
+    }
+}
+
+namespace Abilities
+{
+    public class WeaponsGuildanceAbility : GenericAbility
+    {
+
+        public override void ActivateAbility()
+        {
+            HostShip.AfterGenerateAvailableActionEffectsList += WeaponsGuidanceActionEffect;
         }
 
-        public override void AttachToShip(GenericShip host)
+        public override void DeactivateAbility()
         {
-            base.AttachToShip(host);
-
-            host.AfterGenerateAvailableActionEffectsList += WeaponsGuidanceActionEffect;
+            HostShip.AfterGenerateAvailableActionEffectsList -= WeaponsGuidanceActionEffect;
         }
 
         private void WeaponsGuidanceActionEffect(GenericShip host)
         {
             GenericAction newAction = new WeaponsGuildanceDiceModification()
             {
-                ImageUrl = ImageUrl,
-                Host = host
+                ImageUrl = HostUpgrade.ImageUrl,
+                Host = HostShip
             };
             host.AddAvailableActionEffect(newAction);
         }
@@ -41,6 +55,8 @@ namespace ActionsList
         public WeaponsGuildanceDiceModification()
         {
             Name = EffectName = "Weapons Guidance";
+
+            IsSpendFocus = true;
         }
 
         public override void ActionEffect(System.Action callBack)
@@ -80,11 +96,7 @@ namespace ActionsList
                 {
                     result = 81;
                 }
-                else if (diceValues.Focuses > 1)
-                {
-                    result = 45;
-                }
-                else if (diceValues.Blanks == 1 && diceValues.Focuses == 1)
+                else
                 {
                     result = 40;
                 }

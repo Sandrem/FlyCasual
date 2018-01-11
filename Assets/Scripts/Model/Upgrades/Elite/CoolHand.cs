@@ -4,6 +4,7 @@ using Ship;
 using System;
 using SubPhases;
 using System.Linq;
+using Abilities;
 
 namespace UpgradesList
 {
@@ -14,37 +15,44 @@ namespace UpgradesList
             Type = UpgradeType.Elite;
             Name = "Cool Hand";
             Cost = 1;
+
+            UpgradeAbilities.Add(new CoolHandAbility());
+        }
+    }
+}
+
+namespace Abilities
+{
+    public class CoolHandAbility : GenericAbility
+    {
+        public override void ActivateAbility()
+        {
+            HostShip.OnTokenIsAssigned += CheckTrigger;
         }
 
-        public override void AttachToShip(GenericShip host)
+        public override void DeactivateAbility()
         {
-            base.AttachToShip(host);
-
-            host.OnTokenIsAssigned += RegisterTrigger;
+            HostShip.OnTokenIsAssigned -= CheckTrigger;
         }
 
-        private void RegisterTrigger(GenericShip host, Type type)
+        private void CheckTrigger(GenericShip host, Type type)
         {
-            if (type.FullName.Equals(typeof(Tokens.StressToken).ToString()))
+            if (type == typeof(Tokens.StressToken))
             {
-                Triggers.RegisterTrigger(new Trigger()
-                {
-                    Name = Name,
-                    TriggerType = TriggerTypes.OnTokenIsAssigned,
-                    TriggerOwner = Host.Owner.PlayerNo,
-                    EventHandler = CoolHandsAbility
-                });
+                RegisterAbilityTrigger(TriggerTypes.OnTokenIsAssigned, UseCoolHandAbility);
             }
         }
 
-        private void CoolHandsAbility(object sender, EventArgs e)
+        private void UseCoolHandAbility(object sender, EventArgs e)
         {
             CoolHandDecisionSubPhase decision = (CoolHandDecisionSubPhase)Phases.StartTemporarySubPhaseNew(
                 Name,
                 typeof(CoolHandDecisionSubPhase),
-                Triggers.FinishTrigger);
+                Triggers.FinishTrigger
+            );
 
-            decision.PrepareDecision(this);
+            decision.PrepareDecision(HostUpgrade);
+            decision.Start();
         }
     }
 }
@@ -55,32 +63,37 @@ namespace SubPhases
     public class CoolHandDecisionSubPhase : DecisionSubPhase
     {
 
+        public GenericUpgrade HostUpgrade;
+
         public void PrepareDecision(GenericUpgrade upgrade)
         {
-            InfoText = string.Format("Discard {0} for one of the following tokens?", Name);
+            HostUpgrade = upgrade;
 
-            AddDecision("Focus Token", delegate { AddFocus(upgrade); });
-            AddDecision("Evade Token", delegate { AddEvade(upgrade); });
+            InfoText = string.Format("Discard \"Cool Hand\" to assign token?");
+
+            AddDecision("Focus Token", AddFocus);
+            AddDecision("Evade Token", AddEvade);
 
             ShowSkipButton = true;
             RequiredPlayer = upgrade.Host.Owner.PlayerNo;
 
             //Default AI behavior.
-            DefaultDecision = GetDecisions().First().Key;
-
-            Start();            
+            DefaultDecision = GetDecisions().First().Key;           
         }
 
-        private void AddFocus(GenericUpgrade upgrade)
+        private void AddFocus(object sender, System.EventArgs e)
         {
-            upgrade.Host.AssignToken(new Tokens.FocusToken(), ConfirmDecision);
-            upgrade.TryDiscard(Phases.CurrentSubPhase.Resume);
+            HostUpgrade.Host.AssignToken(new Tokens.FocusToken(), DiscardUpgrade);
         }
 
-        private void AddEvade(GenericUpgrade upgrade)
+        private void AddEvade(object sender, System.EventArgs e)
         {
-            upgrade.Host.AssignToken(new Tokens.EvadeToken(), ConfirmDecision);
-            upgrade.TryDiscard(Phases.CurrentSubPhase.Resume);
+            HostUpgrade.Host.AssignToken(new Tokens.EvadeToken(), DiscardUpgrade);
+        }
+
+        private void DiscardUpgrade()
+        {
+            HostUpgrade.TryDiscard(DecisionSubPhase.ConfirmDecision);
         }
     }
 }

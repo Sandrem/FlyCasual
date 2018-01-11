@@ -27,24 +27,23 @@ namespace Abilities
 {
     public class RedAceAbility : GenericAbility
     {
-        private int _originalShieldValue = 0;
 
         public override void ActivateAbility()
         {
             //Resets ability on round end.
             Phases.OnRoundEnd += ClearAbilityUsed;
 
-            HostShip.OnShieldLost += CanGetEvadeToken;
+            HostShip.OnShieldLost += RegisterCanGetEvadeToken;
         }
 
         public override void DeactivateAbility()
         {
             Phases.OnRoundEnd -= ClearAbilityUsed;
 
-            HostShip.OnShieldLost -= CanGetEvadeToken;
+            HostShip.OnShieldLost -= RegisterCanGetEvadeToken;
         }
 
-        private void CanGetEvadeToken()
+        private void RegisterCanGetEvadeToken()
         {
             if (IsAbilityUsed || HostShip.Shields == 0)
             {
@@ -52,7 +51,13 @@ namespace Abilities
             }
 
             IsAbilityUsed = true;
-            HostShip.AssignToken(new Tokens.EvadeToken(), Phases.CurrentSubPhase.Resume);
+            RegisterAbilityTrigger(TriggerTypes.OnShieldIsLost, AssignEvadeToken);
+        }
+
+        private void AssignEvadeToken(object sender, System.EventArgs e)
+        {
+            Messages.ShowInfo("\"Red Ace\": Evade token is assigned");
+            HostShip.AssignToken(new Tokens.EvadeToken(), Triggers.FinishTrigger);
         }
 
         private void ClearAbilityUsed()

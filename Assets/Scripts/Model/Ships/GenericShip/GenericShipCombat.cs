@@ -332,9 +332,11 @@ namespace Ship
             Triggers.ResolveTriggers(TriggerTypes.OnDamageCardIsDealt, callBack);
         }
 
-        public void CallOnShieldIsLost()
+        public void CallOnShieldIsLost(Action callback)
         {
             if (OnShieldLost != null) OnShieldLost();
+
+            Triggers.ResolveTriggers(TriggerTypes.OnShieldIsLost, callback);
         }
 
         // DICE
@@ -429,7 +431,7 @@ namespace Ship
 
             if (Shields > 0)
             {
-                CallOnShieldIsLost();
+                SufferShieldDamage();
             }
             else
             {
@@ -545,7 +547,8 @@ namespace Ship
 
             Shields--;
             CallAfterAssignedDamageIsChanged();
-            Triggers.FinishTrigger();
+
+            CallOnShieldIsLost(Triggers.FinishTrigger);
         }
 
         public void LoseShield()

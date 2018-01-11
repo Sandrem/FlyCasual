@@ -1,4 +1,6 @@
 ﻿using System;
+using Ship;
+using Movement;
 
 namespace Ship
 {
@@ -15,6 +17,7 @@ namespace Ship
                 IsUnique = true;
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
+
                 PilotAbilities.Add(new Abilities.ElloAstyAbility());
             }
         }
@@ -30,27 +33,22 @@ namespace Abilities
 
         public override void ActivateAbility()
         {
-            Phases.OnActivationPhaseEnd += RegisterElloAstyAbility;
-            Phases.OnBeforePlaceForces += RegisterElloAstyAbility;
+            HostShip.AfterGetManeuverColorDecreaseComplexity += CheckElloAstyAbility;
         }
 
         public override void DeactivateAbility()
         {
-            Phases.OnActivationPhaseEnd -= RegisterElloAstyAbility;
-            Phases.OnBeforePlaceForces -= RegisterElloAstyAbility;
+            HostShip.AfterGetManeuverColorDecreaseComplexity -= CheckElloAstyAbility;
         }
 
-        private void RegisterElloAstyAbility()
+        private void CheckElloAstyAbility(GenericShip ship, ref MovementStruct movement)
         {
-            if (!HostShip.HasToken(typeof(Tokens.StressToken)))
+            if (movement.Bearing == ManeuverBearing.TallonRoll)
             {
-                HostShip.Maneuvers[LEFT_TALON_ROLL] = Movement.ManeuverColor.White;
-                HostShip.Maneuvers[RIGHT_TALON_ROLL] = Movement.ManeuverColor.White;
-            }
-            else
-            {
-                HostShip.Maneuvers[LEFT_TALON_ROLL] = Movement.ManeuverColor.Red;
-                HostShip.Maneuvers[RIGHT_TALON_ROLL] = Movement.ManeuverColor.Red;
+                if (!HostShip.HasToken(typeof(Tokens.StressToken)))
+                {
+                    movement.ColorComplexity = ManeuverColor.White;
+                }
             }
         }
     }

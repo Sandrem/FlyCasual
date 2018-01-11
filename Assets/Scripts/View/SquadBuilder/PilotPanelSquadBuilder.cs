@@ -4,29 +4,54 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using SquadBuilderNS;
 
 public class PilotPanelSquadBuilder : MonoBehaviour {
 
-    public string ImageUrl = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/pilots/Rebel%20Alliance/X-wing/wedge-antilles.png";
-    public string ShipName = "X-Wing";
-    public string PilotName = "Wedge Antilles";
-    public Action<string, string> OnClick;
+    private SquadBuilderShip Ship;
+    private string ImageUrl;
+    private string ShipName;
+    private string PilotName;
+    private Action<SquadBuilderShip, string, string> OnClick;
 
-    // Use this for initialization
-    void Start ()
+    public void Initialize(string pilotName, string shipName, string imageUrl = null, Action<SquadBuilderShip, string, string> onClick = null)
     {
+        PilotName = pilotName;
+        ShipName = shipName;
+        ImageUrl = imageUrl;
+        OnClick = onClick;
+    }
+
+    public void Initialize(SquadBuilderShip ship, Action<SquadBuilderShip, string, string> onClick = null)
+    {
+        Ship = ship;
+        PilotName = ship.Instance.PilotName;
+        ShipName = ship.Instance.Type;
+        ImageUrl = ship.Instance.ImageUrl;
+        OnClick = onClick;
+    }
+
+    void Start()
+    {
+        this.gameObject.SetActive(false);
+
         LoadImage();
         SetOnClickHandler();
     }
 
     private void LoadImage()
     {
-        if (ImageUrl != null) StartCoroutine(LoadTooltipImage(this.gameObject, ImageUrl));
+        Global.Instance.StartCoroutine(LoadTooltipImage(this.gameObject, ImageUrl));
     }
 
     private IEnumerator LoadTooltipImage(GameObject thisGameObject, string url)
     {
-        WWW www = new WWW(url);
+        if (url == null)
+        {
+            url = SquadBuilder.AllPilots.Find(n => n.PilotName == PilotName && n.PilotShip.ShipName == ShipName).Instance.ImageUrl;
+        }
+
+        WWW www = ImageManager.GetImage(url);
         yield return www;
 
         if (www.texture != null)
@@ -40,20 +65,22 @@ public class PilotPanelSquadBuilder : MonoBehaviour {
         Texture2D newTexture = new Texture2D(www.texture.height, www.texture.width);
         www.LoadImageIntoTexture(newTexture);
         Sprite newSprite = Sprite.Create(newTexture, new Rect(0, 0, newTexture.width, newTexture.height), Vector2.zero);
-        targetObject.transform.GetComponent<Image>().sprite = newSprite;
+        Image image = targetObject.transform.GetComponent<Image>();
+        image.sprite = newSprite;
+
+        this.gameObject.SetActive(true);
     }
 
     private void SetOnClickHandler()
     {
-        EventTrigger trigger = this.gameObject.AddComponent<EventTrigger>();
-        EventTrigger.Entry entry = new EventTrigger.Entry();
-        entry.eventID = EventTriggerType.PointerClick;
-        entry.callback.AddListener(delegate { OnClick(PilotName, ShipName); });
-        trigger.triggers.Add(entry);
+        if (OnClick != null)
+        {
+            EventTrigger trigger = this.gameObject.AddComponent<EventTrigger>();
+            EventTrigger.Entry entry = new EventTrigger.Entry();
+            entry.eventID = EventTriggerType.PointerClick;
+            entry.callback.AddListener(delegate { OnClick(Ship, PilotName, ShipName); });
+            trigger.triggers.Add(entry);
+        }
     }
 
-    private void SelectShip(string shipName)
-    {
-        Messages.ShowInfo(shipName);
-    }
 }

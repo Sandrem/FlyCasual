@@ -28,5 +28,16 @@
             Triggers.FinishTrigger();
         }
 
+        public override void Next()
+        {
+            UI.HideSkipButton();
+        }
+
+        public override void Resume()
+        {
+            UpdateHelpInfo();
+            UI.ShowSkipButton();
+        }
+
     }
 }

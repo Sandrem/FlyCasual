@@ -14,6 +14,7 @@ public enum TriggerTypes
     OnGameStart,
     OnSetupPhaseStart,
     OnBeforePlaceForces,
+    OnRoundStart,
     OnActionSubPhaseStart,
     OnActionDecisionSubPhaseEnd,
     OnActivationPhaseStart,
@@ -49,6 +50,7 @@ public enum TriggerTypes
     OnAttackMissed,
     OnAttackFinish,
     OnCheckSecondAttack,
+    OnExtraAttack,
 
     OnAtLeastOneCritWasCancelledByDefender,
     OnDamageIsDealt,

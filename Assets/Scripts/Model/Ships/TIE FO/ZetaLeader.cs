@@ -71,7 +71,8 @@ namespace Abilities
             // don't need to check stressed as done already
             // add an attack dice
             IsAbilityUsed = true;
-            HostShip.ChangeFirepowerBy(+1);
+            //HostShip.ChangeFirepowerBy(+1);
+            HostShip.AfterGotNumberOfPrimaryWeaponAttackDice += ZetaLeaderAddAttackDice;
             HostShip.AssignToken(new Tokens.StressToken(), SubPhases.DecisionSubPhase.ConfirmDecision);
         }
 
@@ -80,9 +81,14 @@ namespace Abilities
             // At the end of combat phase, need to remove attack value increase
             if (IsAbilityUsed)
             {
-                HostShip.ChangeFirepowerBy(-1);
+                //HostShip.ChangeFirepowerBy(-1);
+                HostShip.AfterGotNumberOfPrimaryWeaponAttackDice -= ZetaLeaderAddAttackDice;
                 IsAbilityUsed = false;
             }
+        }
+        private void ZetaLeaderAddAttackDice(ref int value)
+        {
+            value++;
         }
     }
 }

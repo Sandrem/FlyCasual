@@ -22,9 +22,6 @@ namespace Upgrade
         Title,
         Modification,
         Illicit,
-        Cargo,
-        HardPoint,
-        Team,
         Tech
     }
 

@@ -5,34 +5,52 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using Upgrade;
 
 namespace SquadBuilderNS
 {
+    public class ShipWithUpgradesPanel
+    {
+        public GameObject Panel;
+        public Vector2 Size = new Vector2(300, 418);
+        public SquadBuilderShip Ship;
+
+        public ShipWithUpgradesPanel(SquadBuilderShip ship, GameObject panel)
+        {
+            Ship = ship;
+            Panel = panel;
+        }
+    }
+
     static partial class SquadBuilder
     {
-        private class ShipWithUpgradesPanel
+        private class UpgradeSlotPanel
         {
             public GameObject Panel;
-            public Vector2 Size;
-            public SquadBuilderShip Ship;
+            public Vector2 Size = new Vector2(194, 300);
+            public GenericUpgrade Upgrade;
+            public UpgradeType SlotType;
 
-            public ShipWithUpgradesPanel(SquadBuilderShip ship, GameObject panel)
+            public UpgradeSlotPanel(GenericUpgrade upgrade, UpgradeType slotType, GameObject panel)
             {
-                Ship = ship;
+                Upgrade = upgrade;
+                SlotType = slotType;
                 Panel = panel;
-                Size = new Vector2(300, 418);
             }
         }
 
         private static int availableShipsCounter;
         private static int availablePilotsCounter;
+        private static int availableUpgradesCounter;
 
         private static List<ShipWithUpgradesPanel> ShipWithUpgradesPanels;
         private static ShipWithUpgradesPanel AddShipButtonPanel;
 
+        private static List<UpgradeSlotPanel> UpgradeSlotPanels;
+
         private static void ShowAvailableShips(Faction faction)
         {
-            DeleteOldShips();
+            DestroyChildren(GameObject.Find("UI/Panels/SelectShipPanel/Panel").transform);
             availableShipsCounter = 0;
 
             foreach (ShipRecord ship in AllShips)
@@ -41,14 +59,6 @@ namespace SquadBuilderNS
                 {
                     ShowAvailableShip(ship);
                 }
-            }
-        }
-
-        private static void DeleteOldShips()
-        {
-            foreach (Transform oldShipPanel in GameObject.Find("UI/Panels/SelectShipPanel/Panel").transform)
-            {
-                GameObject.Destroy(oldShipPanel.gameObject);
             }
         }
 
@@ -85,7 +95,7 @@ namespace SquadBuilderNS
 
         private static void ShowAvailablePilots(Faction faction, string shipName)
         {
-            DeleteOldPilots();
+            DestroyChildren(GameObject.Find("UI/Panels/SelectPilotPanel/Panel/Scroll View/Viewport/Content").transform);
             availablePilotsCounter = 0;
             ShipRecord shipRecord = AllShips.Find(n => n.ShipName == shipName);
 
@@ -97,35 +107,36 @@ namespace SquadBuilderNS
             }
         }
 
-        private static void DeleteOldPilots()
+        private static void DestroyChildren(Transform transformHolder)
         {
-            foreach (Transform oldPilotPanel in GameObject.Find("UI/Panels/SelectPilotPanel/Panel/Scroll View/Viewport/Content").transform)
+            foreach (Transform oldPanel in transformHolder)
             {
-                GameObject.Destroy(oldPilotPanel.gameObject);
+                GameObject.Destroy(oldPanel.gameObject);
             }
         }
 
         private static void ShowAvailablePilot(PilotRecord pilotRecord)
         {
+            float widthPilotPanel = 300;
+            float heightPilotPanel = 418;
+            float widthBetweenX = 20;
+
             GameObject prefab = (GameObject)Resources.Load("Prefabs/SquadBuilder/PilotPanel", typeof(GameObject));
             Transform contentTransform = GameObject.Find("UI/Panels/SelectPilotPanel/Panel/Scroll View/Viewport/Content").transform;
             GameObject newPilotPanel = MonoBehaviour.Instantiate(prefab, contentTransform);
 
             PilotPanelSquadBuilder script = newPilotPanel.GetComponent<PilotPanelSquadBuilder>();
-            script.ImageUrl = pilotRecord.Instance.ImageUrl;
-            script.PilotName = pilotRecord.PilotName;
-            script.ShipName = CurrentShipToBrowsePilots;
-            script.OnClick = AddPilotToSquadAndReturn;
+            script.Initialize(pilotRecord.PilotName, CurrentShip, pilotRecord.Instance.ImageUrl, AddPilotToSquadAndReturn);
 
             int column = availablePilotsCounter;
 
-            newPilotPanel.transform.localPosition = new Vector3(20 + (300 + 20) * column, 209, 0);
-            contentTransform.GetComponent<RectTransform>().sizeDelta = new Vector2(newPilotPanel.transform.localPosition.x + 300f, 0);
+            newPilotPanel.transform.localPosition = new Vector3(widthBetweenX + (300 + widthBetweenX) * column, heightPilotPanel/2, 0);
+            contentTransform.GetComponent<RectTransform>().sizeDelta = new Vector2(newPilotPanel.transform.localPosition.x + widthPilotPanel + widthBetweenX, 0);
 
             availablePilotsCounter++;
         }
 
-        public static void AddPilotToSquadAndReturn(string pilotName, string shipName)
+        public static void AddPilotToSquadAndReturn(SquadBuilderShip ship, string pilotName, string shipName)
         {
             AddPilotToSquad(pilotName, shipName);
             MainMenu.CurrentMainMenu.ChangePanel("SquadBuilderPanel");
@@ -133,22 +144,14 @@ namespace SquadBuilderNS
 
         private static void GenerateShipWithUpgradesPanels()
         {
-            RemoveOldShipWithUpgradesPanels();
+            ShipWithUpgradesPanels = new List<ShipWithUpgradesPanel>();
+            DestroyChildren(GameObject.Find("UI/Panels/SquadBuilderPanel/Panel/Centered/SquadListPanel").transform);
 
             CreateShipWithUpgradesPanels();
 
             ShowAddShipPanel();
 
             OrganizeShipWithUpgradesPanels();
-        }
-
-        private static void RemoveOldShipWithUpgradesPanels()
-        {
-            ShipWithUpgradesPanels = new List<ShipWithUpgradesPanel>();
-            foreach (Transform oldShipWithUpgrades in GameObject.Find("UI/Panels/SquadBuilderPanel/Panel/Centered/SquadListPanel").transform)
-            {
-                GameObject.Destroy(oldShipWithUpgrades.gameObject);
-            }
         }
 
         private static void CreateShipWithUpgradesPanels()
@@ -165,14 +168,42 @@ namespace SquadBuilderNS
             GameObject shipWithUpgradesPanelGO = MonoBehaviour.Instantiate(prefab, GameObject.Find("UI/Panels/SquadBuilderPanel/Panel/Centered/SquadListPanel").transform);
             ShipWithUpgradesPanel shipWithUpgradesPanel = new ShipWithUpgradesPanel(ship, shipWithUpgradesPanelGO);
             ShipWithUpgradesPanels.Add(shipWithUpgradesPanel);
+            ship.Panel = shipWithUpgradesPanel;
 
             prefab = (GameObject)Resources.Load("Prefabs/SquadBuilder/PilotPanel", typeof(GameObject));
             GameObject pilotPanel = MonoBehaviour.Instantiate(prefab, shipWithUpgradesPanelGO.transform);
             pilotPanel.transform.localPosition = Vector3.zero;
+
             PilotPanelSquadBuilder script = pilotPanel.GetComponent<PilotPanelSquadBuilder>();
-            script.PilotName = ship.Instance.PilotName;
-            script.ImageUrl = ship.Instance.ImageUrl;
-            script.OnClick = OpenShipInfo;
+            script.Initialize(ship, OpenShipInfo);
+
+            ShowUpgradesOfPilot(ship);
+        }
+
+        private static void ShowUpgradesOfPilot(SquadBuilderShip ship)
+        {
+            foreach (GenericUpgrade upgrade in ship.Instance.UpgradeBar.GetInstalledUpgrades())
+            {
+                ShowUpgradeOfPilot(upgrade, ship);
+            }
+        }
+
+        private static void ShowUpgradeOfPilot(GenericUpgrade upgrade, SquadBuilderShip ship)
+        {
+            float widthBetweenX = 10;
+            float widthUpgrade = 194;
+
+            GameObject prefab = (GameObject)Resources.Load("Prefabs/SquadBuilder/UpgradePanel", typeof(GameObject));
+            Transform contentTransform = ship.Panel.Panel.transform;
+            GameObject newUpgradePanel = MonoBehaviour.Instantiate(prefab, contentTransform);
+
+            RectTransform contentRect = contentTransform.GetComponent<RectTransform>();
+            newUpgradePanel.transform.localPosition = new Vector2(contentRect.sizeDelta.x + widthBetweenX, 0);
+            contentRect.sizeDelta = new Vector2(contentRect.sizeDelta.x + widthBetweenX + widthUpgrade, contentRect.sizeDelta.y);
+            ship.Panel.Size = contentRect.sizeDelta;
+
+            UpgradePanelSquadBuilder script = newUpgradePanel.GetComponent<UpgradePanelSquadBuilder>();
+            script.Initialize(upgrade.Name, null, null, null);
         }
 
         private static void ShowAddShipPanel()
@@ -201,13 +232,14 @@ namespace SquadBuilderNS
         private static void OrganizeShipWithUpgradesPanels()
         {
             float allPanelsWidth = 0;
-            float distanceBetweenX = 20;
+            float distanceBetweenX = 40;
             float defaultWidth = 1326;
 
             foreach (ShipWithUpgradesPanel panel in ShipWithUpgradesPanels)
             {
                 allPanelsWidth = allPanelsWidth + panel.Size.x;
             }
+
             if (ShipWithUpgradesPanels.Count > 2)
             {
                 allPanelsWidth += distanceBetweenX * (ShipWithUpgradesPanels.Count - 1);
@@ -238,7 +270,7 @@ namespace SquadBuilderNS
         {
             float defaultWidth = 1326;
             float defaultCardHeight = 418;
-            float distanceBetweenX = 20;
+            float distanceBetweenX = 40;
             float offset = 0;
 
             GameObject centerPanel = GameObject.Find("UI/Panels/SquadBuilderPanel/Panel/Centered");
@@ -263,7 +295,7 @@ namespace SquadBuilderNS
         {
             float defaultHeight = 600;
             float defaultCardHeight = 418;
-            float distanceBetweenX = 20;
+            float distanceBetweenX = 40;
             float distanceBetweenY = 20;
             float offset = 0;
 
@@ -334,13 +366,157 @@ namespace SquadBuilderNS
             return result;
         }
 
-        private static void UpdateSquadCost(int squadCost)
+        private static void UpdateSquadCostForSquadBuilder(int squadCost)
         {
-            Text squadCostText = GameObject.Find("UI/Panels/SquadBuilderPanel/ControlsPanel/SquadCostText").GetComponent<Text>();
-            squadCostText.text = squadCost.ToString() + " / 100";
-
-            squadCostText.color = (squadCost > 100) ? Color.red : Color.black;
+            UpdateSquadCost(squadCost, "SquadBuilderPanel");
         }
 
+        private static void UpdateSquadCostForPilotMenu(int squadCost)
+        {
+            UpdateSquadCost(squadCost, "ShipSlotsPanel");
+        }
+
+        private static void UpdateSquadCostForUpgradesMenu(int squadCost)
+        {
+            UpdateSquadCost(squadCost, "SelectUpgradePanel");
+        }
+
+        private static void UpdateSquadCost(int squadCost, string panelName)
+        {
+            Text targetText = GameObject.Find("UI/Panels/" + panelName + "/ControlsPanel/SquadCostText").GetComponent<Text>();
+            targetText.text = squadCost.ToString() + " / 100";
+            targetText.color = (squadCost > 100) ? Color.red : Color.black;
+        }
+
+        private static void GenerateShipWithSlotsPanels()
+        {
+            DestroyChildren(GameObject.Find("UI/Panels/ShipSlotsPanel/Panel/Centered/ShipWithSlotsHolderPanel").transform);
+
+            CreatePilotPanel();
+            CreateSlotsPanels();
+
+            OrganizeShipWithSlotsPanels();
+        }
+
+        private static void CreatePilotPanel()
+        {
+            GameObject prefab = (GameObject)Resources.Load("Prefabs/SquadBuilder/PilotPanel", typeof(GameObject));
+            Transform contentTransform = GameObject.Find("UI/Panels/ShipSlotsPanel/Panel/Centered/ShipWithSlotsHolderPanel/").transform;
+            GameObject newPilotPanel = MonoBehaviour.Instantiate(prefab, contentTransform);
+            newPilotPanel.transform.localPosition = Vector3.zero;
+
+            PilotPanelSquadBuilder script = newPilotPanel.GetComponent<PilotPanelSquadBuilder>();
+            script.Initialize(CurrentSquadBuilderShip);
+        }
+
+        private static void CreateSlotsPanels()
+        {
+            UpgradeSlotPanels = new List<UpgradeSlotPanel>();
+            foreach (UpgradeSlot slot in CurrentSquadBuilderShip.Instance.UpgradeBar.GetUpgradeSlots())
+            {
+                GameObject prefab = (GameObject)Resources.Load("Prefabs/SquadBuilder/UpgradePanel", typeof(GameObject));
+                Transform contentTransform = GameObject.Find("UI/Panels/ShipSlotsPanel/Panel/Centered/ShipWithSlotsHolderPanel/").transform;
+                GameObject newUpgradePanel = MonoBehaviour.Instantiate(prefab, contentTransform);
+
+                UpgradePanelSquadBuilder script = newUpgradePanel.GetComponent<UpgradePanelSquadBuilder>();
+
+                if (slot.InstalledUpgrade == null)
+                {
+                    script.Initialize("Slot:" + slot.Type.ToString(), slot, null, OpenSelectUpgradeMenu);
+                    UpgradeSlotPanels.Add(new UpgradeSlotPanel(null, slot.Type, newUpgradePanel));
+                }
+                else
+                {
+                    script.Initialize(slot.InstalledUpgrade.Name, slot, null, RemoveInstalledUpgrade);
+                    UpgradeSlotPanels.Add(new UpgradeSlotPanel(slot.InstalledUpgrade, slot.Type, newUpgradePanel));
+                }
+            }
+        }
+
+        private static void OrganizeShipWithSlotsPanels()
+        {
+            float defaultWidth = 1326;
+            float pilotCardWidth = 300;
+            float pilotCardHeight = 418;
+            float upgradeCardHeight = 300;
+            float upgradeCardWidth = 194;
+            float sizeBetweenX = 20;
+            float sizeBetweenY = 20;
+            int maxOneRowSize = (UpgradeSlotPanels.Count < 5 ) ? 4 : Mathf.CeilToInt((float)UpgradeSlotPanels.Count / 2f);
+
+            int count = 0;
+            float offsetX = pilotCardWidth + 2 * sizeBetweenX;
+            float offsetY = 0;
+            float maxSizeY = pilotCardHeight;
+            float maxSizeX = 0;
+            foreach (var upgradeSlotPanel in UpgradeSlotPanels)
+            {
+                if (count == maxOneRowSize)
+                {
+                    maxSizeX = offsetX;
+                    offsetX = (UpgradeSlotPanels.Count % 2 == 0) ? pilotCardWidth + 2 * sizeBetweenX : pilotCardWidth + 2 * sizeBetweenX + (upgradeCardWidth + sizeBetweenX) / 2;
+                    offsetY = -(upgradeCardHeight + sizeBetweenY);
+                    maxSizeY = 2 * upgradeCardHeight + sizeBetweenY;
+                }
+                upgradeSlotPanel.Panel.transform.localPosition = new Vector2(offsetX, offsetY);
+                offsetX += upgradeSlotPanel.Size.x + sizeBetweenX;
+                count++;
+            }
+
+            maxSizeX = Mathf.Max(maxSizeX, offsetX);
+            Transform centeredHolder = UpgradeSlotPanels.First().Panel.transform.parent.parent;
+            centeredHolder.GetComponent<RectTransform>().sizeDelta = new Vector2(maxSizeX, maxSizeY);
+
+            float scale = Mathf.Min(defaultWidth / maxSizeX, 1);
+            centeredHolder.transform.localScale = new Vector2(scale, scale);
+        }
+
+        private static void ShowAvailableUpgrades(UpgradeSlot slot)
+        {
+            DestroyChildren(GameObject.Find("UI/Panels/SelectUpgradePanel/Panel/Scroll View/Viewport/Content").transform);
+            availableUpgradesCounter = 0;
+
+            foreach (UpgradeRecord upgrade in AllUpgrades)
+            {
+                if (upgrade.Instance.Type == slot.Type)
+                {
+                    if (upgrade.Instance.IsAllowedForShip(CurrentSquadBuilderShip.Instance))
+                    {
+                        ShowAvailableUpgrade(upgrade);
+                    }
+                }
+            }
+        }
+
+        private static void ShowAvailableUpgrade(UpgradeRecord upgrade)
+        {
+            float widthBetweenX = 20;
+            float widthUpgrade = 194;
+            float heightUpgrade = 300;
+
+            GameObject prefab = (GameObject)Resources.Load("Prefabs/SquadBuilder/UpgradePanel", typeof(GameObject));
+            Transform contentTransform = GameObject.Find("UI/Panels/SelectUpgradePanel/Panel/Scroll View/Viewport/Content").transform;
+            GameObject newUpgradePanel = MonoBehaviour.Instantiate(prefab, contentTransform);
+
+            UpgradePanelSquadBuilder script = newUpgradePanel.GetComponent<UpgradePanelSquadBuilder>();
+            script.Initialize(upgrade.UpgradeName, CurrentUpgradeSlot, null, SelectUpgradeClicked);
+
+            int column = availableUpgradesCounter;
+
+            newUpgradePanel.transform.localPosition = new Vector3(widthBetweenX + (widthUpgrade + widthBetweenX) * column, heightUpgrade/2, 0);
+            contentTransform.GetComponent<RectTransform>().sizeDelta = new Vector2(newUpgradePanel.transform.localPosition.x + widthUpgrade + widthBetweenX, 0);
+
+            availableUpgradesCounter++;
+        }
+
+        private static void SelectUpgradeClicked(UpgradeSlot slot, string upgradeName)
+        {
+            string upgradeType = AllUpgrades.Find(n => n.UpgradeName == upgradeName).UpgradeTypeName;
+            GenericUpgrade newUpgrade = (GenericUpgrade)System.Activator.CreateInstance(Type.GetType(upgradeType));
+            CurrentUpgradeSlot.PreInstallUpgrade(newUpgrade, CurrentSquadBuilderShip.Instance);
+
+            MainMenu.CurrentMainMenu.ChangePanel("ShipSlotsPanel");
+        }
     }
+
 }

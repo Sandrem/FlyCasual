@@ -116,6 +116,11 @@ namespace Arcs
             return ArcsList[0];
         }
 
+        public ArcInfo GetRearArc()
+        {
+            return ArcsList.Find(n => n.Facing == ArcFacing.Rear);
+        }
+
         public List<ArcInfo> GetAllArcs()
         {
             return ArcsList;

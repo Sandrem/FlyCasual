@@ -44,4 +44,10 @@ public class RosterBuilderUI : MonoBehaviour {
         MainMenu.CurrentMainMenu.ChangePanel("SquadBuilderPanel");
     }
 
+    public void RemoveCurrentShip()
+    {
+        SquadBuilder.RemoveCurrentShip();
+        MainMenu.CurrentMainMenu.ChangePanel("SquadBuilderPanel");
+    }
+
 }

@@ -107,7 +107,8 @@ public static class Selection {
 
     private static void ProcessClick()
     {
-        Phases.CurrentSubPhase.ProcessClick();
+        if (Phases.CurrentSubPhase != null) Phases.CurrentSubPhase.ProcessClick();
+        
         GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
         if (Game.Position.inReposition)
         {

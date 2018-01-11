@@ -540,17 +540,17 @@ namespace Ship
         }
 
         public void SufferShieldDamage()
-        {            
+        {
             AssignedDamageDiceroll.CancelHits(1);
 
-            Shields--;            
+            Shields--;
             CallAfterAssignedDamageIsChanged();
             Triggers.FinishTrigger();
         }
 
         public void LoseShield()
         {
-            Shields--;            
+            Shields--;
             CallAfterAssignedDamageIsChanged();
         }
 

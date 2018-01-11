@@ -31,8 +31,6 @@ namespace Abilities
 
         public override void ActivateAbility()
         {
-            //Gets shield values at the start of the round.
-            Phases.OnRoundStart += GetShipShields;
             //Resets ability on round end.
             Phases.OnRoundEnd += ClearAbilityUsed;
 
@@ -41,18 +39,9 @@ namespace Abilities
 
         public override void DeactivateAbility()
         {
-            Phases.OnRoundStart -= GetShipShields;
             Phases.OnRoundEnd -= ClearAbilityUsed;
 
             HostShip.OnShieldLost -= CanGetEvadeToken;
-        }
-
-        private void GetShipShields()
-        {
-            if (HostShip.Shields > 0)
-            {
-                _originalShieldValue = HostShip.Shields;
-            }
         }
 
         private void CanGetEvadeToken()

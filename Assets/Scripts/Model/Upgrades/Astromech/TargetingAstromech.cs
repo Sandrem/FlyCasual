@@ -29,12 +29,12 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            HostShip.OnMovementExecuted += RegisterTargetingAstromech;
+            HostShip.OnMovementFinish += RegisterTargetingAstromech;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.OnMovementExecuted -= RegisterTargetingAstromech;
+            HostShip.OnMovementFinish -= RegisterTargetingAstromech;
         }
 
         private void RegisterTargetingAstromech(GenericShip hostShip)
@@ -46,54 +46,15 @@ namespace Abilities
             }
 
             RegisterAbilityTrigger(
-                TriggerTypes.OnManeuver, 
-                delegate 
-                {
-                    AssignAstromechTargetingLock(hostShip);                    
-                });            
+                TriggerTypes.OnShipMovementFinish, 
+                AssignAstromechTargetingLock
+            );            
         }
 
-        private void AssignAstromechTargetingLock(GenericShip hostShip)
+        private void AssignAstromechTargetingLock(object sender, System.EventArgs e)
         {
-            hostShip.AcquireTargetLock<TargetingAstromechSubPhase>(Triggers.FinishTrigger);
-        }
-    }
-}
-
-namespace SubPhases
-{
-    public class TargetingAstromechSubPhase : SelectTargetLockSubPhase
-    {
-        public override void RevertSubPhase()
-        {
-            Triggers.FinishTrigger();
-        }
-
-        public override void SkipButton()
-        {
-            Phases.FinishSubPhase(typeof(TargetingAstromechSubPhase));
-            Triggers.FinishTrigger();
-        }
-
-        protected override void TrySelectTargetLock()
-        {
-            if (Rules.TargetLocks.TargetLockIsAllowed(Selection.ThisShip, TargetShip))
-            {
-                Actions.AssignTargetLockToPair(
-                    Selection.ThisShip,
-                    TargetShip,
-                    delegate
-                    {
-                        Phases.FinishSubPhase(typeof(TargetingAstromechSubPhase));
-                        Triggers.FinishTrigger();
-                    },
-                    RevertSubPhase
-                );
-            }
-            else
-            {
-                RevertSubPhase();
-            }
+            Messages.ShowInfoToHuman("Targeting Astromech: Aquire a Target Lock");
+            HostShip.AcquireTargetLock(Triggers.FinishTrigger);
         }
     }
 }

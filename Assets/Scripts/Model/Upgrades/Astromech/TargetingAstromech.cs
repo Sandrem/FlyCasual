@@ -29,12 +29,12 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            HostShip.OnActionSubPhaseStart += RegisterTargetingAstromech;
+            HostShip.OnMovementExecuted += RegisterTargetingAstromech;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.OnActionSubPhaseStart -= RegisterTargetingAstromech;
+            HostShip.OnMovementExecuted -= RegisterTargetingAstromech;
         }
 
         private void RegisterTargetingAstromech(GenericShip hostShip)
@@ -46,7 +46,7 @@ namespace Abilities
             }
 
             RegisterAbilityTrigger(
-                TriggerTypes.OnActionSubPhaseStart, 
+                TriggerTypes.OnManeuver, 
                 delegate 
                 {
                     AssignAstromechTargetingLock(hostShip);                    

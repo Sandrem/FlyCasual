@@ -92,9 +92,11 @@ public static partial class Phases
 
     // TRIGGERS
 
-    public static void CallRoundStartTrigger()
+    public static void CallRoundStartTrigger(Action callback)
     {
         if (OnRoundStart != null) OnRoundStart();
+
+        Triggers.ResolveTriggers(TriggerTypes.OnRoundStart, callback);
     }
 
     public static void CallGameStartTrigger(Action callBack)

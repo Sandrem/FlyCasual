@@ -1,4 +1,4 @@
-﻿/*using Ship;
+﻿using Ship;
 using Ship.M12LKimogila;
 using UnityEngine;
 using Upgrade;
@@ -49,4 +49,4 @@ namespace UpgradesList
             Combat.Attacker.AssignToken(new Tokens.StressToken(), Triggers.FinishTrigger);
         }
     }
-}*/
+}

@@ -126,7 +126,8 @@ namespace Ship
 
                 foreach (Transform modelPart in GetModelTransform())
                 {
-                    modelPart.GetComponent<Renderer>().material.SetTexture("_MainTex", skin);
+                    Renderer renderer = modelPart.GetComponent<Renderer>();
+                    if (renderer != null) renderer.material.SetTexture("_MainTex", skin);
                 }
             }
         }

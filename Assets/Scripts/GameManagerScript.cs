@@ -26,6 +26,7 @@ public class GameManagerScript : MonoBehaviour {
         CriticalHitsDeck.InitializeDeck();
         Bombs.BombsManager.Initialize();
         Actions.Initialize();
+        Combat.Initialize();
         Triggers.Initialize();
 
         CheckRemoteSettings();

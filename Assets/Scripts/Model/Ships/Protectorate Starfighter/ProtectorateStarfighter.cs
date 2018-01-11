@@ -8,7 +8,7 @@ namespace Ship
 {
     namespace ProtectorateStarfighter
     {
-        public class ProtectorateStarfighter : GenericShip, TIE
+        public class ProtectorateStarfighter : GenericShip
         {
 
             public ProtectorateStarfighter() : base()

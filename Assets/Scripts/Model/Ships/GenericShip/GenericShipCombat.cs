@@ -366,6 +366,9 @@ namespace Ship
             {
                 if (AfterGotNumberOfPrimaryWeaponDefenceDice != null) AfterGotNumberOfPrimaryWeaponDefenceDice(ref result);
             }
+
+            if (result < 0) result = 0;
+
             return result;
         }
 

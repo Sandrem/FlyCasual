@@ -113,7 +113,7 @@ namespace SubPhases
             UI.ShowSkipButton();
         }
 
-        private void TrySelectTargetLock()
+        protected virtual void TrySelectTargetLock()
         {
             if (Rules.TargetLocks.TargetLockIsAllowed(Selection.ThisShip, TargetShip))
             {

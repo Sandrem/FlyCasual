@@ -172,7 +172,6 @@ namespace Ship
         {
             AssignedManeuver = null;
         }
-
     }
 
 }

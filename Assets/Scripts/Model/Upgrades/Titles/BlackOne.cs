@@ -98,7 +98,7 @@ namespace Abilities
                 }
                 else
                 {
-                    RemoveRedTargetLock('*');
+                    RemoveRedTargetLock('*', SelectShipSubPhase.FinishSelection);
                 }
             }
             else
@@ -112,7 +112,8 @@ namespace Abilities
             DecisionSubPhase decisionPhase = (DecisionSubPhase)Phases.StartTemporarySubPhaseNew(
                 Name,
                 typeof(DecisionSubPhase),
-                Phases.CurrentSubPhase.FinishPhase);
+                SelectShipSubPhase.FinishSelection
+            );
 
             decisionPhase.InfoText = "Determine which Target Lock to remove:";
 
@@ -130,15 +131,14 @@ namespace Abilities
 
         private void RemoveTargetLockDecision(char targetLockTokenLetter)
         {
-            DecisionSubPhase.ConfirmDecision();
-            RemoveRedTargetLock(targetLockTokenLetter);
+            RemoveRedTargetLock(targetLockTokenLetter, DecisionSubPhase.ConfirmDecision);
         }
 
-        private void RemoveRedTargetLock(char targetLockTokenLetter)
+        private void RemoveRedTargetLock(char targetLockTokenLetter, Action callback)
         {
             TargetShip.RemoveToken(typeof(Tokens.RedTargetLockToken), targetLockTokenLetter);
             Messages.ShowInfoToHuman(string.Format("Target Lock has been removed from {0}.", TargetShip.PilotName));
-            SelectShipSubPhase.FinishSelection();            
+            callback();            
         }
     }
 }

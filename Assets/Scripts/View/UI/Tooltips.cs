@@ -61,7 +61,7 @@ public static class Tooltips {
 
     private static IEnumerator LoadTooltipImage(string url)
     {
-        WWW www = new WWW(url);
+        WWW www = ImageManager.GetImage(url);
         yield return www;
 
         if (TooltipsPanel != null && www.texture != null)

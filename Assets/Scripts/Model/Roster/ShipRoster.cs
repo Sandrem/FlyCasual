@@ -86,6 +86,32 @@ public static partial class Roster
         }
     }
 
+    public static void DockShip(string id)
+    {
+        var ship = GetShipById(id);
+
+        if (ship != null)
+        {
+            ship.SetActive(false);
+            TogglePanelActive(ship, false);
+            ship.SetDockedName(true);
+            ship.Owner.Ships.Remove(id);
+            AllShips.Remove(id);
+        }
+    }
+
+    public static void UndockShip(GenericShip ship)
+    {
+        if (ship != null)
+        {
+            ship.SetActive(true);
+            TogglePanelActive(ship, true);
+            ship.SetDockedName(false);
+            ship.Owner.Ships.Add("ShipId:" + ship.ShipId, ship);
+            AllShips.Add("ShipId:" + ship.ShipId, ship);
+        }
+    }
+
     public static void ShowShip(GenericShip ship)
     {
         if (ship != null)

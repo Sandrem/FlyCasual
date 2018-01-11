@@ -20,6 +20,11 @@ namespace UpgradesList
             UpgradeAbilities.Add(new ReyCrewAbility());
         }
 
+        public override bool IsAllowedForShip(GenericShip ship)
+        {
+            return ship.faction == Faction.Rebel;
+        }
+
     }
 }
 

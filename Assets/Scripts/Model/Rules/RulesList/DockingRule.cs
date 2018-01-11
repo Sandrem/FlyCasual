@@ -36,19 +36,23 @@ namespace RulesList
         {
             foreach (var dockedShipsPair in dockedShipsPairs)
             {
-                GenericShip docked = dockedShipsPair.Key();
-                GenericShip host = dockedShipsPair.Value();
-                if (host != null && docked != null)
-                {
-                    Roster.HideShip("ShipId:" + docked.ShipId);
-                    host.DockedShips.Add(docked);
-                    docked.Host = host;
-                    docked.Model.SetActive(false);
+                DockShip(dockedShipsPair.Key(), dockedShipsPair.Value());
+            }
+        }
 
-                    docked.CallDocked(host);
+        private void DockShip(GenericShip docked, GenericShip host)
+        {
+            if (host != null && docked != null)
+            {
+                Roster.DockShip("ShipId:" + docked.ShipId);
+                host.DockedShips.Add(docked);
+                docked.Host = host;
+                docked.Model.SetActive(false);
+                host.ToggleDockedModel(docked, true);
 
-                    host.OnMovementFinish += RegisterAskUndock;
-                }
+                docked.CallDocked(host);
+
+                host.OnMovementFinish += RegisterAskUndock;
             }
         }
 
@@ -81,8 +85,9 @@ namespace RulesList
         {
             SetUndockPosition(host, docked);
 
-            Roster.ShowShip(docked);
+            Roster.UndockShip(docked);
             host.DockedShips.Remove(docked);
+            host.ToggleDockedModel(docked, false);
             docked.Model.SetActive(true);
 
             docked.CallUndocked(host);
@@ -186,7 +191,7 @@ namespace SubPhases
 
         public override void PrepareDecision(System.Action callBack)
         {
-            InfoText = "Perform undocking?";
+            InfoText = "Deploy docked ship?";
 
             AddDecision("Yes", Undock);
             AddDecision("No", SkipUndock);

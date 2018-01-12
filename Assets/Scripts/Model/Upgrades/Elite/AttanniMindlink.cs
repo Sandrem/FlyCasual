@@ -7,6 +7,7 @@ using System;
 using Abilities;
 using Tokens;
 using System.Linq;
+using SquadBuilderNS;
 
 namespace UpgradesList
 {
@@ -26,18 +27,14 @@ namespace UpgradesList
             return ship.faction == Faction.Scum;
         }
 
-        public override bool IsAllowedForSquadBuilderPostCheck(RosterBuilder.SquadBuilderUpgrade upgradeHolder)
+        public override bool IsAllowedForSquadBuilderPostCheck(SquadList squadList)
         {
             int sameUpgradesInstalled = 0;
-            List<RosterBuilder.SquadBuilderShip> playerShips = RosterBuilder.SquadBuilderRoster.GetShipsByPlayer(upgradeHolder.Host.Player);
-            foreach (var ship in playerShips)
+            foreach (var ship in squadList.GetShips())
             {
-                foreach (var squadBuilderUpgrade in ship.GetUpgrades())
+                foreach (var upgrade in ship.Instance.UpgradeBar.GetInstalledUpgrades())
                 {
-                    if (squadBuilderUpgrade.Slot.InstalledUpgrade != null)
-                    {
-                        if (squadBuilderUpgrade.Slot.InstalledUpgrade.GetType() == this.GetType()) sameUpgradesInstalled++;
-                    }
+                    if (upgrade.GetType() == this.GetType()) sameUpgradesInstalled++;
                 }
             };
             if (sameUpgradesInstalled > 2) Messages.ShowError("Cannot have more than 2 Attanni Mindlinks");

@@ -209,7 +209,7 @@ namespace SquadBuilderNS
 
         private static void ShowAddShipPanel()
         {
-            if (GetSquadCost() < 89)
+            if (GetCurrentSquadCost() < 89)
             {
                 GameObject prefab = (GameObject)Resources.Load("Prefabs/SquadBuilder/ShipWithUpgradesPanel", typeof(GameObject));
                 GameObject addShipButtonPanel = MonoBehaviour.Instantiate(prefab, GameObject.Find("UI/Panels/SquadBuilderPanel/Panel/Centered/SquadListPanel").transform);

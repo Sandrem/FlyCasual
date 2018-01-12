@@ -622,7 +622,7 @@ public static partial class RosterBuilder {
     {
         bool result = true;
 
-        foreach (var shipHolder in SquadBuilderRoster.GetShips())
+        /*foreach (var shipHolder in SquadBuilderRoster.GetShips())
         {
             foreach (var upgradeHolder in shipHolder.GetUpgrades())
             {
@@ -631,7 +631,7 @@ public static partial class RosterBuilder {
                     if (!upgradeHolder.Slot.InstalledUpgrade.IsAllowedForSquadBuilderPostCheck(upgradeHolder)) return false;
                 }
             }
-        }
+        }*/
 
         return result;
     }
@@ -640,7 +640,7 @@ public static partial class RosterBuilder {
     {
         bool result = true;
 
-        foreach (var shipHolder in SquadBuilderRoster.GetShips())
+        /*foreach (var shipHolder in SquadBuilderRoster.GetShips())
         {
             foreach (var upgradeSlot in shipHolder.Ship.UpgradeBar.GetUpgradeSlots())
             {
@@ -654,7 +654,7 @@ public static partial class RosterBuilder {
                     }
                 }
             }
-        }
+        }*/
 
         return result;
     }

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Players;
 using Ship;
 using System.Reflection;
@@ -362,7 +361,7 @@ namespace SquadBuilderNS
         {
             GameMode.CurrentGameMode = new LocalGame();
 
-            //if (ValidatePlayersRosters())
+            if (ValidateCurrentPlayersRoster())
             {
                 ShowOpponentSquad();
                 LoadBattleScene();
@@ -373,6 +372,61 @@ namespace SquadBuilderNS
         {
             //TestRandom();
             SceneManager.LoadScene("Battle");
+        }
+
+        public static bool ValidateCurrentPlayersRoster()
+        {
+            return ValidatePlayerRoster(CurrentPlayer);
+        }
+
+        private static bool ValidatePlayerRoster(PlayerNo playerNo)
+        {
+            if (!ValidateUniqueCards(playerNo)) return false;
+            /*if (!ValidateSquadCost(playerNo)) return false;
+            if (!ValidateLimitedCards(playerNo)) return false;
+            if (!ValidateShipAiReady(playerNo)) return false;
+            if (!ValidateUpgradePostChecks(playerNo)) return false;
+            if (!ValidateDifferentUpgradesInAdditionalSlots()) return false;*/
+
+            return true;
+        }
+
+        private static bool ValidateUniqueCards(PlayerNo playerNo)
+        {
+            bool result = true;
+
+            List<string> uniqueCards = new List<string>();
+            foreach (var shipConfig in SquadLists.Find(n => n.PlayerNo == playerNo).GetShips())
+            {
+                if (shipConfig.Instance.IsUnique)
+                {
+                    if (CheckDuplicate(uniqueCards, shipConfig.Instance.PilotName)) return false;
+                }
+
+                foreach (var upgrade in shipConfig.Instance.UpgradeBar.GetInstalledUpgrades())
+                {
+                    if (upgrade.isUnique)
+                    {
+                        if (CheckDuplicate(uniqueCards, upgrade.Name)) return false;
+                    }
+                }
+            }
+            return result;
+        }
+
+        private static bool CheckDuplicate(List<string> uniqueCards, string cardName)
+        {
+            if (cardName.Contains("(")) cardName = cardName.Substring(0, cardName.LastIndexOf("(") - 1);
+            if (uniqueCards.Contains(cardName))
+            {
+                Messages.ShowError("Only one card with unique name " + cardName + " can be present");
+                return true;
+            }
+            else
+            {
+                uniqueCards.Add(cardName);
+                return false;
+            }
         }
     }
 }

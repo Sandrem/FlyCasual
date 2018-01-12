@@ -52,10 +52,11 @@ public partial class MainMenu : MonoBehaviour {
                 Network.BrowseMatches();
                 break;
             case "SelectFactionPanel":
-                SquadBuilder.Initialize();
+                //
                 break;
             case "SquadBuilderPanel":
                 SquadBuilder.ShowShipsAndUpgrades();
+                SquadBuilder.UpdateNextButton();
                 break;
             case "SelectShipPanel":
                 SquadBuilder.ShowShipsFilteredByFaction();

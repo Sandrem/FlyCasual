@@ -26,7 +26,7 @@ public static partial class RosterBuilder {
 
     private static void CopyShip(PlayerNo playerNo, GameObject panel)
     {
-        if (GetShipsCount(playerNo) < 8)
+        /*if (GetShipsCount(playerNo) < 8)
         {
             SquadBuilderShip originalShip = SquadBuilderRoster.GetShips().Find(n => n.Panel == panel);
 
@@ -42,7 +42,7 @@ public static partial class RosterBuilder {
         else
         {
             Messages.ShowError("You cannot have more than 8 ships");
-        }
+        }*/
     }
 
     private static void CopyShipType(SquadBuilderShip originalShip, SquadBuilderShip copiedShip)

@@ -7,6 +7,8 @@ using Ship;
 using System.Reflection;
 using UnityEngine;
 using Upgrade;
+using GameModes;
+using UnityEngine.SceneManagement;
 
 namespace SquadBuilderNS
 {
@@ -40,6 +42,13 @@ namespace SquadBuilderNS
     {
         private List<SquadBuilderShip> Ships;
         public Faction SquadFaction;
+        public Type PlayerType;
+        public PlayerNo PlayerNo;
+
+        public SquadList(PlayerNo playerNo)
+        {
+            PlayerNo = playerNo;
+        }
 
         public void AddShip(PilotRecord pilotRecord)
         {
@@ -88,10 +97,10 @@ namespace SquadBuilderNS
     static partial class SquadBuilder
     {
         public static PlayerNo CurrentPlayer;
-        public static Dictionary<PlayerNo, SquadList> SquadLists;
+        public static List<SquadList> SquadLists;
         public static SquadList CurrentSquadList
         {
-            get { return SquadLists[CurrentPlayer]; }
+            get { return SquadLists.Find(n => n.PlayerNo == CurrentPlayer); }
         }
 
         public static List<ShipRecord> AllShips;
@@ -106,13 +115,18 @@ namespace SquadBuilderNS
         {
             CurrentPlayer = PlayerNo.Player1;
 
-            SquadLists = new Dictionary<PlayerNo, SquadList>()
+            SquadLists = new List<SquadList>()
             {
-                { PlayerNo.Player1, new SquadList() },
-                { PlayerNo.Player2, new SquadList() }
+                new SquadList(PlayerNo.Player1),
+                new SquadList(PlayerNo.Player2)
             };
             GenerateListOfShips();
             GenerateUpgradesList();
+        }
+
+        public static void NextPlayer()
+        {
+            CurrentPlayer = PlayerNo.Player2;
         }
 
         private static void GenerateListOfShips()
@@ -261,6 +275,11 @@ namespace SquadBuilderNS
             GenerateShipWithUpgradesPanels();
         }
 
+        public static void UpdateNextButton()
+        {
+            ShowNextButtonFor(CurrentPlayer);
+        }
+
         public static void ShowPilotWithSlots()
         {
             UpdateSquadCostForPilotMenu(GetSquadCost());
@@ -310,6 +329,50 @@ namespace SquadBuilderNS
         {
             UpdateSquadCostForUpgradesMenu(GetSquadCost());
             ShowAvailableUpgrades(CurrentUpgradeSlot);
+        }
+
+        public static void SetPlayers(string modeName)
+        {
+            switch (modeName)
+            {
+                case "vsAI":
+                    SetPlayerTypes(typeof(HumanPlayer), typeof(HotacAiPlayer));
+                    break;
+                case "Internet":
+                    SetPlayerTypes(typeof(HumanPlayer), typeof(NetworkOpponentPlayer));
+                    break;
+                case "HotSeat":
+                    SetPlayerTypes(typeof(HumanPlayer), typeof(HumanPlayer));
+                    break;
+                case "AIvsAI":
+                    SetPlayerTypes(typeof(HotacAiPlayer), typeof(HotacAiPlayer));
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private static void SetPlayerTypes(Type playerOneType, Type playerTwoType)
+        {
+            SquadLists.Find(n => n.PlayerNo == PlayerNo.Player1).PlayerType = playerOneType;
+            SquadLists.Find(n => n.PlayerNo == PlayerNo.Player2).PlayerType = playerTwoType;
+        }
+
+        public static void StartLocalGame()
+        {
+            GameMode.CurrentGameMode = new LocalGame();
+
+            //if (ValidatePlayersRosters())
+            {
+                ShowOpponentSquad();
+                LoadBattleScene();
+            }
+        }
+
+        private static void LoadBattleScene()
+        {
+            //TestRandom();
+            SceneManager.LoadScene("Battle");
         }
     }
 }

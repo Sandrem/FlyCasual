@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Players;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -516,6 +517,30 @@ namespace SquadBuilderNS
             CurrentUpgradeSlot.PreInstallUpgrade(newUpgrade, CurrentSquadBuilderShip.Instance);
 
             MainMenu.CurrentMainMenu.ChangePanel("ShipSlotsPanel");
+        }
+
+        private static void ShowNextButtonFor(PlayerNo playerNo)
+        {
+            GameObject nextButton = GameObject.Find("UI/Panels/SquadBuilderPanel/ControlsPanel").transform.Find("NextButton").gameObject;
+            GameObject startGameButton = GameObject.Find("UI/Panels/SquadBuilderPanel/ControlsPanel").transform.Find("StartGameButton").gameObject;
+            if (playerNo == PlayerNo.Player1)
+            {
+                nextButton.SetActive(true);
+                startGameButton.SetActive(false);
+            }
+            else if (playerNo == PlayerNo.Player2)
+            {
+                nextButton.SetActive(false);
+                startGameButton.SetActive(true);
+            }
+        }
+
+        public static void ShowOpponentSquad()
+        {
+            GameObject globalUI = GameObject.Find("GlobalUI").gameObject;
+
+            GameObject opponentSquad = globalUI.transform.Find("OpponentSquad").gameObject;
+            opponentSquad.SetActive(true);
         }
     }
 

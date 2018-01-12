@@ -78,56 +78,7 @@ namespace Abilities
         private void StartSubphaseForTargetLock(object sender, System.EventArgs e)
         {
             Selection.ThisShip = TargetShip;
-
-            Phases.StartTemporarySubPhaseOld(
-                "Select target for Target Lock",
-                typeof(FreeSelectTargetLockSubPhase),
-                SelectShipSubPhase.FinishSelection
-            );
-        }
-
-        private void TrySelectTargetLock()
-        {
-            Actions.AssignTargetLockToPair(
-                Selection.ThisShip,
-                TargetShip,
-                SelectShipSubPhase.FinishSelection,
-                (Phases.CurrentSubPhase as SelectShipSubPhase).RevertSubPhase
-            );
+            Selection.ThisShip.AcquireTargetLock(Triggers.FinishTrigger);
         }
     }
 }
-
-namespace SubPhases
-{
-    public class FreeSelectTargetLockSubPhase : SelectShipSubPhase
-    {
-
-        public override void Prepare()
-        {
-            targetsAllowed.Add(TargetTypes.Enemy);
-            finishAction = TrySelectTargetLock;
-
-            UI.ShowSkipButton();
-        }
-
-        private void TrySelectTargetLock()
-        {
-            Actions.AssignTargetLockToPair(
-                Selection.ThisShip,
-                TargetShip,
-                CallBack,
-                RevertSubPhase
-            );
-        }
-
-        public override void RevertSubPhase() { }
-
-        public override void SkipButton()
-        {
-            CallBack();
-        }
-
-    }
-}
-

@@ -270,7 +270,7 @@ namespace SquadBuilderNS
 
         public static void ShowShipsAndUpgrades()
         {
-            UpdateSquadCostForSquadBuilder(GetSquadCost());
+            UpdateSquadCostForSquadBuilder(GetCurrentSquadCost());
             GenerateShipWithUpgradesPanels();
         }
 
@@ -281,7 +281,7 @@ namespace SquadBuilderNS
 
         public static void ShowPilotWithSlots()
         {
-            UpdateSquadCostForPilotMenu(GetSquadCost());
+            UpdateSquadCostForPilotMenu(GetCurrentSquadCost());
             GenerateShipWithSlotsPanels();
         }
 
@@ -290,15 +290,37 @@ namespace SquadBuilderNS
             MainMenu.CurrentMainMenu.ChangePanel("SelectShipPanel");
         }
 
-        private static int GetSquadCost()
+        private static int GetCurrentSquadCost()
+        {
+            return GetSquadCost(CurrentPlayer);
+        }
+
+        private static int GetSquadCost(PlayerNo playerNo)
         {
             int result = 0;
-            foreach (var shipHolder in CurrentSquadList.GetShips())
+            foreach (var shipHolder in SquadLists.Find(n => n.PlayerNo == playerNo).GetShips())
             {
                 result += shipHolder.Instance.Cost;
-                result += shipHolder.Instance.UpgradeBar.GetInstalledUpgrades().Sum(n => n.Cost);
+
+                foreach (var upgradeSlot in shipHolder.Instance.UpgradeBar.GetUpgradeSlots())
+                {
+                    if (!upgradeSlot.IsEmpty)
+                    {
+                        result += ReduceUpgradeCost(upgradeSlot.InstalledUpgrade.Cost, upgradeSlot.CostDecrease);
+                    }
+                }
             }
             return result;
+        }
+
+        private static int ReduceUpgradeCost(int cost, int decrease)
+        {
+            if (cost >= 0)
+            {
+                cost = Math.Max(cost - decrease, 0);
+            }
+
+            return cost;
         }
 
         private static void OpenShipInfo(SquadBuilderShip ship, string pilotName, string shipName)
@@ -326,7 +348,7 @@ namespace SquadBuilderNS
 
         public static void ShowUpgradesList()
         {
-            UpdateSquadCostForUpgradesMenu(GetSquadCost());
+            UpdateSquadCostForUpgradesMenu(GetCurrentSquadCost());
             ShowAvailableUpgrades(CurrentUpgradeSlot);
         }
 
@@ -382,11 +404,11 @@ namespace SquadBuilderNS
         private static bool ValidatePlayerRoster(PlayerNo playerNo)
         {
             if (!ValidateUniqueCards(playerNo)) return false;
-            /*if (!ValidateSquadCost(playerNo)) return false;
+            if (!ValidateSquadCost(playerNo)) return false;
             if (!ValidateLimitedCards(playerNo)) return false;
             if (!ValidateShipAiReady(playerNo)) return false;
             if (!ValidateUpgradePostChecks(playerNo)) return false;
-            if (!ValidateDifferentUpgradesInAdditionalSlots()) return false;*/
+            if (!ValidateDifferentUpgradesInAdditionalSlots(playerNo)) return false;
 
             return true;
         }
@@ -427,6 +449,110 @@ namespace SquadBuilderNS
                 uniqueCards.Add(cardName);
                 return false;
             }
+        }
+
+        private static bool ValidateSquadCost(PlayerNo playerNo)
+        {
+            bool result = true;
+
+            if (!DebugManager.DebugNoSquadPointsLimit)
+            {
+                if (GetSquadCost(playerNo) > 100)
+                {
+                    Messages.ShowError("Cost of squadron cannot be more than 100");
+                    result = false;
+                }
+            }
+
+            return result;
+        }
+
+        private static bool ValidateLimitedCards(PlayerNo playerNo)
+        {
+            bool result = true;
+
+            foreach (var shipConfig in SquadLists.Find(n => n.PlayerNo == playerNo).GetShips())
+            {
+                List<string> limitedCards = new List<string>();
+
+                foreach (var upgrade in shipConfig.Instance.UpgradeBar.GetInstalledUpgrades())
+                {
+                    if (upgrade.isLimited)
+                    {
+                        if (!limitedCards.Contains(upgrade.Name))
+                        {
+                            limitedCards.Add(upgrade.Name);
+                        }
+                        else
+                        {
+                            Messages.ShowError("A ship cannot equip multiple copies of the same limited card: " + upgrade.Name);
+                            result = false;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        private static bool ValidateShipAiReady(PlayerNo playerNo)
+        {
+            bool result = true;
+            SquadList aiSquadlist = SquadLists.Find(n => n.PlayerNo == playerNo);
+            if (aiSquadlist.PlayerType == typeof(HotacAiPlayer))
+            {
+                foreach (var shipConfig in aiSquadlist.GetShips())
+                {
+                    if (shipConfig.Instance.HotacManeuverTable == null)
+                    {
+                        Messages.ShowError("AI for " + shipConfig.Instance.Type + " is not ready. It can be controlled only by human.");
+                        return false;
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        private static bool ValidateUpgradePostChecks(PlayerNo playerNo)
+        {
+            bool result = true;
+
+            SquadList squadList = SquadLists.Find(n => n.PlayerNo == playerNo);
+
+            foreach (var shipHolder in squadList.GetShips())
+            {
+                foreach (var upgradeHolder in shipHolder.Instance.UpgradeBar.GetInstalledUpgrades())
+                {
+                    if (!upgradeHolder.IsAllowedForSquadBuilderPostCheck(squadList)) return false;
+                }
+            }
+
+            return result;
+        }
+
+        private static bool ValidateDifferentUpgradesInAdditionalSlots(PlayerNo playerNo)
+        {
+            bool result = true;
+
+            foreach (var shipHolder in SquadLists.Find(n => n.PlayerNo == playerNo).GetShips())
+            {
+                foreach (var upgradeSlot in shipHolder.Instance.UpgradeBar.GetUpgradeSlots())
+                {
+                    if (upgradeSlot.MustBeDifferent && !upgradeSlot.IsEmpty)
+                    {
+                        int countDuplicates = shipHolder.Instance.UpgradeBar.GetInstalledUpgrades().Count(n => n.Name == upgradeSlot.InstalledUpgrade.Name);
+                        if (countDuplicates > 1)
+                        {
+                            Messages.ShowError("Upgrades must be different: " + upgradeSlot.InstalledUpgrade.Name);
+                            return false;
+                        }
+                    }
+                }
+            }
+
+            return result;
         }
     }
 }

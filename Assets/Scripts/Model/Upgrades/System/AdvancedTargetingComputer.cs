@@ -12,6 +12,8 @@ namespace UpgradesList
             Type = UpgradeType.System;
             Name = "Adv. Targeting Computer";
             Cost = 5;
+
+            ImageUrl = ImageUrls.GetImageUrl(this, "advanced-targeting-computer.png");
         }
 
         public override bool IsAllowedForShip(GenericShip ship)

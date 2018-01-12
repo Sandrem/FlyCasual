@@ -583,7 +583,6 @@ namespace SubPhases
             Game.Movement.CollidedWith = null;
 
             MovementTemplates.HideLastMovementRuler();
-            MovementTemplates.CurrentTemplate.gameObject.SetActive(true);
 
             Selection.ThisShip.ToggleShipStandAndPeg(true);
             Selection.ThisShip.FinishPosition(FinishBarrelRollAnimationPart2);

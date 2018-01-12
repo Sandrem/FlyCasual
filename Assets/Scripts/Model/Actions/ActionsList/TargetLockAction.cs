@@ -84,7 +84,7 @@ namespace ActionsList
         {
             Phases.StartTemporarySubPhaseOld(
                 "Select target for Target Lock",
-                typeof(SubPhases.SelectTargetLockSubPhase),
+                typeof(SubPhases.SelectTargetLockActionSubPhase),
                 Phases.CurrentSubPhase.CallBack
             );
         }
@@ -96,7 +96,25 @@ namespace ActionsList
 namespace SubPhases
 {
 
-    public class SelectTargetLockSubPhase : SelectShipSubPhase
+    public class SelectTargetLockActionSubPhase : AcquireTargetLockSubPhase
+    {
+        public override void RevertSubPhase()
+        {
+            Selection.ThisShip.RemoveAlreadyExecutedAction(typeof(ActionsList.TargetLockAction));
+
+            Phases.CurrentSubPhase = PreviousSubPhase;
+            Roster.AllShipsHighlightOff();
+            Phases.CurrentSubPhase.Resume();
+            UpdateHelpInfo();
+        }
+
+        public override void SkipButton()
+        {
+            RevertSubPhase();
+        }
+    }
+
+    public class AcquireTargetLockSubPhase : SelectShipSubPhase
     {
 
         public override void Prepare()
@@ -113,7 +131,7 @@ namespace SubPhases
             UI.ShowSkipButton();
         }
 
-        private void TrySelectTargetLock()
+        protected virtual void TrySelectTargetLock()
         {
             if (Rules.TargetLocks.TargetLockIsAllowed(Selection.ThisShip, TargetShip))
             {
@@ -123,7 +141,7 @@ namespace SubPhases
                     delegate
                     {
                         UI.HideSkipButton();
-                        Phases.FinishSubPhase(typeof(SelectTargetLockSubPhase));
+                        Phases.FinishSubPhase(typeof(SelectTargetLockActionSubPhase));
                         CallBack();
                     },
                     RevertSubPhase
@@ -137,13 +155,12 @@ namespace SubPhases
 
         public override void RevertSubPhase()
         {
-            Selection.ThisShip.RemoveAlreadyExecutedAction(typeof(ActionsList.TargetLockAction));
-            base.RevertSubPhase();
+
         }
 
         public override void SkipButton()
         {
-            RevertSubPhase();
+            CallBack();
         }
 
     }

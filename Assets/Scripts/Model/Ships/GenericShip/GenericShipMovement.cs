@@ -88,7 +88,10 @@ namespace Ship
         {
             if (OnMovementExecuted != null) OnMovementExecuted(this);
 
-            Triggers.ResolveTriggers(TriggerTypes.OnShipMovementExecuted, delegate() { Selection.ThisShip.CallFinishMovement(); });
+            Triggers.ResolveTriggers(
+                TriggerTypes.OnShipMovementExecuted,
+                Selection.ThisShip.CallFinishMovement
+            );
         }
 
         public void CallFinishMovement()
@@ -100,9 +103,7 @@ namespace Ship
                 TriggerTypes.OnShipMovementFinish,
                 delegate () {
                     Roster.HideAssignedManeuverDial(this);
-                    Selection.ThisShip.FinishPosition(delegate () {
-                        Triggers.FinishTrigger();
-                    });
+                    Selection.ThisShip.FinishPosition(Triggers.FinishTrigger);
                 });
         }
 
@@ -172,7 +173,6 @@ namespace Ship
         {
             AssignedManeuver = null;
         }
-
     }
 
 }

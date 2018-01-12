@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using SubPhases;
 
 namespace Ship
 {
@@ -503,6 +504,21 @@ namespace Ship
                     }
                 }
             }
+        }
+
+        public void AcquireTargetLock(Action callback)
+        {
+            AcquireTargetLockSubPhase selectTargetLockSubPhase = (AcquireTargetLockSubPhase)Phases.StartTemporarySubPhaseNew(
+                "Select target for Target Lock",
+                typeof(AcquireTargetLockSubPhase),
+                delegate {
+                    UI.HideSkipButton();
+                    Phases.FinishSubPhase(typeof(AcquireTargetLockSubPhase));
+                    callback();
+                });
+
+            selectTargetLockSubPhase.RequiredPlayer = Owner.PlayerNo;
+            selectTargetLockSubPhase.Start();
         }
 
         public void ReassignTargetLockToken(Type type, char letter, GenericShip newOwner, Action callback)

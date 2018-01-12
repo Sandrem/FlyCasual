@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Players;
 using Ship;
 using System.Reflection;
 using UnityEngine;
 using Upgrade;
+using GameModes;
+using UnityEngine.SceneManagement;
 
 namespace SquadBuilderNS
 {
@@ -40,6 +41,13 @@ namespace SquadBuilderNS
     {
         private List<SquadBuilderShip> Ships;
         public Faction SquadFaction;
+        public Type PlayerType;
+        public PlayerNo PlayerNo;
+
+        public SquadList(PlayerNo playerNo)
+        {
+            PlayerNo = playerNo;
+        }
 
         public void AddShip(PilotRecord pilotRecord)
         {
@@ -88,10 +96,10 @@ namespace SquadBuilderNS
     static partial class SquadBuilder
     {
         public static PlayerNo CurrentPlayer;
-        public static Dictionary<PlayerNo, SquadList> SquadLists;
+        public static List<SquadList> SquadLists;
         public static SquadList CurrentSquadList
         {
-            get { return SquadLists[CurrentPlayer]; }
+            get { return SquadLists.Find(n => n.PlayerNo == CurrentPlayer); }
         }
 
         public static List<ShipRecord> AllShips;
@@ -106,13 +114,18 @@ namespace SquadBuilderNS
         {
             CurrentPlayer = PlayerNo.Player1;
 
-            SquadLists = new Dictionary<PlayerNo, SquadList>()
+            SquadLists = new List<SquadList>()
             {
-                { PlayerNo.Player1, new SquadList() },
-                { PlayerNo.Player2, new SquadList() }
+                new SquadList(PlayerNo.Player1),
+                new SquadList(PlayerNo.Player2)
             };
             GenerateListOfShips();
             GenerateUpgradesList();
+        }
+
+        public static void NextPlayer()
+        {
+            CurrentPlayer = PlayerNo.Player2;
         }
 
         private static void GenerateListOfShips()
@@ -261,6 +274,11 @@ namespace SquadBuilderNS
             GenerateShipWithUpgradesPanels();
         }
 
+        public static void UpdateNextButton()
+        {
+            ShowNextButtonFor(CurrentPlayer);
+        }
+
         public static void ShowPilotWithSlots()
         {
             UpdateSquadCostForPilotMenu(GetSquadCost());
@@ -310,6 +328,105 @@ namespace SquadBuilderNS
         {
             UpdateSquadCostForUpgradesMenu(GetSquadCost());
             ShowAvailableUpgrades(CurrentUpgradeSlot);
+        }
+
+        public static void SetPlayers(string modeName)
+        {
+            switch (modeName)
+            {
+                case "vsAI":
+                    SetPlayerTypes(typeof(HumanPlayer), typeof(HotacAiPlayer));
+                    break;
+                case "Internet":
+                    SetPlayerTypes(typeof(HumanPlayer), typeof(NetworkOpponentPlayer));
+                    break;
+                case "HotSeat":
+                    SetPlayerTypes(typeof(HumanPlayer), typeof(HumanPlayer));
+                    break;
+                case "AIvsAI":
+                    SetPlayerTypes(typeof(HotacAiPlayer), typeof(HotacAiPlayer));
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private static void SetPlayerTypes(Type playerOneType, Type playerTwoType)
+        {
+            SquadLists.Find(n => n.PlayerNo == PlayerNo.Player1).PlayerType = playerOneType;
+            SquadLists.Find(n => n.PlayerNo == PlayerNo.Player2).PlayerType = playerTwoType;
+        }
+
+        public static void StartLocalGame()
+        {
+            GameMode.CurrentGameMode = new LocalGame();
+
+            if (ValidateCurrentPlayersRoster())
+            {
+                ShowOpponentSquad();
+                LoadBattleScene();
+            }
+        }
+
+        private static void LoadBattleScene()
+        {
+            //TestRandom();
+            SceneManager.LoadScene("Battle");
+        }
+
+        public static bool ValidateCurrentPlayersRoster()
+        {
+            return ValidatePlayerRoster(CurrentPlayer);
+        }
+
+        private static bool ValidatePlayerRoster(PlayerNo playerNo)
+        {
+            if (!ValidateUniqueCards(playerNo)) return false;
+            /*if (!ValidateSquadCost(playerNo)) return false;
+            if (!ValidateLimitedCards(playerNo)) return false;
+            if (!ValidateShipAiReady(playerNo)) return false;
+            if (!ValidateUpgradePostChecks(playerNo)) return false;
+            if (!ValidateDifferentUpgradesInAdditionalSlots()) return false;*/
+
+            return true;
+        }
+
+        private static bool ValidateUniqueCards(PlayerNo playerNo)
+        {
+            bool result = true;
+
+            List<string> uniqueCards = new List<string>();
+            foreach (var shipConfig in SquadLists.Find(n => n.PlayerNo == playerNo).GetShips())
+            {
+                if (shipConfig.Instance.IsUnique)
+                {
+                    if (CheckDuplicate(uniqueCards, shipConfig.Instance.PilotName)) return false;
+                }
+
+                foreach (var upgrade in shipConfig.Instance.UpgradeBar.GetInstalledUpgrades())
+                {
+                    if (upgrade.isUnique)
+                    {
+                        if (CheckDuplicate(uniqueCards, upgrade.Name)) return false;
+                    }
+                }
+            }
+            return result;
+        }
+
+        private static bool CheckDuplicate(List<string> uniqueCards, string cardName)
+        {
+            if (cardName.Contains("(")) cardName = cardName.Substring(0, cardName.LastIndexOf("(") - 1);
+            if (uniqueCards.Contains(cardName))
+            {
+                Messages.ShowError("Only one card with unique name " + cardName + " can be present");
+                return true;
+            }
+            else
+            {
+                uniqueCards.Add(cardName);
+                return false;
+            }
         }
     }
 }

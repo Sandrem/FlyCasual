@@ -195,29 +195,29 @@ public static partial class RosterBuilder {
 
     private static void SetPlayers()
     {
-        Global.RemoveAllPlayers();
+        /*Global.RemoveAllPlayers();
         Global.AddPlayer(GetPlayerType(PlayerNo.Player1));
-        Global.AddPlayer(GetPlayerType(PlayerNo.Player2));
+        Global.AddPlayer(GetPlayerType(PlayerNo.Player2));*/
     }
 
     //TODO: Change to property of Player
     private static void SetPlayerFactions()
     {
-        Global.RemoveAllFactions();
+        /*Global.RemoveAllFactions();
         Global.AddFaction(GetPlayerFaction(PlayerNo.Player1));
-        Global.AddFaction(GetPlayerFaction(PlayerNo.Player2));
+        Global.AddFaction(GetPlayerFaction(PlayerNo.Player2));*/
     }
 
     public static void GeneratePlayersShipConfigurations()
     {
-        ShipFactory.Initialize();
+        /*ShipFactory.Initialize();
         Global.RemoveAllShips();
 
         foreach (var ship in SquadBuilderRoster.GetShips())
         {
             ship.Ship.SkinName = GetSkinName(ship);
             Global.AddShip(ship.Ship, ship.Player, GetShipCostCalculated(ship));
-        }
+        }*/
     }
 
     private static void AddInitialShips()
@@ -234,17 +234,17 @@ public static partial class RosterBuilder {
 
     public static void TryAddShip(PlayerNo playerNo)
     {
-        if (GetShipsCount(playerNo) < 8)
+        /*if (GetShipsCount(playerNo) < 8)
         {
             AddShip(playerNo);
         }
         else
         {
             Messages.ShowError("You cannot have more than 8 ships");
-        }
+        }*/
     }
 
-    private static SquadBuilderShip AddShip(PlayerNo playerNo)
+    /*private static SquadBuilderShip AddShip(PlayerNo playerNo)
     {
         List<string> shipResults = GetShipsByFaction(Global.GetPlayerFaction(playerNo));
         string shipNameId = AllShips.Find(n => n.ShipName == shipResults.First()).ShipNamespace;
@@ -268,7 +268,7 @@ public static partial class RosterBuilder {
         OrganizeShipsList(playerNo);
 
         return squadBuilderShip;
-    }
+    }*/
 
     private static List<string> GetSkins(GenericShip ship)
     {
@@ -525,7 +525,7 @@ public static partial class RosterBuilder {
 
     //Go to battle
 
-    public static void StartLocalGame()
+    public static void StartLocalGameOld()
     {
         GameMode.CurrentGameMode = new LocalGame();
 
@@ -663,7 +663,7 @@ public static partial class RosterBuilder {
     {
         bool result = true;
 
-        int squadCost = 0;
+        /*int squadCost = 0;
 
         foreach (var shipConfig in Global.ShipConfigurations)
         {
@@ -688,7 +688,7 @@ public static partial class RosterBuilder {
                 Messages.ShowError("Cost of squadron cannot be more than 100");
                 result = false;
             }
-        }
+        }*/
 
         return result;
     }
@@ -697,7 +697,7 @@ public static partial class RosterBuilder {
     {
         bool result = true;
 
-        List<string> uniqueCards = new List<string>();
+        /*List<string> uniqueCards = new List<string>();
         foreach (var shipConfig in Global.ShipConfigurations)
         {
             if (shipConfig.Player == playerNo)
@@ -715,7 +715,7 @@ public static partial class RosterBuilder {
                     }
                 }
             }
-        }
+        }*/
         return result;
     }
 
@@ -738,7 +738,7 @@ public static partial class RosterBuilder {
     {
         bool result = true;
 
-        foreach (var shipConfig in Global.ShipConfigurations)
+        /*foreach (var shipConfig in Global.ShipConfigurations)
         {
             if (shipConfig.Player == playerNo)
             {
@@ -761,7 +761,7 @@ public static partial class RosterBuilder {
                     }
                 }
             }
-        }
+        }*/
 
         return result;
     }
@@ -770,7 +770,7 @@ public static partial class RosterBuilder {
     {
         bool result = true;
 
-        foreach (var shipConfig in Global.ShipConfigurations)
+        /*foreach (var shipConfig in Global.ShipConfigurations)
         {
             if (shipConfig.Player == playerNo && GetPlayerType(playerNo) == typeof(HotacAiPlayer))
             {
@@ -780,7 +780,7 @@ public static partial class RosterBuilder {
                     return false;
                 }
             }
-        }
+        }*/
 
         return result;
     }
@@ -855,7 +855,7 @@ public static partial class RosterBuilder {
 
     public static void SetPlayerSquadFromImportedJson(JSONObject squadJson, PlayerNo playerNo, Action callBack)
     {
-        string factionNameXws = squadJson["faction"].str;
+        /*string factionNameXws = squadJson["faction"].str;
         string factionName = XWSToFactionName(factionNameXws);
         Dropdown factionDropdown = GetPlayerPanel(playerNo).Find("GroupFaction/Dropdown").GetComponent<Dropdown>();
         factionDropdown.value = factionDropdown.options.IndexOf(factionDropdown.options.Find(n => n.text == factionName));
@@ -901,7 +901,7 @@ public static partial class RosterBuilder {
             Messages.ShowError("No pilots");
         }
 
-        callBack();
+        callBack();*/
     }
 
     private static void InstallUpgradeIntoShipPanel(SquadBuilderShip ship, UpgradeType upgradeType, string upgradeNameWithCost)

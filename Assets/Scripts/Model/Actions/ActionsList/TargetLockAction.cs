@@ -141,7 +141,6 @@ namespace SubPhases
                     delegate
                     {
                         UI.HideSkipButton();
-                        Phases.FinishSubPhase(typeof(SelectTargetLockActionSubPhase));
                         CallBack();
                     },
                     RevertSubPhase

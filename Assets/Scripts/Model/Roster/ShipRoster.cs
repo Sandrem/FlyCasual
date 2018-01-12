@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine;
 using Players;
 using Ship;
+using SquadBuilderNS;
 
 public static partial class Roster
 {
@@ -37,9 +38,9 @@ public static partial class Roster
 
     private static void CreatePlayers()
     {
-        foreach (var playerType in Global.PlayerTypes)
+        foreach (var squadList in SquadBuilder.SquadLists)
         {
-            CreatePlayer(playerType);
+            CreatePlayer(squadList.PlayerType);
         }
     }
 
@@ -52,11 +53,15 @@ public static partial class Roster
 
     private static void SpawnAllShips()
     {
-        foreach (var shipConfig in Global.ShipConfigurations)
+        foreach (var squadList in SquadBuilder.SquadLists)
         {
-            GenericShip newShip = ShipFactory.SpawnShip(shipConfig);
-            AddShipToLists(newShip);
+            foreach (SquadBuilderShip shipConfig in squadList.GetShips())
+            {
+                GenericShip newShip = ShipFactory.SpawnShip(shipConfig);
+                AddShipToLists(newShip);
+            }
         }
+
         Board.BoardManager.SetShips();
     }
 

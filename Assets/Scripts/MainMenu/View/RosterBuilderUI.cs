@@ -50,4 +50,13 @@ public class RosterBuilderUI : MonoBehaviour {
         MainMenu.CurrentMainMenu.ChangePanel("SquadBuilderPanel");
     }
 
+    public void NextPlayer()
+    {
+        if (SquadBuilder.ValidateCurrentPlayersRoster())
+        {
+            SquadBuilder.NextPlayer();
+            MainMenu.CurrentMainMenu.ChangePanel("SelectFactionPanel");
+        }
+    }
+
 }

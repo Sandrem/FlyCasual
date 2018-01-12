@@ -111,7 +111,7 @@ public partial class NetworkPlayerController : NetworkBehaviour {
         RosterBuilder.ShowOpponentSquad();
         RosterBuilder.HideNetworkManagerHUD();
 
-        Global.RemoveAllPlayers();
+        /*Global.RemoveAllPlayers();
         if (IsServer)
         {
             Global.AddPlayer(typeof(Players.HumanPlayer));
@@ -121,7 +121,7 @@ public partial class NetworkPlayerController : NetworkBehaviour {
         {
             Global.AddPlayer(typeof(Players.NetworkOpponentPlayer));
             Global.AddPlayer(typeof(Players.HumanPlayer));
-        }
+        }*/
 
         JSONObject localSquadList = RosterBuilder.GetSquadInJson(Players.PlayerNo.Player1);
         Network.StoreSquadList(localSquadList.ToString(), isServer);

@@ -7,19 +7,7 @@ using SquadBuilderNS;
 
 public class RosterBuilderUI : MonoBehaviour {
 
-    // OLD
-
-    public void AddShip(int playerNo)
-    {
-        RosterBuilder.TryAddShip(Tools.IntToPlayer(playerNo));
-    }
-
-    public void OnPlayerFactionChanged()
-    {
-        RosterBuilder.PlayerFactonChange();
-    }
-
-    public void CopyToClipboard()
+    /*public void CopyToClipboard()
     {
         GUIUtility.systemCopyBuffer = GameObject.Find("UI/Panels/ImportExportPanel/InputField").GetComponent<InputField>().text;
     }
@@ -32,7 +20,7 @@ public class RosterBuilderUI : MonoBehaviour {
     public void Import()
     {
         RosterBuilder.CreateSquadFromImportedjson(GameObject.Find("UI/Panels/ImportExportPanel/InputField").GetComponent<InputField>().text, Players.PlayerNo.Player1);
-    }
+    }*/
 
     // NEW
 

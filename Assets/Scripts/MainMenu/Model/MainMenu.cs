@@ -4,6 +4,7 @@ using UnityEngine;
 using Mods;
 using UnityEngine.UI;
 using SquadBuilderNS;
+using System.Linq;
 
 public partial class MainMenu : MonoBehaviour {
 
@@ -48,7 +49,7 @@ public partial class MainMenu : MonoBehaviour {
 
     private bool IsNetworkGame()
     {
-        return GameObject.Find("UI/Panels/RosterBuilderPanel/PlayersPanel/Player2Panel/GroupPlayer").GetComponentInChildren<Dropdown>().value == 2;
+        return SquadBuilder.SquadLists.Find(n => n.PlayerNo == Players.PlayerNo.Player2).PlayerType == typeof(Players.NetworkOpponentPlayer);
     }
 
     public void QuitGame()
@@ -89,7 +90,7 @@ public partial class MainMenu : MonoBehaviour {
         }
     }
 
-    public void ImportSquadList()
+    /*public void ImportSquadList()
     {
         RosterBuilder.ImportSquadList();
     }
@@ -97,7 +98,7 @@ public partial class MainMenu : MonoBehaviour {
     public void ExportSquadList()
     {
         RosterBuilder.ExportSquadList(Players.PlayerNo.Player1);
-    }
+    }*/
 
     // 0.3.2 UI
 

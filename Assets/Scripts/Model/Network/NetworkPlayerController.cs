@@ -17,7 +17,7 @@ public partial class NetworkPlayerController : NetworkBehaviour {
             if (Network.ReadyToStartMatch)
             {
                 Network.ReadyToStartMatch = false;
-                RosterBuilder.StartNetworkGame();
+                //RosterBuilder.StartNetworkGame();
             }
         }
         
@@ -58,12 +58,12 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     [ClientRpc]
     private void RpcRosterTest()
     {
-        string text = (isServer) ? "Hello from server" : "Hello from client";
+        /*string text = (isServer) ? "Hello from server" : "Hello from client";
         text += "\nMy first ship is " + RosterBuilder.TestGetNameOfFirstShipInRoster();
         Network.UpdateAllShipNames(RosterBuilder.TestGetNameOfFirstShipInRoster() + "\n");
         Network.ShowMessage(text);
 
-        Network.FinishTask();
+        Network.FinishTask();*/
     }
 
     [Command]
@@ -108,8 +108,8 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     {
         GameMode.CurrentGameMode = new NetworkGame();
 
-        RosterBuilder.ShowOpponentSquad();
-        RosterBuilder.HideNetworkManagerHUD();
+        /*RosterBuilder.ShowOpponentSquad();
+        RosterBuilder.HideNetworkManagerHUD();*/
 
         /*Global.RemoveAllPlayers();
         if (IsServer)
@@ -123,9 +123,9 @@ public partial class NetworkPlayerController : NetworkBehaviour {
             Global.AddPlayer(typeof(Players.HumanPlayer));
         }*/
 
-        JSONObject localSquadList = RosterBuilder.GetSquadInJson(Players.PlayerNo.Player1);
+        /*JSONObject localSquadList = RosterBuilder.GetSquadInJson(Players.PlayerNo.Player1);
         Network.StoreSquadList(localSquadList.ToString(), isServer);
-        Network.FinishTask();
+        Network.FinishTask();*/
     }
 
     [Command]
@@ -143,9 +143,9 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     [ClientRpc]
     public void RpcSendSquadToOpponent(string squadsJsonString)
     {
-        JSONObject squadsJson = new JSONObject(squadsJsonString);
+        //JSONObject squadsJson = new JSONObject(squadsJsonString);
 
-        if (squadsJson.HasField("Server"))
+        /*if (squadsJson.HasField("Server"))
         {
             JSONObject squadJson = squadsJson["Server"];
             RosterBuilder.SetPlayerSquadFromImportedJson(squadJson, Players.PlayerNo.Player1, delegate { });
@@ -155,7 +155,7 @@ public partial class NetworkPlayerController : NetworkBehaviour {
         {
             JSONObject squadJson = squadsJson["Client"];
             RosterBuilder.SetPlayerSquadFromImportedJson(squadJson, Players.PlayerNo.Player2, Network.FinishTask);
-        }
+        }*/
     }
 
     [Command]
@@ -167,9 +167,9 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     [ClientRpc]
     public void RpcLoadBattleScene()
     {
-        RosterBuilder.GeneratePlayersShipConfigurations();
+        /*RosterBuilder.GeneratePlayersShipConfigurations();
 
-        RosterBuilder.LoadBattleScene();
+        RosterBuilder.LoadBattleScene();*/
     }
 
     [Command]

@@ -39,9 +39,6 @@ public partial class MainMenu : MonoBehaviour {
     {
         switch (panelName)
         {
-            case "RosterBuilderPanel":
-                if (previousPanelName == "GameModeDecisionPanel") RosterBuilder.Initialize();
-                break;
             case "OptionsPanel":
                 Options.InitializePanel();
                 break;
@@ -52,7 +49,7 @@ public partial class MainMenu : MonoBehaviour {
                 Network.BrowseMatches();
                 break;
             case "SelectFactionPanel":
-                //
+                //if (previousPanelName == "GameModeDecisionPanel") RosterBuilder.Initialize();
                 break;
             case "SquadBuilderPanel":
                 SquadBuilder.ShowShipsAndUpgrades();

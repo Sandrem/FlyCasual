@@ -65,6 +65,11 @@ namespace SquadBuilderNS
             if (Ships == null) Ships = new List<SquadBuilderShip>();
             return Ships;
         }
+
+        public void ClearShips()
+        {
+            Ships = new List<SquadBuilderShip>();
+        }
     }
 
     public class ShipRecord
@@ -95,7 +100,7 @@ namespace SquadBuilderNS
 
     static partial class SquadBuilder
     {
-        public static PlayerNo CurrentPlayer;
+        public static PlayerNo CurrentPlayer { get; private set; }
         public static List<SquadList> SquadLists;
         public static SquadList CurrentSquadList
         {
@@ -112,8 +117,6 @@ namespace SquadBuilderNS
 
         public static void Initialize()
         {
-            CurrentPlayer = PlayerNo.Player1;
-
             SquadLists = new List<SquadList>()
             {
                 new SquadList(PlayerNo.Player1),
@@ -123,9 +126,14 @@ namespace SquadBuilderNS
             GenerateUpgradesList();
         }
 
-        public static void NextPlayer()
+        public static void SetCurrentPlayer(PlayerNo playerNo)
         {
-            CurrentPlayer = PlayerNo.Player2;
+            CurrentPlayer = playerNo;
+        }
+
+        public static void ClearShipsOfCurrentPlayer()
+        {
+            CurrentSquadList.ClearShips();
         }
 
         private static void GenerateListOfShips()
@@ -411,6 +419,7 @@ namespace SquadBuilderNS
 
         private static bool ValidatePlayerRoster(PlayerNo playerNo)
         {
+            if (RosterIsEmpty(playerNo)) return false;
             if (!ValidateUniqueCards(playerNo)) return false;
             if (!ValidateSquadCost(playerNo)) return false;
             if (!ValidateLimitedCards(playerNo)) return false;
@@ -419,6 +428,17 @@ namespace SquadBuilderNS
             if (!ValidateDifferentUpgradesInAdditionalSlots(playerNo)) return false;
 
             return true;
+        }
+
+        private static bool RosterIsEmpty(PlayerNo playerNo)
+        {
+            bool result = false;
+            if (SquadLists.Find(n => n.PlayerNo == playerNo).GetShips().Count == 0)
+            {
+                result = true;
+                Messages.ShowError("At least one pilot must be present");
+            }
+            return result;
         }
 
         private static bool ValidateUniqueCards(PlayerNo playerNo)
@@ -871,5 +891,10 @@ namespace SquadBuilderNS
 
             return result;
         }*/
+
+        public static bool IsNetworkGame
+        {
+            get { return SquadLists.Find(n => n.PlayerNo == PlayerNo.Player2).PlayerType == typeof(NetworkOpponentPlayer); }
+        }
     }
 }

@@ -5,6 +5,7 @@ using Mods;
 using UnityEngine.UI;
 using SquadBuilderNS;
 using System.Linq;
+using Players;
 
 public partial class MainMenu : MonoBehaviour {
 
@@ -36,7 +37,7 @@ public partial class MainMenu : MonoBehaviour {
     {
         ShipFactory.Initialize();
 
-        if (!IsNetworkGame())
+        if (!SquadBuilder.IsNetworkGame)
         {
             SquadBuilder.StartLocalGame();
         }
@@ -45,11 +46,6 @@ public partial class MainMenu : MonoBehaviour {
             GameObject squadBuilerPanel = GameObject.Find("UI/Panels").transform.Find("MultiplayerDecisionPanel").gameObject;
             ChangePanel(squadBuilerPanel);
         }
-    }
-
-    private bool IsNetworkGame()
-    {
-        return SquadBuilder.SquadLists.Find(n => n.PlayerNo == Players.PlayerNo.Player2).PlayerType == typeof(Players.NetworkOpponentPlayer);
     }
 
     public void QuitGame()
@@ -129,6 +125,7 @@ public partial class MainMenu : MonoBehaviour {
     public void StartSquadBuilerMode(string modeName)
     {
         SquadBuilder.Initialize();
+        SquadBuilder.SetCurrentPlayer(PlayerNo.Player1);
         SquadBuilder.SetPlayers(modeName);
         ChangePanel("SelectFactionPanel");
     }

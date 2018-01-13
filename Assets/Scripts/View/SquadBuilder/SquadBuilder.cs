@@ -303,12 +303,13 @@ namespace SquadBuilderNS
         private static void ArrangeShipsWithUpgradesInTwoLines(float allPanelsWidth)
         {
             float defaultHeight = 600;
+            float defaultWidth = 1366 - 2 * DISTANCE_MEDIUM;
             float offset = 0;
 
             Dictionary<ShipWithUpgradesPanel, int> panelsByRow = GetArrangeShipsWithUpgradesIntoRowNumbers();
             float row1width = panelsByRow.Where(n => n.Value == 1).Sum(m => m.Key.Size.x) + DISTANCE_LARGE * (panelsByRow.Count(n => n.Value == 1) - 1);
             float row2width = panelsByRow.Where(n => n.Value == 2).Sum(m => m.Key.Size.x) + DISTANCE_LARGE * (panelsByRow.Count(n => n.Value == 1) - 1);
-            if (AddShipButtonPanel != null) row2width += AddShipButtonPanel.Size.x;
+            if (AddShipButtonPanel != null) row2width += AddShipButtonPanel.Size.x + DISTANCE_LARGE;
             float maxWidth = Mathf.Max(row1width, row2width);
 
             GameObject centerPanel = GameObject.Find("UI/Panels/SquadBuilderPanel/Panel/Centered");
@@ -333,7 +334,18 @@ namespace SquadBuilderNS
                 AddShipButtonPanel.Panel.transform.localPosition = new Vector2(offset, -(PILOT_CARD_HEIGHT + DISTANCE_MEDIUM));
             }
 
-            float scale = Mathf.Min(PILOT_CARD_HEIGHT / defaultHeight, 1);
+            float verticalScale = Mathf.Min(PILOT_CARD_HEIGHT / defaultHeight, 1);
+
+            float firstRowWidth = panelsByRow.Where(n => n.Value == 1).Sum(n => n.Key.Size.x) + DISTANCE_LARGE * (panelsByRow.Where(n => n.Value == 1).ToList().Count - 1);
+            float secondRowWidth = panelsByRow.Where(n => n.Value == 2).Sum(n => n.Key.Size.x) + DISTANCE_LARGE * (panelsByRow.Where(n => n.Value == 2).ToList().Count - 1);
+
+            if (AddShipButtonPanel != null) secondRowWidth += AddShipButtonPanel.Size.x + DISTANCE_LARGE;
+
+            float scaleRow1 = defaultWidth / (firstRowWidth * verticalScale);
+            float scaleRow2 = defaultWidth / (secondRowWidth * verticalScale);
+            float horizontalScale = Mathf.Min(scaleRow1, scaleRow2, 1);
+
+            float scale = verticalScale * horizontalScale;
             centerPanel.transform.localScale = new Vector2(scale, scale);
         }
 
@@ -341,21 +353,28 @@ namespace SquadBuilderNS
         {
             Dictionary<ShipWithUpgradesPanel, int> result = new Dictionary<ShipWithUpgradesPanel, int>();
 
+            bool isAddShipPanelVisible = AddShipButtonPanel != null;
+
             ShipWithUpgradesPanel maxSizePanel = ShipWithUpgradesPanels.Find(n => n.Size.x == ShipWithUpgradesPanels.Max(m => m.Size.x));
             result.Add(maxSizePanel, 1);
 
             float maxWidth = ShipWithUpgradesPanels.Sum(n => n.Size.x) - maxSizePanel.Size.x;
-            if (AddShipButtonPanel != null) maxWidth += AddShipButtonPanel.Size.x;
+            if (isAddShipPanelVisible) maxWidth += AddShipButtonPanel.Size.x;
             float difference = Mathf.Abs(maxWidth - maxSizePanel.Size.x);
 
             bool finished = false;
             while (!finished)
             {
-                ShipWithUpgradesPanel minSizePanel = ShipWithUpgradesPanels.Find(n => n.Size.x == ShipWithUpgradesPanels.Min(m => m.Size.x) && !result.ContainsKey(n));
-                float newDifference = Mathf.Abs(result.Sum(n => n.Key.Size.x) + minSizePanel.Size.x - maxWidth + (result.Sum(n => n.Key.Size.x) + minSizePanel.Size.x));
+                List<ShipWithUpgradesPanel> shipPanelsNotProcessed = ShipWithUpgradesPanels.Where(n => !result.ContainsKey(n)).ToList();
+                ShipWithUpgradesPanel minSizePanel = shipPanelsNotProcessed.Find(n => n.Size.x == shipPanelsNotProcessed.Min(m => m.Size.x));
+
+                float firstRowWidth = result.Where(n => n.Value == 1).Sum(n => n.Key.Size.x) + minSizePanel.Size.x;
+                float secondRowWidth = maxWidth - result.Where(n => n.Value == 1).Sum(n => n.Key.Size.x);
+                float newDifference = Mathf.Abs(firstRowWidth - secondRowWidth);
+
                 if (newDifference > difference)
                 {
-                    foreach (ShipWithUpgradesPanel panel in ShipWithUpgradesPanels)
+                    foreach (ShipWithUpgradesPanel panel in shipPanelsNotProcessed)
                     {
                         if (!result.ContainsKey(panel)) result.Add(panel, 2);
                     }

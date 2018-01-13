@@ -112,6 +112,12 @@ namespace SubPhases
         {
             RevertSubPhase();
         }
+
+        protected override void SuccessfulCallback()
+        {
+            Phases.FinishSubPhase(typeof(SelectTargetLockActionSubPhase));
+            base.SuccessfulCallback();
+        }
     }
 
     public class AcquireTargetLockSubPhase : SelectShipSubPhase
@@ -131,6 +137,12 @@ namespace SubPhases
             UI.ShowSkipButton();
         }
 
+        protected virtual void SuccessfulCallback()
+        {
+            UI.HideSkipButton();
+            CallBack();
+        }
+
         protected virtual void TrySelectTargetLock()
         {
             if (Rules.TargetLocks.TargetLockIsAllowed(Selection.ThisShip, TargetShip))
@@ -138,11 +150,7 @@ namespace SubPhases
                 Actions.AssignTargetLockToPair(
                     Selection.ThisShip,
                     TargetShip,
-                    delegate
-                    {
-                        UI.HideSkipButton();
-                        CallBack();
-                    },
+                    SuccessfulCallback,
                     RevertSubPhase
                 );
             }

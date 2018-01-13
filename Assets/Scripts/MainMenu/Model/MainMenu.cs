@@ -37,7 +37,7 @@ public partial class MainMenu : MonoBehaviour {
     {
         ShipFactory.Initialize();
 
-        if (!IsNetworkGame())
+        if (!SquadBuilder.IsNetworkGame)
         {
             SquadBuilder.StartLocalGame();
         }
@@ -46,11 +46,6 @@ public partial class MainMenu : MonoBehaviour {
             GameObject squadBuilerPanel = GameObject.Find("UI/Panels").transform.Find("MultiplayerDecisionPanel").gameObject;
             ChangePanel(squadBuilerPanel);
         }
-    }
-
-    private bool IsNetworkGame()
-    {
-        return SquadBuilder.SquadLists.Find(n => n.PlayerNo == Players.PlayerNo.Player2).PlayerType == typeof(Players.NetworkOpponentPlayer);
     }
 
     public void QuitGame()

@@ -891,5 +891,10 @@ namespace SquadBuilderNS
 
             return result;
         }*/
+
+        public static bool IsNetworkGame
+        {
+            get { return SquadLists.Find(n => n.PlayerNo == PlayerNo.Player2).PlayerType == typeof(NetworkOpponentPlayer); }
+        }
     }
 }

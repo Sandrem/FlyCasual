@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using SquadBuilderNS;
+using Players;
 
 public class RosterBuilderUI : MonoBehaviour {
 
@@ -42,8 +43,28 @@ public class RosterBuilderUI : MonoBehaviour {
     {
         if (SquadBuilder.ValidateCurrentPlayersRoster())
         {
-            SquadBuilder.NextPlayer();
-            MainMenu.CurrentMainMenu.ChangePanel("SelectFactionPanel");
+            if (SquadBuilder.IsNetworkGame)
+            {
+                MainMenu.CurrentMainMenu.ChangePanel("MultiplayerDecisionPanel");
+            }
+            else
+            {
+                SquadBuilder.SetCurrentPlayer(PlayerNo.Player2);
+                MainMenu.CurrentMainMenu.ChangePanel("SelectFactionPanel");
+            }
+        }
+    }
+
+    public void FactionSelectionBackIsPressed()
+    {
+        if (SquadBuilder.CurrentPlayer == PlayerNo.Player1)
+        {
+            MainMenu.CurrentMainMenu.ChangePanel("GameModeDecisionPanel");
+        }
+        else if (SquadBuilder.CurrentPlayer == PlayerNo.Player2)
+        {
+            SquadBuilder.SetCurrentPlayer(PlayerNo.Player1);
+            MainMenu.CurrentMainMenu.ChangePanel("SquadBuilderPanel");
         }
     }
 

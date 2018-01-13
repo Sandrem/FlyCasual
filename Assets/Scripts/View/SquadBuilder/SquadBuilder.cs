@@ -10,25 +10,21 @@ using Upgrade;
 
 namespace SquadBuilderNS
 {
-    public class ShipWithUpgradesPanel
+    public static partial class SquadBuilder
     {
-        public GameObject Panel;
-        public Vector2 Size = new Vector2(300, 418);
-        public SquadBuilderShip Ship;
+        private const int SHIP_COLUMN_COUNT = 5;
+        private const float PILOT_CARD_WIDTH = 300;
+        private const float PILOT_CARD_HEIGHT = 418;
+        private const float UPGRADE_CARD_WIDTH = 194;
+        private const float UPGRADE_CARD_HEIGHT = 300;
+        private const float DISTANCE_LARGE = 40;
+        private const float DISTANCE_MEDIUM = 20;
+        private const float DISTANCE_SMALL = 10;
 
-        public ShipWithUpgradesPanel(SquadBuilderShip ship, GameObject panel)
-        {
-            Ship = ship;
-            Panel = panel;
-        }
-    }
-
-    static partial class SquadBuilder
-    {
         private class UpgradeSlotPanel
         {
             public GameObject Panel;
-            public Vector2 Size = new Vector2(194, 300);
+            public Vector2 Size = new Vector2(UPGRADE_CARD_WIDTH, UPGRADE_CARD_HEIGHT);
             public GenericUpgrade Upgrade;
             public UpgradeType SlotType;
 
@@ -36,6 +32,19 @@ namespace SquadBuilderNS
             {
                 Upgrade = upgrade;
                 SlotType = slotType;
+                Panel = panel;
+            }
+        }
+
+        public class ShipWithUpgradesPanel
+        {
+            public GameObject Panel;
+            public Vector2 Size = new Vector2(PILOT_CARD_WIDTH, PILOT_CARD_HEIGHT);
+            public SquadBuilderShip Ship;
+
+            public ShipWithUpgradesPanel(SquadBuilderShip ship, GameObject panel)
+            {
+                Ship = ship;
                 Panel = panel;
             }
         }
@@ -65,8 +74,6 @@ namespace SquadBuilderNS
 
         private static void ShowAvailableShip(ShipRecord ship)
         {
-            int columnsCount = 5;
-
             GameObject prefab = (GameObject)Resources.Load("Prefabs/SquadBuilder/ShipPanel", typeof(GameObject));
             GameObject newShipPanel = MonoBehaviour.Instantiate(prefab, GameObject.Find("UI/Panels/SelectShipPanel/Panel").transform);
 
@@ -74,10 +81,10 @@ namespace SquadBuilderNS
             script.ImageUrl = GetImageOfIconicPilot(ship);
             script.ShipName = ship.ShipName;
 
-            int row = availableShipsCounter / columnsCount;
-            int column = availableShipsCounter - (row * columnsCount);
+            int row = availableShipsCounter / SHIP_COLUMN_COUNT;
+            int column = availableShipsCounter - (row * SHIP_COLUMN_COUNT);
 
-            newShipPanel.transform.localPosition = new Vector3(25 + column * 300 + 25 * (column), - (20 + row * 184 + 20 * (row)), 0);
+            newShipPanel.transform.localPosition = new Vector3(25 + column * PILOT_CARD_WIDTH + 25 * (column), - (DISTANCE_MEDIUM + row * 184 + DISTANCE_MEDIUM * (row)), 0);
 
             availableShipsCounter++;
         }
@@ -96,11 +103,15 @@ namespace SquadBuilderNS
 
         private static void ShowAvailablePilots(Faction faction, string shipName)
         {
-            DestroyChildren(GameObject.Find("UI/Panels/SelectPilotPanel/Panel/Scroll View/Viewport/Content").transform);
             availablePilotsCounter = 0;
-            ShipRecord shipRecord = AllShips.Find(n => n.ShipName == shipName);
 
+            ShipRecord shipRecord = AllShips.Find(n => n.ShipName == shipName);
             List<PilotRecord> AllPilotsFiltered = AllPilots.Where(n => n.PilotShip == shipRecord && n.Instance.faction == faction).OrderByDescending(n => n.PilotSkill).ToList();
+            int pilotsCount = AllPilotsFiltered.Count;
+
+            Transform contentTransform = GameObject.Find("UI/Panels/SelectPilotPanel/Panel/Scroll View/Viewport/Content").transform;
+            DestroyChildren(contentTransform);
+            contentTransform.GetComponent<RectTransform>().sizeDelta = new Vector2(pilotsCount*(PILOT_CARD_WIDTH + DISTANCE_MEDIUM) + 2 * DISTANCE_MEDIUM, 0);
 
             foreach (PilotRecord pilot in AllPilotsFiltered)
             {
@@ -118,10 +129,6 @@ namespace SquadBuilderNS
 
         private static void ShowAvailablePilot(PilotRecord pilotRecord)
         {
-            float widthPilotPanel = 300;
-            float heightPilotPanel = 418;
-            float widthBetweenX = 20;
-
             GameObject prefab = (GameObject)Resources.Load("Prefabs/SquadBuilder/PilotPanel", typeof(GameObject));
             Transform contentTransform = GameObject.Find("UI/Panels/SelectPilotPanel/Panel/Scroll View/Viewport/Content").transform;
             GameObject newPilotPanel = MonoBehaviour.Instantiate(prefab, contentTransform);
@@ -131,8 +138,7 @@ namespace SquadBuilderNS
 
             int column = availablePilotsCounter;
 
-            newPilotPanel.transform.localPosition = new Vector3(widthBetweenX + (300 + widthBetweenX) * column, heightPilotPanel/2, 0);
-            contentTransform.GetComponent<RectTransform>().sizeDelta = new Vector2(newPilotPanel.transform.localPosition.x + widthPilotPanel + widthBetweenX, 0);
+            newPilotPanel.transform.localPosition = new Vector3(DISTANCE_MEDIUM + (PILOT_CARD_WIDTH + DISTANCE_MEDIUM) * column, PILOT_CARD_HEIGHT/2, 0);
 
             availablePilotsCounter++;
         }
@@ -171,6 +177,11 @@ namespace SquadBuilderNS
             ShipWithUpgradesPanels.Add(shipWithUpgradesPanel);
             ship.Panel = shipWithUpgradesPanel;
 
+            Transform contentTransform = ship.Panel.Panel.transform;
+            RectTransform contentRect = contentTransform.GetComponent<RectTransform>();
+            int installedUpgradesCount = ship.Instance.UpgradeBar.GetInstalledUpgrades().Count;
+            contentRect.sizeDelta = new Vector2(PILOT_CARD_WIDTH + (UPGRADE_CARD_WIDTH + DISTANCE_SMALL) * installedUpgradesCount, contentRect.sizeDelta.y);
+
             prefab = (GameObject)Resources.Load("Prefabs/SquadBuilder/PilotPanel", typeof(GameObject));
             GameObject pilotPanel = MonoBehaviour.Instantiate(prefab, shipWithUpgradesPanelGO.transform);
             pilotPanel.transform.localPosition = Vector3.zero;
@@ -183,6 +194,8 @@ namespace SquadBuilderNS
 
         private static void ShowUpgradesOfPilot(SquadBuilderShip ship)
         {
+            availableUpgradesCounter = 0;
+
             foreach (GenericUpgrade upgrade in ship.Instance.UpgradeBar.GetInstalledUpgrades())
             {
                 ShowUpgradeOfPilot(upgrade, ship);
@@ -191,20 +204,18 @@ namespace SquadBuilderNS
 
         private static void ShowUpgradeOfPilot(GenericUpgrade upgrade, SquadBuilderShip ship)
         {
-            float widthBetweenX = 10;
-            float widthUpgrade = 194;
-
             GameObject prefab = (GameObject)Resources.Load("Prefabs/SquadBuilder/UpgradePanel", typeof(GameObject));
             Transform contentTransform = ship.Panel.Panel.transform;
             GameObject newUpgradePanel = MonoBehaviour.Instantiate(prefab, contentTransform);
 
             RectTransform contentRect = contentTransform.GetComponent<RectTransform>();
-            newUpgradePanel.transform.localPosition = new Vector2(contentRect.sizeDelta.x + widthBetweenX, 0);
-            contentRect.sizeDelta = new Vector2(contentRect.sizeDelta.x + widthBetweenX + widthUpgrade, contentRect.sizeDelta.y);
+            newUpgradePanel.transform.localPosition = new Vector2(PILOT_CARD_WIDTH + DISTANCE_SMALL + (UPGRADE_CARD_WIDTH + DISTANCE_SMALL) * availableUpgradesCounter, 0);
             ship.Panel.Size = contentRect.sizeDelta;
 
             UpgradePanelSquadBuilder script = newUpgradePanel.GetComponent<UpgradePanelSquadBuilder>();
             script.Initialize(upgrade.Name, null, null, null);
+
+            availableUpgradesCounter++;
         }
 
         private static void ShowAddShipPanel()
@@ -233,17 +244,16 @@ namespace SquadBuilderNS
         private static void OrganizeShipWithUpgradesPanels()
         {
             float allPanelsWidth = 0;
-            float distanceBetweenX = 40;
-            float defaultWidth = 1326;
+            float defaultWidth = 1366 - 2 * DISTANCE_MEDIUM;
 
             foreach (ShipWithUpgradesPanel panel in ShipWithUpgradesPanels)
             {
                 allPanelsWidth = allPanelsWidth + panel.Size.x;
             }
 
-            if (ShipWithUpgradesPanels.Count > 2)
+            if (ShipWithUpgradesPanels.Count > 1)
             {
-                allPanelsWidth += distanceBetweenX * (ShipWithUpgradesPanels.Count - 1);
+                allPanelsWidth += DISTANCE_LARGE * (ShipWithUpgradesPanels.Count - 1);
             }
 
             if (AddShipButtonPanel != null)
@@ -253,7 +263,7 @@ namespace SquadBuilderNS
             
             if (ShipWithUpgradesPanels.Count > 0)
             {
-                allPanelsWidth += distanceBetweenX;
+                allPanelsWidth += DISTANCE_LARGE;
             }
 
             if (defaultWidth/allPanelsWidth > 0.75f)
@@ -269,18 +279,16 @@ namespace SquadBuilderNS
 
         private static void ArrangeShipsWithUpgradesInOneLine(float allPanelsWidth)
         {
-            float defaultWidth = 1326;
-            float defaultCardHeight = 418;
-            float distanceBetweenX = 40;
+            float defaultWidth = 1366 - 2 * DISTANCE_MEDIUM;
             float offset = 0;
 
             GameObject centerPanel = GameObject.Find("UI/Panels/SquadBuilderPanel/Panel/Centered");
-            centerPanel.GetComponent<RectTransform>().sizeDelta = new Vector2(allPanelsWidth, defaultCardHeight);
+            centerPanel.GetComponent<RectTransform>().sizeDelta = new Vector2(allPanelsWidth, PILOT_CARD_HEIGHT);
 
             foreach (ShipWithUpgradesPanel panel in ShipWithUpgradesPanels)
             {
                 panel.Panel.transform.localPosition = new Vector2(offset, 0);
-                offset += panel.Size.x + distanceBetweenX;
+                offset += panel.Size.x + DISTANCE_LARGE;
             }
 
             if (AddShipButtonPanel != null)
@@ -295,40 +303,37 @@ namespace SquadBuilderNS
         private static void ArrangeShipsWithUpgradesInTwoLines(float allPanelsWidth)
         {
             float defaultHeight = 600;
-            float defaultCardHeight = 418;
-            float distanceBetweenX = 40;
-            float distanceBetweenY = 20;
             float offset = 0;
 
             Dictionary<ShipWithUpgradesPanel, int> panelsByRow = GetArrangeShipsWithUpgradesIntoRowNumbers();
-            float row1width = panelsByRow.Where(n => n.Value == 1).Sum(m => m.Key.Size.x) + distanceBetweenX * (panelsByRow.Count(n => n.Value == 1) - 1);
-            float row2width = panelsByRow.Where(n => n.Value == 2).Sum(m => m.Key.Size.x) + distanceBetweenX * (panelsByRow.Count(n => n.Value == 1) - 1);
+            float row1width = panelsByRow.Where(n => n.Value == 1).Sum(m => m.Key.Size.x) + DISTANCE_LARGE * (panelsByRow.Count(n => n.Value == 1) - 1);
+            float row2width = panelsByRow.Where(n => n.Value == 2).Sum(m => m.Key.Size.x) + DISTANCE_LARGE * (panelsByRow.Count(n => n.Value == 1) - 1);
             if (AddShipButtonPanel != null) row2width += AddShipButtonPanel.Size.x;
             float maxWidth = Mathf.Max(row1width, row2width);
 
             GameObject centerPanel = GameObject.Find("UI/Panels/SquadBuilderPanel/Panel/Centered");
-            centerPanel.GetComponent<RectTransform>().sizeDelta = new Vector2(maxWidth, 2*defaultCardHeight + distanceBetweenY);
+            centerPanel.GetComponent<RectTransform>().sizeDelta = new Vector2(maxWidth, 2 * PILOT_CARD_HEIGHT + DISTANCE_MEDIUM);
 
             offset = (maxWidth - row1width) / 2;
             foreach (var panel in panelsByRow.Where(n => n.Value == 1))
             {
                 panel.Key.Panel.transform.localPosition = new Vector2(offset, 0);
-                offset += panel.Key.Size.x + distanceBetweenX;
+                offset += panel.Key.Size.x + DISTANCE_LARGE;
             }
 
             offset = (maxWidth - row2width) / 2;
             foreach (var panel in panelsByRow.Where(n => n.Value == 2))
             {
-                panel.Key.Panel.transform.localPosition = new Vector2(offset, -(defaultCardHeight + distanceBetweenY));
-                offset += panel.Key.Size.x + distanceBetweenX;
+                panel.Key.Panel.transform.localPosition = new Vector2(offset, -(PILOT_CARD_HEIGHT + DISTANCE_MEDIUM));
+                offset += panel.Key.Size.x + DISTANCE_LARGE;
             }
 
             if (AddShipButtonPanel != null)
             {
-                AddShipButtonPanel.Panel.transform.localPosition = new Vector2(offset, -(defaultCardHeight + distanceBetweenY));
+                AddShipButtonPanel.Panel.transform.localPosition = new Vector2(offset, -(PILOT_CARD_HEIGHT + DISTANCE_MEDIUM));
             }
 
-            float scale = Mathf.Min(defaultCardHeight / defaultHeight, 1);
+            float scale = Mathf.Min(PILOT_CARD_HEIGHT / defaultHeight, 1);
             centerPanel.transform.localScale = new Vector2(scale, scale);
         }
 
@@ -436,31 +441,25 @@ namespace SquadBuilderNS
 
         private static void OrganizeShipWithSlotsPanels()
         {
-            float defaultWidth = 1326;
-            float pilotCardWidth = 300;
-            float pilotCardHeight = 418;
-            float upgradeCardHeight = 300;
-            float upgradeCardWidth = 194;
-            float sizeBetweenX = 20;
-            float sizeBetweenY = 20;
+            float defaultWidth = 1366 - 2 * SquadBuilder.DISTANCE_MEDIUM;
             int maxOneRowSize = (UpgradeSlotPanels.Count < 5 ) ? 4 : Mathf.CeilToInt((float)UpgradeSlotPanels.Count / 2f);
 
             int count = 0;
-            float offsetX = pilotCardWidth + 2 * sizeBetweenX;
+            float offsetX = PILOT_CARD_WIDTH + 2 * DISTANCE_MEDIUM;
             float offsetY = 0;
-            float maxSizeY = pilotCardHeight;
+            float maxSizeY = PILOT_CARD_HEIGHT;
             float maxSizeX = 0;
             foreach (var upgradeSlotPanel in UpgradeSlotPanels)
             {
                 if (count == maxOneRowSize)
                 {
                     maxSizeX = offsetX;
-                    offsetX = (UpgradeSlotPanels.Count % 2 == 0) ? pilotCardWidth + 2 * sizeBetweenX : pilotCardWidth + 2 * sizeBetweenX + (upgradeCardWidth + sizeBetweenX) / 2;
-                    offsetY = -(upgradeCardHeight + sizeBetweenY);
-                    maxSizeY = 2 * upgradeCardHeight + sizeBetweenY;
+                    offsetX = (UpgradeSlotPanels.Count % 2 == 0) ? PILOT_CARD_WIDTH + 2 * DISTANCE_MEDIUM : PILOT_CARD_WIDTH + 2 * DISTANCE_MEDIUM + (UPGRADE_CARD_WIDTH + DISTANCE_MEDIUM) / 2;
+                    offsetY = -(UPGRADE_CARD_HEIGHT + DISTANCE_MEDIUM);
+                    maxSizeY = 2 * UPGRADE_CARD_HEIGHT + DISTANCE_MEDIUM;
                 }
                 upgradeSlotPanel.Panel.transform.localPosition = new Vector2(offsetX, offsetY);
-                offsetX += upgradeSlotPanel.Size.x + sizeBetweenX;
+                offsetX += upgradeSlotPanel.Size.x + DISTANCE_MEDIUM;
                 count++;
             }
 
@@ -474,27 +473,23 @@ namespace SquadBuilderNS
 
         private static void ShowAvailableUpgrades(UpgradeSlot slot)
         {
-            DestroyChildren(GameObject.Find("UI/Panels/SelectUpgradePanel/Panel/Scroll View/Viewport/Content").transform);
             availableUpgradesCounter = 0;
 
-            foreach (UpgradeRecord upgrade in AllUpgrades)
+            List<UpgradeRecord> filteredUpgrades = AllUpgrades.Where(n => n.Instance.Type == slot.Type && n.Instance.IsAllowedForShip(CurrentSquadBuilderShip.Instance)).ToList();
+            int filteredUpgradesCount = filteredUpgrades.Count;
+
+            Transform contentTransform = GameObject.Find("UI/Panels/SelectUpgradePanel/Panel/Scroll View/Viewport/Content").transform;
+            DestroyChildren(contentTransform);
+            contentTransform.GetComponent<RectTransform>().sizeDelta = new Vector2(filteredUpgradesCount * (UPGRADE_CARD_WIDTH + DISTANCE_MEDIUM) + 2 * DISTANCE_MEDIUM, 0);
+
+            foreach (UpgradeRecord upgrade in filteredUpgrades)
             {
-                if (upgrade.Instance.Type == slot.Type)
-                {
-                    if (upgrade.Instance.IsAllowedForShip(CurrentSquadBuilderShip.Instance))
-                    {
-                        ShowAvailableUpgrade(upgrade);
-                    }
-                }
+                ShowAvailableUpgrade(upgrade);
             }
         }
 
         private static void ShowAvailableUpgrade(UpgradeRecord upgrade)
         {
-            float widthBetweenX = 20;
-            float widthUpgrade = 194;
-            float heightUpgrade = 300;
-
             GameObject prefab = (GameObject)Resources.Load("Prefabs/SquadBuilder/UpgradePanel", typeof(GameObject));
             Transform contentTransform = GameObject.Find("UI/Panels/SelectUpgradePanel/Panel/Scroll View/Viewport/Content").transform;
             GameObject newUpgradePanel = MonoBehaviour.Instantiate(prefab, contentTransform);
@@ -504,8 +499,7 @@ namespace SquadBuilderNS
 
             int column = availableUpgradesCounter;
 
-            newUpgradePanel.transform.localPosition = new Vector3(widthBetweenX + (widthUpgrade + widthBetweenX) * column, heightUpgrade/2, 0);
-            contentTransform.GetComponent<RectTransform>().sizeDelta = new Vector2(newUpgradePanel.transform.localPosition.x + widthUpgrade + widthBetweenX, 0);
+            newUpgradePanel.transform.localPosition = new Vector3(DISTANCE_MEDIUM + (UPGRADE_CARD_WIDTH + DISTANCE_MEDIUM) * column, UPGRADE_CARD_HEIGHT/2, 0);
 
             availableUpgradesCounter++;
         }

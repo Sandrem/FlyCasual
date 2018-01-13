@@ -230,6 +230,9 @@ namespace SquadBuilderNS
                 prefab = (GameObject)Resources.Load("Prefabs/SquadBuilder/AddShipButton", typeof(GameObject));
                 GameObject addShipButton = MonoBehaviour.Instantiate(prefab, addShipButtonPanel.transform);
 
+                Sprite factionSprite = GameObject.Find("UI/Panels").transform.Find("SelectFactionPanel").Find("Panel").Find("FactionPanels").Find("Button" + CurrentSquadList.SquadFaction.ToString()).GetComponent<Image>().sprite;
+                addShipButton.GetComponent<Image>().sprite = factionSprite;
+
                 EventTrigger trigger = addShipButton.AddComponent<EventTrigger>();
                 EventTrigger.Entry entry = new EventTrigger.Entry();
                 entry.eventID = EventTriggerType.PointerClick;

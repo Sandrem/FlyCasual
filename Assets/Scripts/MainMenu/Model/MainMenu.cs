@@ -5,6 +5,7 @@ using Mods;
 using UnityEngine.UI;
 using SquadBuilderNS;
 using System.Linq;
+using Players;
 
 public partial class MainMenu : MonoBehaviour {
 
@@ -129,6 +130,7 @@ public partial class MainMenu : MonoBehaviour {
     public void StartSquadBuilerMode(string modeName)
     {
         SquadBuilder.Initialize();
+        SquadBuilder.SetCurrentPlayer(PlayerNo.Player1);
         SquadBuilder.SetPlayers(modeName);
         ChangePanel("SelectFactionPanel");
     }

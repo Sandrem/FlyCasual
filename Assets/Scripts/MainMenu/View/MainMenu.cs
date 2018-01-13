@@ -49,7 +49,7 @@ public partial class MainMenu : MonoBehaviour {
                 Network.BrowseMatches();
                 break;
             case "SelectFactionPanel":
-                //if (previousPanelName == "GameModeDecisionPanel") RosterBuilder.Initialize();
+                SquadBuilder.ClearShipsOfCurrentPlayer();
                 break;
             case "SquadBuilderPanel":
                 SquadBuilder.ShowShipsAndUpgrades();

@@ -92,6 +92,10 @@ public class UpgradePanelSquadBuilder : MonoBehaviour {
             entry.eventID = EventTriggerType.PointerClick;
             entry.callback.AddListener(delegate { OnClick(Slot, UpgradeName); });
             trigger.triggers.Add(entry);
+
+            ScrollRect mainScroll = GameObject.Find("UI/Panels/SelectUpgradePanel/Panel/Scroll View").GetComponent<ScrollRect>();
+            FixScrollRect fixScrollRect = this.gameObject.AddComponent<FixScrollRect>();
+            fixScrollRect.MainScroll = mainScroll;
         }
     }
 }

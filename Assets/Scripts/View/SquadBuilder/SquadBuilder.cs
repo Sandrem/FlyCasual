@@ -135,7 +135,7 @@ namespace SquadBuilderNS
             GameObject newPilotPanel = MonoBehaviour.Instantiate(prefab, contentTransform);
 
             PilotPanelSquadBuilder script = newPilotPanel.GetComponent<PilotPanelSquadBuilder>();
-            script.Initialize(pilotRecord.PilotName, CurrentShip, pilotRecord.Instance.ImageUrl, AddPilotToSquadAndReturn);
+            script.Initialize(pilotRecord.PilotName, CurrentShip, pilotRecord.Instance.ImageUrl, PilotSelectedIsClicked);
 
             int column = availablePilotsCounter;
 
@@ -144,9 +144,9 @@ namespace SquadBuilderNS
             availablePilotsCounter++;
         }
 
-        public static void AddPilotToSquadAndReturn(SquadBuilderShip ship, string pilotName, string shipName)
+        public static void PilotSelectedIsClicked(SquadBuilderShip ship, string pilotName, string shipName)
         {
-            AddPilotToSquad(pilotName, shipName);
+            AddPilotToSquad(pilotName, shipName, CurrentPlayer);
             MainMenu.CurrentMainMenu.ChangePanel("SquadBuilderPanel");
         }
 
@@ -530,9 +530,7 @@ namespace SquadBuilderNS
 
         private static void SelectUpgradeClicked(UpgradeSlot slot, string upgradeName)
         {
-            string upgradeType = AllUpgrades.Find(n => n.UpgradeName == upgradeName).UpgradeTypeName;
-            GenericUpgrade newUpgrade = (GenericUpgrade)System.Activator.CreateInstance(Type.GetType(upgradeType));
-            CurrentUpgradeSlot.PreInstallUpgrade(newUpgrade, CurrentSquadBuilderShip.Instance);
+            InstallUpgrade(slot, upgradeName);
 
             MainMenu.CurrentMainMenu.ChangePanel("ShipSlotsPanel");
         }

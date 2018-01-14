@@ -723,11 +723,11 @@ namespace SquadBuilderNS
         public static JSONObject GetSquadInJson(PlayerNo playerNo)
         {
             JSONObject squadJson = new JSONObject();
-            //squadJson.AddField("name", "New Squad");
+            squadJson.AddField("name", "My Squadron");
             squadJson.AddField("faction", FactionToXWS(GetSquadList(playerNo).SquadFaction));
             squadJson.AddField("points", GetSquadCost(playerNo));
             squadJson.AddField("version", "0.3.0");
-            //squadJson.AddField("description", "No descripton");
+            squadJson.AddField("description", "No descripton");
 
             List<SquadBuilderShip> playerShipConfigs = GetSquadList(playerNo).GetShips().ToList();
             JSONObject[] squadPilotsArrayJson = new JSONObject[playerShipConfigs.Count];
@@ -898,6 +898,11 @@ namespace SquadBuilderNS
             // TODO
 
             return "None";
+        }
+
+        public static void BrowseSavedSquads()
+        {
+            ShowListOfSavedSquadrons(GetSavedSquadsJsons());
         }
     }
 }

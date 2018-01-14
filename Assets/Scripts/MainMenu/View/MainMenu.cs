@@ -67,6 +67,9 @@ public partial class MainMenu : MonoBehaviour {
             case "SelectUpgradePanel":
                 SquadBuilder.ShowUpgradesList();
                 break;
+            case "BrowseSavedSquadsPanel":
+                SquadBuilder.BrowseSavedSquads();
+                break;
         }
     }
 

@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using Upgrade;
+using System.IO;
 
 namespace SquadBuilderNS
 {
@@ -565,6 +566,70 @@ namespace SquadBuilderNS
 
             GameObject.Find("UI/Panels/ImportExportPanel/InputField").GetComponent<InputField>().text = (isImport) ? "" : GetSquadInJson(CurrentPlayer).ToString();
             GameObject.Find("UI/Panels/ImportExportPanel/ControlsPanel/ImportButton").SetActive(isImport);
+        }
+
+        private static List<JSONObject> GetSavedSquadsJsons()
+        {
+            List<JSONObject> savedSquadsJsons = new List<JSONObject>();
+
+            string directoryPath = Application.persistentDataPath + "/SavedSquadrons";
+            if (!Directory.Exists(directoryPath)) Directory.CreateDirectory(directoryPath);
+
+            foreach (var filePath in Directory.GetFiles(directoryPath))
+            {
+                string content = File.ReadAllText(filePath);
+                savedSquadsJsons.Add(new JSONObject(content));
+            }
+
+            return savedSquadsJsons;
+        }
+
+        public static void ShowListOfSavedSquadrons(List<JSONObject> squadsJsonsList)
+        {
+            SetNoSavedSquadronsMessage(squadsJsonsList.Count == 0);
+
+            float FREE_SPACE = 10f;
+
+            Transform contentTransform = GameObject.Find("UI/Panels/BrowseSavedSquadsPanel/Scroll View/Viewport/Content").transform;
+
+            DestroyChildren(contentTransform);
+
+            GameObject prefab = (GameObject)Resources.Load("Prefabs/SquadBuilder/SavedSquadronPanel", typeof(GameObject));
+
+            RectTransform contentRectTransform = contentTransform.GetComponent<RectTransform>();
+            Vector3 currentPosition = new Vector3(contentRectTransform.sizeDelta.x / 2 + FREE_SPACE, -FREE_SPACE, contentTransform.localPosition.z);
+
+            foreach (var squadList in squadsJsonsList)
+            {
+                GameObject SquadListRecord;
+
+                SquadListRecord = MonoBehaviour.Instantiate(prefab, contentTransform);
+                SquadListRecord.transform.localPosition = currentPosition;
+                //SquadListRecord.name = match.networkId.ToString();
+
+                SquadListRecord.transform.Find("Name").GetComponent<Text>().text = squadList["name"].str;
+                SquadListRecord.transform.Find("Description").GetComponent<Text>().text = squadList["description"].str;
+                SquadListRecord.transform.Find("PointsValue").GetComponent<Text>().text = squadList["points"].i.ToString();
+
+                //SquadListRecord.transform.Find("Join").GetComponent<Button>().onClick.AddListener(delegate { ClickJoinRoom(match); });
+            }
+
+            OrganizePanels(contentTransform, FREE_SPACE);
+        }
+
+        private static void OrganizePanels(Transform contentTransform, float freeSpace)
+        {
+            //Calculate content panel size
+            //set it
+            // set positions of children panels
+
+            //currentPosition = new Vector3(currentPosition.x, currentPosition.y - 90 - FREE_SPACE, currentPosition.z);
+            //contentRectTransform.sizeDelta = new Vector2(contentRectTransform.sizeDelta.x, contentRectTransform.sizeDelta.y + 90 + FREE_SPACE);
+        }
+
+        private static void SetNoSavedSquadronsMessage(bool isActive)
+        {
+            GameObject.Find("UI/Panels/BrowseSavedSquadsPanel/NoSavedSquads").SetActive(isActive);
         }
     }
 

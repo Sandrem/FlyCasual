@@ -21,7 +21,7 @@ namespace Ship
                 IsUnique = true;
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
-                PilotAbilities.Add(new Abilities.SnapWexleybility());
+                PilotAbilities.Add(new Abilities.SnapWexleyAbility());
             }
         }
     }
@@ -30,7 +30,7 @@ namespace Ship
 namespace Abilities
 {
     //After you execute a 2-, 3-, or 4-speed maneuver, if you are not touching a ship, you may perform a free boost action.
-    public class SnapWexleybility : GenericAbility
+    public class SnapWexleyAbility : GenericAbility
     {
         public override void ActivateAbility()
         {

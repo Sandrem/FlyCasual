@@ -8,9 +8,10 @@ using Players;
 
 public class RosterBuilderUI : MonoBehaviour {
 
-    /*public void CopyToClipboard()
+    public void CopyToClipboard()
     {
         GUIUtility.systemCopyBuffer = GameObject.Find("UI/Panels/ImportExportPanel/InputField").GetComponent<InputField>().text;
+        Messages.ShowInfo("Copied to clipboard");
     }
 
     public void PasteFromClipboard()
@@ -20,8 +21,8 @@ public class RosterBuilderUI : MonoBehaviour {
 
     public void Import()
     {
-        RosterBuilder.CreateSquadFromImportedjson(GameObject.Find("UI/Panels/ImportExportPanel/InputField").GetComponent<InputField>().text, Players.PlayerNo.Player1);
-    }*/
+        SquadBuilder.CreateSquadFromImportedJson(GameObject.Find("UI/Panels/ImportExportPanel/InputField").GetComponent<InputField>().text, SquadBuilder.CurrentPlayer);
+    }
 
     // NEW
 
@@ -66,6 +67,23 @@ public class RosterBuilderUI : MonoBehaviour {
             SquadBuilder.SetCurrentPlayer(PlayerNo.Player1);
             MainMenu.CurrentMainMenu.ChangePanel("SquadBuilderPanel");
         }
+    }
+
+    public void ClearSquadList()
+    {
+        SquadBuilder.ClearShipsOfPlayer(SquadBuilder.CurrentPlayer);
+        // TODO: Set default name for Squad
+        MainMenu.CurrentMainMenu.ChangePanel("SquadBuilderPanel");
+    }
+
+    public void OpenImportPanel()
+    {
+        SquadBuilder.OpenImportExportPanel(true);
+    }
+
+    public void OpenExportPanel()
+    {
+        SquadBuilder.OpenImportExportPanel(false);
     }
 
 }

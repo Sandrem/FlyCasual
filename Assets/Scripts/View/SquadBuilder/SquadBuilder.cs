@@ -558,6 +558,14 @@ namespace SquadBuilderNS
             GameObject opponentSquad = globalUI.transform.Find("OpponentSquad").gameObject;
             opponentSquad.SetActive(true);
         }
+
+        public static void OpenImportExportPanel(bool isImport)
+        {
+            MainMenu.CurrentMainMenu.ChangePanel("ImportExportPanel");
+
+            GameObject.Find("UI/Panels/ImportExportPanel/InputField").GetComponent<InputField>().text = (isImport) ? "" : GetSquadInJson(CurrentPlayer).ToString();
+            GameObject.Find("UI/Panels/ImportExportPanel/ControlsPanel/ImportButton").SetActive(isImport);
+        }
     }
 
 }

@@ -134,9 +134,9 @@ namespace SquadBuilderNS
             CurrentPlayer = playerNo;
         }
 
-        public static void ClearShipsOfCurrentPlayer()
+        public static void ClearShipsOfPlayer(PlayerNo playerNo)
         {
-            CurrentSquadList.ClearShips();
+            GetSquadList(playerNo).ClearShips();
         }
 
         private static void GenerateListOfShips()
@@ -638,23 +638,25 @@ namespace SquadBuilderNS
 
         // IMPORT / EXPORT
 
-        /*public static void ImportSquadList()
-        {
-            GameObject importExportPanel = GameObject.Find("UI/Panels").transform.Find("ImportExportPanel").gameObject;
-            importExportPanel.transform.Find("InputField").GetComponent<InputField>().text = "";
-            MainMenu.CurrentMainMenu.ChangePanel(importExportPanel);
-        }
-
-        public static void CreateSquadFromImportedjson(string jsonString, PlayerNo playerNo)
+        public static void CreateSquadFromImportedJson(string jsonString, PlayerNo playerNo)
         {
             JSONObject squadJson = new JSONObject(jsonString);
             //LogImportedSquad(squadJson);
 
-            SetPlayerSquadFromImportedJson(squadJson, playerNo, ShowRoster);
-        }*/
+            SetPlayerSquadFromImportedJson(
+                squadJson,
+                playerNo,
+                delegate
+                {
+                    MainMenu.CurrentMainMenu.ChangePanel("SquadBuilderPanel");
+                }
+            );
+        }
 
         public static void SetPlayerSquadFromImportedJson(JSONObject squadJson, PlayerNo playerNo, Action callBack)
         {
+            ClearShipsOfPlayer(playerNo);
+
             SquadList squadList = GetSquadList(playerNo);
 
             string factionNameXws = squadJson["faction"].str;

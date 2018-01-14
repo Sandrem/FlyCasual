@@ -68,4 +68,11 @@ public class RosterBuilderUI : MonoBehaviour {
         }
     }
 
+    public void ClearSquadList()
+    {
+        SquadBuilder.ClearShipsOfCurrentPlayer();
+        // TODO: Set default name for Squad
+        MainMenu.CurrentMainMenu.ChangePanel("SquadBuilderPanel");
+    }
+
 }

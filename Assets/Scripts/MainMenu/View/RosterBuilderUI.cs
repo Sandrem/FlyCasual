@@ -31,13 +31,13 @@ public class RosterBuilderUI : MonoBehaviour {
         Faction faction = (Faction) Enum.Parse(typeof(Faction), factionText);
         SquadBuilder.SetCurrentPlayerFaction(faction);
 
-        MainMenu.CurrentMainMenu.ChangePanel("SquadBuilderPanel");
+        SquadBuilder.ReturnToSquadBuilder();
     }
 
     public void RemoveCurrentShip()
     {
         SquadBuilder.RemoveCurrentShip();
-        MainMenu.CurrentMainMenu.ChangePanel("SquadBuilderPanel");
+        SquadBuilder.ReturnToSquadBuilder();
     }
 
     public void NextPlayer()
@@ -65,7 +65,7 @@ public class RosterBuilderUI : MonoBehaviour {
         else if (SquadBuilder.CurrentPlayer == PlayerNo.Player2)
         {
             SquadBuilder.SetCurrentPlayer(PlayerNo.Player1);
-            MainMenu.CurrentMainMenu.ChangePanel("SquadBuilderPanel");
+            SquadBuilder.ReturnToSquadBuilder();
         }
     }
 
@@ -73,7 +73,7 @@ public class RosterBuilderUI : MonoBehaviour {
     {
         SquadBuilder.ClearShipsOfPlayer(SquadBuilder.CurrentPlayer);
         // TODO: Set default name for Squad
-        MainMenu.CurrentMainMenu.ChangePanel("SquadBuilderPanel");
+        SquadBuilder.ReturnToSquadBuilder();
     }
 
     public void OpenImportPanel()

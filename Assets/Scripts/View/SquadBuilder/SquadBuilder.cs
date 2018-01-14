@@ -125,6 +125,7 @@ namespace SquadBuilderNS
         {
             foreach (Transform oldPanel in transformHolder)
             {
+                oldPanel.name = "DestructionIsPlanned";
                 GameObject.Destroy(oldPanel.gameObject);
             }
         }
@@ -578,7 +579,9 @@ namespace SquadBuilderNS
             foreach (var filePath in Directory.GetFiles(directoryPath))
             {
                 string content = File.ReadAllText(filePath);
-                savedSquadsJsons.Add(new JSONObject(content));
+                JSONObject squadJson = new JSONObject(content);
+                squadJson.AddField("filename", new FileInfo(filePath).Name);
+                savedSquadsJsons.Add(squadJson);
             }
 
             return savedSquadsJsons;
@@ -605,13 +608,26 @@ namespace SquadBuilderNS
 
                 SquadListRecord = MonoBehaviour.Instantiate(prefab, contentTransform);
                 SquadListRecord.transform.localPosition = currentPosition;
-                //SquadListRecord.name = match.networkId.ToString();
 
                 SquadListRecord.transform.Find("Name").GetComponent<Text>().text = squadList["name"].str;
-                SquadListRecord.transform.Find("Description").GetComponent<Text>().text = squadList["description"].str;
+
+                Text descriptionText = SquadListRecord.transform.Find("Description").GetComponent<Text>();
+                RectTransform descriptionRectTransform = SquadListRecord.transform.Find("Description").GetComponent<RectTransform>();
+                descriptionText.text = squadList["description"].str;
+                float descriptionPreferredHeight = descriptionText.preferredHeight;
+                descriptionRectTransform.sizeDelta = new Vector2(descriptionRectTransform.sizeDelta.x, descriptionPreferredHeight);
+
                 SquadListRecord.transform.Find("PointsValue").GetComponent<Text>().text = squadList["points"].i.ToString();
 
-                //SquadListRecord.transform.Find("Join").GetComponent<Button>().onClick.AddListener(delegate { ClickJoinRoom(match); });
+                SquadListRecord.GetComponent<RectTransform>().sizeDelta = new Vector2(
+                    SquadListRecord.GetComponent<RectTransform>().sizeDelta.x,
+                    15 + 50 + 10 + descriptionPreferredHeight + 10 + 50 + 10
+                );
+
+                SquadListRecord.name = squadList["filename"].str;
+
+                SquadListRecord.transform.Find("DeleteButton").GetComponent<Button>().onClick.AddListener(delegate { DeleteSavedSquadAndRefresh(SquadListRecord.name); });
+                SquadListRecord.transform.Find("LoadButton").GetComponent<Button>().onClick.AddListener(delegate { LoadSavedSquadAndReturn(SquadListRecord.name); });
             }
 
             OrganizePanels(contentTransform, FREE_SPACE);
@@ -619,17 +635,60 @@ namespace SquadBuilderNS
 
         private static void OrganizePanels(Transform contentTransform, float freeSpace)
         {
-            //Calculate content panel size
-            //set it
-            // set positions of children panels
+            float totalHeight = 0;
+            foreach (Transform transform in contentTransform)
+            {
+                if (transform.name != "DestructionIsPlanned")
+                {
+                    totalHeight += transform.GetComponent<RectTransform>().sizeDelta.y + freeSpace;
+                }
+            }
+            contentTransform.GetComponent<RectTransform>().sizeDelta = new Vector2(0, totalHeight);
 
-            //currentPosition = new Vector3(currentPosition.x, currentPosition.y - 90 - FREE_SPACE, currentPosition.z);
-            //contentRectTransform.sizeDelta = new Vector2(contentRectTransform.sizeDelta.x, contentRectTransform.sizeDelta.y + 90 + FREE_SPACE);
+            totalHeight = 10;
+            foreach (Transform transform in contentTransform)
+            {
+                if (transform.name != "DestructionIsPlanned")
+                {
+                    transform.localPosition = new Vector2(10, -totalHeight);
+                    totalHeight += transform.GetComponent<RectTransform>().sizeDelta.y + freeSpace;
+                }
+            }
+        }
+
+        private static JSONObject GetSavedSquadJson(string fileName)
+        {
+            JSONObject squadJson = null;
+
+            string filePath = Application.persistentDataPath + "/SavedSquadrons/" + fileName;
+
+            if (File.Exists(filePath))
+            {
+                string content = File.ReadAllText(filePath);
+                squadJson = new JSONObject(content);
+            }
+
+            return squadJson;
         }
 
         private static void SetNoSavedSquadronsMessage(bool isActive)
         {
             GameObject.Find("UI/Panels/BrowseSavedSquadsPanel/NoSavedSquads").SetActive(isActive);
+        }
+
+        private static void DeleteSavedSquadFile(string fileName)
+        {
+            string filePath = Application.persistentDataPath + "/SavedSquadrons/" + fileName;
+
+            if (File.Exists(filePath))
+            {
+                File.Delete(filePath);
+            }
+        }
+
+        public static void ReturnToSquadBuilder()
+        {
+            MainMenu.CurrentMainMenu.ChangePanel("SquadBuilderPanel");
         }
     }
 

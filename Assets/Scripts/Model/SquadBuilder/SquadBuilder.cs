@@ -727,7 +727,6 @@ namespace SquadBuilderNS
             squadJson.AddField("faction", FactionToXWS(GetSquadList(playerNo).SquadFaction));
             squadJson.AddField("points", GetSquadCost(playerNo));
             squadJson.AddField("version", "0.3.0");
-            squadJson.AddField("description", "No descripton");
 
             List<SquadBuilderShip> playerShipConfigs = GetSquadList(playerNo).GetShips().ToList();
             JSONObject[] squadPilotsArrayJson = new JSONObject[playerShipConfigs.Count];
@@ -738,7 +737,49 @@ namespace SquadBuilderNS
             JSONObject squadPilotsJson = new JSONObject(squadPilotsArrayJson);
             squadJson.AddField("pilots", squadPilotsJson);
 
+            squadJson.AddField("description", GetDescriptionOfSquadJson(squadJson));
+
             return squadJson;
+        }
+
+        private static string GetDescriptionOfSquadJson(JSONObject squadJson)
+        {
+            string result = "";
+
+            if (squadJson.HasField("pilots"))
+            {
+                JSONObject pilotJsons = squadJson["pilots"];
+                foreach (JSONObject pilotJson in pilotJsons.list)
+                {
+                    if (result != "") result += "\n";
+
+                    string shipNameXws = pilotJson["ship"].str;
+                    string shipNameGeneral = AllShips.Find(n => n.ShipNameCanonical == shipNameXws).ShipName;
+
+                    string pilotNameXws = pilotJson["name"].str;
+                    string pilotNameGeneral = AllPilots.Find(n => n.PilotNameCanonical == pilotNameXws).PilotName;
+
+                    result += pilotNameGeneral;
+
+                    if (AllPilots.Count(n => n.PilotName == pilotNameGeneral) > 1)
+                    {
+                        result += " (" + shipNameGeneral + ")";
+                    }
+
+                    JSONObject upgradeJsons = pilotJson["upgrades"];
+                    foreach (string upgradeType in upgradeJsons.keys)
+                    {
+                        JSONObject upgradeNames = upgradeJsons[upgradeType];
+                        foreach (JSONObject upgradeRecord in upgradeNames.list)
+                        {
+                            string upgradeName = AllUpgrades.Find(n => n.UpgradeNameCanonical == upgradeRecord.str).UpgradeName;
+                            result += " + " + upgradeName;
+                        }
+                    }
+                }
+            }
+
+            return result;
         }
 
         private static JSONObject GenerateSquadPilot(SquadBuilderShip shipHolder)
@@ -903,6 +944,18 @@ namespace SquadBuilderNS
         public static void BrowseSavedSquads()
         {
             ShowListOfSavedSquadrons(GetSavedSquadsJsons());
+        }
+
+        private static void DeleteSavedSquadAndRefresh(string fileName)
+        {
+            DeleteSavedSquadFile(fileName);
+            BrowseSavedSquads();
+        }
+
+        private static void LoadSavedSquadAndReturn(string fileName)
+        {
+            JSONObject squadJson = GetSavedSquadJson(fileName);
+            SetPlayerSquadFromImportedJson(squadJson, CurrentPlayer, ReturnToSquadBuilder);
         }
     }
 }

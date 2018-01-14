@@ -135,7 +135,7 @@ namespace SquadBuilderNS
             GameObject newPilotPanel = MonoBehaviour.Instantiate(prefab, contentTransform);
 
             PilotPanelSquadBuilder script = newPilotPanel.GetComponent<PilotPanelSquadBuilder>();
-            script.Initialize(pilotRecord.PilotName, CurrentShip, pilotRecord.Instance.ImageUrl, AddPilotToSquadAndReturn);
+            script.Initialize(pilotRecord.PilotName, CurrentShip, pilotRecord.Instance.ImageUrl, PilotSelectedIsClicked);
 
             int column = availablePilotsCounter;
 
@@ -144,9 +144,9 @@ namespace SquadBuilderNS
             availablePilotsCounter++;
         }
 
-        public static void AddPilotToSquadAndReturn(SquadBuilderShip ship, string pilotName, string shipName)
+        public static void PilotSelectedIsClicked(SquadBuilderShip ship, string pilotName, string shipName)
         {
-            AddPilotToSquad(pilotName, shipName);
+            AddPilotToSquad(pilotName, shipName, CurrentPlayer);
             MainMenu.CurrentMainMenu.ChangePanel("SquadBuilderPanel");
         }
 
@@ -530,9 +530,7 @@ namespace SquadBuilderNS
 
         private static void SelectUpgradeClicked(UpgradeSlot slot, string upgradeName)
         {
-            string upgradeType = AllUpgrades.Find(n => n.UpgradeName == upgradeName).UpgradeTypeName;
-            GenericUpgrade newUpgrade = (GenericUpgrade)System.Activator.CreateInstance(Type.GetType(upgradeType));
-            CurrentUpgradeSlot.PreInstallUpgrade(newUpgrade, CurrentSquadBuilderShip.Instance);
+            InstallUpgrade(slot, upgradeName);
 
             MainMenu.CurrentMainMenu.ChangePanel("ShipSlotsPanel");
         }
@@ -559,6 +557,14 @@ namespace SquadBuilderNS
 
             GameObject opponentSquad = globalUI.transform.Find("OpponentSquad").gameObject;
             opponentSquad.SetActive(true);
+        }
+
+        public static void OpenImportExportPanel(bool isImport)
+        {
+            MainMenu.CurrentMainMenu.ChangePanel("ImportExportPanel");
+
+            GameObject.Find("UI/Panels/ImportExportPanel/InputField").GetComponent<InputField>().text = (isImport) ? "" : GetSquadInJson(CurrentPlayer).ToString();
+            GameObject.Find("UI/Panels/ImportExportPanel/ControlsPanel/ImportButton").SetActive(isImport);
         }
     }
 

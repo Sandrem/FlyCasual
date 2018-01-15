@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections;
+﻿using Ship;
 using System.Collections.Generic;
-using UnityEngine;
-using Upgrade;
-using Abilities;
-using Ship;
 using System.Linq;
+using Upgrade;
 
 namespace UpgradesList
 {

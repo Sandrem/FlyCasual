@@ -322,6 +322,7 @@ namespace SquadBuilderNS
         {
             UpdateSquadCostForPilotMenu(GetCurrentSquadCost());
             GenerateShipWithSlotsPanels();
+            UpdateSkinButton();
         }
 
         public static void OpenSelectShip()
@@ -624,20 +625,18 @@ namespace SquadBuilderNS
             return result;
         }
 
-        // OLD
-
-        /*private static List<string> GetSkins(GenericShip ship)
+        private static List<string> GetAvailableShipSkins(SquadBuilderShip ship)
         {
             List<string> result = new List<string>();
 
-            UnityEngine.Object[] textures = Resources.LoadAll("ShipSkins/" + ship.FixTypeName(ship.Type) + "/");
+            UnityEngine.Object[] textures = Resources.LoadAll("ShipSkins/" + ship.Instance.FixTypeName(ship.Instance.Type) + "/");
             foreach (var texture in textures)
             {
                 result.Add(texture.name);
             }
 
             return result;
-        }*/
+        }
 
         // IMPORT / EXPORT
 
@@ -692,6 +691,19 @@ namespace SquadBuilderNS
                         {
                             string upgradeName = AllUpgrades.Find(n => n.UpgradeNameCanonical == upgradeRecord.str).UpgradeName;
                             InstallUpgrade(newShip, upgradeName);
+                        }
+                    }
+
+                    if (pilotJson.HasField("vendor"))
+                    {
+                        JSONObject vendorData = pilotJson["vendor"];
+                        if (vendorData.HasField("Sandrem.FlyCasual"))
+                        {
+                            JSONObject myVendorData = vendorData["Sandrem.FlyCasual"];
+                            if (myVendorData.HasField("skin"))
+                            {
+                                newShip.Instance.SkinName = myVendorData["skin"].str;
+                            }
                         }
                     }
                 }
@@ -944,9 +956,7 @@ namespace SquadBuilderNS
 
         private static string GetSkinName(SquadBuilderShip shipHolder)
         {
-            // TODO
-
-            return "None";
+            return shipHolder.Instance.SkinName;
         }
 
         public static void BrowseSavedSquads()
@@ -997,6 +1007,11 @@ namespace SquadBuilderNS
             }
 
             return result;
+        }
+
+        private static void SetSkinForShip(SquadBuilderShip ship, string skinName)
+        {
+            ship.Instance.SkinName = skinName;
         }
     }
 }

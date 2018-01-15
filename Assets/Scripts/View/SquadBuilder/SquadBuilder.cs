@@ -735,6 +735,42 @@ namespace SquadBuilderNS
         {
             return Path.GetInvalidFileNameChars().Aggregate(fileName, (current, c) => current.Replace(c.ToString(), string.Empty));
         }
+
+        public static void ShowSkinButtons()
+        {
+            List<string> availableSkins = GetAvailableShipSkins(CurrentSquadBuilderShip);
+
+            DestroyChildren(GameObject.Find("UI/Panels/ShipSkinsPanel/Panel/Centered").transform);
+
+            GameObject prefab = (GameObject)Resources.Load("Prefabs/SquadBuilder/ShipSkinButton", typeof(GameObject));
+
+            float buttonHeight = prefab.GetComponent<RectTransform>().sizeDelta.y;
+            int counter = 0;
+            foreach (var availableSkin in availableSkins)
+            {
+                GameObject newButton = MonoBehaviour.Instantiate(prefab, GameObject.Find("UI/Panels/ShipSkinsPanel/Panel/Centered").transform);
+                newButton.transform.localPosition = new Vector2(0, -buttonHeight * counter);
+
+                newButton.GetComponentInChildren<Text>().text = (availableSkin == CurrentSquadBuilderShip.Instance.SkinName) ? "> " + availableSkin + " <" : availableSkin;
+
+                newButton.GetComponent<Button>().onClick.AddListener(delegate { SetSkinForShip(CurrentSquadBuilderShip, availableSkin); ShowSkinButtons(); });
+
+                counter++;
+            }
+
+            counter++;
+
+            GameObject backButton = MonoBehaviour.Instantiate(prefab, GameObject.Find("UI/Panels/ShipSkinsPanel/Panel/Centered").transform);
+            backButton.transform.localPosition = new Vector2(0, -buttonHeight * counter);
+            backButton.GetComponentInChildren<Text>().text = "Back";
+            backButton.GetComponent<Button>().onClick.AddListener(ReturnToSquadBuilder);
+        }
+
+        private static void UpdateSkinButton()
+        {
+            bool hasSkinsSelection = GetAvailableShipSkins(CurrentSquadBuilderShip).Count > 1;
+            GameObject.Find("UI/Panels/ShipSlotsPanel/Panel/TopButtons/SkinsButton").GetComponent<Button>().interactable = hasSkinsSelection;
+        }
     }
 
 }

@@ -695,7 +695,9 @@ namespace SquadBuilderNS
 
         public static void UpdateSquadName(string panelName)
         {
-            GameObject.Find("UI/Panels/" + panelName + "/Panel/SquadNameButton/Text").GetComponent<Text>().text = CurrentSquadList.Name;
+            GameObject textGO = GameObject.Find("UI/Panels/" + panelName + "/Panel/SquadNameButton/Text");
+            textGO.GetComponent<Text>().text = CurrentSquadList.Name;
+            textGO.GetComponent<RectTransform>().sizeDelta = new Vector2(textGO.GetComponent<Text>().preferredWidth, textGO.GetComponent<RectTransform>().sizeDelta.y);
         }
 
         public static void PrepareSaveSquadronPanel()

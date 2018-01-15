@@ -36,12 +36,12 @@ namespace Ship
                 PrintedActions.Add(new BoostAction());
 
                 AssignTemporaryManeuvers();
-                HotacManeuverTable = new AI.AgressorTable();
+                HotacManeuverTable = new AI.AggressorTable();
 
                 factions.Add(Faction.Scum);
                 faction = Faction.Scum;
 
-                SkinName = "Agressor";
+                SkinName = "Aggressor";
 
                 SoundShotsPath = "Falcon-Fire";
                 ShotsCount = 3;

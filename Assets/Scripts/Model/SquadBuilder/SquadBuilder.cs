@@ -731,7 +731,7 @@ namespace SquadBuilderNS
         public static JSONObject GetSquadInJson(PlayerNo playerNo)
         {
             JSONObject squadJson = new JSONObject();
-            squadJson.AddField("name", "My Squadron");
+            squadJson.AddField("name", GetSquadList(playerNo).Name);
             squadJson.AddField("faction", FactionToXWS(GetSquadList(playerNo).SquadFaction));
             squadJson.AddField("points", GetSquadCost(playerNo));
             squadJson.AddField("version", "0.3.0");

@@ -695,6 +695,42 @@ namespace SquadBuilderNS
         {
             GameObject.Find("UI/Panels/" + panelName + "/Panel/SquadNameButton/Text").GetComponent<Text>().text = CurrentSquadList.Name;
         }
+
+        public static void PrepareSaveSquadronPanel()
+        {
+            GameObject.Find("UI/Panels/SaveSquadronPanel/Panel/Name/InputField").GetComponent<InputField>().text = CurrentSquadList.Name;
+        }
+
+        public static void TrySaveSquadron(Action callback)
+        {
+            string squadName = GameObject.Find("UI/Panels/SaveSquadronPanel/Panel/Name/InputField").GetComponent<InputField>().text;
+            if (squadName == "") squadName = "Unnamed squadron";
+
+            CurrentSquadList.Name = CleanFileName(squadName);
+
+            string filePath = Application.persistentDataPath + "/SavedSquadrons/" + CurrentSquadList.Name;
+
+            if (File.Exists(filePath + ".json"))
+            {
+                string originalFilePath = filePath;
+                int counter = 1;
+
+                while (File.Exists(filePath + ".json"))
+                {
+                    counter++;
+                    filePath = originalFilePath + counter.ToString();
+                }
+            }
+
+            File.WriteAllText(filePath + ".json", GetSquadInJson(CurrentPlayer).ToString());
+
+            callback();
+        }
+
+        private static string CleanFileName(string fileName)
+        {
+            return Path.GetInvalidFileNameChars().Aggregate(fileName, (current, c) => current.Replace(c.ToString(), string.Empty));
+        }
     }
 
 }

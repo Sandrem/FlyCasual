@@ -79,4 +79,9 @@ public class RosterBuilderUI : MonoBehaviour {
         SquadBuilder.OpenImportExportPanel(false);
     }
 
+    public void TrySaveSquadron()
+    {
+        SquadBuilder.TrySaveSquadron(SquadBuilder.ReturnToSquadBuilder);
+    }
+
 }

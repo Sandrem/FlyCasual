@@ -74,6 +74,9 @@ public partial class MainMenu : MonoBehaviour {
             case "BrowseSavedSquadsPanel":
                 SquadBuilder.BrowseSavedSquads();
                 break;
+            case "SaveSquadronPanel":
+                SquadBuilder.PrepareSaveSquadronPanel();
+                break;
         }
     }
 

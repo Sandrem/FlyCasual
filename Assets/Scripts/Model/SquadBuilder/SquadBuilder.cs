@@ -659,61 +659,70 @@ namespace SquadBuilderNS
         {
             ClearShipsOfPlayer(playerNo);
 
-            SquadList squadList = GetSquadList(playerNo);
-
-            if (squadJson.HasField("name"))
+            try
             {
-                squadList.Name = squadJson["name"].str;
-            }
+                SquadList squadList = GetSquadList(playerNo);
 
-            string factionNameXws = squadJson["faction"].str;
-            Faction faction = XWSToFaction(factionNameXws);
-            squadList.SquadFaction = faction;
-            
-            if (squadJson.HasField("pilots"))
-            {
-                JSONObject pilotJsons = squadJson["pilots"];
-                foreach (JSONObject pilotJson in pilotJsons.list)
+                if (squadJson.HasField("name"))
                 {
-                    string shipNameXws = pilotJson["ship"].str;
-                    string shipNameGeneral = AllShips.Find(n => n.ShipNameCanonical == shipNameXws).ShipName;
+                    squadList.Name = squadJson["name"].str;
+                }
 
-                    string pilotNameXws = pilotJson["name"].str;
-                    string pilotNameGeneral = AllPilots.Find(n => n.PilotNameCanonical == pilotNameXws).PilotName;
+                string factionNameXws = squadJson["faction"].str;
+                Faction faction = XWSToFaction(factionNameXws);
+                squadList.SquadFaction = faction;
 
-                    SquadBuilderShip newShip = AddPilotToSquad(pilotNameGeneral, shipNameGeneral, playerNo);
-
-                    JSONObject upgradeJsons = pilotJson["upgrades"];
-                    foreach (string upgradeType in upgradeJsons.keys)
+                if (squadJson.HasField("pilots"))
+                {
+                    JSONObject pilotJsons = squadJson["pilots"];
+                    foreach (JSONObject pilotJson in pilotJsons.list)
                     {
-                        JSONObject upgradeNames = upgradeJsons[upgradeType];
-                        foreach (JSONObject upgradeRecord in upgradeNames.list)
-                        {
-                            string upgradeName = AllUpgrades.Find(n => n.UpgradeNameCanonical == upgradeRecord.str).UpgradeName;
-                            InstallUpgrade(newShip, upgradeName);
-                        }
-                    }
+                        string shipNameXws = pilotJson["ship"].str;
+                        string shipNameGeneral = AllShips.Find(n => n.ShipNameCanonical == shipNameXws).ShipName;
 
-                    if (pilotJson.HasField("vendor"))
-                    {
-                        JSONObject vendorData = pilotJson["vendor"];
-                        if (vendorData.HasField("Sandrem.FlyCasual"))
+                        string pilotNameXws = pilotJson["name"].str;
+                        string pilotNameGeneral = AllPilots.Find(n => n.PilotNameCanonical == pilotNameXws).PilotName;
+
+                        SquadBuilderShip newShip = AddPilotToSquad(pilotNameGeneral, shipNameGeneral, playerNo);
+
+                        JSONObject upgradeJsons = pilotJson["upgrades"];
+                        foreach (string upgradeType in upgradeJsons.keys)
                         {
-                            JSONObject myVendorData = vendorData["Sandrem.FlyCasual"];
-                            if (myVendorData.HasField("skin"))
+                            JSONObject upgradeNames = upgradeJsons[upgradeType];
+                            foreach (JSONObject upgradeRecord in upgradeNames.list)
                             {
-                                newShip.Instance.SkinName = myVendorData["skin"].str;
+                                string upgradeName = AllUpgrades.Find(n => n.UpgradeNameCanonical == upgradeRecord.str).UpgradeName;
+                                InstallUpgrade(newShip, upgradeName);
+                            }
+                        }
+
+                        if (pilotJson.HasField("vendor"))
+                        {
+                            JSONObject vendorData = pilotJson["vendor"];
+                            if (vendorData.HasField("Sandrem.FlyCasual"))
+                            {
+                                JSONObject myVendorData = vendorData["Sandrem.FlyCasual"];
+                                if (myVendorData.HasField("skin"))
+                                {
+                                    newShip.Instance.SkinName = myVendorData["skin"].str;
+                                }
                             }
                         }
                     }
                 }
-            }
-            else
-            {
-                Messages.ShowError("No pilots");
-            }
+                else
+                {
+                    Messages.ShowError("No pilots");
+                }
 
-            callBack();
+                callBack();
+            }
+            catch (Exception)
+            {
+                Messages.ShowError("Error during creation of squadron");
+                ClearShipsOfPlayer(playerNo);
+                //throw;
+            }
         }
 
         /*private static void LogImportedSquad(JSONObject squadJson)

@@ -418,7 +418,7 @@ namespace SquadBuilderNS
         {
             Text targetText = GameObject.Find("UI/Panels/" + panelName + "/ControlsPanel/SquadCostText").GetComponent<Text>();
             targetText.text = squadCost.ToString() + " / 100";
-            targetText.color = (squadCost > 100) ? Color.red : Color.black;
+            targetText.color = (squadCost > 100) ? new Color(1, 0, 0, 200f/255f) : new Color(0, 0, 0, 200f / 255f);
         }
 
         private static void GenerateShipWithSlotsPanels()

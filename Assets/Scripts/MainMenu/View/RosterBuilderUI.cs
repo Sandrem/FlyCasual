@@ -44,15 +44,8 @@ public class RosterBuilderUI : MonoBehaviour {
     {
         if (SquadBuilder.ValidateCurrentPlayersRoster())
         {
-            if (SquadBuilder.IsNetworkGame)
-            {
-                MainMenu.CurrentMainMenu.ChangePanel("MultiplayerDecisionPanel");
-            }
-            else
-            {
-                SquadBuilder.SetCurrentPlayer(PlayerNo.Player2);
-                MainMenu.CurrentMainMenu.ChangePanel("SelectFactionPanel");
-            }
+            SquadBuilder.SetCurrentPlayer(PlayerNo.Player2);
+            MainMenu.CurrentMainMenu.ChangePanel("SelectFactionPanel");
         }
     }
 

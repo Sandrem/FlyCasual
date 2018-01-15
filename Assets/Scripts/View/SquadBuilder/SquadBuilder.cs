@@ -541,12 +541,12 @@ namespace SquadBuilderNS
         {
             GameObject nextButton = GameObject.Find("UI/Panels/SquadBuilderPanel/ControlsPanel").transform.Find("NextButton").gameObject;
             GameObject startGameButton = GameObject.Find("UI/Panels/SquadBuilderPanel/ControlsPanel").transform.Find("StartGameButton").gameObject;
-            if (playerNo == PlayerNo.Player1)
+            if (playerNo == PlayerNo.Player1 && !IsNetworkGame)
             {
                 nextButton.SetActive(true);
                 startGameButton.SetActive(false);
             }
-            else if (playerNo == PlayerNo.Player2)
+            else if (playerNo == PlayerNo.Player2 || IsNetworkGame)
             {
                 nextButton.SetActive(false);
                 startGameButton.SetActive(true);
@@ -689,6 +689,11 @@ namespace SquadBuilderNS
         public static void ReturnToSquadBuilder()
         {
             MainMenu.CurrentMainMenu.ChangePanel("SquadBuilderPanel");
+        }
+
+        public static void UpdateSquadName(string panelName)
+        {
+            GameObject.Find("UI/Panels/" + panelName + "/Panel/SquadNameButton/Text").GetComponent<Text>().text = CurrentSquadList.Name;
         }
     }
 

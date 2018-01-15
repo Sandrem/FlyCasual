@@ -52,6 +52,7 @@ public partial class MainMenu : MonoBehaviour {
                 SquadBuilder.ClearShipsOfPlayer(SquadBuilder.CurrentPlayer);
                 break;
             case "SquadBuilderPanel":
+                SquadBuilder.UpdateSquadName("SquadBuilderPanel");
                 SquadBuilder.ShowShipsAndUpgrades();
                 SquadBuilder.UpdateNextButton();
                 break;
@@ -66,6 +67,9 @@ public partial class MainMenu : MonoBehaviour {
                 break;
             case "SelectUpgradePanel":
                 SquadBuilder.ShowUpgradesList();
+                break;
+            case "SquadronOptionsPanel":
+                SquadBuilder.UpdateSquadName("SquadronOptionsPanel");
                 break;
             case "BrowseSavedSquadsPanel":
                 SquadBuilder.BrowseSavedSquads();

@@ -43,6 +43,7 @@ namespace SquadBuilderNS
         public Faction SquadFaction;
         public Type PlayerType;
         public PlayerNo PlayerNo;
+        public string Name;
 
         public SquadList(PlayerNo playerNo)
         {
@@ -136,7 +137,9 @@ namespace SquadBuilderNS
 
         public static void ClearShipsOfPlayer(PlayerNo playerNo)
         {
-            GetSquadList(playerNo).ClearShips();
+            SquadList squadList = GetSquadList(playerNo);
+            squadList.ClearShips();
+            squadList.Name = GetDefaultNameForSquad(playerNo);
         }
 
         private static void GenerateListOfShips()
@@ -334,7 +337,7 @@ namespace SquadBuilderNS
         private static int GetSquadCost(PlayerNo playerNo)
         {
             int result = 0;
-            foreach (var shipHolder in SquadLists.Find(n => n.PlayerNo == playerNo).GetShips())
+            foreach (var shipHolder in GetSquadList(playerNo).GetShips())
             {
                 result += GetShipCost(shipHolder);
 
@@ -421,8 +424,8 @@ namespace SquadBuilderNS
 
         private static void SetPlayerTypes(Type playerOneType, Type playerTwoType)
         {
-            SquadLists.Find(n => n.PlayerNo == PlayerNo.Player1).PlayerType = playerOneType;
-            SquadLists.Find(n => n.PlayerNo == PlayerNo.Player2).PlayerType = playerTwoType;
+            GetSquadList(PlayerNo.Player1).PlayerType = playerOneType;
+            GetSquadList(PlayerNo.Player2).PlayerType = playerTwoType;
         }
 
         public static void StartNetworkGame()
@@ -471,7 +474,7 @@ namespace SquadBuilderNS
         private static bool RosterIsEmpty(PlayerNo playerNo)
         {
             bool result = false;
-            if (SquadLists.Find(n => n.PlayerNo == playerNo).GetShips().Count == 0)
+            if (GetSquadList(playerNo).GetShips().Count == 0)
             {
                 result = true;
                 Messages.ShowError("At least one pilot must be present");
@@ -484,7 +487,7 @@ namespace SquadBuilderNS
             bool result = true;
 
             List<string> uniqueCards = new List<string>();
-            foreach (var shipConfig in SquadLists.Find(n => n.PlayerNo == playerNo).GetShips())
+            foreach (var shipConfig in GetSquadList(playerNo).GetShips())
             {
                 if (shipConfig.Instance.IsUnique)
                 {
@@ -537,7 +540,7 @@ namespace SquadBuilderNS
         {
             bool result = true;
 
-            foreach (var shipConfig in SquadLists.Find(n => n.PlayerNo == playerNo).GetShips())
+            foreach (var shipConfig in GetSquadList(playerNo).GetShips())
             {
                 List<string> limitedCards = new List<string>();
 
@@ -565,7 +568,7 @@ namespace SquadBuilderNS
         private static bool ValidateShipAiReady(PlayerNo playerNo)
         {
             bool result = true;
-            SquadList aiSquadlist = SquadLists.Find(n => n.PlayerNo == playerNo);
+            SquadList aiSquadlist = GetSquadList(playerNo);
             if (aiSquadlist.PlayerType == typeof(HotacAiPlayer))
             {
                 foreach (var shipConfig in aiSquadlist.GetShips())
@@ -585,7 +588,7 @@ namespace SquadBuilderNS
         {
             bool result = true;
 
-            SquadList squadList = SquadLists.Find(n => n.PlayerNo == playerNo);
+            SquadList squadList = GetSquadList(playerNo);
 
             foreach (var shipHolder in squadList.GetShips())
             {
@@ -602,7 +605,7 @@ namespace SquadBuilderNS
         {
             bool result = true;
 
-            foreach (var shipHolder in SquadLists.Find(n => n.PlayerNo == playerNo).GetShips())
+            foreach (var shipHolder in GetSquadList(playerNo).GetShips())
             {
                 foreach (var upgradeSlot in shipHolder.Instance.UpgradeBar.GetUpgradeSlots())
                 {
@@ -658,6 +661,11 @@ namespace SquadBuilderNS
             ClearShipsOfPlayer(playerNo);
 
             SquadList squadList = GetSquadList(playerNo);
+
+            if (squadJson.HasField("name"))
+            {
+                squadList.Name = squadJson["name"].str;
+            }
 
             string factionNameXws = squadJson["faction"].str;
             Faction faction = XWSToFaction(factionNameXws);
@@ -917,13 +925,13 @@ namespace SquadBuilderNS
 
         public static bool IsNetworkGame
         {
-            get { return SquadLists.Find(n => n.PlayerNo == PlayerNo.Player2).PlayerType == typeof(NetworkOpponentPlayer); }
+            get { return GetSquadList(PlayerNo.Player2).PlayerType == typeof(NetworkOpponentPlayer); }
         }
 
         public static void SwitchPlayers()
         {
-            SquadList player1SquadList = SquadLists.Find(n => n.PlayerNo == PlayerNo.Player1);
-            SquadList player2SquadList = SquadLists.Find(n => n.PlayerNo == PlayerNo.Player2);
+            SquadList player1SquadList = GetSquadList(PlayerNo.Player1);
+            SquadList player2SquadList = GetSquadList(PlayerNo.Player2);
 
             player1SquadList.PlayerNo = PlayerNo.Player2;
             player2SquadList.PlayerNo = PlayerNo.Player1;
@@ -956,6 +964,39 @@ namespace SquadBuilderNS
         {
             JSONObject squadJson = GetSavedSquadJson(fileName);
             SetPlayerSquadFromImportedJson(squadJson, CurrentPlayer, ReturnToSquadBuilder);
+        }
+
+        public static void SetDefaultPlayerNames()
+        {
+            GetSquadList(PlayerNo.Player1).Name = GetDefaultNameForSquad(PlayerNo.Player1);
+            GetSquadList(PlayerNo.Player2).Name = GetDefaultNameForSquad(PlayerNo.Player2);
+        }
+
+        private static string GetDefaultNameForSquad(PlayerNo playerNo)
+        {
+            string result = "Unknown Squadron";
+
+            Type playerOneType = GetSquadList(PlayerNo.Player1).PlayerType;
+            Type playerTwoType = GetSquadList(PlayerNo.Player2).PlayerType;
+
+            if (playerOneType == typeof(HumanPlayer) && playerTwoType == typeof(NetworkOpponentPlayer))
+            {
+                if (playerNo == PlayerNo.Player1) return "My Squadron";
+            }
+            else if (playerOneType == typeof(HumanPlayer) && playerTwoType == typeof(HumanPlayer))
+            {
+                if (playerNo == PlayerNo.Player1) return "Squadron of Player 1"; else return "Squadron of Player 2";
+            }
+            else if (playerOneType == typeof(HumanPlayer) && playerTwoType == typeof(HotacAiPlayer))
+            {
+                if (playerNo == PlayerNo.Player1) return "My Squadron"; else return "Squadron of AI";
+            }
+            else if (playerOneType == typeof(HotacAiPlayer) && playerTwoType == typeof(HotacAiPlayer))
+            {
+                if (playerNo == PlayerNo.Player1) return "Squadron of AI 1"; else return "Squadron of AI 2";
+            }
+
+            return result;
         }
     }
 }

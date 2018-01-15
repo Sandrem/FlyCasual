@@ -16,7 +16,7 @@ namespace UpgradesList
 
             isUnique = true;
 
-            UpgradeAbilities.Add(new BosskAbility());
+            UpgradeAbilities.Add(new BosskCrewAbility());
         }
 
         public override bool IsAllowedForShip(GenericShip ship)
@@ -29,7 +29,7 @@ namespace UpgradesList
 
 namespace Abilities
 {
-    public class BosskAbility : GenericAbility
+    public class BosskCrewAbility : GenericAbility
     {
         public override void ActivateAbility()
         {

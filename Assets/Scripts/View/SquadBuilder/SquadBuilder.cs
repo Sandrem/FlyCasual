@@ -374,6 +374,8 @@ namespace SquadBuilderNS
                 List<ShipWithUpgradesPanel> shipPanelsNotProcessed = ShipWithUpgradesPanels.Where(n => !result.ContainsKey(n)).ToList();
                 ShipWithUpgradesPanel minSizePanel = shipPanelsNotProcessed.Find(n => n.Size.x == shipPanelsNotProcessed.Min(m => m.Size.x));
 
+                if (minSizePanel == null) return result;
+
                 float firstRowWidth = result.Where(n => n.Value == 1).Sum(n => n.Key.Size.x) + minSizePanel.Size.x;
                 float secondRowWidth = maxWidth - result.Where(n => n.Value == 1).Sum(n => n.Key.Size.x);
                 float newDifference = Mathf.Abs(firstRowWidth - secondRowWidth);

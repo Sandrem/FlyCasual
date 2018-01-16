@@ -4,10 +4,10 @@ using UnityEngine;
 
 namespace AI
 {
-    public class AgressorTable : GenericAiTable
+    public class AggressorTable : GenericAiTable
     {
 
-        public AgressorTable() : base()
+        public AggressorTable() : base()
         {
             FrontManeuversInner.Add("3.L.R");
             FrontManeuversInner.Add("3.R.R");

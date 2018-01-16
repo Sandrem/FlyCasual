@@ -31,28 +31,21 @@ public class RosterBuilderUI : MonoBehaviour {
         Faction faction = (Faction) Enum.Parse(typeof(Faction), factionText);
         SquadBuilder.SetCurrentPlayerFaction(faction);
 
-        MainMenu.CurrentMainMenu.ChangePanel("SquadBuilderPanel");
+        SquadBuilder.ReturnToSquadBuilder();
     }
 
     public void RemoveCurrentShip()
     {
         SquadBuilder.RemoveCurrentShip();
-        MainMenu.CurrentMainMenu.ChangePanel("SquadBuilderPanel");
+        SquadBuilder.ReturnToSquadBuilder();
     }
 
     public void NextPlayer()
     {
         if (SquadBuilder.ValidateCurrentPlayersRoster())
         {
-            if (SquadBuilder.IsNetworkGame)
-            {
-                MainMenu.CurrentMainMenu.ChangePanel("MultiplayerDecisionPanel");
-            }
-            else
-            {
-                SquadBuilder.SetCurrentPlayer(PlayerNo.Player2);
-                MainMenu.CurrentMainMenu.ChangePanel("SelectFactionPanel");
-            }
+            SquadBuilder.SetCurrentPlayer(PlayerNo.Player2);
+            MainMenu.CurrentMainMenu.ChangePanel("SelectFactionPanel");
         }
     }
 
@@ -65,7 +58,7 @@ public class RosterBuilderUI : MonoBehaviour {
         else if (SquadBuilder.CurrentPlayer == PlayerNo.Player2)
         {
             SquadBuilder.SetCurrentPlayer(PlayerNo.Player1);
-            MainMenu.CurrentMainMenu.ChangePanel("SquadBuilderPanel");
+            SquadBuilder.ReturnToSquadBuilder();
         }
     }
 
@@ -73,7 +66,7 @@ public class RosterBuilderUI : MonoBehaviour {
     {
         SquadBuilder.ClearShipsOfPlayer(SquadBuilder.CurrentPlayer);
         // TODO: Set default name for Squad
-        MainMenu.CurrentMainMenu.ChangePanel("SquadBuilderPanel");
+        SquadBuilder.ReturnToSquadBuilder();
     }
 
     public void OpenImportPanel()
@@ -84,6 +77,11 @@ public class RosterBuilderUI : MonoBehaviour {
     public void OpenExportPanel()
     {
         SquadBuilder.OpenImportExportPanel(false);
+    }
+
+    public void TrySaveSquadron()
+    {
+        SquadBuilder.TrySaveSquadron(SquadBuilder.ReturnToSquadBuilder);
     }
 
 }

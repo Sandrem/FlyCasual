@@ -43,6 +43,7 @@ namespace SquadBuilderNS
         public Faction SquadFaction;
         public Type PlayerType;
         public PlayerNo PlayerNo;
+        public string Name;
 
         public SquadList(PlayerNo playerNo)
         {
@@ -136,7 +137,9 @@ namespace SquadBuilderNS
 
         public static void ClearShipsOfPlayer(PlayerNo playerNo)
         {
-            GetSquadList(playerNo).ClearShips();
+            SquadList squadList = GetSquadList(playerNo);
+            squadList.ClearShips();
+            squadList.Name = GetDefaultNameForSquad(playerNo);
         }
 
         private static void GenerateListOfShips()
@@ -319,6 +322,7 @@ namespace SquadBuilderNS
         {
             UpdateSquadCostForPilotMenu(GetCurrentSquadCost());
             GenerateShipWithSlotsPanels();
+            UpdateSkinButton();
         }
 
         public static void OpenSelectShip()
@@ -334,7 +338,7 @@ namespace SquadBuilderNS
         private static int GetSquadCost(PlayerNo playerNo)
         {
             int result = 0;
-            foreach (var shipHolder in SquadLists.Find(n => n.PlayerNo == playerNo).GetShips())
+            foreach (var shipHolder in GetSquadList(playerNo).GetShips())
             {
                 result += GetShipCost(shipHolder);
 
@@ -421,8 +425,8 @@ namespace SquadBuilderNS
 
         private static void SetPlayerTypes(Type playerOneType, Type playerTwoType)
         {
-            SquadLists.Find(n => n.PlayerNo == PlayerNo.Player1).PlayerType = playerOneType;
-            SquadLists.Find(n => n.PlayerNo == PlayerNo.Player2).PlayerType = playerTwoType;
+            GetSquadList(PlayerNo.Player1).PlayerType = playerOneType;
+            GetSquadList(PlayerNo.Player2).PlayerType = playerTwoType;
         }
 
         public static void StartNetworkGame()
@@ -471,7 +475,7 @@ namespace SquadBuilderNS
         private static bool RosterIsEmpty(PlayerNo playerNo)
         {
             bool result = false;
-            if (SquadLists.Find(n => n.PlayerNo == playerNo).GetShips().Count == 0)
+            if (GetSquadList(playerNo).GetShips().Count == 0)
             {
                 result = true;
                 Messages.ShowError("At least one pilot must be present");
@@ -484,7 +488,7 @@ namespace SquadBuilderNS
             bool result = true;
 
             List<string> uniqueCards = new List<string>();
-            foreach (var shipConfig in SquadLists.Find(n => n.PlayerNo == playerNo).GetShips())
+            foreach (var shipConfig in GetSquadList(playerNo).GetShips())
             {
                 if (shipConfig.Instance.IsUnique)
                 {
@@ -537,7 +541,7 @@ namespace SquadBuilderNS
         {
             bool result = true;
 
-            foreach (var shipConfig in SquadLists.Find(n => n.PlayerNo == playerNo).GetShips())
+            foreach (var shipConfig in GetSquadList(playerNo).GetShips())
             {
                 List<string> limitedCards = new List<string>();
 
@@ -565,7 +569,7 @@ namespace SquadBuilderNS
         private static bool ValidateShipAiReady(PlayerNo playerNo)
         {
             bool result = true;
-            SquadList aiSquadlist = SquadLists.Find(n => n.PlayerNo == playerNo);
+            SquadList aiSquadlist = GetSquadList(playerNo);
             if (aiSquadlist.PlayerType == typeof(HotacAiPlayer))
             {
                 foreach (var shipConfig in aiSquadlist.GetShips())
@@ -585,7 +589,7 @@ namespace SquadBuilderNS
         {
             bool result = true;
 
-            SquadList squadList = SquadLists.Find(n => n.PlayerNo == playerNo);
+            SquadList squadList = GetSquadList(playerNo);
 
             foreach (var shipHolder in squadList.GetShips())
             {
@@ -602,7 +606,7 @@ namespace SquadBuilderNS
         {
             bool result = true;
 
-            foreach (var shipHolder in SquadLists.Find(n => n.PlayerNo == playerNo).GetShips())
+            foreach (var shipHolder in GetSquadList(playerNo).GetShips())
             {
                 foreach (var upgradeSlot in shipHolder.Instance.UpgradeBar.GetUpgradeSlots())
                 {
@@ -621,20 +625,18 @@ namespace SquadBuilderNS
             return result;
         }
 
-        // OLD
-
-        /*private static List<string> GetSkins(GenericShip ship)
+        private static List<string> GetAvailableShipSkins(SquadBuilderShip ship)
         {
             List<string> result = new List<string>();
 
-            UnityEngine.Object[] textures = Resources.LoadAll("ShipSkins/" + ship.FixTypeName(ship.Type) + "/");
+            UnityEngine.Object[] textures = Resources.LoadAll("ShipSkins/" + ship.Instance.FixTypeName(ship.Instance.Type) + "/");
             foreach (var texture in textures)
             {
                 result.Add(texture.name);
             }
 
             return result;
-        }*/
+        }
 
         // IMPORT / EXPORT
 
@@ -657,43 +659,70 @@ namespace SquadBuilderNS
         {
             ClearShipsOfPlayer(playerNo);
 
-            SquadList squadList = GetSquadList(playerNo);
-
-            string factionNameXws = squadJson["faction"].str;
-            Faction faction = XWSToFaction(factionNameXws);
-            squadList.SquadFaction = faction;
-            
-            if (squadJson.HasField("pilots"))
+            try
             {
-                JSONObject pilotJsons = squadJson["pilots"];
-                foreach (JSONObject pilotJson in pilotJsons.list)
+                SquadList squadList = GetSquadList(playerNo);
+
+                if (squadJson.HasField("name"))
                 {
-                    string shipNameXws = pilotJson["ship"].str;
-                    string shipNameGeneral = AllShips.Find(n => n.ShipNameCanonical == shipNameXws).ShipName;
+                    squadList.Name = squadJson["name"].str;
+                }
 
-                    string pilotNameXws = pilotJson["name"].str;
-                    string pilotNameGeneral = AllPilots.Find(n => n.PilotNameCanonical == pilotNameXws).PilotName;
+                string factionNameXws = squadJson["faction"].str;
+                Faction faction = XWSToFaction(factionNameXws);
+                squadList.SquadFaction = faction;
 
-                    SquadBuilderShip newShip = AddPilotToSquad(pilotNameGeneral, shipNameGeneral, playerNo);
-
-                    JSONObject upgradeJsons = pilotJson["upgrades"];
-                    foreach (string upgradeType in upgradeJsons.keys)
+                if (squadJson.HasField("pilots"))
+                {
+                    JSONObject pilotJsons = squadJson["pilots"];
+                    foreach (JSONObject pilotJson in pilotJsons.list)
                     {
-                        JSONObject upgradeNames = upgradeJsons[upgradeType];
-                        foreach (JSONObject upgradeRecord in upgradeNames.list)
+                        string shipNameXws = pilotJson["ship"].str;
+                        string shipNameGeneral = AllShips.Find(n => n.ShipNameCanonical == shipNameXws).ShipName;
+
+                        string pilotNameXws = pilotJson["name"].str;
+                        string pilotNameGeneral = AllPilots.Find(n => n.PilotNameCanonical == pilotNameXws).PilotName;
+
+                        SquadBuilderShip newShip = AddPilotToSquad(pilotNameGeneral, shipNameGeneral, playerNo);
+
+                        JSONObject upgradeJsons = pilotJson["upgrades"];
+                        foreach (string upgradeType in upgradeJsons.keys)
                         {
-                            string upgradeName = AllUpgrades.Find(n => n.UpgradeNameCanonical == upgradeRecord.str).UpgradeName;
-                            InstallUpgrade(newShip, upgradeName);
+                            JSONObject upgradeNames = upgradeJsons[upgradeType];
+                            foreach (JSONObject upgradeRecord in upgradeNames.list)
+                            {
+                                string upgradeName = AllUpgrades.Find(n => n.UpgradeNameCanonical == upgradeRecord.str).UpgradeName;
+                                InstallUpgrade(newShip, upgradeName);
+                            }
+                        }
+
+                        if (pilotJson.HasField("vendor"))
+                        {
+                            JSONObject vendorData = pilotJson["vendor"];
+                            if (vendorData.HasField("Sandrem.FlyCasual"))
+                            {
+                                JSONObject myVendorData = vendorData["Sandrem.FlyCasual"];
+                                if (myVendorData.HasField("skin"))
+                                {
+                                    newShip.Instance.SkinName = myVendorData["skin"].str;
+                                }
+                            }
                         }
                     }
                 }
-            }
-            else
-            {
-                Messages.ShowError("No pilots");
-            }
+                else
+                {
+                    Messages.ShowError("No pilots");
+                }
 
-            callBack();
+                callBack();
+            }
+            catch (Exception)
+            {
+                Messages.ShowError("Error during creation of squadron");
+                ClearShipsOfPlayer(playerNo);
+                //throw;
+            }
         }
 
         /*private static void LogImportedSquad(JSONObject squadJson)
@@ -723,11 +752,10 @@ namespace SquadBuilderNS
         public static JSONObject GetSquadInJson(PlayerNo playerNo)
         {
             JSONObject squadJson = new JSONObject();
-            //squadJson.AddField("name", "New Squad");
+            squadJson.AddField("name", GetSquadList(playerNo).Name);
             squadJson.AddField("faction", FactionToXWS(GetSquadList(playerNo).SquadFaction));
             squadJson.AddField("points", GetSquadCost(playerNo));
             squadJson.AddField("version", "0.3.0");
-            //squadJson.AddField("description", "No descripton");
 
             List<SquadBuilderShip> playerShipConfigs = GetSquadList(playerNo).GetShips().ToList();
             JSONObject[] squadPilotsArrayJson = new JSONObject[playerShipConfigs.Count];
@@ -738,7 +766,49 @@ namespace SquadBuilderNS
             JSONObject squadPilotsJson = new JSONObject(squadPilotsArrayJson);
             squadJson.AddField("pilots", squadPilotsJson);
 
+            squadJson.AddField("description", GetDescriptionOfSquadJson(squadJson));
+
             return squadJson;
+        }
+
+        private static string GetDescriptionOfSquadJson(JSONObject squadJson)
+        {
+            string result = "";
+
+            if (squadJson.HasField("pilots"))
+            {
+                JSONObject pilotJsons = squadJson["pilots"];
+                foreach (JSONObject pilotJson in pilotJsons.list)
+                {
+                    if (result != "") result += "\n";
+
+                    string shipNameXws = pilotJson["ship"].str;
+                    string shipNameGeneral = AllShips.Find(n => n.ShipNameCanonical == shipNameXws).ShipName;
+
+                    string pilotNameXws = pilotJson["name"].str;
+                    string pilotNameGeneral = AllPilots.Find(n => n.PilotNameCanonical == pilotNameXws).PilotName;
+
+                    result += pilotNameGeneral;
+
+                    if (AllPilots.Count(n => n.PilotName == pilotNameGeneral) > 1)
+                    {
+                        result += " (" + shipNameGeneral + ")";
+                    }
+
+                    JSONObject upgradeJsons = pilotJson["upgrades"];
+                    foreach (string upgradeType in upgradeJsons.keys)
+                    {
+                        JSONObject upgradeNames = upgradeJsons[upgradeType];
+                        foreach (JSONObject upgradeRecord in upgradeNames.list)
+                        {
+                            string upgradeName = AllUpgrades.Find(n => n.UpgradeNameCanonical == upgradeRecord.str).UpgradeName;
+                            result += " + " + upgradeName;
+                        }
+                    }
+                }
+            }
+
+            return result;
         }
 
         private static JSONObject GenerateSquadPilot(SquadBuilderShip shipHolder)
@@ -876,13 +946,13 @@ namespace SquadBuilderNS
 
         public static bool IsNetworkGame
         {
-            get { return SquadLists.Find(n => n.PlayerNo == PlayerNo.Player2).PlayerType == typeof(NetworkOpponentPlayer); }
+            get { return GetSquadList(PlayerNo.Player2).PlayerType == typeof(NetworkOpponentPlayer); }
         }
 
         public static void SwitchPlayers()
         {
-            SquadList player1SquadList = SquadLists.Find(n => n.PlayerNo == PlayerNo.Player1);
-            SquadList player2SquadList = SquadLists.Find(n => n.PlayerNo == PlayerNo.Player2);
+            SquadList player1SquadList = GetSquadList(PlayerNo.Player1);
+            SquadList player2SquadList = GetSquadList(PlayerNo.Player2);
 
             player1SquadList.PlayerNo = PlayerNo.Player2;
             player2SquadList.PlayerNo = PlayerNo.Player1;
@@ -895,9 +965,62 @@ namespace SquadBuilderNS
 
         private static string GetSkinName(SquadBuilderShip shipHolder)
         {
-            // TODO
+            return shipHolder.Instance.SkinName;
+        }
 
-            return "None";
+        public static void BrowseSavedSquads()
+        {
+            ShowListOfSavedSquadrons(GetSavedSquadsJsons());
+        }
+
+        private static void DeleteSavedSquadAndRefresh(string fileName)
+        {
+            DeleteSavedSquadFile(fileName);
+            BrowseSavedSquads();
+        }
+
+        private static void LoadSavedSquadAndReturn(string fileName)
+        {
+            JSONObject squadJson = GetSavedSquadJson(fileName);
+            SetPlayerSquadFromImportedJson(squadJson, CurrentPlayer, ReturnToSquadBuilder);
+        }
+
+        public static void SetDefaultPlayerNames()
+        {
+            GetSquadList(PlayerNo.Player1).Name = GetDefaultNameForSquad(PlayerNo.Player1);
+            GetSquadList(PlayerNo.Player2).Name = GetDefaultNameForSquad(PlayerNo.Player2);
+        }
+
+        private static string GetDefaultNameForSquad(PlayerNo playerNo)
+        {
+            string result = "Unknown Squadron";
+
+            Type playerOneType = GetSquadList(PlayerNo.Player1).PlayerType;
+            Type playerTwoType = GetSquadList(PlayerNo.Player2).PlayerType;
+
+            if (playerOneType == typeof(HumanPlayer) && playerTwoType == typeof(NetworkOpponentPlayer))
+            {
+                if (playerNo == PlayerNo.Player1) return "My Squadron";
+            }
+            else if (playerOneType == typeof(HumanPlayer) && playerTwoType == typeof(HumanPlayer))
+            {
+                if (playerNo == PlayerNo.Player1) return "Squadron of Player 1"; else return "Squadron of Player 2";
+            }
+            else if (playerOneType == typeof(HumanPlayer) && playerTwoType == typeof(HotacAiPlayer))
+            {
+                if (playerNo == PlayerNo.Player1) return "My Squadron"; else return "Squadron of AI";
+            }
+            else if (playerOneType == typeof(HotacAiPlayer) && playerTwoType == typeof(HotacAiPlayer))
+            {
+                if (playerNo == PlayerNo.Player1) return "Squadron of AI 1"; else return "Squadron of AI 2";
+            }
+
+            return result;
+        }
+
+        private static void SetSkinForShip(SquadBuilderShip ship, string skinName)
+        {
+            ship.Instance.SkinName = skinName;
         }
     }
 }

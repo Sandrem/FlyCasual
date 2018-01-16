@@ -35,16 +35,18 @@ public partial class MainMenu : MonoBehaviour {
 
     public void StartBattle()
     {
-        ShipFactory.Initialize();
+        if (SquadBuilder.ValidateCurrentPlayersRoster())
+        {
+            ShipFactory.Initialize();
 
-        if (!SquadBuilder.IsNetworkGame)
-        {
-            SquadBuilder.StartLocalGame();
-        }
-        else
-        {
-            GameObject squadBuilerPanel = GameObject.Find("UI/Panels").transform.Find("MultiplayerDecisionPanel").gameObject;
-            ChangePanel(squadBuilerPanel);
+            if (!SquadBuilder.IsNetworkGame)
+            {
+                SquadBuilder.StartLocalGame();
+            }
+            else
+            {
+                ChangePanel("MultiplayerDecisionPanel");
+            }
         }
     }
 
@@ -127,6 +129,7 @@ public partial class MainMenu : MonoBehaviour {
         SquadBuilder.Initialize();
         SquadBuilder.SetCurrentPlayer(PlayerNo.Player1);
         SquadBuilder.SetPlayers(modeName);
+        SquadBuilder.SetDefaultPlayerNames();
         ChangePanel("SelectFactionPanel");
     }
 

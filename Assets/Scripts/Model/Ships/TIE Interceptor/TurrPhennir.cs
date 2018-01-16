@@ -39,7 +39,7 @@ namespace Abilities
 
         public override void DeactivateAbility()
         {
-            HostShip.OnAttackFinish += RegisterTurrPhennirPilotAbility;
+            HostShip.OnAttackFinish -= RegisterTurrPhennirPilotAbility;
         }
 
         private void RegisterTurrPhennirPilotAbility(GenericShip ship)

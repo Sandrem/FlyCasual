@@ -73,7 +73,7 @@ namespace Abilities
             {
                 if (Host.HasToken(typeof(Tokens.StressToken)))
                 {
-                    return 51;
+                    return 90;
                 }
                 return 0;
             }

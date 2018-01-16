@@ -16,6 +16,8 @@ namespace UpgradesList
 
             isUnique = true;
 
+            ImageUrl = ImageUrls.GetImageUrl(this, "bossk-crew.png");
+
             UpgradeAbilities.Add(new BosskCrewAbility());
         }
 
@@ -46,14 +48,25 @@ namespace Abilities
             if (!HostShip.HasToken(typeof(StressToken)))
             {
                 RegisterAbilityTrigger(TriggerTypes.OnAttackMissed, PerformBosskAbility);
-            }                
+            }
         }
 
         private void PerformBosskAbility(object sender, EventArgs e)
         {
-            HostShip.AcquireTargetLock(Triggers.FinishTrigger);
-            HostShip.AssignToken(new FocusToken(), Phases.CurrentSubPhase.FinishPhase);
-            HostShip.AssignToken(new StressToken(), Phases.CurrentSubPhase.FinishPhase);
+            Messages.ShowInfoToHuman("Bossk: Select a target for Target Lock.");
+            HostShip.AcquireTargetLock(AssignFocusToken);
+            
         }
-    }    
+
+        private void AssignFocusToken()
+        {
+            HostShip.AssignToken(new FocusToken(), AssignStressToken);
+        }
+
+        private void AssignStressToken()
+        {
+            Messages.ShowInfoToHuman("Bossk: Focus and Stress tokens acquired.");
+            HostShip.AssignToken(new StressToken(), Triggers.FinishTrigger);
+        }
+    }
 }

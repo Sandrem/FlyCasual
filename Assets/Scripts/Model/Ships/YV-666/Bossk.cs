@@ -63,7 +63,7 @@ namespace Abilities
             decisionSubPhase.InfoText = "Bossk: Would you like to cancel 1 critical result to add 2 success results?";
 
             decisionSubPhase.AddDecision("Yes", ConvertCriticalsToSuccesses);
-            decisionSubPhase.AddDecision("No",  delegate { Triggers.FinishTrigger(); }
+            decisionSubPhase.AddDecision("No",  delegate { DecisionSubPhase.ConfirmDecision(); }
             );
 
             decisionSubPhase.RequiredPlayer = HostShip.Owner.PlayerNo;

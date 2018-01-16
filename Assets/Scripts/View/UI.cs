@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using GameModes;
+using UnityEngine.EventSystems;
 
 //Todo: Move to different scripts by menu names
 
@@ -285,6 +286,14 @@ public class UI : MonoBehaviour {
 
         if (pressNext) ClickNextPhase();
         else if (pressCancel) ClickSkipPhase();
+    }
+
+    public static void AssignManeuverButtonPressed()
+    {
+        HideDirectionMenu();
+
+        string maneuverCode = EventSystem.current.currentSelectedGameObject.name;
+        DirectionsMenu.Callback(maneuverCode);
     }
 
 }

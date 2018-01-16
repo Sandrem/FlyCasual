@@ -15,8 +15,13 @@ namespace Ship
                 PilotName = "Keyan Farlander";
                 PilotSkill = 7;
                 Cost = 29;
+
                 IsUnique = true;
+
+                PrintedUpgradeIcons.Add(UpgradeType.Elite);
+
                 PilotAbilities.Add(new Abilities.KeyanFarlanderAbiliity());
+
                 SkinName = "Blue";
             }
         }

@@ -44,6 +44,7 @@ namespace SquadBuilderNS
         public Type PlayerType;
         public PlayerNo PlayerNo;
         public string Name;
+        public JSONObject SavedConfiguration;
 
         public SquadList(PlayerNo playerNo)
         {
@@ -279,7 +280,7 @@ namespace SquadBuilderNS
         private static SquadBuilderShip AddPilotToSquad(string pilotName, string shipName, PlayerNo playerNo)
         {
             PilotRecord pilotRecord = AllPilots.Find(n => n.PilotName == pilotName && n.PilotShip.ShipName == shipName);
-            return CurrentSquadList.AddShip(pilotRecord);
+            return GetSquadList(playerNo).AddShip(pilotRecord);
         }
 
         private static void InstallUpgrade(UpgradeSlot slot, string upgradeName)
@@ -443,8 +444,22 @@ namespace SquadBuilderNS
 
             if (ValidateCurrentPlayersRoster())
             {
-                ShowOpponentSquad();
-                LoadBattleScene();
+                SaveSquadConfigurationns();
+                SwitchToBattlecene();
+            }
+        }
+
+        public static void SwitchToBattlecene()
+        {
+            ShowOpponentSquad();
+            LoadBattleScene();
+        }
+
+        private static void SaveSquadConfigurationns()
+        {
+            foreach (var squad in SquadLists)
+            {
+                squad.SavedConfiguration = GetSquadInJson(squad.PlayerNo);
             }
         }
 
@@ -1021,6 +1036,17 @@ namespace SquadBuilderNS
         private static void SetSkinForShip(SquadBuilderShip ship, string skinName)
         {
             ship.Instance.SkinName = skinName;
+        }
+
+        public static void ReGenerateSquads(Action callback)
+        {
+            ReGenerateSquadOfPlayer(PlayerNo.Player1, delegate { ReGenerateSquadOfPlayer(PlayerNo.Player2, callback); });
+        }
+
+        private static void ReGenerateSquadOfPlayer(PlayerNo playerNo, Action callback)
+        {
+            JSONObject playerJson = GetSquadList(playerNo).SavedConfiguration;
+            SetPlayerSquadFromImportedJson(playerJson, playerNo, callback);
         }
     }
 }

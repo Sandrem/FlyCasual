@@ -12,11 +12,11 @@ public static class ImageManager
     static public WWW GetImage(string url)
     {
         string filePath = Application.persistentDataPath + "/ImageCache";
-        if (!System.IO.Directory.Exists(filePath)) System.IO.Directory.CreateDirectory(filePath);
+        if (!Directory.Exists(filePath)) Directory.CreateDirectory(filePath);
         filePath += "/" + url.GetHashCode() + ".png";
         bool web = false;
         WWW www;
-        if (System.IO.File.Exists(filePath))
+        if (File.Exists(filePath))
         {
             string pathforwww = "file://" + filePath;
             //Debug.Log("TRYING FROM CACHE " + url + "  file " + pathforwww);

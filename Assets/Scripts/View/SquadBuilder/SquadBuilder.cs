@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using Upgrade;
+using System.IO;
 
 namespace SquadBuilderNS
 {
@@ -111,6 +112,7 @@ namespace SquadBuilderNS
 
             Transform contentTransform = GameObject.Find("UI/Panels/SelectPilotPanel/Panel/Scroll View/Viewport/Content").transform;
             DestroyChildren(contentTransform);
+            contentTransform.localPosition = new Vector3(0, contentTransform.localPosition.y, contentTransform.localPosition.z);
             contentTransform.GetComponent<RectTransform>().sizeDelta = new Vector2(pilotsCount*(PILOT_CARD_WIDTH + DISTANCE_MEDIUM) + 2 * DISTANCE_MEDIUM, 0);
 
             foreach (PilotRecord pilot in AllPilotsFiltered)
@@ -123,6 +125,7 @@ namespace SquadBuilderNS
         {
             foreach (Transform oldPanel in transformHolder)
             {
+                oldPanel.name = "DestructionIsPlanned";
                 GameObject.Destroy(oldPanel.gameObject);
             }
         }
@@ -134,7 +137,7 @@ namespace SquadBuilderNS
             GameObject newPilotPanel = MonoBehaviour.Instantiate(prefab, contentTransform);
 
             PilotPanelSquadBuilder script = newPilotPanel.GetComponent<PilotPanelSquadBuilder>();
-            script.Initialize(pilotRecord.PilotName, CurrentShip, pilotRecord.Instance.ImageUrl, AddPilotToSquadAndReturn);
+            script.Initialize(pilotRecord.PilotName, CurrentShip, pilotRecord.Instance.ImageUrl, PilotSelectedIsClicked);
 
             int column = availablePilotsCounter;
 
@@ -143,9 +146,9 @@ namespace SquadBuilderNS
             availablePilotsCounter++;
         }
 
-        public static void AddPilotToSquadAndReturn(SquadBuilderShip ship, string pilotName, string shipName)
+        public static void PilotSelectedIsClicked(SquadBuilderShip ship, string pilotName, string shipName)
         {
-            AddPilotToSquad(pilotName, shipName);
+            AddPilotToSquad(pilotName, shipName, CurrentPlayer);
             MainMenu.CurrentMainMenu.ChangePanel("SquadBuilderPanel");
         }
 
@@ -229,6 +232,9 @@ namespace SquadBuilderNS
                 prefab = (GameObject)Resources.Load("Prefabs/SquadBuilder/AddShipButton", typeof(GameObject));
                 GameObject addShipButton = MonoBehaviour.Instantiate(prefab, addShipButtonPanel.transform);
 
+                Sprite factionSprite = GameObject.Find("UI/Panels").transform.Find("SelectFactionPanel").Find("Panel").Find("FactionPanels").Find("Button" + CurrentSquadList.SquadFaction.ToString()).GetComponent<Image>().sprite;
+                addShipButton.GetComponent<Image>().sprite = factionSprite;
+
                 EventTrigger trigger = addShipButton.AddComponent<EventTrigger>();
                 EventTrigger.Entry entry = new EventTrigger.Entry();
                 entry.eventID = EventTriggerType.PointerClick;
@@ -303,12 +309,13 @@ namespace SquadBuilderNS
         private static void ArrangeShipsWithUpgradesInTwoLines(float allPanelsWidth)
         {
             float defaultHeight = 600;
+            float defaultWidth = 1366 - 2 * DISTANCE_MEDIUM;
             float offset = 0;
 
             Dictionary<ShipWithUpgradesPanel, int> panelsByRow = GetArrangeShipsWithUpgradesIntoRowNumbers();
             float row1width = panelsByRow.Where(n => n.Value == 1).Sum(m => m.Key.Size.x) + DISTANCE_LARGE * (panelsByRow.Count(n => n.Value == 1) - 1);
             float row2width = panelsByRow.Where(n => n.Value == 2).Sum(m => m.Key.Size.x) + DISTANCE_LARGE * (panelsByRow.Count(n => n.Value == 1) - 1);
-            if (AddShipButtonPanel != null) row2width += AddShipButtonPanel.Size.x;
+            if (AddShipButtonPanel != null) row2width += AddShipButtonPanel.Size.x + DISTANCE_LARGE;
             float maxWidth = Mathf.Max(row1width, row2width);
 
             GameObject centerPanel = GameObject.Find("UI/Panels/SquadBuilderPanel/Panel/Centered");
@@ -333,7 +340,18 @@ namespace SquadBuilderNS
                 AddShipButtonPanel.Panel.transform.localPosition = new Vector2(offset, -(PILOT_CARD_HEIGHT + DISTANCE_MEDIUM));
             }
 
-            float scale = Mathf.Min(PILOT_CARD_HEIGHT / defaultHeight, 1);
+            float verticalScale = Mathf.Min(PILOT_CARD_HEIGHT / defaultHeight, 1);
+
+            float firstRowWidth = panelsByRow.Where(n => n.Value == 1).Sum(n => n.Key.Size.x) + DISTANCE_LARGE * (panelsByRow.Where(n => n.Value == 1).ToList().Count - 1);
+            float secondRowWidth = panelsByRow.Where(n => n.Value == 2).Sum(n => n.Key.Size.x) + DISTANCE_LARGE * (panelsByRow.Where(n => n.Value == 2).ToList().Count - 1);
+
+            if (AddShipButtonPanel != null) secondRowWidth += AddShipButtonPanel.Size.x + DISTANCE_LARGE;
+
+            float scaleRow1 = defaultWidth / (firstRowWidth * verticalScale);
+            float scaleRow2 = defaultWidth / (secondRowWidth * verticalScale);
+            float horizontalScale = Mathf.Min(scaleRow1, scaleRow2, 1);
+
+            float scale = verticalScale * horizontalScale;
             centerPanel.transform.localScale = new Vector2(scale, scale);
         }
 
@@ -341,21 +359,30 @@ namespace SquadBuilderNS
         {
             Dictionary<ShipWithUpgradesPanel, int> result = new Dictionary<ShipWithUpgradesPanel, int>();
 
+            bool isAddShipPanelVisible = AddShipButtonPanel != null;
+
             ShipWithUpgradesPanel maxSizePanel = ShipWithUpgradesPanels.Find(n => n.Size.x == ShipWithUpgradesPanels.Max(m => m.Size.x));
             result.Add(maxSizePanel, 1);
 
             float maxWidth = ShipWithUpgradesPanels.Sum(n => n.Size.x) - maxSizePanel.Size.x;
-            if (AddShipButtonPanel != null) maxWidth += AddShipButtonPanel.Size.x;
+            if (isAddShipPanelVisible) maxWidth += AddShipButtonPanel.Size.x;
             float difference = Mathf.Abs(maxWidth - maxSizePanel.Size.x);
 
             bool finished = false;
             while (!finished)
             {
-                ShipWithUpgradesPanel minSizePanel = ShipWithUpgradesPanels.Find(n => n.Size.x == ShipWithUpgradesPanels.Min(m => m.Size.x) && !result.ContainsKey(n));
-                float newDifference = Mathf.Abs(result.Sum(n => n.Key.Size.x) + minSizePanel.Size.x - maxWidth + (result.Sum(n => n.Key.Size.x) + minSizePanel.Size.x));
+                List<ShipWithUpgradesPanel> shipPanelsNotProcessed = ShipWithUpgradesPanels.Where(n => !result.ContainsKey(n)).ToList();
+                ShipWithUpgradesPanel minSizePanel = shipPanelsNotProcessed.Find(n => n.Size.x == shipPanelsNotProcessed.Min(m => m.Size.x));
+
+                if (minSizePanel == null) return result;
+
+                float firstRowWidth = result.Where(n => n.Value == 1).Sum(n => n.Key.Size.x) + minSizePanel.Size.x;
+                float secondRowWidth = maxWidth - result.Where(n => n.Value == 1).Sum(n => n.Key.Size.x);
+                float newDifference = Mathf.Abs(firstRowWidth - secondRowWidth);
+
                 if (newDifference > difference)
                 {
-                    foreach (ShipWithUpgradesPanel panel in ShipWithUpgradesPanels)
+                    foreach (ShipWithUpgradesPanel panel in shipPanelsNotProcessed)
                     {
                         if (!result.ContainsKey(panel)) result.Add(panel, 2);
                     }
@@ -391,7 +418,7 @@ namespace SquadBuilderNS
         {
             Text targetText = GameObject.Find("UI/Panels/" + panelName + "/ControlsPanel/SquadCostText").GetComponent<Text>();
             targetText.text = squadCost.ToString() + " / 100";
-            targetText.color = (squadCost > 100) ? Color.red : Color.black;
+            targetText.color = (squadCost > 100) ? new Color(1, 0, 0, 200f/255f) : new Color(0, 0, 0, 200f / 255f);
         }
 
         private static void GenerateShipWithSlotsPanels()
@@ -480,6 +507,7 @@ namespace SquadBuilderNS
 
             Transform contentTransform = GameObject.Find("UI/Panels/SelectUpgradePanel/Panel/Scroll View/Viewport/Content").transform;
             DestroyChildren(contentTransform);
+            contentTransform.localPosition = new Vector3(0, contentTransform.localPosition.y, contentTransform.localPosition.z);
             contentTransform.GetComponent<RectTransform>().sizeDelta = new Vector2(filteredUpgradesCount * (UPGRADE_CARD_WIDTH + DISTANCE_MEDIUM) + 2 * DISTANCE_MEDIUM, 0);
 
             foreach (UpgradeRecord upgrade in filteredUpgrades)
@@ -506,9 +534,7 @@ namespace SquadBuilderNS
 
         private static void SelectUpgradeClicked(UpgradeSlot slot, string upgradeName)
         {
-            string upgradeType = AllUpgrades.Find(n => n.UpgradeName == upgradeName).UpgradeTypeName;
-            GenericUpgrade newUpgrade = (GenericUpgrade)System.Activator.CreateInstance(Type.GetType(upgradeType));
-            CurrentUpgradeSlot.PreInstallUpgrade(newUpgrade, CurrentSquadBuilderShip.Instance);
+            InstallUpgrade(slot, upgradeName);
 
             MainMenu.CurrentMainMenu.ChangePanel("ShipSlotsPanel");
         }
@@ -517,12 +543,12 @@ namespace SquadBuilderNS
         {
             GameObject nextButton = GameObject.Find("UI/Panels/SquadBuilderPanel/ControlsPanel").transform.Find("NextButton").gameObject;
             GameObject startGameButton = GameObject.Find("UI/Panels/SquadBuilderPanel/ControlsPanel").transform.Find("StartGameButton").gameObject;
-            if (playerNo == PlayerNo.Player1)
+            if (playerNo == PlayerNo.Player1 && !IsNetworkGame)
             {
                 nextButton.SetActive(true);
                 startGameButton.SetActive(false);
             }
-            else if (playerNo == PlayerNo.Player2)
+            else if (playerNo == PlayerNo.Player2 || IsNetworkGame)
             {
                 nextButton.SetActive(false);
                 startGameButton.SetActive(true);
@@ -535,6 +561,215 @@ namespace SquadBuilderNS
 
             GameObject opponentSquad = globalUI.transform.Find("OpponentSquad").gameObject;
             opponentSquad.SetActive(true);
+        }
+
+        public static void OpenImportExportPanel(bool isImport)
+        {
+            MainMenu.CurrentMainMenu.ChangePanel("ImportExportPanel");
+
+            GameObject.Find("UI/Panels/ImportExportPanel/InputField").GetComponent<InputField>().text = (isImport) ? "" : GetSquadInJson(CurrentPlayer).ToString();
+            GameObject.Find("UI/Panels/ImportExportPanel/ControlsPanel/ImportButton").SetActive(isImport);
+        }
+
+        private static List<JSONObject> GetSavedSquadsJsons()
+        {
+            List<JSONObject> savedSquadsJsons = new List<JSONObject>();
+
+            string directoryPath = Application.persistentDataPath + "/SavedSquadrons";
+            if (!Directory.Exists(directoryPath)) Directory.CreateDirectory(directoryPath);
+
+            foreach (var filePath in Directory.GetFiles(directoryPath))
+            {
+                string content = File.ReadAllText(filePath);
+                JSONObject squadJson = new JSONObject(content);
+                squadJson.AddField("filename", new FileInfo(filePath).Name);
+                savedSquadsJsons.Add(squadJson);
+            }
+
+            return savedSquadsJsons;
+        }
+
+        public static void ShowListOfSavedSquadrons(List<JSONObject> squadsJsonsList)
+        {
+            SetNoSavedSquadronsMessage(squadsJsonsList.Count == 0);
+
+            float FREE_SPACE = 10f;
+
+            Transform contentTransform = GameObject.Find("UI/Panels/BrowseSavedSquadsPanel/Scroll View/Viewport/Content").transform;
+
+            DestroyChildren(contentTransform);
+
+            GameObject prefab = (GameObject)Resources.Load("Prefabs/SquadBuilder/SavedSquadronPanel", typeof(GameObject));
+
+            RectTransform contentRectTransform = contentTransform.GetComponent<RectTransform>();
+            Vector3 currentPosition = new Vector3(contentRectTransform.sizeDelta.x / 2 + FREE_SPACE, -FREE_SPACE, contentTransform.localPosition.z);
+
+            foreach (var squadList in squadsJsonsList)
+            {
+                GameObject SquadListRecord;
+
+                SquadListRecord = MonoBehaviour.Instantiate(prefab, contentTransform);
+                SquadListRecord.transform.localPosition = currentPosition;
+
+                SquadListRecord.transform.Find("Name").GetComponent<Text>().text = squadList["name"].str;
+
+                Text descriptionText = SquadListRecord.transform.Find("Description").GetComponent<Text>();
+                RectTransform descriptionRectTransform = SquadListRecord.transform.Find("Description").GetComponent<RectTransform>();
+                descriptionText.text = squadList["description"].str;
+                float descriptionPreferredHeight = descriptionText.preferredHeight;
+                descriptionRectTransform.sizeDelta = new Vector2(descriptionRectTransform.sizeDelta.x, descriptionPreferredHeight);
+
+                SquadListRecord.transform.Find("PointsValue").GetComponent<Text>().text = squadList["points"].i.ToString();
+
+                SquadListRecord.GetComponent<RectTransform>().sizeDelta = new Vector2(
+                    SquadListRecord.GetComponent<RectTransform>().sizeDelta.x,
+                    15 + 50 + 10 + descriptionPreferredHeight + 10 + 50 + 10
+                );
+
+                SquadListRecord.name = squadList["filename"].str;
+
+                SquadListRecord.transform.Find("DeleteButton").GetComponent<Button>().onClick.AddListener(delegate { DeleteSavedSquadAndRefresh(SquadListRecord.name); });
+                SquadListRecord.transform.Find("LoadButton").GetComponent<Button>().onClick.AddListener(delegate { LoadSavedSquadAndReturn(SquadListRecord.name); });
+            }
+
+            OrganizePanels(contentTransform, FREE_SPACE);
+        }
+
+        private static void OrganizePanels(Transform contentTransform, float freeSpace)
+        {
+            float totalHeight = 0;
+            foreach (Transform transform in contentTransform)
+            {
+                if (transform.name != "DestructionIsPlanned")
+                {
+                    totalHeight += transform.GetComponent<RectTransform>().sizeDelta.y + freeSpace;
+                }
+            }
+            contentTransform.GetComponent<RectTransform>().sizeDelta = new Vector2(0, totalHeight);
+
+            totalHeight = 10;
+            foreach (Transform transform in contentTransform)
+            {
+                if (transform.name != "DestructionIsPlanned")
+                {
+                    transform.localPosition = new Vector2(10, -totalHeight);
+                    totalHeight += transform.GetComponent<RectTransform>().sizeDelta.y + freeSpace;
+                }
+            }
+        }
+
+        private static JSONObject GetSavedSquadJson(string fileName)
+        {
+            JSONObject squadJson = null;
+
+            string filePath = Application.persistentDataPath + "/SavedSquadrons/" + fileName;
+
+            if (File.Exists(filePath))
+            {
+                string content = File.ReadAllText(filePath);
+                squadJson = new JSONObject(content);
+            }
+
+            return squadJson;
+        }
+
+        private static void SetNoSavedSquadronsMessage(bool isActive)
+        {
+            GameObject.Find("UI/Panels/BrowseSavedSquadsPanel/NoSavedSquads").SetActive(isActive);
+        }
+
+        private static void DeleteSavedSquadFile(string fileName)
+        {
+            string filePath = Application.persistentDataPath + "/SavedSquadrons/" + fileName;
+
+            if (File.Exists(filePath))
+            {
+                File.Delete(filePath);
+            }
+        }
+
+        public static void ReturnToSquadBuilder()
+        {
+            MainMenu.CurrentMainMenu.ChangePanel("SquadBuilderPanel");
+        }
+
+        public static void UpdateSquadName(string panelName)
+        {
+            GameObject textGO = GameObject.Find("UI/Panels/" + panelName + "/Panel/SquadNameButton/Text");
+            textGO.GetComponent<Text>().text = CurrentSquadList.Name;
+            textGO.GetComponent<RectTransform>().sizeDelta = new Vector2(textGO.GetComponent<Text>().preferredWidth, textGO.GetComponent<RectTransform>().sizeDelta.y);
+        }
+
+        public static void PrepareSaveSquadronPanel()
+        {
+            GameObject.Find("UI/Panels/SaveSquadronPanel/Panel/Name/InputField").GetComponent<InputField>().text = CurrentSquadList.Name;
+        }
+
+        public static void TrySaveSquadron(Action callback)
+        {
+            string squadName = GameObject.Find("UI/Panels/SaveSquadronPanel/Panel/Name/InputField").GetComponent<InputField>().text;
+            if (squadName == "") squadName = "Unnamed squadron";
+
+            CurrentSquadList.Name = CleanFileName(squadName);
+
+            string filePath = Application.persistentDataPath + "/SavedSquadrons/" + CurrentSquadList.Name;
+
+            if (File.Exists(filePath + ".json"))
+            {
+                string originalFilePath = filePath;
+                int counter = 1;
+
+                while (File.Exists(filePath + ".json"))
+                {
+                    counter++;
+                    filePath = originalFilePath + counter.ToString();
+                }
+            }
+
+            File.WriteAllText(filePath + ".json", GetSquadInJson(CurrentPlayer).ToString());
+
+            callback();
+        }
+
+        private static string CleanFileName(string fileName)
+        {
+            return Path.GetInvalidFileNameChars().Aggregate(fileName, (current, c) => current.Replace(c.ToString(), string.Empty));
+        }
+
+        public static void ShowSkinButtons()
+        {
+            List<string> availableSkins = GetAvailableShipSkins(CurrentSquadBuilderShip);
+
+            DestroyChildren(GameObject.Find("UI/Panels/ShipSkinsPanel/Panel/Centered").transform);
+
+            GameObject prefab = (GameObject)Resources.Load("Prefabs/SquadBuilder/ShipSkinButton", typeof(GameObject));
+
+            float buttonHeight = prefab.GetComponent<RectTransform>().sizeDelta.y;
+            int counter = 0;
+            foreach (var availableSkin in availableSkins)
+            {
+                GameObject newButton = MonoBehaviour.Instantiate(prefab, GameObject.Find("UI/Panels/ShipSkinsPanel/Panel/Centered").transform);
+                newButton.transform.localPosition = new Vector2(0, -buttonHeight * counter);
+
+                newButton.GetComponentInChildren<Text>().text = (availableSkin == CurrentSquadBuilderShip.Instance.SkinName) ? "> " + availableSkin + " <" : availableSkin;
+
+                newButton.GetComponent<Button>().onClick.AddListener(delegate { SetSkinForShip(CurrentSquadBuilderShip, availableSkin); ShowSkinButtons(); });
+
+                counter++;
+            }
+
+            counter++;
+
+            GameObject backButton = MonoBehaviour.Instantiate(prefab, GameObject.Find("UI/Panels/ShipSkinsPanel/Panel/Centered").transform);
+            backButton.transform.localPosition = new Vector2(0, -buttonHeight * counter);
+            backButton.GetComponentInChildren<Text>().text = "Back";
+            backButton.GetComponent<Button>().onClick.AddListener(ReturnToSquadBuilder);
+        }
+
+        private static void UpdateSkinButton()
+        {
+            bool hasSkinsSelection = GetAvailableShipSkins(CurrentSquadBuilderShip).Count > 1;
+            GameObject.Find("UI/Panels/ShipSlotsPanel/Panel/TopButtons/SkinsButton").GetComponent<Button>().interactable = hasSkinsSelection;
         }
     }
 

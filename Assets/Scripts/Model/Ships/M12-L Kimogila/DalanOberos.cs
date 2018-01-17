@@ -38,7 +38,7 @@ namespace PilotAbilitiesNamespace
 
         public override void DeactivateAbility()
         {
-            Phases.OnCombatPhaseStart += RegisterAbilityTrigger;
+            Phases.OnCombatPhaseStart -= RegisterAbilityTrigger;
         }
 
 

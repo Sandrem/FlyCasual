@@ -13,7 +13,7 @@ namespace UpgradesList
     {
         public HarpoonMissiles() : base()
         {
-            //IsHidden = true;
+            IsHidden = true;
 
             Type = UpgradeType.Missile;
 

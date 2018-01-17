@@ -49,9 +49,10 @@ public partial class MainMenu : MonoBehaviour {
                 Network.BrowseMatches();
                 break;
             case "SelectFactionPanel":
-                //if (previousPanelName == "GameModeDecisionPanel") RosterBuilder.Initialize();
+                SquadBuilder.ClearShipsOfPlayer(SquadBuilder.CurrentPlayer);
                 break;
             case "SquadBuilderPanel":
+                SquadBuilder.UpdateSquadName("SquadBuilderPanel");
                 SquadBuilder.ShowShipsAndUpgrades();
                 SquadBuilder.UpdateNextButton();
                 break;
@@ -66,6 +67,18 @@ public partial class MainMenu : MonoBehaviour {
                 break;
             case "SelectUpgradePanel":
                 SquadBuilder.ShowUpgradesList();
+                break;
+            case "SquadronOptionsPanel":
+                SquadBuilder.UpdateSquadName("SquadronOptionsPanel");
+                break;
+            case "BrowseSavedSquadsPanel":
+                SquadBuilder.BrowseSavedSquads();
+                break;
+            case "SaveSquadronPanel":
+                SquadBuilder.PrepareSaveSquadronPanel();
+                break;
+            case "ShipSkinsPanel":
+                SquadBuilder.ShowSkinButtons();
                 break;
         }
     }

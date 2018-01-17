@@ -80,6 +80,10 @@ public class PilotPanelSquadBuilder : MonoBehaviour {
             entry.eventID = EventTriggerType.PointerClick;
             entry.callback.AddListener(delegate { OnClick(Ship, PilotName, ShipName); });
             trigger.triggers.Add(entry);
+
+            ScrollRect mainScroll = GameObject.Find("UI/Panels/SelectPilotPanel/Panel/Scroll View").GetComponent<ScrollRect>();
+            FixScrollRect fixScrollRect = this.gameObject.AddComponent<FixScrollRect>();
+            fixScrollRect.MainScroll = mainScroll;
         }
     }
 

@@ -10,7 +10,7 @@ namespace UpgradesList
     {
         public Outrider() : base()
         {
-            Type = UpgradeType.Title;
+            Types.Add(UpgradeType.Title);
             Name = "Outrider";
             Cost = 5;
 
@@ -39,7 +39,7 @@ namespace UpgradesList
 
         private void ToggleOutriderAbility(bool isActive)
         {
-            GenericSecondaryWeapon cannon = (GenericSecondaryWeapon)Host.UpgradeBar.GetInstalledUpgrades().Find(n => n.Type == UpgradeType.Cannon);
+            GenericSecondaryWeapon cannon = (GenericSecondaryWeapon)Host.UpgradeBar.GetInstalledUpgrades().Find(n => n.hasType(UpgradeType.Cannon));
 
             if (cannon != null)
             {
@@ -53,7 +53,7 @@ namespace UpgradesList
 
         private void TurnOffOutriferAbilityIfCannon()
         {
-            if (CurrentUpgrade.Type == UpgradeType.Cannon)
+            if (CurrentUpgrade.hasType(UpgradeType.Cannon))
             {
                 ToggleOutriderAbility(false);
             }

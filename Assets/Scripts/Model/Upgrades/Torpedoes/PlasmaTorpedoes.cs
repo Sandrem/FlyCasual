@@ -13,7 +13,7 @@ namespace UpgradesList
         {
             IsHidden = true;
 
-            Type = UpgradeType.Torpedo;
+            Types.Add(UpgradeType.Torpedo);
 
             Name = "Plasma Torpedoes";
             Cost = 3;

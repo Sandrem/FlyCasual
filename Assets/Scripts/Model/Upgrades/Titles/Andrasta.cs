@@ -9,7 +9,7 @@ namespace UpgradesList
     {
         public Andrasta() : base()
         {
-            Type = UpgradeType.Title;
+            Types.Add(UpgradeType.Title);
             Name = "Andrasta";
             Cost = 0;
             isUnique = true;

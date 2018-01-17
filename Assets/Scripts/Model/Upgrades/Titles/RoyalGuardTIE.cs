@@ -9,7 +9,7 @@ namespace UpgradesList
     {
         public RoyalGuardTIE() : base()
         {
-            Type = UpgradeType.Title;
+            Types.Add(UpgradeType.Title);
             Name = "Royal Guard TIE";
             Cost = 0;
             AddedSlots = new List<UpgradeSlot>

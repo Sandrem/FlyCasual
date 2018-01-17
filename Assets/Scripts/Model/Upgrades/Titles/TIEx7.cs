@@ -15,7 +15,7 @@ namespace UpgradesList
 
         public TIEx7() : base()
         {
-            Type = UpgradeType.Title;
+            Types.Add(UpgradeType.Title);
             Name = "TIE/x7";
             Cost = -2;
 

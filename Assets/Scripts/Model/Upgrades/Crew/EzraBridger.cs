@@ -8,7 +8,7 @@ namespace UpgradesList
     {
         public EzraBridger() : base()
         {
-            Type = UpgradeType.Crew;
+            Types.Add(UpgradeType.Crew);
             Name = "Ezra Bridger";
             Cost = 3;
 

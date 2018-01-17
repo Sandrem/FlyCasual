@@ -11,7 +11,7 @@ namespace UpgradesList
 
         public Expertise() : base()
         {
-            Type = UpgradeType.Elite;
+            Types.Add(UpgradeType.Elite);
             Name = "Expertise";
             Cost = 4;
         }

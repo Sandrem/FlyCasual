@@ -11,7 +11,7 @@ namespace UpgradesList
 
         public Marksmanship() : base()
         {
-            Type = UpgradeType.Elite;
+            Types.Add(UpgradeType.Elite);
             Name = "Marksmanship";
             Cost = 3;
         }

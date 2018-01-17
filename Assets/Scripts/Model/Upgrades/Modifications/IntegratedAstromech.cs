@@ -15,7 +15,7 @@ namespace UpgradesList
     {
         public IntegratedAstromech() : base()
         {
-            Type = UpgradeType.Modification;
+            Types.Add(UpgradeType.Modification);
             Name = "Integrated Astromech";
             Cost = 0;
 
@@ -45,7 +45,7 @@ namespace Abilities
 
         private void RegisterIntegratedAstromechTrigger(GenericShip ship)
         {
-            if (HostShip.UpgradeBar.GetInstalledUpgrades().Count(n => n.Type == UpgradeType.Astromech) != 0)
+            if (HostShip.UpgradeBar.GetInstalledUpgrades(UpgradeType.Astromech).Count() != 0)
             {
                 RegisterAbilityTrigger(TriggerTypes.OnDamageCardIsDealt, AskUseIntegratedAstromechAbility);
             }
@@ -78,7 +78,7 @@ namespace Abilities
 
         private void UseAbility(object sender, System.EventArgs e)
         {
-            GenericUpgrade astromech = HostShip.UpgradeBar.GetInstalledUpgrades().Find(n => n.Type == UpgradeType.Astromech);
+            GenericUpgrade astromech = HostShip.UpgradeBar.GetInstalledUpgrade(UpgradeType.Astromech);
             if (astromech != null)
             {
                 Sounds.PlayShipSound("R2D2-Killed");

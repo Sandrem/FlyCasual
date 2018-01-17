@@ -10,7 +10,7 @@ namespace UpgradesList
 
         public Gunner() : base()
         {
-            Type = UpgradeType.Crew;
+            Types.Add(UpgradeType.Crew);
             Name = "Gunner";
             Cost = 5;
         }

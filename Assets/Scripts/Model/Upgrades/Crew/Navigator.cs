@@ -8,7 +8,7 @@ namespace UpgradesList
     {
         public Navigator() : base()
         {
-            Type = UpgradeType.Crew;
+            Types.Add(UpgradeType.Crew);
             Name = "Navigator";
             Cost = 3;
         }

@@ -478,7 +478,7 @@ namespace SquadBuilderNS
 
             foreach (UpgradeRecord upgrade in AllUpgrades)
             {
-                if (upgrade.Instance.Type == slot.Type)
+                if (upgrade.Instance.hasType(slot.Type))
                 {
                     if (upgrade.Instance.IsAllowedForShip(CurrentSquadBuilderShip.Instance))
                     {

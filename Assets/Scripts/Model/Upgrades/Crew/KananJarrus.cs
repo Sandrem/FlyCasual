@@ -14,7 +14,7 @@ namespace UpgradesList
 
         public KananJarrus() : base()
         {
-            Type = UpgradeType.Crew;
+            Types.Add(UpgradeType.Crew);
             Name = "Kanan Jarrus";
             Cost = 3;
 

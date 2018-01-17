@@ -10,7 +10,7 @@ namespace UpgradesList
     {
         public Chopper() : base()
         {
-            Type = UpgradeType.Crew;
+            Types.Add(UpgradeType.Crew);
             Name = "\"Chopper\"";
             Cost = 0;
 

@@ -8,7 +8,7 @@ namespace UpgradesList
         public VeteranInstincts() : base()
         {
 
-            Type = UpgradeType.Elite;
+            Types.Add(UpgradeType.Elite);
             Name = "Veteran Instincts";
             Cost = 1;
         }

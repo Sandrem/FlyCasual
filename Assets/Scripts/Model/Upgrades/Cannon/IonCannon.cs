@@ -10,7 +10,7 @@ namespace UpgradesList
 	{
 		public IonCannon() : base()
 		{
-			Type = UpgradeType.Cannon;
+            Types.Add(UpgradeType.Cannon);
 
 			Name = "Ion Cannon";
 			Cost = 3;

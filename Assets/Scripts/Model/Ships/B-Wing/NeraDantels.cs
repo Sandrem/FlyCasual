@@ -45,7 +45,7 @@ namespace Abilities
         private void ToggleAbility(bool isActive)
         {
             HostShip.ArcInfo.OutOfArcShotPermissions.CanShootTorpedoes = isActive;
-            foreach (GenericUpgrade torpedo in HostShip.UpgradeBar.GetInstalledUpgrades().Where(n => n.Type == UpgradeType.Torpedo))
+            foreach (GenericUpgrade torpedo in HostShip.UpgradeBar.GetInstalledUpgrades().Where(n => n.hasType(UpgradeType.Torpedo)))
             {
                 GenericSecondaryWeapon torpedoWeapon = torpedo as GenericSecondaryWeapon;
                 if (torpedoWeapon != null) torpedoWeapon.CanShootOutsideArc = isActive;

@@ -7,7 +7,7 @@ namespace UpgradesList
     {
         public Tactician() : base()
         {
-            Type = UpgradeType.Crew;
+            Types.Add(UpgradeType.Crew);
             Name = "Tactician";
             Cost = 2;
             isLimited = true;            

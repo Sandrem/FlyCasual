@@ -12,7 +12,7 @@ namespace UpgradesList
 
         public ExpertHandling() : base()
         {
-            Type = UpgradeType.Elite;
+            Types.Add(UpgradeType.Elite);
             Name = "Expert Handling";
             Cost = 2;
         }

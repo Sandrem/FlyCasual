@@ -9,7 +9,7 @@ namespace UpgradesList
     {
         public HotShotBlaster() : base()
         {
-            Type = UpgradeType.Illicit;
+            Types.Add(UpgradeType.Illicit);
             Name = "\"Hot Shot\" Blaster";
             Cost = 3;
 

@@ -7,7 +7,7 @@ namespace UpgradesList
     {
         public FireControlSystem() : base()
         {
-            Type = UpgradeType.System;
+            Types.Add(UpgradeType.System);
             Name = "Fire-Control System";
             Cost = 2;
         }

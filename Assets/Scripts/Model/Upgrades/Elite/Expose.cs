@@ -7,7 +7,7 @@ namespace UpgradesList
     {
         public Expose() : base()
         {
-            Type = UpgradeType.Elite;
+            Types.Add(UpgradeType.Elite);
             Name = "Expose";
             Cost = 4;
         }

@@ -9,7 +9,7 @@ namespace UpgradesList
     {
         public AgentKallus() : base()
         {
-            Type = UpgradeType.Crew;
+            Types.Add(UpgradeType.Crew);
             Name = "Agent Kallus";
             Cost = 2;
 

@@ -82,7 +82,7 @@ public static partial class RosterBuilder {
 
             if (oldUpgradeSlot.InstalledUpgrade != null)
             {
-                if (Ship.UpgradeBar.HasFreeUpgradeSlot(oldUpgradeSlot.InstalledUpgrade.Type))
+                if (Ship.UpgradeBar.HasFreeUpgradeSlot(oldUpgradeSlot.InstalledUpgrade.Types))
                 {
                     TryToReinstallUpgrade(this, upgradeHolder, oldUpgradeSlot.InstalledUpgrade);
                 }
@@ -503,7 +503,7 @@ public static partial class RosterBuilder {
             GenericUpgrade newUpgrade = (GenericUpgrade)System.Activator.CreateInstance(type);
             if (newUpgrade.IsAllowedForSquadBuilder())
             {
-                if (newUpgrade.Type == upgradeSlot.Type && newUpgrade.IsAllowedForShip(squadBuilderShip.Ship) && upgradeSlot.UpgradeIsAllowed(newUpgrade))
+                if (newUpgrade.hasType(upgradeSlot.Type) && newUpgrade.IsAllowedForShip(squadBuilderShip.Ship) && upgradeSlot.UpgradeIsAllowed(newUpgrade))
                 {
                     string upgradeKey = newUpgrade.Name + " (" + ReduceUpgradeCost(newUpgrade.Cost, upgradeSlot.CostDecrease) + ")";
                     results.Add(upgradeKey);

@@ -10,7 +10,7 @@ namespace UpgradesList
 	{
 		public FlechetteCannon() : base()
 		{
-			Type = UpgradeType.Cannon;
+            Types.Add(UpgradeType.Cannon);
 
 			Name = "Flechette Cannon";
 			Cost = 2;

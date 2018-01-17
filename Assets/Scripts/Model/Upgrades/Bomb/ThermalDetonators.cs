@@ -14,7 +14,7 @@ namespace UpgradesList
 
         public ThermalDetonators() : base()
         {
-            Type = UpgradeType.Bomb;
+            Types.Add(UpgradeType.Bomb);
             Name = "Thermal Detonators";
             Cost = 3;
 

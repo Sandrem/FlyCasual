@@ -13,7 +13,7 @@ namespace UpgradesList
 
         public ContrabandCybernetics() : base()
         {
-            Type = UpgradeType.Illicit;
+            Types.Add(UpgradeType.Illicit);
             Name = "Contraband Cybernetics";
             Cost = 1;
         }

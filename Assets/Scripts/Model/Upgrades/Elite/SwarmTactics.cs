@@ -13,7 +13,7 @@ namespace UpgradesList
 
         public SwarmTactics() : base()
         {
-            Type = UpgradeType.Elite;
+            Types.Add(UpgradeType.Elite);
             Name = "Swarm Tactics";
             Cost = 2;
 

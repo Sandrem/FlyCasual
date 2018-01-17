@@ -11,7 +11,7 @@ namespace UpgradesList
     {
         public Ghost() : base()
         {
-            Type = UpgradeType.Title;
+            Types.Add(UpgradeType.Title);
             Name = "Ghost";
             Cost = 0;
 

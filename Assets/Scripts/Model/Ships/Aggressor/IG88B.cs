@@ -66,7 +66,7 @@ namespace Abilities
 
         private bool HasCannonWeapon()
         {
-            return HostShip.UpgradeBar.GetInstalledUpgrades().Count(n => n.Type == UpgradeType.Cannon && (n as IShipWeapon) != null) > 0;
+            return HostShip.UpgradeBar.GetInstalledUpgrades().Count(n => n.hasType(UpgradeType.Cannon) && (n as IShipWeapon) != null) > 0;
         }
 
         private void UseIG88BAbility(object sender, System.EventArgs e)
@@ -80,7 +80,7 @@ namespace Abilities
             bool result = false;
 
             GenericSecondaryWeapon upgradeWeapon = weapon as GenericSecondaryWeapon;
-            if (upgradeWeapon != null && upgradeWeapon.Type == UpgradeType.Cannon)
+            if (upgradeWeapon != null && upgradeWeapon.hasType(UpgradeType.Cannon))
             {
                 result = true;
             }

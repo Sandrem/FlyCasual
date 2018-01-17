@@ -12,7 +12,7 @@ namespace UpgradesList
     {
         public Bistan() : base()
         {
-            Type = UpgradeType.Crew;
+            Types.Add(UpgradeType.Crew);
             Name = "Bistan";
             Cost = 2;
             isUnique = true;

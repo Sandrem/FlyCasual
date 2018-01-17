@@ -11,7 +11,7 @@ namespace UpgradesList
     {
 		public HeavyLaserCannon() : base()
         {
-            Type = UpgradeType.Cannon;
+            Types.Add(UpgradeType.Cannon);
 
             Name = "Heavy Laser Cannon";
             Cost = 7;

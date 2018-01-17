@@ -10,7 +10,7 @@ namespace UpgradesList
     {
         public LattsRazzi() : base()
         {
-            Type = UpgradeType.Crew;
+            Types.Add(UpgradeType.Crew);
             Name = "Latts Razzi";
             Cost = 2;
 

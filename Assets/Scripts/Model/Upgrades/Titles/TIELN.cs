@@ -13,7 +13,7 @@ namespace UpgradesList
         {
             FromMod = typeof(TitlesForClassicShips);
 
-            Type = UpgradeType.Title;
+            Types.Add(UpgradeType.Title);
             Name = "TIE/LN";
             Cost = -3;
 

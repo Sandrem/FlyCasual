@@ -9,7 +9,7 @@ namespace UpgradesList
     {
         public Chewbacca() : base()
         {
-            Type = UpgradeType.Crew;
+            Types.Add(UpgradeType.Crew);
             Name = "Chewbacca";
             Cost = 4;
 

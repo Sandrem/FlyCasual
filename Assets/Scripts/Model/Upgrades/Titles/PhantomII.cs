@@ -13,7 +13,7 @@ namespace UpgradesList
     {
         public PhantomII() : base()
         {
-            Type = UpgradeType.Title;
+            Types.Add(UpgradeType.Title);
             Name = "Phantom II";
             Cost = 0;
 

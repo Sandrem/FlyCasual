@@ -37,7 +37,6 @@ public static class ShipFactory {
         newShipContainer.AfterGotNumberOfDefenceDice += Rules.AsteroidObstruction.CheckDefenceObstructionBonus;
         newShipContainer.OnTryAddAvailableAction += Rules.Stress.CanPerformActions;
         newShipContainer.OnTryAddAvailableAction += Rules.DuplicatedActions.CanPerformActions;
-        newShipContainer.OnMovementStart += Rules.Collision.ClearBumps;
         newShipContainer.OnMovementStart += MovementTemplates.ApplyMovementRuler;
         newShipContainer.OnMovementStart += MovementTemplates.CallReturnRangeRuler;
         newShipContainer.OnPositionFinish += Rules.OffTheBoard.CheckOffTheBoard;

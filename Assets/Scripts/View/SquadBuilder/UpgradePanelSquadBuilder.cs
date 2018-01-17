@@ -10,14 +10,14 @@ using Upgrade;
 public class UpgradePanelSquadBuilder : MonoBehaviour {
 
     private string UpgradeName;
-    private string ImageUrl;
+    private GenericUpgrade Upgrade;
     private UpgradeSlot Slot;
-    private Action<UpgradeSlot, string> OnClick;
+    private Action<UpgradeSlot, GenericUpgrade> OnClick;
 
-    public void Initialize(string upgradeName, UpgradeSlot slot, string imageUrl = null, Action<UpgradeSlot, string> onClick = null)
+    public void Initialize(string upgradeName, UpgradeSlot slot, GenericUpgrade upgrade = null, Action<UpgradeSlot, GenericUpgrade> onClick = null)
     {
         UpgradeName = upgradeName;
-        ImageUrl = imageUrl;
+        Upgrade = upgrade;
         OnClick = onClick;
         Slot = slot;
     }
@@ -53,22 +53,21 @@ public class UpgradePanelSquadBuilder : MonoBehaviour {
 
     private void LoadImage()
     {
-        Global.Instance.StartCoroutine(LoadTooltipImage(this.gameObject, ImageUrl));
+        Global.Instance.StartCoroutine(LoadTooltipImage(this.gameObject, Upgrade.ImageUrl));
     }
 
     private IEnumerator LoadTooltipImage(GameObject thisGameObject, string url)
     {
-        if (url == null)
-        {
-            url = SquadBuilder.AllUpgrades.Find(n => n.UpgradeName == UpgradeName).Instance.ImageUrl;
-        }
-
         WWW www = ImageManager.GetImage(url);
         yield return www;
 
-        if (www.texture != null)
+        if (www.error == null)
         {
             SetImageFromWeb(thisGameObject.transform.Find("UpgradeImage").gameObject, www);
+        }
+        else
+        {
+            ShowTextVersionOfCard();
         }
     }
 
@@ -83,6 +82,14 @@ public class UpgradePanelSquadBuilder : MonoBehaviour {
         this.gameObject.SetActive(true);
     }
 
+    private void ShowTextVersionOfCard()
+    {
+        this.transform.Find("UpgradeInfo").GetComponent<Text>().text = UpgradeName;
+        this.transform.Find("CostInfo").GetComponent<Text>().text = Upgrade.Cost.ToString();
+
+        this.gameObject.SetActive(true);
+    }
+
     private void SetOnClickHandler()
     {
         if (OnClick != null)
@@ -90,7 +97,7 @@ public class UpgradePanelSquadBuilder : MonoBehaviour {
             EventTrigger trigger = this.gameObject.AddComponent<EventTrigger>();
             EventTrigger.Entry entry = new EventTrigger.Entry();
             entry.eventID = EventTriggerType.PointerClick;
-            entry.callback.AddListener(delegate { OnClick(Slot, UpgradeName); });
+            entry.callback.AddListener(delegate { OnClick(Slot, Upgrade); });
             trigger.triggers.Add(entry);
 
             ScrollRect mainScroll = GameObject.Find("UI/Panels/SelectUpgradePanel/Panel/Scroll View").GetComponent<ScrollRect>();

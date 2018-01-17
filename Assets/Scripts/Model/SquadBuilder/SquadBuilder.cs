@@ -13,28 +13,22 @@ namespace SquadBuilderNS
 {
     public class SquadBuilderShip
     {
-        public List<SquadBuilderUpgrade> InstalledUpgrades;
         public GenericShip Instance;
         public SquadList List;
         public SquadBuilder.ShipWithUpgradesPanel Panel;
 
-        public SquadBuilderShip(PilotRecord pilotRecord, SquadList list)
+        public SquadBuilderShip(GenericShip ship, SquadList list)
         {
             List = list;
 
-            InitializeShip(pilotRecord);
+            InitializeShip(ship);
         }
 
-        private void InitializeShip(PilotRecord pilotRecord)
+        private void InitializeShip(GenericShip ship)
         {
-            Instance = (GenericShip)Activator.CreateInstance(Type.GetType(pilotRecord.PilotTypeName));
+            Instance = ship;
             Instance.InitializePilotForSquadBuilder();
         }
-    }
-
-    public class SquadBuilderUpgrade
-    {
-
     }
 
     public class SquadList
@@ -51,11 +45,11 @@ namespace SquadBuilderNS
             PlayerNo = playerNo;
         }
 
-        public SquadBuilderShip AddShip(PilotRecord pilotRecord)
+        public SquadBuilderShip AddShip(GenericShip ship)
         {
             if (Ships == null) Ships = new List<SquadBuilderShip>();
 
-            SquadBuilderShip newShip = new SquadBuilderShip(pilotRecord, this);
+            SquadBuilderShip newShip = new SquadBuilderShip(ship, this);
             Ships.Add(newShip);
             return newShip;
         }
@@ -277,18 +271,14 @@ namespace SquadBuilderNS
             ShowAvailablePilots(CurrentSquadList.SquadFaction, CurrentShip);
         }
 
-        private static SquadBuilderShip AddPilotToSquad(string pilotName, string shipName, PlayerNo playerNo)
+        private static SquadBuilderShip AddPilotToSquad(GenericShip ship, PlayerNo playerNo)
         {
-            PilotRecord pilotRecord = AllPilots.Find(n => n.PilotName == pilotName && n.PilotShip.ShipName == shipName);
-            return GetSquadList(playerNo).AddShip(pilotRecord);
+            return GetSquadList(playerNo).AddShip(ship);
         }
 
-        private static void InstallUpgrade(UpgradeSlot slot, string upgradeName)
+        private static void InstallUpgrade(UpgradeSlot slot, GenericUpgrade upgrade)
         {
-            string upgradeType = AllUpgrades.Find(n => n.UpgradeName == upgradeName).UpgradeTypeName;
-            GenericUpgrade newUpgrade = (GenericUpgrade)System.Activator.CreateInstance(Type.GetType(upgradeType));
-
-            CurrentUpgradeSlot.PreInstallUpgrade(newUpgrade, CurrentSquadBuilderShip.Instance);
+            CurrentUpgradeSlot.PreInstallUpgrade(upgrade, CurrentSquadBuilderShip.Instance);
         }
 
         private static void InstallUpgrade(SquadBuilderShip ship, string upgradeName)
@@ -374,9 +364,9 @@ namespace SquadBuilderNS
             return cost;
         }
 
-        private static void OpenShipInfo(SquadBuilderShip ship, string pilotName, string shipName)
+        private static void OpenShipInfo(GenericShip ship)
         {
-            CurrentSquadBuilderShip = ship;
+            CurrentSquadBuilderShip = CurrentSquadList.GetShips().Find(n => n.Instance == ship);
             MainMenu.CurrentMainMenu.ChangePanel("ShipSlotsPanel");
         }
 
@@ -385,13 +375,13 @@ namespace SquadBuilderNS
             CurrentSquadList.RemoveShip(CurrentSquadBuilderShip);
         }
 
-        private static void OpenSelectUpgradeMenu(UpgradeSlot slot, string upgradeName)
+        private static void OpenSelectUpgradeMenu(UpgradeSlot slot, GenericUpgrade upgrade)
         {
             CurrentUpgradeSlot = slot;
             MainMenu.CurrentMainMenu.ChangePanel("SelectUpgradePanel");
         }
 
-        private static void RemoveInstalledUpgrade(UpgradeSlot slot, string upgradeName)
+        private static void RemoveInstalledUpgrade(UpgradeSlot slot, GenericUpgrade upgrade)
         {
             slot.RemovePreInstallUpgrade();
             ShowPilotWithSlots();
@@ -698,7 +688,9 @@ namespace SquadBuilderNS
                         string pilotNameXws = pilotJson["name"].str;
                         string pilotNameGeneral = AllPilots.Find(n => n.PilotNameCanonical == pilotNameXws).PilotName;
 
-                        SquadBuilderShip newShip = AddPilotToSquad(pilotNameGeneral, shipNameGeneral, playerNo);
+                        PilotRecord pilotRecord = AllPilots.Find(n => n.PilotName == pilotNameGeneral && n.PilotShip.ShipName == shipNameGeneral);
+                        GenericShip newShipInstance = (GenericShip)Activator.CreateInstance(Type.GetType(pilotRecord.PilotTypeName));
+                        SquadBuilderShip newShip = AddPilotToSquad(newShipInstance, playerNo);
 
                         JSONObject upgradeJsons = pilotJson["upgrades"];
                         foreach (string upgradeType in upgradeJsons.keys)

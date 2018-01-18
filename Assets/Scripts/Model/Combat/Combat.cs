@@ -55,7 +55,7 @@ public static partial class Combat
 
     public static Func<GenericShip, IShipWeapon, bool> ExtraAttackFilter;
 
-    private static bool IsAttackAlreadyCalled;
+    public static bool IsAttackAlreadyCalled;
 
     public static void Initialize()
     {
@@ -461,6 +461,8 @@ public static partial class Combat
             }
         );
         ExtraAttackFilter = extraAttackFilter;
+
+        IsAttackAlreadyCalled = false;
         Combat.DeclareIntentToAttack(Selection.ThisShip.ShipId, Selection.AnotherShip.ShipId);
     }
 

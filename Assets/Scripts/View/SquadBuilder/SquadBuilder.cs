@@ -668,7 +668,10 @@ namespace SquadBuilderNS
         {
             JSONObject squadJson = null;
 
-            string filePath = Application.persistentDataPath + "/SavedSquadrons/" + fileName;
+            string directoryPath = Application.persistentDataPath + "/SavedSquadrons";
+            if (!Directory.Exists(directoryPath)) Directory.CreateDirectory(directoryPath);
+
+            string filePath = directoryPath + "/" + fileName;
 
             if (File.Exists(filePath))
             {

@@ -12,21 +12,15 @@ public static partial class Roster
 
     public static List<GenericPlayer> Players;
 
-    private static GenericPlayer player1;
-    public static GenericPlayer Player1 { get { return Players[0]; } }
-
-    private static GenericPlayer player2;
-    public static GenericPlayer Player2 { get { return Players[1]; } }
+    public static GenericPlayer Player1 { get { return Players.Find(n => n.PlayerNo == PlayerNo.Player1); } }
+    public static GenericPlayer Player2 { get { return Players.Find(n => n.PlayerNo == PlayerNo.Player2); } }
 
     //Ships
 
     public static Dictionary<string, GenericShip> AllShips;
 
-    private static Dictionary<string, GenericShip> shipsPlayer1;
-    public static Dictionary<string, GenericShip> ShipsPlayer1 { get { return Players[0].Ships; } }
-
-    private static Dictionary<string, GenericShip> shipsPlayer2;
-    public static Dictionary<string, GenericShip> ShipsPlayer2 {get { return Players[1].Ships; } }
+    public static Dictionary<string, GenericShip> ShipsPlayer1 { get { return Player1.Ships; } }
+    public static Dictionary<string, GenericShip> ShipsPlayer2 {get { return Player2.Ships; } }
 
     public static void Start()
     {
@@ -40,13 +34,16 @@ public static partial class Roster
     {
         foreach (var squadList in SquadBuilder.SquadLists)
         {
-            CreatePlayer(squadList.PlayerType);
+            GenericPlayer player = CreatePlayer(squadList.PlayerType, squadList.PlayerNo);
+            Players.Add(player);
         }
     }
 
-    private static void CreatePlayer(System.Type type)
+    private static GenericPlayer CreatePlayer(System.Type type, PlayerNo playerNo)
     {
-        System.Activator.CreateInstance(type);
+        GenericPlayer player = (GenericPlayer) System.Activator.CreateInstance(type);
+        player.SetPlayerNo(playerNo);
+        return player;
     }
 
     //SHIP CREATION
@@ -55,6 +52,9 @@ public static partial class Roster
     {
         foreach (var squadList in SquadBuilder.SquadLists)
         {
+            SquadBuilder.SetPlayerSquadFromImportedJson(squadList.SavedConfiguration, squadList.PlayerNo, delegate { });
+            Roster.GetPlayer(squadList.PlayerNo).SquadCost = squadList.Points;
+
             foreach (SquadBuilderShip shipConfig in squadList.GetShips())
             {
                 GenericShip newShip = ShipFactory.SpawnShip(shipConfig);

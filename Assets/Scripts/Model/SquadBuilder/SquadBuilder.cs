@@ -39,6 +39,7 @@ namespace SquadBuilderNS
         public PlayerNo PlayerNo;
         public string Name;
         public JSONObject SavedConfiguration;
+        public int Points;
 
         public SquadList(PlayerNo playerNo)
         {
@@ -422,12 +423,7 @@ namespace SquadBuilderNS
         public static void StartLocalGame()
         {
             GameMode.CurrentGameMode = new LocalGame();
-
-            if (ValidateCurrentPlayersRoster())
-            {
-                SaveSquadConfigurationns();
-                SwitchToBattlecene();
-            }
+            SwitchToBattlecene();
         }
 
         public static void SwitchToBattlecene()
@@ -436,11 +432,12 @@ namespace SquadBuilderNS
             LoadBattleScene();
         }
 
-        private static void SaveSquadConfigurationns()
+        public static void SaveSquadConfigurations()
         {
             foreach (var squad in SquadLists)
             {
                 squad.SavedConfiguration = GetSquadInJson(squad.PlayerNo);
+                ClearShipsOfPlayer(squad.PlayerNo);
             }
         }
 
@@ -667,6 +664,8 @@ namespace SquadBuilderNS
                 string factionNameXws = squadJson["faction"].str;
                 Faction faction = XWSToFaction(factionNameXws);
                 squadList.SquadFaction = faction;
+
+                squadList.Points = (int) squadJson["points"].i;
 
                 if (squadJson.HasField("pilots"))
                 {

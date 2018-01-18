@@ -112,13 +112,13 @@ public partial class NetworkPlayerController : NetworkBehaviour {
 
         SquadBuilder.ShowOpponentSquad();
 
-        JSONObject localSquadList = SquadBuilder.GetSquadInJson(PlayerNo.Player1);
+        JSONObject localSquadList = SquadBuilder.GetSquadList(PlayerNo.Player1).SavedConfiguration;
         Network.StoreSquadList(localSquadList.ToString(), isServer);
 
-        /*if (IsServer)
+        if (IsServer)
         {
             SquadBuilder.SwitchPlayers();
-        }*/
+        }
 
         Network.FinishTask();
     }
@@ -143,12 +143,14 @@ public partial class NetworkPlayerController : NetworkBehaviour {
         if (squadsJson.HasField("Server"))
         {
             JSONObject squadJson = squadsJson["Server"];
-            SquadBuilder.SetPlayerSquadFromImportedJson(squadJson, PlayerNo.Player1, Network.FinishTask);
+            SquadBuilder.GetSquadList(PlayerNo.Player1).SavedConfiguration = squadJson;
         }
-        else if (squadsJson.HasField("Client"))
+
+        if (squadsJson.HasField("Client"))
         {
             JSONObject squadJson = squadsJson["Client"];
-            SquadBuilder.SetPlayerSquadFromImportedJson(squadJson, PlayerNo.Player2, Network.FinishTask);
+            SquadBuilder.GetSquadList(PlayerNo.Player2).SavedConfiguration = squadJson;
+            Network.FinishTask();
         }
     }
 
@@ -162,6 +164,9 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     public void RpcLoadBattleScene()
     {
         //RosterBuilder.GeneratePlayersShipConfigurations();
+
+        SquadBuilder.GetSquadList(PlayerNo.Player1).PlayerType = (isServer) ? typeof(HumanPlayer) : typeof(NetworkOpponentPlayer);
+        SquadBuilder.GetSquadList(PlayerNo.Player2).PlayerType = (isServer) ? typeof(NetworkOpponentPlayer) : typeof(HumanPlayer);
 
         SquadBuilder.LoadBattleScene();
     }

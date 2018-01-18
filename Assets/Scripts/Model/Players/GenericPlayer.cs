@@ -64,15 +64,9 @@ namespace Players
 
         public int Id { get { return (PlayerNo == PlayerNo.Player1) ? 1 : 2; } }
 
-        public GenericPlayer()
+        public void SetPlayerNo(PlayerNo playerNo)
         {
-            SetPlayerNo();
-        }
-
-        private void SetPlayerNo()
-        {
-            PlayerNo = (Roster.Players.Count == 0) ? PlayerNo.Player1 : PlayerNo.Player2;
-            Roster.Players.Add(this);
+            PlayerNo = playerNo;
         }
 
         public virtual void SetupShip() { }

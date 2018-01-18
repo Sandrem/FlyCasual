@@ -37,6 +37,7 @@ public partial class MainMenu : MonoBehaviour {
     {
         if (SquadBuilder.ValidateCurrentPlayersRoster())
         {
+            SquadBuilder.SaveSquadConfigurations();
             ShipFactory.Initialize();
 
             if (!SquadBuilder.IsNetworkGame)

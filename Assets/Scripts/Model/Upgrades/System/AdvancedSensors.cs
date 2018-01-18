@@ -26,7 +26,6 @@ namespace Abilities
 {
     public class AdvancedSensorsAbility : GenericAbility
     {
-        private bool FirstTimeActionListToBeGenerated = true;
 
         // Immediately before you reveal your maneuver, you may perform 1 free action.
         // If you use this ability, you must skip your 'Perform Action' step during
@@ -54,13 +53,9 @@ namespace Abilities
 
         private void UseAdvancedSensors(object sender, System.EventArgs e)
         {
-            // in case the actions list was never generated, force it. It may happen if the Advanced Sensors
-            // is always selected and the ship never goes through the Action Subphase
-            if (FirstTimeActionListToBeGenerated) {
-                HostShip.GenerateAvailableActionsList ();
-                FirstTimeActionListToBeGenerated = false;
-            }
+            HostShip.GenerateAvailableActionsList ();
             List<ActionsList.GenericAction> actions = HostShip.GetAvailableActionsList();
+
             HostShip.AskPerformFreeAction(actions, SubPhases.DecisionSubPhase.ConfirmDecision);
             // if ability is used, skipped Perform Action
             HostShip.IsSkipsActionSubPhase = true;

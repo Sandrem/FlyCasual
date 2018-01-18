@@ -26,6 +26,7 @@ public enum TriggerTypes
     OnActivateShip,
 
     OnManeuver,
+    OnManeuverIsReadyToBeRevealed,
     OnManeuverIsRevealed,
     OnShipMovementStart,
     OnShipMovementExecuted,

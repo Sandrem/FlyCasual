@@ -56,9 +56,12 @@ namespace Ship
 
         // TRIGGERS
 
-        public void CallManeuverIsReadyToBeRevealed()
+        public void CallManeuverIsReadyToBeRevealed(System.Action callBack = null)
         {
             if (OnManeuverIsReadyToBeRevealed != null) OnManeuverIsReadyToBeRevealed(this);
+            if (callBack != null) {
+                Triggers.ResolveTriggers (TriggerTypes.OnManeuverIsReadyToBeRevealed, callBack);
+            }
         }
 
         public void CallManeuverIsRevealed(System.Action callBack)

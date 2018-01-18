@@ -9,6 +9,8 @@
             finishAction = FinishActon;
 
             UI.ShowSkipButton();
+
+            Selection.ThisShip.Owner.StartExtraAttack();
         }
 
         private void FinishActon()

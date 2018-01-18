@@ -55,7 +55,7 @@ namespace Abilities
                 return;
             }
 
-            RegisterAbilityTrigger(TriggerTypes.OnManeuver, PerformFreeBoost);
+            RegisterAbilityTrigger(TriggerTypes.OnShipMovementFinish, PerformFreeBoost);
         }
 
         private void PerformFreeBoost(object sender, EventArgs e)

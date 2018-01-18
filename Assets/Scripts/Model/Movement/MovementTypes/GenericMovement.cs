@@ -330,13 +330,11 @@ namespace Movement
 
         private void LaunchShipMovementContinue()
         {
-            Selection.ThisShip.ShipsBumped.AddRange(movementPrediction.ShipsBumped);
-            foreach (var bumpedShip in Selection.ThisShip.ShipsBumped)
+            if (ProgressTarget > 0) Rules.Collision.ClearBumps(Selection.ThisShip);
+
+            foreach (var shipBumped in movementPrediction.ShipsBumped)
             {
-                if (!bumpedShip.ShipsBumped.Contains(Selection.ThisShip))
-                {
-                    bumpedShip.ShipsBumped.Add(Selection.ThisShip);
-                }
+                Rules.Collision.AddBump(Selection.ThisShip, shipBumped);
             }
 
             Selection.ThisShip.IsLandedOnObstacle = movementPrediction.IsLandedOnAsteroid;

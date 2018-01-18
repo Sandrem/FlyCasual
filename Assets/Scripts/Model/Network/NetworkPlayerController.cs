@@ -115,10 +115,10 @@ public partial class NetworkPlayerController : NetworkBehaviour {
         JSONObject localSquadList = SquadBuilder.GetSquadInJson(PlayerNo.Player1);
         Network.StoreSquadList(localSquadList.ToString(), isServer);
 
-        if (IsServer)
+        /*if (IsServer)
         {
             SquadBuilder.SwitchPlayers();
-        }
+        }*/
 
         Network.FinishTask();
     }
@@ -143,10 +143,9 @@ public partial class NetworkPlayerController : NetworkBehaviour {
         if (squadsJson.HasField("Server"))
         {
             JSONObject squadJson = squadsJson["Server"];
-            SquadBuilder.SetPlayerSquadFromImportedJson(squadJson, PlayerNo.Player1, delegate { });
+            SquadBuilder.SetPlayerSquadFromImportedJson(squadJson, PlayerNo.Player1, Network.FinishTask);
         }
-
-        if (squadsJson.HasField("Client"))
+        else if (squadsJson.HasField("Client"))
         {
             JSONObject squadJson = squadsJson["Client"];
             SquadBuilder.SetPlayerSquadFromImportedJson(squadJson, PlayerNo.Player2, Network.FinishTask);

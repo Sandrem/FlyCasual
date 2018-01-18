@@ -55,6 +55,8 @@ public static partial class Combat
 
     public static Func<GenericShip, IShipWeapon, bool> ExtraAttackFilter;
 
+    public static bool IsAttackAlreadyCalled;
+
     public static void Initialize()
     {
         CleanupCombatData();
@@ -64,15 +66,24 @@ public static partial class Combat
 
     public static void DeclareIntentToAttack(int attackerId, int defenderID)
     {
-        Selection.ChangeActiveShip("ShipId:" + attackerId);
-        Selection.ChangeAnotherShip("ShipId:" + defenderID);
+        if (!IsAttackAlreadyCalled)
+        {
+            IsAttackAlreadyCalled = true;
 
-        ChosenWeapon = Selection.ThisShip.PrimaryWeapon;
-        ShotInfo = new ShipShotDistanceInformation(Selection.ThisShip, Selection.AnotherShip, ChosenWeapon);
+            Selection.ChangeActiveShip("ShipId:" + attackerId);
+            Selection.ChangeAnotherShip("ShipId:" + defenderID);
 
-        UI.HideContextMenu();
+            ChosenWeapon = Selection.ThisShip.PrimaryWeapon;
+            ShotInfo = new ShipShotDistanceInformation(Selection.ThisShip, Selection.AnotherShip, ChosenWeapon);
 
-        SelectWeapon();
+            UI.HideContextMenu();
+
+            SelectWeapon();
+        }
+        else
+        {
+            Debug.Log("Attack was called when attack is already called - ignore");
+        }
     }
 
     // CHECK AVAILABLE WEAPONS TO ATTACK THIS TARGET
@@ -113,6 +124,7 @@ public static partial class Combat
         }
         else
         {
+            IsAttackAlreadyCalled = false;
             Roster.GetPlayer(Phases.CurrentPhasePlayer).OnTargetNotLegalForAttack();
         }
     }
@@ -407,6 +419,7 @@ public static partial class Combat
         hitsCounter = 0;
         IsObstructed = false;
         ExtraAttackFilter = null;
+        IsAttackAlreadyCalled = false;
     }
 
     private static void CheckSecondAttack(Action callBack)
@@ -448,6 +461,8 @@ public static partial class Combat
             }
         );
         ExtraAttackFilter = extraAttackFilter;
+
+        IsAttackAlreadyCalled = false;
         Combat.DeclareIntentToAttack(Selection.ThisShip.ShipId, Selection.AnotherShip.ShipId);
     }
 

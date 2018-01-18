@@ -35,7 +35,14 @@ public static class InformCrit
         yield return www;
 
         //TODO: add exception handler here
-        SetImageFromWeb(InformCritPanel.Find("CritCardImage").gameObject, www);
+        if (www.error == null)
+        {
+            SetImageFromWeb(InformCritPanel.Find("CritCardImage").gameObject, www);
+        }
+        else
+        {
+            SetTextInfo();
+        }
 
         ShowPanel();
     }
@@ -46,8 +53,15 @@ public static class InformCrit
         www.LoadImageIntoTexture(newTexture);
         Sprite newSprite = Sprite.Create(newTexture, new Rect(0, 0, newTexture.width, newTexture.height), Vector2.zero);
         targetObject.transform.GetComponent<Image>().sprite = newSprite;
+        targetObject.transform.Find("TextInfo").GetComponent<Text>().text = "";
     }
-    
+
+    private static void SetTextInfo()
+    {
+        InformCritPanel.Find("CritCardImage").GetComponent<Image>().sprite = null;
+        InformCritPanel.Find("CritCardImage").Find("TextInfo").GetComponent<Text>().text = Combat.CurrentCriticalHitCard.Name;
+    }
+
     private static void ShowPanel()
     {
         GameMode.CurrentGameMode.ShowInformCritPanel();

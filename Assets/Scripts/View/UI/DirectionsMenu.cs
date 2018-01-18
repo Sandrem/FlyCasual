@@ -14,6 +14,8 @@ public static class DirectionsMenu
 
     public static void Show(Action<string> callback, Func<string, bool> filter = null)
     {
+        DeleteOldDirectionsMenu();
+
         Callback = callback;
         currentFilter = filter;
 
@@ -30,6 +32,8 @@ public static class DirectionsMenu
 
     public static void ShowForAll(Action<string> callback, Func<string, bool> filter = null)
     {
+        DeleteOldDirectionsMenu();
+
         Callback = callback;
         currentFilter = filter;
 
@@ -42,6 +46,14 @@ public static class DirectionsMenu
             DirectionsWindow.transform.gameObject,
             Input.mousePosition
         );
+    }
+
+    private static void DeleteOldDirectionsMenu()
+    {
+        foreach (Transform transform in GameObject.Find("UI/DirectionsPanel").transform)
+        {
+            GameObject.Destroy(transform.gameObject);
+        }
     }
 
     private static void ShowUpdated()

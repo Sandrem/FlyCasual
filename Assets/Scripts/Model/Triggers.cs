@@ -50,6 +50,8 @@ public enum TriggerTypes
     OnAttackHit,
     OnAttackMissed,
     OnAttackFinish,
+    OnAttackFinishAsAttacker,
+    OnAttackFinishAsDefender,
     OnCheckSecondAttack,
     OnExtraAttack,
 

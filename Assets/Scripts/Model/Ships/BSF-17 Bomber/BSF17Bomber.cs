@@ -40,7 +40,7 @@ namespace Ship
                 factions.Add(Faction.Rebel);
                 faction = Faction.Rebel;
 
-                SkinName = "Blue";
+                SkinName = "Crimson";
 
                 SoundShotsPath = "Falcon-Fire";
                 ShotsCount = 2;

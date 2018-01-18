@@ -721,6 +721,10 @@ namespace SquadBuilderNS
 
             CurrentSquadList.Name = CleanFileName(squadName);
 
+            // check that directory exists, if not create it
+            string directoryPath = Application.persistentDataPath + "/SavedSquadrons";
+            if (!Directory.Exists(directoryPath)) Directory.CreateDirectory(directoryPath);
+
             string filePath = Application.persistentDataPath + "/SavedSquadrons/" + CurrentSquadList.Name;
 
             if (File.Exists(filePath + ".json"))

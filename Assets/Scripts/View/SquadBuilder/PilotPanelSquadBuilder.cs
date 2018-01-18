@@ -38,7 +38,10 @@ public class PilotPanelSquadBuilder : MonoBehaviour {
 
         if (www.error == null)
         {
-            SetImageFromWeb(thisGameObject.transform.Find("PilotImage").gameObject, www);
+            if (thisGameObject != null)
+            {
+                SetImageFromWeb(thisGameObject.transform.Find("PilotImage").gameObject, www);
+            }
         }
         else
         {

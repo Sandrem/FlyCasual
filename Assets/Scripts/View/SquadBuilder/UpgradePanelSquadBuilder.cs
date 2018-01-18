@@ -63,7 +63,10 @@ public class UpgradePanelSquadBuilder : MonoBehaviour {
 
         if (www.error == null)
         {
-            SetImageFromWeb(thisGameObject.transform.Find("UpgradeImage").gameObject, www);
+            if (thisGameObject != null)
+            {
+                SetImageFromWeb(thisGameObject.transform.Find("UpgradeImage").gameObject, www);
+            }
         }
         else
         {

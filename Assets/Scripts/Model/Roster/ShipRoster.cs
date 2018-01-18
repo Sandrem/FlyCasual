@@ -54,12 +54,18 @@ public static partial class Roster
         {
             SquadBuilder.SetPlayerSquadFromImportedJson(squadList.SavedConfiguration, squadList.PlayerNo, delegate { });
             Roster.GetPlayer(squadList.PlayerNo).SquadCost = squadList.Points;
+        }
 
-            foreach (SquadBuilderShip shipConfig in squadList.GetShips())
-            {
-                GenericShip newShip = ShipFactory.SpawnShip(shipConfig);
-                AddShipToLists(newShip);
-            }
+        // Keep order, ships must have same ID on both clients
+        foreach (SquadBuilderShip shipConfig in SquadBuilder.GetSquadList(PlayerNo.Player1).GetShips())
+        {
+            GenericShip newShip = ShipFactory.SpawnShip(shipConfig);
+            AddShipToLists(newShip);
+        }
+        foreach (SquadBuilderShip shipConfig in SquadBuilder.GetSquadList(PlayerNo.Player2).GetShips())
+        {
+            GenericShip newShip = ShipFactory.SpawnShip(shipConfig);
+            AddShipToLists(newShip);
         }
 
         Board.BoardManager.SetShips();

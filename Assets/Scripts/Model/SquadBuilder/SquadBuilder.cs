@@ -170,6 +170,8 @@ namespace SquadBuilderNS
                     }
                 }
             }
+
+            //Messages.ShowInfo("Unique pilots: " + AllPilots.Count(n => n.Instance.IsUnique));
         }
 
         private static List<string> GetPilotsList(string shipName, Faction faction = Faction.None)
@@ -242,23 +244,12 @@ namespace SquadBuilderNS
 
             AllUpgrades = AllUpgrades.OrderBy(n => n.Instance.Name).OrderBy(m => m.Instance.Cost).ToList();
 
-            //Messages.ShowInfo("Upgrades loaded: " + AllUpgrades.Count);
+            //Messages.ShowInfo("Upgrades: " + AllUpgrades.Count);
         }
 
         public static void SetCurrentPlayerFaction(Faction faction)
         {
             CurrentSquadList.SquadFaction = faction;
-        }
-
-        public static void ShowInfo()
-        {
-            //Messages.ShowInfo("Ships loaded: " + AllShips.Count);
-            //Messages.ShowInfo("Pilots loaded: " + AllPilots.Count);
-
-            foreach (var ship in CurrentSquadList.GetShips())
-            {
-                Messages.ShowInfo(ship.Instance.PilotName);
-            }
         }
 
         public static void ShowShipsFilteredByFaction()

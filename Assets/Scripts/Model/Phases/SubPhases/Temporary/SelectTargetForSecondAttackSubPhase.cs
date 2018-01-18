@@ -48,7 +48,6 @@ namespace SubPhases
         public override void SkipButton()
         {
             Phases.FinishSubPhase(typeof(SelectTargetForSecondAttackSubPhase));
-            Debug.Log(Phases.CurrentSubPhase);
             CallBack();
         }
 

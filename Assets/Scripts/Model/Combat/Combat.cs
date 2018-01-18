@@ -441,29 +441,14 @@ public static partial class Combat
     {
         Selection.ChangeActiveShip("ShipId:" + ship.ShipId);
 
+        Combat.ExtraAttackFilter = extraAttackFilter;
+
         Phases.StartTemporarySubPhaseOld(
             "Second attack",
             typeof(SelectTargetForSecondAttackSubPhase),
-            delegate { ExtraAttackTargetSelected(callback, extraAttackFilter); }
+            //delegate { ExtraAttackTargetSelected(callback, extraAttackFilter); }
+            callback
         );
-    }
-
-    private static void ExtraAttackTargetSelected(Action callback, Func<GenericShip, IShipWeapon, bool> extraAttackFilter)
-    {
-        Phases.FinishSubPhase(typeof(SelectTargetForSecondAttackSubPhase));
-        Selection.ThisShip.IsAttackPerformed = false;
-        Phases.StartTemporarySubPhaseNew(
-            "Extra Attack",
-            typeof(ExtraAttackSubPhase),
-            delegate {
-                Phases.FinishSubPhase(typeof(ExtraAttackSubPhase));
-                callback();
-            }
-        );
-        ExtraAttackFilter = extraAttackFilter;
-
-        IsAttackAlreadyCalled = false;
-        Combat.DeclareIntentToAttack(Selection.ThisShip.ShipId, Selection.AnotherShip.ShipId);
     }
 
 }

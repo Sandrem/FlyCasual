@@ -35,7 +35,7 @@ namespace Ship
                 PrintedActions.Add(new TargetLockAction());
 
                 AssignTemporaryManeuvers();
-                //HotacManeuverTable = new AI.YT2400Table();
+                HotacManeuverTable = new AI.BSF17BomberTable();
 
                 factions.Add(Faction.Rebel);
                 faction = Faction.Rebel;

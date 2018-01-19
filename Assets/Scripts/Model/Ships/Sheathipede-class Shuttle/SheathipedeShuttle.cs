@@ -18,7 +18,7 @@ namespace Ship
 
                 ShipBaseArcsType = Arcs.BaseArcsType.ArcRear;
 
-                //ManeuversImageUrl = "";
+                ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/3/30/Maneuver_Card_-_Sheathipede-class_Shuttle.png";
 
                 Firepower = 2;
                 Agility = 2;

@@ -1,10 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
-using Upgrade;
+﻿using Upgrade;
 using Ship;
-
+using Abilities;
+using System;
+using Tokens;
 
 namespace UpgradesList
 {
@@ -17,20 +15,36 @@ namespace UpgradesList
             Type = UpgradeType.Elite;
             Name = "Juke";
             Cost = 2;
+
+            UpgradeAbilities.Add(new JukeAbility());
         }
 
-        public override void AttachToShip(Ship.GenericShip host)
+        public override bool IsAllowedForShip(GenericShip ship)
         {
-            base.AttachToShip(host);
-            host.AfterGenerateAvailableOppositeActionEffectsList += JukeActionEffect;
-            Console.Write("Juke attached");
+            return ship.ShipBaseSize == BaseSize.Small;
+        }
+    }
+}
+
+namespace Abilities
+{
+    public class JukeAbility : GenericAbility
+    {
+        public override void ActivateAbility()
+        {
+            HostShip.AfterGenerateAvailableOppositeActionEffectsList += JukeActionEffect;
+        }
+
+        public override void DeactivateAbility()
+        {
+            HostShip.AfterGenerateAvailableOppositeActionEffectsList -= JukeActionEffect;
         }
 
         private void JukeActionEffect(GenericShip host)
         {
             ActionsList.GenericAction newAction = new ActionsList.JukeActionEffect()
             {
-                ImageUrl = ImageUrl,
+                ImageUrl = HostUpgrade.ImageUrl,
                 Host = host
             };
             host.AddAvailableOppositeActionEffect(newAction);
@@ -64,7 +78,7 @@ namespace ActionsList
 
             if (Combat.AttackStep == CombatStep.Defence && 
                 Combat.DiceRollDefence.RegularSuccesses > 0 && 
-                Host.HasToken(typeof(Tokens.EvadeToken)))
+                Host.HasToken(typeof(EvadeToken)))
             {
                 result = true;
             }

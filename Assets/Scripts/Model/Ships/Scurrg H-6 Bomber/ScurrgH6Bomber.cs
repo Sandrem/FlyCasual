@@ -16,7 +16,7 @@ namespace Ship
                 Type = "Scurrg H-6 Bomber";
                 IconicPilot = "Lok Revenant";
 
-                ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/5/55/36-36_S-SPACE.PNG";
+                ManeuversImageUrl = "https://i.imgur.com/CfJoyso.jpg";
 
                 Firepower = 3;
                 Agility = 1;

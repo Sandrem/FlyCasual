@@ -30,8 +30,11 @@ namespace SubPhases
             Selection.ThisShip.ObstaclesHit = new List<Collider>();
             Selection.ThisShip.MinesHit = new List<GameObject>();
 
-            Selection.ThisShip.CallManeuverIsReadyToBeRevealed();
+            Selection.ThisShip.CallManeuverIsReadyToBeRevealed(RevealManeuver);
+        }
 
+        private void RevealManeuver()
+        {
             Selection.ThisShip.CallManeuverIsRevealed(CheckAssignedManeuver);
         }
 

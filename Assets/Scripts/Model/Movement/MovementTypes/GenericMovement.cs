@@ -132,7 +132,8 @@ namespace Movement
         {
             string parameters = this.ToString();
 
-            if (!Selection.ThisShip.Maneuvers.ContainsKey(parameters)) Debug.Log("ERROR: Ship doesn't have required maneuver. Seems that AI maneuver table is wrong.");
+            if (!Selection.ThisShip.Maneuvers.ContainsKey(parameters)) Console.Write(Selection.ThisShip.Type + " doesn't have " + parameters + " maneuver!", LogTypes.Errors, true, "red");
+
             ColorComplexity = Selection.ThisShip.Maneuvers[parameters];
             ColorComplexity = Selection.ThisShip.GetColorComplexityOfManeuver(this);
         }

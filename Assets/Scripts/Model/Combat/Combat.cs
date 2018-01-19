@@ -55,7 +55,7 @@ public static partial class Combat
 
     public static Func<GenericShip, IShipWeapon, bool> ExtraAttackFilter;
 
-    private static bool IsAttackAlreadyCalled;
+    public static bool IsAttackAlreadyCalled;
 
     public static void Initialize()
     {
@@ -146,7 +146,7 @@ public static partial class Combat
 
     private static void CheckFireLineCollisions()
     {
-        ShotInfo = (ChosenWeapon.GetType() == typeof(PrimaryWeaponClass)) ? ShotInfo : new ShipShotDistanceInformation(Selection.ThisShip, Selection.AnotherShip, ChosenWeapon);
+        ShotInfo = new ShipShotDistanceInformation(Selection.ThisShip, Selection.AnotherShip, ChosenWeapon);
         ShotInfo.CheckFirelineCollisions(PayAttackCost);
     }
 
@@ -384,6 +384,9 @@ public static partial class Combat
     {
         Selection.ThisShip = Attacker;
 
+        Attacker.CallAttackFinishAsAttacker ();
+        Defender.CallAttackFinishAsDefender ();
+
         Attacker.CallAttackFinish();
         Defender.CallAttackFinish();
 
@@ -441,27 +444,14 @@ public static partial class Combat
     {
         Selection.ChangeActiveShip("ShipId:" + ship.ShipId);
 
+        Combat.ExtraAttackFilter = extraAttackFilter;
+
         Phases.StartTemporarySubPhaseOld(
             "Second attack",
             typeof(SelectTargetForSecondAttackSubPhase),
-            delegate { ExtraAttackTargetSelected(callback, extraAttackFilter); }
+            //delegate { ExtraAttackTargetSelected(callback, extraAttackFilter); }
+            callback
         );
-    }
-
-    private static void ExtraAttackTargetSelected(Action callback, Func<GenericShip, IShipWeapon, bool> extraAttackFilter)
-    {
-        Phases.FinishSubPhase(typeof(SelectTargetForSecondAttackSubPhase));
-        Selection.ThisShip.IsAttackPerformed = false;
-        Phases.StartTemporarySubPhaseNew(
-            "Extra Attack",
-            typeof(ExtraAttackSubPhase),
-            delegate {
-                Phases.FinishSubPhase(typeof(ExtraAttackSubPhase));
-                callback();
-            }
-        );
-        ExtraAttackFilter = extraAttackFilter;
-        Combat.DeclareIntentToAttack(Selection.ThisShip.ShipId, Selection.AnotherShip.ShipId);
     }
 
 }

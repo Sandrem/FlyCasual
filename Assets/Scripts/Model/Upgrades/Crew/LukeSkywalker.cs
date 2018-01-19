@@ -66,6 +66,7 @@ namespace Abilities
         private void DoSecondAttack(object sender, System.EventArgs e)
         {
             Selection.ThisShip.IsCannotAttackSecondTime = true;
+            Combat.IsAttackAlreadyCalled = false;
 
             Selection.ThisShip.AfterGenerateAvailableActionEffectsList += AddLukeSkywalkerCrewAbility;
             Phases.OnCombatPhaseEnd += RemoveLukeSkywalkerCrewAbility;

@@ -50,7 +50,6 @@ namespace Ship
             {
                 Maneuvers.Add("1.L.T", ManeuverColor.White);
                 Maneuvers.Add("1.L.B", ManeuverColor.Green);
-                Maneuvers.Add("1.F.S", ManeuverColor.None);
                 Maneuvers.Add("1.R.B", ManeuverColor.Green);
                 Maneuvers.Add("1.R.T", ManeuverColor.White);
                 Maneuvers.Add("2.L.T", ManeuverColor.White);

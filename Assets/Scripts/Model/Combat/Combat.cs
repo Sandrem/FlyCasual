@@ -146,7 +146,7 @@ public static partial class Combat
 
     private static void CheckFireLineCollisions()
     {
-        ShotInfo = (ChosenWeapon.GetType() == typeof(PrimaryWeaponClass)) ? ShotInfo : new ShipShotDistanceInformation(Selection.ThisShip, Selection.AnotherShip, ChosenWeapon);
+        ShotInfo = new ShipShotDistanceInformation(Selection.ThisShip, Selection.AnotherShip, ChosenWeapon);
         ShotInfo.CheckFirelineCollisions(PayAttackCost);
     }
 

@@ -18,6 +18,11 @@ namespace UpgradesList
 
             UpgradeAbilities.Add(new JukeAbility());
         }
+
+        public override bool IsAllowedForShip(GenericShip ship)
+        {
+            return ship.ShipBaseSize == BaseSize.Small;
+        }
     }
 }
 

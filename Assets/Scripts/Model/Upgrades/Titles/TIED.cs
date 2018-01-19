@@ -38,13 +38,13 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            HostShip.OnAttackFinish += CheckTIEDAbility;
+            HostShip.OnAttackFinishAsAttacker += CheckTIEDAbility;
             Phases.OnRoundEnd += Cleanup;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.OnAttackFinish -= CheckTIEDAbility;
+            HostShip.OnAttackFinishAsAttacker -= CheckTIEDAbility;
             Phases.OnRoundEnd -= Cleanup;
         }
 
@@ -64,21 +64,37 @@ namespace Abilities
 
         private void RegisterTIEDAbility()
         {
-            if (Combat.Attacker.Owner.PlayerNo == HostShip.Owner.PlayerNo && Combat.Attacker.ShipId == HostShip.ShipId && HasCannonWeapon())
+            if (IsAttackWithCannonUpgradeCost3OrFewer())
             {
                 RegisterAbilityTrigger(TriggerTypes.OnExtraAttack, UseTIEDAbility);
             }
         }
 
-        private bool HasCannonWeapon()
+        private bool IsAttackWithCannonUpgradeCost3OrFewer()
         {
-            return HostShip.UpgradeBar.GetInstalledUpgrades().Count(n => n.Type == UpgradeType.Cannon && (n as IShipWeapon) != null && n.Cost <= 3) > 0;
+            bool result = false;
+
+            GenericSecondaryWeapon secondaryWeapon = Combat.ChosenWeapon as GenericSecondaryWeapon;
+            if (secondaryWeapon != null && secondaryWeapon.Type == UpgradeType.Cannon && secondaryWeapon.Cost <= 3)
+            {
+                result = true;
+            }
+
+            return result;
         }
 
         private void UseTIEDAbility(object sender, System.EventArgs e)
         {
             Messages.ShowInfo(HostShip.PilotName + " can perform second attack from primary weapon");
-            Combat.StartAdditionalAttack(HostShip, Triggers.FinishTrigger, IsPrimaryShot);
+
+            Combat.StartAdditionalAttack(
+                HostShip,
+                delegate {
+                    Selection.ThisShip.IsAttackPerformed = true;
+                    Triggers.FinishTrigger();
+                },
+                IsPrimaryShot
+            );
         }
 
         private bool IsPrimaryShot(GenericShip defender, IShipWeapon weapon)

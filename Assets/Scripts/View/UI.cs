@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using GameModes;
+using UnityEngine.EventSystems;
+using SquadBuilderNS;
 
 //Todo: Move to different scripts by menu names
 
@@ -117,6 +119,7 @@ public class UI : MonoBehaviour {
     public static void ToggleInGameMenu()
     {
         GameObject gameResultsPanel = GameObject.Find("UI").transform.Find("GameResultsPanel").gameObject;
+        gameResultsPanel.transform.Find("Panel").Find("Restart").gameObject.SetActive(!(GameMode.CurrentGameMode is NetworkGame));
         gameResultsPanel.SetActive(!gameResultsPanel.activeSelf);
     }
 
@@ -287,4 +290,17 @@ public class UI : MonoBehaviour {
         else if (pressCancel) ClickSkipPhase();
     }
 
+    public static void AssignManeuverButtonPressed()
+    {
+        HideDirectionMenu();
+
+        string maneuverCode = EventSystem.current.currentSelectedGameObject.name;
+        DirectionsMenu.Callback(maneuverCode);
+    }
+
+    public void RestartMatch()
+    {
+        Phases.EndGame();
+        SquadBuilder.ReGenerateSquads(SquadBuilder.SwitchToBattlecene);
+    }
 }

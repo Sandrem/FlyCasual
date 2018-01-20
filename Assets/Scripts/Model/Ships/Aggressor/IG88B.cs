@@ -72,7 +72,13 @@ namespace Abilities
         private void UseIG88BAbility(object sender, System.EventArgs e)
         {
             Messages.ShowInfo(HostShip.PilotName + " can perform second attack\nfrom Cannon");
-            Combat.StartAdditionalAttack(HostShip, Triggers.FinishTrigger, IsCannonShot);
+            Combat.StartAdditionalAttack(HostShip,
+                delegate {
+                    Selection.ThisShip.IsAttackPerformed = true;
+                    Triggers.FinishTrigger();
+                },
+                IsCannonShot
+            );
         }
 
         private bool IsCannonShot(GenericShip defender, IShipWeapon weapon)

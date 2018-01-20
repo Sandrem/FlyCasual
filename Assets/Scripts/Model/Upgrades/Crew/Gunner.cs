@@ -50,6 +50,7 @@ namespace UpgradesList
         private void DoSecondAttack(object sender, System.EventArgs e)
         {
             Selection.ThisShip.IsCannotAttackSecondTime = true;
+            Combat.IsAttackAlreadyCalled = false;
 
             Phases.StartTemporarySubPhaseOld(
                 "Second attack",

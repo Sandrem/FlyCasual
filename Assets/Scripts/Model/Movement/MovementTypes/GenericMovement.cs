@@ -132,7 +132,8 @@ namespace Movement
         {
             string parameters = this.ToString();
 
-            if (!Selection.ThisShip.Maneuvers.ContainsKey(parameters)) Debug.Log("ERROR: Ship doesn't have required maneuver. Seems that AI maneuver table is wrong.");
+            if (!Selection.ThisShip.Maneuvers.ContainsKey(parameters)) Console.Write(Selection.ThisShip.Type + " doesn't have " + parameters + " maneuver!", LogTypes.Errors, true, "red");
+
             ColorComplexity = Selection.ThisShip.Maneuvers[parameters];
             ColorComplexity = Selection.ThisShip.GetColorComplexityOfManeuver(this);
         }
@@ -330,13 +331,11 @@ namespace Movement
 
         private void LaunchShipMovementContinue()
         {
-            Selection.ThisShip.ShipsBumped.AddRange(movementPrediction.ShipsBumped);
-            foreach (var bumpedShip in Selection.ThisShip.ShipsBumped)
+            if (ProgressTarget > 0) Rules.Collision.ClearBumps(Selection.ThisShip);
+
+            foreach (var shipBumped in movementPrediction.ShipsBumped)
             {
-                if (!bumpedShip.ShipsBumped.Contains(Selection.ThisShip))
-                {
-                    bumpedShip.ShipsBumped.Add(Selection.ThisShip);
-                }
+                Rules.Collision.AddBump(Selection.ThisShip, shipBumped);
             }
 
             Selection.ThisShip.IsLandedOnObstacle = movementPrediction.IsLandedOnAsteroid;

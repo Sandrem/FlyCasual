@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using SubPhases;
 
 namespace Ship
 {
@@ -41,6 +42,7 @@ namespace Ship
         public event EventHandlerAction OnActionIsPerformed;
 
         public event EventHandlerShipType OnTokenIsAssigned;
+        public event EventHandlerShipType BeforeTokenIsAssigned;
         public static event EventHandlerShipType BeforeTokenIsAssignedGlobal;
         public static event EventHandlerShipType OnTokenIsAssignedGlobal;
         public event EventHandlerShipType OnTokenIsSpent;
@@ -430,6 +432,8 @@ namespace Ship
         public void AssignToken(Tokens.GenericToken token, Action callBack, char letter = ' ')
         {
             TokenToAssign = token;
+
+            if (BeforeTokenIsAssigned != null) BeforeTokenIsAssigned(this, token.GetType());
             if (BeforeTokenIsAssignedGlobal != null) BeforeTokenIsAssignedGlobal(this, token.GetType());
 
             Triggers.ResolveTriggers(TriggerTypes.OnBeforeTokenIsAssigned, delegate { FinalizeAssignToken(callBack, letter); });
@@ -500,6 +504,21 @@ namespace Ship
                     }
                 }
             }
+        }
+
+        public void AcquireTargetLock(Action callback)
+        {
+            AcquireTargetLockSubPhase selectTargetLockSubPhase = (AcquireTargetLockSubPhase)Phases.StartTemporarySubPhaseNew(
+                "Select target for Target Lock",
+                typeof(AcquireTargetLockSubPhase),
+                delegate {
+                    UI.HideSkipButton();
+                    Phases.FinishSubPhase(typeof(AcquireTargetLockSubPhase));
+                    callback();
+                });
+
+            selectTargetLockSubPhase.RequiredPlayer = Owner.PlayerNo;
+            selectTargetLockSubPhase.Start();
         }
 
         public void ReassignTargetLockToken(Type type, char letter, GenericShip newOwner, Action callback)

@@ -18,6 +18,12 @@ public class DamageNumbersPanel : MonoBehaviour
     {
         Host = host;
 
+        if (shieldsChange == 0 || hullChange == 0)
+        {
+            transform.GetComponent<RectTransform>().sizeDelta = new Vector2(85, 52);
+            CENTER_PANEL = new Vector3(-42.5f, 0, 0);
+        }
+
         if (hullChange != 0)
         {
             transform.Find("Hull/HullNumber").GetComponent<Text>().text = Math.Abs(hullChange).ToString();
@@ -27,7 +33,7 @@ public class DamageNumbersPanel : MonoBehaviour
             transform.Find("Hull").gameObject.SetActive(false);
             transform.Find("Shields").localPosition = new Vector3(5, 0);
         }
-        
+
         if (shieldsChange != 0)
         {
             transform.Find("Shields/ShieldsNumber").GetComponent<Text>().text = Math.Abs(shieldsChange).ToString();
@@ -35,12 +41,6 @@ public class DamageNumbersPanel : MonoBehaviour
         else
         {
             transform.Find("Shields").gameObject.SetActive(false);
-        }
-
-        if (shieldsChange == 0 || hullChange == 0)
-        {
-            transform.GetComponent<RectTransform>().sizeDelta = new Vector2(85, 52);
-            CENTER_PANEL = new Vector3(-42.5f, 0, 0);
         }
 
         transform.position = Camera.main.WorldToScreenPoint(Host.GetCenter() + ABOVE_SHIP) + CENTER_PANEL;

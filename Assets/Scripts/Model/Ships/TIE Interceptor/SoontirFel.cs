@@ -41,7 +41,7 @@ namespace Abilities
 
         public override void DeactivateAbility()
         {
-            HostShip.OnTokenIsAssigned += RegisterSoontirFelAbility;
+            HostShip.OnTokenIsAssigned -= RegisterSoontirFelAbility;
         }
 
         private void RegisterSoontirFelAbility(GenericShip ship, System.Type tokenType)

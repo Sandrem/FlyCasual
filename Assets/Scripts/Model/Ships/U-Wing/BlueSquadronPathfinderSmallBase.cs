@@ -14,7 +14,7 @@ namespace Ship
                 FromMod = typeof(UWingSmallBaseMod);
 
                 PilotName = "Blue Squadron Pathfinder (Small Base)";
-                ImageUrl = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/pilots/Rebel%20Alliance/U-wing/blue-squadron-pathfinder.png";
+                ImageUrl = "https://i.imgur.com/ks8jRBa.png";
                 PilotSkill = 2;
                 Cost = 23;
             }

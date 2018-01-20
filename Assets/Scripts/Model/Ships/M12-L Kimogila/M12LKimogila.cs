@@ -35,7 +35,7 @@ namespace Ship
                 PrintedActions.Add(new ReloadAction());
 
                 AssignTemporaryManeuvers();
-                HotacManeuverTable = null;
+                HotacManeuverTable = new AI.M12LKimogilaTable();
 
                 factions.Add(Faction.Scum);
                 faction = Faction.Scum;

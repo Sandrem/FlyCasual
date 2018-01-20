@@ -1,5 +1,6 @@
 ﻿using Abilities;
 using Mods;
+using SquadBuilderNS;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -89,7 +90,7 @@ namespace Upgrade
             return result;
         }
 
-        public virtual bool IsAllowedForSquadBuilderPostCheck(RosterBuilder.SquadBuilderUpgrade upgradeHolder)
+        public virtual bool IsAllowedForSquadBuilderPostCheck(SquadList squadList)
         {
             return true;
         }

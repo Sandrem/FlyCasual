@@ -3,6 +3,7 @@ using Upgrade;
 using Abilities;
 using Ship;
 using System.Collections.Generic;
+using ActionsList;
 
 namespace UpgradesList
 {
@@ -47,7 +48,12 @@ namespace Abilities
 
         private void BB8AskBarrelRoll(object sender, EventArgs e)
         {
-            HostShip.AskPerformFreeAction(new List<ActionsList.GenericAction>() { new ActionsList.BarrelRollAction() }, Triggers.FinishTrigger);
+            Sounds.PlayShipSound("BB-8-Sound");
+
+            HostShip.AskPerformFreeAction(
+                new List<GenericAction>() { new BarrelRollAction() },
+                Triggers.FinishTrigger
+            );
         }
     }
 }

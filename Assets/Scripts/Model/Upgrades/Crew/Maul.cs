@@ -4,6 +4,7 @@ using System.Linq;
 using Tokens;
 using System.Collections.Generic;
 using UnityEngine;
+using SquadBuilderNS;
 
 namespace UpgradesList
 {
@@ -23,29 +24,27 @@ namespace UpgradesList
             return ship.faction == Faction.Scum || ship.faction == Faction.Rebel;
         }
 
-        public override bool IsAllowedForSquadBuilderPostCheck(RosterBuilder.SquadBuilderUpgrade upgradeHolder)
+        public override bool IsAllowedForSquadBuilderPostCheck(SquadList squadList)
         {
             bool result = false;
 
-            if (RosterBuilder.SquadBuilderRoster.playerFactions[upgradeHolder.Host.Player] == Faction.Scum)
+            if (squadList.SquadFaction == Faction.Scum)
             {
                 result = true;
             }
 
-            if (RosterBuilder.SquadBuilderRoster.playerFactions[upgradeHolder.Host.Player] == Faction.Rebel)
+            if (squadList.SquadFaction == Faction.Rebel)
             {
-                List<RosterBuilder.SquadBuilderShip> playerShips = RosterBuilder.SquadBuilderRoster.GetShipsByPlayer(upgradeHolder.Host.Player);
-
-                foreach (var shipHolder in playerShips)
+                foreach (var shipHolder in squadList.GetShips())
                 {
-                    if (shipHolder.Ship.PilotName == "Ezra Bridger")
+                    if (shipHolder.Instance.PilotName == "Ezra Bridger")
                     {
                         return true;
                     }
 
-                    foreach (var anotherUpgradeHolder in shipHolder.GetUpgrades())
+                    foreach (var upgrade in shipHolder.Instance.UpgradeBar.GetInstalledUpgrades())
                     {
-                        if (anotherUpgradeHolder.Slot.InstalledUpgrade !=null && anotherUpgradeHolder.Slot.InstalledUpgrade.Name == "Ezra Bridger")
+                        if (upgrade.Name == "Ezra Bridger")
                         {
                             return true;
                         }

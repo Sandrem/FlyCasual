@@ -35,9 +35,13 @@ public class ShipPanelSquadBuilder : MonoBehaviour {
         WWW www = ImageManager.GetImage(url);
         yield return www;
 
-        if (www.texture != null)
+        if (www.error == null)
         {
             SetImageFromWeb(thisGameObject.transform.Find("ShipImage").gameObject, www);
+        }
+        else
+        {
+            ShowTextVersionOfCard();
         }
     }
 
@@ -48,6 +52,11 @@ public class ShipPanelSquadBuilder : MonoBehaviour {
         Sprite newSprite = Sprite.Create(newTexture, new Rect(0, newTexture.height-124, newTexture.width, 124), Vector2.zero);
         targetObject.transform.GetComponent<Image>().sprite = newSprite;
 
+        this.gameObject.SetActive(true);
+    }
+
+    private void ShowTextVersionOfCard()
+    {
         this.gameObject.SetActive(true);
     }
 

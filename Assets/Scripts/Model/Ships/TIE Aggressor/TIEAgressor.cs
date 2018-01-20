@@ -16,7 +16,7 @@ namespace Ship
                 Type = "TIE Aggressor";
                 IconicPilot = "Sienar Specialist";
 
-                ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/e/ee/36-36_I-BANK-RW.PNG";
+                ManeuversImageUrl = "https://i.imgur.com/xvzwsLa.jpg";
 
                 Firepower = 2;
                 Agility = 2;

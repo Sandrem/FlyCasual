@@ -398,6 +398,13 @@ namespace Players
         {
             callback(Selection.ThisShip.AssignedManeuver.ToString());
         }
+
+        public override void StartExtraAttack()
+        {
+            // TODO: Handle extra attack targets
+
+            UI.SkipButtonEffect();
+        }
     }
 
 }

@@ -14,7 +14,7 @@ namespace Ship
             public YV666() : base()
             {
                 Type = "YV-666";
-                IconicPilot = "Moralo Eval";
+                IconicPilot = "Bossk";
                 ShipBaseSize = BaseSize.Large;
                 ShipBaseArcsType = Arcs.BaseArcsType.Arc180;
 

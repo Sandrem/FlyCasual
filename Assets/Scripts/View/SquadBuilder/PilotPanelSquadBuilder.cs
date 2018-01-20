@@ -5,29 +5,16 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using SquadBuilderNS;
+using Ship;
 
 public class PilotPanelSquadBuilder : MonoBehaviour {
 
-    private SquadBuilderShip Ship;
-    private string ImageUrl;
-    private string ShipName;
-    private string PilotName;
-    private Action<SquadBuilderShip, string, string> OnClick;
+    private GenericShip Ship;
+    private Action<GenericShip> OnClick;
 
-    public void Initialize(string pilotName, string shipName, string imageUrl = null, Action<SquadBuilderShip, string, string> onClick = null)
-    {
-        PilotName = pilotName;
-        ShipName = shipName;
-        ImageUrl = imageUrl;
-        OnClick = onClick;
-    }
-
-    public void Initialize(SquadBuilderShip ship, Action<SquadBuilderShip, string, string> onClick = null)
+    public void Initialize(GenericShip ship, Action<GenericShip> onClick = null)
     {
         Ship = ship;
-        PilotName = ship.Instance.PilotName;
-        ShipName = ship.Instance.Type;
-        ImageUrl = ship.Instance.ImageUrl;
         OnClick = onClick;
     }
 
@@ -41,22 +28,24 @@ public class PilotPanelSquadBuilder : MonoBehaviour {
 
     private void LoadImage()
     {
-        Global.Instance.StartCoroutine(LoadTooltipImage(this.gameObject, ImageUrl));
+        Global.Instance.StartCoroutine(LoadTooltipImage(this.gameObject, Ship.ImageUrl));
     }
 
     private IEnumerator LoadTooltipImage(GameObject thisGameObject, string url)
     {
-        if (url == null)
-        {
-            url = SquadBuilder.AllPilots.Find(n => n.PilotName == PilotName && n.PilotShip.ShipName == ShipName).Instance.ImageUrl;
-        }
-
         WWW www = ImageManager.GetImage(url);
         yield return www;
 
-        if (www.texture != null)
+        if (www.error == null)
         {
-            SetImageFromWeb(thisGameObject.transform.Find("PilotImage").gameObject, www);
+            if (thisGameObject != null)
+            {
+                SetImageFromWeb(thisGameObject.transform.Find("PilotImage").gameObject, www);
+            }
+        }
+        else
+        {
+            ShowTextVersionOfCard();
         }
     }
 
@@ -71,6 +60,14 @@ public class PilotPanelSquadBuilder : MonoBehaviour {
         this.gameObject.SetActive(true);
     }
 
+    private void ShowTextVersionOfCard()
+    {
+        this.transform.Find("PilotInfo").GetComponent<Text>().text = Ship.PilotName;
+        this.transform.Find("CostInfo").GetComponent<Text>().text = Ship.Cost.ToString();
+
+        this.gameObject.SetActive(true);
+    }
+
     private void SetOnClickHandler()
     {
         if (OnClick != null)
@@ -78,8 +75,12 @@ public class PilotPanelSquadBuilder : MonoBehaviour {
             EventTrigger trigger = this.gameObject.AddComponent<EventTrigger>();
             EventTrigger.Entry entry = new EventTrigger.Entry();
             entry.eventID = EventTriggerType.PointerClick;
-            entry.callback.AddListener(delegate { OnClick(Ship, PilotName, ShipName); });
+            entry.callback.AddListener(delegate { OnClick(Ship); });
             trigger.triggers.Add(entry);
+
+            ScrollRect mainScroll = GameObject.Find("UI/Panels/SelectPilotPanel/Panel/Scroll View").GetComponent<ScrollRect>();
+            FixScrollRect fixScrollRect = this.gameObject.AddComponent<FixScrollRect>();
+            fixScrollRect.MainScroll = mainScroll;
         }
     }
 

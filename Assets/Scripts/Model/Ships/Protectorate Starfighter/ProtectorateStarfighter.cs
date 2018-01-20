@@ -14,7 +14,7 @@ namespace Ship
             public ProtectorateStarfighter() : base()
             {
                 Type = "Protectorate Starfighter";
-                IconicPilot = "Fenn Rau";
+                IconicPilot = "Concord Dawn Ace";
 
                 ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/8/83/MS_PROTECTORATE-STARFIGHTER.png";
 

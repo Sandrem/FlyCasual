@@ -314,7 +314,7 @@ public static partial class Network
 
     public static void CreateMatch(string roomName, string password)
     {
-        GameObject createRoomButton = GameObject.Find("UI/Panels/CreateMatchPanel/ContolsPanel/CreateRoomButton");
+        GameObject createRoomButton = GameObject.Find("UI/Panels/CreateMatchPanel/ControlsPanel/CreateRoomButton");
         createRoomButton.SetActive(false);
 
         NetworkManager.singleton.StartMatchMaker();
@@ -323,7 +323,7 @@ public static partial class Network
 
     private static void OnInternetMatchCreate(bool success, string extendedInfo, MatchInfo matchInfo)
     {
-        GameObject createRoomButton = GameObject.Find("UI/Panels/CreateMatchPanel/ContolsPanel/CreateRoomButton");
+        GameObject createRoomButton = GameObject.Find("UI/Panels/CreateMatchPanel/ControlsPanel/CreateRoomButton");
         createRoomButton.SetActive(true);
 
         if (success)
@@ -387,7 +387,7 @@ public static partial class Network
 
     private static void ToggleBrowseRoomsControls(bool isActive)
     {
-        GameObject.Find("UI/Panels/BrowseRoomsPanel").transform.Find("ContolsPanel").gameObject.SetActive(isActive);
+        GameObject.Find("UI/Panels/BrowseRoomsPanel").transform.Find("ControlsPanel").gameObject.SetActive(isActive);
     }
 
     private static void ToggleBrowseRooms(bool isActive)
@@ -398,6 +398,7 @@ public static partial class Network
     public static void ShowListOfRooms(List<MatchInfoSnapshot> matchesList)
     {
         float FREE_SPACE = 10f;
+        float MATCH_PANEL_HEIGHT = 90;
 
         ClearRoomsList();
 
@@ -405,6 +406,8 @@ public static partial class Network
         GameObject MatchsPanel = GameObject.Find("UI/Panels").transform.Find("BrowseRoomsPanel").Find("Scroll View/Viewport/Content").gameObject;
 
         RectTransform matchsPanelRectTransform = MatchsPanel.GetComponent<RectTransform>();
+        matchsPanelRectTransform.sizeDelta = new Vector2(matchsPanelRectTransform.sizeDelta.x, matchesList.Count*MATCH_PANEL_HEIGHT + (matchesList.Count + 1) * FREE_SPACE);
+
         Vector3 currentPosition = new Vector3(matchsPanelRectTransform.sizeDelta.x / 2 + FREE_SPACE, -FREE_SPACE, MatchsPanel.transform.localPosition.z);
 
         foreach (var match in matchesList)
@@ -422,7 +425,6 @@ public static partial class Network
             MatchRecord.transform.Find("Join").GetComponent<Button>().onClick.AddListener(delegate { ClickJoinRoom(match); });
 
             currentPosition = new Vector3(currentPosition.x, currentPosition.y - 90 - FREE_SPACE, currentPosition.z);
-            matchsPanelRectTransform.sizeDelta = new Vector2(matchsPanelRectTransform.sizeDelta.x, matchsPanelRectTransform.sizeDelta.y + 90 + FREE_SPACE);
         }
     }
 

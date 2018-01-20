@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public enum MessageType
 {
@@ -40,14 +41,13 @@ public static class Messages{
 
     private static void ShowMessage(string text, MessageType type)
     {
+        if (allMessages.Find(n => n != null && n.name == text) != null) return;
 
-        Vector2 startingPosition = new Vector3(Screen.width / 2, -50, 0);
-        foreach (var message in allMessages)
+        Vector2 startingPosition = new Vector3(0, -50, 0);
+
+        if (allMessages.Count != 0 && allMessages.Last() != null)
         {
-            if (message != null)
-            {
-                startingPosition = message.transform.position + new Vector3(0, -55, 0);
-            }
+            startingPosition = allMessages.Last().transform.localPosition + new Vector3(0, -55, 0);
         }
 
         foreach (var message in allMessages)
@@ -60,7 +60,9 @@ public static class Messages{
 
         GameObject prefab = (GameObject)Resources.Load("Prefabs/MessagePanel", typeof(GameObject));
         GameObject MessagePanelsHolder = GameObject.Find("UI/MessagePanels");
-        GameObject Message = MonoBehaviour.Instantiate(prefab, startingPosition, MessagePanelsHolder.transform.rotation, MessagePanelsHolder.transform);
+        GameObject Message = MonoBehaviour.Instantiate(prefab, MessagePanelsHolder.transform);
+        Message.transform.localPosition = startingPosition;
+        Message.name = text;
         Message.GetComponent<MessageContainer>().Initialize(text, type);
         allMessages.Add(Message);
     }

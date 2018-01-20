@@ -17,7 +17,7 @@ public class GameManagerScript : MonoBehaviour {
         SetApplicationParameters();
         InitializeScripts();
 
-        Global.Initialize();
+        //Global.Initialize();
 
         Board.BoardManager.Initialize();
         Roster.Initialize();

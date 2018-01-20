@@ -73,3 +73,4 @@ ExportedObj/
 *.svd
 *.pdb
 
+/.collabignore

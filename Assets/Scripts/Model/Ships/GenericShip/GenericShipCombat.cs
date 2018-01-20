@@ -131,6 +131,7 @@ namespace Ship
         public static event EventHandler OnAttackHitAsDefenderGlobal;
         public event EventHandler OnAttackMissedAsAttacker;
         public event EventHandler OnAttackMissedAsDefender;
+        public event EventHandler OnShieldLost;
 
         public event EventHandlerInt AfterGotNumberOfPrimaryWeaponAttackDice;
         public event EventHandlerInt AfterGotNumberOfPrimaryWeaponDefenceDice;
@@ -153,6 +154,8 @@ namespace Ship
         public event EventHandlerShip OnCheckSecondAttack;
 
         public event EventHandlerShip OnAttackFinish;
+        public event EventHandlerShip OnAttackFinishAsAttacker;
+        public event EventHandlerShip OnAttackFinishAsDefender;
 
         public event EventHandlerBombDropTemplates OnGetAvailableBombDropTemplates;
         public event EventHandlerBarrelRollTemplates OnGetAvailableBarrelRollTemplates;
@@ -307,6 +310,16 @@ namespace Ship
             if (OnAttackFinish != null) OnAttackFinish(this);
         }
 
+        public void CallAttackFinishAsAttacker()
+        {
+            if (OnAttackFinishAsAttacker != null) OnAttackFinishAsAttacker(this);
+        }
+
+        public void CallAttackFinishAsDefender()
+        {
+            if (OnAttackFinishAsDefender != null) OnAttackFinishAsDefender(this);
+        }
+
         public void CallOnImmediatelyAfterRolling(DiceRoll diceroll, Action callBack)
         {
             if (OnImmediatelyAfterRolling != null) OnImmediatelyAfterRolling(diceroll);
@@ -329,6 +342,13 @@ namespace Ship
             if (OnDamageCardIsDealt != null) OnDamageCardIsDealt(this);
 
             Triggers.ResolveTriggers(TriggerTypes.OnDamageCardIsDealt, callBack);
+        }
+
+        public void CallOnShieldIsLost(Action callback)
+        {
+            if (OnShieldLost != null) OnShieldLost();
+
+            Triggers.ResolveTriggers(TriggerTypes.OnShieldIsLost, callback);
         }
 
         // DICE
@@ -360,6 +380,9 @@ namespace Ship
             {
                 if (AfterGotNumberOfPrimaryWeaponDefenceDice != null) AfterGotNumberOfPrimaryWeaponDefenceDice(ref result);
             }
+
+            if (result < 0) result = 0;
+
             return result;
         }
 
@@ -536,7 +559,8 @@ namespace Ship
 
             Shields--;
             CallAfterAssignedDamageIsChanged();
-            Triggers.FinishTrigger();
+
+            CallOnShieldIsLost(Triggers.FinishTrigger);
         }
 
         public void LoseShield()

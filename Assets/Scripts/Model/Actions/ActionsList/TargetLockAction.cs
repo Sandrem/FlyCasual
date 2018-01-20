@@ -84,7 +84,7 @@ namespace ActionsList
         {
             Phases.StartTemporarySubPhaseOld(
                 "Select target for Target Lock",
-                typeof(SubPhases.SelectTargetLockSubPhase),
+                typeof(SubPhases.SelectTargetLockActionSubPhase),
                 Phases.CurrentSubPhase.CallBack
             );
         }
@@ -96,7 +96,31 @@ namespace ActionsList
 namespace SubPhases
 {
 
-    public class SelectTargetLockSubPhase : SelectShipSubPhase
+    public class SelectTargetLockActionSubPhase : AcquireTargetLockSubPhase
+    {
+        public override void RevertSubPhase()
+        {
+            Selection.ThisShip.RemoveAlreadyExecutedAction(typeof(ActionsList.TargetLockAction));
+
+            Phases.CurrentSubPhase = PreviousSubPhase;
+            Roster.AllShipsHighlightOff();
+            Phases.CurrentSubPhase.Resume();
+            UpdateHelpInfo();
+        }
+
+        public override void SkipButton()
+        {
+            RevertSubPhase();
+        }
+
+        protected override void SuccessfulCallback()
+        {
+            Phases.FinishSubPhase(typeof(SelectTargetLockActionSubPhase));
+            base.SuccessfulCallback();
+        }
+    }
+
+    public class AcquireTargetLockSubPhase : SelectShipSubPhase
     {
 
         public override void Prepare()
@@ -113,19 +137,20 @@ namespace SubPhases
             UI.ShowSkipButton();
         }
 
-        private void TrySelectTargetLock()
+        protected virtual void SuccessfulCallback()
+        {
+            UI.HideSkipButton();
+            CallBack();
+        }
+
+        protected virtual void TrySelectTargetLock()
         {
             if (Rules.TargetLocks.TargetLockIsAllowed(Selection.ThisShip, TargetShip))
             {
                 Actions.AssignTargetLockToPair(
                     Selection.ThisShip,
                     TargetShip,
-                    delegate
-                    {
-                        UI.HideSkipButton();
-                        Phases.FinishSubPhase(typeof(SelectTargetLockSubPhase));
-                        CallBack();
-                    },
+                    SuccessfulCallback,
                     RevertSubPhase
                 );
             }
@@ -137,13 +162,12 @@ namespace SubPhases
 
         public override void RevertSubPhase()
         {
-            Selection.ThisShip.RemoveAlreadyExecutedAction(typeof(ActionsList.TargetLockAction));
-            base.RevertSubPhase();
+
         }
 
         public override void SkipButton()
         {
-            RevertSubPhase();
+            CallBack();
         }
 
     }

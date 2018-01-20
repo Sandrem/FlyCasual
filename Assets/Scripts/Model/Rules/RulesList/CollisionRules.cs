@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using Ship;
 
 namespace RulesList
 {
@@ -14,7 +15,7 @@ namespace RulesList
         private void SubscribeEvents()
         {
             Phases.BeforeActionSubPhaseStart += CheckSkipPerformAction;
-            Ship.GenericShip.OnTryPerformAttackGlobal += CanPerformAttack;
+            GenericShip.OnTryPerformAttackGlobal += CanPerformAttack;
         }
 
         public void CheckSkipPerformAction()
@@ -26,7 +27,20 @@ namespace RulesList
             }
         }
 
-        public void ClearBumps(Ship.GenericShip ship)
+        public void AddBump(GenericShip ship1, GenericShip ship2)
+        {
+            if (!ship1.ShipsBumped.Contains(ship2))
+            {
+                ship1.ShipsBumped.Add(ship2);
+            }
+
+            if (!ship2.ShipsBumped.Contains(ship1))
+            {
+                ship2.ShipsBumped.Add(ship1);
+            }
+        }
+
+        public void ClearBumps(GenericShip ship)
         {
             foreach (var bumpedShip in ship.ShipsBumped)
             {
@@ -35,7 +49,7 @@ namespace RulesList
                     bumpedShip.ShipsBumped.Remove(ship);
                 }
             }
-            ship.ShipsBumped = new List<Ship.GenericShip>();
+            ship.ShipsBumped = new List<GenericShip>();
         }
 
         public void CanPerformAttack(ref bool result, List<string> stringList)

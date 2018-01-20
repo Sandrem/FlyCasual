@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using Ship;
 
 namespace RulesList
 {
@@ -13,8 +14,8 @@ namespace RulesList
 
         private void SubscribeEvents()
         {
-            TargetIsLegalForShotRule.OnCheckTargetIsLegal += CanPerformAttack;
             Phases.BeforeActionSubPhaseStart += CheckSkipPerformAction;
+            GenericShip.OnTryPerformAttackGlobal += CanPerformAttack;
         }
 
         public void CheckSkipPerformAction()
@@ -26,7 +27,20 @@ namespace RulesList
             }
         }
 
-        public void ClearBumps(Ship.GenericShip ship)
+        public void AddBump(GenericShip ship1, GenericShip ship2)
+        {
+            if (!ship1.ShipsBumped.Contains(ship2))
+            {
+                ship1.ShipsBumped.Add(ship2);
+            }
+
+            if (!ship2.ShipsBumped.Contains(ship1))
+            {
+                ship2.ShipsBumped.Add(ship1);
+            }
+        }
+
+        public void ClearBumps(GenericShip ship)
         {
             foreach (var bumpedShip in ship.ShipsBumped)
             {
@@ -35,15 +49,18 @@ namespace RulesList
                     bumpedShip.ShipsBumped.Remove(ship);
                 }
             }
-            ship.ShipsBumped = new List<Ship.GenericShip>();
+            ship.ShipsBumped = new List<GenericShip>();
         }
 
-        public void CanPerformAttack(ref bool result, Ship.GenericShip attacker, Ship.GenericShip defender)
+        public void CanPerformAttack(ref bool result, List<string> stringList)
         {
-            if ((attacker.IsBumped) && (attacker.ShipsBumped.Contains(defender)) && (defender.ShipsBumped.Contains(attacker)))
+            if ((Selection.ThisShip.IsBumped) && (Selection.ThisShip.ShipsBumped.Contains(Selection.AnotherShip)) && (Selection.AnotherShip.ShipsBumped.Contains(Selection.ThisShip)))
             {
-                Messages.ShowErrorToHuman("Cannot attack ship that you are touching");
-                result = false;
+                if (!Selection.ThisShip.CanAttackBumpedTarget(Selection.AnotherShip))
+                {
+                    stringList.Add("Cannot attack ship that you are touching");
+                    result = false;
+                }
             }
         }
 

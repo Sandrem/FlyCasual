@@ -1,41 +1,29 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Players;
 
 public class Global : MonoBehaviour {
 
+    public static Global Instance;
+
+    private static bool isAlreadyInitialized;
+
     public static string test = "I am accessible from every scene";
 
-    public static string Playmat = "Endor";
+    public static string CurrentVersion = "0.4.0";
 
-    private static List<ShipConfiguration> shipConfigurations = new List<ShipConfiguration>();
-
-    private static List<System.Type> playerTypes = new List<System.Type>();
-
-    private static List<Faction> playerFactions = new List<Faction>();
-
-    public static List<Faction> PlayerFactions
+    void Awake()
     {
-        get { return playerFactions; }
-        private set { playerFactions = value; }
-    }
-
-    public static List<System.Type> PlayerTypes
-    {
-        get { return playerTypes; }
-        private set { playerTypes = value; }
-    }
-
-    public static List<ShipConfiguration> ShipConfigurations
-    {
-        get { return shipConfigurations; }
-        private set { shipConfigurations = value; }
-    }
-
-    void Start()
-    {
-        DontDestroyOnLoad(this.gameObject);
+        if (!isAlreadyInitialized)
+        {
+            Instance = this;
+            isAlreadyInitialized = true;
+            DontDestroyOnLoad(this.gameObject);
+        }
+        else
+        {
+            Destroy(this.gameObject);
+        }
     }
 
     void Update()
@@ -43,116 +31,16 @@ public class Global : MonoBehaviour {
         Tooltips.CheckTooltip();
     }
 
-    public static void Initialize()
+    public static void StartBattle()
     {
-        PlayerTypes = GetPlayerTypes();
-        ShipConfigurations = GetShipConfigurations();
+        HideOpponentSquad();
+        Phases.StartPhases();
     }
 
-    private static List<ShipConfiguration> GetShipConfigurations()
+    private static void HideOpponentSquad()
     {
-        List<ShipConfiguration> result = new List<ShipConfiguration>();
-        if (shipConfigurations.Count != 0)
-        {
-            result = shipConfigurations;
-        }
-        else
-        {
-            result = new List<ShipConfiguration>()
-                {
-                new ShipConfiguration
-                (
-                    "Ship.XWing.RookiePilot",
-                    new List<string>(),
-                    PlayerNo.Player1,
-                    0
-                ),
-                new ShipConfiguration
-                (
-                    "Ship.TIEAdvanced.TempestSquadronPilot",
-                    new List<string>(),
-                    PlayerNo.Player2,
-                    0
-                )
-                /*new ShipConfiguration
-                (
-                    "Ship.XWing.LukeSkywalker",
-                    new List<string>() { "UpgradesList.R2D2", "UpgradesList.Marksmanship", "UpgradesList.ProtonTorpedoes" },
-                    PlayerNo.Player1,
-                    1
-                ),
-                new ShipConfiguration
-                (
-                    "Ship.TIEFighter.MaulerMithel",
-                    new List<string>() { "UpgradesList.Determination" },
-                    PlayerNo.Player2,
-                    1
-                ),
-                new ShipConfiguration
-                (
-                    "Ship.TIEFighter.NightBeast",
-                    new List<string>(),
-                    PlayerNo.Player2,
-                    1
-                )*/
-            };  
-        }
-        return result;
-    }
-
-    private static List<System.Type> GetPlayerTypes()
-    {
-        if (playerTypes.Count != 0)
-        {
-            return playerTypes;
-        }
-        else
-        {
-            List<System.Type> result = new List<System.Type>
-                {
-                    typeof(Players.HumanPlayer),
-                    typeof(Players.HumanPlayer)
-                };
-            return result;
-        }
-    }
-
-    public static void RemoveAllPlayers()
-    {
-        playerTypes = new List<System.Type>();
-    }
-
-    public static void RemoveAllShips()
-    {
-        shipConfigurations = new List<ShipConfiguration>();
-    }
-
-    public static void RemoveAllFactions()
-    {
-        playerFactions = new List<Faction>();
-    }
-
-    public static void AddPlayer(System.Type playerType)
-    {
-        playerTypes.Add(playerType);
-    }
-
-    public static void AddFaction(Faction factionType)
-    {
-        playerFactions.Add(factionType);
-    }
-
-    public static void AddShip(string name, List<string> upgradeList, PlayerNo playerNo, int shipCost)
-    {
-        shipConfigurations.Add(new ShipConfiguration(name, upgradeList, playerNo, shipCost));
-    }
-
-    public static Faction GetPlayerFaction(PlayerNo playerNo)
-    {
-        Faction result = Faction.Rebels;
-        if (playerNo == PlayerNo.Player1) result = playerFactions[0];
-        if (playerNo == PlayerNo.Player2) result = playerFactions[1];
-        return result;
+        Transform opponentSquad = GameObject.Find("GlobalUI").transform.Find("OpponentSquad");
+        if (opponentSquad != null) opponentSquad.gameObject.SetActive(false);
     }
 
 }

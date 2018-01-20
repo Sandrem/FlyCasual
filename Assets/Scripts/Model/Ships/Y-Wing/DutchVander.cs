@@ -1,13 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-// TODO:
-// Correct work with combat subphase
-// What if there is no another frienly ships
-// What if I do not want assign token
-// What revert should be done if selected ship does not fulfill all requirements
-// What revert should be done if selected ship cannot get target lock on first target
+using Ship;
+using SubPhases;
+using System;
 
 namespace Ship
 {
@@ -17,73 +13,72 @@ namespace Ship
         {
             public DutchVander() : base()
             {
-                IsHidden = true;
-
                 PilotName = "\"Dutch\" Vander";
-                ImageUrl = "https://vignette3.wikia.nocookie.net/xwing-miniatures/images/b/bf/Dutch_Vander.png";
-                IsUnique = true;
                 PilotSkill = 6;
                 Cost = 23;
-            }
 
-            public override void InitializePilot()
-            {
-                base.InitializePilot();
-                AfterTokenIsAssigned += GarvenDreisPilotAbility;
-            }
+                IsUnique = true;
 
-            private void GarvenDreisPilotAbility(GenericShip ship, System.Type type)
-            {
-                if (type == typeof(Tokens.BlueTargetLockToken))
-                {
-                    if (ship.Owner.Ships.Count > 1)
-                    {
-                        Selection.ActiveShip = ship;
-                        Phases.StartTemporarySubPhase("Choose another friendly ship at range 1-2, it will acquire target lock", typeof(SubPhases.DutchVanderAbilitySubPhase));
-                    }
-                }
-            }
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Astromech);
 
+                faction = Faction.Rebel;
+
+                PilotAbilities.Add(new Abilities.DutchVanderAbility());
+            }
         }
     }
 }
 
-namespace SubPhases
+namespace Abilities
 {
-
-    public class DutchVanderAbilitySubPhase : SelectShipSubPhase
+    public class DutchVanderAbility : GenericAbility
     {
-
-        public override void Prepare()
+        public override void ActivateAbility()
         {
-            isFriendlyAllowed = true;
-            maxRange = 2;
-
-            finishAction = AcquireTargetLock;
-
-            Game.UI.ShowSkipButton();
+            HostShip.OnTokenIsAssigned += DutchVanderPilotAbility;
         }
 
-        public override void Next()
+        public override void DeactivateAbility()
         {
-            Game.UI.HideNextButton();
-            PreviousSubPhase.Resume();
-            base.Next();
+            HostShip.OnTokenIsAssigned -= DutchVanderPilotAbility;
         }
 
-        private void AcquireTargetLock()
+        private void DutchVanderPilotAbility(GenericShip ship, System.Type tokenType)
+        {
+            if (tokenType == typeof(Tokens.BlueTargetLockToken))
+            {
+                RegisterAbilityTrigger(TriggerTypes.OnTokenIsAssigned, StartSubphaseForDutchVanderPilotAbility);
+            }
+        }
+
+        private void StartSubphaseForDutchVanderPilotAbility(object sender, System.EventArgs e)
+        {
+            Selection.ThisShip = HostShip;
+            if (HostShip.Owner.Ships.Count > 1)
+            {
+                SelectTargetForAbility(
+                    GrantFreeTargetLock,
+                    new List<TargetTypes>() { TargetTypes.OtherFriendly },
+                    new Vector2(1, 2)
+                );
+            }
+            else
+            {
+                Triggers.FinishTrigger();
+            }
+        }
+
+        private void GrantFreeTargetLock()
+        {
+            RegisterAbilityTrigger(TriggerTypes.OnAbilityDirect, StartSubphaseForTargetLock);
+
+            Triggers.ResolveTriggers(TriggerTypes.OnAbilityDirect, SelectShipSubPhase.FinishSelection);
+        }
+
+        private void StartSubphaseForTargetLock(object sender, System.EventArgs e)
         {
             Selection.ThisShip = TargetShip;
-            Selection.ActiveShip = TargetShip;
-            Phases.CancelScheduledFinish(typeof(SelectTargetLockSubPhase));
-            Phases.StartTemporarySubPhase("Select target for Target Lock", typeof(SelectTargetLockSubPhase));
+            Selection.ThisShip.AcquireTargetLock(Triggers.FinishTrigger);
         }
-
-        protected override void RevertSubPhase()
-        {
-            Game.UI.HighlightNextButton();
-        }
-
     }
-
 }

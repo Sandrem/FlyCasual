@@ -8,8 +8,10 @@ namespace Movement
 
     public class MovementPrediction
     {
+        private Action CallBack;
+
         private int updatesCount = 0;
-        private GenericMovement currentMovement;
+        public GenericMovement CurrentMovement;
         private GameObject[] generatedShipStands;
 
         private bool isBumped;
@@ -20,12 +22,16 @@ namespace Movement
 
         public List<Ship.GenericShip> ShipsBumped = new List<Ship.GenericShip>();
         public List<Collider> AsteroidsHit = new List<Collider>();
+        public List<GameObject> MinesHit = new List<GameObject>();
         public bool IsLandedOnAsteroid { get; private set; }
         public float SuccessfullMovementProgress { get; private set; }
+        public bool IsOffTheBoard;
 
-        public MovementPrediction(GenericMovement movement)
+        public MovementPrediction(GenericMovement movement, Action callBack)
         {
-            currentMovement = movement;
+            CurrentMovement = movement;
+            CallBack = callBack;
+
             Selection.ThisShip.ToggleColliders(false);
             GenerateShipStands();
 
@@ -35,7 +41,7 @@ namespace Movement
 
         private void GenerateShipStands()
         {
-            generatedShipStands = currentMovement.PlanMovement();
+            generatedShipStands = CurrentMovement.PlanMovement();
         }
 
         private bool UpdateColisionDetection()
@@ -74,8 +80,9 @@ namespace Movement
                     }
                     else
                     {
+                        IsOffTheBoard = obstacleStayDetector.OffTheBoard;
                         IsLandedOnAsteroid = obstacleStayDetector.OverlapsAsteroid;
-                        SuccessfullMovementProgress = (i + 1f) / generatedShipStands.Length;
+                        SuccessfullMovementProgress = (float)(i) / (generatedShipStands.Length - 1);
 
                         if (lastShipBumpDetector != null)
                         {
@@ -96,6 +103,15 @@ namespace Movement
                             }
                         }
 
+                        foreach (var mineHit in obstacleStayDetector.OverlapedMines)
+                        {
+                            GameObject MineObject = mineHit.transform.parent.gameObject;
+                            if (!MinesHit.Contains(MineObject))
+                            {
+                                MinesHit.Add(MineObject);
+                            }
+                        }
+
                         finalPositionFound = true;
                         //break;
                     }
@@ -109,15 +125,30 @@ namespace Movement
                             AsteroidsHit.Add(asteroidHit);
                         }
                     }
+                    foreach (var mineHit in obstacleHitsDetector.OverlapedMines)
+                    {
+                        GameObject MineObject = mineHit.transform.parent.gameObject;
+                        if (!MinesHit.Contains(MineObject))
+                        {
+                            MinesHit.Add(MineObject);
+                        }
+                    }
                 }
 
             }
 
             Selection.ThisShip.ToggleColliders(true);
 
-            DestroyGeneratedShipStands();
-
-            currentMovement.LaunchShipMovement();
+            if (!DebugManager.DebugMovement)
+            {
+                DestroyGeneratedShipStands();
+                CallBack();
+            }
+            else
+            {
+                GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
+                Game.Wait(2, delegate { DestroyGeneratedShipStands(); CallBack(); });
+            }
         }
 
         private void DestroyGeneratedShipStands()

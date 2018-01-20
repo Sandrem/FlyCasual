@@ -7,7 +7,6 @@ namespace ActionsList
 
     public class CancelCritAction : GenericAction
     {
-        private Ship.GenericShip host;
         private CriticalHitCard.GenericCriticalHit CritCard;
 
         public CancelCritAction()
@@ -29,25 +28,32 @@ namespace ActionsList
         {
             Selection.ActiveShip = Selection.ThisShip;
 
-            host = Selection.ThisShip;
+            Host = Selection.ThisShip;
             if (CritCard.CancelDiceResults.Count == 0)
             {
-                CritCard.DiscardEffect(host);
+                CritCard.DiscardEffect(Host);
                 Phases.FinishSubPhase(typeof(SubPhases.CancelCritCheckSubPhase));
-                Phases.CurrentSubPhase.callBack();
+                Phases.CurrentSubPhase.CallBack();
             }
             else
             {
                 Actions.SelectedCriticalHitCard = CritCard;
                 Selection.ActiveShip = Selection.ThisShip;
-                Phases.StartTemporarySubPhase(
+                Phases.StartTemporarySubPhaseOld(
                     "Trying to flip critical card",
                     typeof(SubPhases.CancelCritCheckSubPhase),
                     delegate {
                         Phases.FinishSubPhase(typeof(SubPhases.CancelCritCheckSubPhase));
-                        Phases.CurrentSubPhase.callBack();
+                        Phases.CurrentSubPhase.CallBack();
                     });
             }
+        }
+
+        public override int GetActionPriority()
+        {
+            int result = 0;
+            result = 90;
+            return result;
         }
 
     }
@@ -62,8 +68,8 @@ namespace SubPhases
 
         public override void Prepare()
         {
-            dicesType = DiceKind.Attack;
-            dicesCount = 1;
+            diceType = DiceKind.Attack;
+            diceCount = 1;
 
             finishAction = FinishAction;
         }
@@ -74,9 +80,8 @@ namespace SubPhases
 
             Selection.ActiveShip = Selection.ThisShip;
             if (Actions.SelectedCriticalHitCard.CancelDiceResults.Contains(CurrentDiceRoll.DiceList[0].Side)) Actions.SelectedCriticalHitCard.DiscardEffect(Actions.SelectedCriticalHitCard.Host);
-            base.CheckResults(CurrentDiceRoll);
 
-            callBack();
+            CallBack();
         }
 
     }

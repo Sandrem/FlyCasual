@@ -5,7 +5,7 @@ namespace RulesList
     public class AsteroidObstructionRule
     {
 
-        public void CheckDefenceDistanceBonus(ref int result)
+        public void CheckDefenceObstructionBonus(ref int result)
         {
             if (Combat.IsObstructed)
             {

@@ -11,15 +11,21 @@ namespace SubPhases
 
         public override void Start()
         {
-            Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
             Name = "Round start";
             UpdateHelpInfo();
         }
 
         public override void Initialize()
         {
-            Phases.CallRoundStartTrigger();
-            Phases.FinishSubPhase(this.GetType());
+            InformAboutNewRoundStart();
+
+            Phases.CallRoundStartTrigger(delegate { Phases.FinishSubPhase(this.GetType()); });
+        }
+
+        private void InformAboutNewRoundStart()
+        {
+            Phases.RoundCounter++;
+            UI.AddTestLogEntry("Round " + Phases.RoundCounter + " is started");
         }
 
         public override void Next()
@@ -30,12 +36,12 @@ namespace SubPhases
             Phases.CurrentSubPhase.Initialize();
         }
 
-        public override bool ThisShipCanBeSelected(Ship.GenericShip ship)
+        public override bool ThisShipCanBeSelected(Ship.GenericShip ship, int mouseKeyIsPressed)
         {
             return false;
         }
 
-        public override bool AnotherShipCanBeSelected(Ship.GenericShip targetShip)
+        public override bool AnotherShipCanBeSelected(Ship.GenericShip targetShip, int mouseKeyIsPressed)
         {
             return false;
         }

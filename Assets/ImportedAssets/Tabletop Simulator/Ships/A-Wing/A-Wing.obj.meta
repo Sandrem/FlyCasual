@@ -1,0 +1,139 @@
+fileFormatVersion: 2
+guid: 759c5faff85131b4189e2aa0ffda534c
+timeCreated: 1503190274
+licenseType: Free
+ModelImporter:
+  serializedVersion: 21
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: Cylinder2_Stand_sep4_auv
+    100004: Engine.007_AWING_TEX00005
+    100006: MainHull.000_AWING_TEX00005
+    100008: MainHull.0016_AWING_TEX00005
+    100010: MainHull.002_AWING_TEX00005
+    100012: MainHull.003_AWING_TEX00005
+    100014: MiscHull.011_AWING_TEX00005
+    100016: RotaryCommunicationSystem.004_AWING_TEX00005
+    100018: small_base_Cube.002_Stand_sep4_auv
+    100020: SmallGun.009_AWING_TEX00005
+    100022: Wing.005_AWING_TEX00005
+    400000: //RootNode
+    400002: Cylinder2_Stand_sep4_auv
+    400004: Engine.007_AWING_TEX00005
+    400006: MainHull.000_AWING_TEX00005
+    400008: MainHull.0016_AWING_TEX00005
+    400010: MainHull.002_AWING_TEX00005
+    400012: MainHull.003_AWING_TEX00005
+    400014: MiscHull.011_AWING_TEX00005
+    400016: RotaryCommunicationSystem.004_AWING_TEX00005
+    400018: small_base_Cube.002_Stand_sep4_auv
+    400020: SmallGun.009_AWING_TEX00005
+    400022: Wing.005_AWING_TEX00005
+    2300000: Cylinder2_Stand_sep4_auv
+    2300002: Engine.007_AWING_TEX00005
+    2300004: MainHull.000_AWING_TEX00005
+    2300006: MainHull.0016_AWING_TEX00005
+    2300008: MainHull.002_AWING_TEX00005
+    2300010: MainHull.003_AWING_TEX00005
+    2300012: MiscHull.011_AWING_TEX00005
+    2300014: RotaryCommunicationSystem.004_AWING_TEX00005
+    2300016: small_base_Cube.002_Stand_sep4_auv
+    2300018: SmallGun.009_AWING_TEX00005
+    2300020: Wing.005_AWING_TEX00005
+    3300000: Cylinder2_Stand_sep4_auv
+    3300002: Engine.007_AWING_TEX00005
+    3300004: MainHull.000_AWING_TEX00005
+    3300006: MainHull.0016_AWING_TEX00005
+    3300008: MainHull.002_AWING_TEX00005
+    3300010: MainHull.003_AWING_TEX00005
+    3300012: MiscHull.011_AWING_TEX00005
+    3300014: RotaryCommunicationSystem.004_AWING_TEX00005
+    3300016: small_base_Cube.002_Stand_sep4_auv
+    3300018: SmallGun.009_AWING_TEX00005
+    3300020: Wing.005_AWING_TEX00005
+    4300000: Cylinder2_Stand_sep4_auv
+    4300002: Engine.007_AWING_TEX00005
+    4300004: MainHull.000_AWING_TEX00005
+    4300006: MainHull.0016_AWING_TEX00005
+    4300008: MainHull.002_AWING_TEX00005
+    4300010: MainHull.003_AWING_TEX00005
+    4300012: MiscHull.011_AWING_TEX00005
+    4300014: RotaryCommunicationSystem.004_AWING_TEX00005
+    4300016: small_base_Cube.002_Stand_sep4_auv
+    4300018: SmallGun.009_AWING_TEX00005
+    4300020: Wing.005_AWING_TEX00005
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

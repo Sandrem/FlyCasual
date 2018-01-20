@@ -11,7 +11,6 @@ namespace SubPhases
 
         public override void Start()
         {
-            Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
             Name = "Setup SubPhase";
         }
 
@@ -108,10 +107,10 @@ namespace SubPhases
             Phases.NextPhase();
         }
 
-        public override bool ThisShipCanBeSelected(Ship.GenericShip ship)
+        public override bool ThisShipCanBeSelected(Ship.GenericShip ship, int mouseKeyIsPressed)
         {
             bool result = false;
-            if ((ship.Owner.PlayerNo == RequiredPlayer) && (ship.PilotSkill == RequiredPilotSkill))
+            if ((ship.Owner.PlayerNo == RequiredPlayer) && (ship.PilotSkill == RequiredPilotSkill) && (Roster.GetPlayer(RequiredPlayer).GetType() == typeof(Players.HumanPlayer)))
             {
                 if (ship.IsSetupPerformed == false)
                 {
@@ -140,6 +139,26 @@ namespace SubPhases
                     Roster.RosterPanelHighlightOn(ship.Value);
                 }
             }
+        }
+
+        public void ConfirmShipSetup(int shipId, Vector3 position, Vector3 angles)
+        {
+            Roster.SetRaycastTargets(true);
+
+            //Temporary
+            GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
+            Game.Position.inReposition = false;
+
+            Selection.ChangeActiveShip("ShipId:" + shipId);
+
+            Selection.ThisShip.SetPosition(position);
+            Selection.ThisShip.SetAngles(angles);
+            Selection.ThisShip.IsSetupPerformed = true;
+
+            Selection.DeselectThisShip();
+            Board.BoardManager.TurnOffStartingZones();
+
+            Phases.Next();
         }
 
     }

@@ -6,19 +6,50 @@ using System.Linq;
 namespace Board
 {
 
-    public class ShipShotDistanceInformation : ShipDistanceInformation
+    public class ShipShotDistanceInformation : GeneralShipDistanceInformation
     {
         public bool IsObstructed { get; private set; }
         public List<GameObject> FiringLines { get; private set; }
         private System.Action CallBack;
 
+        public bool InShotAngle { get; private set; }
+        public bool InPrimaryArc { get; private set; }
+        public bool InBullseyeArc { get; private set; }
+        public bool InMobileArc { get; private set; }
         public bool InArc { get; private set; }
+        public bool CanShootPrimaryWeapon { get; private set; }
+        public bool CanShootTorpedoes { get; private set; }
+        public bool CanShootMissiles { get; private set; }
+        public bool CanShootCannon { get; private set; }
+
+        public new int Range
+        {
+            get
+            {
+                int distance = Mathf.Max(1, Mathf.CeilToInt(Distance / DISTANCE_1));
+
+                if (OnRangeIsMeasured != null) OnRangeIsMeasured(ThisShip, AnotherShip, ChosenWeapon, ref distance);
+
+                return distance;
+            }
+        }
+
+        IShipWeapon ChosenWeapon { get; set; }
 
         private List<List<Vector3>> parallelPointsList;
 
         private int updatesCount = 0;
 
-        public ShipShotDistanceInformation(GenericShip thisShip, GenericShip anotherShip) : base(thisShip, anotherShip) { }
+        //EVENTS
+        public delegate void EventHandlerShipShipWeaponInt(GenericShip thisShip, GenericShip anotherShip, IShipWeapon chosenWeapon, ref int range);
+        public static event EventHandlerShipShipWeaponInt OnRangeIsMeasured;
+
+        public ShipShotDistanceInformation(GenericShip thisShip, GenericShip anotherShip, IShipWeapon chosenWeapon = null) : base(thisShip, anotherShip)
+        {
+            ChosenWeapon = chosenWeapon ?? thisShip.PrimaryWeapon;
+            
+            CalculateFields();
+        }
 
         protected override void CalculateFields()
         {
@@ -30,32 +61,82 @@ namespace Board
 
             parallelPointsList = new List<List<Vector3>>();
 
-            foreach (var objThis in ThisShip.GetStandFrontPoins())
+            // TODO: another types of primaty arcs
+            Dictionary <string, Vector3> shootingPoints = (ThisShip.GetAllWeapons().Count(n => n.CanShootOutsideArc) == 0) ? ThisShip.ArcInfo.GetArcsPoints() : ThisShip.ShipBase.GetStandPoints();
+
+            // TODO: change to use geometry instead of dots
+
+            float distance = float.MaxValue;
+
+            foreach (var pointThis in shootingPoints)
             {
-                foreach (var objAnother in AnotherShip.GetStandPoints())
+                foreach (var pointAnother in AnotherShip.ShipBase.GetStandPoints())
                 {
-                    Vector3 vectorToTarget = objAnother.Value - objThis.Value;
-                    float angle = Mathf.Abs(Vector3.Angle(vectorToTarget, vectorFacing));
+                    // TODO: check this part
+                    Vector3 vectorToTarget = pointAnother.Value - pointThis.Value;
+                    float angle = Vector3.SignedAngle(vectorToTarget, vectorFacing, Vector3.up);
 
-                    if (angle <= 40f)
+                    // TODO: Different checks for primary arc and 360 arc
+
+                    if (ChosenWeapon.CanShootOutsideArc || ChosenWeapon.Host.ArcInfo.InAttackAngle(pointThis.Key, angle))
                     {
-                        InArc = true;
+                        InShotAngle = true;
 
-                        float distance = Vector3.Distance(objThis.Value, objAnother.Value);
+                        if (ChosenWeapon.Host.ArcInfo.InArc(pointThis.Key, angle))
+                        {
+                            InArc = true;
+                        }
+
+                        if (ChosenWeapon.Host.ArcInfo.InPrimaryArc(pointThis.Key, angle))
+                        {
+                            InPrimaryArc = true;
+                        }
+
+                        if (ChosenWeapon.Host.ArcInfo.InBullseyeArc(pointThis.Key, angle))
+                        {
+                            InBullseyeArc = true;
+                        }
+
+                        if (ChosenWeapon.Host.ArcInfo.InMobileArc(pointThis.Key, angle))
+                        {
+                            InMobileArc = true;
+                        }
+
+                        if (ChosenWeapon.Host.ArcInfo.CanShootPrimaryWeapon(pointThis.Key, angle))
+                        {
+                            CanShootPrimaryWeapon = true;
+                        }
+
+                        if (ChosenWeapon.Host.ArcInfo.CanShootTorpedoes(pointThis.Key, angle))
+                        {
+                            CanShootTorpedoes = true;
+                        }
+
+                        if (ChosenWeapon.Host.ArcInfo.CanShootMissiles(pointThis.Key, angle))
+                        {
+                            CanShootMissiles = true;
+                        }
+
+                        if (ChosenWeapon.Host.ArcInfo.CanShootCannon(pointThis.Key, angle))
+                        {
+                            CanShootCannon = true;
+                        }
+
+                        distance = Vector3.Distance(pointThis.Value, pointAnother.Value);
                         if (distance < Distance - PRECISION)
                         {
                             parallelPointsList = new List<List<Vector3>>();
 
                             Distance = distance;
 
-                            ThisShipNearestPoint = objThis.Value;
-                            AnotherShipNearestPoint = objAnother.Value;
+                            ThisShipNearestPoint = pointThis.Value;
+                            AnotherShipNearestPoint = pointAnother.Value;
 
-                            parallelPointsList.Add(new List<Vector3>() { objThis.Value, objAnother.Value });
+                            parallelPointsList.Add(new List<Vector3>() { pointThis.Value, pointAnother.Value });
                         }
                         else if (Mathf.Abs(Distance - distance) < PRECISION)
                         {
-                            parallelPointsList.Add(new List<Vector3>() { objThis.Value, objAnother.Value });
+                            parallelPointsList.Add(new List<Vector3>() { pointThis.Value, pointAnother.Value });
                         }
                     }
                 }
@@ -67,12 +148,12 @@ namespace Board
             if (DebugManager.DebugBoard) Debug.Log("Obstacle checker is launched: " + ThisShip + " vs " + AnotherShip);
 
             FiringLines = new List<GameObject>();
-            GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
+            GameObject prefab = (GameObject)Resources.Load("Prefabs/FiringLine", typeof(GameObject));
             float SIZE_ANY = 91.44f;
 
             foreach (var parallelPoints in parallelPointsList)
             {
-                GameObject FiringLine = MonoBehaviour.Instantiate(Game.PrefabsList.FiringLine, parallelPoints[0], Quaternion.LookRotation(parallelPoints[1]-parallelPoints[0]), BoardManager.GetBoard());
+                GameObject FiringLine = MonoBehaviour.Instantiate(prefab, parallelPoints[0], Quaternion.LookRotation(parallelPoints[1]-parallelPoints[0]), BoardManager.GetBoard());
                 FiringLine.transform.localScale = new Vector3(1, 1, Vector3.Distance(parallelPoints[0], parallelPoints[1]) * SIZE_ANY / 100);
                 FiringLine.SetActive(true);
                 FiringLine.GetComponentInChildren<ObstaclesFiringLineDetector>().PointStart = parallelPoints[0];
@@ -80,6 +161,7 @@ namespace Board
                 FiringLines.Add(FiringLine);
             }
 
+            GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
             Game.Movement.FuncsToUpdate.Add(UpdateColisionDetection);
 
             CallBack = callBack;

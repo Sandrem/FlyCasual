@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Ship;
 
 namespace SubPhases
 {
@@ -10,7 +11,6 @@ namespace SubPhases
 
         public override void Start()
         {
-            Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
             Name = "Planning SubPhase";
         }
 
@@ -29,8 +29,10 @@ namespace SubPhases
 
         public override void Next()
         {
-            if (Roster.AllManuersAreAssigned(RequiredPlayer))
+            if (Roster.AllManuversAreAssigned(RequiredPlayer))
             {
+                HideAssignedManeuversInHotSeatGame();
+
                 if (RequiredPlayer == Phases.PlayerWithInitiative)
                 {
                     RequiredPlayer = Roster.AnotherPlayer(RequiredPlayer);
@@ -46,15 +48,26 @@ namespace SubPhases
             }
         }
 
+        private void HideAssignedManeuversInHotSeatGame()
+        {
+            if (Roster.GetPlayer(Roster.AnotherPlayer(RequiredPlayer)).GetType() != typeof(Players.HotacAiPlayer))
+            {
+                foreach (var shipHolder in Roster.GetPlayer(RequiredPlayer).Ships)
+                {
+                    Roster.ToggelManeuverVisibility(shipHolder.Value, false);
+                }
+            }
+        }
+
         public override void FinishPhase()
         {
             Phases.CurrentPhase.NextPhase();
         }
 
-        public override bool ThisShipCanBeSelected(Ship.GenericShip ship)
+        public override bool ThisShipCanBeSelected(GenericShip ship, int mouseKeyIsPressed)
         {
             bool result = false;
-            if (ship.Owner.PlayerNo == RequiredPlayer)
+            if ((ship.Owner.PlayerNo == RequiredPlayer) && (Roster.GetPlayer(RequiredPlayer).GetType() == typeof(Players.HumanPlayer)))
             {
                 result = true;
             }
@@ -65,10 +78,10 @@ namespace SubPhases
             return result;
         }
 
-        public override int CountActiveButtons(Ship.GenericShip ship)
+        public override int CountActiveButtons(GenericShip ship)
         {
             int result = 0;
-            Game.PrefabsList.ContextMenuPanel.transform.Find("MoveMenuButton").gameObject.SetActive(true);
+            GameObject.Find("UI").transform.Find("ContextMenuPanel").Find("MoveMenuButton").gameObject.SetActive(true);
             result++;
             return result;
         }
@@ -81,6 +94,17 @@ namespace SubPhases
                 ship.Value.HighlightCanBeSelectedOn();
                 Roster.RosterPanelHighlightOn(ship.Value);
             }
+        }
+
+        public override void NextButton()
+        {
+            if (DirectionsMenu.IsVisible) UI.HideDirectionMenu();
+            Next();
+        }
+
+        public override void DoSelectThisShip(GenericShip ship, int mouseKeyIsPressed)
+        {
+            UI.ShowDirectionMenu();
         }
 
     }

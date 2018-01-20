@@ -11,10 +11,9 @@ namespace Ship
             public BlackSquadronPilot() : base()
             {
                 PilotName = "Black Squadron Pilot";
-                ImageUrl = "https://vignette3.wikia.nocookie.net/xwing-miniatures/images/b/b2/Black_Squadron_Pilot.jpg";
                 PilotSkill = 4;
                 Cost = 14;
-                AddUpgradeSlot(Upgrade.UpgradeSlot.Elite);
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
             }
         }
     }

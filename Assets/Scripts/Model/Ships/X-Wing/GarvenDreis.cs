@@ -1,12 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-// TODO:
-// Correct work with combat subphase
-// What if there is no another frienly ships
-// What if I do not want assign token
-// What revert should be done if selected ship does not fulfill all requirements
+using Ship;
+using SubPhases;
+using System;
 
 namespace Ship
 {
@@ -16,70 +13,58 @@ namespace Ship
         {
             public GarvenDreis() : base()
             {
-                IsHidden = true;
-
                 PilotName = "Garven Dreis";
-                ImageUrl = "https://vignette3.wikia.nocookie.net/xwing-miniatures/images/f/f8/Garven-dreis.png";
-                IsUnique = true;
                 PilotSkill = 6;
                 Cost = 26;
-            }
 
-            public override void InitializePilot()
-            {
-                base.InitializePilot();
-                AfterTokenIsSpent += GarvenDreisPilotAbility;
-            }
+                IsUnique = true;
 
-            private void GarvenDreisPilotAbility(GenericShip ship, System.Type type)
-            {
-                if (type == typeof(Tokens.FocusToken))
-                {
-                    if (ship.Owner.Ships.Count > 1)
-                    {
-                        Selection.ActiveShip = ship;
-                        Phases.StartTemporarySubPhase("Place Focus token to another friendly ship at range 1-2", typeof(SubPhases.GarvenDreisAbilitySubPhase));
-                    }
-                }
+                PilotAbilities.Add(new Abilities.GarvenDreisAbility());
             }
-
         }
     }
 }
 
-namespace SubPhases
+namespace Abilities
 {
-
-    public class GarvenDreisAbilitySubPhase : SelectShipSubPhase
+    public class GarvenDreisAbility : GenericAbility
     {
-
-        public override void Prepare()
+        public override void ActivateAbility()
         {
-            isFriendlyAllowed = true;
-            maxRange = 2;
-
-            finishAction = AssignFocusToken;
-
-            Game.UI.ShowSkipButton();
+            HostShip.OnTokenIsSpent += RegisterGarvenDreisPilotAbility;
         }
 
-        public override void Next()
+        public override void DeactivateAbility()
         {
-            Game.UI.HideNextButton();
-            PreviousSubPhase.Resume();
-            base.Next();
+            HostShip.OnTokenIsSpent -= RegisterGarvenDreisPilotAbility;
         }
 
-        private void AssignFocusToken()
+        private void RegisterGarvenDreisPilotAbility(GenericShip ship, System.Type type)
         {
-            TargetShip.AssignToken(new Tokens.FocusToken());
+            RegisterAbilityTrigger(TriggerTypes.OnTokenIsSpent, StartSubphaseForGarvenDreisPilotAbility);
         }
 
-        protected override void RevertSubPhase()
+        private void StartSubphaseForGarvenDreisPilotAbility(object sender, System.EventArgs e)
         {
-            Game.UI.HighlightNextButton();
+            if (HostShip.Owner.Ships.Count > 1)
+            {
+                SelectTargetForAbility(
+                    SelectGarvenDreisAbilityTarget,
+                    new List<TargetTypes>() { TargetTypes.OtherFriendly },
+                    new Vector2(1, 2)
+                );
+            }
+            else
+            {
+                Triggers.FinishTrigger();
+            }
         }
 
+        private void SelectGarvenDreisAbilityTarget()
+        {
+            MovementTemplates.ReturnRangeRuler();
+
+            TargetShip.AssignToken(new Tokens.FocusToken(), SelectShipSubPhase.FinishSelection);
+        }
     }
-
 }

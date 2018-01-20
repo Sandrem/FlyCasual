@@ -2,17 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Movement;
+using ActionsList;
 
 namespace Ship
 {
     namespace TIEFighter
     {
-        public class TIEFighter : GenericShip
+        public class TIEFighter : GenericShip, TIE
         {
 
             public TIEFighter() : base()
             {
                 Type = "TIE Fighter";
+                IconicPilot = "Black Squadron Pilot";
+
                 ManeuversImageUrl = "https://vignette1.wikia.nocookie.net/xwing-miniatures/images/b/b6/TIE_Fighter_Move.png";
 
                 Firepower = 2;
@@ -20,11 +23,17 @@ namespace Ship
                 MaxHull = 3;
                 MaxShields = 0;
 
-                AssignTemporaryManeuvers();
-                HotacManeuverTable = new TIEFighterTable();
+                PrintedActions.Add(new EvadeAction());
+                PrintedActions.Add(new BarrelRollAction());
 
-                factions.Add(Faction.Empire);
-                faction = Faction.Empire;
+                AssignTemporaryManeuvers();
+                HotacManeuverTable = new AI.TIEFighterTable();
+
+                factions.Add(Faction.Imperial);
+                factions.Add(Faction.Rebel);
+                faction = Faction.Imperial;
+
+                SkinName = "Gray";
 
                 SoundShotsPath = "TIE-Fire";
                 ShotsCount = 2;
@@ -33,13 +42,6 @@ namespace Ship
                 {
                     SoundFlyPaths.Add("TIE-Fly" + i);
                 }
-            }
-
-            public override void InitializeShip()
-            {
-                base.InitializeShip();
-                BuiltInActions.Add(new ActionsList.EvadeAction());
-                BuiltInActions.Add(new ActionsList.BarrelRollAction());
             }
 
             private void AssignTemporaryManeuvers()

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Movement;
+using ActionsList;
 
 namespace Ship
 {
@@ -13,6 +14,8 @@ namespace Ship
             public YWing() : base()
             {
                 Type = "Y-Wing";
+                IconicPilot = "Horton Salm";
+
                 ManeuversImageUrl = "https://vignette4.wikia.nocookie.net/xwing-miniatures/images/1/18/MR_Y-WING.png";
 
                 Firepower = 2;
@@ -20,16 +23,19 @@ namespace Ship
                 MaxHull = 5;
                 MaxShields = 3;
 
-                AddUpgradeSlot(Upgrade.UpgradeSlot.Turret);
-                AddUpgradeSlot(Upgrade.UpgradeSlot.Astromech);
-                AddUpgradeSlot(Upgrade.UpgradeSlot.Torpedoes);
-                AddUpgradeSlot(Upgrade.UpgradeSlot.Torpedoes);
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Turret);
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Torpedo);
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Torpedo);
+
+                PrintedActions.Add(new TargetLockAction());
 
                 AssignTemporaryManeuvers();
-                HotacManeuverTable = new YWingTable();
+                HotacManeuverTable = new AI.YWingTable();
 
-                factions.Add(Faction.Rebels);
-                faction = Faction.Rebels;
+                factions.Add(Faction.Rebel);
+                factions.Add(Faction.Scum);
+
+                SkinName = "Yellow";
 
                 SoundShotsPath = "XWing-Laser";
                 ShotsCount = 2;
@@ -38,14 +44,8 @@ namespace Ship
                 {
                     SoundFlyPaths.Add("YWing-Fly" + i);
                 }
-                
             }
 
-            public override void InitializeShip()
-            {
-                base.InitializeShip();
-                BuiltInActions.Add(new ActionsList.TargetLockAction());
-            }
 
             private void AssignTemporaryManeuvers()
             {

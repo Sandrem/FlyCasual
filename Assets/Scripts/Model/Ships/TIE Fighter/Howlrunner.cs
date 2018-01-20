@@ -1,6 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using Ship;
+using System;
 
 namespace Ship
 {
@@ -11,83 +14,103 @@ namespace Ship
             public Howlrunner() : base()
             {
                 PilotName = "\"Howlrunner\"";
-                ImageUrl = "https://vignette4.wikia.nocookie.net/xwing-miniatures/images/7/71/Howlrunner.png";
-                IsUnique = true;
                 PilotSkill = 8;
                 Cost = 18;
-                AddUpgradeSlot(Upgrade.UpgradeSlot.Elite);
+
+                IsUnique = true;
+
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
+
+                PilotAbilities.Add(new Abilities.HowlrunnerAbility());
             }
-
-            public override void InitializePilot()
-            {
-                base.InitializePilot();
-
-                GenericShip.AfterGenerateAvailableActionEffectsListGlobal += HowlrunnerAbility;
-            }
-
-            private void HowlrunnerAbility()
-            {
-                Combat.Attacker.AddAvailableActionEffect(new ActionsList.HowlrunnerAction());
-            }
-
         }
     }
 }
 
-namespace ActionsList
+namespace Abilities
 {
-
-    public class HowlrunnerAction : GenericAction
+    public class HowlrunnerAbility : GenericAbility
     {
-        public HowlrunnerAction()
+        public override void ActivateAbility()
         {
-            Name = EffectName = "Howlrunner";
-            IsReroll = true;
+            GenericShip.AfterGenerateAvailableActionEffectsListGlobal += AddHowlrunnerAbility;
         }
 
-        public override bool IsActionEffectAvailable()
+        public override void DeactivateAbility()
         {
-            bool result = false;
-            if (Combat.AttackStep == CombatStep.Attack)
+            GenericShip.AfterGenerateAvailableActionEffectsListGlobal -= AddHowlrunnerAbility;
+        }
+
+        private void AddHowlrunnerAbility()
+        {
+            Combat.Attacker.AddAvailableActionEffect(new HowlrunnerAction() { Host = this.HostShip });
+        }
+
+        private class HowlrunnerAction : ActionsList.GenericAction
+        {
+            public HowlrunnerAction()
             {
-                if (Combat.SecondaryWeapon == null)
+                Name = EffectName = "Howlrunner's ability";
+                IsReroll = true;
+            }
+
+            public override bool IsActionEffectAvailable()
+            {
+                bool result = false;
+                if (Combat.AttackStep == CombatStep.Attack)
                 {
-                    if (Combat.Attacker.GetType() != typeof(Ship.TIEFighter.Howlrunner))
+                    if (Combat.ChosenWeapon.GetType() == typeof(PrimaryWeaponClass))
                     {
-                        Ship.GenericShip Howlrunner = null;
-                        foreach (var friendlyShip in Combat.Attacker.Owner.Ships)
+                        if (Combat.Attacker.ShipId != Host.ShipId)
                         {
-                            if (friendlyShip.Value.GetType() == typeof(Ship.TIEFighter.Howlrunner))
+                            if (Combat.Attacker.Owner.PlayerNo == Host.Owner.PlayerNo)
                             {
-                                Howlrunner = friendlyShip.Value;
-                                break;
-                            }
-                        }
-                        if (Howlrunner != null)
-                        {
-                            Board.ShipDistanceInformation positionInfo = new Board.ShipDistanceInformation(Howlrunner, Combat.Attacker);
-                            if (positionInfo.Range == 1)
-                            {
-                                result = true;
+                                Board.ShipDistanceInformation positionInfo = new Board.ShipDistanceInformation(Host, Combat.Attacker);
+                                if (positionInfo.Range == 1)
+                                {
+                                    result = true;
+                                }
                             }
                         }
                     }
                 }
+
+                return result;
             }
 
-            return result;
-        }
+            public override int GetActionEffectPriority()
+            {
+                int result = 0;
 
-        public override void ActionEffect()
-        {
-            Dices.RerollOne(Combat.CurentDiceRoll, Unblock);
-        }
+                if (Combat.AttackStep == CombatStep.Attack)
+                {
+                    int attackFocuses = Combat.DiceRollAttack.FocusesNotRerolled;
+                    int attackBlanks = Combat.DiceRollAttack.BlanksNotRerolled;
 
-        private void Unblock(DiceRoll diceRoll)
-        {
-            //Todo: Unblock buttons
+                    //if (Combat.Attacker.HasToken(typeof(Tokens.FocusToken)))
+                    if (Combat.Attacker.GetAvailableActionEffectsList().Count(n => n.IsTurnsAllFocusIntoSuccess) > 0)
+                    {
+                        if (attackBlanks > 0) result = 90;
+                    }
+                    else
+                    {
+                        if (attackBlanks + attackFocuses > 0) result = 90;
+                    }
+                }
+
+                return result;
+            }
+
+            public override void ActionEffect(System.Action callBack)
+            {
+                DiceRerollManager diceRerollManager = new DiceRerollManager
+                {
+                    NumberOfDiceCanBeRerolled = 1,
+                    CallBack = callBack
+                };
+                diceRerollManager.Start();
+            }
         }
 
     }
-
 }

@@ -2,17 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Movement;
+using ActionsList;
 
 namespace Ship
 {
     namespace TIEAdvanced
     {
-        public class TIEAdvanced : GenericShip
+        public class TIEAdvanced : GenericShip, TIE
         {
 
             public TIEAdvanced() : base()
             {
                 Type = "TIE Advanced";
+                IconicPilot = "Darth Vader";
+
                 ManeuversImageUrl = "https://vignette1.wikia.nocookie.net/xwing-miniatures/images/8/85/MI_TIE-ADVANCED.png";
 
                 Firepower = 2;
@@ -20,13 +23,19 @@ namespace Ship
                 MaxHull = 3;
                 MaxShields = 2;
 
-                AddUpgradeSlot(Upgrade.UpgradeSlot.Missiles);
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Missile);
+
+                PrintedActions.Add(new EvadeAction());
+                PrintedActions.Add(new BarrelRollAction());
+                PrintedActions.Add(new TargetLockAction());
 
                 AssignTemporaryManeuvers();
-                HotacManeuverTable = new TIEAdvancedTable();
+                HotacManeuverTable = new AI.TIEAdvancedTable();
 
-                factions.Add(Faction.Empire);
-                faction = Faction.Empire;
+                factions.Add(Faction.Imperial);
+                faction = Faction.Imperial;
+
+                SkinName = "Gray";
 
                 SoundShotsPath = "TIE-Fire";
                 ShotsCount = 2;
@@ -35,14 +44,6 @@ namespace Ship
                 {
                     SoundFlyPaths.Add("TIE-Fly" + i);
                 }
-            }
-
-            public override void InitializeShip()
-            {
-                base.InitializeShip();
-                BuiltInActions.Add(new ActionsList.EvadeAction());
-                BuiltInActions.Add(new ActionsList.BarrelRollAction());
-                BuiltInActions.Add(new ActionsList.TargetLockAction());
             }
 
             private void AssignTemporaryManeuvers()

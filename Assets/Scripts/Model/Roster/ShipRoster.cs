@@ -3,30 +3,24 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Players;
+using Ship;
+using SquadBuilderNS;
 
 public static partial class Roster
 {
     //Players
 
-    public static List<GenericPlayer> Players = new List<GenericPlayer>();
+    public static List<GenericPlayer> Players;
 
-    private static GenericPlayer player1;
-    public static GenericPlayer Player1 { get { return Players[0]; } }
-
-    private static GenericPlayer player2;
-    public static GenericPlayer Player2 { get { return Players[1]; } }
+    public static GenericPlayer Player1 { get { return Players.Find(n => n.PlayerNo == PlayerNo.Player1); } }
+    public static GenericPlayer Player2 { get { return Players.Find(n => n.PlayerNo == PlayerNo.Player2); } }
 
     //Ships
 
-    public static Dictionary<string, Ship.GenericShip> AllShips = new Dictionary<string, Ship.GenericShip>();
+    public static Dictionary<string, GenericShip> AllShips;
 
-    private static Dictionary<string, Ship.GenericShip> shipsPlayer1;
-    public static Dictionary<string, Ship.GenericShip> ShipsPlayer1 { get { return Players[0].Ships; } }
-
-    private static Dictionary<string, Ship.GenericShip> shipsPlayer2;
-    public static Dictionary<string, Ship.GenericShip> ShipsPlayer2 {get { return Players[1].Ships; } }
-
-    private static GameManagerScript Game;
+    public static Dictionary<string, GenericShip> ShipsPlayer1 { get { return Player1.Ships; } }
+    public static Dictionary<string, GenericShip> ShipsPlayer2 {get { return Player2.Ships; } }
 
     public static void Start()
     {
@@ -34,43 +28,50 @@ public static partial class Roster
         SpawnAllShips();
     }
 
-    // Use this for initialization
-    static Roster()
-    {
-        Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-
-        //TODO: ???
-        //Game.Phases.OnCombatPhaseStart += HideAssignedDials;
-    }
-
     //PLAYERS CREATION
 
     private static void CreatePlayers()
     {
-        foreach (var playerType in Global.PlayerTypes)
+        foreach (var squadList in SquadBuilder.SquadLists)
         {
-            CreatePlayer(playerType);
+            GenericPlayer player = CreatePlayer(squadList.PlayerType, squadList.PlayerNo);
+            Players.Add(player);
         }
     }
 
-    private static void CreatePlayer(System.Type type)
+    private static GenericPlayer CreatePlayer(System.Type type, PlayerNo playerNo)
     {
-        System.Activator.CreateInstance(type);
+        GenericPlayer player = (GenericPlayer) System.Activator.CreateInstance(type);
+        player.SetPlayerNo(playerNo);
+        return player;
     }
 
     //SHIP CREATION
 
     private static void SpawnAllShips()
     {
-        foreach (var shipConfig in Global.ShipConfigurations)
+        foreach (var squadList in SquadBuilder.SquadLists)
         {
-            Ship.GenericShip newShip = ShipFactory.SpawnShip(shipConfig);
+            SquadBuilder.SetPlayerSquadFromImportedJson(squadList.SavedConfiguration, squadList.PlayerNo, delegate { });
+            Roster.GetPlayer(squadList.PlayerNo).SquadCost = squadList.Points;
+        }
+
+        // Keep order, ships must have same ID on both clients
+        foreach (SquadBuilderShip shipConfig in SquadBuilder.GetSquadList(PlayerNo.Player1).GetShips())
+        {
+            GenericShip newShip = ShipFactory.SpawnShip(shipConfig);
             AddShipToLists(newShip);
         }
+        foreach (SquadBuilderShip shipConfig in SquadBuilder.GetSquadList(PlayerNo.Player2).GetShips())
+        {
+            GenericShip newShip = ShipFactory.SpawnShip(shipConfig);
+            AddShipToLists(newShip);
+        }
+
         Board.BoardManager.SetShips();
     }
 
-    private static void AddShipToLists(Ship.GenericShip newShip)
+    private static void AddShipToLists(GenericShip newShip)
     {
         AllShips.Add(newShip.GetTag(), newShip);
         newShip.Owner.Ships.Add(newShip.GetTag(), newShip);
@@ -80,24 +81,68 @@ public static partial class Roster
 
     public static void DestroyShip(string id)
     {
-        GetShipById(id).SetActive(false);
-        GetShipById(id).InfoPanel.SetActive(false);
-        OrganizeRosterPositions();
-
-        RemoveShipFromLists(id);
+        HideShip(id);
     }
 
-    private static void RemoveShipFromLists(string id)
+    public static void HideShip(string id)
     {
-        GetShipById(id).Owner.Ships.Remove(id);
-        AllShips.Remove(id);
+        var ship = GetShipById(id);
+
+        if (ship != null)
+        {
+            ship.SetActive(false);
+            ship.InfoPanel.SetActive(false);
+            ship.Owner.Ships.Remove(id);
+            AllShips.Remove(id);
+        }
+    }
+
+    public static void DockShip(string id)
+    {
+        var ship = GetShipById(id);
+
+        if (ship != null)
+        {
+            ship.SetActive(false);
+            TogglePanelActive(ship, false);
+            ship.SetDockedName(true);
+            ship.Owner.Ships.Remove(id);
+            AllShips.Remove(id);
+        }
+    }
+
+    public static void UndockShip(GenericShip ship)
+    {
+        if (ship != null)
+        {
+            ship.SetActive(true);
+            TogglePanelActive(ship, true);
+            ship.SetDockedName(false);
+            ship.Owner.Ships.Add("ShipId:" + ship.ShipId, ship);
+            AllShips.Add("ShipId:" + ship.ShipId, ship);
+        }
+    }
+
+    public static void ShowShip(GenericShip ship)
+    {
+        if (ship != null)
+        {
+            ship.SetActive(true);
+            ship.InfoPanel.SetActive(true);
+            ship.Owner.Ships.Add("ShipId:" + ship.ShipId, ship);
+            AllShips.Add("ShipId:" + ship.ShipId, ship);
+        }
     }
 
     //TOOLS
 
-    public static Ship.GenericShip GetShipById(string id)
+    public static GenericShip GetShipById(string id)
     {
-        return AllShips[id];
+		if (AllShips.Any (x => x.Key == id)) {
+			return AllShips[id];
+		}
+
+		return null;
     }
 
     public static GenericPlayer GetPlayer(PlayerNo playerNo)
@@ -117,7 +162,7 @@ public static partial class Roster
 
     //FIND SHIPS BY REQUEST
 
-    public static Dictionary<string, Ship.GenericShip> ListSamePlayerAndPilotSkill(Ship.GenericShip thisShip)
+    public static Dictionary<string, GenericShip> ListSamePlayerAndPilotSkill(GenericShip thisShip)
     {
         var results =
             from n in AllShips
@@ -142,7 +187,7 @@ public static partial class Roster
 
     // CHECK ALL SHIPS IN ROSTER
 
-    public static bool AllManuersAreAssigned(PlayerNo playerNo)
+    public static bool AllManuversAreAssigned(PlayerNo playerNo)
     {
         var results =
             from n in AllShips
@@ -165,7 +210,7 @@ public static partial class Roster
         return (results.Count() == 0);
     }
 
-    public static bool NoSamePlayerAndPilotSkillNotMoved(Ship.GenericShip thisShip)
+    public static bool NoSamePlayerAndPilotSkillNotMoved(GenericShip thisShip)
     {
         var results =
             from n in ListSamePlayerAndPilotSkill(thisShip)
@@ -175,9 +220,9 @@ public static partial class Roster
         return (results.Count() == 0);
     }
 
-    public static bool NoSamePlayerAndPilotSkillNotAttacked(Ship.GenericShip thisShip)
+    public static bool NoSamePlayerAndPilotSkillNotAttacked(GenericShip thisShip)
     {
-        Dictionary<string, Ship.GenericShip> samePlayerAndPilotSkill = ListSamePlayerAndPilotSkill(thisShip);
+        Dictionary<string, GenericShip> samePlayerAndPilotSkill = ListSamePlayerAndPilotSkill(thisShip);
         foreach (var item in samePlayerAndPilotSkill)
         {
             if (item.Value.IsAttackPerformed == false)
@@ -216,16 +261,22 @@ public static partial class Roster
 
     // NEW
 
-    public static void HighlightShipsFiltered(PlayerNo playerNo, int pilotSkill = -1)
+    public static void HighlightShipsFiltered(PlayerNo playerNo, int pilotSkill = -1, List<GenericShip> exceptShips = null)
     {
+        if (exceptShips == null) exceptShips = new List<GenericShip>();
+
         AllShipsHighlightOff();
         foreach (var ship in GetPlayer(playerNo).Ships)
         {
-            if ((pilotSkill == -1) || (ship.Value.PilotSkill == pilotSkill))
+            if (!exceptShips.Contains(ship.Value))
             {
-                ship.Value.HighlightCanBeSelectedOn();
-                RosterPanelHighlightOn(ship.Value);
+                if ((pilotSkill == -1) || (ship.Value.PilotSkill == pilotSkill))
+                {
+                    ship.Value.HighlightCanBeSelectedOn();
+                    RosterPanelHighlightOn(ship.Value);
+                }
             }
+
         }
     }
 
@@ -238,7 +289,7 @@ public static partial class Roster
         }
     }
 
-    public static void HighlightShipOff(Ship.GenericShip ship)
+    public static void HighlightShipOff(GenericShip ship)
     {
         ship.HighlightCanBeSelectedOff();
         RosterPanelHighlightOff(ship);

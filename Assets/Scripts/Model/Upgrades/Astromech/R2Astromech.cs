@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Upgrade;
+using Abilities;
 
 namespace UpgradesList
 {
@@ -11,20 +12,32 @@ namespace UpgradesList
 
         public R2Astromech() : base()
         {
-            Type = UpgradeSlot.Astromech;
-            Name = ShortName = "R2 Astromech";
-            ImageUrl = "https://vignette1.wikia.nocookie.net/xwing-miniatures/images/6/6a/R2_Astromech.jpg";
+            Type = UpgradeType.Astromech;
+            Name = "R2 Astromech";
             Cost = 1;
+
+            UpgradeAbilities.Add(new R2AstromechAbility());
         }
 
-        public override void AttachToShip(Ship.GenericShip host)
+    }
+
+}
+
+namespace Abilities
+{
+    public class R2AstromechAbility : GenericAbility
+    {
+        public override void ActivateAbility()
         {
-            base.AttachToShip(host);
-
-            host.AfterGetManeuverColorDecreaseComplexity += R2AstromechAbility;
+            HostShip.AfterGetManeuverColorDecreaseComplexity += CheckR2AstromechAbility;
         }
 
-        private void R2AstromechAbility(Ship.GenericShip ship, ref Movement.MovementStruct movement)
+        public override void DeactivateAbility()
+        {
+            HostShip.AfterGetManeuverColorDecreaseComplexity -= CheckR2AstromechAbility;
+        }
+
+        private void CheckR2AstromechAbility(Ship.GenericShip ship, ref Movement.MovementStruct movement)
         {
             if (movement.ColorComplexity != Movement.ManeuverColor.None)
             {
@@ -34,7 +47,5 @@ namespace UpgradesList
                 }
             }
         }
-
     }
-
 }

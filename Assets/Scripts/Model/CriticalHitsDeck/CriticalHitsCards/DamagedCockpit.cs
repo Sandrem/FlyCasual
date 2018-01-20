@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Ship;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,46 +7,41 @@ using UnityEngine;
 namespace CriticalHitCard
 {
 
-    public class DamagedCockpit : GenericCriticalHit
+    public class DamagedCockpit : GenericCriticalHit, IModifyPilotSkill
     {
         public DamagedCockpit()
         {
             Name = "Damaged Cockpit";
             Type = CriticalCardType.Ship;
-            ImageUrl = "http://i.imgur.com/SJjkO3L.jpg";
         }
 
         public override void ApplyEffect(object sender, EventArgs e)
         {
-            Messages.ShowInfo("Pilot Skill is set to 0");
-            Game.UI.AddTestLogEntry("Pilot Skill is set to 0");
-            Host.AssignToken(new Tokens.DamagedCockpitCritToken());
-
             Phases.OnRoundStart += ApplyDelayedEffect;
 
-            Triggers.FinishTrigger();
+            Host.AssignToken(new Tokens.DamagedCockpitCritToken(), Triggers.FinishTrigger);
         }
 
         private void ApplyDelayedEffect()
         {
-            Host.AfterGetPilotSkill += SetPilotSkill0;
+            Phases.OnRoundStart -= ApplyDelayedEffect;
+
+            Host.AddPilotSkillModifier(this);
             Roster.UpdateShipStats(Host);
         }
 
         public override void DiscardEffect(Ship.GenericShip host)
         {
             Messages.ShowInfo("Pilot Skill is restored");
-            Game.UI.AddTestLogEntry("Pilot Skill is restored");
 
             host.RemoveToken(typeof(Tokens.DamagedCockpitCritToken));
-            host.AfterGetPilotSkill -= SetPilotSkill0;
+            host.RemovePilotSkillModifier(this);
             Roster.UpdateShipStats(host);
         }
 
-        private void SetPilotSkill0(ref int value)
+        public void ModifyPilotSkill(ref int pilotSkill)
         {
-            //BUG: No activations at all
-            value = 0;
+            pilotSkill = 0;
         }
     }
 

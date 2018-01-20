@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class ObstaclesStayDetector: MonoBehaviour {
 
-    private GameManagerScript Game;
-
     public bool checkCollisions = false;
 
     public bool OverlapsShip = false;
@@ -14,30 +12,35 @@ public class ObstaclesStayDetector: MonoBehaviour {
     public bool OverlapsAsteroid = false;
     public List<Collider> OverlapedAsteroids = new List<Collider>();
 
-    // Use this for initialization
-    void Start () {
-        Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-    }
-	
-	// Update is called once per frame
-	void Update () {
+    public List<Collider> OverlapedMines = new List<Collider>();
 
-	}
+    public bool OffTheBoard = false;
 
     void OnTriggerEnter(Collider collisionInfo)
     {
         if (checkCollisions)
         {
+            GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
             if (collisionInfo.tag == "Asteroid")
             {
-                Game.Movement.ObstacleEnter = collisionInfo;
                 OverlapsAsteroid = true;
                 if (!OverlapedAsteroids.Contains(collisionInfo))
                 {
                     OverlapedAsteroids.Add(collisionInfo);
                 }
             }
-            if (collisionInfo.name == "ObstaclesStayDetector")
+            else if (collisionInfo.tag == "Mine")
+            {
+                if (!OverlapedMines.Contains(collisionInfo))
+                {
+                    OverlapedMines.Add(collisionInfo);
+                }
+            }
+            else if (collisionInfo.name == "OffTheBoard")
+            {
+                OffTheBoard = true;
+            }
+            else if (collisionInfo.name == "ObstaclesStayDetector")
             {
                 if (collisionInfo.tag != this.tag)
                 {
@@ -52,37 +55,21 @@ public class ObstaclesStayDetector: MonoBehaviour {
         }
     }
 
-    void OnTriggerStay(Collider collisionInfo)
+    private void OnTriggerExit(Collider collisionInfo)
     {
-        //TODO: Change to OnTriggerEnter
-        /*if (checkCollisions)
+        if (checkCollisions)
         {
             if (collisionInfo.name == "ObstaclesStayDetector")
             {
                 if (collisionInfo.tag != this.tag)
                 {
-                    Game.Movement.CollidedWith = collisionInfo;
+                    if (OverlapedShips.Contains(Roster.GetShipById(collisionInfo.tag)))
+                    {
+                        OverlapedShips.Remove(Roster.GetShipById(collisionInfo.tag));
+                    }
                 }
             }
-        }*/
-    }
-
-    void OnTriggerExit(Collider collisionInfo)
-    {
-        /*if (checkCollisions)
-        {
-            if (collisionInfo.name == "ObstaclesStayDetector")
-            {
-                Game.Movement.CollidedWith = null;
-                Selection.ThisShip.LastShipCollision = Roster.GetShipById(collisionInfo.tag);
-            }
-
-            if (collisionInfo.tag == "Asteroid")
-            {
-                Game.Movement.ObstacleExit = collisionInfo;
-                OverlapsAsteroid = false;
-            }
-        }*/
+        }
     }
 
 }

@@ -12,20 +12,14 @@ namespace CriticalHitCard
         {
             Name = "Console Fire";
             Type = CriticalCardType.Ship;
-            ImageUrl = "http://i.imgur.com/Jamd8dB.jpg";
         }
 
         public override void ApplyEffect(object sender, EventArgs e)
         {
-            Messages.ShowInfo("At the start of each Combat phase, roll 1 attack die.");
-            Game.UI.AddTestLogEntry("At the start of each Combat phase, roll 1 attack die.");
-            Host.AssignToken(new Tokens.ConsoleFireCritToken());
-
             Host.OnCombatPhaseStart += PlanRollForDamage;
-
             Host.AfterGenerateAvailableActionsList += AddCancelCritAction;
 
-            Triggers.FinishTrigger();
+            Host.AssignToken(new Tokens.ConsoleFireCritToken(), Triggers.FinishTrigger);
         }
 
         private void PlanRollForDamage(Ship.GenericShip host)
@@ -41,7 +35,8 @@ namespace CriticalHitCard
         private void RollForDamage(object sender, EventArgs e)
         {
             Selection.ActiveShip = Host;
-            Phases.StartTemporarySubPhase(
+            Selection.ThisShip = Host;
+            Phases.StartTemporarySubPhaseOld(
                 "Console Fire",
                 typeof(SubPhases.ConsoleFireCheckSubPhase),
                 delegate {
@@ -70,8 +65,8 @@ namespace SubPhases
 
         public override void Prepare()
         {
-            dicesType = DiceKind.Attack;
-            dicesCount = 1;
+            diceType = DiceKind.Attack;
+            diceCount = 1;
 
             finishAction = FinishAction;
 
@@ -82,7 +77,7 @@ namespace SubPhases
         {
             HideDiceResultMenu();
 
-            if (CurrentDiceRoll.DiceList[0].Side == DiceSide.Success)
+            if (CurrentDiceRoll.DiceList[0].Side == DieSide.Success)
             {
                 SufferDamage();
             }
@@ -97,7 +92,6 @@ namespace SubPhases
         private void SufferDamage()
         {
             Messages.ShowError("Console Fire: ship suffered damage");
-            Game.UI.AddTestLogEntry("Console Fire: ship suffered damage");
 
             Selection.ActiveShip.AssignedDamageDiceroll.DiceList.Add(CurrentDiceRoll.DiceList[0]);
 
@@ -106,16 +100,21 @@ namespace SubPhases
                 Name = "Suffer damage",
                 TriggerType = TriggerTypes.OnDamageIsDealt,
                 TriggerOwner = Selection.ActiveShip.Owner.PlayerNo,
-                EventHandler = Selection.ActiveShip.SufferDamage
+                EventHandler = Selection.ActiveShip.SufferDamage,
+                EventArgs = new DamageSourceEventArgs()
+                {
+                    Source = "Critical hit card",
+                    DamageType = DamageTypes.CriticalHitCard
+                }
             });
 
-            Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, callBack);
+            Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, CallBack);
         }
 
         private void NoDamage()
         {
             Messages.ShowInfoToHuman("No damage");
-            callBack();
+            CallBack();
         }
     }
 

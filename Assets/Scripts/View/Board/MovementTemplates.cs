@@ -6,8 +6,6 @@ using Board;
 
 public static class MovementTemplates {
 
-    private static GameManagerScript Game;
-
 	private static Vector3 savedRulerPosition;
 	private static Vector3 savedRulerRotation;
     private static List<Vector3> rulerCenterPoints = new List<Vector3>();
@@ -15,10 +13,9 @@ public static class MovementTemplates {
     private static Transform Templates;
     public static Transform CurrentTemplate;
 
-    static MovementTemplates()
+    public static void PrepareMovementTemplates()
     {
-        Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-        Templates = Game.PrefabsList.RulersHolderTransform;
+        Templates = GameObject.Find("SceneHolder/Board/RulersHolder").transform;
     }
 
     public static void AddRulerCenterPoint(Vector3 point)
@@ -26,7 +23,7 @@ public static class MovementTemplates {
         rulerCenterPoints.Add(point);
     }
 
-    public static void ResetRuler(Ship.GenericShip ship)
+    public static void ResetRuler()
     {
         rulerCenterPoints = new List<Vector3>();
         HideLastMovementRuler();
@@ -53,19 +50,26 @@ public static class MovementTemplates {
 
         if (Selection.ThisShip.AssignedManeuver.Speed != 0)
         {
-            CurrentTemplate = GetMovementRuler();
+            ApplyMovementRuler(thisShip, thisShip.AssignedManeuver);
+        }        
+	}
 
+    public static void ApplyMovementRuler(Ship.GenericShip thisShip, Movement.GenericMovement movement)
+    {
+        CurrentTemplate = GetMovementRuler(movement);
+
+        if (CurrentTemplate != null)
+        {
             SaveCurrentMovementRulerPosition();
 
             CurrentTemplate.position = thisShip.GetPosition();
             CurrentTemplate.eulerAngles = thisShip.GetAngles() + new Vector3(0f, 90f, 0f);
-            if (Selection.ThisShip.AssignedManeuver.Direction == Movement.ManeuverDirection.Left)
+            if (movement.Direction == Movement.ManeuverDirection.Left)
             {
                 CurrentTemplate.eulerAngles = CurrentTemplate.eulerAngles + new Vector3(180f, 0f, 0f);
             }
         }
-        
-	}
+    }
 
     public static void SaveCurrentMovementRulerPosition()
     {
@@ -73,26 +77,40 @@ public static class MovementTemplates {
         savedRulerRotation = CurrentTemplate.eulerAngles;
     }
 
-    private static Transform GetMovementRuler()
+    public static Transform GetMovementRuler(Movement.GenericMovement movement)
     {
+        ResetRuler();
+
         Transform result = null;
-        switch (Selection.ThisShip.AssignedManeuver.Bearing)
+        if (movement != null)
         {
-            case Movement.ManeuverBearing.Straight:
-                return Templates.Find("straight" + Selection.ThisShip.AssignedManeuver.Speed);
-            case Movement.ManeuverBearing.Bank:
-                return Templates.Find("bank" + Selection.ThisShip.AssignedManeuver.Speed);
-            case Movement.ManeuverBearing.Turn:
-                return Templates.Find("turn" + Selection.ThisShip.AssignedManeuver.Speed);
-            case Movement.ManeuverBearing.KoiogranTurn:
-                return Templates.Find("straight" + Selection.ThisShip.AssignedManeuver.Speed);
+            switch (movement.Bearing)
+            {
+                case Movement.ManeuverBearing.Straight:
+                    return Templates.Find("straight" + movement.Speed);
+                case Movement.ManeuverBearing.Bank:
+                    return Templates.Find("bank" + movement.Speed);
+                case Movement.ManeuverBearing.SegnorsLoop:
+                    return Templates.Find("bank" + movement.Speed);
+                case Movement.ManeuverBearing.Turn:
+                    return Templates.Find("turn" + movement.Speed);
+                case Movement.ManeuverBearing.TallonRoll:
+                    return Templates.Find("turn" + movement.Speed);
+                case Movement.ManeuverBearing.KoiogranTurn:
+                    return Templates.Find("straight" + movement.Speed);
+                case Movement.ManeuverBearing.Stationary:
+                    return null;
+            }
         }
         return result;
     }
 
     public static void HideLastMovementRuler(){
-        CurrentTemplate.position = savedRulerPosition;
-		CurrentTemplate.eulerAngles = savedRulerRotation;
+        if (CurrentTemplate != null)
+        {
+            CurrentTemplate.position = savedRulerPosition;
+            CurrentTemplate.eulerAngles = savedRulerRotation;
+        }
 	}
 
     public static void ShowRange(Ship.GenericShip thisShip, Ship.GenericShip anotherShip)
@@ -100,20 +118,20 @@ public static class MovementTemplates {
         ShowRangeRuler(new ShipDistanceInformation(thisShip, anotherShip));
     }
 
-    public static void ShowFiringArcRange(ShipShotDistanceInformation shotInfo)
+    public static bool ShowFiringArcRange(ShipShotDistanceInformation shotInfo)
     {
-        if (shotInfo.InArc)
+        if (shotInfo.InShotAngle)
         {
             ShowRangeRuler(shotInfo);
         }
         else
         {
-            Messages.ShowErrorToHuman("Out of arc!");
             ShowRangeRuler(new ShipShotOutOfArcDistanceInformation(shotInfo.ThisShip, shotInfo.AnotherShip));
         }
+        return shotInfo.InShotAngle;
     }
 
-    public static void ShowRangeRuler(ShipDistanceInformation shipDistanceInfo)
+    public static void ShowRangeRuler(GeneralShipDistanceInformation shipDistanceInfo)
     {
         Templates.Find("RangeRuler").position = shipDistanceInfo.ThisShipNearestPoint;
         Templates.Find("RangeRuler").rotation = Quaternion.LookRotation(shipDistanceInfo.Vector);
@@ -132,7 +150,16 @@ public static class MovementTemplates {
 
     public static Transform GetMovement1Ruler()
     {
-        return Templates.Find("straight1");
+        CurrentTemplate = Templates.Find("straight1");
+        SaveCurrentMovementRulerPosition();
+        return CurrentTemplate;
+    }
+
+    public static Transform GetMovement2Ruler()
+    {
+        CurrentTemplate = Templates.Find("straight2");
+        SaveCurrentMovementRulerPosition();
+        return CurrentTemplate;
     }
 
 }

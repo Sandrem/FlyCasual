@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Ship;
 using UnityEngine;
 
 namespace Board
@@ -21,22 +22,25 @@ namespace Board
         public static readonly float DISTANCE_1 = 4f;
         public static readonly float RANGE_1 = 10f;
 
-        static BoardManager()
+        public static void Initialize()
         {
-            Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
+            BoardTransform = GameObject.Find("SceneHolder/Board").transform;
+            RulersHolderTransform = BoardTransform.Find("RulersHolder");
+            StartingZone1 = BoardTransform.Find("Playmat/StaringZone1").gameObject;
+            StartingZone2 = BoardTransform.Find("Playmat/StaringZone2").gameObject;
 
-            BoardTransform = Game.PrefabsList.BoardTransform;
-            RulersHolderTransform = Game.PrefabsList.RulersHolderTransform;
-            StartingZone1 = Game.PrefabsList.StartingZone1;
-            StartingZone2 = Game.PrefabsList.StartingZone2;
+            MovementTemplates.PrepareMovementTemplates();
 
             SetPlaymatImage();
         }
 
         private static void SetPlaymatImage()
         {
-            Texture playmatTexture = (Texture)Resources.Load("Playmats/Playmat" + Global.Playmat + "Texture", typeof(Texture));
-            BoardTransform.Find("Playmat").GetComponent<Renderer>().material.mainTexture = playmatTexture;        
+            if (!string.IsNullOrEmpty(Options.Playmat))
+            {
+                Texture playmatTexture = (Texture)Resources.Load("Playmats/Playmat" + Options.Playmat + "Texture", typeof(Texture));
+                BoardTransform.Find("Playmat").GetComponent<Renderer>().material.mainTexture = playmatTexture;
+            }
         }
 
         private static void SetShip(Ship.GenericShip ship, int count)
@@ -59,7 +63,7 @@ namespace Board
             StartingZone2.SetActive(false);
         }
 
-        public static void SetShips(Dictionary<string, Ship.GenericShip> shipsPlayer1, Dictionary<string, Ship.GenericShip> shipsPlayer2)
+        public static void SetShips(Dictionary<string, GenericShip> shipsPlayer1, Dictionary<string, Ship.GenericShip> shipsPlayer2)
         {
 
             int i = 1;
@@ -84,6 +88,11 @@ namespace Board
         public static Vector3 BoardIntoWorld(Vector3 position)
         {
             return BoardTransform.TransformPoint(position);
+        }
+
+        public static Vector3 WorldIntoBoard(Vector3 position)
+        {
+            return BoardTransform.InverseTransformPoint(position);
         }
 
         //GET TRANSFORMS
@@ -128,6 +137,56 @@ namespace Board
             return result;
         }
 
+        public static int GetRangeBetweenPoints(Vector3 pointA, Vector3 pointB)
+        {
+            int result = 0;
+
+            Vector3 boardPointA = WorldIntoBoard(pointA);
+            Vector3 boardPointB = WorldIntoBoard(pointB);
+
+            result = Mathf.CeilToInt(Vector3.Distance(boardPointA, boardPointB) / RANGE_1);
+
+            return result;
+        }
+
+        //util functions
+        public static int GetRangeOfShips(GenericShip from, GenericShip to)
+        {
+            Board.ShipDistanceInformation positionInfo = new Board.ShipDistanceInformation(from, to);
+            return positionInfo.Range;
+        }
+
+        public static List<GenericShip> GetShipsAtRange(GenericShip ship, Vector2 fromto, Team.Type team = Team.Type.Any)
+        {
+            List<GenericShip> ships = new List<GenericShip>();
+            foreach (var kv in Roster.AllShips)
+            {
+                GenericShip othership = kv.Value;
+
+                if (team == Team.Type.Friendly && ship.Owner.Id != othership.Owner.Id)
+                    continue;
+
+                if (team == Team.Type.Enemy && ship.Owner.Id == othership.Owner.Id)
+                    continue;
+
+                int range = GetRangeOfShips(ship, othership);
+                if (range >= fromto.x && range <= fromto.y)
+                {
+                    ships.Add(othership);
+                }
+            }
+
+            return ships;
+        }
     }
 
+}
+
+namespace Team
+{
+    public enum Type{
+         Friendly,
+         Enemy,
+         Any
+    }
 }

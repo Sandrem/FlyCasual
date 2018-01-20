@@ -8,8 +8,23 @@ public class OptionsUI : MonoBehaviour {
 
     public void OnClickPlaymatChange(GameObject playmatImage)
     {
-        Global.Playmat = playmatImage.name;
+        PlayerPrefs.SetString("PlaymatName", playmatImage.name);
+        PlayerPrefs.Save();
+
+        Options.Playmat = playmatImage.name;
+
         PlaymatSelector.transform.position = playmatImage.transform.position;
+    }
+
+    public void RestoreDefaults()
+    {
+        Options.Playmat = "Endor";
+        Options.ChangeParameterValue("Music Volume", 0.25f);
+        Options.ChangeParameterValue("SFX Volume", 0.25f);
+        Options.ChangeParameterValue("Animation Speed", 0.25f);
+        Options.ChangeParameterValue("Maneuver Speed", 0.25f);
+
+        Options.InitializePanel();
     }
 
 }

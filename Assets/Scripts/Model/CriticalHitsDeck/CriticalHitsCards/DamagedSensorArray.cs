@@ -12,28 +12,21 @@ namespace CriticalHitCard
         {
             Name = "Damaged Sensor Array";
             Type = CriticalCardType.Ship;
-            ImageUrl = "http://i.imgur.com/dRl6GLL.jpg";
-            CancelDiceResults.Add(DiceSide.Success);
-            CancelDiceResults.Add(DiceSide.Crit);
+            CancelDiceResults.Add(DieSide.Success);
+            CancelDiceResults.Add(DieSide.Crit);
         }
 
         public override void ApplyEffect(object sender, EventArgs e)
         {
-            Messages.ShowInfo("You cannot perform any actions except actions listed on Damage cards.");
-            Game.UI.AddTestLogEntry("You cannot perform any actions except actions listed on Damage cards.");
-            Host.AssignToken(new Tokens.DamagedSensorArrayCritToken());
-
             Host.OnTryAddAvailableAction += OnlyCancelCritActions;
-
             Host.AfterGenerateAvailableActionsList += AddCancelCritAction;
 
-            Triggers.FinishTrigger();
+            Host.AssignToken(new Tokens.DamagedSensorArrayCritToken(), Triggers.FinishTrigger);
         }
 
         public override void DiscardEffect(Ship.GenericShip host)
         {
             Messages.ShowInfo("You can perform actions as usual");
-            Game.UI.AddTestLogEntry("You can perform actions as usual");
             host.RemoveToken(typeof(Tokens.DamagedSensorArrayCritToken));
 
             host.OnTryAddAvailableAction -= OnlyCancelCritActions;

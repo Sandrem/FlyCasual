@@ -2,40 +2,49 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Upgrade;
+using Abilities;
 
 namespace UpgradesList
 {
 
     public class R5D8 : GenericUpgrade
     {
-
         public R5D8() : base()
         {
-            IsHidden = true;
-
-            Type = UpgradeSlot.Astromech;
-            Name = ShortName = "R5-D8";
-            ImageUrl = "https://vignette3.wikia.nocookie.net/xwing-miniatures/images/f/ff/R5-D8.jpg";
+            Type = UpgradeType.Astromech;
+            Name = "R5-D8";
             isUnique = true;
             Cost = 3;
+
+            UpgradeAbilities.Add(new R5D8Ability());
+        }
+    }
+
+}
+
+namespace Abilities
+{
+    public class R5D8Ability : GenericAbility
+    {
+        public override void ActivateAbility()
+        {
+            HostShip.AfterGenerateAvailableActionsList += R5D8AddAction;
         }
 
-        public override void AttachToShip(Ship.GenericShip host)
+        public override void DeactivateAbility()
         {
-            base.AttachToShip(host);
-
-            host.AfterGenerateAvailableActionsList += R5D8AddAction;
+            HostShip.AfterGenerateAvailableActionsList -= R5D8AddAction;
         }
 
         private void R5D8AddAction(Ship.GenericShip host)
         {
-            ActionsList.GenericAction action = new ActionsList.R5D8Action();
-            action.ImageUrl = ImageUrl;
+            ActionsList.GenericAction action = new ActionsList.R5D8Action()
+            {
+                ImageUrl = HostUpgrade.ImageUrl
+            };
             host.AddAvailableAction(action);
         }
-
     }
-
 }
 
 namespace ActionsList
@@ -43,8 +52,6 @@ namespace ActionsList
 
     public class R5D8Action : GenericAction
     {
-        private Ship.GenericShip host;
-
         public R5D8Action()
         {
             Name = EffectName = "R5-D8: Try to repair";
@@ -52,16 +59,48 @@ namespace ActionsList
 
         public override void ActionTake()
         {
-            // TODO:
-            // Astromech sound
-            // Visual dice throwing
-            int randomValue = Random.Range(0, 8);
-            // Notification about result
-            if (randomValue > 2)
+            Selection.ActiveShip = Selection.ThisShip;
+            Phases.StartTemporarySubPhaseOld(
+                "R5-D8: Try to repair",
+                typeof(SubPhases.R5D8CheckSubPhase),
+                delegate {
+                    Phases.FinishSubPhase(typeof(SubPhases.R5D8CheckSubPhase));
+                    Phases.CurrentSubPhase.CallBack();
+                }
+            );
+        }
+    }
+
+}
+
+namespace SubPhases
+{
+
+    public class R5D8CheckSubPhase : DiceRollCheckSubPhase
+    {
+
+        public override void Prepare()
+        {
+            diceType = DiceKind.Defence;
+            diceCount = 1;
+
+            finishAction = FinishAction;
+        }
+
+        protected override void FinishAction()
+        {
+            HideDiceResultMenu();
+
+            if (CurrentDiceRoll.DiceList[0].Side == DieSide.Success || CurrentDiceRoll.DiceList[0].Side == DieSide.Focus)
             {
-                // Remove random damage card
+                if (Selection.ThisShip.TryDiscardFaceDownDamageCard())
+                {
+                    Sounds.PlayShipSound("R2D2-Proud");
+                    Messages.ShowInfoToHuman("Facedown Damage card is discarded");
+                }
             }
-            Phases.CurrentSubPhase.callBack();
+
+            CallBack();
         }
 
     }

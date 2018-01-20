@@ -5,10 +5,22 @@ using Players;
 
 public static class Sounds {
 
-    public static void PlaySoundOnce(string path)
+    public static void PlayShipSound(string path)
     {
-        AudioSource audio = Selection.ThisShip.Model.GetComponent<AudioSource>();
-        audio.PlayOneShot((AudioClip)Resources.Load("Sounds/" + path));
+        AudioSource audioSource = Selection.ThisShip.Model.GetComponent<AudioSource>();
+        PlaySound(audioSource, path);
+    }
+
+    public static void PlayBombSound(GameObject bombObject, string path)
+    {
+        AudioSource audioSource = bombObject.transform.GetComponentInChildren<AudioSource>();
+        PlaySound(audioSource, path);
+    }
+
+    private static void PlaySound(AudioSource audioSource, string path)
+    {
+        audioSource.volume = Options.SfxVolume;
+        audioSource.PlayOneShot((AudioClip)Resources.Load("Sounds/" + path));
     }
 
     public static void PlayShots(string path, int times)
@@ -16,6 +28,7 @@ public static class Sounds {
         for (int i = 0; i < times; i++)
         {
             AudioSource audio = Selection.AnotherShip.Model.GetComponents<AudioSource>()[i];
+            audio.volume = Options.SfxVolume;
             audio.clip = (AudioClip)Resources.Load("Sounds/" + path);
             audio.PlayDelayed(i * 0.5f);
         }
@@ -26,7 +39,7 @@ public static class Sounds {
         int soundsCount = Selection.ThisShip.SoundFlyPaths.Count;
         int selectedIndex = Random.Range(0, soundsCount);
 
-        PlaySoundOnce(Selection.ThisShip.SoundFlyPaths[selectedIndex]);
+        PlayShipSound(Selection.ThisShip.SoundFlyPaths[selectedIndex]);
     }
 
 }

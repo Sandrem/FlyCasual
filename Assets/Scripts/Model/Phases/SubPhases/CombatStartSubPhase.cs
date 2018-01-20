@@ -11,7 +11,6 @@ namespace SubPhases
 
         public override void Start()
         {
-            Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
             Name = "Combat start";
             UpdateHelpInfo();
 
@@ -20,23 +19,24 @@ namespace SubPhases
 
         public override void Initialize()
         {
-            Phases.CallCombatPhaseTrigger();
+            Phases.CallCombatPhaseStartTrigger();
         }
 
         public override void Next()
         {
             Phases.CurrentSubPhase = new CombatSubPhase();
+            Phases.CurrentSubPhase.CallBack = Combat.CheckFinishCombatSubPhase;
             Phases.CurrentSubPhase.Start();
             Phases.CurrentSubPhase.Prepare();
             Phases.CurrentSubPhase.Initialize();
         }
 
-        public override bool ThisShipCanBeSelected(Ship.GenericShip ship)
+        public override bool ThisShipCanBeSelected(Ship.GenericShip ship, int mouseKeyIsPressed)
         {
             return false;
         }
 
-        public override bool AnotherShipCanBeSelected(Ship.GenericShip targetShip)
+        public override bool AnotherShipCanBeSelected(Ship.GenericShip targetShip, int mouseKeyIsPressed)
         {
             return false;
         }

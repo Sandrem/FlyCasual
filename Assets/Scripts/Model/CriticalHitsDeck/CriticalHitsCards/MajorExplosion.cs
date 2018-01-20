@@ -12,14 +12,10 @@ namespace CriticalHitCard
         {
             Name = "Major Explosion";
             Type = CriticalCardType.Ship;
-            ImageUrl = "http://i.imgur.com/6aASBM9.jpg";
         }
 
         public override void ApplyEffect(object sender, EventArgs e)
         {
-            Messages.ShowInfo("On a Hit result, suffer 1 critical damage.");
-            Game.UI.AddTestLogEntry("On a Hit result, suffer 1 critical damage.");
-
             Selection.ActiveShip = Host;
 
             Triggers.RegisterTrigger(new Trigger()
@@ -35,7 +31,7 @@ namespace CriticalHitCard
 
         private void RollForDamage(object sender, EventArgs e)
         {
-            Phases.StartTemporarySubPhase(
+            Phases.StartTemporarySubPhaseOld(
                 "Major Explosion",
                 typeof(SubPhases.MajorExplosionCheckSubPhase),
                 delegate {
@@ -56,8 +52,8 @@ namespace SubPhases
 
         public override void Prepare()
         {
-            dicesType = DiceKind.Attack;
-            dicesCount = 1;
+            diceType = DiceKind.Attack;
+            diceCount = 1;
 
             finishAction = FinishAction;
         }
@@ -66,7 +62,7 @@ namespace SubPhases
         {
             HideDiceResultMenu();
 
-            if (CurrentDiceRoll.DiceList[0].Side == DiceSide.Success)
+            if (CurrentDiceRoll.DiceList[0].Side == DieSide.Success)
             {
                 DealDamage();
             }
@@ -79,25 +75,29 @@ namespace SubPhases
         private void DealDamage()
         {
             Messages.ShowInfo("Major Explosion: Suffer 1 additional critical damage");
-            Game.UI.AddTestLogEntry("Major Explosion: Suffer 1 additional critical damage");
 
-            Selection.ActiveShip.AssignedDamageDiceroll.DiceList.Add(new Dice(DiceKind.Attack, DiceSide.Crit));
+            Selection.ActiveShip.AssignedDamageDiceroll.AddDice(DieSide.Crit);
 
             Triggers.RegisterTrigger(new Trigger()
             {
                 Name = "Suffer critical damage",
                 TriggerType = TriggerTypes.OnDamageIsDealt,
                 TriggerOwner = Selection.ActiveShip.Owner.PlayerNo,
-                EventHandler = Selection.ActiveShip.SufferDamage
+                EventHandler = Selection.ActiveShip.SufferDamage,
+                EventArgs = new DamageSourceEventArgs()
+                {
+                    Source = "Critical hit card",
+                    DamageType = DamageTypes.CriticalHitCard
+                }
             });
 
-            Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, callBack);
+            Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, CallBack);
         }
 
         private void NoDamage()
         {
             Messages.ShowInfo("No damage");
-            callBack();
+            CallBack();
         }
     }
 

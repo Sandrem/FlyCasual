@@ -11,23 +11,32 @@ namespace SubPhases
     public class DecisionSubPhase : GenericSubPhase
     {
         private GameObject decisionPanel;
-        protected string infoText;
+        public string InfoText;
         private Dictionary<string, EventHandler> decisions = new Dictionary<string, EventHandler>();
         protected Dictionary<string, string> tooltips = new Dictionary<string, string>();
-        protected string defaultDecision;
+        public string DefaultDecision;
         protected Players.GenericPlayer DecisionOwner;
+        public bool ShowSkipButton;
 
-        private const float defaultWindowHeight = 55;
+        private const float defaultWindowHeight = 75;
         private const float buttonHeight = 45;
 
         public override void Start()
         {
-            Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
             IsTemporary = true;
 
-            decisionPanel = Game.PrefabsList.PanelDecisions;
+            decisionPanel = GameObject.Find("UI").transform.Find("DecisionsPanel").gameObject;
 
-            Prepare();
+            PrepareDecision(StartIsFinished);
+        }
+
+        public virtual void PrepareDecision(Action callBack)
+        {
+            callBack();
+        }
+
+        private void StartIsFinished()
+        {
             Initialize();
 
             UpdateHelpInfo();
@@ -46,7 +55,20 @@ namespace SubPhases
             return newName;
         }
 
-        protected Dictionary<string, EventHandler> GetDecisions()
+        public string AddTooltip(string name, string imageUrl)
+        {
+            int counter = 2;
+            string newName = name;
+            while (tooltips.ContainsKey(newName))
+            {
+                newName = name + " #" + counter++;
+            }
+            tooltips.Add(newName, imageUrl);
+
+            return newName;
+        }
+
+        public Dictionary<string, EventHandler> GetDecisions()
         {
             return decisions;
         }
@@ -55,7 +77,7 @@ namespace SubPhases
         {
             if (decisions.Count != 0)
             {
-                decisionPanel.transform.Find("InformationPanel").GetComponentInChildren<Text>().text = infoText;
+                decisionPanel.transform.Find("InformationPanel").GetComponentInChildren<Text>().text = InfoText;
 
                 int i = 0;
                 foreach (var item in decisions)
@@ -76,7 +98,9 @@ namespace SubPhases
                     EventTrigger trigger = button.AddComponent<EventTrigger>();
                     EventTrigger.Entry entry = new EventTrigger.Entry();
                     entry.eventID = EventTriggerType.PointerClick;
-                    entry.callback.AddListener((data) => { item.Value.Invoke(button, null); });
+                    entry.callback.AddListener(
+                        (data) => { GameModes.GameMode.CurrentGameMode.TakeDecision(item, button); }
+                    );
                     trigger.triggers.Add(entry);
 
                     i++;
@@ -84,40 +108,48 @@ namespace SubPhases
                 decisionPanel.GetComponent<RectTransform>().sizeDelta = new Vector3(decisionPanel.GetComponent<RectTransform>().sizeDelta.x, defaultWindowHeight + ((i + 1) / 2) * buttonHeight);
 
                 if (DecisionOwner == null) DecisionOwner = Roster.GetPlayer(Phases.CurrentPhasePlayer);
+
+                if (ShowSkipButton) UI.ShowSkipButton();
+
                 DecisionOwner.TakeDecision();
             }
         }
 
         public override void Pause()
         {
-            decisionPanel.SetActive(false);
+            HidePanel();
         }
 
         public override void Resume()
         {
             Phases.CurrentSubPhase = this;
             UpdateHelpInfo();
-            decisionPanel.SetActive(true);
+            Initialize();
         }
 
         public override void Next()
+        {
+            HidePanel();
+            Phases.CurrentSubPhase = PreviousSubPhase;
+            UpdateHelpInfo();
+        }
+
+        private void HidePanel()
         {
             decisionPanel.gameObject.SetActive(false);
             foreach (Transform button in decisionPanel.transform.Find("DecisionsPanel"))
             {
                 MonoBehaviour.Destroy(button.gameObject);
             }
-            Phases.CurrentSubPhase = PreviousSubPhase;
-            UpdateHelpInfo();
         }
 
-        public override bool ThisShipCanBeSelected(Ship.GenericShip ship)
+        public override bool ThisShipCanBeSelected(Ship.GenericShip ship, int mouseKeyIsPressed)
         {
             bool result = false;
             return result;
         }
 
-        public override bool AnotherShipCanBeSelected(Ship.GenericShip anotherShip)
+        public override bool AnotherShipCanBeSelected(Ship.GenericShip anotherShip, int mouseKeyIsPressed)
         {
             bool result = false;
             return result;
@@ -125,7 +157,37 @@ namespace SubPhases
 
         public override void DoDefault()
         {
-            decisions[defaultDecision].Invoke(null, null);
+            decisions[DefaultDecision].Invoke(null, null);
+        }
+
+        public void ExecuteDecision(string decisionName)
+        {
+            decisions[decisionName].Invoke(null, null);
+        }
+
+        public static void ConfirmDecision()
+        {
+            Tooltips.EndTooltip();
+            UI.HideSkipButton();
+
+            Action callBack = Phases.CurrentSubPhase.CallBack;
+            Phases.FinishSubPhase(Phases.CurrentSubPhase.GetType());
+            Phases.CurrentSubPhase.Resume();
+            callBack();
+        }
+
+        public static void ConfirmDecisionNoCallback()
+        {
+            Tooltips.EndTooltip();
+            UI.HideSkipButton();
+
+            Phases.FinishSubPhase(Phases.CurrentSubPhase.GetType());
+            Phases.CurrentSubPhase.Resume();
+        }
+
+        public override void SkipButton()
+        {
+            ConfirmDecision();
         }
 
     }

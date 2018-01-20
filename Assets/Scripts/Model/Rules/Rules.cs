@@ -12,35 +12,43 @@ public static class Rules
     public static StressRule Stress { get; private set; }
     public static OffTheBoardRule OffTheBoard { get; private set; }
     public static CollisionRules Collision { get; private set; }
-    public static FiringRangeLimit FiringRange { get; private set; }
-    public static FiringArcRule FiringArc { get; private set; }
     public static DuplicatedActionsRule DuplicatedActions { get; private set; }
     public static AsteroidLandedRule AsteroidLanded { get; private set; }
     public static AsteroidHitRule AsteroidHit { get; private set; }
+    public static MineHitRule MineHit { get; private set; }
     public static AsteroidObstructionRule AsteroidObstruction { get; private set; }
     public static InitiativeRule Initiative { get; private set; }
     public static TargetIsLegalForShotRule TargetIsLegalForShot { get; private set; }
-
-    private static GameManagerScript Game;
+    public static IonizationRule Ionization { get; private set; }
+    public static JammedRule Jammed { get; private set; }
+    public static TargetLocksRule TargetLocks { get; private set; }
+    public static CloakRule Cloak { get; private set; }
+    public static WeaponsDisabledRule WeaponsDisabled { get; private set; }
+    public static BullseyeArcRule BullseyeArc { get; private set; }
+    public static DockingRule Docking { get; private set; }
 
     static Rules()
     {
-        Game = UnityEngine.GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-
-        WinConditions = new WinConditionsRule(Game);
+        WinConditions = new WinConditionsRule();
         DistanceBonus = new DistanceBonusRule();
         EndPhase = new EndPhaseCleanupRule();
         Stress = new StressRule();
-        OffTheBoard = new OffTheBoardRule(Game);
+        OffTheBoard = new OffTheBoardRule();
         Collision = new CollisionRules();
-        FiringRange = new FiringRangeLimit();
-        FiringArc = new FiringArcRule();
         DuplicatedActions = new DuplicatedActionsRule();
         AsteroidLanded = new AsteroidLandedRule();
         AsteroidHit = new AsteroidHitRule();
+        MineHit = new MineHitRule();
         AsteroidObstruction = new AsteroidObstructionRule();
         Initiative = new InitiativeRule();
         TargetIsLegalForShot = new TargetIsLegalForShotRule();
+        Ionization = new IonizationRule();
+        Jammed = new JammedRule();
+        TargetLocks = new TargetLocksRule();
+        Cloak = new CloakRule();
+        WeaponsDisabled = new WeaponsDisabledRule();
+        BullseyeArc = new BullseyeArcRule();
+        Docking = new DockingRule();
     }
 
 }

@@ -8,17 +8,65 @@ using SubPhases;
 public enum TriggerTypes
 {
     None,
+
+    OnAbilityDirect,
+
+    OnGameStart,
     OnSetupPhaseStart,
+    OnBeforePlaceForces,
+    OnRoundStart,
+    OnActionSubPhaseStart,
+    OnActionDecisionSubPhaseEnd,
+    OnActivationPhaseStart,
+    OnActivationPhaseEnd,
+    OnCombatPhaseStart,
+    OnCombatPhaseEnd,
+    OnEndPhaseStart,
+
+    OnActivateShip,
+
+    OnManeuver,
+    OnManeuverIsReadyToBeRevealed,
+    OnManeuverIsRevealed,
+    OnShipMovementStart,
     OnShipMovementExecuted,
     OnShipMovementFinish,
     OnPositionFinish,
-    OnActionSubPhaseStart,
+    
+    OnFreeActionPlanned,
     OnFreeAction,
-    OnCombatPhaseStart,
-    OnFaceupCritCardReadyToBeDealt,
+    OnActionIsPerformed,
+    OnBeforeTokenIsAssigned,
+    OnTokenIsAssigned,
+    OnTokenIsSpent,
+    OnCoordinateTargetIsSelected,
+    OnRerollIsConfirmed,
+
+    OnAttackStart,
+    OnShotStart,
+    OnImmediatelyAfterRolling,
+    OnShotHit,
+    OnTryDamagePrevention,
+    OnAttackHit,
+    OnAttackMissed,
+    OnAttackFinish,
+    OnAttackFinishAsAttacker,
+    OnAttackFinishAsDefender,
+    OnCheckSecondAttack,
+    OnExtraAttack,
+
+    OnAtLeastOneCritWasCancelledByDefender,
     OnDamageIsDealt,
+    OnShieldIsLost,
+    OnDamageCardIsDealt,
+    OnFaceupCritCardReadyToBeDealt,
+    OnFaceupCritCardReadyToBeDealtUI,
     OnFaceupCritCardIsDealt,
-    OnMajorExplosionCrit
+
+    OnMajorExplosionCrit,
+    OnAbilityTargetIsSelected,
+    OnBombDetonated,
+    OnDiscard
 }
 
 public class Trigger
@@ -91,13 +139,18 @@ public class StackLevel
 
 public static partial class Triggers
 {
-    private static List<StackLevel> TriggersStack = new List<StackLevel>();
+    private static List<StackLevel> TriggersStack;
 
     // PUBLIC
 
+    public static void Initialize()
+    {
+        TriggersStack = new List<StackLevel>();
+    }
+
     public static void RegisterTrigger(Trigger trigger)
     {
-        if (DebugManager.DebugTriggers) Debug.Log("Trigger is registered: " + trigger.Name);
+        Console.Write(trigger.Name + " is registed", LogTypes.Triggers);
         if (NewLevelIsRequired())
         {
             CreateTriggerInNewLevel(trigger);
@@ -110,10 +163,20 @@ public static partial class Triggers
 
     public static void ResolveTriggers(TriggerTypes triggerType, Action callBack = null)
     {
-        if (DebugManager.DebugTriggers) Debug.Log("Triggers are resolved: " + triggerType);
+        if (callBack != null)
+        {
+            Console.Write(triggerType.ToString(), LogTypes.Triggers, true, "yellow");
+        }
+        else
+        {
+            Console.Write(triggerType + " is resolved again", LogTypes.Triggers, false, "yellow");
+        }
+
+        if (triggerType == TriggerTypes.OnDamageIsDealt && callBack != null) DamageNumbers.UpdateSavedHP();
+
         StackLevel currentLevel = GetCurrentLevel();
 
-        if (currentLevel == null)
+        if (currentLevel == null || currentLevel.IsActive)
         {
             CreateNewLevelOfStack(callBack);
             currentLevel = GetCurrentLevel();
@@ -141,6 +204,7 @@ public static partial class Triggers
             }
             else
             {
+                if (triggerType == TriggerTypes.OnDamageIsDealt) DamageNumbers.ShowChangedHP();
                 DoCallBack();
             }
         }
@@ -149,16 +213,19 @@ public static partial class Triggers
 
     public static void FireTrigger(Trigger trigger)
     {
-        if (DebugManager.DebugTriggers) Debug.Log("Trigger is fired: " + trigger.Name);
+        Console.Write(trigger.Name + " is fired", LogTypes.Triggers);
         trigger.Fire();
     }
 
     public static void FinishTrigger()
     {
         StackLevel currentStackLevel = GetCurrentLevel();
+
+        if (currentStackLevel.GetTrigersList().Count == 0) Debug.Log("Ooops, you want to finish trigger, but new empty level of stack was created!");
+
         Trigger currentTrigger = currentStackLevel.GetCurrentTrigger();
 
-        if (DebugManager.DebugTriggers) Debug.Log("Trigger is finished: " + currentTrigger.Name);
+        Console.Write(currentTrigger.Name + " is finished", LogTypes.Triggers);
 
         currentStackLevel.RemoveTrigger(currentTrigger);
         currentStackLevel.IsActive = false;
@@ -183,14 +250,23 @@ public static partial class Triggers
 
     private static void RunDecisionSubPhase()
     {
-        Phases.StartTemporarySubPhase("Triggers Order", typeof(TriggersOrderSubPhase));
+        Phases.StartTemporarySubPhaseOld("Triggers Order", typeof(TriggersOrderSubPhase));
     }
 
     private static void DoCallBack()
     {
         Action callBack = GetCurrentLevel().CallBack;
         RemoveLastLevelOfStack();
-        if (DebugManager.DebugTriggers) Debug.Log("Trigger's callback is called");
+
+        if (GetCurrentLevel() == null)
+        {
+            Console.Write("Callback, stack is empty\n", LogTypes.Triggers, true);
+        }
+        else
+        {
+            Console.Write("Callback, stack level: " + (GetCurrentLevel().level + 1), LogTypes.Triggers, true);
+        }
+
         callBack();
     }
 
@@ -240,9 +316,9 @@ public static partial class Triggers
     private class TriggersOrderSubPhase : DecisionSubPhase
     {
 
-        public override void Prepare()
+        public override void PrepareDecision(System.Action callBack)
         {
-            infoText = "Select a trigger to resolve";
+            InfoText = "Select a trigger to resolve";
 
             List<Trigger> currentTriggersList = Triggers.GetCurrentLevel().GetTriggersByPlayer(Phases.PlayerWithInitiative);
             Players.PlayerNo currentPlayer = (currentTriggersList.Count > 0) ? Phases.PlayerWithInitiative : Roster.AnotherPlayer(Phases.PlayerWithInitiative);
@@ -260,7 +336,9 @@ public static partial class Triggers
             }
 
             DecisionOwner = Roster.GetPlayer(currentPlayer);
-            defaultDecision = GetDecisions().First().Key;
+            DefaultDecision = GetDecisions().First().Key;
+
+            callBack();
         }
 
     }

@@ -2,11 +2,24 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Ship;
 
 public enum Faction
 {
-    Rebels,
-    Empire
+    None,
+    Rebel,
+    Imperial,
+    Scum
+}
+
+public enum SubFaction
+{
+    None,
+    RebelAlliance,
+    Resistance,
+    GalacticEmpire,
+    FirstOrder,
+    ScumAndVillainy
 }
 
 namespace Players
@@ -20,7 +33,8 @@ namespace Players
     public enum PlayerType
     {
         Human,
-        Ai
+        Ai,
+        Network
     }
 
     public partial class GenericPlayer
@@ -29,24 +43,30 @@ namespace Players
         public string Name;
         public PlayerNo PlayerNo;
         public int SquadCost;
-        public Dictionary<string, Ship.GenericShip> Ships = new Dictionary<string, Ship.GenericShip>();
 
-        private int id;
-        public int Id { get { return (PlayerNo == PlayerNo.Player1) ? 1 : 2; } }
+        public Dictionary<string, GenericShip> Ships = new Dictionary<string, GenericShip>();
 
-
-        protected GameManagerScript Game;
-
-        public GenericPlayer()
+        public Dictionary<string, GenericShip> EnemyShips
         {
-            Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-            SetPlayerNo();
+            get
+            {
+                return AnotherPlayer.Ships;
+            }
         }
 
-        private void SetPlayerNo()
+        public GenericPlayer AnotherPlayer
         {
-            PlayerNo = (Roster.Players.Count == 0) ? PlayerNo.Player1 : PlayerNo.Player2;
-            Roster.Players.Add(this);
+            get
+            {
+                return Roster.GetPlayer(Roster.AnotherPlayer(PlayerNo));
+            }
+        }
+
+        public int Id { get { return (PlayerNo == PlayerNo.Player1) ? 1 : 2; } }
+
+        public void SetPlayerNo(PlayerNo playerNo)
+        {
+            PlayerNo = playerNo;
         }
 
         public virtual void SetupShip() { }
@@ -61,9 +81,27 @@ namespace Players
 
         public virtual void PerformAttack() { }
 
-        public virtual void UseDiceModifications() { }
+        public virtual void UseOwnDiceModifications() { }
+
+        public virtual void UseOppositeDiceModifications() { }
 
         public virtual void TakeDecision() { }
+
+        public virtual void AfterShipMovementPrediction() { }
+
+        public virtual void ConfirmDiceCheck() { }
+
+        public virtual void ToggleCombatDiceResults(bool isActive) { }
+
+        public virtual bool IsNeedToShowManeuver(GenericShip ship) { return false; }
+
+        public virtual void OnTargetNotLegalForAttack() { }
+
+        public virtual void ChangeManeuver(Action<string> callback, Func<string, bool> filter = null) { }
+
+        public virtual void SelectManeuver(Action<string> callback, Func<string, bool> filter = null) { }
+
+        public virtual void StartExtraAttack() { }
     }
 
 }

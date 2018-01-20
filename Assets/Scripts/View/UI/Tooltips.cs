@@ -61,14 +61,16 @@ public static class Tooltips {
 
     private static IEnumerator LoadTooltipImage(string url)
     {
-        WWW www = new WWW(url);
+        WWW www = ImageManager.GetImage(url);
         yield return www;
 
-        //TODO: add exception handler here
-        SetImageFromWeb(TooltipsPanel.Find("TooltipImage").gameObject, www);
-        AdaptTooltipWindowSize();
+        if (TooltipsPanel != null && www.texture != null)
+        {
+            SetImageFromWeb(TooltipsPanel.Find("TooltipImage").gameObject, www);
+            AdaptTooltipWindowSize();
 
-        TooltipImageReady = true;
+            TooltipImageReady = true;
+        }
     }
 
     private static void SetImageFromWeb(GameObject targetObject, WWW www)

@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Ship;
+using System;
 
 namespace Ship
 {
@@ -11,50 +13,74 @@ namespace Ship
             public LukeSkywalker() : base()
             {
                 PilotName = "Luke Skywalker";
-                ImageUrl = "https://vignette3.wikia.nocookie.net/xwing-miniatures/images/8/8c/Luke-skywalker.png";
-                IsUnique = true;
                 PilotSkill = 8;
                 Cost = 28;
-                AddUpgradeSlot(Upgrade.UpgradeSlot.Elite);
-            }
 
-            public override void InitializePilot()
-            {
-                base.InitializePilot();
-                AfterGenerateAvailableActionEffectsList += AddLukeSkywalkerPilotAbility;
-            }
+                IsUnique = true;
 
-            public void AddLukeSkywalkerPilotAbility(GenericShip ship)
-            {
-                ship.AddAvailableActionEffect(new PilotAbilities.LukeSkywalkerAction());
-            }
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
+                PilotAbilities.Add(new Abilities.LukeSkywalkerAbility());
+            }
         }
-
     }
 }
 
-namespace PilotAbilities
+namespace Abilities
 {
-    public class LukeSkywalkerAction : ActionsList.GenericAction
+    public class LukeSkywalkerAbility : GenericAbility
     {
-        private Ship.GenericShip host;
-
-        public LukeSkywalkerAction()
+        public override void ActivateAbility()
         {
-            Name = EffectName = "Luke Skywalker's ability";
+            HostShip.AfterGenerateAvailableActionEffectsList += AddLukeSkywalkerPilotAbility;
         }
 
-        public override void ActionEffect()
+        public override void DeactivateAbility()
         {
-            Combat.CurentDiceRoll.ChangeOne(DiceSide.Focus, DiceSide.Success);
+            HostShip.AfterGenerateAvailableActionEffectsList -= AddLukeSkywalkerPilotAbility;
         }
 
-        public override bool IsActionEffectAvailable()
+        private void AddLukeSkywalkerPilotAbility(GenericShip ship)
         {
-            bool result = false;
-            if (Combat.AttackStep == CombatStep.Defence) result = true;
-            return result;
+            ship.AddAvailableActionEffect(new LukeSkywalkerAction());
+        }
+
+        private class LukeSkywalkerAction : ActionsList.GenericAction
+        {
+            public LukeSkywalkerAction()
+            {
+                Name = EffectName = "Luke Skywalker's ability";
+
+                IsTurnsOneFocusIntoSuccess = true;
+            }
+
+            public override void ActionEffect(System.Action callBack)
+            {
+                Combat.CurrentDiceRoll.ChangeOne(DieSide.Focus, DieSide.Success);
+                callBack();
+            }
+
+            public override bool IsActionEffectAvailable()
+            {
+                bool result = false;
+                if (Combat.AttackStep == CombatStep.Defence) result = true;
+                return result;
+            }
+
+            public override int GetActionEffectPriority()
+            {
+                int result = 0;
+
+                if (Combat.AttackStep == CombatStep.Defence)
+                {
+                    if (Combat.DiceRollAttack.Successes > Combat.DiceRollDefence.Successes)
+                    {
+                        if (Combat.DiceRollDefence.Focuses > 0) result = 80;
+                    }
+                }
+
+                return result;
+            }
         }
 
     }

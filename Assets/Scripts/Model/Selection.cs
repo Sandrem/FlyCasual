@@ -6,25 +6,30 @@ using UnityEngine.EventSystems;
 
 public static class Selection {
 
-    private static GameManagerScript Game;
-
     public static Ship.GenericShip ThisShip;
     public static Ship.GenericShip AnotherShip;
     public static Ship.GenericShip ActiveShip;
     public static Ship.GenericShip HoveredShip;
-
-    // Use this for initialization
-    static Selection() {
-        Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
+    	
+    public static void Initialize()
+    {
+        ThisShip = null;
+        AnotherShip = null;
+        ActiveShip = null;
+        HoveredShip = null;
     }
-	
+
     //TODO: BUG - enemy ship can be selected
     public static void UpdateSelection()
     {
         if (!EventSystem.current.IsPointerOverGameObject())
         {
-            TryMarkShip();
-            if (Input.GetKeyUp(KeyCode.Mouse0) == true)
+            TryMarkShipByModel();
+            int mouseKeyIsPressed = 0;
+            if (Input.GetKeyUp(KeyCode.Mouse0)) mouseKeyIsPressed = 1;
+            else if(Input.GetKeyUp(KeyCode.Mouse1)) mouseKeyIsPressed = 2;
+
+            if (mouseKeyIsPressed > 0)
             {
                 bool isShipHit = false;
                 RaycastHit hitInfo = new RaycastHit();
@@ -32,41 +37,46 @@ public static class Selection {
                 {
                     if (hitInfo.transform.tag.StartsWith("ShipId:"))
                     {
-                        isShipHit = TryToChangeShip(hitInfo.transform.tag);
+                        isShipHit = TryToChangeShip(hitInfo.transform.tag, mouseKeyIsPressed);
                     }
                 }
                 if (!isShipHit)
                 {
                     ProcessClick();
-                    Game.UI.HideTemporaryMenus();
+                    UI.HideTemporaryMenus();
                 }
             }
         }
     }
 
-    private static void TryMarkShip()
+    private static void TryMarkShipByModel()
     {
         RaycastHit hitInfo = new RaycastHit();
         if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitInfo))
         {
-            if (hitInfo.transform.tag.StartsWith("ShipId:"))
-            {
-                TryUnmarkPreviousHoveredShip();
-                HoveredShip = Roster.AllShips[hitInfo.transform.tag];
-                if ((HoveredShip != ThisShip) && (HoveredShip != AnotherShip))
-                {
-                    HoveredShip.HighlightAnyHovered();
-                    Roster.MarkShip(HoveredShip, Color.yellow);
-                }
-            }
-            else
-            {
-                TryUnmarkPreviousHoveredShip();
-            }
+            TryMarkShip(hitInfo.transform.tag);
         }
     }
 
-    private static void TryUnmarkPreviousHoveredShip()
+    public static void TryMarkShip(string tag)
+    {
+        if (tag.StartsWith("ShipId:"))
+        {
+            TryUnmarkPreviousHoveredShip();
+            HoveredShip = Roster.AllShips[tag];
+            if ((HoveredShip != ThisShip) && (HoveredShip != AnotherShip))
+            {
+                HoveredShip.HighlightAnyHovered();
+                Roster.MarkShip(HoveredShip, Color.yellow);
+            }
+        }
+        else
+        {
+            TryUnmarkPreviousHoveredShip();
+        }
+    }
+
+    public static void TryUnmarkPreviousHoveredShip()
     {
         if (HoveredShip != null)
         {
@@ -79,25 +89,27 @@ public static class Selection {
         }
     }
 
-    public static bool TryToChangeShip(string shipId)
+    public static bool TryToChangeShip(string shipId, int mouseKeyIsPressed = 1)
     {
         bool result = false;
 
         Ship.GenericShip ship = Roster.GetShipById(shipId);
         if (ship.Owner.PlayerNo == Phases.CurrentSubPhase.RequiredPlayer)
         {
-            result = Selection.TryToChangeThisShip(shipId);
+            result = TryToChangeThisShip(shipId, mouseKeyIsPressed);
         }
         else
         {
-            result = TryToChangeAnotherShip(shipId);
+            result = TryToChangeAnotherShip(shipId, mouseKeyIsPressed);
         }
         return result;
     }
 
     private static void ProcessClick()
     {
-        Phases.CurrentSubPhase.ProcessClick();
+        if (Phases.CurrentSubPhase != null) Phases.CurrentSubPhase.ProcessClick();
+        
+        GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
         if (Game.Position.inReposition)
         {
             Game.Position.TryConfirmPosition(Selection.ThisShip);
@@ -105,30 +117,32 @@ public static class Selection {
     }
 
     //TODO: call from roster info panel click too
-    public static bool TryToChangeAnotherShip(string shipId)
+    public static bool TryToChangeAnotherShip(string shipId, int mouseKeyIsPressed = 1)
     {
         bool result = false;
         Ship.GenericShip targetShip = Roster.GetShipById(shipId);
-        result = Phases.CurrentSubPhase.AnotherShipCanBeSelected(targetShip);
+        result = Phases.CurrentSubPhase.AnotherShipCanBeSelected(targetShip, mouseKeyIsPressed);
 
         if (result == true)
         {
             ChangeAnotherShip(shipId);
+            DoSelectAnotherShip(mouseKeyIsPressed);
         }
         return result;
     }
 
-    public static bool TryToChangeThisShip(string shipId)
+    public static bool TryToChangeThisShip(string shipId, int mouseKeyIsPressed = 1)
     {
         bool result = false;
 
         Ship.GenericShip ship = Roster.GetShipById(shipId);
 
-        result = Phases.CurrentSubPhase.ThisShipCanBeSelected(ship);
+        result = Phases.CurrentSubPhase.ThisShipCanBeSelected(ship, mouseKeyIsPressed);
 
         if (result == true)
         {
             Selection.ChangeActiveShip(shipId);
+            DoSelectThisShip(mouseKeyIsPressed);
         }
 
         return result;
@@ -142,7 +156,11 @@ public static class Selection {
         Roster.MarkShip(ThisShip, Color.green);
         ThisShip.HighlightThisSelected();
         if (Phases.CurrentSubPhase.GetType() == typeof(SubPhases.CombatSubPhase)) Roster.HighlightShipsFiltered(Roster.AnotherPlayer(Phases.CurrentPhasePlayer));
-        if (Roster.GetPlayer(Phases.CurrentPhasePlayer).GetType() == typeof(Players.HumanPlayer)) Game.UI.CallContextMenu(ThisShip);
+    }
+
+    private static void DoSelectThisShip(int mouseKeyIsPressed)
+    {
+        if (Roster.GetPlayer(Phases.CurrentPhasePlayer).GetType() == typeof(Players.HumanPlayer)) Phases.CurrentSubPhase.DoSelectThisShip(ThisShip, mouseKeyIsPressed);
     }
 
     public static void DeselectThisShip()
@@ -154,9 +172,8 @@ public static class Selection {
         }
     }
 
-    private static bool ChangeAnotherShip(string shipId)
+    public static void ChangeAnotherShip(string shipId)
     {
-        //Should I can target my own ships???
         if (AnotherShip != null)
         {
             Roster.UnMarkShip(AnotherShip);
@@ -165,8 +182,11 @@ public static class Selection {
         AnotherShip = Roster.GetShipById(shipId);
         Roster.MarkShip(AnotherShip, Color.red);
         AnotherShip.HighlightEnemySelected();
-        if (Roster.GetPlayer(Phases.CurrentPhasePlayer).GetType() == typeof(Players.HumanPlayer)) Game.UI.CallContextMenu(AnotherShip);
-        return true;
+    }
+
+    private static void DoSelectAnotherShip(int mouseKeyIsPressed)
+    {
+        if (Roster.GetPlayer(Phases.CurrentPhasePlayer).GetType() == typeof(Players.HumanPlayer)) Phases.CurrentSubPhase.DoSelectAnotherShip(AnotherShip, mouseKeyIsPressed);
     }
 
     public static void DeselectAnotherShip()

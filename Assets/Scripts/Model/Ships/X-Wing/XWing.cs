@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Movement;
+using ActionsList;
 
 namespace Ship
 {
@@ -13,6 +14,8 @@ namespace Ship
             public XWing() : base()
             {
                 Type = "X-Wing";
+                IconicPilot = "Wedge Antilles";
+
                 ManeuversImageUrl = "https://vignette1.wikia.nocookie.net/xwing-miniatures/images/3/3d/MR_T65-X-WING.png";
 
                 Firepower = 3;
@@ -20,14 +23,18 @@ namespace Ship
                 MaxHull = 3;
                 MaxShields = 2;
 
-                AddUpgradeSlot(Upgrade.UpgradeSlot.Astromech);
-                AddUpgradeSlot(Upgrade.UpgradeSlot.Torpedoes);
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Astromech);
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Torpedo);
+
+                PrintedActions.Add(new TargetLockAction());
 
                 AssignTemporaryManeuvers();
-                HotacManeuverTable = new XWingTable();
+                HotacManeuverTable = new AI.XWingTable();
 
-                factions.Add(Faction.Rebels);
-                faction = Faction.Rebels;
+                factions.Add(Faction.Rebel);
+                faction = Faction.Rebel;
+
+                SkinName = "Red";
 
                 SoundShotsPath = "XWing-Laser";
                 ShotsCount = 3;
@@ -36,13 +43,6 @@ namespace Ship
                 {
                     SoundFlyPaths.Add("XWing-Fly" + i);
                 }
-                
-            }
-
-            public override void InitializeShip()
-            {
-                base.InitializeShip();
-                BuiltInActions.Add(new ActionsList.TargetLockAction());
             }
 
             private void AssignTemporaryManeuvers()

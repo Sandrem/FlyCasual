@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using Ship;
 
 namespace RulesList
 {
@@ -13,21 +14,22 @@ namespace RulesList
 
         private void SubscribeEvents()
         {
+            GenericShip.OnMovementFinishGlobal += CheckDamage;
             Phases.BeforeActionSubPhaseStart += CheckSkipPerformAction;
         }
 
-        public void CheckSkipPerformAction()
+        private void CheckSkipPerformAction()
         {
-            if (Selection.ThisShip.ObstaclesHit.Count > 0)
+            if (Selection.ThisShip.IsHitObstacles)
             {
                 Messages.ShowErrorToHuman("Hit asteroid during movement - action subphase is skipped");
                 Selection.ThisShip.IsSkipsActionSubPhase = true;
             }
         }
 
-        public void CheckDamage(Ship.GenericShip ship)
+        private void CheckDamage(GenericShip ship)
         {
-            if (Selection.ThisShip.ObstaclesHit.Count > 0)
+            if (Selection.ThisShip.IsHitObstacles)
             {
                 foreach (var asteroid in Selection.ThisShip.ObstaclesHit)
                 {
@@ -47,7 +49,7 @@ namespace RulesList
             Messages.ShowErrorToHuman("Hit asteroid during movement - rolling for damage");
 
             Selection.ActiveShip = Selection.ThisShip;
-            Phases.StartTemporarySubPhase(
+            Phases.StartTemporarySubPhaseOld(
                 "Damage from asteroid collision",
                 typeof(SubPhases.AsteroidHitCheckSubPhase),
                 delegate {
@@ -66,8 +68,8 @@ namespace SubPhases
 
         public override void Prepare()
         {
-            dicesType = DiceKind.Attack;
-            dicesCount = 1;
+            diceType = DiceKind.Attack;
+            diceCount = 1;
 
             finishAction = FinishAction;
         }
@@ -79,21 +81,19 @@ namespace SubPhases
 
             switch (CurrentDiceRoll.DiceList[0].Side)
             {
-                case DiceSide.Blank:
+                case DieSide.Blank:
                     NoDamage();
                     break;
-                case DiceSide.Focus:
+                case DieSide.Focus:
                     NoDamage();                    
                     break;
-                case DiceSide.Success:
+                case DieSide.Success:
                     Messages.ShowErrorToHuman("Damage is dealt!");
                     SufferDamage();
-                    Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, callBack);
                     break;
-                case DiceSide.Crit:
+                case DieSide.Crit:
                     Messages.ShowErrorToHuman("Critical damage is dealt!");
                     SufferDamage();
-                    Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, callBack);
                     break;
                 default:
                     break;
@@ -103,7 +103,7 @@ namespace SubPhases
         private void NoDamage()
         {
             Messages.ShowInfoToHuman("No damage");
-            callBack();
+            CallBack();
         }
 
         private void SufferDamage()
@@ -116,9 +116,16 @@ namespace SubPhases
                     Name = "Suffer asteroid damage",
                     TriggerType = TriggerTypes.OnDamageIsDealt,
                     TriggerOwner = Selection.ActiveShip.Owner.PlayerNo,
-                    EventHandler = Selection.ActiveShip.SufferDamage
+                    EventHandler = Selection.ActiveShip.SufferDamage,
+                    EventArgs = new DamageSourceEventArgs()
+                    {
+                        Source = "Asteroid",
+                        DamageType = DamageTypes.ObstacleCollision
+                    }
                 });
             }
+
+            Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, CallBack);
         }
 
     }

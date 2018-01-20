@@ -1,66 +1,180 @@
-﻿using System.Collections;
+﻿using Abilities;
+using Mods;
+using SquadBuilderNS;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace Upgrade
 {
-    public enum UpgradeSlot
+    public enum UpgradeType
     {
         Elite,
         Astromech,
-        Torpedoes,
-        Missiles,
+        Torpedo,
+        Missile,
         Cannon,
         Turret,
         Bomb,
         Crew,
-        SalvagedAstromechs,
+        SalvagedAstromech,
         System,
         Title,
         Modification,
         Illicit,
-        Cargo,
-        HardPoint,
-        Team,
         Tech
     }
 
-    public class GenericUpgrade
+    public abstract class GenericUpgrade
     {
-        protected GameManagerScript Game;
+        public static GenericUpgrade CurrentUpgrade;
 
-        protected Ship.GenericShip Host;
+        public Ship.GenericShip Host { get; set; }
 
+        public string Name { get; set; }
         public int Cost;
-        public UpgradeSlot Type;
+        public UpgradeType Type;
+
+        public List<GenericAbility> UpgradeAbilities = new List<GenericAbility>();
+
         public bool isUnique = false;
-        public bool Limited = false;
+        public bool isLimited = false;
         public bool isDiscarded = false;
-        public string Name;
-        public string ShortName;
-        public string ImageUrl;
-        //public bool FactionRestriction
-        //public bool SizeRestriction
-        //public bool ShipTypeRestriction
-        //public bool PilotLevelRestriction
+
+        private string nameCanonical;
+        public string NameCanonical
+        {
+            get
+            {
+                if (!string.IsNullOrEmpty(nameCanonical)) return nameCanonical;
+
+                return Tools.Canonicalize(Name);
+            }
+            set { nameCanonical = value; }
+        }
+
+        private string imageUrl;
+        public string ImageUrl
+        {
+            get
+            {
+                return imageUrl ?? ImageUrls.GetImageUrl(this);
+            }
+            set
+            {
+                imageUrl = value;
+            }
+        }
+
+        // SQUAD BUILDER ONLY
 
         public bool IsHidden;
 
-        public GenericUpgrade()
-        {
+        public Type FromMod { get; set; }
 
+        public virtual bool IsAllowedForShip(Ship.GenericShip ship)
+        {
+            return true;
         }
 
-        public virtual void AttachToShip(Ship.GenericShip host)
+        public virtual bool IsAllowedForSquadBuilder()
         {
-            Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
+            bool result = true;
+
+            if (IsHidden) return false;
+
+            if (FromMod != null && !ModsManager.Mods[FromMod].IsOn) return false;
+
+            return result;
+        }
+
+        public virtual bool IsAllowedForSquadBuilderPostCheck(SquadList squadList)
+        {
+            return true;
+        }
+
+        public virtual void PreAttachToShip(Ship.GenericShip host)
+        {
             Host = host;
         }
 
-        public void Discard()
+        public virtual void PreDettachFromShip()
+        {
+
+        }
+
+        // ATTACH TO SHIP
+
+        public virtual void AttachToShip(Ship.GenericShip host)
+        {
+            Host = host;
+            InitializeAbility();
+            ActivateAbility();
+        }
+
+        private void InitializeAbility()
+        {
+            foreach (var ability in UpgradeAbilities)
+            {
+                ability.Initialize(this);
+            }
+        }
+
+        private void ActivateAbility()
+        {
+            foreach (var ability in UpgradeAbilities)
+            {
+                ability.ActivateAbility();
+            }
+        }
+
+        private void DeactivateAbility()
+        {
+            foreach (var ability in UpgradeAbilities)
+            {
+                ability.DeactivateAbility();
+            }
+        }
+
+        // DISCARD
+
+        public void TryDiscard(Action callBack)
+        {
+            CurrentUpgrade = this;
+            Host.CallDiscardUpgrade(delegate { AfterTriedDiscard(callBack); });
+        }
+
+        private void AfterTriedDiscard(Action callBack)
+        {
+            if (CurrentUpgrade != null)
+            {
+                Discard(callBack);
+            }
+            else
+            {
+                callBack();
+            }
+        }
+
+        public virtual void Discard(Action callBack)
         {
             isDiscarded = true;
-            Roster.DiscardUpgrade(Host, ShortName);
+            Roster.DiscardUpgrade(Host, Name);
+            DeactivateAbility();
+
+            callBack();
+        }
+
+        // FLIP FACEUP
+
+        public virtual void FlipFaceup()
+        {
+            isDiscarded = false;
+            Roster.FlipFaceupUpgrade(Host, Name);
+            ActivateAbility();
+
+            Messages.ShowInfo(Name + " is flipped face up");
         }
 
     }

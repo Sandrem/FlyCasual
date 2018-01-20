@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using Ship;
 
 namespace SubPhases
 {
@@ -11,7 +12,6 @@ namespace SubPhases
 
         public override void Start()
         {
-            Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
             Name = "Combat SubPhase";
 
             if (DebugManager.DebugPhases) Debug.Log("Combat - Started");
@@ -31,10 +31,8 @@ namespace SubPhases
         public override void Next()
         {
             if (DebugManager.DebugPhases) Debug.Log("Combat SubPhase - Next");
-            if (Selection.ThisShip != null)
-            {
-                Selection.ThisShip.CallAfterAttackWindow();
-            }
+
+            UI.HideSkipButton();
 
             Selection.DeselectAllShips();
 
@@ -123,13 +121,16 @@ namespace SubPhases
 
         public override void FinishPhase()
         {
-            Phases.CurrentPhase.NextPhase();
+            Phases.CurrentSubPhase = new CombatEndSubPhase();
+            Phases.CurrentSubPhase.Start();
+            Phases.CurrentSubPhase.Prepare();
+            Phases.CurrentSubPhase.Initialize();
         }
 
-        public override bool ThisShipCanBeSelected(Ship.GenericShip ship)
+        public override bool ThisShipCanBeSelected(GenericShip ship, int mouseKeyIsPressed)
         {
             bool result = false;
-            if ((ship.Owner.PlayerNo == RequiredPlayer) && (ship.PilotSkill == RequiredPilotSkill))
+            if ((ship.Owner.PlayerNo == RequiredPlayer) && (ship.PilotSkill == RequiredPilotSkill) && (Roster.GetPlayer(RequiredPlayer).GetType() == typeof(Players.HumanPlayer)))
             {
                 result = true;
             }
@@ -140,30 +141,33 @@ namespace SubPhases
             return result;
         }
 
-        public override bool AnotherShipCanBeSelected(Ship.GenericShip targetShip)
+        public override bool AnotherShipCanBeSelected(GenericShip targetShip, int mouseKeyIsPressed)
         {
             bool result = false;
-            if (Selection.ThisShip != null)
+            if (Roster.GetPlayer(RequiredPlayer).GetType() != typeof(Players.NetworkOpponentPlayer))
             {
-                if (targetShip.Owner.PlayerNo != Phases.CurrentSubPhase.RequiredPlayer)
+                if (Selection.ThisShip != null)
                 {
-                    Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(Selection.ThisShip, targetShip);
-                    MovementTemplates.ShowFiringArcRange(shotInfo);
-                    result = true;
+                    if (targetShip.Owner.PlayerNo != Phases.CurrentSubPhase.RequiredPlayer)
+                    {
+                        Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(Selection.ThisShip, targetShip);
+                        MovementTemplates.ShowFiringArcRange(shotInfo);
+                        result = true;
+                    }
+                    else
+                    {
+                        Messages.ShowErrorToHuman("Ship cannot be selected as attack target: Friendly ship");
+                    }
                 }
                 else
                 {
-                    Messages.ShowErrorToHuman("Ship cannot be selected as attack target: Friendly ship");
+                    Messages.ShowErrorToHuman("Ship cannot be selected as attack target:\nFirst select attacker");
                 }
-            }
-            else
-            {
-                Messages.ShowErrorToHuman("Ship cannot be selected as attack target:\nFirst select attacker");
             }
             return result;
         }
 
-        public override int CountActiveButtons(Ship.GenericShip ship)
+        public override int CountActiveButtons(GenericShip ship)
         {
             int result = 0;
             if (Selection.ThisShip != null)
@@ -172,7 +176,7 @@ namespace SubPhases
                 {
                     if (Selection.ThisShip.IsAttackPerformed != true)
                     {
-                        Game.PrefabsList.ContextMenuPanel.transform.Find("FireButton").gameObject.SetActive(true);
+                        GameObject.Find("UI").transform.Find("ContextMenuPanel").Find("FireButton").gameObject.SetActive(true);
                         result++;
                     }
                     else
@@ -194,6 +198,38 @@ namespace SubPhases
                     ship.Value.HighlightCanBeSelectedOn();
                     Roster.RosterPanelHighlightOn(ship.Value);
                 }
+            }
+        }
+
+        public override void SkipButton()
+        {
+            foreach (var shipHolder in Roster.GetPlayer(Phases.CurrentPhasePlayer).Ships)
+            {
+                if (shipHolder.Value.PilotSkill == Phases.CurrentSubPhase.RequiredPilotSkill)
+                {
+                    shipHolder.Value.CallAfterAttackWindow();
+                    shipHolder.Value.IsAttackPerformed = true;
+                }
+            }
+            Next();
+        }
+
+        public override void DoSelectAnotherShip(GenericShip ship, int mouseKeyIsPressed)
+        {
+            if (mouseKeyIsPressed == 1)
+            {
+                if (Selection.ThisShip.IsAttackPerformed != true)
+                {
+                    UI.ClickDeclareTarget();
+                }
+                else
+                {
+                    Messages.ShowErrorToHuman("Your ship already has attacked");
+                }
+            }
+            else if (mouseKeyIsPressed == 2)
+            {
+                UI.CheckFiringRangeAndShow();
             }
         }
 

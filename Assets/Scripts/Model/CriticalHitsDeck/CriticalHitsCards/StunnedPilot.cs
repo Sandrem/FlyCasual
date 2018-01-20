@@ -12,44 +12,53 @@ namespace CriticalHitCard
         {
             Name = "Stunned Pilot";
             Type = CriticalCardType.Pilot;
-            ImageUrl = "http://i.imgur.com/J9knseg.jpg";
         }
 
         public override void ApplyEffect(object sender, EventArgs e)
         {
-            Messages.ShowInfo("After you execute a maneuver, if you are touching another ship or overlapping an obstacle token, suffer 1 damage");
-            Game.UI.AddTestLogEntry("After you execute a maneuver, if you are touching another ship or overlapping an obstacle token, suffer 1 damage");
-
-            Host.OnMovementFinish += CheckCollisionDamage;
-            Host.AssignToken(new Tokens.StunnedPilotCritToken());
-
-            Triggers.FinishTrigger();
+            Host.OnMovementFinish += RegisterCheckCollisionDamage;
+            Host.AssignToken(new Tokens.StunnedPilotCritToken(), Triggers.FinishTrigger);
         }
 
-        private void CheckCollisionDamage(Ship.GenericShip host)
+        private void RegisterCheckCollisionDamage(Ship.GenericShip host)
         {
             if (host.IsBumped || host.IsLandedOnObstacle)
             {
-                Messages.ShowInfo("Stunned Pilot: Ship suffered damage");
-                Game.UI.AddTestLogEntry("Stunned Pilot: Ship suffered damage");
-
-                Selection.ThisShip.AssignedDamageDiceroll.DiceList.Add(new Dice(DiceKind.Attack, DiceSide.Success));
-
                 Triggers.RegisterTrigger(new Trigger()
                 {
-                    Name = "Suffer damage",
-                    TriggerType = TriggerTypes.OnDamageIsDealt,
+                    Name = "Stunned Pilot crit",
+                    TriggerType = TriggerTypes.OnShipMovementFinish,
                     TriggerOwner = Selection.ThisShip.Owner.PlayerNo,
-                    EventHandler = Selection.ThisShip.SufferDamage
+                    EventHandler = CheckCollisionDamage
                 });
-
-                Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, delegate { });
             }
+        }
+
+        private void CheckCollisionDamage(object sender, System.EventArgs e)
+        {
+            Messages.ShowInfo("Stunned Pilot: Ship suffered damage");
+
+            Selection.ThisShip.AssignedDamageDiceroll.AddDice(DieSide.Success);
+
+            Triggers.RegisterTrigger(new Trigger()
+            {
+                Name = "Suffer damage",
+                TriggerType = TriggerTypes.OnDamageIsDealt,
+                TriggerOwner = Selection.ThisShip.Owner.PlayerNo,
+                EventHandler = Selection.ThisShip.SufferDamage,
+                EventArgs = new DamageSourceEventArgs()
+                {
+                    Source = "Critical hit card",
+                    DamageType = DamageTypes.CriticalHitCard
+                }
+            });
+
+            Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, Triggers.FinishTrigger);
         }
 
         public override void DiscardEffect(Ship.GenericShip host)
         {
-            host.OnMovementFinish -= CheckCollisionDamage;
+            host.OnMovementFinish -= RegisterCheckCollisionDamage;
             host.RemoveToken(typeof(Tokens.StunnedPilotCritToken));
 
             host.AfterAttackWindow -= DiscardEffect;

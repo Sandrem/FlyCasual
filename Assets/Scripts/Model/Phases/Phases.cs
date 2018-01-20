@@ -8,8 +8,8 @@ using System;
 
 public static partial class Phases
 {
-
-    private static GameManagerScript Game;
+    public static int RoundCounter;
+    public static bool GameIsEnded;
 
     public static GenericPhase CurrentPhase { get; set; }
     public static GenericSubPhase CurrentSubPhase { get; set; }
@@ -28,18 +28,19 @@ public static partial class Phases
         get { return CurrentSubPhase.RequiredPlayer; }
     }
 
-    private static List<System.Type> subPhasesToStart = new List<System.Type>();
-    private static List<System.Type> subPhasesToFinish = new List<System.Type>();
-
     // EVENTS
     public delegate void EventHandler();
+    public static event EventHandler OnGameStart;
     public static event EventHandler OnRoundStart;
     public static event EventHandler OnSetupPhaseStart;
+    public static event EventHandler OnBeforePlaceForces;
     public static event EventHandler OnPlanningPhaseStart;
     public static event EventHandler OnActivationPhaseStart;
     public static event EventHandler BeforeActionSubPhaseStart;
     public static event EventHandler OnActionSubPhaseStart;
+    public static event EventHandler OnActivationPhaseEnd;
     public static event EventHandler OnCombatPhaseStart;
+    public static event EventHandler OnCombatPhaseEnd;
     public static event EventHandler OnCombatSubPhaseRequiredPilotSkillIsChanged;
     public static event EventHandler OnEndPhaseStart;
     public static event EventHandler OnRoundEnd;
@@ -48,10 +49,15 @@ public static partial class Phases
 
     public static void StartPhases()
     {
-        Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
+        StartGame();
+    }
 
+    private static void StartGame()
+    {
+        RoundCounter = 0;
+        GameIsEnded = false;
         CurrentPhase = new SetupPhase();
-        Game.UI.AddTestLogEntry("Game is started");
+        UI.AddTestLogEntry("Game is started");
         CurrentPhase.StartPhase();
     }
 
@@ -65,11 +71,6 @@ public static partial class Phases
         else
         {
             Debug.Log("OOPS! YOU WANT TO FINISH " + subPhaseType + " SUBPHASE, BUT NOW IS " + CurrentSubPhase.GetType() + " SUBPHASE!");
-            /*if (!subPhasesToFinish.Contains(subPhaseType))
-            {
-                Debug.Log("Phase " + subPhaseType + " is planned to finish");
-                subPhasesToFinish.Add(subPhaseType);
-            }*/
         }
     }
 
@@ -89,74 +90,34 @@ public static partial class Phases
         CurrentSubPhase.CallNextSubPhase();
     }
 
-    public static void CheckScheduledChanges()
-    {
-        CheckScheduledFinishes();
-        CheckScheduledStarts();
-    }
-
-    private static void CheckScheduledFinishes()
-    {
-        if (subPhasesToFinish.Count != 0)
-        {
-            List<System.Type> tempList = new List<System.Type>();
-            foreach (var subPhaseType in subPhasesToFinish)
-            {
-                tempList.Add(subPhaseType);
-            }
-
-            foreach (var subPhaseType in tempList)
-            {
-                if (CurrentSubPhase.GetType() == subPhaseType)
-                {
-                    subPhasesToFinish.Remove(subPhaseType);
-                    Next();
-                }
-            }
-        }
-    }
-
-    public static void CancelScheduledFinish(System.Type subPhaseType)
-    {
-        if (subPhasesToFinish.Contains(subPhaseType))
-        {
-            Debug.Log(subPhaseType + " is removed from scheduled finish list");
-            subPhasesToFinish.Remove(subPhaseType);
-        }
-    }
-
-    private static void CheckScheduledStarts()
-    {
-        if (!InTemporarySubPhase)
-        {
-            if (subPhasesToStart.Count != 0)
-            {
-                StartTemporarySubPhase("SCHEDULED", subPhasesToStart[0]);
-                subPhasesToStart.RemoveAt(0);
-            }
-        }
-    }
-
-    public static IEnumerator WaitForTemporarySubPhasesFinish()
-    {
-        while (Phases.CurrentSubPhase.IsTemporary)
-        {
-            yield return new WaitForSeconds(0.1f);
-        }
-    }
-
     // TRIGGERS
 
-    public static void CallRoundStartTrigger()
+    public static void CallRoundStartTrigger(Action callback)
     {
         if (OnRoundStart != null) OnRoundStart();
+
+        Triggers.ResolveTriggers(TriggerTypes.OnRoundStart, callback);
+    }
+
+    public static void CallGameStartTrigger(Action callBack)
+    {
+        if (OnGameStart != null) OnGameStart();
+
+        Triggers.ResolveTriggers(TriggerTypes.OnGameStart, callBack);
     }
 
     public static void CallSetupPhaseTrigger()
     {
         if (OnSetupPhaseStart != null) OnSetupPhaseStart();
 
-        Triggers.ResolveTriggers(TriggerTypes.OnSetupPhaseStart, delegate() { FinishSubPhase(typeof(SetupStartSubPhase)); });
+        Triggers.ResolveTriggers(TriggerTypes.OnSetupPhaseStart, CallBeforePlaceForces);
+    }
+
+    public static void CallBeforePlaceForces()
+    {
+        if (OnBeforePlaceForces != null) OnBeforePlaceForces();
+
+        Triggers.ResolveTriggers(TriggerTypes.OnBeforePlaceForces, delegate { FinishSubPhase(typeof(SetupStartSubPhase)); });
     }
 
     public static void CallPlanningPhaseTrigger()
@@ -164,12 +125,26 @@ public static partial class Phases
         if (OnPlanningPhaseStart != null) OnPlanningPhaseStart();
     }
 
-    public static void CallActivationPhaseTrigger()
+    public static void CallActivationPhaseStartTrigger()
     {
         if (OnActivationPhaseStart != null) OnActivationPhaseStart();
+        foreach (var shipHolder in Roster.AllShips)
+        {
+            shipHolder.Value.CallOnActivationPhaseStart();
+        }
+
+        Triggers.ResolveTriggers(TriggerTypes.OnActivationPhaseStart, delegate () { FinishSubPhase(typeof(ActivationStartSubPhase)); });
     }
 
-    public static void CallCombatPhaseTrigger()
+    public static void CallActivationPhaseEndTrigger()
+    {
+        if (OnActivationPhaseEnd!= null) OnActivationPhaseEnd();
+
+        Triggers.ResolveTriggers(TriggerTypes.OnActivationPhaseEnd, delegate () { FinishSubPhase(typeof(ActivationEndSubPhase)); });
+    }
+
+
+    public static void CallCombatPhaseStartTrigger()
     {
         if (OnCombatPhaseStart != null) OnCombatPhaseStart();
         foreach (var shipHolder in Roster.AllShips)
@@ -180,9 +155,22 @@ public static partial class Phases
         Triggers.ResolveTriggers(TriggerTypes.OnCombatPhaseStart, delegate () { FinishSubPhase(typeof(CombatStartSubPhase)); });
     }
 
-    public static void CallEndPhaseTrigger()
+    public static void CallCombatPhaseEndTrigger()
+    {
+        if (OnCombatPhaseEnd != null) OnCombatPhaseEnd();
+        foreach (var shipHolder in Roster.AllShips)
+        {
+            shipHolder.Value.CallOnCombatPhaseEnd();
+        }
+
+        Triggers.ResolveTriggers(TriggerTypes.OnCombatPhaseEnd, delegate () { FinishSubPhase(typeof(CombatEndSubPhase)); });
+    }
+
+    public static void CallEndPhaseTrigger(Action callBack)
     {
         if (OnEndPhaseStart != null) OnEndPhaseStart();
+
+        Triggers.ResolveTriggers(TriggerTypes.OnEndPhaseStart, callBack);
     }
 
     public static void CallRoundEndTrigger()
@@ -210,20 +198,56 @@ public static partial class Phases
 
     // TEMPORARY SUBPHASES
 
-    public static void StartTemporarySubPhase(string name, System.Type subPhaseType, Action callBack = null)
+    public static void StartTemporarySubPhaseOld(string name, System.Type subPhaseType, Action callBack = null)
     {
         CurrentSubPhase.Pause();
         if (DebugManager.DebugPhases) Debug.Log("Temporary phase " + subPhaseType + " is started directly");
         GenericSubPhase previousSubPhase = CurrentSubPhase;
         CurrentSubPhase = (GenericSubPhase)System.Activator.CreateInstance(subPhaseType);
         CurrentSubPhase.Name = name;
-        CurrentSubPhase.callBack = callBack;
+        CurrentSubPhase.CallBack = callBack;
         CurrentSubPhase.PreviousSubPhase = previousSubPhase;
         CurrentSubPhase.RequiredPlayer = previousSubPhase.RequiredPlayer;
         CurrentSubPhase.RequiredPilotSkill = previousSubPhase.RequiredPilotSkill;
         CurrentSubPhase.Start();
     }
 
- }
+    public static GenericSubPhase StartTemporarySubPhaseNew(string name, System.Type subPhaseType, Action callBack)
+    {
+        CurrentSubPhase.Pause();
+        if (DebugManager.DebugPhases) Debug.Log("Temporary phase " + subPhaseType + " is started directly");
+        GenericSubPhase previousSubPhase = CurrentSubPhase;
+        CurrentSubPhase = (GenericSubPhase)System.Activator.CreateInstance(subPhaseType);
+        CurrentSubPhase.Name = name;
+        CurrentSubPhase.CallBack = callBack;
+        CurrentSubPhase.PreviousSubPhase = previousSubPhase;
+        CurrentSubPhase.RequiredPlayer = previousSubPhase.RequiredPlayer;
+        CurrentSubPhase.RequiredPilotSkill = previousSubPhase.RequiredPilotSkill;
+
+        return CurrentSubPhase;
+    }
+
+    public static void EndGame()
+    {
+        GameIsEnded = true;
+
+        foreach (var shipHolder in Roster.AllShips)
+        {
+            foreach (var ability in shipHolder.Value.PilotAbilities)
+            {
+                ability.DeactivateAbility();
+            }
+
+            foreach (var upgrade in shipHolder.Value.UpgradeBar.GetInstalledUpgrades())
+            {
+                foreach (var upgradeAbility in upgrade.UpgradeAbilities)
+                {
+                    upgradeAbility.DeactivateAbility();
+                }
+            }
+        }
+    }
+
+}
 
 

@@ -8,24 +8,30 @@ namespace CriticalHitCard
 
     public class GenericCriticalHit
     {
-        protected GameManagerScript Game;
 
         public Ship.GenericShip Host;
 
         public string Name;
         public CriticalCardType Type;
-        public List<DiceSide> CancelDiceResults = new List<DiceSide>();
-        public string ImageUrl;
+        public bool IsFaceUp;
+        public List<DieSide> CancelDiceResults = new List<DieSide>();
 
-        public GenericCriticalHit()
+        private string imageUrl;
+        public string ImageUrl
         {
-            Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
+            get
+            {
+                return imageUrl ?? ImageUrls.GetImageUrl(this);
+            }
+            set
+            {
+                imageUrl = value;
+            }
         }
 
         public void AssignCrit(Ship.GenericShip host)
         {
-            this.Host = host;
-            Inform();
+            Host = host;
 
             Triggers.RegisterTrigger(new Trigger() {
                 Name = "Apply critical hit card effect",
@@ -35,12 +41,6 @@ namespace CriticalHitCard
             });
 
             Triggers.ResolveTriggers(TriggerTypes.OnFaceupCritCardIsDealt, Triggers.FinishTrigger);
-        }
-
-        private void Inform()
-        {
-            Messages.ShowInfo("Crit: " + Name);
-            Game.UI.AddTestLogEntry("Crit: " + Name);
         }
 
         public virtual void ApplyEffect(object sender, EventArgs e)

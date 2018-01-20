@@ -1,9 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Ship;
+using System;
 
-// BUG: Cannot start new subphases from free action subphase
-// TODO: Move from end of activation to after action is taken
+// Second->First: Two same actions
+// Triggers are empty
 
 namespace Ship
 {
@@ -11,41 +13,52 @@ namespace Ship
     {
         public class DarthVader : TIEAdvanced
         {
-
             public DarthVader() : base()
             {
-                IsHidden = true;
-
                 PilotName = "Darth Vader";
-                ImageUrl = "https://vignette1.wikia.nocookie.net/xwing-miniatures/images/f/f7/Darth_Vader.png";
-                IsUnique = true;
                 PilotSkill = 9;
                 Cost = 29;
-                AddUpgradeSlot(Upgrade.UpgradeSlot.Elite);
-            }
 
-            public override void InitializePilot()
+                IsUnique = true;
+
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
+
+                SkinName = "Blue";
+
+                PilotAbilities.Add(new Abilities.DarthVaderAbility());
+            }
+        }
+    }
+}
+
+namespace Abilities
+{
+    public class DarthVaderAbility : GenericAbility
+    {
+        public override void ActivateAbility()
+        {
+            HostShip.OnActionDecisionSubphaseEnd += DoSecondAction;
+        }
+
+        public override void DeactivateAbility()
+        {
+            HostShip.OnActionDecisionSubphaseEnd -= DoSecondAction;
+        }
+
+        private void DoSecondAction(GenericShip ship)
+        {
+            if (!HostShip.HasToken(typeof(Tokens.StressToken)) && Phases.CurrentSubPhase.GetType() == typeof(SubPhases.ActionDecisonSubPhase))
             {
-                base.InitializePilot();
-
-                OnActionSubPhaseStart += DoSecondAction;
+                RegisterAbilityTrigger(TriggerTypes.OnFreeActionPlanned, PerformFreeAction);
             }
+        }
 
-            private void DoSecondAction(GenericShip ship)
-            {
-                if (!Selection.ThisShip.IsSkipsActionSubPhase)
-                {
-                    /*Triggers.RegisterTrigger(
-                        new Trigger() {
-                            Name = "Darth Vader",
-                            TriggerOwner = ship.Owner.PlayerNo,
-                            TriggerType = TriggerTypes.OnActionSubPhaseStart,
-                            EventHandler = ship.Owner.PerformAction
-                        }
-                    );*/
-                }
-            }
+        private void PerformFreeAction(object sender, System.EventArgs e)
+        {
+            HostShip.GenerateAvailableActionsList();
+            List<ActionsList.GenericAction> actions = Selection.ThisShip.GetAvailableActionsList();
 
+            HostShip.AskPerformFreeAction(actions, Triggers.FinishTrigger);
         }
     }
 }

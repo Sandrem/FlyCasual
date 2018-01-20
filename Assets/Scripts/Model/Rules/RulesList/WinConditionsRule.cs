@@ -4,11 +4,9 @@ namespace RulesList
 {
     public class WinConditionsRule
     {
-        private GameManagerScript Game;
 
-        public WinConditionsRule(GameManagerScript game)
+        public WinConditionsRule()
         {
-            Game = game;
             SubscribeEvents();
         }
 
@@ -25,14 +23,16 @@ namespace RulesList
             {
                 if (eliminatedTeam < 3)
                 {
-                    Game.UI.AddTestLogEntry("Player " + Roster.AnotherPlayer(eliminatedTeam) + " Wins!");
-                    Game.UI.ShowGameResults("Player " + Roster.AnotherPlayer(eliminatedTeam) + " Wins!");
+                    UI.AddTestLogEntry("Player " + Roster.AnotherPlayer(eliminatedTeam) + " Wins!");
+                    UI.ShowGameResults("Player " + Roster.AnotherPlayer(eliminatedTeam) + " Wins!");
                 }
                 else
                 {
-                    Game.UI.AddTestLogEntry("Draw!");
-                    Game.UI.ShowGameResults("Draw!");
+                    UI.AddTestLogEntry("Draw!");
+                    UI.ShowGameResults("Draw!");
                 }
+
+                Phases.GameIsEnded = true;
             }
         }
     }

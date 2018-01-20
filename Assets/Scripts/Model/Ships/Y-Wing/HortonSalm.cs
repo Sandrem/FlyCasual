@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Ship;
+using System;
 
 namespace Ship
 {
@@ -10,54 +12,83 @@ namespace Ship
         {
             public HortonSalm() : base()
             {
-                IsHidden = true;
-
                 PilotName = "Horton Salm";
-                ImageUrl = "https://vignette4.wikia.nocookie.net/xwing-miniatures/images/5/56/Horton_Salm.png";
-                IsUnique = true;
                 PilotSkill = 8;
                 Cost = 25;
-            }
 
-            public override void InitializePilot()
-            {
-                base.InitializePilot();
-                AfterGenerateAvailableActionEffectsList += WingedGundarkPilotAbility;
-            }
+                IsUnique = true;
 
-            public void WingedGundarkPilotAbility(GenericShip ship)
-            {
-                ship.AddAvailableActionEffect(new PilotAbilities.HortonSalmAction());
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Astromech);
+
+                faction = Faction.Rebel;
+
+                SkinName = "Gray";
+
+                PilotAbilities.Add(new Abilities.HortonSalmAbility());
             }
         }
     }
 }
 
-namespace PilotAbilities
+namespace Abilities
 {
-    public class HortonSalmAction : ActionsList.GenericAction
+    public class HortonSalmAbility : GenericAbility
     {
-        private Ship.GenericShip host;
-
-        public HortonSalmAction()
+        public override void ActivateAbility()
         {
-            Name = EffectName = "Horton Salm's ability";
-            IsReroll = true;
+            HostShip.AfterGenerateAvailableActionEffectsList += HortonSalmPilotAbility;
         }
 
-        public override void ActionEffect()
+        public override void DeactivateAbility()
         {
-            Combat.CurentDiceRoll.Reroll("blank");
+            HostShip.AfterGenerateAvailableActionEffectsList -= HortonSalmPilotAbility;
         }
 
-        public override bool IsActionEffectAvailable()
+        public void HortonSalmPilotAbility(GenericShip ship)
         {
-            bool result = false;
-            /*if ((Combat.AttackStep == CombatStep.Attack) && (Actions.GetRange(Selection.ThisShip, Selection.AnotherShip) > 1))
+            ship.AddAvailableActionEffect(new HortonSalmAction());
+        }
+
+        private class HortonSalmAction : ActionsList.GenericAction
+        {
+            public HortonSalmAction()
             {
-                result = true;
-            }*/
-            return result;
+                Name = EffectName = "Horton Salm's ability";
+                IsReroll = true;
+            }
+
+            public override void ActionEffect(System.Action callBack)
+            {
+                DiceRerollManager diceRerollManager = new DiceRerollManager
+                {
+                    SidesCanBeRerolled = new List<DieSide> { DieSide.Blank },
+                    CallBack = callBack
+                };
+                diceRerollManager.Start();
+            }
+
+            public override bool IsActionEffectAvailable()
+            {
+                bool result = false;
+                Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(Combat.Attacker, Combat.Defender, Combat.ChosenWeapon);
+                if ((Combat.AttackStep == CombatStep.Attack) && (shotInfo.Range > 1))
+                {
+                    result = true;
+                }
+                return result;
+            }
+
+            public override int GetActionEffectPriority()
+            {
+                int result = 0;
+
+                if (Combat.AttackStep == CombatStep.Attack)
+                {
+                    if (Combat.DiceRollAttack.Blanks > 0) result = 95;
+                }
+
+                return result;
+            }
         }
 
     }

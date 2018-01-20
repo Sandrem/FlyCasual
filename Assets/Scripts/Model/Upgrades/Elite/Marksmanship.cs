@@ -11,9 +11,8 @@ namespace UpgradesList
 
         public Marksmanship() : base()
         {
-            Type = UpgradeSlot.Elite;
-            Name = ShortName = "Marksmanship";
-            ImageUrl = "https://vignette1.wikia.nocookie.net/xwing-miniatures/images/6/69/Marksmanship.png";
+            Type = UpgradeType.Elite;
+            Name = "Marksmanship";
             Cost = 3;
         }
 
@@ -39,20 +38,27 @@ namespace ActionsList
 
     public class MarksmanshipAction : GenericAction
     {
-        private Ship.GenericShip host;
 
         public MarksmanshipAction()
         {
             Name = EffectName = "Marksmanship";
+
+            IsTurnsAllFocusIntoSuccess = true;
         }
 
         public override void ActionTake()
         {
-            host = Selection.ThisShip;
-            host.AfterGenerateAvailableActionEffectsList += MarksmanshipAddDiceModification;
-            host.AssignToken(new Conditions.MarksmanshipCondition());
+            Host = Selection.ThisShip;
+            Host.AfterGenerateAvailableActionEffectsList += MarksmanshipAddDiceModification;
             Phases.OnEndPhaseStart += MarksmanshipUnSubscribeToFiceModification;
-            Phases.CurrentSubPhase.callBack();
+            Host.AssignToken(new Conditions.MarksmanshipCondition(), Phases.CurrentSubPhase.CallBack);
+        }
+
+        public override int GetActionPriority()
+        {
+            int result = 0;
+            if (Actions.HasTarget(Selection.ThisShip)) result = 60;
+            return result;
         }
 
         private void MarksmanshipAddDiceModification(Ship.GenericShip ship)
@@ -62,8 +68,9 @@ namespace ActionsList
 
         private void MarksmanshipUnSubscribeToFiceModification()
         {
-            host.RemoveToken(typeof(Conditions.MarksmanshipCondition));
-            host.AfterGenerateAvailableActionEffectsList -= MarksmanshipAddDiceModification;
+            Host.RemoveToken(typeof(Conditions.MarksmanshipCondition));
+            Host.AfterGenerateAvailableActionEffectsList -= MarksmanshipAddDiceModification;
+            Phases.OnEndPhaseStart -= MarksmanshipUnSubscribeToFiceModification;
         }
 
         public override bool IsActionEffectAvailable()
@@ -73,10 +80,24 @@ namespace ActionsList
             return result;
         }
 
-        public override void ActionEffect()
+        public override int GetActionEffectPriority()
         {
-            Combat.CurentDiceRoll.ChangeOne(DiceSide.Focus, DiceSide.Crit);
-            Combat.CurentDiceRoll.ChangeAll(DiceSide.Focus, DiceSide.Success);
+            int result = 0;
+
+            if (Combat.AttackStep == CombatStep.Attack)
+            {
+                int attackFocuses = Combat.DiceRollAttack.Focuses;
+                if (attackFocuses > 0) result = 60;
+            }
+
+            return result;
+        }
+
+        public override void ActionEffect(System.Action callBack)
+        {
+            Combat.CurrentDiceRoll.ChangeOne(DieSide.Focus, DieSide.Crit);
+            Combat.CurrentDiceRoll.ChangeAll(DieSide.Focus, DieSide.Success);
+            callBack();
         }
 
     }

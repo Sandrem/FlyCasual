@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using Ship;
+using GameModes;
 
 namespace SubPhases
 {
@@ -11,7 +13,6 @@ namespace SubPhases
 
         public override void Start()
         {
-            Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
             Name = "Activation SubPhase";
         }
 
@@ -105,14 +106,17 @@ namespace SubPhases
 
         public override void FinishPhase()
         {
-            Phases.NextPhase();
+            Phases.CurrentSubPhase = new ActivationEndSubPhase();
+            Phases.CurrentSubPhase.Start();
+            Phases.CurrentSubPhase.Prepare();
+            Phases.CurrentSubPhase.Initialize();
         }
 
-        public override bool ThisShipCanBeSelected(Ship.GenericShip ship)
+        public override bool ThisShipCanBeSelected(GenericShip ship, int mouseKeyIsPressed)
         {
             bool result = false;
 
-            if ((ship.Owner.PlayerNo == RequiredPlayer) && (ship.PilotSkill == RequiredPilotSkill))
+            if ((ship.Owner.PlayerNo == RequiredPlayer) && (ship.PilotSkill == RequiredPilotSkill) && (Roster.GetPlayer(RequiredPlayer).GetType() == typeof(Players.HumanPlayer)))
             {
                 result = true;
             }
@@ -123,12 +127,13 @@ namespace SubPhases
             return result;
         }
 
-        public override int CountActiveButtons(Ship.GenericShip ship)
+        // OUTDATED
+        public override int CountActiveButtons(GenericShip ship)
         {
             int result = 0;
-            if (Selection.ThisShip.AssignedManeuver != null)
+            if (!Selection.ThisShip.IsManeuverPerformed)
             {
-                Game.PrefabsList.ContextMenuPanel.transform.Find("MovePerformButton").gameObject.SetActive(true);
+                GameObject.Find("UI").transform.Find("ContextMenuPanel").Find("MovePerformButton").gameObject.SetActive(true);
                 result++;
             }
             else
@@ -149,6 +154,18 @@ namespace SubPhases
                     Roster.RosterPanelHighlightOn(ship.Value);
                 }
             }
+        }
+
+        public override void DoSelectThisShip(GenericShip ship, int mouseKeyIsPressed)
+        {
+            if (!ship.IsManeuverPerformed)
+            {
+                GameMode.CurrentGameMode.PerformStoredManeuver(Selection.ThisShip.ShipId);
+            }
+            else
+            {
+                Messages.ShowErrorToHuman("This ship has already executed his maneuver");
+            };
         }
 
     }

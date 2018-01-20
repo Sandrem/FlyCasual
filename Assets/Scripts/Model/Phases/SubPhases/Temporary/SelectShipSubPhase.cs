@@ -1,25 +1,31 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using GameModes;
 
 namespace SubPhases
 {
+    public enum TargetTypes
+    {
+        This,
+        OtherFriendly,
+        Enemy
+    }
 
     public class SelectShipSubPhase : GenericSubPhase
     {
-        protected bool isEnemyAllowed;
-        protected bool isFriendlyAllowed;
-        protected bool isThisAllowed;
+        protected List<TargetTypes> targetsAllowed = new List<TargetTypes>();
         protected int minRange = 1;
         protected int maxRange = 3;
 
-        protected UnityEngine.Events.UnityAction finishAction;
+        protected bool CanMeasureRangeBeforeSelection = true;
 
-        protected Ship.GenericShip TargetShip;
+        protected System.Action finishAction;
+
+        public Ship.GenericShip TargetShip;
 
         public override void Start()
         {
-            Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
             IsTemporary = true;
 
             Prepare();
@@ -35,92 +41,204 @@ namespace SubPhases
 
         }
 
+        public void PrepareByParameters(System.Action selectTargetAction, List<TargetTypes> targetTypes, Vector2 rangeLimits, bool showSkipButton = false)
+        {
+            targetsAllowed.AddRange(targetTypes);
+            minRange = (int) rangeLimits.x;
+            maxRange = (int) rangeLimits.y;
+
+            finishAction = selectTargetAction;
+
+            if (showSkipButton) UI.ShowSkipButton();
+        }
+
         public override void Initialize()
         {
             Players.PlayerNo playerNo = Players.PlayerNo.Player1;
-            if (isFriendlyAllowed) playerNo = Phases.CurrentPhasePlayer;
-            if (isEnemyAllowed) playerNo = Roster.AnotherPlayer(Phases.CurrentPhasePlayer);
-            Roster.HighlightShipsFiltered(playerNo, -1);
+            if (targetsAllowed.Contains(TargetTypes.OtherFriendly)) playerNo = Phases.CurrentPhasePlayer;
+            if (targetsAllowed.Contains(TargetTypes.Enemy)) playerNo = Roster.AnotherPlayer(Phases.CurrentPhasePlayer);
+            Roster.HighlightShipsFiltered(playerNo, -1, GenerateListOfExceptions());
+        }
+
+        private List<Ship.GenericShip> GenerateListOfExceptions()
+        {
+            List<Ship.GenericShip> exceptShips = new List<Ship.GenericShip>();
+
+            if (Selection.ThisShip != null)
+            {
+                if (targetsAllowed.Contains(TargetTypes.This)) exceptShips.Add(Selection.ThisShip);
+
+                foreach (var ship in Roster.AllShips)
+                {
+                    if ((targetsAllowed.Contains(TargetTypes.OtherFriendly) && ship.Value.Owner.PlayerNo == Selection.ThisShip.Owner.PlayerNo) || (targetsAllowed.Contains(TargetTypes.Enemy) && ship.Value.Owner.PlayerNo != Selection.ThisShip.Owner.PlayerNo))
+                    {
+                        Board.ShipDistanceInformation distanceInfo = new Board.ShipDistanceInformation(Selection.ThisShip, ship.Value);
+                        if ((distanceInfo.Range < minRange) || (distanceInfo.Range > maxRange))
+                        {
+                            exceptShips.Add(ship.Value);
+                        }
+                    }
+                }
+            }
+
+            return exceptShips;
         }
 
         public override void Next()
         {
             Roster.AllShipsHighlightOff();
-            Phases.CurrentSubPhase = PreviousSubPhase;
-            Phases.CurrentSubPhase.Next();
+            Phases.CurrentSubPhase = Phases.CurrentSubPhase.PreviousSubPhase;
             UpdateHelpInfo();
         }
 
-        public override bool ThisShipCanBeSelected(Ship.GenericShip ship)
+        public override bool ThisShipCanBeSelected(Ship.GenericShip ship, int mouseKeyIsPressed)
         {
             bool result = false;
 
-            if (isFriendlyAllowed)
+            if (Roster.GetPlayer(RequiredPlayer).GetType() == typeof(Players.HumanPlayer))
             {
-                Board.ShipDistanceInformation distanceInfo = new Board.ShipDistanceInformation(Selection.ThisShip, ship);
-                int range = distanceInfo.Range;
-
-                if ((range >= minRange) && (range <= maxRange))
+                if (targetsAllowed.Contains(TargetTypes.OtherFriendly))
                 {
-                    TargetShip = ship;
-                    Game.UI.HideNextButton();
-                    MovementTemplates.ShowRange(Selection.ThisShip, ship);
-                    finishAction.Invoke();
-                    Phases.FinishSubPhase(this.GetType());
-                    callBack();
+                    if (ship == Selection.ThisShip)
+                    {
+                        TryToSelectThisShip();
+                    }
+                    else
+                    {
+                        if (mouseKeyIsPressed == 1)
+                        {
+                            TrySelectShipByRange(ship);
+                        }
+                        else if (mouseKeyIsPressed == 2)
+                        {
+                            if (CanMeasureRangeBeforeSelection)
+                            {
+                                Actions.GetRangeAndShow(Selection.ThisShip, ship);
+                            }
+                            else
+                            {
+                                Messages.ShowError("Cannot measure range before selection");
+                            }
+                        }
+                    }
                 }
                 else
                 {
-                    Messages.ShowErrorToHuman("Ship is outside of range");
-                    RevertSubPhase();
+                    Messages.ShowErrorToHuman("Friendly ship cannot be selected");
+                    CancelShipSelection();
                 }
-            }
-            else
-            {
-                Messages.ShowErrorToHuman("Friendly ship cannot be selected");
-                RevertSubPhase();
             }
             return result;
         }
 
-        public override bool AnotherShipCanBeSelected(Ship.GenericShip anotherShip)
+        public override bool AnotherShipCanBeSelected(Ship.GenericShip anotherShip, int mouseKeyIsPressed)
         {
             bool result = false;
 
-            if (isEnemyAllowed)
+            if (Roster.GetPlayer(RequiredPlayer).GetType() != typeof(Players.NetworkOpponentPlayer))
             {
-                Board.ShipDistanceInformation distanceInfo = new Board.ShipDistanceInformation(Selection.ThisShip, anotherShip);
-                int range = distanceInfo.Range;
-
-                if ( (range >= minRange) && (range <= maxRange))
+                if (targetsAllowed.Contains(TargetTypes.Enemy))
                 {
-                    Game.UI.HideNextButton();
-                    TargetShip = anotherShip;
-                    MovementTemplates.ShowRange(Selection.ThisShip, anotherShip);
-                    finishAction.Invoke();
-                    Phases.FinishSubPhase(this.GetType());
-                    callBack();
+                    if (mouseKeyIsPressed == 1)
+                    {
+                        TrySelectShipByRange(anotherShip);
+                    }
+                    else if (mouseKeyIsPressed == 2)
+                    {
+                        if (CanMeasureRangeBeforeSelection)
+                        {
+                            Actions.GetRangeAndShow(Selection.ThisShip, anotherShip);
+                        }
+                        else
+                        {
+                            Messages.ShowError("Cannot measure range before selection");
+                        }
+                    }
                 }
                 else
                 {
-                    Messages.ShowErrorToHuman("Ship is outside of range");
-                    RevertSubPhase();
+                    Messages.ShowErrorToHuman("Enemy ship cannot be selected");
+                    CancelShipSelection();
                 }
-            }
-            else
-            {
-                Messages.ShowErrorToHuman("Enemy ship cannot be selected");
-                RevertSubPhase();
             }
             return result;
         }
 
-        protected virtual void RevertSubPhase()
+        private void TryToSelectThisShip()
+        {
+            if (targetsAllowed.Contains(TargetTypes.This))
+            {
+                TargetShip = Selection.ThisShip;
+                UI.HideNextButton();
+                TargetShipIsSelected();
+            }
+            else
+            {
+                Messages.ShowErrorToHuman("Another ship should be selected");
+                CancelShipSelection();
+            }
+        }
+
+        private void TrySelectShipByRange(Ship.GenericShip ship)
+        {
+            Board.ShipDistanceInformation distanceInfo = new Board.ShipDistanceInformation(Selection.ThisShip, ship);
+            int range = distanceInfo.Range;
+
+            if ((range >= minRange) && (range <= maxRange))
+            {
+                TargetShip = ship;
+                UI.HideNextButton();
+                MovementTemplates.ShowRange(Selection.ThisShip, ship);
+                TargetShipIsSelected();
+            }
+            else
+            {
+                Messages.ShowErrorToHuman("Ship is outside of range");
+                CancelShipSelection();
+            }
+        }
+
+        private void CancelShipSelection()
+        {
+            GameMode.CurrentGameMode.RevertSubPhase();
+        }
+
+        public void CallRevertSubPhase()
+        {
+            RevertSubPhase();
+        }
+
+        public virtual void RevertSubPhase()
         {
             Phases.CurrentSubPhase = PreviousSubPhase;
             Roster.AllShipsHighlightOff();
             Phases.CurrentSubPhase.Resume();
             UpdateHelpInfo();
+        }
+
+        private void TargetShipIsSelected()
+        {
+            if (!Network.IsNetworkGame)
+            {
+                InvokeFinish();
+            }
+            else
+            {
+                Network.SelectTargetShip(TargetShip.ShipId);
+            }
+            
+        }
+
+        public void InvokeFinish()
+        {
+            finishAction.Invoke();
+        }
+
+        public static void FinishSelection()
+        {
+            Phases.FinishSubPhase(Phases.CurrentSubPhase.GetType());
+            Phases.CurrentSubPhase.Resume();
+            Triggers.FinishTrigger();
         }
 
     }

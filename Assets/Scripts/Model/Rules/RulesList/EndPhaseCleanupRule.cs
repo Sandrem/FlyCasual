@@ -13,7 +13,7 @@ namespace RulesList
 
         private void SubscribeEvents()
         {
-            Phases.OnEndPhaseStart += EndPhaseClearAll;
+            Phases.OnRoundEnd += EndPhaseClearAll;
         }
 
         public void EndPhaseClearAll()
@@ -37,11 +37,13 @@ namespace RulesList
             ship.IsAttackPerformed = false;
             ship.IsManeuverPerformed = false;
             ship.IsSkipsActionSubPhase = false;
+            ship.IsBombAlreadyDropped = false;
+            ship.IsCannotAttackSecondTime = false;
         }
 
         private void ClearAssignedManeuvers(Ship.GenericShip ship)
         {
-            ship.AssignedManeuver = null;
+            ship.ClearAssignedManeuver();
         }
     }
 }

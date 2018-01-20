@@ -1,0 +1,39 @@
+﻿LICENSE
+
+SPANISH
+
+Este archivo esta bajo licencia Creative Commons 3.0:
+
+	-http://creativecommons.org/licenses/by/3.0/es/
+	
+Eres libre de:
+
+	-Copiar, distribuir y comunicar publicamente la obra
+
+	-Hacer archivos derivados
+
+Bajo las condiciones siguientes:
+	
+	-Esta permitido realizar cualquier trabajo personal o comercial.
+	
+	-Reconocimiento: Los archivos pueden usarse en renders o animaciones sin reconocimiento alguno. Sólo en caso de querer redistribuir los archivos se debe reconocer la autoria de Scopia Visual Interfaces Systems, s.l. (http://www.scopia.es) y de Eteks (http://sweethome3d.com)
+		
+ENGLISH
+
+This file is under the Creative Commons 4.0 Unported license:
+	
+http://creativecommons.org/licenses/by/4.0/
+	
+Your are free:
+	
+	-To share - to copy, distribute and trasmit the work
+	
+	-To Remix - to adapt the work
+	
+Under the following conditions:
+	
+	-You are free to make personal or commercial works.
+	
+Attribution: The models can be used in renders or animations without attribution.
+
+If you want distribute the model files themselves you must attribute it to Scopia Visual Interfaces Systems, s.l. (http://www.scopia.es) and Eteks (http://sweethome3d.com)

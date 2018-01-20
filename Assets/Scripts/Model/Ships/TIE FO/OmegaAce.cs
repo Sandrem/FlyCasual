@@ -51,6 +51,7 @@ namespace ActionsList
 {
     public class OmegaAceAbilityAction : GenericAction
     {
+        private System.Action actionCallback;
         public OmegaAceAbilityAction()
         {
             Name = EffectName = "\"Omega Ace\" ability";
@@ -79,22 +80,33 @@ namespace ActionsList
         {
             if (Actions.HasTargetLockOn(Combat.Attacker, Combat.Defender))
             {
-                payCost(callBack);
-                Combat.CurrentDiceRoll.ChangeAll(DieSide.Blank, DieSide.Crit);
-                Combat.CurrentDiceRoll.ChangeAll(DieSide.Focus, DieSide.Crit);
-                Combat.CurrentDiceRoll.ChangeAll(DieSide.Success, DieSide.Crit);
-                Combat.CurrentDiceRoll.OrganizeDicePositions();                
-                callBack();
+                this.actionCallback = callBack;
+                payTargetLock();                
             }
         }
-
-        private void payCost(System.Action callBack)
+        
+        private void payTargetLock()
         {
             char targetLockLetter = Actions.GetTargetLocksLetterPair(Combat.Attacker, Combat.Defender);
-            Combat.Attacker.SpendToken(typeof(BlueTargetLockToken),callBack,targetLockLetter);
-            Combat.Attacker.SpendToken(typeof(FocusToken),callBack);
+            Combat.Attacker.SpendToken(typeof(BlueTargetLockToken), payFocus, targetLockLetter);            
         }
+
+        private void payFocus()
+        {
+            Combat.Attacker.SpendToken(typeof(FocusToken), execute);
+        }
+
+        private void execute()
+        {
+            Combat.CurrentDiceRoll.ChangeAll(DieSide.Blank, DieSide.Crit);
+            Combat.CurrentDiceRoll.ChangeAll(DieSide.Focus, DieSide.Crit);
+            Combat.CurrentDiceRoll.ChangeAll(DieSide.Success, DieSide.Crit);
+            Combat.CurrentDiceRoll.OrganizeDicePositions();
+            this.actionCallback();
+        }
+
     }
+
 
 }
 

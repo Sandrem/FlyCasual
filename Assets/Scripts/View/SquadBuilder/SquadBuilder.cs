@@ -268,11 +268,10 @@ namespace SquadBuilderNS
             if (AddShipButtonPanel != null)
             {
                 allPanelsWidth += AddShipButtonPanel.Size.x;
-            }
-            
-            if (ShipWithUpgradesPanels.Count > 0)
-            {
-                allPanelsWidth += DISTANCE_LARGE;
+                if (ShipWithUpgradesPanels.Count > 0)
+                {
+                    allPanelsWidth += DISTANCE_LARGE;
+                }
             }
 
             if (defaultWidth/allPanelsWidth > 0.75f)

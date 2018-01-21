@@ -170,5 +170,15 @@ namespace Abilities
                 FinishSelection();
             }
         }
+
+        protected void ClearIsAbilityUsedFlag()
+        {
+            IsAbilityUsed = false;
+        }
+
+        protected void SetIsAbilityIsUsed(GenericShip ship)
+        {
+            IsAbilityUsed = true;
+        }
     }
 }

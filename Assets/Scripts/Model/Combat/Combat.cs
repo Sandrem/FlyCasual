@@ -399,6 +399,8 @@ public static partial class Combat
 
         if (!Selection.ThisShip.IsCannotAttackSecondTime)
         {
+            Debug.Log(Phases.CurrentSubPhase);
+
             CheckSecondAttack(Phases.CurrentSubPhase.CallBack);
         }
         else
@@ -443,6 +445,7 @@ public static partial class Combat
     public static void StartAdditionalAttack(GenericShip ship, Action callback, Func<GenericShip, IShipWeapon, bool> extraAttackFilter = null)
     {
         Selection.ChangeActiveShip("ShipId:" + ship.ShipId);
+        Phases.CurrentSubPhase.RequiredPlayer = ship.Owner.PlayerNo;
 
         Combat.ExtraAttackFilter = extraAttackFilter;
 

@@ -23,7 +23,7 @@ namespace UpgradesList
 
 namespace Abilities
 {
-    //When you reveal a red maneuver, you may discard this card to trat that maneuver as a white maneuver until the end of the Activation phase.
+    //When you reveal a red maneuver, you may discard this card to treat that maneuver as a white maneuver until the end of the Activation phase.
     public class AdrenalineRushAbility : GenericAbility
     {
         public override void ActivateAbility()

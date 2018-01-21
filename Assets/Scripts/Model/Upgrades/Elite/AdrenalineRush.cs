@@ -28,25 +28,12 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            Phases.OnRoundStart += CanUseRedmaneuversWhenStressed;
-
             HostShip.OnManeuverIsRevealed += CheckTrigger;
         }
 
         public override void DeactivateAbility()
         {
-            Phases.OnRoundStart -= CanUseRedmaneuversWhenStressed;
-
             HostShip.OnManeuverIsRevealed -= CheckTrigger;
-        }
-
-        //The card allows pilots to be able to reveal red maneuvers while stressed and convert them into white maneuvers.
-        private void CanUseRedmaneuversWhenStressed()
-        {
-            if (!HostUpgrade.isDiscarded)
-            {
-                HostShip.CanPerformRedManeuversWhileStressed = true;
-            }
         }
 
         private void CheckTrigger(GenericShip host)
@@ -63,20 +50,12 @@ namespace Abilities
             if (HostShip.AssignedManeuver.ColorComplexity == ManeuverColor.Red)
             {
                 RegisterAbilityTrigger(TriggerTypes.OnTokenIsAssigned, AskToUseAdrenalineRush);
-            }            
+            }
         }
 
         private void AskToUseAdrenalineRush(object sender, EventArgs e)
         {
-            if (HostShip.HasToken(typeof(StressToken)))
-            {
-                Messages.ShowInfoToHuman(string.Format("Adrenaline Rush: {0} is stressed, must use Adrenaline Rush", HostShip.PilotName));
-                ChangeManeuverColorAbility(Triggers.FinishTrigger);                
-            }
-            else
-            {
-                AskToUseAbility(NeverUseByDefault, delegate { ChangeManeuverColorAbility(DecisionSubPhase.ConfirmDecision); });
-            }
+            AskToUseAbility(NeverUseByDefault, delegate { ChangeManeuverColorAbility(DecisionSubPhase.ConfirmDecision); });
         }
 
         private void ChangeManeuverColorAbility(Action callback)
@@ -86,10 +65,8 @@ namespace Abilities
 
             HostShip.SetAssignedManeuver(movement);
 
+            Messages.ShowInfoToHuman(string.Format("Adrenaline Rush: {0} changed maneuver, Adrenaline Rush is disabled on {0}", HostShip.PilotName));
             HostUpgrade.TryDiscard(callback);
-            Messages.ShowInfoToHuman("Adrenaline Rush: ability used, card discarded");
-
-            HostShip.CanPerformRedManeuversWhileStressed = false;
         }
     }
 }

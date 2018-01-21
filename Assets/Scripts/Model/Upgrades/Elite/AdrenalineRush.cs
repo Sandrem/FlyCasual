@@ -65,7 +65,7 @@ namespace Abilities
 
             HostShip.SetAssignedManeuver(movement);
 
-            Messages.ShowInfoToHuman(string.Format("Adrenaline Rush: {0} changed maneuver, Adrenaline Rush is disabled on {0}", HostShip.PilotName));
+            Messages.ShowInfoToHuman(string.Format("{0} changed maneuver, Adrenaline Rush is disabled on {0}", HostShip.PilotName));
             HostUpgrade.TryDiscard(callback);
         }
     }

@@ -460,7 +460,7 @@ namespace SquadBuilderNS
             if (!ValidateLimitedCards(playerNo)) return false;
             if (!ValidateShipAiReady(playerNo)) return false;
             if (!ValidateUpgradePostChecks(playerNo)) return false;
-            if (!ValidateDifferentUpgradesInAdditionalSlots(playerNo)) return false;
+            if (!ValidateSlotsRequirements(playerNo)) return false;
 
             return true;
         }
@@ -595,7 +595,7 @@ namespace SquadBuilderNS
             return result;
         }
 
-        private static bool ValidateDifferentUpgradesInAdditionalSlots(PlayerNo playerNo)
+        private static bool ValidateSlotsRequirements(PlayerNo playerNo)
         {
             bool result = true;
 
@@ -603,15 +603,28 @@ namespace SquadBuilderNS
             {
                 foreach (var upgradeSlot in shipHolder.Instance.UpgradeBar.GetUpgradeSlots())
                 {
-                    if (upgradeSlot.MustBeDifferent && !upgradeSlot.IsEmpty)
+                    if (!upgradeSlot.IsEmpty)
                     {
-                        int countDuplicates = shipHolder.Instance.UpgradeBar.GetInstalledUpgrades().Count(n => n.Name == upgradeSlot.InstalledUpgrade.Name);
-                        if (countDuplicates > 1)
+                        if (upgradeSlot.MustBeDifferent)
                         {
-                            Messages.ShowError("Upgrades must be different: " + upgradeSlot.InstalledUpgrade.Name);
+                            int countDuplicates = shipHolder.Instance.UpgradeBar.GetInstalledUpgrades().Count(n => n.Name == upgradeSlot.InstalledUpgrade.Name);
+                            if (countDuplicates > 1)
+                            {
+                                Messages.ShowError("Upgrades must be different: " + upgradeSlot.InstalledUpgrade.Name);
+                                return false;
+                            }
+                        }
+                        if (upgradeSlot.InstalledUpgrade.Cost > upgradeSlot.MaxCost)
+                        {
+                            Messages.ShowError("Upgrade must costs less than " + upgradeSlot.MaxCost + " : " + upgradeSlot.InstalledUpgrade.Name);
                             return false;
                         }
-                    }
+                        if (upgradeSlot.MustBeNonUnique && upgradeSlot.InstalledUpgrade.isUnique)
+                        {
+                            Messages.ShowError("Upgrade must be non unique : " + upgradeSlot.InstalledUpgrade.Name);
+                            return false;
+                        }
+                    }                
                 }
             }
 

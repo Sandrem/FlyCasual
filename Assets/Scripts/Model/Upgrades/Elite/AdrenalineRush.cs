@@ -71,10 +71,7 @@ namespace Abilities
             if (HostShip.HasToken(typeof(StressToken)))
             {
                 Messages.ShowInfoToHuman(string.Format("Adrenaline Rush: {0} is stressed, must use Adrenaline Rush", HostShip.PilotName));
-                ChangeManeuverColorAbility(Triggers.FinishTrigger);
-
-                //This should only run when Adrenaline Rush is being forced on the user.
-                HostShip.CanPerformRedManeuversWhileStressed = false;
+                ChangeManeuverColorAbility(Triggers.FinishTrigger);                
             }
             else
             {
@@ -91,6 +88,8 @@ namespace Abilities
 
             HostUpgrade.TryDiscard(callback);
             Messages.ShowInfoToHuman("Adrenaline Rush: ability used, card discarded");
+
+            HostShip.CanPerformRedManeuversWhileStressed = false;
         }
     }
 }

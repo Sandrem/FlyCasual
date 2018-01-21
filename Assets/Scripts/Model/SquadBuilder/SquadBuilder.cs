@@ -619,9 +619,9 @@ namespace SquadBuilderNS
                             Messages.ShowError("Upgrade must costs less than " + upgradeSlot.MaxCost + " : " + upgradeSlot.InstalledUpgrade.Name);
                             return false;
                         }
-                        if (upgradeSlot.MustBeNonUnique && upgradeSlot.InstalledUpgrade.isUnique)
+                        if (upgradeSlot.MustBeUnique && !upgradeSlot.InstalledUpgrade.isUnique)
                         {
-                            Messages.ShowError("Upgrade must be non unique : " + upgradeSlot.InstalledUpgrade.Name);
+                            Messages.ShowError("Upgrade must be unique : " + upgradeSlot.InstalledUpgrade.Name);
                             return false;
                         }
                     }                

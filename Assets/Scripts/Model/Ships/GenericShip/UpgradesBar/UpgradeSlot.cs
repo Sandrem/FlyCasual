@@ -15,7 +15,7 @@ namespace Upgrade
         public int CostDecrease { get; set; }
         public int MaxCost { get; set; }            // Needed for Tie Shuttle Title
         public bool MustBeDifferent { get; set; }   // Needed fot Royal Guard Title
-        public bool MustBeNonUnique { get; set; }   // Needed for Havoc Title
+        public bool MustBeUnique { get; set; }   // Needed for Havoc Title
 
         public GenericUpgrade InstalledUpgrade { get; private set; }
 

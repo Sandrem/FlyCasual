@@ -15,7 +15,7 @@ namespace UpgradesList
             AddedSlots = new List<UpgradeSlot>
             {
                 new UpgradeSlot(UpgradeType.System) {  },
-                new UpgradeSlot(UpgradeType.SalvagedAstromech) { MustBeNonUnique = true }
+                new UpgradeSlot(UpgradeType.SalvagedAstromech) { MustBeUnique = true }
             };
             ForbiddenSlots = new List<UpgradeType>
             {

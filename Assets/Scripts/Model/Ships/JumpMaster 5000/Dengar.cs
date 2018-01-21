@@ -48,10 +48,12 @@ namespace Abilities
 
         private void CheckAbility(GenericShip ship)
         {
-            if (!IsAbilityUsed)
-            {
-                RegisterAbilityTrigger(TriggerTypes.OnExtraAttack, DoCounterAttack);
-            }
+            if (IsAbilityUsed) return;
+
+            Board.ShipShotDistanceInformation counterAttackInfo = new Board.ShipShotDistanceInformation(Combat.Defender, Combat.Attacker);
+            if (!counterAttackInfo.InArc) return;
+            
+            RegisterAbilityTrigger(TriggerTypes.OnExtraAttack, DoCounterAttack);
         }
 
         private void DoCounterAttack(object sender, EventArgs e)

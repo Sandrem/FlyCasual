@@ -10,7 +10,9 @@ namespace ActionList
 
         public FriendlyAttackRerollAction(int numberOfDice, int friendlyShipRange)
         {
+            FriendlyShipRange = friendlyShipRange;
             NumberOfDice = numberOfDice;
+
             Name = EffectName = string.Format("{0}'s ability", Name);
             IsReroll = true;
         }

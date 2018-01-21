@@ -234,10 +234,15 @@ namespace SubPhases
             finishAction.Invoke();
         }
 
-        public static void FinishSelection()
+        public static void FinishSelectionNoCallback()
         {
             Phases.FinishSubPhase(Phases.CurrentSubPhase.GetType());
             Phases.CurrentSubPhase.Resume();
+        }
+
+        public static void FinishSelection()
+        {
+            FinishSelectionNoCallback();
             Triggers.FinishTrigger();
         }
 

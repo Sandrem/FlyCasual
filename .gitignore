@@ -74,3 +74,4 @@ ExportedObj/
 *.pdb
 
 /.collabignore
+/Assets/.vs

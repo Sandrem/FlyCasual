@@ -6,6 +6,7 @@ using Board;
 using ActionsList;
 using Ship;
 using System.ComponentModel;
+using Tokens;
 
 public static partial class Actions
 {
@@ -61,14 +62,14 @@ public static partial class Actions
         ShipDistanceInformation distanceInfo = new ShipDistanceInformation(thisShip, targetShip);
         if (distanceInfo.Range >= thisShip.TargetLockMinRange && distanceInfo.Range <= thisShip.TargetLockMaxRange)
         {
-            Tokens.GenericToken existingBlueToken = thisShip.GetToken(typeof(Tokens.BlueTargetLockToken), '*');
+            GenericToken existingBlueToken = thisShip.GetToken(typeof(BlueTargetLockToken), '*');
             if (existingBlueToken != null)
             {
-                thisShip.RemoveToken(typeof(Tokens.BlueTargetLockToken), (existingBlueToken as Tokens.BlueTargetLockToken).Letter);
+                thisShip.RemoveToken(typeof(BlueTargetLockToken), (existingBlueToken as BlueTargetLockToken).Letter);
             }
 
-            Tokens.BlueTargetLockToken tokenBlue = new Tokens.BlueTargetLockToken();
-            Tokens.RedTargetLockToken tokenRed = new Tokens.RedTargetLockToken();
+            BlueTargetLockToken tokenBlue = new BlueTargetLockToken();
+            RedTargetLockToken tokenRed = new RedTargetLockToken();
 
             char letter = GetFreeTargetLockLetter();
 
@@ -277,6 +278,70 @@ public static partial class Actions
     private static void EndActionDecisionSubhase(Action callback)
     {
         Selection.ThisShip.CallOnActionDecisionSubphaseEnd(callback);
+    }
+
+    public static void ReassignToken(GenericToken tokenToReassign, GenericShip fromShip, GenericShip toShip, Action callBack)
+    {
+        List<Type> simpleTokens = new List<Type>() { typeof(FocusToken), typeof(EvadeToken) };
+
+        if (simpleTokens.Contains(tokenToReassign.GetType()))
+        {
+            fromShip.RemoveToken(tokenToReassign.GetType());
+            toShip.AssignToken(
+                (GenericToken) Activator.CreateInstance(tokenToReassign.GetType()),
+                callBack
+            );
+        }
+        else
+        {
+            ReassignTargetLockToken(
+                (tokenToReassign as GenericTargetLockToken).Letter,
+                fromShip,
+                toShip,
+                callBack
+            );
+        }
+
+    }
+
+    public static void ReassignTargetLockToken(char letter, GenericShip oldOwner, GenericShip newOwner, Action callback)
+    {
+        GenericTargetLockToken assignedTargetLockToken = oldOwner.GetTargetLockToken(letter);
+
+        if (assignedTargetLockToken != null)
+        {
+            Type oppositeType = null;
+            if (assignedTargetLockToken.GetType() == typeof(BlueTargetLockToken))
+            {
+                oppositeType = typeof(RedTargetLockToken);
+                char existingTlOnSameTarget = GetTargetLocksLetterPair(newOwner, assignedTargetLockToken.OtherTokenOwner);
+                if (existingTlOnSameTarget != ' ')
+                {
+                    newOwner.RemoveToken(typeof(BlueTargetLockToken), existingTlOnSameTarget);
+                }
+            }
+            else
+            {
+                oppositeType = typeof(BlueTargetLockToken);
+                char existingTlOnSameTarget = GetTargetLocksLetterPair(assignedTargetLockToken.OtherTokenOwner, newOwner);
+                if (existingTlOnSameTarget != ' ')
+                {
+                    newOwner.RemoveToken(typeof(RedTargetLockToken), existingTlOnSameTarget);
+                }
+            }
+
+            oldOwner.RemoveToken(assignedTargetLockToken);
+
+            var otherToken = assignedTargetLockToken.OtherTokenOwner.GetToken(oppositeType, letter) as GenericTargetLockToken;
+
+            otherToken.OtherTokenOwner = newOwner;
+            newOwner.AssignToken(assignedTargetLockToken, callback, letter);
+        }
+        else
+        {
+            Messages.ShowError("ERROR: No such token to reassign!");
+            callback();
+        }
     }
 
 }

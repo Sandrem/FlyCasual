@@ -50,30 +50,40 @@ namespace Abilities
         {
             if (IsAbilityUsed) return;
 
+            if (HostShip.IsCannotAttackSecondTime) return;
+
             Board.ShipShotDistanceInformation counterAttackInfo = new Board.ShipShotDistanceInformation(Combat.Defender, Combat.Attacker);
             if (!counterAttackInfo.InArc) return;
             
-            RegisterAbilityTrigger(TriggerTypes.OnExtraAttack, DoCounterAttack);
+            RegisterAbilityTrigger(TriggerTypes.OnCombatCheckExtraAttack, DoCounterAttack);
         }
 
         private void DoCounterAttack(object sender, EventArgs e)
         {
-            // Save his attacker, becuase combat data will be cleared
-            shipToPunish = Combat.Attacker;
+            if (!HostShip.IsCannotAttackSecondTime)
+            {
+                // Save his attacker, becuase combat data will be cleared
+                shipToPunish = Combat.Attacker;
 
-            Messages.ShowInfo(string.Format("{0} can attack {1} in responce", HostShip.PilotName, shipToPunish.PilotName));
+                Messages.ShowInfo(string.Format("{0} can attack {1} in responce", HostShip.PilotName, shipToPunish.PilotName));
 
-            // Save his "is already attacked" flag
-            isPerformedRegularAttack = HostShip.IsAttackPerformed;
+                // Save his "is already attacked" flag
+                isPerformedRegularAttack = HostShip.IsAttackPerformed;
 
-            // Plan to set IsAbilityUsed only after attack that was successfully started
-            HostShip.OnAttackFinishAsAttacker += SetIsAbilityIsUsed;
+                // Plan to set IsAbilityUsed only after attack that was successfully started
+                HostShip.OnAttackFinishAsAttacker += SetIsAbilityIsUsed;
 
-            Combat.StartAdditionalAttack(
-                HostShip,
-                FinishExtraAttack,
-                CounterAttackFilter
-            );
+                Combat.StartAdditionalAttack(
+                    HostShip,
+                    FinishExtraAttack,
+                    CounterAttackFilter
+                );
+            }
+            else
+            {
+                Messages.ShowErrorToHuman(string.Format("{0} cannot attack one more time", HostShip.PilotName));
+                Triggers.FinishTrigger();
+            }
         }
 
         private void FinishExtraAttack()
@@ -93,7 +103,7 @@ namespace Abilities
 
             if (targetShip != shipToPunish)
             {
-                Debug.Log(string.Format("{0} can attack only {1}", HostShip.PilotName, shipToPunish.PilotName));
+                Messages.ShowErrorToHuman(string.Format("{0} can attack only {1}", HostShip.PilotName, shipToPunish.PilotName));
                 result = false;
             }
 

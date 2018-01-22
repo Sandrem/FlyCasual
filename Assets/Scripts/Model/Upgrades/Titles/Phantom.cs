@@ -63,13 +63,25 @@ namespace Abilities
 
         private void RegisterExtraShotAbility()
         {
-            RegisterAbilityTrigger(TriggerTypes.OnCombatPhaseEnd, ExtraShotWithTurret);
+            if (!HostShip.IsCannotAttackSecondTime)
+            {
+                RegisterAbilityTrigger(TriggerTypes.OnCombatPhaseEnd, ExtraShotWithTurret);
+            }
         }
 
         private void ExtraShotWithTurret(object sender, System.EventArgs e)
         {
-            Messages.ShowInfo(HostShip.Host.PilotName + " can perform second attack\nfrom Turret");
-            Combat.StartAdditionalAttack(HostShip.Host, Triggers.FinishTrigger, IsTurretAttack);
+            if (!HostShip.IsCannotAttackSecondTime)
+            {
+                Messages.ShowInfo(HostShip.Host.PilotName + " can perform second attack\nfrom Turret");
+
+                Combat.StartAdditionalAttack(HostShip.Host, Triggers.FinishTrigger, IsTurretAttack);
+            }
+            else
+            {
+                Messages.ShowErrorToHuman(string.Format("{0} cannot attack one more time", HostShip.PilotName));
+                Triggers.FinishTrigger();
+            }            
         }
 
         private bool IsTurretAttack(GenericShip target, IShipWeapon weapon)

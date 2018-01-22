@@ -133,6 +133,8 @@ namespace Ship
         public event EventHandler OnAttackMissedAsDefender;
         public event EventHandler OnShieldLost;
 
+        public event EventHandler OnCombatCheckExtraAttack;
+
         public event EventHandlerInt AfterGotNumberOfPrimaryWeaponAttackDice;
         public event EventHandlerInt AfterGotNumberOfPrimaryWeaponDefenceDice;
         public event EventHandlerInt AfterGotNumberOfAttackDice;
@@ -151,7 +153,6 @@ namespace Ship
         public event EventHandlerShip OnDestroyed;
 
         public event EventHandlerShip AfterAttackWindow;
-        public event EventHandlerShip OnCheckSecondAttack;
 
         public event EventHandlerShip OnAttackFinish;
         public event EventHandlerShip OnAttackFinishAsAttacker;
@@ -298,13 +299,6 @@ namespace Ship
             if (AfterAttackWindow != null) AfterAttackWindow(this);
         }
 
-        public void CallCheckSecondAttack(Action callBack)
-        {
-            if (OnCheckSecondAttack != null) OnCheckSecondAttack(this);
-
-            Triggers.ResolveTriggers(TriggerTypes.OnCheckSecondAttack, callBack);
-        }
-
         public void CallAttackFinish()
         {
             if (OnAttackFinish != null) OnAttackFinish(this);
@@ -349,6 +343,13 @@ namespace Ship
             if (OnShieldLost != null) OnShieldLost();
 
             Triggers.ResolveTriggers(TriggerTypes.OnShieldIsLost, callback);
+        }
+
+        public void CallCombatCheckExtraAttack(Action callback)
+        {
+            if (OnCombatCheckExtraAttack != null) OnCombatCheckExtraAttack();
+
+            Triggers.ResolveTriggers(TriggerTypes.OnCombatCheckExtraAttack, callback);
         }
 
         // DICE

@@ -14,7 +14,7 @@ namespace UpgradesList
     {
         public CommRelay() : base()
         {
-            Type = UpgradeType.Tech;
+            Types.Add(UpgradeType.Tech);
             Name = "Comm Relay";
             Cost = 3;
 

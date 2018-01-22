@@ -13,7 +13,7 @@ namespace UpgradesList
     {
         public AdvancedSensors() : base()
         {
-            Type = UpgradeType.System;
+            Types.Add(UpgradeType.System);
             Name = "Advanced Sensors";
             Cost = 3;
 

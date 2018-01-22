@@ -125,6 +125,7 @@ namespace Upgrade
          */
         public string getTypesAsString(){
             string name = "";
+            /*
             for (int i = 0; i < Types.Count; i++) {
                 UpgradeType type = Types [i];
                 if (i > 0) {
@@ -139,6 +140,16 @@ namespace Upgrade
                         name += type.ToString ();
                         break;
                 }
+            }
+            */
+            UpgradeType type = Types [0];
+            switch (type) {
+                case UpgradeType.SalvagedAstromech:
+                    name += "Salvaged Astromech";
+                    break;
+                default:
+                    name += type.ToString ();
+                    break;
             }
             return name;
         }

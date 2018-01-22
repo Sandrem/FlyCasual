@@ -68,13 +68,20 @@ namespace Upgrade
 
         public List<UpgradeSlot> GetFreeSlots(List<UpgradeType> upgradeTypes)
         {
+            // clone the list in order to search
+            List<UpgradeSlot> holder = new List<UpgradeSlot>();
+            for (int i = 0; i < UpgradeSlots.Count; i++) {
+                holder.Add (UpgradeSlots [i]);
+            }
+
             List<UpgradeSlot> results = new List<UpgradeSlot>();
             for (int i = 0; i < upgradeTypes.Count; i++) {
                 UpgradeType uType = upgradeTypes [i];
-                for (int j = 0; j < UpgradeSlots.Count; j++) {
-                    UpgradeSlot uslot = UpgradeSlots [j];
+                for (int j = 0; j < holder.Count; j++) {
+                    UpgradeSlot uslot = holder [j];
                     if (uType == uslot.Type && uslot.IsEmpty) {
                         results.Add (uslot);
+                        holder.Remove (uslot);
                         break;
                     }
                 }

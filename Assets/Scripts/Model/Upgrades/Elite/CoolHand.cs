@@ -12,7 +12,7 @@ namespace UpgradesList
     {
         public CoolHand() : base()
         {
-            Type = UpgradeType.Elite;
+            Types.Add(UpgradeType.Elite);
             Name = "Cool Hand";
             Cost = 1;
 

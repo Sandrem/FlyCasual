@@ -10,7 +10,7 @@ namespace UpgradesList
     {
         public Bossk() : base()
         {
-            Type = UpgradeType.Crew;
+            Types.Add(UpgradeType.Crew);
             Name = "Bossk";
             Cost = 2;
 

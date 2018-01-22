@@ -15,7 +15,7 @@ namespace UpgradesList
         {
             IsHidden = true;
 
-            Type = UpgradeType.Missile;
+            Types.Add(UpgradeType.Missile);
 
             Name = "Harpoon Missiles";
 

@@ -10,7 +10,7 @@ namespace UpgradesList
     {
         public WeaponsGuildance() : base()
         {
-            Type = UpgradeType.Tech;
+            Types.Add(UpgradeType.Tech);
             Name = "Weapons Guidance";
             Cost = 2;
 

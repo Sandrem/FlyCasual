@@ -39,35 +39,32 @@ namespace Abilities
         public override void ActivateAbility()
         {
             HostShip.OnAttackFinishAsAttacker += CheckTIEDAbility;
-            Phases.OnRoundEnd += Cleanup;
+            Phases.OnRoundEnd += ClearIsAbilityUsedFlag;
         }
 
         public override void DeactivateAbility()
         {
             HostShip.OnAttackFinishAsAttacker -= CheckTIEDAbility;
-            Phases.OnRoundEnd -= Cleanup;
-        }
-
-        private void Cleanup()
-        {
-            IsAbilityUsed = false;
+            Phases.OnRoundEnd -= ClearIsAbilityUsedFlag;
         }
 
         private void CheckTIEDAbility(GenericShip ship)
         {
-            if (!IsAbilityUsed)
+            // Attack must be from cannon with cost <=3
+            if (!IsAbilityUsed && IsAttackWithCannonUpgradeCost3OrFewer())
             {
-                RegisterTIEDAbility();
                 IsAbilityUsed = true;
+
+                // Trigger must be registered just before it's resolution
+                HostShip.OnCombatCheckExtraAttack += RegisterTIEDAbility;
             }
         }
 
         private void RegisterTIEDAbility()
         {
-            if (IsAttackWithCannonUpgradeCost3OrFewer())
-            {
-                RegisterAbilityTrigger(TriggerTypes.OnExtraAttack, UseTIEDAbility);
-            }
+            HostShip.OnCombatCheckExtraAttack -= RegisterTIEDAbility;
+
+            RegisterAbilityTrigger(TriggerTypes.OnCombatCheckExtraAttack, UseTIEDAbility);
         }
 
         private bool IsAttackWithCannonUpgradeCost3OrFewer()
@@ -89,12 +86,17 @@ namespace Abilities
 
             Combat.StartAdditionalAttack(
                 HostShip,
-                delegate {
-                    Selection.ThisShip.IsAttackPerformed = true;
-                    Triggers.FinishTrigger();
-                },
+                FinishAdditionalAttack,
                 IsPrimaryShot
             );
+        }
+
+        private void FinishAdditionalAttack()
+        {
+            // If attack is skipped, set this flag, otherwise regular attack can be performed second time
+            Selection.ThisShip.IsAttackPerformed = true;
+
+            Triggers.FinishTrigger();
         }
 
         private bool IsPrimaryShot(GenericShip defender, IShipWeapon weapon)

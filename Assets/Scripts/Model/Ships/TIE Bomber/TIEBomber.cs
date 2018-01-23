@@ -14,7 +14,7 @@ namespace Ship
             public TIEBomber() : base()
             {
                 Type = "TIE Bomber";
-                IconicPilot = "Scimitar Squadron Pilot";
+                IconicPilot = "Captain Jonus";
 
                 ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/9/96/MI_TIE-BOMBER.png";
 

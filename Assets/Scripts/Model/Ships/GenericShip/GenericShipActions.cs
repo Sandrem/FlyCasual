@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using SubPhases;
+using Tokens;
 
 namespace Ship
 {
@@ -19,9 +20,9 @@ namespace Ship
         private     List<ActionsList.GenericAction> AlreadyExecutedActionEffects            = new List<ActionsList.GenericAction>();
         private     List<ActionsList.GenericAction> AlreadyExecutedOppositeActionEffects    = new List<ActionsList.GenericAction>();
 
-        private     List<Tokens.GenericToken> AssignedTokens = new List<Tokens.GenericToken>();
+        private     List<GenericToken> AssignedTokens = new List<GenericToken>();
 
-        public Tokens.GenericToken TokenToAssign;
+        public GenericToken TokenToAssign;
 
         // EVENTS
         public event EventHandlerShip OnActivateShip;
@@ -382,22 +383,22 @@ namespace Ship
                 return token.Count;
         }
 
-        public List<Tokens.GenericToken> GetAllTokens()
+        public List<GenericToken> GetAllTokens()
         {
             return AssignedTokens;
         }
 
-        public Tokens.GenericToken GetToken(System.Type type, char letter = ' ')
+        public GenericToken GetToken(System.Type type, char letter = ' ')
         {
-            Tokens.GenericToken result = null;
+            GenericToken result = null;
 
             foreach (var assignedToken in AssignedTokens)
             {
                 if (assignedToken.GetType() == type)
                 {
-                    if (assignedToken.GetType().BaseType == typeof(Tokens.GenericTargetLockToken))
+                    if (assignedToken.GetType().BaseType == typeof(GenericTargetLockToken))
                     {
-                        if (((assignedToken as Tokens.GenericTargetLockToken).Letter == letter) || (letter == '*'))
+                        if (((assignedToken as GenericTargetLockToken).Letter == letter) || (letter == '*'))
                         {
                             return assignedToken;
                         }
@@ -411,16 +412,21 @@ namespace Ship
             return result;
         }
 
+        public GenericTargetLockToken GetTargetLockToken(char letter)
+        {
+            return (GenericTargetLockToken) AssignedTokens.Find(n => n.GetType().BaseType == typeof(GenericTargetLockToken) && (n as GenericTargetLockToken).Letter == letter);
+        }
+
         public char GetTargetLockLetterPair(GenericShip targetShip)
         {
             char result = ' ';
 
-            Tokens.GenericToken blueToken = GetToken(typeof(Tokens.BlueTargetLockToken), '*');
+            GenericToken blueToken = GetToken(typeof(BlueTargetLockToken), '*');
             if (blueToken != null)
             {
-                char foundLetter = (blueToken as Tokens.BlueTargetLockToken).Letter;
+                char foundLetter = (blueToken as BlueTargetLockToken).Letter;
 
-                Tokens.GenericToken redToken = targetShip.GetToken(typeof(Tokens.RedTargetLockToken), foundLetter);
+                GenericToken redToken = targetShip.GetToken(typeof(RedTargetLockToken), foundLetter);
                 if (redToken != null)
                 {
                     return foundLetter;
@@ -429,7 +435,7 @@ namespace Ship
             return result;
         }
 
-        public void AssignToken(Tokens.GenericToken token, Action callBack, char letter = ' ')
+        public void AssignToken(GenericToken token, Action callBack, char letter = ' ')
         {
             TokenToAssign = token;
 
@@ -449,7 +455,7 @@ namespace Ship
 
             var token = TokenToAssign;
 
-            Tokens.GenericToken assignedToken = GetToken(token.GetType(), letter);
+            GenericToken assignedToken = GetToken(token.GetType(), letter);
 
             if (assignedToken != null)
             {
@@ -469,9 +475,17 @@ namespace Ship
             Triggers.ResolveTriggers(TriggerTypes.OnTokenIsAssigned, callBack);
         }
 
+        public void RemoveToken(GenericToken token)
+        {
+            if (AssignedTokens.Remove(token))
+            {
+                if (AfterTokenIsRemoved != null) AfterTokenIsRemoved(this, token.GetType());
+            }
+        }
+
         public void RemoveToken(System.Type type, char letter = ' ', bool recursive = false)
         {
-            Tokens.GenericToken assignedToken = GetToken(type, letter);
+            GenericToken assignedToken = GetToken(type, letter);
 
             if (assignedToken != null)
             {
@@ -491,11 +505,11 @@ namespace Ship
                     AssignedTokens.Remove(assignedToken);
                     if (AfterTokenIsRemoved != null) AfterTokenIsRemoved(this, type);
 
-                    if (assignedToken.GetType().BaseType == typeof(Tokens.GenericTargetLockToken))
+                    if (assignedToken.GetType().BaseType == typeof(GenericTargetLockToken))
                     {
-                        GenericShip otherTokenOwner = (assignedToken as Tokens.GenericTargetLockToken).OtherTokenOwner;
-                        Actions.ReleaseTargetLockLetter((assignedToken as Tokens.GenericTargetLockToken).Letter);
-                        System.Type oppositeType = (assignedToken.GetType() == typeof(Tokens.BlueTargetLockToken)) ? typeof(Tokens.RedTargetLockToken) : typeof(Tokens.BlueTargetLockToken);
+                        GenericShip otherTokenOwner = (assignedToken as GenericTargetLockToken).OtherTokenOwner;
+                        Actions.ReleaseTargetLockLetter((assignedToken as GenericTargetLockToken).Letter);
+                        System.Type oppositeType = (assignedToken.GetType() == typeof(BlueTargetLockToken)) ? typeof(RedTargetLockToken) : typeof(BlueTargetLockToken);
 
                         if (otherTokenOwner.HasToken(oppositeType, letter))
                         {
@@ -521,23 +535,6 @@ namespace Ship
             selectTargetLockSubPhase.Start();
         }
 
-        public void ReassignTargetLockToken(Type type, char letter, GenericShip newOwner, Action callback)
-        {
-            Tokens.GenericTargetLockToken assignedToken = GetToken(type, letter) as Tokens.GenericTargetLockToken;
-
-            if (assignedToken != null)
-            {
-                AssignedTokens.Remove(assignedToken);
-                if (AfterTokenIsRemoved != null) AfterTokenIsRemoved(this, type);
-
-                var oppositeType = (assignedToken.GetType() == typeof(Tokens.BlueTargetLockToken)) ? typeof(Tokens.RedTargetLockToken) : typeof(Tokens.BlueTargetLockToken);
-                var otherToken = assignedToken.OtherTokenOwner.GetToken(oppositeType, letter) as Tokens.GenericTargetLockToken;
-
-                otherToken.OtherTokenOwner = newOwner;
-                newOwner.AssignToken(assignedToken, callback, letter);
-            }
-        }
-
         public void SpendToken(System.Type type, Action callBack, char letter = ' ')
         {
             RemoveToken(type, letter);
@@ -549,14 +546,14 @@ namespace Ship
             Triggers.ResolveTriggers(TriggerTypes.OnTokenIsSpent, callBack);
         }
 
-        public List<Tokens.GenericToken> GetAssignedTokens()
+        public List<GenericToken> GetAssignedTokens()
         {
             return AssignedTokens;
         }
 
         public EventHandlerTokenBool BeforeRemovingTokenInEndPhase;
 
-        private bool ShoulRemoveTokenInEndPhase(Tokens.GenericToken token)
+        private bool ShoulRemoveTokenInEndPhase(GenericToken token)
         {
             var remove = token.Temporary;
             if (BeforeRemovingTokenInEndPhase != null) BeforeRemovingTokenInEndPhase(token, ref remove);
@@ -566,7 +563,7 @@ namespace Ship
 
         public void ClearAllTokens()
         {
-            List<Tokens.GenericToken> keys = new List<Tokens.GenericToken>(AssignedTokens);
+            List<GenericToken> keys = new List<GenericToken>(AssignedTokens);
 
             foreach (var token in keys)
             {

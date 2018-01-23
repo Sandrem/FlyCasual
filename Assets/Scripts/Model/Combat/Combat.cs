@@ -399,17 +399,17 @@ public static partial class Combat
 
         if (!Selection.ThisShip.IsCannotAttackSecondTime)
         {
-            CheckSecondAttack(Phases.CurrentSubPhase.CallBack);
+            CheckExtraAttacks(Phases.CurrentSubPhase.CallBack);
         }
         else
         {
-            CheckExtraAttacks();
+            Phases.CurrentSubPhase.CallBack();
         }
     }
 
-    private static void CheckExtraAttacks()
+    private static void CheckExtraAttacks(Action callback)
     {
-        Triggers.ResolveTriggers(TriggerTypes.OnExtraAttack, Phases.CurrentSubPhase.CallBack);
+        Selection.ThisShip.CallCombatCheckExtraAttack(callback);
     }
 
     private static void CleanupCombatData()
@@ -425,11 +425,6 @@ public static partial class Combat
         IsAttackAlreadyCalled = false;
     }
 
-    private static void CheckSecondAttack(Action callBack)
-    {
-        Selection.ThisShip.CallCheckSecondAttack(callBack);
-    }
-
     public static void CheckFinishCombatSubPhase()
     {
         if (Roster.NoSamePlayerAndPilotSkillNotAttacked(Selection.ThisShip))
@@ -443,8 +438,9 @@ public static partial class Combat
     public static void StartAdditionalAttack(GenericShip ship, Action callback, Func<GenericShip, IShipWeapon, bool> extraAttackFilter = null)
     {
         Selection.ChangeActiveShip("ShipId:" + ship.ShipId);
+        Phases.CurrentSubPhase.RequiredPlayer = ship.Owner.PlayerNo;
 
-        Combat.ExtraAttackFilter = extraAttackFilter;
+        ExtraAttackFilter = extraAttackFilter;
 
         Phases.StartTemporarySubPhaseOld(
             "Second attack",
@@ -621,7 +617,6 @@ namespace SubPhases
 
         public override void Next()
         {
-            Phases.CurrentSubPhase = Phases.CurrentSubPhase.PreviousSubPhase;
             Phases.CurrentSubPhase = Phases.CurrentSubPhase.PreviousSubPhase;
         }
     }

@@ -102,9 +102,9 @@ namespace Abilities
 
             var token = HostShip.GetToken(typeof(Tokens.BlueTargetLockToken), '*') as Tokens.BlueTargetLockToken;
 
-            HostShip.ReassignTargetLockToken(
-                typeof(Tokens.BlueTargetLockToken),
+            Actions.ReassignTargetLockToken(
                 token.Letter,
+                this.HostShip,
                 TargetShip,
                 delegate{
                     Phases.FinishSubPhase(Phases.CurrentSubPhase.GetType());

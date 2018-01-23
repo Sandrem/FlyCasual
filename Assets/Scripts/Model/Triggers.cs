@@ -52,8 +52,7 @@ public enum TriggerTypes
     OnAttackFinish,
     OnAttackFinishAsAttacker,
     OnAttackFinishAsDefender,
-    OnCheckSecondAttack,
-    OnExtraAttack,
+    OnCombatCheckExtraAttack,
 
     OnAtLeastOneCritWasCancelledByDefender,
     OnDamageIsDealt,

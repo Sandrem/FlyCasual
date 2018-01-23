@@ -86,6 +86,8 @@ namespace Players
 
             //TODO: except non-legal targets, bupmed for example, biggs?
             Roster.HighlightShipsFiltered(Roster.AnotherPlayer(Phases.CurrentPhasePlayer));
+
+            UI.ShowSkipButton();
             UI.HighlightNextButton();
 
             if (Phases.CurrentSubPhase is SubPhases.ExtraAttackSubPhase)

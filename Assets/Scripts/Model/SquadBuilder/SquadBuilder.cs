@@ -270,7 +270,7 @@ namespace SquadBuilderNS
 
         private static void InstallUpgrade(UpgradeSlot slot, GenericUpgrade upgrade)
         {
-            CurrentUpgradeSlot.PreInstallUpgrade(upgrade, CurrentSquadBuilderShip.Instance);
+            slot.PreInstallUpgrade(upgrade, CurrentSquadBuilderShip.Instance);
         }
 
         private static void InstallUpgrade(SquadBuilderShip ship, string upgradeName)
@@ -378,6 +378,7 @@ namespace SquadBuilderNS
         private static void RemoveInstalledUpgrade(UpgradeSlot slot, GenericUpgrade upgrade)
         {
             slot.RemovePreInstallUpgrade();
+            // check if upgrade is multi-slotted
             ShowPilotWithSlots();
         }
 

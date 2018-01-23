@@ -462,7 +462,8 @@ namespace SquadBuilderNS
                 }
                 else
                 {
-                    script.Initialize(slot.InstalledUpgrade.Name, slot, slot.InstalledUpgrade, RemoveInstalledUpgrade);
+                    //script.Initialize(slot.InstalledUpgrade.Name, slot, slot.InstalledUpgrade, RemoveInstalledUpgrade);
+                    script.Initialize(slot.InstalledUpgrade.Name, slot, slot.InstalledUpgrade, RemoveUpgradeClicked);
                     UpgradeSlotPanels.Add(new UpgradeSlotPanel(slot.InstalledUpgrade, slot.Type, newUpgradePanel));
                 }
             }
@@ -546,6 +547,33 @@ namespace SquadBuilderNS
         private static void SelectUpgradeClicked(UpgradeSlot slot, GenericUpgrade upgrade)
         {
             InstallUpgrade(slot, upgrade);
+
+            // check if its a dual upgrade
+            if (upgrade.Types.Count > 1) {
+                // find another slot
+                foreach (UpgradeSlot tempSlot in CurrentSquadBuilderShip.Instance.UpgradeBar.GetUpgradeSlots()){
+                    if (tempSlot != slot && upgrade.hasType (tempSlot.Type)) {
+                        InstallUpgrade (tempSlot, upgrade);
+                    }
+                }
+            }
+
+            MainMenu.CurrentMainMenu.ChangePanel("ShipSlotsPanel");
+        }
+
+        private static void RemoveUpgradeClicked(UpgradeSlot slot, GenericUpgrade upgrade)
+        {
+            RemoveInstalledUpgrade(slot, upgrade);
+
+            // check if its a dual upgrade
+            if (upgrade.Types.Count > 1) {
+                // find another slot
+                foreach (UpgradeSlot tempSlot in CurrentSquadBuilderShip.Instance.UpgradeBar.GetUpgradeSlots()){
+                    if (tempSlot != slot && upgrade.hasType (tempSlot.Type)) {
+                        RemoveInstalledUpgrade (tempSlot, upgrade);
+                    }
+                }
+            }
 
             MainMenu.CurrentMainMenu.ChangePanel("ShipSlotsPanel");
         }

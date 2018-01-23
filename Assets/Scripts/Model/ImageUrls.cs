@@ -42,20 +42,15 @@ public static class ImageUrls
     private static string FormatUpgradeTypes(List<UpgradeType> types)
     {
         string name = "";
-        for (int i = 0; i < types.Count; i++) {
-            UpgradeType type = types [i];
-            if (i > 0) {
-                name += " ";
-            }
-            switch (type)
-            {
-                case UpgradeType.SalvagedAstromech:
-                    name += "Salvaged Astromech";
-                    break;
-                default:
-                    name += type.ToString ();
-                    break;
-            }
+        UpgradeType type = types [0];
+        switch (type)
+        {
+            case UpgradeType.SalvagedAstromech:
+                name += "Salvaged Astromech";
+                break;
+            default:
+                name += type.ToString ();
+                break;
         }
         return name;
     }

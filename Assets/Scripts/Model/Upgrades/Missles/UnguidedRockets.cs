@@ -16,6 +16,7 @@ namespace UpgradesList
             Types.Add( UpgradeType.Missile);
             Types.Add( UpgradeType.Missile);
             Name        = "Unguided Rockets";
+            ImageUrl    = ImageUrls.GetImageUrl(this, "unguided-rockets.png");
             Cost        = 2;
             MinRange    = 1;
             MaxRange    = 3;

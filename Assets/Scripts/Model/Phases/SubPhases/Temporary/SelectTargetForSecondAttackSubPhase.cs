@@ -30,13 +30,12 @@ namespace SubPhases
 
         private void ExtraAttackTargetSelected()
         {
-            Phases.FinishSubPhase(typeof(SelectTargetForSecondAttackSubPhase));
-
             Phases.StartTemporarySubPhaseNew(
                 "Extra Attack",
                 typeof(ExtraAttackSubPhase),
                 delegate {
                     Phases.FinishSubPhase(typeof(ExtraAttackSubPhase));
+                    Phases.FinishSubPhase(typeof(SelectTargetForSecondAttackSubPhase));
                     CallBack();
                 }
             );
@@ -47,14 +46,15 @@ namespace SubPhases
 
         public override void SkipButton()
         {
+            UI.HideSkipButton();
             Phases.FinishSubPhase(typeof(SelectTargetForSecondAttackSubPhase));
             CallBack();
         }
 
         public override void Next()
         {
+            Combat.ExtraAttackFilter = null;
             Phases.CurrentSubPhase = PreviousSubPhase;
-            UI.HideSkipButton();
         }
 
         public override void Resume()

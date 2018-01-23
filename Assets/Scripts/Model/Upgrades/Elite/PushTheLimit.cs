@@ -18,7 +18,7 @@ namespace UpgradesList
 			Cost = 3;
 		}
 
-		public override void AttachToShip(Ship.GenericShip host)
+		public override void AttachToShip(GenericShip host)
 		{
 			base.AttachToShip(host);
 
@@ -32,17 +32,17 @@ namespace UpgradesList
         {
             if (!IsUsed)
             {
+                IsUsed = true;
                 Host.OnActionDecisionSubphaseEnd += DoSecondAction;
             }
         }
 
-		private void DoSecondAction(Ship.GenericShip ship)
+		private void DoSecondAction(GenericShip ship)
 		{
             Host.OnActionDecisionSubphaseEnd -= DoSecondAction;
 
             if (!ship.HasToken(typeof(Tokens.StressToken)) || ship.CanPerformActionsWhileStressed)
 			{
-                IsUsed = true;
                 Triggers.RegisterTrigger(
                     new Trigger()
                     {

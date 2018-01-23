@@ -26,7 +26,7 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Turret);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Crew);
 
-                PrintedActions.Add(new TargetLockAction());
+                PrintedActions.Add(new BarrelRollAction());
                 PrintedActions.Add(new EvadeAction());
 
                 AssignTemporaryManeuvers();

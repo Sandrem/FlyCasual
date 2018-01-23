@@ -48,8 +48,8 @@ namespace Abilities
 
             if (Combat.ChosenWeapon.GetType() != typeof(PrimaryWeaponClass)) return;
 
-            Board.ShipShotDistanceInformation counterAttackInfo = new Board.ShipShotDistanceInformation(Combat.Defender, Combat.Attacker);                        
-            if (!counterAttackInfo.InPrimaryArc) return;            
+            Board.ShipShotDistanceInformation AttackInfo = new Board.ShipShotDistanceInformation(Combat.Defender, Combat.Attacker);                        
+            if (!AttackInfo.InPrimaryArc) return;            
 
 
             RegisterAbilityTrigger(TriggerTypes.OnShotStart, StartQuestionSubphase);            
@@ -102,15 +102,17 @@ namespace Abilities
             if (!IsAbilityUsed)
             {
                 IsAbilityUsed = true;
-                HostShip.OnAttackFinishAsAttacker += RegisterSpecialOpsExtraAttack;
+                //HostShip.OnCombatCheckExtraAttack += RegisterIG88BAbility;
+                HostShip.OnCombatCheckExtraAttack += RegisterSpecialOpsExtraAttack;
                 DecisionSubPhase.ConfirmDecision();
             }
         }
 
-        private void RegisterSpecialOpsExtraAttack(GenericShip ship)
+        private void RegisterSpecialOpsExtraAttack()
         {
+            HostShip.OnCombatCheckExtraAttack -= RegisterSpecialOpsExtraAttack;
             this.ToggleFrontArc(false);            
-            RegisterAbilityTrigger(TriggerTypes.OnExtraAttack, DoSpecialOpsExtraAttack);
+            RegisterAbilityTrigger(TriggerTypes.OnCombatCheckExtraAttack, DoSpecialOpsExtraAttack);
         }
 
         private void DoSpecialOpsExtraAttack(object sender, System.EventArgs e)

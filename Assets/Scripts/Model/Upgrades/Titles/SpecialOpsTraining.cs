@@ -73,7 +73,7 @@ namespace Abilities
         private string GetDefaultDecision()
         {
             string result = "Roll 1 extra die from primary fire arc";
-            //Check if we have targets in both arcs
+            //TODO : Check if we have targets in both arcs
             return result;
         }
 
@@ -97,8 +97,7 @@ namespace Abilities
         {
             if (!IsAbilityUsed)
             {
-                IsAbilityUsed = true;
-                //HostShip.OnCombatCheckExtraAttack += RegisterIG88BAbility;
+                IsAbilityUsed = true;                
                 HostShip.OnCombatCheckExtraAttack += RegisterSpecialOpsExtraAttack;
                 DecisionSubPhase.ConfirmDecision();
             }
@@ -125,27 +124,11 @@ namespace Abilities
             );                
         }
 
-        //Spegne un arco
+        //Arc toggle
         private void ToggleFrontArc(bool isActive)
         {
             HostShip.ArcInfo.GetPrimaryArc().ShotPermissions.CanShootPrimaryWeapon = isActive;
-        }
-
-        //Controlla l'arco
-        /*private void CheckAssignStress()
-        {
-            ShipShotDistanceInformation shotInfo = new ShipShotDistanceInformation(HostShip, TargetShip);
-            if (shotInfo.InMobileArc && shotInfo.Range >= 1 && shotInfo.Range <= 2)
-            {
-                Messages.ShowError(HostShip.PilotName + " assigns Stress Token\nto " + TargetShip.PilotName);
-                TargetShip.AssignToken(new Tokens.StressToken(), SelectShipSubPhase.FinishSelection);
-            }
-            else
-            {
-                if (!shotInfo.InMobileArc) Messages.ShowError("Target is not inside Mobile Arc");
-                else if (shotInfo.Distance >= 3) Messages.ShowError("Target is outside range 2");
-            }
-        }*/
+        }        
 
         private void ClearAbility()
         {

@@ -54,20 +54,27 @@ namespace Abilities
         private class SpecialOpsTrainingDecisionSubPhase : DecisionSubPhase { }
         private void StartQuestionSubphase(object sender, System.EventArgs e)
         {
-            SpecialOpsTrainingDecisionSubPhase selectSpecialOpsTrainingSubPhase = (SpecialOpsTrainingDecisionSubPhase)Phases.StartTemporarySubPhaseNew(
-                Name,
-                typeof(SpecialOpsTrainingDecisionSubPhase),
-                Triggers.FinishTrigger
-            );
+            if (!IsAbilityUsed)
+            {
+                SpecialOpsTrainingDecisionSubPhase selectSpecialOpsTrainingSubPhase = (SpecialOpsTrainingDecisionSubPhase)Phases.StartTemporarySubPhaseNew(
+                    Name,
+                    typeof(SpecialOpsTrainingDecisionSubPhase),
+                    Triggers.FinishTrigger
+                );
 
-            selectSpecialOpsTrainingSubPhase.InfoText = "Use " + Name + "?";
-            selectSpecialOpsTrainingSubPhase.AddDecision("Roll 1 extra die from primary fire arc", RegisterRollExtraDice);
-            selectSpecialOpsTrainingSubPhase.AddTooltip("Roll 1 extra die from primary fire arc", HostShip.ImageUrl);     
-            selectSpecialOpsTrainingSubPhase.AddDecision("Get a second attack from rear arc", RegisterExtraAttack);       
-            selectSpecialOpsTrainingSubPhase.AddTooltip("Get a second attack from rear arc", HostShip.ImageUrl);     
-            selectSpecialOpsTrainingSubPhase.DefaultDecision = GetDefaultDecision();
-            selectSpecialOpsTrainingSubPhase.ShowSkipButton = true;
-            selectSpecialOpsTrainingSubPhase.Start();
+                selectSpecialOpsTrainingSubPhase.InfoText = "Use " + Name + "?";
+                selectSpecialOpsTrainingSubPhase.AddDecision("Roll 1 extra die from primary fire arc", RegisterRollExtraDice);
+                selectSpecialOpsTrainingSubPhase.AddTooltip("Roll 1 extra die from primary fire arc", HostShip.ImageUrl);
+                selectSpecialOpsTrainingSubPhase.AddDecision("Get a second attack from rear arc", RegisterExtraAttack);
+                selectSpecialOpsTrainingSubPhase.AddTooltip("Get a second attack from rear arc", HostShip.ImageUrl);
+                selectSpecialOpsTrainingSubPhase.DefaultDecision = GetDefaultDecision();
+                selectSpecialOpsTrainingSubPhase.ShowSkipButton = true;
+                selectSpecialOpsTrainingSubPhase.Start();
+            } else
+            {
+                Messages.ShowErrorToHuman("Special Ops Training ability already used");
+                Triggers.FinishTrigger();
+            }
         }
 
         private string GetDefaultDecision()
@@ -78,12 +85,10 @@ namespace Abilities
         }
 
         private void RegisterRollExtraDice(object sender, System.EventArgs e)
-        {            
-            if (!IsAbilityUsed) {
-                IsAbilityUsed = true;
-                HostShip.AfterGotNumberOfAttackDice += RollExtraDice;
-                DecisionSubPhase.ConfirmDecision();                
-            }
+        {                        
+            IsAbilityUsed = true;
+            HostShip.AfterGotNumberOfAttackDice += RollExtraDice;
+            DecisionSubPhase.ConfirmDecision();                            
         }
 
         private void RollExtraDice(ref int count)
@@ -95,12 +100,9 @@ namespace Abilities
 
         private void RegisterExtraAttack(object sender, System.EventArgs e)
         {
-            if (!IsAbilityUsed)
-            {
-                IsAbilityUsed = true;                
-                HostShip.OnCombatCheckExtraAttack += RegisterSpecialOpsExtraAttack;
-                DecisionSubPhase.ConfirmDecision();
-            }
+            IsAbilityUsed = true;                
+            HostShip.OnCombatCheckExtraAttack += RegisterSpecialOpsExtraAttack;
+            DecisionSubPhase.ConfirmDecision();            
         }
 
         private void RegisterSpecialOpsExtraAttack()

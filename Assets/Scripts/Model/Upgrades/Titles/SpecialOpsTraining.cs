@@ -72,7 +72,7 @@ namespace Abilities
                 selectSpecialOpsTrainingSubPhase.Start();
             } else
             {
-                Messages.ShowErrorToHuman("Special Ops Training ability already used");
+                Messages.ShowErrorToHuman("Special Ops Training ability has already been used");
                 Triggers.FinishTrigger();
             }
         }

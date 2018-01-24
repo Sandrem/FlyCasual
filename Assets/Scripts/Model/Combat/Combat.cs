@@ -70,14 +70,14 @@ public static partial class Combat
         {
             IsAttackAlreadyCalled = true;
 
+            UI.HideContextMenu();
+            UI.HideSkipButton();
+
             Selection.ChangeActiveShip("ShipId:" + attackerId);
             Selection.ChangeAnotherShip("ShipId:" + defenderID);
 
             ChosenWeapon = Selection.ThisShip.PrimaryWeapon;
             ShotInfo = new ShipShotDistanceInformation(Selection.ThisShip, Selection.AnotherShip, ChosenWeapon);
-
-            UI.HideContextMenu();
-
             SelectWeapon();
         }
         else

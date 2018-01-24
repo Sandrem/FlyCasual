@@ -45,13 +45,9 @@ namespace Abilities
         private void CheckConditions()
         {
             if (IsAbilityUsed) return;
-
-            if (Combat.ChosenWeapon.GetType() != typeof(PrimaryWeaponClass)) return;
-
-            Board.ShipShotDistanceInformation AttackInfo = new Board.ShipShotDistanceInformation(Combat.Defender, Combat.Attacker);                        
-            if (!AttackInfo.InPrimaryArc) return;            
-
-
+            if (Combat.ChosenWeapon.GetType() != typeof(PrimaryWeaponClass)) return;                        
+            if (!Combat.ShotInfo.InPrimaryArc) return;            
+            
             RegisterAbilityTrigger(TriggerTypes.OnShotStart, StartQuestionSubphase);            
         }
 

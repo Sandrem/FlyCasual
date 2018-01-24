@@ -21,6 +21,8 @@ namespace Ship
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
+                SkinName = "Blue";
+
                 PilotAbilities.Add(new JakeFarrellAbility());
             }
         }

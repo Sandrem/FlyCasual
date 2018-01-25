@@ -50,8 +50,13 @@ namespace Abilities
 
 		private void StartSubphaseForWesJansonPilotAbility(object sender, System.EventArgs e)
         {
-			//don't bother with the ability if the defender has no tokens.
-            if (Combat.Defender.HasToken(typeof(Tokens.BlueTargetLockToken), '*') || Combat.Defender.HasToken(typeof(Tokens.FocusToken)) || Combat.Defender.HasToken(typeof(Tokens.EvadeToken)))
+            //grab a list of tokens that wes can remove
+            var wes_list = Combat.Defender.GetAssignedTokens()
+               .Where(t => t is Tokens.BlueTargetLockToken || t is Tokens.FocusToken || t is Tokens.EvadeToken)
+               .ToList();
+
+            //don't bother with the ability if the defender has no tokens to remove.
+            if (wes_list.Count > 0)
             {
                 var pilotAbilityDecision = (WesJansonDecisionSubPhase)Phases.StartTemporarySubPhaseNew(
                     Name,
@@ -61,15 +66,10 @@ namespace Abilities
 
                 pilotAbilityDecision.InfoText = "Use Wes Janson's ability?";
 
-				//grab a list of tokens that wes can remove
-                var wes_list = Combat.Defender.GetAssignedTokens()
-                   .Where(t => t is Tokens.BlueTargetLockToken || t is Tokens.FocusToken || t is Tokens.EvadeToken)
-                   .ToList();
+                pilotAbilityDecision.ShowSkipButton = true;
 
-                pilotAbilityDecision.AddDecision("No", DontUseWesJansonAbility);
-
-				//helper variables
-				int numTL = 1;
+                //helper variables
+                int numTL = 1;
 				int numFT = 1;
 				int numET = 1;
 				var name = "default";
@@ -89,7 +89,7 @@ namespace Abilities
 						}
 						numFT++;
 					}else if (i is Tokens.EvadeToken){
-						name = "Remove Evade Token" + numET;
+						name = "Remove Evade Token";
 						if(numET >= 2){
 							name += " " + numET;
 						}
@@ -99,7 +99,8 @@ namespace Abilities
                     pilotAbilityDecision.AddDecision(name, delegate { UseWesJansonAbility(i); });
                 });
 
-                pilotAbilityDecision.DefaultDecision = "No";
+                //AI presses first button in decision dialog
+                pilotAbilityDecision.DefaultDecision = pilotAbilityDecision.GetDecisions().First().Key;
 
                 pilotAbilityDecision.Start();
             }
@@ -112,7 +113,9 @@ namespace Abilities
 		private void UseWesJansonAbility(GenericToken token)
         {
             //remove the chosen token
-			Combat.Defender.RemoveToken(token);
+            Messages.ShowInfo(string.Format("{0} removed {1} from {2}", HostShip.PilotName, token.Name, Combat.Defender.PilotName));
+            
+            Combat.Defender.RemoveToken(token);
 			DecisionSubPhase.ConfirmDecision();
         }
 		
@@ -121,12 +124,6 @@ namespace Abilities
             DecisionSubPhase.ConfirmDecision();
         }
 		
-		private class WesJansonDecisionSubPhase : DecisionSubPhase
-        {
-            public override void SkipButton()
-            {
-                ConfirmDecision();
-            }
-        }
+		private class WesJansonDecisionSubPhase : DecisionSubPhase {}
     }
 }

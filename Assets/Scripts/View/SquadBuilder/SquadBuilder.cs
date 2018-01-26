@@ -317,7 +317,7 @@ namespace SquadBuilderNS
             Dictionary<ShipWithUpgradesPanel, int> panelsByRow = GetArrangeShipsWithUpgradesIntoRowNumbers();
             float row1width = panelsByRow.Where(n => n.Value == 1).Sum(m => m.Key.Size.x) + DISTANCE_LARGE * (panelsByRow.Count(n => n.Value == 1) - 1);
             float row2width = panelsByRow.Where(n => n.Value == 2).Sum(m => m.Key.Size.x) + DISTANCE_LARGE * (panelsByRow.Count(n => n.Value == 1) - 1);
-            if (AddShipButtonPanel != null) row2width += AddShipButtonPanel.Size.x + DISTANCE_LARGE;
+            if (AddShipButtonPanel != null) row2width += AddShipButtonPanel.Size.x;
             float maxWidth = Mathf.Max(row1width, row2width);
 
             GameObject centerPanel = GameObject.Find("UI/Panels/SquadBuilderPanel/Panel/Centered");

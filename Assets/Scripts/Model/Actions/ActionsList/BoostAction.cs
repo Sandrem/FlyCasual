@@ -182,6 +182,8 @@ namespace SubPhases
         public void CancelBoost()
         {
             Selection.ThisShip.IsLandedOnObstacle = false;
+
+            Selection.ThisShip.RemoveAlreadyExecutedAction(typeof(ActionsList.BoostAction));
             MonoBehaviour.Destroy(ShipStand);
 
             GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();

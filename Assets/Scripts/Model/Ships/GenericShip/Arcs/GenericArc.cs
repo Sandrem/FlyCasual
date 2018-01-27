@@ -20,6 +20,7 @@ namespace Arcs
     public class ArcShotPermissions
     {
         public bool CanShootPrimaryWeapon = true;
+        public bool CanShootTurret = true;
         public bool CanShootTorpedoes = false;
         public bool CanShootMissiles = false;
         public bool CanShootCannon = false;
@@ -101,7 +102,8 @@ namespace Arcs
                     CanShootPrimaryWeapon = true,
                     CanShootTorpedoes = true,
                     CanShootMissiles = true,
-                    CanShootCannon = true
+                    CanShootCannon = true,
+                    CanShootTurret = true
                 }
             };
 
@@ -159,6 +161,11 @@ namespace Arcs
         public virtual bool CanShootCannon(string originPoint, float angle)
         {
             return CheckRay(originPoint, angle, ArcsList.Where(n => n.ShotPermissions.CanShootCannon).ToList());
+        }
+
+        public virtual bool CanShootTurret(string originPoint, float angle)
+        {
+            return CheckRay(originPoint, angle, ArcsList.Where(n => n.ShotPermissions.CanShootTurret).ToList());
         }
 
         public virtual bool InBullseyeArc(string originPoint, float angle)

@@ -50,6 +50,8 @@ namespace Abilities
         {
             if (HostShip.Owner.Ships.Count > 1 && HostShip.HasToken(typeof(Tokens.FocusToken)))
             {
+                Messages.ShowInfoToHuman("Kyle Katarn: Select a ship to receive a Focus token");
+
                 SelectTargetForAbility(
                     SelectAbilityTarget,
                     new List<TargetTypes> { TargetTypes.OtherFriendly },

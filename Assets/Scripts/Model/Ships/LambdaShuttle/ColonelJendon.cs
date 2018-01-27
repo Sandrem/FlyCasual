@@ -68,6 +68,7 @@ namespace Abilities
                 });
 
                 pilotAbilityDecision.DefaultDecision = "No";
+                pilotAbilityDecision.RequiredPlayer = HostShip.Owner.PlayerNo;
 
                 pilotAbilityDecision.Start();
             }

@@ -1,6 +1,8 @@
-﻿using Ship;
+﻿using Abilities;
+using Ship;
 using Tokens;
 using Upgrade;
+using UpgradesList;
 
 namespace UpgradesList
 {
@@ -19,31 +21,37 @@ namespace UpgradesList
             AttackValue = 3;
 
             RequiresTargetLockOnTargetToShoot = true;
-
             SpendsTargetLockOnTargetToShoot = true;
-            IsDiscardedForShot = true;
-        }
+            //Because the card requires an event after the attack finishes, we have to manually discard it.
+            IsDiscardedForShot = false;
 
-        public override void AttachToShip(GenericShip host)
-        {
-            base.AttachToShip(host);
-
-            SubscribeOnHit();
-            
+            UpgradeAbilities.Add(new FlechetteTorpedoAbility());
         }        
+    }
+}
 
-        private void SubscribeOnHit()
+namespace Abilities
+{
+    public class FlechetteTorpedoAbility : GenericAbility
+    {
+        public override void ActivateAbility()
         {
-            Host.OnShotHitAsAttacker += RegisterFlechetteTorpedoes;
+            HostShip.OnShotHitAsAttacker += RegisterFlechetteTorpedoes;
 
             //Ruling: "After you perform this attack, the defender receives 1 stress token if its hull value is "4" or lower."
-            Host.OnAttackFinishAsAttacker += RegisterStress;
+            HostShip.OnAttackFinishAsAttacker += RegisterStress;
+        }
+
+        public override void DeactivateAbility()
+        {
+            HostShip.OnShotHitAsAttacker -= RegisterFlechetteTorpedoes;
+            HostShip.OnAttackFinishAsAttacker -= RegisterStress;
         }
 
         private void RegisterFlechetteTorpedoes()
-        {          
+        {
             if (Combat.ChosenWeapon == this)
-             {            
+            {
                 Triggers.RegisterTrigger(new Trigger()
                 {
                     Name = "Flechette Torpedo Hit",
@@ -59,16 +67,6 @@ namespace UpgradesList
         //not the defender's remaining hull points.
         private void RegisterStress(GenericShip hostShip)
         {
-            if (Combat.Defender.MaxHull > 4)
-            {
-                return;
-            }
-
-            if (Combat.ChosenWeapon != this)
-            {
-                return;
-            }
-
             Triggers.RegisterTrigger(new Trigger()
             {
                 Name = "Flechette Stress",
@@ -80,10 +78,21 @@ namespace UpgradesList
 
         private void AssignStressToDefender()
         {
-            Host.OnAttackFinishAsAttacker -= RegisterStress;
+            if (Combat.Defender.MaxHull <= 4 &&
+                    Combat.ChosenWeapon is FlechetteTorpedoes)
+            {
+                Messages.ShowInfoToHuman(string.Format("{0} received a Stress token from Flechette Torpedo", Combat.Defender.PilotName));
+                Combat.Defender.AssignToken(new StressToken(), DiscardUpgrade);                
+            }
+            else
+            {
+                DiscardUpgrade();
+            }
+        }
 
-            Messages.ShowInfoToHuman(string.Format("{0} received a Stress token from Flechette Torpedo", Combat.Defender.PilotName));
-            Combat.Defender.AssignToken(new StressToken(), Triggers.FinishTrigger);            
+        private void DiscardUpgrade()
+        {
+            HostUpgrade.TryDiscard(Triggers.FinishTrigger);
         }
     }
 }

@@ -32,7 +32,7 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Illicit);
 
                 PrintedActions.Add(new TargetLockAction());
-                PrintedActions.Add(new BarrelRollAction());
+                PrintedActions.Add(new EvadeAction());
                 PrintedActions.Add(new BoostAction());
 
                 AssignTemporaryManeuvers();

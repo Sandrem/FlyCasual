@@ -29,7 +29,7 @@ namespace CriticalHitCard
         {
             Messages.ShowInfo("Agility is restored");
 
-            host.RemoveToken(typeof(Tokens.StructuralDamageCritToken));
+            host.RemoveCondition(typeof(Tokens.StructuralDamageCritToken));
             host.AfterGenerateAvailableActionsList -= AddCancelCritAction;
 
             host.AfterGetAgility -= ReduceAgility;

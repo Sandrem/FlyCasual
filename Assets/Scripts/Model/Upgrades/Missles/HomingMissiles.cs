@@ -64,7 +64,7 @@ namespace UpgradesList
         private void RemoveHomingMissilesAbility(GenericShip ship)
         {
             Combat.Defender.OnTryAddAvailableActionEffect -= UseHomingMissilesRestriction;
-            Combat.Defender.RemoveToken(typeof(Conditions.HomingMissilesCondition));
+            Combat.Defender.RemoveCondition(typeof(Conditions.HomingMissilesCondition));
 
             Host.OnAttackFinish -= RemoveHomingMissilesAbility;
         }

@@ -136,9 +136,12 @@ namespace Abilities
 
         private void RemoveRedTargetLock(char targetLockTokenLetter, Action callback)
         {
-            TargetShip.RemoveToken(typeof(Tokens.RedTargetLockToken), targetLockTokenLetter);
             Messages.ShowInfoToHuman(string.Format("Target Lock has been removed from {0}.", TargetShip.PilotName));
-            callback();            
+            TargetShip.RemoveToken(
+                typeof(Tokens.RedTargetLockToken),
+                callback,
+                targetLockTokenLetter
+            );
         }
     }
 }

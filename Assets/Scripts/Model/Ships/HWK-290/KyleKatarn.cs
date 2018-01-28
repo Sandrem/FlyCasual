@@ -65,8 +65,15 @@ namespace Abilities
 
         private void SelectAbilityTarget()
         {
-            HostShip.RemoveToken(typeof(Tokens.FocusToken));
-            TargetShip.AssignToken(new Tokens.FocusToken(), SelectShipSubPhase.FinishSelection);           
+            HostShip.RemoveToken(
+                typeof(Tokens.FocusToken),
+                delegate {
+                    TargetShip.AssignToken(
+                        new Tokens.FocusToken(),
+                        SelectShipSubPhase.FinishSelection
+                    );
+                }
+            );          
         }
     }
 }

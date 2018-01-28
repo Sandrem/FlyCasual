@@ -26,7 +26,7 @@ namespace CriticalHitCard
 
         public override void DiscardEffect(Ship.GenericShip host)
         {
-            host.RemoveToken(typeof(Tokens.DirectHitCritToken));
+            host.RemoveCondition(typeof(Tokens.DirectHitCritToken));
             if (host.TryRegenHull())
             {
                 Messages.ShowInfo("One hull point is restored");

@@ -68,7 +68,7 @@ namespace ActionsList
 
         private void MarksmanshipUnSubscribeToFiceModification()
         {
-            Host.RemoveToken(typeof(Conditions.MarksmanshipCondition));
+            Host.RemoveCondition(typeof(Conditions.MarksmanshipCondition));
             Host.AfterGenerateAvailableActionEffectsList -= MarksmanshipAddDiceModification;
             Phases.OnEndPhaseStart -= MarksmanshipUnSubscribeToFiceModification;
         }

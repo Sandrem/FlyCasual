@@ -28,7 +28,7 @@ namespace CriticalHitCard
         {
             Messages.ShowInfo("Number of attack dice is restored");
 
-            host.RemoveToken(typeof(Tokens.WeaponsFailureCritToken));
+            host.RemoveCondition(typeof(Tokens.WeaponsFailureCritToken));
             host.AfterGotNumberOfAttackDice -= ReduceNumberOfAttackDice;
             host.AfterGenerateAvailableActionsList -= AddCancelCritAction;
         }

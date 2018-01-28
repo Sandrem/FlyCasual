@@ -137,8 +137,11 @@ namespace SubPhases
 
         private void RemoveRedTargetLockToken(char letter)
         {
-            Selection.ThisShip.RemoveToken(typeof(Tokens.RedTargetLockToken), letter);
-            ConfirmDecision();
+            Selection.ThisShip.RemoveToken(
+                typeof(Tokens.RedTargetLockToken),
+                ConfirmDecision,
+                letter
+            );
         }
 
     }

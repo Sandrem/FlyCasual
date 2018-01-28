@@ -68,7 +68,7 @@ namespace Abilities
             if ((Combat.AttackStep == CombatStep.Defence) && (Combat.Defender.ShipId == HostShip.ShipId))
             {
                 Combat.Attacker.OnTryAddAvailableActionEffect -= UseDarkCurseRestriction;
-                Combat.Attacker.RemoveToken(typeof(Conditions.DarkCurseCondition));
+                Combat.Attacker.RemoveCondition(typeof(Conditions.DarkCurseCondition));
             }
         }
     }

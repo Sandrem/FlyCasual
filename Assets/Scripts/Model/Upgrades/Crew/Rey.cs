@@ -96,9 +96,11 @@ namespace Abilities
 
         private void DoStoreToken(Action callback)
         {
-            HostShip.RemoveToken(typeof(FocusToken));
             FocusTokensStored++;
-            callback();
+            HostShip.RemoveToken(
+                typeof(FocusToken),
+                callback
+            );
         }
 
         private void RegisterAssignTokenAbility()

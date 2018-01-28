@@ -47,9 +47,11 @@ namespace RulesList
                 case ManeuverColor.Green:
                     if (Selection.ThisShip.Owner.GetType() != typeof(HotacAiPlayer))
                     {
-                        Selection.ThisShip.RemoveToken(typeof(StressToken));
+                        Selection.ThisShip.RemoveToken(
+                            typeof(StressToken),
+                            Triggers.FinishTrigger
+                        );
                     }
-                    Triggers.FinishTrigger();
                     break;
                 default:
                     Triggers.FinishTrigger();
@@ -99,8 +101,10 @@ namespace ActionsList
 
         public override void ActionTake()
         {
-            Host.RemoveToken(typeof(StressToken));
-            Phases.CurrentSubPhase.CallBack();
+            Host.RemoveToken(
+                typeof(StressToken),
+                Phases.CurrentSubPhase.CallBack
+            );
         }
 
         public override int GetActionPriority()

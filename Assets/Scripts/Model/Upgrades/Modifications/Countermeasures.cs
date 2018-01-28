@@ -109,8 +109,11 @@ namespace Abilities
 
         private void RemoveTargetLock(char letter)
         {
-            HostShip.RemoveToken(typeof(RedTargetLockToken), letter);
-            HostUpgrade.TryDiscard(SubPhases.DecisionSubPhase.ConfirmDecision);
+            HostShip.RemoveToken(
+                typeof(RedTargetLockToken),
+                delegate { HostUpgrade.TryDiscard(SubPhases.DecisionSubPhase.ConfirmDecision); },
+                letter
+            );
         }
 
         private class CountermeasuresDecisionSubPhase : SubPhases.DecisionSubPhase { }

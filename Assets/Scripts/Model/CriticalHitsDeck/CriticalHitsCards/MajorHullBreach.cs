@@ -25,7 +25,7 @@ namespace CriticalHitCard
         public override void DiscardEffect(Ship.GenericShip host)
         {
             Messages.ShowInfo("Damage cards are dealt as usual");
-            host.RemoveToken(typeof(Tokens.MajorHullBreachCritToken));
+            host.RemoveCondition(typeof(Tokens.MajorHullBreachCritToken));
 
             host.OnCheckFaceupCrit -= DealDamageCardFaceup;
             host.AfterGenerateAvailableActionsList -= AddCancelCritAction;

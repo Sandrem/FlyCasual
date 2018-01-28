@@ -32,7 +32,7 @@ namespace CriticalHitCard
             Messages.ShowInfo("Blinded Pilot: Crit is flipped, pilot can perfom attacks");
 
             host.OnTryPerformAttack -= OnTryPreformAttack;
-            host.RemoveToken(typeof(Tokens.BlindedPilotCritToken));
+            host.RemoveCondition(typeof(Tokens.BlindedPilotCritToken));
 
             host.AfterAttackWindow -= DiscardEffect;
         }

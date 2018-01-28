@@ -34,7 +34,7 @@ namespace CriticalHitCard
         {
             Messages.ShowInfo("Pilot Skill is restored");
 
-            host.RemoveToken(typeof(Tokens.DamagedCockpitCritToken));
+            host.RemoveCondition(typeof(Tokens.DamagedCockpitCritToken));
             host.RemovePilotSkillModifier(this);
             Roster.UpdateShipStats(host);
         }

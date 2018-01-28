@@ -125,7 +125,7 @@ namespace Abilities
 
         private void AdditionalDamageOnItself()
         {
-            Combat.Defender.RemoveToken(typeof(Conditions.Harpooned));
+            Combat.Defender.RemoveCondition(typeof(Conditions.Harpooned));
 
             //Deal facedown damage card;
 
@@ -162,7 +162,7 @@ namespace ActionsList
 
         public override void ActionTake()
         {
-            Host.RemoveToken(typeof(Conditions.Harpooned));
+            Host.RemoveCondition(typeof(Conditions.Harpooned));
 
             Phases.StartTemporarySubPhaseOld(
                 "Damage from \"Harpooned!\" condition",

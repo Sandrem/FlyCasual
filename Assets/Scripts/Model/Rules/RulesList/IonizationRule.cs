@@ -47,7 +47,7 @@ namespace RulesList
 
         private void RemoveIonization(GenericShip ship)
         {
-            ship.RemoveToken(typeof(IonToken), '*', true);
+            /*Trigger*/ ship.RemoveToken(typeof(IonToken), '*', true);
             ship.ToggleIonized(false);
             Messages.ShowInfo("Ship isn't ionized anymore");
 

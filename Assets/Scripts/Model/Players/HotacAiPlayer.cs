@@ -74,7 +74,10 @@ namespace Players
 
             if (Selection.ThisShip.GetToken(typeof(Tokens.StressToken)) != null)
             {
-                Selection.ThisShip.RemoveToken(typeof(Tokens.StressToken));
+                Selection.ThisShip.RemoveToken(
+                    typeof(Tokens.StressToken),
+                    Phases.CurrentSubPhase.CallBack
+                );
             }
             else
             {

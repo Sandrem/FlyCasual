@@ -39,6 +39,7 @@ public enum TriggerTypes
     OnBeforeTokenIsAssigned,
     OnTokenIsAssigned,
     OnTokenIsSpent,
+    OnTokenIsRemoved,
     OnCoordinateTargetIsSelected,
     OnRerollIsConfirmed,
 

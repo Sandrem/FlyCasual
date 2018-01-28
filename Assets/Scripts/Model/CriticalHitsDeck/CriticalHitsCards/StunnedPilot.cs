@@ -59,7 +59,7 @@ namespace CriticalHitCard
         public override void DiscardEffect(Ship.GenericShip host)
         {
             host.OnMovementFinish -= RegisterCheckCollisionDamage;
-            host.RemoveToken(typeof(Tokens.StunnedPilotCritToken));
+            host.RemoveCondition(typeof(Tokens.StunnedPilotCritToken));
 
             host.AfterAttackWindow -= DiscardEffect;
         }

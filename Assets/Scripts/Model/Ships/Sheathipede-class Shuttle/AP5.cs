@@ -97,8 +97,10 @@ namespace Abilities
 
         private void RemoveStressTokenFromTarget(TwoShipsArguments twoShipsArguments)
         {
-            twoShipsArguments.Target.RemoveToken(typeof(StressToken));
-            SubPhases.DecisionSubPhase.ConfirmDecision();
+            twoShipsArguments.Target.RemoveToken(
+                typeof(StressToken),
+                SubPhases.DecisionSubPhase.ConfirmDecision
+            );
         }
     }
 }

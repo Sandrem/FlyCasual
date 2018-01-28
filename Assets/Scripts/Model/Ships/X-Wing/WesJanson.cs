@@ -115,7 +115,7 @@ namespace Abilities
             //remove the chosen token
             Messages.ShowInfo(string.Format("{0} removed {1} from {2}", HostShip.PilotName, token.Name, Combat.Defender.PilotName));
             
-            Combat.Defender.RemoveToken(token);
+            Combat.Defender.RemoveCondition(token);
 			DecisionSubPhase.ConfirmDecision();
         }
 		

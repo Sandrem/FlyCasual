@@ -68,11 +68,13 @@ namespace ActionsList
                 Messages.ShowInfoToHuman("Focus token is spent, but there are no blanks.");
             }
 
-            Host.RemoveToken(typeof(Tokens.FocusToken));
             Combat.CurrentDiceRoll.ChangeOne(DieSide.Blank, DieSide.Success);
             Combat.CurrentDiceRoll.OrganizeDicePositions();
 
-            callBack();
+            Host.RemoveToken(
+                typeof(Tokens.FocusToken),
+                callBack
+            );
         }
 
         public override bool IsActionEffectAvailable()

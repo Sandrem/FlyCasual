@@ -104,7 +104,7 @@ namespace Abilities
 
         private void RemoveBiggsDarklighterAbility()
         {
-            HostShip.RemoveToken(typeof(Conditions.BiggsDarklighterCondition));
+            HostShip.RemoveCondition(typeof(Conditions.BiggsDarklighterCondition));
 
             GenericShip.OnTryPerformAttackGlobal -= CanPerformAttack;
 

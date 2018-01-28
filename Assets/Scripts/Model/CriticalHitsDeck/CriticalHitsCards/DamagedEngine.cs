@@ -24,7 +24,7 @@ namespace CriticalHitCard
         public override void DiscardEffect(Ship.GenericShip host)
         {
             Messages.ShowInfo("Turn maneuvers regained normal colors");
-            host.RemoveToken(typeof(Tokens.DamagedEngineCritToken));
+            host.RemoveCondition(typeof(Tokens.DamagedEngineCritToken));
 
             host.AfterGetManeuverColorIncreaseComplexity -= TurnManeuversAreRed;
         }

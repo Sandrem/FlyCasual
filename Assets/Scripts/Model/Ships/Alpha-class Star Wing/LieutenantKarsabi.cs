@@ -62,8 +62,16 @@ namespace Abilities
 
         private void UseAbility(object sender, System.EventArgs e)
         {
-            if (HostShip.HasToken(typeof(WeaponsDisabledToken))) HostShip.RemoveToken(typeof(WeaponsDisabledToken));
-            HostShip.AssignToken(new StressToken(), DecisionSubPhase.ConfirmDecision);
+            HostShip.RemoveToken(
+                typeof(WeaponsDisabledToken),
+                delegate
+                {
+                    HostShip.AssignToken(
+                        new StressToken(),
+                        DecisionSubPhase.ConfirmDecision
+                    );
+                }
+            );
         }
     }
 }

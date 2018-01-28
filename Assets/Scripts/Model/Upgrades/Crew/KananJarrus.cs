@@ -75,10 +75,12 @@ namespace Abilities
 
         private void RemoveStress(object sender, EventArgs e)
         {
-            ShipToRemoveStress.RemoveToken(typeof(StressToken));
             IsAbilityUsed = true;
 
-            DecisionSubPhase.ConfirmDecision();
+            ShipToRemoveStress.RemoveToken(
+                typeof(StressToken),
+                DecisionSubPhase.ConfirmDecision
+            );
         }
 
         private void ResetKananJarrusAbilityFlag()

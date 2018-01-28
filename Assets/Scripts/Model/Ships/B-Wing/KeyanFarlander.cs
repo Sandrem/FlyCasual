@@ -59,7 +59,10 @@ namespace Abilities
             public override void ActionEffect(Action callBack)
             {
                 Combat.CurrentDiceRoll.ChangeAll(DieSide.Focus, DieSide.Success);
-                Host.RemoveToken(typeof(Tokens.StressToken));
+                Host.RemoveToken(
+                    typeof(Tokens.StressToken),
+                    callBack
+                );
             }
 
             public override bool IsActionEffectAvailable()

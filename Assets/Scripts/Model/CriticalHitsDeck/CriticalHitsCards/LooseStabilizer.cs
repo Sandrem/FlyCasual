@@ -25,7 +25,7 @@ namespace CriticalHitCard
         public override void DiscardEffect(Ship.GenericShip host)
         {
             Messages.ShowInfo("No stress after white maneuvers");
-            host.RemoveToken(typeof(Tokens.LooseStabilizerCritToken));
+            host.RemoveCondition(typeof(Tokens.LooseStabilizerCritToken));
             host.OnMovementFinish -= PlanStressAfterWhiteManeuvers;
             host.AfterGenerateAvailableActionsList -= AddCancelCritAction;
         }

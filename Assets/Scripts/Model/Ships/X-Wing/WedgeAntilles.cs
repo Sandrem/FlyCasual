@@ -57,7 +57,7 @@ namespace Abilities
         public void RemoveWedgeAntillesAbility(GenericShip ship)
         {
             Messages.ShowInfo("Agility is restored");
-            Combat.Defender.RemoveToken(typeof(Conditions.WedgeAntillesCondition));
+            Combat.Defender.RemoveCondition(typeof(Conditions.WedgeAntillesCondition));
             ship.ChangeAgilityBy(+1);
             ship.OnAttackFinish -= RemoveWedgeAntillesAbility;
         }

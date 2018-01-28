@@ -81,7 +81,7 @@ namespace SubPhases
                         string name = token.Name;
                         if (token.GetType() == typeof(BlueTargetLockToken)) name += " \"" + (token as BlueTargetLockToken).Letter + "\"";
 
-                        AddDecision(name, delegate { RemoveToken(token); });
+                        AddDecision(name, delegate { RemoveJamAndToken(token); });
                     }
                 }
             }
@@ -94,11 +94,24 @@ namespace SubPhases
             callBack();
         }
 
-        private void RemoveToken(GenericToken token)
+        private void RemoveJamAndToken(GenericToken token)
         {
-            Selection.ActiveShip.RemoveToken(token.GetType(), (token.GetType() == typeof(BlueTargetLockToken)) ? (token as BlueTargetLockToken).Letter : ' ');
-            Selection.ActiveShip.RemoveToken(typeof(JamToken));
+            Selection.ActiveShip.RemoveToken(
+                token,
+                RemoveJamToken
+            );
+        }
 
+        private void RemoveJamToken()
+        {
+            Selection.ActiveShip.RemoveToken(
+                typeof(JamToken),
+                Finish
+            );
+        }
+
+        private void Finish()
+        {
             Phases.FinishSubPhase(this.GetType());
             CallBack();
         }

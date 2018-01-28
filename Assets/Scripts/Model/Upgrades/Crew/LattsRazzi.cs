@@ -68,9 +68,11 @@ namespace ActionsList
             Messages.ShowInfo("Latts Razzi: Stress token is removed from the attacker to add 1 Evade result");
 
             Combat.CurrentDiceRoll.ApplyEvade();
-            Combat.Attacker.RemoveToken(typeof(StressToken));
 
-            callBack();
+            Combat.Attacker.RemoveToken(
+                typeof(StressToken),
+                callBack
+            );
         }
 
         public override bool IsActionEffectAvailable()

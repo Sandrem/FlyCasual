@@ -45,7 +45,8 @@ public static class ShipFactory {
         newShipContainer.OnDestroyed += Rules.TargetLocks.RemoveTargetLocksOnDestruction;
 
         newShipContainer.OnTokenIsAssigned += Roster.UpdateTokensIndicator;
-        newShipContainer.AfterTokenIsRemoved += Roster.UpdateTokensIndicator;
+        newShipContainer.OnTokenIsRemoved += Roster.UpdateTokensIndicator;
+        newShipContainer.OnConditionIsRemoved += Roster.UpdateTokensIndicator;
         newShipContainer.AfterAssignedDamageIsChanged += Roster.UpdateRosterHullDamageIndicators;
         newShipContainer.AfterAssignedDamageIsChanged += Roster.UpdateRosterShieldsDamageIndicators;
         newShipContainer.AfterStatsAreChanged += Roster.UpdateShipStats;

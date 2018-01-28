@@ -20,7 +20,7 @@ namespace Ship
         private     List<ActionsList.GenericAction> AlreadyExecutedActionEffects            = new List<ActionsList.GenericAction>();
         private     List<ActionsList.GenericAction> AlreadyExecutedOppositeActionEffects    = new List<ActionsList.GenericAction>();
 
-        private     List<GenericToken> AssignedTokens = new List<GenericToken>();
+        public     List<GenericToken> AssignedTokens = new List<GenericToken>();
 
         public GenericToken TokenToAssign;
 
@@ -48,7 +48,8 @@ namespace Ship
         public static event EventHandlerShipType OnTokenIsAssignedGlobal;
         public event EventHandlerShipType OnTokenIsSpent;
         public static event EventHandlerShipType OnTokenIsSpentGlobal;
-        public event EventHandlerShipType AfterTokenIsRemoved;
+        public event EventHandlerShipType OnTokenIsRemoved;
+        public event EventHandlerShipType OnConditionIsRemoved;
 
         public event EventHandlerShip OnCoordinateTargetIsSelected;
 
@@ -475,48 +476,71 @@ namespace Ship
             Triggers.ResolveTriggers(TriggerTypes.OnTokenIsAssigned, callBack);
         }
 
-        public void RemoveToken(GenericToken token)
+        public void RemoveCondition(GenericToken token)
         {
             if (AssignedTokens.Remove(token))
             {
-                if (AfterTokenIsRemoved != null) AfterTokenIsRemoved(this, token.GetType());
+                if (OnConditionIsRemoved != null) OnConditionIsRemoved(this, token.GetType());
             }
         }
 
-        public void RemoveToken(System.Type type, char letter = ' ', bool recursive = false)
+        public void RemoveCondition(System.Type type)
+        {
+            GenericToken assignedCondition = GetToken(type);
+            RemoveCondition(assignedCondition);
+        }
+
+        public void RemoveToken(System.Type type, Action callback, char letter = ' ')
         {
             GenericToken assignedToken = GetToken(type, letter);
 
-            if (assignedToken != null)
+            if (assignedToken == null)
             {
+                Debug.Log("Warning: No token to remove");
+                callback();
+            }
+            else
+            {
+                RemoveToken(assignedToken, callback);
+            }
+        }
 
-                if (assignedToken.Count > 1)
+        public void RemoveToken(GenericToken tokenToRemove, Action callback, char letter = ' ')
+        {
+            AssignedTokens.Remove(tokenToRemove);
+
+            if (tokenToRemove.GetType().BaseType == typeof(GenericTargetLockToken))
+            {
+                GenericShip otherTokenOwner = (tokenToRemove as GenericTargetLockToken).OtherTokenOwner;
+                Actions.ReleaseTargetLockLetter((tokenToRemove as GenericTargetLockToken).Letter);
+                System.Type oppositeType = (tokenToRemove.GetType() == typeof(BlueTargetLockToken)) ? typeof(RedTargetLockToken) : typeof(BlueTargetLockToken);
+
+                GenericToken otherTargetLockToken = otherTokenOwner.GetToken(oppositeType, letter);
+                if (otherTargetLockToken != null)
                 {
-                    assignedToken.Count--;
-                    if (AfterTokenIsRemoved != null) AfterTokenIsRemoved(this, type);
-
-                    if (recursive)
-                    {
-                        RemoveToken(type, letter, true);
-                    }
+                    otherTokenOwner.AssignedTokens.Remove(otherTargetLockToken);
+                    if (OnTokenIsRemoved != null) OnTokenIsRemoved(this, otherTargetLockToken.GetType());
                 }
-                else
-                {
-                    AssignedTokens.Remove(assignedToken);
-                    if (AfterTokenIsRemoved != null) AfterTokenIsRemoved(this, type);
+            }
 
-                    if (assignedToken.GetType().BaseType == typeof(GenericTargetLockToken))
-                    {
-                        GenericShip otherTokenOwner = (assignedToken as GenericTargetLockToken).OtherTokenOwner;
-                        Actions.ReleaseTargetLockLetter((assignedToken as GenericTargetLockToken).Letter);
-                        System.Type oppositeType = (assignedToken.GetType() == typeof(BlueTargetLockToken)) ? typeof(RedTargetLockToken) : typeof(BlueTargetLockToken);
+            if (OnTokenIsRemoved != null) OnTokenIsRemoved(this, tokenToRemove.GetType());
 
-                        if (otherTokenOwner.HasToken(oppositeType, letter))
-                        {
-                            otherTokenOwner.RemoveToken(oppositeType, letter);
-                        }
-                    }
-                }
+            Triggers.ResolveTriggers(TriggerTypes.OnTokenIsRemoved, callback);
+        }
+
+        public void RemoveAllTokensByType(System.Type tokenType, Action callback)
+        {
+            GenericToken tokenToRemove = GetToken(tokenType);
+            if (tokenToRemove != null)
+            {
+                RemoveToken(
+                    tokenType,
+                    delegate { RemoveAllTokensByType(tokenType, callback); }
+                );
+            }
+            else
+            {
+                callback();
             }
         }
 
@@ -535,15 +559,22 @@ namespace Ship
             selectTargetLockSubPhase.Start();
         }
 
-        public void SpendToken(System.Type type, Action callBack, char letter = ' ')
+        public void SpendToken(System.Type type, Action callback, char letter = ' ')
         {
-            RemoveToken(type, letter);
+            RemoveToken(
+                type,
+                delegate { FinishSpendToken(type, callback); },
+                letter
+            );
+        }
 
+        private void FinishSpendToken(System.Type type, Action callback)
+        {
             if (OnTokenIsSpent != null) OnTokenIsSpent(this, type);
 
             if (OnTokenIsSpentGlobal != null) OnTokenIsSpentGlobal(this, type);
 
-            Triggers.ResolveTriggers(TriggerTypes.OnTokenIsSpent, callBack);
+            Triggers.ResolveTriggers(TriggerTypes.OnTokenIsSpent, callback);
         }
 
         public List<GenericToken> GetAssignedTokens()
@@ -569,7 +600,7 @@ namespace Ship
             {
                 if (ShoulRemoveTokenInEndPhase(token))
                 {
-                    RemoveToken(token.GetType(), '*', true);
+                    /*List, callBack*/ RemoveToken(token.GetType(), '*', true);
                 }
             }
         }

@@ -47,7 +47,7 @@ namespace CriticalHitCard
 
         public override void DiscardEffect(Ship.GenericShip host)
         {
-            host.RemoveToken(typeof(Tokens.ConsoleFireCritToken));
+            host.RemoveCondition(typeof(Tokens.ConsoleFireCritToken));
 
             host.OnCombatPhaseStart -= PlanRollForDamage;
 

@@ -80,7 +80,7 @@ namespace UpgradesList
             if (Host.HasToken(typeof(StressToken)))
             {
                 Messages.ShowInfo("Maul: Remove Stress token");
-                Host.RemoveToken(typeof(StressToken));
+                /*Trigger*/ Host.RemoveToken(typeof(StressToken));
             }
         }
     }

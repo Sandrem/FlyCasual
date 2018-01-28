@@ -25,7 +25,7 @@ namespace CriticalHitCard
         public override void DiscardEffect(Ship.GenericShip host)
         {
             Messages.ShowInfo("Can be assigned straight maneuvers");
-            host.RemoveToken(typeof(Tokens.ShakenPilotCritToken));
+            host.RemoveCondition(typeof(Tokens.ShakenPilotCritToken));
 
             host.AfterGetManeuverAvailablity -= CannotBeAssignedStraightManeuvers;
             Host.OnMovementFinish -= DiscardEffect;

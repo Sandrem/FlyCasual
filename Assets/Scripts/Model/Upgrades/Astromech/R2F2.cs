@@ -77,7 +77,7 @@ namespace ActionsList
         private void R2F2DecreaseAgility()
         {
             Host.ChangeAgilityBy(-1);
-            Host.RemoveToken(typeof(Conditions.R2F2Condition));
+            Host.RemoveCondition(typeof(Conditions.R2F2Condition));
             Phases.OnEndPhaseStart -= R2F2DecreaseAgility;
         }
 

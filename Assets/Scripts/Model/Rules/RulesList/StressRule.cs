@@ -26,7 +26,7 @@ namespace RulesList
             }
         }
 
-        private static void CheckStress(object sender, System.EventArgs e)
+        public static void CheckStress(object sender, System.EventArgs e)
         {
             switch (Selection.ThisShip.GetLastManeuverColor())
             {

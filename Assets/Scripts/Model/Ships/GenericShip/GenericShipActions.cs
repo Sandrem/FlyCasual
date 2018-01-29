@@ -384,11 +384,6 @@ namespace Ship
                 return token.Count;
         }
 
-        public List<GenericToken> GetAllTokens()
-        {
-            return AssignedTokens;
-        }
-
         public GenericToken GetToken(System.Type type, char letter = ' ')
         {
             GenericToken result = null;
@@ -490,7 +485,7 @@ namespace Ship
             RemoveCondition(assignedCondition);
         }
 
-        public void RemoveToken(System.Type type, Action callback, char letter = ' ')
+        public void RemoveToken(System.Type type, Action callback, char letter = ' ', bool removePairedTargetLockTokenToo = true)
         {
             GenericToken assignedToken = GetToken(type, letter);
 
@@ -500,15 +495,15 @@ namespace Ship
             }
             else
             {
-                RemoveToken(assignedToken, callback);
+                RemoveToken(assignedToken, callback, letter, removePairedTargetLockTokenToo);
             }
         }
 
-        public void RemoveToken(GenericToken tokenToRemove, Action callback, char letter = ' ')
+        public void RemoveToken(GenericToken tokenToRemove, Action callback, char letter = ' ', bool removePairedTargetLockTokenToo = true)
         {
             AssignedTokens.Remove(tokenToRemove);
 
-            if (tokenToRemove.GetType().BaseType == typeof(GenericTargetLockToken))
+            if (tokenToRemove.GetType().BaseType == typeof(GenericTargetLockToken) && removePairedTargetLockTokenToo)
             {
                 GenericShip otherTokenOwner = (tokenToRemove as GenericTargetLockToken).OtherTokenOwner;
                 Actions.ReleaseTargetLockLetter((tokenToRemove as GenericTargetLockToken).Letter);
@@ -576,32 +571,18 @@ namespace Ship
             Triggers.ResolveTriggers(TriggerTypes.OnTokenIsSpent, callback);
         }
 
-        public List<GenericToken> GetAssignedTokens()
+        public List<GenericToken> GetAllTokens()
         {
             return AssignedTokens;
         }
 
         public EventHandlerTokenBool BeforeRemovingTokenInEndPhase;
 
-        private bool ShoulRemoveTokenInEndPhase(GenericToken token)
+        public bool ShouldRemoveTokenInEndPhase(GenericToken token)
         {
             var remove = token.Temporary;
             if (BeforeRemovingTokenInEndPhase != null) BeforeRemovingTokenInEndPhase(token, ref remove);
             return remove;
-        }
-
-
-        public void ClearAllTokens()
-        {
-            List<GenericToken> keys = new List<GenericToken>(AssignedTokens);
-
-            foreach (var token in keys)
-            {
-                if (ShoulRemoveTokenInEndPhase(token))
-                {
-                    /*List, callBack*/ RemoveToken(token.GetType(), delegate { }, '*');
-                }
-            }
         }
 
         // Coordinate

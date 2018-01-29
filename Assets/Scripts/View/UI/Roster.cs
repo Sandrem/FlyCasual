@@ -389,7 +389,7 @@ public static partial class Roster {
 
         int columnCounter = 0;
         int rowCounter = 0;
-        foreach (var token in thisShip.GetAssignedTokens())
+        foreach (var token in thisShip.GetAllTokens())
         {
             for (int i = 0; i < token.Count; i++)
             {

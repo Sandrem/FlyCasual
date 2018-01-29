@@ -51,7 +51,7 @@ namespace Abilities
 		private void StartSubphaseForWesJansonPilotAbility(object sender, System.EventArgs e)
         {
             //grab a list of tokens that wes can remove
-            var wes_list = Combat.Defender.GetAssignedTokens()
+            var wes_list = Combat.Defender.GetAllTokens()
                .Where(t => t is Tokens.BlueTargetLockToken || t is Tokens.FocusToken || t is Tokens.EvadeToken)
                .ToList();
 

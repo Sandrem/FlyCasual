@@ -328,7 +328,12 @@ public static partial class Actions
                 char existingTlOnSameTarget = GetTargetLocksLetterPair(newOwner, assignedTargetLockToken.OtherTokenOwner);
                 if (existingTlOnSameTarget != ' ')
                 {
-                    /*TL*/ newOwner.RemoveToken(typeof(BlueTargetLockToken), delegate { }, existingTlOnSameTarget);
+                    newOwner.RemoveToken(
+                        typeof(BlueTargetLockToken),
+                        delegate { FinishReassignToken(callback); },
+                        existingTlOnSameTarget,
+                        false
+                    );
                 }
             }
             else
@@ -337,22 +342,30 @@ public static partial class Actions
                 char existingTlOnSameTarget = GetTargetLocksLetterPair(assignedTargetLockToken.OtherTokenOwner, newOwner);
                 if (existingTlOnSameTarget != ' ')
                 {
-                    /*TL*/ newOwner.RemoveToken(typeof(RedTargetLockToken), delegate { }, existingTlOnSameTarget);
+                    newOwner.RemoveToken(
+                        typeof(RedTargetLockToken),
+                        delegate { FinishReassignToken(callback); },
+                        existingTlOnSameTarget,
+                        false
+                    );
                 }
             }
-
-            oldOwner.RemoveCondition(assignedTargetLockToken);
-
-            var otherToken = assignedTargetLockToken.OtherTokenOwner.GetToken(oppositeType, letter) as GenericTargetLockToken;
-
-            otherToken.OtherTokenOwner = newOwner;
-            newOwner.AssignToken(assignedTargetLockToken, callback, letter);
         }
         else
         {
             Messages.ShowError("ERROR: No such token to reassign!");
             callback();
         }
+    }
+
+    private static void FinishReassignToken(Action callback)
+    {
+        oldOwner.RemoveCondition(assignedTargetLockToken);
+
+        var otherToken = assignedTargetLockToken.OtherTokenOwner.GetToken(oppositeType, letter) as GenericTargetLockToken;
+
+        otherToken.OtherTokenOwner = newOwner;
+        newOwner.AssignToken(assignedTargetLockToken, callback, letter);
     }
 
     public static void RemoveTokens(List<GenericToken> tokensList, Action callback)

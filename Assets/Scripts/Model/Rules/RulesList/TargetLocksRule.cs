@@ -1,5 +1,7 @@
 ﻿using Tokens;
 using Ship;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace RulesList
 {
@@ -7,34 +9,26 @@ namespace RulesList
     {
         public static event GenericShip.EventHandler2Ships OnCheckTargetLockIsAllowed;
 
-        public void RemoveTargetLocksOnDestruction(GenericShip ship)
+        public void RegisterRemoveTargetLocksOnDestruction(GenericShip ship)
         {
-            while (true)
+            Triggers.RegisterTrigger(new Trigger
             {
-                BlueTargetLockToken token = ship.GetToken(typeof(BlueTargetLockToken), '*') as BlueTargetLockToken;
-                if (token != null)
-                {
-                    /*OnDestr*/ ship.RemoveToken(token.GetType(), delegate { }, token.Letter);
-                }
-                else
-                {
-                    break;
-                }
-            }
+                Name = "Remove tokens from destroyed ship",
+                TriggerType = TriggerTypes.OnShipIsDestroyed,
+                TriggerOwner = ship.Owner.PlayerNo,
+                EventHandler = DoRemoveTargetLocksOnDestruction,
+                Sender = ship
+            });
+        }
 
-            while (true)
-            {
-                RedTargetLockToken token = ship.GetToken(typeof(RedTargetLockToken), '*') as RedTargetLockToken;
-                if (token != null)
-                {
-                    /*OnDestr*/ ship.RemoveToken(token.GetType(), delegate { }, token.Letter);
-                }
-                else
-                {
-                    break;
-                }
-            }
+        public void DoRemoveTargetLocksOnDestruction(object sender, System.EventArgs e)
+        {
+            GenericShip ship = sender as GenericShip;
 
+            List<GenericToken> tokensToRemove = new List<GenericToken>();
+            tokensToRemove.AddRange(ship.GetAllTokens().Where(n => n is BlueTargetLockToken || n is RedTargetLockToken));
+
+            Actions.RemoveTokens(tokensToRemove, Triggers.FinishTrigger);
         }
 
         public bool TargetLockIsAllowed(GenericShip attacker, GenericShip target)

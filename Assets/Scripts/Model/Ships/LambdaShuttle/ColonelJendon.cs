@@ -53,7 +53,7 @@ namespace Abilities
 
                 pilotAbilityDecision.InfoText = "Use Colonel Jendon's ability?";
 
-                var blueTargetLocks = HostShip.GetAssignedTokens()
+                var blueTargetLocks = HostShip.GetAllTokens()
                    .Where(t => t is Tokens.BlueTargetLockToken)
                    .Select(x => (Tokens.BlueTargetLockToken)x)
                    .OrderBy(y => y.Letter)

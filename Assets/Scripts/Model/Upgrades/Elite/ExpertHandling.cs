@@ -117,7 +117,7 @@ namespace SubPhases
         {
             InfoText = "Select target lock to remove";
 
-            foreach (var token in Selection.ThisShip.GetAssignedTokens())
+            foreach (var token in Selection.ThisShip.GetAllTokens())
             {
                 if (token.GetType() == typeof(Tokens.RedTargetLockToken))
                 {

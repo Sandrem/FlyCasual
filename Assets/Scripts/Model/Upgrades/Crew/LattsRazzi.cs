@@ -69,7 +69,7 @@ namespace ActionsList
 
             Combat.CurrentDiceRoll.ApplyEvade();
 
-            Combat.Attacker.RemoveToken(
+            Combat.Attacker.Tokens.RemoveToken(
                 typeof(StressToken),
                 callBack
             );
@@ -79,7 +79,7 @@ namespace ActionsList
         {
             bool result = false;
 
-            if (Combat.AttackStep == CombatStep.Defence && Combat.Attacker.HasToken(typeof(StressToken)))
+            if (Combat.AttackStep == CombatStep.Defence && Combat.Attacker.Tokens.HasToken(typeof(StressToken)))
             {
                 result = true;
             }
@@ -91,7 +91,7 @@ namespace ActionsList
         {
             int result = 0;
 
-            if (Combat.AttackStep == CombatStep.Defence && Combat.Attacker.HasToken(typeof(StressToken)))
+            if (Combat.AttackStep == CombatStep.Defence && Combat.Attacker.Tokens.HasToken(typeof(StressToken)))
             {
                 int attackSuccesses = Combat.DiceRollAttack.Successes;
                 int defenceSuccesses = Combat.DiceRollDefence.Successes;

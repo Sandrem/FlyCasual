@@ -75,7 +75,7 @@ namespace Abilities
         private bool IsUseAP5PilotAbility(GenericShip targetShip)
         {
             bool result = false;
-            StressToken stressTokens = (StressToken)targetShip.GetToken(typeof(StressToken));
+            StressToken stressTokens = (StressToken)targetShip.Tokens.GetToken(typeof(StressToken));
 
             if (stressTokens != null)
             {
@@ -87,17 +87,17 @@ namespace Abilities
 
         private void UsePilotAbility(TwoShipsArguments twoShipsArguments)
         {
-            twoShipsArguments.Host.AssignToken(new StressToken(twoShipsArguments.Host), delegate { AssignSecondStressToken(twoShipsArguments); });
+            twoShipsArguments.Host.Tokens.AssignToken(new StressToken(twoShipsArguments.Host), delegate { AssignSecondStressToken(twoShipsArguments); });
         }
 
         private void AssignSecondStressToken(TwoShipsArguments twoShipsArguments)
         {
-            twoShipsArguments.Host.AssignToken(new StressToken(twoShipsArguments.Host), delegate { RemoveStressTokenFromTarget(twoShipsArguments); });
+            twoShipsArguments.Host.Tokens.AssignToken(new StressToken(twoShipsArguments.Host), delegate { RemoveStressTokenFromTarget(twoShipsArguments); });
         }
 
         private void RemoveStressTokenFromTarget(TwoShipsArguments twoShipsArguments)
         {
-            twoShipsArguments.Target.RemoveToken(
+            twoShipsArguments.Target.Tokens.RemoveToken(
                 typeof(StressToken),
                 SubPhases.DecisionSubPhase.ConfirmDecision
             );

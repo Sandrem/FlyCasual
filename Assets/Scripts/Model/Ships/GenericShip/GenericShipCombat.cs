@@ -714,7 +714,7 @@ namespace Ship
 
         public bool AreWeaponsDisabled()
         {
-            bool result = HasToken(typeof(Tokens.WeaponsDisabledToken));
+            bool result = Tokens.HasToken(typeof(Tokens.WeaponsDisabledToken));
 
             if (result == true)
             {

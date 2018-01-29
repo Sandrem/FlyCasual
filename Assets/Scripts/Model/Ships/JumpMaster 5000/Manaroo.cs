@@ -79,7 +79,7 @@ namespace Abilities
 
             Messages.ShowInfo(string.Format("{0} : all Focus, Evade and Target Lock tokens reassigned to {1}", HostShip.PilotName, TargetShip.PilotName));
 
-            ManarooTokens = new List<GenericToken>(HostShip.GetAllTokens());
+            ManarooTokens = new List<GenericToken>(HostShip.Tokens.GetAllTokens());
             ReassignTokensRecursive();
         }
 

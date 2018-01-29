@@ -18,7 +18,7 @@ namespace CriticalHitCard
             Host.OnTryPerformAttack += OnTryPreformAttack;
             Host.AfterAttackWindow += DiscardEffect;
 
-            Host.AssignToken(new Tokens.BlindedPilotCritToken(Host), Triggers.FinishTrigger);
+            Host.Tokens.AssignToken(new Tokens.BlindedPilotCritToken(Host), Triggers.FinishTrigger);
         }
 
         private void OnTryPreformAttack(ref bool result, List<string> stringList)
@@ -32,7 +32,7 @@ namespace CriticalHitCard
             Messages.ShowInfo("Blinded Pilot: Crit is flipped, pilot can perfom attacks");
 
             host.OnTryPerformAttack -= OnTryPreformAttack;
-            host.RemoveCondition(typeof(Tokens.BlindedPilotCritToken));
+            host.Tokens.RemoveCondition(typeof(Tokens.BlindedPilotCritToken));
 
             host.AfterAttackWindow -= DiscardEffect;
         }

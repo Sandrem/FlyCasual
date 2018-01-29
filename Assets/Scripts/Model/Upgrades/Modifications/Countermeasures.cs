@@ -53,7 +53,7 @@ namespace Abilities
         private bool AIShouldUseAbility()
         {
             //TODO: more complex logic
-            return HostShip.HasToken(typeof(RedTargetLockToken), '*');
+            return HostShip.Tokens.HasToken(typeof(RedTargetLockToken), '*');
         }
 
         private void ActivateCountermeasures(object sender, System.EventArgs e)
@@ -61,7 +61,7 @@ namespace Abilities
             HostShip.ChangeAgilityBy(+1);
             Phases.OnRoundEnd += DeactivateCountermeasures;
 
-            if (HostShip.HasToken(typeof(RedTargetLockToken), '*'))
+            if (HostShip.Tokens.HasToken(typeof(RedTargetLockToken), '*'))
             {
                 AskToRemoveTargetLock();
             }
@@ -85,7 +85,7 @@ namespace Abilities
                 SubPhases.DecisionSubPhase.ConfirmDecision
             );
 
-            foreach (GenericToken token in HostShip.GetAllTokens())
+            foreach (GenericToken token in HostShip.Tokens.GetAllTokens())
             {
                 if (token.GetType() == typeof(RedTargetLockToken))
                 {
@@ -109,7 +109,7 @@ namespace Abilities
 
         private void RemoveTargetLock(char letter)
         {
-            HostShip.RemoveToken(
+            HostShip.Tokens.RemoveToken(
                 typeof(RedTargetLockToken),
                 delegate { HostUpgrade.TryDiscard(SubPhases.DecisionSubPhase.ConfirmDecision); },
                 letter

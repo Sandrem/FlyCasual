@@ -46,10 +46,10 @@ namespace Abilities
 
         private void CommRelayRestriction(GenericShip ship, System.Type tokenType)
         {
-            if (tokenType == typeof(EvadeToken) && ship.HasToken(typeof(EvadeToken)))
+            if (tokenType == typeof(EvadeToken) && ship.Tokens.HasToken(typeof(EvadeToken)))
             {
                 Messages.ShowError("Comm Relay: Cannon have more than 1 Evade token");
-                ship.TokenToAssign = null;
+                ship.Tokens.TokenToAssign = null;
             }
         }
 
@@ -63,7 +63,7 @@ namespace Abilities
 
         private void ToggleBonusOfExistingEvadeTokens(bool isActive)
         {
-            EvadeToken evadeToken = (EvadeToken)HostShip.GetToken(typeof(EvadeToken));
+            EvadeToken evadeToken = (EvadeToken)HostShip.Tokens.GetToken(typeof(EvadeToken));
             if (evadeToken != null)
             {
                 evadeToken.Temporary = !isActive;

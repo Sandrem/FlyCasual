@@ -54,7 +54,7 @@ namespace Abilities
         private void ActivateBiggsAbility(object sender, System.EventArgs e)
         {
             IsAbilityUsed = true;
-            HostShip.AssignToken(new Conditions.BiggsDarklighterCondition(HostShip), delegate { });
+            HostShip.Tokens.AssignToken(new Conditions.BiggsDarklighterCondition(HostShip), delegate { });
 
             GenericShip.OnTryPerformAttackGlobal += CanPerformAttack;
 
@@ -104,7 +104,7 @@ namespace Abilities
 
         private void RemoveBiggsDarklighterAbility()
         {
-            HostShip.RemoveCondition(typeof(Conditions.BiggsDarklighterCondition));
+            HostShip.Tokens.RemoveCondition(typeof(Conditions.BiggsDarklighterCondition));
 
             GenericShip.OnTryPerformAttackGlobal -= CanPerformAttack;
 

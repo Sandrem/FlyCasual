@@ -45,7 +45,7 @@ namespace Abilities
 
         private void RegisterBosskAbility()
         {
-            if (!HostShip.HasToken(typeof(StressToken)))
+            if (!HostShip.Tokens.HasToken(typeof(StressToken)))
             {
                 RegisterAbilityTrigger(TriggerTypes.OnAttackMissed, PerformBosskAbility);
             }
@@ -60,13 +60,13 @@ namespace Abilities
 
         private void AssignFocusToken()
         {
-            HostShip.AssignToken(new FocusToken(HostShip), AssignStressToken);
+            HostShip.Tokens.AssignToken(new FocusToken(HostShip), AssignStressToken);
         }
 
         private void AssignStressToken()
         {
             Messages.ShowInfoToHuman("Bossk: Focus and Stress tokens acquired.");
-            HostShip.AssignToken(new StressToken(HostShip), Triggers.FinishTrigger);
+            HostShip.Tokens.AssignToken(new StressToken(HostShip), Triggers.FinishTrigger);
         }
     }
 }

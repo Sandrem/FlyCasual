@@ -64,7 +64,7 @@ namespace Abilities
         {
             MovementTemplates.ReturnRangeRuler();
 
-            TargetShip.AssignToken(new Tokens.FocusToken(TargetShip), SelectShipSubPhase.FinishSelection);
+            TargetShip.Tokens.AssignToken(new Tokens.FocusToken(TargetShip), SelectShipSubPhase.FinishSelection);
         }
     }
 }

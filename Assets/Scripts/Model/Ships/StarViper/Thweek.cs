@@ -137,7 +137,7 @@ namespace Abilities
             { 
                 Messages.ShowError(targetShip.PilotName + " doesn't have abilities to be mimicked");
             }
-            targetShip.AssignToken(new Conditions.Mimicked(targetShip), delegate { });
+            targetShip.Tokens.AssignToken(new Conditions.Mimicked(targetShip), delegate { });
             SubPhases.DecisionSubPhase.ConfirmDecision();
         }
 
@@ -145,7 +145,7 @@ namespace Abilities
         {
             Messages.ShowInfo("Pilot skill of " + targetShip.PilotName + " is shadowed");
             new ThweekPilotSkillModifier(HostShip, targetShip.PilotSkill);
-            targetShip.AssignToken(new Conditions.Shadowed(targetShip), delegate { });
+            targetShip.Tokens.AssignToken(new Conditions.Shadowed(targetShip), delegate { });
             SubPhases.DecisionSubPhase.ConfirmDecision();
         }
 

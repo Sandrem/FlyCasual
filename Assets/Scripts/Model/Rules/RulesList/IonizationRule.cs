@@ -18,7 +18,7 @@ namespace RulesList
         {
             if (tokenType == typeof(IonToken))
             {
-                int ionTokensCount = ship.GetAllTokens().Count(n => n is IonToken);
+                int ionTokensCount = ship.Tokens.GetAllTokens().Count(n => n is IonToken);
 
                 if (ionTokensCount == 1 && ship.ShipBaseSize == BaseSize.Small )
                 {
@@ -68,7 +68,7 @@ namespace RulesList
 
             GenericShip ship = sender as GenericShip;
             ship.ToggleIonized(false);
-            ship.RemoveToken(
+            ship.Tokens.RemoveToken(
                 typeof(IonToken),
                 Triggers.FinishTrigger
             );

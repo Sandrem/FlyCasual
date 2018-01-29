@@ -46,10 +46,10 @@ namespace Abilities
 
         private void AdvancedOpticsRestriction(GenericShip ship, System.Type tokenType)
         {
-            if (tokenType == typeof(FocusToken) && ship.HasToken(typeof(FocusToken)))
+            if (tokenType == typeof(FocusToken) && ship.Tokens.HasToken(typeof(FocusToken)))
             {
                 Messages.ShowError("Advanced Optics: Cannon have more than 1 Focus token");
-                ship.TokenToAssign = null;
+                ship.Tokens.TokenToAssign = null;
             }
         }
 
@@ -63,7 +63,7 @@ namespace Abilities
 
         private void ToggleBonusOfExistingFocusTokens(bool isActive)
         {
-            FocusToken FocusToken = (FocusToken)HostShip.GetToken(typeof(FocusToken));
+            FocusToken FocusToken = (FocusToken)HostShip.Tokens.GetToken(typeof(FocusToken));
             if (FocusToken != null)
             {
                 FocusToken.Temporary = !isActive;

@@ -53,7 +53,7 @@ namespace ActionsList
 
             Phases.OnEndPhaseStart += RemoveExposeEffect;
 
-            Host.AssignToken(new Conditions.ExposeCondition(Host), Phases.CurrentSubPhase.CallBack);
+            Host.Tokens.AssignToken(new Conditions.ExposeCondition(Host), Phases.CurrentSubPhase.CallBack);
         }
 
         private void RemoveExposeEffect()

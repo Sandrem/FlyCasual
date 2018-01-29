@@ -41,7 +41,7 @@ namespace RulesList
                 ClearAssignedManeuvers(shipHolder.Value);
                 shipHolder.Value.ClearAlreadyExecutedActions();
 
-                List<GenericToken> allShipTokens = shipHolder.Value.GetAllTokens();
+                List<GenericToken> allShipTokens = shipHolder.Value.Tokens.GetAllTokens();
                 if (allShipTokens != null) tokensList.AddRange(allShipTokens.Where(n => n.Host.ShouldRemoveTokenInEndPhase(n)));
             }
 

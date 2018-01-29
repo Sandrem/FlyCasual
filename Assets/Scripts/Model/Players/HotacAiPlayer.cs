@@ -72,10 +72,10 @@ namespace Players
         {
             bool isActionTaken = false;
 
-            if (Selection.ThisShip.GetToken(typeof(Tokens.StressToken)) != null)
+            if (Selection.ThisShip.Tokens.GetToken(typeof(Tokens.StressToken)) != null)
             {
                 isActionTaken = true;
-                Selection.ThisShip.RemoveToken(
+                Selection.ThisShip.Tokens.RemoveToken(
                     typeof(Tokens.StressToken),
                     Phases.CurrentSubPhase.CallBack
                 );

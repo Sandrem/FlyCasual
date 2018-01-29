@@ -82,9 +82,9 @@ namespace Abilities
 
         private void CheckStress()
         {
-            if (!Combat.Defender.HasToken(typeof(Tokens.StressToken)))
+            if (!Combat.Defender.Tokens.HasToken(typeof(Tokens.StressToken)))
             {
-                Combat.Defender.AssignToken(
+                Combat.Defender.Tokens.AssignToken(
                     new Tokens.StressToken(Combat.Defender),
                     Triggers.FinishTrigger
                 );

@@ -74,7 +74,7 @@ namespace Abilities
 
         private void AssignFocus(Action callback)
         {
-            HostShip.AssignToken(new Tokens.FocusToken(HostShip), callback);
+            HostShip.Tokens.AssignToken(new Tokens.FocusToken(HostShip), callback);
         }
 
     }

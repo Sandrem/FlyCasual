@@ -83,12 +83,12 @@ namespace SubPhases
 
         private void AddFocus(object sender, System.EventArgs e)
         {
-            HostUpgrade.Host.AssignToken(new Tokens.FocusToken(HostUpgrade.Host), DiscardUpgrade);
+            HostUpgrade.Host.Tokens.AssignToken(new Tokens.FocusToken(HostUpgrade.Host), DiscardUpgrade);
         }
 
         private void AddEvade(object sender, System.EventArgs e)
         {
-            HostUpgrade.Host.AssignToken(new Tokens.EvadeToken(HostUpgrade.Host), DiscardUpgrade);
+            HostUpgrade.Host.Tokens.AssignToken(new Tokens.EvadeToken(HostUpgrade.Host), DiscardUpgrade);
         }
 
         private void DiscardUpgrade()

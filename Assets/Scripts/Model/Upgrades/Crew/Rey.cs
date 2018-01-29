@@ -72,7 +72,7 @@ namespace Abilities
 
         private void CheckStoreTokenAbility(object sender, System.EventArgs e)
         {
-            if (HostShip.HasToken(typeof(FocusToken)))
+            if (HostShip.Tokens.HasToken(typeof(FocusToken)))
             {
                 if (!alwaysUseAbility)
                 {
@@ -97,7 +97,7 @@ namespace Abilities
         private void DoStoreToken(Action callback)
         {
             FocusTokensStored++;
-            HostShip.RemoveToken(
+            HostShip.Tokens.RemoveToken(
                 typeof(FocusToken),
                 callback
             );
@@ -123,7 +123,7 @@ namespace Abilities
         private void AssignStoredToken(object sender, System.EventArgs e)
         {
             FocusTokensStored--;
-            HostShip.AssignToken(new FocusToken(HostShip), SubPhases.DecisionSubPhase.ConfirmDecision);
+            HostShip.Tokens.AssignToken(new FocusToken(HostShip), SubPhases.DecisionSubPhase.ConfirmDecision);
         }
 
     }

@@ -33,8 +33,8 @@ namespace RulesList
                 case ManeuverColor.Red:
                     if (Selection.ThisShip.Owner.GetType() != typeof(HotacAiPlayer))
                     {
-                        Selection.ThisShip.AssignToken(new StressToken(Selection.ThisShip), delegate {
-                            Selection.ThisShip.IsSkipsActionSubPhase = Selection.ThisShip.HasToken(typeof(StressToken)) && !Selection.ThisShip.CanPerformActionsWhileStressed;
+                        Selection.ThisShip.Tokens.AssignToken(new StressToken(Selection.ThisShip), delegate {
+                            Selection.ThisShip.IsSkipsActionSubPhase = Selection.ThisShip.Tokens.HasToken(typeof(StressToken)) && !Selection.ThisShip.CanPerformActionsWhileStressed;
                             Triggers.FinishTrigger();
                         });
                     }
@@ -47,7 +47,7 @@ namespace RulesList
                 case ManeuverColor.Green:
                     if (Selection.ThisShip.Owner.GetType() != typeof(HotacAiPlayer))
                     {
-                        Selection.ThisShip.RemoveToken(
+                        Selection.ThisShip.Tokens.RemoveToken(
                             typeof(StressToken),
                             Triggers.FinishTrigger
                         );
@@ -65,7 +65,7 @@ namespace RulesList
 
         public void CanPerformActions(GenericAction action, ref bool result)
         {
-            if (Selection.ThisShip.GetToken(typeof(StressToken)) != null)
+            if (Selection.ThisShip.Tokens.GetToken(typeof(StressToken)) != null)
             {
                 result = Selection.ThisShip.CanPerformActionsWhileStressed || action.CanBePerformedWhileStressed;
             }
@@ -73,7 +73,7 @@ namespace RulesList
 
         public void CannotPerformRedManeuversWhileStressed(GenericShip ship, ref MovementStruct movement)
         {
-            if ((movement.ColorComplexity == ManeuverColor.Red) && (ship.GetToken(typeof(StressToken)) != null))
+            if ((movement.ColorComplexity == ManeuverColor.Red) && (ship.Tokens.GetToken(typeof(StressToken)) != null))
             {
                 if (!ship.CanPerformRedManeuversWhileStressed && !DirectionsMenu.ForceShowRedManeuvers)
                 {
@@ -105,7 +105,7 @@ namespace ActionsList
 
         public override void ActionTake()
         {
-            Host.RemoveToken(
+            Host.Tokens.RemoveToken(
                 typeof(StressToken),
                 Phases.CurrentSubPhase.CallBack
             );
@@ -114,7 +114,7 @@ namespace ActionsList
         public override int GetActionPriority()
         {
             int result = 0;
-            if (Host.HasToken(typeof(StressToken))) result = int.MaxValue;
+            if (Host.Tokens.HasToken(typeof(StressToken))) result = int.MaxValue;
             return result;
         }
 

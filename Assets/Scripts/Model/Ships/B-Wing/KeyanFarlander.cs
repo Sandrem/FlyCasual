@@ -59,7 +59,7 @@ namespace Abilities
             public override void ActionEffect(Action callBack)
             {
                 Combat.CurrentDiceRoll.ChangeAll(DieSide.Focus, DieSide.Success);
-                Host.RemoveToken(
+                Host.Tokens.RemoveToken(
                     typeof(Tokens.StressToken),
                     callBack
                 );
@@ -67,12 +67,12 @@ namespace Abilities
 
             public override bool IsActionEffectAvailable()
             {
-                return Host.HasToken(typeof(Tokens.StressToken)) && Combat.AttackStep == CombatStep.Attack;
+                return Host.Tokens.HasToken(typeof(Tokens.StressToken)) && Combat.AttackStep == CombatStep.Attack;
             }
 
             public override int GetActionEffectPriority()
             {
-                if (Host.HasToken(typeof(Tokens.StressToken)))
+                if (Host.Tokens.HasToken(typeof(Tokens.StressToken)))
                 {
                     return 51;
                 }

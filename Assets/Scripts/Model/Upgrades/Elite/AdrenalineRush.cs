@@ -42,7 +42,7 @@ namespace Abilities
             //maneuver caused by a faceup Damaged Engine damage card as a white maneuver
 
             //X: Wing FAQ: Version 3.1.1 
-            if (HostShip.HasToken(typeof(DamagedEngineCritToken)))
+            if (HostShip.Tokens.HasToken(typeof(DamagedEngineCritToken)))
             {
                 return;
             }

@@ -15,7 +15,7 @@ namespace ActionsList
 
         public override void ActionTake()
         {
-            Selection.ThisShip.AssignToken(new Tokens.CloakToken(Selection.ThisShip), Phases.CurrentSubPhase.CallBack);
+            Selection.ThisShip.Tokens.AssignToken(new Tokens.CloakToken(Selection.ThisShip), Phases.CurrentSubPhase.CallBack);
         }
 
     }

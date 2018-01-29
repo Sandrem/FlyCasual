@@ -19,7 +19,7 @@ namespace CriticalHitCard
         {
             Phases.OnRoundStart += ApplyDelayedEffect;
 
-            Host.AssignToken(new Tokens.DamagedCockpitCritToken(Host), Triggers.FinishTrigger);
+            Host.Tokens.AssignToken(new Tokens.DamagedCockpitCritToken(Host), Triggers.FinishTrigger);
         }
 
         private void ApplyDelayedEffect()
@@ -34,7 +34,7 @@ namespace CriticalHitCard
         {
             Messages.ShowInfo("Pilot Skill is restored");
 
-            host.RemoveCondition(typeof(Tokens.DamagedCockpitCritToken));
+            host.Tokens.RemoveCondition(typeof(Tokens.DamagedCockpitCritToken));
             host.RemovePilotSkillModifier(this);
             Roster.UpdateShipStats(host);
         }

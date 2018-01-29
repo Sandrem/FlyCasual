@@ -109,7 +109,7 @@ namespace SubPhases
 
         private void DiscardAllFocusTokens()
         {
-            Selection.ThisShip.RemoveAllTokensByType(
+            Selection.ThisShip.Tokens.RemoveAllTokensByType(
                 typeof(FocusToken),
                 DiscardAllEvadeTokens
             );
@@ -117,7 +117,7 @@ namespace SubPhases
 
         private void DiscardAllEvadeTokens()
         {
-            Selection.ThisShip.RemoveAllTokensByType(
+            Selection.ThisShip.Tokens.RemoveAllTokensByType(
                 typeof(EvadeToken),
                 ConfirmDecision
             );

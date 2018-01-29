@@ -46,7 +46,7 @@ namespace Abilities
             {
                 Combat.Attacker.OnTryAddAvailableActionEffect += UseDarkCurseRestriction;
                 //TODO: Use assign condition token instead
-                Combat.Attacker.AssignToken(new Conditions.DarkCurseCondition(Combat.Attacker), delegate { });
+                Combat.Attacker.Tokens.AssignToken(new Conditions.DarkCurseCondition(Combat.Attacker), delegate { });
             }
         }
 
@@ -69,7 +69,7 @@ namespace Abilities
             if ((Combat.AttackStep == CombatStep.Defence) && (Combat.Defender.ShipId == HostShip.ShipId))
             {
                 Combat.Attacker.OnTryAddAvailableActionEffect -= UseDarkCurseRestriction;
-                Combat.Attacker.RemoveCondition(typeof(Conditions.DarkCurseCondition));
+                Combat.Attacker.Tokens.RemoveCondition(typeof(Conditions.DarkCurseCondition));
             }
         }
     }

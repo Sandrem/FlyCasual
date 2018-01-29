@@ -18,13 +18,13 @@ namespace CriticalHitCard
         {
             Host.AfterGetManeuverColorIncreaseComplexity += TurnManeuversAreRed;
 
-            Host.AssignToken(new Tokens.DamagedEngineCritToken(Host), Triggers.FinishTrigger);
+            Host.Tokens.AssignToken(new Tokens.DamagedEngineCritToken(Host), Triggers.FinishTrigger);
         }
 
         public override void DiscardEffect(Ship.GenericShip host)
         {
             Messages.ShowInfo("Turn maneuvers regained normal colors");
-            host.RemoveCondition(typeof(Tokens.DamagedEngineCritToken));
+            host.Tokens.RemoveCondition(typeof(Tokens.DamagedEngineCritToken));
 
             host.AfterGetManeuverColorIncreaseComplexity -= TurnManeuversAreRed;
         }

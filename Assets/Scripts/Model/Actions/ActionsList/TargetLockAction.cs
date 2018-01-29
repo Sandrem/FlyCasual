@@ -22,14 +22,14 @@ namespace ActionsList
                 char letter = ' ';
                 letter = Actions.GetTargetLocksLetterPair(Combat.Attacker, Combat.Defender);
 
-                if (Combat.Attacker.GetToken(typeof(Tokens.BlueTargetLockToken), letter).CanBeUsed)
+                if (Combat.Attacker.Tokens.GetToken(typeof(Tokens.BlueTargetLockToken), letter).CanBeUsed)
                 {
                     DiceRerollManager diceRerollManager = new DiceRerollManager()
                     {
                         CallBack = callBack
                     };
 
-                    Selection.ActiveShip.SpendToken(typeof(Tokens.BlueTargetLockToken), diceRerollManager.Start, letter);
+                    Selection.ActiveShip.Tokens.SpendToken(typeof(Tokens.BlueTargetLockToken), diceRerollManager.Start, letter);
                 }
                 else
                 {

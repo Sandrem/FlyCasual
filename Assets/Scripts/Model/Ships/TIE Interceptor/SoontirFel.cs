@@ -60,13 +60,13 @@ namespace Abilities
             }
             else
             {
-                HostShip.AssignToken(new Tokens.FocusToken(HostShip), Triggers.FinishTrigger);
+                HostShip.Tokens.AssignToken(new Tokens.FocusToken(HostShip), Triggers.FinishTrigger);
             }
         }
 
         private void AssignToken(object sender, System.EventArgs e)
         {
-            HostShip.AssignToken(new Tokens.FocusToken(HostShip), SubPhases.DecisionSubPhase.ConfirmDecision);
+            HostShip.Tokens.AssignToken(new Tokens.FocusToken(HostShip), SubPhases.DecisionSubPhase.ConfirmDecision);
         }
     }
 }

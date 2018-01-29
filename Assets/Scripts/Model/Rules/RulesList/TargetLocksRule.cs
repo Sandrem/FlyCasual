@@ -26,7 +26,7 @@ namespace RulesList
             GenericShip ship = sender as GenericShip;
 
             List<GenericToken> tokensToRemove = new List<GenericToken>();
-            tokensToRemove.AddRange(ship.GetAllTokens().Where(n => n is BlueTargetLockToken || n is RedTargetLockToken));
+            tokensToRemove.AddRange(ship.Tokens.GetAllTokens().Where(n => n is BlueTargetLockToken || n is RedTargetLockToken));
 
             Actions.RemoveTokens(tokensToRemove, Triggers.FinishTrigger);
         }

@@ -19,13 +19,13 @@ namespace CriticalHitCard
             Phases.OnPlanningPhaseStart += DealDamageCardFaceupStart;
             Host.AfterGenerateAvailableActionsList += AddCancelCritAction;
 
-            Host.AssignToken(new Tokens.MajorHullBreachCritToken(Host), Triggers.FinishTrigger);
+            Host.Tokens.AssignToken(new Tokens.MajorHullBreachCritToken(Host), Triggers.FinishTrigger);
         }
 
         public override void DiscardEffect(Ship.GenericShip host)
         {
             Messages.ShowInfo("Damage cards are dealt as usual");
-            host.RemoveCondition(typeof(Tokens.MajorHullBreachCritToken));
+            host.Tokens.RemoveCondition(typeof(Tokens.MajorHullBreachCritToken));
 
             host.OnCheckFaceupCrit -= DealDamageCardFaceup;
             host.AfterGenerateAvailableActionsList -= AddCancelCritAction;

@@ -61,7 +61,7 @@ namespace Abilities
                 HostShip.OnShotHitAsAttacker -= ApplyHarpoonMissilesCondition;
 
                 Messages.ShowInfo("\"Harpooned!\" condition is assigned");
-                Combat.Defender.AssignToken(new Conditions.Harpooned(Combat.Defender), delegate { });
+                Combat.Defender.Tokens.AssignToken(new Conditions.Harpooned(Combat.Defender), delegate { });
 
                 SubscribeToHarpoonedConditionEffects(Combat.Defender);
             }
@@ -125,7 +125,7 @@ namespace Abilities
 
         private void AdditionalDamageOnItself()
         {
-            Combat.Defender.RemoveCondition(typeof(Conditions.Harpooned));
+            Combat.Defender.Tokens.RemoveCondition(typeof(Conditions.Harpooned));
 
             //Deal facedown damage card;
 
@@ -162,7 +162,7 @@ namespace ActionsList
 
         public override void ActionTake()
         {
-            Host.RemoveCondition(typeof(Conditions.Harpooned));
+            Host.Tokens.RemoveCondition(typeof(Conditions.Harpooned));
 
             Phases.StartTemporarySubPhaseOld(
                 "Damage from \"Harpooned!\" condition",

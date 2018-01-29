@@ -43,7 +43,7 @@ namespace Abilities
 
         private void RegisterCorranHornAbility()
         {
-            if (!HostShip.HasToken(typeof(Tokens.WeaponsDisabledToken)))
+            if (!HostShip.Tokens.HasToken(typeof(Tokens.WeaponsDisabledToken)))
             {
                 RegisterAbilityTrigger(TriggerTypes.OnEndPhaseStart, UseCorranHornAbility);
             }
@@ -71,7 +71,7 @@ namespace Abilities
 
         private void AssignWeaponsDisabledTrigger(object sender, System.EventArgs e)
         {
-            HostShip.AssignToken(new Tokens.WeaponsDisabledToken(HostShip), Triggers.FinishTrigger);
+            HostShip.Tokens.AssignToken(new Tokens.WeaponsDisabledToken(HostShip), Triggers.FinishTrigger);
         }
     }
 }

@@ -88,10 +88,10 @@ namespace UpgradesList
 
         private void RemoveStress(object sender, System.EventArgs e)
         {
-            if (Host.HasToken(typeof(StressToken)))
+            if (Host.Tokens.HasToken(typeof(StressToken)))
             {
                 Messages.ShowInfo("Maul: Remove Stress token");
-                Host.RemoveToken(
+                Host.Tokens.RemoveToken(
                     typeof(StressToken),
                     Triggers.FinishTrigger
                 );
@@ -120,7 +120,7 @@ namespace ActionsList
         public override bool IsActionEffectAvailable()
         {
             bool result = false;
-            if ((Combat.AttackStep == CombatStep.Attack) && (!Combat.Attacker.HasToken(typeof(StressToken)))) result = true;
+            if ((Combat.AttackStep == CombatStep.Attack) && (!Combat.Attacker.Tokens.HasToken(typeof(StressToken)))) result = true;
             return result;
         }
 
@@ -128,7 +128,7 @@ namespace ActionsList
         {
             int result = 0;
 
-            if ((Combat.AttackStep == CombatStep.Attack) && (!Combat.Attacker.HasToken(typeof(StressToken))))
+            if ((Combat.AttackStep == CombatStep.Attack) && (!Combat.Attacker.Tokens.HasToken(typeof(StressToken))))
             {
                 int attackFocuses = Combat.DiceRollAttack.FocusesNotRerolled;
                 int attackBlanks = Combat.DiceRollAttack.BlanksNotRerolled;
@@ -179,7 +179,7 @@ namespace ActionsList
         private void AssingStress(object sender, System.EventArgs e)
         {
             Messages.ShowError("Maul: Get Stress token");
-            Host.AssignToken(new StressToken(Host), Triggers.FinishTrigger);
+            Host.Tokens.AssignToken(new StressToken(Host), Triggers.FinishTrigger);
         }
 
     }

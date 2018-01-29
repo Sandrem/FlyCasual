@@ -45,7 +45,7 @@ namespace ActionsList
         {
             int result = 0;
                 
-            if (Combat.Attacker.HasToken(typeof(Tokens.StressToken)))
+            if (Combat.Attacker.Tokens.HasToken(typeof(Tokens.StressToken)))
             {
                 if (Combat.DiceRollAttack.Focuses > 0 && Combat.Attacker.GetAvailableActionEffectsList().Count(n => n.IsTurnsAllFocusIntoSuccess) == 0)
                 {
@@ -62,7 +62,7 @@ namespace ActionsList
 
         public override bool IsActionEffectAvailable()
         {
-            return Host.HasToken(typeof(Tokens.StressToken));
+            return Host.Tokens.HasToken(typeof(Tokens.StressToken));
         }
         
         public override void ActionEffect(System.Action callBack)

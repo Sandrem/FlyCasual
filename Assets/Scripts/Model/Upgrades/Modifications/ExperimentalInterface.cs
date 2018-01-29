@@ -45,7 +45,7 @@ namespace UpgradesList
 		{
             Host.OnActionDecisionSubphaseEnd -= DoSecondAction;
 
-            if (!ship.HasToken(typeof(Tokens.StressToken)) || ship.CanPerformActionsWhileStressed)
+            if (!ship.Tokens.HasToken(typeof(Tokens.StressToken)) || ship.CanPerformActionsWhileStressed)
 			{
                 IsUsed = true;
                 Triggers.RegisterTrigger(
@@ -75,7 +75,7 @@ namespace UpgradesList
 		private void AddStressToken()
 		{
 			if (!base.Host.IsFreeActionSkipped) {
-				base.Host.AssignToken (
+				base.Host.Tokens.AssignToken (
                     new Tokens.StressToken(base.Host),
 					Triggers.FinishTrigger
                 );	

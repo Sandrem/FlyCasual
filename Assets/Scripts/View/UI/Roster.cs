@@ -389,7 +389,7 @@ public static partial class Roster {
 
         int columnCounter = 0;
         int rowCounter = 0;
-        foreach (var token in thisShip.GetAllTokens())
+        foreach (var token in thisShip.Tokens.GetAllTokens())
         {
             GameObject prefab = (GameObject)Resources.Load("Prefabs/PanelToken", typeof(GameObject));
             GameObject tokenPanel = MonoBehaviour.Instantiate(prefab, thisShip.InfoPanel.transform.Find("ShipInfo").Find("TokensBar"));

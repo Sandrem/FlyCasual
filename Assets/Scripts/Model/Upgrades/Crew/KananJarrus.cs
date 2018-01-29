@@ -63,7 +63,7 @@ namespace Abilities
 
         private void AskKananJarrusAbility(object sender, System.EventArgs e)
         {
-            if (ShipToRemoveStress.HasToken(typeof(StressToken)))
+            if (ShipToRemoveStress.Tokens.HasToken(typeof(StressToken)))
             {
                 AskToUseAbility(AlwaysUseByDefault, RemoveStress, null, null, true);
             }
@@ -77,7 +77,7 @@ namespace Abilities
         {
             IsAbilityUsed = true;
 
-            ShipToRemoveStress.RemoveToken(
+            ShipToRemoveStress.Tokens.RemoveToken(
                 typeof(StressToken),
                 DecisionSubPhase.ConfirmDecision
             );

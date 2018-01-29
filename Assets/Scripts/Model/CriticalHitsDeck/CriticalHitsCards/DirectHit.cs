@@ -16,7 +16,7 @@ namespace CriticalHitCard
 
         public override void ApplyEffect(object sender, EventArgs e)
         {
-            Host.AssignToken(new Tokens.DirectHitCritToken(Host), AdditionalHullDamage);
+            Host.Tokens.AssignToken(new Tokens.DirectHitCritToken(Host), AdditionalHullDamage);
         }
 
         private void AdditionalHullDamage()
@@ -26,7 +26,7 @@ namespace CriticalHitCard
 
         public override void DiscardEffect(Ship.GenericShip host)
         {
-            host.RemoveCondition(typeof(Tokens.DirectHitCritToken));
+            host.Tokens.RemoveCondition(typeof(Tokens.DirectHitCritToken));
             if (host.TryRegenHull())
             {
                 Messages.ShowInfo("One hull point is restored");

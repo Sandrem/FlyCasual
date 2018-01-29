@@ -87,7 +87,7 @@ namespace Abilities
 
         private void DiscardAllFocusTokens()
         {
-            TargetShip.RemoveAllTokensByType(
+            TargetShip.Tokens.RemoveAllTokensByType(
                 typeof(FocusToken),
                 DiscardAllEvadeTokens
             );
@@ -95,7 +95,7 @@ namespace Abilities
 
         private void DiscardAllEvadeTokens()
         {
-            TargetShip.RemoveAllTokensByType(
+            TargetShip.Tokens.RemoveAllTokensByType(
                 typeof(EvadeToken),
                 SelectShipSubPhase.FinishSelection
             );

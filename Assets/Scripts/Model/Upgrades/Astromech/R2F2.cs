@@ -65,7 +65,7 @@ namespace ActionsList
 
             Host.ChangeAgilityBy(+1);
             Phases.OnEndPhaseStart += R2F2DecreaseAgility;
-            Host.AssignToken(new Conditions.R2F2Condition(Host), Phases.CurrentSubPhase.CallBack);
+            Host.Tokens.AssignToken(new Conditions.R2F2Condition(Host), Phases.CurrentSubPhase.CallBack);
         }
 
         public override int GetActionPriority()
@@ -78,7 +78,7 @@ namespace ActionsList
         private void R2F2DecreaseAgility()
         {
             Host.ChangeAgilityBy(-1);
-            Host.RemoveCondition(typeof(Conditions.R2F2Condition));
+            Host.Tokens.RemoveCondition(typeof(Conditions.R2F2Condition));
             Phases.OnEndPhaseStart -= R2F2DecreaseAgility;
         }
 

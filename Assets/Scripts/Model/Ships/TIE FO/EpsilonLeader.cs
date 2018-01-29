@@ -50,7 +50,7 @@ namespace Abilities
             Vector2 range = new Vector2(1, 1);
             foreach(GenericShip friendlyShip in Board.BoardManager.GetShipsAtRange(HostShip, range, Team.Type.Friendly))
             {
-                GenericToken focusToken = friendlyShip.GetToken(typeof(FocusToken));
+                GenericToken focusToken = friendlyShip.Tokens.GetToken(typeof(FocusToken));
                 if (focusToken != null)
                 {
                     tokensToRemove.Add(focusToken);

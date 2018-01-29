@@ -16,7 +16,7 @@ namespace CriticalHitCard
 
         public override void ApplyEffect(object sender, EventArgs e)
         {
-            Host.AssignToken(new Tokens.StressToken(Host), Triggers.FinishTrigger);
+            Host.Tokens.AssignToken(new Tokens.StressToken(Host), Triggers.FinishTrigger);
         }
 
     }

@@ -71,7 +71,7 @@ namespace ActionsList
             Combat.CurrentDiceRoll.ChangeOne(DieSide.Blank, DieSide.Success);
             Combat.CurrentDiceRoll.OrganizeDicePositions();
 
-            Host.RemoveToken(
+            Host.Tokens.RemoveToken(
                 typeof(Tokens.FocusToken),
                 callBack
             );
@@ -80,7 +80,7 @@ namespace ActionsList
         public override bool IsActionEffectAvailable()
         {
             if (Combat.AttackStep == CombatStep.Attack 
-                && Host.HasToken(typeof(Tokens.FocusToken)))
+                && Host.Tokens.HasToken(typeof(Tokens.FocusToken)))
             {
                 return true;
             }

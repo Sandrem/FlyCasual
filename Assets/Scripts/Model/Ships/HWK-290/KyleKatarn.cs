@@ -69,7 +69,7 @@ namespace Abilities
                 typeof(Tokens.FocusToken),
                 delegate {
                     TargetShip.AssignToken(
-                        new Tokens.FocusToken(),
+                        new Tokens.FocusToken(TargetShip),
                         SelectShipSubPhase.FinishSelection
                     );
                 }

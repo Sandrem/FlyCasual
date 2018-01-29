@@ -42,7 +42,7 @@ namespace UpgradesList
 
             Triggers.ResolveTriggers(
                 TriggerTypes.OnDamageIsDealt,
-                delegate { ship.AssignToken(new Tokens.StressToken(), callBack); }
+                delegate { ship.AssignToken(new Tokens.StressToken(ship), callBack); }
             );
         }
 

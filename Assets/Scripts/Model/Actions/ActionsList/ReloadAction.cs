@@ -26,7 +26,7 @@ namespace ActionsList
                 }
             }
 
-            Selection.ThisShip.AssignToken(new WeaponsDisabledToken(), Phases.CurrentSubPhase.CallBack);
+            Selection.ThisShip.AssignToken(new WeaponsDisabledToken(Selection.ThisShip), Phases.CurrentSubPhase.CallBack);
         }
 
         public override int GetActionPriority()

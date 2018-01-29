@@ -22,7 +22,7 @@ namespace CriticalHitCard
 
             Host.AfterGenerateAvailableActionsList += AddCancelCritAction;
 
-            Host.AssignToken(new Tokens.StructuralDamageCritToken(), Triggers.FinishTrigger);
+            Host.AssignToken(new Tokens.StructuralDamageCritToken(Host), Triggers.FinishTrigger);
         }
 
         public override void DiscardEffect(Ship.GenericShip host)

@@ -19,7 +19,7 @@ namespace CriticalHitCard
         {
             Phases.OnRoundStart += ApplyDelayedEffect;
 
-            Host.AssignToken(new Tokens.DamagedCockpitCritToken(), Triggers.FinishTrigger);
+            Host.AssignToken(new Tokens.DamagedCockpitCritToken(Host), Triggers.FinishTrigger);
         }
 
         private void ApplyDelayedEffect()

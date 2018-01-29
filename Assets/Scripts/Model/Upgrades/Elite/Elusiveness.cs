@@ -88,7 +88,7 @@ namespace ActionsList
 
         private void AssignStress(System.Action callBack)
         {
-            Host.AssignToken(new Tokens.StressToken(), callBack);
+            Host.AssignToken(new Tokens.StressToken(Host), callBack);
         }
 
     }

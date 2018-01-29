@@ -66,7 +66,6 @@ namespace Abilities
             FocusToken FocusToken = (FocusToken)HostShip.GetToken(typeof(FocusToken));
             if (FocusToken != null)
             {
-                FocusToken.Count = 1;
                 FocusToken.Temporary = !isActive;
             }
         }

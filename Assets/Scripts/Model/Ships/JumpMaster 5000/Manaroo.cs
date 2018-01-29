@@ -103,14 +103,7 @@ namespace Abilities
 
             if (supportedToken != null)
             {
-                if (supportedToken.Count > 1)
-                {
-                    supportedToken.Count--;
-                }
-                else
-                {
-                    ManarooTokens.Remove(supportedToken);
-                }
+                ManarooTokens.Remove(supportedToken);
             }
             
             return supportedToken;

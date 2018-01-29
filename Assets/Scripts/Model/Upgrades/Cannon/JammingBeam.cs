@@ -52,7 +52,7 @@ namespace UpgradesList
 			Combat.DiceRollAttack.RemoveAllFailures();
 
 			Combat.Defender.AssignToken(
-				new Tokens.JamToken(),
+				new Tokens.JamToken(Combat.Defender),
                 Triggers.FinishTrigger
             );
 		}

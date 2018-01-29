@@ -68,7 +68,7 @@ namespace Abilities
 
         private void UseJanOrsAbility(object sender, System.EventArgs e)
         {
-            HostShip.AssignToken(new Tokens.StressToken(), AllowRollAdditionalDice);
+            HostShip.AssignToken(new Tokens.StressToken(HostShip), AllowRollAdditionalDice);
         }
 
         private void AllowRollAdditionalDice()

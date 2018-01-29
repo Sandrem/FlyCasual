@@ -83,7 +83,7 @@ namespace SubPhases
 
         private void RotateShip180(object sender, EventArgs e)
         {
-            Selection.ThisShip.AssignToken(new Tokens.StressToken(), StartRotate180SubPhase);
+            Selection.ThisShip.AssignToken(new Tokens.StressToken(Selection.ThisShip), StartRotate180SubPhase);
         }
 
         private void StartRotate180SubPhase()

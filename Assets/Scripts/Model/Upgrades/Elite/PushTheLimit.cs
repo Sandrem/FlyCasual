@@ -71,7 +71,7 @@ namespace UpgradesList
 		{
 			if (!base.Host.IsFreeActionSkipped) {
 				base.Host.AssignToken (
-                    new Tokens.StressToken(),
+                    new Tokens.StressToken(base.Host),
 					Triggers.FinishTrigger
                 );	
 			}

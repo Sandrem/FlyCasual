@@ -376,12 +376,7 @@ namespace Ship
 
         public int TokenCount(Type type)
         {
-            var token = GetToken(type);
-
-            if (token == null)
-                return 0;
-            else
-                return token.Count;
+            return GetAllTokens().Count(n => n.GetType() == type);
         }
 
         public GenericToken GetToken(System.Type type, char letter = ' ')
@@ -449,22 +444,11 @@ namespace Ship
                 return;
             }
 
-            var token = TokenToAssign;
+            AssignedTokens.Add(TokenToAssign);
 
-            GenericToken assignedToken = GetToken(token.GetType(), letter);
+            if (OnTokenIsAssigned != null) OnTokenIsAssigned(this, TokenToAssign.GetType());
 
-            if (assignedToken != null)
-            {
-                assignedToken.Count++;
-            }
-            else
-            {
-                AssignedTokens.Add(token);
-            }
-
-            if (OnTokenIsAssigned != null) OnTokenIsAssigned(this, token.GetType());
-
-            if (OnTokenIsAssignedGlobal != null) OnTokenIsAssignedGlobal(this, token.GetType());
+            if (OnTokenIsAssignedGlobal != null) OnTokenIsAssignedGlobal(this, TokenToAssign.GetType());
 
             TokenToAssign = null;
 
@@ -485,7 +469,7 @@ namespace Ship
             RemoveCondition(assignedCondition);
         }
 
-        public void RemoveToken(System.Type type, Action callback, char letter = ' ', bool removePairedTargetLockTokenToo = true)
+        public void RemoveToken(System.Type type, Action callback, char letter = ' ')
         {
             GenericToken assignedToken = GetToken(type, letter);
 
@@ -495,15 +479,15 @@ namespace Ship
             }
             else
             {
-                RemoveToken(assignedToken, callback, letter, removePairedTargetLockTokenToo);
+                RemoveToken(assignedToken, callback, letter);
             }
         }
 
-        public void RemoveToken(GenericToken tokenToRemove, Action callback, char letter = ' ', bool removePairedTargetLockTokenToo = true)
+        public void RemoveToken(GenericToken tokenToRemove, Action callback, char letter = ' ')
         {
             AssignedTokens.Remove(tokenToRemove);
 
-            if (tokenToRemove.GetType().BaseType == typeof(GenericTargetLockToken) && removePairedTargetLockTokenToo)
+            if (tokenToRemove.GetType().BaseType == typeof(GenericTargetLockToken))
             {
                 GenericShip otherTokenOwner = (tokenToRemove as GenericTargetLockToken).OtherTokenOwner;
                 Actions.ReleaseTargetLockLetter((tokenToRemove as GenericTargetLockToken).Letter);

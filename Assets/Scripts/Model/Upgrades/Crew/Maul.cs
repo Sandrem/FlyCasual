@@ -179,7 +179,7 @@ namespace ActionsList
         private void AssingStress(object sender, System.EventArgs e)
         {
             Messages.ShowError("Maul: Get Stress token");
-            Host.AssignToken(new StressToken(), Triggers.FinishTrigger);
+            Host.AssignToken(new StressToken(Host), Triggers.FinishTrigger);
         }
 
     }

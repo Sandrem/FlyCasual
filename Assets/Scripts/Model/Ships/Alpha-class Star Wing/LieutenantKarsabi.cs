@@ -67,7 +67,7 @@ namespace Abilities
                 delegate
                 {
                     HostShip.AssignToken(
-                        new StressToken(),
+                        new StressToken(HostShip),
                         DecisionSubPhase.ConfirmDecision
                     );
                 }

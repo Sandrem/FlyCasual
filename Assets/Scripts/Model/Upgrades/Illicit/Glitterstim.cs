@@ -45,13 +45,13 @@ namespace UpgradesList
 
         public void ActivateAbility()
         {
-            Conditions.Glitterstim newConditionToken = new Conditions.Glitterstim(){ Tooltip = ImageUrl };
+            Conditions.Glitterstim newConditionToken = new Conditions.Glitterstim(Host) { Tooltip = ImageUrl };
             Host.AssignToken(newConditionToken, delegate { });
 
             Host.OnCombatPhaseStart -= RegisterTrigger;
             Phases.OnEndPhaseStart += DeactivateAbility;
 
-            Host.AssignToken(new Tokens.StressToken(), GlitterstimEffect);
+            Host.AssignToken(new Tokens.StressToken(Host), GlitterstimEffect);
         }
 
         private void GlitterstimEffect()
@@ -192,7 +192,7 @@ namespace Conditions
 {
     public class Glitterstim : Tokens.GenericToken
     {
-        public Glitterstim()
+        public Glitterstim(GenericShip host) : base(host)
         {
             Name = "Glitterstim Condition";
             Temporary = true;

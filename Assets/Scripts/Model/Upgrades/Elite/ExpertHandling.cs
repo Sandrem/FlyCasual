@@ -77,7 +77,7 @@ namespace ActionsList
             }
             else
             {
-                Host.AssignToken(new Tokens.StressToken(), RemoveTargetLock);
+                Host.AssignToken(new Tokens.StressToken(Host), RemoveTargetLock);
             }
             
         }

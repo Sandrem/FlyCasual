@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Upgrade;
 using Abilities;
+using Ship;
 
 namespace UpgradesList
 {
@@ -64,7 +65,7 @@ namespace ActionsList
 
             Host.ChangeAgilityBy(+1);
             Phases.OnEndPhaseStart += R2F2DecreaseAgility;
-            Host.AssignToken(new Conditions.R2F2Condition(), Phases.CurrentSubPhase.CallBack);
+            Host.AssignToken(new Conditions.R2F2Condition(Host), Phases.CurrentSubPhase.CallBack);
         }
 
         public override int GetActionPriority()
@@ -90,7 +91,7 @@ namespace Conditions
 
     public class R2F2Condition : Tokens.GenericToken
     {
-        public R2F2Condition()
+        public R2F2Condition(GenericShip host) : base(host)
         {
             Name = "Buff Token";
             Temporary = false;

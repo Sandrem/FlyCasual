@@ -19,7 +19,7 @@ namespace CriticalHitCard
             Host.AfterGetManeuverAvailablity += CannotBeAssignedStraightManeuvers;
             Host.OnMovementFinish += DiscardEffect;
 
-            Host.AssignToken(new Tokens.ShakenPilotCritToken(), Triggers.FinishTrigger);
+            Host.AssignToken(new Tokens.ShakenPilotCritToken(Host), Triggers.FinishTrigger);
         }
 
         public override void DiscardEffect(Ship.GenericShip host)

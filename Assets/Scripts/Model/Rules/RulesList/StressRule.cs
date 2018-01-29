@@ -33,7 +33,7 @@ namespace RulesList
                 case ManeuverColor.Red:
                     if (Selection.ThisShip.Owner.GetType() != typeof(HotacAiPlayer))
                     {
-                        Selection.ThisShip.AssignToken(new StressToken(), delegate {
+                        Selection.ThisShip.AssignToken(new StressToken(Selection.ThisShip), delegate {
                             Selection.ThisShip.IsSkipsActionSubPhase = Selection.ThisShip.HasToken(typeof(StressToken)) && !Selection.ThisShip.CanPerformActionsWhileStressed;
                             Triggers.FinishTrigger();
                         });
@@ -51,6 +51,10 @@ namespace RulesList
                             typeof(StressToken),
                             Triggers.FinishTrigger
                         );
+                    }
+                    else
+                    {
+                        Triggers.FinishTrigger();
                     }
                     break;
                 default:

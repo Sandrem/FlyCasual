@@ -74,6 +74,7 @@ namespace Players
 
             if (Selection.ThisShip.GetToken(typeof(Tokens.StressToken)) != null)
             {
+                isActionTaken = true;
                 Selection.ThisShip.RemoveToken(
                     typeof(Tokens.StressToken),
                     Phases.CurrentSubPhase.CallBack

@@ -19,7 +19,7 @@ namespace CriticalHitCard
             Host.OnMovementFinish += PlanStressAfterWhiteManeuvers;
             Host.AfterGenerateAvailableActionsList += AddCancelCritAction;
 
-            Host.AssignToken(new Tokens.LooseStabilizerCritToken(), Triggers.FinishTrigger);
+            Host.AssignToken(new Tokens.LooseStabilizerCritToken(Host), Triggers.FinishTrigger);
         }
 
         public override void DiscardEffect(Ship.GenericShip host)
@@ -48,7 +48,7 @@ namespace CriticalHitCard
         {
             Messages.ShowInfo("Loose Stabilizer: Stress token is assigned");
             UI.AddTestLogEntry("Loose Stabilizer: Stress token is assigned");
-            Selection.ThisShip.AssignToken(new Tokens.StressToken(), Triggers.FinishTrigger);
+            Selection.ThisShip.AssignToken(new Tokens.StressToken(Host), Triggers.FinishTrigger);
         }
 
     }

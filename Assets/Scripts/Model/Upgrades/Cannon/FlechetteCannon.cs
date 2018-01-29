@@ -85,7 +85,7 @@ namespace Abilities
             if (!Combat.Defender.HasToken(typeof(Tokens.StressToken)))
             {
                 Combat.Defender.AssignToken(
-                    new Tokens.StressToken(),
+                    new Tokens.StressToken(Combat.Defender),
                     Triggers.FinishTrigger
                 );
             }

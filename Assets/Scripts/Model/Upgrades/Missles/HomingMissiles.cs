@@ -47,7 +47,7 @@ namespace UpgradesList
         private void ApplyHomingMissilesAbility()
         {
             Combat.Defender.OnTryAddAvailableActionEffect += UseHomingMissilesRestriction;
-            Combat.Defender.AssignToken(new Conditions.HomingMissilesCondition(), delegate { });
+            Combat.Defender.AssignToken(new Conditions.HomingMissilesCondition(Combat.Defender), delegate { });
 
             Host.OnAttackFinish += RemoveHomingMissilesAbility;
         }
@@ -76,7 +76,7 @@ namespace Conditions
 
     public class HomingMissilesCondition : Tokens.GenericToken
     {
-        public HomingMissilesCondition()
+        public HomingMissilesCondition(GenericShip host) : base(host)
         {
             Name = "Debuff Token";
             Temporary = false;

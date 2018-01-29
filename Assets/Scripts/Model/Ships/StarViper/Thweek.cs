@@ -103,9 +103,9 @@ namespace Abilities
             );
 
             selectAbilityForThweekDecisionSubPhase.AddDecision("Mimicked", delegate { Mimicked(targetShip); });
-            selectAbilityForThweekDecisionSubPhase.AddTooltip("Mimicked", (new Conditions.Mimicked()).Tooltip);
+            selectAbilityForThweekDecisionSubPhase.AddTooltip("Mimicked", (new Conditions.Mimicked(targetShip)).Tooltip);
             selectAbilityForThweekDecisionSubPhase.AddDecision("Shadowed", delegate { Shadowed(targetShip); });
-            selectAbilityForThweekDecisionSubPhase.AddTooltip("Shadowed", (new Conditions.Shadowed()).Tooltip);
+            selectAbilityForThweekDecisionSubPhase.AddTooltip("Shadowed", (new Conditions.Shadowed(targetShip)).Tooltip);
 
             selectAbilityForThweekDecisionSubPhase.InfoText = "Thweek: Select ability";
             selectAbilityForThweekDecisionSubPhase.DefaultDecision = "Shadowed";
@@ -137,7 +137,7 @@ namespace Abilities
             { 
                 Messages.ShowError(targetShip.PilotName + " doesn't have abilities to be mimicked");
             }
-            targetShip.AssignToken(new Conditions.Mimicked(), delegate { });
+            targetShip.AssignToken(new Conditions.Mimicked(targetShip), delegate { });
             SubPhases.DecisionSubPhase.ConfirmDecision();
         }
 
@@ -145,7 +145,7 @@ namespace Abilities
         {
             Messages.ShowInfo("Pilot skill of " + targetShip.PilotName + " is shadowed");
             new ThweekPilotSkillModifier(HostShip, targetShip.PilotSkill);
-            targetShip.AssignToken(new Conditions.Shadowed(), delegate { });
+            targetShip.AssignToken(new Conditions.Shadowed(targetShip), delegate { });
             SubPhases.DecisionSubPhase.ConfirmDecision();
         }
 
@@ -211,7 +211,7 @@ namespace Conditions
 {
     public class Mimicked : Tokens.GenericToken
     {
-        public Mimicked()
+        public Mimicked(GenericShip host) : base(host)
         {
             Name = "Thweek Condition";
             Temporary = false;
@@ -221,7 +221,7 @@ namespace Conditions
 
     public class Shadowed : Tokens.GenericToken
     {
-        public Shadowed()
+        public Shadowed(GenericShip host) : base(host)
         {
             Name = "Thweek Condition";
             Temporary = false;

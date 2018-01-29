@@ -40,7 +40,9 @@ namespace RulesList
                 ClearShipFlags(shipHolder.Value);
                 ClearAssignedManeuvers(shipHolder.Value);
                 shipHolder.Value.ClearAlreadyExecutedActions();
-                tokensList.AddRange(shipHolder.Value.GetAllTokens().Where(n => n.Host.ShouldRemoveTokenInEndPhase(n)));
+
+                List<GenericToken> allShipTokens = shipHolder.Value.GetAllTokens();
+                if (allShipTokens != null) tokensList.AddRange(allShipTokens.Where(n => n.Host.ShouldRemoveTokenInEndPhase(n)));
             }
 
             ClearShipTokens(tokensList, Triggers.FinishTrigger);

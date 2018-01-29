@@ -34,7 +34,7 @@ namespace UpgradesList
 
         private void TacticianAbility(object sender, System.EventArgs e)
         {
-            Combat.Defender.AssignToken(new Tokens.StressToken(), delegate
+            Combat.Defender.AssignToken(new Tokens.StressToken(Combat.Defender), delegate
             {
                 Messages.ShowInfo("Defender gained stress from Tactician");
                 Triggers.FinishTrigger();

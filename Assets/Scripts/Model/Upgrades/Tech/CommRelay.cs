@@ -66,7 +66,6 @@ namespace Abilities
             EvadeToken evadeToken = (EvadeToken)HostShip.GetToken(typeof(EvadeToken));
             if (evadeToken != null)
             {
-                evadeToken.Count = 1;
                 evadeToken.Temporary = !isActive;
             }
         }

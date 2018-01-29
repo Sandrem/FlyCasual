@@ -60,13 +60,13 @@ namespace Abilities
 
         private void AssignFocusToken()
         {
-            HostShip.AssignToken(new FocusToken(), AssignStressToken);
+            HostShip.AssignToken(new FocusToken(HostShip), AssignStressToken);
         }
 
         private void AssignStressToken()
         {
             Messages.ShowInfoToHuman("Bossk: Focus and Stress tokens acquired.");
-            HostShip.AssignToken(new StressToken(), Triggers.FinishTrigger);
+            HostShip.AssignToken(new StressToken(HostShip), Triggers.FinishTrigger);
         }
     }
 }

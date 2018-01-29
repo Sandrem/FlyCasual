@@ -54,7 +54,7 @@ namespace Abilities
         private void ActivateBiggsAbility(object sender, System.EventArgs e)
         {
             IsAbilityUsed = true;
-            HostShip.AssignToken(new Conditions.BiggsDarklighterCondition(), delegate { });
+            HostShip.AssignToken(new Conditions.BiggsDarklighterCondition(HostShip), delegate { });
 
             GenericShip.OnTryPerformAttackGlobal += CanPerformAttack;
 
@@ -120,7 +120,7 @@ namespace Conditions
 {
     public class BiggsDarklighterCondition : Tokens.GenericToken
     {
-        public BiggsDarklighterCondition()
+        public BiggsDarklighterCondition(GenericShip host) : base(host)
         {
             Name = "Buff Token";
             Temporary = false;

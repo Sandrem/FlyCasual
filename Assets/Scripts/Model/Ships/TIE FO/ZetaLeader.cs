@@ -73,7 +73,7 @@ namespace Abilities
             IsAbilityUsed = true;
             //HostShip.ChangeFirepowerBy(+1);
             HostShip.AfterGotNumberOfPrimaryWeaponAttackDice += ZetaLeaderAddAttackDice;
-            HostShip.AssignToken(new Tokens.StressToken(), SubPhases.DecisionSubPhase.ConfirmDecision);
+            HostShip.AssignToken(new Tokens.StressToken(HostShip), SubPhases.DecisionSubPhase.ConfirmDecision);
         }
 
         private void RemoveEpsilonLeaderAbility(GenericShip genericShip)

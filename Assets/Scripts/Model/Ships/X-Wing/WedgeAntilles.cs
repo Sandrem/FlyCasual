@@ -47,7 +47,7 @@ namespace Abilities
                 if (Combat.Defender.Agility != 0)
                 {
                     Messages.ShowError("Wedge Antilles: Agility is decreased");
-                    Combat.Defender.AssignToken(new Conditions.WedgeAntillesCondition(), delegate { });
+                    Combat.Defender.AssignToken(new Conditions.WedgeAntillesCondition(Combat.Defender), delegate { });
                     Combat.Defender.ChangeAgilityBy(-1);
                     Combat.Defender.OnAttackFinish += RemoveWedgeAntillesAbility;
                 }
@@ -68,7 +68,7 @@ namespace Conditions
 {
     public class WedgeAntillesCondition : Tokens.GenericToken
     {
-        public WedgeAntillesCondition()
+        public WedgeAntillesCondition(GenericShip host) : base(host)
         {
             Name = "Debuff Token";
             Temporary = false;

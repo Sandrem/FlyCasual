@@ -2,6 +2,7 @@
 using Ship;
 using Tokens;
 using Movement;
+using System.Linq;
 
 namespace RulesList
 {
@@ -17,12 +18,14 @@ namespace RulesList
         {
             if (tokenType == typeof(IonToken))
             {
-                if ((ship.GetToken(typeof(IonToken)).Count == 1) && ship.ShipBaseSize == BaseSize.Small )
+                int ionTokensCount = ship.GetAllTokens().Count(n => n is IonToken);
+
+                if (ionTokensCount == 1 && ship.ShipBaseSize == BaseSize.Small )
                 {
                     Messages.ShowError("Ship is ionized!");
                     DoIonized(ship);
                 }
-                if ((ship.GetToken(typeof(IonToken)).Count == 2) && ship.ShipBaseSize == BaseSize.Large)
+                if (ionTokensCount == 2 && ship.ShipBaseSize == BaseSize.Large)
                 {
                     Messages.ShowError("Ship is ionized!");
                     DoIonized(ship);

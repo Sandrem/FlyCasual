@@ -391,28 +391,25 @@ public static partial class Roster {
         int rowCounter = 0;
         foreach (var token in thisShip.GetAllTokens())
         {
-            for (int i = 0; i < token.Count; i++)
+            GameObject prefab = (GameObject)Resources.Load("Prefabs/PanelToken", typeof(GameObject));
+            GameObject tokenPanel = MonoBehaviour.Instantiate(prefab, thisShip.InfoPanel.transform.Find("ShipInfo").Find("TokensBar"));
+            tokenPanel.GetComponent<RectTransform>().localPosition = Vector3.zero;
+            tokenPanel.name = token.Name;
+            Tooltips.AddTooltip(tokenPanel, token.Tooltip);
+            tokenPanel.transform.Find(token.Name).gameObject.SetActive(true);
+
+            if (token.GetType().BaseType == typeof(Tokens.GenericTargetLockToken))
             {
-                GameObject prefab = (GameObject)Resources.Load("Prefabs/PanelToken", typeof(GameObject));
-                GameObject tokenPanel = MonoBehaviour.Instantiate(prefab, thisShip.InfoPanel.transform.Find("ShipInfo").Find("TokensBar"));
-                tokenPanel.GetComponent<RectTransform>().localPosition = Vector3.zero;
-                tokenPanel.name = token.Name;
-                Tooltips.AddTooltip(tokenPanel, token.Tooltip);
-                tokenPanel.transform.Find(token.Name).gameObject.SetActive(true);
+                tokenPanel.transform.Find(token.Name).Find("Letter").GetComponent<Text>().text = (token as Tokens.GenericTargetLockToken).Letter.ToString();
+            }
 
-                if (token.GetType().BaseType == typeof(Tokens.GenericTargetLockToken))
-                {
-                    tokenPanel.transform.Find(token.Name).Find("Letter").GetComponent<Text>().text = (token as Tokens.GenericTargetLockToken).Letter.ToString();
-                }
-
-                tokenPanel.SetActive(true);
-                tokenPanel.GetComponent<RectTransform>().localPosition = new Vector3(columnCounter * 37, tokenPanel.GetComponent<RectTransform>().localPosition.y + -37 * rowCounter, tokenPanel.GetComponent<RectTransform>().localPosition.z);
-                columnCounter++;
-                if (columnCounter == 8)
-                {
-                    rowCounter++;
-                    columnCounter = 0;
-                }
+            tokenPanel.SetActive(true);
+            tokenPanel.GetComponent<RectTransform>().localPosition = new Vector3(columnCounter * 37, tokenPanel.GetComponent<RectTransform>().localPosition.y + -37 * rowCounter, tokenPanel.GetComponent<RectTransform>().localPosition.z);
+            columnCounter++;
+            if (columnCounter == 8)
+            {
+                rowCounter++;
+                columnCounter = 0;
             }
         }
 

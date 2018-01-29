@@ -71,7 +71,7 @@ namespace Abilities
 
         private void AssignWeaponsDisabledTrigger(object sender, System.EventArgs e)
         {
-            HostShip.AssignToken(new Tokens.WeaponsDisabledToken(), Triggers.FinishTrigger);
+            HostShip.AssignToken(new Tokens.WeaponsDisabledToken(HostShip), Triggers.FinishTrigger);
         }
     }
 }

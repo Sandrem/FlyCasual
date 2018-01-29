@@ -63,7 +63,7 @@ namespace Abilities
             if (shotInfo.InMobileArc && shotInfo.Range >= 1 && shotInfo.Range <= 2)
             {
                 Messages.ShowError(HostShip.PilotName + " assigns Stress Token\nto " + TargetShip.PilotName);
-                TargetShip.AssignToken(new Tokens.StressToken(), SelectShipSubPhase.FinishSelection);
+                TargetShip.AssignToken(new Tokens.StressToken(TargetShip), SelectShipSubPhase.FinishSelection);
             }
             else
             {

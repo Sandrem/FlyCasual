@@ -123,7 +123,7 @@ namespace Abilities
         private void AssignStoredToken(object sender, System.EventArgs e)
         {
             FocusTokensStored--;
-            HostShip.AssignToken(new FocusToken(), SubPhases.DecisionSubPhase.ConfirmDecision);
+            HostShip.AssignToken(new FocusToken(HostShip), SubPhases.DecisionSubPhase.ConfirmDecision);
         }
 
     }

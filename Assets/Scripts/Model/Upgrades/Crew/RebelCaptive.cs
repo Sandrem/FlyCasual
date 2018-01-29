@@ -47,7 +47,7 @@ namespace UpgradesList
             {
                 Messages.ShowInfoToHuman("Attacker gained stress from Rebel Captive");
                 IsUsed = true;
-                Combat.Attacker.AssignToken(new Tokens.StressToken(), Triggers.FinishTrigger);
+                Combat.Attacker.AssignToken(new Tokens.StressToken(Combat.Attacker), Triggers.FinishTrigger);
             }
             else
             {

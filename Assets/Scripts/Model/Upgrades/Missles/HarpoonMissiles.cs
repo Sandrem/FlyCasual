@@ -61,7 +61,7 @@ namespace Abilities
                 HostShip.OnShotHitAsAttacker -= ApplyHarpoonMissilesCondition;
 
                 Messages.ShowInfo("\"Harpooned!\" condition is assigned");
-                Combat.Defender.AssignToken(new Conditions.Harpooned(), delegate { });
+                Combat.Defender.AssignToken(new Conditions.Harpooned(Combat.Defender), delegate { });
 
                 SubscribeToHarpoonedConditionEffects(Combat.Defender);
             }
@@ -142,7 +142,7 @@ namespace Abilities
         {
             ActionsList.GenericAction action = new ActionsList.HarpoonedRepairAction()
             {
-                ImageUrl = (new Conditions.Harpooned()).Tooltip,
+                ImageUrl = (new Conditions.Harpooned(harpoonedShip)).Tooltip,
                 Host = harpoonedShip
             };
             harpoonedShip.AddAvailableAction(action);
@@ -188,7 +188,7 @@ namespace Conditions
 {
     public class Harpooned : Tokens.GenericToken
     {
-        public Harpooned()
+        public Harpooned(GenericShip host) : base(host)
         {
             Name = "Harpooned Condition";
             Temporary = false;

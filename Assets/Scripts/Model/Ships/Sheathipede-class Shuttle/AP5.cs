@@ -77,7 +77,7 @@ namespace Abilities
             bool result = false;
             StressToken stressTokens = (StressToken)targetShip.GetToken(typeof(StressToken));
 
-            if (stressTokens != null && stressTokens.Count == 1)
+            if (stressTokens != null)
             {
                 result = true;
             }
@@ -87,12 +87,12 @@ namespace Abilities
 
         private void UsePilotAbility(TwoShipsArguments twoShipsArguments)
         {
-            twoShipsArguments.Host.AssignToken(new StressToken(), delegate { AssignSecondStressToken(twoShipsArguments); });
+            twoShipsArguments.Host.AssignToken(new StressToken(twoShipsArguments.Host), delegate { AssignSecondStressToken(twoShipsArguments); });
         }
 
         private void AssignSecondStressToken(TwoShipsArguments twoShipsArguments)
         {
-            twoShipsArguments.Host.AssignToken(new StressToken(), delegate { RemoveStressTokenFromTarget(twoShipsArguments); });
+            twoShipsArguments.Host.AssignToken(new StressToken(twoShipsArguments.Host), delegate { RemoveStressTokenFromTarget(twoShipsArguments); });
         }
 
         private void RemoveStressTokenFromTarget(TwoShipsArguments twoShipsArguments)

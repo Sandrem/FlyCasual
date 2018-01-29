@@ -58,7 +58,7 @@ namespace Abilities
 
             GenericShip.OnTryPerformAttackGlobal += CanPerformAttack;
 
-            HostShip.OnDestroyed += RemoveBiggsDarklighterAbility;
+            HostShip.OnShipIsDestroyed += RemoveBiggsDarklighterAbility;
             Phases.OnCombatPhaseEnd += RemoveBiggsDarklighterAbility;
 
             SubPhases.DecisionSubPhase.ConfirmDecision();
@@ -108,7 +108,7 @@ namespace Abilities
 
             GenericShip.OnTryPerformAttackGlobal -= CanPerformAttack;
 
-            HostShip.OnDestroyed -= RemoveBiggsDarklighterAbility;
+            HostShip.OnShipIsDestroyed -= RemoveBiggsDarklighterAbility;
             Phases.OnCombatPhaseEnd -= RemoveBiggsDarklighterAbility;
 
             Phases.OnCombatPhaseStart -= RegisterAskBiggsAbility;

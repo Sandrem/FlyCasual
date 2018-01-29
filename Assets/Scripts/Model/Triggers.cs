@@ -62,6 +62,7 @@ public enum TriggerTypes
     OnFaceupCritCardReadyToBeDealt,
     OnFaceupCritCardReadyToBeDealtUI,
     OnFaceupCritCardIsDealt,
+    OnShipIsDestroyed,
 
     OnMajorExplosionCrit,
     OnAbilityTargetIsSelected,

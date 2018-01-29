@@ -14,7 +14,7 @@ namespace RulesList
                 BlueTargetLockToken token = ship.GetToken(typeof(BlueTargetLockToken), '*') as BlueTargetLockToken;
                 if (token != null)
                 {
-                    /*OnDestr*/ ship.RemoveToken(token.GetType(), token.Letter);
+                    /*OnDestr*/ ship.RemoveToken(token.GetType(), delegate { }, token.Letter);
                 }
                 else
                 {
@@ -27,7 +27,7 @@ namespace RulesList
                 RedTargetLockToken token = ship.GetToken(typeof(RedTargetLockToken), '*') as RedTargetLockToken;
                 if (token != null)
                 {
-                    /*OnDestr*/ ship.RemoveToken(token.GetType(), token.Letter);
+                    /*OnDestr*/ ship.RemoveToken(token.GetType(), delegate { }, token.Letter);
                 }
                 else
                 {

@@ -66,7 +66,7 @@ namespace UpgradesList
             base.AttachToShip(host);
 
             host.AfterGenerateAvailableActionEffectsList += MaulDiceModification;
-            host.OnAttackHitAsAttacker += RemoveStress;
+            host.OnAttackHitAsAttacker += RegisterRemoveStress;
         }
 
         private void MaulDiceModification(GenericShip host)
@@ -75,12 +75,30 @@ namespace UpgradesList
             host.AddAvailableActionEffect(newAction);
         }
 
-        private void RemoveStress()
+        private void RegisterRemoveStress()
+        {
+            Triggers.RegisterTrigger(new Trigger
+            {
+                Name = "Maul: Remove Stress token",
+                TriggerOwner = Host.Owner.PlayerNo,
+                TriggerType = TriggerTypes.OnAttackHit,
+                EventHandler = RemoveStress
+            });
+        }
+
+        private void RemoveStress(object sender, System.EventArgs e)
         {
             if (Host.HasToken(typeof(StressToken)))
             {
                 Messages.ShowInfo("Maul: Remove Stress token");
-                /*Trigger*/ Host.RemoveToken(typeof(StressToken));
+                Host.RemoveToken(
+                    typeof(StressToken),
+                    Triggers.FinishTrigger
+                );
+            }
+            else
+            {
+                Triggers.FinishTrigger();
             }
         }
     }

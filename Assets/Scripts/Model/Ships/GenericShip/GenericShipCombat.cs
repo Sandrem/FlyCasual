@@ -150,7 +150,7 @@ namespace Ship
         public event EventHandlerShip OnDamageCardIsDealt;
 
         public event EventHandlerShip OnReadyToBeDestroyed;
-        public event EventHandlerShip OnDestroyed;
+        public event EventHandlerShip OnShipIsDestroyed;
 
         public event EventHandlerShip AfterAttackWindow;
 
@@ -597,24 +597,30 @@ namespace Ship
 
             IsDestroyed = true;
 
-            PlayDestroyedAnimSound(delegate { CheckShipModelDestruction(forced); callBack(); });
+            PlayDestroyedAnimSound(delegate { CheckShipModelDestruction(callBack, forced); });
         }
 
-        private void CheckShipModelDestruction(bool forced = false)
+        private void CheckShipModelDestruction(Action callback, bool forced = false)
         {
             if ((Phases.CurrentSubPhase.RequiredPilotSkill == PilotSkill) && (!IsAttackPerformed) && (!forced) && (Phases.CurrentPhase.GetType() == typeof(MainPhases.CombatPhase)))
             {
-                Phases.OnCombatSubPhaseRequiredPilotSkillIsChanged += PerformShipDestruction;
+                Phases.OnCombatSubPhaseRequiredPilotSkillIsChanged += RegisterShipDestruction;
             }
             else
             {
-                PerformShipDestruction();
+                PerformShipDestruction(callback);
             }
         }
 
-        private void PerformShipDestruction()
+        private void RegisterShipDestruction()
         {
-            Phases.OnCombatSubPhaseRequiredPilotSkillIsChanged -= PerformShipDestruction;
+            Phases.OnCombatSubPhaseRequiredPilotSkillIsChanged -= RegisterShipDestruction;
+
+            // TODO: Register trigger to destroy ship on PS change
+        }
+
+        private void PerformShipDestruction(Action callback)
+        {
             Roster.DestroyShip(this.GetTag());
             foreach (var pilotAbility in PilotAbilities)
             {
@@ -628,7 +634,9 @@ namespace Ship
                 }
             }
 
-            if (OnDestroyed != null) OnDestroyed(this);
+            if (OnShipIsDestroyed != null) OnShipIsDestroyed(this);
+
+            Triggers.ResolveTriggers(TriggerTypes.OnShipIsDestroyed, callback);
         }
 
         public List<CriticalHitCard.GenericCriticalHit> GetAssignedCritCards()

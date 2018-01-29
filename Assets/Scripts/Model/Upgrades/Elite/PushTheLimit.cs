@@ -25,7 +25,7 @@ namespace UpgradesList
             host.OnActionIsPerformed += CheckConditions;
 
             Phases.OnEndPhaseStart += Cleanup;
-            Host.OnDestroyed += StopAbility;
+            Host.OnShipIsDestroyed += StopAbility;
         }
 
         private void CheckConditions(GenericAction action)

@@ -27,7 +27,7 @@ namespace UpgradesList
             host.OnAttackStartAsDefender += RegisterTrigger;
 
             Phases.OnEndPhaseStart += Cleanup;
-            Host.OnDestroyed += StopAbility;
+            Host.OnShipIsDestroyed += StopAbility;
         }
 
         private void RegisterTrigger()

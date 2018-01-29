@@ -328,7 +328,7 @@ public static partial class Actions
                 char existingTlOnSameTarget = GetTargetLocksLetterPair(newOwner, assignedTargetLockToken.OtherTokenOwner);
                 if (existingTlOnSameTarget != ' ')
                 {
-                    /*TL*/ newOwner.RemoveToken(typeof(BlueTargetLockToken), existingTlOnSameTarget);
+                    /*TL*/ newOwner.RemoveToken(typeof(BlueTargetLockToken), delegate { }, existingTlOnSameTarget);
                 }
             }
             else
@@ -337,7 +337,7 @@ public static partial class Actions
                 char existingTlOnSameTarget = GetTargetLocksLetterPair(assignedTargetLockToken.OtherTokenOwner, newOwner);
                 if (existingTlOnSameTarget != ' ')
                 {
-                    /*TL*/ newOwner.RemoveToken(typeof(RedTargetLockToken), existingTlOnSameTarget);
+                    /*TL*/ newOwner.RemoveToken(typeof(RedTargetLockToken), delegate { }, existingTlOnSameTarget);
                 }
             }
 

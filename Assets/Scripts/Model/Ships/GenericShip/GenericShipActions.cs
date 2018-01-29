@@ -496,7 +496,6 @@ namespace Ship
 
             if (assignedToken == null)
             {
-                Debug.Log("Warning: No token to remove");
                 callback();
             }
             else
@@ -600,7 +599,7 @@ namespace Ship
             {
                 if (ShoulRemoveTokenInEndPhase(token))
                 {
-                    /*List, callBack*/ RemoveToken(token.GetType(), '*', true);
+                    /*List, callBack*/ RemoveToken(token.GetType(), delegate { }, '*');
                 }
             }
         }

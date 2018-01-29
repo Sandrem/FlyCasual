@@ -70,7 +70,7 @@ namespace Abilities
         private void SubscribeToHarpoonedConditionEffects(GenericShip harpoonedShip)
         {
             harpoonedShip.OnShotHitAsDefender += CheckUncancelledCrit;
-            harpoonedShip.OnDestroyed += DoSplashDamageOnDestroyed;
+            harpoonedShip.OnShipIsDestroyed += DoSplashDamageOnDestroyed;
             harpoonedShip.AfterGenerateAvailableActionsList += AddRepairAction;
         }
 

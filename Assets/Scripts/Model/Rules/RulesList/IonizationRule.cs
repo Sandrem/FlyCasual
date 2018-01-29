@@ -33,7 +33,7 @@ namespace RulesList
         private void DoIonized(GenericShip ship)
         {
             ship.OnManeuverIsReadyToBeRevealed += AssignWhiteForwardOneManeuver;
-            ship.OnMovementExecuted += RemoveIonization;
+            ship.OnMovementExecuted += RegisterRemoveIonization;
             ship.ToggleIonized(true);
         }
 
@@ -45,13 +45,30 @@ namespace RulesList
             ship.OnManeuverIsReadyToBeRevealed -= AssignWhiteForwardOneManeuver;
         }
 
-        private void RemoveIonization(GenericShip ship)
+        private void RegisterRemoveIonization(GenericShip ship)
         {
-            /*Trigger*/ ship.RemoveToken(typeof(IonToken), '*', true);
-            ship.ToggleIonized(false);
+            ship.OnMovementExecuted -= RegisterRemoveIonization;
+
+            Triggers.RegisterTrigger(new Trigger
+            {
+                Name = "Remove ionization",
+                TriggerType = TriggerTypes.OnShipMovementExecuted,
+                TriggerOwner = ship.Owner.PlayerNo,
+                EventHandler = RemoveIonization,
+                Sender = ship
+            });
+        }
+
+        private void RemoveIonization(object sender, System.EventArgs e)
+        {
             Messages.ShowInfo("Ship isn't ionized anymore");
 
-            ship.OnMovementExecuted -= RemoveIonization;
+            GenericShip ship = sender as GenericShip;
+            ship.ToggleIonized(false);
+            ship.RemoveToken(
+                typeof(IonToken),
+                Triggers.FinishTrigger
+            );
         }
 
     }

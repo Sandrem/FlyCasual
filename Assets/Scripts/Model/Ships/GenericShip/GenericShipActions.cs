@@ -45,6 +45,7 @@ namespace Ship
         public event EventHandlerShipType OnTokenIsSpent;
         public static event EventHandlerShipType OnTokenIsSpentGlobal;
         public event EventHandlerShipType OnTokenIsRemoved;
+        public static event EventHandlerShipType OnTokenIsRemovedGlobal;
 
         public event EventHandlerShipType OnConditionIsAssigned;
         public event EventHandlerShipType OnConditionIsRemoved;
@@ -399,6 +400,8 @@ namespace Ship
         public void CallOnRemoveTokenEvent(System.Type tokenType)
         {
             if (OnTokenIsRemoved != null) OnTokenIsRemoved(this, tokenType);
+
+            if (OnTokenIsRemovedGlobal != null) OnTokenIsRemovedGlobal(this, tokenType);
         }
 
         public void AcquireTargetLock(Action callback)

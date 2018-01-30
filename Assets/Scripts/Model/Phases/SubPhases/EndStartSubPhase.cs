@@ -20,8 +20,10 @@ namespace SubPhases
 
         private void EndRound()
         {
-            Phases.CallRoundEndTrigger();
-            if (!Phases.GameIsEnded) Next();
+            Phases.CallRoundEndTrigger(delegate {
+                if (!Phases.GameIsEnded) Next();
+            });
+            
         }
 
         public override void Next()

@@ -54,14 +54,14 @@ namespace Abilities
 				AskToUseAbility (AlwaysUseByDefault, UseAbility, null, null, true);
 			} else {
 				Messages.ShowInfoToHuman(HostShip.PilotName + " gained focus from Captain Rex (auto)");
-				HostShip.AssignToken(new Tokens.FocusToken(), Triggers.FinishTrigger);
+				HostShip.Tokens.AssignToken(new FocusToken(HostShip), Triggers.FinishTrigger);
 			}
         }
  
         private void UseAbility(object sender, System.EventArgs e)
         {
 			Messages.ShowInfoToHuman(HostShip.PilotName + " gained focus from Captain Rex");
-            HostShip.AssignToken(new Tokens.FocusToken(), SubPhases.DecisionSubPhase.ConfirmDecision);
+            HostShip.Tokens.AssignToken(new FocusToken(HostShip), SubPhases.DecisionSubPhase.ConfirmDecision);
         }
     }
 }

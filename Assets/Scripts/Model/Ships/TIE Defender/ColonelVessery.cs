@@ -46,7 +46,7 @@ namespace Abilities
 
         private void AskColonelVesseryAbility(object sender, System.EventArgs e)
         { 
-            if (Combat.AttackStep == CombatStep.Attack && Combat.Defender.HasToken(typeof(Tokens.RedTargetLockToken), '*'))
+            if (Combat.AttackStep == CombatStep.Attack && Combat.Defender.Tokens.HasToken(typeof(Tokens.RedTargetLockToken), '*'))
             {
                 AskToUseAbility(AlwaysUseByDefault, UseColonelVesseryAbility);
             }

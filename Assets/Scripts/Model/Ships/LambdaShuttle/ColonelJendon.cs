@@ -43,7 +43,7 @@ namespace Abilities
         
         private void StartSubphaseForColonelJendonAbility(object sender, System.EventArgs e)
         {
-            if (HostShip.Owner.Ships.Count > 1 && HostShip.HasToken(typeof(Tokens.BlueTargetLockToken), '*'))
+            if (HostShip.Owner.Ships.Count > 1 && HostShip.Tokens.HasToken(typeof(Tokens.BlueTargetLockToken), '*'))
             {
                 var pilotAbilityDecision = (ColonelJendonDecisionSubPhase)Phases.StartTemporarySubPhaseNew(
                     Name,
@@ -53,7 +53,7 @@ namespace Abilities
 
                 pilotAbilityDecision.InfoText = "Use Colonel Jendon's ability?";
 
-                var blueTargetLocks = HostShip.GetAssignedTokens()
+                var blueTargetLocks = HostShip.Tokens.GetAllTokens()
                    .Where(t => t is Tokens.BlueTargetLockToken)
                    .Select(x => (Tokens.BlueTargetLockToken)x)
                    .OrderBy(y => y.Letter)
@@ -68,6 +68,7 @@ namespace Abilities
                 });
 
                 pilotAbilityDecision.DefaultDecision = "No";
+                pilotAbilityDecision.RequiredPlayer = HostShip.Owner.PlayerNo;
 
                 pilotAbilityDecision.Start();
             }
@@ -92,7 +93,7 @@ namespace Abilities
 
         private void SelectColonelJendonAbilityTarget()
         {
-            if (TargetShip.HasToken(typeof(Tokens.BlueTargetLockToken), '*'))
+            if (TargetShip.Tokens.HasToken(typeof(Tokens.BlueTargetLockToken), '*'))
             {
                 Messages.ShowErrorToHuman("Only ships without blue target lock tokens can be selected");
                 return;
@@ -100,7 +101,7 @@ namespace Abilities
 
             MovementTemplates.ReturnRangeRuler();
 
-            var token = HostShip.GetToken(typeof(Tokens.BlueTargetLockToken), '*') as Tokens.BlueTargetLockToken;
+            var token = HostShip.Tokens.GetToken(typeof(Tokens.BlueTargetLockToken), '*') as Tokens.BlueTargetLockToken;
 
             Actions.ReassignTargetLockToken(
                 token.Letter,

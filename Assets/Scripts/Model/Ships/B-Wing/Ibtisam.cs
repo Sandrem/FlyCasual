@@ -66,12 +66,12 @@ namespace Abilities
  
             public override bool IsActionEffectAvailable()
             {
-                return Host.HasToken(typeof(Tokens.StressToken)) && (Combat.AttackStep == CombatStep.Attack || Combat.AttackStep == CombatStep.Defence);
+                return Host.Tokens.HasToken(typeof(Tokens.StressToken)) && (Combat.AttackStep == CombatStep.Attack || Combat.AttackStep == CombatStep.Defence);
             }
  
             public override int GetActionEffectPriority()
             {
-                if (Host.HasToken(typeof(Tokens.StressToken)))
+                if (Host.Tokens.HasToken(typeof(Tokens.StressToken)))
                 {
                     return 90;
                 }

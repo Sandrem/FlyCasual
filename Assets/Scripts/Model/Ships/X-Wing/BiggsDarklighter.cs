@@ -54,11 +54,11 @@ namespace Abilities
         private void ActivateBiggsAbility(object sender, System.EventArgs e)
         {
             IsAbilityUsed = true;
-            HostShip.AssignToken(new Conditions.BiggsDarklighterCondition(), delegate { });
+            HostShip.Tokens.AssignCondition(new Conditions.BiggsDarklighterCondition(HostShip));
 
             GenericShip.OnTryPerformAttackGlobal += CanPerformAttack;
 
-            HostShip.OnDestroyed += RemoveBiggsDarklighterAbility;
+            HostShip.OnShipIsDestroyed += RemoveBiggsDarklighterAbility;
             Phases.OnCombatPhaseEnd += RemoveBiggsDarklighterAbility;
 
             SubPhases.DecisionSubPhase.ConfirmDecision();
@@ -104,11 +104,11 @@ namespace Abilities
 
         private void RemoveBiggsDarklighterAbility()
         {
-            HostShip.RemoveToken(typeof(Conditions.BiggsDarklighterCondition));
+            HostShip.Tokens.RemoveCondition(typeof(Conditions.BiggsDarklighterCondition));
 
             GenericShip.OnTryPerformAttackGlobal -= CanPerformAttack;
 
-            HostShip.OnDestroyed -= RemoveBiggsDarklighterAbility;
+            HostShip.OnShipIsDestroyed -= RemoveBiggsDarklighterAbility;
             Phases.OnCombatPhaseEnd -= RemoveBiggsDarklighterAbility;
 
             Phases.OnCombatPhaseStart -= RegisterAskBiggsAbility;
@@ -120,7 +120,7 @@ namespace Conditions
 {
     public class BiggsDarklighterCondition : Tokens.GenericToken
     {
-        public BiggsDarklighterCondition()
+        public BiggsDarklighterCondition(GenericShip host) : base(host)
         {
             Name = "Buff Token";
             Temporary = false;

@@ -21,14 +21,15 @@ namespace CriticalHitCard
             Host.AfterGotNumberOfAttackDice += ReduceNumberOfAttackDice;
             Host.AfterGenerateAvailableActionsList += AddCancelCritAction;
 
-            Host.AssignToken(new Tokens.WeaponsFailureCritToken(), Triggers.FinishTrigger);
+            Host.Tokens.AssignCondition(new Tokens.WeaponsFailureCritToken(Host));
+            Triggers.FinishTrigger();
         }
 
         public override void DiscardEffect(Ship.GenericShip host)
         {
             Messages.ShowInfo("Number of attack dice is restored");
 
-            host.RemoveToken(typeof(Tokens.WeaponsFailureCritToken));
+            host.Tokens.RemoveCondition(typeof(Tokens.WeaponsFailureCritToken));
             host.AfterGotNumberOfAttackDice -= ReduceNumberOfAttackDice;
             host.AfterGenerateAvailableActionsList -= AddCancelCritAction;
         }

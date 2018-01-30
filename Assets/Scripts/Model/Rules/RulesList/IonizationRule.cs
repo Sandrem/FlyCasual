@@ -2,6 +2,7 @@
 using Ship;
 using Tokens;
 using Movement;
+using System.Linq;
 
 namespace RulesList
 {
@@ -17,12 +18,14 @@ namespace RulesList
         {
             if (tokenType == typeof(IonToken))
             {
-                if ((ship.GetToken(typeof(IonToken)).Count == 1) && ship.ShipBaseSize == BaseSize.Small )
+                int ionTokensCount = ship.Tokens.GetAllTokens().Count(n => n is IonToken);
+
+                if (ionTokensCount == 1 && ship.ShipBaseSize == BaseSize.Small )
                 {
                     Messages.ShowError("Ship is ionized!");
                     DoIonized(ship);
                 }
-                if ((ship.GetToken(typeof(IonToken)).Count == 2) && ship.ShipBaseSize == BaseSize.Large)
+                if (ionTokensCount == 2 && ship.ShipBaseSize == BaseSize.Large)
                 {
                     Messages.ShowError("Ship is ionized!");
                     DoIonized(ship);
@@ -33,7 +36,7 @@ namespace RulesList
         private void DoIonized(GenericShip ship)
         {
             ship.OnManeuverIsReadyToBeRevealed += AssignWhiteForwardOneManeuver;
-            ship.OnMovementExecuted += RemoveIonization;
+            ship.OnMovementExecuted += RegisterRemoveIonization;
             ship.ToggleIonized(true);
         }
 
@@ -45,13 +48,30 @@ namespace RulesList
             ship.OnManeuverIsReadyToBeRevealed -= AssignWhiteForwardOneManeuver;
         }
 
-        private void RemoveIonization(GenericShip ship)
+        private void RegisterRemoveIonization(GenericShip ship)
         {
-            ship.RemoveToken(typeof(IonToken), '*', true);
-            ship.ToggleIonized(false);
+            ship.OnMovementExecuted -= RegisterRemoveIonization;
+
+            Triggers.RegisterTrigger(new Trigger
+            {
+                Name = "Remove ionization",
+                TriggerType = TriggerTypes.OnShipMovementExecuted,
+                TriggerOwner = ship.Owner.PlayerNo,
+                EventHandler = RemoveIonization,
+                Sender = ship
+            });
+        }
+
+        private void RemoveIonization(object sender, System.EventArgs e)
+        {
             Messages.ShowInfo("Ship isn't ionized anymore");
 
-            ship.OnMovementExecuted -= RemoveIonization;
+            GenericShip ship = sender as GenericShip;
+            ship.ToggleIonized(false);
+            ship.Tokens.RemoveToken(
+                typeof(IonToken),
+                Triggers.FinishTrigger
+            );
         }
 
     }

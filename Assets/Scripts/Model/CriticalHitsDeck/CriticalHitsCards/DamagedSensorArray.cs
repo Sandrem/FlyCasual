@@ -21,13 +21,14 @@ namespace CriticalHitCard
             Host.OnTryAddAvailableAction += OnlyCancelCritActions;
             Host.AfterGenerateAvailableActionsList += AddCancelCritAction;
 
-            Host.AssignToken(new Tokens.DamagedSensorArrayCritToken(), Triggers.FinishTrigger);
+            Host.Tokens.AssignCondition(new Tokens.DamagedSensorArrayCritToken(Host));
+            Triggers.FinishTrigger();
         }
 
         public override void DiscardEffect(Ship.GenericShip host)
         {
             Messages.ShowInfo("You can perform actions as usual");
-            host.RemoveToken(typeof(Tokens.DamagedSensorArrayCritToken));
+            host.Tokens.RemoveCondition(typeof(Tokens.DamagedSensorArrayCritToken));
 
             host.OnTryAddAvailableAction -= OnlyCancelCritActions;
 

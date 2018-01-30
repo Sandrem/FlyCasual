@@ -58,7 +58,7 @@ namespace Abilities
 
             public override void ActionEffect(System.Action callBack)
             {
-                if (Host.HasToken(typeof(Tokens.FocusToken)))
+                if (Host.Tokens.HasToken(typeof(Tokens.FocusToken)))
                 {
                     Combat.CurrentDiceRoll.ChangeOne(DieSide.Focus, DieSide.Success);
                 }
@@ -73,7 +73,7 @@ namespace Abilities
             public override bool IsActionEffectAvailable()
             {
                 bool result = false;
-                if ((Host.HasToken(typeof(Tokens.FocusToken))) && (Combat.CurrentDiceRoll.Focuses > 0)) result = true;
+                if ((Host.Tokens.HasToken(typeof(Tokens.FocusToken))) && (Combat.CurrentDiceRoll.Focuses > 0)) result = true;
                 return result;
             }
 
@@ -81,7 +81,7 @@ namespace Abilities
             {
                 int result = 0;
 
-                if (Host.HasToken(typeof(Tokens.FocusToken)))
+                if (Host.Tokens.HasToken(typeof(Tokens.FocusToken)))
                 {
                     if (Combat.CurrentDiceRoll.Focuses > 0) result = 100;
                 }

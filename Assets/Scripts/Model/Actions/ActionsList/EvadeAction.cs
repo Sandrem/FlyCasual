@@ -17,7 +17,7 @@ namespace ActionsList
         public override void ActionEffect(System.Action callBack)
         {
             Combat.CurrentDiceRoll.ApplyEvade();
-            Selection.ActiveShip.SpendToken(typeof(Tokens.EvadeToken), callBack);
+            Selection.ActiveShip.Tokens.SpendToken(typeof(Tokens.EvadeToken), callBack);
         }
 
         public override bool IsActionEffectAvailable()
@@ -46,7 +46,7 @@ namespace ActionsList
 
         public override void ActionTake()
         {
-            Selection.ThisShip.AssignToken(new Tokens.EvadeToken(), Phases.CurrentSubPhase.CallBack);
+            Selection.ThisShip.Tokens.AssignToken(new Tokens.EvadeToken(Selection.ThisShip), Phases.CurrentSubPhase.CallBack);
         }
 
         public override int GetActionPriority()

@@ -18,7 +18,8 @@ namespace CriticalHitCard
         {
             Host.AfterGetManeuverColorIncreaseComplexity += TurnManeuversAreRed;
 
-            Host.Tokens.AssignToken(new Tokens.DamagedEngineCritToken(Host), Triggers.FinishTrigger);
+            Host.Tokens.AssignCondition(new Tokens.DamagedEngineCritToken(Host));
+            Triggers.FinishTrigger();
         }
 
         public override void DiscardEffect(Ship.GenericShip host)

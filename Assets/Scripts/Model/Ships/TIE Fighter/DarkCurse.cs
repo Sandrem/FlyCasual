@@ -46,7 +46,7 @@ namespace Abilities
             {
                 Combat.Attacker.OnTryAddAvailableActionEffect += UseDarkCurseRestriction;
                 //TODO: Use assign condition token instead
-                Combat.Attacker.Tokens.AssignToken(new Conditions.DarkCurseCondition(Combat.Attacker), delegate { });
+                Combat.Attacker.Tokens.AssignCondition(new Conditions.DarkCurseCondition(Combat.Attacker));
             }
         }
 

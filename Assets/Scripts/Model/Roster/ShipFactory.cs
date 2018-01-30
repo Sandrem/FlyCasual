@@ -46,6 +46,7 @@ public static class ShipFactory {
 
         newShipContainer.OnTokenIsAssigned += Roster.UpdateTokensIndicator;
         newShipContainer.OnTokenIsRemoved += Roster.UpdateTokensIndicator;
+        newShipContainer.OnConditionIsAssigned += Roster.UpdateTokensIndicator;
         newShipContainer.OnConditionIsRemoved += Roster.UpdateTokensIndicator;
         newShipContainer.AfterAssignedDamageIsChanged += Roster.UpdateRosterHullDamageIndicators;
         newShipContainer.AfterAssignedDamageIsChanged += Roster.UpdateRosterShieldsDamageIndicators;

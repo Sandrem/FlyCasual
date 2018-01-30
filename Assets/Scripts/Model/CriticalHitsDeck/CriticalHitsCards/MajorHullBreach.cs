@@ -19,7 +19,8 @@ namespace CriticalHitCard
             Phases.OnPlanningPhaseStart += DealDamageCardFaceupStart;
             Host.AfterGenerateAvailableActionsList += AddCancelCritAction;
 
-            Host.Tokens.AssignToken(new Tokens.MajorHullBreachCritToken(Host), Triggers.FinishTrigger);
+            Host.Tokens.AssignCondition(new Tokens.MajorHullBreachCritToken(Host));
+            Triggers.FinishTrigger();
         }
 
         public override void DiscardEffect(Ship.GenericShip host)

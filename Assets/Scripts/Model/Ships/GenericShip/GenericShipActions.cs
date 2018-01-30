@@ -45,6 +45,8 @@ namespace Ship
         public event EventHandlerShipType OnTokenIsSpent;
         public static event EventHandlerShipType OnTokenIsSpentGlobal;
         public event EventHandlerShipType OnTokenIsRemoved;
+
+        public event EventHandlerShipType OnConditionIsAssigned;
         public event EventHandlerShipType OnConditionIsRemoved;
 
         public event EventHandlerShip OnCoordinateTargetIsSelected;
@@ -382,6 +384,11 @@ namespace Ship
             Tokens.TokenToAssign = null;
 
             Triggers.ResolveTriggers(TriggerTypes.OnTokenIsAssigned, callback);
+        }
+
+        public void CallOnConditionIsAssigned(System.Type tokenType)
+        {
+            if (OnConditionIsAssigned != null) OnConditionIsAssigned(this, tokenType);
         }
 
         public void CallOnConditionIsRemoved(System.Type tokenType)

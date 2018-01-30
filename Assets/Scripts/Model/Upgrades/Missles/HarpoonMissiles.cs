@@ -61,7 +61,7 @@ namespace Abilities
                 HostShip.OnShotHitAsAttacker -= ApplyHarpoonMissilesCondition;
 
                 Messages.ShowInfo("\"Harpooned!\" condition is assigned");
-                Combat.Defender.Tokens.AssignToken(new Conditions.Harpooned(Combat.Defender), delegate { });
+                Combat.Defender.Tokens.AssignCondition(new Conditions.Harpooned(Combat.Defender));
 
                 SubscribeToHarpoonedConditionEffects(Combat.Defender);
             }

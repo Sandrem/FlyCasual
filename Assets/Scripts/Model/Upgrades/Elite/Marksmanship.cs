@@ -52,7 +52,8 @@ namespace ActionsList
             Host = Selection.ThisShip;
             Host.AfterGenerateAvailableActionEffectsList += MarksmanshipAddDiceModification;
             Phases.OnEndPhaseStart += MarksmanshipUnSubscribeToFiceModification;
-            Host.Tokens.AssignToken(new Conditions.MarksmanshipCondition(Host), Phases.CurrentSubPhase.CallBack);
+            Host.Tokens.AssignCondition(new Conditions.MarksmanshipCondition(Host));
+            Phases.CurrentSubPhase.CallBack();
         }
 
         public override int GetActionPriority()

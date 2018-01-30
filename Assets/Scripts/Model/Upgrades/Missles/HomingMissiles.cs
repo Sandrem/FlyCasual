@@ -47,7 +47,7 @@ namespace UpgradesList
         private void ApplyHomingMissilesAbility()
         {
             Combat.Defender.OnTryAddAvailableActionEffect += UseHomingMissilesRestriction;
-            Combat.Defender.Tokens.AssignToken(new Conditions.HomingMissilesCondition(Combat.Defender), delegate { });
+            Combat.Defender.Tokens.AssignCondition(new Conditions.HomingMissilesCondition(Combat.Defender));
 
             Host.OnAttackFinish += RemoveHomingMissilesAbility;
         }

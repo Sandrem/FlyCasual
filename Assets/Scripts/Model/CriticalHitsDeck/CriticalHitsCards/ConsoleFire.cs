@@ -19,7 +19,8 @@ namespace CriticalHitCard
             Host.OnCombatPhaseStart += PlanRollForDamage;
             Host.AfterGenerateAvailableActionsList += AddCancelCritAction;
 
-            Host.Tokens.AssignToken(new Tokens.ConsoleFireCritToken(Host), Triggers.FinishTrigger);
+            Host.Tokens.AssignCondition(new Tokens.ConsoleFireCritToken(Host));
+            Triggers.FinishTrigger();
         }
 
         private void PlanRollForDamage(Ship.GenericShip host)

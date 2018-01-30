@@ -19,7 +19,8 @@ namespace CriticalHitCard
             Host.OnMovementFinish += PlanStressAfterWhiteManeuvers;
             Host.AfterGenerateAvailableActionsList += AddCancelCritAction;
 
-            Host.Tokens.AssignToken(new Tokens.LooseStabilizerCritToken(Host), Triggers.FinishTrigger);
+            Host.Tokens.AssignCondition(new Tokens.LooseStabilizerCritToken(Host));
+            Triggers.FinishTrigger();
         }
 
         public override void DiscardEffect(Ship.GenericShip host)

@@ -27,7 +27,7 @@ namespace Ship
             return GetToken(type, letter) != null;
         }
 
-        public int TokenCount(Type type)
+        public int CountTokensByType(Type type)
         {
             return GetAllTokens().Count(n => n.GetType() == type);
         }
@@ -110,13 +110,7 @@ namespace Ship
             }
         }
 
-        public void RemoveCondition(System.Type type)
-        {
-            GenericToken assignedCondition = GetToken(type);
-            RemoveCondition(assignedCondition);
-        }
-
-        public void RemoveToken(System.Type type, Action callback, char letter = ' ')
+        public void RemoveToken(Type type, Action callback, char letter = ' ')
         {
             GenericToken assignedToken = GetToken(type, letter);
 
@@ -176,6 +170,21 @@ namespace Ship
                 delegate { Host.CallFinishSpendToken(type, callback); },
                 letter
             );
+        }
+
+        // CONDITIONS - don't trigger any abilities
+
+        public void RemoveCondition(Type type)
+        {
+            GenericToken assignedCondition = GetToken(type);
+            RemoveCondition(assignedCondition);
+        }
+
+        public void AssignCondition(GenericToken token)
+        {
+            AssignedTokens.Add(token);
+
+            Host.CallOnConditionIsAssigned(token.GetType());
         }
 
     }

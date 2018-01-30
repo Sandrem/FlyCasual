@@ -46,7 +46,7 @@ namespace UpgradesList
         public void ActivateAbility()
         {
             Conditions.Glitterstim newConditionToken = new Conditions.Glitterstim(Host) { Tooltip = ImageUrl };
-            Host.Tokens.AssignToken(newConditionToken, delegate { });
+            Host.Tokens.AssignCondition(newConditionToken);
 
             Host.OnCombatPhaseStart -= RegisterTrigger;
             Phases.OnEndPhaseStart += DeactivateAbility;

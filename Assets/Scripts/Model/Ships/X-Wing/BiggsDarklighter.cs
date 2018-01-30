@@ -54,7 +54,7 @@ namespace Abilities
         private void ActivateBiggsAbility(object sender, System.EventArgs e)
         {
             IsAbilityUsed = true;
-            HostShip.Tokens.AssignToken(new Conditions.BiggsDarklighterCondition(HostShip), delegate { });
+            HostShip.Tokens.AssignCondition(new Conditions.BiggsDarklighterCondition(HostShip));
 
             GenericShip.OnTryPerformAttackGlobal += CanPerformAttack;
 

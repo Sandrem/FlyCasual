@@ -16,7 +16,8 @@ namespace CriticalHitCard
 
         public override void ApplyEffect(object sender, EventArgs e)
         {
-            Host.Tokens.AssignToken(new Tokens.DirectHitCritToken(Host), AdditionalHullDamage);
+            Host.Tokens.AssignCondition(new Tokens.DirectHitCritToken(Host));
+            AdditionalHullDamage();
         }
 
         private void AdditionalHullDamage()

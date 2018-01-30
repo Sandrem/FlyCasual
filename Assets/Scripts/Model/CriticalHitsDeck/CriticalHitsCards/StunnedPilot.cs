@@ -17,7 +17,8 @@ namespace CriticalHitCard
         public override void ApplyEffect(object sender, EventArgs e)
         {
             Host.OnMovementFinish += RegisterCheckCollisionDamage;
-            Host.Tokens.AssignToken(new Tokens.StunnedPilotCritToken(Host), Triggers.FinishTrigger);
+            Host.Tokens.AssignCondition(new Tokens.StunnedPilotCritToken(Host));
+            Triggers.FinishTrigger();
         }
 
         private void RegisterCheckCollisionDamage(Ship.GenericShip host)

@@ -97,7 +97,7 @@ namespace SquadBuilderNS
 
             if (ship.Instance.IconicPilot != null)
             {
-                image = AllPilots.Find(n => n.PilotName == ship.Instance.IconicPilot).Instance.ImageUrl;
+                image = AllPilots.Find(n => n.PilotName == ship.Instance.IconicPilot && n.PilotShip.ShipName == ship.Instance.Type).Instance.ImageUrl;
             }
 
             return image;

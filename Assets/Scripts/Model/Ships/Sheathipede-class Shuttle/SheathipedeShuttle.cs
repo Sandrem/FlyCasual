@@ -14,7 +14,7 @@ namespace Ship
             public SheathipedeShuttle() : base()
             {
                 Type = "Sheathipede-class Shuttle";
-                IconicPilot = "AP-5";
+                IconicPilot = "Fenn Rau";
 
                 ShipBaseArcsType = Arcs.BaseArcsType.ArcRear;
 

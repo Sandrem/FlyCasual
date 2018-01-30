@@ -40,7 +40,7 @@ namespace Abilities
 
         private void CaptainYorrPilotAbility(GenericShip ship, System.Type tokenType)
         {
-            if (tokenType == typeof(Tokens.StressToken) && ship.Owner == HostShip.Owner && ship != HostShip && HostShip.TokenCount(typeof(Tokens.StressToken)) <= 2)
+            if (tokenType == typeof(Tokens.StressToken) && ship.Owner == HostShip.Owner && ship != HostShip && HostShip.Tokens.CountTokensByType(typeof(Tokens.StressToken)) <= 2)
             {
 
                 Board.ShipDistanceInformation positionInfo = new Board.ShipDistanceInformation(ship, HostShip);
@@ -59,8 +59,8 @@ namespace Abilities
 
         private void UseCaptainYorrAbility(object sender, System.EventArgs e)
         {            
-            HostShip.AssignToken(TargetShip.TokenToAssign, delegate {
-                TargetShip.TokenToAssign = null;
+            HostShip.Tokens.AssignToken(TargetShip.Tokens.TokenToAssign, delegate {
+                TargetShip.Tokens.TokenToAssign = null;
                 TargetShip = null;
                 DecisionSubPhase.ConfirmDecision();
             });

@@ -11,7 +11,7 @@
 
         public override void ActionTake()
         {
-            Selection.ThisShip.AssignToken(new Tokens.ReinforceAftToken(Host), Phases.CurrentSubPhase.CallBack);
+            Selection.ThisShip.Tokens.AssignToken(new Tokens.ReinforceAftToken(Host), Phases.CurrentSubPhase.CallBack);
         }
 
         public override bool IsActionEffectAvailable()

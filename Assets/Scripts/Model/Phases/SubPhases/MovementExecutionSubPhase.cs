@@ -40,7 +40,7 @@ namespace SubPhases
 
         private void CheckAssignedManeuver()
         {
-            if (Selection.ThisShip.AssignedManeuver.ColorComplexity == ManeuverColor.Red && Selection.ThisShip.HasToken(typeof(Tokens.StressToken)))
+            if (Selection.ThisShip.AssignedManeuver.ColorComplexity == ManeuverColor.Red && Selection.ThisShip.Tokens.HasToken(typeof(Tokens.StressToken)))
             {
                 if (!Selection.ThisShip.CanPerformRedManeuversWhileStressed)
                 {

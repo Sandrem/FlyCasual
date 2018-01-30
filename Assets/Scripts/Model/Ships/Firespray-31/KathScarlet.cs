@@ -50,7 +50,7 @@ namespace Abilities
         private void KathScarletPilotAbility(object sender, System.EventArgs e)
         {
             Messages.ShowInfo("Critical hit was cancelled - stress token is assigned to the defender");
-            Combat.Defender.AssignToken(new Tokens.StressToken(), Triggers.FinishTrigger);
+            Combat.Defender.Tokens.AssignToken(new Tokens.StressToken(Combat.Defender), Triggers.FinishTrigger);
         }
     }
 }

@@ -1,6 +1,7 @@
-﻿using Upgrade;
-using Ship;
+﻿using Abilities;
 using GameModes;
+using Ship;
+using Upgrade;
 
 namespace UpgradesList
 {
@@ -11,13 +12,24 @@ namespace UpgradesList
             Type = UpgradeType.Crew;
             Name = "Navigator";
             Cost = 3;
+
+            UpgradeAbilities.Add(new NavigatorAbility());
+        }
+    }
+}
+
+namespace Abilities
+{
+    public class NavigatorAbility : GenericAbility
+    {
+        public override void ActivateAbility()
+        {
+            HostShip.OnManeuverIsRevealed += RegisterAskChangeManeuver;
         }
 
-        public override void AttachToShip(Ship.GenericShip host)
+        public override void DeactivateAbility()
         {
-            base.AttachToShip(host);
-
-            host.OnManeuverIsRevealed += RegisterAskChangeManeuver;
+            HostShip.OnManeuverIsRevealed -= RegisterAskChangeManeuver;
         }
 
         private void RegisterAskChangeManeuver(GenericShip ship)
@@ -33,7 +45,7 @@ namespace UpgradesList
 
         private void AskChangeManeuver(object sender, System.EventArgs e)
         {
-            Host.Owner.ChangeManeuver(GameMode.CurrentGameMode.AssignManeuver, IsSameBearingAndDirection);
+            HostShip.Owner.ChangeManeuver(GameMode.CurrentGameMode.AssignManeuver, IsSameBearingAndDirection);
         }
 
         private bool IsSameBearingAndDirection(string maneuverString)
@@ -42,7 +54,7 @@ namespace UpgradesList
             Movement.MovementStruct movementStruct = new Movement.MovementStruct(maneuverString);
             if (movementStruct.Bearing == Selection.ThisShip.AssignedManeuver.Bearing && movementStruct.Direction == Selection.ThisShip.AssignedManeuver.Direction)
             {
-                if (!(movementStruct.ColorComplexity == Movement.ManeuverColor.Red && Host.HasToken(typeof(Tokens.StressToken))))
+                if (!(movementStruct.ColorComplexity == Movement.ManeuverColor.Red && HostShip.Tokens.HasToken(typeof(Tokens.StressToken))))
                 {
                     result = true;
                 }

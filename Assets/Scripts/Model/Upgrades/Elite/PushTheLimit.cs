@@ -25,7 +25,7 @@ namespace UpgradesList
             host.OnActionIsPerformed += CheckConditions;
 
             Phases.OnEndPhaseStart += Cleanup;
-            Host.OnDestroyed += StopAbility;
+            Host.OnShipIsDestroyed += StopAbility;
         }
 
         private void CheckConditions(GenericAction action)
@@ -41,7 +41,7 @@ namespace UpgradesList
 		{
             Host.OnActionDecisionSubphaseEnd -= DoSecondAction;
 
-            if (!ship.HasToken(typeof(Tokens.StressToken)) || ship.CanPerformActionsWhileStressed)
+            if (!ship.Tokens.HasToken(typeof(Tokens.StressToken)) || ship.CanPerformActionsWhileStressed)
 			{
                 Triggers.RegisterTrigger(
                     new Trigger()
@@ -70,8 +70,8 @@ namespace UpgradesList
 		private void AddStressToken()
 		{
 			if (!base.Host.IsFreeActionSkipped) {
-				base.Host.AssignToken (
-                    new Tokens.StressToken(),
+				base.Host.Tokens.AssignToken (
+                    new Tokens.StressToken(base.Host),
 					Triggers.FinishTrigger
                 );	
 			}

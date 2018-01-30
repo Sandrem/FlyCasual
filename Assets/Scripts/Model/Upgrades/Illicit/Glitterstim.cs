@@ -45,13 +45,13 @@ namespace UpgradesList
 
         public void ActivateAbility()
         {
-            Conditions.Glitterstim newConditionToken = new Conditions.Glitterstim(){ Tooltip = ImageUrl };
-            Host.AssignToken(newConditionToken, delegate { });
+            Conditions.Glitterstim newConditionToken = new Conditions.Glitterstim(Host) { Tooltip = ImageUrl };
+            Host.Tokens.AssignCondition(newConditionToken);
 
             Host.OnCombatPhaseStart -= RegisterTrigger;
             Phases.OnEndPhaseStart += DeactivateAbility;
 
-            Host.AssignToken(new Tokens.StressToken(), GlitterstimEffect);
+            Host.Tokens.AssignToken(new Tokens.StressToken(Host), GlitterstimEffect);
         }
 
         private void GlitterstimEffect()
@@ -107,13 +107,13 @@ namespace SubPhases
             GenericShip host = GlitterstimUpgrade.Host;
             if (host.Owner.GetType() == typeof(Players.HotacAiPlayer))
             {
-                if (!host.HasToken(typeof(Tokens.FocusToken)))
+                if (!host.Tokens.HasToken(typeof(Tokens.FocusToken)))
                 {
                     int priority = 0;
                     if (Actions.HasTarget(host)) priority += 20;
                     priority += Actions.CountEnemiesTargeting(host) * 10;
                     if (host.Hull < host.MaxHull) priority += 5;
-                    if (host.HasToken(typeof(Tokens.StressToken))) priority -= 10;
+                    if (host.Tokens.HasToken(typeof(Tokens.StressToken))) priority -= 10;
 
                     if (priority > 10)
                     {
@@ -192,7 +192,7 @@ namespace Conditions
 {
     public class Glitterstim : Tokens.GenericToken
     {
-        public Glitterstim()
+        public Glitterstim(GenericShip host) : base(host)
         {
             Name = "Glitterstim Condition";
             Temporary = true;

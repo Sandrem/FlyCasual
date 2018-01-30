@@ -21,6 +21,7 @@ namespace Board
         public bool CanShootTorpedoes { get; private set; }
         public bool CanShootMissiles { get; private set; }
         public bool CanShootCannon { get; private set; }
+        public bool CanShootTurret { get; private set; }
 
         public new int Range
         {
@@ -120,6 +121,11 @@ namespace Board
                         if (ChosenWeapon.Host.ArcInfo.CanShootCannon(pointThis.Key, angle))
                         {
                             CanShootCannon = true;
+                        }
+
+                        if (ChosenWeapon.Host.ArcInfo.CanShootTurret(pointThis.Key, angle))
+                        {
+                            CanShootTurret = true;
                         }
 
                         distance = Vector3.Distance(pointThis.Value, pointAnother.Value);

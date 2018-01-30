@@ -10,10 +10,9 @@ namespace Tokens
         public bool Temporary = true;
         public ActionsList.GenericAction Action = null;
         public bool CanBeUsed = true;
-        public int Count = 1;
         public string Tooltip;
 
-        public GenericToken(GenericShip host = null)
+        public GenericToken(GenericShip host)
         {
             Host = host;
         }

@@ -171,9 +171,11 @@ public static partial class Phases
         Triggers.ResolveTriggers(TriggerTypes.OnEndPhaseStart, callBack);
     }
 
-    public static void CallRoundEndTrigger()
+    public static void CallRoundEndTrigger(Action callback)
     {
         if (OnRoundEnd != null) OnRoundEnd();
+
+        Triggers.ResolveTriggers(TriggerTypes.OnRoundEnd, callback);
     }
 
     public static void CallBeforeActionSubPhaseTrigger()

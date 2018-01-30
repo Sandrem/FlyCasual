@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Ship;
 using SubPhases;
+using Tokens;
 
 namespace Ship
 {
@@ -71,13 +72,33 @@ namespace Abilities
 			//		even ship cannot shoot from it.
 			if (shotInfo.InArc == true)
 			{
-				Messages.ShowInfo(HostShip.PilotName + " removed focus and evade token\nto " + TargetShip.PilotName);
-				TargetShip.RemoveToken(typeof(Tokens.FocusToken), '*', true);
-				TargetShip.RemoveToken(typeof(Tokens.EvadeToken), '*', true);
-				SelectShipSubPhase.FinishSelection ();
-			} else {
+                DiscardFocusAndEvadeTokens();
+            }
+            else
+            {
 				Messages.ShowError(HostShip.PilotName + " is not within " + TargetShip.PilotName + " firing arc.");
 			}
 		}
-	}
+
+        private void DiscardFocusAndEvadeTokens()
+        {
+            DiscardAllFocusTokens();
+        }
+
+        private void DiscardAllFocusTokens()
+        {
+            TargetShip.Tokens.RemoveAllTokensByType(
+                typeof(FocusToken),
+                DiscardAllEvadeTokens
+            );
+        }
+
+        private void DiscardAllEvadeTokens()
+        {
+            TargetShip.Tokens.RemoveAllTokensByType(
+                typeof(EvadeToken),
+                SelectShipSubPhase.FinishSelection
+            );
+        }
+    }
 }

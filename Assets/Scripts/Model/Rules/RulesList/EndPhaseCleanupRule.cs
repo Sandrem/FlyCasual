@@ -1,4 +1,8 @@
 ﻿
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using Tokens;
 using UnityEngine;
 
 namespace RulesList
@@ -13,23 +17,40 @@ namespace RulesList
 
         private void SubscribeEvents()
         {
-            Phases.OnRoundEnd += EndPhaseClearAll;
+            Phases.OnRoundEnd += RegisterClearAll;
         }
 
-        public void EndPhaseClearAll()
+        private void RegisterClearAll()
         {
+            Triggers.RegisterTrigger(new Trigger
+            {
+                Name = "End of the round: Clear all",
+                TriggerOwner = Players.PlayerNo.Player1,
+                TriggerType = TriggerTypes.OnRoundEnd,
+                EventHandler = EndPhaseClearAll
+            });
+        }
+
+        public void EndPhaseClearAll(object sender, System.EventArgs e)
+        {
+            List<GenericToken> tokensList = new List<GenericToken>();
+
             foreach (var shipHolder in Roster.AllShips)
             {
-                ClearShipTokens(shipHolder.Value);
                 ClearShipFlags(shipHolder.Value);
                 ClearAssignedManeuvers(shipHolder.Value);
+                shipHolder.Value.ClearAlreadyExecutedActions();
+
+                List<GenericToken> allShipTokens = shipHolder.Value.Tokens.GetAllTokens();
+                if (allShipTokens != null) tokensList.AddRange(allShipTokens.Where(n => n.Host.ShouldRemoveTokenInEndPhase(n)));
             }
+
+            ClearShipTokens(tokensList, Triggers.FinishTrigger);
         }
 
-        private void ClearShipTokens(Ship.GenericShip ship)
+        private void ClearShipTokens(List<GenericToken> tokensList, Action callback)
         {
-            ship.ClearAllTokens();
-            ship.ClearAlreadyExecutedActions();
+            Actions.RemoveTokens(tokensList, callback);
         }
 
         private void ClearShipFlags(Ship.GenericShip ship)

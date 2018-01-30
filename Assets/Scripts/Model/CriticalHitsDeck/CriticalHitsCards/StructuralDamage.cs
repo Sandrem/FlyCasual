@@ -22,14 +22,14 @@ namespace CriticalHitCard
 
             Host.AfterGenerateAvailableActionsList += AddCancelCritAction;
 
-            Host.AssignToken(new Tokens.StructuralDamageCritToken(), Triggers.FinishTrigger);
+            Host.Tokens.AssignToken(new Tokens.StructuralDamageCritToken(Host), Triggers.FinishTrigger);
         }
 
         public override void DiscardEffect(Ship.GenericShip host)
         {
             Messages.ShowInfo("Agility is restored");
 
-            host.RemoveToken(typeof(Tokens.StructuralDamageCritToken));
+            host.Tokens.RemoveCondition(typeof(Tokens.StructuralDamageCritToken));
             host.AfterGenerateAvailableActionsList -= AddCancelCritAction;
 
             host.AfterGetAgility -= ReduceAgility;

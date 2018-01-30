@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Ship;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Upgrade;
@@ -51,7 +52,7 @@ namespace ActionsList
             Host = Selection.ThisShip;
             Host.AfterGenerateAvailableActionEffectsList += MarksmanshipAddDiceModification;
             Phases.OnEndPhaseStart += MarksmanshipUnSubscribeToFiceModification;
-            Host.AssignToken(new Conditions.MarksmanshipCondition(), Phases.CurrentSubPhase.CallBack);
+            Host.Tokens.AssignToken(new Conditions.MarksmanshipCondition(Host), Phases.CurrentSubPhase.CallBack);
         }
 
         public override int GetActionPriority()
@@ -68,7 +69,7 @@ namespace ActionsList
 
         private void MarksmanshipUnSubscribeToFiceModification()
         {
-            Host.RemoveToken(typeof(Conditions.MarksmanshipCondition));
+            Host.Tokens.RemoveCondition(typeof(Conditions.MarksmanshipCondition));
             Host.AfterGenerateAvailableActionEffectsList -= MarksmanshipAddDiceModification;
             Phases.OnEndPhaseStart -= MarksmanshipUnSubscribeToFiceModification;
         }
@@ -109,7 +110,7 @@ namespace Conditions
 
     public class MarksmanshipCondition : Tokens.GenericToken
     {
-        public MarksmanshipCondition()
+        public MarksmanshipCondition(GenericShip host) : base(host)
         {
             Name = "Buff Token";
             Temporary = false;

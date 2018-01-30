@@ -51,7 +51,7 @@ namespace UpgradesList
             Host.OnActivateShip -= RegisterTrigger;
             Phases.OnEndPhaseStart += DeactivateAbility;
 
-            Host.AssignToken(new Tokens.StressToken(), RemoveRestrictions);
+            Host.Tokens.AssignToken(new Tokens.StressToken(Host), RemoveRestrictions);
         }
 
         private void RemoveRestrictions()

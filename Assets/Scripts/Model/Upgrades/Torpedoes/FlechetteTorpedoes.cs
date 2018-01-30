@@ -82,7 +82,7 @@ namespace Abilities
                     Combat.ChosenWeapon is FlechetteTorpedoes)
             {
                 Messages.ShowInfoToHuman(string.Format("{0} received a Stress token from Flechette Torpedo", Combat.Defender.PilotName));
-                Combat.Defender.AssignToken(new StressToken(), DiscardUpgrade);                
+                Combat.Defender.Tokens.AssignToken(new StressToken(Combat.Defender), DiscardUpgrade);                
             }
             else
             {

@@ -54,7 +54,7 @@ namespace Abilities
             Movement.MovementStruct movementStruct = new Movement.MovementStruct(maneuverString);
             if (movementStruct.Bearing == Selection.ThisShip.AssignedManeuver.Bearing && movementStruct.Direction == Selection.ThisShip.AssignedManeuver.Direction)
             {
-                if (!(movementStruct.ColorComplexity == Movement.ManeuverColor.Red && HostShip.HasToken(typeof(Tokens.StressToken))))
+                if (!(movementStruct.ColorComplexity == Movement.ManeuverColor.Red && HostShip.Tokens.HasToken(typeof(Tokens.StressToken))))
                 {
                     result = true;
                 }

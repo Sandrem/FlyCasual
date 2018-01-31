@@ -22,6 +22,7 @@ public enum TriggerTypes
     OnCombatPhaseStart,
     OnCombatPhaseEnd,
     OnEndPhaseStart,
+    OnRoundEnd,
 
     OnActivateShip,
 
@@ -39,6 +40,7 @@ public enum TriggerTypes
     OnBeforeTokenIsAssigned,
     OnTokenIsAssigned,
     OnTokenIsSpent,
+    OnTokenIsRemoved,
     OnCoordinateTargetIsSelected,
     OnRerollIsConfirmed,
 
@@ -61,6 +63,7 @@ public enum TriggerTypes
     OnFaceupCritCardReadyToBeDealt,
     OnFaceupCritCardReadyToBeDealtUI,
     OnFaceupCritCardIsDealt,
+    OnShipIsDestroyed,
 
     OnMajorExplosionCrit,
     OnAbilityTargetIsSelected,

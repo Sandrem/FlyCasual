@@ -51,7 +51,7 @@ namespace ActionsList
 
         public override void ActionEffect(System.Action callBack)
         {
-            if (Host.HasToken(typeof(Tokens.StressToken)))
+            if (Host.Tokens.HasToken(typeof(Tokens.StressToken)))
             {
                 Combat.CurrentDiceRoll.ChangeOne(DieSide.Focus, DieSide.Crit);
             }
@@ -78,7 +78,7 @@ namespace ActionsList
         {
             int result = 0;
 
-            if (Combat.AttackStep == CombatStep.Attack && Host.HasToken(typeof(Tokens.StressToken)))
+            if (Combat.AttackStep == CombatStep.Attack && Host.Tokens.HasToken(typeof(Tokens.StressToken)))
             {
                 if (Combat.DiceRollAttack.RegularSuccesses > 0) result = 100;
             }

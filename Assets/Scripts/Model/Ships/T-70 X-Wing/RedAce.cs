@@ -57,7 +57,7 @@ namespace Abilities
         private void AssignEvadeToken(object sender, System.EventArgs e)
         {
             Messages.ShowInfo("\"Red Ace\": Evade token is assigned");
-            HostShip.AssignToken(new Tokens.EvadeToken(), Triggers.FinishTrigger);
+            HostShip.Tokens.AssignToken(new Tokens.EvadeToken(HostShip), Triggers.FinishTrigger);
         }
 
         private void ClearAbilityUsed()

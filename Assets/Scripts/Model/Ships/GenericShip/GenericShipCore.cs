@@ -157,6 +157,8 @@ namespace Ship
         public Upgrade.ShipUpgradeBar UpgradeBar { get; protected set; }
         public List<Upgrade.UpgradeType> PrintedUpgradeIcons { get; protected set; }
 
+        public TokensManager Tokens { get; protected set; }
+
         private string pilotNameCanonical;
         public string PilotNameCanonical
         {
@@ -189,6 +191,7 @@ namespace Ship
             SoundFlyPaths = new List<string> ();
             Maneuvers = new Dictionary<string, Movement.ManeuverColor>();
             UpgradeBar = new Upgrade.ShipUpgradeBar(this);
+            Tokens = new TokensManager(this);
             PrintedUpgradeIcons = new List<Upgrade.UpgradeType>();
             PilotSkillModifiers = new List<IModifyPilotSkill>();
 

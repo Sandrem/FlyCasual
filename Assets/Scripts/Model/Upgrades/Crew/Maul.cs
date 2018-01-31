@@ -66,7 +66,7 @@ namespace UpgradesList
             base.AttachToShip(host);
 
             host.AfterGenerateAvailableActionEffectsList += MaulDiceModification;
-            host.OnAttackHitAsAttacker += RemoveStress;
+            host.OnAttackHitAsAttacker += RegisterRemoveStress;
         }
 
         private void MaulDiceModification(GenericShip host)
@@ -75,12 +75,30 @@ namespace UpgradesList
             host.AddAvailableActionEffect(newAction);
         }
 
-        private void RemoveStress()
+        private void RegisterRemoveStress()
         {
-            if (Host.HasToken(typeof(StressToken)))
+            Triggers.RegisterTrigger(new Trigger
+            {
+                Name = "Maul: Remove Stress token",
+                TriggerOwner = Host.Owner.PlayerNo,
+                TriggerType = TriggerTypes.OnAttackHit,
+                EventHandler = RemoveStress
+            });
+        }
+
+        private void RemoveStress(object sender, System.EventArgs e)
+        {
+            if (Host.Tokens.HasToken(typeof(StressToken)))
             {
                 Messages.ShowInfo("Maul: Remove Stress token");
-                Host.RemoveToken(typeof(StressToken));
+                Host.Tokens.RemoveToken(
+                    typeof(StressToken),
+                    Triggers.FinishTrigger
+                );
+            }
+            else
+            {
+                Triggers.FinishTrigger();
             }
         }
     }
@@ -102,7 +120,7 @@ namespace ActionsList
         public override bool IsActionEffectAvailable()
         {
             bool result = false;
-            if ((Combat.AttackStep == CombatStep.Attack) && (!Combat.Attacker.HasToken(typeof(StressToken)))) result = true;
+            if ((Combat.AttackStep == CombatStep.Attack) && (!Combat.Attacker.Tokens.HasToken(typeof(StressToken)))) result = true;
             return result;
         }
 
@@ -110,7 +128,7 @@ namespace ActionsList
         {
             int result = 0;
 
-            if ((Combat.AttackStep == CombatStep.Attack) && (!Combat.Attacker.HasToken(typeof(StressToken))))
+            if ((Combat.AttackStep == CombatStep.Attack) && (!Combat.Attacker.Tokens.HasToken(typeof(StressToken))))
             {
                 int attackFocuses = Combat.DiceRollAttack.FocusesNotRerolled;
                 int attackBlanks = Combat.DiceRollAttack.BlanksNotRerolled;
@@ -161,7 +179,7 @@ namespace ActionsList
         private void AssingStress(object sender, System.EventArgs e)
         {
             Messages.ShowError("Maul: Get Stress token");
-            Host.AssignToken(new StressToken(), Triggers.FinishTrigger);
+            Host.Tokens.AssignToken(new StressToken(Host), Triggers.FinishTrigger);
         }
 
     }

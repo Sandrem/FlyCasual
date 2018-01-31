@@ -19,7 +19,8 @@ namespace CriticalHitCard
             Host.OnCombatPhaseStart += PlanRollForDamage;
             Host.AfterGenerateAvailableActionsList += AddCancelCritAction;
 
-            Host.AssignToken(new Tokens.ConsoleFireCritToken(), Triggers.FinishTrigger);
+            Host.Tokens.AssignCondition(new Tokens.ConsoleFireCritToken(Host));
+            Triggers.FinishTrigger();
         }
 
         private void PlanRollForDamage(Ship.GenericShip host)
@@ -47,7 +48,7 @@ namespace CriticalHitCard
 
         public override void DiscardEffect(Ship.GenericShip host)
         {
-            host.RemoveToken(typeof(Tokens.ConsoleFireCritToken));
+            host.Tokens.RemoveCondition(typeof(Tokens.ConsoleFireCritToken));
 
             host.OnCombatPhaseStart -= PlanRollForDamage;
 

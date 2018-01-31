@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Ship;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,7 +8,8 @@ namespace Tokens
 
     public class CritToken : GenericToken
     {
-        public CritToken() {
+        public CritToken(GenericShip host) : base(host)
+        {
             Name = "Critical Hit Token";
             Temporary = false;
         }
@@ -15,7 +17,7 @@ namespace Tokens
 
     public class BlindedPilotCritToken : CritToken
     {
-        public BlindedPilotCritToken() : base()
+        public BlindedPilotCritToken(GenericShip host) : base(host)
         {
             Tooltip = "https://images-cdn.fantasyflightgames.com/filer_public/52/0d/520d9611-3a61-473d-8ebe-19c5659a9c6b/blinded-pilot.png";
         }
@@ -23,7 +25,7 @@ namespace Tokens
 
     public class ConsoleFireCritToken : CritToken
     {
-        public ConsoleFireCritToken() : base()
+        public ConsoleFireCritToken(GenericShip host) : base(host)
         {
             Tooltip = "http://i.imgur.com/RwtlPpG.jpg";
         }
@@ -31,7 +33,7 @@ namespace Tokens
 
     public class DamagedCockpitCritToken : CritToken
     {
-        public DamagedCockpitCritToken() : base()
+        public DamagedCockpitCritToken(GenericShip host) : base(host)
         {
             Tooltip = "http://i.imgur.com/bNfmyKe.png";
         }
@@ -39,7 +41,7 @@ namespace Tokens
 
     public class DirectHitCritToken : CritToken
     {
-        public DirectHitCritToken() : base()
+        public DirectHitCritToken(GenericShip host) : base(host)
         {
             Tooltip = "http://i.imgur.com/fjvsKRq.jpg";
         }
@@ -47,7 +49,7 @@ namespace Tokens
 
     public class DamagedEngineCritToken : CritToken
     {
-        public DamagedEngineCritToken() : base()
+        public DamagedEngineCritToken(GenericShip host) : base(host)
         {
             Tooltip = "http://i.imgur.com/79SQIjR.jpg";
         }
@@ -55,7 +57,7 @@ namespace Tokens
 
     public class DamagedSensorArrayCritToken : CritToken
     {
-        public DamagedSensorArrayCritToken() : base()
+        public DamagedSensorArrayCritToken(GenericShip host) : base(host)
         {
             Tooltip = "https://vignette1.wikia.nocookie.net/xwing-miniatures/images/6/61/Damaged-sensor-array.png";
         }
@@ -63,7 +65,7 @@ namespace Tokens
 
     public class LooseStabilizerCritToken : CritToken
     {
-        public LooseStabilizerCritToken() : base()
+        public LooseStabilizerCritToken(GenericShip host) : base(host)
         {
             Tooltip = "http://vignette4.wikia.nocookie.net/xwing-miniatures/images/d/db/Loose-stabilizer.png";
         }
@@ -71,7 +73,7 @@ namespace Tokens
 
     public class MajorExplosionCritToken : CritToken
     {
-        public MajorExplosionCritToken() : base()
+        public MajorExplosionCritToken(GenericShip host) : base(host)
         {
             Tooltip = "https://vignette3.wikia.nocookie.net/xwing-miniatures/images/a/ab/Major-explosion.png";
         }
@@ -79,7 +81,7 @@ namespace Tokens
 
     public class MajorHullBreachCritToken : CritToken
     {
-        public MajorHullBreachCritToken() : base()
+        public MajorHullBreachCritToken(GenericShip host) : base(host)
         {
             Tooltip = "https://vignette1.wikia.nocookie.net/xwing-miniatures/images/f/f3/Major-hull-breach.png";
         }
@@ -87,7 +89,7 @@ namespace Tokens
 
     public class ShakenPilotCritToken : CritToken
     {
-        public ShakenPilotCritToken() : base()
+        public ShakenPilotCritToken(GenericShip host) : base(host)
         {
             Tooltip = "http://vignette3.wikia.nocookie.net/xwing-miniatures/images/c/cf/Shaken-pilot.png";
         }
@@ -95,7 +97,7 @@ namespace Tokens
 
     public class StructuralDamageCritToken : CritToken
     {
-        public StructuralDamageCritToken() : base()
+        public StructuralDamageCritToken(GenericShip host) : base(host)
         {
             Tooltip = "https://images-cdn.fantasyflightgames.com/filer_public/9b/2e/9b2ed16f-eaa5-4b3c-a9b5-682d5fb9cb2e/structural-damage-card.png";
         }
@@ -103,7 +105,7 @@ namespace Tokens
 
     public class StunnedPilotCritToken : CritToken
     {
-        public StunnedPilotCritToken() : base()
+        public StunnedPilotCritToken(GenericShip host) : base(host)
         {
             Tooltip = "http://i.imgur.com/2ULmZZX.jpg";
         }
@@ -111,7 +113,7 @@ namespace Tokens
 
     public class WeaponsFailureCritToken : CritToken
     {
-        public WeaponsFailureCritToken() : base()
+        public WeaponsFailureCritToken(GenericShip host) : base(host)
         {
             Tooltip = "https://vignette3.wikia.nocookie.net/xwing-miniatures/images/7/76/Swx36-weapons-failure.png";
         }

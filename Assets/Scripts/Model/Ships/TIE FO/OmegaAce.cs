@@ -69,7 +69,7 @@ namespace ActionsList
             bool result = false;
             if (Combat.AttackStep == CombatStep.Attack &&
                 Actions.HasTargetLockOn(Combat.Attacker, Combat.Defender) &&
-                Combat.Attacker.HasToken(typeof(FocusToken)))
+                Combat.Attacker.Tokens.HasToken(typeof(FocusToken)))
             {
                 result = true;
             }
@@ -88,12 +88,12 @@ namespace ActionsList
         private void payTargetLock()
         {
             char targetLockLetter = Actions.GetTargetLocksLetterPair(Combat.Attacker, Combat.Defender);
-            Combat.Attacker.SpendToken(typeof(BlueTargetLockToken), payFocus, targetLockLetter);            
+            Combat.Attacker.Tokens.SpendToken(typeof(BlueTargetLockToken), payFocus, targetLockLetter);            
         }
 
         private void payFocus()
         {
-            Combat.Attacker.SpendToken(typeof(FocusToken), execute);
+            Combat.Attacker.Tokens.SpendToken(typeof(FocusToken), execute);
         }
 
         private void execute()

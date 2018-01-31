@@ -47,8 +47,8 @@ namespace ActionsList
             int result = 0;
 
             int potentialEvades = 0;
-            if (Host.HasToken(typeof(Tokens.EvadeToken))) potentialEvades++;
-            int potentialDiceEvadeResults = (Host.HasToken(typeof(Tokens.FocusToken))) ? 5 : 3;
+            if (Host.Tokens.HasToken(typeof(Tokens.EvadeToken))) potentialEvades++;
+            int potentialDiceEvadeResults = (Host.Tokens.HasToken(typeof(Tokens.FocusToken))) ? 5 : 3;
             float averageDefenceDiceResult = Host.Agility * (potentialDiceEvadeResults/8);
             potentialEvades += Mathf.RoundToInt(averageDefenceDiceResult);
             if (Host.Hull <= Host.Hull / 2) potentialEvades--;
@@ -65,7 +65,7 @@ namespace ActionsList
         {
             bool result = false;
 
-            if (Combat.AttackStep == CombatStep.Attack && !Host.HasToken(typeof(Tokens.StressToken)))
+            if (Combat.AttackStep == CombatStep.Attack && !Host.Tokens.HasToken(typeof(Tokens.StressToken)))
             {
                 result = true;
             }
@@ -88,7 +88,7 @@ namespace ActionsList
 
         private void AssignStress(System.Action callBack)
         {
-            Host.AssignToken(new Tokens.StressToken(), callBack);
+            Host.Tokens.AssignToken(new Tokens.StressToken(Host), callBack);
         }
 
     }

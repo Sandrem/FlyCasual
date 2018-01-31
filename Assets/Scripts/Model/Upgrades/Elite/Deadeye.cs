@@ -30,7 +30,7 @@ namespace UpgradesList
         private void AddFocusTokenAsPayment(List<GenericToken> waysToPay)
         {
             GenericToken focus = null;
-            if (Host.HasToken(typeof(FocusToken))) focus = Host.GetToken(typeof(FocusToken));
+            if (Host.Tokens.HasToken(typeof(FocusToken))) focus = Host.Tokens.GetToken(typeof(FocusToken));
             if (focus != null) waysToPay.Add(focus);
         }
     }

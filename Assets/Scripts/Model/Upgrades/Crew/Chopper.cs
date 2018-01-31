@@ -32,7 +32,7 @@ namespace UpgradesList
 
         private void RegisterDoDamageIfStressed(ActionsList.GenericAction action)
         {
-            if (Host.HasToken(typeof(StressToken)) && (action != null))
+            if (Host.Tokens.HasToken(typeof(StressToken)) && (action != null))
             {
                 Triggers.RegisterTrigger(new Trigger()
                 {

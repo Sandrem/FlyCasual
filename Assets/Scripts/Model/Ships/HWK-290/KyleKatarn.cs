@@ -48,8 +48,10 @@ namespace Abilities
 
         private void Ability(object sender, EventArgs e)
         {
-            if (HostShip.Owner.Ships.Count > 1 && HostShip.HasToken(typeof(Tokens.FocusToken)))
+            if (HostShip.Owner.Ships.Count > 1 && HostShip.Tokens.HasToken(typeof(Tokens.FocusToken)))
             {
+                Messages.ShowInfoToHuman("Kyle Katarn: Select a ship to receive a Focus token");
+
                 SelectTargetForAbility(
                     SelectAbilityTarget,
                     new List<TargetTypes> { TargetTypes.OtherFriendly },
@@ -63,8 +65,15 @@ namespace Abilities
 
         private void SelectAbilityTarget()
         {
-            HostShip.RemoveToken(typeof(Tokens.FocusToken));
-            TargetShip.AssignToken(new Tokens.FocusToken(), SelectShipSubPhase.FinishSelection);           
+            HostShip.Tokens.RemoveToken(
+                typeof(Tokens.FocusToken),
+                delegate {
+                    TargetShip.Tokens.AssignToken(
+                        new Tokens.FocusToken(TargetShip),
+                        SelectShipSubPhase.FinishSelection
+                    );
+                }
+            );          
         }
     }
 }

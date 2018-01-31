@@ -104,10 +104,23 @@ namespace SubPhases
 
         private void DiscardFocusAndEvadeTokens(object sender, System.EventArgs e)
         {
-            Selection.ThisShip.RemoveToken(typeof(FocusToken), '*', true);
-            Selection.ThisShip.RemoveToken(typeof(EvadeToken), '*', true);
+            DiscardAllFocusTokens();
+        }
 
-            ConfirmDecision();
+        private void DiscardAllFocusTokens()
+        {
+            Selection.ThisShip.Tokens.RemoveAllTokensByType(
+                typeof(FocusToken),
+                DiscardAllEvadeTokens
+            );
+        }
+
+        private void DiscardAllEvadeTokens()
+        {
+            Selection.ThisShip.Tokens.RemoveAllTokensByType(
+                typeof(EvadeToken),
+                ConfirmDecision
+            );
         }
 
         private void SufferDamage(object sender, System.EventArgs e)

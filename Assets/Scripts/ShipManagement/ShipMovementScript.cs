@@ -133,7 +133,7 @@ public class ShipMovementScript : MonoBehaviour {
 
         UI.HideContextMenu();
 
-        Selection.ThisShip.CallActivateShip(LaunchMovementTrigger);
+        Selection.ThisShip.CallMovementActivation(LaunchMovementTrigger);
     }
 
     private static void LaunchMovementTrigger()

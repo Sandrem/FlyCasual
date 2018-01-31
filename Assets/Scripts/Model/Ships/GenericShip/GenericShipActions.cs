@@ -21,7 +21,7 @@ namespace Ship
         private     List<ActionsList.GenericAction> AlreadyExecutedOppositeActionEffects    = new List<ActionsList.GenericAction>();
 
         // EVENTS
-        public event EventHandlerShip OnActivateShip;
+        public event EventHandlerShip OnMovementActivation;
 
         public event EventHandlerShip AfterGenerateAvailableActionsList;
         public event EventHandlerActionBool OnTryAddAvailableAction;
@@ -58,11 +58,11 @@ namespace Ship
 
         // ACTIONS
 
-        public void CallActivateShip(Action callBack)
+        public void CallMovementActivation(Action callBack)
         {
-            if (OnActivateShip != null) OnActivateShip(this);
+            if (OnMovementActivation != null) OnMovementActivation(this);
 
-            Triggers.ResolveTriggers(TriggerTypes.OnActivateShip, callBack);
+            Triggers.ResolveTriggers(TriggerTypes.OnMovementActivation, callBack);
         }
 
         public void CallOnActionDecisionSubphaseEnd(Action callback)

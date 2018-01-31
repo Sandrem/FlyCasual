@@ -54,7 +54,7 @@ namespace UpgradesList
 
         private void UseHomingMissilesRestriction(ActionsList.GenericAction action, ref bool canBeUsed)
         {
-            if (action.IsSpendEvade)
+            if (action.TokensSpend.Contains(typeof(Tokens.EvadeToken)))
             {
                 Messages.ShowErrorToHuman("Homing Missiles: Cannot spend evade");
                 canBeUsed = false;

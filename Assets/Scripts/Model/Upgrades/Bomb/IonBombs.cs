@@ -49,22 +49,22 @@ namespace UpgradesList
         private void SufferIonBombTokens(object sender, EventArgs e)
         {
             
-            _ship.AssignToken(new Tokens.IonToken(),
-                delegate {
-                    Messages.ShowInfoToHuman(string.Format("{0}: Dealt first ion token to {1}", Name, _ship.PilotName));
-                }
+            _ship.AssignToken(new Tokens.IonToken(), SufferSecondIonBombToken
             );
-
-            _ship.AssignToken(new Tokens.IonToken(),
-            delegate {
-                Messages.ShowInfoToHuman(string.Format("{0}: Dealt second ion token to {1}", Name, _ship.PilotName));
-            }
-        );
-
-            _ship.ToggleIonized(true);
 
             Triggers.ResolveTriggers(TriggerTypes.OnTokenIsAssigned, Triggers.FinishTrigger);
 
+        }
+
+        private void SufferSecondIonBombToken()
+        {
+            _ship.AssignToken(new Tokens.IonToken(),
+                delegate {
+          Messages.ShowInfoToHuman(string.Format("{0}: Dealt second ion token to {1}", Name, _ship.PilotName));
+                }
+            );
+
+            _ship.ToggleIonized(true);
         }
 
         private void PlayDefferedSound(GameObject bombObject, Action callBack)

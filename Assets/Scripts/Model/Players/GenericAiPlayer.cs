@@ -80,8 +80,11 @@ namespace Players
         {
             Console.Write("AI is going to perform attack", LogTypes.AI);
 
-            SelectShipThatCanAttack();
+            SelectShipThatCanAttack(SelectTargetForAttack);
+        }
 
+        private void SelectTargetForAttack()
+        {
             Ship.GenericShip targetForAttack = null;
 
             // TODO: Fix bug with missing chosen weapon
@@ -134,7 +137,6 @@ namespace Players
                 Console.Write("Attack is skipped\n", LogTypes.AI, true, "yellow");
                 Phases.Next();
             }
-
         }
 
         private Ship.GenericShip SelectNearestTarget(Dictionary<Ship.GenericShip, float> enemyShips)
@@ -176,7 +178,7 @@ namespace Players
             return targetForAttack;
         }
 
-        private static void SelectShipThatCanAttack()
+        private static void SelectShipThatCanAttack(Action callback)
         {
             foreach (var shipHolder in Roster.GetPlayer(Phases.CurrentPhasePlayer).Ships)
             {
@@ -189,6 +191,15 @@ namespace Players
                         break;
                     }
                 }
+            }
+
+            if (Selection.ThisShip != null)
+            {
+                Selection.ThisShip.CallCombatActivation(callback);
+            }
+            else
+            {
+                callback();
             }
         }
 

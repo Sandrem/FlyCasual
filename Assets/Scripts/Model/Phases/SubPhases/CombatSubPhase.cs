@@ -265,12 +265,8 @@ namespace SubPhases
             {
                 // If selected ship can attack - skip attack only for this ship
 
-                Selection.ThisShip.CallCombatActivation(
-                    delegate {
-                        AfterSkippedCombatActivation(Selection.ThisShip);
-                        CheckNext();
-                    }
-                );
+                AfterSkippedCombatActivation(Selection.ThisShip);
+                CheckNext();
             }
 
         }
@@ -282,12 +278,19 @@ namespace SubPhases
                 GenericShip shipToSkipCombat = shipsToSkipCombat.First();
 
                 shipsToSkipCombat.Remove(shipToSkipCombat);
-                shipToSkipCombat.CallCombatActivation(
+
+                if (!shipToSkipCombat.IsAttackPerformed)
+                {
+                    shipToSkipCombat.CallCombatActivation(
                     delegate {
                         AfterSkippedCombatActivation(shipToSkipCombat);
                         SkipCombatByShips(shipsToSkipCombat, callback);
-                    }
-                );
+                    });
+                }
+                else
+                {
+                    SkipCombatByShips(shipsToSkipCombat, callback);
+                }
             }
             else
             {
@@ -301,6 +304,7 @@ namespace SubPhases
             ship.IsAttackPerformed = true;
 
             Selection.DeselectThisShip();
+            Selection.DeselectAnotherShip();
             ChangeSelectionMode(Team.Type.Friendly);
         }
 
@@ -333,6 +337,13 @@ namespace SubPhases
             {
                 UI.CheckFiringRangeAndShow();
             }
+        }
+
+        public override void Resume()
+        {
+            Selection.DeselectThisShip();
+            Selection.DeselectAnotherShip();
+            ChangeSelectionMode(Team.Type.Friendly);
         }
 
     }

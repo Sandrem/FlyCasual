@@ -54,7 +54,6 @@
 
             _ship.ToggleIonized(true);
 
-
             Triggers.ResolveTriggers(TriggerTypes.OnTokenIsAssigned, Triggers.FinishTrigger);
             
         }

@@ -12,6 +12,8 @@ namespace ActionsList
         public TargetLockAction()
         {
             Name = EffectName = "Target Lock";
+
+            TokensSpend.Add(typeof(Tokens.BlueTargetLockToken));
             IsReroll = true;
         }
 

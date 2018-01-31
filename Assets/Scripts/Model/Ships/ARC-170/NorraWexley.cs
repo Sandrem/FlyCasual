@@ -51,6 +51,8 @@ namespace Abilities
             public NorraWexleyAction()
             {
                 Name = EffectName = "Norra Wexley's ability";
+
+                TokensSpend.Add(typeof(Tokens.BlueTargetLockToken));
             }
 
             public override void ActionEffect(System.Action callBack)

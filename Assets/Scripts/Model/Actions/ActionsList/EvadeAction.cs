@@ -11,7 +11,7 @@ namespace ActionsList
         public EvadeAction() {
             Name = EffectName = "Evade";
 
-            IsSpendEvade = true;
+            TokensSpend.Add(typeof(Tokens.EvadeToken));
         }
 
         public override void ActionEffect(System.Action callBack)

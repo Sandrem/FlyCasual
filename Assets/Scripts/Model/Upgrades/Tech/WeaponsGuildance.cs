@@ -56,7 +56,7 @@ namespace ActionsList
         {
             Name = EffectName = "Weapons Guidance";
 
-            IsSpendFocus = true;
+            TokensSpend.Add(typeof(Tokens.FocusToken));
         }
 
         public override void ActionEffect(System.Action callBack)
@@ -71,7 +71,7 @@ namespace ActionsList
             Combat.CurrentDiceRoll.ChangeOne(DieSide.Blank, DieSide.Success);
             Combat.CurrentDiceRoll.OrganizeDicePositions();
 
-            Host.Tokens.RemoveToken(
+            Host.Tokens.SpendToken(
                 typeof(Tokens.FocusToken),
                 callBack
             );

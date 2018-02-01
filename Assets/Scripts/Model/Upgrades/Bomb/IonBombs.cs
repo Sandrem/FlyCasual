@@ -48,26 +48,16 @@
 
         private void SufferIonBombTokens(object sender, EventArgs e)
         {
-
-            _ship.Tokens.AssignToken(new Tokens.IonToken(_ship), SufferSecondIonBombToken
-             );
-
-            _ship.ToggleIonized(true);
-
-            Triggers.ResolveTriggers(TriggerTypes.OnTokenIsAssigned, Triggers.FinishTrigger);
-            
+            _ship.Tokens.AssignToken(new Tokens.IonToken(_ship), SufferSecondIonBombToken);
+   
         }
  
          private void SufferSecondIonBombToken()
          {
-      
-             _ship.Tokens.AssignToken(new Tokens.IonToken(_ship),
-            delegate {
-                 Messages.ShowInfoToHuman(string.Format("{0}: Dealt second ion token to {1}", Name, _ship.PilotName));
-             }
-         );
-  
-          }
+
+            Messages.ShowInfoToHuman(string.Format("{0}: Dealt second ion token to {1}", Name, _ship.PilotName));
+            _ship.Tokens.AssignToken(new Tokens.IonToken(_ship), Triggers.FinishTrigger);            
+        }
  
          private void PlayDefferedSound(GameObject bombObject, Action callBack)
          {

@@ -32,17 +32,17 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            GenericShip.OnTokenIsRemovedGlobal += CheckAbility;
+            HostShip.OnTokenIsRemoved += CheckAbility;
         }
 
         public override void DeactivateAbility()
         {
-            GenericShip.OnTokenIsRemovedGlobal -= CheckAbility;
+            HostShip.OnTokenIsRemoved -= CheckAbility;
         }
 
         private void CheckAbility(GenericShip ship, Type tokenType)
         {
-            if (HostShip == ship && tokenType == typeof(Tokens.StressToken))
+            if (tokenType == typeof(Tokens.StressToken))
             {
                 RegisterAbilityTrigger(TriggerTypes.OnTokenIsRemoved, AskAssignFocusToken);
             }

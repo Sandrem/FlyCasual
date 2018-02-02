@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using GameModes;
+using Ship;
 
 namespace SubPhases
 {
@@ -22,7 +23,7 @@ namespace SubPhases
 
         protected System.Action finishAction;
 
-        public Ship.GenericShip TargetShip;
+        public GenericShip TargetShip;
 
         public override void Start()
         {
@@ -54,34 +55,31 @@ namespace SubPhases
 
         public override void Initialize()
         {
-            Players.PlayerNo playerNo = Players.PlayerNo.Player1;
-            if (targetsAllowed.Contains(TargetTypes.OtherFriendly)) playerNo = Phases.CurrentPhasePlayer;
-            if (targetsAllowed.Contains(TargetTypes.Enemy)) playerNo = Roster.AnotherPlayer(Phases.CurrentPhasePlayer);
-            Roster.HighlightShipsFiltered(playerNo, -1, GenerateListOfExceptions());
+            Roster.HighlightShipsFiltered(FilterShipsToSelect);
         }
 
-        private List<Ship.GenericShip> GenerateListOfExceptions()
+        private bool FilterShipsToSelect(GenericShip ship)
         {
-            List<Ship.GenericShip> exceptShips = new List<Ship.GenericShip>();
+            bool result = false;
 
-            if (Selection.ThisShip != null)
+            // Allow by multiple TargetTypes
+
+            if (targetsAllowed.Contains(TargetTypes.Enemy) && ship.Owner.PlayerNo != RequiredPlayer) result = true;
+
+            if (targetsAllowed.Contains(TargetTypes.This) && ship.ShipId == Selection.ThisShip.ShipId) result = true;
+
+            if (targetsAllowed.Contains(TargetTypes.OtherFriendly) && ship.Owner.PlayerNo == RequiredPlayer && ship.ShipId != Selection.ThisShip.ShipId) result = true;
+
+            // Disallow by extra requirements
+
+            if (CanMeasureRangeBeforeSelection)
             {
-                if (targetsAllowed.Contains(TargetTypes.This)) exceptShips.Add(Selection.ThisShip);
-
-                foreach (var ship in Roster.AllShips)
-                {
-                    if ((targetsAllowed.Contains(TargetTypes.OtherFriendly) && ship.Value.Owner.PlayerNo == Selection.ThisShip.Owner.PlayerNo) || (targetsAllowed.Contains(TargetTypes.Enemy) && ship.Value.Owner.PlayerNo != Selection.ThisShip.Owner.PlayerNo))
-                    {
-                        Board.ShipDistanceInformation distanceInfo = new Board.ShipDistanceInformation(Selection.ThisShip, ship.Value);
-                        if ((distanceInfo.Range < minRange) || (distanceInfo.Range > maxRange))
-                        {
-                            exceptShips.Add(ship.Value);
-                        }
-                    }
-                }
+                Board.ShipDistanceInformation distanceInfo = new Board.ShipDistanceInformation(Selection.ThisShip, ship);
+                if (distanceInfo.Range < minRange) return false;
+                if (distanceInfo.Range > maxRange) return false;
             }
 
-            return exceptShips;
+            return result;
         }
 
         public override void Next()

@@ -65,7 +65,7 @@ namespace SubPhases
                 if (DebugManager.DebugPhases) Debug.Log("Attack time for: " + RequiredPlayer + ", skill " + RequiredPilotSkill);
 
                 UpdateHelpInfo();
-                HighlightShips();
+                Roster.HighlightShipsFiltered(FilterShipsToAssignManeuver);
                 Roster.GetPlayer(RequiredPlayer).PerformAttack();
             }
         }
@@ -167,7 +167,13 @@ namespace SubPhases
 
         public override void DoSelectThisShip(GenericShip ship, int mouseKeyIsPressed)
         {
+            Roster.HighlightShipsFiltered(FilterShipsToAttack);
             ship.CallCombatActivation(delegate { ChangeSelectionMode(Team.Type.Enemy); });
+        }
+
+        private bool FilterShipsToAttack(GenericShip ship)
+        {
+            return ship.Owner.PlayerNo != RequiredPlayer;
         }
 
         private void LockSelectionMode()
@@ -229,17 +235,9 @@ namespace SubPhases
             return result;
         }
 
-        private void HighlightShips()
+        private bool FilterShipsToAssignManeuver(GenericShip ship)
         {
-            Roster.AllShipsHighlightOff();
-            foreach (var ship in Roster.GetPlayer(RequiredPlayer).Ships)
-            {
-                if ((ship.Value.PilotSkill == RequiredPilotSkill) && (!ship.Value.IsAttackPerformed))
-                {
-                    ship.Value.HighlightCanBeSelectedOn();
-                    Roster.RosterPanelHighlightOn(ship.Value);
-                }
-            }
+            return ship.PilotSkill == RequiredPilotSkill && !ship.IsAttackPerformed && ship.Owner.PlayerNo == RequiredPlayer;
         }
 
         public override void SkipButton()

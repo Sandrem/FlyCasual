@@ -72,13 +72,13 @@ namespace Abilities
 
         private bool DoNearbyShipsHaveRedTargetLock(List<GenericShip> nearbyShips)
         {
-            return nearbyShips.Any(ship => ship.HasToken(typeof(Tokens.RedTargetLockToken), '*'));
+            return nearbyShips.Any(ship => ship.Tokens.HasToken(typeof(Tokens.RedTargetLockToken), '*'));
         }
 
         private List<Tokens.RedTargetLockToken> GetShipRedTargetLocks(GenericShip hostShip)
         {
             List<Tokens.RedTargetLockToken> redTargetLocks = new List<Tokens.RedTargetLockToken>();
-            foreach (Tokens.GenericToken token in hostShip.GetAllTokens())
+            foreach (Tokens.GenericToken token in hostShip.Tokens.GetAllTokens())
             {
                 if (token is Tokens.RedTargetLockToken)
                 {
@@ -90,7 +90,7 @@ namespace Abilities
 
         private void RemoveEnemyTargetLock()
         {
-            if (TargetShip.HasToken(typeof(Tokens.RedTargetLockToken), '*'))
+            if (TargetShip.Tokens.HasToken(typeof(Tokens.RedTargetLockToken), '*'))
             {
                 if (GetShipRedTargetLocks(TargetShip).Count > 1)
                 {
@@ -136,9 +136,12 @@ namespace Abilities
 
         private void RemoveRedTargetLock(char targetLockTokenLetter, Action callback)
         {
-            TargetShip.RemoveToken(typeof(Tokens.RedTargetLockToken), targetLockTokenLetter);
             Messages.ShowInfoToHuman(string.Format("Target Lock has been removed from {0}.", TargetShip.PilotName));
-            callback();            
+            TargetShip.Tokens.RemoveToken(
+                typeof(Tokens.RedTargetLockToken),
+                callback,
+                targetLockTokenLetter
+            );
         }
     }
 }

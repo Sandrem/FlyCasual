@@ -75,7 +75,7 @@ namespace RulesList
         {
             foreach (Ship.GenericShip ship in Roster.AllShips.Values)
             {
-                if (ship.HasToken(typeof(Tokens.CloakToken)))
+                if (ship.Tokens.HasToken(typeof(Tokens.CloakToken)))
                 {
                     Triggers.RegisterTrigger(new Trigger
                     {
@@ -625,7 +625,7 @@ namespace SubPhases
         {
             Phases.FinishSubPhase(typeof(DecloakExecutionSubPhase));
 
-            Selection.ThisShip.SpendToken(typeof(Tokens.CloakToken), CallBack);
+            Selection.ThisShip.Tokens.SpendToken(typeof(Tokens.CloakToken), CallBack);
         }
 
         public override void Next()

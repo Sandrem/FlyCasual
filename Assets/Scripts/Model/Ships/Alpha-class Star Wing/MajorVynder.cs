@@ -41,7 +41,7 @@ namespace Abilities
 
         private void IncreaseDefenceDiceNumber(ref int diceNumber)
         {
-            if (HostShip.HasToken(typeof(WeaponsDisabledToken))) diceNumber++;
+            if (HostShip.Tokens.HasToken(typeof(WeaponsDisabledToken))) diceNumber++;
         }
     }
 }

@@ -54,8 +54,8 @@ namespace ActionsList
 
         private void AssignWeaponsDisabledToken()
         {
-            Selection.ThisShip.AssignToken(
-                new Tokens.WeaponsDisabledToken(),
+            Selection.ThisShip.Tokens.AssignToken(
+                new Tokens.WeaponsDisabledToken(Selection.ThisShip),
                 Phases.CurrentSubPhase.CallBack
             );
         }

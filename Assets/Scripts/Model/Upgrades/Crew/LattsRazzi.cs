@@ -68,16 +68,18 @@ namespace ActionsList
             Messages.ShowInfo("Latts Razzi: Stress token is removed from the attacker to add 1 Evade result");
 
             Combat.CurrentDiceRoll.ApplyEvade();
-            Combat.Attacker.RemoveToken(typeof(StressToken));
 
-            callBack();
+            Combat.Attacker.Tokens.RemoveToken(
+                typeof(StressToken),
+                callBack
+            );
         }
 
         public override bool IsActionEffectAvailable()
         {
             bool result = false;
 
-            if (Combat.AttackStep == CombatStep.Defence && Combat.Attacker.HasToken(typeof(StressToken)))
+            if (Combat.AttackStep == CombatStep.Defence && Combat.Attacker.Tokens.HasToken(typeof(StressToken)))
             {
                 result = true;
             }
@@ -89,7 +91,7 @@ namespace ActionsList
         {
             int result = 0;
 
-            if (Combat.AttackStep == CombatStep.Defence && Combat.Attacker.HasToken(typeof(StressToken)))
+            if (Combat.AttackStep == CombatStep.Defence && Combat.Attacker.Tokens.HasToken(typeof(StressToken)))
             {
                 int attackSuccesses = Combat.DiceRollAttack.Successes;
                 int defenceSuccesses = Combat.DiceRollDefence.Successes;

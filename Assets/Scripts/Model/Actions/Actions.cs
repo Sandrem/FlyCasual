@@ -7,6 +7,7 @@ using ActionsList;
 using Ship;
 using System.ComponentModel;
 using Tokens;
+using System.Linq;
 
 public static partial class Actions
 {
@@ -62,36 +63,45 @@ public static partial class Actions
         ShipDistanceInformation distanceInfo = new ShipDistanceInformation(thisShip, targetShip);
         if (distanceInfo.Range >= thisShip.TargetLockMinRange && distanceInfo.Range <= thisShip.TargetLockMaxRange)
         {
-            GenericToken existingBlueToken = thisShip.GetToken(typeof(BlueTargetLockToken), '*');
+            GenericToken existingBlueToken = thisShip.Tokens.GetToken(typeof(BlueTargetLockToken), '*');
             if (existingBlueToken != null)
             {
-                thisShip.RemoveToken(typeof(BlueTargetLockToken), (existingBlueToken as BlueTargetLockToken).Letter);
+                thisShip.Tokens.RemoveToken(
+                    existingBlueToken,
+                    delegate { FinishAssignTargetLockPair(thisShip, targetShip, successCallback); }
+                );
             }
-
-            BlueTargetLockToken tokenBlue = new BlueTargetLockToken();
-            RedTargetLockToken tokenRed = new RedTargetLockToken();
-
-            char letter = GetFreeTargetLockLetter();
-
-            tokenBlue.Letter = letter;
-            tokenBlue.OtherTokenOwner = targetShip;
-
-            tokenRed.Letter = letter;
-            tokenRed.OtherTokenOwner = Selection.ThisShip;
-
-            TakeTargetLockLetter(letter);
-
-            targetShip.AssignToken(
-                tokenRed,
-                delegate{
-                    thisShip.AssignToken(tokenBlue, successCallback);
-                } );
+            else
+            {
+                FinishAssignTargetLockPair(thisShip, targetShip, successCallback);
+            }
         }
         else
         {
             Messages.ShowErrorToHuman("Target is out of range of Target Lock");
             failureCallback();
         }
+    }
+
+    private static void FinishAssignTargetLockPair(GenericShip thisShip, GenericShip targetShip, Action callback)
+    {
+        BlueTargetLockToken tokenBlue = new BlueTargetLockToken(thisShip);
+        RedTargetLockToken tokenRed = new RedTargetLockToken(targetShip);
+
+        char letter = GetFreeTargetLockLetter();
+
+        tokenBlue.Letter = letter;
+        tokenBlue.OtherTokenOwner = targetShip;
+
+        tokenRed.Letter = letter;
+        tokenRed.OtherTokenOwner = thisShip;
+
+        TakeTargetLockLetter(letter);
+
+        targetShip.Tokens.AssignToken(
+            tokenRed,
+            delegate { thisShip.Tokens.AssignToken(tokenBlue, callback); }
+        );
     }
 
     private static void InitializeTargetLockLetters()
@@ -127,7 +137,7 @@ public static partial class Actions
 
     public static char GetTargetLocksLetterPair(GenericShip thisShip, GenericShip targetShip)
     {
-        return thisShip.GetTargetLockLetterPair(targetShip);
+        return thisShip.Tokens.GetTargetLockLetterPair(targetShip);
     }
 
     private static void TakeTargetLockLetter(char takenLetter)
@@ -286,11 +296,12 @@ public static partial class Actions
 
         if (simpleTokens.Contains(tokenToReassign.GetType()))
         {
-            fromShip.RemoveToken(tokenToReassign.GetType());
-            toShip.AssignToken(
-                (GenericToken) Activator.CreateInstance(tokenToReassign.GetType()),
-                callBack
-            );
+            GenericToken tokenToAssign = (GenericToken)Activator.CreateInstance(tokenToReassign.GetType());
+            fromShip.Tokens.RemoveToken(
+                tokenToReassign.GetType(),
+                delegate {
+                    toShip.Tokens.AssignToken(tokenToAssign, callBack);
+                });
         }
         else
         {
@@ -306,41 +317,82 @@ public static partial class Actions
 
     public static void ReassignTargetLockToken(char letter, GenericShip oldOwner, GenericShip newOwner, Action callback)
     {
-        GenericTargetLockToken assignedTargetLockToken = oldOwner.GetTargetLockToken(letter);
+        GenericTargetLockToken assignedTargetLockToken = oldOwner.Tokens.GetTargetLockToken(letter);
 
         if (assignedTargetLockToken != null)
         {
-            Type oppositeType = null;
             if (assignedTargetLockToken.GetType() == typeof(BlueTargetLockToken))
             {
-                oppositeType = typeof(RedTargetLockToken);
                 char existingTlOnSameTarget = GetTargetLocksLetterPair(newOwner, assignedTargetLockToken.OtherTokenOwner);
                 if (existingTlOnSameTarget != ' ')
                 {
-                    newOwner.RemoveToken(typeof(BlueTargetLockToken), existingTlOnSameTarget);
+                    newOwner.Tokens.RemoveToken(
+                        typeof(BlueTargetLockToken),
+                        delegate { FinishReassignToken(letter, oldOwner, newOwner, callback); },
+                        existingTlOnSameTarget
+                    );
+                }
+                else
+                {
+                    FinishReassignToken(letter, oldOwner, newOwner, callback);
                 }
             }
             else
             {
-                oppositeType = typeof(BlueTargetLockToken);
                 char existingTlOnSameTarget = GetTargetLocksLetterPair(assignedTargetLockToken.OtherTokenOwner, newOwner);
                 if (existingTlOnSameTarget != ' ')
                 {
-                    newOwner.RemoveToken(typeof(RedTargetLockToken), existingTlOnSameTarget);
+                    newOwner.Tokens.RemoveToken(
+                        typeof(RedTargetLockToken),
+                        delegate { FinishReassignToken(letter, oldOwner, newOwner, callback); },
+                        existingTlOnSameTarget
+                    );
+                }
+                else
+                {
+                    FinishReassignToken(letter, oldOwner, newOwner, callback);
                 }
             }
-
-            oldOwner.RemoveToken(assignedTargetLockToken);
-
-            var otherToken = assignedTargetLockToken.OtherTokenOwner.GetToken(oppositeType, letter) as GenericTargetLockToken;
-
-            otherToken.OtherTokenOwner = newOwner;
-            newOwner.AssignToken(assignedTargetLockToken, callback, letter);
         }
         else
         {
             Messages.ShowError("ERROR: No such token to reassign!");
             callback();
+        }
+    }
+
+    private static void FinishReassignToken(char letter, GenericShip oldOwner, GenericShip newOwner, Action callback)
+    {
+        GenericTargetLockToken assignedTargetLockToken = oldOwner.Tokens.GetTargetLockToken(letter);
+        Type oppositeType = (assignedTargetLockToken is BlueTargetLockToken) ? typeof(RedTargetLockToken) : typeof(BlueTargetLockToken);
+
+        oldOwner.Tokens.RemoveCondition(assignedTargetLockToken);
+
+        var otherToken = assignedTargetLockToken.OtherTokenOwner.Tokens.GetToken(oppositeType, letter) as GenericTargetLockToken;
+
+        otherToken.OtherTokenOwner = newOwner;
+        newOwner.Tokens.AssignToken(assignedTargetLockToken, callback, letter);
+    }
+
+    public static void RemoveTokens(List<GenericToken> tokensList, Action callback)
+    {
+        if (tokensList.Count == 0)
+        {
+            callback();
+        }
+        else if (tokensList.Count == 1)
+        {
+            GenericToken tokenToRemove = tokensList.First();
+            tokenToRemove.Host.Tokens.RemoveToken(tokenToRemove, callback);
+        }
+        else
+        {
+            GenericToken tokenToRemove = tokensList.First();
+            tokensList.Remove(tokenToRemove);
+            tokenToRemove.Host.Tokens.RemoveToken(
+                tokenToRemove,
+                delegate { RemoveTokens(tokensList, callback); }
+            );
         }
     }
 

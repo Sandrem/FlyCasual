@@ -51,7 +51,7 @@ namespace Abilities
 		private void StartSubphaseForWesJansonPilotAbility(object sender, System.EventArgs e)
         {
             //grab a list of tokens that wes can remove
-            var wes_list = Combat.Defender.GetAssignedTokens()
+            var wes_list = Combat.Defender.Tokens.GetAllTokens()
                .Where(t => t is Tokens.BlueTargetLockToken || t is Tokens.FocusToken || t is Tokens.EvadeToken)
                .ToList();
 
@@ -115,7 +115,7 @@ namespace Abilities
             //remove the chosen token
             Messages.ShowInfo(string.Format("{0} removed {1} from {2}", HostShip.PilotName, token.Name, Combat.Defender.PilotName));
             
-            Combat.Defender.RemoveToken(token);
+            Combat.Defender.Tokens.RemoveCondition(token);
 			DecisionSubPhase.ConfirmDecision();
         }
 		

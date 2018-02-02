@@ -13,8 +13,7 @@ public static partial class Phases
 
     public static GenericPhase CurrentPhase { get; set; }
     public static GenericSubPhase CurrentSubPhase { get; set; }
-
-    private static bool inTemporarySubPhase;
+    
     public static bool InTemporarySubPhase
     {
         get { return CurrentSubPhase.IsTemporary; }
@@ -22,7 +21,6 @@ public static partial class Phases
 
     public static PlayerNo PlayerWithInitiative = PlayerNo.Player1;
 
-    private static PlayerNo currentPhasePlayer;
     public static PlayerNo CurrentPhasePlayer
     {
         get { return CurrentSubPhase.RequiredPlayer; }
@@ -173,9 +171,11 @@ public static partial class Phases
         Triggers.ResolveTriggers(TriggerTypes.OnEndPhaseStart, callBack);
     }
 
-    public static void CallRoundEndTrigger()
+    public static void CallRoundEndTrigger(Action callback)
     {
         if (OnRoundEnd != null) OnRoundEnd();
+
+        Triggers.ResolveTriggers(TriggerTypes.OnRoundEnd, callback);
     }
 
     public static void CallBeforeActionSubPhaseTrigger()

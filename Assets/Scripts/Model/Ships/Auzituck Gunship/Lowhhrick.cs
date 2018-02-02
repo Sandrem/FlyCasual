@@ -53,6 +53,9 @@ namespace Abilities
             public DiceModificationAction()
             {
                 Name = EffectName = "Lowhhrick's ability";
+
+                TokensSpend.Add(typeof(ReinforceForeToken));
+                TokensSpend.Add(typeof(ReinforceAftToken));
             }
 
             public override bool IsActionEffectAvailable()

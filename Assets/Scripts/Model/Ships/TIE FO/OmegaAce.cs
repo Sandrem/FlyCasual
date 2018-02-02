@@ -55,6 +55,9 @@ namespace ActionsList
         public OmegaAceAbilityAction()
         {
             Name = EffectName = "\"Omega Ace\" ability";
+
+            TokensSpend.Add(typeof(BlueTargetLockToken));
+            TokensSpend.Add(typeof(FocusToken));
         }
 
         public override int GetActionEffectPriority()

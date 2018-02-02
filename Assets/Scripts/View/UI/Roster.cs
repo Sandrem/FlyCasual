@@ -6,6 +6,7 @@ using UnityEngine.EventSystems;
 using Players;
 using System.Linq;
 using Ship;
+using System;
 
 public static partial class Roster {
 
@@ -481,8 +482,9 @@ public static partial class Roster {
         }
     }
 
-    public static void RosterPanelHighlightOn(GenericShip ship)
+    private static void RosterPanelHighlightOn(GenericShip ship)
     {
+        ship.HighlightCanBeSelectedOn();
         ship.InfoPanel.transform.Find("ShipInfo").GetComponent<Animator>().enabled = true;
     }
 

@@ -85,7 +85,7 @@ namespace Players
             }
 
             //TODO: except non-legal targets, bupmed for example, biggs?
-            Roster.HighlightShipsFiltered(Roster.AnotherPlayer(Phases.CurrentPhasePlayer));
+            Roster.HighlightShipsFiltered(FilterShipsToAttack);
 
             UI.ShowSkipButton();
             UI.HighlightNextButton();
@@ -96,6 +96,11 @@ namespace Players
             }
         }
 
+        private bool FilterShipsToAttack(GenericShip ship)
+        {
+            return ship.Owner.PlayerNo != Phases.CurrentSubPhase.RequiredPlayer;
+        }
+
         public override void ChangeManeuver(Action<string> callback, Func<string, bool> filter = null)
         {
             DirectionsMenu.Show(callback, filter);
@@ -104,6 +109,11 @@ namespace Players
         public override void SelectManeuver(Action<string> callback, Func<string, bool> filter = null)
         {
             DirectionsMenu.Show(callback, filter);
+        }
+
+        public override void SelectShipForAbility()
+        {
+            (Phases.CurrentSubPhase as SubPhases.SelectShipSubPhase).HighlightShipsToSelect();
         }
 
     }

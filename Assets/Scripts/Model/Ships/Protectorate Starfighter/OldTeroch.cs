@@ -55,7 +55,7 @@ namespace Abilities
 			if (Board.BoardManager.GetShipsAtRange (HostShip, new Vector2 (1, 1), Team.Type.Enemy).Count >= 1) {
 				// Available selection are only within Range 1.
 				// TODO : build the list if the enemy can fire to the ship
-				SelectTargetForAbility (ActivateOldTerochAbility, new List<TargetTypes> () { TargetTypes.Enemy }, new Vector2 (1, 1), null, true);
+				SelectTargetForAbilityOld (ActivateOldTerochAbility, new List<TargetTypes> () { TargetTypes.Enemy }, new Vector2 (1, 1), null, true);
 			} else {
 				// no enemy in range
 				Triggers.FinishTrigger ();

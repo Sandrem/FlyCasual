@@ -5,6 +5,7 @@ using UnityEngine;
 using Players;
 using Ship;
 using SquadBuilderNS;
+using System;
 
 public static partial class Roster
 {
@@ -261,22 +262,16 @@ public static partial class Roster
 
     // NEW
 
-    public static void HighlightShipsFiltered(PlayerNo playerNo, int pilotSkill = -1, List<GenericShip> exceptShips = null)
+    public static void HighlightShipsFiltered(Func<GenericShip, bool> filter)
     {
-        if (exceptShips == null) exceptShips = new List<GenericShip>();
-
         AllShipsHighlightOff();
-        foreach (var ship in GetPlayer(playerNo).Ships)
-        {
-            if (!exceptShips.Contains(ship.Value))
-            {
-                if ((pilotSkill == -1) || (ship.Value.PilotSkill == pilotSkill))
-                {
-                    ship.Value.HighlightCanBeSelectedOn();
-                    RosterPanelHighlightOn(ship.Value);
-                }
-            }
 
+        foreach (GenericShip ship in Roster.AllShips.Values)
+        {
+            if (filter(ship))
+            {
+                RosterPanelHighlightOn(ship);
+            }
         }
     }
 

@@ -155,7 +155,6 @@ public static class Selection {
         ThisShip.ToggleCollisionDetection(true);
         Roster.MarkShip(ThisShip, Color.green);
         ThisShip.HighlightThisSelected();
-        if (Phases.CurrentSubPhase.GetType() == typeof(SubPhases.CombatSubPhase)) Roster.HighlightShipsFiltered(Roster.AnotherPlayer(Phases.CurrentPhasePlayer));
     }
 
     private static void DoSelectThisShip(int mouseKeyIsPressed)

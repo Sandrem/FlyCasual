@@ -48,7 +48,7 @@ namespace Abilities
         {
             if (HostShip.Owner.Ships.Count > 1)
             {
-                SelectTargetForAbility(
+                SelectTargetForAbilityOld(
                     SelectAbilityTarget, 
                     new List<TargetTypes> { TargetTypes.OtherFriendly }, 
                     new UnityEngine.Vector2(1, 3),

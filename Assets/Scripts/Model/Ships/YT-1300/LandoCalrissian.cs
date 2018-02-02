@@ -56,7 +56,7 @@ namespace Abilities
 
         private void LandoCalrissianPilotAbility(object sender, System.EventArgs e)
         {
-            SelectTargetForAbility(
+            SelectTargetForAbilityOld(
                 GrantFreeAction,
                 new List<TargetTypes>() {TargetTypes.OtherFriendly},
                 new Vector2(1, 1)

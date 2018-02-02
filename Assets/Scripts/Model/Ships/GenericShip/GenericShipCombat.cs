@@ -169,6 +169,9 @@ namespace Ship
         public event EventHandler2Ships OnCanAttackBumpedTarget;
         public static event EventHandler2Ships OnCanAttackBumpedTargetGlobal;
 
+        public event EventHandlerShip OnCombatActivation;
+        public static event EventHandlerShip OnCombatActivationGlobal;
+
         // TRIGGERS
 
         public void CallOnActivationPhaseStart()
@@ -350,6 +353,16 @@ namespace Ship
             if (OnCombatCheckExtraAttack != null) OnCombatCheckExtraAttack();
 
             Triggers.ResolveTriggers(TriggerTypes.OnCombatCheckExtraAttack, callback);
+        }
+
+        public void CallCombatActivation(Action callback)
+        {
+            Messages.ShowInfo("Ship is activated! " + this.ShipId);
+
+            if (OnCombatActivation != null) OnCombatActivation(this);
+            if (OnCombatActivationGlobal != null) OnCombatActivationGlobal(this);
+
+            Triggers.ResolveTriggers(TriggerTypes.OnCombatActivation, callback);
         }
 
         // DICE

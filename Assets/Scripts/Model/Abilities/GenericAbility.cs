@@ -4,6 +4,7 @@ using Ship;
 using SubPhases;
 using UnityEngine;
 using Upgrade;
+using Players;
 
 namespace Abilities
 {
@@ -131,7 +132,7 @@ namespace Abilities
 
         protected GenericShip TargetShip;
 
-        protected void SelectTargetForAbility(System.Action selectTargetAction, List<TargetTypes> targetTypes, Vector2 rangeLimits, Action callback = null, bool showSkipButton = true)
+        protected void SelectTargetForAbilityOld(System.Action selectTargetAction, List<TargetTypes> targetTypes, Vector2 rangeLimits, Action callback = null, bool showSkipButton = true)
         {
             if (callback == null) callback = Triggers.FinishTrigger;
 
@@ -143,7 +144,7 @@ namespace Abilities
                 callback
             );
 
-            selectTargetSubPhase.PrepareByParameters(
+            selectTargetSubPhase.PrepareByParametersOld(
                 delegate { SelectShipForAbility(selectTargetAction); },
                 targetTypes,
                 rangeLimits,
@@ -151,6 +152,56 @@ namespace Abilities
             );
 
             selectTargetSubPhase.Start();
+        }
+
+        protected void SelectTargetForAbilityNew(Action selectTargetAction, Func<GenericShip, bool> filterTargets, Func<GenericShip, int> getAiPriority, PlayerNo subphaseOwnerPlayerNo, bool showSkipButton = true, Action customCallback = null)
+        {
+            if (customCallback == null) customCallback = Triggers.FinishTrigger;
+
+            Selection.ThisShip = HostShip;
+
+            SelectShipSubPhase selectTargetSubPhase = (SelectShipSubPhase)Phases.StartTemporarySubPhaseNew(
+                "Select target for " + Name,
+                typeof(AbilitySelectTarget),
+                customCallback
+            );
+
+            selectTargetSubPhase.PrepareByParametersNew(
+                delegate { SelectShipForAbility(selectTargetAction); },
+                filterTargets,
+                getAiPriority,
+                subphaseOwnerPlayerNo,
+                showSkipButton
+            );
+
+            selectTargetSubPhase.Start();
+        }
+
+        protected bool FilterByTargetType(GenericShip ship, List<TargetTypes> targetTypes)
+        {
+            bool result = false;
+
+            if (targetTypes.Contains(TargetTypes.Enemy) && ship.Owner.PlayerNo != Selection.ThisShip.Owner.PlayerNo) result = true;
+
+            if (targetTypes.Contains(TargetTypes.This) && ship.ShipId == Selection.ThisShip.ShipId) result = true;
+
+            if (targetTypes.Contains(TargetTypes.OtherFriendly) && ship.Owner.PlayerNo == Selection.ThisShip.Owner.PlayerNo && ship.ShipId != Selection.ThisShip.ShipId) result = true;
+
+            return result;
+        }
+
+        protected bool FilterTargetsByRange(GenericShip ship, int minRange, int maxRange)
+        {
+            bool result = true;
+
+            if ((Phases.CurrentSubPhase as SelectShipSubPhase).CanMeasureRangeBeforeSelection)
+            {
+                Board.ShipDistanceInformation distanceInfo = new Board.ShipDistanceInformation(Selection.ThisShip, ship);
+                if (distanceInfo.Range < minRange) return false;
+                if (distanceInfo.Range > maxRange) return false;
+            }
+
+            return result;
         }
 
         private void SelectShipForAbility(System.Action selectTargetAction)

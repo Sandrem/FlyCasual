@@ -52,7 +52,7 @@ namespace Abilities
 
         private void UseDarkCurseRestriction(ActionsList.GenericAction action, ref bool canBeUsed)
         {
-            if (action.IsSpendFocus)
+            if (action.TokensSpend.Contains(typeof(Tokens.FocusToken)))
             {
                 Messages.ShowErrorToHuman("Dark Curse: Cannot spend focus");
                 canBeUsed = false;

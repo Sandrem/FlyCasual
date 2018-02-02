@@ -15,9 +15,7 @@ namespace ActionsList
 
         public bool IsCritCancelAction;
 
-        public bool IsSpendFocus;
-        public bool IsSpendEvade;
-        public bool IsSpendTargetLock;
+        public List<System.Type> TokensSpend = new List<System.Type>();
 
         public bool IsReroll;
 

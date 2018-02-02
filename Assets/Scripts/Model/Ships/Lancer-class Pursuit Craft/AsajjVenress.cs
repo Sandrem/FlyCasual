@@ -5,6 +5,7 @@ using UnityEngine;
 using SubPhases;
 using Board;
 using Abilities;
+using System.Linq;
 
 namespace Ship
 {
@@ -45,8 +46,7 @@ namespace Abilities
 
         private void TryRegisterAsajjVentressPilotAbility()
         {
-            //TODO: Stop after at least one is found
-            if (BoardManager.GetShipsAtRange(HostShip, new Vector2(1, 2), Team.Type.Enemy).Count > 0)
+            if (TargetsForAbilityExist(FilterTargetsOfAbility))
             {
                 RegisterAbilityTrigger(TriggerTypes.OnCombatPhaseStart, AskSelectShip);
             }

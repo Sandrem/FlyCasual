@@ -5,6 +5,7 @@ using SubPhases;
 using UnityEngine;
 using Upgrade;
 using Players;
+using System.Linq;
 
 namespace Abilities
 {
@@ -202,6 +203,11 @@ namespace Abilities
             }
 
             return result;
+        }
+
+        protected bool TargetsForAbilityExist(Func<GenericShip, bool> filter)
+        {
+            return Roster.AllShips.Values.First(n => filter(n)) != null;
         }
 
         private void SelectShipForAbility(System.Action selectTargetAction)

@@ -52,7 +52,7 @@ namespace Abilities
             {
                 Messages.ShowInfoToHuman("Kyle Katarn: Select a ship to receive a Focus token");
 
-                SelectTargetForAbility(
+                SelectTargetForAbilityOld(
                     SelectAbilityTarget,
                     new List<TargetTypes> { TargetTypes.OtherFriendly },
                     new UnityEngine.Vector2(1, 3));

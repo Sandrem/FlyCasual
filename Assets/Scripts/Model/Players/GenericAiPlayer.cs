@@ -416,6 +416,11 @@ namespace Players
 
             UI.SkipButtonEffect();
         }
+
+        public override void SelectShipForAbility()
+        {
+            (Phases.CurrentSubPhase as SubPhases.SelectShipSubPhase).AiSelectPrioritizedTarget();
+        }
     }
 
 }

@@ -64,7 +64,7 @@ namespace Abilities
 
         private void SelectTargetForRemoveTargetLock(object sender, EventArgs e)
         {
-            SelectTargetForAbility(
+            SelectTargetForAbilityOld(
                 RemoveEnemyTargetLock,
                 new List<TargetTypes> { TargetTypes.This, TargetTypes.OtherFriendly },
                 new Vector2(1, 1));

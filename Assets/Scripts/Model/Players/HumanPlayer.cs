@@ -111,6 +111,11 @@ namespace Players
             DirectionsMenu.Show(callback, filter);
         }
 
+        public override void SelectShipForAbility()
+        {
+            (Phases.CurrentSubPhase as SubPhases.SelectShipSubPhase).HighlightShipsToSelect();
+        }
+
     }
 
 }

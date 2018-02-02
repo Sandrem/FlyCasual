@@ -54,7 +54,35 @@ namespace Abilities
 
         private void AskSelectShip(object sender, System.EventArgs e)
         {
-            SelectTargetForAbility(CheckAssignStress, new List<TargetTypes>() { TargetTypes.Enemy }, new Vector2(1, 2), null, true);
+            SelectTargetForAbilityNew(
+                CheckAssignStress,
+                FilterTargetsOfAbility,
+                GetAiPriorityOfTarget,
+                HostShip.Owner.PlayerNo
+            );
+        }
+
+        private bool FilterTargetsOfAbility(GenericShip ship)
+        {
+            return FilterByTargetType(ship, new List<TargetTypes>() { TargetTypes.Enemy }) && FilterTargetsByRange(ship, 1, 2) && FilterTargetInMobileFiringArc(ship);
+        }
+
+        private int GetAiPriorityOfTarget(GenericShip ship)
+        {
+            int priority = 50;
+
+            priority += (ship.Tokens.CountTokensByType(typeof(Tokens.StressToken)) * 25);
+            priority += (ship.Agility * 5);
+
+            if (ship.CanPerformActionsWhileStressed && ship.CanPerformRedManeuversWhileStressed) priority = 10;
+
+            return priority;
+        }
+
+        private bool FilterTargetInMobileFiringArc(GenericShip ship)
+        {
+            ShipShotDistanceInformation shotInfo = new ShipShotDistanceInformation(HostShip, ship);
+            return shotInfo.InMobileArc;
         }
 
         private void CheckAssignStress()

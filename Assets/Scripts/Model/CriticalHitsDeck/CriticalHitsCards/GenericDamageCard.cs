@@ -20,7 +20,6 @@ namespace DamageDeckCard
         public string Name;
         public CriticalCardType Type;
         public bool IsFaceup;
-        public int DamageValue { get; protected set; }
 
         public List<DieSide> CancelDiceResults = new List<DieSide>();
 
@@ -31,12 +30,19 @@ namespace DamageDeckCard
             set { imageUrl = value; }
         }
 
+        private int damageValue;
+        public int DamageValue
+        {
+            get { return (IsFaceup) ? damageValue : 1; }
+            protected set { damageValue = value; }
+        }
+
         public GenericDamageCard()
         {
             DamageValue = 1;
         }
 
-        public void Assign(GenericShip host)
+        public void Assign(GenericShip host, Action callback)
         {
             Host = host;
 
@@ -50,11 +56,11 @@ namespace DamageDeckCard
                     EventHandler = ApplyEffect
                 });
 
-                Triggers.ResolveTriggers(TriggerTypes.OnFaceupCritCardIsDealt, Triggers.FinishTrigger);
+                Triggers.ResolveTriggers(TriggerTypes.OnFaceupCritCardIsDealt, callback);
             }
             else
             {
-                Triggers.FinishTrigger();
+                callback();
             }
         }
 

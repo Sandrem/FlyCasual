@@ -63,7 +63,7 @@ namespace Ship
 
         public int Hull
         {
-            get { return MaxHull - Damage.CountAssignedDamage(); }
+            get { return Mathf.Max(0, MaxHull - Damage.CountAssignedDamage()); }
         }
 
 

@@ -61,8 +61,10 @@ namespace Ship
             if (Combat.CurrentCriticalHitCard != null)
             {
                 DamageCards.Add(Combat.CurrentCriticalHitCard);
-                Combat.CurrentCriticalHitCard.Assign(Host);
-                Host.CallHullValueIsDecreased(Triggers.FinishTrigger);
+                Combat.CurrentCriticalHitCard.Assign(
+                    Host,
+                    delegate { Host.CallHullValueIsDecreased(Triggers.FinishTrigger); }
+                );
             }
             else
             {

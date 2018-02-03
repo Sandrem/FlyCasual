@@ -439,10 +439,10 @@ namespace Ship
 
             if (DebugManager.DebugAllDamageIsCrits) isFaceup = true;
 
-            DamageDecks.DrawDamageCard(Owner.PlayerNo, isFaceup, ProcessDrawnDamageCard);
+            DamageDecks.DrawDamageCard(Owner.PlayerNo, isFaceup, ProcessDrawnDamageCard, e);
         }
 
-        private void ProcessDrawnDamageCard(GenericDamageCard damageCard)
+        private void ProcessDrawnDamageCard(GenericDamageCard damageCard, EventArgs e)
         {
             Combat.CurrentCriticalHitCard = damageCard;
 

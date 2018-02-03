@@ -3,10 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace CriticalHitCard
+namespace DamageDeckCard
 {
 
-    public class LooseStabilizer : GenericCriticalHit
+    public class LooseStabilizer : GenericDamageCard
     {
         public LooseStabilizer()
         {

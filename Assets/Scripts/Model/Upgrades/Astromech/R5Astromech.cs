@@ -45,7 +45,7 @@ namespace Abilities
         {
             Selection.ActiveShip = HostShip;
 
-            List<CriticalHitCard.GenericCriticalHit> shipCritsList = HostShip.GetAssignedCritCards().Where(n => n.Type == CriticalCardType.Ship).ToList();
+            List<DamageDeckCard.GenericDamageCard> shipCritsList = HostShip.GetAssignedCritCards().Where(n => n.Type == CriticalCardType.Ship).ToList();
 
             if (shipCritsList.Count == 1)
             {
@@ -90,7 +90,7 @@ namespace SubPhases
             callBack();
         }
 
-        private void DiscardCrit(CriticalHitCard.GenericCriticalHit critCard)
+        private void DiscardCrit(DamageDeckCard.GenericDamageCard critCard)
         {
             Selection.ActiveShip.FlipFacedownFaceupDamageCard(critCard);
             Sounds.PlayShipSound("R2D2-Proud");

@@ -3,10 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace CriticalHitCard
+namespace DamageDeckCard
 {
 
-    public class DamagedSensorArray : GenericCriticalHit
+    public class DamagedSensorArray : GenericDamageCard
     {
         public DamagedSensorArray()
         {

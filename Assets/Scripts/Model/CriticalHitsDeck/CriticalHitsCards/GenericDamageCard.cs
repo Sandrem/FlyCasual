@@ -2,34 +2,35 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Ship;
 
-namespace CriticalHitCard
+public enum CriticalCardType
+{
+    Ship,
+    Pilot
+}
+
+namespace DamageDeckCard
 {
 
-    public class GenericCriticalHit
+    public class GenericDamageCard
     {
-
-        public Ship.GenericShip Host;
+        public GenericShip Host;
 
         public string Name;
         public CriticalCardType Type;
         public bool IsFaceUp;
+
         public List<DieSide> CancelDiceResults = new List<DieSide>();
 
         private string imageUrl;
         public string ImageUrl
         {
-            get
-            {
-                return imageUrl ?? ImageUrls.GetImageUrl(this);
-            }
-            set
-            {
-                imageUrl = value;
-            }
+            get { return imageUrl ?? ImageUrls.GetImageUrl(this); }
+            set { imageUrl = value; }
         }
 
-        public void AssignCrit(Ship.GenericShip host)
+        public void AssignCrit(GenericShip host)
         {
             Host = host;
 
@@ -48,12 +49,12 @@ namespace CriticalHitCard
 
         }
 
-        public virtual void DiscardEffect(Ship.GenericShip host)
+        public virtual void DiscardEffect(GenericShip host)
         {
 
         }
 
-        protected void AddCancelCritAction(Ship.GenericShip ship)
+        protected void AddCancelCritAction(GenericShip ship)
         {
             ActionsList.CancelCritAction cancelCritAction = new ActionsList.CancelCritAction();
             cancelCritAction.Initilize(this);

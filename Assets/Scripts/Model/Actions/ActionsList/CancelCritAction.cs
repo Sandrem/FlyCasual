@@ -7,14 +7,14 @@ namespace ActionsList
 
     public class CancelCritAction : GenericAction
     {
-        private CriticalHitCard.GenericCriticalHit CritCard;
+        private DamageDeckCard.GenericDamageCard CritCard;
 
         public CancelCritAction()
         {
             IsCritCancelAction = true;
         }
 
-        public void Initilize(CriticalHitCard.GenericCriticalHit critCard)
+        public void Initilize(DamageDeckCard.GenericDamageCard critCard)
         {
             CritCard = critCard;
 

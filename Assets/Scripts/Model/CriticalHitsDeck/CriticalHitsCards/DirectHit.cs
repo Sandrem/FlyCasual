@@ -3,10 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace CriticalHitCard
+namespace DamageDeckCard
 {
 
-    public class DirectHit : GenericCriticalHit
+    public class DirectHit : GenericDamageCard
     {
         public DirectHit()
         {

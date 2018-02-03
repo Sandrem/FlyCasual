@@ -87,8 +87,8 @@ namespace Ship
     {
         public PrimaryWeaponClass PrimaryWeapon;
 
-        private List<CriticalHitCard.GenericCriticalHit> AssignedCritCards = new List<CriticalHitCard.GenericCriticalHit>();
-        private List<CriticalHitCard.GenericCriticalHit> AssignedDamageCards = new List<CriticalHitCard.GenericCriticalHit>();
+        private List<DamageDeckCard.GenericDamageCard> AssignedCritCards = new List<DamageDeckCard.GenericDamageCard>();
+        private List<DamageDeckCard.GenericDamageCard> AssignedDamageCards = new List<DamageDeckCard.GenericDamageCard>();
         public DiceRoll AssignedDamageDiceroll = new DiceRoll(DiceKind.Attack, 0, DiceRollCheckType.Virtual);
 
         public bool IsCannotAttackSecondTime { get; set; }
@@ -441,7 +441,7 @@ namespace Ship
             return result;
         }
 
-        public void FlipFacedownFaceupDamageCard(CriticalHitCard.GenericCriticalHit critCard)
+        public void FlipFacedownFaceupDamageCard(DamageDeckCard.GenericDamageCard critCard)
         {
             critCard.DiscardEffect(this);
             AssignedCritCards.Remove(critCard);
@@ -652,7 +652,7 @@ namespace Ship
             Triggers.ResolveTriggers(TriggerTypes.OnShipIsDestroyed, callback);
         }
 
-        public List<CriticalHitCard.GenericCriticalHit> GetAssignedCritCards()
+        public List<DamageDeckCard.GenericDamageCard> GetAssignedCritCards()
         {
             return AssignedCritCards;
         }

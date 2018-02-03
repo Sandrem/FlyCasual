@@ -13,7 +13,8 @@ public class GameManagerScript : MonoBehaviour {
     public ShipMovementScript Movement;
     public ShipPositionManager Position;
 
-    void Start() {
+    void Start()
+    {
         SetApplicationParameters();
         InitializeScripts();
 
@@ -28,6 +29,7 @@ public class GameManagerScript : MonoBehaviour {
         Actions.Initialize();
         Combat.Initialize();
         Triggers.Initialize();
+        DamageDecks.Initialize();
 
         CheckRemoteSettings();
 

@@ -3,9 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace CriticalHitCard
+namespace DamageDeckCard
 {
-    public class BlindedPilot : GenericCriticalHit
+    public class BlindedPilot : GenericDamageCard
     {
         public BlindedPilot()
         {

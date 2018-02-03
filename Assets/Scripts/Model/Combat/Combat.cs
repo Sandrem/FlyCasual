@@ -46,7 +46,7 @@ public static partial class Combat
 
     public static IShipWeapon ChosenWeapon;
 
-    public static CriticalHitCard.GenericCriticalHit CurrentCriticalHitCard;
+    public static DamageDeckCard.GenericDamageCard CurrentCriticalHitCard;
 
     private static int attacksCounter;
     private static int hitsCounter;

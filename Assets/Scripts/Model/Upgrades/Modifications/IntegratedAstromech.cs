@@ -7,7 +7,7 @@ using Ship.XWing;
 using Ship.T70XWing;
 using Abilities;
 using System.Linq;
-using CriticalHitCard;
+using DamageDeckCard;
 
 namespace UpgradesList
 {

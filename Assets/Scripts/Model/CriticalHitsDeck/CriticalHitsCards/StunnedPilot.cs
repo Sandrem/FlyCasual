@@ -3,10 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace CriticalHitCard
+namespace DamageDeckCard
 {
 
-    public class StunnedPilot : GenericCriticalHit
+    public class StunnedPilot : GenericDamageCard
     {
         public StunnedPilot()
         {

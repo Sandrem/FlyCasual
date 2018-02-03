@@ -1,12 +1,13 @@
-﻿using System;
+﻿using Ship;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace CriticalHitCard
+namespace DamageDeckCard
 {
 
-    public class ShakenPilot : GenericCriticalHit
+    public class ShakenPilot : GenericDamageCard
     {
         public ShakenPilot()
         {
@@ -17,21 +18,26 @@ namespace CriticalHitCard
         public override void ApplyEffect(object sender, EventArgs e)
         {
             Host.AfterGetManeuverAvailablity += CannotBeAssignedStraightManeuvers;
-            Host.OnMovementFinish += DiscardEffect;
+            Host.OnMovementFinish += CallDiscardEffect;
 
             Host.Tokens.AssignToken(new Tokens.ShakenPilotCritToken(Host), Triggers.FinishTrigger);
         }
 
-        public override void DiscardEffect(Ship.GenericShip host)
+        private void CallDiscardEffect(GenericShip ship)
         {
-            Messages.ShowInfo("Can be assigned straight maneuvers");
-            host.Tokens.RemoveCondition(typeof(Tokens.ShakenPilotCritToken));
-
-            host.AfterGetManeuverAvailablity -= CannotBeAssignedStraightManeuvers;
-            Host.OnMovementFinish -= DiscardEffect;
+            DiscardEffect();
         }
 
-        private void CannotBeAssignedStraightManeuvers(Ship.GenericShip ship, ref Movement.MovementStruct movement)
+        public override void DiscardEffect()
+        {
+            Messages.ShowInfo("Can be assigned straight maneuvers");
+            Host.Tokens.RemoveCondition(typeof(Tokens.ShakenPilotCritToken));
+
+            Host.AfterGetManeuverAvailablity -= CannotBeAssignedStraightManeuvers;
+            Host.OnMovementFinish -= CallDiscardEffect;
+        }
+
+        private void CannotBeAssignedStraightManeuvers(GenericShip ship, ref Movement.MovementStruct movement)
         {
             if (movement.Bearing == Movement.ManeuverBearing.Straight)
             {

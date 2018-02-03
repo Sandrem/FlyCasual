@@ -77,13 +77,13 @@ public static partial class Roster {
         {
             GameObject newDamageIndicator = MonoBehaviour.Instantiate(damageIndicator, damageIndicatorBar.transform);
             newDamageIndicator.transform.position = damageIndicator.transform.position + new Vector3(i * (damageIndicatorWidth + 1), 0, 0);
-            if (i < newShip.Hull) {
+            if (i < newShip.MaxHull) {
                 newDamageIndicator.GetComponent<Image>().color = Color.yellow;
                 newDamageIndicator.name = "DamageIndicator.Hull." + (i+1).ToString();
             } else
             {
                 newDamageIndicator.GetComponent<Image>().color = new Color(0, 202, 255);
-                newDamageIndicator.name = "DamageIndicator.Shield." + (i-newShip.Hull+1).ToString();
+                newDamageIndicator.name = "DamageIndicator.Shield." + (i-newShip.MaxHull+1).ToString();
             }
             newDamageIndicator.SetActive(true);
         }

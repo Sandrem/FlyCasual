@@ -579,11 +579,6 @@ namespace SubPhases
         {
             Phases.CurrentSubPhase = PreviousSubPhase;
             UpdateHelpInfo();
-
-            Selection.DeselectThisShip();
-            Selection.DeselectAnotherShip();
-
-            Phases.CurrentSubPhase.Resume();
         }
 
         public override bool ThisShipCanBeSelected(GenericShip ship, int mouseKeyIsPressed)

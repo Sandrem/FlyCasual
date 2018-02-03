@@ -46,7 +46,7 @@ public static partial class Combat
 
     public static IShipWeapon ChosenWeapon;
 
-    public static CriticalHitCard.GenericCriticalHit CurrentCriticalHitCard;
+    public static DamageDeckCard.GenericDamageCard CurrentCriticalHitCard;
 
     private static int attacksCounter;
     private static int hitsCounter;
@@ -579,11 +579,6 @@ namespace SubPhases
         {
             Phases.CurrentSubPhase = PreviousSubPhase;
             UpdateHelpInfo();
-
-            Selection.DeselectThisShip();
-            Selection.DeselectAnotherShip();
-
-            Phases.CurrentSubPhase.Resume();
         }
 
         public override bool ThisShipCanBeSelected(GenericShip ship, int mouseKeyIsPressed)

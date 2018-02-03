@@ -131,7 +131,7 @@ namespace Ship
                         Phases.StartTemporarySubPhaseOld
                         (
                             "Free action decision",
-                            typeof(SubPhases.FreeActionDecisonSubPhase),
+                            typeof(FreeActionDecisonSubPhase),
                             delegate { Actions.FinishAction(delegate { FinishFreeActionDecision(callback); }); }
                         );
                     }
@@ -143,7 +143,7 @@ namespace Ship
 
         private void FinishFreeActionDecision(Action callback)
         {
-            Phases.FinishSubPhase(typeof(SubPhases.FreeActionDecisonSubPhase));
+            Phases.FinishSubPhase(typeof(FreeActionDecisonSubPhase));
             callback();
         }
 

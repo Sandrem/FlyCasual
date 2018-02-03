@@ -5,6 +5,7 @@ using SubPhases;
 using UnityEngine;
 using Upgrade;
 using Players;
+using System.Linq;
 
 namespace Abilities
 {
@@ -132,7 +133,7 @@ namespace Abilities
 
         protected GenericShip TargetShip;
 
-        protected void SelectTargetForAbilityOld(System.Action selectTargetAction, List<TargetTypes> targetTypes, Vector2 rangeLimits, Action callback = null, bool showSkipButton = true)
+        protected void SelectTargetForAbilityOld(Action selectTargetAction, List<TargetTypes> targetTypes, Vector2 rangeLimits, Action callback = null, bool showSkipButton = true)
         {
             if (callback == null) callback = Triggers.FinishTrigger;
 
@@ -158,7 +159,7 @@ namespace Abilities
         {
             if (customCallback == null) customCallback = Triggers.FinishTrigger;
 
-            Selection.ThisShip = HostShip;
+            Selection.ChangeActiveShip("ShipId:" + HostShip.ShipId);
 
             SelectShipSubPhase selectTargetSubPhase = (SelectShipSubPhase)Phases.StartTemporarySubPhaseNew(
                 "Select target for " + Name,
@@ -194,7 +195,7 @@ namespace Abilities
         {
             bool result = true;
 
-            if ((Phases.CurrentSubPhase as SelectShipSubPhase).CanMeasureRangeBeforeSelection)
+            if ((Phases.CurrentSubPhase as SelectShipSubPhase) == null || (Phases.CurrentSubPhase as SelectShipSubPhase).CanMeasureRangeBeforeSelection)
             {
                 Board.ShipDistanceInformation distanceInfo = new Board.ShipDistanceInformation(Selection.ThisShip, ship);
                 if (distanceInfo.Range < minRange) return false;
@@ -204,7 +205,14 @@ namespace Abilities
             return result;
         }
 
-        private void SelectShipForAbility(System.Action selectTargetAction)
+        protected bool TargetsForAbilityExist(Func<GenericShip, bool> filter)
+        {
+            Selection.ChangeActiveShip("ShipId:" + HostShip.ShipId);
+
+            return Roster.AllShips.Values.FirstOrDefault(n => filter(n)) != null;
+        }
+
+        private void SelectShipForAbility(Action selectTargetAction)
         {
             MovementTemplates.ReturnRangeRuler();
 

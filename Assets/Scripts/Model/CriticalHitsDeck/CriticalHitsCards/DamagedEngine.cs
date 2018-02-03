@@ -3,10 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace CriticalHitCard
+namespace DamageDeckCard
 {
 
-    public class DamagedEngine : GenericCriticalHit
+    public class DamagedEngine : GenericDamageCard
     {
         public DamagedEngine()
         {
@@ -22,12 +22,12 @@ namespace CriticalHitCard
             Triggers.FinishTrigger();
         }
 
-        public override void DiscardEffect(Ship.GenericShip host)
+        public override void DiscardEffect()
         {
             Messages.ShowInfo("Turn maneuvers regained normal colors");
-            host.Tokens.RemoveCondition(typeof(Tokens.DamagedEngineCritToken));
+            Host.Tokens.RemoveCondition(typeof(Tokens.DamagedEngineCritToken));
 
-            host.AfterGetManeuverColorIncreaseComplexity -= TurnManeuversAreRed;
+            Host.AfterGetManeuverColorIncreaseComplexity -= TurnManeuversAreRed;
         }
 
         private void TurnManeuversAreRed(Ship.GenericShip ship, ref Movement.MovementStruct movement)

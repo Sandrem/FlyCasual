@@ -1,12 +1,13 @@
-﻿using System;
+﻿using Ship;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace CriticalHitCard
+namespace DamageDeckCard
 {
 
-    public class ConsoleFire : GenericCriticalHit
+    public class ConsoleFire : GenericDamageCard
     {
         public ConsoleFire()
         {
@@ -17,13 +18,13 @@ namespace CriticalHitCard
         public override void ApplyEffect(object sender, EventArgs e)
         {
             Host.OnCombatPhaseStart += PlanRollForDamage;
-            Host.AfterGenerateAvailableActionsList += AddCancelCritAction;
+            Host.AfterGenerateAvailableActionsList += CallAddCancelCritAction;
 
             Host.Tokens.AssignCondition(new Tokens.ConsoleFireCritToken(Host));
             Triggers.FinishTrigger();
         }
 
-        private void PlanRollForDamage(Ship.GenericShip host)
+        private void PlanRollForDamage(GenericShip host)
         {
             Triggers.RegisterTrigger(new Trigger() {
                 Name = "#" + host.ShipId + ": Console Fire Crit",
@@ -46,13 +47,13 @@ namespace CriticalHitCard
                 });
         }
 
-        public override void DiscardEffect(Ship.GenericShip host)
+        public override void DiscardEffect()
         {
-            host.Tokens.RemoveCondition(typeof(Tokens.ConsoleFireCritToken));
+            Host.Tokens.RemoveCondition(typeof(Tokens.ConsoleFireCritToken));
 
-            host.OnCombatPhaseStart -= PlanRollForDamage;
+            Host.OnCombatPhaseStart -= PlanRollForDamage;
 
-            host.AfterGenerateAvailableActionsList -= AddCancelCritAction;
+            Host.AfterGenerateAvailableActionsList -= CallAddCancelCritAction;
         }
     }
 

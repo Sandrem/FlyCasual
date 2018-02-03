@@ -50,24 +50,45 @@ namespace Abilities
             //If the ship doesn't perform a barrel roll or boost action we want to exit out of the method.
             if (shipAction is BoostAction || shipAction is BarrelRollAction)
             {
-                List<GenericShip> nearbyShips = Board.BoardManager.GetShipsAtRange(HostShip, new Vector2(1, 1), Team.Type.Friendly);
-                if (nearbyShips == null ||
-                    nearbyShips.Count <= 0 ||
-                    !DoNearbyShipsHaveRedTargetLock(nearbyShips)) //Verifies that at least one nearby ship has a target lock before continuing.
+                if (TargetsForAbilityExist(FilterTargetsOfAbility))
                 {
-                    return;
+                    RegisterAbilityTrigger(TriggerTypes.OnActionIsPerformed, SelectTargetForRemoveTargetLock);
                 }
-
-                RegisterAbilityTrigger(TriggerTypes.OnActionIsPerformed, SelectTargetForRemoveTargetLock);
             }
         }
 
         private void SelectTargetForRemoveTargetLock(object sender, EventArgs e)
         {
-            SelectTargetForAbilityOld(
+            SelectTargetForAbilityNew(
                 RemoveEnemyTargetLock,
-                new List<TargetTypes> { TargetTypes.This, TargetTypes.OtherFriendly },
-                new Vector2(1, 1));
+                FilterTargetsOfAbility,
+                GetAiPriorityOfTarget,
+                HostShip.Owner.PlayerNo
+            );
+        }
+
+        private bool FilterTargetsOfAbility(GenericShip ship)
+        {
+            return FilterByTargetType(ship, new List<TargetTypes>() { TargetTypes.This, TargetTypes.OtherFriendly }) && FilterTargetsByRange(ship, 1, 1) && FilterTargetHasRedTargetLock(ship);
+        }
+
+        private bool FilterTargetHasRedTargetLock(GenericShip ship)
+        {
+            return ship.Tokens.HasToken(typeof(Tokens.RedTargetLockToken));
+        }
+
+        private int GetAiPriorityOfTarget(GenericShip ship)
+        {
+            int priority = 50;
+
+            int damagedPercent = 100 - (ship.Hull + ship.Shields) * 100 / (ship.MaxHull + ship.MaxShields);
+            priority += damagedPercent;
+
+            priority += ship.Agility * 5;
+
+            priority -= ship.Tokens.GetAllTokens().Count(n => n is Tokens.FocusToken || n is Tokens.EvadeToken) * 10;
+
+            return priority;
         }
 
         private bool DoNearbyShipsHaveRedTargetLock(List<GenericShip> nearbyShips)

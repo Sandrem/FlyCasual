@@ -224,7 +224,10 @@ public static partial class Triggers
     {
         StackLevel currentStackLevel = GetCurrentLevel();
 
-        if (currentStackLevel.GetTrigersList().Count == 0) Debug.Log("Ooops, you want to finish trigger, but new empty level of stack was created!");
+        if (currentStackLevel == null || currentStackLevel.GetTrigersList() == null || currentStackLevel.GetTrigersList().Count == 0)
+        {
+            Debug.Log("Ooops! You want to finish trigger, but it is already finished");
+        }
 
         Trigger currentTrigger = currentStackLevel.GetCurrentTrigger();
 

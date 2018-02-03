@@ -19,19 +19,19 @@ namespace DamageDeckCard
         public override void ApplyEffect(object sender, EventArgs e)
         {
             Host.AfterGotNumberOfAttackDice += ReduceNumberOfAttackDice;
-            Host.AfterGenerateAvailableActionsList += AddCancelCritAction;
+            Host.AfterGenerateAvailableActionsList += CallAddCancelCritAction;
 
             Host.Tokens.AssignCondition(new Tokens.WeaponsFailureCritToken(Host));
             Triggers.FinishTrigger();
         }
 
-        public override void DiscardEffect(Ship.GenericShip host)
+        public override void DiscardEffect()
         {
             Messages.ShowInfo("Number of attack dice is restored");
 
-            host.Tokens.RemoveCondition(typeof(Tokens.WeaponsFailureCritToken));
-            host.AfterGotNumberOfAttackDice -= ReduceNumberOfAttackDice;
-            host.AfterGenerateAvailableActionsList -= AddCancelCritAction;
+            Host.Tokens.RemoveCondition(typeof(Tokens.WeaponsFailureCritToken));
+            Host.AfterGotNumberOfAttackDice -= ReduceNumberOfAttackDice;
+            Host.AfterGenerateAvailableActionsList -= CallAddCancelCritAction;
         }
 
         private void ReduceNumberOfAttackDice(ref int value)

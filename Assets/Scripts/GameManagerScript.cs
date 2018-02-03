@@ -24,7 +24,6 @@ public class GameManagerScript : MonoBehaviour {
         Roster.Initialize();
         Roster.Start();
         Selection.Initialize();
-        CriticalHitsDeck.InitializeDeck();
         Bombs.BombsManager.Initialize();
         Actions.Initialize();
         Combat.Initialize();

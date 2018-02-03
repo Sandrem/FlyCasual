@@ -22,12 +22,12 @@ namespace DamageDeckCard
             Triggers.FinishTrigger();
         }
 
-        public override void DiscardEffect(Ship.GenericShip host)
+        public override void DiscardEffect()
         {
             Messages.ShowInfo("Turn maneuvers regained normal colors");
-            host.Tokens.RemoveCondition(typeof(Tokens.DamagedEngineCritToken));
+            Host.Tokens.RemoveCondition(typeof(Tokens.DamagedEngineCritToken));
 
-            host.AfterGetManeuverColorIncreaseComplexity -= TurnManeuversAreRed;
+            Host.AfterGetManeuverColorIncreaseComplexity -= TurnManeuversAreRed;
         }
 
         private void TurnManeuversAreRed(Ship.GenericShip ship, ref Movement.MovementStruct movement)

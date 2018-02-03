@@ -28,14 +28,14 @@ namespace DamageDeckCard
             result = false;
         }
 
-        public override void DiscardEffect(Ship.GenericShip host)
+        public override void DiscardEffect()
         {
             Messages.ShowInfo("Blinded Pilot: Crit is flipped, pilot can perfom attacks");
 
-            host.OnTryPerformAttack -= OnTryPreformAttack;
-            host.Tokens.RemoveCondition(typeof(Tokens.BlindedPilotCritToken));
+            Host.OnTryPerformAttack -= OnTryPreformAttack;
+            Host.Tokens.RemoveCondition(typeof(Tokens.BlindedPilotCritToken));
 
-            host.AfterAttackWindow -= DiscardEffect;
+            Host.AfterAttackWindow -= DiscardEffect;
         }
     }
 

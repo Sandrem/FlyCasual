@@ -19,7 +19,8 @@ namespace DamageDeckCard
 
         public string Name;
         public CriticalCardType Type;
-        public bool IsFaceUp;
+        public bool IsFaceup;
+        public int DamageValue { get; protected set; }
 
         public List<DieSide> CancelDiceResults = new List<DieSide>();
 
@@ -30,18 +31,31 @@ namespace DamageDeckCard
             set { imageUrl = value; }
         }
 
-        public void AssignCrit(GenericShip host)
+        public GenericDamageCard()
+        {
+            DamageValue = 1;
+        }
+
+        public void Assign(GenericShip host)
         {
             Host = host;
 
-            Triggers.RegisterTrigger(new Trigger() {
-                Name = "Apply critical hit card effect",
-                TriggerType = TriggerTypes.OnFaceupCritCardIsDealt,
-                TriggerOwner = host.Owner.PlayerNo,
-                EventHandler = ApplyEffect
-            });
+            if (IsFaceup)
+            {
+                Triggers.RegisterTrigger(new Trigger()
+                {
+                    Name = "Apply critical hit card effect",
+                    TriggerType = TriggerTypes.OnFaceupCritCardIsDealt,
+                    TriggerOwner = host.Owner.PlayerNo,
+                    EventHandler = ApplyEffect
+                });
 
-            Triggers.ResolveTriggers(TriggerTypes.OnFaceupCritCardIsDealt, Triggers.FinishTrigger);
+                Triggers.ResolveTriggers(TriggerTypes.OnFaceupCritCardIsDealt, Triggers.FinishTrigger);
+            }
+            else
+            {
+                Triggers.FinishTrigger();
+            }
         }
 
         public virtual void ApplyEffect(object sender, EventArgs e)
@@ -49,16 +63,21 @@ namespace DamageDeckCard
 
         }
 
-        public virtual void DiscardEffect(GenericShip host)
+        public virtual void DiscardEffect()
         {
 
         }
 
-        protected void AddCancelCritAction(GenericShip ship)
+        protected void CallAddCancelCritAction(GenericShip ship)
+        {
+            AddCancelCritAction();
+        }
+
+        protected void AddCancelCritAction()
         {
             ActionsList.CancelCritAction cancelCritAction = new ActionsList.CancelCritAction();
             cancelCritAction.Initilize(this);
-            ship.AddAvailableAction(cancelCritAction);
+            Host.AddAvailableAction(cancelCritAction);
         }
 
     }

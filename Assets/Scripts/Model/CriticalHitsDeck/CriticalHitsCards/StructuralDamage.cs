@@ -20,21 +20,21 @@ namespace DamageDeckCard
             Host.AfterGetAgility += ReduceAgility;
             Roster.UpdateShipStats(Host);
 
-            Host.AfterGenerateAvailableActionsList += AddCancelCritAction;
+            Host.AfterGenerateAvailableActionsList += CallAddCancelCritAction;
 
             Host.Tokens.AssignCondition(new Tokens.StructuralDamageCritToken(Host));
             Triggers.FinishTrigger();
         }
 
-        public override void DiscardEffect(Ship.GenericShip host)
+        public override void DiscardEffect()
         {
             Messages.ShowInfo("Agility is restored");
 
-            host.Tokens.RemoveCondition(typeof(Tokens.StructuralDamageCritToken));
-            host.AfterGenerateAvailableActionsList -= AddCancelCritAction;
+            Host.Tokens.RemoveCondition(typeof(Tokens.StructuralDamageCritToken));
+            Host.AfterGenerateAvailableActionsList -= CallAddCancelCritAction;
 
-            host.AfterGetAgility -= ReduceAgility;
-            Roster.UpdateShipStats(host);
+            Host.AfterGetAgility -= ReduceAgility;
+            Roster.UpdateShipStats(Host);
         }
 
         private void ReduceAgility(ref int value)

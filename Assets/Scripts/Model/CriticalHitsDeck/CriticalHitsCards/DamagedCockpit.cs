@@ -31,13 +31,13 @@ namespace DamageDeckCard
             Roster.UpdateShipStats(Host);
         }
 
-        public override void DiscardEffect(Ship.GenericShip host)
+        public override void DiscardEffect()
         {
             Messages.ShowInfo("Pilot Skill is restored");
 
-            host.Tokens.RemoveCondition(typeof(Tokens.DamagedCockpitCritToken));
-            host.RemovePilotSkillModifier(this);
-            Roster.UpdateShipStats(host);
+            Host.Tokens.RemoveCondition(typeof(Tokens.DamagedCockpitCritToken));
+            Host.RemovePilotSkillModifier(this);
+            Roster.UpdateShipStats(Host);
         }
 
         public void ModifyPilotSkill(ref int pilotSkill)

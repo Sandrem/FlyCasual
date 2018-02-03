@@ -12,6 +12,8 @@ namespace DamageDeckCard
         {
             Name = "Direct Hit";
             Type = CriticalCardType.Ship;
+
+            DamageValue = 2;
         }
 
         public override void ApplyEffect(object sender, EventArgs e)
@@ -22,16 +24,14 @@ namespace DamageDeckCard
 
         private void AdditionalHullDamage()
         {
-            Host.DecreaseHullValue(Triggers.FinishTrigger);
+            Host.CallHullValueIsDecreased(Triggers.FinishTrigger);
         }
 
-        public override void DiscardEffect(Ship.GenericShip host)
+        public override void DiscardEffect()
         {
-            host.Tokens.RemoveCondition(typeof(Tokens.DirectHitCritToken));
-            if (host.TryRegenHull())
-            {
-                Messages.ShowInfo("One hull point is restored");
-            }
+            Host.Tokens.RemoveCondition(typeof(Tokens.DirectHitCritToken));
+            Host.CallAfterAssignedDamageIsChanged();
+            Messages.ShowInfo("One hull point is restored");
         }
     }
 

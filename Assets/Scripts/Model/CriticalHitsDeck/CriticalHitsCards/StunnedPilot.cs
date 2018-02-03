@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Ship;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -21,15 +22,15 @@ namespace DamageDeckCard
             Triggers.FinishTrigger();
         }
 
-        private void RegisterCheckCollisionDamage(Ship.GenericShip host)
+        private void RegisterCheckCollisionDamage(GenericShip ship)
         {
-            if (host.IsBumped || host.IsLandedOnObstacle)
+            if (Host.IsBumped || Host.IsLandedOnObstacle)
             {
                 Triggers.RegisterTrigger(new Trigger()
                 {
                     Name = "Stunned Pilot crit",
                     TriggerType = TriggerTypes.OnShipMovementFinish,
-                    TriggerOwner = Selection.ThisShip.Owner.PlayerNo,
+                    TriggerOwner = Host.Owner.PlayerNo,
                     EventHandler = CheckCollisionDamage
                 });
             }
@@ -57,12 +58,12 @@ namespace DamageDeckCard
             Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, Triggers.FinishTrigger);
         }
 
-        public override void DiscardEffect(Ship.GenericShip host)
+        public override void DiscardEffect()
         {
-            host.OnMovementFinish -= RegisterCheckCollisionDamage;
-            host.Tokens.RemoveCondition(typeof(Tokens.StunnedPilotCritToken));
+            Host.OnMovementFinish -= RegisterCheckCollisionDamage;
+            Host.Tokens.RemoveCondition(typeof(Tokens.StunnedPilotCritToken));
 
-            host.AfterAttackWindow -= DiscardEffect;
+            Host.AfterAttackWindow -= DiscardEffect;
         }
 
     }

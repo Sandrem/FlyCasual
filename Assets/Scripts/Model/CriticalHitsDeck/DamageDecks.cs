@@ -23,9 +23,9 @@ public static class DamageDecks
         return damadeDecks.Find(n => n.PlayerNo == playerNo);
     }
 
-    public static GenericDamageCard DrawDamageCard(PlayerNo playerNo)
+    public static void DrawDamageCard(PlayerNo playerNo, bool isFaceup, Action<GenericDamageCard> doWithDamageCard)
     {
-        return GetDamageDeck(playerNo).DrawDamageCard();
+        GetDamageDeck(playerNo).DrawDamageCard(isFaceup, doWithDamageCard);
     }
 }
 
@@ -70,13 +70,14 @@ public class DamageDeck
         }
     }
 
-    public GenericDamageCard DrawDamageCard()
+    public void DrawDamageCard(bool isFaceup, Action<GenericDamageCard> doWithDamageCard)
     {
         if (Deck.Count == 0) ReCreateDeck();
 
         GenericDamageCard drawedCard = Deck[0];
         Deck.Remove(drawedCard);
-        return drawedCard;
+        drawedCard.IsFaceup = isFaceup;
+        doWithDamageCard(drawedCard);
     }
 
     private void ReCreateDeck()

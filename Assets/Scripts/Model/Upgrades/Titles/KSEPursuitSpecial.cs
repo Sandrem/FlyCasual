@@ -3,6 +3,9 @@ using Ship.Firespray31;
 using Upgrade;
 using Mods.ModsList;
 using System.Collections.Generic;
+using Abilities;
+using System;
+using Arcs;
 
 namespace UpgradesList
 {
@@ -24,11 +27,38 @@ namespace UpgradesList
             };
 
             FromMod = typeof(FiresprayFix);
+
+            UpgradeAbilities.Add(new KSEPursuitSpecialAbility());
         }
 
         public override bool IsAllowedForShip(GenericShip ship)
         {
             return ship is Firespray31;
+        }
+    }
+}
+
+namespace Abilities
+{
+    public class KSEPursuitSpecialAbility : GenericAbility
+    {
+        public override void ActivateAbility()
+        {
+            ToggleAbility(true);
+        }
+
+        public override void DeactivateAbility()
+        {
+            ToggleAbility(false);
+        }
+
+        private void ToggleAbility(bool isActive)
+        {
+            ArcInfo rearArc = HostShip.ArcInfo.GetAllArcs()[1];
+
+            rearArc.ShotPermissions.CanShootCannon = isActive;
+            rearArc.ShotPermissions.CanShootTorpedoes = isActive;
+            rearArc.ShotPermissions.CanShootMissiles = isActive;
         }
     }
 }

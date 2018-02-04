@@ -425,12 +425,9 @@ public static partial class Combat
         IsAttackAlreadyCalled = false;
     }
 
-    public static void CheckFinishCombatSubPhase()
+    public static void FinishCombatSubPhase()
     {
-        if (Roster.NoSamePlayerAndPilotSkillNotAttacked())
-        {
-            Phases.FinishSubPhase(typeof(CombatSubPhase));
-        }
+        Phases.FinishSubPhase(typeof(CombatSubPhase));
     }
 
     // Extra Attacks

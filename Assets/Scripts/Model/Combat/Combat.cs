@@ -390,21 +390,27 @@ public static partial class Combat
         Attacker.CallAttackFinish();
         Defender.CallAttackFinish();
 
-        Triggers.ResolveTriggers(TriggerTypes.OnAttackFinish, CombatEnd);
+        Triggers.ResolveTriggers(TriggerTypes.OnAttackFinish, CleanupAndCheckExtraAttacks);
     }
 
-    private static void CombatEnd()
+    private static void CleanupAndCheckExtraAttacks()
     {
         CleanupCombatData();
 
         if (!Selection.ThisShip.IsCannotAttackSecondTime)
         {
-            CheckExtraAttacks(Phases.CurrentSubPhase.CallBack);
+            CheckExtraAttacks(EndCombat);
         }
         else
         {
-            Phases.CurrentSubPhase.CallBack();
+            EndCombat();
         }
+    }
+
+    private static void EndCombat()
+    {
+        Selection.DeselectAllShips();
+        Phases.CurrentSubPhase.CallBack();
     }
 
     private static void CheckExtraAttacks(Action callback)
@@ -427,7 +433,7 @@ public static partial class Combat
 
     public static void CheckFinishCombatSubPhase()
     {
-        if (Roster.NoSamePlayerAndPilotSkillNotAttacked(Selection.ThisShip))
+        if (Roster.NoSamePlayerAndPilotSkillNotAttacked())
         {
             Phases.FinishSubPhase(typeof(CombatSubPhase));
         }
@@ -579,6 +585,7 @@ namespace SubPhases
         {
             Phases.CurrentSubPhase = PreviousSubPhase;
             UpdateHelpInfo();
+            Phases.CurrentSubPhase.Resume();
         }
 
         public override bool ThisShipCanBeSelected(GenericShip ship, int mouseKeyIsPressed)

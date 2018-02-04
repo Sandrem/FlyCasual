@@ -32,7 +32,7 @@ namespace RulesList
                     UI.ShowGameResults("Draw!");
                 }
 
-                Phases.GameIsEnded = true;
+                Rules.FinishGame();
             }
         }
     }

@@ -59,6 +59,8 @@ namespace Abilities
 
         private void SelectTargetForRemoveTargetLock(object sender, EventArgs e)
         {
+            Messages.ShowInfoToHuman("Black One: Select ship to remove Red Target Lock token");
+
             SelectTargetForAbilityNew(
                 RemoveEnemyTargetLock,
                 FilterTargetsOfAbility,
@@ -74,7 +76,7 @@ namespace Abilities
 
         private bool FilterTargetHasRedTargetLock(GenericShip ship)
         {
-            return ship.Tokens.HasToken(typeof(Tokens.RedTargetLockToken));
+            return ship.Tokens.HasToken(typeof(Tokens.RedTargetLockToken), '*');
         }
 
         private int GetAiPriorityOfTarget(GenericShip ship)

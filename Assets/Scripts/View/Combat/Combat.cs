@@ -82,14 +82,46 @@ public static partial class Combat
 
         float offset = 0;
         Vector3 defaultPosition = GameObject.Find("UI/CombatDiceResultsPanel").transform.Find("DiceModificationsPanel").position;
-
+		bool focusAdded = false;
+		bool evadeAdded = false;
         foreach (var actionEffect in Selection.ActiveShip.GetAvailableActionEffectsList())
         {
-            AvailableDecisions.Add(actionEffect.Name, actionEffect);
+			if (actionEffect.Name == "Focus") {
+				//special case for focus
+				if (focusAdded == false) {
+					Debug.Log ("Added a focus modification option");
+					focusAdded = true;
 
-            Vector3 position = defaultPosition + new Vector3(0, -offset, 0);
-            CreateDiceModificationsButton(actionEffect, position);
-            offset += 40;
+					AvailableDecisions.Add (actionEffect.Name, actionEffect);
+
+					Vector3 position = defaultPosition + new Vector3 (0, -offset, 0);
+					CreateDiceModificationsButton (actionEffect, position);
+					offset += 40;
+				}else {
+					Debug.Log ("A focus modification option has already been added. Do not add another.");
+				}
+			} else if(actionEffect.Name == "Evade"){
+				//special case for evade
+				if (evadeAdded == false) {
+					Debug.Log ("Added an evade modification option");
+					focusAdded = true;
+
+					AvailableDecisions.Add (actionEffect.Name, actionEffect);
+
+					Vector3 position = defaultPosition + new Vector3 (0, -offset, 0);
+					CreateDiceModificationsButton (actionEffect, position);
+					offset += 40;
+				} else {
+					Debug.Log ("An evade modification option has already been added. Do not add another.");
+				}
+			}else {
+				//original code. default case.
+				AvailableDecisions.Add(actionEffect.Name, actionEffect);
+
+				Vector3 position = defaultPosition + new Vector3(0, -offset, 0);
+				CreateDiceModificationsButton(actionEffect, position);
+				offset += 40;
+			}
         }
 
         ToggleConfirmDiceResultsButton(true);

@@ -399,18 +399,12 @@ public static partial class Combat
 
         if (!Selection.ThisShip.IsCannotAttackSecondTime)
         {
-            CheckExtraAttacks(EndCombat);
+            CheckExtraAttacks(Phases.CurrentSubPhase.CallBack);
         }
         else
         {
-            EndCombat();
+            Phases.CurrentSubPhase.CallBack();
         }
-    }
-
-    private static void EndCombat()
-    {
-        Selection.DeselectAllShips();
-        Phases.CurrentSubPhase.CallBack();
     }
 
     private static void CheckExtraAttacks(Action callback)
@@ -431,12 +425,9 @@ public static partial class Combat
         IsAttackAlreadyCalled = false;
     }
 
-    public static void CheckFinishCombatSubPhase()
+    public static void FinishCombatSubPhase()
     {
-        if (Roster.NoSamePlayerAndPilotSkillNotAttacked())
-        {
-            Phases.FinishSubPhase(typeof(CombatSubPhase));
-        }
+        Phases.FinishSubPhase(typeof(CombatSubPhase));
     }
 
     // Extra Attacks

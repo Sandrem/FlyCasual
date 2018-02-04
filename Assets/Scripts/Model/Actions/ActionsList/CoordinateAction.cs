@@ -1,4 +1,5 @@
 ﻿using RulesList;
+using Ship;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,7 +40,15 @@ namespace SubPhases
             maxRange = 2;
             finishAction = SelectCoordinateTarget;
 
+            FilterTargets = FilterCoordinateTargets;
+
             UI.ShowSkipButton();
+        }
+
+        private bool FilterCoordinateTargets(GenericShip ship)
+        {
+            Board.ShipDistanceInformation distanceInfo = new Board.ShipDistanceInformation(Selection.ThisShip, ship);
+            return ship.Owner.PlayerNo == Selection.ThisShip.Owner.PlayerNo && distanceInfo.Range >= minRange && distanceInfo.Range <= maxRange;
         }
 
         private void SelectCoordinateTarget()

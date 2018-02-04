@@ -16,7 +16,15 @@ namespace SubPhases
             Selection.ThisShip.IsAttackPerformed = false;
             Combat.IsAttackAlreadyCalled = false;
 
+            FilterTargets = FilterAttackTargets;
+
             Selection.ThisShip.Owner.StartExtraAttack();
+        }
+
+        private bool FilterAttackTargets(GenericShip ship)
+        {
+            Board.ShipDistanceInformation distanceInfo = new Board.ShipDistanceInformation(Selection.ThisShip, ship);
+            return ship.Owner.PlayerNo != Selection.ThisShip.Owner.PlayerNo && distanceInfo.Range >= minRange && distanceInfo.Range <= maxRange;
         }
 
         private void FinishActon()

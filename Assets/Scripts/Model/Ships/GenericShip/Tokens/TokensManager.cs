@@ -22,6 +22,60 @@ namespace Ship
             return AssignedTokens;
         }
 
+		//Returns tokens that can be used to modify dice in combat subphase
+		//returns only one of each token.
+		public List<GenericToken> GetModifyCombatDiceTokens()
+		{
+			List<GenericToken> AssignedUniqueModifyCombatDiceTokens = new List<GenericToken>();
+			List<GenericToken> SearchList = new List<GenericToken>();
+
+			//Make a list of tokens to search here. 
+			//only add types of tokens that can be used in the modify dice sub phase of combat
+			//Easy to add and remove new tokens as rules change in future. 
+			SearchList.Add(new FocusToken (Host));
+			SearchList.Add(new EvadeToken (Host));
+			SearchList.Add(new BlueTargetLockToken (Host));
+			SearchList.Add(new ReinforceForeToken (Host));
+			SearchList.Add(new ReinforceAftToken (Host));
+
+			//temp token to overright as we search
+			GenericToken result = null;
+
+			foreach (var searchToken in SearchList) 
+			{
+				result = GetToken(searchToken.GetType(), ' ');
+
+				if (result != null) {
+					AssignedUniqueModifyCombatDiceTokens.Add (result);
+					result = null;
+				}
+			}
+
+			return AssignedUniqueModifyCombatDiceTokens;
+		}
+
+		//Returns all tokens attached to ship, but does not include duplicates.
+		public List<GenericToken> GetAllUniqueTokens()
+		{
+			List<GenericToken> AssignedUniqueTokens = new List<GenericToken>();
+			List<GenericToken> SearchList = new List<GenericToken>();
+			SearchList = GetAllTokens ();
+
+			GenericToken result = null;
+
+			foreach (var searchToken in SearchList) 
+			{
+				result = GetToken(searchToken.GetType(), ' ');
+
+				if (result != null) {
+					AssignedUniqueTokens.Add (result);
+					result = null;
+				}
+			}
+
+			return AssignedUniqueTokens;
+		}
+
         public bool HasToken(Type type, char letter = ' ')
         {
             return GetToken(type, letter) != null;

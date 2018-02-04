@@ -108,7 +108,7 @@ namespace SquadBuilderNS
             availablePilotsCounter = 0;
 
             ShipRecord shipRecord = AllShips.Find(n => n.ShipName == shipName);
-            List<PilotRecord> AllPilotsFiltered = AllPilots.Where(n => n.PilotShip == shipRecord && n.Instance.faction == faction).OrderByDescending(n => n.PilotSkill).ToList();
+            List<PilotRecord> AllPilotsFiltered = AllPilots.Where(n => n.PilotShip == shipRecord && n.PilotFaction == faction).OrderByDescending(n => n.PilotSkill).ToList();
             int pilotsCount = AllPilotsFiltered.Count;
 
             Transform contentTransform = GameObject.Find("UI/Panels/SelectPilotPanel/Panel/Scroll View/Viewport/Content").transform;

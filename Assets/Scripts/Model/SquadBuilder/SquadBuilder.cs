@@ -85,6 +85,7 @@ namespace SquadBuilderNS
         public string PilotName;
         public string PilotTypeName;
         public string PilotNameCanonical;
+        public Faction PilotFaction;
         public int PilotSkill;
         public ShipRecord PilotShip;
         public GenericShip Instance;
@@ -194,7 +195,7 @@ namespace SquadBuilderNS
                     {
                         string pilotKey = newShipContainer.PilotName + " (" + newShipContainer.Cost + ")";
 
-                        if (AllPilots.Find(n => n.PilotName == newShipContainer.PilotName && n.PilotShip.ShipName == newShipContainer.Type) == null)
+                        if (AllPilots.Find(n => n.PilotName == newShipContainer.PilotName && n.PilotShip.ShipName == newShipContainer.Type && n.PilotFaction == newShipContainer.faction) == null)
                         {
                             AllPilots.Add(new PilotRecord()
                             {
@@ -203,6 +204,7 @@ namespace SquadBuilderNS
                                 PilotNameCanonical = newShipContainer.PilotNameCanonical,
                                 PilotSkill = newShipContainer.PilotSkill,
                                 PilotShip = AllShips.Find(n => n.ShipName == newShipContainer.Type),
+                                PilotFaction = newShipContainer.faction,
                                 Instance = newShipContainer
                             });
                         }
@@ -691,7 +693,7 @@ namespace SquadBuilderNS
                         string pilotNameXws = pilotJson["name"].str;
                         string pilotNameGeneral = AllPilots.Find(n => n.PilotNameCanonical == pilotNameXws).PilotName;
 
-                        PilotRecord pilotRecord = AllPilots.Find(n => n.PilotName == pilotNameGeneral && n.PilotShip.ShipName == shipNameGeneral);
+                        PilotRecord pilotRecord = AllPilots.Find(n => n.PilotName == pilotNameGeneral && n.PilotShip.ShipName == shipNameGeneral && n.PilotFaction == faction);
                         GenericShip newShipInstance = (GenericShip)Activator.CreateInstance(Type.GetType(pilotRecord.PilotTypeName));
                         SquadBuilderShip newShip = AddPilotToSquad(newShipInstance, playerNo);
 

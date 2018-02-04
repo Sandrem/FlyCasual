@@ -340,8 +340,6 @@ namespace SubPhases
         public override void Resume()
         {
             ChangeSelectionMode(Team.Type.Friendly);
-            Selection.DeselectThisShip();
-            Selection.DeselectAnotherShip();
         }
 
     }

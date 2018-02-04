@@ -33,6 +33,7 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Tech);
 
                 PrintedActions.Add(new TargetLockAction());
+                PrintedActions.Add(new CoordinateAction());
 
                 AssignTemporaryManeuvers();
                 HotacManeuverTable = new AI.UpsilonShuttleTable();

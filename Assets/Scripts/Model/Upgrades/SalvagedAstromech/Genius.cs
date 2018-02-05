@@ -42,7 +42,7 @@ namespace Abilities
 
         private void CheckGeniusAbility(GenericShip ship)
         {
-            if (!HostShip.IsBombAlreadyDropped && HasTimedBombs())
+            if (!HostShip.IsBumped && !HostShip.IsBombAlreadyDropped && HasTimedBombs())
             {
                 RegisterAbilityTrigger(TriggerTypes.OnMovementActivation, AskUseGeniusAbility);
             }
@@ -113,13 +113,28 @@ namespace Abilities
 
         private class GeniusBombDecisionSubPhase : DecisionSubPhase { }
 
+        private void DiscardBombAndDrop() { 
+}
+
         private void StartDropBombSubphase()
         {
             Phases.StartTemporarySubPhaseOld(
                 "Bomb drop planning",
                 typeof(BombDropPlanningSubPhase),
-                Triggers.FinishTrigger
+                CheckThatBombIsDiscarded
             );
+        }
+
+        private void CheckThatBombIsDiscarded()
+        {
+            if (BombsManager.CurrentBomb == null || BombsManager.CurrentBomb.IsDiscardedAfterDropped)
+            {
+                Triggers.FinishTrigger();
+            }
+            else
+            {
+                BombsManager.CurrentBomb.TryDiscard(Triggers.FinishTrigger);
+            }
         }
     }
 }

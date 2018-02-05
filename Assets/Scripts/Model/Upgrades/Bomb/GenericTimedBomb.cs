@@ -173,11 +173,9 @@ namespace SubPhases
 
         private void LaunchBomb(object sender, System.EventArgs e)
         {
-            // TODO: Launch bomb instead
-
             Phases.StartTemporarySubPhaseOld(
                 "Bomb launch planning",
-                typeof(BombDropPlanningSubPhase),
+                typeof(BombLaunchPlanningSubPhase),
                 ConfirmDecision
             );
         }

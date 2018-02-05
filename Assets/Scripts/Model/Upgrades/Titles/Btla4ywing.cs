@@ -42,7 +42,7 @@ namespace Abilities
 
         private void Toggle360Arc(bool isActive)
         {
-            GenericSecondaryWeapon turret = (GenericSecondaryWeapon)HostShip.UpgradeBar.GetInstalledUpgrades().Find(n => n.Type == UpgradeType.Turret);            
+            GenericSecondaryWeapon turret = (GenericSecondaryWeapon)HostShip.UpgradeBar.GetUpgradesAll().Find(n => n.Type == UpgradeType.Turret);            
             if (turret != null)
             {
                 HostShip.ArcInfo.OutOfArcShotPermissions.CanShootTurret = isActive;

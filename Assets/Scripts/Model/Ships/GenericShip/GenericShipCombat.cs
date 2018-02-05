@@ -576,7 +576,7 @@ namespace Ship
             foreach (var pilotAbility in PilotAbilities)
             {
                 pilotAbility.DeactivateAbility();
-                foreach (var upgrade in UpgradeBar.GetInstalledUpgrades())
+                foreach (var upgrade in UpgradeBar.GetUpgradesOnlyFaceup())
                 {
                     foreach (var upgradeAbility in upgrade.UpgradeAbilities)
                     {
@@ -596,7 +596,7 @@ namespace Ship
         {
             int result = 0;
 
-            foreach (var upgrade in UpgradeBar.GetInstalledUpgrades())
+            foreach (var upgrade in UpgradeBar.GetUpgradesOnlyFaceup())
             {
                 IShipWeapon secondaryWeapon = upgrade as IShipWeapon;
                 if (secondaryWeapon != null)
@@ -690,7 +690,7 @@ namespace Ship
                 PrimaryWeapon
             };
 
-            foreach (var upgrade in UpgradeBar.GetInstalledUpgrades())
+            foreach (var upgrade in UpgradeBar.GetUpgradesOnlyFaceup())
             {
                 IShipWeapon secondaryWeapon = upgrade as IShipWeapon;
                 if (secondaryWeapon != null) allWeapons.Add(secondaryWeapon);

@@ -55,7 +55,7 @@ namespace Abilities
 
         private bool HasCannonWeapon()
         {
-            return HostShip.UpgradeBar.GetInstalledUpgrades().Count(n => n.Type == UpgradeType.Cannon && (n as IShipWeapon) != null) > 0;
+            return HostShip.UpgradeBar.GetUpgradesOnlyFaceup().Count(n => n.Type == UpgradeType.Cannon && (n as IShipWeapon) != null) > 0;
         }
 
         private void RegisterIG88BAbility()

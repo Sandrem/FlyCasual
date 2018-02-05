@@ -14,7 +14,7 @@ namespace Ship
             public ScurrgH6Bomber() : base()
             {
                 Type = "Scurrg H-6 Bomber";
-                IconicPilot = "Lok Revenant";
+                IconicPilot = "Captain Nym";
 
                 ManeuversImageUrl = "https://i.imgur.com/CfJoyso.jpg";
 
@@ -37,6 +37,7 @@ namespace Ship
                 HotacManeuverTable = new AI.ScurrgH6BomberTable();
 
                 factions.Add(Faction.Scum);
+                factions.Add(Faction.Rebel);
                 faction = Faction.Scum;
 
                 SkinName = "Lok Revenant";

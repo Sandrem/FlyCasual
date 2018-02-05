@@ -46,6 +46,7 @@ namespace Upgrade
 
         public override void ActivateBombs(List<GameObject> bombObjects, Action callBack)
         {
+            Phases.OnActivationPhaseEnd -= PlanTimedDetonation;
             Phases.OnActivationPhaseEnd += PlanTimedDetonation;
 
             base.ActivateBombs(bombObjects, callBack);
@@ -60,7 +61,7 @@ namespace Upgrade
                     Name = "Detonation of " + Name,
                     TriggerType = TriggerTypes.OnActivationPhaseEnd,
                     TriggerOwner = Host.Owner.PlayerNo,
-                    EventHandler = Detonate,
+                    EventHandler = TryDetonate,
                     EventArgs = new BombDetonationEventArgs()
                     {
                         BombObject = bombObject
@@ -69,16 +70,15 @@ namespace Upgrade
             }
         }
 
-        public override void Detonate(object sender, EventArgs e)
+        protected override void Detonate()
         {
-            GameObject bombObject = (e as BombDetonationEventArgs).BombObject;
             Phases.OnActivationPhaseEnd -= PlanTimedDetonation;
-            foreach (var ship in BombsManager.GetShipsInRange(bombObject))
+            foreach (var ship in BombsManager.GetShipsInRange(BombsManager.CurrentBombObject))
             {
                 RegisterDetonationTriggerForShip(ship);
             }
         
-            base.Detonate(sender, e);
+            base.Detonate();
         }
 
         public override void Discard(Action callBack)

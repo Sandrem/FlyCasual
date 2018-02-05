@@ -30,16 +30,20 @@ namespace Bombs
     {
         public static GenericBomb CurrentBomb { get; set; }
         public static GameObject CurrentBombObject { get; set; }
+        public static GenericShip DetonatedShip { get; set; }
+        public static bool DetonationIsAllowed { get; set; }
 
         private static List<Vector3> generatedBombPoints = new List<Vector3>();
-        private static Dictionary<GameObject, GenericBomb> minesList;
+        private static Dictionary<GameObject, GenericBomb> bombsList;
 
         public delegate void EventHandlerBomb(GenericBomb bomb, GameObject model);
+        public delegate void EventHandlerBombShip(GenericBomb bomb, GenericShip detonatedShip);
         public static event EventHandlerBomb OnBombIsRemoved;
+        public static event EventHandlerBombShip OnCheckPermissionToDetonate;
 
         public static void Initialize()
         {
-            minesList = new Dictionary<GameObject, GenericBomb>();
+            bombsList = new Dictionary<GameObject, GenericBomb>();
             CurrentBomb = null;
         }
 
@@ -60,22 +64,22 @@ namespace Bombs
             return generatedBombPoints;
         }
 
-        public static void RegisterMines(List<GameObject> mineObjects, GenericBomb bombUpgrade)
+        public static void RegisterBombs(List<GameObject> bombObjects, GenericBomb bombUpgrade)
         {
-            foreach (var mineObject in mineObjects)
+            foreach (var bombObject in bombObjects)
             {
-                minesList.Add(mineObject, bombUpgrade);
+                if (!bombsList.ContainsKey(bombObject)) bombsList.Add(bombObject, bombUpgrade);
             }
         }
 
-        public static void UnregisterMine(GameObject mineObject)
+        public static void UnregisterBomb(GameObject bombObject)
         {
-            minesList.Remove(mineObject);
+            bombsList.Remove(bombObject);
         }
 
-        public static GenericBomb GetMineByObject(GameObject mineObject)
+        public static GenericBomb GetBombByObject(GameObject bombObject)
         {
-            return minesList[mineObject];
+            return bombsList[bombObject];
         }
 
         public static List<GenericShip> GetShipsInRange(GameObject bombObject)
@@ -115,9 +119,8 @@ namespace Bombs
             return false;
         }
 
-        public static void ResolveDetonationTriggers(GameObject bombObject)
+        public static void ResolveDetonationTriggers()
         {
-            CurrentBombObject = bombObject;
             Triggers.ResolveTriggers(TriggerTypes.OnBombIsDetonated, ResolveRemoveModelTriggers);
         }
 
@@ -133,6 +136,28 @@ namespace Bombs
             GameObject.Destroy(CurrentBombObject);
             Triggers.FinishTrigger();
         }
+
+        public static void CallGetPermissionToDetonateTrigger(Action callback)
+        {
+            DetonationIsAllowed = true;
+
+            if (OnCheckPermissionToDetonate != null) OnCheckPermissionToDetonate(CurrentBomb, DetonatedShip);
+
+            Triggers.ResolveTriggers(TriggerTypes.OnCheckPermissionToDetonate, delegate { CheckPermissionToDetonate(callback); });
+        }
+
+        private static void CheckPermissionToDetonate(Action callback)
+        {
+            if (DetonationIsAllowed)
+            {
+                callback();
+            }
+            else
+            {
+                Triggers.FinishTrigger();
+            }
+        }
+
     }
 }
 

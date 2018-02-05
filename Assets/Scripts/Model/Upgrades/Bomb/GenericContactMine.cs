@@ -41,13 +41,7 @@ namespace Upgrade
         {
             CallBack = callBack;
 
-            base.ActivateBombs(bombObjects, RegisterMine);
-        }
-
-        private void RegisterMine()
-        {
-            BombsManager.RegisterMines(BombObjects, this);
-            CheckImmediateDetonation();
+            base.ActivateBombs(bombObjects, CheckImmediateDetonation);
         }
 
         private void CheckImmediateDetonation()
@@ -93,7 +87,7 @@ namespace Upgrade
                     Name = "Damage from mine",
                     TriggerOwner = detonatedShip.Owner.PlayerNo,
                     TriggerType = TriggerTypes.OnPositionFinish,
-                    EventHandler = Detonate,
+                    EventHandler = TryDetonate,
                     EventArgs = new BombDetonationEventArgs()
                     {
                         DetonatedShip = detonatedShip,
@@ -111,12 +105,11 @@ namespace Upgrade
             }
         }
 
-        public override void Detonate(object sender, EventArgs e)
+        protected override void Detonate()
         {
-            BombsManager.UnregisterMine((e as BombDetonationEventArgs).BombObject);
-            RegisterDetonationTriggerForShip((e as BombDetonationEventArgs).DetonatedShip);
+            RegisterDetonationTriggerForShip(BombsManager.DetonatedShip);
 
-            base.Detonate(sender, e);
+            base.Detonate();
         }
 
         public override void Discard(Action callBack)

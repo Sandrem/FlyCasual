@@ -37,15 +37,27 @@ namespace Upgrade
 
         public virtual void ActivateBombs(List<GameObject> bombObjects, Action callBack)
         {
-            BombObjects = bombObjects;
+            BombObjects.AddRange(bombObjects);
             Host.IsBombAlreadyDropped = true;
+            BombsManager.RegisterBombs(bombObjects, this);
             PayDropCost(callBack);
         }
 
-        public virtual void Detonate(object sender, EventArgs e)
+        public virtual void TryDetonate(object sender, EventArgs e)
         {
-            GameObject bombObject = (e as BombDetonationEventArgs).BombObject;
-            PlayDetonationAnimSound(bombObject, delegate { BombsManager.ResolveDetonationTriggers(bombObject); });
+            BombsManager.CurrentBombObject = (e as BombDetonationEventArgs).BombObject;
+            BombsManager.CurrentBomb = BombsManager.GetBombByObject(BombsManager.CurrentBombObject);
+            BombsManager.DetonatedShip = (e as BombDetonationEventArgs).DetonatedShip;
+
+            BombsManager.CallGetPermissionToDetonateTrigger(Detonate);
+        }
+
+        protected virtual void Detonate()
+        {
+            BombsManager.UnregisterBomb(BombsManager.CurrentBombObject);
+            BombObjects.Remove(BombsManager.CurrentBombObject);
+
+            PlayDetonationAnimSound(BombsManager.CurrentBombObject, BombsManager.ResolveDetonationTriggers);
         }
 
         protected void RegisterDetonationTriggerForShip(GenericShip ship)

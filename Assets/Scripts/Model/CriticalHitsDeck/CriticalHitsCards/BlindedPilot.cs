@@ -3,9 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace CriticalHitCard
+namespace DamageDeckCard
 {
-    public class BlindedPilot : GenericCriticalHit
+    public class BlindedPilot : GenericDamageCard
     {
         public BlindedPilot()
         {
@@ -28,14 +28,14 @@ namespace CriticalHitCard
             result = false;
         }
 
-        public override void DiscardEffect(Ship.GenericShip host)
+        public override void DiscardEffect()
         {
             Messages.ShowInfo("Blinded Pilot: Crit is flipped, pilot can perfom attacks");
 
-            host.OnTryPerformAttack -= OnTryPreformAttack;
-            host.Tokens.RemoveCondition(typeof(Tokens.BlindedPilotCritToken));
+            Host.OnTryPerformAttack -= OnTryPreformAttack;
+            Host.Tokens.RemoveCondition(typeof(Tokens.BlindedPilotCritToken));
 
-            host.AfterAttackWindow -= DiscardEffect;
+            Host.AfterAttackWindow -= DiscardEffect;
         }
     }
 

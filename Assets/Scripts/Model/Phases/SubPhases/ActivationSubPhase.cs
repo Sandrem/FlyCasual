@@ -45,7 +45,7 @@ namespace SubPhases
             if (success)
             {
                 UpdateHelpInfo();
-                HighlightShips();
+                Roster.HighlightShipsFiltered(FilterShipsToPerformAttack);
                 Roster.GetPlayer(RequiredPlayer).PerformManeuver();
             }
 
@@ -143,17 +143,9 @@ namespace SubPhases
             return result;
         }
 
-        private void HighlightShips()
+        private bool FilterShipsToPerformAttack(GenericShip ship)
         {
-            Roster.AllShipsHighlightOff();
-            foreach (var ship in Roster.GetPlayer(RequiredPlayer).Ships)
-            {
-                if ((ship.Value.PilotSkill == RequiredPilotSkill) && (!ship.Value.IsManeuverPerformed))
-                {
-                    ship.Value.HighlightCanBeSelectedOn();
-                    Roster.RosterPanelHighlightOn(ship.Value);
-                }
-            }
+            return ship.PilotSkill == RequiredPilotSkill && !ship.IsManeuverPerformed && ship.Owner.PlayerNo == RequiredPlayer;
         }
 
         public override void DoSelectThisShip(GenericShip ship, int mouseKeyIsPressed)

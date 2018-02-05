@@ -6,6 +6,7 @@ using UnityEngine.EventSystems;
 using Players;
 using System.Linq;
 using Ship;
+using System;
 
 public static partial class Roster {
 
@@ -76,13 +77,13 @@ public static partial class Roster {
         {
             GameObject newDamageIndicator = MonoBehaviour.Instantiate(damageIndicator, damageIndicatorBar.transform);
             newDamageIndicator.transform.position = damageIndicator.transform.position + new Vector3(i * (damageIndicatorWidth + 1), 0, 0);
-            if (i < newShip.Hull) {
+            if (i < newShip.MaxHull) {
                 newDamageIndicator.GetComponent<Image>().color = Color.yellow;
                 newDamageIndicator.name = "DamageIndicator.Hull." + (i+1).ToString();
             } else
             {
                 newDamageIndicator.GetComponent<Image>().color = new Color(0, 202, 255);
-                newDamageIndicator.name = "DamageIndicator.Shield." + (i-newShip.Hull+1).ToString();
+                newDamageIndicator.name = "DamageIndicator.Shield." + (i-newShip.MaxHull+1).ToString();
             }
             newDamageIndicator.SetActive(true);
         }
@@ -419,7 +420,7 @@ public static partial class Roster {
     public static void UpdateUpgradesPanel(GenericShip newShip, GameObject newPanel)
     {
         int index = 1;
-        foreach (var upgrade in newShip.UpgradeBar.GetInstalledUpgrades())
+        foreach (var upgrade in newShip.UpgradeBar.GetUpgradesAll())
         {
             GameObject upgradeNamePanel = newPanel.transform.Find("ShipInfo/UpgradesBar/Upgrade"+index).gameObject;
             upgradeNamePanel.GetComponent<Text>().text = upgrade.Name;
@@ -432,7 +433,7 @@ public static partial class Roster {
     public static void SubscribeUpgradesPanel(GenericShip newShip, GameObject newPanel)
     {
         int index = 1;
-        foreach (var upgrade in newShip.UpgradeBar.GetInstalledUpgrades())
+        foreach (var upgrade in newShip.UpgradeBar.GetUpgradesAll())
         {
             GameObject upgradeNamePanel = newPanel.transform.Find("ShipInfo/UpgradesBar/Upgrade" + index).gameObject;
 
@@ -481,8 +482,9 @@ public static partial class Roster {
         }
     }
 
-    public static void RosterPanelHighlightOn(GenericShip ship)
+    private static void RosterPanelHighlightOn(GenericShip ship)
     {
+        ship.HighlightCanBeSelectedOn();
         ship.InfoPanel.transform.Find("ShipInfo").GetComponent<Animator>().enabled = true;
     }
 

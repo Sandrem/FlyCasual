@@ -14,7 +14,7 @@ namespace Ship
             public TIEAggressor() : base()
             {
                 Type = "TIE Aggressor";
-                IconicPilot = "Sienar Specialist";
+                IconicPilots.Add(Faction.Imperial, typeof(SienarSpecialist));
 
                 ManeuversImageUrl = "https://i.imgur.com/xvzwsLa.jpg";
 

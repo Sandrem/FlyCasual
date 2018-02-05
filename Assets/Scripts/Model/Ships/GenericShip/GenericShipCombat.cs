@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DamageDeckCard;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -87,8 +88,8 @@ namespace Ship
     {
         public PrimaryWeaponClass PrimaryWeapon;
 
-        private List<CriticalHitCard.GenericCriticalHit> AssignedCritCards = new List<CriticalHitCard.GenericCriticalHit>();
-        private List<CriticalHitCard.GenericCriticalHit> AssignedDamageCards = new List<CriticalHitCard.GenericCriticalHit>();
+        public AssignedDamageCards Damage { get; private set; }
+
         public DiceRoll AssignedDamageDiceroll = new DiceRoll(DiceKind.Attack, 0, DiceRollCheckType.Virtual);
 
         public bool IsCannotAttackSecondTime { get; set; }
@@ -152,7 +153,7 @@ namespace Ship
         public event EventHandlerShip OnReadyToBeDestroyed;
         public event EventHandlerShip OnShipIsDestroyed;
 
-        public event EventHandlerShip AfterAttackWindow;
+        public event EventHandler AfterAttackWindow;
 
         public event EventHandlerShip OnAttackFinish;
         public event EventHandlerShip OnAttackFinishAsAttacker;
@@ -299,7 +300,7 @@ namespace Ship
 
         public void CallAfterAttackWindow()
         {
-            if (AfterAttackWindow != null) AfterAttackWindow(this);
+            if (AfterAttackWindow != null) AfterAttackWindow();
         }
 
         public void CallAttackFinish()
@@ -414,40 +415,6 @@ namespace Ship
             return result;
         }
 
-        public bool TryRegenHull()
-        {
-            bool result = false;
-            if (Hull < MaxHull)
-            {
-                result = true;
-                Hull++;
-                AfterAssignedDamageIsChanged(this);
-            };
-            return result;
-        }
-
-        public bool TryDiscardFaceDownDamageCard()
-        {
-            bool result = false;
-
-            if (AssignedDamageCards.Count != 0)
-            {
-                result = true;
-                int random = UnityEngine.Random.Range(0, AssignedDamageCards.Count);
-                AssignedDamageCards.RemoveAt(random);
-                Hull++;
-                AfterAssignedDamageIsChanged(this);
-            }
-            return result;
-        }
-
-        public void FlipFacedownFaceupDamageCard(CriticalHitCard.GenericCriticalHit critCard)
-        {
-            critCard.DiscardEffect(this);
-            AssignedCritCards.Remove(critCard);
-            if (Owner.GetType() == typeof(Players.HumanPlayer)) Messages.ShowInfoToHuman("Critical damage card \"" + critCard.Name + "\" is flipped facedown");
-        }
-
         // DAMAGE
 
         public void SufferDamage(object sender, EventArgs e)
@@ -466,51 +433,38 @@ namespace Ship
             }
         }
 
-        public void SufferHullDamage(bool isCritical, EventArgs e)
+        public void SufferHullDamage(bool isFaceup, EventArgs e)
         {
             AssignedDamageDiceroll.CancelHits(1);
 
-            if (DebugManager.DebugAllDamageIsCrits) isCritical = true;
+            if (DebugManager.DebugAllDamageIsCrits) isFaceup = true;
 
-            if (isCritical)
+            DamageDecks.DrawDamageCard(Owner.PlayerNo, isFaceup, ProcessDrawnDamageCard, e);
+        }
+
+        private void ProcessDrawnDamageCard(GenericDamageCard damageCard, EventArgs e)
+        {
+            Combat.CurrentCriticalHitCard = damageCard;
+
+            if (Combat.CurrentCriticalHitCard.IsFaceup)
             {
-                CriticalHitsDeck.GetCritCard(isCritical, delegate { SufferChosenCriticalHitCard(e); });
+                if (OnFaceupCritCardReadyToBeDealt != null) OnFaceupCritCardReadyToBeDealt(this, Combat.CurrentCriticalHitCard);
+
+                if (OnFaceupCritCardReadyToBeDealtGlobal != null) OnFaceupCritCardReadyToBeDealtGlobal(this, Combat.CurrentCriticalHitCard);
+
+                Triggers.RegisterTrigger(new Trigger
+                {
+                    Name = "Information about faceup damage card",
+                    TriggerOwner = this.Owner.PlayerNo,
+                    TriggerType = TriggerTypes.OnFaceupCritCardReadyToBeDealtUI,
+                    EventHandler = InformCrit.LoadAndShow
+                });
+
+                Triggers.ResolveTriggers(TriggerTypes.OnFaceupCritCardReadyToBeDealt, SufferFaceupDamageCard);
             }
             else
             {
-                CriticalHitsDeck.GetCritCard(isCritical, delegate { CallOnDamageCardIsDealt(DealRegularDamageCard); });
-            }
-        }
-
-        public void SufferChosenCriticalHitCard(EventArgs e)
-        {
-            if (DebugManager.DebugDamage) Debug.Log("+++ Crit: " + Combat.CurrentCriticalHitCard.Name);
-
-            if (OnFaceupCritCardReadyToBeDealt != null) OnFaceupCritCardReadyToBeDealt(this, Combat.CurrentCriticalHitCard);
-
-            if (OnFaceupCritCardReadyToBeDealtGlobal != null) OnFaceupCritCardReadyToBeDealtGlobal(this, Combat.CurrentCriticalHitCard, e);
-
-            Triggers.RegisterTrigger(new Trigger
-            {
-                Name = "Information about faceup damage card",
-                TriggerOwner = this.Owner.PlayerNo,
-                TriggerType = TriggerTypes.OnFaceupCritCardReadyToBeDealtUI,
-                EventHandler = delegate { InformCrit.LoadAndShow(); }
-            });
-
-            Triggers.ResolveTriggers(TriggerTypes.OnFaceupCritCardReadyToBeDealt, SufferFaceupDamageCard);
-        }
-
-        private void DealRegularDamageCard()
-        {
-            if (Combat.CurrentCriticalHitCard != null)
-            {
-                AssignedDamageCards.Add(Combat.CurrentCriticalHitCard);
-                DecreaseHullValue(Triggers.FinishTrigger);
-            }
-            else
-            {
-                Triggers.FinishTrigger();
+                CallOnDamageCardIsDealt(Damage.DealDrawnCard);
             }
         }
 
@@ -525,7 +479,7 @@ namespace Ship
 
             if (Combat.CurrentCriticalHitCard != null)
             {
-                CallOnDamageCardIsDealt(DealFaceupDamageCard);
+                CallOnDamageCardIsDealt(Damage.DealDrawnCard);
             }
             else
             {
@@ -533,24 +487,8 @@ namespace Ship
             }
         }
 
-        private void DealFaceupDamageCard()
+        public void CallHullValueIsDecreased(Action callBack)
         {
-            if (Combat.CurrentCriticalHitCard != null)
-            {
-                AssignedCritCards.Add(Combat.CurrentCriticalHitCard);
-                DecreaseHullValue(delegate { Combat.CurrentCriticalHitCard.AssignCrit(this); });
-            }
-            else
-            {
-                Triggers.FinishTrigger();
-            }
-        }
-
-        public void DecreaseHullValue(Action callBack)
-        {
-            Hull--;
-            Hull = Mathf.Max(Hull, 0);
-
             CallAfterAssignedDamageIsChanged();
 
             IsHullDestroyedCheck(callBack);
@@ -638,7 +576,7 @@ namespace Ship
             foreach (var pilotAbility in PilotAbilities)
             {
                 pilotAbility.DeactivateAbility();
-                foreach (var upgrade in UpgradeBar.GetInstalledUpgrades())
+                foreach (var upgrade in UpgradeBar.GetUpgradesOnlyFaceup())
                 {
                     foreach (var upgradeAbility in upgrade.UpgradeAbilities)
                     {
@@ -652,18 +590,13 @@ namespace Ship
             Triggers.ResolveTriggers(TriggerTypes.OnShipIsDestroyed, callback);
         }
 
-        public List<CriticalHitCard.GenericCriticalHit> GetAssignedCritCards()
-        {
-            return AssignedCritCards;
-        }
-
         // ATTACK TYPES
 
         public int GetAnotherAttackTypesCount()
         {
             int result = 0;
 
-            foreach (var upgrade in UpgradeBar.GetInstalledUpgrades())
+            foreach (var upgrade in UpgradeBar.GetUpgradesOnlyFaceup())
             {
                 IShipWeapon secondaryWeapon = upgrade as IShipWeapon;
                 if (secondaryWeapon != null)
@@ -752,11 +685,12 @@ namespace Ship
 
         public List<IShipWeapon> GetAllWeapons()
         {
-            List<IShipWeapon> allWeapons = new List<IShipWeapon>();
+            List<IShipWeapon> allWeapons = new List<IShipWeapon>
+            {
+                PrimaryWeapon
+            };
 
-            allWeapons.Add(PrimaryWeapon);
-
-            foreach (var upgrade in UpgradeBar.GetInstalledUpgrades())
+            foreach (var upgrade in UpgradeBar.GetUpgradesOnlyFaceup())
             {
                 IShipWeapon secondaryWeapon = upgrade as IShipWeapon;
                 if (secondaryWeapon != null) allWeapons.Add(secondaryWeapon);

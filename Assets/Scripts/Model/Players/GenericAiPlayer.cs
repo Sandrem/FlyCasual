@@ -214,7 +214,7 @@ namespace Players
 
             Ship.IShipWeapon chosenWeapon = null;
 
-            foreach (var upgrade in Selection.ThisShip.UpgradeBar.GetInstalledUpgrades())
+            foreach (var upgrade in Selection.ThisShip.UpgradeBar.GetUpgradesOnlyFaceup())
             {
                 Ship.IShipWeapon secondaryWeapon = (upgrade as Ship.IShipWeapon);
                 if (secondaryWeapon != null)
@@ -415,6 +415,11 @@ namespace Players
             // TODO: Handle extra attack targets
 
             UI.SkipButtonEffect();
+        }
+
+        public override void SelectShipForAbility()
+        {
+            (Phases.CurrentSubPhase as SubPhases.SelectShipSubPhase).AiSelectPrioritizedTarget();
         }
     }
 

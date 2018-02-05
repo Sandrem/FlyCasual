@@ -64,7 +64,7 @@ namespace Abilities
 
         private void SelectTarget(object sender, EventArgs e)
         {
-            SelectTargetForAbility(
+            SelectTargetForAbilityOld(
                 TargetToReassignIsSelected,
                 new List<TargetTypes>() { TargetTypes.OtherFriendly },
                 new Vector2(1, 1),

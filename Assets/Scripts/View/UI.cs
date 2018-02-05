@@ -300,7 +300,7 @@ public class UI : MonoBehaviour {
 
     public void RestartMatch()
     {
-        Phases.EndGame();
+        Rules.FinishGame();
         SquadBuilder.ReGenerateSquads(SquadBuilder.SwitchToBattlecene);
     }
 }

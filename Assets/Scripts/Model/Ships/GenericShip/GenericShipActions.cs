@@ -131,7 +131,7 @@ namespace Ship
                         Phases.StartTemporarySubPhaseOld
                         (
                             "Free action decision",
-                            typeof(SubPhases.FreeActionDecisonSubPhase),
+                            typeof(FreeActionDecisonSubPhase),
                             delegate { Actions.FinishAction(delegate { FinishFreeActionDecision(callback); }); }
                         );
                     }
@@ -143,7 +143,7 @@ namespace Ship
 
         private void FinishFreeActionDecision(Action callback)
         {
-            Phases.FinishSubPhase(typeof(SubPhases.FreeActionDecisonSubPhase));
+            Phases.FinishSubPhase(typeof(FreeActionDecisonSubPhase));
             callback();
         }
 
@@ -235,10 +235,16 @@ namespace Ship
 
         public void AddAvailableActionEffect(ActionsList.GenericAction action)
         {
-            if (CanUseActionEffect(action))
+            if (NotAlreadyAddedSameActionEffect(action) && CanUseActionEffect(action))
             {
                 AvailableActionEffects.Add(action);
             }
+        }
+
+        private bool NotAlreadyAddedSameActionEffect(ActionsList.GenericAction action)
+        {
+            // Return true if AvailableActionEffects doesn't contain action of the same type
+            return AvailableActionEffects.FirstOrDefault(n => n.GetType() == action.GetType()) == null;
         }
 
         public void AddAlreadyExecutedActionEffect(ActionsList.GenericAction action)

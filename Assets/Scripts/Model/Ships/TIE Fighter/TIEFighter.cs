@@ -14,7 +14,8 @@ namespace Ship
             public TIEFighter() : base()
             {
                 Type = "TIE Fighter";
-                IconicPilot = "Black Squadron Pilot";
+                IconicPilots.Add(Faction.Rebel, typeof(ZebOrrelios));
+                IconicPilots.Add(Faction.Imperial, typeof(BlackSquadronPilot));
 
                 ManeuversImageUrl = "https://vignette1.wikia.nocookie.net/xwing-miniatures/images/b/b6/TIE_Fighter_Move.png";
 

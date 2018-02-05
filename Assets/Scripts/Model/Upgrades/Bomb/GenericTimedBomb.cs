@@ -46,6 +46,7 @@ namespace Upgrade
 
         public override void ActivateBombs(List<GameObject> bombObjects, Action callBack)
         {
+            Phases.OnActivationPhaseEnd -= PlanTimedDetonation;
             Phases.OnActivationPhaseEnd += PlanTimedDetonation;
 
             base.ActivateBombs(bombObjects, callBack);
@@ -60,7 +61,7 @@ namespace Upgrade
                     Name = "Detonation of " + Name,
                     TriggerType = TriggerTypes.OnActivationPhaseEnd,
                     TriggerOwner = Host.Owner.PlayerNo,
-                    EventHandler = Detonate,
+                    EventHandler = TryDetonate,
                     EventArgs = new BombDetonationEventArgs()
                     {
                         BombObject = bombObject
@@ -69,53 +70,15 @@ namespace Upgrade
             }
         }
 
-        public override void Detonate(object sender, EventArgs e)
+        protected override void Detonate()
         {
-            GameObject bombObject = (e as BombDetonationEventArgs).BombObject;
             Phases.OnActivationPhaseEnd -= PlanTimedDetonation;
-            foreach (var ship in GetShipsInRange(bombObject))
+            foreach (var ship in BombsManager.GetShipsInRange(BombsManager.CurrentBombObject))
             {
                 RegisterDetonationTriggerForShip(ship);
             }
         
-            base.Detonate(sender, e);
-        }
-
-        private List<GenericShip> GetShipsInRange(GameObject bombObject)
-        {
-            List<GenericShip> result = new List<GenericShip>();
-
-            foreach (var ship in Roster.AllShips.Select(n => n.Value))
-            {
-                if (!ship.IsDestroyed)
-                {
-                    if (IsShipInDetonationRange(ship, bombObject))
-                    {
-                        result.Add(ship);
-                    }
-                }
-            }
-
-            return result;
-        }
-
-        private bool IsShipInDetonationRange(GenericShip ship, GameObject bombObject)
-        {
-            List<Vector3> bombPoints = BombsManager.GetBombPoints();
-
-            foreach (var localBombPoint in bombPoints)
-            {
-                Vector3 globalBombPoint = bombObject.transform.TransformPoint(localBombPoint);
-                foreach (var globalShipBasePoint in ship.ShipBase.GetStandPoints().Select(n => n.Value))
-                {
-                    if (Board.BoardManager.GetRangeBetweenPoints(globalBombPoint, globalShipBasePoint) == 1)
-                    {
-                        return true;
-                    }
-                }
-            }
-
-            return false;
+            base.Detonate();
         }
 
         public override void Discard(Action callBack)
@@ -141,9 +104,17 @@ namespace SubPhases
             {
                 InfoText = "Drop " + Phases.CurrentSubPhase.Name + "?";
 
-                AddDecision("Yes", DropBomb);
-                AddDecision("No", SkipDropBomb);
+                if (Selection.ThisShip.CanLaunchBombs)
+                {
+                    AddDecision("Drop", DropBomb);
+                    AddDecision("Launch", LaunchBomb);
+                }
+                else
+                {
+                    AddDecision("Yes", DropBomb);
+                }
 
+                AddDecision("No", SkipDropBomb);
                 DefaultDecision = "No";
 
                 callBack();
@@ -159,6 +130,15 @@ namespace SubPhases
             Phases.StartTemporarySubPhaseOld(
                 "Bomb drop planning",
                 typeof(BombDropPlanningSubPhase),
+                ConfirmDecision
+            );
+        }
+
+        private void LaunchBomb(object sender, System.EventArgs e)
+        {
+            Phases.StartTemporarySubPhaseOld(
+                "Bomb launch planning",
+                typeof(BombLaunchPlanningSubPhase),
                 ConfirmDecision
             );
         }

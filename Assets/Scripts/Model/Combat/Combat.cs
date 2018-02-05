@@ -46,7 +46,7 @@ public static partial class Combat
 
     public static IShipWeapon ChosenWeapon;
 
-    public static CriticalHitCard.GenericCriticalHit CurrentCriticalHitCard;
+    public static DamageDeckCard.GenericDamageCard CurrentCriticalHitCard;
 
     private static int attacksCounter;
     private static int hitsCounter;
@@ -390,10 +390,10 @@ public static partial class Combat
         Attacker.CallAttackFinish();
         Defender.CallAttackFinish();
 
-        Triggers.ResolveTriggers(TriggerTypes.OnAttackFinish, CombatEnd);
+        Triggers.ResolveTriggers(TriggerTypes.OnAttackFinish, CleanupAndCheckExtraAttacks);
     }
 
-    private static void CombatEnd()
+    private static void CleanupAndCheckExtraAttacks()
     {
         CleanupCombatData();
 
@@ -425,12 +425,9 @@ public static partial class Combat
         IsAttackAlreadyCalled = false;
     }
 
-    public static void CheckFinishCombatSubPhase()
+    public static void FinishCombatSubPhase()
     {
-        if (Roster.NoSamePlayerAndPilotSkillNotAttacked(Selection.ThisShip))
-        {
-            Phases.FinishSubPhase(typeof(CombatSubPhase));
-        }
+        Phases.FinishSubPhase(typeof(CombatSubPhase));
     }
 
     // Extra Attacks
@@ -579,10 +576,6 @@ namespace SubPhases
         {
             Phases.CurrentSubPhase = PreviousSubPhase;
             UpdateHelpInfo();
-
-            Selection.DeselectThisShip();
-            Selection.DeselectAnotherShip();
-
             Phases.CurrentSubPhase.Resume();
         }
 

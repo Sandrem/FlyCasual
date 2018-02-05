@@ -48,7 +48,7 @@ namespace Abilities
         {
             if (HostShip.Owner.Ships.Count > 1)
             {
-                SelectTargetForAbility(
+                SelectTargetForAbilityOld(
                     SelectGarvenDreisAbilityTarget,
                     new List<TargetTypes>() { TargetTypes.OtherFriendly },
                     new Vector2(1, 2)

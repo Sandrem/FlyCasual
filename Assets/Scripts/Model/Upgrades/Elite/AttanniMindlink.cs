@@ -32,7 +32,7 @@ namespace UpgradesList
             int sameUpgradesInstalled = 0;
             foreach (var ship in squadList.GetShips())
             {
-                foreach (var upgrade in ship.Instance.UpgradeBar.GetInstalledUpgrades())
+                foreach (var upgrade in ship.Instance.UpgradeBar.GetUpgradesOnlyFaceup())
                 {
                     if (upgrade.GetType() == this.GetType()) sameUpgradesInstalled++;
                 }
@@ -109,7 +109,7 @@ namespace Abilities
 
         private bool HasAttanniMinklink(GenericShip ship)
         {
-            return ship.UpgradeBar.GetInstalledUpgrades().Count(n => n.GetType() == HostUpgrade.GetType()) == 1;
+            return ship.UpgradeBar.GetUpgradesOnlyFaceup().Count(n => n.GetType() == HostUpgrade.GetType()) == 1;
         }
 
     }

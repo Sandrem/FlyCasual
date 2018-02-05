@@ -14,7 +14,7 @@ namespace Ship
             public StarViper() : base()
             {
                 Type = "StarViper";
-                IconicPilot = "Thweek";
+                IconicPilots.Add(Faction.Scum, typeof(Thweek));
 
                 ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/b/bd/MS_STARVIPER.png";
 

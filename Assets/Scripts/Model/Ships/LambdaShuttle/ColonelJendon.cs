@@ -83,7 +83,7 @@ namespace Abilities
         {
             Tooltips.EndTooltip();
 
-            SelectTargetForAbility(
+            SelectTargetForAbilityOld(
                 SelectColonelJendonAbilityTarget,
                 new List<TargetTypes> { TargetTypes.OtherFriendly },
                 new UnityEngine.Vector2(1, 1)

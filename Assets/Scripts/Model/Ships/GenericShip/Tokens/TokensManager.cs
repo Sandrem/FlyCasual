@@ -120,11 +120,11 @@ namespace Ship
             }
             else
             {
-                RemoveToken(assignedToken, callback, letter);
+                RemoveToken(assignedToken, callback);
             }
         }
 
-        public void RemoveToken(GenericToken tokenToRemove, Action callback, char letter = ' ')
+        public void RemoveToken(GenericToken tokenToRemove, Action callback)
         {
             AssignedTokens.Remove(tokenToRemove);
 
@@ -134,6 +134,7 @@ namespace Ship
                 Actions.ReleaseTargetLockLetter((tokenToRemove as GenericTargetLockToken).Letter);
                 Type oppositeType = (tokenToRemove.GetType() == typeof(BlueTargetLockToken)) ? typeof(RedTargetLockToken) : typeof(BlueTargetLockToken);
 
+                char letter = (tokenToRemove as GenericTargetLockToken).Letter;
                 GenericToken otherTargetLockToken = otherTokenOwner.Tokens.GetToken(oppositeType, letter);
                 if (otherTargetLockToken != null)
                 {

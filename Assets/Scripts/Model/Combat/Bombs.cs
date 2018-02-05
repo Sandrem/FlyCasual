@@ -4,12 +4,14 @@ using System.Linq;
 using System.Text;
 using Upgrade;
 using UnityEngine;
+using Ship;
 
 namespace Bombs
 {
+
     public class BombDetonationEventArgs : EventArgs
     {
-        public Ship.GenericShip DetonatedShip;
+        public GenericShip DetonatedShip;
         public GameObject BombObject;
     }
 
@@ -27,9 +29,13 @@ namespace Bombs
     public static class BombsManager
     {
         public static GenericBomb CurrentBomb { get; set; }
+        public static GameObject CurrentBombObject { get; set; }
 
         private static List<Vector3> generatedBombPoints = new List<Vector3>();
         private static Dictionary<GameObject, GenericBomb> minesList;
+
+        public delegate void EventHandlerBomb(GenericBomb bomb, GameObject model);
+        public static event EventHandlerBomb OnBombIsRemoved;
 
         public static void Initialize()
         {
@@ -70,6 +76,62 @@ namespace Bombs
         public static GenericBomb GetMineByObject(GameObject mineObject)
         {
             return minesList[mineObject];
+        }
+
+        public static List<GenericShip> GetShipsInRange(GameObject bombObject)
+        {
+            List<GenericShip> result = new List<GenericShip>();
+
+            foreach (var ship in Roster.AllShips.Select(n => n.Value))
+            {
+                if (!ship.IsDestroyed)
+                {
+                    if (IsShipInDetonationRange(ship, bombObject))
+                    {
+                        result.Add(ship);
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        private static bool IsShipInDetonationRange(GenericShip ship, GameObject bombObject)
+        {
+            List<Vector3> bombPoints = GetBombPoints();
+
+            foreach (var localBombPoint in bombPoints)
+            {
+                Vector3 globalBombPoint = bombObject.transform.TransformPoint(localBombPoint);
+                foreach (var globalShipBasePoint in ship.ShipBase.GetStandPoints().Select(n => n.Value))
+                {
+                    if (Board.BoardManager.GetRangeBetweenPoints(globalBombPoint, globalShipBasePoint) == 1)
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        public static void ResolveDetonationTriggers(GameObject bombObject)
+        {
+            CurrentBombObject = bombObject;
+            Triggers.ResolveTriggers(TriggerTypes.OnBombIsDetonated, ResolveRemoveModelTriggers);
+        }
+
+        private static void ResolveRemoveModelTriggers()
+        {
+            if (OnBombIsRemoved != null) OnBombIsRemoved(CurrentBomb, CurrentBombObject);
+
+            Triggers.ResolveTriggers(TriggerTypes.OnBombIsRemoved, RemoveModel);
+        }
+
+        private static void RemoveModel()
+        {
+            GameObject.Destroy(CurrentBombObject);
+            Triggers.FinishTrigger();
         }
     }
 }

@@ -3,6 +3,7 @@ using Ship;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Bombs;
 
 namespace Upgrade
 {
@@ -43,14 +44,8 @@ namespace Upgrade
 
         public virtual void Detonate(object sender, EventArgs e)
         {
-            GameObject bombObject = (e as Bombs.BombDetonationEventArgs).BombObject;
-            PlayDetonationAnimSound(bombObject, delegate { ResolveDetonationTriggers(bombObject); });
-        }
-
-        private void ResolveDetonationTriggers(GameObject bombObject)
-        {
-            GameObject.Destroy(bombObject);
-            Triggers.ResolveTriggers(TriggerTypes.OnBombDetonated, Triggers.FinishTrigger);
+            GameObject bombObject = (e as BombDetonationEventArgs).BombObject;
+            PlayDetonationAnimSound(bombObject, delegate { BombsManager.ResolveDetonationTriggers(bombObject); });
         }
 
         protected void RegisterDetonationTriggerForShip(GenericShip ship)
@@ -58,7 +53,7 @@ namespace Upgrade
             Triggers.RegisterTrigger(new Trigger
             {
                 Name = ship.ShipId + " : Detonation of " + Name,
-                TriggerType = TriggerTypes.OnBombDetonated,
+                TriggerType = TriggerTypes.OnBombIsDetonated,
                 TriggerOwner = ship.Owner.PlayerNo,
                 EventHandler = delegate
                 {

@@ -490,7 +490,7 @@ namespace SquadBuilderNS
                     if (CheckDuplicate(uniqueCards, shipConfig.Instance.PilotName)) return false;
                 }
 
-                foreach (var upgrade in shipConfig.Instance.UpgradeBar.GetInstalledUpgrades())
+                foreach (var upgrade in shipConfig.Instance.UpgradeBar.GetUpgradesAll())
                 {
                     if (upgrade.isUnique)
                     {
@@ -540,7 +540,7 @@ namespace SquadBuilderNS
             {
                 List<string> limitedCards = new List<string>();
 
-                foreach (var upgrade in shipConfig.Instance.UpgradeBar.GetInstalledUpgrades())
+                foreach (var upgrade in shipConfig.Instance.UpgradeBar.GetUpgradesAll())
                 {
                     if (upgrade.isLimited)
                     {
@@ -588,7 +588,7 @@ namespace SquadBuilderNS
 
             foreach (var shipHolder in squadList.GetShips())
             {
-                foreach (var upgradeHolder in shipHolder.Instance.UpgradeBar.GetInstalledUpgrades())
+                foreach (var upgradeHolder in shipHolder.Instance.UpgradeBar.GetUpgradesAll())
                 {
                     if (!upgradeHolder.IsAllowedForSquadBuilderPostCheck(squadList)) return false;
                 }
@@ -609,7 +609,7 @@ namespace SquadBuilderNS
                     {
                         if (upgradeSlot.MustBeDifferent)
                         {
-                            int countDuplicates = shipHolder.Instance.UpgradeBar.GetInstalledUpgrades().Count(n => n.Name == upgradeSlot.InstalledUpgrade.Name);
+                            int countDuplicates = shipHolder.Instance.UpgradeBar.GetUpgradesAll().Count(n => n.Name == upgradeSlot.InstalledUpgrade.Name);
                             if (countDuplicates > 1)
                             {
                                 Messages.ShowError("Upgrades must be different: " + upgradeSlot.InstalledUpgrade.Name);
@@ -831,7 +831,7 @@ namespace SquadBuilderNS
             pilotJson.AddField("ship", shipHolder.Instance.ShipTypeCanonical);
 
             Dictionary<string, JSONObject> upgradesDict = new Dictionary<string, JSONObject>();
-            foreach (var installedUpgrade in shipHolder.Instance.UpgradeBar.GetInstalledUpgrades())
+            foreach (var installedUpgrade in shipHolder.Instance.UpgradeBar.GetUpgradesAll())
             {
                 string slotName = UpgradeTypeToXWS(installedUpgrade.Type);
                 if (!upgradesDict.ContainsKey(slotName))

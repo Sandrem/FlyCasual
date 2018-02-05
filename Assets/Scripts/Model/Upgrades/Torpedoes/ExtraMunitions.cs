@@ -40,7 +40,7 @@ namespace Abilities
 
         private void SetOrdnanceTokens()
         {
-            foreach (var upgrade in HostShip.UpgradeBar.GetInstalledUpgrades())
+            foreach (var upgrade in HostShip.UpgradeBar.GetUpgradesOnlyFaceup())
             {
                 if (upgrade.Type == UpgradeType.Torpedo || upgrade.Type == UpgradeType.Missile || upgrade.Type == UpgradeType.Bomb)
                 {

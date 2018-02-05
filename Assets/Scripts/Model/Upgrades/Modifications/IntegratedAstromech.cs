@@ -45,7 +45,7 @@ namespace Abilities
 
         private void RegisterIntegratedAstromechTrigger(GenericShip ship)
         {
-            if (HostShip.UpgradeBar.GetInstalledUpgrades().Count(n => n.Type == UpgradeType.Astromech) != 0)
+            if (HostShip.UpgradeBar.GetUpgradesOnlyFaceup().Count(n => n.Type == UpgradeType.Astromech) != 0)
             {
                 RegisterAbilityTrigger(TriggerTypes.OnDamageCardIsDealt, AskUseIntegratedAstromechAbility);
             }
@@ -78,7 +78,7 @@ namespace Abilities
 
         private void UseAbility(object sender, System.EventArgs e)
         {
-            GenericUpgrade astromech = HostShip.UpgradeBar.GetInstalledUpgrades().Find(n => n.Type == UpgradeType.Astromech);
+            GenericUpgrade astromech = HostShip.UpgradeBar.GetUpgradesOnlyFaceup().Find(n => n.Type == UpgradeType.Astromech);
             if (astromech != null)
             {
                 Sounds.PlayShipSound("R2D2-Killed");

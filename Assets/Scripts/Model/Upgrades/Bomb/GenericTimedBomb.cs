@@ -141,9 +141,17 @@ namespace SubPhases
             {
                 InfoText = "Drop " + Phases.CurrentSubPhase.Name + "?";
 
-                AddDecision("Yes", DropBomb);
-                AddDecision("No", SkipDropBomb);
+                if (Selection.ThisShip.CanLaunchBombs)
+                {
+                    AddDecision("Drop", DropBomb);
+                    AddDecision("Launch", LaunchBomb);
+                }
+                else
+                {
+                    AddDecision("Yes", DropBomb);
+                }
 
+                AddDecision("No", SkipDropBomb);
                 DefaultDecision = "No";
 
                 callBack();
@@ -159,6 +167,15 @@ namespace SubPhases
             Phases.StartTemporarySubPhaseOld(
                 "Bomb drop planning",
                 typeof(BombDropPlanningSubPhase),
+                ConfirmDecision
+            );
+        }
+
+        private void LaunchBomb(object sender, System.EventArgs e)
+        {
+            Phases.StartTemporarySubPhaseOld(
+                "Bomb launch planning",
+                typeof(BombLaunchPlanningSubPhase),
                 ConfirmDecision
             );
         }

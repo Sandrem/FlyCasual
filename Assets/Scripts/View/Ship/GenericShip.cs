@@ -276,6 +276,11 @@ namespace Ship
             return shipAllParts.Find("ShipBase/BombDropHelper");
         }
 
+        public Transform GetBombLaunchHelper()
+        {
+            return shipAllParts.Find("ShipBase/BombLaunchHelper");
+        }
+
         public Transform GetDecloakHelper()
         {
             return Model.transform.Find("RotationHelper/RotationHelper2/DecloakHelper");

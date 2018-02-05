@@ -42,7 +42,7 @@ namespace UpgradesList
                         return true;
                     }
 
-                    foreach (var upgrade in shipHolder.Instance.UpgradeBar.GetInstalledUpgrades())
+                    foreach (var upgrade in shipHolder.Instance.UpgradeBar.GetUpgradesAll())
                     {
                         if (upgrade.Name == "Ezra Bridger")
                         {

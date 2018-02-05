@@ -238,7 +238,7 @@ public static partial class Phases
                 ability.DeactivateAbility();
             }
 
-            foreach (var upgrade in shipHolder.Value.UpgradeBar.GetInstalledUpgrades())
+            foreach (var upgrade in shipHolder.Value.UpgradeBar.GetUpgradesOnlyFaceup())
             {
                 foreach (var upgradeAbility in upgrade.UpgradeAbilities)
                 {

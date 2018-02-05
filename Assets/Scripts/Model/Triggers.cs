@@ -70,6 +70,7 @@ public enum TriggerTypes
     OnAbilityTargetIsSelected,
     OnBombIsDetonated,
     OnBombIsRemoved,
+    OnCheckPermissionToDetonate,
     OnDiscard
 }
 

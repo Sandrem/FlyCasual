@@ -14,7 +14,7 @@ namespace Ship
             public KWing() : base()
             {
                 Type = "K-Wing";
-                IconicPilot = "Miranda Doni";
+                IconicPilots.Add(Faction.Rebel, typeof(MirandaDoni));
 
                 ShipBaseArcsType = Arcs.BaseArcsType.Arc360;
 

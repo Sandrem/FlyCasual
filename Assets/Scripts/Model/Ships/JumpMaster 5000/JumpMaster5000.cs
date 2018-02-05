@@ -14,7 +14,7 @@ namespace Ship
             public JumpMaster5000() : base()
             {
                 Type = "JumpMaster 5000";
-                IconicPilot = "Dengar";
+                IconicPilots.Add(Faction.Scum, typeof(Dengar));
                 ShipBaseSize = BaseSize.Large;
                 ShipBaseArcsType = Arcs.BaseArcsType.Arc360;
 

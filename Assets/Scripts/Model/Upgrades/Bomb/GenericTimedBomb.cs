@@ -73,49 +73,12 @@ namespace Upgrade
         {
             GameObject bombObject = (e as BombDetonationEventArgs).BombObject;
             Phases.OnActivationPhaseEnd -= PlanTimedDetonation;
-            foreach (var ship in GetShipsInRange(bombObject))
+            foreach (var ship in BombsManager.GetShipsInRange(bombObject))
             {
                 RegisterDetonationTriggerForShip(ship);
             }
         
             base.Detonate(sender, e);
-        }
-
-        private List<GenericShip> GetShipsInRange(GameObject bombObject)
-        {
-            List<GenericShip> result = new List<GenericShip>();
-
-            foreach (var ship in Roster.AllShips.Select(n => n.Value))
-            {
-                if (!ship.IsDestroyed)
-                {
-                    if (IsShipInDetonationRange(ship, bombObject))
-                    {
-                        result.Add(ship);
-                    }
-                }
-            }
-
-            return result;
-        }
-
-        private bool IsShipInDetonationRange(GenericShip ship, GameObject bombObject)
-        {
-            List<Vector3> bombPoints = BombsManager.GetBombPoints();
-
-            foreach (var localBombPoint in bombPoints)
-            {
-                Vector3 globalBombPoint = bombObject.transform.TransformPoint(localBombPoint);
-                foreach (var globalShipBasePoint in ship.ShipBase.GetStandPoints().Select(n => n.Value))
-                {
-                    if (Board.BoardManager.GetRangeBetweenPoints(globalBombPoint, globalShipBasePoint) == 1)
-                    {
-                        return true;
-                    }
-                }
-            }
-
-            return false;
         }
 
         public override void Discard(Action callBack)

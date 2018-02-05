@@ -107,7 +107,7 @@ namespace Upgrade
             if (immediateDetonationsCheckedCount == minesDropped)
             {
                 immediateDetonationsCheckedCount = 0;
-                Triggers.ResolveTriggers(TriggerTypes.OnBombDetonated, CallBack);
+                Triggers.ResolveTriggers(TriggerTypes.OnBombIsDetonated, CallBack);
             }
         }
 

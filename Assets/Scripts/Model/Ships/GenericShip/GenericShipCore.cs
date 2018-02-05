@@ -193,6 +193,7 @@ namespace Ship
 
         public GenericShip()
         {
+            IconicPilots = new Dictionary<Faction, Type>();
             factions = new List<Faction>();
             SoundFlyPaths = new List<string> ();
             Maneuvers = new Dictionary<string, Movement.ManeuverColor>();

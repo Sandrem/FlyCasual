@@ -14,7 +14,7 @@ namespace Ship
             public EWing() : base()
             {
                 Type = "E-Wing";
-                IconicPilot = "Knave Squadron Pilot";
+                IconicPilots.Add(Faction.Rebel, typeof(KnaveSquadronPilot));
 
                 ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/a/aa/MR_E-WING.png";
 

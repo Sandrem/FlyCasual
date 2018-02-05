@@ -14,7 +14,8 @@ namespace Ship
             public ScurrgH6Bomber() : base()
             {
                 Type = "Scurrg H-6 Bomber";
-                IconicPilot = "Captain Nym";
+                IconicPilots.Add(Faction.Rebel, typeof(CaptainNymRebel));
+                IconicPilots.Add(Faction.Scum, typeof(CaptainNymScum));
 
                 ManeuversImageUrl = "https://i.imgur.com/CfJoyso.jpg";
 

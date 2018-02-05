@@ -14,7 +14,7 @@ namespace Ship
             public LambdaShuttle() : base()
             {
                 Type = "Lambda-class Shuttle";
-                IconicPilot = "Captain Yorr";
+                IconicPilots.Add(Faction.Imperial, typeof(CaptainYorr));
                 ShipBaseSize = BaseSize.Large;
 
                 ManeuversImageUrl = "https://vignette2.wikia.nocookie.net/xwing-miniatures/images/c/c3/MI_LAMBDA-SHUTTLE.png";

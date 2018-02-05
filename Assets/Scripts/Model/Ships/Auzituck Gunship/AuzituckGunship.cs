@@ -14,7 +14,7 @@ namespace Ship
             public AuzituckGunship() : base()
             {
                 Type = "Auzituck Gunship";
-                IconicPilot = "Lowhhrick";
+                IconicPilots.Add(Faction.Rebel, typeof(Lowhhrick));
                 ShipBaseArcsType = Arcs.BaseArcsType.Arc180;
 
                 ManeuversImageUrl = "https://i.imgur.com/d8r9zJB.jpg";

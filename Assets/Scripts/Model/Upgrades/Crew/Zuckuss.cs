@@ -2,9 +2,11 @@
 using Ship;
 using System.Linq;
 using Tokens;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using SquadBuilderNS;
+using Abilities;
 
 namespace UpgradesList
 {
@@ -17,6 +19,8 @@ namespace UpgradesList
             Cost = 1;
 
             isUnique = true;
+
+            UpgradeAbilities.Add(new ZuckussCrewAbility());
         }
 
         public override bool IsAllowedForShip(GenericShip ship)
@@ -24,17 +28,30 @@ namespace UpgradesList
             return ship.faction == Faction.Scum;
         }
 
-        public override void AttachToShip(GenericShip host)
-        {
-            base.AttachToShip(host);
+    }
+}
 
-            host.AfterGenerateAvailableOppositeActionEffectsList += ZuckussDiceModification;
+namespace Abilities
+{
+    public class ZuckussCrewAbility : GenericAbility
+    {
+        public override void ActivateAbility()
+        { 
+            HostShip.AfterGenerateAvailableOppositeActionEffectsList += ZuckussCrewAddAction;
         }
 
-        private void ZuckussDiceModification(GenericShip host)
+        public override void DeactivateAbility()
         {
-            ActionsList.GenericAction newAction = new ActionsList.ZuckussDiceModification() { ImageUrl = ImageUrl, Host = this.Host };
-            host.AddAvailableOppositeActionEffect(newAction);
+            HostShip.AfterGenerateAvailableOppositeActionEffectsList -= ZuckussCrewAddAction;
+        }
+        private void ZuckussCrewAddAction(Ship.GenericShip host)
+        {
+            ActionsList.GenericAction action = new ActionsList.ZuckussDiceModification()            
+            {
+                ImageUrl = HostUpgrade.ImageUrl,
+                Host = HostShip
+            };
+            host.AddAvailableOppositeActionEffect(action);
         }
     }
 }
@@ -63,16 +80,6 @@ namespace ActionsList
         public override int GetActionEffectPriority()
         {
             int result = 0;
-
-            if ((Combat.AttackStep == CombatStep.Defence) && (!Host.Tokens.HasToken(typeof(StressToken))))
-            {
-                int defenceSuccesses = Combat.DiceRollDefence.RegularSuccesses;
-
-                if (Combat.Defender.GetAvailableActionEffectsList().Count(n => n.IsTurnsAllFocusIntoSuccess) > 0)
-                {
-                    if (defenceSuccesses > 0) result = 90;
-                }
-            }
 
             return result;
         }

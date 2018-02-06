@@ -9,8 +9,6 @@ public enum TriggerTypes
 {
     None,
 
-    OnAbilityDirect,
-
     OnGameStart,
     OnSetupPhaseStart,
     OnBeforePlaceForces,
@@ -66,11 +64,14 @@ public enum TriggerTypes
     OnFaceupCritCardIsDealt,
     OnShipIsDestroyed,
 
-    OnMajorExplosionCrit,
-    OnAbilityTargetIsSelected,
     OnBombIsDetonated,
     OnBombIsRemoved,
     OnCheckPermissionToDetonate,
+    OnCheckSufferBombDetonation,
+
+    OnAbilityDirect,
+    OnAbilityTargetIsSelected,
+    OnMajorExplosionCrit,
     OnDiscard
 }
 

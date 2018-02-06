@@ -98,6 +98,8 @@ namespace Abilities
             RemoveOrdnanceToken(GenericUpgrade.CurrentUpgrade);
 
             GenericUpgrade.CurrentUpgrade = null;
+
+            callback();
         }
     }
 }

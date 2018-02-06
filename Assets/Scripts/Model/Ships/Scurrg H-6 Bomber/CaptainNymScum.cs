@@ -5,6 +5,7 @@ using Bombs;
 using Abilities;
 using Ship;
 using ActionsList;
+using Upgrade;
 
 namespace Ship
 {
@@ -36,12 +37,16 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
+            BombsManager.OnCheckPermissionToDetonate += CheckIgnoreMines;
             GenericShip.AfterGenerateAvailableActionEffectsListGlobal += CheckObstructionBonus;
+            HostShip.OnCheckSufferBombDetonation += CheckIgnoreTimedBombs;
         }
 
         public override void DeactivateAbility()
         {
+            BombsManager.OnCheckPermissionToDetonate -= CheckIgnoreMines;
             GenericShip.AfterGenerateAvailableActionEffectsListGlobal -= CheckObstructionBonus;
+            HostShip.OnCheckSufferBombDetonation -= CheckIgnoreTimedBombs;
         }
 
         private void CheckObstructionBonus()
@@ -54,6 +59,72 @@ namespace Abilities
             {
                 Combat.Defender.AddAvailableActionEffect(new CaptainNymObstructionBonus());
             }
+        }
+
+        private void CheckIgnoreMines(GenericBomb bomb, GenericShip ship)
+        {
+            if (ship == null || ship.ShipId != HostShip.ShipId) return;
+
+            if (bomb.GetType().BaseType == typeof(GenericContactMine))
+            {
+                RegisterAbilityTrigger(TriggerTypes.OnCheckPermissionToDetonate, AskToIgnoreContactMine);
+            }
+        }
+
+        private void AskToIgnoreContactMine(object sender, System.EventArgs e)
+        {
+            if (!alwaysUseAbility)
+            {
+                Messages.ShowInfoToHuman(string.Format("{0} token is ready for detonation", BombsManager.CurrentBomb.Name));
+                AskToUseAbility(AlwaysUseByDefault, IgnoreContactMineDecision, null, null, true);
+            }
+            else
+            {
+                IgnoreContactMine(Triggers.FinishTrigger);
+            }
+        }
+
+        private void IgnoreContactMineDecision(object sender, System.EventArgs e)
+        {
+            IgnoreContactMine(SubPhases.DecisionSubPhase.ConfirmDecision);
+        }
+
+        private void IgnoreContactMine(System.Action callback)
+        {
+            BombsManager.DetonationIsAllowed = false;
+            callback();
+        }
+
+        private void CheckIgnoreTimedBombs(GenericShip detonatedShip)
+        {
+            if (BombsManager.CurrentBomb.Host.Owner.PlayerNo == HostShip.Owner.PlayerNo)
+            {
+                RegisterAbilityTrigger(TriggerTypes.OnCheckSufferBombDetonation, AskToIgnoreTimedBomb);
+            }
+        }
+
+        private void AskToIgnoreTimedBomb(object sender, System.EventArgs e)
+        {
+            if (!alwaysUseAbility)
+            {
+                Messages.ShowInfoToHuman(string.Format("{0} token is ready for deal effect", BombsManager.CurrentBomb.Name));
+                AskToUseAbility(AlwaysUseByDefault, IgnoreTimedBombDecision, null, null, true);
+            }
+            else
+            {
+                IgnoreTimedBomb(Triggers.FinishTrigger);
+            }
+        }
+
+        private void IgnoreTimedBombDecision(object sender, System.EventArgs e)
+        {
+            IgnoreTimedBomb(SubPhases.DecisionSubPhase.ConfirmDecision);
+        }
+
+        private void IgnoreTimedBomb(System.Action callback)
+        {
+            HostShip.IgnoressBombDetonationEffect = true;
+            callback();
         }
     }
 }

@@ -64,10 +64,9 @@ namespace ActionsList
 
         public override void ActionEffect(System.Action callBack)
         {
-            Combat.CurrentDiceRoll.CancelAllResults();
-            Combat.CurrentDiceRoll.OrganizeDicePositions();
+            Combat.CurrentDiceRoll.RemoveAll();            
             Combat.CurrentDiceRoll.AddDice(DieSide.Success).ShowWithoutRoll();
-            Combat.CurrentDiceRoll.AddDice(DieSide.Success).ShowWithoutRoll();
+            Combat.CurrentDiceRoll.AddDice(DieSide.Success).ShowWithoutRoll();            
             Combat.CurrentDiceRoll.OrganizeDicePositions();
             Combat.Attacker.OnTryAddAvailableActionEffect += UseDiceModificationRestriction;
             Combat.Attacker.OnTryAddAvailableOppositeActionEffect += UseDiceModificationRestriction;

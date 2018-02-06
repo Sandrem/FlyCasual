@@ -355,6 +355,17 @@ public partial class DiceRoll
         }
     }
 
+    //Used to clean the diceboard before adding other dice [ Accuracy corrector ]
+    public void RemoveAll()
+    {
+        List<Die> dice = new List<Die>(DiceList);
+        foreach (Die die in dice)
+        {
+            DiceList.Remove(die);
+            die.RemoveModel();
+        }
+    }
+
     private bool CancelType(DieSide type)
     {
         bool found = false;

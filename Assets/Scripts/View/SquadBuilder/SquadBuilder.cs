@@ -95,9 +95,9 @@ namespace SquadBuilderNS
         {
             string image = null;
 
-            if (ship.Instance.IconicPilot != null)
+            if (ship.Instance.IconicPilots != null)
             {
-                image = AllPilots.Find(n => n.PilotName == ship.Instance.IconicPilot && n.PilotShip.ShipName == ship.Instance.Type).Instance.ImageUrl;
+                image = AllPilots.Find(n => n.PilotTypeName == ship.Instance.IconicPilots[CurrentSquadList.SquadFaction].ToString()).Instance.ImageUrl;
             }
 
             return image;
@@ -185,7 +185,7 @@ namespace SquadBuilderNS
 
             Transform contentTransform = ship.Panel.Panel.transform;
             RectTransform contentRect = contentTransform.GetComponent<RectTransform>();
-            int installedUpgradesCount = ship.Instance.UpgradeBar.GetInstalledUpgrades().Count;
+            int installedUpgradesCount = ship.Instance.UpgradeBar.GetUpgradesAll().Count;
             contentRect.sizeDelta = new Vector2(PILOT_CARD_WIDTH + (UPGRADE_CARD_WIDTH + DISTANCE_SMALL) * installedUpgradesCount, contentRect.sizeDelta.y);
 
             prefab = (GameObject)Resources.Load("Prefabs/SquadBuilder/PilotPanel", typeof(GameObject));
@@ -202,7 +202,7 @@ namespace SquadBuilderNS
         {
             availableUpgradesCounter = 0;
 
-            foreach (GenericUpgrade upgrade in ship.Instance.UpgradeBar.GetInstalledUpgrades())
+            foreach (GenericUpgrade upgrade in ship.Instance.UpgradeBar.GetUpgradesAll())
             {
                 ShowUpgradeOfPilot(upgrade, ship);
             }

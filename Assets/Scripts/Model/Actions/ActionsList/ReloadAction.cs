@@ -18,11 +18,11 @@ namespace ActionsList
 
         public override void ActionTake()
         {
-            foreach (var upgrade in Selection.ThisShip.UpgradeBar.GetInstalledUpgrades())
+            foreach (var upgrade in Selection.ThisShip.UpgradeBar.GetUpgradesOnlyDiscarded())
             {
                 if (upgrade.Type == UpgradeType.Missile || upgrade.Type == UpgradeType.Torpedo)
                 {
-                    if (upgrade.isDiscarded) upgrade.FlipFaceup();
+                    upgrade.FlipFaceup();
                 }
             }
 
@@ -33,7 +33,7 @@ namespace ActionsList
         {
             int result = 0;
 
-            int discardedOrdnance = Selection.ThisShip.UpgradeBar.GetInstalledUpgrades().Count(n => (n.Type == UpgradeType.Missile || n.Type == UpgradeType.Torpedo) && n.isDiscarded);
+            int discardedOrdnance = Selection.ThisShip.UpgradeBar.GetUpgradesOnlyDiscarded().Count(n => n.Type == UpgradeType.Missile || n.Type == UpgradeType.Torpedo);
             result = discardedOrdnance * 30;
 
             return result;

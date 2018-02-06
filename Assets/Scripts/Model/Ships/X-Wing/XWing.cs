@@ -14,7 +14,7 @@ namespace Ship
             public XWing() : base()
             {
                 Type = "X-Wing";
-                IconicPilot = "Wedge Antilles";
+                IconicPilots.Add(Faction.Rebel, typeof(WedgeAntilles));
 
                 ManeuversImageUrl = "https://vignette1.wikia.nocookie.net/xwing-miniatures/images/3/3d/MR_T65-X-WING.png";
 

@@ -420,7 +420,7 @@ public static partial class Roster {
     public static void UpdateUpgradesPanel(GenericShip newShip, GameObject newPanel)
     {
         int index = 1;
-        foreach (var upgrade in newShip.UpgradeBar.GetInstalledUpgrades())
+        foreach (var upgrade in newShip.UpgradeBar.GetUpgradesAll())
         {
             GameObject upgradeNamePanel = newPanel.transform.Find("ShipInfo/UpgradesBar/Upgrade"+index).gameObject;
             upgradeNamePanel.GetComponent<Text>().text = upgrade.Name;
@@ -433,7 +433,7 @@ public static partial class Roster {
     public static void SubscribeUpgradesPanel(GenericShip newShip, GameObject newPanel)
     {
         int index = 1;
-        foreach (var upgrade in newShip.UpgradeBar.GetInstalledUpgrades())
+        foreach (var upgrade in newShip.UpgradeBar.GetUpgradesAll())
         {
             GameObject upgradeNamePanel = newPanel.transform.Find("ShipInfo/UpgradesBar/Upgrade" + index).gameObject;
 

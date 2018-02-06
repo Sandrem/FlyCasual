@@ -68,7 +68,9 @@ public enum TriggerTypes
 
     OnMajorExplosionCrit,
     OnAbilityTargetIsSelected,
-    OnBombDetonated,
+    OnBombIsDetonated,
+    OnBombIsRemoved,
+    OnCheckPermissionToDetonate,
     OnDiscard
 }
 

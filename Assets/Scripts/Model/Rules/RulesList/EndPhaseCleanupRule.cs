@@ -17,7 +17,16 @@ namespace RulesList
 
         private void SubscribeEvents()
         {
+            Phases.OnRoundStart += InitializeAll;
             Phases.OnRoundEnd += RegisterClearAll;
+        }
+
+        private void InitializeAll()
+        {
+            foreach (var ship in Roster.AllShips.Values)
+            {
+                ship.IsCannotAttackSecondTime = false;
+            }
         }
 
         private void RegisterClearAll()

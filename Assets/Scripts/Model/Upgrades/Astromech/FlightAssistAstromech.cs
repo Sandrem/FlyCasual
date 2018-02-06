@@ -49,7 +49,7 @@ namespace Abilities
 
         private void SetCannotAttackOutsideArc()
         {
-            foreach (IShipWeapon weapon in HostShip.UpgradeBar.GetInstalledUpgrades().Where(n => n is IShipWeapon))
+            foreach (IShipWeapon weapon in HostShip.UpgradeBar.GetUpgradesOnlyFaceup().Where(n => n is IShipWeapon))
             {
                 if (weapon.CanShootOutsideArc)
                 {

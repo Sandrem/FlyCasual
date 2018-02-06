@@ -37,8 +37,6 @@ public static partial class Combat
     public static DiceRoll DiceRollDefence;
     public static DiceRoll CurrentDiceRoll;
 
-    public static bool IsObstructed;
-
     public static CombatStep AttackStep = CombatStep.None;
 
     public static GenericShip Attacker;
@@ -420,7 +418,6 @@ public static partial class Combat
         ChosenWeapon = null;
         ShotInfo = null;
         hitsCounter = 0;
-        IsObstructed = false;
         ExtraAttackFilter = null;
         IsAttackAlreadyCalled = false;
     }

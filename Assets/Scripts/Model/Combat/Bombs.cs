@@ -140,6 +140,7 @@ namespace Bombs
         public static void CallGetPermissionToDetonateTrigger(Action callback)
         {
             DetonationIsAllowed = true;
+            ToggleReadyToDetonateHighLight(CurrentBombObject, true);
 
             if (OnCheckPermissionToDetonate != null) OnCheckPermissionToDetonate(CurrentBomb, DetonatedShip);
 
@@ -148,6 +149,8 @@ namespace Bombs
 
         private static void CheckPermissionToDetonate(Action callback)
         {
+            ToggleReadyToDetonateHighLight(CurrentBombObject, false);
+
             if (DetonationIsAllowed)
             {
                 callback();
@@ -156,6 +159,11 @@ namespace Bombs
             {
                 Triggers.FinishTrigger();
             }
+        }
+
+        private static void ToggleReadyToDetonateHighLight(GameObject bombObject, bool isActive)
+        {
+            bombObject.transform.Find("Light").gameObject.SetActive(isActive);
         }
 
     }

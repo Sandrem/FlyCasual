@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Abilities;
 using SubPhases;
+using System;
 
 namespace UpgradesList
 {
@@ -73,20 +74,30 @@ namespace Abilities
             }
         }
 
-        private void AskExtraMunitionsDecision(object sender, System.EventArgs e)
+        private void AskExtraMunitionsDecision(object sender, EventArgs e)
         {
-            AskToUseAbility(AlwaysUseByDefault, UseAbility, null, null, true);
+            if (!alwaysUseAbility)
+            {
+                AskToUseAbility(AlwaysUseByDefault, UseAbilityDecision, null, null, true);
+            }
+            else
+            {
+                DiscardTokenInstead(Triggers.FinishTrigger);
+            }
         }
 
-        private void UseAbility(object sender, System.EventArgs e)
+        private void UseAbilityDecision(object sender, EventArgs e)
+        {
+            DiscardTokenInstead(DecisionSubPhase.ConfirmDecision);
+        }
+
+        private void DiscardTokenInstead(Action callback)
         {
             Messages.ShowInfo("Ordnance token is discarded instead of " + GenericUpgrade.CurrentUpgrade.Name);
 
             RemoveOrdnanceToken(GenericUpgrade.CurrentUpgrade);
 
             GenericUpgrade.CurrentUpgrade = null;
-
-            DecisionSubPhase.ConfirmDecision();
         }
     }
 }

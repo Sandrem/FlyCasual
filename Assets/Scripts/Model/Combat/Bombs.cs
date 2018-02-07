@@ -18,13 +18,13 @@ namespace Bombs
 
     public enum BombDropTemplates
     {
-        Straight1,
-        Straight2,
-        Straight3,
-        Turn1Left,
-        Turn1Right,
-        Turn3Left,
-        Turn3Right
+        Straight_1,
+        Straight_2,
+        Straight_3,
+        Turn_1_Left,
+        Turn_1_Right,
+        Turn_3_Left,
+        Turn_3_Right
     }
 
     public static class BombsManager

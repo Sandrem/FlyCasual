@@ -20,28 +20,8 @@ namespace Upgrade
         {
             base.AttachToShip(host);
 
-            host.OnManeuverIsRevealed += RegisterAskDropBomb;
-        }
-
-        private void RegisterAskDropBomb(GenericShip host)
-        {
-            Triggers.RegisterTrigger(new Trigger()
-            {
-                Name = Name + " : Ask to drop",
-                TriggerOwner = host.Owner.PlayerNo,
-                TriggerType = TriggerTypes.OnManeuverIsRevealed,
-                EventHandler = AskDropBomb
-            });
-        }
-
-        private void AskDropBomb(object sender, System.EventArgs e)
-        {
-            BombsManager.CurrentBomb = this;
-            Phases.StartTemporarySubPhaseOld(
-                Name,
-                typeof(SubPhases.DropBombDecisionSubPhase),
-                delegate { Triggers.FinishTrigger(); }
-            );
+            host.OnManeuverIsRevealed -= BombsManager.CheckBombDropAvailability;
+            host.OnManeuverIsRevealed += BombsManager.CheckBombDropAvailability;
         }
 
         public override void ActivateBombs(List<GameObject> bombObjects, Action callBack)
@@ -79,73 +59,6 @@ namespace Upgrade
             }
         
             base.Detonate();
-        }
-
-        public override void Discard(Action callBack)
-        {
-            Host.OnManeuverIsRevealed -= RegisterAskDropBomb;
-
-            base.Discard(callBack);
-        }
-
-    }
-
-}
-
-namespace SubPhases
-{
-
-    public class DropBombDecisionSubPhase : DecisionSubPhase
-    {
-
-        public override void PrepareDecision(System.Action callBack)
-        {
-            if (!Selection.ThisShip.IsBombAlreadyDropped)
-            {
-                InfoText = "Drop " + Phases.CurrentSubPhase.Name + "?";
-
-                if (Selection.ThisShip.CanLaunchBombs)
-                {
-                    AddDecision("Drop", DropBomb);
-                    AddDecision("Launch", LaunchBomb);
-                }
-                else
-                {
-                    AddDecision("Yes", DropBomb);
-                }
-
-                AddDecision("No", SkipDropBomb);
-                DefaultDecision = "No";
-
-                callBack();
-            }
-            else
-            {
-                SkipDropBomb(null, null);
-            }
-        }
-
-        private void DropBomb(object sender, System.EventArgs e)
-        {
-            Phases.StartTemporarySubPhaseOld(
-                "Bomb drop planning",
-                typeof(BombDropPlanningSubPhase),
-                ConfirmDecision
-            );
-        }
-
-        private void LaunchBomb(object sender, System.EventArgs e)
-        {
-            Phases.StartTemporarySubPhaseOld(
-                "Bomb launch planning",
-                typeof(BombLaunchPlanningSubPhase),
-                ConfirmDecision
-            );
-        }
-
-        private void SkipDropBomb(object sender, System.EventArgs e)
-        {
-            ConfirmDecision();
         }
 
     }

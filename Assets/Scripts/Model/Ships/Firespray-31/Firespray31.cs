@@ -15,7 +15,7 @@ namespace Ship
             {
                 Type = "Firespray-31";
                 IconicPilots.Add(Faction.Imperial, typeof(BobaFettEmpire));
-                IconicPilots.Add(Faction.Scum, typeof(BobaFettEmpire));
+                IconicPilots.Add(Faction.Scum, typeof(EmonAzzameen));
                 ShipBaseSize = BaseSize.Large;
                 ShipBaseArcsType = Arcs.BaseArcsType.ArcRear;
 

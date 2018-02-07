@@ -60,6 +60,7 @@ namespace Abilities
         {
             if (!IsAbilityUsed)
             {
+                Messages.ShowInfoToHuman(string.Format("{0} token is ready for detonation", BombsManager.CurrentBomb.Name));
                 AskToUseAbility(NeverUseByDefault, UseAbility);
             }
             else

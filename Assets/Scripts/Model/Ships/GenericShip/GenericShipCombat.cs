@@ -95,6 +95,7 @@ namespace Ship
         public bool IsCannotAttackSecondTime { get; set; }
         public bool CanAttackBumpedTargetAlways { get; set; }
         public bool PreventDestruction { get; set; }
+        public bool IgnoressBombDetonationEffect { get; set; }
 
         // EVENTS
 
@@ -172,6 +173,8 @@ namespace Ship
 
         public event EventHandlerShip OnCombatActivation;
         public static event EventHandlerShip OnCombatActivationGlobal;
+
+        public event EventHandlerShip OnCheckSufferBombDetonation;
 
         // TRIGGERS
 
@@ -626,7 +629,7 @@ namespace Ship
 
         public List<Bombs.BombDropTemplates> GetAvailableBombDropTemplates()
         {
-            List<Bombs.BombDropTemplates> availableTemplates = new List<Bombs.BombDropTemplates>() { Bombs.BombDropTemplates.Straight1 };
+            List<Bombs.BombDropTemplates> availableTemplates = new List<Bombs.BombDropTemplates>() { Bombs.BombDropTemplates.Straight_1 };
 
             if (OnGetAvailableBombDropTemplates != null) OnGetAvailableBombDropTemplates(availableTemplates);
 
@@ -697,6 +700,14 @@ namespace Ship
             }
 
             return allWeapons;
+        }
+
+        public void CallCheckSufferBombDetonation(Action callback)
+        {
+            IgnoressBombDetonationEffect = false;
+
+            if (OnCheckSufferBombDetonation != null) OnCheckSufferBombDetonation(this);
+            Triggers.ResolveTriggers(TriggerTypes.OnCheckSufferBombDetonation, callback);
         }
 
     }

@@ -5,6 +5,7 @@ using System.Text;
 using Upgrade;
 using UnityEngine;
 using Ship;
+using SubPhases;
 
 namespace Bombs
 {
@@ -17,13 +18,13 @@ namespace Bombs
 
     public enum BombDropTemplates
     {
-        Straight1,
-        Straight2,
-        Straight3,
-        Turn1Left,
-        Turn1Right,
-        Turn3Left,
-        Turn3Right
+        Straight_1,
+        Straight_2,
+        Straight_3,
+        Turn_1_Left,
+        Turn_1_Right,
+        Turn_3_Left,
+        Turn_3_Right
     }
 
     public static class BombsManager
@@ -140,6 +141,7 @@ namespace Bombs
         public static void CallGetPermissionToDetonateTrigger(Action callback)
         {
             DetonationIsAllowed = true;
+            ToggleReadyToDetonateHighLight(CurrentBombObject, true);
 
             if (OnCheckPermissionToDetonate != null) OnCheckPermissionToDetonate(CurrentBomb, DetonatedShip);
 
@@ -148,6 +150,8 @@ namespace Bombs
 
         private static void CheckPermissionToDetonate(Action callback)
         {
+            ToggleReadyToDetonateHighLight(CurrentBombObject, false);
+
             if (DetonationIsAllowed)
             {
                 callback();
@@ -156,6 +160,145 @@ namespace Bombs
             {
                 Triggers.FinishTrigger();
             }
+        }
+
+        private static void ToggleReadyToDetonateHighLight(GameObject bombObject, bool isActive)
+        {
+            bombObject.transform.Find("Light").gameObject.SetActive(isActive);
+        }
+
+        public static void CheckBombDropAvailability(GenericShip ship)
+        {
+            if (!ship.IsBombAlreadyDropped && HasTimedBombs(ship))
+            {
+                Triggers.RegisterTrigger(new Trigger()
+                {
+                    Name = "Ask what bomb to drop",
+                    TriggerType = TriggerTypes.OnMovementActivation,
+                    TriggerOwner = ship.Owner.PlayerNo,
+                    EventHandler = AskWhatBombToDrop,
+                    Sender = ship
+                });
+            }
+        }
+
+        private static void AskWhatBombToDrop(object sender, EventArgs e)
+        {
+            Selection.ChangeActiveShip("ShipId:" + (sender as GenericShip).ShipId);
+
+            BombDecisionSubPhase selectBombToDrop = (BombDecisionSubPhase)Phases.StartTemporarySubPhaseNew(
+                "Select bomb to drop",
+                typeof(BombDecisionSubPhase),
+                CheckSelectedBomb
+            );
+
+            foreach (var timedBombInstalled in GetTimedBombsInstalled(Selection.ThisShip))
+            {
+                selectBombToDrop.AddDecision(
+                    timedBombInstalled.Name,
+                    delegate { SelectBomb(timedBombInstalled); }
+                );
+            }
+
+            selectBombToDrop.AddDecision(
+                "None",
+                delegate { SelectBomb(null); }
+            );
+
+            selectBombToDrop.InfoText = "Select bomb to drop";
+
+            selectBombToDrop.DefaultDecision = "None";
+
+            selectBombToDrop.RequiredPlayer = Selection.ThisShip.Owner.PlayerNo;
+
+            selectBombToDrop.Start();
+        }
+
+        private static void SelectBomb(GenericUpgrade timedBombUpgrade)
+        {
+            CurrentBomb = timedBombUpgrade as GenericTimedBomb;
+            DecisionSubPhase.ConfirmDecision();
+        }
+
+        private class BombDecisionSubPhase : DecisionSubPhase { }
+
+        private static void CheckSelectedBomb()
+        {
+            if (CurrentBomb != null)
+            {
+                if (Selection.ThisShip.CanLaunchBombs)
+                {
+                    AskWayToDropBomb();
+                }
+                else
+                {
+                    DropBombWithoudDecision();
+                }
+            }
+            else
+            {
+                Triggers.FinishTrigger();
+            }
+        }
+
+        private static void AskWayToDropBomb()
+        {
+            WayToDropDecisionSubPhase selectBombToDrop = (WayToDropDecisionSubPhase)Phases.StartTemporarySubPhaseNew(
+                "Select way to drop bomb",
+                typeof(WayToDropDecisionSubPhase),
+                Triggers.FinishTrigger
+            );
+
+            selectBombToDrop.AddDecision("Drop", DropBomb);
+            selectBombToDrop.AddDecision("Launch", LaunchBomb);
+
+            selectBombToDrop.InfoText = "Select way to drop the bomb";
+
+            selectBombToDrop.DefaultDecision = "Drop";
+
+            selectBombToDrop.RequiredPlayer = Selection.ThisShip.Owner.PlayerNo;
+
+            selectBombToDrop.Start();
+        }
+
+        private static void DropBombWithoudDecision()
+        {
+            Phases.StartTemporarySubPhaseOld(
+                "Bomb drop planning",
+                typeof(BombDropPlanningSubPhase),
+                Triggers.FinishTrigger
+            );
+        }
+
+        private static void DropBomb(object sender, System.EventArgs e)
+        {
+            Phases.StartTemporarySubPhaseOld(
+                "Bomb drop planning",
+                typeof(BombDropPlanningSubPhase),
+                DecisionSubPhase.ConfirmDecision
+            );
+        }
+
+        private static void LaunchBomb(object sender, System.EventArgs e)
+        {
+            Phases.StartTemporarySubPhaseOld(
+                "Bomb launch planning",
+                typeof(BombLaunchPlanningSubPhase),
+                DecisionSubPhase.ConfirmDecision
+            );
+        }
+
+        private class WayToDropDecisionSubPhase : DecisionSubPhase { }
+
+        public static List<GenericUpgrade> GetTimedBombsInstalled(GenericShip ship)
+        {
+            return ship.UpgradeBar.GetUpgradesOnlyFaceup().Where(n => n.GetType().BaseType == typeof(GenericTimedBomb)).ToList();
+        }
+
+        public static bool HasTimedBombs(GenericShip ship)
+        {
+            int timedBombsInstalledCount = GetTimedBombsInstalled(ship).Count;
+            return timedBombsInstalledCount > 0;
         }
 
     }

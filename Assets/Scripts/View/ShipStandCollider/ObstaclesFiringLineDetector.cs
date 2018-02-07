@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class ObstaclesFiringLineDetector : MonoBehaviour {
 
-    public bool IsObstructed { get; set; }
+    public bool IsObstructedByAsteroid { get; set; }
+    public bool IsObstructedByBombToken { get; set; }
 
     public Vector3 PointStart;
     public Vector3 PointEnd;
@@ -13,7 +14,11 @@ public class ObstaclesFiringLineDetector : MonoBehaviour {
     {
         if (collisionInfo.tag == "Asteroid")
         {
-            IsObstructed = true;
+            IsObstructedByAsteroid = true;
+        }
+        else if (collisionInfo.tag == "Mine" || collisionInfo.tag == "TimedBomb")
+        {
+            IsObstructedByBombToken = true;
         }
     }
 

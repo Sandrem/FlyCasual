@@ -21,6 +21,8 @@ namespace Ship
 
                 PilotAbilities.Add(new Abilities.EmonAzzameenAbility());
 
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Illicit);
+
                 faction = Faction.Scum;
 
                 SkinName = "Emon Azzameen";

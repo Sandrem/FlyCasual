@@ -181,6 +181,19 @@ namespace Arcs
             return result;
         }
 
+		public virtual bool InRearArc(string originPoint, float angle)
+		{
+			bool result = false;
+			foreach (var arc in ArcsList)
+			{
+				if (arc.Facing == ArcFacing.Rear)
+				{
+					result = CheckRay(originPoint, angle, new List<ArcInfo>() { arc });
+				}
+			}
+			return result;
+		}
+
         public virtual bool InMobileArc(string originPoint, float angle)
         {
             bool result = false;

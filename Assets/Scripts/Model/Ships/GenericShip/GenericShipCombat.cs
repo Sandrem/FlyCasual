@@ -629,7 +629,7 @@ namespace Ship
 
         public List<Bombs.BombDropTemplates> GetAvailableBombDropTemplates()
         {
-            List<Bombs.BombDropTemplates> availableTemplates = new List<Bombs.BombDropTemplates>() { Bombs.BombDropTemplates.Straight1 };
+            List<Bombs.BombDropTemplates> availableTemplates = new List<Bombs.BombDropTemplates>() { Bombs.BombDropTemplates.Straight_1 };
 
             if (OnGetAvailableBombDropTemplates != null) OnGetAvailableBombDropTemplates(availableTemplates);
 

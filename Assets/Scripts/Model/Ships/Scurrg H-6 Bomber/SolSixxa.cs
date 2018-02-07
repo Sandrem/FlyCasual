@@ -42,8 +42,8 @@ namespace Abilities
 
         private void SolSixxaTemplate(List<BombDropTemplates> availableTemplates)
         {
-            if (!availableTemplates.Contains(BombDropTemplates.Turn1Left)) availableTemplates.Add(BombDropTemplates.Turn1Left);
-            if (!availableTemplates.Contains(BombDropTemplates.Turn1Right)) availableTemplates.Add(BombDropTemplates.Turn1Right);
+            if (!availableTemplates.Contains(BombDropTemplates.Turn_1_Left)) availableTemplates.Add(BombDropTemplates.Turn_1_Left);
+            if (!availableTemplates.Contains(BombDropTemplates.Turn_1_Right)) availableTemplates.Add(BombDropTemplates.Turn_1_Right);
         }
     }
 }

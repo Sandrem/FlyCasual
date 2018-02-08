@@ -33,6 +33,7 @@ namespace Arcs
         public float MaxAngle;
         public ArcFacing Facing;
         public bool IsMobileArc;
+		public bool IsRearAuxArc;
 
         public ArcShotPermissions ShotPermissions = new ArcShotPermissions();
 
@@ -181,12 +182,12 @@ namespace Arcs
             return result;
         }
 
-		public virtual bool InRearArc(string originPoint, float angle)
+		public virtual bool InRearAuxArc(string originPoint, float angle)
 		{
 			bool result = false;
 			foreach (var arc in ArcsList)
 			{
-				if (arc.Facing == ArcFacing.Rear)
+				if (arc.IsRearAuxArc)
 				{
 					result = CheckRay(originPoint, angle, new List<ArcInfo>() { arc });
 				}

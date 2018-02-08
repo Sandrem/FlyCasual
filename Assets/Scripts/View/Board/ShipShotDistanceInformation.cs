@@ -17,6 +17,7 @@ namespace Board
         public bool InPrimaryArc { get; private set; }
         public bool InBullseyeArc { get; private set; }
         public bool InMobileArc { get; private set; }
+		public bool InRearAuxArc { get; private set; }
         public bool InArc { get; private set; }
         public bool CanShootPrimaryWeapon { get; private set; }
         public bool CanShootTorpedoes { get; private set; }
@@ -103,6 +104,11 @@ namespace Board
                         {
                             InMobileArc = true;
                         }
+
+						if (ChosenWeapon.Host.ArcInfo.InRearAuxArc(pointThis.Key, angle))
+						{
+							InRearAuxArc = true;
+						}
 
                         if (ChosenWeapon.Host.ArcInfo.CanShootPrimaryWeapon(pointThis.Key, angle))
                         {

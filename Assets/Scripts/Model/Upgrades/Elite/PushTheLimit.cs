@@ -10,6 +10,7 @@ namespace UpgradesList
 	public class PushTheLimit : GenericUpgrade
 	{
         private bool IsUsed = false;
+	    private int consecutiveActions = 0;
 
 		public PushTheLimit() : base()
 		{
@@ -30,9 +31,13 @@ namespace UpgradesList
 
         private void CheckConditions(GenericAction action)
         {
-            if (!IsUsed)
+            if (action == null)
             {
-                IsUsed = true;
+                consecutiveActions = 0;
+            }
+            else if (consecutiveActions < 1 && !IsUsed)
+            {
+                consecutiveActions++;
                 Host.OnActionDecisionSubphaseEnd += DoSecondAction;
             }
         }
@@ -65,15 +70,18 @@ namespace UpgradesList
         private void Cleanup()
         {
             IsUsed = false;
+            consecutiveActions = 0;
         }
 
 		private void AddStressToken()
 		{
-			if (!base.Host.IsFreeActionSkipped) {
+			if (!base.Host.IsFreeActionSkipped)
+			{
+			    IsUsed = true;
 				base.Host.Tokens.AssignToken (
                     new Tokens.StressToken(base.Host),
 					Triggers.FinishTrigger
-                );	
+                );
 			}
 			else
 			{
@@ -85,6 +93,5 @@ namespace UpgradesList
         {
             Phases.OnEndPhaseStart -= Cleanup;
         }
-
     }
 }

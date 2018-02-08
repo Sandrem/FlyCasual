@@ -4,10 +4,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace CriticalHitCard
+namespace DamageDeckCard
 {
 
-    public class DamagedCockpit : GenericCriticalHit, IModifyPilotSkill
+    public class DamagedCockpit : GenericDamageCard, IModifyPilotSkill
     {
         public DamagedCockpit()
         {
@@ -19,7 +19,8 @@ namespace CriticalHitCard
         {
             Phases.OnRoundStart += ApplyDelayedEffect;
 
-            Host.AssignToken(new Tokens.DamagedCockpitCritToken(), Triggers.FinishTrigger);
+            Host.Tokens.AssignCondition(new Tokens.DamagedCockpitCritToken(Host));
+            Triggers.FinishTrigger();
         }
 
         private void ApplyDelayedEffect()
@@ -30,13 +31,13 @@ namespace CriticalHitCard
             Roster.UpdateShipStats(Host);
         }
 
-        public override void DiscardEffect(Ship.GenericShip host)
+        public override void DiscardEffect()
         {
             Messages.ShowInfo("Pilot Skill is restored");
 
-            host.RemoveToken(typeof(Tokens.DamagedCockpitCritToken));
-            host.RemovePilotSkillModifier(this);
-            Roster.UpdateShipStats(host);
+            Host.Tokens.RemoveCondition(typeof(Tokens.DamagedCockpitCritToken));
+            Host.RemovePilotSkillModifier(this);
+            Roster.UpdateShipStats(Host);
         }
 
         public void ModifyPilotSkill(ref int pilotSkill)

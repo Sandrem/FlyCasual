@@ -53,6 +53,9 @@ namespace Abilities
             public DiceModificationAction()
             {
                 Name = EffectName = "Lowhhrick's ability";
+
+                TokensSpend.Add(typeof(ReinforceForeToken));
+                TokensSpend.Add(typeof(ReinforceAftToken));
             }
 
             public override bool IsActionEffectAvailable()
@@ -64,7 +67,7 @@ namespace Abilities
                     {
                         if (Combat.Defender.Owner.PlayerNo == Host.Owner.PlayerNo)
                         {
-                            if (Host.HasToken(typeof(ReinforceForeToken)) || Host.HasToken(typeof(ReinforceAftToken)))
+                            if (Host.Tokens.HasToken(typeof(ReinforceForeToken)) || Host.Tokens.HasToken(typeof(ReinforceAftToken)))
                             {
                                 Board.ShipDistanceInformation positionInfo = new Board.ShipDistanceInformation(Host, Combat.Defender);
                                 if (positionInfo.Range == 1)
@@ -106,8 +109,8 @@ namespace Abilities
             {
                 Combat.CurrentDiceRoll.ApplyEvade();
 
-                GenericToken reinforceToken = (Host.HasToken(typeof(ReinforceForeToken))) ? Host.GetToken(typeof(ReinforceForeToken)) : Host.GetToken(typeof(ReinforceAftToken));
-                Host.SpendToken(reinforceToken.GetType(), callBack);
+                GenericToken reinforceToken = (Host.Tokens.HasToken(typeof(ReinforceForeToken))) ? Host.Tokens.GetToken(typeof(ReinforceForeToken)) : Host.Tokens.GetToken(typeof(ReinforceAftToken));
+                Host.Tokens.SpendToken(reinforceToken.GetType(), callBack);
             }
         }
 

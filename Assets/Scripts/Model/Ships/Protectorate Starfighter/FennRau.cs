@@ -17,7 +17,7 @@ namespace Ship
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
-                PilotAbilities.Add(new Abilities.FennRauAbility());
+                PilotAbilities.Add(new Abilities.FennRauScumAbility());
             }
         }
     }
@@ -25,7 +25,7 @@ namespace Ship
 
 namespace Abilities
 {
-    public class FennRauAbility : GenericAbility
+    public class FennRauScumAbility : GenericAbility
     {
         public override void ActivateAbility()
         {

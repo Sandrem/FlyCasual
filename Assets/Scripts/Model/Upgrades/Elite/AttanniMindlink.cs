@@ -32,7 +32,7 @@ namespace UpgradesList
             int sameUpgradesInstalled = 0;
             foreach (var ship in squadList.GetShips())
             {
-                foreach (var upgrade in ship.Instance.UpgradeBar.GetInstalledUpgrades())
+                foreach (var upgrade in ship.Instance.UpgradeBar.GetUpgradesOnlyFaceup())
                 {
                     if (upgrade.GetType() == this.GetType()) sameUpgradesInstalled++;
                 }
@@ -85,18 +85,18 @@ namespace Abilities
                 {
                     if (friendlyShip.Value.ShipId != HostShip.ShipId)
                     {
-                        if (!friendlyShip.Value.HasToken(tokenType))
+                        if (!friendlyShip.Value.Tokens.HasToken(tokenType))
                         {
                             if (tokenType == typeof(FocusToken))
                             {
                                 tokenMustBeAssigned = true;
-                                friendlyShip.Value.AssignToken(new FocusToken(), Triggers.FinishTrigger);
+                                friendlyShip.Value.Tokens.AssignToken(new FocusToken(friendlyShip.Value), Triggers.FinishTrigger);
                                 break;
                             }
                             else if (tokenType == typeof(StressToken))
                             {
                                 tokenMustBeAssigned = true;
-                                friendlyShip.Value.AssignToken(new StressToken(), Triggers.FinishTrigger);
+                                friendlyShip.Value.Tokens.AssignToken(new StressToken(friendlyShip.Value), Triggers.FinishTrigger);
                                 break;
                             }
                         }
@@ -109,7 +109,7 @@ namespace Abilities
 
         private bool HasAttanniMinklink(GenericShip ship)
         {
-            return ship.UpgradeBar.GetInstalledUpgrades().Count(n => n.GetType() == HostUpgrade.GetType()) == 1;
+            return ship.UpgradeBar.GetUpgradesOnlyFaceup().Count(n => n.GetType() == HostUpgrade.GetType()) == 1;
         }
 
     }

@@ -80,8 +80,11 @@ namespace Players
         {
             Console.Write("AI is going to perform attack", LogTypes.AI);
 
-            SelectShipThatCanAttack();
+            SelectShipThatCanAttack(SelectTargetForAttack);
+        }
 
+        private void SelectTargetForAttack()
+        {
             Ship.GenericShip targetForAttack = null;
 
             // TODO: Fix bug with missing chosen weapon
@@ -134,7 +137,6 @@ namespace Players
                 Console.Write("Attack is skipped\n", LogTypes.AI, true, "yellow");
                 Phases.Next();
             }
-
         }
 
         private Ship.GenericShip SelectNearestTarget(Dictionary<Ship.GenericShip, float> enemyShips)
@@ -176,7 +178,7 @@ namespace Players
             return targetForAttack;
         }
 
-        private static void SelectShipThatCanAttack()
+        private static void SelectShipThatCanAttack(Action callback)
         {
             foreach (var shipHolder in Roster.GetPlayer(Phases.CurrentPhasePlayer).Ships)
             {
@@ -189,6 +191,15 @@ namespace Players
                         break;
                     }
                 }
+            }
+
+            if (Selection.ThisShip != null)
+            {
+                Selection.ThisShip.CallCombatActivation(callback);
+            }
+            else
+            {
+                callback();
             }
         }
 
@@ -203,7 +214,7 @@ namespace Players
 
             Ship.IShipWeapon chosenWeapon = null;
 
-            foreach (var upgrade in Selection.ThisShip.UpgradeBar.GetInstalledUpgrades())
+            foreach (var upgrade in Selection.ThisShip.UpgradeBar.GetUpgradesOnlyFaceup())
             {
                 Ship.IShipWeapon secondaryWeapon = (upgrade as Ship.IShipWeapon);
                 if (secondaryWeapon != null)
@@ -404,6 +415,11 @@ namespace Players
             // TODO: Handle extra attack targets
 
             UI.SkipButtonEffect();
+        }
+
+        public override void SelectShipForAbility()
+        {
+            (Phases.CurrentSubPhase as SubPhases.SelectShipSubPhase).AiSelectPrioritizedTarget();
         }
     }
 

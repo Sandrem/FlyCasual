@@ -14,7 +14,7 @@ namespace Ship
             public TIEPhantom() : base()
             {
                 Type = "TIE Phantom";
-                IconicPilot = "\"Whisper\"";
+                IconicPilots.Add(Faction.Imperial, typeof(Whisper));
 
                 ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/c/ce/MI_TIE-PHANTOM.png";
 

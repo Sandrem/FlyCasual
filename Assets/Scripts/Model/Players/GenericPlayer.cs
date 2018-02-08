@@ -102,6 +102,8 @@ namespace Players
         public virtual void SelectManeuver(Action<string> callback, Func<string, bool> filter = null) { }
 
         public virtual void StartExtraAttack() { }
+
+        public virtual void SelectShipForAbility() { }
     }
 
 }

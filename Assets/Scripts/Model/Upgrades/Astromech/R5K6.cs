@@ -86,8 +86,8 @@ namespace SubPhases
                 Actions.AssignTargetLockToPair(Combat.Attacker, Combat.Defender, CallBack, CallBack);
 
                 //TODO: Avoid code after callback
-                char newTargetLockTokenLetter = Combat.Attacker.GetTargetLockLetterPair(Combat.Defender);
-                Tokens.GenericToken newTargetLockToken = Combat.Attacker.GetToken(typeof(Tokens.BlueTargetLockToken), newTargetLockTokenLetter);
+                char newTargetLockTokenLetter = Combat.Attacker.Tokens.GetTargetLockLetterPair(Combat.Defender);
+                Tokens.GenericToken newTargetLockToken = Combat.Attacker.Tokens.GetToken(typeof(Tokens.BlueTargetLockToken), newTargetLockTokenLetter);
                 newTargetLockToken.CanBeUsed = false;
 
                 Combat.Attacker.OnAttackFinish += delegate { newTargetLockToken.CanBeUsed = true; };

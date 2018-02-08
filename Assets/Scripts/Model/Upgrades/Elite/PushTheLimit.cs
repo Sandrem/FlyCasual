@@ -18,31 +18,31 @@ namespace UpgradesList
 			Cost = 3;
 		}
 
-		public override void AttachToShip(Ship.GenericShip host)
+		public override void AttachToShip(GenericShip host)
 		{
 			base.AttachToShip(host);
 
             host.OnActionIsPerformed += CheckConditions;
 
             Phases.OnEndPhaseStart += Cleanup;
-            Host.OnDestroyed += StopAbility;
+            Host.OnShipIsDestroyed += StopAbility;
         }
 
         private void CheckConditions(GenericAction action)
         {
             if (!IsUsed)
             {
+                IsUsed = true;
                 Host.OnActionDecisionSubphaseEnd += DoSecondAction;
             }
         }
 
-		private void DoSecondAction(Ship.GenericShip ship)
+		private void DoSecondAction(GenericShip ship)
 		{
             Host.OnActionDecisionSubphaseEnd -= DoSecondAction;
 
-            if (!ship.HasToken(typeof(Tokens.StressToken)) || ship.CanPerformActionsWhileStressed)
+            if (!ship.Tokens.HasToken(typeof(Tokens.StressToken)) || ship.CanPerformActionsWhileStressed)
 			{
-                IsUsed = true;
                 Triggers.RegisterTrigger(
                     new Trigger()
                     {
@@ -70,8 +70,8 @@ namespace UpgradesList
 		private void AddStressToken()
 		{
 			if (!base.Host.IsFreeActionSkipped) {
-				base.Host.AssignToken (
-                    new Tokens.StressToken(),
+				base.Host.Tokens.AssignToken (
+                    new Tokens.StressToken(base.Host),
 					Triggers.FinishTrigger
                 );	
 			}

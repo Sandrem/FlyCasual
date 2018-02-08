@@ -1,12 +1,13 @@
-﻿using System;
+﻿using Ship;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace CriticalHitCard
+namespace DamageDeckCard
 {
 
-    public class MajorHullBreach : GenericCriticalHit
+    public class MajorHullBreach : GenericDamageCard
     {
         public MajorHullBreach()
         {
@@ -17,18 +18,19 @@ namespace CriticalHitCard
         public override void ApplyEffect(object sender, EventArgs e)
         {
             Phases.OnPlanningPhaseStart += DealDamageCardFaceupStart;
-            Host.AfterGenerateAvailableActionsList += AddCancelCritAction;
+            Host.AfterGenerateAvailableActionsList += CallAddCancelCritAction;
 
-            Host.AssignToken(new Tokens.MajorHullBreachCritToken(), Triggers.FinishTrigger);
+            Host.Tokens.AssignCondition(new Tokens.MajorHullBreachCritToken(Host));
+            Triggers.FinishTrigger();
         }
 
-        public override void DiscardEffect(Ship.GenericShip host)
+        public override void DiscardEffect()
         {
             Messages.ShowInfo("Damage cards are dealt as usual");
-            host.RemoveToken(typeof(Tokens.MajorHullBreachCritToken));
+            Host.Tokens.RemoveCondition(typeof(Tokens.MajorHullBreachCritToken));
 
-            host.OnCheckFaceupCrit -= DealDamageCardFaceup;
-            host.AfterGenerateAvailableActionsList -= AddCancelCritAction;
+            Host.OnCheckFaceupCrit -= DealDamageCardFaceup;
+            Host.AfterGenerateAvailableActionsList -= CallAddCancelCritAction;
         }
 
         private void DealDamageCardFaceupStart()

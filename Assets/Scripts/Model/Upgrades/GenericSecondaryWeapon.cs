@@ -73,7 +73,7 @@ namespace Upgrade
                 List<GenericToken> waysToPay = new List<GenericToken>();
 
                 char letter = Actions.GetTargetLocksLetterPair(Host, targetShip);
-                GenericToken targetLockToken = Host.GetToken(typeof(BlueTargetLockToken), letter);
+                GenericToken targetLockToken = Host.Tokens.GetToken(typeof(BlueTargetLockToken), letter);
                 if (targetLockToken != null) waysToPay.Add(targetLockToken);
 
                 Host.CallOnGenerateAvailableAttackPaymentList(waysToPay);
@@ -83,7 +83,7 @@ namespace Upgrade
 
             if (RequiresFocusToShoot)
             {
-                if (!Host.HasToken(typeof(FocusToken))) return false;
+                if (!Host.Tokens.HasToken(typeof(FocusToken))) return false;
             }
 
             return result;
@@ -120,14 +120,14 @@ namespace Upgrade
                     List<GenericToken> waysToPay = new List<GenericToken>();
 
                     char letter = Actions.GetTargetLocksLetterPair(Combat.Attacker, Combat.Defender);
-                    GenericToken targetLockToken = Combat.Attacker.GetToken(typeof(BlueTargetLockToken), letter);
+                    GenericToken targetLockToken = Combat.Attacker.Tokens.GetToken(typeof(BlueTargetLockToken), letter);
                     if (targetLockToken != null) waysToPay.Add(targetLockToken);
 
                     Combat.Attacker.CallOnGenerateAvailableAttackPaymentList(waysToPay);
 
                     if (waysToPay.Count == 1)
                     {
-                        Combat.Attacker.SpendToken(
+                        Combat.Attacker.Tokens.SpendToken(
                             waysToPay[0].GetType(),
                             callBack,
                             (waysToPay[0] as BlueTargetLockToken != null) ? (waysToPay[0] as BlueTargetLockToken).Letter : ' '
@@ -149,7 +149,7 @@ namespace Upgrade
             }
             else if (RequiresFocusToShoot && SpendsFocusToShoot)
             {
-                Combat.Attacker.SpendToken(typeof(FocusToken), callBack);
+                Combat.Attacker.Tokens.SpendToken(typeof(FocusToken), callBack);
             }
             else
             {
@@ -174,7 +174,7 @@ namespace SubPhases
             List<GenericToken> waysToPay = new List<GenericToken>();
 
             char letter = Actions.GetTargetLocksLetterPair(Combat.Attacker, Combat.Defender);
-            GenericToken targetLockToken = Combat.Attacker.GetToken(typeof(BlueTargetLockToken), letter);
+            GenericToken targetLockToken = Combat.Attacker.Tokens.GetToken(typeof(BlueTargetLockToken), letter);
             if (targetLockToken != null) waysToPay.Add(targetLockToken);
 
             Combat.Attacker.CallOnGenerateAvailableAttackPaymentList(waysToPay);
@@ -205,7 +205,7 @@ namespace SubPhases
 
         private void PayCost(GenericToken token)
         {
-            Combat.Attacker.SpendToken(
+            Combat.Attacker.Tokens.SpendToken(
                 token.GetType(),
                 ConfirmDecision,
                 (token as BlueTargetLockToken != null) ? (token as BlueTargetLockToken).Letter : ' '

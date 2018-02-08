@@ -53,8 +53,8 @@ namespace UpgradesList
             Combat.DiceRollAttack.CancelAllResults();
             Combat.DiceRollAttack.RemoveAllFailures();
 
-            Combat.Defender.AssignToken(
-                new Tokens.IonToken(),
+            Combat.Defender.Tokens.AssignToken(
+                new Tokens.IonToken(Combat.Defender),
                 delegate {
                     GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
                     Game.Wait(2, DefenderSuffersDamage);

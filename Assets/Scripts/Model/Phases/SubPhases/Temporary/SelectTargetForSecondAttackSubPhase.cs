@@ -16,7 +16,15 @@ namespace SubPhases
             Selection.ThisShip.IsAttackPerformed = false;
             Combat.IsAttackAlreadyCalled = false;
 
+            FilterTargets = FilterAttackTargets;
+
             Selection.ThisShip.Owner.StartExtraAttack();
+        }
+
+        private bool FilterAttackTargets(GenericShip ship)
+        {
+            Board.ShipDistanceInformation distanceInfo = new Board.ShipDistanceInformation(Selection.ThisShip, ship);
+            return ship.Owner.PlayerNo != Selection.ThisShip.Owner.PlayerNo && distanceInfo.Range >= minRange && distanceInfo.Range <= maxRange;
         }
 
         private void FinishActon()
@@ -30,13 +38,12 @@ namespace SubPhases
 
         private void ExtraAttackTargetSelected()
         {
-            Phases.FinishSubPhase(typeof(SelectTargetForSecondAttackSubPhase));
-
             Phases.StartTemporarySubPhaseNew(
                 "Extra Attack",
                 typeof(ExtraAttackSubPhase),
                 delegate {
                     Phases.FinishSubPhase(typeof(ExtraAttackSubPhase));
+                    Phases.FinishSubPhase(typeof(SelectTargetForSecondAttackSubPhase));
                     CallBack();
                 }
             );
@@ -47,14 +54,15 @@ namespace SubPhases
 
         public override void SkipButton()
         {
+            UI.HideSkipButton();
             Phases.FinishSubPhase(typeof(SelectTargetForSecondAttackSubPhase));
             CallBack();
         }
 
         public override void Next()
         {
+            Combat.ExtraAttackFilter = null;
             Phases.CurrentSubPhase = PreviousSubPhase;
-            UI.HideSkipButton();
         }
 
         public override void Resume()

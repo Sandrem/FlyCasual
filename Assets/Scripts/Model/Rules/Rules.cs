@@ -51,5 +51,11 @@ public static class Rules
         Docking = new DockingRule();
     }
 
+    public static void FinishGame()
+    {
+        Docking.Initialize();
+        Phases.EndGame();
+    }
+
 }
 

@@ -14,7 +14,7 @@ namespace Ship
             public TIEStriker() : base()
             {
                 Type = "TIE Striker";
-                IconicPilot = "\"Pure Sabacc\"";
+                IconicPilots.Add(Faction.Imperial, typeof(PureSabacc));
 
                 ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/9/9b/MI_TIE-STRIKER.png";
 

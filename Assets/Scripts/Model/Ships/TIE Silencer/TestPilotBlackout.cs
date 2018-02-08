@@ -42,7 +42,7 @@ namespace Abilities
         {
             if (Selection.ThisShip.ShipId == HostShip.ShipId)
             {
-                if (Combat.ShotInfo.IsObstructed)
+                if (Combat.ShotInfo.IsObstructedByAsteroid)
                 {
                     Combat.Defender.AfterGotNumberOfDefenceDice += DecreaseDiceResult;
                 }

@@ -9,8 +9,6 @@ public enum TriggerTypes
 {
     None,
 
-    OnAbilityDirect,
-
     OnGameStart,
     OnSetupPhaseStart,
     OnBeforePlaceForces,
@@ -22,8 +20,10 @@ public enum TriggerTypes
     OnCombatPhaseStart,
     OnCombatPhaseEnd,
     OnEndPhaseStart,
+    OnRoundEnd,
 
-    OnActivateShip,
+    OnMovementActivation,
+    OnCombatActivation,
 
     OnManeuver,
     OnManeuverIsReadyToBeRevealed,
@@ -39,6 +39,7 @@ public enum TriggerTypes
     OnBeforeTokenIsAssigned,
     OnTokenIsAssigned,
     OnTokenIsSpent,
+    OnTokenIsRemoved,
     OnCoordinateTargetIsSelected,
     OnRerollIsConfirmed,
 
@@ -52,8 +53,7 @@ public enum TriggerTypes
     OnAttackFinish,
     OnAttackFinishAsAttacker,
     OnAttackFinishAsDefender,
-    OnCheckSecondAttack,
-    OnExtraAttack,
+    OnCombatCheckExtraAttack,
 
     OnAtLeastOneCritWasCancelledByDefender,
     OnDamageIsDealt,
@@ -62,10 +62,16 @@ public enum TriggerTypes
     OnFaceupCritCardReadyToBeDealt,
     OnFaceupCritCardReadyToBeDealtUI,
     OnFaceupCritCardIsDealt,
+    OnShipIsDestroyed,
 
-    OnMajorExplosionCrit,
+    OnBombIsDetonated,
+    OnBombIsRemoved,
+    OnCheckPermissionToDetonate,
+    OnCheckSufferBombDetonation,
+
+    OnAbilityDirect,
     OnAbilityTargetIsSelected,
-    OnBombDetonated,
+    OnMajorExplosionCrit,
     OnDiscard
 }
 
@@ -221,7 +227,10 @@ public static partial class Triggers
     {
         StackLevel currentStackLevel = GetCurrentLevel();
 
-        if (currentStackLevel.GetTrigersList().Count == 0) Debug.Log("Ooops, you want to finish trigger, but new empty level of stack was created!");
+        if (currentStackLevel == null || currentStackLevel.GetTrigersList() == null || currentStackLevel.GetTrigersList().Count == 0)
+        {
+            Debug.Log("Ooops! You want to finish trigger, but it is already finished");
+        }
 
         Trigger currentTrigger = currentStackLevel.GetCurrentTrigger();
 

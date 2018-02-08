@@ -1,9 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
+﻿using ActionList;
 using Ship;
-using System;
 
 namespace Ship
 {
@@ -46,71 +42,13 @@ namespace Abilities
             Combat.Attacker.AddAvailableActionEffect(new HowlrunnerAction() { Host = this.HostShip });
         }
 
-        private class HowlrunnerAction : ActionsList.GenericAction
+        private class HowlrunnerAction : FriendlyAttackRerollAction
         {
-            public HowlrunnerAction()
+            public HowlrunnerAction() : base(1, 1)
             {
                 Name = EffectName = "Howlrunner's ability";
                 IsReroll = true;
             }
-
-            public override bool IsActionEffectAvailable()
-            {
-                bool result = false;
-                if (Combat.AttackStep == CombatStep.Attack)
-                {
-                    if (Combat.ChosenWeapon.GetType() == typeof(PrimaryWeaponClass))
-                    {
-                        if (Combat.Attacker.ShipId != Host.ShipId)
-                        {
-                            if (Combat.Attacker.Owner.PlayerNo == Host.Owner.PlayerNo)
-                            {
-                                Board.ShipDistanceInformation positionInfo = new Board.ShipDistanceInformation(Host, Combat.Attacker);
-                                if (positionInfo.Range == 1)
-                                {
-                                    result = true;
-                                }
-                            }
-                        }
-                    }
-                }
-
-                return result;
-            }
-
-            public override int GetActionEffectPriority()
-            {
-                int result = 0;
-
-                if (Combat.AttackStep == CombatStep.Attack)
-                {
-                    int attackFocuses = Combat.DiceRollAttack.FocusesNotRerolled;
-                    int attackBlanks = Combat.DiceRollAttack.BlanksNotRerolled;
-
-                    //if (Combat.Attacker.HasToken(typeof(Tokens.FocusToken)))
-                    if (Combat.Attacker.GetAvailableActionEffectsList().Count(n => n.IsTurnsAllFocusIntoSuccess) > 0)
-                    {
-                        if (attackBlanks > 0) result = 90;
-                    }
-                    else
-                    {
-                        if (attackBlanks + attackFocuses > 0) result = 90;
-                    }
-                }
-
-                return result;
-            }
-
-            public override void ActionEffect(System.Action callBack)
-            {
-                DiceRerollManager diceRerollManager = new DiceRerollManager
-                {
-                    NumberOfDiceCanBeRerolled = 1,
-                    CallBack = callBack
-                };
-                diceRerollManager.Start();
-            }
-        }
-
+        }            
     }
 }

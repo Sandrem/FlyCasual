@@ -3,6 +3,7 @@ using Ship;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Bombs;
 
 namespace Upgrade
 {
@@ -36,21 +37,27 @@ namespace Upgrade
 
         public virtual void ActivateBombs(List<GameObject> bombObjects, Action callBack)
         {
-            BombObjects = bombObjects;
+            BombObjects.AddRange(bombObjects);
             Host.IsBombAlreadyDropped = true;
+            BombsManager.RegisterBombs(bombObjects, this);
             PayDropCost(callBack);
         }
 
-        public virtual void Detonate(object sender, EventArgs e)
+        public virtual void TryDetonate(object sender, EventArgs e)
         {
-            GameObject bombObject = (e as Bombs.BombDetonationEventArgs).BombObject;
-            PlayDetonationAnimSound(bombObject, delegate { ResolveDetonationTriggers(bombObject); });
+            BombsManager.CurrentBombObject = (e as BombDetonationEventArgs).BombObject;
+            BombsManager.CurrentBomb = BombsManager.GetBombByObject(BombsManager.CurrentBombObject);
+            BombsManager.DetonatedShip = (e as BombDetonationEventArgs).DetonatedShip;
+
+            BombsManager.CallGetPermissionToDetonateTrigger(Detonate);
         }
 
-        private void ResolveDetonationTriggers(GameObject bombObject)
+        protected virtual void Detonate()
         {
-            GameObject.Destroy(bombObject);
-            Triggers.ResolveTriggers(TriggerTypes.OnBombDetonated, Triggers.FinishTrigger);
+            BombsManager.UnregisterBomb(BombsManager.CurrentBombObject);
+            BombObjects.Remove(BombsManager.CurrentBombObject);
+
+            PlayDetonationAnimSound(BombsManager.CurrentBombObject, BombsManager.ResolveDetonationTriggers);
         }
 
         protected void RegisterDetonationTriggerForShip(GenericShip ship)
@@ -58,13 +65,31 @@ namespace Upgrade
             Triggers.RegisterTrigger(new Trigger
             {
                 Name = ship.ShipId + " : Detonation of " + Name,
-                TriggerType = TriggerTypes.OnBombDetonated,
+                TriggerType = TriggerTypes.OnBombIsDetonated,
                 TriggerOwner = ship.Owner.PlayerNo,
                 EventHandler = delegate
                 {
-                    ExplosionEffect(ship, Triggers.FinishTrigger);
+                    CheckIgnoreExplosionEffect(ship, Triggers.FinishTrigger);
                 }
             });
+        }
+
+        private void CheckIgnoreExplosionEffect(GenericShip ship, Action callBack)
+        {
+            ship.CallCheckSufferBombDetonation(delegate { AfterCheckIgnoreExplosionEffect(ship, callBack); });
+        }
+
+        private void AfterCheckIgnoreExplosionEffect(GenericShip ship, Action callBack)
+        {
+            if (!ship.IgnoressBombDetonationEffect)
+            {
+                ExplosionEffect(ship, callBack);
+            }
+            else
+            {
+                Messages.ShowInfo(string.Format("{0} ignored effect of detonation of {1}", ship.PilotName, BombsManager.CurrentBomb.Name));
+                callBack();
+            }
         }
 
         public virtual void ExplosionEffect(GenericShip ship, Action callBack)

@@ -16,12 +16,12 @@ namespace AI
             FrontManeuversInner.Add("4.F.R");
             FrontManeuversInner.Add("4.F.R");
 
-            FrontManeuversOuter.Add("4.F.S");
-            FrontManeuversOuter.Add("4.F.S");
-            FrontManeuversOuter.Add("4.F.S");
+            FrontManeuversOuter.Add("3.F.S");
             FrontManeuversOuter.Add("3.F.S");
             FrontManeuversOuter.Add("3.F.S");
             FrontManeuversOuter.Add("2.F.S");
+            FrontManeuversOuter.Add("2.F.S");
+            FrontManeuversOuter.Add("1.F.S");
 
             FrontSideManeuversInner.Add("1.F.S");
             FrontSideManeuversInner.Add("4.F.R");

@@ -53,7 +53,7 @@ namespace Abilities
 
         private void AskSelectShip(object sender, System.EventArgs e)
         {
-            SelectTargetForAbility(PerformFreeAction, new List<TargetTypes>() { TargetTypes.OtherFriendly }, new Vector2(1, 1), null, true);
+            SelectTargetForAbilityOld(PerformFreeAction, new List<TargetTypes>() { TargetTypes.OtherFriendly }, new Vector2(1, 1), null, true);
         }
 
         private void PerformFreeAction()

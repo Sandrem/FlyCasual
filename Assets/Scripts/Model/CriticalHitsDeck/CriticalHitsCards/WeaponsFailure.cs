@@ -3,10 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace CriticalHitCard
+namespace DamageDeckCard
 {
 
-    public class WeaponsFailure : GenericCriticalHit
+    public class WeaponsFailure : GenericDamageCard
     {
         public WeaponsFailure()
         {
@@ -19,18 +19,19 @@ namespace CriticalHitCard
         public override void ApplyEffect(object sender, EventArgs e)
         {
             Host.AfterGotNumberOfAttackDice += ReduceNumberOfAttackDice;
-            Host.AfterGenerateAvailableActionsList += AddCancelCritAction;
+            Host.AfterGenerateAvailableActionsList += CallAddCancelCritAction;
 
-            Host.AssignToken(new Tokens.WeaponsFailureCritToken(), Triggers.FinishTrigger);
+            Host.Tokens.AssignCondition(new Tokens.WeaponsFailureCritToken(Host));
+            Triggers.FinishTrigger();
         }
 
-        public override void DiscardEffect(Ship.GenericShip host)
+        public override void DiscardEffect()
         {
             Messages.ShowInfo("Number of attack dice is restored");
 
-            host.RemoveToken(typeof(Tokens.WeaponsFailureCritToken));
-            host.AfterGotNumberOfAttackDice -= ReduceNumberOfAttackDice;
-            host.AfterGenerateAvailableActionsList -= AddCancelCritAction;
+            Host.Tokens.RemoveCondition(typeof(Tokens.WeaponsFailureCritToken));
+            Host.AfterGotNumberOfAttackDice -= ReduceNumberOfAttackDice;
+            Host.AfterGenerateAvailableActionsList -= CallAddCancelCritAction;
         }
 
         private void ReduceNumberOfAttackDice(ref int value)

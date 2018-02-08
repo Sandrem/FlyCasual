@@ -41,7 +41,7 @@ namespace Abilities
         private void CheckPilotAbility()
         {
             bool IsDifferentPlayer = (HostShip.Owner.PlayerNo != Combat.Attacker.Owner.PlayerNo);
-            bool HasFocusTokens = HostShip.HasToken(typeof(Tokens.FocusToken));
+            bool HasFocusTokens = HostShip.Tokens.HasToken(typeof(Tokens.FocusToken));
             Board.ShipDistanceInformation distanceInfo = new Board.ShipDistanceInformation(HostShip, Combat.Attacker);
 
             if (IsDifferentPlayer && HasFocusTokens && distanceInfo.Range < 3)
@@ -57,7 +57,7 @@ namespace Abilities
 
         private void DecreaseAttack(object sender, System.EventArgs e)
         {
-            HostShip.SpendToken(typeof(Tokens.FocusToken), RegisterDecreaseNumberOfAttackDice);
+            HostShip.Tokens.SpendToken(typeof(Tokens.FocusToken), RegisterDecreaseNumberOfAttackDice);
             SubPhases.DecisionSubPhase.ConfirmDecision();
         }
 

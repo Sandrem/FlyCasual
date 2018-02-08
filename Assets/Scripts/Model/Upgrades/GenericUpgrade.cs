@@ -41,6 +41,10 @@ namespace Upgrade
         public bool isUnique = false;
         public bool isLimited = false;
         public bool isDiscarded = false;
+        /**
+         * If true, this upgrade is used as a multi-slot card and should not be used to count squad cost or used otherwise.
+         */
+        public bool isPlaceholder = false;
 
         private string nameCanonical;
         public string NameCanonical
@@ -226,7 +230,6 @@ namespace Upgrade
 
             Messages.ShowInfo(Name + " is flipped face up");
         }
-
     }
 
 }

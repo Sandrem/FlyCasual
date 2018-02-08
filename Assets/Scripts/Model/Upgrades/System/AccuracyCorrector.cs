@@ -2,7 +2,7 @@
 using Upgrade;
 using Abilities;
 using ActionsList;
-
+using System;
 
 namespace UpgradesList
 {
@@ -70,22 +70,21 @@ namespace ActionsList
             Combat.CurrentDiceRoll.OrganizeDicePositions();
             Combat.Attacker.OnTryAddAvailableActionEffect += UseDiceModificationRestriction;
             Combat.Attacker.OnTryAddAvailableOppositeActionEffect += UseDiceModificationRestriction;
-            Combat.Attacker.OnAttackFinish += RemoveDiceModificationRestriction;
+            Combat.Defender.OnDefence += RemoveDiceModificationRestriction;
             callBack();
+        }
+
+        private void RemoveDiceModificationRestriction()
+        {
+            Combat.Attacker.OnTryAddAvailableActionEffect -= UseDiceModificationRestriction;
+            Combat.Attacker.OnTryAddAvailableOppositeActionEffect -= UseDiceModificationRestriction;
+            Combat.Defender.OnDefence -= RemoveDiceModificationRestriction;
         }
 
         private void UseDiceModificationRestriction(ActionsList.GenericAction action, ref bool canBeUsed)
         {
-            Messages.ShowErrorToHuman("Accuracy corrector: Unable to modify attack dice.");
+            Messages.ShowInfoToHuman("Accuracy corrector: All dice modifications are disabled");
             canBeUsed = false;
-        }
-
-        private void RemoveDiceModificationRestriction(GenericShip ship)
-        {
-            ship.OnTryAddAvailableActionEffect -= UseDiceModificationRestriction;
-            ship.OnTryAddAvailableOppositeActionEffect -= UseDiceModificationRestriction;
-            ship.OnAttackFinish -= RemoveDiceModificationRestriction;
-        }
-
+        }       
     }
 }

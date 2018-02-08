@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
+using SubPhases;
 
 namespace GameModes
 { 
@@ -61,7 +62,7 @@ namespace GameModes
 
         public abstract void SwitchToOwnDiceModifications();
 
-        public abstract void TakeDecision(KeyValuePair<string, EventHandler> decision, GameObject button);
+        public abstract void TakeDecision(Decision decision, GameObject button);
 
         public abstract void FinishMovementExecution();
 

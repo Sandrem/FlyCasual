@@ -87,7 +87,7 @@ namespace Abilities
 
             selectBombToDrop.InfoText = "Select bomb to drop";
 
-            selectBombToDrop.DefaultDecision = BombsManager.GetTimedBombsInstalled(HostShip).First().Name;
+            selectBombToDrop.DefaultDecisionName = BombsManager.GetTimedBombsInstalled(HostShip).First().Name;
 
             selectBombToDrop.RequiredPlayer = HostShip.Owner.PlayerNo;
 

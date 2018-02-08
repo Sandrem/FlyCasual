@@ -77,7 +77,7 @@ namespace SubPhases
             AddDecision("Yes", UseChewbaccaCrewAbility);
             AddDecision("No", DontUseChewbaccaCrewAbility);
 
-            DefaultDecision = "Yes";
+            DefaultDecisionName = "Yes";
 
             callBack();
         }

@@ -93,7 +93,7 @@ namespace SubPhases
             AddDecision("Yes", UseGlitterstimAbility);
             AddDecision("No", DontUseGlitterstimAbility);
 
-            DefaultDecision = (IsTimeToUseGlitterSteam()) ? "Yes" : "No";
+            DefaultDecisionName = (IsTimeToUseGlitterSteam()) ? "Yes" : "No";
 
             UI.ShowSkipButton();
 

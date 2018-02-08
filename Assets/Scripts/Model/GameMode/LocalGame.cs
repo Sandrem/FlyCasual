@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System;
 using System.Collections.Generic;
+using SubPhases;
 
 namespace GameModes
 {
@@ -145,9 +146,9 @@ namespace GameModes
             Combat.SwitchToOwnDiceModificationsClient();
         }
 
-        public override void TakeDecision(KeyValuePair<string, EventHandler> decision, GameObject button)
+        public override void TakeDecision(Decision decision, GameObject button)
         {
-            decision.Value.Invoke(button, null);
+            decision.ExecuteDecision(button);
         }
 
         public override void FinishMovementExecution()

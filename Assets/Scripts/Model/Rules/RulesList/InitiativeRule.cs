@@ -88,7 +88,7 @@ namespace SubPhases
             AddDecision("Me", StayWithInitiative);
             AddDecision("Opponent", GiveInitiative);
 
-            DefaultDecision = "Opponent";
+            DefaultDecisionName = "Opponent";
 
             callBack();
         }

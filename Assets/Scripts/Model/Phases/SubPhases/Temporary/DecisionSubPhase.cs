@@ -4,17 +4,47 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using System.Linq;
 
 namespace SubPhases
 {
+    public class Decision
+    {
+        public string Name { get; private set; }
+        public EventHandler Effect { get; private set; }
+        public string Tooltip { get; private set; }
+        public int Count { get; private set; }
+
+        public bool HasTooltip
+        {
+            get { return Tooltip != null; }
+        }
+
+        public Decision(string name, EventHandler effect, string tooltip = null, int count = -1)
+        {
+            Name = name;
+            Effect = effect;
+            Tooltip = tooltip;
+            Count = count;
+        }
+
+        public void AddTooltip(string tooltip)
+        {
+            Tooltip = tooltip;
+        }
+
+        public void ExecuteDecision(object sender = null, EventArgs e = null)
+        {
+            Effect.Invoke(sender, e);
+        }
+    }
 
     public class DecisionSubPhase : GenericSubPhase
     {
         private GameObject decisionPanel;
         public string InfoText;
-        private Dictionary<string, EventHandler> decisions = new Dictionary<string, EventHandler>();
-        protected Dictionary<string, string> tooltips = new Dictionary<string, string>();
-        public string DefaultDecision;
+        private List<Decision> decisions = new List<Decision>();
+        public string DefaultDecisionName;
         protected Players.GenericPlayer DecisionOwner;
         public bool ShowSkipButton;
 
@@ -42,15 +72,15 @@ namespace SubPhases
             UpdateHelpInfo();
         }
 
-        public string AddDecision(string name, EventHandler call)
+        public string AddDecision(string name, EventHandler call, string tooltip = null, int count = -1)
         {
             int counter = 2;
             string newName = name;
-            while (decisions.ContainsKey(newName))
+            while (decisions.Exists(n => n.Name == newName))
             {
                 newName = name + " #" + counter++;
             }
-            decisions.Add(newName, call);
+            decisions.Add(new Decision(newName, call, tooltip, count));
 
             return newName;
         }
@@ -59,16 +89,16 @@ namespace SubPhases
         {
             int counter = 2;
             string newName = name;
-            while (tooltips.ContainsKey(newName))
+            while (decisions.Find(n => n.HasTooltip) !=null)
             {
                 newName = name + " #" + counter++;
             }
-            tooltips.Add(newName, imageUrl);
+            decisions.Find(n => n.Name == newName).AddTooltip(imageUrl);
 
             return newName;
         }
 
-        public Dictionary<string, EventHandler> GetDecisions()
+        public List<Decision> GetDecisions()
         {
             return decisions;
         }
@@ -80,7 +110,7 @@ namespace SubPhases
                 decisionPanel.transform.Find("InformationPanel").GetComponentInChildren<Text>().text = InfoText;
 
                 int i = 0;
-                foreach (var item in decisions)
+                foreach (var decision in decisions)
                 {
                     GameObject prefab = (GameObject)Resources.Load("Prefabs/DecisionButton", typeof(GameObject));
                     GameObject buttonsHolder = decisionPanel.transform.Find("DecisionsPanel").gameObject;
@@ -88,18 +118,18 @@ namespace SubPhases
                     button.transform.localPosition = new Vector3((i % 2 == 0) ? 5 : 200, -buttonHeight * (i / 2), 0);
                     button.name = "Button" + i;
 
-                    button.GetComponentInChildren<Text>().text = item.Key;
+                    button.GetComponentInChildren<Text>().text = decision.Name;
 
-                    if (tooltips.ContainsKey(item.Key))
+                    if (decision.HasTooltip)
                     {
-                        Tooltips.AddTooltip(button, tooltips[item.Key]);
+                        Tooltips.AddTooltip(button, decision.Tooltip);
                     }
 
                     EventTrigger trigger = button.AddComponent<EventTrigger>();
                     EventTrigger.Entry entry = new EventTrigger.Entry();
                     entry.eventID = EventTriggerType.PointerClick;
                     entry.callback.AddListener(
-                        (data) => { GameModes.GameMode.CurrentGameMode.TakeDecision(item, button); }
+                        (data) => { GameModes.GameMode.CurrentGameMode.TakeDecision(decision, button); }
                     );
                     trigger.triggers.Add(entry);
 
@@ -155,14 +185,14 @@ namespace SubPhases
             return result;
         }
 
-        public override void DoDefault()
-        {
-            decisions[DefaultDecision].Invoke(null, null);
-        }
-
         public void ExecuteDecision(string decisionName)
         {
-            decisions[decisionName].Invoke(null, null);
+            decisions.Find(n => n.Name == decisionName).ExecuteDecision();
+        }
+
+        public override void DoDefault()
+        {
+            ExecuteDecision(DefaultDecisionName);
         }
 
         public static void ConfirmDecision()

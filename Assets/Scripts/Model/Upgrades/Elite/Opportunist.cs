@@ -64,7 +64,7 @@ namespace Abilities
 				opportunistDecision.InfoText = "Use Opportunist ability?";
 				opportunistDecision.AddDecision("Yes", UseOpportunistAbility);
 				opportunistDecision.AddDecision("No", DontUseOpportunistAbility);
-				opportunistDecision.DefaultDecision = "Yes";
+				opportunistDecision.DefaultDecisionName = "Yes";
 				opportunistDecision.Start();
 			}
 			else

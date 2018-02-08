@@ -88,7 +88,7 @@ namespace SubPhases
             AddDecision("Yes", UseContrabandCyberneticsAbility);
             AddDecision("No", DontUseContrabandCyberneticsAbility);
 
-            DefaultDecision = "No";
+            DefaultDecisionName = "No";
 
             callBack();
         }

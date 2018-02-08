@@ -100,7 +100,7 @@ namespace Abilities
 
             selectTargetLockToDiscardDecision.InfoText = "Select target lock to remove";
 
-            selectTargetLockToDiscardDecision.DefaultDecision = selectTargetLockToDiscardDecision.GetDecisions().First().Key;
+            selectTargetLockToDiscardDecision.DefaultDecisionName = selectTargetLockToDiscardDecision.GetDecisions().First().Name;
 
             selectTargetLockToDiscardDecision.RequiredPlayer = HostShip.Owner.PlayerNo;
 

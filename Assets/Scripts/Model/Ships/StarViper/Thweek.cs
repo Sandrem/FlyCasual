@@ -70,7 +70,7 @@ namespace Abilities
             selectTargetForThweekDecisionSubPhase.InfoText = "Thweek: Select enemy ship";
 
             GenericShip bestEnemyAce = GetEnemyPilotWithHighestSkill();
-            selectTargetForThweekDecisionSubPhase.DefaultDecision = bestEnemyAce.ShipId + ": " + bestEnemyAce.PilotName;
+            selectTargetForThweekDecisionSubPhase.DefaultDecisionName = bestEnemyAce.ShipId + ": " + bestEnemyAce.PilotName;
 
             selectTargetForThweekDecisionSubPhase.RequiredPlayer = HostShip.Owner.PlayerNo;
 
@@ -108,7 +108,7 @@ namespace Abilities
             selectAbilityForThweekDecisionSubPhase.AddTooltip("Shadowed", (new Conditions.Shadowed(targetShip)).Tooltip);
 
             selectAbilityForThweekDecisionSubPhase.InfoText = "Thweek: Select ability";
-            selectAbilityForThweekDecisionSubPhase.DefaultDecision = "Shadowed";
+            selectAbilityForThweekDecisionSubPhase.DefaultDecisionName = "Shadowed";
 
             selectAbilityForThweekDecisionSubPhase.RequiredPlayer = HostShip.Owner.PlayerNo;
 

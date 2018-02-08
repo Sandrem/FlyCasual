@@ -85,7 +85,7 @@ namespace SubPhases
                 AddDecision(shipCrit.Name, delegate { DiscardCrit(shipCrit); });
             }
 
-            DefaultDecision = GetDecisions().First().Key;
+            DefaultDecisionName = GetDecisions().First().Name;
 
             callBack();
         }

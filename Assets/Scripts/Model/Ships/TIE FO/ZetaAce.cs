@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace Ship
 {
@@ -9,7 +6,7 @@ namespace Ship
     {
         public class ZetaAce : TIEFO
         {
-            public ZetaAce() : base()
+            public ZetaAce()
             {
                 PilotName = "\"Zeta Ace\"";
                 PilotSkill = 5;
@@ -41,10 +38,7 @@ namespace Abilities
 
         private void ChangeBarrelRollTemplates(List<Actions.BarrelRollTemplates> availableTemplates)
         {
-            if (availableTemplates.Contains(Actions.BarrelRollTemplates.Straight1))
-            {
-                availableTemplates.Add(Actions.BarrelRollTemplates.Straight2);
-            }
+            availableTemplates.Add(Actions.BarrelRollTemplates.Straight2);
         }
     }
 }

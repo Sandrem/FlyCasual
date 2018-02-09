@@ -33,6 +33,11 @@ namespace SubPhases
             Tooltip = tooltip;
         }
 
+        public void SetCount(int count)
+        {
+            Count = count;
+        }
+
         public void ExecuteDecision(object sender = null, EventArgs e = null)
         {
             Effect.Invoke(sender, e);
@@ -193,7 +198,8 @@ namespace SubPhases
                             script.Initialize(
                                 decision.Name,
                                 decision.Tooltip,
-                                delegate { GameModes.GameMode.CurrentGameMode.TakeDecision(decision, button); }
+                                delegate { GameModes.GameMode.CurrentGameMode.TakeDecision(decision, button); },
+                                decision.Count
                             );
 
                             break;

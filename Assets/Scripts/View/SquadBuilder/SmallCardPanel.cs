@@ -4,19 +4,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using DamageDeckCard;
 
-public class DamageCardPanel : MonoBehaviour {
+public class SmallCardPanel : MonoBehaviour {
 
-    private string DamageCardName;
-    private string DamageCardTooltip;
+    private string CardName;
+    private string CardTooltip;
     private int Count;
     private Action<string> OnClick;
 
     public void Initialize(string damageCardName, string damageCardTooltip, Action<string> onClick = null, int count = -1)
     {
-        DamageCardName = damageCardName;
-        DamageCardTooltip = damageCardTooltip;
+        CardName = damageCardName;
+        CardTooltip = damageCardTooltip;
         OnClick = onClick;
         Count = count;
     }
@@ -25,7 +24,7 @@ public class DamageCardPanel : MonoBehaviour {
     {
         this.gameObject.SetActive(false);
 
-        if (!String.IsNullOrEmpty(DamageCardTooltip))
+        if (!String.IsNullOrEmpty(CardTooltip))
         {
             LoadImage();
         }
@@ -39,7 +38,7 @@ public class DamageCardPanel : MonoBehaviour {
 
     private void LoadImage()
     {
-        Global.Instance.StartCoroutine(LoadTooltipImage(this.gameObject, DamageCardTooltip));
+        Global.Instance.StartCoroutine(LoadTooltipImage(this.gameObject, CardTooltip));
     }
 
     private IEnumerator LoadTooltipImage(GameObject thisGameObject, string url)
@@ -51,7 +50,7 @@ public class DamageCardPanel : MonoBehaviour {
         {
             if (thisGameObject != null)
             {
-                SetImageFromWeb(thisGameObject.transform.Find("DamageCardImage").gameObject, www);
+                SetImageFromWeb(thisGameObject.transform.Find("CardImage").gameObject, www);
             }
         }
         else
@@ -75,7 +74,7 @@ public class DamageCardPanel : MonoBehaviour {
 
     private void ShowTextVersionOfCard()
     {
-        this.transform.Find("DamageCardInfo").GetComponent<Text>().text = DamageCardName;
+        this.transform.Find("CardInfo").GetComponent<Text>().text = CardName;
 
         ShowCounter();
 
@@ -95,7 +94,7 @@ public class DamageCardPanel : MonoBehaviour {
             EventTrigger trigger = this.gameObject.AddComponent<EventTrigger>();
             EventTrigger.Entry entry = new EventTrigger.Entry();
             entry.eventID = EventTriggerType.PointerClick;
-            entry.callback.AddListener(delegate { OnClick(DamageCardName); });
+            entry.callback.AddListener(delegate { OnClick(CardName); });
             trigger.triggers.Add(entry);
         }
     }

@@ -157,7 +157,7 @@ namespace SubPhases
                             prefab = (GameObject)Resources.Load("Prefabs/DecisionButton", typeof(GameObject));
                             break;
                         case DecisionViewTypes.ImageButtons:
-                            prefab = (GameObject)Resources.Load("Prefabs/SquadBuilder/DamageCard", typeof(GameObject));
+                            prefab = (GameObject)Resources.Load("Prefabs/SquadBuilder/SmallCardPanel", typeof(GameObject));
                             break;
                         default:
                             break;
@@ -189,7 +189,7 @@ namespace SubPhases
                         case DecisionViewTypes.ImageButtons:
                             button.transform.localPosition = new Vector3(10*(i+1) + i*194, 0, 0);
 
-                            DamageCardPanel script = button.GetComponent<DamageCardPanel>();
+                            SmallCardPanel script = button.GetComponent<SmallCardPanel>();
                             script.Initialize(
                                 decision.Name,
                                 decision.Tooltip,

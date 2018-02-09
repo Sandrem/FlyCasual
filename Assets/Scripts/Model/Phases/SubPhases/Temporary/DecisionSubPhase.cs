@@ -39,6 +39,12 @@ namespace SubPhases
         }
     }
 
+    public enum DecisionViewTypes
+    {
+        TextButtons,
+        ImageButtons
+    }
+
     public class DecisionSubPhase : GenericSubPhase
     {
         private GameObject decisionPanel;
@@ -47,6 +53,7 @@ namespace SubPhases
         public string DefaultDecisionName;
         protected Players.GenericPlayer DecisionOwner;
         public bool ShowSkipButton;
+        public DecisionViewTypes DecisionViewType = DecisionViewTypes.ImageButtons;
 
         private const float defaultWindowHeight = 75;
         private const float buttonHeight = 45;
@@ -89,7 +96,7 @@ namespace SubPhases
         {
             int counter = 2;
             string newName = name;
-            while (decisions.Find(n => n.HasTooltip) !=null)
+            while (decisions.Find(n => n.Name == newName && n.HasTooltip) !=null)
             {
                 newName = name + " #" + counter++;
             }
@@ -112,30 +119,80 @@ namespace SubPhases
                 int i = 0;
                 foreach (var decision in decisions)
                 {
-                    GameObject prefab = (GameObject)Resources.Load("Prefabs/DecisionButton", typeof(GameObject));
-                    GameObject buttonsHolder = decisionPanel.transform.Find("DecisionsPanel").gameObject;
-                    GameObject button = MonoBehaviour.Instantiate(prefab, buttonsHolder.transform);
-                    button.transform.localPosition = new Vector3((i % 2 == 0) ? 5 : 200, -buttonHeight * (i / 2), 0);
-                    button.name = "Button" + i;
+                    GameObject prefab = null;
 
-                    button.GetComponentInChildren<Text>().text = decision.Name;
-
-                    if (decision.HasTooltip)
+                    switch (DecisionViewType)
                     {
-                        Tooltips.AddTooltip(button, decision.Tooltip);
+                        case DecisionViewTypes.TextButtons:
+                            prefab = (GameObject)Resources.Load("Prefabs/DecisionButton", typeof(GameObject));
+                            break;
+                        case DecisionViewTypes.ImageButtons:
+                            prefab = (GameObject)Resources.Load("Prefabs/SquadBuilder/DamageCard", typeof(GameObject));
+                            break;
+                        default:
+                            break;
                     }
 
-                    EventTrigger trigger = button.AddComponent<EventTrigger>();
-                    EventTrigger.Entry entry = new EventTrigger.Entry();
-                    entry.eventID = EventTriggerType.PointerClick;
-                    entry.callback.AddListener(
-                        (data) => { GameModes.GameMode.CurrentGameMode.TakeDecision(decision, button); }
-                    );
-                    trigger.triggers.Add(entry);
+                    GameObject buttonsHolder = decisionPanel.transform.Find("DecisionsPanel").gameObject;
+                    GameObject button = MonoBehaviour.Instantiate(prefab, buttonsHolder.transform);
 
+                    switch (DecisionViewType)
+                    {
+                        case DecisionViewTypes.TextButtons:
+                            button.transform.localPosition = new Vector3((i % 2 == 0) ? 5 : 200, -buttonHeight * (i / 2), 0);
+
+                            button.GetComponentInChildren<Text>().text = decision.Name;
+
+                            if (decision.HasTooltip)
+                            {
+                                Tooltips.AddTooltip(button, decision.Tooltip);
+                            }
+
+                            EventTrigger trigger = button.AddComponent<EventTrigger>();
+                            EventTrigger.Entry entry = new EventTrigger.Entry();
+                            entry.eventID = EventTriggerType.PointerClick;
+                            entry.callback.AddListener(
+                                (data) => { GameModes.GameMode.CurrentGameMode.TakeDecision(decision, button); }
+                            );
+                            trigger.triggers.Add(entry);
+
+                            break;
+                        case DecisionViewTypes.ImageButtons:
+                            button.transform.localPosition = new Vector3(10*(i+1) + i*194, 0, 0);
+
+                            DamageCardPanel script = button.GetComponent<DamageCardPanel>();
+                            script.Initialize(
+                                decision.Name,
+                                decision.Tooltip,
+                                delegate { GameModes.GameMode.CurrentGameMode.TakeDecision(decision, button); }
+                            );
+
+                            break;
+                        default:
+                            break;
+                    }
+
+                    button.name = "Button" + i;
                     i++;
                 }
-                decisionPanel.GetComponent<RectTransform>().sizeDelta = new Vector3(decisionPanel.GetComponent<RectTransform>().sizeDelta.x, defaultWindowHeight + ((i + 1) / 2) * buttonHeight);
+
+                switch (DecisionViewType)
+                {
+                    case DecisionViewTypes.TextButtons:
+                        decisionPanel.GetComponent<RectTransform>().sizeDelta = new Vector3(
+                            395,
+                            defaultWindowHeight + ((i + 1) / 2) * buttonHeight
+                        );
+                        break;
+                    case DecisionViewTypes.ImageButtons:
+                        decisionPanel.GetComponent<RectTransform>().sizeDelta = new Vector3(
+                            Mathf.Max(395, (i)*194 + (i+1)*10),
+                            defaultWindowHeight + 300 + 10
+                        );
+                        break;
+                    default:
+                        break;
+                }
 
                 if (DecisionOwner == null) DecisionOwner = Roster.GetPlayer(Phases.CurrentPhasePlayer);
 

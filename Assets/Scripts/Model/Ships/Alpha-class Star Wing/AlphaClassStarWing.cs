@@ -36,7 +36,7 @@ namespace Ship
                 factions.Add(Faction.Imperial);
                 faction = Faction.Imperial;
 
-                SkinName = "Alpha-class Star Wing";
+                SkinName = "Gray";
 
                 SoundShotsPath = "Slave1-Fire";
                 ShotsCount = 2;

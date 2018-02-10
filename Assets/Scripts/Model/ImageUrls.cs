@@ -13,7 +13,7 @@ public static class ImageUrls
         return GetImageUrl(UpgradesPath + FormatUpgradeType(upgrade.Type), FormatUpgradeName(upgrade.Name), filename);
     }
 
-    public static string GetImageUrl(CriticalHitCard.GenericCriticalHit crit, string filename = null)
+    public static string GetImageUrl(DamageDeckCard.GenericDamageCard crit, string filename = null)
     {
         return GetImageUrl(DamageDeckPath, crit.Name, filename);
     }

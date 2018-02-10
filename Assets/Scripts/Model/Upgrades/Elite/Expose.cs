@@ -1,5 +1,6 @@
 ﻿using Upgrade;
 using UnityEngine;
+using Ship;
 
 namespace UpgradesList
 {
@@ -52,7 +53,8 @@ namespace ActionsList
 
             Phases.OnEndPhaseStart += RemoveExposeEffect;
 
-            Host.AssignToken(new Conditions.ExposeCondition(), Phases.CurrentSubPhase.CallBack);
+            Host.Tokens.AssignCondition(new Conditions.ExposeCondition(Host));
+            Phases.CurrentSubPhase.CallBack();
         }
 
         private void RemoveExposeEffect()
@@ -77,7 +79,7 @@ namespace Conditions
 
     public class ExposeCondition : Tokens.GenericToken
     {
-        public ExposeCondition()
+        public ExposeCondition(GenericShip host) : base(host)
         {
             Name = "Buff Token";
             Tooltip = new UpgradesList.Expose().ImageUrl;

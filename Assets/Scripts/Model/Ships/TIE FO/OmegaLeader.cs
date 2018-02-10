@@ -55,7 +55,7 @@ namespace Abilities
                 enemyship = Combat.Defender;
             }
 
-            char targetLock = HostShip.GetTargetLockLetterPair(enemyship);
+            char targetLock = HostShip.Tokens.GetTargetLockLetterPair(enemyship);
             if (targetLock != ' ')
             {
                 enemyship.OnTryAddAvailableActionEffect += UseOmegaLeaderRestriction;

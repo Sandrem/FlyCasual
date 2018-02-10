@@ -14,7 +14,7 @@ namespace Ship
             public AlphaClassStarWing() : base()
             {
                 Type = "Alpha-class Star Wing";
-                IconicPilot = "Major Vynder";
+                IconicPilots.Add(Faction.Imperial, typeof(MajorVynder));
 
                 ManeuversImageUrl = "https://i.imgur.com/aiSqTZA.jpg";
 

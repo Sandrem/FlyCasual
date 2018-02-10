@@ -14,11 +14,11 @@ namespace Ship
             public SheathipedeShuttle() : base()
             {
                 Type = "Sheathipede-class Shuttle";
-                IconicPilot = "AP-5";
+                IconicPilots.Add(Faction.Rebel, typeof(FennRau));
 
                 ShipBaseArcsType = Arcs.BaseArcsType.ArcRear;
 
-                //ManeuversImageUrl = "";
+                ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/3/30/Maneuver_Card_-_Sheathipede-class_Shuttle.png";
 
                 Firepower = 2;
                 Agility = 2;

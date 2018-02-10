@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using Ship;
 
 namespace SubPhases
 {
@@ -43,7 +44,7 @@ namespace SubPhases
             if (success)
             {
                 UpdateHelpInfo();
-                HighlightShips();
+                Roster.HighlightShipsFiltered(FilterShipsToSetup);
                 Roster.GetPlayer(RequiredPlayer).SetupShip();
             }
         }
@@ -128,17 +129,9 @@ namespace SubPhases
             return result;
         }
 
-        private void HighlightShips()
+        private bool FilterShipsToSetup(GenericShip ship)
         {
-            Roster.AllShipsHighlightOff();
-            foreach (var ship in Roster.GetPlayer(RequiredPlayer).Ships)
-            {
-                if ((ship.Value.PilotSkill == RequiredPilotSkill) && (!ship.Value.IsSetupPerformed))
-                {
-                    ship.Value.HighlightCanBeSelectedOn();
-                    Roster.RosterPanelHighlightOn(ship.Value);
-                }
-            }
+            return ship.PilotSkill == RequiredPilotSkill && !ship.IsSetupPerformed && ship.Owner.PlayerNo == RequiredPlayer;
         }
 
         public void ConfirmShipSetup(int shipId, Vector3 position, Vector3 angles)

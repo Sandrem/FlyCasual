@@ -126,7 +126,8 @@ namespace Ship
 
                 foreach (Transform modelPart in GetModelTransform())
                 {
-                    modelPart.GetComponent<Renderer>().material.SetTexture("_MainTex", skin);
+                    Renderer renderer = modelPart.GetComponent<Renderer>();
+                    if (renderer != null) renderer.material.SetTexture("_MainTex", skin);
                 }
             }
         }
@@ -273,6 +274,11 @@ namespace Ship
         public Transform GetBombDropHelper()
         {
             return shipAllParts.Find("ShipBase/BombDropHelper");
+        }
+
+        public Transform GetBombLaunchHelper()
+        {
+            return shipAllParts.Find("ShipBase/BombLaunchHelper");
         }
 
         public Transform GetDecloakHelper()

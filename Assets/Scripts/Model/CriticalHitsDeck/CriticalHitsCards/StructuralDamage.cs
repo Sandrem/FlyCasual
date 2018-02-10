@@ -3,10 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace CriticalHitCard
+namespace DamageDeckCard
 {
 
-    public class StructuralDamage : GenericCriticalHit
+    public class StructuralDamage : GenericDamageCard
     {
         public StructuralDamage()
         {
@@ -20,20 +20,21 @@ namespace CriticalHitCard
             Host.AfterGetAgility += ReduceAgility;
             Roster.UpdateShipStats(Host);
 
-            Host.AfterGenerateAvailableActionsList += AddCancelCritAction;
+            Host.AfterGenerateAvailableActionsList += CallAddCancelCritAction;
 
-            Host.AssignToken(new Tokens.StructuralDamageCritToken(), Triggers.FinishTrigger);
+            Host.Tokens.AssignCondition(new Tokens.StructuralDamageCritToken(Host));
+            Triggers.FinishTrigger();
         }
 
-        public override void DiscardEffect(Ship.GenericShip host)
+        public override void DiscardEffect()
         {
             Messages.ShowInfo("Agility is restored");
 
-            host.RemoveToken(typeof(Tokens.StructuralDamageCritToken));
-            host.AfterGenerateAvailableActionsList -= AddCancelCritAction;
+            Host.Tokens.RemoveCondition(typeof(Tokens.StructuralDamageCritToken));
+            Host.AfterGenerateAvailableActionsList -= CallAddCancelCritAction;
 
-            host.AfterGetAgility -= ReduceAgility;
-            Roster.UpdateShipStats(host);
+            Host.AfterGetAgility -= ReduceAgility;
+            Roster.UpdateShipStats(Host);
         }
 
         private void ReduceAgility(ref int value)

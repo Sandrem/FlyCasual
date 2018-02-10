@@ -14,7 +14,7 @@ namespace Ship
             public BSF17Bomber() : base()
             {
                 Type = "B/SF-17 Bomber";
-                IconicPilot = "Crimson Squadron Pilot";
+                IconicPilots.Add(Faction.Rebel, typeof(CrimsonSquadronPilot));
                 ShipBaseSize = BaseSize.Large;
                 ShipBaseArcsType = Arcs.BaseArcsType.Arc360;
 
@@ -35,12 +35,12 @@ namespace Ship
                 PrintedActions.Add(new TargetLockAction());
 
                 AssignTemporaryManeuvers();
-                //HotacManeuverTable = new AI.YT2400Table();
+                HotacManeuverTable = new AI.BSF17BomberTable();
 
                 factions.Add(Faction.Rebel);
                 faction = Faction.Rebel;
 
-                SkinName = "Blue";
+                SkinName = "Crimson";
 
                 SoundShotsPath = "Falcon-Fire";
                 ShotsCount = 2;

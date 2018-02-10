@@ -1,5 +1,6 @@
 ﻿using Abilities;
 using Mods;
+using SquadBuilderNS;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -22,9 +23,6 @@ namespace Upgrade
         Title,
         Modification,
         Illicit,
-        Cargo,
-        HardPoint,
-        Team,
         Tech
     }
 
@@ -91,7 +89,7 @@ namespace Upgrade
             return result;
         }
 
-        public virtual bool IsAllowedForSquadBuilderPostCheck(RosterBuilder.SquadBuilderUpgrade upgradeHolder)
+        public virtual bool IsAllowedForSquadBuilderPostCheck(SquadList squadList)
         {
             return true;
         }
@@ -108,6 +106,7 @@ namespace Upgrade
 
         // ATTACH TO SHIP
 
+        [Obsolete("This is in the process of being depricated, please use new template instead: UpgradeAbilities.Add();", false)]
         public virtual void AttachToShip(Ship.GenericShip host)
         {
             Host = host;

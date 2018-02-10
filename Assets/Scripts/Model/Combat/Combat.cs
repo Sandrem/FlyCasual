@@ -5,6 +5,8 @@ using UnityEngine;
 using System;
 using Board;
 using GameModes;
+using Ship;
+using SubPhases;
 
 public enum CombatStep
 {
@@ -35,35 +37,51 @@ public static partial class Combat
     public static DiceRoll DiceRollDefence;
     public static DiceRoll CurrentDiceRoll;
 
-    public static bool IsObstructed;
-
     public static CombatStep AttackStep = CombatStep.None;
 
-    public static Ship.GenericShip Attacker;
-    public static Ship.GenericShip Defender;
+    public static GenericShip Attacker;
+    public static GenericShip Defender;
 
-    public static Ship.IShipWeapon ChosenWeapon;
+    public static IShipWeapon ChosenWeapon;
 
-    public static CriticalHitCard.GenericCriticalHit CurrentCriticalHitCard;
+    public static DamageDeckCard.GenericDamageCard CurrentCriticalHitCard;
 
     private static int attacksCounter;
     private static int hitsCounter;
 
     public static ShipShotDistanceInformation ShotInfo;
 
+    public static Func<GenericShip, IShipWeapon, bool> ExtraAttackFilter;
+
+    public static bool IsAttackAlreadyCalled;
+
+    public static void Initialize()
+    {
+        CleanupCombatData();
+    }
+
     // DECLARE INTENT TO ATTACK
 
     public static void DeclareIntentToAttack(int attackerId, int defenderID)
     {
-        Selection.ChangeActiveShip("ShipId:" + attackerId);
-        Selection.ChangeAnotherShip("ShipId:" + defenderID);
+        if (!IsAttackAlreadyCalled)
+        {
+            IsAttackAlreadyCalled = true;
 
-        ChosenWeapon = Selection.ThisShip.PrimaryWeapon;
-        ShotInfo = new ShipShotDistanceInformation(Selection.ThisShip, Selection.AnotherShip, ChosenWeapon);
+            UI.HideContextMenu();
+            UI.HideSkipButton();
 
-        UI.HideContextMenu();
+            Selection.ChangeActiveShip("ShipId:" + attackerId);
+            Selection.ChangeAnotherShip("ShipId:" + defenderID);
 
-        SelectWeapon();
+            ChosenWeapon = Selection.ThisShip.PrimaryWeapon;
+            ShotInfo = new ShipShotDistanceInformation(Selection.ThisShip, Selection.AnotherShip, ChosenWeapon);
+            SelectWeapon();
+        }
+        else
+        {
+            Debug.Log("Attack was called when attack is already called - ignore");
+        }
     }
 
     // CHECK AVAILABLE WEAPONS TO ATTACK THIS TARGET
@@ -76,7 +94,7 @@ public static partial class Combat
         {
             Phases.StartTemporarySubPhaseOld(
                 "Choose weapon for attack",
-                typeof(SubPhases.WeaponSelectionDecisionSubPhase),
+                typeof(WeaponSelectionDecisionSubPhase),
                 TryPerformAttack
             );
         }
@@ -104,6 +122,7 @@ public static partial class Combat
         }
         else
         {
+            IsAttackAlreadyCalled = false;
             Roster.GetPlayer(Phases.CurrentPhasePlayer).OnTargetNotLegalForAttack();
         }
     }
@@ -114,7 +133,10 @@ public static partial class Combat
 
         if (Rules.TargetIsLegalForShot.IsLegal(true) && ChosenWeapon.IsShotAvailable(Selection.AnotherShip))
         {
-            result = true;
+            if (ExtraAttackFilter == null || ExtraAttackFilter(Selection.AnotherShip, ChosenWeapon))
+            {
+                result = true;
+            }
         }
 
         return result;
@@ -122,7 +144,7 @@ public static partial class Combat
 
     private static void CheckFireLineCollisions()
     {
-        ShotInfo = (ChosenWeapon.GetType() == typeof(Ship.PrimaryWeaponClass)) ? ShotInfo : new ShipShotDistanceInformation(Selection.ThisShip, Selection.AnotherShip, ChosenWeapon);
+        ShotInfo = new ShipShotDistanceInformation(Selection.ThisShip, Selection.AnotherShip, ChosenWeapon);
         ShotInfo.CheckFirelineCollisions(PayAttackCost);
     }
 
@@ -174,14 +196,14 @@ public static partial class Combat
         Selection.ActiveShip = Selection.ThisShip;
         Phases.StartTemporarySubPhaseOld(
             "Attack dice roll",
-            typeof(SubPhases.AttackDiceRollCombatSubPhase)
+            typeof(AttackDiceRollCombatSubPhase)
         );
     }
 
     public static void ConfirmAttackDiceResults()
     {
         HideDiceResultMenu();
-        Phases.FinishSubPhase(typeof(SubPhases.AttackDiceRollCombatSubPhase));
+        Phases.FinishSubPhase(typeof(AttackDiceRollCombatSubPhase));
 
         PerformDefence();
     }
@@ -209,7 +231,7 @@ public static partial class Combat
         Selection.ActiveShip = Selection.AnotherShip;
         Phases.StartTemporarySubPhaseOld(
             "Defence dice roll",
-            typeof(SubPhases.DefenceDiceRollCombatSubPhase)
+            typeof(DefenceDiceRollCombatSubPhase)
         );
     }
 
@@ -219,11 +241,11 @@ public static partial class Combat
     {
         DiceCompareHelper.currentDiceCompareHelper.Close();
         HideDiceResultMenu();
-        Phases.FinishSubPhase(typeof(SubPhases.DefenceDiceRollCombatSubPhase));
+        Phases.FinishSubPhase(typeof(DefenceDiceRollCombatSubPhase));
 
         MovementTemplates.ReturnRangeRuler();
 
-        Phases.StartTemporarySubPhaseOld("Compare results", typeof(SubPhases.CompareResultsSubPhase));
+        Phases.StartTemporarySubPhaseOld("Compare results", typeof(CompareResultsSubPhase));
     }
 
     public static void CancelHitsByDefenceDice()
@@ -306,7 +328,7 @@ public static partial class Combat
 
     private static void AfterShotIsPerformed()
     {
-        Phases.FinishSubPhase(typeof(SubPhases.CompareResultsSubPhase));
+        Phases.FinishSubPhase(typeof(CompareResultsSubPhase));
         CheckTwinAttack();
     }
 
@@ -360,24 +382,32 @@ public static partial class Combat
     {
         Selection.ThisShip = Attacker;
 
+        Attacker.CallAttackFinishAsAttacker ();
+        Defender.CallAttackFinishAsDefender ();
+
         Attacker.CallAttackFinish();
         Defender.CallAttackFinish();
 
-        Triggers.ResolveTriggers(TriggerTypes.OnAttackFinish, CombatEnd);
+        Triggers.ResolveTriggers(TriggerTypes.OnAttackFinish, CleanupAndCheckExtraAttacks);
     }
 
-    private static void CombatEnd()
+    private static void CleanupAndCheckExtraAttacks()
     {
         CleanupCombatData();
 
         if (!Selection.ThisShip.IsCannotAttackSecondTime)
         {
-            CheckSecondAttack(CheckFinishCombatSubPhase);
+            CheckExtraAttacks(Phases.CurrentSubPhase.CallBack);
         }
         else
         {
-            CheckFinishCombatSubPhase();
+            Phases.CurrentSubPhase.CallBack();
         }
+    }
+
+    private static void CheckExtraAttacks(Action callback)
+    {
+        Selection.ThisShip.CallCombatCheckExtraAttack(callback);
     }
 
     private static void CleanupCombatData()
@@ -388,19 +418,30 @@ public static partial class Combat
         ChosenWeapon = null;
         ShotInfo = null;
         hitsCounter = 0;
+        ExtraAttackFilter = null;
+        IsAttackAlreadyCalled = false;
     }
 
-    private static void CheckSecondAttack(Action callBack)
+    public static void FinishCombatSubPhase()
     {
-        Selection.ThisShip.CallCheckSecondAttack(callBack);
+        Phases.FinishSubPhase(typeof(CombatSubPhase));
     }
 
-    private static void CheckFinishCombatSubPhase()
+    // Extra Attacks
+
+    public static void StartAdditionalAttack(GenericShip ship, Action callback, Func<GenericShip, IShipWeapon, bool> extraAttackFilter = null)
     {
-        if (Roster.NoSamePlayerAndPilotSkillNotAttacked(Selection.ThisShip))
-        {
-            Phases.FinishSubPhase(typeof(SubPhases.CombatSubPhase));
-        }
+        Selection.ChangeActiveShip("ShipId:" + ship.ShipId);
+        Phases.CurrentSubPhase.RequiredPlayer = ship.Owner.PlayerNo;
+
+        ExtraAttackFilter = extraAttackFilter;
+
+        Phases.StartTemporarySubPhaseOld(
+            "Second attack",
+            typeof(SelectTargetForSecondAttackSubPhase),
+            //delegate { ExtraAttackTargetSelected(callback, extraAttackFilter); }
+            callback
+        );
     }
 
 }
@@ -412,7 +453,7 @@ namespace SubPhases
 
         public override void PrepareDecision(System.Action callBack)
         {
-            List<Ship.IShipWeapon> allWeapons = Selection.ThisShip.GetAllWeapons();
+            List<IShipWeapon> allWeapons = Selection.ThisShip.GetAllWeapons();
 
             //TODO: Range?
             InfoText = "Choose weapon for attack";
@@ -431,7 +472,7 @@ namespace SubPhases
             callBack();
         }
 
-        public void PerformAttackWithWeapon(Ship.IShipWeapon weapon)
+        public void PerformAttackWithWeapon(IShipWeapon weapon)
         {
             Tooltips.EndTooltip();
 
@@ -444,10 +485,6 @@ namespace SubPhases
         }
 
     }
-}
-
-namespace SubPhases
-{
 
     public class AttackDiceRollCombatSubPhase : DiceRollCombatSubPhase
     {
@@ -536,18 +573,46 @@ namespace SubPhases
         {
             Phases.CurrentSubPhase = PreviousSubPhase;
             UpdateHelpInfo();
+            Phases.CurrentSubPhase.Resume();
         }
 
-        public override bool ThisShipCanBeSelected(Ship.GenericShip ship, int mouseKeyIsPressed)
+        public override bool ThisShipCanBeSelected(GenericShip ship, int mouseKeyIsPressed)
         {
             bool result = false;
             return result;
         }
 
-        public override bool AnotherShipCanBeSelected(Ship.GenericShip anotherShip, int mouseKeyIsPressed)
+        public override bool AnotherShipCanBeSelected(GenericShip anotherShip, int mouseKeyIsPressed)
         {
             bool result = false;
             return result;
+        }
+    }
+
+    public class ExtraAttackSubPhase : GenericSubPhase
+    {
+        public override void Start()
+        {
+            Name = "Extra Attack";
+            UpdateHelpInfo();
+
+            UI.ShowSkipButton();
+        }
+
+        public override void SkipButton()
+        {
+            CallBack();
+        }
+
+        public void RevertSubphase()
+        {
+            Phases.CurrentSubPhase = PreviousSubPhase;
+            Phases.CurrentSubPhase.Resume();
+        }
+
+        public override void Next()
+        {
+            Phases.CurrentSubPhase = Phases.CurrentSubPhase.PreviousSubPhase;
         }
     }
 

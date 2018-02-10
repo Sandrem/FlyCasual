@@ -34,50 +34,80 @@ namespace Abilities
 
         public override void ActivateAbility()
         {
-            HostShip.OnAttackMissedAsAttacker += SubscribeToCheckSecondAttack;
+            HostShip.OnAttackMissedAsAttacker += CheckLukeAbility;
+            Phases.OnRoundEnd += ClearIsAbilityUsedFlag;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.OnAttackMissedAsAttacker -= SubscribeToCheckSecondAttack;
+            HostShip.OnAttackMissedAsAttacker -= CheckLukeAbility;
+            Phases.OnRoundEnd -= ClearIsAbilityUsedFlag;
         }
 
-        private void SubscribeToCheckSecondAttack()
+        private void CheckLukeAbility()
         {
-            if (!HostShip.IsCannotAttackSecondTime)
+            if (!IsAbilityUsed && !HostShip.IsCannotAttackSecondTime)
             {
-                HostShip.OnCheckSecondAttack += RegisterSecondAttackTrigger;
+                IsAbilityUsed = true;
+
+                // Trigger must be registered just before it's resolution
+                HostShip.OnCombatCheckExtraAttack += RegisterSecondAttackTrigger;
             }
         }
 
-        private void RegisterSecondAttackTrigger(GenericShip ship)
+        private void RegisterSecondAttackTrigger()
         {
-            HostShip.OnCheckSecondAttack -= RegisterSecondAttackTrigger;
+            HostShip.OnCombatCheckExtraAttack -= RegisterSecondAttackTrigger;
 
-            Triggers.RegisterTrigger(new Trigger
-            {
-                Name = "Luke Skywalker's ability",
-                TriggerType = TriggerTypes.OnCheckSecondAttack,
-                TriggerOwner = HostShip.Owner.PlayerNo,
-                EventHandler = DoSecondAttack
-            });
+            RegisterAbilityTrigger(TriggerTypes.OnCombatCheckExtraAttack, DoSecondAttack);
         }
 
         private void DoSecondAttack(object sender, System.EventArgs e)
         {
-            Selection.ThisShip.IsCannotAttackSecondTime = true;
+            if (!HostShip.IsCannotAttackSecondTime)
+            {
+                Messages.ShowInfo(HostShip.PilotName + " can perform second attack\nfrom primary weapon");
 
-            Selection.ThisShip.AfterGenerateAvailableActionEffectsList += AddLukeSkywalkerCrewAbility;
-            Phases.OnCombatPhaseEnd += RemoveLukeSkywalkerCrewAbility;
+                HostShip.IsCannotAttackSecondTime = true;
 
-            Phases.StartTemporarySubPhaseOld(
-                "Second attack",
-                typeof(SelectTargetForSecondAttackSubPhase),
-                delegate {
-                    Phases.FinishSubPhase(typeof(SelectTargetForSecondAttackSubPhase));
-                    Selection.ThisShip.IsAttackPerformed = false;
-                    Combat.DeclareIntentToAttack(Selection.ThisShip.ShipId, Selection.AnotherShip.ShipId);
-                });
+                HostShip.AfterGenerateAvailableActionEffectsList += AddLukeSkywalkerCrewAbility;
+                Phases.OnCombatPhaseEnd += RemoveLukeSkywalkerCrewAbility;
+
+                Combat.StartAdditionalAttack(
+                    HostShip,
+                    FinishAdditionalAttack,
+                    IsPrimaryWeaponShot
+                );
+            }
+            else
+            {
+                Messages.ShowErrorToHuman(string.Format("{0} cannot attack one more time", HostShip.PilotName));
+                Triggers.FinishTrigger();
+            }
+        }
+
+        private void FinishAdditionalAttack()
+        {
+            // If attack is skipped, set this flag, otherwise regular attack can be performed second time
+            HostShip.IsAttackPerformed = true;
+
+            Triggers.FinishTrigger();
+        }
+
+        private bool IsPrimaryWeaponShot(GenericShip defender, IShipWeapon weapon)
+        {
+            bool result = false;
+
+            if (Combat.ChosenWeapon is PrimaryWeaponClass)
+            {
+                result = true;
+            }
+            else
+            {
+                Messages.ShowError("Attack must be performed from primary weapon");
+            }
+
+            return result;
         }
 
         public void AddLukeSkywalkerCrewAbility(GenericShip ship)

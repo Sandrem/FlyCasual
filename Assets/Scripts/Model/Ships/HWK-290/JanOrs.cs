@@ -56,7 +56,7 @@ namespace Abilities
 
         private void AskJanOrsAbility(object sender, System.EventArgs e)
         {
-            if (!HostShip.HasToken(typeof(Tokens.StressToken)))
+            if (!HostShip.Tokens.HasToken(typeof(Tokens.StressToken)))
             {
                 AskToUseAbility(AlwaysUseByDefault, UseJanOrsAbility);
             }
@@ -68,7 +68,7 @@ namespace Abilities
 
         private void UseJanOrsAbility(object sender, System.EventArgs e)
         {
-            HostShip.AssignToken(new Tokens.StressToken(), AllowRollAdditionalDice);
+            HostShip.Tokens.AssignToken(new Tokens.StressToken(HostShip), AllowRollAdditionalDice);
         }
 
         private void AllowRollAdditionalDice()

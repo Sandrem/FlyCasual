@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Ship;
 using SubPhases;
+using Tokens;
 
 namespace Ship
 {
@@ -19,6 +20,7 @@ namespace Ship
                 IsUnique = true;
 
 				PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
+
 				PilotAbilities.Add(new Abilities.OldTerochAbility());
 			}
 		}
@@ -42,7 +44,7 @@ namespace Abilities
 			HostShip.OnCombatPhaseStart -= CheckOldTerochAbility;
 		}
 
-		private void CheckOldTerochAbility(Ship.GenericShip host)
+		private void CheckOldTerochAbility(GenericShip host)
 		{
 			// give user the option to use ability
 			RegisterAbilityTrigger(TriggerTypes.OnCombatPhaseStart, AskSelectShip);
@@ -51,17 +53,45 @@ namespace Abilities
 		private void AskSelectShip(object sender, System.EventArgs e)
 		{
 			// first check if there is at least one enemy at range 1
-			if (Board.BoardManager.GetShipsAtRange (HostShip, new Vector2 (1, 1), Team.Type.Enemy).Count >= 1) {
-				// Available selection are only within Range 1.
-				// TODO : build the list if the enemy can fire to the ship
-				SelectTargetForAbility (ActivateOldTerochAbility, new List<TargetTypes> () { TargetTypes.Enemy }, new Vector2 (1, 1), null, true);
+			if (TargetsForAbilityExist(FilterTargetsOfAbility)) {
+                // Available selection are only within Range 1.
+                // TODO : build the list if the enemy can fire to the ship
+                SelectTargetForAbilityNew(
+                    ActivateOldTerochAbility,
+                    FilterTargetsOfAbility,
+                    GetAiPriorityOfTarget,
+                    HostShip.Owner.PlayerNo
+                );
 			} else {
 				// no enemy in range
-				Triggers.FinishTrigger ();
+				Triggers.FinishTrigger();
 			}
 		}
-			
-		private void ActivateOldTerochAbility()
+
+        private bool FilterTargetsOfAbility(GenericShip ship)
+        {
+            return FilterByTargetType(ship, new List<TargetTypes>() { TargetTypes.Enemy }) && FilterTargetsByRange(ship, 1, 1) && FilterTargetInEnemyArcWithTokens(ship);
+        }
+
+        private int GetAiPriorityOfTarget(GenericShip ship)
+        {
+            int priority = 50;
+
+            priority += ship.Tokens.CountTokensByType(typeof(FocusToken)) * 10;
+            priority += ship.Tokens.CountTokensByType(typeof(EvadeToken)) * 10;
+            if (Actions.HasTargetLockOn(ship, HostShip)) priority += 10;
+            priority += ship.Firepower*10;
+
+            return priority;
+        }
+
+        private bool FilterTargetInEnemyArcWithTokens(GenericShip ship)
+        {
+            Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(ship, HostShip);
+            return shotInfo.InArc && (ship.Tokens.HasToken(typeof(FocusToken)) || ship.Tokens.HasToken(typeof(EvadeToken)));
+        }
+
+        private void ActivateOldTerochAbility()
 		{
 			Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(TargetShip, HostShip);
 			// Range is already checked in "SelectTargetForAbility", only check if the Host is in the Target firing arc.
@@ -71,13 +101,34 @@ namespace Abilities
 			//		even ship cannot shoot from it.
 			if (shotInfo.InArc == true)
 			{
-				Messages.ShowInfo(HostShip.PilotName + " removed focus and evade token\nto " + TargetShip.PilotName);
-				TargetShip.RemoveToken(typeof(Tokens.FocusToken), '*', true);
-				TargetShip.RemoveToken(typeof(Tokens.EvadeToken), '*', true);
-				SelectShipSubPhase.FinishSelection ();
-			} else {
+                DiscardFocusAndEvadeTokens();
+            }
+            else
+            {
 				Messages.ShowError(HostShip.PilotName + " is not within " + TargetShip.PilotName + " firing arc.");
 			}
 		}
-	}
+
+        private void DiscardFocusAndEvadeTokens()
+        {
+            Messages.ShowInfo(string.Format("{0} discarded all Focus and Evade tokens from {1}", HostShip.PilotName, TargetShip.PilotName));
+            DiscardAllFocusTokens();
+        }
+
+        private void DiscardAllFocusTokens()
+        {
+            TargetShip.Tokens.RemoveAllTokensByType(
+                typeof(FocusToken),
+                DiscardAllEvadeTokens
+            );
+        }
+
+        private void DiscardAllEvadeTokens()
+        {
+            TargetShip.Tokens.RemoveAllTokensByType(
+                typeof(EvadeToken),
+                SelectShipSubPhase.FinishSelection
+            );
+        }
+    }
 }

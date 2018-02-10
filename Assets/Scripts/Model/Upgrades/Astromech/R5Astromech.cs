@@ -45,11 +45,11 @@ namespace Abilities
         {
             Selection.ActiveShip = HostShip;
 
-            List<CriticalHitCard.GenericCriticalHit> shipCritsList = HostShip.GetAssignedCritCards().Where(n => n.Type == CriticalCardType.Ship).ToList();
+            List<DamageDeckCard.GenericDamageCard> shipCritsList = HostShip.Damage.GetFaceupCrits();
 
             if (shipCritsList.Count == 1)
             {
-                Selection.ActiveShip.FlipFacedownFaceupDamageCard(shipCritsList.First());
+                Selection.ActiveShip.Damage.FlipFaceupCritFacedown(shipCritsList.First());
                 Sounds.PlayShipSound("R2D2-Proud");
                 Triggers.FinishTrigger();
             }
@@ -79,7 +79,7 @@ namespace SubPhases
         {
             InfoText = "R5 Astromech: Select faceup ship Crit";
 
-            foreach (var shipCrit in Selection.ActiveShip.GetAssignedCritCards().Where(n => n.Type == CriticalCardType.Ship).ToList())
+            foreach (var shipCrit in Selection.ActiveShip.Damage.GetFaceupCrits().Where(n => n.Type == CriticalCardType.Ship).ToList())
             {
                 //TODO: what if two same crits?
                 AddDecision(shipCrit.Name, delegate { DiscardCrit(shipCrit); });
@@ -90,9 +90,9 @@ namespace SubPhases
             callBack();
         }
 
-        private void DiscardCrit(CriticalHitCard.GenericCriticalHit critCard)
+        private void DiscardCrit(DamageDeckCard.GenericDamageCard critCard)
         {
-            Selection.ActiveShip.FlipFacedownFaceupDamageCard(critCard);
+            Selection.ActiveShip.Damage.FlipFaceupCritFacedown(critCard);
             Sounds.PlayShipSound("R2D2-Proud");
             ConfirmDecision();
         }

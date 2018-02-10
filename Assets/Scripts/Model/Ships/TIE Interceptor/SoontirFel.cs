@@ -41,7 +41,7 @@ namespace Abilities
 
         public override void DeactivateAbility()
         {
-            HostShip.OnTokenIsAssigned += RegisterSoontirFelAbility;
+            HostShip.OnTokenIsAssigned -= RegisterSoontirFelAbility;
         }
 
         private void RegisterSoontirFelAbility(GenericShip ship, System.Type tokenType)
@@ -60,13 +60,13 @@ namespace Abilities
             }
             else
             {
-                Selection.ThisShip.AssignToken(new Tokens.FocusToken(), Triggers.FinishTrigger);
+                HostShip.Tokens.AssignToken(new Tokens.FocusToken(HostShip), Triggers.FinishTrigger);
             }
         }
 
         private void AssignToken(object sender, System.EventArgs e)
         {
-            HostShip.AssignToken(new Tokens.FocusToken(), SubPhases.DecisionSubPhase.ConfirmDecision);
+            HostShip.Tokens.AssignToken(new Tokens.FocusToken(HostShip), SubPhases.DecisionSubPhase.ConfirmDecision);
         }
     }
 }

@@ -14,7 +14,7 @@ namespace Ship
             public Kihraxz() : base()
             {
                 Type = "Kihraxz Fighter";
-                IconicPilot = "Black Sun Ace";
+                IconicPilots.Add(Faction.Scum, typeof(TalonbaneCobra));
 
                 ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/d/d8/MS_KIHRAXZ-FIGHTER.png";
 
@@ -50,7 +50,6 @@ namespace Ship
             {
                 Maneuvers.Add("1.L.T", ManeuverColor.White);
                 Maneuvers.Add("1.L.B", ManeuverColor.Green);
-                Maneuvers.Add("1.F.S", ManeuverColor.None);
                 Maneuvers.Add("1.R.B", ManeuverColor.Green);
                 Maneuvers.Add("1.R.T", ManeuverColor.White);
                 Maneuvers.Add("2.L.T", ManeuverColor.White);

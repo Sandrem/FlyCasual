@@ -146,7 +146,10 @@ public static partial class Combat
         }
 
         //TODO: Re-generate list instead
-        diceModification.ActionEffect(delegate { });
+        diceModification.ActionEffect(delegate {
+            HideDiceModificationButtons();
+            ShowDiceModificationButtons();
+        });
     }
 
     public static void ConfirmDiceResults()

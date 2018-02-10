@@ -18,7 +18,8 @@ namespace Arcs
                     ShipBase = Host.ShipBase,
                     MinAngle = -140f,
                     MaxAngle = 140f,
-                    Facing = ArcFacing.Rear
+                    Facing = ArcFacing.Rear,
+					IsRearAuxArc = true
                 }
             };
         }

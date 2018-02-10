@@ -25,6 +25,7 @@ namespace SubPhases
         public override void Next()
         {
             Phases.CurrentSubPhase = new CombatSubPhase();
+            Phases.CurrentSubPhase.CallBack = Combat.FinishCombatSubPhase;
             Phases.CurrentSubPhase.Start();
             Phases.CurrentSubPhase.Prepare();
             Phases.CurrentSubPhase.Initialize();

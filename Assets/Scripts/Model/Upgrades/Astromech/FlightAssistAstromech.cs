@@ -6,6 +6,7 @@ using Upgrade;
 using System.Linq;
 using Ship;
 using Abilities;
+using ActionsList;
 
 namespace UpgradesList
 {
@@ -48,7 +49,7 @@ namespace Abilities
 
         private void SetCannotAttackOutsideArc()
         {
-            foreach (IShipWeapon weapon in HostShip.UpgradeBar.GetInstalledUpgrades().Where(n => n is IShipWeapon))
+            foreach (IShipWeapon weapon in HostShip.UpgradeBar.GetUpgradesOnlyFaceup().Where(n => n is IShipWeapon))
             {
                 if (weapon.CanShootOutsideArc)
                 {
@@ -84,9 +85,15 @@ namespace Abilities
 
         private void AskPerformFreeActions(object sender, System.EventArgs e)
         {
-            List<ActionsList.GenericAction> actions = new List<ActionsList.GenericAction>() { new ActionsList.BoostAction(), new ActionsList.BarrelRollAction() };
+            Sounds.PlayShipSound("Astromech-Beeping-and-whistling");
 
-            HostShip.AskPerformFreeAction(actions, Triggers.FinishTrigger);
+            HostShip.AskPerformFreeAction(
+                new List<GenericAction>()
+                {
+                    new BoostAction(),
+                    new BarrelRollAction()
+                },
+                Triggers.FinishTrigger);
         }
 
     }

@@ -107,7 +107,8 @@ public static class Selection {
 
     private static void ProcessClick()
     {
-        Phases.CurrentSubPhase.ProcessClick();
+        if (Phases.CurrentSubPhase != null) Phases.CurrentSubPhase.ProcessClick();
+        
         GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
         if (Game.Position.inReposition)
         {
@@ -154,7 +155,6 @@ public static class Selection {
         ThisShip.ToggleCollisionDetection(true);
         Roster.MarkShip(ThisShip, Color.green);
         ThisShip.HighlightThisSelected();
-        if (Phases.CurrentSubPhase.GetType() == typeof(SubPhases.CombatSubPhase)) Roster.HighlightShipsFiltered(Roster.AnotherPlayer(Phases.CurrentPhasePlayer));
     }
 
     private static void DoSelectThisShip(int mouseKeyIsPressed)

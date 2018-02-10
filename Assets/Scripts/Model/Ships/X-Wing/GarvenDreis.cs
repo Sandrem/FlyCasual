@@ -48,7 +48,7 @@ namespace Abilities
         {
             if (HostShip.Owner.Ships.Count > 1)
             {
-                SelectTargetForAbility(
+                SelectTargetForAbilityOld(
                     SelectGarvenDreisAbilityTarget,
                     new List<TargetTypes>() { TargetTypes.OtherFriendly },
                     new Vector2(1, 2)
@@ -64,7 +64,7 @@ namespace Abilities
         {
             MovementTemplates.ReturnRangeRuler();
 
-            TargetShip.AssignToken(new Tokens.FocusToken(), SelectShipSubPhase.FinishSelection);
+            TargetShip.Tokens.AssignToken(new Tokens.FocusToken(TargetShip), SelectShipSubPhase.FinishSelection);
         }
     }
 }

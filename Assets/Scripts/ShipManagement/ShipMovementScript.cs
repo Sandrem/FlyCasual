@@ -52,14 +52,6 @@ public class ShipMovementScript : MonoBehaviour {
 
     //Assignment and launch of execution of meneuver
 
-    public void AssignManeuverButtonPressed()
-    {
-        UI.HideDirectionMenu();
-
-        string maneuverCode = EventSystem.current.currentSelectedGameObject.name;
-        DirectionsMenu.Callback(maneuverCode);
-    }
-
     public static void AssignManeuver(int shipId, string maneuverCode)
     {
         Selection.ChangeActiveShip("ShipId:" + shipId);
@@ -141,7 +133,7 @@ public class ShipMovementScript : MonoBehaviour {
 
         UI.HideContextMenu();
 
-        Selection.ThisShip.CallActivateShip(LaunchMovementTrigger);
+        Selection.ThisShip.CallMovementActivation(LaunchMovementTrigger);
     }
 
     private static void LaunchMovementTrigger()

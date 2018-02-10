@@ -20,6 +20,11 @@ namespace UpgradesList
             UpgradeAbilities.Add(new ReyCrewAbility());
         }
 
+        public override bool IsAllowedForShip(GenericShip ship)
+        {
+            return ship.faction == Faction.Rebel;
+        }
+
     }
 }
 
@@ -67,7 +72,7 @@ namespace Abilities
 
         private void CheckStoreTokenAbility(object sender, System.EventArgs e)
         {
-            if (HostShip.HasToken(typeof(FocusToken)))
+            if (HostShip.Tokens.HasToken(typeof(FocusToken)))
             {
                 if (!alwaysUseAbility)
                 {
@@ -91,9 +96,11 @@ namespace Abilities
 
         private void DoStoreToken(Action callback)
         {
-            HostShip.RemoveToken(typeof(FocusToken));
             FocusTokensStored++;
-            callback();
+            HostShip.Tokens.RemoveToken(
+                typeof(FocusToken),
+                callback
+            );
         }
 
         private void RegisterAssignTokenAbility()
@@ -116,7 +123,7 @@ namespace Abilities
         private void AssignStoredToken(object sender, System.EventArgs e)
         {
             FocusTokensStored--;
-            HostShip.AssignToken(new FocusToken(), SubPhases.DecisionSubPhase.ConfirmDecision);
+            HostShip.Tokens.AssignToken(new FocusToken(HostShip), SubPhases.DecisionSubPhase.ConfirmDecision);
         }
 
     }

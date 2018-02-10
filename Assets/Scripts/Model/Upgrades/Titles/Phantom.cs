@@ -4,6 +4,7 @@ using Upgrade;
 using System.Linq;
 using System;
 using UnityEngine;
+using Abilities;
 
 namespace UpgradesList
 {
@@ -17,35 +18,88 @@ namespace UpgradesList
 
             isUnique = true;
 
-            IsHidden = true;
+            UpgradeAbilities.Add(new PhantomTitleAbility());
         }
 
         public override bool IsAllowedForShip(GenericShip ship)
         {
             return ship is AttackShuttle;
         }
+    }
+}
 
-        public override void AttachToShip(GenericShip host)
+namespace Abilities
+{
+    public class PhantomTitleAbility : GenericAbility
+    {
+        public override void ActivateAbility()
         {
-            base.AttachToShip(host);
+            HostShip.OnDocked += OnDocked;
+            HostShip.OnUndocked += OnUndocked;
+        }
 
-            Host.OnDocked += OnDocked;
-            Host.OnUndocked += OnUndocked;
+        public override void DeactivateAbility()
+        {
+            HostShip.OnDocked -= OnDocked;
+            HostShip.OnUndocked -= OnUndocked;
         }
 
         private void OnDocked(GenericShip dockingHost)
         {
-            dockingHost.OnAttackStartAsAttacker += TestAbility;
+            ToggleRearArc(true);
+            Phases.OnCombatPhaseEnd += RegisterExtraShotAbility;
         }
 
         private void OnUndocked(GenericShip dockingHost)
         {
-            dockingHost.OnAttackStartAsAttacker -= TestAbility;
+            ToggleRearArc(false);
+            Phases.OnCombatPhaseEnd -= RegisterExtraShotAbility;
         }
 
-        private void TestAbility()
+        private void ToggleRearArc(bool isActive)
         {
-            Debug.Log("Ability of docked Phantom");
+            HostShip.Host.ArcInfo.GetRearArc().ShotPermissions.CanShootPrimaryWeapon = isActive;
+        }
+
+        private void RegisterExtraShotAbility()
+        {
+            if (!HostShip.Host.IsCannotAttackSecondTime)
+            {
+                RegisterAbilityTrigger(TriggerTypes.OnCombatPhaseEnd, ExtraShotWithTurret);
+            }
+        }
+
+        private void ExtraShotWithTurret(object sender, System.EventArgs e)
+        {
+            if (!HostShip.Host.IsCannotAttackSecondTime)
+            {
+                HostShip.Host.IsCannotAttackSecondTime = true;
+
+                Messages.ShowInfo(HostShip.Host.PilotName + " can perform second attack\nfrom Turret");
+                Combat.StartAdditionalAttack(HostShip.Host, Triggers.FinishTrigger, IsTurretAttack);
+            }
+            else
+            {
+                Messages.ShowErrorToHuman(string.Format("{0} cannot attack one more time", HostShip.Host.PilotName));
+                Triggers.FinishTrigger();
+            }            
+        }
+
+        private bool IsTurretAttack(GenericShip target, IShipWeapon weapon)
+        {
+            bool result = false;
+
+            GenericUpgrade upgradeWeapon = weapon as GenericUpgrade;
+            if (upgradeWeapon != null && upgradeWeapon.Type == UpgradeType.Turret)
+            {
+                result = true;
+            }
+            else
+            {
+                Messages.ShowError("Attack must be performed from Turret");
+            }
+
+            return result;
         }
 
     }

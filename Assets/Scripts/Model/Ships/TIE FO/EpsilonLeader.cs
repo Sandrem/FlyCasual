@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Ship;
 using System;
+using Tokens;
 
 namespace Ship
 {
@@ -44,12 +45,19 @@ namespace Abilities
 
         private void UseEpsilonLeaderAbility(object sender, System.EventArgs e)
         {
+            List<GenericToken> tokensToRemove = new List<GenericToken>();
+
             Vector2 range = new Vector2(1, 1);
             foreach(GenericShip friendlyShip in Board.BoardManager.GetShipsAtRange(HostShip, range, Team.Type.Friendly))
             {
-                friendlyShip.RemoveToken(typeof(Tokens.StressToken));
+                GenericToken focusToken = friendlyShip.Tokens.GetToken(typeof(FocusToken));
+                if (focusToken != null)
+                {
+                    tokensToRemove.Add(focusToken);
+                }
             }
-            Triggers.FinishTrigger();
+
+            Actions.RemoveTokens(tokensToRemove, Triggers.FinishTrigger);
         }
     }
 }

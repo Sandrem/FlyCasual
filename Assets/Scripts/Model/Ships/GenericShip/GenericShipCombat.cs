@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DamageDeckCard;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -87,13 +88,14 @@ namespace Ship
     {
         public PrimaryWeaponClass PrimaryWeapon;
 
-        private List<CriticalHitCard.GenericCriticalHit> AssignedCritCards = new List<CriticalHitCard.GenericCriticalHit>();
-        private List<CriticalHitCard.GenericCriticalHit> AssignedDamageCards = new List<CriticalHitCard.GenericCriticalHit>();
+        public AssignedDamageCards Damage { get; private set; }
+
         public DiceRoll AssignedDamageDiceroll = new DiceRoll(DiceKind.Attack, 0, DiceRollCheckType.Virtual);
 
         public bool IsCannotAttackSecondTime { get; set; }
         public bool CanAttackBumpedTargetAlways { get; set; }
         public bool PreventDestruction { get; set; }
+        public bool IgnoressBombDetonationEffect { get; set; }
 
         // EVENTS
 
@@ -131,6 +133,9 @@ namespace Ship
         public static event EventHandler OnAttackHitAsDefenderGlobal;
         public event EventHandler OnAttackMissedAsAttacker;
         public event EventHandler OnAttackMissedAsDefender;
+        public event EventHandler OnShieldLost;
+
+        public event EventHandler OnCombatCheckExtraAttack;
 
         public event EventHandlerInt AfterGotNumberOfPrimaryWeaponAttackDice;
         public event EventHandlerInt AfterGotNumberOfPrimaryWeaponDefenceDice;
@@ -147,12 +152,13 @@ namespace Ship
         public event EventHandlerShip OnDamageCardIsDealt;
 
         public event EventHandlerShip OnReadyToBeDestroyed;
-        public event EventHandlerShip OnDestroyed;
+        public event EventHandlerShip OnShipIsDestroyed;
 
-        public event EventHandlerShip AfterAttackWindow;
-        public event EventHandlerShip OnCheckSecondAttack;
+        public event EventHandler AfterAttackWindow;
 
         public event EventHandlerShip OnAttackFinish;
+        public event EventHandlerShip OnAttackFinishAsAttacker;
+        public event EventHandlerShip OnAttackFinishAsDefender;
 
         public event EventHandlerBombDropTemplates OnGetAvailableBombDropTemplates;
         public event EventHandlerBarrelRollTemplates OnGetAvailableBarrelRollTemplates;
@@ -164,6 +170,11 @@ namespace Ship
 
         public event EventHandler2Ships OnCanAttackBumpedTarget;
         public static event EventHandler2Ships OnCanAttackBumpedTargetGlobal;
+
+        public event EventHandlerShip OnCombatActivation;
+        public static event EventHandlerShip OnCombatActivationGlobal;
+
+        public event EventHandlerShip OnCheckSufferBombDetonation;
 
         // TRIGGERS
 
@@ -292,19 +303,22 @@ namespace Ship
 
         public void CallAfterAttackWindow()
         {
-            if (AfterAttackWindow != null) AfterAttackWindow(this);
-        }
-
-        public void CallCheckSecondAttack(Action callBack)
-        {
-            if (OnCheckSecondAttack != null) OnCheckSecondAttack(this);
-
-            Triggers.ResolveTriggers(TriggerTypes.OnCheckSecondAttack, callBack);
+            if (AfterAttackWindow != null) AfterAttackWindow();
         }
 
         public void CallAttackFinish()
         {
             if (OnAttackFinish != null) OnAttackFinish(this);
+        }
+
+        public void CallAttackFinishAsAttacker()
+        {
+            if (OnAttackFinishAsAttacker != null) OnAttackFinishAsAttacker(this);
+        }
+
+        public void CallAttackFinishAsDefender()
+        {
+            if (OnAttackFinishAsDefender != null) OnAttackFinishAsDefender(this);
         }
 
         public void CallOnImmediatelyAfterRolling(DiceRoll diceroll, Action callBack)
@@ -329,6 +343,30 @@ namespace Ship
             if (OnDamageCardIsDealt != null) OnDamageCardIsDealt(this);
 
             Triggers.ResolveTriggers(TriggerTypes.OnDamageCardIsDealt, callBack);
+        }
+
+        public void CallOnShieldIsLost(Action callback)
+        {
+            if (OnShieldLost != null) OnShieldLost();
+
+            Triggers.ResolveTriggers(TriggerTypes.OnShieldIsLost, callback);
+        }
+
+        public void CallCombatCheckExtraAttack(Action callback)
+        {
+            if (OnCombatCheckExtraAttack != null) OnCombatCheckExtraAttack();
+
+            Triggers.ResolveTriggers(TriggerTypes.OnCombatCheckExtraAttack, callback);
+        }
+
+        public void CallCombatActivation(Action callback)
+        {
+            Messages.ShowInfo("Ship is activated! " + this.ShipId);
+
+            if (OnCombatActivation != null) OnCombatActivation(this);
+            if (OnCombatActivationGlobal != null) OnCombatActivationGlobal(this);
+
+            Triggers.ResolveTriggers(TriggerTypes.OnCombatActivation, callback);
         }
 
         // DICE
@@ -360,6 +398,9 @@ namespace Ship
             {
                 if (AfterGotNumberOfPrimaryWeaponDefenceDice != null) AfterGotNumberOfPrimaryWeaponDefenceDice(ref result);
             }
+
+            if (result < 0) result = 0;
+
             return result;
         }
 
@@ -375,40 +416,6 @@ namespace Ship
                 AfterAssignedDamageIsChanged(this);
             };
             return result;
-        }
-
-        public bool TryRegenHull()
-        {
-            bool result = false;
-            if (Hull < MaxHull)
-            {
-                result = true;
-                Hull++;
-                AfterAssignedDamageIsChanged(this);
-            };
-            return result;
-        }
-
-        public bool TryDiscardFaceDownDamageCard()
-        {
-            bool result = false;
-
-            if (AssignedDamageCards.Count != 0)
-            {
-                result = true;
-                int random = UnityEngine.Random.Range(0, AssignedDamageCards.Count);
-                AssignedDamageCards.RemoveAt(random);
-                Hull++;
-                AfterAssignedDamageIsChanged(this);
-            }
-            return result;
-        }
-
-        public void FlipFacedownFaceupDamageCard(CriticalHitCard.GenericCriticalHit critCard)
-        {
-            critCard.DiscardEffect(this);
-            AssignedCritCards.Remove(critCard);
-            if (Owner.GetType() == typeof(Players.HumanPlayer)) Messages.ShowInfoToHuman("Critical damage card \"" + critCard.Name + "\" is flipped facedown");
         }
 
         // DAMAGE
@@ -429,51 +436,38 @@ namespace Ship
             }
         }
 
-        public void SufferHullDamage(bool isCritical, EventArgs e)
+        public void SufferHullDamage(bool isFaceup, EventArgs e)
         {
             AssignedDamageDiceroll.CancelHits(1);
 
-            if (DebugManager.DebugAllDamageIsCrits) isCritical = true;
+            if (DebugManager.DebugAllDamageIsCrits) isFaceup = true;
 
-            if (isCritical)
+            DamageDecks.DrawDamageCard(Owner.PlayerNo, isFaceup, ProcessDrawnDamageCard, e);
+        }
+
+        private void ProcessDrawnDamageCard(GenericDamageCard damageCard, EventArgs e)
+        {
+            Combat.CurrentCriticalHitCard = damageCard;
+
+            if (Combat.CurrentCriticalHitCard.IsFaceup)
             {
-                CriticalHitsDeck.GetCritCard(isCritical, delegate { SufferChosenCriticalHitCard(e); });
+                if (OnFaceupCritCardReadyToBeDealt != null) OnFaceupCritCardReadyToBeDealt(this, Combat.CurrentCriticalHitCard);
+
+                if (OnFaceupCritCardReadyToBeDealtGlobal != null) OnFaceupCritCardReadyToBeDealtGlobal(this, Combat.CurrentCriticalHitCard);
+
+                Triggers.RegisterTrigger(new Trigger
+                {
+                    Name = "Information about faceup damage card",
+                    TriggerOwner = this.Owner.PlayerNo,
+                    TriggerType = TriggerTypes.OnFaceupCritCardReadyToBeDealtUI,
+                    EventHandler = InformCrit.LoadAndShow
+                });
+
+                Triggers.ResolveTriggers(TriggerTypes.OnFaceupCritCardReadyToBeDealt, SufferFaceupDamageCard);
             }
             else
             {
-                CriticalHitsDeck.GetCritCard(isCritical, delegate { CallOnDamageCardIsDealt(DealRegularDamageCard); });
-            }
-        }
-
-        public void SufferChosenCriticalHitCard(EventArgs e)
-        {
-            if (DebugManager.DebugDamage) Debug.Log("+++ Crit: " + Combat.CurrentCriticalHitCard.Name);
-
-            if (OnFaceupCritCardReadyToBeDealt != null) OnFaceupCritCardReadyToBeDealt(this, Combat.CurrentCriticalHitCard);
-
-            if (OnFaceupCritCardReadyToBeDealtGlobal != null) OnFaceupCritCardReadyToBeDealtGlobal(this, Combat.CurrentCriticalHitCard, e);
-
-            Triggers.RegisterTrigger(new Trigger
-            {
-                Name = "Information about faceup damage card",
-                TriggerOwner = this.Owner.PlayerNo,
-                TriggerType = TriggerTypes.OnFaceupCritCardReadyToBeDealtUI,
-                EventHandler = delegate { InformCrit.LoadAndShow(); }
-            });
-
-            Triggers.ResolveTriggers(TriggerTypes.OnFaceupCritCardReadyToBeDealt, SufferFaceupDamageCard);
-        }
-
-        private void DealRegularDamageCard()
-        {
-            if (Combat.CurrentCriticalHitCard != null)
-            {
-                AssignedDamageCards.Add(Combat.CurrentCriticalHitCard);
-                DecreaseHullValue(Triggers.FinishTrigger);
-            }
-            else
-            {
-                Triggers.FinishTrigger();
+                CallOnDamageCardIsDealt(Damage.DealDrawnCard);
             }
         }
 
@@ -488,7 +482,7 @@ namespace Ship
 
             if (Combat.CurrentCriticalHitCard != null)
             {
-                CallOnDamageCardIsDealt(DealFaceupDamageCard);
+                CallOnDamageCardIsDealt(Damage.DealDrawnCard);
             }
             else
             {
@@ -496,24 +490,8 @@ namespace Ship
             }
         }
 
-        private void DealFaceupDamageCard()
+        public void CallHullValueIsDecreased(Action callBack)
         {
-            if (Combat.CurrentCriticalHitCard != null)
-            {
-                AssignedCritCards.Add(Combat.CurrentCriticalHitCard);
-                DecreaseHullValue(delegate { Combat.CurrentCriticalHitCard.AssignCrit(this); });
-            }
-            else
-            {
-                Triggers.FinishTrigger();
-            }
-        }
-
-        public void DecreaseHullValue(Action callBack)
-        {
-            Hull--;
-            Hull = Mathf.Max(Hull, 0);
-
             CallAfterAssignedDamageIsChanged();
 
             IsHullDestroyedCheck(callBack);
@@ -536,7 +514,8 @@ namespace Ship
 
             Shields--;
             CallAfterAssignedDamageIsChanged();
-            Triggers.FinishTrigger();
+
+            CallOnShieldIsLost(Triggers.FinishTrigger);
         }
 
         public void LoseShield()
@@ -572,29 +551,35 @@ namespace Ship
 
             IsDestroyed = true;
 
-            PlayDestroyedAnimSound(delegate { CheckShipModelDestruction(forced); callBack(); });
+            PlayDestroyedAnimSound(delegate { CheckShipModelDestruction(callBack, forced); });
         }
 
-        private void CheckShipModelDestruction(bool forced = false)
+        private void CheckShipModelDestruction(Action callback, bool forced = false)
         {
             if ((Phases.CurrentSubPhase.RequiredPilotSkill == PilotSkill) && (!IsAttackPerformed) && (!forced) && (Phases.CurrentPhase.GetType() == typeof(MainPhases.CombatPhase)))
             {
-                Phases.OnCombatSubPhaseRequiredPilotSkillIsChanged += PerformShipDestruction;
+                Phases.OnCombatSubPhaseRequiredPilotSkillIsChanged += RegisterShipDestruction;
             }
             else
             {
-                PerformShipDestruction();
+                PerformShipDestruction(callback);
             }
         }
 
-        private void PerformShipDestruction()
+        private void RegisterShipDestruction()
         {
-            Phases.OnCombatSubPhaseRequiredPilotSkillIsChanged -= PerformShipDestruction;
+            Phases.OnCombatSubPhaseRequiredPilotSkillIsChanged -= RegisterShipDestruction;
+
+            // TODO: Register trigger to destroy ship on PS change
+        }
+
+        private void PerformShipDestruction(Action callback)
+        {
             Roster.DestroyShip(this.GetTag());
             foreach (var pilotAbility in PilotAbilities)
             {
                 pilotAbility.DeactivateAbility();
-                foreach (var upgrade in UpgradeBar.GetInstalledUpgrades())
+                foreach (var upgrade in UpgradeBar.GetUpgradesOnlyFaceup())
                 {
                     foreach (var upgradeAbility in upgrade.UpgradeAbilities)
                     {
@@ -603,12 +588,9 @@ namespace Ship
                 }
             }
 
-            if (OnDestroyed != null) OnDestroyed(this);
-        }
+            if (OnShipIsDestroyed != null) OnShipIsDestroyed(this);
 
-        public List<CriticalHitCard.GenericCriticalHit> GetAssignedCritCards()
-        {
-            return AssignedCritCards;
+            Triggers.ResolveTriggers(TriggerTypes.OnShipIsDestroyed, callback);
         }
 
         // ATTACK TYPES
@@ -617,7 +599,7 @@ namespace Ship
         {
             int result = 0;
 
-            foreach (var upgrade in UpgradeBar.GetInstalledUpgrades())
+            foreach (var upgrade in UpgradeBar.GetUpgradesOnlyFaceup())
             {
                 IShipWeapon secondaryWeapon = upgrade as IShipWeapon;
                 if (secondaryWeapon != null)
@@ -647,7 +629,7 @@ namespace Ship
 
         public List<Bombs.BombDropTemplates> GetAvailableBombDropTemplates()
         {
-            List<Bombs.BombDropTemplates> availableTemplates = new List<Bombs.BombDropTemplates>() { Bombs.BombDropTemplates.Straight1 };
+            List<Bombs.BombDropTemplates> availableTemplates = new List<Bombs.BombDropTemplates>() { Bombs.BombDropTemplates.Straight_1 };
 
             if (OnGetAvailableBombDropTemplates != null) OnGetAvailableBombDropTemplates(availableTemplates);
 
@@ -681,7 +663,7 @@ namespace Ship
 
         public bool AreWeaponsDisabled()
         {
-            bool result = HasToken(typeof(Tokens.WeaponsDisabledToken));
+            bool result = Tokens.HasToken(typeof(Tokens.WeaponsDisabledToken));
 
             if (result == true)
             {
@@ -706,17 +688,26 @@ namespace Ship
 
         public List<IShipWeapon> GetAllWeapons()
         {
-            List<IShipWeapon> allWeapons = new List<IShipWeapon>();
+            List<IShipWeapon> allWeapons = new List<IShipWeapon>
+            {
+                PrimaryWeapon
+            };
 
-            allWeapons.Add(PrimaryWeapon);
-
-            foreach (var upgrade in UpgradeBar.GetInstalledUpgrades())
+            foreach (var upgrade in UpgradeBar.GetUpgradesOnlyFaceup())
             {
                 IShipWeapon secondaryWeapon = upgrade as IShipWeapon;
                 if (secondaryWeapon != null) allWeapons.Add(secondaryWeapon);
             }
 
             return allWeapons;
+        }
+
+        public void CallCheckSufferBombDetonation(Action callback)
+        {
+            IgnoressBombDetonationEffect = false;
+
+            if (OnCheckSufferBombDetonation != null) OnCheckSufferBombDetonation(this);
+            Triggers.ResolveTriggers(TriggerTypes.OnCheckSufferBombDetonation, callback);
         }
 
     }

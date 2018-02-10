@@ -8,13 +8,13 @@ namespace Ship
 {
     namespace ProtectorateStarfighter
     {
-        public class ProtectorateStarfighter : GenericShip, TIE
+        public class ProtectorateStarfighter : GenericShip
         {
 
             public ProtectorateStarfighter() : base()
             {
                 Type = "Protectorate Starfighter";
-                IconicPilot = "Fenn Rau";
+                IconicPilots.Add(Faction.Scum, typeof(ConcordDawnAce));
 
                 ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/8/83/MS_PROTECTORATE-STARFIGHTER.png";
 

@@ -14,9 +14,9 @@ namespace Ship
             public TIESilencer() : base()
             {
                 Type = "TIE Silencer";
-                IconicPilot = "First Order Test Pilot";
+                IconicPilots.Add(Faction.Imperial, typeof(TestPilotBlackout));
 
-                //ManeuversImageUrl = "";
+                ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/b/b5/Maneuver_Card_-_TIE_Silencer.png";
 
                 Firepower = 3;
                 Agility = 3;
@@ -33,7 +33,7 @@ namespace Ship
                 PrintedActions.Add(new BoostAction());
 
                 AssignTemporaryManeuvers();
-                //HotacManeuverTable = new AI.TIEInterceptorTable();
+                HotacManeuverTable = new AI.TIESilencerTable();
 
                 factions.Add(Faction.Imperial);
                 faction = Faction.Imperial;

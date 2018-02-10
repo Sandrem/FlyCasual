@@ -128,6 +128,11 @@ public class DiceCompareHelper
 
         foreach (var diceIcon in reversedDiceIcons)
         {
+            ToggleDisableDice(diceIcon, true);
+        }
+
+        foreach (var diceIcon in reversedDiceIcons)
+        {
             switch (diceIcon.name)
             {
                 case "Hit":

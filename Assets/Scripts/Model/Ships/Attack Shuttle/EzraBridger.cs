@@ -65,7 +65,7 @@ namespace Abilities
             {
                 bool result = false;
 
-                if (Combat.AttackStep == CombatStep.Defence && Combat.Defender.HasToken(typeof(Tokens.StressToken)))
+                if (Combat.AttackStep == CombatStep.Defence && Combat.Defender.Tokens.HasToken(typeof(Tokens.StressToken)))
                 {
                     result = true;
                 }
@@ -77,7 +77,7 @@ namespace Abilities
             {
                 int result = 0;
 
-                if (Combat.AttackStep == CombatStep.Defence && Combat.Defender.HasToken(typeof(Tokens.StressToken)))
+                if (Combat.AttackStep == CombatStep.Defence && Combat.Defender.Tokens.HasToken(typeof(Tokens.StressToken)))
                 {
                     if (Combat.DiceRollAttack.Successes > Combat.DiceRollDefence.Successes)
                     {

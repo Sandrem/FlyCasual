@@ -42,18 +42,13 @@ namespace Abilities
         {
             if (HostShip.AssignedManeuver.Bearing == ManeuverBearing.Straight)
             {
-                Triggers.RegisterTrigger(new Trigger()
-                {
-                    Name = "Countess Ryad Ability",
-                    TriggerType = TriggerTypes.OnManeuverIsRevealed,
-                    TriggerOwner = ship.Owner.PlayerNo,
-                    EventHandler = AskChangeManeuver
-                });
+                RegisterAbilityTrigger(TriggerTypes.OnManeuverIsRevealed, AskChangeManeuver);                
             }
         }
 
         private void AskChangeManeuver(object sender, System.EventArgs e)
         {
+            Messages.ShowInfoToHuman("Countess Ryad: You can change your maneuvre to Koigran turn");
             string key = HostShip.AssignedManeuver.Speed + ".F.R";
             ManeuverColor originalColor = HostShip.Maneuvers[key];
             HostShip.Maneuvers[key] = HostShip.AssignedManeuver.ColorComplexity;

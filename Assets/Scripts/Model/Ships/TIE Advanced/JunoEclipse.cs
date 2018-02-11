@@ -46,17 +46,12 @@ namespace Abilities
 
         private void RegisterAskChangeManeuver(GenericShip ship)
         {
-            Triggers.RegisterTrigger(new Trigger()
-            {
-                Name = "Countess Ryad Ability",
-                TriggerType = TriggerTypes.OnManeuverIsRevealed,
-                TriggerOwner = ship.Owner.PlayerNo,
-                EventHandler = AskChangeManeuver
-            });            
+            RegisterAbilityTrigger(TriggerTypes.OnManeuverIsRevealed, AskChangeManeuver);            
         }
 
         private void AskChangeManeuver(object sender, System.EventArgs e)
         {
+            Messages.ShowInfoToHuman("Juno Eclipse: You can increase or decrease your maneuvre speed");
             allowedMovements.Clear();            
             string key = HostShip.AssignedManeuver.ToString();
             int speed = HostShip.AssignedManeuver.Speed;

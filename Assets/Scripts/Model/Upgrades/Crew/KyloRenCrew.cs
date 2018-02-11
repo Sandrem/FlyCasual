@@ -78,6 +78,8 @@ namespace Abilities
 
         private void AssignConditionToTarget()
         {
+            Sounds.PlayShipSound("Ill-Show-You-The-Dark-Side");
+
             SelectShipSubPhase.FinishSelectionNoCallback();
             ShowPilotCrits();
         }
@@ -165,7 +167,7 @@ namespace Conditions
     {
         public IllShowYouTheDarkSide(GenericShip host) : base(host)
         {
-            Name = "Harpooned Condition";
+            Name = "I'll Show You The Dark Side Condition";
             Temporary = false;
             Tooltip = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/conditions/ill-show-you-the-dark-side.png";
         }
@@ -175,7 +177,7 @@ namespace Conditions
     {
         public IllShowYouTheDarkSideDamageCard(GenericShip host) : base(host)
         {
-            Name = "Harpooned Condition";
+            Name = "I'll Show You The Dark Side Damage Card Condition";
             Temporary = false;
         }
     }

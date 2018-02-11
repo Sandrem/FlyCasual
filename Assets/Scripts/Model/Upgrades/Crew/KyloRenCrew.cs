@@ -35,6 +35,7 @@ namespace Abilities
     public class KyloRenCrewAbility : GenericAbility
     {
         public GenericDamageCard AssignedDamageCard;
+        public GenericShip ShipWithCondition;
 
         public override void ActivateAbility()
         {
@@ -80,8 +81,19 @@ namespace Abilities
         {
             Sounds.PlayShipSound("Ill-Show-You-The-Dark-Side");
 
-            SelectShipSubPhase.FinishSelectionNoCallback();
-            ShowPilotCrits();
+            if (AssignedDamageCard == null)
+            {
+                // If condition is not in play - select card to assign
+                SelectShipSubPhase.FinishSelectionNoCallback();
+                ShowPilotCrits();
+            }
+            else
+            {
+                // If condition is in play - reassing only
+                RemoveConditions(ShipWithCondition);
+                AssignConditions(TargetShip);
+                SelectShipSubPhase.FinishSelection();
+            }
         }
 
         private bool FilterTargets(GenericShip ship)
@@ -131,14 +143,59 @@ namespace Abilities
         {
             Messages.ShowInfo("Card selected: " + damageCard.Name);
 
-            // TODO: Get and Remove damage card from deck
-
             AssignedDamageCard = damageCard;
-
-            TargetShip.Tokens.AssignCondition(new IllShowYouTheDarkSide(TargetShip));
-            TargetShip.Tokens.AssignCondition(new IllShowYouTheDarkSideDamageCard(TargetShip) { Tooltip = damageCard.ImageUrl });
+            AssignedDamageCard.IsFaceup = true;
+            DamageDeck opponentDamageDeck = DamageDecks.GetDamageDeck(TargetShip.Owner.PlayerNo);
+            opponentDamageDeck.RemoveFromDamageDeck(damageCard);
+            opponentDamageDeck.ReShuffleDeck();
+            AssignConditions(TargetShip);
 
             DecisionSubPhase.ConfirmDecision();
+        }
+
+        private void AssignConditions(GenericShip ship)
+        {
+            ShipWithCondition = ship;
+
+            ship.Tokens.AssignCondition(new IllShowYouTheDarkSide(ship));
+            ship.Tokens.AssignCondition(new IllShowYouTheDarkSideDamageCard(ship) { Tooltip = AssignedDamageCard.ImageUrl });
+
+            ship.OnSufferCriticalDamage += SufferAssignedCardInstead;
+            ship.OnShipIsDestroyed += RemoveConditionsOnDestroyed;
+        }
+
+        private void RemoveConditions(GenericShip ship)
+        {
+            ShipWithCondition = null;
+            ship.Tokens.RemoveCondition(typeof(IllShowYouTheDarkSide));
+            ship.Tokens.RemoveCondition(typeof(IllShowYouTheDarkSideDamageCard));
+
+            ship.OnSufferCriticalDamage -= SufferAssignedCardInstead;
+            ship.OnShipIsDestroyed -= RemoveConditionsOnDestroyed;
+        }
+
+        private void SufferAssignedCardInstead(object sender, EventArgs e, ref bool isSkipSufferDamage)
+        {
+            if ((e as DamageSourceEventArgs).DamageType == DamageTypes.ShipAttack)
+            {
+                Messages.ShowInfo("Kylo Ren: Assigned card is dealt instead");
+
+                isSkipSufferDamage = true;
+
+                GenericShip ship = ShipWithCondition;
+                GenericDamageCard card = AssignedDamageCard;
+
+                AssignedDamageCard = null;
+                RemoveConditions(ship);
+
+                ship.ProcessDrawnDamageCard(card, e);
+            }
+        }
+
+        private void RemoveConditionsOnDestroyed(GenericShip ship)
+        {
+            AssignedDamageCard = null;
+            RemoveConditions(ship);
         }
 
         private class SelectPilotCritDecision : DecisionSubPhase { };

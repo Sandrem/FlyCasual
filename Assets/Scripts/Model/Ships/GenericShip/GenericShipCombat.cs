@@ -176,6 +176,8 @@ namespace Ship
 
         public event EventHandlerShip OnCheckSufferBombDetonation;
 
+        public event EventHandlerObjArgsBool OnSufferCriticalDamage;
+
         // TRIGGERS
 
         public void CallOnActivationPhaseStart()
@@ -425,28 +427,47 @@ namespace Ship
             if (DebugManager.DebugDamage) Debug.Log("+++ Source: " + (e as DamageSourceEventArgs).Source);
             if (DebugManager.DebugDamage) Debug.Log("+++ DamageType: " + (e as DamageSourceEventArgs).DamageType);
 
+            bool isCritical = (AssignedDamageDiceroll.RegularSuccesses == 0);
+
+            if (isCritical)
+            {
+                bool skipSufferDamage = false;
+                if (OnSufferCriticalDamage != null) OnSufferCriticalDamage(sender, e, ref skipSufferDamage);
+
+                if (!skipSufferDamage)
+                {
+                    SufferDamageByType(sender, e, isCritical);
+                }
+            }
+            else
+            {
+                SufferDamageByType(sender, e, isCritical);
+            }
+        }
+
+        private void SufferDamageByType(object sender, EventArgs e, bool isCritical)
+        {
             if (Shields > 0)
             {
                 SufferShieldDamage();
             }
             else
             {
-                bool isCritical = (AssignedDamageDiceroll.RegularSuccesses == 0);
                 SufferHullDamage(CheckFaceupCrit(isCritical), e);
             }
         }
 
         public void SufferHullDamage(bool isFaceup, EventArgs e)
         {
-            AssignedDamageDiceroll.CancelHits(1);
-
             if (DebugManager.DebugAllDamageIsCrits) isFaceup = true;
 
             DamageDecks.DrawDamageCard(Owner.PlayerNo, isFaceup, ProcessDrawnDamageCard, e);
         }
 
-        private void ProcessDrawnDamageCard(GenericDamageCard damageCard, EventArgs e)
+        public void ProcessDrawnDamageCard(GenericDamageCard damageCard, EventArgs e)
         {
+            AssignedDamageDiceroll.CancelHits(1);
+
             Combat.CurrentCriticalHitCard = damageCard;
 
             if (Combat.CurrentCriticalHitCard.IsFaceup)

@@ -201,7 +201,7 @@ namespace SubPhases
             AddDecision("Yes", Undock);
             AddDecision("No", SkipUndock);
 
-            DefaultDecision = "No";
+            DefaultDecisionName = "No";
 
             UI.ShowSkipButton();
 

@@ -134,7 +134,7 @@ namespace SubPhases
 
             selectBarrelRollTemplate.InfoText = "Barrel Roll: Select template and direction";
 
-            selectBarrelRollTemplate.DefaultDecision = selectBarrelRollTemplate.GetDecisions().First().Key;
+            selectBarrelRollTemplate.DefaultDecisionName = selectBarrelRollTemplate.GetDecisions().First().Name;
 
             selectBarrelRollTemplate.RequiredPlayer = Selection.ThisShip.Owner.PlayerNo;
 

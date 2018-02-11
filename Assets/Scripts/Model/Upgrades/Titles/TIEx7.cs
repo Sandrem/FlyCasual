@@ -83,7 +83,7 @@ namespace SubPhases
             AddDecision("No", DontPerformFreeEvadeAction);
             AddDecision("Always", AlwaysPerformFreeEvadeAction);
 
-            DefaultDecision = "Yes";
+            DefaultDecisionName = "Yes";
 
             if (!TIEx7Upgrade.IsAlwaysUse)
             {

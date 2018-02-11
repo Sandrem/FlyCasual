@@ -67,7 +67,7 @@ namespace Abilities
                     pilotAbilityDecision.AddTooltip(name, l.OtherTokenOwner.ImageUrl);
                 });
 
-                pilotAbilityDecision.DefaultDecision = "No";
+                pilotAbilityDecision.DefaultDecisionName = "No";
                 pilotAbilityDecision.RequiredPlayer = HostShip.Owner.PlayerNo;
 
                 pilotAbilityDecision.Start();

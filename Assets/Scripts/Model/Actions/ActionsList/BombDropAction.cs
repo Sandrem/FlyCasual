@@ -101,7 +101,7 @@ namespace SubPhases
 
             selectBoostTemplateDecisionSubPhase.InfoText = "Select template to drop the bomb";
 
-            selectBoostTemplateDecisionSubPhase.DefaultDecision = "Straight 1";
+            selectBoostTemplateDecisionSubPhase.DefaultDecisionName = "Straight 1";
 
             selectBoostTemplateDecisionSubPhase.RequiredPlayer = Selection.ThisShip.Owner.PlayerNo;
 

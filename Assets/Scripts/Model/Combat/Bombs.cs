@@ -207,7 +207,7 @@ namespace Bombs
 
             selectBombToDrop.InfoText = "Select bomb to drop";
 
-            selectBombToDrop.DefaultDecision = "None";
+            selectBombToDrop.DefaultDecisionName = "None";
 
             selectBombToDrop.RequiredPlayer = Selection.ThisShip.Owner.PlayerNo;
 
@@ -254,7 +254,7 @@ namespace Bombs
 
             selectBombToDrop.InfoText = "Select way to drop the bomb";
 
-            selectBombToDrop.DefaultDecision = "Drop";
+            selectBombToDrop.DefaultDecisionName = "Drop";
 
             selectBombToDrop.RequiredPlayer = Selection.ThisShip.Owner.PlayerNo;
 

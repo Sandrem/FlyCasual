@@ -88,7 +88,7 @@ namespace SubPhases
 
             if (GetDecisions().Count != 0)
             {
-                DefaultDecision = GetDecisions().First().Key;
+                DefaultDecisionName = GetDecisions().First().Name;
             }
 
             callBack();

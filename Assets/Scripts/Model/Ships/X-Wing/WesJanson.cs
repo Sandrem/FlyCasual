@@ -100,7 +100,7 @@ namespace Abilities
                 });
 
                 //AI presses first button in decision dialog
-                pilotAbilityDecision.DefaultDecision = pilotAbilityDecision.GetDecisions().First().Key;
+                pilotAbilityDecision.DefaultDecisionName = pilotAbilityDecision.GetDecisions().First().Name;
 
                 pilotAbilityDecision.Start();
             }

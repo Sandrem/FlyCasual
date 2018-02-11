@@ -76,7 +76,7 @@ namespace SubPhases
             AddDecision("Yes", RotateShip180);
             AddDecision("No", DontRotateShip180);
 
-            DefaultDecision = "No";
+            DefaultDecisionName = "No";
 
             callBack();
         }

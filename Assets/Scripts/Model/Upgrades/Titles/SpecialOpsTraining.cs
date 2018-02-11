@@ -67,7 +67,7 @@ namespace Abilities
                 selectSpecialOpsTrainingSubPhase.AddTooltip("Roll 1 extra die from primary fire arc", HostShip.ImageUrl);
                 selectSpecialOpsTrainingSubPhase.AddDecision("Get a second attack from rear arc", RegisterExtraAttack);
                 selectSpecialOpsTrainingSubPhase.AddTooltip("Get a second attack from rear arc", HostShip.ImageUrl);
-                selectSpecialOpsTrainingSubPhase.DefaultDecision = GetDefaultDecision();
+                selectSpecialOpsTrainingSubPhase.DefaultDecisionName = GetDefaultDecision();
                 selectSpecialOpsTrainingSubPhase.ShowSkipButton = true;
                 selectSpecialOpsTrainingSubPhase.Start();
             } else

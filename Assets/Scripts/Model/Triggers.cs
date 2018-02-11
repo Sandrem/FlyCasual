@@ -345,7 +345,7 @@ public static partial class Triggers
             }
 
             DecisionOwner = Roster.GetPlayer(currentPlayer);
-            DefaultDecision = GetDecisions().First().Key;
+            DefaultDecisionName = GetDecisions().First().Name;
 
             callBack();
         }

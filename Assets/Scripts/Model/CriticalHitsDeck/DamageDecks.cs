@@ -33,6 +33,7 @@ public class DamageDeck
 {
     public List<GenericDamageCard> Deck { get; private set; }
     public PlayerNo PlayerNo { get; private set; }
+    public int Seed { get; private set; }
 
     public DamageDeck(PlayerNo playerNo)
     {
@@ -80,13 +81,32 @@ public class DamageDeck
         doWithDamageCard(drawedCard, e);
     }
 
+    public void RemoveFromDamageDeck(GenericDamageCard card)
+    {
+        Deck.Remove(card);
+    }
+
     private void ReCreateDeck()
     {
         CreateDeck();
+        ReShuffleDeck();
+    }
+
+    public void ReShuffleDeck()
+    {
+        if (Seed < int.MaxValue)
+        {
+            ShuffleDeck(Seed + 1);
+        }
+        else
+        {
+            ShuffleDeck(int.MinValue);
+        }
     }
 
     public void ShuffleDeck(int seed)
     {
+        Seed = seed;
         Random random = new Random(seed);
 
         int n = Deck.Count;

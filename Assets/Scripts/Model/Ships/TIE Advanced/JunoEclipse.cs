@@ -23,6 +23,8 @@ namespace Ship
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
+                SkinName = "Blue";
+
                 PilotAbilities.Add(new Abilities.JunoEclipseAbility());
             }
         }
@@ -51,7 +53,7 @@ namespace Abilities
 
         private void AskChangeManeuver(object sender, System.EventArgs e)
         {
-            Messages.ShowInfoToHuman("Juno Eclipse: You can increase or decrease your maneuvre speed");
+            Messages.ShowInfoToHuman("Juno Eclipse: You can increase or decrease your maneuver speed");
             allowedMovements.Clear();            
             string key = HostShip.AssignedManeuver.ToString();
             int speed = HostShip.AssignedManeuver.Speed;

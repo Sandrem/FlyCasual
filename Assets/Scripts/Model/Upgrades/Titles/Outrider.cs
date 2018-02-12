@@ -39,7 +39,7 @@ namespace UpgradesList
 
         private void ToggleOutriderAbility(bool isActive)
         {
-            GenericSecondaryWeapon cannon = (GenericSecondaryWeapon)Host.UpgradeBar.GetInstalledUpgrades().Find(n => n.hasType(UpgradeType.Cannon));
+            GenericSecondaryWeapon cannon = (GenericSecondaryWeapon)Host.UpgradeBar.GetInstalledUpgrade(UpgradeType.Cannon);
 
             if (cannon != null)
             {

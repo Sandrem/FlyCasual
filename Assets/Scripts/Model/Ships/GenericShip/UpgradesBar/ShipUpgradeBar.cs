@@ -104,8 +104,8 @@ namespace Upgrade
         public List<GenericUpgrade> GetInstalledUpgrades(UpgradeType type)
         {
             List<GenericUpgrade> result = new List<GenericUpgrade>();
-            for (int i = 0; i < GetInstalledUpgrades ().Count; i++) {
-                GenericUpgrade upgrade = GetInstalledUpgrades() [i];
+            for (int i = 0; i < GetUpgradesAll ().Count; i++) {
+                GenericUpgrade upgrade = GetUpgradesAll() [i];
                 for (int j = 0; j < upgrade.Types.Count; j++) {
                     if (upgrade.Types [j] == type) {
                         result.Add (upgrade);
@@ -122,8 +122,8 @@ namespace Upgrade
          * @return the installed upgrade if it exists and null otherwise.
          */
         public GenericUpgrade GetInstalledUpgrade(UpgradeType type){
-            for (int i = 0; i < GetInstalledUpgrades ().Count; i++) {
-                GenericUpgrade upgrade = GetInstalledUpgrades() [i];
+            for (int i = 0; i < GetUpgradesAll ().Count; i++) {
+                GenericUpgrade upgrade = GetUpgradesAll() [i];
                 for (int j = 0; j < upgrade.Types.Count; j++) {
                     if (upgrade.Types [j] == type) {
                         return upgrade;
@@ -131,6 +131,8 @@ namespace Upgrade
                 }
             }
             return null;
+        }
+
         public List<GenericUpgrade> GetUpgradesOnlyFaceup()
         {
             return GetUpgradesAll().Where(n => n.isDiscarded == false).ToList();

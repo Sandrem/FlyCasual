@@ -10,7 +10,7 @@ namespace UpgradesList
     {
         public SpecialOpsTraining() : base()
         {
-            Type = UpgradeType.Title;
+            Types.Add(UpgradeType.Title);
             Name = "Special Ops Training";            
             Cost = 0;            
 

@@ -49,7 +49,7 @@ namespace PilotAbilitiesNamespace
 
         private void SelectShipForAbility(object sender, System.EventArgs e)
         {
-            SelectTargetForAbility(
+            SelectTargetForAbilityOld(
                 CheckIsTargetInBullseyeArc,
                 new List<TargetTypes>() { TargetTypes.Enemy },
                 new Vector2(1, 3)

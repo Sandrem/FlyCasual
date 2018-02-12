@@ -23,7 +23,7 @@ namespace SubPhases
         public override void Initialize()
         {
             UpdateHelpInfo();
-            HighlightShips();
+            Roster.HighlightShipsFiltered(FilterShipsToAssignManeuver);
             Roster.GetPlayer(RequiredPlayer).AssignManeuver();
         }
 
@@ -38,7 +38,7 @@ namespace SubPhases
                     RequiredPlayer = Roster.AnotherPlayer(RequiredPlayer);
 
                     UpdateHelpInfo();
-                    HighlightShips();
+                    Roster.HighlightShipsFiltered(FilterShipsToAssignManeuver);
                     Roster.GetPlayer(RequiredPlayer).AssignManeuver();
                 }
                 else
@@ -86,14 +86,9 @@ namespace SubPhases
             return result;
         }
 
-        private void HighlightShips()
+        private bool FilterShipsToAssignManeuver(GenericShip ship)
         {
-            Roster.AllShipsHighlightOff();
-            foreach (var ship in Roster.GetPlayer(RequiredPlayer).Ships)
-            {
-                ship.Value.HighlightCanBeSelectedOn();
-                Roster.RosterPanelHighlightOn(ship.Value);
-            }
+            return ship.AssignedManeuver == null && ship.Owner.PlayerNo == RequiredPlayer;
         }
 
         public override void NextButton()

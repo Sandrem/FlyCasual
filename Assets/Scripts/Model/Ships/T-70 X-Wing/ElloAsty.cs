@@ -45,7 +45,7 @@ namespace Abilities
         {
             if (movement.Bearing == ManeuverBearing.TallonRoll)
             {
-                if (!HostShip.HasToken(typeof(Tokens.StressToken)))
+                if (!HostShip.Tokens.HasToken(typeof(Tokens.StressToken)))
                 {
                     movement.ColorComplexity = ManeuverColor.White;
                 }

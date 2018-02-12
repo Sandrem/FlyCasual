@@ -89,7 +89,7 @@ namespace SubPhases
             Combat.CurrentCriticalHitCard = null;
             if (Selection.ActiveShip.TryRegenShields()) Messages.ShowInfo("Shield is restored");
 
-            UpgradesList.Chewbacca chewbaccaUpgrade = Selection.ActiveShip.UpgradeBar.GetInstalledUpgrades().Find(n => n.GetType() == typeof(UpgradesList.Chewbacca)) as UpgradesList.Chewbacca;
+            UpgradesList.Chewbacca chewbaccaUpgrade = Selection.ActiveShip.UpgradeBar.GetUpgradesOnlyFaceup().Find(n => n.GetType() == typeof(UpgradesList.Chewbacca)) as UpgradesList.Chewbacca;
             chewbaccaUpgrade.TryDiscard(ConfirmDecision);
         }
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Abilities;
 using SubPhases;
+using System;
 
 namespace UpgradesList
 {
@@ -40,7 +41,7 @@ namespace Abilities
 
         private void SetOrdnanceTokens()
         {
-            foreach (var upgrade in HostShip.UpgradeBar.GetInstalledUpgrades())
+            foreach (var upgrade in HostShip.UpgradeBar.GetUpgradesOnlyFaceup())
             {
                 if (upgrade.hasType(UpgradeType.Torpedo) || upgrade.hasType(UpgradeType.Missile) || upgrade.hasType(UpgradeType.Bomb))
                 {
@@ -73,12 +74,24 @@ namespace Abilities
             }
         }
 
-        private void AskExtraMunitionsDecision(object sender, System.EventArgs e)
+        private void AskExtraMunitionsDecision(object sender, EventArgs e)
         {
-            AskToUseAbility(AlwaysUseByDefault, UseAbility, null, null, true);
+            if (!alwaysUseAbility)
+            {
+                AskToUseAbility(AlwaysUseByDefault, UseAbilityDecision, null, null, true);
+            }
+            else
+            {
+                DiscardTokenInstead(Triggers.FinishTrigger);
+            }
         }
 
-        private void UseAbility(object sender, System.EventArgs e)
+        private void UseAbilityDecision(object sender, EventArgs e)
+        {
+            DiscardTokenInstead(DecisionSubPhase.ConfirmDecision);
+        }
+
+        private void DiscardTokenInstead(Action callback)
         {
             Messages.ShowInfo("Ordnance token is discarded instead of " + GenericUpgrade.CurrentUpgrade.Name);
 
@@ -86,7 +99,7 @@ namespace Abilities
 
             GenericUpgrade.CurrentUpgrade = null;
 
-            DecisionSubPhase.ConfirmDecision();
+            callback();
         }
     }
 }

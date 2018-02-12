@@ -22,7 +22,7 @@ namespace UpgradesList
 
         private void BombardierTemplate(List<BombDropTemplates> availableTemplates)
         {
-            if (!availableTemplates.Contains(BombDropTemplates.Straight2)) availableTemplates.Add(BombDropTemplates.Straight2);
+            if (!availableTemplates.Contains(BombDropTemplates.Straight_2)) availableTemplates.Add(BombDropTemplates.Straight_2);
         }
     }
 }

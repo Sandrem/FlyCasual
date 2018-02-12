@@ -33,52 +33,63 @@ namespace Abilities
         public override void ActivateAbility()
         {
             HostShip.OnAttackMissedAsAttacker += CheckIG88Ability;
-            Phases.OnRoundEnd += Cleanup;
+            Phases.OnRoundEnd += ClearIsAbilityUsedFlag;
         }
 
         public override void DeactivateAbility()
         {
             HostShip.OnAttackMissedAsAttacker -= CheckIG88Ability;
-            Phases.OnRoundEnd -= Cleanup;
-        }
-
-        private void Cleanup()
-        {
-            IsAbilityUsed = false;
+            Phases.OnRoundEnd -= ClearIsAbilityUsedFlag;
         }
 
         private void CheckIG88Ability()
         {
-            if (!IsAbilityUsed)
+            if (!IsAbilityUsed && !HostShip.IsCannotAttackSecondTime && HasCannonWeapon())
             {
-                RegisterIG88BAbility();
                 IsAbilityUsed = true;
-            }
-        }
 
-        private void RegisterIG88BAbility()
-        {
-            if (HasCannonWeapon())
-            {
-                RegisterAbilityTrigger(TriggerTypes.OnExtraAttack, UseIG88BAbility);
+                // Trigger must be registered just before it's resolution
+                HostShip.OnCombatCheckExtraAttack += RegisterIG88BAbility;
             }
         }
 
         private bool HasCannonWeapon()
         {
-            return HostShip.UpgradeBar.GetInstalledUpgrades().Count(n => n.hasType(UpgradeType.Cannon) && (n as IShipWeapon) != null) > 0;
+            return HostShip.UpgradeBar.GetUpgradesOnlyFaceup().Count(n => n.Type == UpgradeType.Cannon && (n as IShipWeapon) != null) > 0;
+        }
+
+        private void RegisterIG88BAbility()
+        {
+            HostShip.OnCombatCheckExtraAttack -= RegisterIG88BAbility;
+
+            RegisterAbilityTrigger(TriggerTypes.OnCombatCheckExtraAttack, UseIG88BAbility);
         }
 
         private void UseIG88BAbility(object sender, System.EventArgs e)
         {
-            Messages.ShowInfo(HostShip.PilotName + " can perform second attack\nfrom Cannon");
-            Combat.StartAdditionalAttack(HostShip,
-                delegate {
-                    Selection.ThisShip.IsAttackPerformed = true;
-                    Triggers.FinishTrigger();
-                },
-                IsCannonShot
-            );
+            if (!HostShip.IsCannotAttackSecondTime)
+            {
+                Messages.ShowInfo(HostShip.PilotName + " can perform second attack\nfrom Cannon");
+
+                Combat.StartAdditionalAttack(
+                    HostShip,
+                    FinishAdditionalAttack,
+                    IsCannonShot
+                );
+            }
+            else
+            {
+                Messages.ShowErrorToHuman(string.Format("{0} cannot attack one more time", HostShip.PilotName));
+                Triggers.FinishTrigger();
+            }
+        }
+
+        private void FinishAdditionalAttack()
+        {
+            // If attack is skipped, set this flag, otherwise regular attack can be performed second time
+            Selection.ThisShip.IsAttackPerformed = true;
+
+            Triggers.FinishTrigger();
         }
 
         private bool IsCannonShot(GenericShip defender, IShipWeapon weapon)

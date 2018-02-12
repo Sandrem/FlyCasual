@@ -13,8 +13,9 @@ namespace Upgrade
         public int Counter { get; set; }
 
         public int CostDecrease { get; set; }
-        public int MaxCost { get; set; }
-        public bool MustBeDifferent { get; set; }
+        public int MaxCost { get; set; }            // Needed for Tie Shuttle Title
+        public bool MustBeDifferent { get; set; }   // Needed fot Royal Guard Title
+        public bool MustBeUnique { get; set; }   // Needed for Havoc Title
 
         public GenericUpgrade InstalledUpgrade { get; private set; }
 
@@ -67,12 +68,13 @@ namespace Upgrade
             InstalledUpgrade.AttachToShip(InstalledUpgrade.Host);
         }
 
-        private bool CheckRequirements(GenericUpgrade upgrade)
+        //No more used ?
+        /*private bool CheckRequirements(GenericUpgrade upgrade)
         {
             bool result = true;
             return result;
         }
-
+        
         public bool UpgradeIsAllowed(GenericUpgrade upgrade)
         {
             bool result = true;
@@ -83,8 +85,13 @@ namespace Upgrade
                 result = false;
             }
 
+            if (MustBeNonUnique && upgrade.isUnique)
+            {
+                result = false;
+            }
+
             return result;
-        }
+        }*/
 
     }
 }

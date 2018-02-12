@@ -89,13 +89,12 @@ namespace Upgrade
             return results;
         }
 
-        public List<GenericUpgrade> GetInstalledUpgrades()
+        public List<GenericUpgrade> GetUpgradesAll()
         {
-            List<GenericUpgrade> result = new List<GenericUpgrade>();
-            result = UpgradeSlots.Where(n => (!n.IsEmpty)).ToList().Select(n => n.InstalledUpgrade).ToList();
+            List<GenericUpgrade> result = UpgradeSlots.Where(n => (!n.IsEmpty)).ToList().Select(n => n.InstalledUpgrade).ToList();
+            if (result == null) result = new List<GenericUpgrade>();
             return result;
         }
-
 
         /**
          * Returns a list of installed upgrade based on type.
@@ -132,6 +131,14 @@ namespace Upgrade
                 }
             }
             return null;
+        public List<GenericUpgrade> GetUpgradesOnlyFaceup()
+        {
+            return GetUpgradesAll().Where(n => n.isDiscarded == false).ToList();
+        }
+
+        public List<GenericUpgrade> GetUpgradesOnlyDiscarded()
+        {
+            return GetUpgradesAll().Where(n => n.isDiscarded == true).ToList();
         }
 
         public List<UpgradeSlot> GetUpgradeSlots()

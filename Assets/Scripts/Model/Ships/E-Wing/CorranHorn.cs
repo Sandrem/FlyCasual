@@ -43,7 +43,7 @@ namespace Abilities
 
         private void RegisterCorranHornAbility()
         {
-            if (!HostShip.HasToken(typeof(Tokens.WeaponsDisabledToken)))
+            if (!HostShip.Tokens.HasToken(typeof(Tokens.WeaponsDisabledToken)))
             {
                 RegisterAbilityTrigger(TriggerTypes.OnEndPhaseStart, UseCorranHornAbility);
             }
@@ -57,20 +57,21 @@ namespace Abilities
 
         private void AfterExtraAttackSubPhase()
         {
-            if (HostShip.IsAttackPerformed) Phases.OnRoundStart += RegisterAssignWeaponsDeisabledTrigger;
+            // "Weapons disabled" token is assigned only if attack was successfully performed
+            if (HostShip.IsAttackPerformed) Phases.OnRoundStart += RegisterAssignWeaponsDisabledTrigger;
 
             Triggers.FinishTrigger();
         }
 
-        private void RegisterAssignWeaponsDeisabledTrigger()
+        private void RegisterAssignWeaponsDisabledTrigger()
         {
-            Phases.OnRoundStart -= RegisterAssignWeaponsDeisabledTrigger;
+            Phases.OnRoundStart -= RegisterAssignWeaponsDisabledTrigger;
             RegisterAbilityTrigger(TriggerTypes.OnRoundStart, AssignWeaponsDisabledTrigger);
         }
 
         private void AssignWeaponsDisabledTrigger(object sender, System.EventArgs e)
         {
-            HostShip.AssignToken(new Tokens.WeaponsDisabledToken(), Triggers.FinishTrigger);
+            HostShip.Tokens.AssignToken(new Tokens.WeaponsDisabledToken(HostShip), Triggers.FinishTrigger);
         }
     }
 }

@@ -19,6 +19,11 @@ namespace RulesList
             SubscribeEvents();
         }
 
+        public void Initialize()
+        {
+            dockedShipsPairs = new Dictionary<Func<GenericShip>, Func<GenericShip>>();
+        }
+
         private void SubscribeEvents()
         {
             Phases.OnSetupPhaseStart += DockShips;

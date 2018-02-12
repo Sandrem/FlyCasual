@@ -43,7 +43,7 @@ namespace UpgradesList
 
         private void ReconSpecialistAbility(object sender, System.EventArgs e)
         {
-            Host.AssignToken(new Tokens.FocusToken(), Triggers.FinishTrigger);
+            Host.Tokens.AssignToken(new Tokens.FocusToken(Host), Triggers.FinishTrigger);
         }
     }
 }

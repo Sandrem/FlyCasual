@@ -56,7 +56,7 @@ namespace ActionsList
         {
             Name = EffectName = "Weapons Guidance";
 
-            IsSpendFocus = true;
+            TokensSpend.Add(typeof(Tokens.FocusToken));
         }
 
         public override void ActionEffect(System.Action callBack)
@@ -68,17 +68,19 @@ namespace ActionsList
                 Messages.ShowInfoToHuman("Focus token is spent, but there are no blanks.");
             }
 
-            Host.RemoveToken(typeof(Tokens.FocusToken));
             Combat.CurrentDiceRoll.ChangeOne(DieSide.Blank, DieSide.Success);
             Combat.CurrentDiceRoll.OrganizeDicePositions();
 
-            callBack();
+            Host.Tokens.SpendToken(
+                typeof(Tokens.FocusToken),
+                callBack
+            );
         }
 
         public override bool IsActionEffectAvailable()
         {
             if (Combat.AttackStep == CombatStep.Attack 
-                && Host.HasToken(typeof(Tokens.FocusToken)))
+                && Host.Tokens.HasToken(typeof(Tokens.FocusToken)))
             {
                 return true;
             }

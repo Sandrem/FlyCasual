@@ -70,6 +70,7 @@ namespace SubPhases
 
         private void AcquireTargetLock(object sender, System.EventArgs e)
         {
+            Messages.ShowInfo("Fire-Control System: Free Target Lock");
             Actions.AssignTargetLockToPair(Combat.Attacker, Combat.Defender, ConfirmDecision, ConfirmDecision);            
         }
 

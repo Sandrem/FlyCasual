@@ -24,7 +24,7 @@ namespace UpgradesList
             host.OnAssignCrit += CancelPilotCrits;
         }
 
-        private void CancelPilotCrits(Ship.GenericShip ship, CriticalHitCard.GenericCriticalHit crit, EventArgs e)
+        private void CancelPilotCrits(Ship.GenericShip ship, DamageDeckCard.GenericDamageCard crit, EventArgs e)
         {
             if (crit.Type == CriticalCardType.Pilot) {
                 Messages.ShowInfo("Determination: Crit with \"Pilot\" trait is discarded");

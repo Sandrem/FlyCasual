@@ -77,14 +77,14 @@ namespace ActionsList
             }
             else
             {
-                Host.AssignToken(new Tokens.StressToken(), RemoveTargetLock);
+                Host.Tokens.AssignToken(new Tokens.StressToken(Host), RemoveTargetLock);
             }
             
         }
 
         private void RemoveTargetLock()
         {
-            if (Host.HasToken(typeof(Tokens.RedTargetLockToken), '*'))
+            if (Host.Tokens.HasToken(typeof(Tokens.RedTargetLockToken), '*'))
             {
                 Phases.StartTemporarySubPhaseOld(
                     "Expert Handling: Select target lock to remove",
@@ -117,7 +117,7 @@ namespace SubPhases
         {
             InfoText = "Select target lock to remove";
 
-            foreach (var token in Selection.ThisShip.GetAssignedTokens())
+            foreach (var token in Selection.ThisShip.Tokens.GetAllTokens())
             {
                 if (token.GetType() == typeof(Tokens.RedTargetLockToken))
                 {
@@ -137,8 +137,11 @@ namespace SubPhases
 
         private void RemoveRedTargetLockToken(char letter)
         {
-            Selection.ThisShip.RemoveToken(typeof(Tokens.RedTargetLockToken), letter);
-            ConfirmDecision();
+            Selection.ThisShip.Tokens.RemoveToken(
+                typeof(Tokens.RedTargetLockToken),
+                ConfirmDecision,
+                letter
+            );
         }
 
     }

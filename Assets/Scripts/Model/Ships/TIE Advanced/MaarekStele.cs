@@ -43,7 +43,7 @@ namespace Abilities
             GenericShip.OnFaceupCritCardReadyToBeDealtGlobal -= MaarekStelePilotAbility;
         }
 
-        private void MaarekStelePilotAbility(GenericShip ship, CriticalHitCard.GenericCriticalHit crit, EventArgs e)
+        private void MaarekStelePilotAbility(GenericShip ship, DamageDeckCard.GenericDamageCard crit, EventArgs e)
         {
             if ((e as DamageSourceEventArgs) == null) return;
             else if ((((e as DamageSourceEventArgs).Source) as GenericShip).ShipId == HostShip.ShipId)
@@ -72,7 +72,7 @@ namespace SubPhases
 
     public class CritToDealDecisionSubPhase : DecisionSubPhase
     {
-        private List<CriticalHitCard.GenericCriticalHit> criticalHitCardsToChoose = new List<CriticalHitCard.GenericCriticalHit>();
+        private List<DamageDeckCard.GenericDamageCard> criticalHitCardsToChoose = new List<DamageDeckCard.GenericDamageCard>();
 
         public override void PrepareDecision(Action callBack)
         {
@@ -101,7 +101,7 @@ namespace SubPhases
             callBack();
         }
 
-        private void DealCard(CriticalHitCard.GenericCriticalHit critCard)
+        private void DealCard(DamageDeckCard.GenericDamageCard critCard)
         {
             Combat.CurrentCriticalHitCard = critCard;
             ConfirmDecision();

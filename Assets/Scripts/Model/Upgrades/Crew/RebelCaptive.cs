@@ -27,7 +27,7 @@ namespace UpgradesList
             host.OnAttackStartAsDefender += RegisterTrigger;
 
             Phases.OnEndPhaseStart += Cleanup;
-            Host.OnDestroyed += StopAbility;
+            Host.OnShipIsDestroyed += StopAbility;
         }
 
         private void RegisterTrigger()
@@ -47,7 +47,7 @@ namespace UpgradesList
             {
                 Messages.ShowInfoToHuman("Attacker gained stress from Rebel Captive");
                 IsUsed = true;
-                Combat.Attacker.AssignToken(new Tokens.StressToken(), Triggers.FinishTrigger);
+                Combat.Attacker.Tokens.AssignToken(new Tokens.StressToken(Combat.Attacker), Triggers.FinishTrigger);
             }
             else
             {

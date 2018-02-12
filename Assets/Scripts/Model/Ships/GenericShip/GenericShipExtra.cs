@@ -9,7 +9,7 @@ namespace Ship
 
     public partial class GenericShip
     {
-        public string IconicPilot;
+        public Dictionary<Faction, Type> IconicPilots;
 
         public event EventHandlerShip OnDocked;
         public event EventHandlerShip OnUndocked;

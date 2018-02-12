@@ -37,8 +37,6 @@ public static partial class Combat
     public static DiceRoll DiceRollDefence;
     public static DiceRoll CurrentDiceRoll;
 
-    public static bool IsObstructed;
-
     public static CombatStep AttackStep = CombatStep.None;
 
     public static GenericShip Attacker;
@@ -46,7 +44,7 @@ public static partial class Combat
 
     public static IShipWeapon ChosenWeapon;
 
-    public static CriticalHitCard.GenericCriticalHit CurrentCriticalHitCard;
+    public static DamageDeckCard.GenericDamageCard CurrentCriticalHitCard;
 
     private static int attacksCounter;
     private static int hitsCounter;
@@ -70,14 +68,14 @@ public static partial class Combat
         {
             IsAttackAlreadyCalled = true;
 
+            UI.HideContextMenu();
+            UI.HideSkipButton();
+
             Selection.ChangeActiveShip("ShipId:" + attackerId);
             Selection.ChangeAnotherShip("ShipId:" + defenderID);
 
             ChosenWeapon = Selection.ThisShip.PrimaryWeapon;
             ShotInfo = new ShipShotDistanceInformation(Selection.ThisShip, Selection.AnotherShip, ChosenWeapon);
-
-            UI.HideContextMenu();
-
             SelectWeapon();
         }
         else
@@ -390,26 +388,26 @@ public static partial class Combat
         Attacker.CallAttackFinish();
         Defender.CallAttackFinish();
 
-        Triggers.ResolveTriggers(TriggerTypes.OnAttackFinish, CombatEnd);
+        Triggers.ResolveTriggers(TriggerTypes.OnAttackFinish, CleanupAndCheckExtraAttacks);
     }
 
-    private static void CombatEnd()
+    private static void CleanupAndCheckExtraAttacks()
     {
         CleanupCombatData();
 
         if (!Selection.ThisShip.IsCannotAttackSecondTime)
         {
-            CheckSecondAttack(Phases.CurrentSubPhase.CallBack);
+            CheckExtraAttacks(Phases.CurrentSubPhase.CallBack);
         }
         else
         {
-            CheckExtraAttacks();
+            Phases.CurrentSubPhase.CallBack();
         }
     }
 
-    private static void CheckExtraAttacks()
+    private static void CheckExtraAttacks(Action callback)
     {
-        Triggers.ResolveTriggers(TriggerTypes.OnExtraAttack, Phases.CurrentSubPhase.CallBack);
+        Selection.ThisShip.CallCombatCheckExtraAttack(callback);
     }
 
     private static void CleanupCombatData()
@@ -420,22 +418,13 @@ public static partial class Combat
         ChosenWeapon = null;
         ShotInfo = null;
         hitsCounter = 0;
-        IsObstructed = false;
         ExtraAttackFilter = null;
         IsAttackAlreadyCalled = false;
     }
 
-    private static void CheckSecondAttack(Action callBack)
+    public static void FinishCombatSubPhase()
     {
-        Selection.ThisShip.CallCheckSecondAttack(callBack);
-    }
-
-    public static void CheckFinishCombatSubPhase()
-    {
-        if (Roster.NoSamePlayerAndPilotSkillNotAttacked(Selection.ThisShip))
-        {
-            Phases.FinishSubPhase(typeof(CombatSubPhase));
-        }
+        Phases.FinishSubPhase(typeof(CombatSubPhase));
     }
 
     // Extra Attacks
@@ -443,8 +432,9 @@ public static partial class Combat
     public static void StartAdditionalAttack(GenericShip ship, Action callback, Func<GenericShip, IShipWeapon, bool> extraAttackFilter = null)
     {
         Selection.ChangeActiveShip("ShipId:" + ship.ShipId);
+        Phases.CurrentSubPhase.RequiredPlayer = ship.Owner.PlayerNo;
 
-        Combat.ExtraAttackFilter = extraAttackFilter;
+        ExtraAttackFilter = extraAttackFilter;
 
         Phases.StartTemporarySubPhaseOld(
             "Second attack",
@@ -583,6 +573,7 @@ namespace SubPhases
         {
             Phases.CurrentSubPhase = PreviousSubPhase;
             UpdateHelpInfo();
+            Phases.CurrentSubPhase.Resume();
         }
 
         public override bool ThisShipCanBeSelected(GenericShip ship, int mouseKeyIsPressed)
@@ -621,7 +612,6 @@ namespace SubPhases
 
         public override void Next()
         {
-            Phases.CurrentSubPhase = Phases.CurrentSubPhase.PreviousSubPhase;
             Phases.CurrentSubPhase = Phases.CurrentSubPhase.PreviousSubPhase;
         }
     }

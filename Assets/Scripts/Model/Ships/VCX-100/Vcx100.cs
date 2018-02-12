@@ -14,7 +14,7 @@ namespace Ship
             public Vcx100() : base()
             {
                 Type = "VCX-100";
-                IconicPilot = "Kanan Jarrus";
+                IconicPilots.Add(Faction.Rebel, typeof(KananJarrus));
                 ShipBaseSize = BaseSize.Large;
                 ShipBaseArcsType = Arcs.BaseArcsType.ArcGhost;
 

@@ -51,8 +51,8 @@ namespace UpgradesList
 			Combat.DiceRollAttack.CancelAllResults();
 			Combat.DiceRollAttack.RemoveAllFailures();
 
-			Combat.Defender.AssignToken(
-				new Tokens.JamToken(),
+			Combat.Defender.Tokens.AssignToken(
+				new Tokens.JamToken(Combat.Defender),
                 Triggers.FinishTrigger
             );
 		}

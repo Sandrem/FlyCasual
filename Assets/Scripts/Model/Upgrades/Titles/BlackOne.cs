@@ -50,35 +50,58 @@ namespace Abilities
             //If the ship doesn't perform a barrel roll or boost action we want to exit out of the method.
             if (shipAction is BoostAction || shipAction is BarrelRollAction)
             {
-                List<GenericShip> nearbyShips = Board.BoardManager.GetShipsAtRange(HostShip, new Vector2(1, 1), Team.Type.Friendly);
-                if (nearbyShips == null ||
-                    nearbyShips.Count <= 0 ||
-                    !DoNearbyShipsHaveRedTargetLock(nearbyShips)) //Verifies that at least one nearby ship has a target lock before continuing.
+                if (TargetsForAbilityExist(FilterTargetsOfAbility))
                 {
-                    return;
+                    RegisterAbilityTrigger(TriggerTypes.OnActionIsPerformed, SelectTargetForRemoveTargetLock);
                 }
-
-                RegisterAbilityTrigger(TriggerTypes.OnActionIsPerformed, SelectTargetForRemoveTargetLock);
             }
         }
 
         private void SelectTargetForRemoveTargetLock(object sender, EventArgs e)
         {
-            SelectTargetForAbility(
+            Messages.ShowInfoToHuman("Black One: Select ship to remove Red Target Lock token");
+
+            SelectTargetForAbilityNew(
                 RemoveEnemyTargetLock,
-                new List<TargetTypes> { TargetTypes.This, TargetTypes.OtherFriendly },
-                new Vector2(1, 1));
+                FilterTargetsOfAbility,
+                GetAiPriorityOfTarget,
+                HostShip.Owner.PlayerNo
+            );
+        }
+
+        private bool FilterTargetsOfAbility(GenericShip ship)
+        {
+            return FilterByTargetType(ship, new List<TargetTypes>() { TargetTypes.This, TargetTypes.OtherFriendly }) && FilterTargetsByRange(ship, 1, 1) && FilterTargetHasRedTargetLock(ship);
+        }
+
+        private bool FilterTargetHasRedTargetLock(GenericShip ship)
+        {
+            return ship.Tokens.HasToken(typeof(Tokens.RedTargetLockToken), '*');
+        }
+
+        private int GetAiPriorityOfTarget(GenericShip ship)
+        {
+            int priority = 50;
+
+            int damagedPercent = 100 - (ship.Hull + ship.Shields) * 100 / (ship.MaxHull + ship.MaxShields);
+            priority += damagedPercent;
+
+            priority += ship.Agility * 5;
+
+            priority -= ship.Tokens.GetAllTokens().Count(n => n is Tokens.FocusToken || n is Tokens.EvadeToken) * 10;
+
+            return priority;
         }
 
         private bool DoNearbyShipsHaveRedTargetLock(List<GenericShip> nearbyShips)
         {
-            return nearbyShips.Any(ship => ship.HasToken(typeof(Tokens.RedTargetLockToken), '*'));
+            return nearbyShips.Any(ship => ship.Tokens.HasToken(typeof(Tokens.RedTargetLockToken), '*'));
         }
 
         private List<Tokens.RedTargetLockToken> GetShipRedTargetLocks(GenericShip hostShip)
         {
             List<Tokens.RedTargetLockToken> redTargetLocks = new List<Tokens.RedTargetLockToken>();
-            foreach (Tokens.GenericToken token in hostShip.GetAllTokens())
+            foreach (Tokens.GenericToken token in hostShip.Tokens.GetAllTokens())
             {
                 if (token is Tokens.RedTargetLockToken)
                 {
@@ -90,7 +113,7 @@ namespace Abilities
 
         private void RemoveEnemyTargetLock()
         {
-            if (TargetShip.HasToken(typeof(Tokens.RedTargetLockToken), '*'))
+            if (TargetShip.Tokens.HasToken(typeof(Tokens.RedTargetLockToken), '*'))
             {
                 if (GetShipRedTargetLocks(TargetShip).Count > 1)
                 {
@@ -136,9 +159,12 @@ namespace Abilities
 
         private void RemoveRedTargetLock(char targetLockTokenLetter, Action callback)
         {
-            TargetShip.RemoveToken(typeof(Tokens.RedTargetLockToken), targetLockTokenLetter);
             Messages.ShowInfoToHuman(string.Format("Target Lock has been removed from {0}.", TargetShip.PilotName));
-            callback();            
+            TargetShip.Tokens.RemoveToken(
+                typeof(Tokens.RedTargetLockToken),
+                callback,
+                targetLockTokenLetter
+            );
         }
     }
 }

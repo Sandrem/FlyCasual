@@ -8,7 +8,8 @@ namespace Board
 
     public class ShipShotDistanceInformation : GeneralShipDistanceInformation
     {
-        public bool IsObstructed { get; private set; }
+        public bool IsObstructedByAsteroid { get; private set; }
+        public bool IsObstructedByBombToken { get; private set; }
         public List<GameObject> FiringLines { get; private set; }
         private System.Action CallBack;
 
@@ -21,6 +22,7 @@ namespace Board
         public bool CanShootTorpedoes { get; private set; }
         public bool CanShootMissiles { get; private set; }
         public bool CanShootCannon { get; private set; }
+        public bool CanShootTurret { get; private set; }
 
         public new int Range
         {
@@ -122,6 +124,11 @@ namespace Board
                             CanShootCannon = true;
                         }
 
+                        if (ChosenWeapon.Host.ArcInfo.CanShootTurret(pointThis.Key, angle))
+                        {
+                            CanShootTurret = true;
+                        }
+
                         distance = Vector3.Distance(pointThis.Value, pointAnother.Value);
                         if (distance < Distance - PRECISION)
                         {
@@ -186,23 +193,35 @@ namespace Board
 
         private void GetResults()
         {
+            bool isObstructedByAsteroid = false;
+            bool isObstructedByBombToken = false;
 
             List<GameObject> FiringLinesCopy = new List<GameObject>(FiringLines);
             foreach (var firingLine in FiringLinesCopy)
             {
-                if (firingLine.GetComponentInChildren<ObstaclesFiringLineDetector>().IsObstructed)
+                ObstaclesFiringLineDetector obstacleDetector = firingLine.GetComponentInChildren<ObstaclesFiringLineDetector>();
+                if (obstacleDetector.IsObstructedByAsteroid)
                 {
+                    isObstructedByAsteroid = true;
+                    FiringLines.Remove(firingLine);
+                }
+                if (obstacleDetector.IsObstructedByBombToken)
+                {
+                    isObstructedByBombToken = true;
                     FiringLines.Remove(firingLine);
                 }
             }
 
+            // TODO: If asteroid or bomb - ask what to use
             if (FiringLines.Count == 0)
             {
-                IsObstructed = true;
+                if (isObstructedByAsteroid) IsObstructedByAsteroid = true;
+                if (isObstructedByBombToken) IsObstructedByBombToken = true;
             }
             else
             {
-                IsObstructed = false;
+                IsObstructedByAsteroid = false;
+                IsObstructedByBombToken = false;
 
                 ThisShipNearestPoint = FiringLines[0].GetComponentInChildren<ObstaclesFiringLineDetector>().PointStart;
                 AnotherShipNearestPoint = FiringLines[0].GetComponentInChildren<ObstaclesFiringLineDetector>().PointEnd;
@@ -214,9 +233,6 @@ namespace Board
             {
                 MonoBehaviour.Destroy(fireline);
             }
-
-            //TODO: Rework
-            Combat.IsObstructed = IsObstructed;
 
             CallBack();
         }

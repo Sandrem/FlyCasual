@@ -18,22 +18,22 @@ namespace ActionsList
 
         public override void ActionTake()
         {
-            foreach (var upgrade in Selection.ThisShip.UpgradeBar.GetInstalledUpgrades())
+            foreach (var upgrade in Selection.ThisShip.UpgradeBar.GetUpgradesOnlyDiscarded())
             {
                 if (upgrade.hasType(UpgradeType.Missile) || upgrade.hasType(UpgradeType.Torpedo))
                 {
-                    if (upgrade.isDiscarded) upgrade.FlipFaceup();
+                    upgrade.FlipFaceup();
                 }
             }
 
-            Selection.ThisShip.AssignToken(new WeaponsDisabledToken(), Phases.CurrentSubPhase.CallBack);
+            Selection.ThisShip.Tokens.AssignToken(new WeaponsDisabledToken(Selection.ThisShip), Phases.CurrentSubPhase.CallBack);
         }
 
         public override int GetActionPriority()
         {
             int result = 0;
 
-            int discardedOrdnance = Selection.ThisShip.UpgradeBar.GetInstalledUpgrades().Count(n => (n.hasType(UpgradeType.Missile) || n.hasType(UpgradeType.Torpedo)) && n.isDiscarded);
+            int discardedOrdnance = Selection.ThisShip.UpgradeBar.GetUpgradesOnlyDiscarded().Count(n => n.Type == UpgradeType.Missile || n.Type == UpgradeType.Torpedo);
             result = discardedOrdnance * 30;
 
             return result;

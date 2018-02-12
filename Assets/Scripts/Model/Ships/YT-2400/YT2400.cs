@@ -14,7 +14,7 @@ namespace Ship
             public YT2400() : base()
             {
                 Type = "YT-2400";
-                IconicPilot = "Dash Rendar";
+                IconicPilots.Add(Faction.Rebel, typeof(DashRendar));
                 ShipBaseSize = BaseSize.Large;
                 ShipBaseArcsType = Arcs.BaseArcsType.Arc360;
 

@@ -3,34 +3,35 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace CriticalHitCard
+namespace DamageDeckCard
 {
 
-    public class DirectHit : GenericCriticalHit
+    public class DirectHit : GenericDamageCard
     {
         public DirectHit()
         {
             Name = "Direct Hit";
             Type = CriticalCardType.Ship;
+
+            DamageValue = 2;
         }
 
         public override void ApplyEffect(object sender, EventArgs e)
         {
-            Host.AssignToken(new Tokens.DirectHitCritToken(), AdditionalHullDamage);
+            Host.Tokens.AssignCondition(new Tokens.DirectHitCritToken(Host));
+            AdditionalHullDamage();
         }
 
         private void AdditionalHullDamage()
         {
-            Host.DecreaseHullValue(Triggers.FinishTrigger);
+            Host.CallHullValueIsDecreased(Triggers.FinishTrigger);
         }
 
-        public override void DiscardEffect(Ship.GenericShip host)
+        public override void DiscardEffect()
         {
-            host.RemoveToken(typeof(Tokens.DirectHitCritToken));
-            if (host.TryRegenHull())
-            {
-                Messages.ShowInfo("One hull point is restored");
-            }
+            Host.Tokens.RemoveCondition(typeof(Tokens.DirectHitCritToken));
+            Host.CallAfterAssignedDamageIsChanged();
+            Messages.ShowInfo("One hull point is restored");
         }
     }
 

@@ -7,14 +7,14 @@ namespace ActionsList
 
     public class CancelCritAction : GenericAction
     {
-        private CriticalHitCard.GenericCriticalHit CritCard;
+        private DamageDeckCard.GenericDamageCard CritCard;
 
         public CancelCritAction()
         {
             IsCritCancelAction = true;
         }
 
-        public void Initilize(CriticalHitCard.GenericCriticalHit critCard)
+        public void Initilize(DamageDeckCard.GenericDamageCard critCard)
         {
             CritCard = critCard;
 
@@ -31,7 +31,7 @@ namespace ActionsList
             Host = Selection.ThisShip;
             if (CritCard.CancelDiceResults.Count == 0)
             {
-                CritCard.DiscardEffect(Host);
+                CritCard.DiscardEffect();
                 Phases.FinishSubPhase(typeof(SubPhases.CancelCritCheckSubPhase));
                 Phases.CurrentSubPhase.CallBack();
             }
@@ -79,7 +79,7 @@ namespace SubPhases
             HideDiceResultMenu();
 
             Selection.ActiveShip = Selection.ThisShip;
-            if (Actions.SelectedCriticalHitCard.CancelDiceResults.Contains(CurrentDiceRoll.DiceList[0].Side)) Actions.SelectedCriticalHitCard.DiscardEffect(Actions.SelectedCriticalHitCard.Host);
+            if (Actions.SelectedCriticalHitCard.CancelDiceResults.Contains(CurrentDiceRoll.DiceList[0].Side)) Actions.SelectedCriticalHitCard.DiscardEffect();
 
             CallBack();
         }

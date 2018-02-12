@@ -14,7 +14,7 @@ namespace Ship
             public TIESilencer() : base()
             {
                 Type = "TIE Silencer";
-                IconicPilot = "Test Pilot \"Blackout\"";
+                IconicPilots.Add(Faction.Imperial, typeof(TestPilotBlackout));
 
                 ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/b/b5/Maneuver_Card_-_TIE_Silencer.png";
 

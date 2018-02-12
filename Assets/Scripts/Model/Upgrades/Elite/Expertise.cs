@@ -60,7 +60,7 @@ namespace ActionsList
 
             if (Combat.AttackStep == CombatStep.Attack)
             {
-                if (!Host.HasToken(typeof(Tokens.StressToken)))
+                if (!Host.Tokens.HasToken(typeof(Tokens.StressToken)))
                 {
                     int attackFocuses = Combat.DiceRollAttack.Focuses;
                     if (attackFocuses > 0) result = 55;
@@ -72,7 +72,7 @@ namespace ActionsList
 
         public override void ActionEffect(System.Action callBack)
         {
-            if (!Host.HasToken(typeof(Tokens.StressToken)))
+            if (!Host.Tokens.HasToken(typeof(Tokens.StressToken)))
             {
                 Combat.CurrentDiceRoll.ChangeAll(DieSide.Focus, DieSide.Success);
             }

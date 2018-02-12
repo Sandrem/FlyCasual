@@ -2,28 +2,39 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Upgrade;
+using Abilities;
+using System;
 
 namespace UpgradesList
 {
-
     public class UnhingedAstromech : GenericUpgrade
     {
-
         public UnhingedAstromech() : base()
         {
             Types.Add(UpgradeType.SalvagedAstromech);
             Name = "Unhinged Astromech";
             Cost = 1;
-        }
 
-        public override void AttachToShip(Ship.GenericShip host)
+            UpgradeAbilities.Add(new UnhingedAstromechAbility());
+        }
+    }
+}
+
+namespace Abilities
+{
+    public class UnhingedAstromechAbility : GenericAbility
+    {
+        public override void ActivateAbility()
         {
-            base.AttachToShip(host);
-
-            host.AfterGetManeuverColorDecreaseComplexity += UnhingedAstromechAbility;
+            HostShip.AfterGetManeuverColorDecreaseComplexity += CheckAbility;
         }
 
-        private void UnhingedAstromechAbility(Ship.GenericShip ship, ref Movement.MovementStruct movement)
+        public override void DeactivateAbility()
+        {
+            HostShip.AfterGetManeuverColorDecreaseComplexity -= CheckAbility;
+        }
+
+        private void CheckAbility(Ship.GenericShip ship, ref Movement.MovementStruct movement)
         {
             if (movement.ColorComplexity != Movement.ManeuverColor.None)
             {
@@ -35,5 +46,4 @@ namespace UpgradesList
         }
 
     }
-
 }

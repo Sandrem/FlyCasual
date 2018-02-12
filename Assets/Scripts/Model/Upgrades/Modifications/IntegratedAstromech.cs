@@ -7,7 +7,7 @@ using Ship.XWing;
 using Ship.T70XWing;
 using Abilities;
 using System.Linq;
-using CriticalHitCard;
+using DamageDeckCard;
 
 namespace UpgradesList
 {
@@ -45,7 +45,7 @@ namespace Abilities
 
         private void RegisterIntegratedAstromechTrigger(GenericShip ship)
         {
-            if (HostShip.UpgradeBar.GetInstalledUpgrades(UpgradeType.Astromech).Count() != 0)
+            if (HostShip.UpgradeBar.GetUpgradesOnlyFaceup().Count(n => n.Type == UpgradeType.Astromech) != 0)
             {
                 RegisterAbilityTrigger(TriggerTypes.OnDamageCardIsDealt, AskUseIntegratedAstromechAbility);
             }
@@ -71,14 +71,18 @@ namespace Abilities
             bool result = false;
 
             if (HostShip.Hull == 2) result = true;
-            if (Combat.CurrentCriticalHitCard.IsFaceUp) result = true;
+            if (Combat.CurrentCriticalHitCard.IsFaceup) result = true;
 
             return result;
         }
 
         private void UseAbility(object sender, System.EventArgs e)
         {
+<<<<<<< HEAD
             GenericUpgrade astromech = HostShip.UpgradeBar.GetInstalledUpgrade(UpgradeType.Astromech);
+=======
+            GenericUpgrade astromech = HostShip.UpgradeBar.GetUpgradesOnlyFaceup().Find(n => n.Type == UpgradeType.Astromech);
+>>>>>>> development
             if (astromech != null)
             {
                 Sounds.PlayShipSound("R2D2-Killed");

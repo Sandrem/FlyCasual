@@ -16,7 +16,7 @@ namespace UpgradesList
         public override void AttachToShip(GenericShip host)
         {
             base.AttachToShip(host);
-            host.ChangeHullBy(1);
+            host.ChangeMaxHullBy(1);
             host.AfterGetMaxHull += IncreaseMaxHull;
         }
 

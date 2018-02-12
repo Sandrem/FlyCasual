@@ -78,7 +78,7 @@ namespace ActionsList
 
             if (Combat.AttackStep == CombatStep.Defence && 
                 Combat.DiceRollDefence.RegularSuccesses > 0 && 
-                Host.HasToken(typeof(EvadeToken)))
+                Host.Tokens.HasToken(typeof(EvadeToken)))
             {
                 result = true;
             }

@@ -61,7 +61,7 @@ namespace Abilities
                 HostShip.OnShotHitAsAttacker -= ApplyHarpoonMissilesCondition;
 
                 Messages.ShowInfo("\"Harpooned!\" condition is assigned");
-                Combat.Defender.AssignToken(new Conditions.Harpooned(), delegate { });
+                Combat.Defender.Tokens.AssignCondition(new Conditions.Harpooned(Combat.Defender));
 
                 SubscribeToHarpoonedConditionEffects(Combat.Defender);
             }
@@ -70,7 +70,7 @@ namespace Abilities
         private void SubscribeToHarpoonedConditionEffects(GenericShip harpoonedShip)
         {
             harpoonedShip.OnShotHitAsDefender += CheckUncancelledCrit;
-            harpoonedShip.OnDestroyed += DoSplashDamageOnDestroyed;
+            harpoonedShip.OnShipIsDestroyed += DoSplashDamageOnDestroyed;
             harpoonedShip.AfterGenerateAvailableActionsList += AddRepairAction;
         }
 
@@ -125,7 +125,7 @@ namespace Abilities
 
         private void AdditionalDamageOnItself()
         {
-            Combat.Defender.RemoveToken(typeof(Conditions.Harpooned));
+            Combat.Defender.Tokens.RemoveCondition(typeof(Conditions.Harpooned));
 
             //Deal facedown damage card;
 
@@ -142,7 +142,7 @@ namespace Abilities
         {
             ActionsList.GenericAction action = new ActionsList.HarpoonedRepairAction()
             {
-                ImageUrl = (new Conditions.Harpooned()).Tooltip,
+                ImageUrl = (new Conditions.Harpooned(harpoonedShip)).Tooltip,
                 Host = harpoonedShip
             };
             harpoonedShip.AddAvailableAction(action);
@@ -162,7 +162,7 @@ namespace ActionsList
 
         public override void ActionTake()
         {
-            Host.RemoveToken(typeof(Conditions.Harpooned));
+            Host.Tokens.RemoveCondition(typeof(Conditions.Harpooned));
 
             Phases.StartTemporarySubPhaseOld(
                 "Damage from \"Harpooned!\" condition",
@@ -188,7 +188,7 @@ namespace Conditions
 {
     public class Harpooned : Tokens.GenericToken
     {
-        public Harpooned()
+        public Harpooned(GenericShip host) : base(host)
         {
             Name = "Harpooned Condition";
             Temporary = false;

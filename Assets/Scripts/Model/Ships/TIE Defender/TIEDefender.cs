@@ -14,7 +14,7 @@ namespace Ship
             public TIEDefender() : base()
             {
                 Type = "TIE Defender";
-                IconicPilot = "Colonel Vessery";
+                IconicPilots.Add(Faction.Imperial, typeof(ColonelVessery));
 
                 ManeuversImageUrl = "https://vignette1.wikia.nocookie.net/xwing-miniatures/images/8/85/MI_TIE-ADVANCED.png";
 

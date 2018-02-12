@@ -2,9 +2,9 @@
 {
     namespace YT2400
     {
-        public class Scourge : YT2400
+        public class EadenVrill : YT2400
         {
-            public Scourge()
+            public EadenVrill()
             {
                 PilotName = "Eaden Vrill";
                 PilotSkill = 3;

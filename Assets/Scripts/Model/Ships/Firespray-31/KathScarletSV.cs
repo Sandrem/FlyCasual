@@ -45,8 +45,7 @@ namespace Abilities
 
         private void KathScarletSVPilotAbility(ref int diceNumber)
         {
-            Board.ShipShotDistanceInformation shotInformation = new Board.ShipShotDistanceInformation(Combat.Attacker, Combat.Defender, Combat.ChosenWeapon);
-            if (shotInformation.InRearAuxArc)
+            if (Combat.ShotInfo.InRearAuxArc)
             {
                 Messages.ShowInfo("Defender is within auxiliary firing arc. Roll 1 additional attack die.");
                 diceNumber++;

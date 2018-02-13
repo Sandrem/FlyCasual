@@ -363,7 +363,7 @@ namespace Ship
 
         public void CallCombatActivation(Action callback)
         {
-            Messages.ShowInfo("Ship is activated! " + this.ShipId);
+            //Messages.ShowInfo("Ship is activated! " + this.ShipId);
 
             if (OnCombatActivation != null) OnCombatActivation(this);
             if (OnCombatActivationGlobal != null) OnCombatActivationGlobal(this);

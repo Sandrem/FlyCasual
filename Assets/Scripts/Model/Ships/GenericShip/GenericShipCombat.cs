@@ -94,7 +94,6 @@ namespace Ship
 
         public bool IsCannotAttackSecondTime { get; set; }
         public bool CanAttackBumpedTargetAlways { get; set; }
-        public bool PreventDestruction { get; set; }
         public bool IgnoressBombDetonationEffect { get; set; }
 
         // EVENTS
@@ -173,6 +172,7 @@ namespace Ship
 
         public event EventHandlerShip OnCombatActivation;
         public static event EventHandlerShip OnCombatActivationGlobal;
+        public event EventHandlerShip OnCombatDeactivation;
 
         public event EventHandlerShip OnCheckSufferBombDetonation;
 
@@ -364,11 +364,21 @@ namespace Ship
         public void CallCombatActivation(Action callback)
         {
             //Messages.ShowInfo("Ship is activated! " + this.ShipId);
+            IsActivatedDuringCombat = true;
 
             if (OnCombatActivation != null) OnCombatActivation(this);
             if (OnCombatActivationGlobal != null) OnCombatActivationGlobal(this);
 
             Triggers.ResolveTriggers(TriggerTypes.OnCombatActivation, callback);
+        }
+
+        public void CallCombatDeactivation(Action callback)
+        {
+            //Messages.ShowInfo("Ship is deactivated! " + this.ShipId);
+
+            if (OnCombatDeactivation != null) OnCombatDeactivation(this);
+
+            Triggers.ResolveTriggers(TriggerTypes.OnCombatDeactivation, callback);
         }
 
         // DICE
@@ -547,13 +557,15 @@ namespace Ship
 
         public virtual void IsHullDestroyedCheck(Action callBack)
         {
-            if (Hull == 0 && !IsDestroyed)
+            if (Hull == 0 && !IsReadyToBeDestroyed)
             {
                 if (OnReadyToBeDestroyed != null) OnReadyToBeDestroyed(this);
 
                 if (!PreventDestruction)
                 {
-                    DestroyShip(callBack);
+                    PlayDestroyedAnimSound(
+                        delegate { PlanShipDestruction(callBack); }
+                    );
                 }
                 else
                 {
@@ -566,37 +578,70 @@ namespace Ship
             }
         }
 
-        public void DestroyShip(Action callBack, bool forced = false)
+        public void PlanShipDestruction(Action callback)
         {
-            UI.AddTestLogEntry("Ship with ID " + ShipId + " is destroyed");
+            IsReadyToBeDestroyed = true;
 
-            IsDestroyed = true;
-
-            PlayDestroyedAnimSound(delegate { CheckShipModelDestruction(callBack, forced); });
-        }
-
-        private void CheckShipModelDestruction(Action callback, bool forced = false)
-        {
-            if ((Phases.CurrentSubPhase.RequiredPilotSkill == PilotSkill) && (!IsAttackPerformed) && (!forced) && (Phases.CurrentPhase.GetType() == typeof(MainPhases.CombatPhase)))
+            if (Combat.AttackStep != CombatStep.None)
             {
-                Phases.OnCombatSubPhaseRequiredPilotSkillIsChanged += RegisterShipDestruction;
+                if (IsSimultaneousFireRuleActive())
+                {
+                    Messages.ShowInfo("SIMULTANEOUS ATTACK RULE DESTRUCTION");
+                    OnCombatDeactivation += RegisterShipDestruction;
+                }
+                else
+                {
+                    Messages.ShowInfo("REGULAR COMBAT DESTRUCTION");
+                    OnAttackFinish += RegisterShipDestruction;
+                }
+                callback();
             }
             else
             {
+                Messages.ShowInfo("IMMEDIATE DESTRUCTION");
                 PerformShipDestruction(callback);
             }
         }
 
-        private void RegisterShipDestruction()
+        private bool IsSimultaneousFireRuleActive()
         {
-            Phases.OnCombatSubPhaseRequiredPilotSkillIsChanged -= RegisterShipDestruction;
+            bool result = true;
 
-            // TODO: Register trigger to destroy ship on PS change
+            if (Phases.CurrentPhase.GetType() != typeof(MainPhases.CombatPhase)) return false;
+
+            if (this.IsActivatedDuringCombat) return false;
+
+            if (Phases.CurrentSubPhase.RequiredPilotSkill != PilotSkill) return false;
+
+            return result;
+        }
+
+        public void DestroyShipForced(Action callback)
+        {
+            PlayDestroyedAnimSound(
+                delegate { PerformShipDestruction(callback); }
+            );            
+        }
+
+        private void RegisterShipDestruction(GenericShip shipToDestroy)
+        {
+            shipToDestroy.OnCombatDeactivation -= RegisterShipDestruction;
+
+            Triggers.RegisterTrigger(new Trigger
+            {
+                Name = "Destruction of ship" + shipToDestroy.ShipId,
+                TriggerType = TriggerTypes.OnCombatDeactivation,
+                TriggerOwner = shipToDestroy.Owner.PlayerNo,
+                EventHandler = delegate { PerformShipDestruction(Triggers.FinishTrigger); }
+            });
         }
 
         private void PerformShipDestruction(Action callback)
         {
+            IsDestroyed = true;
+
             Roster.DestroyShip(this.GetTag());
+
             foreach (var pilotAbility in PilotAbilities)
             {
                 pilotAbility.DeactivateAbility();

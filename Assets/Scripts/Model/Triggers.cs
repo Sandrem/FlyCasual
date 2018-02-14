@@ -24,6 +24,7 @@ public enum TriggerTypes
 
     OnMovementActivation,
     OnCombatActivation,
+    OnCombatDeactivation,
 
     OnManeuver,
     OnManeuverIsReadyToBeRevealed,

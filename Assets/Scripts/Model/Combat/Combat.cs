@@ -397,12 +397,17 @@ public static partial class Combat
 
         if (!Selection.ThisShip.IsCannotAttackSecondTime)
         {
-            CheckExtraAttacks(Phases.CurrentSubPhase.CallBack);
+            CheckExtraAttacks(FinishCombat);
         }
         else
         {
-            Phases.CurrentSubPhase.CallBack();
+            FinishCombat();
         }
+    }
+
+    private static void FinishCombat()
+    {
+        Phases.CurrentSubPhase.CallBack();
     }
 
     private static void CheckExtraAttacks(Action callback)

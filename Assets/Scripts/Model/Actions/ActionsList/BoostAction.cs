@@ -131,7 +131,6 @@ namespace SubPhases
             selectBoostTemplateDecisionSubPhase.RequiredPlayer = Selection.ThisShip.Owner.PlayerNo;
 
             selectBoostTemplateDecisionSubPhase.Start();
-            UI.ShowSkipButton();
         }
 
         private class SelectBoostTemplateDecisionSubPhase : DecisionSubPhase { }

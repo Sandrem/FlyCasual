@@ -141,7 +141,7 @@ namespace Abilities
 
         private void SelectDamageCard(GenericDamageCard damageCard)
         {
-            Messages.ShowInfo("Card selected: " + damageCard.Name);
+            Messages.ShowInfo("Card is selected: " + damageCard.Name);
 
             AssignedDamageCard = damageCard;
             AssignedDamageCard.IsFaceup = true;

@@ -57,7 +57,7 @@ namespace Abilities
             Phases.OnCombatPhaseEnd -= ProcessFelsWrath;
 
             Selection.ThisShip = HostShip;
-            HostShip.DestroyShip(Triggers.FinishTrigger, true);
+            HostShip.DestroyShipForced(Triggers.FinishTrigger);
         }
     }
 }

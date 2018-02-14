@@ -282,7 +282,9 @@ namespace SubPhases
                     shipToSkipCombat.CallCombatActivation(
                     delegate {
                         AfterSkippedCombatActivation(shipToSkipCombat);
-                        SkipCombatByShips(shipsToSkipCombat, callback);
+                        shipToSkipCombat.CallCombatDeactivation(
+                            delegate { SkipCombatByShips(shipsToSkipCombat, callback); }
+                        );
                     });
                 }
                 else

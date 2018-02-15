@@ -13,8 +13,6 @@ namespace UpgradesList
     {
         public HarpoonMissiles() : base()
         {
-            IsHidden = true;
-
             Type = UpgradeType.Missile;
 
             Name = "Harpoon Missiles";
@@ -62,7 +60,6 @@ namespace Abilities
 
                 Messages.ShowInfo("\"Harpooned!\" condition is assigned");
                 Combat.Defender.Tokens.AssignCondition(new Conditions.Harpooned(Combat.Defender));
-
                 SubscribeToHarpoonedConditionEffects(Combat.Defender);
             }
         }
@@ -72,6 +69,13 @@ namespace Abilities
             harpoonedShip.OnShotHitAsDefender += CheckUncancelledCrit;
             harpoonedShip.OnShipIsDestroyed += DoSplashDamageOnDestroyed;
             harpoonedShip.AfterGenerateAvailableActionsList += AddRepairAction;
+        }
+
+        private void UnsubscribeFromHarpoonedConditionEffects(GenericShip harpoonedShip)
+        {
+            harpoonedShip.OnShotHitAsDefender -= CheckUncancelledCrit;
+            harpoonedShip.OnShipIsDestroyed -= DoSplashDamageOnDestroyed;
+            harpoonedShip.AfterGenerateAvailableActionsList -= AddRepairAction;
         }
 
         private void CheckUncancelledCrit()
@@ -126,16 +130,26 @@ namespace Abilities
         private void AdditionalDamageOnItself()
         {
             Combat.Defender.Tokens.RemoveCondition(typeof(Conditions.Harpooned));
+            UnsubscribeFromHarpoonedConditionEffects(Combat.Defender);
 
-            //Deal facedown damage card;
+            DamageDecks.GetDamageDeck(Combat.Defender.Owner.PlayerNo).DrawDamageCard(
+                false,
+                DealDrawnCard,
+                new DamageSourceEventArgs{
+                    DamageType = DamageTypes.Rules,
+                    Source = null
+                }
+            );
+        }
 
-            Triggers.FinishTrigger();
+        private void DealDrawnCard(object sender, System.EventArgs e)
+        {
+            Combat.Defender.Damage.DealDrawnCard(Triggers.FinishTrigger);
         }
 
         private void DoSplashDamageOnDestroyed(GenericShip harpoonedShip)
         {
-            // Needs TriggerTypes.OnDestroyed
-            //RegisterAbilityTrigger(TriggerTypes.OnDestroyed, delegate { DoSplashDamage(Triggers.FinishTrigger); });
+            RegisterAbilityTrigger(TriggerTypes.OnShipIsDestroyed, delegate { DoSplashDamage(Triggers.FinishTrigger); });
         }
 
         private void AddRepairAction(GenericShip harpoonedShip)

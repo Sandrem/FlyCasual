@@ -27,7 +27,8 @@ public enum DamageTypes
     ObstacleCollision,
     CriticalHitCard,
     BombDetonation,
-    CardAbility
+    CardAbility,
+    Rules
 }
 
 public static partial class Combat
@@ -36,8 +37,6 @@ public static partial class Combat
     public static DiceRoll DiceRollAttack;
     public static DiceRoll DiceRollDefence;
     public static DiceRoll CurrentDiceRoll;
-
-    public static bool IsObstructed;
 
     public static CombatStep AttackStep = CombatStep.None;
 
@@ -399,12 +398,17 @@ public static partial class Combat
 
         if (!Selection.ThisShip.IsCannotAttackSecondTime)
         {
-            CheckExtraAttacks(Phases.CurrentSubPhase.CallBack);
+            CheckExtraAttacks(FinishCombat);
         }
         else
         {
-            Phases.CurrentSubPhase.CallBack();
+            FinishCombat();
         }
+    }
+
+    private static void FinishCombat()
+    {
+        Phases.CurrentSubPhase.CallBack();
     }
 
     private static void CheckExtraAttacks(Action callback)
@@ -420,7 +424,6 @@ public static partial class Combat
         ChosenWeapon = null;
         ShotInfo = null;
         hitsCounter = 0;
-        IsObstructed = false;
         ExtraAttackFilter = null;
         IsAttackAlreadyCalled = false;
     }
@@ -470,7 +473,7 @@ namespace SubPhases
                 }
             }
 
-            DefaultDecision = GetDecisions().Last().Key;
+            DefaultDecisionName = GetDecisions().Last().Name;
 
             callBack();
         }

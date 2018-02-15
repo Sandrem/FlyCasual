@@ -63,7 +63,7 @@ namespace SubPhases
             AddDecision("Yes", AcquireTargetLock);
             AddDecision("No", NotAssignToken);
 
-            DefaultDecision = "Yes";
+            DefaultDecisionName = "Yes";
 
             callBack();
         }

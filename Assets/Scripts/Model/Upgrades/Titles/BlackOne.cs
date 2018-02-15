@@ -146,7 +146,7 @@ namespace Abilities
             }
 
             //AI's default behavior.
-            decisionPhase.DefaultDecision = decisionPhase.GetDecisions().First().Key;
+            decisionPhase.DefaultDecisionName = decisionPhase.GetDecisions().First().Name;
             decisionPhase.RequiredPlayer = HostShip.Owner.PlayerNo;
 
             decisionPhase.Start();

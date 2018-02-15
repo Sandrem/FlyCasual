@@ -51,6 +51,8 @@ namespace Abilities
 
         private void AskChangeManeuver(object sender, System.EventArgs e)
         {
+            Messages.ShowInfoToHuman("Tetran Cowall: Select speed of Koiogran turn");
+
             //To mantain Adrenalin Rush color change
             HostShip.Maneuvers["1.F.R"] = HostShip.AssignedManeuver.ColorComplexity;
             HostShip.Maneuvers["3.F.R"] = HostShip.AssignedManeuver.ColorComplexity;

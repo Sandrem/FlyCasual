@@ -130,7 +130,7 @@ namespace SubPhases
 
             AddDecision("Don't remove", delegate { ConfirmDecision(); });
 
-            DefaultDecision = GetDecisions().First().Key;
+            DefaultDecisionName = GetDecisions().First().Name;
 
             callBack();
         }

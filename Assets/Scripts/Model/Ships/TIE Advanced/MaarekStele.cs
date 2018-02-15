@@ -96,7 +96,7 @@ namespace SubPhases
                 );
             }
 
-            DefaultDecision = Combat.CurrentCriticalHitCard.Name;
+            DefaultDecisionName = Combat.CurrentCriticalHitCard.Name;
 
             callBack();
         }

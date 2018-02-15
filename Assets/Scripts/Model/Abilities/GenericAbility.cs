@@ -99,7 +99,7 @@ namespace Abilities
             pilotAbilityDecision.AddDecision("No", dontUseAbility);
             if (showAlwaysUseOption) pilotAbilityDecision.AddDecision("Always", delegate { SetAlwaysUse(useAbility); });
 
-            pilotAbilityDecision.DefaultDecision = (useByDefault()) ? "Yes" : "No";
+            pilotAbilityDecision.DefaultDecisionName = (useByDefault()) ? "Yes" : "No";
 
             pilotAbilityDecision.ShowSkipButton = true;
 

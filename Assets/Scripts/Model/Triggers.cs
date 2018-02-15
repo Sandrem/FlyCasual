@@ -9,8 +9,6 @@ public enum TriggerTypes
 {
     None,
 
-    OnAbilityDirect,
-
     OnGameStart,
     OnSetupPhaseStart,
     OnBeforePlaceForces,
@@ -26,6 +24,7 @@ public enum TriggerTypes
 
     OnMovementActivation,
     OnCombatActivation,
+    OnCombatDeactivation,
 
     OnManeuver,
     OnManeuverIsReadyToBeRevealed,
@@ -66,11 +65,14 @@ public enum TriggerTypes
     OnFaceupCritCardIsDealt,
     OnShipIsDestroyed,
 
-    OnMajorExplosionCrit,
-    OnAbilityTargetIsSelected,
     OnBombIsDetonated,
     OnBombIsRemoved,
     OnCheckPermissionToDetonate,
+    OnCheckSufferBombDetonation,
+
+    OnAbilityDirect,
+    OnAbilityTargetIsSelected,
+    OnMajorExplosionCrit,
     OnDiscard
 }
 
@@ -344,7 +346,7 @@ public static partial class Triggers
             }
 
             DecisionOwner = Roster.GetPlayer(currentPlayer);
-            DefaultDecision = GetDecisions().First().Key;
+            DefaultDecisionName = GetDecisions().First().Name;
 
             callBack();
         }

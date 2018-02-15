@@ -42,21 +42,10 @@ namespace Abilities
 
         private void CheckGeniusAbility(GenericShip ship)
         {
-            if (!HostShip.IsBumped && !HostShip.IsBombAlreadyDropped && HasTimedBombs())
+            if (!HostShip.IsBumped && !HostShip.IsBombAlreadyDropped && BombsManager.HasTimedBombs(ship))
             {
                 RegisterAbilityTrigger(TriggerTypes.OnMovementActivation, AskUseGeniusAbility);
             }
-        }
-
-        private List<GenericUpgrade> GetTimedBombsInstalled()
-        {
-            return HostShip.UpgradeBar.GetUpgradesOnlyFaceup().Where(n => n.GetType().BaseType == typeof(GenericTimedBomb)).ToList();
-        }
-
-        private bool HasTimedBombs()
-        {
-            int timedBombsInstalledCount = GetTimedBombsInstalled().Count;
-            return timedBombsInstalledCount > 0;
         }
 
         private void AskUseGeniusAbility(object sender, EventArgs e)
@@ -66,7 +55,7 @@ namespace Abilities
 
         private void UseGeniusAbility(object sender, EventArgs e)
         {
-            List<GenericUpgrade> timedBombsInstalled = GetTimedBombsInstalled();
+            List<GenericUpgrade> timedBombsInstalled = BombsManager.GetTimedBombsInstalled(HostShip);
             DecisionSubPhase.ConfirmDecisionNoCallback();
 
             if (timedBombsInstalled.Count == 1)
@@ -88,7 +77,7 @@ namespace Abilities
                 callback
             );
 
-            foreach (var timedBombInstalled in GetTimedBombsInstalled())
+            foreach (var timedBombInstalled in BombsManager.GetTimedBombsInstalled(HostShip))
             {
                 selectBombToDrop.AddDecision(
                     timedBombInstalled.Name,
@@ -98,7 +87,7 @@ namespace Abilities
 
             selectBombToDrop.InfoText = "Select bomb to drop";
 
-            selectBombToDrop.DefaultDecision = GetTimedBombsInstalled().First().Name;
+            selectBombToDrop.DefaultDecisionName = BombsManager.GetTimedBombsInstalled(HostShip).First().Name;
 
             selectBombToDrop.RequiredPlayer = HostShip.Owner.PlayerNo;
 
@@ -112,9 +101,6 @@ namespace Abilities
         }
 
         private class GeniusBombDecisionSubPhase : DecisionSubPhase { }
-
-        private void DiscardBombAndDrop() { 
-}
 
         private void StartDropBombSubphase()
         {

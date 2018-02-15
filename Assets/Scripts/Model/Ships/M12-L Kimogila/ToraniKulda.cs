@@ -97,7 +97,7 @@ namespace SubPhases
             AddDecision("Suffer 1 damage", SufferDamage);
             AddDecision("Remove all Focus and Evade tokens", DiscardFocusAndEvadeTokens);
 
-            DefaultDecision = "Remove all Focus and Evade tokens";
+            DefaultDecisionName = "Remove all Focus and Evade tokens";
 
             callBack();
         }

@@ -83,6 +83,8 @@ public static partial class Roster
     public static void DestroyShip(string id)
     {
         HideShip(id);
+
+        OrganizeRosters();
     }
 
     public static void HideShip(string id)

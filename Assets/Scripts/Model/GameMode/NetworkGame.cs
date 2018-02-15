@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
+using SubPhases;
 
 namespace GameModes
 { 
@@ -180,9 +181,9 @@ namespace GameModes
                 });
         }*/
 
-        public override void TakeDecision(KeyValuePair<string, EventHandler> decision, GameObject button)
+        public override void TakeDecision(Decision decision, GameObject button)
         {
-            Network.TakeDecision(decision.Key);
+            Network.TakeDecision(decision.Name);
         }
 
         public override void FinishMovementExecution()

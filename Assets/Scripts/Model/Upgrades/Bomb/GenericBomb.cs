@@ -69,9 +69,27 @@ namespace Upgrade
                 TriggerOwner = ship.Owner.PlayerNo,
                 EventHandler = delegate
                 {
-                    ExplosionEffect(ship, Triggers.FinishTrigger);
+                    CheckIgnoreExplosionEffect(ship, Triggers.FinishTrigger);
                 }
             });
+        }
+
+        private void CheckIgnoreExplosionEffect(GenericShip ship, Action callBack)
+        {
+            ship.CallCheckSufferBombDetonation(delegate { AfterCheckIgnoreExplosionEffect(ship, callBack); });
+        }
+
+        private void AfterCheckIgnoreExplosionEffect(GenericShip ship, Action callBack)
+        {
+            if (!ship.IgnoressBombDetonationEffect)
+            {
+                ExplosionEffect(ship, callBack);
+            }
+            else
+            {
+                Messages.ShowInfo(string.Format("{0} ignored effect of detonation of {1}", ship.PilotName, BombsManager.CurrentBomb.Name));
+                callBack();
+            }
         }
 
         public virtual void ExplosionEffect(GenericShip ship, Action callBack)

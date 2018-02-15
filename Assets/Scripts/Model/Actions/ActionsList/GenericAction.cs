@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Ship;
 using Upgrade;
+using System;
 
 namespace ActionsList
 {
@@ -48,9 +49,12 @@ namespace ActionsList
             set { source = value; }
         }
 
-        public virtual void ActionEffect(System.Action callBack)
-        {
+        public Action DoAction = delegate { };
+        public Action<Action> DoActionEffect = delegate { };
 
+        public virtual void ActionEffect(Action callBack)
+        {
+            DoActionEffect(callBack);
         }
 
         public virtual bool IsActionEffectAvailable()
@@ -97,7 +101,7 @@ namespace ActionsList
 
         public virtual void ActionTake()
         {
-
+            DoAction();
         }
 
         public virtual bool IsActionAvailable()

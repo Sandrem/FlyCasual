@@ -18,6 +18,8 @@ namespace Ship
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
+                SkinName = "Crimson";
+
                 PilotAbilities.Add(new Abilities.CountessRyadAbility());
             }
         }
@@ -48,7 +50,7 @@ namespace Abilities
 
         private void AskChangeManeuver(object sender, System.EventArgs e)
         {
-            Messages.ShowInfoToHuman("Countess Ryad: You can change your maneuvre to Koigran turn");
+            Messages.ShowInfoToHuman("Countess Ryad: You can change your maneuver to Koigran turn");
             string key = HostShip.AssignedManeuver.Speed + ".F.R";
             ManeuverColor originalColor = HostShip.Maneuvers[key];
             HostShip.Maneuvers[key] = HostShip.AssignedManeuver.ColorComplexity;

@@ -126,12 +126,11 @@ namespace SubPhases
 
             selectBoostTemplateDecisionSubPhase.InfoText = "Select boost direction";
 
-            selectBoostTemplateDecisionSubPhase.DefaultDecision = "Straight 1";
+            selectBoostTemplateDecisionSubPhase.DefaultDecisionName = "Straight 1";
 
             selectBoostTemplateDecisionSubPhase.RequiredPlayer = Selection.ThisShip.Owner.PlayerNo;
 
             selectBoostTemplateDecisionSubPhase.Start();
-            UI.ShowSkipButton();
         }
 
         private class SelectBoostTemplateDecisionSubPhase : DecisionSubPhase { }

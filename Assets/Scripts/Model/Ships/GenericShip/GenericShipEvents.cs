@@ -27,6 +27,7 @@ namespace Ship
         public delegate void EventHandlerDiceroll(DiceRoll diceroll);
         public delegate void EventHandlerTokensList(List<Tokens.GenericToken> tokens);
         public delegate void EventHandlerBoolStringList(ref bool result, List<string> stringList);
+        public delegate void EventHandlerObjArgsBool(object sender, EventArgs e, ref bool isChanged);
 
         public event EventHandlerShip AfterStatsAreChanged;
         public event EventHandlerInt AfterGetAgility;

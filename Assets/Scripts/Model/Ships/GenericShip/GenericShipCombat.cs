@@ -498,7 +498,7 @@ namespace Ship
             }
             else
             {
-                CallOnDamageCardIsDealt(Damage.DealDrawnCard);
+                CallOnDamageCardIsDealt(delegate { Damage.DealDrawnCard(); });
             }
         }
 
@@ -513,7 +513,7 @@ namespace Ship
 
             if (Combat.CurrentCriticalHitCard != null)
             {
-                CallOnDamageCardIsDealt(Damage.DealDrawnCard);
+                CallOnDamageCardIsDealt(delegate { Damage.DealDrawnCard(); });
             }
             else
             {

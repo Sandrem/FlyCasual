@@ -14,7 +14,6 @@ namespace Movement
         public GenericMovement CurrentMovement;
         private GameObject[] generatedShipStands;
 
-        private bool isBumped;
         public bool IsBumped
         {
             get { return ShipsBumped.Count != 0; }
@@ -67,7 +66,7 @@ namespace Movement
             SuccessfullMovementProgress = 0;
             ObstaclesStayDetector lastShipBumpDetector = null;
 
-            for (int i = generatedShipStands.Length-1; i >= 0; i--)
+            for (int i = generatedShipStands.Length - 1; i >= 0; i--)
             {
                 ObstaclesStayDetector obstacleStayDetector = generatedShipStands[i].GetComponentInChildren<ObstaclesStayDetector>();
                 ObstaclesHitsDetector obstacleHitsDetector = generatedShipStands[i].GetComponentInChildren<ObstaclesHitsDetector>();

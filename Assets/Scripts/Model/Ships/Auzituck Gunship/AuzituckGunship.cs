@@ -14,10 +14,10 @@ namespace Ship
             public AuzituckGunship() : base()
             {
                 Type = "Auzituck Gunship";
-                IconicPilot = "Lowhhrick";
+                IconicPilots.Add(Faction.Rebel, typeof(Lowhhrick));
                 ShipBaseArcsType = Arcs.BaseArcsType.Arc180;
 
-                ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/e/e3/36-36_R-SPACE.PNG";
+                ManeuversImageUrl = "https://i.imgur.com/d8r9zJB.jpg";
 
                 Firepower = 3;
                 Agility = 1;

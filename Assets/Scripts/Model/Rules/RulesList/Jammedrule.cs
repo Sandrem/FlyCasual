@@ -17,14 +17,14 @@ namespace RulesList
         {
             if (tokenType == typeof(JamToken))
             {
-                if (ship.HasToken(typeof(FocusToken)) || ship.HasToken(typeof(EvadeToken)) || ship.HasToken(typeof(BlueTargetLockToken), '*'))
+                if (ship.Tokens.HasToken(typeof(FocusToken)) || ship.Tokens.HasToken(typeof(EvadeToken)) || ship.Tokens.HasToken(typeof(BlueTargetLockToken), '*'))
                 {
                     RegisterJammedDecisionTrigger(ship);
                 }
             }
             else
             {
-                if (ship.HasToken(typeof(JamToken)))
+                if (ship.Tokens.HasToken(typeof(JamToken)))
                 {
                     List<System.Type> tokensTypesToDiscard = new List<System.Type> { typeof(FocusToken), typeof(EvadeToken), typeof(BlueTargetLockToken) };
                     if (tokensTypesToDiscard.Contains(tokenType)) RegisterJammedDecisionTrigger(ship);
@@ -72,7 +72,7 @@ namespace SubPhases
             List<System.Type> tokensTypesToDiscard = new List<System.Type> { typeof(FocusToken), typeof(EvadeToken), typeof(BlueTargetLockToken) };
             List<System.Type> tokensTypesFound = new List<System.Type>();
 
-            foreach (var token in Selection.ActiveShip.GetAllTokens())
+            foreach (var token in Selection.ActiveShip.Tokens.GetAllTokens())
             {
                 if (tokensTypesToDiscard.Contains(token.GetType()))
                 {
@@ -81,7 +81,7 @@ namespace SubPhases
                         string name = token.Name;
                         if (token.GetType() == typeof(BlueTargetLockToken)) name += " \"" + (token as BlueTargetLockToken).Letter + "\"";
 
-                        AddDecision(name, delegate { RemoveToken(token); });
+                        AddDecision(name, delegate { RemoveJamAndToken(token); });
                     }
                 }
             }
@@ -94,11 +94,24 @@ namespace SubPhases
             callBack();
         }
 
-        private void RemoveToken(GenericToken token)
+        private void RemoveJamAndToken(GenericToken token)
         {
-            Selection.ActiveShip.RemoveToken(token.GetType(), (token.GetType() == typeof(BlueTargetLockToken)) ? (token as BlueTargetLockToken).Letter : ' ');
-            Selection.ActiveShip.RemoveToken(typeof(JamToken));
+            Selection.ActiveShip.Tokens.RemoveToken(
+                token,
+                RemoveJamToken
+            );
+        }
 
+        private void RemoveJamToken()
+        {
+            Selection.ActiveShip.Tokens.RemoveToken(
+                typeof(JamToken),
+                Finish
+            );
+        }
+
+        private void Finish()
+        {
             Phases.FinishSubPhase(this.GetType());
             CallBack();
         }

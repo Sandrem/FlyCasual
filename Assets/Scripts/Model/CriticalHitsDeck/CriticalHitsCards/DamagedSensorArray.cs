@@ -1,12 +1,13 @@
-﻿using System;
+﻿using Ship;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace CriticalHitCard
+namespace DamageDeckCard
 {
 
-    public class DamagedSensorArray : GenericCriticalHit
+    public class DamagedSensorArray : GenericDamageCard
     {
         public DamagedSensorArray()
         {
@@ -19,19 +20,20 @@ namespace CriticalHitCard
         public override void ApplyEffect(object sender, EventArgs e)
         {
             Host.OnTryAddAvailableAction += OnlyCancelCritActions;
-            Host.AfterGenerateAvailableActionsList += AddCancelCritAction;
+            Host.AfterGenerateAvailableActionsList += CallAddCancelCritAction;
 
-            Host.AssignToken(new Tokens.DamagedSensorArrayCritToken(), Triggers.FinishTrigger);
+            Host.Tokens.AssignCondition(new Tokens.DamagedSensorArrayCritToken(Host));
+            Triggers.FinishTrigger();
         }
 
-        public override void DiscardEffect(Ship.GenericShip host)
+        public override void DiscardEffect()
         {
             Messages.ShowInfo("You can perform actions as usual");
-            host.RemoveToken(typeof(Tokens.DamagedSensorArrayCritToken));
+            Host.Tokens.RemoveCondition(typeof(Tokens.DamagedSensorArrayCritToken));
 
-            host.OnTryAddAvailableAction -= OnlyCancelCritActions;
+            Host.OnTryAddAvailableAction -= OnlyCancelCritActions;
 
-            host.AfterGenerateAvailableActionsList -= AddCancelCritAction;
+            Host.AfterGenerateAvailableActionsList -= CallAddCancelCritAction;
         }
 
         private void OnlyCancelCritActions(ActionsList.GenericAction action, ref bool result)

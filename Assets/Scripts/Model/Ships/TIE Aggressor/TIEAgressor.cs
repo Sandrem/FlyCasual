@@ -14,9 +14,9 @@ namespace Ship
             public TIEAggressor() : base()
             {
                 Type = "TIE Aggressor";
-                IconicPilot = "Sienar Specialist";
+                IconicPilots.Add(Faction.Imperial, typeof(SienarSpecialist));
 
-                ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/e/ee/36-36_I-BANK-RW.PNG";
+                ManeuversImageUrl = "https://i.imgur.com/xvzwsLa.jpg";
 
                 Firepower = 2;
                 Agility = 2;

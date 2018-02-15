@@ -16,8 +16,6 @@ namespace UpgradesList
             Cost = 0;
 
             isUnique = true;
-
-            IsHidden = true;
         }
 
         public override bool IsAllowedForShip(GenericShip ship)
@@ -43,9 +41,9 @@ namespace UpgradesList
 
             foreach (var shipHolder in Host.Owner.Ships)
             {
-                foreach (var upgrade in shipHolder.Value.UpgradeBar.GetInstalledUpgrades())
+                foreach (var upgrade in shipHolder.Value.UpgradeBar.GetUpgradesOnlyFaceup())
                 {
-                    if (upgrade.GetType() == typeof(UpgradesList.Phantom))
+                    if (upgrade.GetType() == typeof(Phantom))
                     {
                         result = upgrade.Host;
                         break;

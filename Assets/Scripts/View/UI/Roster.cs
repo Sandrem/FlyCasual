@@ -6,6 +6,7 @@ using UnityEngine.EventSystems;
 using Players;
 using System.Linq;
 using Ship;
+using System;
 
 public static partial class Roster {
 
@@ -76,13 +77,13 @@ public static partial class Roster {
         {
             GameObject newDamageIndicator = MonoBehaviour.Instantiate(damageIndicator, damageIndicatorBar.transform);
             newDamageIndicator.transform.position = damageIndicator.transform.position + new Vector3(i * (damageIndicatorWidth + 1), 0, 0);
-            if (i < newShip.Hull) {
+            if (i < newShip.MaxHull) {
                 newDamageIndicator.GetComponent<Image>().color = Color.yellow;
                 newDamageIndicator.name = "DamageIndicator.Hull." + (i+1).ToString();
             } else
             {
                 newDamageIndicator.GetComponent<Image>().color = new Color(0, 202, 255);
-                newDamageIndicator.name = "DamageIndicator.Shield." + (i-newShip.Hull+1).ToString();
+                newDamageIndicator.name = "DamageIndicator.Shield." + (i-newShip.MaxHull+1).ToString();
             }
             newDamageIndicator.SetActive(true);
         }
@@ -236,7 +237,10 @@ public static partial class Roster {
         {
             if (item.tag != "Untagged")
             {
-                if (Selection.TryToChangeShip(item.tag)) return;
+                if (Roster.AllShips.ContainsKey(item.tag))
+                {
+                    if (Selection.TryToChangeShip(item.tag)) return;
+                }
             }
         }
         UI.HideTemporaryMenus();
@@ -317,7 +321,10 @@ public static partial class Roster {
         {
             if (item.tag.StartsWith("ShipId:"))
             {
-                Selection.TryMarkShip(item.tag);
+                if (Roster.AllShips.ContainsKey(item.tag))
+                {
+                    Selection.TryMarkShip(item.tag);
+                }
             }
         }
     }
@@ -343,6 +350,7 @@ public static partial class Roster {
     {
         if (thisShip.InfoPanel != null)
         {
+            thisShip.InfoPanel.transform.Find("ShipInfo/ShipPilotNameText").GetComponent<Text>().text = thisShip.PilotName;
             thisShip.InfoPanel.transform.Find("ShipInfo/ShipPilotSkillText").GetComponent<Text>().text = thisShip.PilotSkill.ToString();
             thisShip.InfoPanel.transform.Find("ShipInfo/ShipFirepowerText").GetComponent<Text>().text = thisShip.Firepower.ToString();
             thisShip.InfoPanel.transform.Find("ShipInfo/ShipAgilityText").GetComponent<Text>().text = thisShip.Agility.ToString();
@@ -382,30 +390,27 @@ public static partial class Roster {
 
         int columnCounter = 0;
         int rowCounter = 0;
-        foreach (var token in thisShip.GetAssignedTokens())
+        foreach (var token in thisShip.Tokens.GetAllTokens())
         {
-            for (int i = 0; i < token.Count; i++)
+            GameObject prefab = (GameObject)Resources.Load("Prefabs/PanelToken", typeof(GameObject));
+            GameObject tokenPanel = MonoBehaviour.Instantiate(prefab, thisShip.InfoPanel.transform.Find("ShipInfo").Find("TokensBar"));
+            tokenPanel.GetComponent<RectTransform>().localPosition = Vector3.zero;
+            tokenPanel.name = token.Name;
+            Tooltips.AddTooltip(tokenPanel, token.Tooltip);
+            tokenPanel.transform.Find(token.Name).gameObject.SetActive(true);
+
+            if (token.GetType().BaseType == typeof(Tokens.GenericTargetLockToken))
             {
-                GameObject prefab = (GameObject)Resources.Load("Prefabs/PanelToken", typeof(GameObject));
-                GameObject tokenPanel = MonoBehaviour.Instantiate(prefab, thisShip.InfoPanel.transform.Find("ShipInfo").Find("TokensBar"));
-                tokenPanel.GetComponent<RectTransform>().localPosition = Vector3.zero;
-                tokenPanel.name = token.Name;
-                Tooltips.AddTooltip(tokenPanel, token.Tooltip);
-                tokenPanel.transform.Find(token.Name).gameObject.SetActive(true);
+                tokenPanel.transform.Find(token.Name).Find("Letter").GetComponent<Text>().text = (token as Tokens.GenericTargetLockToken).Letter.ToString();
+            }
 
-                if (token.GetType().BaseType == typeof(Tokens.GenericTargetLockToken))
-                {
-                    tokenPanel.transform.Find(token.Name).Find("Letter").GetComponent<Text>().text = (token as Tokens.GenericTargetLockToken).Letter.ToString();
-                }
-
-                tokenPanel.SetActive(true);
-                tokenPanel.GetComponent<RectTransform>().localPosition = new Vector3(columnCounter * 37, tokenPanel.GetComponent<RectTransform>().localPosition.y + -37 * rowCounter, tokenPanel.GetComponent<RectTransform>().localPosition.z);
-                columnCounter++;
-                if (columnCounter == 8)
-                {
-                    rowCounter++;
-                    columnCounter = 0;
-                }
+            tokenPanel.SetActive(true);
+            tokenPanel.GetComponent<RectTransform>().localPosition = new Vector3(columnCounter * 37, tokenPanel.GetComponent<RectTransform>().localPosition.y + -37 * rowCounter, tokenPanel.GetComponent<RectTransform>().localPosition.z);
+            columnCounter++;
+            if (columnCounter == 8)
+            {
+                rowCounter++;
+                columnCounter = 0;
             }
         }
 
@@ -415,7 +420,7 @@ public static partial class Roster {
     public static void UpdateUpgradesPanel(GenericShip newShip, GameObject newPanel)
     {
         int index = 1;
-        foreach (var upgrade in newShip.UpgradeBar.GetInstalledUpgrades())
+        foreach (var upgrade in newShip.UpgradeBar.GetUpgradesAll())
         {
             GameObject upgradeNamePanel = newPanel.transform.Find("ShipInfo/UpgradesBar/Upgrade"+index).gameObject;
             upgradeNamePanel.GetComponent<Text>().text = upgrade.Name;
@@ -428,7 +433,7 @@ public static partial class Roster {
     public static void SubscribeUpgradesPanel(GenericShip newShip, GameObject newPanel)
     {
         int index = 1;
-        foreach (var upgrade in newShip.UpgradeBar.GetInstalledUpgrades())
+        foreach (var upgrade in newShip.UpgradeBar.GetUpgradesAll())
         {
             GameObject upgradeNamePanel = newPanel.transform.Find("ShipInfo/UpgradesBar/Upgrade" + index).gameObject;
 
@@ -477,8 +482,9 @@ public static partial class Roster {
         }
     }
 
-    public static void RosterPanelHighlightOn(GenericShip ship)
+    private static void RosterPanelHighlightOn(GenericShip ship)
     {
+        ship.HighlightCanBeSelectedOn();
         ship.InfoPanel.transform.Find("ShipInfo").GetComponent<Animator>().enabled = true;
     }
 
@@ -534,6 +540,12 @@ public static partial class Roster {
     {
         GameObject maneuverDial = ship.InfoPanel.transform.Find("AssignedManeuverDial").gameObject;
         maneuverDial.SetActive(false);
+    }
+
+    private static void TogglePanelActive(GenericShip ship, bool isActive)
+    {
+        float colorCode = (isActive) ? 0f : 0.5f;
+        ship.InfoPanel.transform.Find("ShipInfo").GetComponent<Image>().color = new Color(colorCode, colorCode, colorCode, (float)(200f / 256f));
     }
 
 }

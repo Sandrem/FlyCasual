@@ -20,6 +20,7 @@ namespace Arcs
     public class ArcShotPermissions
     {
         public bool CanShootPrimaryWeapon = true;
+        public bool CanShootTurret = true;
         public bool CanShootTorpedoes = false;
         public bool CanShootMissiles = false;
         public bool CanShootCannon = false;
@@ -32,6 +33,7 @@ namespace Arcs
         public float MaxAngle;
         public ArcFacing Facing;
         public bool IsMobileArc;
+		public bool IsRearAuxArc;
 
         public ArcShotPermissions ShotPermissions = new ArcShotPermissions();
 
@@ -101,7 +103,8 @@ namespace Arcs
                     CanShootPrimaryWeapon = true,
                     CanShootTorpedoes = true,
                     CanShootMissiles = true,
-                    CanShootCannon = true
+                    CanShootCannon = true,
+                    CanShootTurret = true
                 }
             };
 
@@ -114,6 +117,11 @@ namespace Arcs
         public ArcInfo GetPrimaryArc()
         {
             return ArcsList[0];
+        }
+
+        public ArcInfo GetRearArc()
+        {
+            return ArcsList.Find(n => n.Facing == ArcFacing.Rear);
         }
 
         public List<ArcInfo> GetAllArcs()
@@ -156,6 +164,11 @@ namespace Arcs
             return CheckRay(originPoint, angle, ArcsList.Where(n => n.ShotPermissions.CanShootCannon).ToList());
         }
 
+        public virtual bool CanShootTurret(string originPoint, float angle)
+        {
+            return CheckRay(originPoint, angle, ArcsList.Where(n => n.ShotPermissions.CanShootTurret).ToList());
+        }
+
         public virtual bool InBullseyeArc(string originPoint, float angle)
         {
             bool result = false;
@@ -168,6 +181,19 @@ namespace Arcs
             }
             return result;
         }
+
+		public virtual bool InRearAuxArc(string originPoint, float angle)
+		{
+			bool result = false;
+			foreach (var arc in ArcsList)
+			{
+				if (arc.IsRearAuxArc)
+				{
+					result = CheckRay(originPoint, angle, new List<ArcInfo>() { arc });
+				}
+			}
+			return result;
+		}
 
         public virtual bool InMobileArc(string originPoint, float angle)
         {

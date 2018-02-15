@@ -81,6 +81,7 @@ public partial class Console : MonoBehaviour {
             Console.Write("FinishNetworkTask", LogTypes.Everything);
             Console.Write("Subphase", LogTypes.Everything);
             Console.Write("Trigger", LogTypes.Everything);
+            Console.Write("Decks", LogTypes.Everything);
             Console.Write("Close", LogTypes.Everything);
         }
         else if (inputText.ToLower() == "copy") CopyToClipboard();
@@ -89,6 +90,7 @@ public partial class Console : MonoBehaviour {
         else if (inputText.ToLower() == "finishnetworktask") Network.FinishTask();
         else if (inputText.ToLower() == "multiplayer") Network.EnableNetwork();
         else if (inputText.ToLower() == "subphase") CurrentSubphase();
+        else if (inputText.ToLower() == "decks") DecksContent();
         else if (inputText.ToLower() == "close") ToggleConsole();
         else if (!string.IsNullOrEmpty(inputText)) Console.Write("Unknown command", LogTypes.Everything, false, "red");
     }
@@ -108,6 +110,20 @@ public partial class Console : MonoBehaviour {
     private void CurrentSubphase()
     {
         Console.Write("Current subphase: " + Phases.CurrentSubPhase.GetType().ToString());
+    }
+
+    private void DecksContent()
+    {
+        Console.Write("Player1 Deck:", LogTypes.Everything, true, "green");
+        foreach (var card in DamageDecks.GetDamageDeck(Players.PlayerNo.Player1).Deck)
+        {
+            Console.Write(card.Name, LogTypes.Everything, false, "green");
+        }
+        Console.Write("Player2 Deck:", LogTypes.Everything, true, "green");
+        foreach (var card in DamageDecks.GetDamageDeck(Players.PlayerNo.Player2).Deck)
+        {
+            Console.Write(card.Name, LogTypes.Everything, false, "green");
+        }
     }
 
 }

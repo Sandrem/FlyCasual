@@ -51,6 +51,8 @@ namespace Abilities
             public NorraWexleyAction()
             {
                 Name = EffectName = "Norra Wexley's ability";
+
+                TokensSpend.Add(typeof(Tokens.BlueTargetLockToken));
             }
 
             public override void ActionEffect(System.Action callBack)
@@ -61,7 +63,7 @@ namespace Abilities
                     Combat.CurrentDiceRoll.AddDice(DieSide.Focus).ShowWithoutRoll();
                     Combat.CurrentDiceRoll.OrganizeDicePositions();
 
-                    Host.SpendToken(typeof(Tokens.BlueTargetLockToken), callBack, targetLockPair);
+                    Host.Tokens.SpendToken(typeof(Tokens.BlueTargetLockToken), callBack, targetLockPair);
                 }
                 else
                 {

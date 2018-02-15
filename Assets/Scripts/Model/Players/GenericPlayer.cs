@@ -44,7 +44,7 @@ namespace Players
         public PlayerNo PlayerNo;
         public int SquadCost;
 
-        public Dictionary<string, GenericShip> Ships = new Dictionary<string, Ship.GenericShip>();
+        public Dictionary<string, GenericShip> Ships = new Dictionary<string, GenericShip>();
 
         public Dictionary<string, GenericShip> EnemyShips
         {
@@ -64,15 +64,9 @@ namespace Players
 
         public int Id { get { return (PlayerNo == PlayerNo.Player1) ? 1 : 2; } }
 
-        public GenericPlayer()
+        public void SetPlayerNo(PlayerNo playerNo)
         {
-            SetPlayerNo();
-        }
-
-        private void SetPlayerNo()
-        {
-            PlayerNo = (Roster.Players.Count == 0) ? PlayerNo.Player1 : PlayerNo.Player2;
-            Roster.Players.Add(this);
+            PlayerNo = playerNo;
         }
 
         public virtual void SetupShip() { }
@@ -99,13 +93,17 @@ namespace Players
 
         public virtual void ToggleCombatDiceResults(bool isActive) { }
 
-        public virtual bool IsNeedToShowManeuver(Ship.GenericShip ship) { return false; }
+        public virtual bool IsNeedToShowManeuver(GenericShip ship) { return false; }
 
         public virtual void OnTargetNotLegalForAttack() { }
 
         public virtual void ChangeManeuver(Action<string> callback, Func<string, bool> filter = null) { }
 
         public virtual void SelectManeuver(Action<string> callback, Func<string, bool> filter = null) { }
+
+        public virtual void StartExtraAttack() { }
+
+        public virtual void SelectShipForAbility() { }
     }
 
 }

@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mods;
 using UnityEngine.UI;
+using SquadBuilderNS;
+using System.Linq;
+using Players;
 
 public partial class MainMenu : MonoBehaviour {
 
@@ -32,20 +35,20 @@ public partial class MainMenu : MonoBehaviour {
 
     public void StartBattle()
     {
-        if (!IsNetworkGame())
+        if (SquadBuilder.ValidateCurrentPlayersRoster())
         {
-            RosterBuilder.StartLocalGame();
-        }
-        else
-        {
-            GameObject squadBuilerPanel = GameObject.Find("UI/Panels").transform.Find("MultiplayerDecisionPanel").gameObject;
-            ChangePanel(squadBuilerPanel);
-        }
-    }
+            SquadBuilder.SaveSquadConfigurations();
+            ShipFactory.Initialize();
 
-    private bool IsNetworkGame()
-    {
-        return GameObject.Find("UI/Panels/RosterBuilderPanel/PlayersPanel/Player2Panel/GroupPlayer").GetComponentInChildren<Dropdown>().value == 2;
+            if (!SquadBuilder.IsNetworkGame)
+            {
+                SquadBuilder.StartLocalGame();
+            }
+            else
+            {
+                ChangePanel("MultiplayerDecisionPanel");
+            }
+        }
     }
 
     public void QuitGame()
@@ -86,7 +89,7 @@ public partial class MainMenu : MonoBehaviour {
         }
     }
 
-    public void ImportSquadList()
+    /*public void ImportSquadList()
     {
         RosterBuilder.ImportSquadList();
     }
@@ -94,7 +97,7 @@ public partial class MainMenu : MonoBehaviour {
     public void ExportSquadList()
     {
         RosterBuilder.ExportSquadList(Players.PlayerNo.Player1);
-    }
+    }*/
 
     // 0.3.2 UI
 
@@ -124,36 +127,11 @@ public partial class MainMenu : MonoBehaviour {
 
     public void StartSquadBuilerMode(string modeName)
     {
-        GameObject squadBuilerPanel = GameObject.Find("UI/Panels").transform.Find("RosterBuilderPanel").gameObject;
-        ChangePanel(squadBuilerPanel);
-
-        bool hideSecondPart = false;
-        int player1type = 0;
-        int player2type = 0;
-
-        switch (modeName)
-        {
-            case "vsAI":
-                player2type = 1;
-                break;
-            case "Internet":
-                hideSecondPart = true;
-                player2type = 2;
-                break;
-            case "HotSeat":
-                break;
-            case "AIvsAI":
-                player1type = 1;
-                player2type = 1;
-                break;
-            default:
-                break;
-        }
-
-        GameObject.Find("UI/Panels/RosterBuilderPanel/PlayersPanel/Player1Panel/GroupPlayer").GetComponentInChildren<Dropdown>().value = player1type;
-        GameObject.Find("UI/Panels/RosterBuilderPanel/PlayersPanel/Player2Panel/GroupPlayer").GetComponentInChildren<Dropdown>().value = player2type;
-
-        GameObject.Find("UI/Panels/RosterBuilderPanel/DisableSecondPlayer").SetActive(hideSecondPart);
+        SquadBuilder.Initialize();
+        SquadBuilder.SetCurrentPlayer(PlayerNo.Player1);
+        SquadBuilder.SetPlayers(modeName);
+        SquadBuilder.SetDefaultPlayerNames();
+        ChangePanel("SelectFactionPanel");
     }
 
 }

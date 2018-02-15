@@ -26,7 +26,7 @@ public static class Options
         Playmat = PlayerPrefs.GetString("PlaymatName", "Endor");
         CheckVersionUrl = PlayerPrefs.GetString("CheckVersionUrl", "http://sandrem.freeasphost.net/data/currentversion.txt");
         MusicVolume = PlayerPrefs.GetFloat("Music Volume", 0.25f);
-        SfxVolume = PlayerPrefs.GetFloat("Sfx Volume", 0.25f);
+        SfxVolume = PlayerPrefs.GetFloat("SFX Volume", 0.25f);
         AnimationSpeed = PlayerPrefs.GetFloat("Animation Speed", 0.25f);
         ManeuverSpeed = PlayerPrefs.GetFloat("Maneuver Speed", 0.25f);
 

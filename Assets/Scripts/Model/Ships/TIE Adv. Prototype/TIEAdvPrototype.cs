@@ -14,7 +14,7 @@ namespace Ship
             public TIEAdvPrototype() : base()
             {
                 Type = "TIE Adv. Prototype";
-                IconicPilot = "The Inquisitor";
+                IconicPilots.Add(Faction.Imperial, typeof(TheInquisitor));
 
                 ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/b/b4/MI_TIE-ADV.-PROTOTYPE.png";
 

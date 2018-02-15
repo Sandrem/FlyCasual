@@ -20,7 +20,7 @@ namespace UpgradesList
 
             host.AfterGenerateAvailableActionEffectsList += GuidanceChipsActionEffect;
             Phases.OnRoundEnd += ClearUsed;
-            Host.OnDestroyed += StopAbility;
+            Host.OnShipIsDestroyed += StopAbility;
         }
 
         private void GuidanceChipsActionEffect(GenericShip host)

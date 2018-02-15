@@ -1,4 +1,4 @@
-﻿/*using Ship;
+﻿using Ship;
 using Ship.M12LKimogila;
 using UnityEngine;
 using Upgrade;
@@ -46,7 +46,10 @@ namespace UpgradesList
         private void StressEffect(object sender, System.EventArgs e)
         {
             Messages.ShowError("Enforcer: stress is assigned to the attacker");
-            Combat.Attacker.AssignToken(new Tokens.StressToken(), Triggers.FinishTrigger);
+            Combat.Attacker.Tokens.AssignToken(
+                new Tokens.StressToken(Combat.Attacker),
+                Triggers.FinishTrigger
+            );
         }
     }
-}*/
+}

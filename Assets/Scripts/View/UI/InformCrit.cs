@@ -16,7 +16,7 @@ public static class InformCrit
         Behavior = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
     }
 
-    public static void LoadAndShow()
+    public static void LoadAndShow(object sender, System.EventArgs e)
     {
         if (Roster.Player1.GetType() == Roster.Player2.GetType() && Roster.Player1.GetType() == typeof(Players.HotacAiPlayer))
         {
@@ -31,11 +31,18 @@ public static class InformCrit
 
     private static IEnumerator LoadTooltipImage(string url)
     {
-        WWW www = new WWW(url);
+        WWW www = ImageManager.GetImage(url);
         yield return www;
 
         //TODO: add exception handler here
-        SetImageFromWeb(InformCritPanel.Find("CritCardImage").gameObject, www);
+        if (www.error == null)
+        {
+            SetImageFromWeb(InformCritPanel.Find("CritCardImage").gameObject, www);
+        }
+        else
+        {
+            SetTextInfo();
+        }
 
         ShowPanel();
     }
@@ -46,8 +53,15 @@ public static class InformCrit
         www.LoadImageIntoTexture(newTexture);
         Sprite newSprite = Sprite.Create(newTexture, new Rect(0, 0, newTexture.width, newTexture.height), Vector2.zero);
         targetObject.transform.GetComponent<Image>().sprite = newSprite;
+        targetObject.transform.Find("TextInfo").GetComponent<Text>().text = "";
     }
-    
+
+    private static void SetTextInfo()
+    {
+        InformCritPanel.Find("CritCardImage").GetComponent<Image>().sprite = null;
+        InformCritPanel.Find("CritCardImage").Find("TextInfo").GetComponent<Text>().text = Combat.CurrentCriticalHitCard.Name;
+    }
+
     private static void ShowPanel()
     {
         GameMode.CurrentGameMode.ShowInformCritPanel();

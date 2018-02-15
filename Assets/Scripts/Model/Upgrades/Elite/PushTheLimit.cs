@@ -10,6 +10,7 @@ namespace UpgradesList
 	public class PushTheLimit : GenericUpgrade
 	{
         private bool IsUsed = false;
+	    private int consecutiveActions = 0;
 
 		public PushTheLimit() : base()
 		{
@@ -18,31 +19,35 @@ namespace UpgradesList
 			Cost = 3;
 		}
 
-		public override void AttachToShip(Ship.GenericShip host)
+		public override void AttachToShip(GenericShip host)
 		{
 			base.AttachToShip(host);
 
             host.OnActionIsPerformed += CheckConditions;
 
             Phases.OnEndPhaseStart += Cleanup;
-            Host.OnDestroyed += StopAbility;
+            Host.OnShipIsDestroyed += StopAbility;
         }
 
         private void CheckConditions(GenericAction action)
         {
-            if (!IsUsed)
+            if (action == null)
             {
+                consecutiveActions = 0;
+            }
+            else if (consecutiveActions < 1 && !IsUsed)
+            {
+                consecutiveActions++;
                 Host.OnActionDecisionSubphaseEnd += DoSecondAction;
             }
         }
 
-		private void DoSecondAction(Ship.GenericShip ship)
+		private void DoSecondAction(GenericShip ship)
 		{
             Host.OnActionDecisionSubphaseEnd -= DoSecondAction;
 
-            if (!ship.HasToken(typeof(Tokens.StressToken)) || ship.CanPerformActionsWhileStressed)
+            if (!ship.Tokens.HasToken(typeof(Tokens.StressToken)) || ship.CanPerformActionsWhileStressed)
 			{
-                IsUsed = true;
                 Triggers.RegisterTrigger(
                     new Trigger()
                     {
@@ -65,15 +70,18 @@ namespace UpgradesList
         private void Cleanup()
         {
             IsUsed = false;
+            consecutiveActions = 0;
         }
 
 		private void AddStressToken()
 		{
-			if (!base.Host.IsFreeActionSkipped) {
-				base.Host.AssignToken (
-                    new Tokens.StressToken(),
+			if (!base.Host.IsFreeActionSkipped)
+			{
+			    IsUsed = true;
+				base.Host.Tokens.AssignToken (
+                    new Tokens.StressToken(base.Host),
 					Triggers.FinishTrigger
-                );	
+                );
 			}
 			else
 			{
@@ -85,6 +93,5 @@ namespace UpgradesList
         {
             Phases.OnEndPhaseStart -= Cleanup;
         }
-
     }
 }

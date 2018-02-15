@@ -1,86 +1,91 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using Abilities;
 using Upgrade;
+using UpgradesList;
 
 namespace UpgradesList
 {
 
-	public class FlechetteCannon : GenericSecondaryWeapon
-	{
-		public FlechetteCannon() : base()
-		{
-			Type = UpgradeType.Cannon;
+    public class FlechetteCannon : GenericSecondaryWeapon
+    {
+        public FlechetteCannon() : base()
+        {
+            Type = UpgradeType.Cannon;
 
-			Name = "Flechette Cannon";
-			Cost = 2;
+            Name = "Flechette Cannon";
+            Cost = 2;
 
-			MinRange = 1;
-			MaxRange = 3;
-			AttackValue = 3;
-		}
+            MinRange = 1;
+            MaxRange = 3;
+            AttackValue = 3;
 
-		public override void AttachToShip(Ship.GenericShip host)
-		{
-			base.AttachToShip(host);
+            UpgradeAbilities.Add(new FlechetteCannonAbility());
+        }
+    }
+}
 
-			SubscribeOnHit();
-		}
+namespace Abilities
+{
+    public class FlechetteCannonAbility : GenericAbility
+    {
+        public override void ActivateAbility()
+        {
+            HostShip.OnShotHitAsAttacker += RegisterFlechetteCannonEffect;
+        }
 
-		private void SubscribeOnHit()
-		{
-			Host.OnShotHitAsAttacker += RegisterFlechetteCannonEffect;
-		}
+        public override void DeactivateAbility()
+        {
+            HostShip.OnShotHitAsAttacker -= RegisterFlechetteCannonEffect;
+        }
 
-		private void RegisterFlechetteCannonEffect()
-		{
-			if (Combat.ChosenWeapon == this)
-			{
-				Triggers.RegisterTrigger(new Trigger()
-					{
-						Name = "Flechette Cannon effect",
-						TriggerType = TriggerTypes.OnShotHit,
-						TriggerOwner = Combat.Attacker.Owner.PlayerNo,
-						EventHandler = FlechetteCannonEffect
+        private void RegisterFlechetteCannonEffect()
+        {
+            if (Combat.ChosenWeapon is FlechetteCannon)
+            {
+                Triggers.RegisterTrigger(new Trigger()
+                {
+                    Name = "Flechette Cannon effect",
+                    TriggerType = TriggerTypes.OnShotHit,
+                    TriggerOwner = Combat.Attacker.Owner.PlayerNo,
+                    EventHandler = FlechetteCannonEffect
                 });
-			}
-		}
+            }
+        }
 
-		private void FlechetteCannonEffect(object sender, System.EventArgs e)
-		{
-			Combat.DiceRollAttack.CancelAllResults();
-			Combat.DiceRollAttack.RemoveAllFailures();
+        private void FlechetteCannonEffect(object sender, System.EventArgs e)
+        {
+            Combat.DiceRollAttack.CancelAllResults();
+            Combat.DiceRollAttack.RemoveAllFailures();
 
             DefenderSuffersDamage();
-		}
+        }
 
-		private void DefenderSuffersDamage()
-		{
-			Combat.Defender.AssignedDamageDiceroll.AddDice(DieSide.Success);
+        private void DefenderSuffersDamage()
+        {
+            Combat.Defender.AssignedDamageDiceroll.AddDice(DieSide.Success);
 
-			Triggers.RegisterTrigger(new Trigger()
-				{
-					Name = "Suffer damage",
-					TriggerType = TriggerTypes.OnDamageIsDealt,
-					TriggerOwner = Combat.Defender.Owner.PlayerNo,
-					EventHandler = Combat.Defender.SufferDamage,
-					EventArgs = new DamageSourceEventArgs()
-					{
-						Source = Combat.Attacker,
-						DamageType = DamageTypes.ShipAttack
-					},
-					Skippable = true
-				});
+            Triggers.RegisterTrigger(new Trigger()
+            {
+                Name = "Suffer damage",
+                TriggerType = TriggerTypes.OnDamageIsDealt,
+                TriggerOwner = Combat.Defender.Owner.PlayerNo,
+                EventHandler = Combat.Defender.SufferDamage,
+                EventArgs = new DamageSourceEventArgs()
+                {
+                    Source = Combat.Attacker,
+                    DamageType = DamageTypes.ShipAttack
+                },
+                Skippable = true
+            });
 
-			Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, CheckStress);
-		}
+            Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, CheckStress);
+        }
 
         private void CheckStress()
         {
-            if (!Combat.Defender.HasToken(typeof(Tokens.StressToken)))
+            if (!Combat.Defender.Tokens.HasToken(typeof(Tokens.StressToken)))
             {
-                Combat.Defender.AssignToken(
-                    new Tokens.StressToken(),
+                Combat.Defender.Tokens.AssignToken(
+                    new Tokens.StressToken(Combat.Defender),
                     Triggers.FinishTrigger
                 );
             }
@@ -90,6 +95,5 @@ namespace UpgradesList
             }
         }
 
-	}
-
+    }
 }

@@ -65,15 +65,15 @@ namespace Abilities
 
         private void AssignStress(Action callback)
         {
-            Messages.ShowError(Name + " is used");
+            Messages.ShowInfo(Name + " is used");
+            Sounds.PlayShipSound("R2D2-Beeping-5");
 
-            HostShip.AssignToken(new Tokens.StressToken(), delegate { AssignStressToDefender(callback); });
+            HostShip.Tokens.AssignToken(new Tokens.StressToken(HostShip), delegate { AssignStressToDefender(callback); });
         }
-
 
         private void AssignStressToDefender(Action callback)
         {
-            Combat.Defender.AssignToken(new Tokens.StressToken(), callback);
+            Combat.Defender.Tokens.AssignToken(new Tokens.StressToken(Combat.Defender), callback);
         }
 
     }

@@ -14,7 +14,7 @@ namespace Ship
             public UpsilonShuttle() : base()
             {
                 Type = "Upsilon-class Shuttle";
-                IconicPilot = "Starkiller Base Pilot";
+                IconicPilots.Add(Faction.Imperial, typeof(StarkillerBasePilot));
                 ShipBaseSize = BaseSize.Large;
 
                 ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/7/74/MI_UPSILON.PNG";
@@ -33,6 +33,7 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Tech);
 
                 PrintedActions.Add(new TargetLockAction());
+                PrintedActions.Add(new CoordinateAction());
 
                 AssignTemporaryManeuvers();
                 HotacManeuverTable = new AI.UpsilonShuttleTable();

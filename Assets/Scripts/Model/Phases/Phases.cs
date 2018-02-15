@@ -13,8 +13,7 @@ public static partial class Phases
 
     public static GenericPhase CurrentPhase { get; set; }
     public static GenericSubPhase CurrentSubPhase { get; set; }
-
-    private static bool inTemporarySubPhase;
+    
     public static bool InTemporarySubPhase
     {
         get { return CurrentSubPhase.IsTemporary; }
@@ -22,7 +21,6 @@ public static partial class Phases
 
     public static PlayerNo PlayerWithInitiative = PlayerNo.Player1;
 
-    private static PlayerNo currentPhasePlayer;
     public static PlayerNo CurrentPhasePlayer
     {
         get { return CurrentSubPhase.RequiredPlayer; }
@@ -92,9 +90,11 @@ public static partial class Phases
 
     // TRIGGERS
 
-    public static void CallRoundStartTrigger()
+    public static void CallRoundStartTrigger(Action callback)
     {
         if (OnRoundStart != null) OnRoundStart();
+
+        Triggers.ResolveTriggers(TriggerTypes.OnRoundStart, callback);
     }
 
     public static void CallGameStartTrigger(Action callBack)
@@ -171,9 +171,11 @@ public static partial class Phases
         Triggers.ResolveTriggers(TriggerTypes.OnEndPhaseStart, callBack);
     }
 
-    public static void CallRoundEndTrigger()
+    public static void CallRoundEndTrigger(Action callback)
     {
         if (OnRoundEnd != null) OnRoundEnd();
+
+        Triggers.ResolveTriggers(TriggerTypes.OnRoundEnd, callback);
     }
 
     public static void CallBeforeActionSubPhaseTrigger()
@@ -236,7 +238,7 @@ public static partial class Phases
                 ability.DeactivateAbility();
             }
 
-            foreach (var upgrade in shipHolder.Value.UpgradeBar.GetInstalledUpgrades())
+            foreach (var upgrade in shipHolder.Value.UpgradeBar.GetUpgradesOnlyFaceup())
             {
                 foreach (var upgradeAbility in upgrade.UpgradeAbilities)
                 {

@@ -47,14 +47,14 @@ namespace UpgradesList
         private void ApplyHomingMissilesAbility()
         {
             Combat.Defender.OnTryAddAvailableActionEffect += UseHomingMissilesRestriction;
-            Combat.Defender.AssignToken(new Conditions.HomingMissilesCondition(), delegate { });
+            Combat.Defender.Tokens.AssignCondition(new Conditions.HomingMissilesCondition(Combat.Defender));
 
             Host.OnAttackFinish += RemoveHomingMissilesAbility;
         }
 
         private void UseHomingMissilesRestriction(ActionsList.GenericAction action, ref bool canBeUsed)
         {
-            if (action.IsSpendEvade)
+            if (action.TokensSpend.Contains(typeof(Tokens.EvadeToken)))
             {
                 Messages.ShowErrorToHuman("Homing Missiles: Cannot spend evade");
                 canBeUsed = false;
@@ -64,7 +64,7 @@ namespace UpgradesList
         private void RemoveHomingMissilesAbility(GenericShip ship)
         {
             Combat.Defender.OnTryAddAvailableActionEffect -= UseHomingMissilesRestriction;
-            Combat.Defender.RemoveToken(typeof(Conditions.HomingMissilesCondition));
+            Combat.Defender.Tokens.RemoveCondition(typeof(Conditions.HomingMissilesCondition));
 
             Host.OnAttackFinish -= RemoveHomingMissilesAbility;
         }
@@ -76,7 +76,7 @@ namespace Conditions
 
     public class HomingMissilesCondition : Tokens.GenericToken
     {
-        public HomingMissilesCondition()
+        public HomingMissilesCondition(GenericShip host) : base(host)
         {
             Name = "Debuff Token";
             Temporary = false;

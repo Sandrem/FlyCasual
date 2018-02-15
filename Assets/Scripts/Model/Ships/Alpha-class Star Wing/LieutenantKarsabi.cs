@@ -50,7 +50,7 @@ namespace Abilities
 
         private void CheckStress(object sender, System.EventArgs e)
         {
-            if (!HostShip.HasToken(typeof(StressToken)))
+            if (!HostShip.Tokens.HasToken(typeof(StressToken)))
             {
                 AskToUseAbility(AlwaysUseByDefault, UseAbility);
             }
@@ -62,8 +62,16 @@ namespace Abilities
 
         private void UseAbility(object sender, System.EventArgs e)
         {
-            if (HostShip.HasToken(typeof(WeaponsDisabledToken))) HostShip.RemoveToken(typeof(WeaponsDisabledToken));
-            HostShip.AssignToken(new StressToken(), DecisionSubPhase.ConfirmDecision);
+            HostShip.Tokens.RemoveToken(
+                typeof(WeaponsDisabledToken),
+                delegate
+                {
+                    HostShip.Tokens.AssignToken(
+                        new StressToken(HostShip),
+                        DecisionSubPhase.ConfirmDecision
+                    );
+                }
+            );
         }
     }
 }

@@ -14,7 +14,7 @@ namespace Ship
             public AttackShuttle() : base()
             {
                 Type = "Attack Shuttle";
-                IconicPilot = "\"Zeb\" Orrelios";
+                IconicPilots.Add(Faction.Rebel, typeof(EzraBridger));
 
                 ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/1/12/MR_ATTACK-SHUTTLE.png";
 
@@ -26,7 +26,7 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Turret);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Crew);
 
-                PrintedActions.Add(new TargetLockAction());
+                PrintedActions.Add(new BarrelRollAction());
                 PrintedActions.Add(new EvadeAction());
 
                 AssignTemporaryManeuvers();

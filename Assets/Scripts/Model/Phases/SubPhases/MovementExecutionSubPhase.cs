@@ -30,14 +30,17 @@ namespace SubPhases
             Selection.ThisShip.ObstaclesHit = new List<Collider>();
             Selection.ThisShip.MinesHit = new List<GameObject>();
 
-            Selection.ThisShip.CallManeuverIsReadyToBeRevealed();
+            Selection.ThisShip.CallManeuverIsReadyToBeRevealed(RevealManeuver);
+        }
 
+        private void RevealManeuver()
+        {
             Selection.ThisShip.CallManeuverIsRevealed(CheckAssignedManeuver);
         }
 
         private void CheckAssignedManeuver()
         {
-            if (Selection.ThisShip.AssignedManeuver.ColorComplexity == ManeuverColor.Red && Selection.ThisShip.HasToken(typeof(Tokens.StressToken)))
+            if (Selection.ThisShip.AssignedManeuver.ColorComplexity == ManeuverColor.Red && Selection.ThisShip.Tokens.HasToken(typeof(Tokens.StressToken)))
             {
                 if (!Selection.ThisShip.CanPerformRedManeuversWhileStressed)
                 {

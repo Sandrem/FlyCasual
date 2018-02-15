@@ -7,6 +7,7 @@ using System;
 using Abilities;
 using Tokens;
 using System.Linq;
+using SquadBuilderNS;
 
 namespace UpgradesList
 {
@@ -26,18 +27,14 @@ namespace UpgradesList
             return ship.faction == Faction.Scum;
         }
 
-        public override bool IsAllowedForSquadBuilderPostCheck(RosterBuilder.SquadBuilderUpgrade upgradeHolder)
+        public override bool IsAllowedForSquadBuilderPostCheck(SquadList squadList)
         {
             int sameUpgradesInstalled = 0;
-            List<RosterBuilder.SquadBuilderShip> playerShips = RosterBuilder.SquadBuilderRoster.GetShipsByPlayer(upgradeHolder.Host.Player);
-            foreach (var ship in playerShips)
+            foreach (var ship in squadList.GetShips())
             {
-                foreach (var squadBuilderUpgrade in ship.GetUpgrades())
+                foreach (var upgrade in ship.Instance.UpgradeBar.GetUpgradesOnlyFaceup())
                 {
-                    if (squadBuilderUpgrade.Slot.InstalledUpgrade != null)
-                    {
-                        if (squadBuilderUpgrade.Slot.InstalledUpgrade.GetType() == this.GetType()) sameUpgradesInstalled++;
-                    }
+                    if (upgrade.GetType() == this.GetType()) sameUpgradesInstalled++;
                 }
             };
             if (sameUpgradesInstalled > 2) Messages.ShowError("Cannot have more than 2 Attanni Mindlinks");
@@ -88,18 +85,18 @@ namespace Abilities
                 {
                     if (friendlyShip.Value.ShipId != HostShip.ShipId)
                     {
-                        if (!friendlyShip.Value.HasToken(tokenType))
+                        if (!friendlyShip.Value.Tokens.HasToken(tokenType))
                         {
                             if (tokenType == typeof(FocusToken))
                             {
                                 tokenMustBeAssigned = true;
-                                friendlyShip.Value.AssignToken(new FocusToken(), Triggers.FinishTrigger);
+                                friendlyShip.Value.Tokens.AssignToken(new FocusToken(friendlyShip.Value), Triggers.FinishTrigger);
                                 break;
                             }
                             else if (tokenType == typeof(StressToken))
                             {
                                 tokenMustBeAssigned = true;
-                                friendlyShip.Value.AssignToken(new StressToken(), Triggers.FinishTrigger);
+                                friendlyShip.Value.Tokens.AssignToken(new StressToken(friendlyShip.Value), Triggers.FinishTrigger);
                                 break;
                             }
                         }
@@ -112,7 +109,7 @@ namespace Abilities
 
         private bool HasAttanniMinklink(GenericShip ship)
         {
-            return ship.UpgradeBar.GetInstalledUpgrades().Count(n => n.GetType() == HostUpgrade.GetType()) == 1;
+            return ship.UpgradeBar.GetUpgradesOnlyFaceup().Count(n => n.GetType() == HostUpgrade.GetType()) == 1;
         }
 
     }

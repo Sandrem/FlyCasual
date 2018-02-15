@@ -3,10 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace CriticalHitCard
+namespace DamageDeckCard
 {
 
-    public class ThrustControlFire : GenericCriticalHit
+    public class ThrustControlFire : GenericDamageCard
     {
         public ThrustControlFire()
         {
@@ -16,7 +16,7 @@ namespace CriticalHitCard
 
         public override void ApplyEffect(object sender, EventArgs e)
         {
-            Host.AssignToken(new Tokens.StressToken(), Triggers.FinishTrigger);
+            Host.Tokens.AssignToken(new Tokens.StressToken(Host), Triggers.FinishTrigger);
         }
 
     }

@@ -9,7 +9,7 @@ namespace Ship
 
     public partial class GenericShip
     {
-        public string IconicPilot;
+        public Dictionary<Faction, Type> IconicPilots;
 
         public event EventHandlerShip OnDocked;
         public event EventHandlerShip OnUndocked;
@@ -50,6 +50,11 @@ namespace Ship
 
         public List<GenericShip> DockedShips = new List<GenericShip>();
 
+        public void ToggleDockedModel(GenericShip dockedShip, bool isVisible)
+        {
+            GetModelTransform().Find("DockedShips").transform.Find(dockedShip.Type).gameObject.SetActive(isVisible);
+        }
+
         public void CallDocked(GenericShip host)
         {
             if (OnDocked != null) OnDocked(host);
@@ -79,6 +84,19 @@ namespace Ship
             }
         }
 
+        public void SetDockedName(bool isActive)
+        {
+            string dockedPosfix = " (Docked)";
+            if (isActive)
+            {
+                PilotName = PilotName + dockedPosfix;
+            }
+            else
+            {
+                PilotName = PilotName.Replace(dockedPosfix, "");
+            }
+            Roster.UpdateShipStats(this);
+        }
     }
 
 }

@@ -1,12 +1,13 @@
-﻿using System;
+﻿using Ship;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace CriticalHitCard
+namespace DamageDeckCard
 {
 
-    public class LooseStabilizer : GenericCriticalHit
+    public class LooseStabilizer : GenericDamageCard
     {
         public LooseStabilizer()
         {
@@ -17,27 +18,28 @@ namespace CriticalHitCard
         public override void ApplyEffect(object sender, EventArgs e)
         {
             Host.OnMovementFinish += PlanStressAfterWhiteManeuvers;
-            Host.AfterGenerateAvailableActionsList += AddCancelCritAction;
+            Host.AfterGenerateAvailableActionsList += CallAddCancelCritAction;
 
-            Host.AssignToken(new Tokens.LooseStabilizerCritToken(), Triggers.FinishTrigger);
+            Host.Tokens.AssignCondition(new Tokens.LooseStabilizerCritToken(Host));
+            Triggers.FinishTrigger();
         }
 
-        public override void DiscardEffect(Ship.GenericShip host)
+        public override void DiscardEffect()
         {
             Messages.ShowInfo("No stress after white maneuvers");
-            host.RemoveToken(typeof(Tokens.LooseStabilizerCritToken));
-            host.OnMovementFinish -= PlanStressAfterWhiteManeuvers;
-            host.AfterGenerateAvailableActionsList -= AddCancelCritAction;
+            Host.Tokens.RemoveCondition(typeof(Tokens.LooseStabilizerCritToken));
+            Host.OnMovementFinish -= PlanStressAfterWhiteManeuvers;
+            Host.AfterGenerateAvailableActionsList -= CallAddCancelCritAction;
         }
 
-        private void PlanStressAfterWhiteManeuvers(Ship.GenericShip ship)
+        private void PlanStressAfterWhiteManeuvers(GenericShip ship)
         {
-            if (Selection.ThisShip.GetLastManeuverColor() == Movement.ManeuverColor.White)
+            if (Host.GetLastManeuverColor() == Movement.ManeuverColor.White)
             {
                 Triggers.RegisterTrigger(new Trigger()
                 {
                     Name = "Loose Stabilizer: Stress after white maneuver",
-                    TriggerOwner = ship.Owner.PlayerNo,
+                    TriggerOwner = Host.Owner.PlayerNo,
                     TriggerType = TriggerTypes.OnShipMovementExecuted,
                     EventHandler = StressAfterWhiteManeuvers
                 });
@@ -48,7 +50,7 @@ namespace CriticalHitCard
         {
             Messages.ShowInfo("Loose Stabilizer: Stress token is assigned");
             UI.AddTestLogEntry("Loose Stabilizer: Stress token is assigned");
-            Selection.ThisShip.AssignToken(new Tokens.StressToken(), Triggers.FinishTrigger);
+            Selection.ThisShip.Tokens.AssignToken(new Tokens.StressToken(Host), Triggers.FinishTrigger);
         }
 
     }

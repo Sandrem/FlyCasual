@@ -50,7 +50,7 @@ namespace Abilities
         private void ShowDecision(object sender, System.EventArgs e)
         {
             // check if this ship is stressed
-            if (!HostShip.HasToken(typeof(Tokens.StressToken)))
+            if (!HostShip.Tokens.HasToken(typeof(Tokens.StressToken)))
             {
                 // give user the option to use ability
                 AskToUseAbility(ShouldUsePilotAbility, UseAbility);
@@ -71,8 +71,9 @@ namespace Abilities
             // don't need to check stressed as done already
             // add an attack dice
             IsAbilityUsed = true;
-            HostShip.ChangeFirepowerBy(+1);
-            HostShip.AssignToken(new Tokens.StressToken(), SubPhases.DecisionSubPhase.ConfirmDecision);
+            //HostShip.ChangeFirepowerBy(+1);
+            HostShip.AfterGotNumberOfPrimaryWeaponAttackDice += ZetaLeaderAddAttackDice;
+            HostShip.Tokens.AssignToken(new Tokens.StressToken(HostShip), SubPhases.DecisionSubPhase.ConfirmDecision);
         }
 
         private void RemoveEpsilonLeaderAbility(GenericShip genericShip)
@@ -80,9 +81,14 @@ namespace Abilities
             // At the end of combat phase, need to remove attack value increase
             if (IsAbilityUsed)
             {
-                HostShip.ChangeFirepowerBy(-1);
+                //HostShip.ChangeFirepowerBy(-1);
+                HostShip.AfterGotNumberOfPrimaryWeaponAttackDice -= ZetaLeaderAddAttackDice;
                 IsAbilityUsed = false;
             }
+        }
+        private void ZetaLeaderAddAttackDice(ref int value)
+        {
+            value++;
         }
     }
 }

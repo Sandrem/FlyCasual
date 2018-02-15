@@ -56,7 +56,7 @@ namespace Ship
             Messages.ShowInfo("Critical damage card \"" + critCard.Name + "\" is flipped facedown");
         }
 
-        public void DealDrawnCard(Action callback = null)
+        public void DealDrawnCard(Action callback)
         {
             if (Combat.CurrentCriticalHitCard != null)
             {

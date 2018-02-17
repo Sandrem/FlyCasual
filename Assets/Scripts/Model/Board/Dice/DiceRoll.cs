@@ -320,7 +320,7 @@ public partial class DiceRoll
         }
     }
 
-    private void CancelHit()
+    private void CancelHit(bool CancelByDefence)
     {
         DieSide cancelFirst = DieSide.Unknown;
         DieSide cancelLast= DieSide.Unknown;
@@ -336,9 +336,9 @@ public partial class DiceRoll
             cancelLast = DieSide.Success;
         }
 
-        if (!CancelType(cancelFirst))
+        if (!CancelType(cancelFirst, CancelByDefence))
         {
-            CancelType(cancelLast);
+            CancelType(cancelLast, CancelByDefence);
         }
     }
 
@@ -362,16 +362,19 @@ public partial class DiceRoll
         DiceList = new List<Die>();
     }
 
-    private bool CancelType(DieSide type)
+    private bool CancelType(DieSide type, bool CancelByDefence)
     {
         bool found = false;
         foreach (Die die in DiceList)
         {
             if (die.Side == type)
             {
-                die.Cancel();
-                found = true;
-                return found;
+                //Cancel dice if it's not a defence cancel or it is and the die is cancellable
+                if ((!CancelByDefence) || (!die.IsUncancellable)) {
+                    die.Cancel();
+                    found = true;
+                    return found;
+                }
             }
         }
         return found;
@@ -381,7 +384,14 @@ public partial class DiceRoll
     {
         for (int i = 0; i < numToCancel; i++)
         {
-            CancelHit();
+            CancelHit(false); //Generic cancel
+        }
+    }
+    public void CancelHitsByDefence(int numToCancel)
+    {
+        for (int i = 0; i < numToCancel; i++)
+        {
+            CancelHit(false); //Cancel by defence dice
         }
     }
 

@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public partial class Die
-{
+{    
     public bool IsSelected { get; private set; }
-
     public bool IsRerolled { get; set; }
     public bool IsShowRerolledLock { get; private set; }
+    public bool IsUncancellable { get; set; }
 
     public bool IsSuccess
     {

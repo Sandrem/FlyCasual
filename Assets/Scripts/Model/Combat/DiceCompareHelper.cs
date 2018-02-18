@@ -92,15 +92,14 @@ public class DiceCompareHelper
 
     public void ShowCancelled(DiceRoll defenceDiceRoll)
     {
-        int cancelledRegularHits = 0;
-        int cancelledCriticalHits = 0;
+        Dictionary<string, int> results = AttackDiceroll.CancelHitsByDefence(defenceDiceRoll.Successes, true); //Dry run to calculate results
+        int cancelledRegularHits = results["hits"];
+        int cancelledCriticalHits = results["crits"];
+        //int cancelsNum = defenceDiceRoll.Successes;
+        //int regularHits = AttackDiceroll.RegularSuccesses;
+        //int criticalHits = AttackDiceroll.CriticalSuccesses;
 
-        int cancelsNum = defenceDiceRoll.Successes;
-
-        int regularHits = AttackDiceroll.RegularSuccesses;
-        int criticalHits = AttackDiceroll.CriticalSuccesses;
-
-        if (!AttackDiceroll.CancelCritsFirst)
+        /*if (!AttackDiceroll.CancelCritsFirst)
         {
             cancelledRegularHits = (cancelsNum > regularHits) ? regularHits : cancelsNum;
             cancelsNum = cancelsNum - cancelledRegularHits;
@@ -121,7 +120,7 @@ public class DiceCompareHelper
                 cancelledRegularHits = (cancelsNum > regularHits) ? regularHits : cancelsNum;
                 cancelsNum = cancelsNum - cancelledRegularHits;
             }
-        }
+        }*/
 
         List<GameObject> reversedDiceIcons = new List<GameObject>(diceIcons);
         reversedDiceIcons.Reverse();

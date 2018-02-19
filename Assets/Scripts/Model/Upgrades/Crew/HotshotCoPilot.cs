@@ -4,6 +4,7 @@ using Ship;
 using Upgrade;
 using Tokens;
 using ActionsList;
+using System.Linq;
 
 namespace UpgradesList
 {
@@ -91,7 +92,7 @@ namespace Abilities
                     break;
             }
 
-            if (currentShip.Tokens.HasToken(typeof(FocusToken)))
+            if (currentShip.GetAvailableActionEffectsList().Any(n => n.TokensSpend.Contains(typeof(FocusToken))))
             {
                 Messages.ShowError("Cannot confirm results - must spend focust token!");
                 result = false;

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using SubPhases;
+using Players;
 
 namespace GameModes
 { 
@@ -201,6 +202,11 @@ namespace GameModes
         public override void ReturnToMainMenu()
         {
             Network.Disconnect(base.ReturnToMainMenu);
+        }
+
+        public override void GenerateDamageDeck(PlayerNo playerNo, int seed)
+        {
+            Network.SyncDecks(Tools.PlayerToInt(playerNo), seed);
         }
     }
 }

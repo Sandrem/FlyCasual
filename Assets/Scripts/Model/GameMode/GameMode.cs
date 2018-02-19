@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using SubPhases;
+using Players;
 
 namespace GameModes
 { 
@@ -73,5 +74,7 @@ namespace GameModes
             Phases.EndGame();
             SceneManager.LoadScene("MainMenu");
         }
+
+        public abstract void GenerateDamageDeck(PlayerNo playerNo, int seed);
     }
 }

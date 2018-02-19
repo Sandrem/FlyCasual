@@ -16,6 +16,11 @@ public static class DamageDecks
             new DamageDeck(PlayerNo.Player1),
             new DamageDeck(PlayerNo.Player2)
         };
+
+        foreach (DamageDeck deck in damadeDecks)
+        {
+            deck.ShuffleFirstTime();
+        }
     }
 
     public static DamageDeck GetDamageDeck(PlayerNo playerNo)
@@ -39,9 +44,12 @@ public class DamageDeck
     {
         PlayerNo = playerNo;
         CreateDeck();
+    }
 
+    public void ShuffleFirstTime()
+    {
         Random random = new Random();
-        ShuffleDeck(random.Next());
+        GameMode.CurrentGameMode.GenerateDamageDeck(PlayerNo, random.Next());
     }
 
     private void CreateDeck()

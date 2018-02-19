@@ -517,4 +517,9 @@ public static partial class Network
         callback();
     }
 
+    public static void SyncDecks(int playerNo, int seed)
+    {
+        if (IsServer) CurrentPlayer.CmdSyncDecks(playerNo, seed);
+    }
+
 }

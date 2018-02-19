@@ -3,6 +3,7 @@ using GameModes;
 using Ship;
 using Upgrade;
 using Tokens;
+using ActionsList;
 
 namespace UpgradesList
 {
@@ -52,6 +53,7 @@ namespace Abilities
             ship.Tokens.AssignCondition(new Conditions.HotshotCoPilotCondition(ship));
 
             ship.OnTryConfirmDiceResults += DisallowIfHasFocusToken;
+            ship.OnAiGetDiceModificationPriority += PrioritizeSpendFocus;
             ship.OnTokenIsSpent += CheckRemoveCondition;
             ship.OnAttackFinish += RemoveCondition;
         }
@@ -66,8 +68,9 @@ namespace Abilities
             Messages.ShowInfo("Hotshot Co-pilot effect is not active");
 
             ship.OnTryConfirmDiceResults -= DisallowIfHasFocusToken;
-            ship.OnAttackFinish -= RemoveCondition;
+            ship.OnAiGetDiceModificationPriority -= PrioritizeSpendFocus;
             ship.OnTokenIsSpent -= CheckRemoveCondition;
+            ship.OnAttackFinish -= RemoveCondition;
 
             ship.Tokens.RemoveCondition(typeof(Conditions.HotshotCoPilotCondition));
         }
@@ -93,6 +96,11 @@ namespace Abilities
                 Messages.ShowError("Cannot confirm results - must spend focust token!");
                 result = false;
             }
+        }
+
+        private void PrioritizeSpendFocus(GenericAction diceModification, ref int priority)
+        {
+            if (diceModification.TokensSpend.Contains(typeof(FocusToken))) priority += 1000;
         }
     }
 }

@@ -48,9 +48,11 @@ namespace Abilities
         private void AssignCondition(GenericShip ship)
         {
             Messages.ShowInfo("Hotshot Co-pilot effect is active");
-            ship.Tokens.AssignCondition(new Conditions.HotshotCoPilotCondition(ship));
-            ship.OnTokenIsSpent += CheckRemoveCondition;
 
+            ship.Tokens.AssignCondition(new Conditions.HotshotCoPilotCondition(ship));
+
+            ship.OnTryConfirmDiceResults += DisallowIfHasFocusToken;
+            ship.OnTokenIsSpent += CheckRemoveCondition;
             ship.OnAttackFinish += RemoveCondition;
         }
 
@@ -63,13 +65,35 @@ namespace Abilities
         {
             Messages.ShowInfo("Hotshot Co-pilot effect is not active");
 
+            ship.OnTryConfirmDiceResults -= DisallowIfHasFocusToken;
             ship.OnAttackFinish -= RemoveCondition;
             ship.OnTokenIsSpent -= CheckRemoveCondition;
 
             ship.Tokens.RemoveCondition(typeof(Conditions.HotshotCoPilotCondition));
         }
 
-        // Check - can finish dice modifications
+        private void DisallowIfHasFocusToken(ref bool result)
+        {
+            GenericShip currentShip = null;
+
+            switch (Combat.AttackStep)
+            {
+                case CombatStep.Attack:
+                    currentShip = Combat.Attacker;
+                    break;
+                case CombatStep.Defence:
+                    currentShip = Combat.Defender;
+                    break;
+                default:
+                    break;
+            }
+
+            if (currentShip.Tokens.HasToken(typeof(FocusToken)))
+            {
+                Messages.ShowError("Cannot confirm results - must spend focust token!");
+                result = false;
+            }
+        }
     }
 }
 

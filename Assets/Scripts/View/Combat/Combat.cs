@@ -162,10 +162,10 @@ public static partial class Combat
         switch (AttackStep)
         {
             case CombatStep.Attack:
-                ConfirmAttackDiceResults();
+                if (Combat.Attacker.CallTryConfirmDiceResults()) ConfirmAttackDiceResults();
                 break;
             case CombatStep.Defence:
-                ConfirmDefenceDiceResults();
+                if (Combat.Defender.CallTryConfirmDiceResults()) ConfirmDefenceDiceResults();
                 break;
         }
     }

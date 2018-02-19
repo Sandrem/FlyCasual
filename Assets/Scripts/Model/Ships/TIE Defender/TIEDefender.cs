@@ -16,7 +16,7 @@ namespace Ship
                 Type = "TIE Defender";
                 IconicPilots.Add(Faction.Imperial, typeof(ColonelVessery));
 
-                ManeuversImageUrl = "https://vignette1.wikia.nocookie.net/xwing-miniatures/images/8/85/MI_TIE-ADVANCED.png";
+                ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/4/4b/MI_TIE-DEFENDER.png";
 
                 Firepower = 3;
                 Agility = 3;

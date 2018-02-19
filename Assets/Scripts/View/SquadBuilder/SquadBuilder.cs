@@ -129,6 +129,8 @@ namespace SquadBuilderNS
                 oldPanel.name = "DestructionIsPlanned";
                 GameObject.Destroy(oldPanel.gameObject);
             }
+
+            Resources.UnloadUnusedAssets();
         }
 
         private static void ShowAvailablePilot(PilotRecord pilotRecord)

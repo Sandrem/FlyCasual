@@ -27,7 +27,8 @@ public enum DamageTypes
     ObstacleCollision,
     CriticalHitCard,
     BombDetonation,
-    CardAbility
+    CardAbility,
+    Rules
 }
 
 public static partial class Combat
@@ -37,8 +38,6 @@ public static partial class Combat
     public static DiceRoll DiceRollDefence;
     public static DiceRoll CurrentDiceRoll;
 
-    public static bool IsObstructed;
-
     public static CombatStep AttackStep = CombatStep.None;
 
     public static GenericShip Attacker;
@@ -46,7 +45,7 @@ public static partial class Combat
 
     public static IShipWeapon ChosenWeapon;
 
-    public static CriticalHitCard.GenericCriticalHit CurrentCriticalHitCard;
+    public static DamageDeckCard.GenericDamageCard CurrentCriticalHitCard;
 
     private static int attacksCounter;
     private static int hitsCounter;
@@ -390,21 +389,26 @@ public static partial class Combat
         Attacker.CallAttackFinish();
         Defender.CallAttackFinish();
 
-        Triggers.ResolveTriggers(TriggerTypes.OnAttackFinish, CombatEnd);
+        Triggers.ResolveTriggers(TriggerTypes.OnAttackFinish, CleanupAndCheckExtraAttacks);
     }
 
-    private static void CombatEnd()
+    private static void CleanupAndCheckExtraAttacks()
     {
         CleanupCombatData();
 
         if (!Selection.ThisShip.IsCannotAttackSecondTime)
         {
-            CheckExtraAttacks(Phases.CurrentSubPhase.CallBack);
+            CheckExtraAttacks(FinishCombat);
         }
         else
         {
-            Phases.CurrentSubPhase.CallBack();
+            FinishCombat();
         }
+    }
+
+    private static void FinishCombat()
+    {
+        Phases.CurrentSubPhase.CallBack();
     }
 
     private static void CheckExtraAttacks(Action callback)
@@ -420,17 +424,13 @@ public static partial class Combat
         ChosenWeapon = null;
         ShotInfo = null;
         hitsCounter = 0;
-        IsObstructed = false;
         ExtraAttackFilter = null;
         IsAttackAlreadyCalled = false;
     }
 
-    public static void CheckFinishCombatSubPhase()
+    public static void FinishCombatSubPhase()
     {
-        if (Roster.NoSamePlayerAndPilotSkillNotAttacked(Selection.ThisShip))
-        {
-            Phases.FinishSubPhase(typeof(CombatSubPhase));
-        }
+        Phases.FinishSubPhase(typeof(CombatSubPhase));
     }
 
     // Extra Attacks
@@ -473,7 +473,7 @@ namespace SubPhases
                 }
             }
 
-            DefaultDecision = GetDecisions().Last().Key;
+            DefaultDecisionName = GetDecisions().Last().Name;
 
             callBack();
         }
@@ -579,6 +579,7 @@ namespace SubPhases
         {
             Phases.CurrentSubPhase = PreviousSubPhase;
             UpdateHelpInfo();
+            Phases.CurrentSubPhase.Resume();
         }
 
         public override bool ThisShipCanBeSelected(GenericShip ship, int mouseKeyIsPressed)

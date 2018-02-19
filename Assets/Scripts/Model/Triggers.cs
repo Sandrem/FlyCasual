@@ -9,8 +9,6 @@ public enum TriggerTypes
 {
     None,
 
-    OnAbilityDirect,
-
     OnGameStart,
     OnSetupPhaseStart,
     OnBeforePlaceForces,
@@ -24,7 +22,9 @@ public enum TriggerTypes
     OnEndPhaseStart,
     OnRoundEnd,
 
-    OnActivateShip,
+    OnMovementActivation,
+    OnCombatActivation,
+    OnCombatDeactivation,
 
     OnManeuver,
     OnManeuverIsReadyToBeRevealed,
@@ -65,9 +65,14 @@ public enum TriggerTypes
     OnFaceupCritCardIsDealt,
     OnShipIsDestroyed,
 
-    OnMajorExplosionCrit,
+    OnBombIsDetonated,
+    OnBombIsRemoved,
+    OnCheckPermissionToDetonate,
+    OnCheckSufferBombDetonation,
+
+    OnAbilityDirect,
     OnAbilityTargetIsSelected,
-    OnBombDetonated,
+    OnMajorExplosionCrit,
     OnDiscard
 }
 
@@ -223,7 +228,10 @@ public static partial class Triggers
     {
         StackLevel currentStackLevel = GetCurrentLevel();
 
-        if (currentStackLevel.GetTrigersList().Count == 0) Debug.Log("Ooops, you want to finish trigger, but new empty level of stack was created!");
+        if (currentStackLevel == null || currentStackLevel.GetTrigersList() == null || currentStackLevel.GetTrigersList().Count == 0)
+        {
+            Debug.Log("Ooops! You want to finish trigger, but it is already finished");
+        }
 
         Trigger currentTrigger = currentStackLevel.GetCurrentTrigger();
 
@@ -338,7 +346,7 @@ public static partial class Triggers
             }
 
             DecisionOwner = Roster.GetPlayer(currentPlayer);
-            DefaultDecision = GetDecisions().First().Key;
+            DefaultDecisionName = GetDecisions().First().Name;
 
             callBack();
         }

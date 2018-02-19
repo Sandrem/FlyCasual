@@ -14,7 +14,7 @@ namespace Ship
             public AlphaClassStarWing() : base()
             {
                 Type = "Alpha-class Star Wing";
-                IconicPilot = "Major Vynder";
+                IconicPilots.Add(Faction.Imperial, typeof(MajorVynder));
 
                 ManeuversImageUrl = "https://i.imgur.com/aiSqTZA.jpg";
 
@@ -36,7 +36,7 @@ namespace Ship
                 factions.Add(Faction.Imperial);
                 faction = Faction.Imperial;
 
-                SkinName = "Alpha-class Star Wing";
+                SkinName = "Gray";
 
                 SoundShotsPath = "Slave1-Fire";
                 ShotsCount = 2;

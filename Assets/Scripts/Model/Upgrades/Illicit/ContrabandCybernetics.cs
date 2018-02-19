@@ -22,14 +22,14 @@ namespace UpgradesList
         {
             base.AttachToShip(host);
 
-            Host.OnActivateShip += RegisterTrigger;
+            Host.OnMovementActivation += RegisterTrigger;
         }
 
         private void RegisterTrigger(GenericShip ship)
         {
             Triggers.RegisterTrigger(new Trigger() {
                 Name = Name,
-                TriggerType = TriggerTypes.OnActivateShip,
+                TriggerType = TriggerTypes.OnMovementActivation,
                 TriggerOwner = Host.Owner.PlayerNo,
                 EventHandler = AskUseContrabandCybernetics
             });
@@ -48,7 +48,7 @@ namespace UpgradesList
 
         public void ActivateAbility()
         {
-            Host.OnActivateShip -= RegisterTrigger;
+            Host.OnMovementActivation -= RegisterTrigger;
             Phases.OnEndPhaseStart += DeactivateAbility;
 
             Host.Tokens.AssignToken(new Tokens.StressToken(Host), RemoveRestrictions);
@@ -88,7 +88,7 @@ namespace SubPhases
             AddDecision("Yes", UseContrabandCyberneticsAbility);
             AddDecision("No", DontUseContrabandCyberneticsAbility);
 
-            DefaultDecision = "No";
+            DefaultDecisionName = "No";
 
             callBack();
         }

@@ -16,6 +16,8 @@ namespace Ship
                 PilotSkill = 7;
                 Cost = 31;
 
+                IsUnique = true;
+
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
                 PilotAbilities.Add(new TestPilotBlackoutAbility());
@@ -42,7 +44,7 @@ namespace Abilities
         {
             if (Selection.ThisShip.ShipId == HostShip.ShipId)
             {
-                if (Combat.ShotInfo.IsObstructed)
+                if (Combat.ShotInfo.IsObstructedByAsteroid)
                 {
                     Combat.Defender.AfterGotNumberOfDefenceDice += DecreaseDiceResult;
                 }

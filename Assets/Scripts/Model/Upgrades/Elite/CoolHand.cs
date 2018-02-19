@@ -78,7 +78,7 @@ namespace SubPhases
             RequiredPlayer = upgrade.Host.Owner.PlayerNo;
 
             //Default AI behavior.
-            DefaultDecision = GetDecisions().First().Key;           
+            DefaultDecisionName = GetDecisions().First().Name;           
         }
 
         private void AddFocus(object sender, System.EventArgs e)

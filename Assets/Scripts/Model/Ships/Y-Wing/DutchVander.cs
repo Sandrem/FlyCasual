@@ -56,7 +56,7 @@ namespace Abilities
             Selection.ThisShip = HostShip;
             if (HostShip.Owner.Ships.Count > 1)
             {
-                SelectTargetForAbility(
+                SelectTargetForAbilityOld(
                     GrantFreeTargetLock,
                     new List<TargetTypes>() { TargetTypes.OtherFriendly },
                     new Vector2(1, 2)

@@ -68,7 +68,8 @@ namespace RulesList
 
             GenericShip ship = sender as GenericShip;
             ship.ToggleIonized(false);
-            ship.Tokens.RemoveToken(
+
+            ship.Tokens.RemoveAllTokensByType(
                 typeof(IonToken),
                 Triggers.FinishTrigger
             );

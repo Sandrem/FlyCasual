@@ -127,7 +127,7 @@ namespace SubPhases
 
             AddTooltip("Yes", "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/reference-cards/Decloak.png");
 
-            DefaultDecision = "No";
+            DefaultDecisionName = "No";
 
             callBack();
         }

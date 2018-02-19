@@ -74,7 +74,7 @@ namespace Abilities
 
             selectMirandaDoniSubPhase.AddDecision("No", delegate { DecisionSubPhase.ConfirmDecision(); });
 
-            selectMirandaDoniSubPhase.DefaultDecision = GetDefaultDecision();
+            selectMirandaDoniSubPhase.DefaultDecisionName = GetDefaultDecision();
 
             selectMirandaDoniSubPhase.ShowSkipButton = true;
 

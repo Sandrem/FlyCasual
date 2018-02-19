@@ -93,7 +93,7 @@ namespace SubPhases
 
             if (CurrentDiceRoll.DiceList[0].Side == DieSide.Success || CurrentDiceRoll.DiceList[0].Side == DieSide.Focus)
             {
-                if (Selection.ThisShip.TryDiscardFaceDownDamageCard())
+                if (Selection.ThisShip.Damage.DiscardRandomFacedownCard())
                 {
                     Sounds.PlayShipSound("R2D2-Proud");
                     Messages.ShowInfoToHuman("Facedown Damage card is discarded");

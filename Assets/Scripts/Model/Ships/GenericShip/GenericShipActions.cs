@@ -21,7 +21,7 @@ namespace Ship
         private     List<ActionsList.GenericAction> AlreadyExecutedOppositeActionEffects    = new List<ActionsList.GenericAction>();
 
         // EVENTS
-        public event EventHandlerShip OnActivateShip;
+        public event EventHandlerShip OnMovementActivation;
 
         public event EventHandlerShip AfterGenerateAvailableActionsList;
         public event EventHandlerActionBool OnTryAddAvailableAction;
@@ -58,11 +58,11 @@ namespace Ship
 
         // ACTIONS
 
-        public void CallActivateShip(Action callBack)
+        public void CallMovementActivation(Action callBack)
         {
-            if (OnActivateShip != null) OnActivateShip(this);
+            if (OnMovementActivation != null) OnMovementActivation(this);
 
-            Triggers.ResolveTriggers(TriggerTypes.OnActivateShip, callBack);
+            Triggers.ResolveTriggers(TriggerTypes.OnMovementActivation, callBack);
         }
 
         public void CallOnActionDecisionSubphaseEnd(Action callback)
@@ -131,7 +131,7 @@ namespace Ship
                         Phases.StartTemporarySubPhaseOld
                         (
                             "Free action decision",
-                            typeof(SubPhases.FreeActionDecisonSubPhase),
+                            typeof(FreeActionDecisonSubPhase),
                             delegate { Actions.FinishAction(delegate { FinishFreeActionDecision(callback); }); }
                         );
                     }
@@ -143,7 +143,7 @@ namespace Ship
 
         private void FinishFreeActionDecision(Action callback)
         {
-            Phases.FinishSubPhase(typeof(SubPhases.FreeActionDecisonSubPhase));
+            Phases.FinishSubPhase(typeof(FreeActionDecisonSubPhase));
             callback();
         }
 
@@ -235,10 +235,16 @@ namespace Ship
 
         public void AddAvailableActionEffect(ActionsList.GenericAction action)
         {
-            if (CanUseActionEffect(action))
+            if (NotAlreadyAddedSameActionEffect(action) && CanUseActionEffect(action))
             {
                 AvailableActionEffects.Add(action);
             }
+        }
+
+        private bool NotAlreadyAddedSameActionEffect(ActionsList.GenericAction action)
+        {
+            // Return true if AvailableActionEffects doesn't contain action of the same type
+            return AvailableActionEffects.FirstOrDefault(n => n.GetType() == action.GetType()) == null;
         }
 
         public void AddAlreadyExecutedActionEffect(ActionsList.GenericAction action)

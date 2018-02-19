@@ -63,13 +63,14 @@ namespace SubPhases
             AddDecision("Yes", AcquireTargetLock);
             AddDecision("No", NotAssignToken);
 
-            DefaultDecision = "Yes";
+            DefaultDecisionName = "Yes";
 
             callBack();
         }
 
         private void AcquireTargetLock(object sender, System.EventArgs e)
         {
+            Messages.ShowInfo("Fire-Control System: Free Target Lock");
             Actions.AssignTargetLockToPair(Combat.Attacker, Combat.Defender, ConfirmDecision, ConfirmDecision);            
         }
 

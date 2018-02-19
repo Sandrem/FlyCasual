@@ -14,7 +14,8 @@ namespace Ship
             public HWK290() : base()
             {
                 Type = "HWK-290";
-                IconicPilot = "Jan Ors";
+                IconicPilots.Add(Faction.Rebel, typeof(JanOrs));
+                IconicPilots.Add(Faction.Scum, typeof(SpiceRunner));
 
                 ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/d/d1/MR_HWK-290.png";
 

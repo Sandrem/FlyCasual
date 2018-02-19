@@ -67,7 +67,7 @@ namespace Abilities
                     pilotAbilityDecision.AddTooltip(name, l.OtherTokenOwner.ImageUrl);
                 });
 
-                pilotAbilityDecision.DefaultDecision = "No";
+                pilotAbilityDecision.DefaultDecisionName = "No";
                 pilotAbilityDecision.RequiredPlayer = HostShip.Owner.PlayerNo;
 
                 pilotAbilityDecision.Start();
@@ -83,7 +83,7 @@ namespace Abilities
         {
             Tooltips.EndTooltip();
 
-            SelectTargetForAbility(
+            SelectTargetForAbilityOld(
                 SelectColonelJendonAbilityTarget,
                 new List<TargetTypes> { TargetTypes.OtherFriendly },
                 new UnityEngine.Vector2(1, 1)

@@ -41,7 +41,7 @@ namespace SubPhases
             AddDecision("Right", delegate { ChangeMobileArcFacing(ArcFacing.Right); });
             AddDecision("Rear",  delegate { ChangeMobileArcFacing(ArcFacing.Rear); });
 
-            DefaultDecision = GetDefaultDecision();
+            DefaultDecisionName = GetDefaultDecision();
 
             callBack();
         }

@@ -60,7 +60,13 @@ namespace Ship
         public bool IsUnique { get; protected set; }
 
         public int Firepower { get; protected set; }
-        public int Hull { get; protected set; }
+
+        public int Hull
+        {
+            get { return Mathf.Max(0, MaxHull - Damage.CountAssignedDamage()); }
+        }
+
+
         public int Shields { get; protected set; }
         public int Cost { get; protected set; }
 
@@ -187,6 +193,7 @@ namespace Ship
 
         public GenericShip()
         {
+            IconicPilots = new Dictionary<Faction, Type>();
             factions = new List<Faction>();
             SoundFlyPaths = new List<string> ();
             Maneuvers = new Dictionary<string, Movement.ManeuverColor>();
@@ -230,9 +237,9 @@ namespace Ship
             InitializePilotForSquadBuilder();
 
             Shields = MaxShields;
-            Hull = MaxHull;
 
             PrimaryWeapon = new PrimaryWeaponClass(this);
+            Damage = new AssignedDamageCards(this);
 
             CreateModel(StartingPosition);
             InitializeShipBaseArc();
@@ -312,9 +319,9 @@ namespace Ship
             if (AfterStatsAreChanged != null) AfterStatsAreChanged(this);
         }
 
-        public void ChangeHullBy(int value)
+        public void ChangeMaxHullBy(int value)
         {
-            Hull += value;
+            MaxHull += value;
             if (AfterStatsAreChanged != null) AfterStatsAreChanged(this);
         }
 

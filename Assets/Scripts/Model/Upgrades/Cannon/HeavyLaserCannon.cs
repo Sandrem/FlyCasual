@@ -1,4 +1,5 @@
-﻿using Upgrade;
+﻿using Abilities;
+using Upgrade;
 using UpgradesList;
 
 namespace UpgradesList
@@ -17,6 +18,7 @@ namespace UpgradesList
             MaxRange = 3;
             AttackValue = 4;
 
+            UpgradeAbilities.Add(new HeavyLaserCannonAbility());
         }
 
     }

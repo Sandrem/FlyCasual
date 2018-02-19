@@ -19,6 +19,11 @@ namespace RulesList
             SubscribeEvents();
         }
 
+        public void Initialize()
+        {
+            dockedShipsPairs = new Dictionary<Func<GenericShip>, Func<GenericShip>>();
+        }
+
         private void SubscribeEvents()
         {
             Phases.OnSetupPhaseStart += DockShips;
@@ -196,7 +201,7 @@ namespace SubPhases
             AddDecision("Yes", Undock);
             AddDecision("No", SkipUndock);
 
-            DefaultDecision = "No";
+            DefaultDecisionName = "No";
 
             UI.ShowSkipButton();
 

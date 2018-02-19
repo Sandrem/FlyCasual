@@ -5,6 +5,7 @@ using UnityEngine;
 using Players;
 using Ship;
 using SquadBuilderNS;
+using System;
 
 public static partial class Roster
 {
@@ -82,6 +83,8 @@ public static partial class Roster
     public static void DestroyShip(string id)
     {
         HideShip(id);
+
+        OrganizeRosters();
     }
 
     public static void HideShip(string id)
@@ -162,13 +165,12 @@ public static partial class Roster
 
     //FIND SHIPS BY REQUEST
 
-    public static Dictionary<string, GenericShip> ListSamePlayerAndPilotSkill(GenericShip thisShip)
+    public static Dictionary<string, GenericShip> ListSamePlayerAndPilotSkill(PlayerNo playerNo, int pilotSkill)
     {
         var results =
             from n in AllShips
-            where n.Value.Owner.PlayerNo == thisShip.Owner.PlayerNo
-            where n.Value.PilotSkill == thisShip.PilotSkill
-            where n.Value.ShipId == thisShip.ShipId
+            where n.Value.Owner.PlayerNo == playerNo
+            where n.Value.PilotSkill == pilotSkill
             select n;
 
         return results.ToDictionary(t => t.Key, t => t.Value);
@@ -210,19 +212,9 @@ public static partial class Roster
         return (results.Count() == 0);
     }
 
-    public static bool NoSamePlayerAndPilotSkillNotMoved(GenericShip thisShip)
+    public static bool NoSamePlayerAndPilotSkillNotAttacked()
     {
-        var results =
-            from n in ListSamePlayerAndPilotSkill(thisShip)
-            where n.Value.IsManeuverPerformed == false
-            select n;
-
-        return (results.Count() == 0);
-    }
-
-    public static bool NoSamePlayerAndPilotSkillNotAttacked(GenericShip thisShip)
-    {
-        Dictionary<string, GenericShip> samePlayerAndPilotSkill = ListSamePlayerAndPilotSkill(thisShip);
+        Dictionary<string, GenericShip> samePlayerAndPilotSkill = ListSamePlayerAndPilotSkill(Phases.CurrentSubPhase.RequiredPlayer, Phases.CurrentSubPhase.RequiredPilotSkill);
         foreach (var item in samePlayerAndPilotSkill)
         {
             if (item.Value.IsAttackPerformed == false)
@@ -261,22 +253,16 @@ public static partial class Roster
 
     // NEW
 
-    public static void HighlightShipsFiltered(PlayerNo playerNo, int pilotSkill = -1, List<GenericShip> exceptShips = null)
+    public static void HighlightShipsFiltered(Func<GenericShip, bool> filter)
     {
-        if (exceptShips == null) exceptShips = new List<GenericShip>();
-
         AllShipsHighlightOff();
-        foreach (var ship in GetPlayer(playerNo).Ships)
-        {
-            if (!exceptShips.Contains(ship.Value))
-            {
-                if ((pilotSkill == -1) || (ship.Value.PilotSkill == pilotSkill))
-                {
-                    ship.Value.HighlightCanBeSelectedOn();
-                    RosterPanelHighlightOn(ship.Value);
-                }
-            }
 
+        foreach (GenericShip ship in Roster.AllShips.Values)
+        {
+            if (filter(ship))
+            {
+                RosterPanelHighlightOn(ship);
+            }
         }
     }
 

@@ -11,7 +11,7 @@ namespace ActionsList
         public FocusAction() {
             Name = EffectName = "Focus";
 
-            IsSpendFocus = true;
+            TokensSpend.Add(typeof(Tokens.FocusToken));
             IsTurnsAllFocusIntoSuccess = true;
         }
 

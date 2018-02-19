@@ -14,7 +14,7 @@ namespace Ship
             public ProtectorateStarfighter() : base()
             {
                 Type = "Protectorate Starfighter";
-                IconicPilot = "Concord Dawn Ace";
+                IconicPilots.Add(Faction.Scum, typeof(ConcordDawnAce));
 
                 ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/8/83/MS_PROTECTORATE-STARFIGHTER.png";
 

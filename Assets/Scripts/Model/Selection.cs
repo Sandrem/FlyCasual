@@ -152,10 +152,21 @@ public static class Selection {
     {
         DeselectThisShip();
         ThisShip = Roster.GetShipById(shipId);
+        ChangeActiveShipUsingThisShip ();
+    }
+
+    public static void ChangeActiveShip(Ship.GenericShip genShip)
+    {
+        DeselectThisShip();
+        ThisShip = genShip;
+        ChangeActiveShipUsingThisShip ();
+    }
+
+    private static void ChangeActiveShipUsingThisShip()
+    {
         ThisShip.ToggleCollisionDetection(true);
         Roster.MarkShip(ThisShip, Color.green);
         ThisShip.HighlightThisSelected();
-        if (Phases.CurrentSubPhase.GetType() == typeof(SubPhases.CombatSubPhase)) Roster.HighlightShipsFiltered(Roster.AnotherPlayer(Phases.CurrentPhasePlayer));
     }
 
     private static void DoSelectThisShip(int mouseKeyIsPressed)

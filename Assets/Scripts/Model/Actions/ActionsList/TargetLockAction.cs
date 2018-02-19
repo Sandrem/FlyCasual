@@ -1,4 +1,5 @@
 ﻿using RulesList;
+using Ship;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,8 @@ namespace ActionsList
         public TargetLockAction()
         {
             Name = EffectName = "Target Lock";
+
+            TokensSpend.Add(typeof(Tokens.BlueTargetLockToken));
             IsReroll = true;
         }
 
@@ -134,7 +137,15 @@ namespace SubPhases
             targetsAllowed.Add(TargetTypes.Enemy);
             finishAction = TrySelectTargetLock;
 
+            FilterTargets = FilterTargetLockTargets;
+
             UI.ShowSkipButton();
+        }
+
+        private bool FilterTargetLockTargets(GenericShip ship)
+        {
+            Board.ShipDistanceInformation distanceInfo = new Board.ShipDistanceInformation(Selection.ThisShip, ship);
+            return ship.Owner.PlayerNo != Selection.ThisShip.Owner.PlayerNo && distanceInfo.Range >= minRange && distanceInfo.Range <= maxRange && Rules.TargetLocks.TargetLockIsAllowed(Selection.ThisShip, ship);
         }
 
         protected virtual void SuccessfulCallback()

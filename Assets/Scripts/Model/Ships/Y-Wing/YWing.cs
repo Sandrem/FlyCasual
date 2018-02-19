@@ -14,7 +14,8 @@ namespace Ship
             public YWing() : base()
             {
                 Type = "Y-Wing";
-                IconicPilot = "Horton Salm";
+                IconicPilots.Add(Faction.Rebel, typeof(HortonSalm));
+                IconicPilots.Add(Faction.Scum, typeof(SyndicateThug));
 
                 ManeuversImageUrl = "https://vignette4.wikia.nocookie.net/xwing-miniatures/images/1/18/MR_Y-WING.png";
 

@@ -3,16 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using Ship;
+using System;
 
 namespace SubPhases
 {
 
     public class CombatSubPhase : GenericSubPhase
     {
+        private Team.Type selectionMode;
 
         public override void Start()
         {
             Name = "Combat SubPhase";
+
+            selectionMode = Team.Type.Friendly;
 
             if (DebugManager.DebugPhases) Debug.Log("Combat - Started");
         }
@@ -61,7 +65,7 @@ namespace SubPhases
                 if (DebugManager.DebugPhases) Debug.Log("Attack time for: " + RequiredPlayer + ", skill " + RequiredPilotSkill);
 
                 UpdateHelpInfo();
-                HighlightShips();
+                Roster.HighlightShipsFiltered(FilterShipsToAssignManeuver);
                 Roster.GetPlayer(RequiredPlayer).PerformAttack();
             }
         }
@@ -130,15 +134,58 @@ namespace SubPhases
         public override bool ThisShipCanBeSelected(GenericShip ship, int mouseKeyIsPressed)
         {
             bool result = false;
+
             if ((ship.Owner.PlayerNo == RequiredPlayer) && (ship.PilotSkill == RequiredPilotSkill) && (Roster.GetPlayer(RequiredPlayer).GetType() == typeof(Players.HumanPlayer)))
             {
+                if (ship.IsAttackPerformed)
+                {
+                    Messages.ShowErrorToHuman("Ship cannot be selected:\nShip already performed attack");
+                    return result;
+                }
+
+                if (selectionMode == Team.Type.Any)
+                {
+                    Messages.ShowErrorToHuman("Ship cannot be selected:\nUI is locked");
+                    return result;
+                }
+
+                if (selectionMode == Team.Type.Enemy)
+                {
+                    Messages.ShowErrorToHuman("Ship cannot be selected:\nAttack by activated ship or skip attack");
+                    return result;
+                }
+
                 result = true;
             }
             else
             {
-                Messages.ShowErrorToHuman("Ship cannot be selected:\n Need " + RequiredPlayer + " and pilot skill " + RequiredPilotSkill);
+                Messages.ShowErrorToHuman("Ship cannot be selected:\nNeed " + RequiredPlayer + " and pilot skill " + RequiredPilotSkill);
             }
+
             return result;
+        }
+
+        public override void DoSelectThisShip(GenericShip ship, int mouseKeyIsPressed)
+        {
+            Roster.HighlightShipsFiltered(FilterShipsToAttack);
+            ship.CallCombatActivation(delegate { ChangeSelectionMode(Team.Type.Enemy); });
+        }
+
+        private bool FilterShipsToAttack(GenericShip ship)
+        {
+            return ship.Owner.PlayerNo != RequiredPlayer;
+        }
+
+        private void LockSelectionMode()
+        {
+            UI.HideSkipButton();
+            selectionMode = Team.Type.Any;
+        }
+
+        private void ChangeSelectionMode(Team.Type type)
+        {
+            UI.ShowSkipButton();
+            selectionMode = type;
         }
 
         public override bool AnotherShipCanBeSelected(GenericShip targetShip, int mouseKeyIsPressed)
@@ -188,30 +235,89 @@ namespace SubPhases
             return result;
         }
 
-        private void HighlightShips()
+        private bool FilterShipsToAssignManeuver(GenericShip ship)
         {
-            Roster.AllShipsHighlightOff();
-            foreach (var ship in Roster.GetPlayer(RequiredPlayer).Ships)
-            {
-                if ((ship.Value.PilotSkill == RequiredPilotSkill) && (!ship.Value.IsAttackPerformed))
-                {
-                    ship.Value.HighlightCanBeSelectedOn();
-                    Roster.RosterPanelHighlightOn(ship.Value);
-                }
-            }
+            return ship.PilotSkill == RequiredPilotSkill && !ship.IsAttackPerformed && ship.Owner.PlayerNo == RequiredPlayer;
         }
 
         public override void SkipButton()
         {
-            foreach (var shipHolder in Roster.GetPlayer(Phases.CurrentPhasePlayer).Ships)
+            if ((Selection.ThisShip == null) || (Selection.ThisShip.IsAttackPerformed))
             {
-                if (shipHolder.Value.PilotSkill == Phases.CurrentSubPhase.RequiredPilotSkill)
+                // If no ship is selected or selected ship already performed attack
+                // skip combat for all player's ships with current PS
+
+                List<GenericShip> shipsToSkipCombat = new List<GenericShip>();
+
+                foreach (var shipHolder in Roster.GetPlayer(Phases.CurrentPhasePlayer).Ships)
                 {
-                    shipHolder.Value.CallAfterAttackWindow();
-                    shipHolder.Value.IsAttackPerformed = true;
+                    if (shipHolder.Value.PilotSkill == Phases.CurrentSubPhase.RequiredPilotSkill)
+                    {
+                        shipsToSkipCombat.Add(shipHolder.Value);
+                    }
+                }
+
+                SkipCombatByShips(shipsToSkipCombat, Next);
+            }
+            else
+            {
+                // If selected ship can attack - skip attack only for this ship
+
+                AfterSkippedCombatActivation(Selection.ThisShip);
+                CheckNext();
+            }
+
+        }
+
+        private void SkipCombatByShips(List<GenericShip> shipsToSkipCombat, Action callback)
+        {
+            if (shipsToSkipCombat != null && shipsToSkipCombat.Count > 0)
+            {
+                GenericShip shipToSkipCombat = shipsToSkipCombat.First();
+
+                shipsToSkipCombat.Remove(shipToSkipCombat);
+
+                if (!shipToSkipCombat.IsAttackPerformed)
+                {
+                    shipToSkipCombat.CallCombatActivation(
+                    delegate {
+                        AfterSkippedCombatActivation(shipToSkipCombat);
+                        shipToSkipCombat.CallCombatDeactivation(
+                            delegate { SkipCombatByShips(shipsToSkipCombat, callback); }
+                        );
+                    });
+                }
+                else
+                {
+                    SkipCombatByShips(shipsToSkipCombat, callback);
                 }
             }
-            Next();
+            else
+            {
+                callback();
+            }
+        }
+
+        private void AfterSkippedCombatActivation(GenericShip ship)
+        {
+            if (!ship.IsAttackPerformed) ship.CallAfterAttackWindow();
+            ship.IsAttackPerformed = true;
+
+            Selection.DeselectThisShip();
+            Selection.DeselectAnotherShip();
+            ChangeSelectionMode(Team.Type.Friendly);
+        }
+
+        private void CheckNext()
+        {
+            if (Roster.GetPlayer(RequiredPlayer).Ships.Count(n => n.Value.PilotSkill == RequiredPilotSkill && !n.Value.IsAttackPerformed) == 0)
+            {
+                Next();
+            }
+            else
+            {
+                // TODO: Highlight available ships again
+            }
         }
 
         public override void DoSelectAnotherShip(GenericShip ship, int mouseKeyIsPressed)
@@ -231,6 +337,11 @@ namespace SubPhases
             {
                 UI.CheckFiringRangeAndShow();
             }
+        }
+
+        public override void Resume()
+        {
+            ChangeSelectionMode(Team.Type.Friendly);
         }
 
     }

@@ -5,6 +5,8 @@ using Tokens;
 using System.Collections.Generic;
 using UnityEngine;
 using SquadBuilderNS;
+using System;
+using Abilities;
 
 namespace UpgradesList
 {
@@ -17,6 +19,8 @@ namespace UpgradesList
             Cost = 3;
 
             isUnique = true;
+
+            UpgradeAbilities.Add(new MaulCrewAbility());
         }
 
         public override bool IsAllowedForShip(GenericShip ship)
@@ -42,7 +46,7 @@ namespace UpgradesList
                         return true;
                     }
 
-                    foreach (var upgrade in shipHolder.Instance.UpgradeBar.GetInstalledUpgrades())
+                    foreach (var upgrade in shipHolder.Instance.UpgradeBar.GetUpgradesAll())
                     {
                         if (upgrade.Name == "Ezra Bridger")
                         {
@@ -55,43 +59,52 @@ namespace UpgradesList
                 {
                     Messages.ShowError("Maul cannot be in Rebel squad without Ezra Bridger");
                 }
-                
+
             }
-            
+
             return result;
         }
 
-        public override void AttachToShip(GenericShip host)
-        {
-            base.AttachToShip(host);
+    }
+}
 
-            host.AfterGenerateAvailableActionEffectsList += MaulDiceModification;
-            host.OnAttackHitAsAttacker += RegisterRemoveStress;
+namespace Abilities
+{
+    public class MaulCrewAbility: GenericAbility
+    {
+        public override void ActivateAbility()
+        {
+            HostShip.AfterGenerateAvailableActionEffectsList += MaulDiceModification;
+            HostShip.OnAttackHitAsAttacker += RegisterRemoveStress;
+        }
+
+        public override void DeactivateAbility()
+        {
+            HostShip.AfterGenerateAvailableActionEffectsList -= MaulDiceModification;
+            HostShip.OnAttackHitAsAttacker -= RegisterRemoveStress;
         }
 
         private void MaulDiceModification(GenericShip host)
         {
-            ActionsList.GenericAction newAction = new ActionsList.MaulDiceModification(){ ImageUrl = ImageUrl, Host = this.Host };
-            host.AddAvailableActionEffect(newAction);
+            ActionsList.GenericAction newAction = new ActionsList.MaulDiceModification()
+            {
+                ImageUrl = HostUpgrade.ImageUrl,
+                Host = HostShip
+            };
+            HostShip.AddAvailableActionEffect(newAction);
         }
 
         private void RegisterRemoveStress()
         {
-            Triggers.RegisterTrigger(new Trigger
-            {
-                Name = "Maul: Remove Stress token",
-                TriggerOwner = Host.Owner.PlayerNo,
-                TriggerType = TriggerTypes.OnAttackHit,
-                EventHandler = RemoveStress
-            });
+            RegisterAbilityTrigger(TriggerTypes.OnAttackHit, RemoveStress);
         }
 
         private void RemoveStress(object sender, System.EventArgs e)
         {
-            if (Host.Tokens.HasToken(typeof(StressToken)))
+            if (HostShip.Tokens.HasToken(typeof(StressToken)))
             {
                 Messages.ShowInfo("Maul: Remove Stress token");
-                Host.Tokens.RemoveToken(
+                HostShip.Tokens.RemoveToken(
                     typeof(StressToken),
                     Triggers.FinishTrigger
                 );
@@ -161,27 +174,35 @@ namespace ActionsList
         {
             int diceRerolledCount = DiceRerollManager.CurrentDiceRerollManager.GetDiceReadyForReroll().Count();
 
-            for (int i = 0; i < diceRerolledCount; i++)
+            Triggers.RegisterTrigger(new Trigger()
             {
-                Triggers.RegisterTrigger(new Trigger()
-                {
-                    Name = "Maul: Assign stress for each rerolled dice",
-                    TriggerType = TriggerTypes.OnRerollIsConfirmed,
-                    TriggerOwner = Host.Owner.PlayerNo,
-                    EventHandler = AssingStress,
-                    Skippable = true
-                });
-            }
+                Name = "Maul: Assign stress for each rerolled dice",
+                TriggerType = TriggerTypes.OnRerollIsConfirmed,
+                TriggerOwner = Host.Owner.PlayerNo,
+                EventHandler = delegate { StartAssignStess(diceRerolledCount); }
+            });
 
             Host.OnRerollIsConfirmed -= AssignStressForEachRerolled;
         }
 
-        private void AssingStress(object sender, System.EventArgs e)
+        private void StartAssignStess(int diceRerolledCount)
         {
-            Messages.ShowError("Maul: Get Stress token");
-            Host.Tokens.AssignToken(new StressToken(Host), Triggers.FinishTrigger);
+            Messages.ShowError(string.Format("Maul: Get Stress tokens: {0}", diceRerolledCount));
+            AssignStressRecursive(diceRerolledCount);
         }
 
+        private void AssignStressRecursive(int count)
+        {
+            if (count > 0)
+            {
+                count--;
+                Host.Tokens.AssignToken(new StressToken(Host), delegate { AssignStressRecursive(count); });
+            }
+            else
+            {
+                Triggers.FinishTrigger();
+            }
+        }
     }
 
 }

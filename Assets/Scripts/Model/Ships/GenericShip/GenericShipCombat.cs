@@ -178,6 +178,8 @@ namespace Ship
 
         public event EventHandlerObjArgsBool OnSufferCriticalDamage;
 
+        public event EventHandlerBool OnTryConfirmDiceResults;
+
         // TRIGGERS
 
         public void CallOnActivationPhaseStart()
@@ -774,6 +776,15 @@ namespace Ship
 
             if (OnCheckSufferBombDetonation != null) OnCheckSufferBombDetonation(this);
             Triggers.ResolveTriggers(TriggerTypes.OnCheckSufferBombDetonation, callback);
+        }
+
+        public bool CallTryConfirmDiceResults()
+        {
+            bool result = true;
+
+            if (OnTryConfirmDiceResults != null) OnTryConfirmDiceResults(ref result);
+
+            return result;
         }
 
     }

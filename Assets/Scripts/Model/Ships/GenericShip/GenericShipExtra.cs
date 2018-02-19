@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mods;
+using ActionsList;
 
 namespace Ship
 {
@@ -13,6 +14,8 @@ namespace Ship
 
         public event EventHandlerShip OnDocked;
         public event EventHandlerShip OnUndocked;
+
+        public event EventHandlerActionInt OnAiGetDiceModificationPriority;
 
         public GenericShip Host;
 
@@ -96,6 +99,13 @@ namespace Ship
                 PilotName = PilotName.Replace(dockedPosfix, "");
             }
             Roster.UpdateShipStats(this);
+        }
+
+        // AI
+
+        public void CallOnAiGetDiceModificationPriority(GenericAction diceModification, ref int priority)
+        {
+            if (OnAiGetDiceModificationPriority != null) OnAiGetDiceModificationPriority(diceModification, ref priority);
         }
     }
 

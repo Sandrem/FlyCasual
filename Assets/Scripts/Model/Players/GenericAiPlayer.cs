@@ -321,6 +321,7 @@ namespace Players
             foreach (var actionEffect in availableActionEffectsList)
             {
                 int priority = actionEffect.GetActionEffectPriority();
+                Selection.ActiveShip.CallOnAiGetDiceModificationPriority(actionEffect, ref priority);
                 actionsPriority.Add(actionEffect, priority);
             }
 

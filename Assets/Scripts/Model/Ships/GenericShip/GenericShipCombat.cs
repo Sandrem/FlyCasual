@@ -589,12 +589,12 @@ namespace Ship
                 if (IsSimultaneousFireRuleActive())
                 {
                     Messages.ShowInfo("SIMULTANEOUS ATTACK RULE DESTRUCTION");
-                    OnCombatDeactivation += RegisterShipDestruction;
+                    Combat.Attacker.OnCombatDeactivation += RegisterShipDestruction;
                 }
                 else
                 {
                     Messages.ShowInfo("REGULAR COMBAT DESTRUCTION");
-                    OnAttackFinish += RegisterShipDestruction;
+                    Combat.Attacker.OnAttackFinishAsAttacker += RegisterShipDestruction;
                 }
                 callback();
             }
@@ -625,15 +625,16 @@ namespace Ship
             );            
         }
 
-        private void RegisterShipDestruction(GenericShip shipToDestroy)
+        private void RegisterShipDestruction(GenericShip shipToIgnore)
         {
-            shipToDestroy.OnCombatDeactivation -= RegisterShipDestruction;
+            Combat.Attacker.OnCombatDeactivation -= RegisterShipDestruction;
+            Combat.Attacker.OnAttackFinish -= RegisterShipDestruction;
 
             Triggers.RegisterTrigger(new Trigger
             {
-                Name = "Destruction of ship" + shipToDestroy.ShipId,
+                Name = "Destruction of ship #" + this.ShipId,
                 TriggerType = TriggerTypes.OnCombatDeactivation,
-                TriggerOwner = shipToDestroy.Owner.PlayerNo,
+                TriggerOwner = this.Owner.PlayerNo,
                 EventHandler = delegate { PerformShipDestruction(Triggers.FinishTrigger); }
             });
         }

@@ -17,12 +17,19 @@ namespace ActionsList
 
         public override void ActionTake()
         {
-            Phases.CurrentSubPhase.Pause();
-            Phases.StartTemporarySubPhaseOld(
-                "Boost",
-                typeof(SubPhases.BoostPlanningSubPhase),
-                Phases.CurrentSubPhase.CallBack
-            );
+            if (Selection.ThisShip.Owner.GetType() == typeof(Players.HotacAiPlayer))
+            {
+                Phases.CurrentSubPhase.CallBack();
+            }
+            else
+            {
+                Phases.CurrentSubPhase.Pause();
+                Phases.StartTemporarySubPhaseOld(
+                    "Boost",
+                    typeof(SubPhases.BoostPlanningSubPhase),
+                    Phases.CurrentSubPhase.CallBack
+                );
+            }
         }
 
     }

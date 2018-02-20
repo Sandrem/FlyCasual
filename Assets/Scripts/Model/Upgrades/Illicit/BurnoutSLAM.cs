@@ -39,7 +39,7 @@ namespace Abilities
 
         private void RegisterBurnoutSlamAbility(ActionsList.GenericAction action)
         {
-            if (action.GetType() == typeof(ActionsList.SlamAction))
+            if (action != null && action.GetType() == typeof(ActionsList.SlamAction))
             {
                 RegisterAbilityTrigger(TriggerTypes.OnActionIsPerformed, DiscardThisUpgrade);
             }

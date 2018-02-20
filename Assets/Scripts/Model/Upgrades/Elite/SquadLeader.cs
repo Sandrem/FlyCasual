@@ -75,38 +75,40 @@ namespace SubPhases
             maxRange = 2;
             finishAction = SelectSquadLeaderTarget;
 
+            FilterTargets = FilterAbilityTargets;
+            GetAiPriority = GetAiAbilityPriority;
+
             UI.ShowSkipButton();
+        }
+
+        private bool FilterAbilityTargets(GenericShip ship)
+        {
+            Board.ShipDistanceInformation distanceInfo = new Board.ShipDistanceInformation(SquadLeaderOwner, ship);
+            return (ship.PilotSkill < SquadLeaderOwner.PilotSkill) && (distanceInfo.Range <= 2) && (ship.Owner.PlayerNo == SquadLeaderOwner.Owner.PlayerNo) && (ship.ShipId != SquadLeaderOwner.ShipId);
         }
 
         private void SelectSquadLeaderTarget()
         {
-            if (TargetShip.PilotSkill < SquadLeaderOwner.PilotSkill)
-            {
-                Selection.ThisShip = TargetShip;
+            Selection.ThisShip = TargetShip;
 
-                Triggers.RegisterTrigger(
-                    new Trigger()
-                    {
-                        Name = "Squad Leader: Free action",
-                        TriggerOwner = Selection.ThisShip.Owner.PlayerNo,
-                        TriggerType = TriggerTypes.OnFreeActionPlanned,
-                        EventHandler = PerformFreeAction
-                    }
-                );
+            Triggers.RegisterTrigger(
+                new Trigger()
+                {
+                    Name = "Squad Leader: Free action",
+                    TriggerOwner = Selection.ThisShip.Owner.PlayerNo,
+                    TriggerType = TriggerTypes.OnFreeActionPlanned,
+                    EventHandler = PerformFreeAction
+                }
+            );
 
-                MovementTemplates.ReturnRangeRuler();
+            MovementTemplates.ReturnRangeRuler();
 
-                Triggers.ResolveTriggers(TriggerTypes.OnFreeActionPlanned, delegate {
-                    Phases.FinishSubPhase(typeof(SelectSquadLeaderTargetSubPhase));
-                    Phases.FinishSubPhase(typeof(ActionDecisonSubPhase));
-                    Triggers.FinishTrigger();
-                    CallBack();
-                });
-            }
-            else
-            {
-                Messages.ShowInfo("Target must have lower pilot skill than owner of Squad Leader");
-            }
+            Triggers.ResolveTriggers(TriggerTypes.OnFreeActionPlanned, delegate {
+                Phases.FinishSubPhase(typeof(SelectSquadLeaderTargetSubPhase));
+                Phases.FinishSubPhase(typeof(ActionDecisonSubPhase));
+                Triggers.FinishTrigger();
+                CallBack();
+            });
         }
 
         public override void RevertSubPhase() { }

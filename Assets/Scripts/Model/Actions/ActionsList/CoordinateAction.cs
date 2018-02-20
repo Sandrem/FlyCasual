@@ -41,8 +41,27 @@ namespace SubPhases
             finishAction = SelectCoordinateTarget;
 
             FilterTargets = FilterCoordinateTargets;
+            GetAiPriority = GetAiCoordinatePriority;
 
             UI.ShowSkipButton();
+        }
+
+        private int GetAiCoordinatePriority(GenericShip ship)
+        {
+            int result = 0;
+
+            result += NeedTokenPriority(ship);
+            result += ship.Cost + ship.UpgradeBar.GetUpgradesOnlyFaceup().Sum(n => n.Cost);
+
+            return result;
+        }
+
+        private int NeedTokenPriority(GenericShip ship)
+        {
+            if (!ship.Tokens.HasToken(typeof(Tokens.FocusToken))) return 100;
+            if (ship.PrintedActions.Any(n => n.GetType() == typeof(ActionsList.EvadeAction)) && !ship.Tokens.HasToken(typeof(Tokens.EvadeToken))) return 50;
+            if (ship.PrintedActions.Any(n => n.GetType() == typeof(ActionsList.TargetLockAction)) && !ship.Tokens.HasToken(typeof(Tokens.BlueTargetLockToken), '*')) return 50;
+            return 0;
         }
 
         private bool FilterCoordinateTargets(GenericShip ship)

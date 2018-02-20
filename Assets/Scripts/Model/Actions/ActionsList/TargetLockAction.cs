@@ -138,6 +138,7 @@ namespace SubPhases
             finishAction = TrySelectTargetLock;
 
             FilterTargets = FilterTargetLockTargets;
+            GetAiPriority = GetTargetLockAiPriority;
 
             UI.ShowSkipButton();
         }
@@ -146,6 +147,20 @@ namespace SubPhases
         {
             Board.ShipDistanceInformation distanceInfo = new Board.ShipDistanceInformation(Selection.ThisShip, ship);
             return ship.Owner.PlayerNo != Selection.ThisShip.Owner.PlayerNo && distanceInfo.Range >= minRange && distanceInfo.Range <= maxRange && Rules.TargetLocks.TargetLockIsAllowed(Selection.ThisShip, ship);
+        }
+
+        private int GetTargetLockAiPriority(GenericShip ship)
+        {
+            int result = 0;
+
+            Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(Selection.ThisShip, ship);
+            if (shotInfo.InShotAngle) result += 1000;
+            if (!ship.ShipsBumped.Contains(Selection.ThisShip)) result += 500;
+            if (shotInfo.Range <= 3) result += 250;
+
+            result += ship.Cost + ship.UpgradeBar.GetUpgradesOnlyFaceup().Sum(n => n.Cost);
+
+            return result;
         }
 
         protected virtual void SuccessfulCallback()

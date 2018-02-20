@@ -103,7 +103,7 @@ namespace Abilities
 
         private int GetAiPriority(GenericShip ship)
         {
-            return 50;
+            return ship.Cost + ship.UpgradeBar.GetUpgradesOnlyFaceup().Sum(n => n.Cost);
         }
 
         private void ShowPilotCrits()

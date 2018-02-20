@@ -4,6 +4,8 @@ using UnityEngine;
 using SubPhases;
 using Abilities;
 using System;
+using Ship;
+using System.Linq;
 
 namespace Ship
 {
@@ -49,25 +51,35 @@ namespace PilotAbilitiesNamespace
 
         private void SelectShipForAbility(object sender, System.EventArgs e)
         {
-            SelectTargetForAbilityOld(
-                CheckIsTargetInBullseyeArc,
-                new List<TargetTypes>() { TargetTypes.Enemy },
-                new Vector2(1, 3)
+            SelectTargetForAbilityNew(
+                AcquireTargetLock,
+                FilterTargetInBullseyeArc,
+                GetAiAbilityPriority,
+                HostShip.Owner.PlayerNo
             );
         }
 
-        private void CheckIsTargetInBullseyeArc()
+        private bool FilterTargetInBullseyeArc(GenericShip ship)
         {
-            Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(HostShip, TargetShip, HostShip.PrimaryWeapon);
-            if (shotInfo.InBullseyeArc)
-            {
-                Messages.ShowErrorToHuman("Target Lock is aquired");
-                Actions.AssignTargetLockToPair(HostShip, TargetShip, SuccessfullSelection, UnSuccessfullSelection);
-            }
-            else
-            {
-                Messages.ShowErrorToHuman("Selected ship is not in bullseye arc");
-            }
+            Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(HostShip, ship, HostShip.PrimaryWeapon);
+            return shotInfo.InBullseyeArc && FilterByTargetType(ship, new List<TargetTypes>({ TargetTypes.Enemy }) && FilterTargetsByRange(ship, 1, 3);
+        }
+
+        private int GetAiAbilityPriority(GenericShip ship)
+        {
+            int result = 0;
+
+            Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(HostShip, ship, HostShip.PrimaryWeapon);
+            result += (3 - shotInfo.Range) * 100;
+
+            result += ship.Cost + ship.UpgradeBar.GetUpgradesOnlyFaceup().Sum(n => n.Cost);
+
+            return result;
+        }
+
+        private void AcquireTargetLock()
+        {
+            Actions.AssignTargetLockToPair(HostShip, TargetShip, SuccessfullSelection, UnSuccessfullSelection);
         }
 
         private void SuccessfullSelection()

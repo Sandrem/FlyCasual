@@ -248,8 +248,10 @@ namespace SubPhases
 
                 Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, CallBack);
             }
-
-            CallBack();
+            else
+            {
+                CallBack();
+            }
         }
 
     }

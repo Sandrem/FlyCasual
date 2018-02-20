@@ -4,6 +4,7 @@ using UnityEngine;
 using Upgrade;
 using SubPhases;
 using Ship;
+using System.Linq;
 
 namespace UpgradesList
 {
@@ -85,6 +86,24 @@ namespace SubPhases
         {
             Board.ShipDistanceInformation distanceInfo = new Board.ShipDistanceInformation(SquadLeaderOwner, ship);
             return (ship.PilotSkill < SquadLeaderOwner.PilotSkill) && (distanceInfo.Range <= 2) && (ship.Owner.PlayerNo == SquadLeaderOwner.Owner.PlayerNo) && (ship.ShipId != SquadLeaderOwner.ShipId);
+        }
+
+        private int GetAiAbilityPriority(GenericShip ship)
+        {
+            int result = 0;
+
+            result += NeedTokenPriority(ship);
+            result += ship.Cost + ship.UpgradeBar.GetUpgradesOnlyFaceup().Sum(n => n.Cost);
+
+            return result;
+        }
+
+        private int NeedTokenPriority(GenericShip ship)
+        {
+            if (!ship.Tokens.HasToken(typeof(Tokens.FocusToken))) return 100;
+            if (ship.PrintedActions.Any(n => n.GetType() == typeof(ActionsList.EvadeAction)) && !ship.Tokens.HasToken(typeof(Tokens.EvadeToken))) return 50;
+            if (ship.PrintedActions.Any(n => n.GetType() == typeof(ActionsList.TargetLockAction)) && !ship.Tokens.HasToken(typeof(Tokens.BlueTargetLockToken), '*')) return 50;
+            return 0;
         }
 
         private void SelectSquadLeaderTarget()

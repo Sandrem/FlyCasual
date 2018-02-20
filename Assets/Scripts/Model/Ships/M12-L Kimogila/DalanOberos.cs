@@ -62,7 +62,7 @@ namespace PilotAbilitiesNamespace
         private bool FilterTargetInBullseyeArc(GenericShip ship)
         {
             Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(HostShip, ship, HostShip.PrimaryWeapon);
-            return shotInfo.InBullseyeArc && FilterByTargetType(ship, new List<TargetTypes>({ TargetTypes.Enemy }) && FilterTargetsByRange(ship, 1, 3);
+            return shotInfo.InBullseyeArc && FilterByTargetType(ship, new List<TargetTypes>(){ TargetTypes.Enemy }) && FilterTargetsByRange(ship, 1, 3);
         }
 
         private int GetAiAbilityPriority(GenericShip ship)

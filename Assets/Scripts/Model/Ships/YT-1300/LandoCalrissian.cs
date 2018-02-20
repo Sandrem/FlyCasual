@@ -56,11 +56,35 @@ namespace Abilities
 
         private void LandoCalrissianPilotAbility(object sender, System.EventArgs e)
         {
-            SelectTargetForAbilityOld(
+            SelectTargetForAbilityNew(
                 GrantFreeAction,
-                new List<TargetTypes>() {TargetTypes.OtherFriendly},
-                new Vector2(1, 1)
+                FilterAbilityTargets,
+                GetAiAbilityPriority,
+                HostShip.Owner.PlayerNo
             );
+        }
+
+        private bool FilterAbilityTargets(GenericShip ship)
+        {
+            return FilterByTargetType(ship, new List<TargetTypes>() { TargetTypes.OtherFriendly }) && FilterTargetsByRange(ship, 1, 1);
+        }
+
+        private int GetAiAbilityPriority(GenericShip ship)
+        {
+            int result = 0;
+
+            result += NeedTokenPriority(ship);
+            result += ship.Cost + ship.UpgradeBar.GetUpgradesOnlyFaceup().Sum(n => n.Cost);
+
+            return result;
+        }
+
+        private int NeedTokenPriority(GenericShip ship)
+        {
+            if (!ship.Tokens.HasToken(typeof(Tokens.FocusToken))) return 100;
+            if (ship.PrintedActions.Any(n => n.GetType() == typeof(ActionsList.EvadeAction)) && !ship.Tokens.HasToken(typeof(Tokens.EvadeToken))) return 50;
+            if (ship.PrintedActions.Any(n => n.GetType() == typeof(ActionsList.TargetLockAction)) && !ship.Tokens.HasToken(typeof(Tokens.BlueTargetLockToken), '*')) return 50;
+            return 0;
         }
 
         private void GrantFreeAction()

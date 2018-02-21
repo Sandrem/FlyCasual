@@ -41,8 +41,7 @@ namespace Ship
             if (faceDownCards.Count != 0)
             {
                 result = true;
-                int random = UnityEngine.Random.Range(0, faceDownCards.Count);
-                faceDownCards.RemoveAt(random);
+                faceDownCards.RemoveAt(0);
                 Host.CallAfterAssignedDamageIsChanged();
             }
             return result;

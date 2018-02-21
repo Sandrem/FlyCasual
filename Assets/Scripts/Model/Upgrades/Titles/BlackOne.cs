@@ -61,7 +61,7 @@ namespace Abilities
         {
             Messages.ShowInfoToHuman("Black One: Select ship to remove Red Target Lock token");
 
-            SelectTargetForAbilityNew(
+            SelectTargetForAbility(
                 RemoveEnemyTargetLock,
                 FilterTargetsOfAbility,
                 GetAiPriorityOfTarget,

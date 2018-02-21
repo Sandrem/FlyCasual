@@ -51,7 +51,7 @@ namespace PilotAbilitiesNamespace
 
         private void SelectShipForAbility(object sender, System.EventArgs e)
         {
-            SelectTargetForAbilityNew(
+            SelectTargetForAbility(
                 AcquireTargetLock,
                 FilterTargetInBullseyeArc,
                 GetAiAbilityPriority,

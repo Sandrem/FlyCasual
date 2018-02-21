@@ -88,7 +88,7 @@ namespace Abilities
 
                 detonatedBombObject = (e as BombDetonationEventArgs).BombObject;
 
-                SelectTargetForAbilityNew(
+                SelectTargetForAbility(
                     DealDamageToShip,
                     FilterTargetsForDealDamage,
                     GetAiPriorityForDealDamage,

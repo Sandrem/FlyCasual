@@ -54,7 +54,7 @@ namespace Abilities
 
         private void AskSelectShip(object sender, System.EventArgs e)
         {
-            SelectTargetForAbilityNew(
+            SelectTargetForAbility(
                 PerformFreeAction,
                 FilterAbilityTargets,
                 GetAiAbilityPriority,

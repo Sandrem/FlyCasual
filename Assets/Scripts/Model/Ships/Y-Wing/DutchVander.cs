@@ -56,7 +56,7 @@ namespace Abilities
             Selection.ThisShip = HostShip;
             if (HostShip.Owner.Ships.Count > 1)
             {
-                SelectTargetForAbilityNew(
+                SelectTargetForAbility(
                     GrantFreeTargetLock,
                     FilterAbilityTargets,
                     GetAiAbilityPriority,

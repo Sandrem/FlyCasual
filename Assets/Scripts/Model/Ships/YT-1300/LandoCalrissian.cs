@@ -57,7 +57,7 @@ namespace Abilities
 
         private void LandoCalrissianPilotAbility(object sender, System.EventArgs e)
         {
-            SelectTargetForAbilityNew(
+            SelectTargetForAbility(
                 GrantFreeAction,
                 FilterAbilityTargets,
                 GetAiAbilityPriority,

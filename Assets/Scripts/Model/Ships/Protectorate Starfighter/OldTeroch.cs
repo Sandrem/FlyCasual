@@ -56,7 +56,7 @@ namespace Abilities
 			if (TargetsForAbilityExist(FilterTargetsOfAbility)) {
                 // Available selection are only within Range 1.
                 // TODO : build the list if the enemy can fire to the ship
-                SelectTargetForAbilityNew(
+                SelectTargetForAbility(
                     ActivateOldTerochAbility,
                     FilterTargetsOfAbility,
                     GetAiPriorityOfTarget,

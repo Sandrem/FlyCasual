@@ -65,7 +65,7 @@ namespace Abilities
 
         private void SelectTarget(object sender, EventArgs e)
         {
-            SelectTargetForAbilityNew(
+            SelectTargetForAbility(
                 TargetToReassignIsSelected,
                 FilterAbilityTargets,
                 GetAiPriority,

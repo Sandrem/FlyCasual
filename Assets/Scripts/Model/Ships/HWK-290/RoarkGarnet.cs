@@ -48,7 +48,7 @@ namespace Abilities
         {
             if (HostShip.Owner.Ships.Count > 1)
             {
-                SelectTargetForAbilityNew(
+                SelectTargetForAbility(
                     SelectAbilityTarget,
                     FilterAbilityTarget,
                     GetAiAbilityPriority,

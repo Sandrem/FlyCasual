@@ -133,7 +133,7 @@ namespace Abilities
 
         protected GenericShip TargetShip;
 
-        protected void SelectTargetForAbilityNew(Action selectTargetAction, Func<GenericShip, bool> filterTargets, Func<GenericShip, int> getAiPriority, PlayerNo subphaseOwnerPlayerNo, bool showSkipButton = true, Action customCallback = null)
+        protected void SelectTargetForAbility(Action selectTargetAction, Func<GenericShip, bool> filterTargets, Func<GenericShip, int> getAiPriority, PlayerNo subphaseOwnerPlayerNo, bool showSkipButton = true, Action customCallback = null)
         {
             if (customCallback == null) customCallback = Triggers.FinishTrigger;
 

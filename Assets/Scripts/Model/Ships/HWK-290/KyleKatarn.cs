@@ -52,7 +52,7 @@ namespace Abilities
             {
                 Messages.ShowInfoToHuman("Kyle Katarn: Select a ship to receive a Focus token");
 
-                SelectTargetForAbilityNew(
+                SelectTargetForAbility(
                     SelectAbilityTarget,
                     FilterAbilityTarget,
                     GetAiAbilityPriority,

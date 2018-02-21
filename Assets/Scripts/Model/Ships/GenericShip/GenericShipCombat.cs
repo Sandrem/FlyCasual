@@ -484,7 +484,7 @@ namespace Ship
             {
                 if (OnFaceupCritCardReadyToBeDealt != null) OnFaceupCritCardReadyToBeDealt(this, Combat.CurrentCriticalHitCard);
 
-                if (OnFaceupCritCardReadyToBeDealtGlobal != null) OnFaceupCritCardReadyToBeDealtGlobal(this, Combat.CurrentCriticalHitCard);
+                if (OnFaceupCritCardReadyToBeDealtGlobal != null) OnFaceupCritCardReadyToBeDealtGlobal(this, Combat.CurrentCriticalHitCard, e);
 
                 Triggers.RegisterTrigger(new Trigger
                 {
@@ -586,19 +586,16 @@ namespace Ship
             {
                 if (IsSimultaneousFireRuleActive())
                 {
-                    Messages.ShowInfo("SIMULTANEOUS ATTACK RULE DESTRUCTION");
                     Combat.Attacker.OnCombatDeactivation += RegisterShipDestruction;
                 }
                 else
                 {
-                    Messages.ShowInfo("REGULAR COMBAT DESTRUCTION");
                     Combat.Attacker.OnAttackFinishAsAttacker += RegisterShipDestruction;
                 }
                 callback();
             }
             else
             {
-                Messages.ShowInfo("IMMEDIATE DESTRUCTION");
                 PerformShipDestruction(callback);
             }
         }

@@ -69,7 +69,7 @@ namespace Abilities
         {
             // TODO: Skip/Wrong target - revert
 
-            SelectTargetForAbilityNew(
+            SelectTargetForAbility(
                 AssignConditionToTarget,
                 FilterTargets,
                 GetAiPriority,

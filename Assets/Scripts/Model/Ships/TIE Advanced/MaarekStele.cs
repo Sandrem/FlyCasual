@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Ship;
+using DamageDeckCard;
 
 namespace Ship
 {
@@ -13,8 +14,6 @@ namespace Ship
         {
             public MaarekStele() : base()
             {
-                IsHidden = true;
-
                 PilotName = "Maarek Stele";
                 PilotSkill = 7;
                 Cost = 27;
@@ -72,7 +71,7 @@ namespace SubPhases
 
     public class CritToDealDecisionSubPhase : DecisionSubPhase
     {
-        private List<DamageDeckCard.GenericDamageCard> criticalHitCardsToChoose = new List<DamageDeckCard.GenericDamageCard>();
+        private List<GenericDamageCard> criticalHitCardsToChoose = new List<GenericDamageCard>();
 
         public override void PrepareDecision(Action callBack)
         {
@@ -81,7 +80,15 @@ namespace SubPhases
             criticalHitCardsToChoose.Add(Combat.CurrentCriticalHitCard);
             for (int i = 0; i < 2; i++)
             {
-                //criticalHitCardsToChoose.Add(CriticalHitsDeck.GetCritCard());
+                DamageDecks.GetDamageDeck(Combat.Attacker.Owner.PlayerNo).DrawDamageCard(
+                    true,
+                    AddToCriticalHitCardsToChoose,
+                    new DamageSourceEventArgs()
+                    {
+                        Source = Combat.Attacker,
+                        DamageType = DamageTypes.ShipAttack
+                    }
+                );
             }
 
             foreach (var critCard in criticalHitCardsToChoose)
@@ -98,10 +105,17 @@ namespace SubPhases
 
             DefaultDecisionName = Combat.CurrentCriticalHitCard.Name;
 
+            DecisionViewType = DecisionViewTypes.ImageButtons;
+
             callBack();
         }
 
-        private void DealCard(DamageDeckCard.GenericDamageCard critCard)
+        private void AddToCriticalHitCardsToChoose(GenericDamageCard damageCard, EventArgs e)
+        {
+            criticalHitCardsToChoose.Add(damageCard);
+        }
+
+        private void DealCard(GenericDamageCard critCard)
         {
             Combat.CurrentCriticalHitCard = critCard;
             ConfirmDecision();

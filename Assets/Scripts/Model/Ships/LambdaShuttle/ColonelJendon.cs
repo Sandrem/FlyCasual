@@ -83,7 +83,7 @@ namespace Abilities
         {
             Tooltips.EndTooltip();
 
-            SelectTargetForAbilityNew(
+            SelectTargetForAbility(
                 SelectColonelJendonAbilityTarget,
                 FilterAbilityTargets,
                 GetAiAbilityPriority,

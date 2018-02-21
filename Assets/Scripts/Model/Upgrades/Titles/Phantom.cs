@@ -48,11 +48,18 @@ namespace Abilities
         {
             ToggleRearArc(true);
             Phases.OnCombatPhaseEnd += RegisterExtraShotAbility;
+            dockingHost.OnShipIsDestroyed += DeactivateSecondAttack;
         }
 
         private void OnUndocked(GenericShip dockingHost)
         {
             ToggleRearArc(false);
+            DeactivateSecondAttack(dockingHost, false);
+            HostShip.OnShipIsDestroyed -= DeactivateSecondAttack;
+        }
+
+        private void DeactivateSecondAttack(GenericShip host, bool isFled)
+        {
             Phases.OnCombatPhaseEnd -= RegisterExtraShotAbility;
         }
 

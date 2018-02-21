@@ -324,6 +324,8 @@ namespace SubPhases
 
         private void StartBoostExecution()
         {
+            Rules.Collision.ClearBumps(Selection.ThisShip);
+
             Movement.GenericMovement boostMovement;
             switch ((PreviousSubPhase as BoostPlanningSubPhase).SelectedBoostHelper)
             {

@@ -543,6 +543,8 @@ namespace SubPhases
 
         private void StartBarrelRollExecution()
         {
+            Rules.Collision.ClearBumps(Selection.ThisShip);
+
             progressCurrent = 0;
             progressTarget = Vector3.Distance(Selection.ThisShip.GetPosition(), TemporaryShipBase.transform.position);
 

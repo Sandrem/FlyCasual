@@ -573,6 +573,8 @@ namespace SubPhases
 
         private void StartDecloakExecution()
         {
+            Rules.Collision.ClearBumps(Selection.ThisShip);
+
             ShipStand = (PreviousSubPhase as DecloakPlanningSubPhase).ShipStand;
             helperDirection = (PreviousSubPhase as DecloakPlanningSubPhase).helperDirection;
 

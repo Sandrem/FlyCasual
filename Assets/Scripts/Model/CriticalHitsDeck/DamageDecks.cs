@@ -86,6 +86,9 @@ public class DamageDeck
         GenericDamageCard drawedCard = Deck[0];
         Deck.Remove(drawedCard);
         drawedCard.IsFaceup = isFaceup;
+
+        Combat.CurrentCriticalHitCard = drawedCard;
+
         doWithDamageCard(drawedCard, e);
     }
 

@@ -480,8 +480,6 @@ namespace Ship
         {
             AssignedDamageDiceroll.CancelHits(1);
 
-            Combat.CurrentCriticalHitCard = damageCard;
-
             if (Combat.CurrentCriticalHitCard.IsFaceup)
             {
                 if (OnFaceupCritCardReadyToBeDealt != null) OnFaceupCritCardReadyToBeDealt(this, Combat.CurrentCriticalHitCard);

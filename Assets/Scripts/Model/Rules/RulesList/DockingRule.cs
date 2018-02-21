@@ -58,6 +58,7 @@ namespace RulesList
                 docked.CallDocked(host);
 
                 host.OnMovementFinish += RegisterAskUndock;
+                host.OnShipIsDestroyed += ForcedUndocking;
             }
         }
 
@@ -86,7 +87,7 @@ namespace RulesList
             newSubphase.Start();            
         }
 
-        private void Undock(GenericShip host, GenericShip docked)
+        private void Undock(GenericShip host, GenericShip docked, bool isForced = false)
         {
             SetUndockPosition(host, docked);
 
@@ -98,8 +99,49 @@ namespace RulesList
             docked.CallUndocked(host);
 
             host.OnMovementFinish -= RegisterAskUndock;
+            host.OnShipIsDestroyed -= ForcedUndocking;
 
-            AskAssignManeuver(host, docked);
+            if (!isForced)
+            {
+                AskAssignManeuver(host, docked);
+            }
+            else
+            {
+                DealFacedownDamageCard(docked, delegate { AskAssignManeuver(host, docked); });
+            }
+        }
+
+        private void ForcedUndocking(GenericShip host)
+        {
+            Triggers.RegisterTrigger(
+                new Trigger()
+                {
+                    Name = "Deploy docked ship",
+                    TriggerType = TriggerTypes.OnShipIsDestroyed,
+                    TriggerOwner = host.Owner.PlayerNo,
+                    EventHandler = delegate { Undock(host, host.DockedShips[0], true); }
+                }
+            );
+        }
+
+        // TODO: Create "Deal facedown card method in ship.Damage"
+
+        private void DealFacedownDamageCard(GenericShip dockedShip, Action callback)
+        {
+            DamageDecks.GetDamageDeck(dockedShip.Owner.PlayerNo).DrawDamageCard(
+                false,
+                delegate { DealDrawnCard(dockedShip, callback); },
+                new DamageSourceEventArgs
+                {
+                    DamageType = DamageTypes.Rules,
+                    Source = null
+                }
+            );
+        }
+
+        private void DealDrawnCard(GenericShip ship, Action callBack)
+        {
+            ship.Damage.DealDrawnCard(callBack);
         }
 
         private void AskAssignManeuver(GenericShip host, GenericShip docked)
@@ -173,7 +215,15 @@ namespace RulesList
 
         private void AfterUndockingFinished()
         {
-            Selection.ChangeActiveShip("ShipId:" + Selection.ThisShip.Host.ShipId);
+            if (!Selection.ThisShip.Host.IsDestroyed)
+            {
+                Selection.ChangeActiveShip("ShipId:" + Selection.ThisShip.Host.ShipId);
+            }
+            else
+            {
+                Selection.ThisShip = Selection.ThisShip.Host;
+            }
+
             Triggers.FinishTrigger();
         }
 

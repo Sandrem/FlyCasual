@@ -147,7 +147,7 @@ namespace Abilities
             Combat.Defender.Damage.DealDrawnCard(Triggers.FinishTrigger);
         }
 
-        private void DoSplashDamageOnDestroyed(GenericShip harpoonedShip)
+        private void DoSplashDamageOnDestroyed(GenericShip harpoonedShip, bool isFled)
         {
             RegisterAbilityTrigger(TriggerTypes.OnShipIsDestroyed, delegate { DoSplashDamage(Triggers.FinishTrigger); });
         }

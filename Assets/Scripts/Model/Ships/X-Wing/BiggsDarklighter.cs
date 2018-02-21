@@ -92,7 +92,7 @@ namespace Abilities
             }
         }
 
-        private void RemoveBiggsDarklighterAbility(GenericShip ship)
+        private void RemoveBiggsDarklighterAbility(GenericShip ship, bool isFled)
         {
             RemoveBiggsDarklighterAbility();
         }

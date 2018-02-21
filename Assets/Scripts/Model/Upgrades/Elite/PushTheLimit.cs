@@ -89,7 +89,7 @@ namespace UpgradesList
 			}
 		}
 
-        private void StopAbility(GenericShip host)
+        private void StopAbility(GenericShip host, bool isFled)
         {
             Phases.OnEndPhaseStart -= Cleanup;
         }

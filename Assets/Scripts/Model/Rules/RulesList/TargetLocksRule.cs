@@ -9,7 +9,7 @@ namespace RulesList
     {
         public static event GenericShip.EventHandler2Ships OnCheckTargetLockIsAllowed;
 
-        public void RegisterRemoveTargetLocksOnDestruction(GenericShip ship)
+        public void RegisterRemoveTargetLocksOnDestruction(GenericShip ship, bool isFled)
         {
             Triggers.RegisterTrigger(new Trigger
             {

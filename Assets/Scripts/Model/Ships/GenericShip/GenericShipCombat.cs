@@ -151,7 +151,7 @@ namespace Ship
         public event EventHandlerShip OnDamageCardIsDealt;
 
         public event EventHandlerShip OnReadyToBeDestroyed;
-        public event EventHandlerShip OnShipIsDestroyed;
+        public event EventHandlerShipBool OnShipIsDestroyed;
 
         public event EventHandler AfterAttackWindow;
 
@@ -616,10 +616,10 @@ namespace Ship
             return result;
         }
 
-        public void DestroyShipForced(Action callback)
+        public void DestroyShipForced(Action callback, bool isFled = false)
         {
             PlayDestroyedAnimSound(
-                delegate { PerformShipDestruction(callback); }
+                delegate { PerformShipDestruction(callback, isFled); }
             );            
         }
 
@@ -637,7 +637,7 @@ namespace Ship
             });
         }
 
-        private void PerformShipDestruction(Action callback)
+        private void PerformShipDestruction(Action callback, bool isFled = false)
         {
             IsDestroyed = true;
 
@@ -655,7 +655,7 @@ namespace Ship
                 }
             }
 
-            if (OnShipIsDestroyed != null) OnShipIsDestroyed(this);
+            if (OnShipIsDestroyed != null) OnShipIsDestroyed(this, isFled);
 
             Triggers.ResolveTriggers(TriggerTypes.OnShipIsDestroyed, callback);
         }

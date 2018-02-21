@@ -39,7 +39,7 @@ namespace UpgradesList
             isUsed = false;
         }
 
-        private void StopAbility(GenericShip host)
+        private void StopAbility(GenericShip host, bool isFled)
         {
             Phases.OnRoundEnd -= ClearUsed;
         }

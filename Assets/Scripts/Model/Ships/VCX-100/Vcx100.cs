@@ -22,8 +22,8 @@ namespace Ship
 
                 Firepower = 4;
                 Agility = 0;
-                MaxHull = 10;
-                MaxShields = 6;
+                MaxHull = 1;// 10;
+                MaxShields = 0; // 6;
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.System);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Turret);

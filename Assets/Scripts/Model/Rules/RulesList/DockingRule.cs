@@ -58,7 +58,7 @@ namespace RulesList
                 docked.CallDocked(host);
 
                 host.OnMovementFinish += RegisterAskUndock;
-                host.OnShipIsDestroyed += ForcedUndocking;
+                host.OnShipIsDestroyed += CheckForcedUndocking;
             }
         }
 
@@ -99,7 +99,7 @@ namespace RulesList
             docked.CallUndocked(host);
 
             host.OnMovementFinish -= RegisterAskUndock;
-            host.OnShipIsDestroyed -= ForcedUndocking;
+            host.OnShipIsDestroyed -= CheckForcedUndocking;
 
             if (!isForced)
             {
@@ -107,21 +107,28 @@ namespace RulesList
             }
             else
             {
-                DealFacedownDamageCard(docked, delegate { AskAssignManeuver(host, docked); });
+                docked.Tokens.AssignToken(new Tokens.WeaponsDisabledToken(docked), delegate{
+                    DealFacedownDamageCard(docked, delegate{
+                        AskAssignManeuver(host, docked);
+                    });
+                });
             }
         }
 
-        private void ForcedUndocking(GenericShip host)
+        private void CheckForcedUndocking(GenericShip host, bool isFled)
         {
-            Triggers.RegisterTrigger(
-                new Trigger()
-                {
-                    Name = "Deploy docked ship",
-                    TriggerType = TriggerTypes.OnShipIsDestroyed,
-                    TriggerOwner = host.Owner.PlayerNo,
-                    EventHandler = delegate { Undock(host, host.DockedShips[0], true); }
-                }
-            );
+            if (!isFled)
+            {
+                Triggers.RegisterTrigger(
+                    new Trigger()
+                    {
+                        Name = "Deploy docked ship",
+                        TriggerType = TriggerTypes.OnShipIsDestroyed,
+                        TriggerOwner = host.Owner.PlayerNo,
+                        EventHandler = delegate { Undock(host, host.DockedShips[0], true); }
+                    }
+                );
+            }
         }
 
         // TODO: Create "Deal facedown card method in ship.Damage"

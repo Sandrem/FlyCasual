@@ -16,7 +16,7 @@ namespace UpgradesList
             Name = "Partisan X-Wing";
             Cost = 1;
 
-            ImageUrl = "https://i.imgur.com/9hmgWSk.jpg";
+            ImageUrl = "https://i.imgur.com/tkAl2Io.png";
 
             AddedSlots = new List<UpgradeSlot>
             {

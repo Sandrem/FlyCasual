@@ -142,7 +142,7 @@ namespace SquadBuilderNS
             GenericShip newShip = (GenericShip)Activator.CreateInstance(Type.GetType(pilotRecord.PilotTypeName));
 
             PilotPanelSquadBuilder script = newPilotPanel.GetComponent<PilotPanelSquadBuilder>();
-            script.Initialize(newShip, PilotSelectedIsClicked);
+            script.Initialize(newShip, PilotSelectedIsClicked, true);
 
             int column = availablePilotsCounter;
 
@@ -530,7 +530,7 @@ namespace SquadBuilderNS
             GenericUpgrade newUpgrade = (GenericUpgrade)System.Activator.CreateInstance(Type.GetType(upgradeType));
 
             UpgradePanelSquadBuilder script = newUpgradePanel.GetComponent<UpgradePanelSquadBuilder>();
-            script.Initialize(upgrade.UpgradeName, CurrentUpgradeSlot, newUpgrade, SelectUpgradeClicked);
+            script.Initialize(upgrade.UpgradeName, CurrentUpgradeSlot, newUpgrade, SelectUpgradeClicked, true);
 
             int column = availableUpgradesCounter;
 

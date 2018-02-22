@@ -13,6 +13,7 @@ public enum TriggerTypes
     OnSetupPhaseStart,
     OnBeforePlaceForces,
     OnRoundStart,
+    OnPlanningSubPhaseStart,
     OnActionSubPhaseStart,
     OnActionDecisionSubPhaseEnd,
     OnActivationPhaseStart,

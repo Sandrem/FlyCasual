@@ -7,7 +7,7 @@
             public MyOtherRideIsMod()
             {
                 Name = "My other ride is...";
-                Description = "Maarek Stele as Alpha-class Star Wing pilot";
+                Description = "Maarek Stele as Alpha-class Star Wing pilot\nNorra Wexley as Y-Wing pilot\nCorran Horn, Tycho Celchu and Ibtisam as X-Wing pilots";
             }
         }
     }

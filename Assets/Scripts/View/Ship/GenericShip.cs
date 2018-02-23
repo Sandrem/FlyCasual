@@ -124,7 +124,19 @@ namespace Ship
             }
             else
             {
-                Debug.Log("Cannot find: " + pathToResource);
+                string materialNameAlt = materialName + "_" + faction.ToString();
+
+                var pathToResourceAlt = "ShipStandInsert/" + FixTypeName(Type) + "/" + materialNameAlt;
+                shipBaseInsert = CreateMaterial(pathToResourceAlt);
+
+                if (shipBaseInsert != null)
+                {
+                    shipAllParts.Find("ShipBase/ShipStandInsert/ShipStandInsertImage/default").GetComponent<Renderer>().material = shipBaseInsert;
+                }
+                else
+                {
+                    Debug.Log("Cannot find: " + pathToResource + " or " + pathToResourceAlt);
+                }
             }
         }
 

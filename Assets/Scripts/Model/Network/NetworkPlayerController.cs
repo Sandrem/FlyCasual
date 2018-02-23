@@ -180,6 +180,7 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     [ClientRpc]
     public void RpcStartBattle()
     {
+        if (isServer) Sounds.PlaySoundGlobal("Notification");
         Global.StartBattle();
     }
 

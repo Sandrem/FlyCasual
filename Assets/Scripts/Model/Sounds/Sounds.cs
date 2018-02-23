@@ -5,6 +5,13 @@ using Players;
 
 public static class Sounds {
 
+    public static void PlaySoundGlobal(string path)
+    {
+        AudioSource audioSource = GameObject.Find("SFX").GetComponent<AudioSource>();
+        audioSource.volume = Options.SfxVolume;
+        PlaySound(audioSource, path);
+    }
+
     public static void PlayShipSound(string path)
     {
         AudioSource audioSource = Selection.ThisShip.Model.GetComponent<AudioSource>();

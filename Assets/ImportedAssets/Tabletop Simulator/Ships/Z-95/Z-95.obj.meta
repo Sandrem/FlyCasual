@@ -1,108 +1,42 @@
 fileFormatVersion: 2
-guid: beba4a9f53b4893459e3c96755b0fc8a
-timeCreated: 1519353143
+guid: 3c2ca4be7cb5e484aae9c8e2b42b5e96
+timeCreated: 1519396891
 licenseType: Free
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
-    100000: Engine.005_sep11_small_base_Cube.002_auv
-    100002: Engine.005_sep15_small_base_Cube.002_auv
-    100004: Engine.005_sep19_small_base_Cube.002_auv
-    100006: Engine.005_small_base_Cube.002_auv
-    100008: Fuselage.009_small_base_Cube.002_auv
-    100010: MainHull.000_small_base_Cube.002_auv
-    100012: MainHull.010_small_base_Cube.002_auv
-    100014: small_base_Cube.002_small_base_Cube.002_auv
-    100016: SmallGun.001_small_base_Cube.002_auv
-    100018: Wing.003_small_base_Cube.002_auv
-    100020: //RootNode
-    100022: missile_pod
-    100024: z95_cannon
-    100026: z95_hull
-    100028: z95_wing
-    400000: Engine.005_sep11_small_base_Cube.002_auv
-    400002: Engine.005_sep15_small_base_Cube.002_auv
-    400004: Engine.005_sep19_small_base_Cube.002_auv
-    400006: Engine.005_small_base_Cube.002_auv
-    400008: Fuselage.009_small_base_Cube.002_auv
-    400010: MainHull.000_small_base_Cube.002_auv
-    400012: MainHull.010_small_base_Cube.002_auv
-    400014: small_base_Cube.002_small_base_Cube.002_auv
-    400016: SmallGun.001_small_base_Cube.002_auv
-    400018: Wing.003_small_base_Cube.002_auv
-    400020: //RootNode
-    400022: missile_pod
-    400024: z95_cannon
-    400026: z95_hull
-    400028: z95_wing
-    2300000: Engine.005_sep11_small_base_Cube.002_auv
-    2300002: Engine.005_sep15_small_base_Cube.002_auv
-    2300004: Engine.005_sep19_small_base_Cube.002_auv
-    2300006: Engine.005_small_base_Cube.002_auv
-    2300008: Fuselage.009_small_base_Cube.002_auv
-    2300010: MainHull.000_small_base_Cube.002_auv
-    2300012: MainHull.010_small_base_Cube.002_auv
-    2300014: small_base_Cube.002_small_base_Cube.002_auv
-    2300016: SmallGun.001_small_base_Cube.002_auv
-    2300018: Wing.003_small_base_Cube.002_auv
-    2300020: missile_pod
-    2300022: z95_cannon
-    2300024: z95_hull
-    2300026: z95_wing
-    3300000: Engine.005_sep11_small_base_Cube.002_auv
-    3300002: Engine.005_sep15_small_base_Cube.002_auv
-    3300004: Engine.005_sep19_small_base_Cube.002_auv
-    3300006: Engine.005_small_base_Cube.002_auv
-    3300008: Fuselage.009_small_base_Cube.002_auv
-    3300010: MainHull.000_small_base_Cube.002_auv
-    3300012: MainHull.010_small_base_Cube.002_auv
-    3300014: small_base_Cube.002_small_base_Cube.002_auv
-    3300016: SmallGun.001_small_base_Cube.002_auv
-    3300018: Wing.003_small_base_Cube.002_auv
-    3300020: missile_pod
-    3300022: z95_cannon
-    3300024: z95_hull
-    3300026: z95_wing
-    4300000: Engine.005_sep11_small_base_Cube.002_auv
-    4300002: Engine.005_sep15_small_base_Cube.002_auv
-    4300004: Engine.005_sep19_small_base_Cube.002_auv
-    4300006: Engine.005_small_base_Cube.002_auv
-    4300008: Fuselage.009_small_base_Cube.002_auv
-    4300010: MainHull.000_small_base_Cube.002_auv
-    4300012: MainHull.010_small_base_Cube.002_auv
-    4300014: small_base_Cube.002_small_base_Cube.002_auv
-    4300016: SmallGun.001_small_base_Cube.002_auv
-    4300018: Wing.003_small_base_Cube.002_auv
-    4300020: missile_pod
-    4300022: z95_cannon
-    4300024: z95_hull
-    4300026: z95_wing
-  externalObjects:
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: missile_podMat
-    second: {fileID: 2100000, guid: 9ec582cd9566f00489b62400bfcc49c4, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: z95_cannonMat
-    second: {fileID: 2100000, guid: b8f30a89e36eebe4781bd45ffc56c8ed, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: z95_hullMat
-    second: {fileID: 2100000, guid: 2d94bf5eb930ccb4bb738238ce6d4c48, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: z95_wingMat
-    second: {fileID: 2100000, guid: 6bbef0396ede6ee428f60192ad569fb1, type: 2}
+    100000: missile_pod
+    100002: //RootNode
+    100004: z95_cannon
+    100006: z95_hull
+    100008: z95_wing
+    400000: missile_pod
+    400002: //RootNode
+    400004: z95_cannon
+    400006: z95_hull
+    400008: z95_wing
+    2100000: missile_podMat
+    2100002: z95_cannonMat
+    2100004: z95_hullMat
+    2100006: z95_wingMat
+    2300000: missile_pod
+    2300002: z95_cannon
+    2300004: z95_hull
+    2300006: z95_wing
+    3300000: missile_pod
+    3300002: z95_cannon
+    3300004: z95_hull
+    3300006: z95_wing
+    4300000: missile_pod
+    4300002: z95_cannon
+    4300004: z95_hull
+    4300006: z95_wing
+  externalObjects: {}
   materials:
     importMaterials: 1
     materialName: 0
     materialSearch: 1
-    materialLocation: 0
+    materialLocation: 1
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
@@ -141,7 +75,7 @@ ModelImporter:
     keepQuads: 0
     weldVertices: 1
     preserveHierarchy: 0
-    indexFormat: 1
+    indexFormat: 0
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88

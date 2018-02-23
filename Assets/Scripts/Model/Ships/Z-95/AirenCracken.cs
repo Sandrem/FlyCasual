@@ -23,6 +23,8 @@ namespace Ship
  
                 PilotAbilities.Add(new AirenCrackenAbiliity());
                 faction = Faction.Rebel;
+
+                SkinName = "Red";
             }
         }
     }

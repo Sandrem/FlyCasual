@@ -34,7 +34,7 @@ namespace Ship
 
                 PrintedActions.Add(new TargetLockAction());
 
-                SkinName = "Black Sun";
+                SkinName = "Blue";
 
                 SoundShotsPath = "XWing-Laser";
                 ShotsCount = 2;

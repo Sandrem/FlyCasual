@@ -15,6 +15,8 @@ namespace Ship
                 Cost = 13;
 
                 faction = Faction.Rebel;
+
+                SkinName = "Tala Squadron";
             }
         }
     }

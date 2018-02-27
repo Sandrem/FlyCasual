@@ -204,6 +204,7 @@ namespace Abilities
 
             public override void SkipButton()
             {
+                UI.HideSkipButton();
                 FinishSelection();
             }
         }

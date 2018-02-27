@@ -622,7 +622,7 @@ namespace SquadBuilderNS
 
                 Text descriptionText = SquadListRecord.transform.Find("Description").GetComponent<Text>();
                 RectTransform descriptionRectTransform = SquadListRecord.transform.Find("Description").GetComponent<RectTransform>();
-                descriptionText.text = squadList["description"].str;
+                descriptionText.text = squadList["description"].str.Replace("\\\"", "\"");
                 float descriptionPreferredHeight = descriptionText.preferredHeight;
                 descriptionRectTransform.sizeDelta = new Vector2(descriptionRectTransform.sizeDelta.x, descriptionPreferredHeight);
 

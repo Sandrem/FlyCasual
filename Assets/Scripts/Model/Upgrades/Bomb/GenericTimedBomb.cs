@@ -29,12 +29,13 @@ namespace Upgrade
             Phases.OnActivationPhaseEnd -= PlanTimedDetonation;
             Phases.OnActivationPhaseEnd += PlanTimedDetonation;
 
+            CurrentBombObjects.AddRange(bombObjects);
             base.ActivateBombs(bombObjects, callBack);
         }
 
         private void PlanTimedDetonation()
         {
-            foreach (var bombObject in BombObjects)
+            foreach (var bombObject in CurrentBombObjects)
             {
                 Triggers.RegisterTrigger(new Trigger()
                 {

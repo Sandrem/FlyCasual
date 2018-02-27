@@ -389,7 +389,12 @@ public static partial class Combat
         Attacker.CallAttackFinish();
         Defender.CallAttackFinish();
 
-        Triggers.ResolveTriggers(TriggerTypes.OnAttackFinish, CleanupAndCheckExtraAttacks);
+        Triggers.ResolveTriggers(TriggerTypes.OnAttackFinish, FinishCombatActivation);
+    }
+
+    private static void FinishCombatActivation()
+    {
+        Attacker.CallCombatDeactivation(CleanupAndCheckExtraAttacks);
     }
 
     private static void CleanupAndCheckExtraAttacks()

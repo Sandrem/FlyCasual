@@ -132,10 +132,15 @@ namespace Movement
         {
             string parameters = this.ToString();
 
-            if (!Selection.ThisShip.Maneuvers.ContainsKey(parameters)) Console.Write(Selection.ThisShip.Type + " doesn't have " + parameters + " maneuver!", LogTypes.Errors, true, "red");
-
-            ColorComplexity = Selection.ThisShip.Maneuvers[parameters];
-            ColorComplexity = Selection.ThisShip.GetColorComplexityOfManeuver(this);
+            if (!Selection.ThisShip.Maneuvers.ContainsKey(parameters))
+            {
+                Console.Write(Selection.ThisShip.Type + " doesn't have " + parameters + " maneuver!", LogTypes.Errors, true, "red");
+            }
+            else
+            {
+                ColorComplexity = Selection.ThisShip.Maneuvers[parameters];
+                ColorComplexity = Selection.ThisShip.GetColorComplexityOfManeuver(this);
+            }
         }
 
         public int SpeedInt

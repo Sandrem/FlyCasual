@@ -820,6 +820,8 @@ namespace SquadBuilderNS
                 }
             }
 
+            result = result.Replace("\"", "\\\"");
+
             return result;
         }
 

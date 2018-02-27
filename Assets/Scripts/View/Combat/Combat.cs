@@ -19,7 +19,7 @@ public static partial class Combat
         ShowOppositeDiceModificationButtons();
     }
 
-    public static void ShowOppositeDiceModificationButtons()
+    public static void ShowOppositeDiceModificationButtons(bool isForced = false)
     {
         Selection.ActiveShip = (AttackStep == CombatStep.Attack) ? Defender : Attacker;
         Phases.CurrentSubPhase.RequiredPlayer = Selection.ActiveShip.Owner.PlayerNo;
@@ -29,9 +29,8 @@ public static partial class Combat
         AvailableDecisions = new Dictionary<string, ActionsList.GenericAction>();
         Selection.ActiveShip.GenerateAvailableOppositeActionEffectsList();
 
-        if (Selection.ActiveShip.GetAvailableOppositeActionEffectsList().Count > 0)
+        if (Selection.ActiveShip.GetAvailableOppositeActionEffectsList().Count > 0 || isForced)
         {
-
             float offset = 0;
             Vector3 defaultPosition = GameObject.Find("UI/CombatDiceResultsPanel").transform.Find("DiceModificationsPanel").position;
 
@@ -145,11 +144,20 @@ public static partial class Combat
             Selection.ActiveShip.AddAlreadyExecutedOppositeActionEffect(diceModification);
         }
 
-        //TODO: Re-generate list instead
-        diceModification.ActionEffect(delegate {
-            HideDiceModificationButtons();
+        diceModification.ActionEffect(delegate { ReGenerateListOfButtons(diceModification.IsOpposite); });
+    }
+
+    private static void ReGenerateListOfButtons(bool isOpposite)
+    {
+        HideDiceModificationButtons();
+        if (!isOpposite)
+        {
             ShowDiceModificationButtons();
-        });
+        }
+        else
+        {
+            ShowOppositeDiceModificationButtons(true);
+        }
     }
 
     public static void ConfirmDiceResults()

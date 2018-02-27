@@ -9,7 +9,7 @@ namespace RulesList
         {
             if (Combat.ShotInfo.IsObstructedByAsteroid)
             {
-                Messages.ShowInfo("Obstruction bonus: +1 defence dice");
+                Messages.ShowInfo("Obstruction bonus: +1 defence die");
                 result++;
             }
         }

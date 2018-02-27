@@ -41,7 +41,11 @@ namespace Abilities
 
         private void CheckFennRauAbility(ref int value)
         {
-            if (Combat.ShotInfo.Range == 1) value++;
+            if (Combat.ShotInfo.Range == 1)
+            {
+                Messages.ShowInfo("Fenn Rau: +1 attack die");
+                value++;
+            }
         }
     }
 }

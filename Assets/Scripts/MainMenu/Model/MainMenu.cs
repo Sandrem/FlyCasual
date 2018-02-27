@@ -63,10 +63,11 @@ public partial class MainMenu : MonoBehaviour {
 
     private void CheckUpdates()
     {
-        string latestVersion = RemoteSettings.GetString("UpdateLatestVersion", Global.CurrentVersion);
-        if (latestVersion != Global.CurrentVersion)
+        int latestVersionInt = RemoteSettings.GetInt("UpdateLatestVersionInt", Global.CurrentVersionInt);
+        if (latestVersionInt > Global.CurrentVersionInt)
         {
-            string updateLink = RemoteSettings.GetString("UpdateLink");
+            string latestVersion    = RemoteSettings.GetString("UpdateLatestVersion", Global.CurrentVersion);
+            string updateLink       = RemoteSettings.GetString("UpdateLink");
             ShowNewVersionIsAvailable(latestVersion, updateLink);
         }
     }

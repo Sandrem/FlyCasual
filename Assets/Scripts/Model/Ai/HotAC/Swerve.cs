@@ -30,12 +30,13 @@ namespace AI
                 MovementStruct maneuver = alternativeManeuvers[0];
                 alternativeManeuvers.Remove(alternativeManeuvers[0]);
 
-                if (failedManeuvers.Contains(maneuver))
+                if (failedManeuvers.Contains(maneuver) || !Selection.ThisShip.HasManeuver(maneuver))
                 {
                     TryAlternativeMovement();
                 }
                 else
                 {
+                    maneuver.UpdateColorComplexity();
                     GenericMovement newMovementAttempt = ShipMovementScript.MovementFromStruct(maneuver);
 
                     if (DebugManager.DebugAI) Debug.Log("Tries: " + newMovementAttempt);
@@ -160,7 +161,6 @@ namespace AI
                 }
             }
 
-            result.UpdateColorComplexity();
             return result;
         }
 

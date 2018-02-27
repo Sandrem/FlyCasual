@@ -18,7 +18,7 @@ namespace Upgrade
 
         public bool IsDiscardedAfterDropped;
 
-        public List<GameObject> BombObjects = new List<GameObject>();
+        public List<GameObject> CurrentBombObjects = new List<GameObject>();
 
         public GenericBomb() : base()
         {
@@ -37,7 +37,6 @@ namespace Upgrade
 
         public virtual void ActivateBombs(List<GameObject> bombObjects, Action callBack)
         {
-            BombObjects.AddRange(bombObjects);
             Host.IsBombAlreadyDropped = true;
             BombsManager.RegisterBombs(bombObjects, this);
             PayDropCost(callBack);
@@ -55,7 +54,7 @@ namespace Upgrade
         protected virtual void Detonate()
         {
             BombsManager.UnregisterBomb(BombsManager.CurrentBombObject);
-            BombObjects.Remove(BombsManager.CurrentBombObject);
+            CurrentBombObjects.Remove(BombsManager.CurrentBombObject);
 
             PlayDetonationAnimSound(BombsManager.CurrentBombObject, BombsManager.ResolveDetonationTriggers);
         }

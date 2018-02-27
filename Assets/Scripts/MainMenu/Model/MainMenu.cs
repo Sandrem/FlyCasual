@@ -30,6 +30,7 @@ public partial class MainMenu : MonoBehaviour {
         ModsManager.Initialize();
         Options.ReadOptions();
         Options.UpdateVolume();
+        UpdateVersionInfo();
         CheckUpdates();
     }
 
@@ -59,6 +60,11 @@ public partial class MainMenu : MonoBehaviour {
     public void OnUpdateAvailableClick()
     {
         Application.OpenURL(NewVersionUrl);
+    }
+
+    private void UpdateVersionInfo()
+    {
+        GameObject.Find("UI/Panels/MainMenuPanel/Version/Version Text").GetComponent<Text>().text = Global.CurrentVersion;
     }
 
     private void CheckUpdates()

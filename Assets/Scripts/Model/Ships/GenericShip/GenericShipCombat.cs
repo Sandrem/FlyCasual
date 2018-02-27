@@ -586,7 +586,8 @@ namespace Ship
             {
                 if (IsSimultaneousFireRuleActive())
                 {
-                    Combat.Attacker.OnCombatDeactivation += RegisterShipDestruction;
+                    Messages.ShowInfo("Simultaneous attack rule is active");
+                    this.OnCombatDeactivation += RegisterShipDestruction;
                 }
                 else
                 {
@@ -622,8 +623,8 @@ namespace Ship
 
         private void RegisterShipDestruction(GenericShip shipToIgnore)
         {
-            Combat.Attacker.OnCombatDeactivation -= RegisterShipDestruction;
-            Combat.Attacker.OnAttackFinish -= RegisterShipDestruction;
+            this.OnCombatDeactivation -= RegisterShipDestruction;
+            if (Combat.Attacker != null) Combat.Attacker.OnAttackFinish -= RegisterShipDestruction;
 
             Triggers.RegisterTrigger(new Trigger
             {

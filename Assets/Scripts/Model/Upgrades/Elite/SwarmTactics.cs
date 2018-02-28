@@ -83,6 +83,8 @@ namespace SubPhases
             FilterTargets = FilterAbilityTargets;
             GetAiPriority = GetAiAbilityPriority;
 
+            RequiredPlayer = Selection.ThisShip.Owner.PlayerNo;
+
             UI.ShowSkipButton();
         }
 

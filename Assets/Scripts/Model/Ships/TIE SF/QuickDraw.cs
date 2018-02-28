@@ -69,13 +69,13 @@ namespace Abilities
             }
             else
             {
-                Combat.Attacker.OnAttackFinishAsAttacker += StartCounterAttack;
+                Combat.Attacker.OnCombatCheckExtraAttack += StartCounterAttack;
             }
         }
 
-        private void StartCounterAttack(GenericShip attacker)
+        private void StartCounterAttack(GenericShip ship)
         {
-            Combat.Attacker.OnAttackFinishAsAttacker -= StartCounterAttack;
+            ship.OnCombatCheckExtraAttack -= StartCounterAttack;
 
             RegisterAbilityTrigger(TriggerTypes.OnCombatCheckExtraAttack, RegisterCombat);
         }

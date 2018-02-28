@@ -106,7 +106,7 @@ namespace Abilities
             DecisionSubPhase.ConfirmDecision();            
         }
 
-        private void RegisterSpecialOpsExtraAttack()
+        private void RegisterSpecialOpsExtraAttack(GenericShip ship)
         {
             HostShip.OnCombatCheckExtraAttack -= RegisterSpecialOpsExtraAttack;
             this.ToggleFrontArc(false);            

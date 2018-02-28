@@ -55,7 +55,7 @@ namespace Abilities
             }
         }
 
-        private void RegisterSecondAttackTrigger()
+        private void RegisterSecondAttackTrigger(GenericShip ship)
         {
             HostShip.OnCombatCheckExtraAttack -= RegisterSecondAttackTrigger;
 

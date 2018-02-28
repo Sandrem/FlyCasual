@@ -60,7 +60,7 @@ namespace Abilities
             HostShip.OnCombatCheckExtraAttack += RegisterBTLA4ExtraAttack;
         }
 
-        private void RegisterBTLA4ExtraAttack()
+        private void RegisterBTLA4ExtraAttack(GenericShip ship)
         {
             HostShip.OnCombatCheckExtraAttack -= RegisterBTLA4ExtraAttack;            
             RegisterAbilityTrigger(TriggerTypes.OnCombatCheckExtraAttack, DoBTL4AExtraAttack);

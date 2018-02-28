@@ -58,7 +58,7 @@ namespace Abilities
             return HostShip.UpgradeBar.GetUpgradesOnlyFaceup().Count(n => n.Type == UpgradeType.Cannon && (n as IShipWeapon) != null) > 0;
         }
 
-        private void RegisterIG88BAbility()
+        private void RegisterIG88BAbility(GenericShip ship)
         {
             HostShip.OnCombatCheckExtraAttack -= RegisterIG88BAbility;
 

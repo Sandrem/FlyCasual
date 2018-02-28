@@ -28,6 +28,7 @@ namespace AI
             if (alternativeManeuvers.Count > 0)
             {
                 MovementStruct maneuver = alternativeManeuvers[0];
+                maneuver.UpdateColorComplexity();
                 alternativeManeuvers.Remove(alternativeManeuvers[0]);
 
                 if (failedManeuvers.Contains(maneuver) || !Selection.ThisShip.HasManeuver(maneuver))
@@ -36,7 +37,6 @@ namespace AI
                 }
                 else
                 {
-                    maneuver.UpdateColorComplexity();
                     GenericMovement newMovementAttempt = ShipMovementScript.MovementFromStruct(maneuver);
 
                     if (DebugManager.DebugAI) Debug.Log("Tries: " + newMovementAttempt);

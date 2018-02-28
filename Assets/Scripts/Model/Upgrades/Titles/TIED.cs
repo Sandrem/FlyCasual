@@ -60,7 +60,7 @@ namespace Abilities
             }
         }
 
-        private void RegisterTIEDAbility()
+        private void RegisterTIEDAbility(GenericShip ship)
         {
             HostShip.OnCombatCheckExtraAttack -= RegisterTIEDAbility;
 

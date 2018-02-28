@@ -134,7 +134,7 @@ namespace Ship
         public event EventHandler OnAttackMissedAsDefender;
         public event EventHandler OnShieldLost;
 
-        public event EventHandler OnCombatCheckExtraAttack;
+        public event EventHandlerShip OnCombatCheckExtraAttack;
 
         public event EventHandlerInt AfterGotNumberOfPrimaryWeaponAttackDice;
         public event EventHandlerInt AfterGotNumberOfPrimaryWeaponDefenceDice;
@@ -358,7 +358,7 @@ namespace Ship
 
         public void CallCombatCheckExtraAttack(Action callback)
         {
-            if (OnCombatCheckExtraAttack != null) OnCombatCheckExtraAttack();
+            if (OnCombatCheckExtraAttack != null) OnCombatCheckExtraAttack(this);
 
             Triggers.ResolveTriggers(TriggerTypes.OnCombatCheckExtraAttack, callback);
         }

@@ -7,7 +7,7 @@ namespace UpgradesList
     {
         public HeraSyndulla() : base()
         {
-            Type = UpgradeType.Crew;
+            Types.Add(UpgradeType.Crew);
             Name = "Hera Syndulla";
             Cost = 1;
 

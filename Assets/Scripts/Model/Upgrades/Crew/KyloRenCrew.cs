@@ -14,7 +14,7 @@ namespace UpgradesList
     {
         public KyloRenCrew() : base()
         {
-            Type = UpgradeType.Crew;
+            Types.Add(UpgradeType.Crew);
             Name = "Kylo Ren";
             Cost = 3;
 

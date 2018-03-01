@@ -11,7 +11,7 @@ namespace UpgradesList
         {
             FromMod = typeof(TitlesForClassicShips);
 
-            Type = UpgradeType.Title;
+            Types.Add(UpgradeType.Title);
             Name = "T-65B";
             Cost = -1;
 

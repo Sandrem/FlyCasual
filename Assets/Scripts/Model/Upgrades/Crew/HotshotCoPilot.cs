@@ -12,7 +12,7 @@ namespace UpgradesList
     {
         public HotshotCoPilot() : base()
         {
-            Type = UpgradeType.Crew;
+            Types.Add(UpgradeType.Crew);
             Name = "Hotshot Co-pilot";
             Cost = 4;
 

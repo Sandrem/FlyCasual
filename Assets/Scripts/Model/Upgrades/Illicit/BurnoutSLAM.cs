@@ -9,7 +9,7 @@ namespace UpgradesList
     {
         public BurnoutSLAM() : base()
         {
-            Type = UpgradeType.Illicit;
+            Types.Add(UpgradeType.Illicit);
             Name = "Burnout SLAM";
             Cost = 1;
 

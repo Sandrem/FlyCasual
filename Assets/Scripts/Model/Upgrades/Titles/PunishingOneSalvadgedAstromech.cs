@@ -10,7 +10,7 @@ namespace UpgradesList
     {
         public PunishingOneSalvadgedAstromech() : base()
         {
-            Type = UpgradeType.Title;
+            Types.Add(UpgradeType.Title);
             Name = "Punishing One (S.Astromech)";
             Cost = 12;
 

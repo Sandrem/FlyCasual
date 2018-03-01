@@ -14,7 +14,7 @@ namespace UpgradesList
 
         public SquadLeader() : base()
         {
-            Type = UpgradeType.Elite;
+            Types.Add(UpgradeType.Elite);
             Name = "Squad Leader";
             isUnique = true;
             Cost = 2;

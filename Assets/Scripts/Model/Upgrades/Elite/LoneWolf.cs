@@ -13,7 +13,7 @@ namespace UpgradesList
         {
             isUnique = true;
 
-            Type = UpgradeType.Elite;
+            Types.Add(UpgradeType.Elite);
             Name = "Lone Wolf";
             Cost = 2;
         }

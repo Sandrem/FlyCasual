@@ -12,7 +12,7 @@ namespace UpgradesList
     {
         public AdrenalineRush() : base()
         {
-            Type = UpgradeType.Elite;
+            Types.Add(UpgradeType.Elite);
             Name = "Adrenaline Rush";
             Cost = 1;
 

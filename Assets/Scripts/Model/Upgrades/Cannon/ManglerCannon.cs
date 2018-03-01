@@ -11,7 +11,7 @@ namespace UpgradesList
     {
 		public ManglerCannon() : base()
         {
-            Type = UpgradeType.Cannon;
+            Types.Add(UpgradeType.Cannon);
 
             Name = "Mangler Cannon";
             Cost = 4;

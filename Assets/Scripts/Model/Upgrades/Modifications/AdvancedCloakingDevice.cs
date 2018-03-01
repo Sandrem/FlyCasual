@@ -10,7 +10,7 @@ namespace UpgradesList
     {
         public AdvancedCloakingDevice() : base()
         {
-            Type = UpgradeType.Modification;
+            Types.Add(UpgradeType.Modification);
             Name = "Advanced Cloaking Device";
             Cost = 4;
         }

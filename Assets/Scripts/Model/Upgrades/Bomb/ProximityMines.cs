@@ -14,7 +14,7 @@ namespace UpgradesList
 
         public ProximityMines() : base()
         {
-            Type = UpgradeType.Bomb;
+            Types.Add(UpgradeType.Bomb);
             Name = "Proximity Mines";
             Cost = 3;
 

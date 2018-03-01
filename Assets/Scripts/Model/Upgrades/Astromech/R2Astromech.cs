@@ -12,7 +12,7 @@ namespace UpgradesList
 
         public R2Astromech() : base()
         {
-            Type = UpgradeType.Astromech;
+            Types.Add(UpgradeType.Astromech);
             Name = "R2 Astromech";
             Cost = 1;
 

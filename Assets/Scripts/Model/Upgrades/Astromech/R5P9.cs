@@ -13,7 +13,7 @@ namespace UpgradesList
     {
         public R5P9() : base()
         {
-            Type = UpgradeType.Astromech;
+            Types.Add(UpgradeType.Astromech);
             Name = "R5-P9";
             isUnique = true;
             Cost = 3;

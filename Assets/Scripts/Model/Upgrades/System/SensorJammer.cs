@@ -7,7 +7,7 @@ namespace UpgradesList
     {
         public SensorJammer() : base()
         {
-            Type = UpgradeType.System;
+            Types.Add(UpgradeType.System);
             Name = "Sensor Jammer";
             Cost = 4;
         }

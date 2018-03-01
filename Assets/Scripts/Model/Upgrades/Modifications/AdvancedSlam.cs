@@ -8,7 +8,7 @@ namespace UpgradesList
     {
         public AdvancedSlam() : base()
         {
-            Type = UpgradeType.Modification;
+            Types.Add(UpgradeType.Modification);
             Name = "Advanced SLAM";
             Cost = 2;
         }

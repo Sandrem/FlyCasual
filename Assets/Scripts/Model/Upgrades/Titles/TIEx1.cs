@@ -9,7 +9,7 @@ namespace UpgradesList
     {
         public TIEx1() : base()
         {
-            Type = UpgradeType.Title;
+            Types.Add(UpgradeType.Title);
             Name = "TIE/x1";
             Cost = 0;
             AddedSlots = new List<UpgradeSlot>

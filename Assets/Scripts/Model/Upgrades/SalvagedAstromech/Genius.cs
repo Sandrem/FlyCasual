@@ -15,7 +15,7 @@ namespace UpgradesList
     {
         public Genius() : base()
         {
-            Type = UpgradeType.SalvagedAstromech;
+            Types.Add(UpgradeType.SalvagedAstromech);
             Name = "\"Genius\"";
             Cost = 0;
 

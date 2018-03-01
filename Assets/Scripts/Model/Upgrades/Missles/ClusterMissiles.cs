@@ -11,7 +11,7 @@ namespace UpgradesList
     {
         public ClusterMissiles() : base()
         {
-            Type = UpgradeType.Missile;
+            Types.Add(UpgradeType.Missile);
 
             Name = "Cluster Missiles";
             Cost = 4;

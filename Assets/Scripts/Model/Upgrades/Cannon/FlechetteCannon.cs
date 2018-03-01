@@ -5,11 +5,11 @@ using UpgradesList;
 namespace UpgradesList
 {
 
-    public class FlechetteCannon : GenericSecondaryWeapon
-    {
-        public FlechetteCannon() : base()
-        {
-            Type = UpgradeType.Cannon;
+	public class FlechetteCannon : GenericSecondaryWeapon
+	{
+		public FlechetteCannon() : base()
+		{
+            Types.Add(UpgradeType.Cannon);
 
             Name = "Flechette Cannon";
             Cost = 2;

@@ -6,7 +6,7 @@ namespace UpgradesList
     {
         public NienNunb() : base()
         {
-            Type = UpgradeType.Crew;
+            Types.Add(UpgradeType.Crew);
             Name = "Nien Nunb";
             Cost = 1;
             isUnique = true;

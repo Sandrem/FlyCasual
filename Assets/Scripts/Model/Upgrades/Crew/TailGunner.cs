@@ -11,7 +11,7 @@ namespace UpgradesList
     {
 		public TailGunner() : base()
         {
-            Type = UpgradeType.Crew;
+            Types.Add(UpgradeType.Crew);
 			Name = "Tail Gunner";
             Cost = 2;
 			isLimited = true;   

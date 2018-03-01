@@ -14,7 +14,7 @@ namespace UpgradesList
     {
         public AdvancedOptics() : base()
         {
-            Type = UpgradeType.Tech;
+            Types.Add(UpgradeType.Tech);
             Name = "Advanced Optics";
             Cost = 2;
 

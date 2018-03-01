@@ -7,7 +7,7 @@ namespace UpgradesList
 	public class StealthDevice : GenericUpgrade
     {
 		public StealthDevice() : base() {
-			Type = UpgradeType.Modification;
+            Types.Add(UpgradeType.Modification);
 			Name = "Stealth Device";
 			Cost = 3;
 		}

@@ -12,7 +12,7 @@ namespace UpgradesList
         {
             FromMod = typeof(PartisanXWingMod);
 
-            Type = UpgradeType.Title;
+            Types.Add(UpgradeType.Title);
             Name = "Partisan X-Wing";
             Cost = 1;
 

@@ -15,7 +15,7 @@ namespace UpgradesList
 
         public ProtonBombs() : base()
         {
-            Type = UpgradeType.Bomb;
+            Types.Add(UpgradeType.Bomb);
             Name = "Proton Bombs";
             Cost = 5;
 

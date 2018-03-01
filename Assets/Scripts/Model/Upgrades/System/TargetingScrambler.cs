@@ -15,7 +15,7 @@ namespace UpgradesList
     {
         public TargetingScrambler() : base()
         {
-            Type = UpgradeType.System;
+            Types.Add(UpgradeType.System);
             Name = "Targeting Scrambler";
             Cost = 0;
 

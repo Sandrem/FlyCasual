@@ -9,7 +9,7 @@ namespace UpgradesList
     {
         public Fearlessness() : base()
         {
-            Type = UpgradeType.Elite;
+            Types.Add(UpgradeType.Elite);
             Name = "Fearlessness";
             Cost = 1;
 

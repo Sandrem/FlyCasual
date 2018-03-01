@@ -9,7 +9,7 @@ namespace UpgradesList
     {
         public OutlawTech() : base()
         {
-            Type = UpgradeType.Crew;
+            Types.Add(UpgradeType.Crew);
             Name = "Outlaw Tech";
             Cost = 2;
 

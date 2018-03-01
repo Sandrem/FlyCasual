@@ -8,7 +8,7 @@ namespace UpgradesList
     {
         public ST321() : base()
         {
-            Type = UpgradeType.Title;
+            Types.Add(UpgradeType.Title);
             Name = "ST-321";
             Cost = 3;
             isUnique = true;

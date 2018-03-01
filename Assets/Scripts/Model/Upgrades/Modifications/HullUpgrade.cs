@@ -8,7 +8,7 @@ namespace UpgradesList
         public HullUpgrade() : base()
         {
 
-            Type = UpgradeType.Modification;
+            Types.Add(UpgradeType.Modification);
             Name = "Hull Upgrade";
             Cost = 3;
         }

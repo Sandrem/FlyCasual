@@ -14,7 +14,7 @@ namespace UpgradesList
     {
         public SabineWren() : base()
         {
-            Type = UpgradeType.Crew;
+            Types.Add(UpgradeType.Crew);
             Name = "Sabine Wren";
             Cost = 2;
 

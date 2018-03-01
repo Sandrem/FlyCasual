@@ -9,7 +9,7 @@ namespace UpgradesList
     {
         public DorsalTurret() : base()
         {
-            Type = UpgradeType.Turret;
+            Types.Add(UpgradeType.Turret);
 
             Name = "Dorsal Turret";
             Cost = 3;

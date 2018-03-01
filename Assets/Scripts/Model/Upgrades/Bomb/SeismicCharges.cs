@@ -14,7 +14,7 @@ namespace UpgradesList
 
         public SeismicCharges() : base()
         {
-            Type = UpgradeType.Bomb;
+            Types.Add(UpgradeType.Bomb);
             Name = "Seismic Charges";
             Cost = 2;
 

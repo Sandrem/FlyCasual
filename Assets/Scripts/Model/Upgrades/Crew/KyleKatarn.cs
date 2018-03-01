@@ -10,7 +10,7 @@ namespace UpgradesList
     {
         public KyleKatarn() : base()
         {
-            Type = UpgradeType.Crew;
+            Types.Add(UpgradeType.Crew);
             Name = "Kyle Katarn";
             Cost = 3;
 

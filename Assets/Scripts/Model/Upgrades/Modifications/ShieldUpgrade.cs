@@ -7,7 +7,7 @@ namespace UpgradesList
     {
         public ShieldUpgrade() : base()
         {
-            Type = UpgradeType.Modification;
+            Types.Add(UpgradeType.Modification);
             Name = "Shield Upgrade";
             Cost = 4;
         }

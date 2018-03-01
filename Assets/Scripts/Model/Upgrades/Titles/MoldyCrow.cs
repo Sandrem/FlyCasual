@@ -8,7 +8,7 @@ namespace UpgradesList
     {
         public MoldyCrow() : base()
         {
-            Type = UpgradeType.Title;
+            Types.Add(UpgradeType.Title);
             Name = "Moldy Crow";
             Cost = 3;
             isUnique = true;

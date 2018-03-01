@@ -8,7 +8,7 @@ namespace UpgradesList
     {
         public ReconSpecialist() : base()
         {
-            Type = UpgradeType.Crew;
+            Types.Add(UpgradeType.Crew);
             Name = "Recon Specialist";
             Cost = 3;
         }

@@ -9,7 +9,7 @@ namespace UpgradesList
     {
         public Xg1AssaultConfiguration() : base()
         {
-            Type = UpgradeType.Title;
+            Types.Add(UpgradeType.Title);
             Name = "Xg-1 Assault Configuration";
             Cost = 1;
             AddedSlots = new List<UpgradeSlot>
@@ -36,7 +36,7 @@ namespace UpgradesList
             GenericSecondaryWeapon secondaryWeapon = Combat.ChosenWeapon as GenericSecondaryWeapon;
             if (secondaryWeapon != null)
             {
-                if (secondaryWeapon.Type == UpgradeType.Cannon && secondaryWeapon.Cost <= 2) result = false;
+                if (secondaryWeapon.hasType(UpgradeType.Cannon) && secondaryWeapon.Cost <= 2) result = false;
             }
         }
     }

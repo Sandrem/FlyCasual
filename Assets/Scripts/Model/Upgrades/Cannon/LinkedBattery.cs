@@ -12,7 +12,7 @@ namespace UpgradesList
 	{
 		public LinkedBattery() : base()
 		{
-			Type = UpgradeType.Cannon;
+            Types.Add(UpgradeType.Cannon);
 
 			Name = "Linked Battery";
             Cost = 2;
@@ -78,7 +78,7 @@ namespace ActionsList
 
         private bool IsCannon()
         {
-            return ((Combat.ChosenWeapon as GenericSecondaryWeapon) != null) && ((Combat.ChosenWeapon as GenericSecondaryWeapon).Type == UpgradeType.Cannon);
+            return ((Combat.ChosenWeapon as GenericSecondaryWeapon) != null) && ((Combat.ChosenWeapon as GenericSecondaryWeapon).hasType(UpgradeType.Cannon));
         }
 
         public override int GetActionEffectPriority()

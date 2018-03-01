@@ -10,7 +10,7 @@ namespace UpgradesList
 	{
 		public JammingBeam() : base()
 		{
-			Type = UpgradeType.Cannon;
+            Types.Add(UpgradeType.Cannon);
 
 			Name = "Jamming Beam";
 			Cost = 2;

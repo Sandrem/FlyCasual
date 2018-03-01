@@ -12,7 +12,7 @@ namespace UpgradesList
     {
         public Phantom() : base()
         {
-            Type = UpgradeType.Title;
+            Types.Add(UpgradeType.Title);
             Name = "Phantom";
             Cost = 0;
 
@@ -97,7 +97,7 @@ namespace Abilities
             bool result = false;
 
             GenericUpgrade upgradeWeapon = weapon as GenericUpgrade;
-            if (upgradeWeapon != null && upgradeWeapon.Type == UpgradeType.Turret)
+            if (upgradeWeapon != null && upgradeWeapon.hasType(UpgradeType.Turret))
             {
                 result = true;
             }

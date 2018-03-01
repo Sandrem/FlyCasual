@@ -8,7 +8,7 @@ namespace UpgradesList
     {
         public SaturationSalvo() : base()
         {
-            Type = UpgradeType.Elite;
+            Types.Add(UpgradeType.Elite);
             Name = "Saturation Salvo";
             Cost = 1;
         }
@@ -25,7 +25,7 @@ namespace UpgradesList
             GenericSecondaryWeapon weapon = Combat.ChosenWeapon as GenericSecondaryWeapon;
             if (weapon != null)
             {
-                if (weapon.Type == UpgradeType.Torpedo || weapon.Type == UpgradeType.Missile)
+                if (weapon.hasType(UpgradeType.Torpedo) || weapon.hasType(UpgradeType.Missile))
                 {
                     Triggers.RegisterTrigger(
                         new Trigger() {

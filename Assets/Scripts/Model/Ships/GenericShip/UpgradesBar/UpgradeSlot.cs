@@ -54,6 +54,24 @@ namespace Upgrade
         {
             InstalledUpgrade = upgrade;
             InstalledUpgrade.PreAttachToShip(host);
+
+            // check if its a dual upgrade
+            if (upgrade.Types.Count > 1)
+            {
+                // clone upgrade
+                //GenericUpgrade newUpgrade = (GenericUpgrade)System.Activator.CreateInstance(upgrade.Types[0]);
+                UpgradesList.EmptyUpgrade emptyUpgrade = new UpgradesList.EmptyUpgrade();
+                emptyUpgrade.set(upgrade.Types, upgrade.Name, 0);
+
+                // find another slot
+                foreach (UpgradeSlot tempSlot in host.UpgradeBar.GetUpgradeSlots())
+                {
+                    if (tempSlot.IsEmpty && upgrade.hasType(tempSlot.Type))
+                    {
+                        tempSlot.PreInstallUpgrade(emptyUpgrade, host);
+                    }
+                }
+            }
         }
 
         public void RemovePreInstallUpgrade()

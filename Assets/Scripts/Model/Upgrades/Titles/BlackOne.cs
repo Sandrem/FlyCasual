@@ -15,7 +15,7 @@ namespace UpgradesList
     {
         public BlackOne() : base()
         {
-            Type = UpgradeType.Title;
+            Types.Add(UpgradeType.Title);
             Name = "Black One";
             Cost = 1;
 

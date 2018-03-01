@@ -14,7 +14,7 @@ namespace UpgradesList
 
 		public Opportunist() : base()
 		{
-			Type = UpgradeType.Elite;
+            Types.Add(UpgradeType.Elite);
 			Name = "Opportunist";
 			Cost = 4;
 

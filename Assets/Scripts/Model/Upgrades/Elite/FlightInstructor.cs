@@ -11,7 +11,7 @@ namespace UpgradesList
 
         public FlightInstructor() : base()
         {
-            Type = UpgradeType.Crew;
+            Types.Add(UpgradeType.Crew);
             Name = "Flight Instructor";
             Cost = 4;
         }

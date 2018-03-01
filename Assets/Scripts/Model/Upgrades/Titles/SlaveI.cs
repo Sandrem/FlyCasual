@@ -9,7 +9,7 @@ namespace UpgradesList
     {
         public SlaveI() : base()
         {
-            Type = UpgradeType.Title;
+            Types.Add(UpgradeType.Title);
             Name = "Slave I";
             Cost = 0;
             isUnique = true;

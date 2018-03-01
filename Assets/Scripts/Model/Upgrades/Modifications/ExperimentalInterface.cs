@@ -14,7 +14,7 @@ namespace UpgradesList
 
 		public ExperimentalInterface() : base()
 		{
-			Type = UpgradeType.Modification;
+            Types.Add(UpgradeType.Modification);
 			Name = "Experimental Interface";
 			Cost = 3;
 

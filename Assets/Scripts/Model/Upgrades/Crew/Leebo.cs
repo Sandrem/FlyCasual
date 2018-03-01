@@ -13,7 +13,7 @@ namespace UpgradesList
     {
         public LeeboCrew() : base()
         {
-            Type = UpgradeType.Crew;
+            Types.Add(UpgradeType.Crew);
             Name = "Leebo";
             Cost = 2;
             isUnique = true;

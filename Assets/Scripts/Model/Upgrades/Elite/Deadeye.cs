@@ -11,7 +11,7 @@ namespace UpgradesList
     {
         public Deadeye() : base()
         {
-            Type = UpgradeType.Elite;
+            Types.Add(UpgradeType.Elite);
             Name = "Deadeye";
             Cost = 1;
         }

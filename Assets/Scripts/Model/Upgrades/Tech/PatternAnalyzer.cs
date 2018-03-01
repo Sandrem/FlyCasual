@@ -14,7 +14,7 @@ namespace UpgradesList
     {
         public PatternAnalyzer() : base()
         {
-            Type = UpgradeType.Tech;
+            Types.Add(UpgradeType.Tech);
             Name = "Pattern Analyzer";
             Cost = 2;
 

@@ -9,7 +9,7 @@ namespace UpgradesList
     {
         public ConcordDawnProtector() : base()
         {
-            Type = UpgradeType.Title;
+            Types.Add(UpgradeType.Title);
             Name = "Concord Dawn Protector";
             Cost = 1;
         }

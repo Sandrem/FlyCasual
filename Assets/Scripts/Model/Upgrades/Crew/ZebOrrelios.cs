@@ -9,7 +9,7 @@ namespace UpgradesList
     {
         public ZebOrrelios() : base()
         {
-            Type = UpgradeType.Crew;
+            Types.Add(UpgradeType.Crew);
             Name = "\"Zeb\" Orrelios";
             Cost = 1;
 

@@ -7,7 +7,7 @@ namespace UpgradesList
     {
         public Elusiveness() : base()
         {
-            Type = UpgradeType.Elite;
+            Types.Add(UpgradeType.Elite);
             Name = "Elusiveness";
             Cost = 2;
         }

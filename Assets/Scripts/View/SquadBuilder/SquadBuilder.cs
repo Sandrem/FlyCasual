@@ -507,7 +507,7 @@ namespace SquadBuilderNS
         {
             availableUpgradesCounter = 0;
 
-            List<UpgradeRecord> filteredUpgrades = AllUpgrades.Where(n => n.Instance.hasType(slot.Type) && n.Instance.IsAllowedForShip(CurrentSquadBuilderShip.Instance)).ToList();
+            List<UpgradeRecord> filteredUpgrades = AllUpgrades.Where(n => n.Instance.hasType(slot.Type) && n.Instance.IsAllowedForShip(CurrentSquadBuilderShip.Instance) && n.Instance.HasEnoughSlotsInShip(CurrentSquadBuilderShip.Instance)).ToList();
             int filteredUpgradesCount = filteredUpgrades.Count;
 
             Transform contentTransform = GameObject.Find("UI/Panels/SelectUpgradePanel/Panel/Scroll View/Viewport/Content").transform;
@@ -517,13 +517,7 @@ namespace SquadBuilderNS
 
             foreach (UpgradeRecord upgrade in filteredUpgrades)
             {
-                if (upgrade.Instance.hasType(slot.Type))
-                {
-                    if (upgrade.Instance.IsAllowedForShip(CurrentSquadBuilderShip.Instance))
-                    {
-                        ShowAvailableUpgrade(upgrade);
-                    }
-                }
+                ShowAvailableUpgrade(upgrade);
             }
         }
 

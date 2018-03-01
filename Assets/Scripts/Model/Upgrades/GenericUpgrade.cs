@@ -4,7 +4,9 @@ using SquadBuilderNS;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using Ship;
 
 namespace Upgrade
 {
@@ -78,7 +80,30 @@ namespace Upgrade
         //public Type FromMod { get; set; }
         public Type FromMod { get; set; }
 
-        public virtual bool IsAllowedForShip(Ship.GenericShip ship)
+        public bool HasEnoughSlotsInShip(GenericShip ship)
+        {
+            if (Types.Count > 1)
+            {
+                List<UpgradeSlot> freeSlots = ship.UpgradeBar.GetFreeSlots(Types);
+
+                foreach (var requiredSlotType in Types)
+                {
+                    UpgradeSlot freeSlotByType = freeSlots.FirstOrDefault(n => n.Type == requiredSlotType);
+                    if (freeSlotByType != null)
+                    {
+                        freeSlots.Remove(freeSlotByType);
+                    }
+                    else
+                    {
+                        //No free slots for this upgrade
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+
+        public virtual bool IsAllowedForShip(GenericShip ship)
         {
             return true;
         }
@@ -99,7 +124,7 @@ namespace Upgrade
             return true;
         }
 
-        public virtual void PreAttachToShip(Ship.GenericShip host)
+        public virtual void PreAttachToShip(GenericShip host)
         {
             Host = host;
         }
@@ -161,7 +186,7 @@ namespace Upgrade
         // ATTACH TO SHIP
 
         [Obsolete("This is in the process of being depricated, please use new template instead: UpgradeAbilities.Add();", false)]
-        public virtual void AttachToShip(Ship.GenericShip host)
+        public virtual void AttachToShip(GenericShip host)
         {
             Host = host;
             InitializeAbility();

@@ -550,22 +550,6 @@ namespace SquadBuilderNS
         {
             InstallUpgrade(slot, upgrade);
 
-
-            // check if its a dual upgrade
-            if (upgrade.Types.Count > 1) {
-                // clone upgrade
-                //GenericUpgrade newUpgrade = (GenericUpgrade)System.Activator.CreateInstance(upgrade.Types[0]);
-                UpgradesList.EmptyUpgrade emptyUpgrade = new UpgradesList.EmptyUpgrade ();
-                emptyUpgrade.set(upgrade.Types,upgrade.Name,0);
-
-                // find another slot
-                foreach (UpgradeSlot tempSlot in CurrentSquadBuilderShip.Instance.UpgradeBar.GetUpgradeSlots()){
-                    if (tempSlot != slot && upgrade.hasType (tempSlot.Type)) {
-                        InstallUpgrade (tempSlot, emptyUpgrade);
-                    }
-                }
-            }
-
             MainMenu.CurrentMainMenu.ChangePanel("ShipSlotsPanel");
         }
 

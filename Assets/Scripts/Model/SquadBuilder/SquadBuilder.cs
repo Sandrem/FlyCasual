@@ -280,11 +280,8 @@ namespace SquadBuilderNS
             string upgradeType = AllUpgrades.Find(n => n.UpgradeName == upgradeName).UpgradeTypeName;
             GenericUpgrade newUpgrade = (GenericUpgrade)System.Activator.CreateInstance(Type.GetType(upgradeType));
 
-            List<UpgradeSlot> slots;
-            slots = FindFreeSlots(ship, newUpgrade.Types);
-            for (int i = 0; i < slots.Count; i++) {
-                slots[i].PreInstallUpgrade (newUpgrade, ship.Instance);
-            }
+            List<UpgradeSlot> slots = FindFreeSlots(ship, newUpgrade.Types);
+            slots[0].PreInstallUpgrade(newUpgrade, ship.Instance);
         }
 
         private static List<UpgradeSlot> FindFreeSlots(SquadBuilderShip shipHolder, List<UpgradeType> upgradeTypes)

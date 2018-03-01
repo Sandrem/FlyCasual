@@ -91,7 +91,7 @@ namespace Upgrade
 
         public List<GenericUpgrade> GetUpgradesAll()
         {
-            List<GenericUpgrade> result = UpgradeSlots.Where(n => (!n.IsEmpty)).ToList().Select(n => n.InstalledUpgrade).ToList();
+            List<GenericUpgrade> result = UpgradeSlots.Where(n => (!n.IsEmpty && n.InstalledUpgrade.GetType() != typeof(UpgradesList.EmptyUpgrade))).ToList().Select(n => n.InstalledUpgrade).ToList();
             if (result == null) result = new List<GenericUpgrade>();
             return result;
         }
@@ -104,7 +104,7 @@ namespace Upgrade
         public List<GenericUpgrade> GetInstalledUpgrades(UpgradeType type)
         {
             List<GenericUpgrade> result = new List<GenericUpgrade>();
-            for (int i = 0; i < GetUpgradesAll ().Count; i++) {
+            for (int i = 0; i < GetUpgradesAll().Count; i++) {
                 GenericUpgrade upgrade = GetUpgradesAll() [i];
                 for (int j = 0; j < upgrade.Types.Count; j++) {
                     if (upgrade.Types [j] == type) {

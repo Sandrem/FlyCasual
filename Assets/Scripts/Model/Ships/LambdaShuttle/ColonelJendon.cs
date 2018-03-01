@@ -102,7 +102,7 @@ namespace Abilities
 
             if (ship.Tokens.CountTokensByType(typeof(Tokens.BlueTargetLockToken)) == 0) result += 100;
             if (Actions.HasTarget(ship)) result += 50;
-            if (ship.UpgradeBar.GetUpgradesOnlyFaceup().Any(n => n.Type == Upgrade.UpgradeType.Missile || n.Type == Upgrade.UpgradeType.Torpedo)) result += 25;
+            if (ship.UpgradeBar.GetUpgradesOnlyFaceup().Any(n => n.Types.Contains(Upgrade.UpgradeType.Missile) || n.Types.Contains(Upgrade.UpgradeType.Torpedo))) result += 25;
 
             return result;
         }

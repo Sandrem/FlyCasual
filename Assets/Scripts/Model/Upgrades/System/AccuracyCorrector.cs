@@ -10,7 +10,7 @@ namespace UpgradesList
     {
         public AccuracyCorrector() : base()
         {
-            Type = UpgradeType.System;
+            Types.Add(UpgradeType.System);
             Name = "Accuracy Corrector";
             Cost = 3;
 

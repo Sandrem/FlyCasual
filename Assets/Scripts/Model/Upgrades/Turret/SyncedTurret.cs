@@ -11,7 +11,7 @@ namespace UpgradesList
     {
         public SyncedTurret() : base()
         {
-            Type = UpgradeType.Turret;
+            Types.Add(UpgradeType.Turret);
 
             Name = "Synced Turret";
             Cost = 4;

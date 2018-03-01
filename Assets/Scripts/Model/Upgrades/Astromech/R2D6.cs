@@ -10,7 +10,7 @@ namespace UpgradesList
     {
         public R2D6() : base()
         {
-            Type = UpgradeType.Astromech;
+            Types.Add(UpgradeType.Astromech);
             Name = "R2-D6";
             isUnique = true;
             Cost = 1;

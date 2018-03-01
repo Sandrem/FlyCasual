@@ -272,7 +272,7 @@ namespace SquadBuilderNS
 
         private static void InstallUpgrade(UpgradeSlot slot, GenericUpgrade upgrade)
         {
-            CurrentUpgradeSlot.PreInstallUpgrade(upgrade, CurrentSquadBuilderShip.Instance);
+            slot.PreInstallUpgrade(upgrade, CurrentSquadBuilderShip.Instance);
         }
 
         private static void InstallUpgrade(SquadBuilderShip ship, string upgradeName)
@@ -280,14 +280,16 @@ namespace SquadBuilderNS
             string upgradeType = AllUpgrades.Find(n => n.UpgradeName == upgradeName).UpgradeTypeName;
             GenericUpgrade newUpgrade = (GenericUpgrade)System.Activator.CreateInstance(Type.GetType(upgradeType));
 
-            UpgradeSlot slot = FindFreeSlot(ship, newUpgrade.Type);
-
-            slot.PreInstallUpgrade(newUpgrade, ship.Instance);
+            List<UpgradeSlot> slots;
+            slots = FindFreeSlots(ship, newUpgrade.Types);
+            for (int i = 0; i < slots.Count; i++) {
+                slots[i].PreInstallUpgrade (newUpgrade, ship.Instance);
+            }
         }
 
-        private static UpgradeSlot FindFreeSlot(SquadBuilderShip shipHolder, UpgradeType upgradeType)
+        private static List<UpgradeSlot> FindFreeSlots(SquadBuilderShip shipHolder, List<UpgradeType> upgradeTypes)
         {
-            return shipHolder.Instance.UpgradeBar.GetFreeSlot(upgradeType);
+            return shipHolder.Instance.UpgradeBar.GetFreeSlots (upgradeTypes);
         }
 
         public static void ShowShipsAndUpgrades()
@@ -378,6 +380,7 @@ namespace SquadBuilderNS
         private static void RemoveInstalledUpgrade(UpgradeSlot slot, GenericUpgrade upgrade)
         {
             slot.RemovePreInstallUpgrade();
+            // check if upgrade is multi-slotted
             ShowPilotWithSlots();
         }
 
@@ -835,7 +838,7 @@ namespace SquadBuilderNS
             Dictionary<string, JSONObject> upgradesDict = new Dictionary<string, JSONObject>();
             foreach (var installedUpgrade in shipHolder.Instance.UpgradeBar.GetUpgradesAll())
             {
-                string slotName = UpgradeTypeToXWS(installedUpgrade.Type);
+                string slotName = UpgradeTypeToXWS(installedUpgrade.Types[0]);
                 if (!upgradesDict.ContainsKey(slotName))
                 {
                     JSONObject upgrade = new JSONObject();

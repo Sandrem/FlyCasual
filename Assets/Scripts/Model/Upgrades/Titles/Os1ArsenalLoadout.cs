@@ -9,7 +9,7 @@ namespace UpgradesList
     {
         public Os1ArsenalLoadout() : base()
         {
-            Type = UpgradeType.Title;
+            Types.Add(UpgradeType.Title);
             Name = "Os-1 Arsenal Loadout";
             Cost = 2;
             AddedSlots = new List<UpgradeSlot>
@@ -36,7 +36,7 @@ namespace UpgradesList
             GenericSecondaryWeapon secondaryWeapon = Combat.ChosenWeapon as GenericSecondaryWeapon;
             if (secondaryWeapon != null)
             {
-                if (secondaryWeapon.Type == UpgradeType.Torpedo || secondaryWeapon.Type == UpgradeType.Missile)
+                if (secondaryWeapon.hasType(UpgradeType.Torpedo) || secondaryWeapon.hasType(UpgradeType.Missile))
                 {
                     if (Actions.HasTargetLockOn(Selection.ThisShip, Selection.AnotherShip))
                     {

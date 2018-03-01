@@ -11,7 +11,7 @@ namespace UpgradesList
     {
         public CaptainRex() : base()
         {
-            Type = UpgradeType.Crew;
+            Types.Add(UpgradeType.Crew);
             Name = "Captain Rex";
             Cost = 2;
             isUnique = true;

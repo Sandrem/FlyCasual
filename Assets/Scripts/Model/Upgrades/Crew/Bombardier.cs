@@ -8,7 +8,7 @@ namespace UpgradesList
     {
         public Bombardier() : base()
         {
-            Type = UpgradeType.Crew;
+            Types.Add(UpgradeType.Crew);
             Name = "Bombardier";
             Cost = 1;
         }

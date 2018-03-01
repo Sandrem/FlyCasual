@@ -12,7 +12,7 @@ namespace UpgradesList
     {
         public ProtonRockets() : base()
         {
-            Type = UpgradeType.Missile;
+            Types.Add(UpgradeType.Missile);
 
             Name = "Proton Rockets";
             Cost = 3;

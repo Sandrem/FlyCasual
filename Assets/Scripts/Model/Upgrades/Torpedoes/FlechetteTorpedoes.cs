@@ -11,7 +11,7 @@ namespace UpgradesList
     {
         public FlechetteTorpedoes() : base()
         {
-            Type = UpgradeType.Torpedo;
+            Types.Add(UpgradeType.Torpedo);
 
             Name = "Flechette Torpedoes";
             Cost = 2;

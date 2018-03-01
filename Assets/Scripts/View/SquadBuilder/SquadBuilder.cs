@@ -464,7 +464,8 @@ namespace SquadBuilderNS
                 }
                 else
                 {
-                    script.Initialize(slot.InstalledUpgrade.Name, slot, slot.InstalledUpgrade, RemoveInstalledUpgrade);
+                    //script.Initialize(slot.InstalledUpgrade.Name, slot, slot.InstalledUpgrade, RemoveInstalledUpgrade);
+                    script.Initialize(slot.InstalledUpgrade.Name, slot, slot.InstalledUpgrade, RemoveUpgradeClicked);
                     UpgradeSlotPanels.Add(new UpgradeSlotPanel(slot.InstalledUpgrade, slot.Type, newUpgradePanel));
                 }
             }
@@ -506,7 +507,7 @@ namespace SquadBuilderNS
         {
             availableUpgradesCounter = 0;
 
-            List<UpgradeRecord> filteredUpgrades = AllUpgrades.Where(n => n.Instance.Type == slot.Type && n.Instance.IsAllowedForShip(CurrentSquadBuilderShip.Instance)).ToList();
+            List<UpgradeRecord> filteredUpgrades = AllUpgrades.Where(n => n.Instance.hasType(slot.Type) && n.Instance.IsAllowedForShip(CurrentSquadBuilderShip.Instance)).ToList();
             int filteredUpgradesCount = filteredUpgrades.Count;
 
             Transform contentTransform = GameObject.Find("UI/Panels/SelectUpgradePanel/Panel/Scroll View/Viewport/Content").transform;
@@ -516,7 +517,13 @@ namespace SquadBuilderNS
 
             foreach (UpgradeRecord upgrade in filteredUpgrades)
             {
-                ShowAvailableUpgrade(upgrade);
+                if (upgrade.Instance.hasType(slot.Type))
+                {
+                    if (upgrade.Instance.IsAllowedForShip(CurrentSquadBuilderShip.Instance))
+                    {
+                        ShowAvailableUpgrade(upgrade);
+                    }
+                }
             }
         }
 
@@ -542,6 +549,39 @@ namespace SquadBuilderNS
         private static void SelectUpgradeClicked(UpgradeSlot slot, GenericUpgrade upgrade)
         {
             InstallUpgrade(slot, upgrade);
+
+
+            // check if its a dual upgrade
+            if (upgrade.Types.Count > 1) {
+                // clone upgrade
+                //GenericUpgrade newUpgrade = (GenericUpgrade)System.Activator.CreateInstance(upgrade.Types[0]);
+                UpgradesList.EmptyUpgrade emptyUpgrade = new UpgradesList.EmptyUpgrade ();
+                emptyUpgrade.set(upgrade.Types,upgrade.Name,0);
+
+                // find another slot
+                foreach (UpgradeSlot tempSlot in CurrentSquadBuilderShip.Instance.UpgradeBar.GetUpgradeSlots()){
+                    if (tempSlot != slot && upgrade.hasType (tempSlot.Type)) {
+                        InstallUpgrade (tempSlot, emptyUpgrade);
+                    }
+                }
+            }
+
+            MainMenu.CurrentMainMenu.ChangePanel("ShipSlotsPanel");
+        }
+
+        private static void RemoveUpgradeClicked(UpgradeSlot slot, GenericUpgrade upgrade)
+        {
+            RemoveInstalledUpgrade(slot, upgrade);
+
+            // check if its a dual upgrade
+            if (upgrade.Types.Count > 1) {
+                // find another slot
+                foreach (UpgradeSlot tempSlot in CurrentSquadBuilderShip.Instance.UpgradeBar.GetUpgradeSlots()){
+                    if (tempSlot != slot && upgrade.hasType (tempSlot.Type)) {
+                        RemoveInstalledUpgrade (tempSlot, upgrade);
+                    }
+                }
+            }
 
             MainMenu.CurrentMainMenu.ChangePanel("ShipSlotsPanel");
         }

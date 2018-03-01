@@ -12,7 +12,7 @@ namespace UpgradesList
     {
         public CruiseMissiles() : base()
         {
-            Type = UpgradeType.Missile;
+            Types.Add(UpgradeType.Missile);
 
             Name = "Cruise Missiles";
             Cost = 3;

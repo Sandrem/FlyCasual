@@ -10,7 +10,7 @@ namespace UpgradesList
     {
         public Glitterstim() : base()
         {
-            Type = UpgradeType.Illicit;
+            Types.Add(UpgradeType.Illicit);
             Name = "Glitterstim";
             Cost = 2;
         }

@@ -8,7 +8,7 @@ namespace UpgradesList
     {
         public PunishingOne() : base()
         {
-            Type = UpgradeType.Title;
+            Types.Add(UpgradeType.Title);
             Name = "Punishing One";
             Cost = 12;
             isUnique = true;

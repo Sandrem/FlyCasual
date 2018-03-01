@@ -11,7 +11,7 @@ namespace UpgradesList
     {
         public DrawTheirFire() : base()
         {
-            Type = UpgradeType.Elite;
+            Types.Add(UpgradeType.Elite);
             Name = "Draw Their Fire";
             Cost = 1;
 

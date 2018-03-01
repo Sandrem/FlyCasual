@@ -9,7 +9,7 @@ namespace UpgradesList
     {
         public TIEShuttle() : base()
         {
-            Type = UpgradeType.Title;
+            Types.Add(UpgradeType.Title);
             Name = "TIE Shuttle";
             Cost = 0;
             AddedSlots = new List<UpgradeSlot>

@@ -34,13 +34,17 @@ namespace Upgrade
 
         public string Name { get; set; }
         public int Cost;
-        public UpgradeType Type;
+        public List<UpgradeType> Types = new List<UpgradeType>();
 
         public List<GenericAbility> UpgradeAbilities = new List<GenericAbility>();
 
         public bool isUnique = false;
         public bool isLimited = false;
         public bool isDiscarded = false;
+        /**
+         * If true, this upgrade is used as a multi-slot card and should not be used to count squad cost or used otherwise.
+         */
+        public bool isPlaceholder = false;
 
         private string nameCanonical;
         public string NameCanonical
@@ -71,6 +75,7 @@ namespace Upgrade
 
         public bool IsHidden;
 
+        //public Type FromMod { get; set; }
         public Type FromMod { get; set; }
 
         public virtual bool IsAllowedForShip(Ship.GenericShip ship)
@@ -85,7 +90,7 @@ namespace Upgrade
             if (IsHidden) return false;
 
             if (FromMod != null && !ModsManager.Mods[FromMod].IsOn) return false;
-
+            //if (FromMod != null && FromMod.Count != 0 && !ModsManager.Mods[FromMod[1]].IsOn) return false;
             return result;
         }
 
@@ -102,6 +107,55 @@ namespace Upgrade
         public virtual void PreDettachFromShip()
         {
 
+        }
+
+        /**
+         * Checks if this upgrade is of the specified type.
+         * @param type the type of upgrade to test.
+         * @return true if this upgrade contains the specified type and false otherwise.
+         */
+        public bool hasType(UpgradeType type){
+            for (int i = 0; i < Types.Count; i++) {
+                if (Types [i] == type) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        /**
+         * Returns the type as a string.
+         * @return the name of the type.
+         */
+        public string getTypesAsString(){
+            string name = "";
+            /*
+            for (int i = 0; i < Types.Count; i++) {
+                UpgradeType type = Types [i];
+                if (i > 0) {
+                    name += " ";
+                }
+
+                switch (type) {
+                    case UpgradeType.SalvagedAstromech:
+                        name += "Salvaged Astromech";
+                        break;
+                    default:
+                        name += type.ToString ();
+                        break;
+                }
+            }
+            */
+            UpgradeType type = Types [0];
+            switch (type) {
+                case UpgradeType.SalvagedAstromech:
+                    name += "Salvaged Astromech";
+                    break;
+                default:
+                    name += type.ToString ();
+                    break;
+            }
+            return name;
         }
 
         // ATTACH TO SHIP
@@ -177,7 +231,6 @@ namespace Upgrade
 
             Messages.ShowInfo(Name + " is flipped face up");
         }
-
     }
 
 }

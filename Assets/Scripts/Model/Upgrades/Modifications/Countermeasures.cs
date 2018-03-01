@@ -12,7 +12,7 @@ namespace UpgradesList
     {
         public Countermeasures() : base()
         {
-            Type = UpgradeType.Modification;
+            Types.Add(UpgradeType.Modification);
             Name = "Countermeasures";
             Cost = 3;
 

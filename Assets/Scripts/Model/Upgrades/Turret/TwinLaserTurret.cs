@@ -12,7 +12,7 @@ namespace UpgradesList
     {
 		public TwinLaserTurret() : base()
         {
-            Type = UpgradeType.Turret;
+            Types.Add(UpgradeType.Turret);
 
             Name = "Twin Laser Turret";
             Cost = 6;

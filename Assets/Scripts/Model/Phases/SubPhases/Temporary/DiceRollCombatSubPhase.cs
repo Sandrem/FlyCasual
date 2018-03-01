@@ -43,17 +43,17 @@ namespace SubPhases
         private void ShowAttackAnimationAndSound()
         {
             Upgrade.GenericSecondaryWeapon chosenSecondaryWeapon = Combat.ChosenWeapon as Upgrade.GenericSecondaryWeapon;
-            if (chosenSecondaryWeapon == null || chosenSecondaryWeapon.Type == Upgrade.UpgradeType.Cannon || chosenSecondaryWeapon.Type == Upgrade.UpgradeType.Illicit)
+            if (chosenSecondaryWeapon == null || chosenSecondaryWeapon.hasType(Upgrade.UpgradeType.Cannon) || chosenSecondaryWeapon.hasType(Upgrade.UpgradeType.Illicit))
             { // Primary Weapons, Cannons, and Illicits (HotShotBlaster)
                 Sounds.PlayShots(Selection.ActiveShip.SoundShotsPath, Selection.ActiveShip.ShotsCount);
                 Selection.ThisShip.AnimatePrimaryWeapon();
             }
-            else if (chosenSecondaryWeapon.Type == Upgrade.UpgradeType.Torpedo || chosenSecondaryWeapon.Type == Upgrade.UpgradeType.Missile)
+            else if (chosenSecondaryWeapon.hasType(Upgrade.UpgradeType.Torpedo) || chosenSecondaryWeapon.hasType(Upgrade.UpgradeType.Missile))
             { // Torpedos and Missiles
                 Sounds.PlayShots("Proton-Torpedoes", 1);
                 Selection.ThisShip.AnimateMunitionsShot();
             }
-            else if (chosenSecondaryWeapon.Type == Upgrade.UpgradeType.Turret)
+            else if (chosenSecondaryWeapon.hasType(Upgrade.UpgradeType.Turret))
             { // Turrets
                 Sounds.PlayShots(Selection.ActiveShip.SoundShotsPath, Selection.ActiveShip.ShotsCount);
                 Selection.ThisShip.AnimateTurretWeapon();

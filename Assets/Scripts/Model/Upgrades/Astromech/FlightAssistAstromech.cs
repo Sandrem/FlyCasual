@@ -15,7 +15,7 @@ namespace UpgradesList
     {
         public FlightAssistAstromech() : base()
         {
-            Type = UpgradeType.Astromech;
+            Types.Add(UpgradeType.Astromech);
             Name = "Flight-Assist Astromech";
             Cost = 1;
 

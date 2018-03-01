@@ -9,7 +9,7 @@ namespace UpgradesList
     {
         public SmugglingCompartment() : base()
         {
-            Type = UpgradeType.Modification;
+            Types.Add(UpgradeType.Modification);
             Name = "Smuggling Compartment";
             Cost = 0;
             isLimited = true;

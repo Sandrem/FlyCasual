@@ -9,7 +9,7 @@ namespace UpgradesList
 
         public RebelCaptive() : base()
         {
-            Type = UpgradeType.Crew;
+            Types.Add(UpgradeType.Crew);
             Name = "Rebel Captive";
             Cost = 3;
             isUnique = true;

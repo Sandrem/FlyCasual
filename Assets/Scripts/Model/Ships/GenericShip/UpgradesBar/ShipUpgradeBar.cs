@@ -49,22 +49,44 @@ namespace Upgrade
 
         public void TryInstallUpgrade(GenericUpgrade upgrade)
         {
-            UpgradeSlot freeSlot = GetFreeSlot(upgrade.Type);
-            if (freeSlot != null)
-            {
-                freeSlot.TryInstallUpgrade(upgrade, Host);
-            }
-            else
-            {
-                Debug.Log("No free slot: " + upgrade.Type);
+            List<UpgradeSlot> freeSlots = GetFreeSlots(upgrade.Types);
+            if (freeSlots.Count != upgrade.Types.Count) {
+                Debug.Log ("No free slot: " + upgrade.getTypesAsString());
+            } else {
+                for (int i = 0; i < freeSlots.Count; i++) {
+                    UpgradeSlot freeSlot = freeSlots [i];
+                    for (int j = 0; j < upgrade.Types.Count; j++) {
+                        UpgradeType type = upgrade.Types [j];
+                        if (type == freeSlot.Type) {
+                            freeSlot.TryInstallUpgrade (upgrade, Host);
+                            break;
+                        } 
+                    }
+                }
             }
         }
 
-        public UpgradeSlot GetFreeSlot(UpgradeType upgradeType)
+        public List<UpgradeSlot> GetFreeSlots(List<UpgradeType> upgradeTypes)
         {
-            UpgradeSlot result = null;
-            result = UpgradeSlots.Find(n => (n.Type == upgradeType && n.IsEmpty));
-            return result;
+            // clone the list in order to search
+            List<UpgradeSlot> holder = new List<UpgradeSlot>();
+            for (int i = 0; i < UpgradeSlots.Count; i++) {
+                holder.Add (UpgradeSlots [i]);
+            }
+
+            List<UpgradeSlot> results = new List<UpgradeSlot>();
+            for (int i = 0; i < upgradeTypes.Count; i++) {
+                UpgradeType uType = upgradeTypes [i];
+                for (int j = 0; j < holder.Count; j++) {
+                    UpgradeSlot uslot = holder [j];
+                    if (uType == uslot.Type && uslot.IsEmpty) {
+                        results.Add (uslot);
+                        holder.Remove (uslot);
+                        break;
+                    }
+                }
+            }
+            return results;
         }
 
         public List<GenericUpgrade> GetUpgradesAll()
@@ -72,6 +94,43 @@ namespace Upgrade
             List<GenericUpgrade> result = UpgradeSlots.Where(n => (!n.IsEmpty)).ToList().Select(n => n.InstalledUpgrade).ToList();
             if (result == null) result = new List<GenericUpgrade>();
             return result;
+        }
+
+        /**
+         * Returns a list of installed upgrade based on type.
+         * @param type the type of upgrade to return.
+         * @return the list of installed upgrade if exists and null otherwise.
+         */
+        public List<GenericUpgrade> GetInstalledUpgrades(UpgradeType type)
+        {
+            List<GenericUpgrade> result = new List<GenericUpgrade>();
+            for (int i = 0; i < GetUpgradesAll ().Count; i++) {
+                GenericUpgrade upgrade = GetUpgradesAll() [i];
+                for (int j = 0; j < upgrade.Types.Count; j++) {
+                    if (upgrade.Types [j] == type) {
+                        result.Add (upgrade);
+                        break;
+                    }
+                }
+            }
+            return result;
+        }
+
+        /**
+         * Returns the first occurance of an installed upgrade based on type.
+         * @param type the type of upgrade to return.
+         * @return the installed upgrade if it exists and null otherwise.
+         */
+        public GenericUpgrade GetInstalledUpgrade(UpgradeType type){
+            for (int i = 0; i < GetUpgradesAll ().Count; i++) {
+                GenericUpgrade upgrade = GetUpgradesAll() [i];
+                for (int j = 0; j < upgrade.Types.Count; j++) {
+                    if (upgrade.Types [j] == type) {
+                        return upgrade;
+                    }
+                }
+            }
+            return null;
         }
 
         public List<GenericUpgrade> GetUpgradesOnlyFaceup()
@@ -97,11 +156,38 @@ namespace Upgrade
             return result;
         }
 
-        public bool HasFreeUpgradeSlot(UpgradeType upgradeType)
+        /**
+         * Checks if the ship has free upgrade slots for the list of upgrade types.
+         * @param upgradeTypes the list of upgrades types to check.
+         * @return true if there are slots for all upgrade types open and false otherwise.
+         */
+        public bool HasFreeUpgradeSlot(List<UpgradeType> upgradeTypes)
         {
-            bool result = false;
-            result = (UpgradeSlots.Find(n => n.Type == upgradeType && n.InstalledUpgrade == null) != null);
-            return result;
+            // clone the list in order to search
+            List<UpgradeSlot> slots = new List<UpgradeSlot> ();
+            for (int i = 0; i < UpgradeSlots.Count; i++) {
+                slots.Add(UpgradeSlots[i]);
+            }
+
+            // the number of slots available
+            int count = 0;
+
+            for (int i = 0; i < upgradeTypes.Count; i++) {
+                UpgradeType type = upgradeTypes [i];
+
+                for (int j = 0; j < slots.Count; j++) {
+                    UpgradeSlot slot = slots [j];
+                    if (slot.Type == type && slot.InstalledUpgrade == null) {
+                        slots.Remove (slot);
+                        count++;
+                        break;
+                    }
+                }
+            }
+            if (count == upgradeTypes.Count) {
+                return true;
+            }
+            return false;
         }
 
         public int CountUpgradeSlotType(UpgradeType upgradeType)

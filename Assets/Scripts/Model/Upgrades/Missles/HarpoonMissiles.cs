@@ -13,7 +13,7 @@ namespace UpgradesList
     {
         public HarpoonMissiles() : base()
         {
-            Type = UpgradeType.Missile;
+            Types.Add(UpgradeType.Missile);
 
             Name = "Harpoon Missiles";
 

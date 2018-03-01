@@ -13,7 +13,7 @@ namespace UpgradesList
 
         public Dengar() : base()
         {
-            Type = UpgradeType.Crew;
+            Types.Add(UpgradeType.Crew);
             Name = "Dengar";
             Cost = 3;
 

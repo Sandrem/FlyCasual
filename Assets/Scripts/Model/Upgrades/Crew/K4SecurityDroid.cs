@@ -9,7 +9,7 @@ namespace UpgradesList
     {
         public K4SecurityDroid() : base()
         {
-            Type = UpgradeType.Crew;
+            Types.Add(UpgradeType.Crew);
             Name = "K4 Security Droid";
             Cost = 3;
 

@@ -18,7 +18,7 @@ namespace UpgradesList
 
         public TIED() : base()
         {
-            Type = UpgradeType.Title;
+            Types.Add(UpgradeType.Title);
             Name = "TIE/D";
             Cost = 0;
 
@@ -72,7 +72,7 @@ namespace Abilities
             bool result = false;
 
             GenericSecondaryWeapon secondaryWeapon = Combat.ChosenWeapon as GenericSecondaryWeapon;
-            if (secondaryWeapon != null && secondaryWeapon.Type == UpgradeType.Cannon && secondaryWeapon.Cost <= 3)
+            if (secondaryWeapon != null && secondaryWeapon.hasType(UpgradeType.Cannon) && secondaryWeapon.Cost <= 3)
             {
                 result = true;
             }

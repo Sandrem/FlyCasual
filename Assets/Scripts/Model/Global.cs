@@ -10,8 +10,8 @@ public class Global : MonoBehaviour {
 
     public static string test = "I am accessible from every scene";
 
-    public static string CurrentVersion = "0.4.2 Hotfix 2";
-    public static int CurrentVersionInt = 100040220;
+    public static string CurrentVersion = "0.4.3 DEV";
+    public static int CurrentVersionInt = 100040300;
 
     void Awake()
     {

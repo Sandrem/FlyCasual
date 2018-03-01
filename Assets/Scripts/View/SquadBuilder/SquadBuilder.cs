@@ -451,6 +451,9 @@ namespace SquadBuilderNS
             UpgradeSlotPanels = new List<UpgradeSlotPanel>();
             foreach (UpgradeSlot slot in CurrentSquadBuilderShip.Instance.UpgradeBar.GetUpgradeSlots())
             {
+                //Skip for slots with empty upgrade
+                if (!slot.IsEmpty && slot.InstalledUpgrade.GetType() == typeof(UpgradesList.EmptyUpgrade)) continue;
+
                 GameObject prefab = (GameObject)Resources.Load("Prefabs/SquadBuilder/UpgradePanel", typeof(GameObject));
                 Transform contentTransform = GameObject.Find("UI/Panels/ShipSlotsPanel/Panel/Centered/ShipWithSlotsHolderPanel/").transform;
                 GameObject newUpgradePanel = MonoBehaviour.Instantiate(prefab, contentTransform);

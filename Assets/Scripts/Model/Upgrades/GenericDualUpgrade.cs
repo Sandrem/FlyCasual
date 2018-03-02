@@ -48,6 +48,7 @@ namespace Upgrade
 
         public void Flip()
         {
+            Messages.ShowInfo(string.Format("{0} was flipped", Name));
             Discard(SetAnotherSide);
         }
 

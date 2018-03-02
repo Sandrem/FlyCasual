@@ -4,6 +4,8 @@ using Ship;
 using ActionsList;
 using Tokens;
 using Abilities;
+using SubPhases;
+using System;
 
 namespace UpgradesList
 {
@@ -30,6 +32,8 @@ namespace UpgradesList
     {
         public IntensityExhausted() : base()
         {
+            IsHidden = true; // Hidden in Squad Builder only
+
             Types.Add(UpgradeType.Elite);
             Name = "Intensity (Exhausted)";
             Cost = 2;
@@ -64,23 +68,77 @@ namespace Abilities
         {
             if (actionTaken is BoostAction || actionTaken is BarrelRollAction)
             {
-                RegisterAbilityTrigger(TriggerTypes.OnActionIsPerformed, AssignToken);
+                RegisterAbilityTrigger(TriggerTypes.OnActionIsPerformed, AskToAssignToken);
             }
         }
 
-        private void AssignToken(object sender, System.EventArgs e)
+        private void AskToAssignToken(object sender, System.EventArgs e)
         {
-            HostShip.Tokens.AssignToken(
-                new FocusToken(HostShip),
-                FlipUpgade
+            //Skip if side is wrong
+            if (!ConditionsStillCorrect())
+            {
+                Triggers.FinishTrigger();
+                return;
+            }
+
+            SelectTokenDecisionSubphase decision = (SelectTokenDecisionSubphase)Phases.StartTemporarySubPhaseNew(
+                Name,
+                typeof(SelectTokenDecisionSubphase),
+                Triggers.FinishTrigger
             );
+
+            decision.InfoText = "Select token to assign and flip Intensity to Exhausted side";
+
+            decision.AddDecision("Focus Token", delegate { AssignToken(new FocusToken(HostShip)); });
+            decision.AddDecision("Evade Token", delegate { AssignToken(new EvadeToken(HostShip)); });
+
+            decision.DefaultDecisionName = GetBestToken();
+
+            decision.RequiredPlayer = HostShip.Owner.PlayerNo;
+
+            decision.ShowSkipButton = true;
+
+            decision.Start();
         }
 
-        private void FlipUpgade()
+        private bool ConditionsStillCorrect()
+        {
+            if (!HostShip.UpgradeBar.GetUpgradesOnlyFaceup().Any(n => n is UpgradesList.Intensity)) return false;
+
+            return true;
+        }
+
+        private string GetBestToken()
+        {
+            string bestToken = "";
+
+            if (HostShip.Tokens.HasToken(typeof(EvadeToken)))
+            {
+                // Focus token if has evade only or evade + focus
+                bestToken = "Focus Token";
+            }
+            else if (HostShip.Tokens.HasToken(typeof(FocusToken)))
+            {
+                // Evade token if has focus only
+                bestToken = "Evade Token";
+            }
+            else
+            {
+                // Focus token if has no tokens at all
+                bestToken = "Focus Token";
+            }
+
+            return bestToken;
+        }
+
+        private void AssignToken(GenericToken token)
         {
             (HostUpgrade as GenericDualUpgrade).Flip();
-            Triggers.FinishTrigger();
+
+            HostShip.Tokens.AssignToken(token, DecisionSubPhase.ConfirmDecision);
         }
+
+        private class SelectTokenDecisionSubphase : DecisionSubPhase { }
     }
 
     public class IntensityExhaustedAbility : GenericAbility
@@ -97,24 +155,73 @@ namespace Abilities
 
         private void CheckAbility()
         {
-            if (HostShip.Tokens.HasToken(typeof(FocusToken))) //  || HostShip.Tokens.HasToken(typeof(EvadeToken))
+            if (HostShip.Tokens.HasToken(typeof(FocusToken)) || HostShip.Tokens.HasToken(typeof(EvadeToken)))
             {
-                RegisterAbilityTrigger(TriggerTypes.OnCombatPhaseEnd, RestoreUpgrade);
+                RegisterAbilityTrigger(TriggerTypes.OnCombatPhaseEnd, AskToSpendToken);
             }
         }
 
-        private void RestoreUpgrade(object sender, System.EventArgs e)
+        private void AskToSpendToken(object sender, System.EventArgs e)
         {
-            HostShip.Tokens.SpendToken(
-                typeof(FocusToken),
-                FlipUpgade
+            //Skip if side is wrong or tokens are not present
+            if (!ConditionsStillCorrect()) {
+                Triggers.FinishTrigger();
+                return;
+            }
+
+            SelectTokenDecisionSubphase decision = (SelectTokenDecisionSubphase)Phases.StartTemporarySubPhaseNew(
+                Name,
+                typeof(SelectTokenDecisionSubphase),
+                Triggers.FinishTrigger
             );
+
+            decision.InfoText = "Select token to spend to flip Intensity";
+
+            if (HostShip.Tokens.HasToken(typeof(FocusToken))) {
+                decision.AddDecision("Focus Token", delegate { SpendTokenToRestoreUpgrade(typeof(FocusToken)); });
+            }
+
+            if (HostShip.Tokens.HasToken(typeof(EvadeToken))) {
+                decision.AddDecision("Evade Token", delegate { SpendTokenToRestoreUpgrade(typeof(EvadeToken)); });
+            }
+
+            decision.DefaultDecisionName = GetBestToken();
+
+            decision.RequiredPlayer = HostShip.Owner.PlayerNo;
+
+            decision.ShowSkipButton = true;
+
+            decision.Start();
         }
 
-        private void FlipUpgade()
+        private bool ConditionsStillCorrect()
+        {
+            if (!HostShip.UpgradeBar.GetUpgradesOnlyFaceup().Any(n => n is UpgradesList.IntensityExhausted)) return false;
+
+            if (!HostShip.Tokens.HasToken(typeof(FocusToken)) && !HostShip.Tokens.HasToken(typeof(EvadeToken))) return false;
+
+            return true;
+        }
+
+        private string GetBestToken()
+        {
+            string bestToken = "Focus Token";
+
+            if (HostShip.Tokens.HasToken(typeof(EvadeToken)))
+            {
+                bestToken = "Evade Token";
+            }
+
+            return bestToken;
+        }
+
+        private void SpendTokenToRestoreUpgrade(Type tokenType)
         {
             (HostUpgrade as GenericDualUpgrade).Flip();
-            Triggers.FinishTrigger();
+
+            HostShip.Tokens.SpendToken(tokenType, DecisionSubPhase.ConfirmDecision);
         }
+
+        private class SelectTokenDecisionSubphase : DecisionSubPhase { }
     }
 }

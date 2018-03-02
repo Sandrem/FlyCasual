@@ -32,7 +32,14 @@ namespace Upgrade
 
         public virtual void PayDropCost(Action callBack)
         {
-            if (IsDiscardedAfterDropped) TryDiscard(callBack);
+            if (IsDiscardedAfterDropped)
+            {
+                TryDiscard(callBack);
+            }
+            else
+            {
+                callBack();
+            }
         }
 
         public virtual void ActivateBombs(List<GameObject> bombObjects, Action callBack)

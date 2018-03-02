@@ -16,7 +16,7 @@ namespace UpgradesList
             Types.Add(UpgradeType.Elite);
             Name = "Lightning Reflexes";
             Cost = 1;
-
+            
             UpgradeAbilities.Add(new LightningReflexesAbility());
         }
 
@@ -53,67 +53,21 @@ namespace Abilities
                 return;
             }
 
-            if (HostShip.AssignedManeuver.ColorComplexity != ManeuverColor.Red)
-            {                
-                Triggers.RegisterTrigger(new Trigger()
-                {
-                    Name = "Lightning Reflexes' ability",
-                    TriggerType = TriggerTypes.OnShipMovementFinish,
-                    TriggerOwner = HostShip.Owner.PlayerNo,
-                    Sender = HostShip,
-                    EventHandler = RotateShip180
-                });                
-            }
-        }
-
-        private void RotateShip180(object sender, System.EventArgs e)
-        {
-            GenericShip thisShip = sender as GenericShip;
-            Phases.StartTemporarySubPhaseOld("Rotate ship 180° decision", typeof(SubPhases.LightningReflexesDecisionSubPhase), Triggers.FinishTrigger);
-        }
-    }
-}
-
-namespace SubPhases
-{
-    public class LightningReflexesDecisionSubPhase : DecisionSubPhase
-    {
-
-        public override void PrepareDecision(Action callBack)
-        {
-            InfoText = "Discard Lightning Reflexes to rotate ship 180° and receive stress token?";
-
-            AddDecision("Yes", RotateShip180);
-            AddDecision("No", DontRotateShip180);
-
-            DefaultDecisionName = "No";
-
-            callBack();
-        }
-
-        private void RotateShip180(object sender, EventArgs e)
-        {
-            var lightningReflexesUpgrade = Selection.ThisShip.UpgradeBar.GetUpgradesOnlyFaceup()
-                .FirstOrDefault(u => u.Types.Contains(UpgradeType.Elite) && u.Name == "Lightning Reflexes");
-            if (lightningReflexesUpgrade != null)
+            if (HostShip.AssignedManeuver.ColorComplexity == ManeuverColor.White || HostShip.AssignedManeuver.ColorComplexity == ManeuverColor.Green)
             {
-                lightningReflexesUpgrade.TryDiscard(StartRotate180SubPhase);
+                RegisterAbilityTrigger(TriggerTypes.OnShipMovementFinish, (s, e) => AskToUseAbility(NeverUseByDefault, UseAbility));
             }
-        }
+        }                
 
-        private void StartRotate180SubPhase()
-        {
-            Messages.ShowInfoToHuman(string.Format("{0} discarded Lightning Reflexes to turn ship 180° and get stress token.", Selection.ThisShip.PilotName));
-            Phases.StartTemporarySubPhaseOld("Rotate ship 180°", typeof(KoiogranTurnSubPhase), 
-                () => Selection.ThisShip.Tokens.AssignToken(new Tokens.StressToken(Selection.ThisShip), ConfirmDecision)
-            );
-        }
+        private void UseAbility(object sender, System.EventArgs e)
+        {            
+            var lightningReflexesSubphase = Phases.StartTemporarySubPhaseNew("Rotate ship 180°", typeof(KoiogranTurnSubPhase), () =>
+            {                
+                HostShip.Tokens.AssignToken(new StressToken(HostShip), DecisionSubPhase.ConfirmDecision);
+                Messages.ShowInfoToHuman(string.Format("{0} discarded Lightning Reflexes to turn ship 180° and get stress token.", Selection.ThisShip.PilotName));
+            });
 
-        private void DontRotateShip180(object sender, EventArgs e)
-        {
-            ConfirmDecision();
+            HostUpgrade.TryDiscard(lightningReflexesSubphase.Start);            
         }
-
     }
-
 }

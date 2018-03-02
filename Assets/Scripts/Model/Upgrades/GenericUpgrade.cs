@@ -32,7 +32,8 @@ namespace Upgrade
     {
         public static GenericUpgrade CurrentUpgrade;
 
-        public Ship.GenericShip Host { get; set; }
+        public GenericShip Host { get; set; }
+        public UpgradeSlot Slot { get; set; }
 
         public string Name { get; set; }
         public int Cost;
@@ -255,6 +256,16 @@ namespace Upgrade
             ActivateAbility();
 
             Messages.ShowInfo(Name + " is flipped face up");
+        }
+
+        public void ReplaceUpgradeBy(GenericUpgrade newUpgrade)
+        {
+            DeactivateAbility();
+
+            Roster.ReplaceUpgrade(Host, Name, newUpgrade.Name);
+
+            Slot.PreInstallUpgrade(newUpgrade, Host);
+            Slot.TryInstallUpgrade(newUpgrade, Host);
         }
     }
 

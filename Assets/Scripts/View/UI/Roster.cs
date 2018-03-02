@@ -444,11 +444,11 @@ public static partial class Roster {
         }
     }
 
-    public static void DiscardUpgrade(GenericShip host, string upgradeShortName)
+    public static void DiscardUpgrade(GenericShip host, string upgradeName)
     {
         foreach (Transform upgradeLine in host.InfoPanel.transform.Find("ShipInfo/UpgradesBar").transform)
         {
-            if (upgradeLine.GetComponent<Text>().text == upgradeShortName && upgradeLine.GetComponent<Text>().color != Color.gray)
+            if (upgradeLine.GetComponent<Text>().text == upgradeName && upgradeLine.GetComponent<Text>().color != Color.gray)
             {
                 upgradeLine.GetComponent<Text>().color = Color.gray;
                 return;
@@ -456,12 +456,25 @@ public static partial class Roster {
         }
     }
 
-    public static void FlipFaceupUpgrade(GenericShip host, string upgradeShortName)
+    public static void FlipFaceupUpgrade(GenericShip host, string upgradeName)
     {
         foreach (Transform upgradeLine in host.InfoPanel.transform.Find("ShipInfo/UpgradesBar").transform)
         {
-            if (upgradeLine.GetComponent<Text>().text == upgradeShortName && upgradeLine.GetComponent<Text>().color == Color.gray)
+            if (upgradeLine.GetComponent<Text>().text == upgradeName && upgradeLine.GetComponent<Text>().color == Color.gray)
             {
+                upgradeLine.GetComponent<Text>().color = Color.white;
+                return;
+            }
+        }
+    }
+
+    public static void ReplaceUpgrade(GenericShip host, string oldName, string newName)
+    {
+        foreach (Transform upgradeLine in host.InfoPanel.transform.Find("ShipInfo/UpgradesBar").transform)
+        {
+            if (upgradeLine.GetComponent<Text>().text == oldName)
+            {
+                upgradeLine.GetComponent<Text>().text = newName;
                 upgradeLine.GetComponent<Text>().color = Color.white;
                 return;
             }

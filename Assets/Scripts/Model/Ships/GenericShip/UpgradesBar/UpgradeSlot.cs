@@ -53,6 +53,7 @@ namespace Upgrade
         public void PreInstallUpgrade(GenericUpgrade upgrade, Ship.GenericShip host)
         {
             InstalledUpgrade = upgrade;
+            upgrade.Slot = this;
             InstalledUpgrade.PreAttachToShip(host);
 
             // check if its a dual upgrade

@@ -15,6 +15,8 @@ namespace Ship
         public event EventHandlerShip OnDocked;
         public event EventHandlerShip OnUndocked;
 
+        public event EventHandlerShip OnShipIsPlaced;
+
         public event EventHandlerActionInt OnAiGetDiceModificationPriority;
 
         public GenericShip Host;
@@ -43,6 +45,13 @@ namespace Ship
         public Type FromMod { get; set; }
 
         public event EventHandler OnDiscardUpgrade;
+
+        public void CallOnShipIsPlaced(Action callback)
+        {
+            if (OnShipIsPlaced != null) OnShipIsPlaced(this);
+
+            Triggers.ResolveTriggers(TriggerTypes.OnShipIsPlaced, callback);
+        }
 
         public void CallDiscardUpgrade(Action callBack)
         {

@@ -26,6 +26,7 @@ public static class Rules
     public static WeaponsDisabledRule WeaponsDisabled { get; private set; }
     public static BullseyeArcRule BullseyeArc { get; private set; }
     public static DockingRule Docking { get; private set; }
+    public static TractorBeamRule TractorBeam { get; private set; }
 
     static Rules()
     {
@@ -49,6 +50,7 @@ public static class Rules
         WeaponsDisabled = new WeaponsDisabledRule();
         BullseyeArc = new BullseyeArcRule();
         Docking = new DockingRule();
+        TractorBeam = new TractorBeamRule();
     }
 
     public static void FinishGame()
@@ -56,6 +58,5 @@ public static class Rules
         Docking.Initialize();
         Phases.EndGame();
     }
-
 }
 

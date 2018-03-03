@@ -36,6 +36,8 @@ namespace Ship
 
                 SkinName = "Red";
 
+                HasMovableWings = true;
+
                 SoundShotsPath = "XWing-Laser";
                 ShotsCount = 3;
 

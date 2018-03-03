@@ -156,6 +156,13 @@ namespace Ship
                 {
                     Renderer renderer = modelPart.GetComponent<Renderer>();
                     if (renderer != null) renderer.material.SetTexture("_MainTex", skin);
+
+                    // Second level
+                    foreach (Transform modelPartLevel2 in modelPart.transform)
+                    {
+                        renderer = modelPartLevel2.GetComponent<Renderer>();
+                        if (renderer != null) renderer.material.SetTexture("_MainTex", skin);
+                    }
                 }
             }
         }

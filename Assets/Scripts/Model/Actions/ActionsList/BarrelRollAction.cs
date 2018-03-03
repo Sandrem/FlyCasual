@@ -246,6 +246,7 @@ namespace SubPhases
             if (Controller.GetType() != typeof(Players.NetworkOpponentPlayer)) template.SetActive(true);
             HelperDirection = GetDirectionModifier(selectedTemplateVariant);
             obstaclesStayDetectorMovementTemplate = template.GetComponentInChildren<ObstaclesStayDetectorForced>();
+            obstaclesStayDetectorMovementTemplate.TargetShip = TargetShip;
         }
 
         private void StartReposition()
@@ -290,6 +291,7 @@ namespace SubPhases
                 TemporaryShipBase.transform.Find("ShipBase").Find("ShipStandInsert").Find("ShipStandInsertImage").Find("default").GetComponent<Renderer>().material = TargetShip.Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("ShipBase").Find("ShipStandInsert").Find("ShipStandInsertImage").Find("default").GetComponent<Renderer>().material;
                 TemporaryShipBase.transform.Find("ShipBase").Find("ObstaclesStayDetector").gameObject.AddComponent<ObstaclesStayDetectorForced>();
                 obstaclesStayDetectorBase = TemporaryShipBase.GetComponentInChildren<ObstaclesStayDetectorForced>();
+                obstaclesStayDetectorBase.TargetShip = TargetShip;
 
                 if (useMobileControls) ProcessTemporaryShipBaseSlider(SliderMenu.GetSliderValue());
             }

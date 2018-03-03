@@ -84,6 +84,7 @@ namespace SubPhases
             }
             ShipStand.transform.Find("ShipBase").Find("ObstaclesStayDetector").gameObject.AddComponent<ObstaclesStayDetectorForced>();
             obstaclesStayDetectorBase = ShipStand.GetComponentInChildren<ObstaclesStayDetectorForced>();
+            obstaclesStayDetectorBase.TargetShip = TargetShip;
             Roster.SetRaycastTargets(false);
         }
 
@@ -191,11 +192,11 @@ namespace SubPhases
             ShipStand.transform.rotation = newBase.rotation;
 
             obstaclesStayDetectorMovementTemplate = TargetShip.GetBoosterHelper().Find(SelectedBoostHelper).GetComponentInChildren<ObstaclesStayDetectorForced>();
+            obstaclesStayDetectorMovementTemplate.TargetShip = TargetShip;
         }
 
         public void StartBoostExecution(Ship.GenericShip ship)
         {
-            UI.AddTestLogEntry ("Boosting with ship = " + ship.GetTag ());
             BoostExecutionSubPhase execution = (BoostExecutionSubPhase) Phases.StartTemporarySubPhaseNew(
                 "Boost execution",
                 typeof(BoostExecutionSubPhase),

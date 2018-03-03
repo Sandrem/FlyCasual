@@ -17,6 +17,16 @@ public class ObstaclesStayDetectorForced: MonoBehaviour {
     public bool OffTheBoardNow = false;
     public List<Collider> OverlapedMinesNow = new List<Collider>();
 
+    private Ship.GenericShip targetShip; 
+    public Ship.GenericShip TargetShip {
+        get {
+            return targetShip ?? Selection.ThisShip;
+        }
+        set {
+            targetShip = value;
+        }
+    }
+
     public void ReCheckCollisionsStart()
     {
         OverlapsAsteroidNow = false;
@@ -50,7 +60,7 @@ public class ObstaclesStayDetectorForced: MonoBehaviour {
             }
             else if (collisionInfo.name == "ObstaclesStayDetector")
             {
-                if (collisionInfo.tag != "Untagged" && collisionInfo.tag != Selection.ThisShip.GetTag())
+                if (collisionInfo.tag != "Untagged" && collisionInfo.tag != TargetShip.GetTag())
                 {
                     OverlappedShipsNow.Add(Roster.GetShipById(collisionInfo.tag));
                 }

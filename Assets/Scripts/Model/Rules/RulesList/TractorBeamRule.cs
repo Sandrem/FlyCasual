@@ -108,12 +108,12 @@ namespace SubPhases
                 }
             );
             newPhase.Name = "Select position";
-            newPhase.IsTemporary = true;
-            newPhase.SelectTemplate(template);
             newPhase.TargetShip = Target;
+            newPhase.IsTemporary = true;
             newPhase.Controller = Assigner;
             newPhase.ObstacleOverlapAllowed = true;
             Phases.UpdateHelpInfo();
+            newPhase.SelectTemplate(template);
             newPhase.PerfromTemplatePlanning();
         }
 

@@ -18,12 +18,12 @@ namespace Movement
             base.Perform();
             Initialize();
 
-            movementPrediction = new MovementPrediction(this, Selection.ThisShip.Owner.AfterShipMovementPrediction);
+            movementPrediction = new MovementPrediction(this, TargetShip.Owner.AfterShipMovementPrediction);
         }
 
         protected override float SetProgressTarget()
         {
-            return Selection.ThisShip.ShipBase.GetShipBaseDistance() + Speed * GetMovement1();
+            return TargetShip.ShipBase.GetShipBaseDistance() + Speed * GetMovement1();
         }
 
         protected override float SetAnimationSpeed()
@@ -37,7 +37,7 @@ namespace Movement
             progressDelta = Mathf.Clamp(progressDelta, 0, Mathf.Abs(ProgressTarget - ProgressCurrent));
             ProgressCurrent += progressDelta;
 
-            Selection.ThisShip.SetPosition(Vector3.MoveTowards(Selection.ThisShip.GetPosition(), Selection.ThisShip.GetPosition() + Selection.ThisShip.TransformDirection(Vector3.forward), progressDelta));
+            TargetShip.SetPosition(Vector3.MoveTowards(TargetShip.GetPosition(), TargetShip.GetPosition() + TargetShip.TransformDirection(Vector3.forward), progressDelta));
 
             base.UpdateMovementExecution();
         }
@@ -46,14 +46,14 @@ namespace Movement
         {
             GameObject[] result = new GameObject[101];
 
-            float distancePart = (Selection.ThisShip.ShipBase.GetShipBaseDistance() + Speed * GetMovement1())/100f;
-            Vector3 position = Selection.ThisShip.GetPosition();
+            float distancePart = (TargetShip.ShipBase.GetShipBaseDistance() + Speed * GetMovement1())/100f;
+            Vector3 position = TargetShip.GetPosition();
 
             for (int i = 0; i <= 100; i++)
             {
-                if (i > 0) position = Vector3.MoveTowards(position, position + Selection.ThisShip.TransformDirection(Vector3.forward), distancePart);
-                GameObject prefab = (GameObject)Resources.Load(Selection.ThisShip.ShipBase.TemporaryPrefabPath, typeof(GameObject));
-                GameObject ShipStand = MonoBehaviour.Instantiate(prefab, position, Selection.ThisShip.GetRotation(), Board.BoardManager.GetBoard());
+                if (i > 0) position = Vector3.MoveTowards(position, position + TargetShip.TransformDirection(Vector3.forward), distancePart);
+                GameObject prefab = (GameObject)Resources.Load(TargetShip.ShipBase.TemporaryPrefabPath, typeof(GameObject));
+                GameObject ShipStand = MonoBehaviour.Instantiate(prefab, position, TargetShip.GetRotation(), Board.BoardManager.GetBoard());
 
                 Renderer[] renderers = ShipStand.GetComponentsInChildren<Renderer>();
                 if (!DebugManager.DebugMovement)

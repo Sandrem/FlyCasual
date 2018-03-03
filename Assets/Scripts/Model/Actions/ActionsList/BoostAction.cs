@@ -193,14 +193,15 @@ namespace SubPhases
             obstaclesStayDetectorMovementTemplate = TargetShip.GetBoosterHelper().Find(SelectedBoostHelper).GetComponentInChildren<ObstaclesStayDetectorForced>();
         }
 
-        public void StartBoostExecution()
+        public void StartBoostExecution(Ship.GenericShip ship)
         {
+            UI.AddTestLogEntry ("Boosting with ship = " + ship.GetTag ());
             BoostExecutionSubPhase execution = (BoostExecutionSubPhase) Phases.StartTemporarySubPhaseNew(
                 "Boost execution",
                 typeof(BoostExecutionSubPhase),
                 CallBack
             );
-            execution.BoostingShip = TargetShip;
+            execution.BoostingShip = ship;
             execution.Start();
         }
 
@@ -233,6 +234,7 @@ namespace SubPhases
 
         public void TryConfirmBoostPosition()
         {
+            UI.AddTestLogEntry ("Trying to confirm boost with ship = " + TargetShip.GetTag());
             ShowBoosterHelper();
 
             obstaclesStayDetectorBase.ReCheckCollisionsStart();
@@ -268,7 +270,7 @@ namespace SubPhases
             {
                 CheckMines();
                 TargetShip.IsLandedOnObstacle = obstaclesStayDetectorBase.OverlapsAsteroidNow;
-                GameMode.CurrentGameMode.StartBoostExecution();
+                GameMode.CurrentGameMode.StartBoostExecution(TargetShip);
             }
             else
             {
@@ -332,16 +334,7 @@ namespace SubPhases
 
     public class BoostExecutionSubPhase : GenericSubPhase
     {
-
-        private Ship.GenericShip boostingShip;
-        public Ship.GenericShip BoostingShip {
-            get {
-                return boostingShip ?? Selection.ThisShip;
-            }
-            set {
-                boostingShip = value;
-            }
-        }
+        public Ship.GenericShip BoostingShip;
 
         public override void Start()
         {
@@ -379,6 +372,8 @@ namespace SubPhases
                     break;
             }
 
+            boostMovement.TargetShip = BoostingShip;
+
             MovementTemplates.ApplyMovementRuler(BoostingShip, boostMovement);
 
             boostMovement.Perform();
@@ -415,7 +410,5 @@ namespace SubPhases
             bool result = false;
             return result;
         }
-
     }
-
 }

@@ -104,7 +104,7 @@ namespace SubPhases
                 typeof(SubPhases.BarrelRollPlanningSubPhase),
                 delegate {
                     UI.AddTestLogEntry("In br planning callback");
-                    Phases.CurrentSubPhase.CallBack();
+                    Next();
                 }
             );
             newPhase.Name = "Select position";
@@ -135,7 +135,7 @@ namespace SubPhases
                 typeof(SubPhases.BoostPlanningSubPhase),
                 delegate {
                     UI.AddTestLogEntry("In boost planning callback");
-                    Phases.CurrentSubPhase.CallBack();
+                    Next();
                 }
             );
             newPhase.TargetShip = Target;
@@ -176,6 +176,13 @@ namespace SubPhases
             selectBarrelRollTemplate.RequiredPlayer = Assigner.PlayerNo;
 
             selectBarrelRollTemplate.Start();
+        }
+
+        public override void Next()
+        {
+            Phases.CurrentSubPhase = PreviousSubPhase;
+            Phases.CurrentSubPhase.Next();
+            UpdateHelpInfo();
         }
 
         protected class TractorBeamDirectionDecisionSubPhase : DecisionSubPhase { }

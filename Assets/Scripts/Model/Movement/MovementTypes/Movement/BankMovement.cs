@@ -19,7 +19,7 @@ namespace Movement
         {
             base.Perform();
 
-            movementPrediction = new MovementPrediction(this, Selection.ThisShip.Owner.AfterShipMovementPrediction);
+            movementPrediction = new MovementPrediction(this, TargetShip.Owner.AfterShipMovementPrediction);
         }
 
         protected override float SetProgressTarget()

@@ -394,7 +394,7 @@ namespace SubPhases
             StartReposition();
         }
 
-        public void StartBarrelRollExecution()
+        public void StartBarrelRollExecution(Ship.GenericShip ship)
         {
             Pause();
 
@@ -407,7 +407,7 @@ namespace SubPhases
                 CallBack
             );
 
-            executionSubphase.BarrelRollingShip = TargetShip;
+            executionSubphase.BarrelRollingShip = ship;
             executionSubphase.TemporaryShipBase = TemporaryShipBase;
             executionSubphase.HelperDirection = HelperDirection;
 
@@ -483,7 +483,7 @@ namespace SubPhases
             {
                 CheckMines();
                 TargetShip.IsLandedOnObstacle = obstaclesStayDetectorBase.OverlapsAsteroidNow;
-                GameMode.CurrentGameMode.StartBarrelRollExecution();
+                GameMode.CurrentGameMode.StartBarrelRollExecution(TargetShip);
             }
             else
             {

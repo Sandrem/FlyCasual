@@ -52,7 +52,9 @@ namespace ActionsList
             SelectSpacetugTargetSubPhase newPhase = (SelectSpacetugTargetSubPhase) Phases.StartTemporarySubPhaseNew(
                 "Select target for Spacetug Tractor Array",
                 typeof(SelectSpacetugTargetSubPhase),
-                delegate {}
+                delegate {
+                    Phases.FinishSubPhase(typeof(ActionSubPhase));
+                }
             );
 
             newPhase.SpacetugOwner = this.Host;
@@ -84,7 +86,7 @@ namespace SubPhases
         private bool FilterAbilityTargets(GenericShip ship)
         {
             ShipShotDistanceInformation shotInfo = new ShipShotDistanceInformation(SpacetugOwner, ship);
-            return shotInfo.InArc && shotInfo.Range == 1;		
+            return shotInfo.InArc && shotInfo.Range == 1;
         }
 
         private int GetAiAbilityPriority(GenericShip ship)
@@ -103,15 +105,21 @@ namespace SubPhases
                     Phases.FinishSubPhase(typeof(SelectSpacetugTargetSubPhase));
                     Phases.FinishSubPhase(typeof(ActionDecisonSubPhase));
                     Triggers.FinishTrigger();
-                    CallBack();
                 });	
             });
+        }
+
+        public override void Next()
+        {
+            Phases.CurrentSubPhase = PreviousSubPhase;
+            Phases.CurrentSubPhase.Next();
+            UpdateHelpInfo();
+            CallBack();
         }
 
         public override void SkipButton()
         {
             Phases.FinishSubPhase(this.GetType());
-            CallBack();
         }
     }
 }

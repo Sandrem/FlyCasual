@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Board;
 using GameModes;
+using System.Linq;
 
 namespace ActionsList
 {
@@ -260,7 +261,10 @@ namespace SubPhases
             {
                 CheckMines();
                 TheShip.IsLandedOnObstacle = obstaclesStayDetectorBase.OverlapsAsteroidNow;
-                TheShip.ObstaclesHit = obstaclesStayDetectorMovementTemplate.OverlappedAsteroidsNow;
+                TheShip.ObstaclesHit = new List<Collider>(obstaclesStayDetectorBase.OverlappedAsteroidsNow);
+                obstaclesStayDetectorMovementTemplate.OverlappedAsteroidsNow
+                    .Where((a) => !TheShip.ObstaclesHit.Contains(a)).ToList()
+                    .ForEach(TheShip.ObstaclesHit.Add);
                 GameMode.CurrentGameMode.StartBoostExecution(TheShip);
             }
             else

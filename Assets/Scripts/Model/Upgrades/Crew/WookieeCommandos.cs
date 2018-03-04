@@ -83,7 +83,7 @@ namespace ActionsList
 
                 if (Combat.Attacker.GetAvailableActionEffectsList().Count(n => n.IsTurnsAllFocusIntoSuccess || n.IsTurnsOneFocusIntoSuccess) == 0)
                 {
-                    result = 90;
+                    result = 95;
                 }                
             }
 

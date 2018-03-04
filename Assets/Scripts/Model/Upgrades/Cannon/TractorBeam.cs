@@ -41,13 +41,7 @@ namespace Abilities
         {
             if (Combat.ChosenWeapon is TractorBeam)
             {
-                Triggers.RegisterTrigger(new Trigger()
-                    {
-                        Name = "Tractor beam (cannon) effect",
-                        TriggerType = TriggerTypes.OnShotHit,
-                        TriggerOwner = Combat.Attacker.Owner.PlayerNo,
-                        EventHandler = TractorBeamEffect
-                    });
+                RegisterAbilityTrigger(TriggerTypes.OnShotHit, TractorBeamEffect);
             }
         }
 
@@ -57,11 +51,7 @@ namespace Abilities
             Combat.DiceRollAttack.RemoveAllFailures();
 
             Tokens.TractorBeamToken token = new Tokens.TractorBeamToken(Combat.Defender, Combat.Attacker.Owner);
-            Combat.Defender.Tokens.AssignToken(token, delegate {
-                Triggers.ResolveTriggers(TriggerTypes.OnAttackHit, delegate {
-                    Triggers.FinishTrigger();
-                }); 
-            });
+            Combat.Defender.Tokens.AssignToken(token, Triggers.FinishTrigger);
         }
     }
 }

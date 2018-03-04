@@ -44,7 +44,7 @@ namespace Abilities
         {
             if (IsAbilityUsed) return;
 
-            ShipShotDistanceInformation shotInfo = new ShipShotDistanceInformation(HostShip, Combat.Defender);
+            ShipShotDistanceInformation shotInfo = Combat.ShotInfo;
             if (!shotInfo.InMobileArc || shotInfo.Range > 2) return;
 
             Tokens.TractorBeamToken token = new Tokens.TractorBeamToken(Combat.Defender, Combat.Attacker.Owner);

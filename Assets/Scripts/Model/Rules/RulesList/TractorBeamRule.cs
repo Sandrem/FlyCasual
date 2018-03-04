@@ -45,7 +45,15 @@ namespace RulesList
             TractorBeamToken token = (TractorBeamToken) ship.Tokens.GetToken(typeof(TractorBeamToken));
             newPhase.Assigner = token.Assigner;
             newPhase.TheShip = ship;
-            newPhase.Start();
+
+            Triggers.RegisterTrigger(new Trigger() {
+                Name = "Perform tractor beam",
+                TriggerType = TriggerTypes.OnTokenIsAssigned,
+                TriggerOwner = token.Assigner.PlayerNo,
+                EventHandler = delegate {
+                    newPhase.Start();    
+                }
+            });
         }
 
         private void CheckForTractorBeamRemoval(GenericShip ship, System.Type tokenType) 

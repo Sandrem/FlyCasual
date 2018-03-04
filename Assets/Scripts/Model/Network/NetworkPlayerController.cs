@@ -306,26 +306,25 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     // BARREL ROLL
 
     [Command]
-    public void CmdPerformBarrelRoll(int shipId)
+    public void CmdPerformBarrelRoll()
     {
         new NetworkExecuteWithCallback(
             "Wait barrel roll execution",
-            () => CmdLaunchBarrelRoll(shipId),
+            CmdLaunchBarrelRoll,
             CmdFinishBarrelRoll
         );
     }
 
     [Command]
-    public void CmdLaunchBarrelRoll(int shipId)
+    public void CmdLaunchBarrelRoll()
     {
-        RpcLaunchBarrelRoll(shipId);
+        RpcLaunchBarrelRoll();
     }
 
     [ClientRpc]
-    private void RpcLaunchBarrelRoll(int shipId)
+    private void RpcLaunchBarrelRoll()
     {
-        Ship.GenericShip ship = Roster.GetShipById("ShipId:" + shipId) ?? Selection.ThisShip;
-        (Phases.CurrentSubPhase as SubPhases.BarrelRollPlanningSubPhase).StartBarrelRollExecution(ship);
+        (Phases.CurrentSubPhase as SubPhases.BarrelRollPlanningSubPhase).StartBarrelRollExecution();
     }
 
     [Command]
@@ -355,26 +354,25 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     // BOOST
 
     [Command]
-    public void CmdPerformBoost(int shipId)
+    public void CmdPerformBoost()
     {
         new NetworkExecuteWithCallback(
             "Wait boost execution",
-            () => CmdLaunchBoost(shipId),
+            CmdLaunchBoost,
             CmdFinishBoost
         );
     }
 
     [Command]
-    public void CmdLaunchBoost(int shipId)
+    public void CmdLaunchBoost()
     {
-        RpcLaunchBoost(shipId);
+        RpcLaunchBoost();
     }
 
     [ClientRpc]
-    private void RpcLaunchBoost(int shipId)
+    private void RpcLaunchBoost()
     {
-        Ship.GenericShip ship = Roster.GetShipById("ShipId:" + shipId) ?? Selection.ThisShip;
-        (Phases.CurrentSubPhase as SubPhases.BoostPlanningSubPhase).StartBoostExecution(ship);
+        (Phases.CurrentSubPhase as SubPhases.BoostPlanningSubPhase).StartBoostExecution();
     }
 
     [Command]

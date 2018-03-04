@@ -13,28 +13,41 @@ namespace UpgradesList
             Types.Add(UpgradeType.Modification);
             Name = "Spacetug Tractor Array";
             Cost = 2;
-            isLimited = false;
+            UpgradeAbilities.Add (new Abilities.SpacetugAbility ());
         }
 
         public override bool IsAllowedForShip(GenericShip ship)
         {
             return ship is Ship.Quadjumper.Quadjumper;
         }
-
-        public override void AttachToShip(Ship.GenericShip host)
-        {
-            base.AttachToShip(host);
-            host.AfterGenerateAvailableActionsList += SpacetugAddAction;
-        }
-
-        private void SpacetugAddAction(Ship.GenericShip host)
-        {
-            ActionsList.GenericAction newAction = new ActionsList.SpacetugAction() { ImageUrl = ImageUrl, Host = this.Host };
-            host.AddAvailableAction(newAction);
-        }
     }
 }
 
+namespace Abilities
+{
+    public class SpacetugAbility : GenericAbility
+    {
+        public override void ActivateAbility()
+        {
+            HostShip.AfterGenerateAvailableActionsList += AddAction;
+        }
+
+        public override void DeactivateAbility()
+        {
+            HostShip.AfterGenerateAvailableActionsList -= AddAction;
+        }
+
+        private void AddAction(GenericShip ship)
+        {
+            ActionsList.GenericAction newAction = new ActionsList.SpacetugAction() 
+            { 
+                ImageUrl = HostUpgrade.ImageUrl, 
+                Host = HostShip 
+            };
+            HostShip.AddAvailableAction(newAction);   
+        }
+    }
+}
 
 namespace ActionsList
 {
@@ -100,13 +113,14 @@ namespace SubPhases
             MovementTemplates.ReturnRangeRuler();
 
             Tokens.TractorBeamToken token = new Tokens.TractorBeamToken(TargetShip, SpacetugOwner.Owner);
-            TargetShip.Tokens.AssignToken(token, delegate {
-                Triggers.ResolveTriggers(TriggerTypes.OnActionIsPerformed, delegate {
-                    Phases.FinishSubPhase(typeof(SelectSpacetugTargetSubPhase));
-                    Phases.FinishSubPhase(typeof(ActionDecisonSubPhase));
-                    Triggers.FinishTrigger();
-                });	
-            });
+            TargetShip.Tokens.AssignToken(token, Triggers.FinishTrigger);
+//                delegate {
+//                Triggers.ResolveTriggers(TriggerTypes.OnActionIsPerformed, delegate {
+//                    Phases.FinishSubPhase(typeof(SelectSpacetugTargetSubPhase));
+//                    Phases.FinishSubPhase(typeof(ActionDecisonSubPhase));
+//                    Triggers.FinishTrigger();
+//                });	
+//            });
         }
 
         public override void Next()

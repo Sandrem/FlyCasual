@@ -186,14 +186,14 @@ namespace SubPhases
             obstaclesStayDetectorMovementTemplate.TheShip = TheShip;
         }
 
-        public void StartBoostExecution(Ship.GenericShip ship)
+        public void StartBoostExecution()
         {
             BoostExecutionSubPhase execution = (BoostExecutionSubPhase) Phases.StartTemporarySubPhaseNew(
                 "Boost execution",
                 typeof(BoostExecutionSubPhase),
                 CallBack
             );
-            execution.TheShip = ship;
+            execution.TheShip = TheShip;
             execution.Start();
         }
 
@@ -265,7 +265,7 @@ namespace SubPhases
                 obstaclesStayDetectorMovementTemplate.OverlappedAsteroidsNow
                     .Where((a) => !TheShip.ObstaclesHit.Contains(a)).ToList()
                     .ForEach(TheShip.ObstaclesHit.Add);
-                GameMode.CurrentGameMode.StartBoostExecution(TheShip);
+                GameMode.CurrentGameMode.StartBoostExecution();
             }
             else
             {

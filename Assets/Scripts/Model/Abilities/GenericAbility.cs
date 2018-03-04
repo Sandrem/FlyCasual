@@ -6,7 +6,6 @@ using UnityEngine;
 using Upgrade;
 using Players;
 using System.Linq;
-
 namespace Abilities
 {
     public abstract class GenericAbility

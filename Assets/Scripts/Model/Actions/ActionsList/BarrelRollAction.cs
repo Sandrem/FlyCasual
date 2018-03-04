@@ -386,7 +386,7 @@ namespace SubPhases
             StartReposition();
         }
 
-        public void StartBarrelRollExecution(Ship.GenericShip ship)
+        public void StartBarrelRollExecution()
         {
             Pause();
 
@@ -399,7 +399,7 @@ namespace SubPhases
                 CallBack
             );
 
-            executionSubphase.TheShip = ship;
+            executionSubphase.TheShip = TheShip;
             executionSubphase.TemporaryShipBase = TemporaryShipBase;
             executionSubphase.HelperDirection = HelperDirection;
 
@@ -479,7 +479,7 @@ namespace SubPhases
                 obstaclesStayDetectorMovementTemplate.OverlappedAsteroidsNow
                     .Where((a) => !TheShip.ObstaclesHit.Contains(a)).ToList()
                     .ForEach(TheShip.ObstaclesHit.Add);
-                GameMode.CurrentGameMode.StartBarrelRollExecution(TheShip);
+                GameMode.CurrentGameMode.StartBarrelRollExecution();
             }
             else
             {

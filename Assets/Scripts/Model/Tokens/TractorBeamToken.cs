@@ -11,7 +11,6 @@ namespace Tokens
 
         public TractorBeamToken(GenericShip host, Players.GenericPlayer assigner) : base(host)
         {
-            CanBeUsed = false;
             Name = "Debuff Token";
             Temporary = true;
             Tooltip = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/reference-cards/TractorBeamToken.png";

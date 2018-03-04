@@ -90,7 +90,7 @@ namespace GameModes
 
         public override void StartBarrelRollExecution(Ship.GenericShip ship)
         {
-            Network.PerformBarrelRoll();
+            Network.PerformBarrelRoll(ship.ShipId);
         }
 
         public override void FinishBarrelRoll()
@@ -140,7 +140,7 @@ namespace GameModes
 
         public override void StartBoostExecution(Ship.GenericShip ship)
         {
-            Network.PerformBoost();
+            Network.PerformBoost(ship.ShipId);
         }
 
         public override void FinishBoost()

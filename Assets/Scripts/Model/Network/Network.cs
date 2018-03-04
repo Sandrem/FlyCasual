@@ -190,9 +190,9 @@ public static partial class Network
 
     // PERFORM BARREL ROLL
 
-    public static void PerformBarrelRoll()
+    public static void PerformBarrelRoll(int shipId)
     {
-        if (IsServer) CurrentPlayer.CmdPerformBarrelRoll();
+        if (IsServer) CurrentPlayer.CmdPerformBarrelRoll(shipId);
     }
 
     public static void CancelBarrelRoll()
@@ -214,9 +214,9 @@ public static partial class Network
 
     // PERFORM BOOST
 
-    public static void PerformBoost()
+    public static void PerformBoost(int shipId)
     {
-        if (IsServer) CurrentPlayer.CmdPerformBoost();
+        if (IsServer) CurrentPlayer.CmdPerformBoost(shipId);
     }
 
     public static void CancelBoost()

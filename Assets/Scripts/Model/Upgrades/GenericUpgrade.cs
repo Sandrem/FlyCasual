@@ -260,8 +260,6 @@ namespace Upgrade
 
         public void ReplaceUpgradeBy(GenericUpgrade newUpgrade)
         {
-            DeactivateAbility();
-
             Roster.ReplaceUpgrade(Host, Name, newUpgrade.Name);
 
             Slot.PreInstallUpgrade(newUpgrade, Host);

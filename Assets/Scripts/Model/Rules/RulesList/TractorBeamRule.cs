@@ -147,7 +147,7 @@ namespace SubPhases
             TractorBeamDirectionDecisionSubPhase selectBarrelRollTemplate = (TractorBeamDirectionDecisionSubPhase)Phases.StartTemporarySubPhaseNew(
                 Name,
                 typeof(TractorBeamDirectionDecisionSubPhase),
-                Triggers.FinishTrigger
+                delegate { }
             );
 
             selectBarrelRollTemplate.AddDecision("Left", delegate {

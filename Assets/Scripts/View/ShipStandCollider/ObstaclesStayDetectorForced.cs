@@ -12,27 +12,32 @@ public class ObstaclesStayDetectorForced: MonoBehaviour {
         get { return OverlappedShipsNow.Count > 0; }
     }
 
+    public bool OverlapsAsteroidNow
+    {
+        get { return OverlappedAsteroidsNow.Count > 0; }
+    }
+
     public List<GenericShip> OverlappedShipsNow = new List<GenericShip>();
-    public bool OverlapsAsteroidNow = false;
     public bool OffTheBoardNow = false;
     public List<Collider> OverlapedMinesNow = new List<Collider>();
+    public List<Collider> OverlappedAsteroidsNow = new List<Collider>();
 
-    private Ship.GenericShip targetShip; 
-    public Ship.GenericShip TargetShip {
+    private Ship.GenericShip theShip; 
+    public Ship.GenericShip TheShip {
         get {
-            return targetShip ?? Selection.ThisShip;
+            return theShip ?? Selection.ThisShip;
         }
         set {
-            targetShip = value;
+            theShip = value;
         }
     }
 
     public void ReCheckCollisionsStart()
     {
-        OverlapsAsteroidNow = false;
         OverlappedShipsNow = new List<GenericShip>();
         OffTheBoardNow = false;
         OverlapedMinesNow = new List<Collider>();
+        OverlappedAsteroidsNow = new List<Collider> ();
 
         checkCollisionsNow = true;
     }
@@ -48,7 +53,7 @@ public class ObstaclesStayDetectorForced: MonoBehaviour {
         {
             if (collisionInfo.tag == "Asteroid")
             {
-                OverlapsAsteroidNow = true;
+                if (!OverlappedAsteroidsNow.Contains(collisionInfo)) OverlappedAsteroidsNow.Add(collisionInfo);
             }
             else if (collisionInfo.tag == "Mine")
             {
@@ -60,7 +65,7 @@ public class ObstaclesStayDetectorForced: MonoBehaviour {
             }
             else if (collisionInfo.name == "ObstaclesStayDetector")
             {
-                if (collisionInfo.tag != "Untagged" && collisionInfo.tag != TargetShip.GetTag())
+                if (collisionInfo.tag != "Untagged" && collisionInfo.tag != TheShip.GetTag())
                 {
                     OverlappedShipsNow.Add(Roster.GetShipById(collisionInfo.tag));
                 }

@@ -273,13 +273,13 @@ namespace Movement
         public ManeuverBearing Bearing { get; set; }
         public ManeuverColor ColorComplexity { get; set; }
 
-        private Ship.GenericShip targetShip;
-        public Ship.GenericShip TargetShip {
+        private Ship.GenericShip theShip;
+        public Ship.GenericShip TheShip {
             get {
-                return targetShip ?? Selection.ThisShip;
+                return theShip ?? Selection.ThisShip;
             }
             set {
-                targetShip = value;
+                theShip = value;
             }
         }
 
@@ -347,28 +347,28 @@ namespace Movement
         public virtual void LaunchShipMovement()
         {
             GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-            Game.Wait(0.5f, delegate { TargetShip.StartMoving(LaunchShipMovementContinue); });
+            Game.Wait(0.5f, delegate { TheShip.StartMoving(LaunchShipMovementContinue); });
         }
 
         private void LaunchShipMovementContinue()
         {
-            if (ProgressTarget > 0) Rules.Collision.ClearBumps(TargetShip);
+            if (ProgressTarget > 0) Rules.Collision.ClearBumps(TheShip);
 
             foreach (var shipBumped in movementPrediction.ShipsBumped)
             {
-                Rules.Collision.AddBump(TargetShip, shipBumped);
+                Rules.Collision.AddBump(TheShip, shipBumped);
             }
 
-            TargetShip.IsLandedOnObstacle = movementPrediction.IsLandedOnAsteroid;
+            TheShip.IsLandedOnObstacle = movementPrediction.IsLandedOnAsteroid;
 
             if (movementPrediction.AsteroidsHit.Count > 0)
             {
-                TargetShip.ObstaclesHit.AddRange(movementPrediction.AsteroidsHit);
+                TheShip.ObstaclesHit.AddRange(movementPrediction.AsteroidsHit);
             }
 
             if (movementPrediction.MinesHit.Count > 0)
             {
-                TargetShip.MinesHit.AddRange(movementPrediction.MinesHit);
+                TheShip.MinesHit.AddRange(movementPrediction.MinesHit);
             }
 
             Sounds.PlayFly();
@@ -412,8 +412,8 @@ namespace Movement
             GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
             Game.Movement.isMoving = false;
 
-            TargetShip.ApplyRotationHelpers();
-            TargetShip.ResetRotationHelpers();
+            TheShip.ApplyRotationHelpers();
+            TheShip.ResetRotationHelpers();
 
             ManeuverEndRotation(FinishMovementEvents);
         }
@@ -427,7 +427,7 @@ namespace Movement
         { 
             MovementTemplates.HideLastMovementRuler();
 
-            TargetShip.CallExecuteMoving();
+            TheShip.CallExecuteMoving();
 
             //Called as callbacks
             //TargetShip.FinishMovement();

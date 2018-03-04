@@ -54,20 +54,10 @@ namespace SubPhases
 
         public bool ObstacleOverlapAllowed = false;
 
-        private Ship.GenericShip targetShip;
-        public Ship.GenericShip TargetShip {
-            get {
-                return targetShip ?? Selection.ThisShip;
-            }
-            set {
-                targetShip = value;
-            }
-        }
-
         private Players.GenericPlayer controller;
         public Players.GenericPlayer Controller {
             get {
-                return controller ?? TargetShip.Owner;
+                return controller ?? TheShip.Owner;
             }
             set {
                 controller = value;
@@ -99,7 +89,7 @@ namespace SubPhases
 
         protected void GenerateListOfAvailableTemplates()
         {
-            availableTemplates = TargetShip.GetAvailableBarrelRollTemplates();
+            availableTemplates = TheShip.GetAvailableBarrelRollTemplates();
         }
 
         private void AskToSelectTemplate(Action callback)
@@ -175,7 +165,7 @@ namespace SubPhases
 
         public void PerfromTemplatePlanning()
         {
-            templateWidth = (TargetShip.ShipBaseSize == Ship.BaseSize.Small) ? TargetShip.ShipBase.HALF_OF_SHIPSTAND_SIZE : TargetShip.ShipBase.HALF_OF_SHIPSTAND_SIZE / 2;
+            templateWidth = (TheShip.ShipBaseSize == Ship.BaseSize.Small) ? TheShip.ShipBase.HALF_OF_SHIPSTAND_SIZE : TheShip.ShipBase.HALF_OF_SHIPSTAND_SIZE / 2;
             useMobileControls = Application.isMobilePlatform;
 
             ShowBarrelRollTemplate();
@@ -187,9 +177,9 @@ namespace SubPhases
             else
             {
                 SliderMenu.ShowSlider(
-                    -0.75f * TargetShip.ShipBase.SHIPSTAND_SIZE,
-                    -0.25f * TargetShip.ShipBase.SHIPSTAND_SIZE,
-                    -0.5f * TargetShip.ShipBase.SHIPSTAND_SIZE,
+                    -0.75f * TheShip.ShipBase.SHIPSTAND_SIZE,
+                    -0.25f * TheShip.ShipBase.SHIPSTAND_SIZE,
+                    -0.5f * TheShip.ShipBase.SHIPSTAND_SIZE,
                     ProcessTemplatePositionSlider
                 );
             }
@@ -202,7 +192,7 @@ namespace SubPhases
             newPositionRel.x = HelperDirection * templateWidth;
             newPositionRel.z = value;
 
-            Vector3 newPositionAbs = TargetShip.TransformPoint(newPositionRel);
+            Vector3 newPositionAbs = TheShip.TransformPoint(newPositionRel);
 
             BarrelRollTemplate.transform.position = newPositionAbs;
         }
@@ -214,9 +204,9 @@ namespace SubPhases
                 SliderMenu.CloseSlider();
 
                 SliderMenu.ShowSlider(
-                    0.5f * 1.18f * TargetShip.ShipBase.SHIPSTAND_SIZE,
-                    1.5F * 1.18f * TargetShip.ShipBase.SHIPSTAND_SIZE,
-                    1.0F * 1.18f * TargetShip.ShipBase.SHIPSTAND_SIZE,
+                    0.5f * 1.18f * TheShip.ShipBase.SHIPSTAND_SIZE,
+                    1.5F * 1.18f * TheShip.ShipBase.SHIPSTAND_SIZE,
+                    1.0F * 1.18f * TheShip.ShipBase.SHIPSTAND_SIZE,
                     ProcessTemporaryShipBaseSlider
                 );
             }
@@ -233,7 +223,7 @@ namespace SubPhases
             GameObject finisher = GetCurrentBarrelRollHelperTemplateFinisherGO();
             Vector3 newPositionRel = Vector3.zero;
 
-            newPositionRel.x = HelperDirection * 1.18f * TargetShip.ShipBase.SHIPSTAND_SIZE;
+            newPositionRel.x = HelperDirection * 1.18f * TheShip.ShipBase.SHIPSTAND_SIZE;
             newPositionRel.z = value;
 
             Vector3 newPositionAbs = finisher.transform.TransformPoint(newPositionRel);
@@ -246,7 +236,7 @@ namespace SubPhases
             if (Controller.GetType() != typeof(Players.NetworkOpponentPlayer)) template.SetActive(true);
             HelperDirection = GetDirectionModifier(selectedTemplateVariant);
             obstaclesStayDetectorMovementTemplate = template.GetComponentInChildren<ObstaclesStayDetectorForced>();
-            obstaclesStayDetectorMovementTemplate.TargetShip = TargetShip;
+            obstaclesStayDetectorMovementTemplate.TheShip = TheShip;
         }
 
         private void StartReposition()
@@ -269,7 +259,7 @@ namespace SubPhases
 
         private GameObject GetCurrentBarrelRollHelperTemplateGO()
         {
-            return TargetShip.GetBarrelRollHelper().Find(selectedTemplateVariant.ToString()).gameObject;
+            return TheShip.GetBarrelRollHelper().Find(selectedTemplateVariant.ToString()).gameObject;
         }
 
         private GameObject GetCurrentBarrelRollHelperTemplateFinisherGO()
@@ -286,12 +276,12 @@ namespace SubPhases
         {
             if (TemporaryShipBase == null)
             {
-                GameObject prefab = (GameObject)Resources.Load(TargetShip.ShipBase.TemporaryPrefabPath, typeof(GameObject));
+                GameObject prefab = (GameObject)Resources.Load(TheShip.ShipBase.TemporaryPrefabPath, typeof(GameObject));
                 TemporaryShipBase = MonoBehaviour.Instantiate(prefab, GetCurrentBarrelRollHelperTemplateFinisherBasePositionGO().transform.position, GetCurrentBarrelRollHelperTemplateFinisherBasePositionGO().transform.rotation, BoardManager.GetBoard());
-                TemporaryShipBase.transform.Find("ShipBase").Find("ShipStandInsert").Find("ShipStandInsertImage").Find("default").GetComponent<Renderer>().material = TargetShip.Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("ShipBase").Find("ShipStandInsert").Find("ShipStandInsertImage").Find("default").GetComponent<Renderer>().material;
+                TemporaryShipBase.transform.Find("ShipBase").Find("ShipStandInsert").Find("ShipStandInsertImage").Find("default").GetComponent<Renderer>().material = TheShip.Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("ShipBase").Find("ShipStandInsert").Find("ShipStandInsertImage").Find("default").GetComponent<Renderer>().material;
                 TemporaryShipBase.transform.Find("ShipBase").Find("ObstaclesStayDetector").gameObject.AddComponent<ObstaclesStayDetectorForced>();
                 obstaclesStayDetectorBase = TemporaryShipBase.GetComponentInChildren<ObstaclesStayDetectorForced>();
-                obstaclesStayDetectorBase.TargetShip = TargetShip;
+                obstaclesStayDetectorBase.TheShip = TheShip;
 
                 if (useMobileControls) ProcessTemporaryShipBaseSlider(SliderMenu.GetSliderValue());
             }
@@ -327,14 +317,14 @@ namespace SubPhases
 
         private void ApplyBarrelRollTemplateLimits()
         {
-            Vector3 newPosition = TargetShip.InverseTransformPoint(BarrelRollTemplate.transform.position);
+            Vector3 newPosition = TheShip.InverseTransformPoint(BarrelRollTemplate.transform.position);
 
             Vector3 fixedPositionRel = newPosition;
 
             fixedPositionRel.x = HelperDirection * templateWidth;
-            fixedPositionRel.z = Mathf.Clamp(fixedPositionRel.z, -0.75f * TargetShip.ShipBase.SHIPSTAND_SIZE, -0.25f * TargetShip.ShipBase.SHIPSTAND_SIZE);
+            fixedPositionRel.z = Mathf.Clamp(fixedPositionRel.z, -0.75f * TheShip.ShipBase.SHIPSTAND_SIZE, -0.25f * TheShip.ShipBase.SHIPSTAND_SIZE);
 
-            Vector3 fixedPositionAbs = TargetShip.TransformPoint(fixedPositionRel);
+            Vector3 fixedPositionAbs = TheShip.TransformPoint(fixedPositionRel);
 
             BarrelRollTemplate.transform.position = fixedPositionAbs;
         }
@@ -346,8 +336,8 @@ namespace SubPhases
 
             Vector3 fixedPositionRel = newPosition;
 
-            fixedPositionRel.x = HelperDirection * 1.18f * TargetShip.ShipBase.SHIPSTAND_SIZE;
-            fixedPositionRel.z = Mathf.Clamp(fixedPositionRel.z, 0.5f * 1.18f * TargetShip.ShipBase.SHIPSTAND_SIZE, 1.5F * 1.18f * TargetShip.ShipBase.SHIPSTAND_SIZE);
+            fixedPositionRel.x = HelperDirection * 1.18f * TheShip.ShipBase.SHIPSTAND_SIZE;
+            fixedPositionRel.z = Mathf.Clamp(fixedPositionRel.z, 0.5f * 1.18f * TheShip.ShipBase.SHIPSTAND_SIZE, 1.5F * 1.18f * TheShip.ShipBase.SHIPSTAND_SIZE);
 
             Vector3 fixedPositionAbs = finisher.transform.TransformPoint(fixedPositionRel);
             TemporaryShipBase.transform.position = fixedPositionAbs;
@@ -400,7 +390,7 @@ namespace SubPhases
         {
             Pause();
 
-            TargetShip.ToggleShipStandAndPeg(false);
+            TheShip.ToggleShipStandAndPeg(false);
             BarrelRollTemplate.SetActive(false);
 
             BarrelRollExecutionSubPhase executionSubphase = (BarrelRollExecutionSubPhase) Phases.StartTemporarySubPhaseNew(
@@ -409,7 +399,7 @@ namespace SubPhases
                 CallBack
             );
 
-            executionSubphase.BarrelRollingShip = ship;
+            executionSubphase.TheShip = ship;
             executionSubphase.TemporaryShipBase = TemporaryShipBase;
             executionSubphase.HelperDirection = HelperDirection;
 
@@ -420,9 +410,9 @@ namespace SubPhases
         {
             StopDrag();
 
-            TargetShip.RemoveAlreadyExecutedAction(typeof(ActionsList.BarrelRollAction));
+            TheShip.RemoveAlreadyExecutedAction(typeof(ActionsList.BarrelRollAction));
 
-            TargetShip.IsLandedOnObstacle = false;
+            TheShip.IsLandedOnObstacle = false;
             GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
             Game.Movement.CollidedWith = null;
 
@@ -484,8 +474,12 @@ namespace SubPhases
             if (IsBarrelRollAllowed())
             {
                 CheckMines();
-                TargetShip.IsLandedOnObstacle = obstaclesStayDetectorBase.OverlapsAsteroidNow;
-                GameMode.CurrentGameMode.StartBarrelRollExecution(TargetShip);
+                TheShip.IsLandedOnObstacle = obstaclesStayDetectorBase.OverlapsAsteroidNow;
+                TheShip.ObstaclesHit = new List<Collider>(obstaclesStayDetectorBase.OverlappedAsteroidsNow);
+                obstaclesStayDetectorMovementTemplate.OverlappedAsteroidsNow
+                    .Where((a) => !TheShip.ObstaclesHit.Contains(a)).ToList()
+                    .ForEach(TheShip.ObstaclesHit.Add);
+                GameMode.CurrentGameMode.StartBarrelRollExecution(TheShip);
             }
             else
             {
@@ -498,7 +492,7 @@ namespace SubPhases
             foreach (var mineCollider in obstaclesStayDetectorMovementTemplate.OverlapedMinesNow)
             {
                 GameObject mineObject = mineCollider.transform.parent.gameObject;
-                if (!TargetShip.MinesHit.Contains(mineObject)) TargetShip.MinesHit.Add(mineObject);
+                if (!TheShip.MinesHit.Contains(mineObject)) TheShip.MinesHit.Add(mineObject);
             }
         }
 
@@ -511,7 +505,7 @@ namespace SubPhases
                 Messages.ShowError("Cannot overlap another ship");
                 allow = false;
             }
-            else if (!TargetShip.IsIgnoreObstacles && !ObstacleOverlapAllowed
+            else if (!TheShip.IsIgnoreObstacles && !ObstacleOverlapAllowed
                 && (obstaclesStayDetectorBase.OverlapsAsteroidNow || obstaclesStayDetectorMovementTemplate.OverlapsAsteroidNow))
             {
                 Messages.ShowError("Cannot overlap asteroid");
@@ -558,8 +552,6 @@ namespace SubPhases
         public GameObject TemporaryShipBase;
         public float HelperDirection;
 
-        public Ship.GenericShip BarrelRollingShip;
-
         public override void Start()
         {
             Name = "Barrel Roll execution";
@@ -571,12 +563,12 @@ namespace SubPhases
 
         private void StartBarrelRollExecution()
         {
-            Rules.Collision.ClearBumps(BarrelRollingShip);
+            Rules.Collision.ClearBumps(TheShip);
 
             progressCurrent = 0;
-            progressTarget = Vector3.Distance(BarrelRollingShip.GetPosition(), TemporaryShipBase.transform.position);
+            progressTarget = Vector3.Distance(TheShip.GetPosition(), TemporaryShipBase.transform.position);
 
-            initialRotation = (BarrelRollingShip.GetAngles().y < 180) ? BarrelRollingShip.GetAngles().y : -(360 - BarrelRollingShip.GetAngles().y);
+            initialRotation = (TheShip.GetAngles().y < 180) ? TheShip.GetAngles().y : -(360 - TheShip.GetAngles().y);
             plannedRotation = (TemporaryShipBase.transform.eulerAngles.y - initialRotation < 180) ? TemporaryShipBase.transform.eulerAngles.y : -(360 - TemporaryShipBase.transform.eulerAngles.y);
 
             Sounds.PlayFly();
@@ -595,10 +587,10 @@ namespace SubPhases
             progressStep = Mathf.Min(progressStep, progressTarget-progressCurrent);
             progressCurrent += progressStep;
 
-            BarrelRollingShip.SetPosition(Vector3.MoveTowards(BarrelRollingShip.GetPosition(), TemporaryShipBase.transform.position, progressStep));
-            BarrelRollingShip.RotateModelDuringBarrelRoll(progressCurrent / progressTarget, HelperDirection);
-            BarrelRollingShip.SetRotationHelper2Angles(new Vector3(0, progressCurrent / progressTarget * (plannedRotation - initialRotation), 0));
-            BarrelRollingShip.MoveUpwards(progressCurrent / progressTarget);
+            TheShip.SetPosition(Vector3.MoveTowards(TheShip.GetPosition(), TemporaryShipBase.transform.position, progressStep));
+            TheShip.RotateModelDuringBarrelRoll(progressCurrent / progressTarget, HelperDirection);
+            TheShip.SetRotationHelper2Angles(new Vector3(0, progressCurrent / progressTarget * (plannedRotation - initialRotation), 0));
+            TheShip.MoveUpwards(progressCurrent / progressTarget);
             if (progressCurrent >= progressTarget)
             {
                 performingAnimation = false;
@@ -610,9 +602,9 @@ namespace SubPhases
         {
             performingAnimation = false;
 
-            BarrelRollingShip.ApplyRotationHelpers();
-            BarrelRollingShip.ResetRotationHelpers();
-            BarrelRollingShip.SetAngles(TemporaryShipBase.transform.eulerAngles);
+            TheShip.ApplyRotationHelpers();
+            TheShip.ResetRotationHelpers();
+            TheShip.SetAngles(TemporaryShipBase.transform.eulerAngles);
 
             MonoBehaviour.DestroyImmediate(TemporaryShipBase);
 
@@ -621,8 +613,8 @@ namespace SubPhases
 
             MovementTemplates.HideLastMovementRuler();
 
-            BarrelRollingShip.ToggleShipStandAndPeg(true);
-            BarrelRollingShip.FinishPosition(FinishBarrelRollAnimationPart2);
+            TheShip.ToggleShipStandAndPeg(true);
+            TheShip.FinishPosition(FinishBarrelRollAnimationPart2);
         }
 
         private void FinishBarrelRollAnimationPart2()

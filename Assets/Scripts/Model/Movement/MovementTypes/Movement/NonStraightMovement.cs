@@ -58,17 +58,17 @@ namespace Movement
                 float turningDirection = (Direction == ManeuverDirection.Right) ? 1 : -1;
 
                 int progressDirection = 1;
-                TargetShip.RotateAround(TargetShip.TransformPoint(new Vector3(turningAroundDistance * turningDirection, 0, 0)), turningDirection * progressDelta * progressDirection);
+                TheShip.RotateAround(TheShip.TransformPoint(new Vector3(turningAroundDistance * turningDirection, 0, 0)), turningDirection * progressDelta * progressDirection);
 
-                if (ProgressTarget != 0) TargetShip.RotateModelDuringTurn((ProgressCurrent / ProgressTarget) * (1 - 0.2f*finisherTargetSuccess));
+                if (ProgressTarget != 0) TheShip.RotateModelDuringTurn((ProgressCurrent / ProgressTarget) * (1 - 0.2f*finisherTargetSuccess));
                 UpdateRotation();
             }
             else
             {
                 Vector3 progressDirection = Vector3.forward;
-                TargetShip.SetPosition(Vector3.MoveTowards(TargetShip.GetPosition(), TargetShip.GetPosition() + TargetShip.TransformDirection(progressDirection), progressDelta));
+                TheShip.SetPosition(Vector3.MoveTowards(TheShip.GetPosition(), TheShip.GetPosition() + TheShip.TransformDirection(progressDirection), progressDelta));
 
-                if (finisherTargetSuccess != 0) TargetShip.RotateModelDuringTurn((1 - 0.2f * finisherTargetSuccess) + (ProgressCurrent / ProgressTarget) * 0.2f);
+                if (finisherTargetSuccess != 0) TheShip.RotateModelDuringTurn((1 - 0.2f * finisherTargetSuccess) + (ProgressCurrent / ProgressTarget) * 0.2f);
                 UpdateRotationFinisher();
             }
 
@@ -94,12 +94,12 @@ namespace Movement
         {
             ProgressCurrent = 0;
 
-            Vector3 TargetPosition = new Vector3(0, 0, TargetShip.ShipBase.GetShipBaseDistance());
+            Vector3 TargetPosition = new Vector3(0, 0, TheShip.ShipBase.GetShipBaseDistance());
             ProgressTarget = TargetPosition.z * finisherTargetSuccess;
 
             AnimationSpeed = Options.ManeuverSpeed * 5f;
 
-            TargetShip.SimplifyRotationHelpers();
+            TheShip.SimplifyRotationHelpers();
             movementFinisherLaunched = true;
         }
 
@@ -107,32 +107,32 @@ namespace Movement
 
         public void UpdateRotation()
         {
-            if (GetPathToProcessLeft(TargetShip.GetModelOrientation()) > 0)
+            if (GetPathToProcessLeft(TheShip.GetModelOrientation()) > 0)
             {
-                float rotationFix = GetRotationFix(TargetShip.GetModelOrientation());
-                TargetShip.SetRotationHelper2Angles(new Vector3(0, rotationFix, 0));
+                float rotationFix = GetRotationFix(TheShip.GetModelOrientation());
+                TheShip.SetRotationHelper2Angles(new Vector3(0, rotationFix, 0));
 
-                float angleFix = GetAngleFix(TargetShip.GetModelOrientation());
-                TargetShip.UpdateRotationHelperAngles(new Vector3(0, angleFix, 0));
+                float angleFix = GetAngleFix(TheShip.GetModelOrientation());
+                TheShip.UpdateRotationHelperAngles(new Vector3(0, angleFix, 0));
             }
 
-            AddMovementTemplateCenterPoint(TargetShip.Model);
+            AddMovementTemplateCenterPoint(TheShip.Model);
         }
 
         public void UpdateRotationFinisher()
         {
             if (MovementTemplates.CurrentTemplate.transform.Find("Finisher") != null)
             {
-                TargetShip.SimplifyRotationHelpers();
-                bool isSuccessfull = TryRotateUsingStarter(TargetShip.GetModelOrientation());
+                TheShip.SimplifyRotationHelpers();
+                bool isSuccessfull = TryRotateUsingStarter(TheShip.GetModelOrientation());
                 //bool isSuccessfull = false;
 
                 if (!isSuccessfull)
                 {
-                    if (GetPathToProcessFinisherLeft(TargetShip.Model) > 0)
+                    if (GetPathToProcessFinisherLeft(TheShip.Model) > 0)
                     {
-                        float angleToNearestCenterPoint = GetAngleToLastSavedTemplateCenterPoint(TargetShip.GetModelOrientation());
-                        TargetShip.UpdateRotationHelper2Angles(new Vector3(0, angleToNearestCenterPoint * GetDirectionModifier(), 0));
+                        float angleToNearestCenterPoint = GetAngleToLastSavedTemplateCenterPoint(TheShip.GetModelOrientation());
+                        TheShip.UpdateRotationHelper2Angles(new Vector3(0, angleToNearestCenterPoint * GetDirectionModifier(), 0));
                     }
                 }
             }
@@ -163,19 +163,19 @@ namespace Movement
         public override GameObject[] PlanMovement()
         {
             //Temporary
-            MovementTemplates.ApplyMovementRuler(TargetShip);
+            MovementTemplates.ApplyMovementRuler(TheShip);
 
             GameObject[] result = new GameObject[101];
 
             float distancePart = ProgressTarget / 80;
-            Vector3 position = TargetShip.GetPosition();
+            Vector3 position = TheShip.GetPosition();
 
             GameObject lastShipStand = null;
             for (int i = 0; i <= 80; i++)
             {
                 float step = (float)i * distancePart;
-                GameObject prefab = (GameObject)Resources.Load(TargetShip.ShipBase.TemporaryPrefabPath, typeof(GameObject));
-                GameObject ShipStand = MonoBehaviour.Instantiate(prefab, position, TargetShip.GetRotation(), Board.BoardManager.GetBoard());
+                GameObject prefab = (GameObject)Resources.Load(TheShip.ShipBase.TemporaryPrefabPath, typeof(GameObject));
+                GameObject ShipStand = MonoBehaviour.Instantiate(prefab, position, TheShip.GetRotation(), Board.BoardManager.GetBoard());
 
                 Renderer[] renderers = ShipStand.GetComponentsInChildren<Renderer>();
                 if (!DebugManager.DebugMovement)
@@ -189,7 +189,7 @@ namespace Movement
                 if (i > 0)
                 {
                     float turningDirection = (Direction == ManeuverDirection.Right) ? 1 : -1;
-                    ShipStand.transform.RotateAround(TargetShip.TransformPoint(new Vector3(turningAroundDistance * turningDirection, 0, 0)), new Vector3(0, 1, 0), turningDirection * step);
+                    ShipStand.transform.RotateAround(TheShip.TransformPoint(new Vector3(turningAroundDistance * turningDirection, 0, 0)), new Vector3(0, 1, 0), turningDirection * step);
 
                     UpdatePlanningRotation(ShipStand);
 
@@ -205,11 +205,11 @@ namespace Movement
             savedShipStand.transform.localEulerAngles -= new Vector3(0f, lastPlanningRotation, 0f);
 
             position = lastShipStand.transform.position;
-            distancePart = TargetShip.ShipBase.GetShipBaseDistance() / 20;
+            distancePart = TheShip.ShipBase.GetShipBaseDistance() / 20;
             for (int i = 1; i <= 20; i++)
             {
                 position = Vector3.MoveTowards(position, position + savedShipStand.transform.TransformDirection(Vector3.forward), distancePart);
-                GameObject prefab = (GameObject)Resources.Load(TargetShip.ShipBase.TemporaryPrefabPath, typeof(GameObject));
+                GameObject prefab = (GameObject)Resources.Load(TheShip.ShipBase.TemporaryPrefabPath, typeof(GameObject));
                 GameObject ShipStand = MonoBehaviour.Instantiate(prefab, position, savedShipStand.transform.rotation, Board.BoardManager.GetBoard());
 
                 Renderer[] renderers = ShipStand.GetComponentsInChildren<Renderer>();
@@ -335,7 +335,7 @@ namespace Movement
 
         private Vector3 GetShipBaseBackPoint(GameObject shipBase)
         {
-            return shipBase.transform.TransformPoint(new Vector3(0f, 0f, -2 * TargetShip.ShipBase.HALF_OF_SHIPSTAND_SIZE));
+            return shipBase.transform.TransformPoint(new Vector3(0f, 0f, -2 * TheShip.ShipBase.HALF_OF_SHIPSTAND_SIZE));
         }
 
         private int GetDirectionModifier()
@@ -357,7 +357,7 @@ namespace Movement
             Vector3 vector_RulerStart_ShipStandFront = MovementTemplates.CurrentTemplate.transform.InverseTransformPoint(point_ShipStandFront);
 
             float distance_ShipStandFront_RulerStart = Vector3.Distance(MovementTemplates.CurrentTemplate.transform.position, point_ShipStandFront);
-            float length_ShipStandFront_ShipStandBack = TargetShip.ShipBase.GetShipBaseDistance();
+            float length_ShipStandFront_ShipStandBack = TheShip.ShipBase.GetShipBaseDistance();
 
             Vector3 vector_RulerStart_RulerBack = Vector3.right; // Strange magic due to ruler's rotation
 
@@ -379,7 +379,7 @@ namespace Movement
             Vector3 point_ShipStandFront = shipBase.transform.TransformPoint(Vector3.zero);
             Vector3 vector_RulerStart_ShipStandFront = MovementTemplates.CurrentTemplate.transform.InverseTransformPoint(point_ShipStandFront);
 
-            Vector3 standOrientationVector = MovementTemplates.CurrentTemplate.transform.InverseTransformPoint(TargetShip.ShipBase.GetCentralFrontPoint()) - MovementTemplates.CurrentTemplate.transform.InverseTransformPoint(TargetShip.ShipBase.GetCentralBackPoint());
+            Vector3 standOrientationVector = MovementTemplates.CurrentTemplate.transform.InverseTransformPoint(TheShip.ShipBase.GetCentralFrontPoint()) - MovementTemplates.CurrentTemplate.transform.InverseTransformPoint(TheShip.ShipBase.GetCentralBackPoint());
             float angleBetweenMinus = -Vector3.Angle(vector_RulerStart_ShipStandFront, standOrientationVector);
             result = angleBetweenMinus * GetDirectionModifier();
 
@@ -411,7 +411,7 @@ namespace Movement
             Vector3 point_ShipStandFront = shipStand.transform.TransformPoint(Vector3.zero);
 
             float distance_ShipStandFront_RulerStart = Vector3.Distance(MovementTemplates.CurrentTemplate.transform.position, point_ShipStandFront);
-            float length_ShipStandFront_ShipStandBack = TargetShip.ShipBase.GetShipBaseDistance();
+            float length_ShipStandFront_ShipStandBack = TheShip.ShipBase.GetShipBaseDistance();
             Vector3 vector_RulerStart_ShipStandFront = MovementTemplates.CurrentTemplate.transform.InverseTransformPoint(point_ShipStandFront);
             Vector3 vector_RulerStart_RulerBack = Vector3.right; // Strange magic due to ruler's rotation
 
@@ -433,7 +433,7 @@ namespace Movement
             Vector3 point_ShipStandFront = shipBase.transform.TransformPoint(Vector3.zero);
             Vector3 vector_RulerStart_ShipStandFront = MovementTemplates.CurrentTemplate.transform.InverseTransformPoint(point_ShipStandFront);
 
-            Vector3 standOrientationVector = MovementTemplates.CurrentTemplate.transform.InverseTransformPoint(shipBase.transform.TransformPoint(Vector3.zero)) - MovementTemplates.CurrentTemplate.transform.InverseTransformPoint(shipBase.transform.TransformPoint(new Vector3(0f, 0f, -2 * TargetShip.ShipBase.HALF_OF_SHIPSTAND_SIZE)));
+            Vector3 standOrientationVector = MovementTemplates.CurrentTemplate.transform.InverseTransformPoint(shipBase.transform.TransformPoint(Vector3.zero)) - MovementTemplates.CurrentTemplate.transform.InverseTransformPoint(shipBase.transform.TransformPoint(new Vector3(0f, 0f, -2 * TheShip.ShipBase.HALF_OF_SHIPSTAND_SIZE)));
             float angleBetweenMinus = -Vector3.Angle(vector_RulerStart_ShipStandFront, standOrientationVector);
             result = angleBetweenMinus * -GetDirectionModifier();
 
@@ -482,16 +482,16 @@ namespace Movement
 
                 float angleFix = GetAngleFixRotation(shipBase);
 
-                float savedRotation = TargetShip.GetModelOrientation().transform.localEulerAngles.y;
-                TargetShip.SetRotationHelper2Angles(new Vector3(0, rotationFix, 0));
-                TargetShip.UpdateRotationHelperAngles(new Vector3(0, angleFix, 0));
+                float savedRotation = TheShip.GetModelOrientation().transform.localEulerAngles.y;
+                TheShip.SetRotationHelper2Angles(new Vector3(0, rotationFix, 0));
+                TheShip.UpdateRotationHelperAngles(new Vector3(0, angleFix, 0));
 
                 if (GetPathToProcessLeft(shipBase) <= 0)
                 {
                     result = false;
 
-                    TargetShip.SetRotationHelper2Angles(new Vector3(0, savedRotation, 0));
-                    TargetShip.UpdateRotationHelperAngles(new Vector3(0, -angleFix, 0));
+                    TheShip.SetRotationHelper2Angles(new Vector3(0, savedRotation, 0));
+                    TheShip.UpdateRotationHelperAngles(new Vector3(0, -angleFix, 0));
                 }
             }
 

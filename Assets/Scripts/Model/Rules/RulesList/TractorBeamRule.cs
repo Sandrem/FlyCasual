@@ -44,7 +44,7 @@ namespace RulesList
 
             TractorBeamToken token = (TractorBeamToken) ship.Tokens.GetToken(typeof(TractorBeamToken));
             newPhase.Assigner = token.Assigner;
-            newPhase.Target = ship;
+            newPhase.TheShip = ship;
             newPhase.Start();
         }
 
@@ -63,7 +63,6 @@ namespace SubPhases
 {
     public class TractorBeamPlanningSubPhase : GenericSubPhase
     {
-        public GenericShip Target;
         public GenericPlayer Assigner;
 
         private Action selectedPlanningAction;
@@ -87,8 +86,6 @@ namespace SubPhases
             });
             Triggers.ResolveTriggers(TriggerTypes.OnAbilityDirect, delegate {
                 // Why is this executing as soon as the selection is shown?
-                UI.AddTestLogEntry("In resolve trigger");
-                UI.AddTestLogEntry("selection = " + selectedPlanningAction);
                 if (selectedPlanningAction != null) 
                 {
                     selectedPlanningAction();
@@ -103,12 +100,11 @@ namespace SubPhases
                 "Select position",
                 typeof(SubPhases.BarrelRollPlanningSubPhase),
                 delegate {
-                    UI.AddTestLogEntry("In br planning callback");
-                    Next();
+                    FinishTractorBeamMovement();
                 }
             );
             newPhase.Name = "Select position";
-            newPhase.TargetShip = Target;
+            newPhase.TheShip = TheShip;
             newPhase.IsTemporary = true;
             newPhase.Controller = Assigner;
             newPhase.ObstacleOverlapAllowed = true;
@@ -129,16 +125,14 @@ namespace SubPhases
 
         private void PerfromStraightTemplatePlanning()
         {
-            UI.AddTestLogEntry ("Performing boost");
             SubPhases.BoostPlanningSubPhase newPhase = (SubPhases.BoostPlanningSubPhase) Phases.StartTemporarySubPhaseNew(
                 "Boost",
                 typeof(SubPhases.BoostPlanningSubPhase),
                 delegate {
-                    UI.AddTestLogEntry("In boost planning callback");
-                    Next();
+                    FinishTractorBeamMovement();
                 }
             );
-            newPhase.TargetShip = Target;
+            newPhase.TheShip = TheShip;
             newPhase.Name = "Tractor beam boost";
             newPhase.IsTemporary = true;
             newPhase.SelectedBoostHelper = "Straight 1";
@@ -176,6 +170,12 @@ namespace SubPhases
             selectBarrelRollTemplate.RequiredPlayer = Assigner.PlayerNo;
 
             selectBarrelRollTemplate.Start();
+        }
+
+        private void FinishTractorBeamMovement()
+        {
+            Rules.AsteroidHit.CheckDamage(TheShip);
+            Next();
         }
 
         public override void Next()

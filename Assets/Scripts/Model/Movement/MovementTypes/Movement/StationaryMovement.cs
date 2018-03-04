@@ -18,7 +18,7 @@ namespace Movement
             base.Perform();
             Initialize();
 
-            movementPrediction = new MovementPrediction(this, TargetShip.Owner.AfterShipMovementPrediction);
+            movementPrediction = new MovementPrediction(this, TheShip.Owner.AfterShipMovementPrediction);
         }
 
         protected override float SetProgressTarget()
@@ -35,10 +35,10 @@ namespace Movement
         {
             GameObject[] result = new GameObject[1];
 
-            Vector3 position = TargetShip.GetPosition();
+            Vector3 position = TheShip.GetPosition();
 
-            GameObject prefab = (GameObject)Resources.Load(TargetShip.ShipBase.TemporaryPrefabPath, typeof(GameObject));
-            GameObject ShipStand = MonoBehaviour.Instantiate(prefab, position, TargetShip.GetRotation(), Board.BoardManager.GetBoard());
+            GameObject prefab = (GameObject)Resources.Load(TheShip.ShipBase.TemporaryPrefabPath, typeof(GameObject));
+            GameObject ShipStand = MonoBehaviour.Instantiate(prefab, position, TheShip.GetRotation(), Board.BoardManager.GetBoard());
 
             Renderer[] renderers = ShipStand.GetComponentsInChildren<Renderer>();
             foreach (var render in renderers)

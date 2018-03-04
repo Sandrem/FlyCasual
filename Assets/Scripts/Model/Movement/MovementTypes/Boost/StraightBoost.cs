@@ -38,7 +38,7 @@ namespace Movement
             Game.Movement.FuncsToUpdate.Remove(UpdateBoost);
 
             MovementTemplates.HideLastMovementRuler();
-            TargetShip.ResetRotationHelpers();
+            TheShip.ResetRotationHelpers();
 
             (Phases.CurrentSubPhase as SubPhases.BoostExecutionSubPhase).FinishBoost();
         }

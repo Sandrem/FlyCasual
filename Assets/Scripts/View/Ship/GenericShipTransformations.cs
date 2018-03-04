@@ -6,6 +6,7 @@ namespace Ship
 {
     public partial class GenericShip
     {
+        protected bool HasMovableWings;
 
         // POSITION AND ANGLES
 
@@ -147,6 +148,37 @@ namespace Ship
         public void RotateModelDuringBarrelRoll(float progress, float turningDirection)
         {
             modelCenter.localEulerAngles = new Vector3(0, 0, Mathf.Lerp(0, turningDirection * 360, progress));
+        }
+
+        // S-Foils
+
+        public void WingsOpen()
+        {
+            WingsChangePosition("Open");
+        }
+
+        public void WingsClose()
+        {
+            WingsChangePosition("Close");
+        }
+
+        private void WingsChangePosition(string wingPosition)
+        {
+            if (!HasMovableWings)
+            {
+                Console.Write("Ship doesn't have movable wings!", LogTypes.Errors, true, "red");
+                return;
+            }
+
+            Sounds.PlayShipSound("Servomotors", this);
+
+            foreach (Transform transform in GetModelTransform())
+            {
+                if (!transform.name.StartsWith("Wing")) continue;
+
+                Animation wingAnimator = transform.GetComponent<Animation>();
+                wingAnimator.Play(transform.name + "_" + wingPosition);
+            }
         }
 
     }

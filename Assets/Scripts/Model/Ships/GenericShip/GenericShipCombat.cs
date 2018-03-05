@@ -152,6 +152,7 @@ namespace Ship
 
         public event EventHandlerShip OnReadyToBeDestroyed;
         public event EventHandlerShipBool OnShipIsDestroyed;
+        public static event EventHandlerShipBool OnDestroyedGlobal;
 
         public event EventHandler AfterAttackWindow;
 
@@ -654,6 +655,7 @@ namespace Ship
             }
 
             if (OnShipIsDestroyed != null) OnShipIsDestroyed(this, isFled);
+            if (OnDestroyedGlobal != null) OnDestroyedGlobal(this, isFled);
 
             Triggers.ResolveTriggers(TriggerTypes.OnShipIsDestroyed, callback);
         }

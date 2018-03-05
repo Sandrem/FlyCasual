@@ -249,13 +249,35 @@ namespace Upgrade
 
         // FLIP FACEUP
 
-        public virtual void FlipFaceup()
+        public void TryFlipFaceUp(Action callBack)
+        {
+            CurrentUpgrade = this;
+            Host.CallFlipFaceUpUpgrade(() => AfterTriedFlipFaceUp(callBack));
+        }
+
+        private void AfterTriedFlipFaceUp(Action callBack)
+        {
+            if (CurrentUpgrade != null)
+            {
+                FlipFaceup(callBack);
+            }
+            else
+            {
+                callBack();
+            }
+        }
+
+        public virtual void FlipFaceup(Action callback = null)
         {
             isDiscarded = false;
             Roster.FlipFaceupUpgrade(Host, Name);
             ActivateAbility();
 
             Messages.ShowInfo(Name + " is flipped face up");
+            if (callback != null)
+            {
+                callback();
+            }
         }
 
         public void ReplaceUpgradeBy(GenericUpgrade newUpgrade)

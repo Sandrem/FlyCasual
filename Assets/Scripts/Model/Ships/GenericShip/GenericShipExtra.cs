@@ -46,6 +46,8 @@ namespace Ship
 
         public event EventHandler OnDiscardUpgrade;
 
+        public event EventHandler OnFlipFaceUpUpgrade;
+
         public void CallOnShipIsPlaced(Action callback)
         {
             if (OnShipIsPlaced != null) OnShipIsPlaced(this);
@@ -58,6 +60,13 @@ namespace Ship
             if (OnDiscardUpgrade != null) OnDiscardUpgrade();
 
             Triggers.ResolveTriggers(TriggerTypes.OnDiscard, callBack);
+        }
+
+        public void CallFlipFaceUpUpgrade(Action callBack)
+        {
+            if (OnFlipFaceUpUpgrade != null) OnFlipFaceUpUpgrade();
+
+            Triggers.ResolveTriggers(TriggerTypes.OnFlipFaceUp, callBack);
         }
 
         public List<GenericShip> DockedShips = new List<GenericShip>();

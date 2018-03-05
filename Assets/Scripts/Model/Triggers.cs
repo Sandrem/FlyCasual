@@ -75,7 +75,8 @@ public enum TriggerTypes
     OnAbilityDirect,
     OnAbilityTargetIsSelected,
     OnMajorExplosionCrit,
-    OnDiscard
+    OnDiscard,
+    OnFlipFaceUp
 }
 
 public class Trigger

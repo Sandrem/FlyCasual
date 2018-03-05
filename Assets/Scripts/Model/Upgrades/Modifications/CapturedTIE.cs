@@ -35,33 +35,71 @@ namespace Abilities
         public override void ActivateAbility()
         {
             GenericShip.OnTryPerformAttackGlobal += CanPerformAttack;
-            HostShip.OnAttackFinishAsAttacker += DiscardCapturedTIE;            
+            HostShip.OnAttackFinishAsAttacker += RegisterDiscardOnAttackTrigger;
+            GenericShip.OnDestroyedGlobal += RegisterDiscardOnLastFriendlyDestroyedTrigger;
+            Phases.OnPlanningPhaseStart += RegisterDiscardOnGameStartBeingSingleFriendlyTrigger;
+            HostShip.OnFlipFaceUpUpgrade += RegisterDiscardOnFlipFaceUpBeingSingleFriendlyTrigger;
         }
 
         public override void DeactivateAbility()
         {
             GenericShip.OnTryPerformAttackGlobal -= CanPerformAttack;
-            HostShip.OnAttackFinishAsAttacker -= DiscardCapturedTIE;
+            HostShip.OnAttackFinishAsAttacker -= RegisterDiscardOnAttackTrigger;
+            GenericShip.OnDestroyedGlobal -= RegisterDiscardOnLastFriendlyDestroyedTrigger;
+            Phases.OnPlanningPhaseStart -= RegisterDiscardOnGameStartBeingSingleFriendlyTrigger;
+            HostShip.OnFlipFaceUpUpgrade -= RegisterDiscardOnFlipFaceUpBeingSingleFriendlyTrigger;
         }
 
-        protected void DiscardCapturedTIE(GenericShip ship)
+        protected void RegisterDiscardOnAttackTrigger(GenericShip ship)
         {
-            HostUpgrade.TryDiscard(() => Messages.ShowInfoToHuman(string.Format("{0} discards Captured TIE", HostShip.PilotName)));            
+            RegisterAbilityTrigger(TriggerTypes.OnAttackFinishAsAttacker, (s, e) =>
+            {
+                Messages.ShowInfoToHuman(string.Format("{0} discarding Captured TIE due to attacking", HostShip.PilotName));
+                HostUpgrade.TryDiscard(Triggers.FinishTrigger);
+            });            
+        }
+
+        protected bool CheckAnyOtherFriendlyShipsPresent()
+        {
+            return HostShip.Owner.Ships.Values.Any(friendly => friendly.ShipId != HostShip.ShipId && !friendly.IsDestroyed);
+        }
+
+        protected void RegisterTriggerSingleFriendlyCheckCommon(string text, TriggerTypes eventType)
+        {
+            var areThereAnyOtherEnemyShipsThanTheCapturedTie = CheckAnyOtherFriendlyShipsPresent();
+            if (!areThereAnyOtherEnemyShipsThanTheCapturedTie)
+            {
+                RegisterAbilityTrigger(eventType, (s, e) =>
+                {
+                    Messages.ShowInfoToHuman(text);
+                    HostUpgrade.TryDiscard(Triggers.FinishTrigger);
+                });
+            }
+        }
+
+        protected void RegisterDiscardOnLastFriendlyDestroyedTrigger(GenericShip ship, bool isFled)
+        {
+            RegisterTriggerSingleFriendlyCheckCommon(string.Format("{0} discarding Captured TIE after last friendly ship was destroyed", HostShip.PilotName), TriggerTypes.OnShipIsDestroyed);
+        }
+
+        protected void RegisterDiscardOnGameStartBeingSingleFriendlyTrigger()
+        {
+            RegisterTriggerSingleFriendlyCheckCommon(string.Format("{0} discarding Captured TIE due to being the only ship in team", HostShip.PilotName), TriggerTypes.OnPlanningSubPhaseStart);
+        }
+
+        protected void RegisterDiscardOnFlipFaceUpBeingSingleFriendlyTrigger()
+        {
+            RegisterTriggerSingleFriendlyCheckCommon(string.Format("{0} immediately discarding Captured TIE again, due to being the only friendly ship left", HostShip.PilotName), TriggerTypes.OnFlipFaceUp);
         }
 
         public void CanPerformAttack(ref bool result, List<string> stringList)
         {
             var isNotTheCapturedTie = Selection.AnotherShip.ShipId != HostShip.ShipId;
             var hasSameOrHigherPS = Selection.ThisShip.PilotSkill >= HostShip.PilotSkill;
-            var areThereAnyOtherEnemyShipsThanTheCapturedTie = HostShip.Owner.Ships.Values.Any(foe => foe.ShipId != HostShip.ShipId && !foe.IsDestroyed);
+            var areThereAnyOtherEnemyShipsThanTheCapturedTie = CheckAnyOtherFriendlyShipsPresent();
 
             var allowedToBeAttacked = isNotTheCapturedTie || hasSameOrHigherPS || !areThereAnyOtherEnemyShipsThanTheCapturedTie;
-
-            if (!areThereAnyOtherEnemyShipsThanTheCapturedTie)
-            {
-                DiscardCapturedTIE(HostShip);
-            }
-
+                        
             if (!allowedToBeAttacked)
             {
                 if (Roster.GetPlayer(Phases.CurrentPhasePlayer).GetType() == typeof(Players.HumanPlayer))

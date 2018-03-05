@@ -28,44 +28,24 @@ namespace Abilities
 {
     public class ServomoterSFoilsAbility : GenericAbility
     {
-        private enum SFoilsPositions { Attack, Flight};
-        private SFoilsPositions currentSFoilsPosition = SFoilsPositions.Attack;
 
         public override void ActivateAbility()
         {
             HostShip.OnShipIsPlaced += TurnSFoilsToFlightPositionAlt;
-            Phases.OnCombatPhaseStart += TurnSFoilsToAttackPosition;
-            Phases.OnCombatPhaseEnd += TurnSFoilsToFlightPosition;
+            Phases.OnCombatPhaseStart += HostShip.WingsOpen;
+            Phases.OnCombatPhaseEnd += HostShip.WingsClose;
         }
 
         public override void DeactivateAbility()
         {
             HostShip.OnShipIsPlaced -= TurnSFoilsToFlightPositionAlt;
-            Phases.OnCombatPhaseStart -= TurnSFoilsToAttackPosition;
-            Phases.OnCombatPhaseEnd -= TurnSFoilsToFlightPosition;
-        }
-
-        private void TurnSFoilsToAttackPosition()
-        {
-            if (currentSFoilsPosition != SFoilsPositions.Attack)
-            {
-                HostShip.WingsOpen();
-                currentSFoilsPosition = SFoilsPositions.Attack;
-            }
+            Phases.OnCombatPhaseStart -= HostShip.WingsOpen;
+            Phases.OnCombatPhaseEnd -= HostShip.WingsClose;
         }
 
         private void TurnSFoilsToFlightPositionAlt(GenericShip ship)
         {
-            TurnSFoilsToFlightPosition();
-        }
-
-        private void TurnSFoilsToFlightPosition()
-        {
-            if (currentSFoilsPosition != SFoilsPositions.Flight)
-            {
-                HostShip.WingsClose();
-                currentSFoilsPosition = SFoilsPositions.Flight;
-            }
+            HostShip.WingsClose();
         }
     }
 }

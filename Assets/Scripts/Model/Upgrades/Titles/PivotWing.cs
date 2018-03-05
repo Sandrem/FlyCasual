@@ -4,6 +4,7 @@ using Upgrade;
 using Abilities;
 using System;
 using SubPhases;
+using UnityEngine;
 
 namespace UpgradesList
 {
@@ -50,8 +51,10 @@ namespace Abilities
 {
     public class PivotWingAttackAbility : GenericAbility
     {
+
         public override void ActivateAbility()
         {
+            ChangeInitialWingsPosition();
             HostShip.OnMovementFinish += RegisterAskToUseFlip;
             HostShip.ChangeAgilityBy(+1);
         }
@@ -74,15 +77,23 @@ namespace Abilities
 
         private void DoFlipSide(object sender, EventArgs e)
         {
+            HostShip.WingsClose();
             (HostUpgrade as GenericDualUpgrade).Flip();
             DecisionSubPhase.ConfirmDecision();
+        }
+
+        private void ChangeInitialWingsPosition()
+        {
+            HostShip.WingsOpen();
         }
     }
 
     public class PivotWingLandingAbility : GenericAbility
     {
+
         public override void ActivateAbility()
         {
+            ChangeInitialWingsPosition();
             HostShip.OnMovementFinish += RegisterAskToFlip;
             HostShip.OnManeuverIsRevealed += RegisterAskToRotate;
         }
@@ -105,6 +116,7 @@ namespace Abilities
 
         private void DoFlipSide(object sender, EventArgs e)
         {
+            HostShip.WingsOpen();
             (HostUpgrade as GenericDualUpgrade).Flip();
             DecisionSubPhase.ConfirmDecision();
         }
@@ -125,6 +137,11 @@ namespace Abilities
         private void RotateShip(object sender, EventArgs e)
         {
             Phases.StartTemporarySubPhaseOld("Rotate ship 180°", typeof(KoiogranTurnSubPhase), DecisionSubPhase.ConfirmDecision);
+        }
+
+        private void ChangeInitialWingsPosition()
+        {
+            HostShip.WingsClose();
         }
     }
 }

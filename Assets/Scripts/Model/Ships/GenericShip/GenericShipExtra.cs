@@ -7,6 +7,12 @@ using ActionsList;
 
 namespace Ship
 {
+    public enum WingsPositions { Opened, Closed };
+
+    public interface IMovableWings
+    {
+        WingsPositions CurrentWingsPosition { get; set; }
+    }
 
     public partial class GenericShip
     {

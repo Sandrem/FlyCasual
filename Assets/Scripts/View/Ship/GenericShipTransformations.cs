@@ -6,8 +6,6 @@ namespace Ship
 {
     public partial class GenericShip
     {
-        protected bool HasMovableWings;
-
         // POSITION AND ANGLES
 
         public void SetPosition(Vector3 position)
@@ -154,17 +152,25 @@ namespace Ship
 
         public void WingsOpen()
         {
-            WingsChangePosition("Open");
+            if ((this as IMovableWings).CurrentWingsPosition == WingsPositions.Closed)
+            {
+                WingsChangePosition("Open");
+                (this as IMovableWings).CurrentWingsPosition = WingsPositions.Opened;
+            }
         }
 
         public void WingsClose()
         {
-            WingsChangePosition("Close");
+            if ((this as IMovableWings).CurrentWingsPosition == WingsPositions.Opened)
+            {
+                WingsChangePosition("Close");
+                (this as IMovableWings).CurrentWingsPosition = WingsPositions.Closed;
+            }
         }
 
         private void WingsChangePosition(string wingPosition)
         {
-            if (!HasMovableWings)
+            if (!(this is IMovableWings))
             {
                 Console.Write("Ship doesn't have movable wings!", LogTypes.Errors, true, "red");
                 return;

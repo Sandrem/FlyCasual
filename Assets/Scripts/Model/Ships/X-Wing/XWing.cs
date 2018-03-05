@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using Movement;
 using ActionsList;
+using Ship;
 
 namespace Ship
 {
     namespace XWing
     {
-        public class XWing : GenericShip
+        public class XWing : GenericShip, IMovableWings
         {
+            public WingsPositions CurrentWingsPosition { get; set; }
 
             public XWing() : base()
             {
@@ -36,7 +38,7 @@ namespace Ship
 
                 SkinName = "Red";
 
-                HasMovableWings = true;
+                CurrentWingsPosition = WingsPositions.Opened;
 
                 SoundShotsPath = "XWing-Laser";
                 ShotsCount = 3;

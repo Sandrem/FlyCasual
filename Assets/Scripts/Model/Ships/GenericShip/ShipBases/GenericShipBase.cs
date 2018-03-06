@@ -19,6 +19,8 @@ namespace Ship
         public string PrefabPath { get; protected set; }
         public string TemporaryPrefabPath { get; protected set; }
 
+        public Dictionary<string, Vector3> BaseEdges { get; private set; }
+
         protected Dictionary<string, Vector3> standFrontEdgePoints = new Dictionary<string, Vector3>();
         private Dictionary<string, Vector3> standFrontPoints = new Dictionary<string, Vector3>();
         private Dictionary<string, Vector3> standBackPoints = new Dictionary<string, Vector3>();
@@ -58,6 +60,11 @@ namespace Ship
         private void SetShipBaseEdges()
         {
             int PRECISION = 20;
+
+            BaseEdges.Add("LF", new Vector3(-HALF_OF_SHIPSTAND_SIZE, 0f, 0f));
+            BaseEdges.Add("RF", new Vector3(HALF_OF_SHIPSTAND_SIZE, 0f, 0f));
+            BaseEdges.Add("LB", new Vector3(-HALF_OF_SHIPSTAND_SIZE, 0f, -2 * HALF_OF_SHIPSTAND_SIZE));
+            BaseEdges.Add("RB", new Vector3(HALF_OF_SHIPSTAND_SIZE, 0f, -2 * HALF_OF_SHIPSTAND_SIZE));
 
             standEdgePoints.Add("LF", new Vector3(-HALF_OF_SHIPSTAND_SIZE, 0f, 0f));
             standEdgePoints.Add("CF", Vector3.zero);

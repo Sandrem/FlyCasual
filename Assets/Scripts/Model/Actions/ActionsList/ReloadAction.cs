@@ -22,7 +22,7 @@ namespace ActionsList
             {
                 if (upgrade.hasType(UpgradeType.Missile) || upgrade.hasType(UpgradeType.Torpedo))
                 {
-                    upgrade.TryFlipFaceUp(() => { });
+                    upgrade.FlipFaceup();
                 }
             }
 

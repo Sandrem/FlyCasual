@@ -48,7 +48,7 @@ namespace Abilities
 
         protected void AskUseScavengerCrane(object sender, EventArgs e)
         {
-            var phase = Phases.StartTemporarySubPhaseNew("Select upgrade to recover", typeof(SubPhases.ScavengerCraneDecisonSubPhase), Triggers.FinishTrigger) as SubPhases.ScavengerCraneDecisonSubPhase;
+            var phase = Phases.StartTemporarySubPhaseNew<SubPhases.ScavengerCraneDecisionSubPhase>("Select upgrade to recover", Triggers.FinishTrigger);
             phase.hostUpgrade = HostUpgrade;
             phase.hostAbility = this;
             phase.Start();
@@ -69,7 +69,7 @@ namespace Abilities
 namespace SubPhases
 {
 
-    public class ScavengerCraneDecisonSubPhase : DecisionSubPhase
+    public class ScavengerCraneDecisionSubPhase : DecisionSubPhase
     {
         public GenericUpgrade hostUpgrade;
         public ScavengerCraneAbility hostAbility;
@@ -94,19 +94,23 @@ namespace SubPhases
 
         protected void RecoverUpgrade(GenericUpgrade upgrade)
         {
-            upgrade.TryFlipFaceUp(RollForDiscard);
-            ConfirmDecision();
+            ConfirmDecisionNoCallback();
+            upgrade.TryFlipFaceUp(RollForDiscard);            
         }
 
         protected void RollForDiscard()
         {
-            var phase = Phases.StartTemporarySubPhaseNew("Roll for discarding Scavenger Crane", typeof(SubPhases.ScavengerCraneDiscardCheckSubPhase), Triggers.FinishTrigger) as SubPhases.ScavengerCraneDiscardCheckSubPhase;
+            var phase = Phases.StartTemporarySubPhaseNew<ScavengerCraneRollSubPhase>("Roll for discarding Scavenger Crane", () => 
+            {
+                Phases.FinishSubPhase(typeof(ScavengerCraneRollSubPhase));
+                Triggers.FinishTrigger();
+            });
             phase.scanvengerCraneUpgrade = hostUpgrade;            
             phase.Start();
         }
     }
 
-    public class ScavengerCraneDiscardCheckSubPhase : DiceRollCheckSubPhase
+    public class ScavengerCraneRollSubPhase : DiceRollCheckSubPhase
     {
         public GenericUpgrade scanvengerCraneUpgrade;
 
@@ -114,7 +118,7 @@ namespace SubPhases
         {
             diceType = DiceKind.Attack;
             diceCount = 1;
-
+            Selection.ActiveShip = scanvengerCraneUpgrade.Host;
             finishAction = FinishAction;
         }
 

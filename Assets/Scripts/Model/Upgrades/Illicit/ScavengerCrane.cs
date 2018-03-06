@@ -104,21 +104,6 @@ namespace SubPhases
             phase.scanvengerCraneUpgrade = hostUpgrade;            
             phase.Start();
         }
-
-        public override void Resume()
-        {
-            base.Resume();
-            Initialize();
-
-            UI.ShowSkipButton();
-        }
-
-        public override void SkipButton()
-        {
-            UI.HideSkipButton();            
-            CallBack();
-        }
-
     }
 
     public class ScavengerCraneDiscardCheckSubPhase : DiceRollCheckSubPhase
@@ -147,37 +132,6 @@ namespace SubPhases
                 CallBack();
             }
         }
-
-        private void NoDamage()
-        {
-            Messages.ShowInfoToHuman("No damage");
-            CallBack();
-        }
-
-        private void SufferDamage()
-        {
-            foreach (var dice in CurrentDiceRoll.DiceList)
-            {
-                Selection.ActiveShip.AssignedDamageDiceroll.DiceList.Add(dice);
-
-                Triggers.RegisterTrigger(new Trigger()
-                {
-                    Name = "Saturation Salvo Damage",
-                    TriggerType = TriggerTypes.OnDamageIsDealt,
-                    TriggerOwner = Selection.ActiveShip.Owner.PlayerNo,
-                    EventHandler = Selection.ActiveShip.SufferDamage,
-                    Skippable = true,
-                    EventArgs = new DamageSourceEventArgs()
-                    {
-                        Source = "Saturation Salvo",
-                        DamageType = DamageTypes.CardAbility
-                    }
-                });
-            }
-
-            Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, CallBack);
-        }
-
     }
 
 }

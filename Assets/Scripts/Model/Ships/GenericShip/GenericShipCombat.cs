@@ -111,6 +111,7 @@ namespace Ship
         public event EventHandler OnAttackStartAsAttacker;
         public static event EventHandler OnAttackStartAsAttackerGlobal;
         public event EventHandler OnAttackStartAsDefender;
+        public static event EventHandler OnAttackStartAsDefenderGlobal;
 
         public event EventHandler OnShotStartAsAttacker;
         public event EventHandler OnShotStartAsDefender;
@@ -235,6 +236,8 @@ namespace Ship
             else if (Combat.Defender.ShipId == this.ShipId)
             {
                 if (OnAttackStartAsDefender != null) OnAttackStartAsDefender();
+                if (OnAttackStartAsDefenderGlobal != null) OnAttackStartAsDefenderGlobal();
+
             }
         }
 

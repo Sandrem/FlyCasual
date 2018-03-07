@@ -41,7 +41,7 @@ namespace Abilities
 
         private void CheckPureSabaccAbility(ref int value)
         {
-            if (HostShip.Hull == HostShip.MaxHull) value++;
+            if (HostShip.Hull >= HostShip.MaxHull-1) value++;
         }
     }
 }

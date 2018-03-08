@@ -41,7 +41,7 @@ namespace Abilities
 
         private void CheckPureSabaccAbility(ref int value)
         {
-            if (HostShip.Hull >= HostShip.MaxHull-1) value++;
+            if (HostShip.Damage.DamageCards.Count <= 1) value++;
         }
     }
 }

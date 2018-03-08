@@ -12,7 +12,7 @@ namespace Ship
             {
                 PilotName = "Concord Dawn Ace";
                 PilotSkill = 5;
-                Cost = 24;
+                Cost = 23;
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
             }

@@ -36,13 +36,12 @@ namespace RulesList
 
         private void PerformTractorBeamEffect(GenericShip ship) 
         {
+            TractorBeamToken token = (TractorBeamToken) ship.Tokens.GetToken(typeof(TractorBeamToken));
             SubPhases.TractorBeamPlanningSubPhase newPhase = (SubPhases.TractorBeamPlanningSubPhase) Phases.StartTemporarySubPhaseNew(
                 "Perform tractor beam effect",
                 typeof(SubPhases.TractorBeamPlanningSubPhase),
-                Phases.CurrentSubPhase.CallBack
+                delegate { }
             );
-
-            TractorBeamToken token = (TractorBeamToken) ship.Tokens.GetToken(typeof(TractorBeamToken));
             newPhase.Assigner = token.Assigner;
             newPhase.TheShip = ship;
 
@@ -81,29 +80,33 @@ namespace SubPhases
             IsTemporary = true;
             UpdateHelpInfo();
 
-            AskToSelectTemplate();
+            CheckCanBoost(RegisterTractorPlanning);
         }
 
-        private void AskToSelectTemplate()
+        private void InitializeBostPlanning(BoostPlanningSubPhase boostPlanning)
         {
-            Triggers.RegisterTrigger(new Trigger() {
-                Name = "Select direction and template",
-                TriggerType = TriggerTypes.OnAbilityDirect,
-                TriggerOwner = Assigner.PlayerNo,
-                EventHandler = StartSelectTemplateSubphase
-            });
-            Triggers.ResolveTriggers(TriggerTypes.OnAbilityDirect, delegate {
-                // Why is this executing as soon as the selection is shown?
-                if (selectedPlanningAction != null) 
-                {
-                    selectedPlanningAction();
-                }
-            });
+            boostPlanning.TheShip = TheShip;
+            boostPlanning.Name = "Tractor beam boost";
+            boostPlanning.IsTemporary = true;
+            boostPlanning.SelectedBoostHelper = "Straight 1";
+            boostPlanning.ObstacleOverlapAllowed = true;
+            boostPlanning.InitializeRendering();
+        }
+
+        private void CheckCanBoost(System.Action<bool> canBoostCallback)
+        {
+            BoostPlanningSubPhase boostPlanning = new BoostPlanningSubPhase ();
+            InitializeBostPlanning(boostPlanning);
+            boostPlanning.TryConfirmBoostPosition(canBoostCallback);
+        }
+
+        private void RegisterTractorPlanning(bool canBoost)
+        {
+            StartSelectTemplateSubphase(canBoost);
         }
 
         private void PerfromBrTemplatePlanning(Actions.BarrelRollTemplateVariants template)
         {
-            UI.AddTestLogEntry ("Performing br template planning");
             SubPhases.BarrelRollPlanningSubPhase newPhase = (SubPhases.BarrelRollPlanningSubPhase) Phases.StartTemporarySubPhaseNew(
                 "Select position",
                 typeof(SubPhases.BarrelRollPlanningSubPhase),
@@ -133,57 +136,58 @@ namespace SubPhases
 
         private void PerfromStraightTemplatePlanning()
         {
-            SubPhases.BoostPlanningSubPhase newPhase = (SubPhases.BoostPlanningSubPhase) Phases.StartTemporarySubPhaseNew(
+            BoostPlanningSubPhase boostPlanning = (SubPhases.BoostPlanningSubPhase) Phases.StartTemporarySubPhaseNew(
                 "Boost",
                 typeof(SubPhases.BoostPlanningSubPhase),
                 delegate {
                     FinishTractorBeamMovement();
                 }
             );
-            newPhase.TheShip = TheShip;
-            newPhase.Name = "Tractor beam boost";
-            newPhase.IsTemporary = true;
-            newPhase.SelectedBoostHelper = "Straight 1";
-            newPhase.ObstacleOverlapAllowed = true;
+            InitializeBostPlanning(boostPlanning);
             Phases.UpdateHelpInfo();
-            newPhase.InitializeRendering();
-            newPhase.TryPerformBoost();
+            boostPlanning.TryPerformBoost();
         }
 
-        private void StartSelectTemplateSubphase(object sender, System.EventArgs e)
+        private void StartSelectTemplateSubphase(bool canBoost)
         {
-            TractorBeamDirectionDecisionSubPhase selectBarrelRollTemplate = (TractorBeamDirectionDecisionSubPhase)Phases.StartTemporarySubPhaseNew(
+            TractorBeamDirectionDecisionSubPhase selectTractorDirection = (TractorBeamDirectionDecisionSubPhase)Phases.StartTemporarySubPhaseNew(
                 Name,
                 typeof(TractorBeamDirectionDecisionSubPhase),
                 delegate { }
             );
 
-            selectBarrelRollTemplate.AddDecision("Left", delegate {
+            selectTractorDirection.AddDecision("Left", delegate {
                 selectedPlanningAction = PerfromLeftBrTemplatePlanning;
                 DecisionSubPhase.ConfirmDecision();
-                selectedPlanningAction(); // HACK
+                selectedPlanningAction();
             });
-            selectBarrelRollTemplate.AddDecision("Right", delegate { 
+
+            selectTractorDirection.AddDecision("Right", delegate {
                 selectedPlanningAction = PerfromRightBrTemplatePlanning;
                 DecisionSubPhase.ConfirmDecision();
-                selectedPlanningAction(); // HACK
+                selectedPlanningAction();
             });
-            selectBarrelRollTemplate.AddDecision("Straight", delegate { 
-                selectedPlanningAction = PerfromStraightTemplatePlanning;
-                DecisionSubPhase.ConfirmDecision();
-                selectedPlanningAction(); // HACK
-            });
-            selectBarrelRollTemplate.InfoText = "Select tractor beam direction";
-            selectBarrelRollTemplate.DefaultDecisionName = selectBarrelRollTemplate.GetDecisions().First().Name;
-            selectBarrelRollTemplate.RequiredPlayer = Assigner.PlayerNo;
 
-            selectBarrelRollTemplate.Start();
+            if (canBoost)
+            {
+                selectTractorDirection.AddDecision("Straight", delegate {
+                    selectedPlanningAction = PerfromStraightTemplatePlanning;
+                    DecisionSubPhase.ConfirmDecision();
+                    selectedPlanningAction();
+                });
+            }
+
+            selectTractorDirection.InfoText = "Select tractor beam direction for " + TheShip.PilotName;
+            selectTractorDirection.DefaultDecisionName = selectTractorDirection.GetDecisions().First().Name;
+            selectTractorDirection.RequiredPlayer = Assigner.PlayerNo;
+
+            selectTractorDirection.Start();
         }
 
         private void FinishTractorBeamMovement()
         {
             Rules.AsteroidHit.CheckDamage(TheShip);
-            Next();
+            Triggers.ResolveTriggers(TriggerTypes.OnShipMovementFinish, Next);
         }
 
         public override void Next()

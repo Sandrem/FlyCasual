@@ -68,7 +68,7 @@ namespace Abilities
         {
             ShipShotDistanceInformation shotInfo = new ShipShotDistanceInformation(HostShip, ship);
 
-            return FilterByTargetType (ship, new List<TargetTypes> () { TargetTypes.Enemy })
+            return FilterByTargetType (ship, new List<TargetTypes> () { TargetTypes.Enemy, TargetTypes.OtherFriendly })
                 && FilterTargetsByRange (ship, 1, 1)
                 && shotInfo.InMobileArc
                 && shotInfo.InPrimaryArc;
@@ -81,17 +81,14 @@ namespace Abilities
 
         private void CheckAssignTractorBeam()
         {
+            SelectShipSubPhase.FinishSelectionNoCallback();
+
             ShipShotDistanceInformation shotInfo = new ShipShotDistanceInformation(HostShip, TargetShip);
             if (shotInfo.InMobileArc && shotInfo.InMobileArc && shotInfo.Range == 1)
             {
                 Messages.ShowError(HostShip.PilotName + " assigns Tractor Beam Token\nto " + TargetShip.PilotName);
                 Tokens.TractorBeamToken token = new Tokens.TractorBeamToken(TargetShip, HostShip.Owner);
-                TargetShip.Tokens.AssignToken(token, delegate {
-                    Triggers.ResolveTriggers(TriggerTypes.OnTokenIsAssigned, delegate {
-                        Triggers.FinishTrigger();
-                        SelectShipSubPhase.FinishSelection();
-                    }); 
-                });
+                TargetShip.Tokens.AssignToken(token, SelectShipSubPhase.FinishSelection);
             }
             else
             {

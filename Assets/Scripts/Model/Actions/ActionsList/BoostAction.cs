@@ -224,7 +224,7 @@ namespace SubPhases
             TryConfirmBoostPosition();
         }
 
-        public void TryConfirmBoostPosition()
+        public void TryConfirmBoostPosition(System.Action<bool> canBoostCallback = null)
         {
             ShowBoosterHelper();
 
@@ -232,16 +232,16 @@ namespace SubPhases
             obstaclesStayDetectorMovementTemplate.ReCheckCollisionsStart();
 
             GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-            Game.Movement.FuncsToUpdate.Add(UpdateColisionDetection);
+            Game.Movement.FuncsToUpdate.Add(() => UpdateColisionDetection(canBoostCallback));
         }
 
-        private bool UpdateColisionDetection()
+        private bool UpdateColisionDetection(System.Action<bool> canBoostCallback = null)
         {
             bool isFinished = false;
 
             if (updatesCount > 1)
             {
-                GetResults();
+                GetResults(canBoostCallback);
                 isFinished = true;
             }
             else
@@ -252,10 +252,17 @@ namespace SubPhases
             return isFinished;
         }
 
-        private void GetResults()
+        private void GetResults(System.Action<bool> canBoostCallback = null)
         {
             obstaclesStayDetectorBase.ReCheckCollisionsFinish();
             obstaclesStayDetectorMovementTemplate.ReCheckCollisionsFinish();
+            HidePlanningTemplates();
+
+            if (canBoostCallback != null)
+            {
+                canBoostCallback(IsBoostAllowed());
+                return;
+            }
 
             if (IsBoostAllowed())
             {
@@ -271,8 +278,6 @@ namespace SubPhases
             {
                 GameMode.CurrentGameMode.CancelBoost();
             }
-
-            HidePlanningTemplates();
         }
 
         private void CheckMines()

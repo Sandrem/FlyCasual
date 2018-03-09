@@ -52,13 +52,13 @@ namespace Abilities
                     TriggerType = TriggerTypes.OnAbilityDirect,
                     TriggerOwner = HostShip.Owner.PlayerNo,
                     EventHandler = delegate {
-                        Messages.ShowError(HostShip.PilotName + " assigns Tractor Beam Token\nto " + TargetShip.PilotName);
+                        Messages.ShowError(HostShip.PilotName + " assigns Tractor Beam Token\nto " + ship.PilotName);
                         ship.Tokens.AssignToken(new Tokens.TractorBeamToken(ship, HostShip.Owner), Triggers.FinishTrigger);
                     }
                 });
             }
 
-            Triggers.ResolveTriggers (TriggerTypes.OnAbilityDirect, delegate { });
+            Triggers.ResolveTriggers(TriggerTypes.OnAbilityDirect, delegate { });
         }
     }
 }

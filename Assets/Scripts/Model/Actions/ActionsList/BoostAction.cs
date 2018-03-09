@@ -370,7 +370,7 @@ namespace SubPhases
             MovementTemplates.ApplyMovementRuler(TheShip, boostMovement);
 
             boostMovement.Perform();
-            Sounds.PlayFly();
+            Sounds.PlayFly(TheShip);
         }
 
         public void FinishBoost()

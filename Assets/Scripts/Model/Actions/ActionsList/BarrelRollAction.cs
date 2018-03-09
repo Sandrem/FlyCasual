@@ -571,7 +571,7 @@ namespace SubPhases
             initialRotation = (TheShip.GetAngles().y < 180) ? TheShip.GetAngles().y : -(360 - TheShip.GetAngles().y);
             plannedRotation = (TemporaryShipBase.transform.eulerAngles.y - initialRotation < 180) ? TemporaryShipBase.transform.eulerAngles.y : -(360 - TemporaryShipBase.transform.eulerAngles.y);
 
-            Sounds.PlayFly();
+            Sounds.PlayFly(TheShip);
 
             performingAnimation = true;
         }

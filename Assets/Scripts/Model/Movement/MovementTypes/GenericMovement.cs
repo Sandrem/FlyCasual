@@ -371,7 +371,7 @@ namespace Movement
                 TheShip.MinesHit.AddRange(movementPrediction.MinesHit);
             }
 
-            Sounds.PlayFly();
+            Sounds.PlayFly(TheShip);
             AdaptSuccessProgress();
 
             LaunchSimple();

@@ -26,8 +26,6 @@ namespace Abilities
 {
     public class UnkarPluttAbility : GenericAbility
     {
-        private List<GenericShip> shipsToAssignTractorBeamTokens;
-
         public override void ActivateAbility()
         {
             HostShip.OnCombatPhaseStart += RegisterPilotAbility;
@@ -40,31 +38,27 @@ namespace Abilities
 
         private void RegisterPilotAbility(GenericShip ship)
         {
-            RegisterAbilityTrigger(TriggerTypes.OnCombatPhaseStart, AssignTokens);
+            if (TargetsForAbilityExist(HostShip.ShipsBumped.Contains)) {
+                RegisterAbilityTrigger(TriggerTypes.OnCombatPhaseStart, AssignTokens);
+            }
         }
 
         private void AssignTokens(object sender, System.EventArgs e)
         {
-            shipsToAssignTractorBeamTokens = new List<GenericShip>(HostShip.ShipsBumped);
-            AssignTokensRecursive();
-        }
-
-        private void AssignTokensRecursive()
-        {
-            if (shipsToAssignTractorBeamTokens.Count > 0)
+            foreach (GenericShip ship in HostShip.ShipsBumped)
             {
-                GenericShip shipToAssign = shipsToAssignTractorBeamTokens[0];
-                shipsToAssignTractorBeamTokens.Remove(shipToAssign);
-                Messages.ShowErrorToHuman(shipToAssign.PilotName + " is bumped into \"Unkar Plutt\" and gets a Tractor Beam token");
-                shipToAssign.Tokens.AssignToken(new Tokens.TractorBeamToken(shipToAssign, HostShip.Owner), delegate {
-                    // TODO Figure out how this should work, how do we hook into after the tractor beam effect triggers?
-                    Triggers.FinishTrigger();
+                Triggers.RegisterTrigger(new Trigger() {
+                    Name = "Assign tractor beam to " + ship.PilotName,
+                    TriggerType = TriggerTypes.OnAbilityDirect,
+                    TriggerOwner = HostShip.Owner.PlayerNo,
+                    EventHandler = delegate {
+                        Messages.ShowError(HostShip.PilotName + " assigns Tractor Beam Token\nto " + TargetShip.PilotName);
+                        ship.Tokens.AssignToken(new Tokens.TractorBeamToken(ship, HostShip.Owner), Triggers.FinishTrigger);
+                    }
                 });
             }
-            else
-            {
-                Triggers.FinishTrigger();
-            }
+
+            Triggers.ResolveTriggers (TriggerTypes.OnAbilityDirect, delegate { });
         }
     }
 }

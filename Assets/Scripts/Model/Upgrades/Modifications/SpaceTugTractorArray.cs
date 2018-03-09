@@ -111,16 +111,8 @@ namespace SubPhases
         private void SelectSpacetugTarget()
         {
             MovementTemplates.ReturnRangeRuler();
-
             Tokens.TractorBeamToken token = new Tokens.TractorBeamToken(TargetShip, SpacetugOwner.Owner);
-            TargetShip.Tokens.AssignToken(token, Triggers.FinishTrigger);
-//                delegate {
-//                Triggers.ResolveTriggers(TriggerTypes.OnActionIsPerformed, delegate {
-//                    Phases.FinishSubPhase(typeof(SelectSpacetugTargetSubPhase));
-//                    Phases.FinishSubPhase(typeof(ActionDecisonSubPhase));
-//                    Triggers.FinishTrigger();
-//                });	
-//            });
+            TargetShip.Tokens.AssignToken(token, SelectShipSubPhase.FinishSelectionNoCallback);
         }
 
         public override void Next()

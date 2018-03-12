@@ -52,7 +52,15 @@ namespace ActionsList
         public override int GetActionEffectPriority()
         {
             int result = 0;
-            if (Combat.DiceRollAttack.Successes < 2) result = 100;
+            if (Combat.DiceRollAttack.CriticalSuccesses > 0 && Combat.DiceRollAttack.Successes >= 2)
+            {
+                // Don't cancel crits when we don't need to
+                result = 0;
+            }
+            else
+            {
+                if (Combat.DiceRollAttack.Successes < 2) result = 100;
+            }
             return result;
         }
 

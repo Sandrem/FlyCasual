@@ -1,5 +1,6 @@
 using Ship;
 using Upgrade;
+using ActionsList;
 
 namespace UpgradesList
 {
@@ -16,7 +17,7 @@ namespace UpgradesList
 
         public override bool IsAllowedForShip(GenericShip ship)
         {
-            return (ship.Agility < 3);
+			return (ship.Agility < 3 && ship is TIE);
         }
 
         public override void AttachToShip(GenericShip host)
@@ -24,42 +25,31 @@ namespace UpgradesList
             base.AttachToShip(host);
 
             host.AfterGenerateAvailableActionEffectsList += LightweightFrameActionEffect;
-            Host.OnShipIsDestroyed += StopAbility; // Can probably be removed
+            //Host.OnShipIsDestroyed += StopAbility; // Can probably be removed
         }
 
         private void LightweightFrameActionEffect(GenericShip host)
         {
-            ActionsList.GenericAction newAction = new ActionsList.LightweightFrameEffect()
+			ActionsList.GenericAction newAction = new LightweightFrameDiceModification()
             {
                 ImageUrl = ImageUrl,
                 Host = host,
-                Source = this
             };
             host.AddAvailableActionEffect(newAction);
         }
-
-        private void ClearUsed()
-        {
-            isUsed = false;
-        }
-
-        private void StopAbility(GenericShip host, bool isFled)
-        {
-            // I don't think we need anything here, do we?
-        }
-
+			
     }
 }
 
 namespace ActionsList
 {
 
-    public class LightweightFrameEffect : GenericAction
+    public class LightweightFrameDiceModification : GenericAction
     {
 
-        public LightweightFrameEffect()
+        public LightweightFrameDiceModification()
         {
-            Name = EffectName = "LightweightFrame";
+            Name = EffectName = "Lightweight Frame";
         }
 
         public override bool IsActionEffectAvailable()
@@ -82,14 +72,17 @@ namespace ActionsList
             return 100; // I can't think of a reason we would ever NOT want to do this
         }
 
-        public override void ActionEffect(System.Action callBack)
-        {
-            Combat.DiceRollDefence.AddDice();
-            Combat.DiceRollDefense.OrganizeDicePositions();
-
-            callBack();
-        }
-
+		public override void ActionEffect(System.Action callBack)
+		{
+			if (Combat.CurrentDiceRoll != null) {
+				Messages.ShowInfo("Lightweight Frame - additional die rolled");
+				Combat.CurrentDiceRoll.AddDice().ShowWithoutRoll();
+				Combat.CurrentDiceRoll.OrganizeDicePositions();
+			} else {
+				Messages.ShowInfo ("CurrentDiceRoll does not exist");
+			}
+			callBack();
+		}
     }
 
 }

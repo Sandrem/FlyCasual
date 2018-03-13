@@ -74,13 +74,10 @@ namespace ActionsList
 
 		public override void ActionEffect(System.Action callBack)
 		{
-			if (Combat.CurrentDiceRoll != null) {
-				Messages.ShowInfo("Lightweight Frame - additional die rolled");
-				Combat.CurrentDiceRoll.AddDice().ShowWithoutRoll();
-				Combat.CurrentDiceRoll.OrganizeDicePositions();
-			} else {
-				Messages.ShowInfo ("CurrentDiceRoll does not exist");
-			}
+			Messages.ShowInfo("Lightweight Frame - additional die rolled");
+            Triggers.ResolveTriggers(TriggerTypes.OnDiceAboutToBeRolled);
+            Combat.CurrentDiceRoll.RollAdditionalDice(1);
+			Combat.CurrentDiceRoll.OrganizeDicePositions();
 			callBack();
 		}
     }

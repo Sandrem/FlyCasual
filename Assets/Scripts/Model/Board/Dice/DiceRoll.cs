@@ -587,4 +587,14 @@ public partial class DiceRoll
         }
     }
 
+    public void RollAdditionalDice(int number)
+    {
+        int i = 0;
+        while (i < number)
+        {
+            AddDice().ShowWithoutRoll();
+            Number++;
+            i++;
+        }
+    }
 }

@@ -115,6 +115,7 @@ namespace Ship
 
         public event EventHandler OnShotStartAsAttacker;
         public event EventHandler OnShotStartAsDefender;
+        public static event EventHandler OnDiceAboutToBeRolled;
 
         public event EventHandlerShip OnCheckCancelCritsFirst;
 
@@ -239,6 +240,11 @@ namespace Ship
                 if (OnAttackStartAsDefenderGlobal != null) OnAttackStartAsDefenderGlobal();
 
             }
+        }
+
+        public void CallDiceAboutToBeRolled()
+        {
+            OnDiceAboutToBeRolled();
         }
 
         public void CallShotStart()

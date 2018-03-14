@@ -64,7 +64,7 @@ namespace Abilities
             var lightningReflexesSubphase = Phases.StartTemporarySubPhaseNew("Rotate ship 180°", typeof(KoiogranTurnSubPhase), () =>
             {                
                 HostShip.Tokens.AssignToken(new StressToken(HostShip), DecisionSubPhase.ConfirmDecision);
-                Messages.ShowInfoToHuman(string.Format("{0} discarded Lightning Reflexes to turn ship 180° and get stress token.", Selection.ThisShip.PilotName));
+                Messages.ShowInfoToHuman(string.Format("{0} discarded Lightning Reflexes to turn ship 180° and get stress token.", HostShip.PilotName));
             });
 
             HostUpgrade.TryDiscard(lightningReflexesSubphase.Start);            

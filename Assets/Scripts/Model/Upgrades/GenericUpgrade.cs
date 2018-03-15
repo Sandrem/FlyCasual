@@ -244,7 +244,7 @@ namespace Upgrade
             Roster.DiscardUpgrade(Host, Name);
             DeactivateAbility();
 
-            callBack();
+            Host.CallAfterDiscardUpgrade(this, callBack);
         }
 
         // FLIP FACEUP
@@ -274,10 +274,7 @@ namespace Upgrade
             ActivateAbility();
 
             Messages.ShowInfo(Name + " is flipped face up");
-            if (callback != null)
-            {
-                callback();
-            }
+            Host.CallAfterFlipFaceUpUpgrade(this, callback);
         }
 
         public void ReplaceUpgradeBy(GenericUpgrade newUpgrade)

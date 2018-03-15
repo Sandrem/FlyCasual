@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mods;
 using ActionsList;
+using Upgrade;
 
 namespace Ship
 {
@@ -51,8 +52,10 @@ namespace Ship
         public Type FromMod { get; set; }
 
         public event EventHandler OnDiscardUpgrade;
+        public event EventHandlerUpgrade OnAfterDiscardUpgrade;
 
         public event EventHandler OnFlipFaceUpUpgrade;
+        public event EventHandlerUpgrade OnAfterFlipFaceUpUpgrade;
 
         public void CallOnShipIsPlaced(Action callback)
         {
@@ -73,6 +76,20 @@ namespace Ship
             if (OnFlipFaceUpUpgrade != null) OnFlipFaceUpUpgrade();
 
             Triggers.ResolveTriggers(TriggerTypes.OnFlipFaceUp, callBack);
+        }
+
+        public void CallAfterDiscardUpgrade(GenericUpgrade discardedUpgrade, Action callBack)
+        {
+            if (OnAfterDiscardUpgrade != null) OnAfterDiscardUpgrade(discardedUpgrade);
+
+            Triggers.ResolveTriggers(TriggerTypes.OnAfterDiscard, callBack);
+        }
+
+        public void CallAfterFlipFaceUpUpgrade(GenericUpgrade flippedFaceUpUpgrade, Action callBack)
+        {
+            if (OnAfterFlipFaceUpUpgrade != null) OnAfterFlipFaceUpUpgrade(flippedFaceUpUpgrade);
+
+            Triggers.ResolveTriggers(TriggerTypes.OnAfterFlipFaceUp, callBack);
         }
 
         public List<GenericShip> DockedShips = new List<GenericShip>();

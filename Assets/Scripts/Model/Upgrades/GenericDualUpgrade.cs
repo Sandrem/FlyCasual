@@ -46,17 +46,24 @@ namespace Upgrade
             decision.Start();
         }
 
-        public void Flip()
+        public void Flip(Action<GenericDualUpgrade> callback = null)
         {
             Messages.ShowInfo(string.Format("{0} was flipped", Name));
-            Discard(SetAnotherSide);
+            Discard(() => SetAnotherSide(callback));
         }
 
-        private void SetAnotherSide()
+        private void SetAnotherSide(Action<GenericDualUpgrade> callback = null)
         {
-            if (AnotherSideInstance == null) CreateAnotherSideInstance();
+            if (AnotherSideInstance == null)
+            {
+                CreateAnotherSideInstance();
+            }
 
             ReplaceUpgradeBy(AnotherSideInstance);
+            if(callback != null)
+            {
+                callback(AnotherSideInstance);
+            }
         }
 
         private void CreateAnotherSideInstance()
@@ -99,7 +106,15 @@ namespace SubPhases
 
         private void SelectSide(GenericDualUpgrade newUpgradeSide)
         {
-            if (Upgrade.GetType() != newUpgradeSide.GetType()) Upgrade.Flip();
+            if (Upgrade.GetType() != newUpgradeSide.GetType())
+            {
+                Upgrade.Flip((otherSide) => otherSide.Host.CallOnAfterDualUpgradeSideSelected(otherSide));
+            }
+            else
+            {
+                Upgrade.Host.CallOnAfterDualUpgradeSideSelected(Upgrade);
+            }
+            
             DecisionSubPhase.ConfirmDecision();
         }
     }

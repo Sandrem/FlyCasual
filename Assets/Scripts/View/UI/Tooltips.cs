@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -163,6 +164,20 @@ public static class Tooltips {
         entry.eventID = EventTriggerType.PointerExit;
         entry.callback.AddListener((data) => { EndTooltip(); });
         trigger.triggers.Add(entry);
+    }
+
+    public static void ReplaceTooltip(GameObject sender, string tooltipUrl)
+    {
+        EventTrigger trigger = sender.GetComponent<EventTrigger>();
+        var entry = trigger.triggers
+            .Where(e => e.eventID == EventTriggerType.PointerEnter)
+            .FirstOrDefault();
+        if(entry == null)
+        {
+            return;
+        }
+        entry.callback.RemoveAllListeners();
+        entry.callback.AddListener((data) => StartTooltip(tooltipUrl, sender));
     }
 
 }

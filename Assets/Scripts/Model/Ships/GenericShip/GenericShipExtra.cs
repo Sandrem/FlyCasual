@@ -57,6 +57,10 @@ namespace Ship
         public event EventHandler OnFlipFaceUpUpgrade;
         public event EventHandlerUpgrade OnAfterFlipFaceUpUpgrade;
 
+        public event EventHandlerDualUpgrade OnAfterDualCardSideSelected;
+
+
+
         public void CallOnShipIsPlaced(Action callback)
         {
             if (OnShipIsPlaced != null) OnShipIsPlaced(this);
@@ -90,6 +94,11 @@ namespace Ship
             if (OnAfterFlipFaceUpUpgrade != null) OnAfterFlipFaceUpUpgrade(flippedFaceUpUpgrade);
 
             Triggers.ResolveTriggers(TriggerTypes.OnAfterFlipFaceUp, callBack);
+        }
+
+        public void CallOnAfterDualUpgradeSideSelected(GenericDualUpgrade upgrade)
+        {
+            if (OnAfterDualCardSideSelected != null) OnAfterDualCardSideSelected(upgrade);
         }
 
         public List<GenericShip> DockedShips = new List<GenericShip>();

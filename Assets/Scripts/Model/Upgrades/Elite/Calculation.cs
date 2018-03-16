@@ -95,10 +95,8 @@ namespace ActionsList
 
         public override void ActionEffect(System.Action callBack)
         {
-            Host.Tokens.RemoveToken(typeof(FocusToken), callBack);
             Combat.DiceRollAttack.ChangeOne(DieSide.Focus, DieSide.Crit, false);
-
-            callBack();
+            Host.Tokens.SpendToken(typeof(FocusToken), callBack);
         }
 
     }

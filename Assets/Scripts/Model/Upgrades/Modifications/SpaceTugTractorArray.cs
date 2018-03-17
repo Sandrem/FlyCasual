@@ -112,6 +112,7 @@ namespace SubPhases
             MovementTemplates.ReturnRangeRuler();
             Tokens.TractorBeamToken token = new Tokens.TractorBeamToken(TargetShip, SpacetugOwner.Owner);
             TargetShip.Tokens.AssignToken(token, delegate {
+                Triggers.FinishTrigger();
                 Next();
             });
         }

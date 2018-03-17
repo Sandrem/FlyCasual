@@ -88,7 +88,7 @@ namespace Abilities
             {
                 Messages.ShowError(HostShip.PilotName + " assigns Tractor Beam Token\nto " + TargetShip.PilotName);
                 Tokens.TractorBeamToken token = new Tokens.TractorBeamToken(TargetShip, HostShip.Owner);
-                TargetShip.Tokens.AssignToken(token, SelectShipSubPhase.FinishSelection);
+                TargetShip.Tokens.AssignToken(token, Triggers.FinishTrigger);
             }
             else
             {

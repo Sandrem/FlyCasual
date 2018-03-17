@@ -19,7 +19,7 @@ namespace RulesList
             GenericShip.OnTokenIsRemovedGlobal += CheckForTractorBeamRemoval;
         }
 
-        private void CheckForTractorBeam(GenericShip ship, System.Type tokenType) 
+        private void CheckForTractorBeam(GenericShip ship, Type tokenType)
         {
             if (tokenType != typeof(TractorBeamToken)) 
             {
@@ -55,7 +55,7 @@ namespace RulesList
             });
         }
 
-        private void CheckForTractorBeamRemoval(GenericShip ship, System.Type tokenType) 
+        private void CheckForTractorBeamRemoval(GenericShip ship, Type tokenType)
         {
             if (tokenType != typeof(TractorBeamToken)) 
             {
@@ -102,7 +102,25 @@ namespace SubPhases
 
         private void RegisterTractorPlanning(bool canBoost)
         {
-            StartSelectTemplateSubphase(canBoost);
+            Triggers.RegisterTrigger(new Trigger()
+            {
+                Name = "Select tractor beam direction",
+                TriggerType = TriggerTypes.OnAbilityDirect,
+                TriggerOwner = Assigner.PlayerNo,
+                EventHandler = delegate {
+                    StartSelectTemplateSubphase(canBoost);
+                }
+            });
+
+            Triggers.ResolveTriggers(TriggerTypes.OnAbilityDirect, ExecutePlanning);
+        }
+
+        private void ExecutePlanning()
+        {
+            if (selectedPlanningAction != null)
+            {
+                selectedPlanningAction();
+            }
         }
 
         private void PerfromBrTemplatePlanning(Actions.BarrelRollTemplateVariants template)
@@ -153,19 +171,17 @@ namespace SubPhases
             TractorBeamDirectionDecisionSubPhase selectTractorDirection = (TractorBeamDirectionDecisionSubPhase)Phases.StartTemporarySubPhaseNew(
                 Name,
                 typeof(TractorBeamDirectionDecisionSubPhase),
-                delegate { }
+                Triggers.FinishTrigger
             );
 
             selectTractorDirection.AddDecision("Left", delegate {
                 selectedPlanningAction = PerfromLeftBrTemplatePlanning;
                 DecisionSubPhase.ConfirmDecision();
-                selectedPlanningAction();
             });
 
             selectTractorDirection.AddDecision("Right", delegate {
                 selectedPlanningAction = PerfromRightBrTemplatePlanning;
                 DecisionSubPhase.ConfirmDecision();
-                selectedPlanningAction();
             });
 
             if (canBoost)
@@ -173,7 +189,6 @@ namespace SubPhases
                 selectTractorDirection.AddDecision("Straight", delegate {
                     selectedPlanningAction = PerfromStraightTemplatePlanning;
                     DecisionSubPhase.ConfirmDecision();
-                    selectedPlanningAction();
                 });
             }
 

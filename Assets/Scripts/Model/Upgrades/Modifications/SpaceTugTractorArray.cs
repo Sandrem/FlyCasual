@@ -65,9 +65,7 @@ namespace ActionsList
             SelectSpacetugTargetSubPhase newPhase = (SelectSpacetugTargetSubPhase) Phases.StartTemporarySubPhaseNew(
                 "Select target for Spacetug Tractor Array",
                 typeof(SelectSpacetugTargetSubPhase),
-                delegate {
-                    Phases.FinishSubPhase(typeof(ActionSubPhase));
-                }
+                delegate { }
             );
 
             newPhase.SpacetugOwner = this.Host;
@@ -113,7 +111,9 @@ namespace SubPhases
             SelectShipSubPhase.FinishSelectionNoCallback();
             MovementTemplates.ReturnRangeRuler();
             Tokens.TractorBeamToken token = new Tokens.TractorBeamToken(TargetShip, SpacetugOwner.Owner);
-            TargetShip.Tokens.AssignToken(token, Triggers.FinishTrigger);
+            TargetShip.Tokens.AssignToken(token, delegate {
+                Next();
+            });
         }
 
         public override void Next()

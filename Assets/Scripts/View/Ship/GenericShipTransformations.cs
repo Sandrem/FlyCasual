@@ -6,7 +6,6 @@ namespace Ship
 {
     public partial class GenericShip
     {
-
         // POSITION AND ANGLES
 
         public void SetPosition(Vector3 position)
@@ -147,6 +146,45 @@ namespace Ship
         public void RotateModelDuringBarrelRoll(float progress, float turningDirection)
         {
             modelCenter.localEulerAngles = new Vector3(0, 0, Mathf.Lerp(0, turningDirection * 360, progress));
+        }
+
+        // S-Foils
+
+        public void WingsOpen()
+        {
+            if ((this as IMovableWings).CurrentWingsPosition == WingsPositions.Closed)
+            {
+                WingsChangePosition("Open");
+                (this as IMovableWings).CurrentWingsPosition = WingsPositions.Opened;
+            }
+        }
+
+        public void WingsClose()
+        {
+            if ((this as IMovableWings).CurrentWingsPosition == WingsPositions.Opened)
+            {
+                WingsChangePosition("Close");
+                (this as IMovableWings).CurrentWingsPosition = WingsPositions.Closed;
+            }
+        }
+
+        private void WingsChangePosition(string wingPosition)
+        {
+            if (!(this is IMovableWings))
+            {
+                Console.Write("Ship doesn't have movable wings!", LogTypes.Errors, true, "red");
+                return;
+            }
+
+            Sounds.PlayShipSound("Servomotors", this);
+
+            foreach (Transform transform in GetModelTransform())
+            {
+                if (!transform.name.StartsWith("Wing")) continue;
+
+                Animation wingAnimator = transform.GetComponent<Animation>();
+                wingAnimator.Play(transform.name + "_" + wingPosition);
+            }
         }
 
     }

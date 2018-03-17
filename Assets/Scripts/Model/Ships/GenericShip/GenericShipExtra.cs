@@ -4,9 +4,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mods;
 using ActionsList;
+using Upgrade;
 
 namespace Ship
 {
+    public enum WingsPositions { Opened, Closed };
+
+    public interface IMovableWings
+    {
+        WingsPositions CurrentWingsPosition { get; set; }
+    }
 
     public partial class GenericShip
     {
@@ -45,6 +52,14 @@ namespace Ship
         public Type FromMod { get; set; }
 
         public event EventHandler OnDiscardUpgrade;
+        public event EventHandlerUpgrade OnAfterDiscardUpgrade;
+
+        public event EventHandler OnFlipFaceUpUpgrade;
+        public event EventHandlerUpgrade OnAfterFlipFaceUpUpgrade;
+
+        public event EventHandlerDualUpgrade OnAfterDualCardSideSelected;
+
+
 
         public void CallOnShipIsPlaced(Action callback)
         {
@@ -58,6 +73,32 @@ namespace Ship
             if (OnDiscardUpgrade != null) OnDiscardUpgrade();
 
             Triggers.ResolveTriggers(TriggerTypes.OnDiscard, callBack);
+        }
+
+        public void CallFlipFaceUpUpgrade(Action callBack)
+        {
+            if (OnFlipFaceUpUpgrade != null) OnFlipFaceUpUpgrade();
+
+            Triggers.ResolveTriggers(TriggerTypes.OnFlipFaceUp, callBack);
+        }
+
+        public void CallAfterDiscardUpgrade(GenericUpgrade discardedUpgrade, Action callBack)
+        {
+            if (OnAfterDiscardUpgrade != null) OnAfterDiscardUpgrade(discardedUpgrade);
+
+            Triggers.ResolveTriggers(TriggerTypes.OnAfterDiscard, callBack);
+        }
+
+        public void CallAfterFlipFaceUpUpgrade(GenericUpgrade flippedFaceUpUpgrade, Action callBack)
+        {
+            if (OnAfterFlipFaceUpUpgrade != null) OnAfterFlipFaceUpUpgrade(flippedFaceUpUpgrade);
+
+            Triggers.ResolveTriggers(TriggerTypes.OnAfterFlipFaceUp, callBack);
+        }
+
+        public void CallOnAfterDualUpgradeSideSelected(GenericDualUpgrade upgrade)
+        {
+            if (OnAfterDualCardSideSelected != null) OnAfterDualCardSideSelected(upgrade);
         }
 
         public List<GenericShip> DockedShips = new List<GenericShip>();

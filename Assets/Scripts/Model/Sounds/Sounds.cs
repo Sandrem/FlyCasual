@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Players;
+using Ship;
 
 public static class Sounds {
 
@@ -12,9 +13,11 @@ public static class Sounds {
         PlaySound(audioSource, path);
     }
 
-    public static void PlayShipSound(string path)
+    public static void PlayShipSound(string path, GenericShip ship = null)
     {
-        AudioSource audioSource = Selection.ThisShip.Model.GetComponent<AudioSource>();
+        if (ship == null) ship = Selection.ThisShip;
+
+        AudioSource audioSource = ship.Model.GetComponent<AudioSource>();
         PlaySound(audioSource, path);
     }
 

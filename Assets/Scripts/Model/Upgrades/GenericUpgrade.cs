@@ -244,25 +244,42 @@ namespace Upgrade
             Roster.DiscardUpgrade(Host, Name);
             DeactivateAbility();
 
-            callBack();
+            Host.CallAfterDiscardUpgrade(this, callBack);
         }
 
         // FLIP FACEUP
 
-        public virtual void FlipFaceup()
+        public void TryFlipFaceUp(Action callBack)
+        {
+            CurrentUpgrade = this;
+            Host.CallFlipFaceUpUpgrade(() => AfterTriedFlipFaceUp(callBack));
+        }
+
+        private void AfterTriedFlipFaceUp(Action callBack)
+        {
+            if (CurrentUpgrade != null)
+            {
+                FlipFaceup(callBack);
+            }
+            else
+            {
+                callBack();
+            }
+        }
+
+        public virtual void FlipFaceup(Action callback = null)
         {
             isDiscarded = false;
             Roster.FlipFaceupUpgrade(Host, Name);
             ActivateAbility();
 
             Messages.ShowInfo(Name + " is flipped face up");
+            Host.CallAfterFlipFaceUpUpgrade(this, callback);
         }
 
         public void ReplaceUpgradeBy(GenericUpgrade newUpgrade)
         {
-            DeactivateAbility();
-
-            Roster.ReplaceUpgrade(Host, Name, newUpgrade.Name);
+            Roster.ReplaceUpgrade(Host, Name, newUpgrade.Name, newUpgrade.ImageUrl);
 
             Slot.PreInstallUpgrade(newUpgrade, Host);
             Slot.TryInstallUpgrade(newUpgrade, Host);

@@ -227,6 +227,11 @@ public static partial class Phases
         return CurrentSubPhase;
     }
 
+    public static T StartTemporarySubPhaseNew<T>(string name, Action callBack) where T : GenericSubPhase, new()
+    {
+        return (T)StartTemporarySubPhaseNew(name, typeof(T), callBack);
+    }
+
     public static void EndGame()
     {
         GameIsEnded = true;

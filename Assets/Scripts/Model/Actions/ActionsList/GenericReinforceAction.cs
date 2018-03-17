@@ -23,7 +23,7 @@ namespace ActionsList
             {
                 if (Combat.Defender.GetAvailableActionEffectsList().Any(n => n.GetType().BaseType == typeof(GenericReinforceAction)))
                 {
-                    Messages.ShowError("Cannot confirm results - must spend reinforce token!");
+                    Messages.ShowError("Cannot confirm results - must use reinforce dice modification!");
                     result = false;
                 }
             }

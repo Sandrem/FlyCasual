@@ -111,6 +111,7 @@ namespace Ship
         public event EventHandler OnAttackStartAsAttacker;
         public static event EventHandler OnAttackStartAsAttackerGlobal;
         public event EventHandler OnAttackStartAsDefender;
+        public static event EventHandler OnAttackStartAsDefenderGlobal;
 
         public event EventHandler OnShotStartAsAttacker;
         public event EventHandler OnShotStartAsDefender;
@@ -132,6 +133,7 @@ namespace Ship
         public static event EventHandler OnAttackHitAsDefenderGlobal;
         public event EventHandler OnAttackMissedAsAttacker;
         public event EventHandler OnAttackMissedAsDefender;
+        public static event EventHandler OnAttackMissedAsAttackerGlobal;
         public event EventHandler OnShieldLost;
 
         public event EventHandlerShip OnCombatCheckExtraAttack;
@@ -152,6 +154,7 @@ namespace Ship
 
         public event EventHandlerShip OnReadyToBeDestroyed;
         public event EventHandlerShipBool OnShipIsDestroyed;
+        public static event EventHandlerShipBool OnDestroyedGlobal;
 
         public event EventHandler AfterAttackWindow;
 
@@ -234,6 +237,8 @@ namespace Ship
             else if (Combat.Defender.ShipId == this.ShipId)
             {
                 if (OnAttackStartAsDefender != null) OnAttackStartAsDefender();
+                if (OnAttackStartAsDefenderGlobal != null) OnAttackStartAsDefenderGlobal();
+
             }
         }
 
@@ -298,6 +303,7 @@ namespace Ship
         public void CallOnAttackMissedAsAttacker()
         {
             if (OnAttackMissedAsAttacker != null) OnAttackMissedAsAttacker();
+            if (OnAttackMissedAsAttackerGlobal != null) OnAttackMissedAsAttackerGlobal();
         }
 
         public void CallOnAttackMissedAsDefender()
@@ -654,6 +660,7 @@ namespace Ship
             }
 
             if (OnShipIsDestroyed != null) OnShipIsDestroyed(this, isFled);
+            if (OnDestroyedGlobal != null) OnDestroyedGlobal(this, isFled);
 
             Triggers.ResolveTriggers(TriggerTypes.OnShipIsDestroyed, callback);
         }

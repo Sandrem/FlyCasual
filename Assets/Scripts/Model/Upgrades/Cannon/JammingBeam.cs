@@ -13,7 +13,7 @@ namespace UpgradesList
             Types.Add(UpgradeType.Cannon);
 
 			Name = "Jamming Beam";
-			Cost = 2;
+			Cost = 1;
 
 			MinRange = 1;
 			MaxRange = 2;

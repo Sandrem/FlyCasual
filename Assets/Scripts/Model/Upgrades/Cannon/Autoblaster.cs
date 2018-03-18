@@ -8,7 +8,7 @@ namespace UpgradesList
 	{
 		public Autoblaster() : base()
 		{
-			Type = UpgradeType.Cannon;
+            Types.Add(UpgradeType.Cannon);
 
 			Name = "Autoblaster";
 			Cost = 5;

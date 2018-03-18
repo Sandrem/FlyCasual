@@ -8,7 +8,7 @@ namespace UpgradesList
     {
         public AutoblasterTurret() : base()
         {
-            Type = UpgradeType.Turret;
+            Types.Add(UpgradeType.Turret);
 
             Name = "Autoblaster Turret";
             Cost = 2;

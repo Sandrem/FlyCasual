@@ -32,18 +32,10 @@ namespace Abilities
 			HostShip.OnTokenIsAssigned += RegisterElectronicBaffle;
 		}
 
-		//We're gonna hold this ability during all the round
+
 		public override void DeactivateAbility()
 		{
-
-			Phases.OnRoundEnd += RemoveElectronicBuffer;
-		}
-
-
-		private void RemoveElectronicBuffer()
-		{
 			HostShip.OnTokenIsAssigned -= RegisterElectronicBaffle;
-			Phases.OnRoundEnd -= RemoveElectronicBuffer;
 		}
 
 
@@ -75,21 +67,36 @@ namespace Abilities
 
 		private void RemoveIon(object sender, System.EventArgs e)
 		{
-			HostShip.Tokens.RemoveToken (typeof(Tokens.IonToken), SelectShipSubPhase.FinishSelectionNoCallback);
-			sufferDamage ();
+			//This token could be intercepted by other ability
+			if (HostShip.Tokens.HasToken (typeof(Tokens.IonToken)))
+			{
+				HostShip.Tokens.RemoveToken (typeof(Tokens.IonToken), SubPhases.DecisionSubPhase.ConfirmDecisionNoCallback);
+				sufferDamage ();
+
+			} else {
+				SubPhases.DecisionSubPhase.ConfirmDecision ();
+			}
 		}
+
 
 		private void RemoveStress(object sender, System.EventArgs e)
 		{
-			HostShip.Tokens.RemoveToken (typeof(Tokens.StressToken), SelectShipSubPhase.FinishSelectionNoCallback);
-			sufferDamage ();
+			//This token could be intercepted by other ability
+			if (HostShip.Tokens.HasToken (typeof(Tokens.StressToken))) {
+				HostShip.Tokens.RemoveToken (typeof(Tokens.StressToken), SubPhases.DecisionSubPhase.ConfirmDecisionNoCallback);
+				sufferDamage ();
+
+			} else {
+				SubPhases.DecisionSubPhase.ConfirmDecision ();
+			}
 		}
+
 
 		private void sufferDamage(){
 			
 			Triggers.RegisterTrigger(new Trigger()
 				{
-					Name = "Suffer damage from Electronic Baffle",
+					Name = "Suffer damage from Electronic Baffle",   
 					TriggerType = TriggerTypes.OnDamageIsDealt,
 					TriggerOwner = HostShip.Owner.PlayerNo,
 					EventHandler = HostShip.SufferDamage,
@@ -100,7 +107,8 @@ namespace Abilities
 					},
 					Skippable = true
 				});
-			Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, SelectShipSubPhase.FinishSelectionNoCallback);
+			
+			Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, DecisionSubPhase.ConfirmDecision );
 		}
 	}
 		

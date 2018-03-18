@@ -9,7 +9,7 @@ namespace UpgradesList
     {
         public Havoc() : base()
         {
-            Type = UpgradeType.Title;
+            Types.Add(UpgradeType.Title);
             Name = "Havoc";
             Cost = 0;
             AddedSlots = new List<UpgradeSlot>

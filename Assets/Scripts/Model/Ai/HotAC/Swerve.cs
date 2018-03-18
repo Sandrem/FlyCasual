@@ -28,9 +28,10 @@ namespace AI
             if (alternativeManeuvers.Count > 0)
             {
                 MovementStruct maneuver = alternativeManeuvers[0];
+                maneuver.UpdateColorComplexity();
                 alternativeManeuvers.Remove(alternativeManeuvers[0]);
 
-                if (failedManeuvers.Contains(maneuver))
+                if (failedManeuvers.Contains(maneuver) || !Selection.ThisShip.HasManeuver(maneuver))
                 {
                     TryAlternativeMovement();
                 }
@@ -160,7 +161,6 @@ namespace AI
                 }
             }
 
-            result.UpdateColorComplexity();
             return result;
         }
 

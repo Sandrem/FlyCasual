@@ -40,13 +40,14 @@ namespace Upgrade
         public override void ActivateBombs(List<GameObject> bombObjects, Action callBack)
         {
             CallBack = callBack;
+            CurrentBombObjects = bombObjects;
 
             base.ActivateBombs(bombObjects, CheckImmediateDetonation);
         }
 
         private void CheckImmediateDetonation()
         {
-            foreach (var mineObject in BombObjects)
+            foreach (var mineObject in CurrentBombObjects)
             {
                 ObstaclesStayDetectorForced collisionChecker = mineObject.GetComponentInChildren<ObstaclesStayDetectorForced>();
                 collisionChecker.ReCheckCollisionsStart();
@@ -100,6 +101,13 @@ namespace Upgrade
             int minesDropped = string.IsNullOrEmpty(bombSidePrefabPath) ? 1 : 3;
             if (immediateDetonationsCheckedCount == minesDropped)
             {
+                GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
+
+                for (int i = 0; i < minesDropped; i++)
+                {
+                    Game.Movement.FuncsToUpdate.Remove(delegate { return UpdateColisionDetection(collisionChecker); });
+                }
+
                 immediateDetonationsCheckedCount = 0;
                 Triggers.ResolveTriggers(TriggerTypes.OnBombIsDetonated, CallBack);
             }

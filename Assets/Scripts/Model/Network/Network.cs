@@ -33,6 +33,53 @@ public static partial class Network
         get { return CurrentPlayer.IsServer; }
     }
 
+    private class RoomInfo
+    {
+        public string RoomName { get; private set; }
+        public int CurrentVersionInt { get; private set; }
+        public bool IsAnyModOn { get; private set; }
+
+        public RoomInfo(string roomName, bool simple = false)
+        {
+            if (simple)
+            {
+                SimpleInitialization(roomName);
+            }
+            else
+            {
+                InitializationWithParameters(roomName);
+            }
+        }
+
+        public void SimpleInitialization(string roomName)
+        {
+            RoomName = roomName;
+            CurrentVersionInt = Global.CurrentVersionInt;
+            IsAnyModOn = Mods.ModsManager.IsAnyModOn;
+        }
+
+        public void InitializationWithParameters(string roomName)
+        {
+            string[] info = roomName.Split('|');
+            RoomName = info[0];
+
+            if (info.Length > 1 && info[1].Contains("V:"))
+            {
+                CurrentVersionInt = int.Parse(info[1].Substring(2));
+            }
+
+            if (info.Length > 2 && info[2].Contains("M:"))
+            {
+                IsAnyModOn = bool.Parse(info[2].Substring(2));
+            }
+        }
+
+        public override string ToString()
+        {
+            return RoomName + "|" + "V:" + CurrentVersionInt.ToString() + "|" + "M:" + IsAnyModOn.ToString();
+        }
+    }
+
     // SQUAD LISTS
 
     public static void ImportSquad(string squadList, bool isServer)
@@ -314,6 +361,9 @@ public static partial class Network
 
     public static void CreateMatch(string roomName, string password)
     {
+        roomName = roomName.Replace('|', ' '); // Remove info separator
+        roomName = new RoomInfo(roomName, true).ToString();
+
         GameObject createRoomButton = GameObject.Find("UI/Panels/CreateMatchPanel/ControlsPanel/CreateRoomButton");
         createRoomButton.SetActive(false);
 
@@ -360,7 +410,7 @@ public static partial class Network
 
         if (success)
         {
-            if (matches.Count != 0)
+            if (matches.Any(n => new RoomInfo(n.name).CurrentVersionInt == Global.CurrentVersionInt))
             {
                 ToggleNoRoomsMessage(false);
                 //Messages.ShowInfo("A list of matches was returned");
@@ -412,13 +462,17 @@ public static partial class Network
 
         foreach (var match in matchesList)
         {
+            RoomInfo roomInfo = new RoomInfo(match.name);
+
+            if (roomInfo.CurrentVersionInt != Global.CurrentVersionInt) continue;
+
             GameObject MatchRecord;
 
             MatchRecord = MonoBehaviour.Instantiate(prefab, MatchsPanel.transform);
             MatchRecord.transform.localPosition = currentPosition;
             MatchRecord.name = match.networkId.ToString();
 
-            MatchRecord.transform.Find("Name").GetComponent<Text>().text = match.name;
+            MatchRecord.transform.Find("Name").GetComponent<Text>().text = roomInfo.RoomName;
             MatchRecord.transform.Find("Lock").gameObject.SetActive(match.isPrivate);
             MatchRecord.transform.Find("Join").gameObject.SetActive(match.currentSize == 1);
 
@@ -449,7 +503,7 @@ public static partial class Network
         else
         {
             GameObject JoinPrivateMatchPanelGO = GameObject.Find("UI/Panels").transform.Find("JoinPrivateMatchPanel").gameObject;
-            JoinPrivateMatchPanelGO.transform.Find("Panel").Find("Name").Find("InputField").GetComponent<InputField>().text = match.name;
+            JoinPrivateMatchPanelGO.transform.Find("Panel").Find("Name").Find("InputField").GetComponent<InputField>().text = new RoomInfo(match.name).RoomName;
             MainMenu.CurrentMainMenu.ChangePanel(JoinPrivateMatchPanelGO);
         }
     }
@@ -515,6 +569,11 @@ public static partial class Network
         }
 
         callback();
+    }
+
+    public static void SyncDecks(int playerNo, int seed)
+    {
+        if (IsServer) CurrentPlayer.CmdSyncDecks(playerNo, seed);
     }
 
 }

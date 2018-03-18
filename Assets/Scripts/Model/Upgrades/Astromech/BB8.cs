@@ -13,7 +13,7 @@ namespace UpgradesList
 
         public BB8() : base()
         {
-            Type = UpgradeType.Astromech;
+            Types.Add(UpgradeType.Astromech);
             Name = "BB-8";
             isUnique = true;
             Cost = 2;

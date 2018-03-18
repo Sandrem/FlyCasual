@@ -14,7 +14,7 @@
  
          public IonBombs() : base()
          {
-            Type = UpgradeType.Bomb;
+             Types.Add(UpgradeType.Bomb);
              Name = "Ion Bombs";
              Cost = 2;
          

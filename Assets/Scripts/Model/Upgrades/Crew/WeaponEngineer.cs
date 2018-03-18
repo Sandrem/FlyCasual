@@ -6,7 +6,7 @@ namespace UpgradesList
     {
         public WeaponEngineer() : base()
         {
-            Type = UpgradeType.Crew;
+            Types.Add(UpgradeType.Crew);
             Name = "Weapon Engineer";
             Cost = 3;
 

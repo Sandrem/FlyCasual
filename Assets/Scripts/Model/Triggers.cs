@@ -12,7 +12,9 @@ public enum TriggerTypes
     OnGameStart,
     OnSetupPhaseStart,
     OnBeforePlaceForces,
+    OnShipIsPlaced,
     OnRoundStart,
+    OnPlanningSubPhaseStart,
     OnActionSubPhaseStart,
     OnActionDecisionSubPhaseEnd,
     OnActivationPhaseStart,
@@ -73,7 +75,10 @@ public enum TriggerTypes
     OnAbilityDirect,
     OnAbilityTargetIsSelected,
     OnMajorExplosionCrit,
-    OnDiscard
+    OnDiscard,
+    OnFlipFaceUp,
+    OnAfterDiscard,
+    OnAfterFlipFaceUp
 }
 
 public class Trigger

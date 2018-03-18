@@ -14,7 +14,7 @@ namespace UpgradesList
     {
         public SabineWren() : base()
         {
-            Type = UpgradeType.Crew;
+            Types.Add(UpgradeType.Crew);
             Name = "Sabine Wren";
             Cost = 2;
 
@@ -88,7 +88,7 @@ namespace Abilities
 
                 detonatedBombObject = (e as BombDetonationEventArgs).BombObject;
 
-                SelectTargetForAbilityNew(
+                SelectTargetForAbility(
                     DealDamageToShip,
                     FilterTargetsForDealDamage,
                     GetAiPriorityForDealDamage,

@@ -15,6 +15,8 @@ namespace Ship
                 Cost = 12;
 
                 faction = Faction.Rebel;
+
+                SkinName = "Bandit Squadron";
             }
         }
     }

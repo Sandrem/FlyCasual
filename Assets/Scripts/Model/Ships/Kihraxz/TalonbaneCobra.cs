@@ -42,14 +42,14 @@ namespace Abilities
         {
             if (Combat.ChosenWeapon.GetType() == typeof(PrimaryWeaponClass))
             {
-                if (Combat.AttackStep == CombatStep.Attack &&
-                    Combat.ShotInfo.Range == 1)
+                if (Combat.AttackStep == CombatStep.Attack && Combat.ShotInfo.Range == 1)
                 {
+                    Messages.ShowInfo("Talonbane Cobra: +1 attack die");
                     diceCount++;
                 }
-                if (Combat.AttackStep == CombatStep.Defence && 
-                    Combat.ShotInfo.Range == 3)
+                if (Combat.AttackStep == CombatStep.Defence && Combat.ShotInfo.Range == 3)
                 {
+                    Messages.ShowInfo("Talonbane Cobra: +1 defence die");
                     diceCount++;
                 }
             }

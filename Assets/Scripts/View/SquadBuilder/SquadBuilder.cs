@@ -129,6 +129,8 @@ namespace SquadBuilderNS
                 oldPanel.name = "DestructionIsPlanned";
                 GameObject.Destroy(oldPanel.gameObject);
             }
+
+            Resources.UnloadUnusedAssets();
         }
 
         private static void ShowAvailablePilot(PilotRecord pilotRecord)
@@ -140,7 +142,7 @@ namespace SquadBuilderNS
             GenericShip newShip = (GenericShip)Activator.CreateInstance(Type.GetType(pilotRecord.PilotTypeName));
 
             PilotPanelSquadBuilder script = newPilotPanel.GetComponent<PilotPanelSquadBuilder>();
-            script.Initialize(newShip, PilotSelectedIsClicked);
+            script.Initialize(newShip, PilotSelectedIsClicked, true);
 
             int column = availablePilotsCounter;
 
@@ -449,6 +451,9 @@ namespace SquadBuilderNS
             UpgradeSlotPanels = new List<UpgradeSlotPanel>();
             foreach (UpgradeSlot slot in CurrentSquadBuilderShip.Instance.UpgradeBar.GetUpgradeSlots())
             {
+                //Skip for slots with empty upgrade
+                if (!slot.IsEmpty && slot.InstalledUpgrade.GetType() == typeof(UpgradesList.EmptyUpgrade)) continue;
+
                 GameObject prefab = (GameObject)Resources.Load("Prefabs/SquadBuilder/UpgradePanel", typeof(GameObject));
                 Transform contentTransform = GameObject.Find("UI/Panels/ShipSlotsPanel/Panel/Centered/ShipWithSlotsHolderPanel/").transform;
                 GameObject newUpgradePanel = MonoBehaviour.Instantiate(prefab, contentTransform);
@@ -462,7 +467,8 @@ namespace SquadBuilderNS
                 }
                 else
                 {
-                    script.Initialize(slot.InstalledUpgrade.Name, slot, slot.InstalledUpgrade, RemoveInstalledUpgrade);
+                    //script.Initialize(slot.InstalledUpgrade.Name, slot, slot.InstalledUpgrade, RemoveInstalledUpgrade);
+                    script.Initialize(slot.InstalledUpgrade.Name, slot, slot.InstalledUpgrade, RemoveUpgradeClicked);
                     UpgradeSlotPanels.Add(new UpgradeSlotPanel(slot.InstalledUpgrade, slot.Type, newUpgradePanel));
                 }
             }
@@ -504,7 +510,7 @@ namespace SquadBuilderNS
         {
             availableUpgradesCounter = 0;
 
-            List<UpgradeRecord> filteredUpgrades = AllUpgrades.Where(n => n.Instance.Type == slot.Type && n.Instance.IsAllowedForShip(CurrentSquadBuilderShip.Instance)).ToList();
+            List<UpgradeRecord> filteredUpgrades = AllUpgrades.Where(n => n.Instance.hasType(slot.Type) && n.Instance.IsAllowedForShip(CurrentSquadBuilderShip.Instance) && n.Instance.HasEnoughSlotsInShip(CurrentSquadBuilderShip.Instance)).ToList();
             int filteredUpgradesCount = filteredUpgrades.Count;
 
             Transform contentTransform = GameObject.Find("UI/Panels/SelectUpgradePanel/Panel/Scroll View/Viewport/Content").transform;
@@ -528,7 +534,7 @@ namespace SquadBuilderNS
             GenericUpgrade newUpgrade = (GenericUpgrade)System.Activator.CreateInstance(Type.GetType(upgradeType));
 
             UpgradePanelSquadBuilder script = newUpgradePanel.GetComponent<UpgradePanelSquadBuilder>();
-            script.Initialize(upgrade.UpgradeName, CurrentUpgradeSlot, newUpgrade, SelectUpgradeClicked);
+            script.Initialize(upgrade.UpgradeName, CurrentUpgradeSlot, newUpgrade, SelectUpgradeClicked, true);
 
             int column = availableUpgradesCounter;
 
@@ -540,6 +546,23 @@ namespace SquadBuilderNS
         private static void SelectUpgradeClicked(UpgradeSlot slot, GenericUpgrade upgrade)
         {
             InstallUpgrade(slot, upgrade);
+
+            MainMenu.CurrentMainMenu.ChangePanel("ShipSlotsPanel");
+        }
+
+        private static void RemoveUpgradeClicked(UpgradeSlot slot, GenericUpgrade upgrade)
+        {
+            RemoveInstalledUpgrade(slot, upgrade);
+
+            // check if its a dual upgrade
+            if (upgrade.Types.Count > 1) {
+                // find another slot
+                foreach (UpgradeSlot tempSlot in CurrentSquadBuilderShip.Instance.UpgradeBar.GetUpgradeSlots()){
+                    if (tempSlot != slot && upgrade.hasType (tempSlot.Type)) {
+                        RemoveInstalledUpgrade (tempSlot, upgrade);
+                    }
+                }
+            }
 
             MainMenu.CurrentMainMenu.ChangePanel("ShipSlotsPanel");
         }
@@ -620,7 +643,7 @@ namespace SquadBuilderNS
 
                 Text descriptionText = SquadListRecord.transform.Find("Description").GetComponent<Text>();
                 RectTransform descriptionRectTransform = SquadListRecord.transform.Find("Description").GetComponent<RectTransform>();
-                descriptionText.text = squadList["description"].str;
+                descriptionText.text = squadList["description"].str.Replace("\\\"", "\"");
                 float descriptionPreferredHeight = descriptionText.preferredHeight;
                 descriptionRectTransform.sizeDelta = new Vector2(descriptionRectTransform.sizeDelta.x, descriptionPreferredHeight);
 

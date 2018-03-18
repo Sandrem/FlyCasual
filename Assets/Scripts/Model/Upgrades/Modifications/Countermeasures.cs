@@ -12,7 +12,7 @@ namespace UpgradesList
     {
         public Countermeasures() : base()
         {
-            Type = UpgradeType.Modification;
+            Types.Add(UpgradeType.Modification);
             Name = "Countermeasures";
             Cost = 3;
 
@@ -58,11 +58,14 @@ namespace Abilities
 
         private void ActivateCountermeasures(object sender, System.EventArgs e)
         {
+            Messages.ShowInfo(string.Format("{0} used Countermeasures", HostShip.PilotName));
+
             HostShip.ChangeAgilityBy(+1);
             Phases.OnRoundEnd += DeactivateCountermeasures;
 
             if (HostShip.Tokens.HasToken(typeof(RedTargetLockToken), '*'))
             {
+                SubPhases.DecisionSubPhase.ConfirmDecisionNoCallback();
                 AskToRemoveTargetLock();
             }
             else
@@ -82,7 +85,7 @@ namespace Abilities
             CountermeasuresDecisionSubPhase selectTargetLockToDiscardDecision = (CountermeasuresDecisionSubPhase)Phases.StartTemporarySubPhaseNew(
                 Name,
                 typeof(CountermeasuresDecisionSubPhase),
-                SubPhases.DecisionSubPhase.ConfirmDecision
+                Triggers.FinishTrigger
             );
 
             foreach (GenericToken token in HostShip.Tokens.GetAllTokens())

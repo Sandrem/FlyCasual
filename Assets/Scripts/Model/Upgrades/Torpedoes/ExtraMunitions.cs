@@ -10,7 +10,7 @@ namespace UpgradesList
     {
         public ExtraMunitions() : base()
         {
-            Type = UpgradeType.Torpedo;
+            Types.Add(UpgradeType.Torpedo);
             Name = "Extra Munitions";
             Cost = 2;
             isLimited = true;
@@ -43,7 +43,7 @@ namespace Abilities
         {
             foreach (var upgrade in HostShip.UpgradeBar.GetUpgradesOnlyFaceup())
             {
-                if (upgrade.Type == UpgradeType.Torpedo || upgrade.Type == UpgradeType.Missile || upgrade.Type == UpgradeType.Bomb)
+                if (upgrade.hasType(UpgradeType.Torpedo) || upgrade.hasType(UpgradeType.Missile) || upgrade.hasType(UpgradeType.Bomb))
                 {
                     SetOrdnanceToken(upgrade);
                 }

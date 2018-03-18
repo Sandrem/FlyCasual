@@ -1,5 +1,7 @@
 ﻿using System;
 using Upgrade;
+using System.Collections;
+using System.Collections.Generic;
 
 public static class ImageUrls
 {
@@ -10,7 +12,7 @@ public static class ImageUrls
 
     public static string GetImageUrl(GenericUpgrade upgrade, string filename = null)
     {
-        return GetImageUrl(UpgradesPath + FormatUpgradeType(upgrade.Type), FormatUpgradeName(upgrade.Name), filename);
+        return GetImageUrl(UpgradesPath + FormatUpgradeTypes(upgrade.Types), FormatUpgradeName(upgrade.Name), filename);
     }
 
     public static string GetImageUrl(DamageDeckCard.GenericDamageCard crit, string filename = null)
@@ -37,15 +39,20 @@ public static class ImageUrls
             .Replace('/', '-');
     }
 
-    private static string FormatUpgradeType(UpgradeType type)
+    private static string FormatUpgradeTypes(List<UpgradeType> types)
     {
+        string name = "";
+        UpgradeType type = types [0];
         switch (type)
         {
             case UpgradeType.SalvagedAstromech:
-                return "Salvaged Astromech";
+                name += "Salvaged Astromech";
+                break;
             default:
-                return type.ToString();
+                name += type.ToString ();
+                break;
         }
+        return name;
     }
 
     private static string FormatUpgradeName(string upgradeName)

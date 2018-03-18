@@ -13,7 +13,7 @@ namespace UpgradesList
     {
         public HarpoonMissiles() : base()
         {
-            Type = UpgradeType.Missile;
+            Types.Add(UpgradeType.Missile);
 
             Name = "Harpoon Missiles";
 
@@ -82,11 +82,11 @@ namespace Abilities
         {
             if (Combat.ChosenWeapon != this.HostUpgrade && Combat.DiceRollAttack.CriticalSuccesses > 0)
             {
-                RegisterAbilityTrigger(TriggerTypes.OnAttackHit, delegate { DoSplashDamage(AdditionalDamageOnItself); });
+                RegisterAbilityTrigger(TriggerTypes.OnAttackHit, delegate { DoSplashDamage(Combat.Defender, AdditionalDamageOnItself); });
             }
         }
 
-        private void DoSplashDamage(Action callback)
+        private void DoSplashDamage(GenericShip harpoonedShip, Action callback)
         {
             Messages.ShowInfo("\"Harpooned!\" condition deals splash damage");
 
@@ -96,10 +96,12 @@ namespace Abilities
             {
 
                 // Defending ship shouldn't suffer additional damage
-                if (ship.ShipId == Combat.Defender.ShipId)
+                if (ship.ShipId == harpoonedShip.ShipId)
+                {
                     continue;
+                }
 
-                Board.ShipDistanceInformation distanceInfo = new Board.ShipDistanceInformation(Combat.Defender, ship);
+                Board.ShipDistanceInformation distanceInfo = new Board.ShipDistanceInformation(harpoonedShip, ship);
 
                 if (distanceInfo.Range == 1)
                 {
@@ -147,9 +149,9 @@ namespace Abilities
             Combat.Defender.Damage.DealDrawnCard(Triggers.FinishTrigger);
         }
 
-        private void DoSplashDamageOnDestroyed(GenericShip harpoonedShip)
+        private void DoSplashDamageOnDestroyed(GenericShip harpoonedShip, bool isFled)
         {
-            RegisterAbilityTrigger(TriggerTypes.OnShipIsDestroyed, delegate { DoSplashDamage(Triggers.FinishTrigger); });
+            RegisterAbilityTrigger(TriggerTypes.OnShipIsDestroyed, delegate { DoSplashDamage(harpoonedShip, Triggers.FinishTrigger); });
         }
 
         private void AddRepairAction(GenericShip harpoonedShip)
@@ -248,8 +250,10 @@ namespace SubPhases
 
                 Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, CallBack);
             }
-
-            CallBack();
+            else
+            {
+                CallBack();
+            }
         }
 
     }

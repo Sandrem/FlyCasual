@@ -12,7 +12,7 @@ namespace UpgradesList
     {
         public StarViperMkII() : base()
         {
-            Type = UpgradeType.Title;
+            Types.Add(UpgradeType.Title);
             Name = "StarViper Mk.II";
             Cost = -3;
             AddedSlots = new List<UpgradeSlot>

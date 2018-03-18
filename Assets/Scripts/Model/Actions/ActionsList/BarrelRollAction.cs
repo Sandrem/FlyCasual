@@ -18,13 +18,20 @@ namespace ActionsList
 
         public override void ActionTake()
         {
-            Phases.CurrentSubPhase.Pause();
+            if (Selection.ThisShip.Owner.GetType() == typeof(Players.HotacAiPlayer))
+            {
+                Phases.CurrentSubPhase.CallBack();
+            }
+            else
+            {
+                Phases.CurrentSubPhase.Pause();
 
-            Phases.StartTemporarySubPhaseOld(
-                "Barrel Roll",
-                typeof(SubPhases.BarrelRollPlanningSubPhase),
-                Phases.CurrentSubPhase.CallBack
-            );
+                Phases.StartTemporarySubPhaseOld(
+                    "Barrel Roll",
+                    typeof(SubPhases.BarrelRollPlanningSubPhase),
+                    Phases.CurrentSubPhase.CallBack
+                );
+            }
         }
 
     }
@@ -536,6 +543,8 @@ namespace SubPhases
 
         private void StartBarrelRollExecution()
         {
+            Rules.Collision.ClearBumps(Selection.ThisShip);
+
             progressCurrent = 0;
             progressTarget = Vector3.Distance(Selection.ThisShip.GetPosition(), TemporaryShipBase.transform.position);
 

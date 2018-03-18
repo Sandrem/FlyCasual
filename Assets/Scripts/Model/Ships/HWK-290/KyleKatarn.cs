@@ -52,15 +52,31 @@ namespace Abilities
             {
                 Messages.ShowInfoToHuman("Kyle Katarn: Select a ship to receive a Focus token");
 
-                SelectTargetForAbilityOld(
+                SelectTargetForAbility(
                     SelectAbilityTarget,
-                    new List<TargetTypes> { TargetTypes.OtherFriendly },
-                    new UnityEngine.Vector2(1, 3));
+                    FilterAbilityTarget,
+                    GetAiAbilityPriority,
+                    HostShip.Owner.PlayerNo
+                );
             }
             else
             {
                 Triggers.FinishTrigger();
             }
+        }
+
+        private bool FilterAbilityTarget(GenericShip ship)
+        {
+            return FilterByTargetType(ship, new List<TargetTypes>() { TargetTypes.OtherFriendly }) && FilterTargetsByRange(ship, 1, 3);
+        }
+
+        private int GetAiAbilityPriority(GenericShip ship)
+        {
+            int result = 0;
+            int shipFocusTokens = ship.Tokens.CountTokensByType(typeof(Tokens.FocusToken));
+            if (shipFocusTokens == 0) result += 100;
+            result += (5 - shipFocusTokens);
+            return result;
         }
 
         private void SelectAbilityTarget()

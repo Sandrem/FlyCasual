@@ -6,16 +6,19 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using SquadBuilderNS;
 using Ship;
+using Mods;
 
 public class PilotPanelSquadBuilder : MonoBehaviour {
 
     private GenericShip Ship;
     private Action<GenericShip> OnClick;
+    private bool ShowFromModInfo;
 
-    public void Initialize(GenericShip ship, Action<GenericShip> onClick = null)
+    public void Initialize(GenericShip ship, Action<GenericShip> onClick = null, bool showFromModInfo = false)
     {
         Ship = ship;
         OnClick = onClick;
+        ShowFromModInfo = showFromModInfo;
     }
 
     void Start()
@@ -23,6 +26,7 @@ public class PilotPanelSquadBuilder : MonoBehaviour {
         this.gameObject.SetActive(false);
 
         LoadImage();
+        if (ShowFromModInfo) SetFromModeName();
         SetOnClickHandler();
     }
 
@@ -66,6 +70,15 @@ public class PilotPanelSquadBuilder : MonoBehaviour {
         this.transform.Find("CostInfo").GetComponent<Text>().text = Ship.Cost.ToString();
 
         this.gameObject.SetActive(true);
+    }
+
+    private void SetFromModeName()
+    {
+        if (Ship.FromMod != null)
+        {
+            Mod mod = (Mod)Activator.CreateInstance(Ship.FromMod);
+            this.transform.Find("FromModInfo").GetComponent<Text>().text = mod.Name;
+        }
     }
 
     private void SetOnClickHandler()

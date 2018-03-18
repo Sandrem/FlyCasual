@@ -12,7 +12,7 @@ namespace UpgradesList
 
         public Determination() : base()
         {
-            Type = UpgradeType.Elite;
+            Types.Add(UpgradeType.Elite);
             Name = "Determination";
             Cost = 1;
         }

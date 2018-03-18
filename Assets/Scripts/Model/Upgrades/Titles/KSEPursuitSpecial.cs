@@ -15,7 +15,7 @@ namespace UpgradesList
 
         public KSEPursuitSpecial() : base()
         {
-            Type = UpgradeType.Title;
+            Types.Add(UpgradeType.Title);
             Name = "KSE Pursuit Special";
             Cost = -2;
 

@@ -11,7 +11,7 @@ namespace UpgradesList
         {
             IsHidden = true;
 
-            Type = UpgradeType.Illicit;
+            Types.Add(UpgradeType.Illicit);
             Name = "Dead Man's Switch";
             Cost = 2;
         }

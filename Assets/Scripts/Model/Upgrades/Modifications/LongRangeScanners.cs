@@ -7,7 +7,7 @@ namespace UpgradesList
     {
         public LongRangeScanners() : base()
         {
-            Type = UpgradeType.Modification;
+            Types.Add(UpgradeType.Modification);
             Name = "Long-Range Scanners";
             Cost = 0;
         }

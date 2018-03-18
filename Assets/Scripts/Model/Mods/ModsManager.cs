@@ -20,6 +20,11 @@ namespace Mods
         public static Dictionary<Type, Mod> Mods;
         public static ModsUI UI;
 
+        public static bool IsAnyModOn
+        {
+            get { return Mods.Any(n => n.Value.IsOn); }
+        }
+
         public static void Initialize()
         {
             IEnumerable<Type> namespaceIEnum =

@@ -8,7 +8,7 @@ namespace UpgradesList
         public HullUpgrade() : base()
         {
 
-            Type = UpgradeType.Modification;
+            Types.Add(UpgradeType.Modification);
             Name = "Hull Upgrade";
             Cost = 3;
         }
@@ -16,7 +16,7 @@ namespace UpgradesList
         public override void AttachToShip(GenericShip host)
         {
             base.AttachToShip(host);
-            host.ChangeMaxHullBy(1);
+            //host.ChangeMaxHullBy(1);
             host.AfterGetMaxHull += IncreaseMaxHull;
         }
 

@@ -8,7 +8,7 @@ namespace UpgradesList
     {
         public IG88D() : base()
         {
-            Type = UpgradeType.Crew;
+            Types.Add(UpgradeType.Crew);
             Name = "IG-88D";
             Cost = 1;
 

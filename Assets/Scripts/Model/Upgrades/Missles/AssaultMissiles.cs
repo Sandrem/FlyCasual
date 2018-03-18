@@ -11,7 +11,7 @@ namespace UpgradesList
 	{
 		public AssaultMissiles () : base()
 		{
-			Type = UpgradeType.Missile;
+            Types.Add(UpgradeType.Missile);
 
 			Name = "Assault Missiles";
 

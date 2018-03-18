@@ -7,14 +7,9 @@ namespace UpgradesList
     {
         public SensorJammer() : base()
         {
-            Type = UpgradeType.System;
+            Types.Add(UpgradeType.System);
             Name = "Sensor Jammer";
             Cost = 4;
-        }
-
-        public override bool IsAllowedForShip(GenericShip ship)
-        {
-            return ship.ShipBaseSize == BaseSize.Large;
         }
 
         public override void AttachToShip(GenericShip host)

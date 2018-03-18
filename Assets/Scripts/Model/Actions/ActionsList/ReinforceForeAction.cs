@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using Ship;
+using System.Linq;
+using UnityEngine;
 
 namespace ActionsList
 {
@@ -13,6 +15,7 @@ namespace ActionsList
 
         public override void ActionTake()
         {
+            base.ActionTake();
             Selection.ThisShip.Tokens.AssignToken(new Tokens.ReinforceForeToken(Host), Phases.CurrentSubPhase.CallBack);
         }
 

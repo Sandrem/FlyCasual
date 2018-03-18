@@ -4,6 +4,7 @@ using UnityEngine;
 using Upgrade;
 using SubPhases;
 using Ship;
+using System.Linq;
 
 namespace UpgradesList
 {
@@ -13,7 +14,7 @@ namespace UpgradesList
 
         public SquadLeader() : base()
         {
-            Type = UpgradeType.Elite;
+            Types.Add(UpgradeType.Elite);
             Name = "Squad Leader";
             isUnique = true;
             Cost = 2;
@@ -75,38 +76,58 @@ namespace SubPhases
             maxRange = 2;
             finishAction = SelectSquadLeaderTarget;
 
+            FilterTargets = FilterAbilityTargets;
+            GetAiPriority = GetAiAbilityPriority;
+
             UI.ShowSkipButton();
+        }
+
+        private bool FilterAbilityTargets(GenericShip ship)
+        {
+            Board.ShipDistanceInformation distanceInfo = new Board.ShipDistanceInformation(SquadLeaderOwner, ship);
+            return (ship.PilotSkill < SquadLeaderOwner.PilotSkill) && (distanceInfo.Range <= 2) && (ship.Owner.PlayerNo == SquadLeaderOwner.Owner.PlayerNo) && (ship.ShipId != SquadLeaderOwner.ShipId);
+        }
+
+        private int GetAiAbilityPriority(GenericShip ship)
+        {
+            int result = 0;
+
+            result += NeedTokenPriority(ship);
+            result += ship.Cost + ship.UpgradeBar.GetUpgradesOnlyFaceup().Sum(n => n.Cost);
+
+            return result;
+        }
+
+        private int NeedTokenPriority(GenericShip ship)
+        {
+            if (!ship.Tokens.HasToken(typeof(Tokens.FocusToken))) return 100;
+            if (ship.PrintedActions.Any(n => n.GetType() == typeof(ActionsList.EvadeAction)) && !ship.Tokens.HasToken(typeof(Tokens.EvadeToken))) return 50;
+            if (ship.PrintedActions.Any(n => n.GetType() == typeof(ActionsList.TargetLockAction)) && !ship.Tokens.HasToken(typeof(Tokens.BlueTargetLockToken), '*')) return 50;
+            return 0;
         }
 
         private void SelectSquadLeaderTarget()
         {
-            if (TargetShip.PilotSkill < SquadLeaderOwner.PilotSkill)
-            {
-                Selection.ThisShip = TargetShip;
+            Selection.ThisShip = TargetShip;
 
-                Triggers.RegisterTrigger(
-                    new Trigger()
-                    {
-                        Name = "Squad Leader: Free action",
-                        TriggerOwner = Selection.ThisShip.Owner.PlayerNo,
-                        TriggerType = TriggerTypes.OnFreeActionPlanned,
-                        EventHandler = PerformFreeAction
-                    }
-                );
+            Triggers.RegisterTrigger(
+                new Trigger()
+                {
+                    Name = "Squad Leader: Free action",
+                    TriggerOwner = Selection.ThisShip.Owner.PlayerNo,
+                    TriggerType = TriggerTypes.OnFreeActionPlanned,
+                    EventHandler = PerformFreeAction
+                }
+            );
 
-                MovementTemplates.ReturnRangeRuler();
+            MovementTemplates.ReturnRangeRuler();
 
-                Triggers.ResolveTriggers(TriggerTypes.OnFreeActionPlanned, delegate {
-                    Phases.FinishSubPhase(typeof(SelectSquadLeaderTargetSubPhase));
-                    Phases.FinishSubPhase(typeof(ActionDecisonSubPhase));
-                    Triggers.FinishTrigger();
-                    CallBack();
-                });
-            }
-            else
-            {
-                Messages.ShowInfo("Target must have lower pilot skill than owner of Squad Leader");
-            }
+            Triggers.ResolveTriggers(TriggerTypes.OnFreeActionPlanned, delegate {
+                Phases.FinishSubPhase(typeof(SelectSquadLeaderTargetSubPhase));
+                Phases.FinishSubPhase(typeof(ActionDecisonSubPhase));
+                Triggers.FinishTrigger();
+                CallBack();
+            });
         }
 
         public override void RevertSubPhase() { }

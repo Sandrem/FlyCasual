@@ -9,7 +9,7 @@ namespace UpgradesList
 
         public RebelCaptive() : base()
         {
-            Type = UpgradeType.Crew;
+            Types.Add(UpgradeType.Crew);
             Name = "Rebel Captive";
             Cost = 3;
             isUnique = true;
@@ -60,7 +60,7 @@ namespace UpgradesList
             IsUsed = false;
         }
 
-        private void StopAbility(GenericShip host)
+        private void StopAbility(GenericShip host, bool isFled)
         {
             Phases.OnEndPhaseStart -= Cleanup;
         }

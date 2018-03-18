@@ -14,7 +14,7 @@ namespace UpgradesList
     {
         public KyloRenCrew() : base()
         {
-            Type = UpgradeType.Crew;
+            Types.Add(UpgradeType.Crew);
             Name = "Kylo Ren";
             Cost = 3;
 
@@ -69,7 +69,7 @@ namespace Abilities
         {
             // TODO: Skip/Wrong target - revert
 
-            SelectTargetForAbilityNew(
+            SelectTargetForAbility(
                 AssignConditionToTarget,
                 FilterTargets,
                 GetAiPriority,
@@ -103,7 +103,7 @@ namespace Abilities
 
         private int GetAiPriority(GenericShip ship)
         {
-            return 50;
+            return ship.Cost + ship.UpgradeBar.GetUpgradesOnlyFaceup().Sum(n => n.Cost);
         }
 
         private void ShowPilotCrits()
@@ -192,7 +192,7 @@ namespace Abilities
             }
         }
 
-        private void RemoveConditionsOnDestroyed(GenericShip ship)
+        private void RemoveConditionsOnDestroyed(GenericShip ship, bool isFled)
         {
             AssignedDamageCard = null;
             RemoveConditions(ship);

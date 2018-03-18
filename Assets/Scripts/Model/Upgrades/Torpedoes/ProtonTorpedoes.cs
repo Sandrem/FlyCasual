@@ -11,7 +11,7 @@ namespace UpgradesList
     {
         public ProtonTorpedoes() : base()
         {
-            Type = UpgradeType.Torpedo;
+            Types.Add(UpgradeType.Torpedo);
 
             Name = "Proton Torpedoes";
             Cost = 4;

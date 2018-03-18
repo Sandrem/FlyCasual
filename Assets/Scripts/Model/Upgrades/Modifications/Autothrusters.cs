@@ -10,7 +10,7 @@ namespace UpgradesList
     {
         public Autothrusters() : base()
         {
-            Type = UpgradeType.Modification;
+            Types.Add(UpgradeType.Modification);
             Name = "Autothrusters";
             Cost = 2;
         }

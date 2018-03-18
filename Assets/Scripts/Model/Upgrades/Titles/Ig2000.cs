@@ -13,7 +13,7 @@ namespace UpgradesList
     {
         public Ig2000() : base()
         {
-            Type = UpgradeType.Title;
+            Types.Add(UpgradeType.Title);
             Name = "IG-2000";
             Cost = 0;
 

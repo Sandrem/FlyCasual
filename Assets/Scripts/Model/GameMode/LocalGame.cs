@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using SubPhases;
+using Players;
 
 namespace GameModes
 {
@@ -161,6 +162,11 @@ namespace GameModes
         public override void SetSwarmManagerManeuver(string maneuverCode)
         {
             SwarmManager.SetManeuver(maneuverCode);
+        }
+
+        public override void GenerateDamageDeck(PlayerNo playerNo, int seed)
+        {
+            DamageDecks.GetDamageDeck(playerNo).ShuffleDeck(seed);
         }
     }
 }

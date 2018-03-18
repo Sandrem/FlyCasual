@@ -164,7 +164,7 @@ namespace Abilities
             }
         }
 
-        private void RemoveConditionsOnDestroyed(GenericShip ship)
+        private void RemoveConditionsOnDestroyed(GenericShip ship, bool isFled)
         {
             AssignedDamageCard = null;
             RemoveConditions(ship);

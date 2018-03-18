@@ -6,6 +6,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using SquadBuilderNS;
 using Upgrade;
+using Mods;
 
 public class UpgradePanelSquadBuilder : MonoBehaviour {
 
@@ -13,13 +14,15 @@ public class UpgradePanelSquadBuilder : MonoBehaviour {
     private GenericUpgrade Upgrade;
     private UpgradeSlot Slot;
     private Action<UpgradeSlot, GenericUpgrade> OnClick;
+    private bool ShowFromModInfo;
 
-    public void Initialize(string upgradeName, UpgradeSlot slot, GenericUpgrade upgrade = null, Action<UpgradeSlot, GenericUpgrade> onClick = null)
+    public void Initialize(string upgradeName, UpgradeSlot slot, GenericUpgrade upgrade = null, Action<UpgradeSlot, GenericUpgrade> onClick = null, bool showFromModInfo = false)
     {
         UpgradeName = upgradeName;
         Upgrade = upgrade;
         OnClick = onClick;
         Slot = slot;
+        ShowFromModInfo = showFromModInfo;
     }
 
     void Start()
@@ -33,7 +36,9 @@ public class UpgradePanelSquadBuilder : MonoBehaviour {
         else
         {
             LoadImage();
+            if (ShowFromModInfo) SetFromModeName();
         }
+
         SetOnClickHandler();
     }
 
@@ -91,6 +96,15 @@ public class UpgradePanelSquadBuilder : MonoBehaviour {
         this.transform.Find("CostInfo").GetComponent<Text>().text = Upgrade.Cost.ToString();
 
         this.gameObject.SetActive(true);
+    }
+
+    private void SetFromModeName()
+    {
+        if (Upgrade.FromMod != null)
+        {
+            Mod mod = (Mod)Activator.CreateInstance(Upgrade.FromMod);
+            this.transform.Find("FromModInfo").GetComponent<Text>().text = mod.Name;
+        }
     }
 
     private void SetOnClickHandler()

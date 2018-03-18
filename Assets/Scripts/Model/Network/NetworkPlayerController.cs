@@ -180,6 +180,7 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     [ClientRpc]
     public void RpcStartBattle()
     {
+        if (isServer) Sounds.PlaySoundGlobal("Notification");
         Global.StartBattle();
     }
 
@@ -746,6 +747,20 @@ public partial class NetworkPlayerController : NetworkBehaviour {
         }
 
         DiceRoll.CurrentDiceRoll.RandomizeAndRerollSelected();
+    }
+
+    // SYNC DECKS
+
+    [Command]
+    public void CmdSyncDecks(int playerNo, int seed)
+    {
+        RpcSyncDecks(playerNo, seed);
+    }
+
+    [ClientRpc]
+    private void RpcSyncDecks(int playerNo, int seed)
+    {
+        DamageDecks.GetDamageDeck(Tools.IntToPlayer(playerNo)).ShuffleDeck(seed);
     }
 
     // MESSAGES

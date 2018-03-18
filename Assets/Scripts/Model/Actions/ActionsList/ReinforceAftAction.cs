@@ -11,6 +11,7 @@
 
         public override void ActionTake()
         {
+            base.ActionTake();
             Selection.ThisShip.Tokens.AssignToken(new Tokens.ReinforceAftToken(Host), Phases.CurrentSubPhase.CallBack);
         }
 

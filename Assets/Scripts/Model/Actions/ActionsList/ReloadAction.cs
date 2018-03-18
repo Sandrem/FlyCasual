@@ -20,7 +20,7 @@ namespace ActionsList
         {
             foreach (var upgrade in Selection.ThisShip.UpgradeBar.GetUpgradesOnlyDiscarded())
             {
-                if (upgrade.Type == UpgradeType.Missile || upgrade.Type == UpgradeType.Torpedo)
+                if (upgrade.hasType(UpgradeType.Missile) || upgrade.hasType(UpgradeType.Torpedo))
                 {
                     upgrade.FlipFaceup();
                 }
@@ -33,7 +33,7 @@ namespace ActionsList
         {
             int result = 0;
 
-            int discardedOrdnance = Selection.ThisShip.UpgradeBar.GetUpgradesOnlyDiscarded().Count(n => n.Type == UpgradeType.Missile || n.Type == UpgradeType.Torpedo);
+            int discardedOrdnance = Selection.ThisShip.UpgradeBar.GetUpgradesOnlyDiscarded().Count(n => n.hasType(UpgradeType.Missile) || n.hasType(UpgradeType.Torpedo));
             result = discardedOrdnance * 30;
 
             return result;

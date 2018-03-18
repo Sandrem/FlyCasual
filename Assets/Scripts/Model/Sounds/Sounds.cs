@@ -2,12 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Players;
+using Ship;
 
 public static class Sounds {
 
-    public static void PlayShipSound(string path)
+    public static void PlaySoundGlobal(string path)
     {
-        AudioSource audioSource = Selection.ThisShip.Model.GetComponent<AudioSource>();
+        AudioSource audioSource = GameObject.Find("SFX").GetComponent<AudioSource>();
+        audioSource.volume = Options.SfxVolume;
+        PlaySound(audioSource, path);
+    }
+
+    public static void PlayShipSound(string path, GenericShip ship = null)
+    {
+        if (ship == null) ship = Selection.ThisShip;
+
+        AudioSource audioSource = ship.Model.GetComponent<AudioSource>();
         PlaySound(audioSource, path);
     }
 

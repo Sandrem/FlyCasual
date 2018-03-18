@@ -11,7 +11,17 @@ namespace Ship
         private Transform shipAllParts;
         private Transform modelCenter;
 
-        public string SkinName;
+        private string originalSkinName;
+        private string skinName;
+        public string SkinName
+        {
+            get { return skinName; }
+            set
+            {
+                if (originalSkinName == null) originalSkinName = value;
+                skinName = value;
+            }
+        }
 
         public void CreateModel(Vector3 position)
         {
@@ -114,7 +124,19 @@ namespace Ship
             }
             else
             {
-                Debug.Log("Cannot find: " + pathToResource);
+                string materialNameAlt = materialName + "_" + faction.ToString();
+
+                var pathToResourceAlt = "ShipStandInsert/" + FixTypeName(Type) + "/" + materialNameAlt;
+                shipBaseInsert = CreateMaterial(pathToResourceAlt);
+
+                if (shipBaseInsert != null)
+                {
+                    shipAllParts.Find("ShipBase/ShipStandInsert/ShipStandInsertImage/default").GetComponent<Renderer>().material = shipBaseInsert;
+                }
+                else
+                {
+                    Debug.Log("Cannot find: " + pathToResource + " or " + pathToResourceAlt);
+                }
             }
         }
 
@@ -124,10 +146,23 @@ namespace Ship
             {
                 Texture skin = (Texture)Resources.Load("ShipSkins/" + FixTypeName(Type) + "/" + SkinName, typeof(Texture));
 
+                if (skin == null)
+                {
+                    SkinName = originalSkinName;
+                    skin = (Texture)Resources.Load("ShipSkins/" + FixTypeName(Type) + "/" + SkinName, typeof(Texture));
+                }
+
                 foreach (Transform modelPart in GetModelTransform())
                 {
                     Renderer renderer = modelPart.GetComponent<Renderer>();
                     if (renderer != null) renderer.material.SetTexture("_MainTex", skin);
+
+                    // Second level
+                    foreach (Transform modelPartLevel2 in modelPart.transform)
+                    {
+                        renderer = modelPartLevel2.GetComponent<Renderer>();
+                        if (renderer != null) renderer.material.SetTexture("_MainTex", skin);
+                    }
                 }
             }
         }

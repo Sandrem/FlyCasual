@@ -69,7 +69,8 @@ namespace SubPhases
 
         public override void Initialize()
         {
-            Roster.GetPlayer(RequiredPlayer).SelectShipForAbility();
+            // If not skipped
+            if (Phases.CurrentSubPhase == this) Roster.GetPlayer(RequiredPlayer).SelectShipForAbility();
         }
 
         public void HighlightShipsToSelect()

@@ -9,7 +9,7 @@ namespace UpgradesList
     {
         public BTLA4() : base()
         {
-            Type = UpgradeType.Title;
+            Types.Add(UpgradeType.Title);
             Name = "BTL-A4 Y-wing";            
             Cost = 0;            
 
@@ -42,7 +42,7 @@ namespace Abilities
 
         private void Toggle360Arc(bool isActive)
         {
-            GenericSecondaryWeapon turret = (GenericSecondaryWeapon)HostShip.UpgradeBar.GetUpgradesAll().Find(n => n.Type == UpgradeType.Turret);            
+            GenericSecondaryWeapon turret = (GenericSecondaryWeapon)HostShip.UpgradeBar.GetUpgradesAll().Find(n => n.hasType(UpgradeType.Turret));
             if (turret != null)
             {
                 HostShip.ArcInfo.OutOfArcShotPermissions.CanShootTurret = isActive;
@@ -60,7 +60,7 @@ namespace Abilities
             HostShip.OnCombatCheckExtraAttack += RegisterBTLA4ExtraAttack;
         }
 
-        private void RegisterBTLA4ExtraAttack()
+        private void RegisterBTLA4ExtraAttack(GenericShip ship)
         {
             HostShip.OnCombatCheckExtraAttack -= RegisterBTLA4ExtraAttack;            
             RegisterAbilityTrigger(TriggerTypes.OnCombatCheckExtraAttack, DoBTL4AExtraAttack);

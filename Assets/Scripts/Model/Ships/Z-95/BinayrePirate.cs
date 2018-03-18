@@ -16,8 +16,6 @@ namespace Ship
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Illicit);
 
-                SkinName = "Red";
-
                 faction = Faction.Scum;
             }
         }

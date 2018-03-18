@@ -15,7 +15,7 @@ namespace UpgradesList
 
         public TIEv1() : base()
         {
-            Type = UpgradeType.Title;
+            Types.Add(UpgradeType.Title);
             Name = "TIE/v1";
             Cost = 1;
         }

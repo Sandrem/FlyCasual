@@ -11,7 +11,7 @@ namespace UpgradesList
     {
         public Rey() : base()
         {
-            Type = UpgradeType.Crew;
+            Types.Add(UpgradeType.Crew);
             Name = "Rey";
             Cost = 2;
 

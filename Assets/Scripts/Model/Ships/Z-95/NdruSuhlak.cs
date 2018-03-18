@@ -21,8 +21,6 @@ namespace Ship
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
-                SkinName = "N'dru Suhlak";
-
                 faction = Faction.Scum;
 
                 PilotAbilities.Add(new NdruSuhlakAbility());

@@ -17,18 +17,26 @@ namespace ActionsList
 
         public override void ActionTake()
         {
-            Phases.CurrentSubPhase.Pause();
+            if (Selection.ThisShip.Owner.GetType() == typeof(Players.HotacAiPlayer))
+            {
+                Phases.CurrentSubPhase.CallBack();
+            }
+            else
+            {
+                Phases.CurrentSubPhase.Pause();
 
-            Triggers.RegisterTrigger(
-                new Trigger(){
-                    Name = "SLAM Planning",
-                    TriggerType = TriggerTypes.OnAbilityDirect,
-                    TriggerOwner = Selection.ThisShip.Owner.PlayerNo,
-                    EventHandler = SelectSlamManeuver
-                }
-            );
+                Triggers.RegisterTrigger(
+                    new Trigger()
+                    {
+                        Name = "SLAM Planning",
+                        TriggerType = TriggerTypes.OnAbilityDirect,
+                        TriggerOwner = Selection.ThisShip.Owner.PlayerNo,
+                        EventHandler = SelectSlamManeuver
+                    }
+                );
 
-            Triggers.ResolveTriggers(TriggerTypes.OnAbilityDirect, RegisterSlamManeuverExecutionTrigger);
+                Triggers.ResolveTriggers(TriggerTypes.OnAbilityDirect, RegisterSlamManeuverExecutionTrigger);
+            }
         }
 
         private void SelectSlamManeuver(object sender, System.EventArgs e)

@@ -7,7 +7,7 @@ namespace UpgradesList
     {
         public TwinIonEngineMkII() : base()
         {
-            Type = UpgradeType.Modification;
+            Types.Add(UpgradeType.Modification);
             Name = "Twin Ion Engine Mk. II";
             ImageUrl = ImageUrls.GetImageUrl(this, "twin-ion-engine-mkii.png");
             Cost = 1;

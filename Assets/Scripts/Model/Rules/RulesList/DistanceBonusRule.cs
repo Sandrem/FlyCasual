@@ -10,7 +10,7 @@ namespace RulesList
         {
             if (Combat.ShotInfo.Range == 1)
             {
-                Messages.ShowInfo("Distance bonus: +1 attack dice");
+                Messages.ShowInfo("Distance bonus: +1 attack die");
                 result++;
             }
         }
@@ -19,7 +19,7 @@ namespace RulesList
         {
             if (Combat.ShotInfo.Range == 3)
             {
-                Messages.ShowInfo("Distance bonus: +1 defence dice");
+                Messages.ShowInfo("Distance bonus: +1 defence die");
                 result++;
             }
         }

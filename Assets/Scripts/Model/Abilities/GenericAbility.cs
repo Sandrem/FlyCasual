@@ -133,29 +133,7 @@ namespace Abilities
 
         protected GenericShip TargetShip;
 
-        protected void SelectTargetForAbilityOld(Action selectTargetAction, List<TargetTypes> targetTypes, Vector2 rangeLimits, Action callback = null, bool showSkipButton = true)
-        {
-            if (callback == null) callback = Triggers.FinishTrigger;
-
-            Selection.ThisShip = HostShip;
-
-            SelectShipSubPhase selectTargetSubPhase = (SelectShipSubPhase) Phases.StartTemporarySubPhaseNew(
-                "Select target for " + Name,
-                typeof(AbilitySelectTarget),
-                callback
-            );
-
-            selectTargetSubPhase.PrepareByParametersOld(
-                delegate { SelectShipForAbility(selectTargetAction); },
-                targetTypes,
-                rangeLimits,
-                showSkipButton
-            );
-
-            selectTargetSubPhase.Start();
-        }
-
-        protected void SelectTargetForAbilityNew(Action selectTargetAction, Func<GenericShip, bool> filterTargets, Func<GenericShip, int> getAiPriority, PlayerNo subphaseOwnerPlayerNo, bool showSkipButton = true, Action customCallback = null)
+        protected void SelectTargetForAbility(Action selectTargetAction, Func<GenericShip, bool> filterTargets, Func<GenericShip, int> getAiPriority, PlayerNo subphaseOwnerPlayerNo, bool showSkipButton = true, Action customCallback = null)
         {
             if (customCallback == null) customCallback = Triggers.FinishTrigger;
 
@@ -226,6 +204,7 @@ namespace Abilities
 
             public override void SkipButton()
             {
+                UI.HideSkipButton();
                 FinishSelection();
             }
         }

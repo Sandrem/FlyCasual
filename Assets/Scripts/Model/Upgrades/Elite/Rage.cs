@@ -33,7 +33,7 @@ namespace UpgradesList
 		}
 	}
 }
-
+	
 
 namespace ActionsList
 {
@@ -53,18 +53,26 @@ namespace ActionsList
 			Host.AfterGenerateAvailableActionEffectsList += AddRageCondition; 
 			Phases.OnEndPhaseStart += RemoveRageCondition;
 
-			//Mark as Rage has been used
+			//Rage Condition for reroll dices on each attach during this round
 			Host.Tokens.AssignCondition(new Conditions.RageCondition(Host));
 
-			//These are tokens that applies to use Rage Action
+			//Assigns one focus and two stress tokens
+			Host.Tokens.AssignToken (new Tokens.FocusToken (Host), delegate { assignStressTokensRecursively (2); });
+		}
 
-			//Getting 1 Focus token
-			Host.Tokens.AssignToken (new Tokens.FocusToken(Host), Phases.CurrentSubPhase.CallBack);
 
-			//Getting 2 Stress tokens
-			Host.Tokens.AssignToken (new Tokens.StressToken(Host), Phases.CurrentSubPhase.CallBack);
-			Host.Tokens.AssignToken (new Tokens.StressToken(Host), Phases.CurrentSubPhase.CallBack);
+		//Assigns recursively stress tokens delegating its callback responsability on each call until last one
+		private void assignStressTokensRecursively (int tokens){
 
+			if (tokens > 0)
+			{
+				tokens--;
+				Host.Tokens.AssignToken (new Tokens.StressToken (Host), delegate { assignStressTokensRecursively (tokens); });
+			}
+			else
+			{
+				Phases.CurrentSubPhase.CallBack();
+			}
 		}
 
 
@@ -108,10 +116,8 @@ namespace ActionsList
 			diceRerollManager.Start();
 		}
 
-
-
-
 	}
+
 }
 
 

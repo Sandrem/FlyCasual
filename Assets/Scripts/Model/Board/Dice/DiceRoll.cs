@@ -154,6 +154,18 @@ public partial class DiceRoll
         private set { }
     }
 
+    public int CanBeModified
+    {
+        get { return DiceList.Count(n => n.CannotBeModified == false); }
+        private set { }
+    }
+
+    public int CannotBeModified
+    {
+        get { return DiceList.Count(n => n.CannotBeModified == true); }
+        private set { }
+    }
+
     public int NotRerolled
     {
         get { return DiceList.Count(n => (n.IsRerolled == false)); }
@@ -293,9 +305,9 @@ public partial class DiceRoll
 		UpdateDiceCompareHelperPrediction ();
 	}
 
-    public void ChangeOne(DieSide oldSide, DieSide newSide, bool cannotBeRerolled = false)
+    public void ChangeOne(DieSide oldSide, DieSide newSide, bool cannotBeRerolled = false, bool cannotBeModified = false)
     {
-        ChangeDice(oldSide, newSide, true, cannotBeRerolled);
+        ChangeDice(oldSide, newSide, true, cannotBeRerolled, cannotBeModified);
         UpdateDiceCompareHelperPrediction();
     }
 
@@ -305,7 +317,7 @@ public partial class DiceRoll
         UpdateDiceCompareHelperPrediction();
     }
 
-    private void ChangeDice(DieSide oldSide, DieSide newSide, bool onlyOne, bool cannotBeRerolled = false)
+    private void ChangeDice(DieSide oldSide, DieSide newSide, bool onlyOne, bool cannotBeRerolled = false, bool cannotBeModified = false)
     {
         OrganizeDicePositions();
         foreach (Die die in DiceList)
@@ -315,6 +327,7 @@ public partial class DiceRoll
                 die.SetSide(newSide);
                 die.SetModelSide(newSide);
                 if (cannotBeRerolled) die.IsRerolled = true;
+                if (cannotBeModified) die.CannotBeModified = true;
                 if (onlyOne) return;
             }
         }
@@ -556,6 +569,12 @@ public partial class DiceRoll
                     return;
                 }
 
+                if (die.CannotBeModified)
+                {
+                    Messages.ShowErrorToHuman("This die cannot be modified.");
+                    return;
+                }
+
                 if (die.IsRerolled)
                 {
                     Messages.ShowErrorToHuman("Dice can be rerolled only once");
@@ -591,10 +610,44 @@ public partial class DiceRoll
     {
         int i = 0;
         while (i < number)
-        {
+        {            
             AddDice().ShowWithoutRoll();
             Number++;
             i++;
         }
+    }
+
+    public DieSide FindDieToChange(DieSide destinationSide)
+    {
+        if (DiceList.Count <= 0)
+        {
+            Messages.ShowErrorToHuman("No dice in this roll to change.");
+            return DieSide.Unknown;
+        }
+
+        if (destinationSide != DieSide.Blank)
+        {
+            if (Blanks > 0) return DieSide.Blank;
+            if (Focuses > 0) return DieSide.Focus;
+            if (Successes > 0) return DieSide.Success;
+            if (CriticalSuccesses > 0) return DieSide.Crit;
+        }
+        else
+        {   // Asking for blanks. We could put a switch case here to account for different CheckType situations.
+            // This currently handles CheckType == Check well, which is I think where most people would ask for a blank.
+            if (Type == DiceKind.Attack)
+            {
+                if (CriticalSuccesses > 0) return DieSide.Crit;
+                if (Successes > 0) return DieSide.Success;
+                if (Focuses > 0) return DieSide.Focus;
+                if (Blanks > 0) return DieSide.Blank;
+            } else
+            {
+                if (Focuses > 0) return DieSide.Focus;
+                if (Successes > 0) return DieSide.Success;
+                if (Blanks > 0) return DieSide.Blank;
+            }
+        }
+        return DieSide.Unknown; // We never should get here
     }
 }

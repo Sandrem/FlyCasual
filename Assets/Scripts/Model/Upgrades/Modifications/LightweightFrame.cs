@@ -75,10 +75,13 @@ namespace ActionsList
 		public override void ActionEffect(System.Action callBack)
 		{
 			Messages.ShowInfo("Lightweight Frame - additional die rolled");
-            Triggers.ResolveTriggers(TriggerTypes.OnDiceAboutToBeRolled);
-            Combat.CurrentDiceRoll.RollAdditionalDice(1);
-			Combat.CurrentDiceRoll.OrganizeDicePositions();
-			callBack();
+            Combat.Defender.CallDiceAboutToBeRolled();
+            Triggers.ResolveTriggers(TriggerTypes.OnDiceAboutToBeRolled, delegate 
+            {
+                Combat.CurrentDiceRoll.RollAdditionalDice(1);
+                Combat.CurrentDiceRoll.OrganizeDicePositions();
+                callBack();
+            });
 		}
     }
 

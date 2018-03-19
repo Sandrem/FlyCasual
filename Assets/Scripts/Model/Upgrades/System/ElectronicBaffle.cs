@@ -46,10 +46,9 @@ namespace Abilities
 				RegisterAbilityTrigger (TriggerTypes.OnTokenIsAssigned, ShowUseEBStress);
 			}
 
-			if (tokenType == typeof(Tokens.IonToken) ){
+			if (tokenType == typeof(Tokens.IonToken)) {
 				RegisterAbilityTrigger (TriggerTypes.OnTokenIsAssigned, ShowUseEBIon);
 			}
-
 		}
 
 

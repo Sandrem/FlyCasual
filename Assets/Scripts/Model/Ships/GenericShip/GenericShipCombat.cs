@@ -244,7 +244,7 @@ namespace Ship
 
         public void CallDiceAboutToBeRolled()
         {
-            OnDiceAboutToBeRolled();
+            if (OnDiceAboutToBeRolled != null) OnDiceAboutToBeRolled();
         }
 
         public void CallShotStart()

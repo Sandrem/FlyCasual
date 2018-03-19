@@ -35,14 +35,26 @@ namespace Abilities
         public DiceKind DiceType;
 
         public override void ActivateAbility()
-        {            
-            GenericShip.OnDiceAboutToBeRolled += CheckEmperorPalpatineAbility;            
+        {  
+            GenericShip.OnDiceAboutToBeRolled += CheckEmperorPalpatineAbility;
+            HostShip.OnShipIsDestroyed += RemoveEmperorPalpatineAbilityWhenDestroyed;
             Phases.OnRoundEnd += ClearIsAbilityUsedFlag;
         }
 
         public override void DeactivateAbility()
         {
+            RemoveEmperorPalpatineAbility();
+        }
+
+        private void RemoveEmperorPalpatineAbilityWhenDestroyed(GenericShip ship, bool isFled)
+        {
+            RemoveEmperorPalpatineAbility();
+        }
+
+        private void RemoveEmperorPalpatineAbility()
+        {
             GenericShip.OnDiceAboutToBeRolled -= CheckEmperorPalpatineAbility;
+            HostShip.OnShipIsDestroyed -= RemoveEmperorPalpatineAbilityWhenDestroyed;
             Phases.OnRoundEnd -= ClearIsAbilityUsedFlag;
         }
 

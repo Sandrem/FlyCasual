@@ -62,9 +62,9 @@ namespace Abilities
 
         // REGISTER TRIGGER
 
-        protected void RegisterAbilityTrigger(TriggerTypes triggerType, EventHandler eventHandler, System.EventArgs e = null)
+        protected Trigger RegisterAbilityTrigger(TriggerTypes triggerType, EventHandler eventHandler, System.EventArgs e = null)
         {
-            Triggers.RegisterTrigger(new Trigger()
+            var trigger = new Trigger()
             {
                 Name = Name,
                 TriggerType = triggerType,
@@ -72,7 +72,9 @@ namespace Abilities
                 EventHandler = eventHandler,
                 Sender = hostReal,
                 EventArgs = e
-            });
+            };
+            Triggers.RegisterTrigger(trigger);
+            return trigger;
         }
 
         // DECISION USE ABILITY YES/NO

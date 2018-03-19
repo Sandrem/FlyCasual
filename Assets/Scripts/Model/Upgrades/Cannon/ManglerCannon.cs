@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Abilities;
+using ActionsList;
 using UnityEngine;
 using Upgrade;
 
@@ -20,63 +22,50 @@ namespace UpgradesList
             MaxRange = 3;
             AttackValue = 3;
 
-        }
-
-        public override void AttachToShip(Ship.GenericShip host)
-        {
-            base.AttachToShip(host);
-
-            AddDiceModification();
-        }
-
-        private void AddDiceModification()
-        {
-            ActionsList.ManglerCannonAction action = new ActionsList.ManglerCannonAction()
-            {
-                Host = Host,
-                ImageUrl = ImageUrl,
-                Source = this
-            };
-            action.AddDiceModification();
-
-            Host.AddAvailableAction(action);
-        }
-
+            UpgradeAbilities.Add(new ManglerCannonAbility());
+        }        
     }
+}
 
+namespace Abilities
+{
+    public class ManglerCannonAbility : GenericAbility
+    {
+        public override void ActivateAbility()
+        {
+            HostShip.AfterGenerateAvailableActionEffectsList += ManglerCannonAddDiceModification;
+        }
+
+        public override void DeactivateAbility()
+        {
+            HostShip.AfterGenerateAvailableActionEffectsList -= ManglerCannonAddDiceModification;
+        }
+
+        private void ManglerCannonAddDiceModification(Ship.GenericShip ship)
+        {
+            ship.AddAvailableActionEffect(new ManglerCannonAction()
+            {
+                ImageUrl = HostUpgrade.ImageUrl,
+                Host = HostShip,
+                Source = HostUpgrade
+            });
+        }
+    }
 }
 
 namespace ActionsList
 { 
-
     public class ManglerCannonAction : GenericAction
     {
 
 		public ManglerCannonAction()
         {
             Name = EffectName = "Mangler Cannon";
-
-        }
-
-        public void AddDiceModification()
-        {
-            Host.AfterGenerateAvailableActionEffectsList += ManglerCannonAddDiceModification;
-        }
-
-        private void ManglerCannonAddDiceModification(Ship.GenericShip ship)
-        {
-            ship.AddAvailableActionEffect(this);
         }
 
         public override bool IsActionEffectAvailable()
         {
-            bool result = true;
-
-            if (Combat.AttackStep != CombatStep.Attack) result = false;
-
-            if (Combat.ChosenWeapon != Source) result = false;
-
-            return result;
+            return Combat.AttackStep == CombatStep.Attack && Combat.ChosenWeapon == Source;            
         }
 
         public override int GetActionEffectPriority()
@@ -97,7 +86,5 @@ namespace ActionsList
 			Combat.CurrentDiceRoll.ChangeOne(DieSide.Success, DieSide.Crit);
             callBack();
         }
-
-    }
-
+    }    
 }

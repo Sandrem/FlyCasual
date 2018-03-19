@@ -54,9 +54,11 @@ namespace ActionsList
 			Phases.OnEndPhaseStart += RemoveRageCondition;
 
 			//Rage Condition for reroll dices on each attach during this round
+			Messages.ShowInfo("Rage: Condition assigned");
 			Host.Tokens.AssignCondition(new Conditions.RageCondition(Host));
 
 			//Assigns one focus and two stress tokens
+			Messages.ShowInfo("Rage: Focus assigned");
 			Host.Tokens.AssignToken (new Tokens.FocusToken (Host), delegate { assignStressTokensRecursively (2); });
 		}
 
@@ -67,6 +69,8 @@ namespace ActionsList
 			if (tokens > 0)
 			{
 				tokens--;
+				string message = (tokens == 0) ? "Rage: Second Stress assigned" : "Rage: First Stress assigned";
+				Messages.ShowInfo(message);
 				Host.Tokens.AssignToken (new Tokens.StressToken (Host), delegate { assignStressTokensRecursively (tokens); });
 			}
 			else

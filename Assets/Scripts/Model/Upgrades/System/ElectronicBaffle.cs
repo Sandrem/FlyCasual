@@ -41,7 +41,6 @@ namespace Abilities
 
 		private void RegisterElectronicBaffle(object sender,  System.Type tokenType)
 		{
-			
 			if (tokenType == typeof(Tokens.StressToken)) {
 				RegisterAbilityTrigger (TriggerTypes.OnTokenIsAssigned, ShowUseEBStress);
 			}
@@ -69,12 +68,10 @@ namespace Abilities
 			//This token could be intercepted by other ability
 			if (HostShip.Tokens.HasToken (typeof(Tokens.IonToken)))
 			{
-				HostShip.Tokens.RemoveToken (typeof(Tokens.IonToken), SubPhases.DecisionSubPhase.ConfirmDecisionNoCallback);
-				sufferDamage ();
+				Messages.ShowInfo("Electronic Baffle: Ion removed");
+				HostShip.Tokens.RemoveToken (typeof(Tokens.IonToken), delegate { sufferDamage ();});
 
-			} else {
-				SubPhases.DecisionSubPhase.ConfirmDecision ();
-			}
+			} 
 		}
 
 
@@ -82,12 +79,10 @@ namespace Abilities
 		{
 			//This token could be intercepted by other ability
 			if (HostShip.Tokens.HasToken (typeof(Tokens.StressToken))) {
-				HostShip.Tokens.RemoveToken (typeof(Tokens.StressToken), SubPhases.DecisionSubPhase.ConfirmDecisionNoCallback);
-				sufferDamage ();
+				Messages.ShowInfo("Electronic Baffle: Stress removed");
+				HostShip.Tokens.RemoveToken (typeof(Tokens.StressToken), delegate { sufferDamage ();});
 
-			} else {
-				SubPhases.DecisionSubPhase.ConfirmDecision ();
-			}
+			} 
 		}
 
 
@@ -110,6 +105,5 @@ namespace Abilities
 			Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, DecisionSubPhase.ConfirmDecision );
 		}
 	}
-		
 
 }

@@ -496,7 +496,7 @@ namespace SubPhases
             }
         }
 
-        private bool IsBarrelRollAllowed()
+        public bool IsBarrelRollAllowed()
         {
             bool allow = true;
 

@@ -260,7 +260,7 @@ namespace SubPhases
 
             if (canBoostCallback != null)
             {
-                canBoostCallback(IsBoostAllowed());
+                canBoostCallback(IsBoostAllowed(true));
                 return;
             }
 
@@ -289,24 +289,24 @@ namespace SubPhases
             }
         }
 
-        private bool IsBoostAllowed()
+        private bool IsBoostAllowed(bool quiet = false)
         {
             bool allow = true;
 
             if (obstaclesStayDetectorBase.OverlapsShipNow || obstaclesStayDetectorMovementTemplate.OverlapsShipNow)
             {
-                Messages.ShowError("Cannot overlap another ship");
+                if (!quiet) Messages.ShowError("Cannot overlap another ship");
                 allow = false;
             }
             else if (!TheShip.IsIgnoreObstacles && !ObstacleOverlapAllowed
                 && (obstaclesStayDetectorBase.OverlapsAsteroidNow || obstaclesStayDetectorMovementTemplate.OverlapsAsteroidNow))
             {
-                Messages.ShowError("Cannot overlap asteroid");
+                if (!quiet) Messages.ShowError("Cannot overlap asteroid");
                 allow = false;
             }
             else if (obstaclesStayDetectorBase.OffTheBoardNow || obstaclesStayDetectorMovementTemplate.OffTheBoardNow)
             {
-                Messages.ShowError("Cannot leave the battlefield");
+                if (!quiet) Messages.ShowError("Cannot leave the battlefield");
                 allow = false;
             }
 

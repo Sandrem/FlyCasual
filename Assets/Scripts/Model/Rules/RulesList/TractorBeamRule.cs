@@ -71,8 +71,8 @@ namespace SubPhases
     public class TractorBeamPlanningSubPhase : GenericSubPhase
     {
         public GenericPlayer Assigner;
-
         private Action selectedPlanningAction;
+        private bool canBoost = true;
 
         public override void Start()
         {
@@ -80,7 +80,7 @@ namespace SubPhases
             IsTemporary = true;
             UpdateHelpInfo();
 
-            CheckCanBoost(RegisterTractorPlanning);
+            CheckCanBoost();
         }
 
         private void InitializeBostPlanning(BoostPlanningSubPhase boostPlanning)
@@ -93,14 +93,20 @@ namespace SubPhases
             boostPlanning.InitializeRendering();
         }
 
-        private void CheckCanBoost(System.Action<bool> canBoostCallback)
+        private void CheckCanBoost()
         {
             BoostPlanningSubPhase boostPlanning = new BoostPlanningSubPhase ();
             InitializeBostPlanning(boostPlanning);
-            boostPlanning.TryConfirmBoostPosition(canBoostCallback);
+            boostPlanning.TryConfirmBoostPosition(CheckCanBoostCallback);
         }
 
-        private void RegisterTractorPlanning(bool canBoost)
+        private void CheckCanBoostCallback(bool canBoostResult)
+        {
+            this.canBoost = canBoostResult;
+            RegisterTractorPlanning();
+        }
+
+        private void RegisterTractorPlanning()
         {
             Triggers.RegisterTrigger(new Trigger()
             {
@@ -108,7 +114,7 @@ namespace SubPhases
                 TriggerType = TriggerTypes.OnAbilityDirect,
                 TriggerOwner = Assigner.PlayerNo,
                 EventHandler = delegate {
-                    StartSelectTemplateSubphase(canBoost);
+                    StartSelectTemplateSubphase();
                 }
             });
 
@@ -121,25 +127,29 @@ namespace SubPhases
             {
                 selectedPlanningAction();
             }
+            else
+            {
+                Next();
+            }
         }
 
         private void PerfromBrTemplatePlanning(Actions.BarrelRollTemplateVariants template)
         {
-            SubPhases.BarrelRollPlanningSubPhase newPhase = (SubPhases.BarrelRollPlanningSubPhase) Phases.StartTemporarySubPhaseNew(
+            BarrelRollPlanningSubPhase brPlanning = (SubPhases.BarrelRollPlanningSubPhase) Phases.StartTemporarySubPhaseNew(
                 "Select position",
                 typeof(SubPhases.BarrelRollPlanningSubPhase),
                 delegate {
                     FinishTractorBeamMovement();
                 }
             );
-            newPhase.Name = "Select position";
-            newPhase.TheShip = TheShip;
-            newPhase.IsTemporary = true;
-            newPhase.Controller = Assigner;
-            newPhase.ObstacleOverlapAllowed = true;
+            brPlanning.Name = "Select position";
+            brPlanning.TheShip = TheShip;
+            brPlanning.IsTemporary = true;
+            brPlanning.Controller = Assigner;
+            brPlanning.ObstacleOverlapAllowed = true;
             Phases.UpdateHelpInfo();
-            newPhase.SelectTemplate(template);
-            newPhase.PerfromTemplatePlanning();
+            brPlanning.SelectTemplate(template);
+            brPlanning.PerfromTemplatePlanning();
         }
 
         private void PerfromLeftBrTemplatePlanning()
@@ -166,8 +176,10 @@ namespace SubPhases
             boostPlanning.TryPerformBoost();
         }
 
-        private void StartSelectTemplateSubphase(bool canBoost)
+        private void StartSelectTemplateSubphase()
         {
+            selectedPlanningAction = null;
+
             TractorBeamDirectionDecisionSubPhase selectTractorDirection = (TractorBeamDirectionDecisionSubPhase)Phases.StartTemporarySubPhaseNew(
                 Name,
                 typeof(TractorBeamDirectionDecisionSubPhase),
@@ -195,6 +207,7 @@ namespace SubPhases
             selectTractorDirection.InfoText = "Select tractor beam direction for " + TheShip.PilotName;
             selectTractorDirection.DefaultDecisionName = selectTractorDirection.GetDecisions().First().Name;
             selectTractorDirection.RequiredPlayer = Assigner.PlayerNo;
+            selectTractorDirection.ShowSkipButton = true;
 
             selectTractorDirection.Start();
         }
@@ -210,6 +223,16 @@ namespace SubPhases
             Phases.CurrentSubPhase = PreviousSubPhase;
             Phases.CurrentSubPhase.Next();
             UpdateHelpInfo();
+        }
+
+        public override void Resume()
+        {
+            var prevPhase = Phases.CurrentSubPhase;
+            Phases.CurrentSubPhase = this;
+            UpdateHelpInfo();
+            if ((prevPhase is BarrelRollPlanningSubPhase) && !(prevPhase as BarrelRollPlanningSubPhase).IsBarrelRollAllowed()) {
+                RegisterTractorPlanning();
+            }
         }
 
         protected class TractorBeamDirectionDecisionSubPhase : DecisionSubPhase { }

@@ -22,6 +22,9 @@ namespace Upgrade
         public int InstalledUpgradeCostReduction { get; private set; }
         public int InstalledUpgradeCostMax { get; private set; }
 
+        public event Ship.GenericShip.EventHandlerUpgrade OnPreInstallUpgrade;
+        public event Ship.GenericShip.EventHandlerUpgrade OnRemovePreInstallUpgrade;
+
         public bool IsEmpty
         {
             get { return (InstalledUpgrade == null); }
@@ -75,11 +78,14 @@ namespace Upgrade
                     }
                 }
             }
+
+            if (OnPreInstallUpgrade != null) OnPreInstallUpgrade(upgrade);
         }
 
         public void RemovePreInstallUpgrade()
         {
             InstalledUpgrade.PreDettachFromShip();
+            if (OnRemovePreInstallUpgrade != null) OnRemovePreInstallUpgrade(InstalledUpgrade);
             InstalledUpgrade = null;
         }
 

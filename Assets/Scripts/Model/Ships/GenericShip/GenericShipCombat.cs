@@ -6,6 +6,16 @@ using UnityEngine;
 
 namespace Ship
 {
+    public enum WeaponType
+    {
+        PrimaryWeapon,
+        Torpedo,
+        Missile,
+        Cannon,
+        Turret,
+        Illicit
+    }
+
     public interface IShipWeapon
     {
         GenericShip Host { get; set; }

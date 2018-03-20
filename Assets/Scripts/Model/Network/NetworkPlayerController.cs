@@ -324,7 +324,7 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     [ClientRpc]
     private void RpcLaunchBarrelRoll()
     {
-        (Phases.CurrentSubPhase as SubPhases.BarrelRollPlanningSubPhase).StartBarrelRollExecution(Selection.ThisShip);
+        (Phases.CurrentSubPhase as SubPhases.BarrelRollPlanningSubPhase).StartBarrelRollExecution();
     }
 
     [Command]
@@ -372,7 +372,7 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     [ClientRpc]
     private void RpcLaunchBoost()
     {
-        (Phases.CurrentSubPhase as SubPhases.BoostPlanningSubPhase).StartBoostExecution(Selection.ThisShip);
+        (Phases.CurrentSubPhase as SubPhases.BoostPlanningSubPhase).StartBoostExecution();
     }
 
     [Command]

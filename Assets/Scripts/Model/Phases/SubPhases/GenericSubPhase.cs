@@ -30,6 +30,13 @@ namespace SubPhases
             set { canBePaused = value; }
         }
 
+        private Ship.GenericShip theShip;
+        public Ship.GenericShip TheShip
+        {
+            get { return theShip ?? Selection.ThisShip; }
+            set { theShip = value; }
+        }
+
         public int RequiredPilotSkill;
         public Players.PlayerNo RequiredPlayer = Players.PlayerNo.Player1;
 

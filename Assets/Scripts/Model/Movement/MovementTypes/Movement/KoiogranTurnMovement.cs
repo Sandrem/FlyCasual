@@ -15,7 +15,7 @@ namespace Movement
 
         protected override void ManeuverEndRotation(Action callBack)
         {
-            if (!Selection.ThisShip.IsBumped)
+            if (!TheShip.IsBumped)
             {
                 Phases.StartTemporarySubPhaseOld("Koiogran Turn", typeof(SubPhases.KoiogranTurnSubPhase), callBack);
             }

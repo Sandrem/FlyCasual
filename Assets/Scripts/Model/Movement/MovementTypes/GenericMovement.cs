@@ -51,6 +51,8 @@ namespace Movement
         public ManeuverBearing Bearing;
         public ManeuverColor ColorComplexity;
 
+        private string shipTag;
+
         public MovementStruct(string parameters, Ship.GenericShip ship = null)
         {
             string[] arrParameters = parameters.Split('.');
@@ -119,7 +121,9 @@ namespace Movement
             Direction = direction;
             Bearing = bearing;
 
-            if (ship == null) ship = Selection.ThisShip;
+            ship = ship ?? Selection.ThisShip;
+            shipTag = ship.GetTag();
+
             if (!ship.Maneuvers.ContainsKey(parameters))
             {
                 Console.Write("<b>Ship " + ship.Type + " doesn't have maneuver " + parameters + "</b>", LogTypes.Errors, true, "red");
@@ -132,14 +136,15 @@ namespace Movement
         {
             string parameters = this.ToString();
 
-            if (!Selection.ThisShip.Maneuvers.ContainsKey(parameters))
+            Ship.GenericShip ship = Roster.GetShipById(shipTag) ?? Selection.ThisShip;
+            if (!ship.Maneuvers.ContainsKey(parameters))
             {
-                Console.Write(Selection.ThisShip.Type + " doesn't have " + parameters + " maneuver!", LogTypes.Errors, true, "red");
+                Console.Write(ship.Type + " doesn't have " + parameters + " maneuver!", LogTypes.Errors, true, "red");
             }
             else
             {
-                ColorComplexity = Selection.ThisShip.Maneuvers[parameters];
-                ColorComplexity = Selection.ThisShip.GetColorComplexityOfManeuver(this);
+                ColorComplexity = ship.Maneuvers[parameters];
+                ColorComplexity = ship.GetColorComplexityOfManeuver(this);
             }
         }
 
@@ -268,6 +273,17 @@ namespace Movement
         public ManeuverBearing Bearing { get; set; }
         public ManeuverColor ColorComplexity { get; set; }
 
+        private Ship.GenericShip theShip;
+        public Ship.GenericShip TheShip {
+            get {
+                return theShip ?? Selection.ThisShip;
+            }
+            set {
+                theShip = value;
+            }
+        }
+
+
         protected float ProgressTarget { get; set; }
         protected float ProgressCurrent { get; set; }
 
@@ -331,31 +347,31 @@ namespace Movement
         public virtual void LaunchShipMovement()
         {
             GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-            Game.Wait(0.5f, delegate { Selection.ThisShip.StartMoving(LaunchShipMovementContinue); });
+            Game.Wait(0.5f, delegate { TheShip.StartMoving(LaunchShipMovementContinue); });
         }
 
         private void LaunchShipMovementContinue()
         {
-            if (ProgressTarget > 0) Rules.Collision.ClearBumps(Selection.ThisShip);
+            if (ProgressTarget > 0) Rules.Collision.ClearBumps(TheShip);
 
             foreach (var shipBumped in movementPrediction.ShipsBumped)
             {
-                Rules.Collision.AddBump(Selection.ThisShip, shipBumped);
+                Rules.Collision.AddBump(TheShip, shipBumped);
             }
 
-            Selection.ThisShip.IsLandedOnObstacle = movementPrediction.IsLandedOnAsteroid;
+            TheShip.IsLandedOnObstacle = movementPrediction.IsLandedOnAsteroid;
 
             if (movementPrediction.AsteroidsHit.Count > 0)
             {
-                Selection.ThisShip.ObstaclesHit.AddRange(movementPrediction.AsteroidsHit);
+                TheShip.ObstaclesHit.AddRange(movementPrediction.AsteroidsHit);
             }
 
             if (movementPrediction.MinesHit.Count > 0)
             {
-                Selection.ThisShip.MinesHit.AddRange(movementPrediction.MinesHit);
+                TheShip.MinesHit.AddRange(movementPrediction.MinesHit);
             }
 
-            Sounds.PlayFly();
+            Sounds.PlayFly(TheShip);
             AdaptSuccessProgress();
 
             LaunchSimple();
@@ -396,8 +412,8 @@ namespace Movement
             GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
             Game.Movement.isMoving = false;
 
-            Selection.ThisShip.ApplyRotationHelpers();
-            Selection.ThisShip.ResetRotationHelpers();
+            TheShip.ApplyRotationHelpers();
+            TheShip.ResetRotationHelpers();
 
             ManeuverEndRotation(FinishMovementEvents);
         }
@@ -411,11 +427,11 @@ namespace Movement
         { 
             MovementTemplates.HideLastMovementRuler();
 
-            Selection.ThisShip.CallExecuteMoving();
+            TheShip.CallExecuteMoving();
 
             //Called as callbacks
-            //Selection.ThisShip.FinishMovement();
-            //Selection.ThisShip.FinishPosition();
+            //TargetShip.FinishMovement();
+            //TargetShip.FinishPosition();
             //Phases.FinishSubPhase(typeof(SubPhases.MovementExecutionSubPhase));
         }
 

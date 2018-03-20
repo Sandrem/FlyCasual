@@ -77,7 +77,7 @@ public enum TriggerTypes
     OnMajorExplosionCrit,
     OnDiscard,
     OnFlipFaceUp,
-    OnDiceAboutToBeRolled
+    OnDiceAboutToBeRolled,
     OnAfterDiscard,
     OnAfterFlipFaceUp
 }

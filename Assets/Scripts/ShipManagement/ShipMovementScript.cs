@@ -25,33 +25,6 @@ public class ShipMovementScript : MonoBehaviour {
         UpdateMovement();
         UpdateSubscribedFuncs();
         ClearCollision();
-
-        Test();
-    }
-
-    private void Test()
-    {
-        GenericShip ship1 = Roster.GetPlayer(Players.PlayerNo.Player1).Ships.FirstOrDefault().Value;
-        GenericShip ship2 = Roster.GetPlayer(Players.PlayerNo.Player2).Ships.FirstOrDefault().Value;
-        if (ship1 != null && ship2 != null)
-        {
-            Board.RangeInfo rangeInfo = new Board.RangeInfo(ship1, ship2);
-
-            GameObject distanceChecker = GameObject.Find("SceneHolder/Board/DistanceTester");
-            distanceChecker.transform.position = rangeInfo.MinDistance.Point1;
-            distanceChecker.transform.LookAt(rangeInfo.MinDistance.Point2);
-            distanceChecker.transform.localScale = new Vector3(1, 1, rangeInfo.MinDistance.Distance / Board.BoardManager.DISTANCE_INTO_RANGE);
-
-            /*GameObject distanceCheckerAlt1 = GameObject.Find("SceneHolder/Board/DistanceTesterAlt1");
-            distanceCheckerAlt1.transform.position = rangeInfo.AltDistance1.Point1;
-            distanceCheckerAlt1.transform.LookAt(rangeInfo.AltDistance1.Point2);
-            distanceCheckerAlt1.transform.localScale = new Vector3(1, 1, rangeInfo.AltDistance1.Distance / Board.BoardManager.DISTANCE_INTO_RANGE);
-
-            GameObject distanceCheckerAlt2 = GameObject.Find("SceneHolder/Board/DistanceTesterAlt2");
-            distanceCheckerAlt2.transform.position = rangeInfo.AltDistance2.Point1;
-            distanceCheckerAlt2.transform.LookAt(rangeInfo.AltDistance2.Point2);
-            distanceCheckerAlt2.transform.localScale = new Vector3(1, 1, rangeInfo.AltDistance2.Distance / Board.BoardManager.DISTANCE_INTO_RANGE);*/
-        }
     }
 
     private void UpdateMovement()

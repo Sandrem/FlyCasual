@@ -10,7 +10,7 @@ using Upgrade;
 namespace Board
 {
 
-    public class ShotInfo : RangeInfo
+    public class ShotInfo : ShipDistanceInformation
     {
         public bool InShotAngle { get; private set; }
         public bool InArc { get; private set; }

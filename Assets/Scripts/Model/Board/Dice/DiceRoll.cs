@@ -333,10 +333,11 @@ public partial class DiceRoll
         }
     }
 
-    private void CancelHit()
+    private DieSide CancelHit(bool CancelByDefence, bool dryRun)
     {
         DieSide cancelFirst = DieSide.Unknown;
-        DieSide cancelLast= DieSide.Unknown;
+        DieSide cancelLast = DieSide.Unknown;
+        DieSide cancelResult = DieSide.Unknown;
 
         if (!CancelCritsFirst)
         {
@@ -349,10 +350,18 @@ public partial class DiceRoll
             cancelLast = DieSide.Success;
         }
 
-        if (!CancelType(cancelFirst))
+
+        if (!CancelType(cancelFirst, CancelByDefence, dryRun))
         {
-            CancelType(cancelLast);
+            if (CancelType(cancelLast, CancelByDefence, dryRun))
+            {
+                cancelResult = cancelLast;
+            }
+        } else
+        {
+            cancelResult = cancelFirst;
         }
+        return cancelResult;
     }
 
     public void RemoveAllFailures()
@@ -375,16 +384,19 @@ public partial class DiceRoll
         DiceList = new List<Die>();
     }
 
-    private bool CancelType(DieSide type)
+    private bool CancelType(DieSide type, bool CancelByDefence, bool dryRun)
     {
         bool found = false;
         foreach (Die die in DiceList)
         {
             if (die.Side == type)
             {
-                die.Cancel();
-                found = true;
-                return found;
+                //Cancel dice if it's not a defence cancel or it is and the die is cancellable
+                if ((!CancelByDefence) || (!die.IsUncancellable)) {
+                    if (!dryRun) die.Cancel();
+                    found = true;
+                    return found;
+                }
             }
         }
         return found;
@@ -394,8 +406,24 @@ public partial class DiceRoll
     {
         for (int i = 0; i < numToCancel; i++)
         {
-            CancelHit();
+            CancelHit(false, false); //Generic cancel, not a test
         }
+    }
+    public Dictionary<string,int> CancelHitsByDefence(int numToCancel, bool dryRun = false)
+    {
+        Dictionary<string, int> results = new Dictionary<string, int>();
+        results["crits"] = 0;
+        results["hits"] = 0;
+        for (int i = 0; i < numToCancel; i++)
+        {
+            DieSide result = CancelHit(true, dryRun); //Cancel by defence dice 
+            switch(result)
+            {
+                case DieSide.Success: { results["hits"]++; break; }
+                case DieSide.Crit: { results["crits"]++; break; }                
+            }
+        }
+        return results;
     }
 
     public void CancelAllResults()

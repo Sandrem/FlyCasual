@@ -248,7 +248,7 @@ public static partial class Combat
     public static void CancelHitsByDefenceDice()
     {
         int crits = DiceRollAttack.CriticalSuccesses;
-        DiceRollAttack.CancelHits(DiceRollDefence.Successes);
+        DiceRollAttack.CancelHitsByDefence(DiceRollDefence.Successes);
         if (crits > DiceRollAttack.CriticalSuccesses)
         {
             Attacker.CallOnAtLeastOneCritWasCancelledByDefender();

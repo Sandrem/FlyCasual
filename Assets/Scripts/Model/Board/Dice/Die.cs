@@ -9,6 +9,20 @@ public partial class Die
     public bool IsRerolled { get; set; }
     public bool IsShowRerolledLock { get; private set; }
 
+    private bool cannotBeModified { get; set; }
+    public bool CannotBeModified
+    {
+        get
+        {
+            return cannotBeModified;
+        }
+        set
+        {
+            cannotBeModified = value;
+            ToggleRerolledLock(IsRerolled || value); // Show the "already rerolled lock" for now. TODO: custom icon?
+        }
+    }
+
     public bool IsSuccess
     {
         get

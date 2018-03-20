@@ -64,11 +64,13 @@ namespace Upgrade
                 UpgradesList.EmptyUpgrade emptyUpgrade = new UpgradesList.EmptyUpgrade();
                 emptyUpgrade.set(upgrade.Types, upgrade.Name, 0);
 
+                int emptySlotsFilled = 0; // Fixes bug #708. TODO: Will need to revisit to support multi-type upgrades.
                 // find another slot
                 foreach (UpgradeSlot tempSlot in host.UpgradeBar.GetUpgradeSlots())
                 {
-                    if (tempSlot.IsEmpty && upgrade.hasType(tempSlot.Type))
+                    if (emptySlotsFilled < emptyUpgrade.Types.Count && tempSlot.IsEmpty && upgrade.hasType(tempSlot.Type))
                     {
+                        emptySlotsFilled += 1; // Fixes bug #708.
                         tempSlot.PreInstallUpgrade(emptyUpgrade, host);
                     }
                 }

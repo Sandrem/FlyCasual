@@ -13,7 +13,8 @@ namespace UpgradesList
             isPlaceholder = true;
         }
         public void set( List<UpgradeType> types, string Name, int Cost ) {
-            for (int i = 0; i < types.Count; i++) {
+            // i starts at one here to skip the first upgrade slot (which has already been allocated). Fixes bug #708
+            for (int i = 1; i < types.Count; i++) {
                 this.Types.Add (types [i]);
             }
 

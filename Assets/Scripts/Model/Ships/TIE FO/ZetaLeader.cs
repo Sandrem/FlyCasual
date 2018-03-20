@@ -32,17 +32,17 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            HostShip.OnCombatPhaseStart += RegisterEpsilonLeaderAbility;
-            HostShip.OnCombatPhaseEnd += RemoveEpsilonLeaderAbility;
+            HostShip.OnAttackStartAsAttacker += RegisterEpsilonLeaderAbility;
+            HostShip.OnAttackFinishAsAttacker += RemoveEpsilonLeaderAbility;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.OnCombatPhaseStart -= RegisterEpsilonLeaderAbility;
-            HostShip.OnCombatPhaseEnd -= RemoveEpsilonLeaderAbility;
+            HostShip.OnAttackStartAsAttacker -= RegisterEpsilonLeaderAbility;
+            HostShip.OnAttackFinishAsAttacker -= RemoveEpsilonLeaderAbility;
         }
 
-        private void RegisterEpsilonLeaderAbility(GenericShip genericShip)
+        private void RegisterEpsilonLeaderAbility()
         {
             RegisterAbilityTrigger(TriggerTypes.OnAttackStart, ShowDecision);
         }

@@ -557,8 +557,10 @@ namespace SquadBuilderNS
             // check if its a dual upgrade
             if (upgrade.Types.Count > 1) {
                 // find another slot
+                int slotsRemoved = 1; // We removed one above (fixes bug #708) TODO: this may not work for multi-type upgrades. Will need to revisit later.
                 foreach (UpgradeSlot tempSlot in CurrentSquadBuilderShip.Instance.UpgradeBar.GetUpgradeSlots()){
-                    if (tempSlot != slot && upgrade.hasType (tempSlot.Type)) {
+                    if (slotsRemoved < upgrade.Types.Count && tempSlot != slot && upgrade.hasType (tempSlot.Type)) {
+                        slotsRemoved += 1; // Fixes bug #708
                         RemoveInstalledUpgrade (tempSlot, upgrade);
                     }
                 }

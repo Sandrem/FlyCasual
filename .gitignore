@@ -74,5 +74,8 @@ ExportedObj/
 *.pdb
 
 /.collabignore
+/Assets/ImportedAssets/Tabletop Simulator/Ships
+/FlyCasual_Data
+/FlyCasual.exe
+/UnityPlayer.dll
 build
-

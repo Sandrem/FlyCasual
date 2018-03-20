@@ -14,7 +14,7 @@ namespace Ship
             public M3AScyk() : base()
             {
                 Type = "M3-A Interceptor";
-                IconicPilots.Add(Faction.Scum, typeof(TansariiPointVeteran));
+                IconicPilots.Add(Faction.Scum, typeof(Inaldra));
 
                 ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/4/48/MS_M3-A-INTERCEPTOR.png";
 

@@ -1,96 +1,208 @@
 fileFormatVersion: 2
-guid: 20cb13c9969f5fc409abc6c9816f662e
-timeCreated: 1503274984
+guid: 0bdeaf4249c2df940b6755d6a46b8872
+timeCreated: 1520319290
 licenseType: Free
 ModelImporter:
-  serializedVersion: 21
+  serializedVersion: 22
   fileIDToRecycleName:
-    100000: Engine.015_Stand_sep29_auv
+    100000: Engine_046015_Stand_sep29_auv
     100002: //RootNode
-    100004: MainHull.000_sep23_Stand_sep29_auv
-    100006: MainHull.000_sep24_Stand_sep29_auv
-    100008: MainHull.004_Stand_sep29_auv
-    100010: MainHull.009_Stand_sep29_auv
-    100012: MainHull.011_Stand_sep29_auv
-    100014: MainHull.012_Stand_sep29_auv
-    100016: MainHull.013_Stand_sep29_auv
-    100018: MainHull.014_Stand_sep29_auv
-    100020: MainHull.016_Stand_sep29_auv
-    100022: MainHull.017_Stand_sep29_auv
-    100024: med_base_Cube.011_Stand_sep29_auv
-    100026: RotaryWing.001_Stand_sep29_auv
-    100028: SmallGun.005_Stand_sep29_auv
+    100004: MainHull_046000_sep23_Stand_sep29_auv
+    100006: MainHull_046000_sep24_Stand_sep29_auv
+    100008: MainHull_046004_Stand_sep29_auv
+    100010: MainHull_046009_Stand_sep29_auv
+    100012: MainHull_046011_Stand_sep29_auv
+    100014: MainHull_046012_Stand_sep29_auv
+    100016: MainHull_046013_Stand_sep29_auv
+    100018: MainHull_046014_Stand_sep29_auv
+    100020: MainHull_046016_Stand_sep29_auv
+    100022: MainHull_046017_Stand_sep29_auv
+    100024: med_base_Cube_046011_Stand_sep29_auv
+    100026: RotaryWing_046001_Stand_sep29_auv
+    100028: SmallGun_046005_Stand_sep29_auv
     100030: Stand_sep29_Stand_sep29_auv
-    100032: Wing.003_Stand_sep29_auv
-    400000: Engine.015_Stand_sep29_auv
+    100032: Wing_046003_Stand_sep29_auv
+    100034: Hull
+    100036: LTWing
+    100038: RTWing
+    400000: Engine_046015_Stand_sep29_auv
     400002: //RootNode
-    400004: MainHull.000_sep23_Stand_sep29_auv
-    400006: MainHull.000_sep24_Stand_sep29_auv
-    400008: MainHull.004_Stand_sep29_auv
-    400010: MainHull.009_Stand_sep29_auv
-    400012: MainHull.011_Stand_sep29_auv
-    400014: MainHull.012_Stand_sep29_auv
-    400016: MainHull.013_Stand_sep29_auv
-    400018: MainHull.014_Stand_sep29_auv
-    400020: MainHull.016_Stand_sep29_auv
-    400022: MainHull.017_Stand_sep29_auv
-    400024: med_base_Cube.011_Stand_sep29_auv
-    400026: RotaryWing.001_Stand_sep29_auv
-    400028: SmallGun.005_Stand_sep29_auv
+    400004: MainHull_046000_sep23_Stand_sep29_auv
+    400006: MainHull_046000_sep24_Stand_sep29_auv
+    400008: MainHull_046004_Stand_sep29_auv
+    400010: MainHull_046009_Stand_sep29_auv
+    400012: MainHull_046011_Stand_sep29_auv
+    400014: MainHull_046012_Stand_sep29_auv
+    400016: MainHull_046013_Stand_sep29_auv
+    400018: MainHull_046014_Stand_sep29_auv
+    400020: MainHull_046016_Stand_sep29_auv
+    400022: MainHull_046017_Stand_sep29_auv
+    400024: med_base_Cube_046011_Stand_sep29_auv
+    400026: RotaryWing_046001_Stand_sep29_auv
+    400028: SmallGun_046005_Stand_sep29_auv
     400030: Stand_sep29_Stand_sep29_auv
-    400032: Wing.003_Stand_sep29_auv
-    2300000: Engine.015_Stand_sep29_auv
-    2300002: MainHull.000_sep23_Stand_sep29_auv
-    2300004: MainHull.000_sep24_Stand_sep29_auv
-    2300006: MainHull.004_Stand_sep29_auv
-    2300008: MainHull.009_Stand_sep29_auv
-    2300010: MainHull.011_Stand_sep29_auv
-    2300012: MainHull.012_Stand_sep29_auv
-    2300014: MainHull.013_Stand_sep29_auv
-    2300016: MainHull.014_Stand_sep29_auv
-    2300018: MainHull.016_Stand_sep29_auv
-    2300020: MainHull.017_Stand_sep29_auv
-    2300022: med_base_Cube.011_Stand_sep29_auv
-    2300024: RotaryWing.001_Stand_sep29_auv
-    2300026: SmallGun.005_Stand_sep29_auv
+    400032: Wing_046003_Stand_sep29_auv
+    400034: Hull
+    400036: LTWing
+    400038: RTWing
+    2300000: Engine_046015_Stand_sep29_auv
+    2300002: MainHull_046000_sep23_Stand_sep29_auv
+    2300004: MainHull_046000_sep24_Stand_sep29_auv
+    2300006: MainHull_046004_Stand_sep29_auv
+    2300008: MainHull_046009_Stand_sep29_auv
+    2300010: MainHull_046011_Stand_sep29_auv
+    2300012: MainHull_046012_Stand_sep29_auv
+    2300014: MainHull_046013_Stand_sep29_auv
+    2300016: MainHull_046014_Stand_sep29_auv
+    2300018: MainHull_046016_Stand_sep29_auv
+    2300020: MainHull_046017_Stand_sep29_auv
+    2300022: med_base_Cube_046011_Stand_sep29_auv
+    2300024: RotaryWing_046001_Stand_sep29_auv
+    2300026: SmallGun_046005_Stand_sep29_auv
     2300028: Stand_sep29_Stand_sep29_auv
-    2300030: Wing.003_Stand_sep29_auv
-    3300000: Engine.015_Stand_sep29_auv
-    3300002: MainHull.000_sep23_Stand_sep29_auv
-    3300004: MainHull.000_sep24_Stand_sep29_auv
-    3300006: MainHull.004_Stand_sep29_auv
-    3300008: MainHull.009_Stand_sep29_auv
-    3300010: MainHull.011_Stand_sep29_auv
-    3300012: MainHull.012_Stand_sep29_auv
-    3300014: MainHull.013_Stand_sep29_auv
-    3300016: MainHull.014_Stand_sep29_auv
-    3300018: MainHull.016_Stand_sep29_auv
-    3300020: MainHull.017_Stand_sep29_auv
-    3300022: med_base_Cube.011_Stand_sep29_auv
-    3300024: RotaryWing.001_Stand_sep29_auv
-    3300026: SmallGun.005_Stand_sep29_auv
+    2300030: Wing_046003_Stand_sep29_auv
+    2300032: Hull
+    2300034: LTWing
+    2300036: RTWing
+    3300000: Engine_046015_Stand_sep29_auv
+    3300002: MainHull_046000_sep23_Stand_sep29_auv
+    3300004: MainHull_046000_sep24_Stand_sep29_auv
+    3300006: MainHull_046004_Stand_sep29_auv
+    3300008: MainHull_046009_Stand_sep29_auv
+    3300010: MainHull_046011_Stand_sep29_auv
+    3300012: MainHull_046012_Stand_sep29_auv
+    3300014: MainHull_046013_Stand_sep29_auv
+    3300016: MainHull_046014_Stand_sep29_auv
+    3300018: MainHull_046016_Stand_sep29_auv
+    3300020: MainHull_046017_Stand_sep29_auv
+    3300022: med_base_Cube_046011_Stand_sep29_auv
+    3300024: RotaryWing_046001_Stand_sep29_auv
+    3300026: SmallGun_046005_Stand_sep29_auv
     3300028: Stand_sep29_Stand_sep29_auv
-    3300030: Wing.003_Stand_sep29_auv
-    4300000: Engine.015_Stand_sep29_auv
-    4300002: MainHull.000_sep23_Stand_sep29_auv
-    4300004: MainHull.000_sep24_Stand_sep29_auv
-    4300006: MainHull.004_Stand_sep29_auv
-    4300008: MainHull.009_Stand_sep29_auv
-    4300010: MainHull.011_Stand_sep29_auv
-    4300012: MainHull.012_Stand_sep29_auv
-    4300014: MainHull.013_Stand_sep29_auv
-    4300016: MainHull.014_Stand_sep29_auv
-    4300018: MainHull.016_Stand_sep29_auv
-    4300020: MainHull.017_Stand_sep29_auv
-    4300022: med_base_Cube.011_Stand_sep29_auv
-    4300024: RotaryWing.001_Stand_sep29_auv
-    4300026: SmallGun.005_Stand_sep29_auv
+    3300030: Wing_046003_Stand_sep29_auv
+    3300032: Hull
+    3300034: LTWing
+    3300036: RTWing
+    4300000: Engine_046015_Stand_sep29_auv
+    4300002: MainHull_046000_sep23_Stand_sep29_auv
+    4300004: MainHull_046000_sep24_Stand_sep29_auv
+    4300006: MainHull_046004_Stand_sep29_auv
+    4300008: MainHull_046009_Stand_sep29_auv
+    4300010: MainHull_046011_Stand_sep29_auv
+    4300012: MainHull_046012_Stand_sep29_auv
+    4300014: MainHull_046013_Stand_sep29_auv
+    4300016: MainHull_046014_Stand_sep29_auv
+    4300018: MainHull_046016_Stand_sep29_auv
+    4300020: MainHull_046017_Stand_sep29_auv
+    4300022: med_base_Cube_046011_Stand_sep29_auv
+    4300024: RotaryWing_046001_Stand_sep29_auv
+    4300026: SmallGun_046005_Stand_sep29_auv
     4300028: Stand_sep29_Stand_sep29_auv
-    4300030: Wing.003_Stand_sep29_auv
+    4300030: Wing_046003_Stand_sep29_auv
+    4300032: Hull
+    4300034: LTWing
+    4300036: RTWing
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Engine_046015_Stand_sep29_auvMat
+    second: {fileID: 2100000, guid: 61240f640c7affb49a2d76ed4daaa3eb, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: HullMat
+    second: {fileID: 2100000, guid: eed68e99441c94f4187a31fac3f8ef5a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: LTWingMat
+    second: {fileID: 2100000, guid: 8a8a6c93366a2a34d840928d717047bb, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MainHull_046000_sep23_Stand_sep29_auvMat
+    second: {fileID: 2100000, guid: 5da27a545e96bc54dbac0dbd530ac055, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MainHull_046000_sep24_Stand_sep29_auvMat
+    second: {fileID: 2100000, guid: 5e43d8dfa824fff4c9b72746f786ca0b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MainHull_046004_Stand_sep29_auvMat
+    second: {fileID: 2100000, guid: 58f1474a65c127a46b041cea20944ec0, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MainHull_046009_Stand_sep29_auvMat
+    second: {fileID: 2100000, guid: 8f0d408c93a18d447aebf33c66b0fa0c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MainHull_046011_Stand_sep29_auvMat
+    second: {fileID: 2100000, guid: 609a47fa6f54bd040b118d0d19066a35, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MainHull_046012_Stand_sep29_auvMat
+    second: {fileID: 2100000, guid: f6c784042960c6b45bcef7da7d97f1d9, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MainHull_046013_Stand_sep29_auvMat
+    second: {fileID: 2100000, guid: 3d69a238f2b21444f9d038e26492daf4, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MainHull_046014_Stand_sep29_auvMat
+    second: {fileID: 2100000, guid: 42214ca42cb18b64096ce8972c622d38, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MainHull_046016_Stand_sep29_auvMat
+    second: {fileID: 2100000, guid: 23ffe13dd8d265849bf03d191250ded5, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MainHull_046017_Stand_sep29_auvMat
+    second: {fileID: 2100000, guid: 409a547cad4df704b892820a4721c627, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: RTWingMat
+    second: {fileID: 2100000, guid: 2bf589de5ed6261408ace44be0e846cc, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: RotaryWing_046001_Stand_sep29_auvMat
+    second: {fileID: 2100000, guid: 7ebcfc4342486d443aac23948601f34b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: SmallGun_046005_Stand_sep29_auvMat
+    second: {fileID: 2100000, guid: 46e58f9ae49394541a940b222821266f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep29_Stand_sep29_auvMat
+    second: {fileID: 2100000, guid: 2a5bac602e490fa4aa2636d87cfc806a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Wing_046003_Stand_sep29_auvMat
+    second: {fileID: 2100000, guid: 4a5a40ce5e3ec624ca7baa59df7ab86d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: med_base_Cube_046011_Stand_sep29_auvMat
+    second: {fileID: 2100000, guid: 0cd0f575c167cda4cbb2d6d79893a9a5, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
     materialSearch: 1
+    materialLocation: 0
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
@@ -103,6 +215,7 @@ ModelImporter:
     animationImportWarnings: 
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
     animationCompression: 1
     animationRotationError: 0.5
     animationPositionError: 0.5
@@ -127,6 +240,8 @@ ModelImporter:
     optimizeMeshForGPU: 1
     keepQuads: 0
     weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88

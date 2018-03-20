@@ -1,9 +1,0 @@
-# MTL written from E:\My Documents\GitHub\FlyCasual\Camburu\Assets\ImportedAssets\Tabletop Simulator\Ships\TIE Striker\TIE Striker_pieces.obj
-newmtl tie
-Kd 0.48 0.48 0.48
-Ns 256
-d 1
-illum 2
-Ka 0 0 0
-Ks 0.04 0.04 0.04
-map_Kd E:\My Documents\GitHub\FlyCasual\Camburu\Assets\Resources\ShipSkins\TIE Striker\Gray.png

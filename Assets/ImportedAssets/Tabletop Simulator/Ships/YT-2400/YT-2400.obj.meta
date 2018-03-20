@@ -1,101 +1,34 @@
 fileFormatVersion: 2
-guid: 5435a3726c59fe4479e561050875c793
-timeCreated: 1503273248
+guid: 4a1bf736078674e40b3b5fd44498b4bd
+timeCreated: 1521560744
 licenseType: Free
 ModelImporter:
-  serializedVersion: 21
+  serializedVersion: 22
   fileIDToRecycleName:
-    100000: Hatch.018_Stand_sep29_auv
-    100002: MainHull.000_Stand_sep29_auv
-    100004: MainHull.001_Stand_sep29_auv
-    100006: MainHull.004_Stand_sep29_auv
-    100008: MainHull.005_Stand_sep29_auv
-    100010: MainHull.006_Stand_sep29_auv
-    100012: MainHull.007_Stand_sep29_auv
-    100014: MainHull.011_Stand_sep29_auv
-    100016: MainHull.012_Stand_sep29_auv
-    100018: MainHull.013_Stand_sep29_auv
-    100020: MainHull.014_Stand_sep29_auv
-    100022: MainHull.015_Stand_sep29_auv
-    100024: MainHull.016_Stand_sep29_auv
-    100026: MainHull.017_Stand_sep29_auv
-    100028: med_base_Cube.011_Stand_sep29_auv
-    100030: RotaryGunTurret.002_Stand_sep29_auv
-    100032: Stand_sep29_Stand_sep29_auv
-    100034: //RootNode
-    400000: Hatch.018_Stand_sep29_auv
-    400002: MainHull.000_Stand_sep29_auv
-    400004: MainHull.001_Stand_sep29_auv
-    400006: MainHull.004_Stand_sep29_auv
-    400008: MainHull.005_Stand_sep29_auv
-    400010: MainHull.006_Stand_sep29_auv
-    400012: MainHull.007_Stand_sep29_auv
-    400014: MainHull.011_Stand_sep29_auv
-    400016: MainHull.012_Stand_sep29_auv
-    400018: MainHull.013_Stand_sep29_auv
-    400020: MainHull.014_Stand_sep29_auv
-    400022: MainHull.015_Stand_sep29_auv
-    400024: MainHull.016_Stand_sep29_auv
-    400026: MainHull.017_Stand_sep29_auv
-    400028: med_base_Cube.011_Stand_sep29_auv
-    400030: RotaryGunTurret.002_Stand_sep29_auv
-    400032: Stand_sep29_Stand_sep29_auv
-    400034: //RootNode
-    2300000: Hatch.018_Stand_sep29_auv
-    2300002: MainHull.000_Stand_sep29_auv
-    2300004: MainHull.001_Stand_sep29_auv
-    2300006: MainHull.004_Stand_sep29_auv
-    2300008: MainHull.005_Stand_sep29_auv
-    2300010: MainHull.006_Stand_sep29_auv
-    2300012: MainHull.007_Stand_sep29_auv
-    2300014: MainHull.011_Stand_sep29_auv
-    2300016: MainHull.012_Stand_sep29_auv
-    2300018: MainHull.013_Stand_sep29_auv
-    2300020: MainHull.014_Stand_sep29_auv
-    2300022: MainHull.015_Stand_sep29_auv
-    2300024: MainHull.016_Stand_sep29_auv
-    2300026: MainHull.017_Stand_sep29_auv
-    2300028: med_base_Cube.011_Stand_sep29_auv
-    2300030: RotaryGunTurret.002_Stand_sep29_auv
-    2300032: Stand_sep29_Stand_sep29_auv
-    3300000: Hatch.018_Stand_sep29_auv
-    3300002: MainHull.000_Stand_sep29_auv
-    3300004: MainHull.001_Stand_sep29_auv
-    3300006: MainHull.004_Stand_sep29_auv
-    3300008: MainHull.005_Stand_sep29_auv
-    3300010: MainHull.006_Stand_sep29_auv
-    3300012: MainHull.007_Stand_sep29_auv
-    3300014: MainHull.011_Stand_sep29_auv
-    3300016: MainHull.012_Stand_sep29_auv
-    3300018: MainHull.013_Stand_sep29_auv
-    3300020: MainHull.014_Stand_sep29_auv
-    3300022: MainHull.015_Stand_sep29_auv
-    3300024: MainHull.016_Stand_sep29_auv
-    3300026: MainHull.017_Stand_sep29_auv
-    3300028: med_base_Cube.011_Stand_sep29_auv
-    3300030: RotaryGunTurret.002_Stand_sep29_auv
-    3300032: Stand_sep29_Stand_sep29_auv
-    4300000: Hatch.018_Stand_sep29_auv
-    4300002: MainHull.000_Stand_sep29_auv
-    4300004: MainHull.001_Stand_sep29_auv
-    4300006: MainHull.004_Stand_sep29_auv
-    4300008: MainHull.005_Stand_sep29_auv
-    4300010: MainHull.006_Stand_sep29_auv
-    4300012: MainHull.007_Stand_sep29_auv
-    4300014: MainHull.011_Stand_sep29_auv
-    4300016: MainHull.012_Stand_sep29_auv
-    4300018: MainHull.013_Stand_sep29_auv
-    4300020: MainHull.014_Stand_sep29_auv
-    4300022: MainHull.015_Stand_sep29_auv
-    4300024: MainHull.016_Stand_sep29_auv
-    4300026: MainHull.017_Stand_sep29_auv
-    4300028: med_base_Cube.011_Stand_sep29_auv
-    4300030: RotaryGunTurret.002_Stand_sep29_auv
-    4300032: Stand_sep29_Stand_sep29_auv
+    100000: BottomTurret
+    100002: Hull
+    100004: TopTurret
+    100006: //RootNode
+    400000: BottomTurret
+    400002: Hull
+    400004: TopTurret
+    400006: //RootNode
+    2100000: yttex
+    2300000: BottomTurret
+    2300002: Hull
+    2300004: TopTurret
+    3300000: BottomTurret
+    3300002: Hull
+    3300004: TopTurret
+    4300000: BottomTurret
+    4300002: Hull
+    4300004: TopTurret
+  externalObjects: {}
   materials:
     importMaterials: 1
     materialName: 0
     materialSearch: 1
+    materialLocation: 1
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
@@ -108,6 +41,7 @@ ModelImporter:
     animationImportWarnings: 
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
     animationCompression: 1
     animationRotationError: 0.5
     animationPositionError: 0.5
@@ -132,6 +66,8 @@ ModelImporter:
     optimizeMeshForGPU: 1
     keepQuads: 0
     weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88

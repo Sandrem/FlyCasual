@@ -1,26 +1,48 @@
 fileFormatVersion: 2
-guid: e1bdf5ffcd416634ea88f9c61762c0b8
-timeCreated: 1503273322
+guid: 0f879840826d25442934bea6b2a1da16
+timeCreated: 1520319290
 licenseType: Free
 ModelImporter:
-  serializedVersion: 21
+  serializedVersion: 22
   fileIDToRecycleName:
-    100000: small_base_Cube.002_Cube14_auv
-    100002: //RootNode
-    100004: TIE_Striker_Cube14_auv
-    400000: small_base_Cube.002_Cube14_auv
-    400002: //RootNode
-    400004: TIE_Striker_Cube14_auv
-    2300000: small_base_Cube.002_Cube14_auv
-    2300002: TIE_Striker_Cube14_auv
-    3300000: small_base_Cube.002_Cube14_auv
-    3300002: TIE_Striker_Cube14_auv
-    4300000: small_base_Cube.002_Cube14_auv
-    4300002: TIE_Striker_Cube14_auv
+    100000: LTWing
+    100002: RTWing
+    100004: //RootNode
+    100006: TIE_Striker
+    400000: LTWing
+    400002: RTWing
+    400004: //RootNode
+    400006: TIE_Striker
+    2300000: LTWing
+    2300002: RTWing
+    2300004: TIE_Striker
+    3300000: LTWing
+    3300002: RTWing
+    3300004: TIE_Striker
+    4300000: LTWing
+    4300002: RTWing
+    4300004: TIE_Striker
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: LTWingMat
+    second: {fileID: 2100000, guid: fb1dffc5ad21d2a4d851e55f5201e39c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: RTWingMat
+    second: {fileID: 2100000, guid: 36dbf517bb14a6a4d96ede815058e386, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: TIE_StrikerMat
+    second: {fileID: 2100000, guid: 1fd8dca05394bdc458bc46b3b85b88b6, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
     materialSearch: 1
+    materialLocation: 0
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
@@ -33,6 +55,7 @@ ModelImporter:
     animationImportWarnings: 
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
     animationCompression: 1
     animationRotationError: 0.5
     animationPositionError: 0.5

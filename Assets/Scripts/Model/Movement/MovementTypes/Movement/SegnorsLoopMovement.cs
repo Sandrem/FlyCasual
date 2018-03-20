@@ -19,7 +19,7 @@ namespace Movement
         {
             base.Perform();
 
-            movementPrediction = new MovementPrediction(this, Selection.ThisShip.Owner.AfterShipMovementPrediction);
+            movementPrediction = new MovementPrediction(this, TheShip.Owner.AfterShipMovementPrediction);
         }
 
         protected override float SetProgressTarget()
@@ -39,7 +39,7 @@ namespace Movement
 
         protected override void ManeuverEndRotation(Action callBack)
         {
-            if (!Selection.ThisShip.IsBumped)
+            if (!TheShip.IsBumped)
             {
                 Phases.StartTemporarySubPhaseOld("Segnor's Loop", typeof(SubPhases.KoiogranTurnSubPhase), callBack);
             }

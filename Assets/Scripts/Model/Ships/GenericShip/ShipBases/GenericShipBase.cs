@@ -19,6 +19,8 @@ namespace Ship
         public string PrefabPath { get; protected set; }
         public string TemporaryPrefabPath { get; protected set; }
 
+        private Dictionary<string, Vector3> baseEdges = new Dictionary<string, Vector3>();
+
         protected Dictionary<string, Vector3> standFrontEdgePoints = new Dictionary<string, Vector3>();
         private Dictionary<string, Vector3> standFrontPoints = new Dictionary<string, Vector3>();
         private Dictionary<string, Vector3> standBackPoints = new Dictionary<string, Vector3>();
@@ -58,6 +60,11 @@ namespace Ship
         private void SetShipBaseEdges()
         {
             int PRECISION = 20;
+
+            baseEdges.Add("LF", new Vector3(-HALF_OF_SHIPSTAND_SIZE, 0f, 0f));
+            baseEdges.Add("RF", new Vector3(HALF_OF_SHIPSTAND_SIZE, 0f, 0f));
+            baseEdges.Add("LB", new Vector3(-HALF_OF_SHIPSTAND_SIZE, 0f, -2 * HALF_OF_SHIPSTAND_SIZE));
+            baseEdges.Add("RB", new Vector3(HALF_OF_SHIPSTAND_SIZE, 0f, -2 * HALF_OF_SHIPSTAND_SIZE));
 
             standEdgePoints.Add("LF", new Vector3(-HALF_OF_SHIPSTAND_SIZE, 0f, 0f));
             standEdgePoints.Add("CF", Vector3.zero);
@@ -140,6 +147,11 @@ namespace Ship
         public Vector3 GetCentralBackPoint()
         {
             return Host.Model.transform.Find("RotationHelper").TransformPoint(standEdgePoints["CB"]);
+        }
+
+        public Dictionary<string, Vector3> GetBaseEdges()
+        {
+            return GetPoints(baseEdges);
         }
 
         public Dictionary<string, Vector3> GetStandEdgePoints()

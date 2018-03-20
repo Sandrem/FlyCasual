@@ -137,6 +137,12 @@ public static class MovementTemplates {
         Templates.Find("RangeRuler").rotation = Quaternion.LookRotation(shipDistanceInfo.Vector);
     }
 
+    public static void ShowRangeRuler(ShipDistanceInformation shipDistanceInfo)
+    {
+        Templates.Find("RangeRuler").position = shipDistanceInfo.MinDistance.Point1;
+        Templates.Find("RangeRuler").LookAt(shipDistanceInfo.MinDistance.Point2);
+    }
+
     public static void CallReturnRangeRuler(Ship.GenericShip thisShip)
     {
         ReturnRangeRuler();

@@ -44,12 +44,16 @@ public static class Sounds {
         }
     }
 
-    public static void PlayFly()
+    public static void PlayFly(Ship.GenericShip ship)
     {
-        int soundsCount = Selection.ThisShip.SoundFlyPaths.Count;
+        int soundsCount = ship.SoundFlyPaths.Count;
         int selectedIndex = Random.Range(0, soundsCount);
 
-        PlayShipSound(Selection.ThisShip.SoundFlyPaths[selectedIndex]);
+        PlayShipSound(ship.SoundFlyPaths[selectedIndex]);
     }
 
+    public static void PlayFly()
+    {
+        PlayFly(Selection.ThisShip);
+    }
 }

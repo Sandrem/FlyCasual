@@ -468,7 +468,7 @@ public static partial class Roster {
         }
     }
 
-    public static void ReplaceUpgrade(GenericShip host, string oldName, string newName)
+    public static void ReplaceUpgrade(GenericShip host, string oldName, string newName, string newImageUrl)
     {
         foreach (Transform upgradeLine in host.InfoPanel.transform.Find("ShipInfo/UpgradesBar").transform)
         {
@@ -476,6 +476,7 @@ public static partial class Roster {
             {
                 upgradeLine.GetComponent<Text>().text = newName;
                 upgradeLine.GetComponent<Text>().color = Color.white;
+                Tooltips.ReplaceTooltip(upgradeLine.gameObject, newImageUrl);
                 return;
             }
         }

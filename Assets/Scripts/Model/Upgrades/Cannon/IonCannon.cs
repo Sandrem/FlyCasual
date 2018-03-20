@@ -1,48 +1,50 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using Abilities;
 using UnityEngine;
 using Upgrade;
 
 namespace UpgradesList
 {
 
-	public class IonCannon : GenericSecondaryWeapon
-	{
-		public IonCannon() : base()
-		{
+    public class IonCannon : GenericSecondaryWeapon
+    {
+        public IonCannon()
+        {
             Types.Add(UpgradeType.Cannon);
 
-			Name = "Ion Cannon";
-			Cost = 3;
+            Name = "Ion Cannon";
+            Cost = 3;
 
-			MinRange = 1;
-			MaxRange = 3;
-			AttackValue = 3;
-		}
+            MinRange = 1;
+            MaxRange = 3;
+            AttackValue = 3;
 
-		public override void AttachToShip(Ship.GenericShip host)
+            UpgradeAbilities.Add(new IonCannonAbility());
+        }
+    }
+}
+
+namespace Abilities
+{
+    public class IonCannonAbility : GenericAbility
+    {
+        public override void ActivateAbility()
+        {
+            HostShip.OnShotHitAsAttacker += RegisterIonCannonEffect;
+        }
+
+        public override void DeactivateAbility()
+        {
+            HostShip.OnShotHitAsAttacker -= RegisterIonCannonEffect;
+        }
+
+        private void RegisterIonCannonEffect()
 		{
-			base.AttachToShip(host);
-
-			SubscribeOnHit();
-		}
-
-		private void SubscribeOnHit()
-		{
-			Host.OnShotHitAsAttacker += RegisterIonCannonEffect;
-		}
-
-		private void RegisterIonCannonEffect()
-		{
-			if (Combat.ChosenWeapon == this)
+			if (Combat.ChosenWeapon == HostUpgrade)
 			{
-				Triggers.RegisterTrigger(new Trigger()
-					{
-						Name = "Ion Cannon effect",
-						TriggerType = TriggerTypes.OnShotHit,
-						TriggerOwner = Combat.Attacker.Owner.PlayerNo,
-						EventHandler = IonCannonEffect
-					});
+                RegisterAbilityTrigger(TriggerTypes.OnShotHit, IonCannonEffect);
 			}
 		}
 
@@ -64,23 +66,16 @@ namespace UpgradesList
 		{
 			Combat.Defender.AssignedDamageDiceroll.AddDice(DieSide.Success);
 
-			Triggers.RegisterTrigger(new Trigger()
-				{
-					Name = "Suffer damage",
-					TriggerType = TriggerTypes.OnDamageIsDealt,
-					TriggerOwner = Combat.Defender.Owner.PlayerNo,
-					EventHandler = Combat.Defender.SufferDamage,
-					EventArgs = new DamageSourceEventArgs()
-					{
-						Source = Combat.Attacker,
-						DamageType = DamageTypes.ShipAttack
-					},
-					Skippable = true
-				});
+            var trigger = RegisterAbilityTrigger(TriggerTypes.OnDamageIsDealt, Combat.Defender.SufferDamage, new DamageSourceEventArgs()
+			{
+				Source = Combat.Attacker,
+				DamageType = DamageTypes.ShipAttack
+			});
+            trigger.Skippable = true;
 
 			Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, Triggers.FinishTrigger);
 		}
 
-	}
+    }
 
 }

@@ -35,7 +35,7 @@ namespace GameModes
 
         public abstract void TryConfirmBarrelRollPosition(string templateName, Vector3 shipBasePosition, Vector3 movementTemplatePosition);
 
-        public abstract void StartBarrelRollExecution(Ship.GenericShip ship);
+        public abstract void StartBarrelRollExecution();
 
         public abstract void CancelBarrelRoll();
 
@@ -51,7 +51,7 @@ namespace GameModes
 
         public abstract void TryConfirmBoostPosition(string selectedBoostHelper);
 
-        public abstract void StartBoostExecution(Ship.GenericShip ship);
+        public abstract void StartBoostExecution();
 
         public abstract void CancelBoost();
 

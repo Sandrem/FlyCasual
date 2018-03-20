@@ -2,6 +2,8 @@
 using Ship.AlphaClassStarWing;
 using Upgrade;
 using System.Collections.Generic;
+using System;
+using Abilities;
 
 namespace UpgradesList
 {
@@ -17,18 +19,28 @@ namespace UpgradesList
                 new UpgradeSlot(UpgradeType.Cannon),
                 new UpgradeSlot(UpgradeType.Cannon)
             };
+            UpgradeAbilities.Add(new Xg1AssaultConfigurationAbility());
         }
 
         public override bool IsAllowedForShip(GenericShip ship)
         {
             return ship is AlphaClassStarWing;
         }
+    }
+}
 
-        public override void AttachToShip(GenericShip host)
+namespace Abilities
+{
+    public class Xg1AssaultConfigurationAbility : GenericAbility
+    {
+        public override void ActivateAbility()
         {
-            base.AttachToShip(host);
+            HostShip.OnWeaponsDisabledCheck += AllowLowCostCannons;
+        }
 
-            host.OnWeaponsDisabledCheck += AllowLowCostCannons;
+        public override void DeactivateAbility()
+        {
+            HostShip.OnWeaponsDisabledCheck -= AllowLowCostCannons;
         }
 
         private void AllowLowCostCannons(ref bool result)
@@ -36,7 +48,10 @@ namespace UpgradesList
             GenericSecondaryWeapon secondaryWeapon = Combat.ChosenWeapon as GenericSecondaryWeapon;
             if (secondaryWeapon != null)
             {
-                if (secondaryWeapon.hasType(UpgradeType.Cannon) && secondaryWeapon.Cost <= 2) result = false;
+                if (secondaryWeapon.hasType(UpgradeType.Cannon) && secondaryWeapon.Cost <= 2)
+                {
+                    result = false;
+                }
             }
         }
     }

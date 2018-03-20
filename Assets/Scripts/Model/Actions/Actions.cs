@@ -296,7 +296,7 @@ public static partial class Actions
 
         if (simpleTokens.Contains(tokenToReassign.GetType()))
         {
-            GenericToken tokenToAssign = (GenericToken)Activator.CreateInstance(tokenToReassign.GetType());
+            GenericToken tokenToAssign = (GenericToken)Activator.CreateInstance(tokenToReassign.GetType(), new [] { toShip });
             fromShip.Tokens.RemoveToken(
                 tokenToReassign.GetType(),
                 delegate {

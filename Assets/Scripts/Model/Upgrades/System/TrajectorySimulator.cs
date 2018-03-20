@@ -13,7 +13,7 @@ namespace UpgradesList
     {
         public TrajectorySimulator() : base()
         {
-            Type = UpgradeType.System;
+            Types.Add(UpgradeType.System);
             Name = "Trajectory Simulator";
             Cost = 1;
 

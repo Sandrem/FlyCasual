@@ -14,7 +14,7 @@ namespace UpgradesList
 
         public TargetingAstromech() : base()
         {
-            Type = UpgradeType.Astromech;
+            Types.Add(UpgradeType.Astromech);
             Name = "Targeting Astromech";
             Cost = 2;
 

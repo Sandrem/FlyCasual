@@ -54,7 +54,17 @@ namespace Abilities
 
             Board.ShipShotDistanceInformation counterAttackInfo = new Board.ShipShotDistanceInformation(Combat.Defender, Combat.Attacker);
             if (!counterAttackInfo.InArc) return;
-            
+
+            // Save his attacker, becuase combat data will be cleared
+            shipToPunish = Combat.Attacker;
+
+            Combat.Attacker.OnCombatCheckExtraAttack += RegisterAbility;
+        }
+
+        private void RegisterAbility(GenericShip ship)
+        {
+            ship.OnCombatCheckExtraAttack -= RegisterAbility;
+
             RegisterAbilityTrigger(TriggerTypes.OnCombatCheckExtraAttack, DoCounterAttack);
         }
 
@@ -62,9 +72,6 @@ namespace Abilities
         {
             if (!HostShip.IsCannotAttackSecondTime)
             {
-                // Save his attacker, becuase combat data will be cleared
-                shipToPunish = Combat.Attacker;
-
                 Messages.ShowInfo(string.Format("{0} can attack {1} in responce", HostShip.PilotName, shipToPunish.PilotName));
 
                 // Save his "is already attacked" flag

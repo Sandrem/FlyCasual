@@ -8,7 +8,7 @@ namespace UpgradesList
     {
         public Finn() : base()
         {
-            Type = UpgradeType.Crew;
+            Types.Add(UpgradeType.Crew);
             Name = "Finn";
             Cost = 5;
 

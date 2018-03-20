@@ -9,7 +9,7 @@ namespace UpgradesList
     {
         public AgentKallus() : base()
         {
-            Type = UpgradeType.Crew;
+            Types.Add(UpgradeType.Crew);
             Name = "Agent Kallus";
             Cost = 2;
 
@@ -72,7 +72,7 @@ namespace Abilities
             selectAgentKallusTargetDecisionSubPhase.InfoText = "Agent Kallus: Select enemy ship";
 
             GenericShip bestEnemyAce = GetEnemyPilotWithHighestSkill();
-            selectAgentKallusTargetDecisionSubPhase.DefaultDecision = bestEnemyAce.ShipId + ": " + bestEnemyAce.PilotName;
+            selectAgentKallusTargetDecisionSubPhase.DefaultDecisionName = bestEnemyAce.ShipId + ": " + bestEnemyAce.PilotName;
 
             selectAgentKallusTargetDecisionSubPhase.RequiredPlayer = HostShip.Owner.PlayerNo;
 

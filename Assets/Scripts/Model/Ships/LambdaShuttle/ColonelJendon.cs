@@ -67,7 +67,7 @@ namespace Abilities
                     pilotAbilityDecision.AddTooltip(name, l.OtherTokenOwner.ImageUrl);
                 });
 
-                pilotAbilityDecision.DefaultDecision = "No";
+                pilotAbilityDecision.DefaultDecisionName = "No";
                 pilotAbilityDecision.RequiredPlayer = HostShip.Owner.PlayerNo;
 
                 pilotAbilityDecision.Start();
@@ -83,13 +83,29 @@ namespace Abilities
         {
             Tooltips.EndTooltip();
 
-            SelectTargetForAbilityOld(
+            SelectTargetForAbility(
                 SelectColonelJendonAbilityTarget,
-                new List<TargetTypes> { TargetTypes.OtherFriendly },
-                new UnityEngine.Vector2(1, 1)
+                FilterAbilityTargets,
+                GetAiAbilityPriority,
+                HostShip.Owner.PlayerNo
             );
         }
 
+        private bool FilterAbilityTargets(GenericShip ship)
+        {
+            return FilterByTargetType(ship, new List<TargetTypes>() { TargetTypes.OtherFriendly }) && FilterTargetsByRange(ship, 1, 1);
+        }
+
+        private int GetAiAbilityPriority(GenericShip ship)
+        {
+            int result = 0;
+
+            if (ship.Tokens.CountTokensByType(typeof(Tokens.BlueTargetLockToken)) == 0) result += 100;
+            if (Actions.HasTarget(ship)) result += 50;
+            if (ship.UpgradeBar.GetUpgradesOnlyFaceup().Any(n => n.Types.Contains(Upgrade.UpgradeType.Missile) || n.Types.Contains(Upgrade.UpgradeType.Torpedo))) result += 25;
+
+            return result;
+        }
 
         private void SelectColonelJendonAbilityTarget()
         {

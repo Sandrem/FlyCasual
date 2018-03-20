@@ -6,7 +6,7 @@ namespace UpgradesList
     {
         public MercenaryCopilot() : base()
         {
-            Type = UpgradeType.Crew;
+            Types.Add(UpgradeType.Crew);
             Name = "Mercenary Copilot";
             Cost = 2;
         }

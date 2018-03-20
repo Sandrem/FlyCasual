@@ -8,7 +8,7 @@ namespace UpgradesList
     {
         public AllianceOverhaul() : base()
         {
-            Type = UpgradeType.Title;
+            Types.Add(UpgradeType.Title);
             Name = "Alliance Overhaul";
             Cost = 0;
         }

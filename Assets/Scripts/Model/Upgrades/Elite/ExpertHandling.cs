@@ -12,7 +12,7 @@ namespace UpgradesList
 
         public ExpertHandling() : base()
         {
-            Type = UpgradeType.Elite;
+            Types.Add(UpgradeType.Elite);
             Name = "Expert Handling";
             Cost = 2;
         }
@@ -130,7 +130,7 @@ namespace SubPhases
 
             AddDecision("Don't remove", delegate { ConfirmDecision(); });
 
-            DefaultDecision = GetDecisions().First().Key;
+            DefaultDecisionName = GetDecisions().First().Name;
 
             callBack();
         }

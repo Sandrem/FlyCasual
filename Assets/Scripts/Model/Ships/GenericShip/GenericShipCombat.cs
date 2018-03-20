@@ -6,6 +6,16 @@ using UnityEngine;
 
 namespace Ship
 {
+    public enum WeaponType
+    {
+        PrimaryWeapon,
+        Torpedo,
+        Missile,
+        Cannon,
+        Turret,
+        Illicit
+    }
+
     public interface IShipWeapon
     {
         GenericShip Host { get; set; }
@@ -94,7 +104,6 @@ namespace Ship
 
         public bool IsCannotAttackSecondTime { get; set; }
         public bool CanAttackBumpedTargetAlways { get; set; }
-        public bool PreventDestruction { get; set; }
         public bool IgnoressBombDetonationEffect { get; set; }
 
         // EVENTS
@@ -112,9 +121,11 @@ namespace Ship
         public event EventHandler OnAttackStartAsAttacker;
         public static event EventHandler OnAttackStartAsAttackerGlobal;
         public event EventHandler OnAttackStartAsDefender;
+        public static event EventHandler OnAttackStartAsDefenderGlobal;
 
         public event EventHandler OnShotStartAsAttacker;
         public event EventHandler OnShotStartAsDefender;
+        public static event EventHandler OnDiceAboutToBeRolled;
 
         public event EventHandlerShip OnCheckCancelCritsFirst;
 
@@ -133,9 +144,10 @@ namespace Ship
         public static event EventHandler OnAttackHitAsDefenderGlobal;
         public event EventHandler OnAttackMissedAsAttacker;
         public event EventHandler OnAttackMissedAsDefender;
+        public static event EventHandler OnAttackMissedAsAttackerGlobal;
         public event EventHandler OnShieldLost;
 
-        public event EventHandler OnCombatCheckExtraAttack;
+        public event EventHandlerShip OnCombatCheckExtraAttack;
 
         public event EventHandlerInt AfterGotNumberOfPrimaryWeaponAttackDice;
         public event EventHandlerInt AfterGotNumberOfPrimaryWeaponDefenceDice;
@@ -152,7 +164,8 @@ namespace Ship
         public event EventHandlerShip OnDamageCardIsDealt;
 
         public event EventHandlerShip OnReadyToBeDestroyed;
-        public event EventHandlerShip OnShipIsDestroyed;
+        public event EventHandlerShipBool OnShipIsDestroyed;
+        public static event EventHandlerShipBool OnDestroyedGlobal;
 
         public event EventHandler AfterAttackWindow;
 
@@ -173,8 +186,13 @@ namespace Ship
 
         public event EventHandlerShip OnCombatActivation;
         public static event EventHandlerShip OnCombatActivationGlobal;
+        public event EventHandlerShip OnCombatDeactivation;
 
         public event EventHandlerShip OnCheckSufferBombDetonation;
+
+        public event EventHandlerObjArgsBool OnSufferCriticalDamage;
+
+        public event EventHandlerBool OnTryConfirmDiceResults;
 
         // TRIGGERS
 
@@ -230,7 +248,14 @@ namespace Ship
             else if (Combat.Defender.ShipId == this.ShipId)
             {
                 if (OnAttackStartAsDefender != null) OnAttackStartAsDefender();
+                if (OnAttackStartAsDefenderGlobal != null) OnAttackStartAsDefenderGlobal();
+
             }
+        }
+
+        public void CallDiceAboutToBeRolled()
+        {
+            if (OnDiceAboutToBeRolled != null) OnDiceAboutToBeRolled();
         }
 
         public void CallShotStart()
@@ -294,6 +319,7 @@ namespace Ship
         public void CallOnAttackMissedAsAttacker()
         {
             if (OnAttackMissedAsAttacker != null) OnAttackMissedAsAttacker();
+            if (OnAttackMissedAsAttackerGlobal != null) OnAttackMissedAsAttackerGlobal();
         }
 
         public void CallOnAttackMissedAsDefender()
@@ -354,19 +380,29 @@ namespace Ship
 
         public void CallCombatCheckExtraAttack(Action callback)
         {
-            if (OnCombatCheckExtraAttack != null) OnCombatCheckExtraAttack();
+            if (OnCombatCheckExtraAttack != null) OnCombatCheckExtraAttack(this);
 
             Triggers.ResolveTriggers(TriggerTypes.OnCombatCheckExtraAttack, callback);
         }
 
         public void CallCombatActivation(Action callback)
         {
-            Messages.ShowInfo("Ship is activated! " + this.ShipId);
+            //Messages.ShowInfo("Ship is activated! " + this.ShipId);
+            IsActivatedDuringCombat = true;
 
             if (OnCombatActivation != null) OnCombatActivation(this);
             if (OnCombatActivationGlobal != null) OnCombatActivationGlobal(this);
 
             Triggers.ResolveTriggers(TriggerTypes.OnCombatActivation, callback);
+        }
+
+        public void CallCombatDeactivation(Action callback)
+        {
+            //Messages.ShowInfo("Ship is deactivated! " + this.ShipId);
+
+            if (OnCombatDeactivation != null) OnCombatDeactivation(this);
+
+            Triggers.ResolveTriggers(TriggerTypes.OnCombatDeactivation, callback);
         }
 
         // DICE
@@ -425,35 +461,52 @@ namespace Ship
             if (DebugManager.DebugDamage) Debug.Log("+++ Source: " + (e as DamageSourceEventArgs).Source);
             if (DebugManager.DebugDamage) Debug.Log("+++ DamageType: " + (e as DamageSourceEventArgs).DamageType);
 
+            bool isCritical = (AssignedDamageDiceroll.RegularSuccesses == 0);
+
+            if (isCritical)
+            {
+                bool skipSufferDamage = false;
+                if (OnSufferCriticalDamage != null) OnSufferCriticalDamage(sender, e, ref skipSufferDamage);
+
+                if (!skipSufferDamage)
+                {
+                    SufferDamageByType(sender, e, isCritical);
+                }
+            }
+            else
+            {
+                SufferDamageByType(sender, e, isCritical);
+            }
+        }
+
+        private void SufferDamageByType(object sender, EventArgs e, bool isCritical)
+        {
             if (Shields > 0)
             {
                 SufferShieldDamage();
             }
             else
             {
-                bool isCritical = (AssignedDamageDiceroll.RegularSuccesses == 0);
                 SufferHullDamage(CheckFaceupCrit(isCritical), e);
             }
         }
 
         public void SufferHullDamage(bool isFaceup, EventArgs e)
         {
-            AssignedDamageDiceroll.CancelHits(1);
-
             if (DebugManager.DebugAllDamageIsCrits) isFaceup = true;
 
             DamageDecks.DrawDamageCard(Owner.PlayerNo, isFaceup, ProcessDrawnDamageCard, e);
         }
 
-        private void ProcessDrawnDamageCard(GenericDamageCard damageCard, EventArgs e)
+        public void ProcessDrawnDamageCard(GenericDamageCard damageCard, EventArgs e)
         {
-            Combat.CurrentCriticalHitCard = damageCard;
+            AssignedDamageDiceroll.CancelHits(1);
 
             if (Combat.CurrentCriticalHitCard.IsFaceup)
             {
                 if (OnFaceupCritCardReadyToBeDealt != null) OnFaceupCritCardReadyToBeDealt(this, Combat.CurrentCriticalHitCard);
 
-                if (OnFaceupCritCardReadyToBeDealtGlobal != null) OnFaceupCritCardReadyToBeDealtGlobal(this, Combat.CurrentCriticalHitCard);
+                if (OnFaceupCritCardReadyToBeDealtGlobal != null) OnFaceupCritCardReadyToBeDealtGlobal(this, Combat.CurrentCriticalHitCard, e);
 
                 Triggers.RegisterTrigger(new Trigger
                 {
@@ -467,7 +520,7 @@ namespace Ship
             }
             else
             {
-                CallOnDamageCardIsDealt(Damage.DealDrawnCard);
+                CallOnDamageCardIsDealt(delegate { Damage.DealDrawnCard(Triggers.FinishTrigger); });
             }
         }
 
@@ -482,7 +535,7 @@ namespace Ship
 
             if (Combat.CurrentCriticalHitCard != null)
             {
-                CallOnDamageCardIsDealt(Damage.DealDrawnCard);
+                CallOnDamageCardIsDealt(delegate { Damage.DealDrawnCard(Triggers.FinishTrigger); });
             }
             else
             {
@@ -526,13 +579,15 @@ namespace Ship
 
         public virtual void IsHullDestroyedCheck(Action callBack)
         {
-            if (Hull == 0 && !IsDestroyed)
+            if (Hull == 0 && !IsReadyToBeDestroyed)
             {
                 if (OnReadyToBeDestroyed != null) OnReadyToBeDestroyed(this);
 
                 if (!PreventDestruction)
                 {
-                    DestroyShip(callBack);
+                    PlayDestroyedAnimSound(
+                        delegate { PlanShipDestruction(callBack); }
+                    );
                 }
                 else
                 {
@@ -545,20 +600,22 @@ namespace Ship
             }
         }
 
-        public void DestroyShip(Action callBack, bool forced = false)
+        public void PlanShipDestruction(Action callback)
         {
-            UI.AddTestLogEntry("Ship with ID " + ShipId + " is destroyed");
+            IsReadyToBeDestroyed = true;
 
-            IsDestroyed = true;
-
-            PlayDestroyedAnimSound(delegate { CheckShipModelDestruction(callBack, forced); });
-        }
-
-        private void CheckShipModelDestruction(Action callback, bool forced = false)
-        {
-            if ((Phases.CurrentSubPhase.RequiredPilotSkill == PilotSkill) && (!IsAttackPerformed) && (!forced) && (Phases.CurrentPhase.GetType() == typeof(MainPhases.CombatPhase)))
+            if (Combat.AttackStep != CombatStep.None)
             {
-                Phases.OnCombatSubPhaseRequiredPilotSkillIsChanged += RegisterShipDestruction;
+                if (IsSimultaneousFireRuleActive())
+                {
+                    Messages.ShowInfo("Simultaneous attack rule is active");
+                    this.OnCombatDeactivation += RegisterShipDestruction;
+                }
+                else
+                {
+                    Combat.Attacker.OnAttackFinishAsAttacker += RegisterShipDestruction;
+                }
+                callback();
             }
             else
             {
@@ -566,16 +623,46 @@ namespace Ship
             }
         }
 
-        private void RegisterShipDestruction()
+        private bool IsSimultaneousFireRuleActive()
         {
-            Phases.OnCombatSubPhaseRequiredPilotSkillIsChanged -= RegisterShipDestruction;
+            bool result = true;
 
-            // TODO: Register trigger to destroy ship on PS change
+            if (Phases.CurrentPhase.GetType() != typeof(MainPhases.CombatPhase)) return false;
+
+            if (this.IsActivatedDuringCombat) return false;
+
+            if (Phases.CurrentSubPhase.RequiredPilotSkill != PilotSkill) return false;
+
+            return result;
         }
 
-        private void PerformShipDestruction(Action callback)
+        public void DestroyShipForced(Action callback, bool isFled = false)
         {
+            PlayDestroyedAnimSound(
+                delegate { PerformShipDestruction(callback, isFled); }
+            );            
+        }
+
+        private void RegisterShipDestruction(GenericShip shipToIgnore)
+        {
+            this.OnCombatDeactivation -= RegisterShipDestruction;
+            if (Combat.Attacker != null) Combat.Attacker.OnAttackFinish -= RegisterShipDestruction;
+
+            Triggers.RegisterTrigger(new Trigger
+            {
+                Name = "Destruction of ship #" + this.ShipId,
+                TriggerType = TriggerTypes.OnCombatDeactivation,
+                TriggerOwner = this.Owner.PlayerNo,
+                EventHandler = delegate { PerformShipDestruction(Triggers.FinishTrigger); }
+            });
+        }
+
+        private void PerformShipDestruction(Action callback, bool isFled = false)
+        {
+            IsDestroyed = true;
+
             Roster.DestroyShip(this.GetTag());
+
             foreach (var pilotAbility in PilotAbilities)
             {
                 pilotAbility.DeactivateAbility();
@@ -588,7 +675,8 @@ namespace Ship
                 }
             }
 
-            if (OnShipIsDestroyed != null) OnShipIsDestroyed(this);
+            if (OnShipIsDestroyed != null) OnShipIsDestroyed(this, isFled);
+            if (OnDestroyedGlobal != null) OnDestroyedGlobal(this, isFled);
 
             Triggers.ResolveTriggers(TriggerTypes.OnShipIsDestroyed, callback);
         }
@@ -708,6 +796,15 @@ namespace Ship
 
             if (OnCheckSufferBombDetonation != null) OnCheckSufferBombDetonation(this);
             Triggers.ResolveTriggers(TriggerTypes.OnCheckSufferBombDetonation, callback);
+        }
+
+        public bool CallTryConfirmDiceResults()
+        {
+            bool result = true;
+
+            if (OnTryConfirmDiceResults != null) OnTryConfirmDiceResults(ref result);
+
+            return result;
         }
 
     }

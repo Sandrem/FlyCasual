@@ -65,7 +65,7 @@ public static class DiceManager {
         List<Vector3> DicePositions6 = new List<Vector3>
         {
             new Vector3(-0.08f, 0,  0.14f),
-            new Vector3( 0.08f, 0,  0.04f),
+            new Vector3( 0.08f, 0,  0.14f),
             new Vector3(-0.16f, 0,     0f),
             new Vector3( 0.16f, 0,     0f),
             new Vector3(-0.08f, 0, -0.14f),

@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System;
 using System.Collections.Generic;
+using SubPhases;
+using Players;
 
 namespace GameModes
 {
@@ -71,9 +73,9 @@ namespace GameModes
             (Phases.CurrentSubPhase as SubPhases.BarrelRollPlanningSubPhase).TryConfirmBarrelRollPosition();
         }
 
-        public override void StartBarrelRollExecution(Ship.GenericShip ship)
+        public override void StartBarrelRollExecution()
         {
-            (Phases.CurrentSubPhase as SubPhases.BarrelRollPlanningSubPhase).StartBarrelRollExecution(ship);
+            (Phases.CurrentSubPhase as SubPhases.BarrelRollPlanningSubPhase).StartBarrelRollExecution();
         }
 
         public override void FinishBarrelRoll()
@@ -115,9 +117,9 @@ namespace GameModes
             (Phases.CurrentSubPhase as SubPhases.BoostPlanningSubPhase).TryConfirmBoostPosition();
         }
 
-        public override void StartBoostExecution(Ship.GenericShip ship)
+        public override void StartBoostExecution()
         {
-            (Phases.CurrentSubPhase as SubPhases.BoostPlanningSubPhase).StartBoostExecution(ship);
+            (Phases.CurrentSubPhase as SubPhases.BoostPlanningSubPhase).StartBoostExecution();
         }
 
         public override void FinishBoost()
@@ -145,9 +147,9 @@ namespace GameModes
             Combat.SwitchToOwnDiceModificationsClient();
         }
 
-        public override void TakeDecision(KeyValuePair<string, EventHandler> decision, GameObject button)
+        public override void TakeDecision(Decision decision, GameObject button)
         {
-            decision.Value.Invoke(button, null);
+            decision.ExecuteDecision(button);
         }
 
         public override void FinishMovementExecution()
@@ -160,6 +162,11 @@ namespace GameModes
         public override void SetSwarmManagerManeuver(string maneuverCode)
         {
             SwarmManager.SetManeuver(maneuverCode);
+        }
+
+        public override void GenerateDamageDeck(PlayerNo playerNo, int seed)
+        {
+            DamageDecks.GetDamageDeck(playerNo).ShuffleDeck(seed);
         }
     }
 }

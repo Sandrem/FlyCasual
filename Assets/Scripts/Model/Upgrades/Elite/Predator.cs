@@ -12,7 +12,7 @@ namespace UpgradesList
 
         public Predator() : base()
         {
-            Type = UpgradeType.Elite;
+            Types.Add(UpgradeType.Elite);
             Name = "Predator";
             Cost = 3;
         }

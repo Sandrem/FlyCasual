@@ -11,7 +11,7 @@ namespace UpgradesList
     {
         public GhostV2() : base()
         {
-            Type = UpgradeType.Title;
+            Types.Add(UpgradeType.Title);
             Name = "Ghost (Phantom II)";
             NameCanonical = "ghost-swx72";
             ImageUrl = ImageUrls.GetImageUrl(this, NameCanonical + ".png");

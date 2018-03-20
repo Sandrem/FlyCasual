@@ -9,7 +9,7 @@ namespace UpgradesList
 
         public GuidanceChips() : base()
         {
-            Type = UpgradeType.Modification;
+            Types.Add(UpgradeType.Modification);
             Name = "Guidance Chips";
             Cost = 0;
         }
@@ -39,7 +39,7 @@ namespace UpgradesList
             isUsed = false;
         }
 
-        private void StopAbility(GenericShip host)
+        private void StopAbility(GenericShip host, bool isFled)
         {
             Phases.OnRoundEnd -= ClearUsed;
         }
@@ -67,7 +67,7 @@ namespace ActionsList
                 GenericSecondaryWeapon secondaryWeapon = (Combat.ChosenWeapon as GenericSecondaryWeapon);
                 if (secondaryWeapon != null)
                 {
-                    if (secondaryWeapon.Type == UpgradeType.Torpedo || secondaryWeapon.Type == UpgradeType.Missile)
+                    if (secondaryWeapon.hasType(UpgradeType.Torpedo) || secondaryWeapon.hasType(UpgradeType.Missile))
                     {
                         result = true;
                     }

@@ -16,6 +16,11 @@ public static class DamageDecks
             new DamageDeck(PlayerNo.Player1),
             new DamageDeck(PlayerNo.Player2)
         };
+
+        foreach (DamageDeck deck in damadeDecks)
+        {
+            deck.ShuffleFirstTime();
+        }
     }
 
     public static DamageDeck GetDamageDeck(PlayerNo playerNo)
@@ -33,14 +38,18 @@ public class DamageDeck
 {
     public List<GenericDamageCard> Deck { get; private set; }
     public PlayerNo PlayerNo { get; private set; }
+    public int Seed { get; private set; }
 
     public DamageDeck(PlayerNo playerNo)
     {
         PlayerNo = playerNo;
         CreateDeck();
+    }
 
+    public void ShuffleFirstTime()
+    {
         Random random = new Random();
-        ShuffleDeck(random.Next());
+        GameMode.CurrentGameMode.GenerateDamageDeck(PlayerNo, random.Next());
     }
 
     private void CreateDeck()
@@ -77,16 +86,38 @@ public class DamageDeck
         GenericDamageCard drawedCard = Deck[0];
         Deck.Remove(drawedCard);
         drawedCard.IsFaceup = isFaceup;
+
+        Combat.CurrentCriticalHitCard = drawedCard;
+
         doWithDamageCard(drawedCard, e);
+    }
+
+    public void RemoveFromDamageDeck(GenericDamageCard card)
+    {
+        Deck.Remove(card);
     }
 
     private void ReCreateDeck()
     {
         CreateDeck();
+        ReShuffleDeck();
+    }
+
+    public void ReShuffleDeck()
+    {
+        if (Seed < int.MaxValue)
+        {
+            ShuffleDeck(Seed + 1);
+        }
+        else
+        {
+            ShuffleDeck(int.MinValue);
+        }
     }
 
     public void ShuffleDeck(int seed)
     {
+        Seed = seed;
         Random random = new Random(seed);
 
         int n = Deck.Count;

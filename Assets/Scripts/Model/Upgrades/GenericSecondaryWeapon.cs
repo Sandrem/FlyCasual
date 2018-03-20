@@ -44,19 +44,12 @@ namespace Upgrade
 
                 if (!shotInfo.InShotAngle) return false;
 
-                switch (Type)
-                {
-                    case UpgradeType.Missile:
-                        if (!shotInfo.CanShootMissiles) return false;
-                        break;
-                    case UpgradeType.Cannon:
-                        if (!shotInfo.CanShootCannon) return false;
-                        break;
-                    case UpgradeType.Torpedo:
-                        if (!shotInfo.CanShootTorpedoes) return false;
-                        break;
-                    default:
-                        break;
+                if (hasType (UpgradeType.Missile)) {
+                    if (!shotInfo.CanShootMissiles) return false;
+                }else if(hasType(UpgradeType.Cannon)){
+                    if (!shotInfo.CanShootCannon) return false;
+                } else if (hasType (UpgradeType.Torpedo)) {
+                    if (!shotInfo.CanShootTorpedoes) return false;
                 }
             }
             else
@@ -198,7 +191,7 @@ namespace SubPhases
                 }
             }
 
-            DefaultDecision = GetDecisions().First().Key;
+            DefaultDecisionName = GetDecisions().First().Name;
 
             callBack();
         }

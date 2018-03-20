@@ -11,7 +11,7 @@ namespace UpgradesList
     {
         public UnhingedAstromech() : base()
         {
-            Type = UpgradeType.SalvagedAstromech;
+            Types.Add(UpgradeType.SalvagedAstromech);
             Name = "Unhinged Astromech";
             Cost = 1;
 

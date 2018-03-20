@@ -9,7 +9,7 @@ namespace UpgradesList
     {
         public BWingE2() : base()
         {
-            Type = UpgradeType.Modification;
+            Types.Add(UpgradeType.Modification);
             Name = "B-Wing/E2";
             Cost = 1;
             AddedSlots = new List<UpgradeSlot>

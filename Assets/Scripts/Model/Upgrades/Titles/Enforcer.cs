@@ -9,7 +9,7 @@ namespace UpgradesList
     {
         public Enforcer() : base()
         {
-            Type = UpgradeType.Title;
+            Types.Add(UpgradeType.Title);
             Name = "Enforcer";
             Cost = 1;
 

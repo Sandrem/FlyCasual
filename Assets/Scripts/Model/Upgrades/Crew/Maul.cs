@@ -14,7 +14,7 @@ namespace UpgradesList
     {
         public Maul() : base()
         {
-            Type = UpgradeType.Crew;
+            Types.Add(UpgradeType.Crew);
             Name = "Maul";
             Cost = 3;
 

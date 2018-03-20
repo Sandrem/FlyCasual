@@ -39,43 +39,54 @@ namespace Abilities
 
         public override void ActivateAbility()
         {
-
-            // Clear Ability On Shield Lost So Can Fire Again 
-            Phases.OnCombatPhaseEnd += ClearIsAbilityUsedFlag;
             // Host Ship Registers Attack on Shield Lost 
             HostShip.OnShieldLost += CheckAbility;
 
+            // Clear Ability On Shield Lost So Can Fire Again 
+            Phases.OnCombatPhaseEnd += ClearIsAbilityUsedFlag;
         }
 
 
         public override void DeactivateAbility()
         {
-
             HostShip.OnShieldLost -= CheckAbility;
             Phases.OnRoundEnd -= ClearIsAbilityUsedFlag;
-
         }
 
 
         private void CheckAbility()
         {
-            if (IsAbilityUsed || HostShip.Shields == 0)
+            if (IsAbilityUsed)
             {
                 return;
             }
 
             if (HostShip.IsCannotAttackSecondTime) return;
 
-            RegisterAbilityTrigger(TriggerTypes.OnShieldIsLost, RegisterCombat);
+            if (Combat.AttackStep == CombatStep.None)
+            {
+                RegisterAbilityTrigger(TriggerTypes.OnShieldIsLost, RegisterCombat);
+            }
+            else
+            {
+                Combat.Attacker.OnCombatCheckExtraAttack += StartCounterAttack;
+            }
+        }
+
+        private void StartCounterAttack(GenericShip ship)
+        {
+            ship.OnCombatCheckExtraAttack -= StartCounterAttack;
+
+            RegisterAbilityTrigger(TriggerTypes.OnCombatCheckExtraAttack, RegisterCombat);
         }
 
         private void RegisterCombat(object sender, System.EventArgs e)
         {
-            if (HostShip.Shields > 0)
+            if (!IsAbilityUsed)
             {
-
                 Messages.ShowInfo("\"Quick Draw\": Additional Combat is Engaged");
 
+                // Save his "is already attacked" flag
                 performedRegularAttack = HostShip.IsAttackPerformed;
 
                 HostShip.OnAttackFinishAsAttacker += SetIsAbilityIsUsed;
@@ -83,28 +94,24 @@ namespace Abilities
                 Combat.StartAdditionalAttack(
                     HostShip,
                     AfterExtraAttackSubPhase
-
-                    );
-
+                );
             }
             else
             {
                 Messages.ShowErrorToHuman(string.Format("{0} cannot attack one more time", HostShip.PilotName));
                 Triggers.FinishTrigger();
             }
-
-
         }
-
 
         private void AfterExtraAttackSubPhase()
         {
+            // Restore previous value of "is already attacked" flag
+            HostShip.IsAttackPerformed = performedRegularAttack;
 
-            HostShip.OnAttackFinishAsAttacker += SetIsAbilityIsUsed;
+            // Set IsAbilityUsed only after attack that was successfully started
+            HostShip.OnAttackFinishAsAttacker -= SetIsAbilityIsUsed;
 
-            Phases.CallCombatPhaseEndTrigger();
             Triggers.FinishTrigger();
-
         }
 
     }

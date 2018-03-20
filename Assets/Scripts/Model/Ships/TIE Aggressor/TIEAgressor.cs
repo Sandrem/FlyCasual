@@ -55,11 +55,11 @@ namespace Ship
                 Maneuvers.Add("1.R.B", ManeuverColor.White);
                 Maneuvers.Add("1.R.T", ManeuverColor.None);
                 Maneuvers.Add("1.F.R", ManeuverColor.None);
-                Maneuvers.Add("2.L.T", ManeuverColor.Red);
+                Maneuvers.Add("2.L.T", ManeuverColor.White);
                 Maneuvers.Add("2.L.B", ManeuverColor.Green);
                 Maneuvers.Add("2.F.S", ManeuverColor.Green);
                 Maneuvers.Add("2.R.B", ManeuverColor.Green);
-                Maneuvers.Add("2.R.T", ManeuverColor.Red);
+                Maneuvers.Add("2.R.T", ManeuverColor.White);
                 Maneuvers.Add("2.F.R", ManeuverColor.None);
                 Maneuvers.Add("3.L.T", ManeuverColor.White);
                 Maneuvers.Add("3.L.B", ManeuverColor.White);
@@ -68,9 +68,9 @@ namespace Ship
                 Maneuvers.Add("3.R.T", ManeuverColor.White);
                 Maneuvers.Add("3.F.R", ManeuverColor.None);
                 Maneuvers.Add("4.F.S", ManeuverColor.White);
-                Maneuvers.Add("4.F.R", ManeuverColor.None);
+                Maneuvers.Add("4.F.R", ManeuverColor.Red);
                 Maneuvers.Add("5.F.S", ManeuverColor.None);
-                Maneuvers.Add("5.F.R", ManeuverColor.Red);
+                Maneuvers.Add("5.F.R", ManeuverColor.None);
             }
 
         }

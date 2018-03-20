@@ -12,7 +12,7 @@ namespace UpgradesList
     {
         public ConcussionMissiles() : base()
         {
-            Type = UpgradeType.Missile;
+            Types.Add(UpgradeType.Missile);
 
             Name = "Concussion Missiles";
             Cost = 4;

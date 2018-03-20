@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
+using SubPhases;
+using Players;
 
 namespace GameModes
 { 
@@ -86,7 +88,7 @@ namespace GameModes
             }
         }
 
-        public override void StartBarrelRollExecution(Ship.GenericShip ship)
+        public override void StartBarrelRollExecution()
         {
             Network.PerformBarrelRoll();
         }
@@ -136,7 +138,7 @@ namespace GameModes
             }
         }
 
-        public override void StartBoostExecution(Ship.GenericShip ship)
+        public override void StartBoostExecution()
         {
             Network.PerformBoost();
         }
@@ -180,9 +182,9 @@ namespace GameModes
                 });
         }*/
 
-        public override void TakeDecision(KeyValuePair<string, EventHandler> decision, GameObject button)
+        public override void TakeDecision(Decision decision, GameObject button)
         {
-            Network.TakeDecision(decision.Key);
+            Network.TakeDecision(decision.Name);
         }
 
         public override void FinishMovementExecution()
@@ -200,6 +202,11 @@ namespace GameModes
         public override void ReturnToMainMenu()
         {
             Network.Disconnect(base.ReturnToMainMenu);
+        }
+
+        public override void GenerateDamageDeck(PlayerNo playerNo, int seed)
+        {
+            Network.SyncDecks(Tools.PlayerToInt(playerNo), seed);
         }
     }
 }

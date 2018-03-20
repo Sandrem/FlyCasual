@@ -9,7 +9,7 @@ namespace UpgradesList
     {
         public MillenniumFalconHotR() : base()
         {
-            Type = UpgradeType.Title;
+            Types.Add(UpgradeType.Title);
             Name = "Millennium Falcon (HotR)";
             Cost = 1;
             isUnique = true;
@@ -76,7 +76,7 @@ namespace SubPhases
             AddDecision("Yes", RotateShip180);
             AddDecision("No", DontRotateShip180);
 
-            DefaultDecision = "No";
+            DefaultDecisionName = "No";
 
             callBack();
         }

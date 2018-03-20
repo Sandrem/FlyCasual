@@ -9,7 +9,7 @@ namespace UpgradesList
     {
         public BurnoutSLAM() : base()
         {
-            Type = UpgradeType.Illicit;
+            Types.Add(UpgradeType.Illicit);
             Name = "Burnout SLAM";
             Cost = 1;
 
@@ -39,7 +39,7 @@ namespace Abilities
 
         private void RegisterBurnoutSlamAbility(ActionsList.GenericAction action)
         {
-            if (action.GetType() == typeof(ActionsList.SlamAction))
+            if (action != null && action.GetType() == typeof(ActionsList.SlamAction))
             {
                 RegisterAbilityTrigger(TriggerTypes.OnActionIsPerformed, DiscardThisUpgrade);
             }

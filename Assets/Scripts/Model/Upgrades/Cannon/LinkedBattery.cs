@@ -4,6 +4,8 @@ using UnityEngine;
 using Upgrade;
 using Ship;
 using System.Linq;
+using System;
+using Abilities;
 
 namespace UpgradesList
 {
@@ -12,29 +14,44 @@ namespace UpgradesList
 	{
 		public LinkedBattery() : base()
 		{
-			Type = UpgradeType.Cannon;
+            Types.Add(UpgradeType.Cannon);
 
 			Name = "Linked Battery";
             Cost = 2;
 
             isLimited = true;
+
+            UpgradeAbilities.Add(new LinkedBatteryAbility());
 		}
 
         public override bool IsAllowedForShip(GenericShip ship)
         {
             return ship.ShipBaseSize == BaseSize.Small;
         }
+    }
+}
 
-        public override void AttachToShip(GenericShip host)
-		{
-			base.AttachToShip(host);
-
-            Host.AfterGenerateAvailableActionEffectsList += LinkedBatteryAbility;
+namespace Abilities
+{
+    public class LinkedBatteryAbility : GenericAbility
+    {
+        public override void ActivateAbility()
+        {
+            HostShip.AfterGenerateAvailableActionEffectsList += CheckLinkedBatteryAbility;
         }
 
-        public void LinkedBatteryAbility(GenericShip ship)
+        public override void DeactivateAbility()
         {
-            ship.AddAvailableActionEffect(new ActionsList.LinkedBatteryAction());
+            HostShip.AfterGenerateAvailableActionEffectsList -= CheckLinkedBatteryAbility;
+        }
+
+        public void CheckLinkedBatteryAbility(GenericShip ship)
+        {
+            ship.AddAvailableActionEffect(new ActionsList.LinkedBatteryAction()
+            {
+                ImageUrl = HostUpgrade.ImageUrl,
+                Host = HostShip
+            });
         }
     }
 }
@@ -73,12 +90,12 @@ namespace ActionsList
 
         private bool IsPrimaryWeapon()
         {
-            return (Combat.ChosenWeapon.GetType() == typeof(PrimaryWeaponClass));
+            return Combat.ChosenWeapon is PrimaryWeaponClass;
         }
 
         private bool IsCannon()
         {
-            return ((Combat.ChosenWeapon as GenericSecondaryWeapon) != null) && ((Combat.ChosenWeapon as GenericSecondaryWeapon).Type == UpgradeType.Cannon);
+            return Combat.ChosenWeapon is GenericSecondaryWeapon && (Combat.ChosenWeapon as GenericSecondaryWeapon).hasType(UpgradeType.Cannon);
         }
 
         public override int GetActionEffectPriority()

@@ -56,16 +56,32 @@ namespace Abilities
             Selection.ThisShip = HostShip;
             if (HostShip.Owner.Ships.Count > 1)
             {
-                SelectTargetForAbilityOld(
+                SelectTargetForAbility(
                     GrantFreeTargetLock,
-                    new List<TargetTypes>() { TargetTypes.OtherFriendly },
-                    new Vector2(1, 2)
+                    FilterAbilityTargets,
+                    GetAiAbilityPriority,
+                    HostShip.Owner.PlayerNo
                 );
             }
             else
             {
                 Triggers.FinishTrigger();
             }
+        }
+
+        private bool FilterAbilityTargets(GenericShip ship)
+        {
+            return FilterByTargetType(ship, new List<TargetTypes>() { TargetTypes.OtherFriendly }) && FilterTargetsByRange(ship, 1, 2);
+        }
+
+        private int GetAiAbilityPriority(GenericShip ship)
+        {
+            int result = 0;
+
+            if (ship.Tokens.CountTokensByType(typeof(Tokens.BlueTargetLockToken)) == 0) result += 100;
+            if (Actions.HasTarget(ship)) result += 50;
+
+            return result;
         }
 
         private void GrantFreeTargetLock()

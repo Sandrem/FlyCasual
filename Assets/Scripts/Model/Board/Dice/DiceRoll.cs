@@ -154,6 +154,18 @@ public partial class DiceRoll
         private set { }
     }
 
+    public int CanBeModified
+    {
+        get { return DiceList.Count(n => n.CannotBeModified == false); }
+        private set { }
+    }
+
+    public int CannotBeModified
+    {
+        get { return DiceList.Count(n => n.CannotBeModified == true); }
+        private set { }
+    }
+
     public int NotRerolled
     {
         get { return DiceList.Count(n => (n.IsRerolled == false)); }
@@ -293,9 +305,9 @@ public partial class DiceRoll
 		UpdateDiceCompareHelperPrediction ();
 	}
 
-    public void ChangeOne(DieSide oldSide, DieSide newSide, bool cannotBeRerolled = false)
+    public void ChangeOne(DieSide oldSide, DieSide newSide, bool cannotBeRerolled = false, bool cannotBeModified = false)
     {
-        ChangeDice(oldSide, newSide, true, cannotBeRerolled);
+        ChangeDice(oldSide, newSide, true, cannotBeRerolled, cannotBeModified);
         UpdateDiceCompareHelperPrediction();
     }
 
@@ -305,7 +317,7 @@ public partial class DiceRoll
         UpdateDiceCompareHelperPrediction();
     }
 
-    private void ChangeDice(DieSide oldSide, DieSide newSide, bool onlyOne, bool cannotBeRerolled = false)
+    private void ChangeDice(DieSide oldSide, DieSide newSide, bool onlyOne, bool cannotBeRerolled = false, bool cannotBeModified = false)
     {
         OrganizeDicePositions();
         foreach (Die die in DiceList)
@@ -315,15 +327,17 @@ public partial class DiceRoll
                 die.SetSide(newSide);
                 die.SetModelSide(newSide);
                 if (cannotBeRerolled) die.IsRerolled = true;
+                if (cannotBeModified) die.CannotBeModified = true;
                 if (onlyOne) return;
             }
         }
     }
 
-    private void CancelHit()
+    private DieSide CancelHit(bool CancelByDefence, bool dryRun)
     {
         DieSide cancelFirst = DieSide.Unknown;
-        DieSide cancelLast= DieSide.Unknown;
+        DieSide cancelLast = DieSide.Unknown;
+        DieSide cancelResult = DieSide.Unknown;
 
         if (!CancelCritsFirst)
         {
@@ -336,10 +350,18 @@ public partial class DiceRoll
             cancelLast = DieSide.Success;
         }
 
-        if (!CancelType(cancelFirst))
+
+        if (!CancelType(cancelFirst, CancelByDefence, dryRun))
         {
-            CancelType(cancelLast);
+            if (CancelType(cancelLast, CancelByDefence, dryRun))
+            {
+                cancelResult = cancelLast;
+            }
+        } else
+        {
+            cancelResult = cancelFirst;
         }
+        return cancelResult;
     }
 
     public void RemoveAllFailures()
@@ -362,16 +384,19 @@ public partial class DiceRoll
         DiceList = new List<Die>();
     }
 
-    private bool CancelType(DieSide type)
+    private bool CancelType(DieSide type, bool CancelByDefence, bool dryRun)
     {
         bool found = false;
         foreach (Die die in DiceList)
         {
             if (die.Side == type)
             {
-                die.Cancel();
-                found = true;
-                return found;
+                //Cancel dice if it's not a defence cancel or it is and the die is cancellable
+                if ((!CancelByDefence) || (!die.IsUncancellable)) {
+                    if (!dryRun) die.Cancel();
+                    found = true;
+                    return found;
+                }
             }
         }
         return found;
@@ -381,8 +406,24 @@ public partial class DiceRoll
     {
         for (int i = 0; i < numToCancel; i++)
         {
-            CancelHit();
+            CancelHit(false, false); //Generic cancel, not a test
         }
+    }
+    public Dictionary<string,int> CancelHitsByDefence(int numToCancel, bool dryRun = false)
+    {
+        Dictionary<string, int> results = new Dictionary<string, int>();
+        results["crits"] = 0;
+        results["hits"] = 0;
+        for (int i = 0; i < numToCancel; i++)
+        {
+            DieSide result = CancelHit(true, dryRun); //Cancel by defence dice 
+            switch(result)
+            {
+                case DieSide.Success: { results["hits"]++; break; }
+                case DieSide.Crit: { results["crits"]++; break; }                
+            }
+        }
+        return results;
     }
 
     public void CancelAllResults()
@@ -556,6 +597,12 @@ public partial class DiceRoll
                     return;
                 }
 
+                if (die.CannotBeModified)
+                {
+                    Messages.ShowErrorToHuman("This die cannot be modified.");
+                    return;
+                }
+
                 if (die.IsRerolled)
                 {
                     Messages.ShowErrorToHuman("Dice can be rerolled only once");
@@ -587,4 +634,48 @@ public partial class DiceRoll
         }
     }
 
+    public void RollAdditionalDice(int number)
+    {
+        int i = 0;
+        while (i < number)
+        {            
+            AddDice().ShowWithoutRoll();
+            Number++;
+            i++;
+        }
+    }
+
+    public DieSide FindDieToChange(DieSide destinationSide)
+    {
+        if (DiceList.Count <= 0)
+        {
+            Messages.ShowErrorToHuman("No dice in this roll to change.");
+            return DieSide.Unknown;
+        }
+
+        if (destinationSide != DieSide.Blank)
+        {
+            if (Blanks > 0) return DieSide.Blank;
+            if (Focuses > 0) return DieSide.Focus;
+            if (Successes > 0) return DieSide.Success;
+            if (CriticalSuccesses > 0) return DieSide.Crit;
+        }
+        else
+        {   // Asking for blanks. We could put a switch case here to account for different CheckType situations.
+            // This currently handles CheckType == Check well, which is I think where most people would ask for a blank.
+            if (Type == DiceKind.Attack)
+            {
+                if (CriticalSuccesses > 0) return DieSide.Crit;
+                if (Successes > 0) return DieSide.Success;
+                if (Focuses > 0) return DieSide.Focus;
+                if (Blanks > 0) return DieSide.Blank;
+            } else
+            {
+                if (Focuses > 0) return DieSide.Focus;
+                if (Successes > 0) return DieSide.Success;
+                if (Blanks > 0) return DieSide.Blank;
+            }
+        }
+        return DieSide.Unknown; // We never should get here
+    }
 }

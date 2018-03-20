@@ -10,7 +10,7 @@ namespace UpgradesList
     {
         public AccuracyCorrector() : base()
         {
-            Type = UpgradeType.System;
+            Types.Add(UpgradeType.System);
             Name = "Accuracy Corrector";
             Cost = 3;
 
@@ -44,7 +44,6 @@ namespace ActionsList
 {
     public class AccuracyCorrectorAction : GenericAction
     {
-        private System.Action actionCallback;
         public AccuracyCorrectorAction()
         {
             Name = EffectName = "Accuracy corrector";
@@ -53,7 +52,15 @@ namespace ActionsList
         public override int GetActionEffectPriority()
         {
             int result = 0;
-            result = 100;
+            if (Combat.DiceRollAttack.CriticalSuccesses > 0 && Combat.DiceRollAttack.Successes >= 2)
+            {
+                // Don't cancel crits when we don't need to
+                result = 0;
+            }
+            else
+            {
+                if (Combat.DiceRollAttack.Successes < 2) result = 100;
+            }
             return result;
         }
 
@@ -62,7 +69,7 @@ namespace ActionsList
             return Combat.AttackStep == CombatStep.Attack;
         }
 
-        public override void ActionEffect(System.Action callBack)
+        public override void ActionEffect(Action callBack)
         {
             Combat.CurrentDiceRoll.RemoveAll();            
             Combat.CurrentDiceRoll.AddDice(DieSide.Success).ShowWithoutRoll();
@@ -81,7 +88,7 @@ namespace ActionsList
             Combat.Defender.OnDefence -= RemoveDiceModificationRestriction;
         }
 
-        private void UseDiceModificationRestriction(ActionsList.GenericAction action, ref bool canBeUsed)
+        private void UseDiceModificationRestriction(GenericAction action, ref bool canBeUsed)
         {
             Messages.ShowInfoToHuman("Accuracy corrector: All dice modifications are disabled");
             canBeUsed = false;

@@ -15,7 +15,7 @@ namespace UpgradesList
     {
         public BlackOne() : base()
         {
-            Type = UpgradeType.Title;
+            Types.Add(UpgradeType.Title);
             Name = "Black One";
             Cost = 1;
 
@@ -61,7 +61,7 @@ namespace Abilities
         {
             Messages.ShowInfoToHuman("Black One: Select ship to remove Red Target Lock token");
 
-            SelectTargetForAbilityNew(
+            SelectTargetForAbility(
                 RemoveEnemyTargetLock,
                 FilterTargetsOfAbility,
                 GetAiPriorityOfTarget,
@@ -146,7 +146,7 @@ namespace Abilities
             }
 
             //AI's default behavior.
-            decisionPhase.DefaultDecision = decisionPhase.GetDecisions().First().Key;
+            decisionPhase.DefaultDecisionName = decisionPhase.GetDecisions().First().Name;
             decisionPhase.RequiredPlayer = HostShip.Owner.PlayerNo;
 
             decisionPhase.Start();

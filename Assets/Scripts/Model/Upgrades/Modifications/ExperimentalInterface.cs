@@ -14,7 +14,7 @@ namespace UpgradesList
 
 		public ExperimentalInterface() : base()
 		{
-			Type = UpgradeType.Modification;
+            Types.Add(UpgradeType.Modification);
 			Name = "Experimental Interface";
 			Cost = 3;
 
@@ -86,7 +86,7 @@ namespace UpgradesList
 			}
 		}
 
-        private void StopAbility(GenericShip host)
+        private void StopAbility(GenericShip host, bool isFled)
         {
             Phases.OnEndPhaseStart -= Cleanup;
         }

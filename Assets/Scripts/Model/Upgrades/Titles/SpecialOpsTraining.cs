@@ -10,7 +10,7 @@ namespace UpgradesList
     {
         public SpecialOpsTraining() : base()
         {
-            Type = UpgradeType.Title;
+            Types.Add(UpgradeType.Title);
             Name = "Special Ops Training";            
             Cost = 0;            
 
@@ -22,8 +22,6 @@ namespace UpgradesList
             return ship is TIESF;
         }
         
-
-        
     }
 }
 
@@ -32,14 +30,14 @@ namespace Abilities
 {
     public class SpecialOpsTrainingAbility : GenericAbility
     {        
-        public override void ActivateAbility() {
+        public override void ActivateAbility()
+        {
             HostShip.OnShotStartAsAttacker += CheckConditions;
-            Phases.OnRoundEnd += ClearAbility;
         }
 
-        public override void DeactivateAbility() {
+        public override void DeactivateAbility()
+        {
             HostShip.OnShotStartAsAttacker -= CheckConditions;
-            Phases.OnRoundEnd -= ClearAbility;
         }
 
         private void CheckConditions()
@@ -52,6 +50,7 @@ namespace Abilities
         }
 
         private class SpecialOpsTrainingDecisionSubPhase : DecisionSubPhase { }
+
         private void StartQuestionSubphase(object sender, System.EventArgs e)
         {
             if (!IsAbilityUsed)
@@ -67,7 +66,7 @@ namespace Abilities
                 selectSpecialOpsTrainingSubPhase.AddTooltip("Roll 1 extra die from primary fire arc", HostShip.ImageUrl);
                 selectSpecialOpsTrainingSubPhase.AddDecision("Get a second attack from rear arc", RegisterExtraAttack);
                 selectSpecialOpsTrainingSubPhase.AddTooltip("Get a second attack from rear arc", HostShip.ImageUrl);
-                selectSpecialOpsTrainingSubPhase.DefaultDecision = GetDefaultDecision();
+                selectSpecialOpsTrainingSubPhase.DefaultDecisionName = GetDefaultDecision();
                 selectSpecialOpsTrainingSubPhase.ShowSkipButton = true;
                 selectSpecialOpsTrainingSubPhase.Start();
             } else
@@ -87,6 +86,8 @@ namespace Abilities
         private void RegisterRollExtraDice(object sender, System.EventArgs e)
         {                        
             IsAbilityUsed = true;
+            HostShip.OnAttackStartAsAttacker += ClearAbility;
+
             HostShip.AfterGotNumberOfAttackDice += RollExtraDice;
             DecisionSubPhase.ConfirmDecision();                            
         }
@@ -100,12 +101,12 @@ namespace Abilities
 
         private void RegisterExtraAttack(object sender, System.EventArgs e)
         {
-            IsAbilityUsed = true;                
+            IsAbilityUsed = true;
             HostShip.OnCombatCheckExtraAttack += RegisterSpecialOpsExtraAttack;
             DecisionSubPhase.ConfirmDecision();            
         }
 
-        private void RegisterSpecialOpsExtraAttack()
+        private void RegisterSpecialOpsExtraAttack(GenericShip ship)
         {
             HostShip.OnCombatCheckExtraAttack -= RegisterSpecialOpsExtraAttack;
             this.ToggleFrontArc(false);            
@@ -121,6 +122,7 @@ namespace Abilities
                 delegate {
                     Selection.ThisShip.IsAttackPerformed = true;
                     ToggleFrontArc(true);
+                    HostShip.OnAttackStartAsAttacker += ClearAbility;
                     Triggers.FinishTrigger();
                 }
             );                
@@ -130,12 +132,14 @@ namespace Abilities
         private void ToggleFrontArc(bool isActive)
         {
             HostShip.ArcInfo.GetPrimaryArc().ShotPermissions.CanShootPrimaryWeapon = isActive;
-        }        
+        }
 
+        // IsAbilityUsed to avoid asking question during second attack
         private void ClearAbility()
         {
+            HostShip.OnAttackStartAsAttacker -= ClearAbility;
+
             IsAbilityUsed = false;
-            
         }
 
     }

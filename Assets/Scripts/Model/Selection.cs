@@ -152,6 +152,18 @@ public static class Selection {
     {
         DeselectThisShip();
         ThisShip = Roster.GetShipById(shipId);
+        ChangeActiveShipUsingThisShip ();
+    }
+
+    public static void ChangeActiveShip(Ship.GenericShip genShip)
+    {
+        DeselectThisShip();
+        ThisShip = genShip;
+        ChangeActiveShipUsingThisShip ();
+    }
+
+    private static void ChangeActiveShipUsingThisShip()
+    {
         ThisShip.ToggleCollisionDetection(true);
         Roster.MarkShip(ThisShip, Color.green);
         ThisShip.HighlightThisSelected();

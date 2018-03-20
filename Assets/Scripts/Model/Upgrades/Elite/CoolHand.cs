@@ -12,7 +12,7 @@ namespace UpgradesList
     {
         public CoolHand() : base()
         {
-            Type = UpgradeType.Elite;
+            Types.Add(UpgradeType.Elite);
             Name = "Cool Hand";
             Cost = 1;
 
@@ -78,7 +78,7 @@ namespace SubPhases
             RequiredPlayer = upgrade.Host.Owner.PlayerNo;
 
             //Default AI behavior.
-            DefaultDecision = GetDecisions().First().Key;           
+            DefaultDecisionName = GetDecisions().First().Name;           
         }
 
         private void AddFocus(object sender, System.EventArgs e)

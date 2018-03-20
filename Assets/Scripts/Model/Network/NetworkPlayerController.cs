@@ -180,6 +180,7 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     [ClientRpc]
     public void RpcStartBattle()
     {
+        if (isServer) Sounds.PlaySoundGlobal("Notification");
         Global.StartBattle();
     }
 
@@ -323,7 +324,7 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     [ClientRpc]
     private void RpcLaunchBarrelRoll()
     {
-        (Phases.CurrentSubPhase as SubPhases.BarrelRollPlanningSubPhase).StartBarrelRollExecution(Selection.ThisShip);
+        (Phases.CurrentSubPhase as SubPhases.BarrelRollPlanningSubPhase).StartBarrelRollExecution();
     }
 
     [Command]
@@ -371,7 +372,7 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     [ClientRpc]
     private void RpcLaunchBoost()
     {
-        (Phases.CurrentSubPhase as SubPhases.BoostPlanningSubPhase).StartBoostExecution(Selection.ThisShip);
+        (Phases.CurrentSubPhase as SubPhases.BoostPlanningSubPhase).StartBoostExecution();
     }
 
     [Command]
@@ -746,6 +747,20 @@ public partial class NetworkPlayerController : NetworkBehaviour {
         }
 
         DiceRoll.CurrentDiceRoll.RandomizeAndRerollSelected();
+    }
+
+    // SYNC DECKS
+
+    [Command]
+    public void CmdSyncDecks(int playerNo, int seed)
+    {
+        RpcSyncDecks(playerNo, seed);
+    }
+
+    [ClientRpc]
+    private void RpcSyncDecks(int playerNo, int seed)
+    {
+        DamageDecks.GetDamageDeck(Tools.IntToPlayer(playerNo)).ShuffleDeck(seed);
     }
 
     // MESSAGES

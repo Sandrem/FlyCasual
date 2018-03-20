@@ -12,7 +12,7 @@ namespace UpgradesList
     {
         public Selflessness() : base()
         {
-            Type = UpgradeType.Elite;
+            Types.Add(UpgradeType.Elite);
             Name = "Selflessness";
             Cost = 1;
 

@@ -55,10 +55,10 @@ namespace Abilities
 
         private bool HasCannonWeapon()
         {
-            return HostShip.UpgradeBar.GetUpgradesOnlyFaceup().Count(n => n.Type == UpgradeType.Cannon && (n as IShipWeapon) != null) > 0;
+            return HostShip.UpgradeBar.GetUpgradesOnlyFaceup().Count(n => n.hasType(UpgradeType.Cannon) && (n as IShipWeapon) != null) > 0;
         }
 
-        private void RegisterIG88BAbility()
+        private void RegisterIG88BAbility(GenericShip ship)
         {
             HostShip.OnCombatCheckExtraAttack -= RegisterIG88BAbility;
 
@@ -97,7 +97,7 @@ namespace Abilities
             bool result = false;
 
             GenericSecondaryWeapon upgradeWeapon = weapon as GenericSecondaryWeapon;
-            if (upgradeWeapon != null && upgradeWeapon.Type == UpgradeType.Cannon)
+            if (upgradeWeapon != null && upgradeWeapon.hasType(UpgradeType.Cannon))
             {
                 result = true;
             }

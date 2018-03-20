@@ -41,8 +41,7 @@ namespace Ship
             if (faceDownCards.Count != 0)
             {
                 result = true;
-                int random = UnityEngine.Random.Range(0, faceDownCards.Count);
-                faceDownCards.RemoveAt(random);
+                faceDownCards.RemoveAt(0);
                 Host.CallAfterAssignedDamageIsChanged();
             }
             return result;
@@ -56,19 +55,19 @@ namespace Ship
             Messages.ShowInfo("Critical damage card \"" + critCard.Name + "\" is flipped facedown");
         }
 
-        public void DealDrawnCard()
+        public void DealDrawnCard(Action callback)
         {
             if (Combat.CurrentCriticalHitCard != null)
             {
                 DamageCards.Add(Combat.CurrentCriticalHitCard);
                 Combat.CurrentCriticalHitCard.Assign(
                     Host,
-                    delegate { Host.CallHullValueIsDecreased(Triggers.FinishTrigger); }
+                    delegate { Host.CallHullValueIsDecreased(callback); }
                 );
             }
             else
             {
-                Triggers.FinishTrigger();
+                callback();
             }
         }
     }

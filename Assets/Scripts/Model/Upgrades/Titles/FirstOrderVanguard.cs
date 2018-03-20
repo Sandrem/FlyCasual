@@ -15,7 +15,7 @@ namespace UpgradesList
     {
         public FirstOrderVanguard() : base()
         {
-            Type = UpgradeType.Title;
+            Types.Add(UpgradeType.Title);
             Name = "First Order Vanguard";
             Cost = 2;
 

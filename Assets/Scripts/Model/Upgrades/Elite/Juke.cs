@@ -12,7 +12,7 @@ namespace UpgradesList
 
         public Juke() : base()
         {
-            Type = UpgradeType.Elite;
+            Types.Add(UpgradeType.Elite);
             Name = "Juke";
             Cost = 2;
 

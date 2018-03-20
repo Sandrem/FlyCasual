@@ -15,7 +15,7 @@ namespace UpgradesList
     {
         public AttanniMindlink() : base()
         {
-            Type = UpgradeType.Elite;
+            Types.Add(UpgradeType.Elite);
             Name = "Attanni Mindlink";
             Cost = 1;
 

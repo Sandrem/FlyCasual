@@ -16,6 +16,8 @@ namespace Ship
                 PilotSkill = 7;
                 Cost = 31;
 
+                IsUnique = true;
+
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
                 PilotAbilities.Add(new TestPilotBlackoutAbility());

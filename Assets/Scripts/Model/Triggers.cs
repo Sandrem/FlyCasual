@@ -12,7 +12,9 @@ public enum TriggerTypes
     OnGameStart,
     OnSetupPhaseStart,
     OnBeforePlaceForces,
+    OnShipIsPlaced,
     OnRoundStart,
+    OnPlanningSubPhaseStart,
     OnActionSubPhaseStart,
     OnActionDecisionSubPhaseEnd,
     OnActivationPhaseStart,
@@ -24,6 +26,7 @@ public enum TriggerTypes
 
     OnMovementActivation,
     OnCombatActivation,
+    OnCombatDeactivation,
 
     OnManeuver,
     OnManeuverIsReadyToBeRevealed,
@@ -72,7 +75,11 @@ public enum TriggerTypes
     OnAbilityDirect,
     OnAbilityTargetIsSelected,
     OnMajorExplosionCrit,
-    OnDiscard
+    OnDiscard,
+    OnFlipFaceUp,
+    OnDiceAboutToBeRolled,
+    OnAfterDiscard,
+    OnAfterFlipFaceUp
 }
 
 public class Trigger
@@ -345,7 +352,7 @@ public static partial class Triggers
             }
 
             DecisionOwner = Roster.GetPlayer(currentPlayer);
-            DefaultDecision = GetDecisions().First().Key;
+            DefaultDecisionName = GetDecisions().First().Name;
 
             callBack();
         }

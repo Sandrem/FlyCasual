@@ -48,17 +48,30 @@ namespace Abilities
         {
             if (HostShip.Owner.Ships.Count > 1)
             {
-                SelectTargetForAbilityOld(
-                    SelectAbilityTarget, 
-                    new List<TargetTypes> { TargetTypes.OtherFriendly }, 
-                    new UnityEngine.Vector2(1, 3),
-                    null,
-                    false);                
+                SelectTargetForAbility(
+                    SelectAbilityTarget,
+                    FilterAbilityTarget,
+                    GetAiAbilityPriority,
+                    HostShip.Owner.PlayerNo
+                );
             }
             else
             {
                 Triggers.FinishTrigger();
             }
+        }
+
+        private bool FilterAbilityTarget(GenericShip ship)
+        {
+            return FilterByTargetType(ship, new List<TargetTypes>() { TargetTypes.OtherFriendly }) && FilterTargetsByRange(ship, 1, 3);
+        }
+
+        private int GetAiAbilityPriority(GenericShip ship)
+        {
+            int result = 0;
+            if (Actions.HasTarget(ship)) result += 100;
+            result += (12 - ship.PilotSkill);
+            return result;
         }
 
         private void SelectAbilityTarget()

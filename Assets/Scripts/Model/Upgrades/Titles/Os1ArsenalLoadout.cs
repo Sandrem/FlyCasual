@@ -2,6 +2,8 @@
 using Ship.AlphaClassStarWing;
 using Upgrade;
 using System.Collections.Generic;
+using System;
+using Abilities;
 
 namespace UpgradesList
 {
@@ -9,7 +11,7 @@ namespace UpgradesList
     {
         public Os1ArsenalLoadout() : base()
         {
-            Type = UpgradeType.Title;
+            Types.Add(UpgradeType.Title);
             Name = "Os-1 Arsenal Loadout";
             Cost = 2;
             AddedSlots = new List<UpgradeSlot>
@@ -17,18 +19,28 @@ namespace UpgradesList
                 new UpgradeSlot(UpgradeType.Torpedo),
                 new UpgradeSlot(UpgradeType.Missile)
             };
+            UpgradeAbilities.Add(new Os1ArsenalLoadoutAbility());
         }
 
         public override bool IsAllowedForShip(GenericShip ship)
         {
             return ship is AlphaClassStarWing;
         }
+    }
+}
 
-        public override void AttachToShip(GenericShip host)
+namespace Abilities
+{
+    public class Os1ArsenalLoadoutAbility : GenericAbility
+    {
+        public override void ActivateAbility()
         {
-            base.AttachToShip(host);
+            HostShip.OnWeaponsDisabledCheck += AllowLaunchesByTargetLock;
+        }
 
-            host.OnWeaponsDisabledCheck += AllowLaunchesByTargetLock;
+        public override void DeactivateAbility()
+        {
+            HostShip.OnWeaponsDisabledCheck -= AllowLaunchesByTargetLock;
         }
 
         private void AllowLaunchesByTargetLock(ref bool result)
@@ -36,13 +48,10 @@ namespace UpgradesList
             GenericSecondaryWeapon secondaryWeapon = Combat.ChosenWeapon as GenericSecondaryWeapon;
             if (secondaryWeapon != null)
             {
-                if (secondaryWeapon.Type == UpgradeType.Torpedo || secondaryWeapon.Type == UpgradeType.Missile)
+                if ((secondaryWeapon.hasType(UpgradeType.Torpedo) || secondaryWeapon.hasType(UpgradeType.Missile)) && Actions.HasTargetLockOn(Selection.ThisShip, Selection.AnotherShip))
                 {
-                    if (Actions.HasTargetLockOn(Selection.ThisShip, Selection.AnotherShip))
-                    {
-                        result = false;
-                    }
-                };
+                    result = false;
+                }
             }
         }
     }

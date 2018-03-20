@@ -22,6 +22,9 @@ namespace Upgrade
         public int InstalledUpgradeCostReduction { get; private set; }
         public int InstalledUpgradeCostMax { get; private set; }
 
+        public event Ship.GenericShip.EventHandlerUpgrade OnPreInstallUpgrade;
+        public event Ship.GenericShip.EventHandlerUpgrade OnRemovePreInstallUpgrade;
+
         public bool IsEmpty
         {
             get { return (InstalledUpgrade == null); }
@@ -53,12 +56,36 @@ namespace Upgrade
         public void PreInstallUpgrade(GenericUpgrade upgrade, Ship.GenericShip host)
         {
             InstalledUpgrade = upgrade;
+            upgrade.Slot = this;
             InstalledUpgrade.PreAttachToShip(host);
+
+            // check if its a dual upgrade
+            if (upgrade.Types.Count > 1)
+            {
+                // clone upgrade
+                //GenericUpgrade newUpgrade = (GenericUpgrade)System.Activator.CreateInstance(upgrade.Types[0]);
+                UpgradesList.EmptyUpgrade emptyUpgrade = new UpgradesList.EmptyUpgrade();
+                emptyUpgrade.set(upgrade.Types, upgrade.Name, 0);
+
+                int emptySlotsFilled = 0; // Fixes bug #708. TODO: Will need to revisit to support multi-type upgrades.
+                // find another slot
+                foreach (UpgradeSlot tempSlot in host.UpgradeBar.GetUpgradeSlots())
+                {
+                    if (emptySlotsFilled < emptyUpgrade.Types.Count && tempSlot.IsEmpty && upgrade.hasType(tempSlot.Type))
+                    {
+                        emptySlotsFilled += 1; // Fixes bug #708.
+                        tempSlot.PreInstallUpgrade(emptyUpgrade, host);
+                    }
+                }
+            }
+
+            if (OnPreInstallUpgrade != null) OnPreInstallUpgrade(upgrade);
         }
 
         public void RemovePreInstallUpgrade()
         {
             InstalledUpgrade.PreDettachFromShip();
+            if (OnRemovePreInstallUpgrade != null) OnRemovePreInstallUpgrade(InstalledUpgrade);
             InstalledUpgrade = null;
         }
 

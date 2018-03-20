@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using Movement;
 using ActionsList;
+using Ship;
 
 namespace Ship
 {
     namespace UWing
     {
-        public class UWing : GenericShip
+        public class UWing : GenericShip, IMovableWings
         {
+            public WingsPositions CurrentWingsPosition { get; set; }
 
             public UWing() : base()
             {
@@ -38,6 +40,8 @@ namespace Ship
                 faction = Faction.Rebel;
 
                 SkinName = "White";
+
+                CurrentWingsPosition = WingsPositions.Closed;
 
                 SoundShotsPath = "Falcon-Fire";
                 ShotsCount = 3;

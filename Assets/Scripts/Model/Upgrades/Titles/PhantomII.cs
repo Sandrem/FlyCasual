@@ -13,7 +13,7 @@ namespace UpgradesList
     {
         public PhantomII() : base()
         {
-            Type = UpgradeType.Title;
+            Types.Add(UpgradeType.Title);
             Name = "Phantom II";
             Cost = 0;
 
@@ -49,11 +49,18 @@ namespace Abilities
         {
             ToggleRearArc(true);
             Phases.OnActivationPhaseEnd += RegisterFreeCoordinateAbility;
+            dockingHost.OnShipIsDestroyed += DeactivateFreeCoordinate;
         }
 
         private void OnUndocked(GenericShip dockingHost)
         {
             ToggleRearArc(false);
+            DeactivateFreeCoordinate(dockingHost, false);
+            HostShip.OnShipIsDestroyed -= DeactivateFreeCoordinate;
+        }
+
+        private void DeactivateFreeCoordinate(GenericShip host, bool isFled)
+        {
             Phases.OnActivationPhaseEnd -= RegisterFreeCoordinateAbility;
         }
 

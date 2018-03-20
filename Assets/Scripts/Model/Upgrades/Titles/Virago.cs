@@ -10,7 +10,7 @@ namespace UpgradesList
     {
         public Virago() : base()
         {
-            Type = UpgradeType.Title;
+            Types.Add(UpgradeType.Title);
             Name = "Virago";
             Cost = 1;
             isUnique = true;

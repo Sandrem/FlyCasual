@@ -14,7 +14,7 @@ namespace UpgradesList
 
         public ClusterMines() : base()
         {
-            Type = UpgradeType.Bomb;
+            Types.Add(UpgradeType.Bomb);
             Name = "Cluster Mines";
             Cost = 4;
 

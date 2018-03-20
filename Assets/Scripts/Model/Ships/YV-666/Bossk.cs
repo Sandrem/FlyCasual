@@ -69,7 +69,7 @@ namespace Abilities
             decisionSubPhase.RequiredPlayer = HostShip.Owner.PlayerNo;
             decisionSubPhase.ShowSkipButton = true;
 
-            decisionSubPhase.DefaultDecision = "No";
+            decisionSubPhase.DefaultDecisionName = "No";
 
             decisionSubPhase.Start();
         }

@@ -15,7 +15,7 @@ namespace UpgradesList
 
         public TIEv1() : base()
         {
-            Type = UpgradeType.Title;
+            Types.Add(UpgradeType.Title);
             Name = "TIE/v1";
             Cost = 1;
         }
@@ -78,7 +78,7 @@ namespace SubPhases
             AddDecision("No", DontPerformFreeEvadeAction);
             AddDecision("Always", AlwaysPerformFreeEvadeAction);
 
-            DefaultDecision = "Yes";
+            DefaultDecisionName = "Yes";
 
             if (!TIEv1Upgrade.IsAlwaysUse)
             {

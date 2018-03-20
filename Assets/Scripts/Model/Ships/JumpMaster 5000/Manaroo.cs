@@ -6,6 +6,7 @@ using System;
 using SubPhases;
 using Tokens;
 using Ship;
+using System.Linq;
 
 namespace Ship
 {
@@ -64,13 +65,32 @@ namespace Abilities
 
         private void SelectTarget(object sender, EventArgs e)
         {
-            SelectTargetForAbilityOld(
+            SelectTargetForAbility(
                 TargetToReassignIsSelected,
-                new List<TargetTypes>() { TargetTypes.OtherFriendly },
-                new Vector2(1, 1),
-                null,
-                true
+                FilterAbilityTargets,
+                GetAiPriority,
+                HostShip.Owner.PlayerNo
             );
+        }
+
+        private bool FilterAbilityTargets(GenericShip ship)
+        {
+            return FilterByTargetType(ship, new List<TargetTypes>() { TargetTypes.OtherFriendly }) && FilterTargetsByRange(ship, 1, 1);
+        }
+
+        private int GetAiPriority(GenericShip ship)
+        {
+            int result = 0;
+
+            if (ship.UpgradeBar.GetUpgradesOnlyFaceup().Any(n => n.GetType() == typeof(UpgradesList.AttanniMindlink))) result += 9000;
+
+            if (HostShip.Tokens.HasToken(typeof(FocusToken)) && !ship.Tokens.HasToken(typeof(FocusToken))) result += 500;
+            if (HostShip.Tokens.HasToken(typeof(EvadeToken)) && !ship.Tokens.HasToken(typeof(EvadeToken))) result += 400;
+            if (HostShip.Tokens.HasToken(typeof(BlueTargetLockToken), '*') && !ship.Tokens.HasToken(typeof(FocusToken), '*')) result += 300;
+
+            result += ship.Cost + ship.UpgradeBar.GetUpgradesOnlyFaceup().Sum(n => n.Cost);
+
+            return result;
         }
 
         private void TargetToReassignIsSelected()

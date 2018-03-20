@@ -27,7 +27,8 @@ public enum DamageTypes
     ObstacleCollision,
     CriticalHitCard,
     BombDetonation,
-    CardAbility
+    CardAbility,
+    Rules
 }
 
 public static partial class Combat
@@ -187,17 +188,15 @@ public static partial class Combat
     {
         Attacker.CallShotStart();
         Defender.CallShotStart();
-
+        
         Triggers.ResolveTriggers(TriggerTypes.OnShotStart, AttackDiceRoll);
     }
 
     private static void AttackDiceRoll()
     {
         Selection.ActiveShip = Selection.ThisShip;
-        Phases.StartTemporarySubPhaseOld(
-            "Attack dice roll",
-            typeof(AttackDiceRollCombatSubPhase)
-        );
+        Attacker.CallDiceAboutToBeRolled();
+        Triggers.ResolveTriggers(TriggerTypes.OnDiceAboutToBeRolled, delegate { Phases.StartTemporarySubPhaseOld("Attack dice roll", typeof(AttackDiceRollCombatSubPhase)); });
     }
 
     public static void ConfirmAttackDiceResults()
@@ -229,10 +228,8 @@ public static partial class Combat
     private static void DefenceDiceRoll()
     {
         Selection.ActiveShip = Selection.AnotherShip;
-        Phases.StartTemporarySubPhaseOld(
-            "Defence dice roll",
-            typeof(DefenceDiceRollCombatSubPhase)
-        );
+        Defender.CallDiceAboutToBeRolled();
+        Triggers.ResolveTriggers(TriggerTypes.OnDiceAboutToBeRolled, delegate { Phases.StartTemporarySubPhaseOld("Defence dice roll", typeof(DefenceDiceRollCombatSubPhase));});
     }
 
     // COMPARE RESULTS
@@ -251,7 +248,7 @@ public static partial class Combat
     public static void CancelHitsByDefenceDice()
     {
         int crits = DiceRollAttack.CriticalSuccesses;
-        DiceRollAttack.CancelHits(DiceRollDefence.Successes);
+        DiceRollAttack.CancelHitsByDefence(DiceRollDefence.Successes);
         if (crits > DiceRollAttack.CriticalSuccesses)
         {
             Attacker.CallOnAtLeastOneCritWasCancelledByDefender();
@@ -388,7 +385,12 @@ public static partial class Combat
         Attacker.CallAttackFinish();
         Defender.CallAttackFinish();
 
-        Triggers.ResolveTriggers(TriggerTypes.OnAttackFinish, CleanupAndCheckExtraAttacks);
+        Triggers.ResolveTriggers(TriggerTypes.OnAttackFinish, FinishCombatActivation);
+    }
+
+    private static void FinishCombatActivation()
+    {
+        Attacker.CallCombatDeactivation(CleanupAndCheckExtraAttacks);
     }
 
     private static void CleanupAndCheckExtraAttacks()
@@ -397,12 +399,17 @@ public static partial class Combat
 
         if (!Selection.ThisShip.IsCannotAttackSecondTime)
         {
-            CheckExtraAttacks(Phases.CurrentSubPhase.CallBack);
+            CheckExtraAttacks(FinishCombat);
         }
         else
         {
-            Phases.CurrentSubPhase.CallBack();
+            FinishCombat();
         }
+    }
+
+    private static void FinishCombat()
+    {
+        Phases.CurrentSubPhase.CallBack();
     }
 
     private static void CheckExtraAttacks(Action callback)
@@ -467,7 +474,7 @@ namespace SubPhases
                 }
             }
 
-            DefaultDecision = GetDecisions().Last().Key;
+            DefaultDecisionName = GetDecisions().Last().Name;
 
             callBack();
         }

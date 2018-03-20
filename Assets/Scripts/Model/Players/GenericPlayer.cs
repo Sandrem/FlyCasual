@@ -104,6 +104,26 @@ namespace Players
         public virtual void StartExtraAttack() { }
 
         public virtual void SelectShipForAbility() { }
+
+        public float AveragePilotSkillOfRemainingShips()
+        {
+            float pilotSkillValue = 0;
+            foreach (GenericShip s in Ships.Values)
+            {
+                pilotSkillValue += s.PilotSkill;
+            }
+            return Math.Max(0, pilotSkillValue / Ships.Count);
+        }
+
+        public float AveragePilotSkillOfRemainingEnemyShips()
+        {
+            float pilotSkillValue = 0;
+            foreach (GenericShip s in EnemyShips.Values)
+            {
+                pilotSkillValue += s.PilotSkill;
+            }
+            return Math.Max(0, pilotSkillValue / Ships.Count);
+        }
     }
 
 }

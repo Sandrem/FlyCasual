@@ -9,7 +9,7 @@ namespace UpgradesList
     {
         public Chewbacca() : base()
         {
-            Type = UpgradeType.Crew;
+            Types.Add(UpgradeType.Crew);
             Name = "Chewbacca";
             Cost = 4;
 
@@ -77,7 +77,7 @@ namespace SubPhases
             AddDecision("Yes", UseChewbaccaCrewAbility);
             AddDecision("No", DontUseChewbaccaCrewAbility);
 
-            DefaultDecision = "Yes";
+            DefaultDecisionName = "Yes";
 
             callBack();
         }

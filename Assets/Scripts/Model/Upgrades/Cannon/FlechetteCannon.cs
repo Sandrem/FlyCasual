@@ -5,11 +5,11 @@ using UpgradesList;
 namespace UpgradesList
 {
 
-    public class FlechetteCannon : GenericSecondaryWeapon
-    {
-        public FlechetteCannon() : base()
-        {
-            Type = UpgradeType.Cannon;
+	public class FlechetteCannon : GenericSecondaryWeapon
+	{
+		public FlechetteCannon() : base()
+		{
+            Types.Add(UpgradeType.Cannon);
 
             Name = "Flechette Cannon";
             Cost = 2;
@@ -39,15 +39,9 @@ namespace Abilities
 
         private void RegisterFlechetteCannonEffect()
         {
-            if (Combat.ChosenWeapon is FlechetteCannon)
+            if (Combat.ChosenWeapon == HostUpgrade)
             {
-                Triggers.RegisterTrigger(new Trigger()
-                {
-                    Name = "Flechette Cannon effect",
-                    TriggerType = TriggerTypes.OnShotHit,
-                    TriggerOwner = Combat.Attacker.Owner.PlayerNo,
-                    EventHandler = FlechetteCannonEffect
-                });
+                RegisterAbilityTrigger(TriggerTypes.OnShotHit, FlechetteCannonEffect);
             }
         }
 
@@ -63,19 +57,12 @@ namespace Abilities
         {
             Combat.Defender.AssignedDamageDiceroll.AddDice(DieSide.Success);
 
-            Triggers.RegisterTrigger(new Trigger()
+            var trigger = RegisterAbilityTrigger(TriggerTypes.OnDamageIsDealt, Combat.Defender.SufferDamage, new DamageSourceEventArgs()
             {
-                Name = "Suffer damage",
-                TriggerType = TriggerTypes.OnDamageIsDealt,
-                TriggerOwner = Combat.Defender.Owner.PlayerNo,
-                EventHandler = Combat.Defender.SufferDamage,
-                EventArgs = new DamageSourceEventArgs()
-                {
-                    Source = Combat.Attacker,
-                    DamageType = DamageTypes.ShipAttack
-                },
-                Skippable = true
+                Source = Combat.Attacker,
+                DamageType = DamageTypes.ShipAttack
             });
+            trigger.Skippable = true;
 
             Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, CheckStress);
         }

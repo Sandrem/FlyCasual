@@ -11,7 +11,7 @@ namespace UpgradesList
     {
         public SabinesMasterpiece() : base()
         {
-            Type = UpgradeType.Title;
+            Types.Add(UpgradeType.Title);
             Name = "Sabine's Masterpiece";
             Cost = 1;
             isUnique = true;

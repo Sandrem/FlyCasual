@@ -12,7 +12,7 @@ namespace UpgradesList
     {
         public Phantom() : base()
         {
-            Type = UpgradeType.Title;
+            Types.Add(UpgradeType.Title);
             Name = "Phantom";
             Cost = 0;
 
@@ -48,11 +48,18 @@ namespace Abilities
         {
             ToggleRearArc(true);
             Phases.OnCombatPhaseEnd += RegisterExtraShotAbility;
+            dockingHost.OnShipIsDestroyed += DeactivateSecondAttack;
         }
 
         private void OnUndocked(GenericShip dockingHost)
         {
             ToggleRearArc(false);
+            DeactivateSecondAttack(dockingHost, false);
+            HostShip.OnShipIsDestroyed -= DeactivateSecondAttack;
+        }
+
+        private void DeactivateSecondAttack(GenericShip host, bool isFled)
+        {
             Phases.OnCombatPhaseEnd -= RegisterExtraShotAbility;
         }
 
@@ -90,7 +97,7 @@ namespace Abilities
             bool result = false;
 
             GenericUpgrade upgradeWeapon = weapon as GenericUpgrade;
-            if (upgradeWeapon != null && upgradeWeapon.Type == UpgradeType.Turret)
+            if (upgradeWeapon != null && upgradeWeapon.hasType(UpgradeType.Turret))
             {
                 result = true;
             }

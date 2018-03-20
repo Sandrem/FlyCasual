@@ -13,7 +13,7 @@ namespace UpgradesList
 
         public ContrabandCybernetics() : base()
         {
-            Type = UpgradeType.Illicit;
+            Types.Add(UpgradeType.Illicit);
             Name = "Contraband Cybernetics";
             Cost = 1;
         }
@@ -88,7 +88,7 @@ namespace SubPhases
             AddDecision("Yes", UseContrabandCyberneticsAbility);
             AddDecision("No", DontUseContrabandCyberneticsAbility);
 
-            DefaultDecision = "No";
+            DefaultDecisionName = "No";
 
             callBack();
         }

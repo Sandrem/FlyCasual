@@ -15,7 +15,7 @@ namespace UpgradesList
     {
         public Genius() : base()
         {
-            Type = UpgradeType.SalvagedAstromech;
+            Types.Add(UpgradeType.SalvagedAstromech);
             Name = "\"Genius\"";
             Cost = 0;
 
@@ -87,7 +87,7 @@ namespace Abilities
 
             selectBombToDrop.InfoText = "Select bomb to drop";
 
-            selectBombToDrop.DefaultDecision = BombsManager.GetTimedBombsInstalled(HostShip).First().Name;
+            selectBombToDrop.DefaultDecisionName = BombsManager.GetTimedBombsInstalled(HostShip).First().Name;
 
             selectBombToDrop.RequiredPlayer = HostShip.Owner.PlayerNo;
 

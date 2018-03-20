@@ -7,25 +7,35 @@ namespace UpgradesList
     {
         public TwinIonEngineMkII() : base()
         {
-            Type = UpgradeType.Modification;
+            Types.Add(UpgradeType.Modification);
             Name = "Twin Ion Engine Mk. II";
             ImageUrl = ImageUrls.GetImageUrl(this, "twin-ion-engine-mkii.png");
             Cost = 1;
+            UpgradeAbilities.Add(new Abilities.TreatAllBanksAsGreenAbility());
         }
 
         public override bool IsAllowedForShip(GenericShip ship)
         {
             return ship is TIE;
-        }
+        }        
+    }
+}
 
-        public override void AttachToShip(GenericShip host)
+namespace Abilities
+{
+    public class TreatAllBanksAsGreenAbility : GenericAbility
+    {
+        public override void ActivateAbility()
         {
-            base.AttachToShip(host);
-
-            host.AfterGetManeuverColorDecreaseComplexity += TwinIonEngineMkIIAbility;
+            HostShip.AfterGetManeuverColorDecreaseComplexity += CheckAbility;
         }
 
-        private void TwinIonEngineMkIIAbility(GenericShip ship, ref Movement.MovementStruct movement)
+        public override void DeactivateAbility()
+        {
+            HostShip.AfterGetManeuverColorDecreaseComplexity -= CheckAbility;
+        }
+
+        private void CheckAbility(GenericShip ship, ref Movement.MovementStruct movement)
         {
             if (movement.ColorComplexity != Movement.ManeuverColor.None)
             {

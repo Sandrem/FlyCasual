@@ -13,9 +13,7 @@ namespace UpgradesList
     {
         public HarpoonMissiles() : base()
         {
-            IsHidden = true;
-
-            Type = UpgradeType.Missile;
+            Types.Add(UpgradeType.Missile);
 
             Name = "Harpoon Missiles";
 
@@ -62,7 +60,6 @@ namespace Abilities
 
                 Messages.ShowInfo("\"Harpooned!\" condition is assigned");
                 Combat.Defender.Tokens.AssignCondition(new Conditions.Harpooned(Combat.Defender));
-
                 SubscribeToHarpoonedConditionEffects(Combat.Defender);
             }
         }
@@ -74,15 +71,22 @@ namespace Abilities
             harpoonedShip.AfterGenerateAvailableActionsList += AddRepairAction;
         }
 
+        private void UnsubscribeFromHarpoonedConditionEffects(GenericShip harpoonedShip)
+        {
+            harpoonedShip.OnShotHitAsDefender -= CheckUncancelledCrit;
+            harpoonedShip.OnShipIsDestroyed -= DoSplashDamageOnDestroyed;
+            harpoonedShip.AfterGenerateAvailableActionsList -= AddRepairAction;
+        }
+
         private void CheckUncancelledCrit()
         {
             if (Combat.ChosenWeapon != this.HostUpgrade && Combat.DiceRollAttack.CriticalSuccesses > 0)
             {
-                RegisterAbilityTrigger(TriggerTypes.OnAttackHit, delegate { DoSplashDamage(AdditionalDamageOnItself); });
+                RegisterAbilityTrigger(TriggerTypes.OnAttackHit, delegate { DoSplashDamage(Combat.Defender, AdditionalDamageOnItself); });
             }
         }
 
-        private void DoSplashDamage(Action callback)
+        private void DoSplashDamage(GenericShip harpoonedShip, Action callback)
         {
             Messages.ShowInfo("\"Harpooned!\" condition deals splash damage");
 
@@ -92,10 +96,12 @@ namespace Abilities
             {
 
                 // Defending ship shouldn't suffer additional damage
-                if (ship.ShipId == Combat.Defender.ShipId)
+                if (ship.ShipId == harpoonedShip.ShipId)
+                {
                     continue;
+                }
 
-                Board.ShipDistanceInformation distanceInfo = new Board.ShipDistanceInformation(Combat.Defender, ship);
+                Board.ShipDistanceInformation distanceInfo = new Board.ShipDistanceInformation(harpoonedShip, ship);
 
                 if (distanceInfo.Range == 1)
                 {
@@ -126,16 +132,26 @@ namespace Abilities
         private void AdditionalDamageOnItself()
         {
             Combat.Defender.Tokens.RemoveCondition(typeof(Conditions.Harpooned));
+            UnsubscribeFromHarpoonedConditionEffects(Combat.Defender);
 
-            //Deal facedown damage card;
-
-            Triggers.FinishTrigger();
+            DamageDecks.GetDamageDeck(Combat.Defender.Owner.PlayerNo).DrawDamageCard(
+                false,
+                DealDrawnCard,
+                new DamageSourceEventArgs{
+                    DamageType = DamageTypes.Rules,
+                    Source = null
+                }
+            );
         }
 
-        private void DoSplashDamageOnDestroyed(GenericShip harpoonedShip)
+        private void DealDrawnCard(object sender, System.EventArgs e)
         {
-            // Needs TriggerTypes.OnDestroyed
-            //RegisterAbilityTrigger(TriggerTypes.OnDestroyed, delegate { DoSplashDamage(Triggers.FinishTrigger); });
+            Combat.Defender.Damage.DealDrawnCard(Triggers.FinishTrigger);
+        }
+
+        private void DoSplashDamageOnDestroyed(GenericShip harpoonedShip, bool isFled)
+        {
+            RegisterAbilityTrigger(TriggerTypes.OnShipIsDestroyed, delegate { DoSplashDamage(harpoonedShip, Triggers.FinishTrigger); });
         }
 
         private void AddRepairAction(GenericShip harpoonedShip)
@@ -234,8 +250,10 @@ namespace SubPhases
 
                 Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, CallBack);
             }
-
-            CallBack();
+            else
+            {
+                CallBack();
+            }
         }
 
     }

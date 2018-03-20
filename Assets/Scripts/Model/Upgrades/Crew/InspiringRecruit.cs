@@ -14,7 +14,7 @@ namespace UpgradesList
 
         public InspiringRecruit() : base()
         {
-            Type = UpgradeType.Crew;
+            Types.Add(UpgradeType.Crew);
             Name = "Inspiring Recruit";
             Cost = 1;
 

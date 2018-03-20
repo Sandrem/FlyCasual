@@ -12,7 +12,7 @@ namespace UpgradesList
     {
         public R5Astromech() : base()
         {
-            Type = UpgradeType.Astromech;
+            Types.Add(UpgradeType.Astromech);
             Name = "R5 Astromech";
             Cost = 1;
 
@@ -85,7 +85,7 @@ namespace SubPhases
                 AddDecision(shipCrit.Name, delegate { DiscardCrit(shipCrit); });
             }
 
-            DefaultDecision = GetDecisions().First().Key;
+            DefaultDecisionName = GetDecisions().First().Name;
 
             callBack();
         }

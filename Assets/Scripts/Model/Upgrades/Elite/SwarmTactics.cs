@@ -13,7 +13,7 @@ namespace UpgradesList
 
         public SwarmTactics() : base()
         {
-            Type = UpgradeType.Elite;
+            Types.Add(UpgradeType.Elite);
             Name = "Swarm Tactics";
             Cost = 2;
 
@@ -80,7 +80,29 @@ namespace SubPhases
             maxRange = 1;
             finishAction = SelectSwarmTacticsTarget;
 
+            FilterTargets = FilterAbilityTargets;
+            GetAiPriority = GetAiAbilityPriority;
+
+            RequiredPlayer = Selection.ThisShip.Owner.PlayerNo;
+
             UI.ShowSkipButton();
+        }
+
+        private bool FilterAbilityTargets(GenericShip ship)
+        {
+            Board.ShipDistanceInformation distanceInfo = new Board.ShipDistanceInformation(Selection.ThisShip, ship);
+            return (distanceInfo.Range == 1) && (ship.Owner.PlayerNo == Selection.ThisShip.Owner.PlayerNo) && (ship.ShipId != Selection.ThisShip.ShipId);
+        }
+
+        private int GetAiAbilityPriority(GenericShip ship)
+        {
+            int result = 0;
+            if (Actions.HasTarget(ship)) result += 100;
+            result += (12 - ship.PilotSkill);
+
+            if (ship.PilotSkill >= Selection.ThisShip.PilotSkill) result = 0;
+
+            return result;
         }
 
         private void SelectSwarmTacticsTarget()

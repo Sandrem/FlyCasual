@@ -37,7 +37,7 @@ namespace Ship
                 factions.Add(Faction.Imperial);
                 faction = Faction.Imperial;
 
-                SkinName = "Lambda-class Shuttle";
+                SkinName = "Default";
 
                 SoundShotsPath = "Slave1-Fire";
                 ShotsCount = 3;

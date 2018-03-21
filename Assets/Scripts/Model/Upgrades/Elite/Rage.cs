@@ -17,23 +17,40 @@ namespace UpgradesList
 			Types.Add(UpgradeType.Elite);
 			Name = "Rage";
 			Cost = 1;
-		}
 
-		public override void AttachToShip(Ship.GenericShip host)
-		{
-			base.AttachToShip(host);
-			host.AfterGenerateAvailableActionsList += AddRageAction;
-		}
+			UpgradeAbilities.Add (new RageAbility ());
 
-		private void AddRageAction(Ship.GenericShip host)
-		{
-			ActionsList.GenericAction newAction = new ActionsList.RageAction();
-			newAction.ImageUrl = ImageUrl;
-			host.AddAvailableAction(newAction);
 		}
 	}
 }
-	
+
+
+namespace Abilities
+{
+	public class RageAbility: GenericAbility
+	{
+		public override void ActivateAbility()
+		{
+			HostShip.AfterGenerateAvailableActionsList += RageAddAction;
+		}
+
+		public override void DeactivateAbility()
+		{
+			HostShip.AfterGenerateAvailableActionsList -= RageAddAction;
+		}
+
+		private void RageAddAction(Ship.GenericShip host)
+		{
+			ActionsList.GenericAction action = new ActionsList.RageAction()
+			{
+				ImageUrl = HostUpgrade.ImageUrl,
+				Host = HostShip
+			};
+			host.AddAvailableAction(action);
+		}		
+	}
+}
+
 
 namespace ActionsList
 {

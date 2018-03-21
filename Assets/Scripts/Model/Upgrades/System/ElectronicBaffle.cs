@@ -30,12 +30,27 @@ namespace Abilities
 		public override void ActivateAbility()
 		{
 			HostShip.OnTokenIsAssigned += RegisterElectronicBaffle;
+			HostShip.OnShipIsDestroyed += RegisterCleanUp;
+
 		}
 
 
 		public override void DeactivateAbility()
 		{
 			HostShip.OnTokenIsAssigned -= RegisterElectronicBaffle;
+		}
+
+
+		private void RegisterCleanUp(GenericShip ship, bool isFled)
+		{
+			RegisterAbilityTrigger (TriggerTypes.OnShipIsDestroyed, CleanUp);
+		}
+
+
+		private void CleanUp(object sender, System.EventArgs e)
+		{
+			HostShip.OnTokenIsAssigned -= RegisterElectronicBaffle;
+			Triggers.FinishTrigger();
 		}
 
 
@@ -49,7 +64,7 @@ namespace Abilities
 				RegisterAbilityTrigger (TriggerTypes.OnTokenIsAssigned, ShowUseEBIon);
 			}
 		}
-
+			
 
 		private void ShowUseEBIon(object sender, System.EventArgs e)
 		{
@@ -69,7 +84,7 @@ namespace Abilities
 			if (HostShip.Tokens.HasToken (typeof(Tokens.IonToken)))
 			{
 				Messages.ShowInfo("Electronic Baffle: Ion removed");
-				HostShip.Tokens.RemoveToken (typeof(Tokens.IonToken), delegate { sufferDamage ();});
+				HostShip.Tokens.RemoveToken (typeof(Tokens.IonToken), delegate { sufferDamage();});
 
 			} 
 		}
@@ -80,14 +95,19 @@ namespace Abilities
 			//This token could be intercepted by other ability
 			if (HostShip.Tokens.HasToken (typeof(Tokens.StressToken))) {
 				Messages.ShowInfo("Electronic Baffle: Stress removed");
-				HostShip.Tokens.RemoveToken (typeof(Tokens.StressToken), delegate { sufferDamage ();});
+				HostShip.Tokens.RemoveToken (typeof(Tokens.StressToken), delegate { sufferDamage();});
 
 			} 
 		}
 
 
 		private void sufferDamage(){
-			
+
+			DiceRoll damage = new DiceRoll(DiceKind.Attack, 0, DiceRollCheckType.Virtual);
+			damage.AddDice(DieSide.Success);
+
+			HostShip.AssignedDamageDiceroll.DiceList.AddRange (damage.DiceList);
+
 			Triggers.RegisterTrigger(new Trigger()
 				{
 					Name = "Suffer damage from Electronic Baffle",   
@@ -98,8 +118,7 @@ namespace Abilities
 					{
 						Source = "ElectronicBaffle",
 						DamageType = DamageTypes.CardAbility
-					},
-					Skippable = true
+					}
 				});
 			
 			Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, DecisionSubPhase.ConfirmDecision );

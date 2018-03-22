@@ -47,10 +47,21 @@ namespace Abilities
             ShipShotDistanceInformation shotInfo = Combat.ShotInfo;
             if (!shotInfo.InMobileArc || shotInfo.Range > 2) return;
 
+            RegisterAbilityTrigger(TriggerTypes.OnAttackHit, AssignTractorBeamToken);
+        }
+
+        private void AssignTractorBeamToken(object sender, System.EventArgs e)
+        {
             Tokens.TractorBeamToken token = new Tokens.TractorBeamToken(Combat.Defender, Combat.Attacker.Owner);
-            Combat.Defender.Tokens.AssignToken(token, delegate {
-                IsAbilityUsed = true;
-            });
+
+            Combat.Defender.Tokens.AssignToken(
+                token,
+                delegate
+                {
+                    IsAbilityUsed = true;
+                    Triggers.FinishTrigger();
+                }
+            );
         }
     }
 }

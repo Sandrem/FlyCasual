@@ -3,6 +3,7 @@ using Ship;
 using Upgrade;
 using SubPhases;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace UpgradesList
 {
@@ -65,11 +66,16 @@ namespace ActionsList
             SelectSpacetugTargetSubPhase newPhase = (SelectSpacetugTargetSubPhase) Phases.StartTemporarySubPhaseNew(
                 "Select target for Spacetug Tractor Array",
                 typeof(SelectSpacetugTargetSubPhase),
-                delegate { }
+                FinishAction
             );
 
             newPhase.SpacetugOwner = this.Host;
             newPhase.Start();
+        }
+
+        private void FinishAction()
+        {
+            Phases.CurrentSubPhase.CallBack();
         }
     }
 }
@@ -108,27 +114,11 @@ namespace SubPhases
 
         private void SelectSpacetugTarget()
         {
-            SelectShipSubPhase.FinishSelectionNoCallback();
             MovementTemplates.ReturnRangeRuler();
             Tokens.TractorBeamToken token = new Tokens.TractorBeamToken(TargetShip, SpacetugOwner.Owner);
-            TargetShip.Tokens.AssignToken(token, delegate {
-                Triggers.FinishTrigger();
-                Next();
-            });
+            TargetShip.Tokens.AssignToken(token, SelectShipSubPhase.FinishSelection);
         }
 
-        public override void Next()
-        {
-            Phases.CurrentSubPhase = PreviousSubPhase;
-            Phases.CurrentSubPhase.Next();
-            UpdateHelpInfo();
-            CallBack();
-        }
-
-        public override void SkipButton()
-        {
-            Phases.FinishSubPhase(this.GetType());
-        }
     }
 }
 

@@ -263,8 +263,9 @@ namespace SubPhases
 
         public static void FinishSelection()
         {
+            Action callback = Phases.CurrentSubPhase.CallBack;
             FinishSelectionNoCallback();
-            Triggers.FinishTrigger();
+            callback();
         }
 
     }

@@ -271,12 +271,8 @@ namespace SubPhases
 
         public static void ConfirmDecision()
         {
-            Tooltips.EndTooltip();
-            UI.HideSkipButton();
-
             Action callBack = Phases.CurrentSubPhase.CallBack;
-            Phases.FinishSubPhase(Phases.CurrentSubPhase.GetType());
-            Phases.CurrentSubPhase.Resume();
+            ConfirmDecisionNoCallback();
             callBack();
         }
 

@@ -112,11 +112,11 @@ public partial class DiceRoll
         private set { }
     }
 
-    public int SuccessesCancellable
+    public int SuccessesCancelable
     {
         get
         {
-            return DiceList.Count(n => ((n.Side == DieSide.Success) || (n.Side == DieSide.Crit)) && (n.IsUncancellable == false));
+            return DiceList.Count(n => ((n.Side == DieSide.Success) || (n.Side == DieSide.Crit)) && (n.IsUncancelable == false));
         }
         private set { }
     }
@@ -401,7 +401,7 @@ public partial class DiceRoll
             if (die.Side == type)
             {
                 //Cancel dice if it's not a defence cancel or it is and the die is cancellable
-                if ((!CancelByDefence) || (!die.IsUncancellable)) {
+                if ((!CancelByDefence) || (!die.IsUncancelable)) {
                     if (!dryRun) die.Cancel();
                     found = true;
                     return found;

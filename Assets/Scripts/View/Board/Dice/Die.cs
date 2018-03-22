@@ -32,7 +32,7 @@ public partial class Die
     {
         ParentDiceRoll = diceRoll;
         Type = type;
-        IsUncancellable = false;
+        IsUncancelable = false;
         Sides = new List<DieSide>
         {
             DieSide.Blank,

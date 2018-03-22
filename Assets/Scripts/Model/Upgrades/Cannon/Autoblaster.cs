@@ -48,7 +48,7 @@ namespace Abilities
                 {
                     if (die.Side == DieSide.Success)
                     {
-                        die.IsUncancellable = true;
+                        die.IsUncancelable = true;
                     }
                 }
             }

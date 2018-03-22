@@ -62,7 +62,7 @@ public class DiceCompareHelper
         newIcon.name = (die.Side == DieSide.Success) ? "Hit" : "Crit";
         newIcon.SetActive(true);
 
-        if (die.IsUncancellable)
+        if (die.IsUncancelable)
         {
             newIcon.transform.Find("Uncancellable").gameObject.SetActive(true);
         }

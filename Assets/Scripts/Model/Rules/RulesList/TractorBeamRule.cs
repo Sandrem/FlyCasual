@@ -40,7 +40,7 @@ namespace RulesList
             SubPhases.TractorBeamPlanningSubPhase newPhase = (SubPhases.TractorBeamPlanningSubPhase) Phases.StartTemporarySubPhaseNew(
                 "Perform tractor beam effect",
                 typeof(SubPhases.TractorBeamPlanningSubPhase),
-                delegate { }
+                Triggers.FinishTrigger
             );
             newPhase.Assigner = token.Assigner;
             newPhase.TheShip = ship;
@@ -224,8 +224,9 @@ namespace SubPhases
         public override void Next()
         {
             Phases.CurrentSubPhase = PreviousSubPhase;
-            Phases.CurrentSubPhase.Next();
             UpdateHelpInfo();
+
+            CallBack();
         }
 
         public override void Resume()

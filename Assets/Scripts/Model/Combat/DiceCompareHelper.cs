@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -33,33 +34,38 @@ public class DiceCompareHelper
 
         if (!AttackDiceroll.CancelCritsFirst)
         {
-            CreateIcons(DieSide.Crit, AttackDiceroll.CriticalSuccesses);
-            CreateIcons(DieSide.Success, AttackDiceroll.RegularSuccesses);
+            CreateIcons(AttackDiceroll.DiceList.Where(n => n.Side == DieSide.Crit).ToList());
+            CreateIcons(AttackDiceroll.DiceList.Where(n => n.Side == DieSide.Success).ToList());
         }
         else
         {
-            CreateIcons(DieSide.Success, AttackDiceroll.RegularSuccesses);
-            CreateIcons(DieSide.Crit, AttackDiceroll.CriticalSuccesses);
+            CreateIcons(AttackDiceroll.DiceList.Where(n => n.Side == DieSide.Success).ToList());
+            CreateIcons(AttackDiceroll.DiceList.Where(n => n.Side == DieSide.Crit).ToList());
         }
 
         UpdatePanelSize();
     }
 
-    private void CreateIcons(DieSide dieSide, int count)
+    private void CreateIcons(List<Die> dice)
     {
-        for (int i = 0; i < count; i++)
+        foreach (var die in dice)
         {
-            CreateIcon(dieSide);
+            CreateIcon(die);
         }
     }
 
-    private void CreateIcon(DieSide dieSide)
+    private void CreateIcon(Die die)
     {
-        GameObject iconPrefab = (dieSide == DieSide.Success) ? iconPrefabHit : iconPrefabCrit;
+        GameObject iconPrefab = (die.Side == DieSide.Success) ? iconPrefabHit : iconPrefabCrit;
         GameObject newIcon = MonoBehaviour.Instantiate(iconPrefab, helperPanel.transform.Find("DiceImages"));
         newIcon.transform.localPosition = new Vector3(iconsCount * 100, 0, 0);
-        newIcon.name = (dieSide == DieSide.Success) ? "Hit" : "Crit";
+        newIcon.name = (die.Side == DieSide.Success) ? "Hit" : "Crit";
         newIcon.SetActive(true);
+
+        if (die.IsUncancellable)
+        {
+            newIcon.transform.Find("Uncancellable").gameObject.SetActive(true);
+        }
 
         diceIcons.Add(newIcon);
 

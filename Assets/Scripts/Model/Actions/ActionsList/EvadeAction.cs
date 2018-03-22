@@ -33,11 +33,11 @@ namespace ActionsList
 
             if (Combat.AttackStep == CombatStep.Defence)
             {
-                int attackSuccesses = Combat.DiceRollAttack.Successes;
+                int attackSuccessesCancellable = Combat.DiceRollAttack.SuccessesCancellable;
                 int defenceSuccesses = Combat.DiceRollDefence.Successes;
-                if (attackSuccesses > defenceSuccesses)
+                if (attackSuccessesCancellable > defenceSuccesses)
                 {
-                    result = (attackSuccesses - defenceSuccesses == 1) ? 70 : 20;
+                    result = (attackSuccessesCancellable - defenceSuccesses == 1) ? 70 : 20;
                 }
             }
 

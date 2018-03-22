@@ -27,9 +27,9 @@ namespace ActionsList
 
             if (Combat.AttackStep == CombatStep.Defence)
             {
-                int attackSuccesses = Combat.DiceRollAttack.Successes;
+                int attackSuccessesCancellable = Combat.DiceRollAttack.SuccessesCancellable;
                 int defenceSuccesses = Combat.DiceRollDefence.Successes;
-                if (attackSuccesses > defenceSuccesses)
+                if (attackSuccessesCancellable > defenceSuccesses)
                 {
                     int defenceFocuses = Combat.DiceRollDefence.Focuses;
                     if (defenceFocuses > 0)

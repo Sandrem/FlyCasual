@@ -112,6 +112,15 @@ public partial class DiceRoll
         private set { }
     }
 
+    public int SuccessesCancellable
+    {
+        get
+        {
+            return DiceList.Count(n => ((n.Side == DieSide.Success) || (n.Side == DieSide.Crit)) && (n.IsUncancellable == false));
+        }
+        private set { }
+    }
+
     public int RegularSuccesses
     {
         get

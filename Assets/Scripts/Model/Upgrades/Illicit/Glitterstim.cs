@@ -93,18 +93,21 @@ namespace SubPhases
             AddDecision("Yes", UseGlitterstimAbility);
             AddDecision("No", DontUseGlitterstimAbility);
 
-            DefaultDecisionName = (IsTimeToUseGlitterSteam()) ? "Yes" : "No";
+            DefaultDecisionName = (IsTimeToUseGlitterStim()) ? "Yes" : "No";
 
             UI.ShowSkipButton();
 
             callBack();
         }
 
-        private bool IsTimeToUseGlitterSteam()
+        private bool IsTimeToUseGlitterStim()
         {
             bool result = false;
 
             GenericShip host = GlitterstimUpgrade.Host;
+
+            if (host.Tokens.HasToken(typeof(Conditions.Glitterstim))) return false;
+
             if (host.Owner.GetType() == typeof(Players.HotacAiPlayer))
             {
                 if (!host.Tokens.HasToken(typeof(Tokens.FocusToken)))

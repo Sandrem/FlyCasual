@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Ship;
 using System;
+using System.Linq;
 
 namespace Ship
 {
@@ -47,7 +48,7 @@ namespace Abilities
 
         private void AssignStressTokens(object sender, System.EventArgs e)
         {
-            shipsToAssignStress = new List<GenericShip>(HostShip.ShipsBumped);
+            shipsToAssignStress = new List<GenericShip>(HostShip.ShipsBumped.Where(n => n.Owner.PlayerNo != HostShip.Owner.PlayerNo));
             AssignStressTokenRecursive();
         }
 

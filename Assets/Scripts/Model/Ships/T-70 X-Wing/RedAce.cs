@@ -45,10 +45,7 @@ namespace Abilities
 
         private void RegisterCanGetEvadeToken()
         {
-            if (IsAbilityUsed || HostShip.Shields == 0)
-            {
-                return;
-            }
+            if (IsAbilityUsed) return;
 
             IsAbilityUsed = true;
             RegisterAbilityTrigger(TriggerTypes.OnShieldIsLost, AssignEvadeToken);

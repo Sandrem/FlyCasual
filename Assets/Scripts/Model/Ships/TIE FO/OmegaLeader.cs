@@ -59,6 +59,7 @@ namespace Abilities
             if (targetLock != ' ')
             {
                 enemyship.OnTryAddAvailableActionEffect += UseOmegaLeaderRestriction;
+                enemyship.OnTryAddAvailableOppositeActionEffect += UseOmegaLeaderRestriction;
                 enemyship.OnAttackFinish += RemoveOmegaLeaderPilotAbility;
             }
         }

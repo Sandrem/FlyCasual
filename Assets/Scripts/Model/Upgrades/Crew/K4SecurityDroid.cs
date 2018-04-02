@@ -41,10 +41,9 @@ namespace Abilities
         private void RegisterK4SecurityDroid(GenericShip hostShip)
         {
             Movement.ManeuverColor movementColor = HostShip.GetLastManeuverColor();
-            if (movementColor != Movement.ManeuverColor.Green)
-            {
-                return;
-            }
+            if (movementColor != Movement.ManeuverColor.Green) return;
+
+            if (Board.BoardManager.IsOffTheBoard(hostShip)) return;
 
             RegisterAbilityTrigger(
                 TriggerTypes.OnShipMovementFinish,

@@ -48,10 +48,8 @@ namespace Abilities
              * A ship that executes a maneuver that is not on its dial (such as an ionized ship, a ship using Inertial Dampeners, 
              * or Juno Eclipse using her pilot ability to execute a maneuver that is not on her dial) cannot use Lightning Reflexes. 
              * (X-Wing FAQ, Version 3.2, Updated 09/04/2015) */
-            if(!HostShip.HasManeuver(HostShip.AssignedManeuver.ToString()))
-            {
-                return;
-            }
+            if (!HostShip.HasManeuver(HostShip.AssignedManeuver.ToString())) return;
+            if (Board.BoardManager.IsOffTheBoard(host)) return;
 
             if (HostShip.AssignedManeuver.ColorComplexity == ManeuverColor.White || HostShip.AssignedManeuver.ColorComplexity == ManeuverColor.Green)
             {

@@ -39,6 +39,8 @@ namespace Abilities
 
         private void RegisterOutlawTechAbility(GenericShip ship)
         {
+            if (Board.BoardManager.IsOffTheBoard(ship)) return;
+
             if (HostShip.GetLastManeuverColor() == Movement.ManeuverColor.Red)
             {
                 RegisterAbilityTrigger(TriggerTypes.OnShipMovementFinish, AskAssignFocusToken);

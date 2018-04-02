@@ -42,10 +42,12 @@ namespace Abilities
 
         private void CheckGeniusAbility(GenericShip ship)
         {
-            if (!HostShip.IsBumped && !HostShip.IsBombAlreadyDropped && BombsManager.HasTimedBombs(ship))
-            {
-                RegisterAbilityTrigger(TriggerTypes.OnMovementActivation, AskUseGeniusAbility);
-            }
+            if (HostShip.IsBumped) return;
+            if (HostShip.IsBombAlreadyDropped) return;
+            if (!BombsManager.HasTimedBombs(ship)) return;
+            if (Board.BoardManager.IsOffTheBoard(ship)) return;
+
+            RegisterAbilityTrigger(TriggerTypes.OnMovementActivation, AskUseGeniusAbility);
         }
 
         private void AskUseGeniusAbility(object sender, EventArgs e)

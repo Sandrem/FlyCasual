@@ -31,22 +31,21 @@ namespace UpgradesList
 
         private void CheckAbility(GenericShip ship)
         {
-            if (ship.AssignedManeuver.Speed == 3 && ship.AssignedManeuver.Bearing == Movement.ManeuverBearing.Bank)
-            {
-                if (!ship.IsBumped)
-                {
-                    Triggers.RegisterTrigger(new Trigger() {
-                        Name = "Millenium Falcon's ability",
-                        TriggerType = TriggerTypes.OnShipMovementFinish,
-                        TriggerOwner = Host.Owner.PlayerNo,
-                        Sender = ship,
-                        EventHandler = RotateShip180
-                    });
-                }
-            }
+            if (ship.AssignedManeuver.Speed != 3) return;
+            if (ship.AssignedManeuver.Bearing != Movement.ManeuverBearing.Bank) return;
+            if (ship.IsBumped) return;
+            if (Board.BoardManager.IsOffTheBoard(ship)) return;
+
+            Triggers.RegisterTrigger(new Trigger() {
+                Name = "Millenium Falcon's ability",
+                TriggerType = TriggerTypes.OnShipMovementFinish,
+                TriggerOwner = Host.Owner.PlayerNo,
+                Sender = ship,
+                EventHandler = RotateShip180
+            });
         }
 
-        private void RotateShip180(object sender, System.EventArgs e)
+        private void RotateShip180(object sender, EventArgs e)
         {
             GenericShip thisShip = sender as GenericShip;
 

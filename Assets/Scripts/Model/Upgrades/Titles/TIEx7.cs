@@ -40,6 +40,8 @@ namespace UpgradesList
 
         private void CheckTIEx7Ability(GenericShip ship)
         {
+            if (Board.BoardManager.IsOffTheBoard(ship)) return;
+
             if (ship.AssignedManeuver.Speed > 2 && !ship.IsBumped && !ship.IsHitObstacles)
             {
                 Triggers.RegisterTrigger(new Trigger() {

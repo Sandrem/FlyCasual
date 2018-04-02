@@ -7,6 +7,7 @@ using System.Linq;
 using Ship;
 using Abilities;
 using ActionsList;
+using Board;
 
 namespace UpgradesList
 {
@@ -61,10 +62,12 @@ namespace Abilities
 
         private void RegisterFlightAssistAstromechAbility(GenericShip host)
         {
-            if (!Selection.ThisShip.IsBumped && !Selection.ThisShip.IsHitObstacles && IsNoEnemyInArcAndDistance())
-            {
-                RegisterAbilityTrigger(TriggerTypes.OnShipMovementExecuted, AskPerformFreeActions);
-            }
+            if (Selection.ThisShip.IsBumped) return;
+            if (Selection.ThisShip.IsHitObstacles) return;
+            if (!IsNoEnemyInArcAndDistance()) return;
+            if (BoardManager.IsOffTheBoard(host)) return;
+
+            RegisterAbilityTrigger(TriggerTypes.OnShipMovementExecuted, AskPerformFreeActions);
         }
 
         private bool IsNoEnemyInArcAndDistance()

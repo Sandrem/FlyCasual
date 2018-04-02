@@ -47,6 +47,8 @@ namespace Abilities
 
         private void RegisterSystemsOfficerAbility(GenericShip ship)
         {
+            if (BoardManager.IsOffTheBoard(ship)) return;
+
             // After executing a green maneuver
             var movementColor = HostShip.GetLastManeuverColor();
             if (movementColor == Movement.ManeuverColor.Green)
@@ -54,7 +56,7 @@ namespace Abilities
                 // ...check if there is another firendly ship at range 1
                 var friendlyShipsAtRangeOne = HostShip.Owner.Ships.Values
                     .Where(another => another.ShipId != HostShip.ShipId)
-                    .Where(another => Board.BoardManager.GetRangeOfShips(HostShip, another) <= 1)
+                    .Where(another => BoardManager.GetRangeOfShips(HostShip, another) <= 1)
                     .ToArray();
                 if(friendlyShipsAtRangeOne.Any())
                 {

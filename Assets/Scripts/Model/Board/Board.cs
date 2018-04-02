@@ -46,6 +46,21 @@ namespace Board
             ship.CallOnShipIsPlaced(callback);
         }
 
+        public static bool IsOffTheBoard(GenericShip ship)
+        {
+            bool result = false;
+
+            foreach (var obj in ship.ShipBase.GetStandEdgePoints())
+            {
+                if ((Mathf.Abs(obj.Value.x) > PLAYMAT_SIZE / 2) || (Mathf.Abs(obj.Value.z) > PLAYMAT_SIZE / 2))
+                {
+                    return true;
+                }
+            }
+
+            return result;
+        }
+
         //SCALING TOOLS
 
         public static float BoardIntoWorld(float length)

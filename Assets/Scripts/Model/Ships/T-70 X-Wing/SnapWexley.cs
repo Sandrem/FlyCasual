@@ -44,16 +44,12 @@ namespace Abilities
 
         private void RegisterSnapAbility(GenericShip hostShip)
         {
-            if (Selection.ThisShip.IsBumped)
-            {
-                return;
-            }
+            if (Selection.ThisShip.IsBumped) return;
 
             int assignedSpeed = HostShip.AssignedManeuver.Speed;
-            if (assignedSpeed < 2 || assignedSpeed > 4)
-            {
-                return;
-            }
+            if (assignedSpeed < 2 || assignedSpeed > 4) return;
+
+            if (Board.BoardManager.IsOffTheBoard(hostShip)) return;
 
             RegisterAbilityTrigger(TriggerTypes.OnShipMovementFinish, PerformFreeBoost);
         }

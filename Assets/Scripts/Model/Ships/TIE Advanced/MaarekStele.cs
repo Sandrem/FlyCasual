@@ -42,10 +42,14 @@ namespace Abilities
             GenericShip.OnFaceupCritCardReadyToBeDealtGlobal -= MaarekStelePilotAbility;
         }
 
-        private void MaarekStelePilotAbility(GenericShip ship, DamageDeckCard.GenericDamageCard crit, EventArgs e)
+        private void MaarekStelePilotAbility(GenericShip ship, GenericDamageCard crit, EventArgs e)
         {
             if ((e as DamageSourceEventArgs) == null) return;
-            else if ((((e as DamageSourceEventArgs).Source) as GenericShip).ShipId == HostShip.ShipId)
+
+            GenericShip damageSourceShip = (e as DamageSourceEventArgs).Source as GenericShip;
+            if (damageSourceShip == null) return;
+
+            if (damageSourceShip.ShipId == HostShip.ShipId)
             {
                 if ((e as DamageSourceEventArgs).DamageType == DamageTypes.ShipAttack)
                 {

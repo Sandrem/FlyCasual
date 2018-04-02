@@ -17,11 +17,10 @@ namespace DamageDeckCard
 
         public override void ApplyEffect(object sender, EventArgs e)
         {
-            Host.AfterGetAgility += ReduceAgility;
-            Roster.UpdateShipStats(Host);
+            Messages.ShowInfo("Agility is reduced");
 
+            Host.ChangeAgilityBy(-1);
             Host.AfterGenerateAvailableActionsList += CallAddCancelCritAction;
-
             Host.Tokens.AssignCondition(new Tokens.StructuralDamageCritToken(Host));
             Triggers.FinishTrigger();
         }
@@ -32,9 +31,7 @@ namespace DamageDeckCard
 
             Host.Tokens.RemoveCondition(typeof(Tokens.StructuralDamageCritToken));
             Host.AfterGenerateAvailableActionsList -= CallAddCancelCritAction;
-
-            Host.AfterGetAgility -= ReduceAgility;
-            Roster.UpdateShipStats(Host);
+            Host.ChangeAgilityBy(+1);
         }
 
         private void ReduceAgility(ref int value)

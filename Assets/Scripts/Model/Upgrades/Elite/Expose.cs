@@ -13,14 +13,14 @@ namespace UpgradesList
             Cost = 4;
         }
 
-        public override void AttachToShip(Ship.GenericShip host)
+        public override void AttachToShip(GenericShip host)
         {
             base.AttachToShip(host);
 
-            host.AfterGenerateAvailableActionsList += MarksmanshipAddAction;
+            host.AfterGenerateAvailableActionsList += ExposeAddAction;
         }
 
-        private void MarksmanshipAddAction(Ship.GenericShip host)
+        private void ExposeAddAction(GenericShip host)
         {
             ActionsList.GenericAction newAction = new ActionsList.ExposeAction();
             newAction.ImageUrl = ImageUrl;

@@ -50,6 +50,8 @@ namespace RulesList
 
         private void RegisterRemoveIonization(GenericShip ship)
         {
+            if (Board.BoardManager.IsOffTheBoard(ship)) return;
+
             ship.OnMovementExecuted -= RegisterRemoveIonization;
 
             Triggers.RegisterTrigger(new Trigger

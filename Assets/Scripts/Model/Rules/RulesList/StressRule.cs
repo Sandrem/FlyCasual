@@ -12,6 +12,8 @@ namespace RulesList
 
         public void PlanCheckStress(GenericShip ship)
         {
+            if (Board.BoardManager.IsOffTheBoard(ship)) return;
+
             Triggers.RegisterTrigger(new Trigger()
             {
                 Name = "Check stress",

@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using Upgrade;
 using Abilities;
+using Ship;
+using Board;
 
 namespace UpgradesList
 {
@@ -37,8 +36,10 @@ namespace Abilities
             HostShip.OnMovementExecuted -= R2D2PlanRegenShield;
         }
 
-        private void R2D2PlanRegenShield(Ship.GenericShip host)
+        private void R2D2PlanRegenShield(GenericShip host)
         {
+            if (BoardManager.IsOffTheBoard(host)) return;
+
             if (host.AssignedManeuver.ColorComplexity == Movement.ManeuverColor.Green)
             {
                 if (host.Shields < host.MaxShields)

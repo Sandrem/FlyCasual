@@ -106,6 +106,7 @@ namespace SubPhases
         public override void PrepareDecision(System.Action callBack)
         {
             InfoText = "Select action";
+            ShowSkipButton = true;
             List<ActionsList.GenericAction> availableActions = Selection.ThisShip.GetAvailableActionsList();
 
             if (availableActions.Count > 0)
@@ -158,6 +159,7 @@ namespace SubPhases
         public override void PrepareDecision(System.Action callBack)
         {
             InfoText = "Select free action";
+            ShowSkipButton = true;
             List<ActionsList.GenericAction> availableActions = Selection.ThisShip.GetAvailableFreeActionsList();
 
             if (availableActions.Count > 0)

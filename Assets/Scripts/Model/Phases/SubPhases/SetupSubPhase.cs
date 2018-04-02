@@ -90,7 +90,7 @@ namespace SubPhases
 
             var ascPilotSkills =
                 from n in Roster.AllShips
-                where n.Value.PilotSkill > pilotSkillMin
+                where !n.Value.IsSetupPerformed && n.Value.PilotSkill > pilotSkillMin
                 orderby n.Value.PilotSkill
                 select n;
 
@@ -143,17 +143,7 @@ namespace SubPhases
             Game.Position.inReposition = false;
 
             Selection.ChangeActiveShip("ShipId:" + shipId);
-
-            Selection.ThisShip.SetPosition(position);
-            Selection.ThisShip.SetAngles(angles);
-            Selection.ThisShip.IsSetupPerformed = true;
-
-            Board.BoardManager.TurnOffStartingZones();
-
-            GenericShip lastShip = Selection.ThisShip;
-            Selection.DeselectThisShip();
-
-            lastShip.CallOnShipIsPlaced(Phases.Next);
+            Board.BoardManager.PlaceShip(Selection.ThisShip, position, angles, delegate { Selection.DeselectThisShip(); Phases.Next(); });
         }
 
     }

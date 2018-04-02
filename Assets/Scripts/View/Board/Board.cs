@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Ship;
 using UnityEngine;
@@ -46,7 +47,7 @@ namespace Board
             }
         }
 
-        private static void SetShip(Ship.GenericShip ship, int count)
+        private static void SetShip(GenericShip ship, int count)
         {
             float distance = CalculateDistance(ship.Owner.Ships.Count);
             float side = (ship.Owner.PlayerNo == Players.PlayerNo.Player1) ? -1 : 1;
@@ -64,26 +65,6 @@ namespace Board
         {
             StartingZone1.SetActive(false);
             StartingZone2.SetActive(false);
-        }
-
-        public static void SetShips(Dictionary<string, GenericShip> shipsPlayer1, Dictionary<string, Ship.GenericShip> shipsPlayer2)
-        {
-
-            int i = 1;
-            foreach (var ship in shipsPlayer1)
-            {
-                float distance = CalculateDistance(shipsPlayer1.Count);
-                ship.Value.SetPosition(BoardIntoWorld(new Vector3(- SIZE_X / 2 + i *distance, 0, -SIZE_Y/2 + 2*RANGE_1)));
-                i++;
-            }
-
-            i = 1;
-            foreach (var ship in shipsPlayer2)
-            {
-                float distance = CalculateDistance(shipsPlayer2.Count);
-                ship.Value.SetPosition(BoardIntoWorld(new Vector3(- SIZE_X / 2 + i * distance, 0, SIZE_Y/2 - 2*RANGE_1)));
-                i++;
-            }
         }
 
         //SCALING TOOLS
@@ -181,6 +162,7 @@ namespace Board
 
             return ships;
         }
+
     }
 
 }

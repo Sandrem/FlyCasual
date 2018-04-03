@@ -65,6 +65,7 @@ public partial class Console : MonoBehaviour {
 
         foreach (var type in typelist)
         {
+            if (type.MemberType == MemberTypes.NestedType) continue;
             GenericCommand newCommand = (GenericCommand)System.Activator.CreateInstance(type);
         }
 

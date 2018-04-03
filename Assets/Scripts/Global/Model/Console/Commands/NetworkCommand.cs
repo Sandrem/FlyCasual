@@ -22,7 +22,7 @@ namespace CommandsList
             }
             else
             {
-                Console.ProcessCommand("help " + Keyword);
+                ShowHelp();
             }
         }
     }

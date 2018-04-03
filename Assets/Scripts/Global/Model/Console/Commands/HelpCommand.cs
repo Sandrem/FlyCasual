@@ -34,6 +34,7 @@ namespace CommandsList
             {
                 Console.Write(command.Key);
             }
+            Console.Write("\nhelp <command> - show description of command", LogTypes.Everything, true);
         }
 
         private void ShowHelpForCommand(string command)

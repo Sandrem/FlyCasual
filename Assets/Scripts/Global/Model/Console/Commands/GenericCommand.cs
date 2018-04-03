@@ -9,4 +9,9 @@ public abstract class GenericCommand
     public string Description { get; protected set; }
 
     public abstract void Execute(Dictionary<string, string> parameters);
+
+    protected void ShowHelp()
+    {
+        Console.ProcessCommand("help " + Keyword);
+    }
 }

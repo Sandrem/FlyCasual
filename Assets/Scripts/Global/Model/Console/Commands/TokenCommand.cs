@@ -85,12 +85,12 @@ namespace CommandsList
                         }
                         else
                         {
-                            Console.ProcessCommand("help " + Keyword);
+                            ShowHelp();
                         }
                     }
                     else
                     {
-                        Console.ProcessCommand("help " + Keyword);
+                        ShowHelp();
                     }
                 }
             }

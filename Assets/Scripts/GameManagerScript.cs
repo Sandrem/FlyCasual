@@ -44,7 +44,7 @@ public class GameManagerScript : MonoBehaviour {
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            UI.GoNextShortcut();
+            if (!Console.IsActive) UI.GoNextShortcut();
         }
     }
 

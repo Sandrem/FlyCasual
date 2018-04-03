@@ -52,9 +52,9 @@ public partial class Console : MonoBehaviour {
         }
     }
 
-    private void ToggleConsole()
+    public static void ToggleConsole()
     {
-        if (logs == null) InitializeLogs();
+        if (Logs == null) InitializeLogs();
         IsActive = !IsActive;
         if (IsActive)
         {
@@ -127,7 +127,7 @@ public partial class Console : MonoBehaviour {
             totalLogEntryHeight = 0;
         }
 
-        List<LogEntry> logEntriesToShow = (type == LogTypes.Everything) ? logs : logs.Where(n => n.Type == type).ToList();
+        List<LogEntry> logEntriesToShow = (type == LogTypes.Everything) ? Logs : Logs.Where(n => n.Type == type).ToList();
         foreach (var filteredRecord in logEntriesToShow)
         {
             ShowLogEntry(filteredRecord);

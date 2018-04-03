@@ -9,6 +9,11 @@ public static class DamageDecks
 {
     private static List<DamageDeck> damadeDecks;
 
+    public static bool Initialized
+    {
+        get { return damadeDecks != null; }
+    }
+
     public static void Initialize()
     {
         damadeDecks = new List<DamageDeck>

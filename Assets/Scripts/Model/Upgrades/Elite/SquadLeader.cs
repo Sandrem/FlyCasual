@@ -20,14 +20,14 @@ namespace UpgradesList
             Cost = 2;
         }
 
-        public override void AttachToShip(Ship.GenericShip host)
+        public override void AttachToShip(GenericShip host)
         {
             base.AttachToShip(host);
 
             host.AfterGenerateAvailableActionsList += SquadLeaderAddAction;
         }
 
-        private void SquadLeaderAddAction(Ship.GenericShip host)
+        private void SquadLeaderAddAction(GenericShip host)
         {
             ActionsList.GenericAction newAction = new ActionsList.SquadLeaderAction() { ImageUrl = ImageUrl, Host = this.Host };
             host.AddAvailableAction(newAction);
@@ -143,6 +143,7 @@ namespace SubPhases
         public override void SkipButton()
         {
             Phases.FinishSubPhase(this.GetType());
+            Phases.CurrentSubPhase.Resume();
             CallBack();
         }
 

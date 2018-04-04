@@ -3,6 +3,7 @@ using Upgrade;
 using ActionsList;
 using System.Linq;
 using UnityEngine;
+using SquadBuilderNS;
 
 namespace UpgradesList
 { 
@@ -17,7 +18,24 @@ namespace UpgradesList
 
         public override bool IsAllowedForShip(GenericShip ship)
         {
-            return (ship.PrintedActions.Count(n => n.GetType() == typeof(BoostAction)) != 0);
+            //TODO: Engine Upgrade must add icon to available actions
+
+            bool result = false;
+
+            if (ship.PrintedActions.Any(n => n.GetType() == typeof(BoostAction))) result = true;
+            else if (ship.UpgradeBar.HasUpgradeInstalled(typeof(EngineUpgrade))) result = true;
+
+            return result;
+        }
+
+        public override bool IsAllowedForSquadBuilderPostCheck(SquadList squadList)
+        {
+            bool result = false;
+
+            result = IsAllowedForShip(Host);
+            if (!result) Messages.ShowError("Autothrusters can be installed only if ship has Boost action icon");
+
+            return result; 
         }
 
         public override void AttachToShip(GenericShip host)

@@ -26,9 +26,7 @@ namespace UpgradesList
 
         public override bool IsAllowedForSquadBuilderPostCheck(SquadList squadList)
         {
-            bool result = !squadList.GetShips()
-                .Select(n => n.Instance)
-                .Any(n => n.UpgradeBar.HasUpgradeInstalled(this.GetType()) && n.MaxShields != 1);
+            bool result = Host.MaxShields == 1;
 
             if (!result) Messages.ShowError("Pulsed Ray Shield cannot be installed on ships where shield value is not 1!");
 

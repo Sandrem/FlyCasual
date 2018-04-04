@@ -61,13 +61,16 @@ namespace Abilities
 
         private void AskAbility(object sender, System.EventArgs e)
         {
-            AskToUseAbility(AlwaysUseByDefault, UseAbility);
+            Messages.ShowInfo("Fenn Rau can use his ability");
+            AskToUseAbility(AlwaysUseByDefault, UseAbility, DontUseAbility);
         }
 
         private void UseAbility(object sender, System.EventArgs e)
         {
             if (!HostShip.Tokens.HasToken(typeof(StressToken)))
             {
+                Messages.ShowInfoToHuman("Fenn Rau: Ability was used");
+
                 HostShip.Tokens.AssignToken(
                     new StressToken(HostShip),
                     AssignConditionToActivatedShip
@@ -78,6 +81,12 @@ namespace Abilities
                 Messages.ShowErrorToHuman("Fenn Rau: Cannot use ability - already has stress");
                 Triggers.FinishTrigger();
             }
+        }
+
+        private void DontUseAbility(object sender, System.EventArgs e)
+        {
+            Messages.ShowInfoToHuman("Fenn Rau: Ability was not used");
+            DecisionSubPhase.ConfirmDecision();
         }
 
         private void AssignConditionToActivatedShip()

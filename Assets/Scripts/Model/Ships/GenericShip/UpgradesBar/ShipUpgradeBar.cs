@@ -156,6 +156,11 @@ namespace Upgrade
             return result;
         }
 
+        public bool HasUpgradeInstalled(Type upgradeType)
+        {
+            return GetUpgradesAll().Any(n => n.GetType() == upgradeType);
+        }
+
         /**
          * Checks if the ship has free upgrade slots for the list of upgrade types.
          * @param upgradeTypes the list of upgrades types to check.

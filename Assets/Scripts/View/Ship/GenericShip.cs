@@ -224,14 +224,16 @@ namespace Ship
         public void PlayDestroyedAnimSound(System.Action callBack)
         {
             int random = Random.Range(1, 8);
-            Sounds.PlayShipSound("Explosion-" + random);
+            float playSoundDelay = Sounds.PlayShipSound("Explosion-" + random);
+            playSoundDelay = Mathf.Max(playSoundDelay, 1f);
+
             shipAllParts.Find("Explosion/Explosion").GetComponent<ParticleSystem>().Play();
             shipAllParts.Find("Explosion/Debris").GetComponent<ParticleSystem>().Play();
             shipAllParts.Find("Explosion/Sparks").GetComponent<ParticleSystem>().Play();
             shipAllParts.Find("Explosion/Ring").GetComponent<ParticleSystem>().Play();
 
             GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-            Game.Wait(1, delegate { callBack(); });
+            Game.Wait(playSoundDelay, delegate { callBack(); });
         }
 
         public void MoveUpwards(float progress)

@@ -13,13 +13,13 @@ public static class Sounds {
         PlaySound(audioSource, path);
     }
 
-    public static void PlayShipSound(string path, GenericShip ship = null)
+    public static float PlayShipSound(string path, GenericShip ship = null)
     {
         if (ship == null) ship = Selection.ThisShip;
-        if (ship == null) return;
+        if (ship == null) return 0;
 
         AudioSource audioSource = ship.Model.GetComponent<AudioSource>();
-        PlaySound(audioSource, path);
+        return PlaySound(audioSource, path);
     }
 
     public static void PlayBombSound(GameObject bombObject, string path)
@@ -28,10 +28,13 @@ public static class Sounds {
         PlaySound(audioSource, path);
     }
 
-    private static void PlaySound(AudioSource audioSource, string path)
+    private static float PlaySound(AudioSource audioSource, string path)
     {
         audioSource.volume = Options.SfxVolume;
-        audioSource.PlayOneShot((AudioClip)Resources.Load("Sounds/" + path));
+        AudioClip audioClip = (AudioClip)Resources.Load("Sounds/" + path);
+        audioSource.PlayOneShot(audioClip);
+
+        return audioClip.length;
     }
 
     public static void PlayShots(string path, int times)

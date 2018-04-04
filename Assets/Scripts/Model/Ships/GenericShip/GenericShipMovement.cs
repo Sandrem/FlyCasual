@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Movement;
+using System;
 
 namespace Ship
 {
@@ -86,17 +87,17 @@ namespace Ship
             Triggers.ResolveTriggers(TriggerTypes.OnShipMovementStart, callback);
         }
 
-        public void CallExecuteMoving()
+        public void CallExecuteMoving(Action callback)
         {
             if (OnMovementExecuted != null) OnMovementExecuted(this);
 
             Triggers.ResolveTriggers(
                 TriggerTypes.OnShipMovementExecuted,
-                Selection.ThisShip.CallFinishMovement
+                delegate { Selection.ThisShip.CallFinishMovement(callback); }
             );
         }
 
-        public void CallFinishMovement()
+        public void CallFinishMovement(Action callback)
         {
             if (OnMovementFinish != null) OnMovementFinish(this);
             if (OnMovementFinishGlobal != null) OnMovementFinishGlobal(this);
@@ -105,7 +106,7 @@ namespace Ship
                 TriggerTypes.OnShipMovementFinish,
                 delegate () {
                     Roster.HideAssignedManeuverDial(this);
-                    Selection.ThisShip.FinishPosition(Triggers.FinishTrigger);
+                    Selection.ThisShip.FinishPosition(callback);
                 });
         }
 

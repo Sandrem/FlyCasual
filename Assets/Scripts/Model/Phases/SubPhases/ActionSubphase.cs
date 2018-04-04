@@ -107,6 +107,8 @@ namespace SubPhases
         {
             InfoText = "Select action";
             ShowSkipButton = true;
+            DefaultDecisionName = "Focus";
+
             List<ActionsList.GenericAction> availableActions = Selection.ThisShip.GetAvailableActionsList();
 
             if (availableActions.Count > 0)
@@ -160,6 +162,8 @@ namespace SubPhases
         {
             InfoText = "Select free action";
             ShowSkipButton = true;
+            DefaultDecisionName = "Focus";
+
             List<ActionsList.GenericAction> availableActions = Selection.ThisShip.GetAvailableFreeActionsList();
 
             if (availableActions.Count > 0)

@@ -153,6 +153,8 @@ public class ShipMovementScript : MonoBehaviour {
 
     private static void FinishManeuverExecution()
     {
+        MovementTemplates.HideLastMovementRuler();
+
         GameMode.CurrentGameMode.FinishMovementExecution();
     }
 

@@ -199,9 +199,10 @@ public partial class NetworkPlayerController : NetworkBehaviour {
         if (DebugManager.DebugNetwork) UI.AddTestLogEntry("C: RpcTakeDecision");
         if (Phases.CurrentSubPhase as SubPhases.DecisionSubPhase == null)
         {
-            UI.AddTestLogEntry("Error, SubPhase is " + Phases.CurrentSubPhase.GetType());
-            Messages.ShowError("Error, SubPhase is " + Phases.CurrentSubPhase.GetType());
+            Console.Write("Syncronization error, subphase is " + Phases.CurrentSubPhase.GetType(), LogTypes.Errors, true, "red");
+            Messages.ShowError("Syncronization error, subphase is " + Phases.CurrentSubPhase.GetType());
         }
+
         (Phases.CurrentSubPhase as SubPhases.DecisionSubPhase).ExecuteDecision(decisionName);
     }
 
@@ -300,7 +301,8 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     private void RpcFinishManeuver(int shipId)
     {
         if (DebugManager.DebugNetwork) UI.AddTestLogEntry("S: RpcFinishManeuver");
-        Phases.FinishSubPhase(typeof(SubPhases.MovementExecutionSubPhase));
+
+        Selection.ActiveShip.CallExecuteMoving(delegate { Phases.FinishSubPhase(typeof(SubPhases.MovementExecutionSubPhase)); });
     }
 
     // BARREL ROLL

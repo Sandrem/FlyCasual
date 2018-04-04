@@ -154,7 +154,7 @@ namespace GameModes
 
         public override void FinishMovementExecution()
         {
-            Phases.FinishSubPhase(typeof(SubPhases.MovementExecutionSubPhase));
+            Selection.ActiveShip.CallExecuteMoving(delegate { Phases.FinishSubPhase(typeof(SubPhases.MovementExecutionSubPhase)); });
         }
 
         // Swarm Manager

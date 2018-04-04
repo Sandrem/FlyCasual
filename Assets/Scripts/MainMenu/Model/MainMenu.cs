@@ -75,7 +75,7 @@ public partial class MainMenu : MonoBehaviour {
     public static Sprite GetRandomBackground()
     {
         Object[] sprites = Resources.LoadAll("Sprites/Backgrounds/", typeof(Sprite));
-        return (Sprite) sprites[Random.Range(0, sprites.Length-1)];
+        return (Sprite) sprites[Random.Range(0, sprites.Length)];
     }
 
     private void CheckUpdates()

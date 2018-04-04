@@ -590,6 +590,7 @@ namespace SquadBuilderNS
             GameObject globalUI = GameObject.Find("GlobalUI").gameObject;
 
             GameObject opponentSquad = globalUI.transform.Find("OpponentSquad").gameObject;
+            opponentSquad.GetComponent<Image>().sprite = MainMenu.GetRandomBackground();
             opponentSquad.SetActive(true);
         }
 

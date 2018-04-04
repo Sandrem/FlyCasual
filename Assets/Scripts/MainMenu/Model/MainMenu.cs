@@ -22,11 +22,11 @@ public partial class MainMenu : MonoBehaviour {
     private void InitializeMenu()
     {
         CurrentMainMenu = this;
-
         SetCurrentPanel();
 
         DontDestroyOnLoad(GameObject.Find("GlobalUI").gameObject);
 
+        SetBackground();
         ModsManager.Initialize();
         Options.ReadOptions();
         Options.UpdateVolume();
@@ -65,6 +65,17 @@ public partial class MainMenu : MonoBehaviour {
     private void UpdateVersionInfo()
     {
         GameObject.Find("UI/Panels/MainMenuPanel/Version/Version Text").GetComponent<Text>().text = Global.CurrentVersion;
+    }
+
+    private void SetBackground()
+    {
+        GameObject.Find("UI/BackgroundImage").GetComponent<Image>().sprite = GetRandomBackground();
+    }
+
+    public static Sprite GetRandomBackground()
+    {
+        Object[] sprites = Resources.LoadAll("Sprites/Backgrounds/", typeof(Sprite));
+        return (Sprite) sprites[Random.Range(0, sprites.Length-1)];
     }
 
     private void CheckUpdates()

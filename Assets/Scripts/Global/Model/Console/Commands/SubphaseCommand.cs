@@ -13,6 +13,7 @@ namespace CommandsList
             Keyword = "subphase";
             Description =   "Shows current subphase and list of previous subphases\n" +
                             "subphase finish - finish current subphase";
+
             Console.AddAvailableCommand(this);
         }
 

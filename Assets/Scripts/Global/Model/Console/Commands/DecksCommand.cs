@@ -11,6 +11,7 @@ namespace CommandsList
         {
             Keyword = "decks";
             Description = "Shows content and order of damage decks of all players";
+
             Console.AddAvailableCommand(this);
         }
 

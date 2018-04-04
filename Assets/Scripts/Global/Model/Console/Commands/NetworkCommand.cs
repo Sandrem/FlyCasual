@@ -11,6 +11,7 @@ namespace CommandsList
         {
             Keyword = "network";
             Description = "network finish - finish current network task";
+
             Console.AddAvailableCommand(this);
         }
 

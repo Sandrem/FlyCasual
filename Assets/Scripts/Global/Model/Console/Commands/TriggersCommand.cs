@@ -11,6 +11,7 @@ namespace CommandsList
         {
             Keyword = "triggers";
             Description = "triggers finish - finish current trigger";
+
             Console.AddAvailableCommand(this);
         }
 

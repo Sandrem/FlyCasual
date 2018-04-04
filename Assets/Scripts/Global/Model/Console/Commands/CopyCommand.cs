@@ -12,6 +12,7 @@ namespace CommandsList
         {
             Keyword = "copy";
             Description = "Copies all content of log to clipboard";
+
             Console.AddAvailableCommand(this);
         }
 

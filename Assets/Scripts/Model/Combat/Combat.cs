@@ -28,7 +28,8 @@ public enum DamageTypes
     CriticalHitCard,
     BombDetonation,
     CardAbility,
-    Rules
+    Rules,
+    Console
 }
 
 public static partial class Combat

@@ -84,6 +84,11 @@ public class DamageDeck
         }
     }
 
+    public void PutOnTop(GenericDamageCard card)
+    {
+        Deck.Insert(0, card);
+    }
+
     public void DrawDamageCard(bool isFaceup, Action<GenericDamageCard, EventArgs> doWithDamageCard, EventArgs e)
     {
         if (Deck.Count == 0) ReCreateDeck();

@@ -11,6 +11,7 @@ namespace CommandsList
         {
             Keyword = "close";
             Description = "Closes console window";
+
             Console.AddAvailableCommand(this);
         }
 

@@ -13,6 +13,7 @@ namespace CommandsList
             Keyword = "dealdamage";
             Description =   "Deals damage to ship:\n" +
                             "dealdamage id:<shipId> hits:<number> crits:<number>";
+
             Console.AddAvailableCommand(this);
         }
 
@@ -57,7 +58,7 @@ namespace CommandsList
                         EventArgs = new DamageSourceEventArgs()
                         {
                             Source = "Console",
-                            DamageType = DamageTypes.Rules
+                            DamageType = DamageTypes.Console
                         }
                     });
                 }
@@ -76,13 +77,17 @@ namespace CommandsList
                         EventArgs = new DamageSourceEventArgs()
                         {
                             Source = "Console",
-                            DamageType = DamageTypes.Rules
+                            DamageType = DamageTypes.Console
                         }
                     });
                 }
+
+                Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, ShowMessage);
             }
-            
-            Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, ShowMessage);
+            else
+            {
+                ShowHelp();
+            }
         }
 
         private void ShowMessage()

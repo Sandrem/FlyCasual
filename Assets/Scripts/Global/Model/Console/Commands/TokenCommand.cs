@@ -29,6 +29,7 @@ namespace CommandsList
             Description =   "token assign id:<shipId> type:<type> [target:<targetShipId>]- assing token to ship\n" +
                             "where type: focus, evade, stress, targetlock, ion, tractorbeam, jam, reinforceaft, reinforcefore, cloak\n" +
                             "(target is used only for targetlock type)";
+
             Console.AddAvailableCommand(this);
         }
 

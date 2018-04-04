@@ -16,6 +16,7 @@ public static class Sounds {
     public static void PlayShipSound(string path, GenericShip ship = null)
     {
         if (ship == null) ship = Selection.ThisShip;
+        if (ship == null) return;
 
         AudioSource audioSource = ship.Model.GetComponent<AudioSource>();
         PlaySound(audioSource, path);

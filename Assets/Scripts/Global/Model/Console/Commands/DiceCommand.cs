@@ -22,6 +22,7 @@ namespace CommandsList
                             "dice modify old:<side> new:<side> [count:<number>]\n" +
                             "dice add new:<side> [count:<number>]\n" +
                             "where side: blank, focus, success, crit";
+
             Console.AddAvailableCommand(this);
         }
 

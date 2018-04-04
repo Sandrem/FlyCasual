@@ -12,6 +12,7 @@ namespace CommandsList
             Keyword = "help";
             Description =   "Shows help for commands\n" +
                             "help <command> - show description of command";
+
             Console.AddAvailableCommand(this);
         }
 

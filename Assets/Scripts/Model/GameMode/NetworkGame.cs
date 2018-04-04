@@ -208,5 +208,10 @@ namespace GameModes
         {
             Network.SyncDecks(Tools.PlayerToInt(playerNo), seed);
         }
+
+        public override void CombatActivation(int shipId)
+        {
+            Network.CombatActivation(shipId);
+        }
     }
 }

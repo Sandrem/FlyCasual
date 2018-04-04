@@ -4,6 +4,7 @@ using UnityEngine;
 using System.Linq;
 using Ship;
 using System;
+using GameModes;
 
 namespace SubPhases
 {
@@ -168,7 +169,8 @@ namespace SubPhases
         public override void DoSelectThisShip(GenericShip ship, int mouseKeyIsPressed)
         {
             Roster.HighlightShipsFiltered(FilterShipsToAttack);
-            ship.CallCombatActivation(delegate { ChangeSelectionMode(Team.Type.Enemy); });
+
+            GameMode.CurrentGameMode.CombatActivation(ship.ShipId);
         }
 
         private bool FilterShipsToAttack(GenericShip ship)
@@ -182,7 +184,7 @@ namespace SubPhases
             selectionMode = Team.Type.Any;
         }
 
-        private void ChangeSelectionMode(Team.Type type)
+        public void ChangeSelectionMode(Team.Type type)
         {
             UI.ShowSkipButton();
             selectionMode = type;

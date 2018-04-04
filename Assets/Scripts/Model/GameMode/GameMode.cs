@@ -76,5 +76,7 @@ namespace GameModes
         }
 
         public abstract void GenerateDamageDeck(PlayerNo playerNo, int seed);
+
+        public abstract void CombatActivation(int shipId);
     }
 }

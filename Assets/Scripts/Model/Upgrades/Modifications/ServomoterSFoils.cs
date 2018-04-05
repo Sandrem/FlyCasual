@@ -13,6 +13,8 @@ namespace UpgradesList
             Name = "Servomoter S-Foils";
             Cost = 0;
 
+            IsHidden = true;
+
             UpgradeAbilities.Add(new ServomoterSFoilsAbility());
         }
 

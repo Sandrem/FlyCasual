@@ -12,6 +12,9 @@ namespace UpgradesList
     {
         public BobaFett() : base()
         {
+            // TODO: Change all upgrades to new template
+            IsHidden = true;
+
             Types.Add(UpgradeType.Crew);
             Name = "Boba Fett";
             Cost = 1;

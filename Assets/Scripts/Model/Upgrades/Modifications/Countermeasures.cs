@@ -32,12 +32,12 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            Phases.OnCombatPhaseStart += RegisterCountermeasuresAbility;
+            Phases.OnCombatPhaseStart_Triggers += RegisterCountermeasuresAbility;
         }
 
         public override void DeactivateAbility()
         {
-            Phases.OnCombatPhaseStart -= RegisterCountermeasuresAbility;
+            Phases.OnCombatPhaseStart_Triggers -= RegisterCountermeasuresAbility;
         }
 
         private void RegisterCountermeasuresAbility()

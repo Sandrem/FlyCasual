@@ -28,15 +28,15 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            HostShip.OnCombatPhaseStart += TryRegisterPilotAbility;
+            Phases.OnCombatPhaseStart_Triggers += TryRegisterPilotAbility;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.OnCombatPhaseStart -= TryRegisterPilotAbility;
+            Phases.OnCombatPhaseStart_Triggers -= TryRegisterPilotAbility;
         }
 
-        private void TryRegisterPilotAbility(GenericShip ship)
+        private void TryRegisterPilotAbility()
         {
             if (TargetsForAbilityExist(HostShip.ShipsBumped.Contains))
             {

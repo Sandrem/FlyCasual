@@ -30,15 +30,15 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            HostShip.OnCombatPhaseStart += RegisterEpsilonLeaderAbility;
+            Phases.OnCombatPhaseStart_Triggers += RegisterEpsilonLeaderAbility;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.OnCombatPhaseStart -= RegisterEpsilonLeaderAbility;
+            Phases.OnCombatPhaseStart_Triggers -= RegisterEpsilonLeaderAbility;
         }
 
-        private void RegisterEpsilonLeaderAbility(GenericShip genericShip)
+        private void RegisterEpsilonLeaderAbility()
         {
             RegisterAbilityTrigger(TriggerTypes.OnCombatPhaseStart, UseEpsilonLeaderAbility);
         }

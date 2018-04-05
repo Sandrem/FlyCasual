@@ -69,7 +69,7 @@ namespace Abilities
 
             TargetShip.Tokens.AssignCondition(new ScrambledCondition(TargetShip));
             TargetShip.OnTryAddAvailableActionEffect += UseDiceModificationRestriction;
-            Phases.OnCombatPhaseEnd += RemoveScrambledCondition;
+            Phases.OnCombatPhaseEnd_NoTriggers += RemoveScrambledCondition;
 
             HostShip.Tokens.AssignToken(
                 new WeaponsDisabledToken(HostShip),
@@ -99,7 +99,7 @@ namespace Abilities
 
         private void RemoveScrambledCondition()
         {
-            Phases.OnCombatPhaseEnd -= RemoveScrambledCondition;
+            Phases.OnCombatPhaseEnd_NoTriggers -= RemoveScrambledCondition;
 
             TargetShip.Tokens.RemoveCondition(typeof(ScrambledCondition));
             TargetShip.OnTryAddAvailableActionEffect -= UseDiceModificationRestriction;

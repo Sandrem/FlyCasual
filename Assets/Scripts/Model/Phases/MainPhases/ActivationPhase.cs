@@ -22,10 +22,7 @@ namespace MainPhases
         public override void NextPhase()
         {
             Selection.DeselectAllShips();
-
-            GenericSubPhase subphase = Phases.StartTemporarySubPhaseNew("Notification", typeof(NotificationSubPhase), StartCombatPhase);
-            (subphase as NotificationSubPhase).TextToShow = "Combat";
-            subphase.Start();
+            StartCombatPhase();
         }
 
         private void StartCombatPhase()

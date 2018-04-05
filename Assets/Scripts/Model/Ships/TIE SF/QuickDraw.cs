@@ -43,7 +43,7 @@ namespace Abilities
             HostShip.OnShieldLost += CheckAbility;
 
             // Clear Ability On Shield Lost So Can Fire Again 
-            Phases.OnCombatPhaseEnd += ClearIsAbilityUsedFlag;
+            Phases.OnCombatPhaseEnd_NoTriggers += ClearIsAbilityUsedFlag;
         }
 
 

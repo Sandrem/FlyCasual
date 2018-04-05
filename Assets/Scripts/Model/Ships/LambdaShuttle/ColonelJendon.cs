@@ -28,12 +28,12 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            Phases.OnCombatPhaseStart += RegisterColonelJendonAbility;
+            Phases.OnCombatPhaseStart_Triggers += RegisterColonelJendonAbility;
         }
 
         public override void DeactivateAbility()
         {
-            Phases.OnCombatPhaseStart -= RegisterColonelJendonAbility;
+            Phases.OnCombatPhaseStart_Triggers -= RegisterColonelJendonAbility;
         }
 
         private void RegisterColonelJendonAbility()

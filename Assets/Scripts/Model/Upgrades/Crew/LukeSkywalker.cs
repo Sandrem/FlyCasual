@@ -71,7 +71,7 @@ namespace Abilities
                 HostShip.IsCannotAttackSecondTime = true;
 
                 HostShip.AfterGenerateAvailableActionEffectsList += AddLukeSkywalkerCrewAbility;
-                Phases.OnCombatPhaseEnd += RemoveLukeSkywalkerCrewAbility;
+                Phases.OnCombatPhaseEnd_NoTriggers += RemoveLukeSkywalkerCrewAbility;
 
                 Combat.StartAdditionalAttack(
                     HostShip,
@@ -117,7 +117,7 @@ namespace Abilities
 
         public void RemoveLukeSkywalkerCrewAbility()
         {
-            Phases.OnCombatPhaseEnd -= RemoveLukeSkywalkerCrewAbility;
+            Phases.OnCombatPhaseEnd_NoTriggers -= RemoveLukeSkywalkerCrewAbility;
             HostShip.AfterGenerateAvailableActionEffectsList -= AddLukeSkywalkerCrewAbility;
         }
 

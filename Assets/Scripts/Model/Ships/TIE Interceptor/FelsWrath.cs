@@ -43,7 +43,7 @@ namespace Abilities
 
             HostShip.PreventDestruction = true;
 
-            Phases.OnCombatPhaseEnd += ProcessFelsWrath;
+            Phases.OnCombatPhaseEnd_NoTriggers += ProcessFelsWrath;
         }
 
         public void ProcessFelsWrath()
@@ -54,7 +54,7 @@ namespace Abilities
         private void CleanUpFelsWrath(object sender, EventArgs e)
         {
             HostShip.PreventDestruction = false;
-            Phases.OnCombatPhaseEnd -= ProcessFelsWrath;
+            Phases.OnCombatPhaseEnd_NoTriggers -= ProcessFelsWrath;
 
             Selection.ThisShip = HostShip;
             HostShip.DestroyShipForced(Triggers.FinishTrigger);

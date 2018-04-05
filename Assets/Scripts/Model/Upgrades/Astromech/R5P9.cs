@@ -31,17 +31,17 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            HostShip.OnCombatPhaseEnd += R5P9PlanRegenShield;
+            Phases.OnCombatPhaseEnd_Triggers += R5P9PlanRegenShield;
         }
  
         public override void DeactivateAbility()
         {
-            HostShip.OnCombatPhaseEnd -= R5P9PlanRegenShield;
+            Phases.OnCombatPhaseEnd_Triggers -= R5P9PlanRegenShield;
         }
  
-        private void R5P9PlanRegenShield(GenericShip genericShip)
+        private void R5P9PlanRegenShield()
         {
-            RegisterAbilityTrigger (TriggerTypes.OnCombatPhaseEnd, ShowDecision);
+            RegisterAbilityTrigger(TriggerTypes.OnCombatPhaseEnd, ShowDecision);
         }
 
         private void ShowDecision(object sender, System.EventArgs e)

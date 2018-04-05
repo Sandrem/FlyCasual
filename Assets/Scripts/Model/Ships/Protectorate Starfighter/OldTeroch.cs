@@ -36,15 +36,15 @@ namespace Abilities
 	{
 		public override void ActivateAbility()
 		{
-			HostShip.OnCombatPhaseStart += CheckOldTerochAbility;
+            Phases.OnCombatPhaseStart_Triggers += CheckOldTerochAbility;
 		}
 
 		public override void DeactivateAbility()
 		{
-			HostShip.OnCombatPhaseStart -= CheckOldTerochAbility;
+            Phases.OnCombatPhaseStart_Triggers -= CheckOldTerochAbility;
 		}
 
-		private void CheckOldTerochAbility(GenericShip host)
+		private void CheckOldTerochAbility()
 		{
 			// give user the option to use ability
 			RegisterAbilityTrigger(TriggerTypes.OnCombatPhaseStart, AskSelectShip);

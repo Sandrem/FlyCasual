@@ -17,18 +17,18 @@ namespace DamageDeckCard
 
         public override void ApplyEffect(object sender, EventArgs e)
         {
-            Host.OnCombatPhaseStart += PlanRollForDamage;
+            Phases.OnCombatPhaseStart_Triggers += PlanRollForDamage;
             Host.AfterGenerateAvailableActionsList += CallAddCancelCritAction;
 
             Host.Tokens.AssignCondition(new Tokens.ConsoleFireCritToken(Host));
             Triggers.FinishTrigger();
         }
 
-        private void PlanRollForDamage(GenericShip host)
+        private void PlanRollForDamage()
         {
             Triggers.RegisterTrigger(new Trigger() {
-                Name = "#" + host.ShipId + ": Console Fire Crit",
-                TriggerOwner = host.Owner.PlayerNo,
+                Name = "#" + Host.ShipId + ": Console Fire Crit",
+                TriggerOwner = Host.Owner.PlayerNo,
                 TriggerType = TriggerTypes.OnCombatPhaseStart,
                 EventHandler = RollForDamage
             });
@@ -51,7 +51,7 @@ namespace DamageDeckCard
         {
             Host.Tokens.RemoveCondition(typeof(Tokens.ConsoleFireCritToken));
 
-            Host.OnCombatPhaseStart -= PlanRollForDamage;
+            Phases.OnCombatPhaseStart_Triggers -= PlanRollForDamage;
 
             Host.AfterGenerateAvailableActionsList -= CallAddCancelCritAction;
         }

@@ -13,6 +13,20 @@ namespace MainPhases
         {
             Name = "Combat Phase";
 
+            if (Phases.HasOnCombatPhaseStartEvents)
+            {
+                GenericSubPhase subphase = Phases.StartTemporarySubPhaseNew("Notification", typeof(NotificationSubPhase), StartCombatStartSubPhase);
+                (subphase as NotificationSubPhase).TextToShow = "Start of Combat";
+                subphase.Start();
+            }
+            else
+            {
+                StartCombatStartSubPhase();
+            }
+        }
+
+        private void StartCombatStartSubPhase()
+        {
             Phases.CurrentSubPhase = new CombatStartSubPhase();
             Phases.CurrentSubPhase.Start();
             Phases.CurrentSubPhase.Prepare();

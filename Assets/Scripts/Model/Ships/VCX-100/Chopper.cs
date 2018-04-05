@@ -33,15 +33,15 @@ namespace Abilities
 
         public override void ActivateAbility()
         {
-            HostShip.OnCombatPhaseStart += RegisterPilotAbility;
+            Phases.OnCombatPhaseStart_Triggers += RegisterPilotAbility;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.OnCombatPhaseStart -= RegisterPilotAbility;
+            Phases.OnCombatPhaseStart_Triggers -= RegisterPilotAbility;
         }
 
-        private void RegisterPilotAbility(GenericShip ship)
+        private void RegisterPilotAbility()
         {
             RegisterAbilityTrigger(TriggerTypes.OnCombatPhaseStart, AssignStressTokens);
         }

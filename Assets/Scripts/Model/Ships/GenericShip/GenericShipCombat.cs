@@ -206,16 +206,6 @@ namespace Ship
             if (OnActionSubPhaseStart != null) OnActionSubPhaseStart(this);
         }
 
-        public void CallOnCombatPhaseStart()
-        {
-            if (OnCombatPhaseStart != null) OnCombatPhaseStart(this);
-        }
-
-        public void CallOnCombatPhaseEnd()
-        {
-            if (OnCombatPhaseEnd != null) OnCombatPhaseEnd(this);
-        }
-
         public bool CallCanPerformAttack(bool result = true, List<string> stringList = null, bool isSilent = false)
         {
             if (stringList == null) stringList = new List<string>();

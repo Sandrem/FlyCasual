@@ -19,10 +19,10 @@ namespace UpgradesList
         {
             base.AttachToShip(host);
 
-            Host.OnCombatPhaseStart += RegisterTrigger;
+            Phases.OnCombatPhaseStart_Triggers += RegisterTrigger;
         }
 
-        private void RegisterTrigger(GenericShip ship)
+        private void RegisterTrigger()
         {
             Triggers.RegisterTrigger(new Trigger() {
                 Name = Host.ShipId + ": " + Name,
@@ -48,7 +48,7 @@ namespace UpgradesList
             Conditions.Glitterstim newConditionToken = new Conditions.Glitterstim(Host) { Tooltip = ImageUrl };
             Host.Tokens.AssignCondition(newConditionToken);
 
-            Host.OnCombatPhaseStart -= RegisterTrigger;
+            Phases.OnCombatPhaseStart_Triggers -= RegisterTrigger;
             Phases.OnEndPhaseStart_NoTriggers += DeactivateAbility;
 
             Host.Tokens.AssignToken(new Tokens.StressToken(Host), GlitterstimEffect);

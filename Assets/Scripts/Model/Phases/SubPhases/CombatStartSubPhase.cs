@@ -24,6 +24,13 @@ namespace SubPhases
 
         public override void Next()
         {
+            GenericSubPhase subphase = Phases.StartTemporarySubPhaseNew("Notification", typeof(NotificationSubPhase), StartCombatSubPhase);
+            (subphase as NotificationSubPhase).TextToShow = "Combat";
+            subphase.Start();
+        }
+
+        private void StartCombatSubPhase()
+        {
             Phases.CurrentSubPhase = new CombatSubPhase();
             Phases.CurrentSubPhase.CallBack = Combat.FinishCombatSubPhase;
             Phases.CurrentSubPhase.Start();

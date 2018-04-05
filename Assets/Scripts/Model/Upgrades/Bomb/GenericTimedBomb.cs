@@ -26,8 +26,8 @@ namespace Upgrade
 
         public override void ActivateBombs(List<GameObject> bombObjects, Action callBack)
         {
-            Phases.OnActivationPhaseEnd -= PlanTimedDetonation;
-            Phases.OnActivationPhaseEnd += PlanTimedDetonation;
+            Phases.OnActivationPhaseEnd_Triggers -= PlanTimedDetonation;
+            Phases.OnActivationPhaseEnd_Triggers += PlanTimedDetonation;
 
             CurrentBombObjects.AddRange(bombObjects);
             base.ActivateBombs(bombObjects, callBack);
@@ -53,7 +53,7 @@ namespace Upgrade
 
         protected override void Detonate()
         {
-            Phases.OnActivationPhaseEnd -= PlanTimedDetonation;
+            Phases.OnActivationPhaseEnd_Triggers -= PlanTimedDetonation;
             foreach (var ship in BombsManager.GetShipsInRange(BombsManager.CurrentBombObject))
             {
                 RegisterDetonationTriggerForShip(ship);

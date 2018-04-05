@@ -34,15 +34,15 @@ namespace Abilities
         public override void ActivateAbility()
         {
             HostShip.OnShipIsPlaced += TurnSFoilsToFlightPositionAlt;
-            Phases.OnCombatPhaseStart += HostShip.WingsOpen;
-            Phases.OnCombatPhaseEnd += HostShip.WingsClose;
+            Phases.OnCombatPhaseStart_NoTriggers += HostShip.WingsOpen;
+            Phases.OnCombatPhaseEnd_NoTriggers += HostShip.WingsClose;
         }
 
         public override void DeactivateAbility()
         {
             HostShip.OnShipIsPlaced -= TurnSFoilsToFlightPositionAlt;
-            Phases.OnCombatPhaseStart -= HostShip.WingsOpen;
-            Phases.OnCombatPhaseEnd -= HostShip.WingsClose;
+            Phases.OnCombatPhaseStart_NoTriggers -= HostShip.WingsOpen;
+            Phases.OnCombatPhaseEnd_NoTriggers -= HostShip.WingsClose;
         }
 
         private void TurnSFoilsToFlightPositionAlt(GenericShip ship)

@@ -28,12 +28,12 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            Phases.OnCombatPhaseStart += PlanSwarmTacticsPilotAbility;
+            Phases.OnCombatPhaseStart_Triggers += PlanSwarmTacticsPilotAbility;
         }
 
         public override void DeactivateAbility()
         {
-            Phases.OnCombatPhaseStart -= PlanSwarmTacticsPilotAbility;
+            Phases.OnCombatPhaseStart_Triggers -= PlanSwarmTacticsPilotAbility;
         }
 
         private void PlanSwarmTacticsPilotAbility()

@@ -126,6 +126,20 @@ namespace SubPhases
 
         public override void FinishPhase()
         {
+            if (Phases.HasOnCombatPhaseEndEvents)
+            {
+                GenericSubPhase subphase = Phases.StartTemporarySubPhaseNew("Notification", typeof(NotificationSubPhase), StartCombatEndSubPhase);
+                (subphase as NotificationSubPhase).TextToShow = "End of combat";
+                subphase.Start();
+            }
+            else
+            {
+                StartCombatEndSubPhase();
+            }
+        }
+
+        private void StartCombatEndSubPhase()
+        {
             Phases.CurrentSubPhase = new CombatEndSubPhase();
             Phases.CurrentSubPhase.Start();
             Phases.CurrentSubPhase.Prepare();

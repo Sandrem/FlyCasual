@@ -37,12 +37,12 @@ namespace Abilities
 
         public override void ActivateAbility()
         {
-            Phases.OnCombatPhaseStart += TryRegisterKetsuOnyoPilotAbility;
+            Phases.OnCombatPhaseStart_Triggers += TryRegisterKetsuOnyoPilotAbility;
         }
 
         public override void DeactivateAbility()
         {
-            Phases.OnCombatPhaseStart -= TryRegisterKetsuOnyoPilotAbility;
+            Phases.OnCombatPhaseStart_Triggers -= TryRegisterKetsuOnyoPilotAbility;
         }
 
         private void TryRegisterKetsuOnyoPilotAbility()

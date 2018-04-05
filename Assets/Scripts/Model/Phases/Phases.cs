@@ -36,18 +36,21 @@ public static partial class Phases
     public static event EventHandler OnActivationPhaseStart;
     public static event EventHandler BeforeActionSubPhaseStart;
     public static event EventHandler OnActionSubPhaseStart;
-    public static event EventHandler OnActivationPhaseEnd;
-    public static event EventHandler OnCombatPhaseStart;
-    public static event EventHandler OnCombatPhaseEnd;
+    public static event EventHandler OnActivationPhaseEnd_NoTriggers;
+    public static event EventHandler OnActivationPhaseEnd_Triggers;
+    public static event EventHandler OnCombatPhaseStart_NoTriggers;
+    public static event EventHandler OnCombatPhaseStart_Triggers;
+    public static event EventHandler OnCombatPhaseEnd_NoTriggers;
+    public static event EventHandler OnCombatPhaseEnd_Triggers;
     public static event EventHandler OnCombatSubPhaseRequiredPilotSkillIsChanged;
     public static event EventHandler OnEndPhaseStart_NoTriggers;
     public static event EventHandler OnEndPhaseStart_Triggers;
     public static event EventHandler OnRoundEnd;
 
-    public static bool HasOnEndPhaseStartEvents
-    {
-        get { return OnEndPhaseStart_Triggers != null; }
-    }
+    public static bool HasOnActivationPhaseEnd      { get { return OnActivationPhaseEnd_Triggers    != null; } }
+    public static bool HasOnCombatPhaseStartEvents  { get { return OnCombatPhaseStart_Triggers      != null; } }
+    public static bool HasOnCombatPhaseEndEvents    { get { return OnCombatPhaseEnd_Triggers        != null; } }
+    public static bool HasOnEndPhaseStartEvents     { get { return OnEndPhaseStart_Triggers         != null; } }
 
     // PHASES CONTROL
 
@@ -142,7 +145,8 @@ public static partial class Phases
 
     public static void CallActivationPhaseEndTrigger()
     {
-        if (OnActivationPhaseEnd!= null) OnActivationPhaseEnd();
+        if (OnActivationPhaseEnd_NoTriggers != null) OnActivationPhaseEnd_NoTriggers();
+        if (OnActivationPhaseEnd_Triggers != null) OnActivationPhaseEnd_Triggers();
 
         Triggers.ResolveTriggers(TriggerTypes.OnActivationPhaseEnd, delegate () { FinishSubPhase(typeof(ActivationEndSubPhase)); });
     }
@@ -150,22 +154,16 @@ public static partial class Phases
 
     public static void CallCombatPhaseStartTrigger()
     {
-        if (OnCombatPhaseStart != null) OnCombatPhaseStart();
-        foreach (var shipHolder in Roster.AllShips)
-        {
-            shipHolder.Value.CallOnCombatPhaseStart();
-        }
+        if (OnCombatPhaseStart_NoTriggers != null) OnCombatPhaseStart_NoTriggers();
+        if (OnCombatPhaseStart_Triggers != null) OnCombatPhaseStart_Triggers();
 
         Triggers.ResolveTriggers(TriggerTypes.OnCombatPhaseStart, delegate () { FinishSubPhase(typeof(CombatStartSubPhase)); });
     }
 
     public static void CallCombatPhaseEndTrigger()
     {
-        if (OnCombatPhaseEnd != null) OnCombatPhaseEnd();
-        foreach (var shipHolder in Roster.AllShips)
-        {
-            shipHolder.Value.CallOnCombatPhaseEnd();
-        }
+        if (OnCombatPhaseEnd_NoTriggers != null) OnCombatPhaseEnd_NoTriggers();
+        if (OnCombatPhaseEnd_Triggers != null) OnCombatPhaseEnd_Triggers();
 
         Triggers.ResolveTriggers(TriggerTypes.OnCombatPhaseEnd, delegate () { FinishSubPhase(typeof(CombatEndSubPhase)); });
     }

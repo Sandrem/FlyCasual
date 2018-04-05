@@ -106,6 +106,20 @@ namespace SubPhases
 
         public override void FinishPhase()
         {
+            if (Phases.HasOnActivationPhaseEnd)
+            {
+                GenericSubPhase subphase = Phases.StartTemporarySubPhaseNew("Notification", typeof(NotificationSubPhase), StartActivationEndSubPhase);
+                (subphase as NotificationSubPhase).TextToShow = "End of Activation ";
+                subphase.Start();
+            }
+            else
+            {
+                StartActivationEndSubPhase();
+            }
+        }
+
+        private void StartActivationEndSubPhase()
+        {
             Phases.CurrentSubPhase = new ActivationEndSubPhase();
             Phases.CurrentSubPhase.Start();
             Phases.CurrentSubPhase.Prepare();

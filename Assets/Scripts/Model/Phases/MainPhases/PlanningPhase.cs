@@ -23,6 +23,13 @@ namespace MainPhases
         {
             Selection.DeselectAllShips();
 
+            GenericSubPhase subphase = Phases.StartTemporarySubPhaseNew("Notification", typeof(NotificationSubPhase), StartActivationPhase);
+            (subphase as NotificationSubPhase).TextToShow = "Activation";
+            subphase.Start();
+        }
+
+        private void StartActivationPhase()
+        {
             Phases.CurrentPhase = new ActivationPhase();
             Phases.CurrentPhase.StartPhase();
         }

@@ -200,29 +200,26 @@ public static partial class Phases
 
     public static void StartTemporarySubPhaseOld(string name, System.Type subPhaseType, Action callBack = null)
     {
-        CurrentSubPhase.Pause();
-        if (DebugManager.DebugPhases) Debug.Log("Temporary phase " + subPhaseType + " is started directly");
-        GenericSubPhase previousSubPhase = CurrentSubPhase;
-        CurrentSubPhase = (GenericSubPhase)System.Activator.CreateInstance(subPhaseType);
-        CurrentSubPhase.Name = name;
-        CurrentSubPhase.CallBack = callBack;
-        CurrentSubPhase.PreviousSubPhase = previousSubPhase;
-        CurrentSubPhase.RequiredPlayer = previousSubPhase.RequiredPlayer;
-        CurrentSubPhase.RequiredPilotSkill = previousSubPhase.RequiredPilotSkill;
+        GenericSubPhase subphase = StartTemporarySubPhaseNew(name, subPhaseType, callBack);
         CurrentSubPhase.Start();
     }
 
     public static GenericSubPhase StartTemporarySubPhaseNew(string name, System.Type subPhaseType, Action callBack)
     {
-        CurrentSubPhase.Pause();
+        if (CurrentSubPhase != null) CurrentSubPhase.Pause();
+
         if (DebugManager.DebugPhases) Debug.Log("Temporary phase " + subPhaseType + " is started directly");
         GenericSubPhase previousSubPhase = CurrentSubPhase;
         CurrentSubPhase = (GenericSubPhase)System.Activator.CreateInstance(subPhaseType);
         CurrentSubPhase.Name = name;
         CurrentSubPhase.CallBack = callBack;
         CurrentSubPhase.PreviousSubPhase = previousSubPhase;
-        CurrentSubPhase.RequiredPlayer = previousSubPhase.RequiredPlayer;
-        CurrentSubPhase.RequiredPilotSkill = previousSubPhase.RequiredPilotSkill;
+
+        if (previousSubPhase != null)
+        {
+            CurrentSubPhase.RequiredPlayer = previousSubPhase.RequiredPlayer;
+            CurrentSubPhase.RequiredPilotSkill = previousSubPhase.RequiredPilotSkill;
+        }
 
         return CurrentSubPhase;
     }

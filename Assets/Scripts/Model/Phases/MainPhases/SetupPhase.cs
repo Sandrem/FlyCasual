@@ -13,6 +13,13 @@ namespace MainPhases
         {
             Name = "Setup Phase";
 
+            GenericSubPhase subphase = Phases.StartTemporarySubPhaseNew("Notification", typeof(NotificationSubPhase), StartSetupPhase);
+            (subphase as NotificationSubPhase).TextToShow = "Setup";
+            subphase.Start();
+        }
+
+        private void StartSetupPhase()
+        {
             Phases.CurrentSubPhase = new SetupStartSubPhase();
             Phases.CurrentSubPhase.Start();
             Phases.CurrentSubPhase.Prepare();
@@ -23,6 +30,13 @@ namespace MainPhases
         {
             Selection.DeselectAllShips();
 
+            GenericSubPhase subphase = Phases.StartTemporarySubPhaseNew("Notification", typeof(NotificationSubPhase), StartPlanningPhase);
+            (subphase as NotificationSubPhase).TextToShow = "Planning";
+            subphase.Start();
+        }
+
+        private void StartPlanningPhase()
+        {
             Phases.CurrentPhase = new PlanningPhase();
             Phases.CurrentPhase.StartPhase();
         }

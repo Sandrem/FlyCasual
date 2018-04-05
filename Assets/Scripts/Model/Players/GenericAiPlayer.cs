@@ -24,8 +24,9 @@ namespace Players
                 {
                     int direction = (Phases.CurrentSubPhase.RequiredPlayer == PlayerNo.Player1) ? -1 : 1;
                     Vector3 position  = shipHolder.Value.GetPosition() + new Vector3(0, 0, direction * 1.2f);
-                    
-                    Board.BoardManager.PlaceShip(shipHolder.Value, position, shipHolder.Value.GetAngles(), Phases.Next);
+
+                    GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
+                    Game.Wait(0.5f, delegate { Board.BoardManager.PlaceShip(shipHolder.Value, position, shipHolder.Value.GetAngles(), Phases.Next); });
                     return;
                 }
             }

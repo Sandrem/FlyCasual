@@ -114,12 +114,12 @@ namespace ActionsList
             int result = 0;
 
             /*
-            * 
             * 90 - Cancel crit
             * 50 - Focus action if has target
             * 40 - Evade action
+            * 25 - Reinforce action if there are no enemies
             * 20 - Focus action if no target
-            * 
+            * 10 - Focus action if Expertise is installed
             */
 
             return result;

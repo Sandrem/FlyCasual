@@ -21,7 +21,11 @@ public class RosterBuilderUI : MonoBehaviour {
 
     public void Import()
     {
-        SquadBuilder.CreateSquadFromImportedJson(GameObject.Find("UI/Panels/ImportExportPanel/InputField").GetComponent<InputField>().text, SquadBuilder.CurrentPlayer);
+        SquadBuilder.CreateSquadFromImportedJson(
+            GameObject.Find("UI/Panels/ImportExportPanel/InputField").GetComponent<InputField>().text,
+            SquadBuilder.CurrentPlayer,
+            delegate { MainMenu.CurrentMainMenu.ChangePanel("SquadBuilderPanel"); }
+        );
     }
 
     // NEW
@@ -44,9 +48,27 @@ public class RosterBuilderUI : MonoBehaviour {
     {
         if (SquadBuilder.ValidateCurrentPlayersRoster())
         {
-            SquadBuilder.SetCurrentPlayer(PlayerNo.Player2);
-            MainMenu.CurrentMainMenu.ChangePanel("SelectFactionPanel");
+            if (!SquadBuilder.IsVsAiGame)
+            {
+                NextPlayerOpen();
+            }
+            else
+            {
+                MainMenu.CurrentMainMenu.ChangePanel("AiDecisionPanel");
+            }
         }
+    }
+
+    public void NextPlayerOpen()
+    {
+        SquadBuilder.SetCurrentPlayer(PlayerNo.Player2);
+        MainMenu.CurrentMainMenu.ChangePanel("SelectFactionPanel");
+    }
+
+    public void NextPlayerRandomAi()
+    {
+        SquadBuilder.SetCurrentPlayer(PlayerNo.Player2);
+        SquadBuilder.SetRandomAiSquad(StartBattle);
     }
 
     public void FactionSelectionBackIsPressed()
@@ -57,9 +79,22 @@ public class RosterBuilderUI : MonoBehaviour {
         }
         else if (SquadBuilder.CurrentPlayer == PlayerNo.Player2)
         {
-            SquadBuilder.SetCurrentPlayer(PlayerNo.Player1);
-            SquadBuilder.ReturnToSquadBuilder();
+            if (!SquadBuilder.IsVsAiGame)
+            {
+                SquadBuilder.SetCurrentPlayer(PlayerNo.Player1);
+                SquadBuilder.ReturnToSquadBuilder();
+            }
+            else
+            {
+                MainMenu.CurrentMainMenu.ChangePanel("AiDecisionPanel");
+            }
         }
+    }
+
+    public void AiDecisionPanelBack()
+    {
+        SquadBuilder.SetCurrentPlayer(PlayerNo.Player1);
+        MainMenu.CurrentMainMenu.ChangePanel("SquadBuilderPanel");
     }
 
     public void ClearSquadList()
@@ -82,6 +117,24 @@ public class RosterBuilderUI : MonoBehaviour {
     public void TrySaveSquadron()
     {
         SquadBuilder.TrySaveSquadron(SquadBuilder.ReturnToSquadBuilder);
+    }
+
+    public void StartBattle()
+    {
+        if (SquadBuilder.ValidateCurrentPlayersRoster())
+        {
+            SquadBuilder.SaveSquadConfigurations();
+            ShipFactory.Initialize();
+
+            if (!SquadBuilder.IsNetworkGame)
+            {
+                SquadBuilder.StartLocalGame();
+            }
+            else
+            {
+                MainMenu.CurrentMainMenu.ChangePanel("MultiplayerDecisionPanel");
+            }
+        }
     }
 
 }

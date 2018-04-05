@@ -34,24 +34,6 @@ public partial class MainMenu : MonoBehaviour {
         CheckUpdates();
     }
 
-    public void StartBattle()
-    {
-        if (SquadBuilder.ValidateCurrentPlayersRoster())
-        {
-            SquadBuilder.SaveSquadConfigurations();
-            ShipFactory.Initialize();
-
-            if (!SquadBuilder.IsNetworkGame)
-            {
-                SquadBuilder.StartLocalGame();
-            }
-            else
-            {
-                ChangePanel("MultiplayerDecisionPanel");
-            }
-        }
-    }
-
     public void QuitGame()
     {
         Application.Quit();

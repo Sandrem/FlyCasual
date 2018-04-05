@@ -240,10 +240,14 @@ namespace SubPhases
 
         private void HidePanel()
         {
-            decisionPanel.gameObject.SetActive(false);
-            foreach (Transform button in buttonsHolder.transform)
+            if (decisionPanel != null) decisionPanel.gameObject.SetActive(false);
+
+            if (buttonsHolder != null)
             {
-                MonoBehaviour.Destroy(button.gameObject);
+                foreach (Transform button in buttonsHolder.transform)
+                {
+                    MonoBehaviour.Destroy(button.gameObject);
+                }
             }
         }
 

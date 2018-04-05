@@ -809,6 +809,50 @@ namespace SquadBuilderNS
             bool hasSkinsSelection = GetAvailableShipSkins(CurrentSquadBuilderShip).Count > 1;
             GameObject.Find("UI/Panels/ShipSlotsPanel/Panel/TopButtons/SkinsButton").GetComponent<Button>().interactable = hasSkinsSelection;
         }
+
+        // Random AI
+
+        public static void SetRandomAiSquad(Action callback)
+        {
+            SetPlayerSquadFromImportedJson(GetRandomAiSquad(), CurrentPlayer, callback);
+        }
+
+        private static JSONObject GetRandomAiSquad()
+        {
+            List<JSONObject> savedSquadsJsons = new List<JSONObject>();
+
+            string directoryPath = Application.persistentDataPath + "/RandomAiSquadrons";
+            if (!Directory.Exists(directoryPath)) Directory.CreateDirectory(directoryPath);
+
+            string[] filePaths = Directory.GetFiles(directoryPath);
+            if (filePaths.Length == 0)
+            {
+                CreatePreGeneratedRandomAiSquads();
+                filePaths = Directory.GetFiles(directoryPath);
+            }
+
+            int randomFileIndex = UnityEngine.Random.Range(0, filePaths.Length);
+
+            string content = File.ReadAllText(filePaths[randomFileIndex]);
+            JSONObject squadJson = new JSONObject(content);
+
+            return squadJson;
+        }
+
+        private static void CreatePreGeneratedRandomAiSquads()
+        {
+            string directoryPath = Application.persistentDataPath + "/RandomAiSquadrons";
+
+            foreach (var squadron in PreGeneratedAiSquadrons.Squadrons)
+            {
+                string filePath = directoryPath + "/" + squadron.Key + ".json";
+                if (!File.Exists(filePath))
+                {
+                    File.WriteAllText(filePath, squadron.Value);
+                }
+            }
+        }
+
     }
 
 }

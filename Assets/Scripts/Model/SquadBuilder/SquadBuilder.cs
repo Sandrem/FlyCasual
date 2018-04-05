@@ -648,7 +648,7 @@ namespace SquadBuilderNS
 
         // IMPORT / EXPORT
 
-        public static void CreateSquadFromImportedJson(string jsonString, PlayerNo playerNo)
+        public static void CreateSquadFromImportedJson(string jsonString, PlayerNo playerNo, Action callback)
         {
             JSONObject squadJson = new JSONObject(jsonString);
             //LogImportedSquad(squadJson);
@@ -656,10 +656,7 @@ namespace SquadBuilderNS
             SetPlayerSquadFromImportedJson(
                 squadJson,
                 playerNo,
-                delegate
-                {
-                    MainMenu.CurrentMainMenu.ChangePanel("SquadBuilderPanel");
-                }
+                callback
             );
         }
 
@@ -961,6 +958,11 @@ namespace SquadBuilderNS
         public static bool IsNetworkGame
         {
             get { return GetSquadList(PlayerNo.Player2).PlayerType == typeof(NetworkOpponentPlayer); }
+        }
+
+        public static bool IsVsAiGame
+        {
+            get { return GetSquadList(PlayerNo.Player2).PlayerType == typeof(HotacAiPlayer); }
         }
 
         public static void SwitchPlayers()

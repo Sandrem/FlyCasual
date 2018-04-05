@@ -51,7 +51,7 @@ namespace ActionsList
             Host.ChangeFirepowerBy(+1);
             Host.ChangeAgilityBy(-1);
 
-            Phases.OnEndPhaseStart += RemoveExposeEffect;
+            Phases.OnEndPhaseStart_NoTriggers += RemoveExposeEffect;
 
             Host.Tokens.AssignCondition(new Conditions.ExposeCondition(Host));
             Phases.CurrentSubPhase.CallBack();
@@ -62,7 +62,7 @@ namespace ActionsList
             Host.ChangeFirepowerBy(-1);
             Host.ChangeAgilityBy(+1);
 
-            Phases.OnEndPhaseStart -= RemoveExposeEffect;
+            Phases.OnEndPhaseStart_NoTriggers -= RemoveExposeEffect;
         }
 
         public override int GetActionPriority()

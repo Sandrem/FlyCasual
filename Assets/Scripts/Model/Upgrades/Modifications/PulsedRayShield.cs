@@ -41,12 +41,12 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            Phases.OnEndPhaseStart += RegisterPulsedRayShieldAbility;
+            Phases.OnEndPhaseStart_Triggers += RegisterPulsedRayShieldAbility;
         }
 
         public override void DeactivateAbility()
         {
-            Phases.OnEndPhaseStart -= RegisterPulsedRayShieldAbility;
+            Phases.OnEndPhaseStart_Triggers -= RegisterPulsedRayShieldAbility;
         }
 
         private void RegisterPulsedRayShieldAbility()

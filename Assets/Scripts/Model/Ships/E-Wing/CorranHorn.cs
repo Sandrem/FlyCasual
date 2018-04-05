@@ -33,12 +33,12 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            Phases.OnEndPhaseStart += RegisterCorranHornAbility;
+            Phases.OnEndPhaseStart_Triggers += RegisterCorranHornAbility;
         }
 
         public override void DeactivateAbility()
         {
-            Phases.OnEndPhaseStart -= RegisterCorranHornAbility;
+            Phases.OnEndPhaseStart_Triggers -= RegisterCorranHornAbility;
         }
 
         private void RegisterCorranHornAbility()

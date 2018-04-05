@@ -40,8 +40,14 @@ public static partial class Phases
     public static event EventHandler OnCombatPhaseStart;
     public static event EventHandler OnCombatPhaseEnd;
     public static event EventHandler OnCombatSubPhaseRequiredPilotSkillIsChanged;
-    public static event EventHandler OnEndPhaseStart;
+    public static event EventHandler OnEndPhaseStart_NoTriggers;
+    public static event EventHandler OnEndPhaseStart_Triggers;
     public static event EventHandler OnRoundEnd;
+
+    public static bool HasOnEndPhaseStartEvents
+    {
+        get { return OnEndPhaseStart_Triggers != null; }
+    }
 
     // PHASES CONTROL
 
@@ -166,7 +172,8 @@ public static partial class Phases
 
     public static void CallEndPhaseTrigger(Action callBack)
     {
-        if (OnEndPhaseStart != null) OnEndPhaseStart();
+        if (OnEndPhaseStart_NoTriggers != null) OnEndPhaseStart_NoTriggers();
+        if (OnEndPhaseStart_Triggers != null) OnEndPhaseStart_Triggers();
 
         Triggers.ResolveTriggers(TriggerTypes.OnEndPhaseStart, callBack);
     }

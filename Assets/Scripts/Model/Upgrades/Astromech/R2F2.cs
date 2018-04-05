@@ -64,7 +64,7 @@ namespace ActionsList
             Sounds.PlayShipSound("Astromech-Beeping-and-whistling");
 
             Host.ChangeAgilityBy(+1);
-            Phases.OnEndPhaseStart += R2F2DecreaseAgility;
+            Phases.OnEndPhaseStart_NoTriggers += R2F2DecreaseAgility;
             Host.Tokens.AssignCondition(new Conditions.R2F2Condition(Host));
             Phases.CurrentSubPhase.CallBack();
         }
@@ -80,7 +80,7 @@ namespace ActionsList
         {
             Host.ChangeAgilityBy(-1);
             Host.Tokens.RemoveCondition(typeof(Conditions.R2F2Condition));
-            Phases.OnEndPhaseStart -= R2F2DecreaseAgility;
+            Phases.OnEndPhaseStart_NoTriggers -= R2F2DecreaseAgility;
         }
 
     }

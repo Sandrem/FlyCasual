@@ -49,7 +49,7 @@ namespace UpgradesList
             Host.Tokens.AssignCondition(newConditionToken);
 
             Host.OnCombatPhaseStart -= RegisterTrigger;
-            Phases.OnEndPhaseStart += DeactivateAbility;
+            Phases.OnEndPhaseStart_NoTriggers += DeactivateAbility;
 
             Host.Tokens.AssignToken(new Tokens.StressToken(Host), GlitterstimEffect);
         }
@@ -73,7 +73,7 @@ namespace UpgradesList
         {
             Host.AfterGenerateAvailableActionEffectsList -= AddGlitterstimDiceModification;
 
-            Phases.OnEndPhaseStart -= DeactivateAbility;
+            Phases.OnEndPhaseStart_NoTriggers -= DeactivateAbility;
         }
     }
 }

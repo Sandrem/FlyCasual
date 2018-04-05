@@ -49,7 +49,7 @@ namespace UpgradesList
         public void ActivateAbility()
         {
             Host.OnMovementActivation -= RegisterTrigger;
-            Phases.OnEndPhaseStart += DeactivateAbility;
+            Phases.OnEndPhaseStart_NoTriggers += DeactivateAbility;
 
             Host.Tokens.AssignToken(new Tokens.StressToken(Host), RemoveRestrictions);
         }
@@ -65,7 +65,7 @@ namespace UpgradesList
 
         public void DeactivateAbility()
         {
-            Phases.OnEndPhaseStart -= DeactivateAbility;
+            Phases.OnEndPhaseStart_NoTriggers -= DeactivateAbility;
 
             Host.CanPerformActionsWhileStressed = CanPerformActionsWhileStressedOriginal;
             Host.CanPerformRedManeuversWhileStressed = CanPerformRedManeuversWhileStressedOriginal;

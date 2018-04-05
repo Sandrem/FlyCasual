@@ -28,12 +28,12 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            Phases.OnEndPhaseStart += RegisterR5AstromechAbility;
+            Phases.OnEndPhaseStart_Triggers += RegisterR5AstromechAbility;
         }
 
         public override void DeactivateAbility()
         {
-            Phases.OnEndPhaseStart -= RegisterR5AstromechAbility;
+            Phases.OnEndPhaseStart_Triggers -= RegisterR5AstromechAbility;
         }
 
         private void RegisterR5AstromechAbility()

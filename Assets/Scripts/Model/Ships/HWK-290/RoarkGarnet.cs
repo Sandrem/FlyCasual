@@ -77,13 +77,13 @@ namespace Abilities
         private void SelectAbilityTarget()
         {
             TargetShip.AddPilotSkillModifier(this);
-            Phases.OnEndPhaseStart += RemovePilotSkillModifieer;
+            Phases.OnEndPhaseStart_NoTriggers += RemovePilotSkillModifieer;
             SelectShipSubPhase.FinishSelection();
         }
 
         private void RemovePilotSkillModifieer()
         {
-            Phases.OnEndPhaseStart -= RemovePilotSkillModifieer;
+            Phases.OnEndPhaseStart_NoTriggers -= RemovePilotSkillModifieer;
             TargetShip.RemovePilotSkillModifier(this);
         }
 

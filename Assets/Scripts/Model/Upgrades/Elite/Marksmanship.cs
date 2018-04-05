@@ -51,7 +51,7 @@ namespace ActionsList
         {
             Host = Selection.ThisShip;
             Host.AfterGenerateAvailableActionEffectsList += MarksmanshipAddDiceModification;
-            Phases.OnEndPhaseStart += MarksmanshipUnSubscribeToFiceModification;
+            Phases.OnEndPhaseStart_NoTriggers += MarksmanshipUnSubscribeToFiceModification;
             Host.Tokens.AssignCondition(new Conditions.MarksmanshipCondition(Host));
             Phases.CurrentSubPhase.CallBack();
         }
@@ -72,7 +72,7 @@ namespace ActionsList
         {
             Host.Tokens.RemoveCondition(typeof(Conditions.MarksmanshipCondition));
             Host.AfterGenerateAvailableActionEffectsList -= MarksmanshipAddDiceModification;
-            Phases.OnEndPhaseStart -= MarksmanshipUnSubscribeToFiceModification;
+            Phases.OnEndPhaseStart_NoTriggers -= MarksmanshipUnSubscribeToFiceModification;
         }
 
         public override bool IsActionEffectAvailable()

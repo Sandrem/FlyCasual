@@ -243,9 +243,11 @@ namespace Ship
             }
         }
 
-        public void CallDiceAboutToBeRolled()
+        public void CallDiceAboutToBeRolled(Action callback)
         {
             if (OnDiceAboutToBeRolled != null) OnDiceAboutToBeRolled();
+
+            Triggers.ResolveTriggers(TriggerTypes.OnDiceAboutToBeRolled, callback);
         }
 
         public void CallShotStart()

@@ -30,7 +30,7 @@ namespace UpgradesList
 
         private void LightweightFrameActionEffect(GenericShip host)
         {
-			ActionsList.GenericAction newAction = new LightweightFrameDiceModification()
+			GenericAction newAction = new LightweightFrameDiceModification()
             {
                 ImageUrl = ImageUrl,
                 Host = host,
@@ -75,13 +75,7 @@ namespace ActionsList
 		public override void ActionEffect(System.Action callBack)
 		{
 			Messages.ShowInfo("Lightweight Frame - additional die rolled");
-            Combat.Defender.CallDiceAboutToBeRolled();
-            Triggers.ResolveTriggers(TriggerTypes.OnDiceAboutToBeRolled, delegate 
-            {
-                Combat.CurrentDiceRoll.RollAdditionalDice(1);
-                Combat.CurrentDiceRoll.OrganizeDicePositions();
-                callBack();
-            });
+            DiceRoll.CurrentDiceRoll.RollInDice(callBack);
 		}
     }
 

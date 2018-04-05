@@ -33,11 +33,19 @@ namespace SubPhases
             if (Combat.AttackStep == CombatStep.Attack)
             {
                 ShowAttackAnimationAndSound();
+                Combat.Attacker.CallDiceAboutToBeRolled(RollDice);
             }
+            else
+            {
+                Combat.Defender.CallDiceAboutToBeRolled(RollDice);
+            }
+        }
 
-            DiceRoll DiceRollCheck;
-            DiceRollCheck = new DiceRoll(diceType, diceCount, DiceRollCheckType.Combat);
-            DiceRollCheck.Roll(SyncDiceResults);
+        private void RollDice()
+        {
+            DiceRoll DiceRollCombat;
+            DiceRollCombat = new DiceRoll(diceType, diceCount, DiceRollCheckType.Combat);
+            DiceRollCombat.Roll(SyncDiceResults);
         }
 
         private void ShowAttackAnimationAndSound()

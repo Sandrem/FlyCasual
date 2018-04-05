@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -224,6 +225,19 @@ public partial class DiceRoll
         }
     }
 
+    private void SetAdditionalDiceInitialRotation(int[] randomHolder)
+    {
+        int counter = 0;
+        foreach (Die die in DiceList)
+        {
+            if (!die.Model.activeSelf)
+            {
+                die.SetInitialRotation(new Vector3(randomHolder[counter], randomHolder[counter + 1], randomHolder[counter + 2]));
+                counter += 3;
+            }
+        }
+    }
+
     private void SetSelectedDiceInitialRotation(int[] randomHolder)
     {
         int counter = 0;
@@ -239,6 +253,21 @@ public partial class DiceRoll
         foreach (Die die in DiceList)
         {
             die.Roll();
+        }
+
+        CalculateResults();
+    }
+
+    private void BeforeRollAdditionalPreparedDice()
+    {
+        Selection.ActiveShip.CallDiceAboutToBeRolled(RollAdditionalPreparedDice);
+    }
+
+    private void RollAdditionalPreparedDice()
+    {
+        foreach (Die die in DiceList)
+        {
+            if (!die.Model.activeSelf) die.Roll();
         }
 
         CalculateResults();
@@ -643,14 +672,68 @@ public partial class DiceRoll
         }
     }
 
-    public void RollAdditionalDice(int number)
+    public void RollInDice(Action callBack)
     {
-        int i = 0;
-        while (i < number)
-        {            
-            AddDice().ShowWithoutRoll();
-            Number++;
-            i++;
+        this.callBack = TryUnblockButtons;
+
+        if (Selection.ActiveShip.Owner.GetType() == typeof(Players.HumanPlayer)) BlockButtons();
+
+        if (!Network.IsNetworkGame)
+        {
+            Die newDie = AddDice();
+            newDie.RandomizeRotation();
+            BeforeRollAdditionalPreparedDice();
+        }
+        else
+        {
+            Network.GenerateRandom(new Vector2(0, 360), 1, SetAdditionalDiceInitialRotation, BeforeRollAdditionalPreparedDice);
+        }
+
+        /*Combat.Defender.CallDiceAboutToBeRolled();
+        Triggers.ResolveTriggers(TriggerTypes.OnDiceAboutToBeRolled, delegate
+        {
+            Combat.CurrentDiceRoll.RollAdditionalDice(1);
+            Combat.CurrentDiceRoll.OrganizeDicePositions();
+            callBack();
+        });*/
+    }
+
+    private void BlockButtons()
+    {
+        ToggleDiceModificationsPanel(false);
+    }
+
+    private void UnblockButtons()
+    {
+        ToggleDiceModificationsPanel(true);
+    }
+
+    private void TryUnblockButtons(DiceRoll diceRoll)
+    {
+        if (!Network.IsNetworkGame)
+        {
+            UnblockButtons();
+        }
+        else
+        {
+            Network.SyncDiceRollInResults();
+        }
+    }
+
+    private void ToggleDiceModificationsPanel(bool isActive)
+    {
+        GameObject.Find("UI/CombatDiceResultsPanel").transform.Find("DiceModificationsPanel").gameObject.SetActive(isActive);
+
+        if (isActive)
+        {
+            Combat.ToggleConfirmDiceResultsButton(true);
+
+            // No branch for opposite dice modifications?
+            Combat.ShowDiceModificationButtons();
+        }
+        else
+        {
+            Combat.HideDiceModificationButtons();
         }
     }
 

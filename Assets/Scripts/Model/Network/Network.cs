@@ -276,6 +276,11 @@ public static partial class Network
         if (IsServer) CurrentPlayer.CmdSyncDiceRerollResults();
     }
 
+    public static void SyncDiceRollInResults()
+    {
+        if (IsServer) CurrentPlayer.CmdSyncDiceResults();
+    }
+
     public static void CompareDiceSidesAgainstServer(DieSide[] dieSides)
     {
         if (!IsServer)

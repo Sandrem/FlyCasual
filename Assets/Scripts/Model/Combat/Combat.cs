@@ -196,8 +196,7 @@ public static partial class Combat
     private static void AttackDiceRoll()
     {
         Selection.ActiveShip = Selection.ThisShip;
-        Attacker.CallDiceAboutToBeRolled();
-        Triggers.ResolveTriggers(TriggerTypes.OnDiceAboutToBeRolled, delegate { Phases.StartTemporarySubPhaseOld("Attack dice roll", typeof(AttackDiceRollCombatSubPhase)); });
+        Phases.StartTemporarySubPhaseOld("Attack dice roll", typeof(AttackDiceRollCombatSubPhase));
     }
 
     public static void ConfirmAttackDiceResults()
@@ -229,8 +228,7 @@ public static partial class Combat
     private static void DefenceDiceRoll()
     {
         Selection.ActiveShip = Selection.AnotherShip;
-        Defender.CallDiceAboutToBeRolled();
-        Triggers.ResolveTriggers(TriggerTypes.OnDiceAboutToBeRolled, delegate { Phases.StartTemporarySubPhaseOld("Defence dice roll", typeof(DefenceDiceRollCombatSubPhase));});
+        Phases.StartTemporarySubPhaseOld("Defence dice roll", typeof(DefenceDiceRollCombatSubPhase));
     }
 
     // COMPARE RESULTS

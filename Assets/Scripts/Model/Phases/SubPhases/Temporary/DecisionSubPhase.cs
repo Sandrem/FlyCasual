@@ -60,6 +60,7 @@ namespace SubPhases
         protected Players.GenericPlayer DecisionOwner;
         public bool ShowSkipButton;
         public DecisionViewTypes DecisionViewType = DecisionViewTypes.TextButtons;
+        public Action OnSkipButtonIsPressed;
 
         private const float defaultWindowHeight = 75;
         private const float buttonHeight = 45;
@@ -291,6 +292,7 @@ namespace SubPhases
 
         public override void SkipButton()
         {
+            if (OnSkipButtonIsPressed != null) OnSkipButtonIsPressed();
             ConfirmDecision();
         }
 

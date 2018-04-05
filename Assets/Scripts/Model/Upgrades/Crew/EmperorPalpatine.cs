@@ -101,8 +101,8 @@ namespace Abilities
      
             newSubPhase.RequiredPlayer = HostShip.Owner.PlayerNo;
             newSubPhase.InfoText = "Use " + Name + "?";
-
-            newSubPhase.AddDecision("No", DontUseEmperorPalpatine);
+            newSubPhase.ShowSkipButton = true;
+            newSubPhase.OnSkipButtonIsPressed = DontUseEmperorPalpatine;
 
             if (DiceType == DiceKind.Attack)
             {
@@ -157,11 +157,10 @@ namespace Abilities
             DieChoiceHelper(DieSide.Blank, "Blank");
         }
 
-        private void DontUseEmperorPalpatine(object sender, System.EventArgs e)
+        private void DontUseEmperorPalpatine()
         {
             PalpatineDieChoice = DieSide.Unknown;
-            Messages.ShowInfo("Emperor Palpatine not used");
-            DecisionSubPhase.ConfirmDecision();
+            Messages.ShowInfo("Emperor Palpatine was not used");
         }
 
         private string GetDefaultDecision()

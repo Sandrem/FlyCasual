@@ -146,6 +146,69 @@ namespace SubPhases
             Board.BoardManager.PlaceShip(Selection.ThisShip, position, angles, delegate { Selection.DeselectThisShip(); Phases.Next(); });
         }
 
+        public override void Update()
+        {
+            CheckPerformRotation();
+        }
+
+        private void CheckPerformRotation()
+        {
+            CheckResetRotation();
+            if (Input.GetKey(KeyCode.LeftControl))
+            {
+                RotateBy1();
+            }
+            else
+            {
+                RotateBy45();
+            }
+        }
+
+        private void CheckResetRotation()
+        {
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                Vector3 facing = (Selection.ThisShip.Owner.PlayerNo == Players.PlayerNo.Player1) ? ShipFactory.ROTATION_FORWARD : ShipFactory.ROTATION_BACKWARD;
+                Selection.ThisShip.SetRotationHelper2Angles(new Vector3(0, -Selection.ThisShip.Model.transform.eulerAngles.y + facing.y, 0));
+                Selection.ThisShip.ApplyRotationHelpers();
+                Selection.ThisShip.ResetRotationHelpers();
+            }
+        }
+
+        private void RotateBy45()
+        {
+            if (Input.GetKeyDown(KeyCode.Q))
+            {
+                Selection.ThisShip.SetRotationHelper2Angles(new Vector3(0, -45, 0));
+                Selection.ThisShip.ApplyRotationHelpers();
+                Selection.ThisShip.ResetRotationHelpers();
+            }
+
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                Selection.ThisShip.SetRotationHelper2Angles(new Vector3(0, 45, 0));
+                Selection.ThisShip.ApplyRotationHelpers();
+                Selection.ThisShip.ResetRotationHelpers();
+            }
+        }
+
+        private static void RotateBy1()
+        {
+            if (Input.GetKey(KeyCode.Q))
+            {
+                Selection.ThisShip.SetRotationHelper2Angles(new Vector3(0, -1, 0));
+                Selection.ThisShip.ApplyRotationHelpers();
+                Selection.ThisShip.ResetRotationHelpers();
+            }
+
+            if (Input.GetKey(KeyCode.E))
+            {
+                Selection.ThisShip.SetRotationHelper2Angles(new Vector3(0, 1, 0));
+                Selection.ThisShip.ApplyRotationHelpers();
+                Selection.ThisShip.ResetRotationHelpers();
+            }
+        }
+
     }
 
 }

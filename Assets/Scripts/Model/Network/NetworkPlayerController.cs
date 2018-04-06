@@ -638,7 +638,7 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     public void CmdSyncDiceRerollResults()
     {
         new NetworkExecuteWithCallback(
-            "Wait sync dice reroll results than calculate attack results prediction",
+            "Wait sync dice reroll results then calculate attack results prediction",
             CmdSendDiceRollResultsToClients,
             CmdCalculateDiceReroll
         );
@@ -654,6 +654,30 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     private void RpcCalculateDiceReroll()
     {
         DiceRerollManager.CurrentDiceRerollManager.UnblockButtons();
+    }
+
+    // DICE ROLL IN SYNC
+
+    [Command]
+    public void CmdSyncDiceRollInResults()
+    {
+        new NetworkExecuteWithCallback(
+            "Wait sync dice roll in results then calculate attack results prediction",
+            CmdSendDiceRollResultsToClients,
+            CmdCalculateDiceRollIn
+        );
+    }
+
+    [Command]
+    public void CmdCalculateDiceRollIn()
+    {
+        RpcCalculateDiceRollIn();
+    }
+
+    [ClientRpc]
+    private void RpcCalculateDiceRollIn()
+    {
+        DiceRoll.CurrentDiceRoll.UnblockButtons();
     }
 
     // DICE MODIFICATIONS

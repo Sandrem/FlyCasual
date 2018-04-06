@@ -674,7 +674,7 @@ public partial class DiceRoll
 
     public void RollInDice(Action callBack)
     {
-        this.callBack = TryUnblockButtons;
+        this.callBack = delegate { TryUnblockButtons(this); callBack(); };
 
         if (Selection.ActiveShip.Owner.GetType() == typeof(Players.HumanPlayer)) BlockButtons();
 
@@ -703,12 +703,12 @@ public partial class DiceRoll
         ToggleDiceModificationsPanel(false);
     }
 
-    private void UnblockButtons()
+    public void UnblockButtons()
     {
         ToggleDiceModificationsPanel(true);
     }
 
-    private void TryUnblockButtons(DiceRoll diceRoll)
+    public void TryUnblockButtons(DiceRoll diceRoll)
     {
         if (!Network.IsNetworkGame)
         {

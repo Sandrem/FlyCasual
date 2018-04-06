@@ -278,7 +278,7 @@ public static partial class Network
 
     public static void SyncDiceRollInResults()
     {
-        if (IsServer) CurrentPlayer.CmdSyncDiceResults();
+        if (IsServer) CurrentPlayer.CmdSyncDiceRollInResults();
     }
 
     public static void CompareDiceSidesAgainstServer(DieSide[] dieSides)

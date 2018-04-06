@@ -358,21 +358,23 @@ public static partial class Network
 
     public static void CreateMatch(string roomName, string password)
     {
+        ToggleCreateMatchButtons(false);
+
         roomName = roomName.Replace('|', ' '); // Remove info separator
         roomName = new RoomInfo(roomName, true).ToString();
-
-        GameObject createRoomButton = GameObject.Find("UI/Panels/CreateMatchPanel/ControlsPanel/CreateRoomButton");
-        createRoomButton.SetActive(false);
 
         NetworkManager.singleton.StartMatchMaker();
         NetworkManager.singleton.matchMaker.CreateMatch(roomName, 2, true, password, "", "", 0, 0, OnInternetMatchCreate);
     }
 
+    private static void ToggleCreateMatchButtons(bool isActive)
+    {
+        GameObject.Find("UI/Panels/CreateMatchPanel/ControlsPanel/CreateRoomButton").SetActive(isActive);
+        GameObject.Find("UI/Panels/CreateMatchPanel/ControlsPanel/BackButton").SetActive(isActive);
+    }
+
     private static void OnInternetMatchCreate(bool success, string extendedInfo, MatchInfo matchInfo)
     {
-        GameObject createRoomButton = GameObject.Find("UI/Panels/CreateMatchPanel/ControlsPanel/CreateRoomButton");
-        createRoomButton.SetActive(true);
-
         if (success)
         {
             string roomName = GameObject.Find("UI/Panels/CreateMatchPanel/Panel/Name").GetComponentInChildren<InputField>().text;
@@ -389,6 +391,8 @@ public static partial class Network
         else
         {
             Messages.ShowError("Create match failed");
+
+            ToggleCreateMatchButtons(true);
         }
     }
 
@@ -507,15 +511,19 @@ public static partial class Network
 
     public static void JoinCurrentRoomByParameters(string password = "")
     {
-        if(!SelectedMatchSnapshot.isPrivate) ToggleBrowseRooms(false);
+        if (!SelectedMatchSnapshot.isPrivate) ToggleBrowseRooms(false); else ToggleJoinPrivateMatchButtons(false);
 
         NetworkManager.singleton.matchMaker.JoinMatch(SelectedMatchSnapshot.networkId, password, "", "", 0, 0, OnJoinInternetMatch);
     }
 
+    private static void ToggleJoinPrivateMatchButtons(bool isActive)
+    {
+        GameObject.Find("UI/Panels/JoinPrivateMatchPanel/ControlsPanel/JoinMatchButton").SetActive(isActive);
+        GameObject.Find("UI/Panels/JoinPrivateMatchPanel/ControlsPanel/BackButton").SetActive(isActive);
+    }
+
     private static void OnJoinInternetMatch(bool success, string extendedInfo, MatchInfo matchInfo)
     {
-        if (!SelectedMatchSnapshot.isPrivate) ToggleBrowseRooms(true);
-
         if (success)
         {
             CurrentMatch = matchInfo;
@@ -530,6 +538,8 @@ public static partial class Network
             if (SelectedMatchSnapshot.isPrivate)
             {
                 Messages.ShowError("Cannot join match\nCheck password");
+                ToggleJoinPrivateMatchButtons(true);
+                //ToggleBrowseRooms(true);
             }
             else
             {

@@ -106,6 +106,8 @@ public partial class Console : MonoBehaviour {
 
     public static void ProcessCommand(string inputText)
     {
+        if (string.IsNullOrEmpty(inputText)) return;
+
         List<string> blocks = inputText.ToLower().Split(' ').ToList();
         string keyword = blocks.FirstOrDefault();
         blocks.RemoveAt(0);

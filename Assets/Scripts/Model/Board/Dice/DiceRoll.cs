@@ -230,7 +230,7 @@ public partial class DiceRoll
         int counter = 0;
         foreach (Die die in DiceList)
         {
-            if (!die.Model.activeSelf)
+            if (die.Model == null || !die.Model.activeSelf)
             {
                 die.SetInitialRotation(new Vector3(randomHolder[counter], randomHolder[counter + 1], randomHolder[counter + 2]));
                 counter += 3;
@@ -267,7 +267,7 @@ public partial class DiceRoll
     {
         foreach (Die die in DiceList)
         {
-            if (!die.Model.activeSelf) die.Roll();
+            if (die.Model == null || !die.Model.activeSelf) die.Roll();
         }
 
         CalculateResults();
@@ -678,15 +678,15 @@ public partial class DiceRoll
 
         if (Selection.ActiveShip.Owner.GetType() == typeof(Players.HumanPlayer)) BlockButtons();
 
+        Die newDie = AddDice();
         if (!Network.IsNetworkGame)
         {
-            Die newDie = AddDice();
             newDie.RandomizeRotation();
             BeforeRollAdditionalPreparedDice();
         }
         else
         {
-            Network.GenerateRandom(new Vector2(0, 360), 1, SetAdditionalDiceInitialRotation, BeforeRollAdditionalPreparedDice);
+            Network.GenerateRandom(new Vector2(0, 360), 3, SetAdditionalDiceInitialRotation, BeforeRollAdditionalPreparedDice);
         }
 
         /*Combat.Defender.CallDiceAboutToBeRolled();

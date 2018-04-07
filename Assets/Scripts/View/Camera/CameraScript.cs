@@ -23,6 +23,9 @@ public class CameraScript : MonoBehaviour {
     private const float MAX_ROTATION = 89.99f;
     private const float MIN_ROTATION = 0f;
 
+    public static bool InputAxisAreDisabled = false;
+    public static bool InputMouseIsDisabled = false;
+
     private enum CameraModes
     {
         Free,
@@ -85,6 +88,7 @@ public class CameraScript : MonoBehaviour {
     private void CamMoveByAxis()
     {
         if (Console.IsActive || Input.GetKey(KeyCode.LeftControl)) return;
+        if (InputAxisAreDisabled) return;
 
         float x = Input.GetAxis("Horizontal") * SENSITIVITY_MOVE;
         float y = Input.GetAxis("Vertical") * SENSITIVITY_MOVE;
@@ -94,6 +98,8 @@ public class CameraScript : MonoBehaviour {
 
     private void CamMoveByMouse()
     {
+        if (InputMouseIsDisabled) return;
+
         float x = 0;
         if (Input.mousePosition.x < MOUSE_MOVE_START_OFFSET && (Screen.fullScreen || Input.mousePosition.x >= 0)) x = -1f * SENSITIVITY_MOVE;
         else if (Input.mousePosition.x > Screen.width - MOUSE_MOVE_START_OFFSET && (Screen.fullScreen || Input.mousePosition.x <= Screen.width)) x = 1f * SENSITIVITY_MOVE;

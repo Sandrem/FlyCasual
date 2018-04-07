@@ -157,6 +157,8 @@ namespace SubPhases
 
         private void CheckPerformRotation()
         {
+            if (Console.IsActive) return;
+
             CheckResetRotation();
             if (Input.GetKey(KeyCode.LeftControl))
             {

@@ -233,7 +233,7 @@ namespace SubPhases
 
             if (CurrentDiceRoll.DiceList[0].Side == DieSide.Success || CurrentDiceRoll.DiceList[0].Side == DieSide.Crit)
             {
-                Selection.ThisShip.AssignedDamageDiceroll.DiceList.Add(CurrentDiceRoll.DiceList[0]);
+                Selection.ThisShip.AssignedDamageDiceroll.AddDice(DieSide.Success);
 
                 Triggers.RegisterTrigger(new Trigger()
                 {

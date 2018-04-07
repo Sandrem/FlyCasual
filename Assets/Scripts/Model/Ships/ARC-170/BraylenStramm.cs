@@ -17,6 +17,8 @@ namespace Ship
 				PilotSkill = 3;
 				Cost = 25;
 
+				IsUnique = true;
+
 				PilotAbilities.Add(new Abilities.BraylenStrammPilotAbility());
 			}
 		}
@@ -45,10 +47,10 @@ namespace Abilities
 		private void BraylenStrammAbility(object sender, System.EventArgs e)
 		{
 			if (HostShip.Tokens.HasToken (typeof(Tokens.StressToken))) {	
-				//this.AskToUseAbility(delegate {return false;}, UseBraylenStrammAbility, DontUseBraylenStrammAbility);
-				UseBraylenStrammAbility (sender, e);
+				this.AskToUseAbility(delegate {return false;}, UseBraylenStrammAbility, DontUseBraylenStrammAbility);
 			} else {
-				DontUseBraylenStrammAbility (sender, e);
+				//No decision subphase or BraylenStrammCheckSubPhase initiated - simply finish trigger
+				Triggers.FinishTrigger();
 			}
 		}
 
@@ -58,7 +60,13 @@ namespace Abilities
 				"Braylen Stramm Ability: Try to remove stress",
 				typeof(SubPhases.BraylenStrammCheckSubPhase),
 				delegate {
+					//We have a BraylenStrammCheckSubPhase open, so finish it
 					Phases.FinishSubPhase(typeof(SubPhases.BraylenStrammCheckSubPhase));
+
+					//We have a Decision SubPhase open, so finish it
+					SubPhases.DecisionSubPhase.ConfirmDecisionNoCallback();
+
+					//The trigger is still active, so finish it.  Must be explicitly finished since ConfirmDecisionNoCallback was used
 					Triggers.FinishTrigger();
 				}
 			);
@@ -66,6 +74,10 @@ namespace Abilities
 
 		private void DontUseBraylenStrammAbility(object sender, System.EventArgs e)
 		{
+			//We have only a Decision SubPhase open, so finish it
+			SubPhases.DecisionSubPhase.ConfirmDecisionNoCallback();
+
+			//The trigger is still active, so finish it.  Must be explicitly finished since ConfirmDecisionNoCallback was used
 			Triggers.FinishTrigger();
 		}
 	}
@@ -91,13 +103,11 @@ namespace SubPhases
 				Messages.ShowInfoToHuman ("Stress is removed");
 				this.TheShip.Tokens.RemoveToken (
 					typeof(Tokens.StressToken),
-					FinishPhase
+					CallBack
 				);
 			} else {
-				FinishPhase ();
+				CallBack();
 			}
-
-			CallBack();
 		}
 	}
 }

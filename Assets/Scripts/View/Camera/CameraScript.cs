@@ -84,7 +84,7 @@ public class CameraScript : MonoBehaviour {
 
     private void CamMoveByAxis()
     {
-        if (Console.IsActive) return;
+        if (Console.IsActive || Input.GetKey(KeyCode.LeftControl)) return;
 
         float x = Input.GetAxis("Horizontal") * SENSITIVITY_MOVE;
         float y = Input.GetAxis("Vertical") * SENSITIVITY_MOVE;

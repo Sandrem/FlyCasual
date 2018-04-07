@@ -17,7 +17,6 @@ namespace UpgradesList
 			MaxRange = 1;
 			AttackValue = 3;
 
-            //From Autoblaster turret
             UpgradeAbilities.Add(new AutoblasterAbility());
         }		
 
@@ -30,20 +29,20 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            HostShip.OnDefence += RegisterAutoblasterEffect;
+            HostShip.OnDefenceStartAsAttacker += RegisterAutoblasterEffect;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.OnDefence -= RegisterAutoblasterEffect;
+            HostShip.OnDefenceStartAsAttacker -= RegisterAutoblasterEffect;
         }
 
         private void RegisterAutoblasterEffect()
         {
-            Combat.DiceRollAttack.CancelCritsFirst = true;
-            if ((Combat.ChosenWeapon is UpgradesList.Autoblaster) ||
-                (Combat.ChosenWeapon is UpgradesList.AutoblasterTurret))
+            if (Combat.ChosenWeapon.GetType() == HostUpgrade.GetType())
             {
+                Combat.DiceRollAttack.CancelCritsFirst = true;
+
                 foreach (Die die in Combat.DiceRollAttack.DiceList)
                 {
                     if (die.Side == DieSide.Success)

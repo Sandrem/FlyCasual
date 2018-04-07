@@ -77,7 +77,7 @@ namespace ActionsList
             Combat.CurrentDiceRoll.OrganizeDicePositions();
             Combat.Attacker.OnTryAddAvailableActionEffect += UseDiceModificationRestriction;
             Combat.Attacker.OnTryAddAvailableOppositeActionEffect += UseDiceModificationRestriction;
-            Combat.Defender.OnDefence += RemoveDiceModificationRestriction;
+            Combat.Defender.OnDefenceStartAsDefender += RemoveDiceModificationRestriction;
             callBack();
         }
 
@@ -85,7 +85,7 @@ namespace ActionsList
         {
             Combat.Attacker.OnTryAddAvailableActionEffect -= UseDiceModificationRestriction;
             Combat.Attacker.OnTryAddAvailableOppositeActionEffect -= UseDiceModificationRestriction;
-            Combat.Defender.OnDefence -= RemoveDiceModificationRestriction;
+            Combat.Defender.OnDefenceStartAsDefender -= RemoveDiceModificationRestriction;
         }
 
         private void UseDiceModificationRestriction(GenericAction action, ref bool canBeUsed)

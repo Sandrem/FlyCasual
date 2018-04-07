@@ -221,8 +221,8 @@ public static partial class Combat
 
     public static void CallDefenceStartEvents()
     {
-        Attacker.CallDefenceStart();
-        Defender.CallDefenceStart();
+        Attacker.CallDefenceStartAsAttacker();
+        Defender.CallDefenceStartAsDefender();
     }
 
     private static void DefenceDiceRoll()

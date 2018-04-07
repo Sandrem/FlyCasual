@@ -129,7 +129,8 @@ namespace Ship
 
         public event EventHandlerShip OnCheckCancelCritsFirst;
 
-        public event EventHandler OnDefence;
+        public event EventHandler OnDefenceStartAsAttacker;
+        public event EventHandler OnDefenceStartAsDefender;
 
         public event EventHandler OnAtLeastOneCritWasCancelledByDefender;
 
@@ -270,11 +271,18 @@ namespace Ship
             if (OnCheckCancelCritsFirst != null) OnCheckCancelCritsFirst(this);
         }
 
-        public void CallDefenceStart()
+        public void CallDefenceStartAsAttacker()
         {
             ClearAlreadyExecutedOppositeActionEffects();
             ClearAlreadyExecutedActionEffects();
-            if (OnDefence != null) OnDefence();
+            if (OnDefenceStartAsAttacker != null) OnDefenceStartAsAttacker();
+        }
+
+        public void CallDefenceStartAsDefender()
+        {
+            ClearAlreadyExecutedOppositeActionEffects();
+            ClearAlreadyExecutedActionEffects();
+            if (OnDefenceStartAsDefender != null) OnDefenceStartAsDefender();
         }
 
         public void CallShotHitAsAttacker()

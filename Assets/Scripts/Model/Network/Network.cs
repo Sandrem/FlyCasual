@@ -115,8 +115,8 @@ public static partial class Network
 
     public static void FinishTask()
     {
-        string logEntryPostfix = (IsServer) ? "" : "\n";
-        Console.Write("Client finished task" + logEntryPostfix, LogTypes.Network);
+        string taskName = LastNetworkCallback.TaskName;
+        Console.Write("Client finished task: " + taskName, LogTypes.Network);
         CurrentPlayer.CmdFinishTask();
     }
 

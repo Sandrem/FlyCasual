@@ -70,7 +70,7 @@ public class CameraScript : MonoBehaviour {
 
     private void CheckChangeMode()
     {
-        if (Input.GetKeyDown(KeyCode.CapsLock)) ChangeMode();
+        if (Input.GetKeyDown(KeyCode.Tab) && !Console.IsActive) ChangeMode();
     }
 
     private void ChangeMode()

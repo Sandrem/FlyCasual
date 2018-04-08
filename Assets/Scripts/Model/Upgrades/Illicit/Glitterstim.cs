@@ -1,8 +1,8 @@
 ﻿using Upgrade;
-using UnityEngine;
 using Ship;
-using System.Collections.Generic;
 using SubPhases;
+using Abilities;
+using Tokens;
 
 namespace UpgradesList
 {
@@ -13,21 +13,33 @@ namespace UpgradesList
             Types.Add(UpgradeType.Illicit);
             Name = "Glitterstim";
             Cost = 2;
+
+            UpgradeAbilities.Add(new GlitterstimAbility());
+        }
+    }
+}
+
+namespace Abilities
+{
+    public class GlitterstimAbility : GenericAbility
+    {
+        public override void ActivateAbility()
+        {
+            Phases.OnCombatPhaseStart_Triggers += RegisterTrigger;
         }
 
-        public override void AttachToShip(GenericShip host)
+        public override void DeactivateAbility()
         {
-            base.AttachToShip(host);
-
-            Phases.OnCombatPhaseStart_Triggers += RegisterTrigger;
+            Phases.OnCombatPhaseStart_Triggers -= RegisterTrigger;
         }
 
         private void RegisterTrigger()
         {
-            Triggers.RegisterTrigger(new Trigger() {
-                Name = Host.ShipId + ": " + Name,
+            Triggers.RegisterTrigger(new Trigger()
+            {
+                Name = HostShip.ShipId + ": " + Name,
                 TriggerType = TriggerTypes.OnCombatPhaseStart,
-                TriggerOwner = Host.Owner.PlayerNo,
+                TriggerOwner = HostShip.Owner.PlayerNo,
                 EventHandler = AskGlitterstim
             });
         }
@@ -39,41 +51,41 @@ namespace UpgradesList
                 typeof(GlitterstimDecisionSubPhase),
                 Triggers.FinishTrigger
             );
-            newSubPhase.GlitterstimUpgrade = this;
+            newSubPhase.GlitterstimAbility = this;
             newSubPhase.Start();
         }
 
-        public void ActivateAbility()
+        public void ActivateGlitterstim()
         {
-            Conditions.Glitterstim newConditionToken = new Conditions.Glitterstim(Host) { Tooltip = ImageUrl };
-            Host.Tokens.AssignCondition(newConditionToken);
+            Conditions.Glitterstim newConditionToken = new Conditions.Glitterstim(HostShip) { Tooltip = HostUpgrade.ImageUrl };
+            HostShip.Tokens.AssignCondition(newConditionToken);
 
             Phases.OnCombatPhaseStart_Triggers -= RegisterTrigger;
-            Phases.OnEndPhaseStart_NoTriggers += DeactivateAbility;
+            Phases.OnEndPhaseStart_NoTriggers += DeactivateGlitterstim;
 
-            Host.Tokens.AssignToken(new Tokens.StressToken(Host), GlitterstimEffect);
+            HostShip.Tokens.AssignToken(new StressToken(HostShip), GlitterstimEffect);
         }
 
         private void GlitterstimEffect()
         {
-            Host.AfterGenerateAvailableActionEffectsList += AddGlitterstimDiceModification;
+            HostShip.AfterGenerateAvailableActionEffectsList += AddGlitterstimDiceModification;
         }
 
-        private void AddGlitterstimDiceModification(Ship.GenericShip host)
+        private void AddGlitterstimDiceModification(GenericShip host)
         {
             ActionsList.GenericAction newAction = new ActionsList.GlitterstimDiceModification()
             {
-                ImageUrl = ImageUrl,
-                Host = Host
+                ImageUrl = HostUpgrade.ImageUrl,
+                Host = HostShip
             };
             host.AddAvailableActionEffect(newAction);
         }
 
-        public void DeactivateAbility()
+        public void DeactivateGlitterstim()
         {
-            Host.AfterGenerateAvailableActionEffectsList -= AddGlitterstimDiceModification;
+            HostShip.AfterGenerateAvailableActionEffectsList -= AddGlitterstimDiceModification;
 
-            Phases.OnEndPhaseStart_NoTriggers -= DeactivateAbility;
+            Phases.OnEndPhaseStart_NoTriggers -= DeactivateGlitterstim;
         }
     }
 }
@@ -83,12 +95,12 @@ namespace SubPhases
 
     public class GlitterstimDecisionSubPhase : DecisionSubPhase
     {
-        public UpgradesList.Glitterstim GlitterstimUpgrade;
+        public GlitterstimAbility GlitterstimAbility;
 
         public override void PrepareDecision(System.Action callBack)
         {
-            InfoText = GlitterstimUpgrade.Host.ShipId + ": Use ability of Glitterstim?";
-            RequiredPlayer = GlitterstimUpgrade.Host.Owner.PlayerNo;
+            InfoText = GlitterstimAbility.HostShip.ShipId + ": Use ability of Glitterstim?";
+            RequiredPlayer = GlitterstimAbility.HostShip.Owner.PlayerNo;
 
             AddDecision("Yes", UseGlitterstimAbility);
             AddDecision("No", DontUseGlitterstimAbility);
@@ -104,19 +116,19 @@ namespace SubPhases
         {
             bool result = false;
 
-            GenericShip host = GlitterstimUpgrade.Host;
+            GenericShip host = GlitterstimAbility.HostShip;
 
             if (host.Tokens.HasToken(typeof(Conditions.Glitterstim))) return false;
 
             if (host.Owner.GetType() == typeof(Players.HotacAiPlayer))
             {
-                if (!host.Tokens.HasToken(typeof(Tokens.FocusToken)))
+                if (!host.Tokens.HasToken(typeof(FocusToken)))
                 {
                     int priority = 0;
                     if (Actions.HasTarget(host)) priority += 20;
                     priority += Actions.CountEnemiesTargeting(host) * 10;
                     if (host.Hull < host.MaxHull) priority += 5;
-                    if (host.Tokens.HasToken(typeof(Tokens.StressToken))) priority -= 10;
+                    if (host.Tokens.HasToken(typeof(StressToken))) priority -= 10;
 
                     if (priority > 10)
                     {
@@ -131,8 +143,8 @@ namespace SubPhases
 
         private void UseGlitterstimAbility(object sender, System.EventArgs e)
         {
-            GlitterstimUpgrade.ActivateAbility();
-            GlitterstimUpgrade.TryDiscard(ConfirmDecision);
+            GlitterstimAbility.ActivateGlitterstim();
+            GlitterstimAbility.HostUpgrade.TryDiscard(ConfirmDecision);
         }
 
         private void DontUseGlitterstimAbility(object sender, System.EventArgs e)
@@ -193,7 +205,7 @@ namespace ActionsList
 
 namespace Conditions
 {
-    public class Glitterstim : Tokens.GenericToken
+    public class Glitterstim : GenericToken
     {
         public Glitterstim(GenericShip host) : base(host)
         {

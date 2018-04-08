@@ -6,7 +6,12 @@ using UnityEngine.UI;
 public static class DirectionsMenu
 {
     public static bool ForceShowRedManeuvers;
-    public static bool IsVisible;
+
+    public static bool IsVisible
+    {
+        get { return DirectionsWindow != null && DirectionsWindow.activeSelf; }
+    }
+
     public static Action<string> Callback;
 
     private static Func<string, bool> currentFilter;

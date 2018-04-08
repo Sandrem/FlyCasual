@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Ship;
 using UnityEngine.UI;
+using GameModes;
 
 namespace SubPhases
 {
@@ -17,10 +18,10 @@ namespace SubPhases
             IsTemporary = true;
             UpdateHelpInfo();
 
-            FinishAfterDelay();
+            GameMode.CurrentGameMode.StartSyncNotificationSubPhase();
         }
 
-        private void FinishAfterDelay()
+        public void FinishAfterDelay()
         {
             GameObject notificationPanel = GameObject.Find("UI").transform.Find("NotificationPanel").gameObject;
             notificationPanel.GetComponentInChildren<Text>().text = TextToShow;
@@ -28,7 +29,7 @@ namespace SubPhases
             notificationPanel.GetComponent<Animation>().Play();
 
             GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-            Game.Wait(1.5f, Next);
+            Game.Wait(1.5f, GameMode.CurrentGameMode.FinishNotificationSubPhase);
         }
 
         public override void Next()

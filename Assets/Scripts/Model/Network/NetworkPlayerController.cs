@@ -5,6 +5,7 @@ using UnityEngine.Networking;
 using GameModes;
 using SquadBuilderNS;
 using Players;
+using SubPhases;
 
 public partial class NetworkPlayerController : NetworkBehaviour {
 
@@ -197,13 +198,13 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     private void RpcTakeDecision(string decisionName)
     {
         if (DebugManager.DebugNetwork) UI.AddTestLogEntry("C: RpcTakeDecision");
-        if (Phases.CurrentSubPhase as SubPhases.DecisionSubPhase == null)
+        if (Phases.CurrentSubPhase as DecisionSubPhase == null)
         {
             Console.Write("Syncronization error, subphase is " + Phases.CurrentSubPhase.GetType(), LogTypes.Errors, true, "red");
             Messages.ShowError("Syncronization error, subphase is " + Phases.CurrentSubPhase.GetType());
         }
 
-        (Phases.CurrentSubPhase as SubPhases.DecisionSubPhase).ExecuteDecision(decisionName);
+        (Phases.CurrentSubPhase as DecisionSubPhase).ExecuteDecision(decisionName);
     }
 
     // SETUP
@@ -217,7 +218,7 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     [ClientRpc]
     private void RpcConfirmShipSetup(int shipId, Vector3 position, Vector3 angles)
     {
-        (Phases.CurrentSubPhase as SubPhases.SetupSubPhase).ConfirmShipSetup(shipId, position, angles);
+        (Phases.CurrentSubPhase as SetupSubPhase).ConfirmShipSetup(shipId, position, angles);
     }
 
     // ASSIGN MANEUVER
@@ -302,7 +303,7 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     {
         if (DebugManager.DebugNetwork) UI.AddTestLogEntry("S: RpcFinishManeuver");
 
-        Selection.ActiveShip.CallExecuteMoving(delegate { Phases.FinishSubPhase(typeof(SubPhases.MovementExecutionSubPhase)); });
+        Selection.ActiveShip.CallExecuteMoving(delegate { Phases.FinishSubPhase(typeof(MovementExecutionSubPhase)); });
     }
 
     // BARREL ROLL
@@ -326,7 +327,7 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     [ClientRpc]
     private void RpcLaunchBarrelRoll()
     {
-        (Phases.CurrentSubPhase as SubPhases.BarrelRollPlanningSubPhase).StartBarrelRollExecution();
+        (Phases.CurrentSubPhase as BarrelRollPlanningSubPhase).StartBarrelRollExecution();
     }
 
     [Command]
@@ -338,7 +339,7 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     [ClientRpc]
     private void RpcFinishBarrelRoll()
     {
-        (Phases.CurrentSubPhase as SubPhases.BarrelRollExecutionSubPhase).FinishBarrelRollAnimation();
+        (Phases.CurrentSubPhase as BarrelRollExecutionSubPhase).FinishBarrelRollAnimation();
     }
 
     [Command]
@@ -350,7 +351,7 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     [ClientRpc]
     private void RpcCancelBarrelRoll()
     {
-        (Phases.CurrentSubPhase as SubPhases.BarrelRollPlanningSubPhase).CancelBarrelRoll();
+        (Phases.CurrentSubPhase as BarrelRollPlanningSubPhase).CancelBarrelRoll();
     }
 
     // BOOST
@@ -374,7 +375,7 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     [ClientRpc]
     private void RpcLaunchBoost()
     {
-        (Phases.CurrentSubPhase as SubPhases.BoostPlanningSubPhase).StartBoostExecution();
+        (Phases.CurrentSubPhase as BoostPlanningSubPhase).StartBoostExecution();
     }
 
     [Command]
@@ -386,7 +387,7 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     [ClientRpc]
     private void RpcFinishBoost()
     {
-        Phases.FinishSubPhase(typeof(SubPhases.BoostExecutionSubPhase));
+        Phases.FinishSubPhase(typeof(BoostExecutionSubPhase));
     }
 
     [Command]
@@ -398,7 +399,7 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     [ClientRpc]
     private void RpcCancelBoost()
     {
-        (Phases.CurrentSubPhase as SubPhases.BoostPlanningSubPhase).CancelBoost();
+        (Phases.CurrentSubPhase as BoostPlanningSubPhase).CancelBoost();
     }
 
     // DECLOAK
@@ -422,7 +423,7 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     [ClientRpc]
     private void RpcLaunchDecloak()
     {
-        (Phases.CurrentSubPhase as SubPhases.DecloakPlanningSubPhase).StartDecloakExecution(Selection.ThisShip);
+        (Phases.CurrentSubPhase as DecloakPlanningSubPhase).StartDecloakExecution(Selection.ThisShip);
     }
 
     [Command]
@@ -434,7 +435,7 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     [ClientRpc]
     private void RpcFinishDecloak()
     {
-        (Phases.CurrentSubPhase as SubPhases.DecloakExecutionSubPhase).FinishDecloakAnimation();
+        (Phases.CurrentSubPhase as DecloakExecutionSubPhase).FinishDecloakAnimation();
     }
 
     [Command]
@@ -446,7 +447,7 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     [ClientRpc]
     private void RpcCancelDecloak()
     {
-        (Phases.CurrentSubPhase as SubPhases.DecloakPlanningSubPhase).CancelDecloak();
+        (Phases.CurrentSubPhase as DecloakPlanningSubPhase).CancelDecloak();
     }
 
     // DECLARE ATTACK TARGET
@@ -474,7 +475,7 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     [ClientRpc]
     private void RpcSelectTargetShip(int targetId)
     {
-        SubPhases.SelectShipSubPhase currentSubPhase = (Phases.CurrentSubPhase as SubPhases.SelectShipSubPhase);
+        SelectShipSubPhase currentSubPhase = (Phases.CurrentSubPhase as SelectShipSubPhase);
         currentSubPhase.TargetShip = Roster.GetShipById("ShipId:" + targetId);
         currentSubPhase.InvokeFinish();
     }
@@ -488,7 +489,7 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     [ClientRpc]
     private void RpcRevertSubPhase()
     {
-        (Phases.CurrentSubPhase as SubPhases.SelectShipSubPhase).CallRevertSubPhase();
+        (Phases.CurrentSubPhase as SelectShipSubPhase).CallRevertSubPhase();
     }
 
     // CONFIRM DICE RESULTS MODIFICATIONS
@@ -534,7 +535,7 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     [ClientRpc]
     private void RpcShowDiceRollCheckConfirmButton()
     {
-        (Phases.CurrentSubPhase as SubPhases.DiceRollCheckSubPhase).ShowDiceRollCheckConfirmButton();
+        (Phases.CurrentSubPhase as DiceRollCheckSubPhase).ShowDiceRollCheckConfirmButton();
     }
 
     [Command]
@@ -546,7 +547,7 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     [ClientRpc]
     private void RpcConfirmDiceRerollCheckResults()
     {
-        (Phases.CurrentSubPhase as SubPhases.DiceRollCheckSubPhase).Confirm();
+        (Phases.CurrentSubPhase as DiceRollCheckSubPhase).Confirm();
     }
 
     // CONFIRM INFORM CRIT WINDOW
@@ -622,11 +623,11 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     {
         if (DiceRoll.CurrentDiceRoll.CheckType == DiceRollCheckType.Combat)
         {
-            (Phases.CurrentSubPhase as SubPhases.DiceRollCombatSubPhase).CalculateDice();
+            (Phases.CurrentSubPhase as DiceRollCombatSubPhase).CalculateDice();
         }
         else if (DiceRoll.CurrentDiceRoll.CheckType == DiceRollCheckType.Check)
         {
-            (Phases.CurrentSubPhase as SubPhases.DiceRollCheckSubPhase).CalculateDice();
+            (Phases.CurrentSubPhase as DiceRollCheckSubPhase).CalculateDice();
         }
     }
 
@@ -705,7 +706,7 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     [ClientRpc]
     private void RpcTryConfirmBarrelRoll(string templateName, Vector3 shipPosition, Vector3 movementTemplatePosition)
     {
-        (Phases.CurrentSubPhase as SubPhases.BarrelRollPlanningSubPhase).TryConfirmBarrelRollNetwork(templateName, shipPosition, movementTemplatePosition);
+        (Phases.CurrentSubPhase as BarrelRollPlanningSubPhase).TryConfirmBarrelRollNetwork(templateName, shipPosition, movementTemplatePosition);
     }
 
     // DECLOAK PLANNING
@@ -719,7 +720,7 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     [ClientRpc]
     private void RpcTryConfirmDecloak(Vector3 shipPosition, string decloakHelper, Vector3 movementTemplatePosition, Vector3 movementTemplateAngles)
     {
-        (Phases.CurrentSubPhase as SubPhases.DecloakPlanningSubPhase).TryConfirmDecloakNetwork(shipPosition, decloakHelper, movementTemplatePosition, movementTemplateAngles);
+        (Phases.CurrentSubPhase as DecloakPlanningSubPhase).TryConfirmDecloakNetwork(shipPosition, decloakHelper, movementTemplatePosition, movementTemplateAngles);
     }
 
     // BOOST PLANNING
@@ -733,7 +734,7 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     [ClientRpc]
     private void RpcTryConfirmBoostPosition(string SelectedBoostHelper)
     {
-        (Phases.CurrentSubPhase as SubPhases.BoostPlanningSubPhase).TryConfirmBoostPositionNetwork(SelectedBoostHelper);
+        (Phases.CurrentSubPhase as BoostPlanningSubPhase).TryConfirmBoostPositionNetwork(SelectedBoostHelper);
     }
 
     // SELECTED DICE SYNC
@@ -811,6 +812,8 @@ public partial class NetworkPlayerController : NetworkBehaviour {
         Network.ServerFinishTask();
     }
 
+    // Swarm Manager
+
     [Command]
     public void CmdSetSwarmManagerManeuver(string maneuverCode)
     {
@@ -823,6 +826,8 @@ public partial class NetworkPlayerController : NetworkBehaviour {
         SwarmManager.SetManeuver(maneuverCode);
     }
 
+    // Combat Activation
+
     [Command]
     public void CmdCombatActivation(int shipId)
     {
@@ -833,6 +838,42 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     public void RpcCombatActivation(int shipId)
     {
         Selection.ChangeActiveShip("ShipId:" + shipId);
-        Selection.ThisShip.CallCombatActivation(delegate { (Phases.CurrentSubPhase as SubPhases.CombatSubPhase).ChangeSelectionMode(Team.Type.Enemy); });
+        Selection.ThisShip.CallCombatActivation(delegate { (Phases.CurrentSubPhase as CombatSubPhase).ChangeSelectionMode(Team.Type.Enemy); });
+    }
+
+    // Notification SubPhase Sync
+
+    [Command]
+    public void CmdSyncNotifications()
+    {
+        new NetworkExecuteWithCallback(
+            "Wait sync notifications",
+            CmdStartSyncNotificationSubphase,
+            CmdFinishNotificationSubphase
+        );
+    }
+
+    [Command]
+    public void CmdStartSyncNotificationSubphase()
+    {
+        RpcWaitForFinishNotificationSubphase();
+    }
+
+    [ClientRpc]
+    public void RpcWaitForFinishNotificationSubphase()
+    {
+        (Phases.CurrentSubPhase as NotificationSubPhase).FinishAfterDelay();
+    }
+
+    [Command]
+    public void CmdFinishNotificationSubphase()
+    {
+        RpcFinishNotificationSubphase();
+    }
+
+    [ClientRpc]
+    public void RpcFinishNotificationSubphase()
+    {
+        (Phases.CurrentSubPhase as NotificationSubPhase).Next();
     }
 }

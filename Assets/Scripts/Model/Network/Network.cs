@@ -115,7 +115,7 @@ public static partial class Network
 
     public static void FinishTask()
     {
-        string taskName = LastNetworkCallback.TaskName;
+        string taskName = (LastNetworkCallback != null) ? LastNetworkCallback.TaskName : "undefined";
         Console.Write("Client finished task: " + taskName, LogTypes.Network);
         CurrentPlayer.CmdFinishTask();
     }
@@ -586,6 +586,11 @@ public static partial class Network
     public static void CombatActivation(int shipId)
     {
         CurrentPlayer.CmdCombatActivation(shipId);
+    }
+
+    public static void CmdSyncNotifications()
+    {
+        if (IsServer) CurrentPlayer.CmdSyncNotifications();
     }
 
 }

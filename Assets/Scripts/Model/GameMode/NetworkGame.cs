@@ -213,5 +213,15 @@ namespace GameModes
         {
             Network.CombatActivation(shipId);
         }
+
+        public override void StartSyncNotificationSubPhase()
+        {
+            Network.CmdSyncNotifications(); 
+        }
+
+        public override void FinishNotificationSubPhase()
+        {
+            Network.FinishTask();
+        }
     }
 }

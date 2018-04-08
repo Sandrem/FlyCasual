@@ -47,7 +47,7 @@ namespace Abilities
 		private void BraylenStrammAbility(object sender, System.EventArgs e)
 		{
 			if (HostShip.Tokens.HasToken (typeof(Tokens.StressToken))) {	
-				this.AskToUseAbility(delegate {return false;}, UseBraylenStrammAbility, DontUseBraylenStrammAbility);
+				this.AskToUseAbility(GenericAbility.AlwaysUseByDefault, UseBraylenStrammAbility, DontUseBraylenStrammAbility);
 			} else {
 				//No decision subphase or BraylenStrammCheckSubPhase initiated - simply finish trigger
 				Triggers.FinishTrigger();

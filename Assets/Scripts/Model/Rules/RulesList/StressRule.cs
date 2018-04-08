@@ -77,7 +77,7 @@ namespace RulesList
         {
             if ((movement.ColorComplexity == ManeuverColor.Red) && (ship.Tokens.GetToken(typeof(StressToken)) != null))
             {
-                if (!ship.CanPerformRedManeuversWhileStressed && !DirectionsMenu.ForceShowRedManeuvers)
+                if (!ship.CanPerformRedManeuversWhileStressed && !DirectionsMenu.IsForcedToShowRedManeuvers)
                 {
                     movement.ColorComplexity = ManeuverColor.None;
                 }

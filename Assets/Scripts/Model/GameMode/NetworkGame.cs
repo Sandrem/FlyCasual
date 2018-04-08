@@ -223,5 +223,15 @@ namespace GameModes
         {
             Network.FinishTask();
         }
+
+        public override void StartSyncDecisionPreparation()
+        {
+            Network.SyncDecisionPreparation();
+        }
+
+        public override void FinishSyncDecisionPreparation()
+        {
+            Network.FinishTask();
+        }
     }
 }

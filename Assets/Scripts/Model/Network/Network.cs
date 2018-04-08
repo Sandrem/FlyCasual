@@ -593,4 +593,8 @@ public static partial class Network
         if (IsServer) CurrentPlayer.CmdSyncNotifications();
     }
 
+    public static void SyncDecisionPreparation()
+    {
+        if (IsServer) CurrentPlayer.CmdSyncDecisionPreparation();
+    }
 }

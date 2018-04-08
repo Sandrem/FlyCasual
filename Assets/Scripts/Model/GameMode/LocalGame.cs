@@ -184,5 +184,15 @@ namespace GameModes
         {
             (Phases.CurrentSubPhase as NotificationSubPhase).Next();
         }
+
+        public override void StartSyncDecisionPreparation()
+        {
+            (Phases.CurrentSubPhase as DecisionSubPhase).PrepareDecision((Phases.CurrentSubPhase as DecisionSubPhase).StartIsFinished);
+        }
+
+        public override void FinishSyncDecisionPreparation()
+        {
+            (Phases.CurrentSubPhase as DecisionSubPhase).DecisionOwner.TakeDecision();
+        }
     }
 }

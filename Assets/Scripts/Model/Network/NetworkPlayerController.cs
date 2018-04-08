@@ -876,4 +876,52 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     {
         (Phases.CurrentSubPhase as NotificationSubPhase).Next();
     }
+
+    // Sync decision preparation
+
+    [Command]
+    public void CmdSyncDecisionPreparation()
+    {
+        new NetworkExecuteWithCallback(
+            "Wait sync decision preparation",
+            CmdStartSyncDecisionPreparation,
+            CmdFinishDecisionPreparation
+        );
+    }
+
+    [Command]
+    public void CmdStartSyncDecisionPreparation()
+    {
+        RpcStartSyncDecisionPreparation();
+    }
+
+    [ClientRpc]
+    public void RpcStartSyncDecisionPreparation()
+    {
+        DecisionSubPhase decision = (Phases.CurrentSubPhase as DecisionSubPhase);
+
+        if (decision != null)
+        {
+            decision.PrepareDecision(decision.StartIsFinished);
+        }
+        else
+        {
+            Console.Write("Waiting to sync decision subphase...", LogTypes.Everything, true, "orange");
+
+            GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
+            Game.Wait(0.5f, RpcStartSyncDecisionPreparation);
+        }
+    }
+
+    [Command]
+    public void CmdFinishDecisionPreparation()
+    {
+        RpcFinishDecisionPreparation();
+    }
+
+    [ClientRpc]
+    public void RpcFinishDecisionPreparation()
+    {
+        (Phases.CurrentSubPhase as DecisionSubPhase).DecisionOwner.TakeDecision();
+    }
 }

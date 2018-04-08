@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using System.Linq;
+using GameModes;
 
 namespace SubPhases
 {
@@ -57,7 +58,7 @@ namespace SubPhases
         public string InfoText;
         private List<Decision> decisions = new List<Decision>();
         public string DefaultDecisionName;
-        protected Players.GenericPlayer DecisionOwner;
+        public Players.GenericPlayer DecisionOwner;
         public bool ShowSkipButton;
         public DecisionViewTypes DecisionViewType = DecisionViewTypes.TextButtons;
         public Action OnSkipButtonIsPressed;
@@ -72,7 +73,7 @@ namespace SubPhases
             decisionPanel = GameObject.Find("UI").transform.Find("DecisionsPanel").gameObject;
             buttonsHolder = decisionPanel.transform.Find("Center/DecisionsPanel").gameObject;
 
-            PrepareDecision(StartIsFinished);
+            GameMode.CurrentGameMode.StartSyncDecisionPreparation();
         }
 
         public virtual void PrepareDecision(Action callBack)
@@ -80,7 +81,7 @@ namespace SubPhases
             callBack();
         }
 
-        private void StartIsFinished()
+        public void StartIsFinished()
         {
             Initialize();
 
@@ -187,7 +188,7 @@ namespace SubPhases
                             EventTrigger.Entry entry = new EventTrigger.Entry();
                             entry.eventID = EventTriggerType.PointerClick;
                             entry.callback.AddListener(
-                                (data) => { GameModes.GameMode.CurrentGameMode.TakeDecision(decision, button); }
+                                (data) => { GameMode.CurrentGameMode.TakeDecision(decision, button); }
                             );
                             trigger.triggers.Add(entry);
 
@@ -199,7 +200,7 @@ namespace SubPhases
                             script.Initialize(
                                 decision.Name,
                                 decision.Tooltip,
-                                delegate { GameModes.GameMode.CurrentGameMode.TakeDecision(decision, button); },
+                                delegate { GameMode.CurrentGameMode.TakeDecision(decision, button); },
                                 decision.Count
                             );
 
@@ -216,7 +217,7 @@ namespace SubPhases
 
                 if (ShowSkipButton) UI.ShowSkipButton(); else UI.HideSkipButton();
 
-                DecisionOwner.TakeDecision();
+                GameMode.CurrentGameMode.FinishSyncDecisionPreparation();
             }
         }
 

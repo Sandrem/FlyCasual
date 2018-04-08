@@ -18,7 +18,6 @@ namespace GameModes
         public abstract void DeclareTarget(int thisShip, int AnotherShip);
 
         public abstract void NextButtonEffect();
-
         public abstract void SkipButtonEffect();
 
         public abstract void ConfirmShipSetup(int shipId, Vector3 position, Vector3 angles);
@@ -36,25 +35,17 @@ namespace GameModes
         public abstract void TryConfirmBarrelRollPosition(string templateName, Vector3 shipBasePosition, Vector3 movementTemplatePosition);
 
         public abstract void StartBarrelRollExecution();
-
         public abstract void CancelBarrelRoll();
-
         public abstract void FinishBarrelRoll();
 
         public abstract void TryConfirmDecloakPosition(Vector3 shipBasePosition, string helperName, Vector3 movementTemplatePosition, Vector3 movementTemplateAngles);
-
         public abstract void StartDecloakExecution(Ship.GenericShip ship);
-
         public abstract void CancelDecloak();
-
         public abstract void FinishDecloak();
 
         public abstract void TryConfirmBoostPosition(string selectedBoostHelper);
-
         public abstract void StartBoostExecution();
-
         public abstract void CancelBoost();
-
         public abstract void FinishBoost();
 
         public abstract void UseDiceModification(string effectName);
@@ -81,5 +72,8 @@ namespace GameModes
 
         public abstract void StartSyncNotificationSubPhase();
         public abstract void FinishNotificationSubPhase();
+
+        public abstract void StartSyncDecisionPreparation();
+        public abstract void FinishSyncDecisionPreparation();
     }
 }

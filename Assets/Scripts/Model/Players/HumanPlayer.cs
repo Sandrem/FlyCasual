@@ -111,7 +111,7 @@ namespace Players
 
         public override void SelectShipForAbility()
         {
-            (Phases.CurrentSubPhase as SubPhases.SelectShipSubPhase).HighlightShipsToSelect();
+            GameModes.GameMode.CurrentGameMode.StartSyncSelectShipPreparation();
         }
 
     }

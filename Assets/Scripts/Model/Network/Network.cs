@@ -597,4 +597,9 @@ public static partial class Network
     {
         if (IsServer) CurrentPlayer.CmdSyncDecisionPreparation();
     }
+
+    public static void SyncSelectShipPreparation()
+    {
+        if (IsServer) CurrentPlayer.CmdSyncSelectShipPreparation();
+    }
 }

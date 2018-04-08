@@ -233,5 +233,15 @@ namespace GameModes
         {
             Network.FinishTask();
         }
+
+        public override void StartSyncSelectShipPreparation()
+        {
+            Network.SyncSelectShipPreparation();
+        }
+
+        public override void FinishSyncSelectShipPreparation()
+        {
+            Network.FinishTask();
+        }
     }
 }

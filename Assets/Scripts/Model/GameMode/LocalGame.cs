@@ -194,5 +194,15 @@ namespace GameModes
         {
             (Phases.CurrentSubPhase as DecisionSubPhase).DecisionOwner.TakeDecision();
         }
+
+        public override void StartSyncSelectShipPreparation()
+        {
+            FinishSyncSelectShipPreparation();
+        }
+
+        public override void FinishSyncSelectShipPreparation()
+        {
+            (Phases.CurrentSubPhase as SelectShipSubPhase).HighlightShipsToSelect();
+        }
     }
 }

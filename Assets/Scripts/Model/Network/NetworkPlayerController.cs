@@ -898,11 +898,11 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     [ClientRpc]
     public void RpcStartSyncDecisionPreparation()
     {
-        DecisionSubPhase decision = (Phases.CurrentSubPhase as DecisionSubPhase);
+        DecisionSubPhase decisionSubPhase = (Phases.CurrentSubPhase as DecisionSubPhase);
 
-        if (decision != null)
+        if (decisionSubPhase != null)
         {
-            decision.PrepareDecision(decision.StartIsFinished);
+            decisionSubPhase.PrepareDecision(decisionSubPhase.StartIsFinished);
         }
         else
         {
@@ -923,5 +923,53 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     public void RpcFinishDecisionPreparation()
     {
         (Phases.CurrentSubPhase as DecisionSubPhase).DecisionOwner.TakeDecision();
+    }
+
+    // Sync select ship preparation
+
+    [Command]
+    public void CmdSyncSelectShipPreparation()
+    {
+        new NetworkExecuteWithCallback(
+            "Wait sync select ship preparation",
+            CmdStartSyncSelectShipPreparation,
+            CmdFinishSelectShipPreparation
+        );
+    }
+
+    [Command]
+    public void CmdStartSyncSelectShipPreparation()
+    {
+        RpcStartSyncSelectShipPreparation();
+    }
+
+    [ClientRpc]
+    public void RpcStartSyncSelectShipPreparation()
+    {
+        SelectShipSubPhase selectShipSubPhase = (Phases.CurrentSubPhase as SelectShipSubPhase);
+
+        if (selectShipSubPhase != null)
+        {
+            GameMode.CurrentGameMode.FinishSyncSelectShipPreparation();
+        }
+        else
+        {
+            Console.Write("Waiting to sync select ship subphase...", LogTypes.Everything, true, "orange");
+
+            GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
+            Game.Wait(0.5f, RpcStartSyncSelectShipPreparation);
+        }
+    }
+
+    [Command]
+    public void CmdFinishSelectShipPreparation()
+    {
+        RpcFinishSelectShipPreparation();
+    }
+
+    [ClientRpc]
+    public void RpcFinishSelectShipPreparation()
+    {
+        (Phases.CurrentSubPhase as SelectShipSubPhase).HighlightShipsToSelect();
     }
 }

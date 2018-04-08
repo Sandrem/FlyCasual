@@ -75,5 +75,8 @@ namespace GameModes
 
         public abstract void StartSyncDecisionPreparation();
         public abstract void FinishSyncDecisionPreparation();
+
+        public abstract void StartSyncSelectShipPreparation();
+        public abstract void FinishSyncSelectShipPreparation();
     }
 }

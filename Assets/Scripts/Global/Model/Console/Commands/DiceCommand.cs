@@ -66,7 +66,7 @@ namespace CommandsList
         private void TryAddDice(Dictionary<string, string> parameters)
         {
             DieSide dieSideType = DieSide.Unknown;
-            if (parameters.ContainsKey("type") && stringToDieSide.ContainsKey(parameters["type"])) dieSideType = stringToDieSide[parameters["new"]];
+            if (parameters.ContainsKey("type") && stringToDieSide.ContainsKey(parameters["type"])) dieSideType = stringToDieSide[parameters["type"]];
 
             int count = 1;
             if (parameters.ContainsKey("count")) int.TryParse(parameters["count"], out count);

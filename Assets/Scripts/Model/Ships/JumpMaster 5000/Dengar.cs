@@ -72,6 +72,13 @@ namespace Abilities
         {
             if (!HostShip.IsCannotAttackSecondTime)
             {
+                // Temporary fix
+                if (HostShip.IsDestroyed)
+                {
+                    Triggers.FinishTrigger();
+                    return;
+                }
+
                 Messages.ShowInfo(string.Format("{0} can attack {1} in responce", HostShip.PilotName, shipToPunish.PilotName));
 
                 // Save his "is already attacked" flag

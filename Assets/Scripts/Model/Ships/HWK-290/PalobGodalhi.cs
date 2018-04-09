@@ -80,9 +80,18 @@ namespace Abilities
 		private int GetAiAbilityPriority(GenericShip ship)
 		{
 			int result = 0;
+
 			int shipFocusTokens = ship.Tokens.CountTokensByType(typeof(Tokens.FocusToken));
-			if (shipFocusTokens == 0) result += 100;
-			result += (5 - shipFocusTokens);
+			int shipEvadeTokens = ship.Tokens.CountTokensByType(typeof(Tokens.EvadeToken));
+
+			result += ship.Cost + ship.UpgradeBar.GetUpgradesOnlyFaceup().Sum(n => n.Cost);
+			if (shipFocusTokens > 0)
+				result += 50;
+			if (shipFocusTokens == 1) 
+				result += 100;
+			if (shipEvadeTokens > 0)
+				result += 25;
+
 			return result;
 		}
 
@@ -171,14 +180,7 @@ namespace Abilities
 				callback = Triggers.FinishTrigger;
 
 			if (HostShip.Owner.Type == PlayerType.Ai) {
-				System.Random rnd = new System.Random();
-				int whichtoken = rnd.Next(1, 2);
-
-				if (whichtoken == 1) {
-					takeFocus ();
-				} else {
-					takeEvade ();
-				}
+				takeFocus ();
 			} else {
 
 				DecisionSubPhase whichToken = (DecisionSubPhase)Phases.StartTemporarySubPhaseNew (

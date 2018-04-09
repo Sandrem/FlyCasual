@@ -15,7 +15,7 @@ namespace Ship
             {
                 Type = "HWK-290";
                 IconicPilots.Add(Faction.Rebel, typeof(JanOrs));
-                IconicPilots.Add(Faction.Scum, typeof(SpiceRunner));
+                IconicPilots.Add(Faction.Scum, typeof(PalobGodalhi));
 
                 ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/d/d1/MR_HWK-290.png";
 

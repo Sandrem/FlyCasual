@@ -16,6 +16,11 @@ namespace UpgradesList
 
 			UpgradeAbilities.Add(new DarthVaderCrewAbility());
 		}
+			
+		public override bool IsAllowedForShip(GenericShip ship)
+		{
+			return ship.faction == Faction.Imperial;
+		}
 	}
 }
 
@@ -41,14 +46,35 @@ namespace Abilities
 			RegisterAbilityTrigger (TriggerTypes.OnAttackFinishAsAttacker, AskToUseVaderAbility);
 		}
 
-
-
+		//Confirmation for Darth Vader Ability
 		private void AskToUseVaderAbility(object sender, System.EventArgs e)
 		{
-			AskToUseAbility(NeverUseByDefault, defenderSufferDamage);
+			AskToUseAbility(NeverUseByDefault, resolveDarthVaderAbility);
 		}
 			
+		//This method assigns one crit to defender, and two damages to HostShip
+		private void resolveDarthVaderAbility(object sender, System.EventArgs e)
+		{
+			
+			Combat.Defender.AssignedDamageDiceroll.AddDice(DieSide.Crit);
 
+			Triggers.RegisterTrigger ( new Trigger() {
+					Name = "Damage from Darth Vader Ability",
+					TriggerType = TriggerTypes.OnDamageIsDealt,
+					TriggerOwner = Combat.Defender.Owner.PlayerNo,
+					EventHandler = Combat.Defender.SufferDamage,
+					EventArgs = new DamageSourceEventArgs()
+					{
+						Source = "Dath Vader",
+						DamageType = DamageTypes.CardAbility
+					}
+
+				});
+			//Delegates flow control to Hostship damage resolution
+			Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, delegate{ assignDamageRecursivelyToHost(2); });
+		}
+
+		//Assigns n damages to HostShip
 		private void assignDamageRecursivelyToHost (int totalDamage){
 
 			if (totalDamage > 0) {
@@ -66,59 +92,12 @@ namespace Abilities
 
 				}
 				);
-				//totalDamage--;
+				//Here, Recursive call
 				Triggers.ResolveTriggers (TriggerTypes.OnDamageIsDealt, delegate{assignDamageRecursivelyToHost(--totalDamage);});
 			} else {
+				//No more damage, then return flow control
 				DecisionSubPhase.ConfirmDecision();
 			}
-		}
-
-
-		private void darthVaderAbility(object sender, System.EventArgs e){
-
-			Messages.ShowInfo("Darth Vader used!");
-
-			HostShip.AssignedDamageDiceroll.AddDice (DieSide.Success);
-			HostShip.AssignedDamageDiceroll.AddDice (DieSide.Success);
-
-			Triggers.RegisterTrigger ( new Trigger() 
-				{
-					Name = "Damage from Darth Vader Ability",
-					TriggerType = TriggerTypes.OnDamageIsDealt,
-					TriggerOwner = Combat.Attacker.Owner.PlayerNo,
-					EventHandler = Combat.Attacker.SufferDamage,
-					EventArgs = new DamageSourceEventArgs()
-					{
-						Source = "Dath Vader",
-						DamageType = DamageTypes.CardAbility
-					}
-
-				}
-			);
-			//Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, delegate{defenderSufferDamage();} );
-		}
-			
-
-		private void defenderSufferDamage(object sender, System.EventArgs e)
-		{
-			
-			Combat.Defender.AssignedDamageDiceroll.AddDice(DieSide.Crit);
-
-			Triggers.RegisterTrigger ( new Trigger() 
-				{
-					Name = "Damage from Darth Vader Ability",
-					TriggerType = TriggerTypes.OnDamageIsDealt,
-					TriggerOwner = Combat.Defender.Owner.PlayerNo,
-					EventHandler = Combat.Defender.SufferDamage,
-					EventArgs = new DamageSourceEventArgs()
-					{
-						Source = "Dath Vader",
-						DamageType = DamageTypes.CardAbility
-					}
-
-				}
-			);
-			Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, delegate{ assignDamageRecursivelyToHost(2); });
 		}
 	}
 }

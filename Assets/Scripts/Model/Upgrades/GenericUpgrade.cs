@@ -267,7 +267,7 @@ namespace Upgrade
             }
         }
 
-        public virtual void FlipFaceup(Action callback = null)
+        public virtual void FlipFaceup(Action callback)
         {
             isDiscarded = false;
             Roster.FlipFaceupUpgrade(Host, Name);

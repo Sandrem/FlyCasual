@@ -378,8 +378,8 @@ public static partial class Combat
     {
         Selection.ThisShip = Attacker;
 
-        Attacker.CallAttackFinishAsAttacker ();
-        Defender.CallAttackFinishAsDefender ();
+        Attacker.CallAttackFinishAsAttacker();
+        Defender.CallAttackFinishAsDefender();
 
         Attacker.CallAttackFinish();
         Defender.CallAttackFinish();

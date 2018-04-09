@@ -59,8 +59,6 @@ namespace Ship
 
         public event EventHandlerDualUpgrade OnAfterDualCardSideSelected;
 
-
-
         public void CallOnShipIsPlaced(Action callback)
         {
             if (OnShipIsPlaced != null) OnShipIsPlaced(this);

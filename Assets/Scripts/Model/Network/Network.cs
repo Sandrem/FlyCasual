@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.Networking.Match;
 using UnityEngine.Networking.Types;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public static partial class Network
@@ -115,8 +116,8 @@ public static partial class Network
 
     public static void FinishTask()
     {
-        string logEntryPostfix = (IsServer) ? "" : "\n";
-        Console.Write("Client finished task" + logEntryPostfix, LogTypes.Network);
+        string taskName = (LastNetworkCallback != null) ? LastNetworkCallback.TaskName : "undefined";
+        Console.Write("Client finished task: " + taskName, LogTypes.Network);
         CurrentPlayer.CmdFinishTask();
     }
 
@@ -400,6 +401,7 @@ public static partial class Network
     {
         ToggleNoRoomsMessage(false);
         ToggleBrowseRoomsControls(false);
+        ToggleLoadingMessage(true);
 
         NetworkManager.singleton.StartMatchMaker();
         NetworkManager.singleton.matchMaker.ListMatches(0, int.MaxValue, "", false, 0, 0, OnInternetMatchList);
@@ -407,6 +409,7 @@ public static partial class Network
 
     private static void OnInternetMatchList(bool success, string extendedInfo, List<MatchInfoSnapshot> matches)
     {
+        ToggleLoadingMessage(false);
         ToggleBrowseRoomsControls(true);
 
         if (success)
@@ -444,6 +447,11 @@ public static partial class Network
     private static void ToggleBrowseRooms(bool isActive)
     {
         GameObject.Find("UI/Panels").transform.Find("BrowseRoomsPanel").gameObject.SetActive(isActive);
+    }
+
+    private static void ToggleLoadingMessage(bool isActive)
+    {
+        GameObject.Find("UI/Panels/BrowseRoomsPanel").transform.Find("LoadingMessage").gameObject.SetActive(isActive);
     }
 
     public static void ShowListOfRooms(List<MatchInfoSnapshot> matchesList)
@@ -588,4 +596,49 @@ public static partial class Network
         CurrentPlayer.CmdCombatActivation(shipId);
     }
 
+    public static void CmdSyncNotifications()
+    {
+        if (IsServer) CurrentPlayer.CmdSyncNotifications();
+    }
+
+    public static void SyncDecisionPreparation()
+    {
+        if (IsServer) CurrentPlayer.CmdSyncDecisionPreparation();
+    }
+
+    public static void SyncSelectShipPreparation()
+    {
+        if (IsServer) CurrentPlayer.CmdSyncSelectShipPreparation();
+    }
+
+    public static void StartDiceRerollExecution()
+    {
+        CurrentPlayer.CmdStartDiceRerollExecution();
+    }
+
+    public static void ReturnToMainMenu()
+    {
+        // if online match in progress
+        if (CurrentPlayer != null)
+        {
+            CurrentPlayer.CmdReturnToMainMenu(IsServer);
+        }
+        else // if opponent already had surrender
+        {
+            SceneManager.LoadScene("MainMenu");
+        }
+    }
+
+    public static void QuitToDesktop()
+    {
+        // if online match in progress
+        if (CurrentPlayer != null)
+        {
+            CurrentPlayer.CmdQuitToDesktop(IsServer);
+        }
+        else // if opponent already had surrender
+        {
+            Application.Quit();
+        }
+    }
 }

@@ -26,6 +26,8 @@ public static class SwarmManager
 
     private static void Activate()
     {
+        UI.HideNextButton();
+
         IsActive = true;
 
         Triggers.RegisterTrigger(new Trigger {

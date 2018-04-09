@@ -168,20 +168,6 @@ namespace GameModes
             Network.SwitchToOwnDiceModifications();
         }
 
-        /*public override void GetCritCard(bool isFaceUp, Action callBack)
-        {
-            if (DebugManager.DebugNetwork) UI.AddTestLogEntry("NetworkGame.GetCritCard");
-            Network.GenerateRandom(
-                new Vector2(0, CriticalHitsDeck.GetDeckSize() - 1),
-                1, 
-                CriticalHitsDeck.SetCurrentCriticalCardByIndex,
-                delegate ()
-                {
-                    Combat.CurrentCriticalHitCard.IsFaceup = isFaceUp;
-                    callBack();
-                });
-        }*/
-
         public override void TakeDecision(Decision decision, GameObject button)
         {
             Network.TakeDecision(decision.Name);
@@ -199,11 +185,6 @@ namespace GameModes
             Network.SetSwarmManagerManeuver(maneuverCode);
         }
 
-        public override void ReturnToMainMenu()
-        {
-            Network.Disconnect(base.ReturnToMainMenu);
-        }
-
         public override void GenerateDamageDeck(PlayerNo playerNo, int seed)
         {
             Network.SyncDecks(Tools.PlayerToInt(playerNo), seed);
@@ -212,6 +193,51 @@ namespace GameModes
         public override void CombatActivation(int shipId)
         {
             Network.CombatActivation(shipId);
+        }
+
+        public override void StartSyncNotificationSubPhase()
+        {
+            Network.CmdSyncNotifications(); 
+        }
+
+        public override void FinishNotificationSubPhase()
+        {
+            Network.FinishTask();
+        }
+
+        public override void StartSyncDecisionPreparation()
+        {
+            Network.SyncDecisionPreparation();
+        }
+
+        public override void FinishSyncDecisionPreparation()
+        {
+            Network.FinishTask();
+        }
+
+        public override void StartSyncSelectShipPreparation()
+        {
+            Network.SyncSelectShipPreparation();
+        }
+
+        public override void FinishSyncSelectShipPreparation()
+        {
+            Network.FinishTask();
+        }
+
+        public override void StartDiceRerollExecution()
+        {
+            Network.StartDiceRerollExecution();
+        }
+
+        public override void ReturnToMainMenu()
+        {
+            Network.ReturnToMainMenu();
+        }
+
+        public override void QuitToDesktop()
+        {
+            Network.QuitToDesktop();
         }
     }
 }

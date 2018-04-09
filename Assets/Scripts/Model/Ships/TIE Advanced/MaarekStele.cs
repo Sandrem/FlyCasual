@@ -114,9 +114,9 @@ namespace SubPhases
             callBack();
         }
 
-        private void AddToCriticalHitCardsToChoose(GenericDamageCard damageCard, EventArgs e)
+        private void AddToCriticalHitCardsToChoose(EventArgs e)
         {
-            criticalHitCardsToChoose.Add(damageCard);
+            criticalHitCardsToChoose.Add(Combat.CurrentCriticalHitCard);
         }
 
         private void DealCard(GenericDamageCard critCard)

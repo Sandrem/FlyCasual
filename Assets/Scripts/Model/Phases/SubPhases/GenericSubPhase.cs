@@ -19,7 +19,7 @@ namespace SubPhases
 
         public string Name;
 
-        public System.Action CallBack;
+        public Action CallBack;
 
         public bool IsTemporary = false;
 
@@ -30,8 +30,8 @@ namespace SubPhases
             set { canBePaused = value; }
         }
 
-        private Ship.GenericShip theShip;
-        public Ship.GenericShip TheShip
+        private GenericShip theShip;
+        public GenericShip TheShip
         {
             get { return theShip ?? Selection.ThisShip; }
             set { theShip = value; }

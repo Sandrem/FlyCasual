@@ -388,14 +388,14 @@ public partial class DiceRoll
             cancelLast = DieSide.Success;
         }
 
-
         if (!CancelType(cancelFirst, CancelByDefence, dryRun))
         {
             if (CancelType(cancelLast, CancelByDefence, dryRun))
             {
                 cancelResult = cancelLast;
             }
-        } else
+        }
+        else
         {
             cancelResult = cancelFirst;
         }
@@ -425,13 +425,13 @@ public partial class DiceRoll
     private bool CancelType(DieSide type, bool CancelByDefence, bool dryRun)
     {
         bool found = false;
-        foreach (Die die in DiceList)
+        foreach (Die die in this.DiceList)
         {
             if (die.Side == type)
             {
                 //Cancel dice if it's not a defence cancel or it is and the die is cancellable
                 if ((!CancelByDefence) || (!die.IsUncancelable)) {
-                    if (!dryRun) die.Cancel();
+                    die.Cancel();
                     found = true;
                     return found;
                 }
@@ -447,12 +447,14 @@ public partial class DiceRoll
             CancelHit(false, false); //Generic cancel, not a test
         }
     }
-    public Dictionary<string,int> CancelHitsByDefence(int numToCancel, bool dryRun = false)
+
+    public Dictionary<string,int> CancelHitsByDefence(int countToCancel, bool dryRun = false)
     {
         Dictionary<string, int> results = new Dictionary<string, int>();
         results["crits"] = 0;
         results["hits"] = 0;
-        for (int i = 0; i < numToCancel; i++)
+
+        for (int i = 0; i < countToCancel; i++)
         {
             DieSide result = CancelHit(true, dryRun); //Cancel by defence dice 
             switch(result)

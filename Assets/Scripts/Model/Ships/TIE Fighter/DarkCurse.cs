@@ -31,21 +31,20 @@ namespace Abilities
         public override void ActivateAbility()
         {
             HostShip.OnAttackStartAsDefender += AddDarkCursePilotAbility;
-            HostShip.OnDefence += RemoveDarkCursePilotAbility;
+            HostShip.OnDefenceStartAsDefender += RemoveDarkCursePilotAbility;
         }
 
         public override void DeactivateAbility()
         {
             HostShip.OnAttackStartAsDefender -= AddDarkCursePilotAbility;
-            HostShip.OnDefence -= RemoveDarkCursePilotAbility;
+            HostShip.OnDefenceStartAsDefender -= RemoveDarkCursePilotAbility;
         }
 
         private void AddDarkCursePilotAbility()
         {
-            if ((Combat.AttackStep == CombatStep.Attack) && (Combat.Defender.ShipId == HostShip.ShipId))
+            if (Combat.AttackStep == CombatStep.Attack)
             {
                 Combat.Attacker.OnTryAddAvailableActionEffect += UseDarkCurseRestriction;
-                //TODO: Use assign condition token instead
                 Combat.Attacker.Tokens.AssignCondition(new Conditions.DarkCurseCondition(Combat.Attacker));
             }
         }

@@ -28,6 +28,8 @@ namespace SubPhases
         public Func<GenericShip, bool> FilterTargets;
         public Func<GenericShip, int> GetAiPriority;
 
+        public bool IsInitializationFinished;
+
         public GenericShip TargetShip;
 
         public override void Start()
@@ -76,6 +78,7 @@ namespace SubPhases
         public void HighlightShipsToSelect()
         {
             Roster.HighlightShipsFiltered(FilterTargets);
+            IsInitializationFinished = true;
         }
 
         public void AiSelectPrioritizedTarget()
@@ -121,6 +124,8 @@ namespace SubPhases
         public override bool ThisShipCanBeSelected(GenericShip ship, int mouseKeyIsPressed)
         {
             bool result = false;
+
+            if (!IsInitializationFinished) return result;
 
             if (Roster.GetPlayer(RequiredPlayer).GetType() == typeof(HumanPlayer))
             {

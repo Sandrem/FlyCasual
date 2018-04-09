@@ -99,9 +99,18 @@ public partial class Console : MonoBehaviour {
     {
         if (type == LogType.Error || type == LogType.Exception)
         {
+            if (IsHiddenError(logString)) return;
+
             IsActive = true;
             Write("\n" + logString + "\n\n" + stackTrace, LogTypes.Errors, true, "red");
         }
+    }
+
+    private bool IsHiddenError(string text)
+    {
+        if ((text == "ClientDisconnected due to error: Timeout") || (text == "ServerDisconnected due to error: Timeout")) return true;
+
+        return false;
     }
 
     public static void ProcessCommand(string inputText)

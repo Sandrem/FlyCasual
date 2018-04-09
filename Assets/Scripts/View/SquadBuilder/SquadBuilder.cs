@@ -585,15 +585,6 @@ namespace SquadBuilderNS
             }
         }
 
-        public static void ShowOpponentSquad()
-        {
-            GameObject globalUI = GameObject.Find("GlobalUI").gameObject;
-
-            GameObject opponentSquad = globalUI.transform.Find("OpponentSquad").gameObject;
-            opponentSquad.GetComponent<Image>().sprite = MainMenu.GetRandomBackground();
-            opponentSquad.SetActive(true);
-        }
-
         public static void OpenImportExportPanel(bool isImport)
         {
             MainMenu.CurrentMainMenu.ChangePanel("ImportExportPanel");

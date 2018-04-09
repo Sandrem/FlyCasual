@@ -17,6 +17,9 @@ namespace Tokens
             Host = host;
         }
 
+        public virtual void WhenAssigned() { }
+        public virtual void WhenRemoved() { }
+
         public virtual ActionsList.GenericAction GetAvailableEffects()
         {
             ActionsList.GenericAction result = null;

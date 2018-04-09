@@ -99,6 +99,7 @@ namespace Ship
 
             AssignedTokens.Add(TokenToAssign);
 
+            TokenToAssign.WhenAssigned();
             Host.CallOnTokenIsAssigned(TokenToAssign, callback);
         }
 
@@ -106,6 +107,7 @@ namespace Ship
         {
             if (AssignedTokens.Remove(token))
             {
+                token.WhenRemoved();
                 Host.CallOnConditionIsRemoved(token.GetType());
             }
         }
@@ -143,6 +145,7 @@ namespace Ship
                 }
             }
 
+            tokenToRemove.WhenRemoved();
             Host.CallOnRemoveTokenEvent(tokenToRemove.GetType());
 
             Triggers.ResolveTriggers(TriggerTypes.OnTokenIsRemoved, callback);
@@ -185,6 +188,7 @@ namespace Ship
         {
             AssignedTokens.Add(token);
 
+            token.WhenAssigned();
             Host.CallOnConditionIsAssigned(token.GetType());
         }
 

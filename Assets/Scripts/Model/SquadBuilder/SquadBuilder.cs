@@ -430,7 +430,7 @@ namespace SquadBuilderNS
 
         public static void SwitchToBattlecene()
         {
-            ShowOpponentSquad();
+            Global.ToggelLoadingScreen(true);
             LoadBattleScene();
         }
 

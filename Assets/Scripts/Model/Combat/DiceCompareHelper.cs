@@ -98,7 +98,14 @@ public class DiceCompareHelper
 
     public void ShowCancelled(DiceRoll defenceDiceRoll)
     {
-        Dictionary<string, int> results = AttackDiceroll.CancelHitsByDefence(defenceDiceRoll.Successes, true); //Dry run to calculate results
+        DiceRoll diceRollForTesting = new DiceRoll(DiceKind.Attack, 0, DiceRollCheckType.Virtual);
+        foreach (Die realDie in AttackDiceroll.DiceList)
+        {
+            Die newDie = diceRollForTesting.AddDice(realDie.Side);
+            newDie.IsUncancelable = realDie.IsUncancelable;
+        };
+
+        Dictionary<string, int> results = diceRollForTesting.CancelHitsByDefence(defenceDiceRoll.Successes, true); //Dry run to calculate results
         int cancelledRegularHits = results["hits"];
         int cancelledCriticalHits = results["crits"];
         //int cancelsNum = defenceDiceRoll.Successes;

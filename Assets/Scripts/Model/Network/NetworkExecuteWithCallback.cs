@@ -8,6 +8,7 @@ public class NetworkExecuteWithCallback
 {
     private Action callBack;
     private int responcesGot;
+    public string TaskName;
 
     private NetworkExecuteWithCallback PreviousNetworkCallback;
 
@@ -15,6 +16,7 @@ public class NetworkExecuteWithCallback
 
     public NetworkExecuteWithCallback(string name, Action toExecute, Action toCallBack)
     {
+        TaskName = name;
         Console.Write(name, LogTypes.Network, true, "yellow");
 
         if (Network.IsServer)

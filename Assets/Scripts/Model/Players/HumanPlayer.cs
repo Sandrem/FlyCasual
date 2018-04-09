@@ -43,7 +43,7 @@ namespace Players
 
         public override void TakeDecision()
         {
-            GameObject.Find("UI").transform.Find("DecisionsPanel").gameObject.SetActive(true);
+            (Phases.CurrentSubPhase as SubPhases.DecisionSubPhase).ShowDecisionWindowUI();
         }
 
         public override void AfterShipMovementPrediction()
@@ -111,9 +111,13 @@ namespace Players
 
         public override void SelectShipForAbility()
         {
-            (Phases.CurrentSubPhase as SubPhases.SelectShipSubPhase).HighlightShipsToSelect();
+            GameModes.GameMode.CurrentGameMode.StartSyncSelectShipPreparation();
         }
 
+        public override void RerollManagerIsPrepared()
+        {
+            DiceRerollManager.CurrentDiceRerollManager.ShowConfirmButton();
+        }
     }
 
 }

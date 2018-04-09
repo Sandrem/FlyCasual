@@ -220,7 +220,7 @@ namespace Conditions
             );
         }
 
-        private void DealDrawnCard(object sender, System.EventArgs e)
+        private void DealDrawnCard(System.EventArgs e)
         {
             Host.Damage.DealDrawnCard(Triggers.FinishTrigger);
         }

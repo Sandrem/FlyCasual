@@ -498,7 +498,7 @@ namespace Ship
             DamageDecks.DrawDamageCard(Owner.PlayerNo, isFaceup, ProcessDrawnDamageCard, e);
         }
 
-        public void ProcessDrawnDamageCard(GenericDamageCard damageCard, EventArgs e)
+        public void ProcessDrawnDamageCard(EventArgs e)
         {
             AssignedDamageDiceroll.CancelHits(1);
 

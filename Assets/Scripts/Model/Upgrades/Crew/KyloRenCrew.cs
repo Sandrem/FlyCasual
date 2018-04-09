@@ -188,7 +188,7 @@ namespace Abilities
                 AssignedDamageCard = null;
                 RemoveConditions(ship);
 
-                ship.ProcessDrawnDamageCard(card, e);
+                ship.ProcessDrawnDamageCard(e);
             }
         }
 

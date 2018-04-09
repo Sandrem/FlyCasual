@@ -401,6 +401,7 @@ public static partial class Network
     {
         ToggleNoRoomsMessage(false);
         ToggleBrowseRoomsControls(false);
+        ToggleLoadingMessage(true);
 
         NetworkManager.singleton.StartMatchMaker();
         NetworkManager.singleton.matchMaker.ListMatches(0, int.MaxValue, "", false, 0, 0, OnInternetMatchList);
@@ -408,6 +409,7 @@ public static partial class Network
 
     private static void OnInternetMatchList(bool success, string extendedInfo, List<MatchInfoSnapshot> matches)
     {
+        ToggleLoadingMessage(false);
         ToggleBrowseRoomsControls(true);
 
         if (success)
@@ -445,6 +447,11 @@ public static partial class Network
     private static void ToggleBrowseRooms(bool isActive)
     {
         GameObject.Find("UI/Panels").transform.Find("BrowseRoomsPanel").gameObject.SetActive(isActive);
+    }
+
+    private static void ToggleLoadingMessage(bool isActive)
+    {
+        GameObject.Find("UI/Panels/BrowseRoomsPanel").transform.Find("LoadingMessage").gameObject.SetActive(isActive);
     }
 
     public static void ShowListOfRooms(List<MatchInfoSnapshot> matchesList)

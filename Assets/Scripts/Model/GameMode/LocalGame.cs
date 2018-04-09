@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using SubPhases;
 using Players;
+using UnityEngine.SceneManagement;
 
 namespace GameModes
 {
@@ -208,6 +209,17 @@ namespace GameModes
         public override void StartDiceRerollExecution()
         {
             DiceRerollManager.CurrentDiceRerollManager.ConfirmReroll();
+        }
+
+        public override void ReturnToMainMenu()
+        {
+            Phases.EndGame();
+            SceneManager.LoadScene("MainMenu");
+        }
+
+        public override void QuitToDesktop()
+        {
+            Application.Quit();
         }
     }
 }

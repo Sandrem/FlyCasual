@@ -185,11 +185,6 @@ namespace GameModes
             Network.SetSwarmManagerManeuver(maneuverCode);
         }
 
-        public override void ReturnToMainMenu()
-        {
-            Network.Disconnect(base.ReturnToMainMenu);
-        }
-
         public override void GenerateDamageDeck(PlayerNo playerNo, int seed)
         {
             Network.SyncDecks(Tools.PlayerToInt(playerNo), seed);
@@ -233,6 +228,16 @@ namespace GameModes
         public override void StartDiceRerollExecution()
         {
             Network.StartDiceRerollExecution();
+        }
+
+        public override void ReturnToMainMenu()
+        {
+            Network.ReturnToMainMenu();
+        }
+
+        public override void QuitToDesktop()
+        {
+            Network.QuitToDesktop();
         }
     }
 }

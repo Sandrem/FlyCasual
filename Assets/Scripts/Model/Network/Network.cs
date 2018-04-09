@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.Networking.Match;
 using UnityEngine.Networking.Types;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public static partial class Network
@@ -606,5 +607,31 @@ public static partial class Network
     public static void StartDiceRerollExecution()
     {
         CurrentPlayer.CmdStartDiceRerollExecution();
+    }
+
+    public static void ReturnToMainMenu()
+    {
+        // if online match in progress
+        if (CurrentPlayer != null)
+        {
+            CurrentPlayer.CmdReturnToMainMenu(IsServer);
+        }
+        else // if opponent already had surrender
+        {
+            SceneManager.LoadScene("MainMenu");
+        }
+    }
+
+    public static void QuitToDesktop()
+    {
+        // if online match in progress
+        if (CurrentPlayer != null)
+        {
+            CurrentPlayer.CmdQuitToDesktop(IsServer);
+        }
+        else // if opponent already had surrender
+        {
+            Application.Quit();
+        }
     }
 }

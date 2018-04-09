@@ -1,7 +1,4 @@
 ﻿using UnityEngine;
-using System;
-using System.Collections.Generic;
-using UnityEngine.SceneManagement;
 using SubPhases;
 using Players;
 
@@ -60,11 +57,8 @@ namespace GameModes
 
         public abstract void SetSwarmManagerManeuver(string maneuverCode);
 
-        public virtual void ReturnToMainMenu()
-        {
-            Phases.EndGame();
-            SceneManager.LoadScene("MainMenu");
-        }
+        public abstract void ReturnToMainMenu();
+        public abstract void QuitToDesktop();
 
         public abstract void GenerateDamageDeck(PlayerNo playerNo, int seed);
 

@@ -6,6 +6,7 @@ using GameModes;
 using SquadBuilderNS;
 using Players;
 using SubPhases;
+using UnityEngine.SceneManagement;
 
 public partial class NetworkPlayerController : NetworkBehaviour {
 
@@ -107,11 +108,11 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     }
 
     [ClientRpc]
-    public void RpcGetSquadList()
+    private void RpcGetSquadList()
     {
         GameMode.CurrentGameMode = new NetworkGame();
 
-        SquadBuilder.ShowOpponentSquad();
+        Global.ToggelLoadingScreen(true);
 
         JSONObject localSquadList = SquadBuilder.GetSquadList(PlayerNo.Player1).SavedConfiguration;
         Network.StoreSquadList(localSquadList.ToString(), isServer);
@@ -137,7 +138,7 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     }
 
     [ClientRpc]
-    public void RpcSendSquadToOpponent(string squadsJsonString)
+    private void RpcSendSquadToOpponent(string squadsJsonString)
     {
         JSONObject squadsJson = new JSONObject(squadsJsonString);
 
@@ -162,7 +163,7 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     }
 
     [ClientRpc]
-    public void RpcLoadBattleScene()
+    private void RpcLoadBattleScene()
     {
         //RosterBuilder.GeneratePlayersShipConfigurations();
 
@@ -179,7 +180,7 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     }
 
     [ClientRpc]
-    public void RpcStartBattle()
+    private void RpcStartBattle()
     {
         if (isServer) Sounds.PlaySoundGlobal("Notification");
         Global.StartBattle();
@@ -642,7 +643,7 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     }
 
     [ClientRpc]
-    public void RpcStartDiceRerollExecution()
+    private void RpcStartDiceRerollExecution()
     {
         DiceRerollManager.CurrentDiceRerollManager.ConfirmReroll();
     }
@@ -833,7 +834,7 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     }
 
     [ClientRpc]
-    public void RpcSetSwarmManagerManeuver(string maneuverCode)
+    private void RpcSetSwarmManagerManeuver(string maneuverCode)
     {
         SwarmManager.SetManeuver(maneuverCode);
     }
@@ -847,7 +848,7 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     }
 
     [ClientRpc]
-    public void RpcCombatActivation(int shipId)
+    private void RpcCombatActivation(int shipId)
     {
         Selection.ChangeActiveShip("ShipId:" + shipId);
         Selection.ThisShip.CallCombatActivation(delegate { (Phases.CurrentSubPhase as CombatSubPhase).ChangeSelectionMode(Team.Type.Enemy); });
@@ -872,7 +873,7 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     }
 
     [ClientRpc]
-    public void RpcWaitForFinishNotificationSubphase()
+    private void RpcWaitForFinishNotificationSubphase()
     {
         (Phases.CurrentSubPhase as NotificationSubPhase).FinishAfterDelay();
     }
@@ -884,7 +885,7 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     }
 
     [ClientRpc]
-    public void RpcFinishNotificationSubphase()
+    private void RpcFinishNotificationSubphase()
     {
         (Phases.CurrentSubPhase as NotificationSubPhase).Next();
     }
@@ -908,7 +909,7 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     }
 
     [ClientRpc]
-    public void RpcStartSyncDecisionPreparation()
+    private void RpcStartSyncDecisionPreparation()
     {
         DecisionSubPhase decisionSubPhase = (Phases.CurrentSubPhase as DecisionSubPhase);
 
@@ -932,7 +933,7 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     }
 
     [ClientRpc]
-    public void RpcFinishDecisionPreparation()
+    private void RpcFinishDecisionPreparation()
     {
         (Phases.CurrentSubPhase as DecisionSubPhase).DecisionOwner.TakeDecision();
     }
@@ -956,7 +957,7 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     }
 
     [ClientRpc]
-    public void RpcStartSyncSelectShipPreparation()
+    private void RpcStartSyncSelectShipPreparation()
     {
         SelectShipSubPhase selectShipSubPhase = (Phases.CurrentSubPhase as SelectShipSubPhase);
 
@@ -980,8 +981,62 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     }
 
     [ClientRpc]
-    public void RpcFinishSelectShipPreparation()
+    private void RpcFinishSelectShipPreparation()
     {
         (Phases.CurrentSubPhase as SelectShipSubPhase).HighlightShipsToSelect();
     }
+
+    // Return To Main Menu
+
+    [Command]
+    public void CmdReturnToMainMenu(bool isServerSurrendered)
+    {
+        RpcReturnToMainMenu(isServerSurrendered);
+    }
+
+    [ClientRpc]
+    private void RpcReturnToMainMenu(bool isServerSurrendered)
+    {
+        Phases.EndGame();
+
+        // For opponent
+        if (IsServer != isServerSurrendered)
+        {
+            UI.ShowGameResults("Opponent Disconnected");
+        }
+        else // For surrendered
+        {
+            Global.ToggelLoadingScreen(true);
+            Network.Disconnect(delegate {
+                SceneManager.LoadScene("MainMenu");
+                Global.ToggelLoadingScreen(false);
+            });
+        }
+    }
+
+    // Quit to desktop
+
+    [Command]
+    public void CmdQuitToDesktop(bool isServerSurrendered)
+    {
+        RpcQuitToDesktop(isServerSurrendered);
+    }
+
+    [ClientRpc]
+    private void RpcQuitToDesktop(bool isServerSurrendered)
+    {
+        Phases.EndGame();
+
+        // For opponent
+        if (IsServer != isServerSurrendered)
+        {
+            UI.ShowGameResults("Opponent Disconnected");
+        }
+        else // For surrendered
+        {
+            Global.ToggelLoadingScreen(true);
+            Network.Disconnect(Application.Quit);
+        }
+    }
+
 }

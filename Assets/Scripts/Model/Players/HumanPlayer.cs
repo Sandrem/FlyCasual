@@ -43,7 +43,7 @@ namespace Players
 
         public override void TakeDecision()
         {
-            GameObject.Find("UI").transform.Find("DecisionsPanel").gameObject.SetActive(true);
+            (Phases.CurrentSubPhase as SubPhases.DecisionSubPhase).ShowDecisionWindowUI();
         }
 
         public override void AfterShipMovementPrediction()

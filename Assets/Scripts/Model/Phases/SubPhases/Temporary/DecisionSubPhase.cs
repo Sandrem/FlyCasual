@@ -62,6 +62,7 @@ namespace SubPhases
         public bool ShowSkipButton;
         public DecisionViewTypes DecisionViewType = DecisionViewTypes.TextButtons;
         public Action OnSkipButtonIsPressed;
+        public bool WasDecisionButtonPressed;
 
         private const float defaultWindowHeight = 75;
         private const float buttonHeight = 45;
@@ -188,7 +189,7 @@ namespace SubPhases
                             EventTrigger.Entry entry = new EventTrigger.Entry();
                             entry.eventID = EventTriggerType.PointerClick;
                             entry.callback.AddListener(
-                                (data) => { GameMode.CurrentGameMode.TakeDecision(decision, button); }
+                                (data) => { DecisionButtonWasPressed(decision, button); }
                             );
                             trigger.triggers.Add(entry);
 
@@ -221,9 +222,18 @@ namespace SubPhases
             }
         }
 
+        private void DecisionButtonWasPressed(Decision decision, GameObject button)
+        {
+            if (!WasDecisionButtonPressed)
+            {
+                WasDecisionButtonPressed = true;
+                GameMode.CurrentGameMode.TakeDecision(decision, button);
+            }
+        }
+
         public override void Pause()
         {
-            HidePanel();
+            HideDecisionWindowUI();
         }
 
         public override void Resume()
@@ -235,12 +245,12 @@ namespace SubPhases
 
         public override void Next()
         {
-            HidePanel();
+            HideDecisionWindowUI();
             Phases.CurrentSubPhase = PreviousSubPhase;
             UpdateHelpInfo();
         }
 
-        private void HidePanel()
+        private void HideDecisionWindowUI()
         {
             if (decisionPanel != null) decisionPanel.gameObject.SetActive(false);
 
@@ -295,6 +305,12 @@ namespace SubPhases
         {
             if (OnSkipButtonIsPressed != null) OnSkipButtonIsPressed();
             ConfirmDecision();
+        }
+
+        public void ShowDecisionWindowUI()
+        {
+            WasDecisionButtonPressed = false;
+            GameObject.Find("UI").transform.Find("DecisionsPanel").gameObject.SetActive(true);
         }
 
     }

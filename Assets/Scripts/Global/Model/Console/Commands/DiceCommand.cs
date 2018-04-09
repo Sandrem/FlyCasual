@@ -9,10 +9,14 @@ namespace CommandsList
     {
         private Dictionary<string, DieSide> stringToDieSide = new Dictionary<string, DieSide>()
         {
-            { "blank", DieSide.Blank },
-            { "focus", DieSide.Focus },
-            { "success", DieSide.Success },
-            { "crit", DieSide.Crit }
+            { "blank",      DieSide.Blank   },
+            { "empty",      DieSide.Blank   },
+            { "focus",      DieSide.Focus   },
+            { "eye",        DieSide.Focus   },
+            { "success",    DieSide.Success },
+            { "hit",        DieSide.Success },
+            { "evade",      DieSide.Success },
+            { "crit",       DieSide.Crit    }
         };
 
         public DiceCommand()
@@ -21,7 +25,7 @@ namespace CommandsList
             Description =   "Modify dice results in current dice pool\n" +
                             "dice modify old:<side> new:<side> [count:<number>]\n" +
                             "dice add type:<side> [count:<number>]\n" +
-                            "where side: blank, focus, success, crit";
+                            "where side: blank, empty, focus, eye, success, hit, crit, evade";
 
             Console.AddAvailableCommand(this);
         }

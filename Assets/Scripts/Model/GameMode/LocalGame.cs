@@ -204,5 +204,10 @@ namespace GameModes
         {
             (Phases.CurrentSubPhase as SelectShipSubPhase).HighlightShipsToSelect();
         }
+
+        public override void StartDiceRerollExecution()
+        {
+            DiceRerollManager.CurrentDiceRerollManager.ConfirmReroll();
+        }
     }
 }

@@ -602,4 +602,9 @@ public static partial class Network
     {
         if (IsServer) CurrentPlayer.CmdSyncSelectShipPreparation();
     }
+
+    public static void StartDiceRerollExecution()
+    {
+        CurrentPlayer.CmdStartDiceRerollExecution();
+    }
 }

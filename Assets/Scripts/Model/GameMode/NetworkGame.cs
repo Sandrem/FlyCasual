@@ -168,20 +168,6 @@ namespace GameModes
             Network.SwitchToOwnDiceModifications();
         }
 
-        /*public override void GetCritCard(bool isFaceUp, Action callBack)
-        {
-            if (DebugManager.DebugNetwork) UI.AddTestLogEntry("NetworkGame.GetCritCard");
-            Network.GenerateRandom(
-                new Vector2(0, CriticalHitsDeck.GetDeckSize() - 1),
-                1, 
-                CriticalHitsDeck.SetCurrentCriticalCardByIndex,
-                delegate ()
-                {
-                    Combat.CurrentCriticalHitCard.IsFaceup = isFaceUp;
-                    callBack();
-                });
-        }*/
-
         public override void TakeDecision(Decision decision, GameObject button)
         {
             Network.TakeDecision(decision.Name);
@@ -242,6 +228,11 @@ namespace GameModes
         public override void FinishSyncSelectShipPreparation()
         {
             Network.FinishTask();
+        }
+
+        public override void StartDiceRerollExecution()
+        {
+            Network.StartDiceRerollExecution();
         }
     }
 }

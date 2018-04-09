@@ -636,6 +636,18 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     // DICE ROLL SYNC
 
     [Command]
+    public void CmdStartDiceRerollExecution()
+    {
+        RpcStartDiceRerollExecution();
+    }
+
+    [ClientRpc]
+    public void RpcStartDiceRerollExecution()
+    {
+        DiceRerollManager.CurrentDiceRerollManager.ConfirmReroll();
+    }
+
+    [Command]
     public void CmdSyncDiceRerollResults()
     {
         new NetworkExecuteWithCallback(

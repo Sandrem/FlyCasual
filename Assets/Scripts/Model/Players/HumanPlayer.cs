@@ -114,6 +114,10 @@ namespace Players
             GameModes.GameMode.CurrentGameMode.StartSyncSelectShipPreparation();
         }
 
+        public override void RerollManagerIsPrepared()
+        {
+            DiceRerollManager.CurrentDiceRerollManager.ShowConfirmButton();
+        }
     }
 
 }

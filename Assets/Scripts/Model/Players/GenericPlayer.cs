@@ -124,6 +124,8 @@ namespace Players
             }
             return Math.Max(0, pilotSkillValue / Ships.Count);
         }
+
+        public virtual void RerollManagerIsPrepared() { }
     }
 
 }

@@ -78,5 +78,7 @@ namespace GameModes
 
         public abstract void StartSyncSelectShipPreparation();
         public abstract void FinishSyncSelectShipPreparation();
+
+        public abstract void StartDiceRerollExecution();
     }
 }

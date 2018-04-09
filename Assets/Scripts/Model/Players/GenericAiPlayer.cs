@@ -434,6 +434,11 @@ namespace Players
         {
             (Phases.CurrentSubPhase as SubPhases.SelectShipSubPhase).AiSelectPrioritizedTarget();
         }
+
+        public override void RerollManagerIsPrepared()
+        {
+            DiceRerollManager.CurrentDiceRerollManager.ConfirmRerollButtonIsPressed();
+        }
     }
 
 }

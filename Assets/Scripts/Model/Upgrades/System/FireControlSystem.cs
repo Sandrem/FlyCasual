@@ -24,7 +24,7 @@ namespace UpgradesList
         {
             if (Combat.Attacker.ShipId == Host.ShipId)
             {
-                if (!Combat.Defender.IsDestroyed)
+                if (!(Combat.Defender.IsDestroyed || Combat.Defender.IsReadyToBeDestroyed))
                 {
                     Triggers.RegisterTrigger(new Trigger()
                     {

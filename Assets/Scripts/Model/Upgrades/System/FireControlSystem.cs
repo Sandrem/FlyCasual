@@ -1,4 +1,5 @@
-﻿using Ship;
+﻿using Abilities;
+using Ship;
 using Upgrade;
 
 namespace UpgradesList
@@ -10,26 +11,36 @@ namespace UpgradesList
             Types.Add(UpgradeType.System);
             Name = "Fire-Control System";
             Cost = 2;
+            UpgradeAbilities.Add(new FireControlSystemAbility());
+        }                
+    }
+}
+
+namespace Abilities
+{
+    public class FireControlSystemAbility : GenericAbility
+    {
+
+        public override void ActivateAbility()
+        {
+            HostShip.AfterGenerateAvailableActionEffectsList += AddFireControlSystemAbility;
         }
 
-
-        public override void AttachToShip(GenericShip host)
+        public override void DeactivateAbility()
         {
-            base.AttachToShip(host);
-
-            host.OnAttackFinish += FireControlSystemAbility;
+            HostShip.AfterGenerateAvailableActionEffectsList -= AddFireControlSystemAbility;
         }
 
-        private void FireControlSystemAbility(GenericShip ship)
+        private void AddFireControlSystemAbility(GenericShip ship)
         {
-            if (Combat.Attacker.ShipId == Host.ShipId)
+            if (Combat.Attacker.ShipId == HostShip.ShipId)
             {
                 if (!(Combat.Defender.IsDestroyed || Combat.Defender.IsReadyToBeDestroyed))
                 {
                     Triggers.RegisterTrigger(new Trigger()
                     {
                         Name = "Fire-Control System: Aquire target lock",
-                        TriggerOwner = Host.Owner.PlayerNo,
+                        TriggerOwner = HostShip.Owner.PlayerNo,
                         TriggerType = TriggerTypes.OnAttackFinish,
                         EventHandler = AskAquireTargetLock
                     });
@@ -38,13 +49,12 @@ namespace UpgradesList
         }
 
         private void AskAquireTargetLock(object sender, System.EventArgs e)
-        {            
+        {
             Phases.StartTemporarySubPhaseOld(
                 "Fire-Control System's decision",
                 typeof(SubPhases.FireControlSystemDecisionSubPhase),
                 Triggers.FinishTrigger
             );
-         
         }
     }
 }

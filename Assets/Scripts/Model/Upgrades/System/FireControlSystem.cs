@@ -1,5 +1,6 @@
 ﻿using Abilities;
 using Ship;
+using SubPhases;
 using Upgrade;
 
 namespace UpgradesList
@@ -23,12 +24,12 @@ namespace Abilities
 
         public override void ActivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList += AddFireControlSystemAbility;
+            HostShip.OnAttackFinishAsAttacker += AddFireControlSystemAbility;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList -= AddFireControlSystemAbility;
+            HostShip.OnAttackFinishAsAttacker -= AddFireControlSystemAbility;
         }
 
         private void AddFireControlSystemAbility(GenericShip ship)
@@ -37,56 +38,21 @@ namespace Abilities
             {
                 if (!(Combat.Defender.IsDestroyed || Combat.Defender.IsReadyToBeDestroyed))
                 {
-                    Triggers.RegisterTrigger(new Trigger()
-                    {
-                        Name = "Fire-Control System: Aquire target lock",
-                        TriggerOwner = HostShip.Owner.PlayerNo,
-                        TriggerType = TriggerTypes.OnAttackFinish,
-                        EventHandler = AskAquireTargetLock
-                    });
+                    RegisterAbilityTrigger(TriggerTypes.OnAttackFinish, AskAcquireTargetLock);
                 }
             }
         }
 
-        private void AskAquireTargetLock(object sender, System.EventArgs e)
+        private void AskAcquireTargetLock(object sender, System.EventArgs e)
         {
-            Phases.StartTemporarySubPhaseOld(
-                "Fire-Control System's decision",
-                typeof(SubPhases.FireControlSystemDecisionSubPhase),
-                Triggers.FinishTrigger
-            );
-        }
-    }
-}
-
-
-namespace SubPhases
-{
-
-    public class FireControlSystemDecisionSubPhase : DecisionSubPhase
-    {
-
-        public override void PrepareDecision(System.Action callBack)
-        {
-            InfoText = "Fire-Control System: Aquire target lock?";
-
-            AddDecision("Yes", AcquireTargetLock);
-            AddDecision("No", NotAssignToken);
-
-            DefaultDecisionName = "Yes";
-
-            callBack();
+            AskToUseAbility(AlwaysUseByDefault, AcquireTargetLock, null, null, true);
         }
 
         private void AcquireTargetLock(object sender, System.EventArgs e)
         {
             Messages.ShowInfo("Fire-Control System: Free Target Lock");
-            Actions.AssignTargetLockToPair(Combat.Attacker, Combat.Defender, ConfirmDecision, ConfirmDecision);            
-        }
-
-        private void NotAssignToken(object sender, System.EventArgs e)
-        {
-            ConfirmDecision();
+            Actions.AssignTargetLockToPair(Combat.Attacker, Combat.Defender, DecisionSubPhase.ConfirmDecision, DecisionSubPhase.ConfirmDecision);
         }
     }
 }
+

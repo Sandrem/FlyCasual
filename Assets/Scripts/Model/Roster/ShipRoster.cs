@@ -153,6 +153,11 @@ public static partial class Roster
         return (playerNo == PlayerNo.Player1) ? Roster.Player1 : Roster.Player2;
     }
 
+    public static GenericPlayer GetPlayer(int playerNo)
+    {
+        return (playerNo == 1) ? Roster.Player1 : Roster.Player2;
+    }
+
     public static int AnotherPlayer(int player)
     {
         return (player == 1) ? 2 : 1;

@@ -33,7 +33,6 @@ public class OptionsValueController : MonoBehaviour
     public void SetValue(float percentage)
     {
         Options.ChangeParameterValue(this.transform.Find("Text").GetComponent<Text>().text, percentage);
-        PlayerPrefs.Save();
 
         this.transform.Find("ValueList/PanelValue").GetComponent<RectTransform>().sizeDelta = new Vector2(595f * percentage, 50);
         this.transform.Find("ValueList/PanelEmpty").GetComponent<RectTransform>().sizeDelta = new Vector2(595f * (1f - percentage), 50);

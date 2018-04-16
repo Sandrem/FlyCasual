@@ -14,6 +14,8 @@ namespace UpgradesList
             Types.Add(UpgradeType.Elite);
             Name = "Deadeye";
             Cost = 1;
+
+            AvatarOffset = new Vector2(38, 3);
         }
 
         public override bool IsAllowedForShip(GenericShip ship)

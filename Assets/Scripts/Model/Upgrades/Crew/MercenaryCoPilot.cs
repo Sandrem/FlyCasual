@@ -1,4 +1,5 @@
-﻿using Upgrade;
+﻿using UnityEngine;
+using Upgrade;
 
 namespace UpgradesList
 {
@@ -9,6 +10,8 @@ namespace UpgradesList
             Types.Add(UpgradeType.Crew);
             Name = "Mercenary Copilot";
             Cost = 2;
+
+            AvatarOffset = new Vector2(46, 2);
         }
 
         public override void AttachToShip(Ship.GenericShip host)

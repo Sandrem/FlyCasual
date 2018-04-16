@@ -20,6 +20,8 @@ namespace UpgradesList
 
             isUnique = true;
 
+            AvatarOffset = new Vector2(47, 1);
+
             AddedSlots = new List<UpgradeSlot>
             {
                 new UpgradeSlot(UpgradeType.Bomb),

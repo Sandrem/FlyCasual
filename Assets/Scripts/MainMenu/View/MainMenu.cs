@@ -80,6 +80,9 @@ public partial class MainMenu : MonoBehaviour {
             case "ShipSkinsPanel":
                 SquadBuilder.ShowSkinButtons();
                 break;
+            case "AvatarsPanel":
+                MainMenu.InitializeAvatars();
+                break;
         }
     }
 

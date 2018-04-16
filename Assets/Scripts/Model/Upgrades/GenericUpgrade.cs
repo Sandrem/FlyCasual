@@ -78,6 +78,10 @@ namespace Upgrade
 
         public bool IsHidden;
 
+        // Set to use as avatar
+
+        public Vector2 AvatarOffset;
+
         //public Type FromMod { get; set; }
         public Type FromMod { get; set; }
 

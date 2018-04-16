@@ -56,7 +56,7 @@ public partial class MainMenu : MonoBehaviour {
     private void UpdatePlayerInfo()
     {
         AvatarFromUpgrade script = GameObject.Find("UI/Panels/MainMenuPanel/PlayerInfoPanel/AvatarImage").GetComponent<AvatarFromUpgrade>();
-        script.Initialize("UpgradesList.MercenaryCopilot");
+        script.Initialize(Options.Avatar);
     }
 
     private void SetBackground()
@@ -162,7 +162,14 @@ public partial class MainMenu : MonoBehaviour {
         avatarPanel.transform.localPosition = new Vector2(20 + column * 120, -20 - row * 120);
 
         AvatarFromUpgrade avatar = avatarPanel.GetComponent<AvatarFromUpgrade>();
-        avatar.Initialize(avatarUpgrade.GetType().ToString());
+        avatar.Initialize(avatarUpgrade.GetType().ToString(), ChangeAvatar);
+    }
+
+    private static void ChangeAvatar(string avatarName)
+    {
+        Options.Avatar = avatarName;
+        Options.ChangeParameterValue("Avatar", avatarName);
+        Messages.ShowInfo("Avatar is changed");
     }
 
 }

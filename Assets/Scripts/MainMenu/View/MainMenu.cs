@@ -39,6 +39,9 @@ public partial class MainMenu : MonoBehaviour {
     {
         switch (panelName)
         {
+            case "MainMenuPanel":
+                UpdatePlayerInfo();
+                break;
             case "OptionsPanel":
                 Options.InitializePanel();
                 break;

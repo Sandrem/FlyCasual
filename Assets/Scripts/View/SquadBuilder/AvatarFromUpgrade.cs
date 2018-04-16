@@ -13,15 +13,18 @@ public class AvatarFromUpgrade : MonoBehaviour {
     private string UpgradeType;
     private GenericUpgrade Upgrade;
     private Vector2 Offset;
+    private Action<string> OnClick;
 
-    public void Initialize(string upgradeType)
+    public void Initialize(string upgradeType, Action<string> onClick = null)
     {
         UpgradeType = upgradeType;
         Upgrade = (GenericUpgrade)System.Activator.CreateInstance(Type.GetType(upgradeType));
         Offset = Upgrade.AvatarOffset;
+        OnClick = onClick;
 
         this.gameObject.SetActive(false);
         LoadImage();
+        SetOnClickHandler();
     }
 
     private void LoadImage()
@@ -63,4 +66,15 @@ public class AvatarFromUpgrade : MonoBehaviour {
         this.gameObject.SetActive(true);
     }
 
+    private void SetOnClickHandler()
+    {
+        if (OnClick != null)
+        {
+            EventTrigger trigger = this.gameObject.AddComponent<EventTrigger>();
+            EventTrigger.Entry entry = new EventTrigger.Entry();
+            entry.eventID = EventTriggerType.PointerClick;
+            entry.callback.AddListener(delegate { OnClick(UpgradeType); });
+            trigger.triggers.Add(entry);
+        }
+    }
 }

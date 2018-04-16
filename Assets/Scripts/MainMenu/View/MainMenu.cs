@@ -84,7 +84,7 @@ public partial class MainMenu : MonoBehaviour {
                 SquadBuilder.ShowSkinButtons();
                 break;
             case "AvatarsPanel":
-                MainMenu.InitializeAvatars();
+                InitializePlayerCustomization();
                 break;
         }
     }

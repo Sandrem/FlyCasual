@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using SubPhases;
 using Players;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 namespace GameModes
 {
@@ -229,10 +230,14 @@ namespace GameModes
                 if (Roster.GetPlayer(i).GetType() == typeof(HumanPlayer))
                 {
                     GameObject.Find("UI/PlayersPanel/Player" + i + "AvatarImage").GetComponent<AvatarFromUpgrade>().Initialize(Options.Avatar);
+                    GameObject.Find("UI/PlayersPanel/Player" + i + "NickName").GetComponent<Text>().text = Options.NickName;
+                    GameObject.Find("UI/PlayersPanel/Player" + i + "Title").GetComponent<Text>().text = Options.Title;
                 }
                 else
                 {
                     GameObject.Find("UI/PlayersPanel/Player" + i + "AvatarImage").GetComponent<AvatarFromUpgrade>().Initialize("UpgradesList.C3PO");
+                    GameObject.Find("UI/PlayersPanel/Player" + i + "NickName").GetComponent<Text>().text = "A.I.";
+                    GameObject.Find("UI/PlayersPanel/Player" + i + "Title").GetComponent<Text>().text = "Protocol Droid";
                 }
             }
         }

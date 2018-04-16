@@ -57,6 +57,8 @@ public partial class MainMenu : MonoBehaviour {
     {
         AvatarFromUpgrade script = GameObject.Find("UI/Panels/MainMenuPanel/PlayerInfoPanel/AvatarImage").GetComponent<AvatarFromUpgrade>();
         script.Initialize(Options.Avatar);
+
+        GameObject.Find("UI/Panels/MainMenuPanel/PlayerInfoPanel/NicknameAndTitleText").GetComponent<Text>().text = Options.NickName + "\n" + Options.Title;
     }
 
     private void SetBackground()
@@ -116,7 +118,24 @@ public partial class MainMenu : MonoBehaviour {
         ChangePanel("SelectFactionPanel");
     }
 
-    public static void InitializeAvatars()
+    public void InitializePlayerCustomization()
+    {
+        InitializeAvatars();
+        InitializeNickName();
+        InitializeTitle();
+    }
+
+    private void InitializeNickName()
+    {
+        GameObject.Find("UI/Panels/AvatarsPanel/NickName/InputField").gameObject.GetComponent<InputField>().text = Options.NickName;
+    }
+
+    private void InitializeTitle()
+    {
+        GameObject.Find("UI/Panels/AvatarsPanel/Title/InputField").gameObject.GetComponent<InputField>().text = Options.Title;
+    }
+
+    private void InitializeAvatars()
     {
         ClearAvatarsPanel();
 
@@ -140,7 +159,7 @@ public partial class MainMenu : MonoBehaviour {
         }
     }
 
-    private static void ClearAvatarsPanel()
+    private void ClearAvatarsPanel()
     {
         GameObject avatarsPanel = GameObject.Find("UI/Panels/AvatarsPanel/ContentPanel").gameObject;
         foreach (Transform transform in avatarsPanel.transform)
@@ -151,7 +170,7 @@ public partial class MainMenu : MonoBehaviour {
         Resources.UnloadUnusedAssets();
     }
 
-    private static void AddAvailableAvatar(GenericUpgrade avatarUpgrade, int count)
+    private void AddAvailableAvatar(GenericUpgrade avatarUpgrade, int count)
     {
         GameObject prefab = (GameObject)Resources.Load("Prefabs/MainMenu/AvatarImage", typeof(GameObject));
         GameObject avatarPanel = MonoBehaviour.Instantiate(prefab, GameObject.Find("UI/Panels/AvatarsPanel/ContentPanel").transform);
@@ -171,7 +190,7 @@ public partial class MainMenu : MonoBehaviour {
         }
     }
 
-    private static void ChangeAvatar(string avatarName)
+    private void ChangeAvatar(string avatarName)
     {
         Options.Avatar = avatarName;
         Options.ChangeParameterValue("Avatar", avatarName);
@@ -179,9 +198,15 @@ public partial class MainMenu : MonoBehaviour {
         SetAvatarSelected(GameObject.Find("UI/Panels/AvatarsPanel/ContentPanel/" + avatarName).transform.position);
     }
 
-    public static void SetAvatarSelected(Vector3 position)
+    public void SetAvatarSelected(Vector3 position)
     {
         GameObject.Find("UI/Panels/AvatarsPanel/AvatarSelector").transform.position = position;
+    }
+
+    public void ChangeNickName(Text inputText)
+    {
+        Options.NickName = inputText.text;
+        Options.ChangeParameterValue("NickName", inputText.text);
     }
 
 }

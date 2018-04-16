@@ -221,5 +221,20 @@ namespace GameModes
         {
             Application.Quit();
         }
+
+        public override void SetAvatars()
+        {
+            for (int i = 1; i < 3; i++)
+            {
+                if (Roster.GetPlayer(i).GetType() == typeof(HumanPlayer))
+                {
+                    GameObject.Find("UI/PlayersPanel/Player" + i + "AvatarImage").GetComponent<AvatarFromUpgrade>().Initialize(Options.Avatar);
+                }
+                else
+                {
+                    GameObject.Find("UI/PlayersPanel/Player" + i + "AvatarImage").GetComponent<AvatarFromUpgrade>().Initialize("UpgradesList.C3PO");
+                }
+            }
+        }
     }
 }

@@ -31,6 +31,8 @@ public class GameManagerScript : MonoBehaviour {
 
         CheckRemoteSettings();
 
+        GameMode.CurrentGameMode.SetAvatars();
+
         GameMode.CurrentGameMode.StartBattle();
     }
 

@@ -239,5 +239,10 @@ namespace GameModes
         {
             Network.QuitToDesktop();
         }
+
+        public override void SetAvatars()
+        {
+
+        }
     }
 }

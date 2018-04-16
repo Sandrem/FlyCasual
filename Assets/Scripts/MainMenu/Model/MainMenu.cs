@@ -160,16 +160,28 @@ public partial class MainMenu : MonoBehaviour {
         int column = count - row * 11;
 
         avatarPanel.transform.localPosition = new Vector2(20 + column * 120, -20 - row * 120);
+        avatarPanel.name = avatarUpgrade.GetType().ToString();
 
         AvatarFromUpgrade avatar = avatarPanel.GetComponent<AvatarFromUpgrade>();
         avatar.Initialize(avatarUpgrade.GetType().ToString(), ChangeAvatar);
+
+        if (avatarUpgrade.GetType().ToString() == Options.Avatar)
+        {
+            SetAvatarSelected(avatarPanel.transform.position);
+        }
     }
 
     private static void ChangeAvatar(string avatarName)
     {
         Options.Avatar = avatarName;
         Options.ChangeParameterValue("Avatar", avatarName);
-        Messages.ShowInfo("Avatar is changed");
+
+        SetAvatarSelected(GameObject.Find("UI/Panels/AvatarsPanel/ContentPanel/" + avatarName).transform.position);
+    }
+
+    public static void SetAvatarSelected(Vector3 position)
+    {
+        GameObject.Find("UI/Panels/AvatarsPanel/AvatarSelector").transform.position = position;
     }
 
 }

@@ -25,6 +25,7 @@ namespace Ship
 
         public event EventHandlerShip AfterGenerateAvailableActionsList;
         public event EventHandlerActionBool OnTryAddAvailableAction;
+        public static event EventHandlerShipActionBool OnTryAddAvailableActionGlobal;
 
         public event EventHandlerShip AfterGenerateAvailableActionEffectsList;
         public static event EventHandler AfterGenerateAvailableActionEffectsListGlobal;
@@ -112,6 +113,8 @@ namespace Ship
             bool result = action.IsActionAvailable();
 
             if (OnTryAddAvailableAction != null) OnTryAddAvailableAction(action, ref result);
+
+            if (OnTryAddAvailableActionGlobal != null) OnTryAddAvailableActionGlobal(this, action, ref result);
 
             return result;
         }

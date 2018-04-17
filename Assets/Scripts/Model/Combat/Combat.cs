@@ -12,7 +12,8 @@ public enum CombatStep
 {
     None,
     Attack,
-    Defence
+    Defence,
+    CompareResults
 }
 
 public class DamageSourceEventArgs : EventArgs
@@ -234,6 +235,14 @@ public static partial class Combat
     // COMPARE RESULTS
 
     public static void ConfirmDefenceDiceResults()
+    {
+        AttackStep = CombatStep.CompareResults;
+        Roster.HighlightPlayer(Combat.Attacker.Owner.PlayerNo);
+
+        ShowCompareResultsMenu();
+    }
+
+    public static void CompareResultsAndDealDamage()
     {
         DiceCompareHelper.currentDiceCompareHelper.Close();
         HideDiceResultMenu();
@@ -537,7 +546,7 @@ namespace SubPhases
             diceCount = Combat.Defender.GetNumberOfDefenceDice(Combat.Attacker);
 
             checkResults = CheckResults;
-            CallBack = Combat.ConfirmDefenceDiceResults;
+            CallBack = Combat.ShowCompareResultsMenu;
 
             new DiceCompareHelper(Combat.DiceRollAttack);
         }

@@ -1,7 +1,7 @@
 ﻿using Ship;
 using System.Linq;
 
-namespace ActionList
+namespace ActionsList
 {
     public abstract class FriendlyAttackRerollAction : ActionsList.GenericAction
     {

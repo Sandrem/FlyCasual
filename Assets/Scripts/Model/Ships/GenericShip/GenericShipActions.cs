@@ -5,20 +5,23 @@ using UnityEngine;
 using System.Linq;
 using SubPhases;
 using Tokens;
+using ActionsList;
 
 namespace Ship
 {
     public partial class GenericShip
     {
 
-        public      List<ActionsList.GenericAction> PrintedActions                          = new List<ActionsList.GenericAction>();
-        private     List<ActionsList.GenericAction> AvailableActionsList                    = new List<ActionsList.GenericAction>();
-        private     List<ActionsList.GenericAction> AvailableFreeActionsList                = new List<ActionsList.GenericAction>();
-        private     List<ActionsList.GenericAction> AlreadyExecutedActions                  = new List<ActionsList.GenericAction>();
-        private     List<ActionsList.GenericAction> AvailableActionEffects                  = new List<ActionsList.GenericAction>();
-        private     List<ActionsList.GenericAction> AvailableOppositeActionEffects          = new List<ActionsList.GenericAction>();
-        private     List<ActionsList.GenericAction> AlreadyExecutedActionEffects            = new List<ActionsList.GenericAction>();
-        private     List<ActionsList.GenericAction> AlreadyExecutedOppositeActionEffects    = new List<ActionsList.GenericAction>();
+        public      List<GenericAction> PrintedActions                          = new List<GenericAction>();
+        private     List<GenericAction> AvailableActionsList                    = new List<GenericAction>();
+        private     List<GenericAction> AvailableFreeActionsList                = new List<GenericAction>();
+        private     List<GenericAction> AlreadyExecutedActions                  = new List<GenericAction>();
+        private     List<GenericAction> AvailableActionEffects                  = new List<GenericAction>();
+        private     List<GenericAction> AvailableOppositeActionEffects          = new List<GenericAction>();
+        private     List<GenericAction> AvailableCompareResultsEffects          = new List<GenericAction>();
+        private     List<GenericAction> AlreadyExecutedActionEffects            = new List<GenericAction>();
+        private     List<GenericAction> AlreadyExecutedOppositeActionEffects    = new List<GenericAction>();
+        private     List<GenericAction> AlreadyExecutedCompareResultsEffects    = new List<GenericAction>();
 
         // EVENTS
         public event EventHandlerShip OnMovementActivation;
@@ -35,6 +38,10 @@ namespace Ship
         public event EventHandlerShip AfterGenerateAvailableOppositeActionEffectsList;
         public static event EventHandler AfterGenerateAvailableOppositeActionEffectsListGlobal;
         public event EventHandlerActionBool OnTryAddAvailableOppositeActionEffect;
+
+        public event EventHandlerShip AfterGenerateAvailableCompareResultsEffectsList;
+        public static event EventHandler AfterGenerateAvailableCompareResultsEffectsListGlobal;
+        public event EventHandlerActionBool OnTryAddAvailableCompareResultsEffect;
 
         public event EventHandlerShip OnActionDecisionSubphaseEnd;
         public event EventHandlerAction OnActionIsPerformed;
@@ -73,21 +80,21 @@ namespace Ship
             Triggers.ResolveTriggers(TriggerTypes.OnActionDecisionSubPhaseEnd, callback);
         }
 
-        public void CallActionIsTaken(ActionsList.GenericAction action, Action callBack)
+        public void CallActionIsTaken(GenericAction action, Action callBack)
         {
             if (OnActionIsPerformed != null) OnActionIsPerformed(action);
 
             Triggers.ResolveTriggers(TriggerTypes.OnActionIsPerformed, callBack);
         }
 
-        public List<ActionsList.GenericAction> GetActionsFromActionBar()
+        public List<GenericAction> GetActionsFromActionBar()
         {
             return PrintedActions;
         }
 
         public void GenerateAvailableActionsList()
         {
-            AvailableActionsList = new List<ActionsList.GenericAction>();
+            AvailableActionsList = new List<GenericAction>();
 
             foreach (var action in PrintedActions)
             {
@@ -97,9 +104,9 @@ namespace Ship
             if (AfterGenerateAvailableActionsList != null) AfterGenerateAvailableActionsList(this);
         }
 
-        public void GenerateAvailableFreeActionsList(List<ActionsList.GenericAction> freeActions)
+        public void GenerateAvailableFreeActionsList(List<GenericAction> freeActions)
         {
-            AvailableFreeActionsList = new List<ActionsList.GenericAction>();
+            AvailableFreeActionsList = new List<GenericAction>();
             foreach (var action in freeActions)
             {
                 AddAvailableFreeAction(action);
@@ -108,7 +115,7 @@ namespace Ship
             if (AfterGenerateAvailableActionsList != null) AfterGenerateAvailableActionsList(this);
         }
 
-        public bool CanPerformAction(ActionsList.GenericAction action)
+        public bool CanPerformAction(GenericAction action)
         {
             bool result = action.IsActionAvailable();
 
@@ -120,7 +127,7 @@ namespace Ship
         }
 
         // TODO: move actions list into subphase
-        public void AskPerformFreeAction(List<ActionsList.GenericAction> freeActions, Action callback)
+        public void AskPerformFreeAction(List<GenericAction> freeActions, Action callback)
         {
             GenerateAvailableFreeActionsList(freeActions);
 
@@ -150,22 +157,22 @@ namespace Ship
             callback();
         }
 
-        public List<ActionsList.GenericAction> GetAvailableActionsList()
+        public List<GenericAction> GetAvailableActionsList()
         {
             return AvailableActionsList;
         }
 
-        public List<ActionsList.GenericAction> GetAvailablePrintedActionsList()
+        public List<GenericAction> GetAvailablePrintedActionsList()
         {
             return PrintedActions;
         }
 
-        public List<ActionsList.GenericAction> GetAvailableFreeActionsList()
+        public List<GenericAction> GetAvailableFreeActionsList()
         {
             return AvailableFreeActionsList;
         }
 
-        public void AddAvailableAction(ActionsList.GenericAction action)
+        public void AddAvailableAction(GenericAction action)
         {
             if (CanPerformAction(action))
             {
@@ -173,7 +180,7 @@ namespace Ship
             }
         }
 
-        public void AddAvailableFreeAction(ActionsList.GenericAction action)
+        public void AddAvailableFreeAction(GenericAction action)
         {
             if (CanPerformAction(action))
             {
@@ -181,19 +188,19 @@ namespace Ship
             }
         }
 
-        public void AddAlreadyExecutedAction(ActionsList.GenericAction action)
+        public void AddAlreadyExecutedAction(GenericAction action)
         {
             AlreadyExecutedActions.Add(action);
         }
 
         public void ClearAlreadyExecutedActions()
         {
-            AlreadyExecutedActions = new List<ActionsList.GenericAction>();
+            AlreadyExecutedActions = new List<GenericAction>();
         }
 
         public void RemoveAlreadyExecutedAction(System.Type type)
         {
-            List<ActionsList.GenericAction> keys = new List<ActionsList.GenericAction>(AlreadyExecutedActions);
+            List<GenericAction> keys = new List<GenericAction>(AlreadyExecutedActions);
 
             foreach (var executedAction in keys)
             {
@@ -223,11 +230,11 @@ namespace Ship
 
         public void GenerateAvailableActionEffectsList()
         {
-            AvailableActionEffects = new List<ActionsList.GenericAction>(); ;
+            AvailableActionEffects = new List<GenericAction>(); ;
 
             foreach (var token in Tokens.GetAllTokens())
             {
-                ActionsList.GenericAction action = token.GetAvailableEffects();
+                GenericAction action = token.GetAvailableEffects();
                 if (action != null) AddAvailableActionEffect(action);
             }
 
@@ -236,7 +243,7 @@ namespace Ship
             if (AfterGenerateAvailableActionEffectsListGlobal != null) AfterGenerateAvailableActionEffectsListGlobal();
         }
 
-        public void AddAvailableActionEffect(ActionsList.GenericAction action)
+        public void AddAvailableActionEffect(GenericAction action)
         {
             if (NotAlreadyAddedSameActionEffect(action) && CanUseActionEffect(action))
             {
@@ -244,28 +251,28 @@ namespace Ship
             }
         }
 
-        private bool NotAlreadyAddedSameActionEffect(ActionsList.GenericAction action)
+        private bool NotAlreadyAddedSameActionEffect(GenericAction action)
         {
             // Return true if AvailableActionEffects doesn't contain action of the same type
             return AvailableActionEffects.FirstOrDefault(n => n.GetType() == action.GetType()) == null;
         }
 
-        public void AddAlreadyExecutedActionEffect(ActionsList.GenericAction action)
+        public void AddAlreadyExecutedActionEffect(GenericAction action)
         {
             AlreadyExecutedActionEffects.Add(action);
         }
 
-        public void RemoveAlreadyExecutedActionEffect(ActionsList.GenericAction action)
+        public void RemoveAlreadyExecutedActionEffect(GenericAction action)
         {
             AlreadyExecutedActionEffects.RemoveAll(a => a.GetType() == action.GetType());
         }
 
         public void ClearAlreadyExecutedActionEffects()
         {
-            AlreadyExecutedActionEffects = new List<ActionsList.GenericAction>();
+            AlreadyExecutedActionEffects = new List<GenericAction>();
         }
 
-        public bool CanUseActionEffect(ActionsList.GenericAction action)
+        public bool CanUseActionEffect(GenericAction action)
         {
             bool result = true;
 
@@ -283,7 +290,7 @@ namespace Ship
             return result;
         }
 
-        private bool IsActionEffectAlreadyExecuted(ActionsList.GenericAction action)
+        private bool IsActionEffectAlreadyExecuted(GenericAction action)
         {
             bool result = false;
 
@@ -299,23 +306,87 @@ namespace Ship
             return result;
         }
 
-        public List<ActionsList.GenericAction> GetAvailableActionEffectsList()
+        public List<GenericAction> GetAvailableActionEffectsList()
         {
             return AvailableActionEffects;
+        }
+
+        // COMPARE DICE RESULTS ACTION EFFECTS
+
+        public void GenerateAvailableCompareResultsEffectsList()
+        {
+            AvailableCompareResultsEffects = new List<GenericAction>();
+
+            if (AfterGenerateAvailableCompareResultsEffectsList != null) AfterGenerateAvailableCompareResultsEffectsList(this);
+        }
+
+        public void AddAvailableCompareResultsEffect(GenericAction action)
+        {
+            if (CanUseCompareResultsEffect(action))
+            {
+                AvailableCompareResultsEffects.Add(action);
+            }
+        }
+
+        public void AddAlreadyExecutedCompareResultsEffect(GenericAction action)
+        {
+            AlreadyExecutedCompareResultsEffects.Add(action);
+        }
+
+        public void RemoveAlreadyExecutedCompareResultsEffect(GenericAction action)
+        {
+            AlreadyExecutedCompareResultsEffects.RemoveAll(a => a.GetType() == action.GetType());
+        }
+
+        public bool CanUseCompareResultsEffect(GenericAction action)
+        {
+            bool result = true;
+
+            if (!action.IsActionEffectAvailable()) result = false;
+
+            if (IsCompareResultsEffectAlreadyExecuted(action)) result = false;
+
+            if (result)
+            {
+                if (OnTryAddAvailableCompareResultsEffect != null) OnTryAddAvailableCompareResultsEffect(action, ref result);
+            }
+
+            return result;
+        }
+
+        private bool IsCompareResultsEffectAlreadyExecuted(GenericAction action)
+        {
+            bool result = false;
+
+            foreach (var alreadyExecuedCompareResultsEffect in AlreadyExecutedCompareResultsEffects)
+            {
+                if (alreadyExecuedCompareResultsEffect.GetType() == action.GetType())
+                {
+                    result = true;
+                    break;
+                }
+            }
+
+            return result;
+        }
+
+        public List<GenericAction> GetAvailableCompareResultsEffectsList()
+        {
+            return AvailableCompareResultsEffects;
         }
 
         // OPPOSITE ACTION EFFECTS
 
         public void GenerateAvailableOppositeActionEffectsList()
         {
-            AvailableOppositeActionEffects = new List<ActionsList.GenericAction>();
+            AvailableOppositeActionEffects = new List<GenericAction>();
 
             if (AfterGenerateAvailableOppositeActionEffectsList != null) AfterGenerateAvailableOppositeActionEffectsList(this);
 
             if (AfterGenerateAvailableOppositeActionEffectsListGlobal != null) AfterGenerateAvailableOppositeActionEffectsListGlobal();
         }
 
-        public void AddAvailableOppositeActionEffect(ActionsList.GenericAction action)
+        public void AddAvailableOppositeActionEffect(GenericAction action)
         {
             if (CanUseOppositeActionEffect(action))
             {
@@ -323,22 +394,22 @@ namespace Ship
             }
         }
 
-        public void AddAlreadyExecutedOppositeActionEffect(ActionsList.GenericAction action)
+        public void AddAlreadyExecutedOppositeActionEffect(GenericAction action)
         {
             AlreadyExecutedOppositeActionEffects.Add(action);
         }
 
-        public void RemoveAlreadyExecutedOppositeActionEffect(ActionsList.GenericAction action)
+        public void RemoveAlreadyExecutedOppositeActionEffect(GenericAction action)
         {
             AlreadyExecutedOppositeActionEffects.RemoveAll(a => a.GetType() == action.GetType());
         }
 
         public void ClearAlreadyExecutedOppositeActionEffects()
         {
-            AlreadyExecutedOppositeActionEffects = new List<ActionsList.GenericAction>();
+            AlreadyExecutedOppositeActionEffects = new List<GenericAction>();
         }
 
-        public bool CanUseOppositeActionEffect(ActionsList.GenericAction action)
+        public bool CanUseOppositeActionEffect(GenericAction action)
         {
             bool result = true;
 
@@ -354,7 +425,7 @@ namespace Ship
             return result;
         }
 
-        private bool IsOppositeActionEffectAlreadyExecuted(ActionsList.GenericAction action)
+        private bool IsOppositeActionEffectAlreadyExecuted(GenericAction action)
         {
             bool result = false;
 
@@ -370,7 +441,7 @@ namespace Ship
             return result;
         }
 
-        public List<ActionsList.GenericAction> GetAvailableOppositeActionEffectsList()
+        public List<GenericAction> GetAvailableOppositeActionEffectsList()
         {
             return AvailableOppositeActionEffects;
         }

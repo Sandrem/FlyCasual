@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Linq;
-using ActionList;
 using ActionsList;
 using Ship;
-using Upgrade;
 
 namespace Ship
 {

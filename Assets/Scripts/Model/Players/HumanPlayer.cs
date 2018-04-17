@@ -47,6 +47,13 @@ namespace Players
             Combat.ShowOppositeDiceResultMenu();
         }
 
+        public override void UseCompareResultsDiceModifications()
+        {
+            base.UseCompareResultsDiceModifications();
+
+            Combat.ShowCompareResultsMenu();
+        }
+
         public override void TakeDecision()
         {
             (Phases.CurrentSubPhase as SubPhases.DecisionSubPhase).ShowDecisionWindowUI();

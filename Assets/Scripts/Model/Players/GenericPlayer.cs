@@ -109,6 +109,11 @@ namespace Players
             Roster.HighlightPlayer(PlayerNo);
         }
 
+        public virtual void UseCompareResultsDiceModifications()
+        {
+            Roster.HighlightPlayer(PlayerNo);
+        }
+
         public virtual void TakeDecision() { }
 
         public virtual void AfterShipMovementPrediction() { }

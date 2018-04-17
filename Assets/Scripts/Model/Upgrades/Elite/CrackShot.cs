@@ -63,7 +63,7 @@ namespace ActionsList
         {
             int result = 0;
 
-            result = 100;
+            if (Combat.DiceRollDefence.Successes <= Combat.DiceRollAttack.Successes) result = 100;
 
             return result;
         }
@@ -72,7 +72,7 @@ namespace ActionsList
         {
             bool result = false;
 
-            if (Combat.DiceRollDefence.RegularSuccesses > 0 && Combat.ShotInfo.InArc)
+            if (Combat.DiceRollDefence.Successes > 0 && Combat.ShotInfo.InArc)
             {
                 result = true;
             }

@@ -51,6 +51,13 @@ namespace Players
             Combat.ShowOppositeDiceResultMenu();
         }
 
+        public override void UseCompareResultsDiceModifications()
+        {
+            base.UseCompareResultsDiceModifications();
+
+            Combat.ShowCompareResultsMenu();
+        }
+
     }
 
 }

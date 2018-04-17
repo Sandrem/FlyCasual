@@ -237,9 +237,8 @@ public static partial class Combat
     public static void ConfirmDefenceDiceResults()
     {
         AttackStep = CombatStep.CompareResults;
-        Roster.HighlightPlayer(Combat.Attacker.Owner.PlayerNo);
 
-        ShowCompareResultsMenu();
+        Combat.Attacker.Owner.UseCompareResultsDiceModifications();
     }
 
     public static void CompareResultsAndDealDamage()
@@ -546,7 +545,7 @@ namespace SubPhases
             diceCount = Combat.Defender.GetNumberOfDefenceDice(Combat.Attacker);
 
             checkResults = CheckResults;
-            CallBack = Combat.ShowCompareResultsMenu;
+            CallBack = Combat.ConfirmDefenceDiceResults;
 
             new DiceCompareHelper(Combat.DiceRollAttack);
         }

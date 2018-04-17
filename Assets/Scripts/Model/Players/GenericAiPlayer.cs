@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using Ship;
+using ActionsList;
 
 namespace Players
 {
@@ -332,9 +333,9 @@ namespace Players
             Selection.ActiveShip = (Combat.AttackStep == CombatStep.Attack) ? Combat.Attacker : Combat.Defender;
 
             Selection.ActiveShip.GenerateAvailableActionEffectsList();
-            List<ActionsList.GenericAction> availableActionEffectsList = Selection.ActiveShip.GetAvailableActionEffectsList();
+            List<GenericAction> availableActionEffectsList = Selection.ActiveShip.GetAvailableActionEffectsList();
 
-            Dictionary<ActionsList.GenericAction, int> actionsPriority = new Dictionary<ActionsList.GenericAction, int>();
+            Dictionary<GenericAction, int> actionsPriority = new Dictionary<GenericAction, int>();
 
             foreach (var actionEffect in availableActionEffectsList)
             {
@@ -349,7 +350,7 @@ namespace Players
 
             if (actionsPriority.Count > 0)
             {
-                KeyValuePair<ActionsList.GenericAction, int> prioritizedActionEffect = actionsPriority.First();
+                KeyValuePair<GenericAction, int> prioritizedActionEffect = actionsPriority.First();
                 if (prioritizedActionEffect.Value > 0)
                 {
                     isActionEffectTaken = true;
@@ -374,9 +375,9 @@ namespace Players
             base.UseOppositeDiceModifications();
 
             Selection.ActiveShip.GenerateAvailableOppositeActionEffectsList();
-            List<ActionsList.GenericAction> availableOppositeActionEffectsList = Selection.ActiveShip.GetAvailableOppositeActionEffectsList();
+            List<GenericAction> availableOppositeActionEffectsList = Selection.ActiveShip.GetAvailableOppositeActionEffectsList();
 
-            Dictionary<ActionsList.GenericAction, int> oppositeActionsPriority = new Dictionary<ActionsList.GenericAction, int>();
+            Dictionary<GenericAction, int> oppositeActionsPriority = new Dictionary<GenericAction, int>();
 
             foreach (var oppositeActionEffect in availableOppositeActionEffectsList)
             {
@@ -390,7 +391,7 @@ namespace Players
 
             if (oppositeActionsPriority.Count > 0)
             {
-                KeyValuePair<ActionsList.GenericAction, int> prioritizedOppositeActionEffect = oppositeActionsPriority.First();
+                KeyValuePair<GenericAction, int> prioritizedOppositeActionEffect = oppositeActionsPriority.First();
                 if (prioritizedOppositeActionEffect.Value > 0)
                 {
                     isActionEffectTaken = true;
@@ -407,6 +408,49 @@ namespace Players
             {
                 Selection.ActiveShip = (Combat.AttackStep == CombatStep.Attack) ? Combat.Attacker : Combat.Defender;
                 Selection.ActiveShip.Owner.UseOwnDiceModifications();
+            }
+        }
+
+        public override void UseCompareResultsDiceModifications()
+        {
+            base.UseCompareResultsDiceModifications();
+
+            Selection.ActiveShip = Combat.Attacker;
+
+            Selection.ActiveShip.GenerateAvailableCompareResultsEffectsList();
+            List<GenericAction> availableCompareResultsEffectsList = Selection.ActiveShip.GetAvailableCompareResultsEffectsList();
+
+            Dictionary<GenericAction, int> actionsPriority = new Dictionary<GenericAction, int>();
+
+            foreach (var actionEffect in availableCompareResultsEffectsList)
+            {
+                int priority = actionEffect.GetActionEffectPriority();
+                actionsPriority.Add(actionEffect, priority);
+            }
+
+            actionsPriority = actionsPriority.OrderByDescending(n => n.Value).ToDictionary(n => n.Key, n => n.Value);
+
+            bool isActionEffectTaken = false;
+
+            if (actionsPriority.Count > 0)
+            {
+                KeyValuePair<GenericAction, int> prioritizedActionEffect = actionsPriority.First();
+                if (prioritizedActionEffect.Value > 0)
+                {
+                    isActionEffectTaken = true;
+                    Messages.ShowInfo("AI uses \"" + prioritizedActionEffect.Key.Name + "\"");
+                    GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
+                    Game.Wait(1, delegate {
+                        Selection.ActiveShip.AddAlreadyExecutedCompareResultsEffect(prioritizedActionEffect.Key);
+                        prioritizedActionEffect.Key.ActionEffect(UseCompareResultsDiceModifications);
+                    });
+                }
+            }
+
+            if (!isActionEffectTaken)
+            {
+                GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
+                Game.Wait(2, Combat.CompareResultsAndDealDamage);
             }
         }
 

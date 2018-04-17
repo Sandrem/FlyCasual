@@ -20,6 +20,8 @@ namespace SubPhases
 
         public override void Start()
         {
+            base.Start();
+
             IsTemporary = true;
             finishAction = FinishAction;
             checkResults = CheckResults;

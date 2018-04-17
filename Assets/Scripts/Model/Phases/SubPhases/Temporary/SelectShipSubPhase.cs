@@ -42,6 +42,8 @@ namespace SubPhases
             CanBePaused = true;
 
             UpdateHelpInfo();
+
+            base.Start();
         }
 
         public override void Prepare()

@@ -28,16 +28,22 @@ namespace Players
 
         public override void PerformAttack()
         {
+            base.PerformAttack();
+
             UI.ShowSkipButton();
         }
 
         public override void UseOwnDiceModifications()
         {
+            base.UseOwnDiceModifications();
+
             Combat.ShowOwnDiceResultMenu();
         }
 
         public override void UseOppositeDiceModifications()
         {
+            base.UseOppositeDiceModifications();
+
             Combat.ShowOppositeDiceResultMenu();
         }
 

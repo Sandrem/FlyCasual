@@ -10,6 +10,8 @@ namespace SubPhases
 
         public override void Start()
         {
+            base.Start();
+
             Name = "Action SubPhase";
             RequiredPilotSkill = PreviousSubPhase.RequiredPilotSkill;
             RequiredPlayer = PreviousSubPhase.RequiredPlayer;
@@ -63,16 +65,6 @@ namespace SubPhases
         public override void Next()
         {
             FinishPhase();
-        }
-
-        public override void Pause()
-        {
-            
-        }
-
-        public override void Resume()
-        {
-            
         }
 
         public override void FinishPhase()

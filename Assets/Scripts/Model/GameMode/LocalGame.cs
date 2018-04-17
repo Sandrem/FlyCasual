@@ -222,24 +222,5 @@ namespace GameModes
         {
             Application.Quit();
         }
-
-        public override void SetAvatars()
-        {
-            for (int i = 1; i < 3; i++)
-            {
-                if (Roster.GetPlayer(i).GetType() == typeof(HumanPlayer))
-                {
-                    GameObject.Find("UI/PlayersPanel/Player" + i + "AvatarImage").GetComponent<AvatarFromUpgrade>().Initialize(Options.Avatar);
-                    GameObject.Find("UI/PlayersPanel/Player" + i + "NickName").GetComponent<Text>().text = Options.NickName;
-                    GameObject.Find("UI/PlayersPanel/Player" + i + "Title").GetComponent<Text>().text = Options.Title;
-                }
-                else
-                {
-                    GameObject.Find("UI/PlayersPanel/Player" + i + "AvatarImage").GetComponent<AvatarFromUpgrade>().Initialize("UpgradesList.C3PO");
-                    GameObject.Find("UI/PlayersPanel/Player" + i + "NickName").GetComponent<Text>().text = "A.I.";
-                    GameObject.Find("UI/PlayersPanel/Player" + i + "Title").GetComponent<Text>().text = "Protocol Droid";
-                }
-            }
-        }
     }
 }

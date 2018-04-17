@@ -562,4 +562,38 @@ public static partial class Roster {
         ship.InfoPanel.transform.Find("ShipInfo").GetComponent<Image>().color = new Color(colorCode, colorCode, colorCode, (float)(200f / 256f));
     }
 
+    public static void SetPlayerCustomization()
+    {
+        for (int i = 1; i < 3; i++)
+        {
+            GenericPlayer player = Roster.GetPlayer(i);
+            int playerInfoSlot = (Network.IsNetworkGame && !Network.IsServer) ? Roster.AnotherPlayer(i) : i;
+            player.PlayerInfoPanel = GameObject.Find("UI/PlayersPanel/Player" + playerInfoSlot + "Panel");
+
+            player.PlayerInfoPanel.transform.Find("PlayerAvatarImage").GetComponent<AvatarFromUpgrade>().Initialize(Roster.GetPlayer(i).Avatar);
+            player.PlayerInfoPanel.transform.Find("PlayerNickName").GetComponent<Text>().text = Roster.GetPlayer(i).NickName;
+            player.PlayerInfoPanel.transform.Find("PlayerTitle").GetComponent<Text>().text = Roster.GetPlayer(i).Title;
+        }
+    }
+
+    public static void HighlightPlayer(PlayerNo playerNo)
+    {
+        HighlightOfPlayersTurnOff();
+
+        TogglePlayerHighlight(GetPlayer(playerNo), true);
+    }
+
+    public static void HighlightOfPlayersTurnOff()
+    {
+        foreach (var player in Players)
+        {
+            TogglePlayerHighlight(player, false);
+        }
+    }
+
+    private static void TogglePlayerHighlight(GenericPlayer player, bool isActive)
+    {
+        player.PlayerInfoPanel.transform.Find("Highlight").gameObject.SetActive(isActive);
+    }
+
 }

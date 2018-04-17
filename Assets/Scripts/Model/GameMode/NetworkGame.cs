@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using SubPhases;
 using Players;
+using UnityEngine.UI;
 
 namespace GameModes
 { 
@@ -240,9 +241,5 @@ namespace GameModes
             Network.QuitToDesktop();
         }
 
-        public override void SetAvatars()
-        {
-
-        }
     }
 }

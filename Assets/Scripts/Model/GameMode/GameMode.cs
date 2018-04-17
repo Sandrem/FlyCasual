@@ -27,8 +27,6 @@ namespace GameModes
 
         public abstract void ShowInformCritPanel();
 
-        public abstract void SetAvatars();
-
         public abstract void StartBattle();
 
         public abstract void TryConfirmBarrelRollPosition(string templateName, Vector3 shipBasePosition, Vector3 movementTemplatePosition);

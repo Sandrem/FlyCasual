@@ -69,6 +69,8 @@ namespace SubPhases
 
         public override void Start()
         {
+            base.Start();
+
             IsTemporary = true;
 
             decisionPanel = GameObject.Find("UI").transform.Find("DecisionsPanel").gameObject;
@@ -238,6 +240,8 @@ namespace SubPhases
 
         public override void Resume()
         {
+            base.Resume();
+
             Phases.CurrentSubPhase = this;
             UpdateHelpInfo();
             Initialize();

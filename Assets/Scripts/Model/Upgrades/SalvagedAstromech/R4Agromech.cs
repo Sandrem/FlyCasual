@@ -36,7 +36,7 @@ namespace Abilities
 
         private void CheckAbility(GenericShip ship, Type type)
         {
-            if (Phases.CurrentPhase is MainPhases.CombatPhase && type == typeof(FocusToken) && Combat.Attacker == HostShip && Combat.Defender != null)
+            if (Combat.AttackStep == CombatStep.Attack && type == typeof(FocusToken) && Combat.Attacker == HostShip && Combat.Defender != null)
             {
                 RegisterAbilityTrigger(TriggerTypes.OnTokenIsSpent, AskAcquireTargetLock);
             }

@@ -2,28 +2,29 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Mods.ModsList;
+using Abilities;
 
 namespace Ship
 {
-    namespace BWing
+    namespace UWing
     {
-        public class HeraSyndullaBWing : BWing
+        public class HeraSyndullaUWing : UWing
         {
-            public HeraSyndullaBWing() : base()
+            public HeraSyndullaUWing() : base()
             {
                 RequiredMods.Add(typeof(PhoenixSquadronMod));
 
                 PilotName = "Hera Syndulla";
                 PilotSkill = 7;
-                Cost = 29;
-
-                ImageUrl = "https://i.imgur.com/L6wpW8S.png";
+                Cost = 28;
 
                 IsUnique = true;
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
-                PilotAbilities.Add(new Abilities.HeraSyndullaAbility());
+                ImageUrl = "https://i.imgur.com/zyN4zfB.png";
+
+                PilotAbilities.Add(new HeraSyndullaAbility());
             }
         }
     }

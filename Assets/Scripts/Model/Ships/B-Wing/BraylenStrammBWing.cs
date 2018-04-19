@@ -11,7 +11,7 @@ namespace Ship
         {
             public BraylenStrammBWing() : base()
             {
-                FromMod = typeof(MyOtherRideIsMod);
+                RequiredMods.Add(typeof(MyOtherRideIsMod));
 
                 PilotName = "Braylen Stramm";
                 PilotSkill = 3;

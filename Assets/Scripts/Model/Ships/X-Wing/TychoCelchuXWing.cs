@@ -20,7 +20,7 @@ namespace Ship
 
                 PilotAbilities.Add(new Abilities.TychoCelchuAbility());
 
-                FromMod = typeof(MyOtherRideIsMod);
+                RequiredMods.Add(typeof(MyOtherRideIsMod));
             }
         }
     }

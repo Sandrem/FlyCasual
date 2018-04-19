@@ -13,6 +13,8 @@ namespace Ship
 
             public TIEReaper() : base()
             {
+                IsHidden = true;
+
                 Type = "TIE Reaper";
                 IconicPilots.Add(Faction.Imperial, typeof(MajorVermeil));
 

@@ -67,7 +67,7 @@ namespace SquadBuilderNS
 
             foreach (ShipRecord ship in AllShips)
             {
-                if (ship.Instance.factions.Contains(faction))
+                if (ship.Instance.factions.Contains(faction) && !ship.Instance.IsHidden)
                 {
                     ShowAvailableShip(ship);
                 }

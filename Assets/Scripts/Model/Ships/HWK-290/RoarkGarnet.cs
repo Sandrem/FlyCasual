@@ -52,7 +52,12 @@ namespace Abilities
                     SelectAbilityTarget,
                     FilterAbilityTarget,
                     GetAiAbilityPriority,
-                    HostShip.Owner.PlayerNo
+                    HostShip.Owner.PlayerNo,
+                    true,
+                    null,
+                    HostShip.PilotName,
+                    "Choose other friendly ship.\nUntil the end of the phase, treat that ship's pilot skill value as \"12\".",
+                    HostShip.ImageUrl
                 );
             }
             else

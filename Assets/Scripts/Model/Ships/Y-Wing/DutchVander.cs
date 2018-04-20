@@ -60,7 +60,12 @@ namespace Abilities
                     GrantFreeTargetLock,
                     FilterAbilityTargets,
                     GetAiAbilityPriority,
-                    HostShip.Owner.PlayerNo
+                    HostShip.Owner.PlayerNo,
+                    true,
+                    null,
+                    HostShip.PilotName,
+                    "Choose another ship.\nIt may acquire a Target Lock.",
+                    HostShip.ImageUrl
                 );
             }
             else

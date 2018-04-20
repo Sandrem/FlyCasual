@@ -52,7 +52,12 @@ namespace Abilities
                     SelectGarvenDreisAbilityTarget,
                     FilterAbilityTarget,
                     GetAiAbilityPriority,
-                    HostShip.Owner.PlayerNo
+                    HostShip.Owner.PlayerNo,
+                    true,
+                    null,
+                    HostShip.PilotName,
+                    "Choose another ship to assign Focus token to it.",
+                    HostShip.ImageUrl
                 );
             }
             else

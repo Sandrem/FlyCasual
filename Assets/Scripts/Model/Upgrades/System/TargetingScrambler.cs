@@ -59,7 +59,12 @@ namespace Abilities
                 AssignScrambledCondition,
                 FilterAbilityTargets,
                 GetAiAbilityPriority,
-                HostShip.Owner.PlayerNo
+                HostShip.Owner.PlayerNo,
+                true,
+                null,
+                HostUpgrade.Name,
+                "Choose another ship to assign \"Scrambled\" condition to it.\nYou will receive weapons disabled token.",
+                HostUpgrade.ImageUrl
             );
         }
 

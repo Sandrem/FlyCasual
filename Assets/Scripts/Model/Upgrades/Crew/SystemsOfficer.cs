@@ -67,7 +67,17 @@ namespace Abilities
 
         protected void SystemsOfficerEffect(object sender, EventArgs e)
         {
-            SelectTargetForAbility(GrantFreeTargetLock, IsFriendlyShipAtRangeOne, GetAiAbilityPriority, HostShip.Owner.PlayerNo);
+            SelectTargetForAbility(
+                GrantFreeTargetLock,
+                IsFriendlyShipAtRangeOne,
+                GetAiAbilityPriority,
+                HostShip.Owner.PlayerNo,
+                true,
+                null,
+                HostUpgrade.Name,
+                "Choose another ship.\nIt may acquire a Target Lock.",
+                HostUpgrade.ImageUrl
+            );
         }
 
         protected bool IsFriendlyShipAtRangeOne(GenericShip ship)

@@ -6,6 +6,7 @@ using Ship;
 using System;
 using System.Linq;
 using Players;
+using UnityEngine.UI;
 
 namespace SubPhases
 {
@@ -31,6 +32,10 @@ namespace SubPhases
         public bool IsInitializationFinished;
 
         public GenericShip TargetShip;
+
+        private string AbilityName;
+        private string Description;
+        private string ImageUrl;
 
         public override void Start()
         {
@@ -62,13 +67,16 @@ namespace SubPhases
             if (showSkipButton) UI.ShowSkipButton();
         }
 
-        public void PrepareByParametersNew(Action selectTargetAction, Func<GenericShip, bool> filterTargets, Func<GenericShip, int> getAiPriority, PlayerNo subphaseOwnerPlayerNo, bool showSkipButton = true)
+        public void PrepareByParametersNew(Action selectTargetAction, Func<GenericShip, bool> filterTargets, Func<GenericShip, int> getAiPriority, PlayerNo subphaseOwnerPlayerNo, bool showSkipButton = true, string abilityName = null, string description = null, string imageUrl = null)
         {
             FilterTargets = filterTargets;
             GetAiPriority = getAiPriority;
             finishAction = selectTargetAction;
             RequiredPlayer = subphaseOwnerPlayerNo;
             if (showSkipButton) UI.ShowSkipButton();
+            AbilityName = abilityName;
+            Description = description;
+            ImageUrl = imageUrl;
         }
 
         public override void Initialize()
@@ -79,8 +87,27 @@ namespace SubPhases
 
         public void HighlightShipsToSelect()
         {
+            ShowSubphaseDescription();
             Roster.HighlightShipsFiltered(FilterTargets);
             IsInitializationFinished = true;
+        }
+
+        private void ShowSubphaseDescription()
+        {
+            if (AbilityName != null)
+            {
+                GameObject subphaseDescriptionGO = GameObject.Find("UI").transform.Find("CurrentSubphaseDescription").gameObject;
+                subphaseDescriptionGO.transform.Find("CardImage").GetComponent<SmallCardArt>().Initialize(ImageUrl);
+                subphaseDescriptionGO.transform.Find("AbilityName").GetComponent<Text>().text = AbilityName;
+                subphaseDescriptionGO.transform.Find("Description").GetComponent<Text>().text = Description;
+                subphaseDescriptionGO.SetActive(true);
+            }
+        }
+
+        private static void HideSubphaseDescription()
+        {
+            GameObject subphaseDescriptionGO = GameObject.Find("UI").transform.Find("CurrentSubphaseDescription").gameObject;
+            subphaseDescriptionGO.SetActive(false);
         }
 
         public void AiSelectPrioritizedTarget()
@@ -119,6 +146,8 @@ namespace SubPhases
         public override void Next()
         {
             Roster.AllShipsHighlightOff();
+            HideSubphaseDescription();
+
             Phases.CurrentSubPhase = Phases.CurrentSubPhase.PreviousSubPhase;
             UpdateHelpInfo();
         }
@@ -273,6 +302,20 @@ namespace SubPhases
             Action callback = Phases.CurrentSubPhase.CallBack;
             FinishSelectionNoCallback();
             callback();
+        }
+
+        public override void Pause()
+        {
+            base.Pause();
+
+            HideSubphaseDescription();
+        }
+
+        public override void Resume()
+        {
+            base.Resume();
+
+            ShowSubphaseDescription();
         }
 
     }

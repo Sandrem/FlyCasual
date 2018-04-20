@@ -52,7 +52,12 @@ namespace Abilities
                 GrantFreeFocusToken,
                 (ship) => FilterByTargetType(ship, new[] { TargetTypes.OtherFriendly, TargetTypes.This }.ToList()) && Board.BoardManager.GetRangeOfShips(attacker, ship) <= 2,
                 GetAiAbilityPriority,
-                HostShip.Owner.PlayerNo
+                HostShip.Owner.PlayerNo,
+                true,
+                null,
+                HostUpgrade.Name,
+                "You may assign focus token to a ship at Range 1-3 of the attacker.",
+                HostUpgrade.ImageUrl
             );
         }
                 

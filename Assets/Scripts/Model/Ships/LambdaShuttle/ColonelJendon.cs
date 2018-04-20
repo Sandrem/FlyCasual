@@ -87,7 +87,12 @@ namespace Abilities
                 SelectColonelJendonAbilityTarget,
                 FilterAbilityTargets,
                 GetAiAbilityPriority,
-                HostShip.Owner.PlayerNo
+                HostShip.Owner.PlayerNo,
+                true,
+                null,
+                HostShip.PilotName,
+                "Choose a ship to assign to it one of your Blue Target Lock tokens if it does not have a Blue Target Lock token.",
+                HostShip.ImageUrl
             );
         }
 

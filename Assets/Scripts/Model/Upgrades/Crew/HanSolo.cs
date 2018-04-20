@@ -1,28 +1,29 @@
 ﻿using Abilities;
 using Ship;
+using System;
 using UnityEngine;
 using Upgrade;
 
 namespace UpgradesList
 {
-    public class IG88D : GenericUpgrade
+    public class HanSolo : GenericUpgrade
     {
-        public IG88D() : base()
+        public HanSolo() : base()
         {
+            IsHidden = true;
+
             Types.Add(UpgradeType.Crew);
-            Name = "IG-88D";
-            Cost = 1;
+            Name = "Han Solo";
+            Cost = 2;
 
             isUnique = true;
 
-            AvatarOffset = new Vector2(44, 2);
-
-            UpgradeAbilities.Add(new Ig2000Ability());
+            AvatarOffset = new Vector2(88, 2);
         }
 
         public override bool IsAllowedForShip(GenericShip ship)
         {
-            return ship.faction == Faction.Scum;
+            return ship.faction == Faction.Rebel;
         }
     }
 }

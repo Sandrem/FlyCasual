@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Upgrade;
 using Conditions;
+using UnityEngine;
 
 namespace UpgradesList
 {
@@ -19,6 +20,8 @@ namespace UpgradesList
             Cost = 2;
 
             isUnique = true;
+
+            AvatarOffset = new Vector2(68, 0);
 
             UpgradeAbilities.Add(new JynErsoAbility());
         }

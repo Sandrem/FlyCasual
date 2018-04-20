@@ -6,24 +6,24 @@ using Upgrade;
 
 namespace UpgradesList
 {
-    public class C3PO : GenericUpgrade
+    public class RearAdmiralChiraneau : GenericUpgrade
     {
-        public C3PO() : base()
+        public RearAdmiralChiraneau() : base()
         {
             IsHidden = true;
 
             Types.Add(UpgradeType.Crew);
-            Name = "C-3PO";
+            Name = "Rear Admiral Chiraneau";
             Cost = 3;
 
             isUnique = true;
 
-            AvatarOffset = new Vector2(47, 1);
+            AvatarOffset = new Vector2(67, 1);
         }
 
         public override bool IsAllowedForShip(GenericShip ship)
         {
-            return ship.faction == Faction.Rebel;
+            return ship.faction == Faction.Imperial;
         }
     }
 }

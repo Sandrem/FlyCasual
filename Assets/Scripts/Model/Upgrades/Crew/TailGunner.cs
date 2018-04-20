@@ -14,9 +14,12 @@ namespace UpgradesList
             Types.Add(UpgradeType.Crew);
 			Name = "Tail Gunner";
             Cost = 2;
-			isLimited = true;   
 
-			UpgradeAbilities.Add(new Abilities.TailGunnerAbility());
+			isLimited = true;
+
+            AvatarOffset = new Vector2(45, 0);
+
+            UpgradeAbilities.Add(new Abilities.TailGunnerAbility());
         }
     }
 }

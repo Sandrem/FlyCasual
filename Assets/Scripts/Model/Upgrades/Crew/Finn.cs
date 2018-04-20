@@ -1,6 +1,7 @@
 ﻿using Upgrade;
 using Ship;
 using ActionsList;
+using UnityEngine;
 
 namespace UpgradesList
 {
@@ -11,6 +12,8 @@ namespace UpgradesList
             Types.Add(UpgradeType.Crew);
             Name = "Finn";
             Cost = 5;
+
+            AvatarOffset = new Vector2(53, 0);
 
             isUnique = true;
         }

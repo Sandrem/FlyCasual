@@ -1,28 +1,29 @@
 ﻿using Abilities;
 using Ship;
+using System;
 using UnityEngine;
 using Upgrade;
 
 namespace UpgradesList
 {
-    public class IG88D : GenericUpgrade
+    public class MaraJade : GenericUpgrade
     {
-        public IG88D() : base()
+        public MaraJade() : base()
         {
+            IsHidden = true;
+
             Types.Add(UpgradeType.Crew);
-            Name = "IG-88D";
-            Cost = 1;
+            Name = "Mara Jade";
+            Cost = 3;
 
             isUnique = true;
 
-            AvatarOffset = new Vector2(44, 2);
-
-            UpgradeAbilities.Add(new Ig2000Ability());
+            AvatarOffset = new Vector2(39, 1);
         }
 
         public override bool IsAllowedForShip(GenericShip ship)
         {
-            return ship.faction == Faction.Scum;
+            return ship.faction == Faction.Imperial;
         }
     }
 }

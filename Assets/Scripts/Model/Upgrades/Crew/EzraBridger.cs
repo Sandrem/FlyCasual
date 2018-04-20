@@ -1,6 +1,7 @@
 ﻿using System;
 using Upgrade;
 using Ship;
+using UnityEngine;
 
 namespace UpgradesList
 {
@@ -11,6 +12,8 @@ namespace UpgradesList
             Types.Add(UpgradeType.Crew);
             Name = "Ezra Bridger";
             Cost = 3;
+
+            AvatarOffset = new Vector2(7, 2);
 
             isUnique = true;
         }

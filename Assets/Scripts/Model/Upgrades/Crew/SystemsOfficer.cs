@@ -19,7 +19,10 @@ namespace UpgradesList
             Types.Add(UpgradeType.Crew);            
             Name = "Systems Officer";
             Cost = 2;
+
             isLimited = true;
+
+            AvatarOffset = new Vector2(45, 1);
 
             UpgradeAbilities.Add(new SystemsOfficerAbility());
         }

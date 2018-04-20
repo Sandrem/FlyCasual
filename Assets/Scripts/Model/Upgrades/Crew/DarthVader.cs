@@ -1,28 +1,29 @@
 ﻿using Abilities;
 using Ship;
+using System;
 using UnityEngine;
 using Upgrade;
 
 namespace UpgradesList
 {
-    public class IG88D : GenericUpgrade
+    public class DarthVader : GenericUpgrade
     {
-        public IG88D() : base()
+        public DarthVader() : base()
         {
+            IsHidden = true;
+
             Types.Add(UpgradeType.Crew);
-            Name = "IG-88D";
-            Cost = 1;
+            Name = "Darth Vader";
+            Cost = 3;
 
             isUnique = true;
 
-            AvatarOffset = new Vector2(44, 2);
-
-            UpgradeAbilities.Add(new Ig2000Ability());
+            AvatarOffset = new Vector2(53, 1);
         }
 
         public override bool IsAllowedForShip(GenericShip ship)
         {
-            return ship.faction == Faction.Scum;
+            return ship.faction == Faction.Imperial;
         }
     }
 }

@@ -3,6 +3,7 @@ using Ship;
 using SubPhases;
 using Abilities;
 using System;
+using UnityEngine;
 
 namespace UpgradesList
 {
@@ -13,6 +14,8 @@ namespace UpgradesList
             Types.Add(UpgradeType.Crew);
             Name = "Gunner";
             Cost = 5;
+
+            AvatarOffset = new Vector2(61, 1);
 
             UpgradeAbilities.Add(new GunnerAbility());
         }

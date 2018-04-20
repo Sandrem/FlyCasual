@@ -1,6 +1,7 @@
 ﻿using Upgrade;
 using Bombs;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace UpgradesList
 {
@@ -11,6 +12,8 @@ namespace UpgradesList
             Types.Add(UpgradeType.Crew);
             Name = "Bombardier";
             Cost = 1;
+
+            AvatarOffset = new Vector2(23, 1);
         }
 
         public override void AttachToShip(Ship.GenericShip host)

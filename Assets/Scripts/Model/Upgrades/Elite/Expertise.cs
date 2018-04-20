@@ -14,6 +14,8 @@ namespace UpgradesList
             Types.Add(UpgradeType.Elite);
             Name = "Expertise";
             Cost = 4;
+
+            // AvatarOffset = new Vector2(10, 5);
         }
 
         public override void AttachToShip(Ship.GenericShip host)

@@ -6,24 +6,24 @@ using Upgrade;
 
 namespace UpgradesList
 {
-    public class C3PO : GenericUpgrade
+    public class GrandMoffTarkin : GenericUpgrade
     {
-        public C3PO() : base()
+        public GrandMoffTarkin() : base()
         {
             IsHidden = true;
 
             Types.Add(UpgradeType.Crew);
-            Name = "C-3PO";
-            Cost = 3;
+            Name = "Grand Moff Tarkin";
+            Cost = 6;
 
             isUnique = true;
 
-            AvatarOffset = new Vector2(47, 1);
+            AvatarOffset = new Vector2(68, 1);
         }
 
         public override bool IsAllowedForShip(GenericShip ship)
         {
-            return ship.faction == Faction.Rebel;
+            return ship.faction == Faction.Imperial;
         }
     }
 }

@@ -178,7 +178,7 @@ public partial class MainMenu : MonoBehaviour {
         int row = count / 11;
         int column = count - row * 11;
 
-        avatarPanel.transform.localPosition = new Vector2(20 + column * 120, -20 - row * 120);
+        avatarPanel.transform.localPosition = new Vector2(20 + column * 120, -20 - row * 110);
         avatarPanel.name = avatarUpgrade.GetType().ToString();
 
         AvatarFromUpgrade avatar = avatarPanel.GetComponent<AvatarFromUpgrade>();

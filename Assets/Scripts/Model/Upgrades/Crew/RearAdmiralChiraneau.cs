@@ -6,24 +6,24 @@ using Upgrade;
 
 namespace UpgradesList
 {
-    public class C3PO : GenericUpgrade
+    public class YsanneIsard : GenericUpgrade
     {
-        public C3PO() : base()
+        public YsanneIsard() : base()
         {
             IsHidden = true;
 
             Types.Add(UpgradeType.Crew);
-            Name = "C-3PO";
-            Cost = 3;
+            Name = "Ysanne Isard";
+            Cost = 4;
 
             isUnique = true;
 
-            AvatarOffset = new Vector2(47, 1);
+            AvatarOffset = new Vector2(21, 1);
         }
 
         public override bool IsAllowedForShip(GenericShip ship)
         {
-            return ship.faction == Faction.Rebel;
+            return ship.faction == Faction.Imperial;
         }
     }
 }

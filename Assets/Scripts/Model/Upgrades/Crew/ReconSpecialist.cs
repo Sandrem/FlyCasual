@@ -11,6 +11,8 @@ namespace UpgradesList
             Types.Add(UpgradeType.Crew);
             Name = "Recon Specialist";
             Cost = 3;
+
+            AvatarOffset = new Vector2(42, 3);
         }
 
         public override void AttachToShip(Ship.GenericShip host)

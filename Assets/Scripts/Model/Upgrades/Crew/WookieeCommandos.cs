@@ -18,7 +18,9 @@ namespace UpgradesList
             Types.Add(UpgradeType.Crew);
             Name = "Wookiee Commandos";
             Cost = 1;
-                        
+
+            AvatarOffset = new Vector2(23, 0);
+
             UpgradeAbilities.Add(new WookieeCommandosCrewAbility());
         }
 

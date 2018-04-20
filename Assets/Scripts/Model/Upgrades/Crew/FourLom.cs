@@ -1,23 +1,24 @@
 ﻿using Abilities;
 using Ship;
+using System;
 using UnityEngine;
 using Upgrade;
 
 namespace UpgradesList
 {
-    public class IG88D : GenericUpgrade
+    public class FourLom : GenericUpgrade
     {
-        public IG88D() : base()
+        public FourLom() : base()
         {
+            IsHidden = true;
+
             Types.Add(UpgradeType.Crew);
-            Name = "IG-88D";
+            Name = "4-LOM";
             Cost = 1;
 
             isUnique = true;
 
-            AvatarOffset = new Vector2(44, 2);
-
-            UpgradeAbilities.Add(new Ig2000Ability());
+            AvatarOffset = new Vector2(30, 1);
         }
 
         public override bool IsAllowedForShip(GenericShip ship)

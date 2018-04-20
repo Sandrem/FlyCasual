@@ -3,6 +3,7 @@ using Ship;
 using Abilities;
 using System;
 using Tokens;
+using UnityEngine;
 
 namespace UpgradesList
 {
@@ -15,6 +16,8 @@ namespace UpgradesList
             Types.Add(UpgradeType.Elite);
             Name = "Crack Shot";
             Cost = 1;
+
+            AvatarOffset = new Vector2(43, 1);
 
             UpgradeAbilities.Add(new CrackShotAbility());
         }

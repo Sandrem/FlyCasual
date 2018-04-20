@@ -118,6 +118,9 @@ namespace SubPhases
 
         public void ShowActionDecisionPanel()
         {
+            //TODO: Use more global way of fix
+            HideDecisionWindowUI();
+
             List<ActionsList.GenericAction> availableActions = Selection.ThisShip.GetAvailableActionsList();
             foreach (var action in availableActions)
             {

@@ -257,7 +257,7 @@ namespace SubPhases
             UpdateHelpInfo();
         }
 
-        private void HideDecisionWindowUI()
+        protected void HideDecisionWindowUI()
         {
             decisions = new List<Decision>();
 

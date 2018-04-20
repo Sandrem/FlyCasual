@@ -33,9 +33,9 @@ namespace SubPhases
 
         public GenericShip TargetShip;
 
-        private string AbilityName;
-        private string Description;
-        private string ImageUrl;
+        public string AbilityName;
+        public string Description;
+        public string ImageUrl;
 
         public override void Start()
         {
@@ -54,17 +54,6 @@ namespace SubPhases
         public override void Prepare()
         {
 
-        }
-
-        public void PrepareByParametersOld(Action selectTargetAction, List<TargetTypes> targetTypes, Vector2 rangeLimits, bool showSkipButton = false)
-        {
-            targetsAllowed.AddRange(targetTypes);
-            minRange = (int) rangeLimits.x;
-            maxRange = (int) rangeLimits.y;
-
-            finishAction = selectTargetAction;
-
-            if (showSkipButton) UI.ShowSkipButton();
         }
 
         public void PrepareByParametersNew(Action selectTargetAction, Func<GenericShip, bool> filterTargets, Func<GenericShip, int> getAiPriority, PlayerNo subphaseOwnerPlayerNo, bool showSkipButton = true, string abilityName = null, string description = null, string imageUrl = null)

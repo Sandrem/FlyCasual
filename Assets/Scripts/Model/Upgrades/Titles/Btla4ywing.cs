@@ -68,15 +68,16 @@ namespace Abilities
 
         private void DoBTL4AExtraAttack(object sender, System.EventArgs e)
         {
-            Messages.ShowInfo(HostShip.PilotName + " can perform second attack from secondary weapon");
-
             Combat.StartAdditionalAttack(
                 HostShip,
                 delegate {
                     Selection.ThisShip.IsAttackPerformed = true;                    
                     Triggers.FinishTrigger();
                 },
-                IsSecondaryShot
+                IsSecondaryShot,
+                HostUpgrade.Name,
+                "You can perform an addition attack with a turret againts target inside your firing arc.",
+                HostUpgrade.ImageUrl
             );
         }
 

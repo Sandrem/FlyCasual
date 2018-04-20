@@ -57,14 +57,15 @@ namespace Abilities
         {
             if (!HostShip.IsCannotAttackSecondTime)
             {
-                Messages.ShowInfo(HostShip.PilotName + " can perform second attack\nfrom primary weapon");
-
                 HostShip.IsCannotAttackSecondTime = true;
 
                 Combat.StartAdditionalAttack(
                     HostShip,
                     FinishAdditionalAttack,
-                    IsPrimaryWeaponShot
+                    IsPrimaryWeaponShot,
+                    HostUpgrade.Name,
+                    "You may perform a primary weapon attack.",
+                    HostUpgrade.ImageUrl
                 );
             }
             else

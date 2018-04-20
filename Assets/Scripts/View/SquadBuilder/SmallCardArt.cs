@@ -18,7 +18,7 @@ public class SmallCardArt : MonoBehaviour {
 
         this.gameObject.SetActive(false);
 
-        LoadImage();
+        if (ImageUrl != null) LoadImage();
     }
 
     private void LoadImage()

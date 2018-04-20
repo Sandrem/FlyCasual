@@ -443,19 +443,25 @@ public static partial class Combat
 
     // Extra Attacks
 
-    public static void StartAdditionalAttack(GenericShip ship, Action callback, Func<GenericShip, IShipWeapon, bool> extraAttackFilter = null)
+    public static void StartAdditionalAttack(GenericShip ship, Action callback, Func<GenericShip, IShipWeapon, bool> extraAttackFilter = null, string abilityName = null, string description = null, string imageUrl = null)
     {
         Selection.ChangeActiveShip("ShipId:" + ship.ShipId);
         Phases.CurrentSubPhase.RequiredPlayer = ship.Owner.PlayerNo;
 
         ExtraAttackFilter = extraAttackFilter;
 
-        Phases.StartTemporarySubPhaseOld(
+        SelectTargetForSecondAttackSubPhase newAttackSubphase = (SelectTargetForSecondAttackSubPhase) Phases.StartTemporarySubPhaseNew(
             "Second attack",
             typeof(SelectTargetForSecondAttackSubPhase),
             //delegate { ExtraAttackTargetSelected(callback, extraAttackFilter); }
             callback
         );
+
+        newAttackSubphase.AbilityName = abilityName;
+        newAttackSubphase.Description = description;
+        newAttackSubphase.ImageUrl = imageUrl;
+
+        newAttackSubphase.Start();
     }
 
 }

@@ -91,8 +91,6 @@ namespace Abilities
                     return;
                 }
 
-                Messages.ShowInfo("\"Quick Draw\": Additional Combat is Engaged");
-
                 // Save his "is already attacked" flag
                 performedRegularAttack = HostShip.IsAttackPerformed;
 
@@ -100,7 +98,11 @@ namespace Abilities
 
                 Combat.StartAdditionalAttack(
                     HostShip,
-                    AfterExtraAttackSubPhase
+                    AfterExtraAttackSubPhase,
+                    null,
+                    HostShip.PilotName,
+                    "You may perfrom a primary weapon attack.",
+                    HostShip.ImageUrl
                 );
             }
             else

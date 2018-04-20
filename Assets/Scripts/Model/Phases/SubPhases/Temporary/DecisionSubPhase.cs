@@ -240,11 +240,14 @@ namespace SubPhases
 
         public override void Resume()
         {
+            HideDecisionWindowUI();
+
             base.Resume();
 
             Phases.CurrentSubPhase = this;
             UpdateHelpInfo();
-            Initialize();
+
+            GameMode.CurrentGameMode.StartSyncDecisionPreparation();
         }
 
         public override void Next()
@@ -256,6 +259,8 @@ namespace SubPhases
 
         private void HideDecisionWindowUI()
         {
+            decisions = new List<Decision>();
+
             if (decisionPanel != null) decisionPanel.gameObject.SetActive(false);
 
             if (buttonsHolder != null)

@@ -105,8 +105,7 @@ namespace SubPhases
         {
             Selection.ThisShip.RemoveAlreadyExecutedAction(typeof(ActionsList.TargetLockAction));
 
-            Phases.CurrentSubPhase = PreviousSubPhase;
-            Roster.AllShipsHighlightOff();
+            Phases.FinishSubPhase(this.GetType());
             Phases.CurrentSubPhase.Resume();
             UpdateHelpInfo();
         }

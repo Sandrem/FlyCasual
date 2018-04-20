@@ -129,7 +129,6 @@ namespace SubPhases
         public override void Resume()
         {
             base.Resume();
-            Initialize();
 
             UI.ShowSkipButton();
         }
@@ -185,7 +184,6 @@ namespace SubPhases
         public override void Resume()
         {
             base.Resume();
-            Initialize();
 
             UI.ShowSkipButton();
         }

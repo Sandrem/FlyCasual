@@ -209,4 +209,10 @@ public partial class MainMenu : MonoBehaviour {
         Options.ChangeParameterValue("NickName", inputText.text);
     }
 
+    public void ChangeTitle(Text inputText)
+    {
+        Options.Title = inputText.text;
+        Options.ChangeParameterValue("Title", inputText.text);
+    }
+
 }

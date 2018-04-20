@@ -93,7 +93,7 @@ namespace SubPhases
             }
         }
 
-        private static void HideSubphaseDescription()
+        protected static void HideSubphaseDescription()
         {
             GameObject subphaseDescriptionGO = GameObject.Find("UI").transform.Find("CurrentSubphaseDescription").gameObject;
             subphaseDescriptionGO.SetActive(false);

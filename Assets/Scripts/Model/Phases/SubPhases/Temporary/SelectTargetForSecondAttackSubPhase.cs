@@ -66,12 +66,18 @@ namespace SubPhases
 
         public override void Next()
         {
+            Roster.AllShipsHighlightOff();
+            HideSubphaseDescription();
+
             Combat.ExtraAttackFilter = null;
+
             Phases.CurrentSubPhase = PreviousSubPhase;
         }
 
         public override void Resume()
         {
+            base.Resume();
+
             UpdateHelpInfo();
             UI.ShowSkipButton();
         }

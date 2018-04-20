@@ -83,7 +83,7 @@ namespace SubPhases
 
         private void ShowSubphaseDescription()
         {
-            if (AbilityName != null)
+            if (AbilityName != null && Roster.GetPlayer(RequiredPlayer).GetType() == typeof(HumanPlayer))
             {
                 GameObject subphaseDescriptionGO = GameObject.Find("UI").transform.Find("CurrentSubphaseDescription").gameObject;
                 subphaseDescriptionGO.transform.Find("CardImage").GetComponent<SmallCardArt>().Initialize(ImageUrl);

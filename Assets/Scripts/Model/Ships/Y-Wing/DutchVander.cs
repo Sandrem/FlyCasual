@@ -99,7 +99,11 @@ namespace Abilities
         private void StartSubphaseForTargetLock(object sender, System.EventArgs e)
         {
             Selection.ThisShip = TargetShip;
-            Selection.ThisShip.AcquireTargetLock(Triggers.FinishTrigger);
+            Selection.ThisShip.AcquireTargetLock(
+                Triggers.FinishTrigger,
+                HostShip.PilotName,
+                HostShip.ImageUrl
+            );
         }
     }
 }

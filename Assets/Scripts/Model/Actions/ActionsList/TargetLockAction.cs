@@ -130,23 +130,25 @@ namespace SubPhases
         {
             CanMeasureRangeBeforeSelection = false;
 
-            var ship = Selection.ThisShip;
-            minRange = ship.TargetLockMinRange;
-            maxRange = ship.TargetLockMaxRange;
+            if (AbilityName == null) AbilityName = "Target Lock";
+            if (Description == null) Description = "Choose a ship to acquire a target lock on it";
 
-            targetsAllowed.Add(TargetTypes.Enemy);
-            finishAction = TrySelectTargetLock;
-
-            FilterTargets = FilterTargetLockTargets;
-            GetAiPriority = GetTargetLockAiPriority;
-
-            UI.ShowSkipButton();
+            PrepareByParameters(
+                TrySelectTargetLock,
+                FilterTargetLockTargets,
+                GetAiPriority,
+                Selection.ThisShip.Owner.PlayerNo,
+                true,
+                AbilityName,
+                Description,
+                ImageUrl
+            );
         }
 
         private bool FilterTargetLockTargets(GenericShip ship)
         {
             Board.ShipDistanceInformation distanceInfo = new Board.ShipDistanceInformation(Selection.ThisShip, ship);
-            return ship.Owner.PlayerNo != Selection.ThisShip.Owner.PlayerNo && distanceInfo.Range >= minRange && distanceInfo.Range <= maxRange && Rules.TargetLocks.TargetLockIsAllowed(Selection.ThisShip, ship);
+            return ship.Owner.PlayerNo != Selection.ThisShip.Owner.PlayerNo && distanceInfo.Range >= ship.TargetLockMinRange && distanceInfo.Range <= ship.TargetLockMaxRange && Rules.TargetLocks.TargetLockIsAllowed(Selection.ThisShip, ship);
         }
 
         private int GetTargetLockAiPriority(GenericShip ship)

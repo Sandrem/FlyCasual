@@ -484,7 +484,7 @@ namespace Ship
             if (OnTokenIsRemovedGlobal != null) OnTokenIsRemovedGlobal(this, tokenType);
         }
 
-        public void AcquireTargetLock(Action callback)
+        public void AcquireTargetLock(Action callback, string abilityName, string imageUrl)
         {
             AcquireTargetLockSubPhase selectTargetLockSubPhase = (AcquireTargetLockSubPhase)Phases.StartTemporarySubPhaseNew(
                 "Select target for Target Lock",
@@ -496,6 +496,8 @@ namespace Ship
                 });
 
             selectTargetLockSubPhase.RequiredPlayer = Owner.PlayerNo;
+            selectTargetLockSubPhase.AbilityName = abilityName;
+            selectTargetLockSubPhase.ImageUrl = imageUrl;
             selectTargetLockSubPhase.Start();
         }
 

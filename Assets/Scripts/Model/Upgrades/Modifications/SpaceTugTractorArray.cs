@@ -86,18 +86,20 @@ namespace SubPhases
     public class SelectSpacetugTargetSubPhase : SelectShipSubPhase
     {
         public GenericShip SpacetugOwner;
+        public GenericUpgrade SpacetugUpgrade;
 
         public override void Prepare()
         {
-            targetsAllowed.Add(TargetTypes.Enemy);
-            targetsAllowed.Add(TargetTypes.OtherFriendly);
-            maxRange = 1;
-            finishAction = SelectSpacetugTarget;
-
-            FilterTargets = FilterAbilityTargets;
-            GetAiPriority = GetAiAbilityPriority;
-
-            UI.ShowSkipButton();
+            PrepareByParameters(
+                SelectSpacetugTarget,
+                FilterAbilityTargets,
+                GetAiAbilityPriority,
+                Selection.ThisShip.Owner.PlayerNo,
+                true,
+                SpacetugUpgrade.Name,
+                "Choose a ship inside your firing arc to assign a tractor beam token to it.",
+                SpacetugUpgrade.ImageUrl
+            );
         }
 
         private bool FilterAbilityTargets(GenericShip ship)

@@ -36,7 +36,7 @@ namespace SubPhases
 
         public override void Prepare()
         {
-            PrepareByParametersNew(
+            PrepareByParameters(
                 SelectCoordinateTarget,
                 FilterCoordinateTargets,
                 GetAiCoordinatePriority,

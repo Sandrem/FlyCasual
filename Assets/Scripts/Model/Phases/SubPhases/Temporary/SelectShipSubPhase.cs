@@ -56,7 +56,7 @@ namespace SubPhases
 
         }
 
-        public void PrepareByParametersNew(Action selectTargetAction, Func<GenericShip, bool> filterTargets, Func<GenericShip, int> getAiPriority, PlayerNo subphaseOwnerPlayerNo, bool showSkipButton = true, string abilityName = null, string description = null, string imageUrl = null)
+        public void PrepareByParameters(Action selectTargetAction, Func<GenericShip, bool> filterTargets, Func<GenericShip, int> getAiPriority, PlayerNo subphaseOwnerPlayerNo, bool showSkipButton, string abilityName, string description, string imageUrl = null)
         {
             FilterTargets = filterTargets;
             GetAiPriority = getAiPriority;

@@ -53,9 +53,11 @@ namespace Abilities
 
         private void PerformBosskAbility(object sender, EventArgs e)
         {
-            Messages.ShowInfoToHuman("Bossk: Select a target for Target Lock.");
-            HostShip.AcquireTargetLock(AssignFocusToken);
-            
+            HostShip.AcquireTargetLock(
+                AssignFocusToken,
+                HostShip.PilotName,
+                HostShip.ImageUrl
+            );            
         }
 
         private void AssignFocusToken()

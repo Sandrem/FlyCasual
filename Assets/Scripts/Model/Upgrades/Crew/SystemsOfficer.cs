@@ -95,11 +95,14 @@ namespace Abilities
         protected void AcquireFreeTargetLock(object sender, System.EventArgs e)
         {
             TargetShip.AcquireTargetLock(() =>
-            {
-                Selection.ThisShip = HostShip;
-                Phases.CurrentSubPhase.Resume();
-                Triggers.FinishTrigger();
-            });
+                {
+                    Selection.ThisShip = HostShip;
+                    Phases.CurrentSubPhase.Resume();
+                    Triggers.FinishTrigger();
+                },
+                HostUpgrade.Name,
+                HostUpgrade.ImageUrl
+            );
         }
 
         private int GetAiAbilityPriority(GenericShip ship)

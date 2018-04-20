@@ -74,13 +74,13 @@ namespace SubPhases
 
         public override void Prepare()
         {
-            PrepareByParametersNew(
+            PrepareByParameters(
                 SelectSquadLeaderTarget,
                 FilterAbilityTargets,
                 GetAiAbilityPriority,
                 Selection.ThisShip.Owner.PlayerNo,
                 true,
-                "Squad Leader",
+                SquadLeaderUpgrade.Name,
                 "Choose a ship that has lower pilot skill than you. It may perform 1 free action.",
                 SquadLeaderUpgrade.ImageUrl
             );

@@ -146,7 +146,7 @@ namespace Abilities
                 customCallback
             );
 
-            selectTargetSubPhase.PrepareByParametersNew(
+            selectTargetSubPhase.PrepareByParameters(
                 delegate { SelectShipForAbility(selectTargetAction); },
                 filterTargets,
                 getAiPriority,

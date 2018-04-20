@@ -12,7 +12,7 @@ namespace SubPhases
             Selection.ThisShip.IsAttackPerformed = false;
             Combat.IsAttackAlreadyCalled = false;
 
-            PrepareByParametersNew(
+            PrepareByParameters(
                 FinishActon,
                 FilterAttackTargets,
                 null,

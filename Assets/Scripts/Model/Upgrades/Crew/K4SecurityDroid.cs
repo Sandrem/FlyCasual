@@ -53,10 +53,13 @@ namespace Abilities
 
         private void AssignK4TargetingLock(object sender, EventArgs e)
         {
-            Messages.ShowInfoToHuman("K4 Security Droid: Acquire a Target Lock");
             Sounds.PlayShipSound("Astromech-Beeping-and-whistling");
 
-            HostShip.AcquireTargetLock(Triggers.FinishTrigger);
+            HostShip.AcquireTargetLock(
+                Triggers.FinishTrigger,
+                HostUpgrade.Name,
+                HostUpgrade.ImageUrl
+            );
         }
     }
 }

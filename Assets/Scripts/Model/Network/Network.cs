@@ -251,6 +251,11 @@ public static partial class Network
         CurrentPlayer.CmdSwitchToOwnDiceModifications();
     }
 
+    public static void CompareResultsAndDealDamage()
+    {
+        CurrentPlayer.CmdCompareResultsAndDealDamage();
+    }
+
     // CONFIRM DICE ROLL CHECK
 
     public static void ConfirmDiceRollCheckResults()

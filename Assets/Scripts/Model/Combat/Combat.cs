@@ -241,7 +241,7 @@ public static partial class Combat
         Combat.Attacker.Owner.UseCompareResultsDiceModifications();
     }
 
-    public static void CompareResultsAndDealDamage()
+    public static void CompareResultsAndDealDamageClient()
     {
         DiceCompareHelper.currentDiceCompareHelper.Close();
         HideDiceResultMenu();

@@ -48,7 +48,7 @@ namespace GameModes
         public abstract void UseDiceModification(string effectName);
 
         public abstract void ConfirmDiceResults();
-
+        public abstract void CompareResultsAndDealDamage();
         public abstract void SwitchToOwnDiceModifications();
 
         public abstract void TakeDecision(Decision decision, GameObject button);

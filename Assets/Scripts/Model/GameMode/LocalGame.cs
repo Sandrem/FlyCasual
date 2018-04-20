@@ -144,6 +144,11 @@ namespace GameModes
             Combat.ConfirmDiceResultsClient();
         }
 
+        public override void CompareResultsAndDealDamage()
+        {
+            Combat.CompareResultsAndDealDamageClient();
+        }
+
         public override void SwitchToOwnDiceModifications()
         {
             Combat.SwitchToOwnDiceModificationsClient();

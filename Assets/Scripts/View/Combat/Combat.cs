@@ -98,8 +98,13 @@ public static partial class Combat
         }
         else
         {
-            CompareResultsAndDealDamage();
+            CompareResultsAndDealDamageClient();
         }
+    }
+
+    public static void CompareResultsAndDealDamage()
+    {
+        GameMode.CurrentGameMode.CompareResultsAndDealDamage();
     }
 
     private static void SwitchToOwnDiceModifications()
@@ -235,7 +240,7 @@ public static partial class Combat
                 if (Combat.Defender.CallTryConfirmDiceResults()) ConfirmDefenceDiceResults();
                 break;
             case CombatStep.CompareResults:
-                CompareResultsAndDealDamage();
+                CompareResultsAndDealDamageClient();
                 break;
         }
     }

@@ -164,6 +164,11 @@ namespace GameModes
             Network.ConfirmDiceResults();
         }
 
+        public override void CompareResultsAndDealDamage()
+        {
+            Network.CompareResultsAndDealDamage();
+        }
+
         public override void SwitchToOwnDiceModifications()
         {
             Network.SwitchToOwnDiceModifications();

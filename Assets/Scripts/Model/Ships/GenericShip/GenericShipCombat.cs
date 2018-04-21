@@ -173,6 +173,7 @@ namespace Ship
         public event EventHandlerShip OnAttackFinish;
         public event EventHandlerShip OnAttackFinishAsAttacker;
         public event EventHandlerShip OnAttackFinishAsDefender;
+        public static event EventHandlerShip OnAttackFinishGlobal;
 
         public event EventHandlerBombDropTemplates OnGetAvailableBombDropTemplates;
         public event EventHandlerBarrelRollTemplates OnGetAvailableBarrelRollTemplates;
@@ -335,6 +336,7 @@ namespace Ship
         public void CallAttackFinish()
         {
             if (OnAttackFinish != null) OnAttackFinish(this);
+            if (OnAttackFinishGlobal != null) OnAttackFinishGlobal(this);
         }
 
         public void CallAttackFinishAsAttacker()

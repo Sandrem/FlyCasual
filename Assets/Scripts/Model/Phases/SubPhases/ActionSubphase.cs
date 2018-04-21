@@ -162,7 +162,7 @@ namespace SubPhases
 
             if (availableActions.Count > 0)
             {
-                Roster.GetPlayer(Phases.CurrentPhasePlayer).PerformFreeAction();
+                Selection.ThisShip.Owner.PerformFreeAction();
                 callBack();
             }
             else

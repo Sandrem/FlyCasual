@@ -55,7 +55,7 @@ namespace Abilities
         {
             Sounds.PlayShipSound("Astromech-Beeping-and-whistling");
 
-            HostShip.AcquireTargetLock(
+            HostShip.ChooseTargetToAcquireTargetLock(
                 Triggers.FinishTrigger,
                 HostUpgrade.Name,
                 HostUpgrade.ImageUrl

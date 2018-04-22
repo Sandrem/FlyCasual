@@ -175,7 +175,7 @@ namespace SubPhases
         {
             if (Rules.TargetLocks.TargetLockIsAllowed(Selection.ThisShip, TargetShip))
             {
-                Actions.AssignTargetLockToPair(
+                Actions.AcquireTargetLock(
                     Selection.ThisShip,
                     TargetShip,
                     SuccessfulCallback,

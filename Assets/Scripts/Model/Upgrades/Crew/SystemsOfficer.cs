@@ -94,7 +94,7 @@ namespace Abilities
 
         protected void AcquireFreeTargetLock(object sender, System.EventArgs e)
         {
-            TargetShip.AcquireTargetLock(() =>
+            TargetShip.ChooseTargetToAcquireTargetLock(() =>
                 {
                     Selection.ThisShip = HostShip;
                     Phases.CurrentSubPhase.Resume();

@@ -58,6 +58,8 @@ namespace Ship
         public event EventHandlerShipType OnConditionIsAssigned;
         public event EventHandlerShipType OnConditionIsRemoved;
 
+        public event EventHandlerShip OnTargetLockIsAcquired;
+
         public event EventHandlerShip OnCoordinateTargetIsSelected;
 
         public event EventHandlerShip OnRerollIsConfirmed;
@@ -484,7 +486,14 @@ namespace Ship
             if (OnTokenIsRemovedGlobal != null) OnTokenIsRemovedGlobal(this, tokenType);
         }
 
-        public void AcquireTargetLock(Action callback, string abilityName, string imageUrl)
+        public void CallOnTargetLockIsAcquiredEvent(GenericShip target, Action callback)
+        {
+            if (OnTargetLockIsAcquired != null) OnTargetLockIsAcquired(target);
+
+            Triggers.ResolveTriggers(TriggerTypes.OnTargetLockIsAcquired, callback);
+        }
+
+        public void ChooseTargetToAcquireTargetLock(Action callback, string abilityName, string imageUrl)
         {
             AcquireTargetLockSubPhase selectTargetLockSubPhase = (AcquireTargetLockSubPhase)Phases.StartTemporarySubPhaseNew(
                 "Select target for Target Lock",

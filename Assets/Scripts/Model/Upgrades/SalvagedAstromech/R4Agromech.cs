@@ -49,7 +49,7 @@ namespace Abilities
 
         private void AcquireTargetLock(object sender, EventArgs e)
         {
-            Actions.AssignTargetLockToPair(Combat.Attacker, Combat.Defender, DecisionSubPhase.ConfirmDecision, DecisionSubPhase.ConfirmDecision);            
+            Actions.AcquireTargetLock(Combat.Attacker, Combat.Defender, DecisionSubPhase.ConfirmDecision, DecisionSubPhase.ConfirmDecision);            
         }
     }
 }

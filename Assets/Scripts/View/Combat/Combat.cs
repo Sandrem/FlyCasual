@@ -187,11 +187,11 @@ public static partial class Combat
         {
             case DiceModificationTimingType.Normal:
                 Selection.ActiveShip = (AttackStep == CombatStep.Attack) ? Attacker : Defender;
-                Selection.ActiveShip.AddAlreadyExecutedOppositeActionEffect(diceModification);
+                Selection.ActiveShip.AddAlreadyExecutedActionEffect(diceModification);
                 break;
             case DiceModificationTimingType.Opposite:
                 Selection.ActiveShip = (AttackStep == CombatStep.Attack) ? Defender : Attacker;
-                Selection.ActiveShip.AddAlreadyExecutedActionEffect(diceModification);
+                Selection.ActiveShip.AddAlreadyExecutedOppositeActionEffect(diceModification);
                 break;
             case DiceModificationTimingType.CompareResults:
                 Selection.ActiveShip = Attacker;

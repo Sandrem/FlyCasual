@@ -84,7 +84,7 @@ namespace PilotAbilitiesNamespace
 
         private void AcquireTargetLock()
         {
-            Actions.AssignTargetLockToPair(HostShip, TargetShip, SuccessfullSelection, UnSuccessfullSelection);
+            Actions.AcquireTargetLock(HostShip, TargetShip, SuccessfullSelection, UnSuccessfullSelection);
         }
 
         private void SuccessfullSelection()

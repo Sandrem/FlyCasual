@@ -56,7 +56,7 @@ namespace Abilities
 
         private void PerformBosskAbility(object sender, EventArgs e)
         {
-            HostShip.AcquireTargetLock(
+            HostShip.ChooseTargetToAcquireTargetLock(
                 AssignFocusToken,
                 HostShip.PilotName,
                 HostShip.ImageUrl

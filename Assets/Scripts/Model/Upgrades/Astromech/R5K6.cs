@@ -83,7 +83,7 @@ namespace SubPhases
             if (CurrentDiceRoll.DiceList[0].Side == DieSide.Success)
             {
                 Sounds.PlayShipSound("R2D2-Proud");
-                Actions.AssignTargetLockToPair(Combat.Attacker, Combat.Defender, CallBack, CallBack);
+                Actions.AcquireTargetLock(Combat.Attacker, Combat.Defender, CallBack, CallBack);
 
                 //TODO: Avoid code after callback
                 char newTargetLockTokenLetter = Combat.Attacker.Tokens.GetTargetLockLetterPair(Combat.Defender);

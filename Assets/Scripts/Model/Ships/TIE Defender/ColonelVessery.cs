@@ -58,7 +58,7 @@ namespace Abilities
 
         private void UseColonelVesseryAbility(object sender, System.EventArgs e)
         {
-            Actions.AssignTargetLockToPair(Combat.Attacker, Combat.Defender, SubPhases.DecisionSubPhase.ConfirmDecision, SubPhases.DecisionSubPhase.ConfirmDecision);
+            Actions.AcquireTargetLock(Combat.Attacker, Combat.Defender, SubPhases.DecisionSubPhase.ConfirmDecision, SubPhases.DecisionSubPhase.ConfirmDecision);
         }
     }
 }

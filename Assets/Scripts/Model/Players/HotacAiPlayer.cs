@@ -41,7 +41,7 @@ namespace Players
                 if (action.GetType() == typeof(ActionsList.TargetLockAction))
                 {
                     isTargetLockPerformed = true;
-                    Actions.AssignTargetLockToPair(
+                    Actions.AcquireTargetLock(
                         ship,
                         anotherShip,
                         delegate { PerformManeuverOfShip(ship); },

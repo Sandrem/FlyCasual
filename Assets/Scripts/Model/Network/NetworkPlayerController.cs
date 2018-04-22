@@ -304,7 +304,7 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     {
         if (DebugManager.DebugNetwork) UI.AddTestLogEntry("S: RpcFinishManeuver");
 
-        Selection.ActiveShip.CallExecuteMoving(delegate { Phases.FinishSubPhase(typeof(MovementExecutionSubPhase)); });
+        Selection.ActiveShip.CallExecuteMoving(Triggers.FinishTrigger);
     }
 
     // BARREL ROLL

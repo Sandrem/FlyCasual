@@ -12,7 +12,8 @@ public enum CombatStep
 {
     None,
     Attack,
-    Defence
+    Defence,
+    CompareResults
 }
 
 public class DamageSourceEventArgs : EventArgs
@@ -221,8 +222,8 @@ public static partial class Combat
 
     public static void CallDefenceStartEvents()
     {
-        Attacker.CallDefenceStart();
-        Defender.CallDefenceStart();
+        Attacker.CallDefenceStartAsAttacker();
+        Defender.CallDefenceStartAsDefender();
     }
 
     private static void DefenceDiceRoll()
@@ -234,6 +235,13 @@ public static partial class Combat
     // COMPARE RESULTS
 
     public static void ConfirmDefenceDiceResults()
+    {
+        AttackStep = CombatStep.CompareResults;
+
+        Combat.Attacker.Owner.UseCompareResultsDiceModifications();
+    }
+
+    public static void CompareResultsAndDealDamageClient()
     {
         DiceCompareHelper.currentDiceCompareHelper.Close();
         HideDiceResultMenu();
@@ -378,8 +386,8 @@ public static partial class Combat
     {
         Selection.ThisShip = Attacker;
 
-        Attacker.CallAttackFinishAsAttacker ();
-        Defender.CallAttackFinishAsDefender ();
+        Attacker.CallAttackFinishAsAttacker();
+        Defender.CallAttackFinishAsDefender();
 
         Attacker.CallAttackFinish();
         Defender.CallAttackFinish();
@@ -435,19 +443,25 @@ public static partial class Combat
 
     // Extra Attacks
 
-    public static void StartAdditionalAttack(GenericShip ship, Action callback, Func<GenericShip, IShipWeapon, bool> extraAttackFilter = null)
+    public static void StartAdditionalAttack(GenericShip ship, Action callback, Func<GenericShip, IShipWeapon, bool> extraAttackFilter = null, string abilityName = null, string description = null, string imageUrl = null)
     {
         Selection.ChangeActiveShip("ShipId:" + ship.ShipId);
         Phases.CurrentSubPhase.RequiredPlayer = ship.Owner.PlayerNo;
 
         ExtraAttackFilter = extraAttackFilter;
 
-        Phases.StartTemporarySubPhaseOld(
+        SelectTargetForSecondAttackSubPhase newAttackSubphase = (SelectTargetForSecondAttackSubPhase) Phases.StartTemporarySubPhaseNew(
             "Second attack",
             typeof(SelectTargetForSecondAttackSubPhase),
             //delegate { ExtraAttackTargetSelected(callback, extraAttackFilter); }
             callback
         );
+
+        newAttackSubphase.AbilityName = abilityName;
+        newAttackSubphase.Description = description;
+        newAttackSubphase.ImageUrl = imageUrl;
+
+        newAttackSubphase.Start();
     }
 
 }

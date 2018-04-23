@@ -2,6 +2,7 @@
 using System;
 using Ship;
 using Abilities;
+using UnityEngine;
 
 namespace UpgradesList
 {
@@ -14,6 +15,8 @@ namespace UpgradesList
             Cost = 2;
 
             isUnique = true;
+
+            AvatarOffset = new Vector2(43, 1);
 
             UpgradeAbilities.Add(new AgentKallusAbility());
         }

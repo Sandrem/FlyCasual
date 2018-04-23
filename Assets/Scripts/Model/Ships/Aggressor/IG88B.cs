@@ -69,12 +69,13 @@ namespace Abilities
         {
             if (!HostShip.IsCannotAttackSecondTime)
             {
-                Messages.ShowInfo(HostShip.PilotName + " can perform second attack\nfrom Cannon");
-
                 Combat.StartAdditionalAttack(
                     HostShip,
                     FinishAdditionalAttack,
-                    IsCannonShot
+                    IsCannonShot,
+                    "IG-88B",
+                    "You may perform a cannon attack.",
+                    HostShip.ImageUrl
                 );
             }
             else

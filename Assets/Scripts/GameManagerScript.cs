@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using GameModes;
+using UnityEngine.UI;
 
 public delegate void CallBackFunction();
 
@@ -11,7 +12,6 @@ public class GameManagerScript : MonoBehaviour {
 
     public UI UI;
     public ShipMovementScript Movement;
-    public ShipPositionManager Position;
 
     void Start()
     {
@@ -46,6 +46,8 @@ public class GameManagerScript : MonoBehaviour {
         {
             if (!Console.IsActive) UI.GoNextShortcut();
         }
+
+        if (Phases.CurrentSubPhase != null) Phases.CurrentSubPhase.Update();
     }
 
     private void SetApplicationParameters()
@@ -61,7 +63,6 @@ public class GameManagerScript : MonoBehaviour {
         UI = this.GetComponent<UI>();
         
         Movement = this.GetComponent<ShipMovementScript>();
-        Position = this.GetComponent<ShipPositionManager>();
     }
 
     public void Wait(float seconds, CallBackFunction callBack)

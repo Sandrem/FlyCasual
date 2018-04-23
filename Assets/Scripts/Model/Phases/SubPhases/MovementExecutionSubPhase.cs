@@ -12,6 +12,8 @@ namespace SubPhases
 
         public override void Start()
         {
+            base.Start();
+
             Name = "Movement";
             RequiredPilotSkill = PreviousSubPhase.RequiredPilotSkill;
             RequiredPlayer = PreviousSubPhase.RequiredPlayer;

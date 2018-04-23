@@ -39,12 +39,23 @@ namespace Players
 
         public override void UseOwnDiceModifications()
         {
+            base.UseOwnDiceModifications();
+
             Combat.ShowOwnDiceResultMenu();
         }
 
         public override void UseOppositeDiceModifications()
         {
+            base.UseOppositeDiceModifications();
+
             Combat.ShowOppositeDiceResultMenu();
+        }
+
+        public override void UseCompareResultsDiceModifications()
+        {
+            base.UseCompareResultsDiceModifications();
+
+            Combat.ShowCompareResultsMenu();
         }
 
     }

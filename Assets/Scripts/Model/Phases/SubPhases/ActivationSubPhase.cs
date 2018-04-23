@@ -13,6 +13,8 @@ namespace SubPhases
 
         public override void Start()
         {
+            base.Start();
+
             Name = "Activation SubPhase";
         }
 

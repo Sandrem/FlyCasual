@@ -60,7 +60,12 @@ namespace Abilities
                     GrantFreeTargetLock,
                     FilterAbilityTargets,
                     GetAiAbilityPriority,
-                    HostShip.Owner.PlayerNo
+                    HostShip.Owner.PlayerNo,
+                    true,
+                    null,
+                    HostShip.PilotName,
+                    "Choose another ship.\nIt may acquire a Target Lock.",
+                    HostShip.ImageUrl
                 );
             }
             else
@@ -94,7 +99,11 @@ namespace Abilities
         private void StartSubphaseForTargetLock(object sender, System.EventArgs e)
         {
             Selection.ThisShip = TargetShip;
-            Selection.ThisShip.AcquireTargetLock(Triggers.FinishTrigger);
+            Selection.ThisShip.ChooseTargetToAcquireTargetLock(
+                Triggers.FinishTrigger,
+                HostShip.PilotName,
+                HostShip.ImageUrl
+            );
         }
     }
 }

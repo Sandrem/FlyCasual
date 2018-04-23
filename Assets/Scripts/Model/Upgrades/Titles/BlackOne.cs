@@ -59,13 +59,16 @@ namespace Abilities
 
         private void SelectTargetForRemoveTargetLock(object sender, EventArgs e)
         {
-            Messages.ShowInfoToHuman("Black One: Select ship to remove Red Target Lock token");
-
             SelectTargetForAbility(
                 RemoveEnemyTargetLock,
                 FilterTargetsOfAbility,
                 GetAiPriorityOfTarget,
-                HostShip.Owner.PlayerNo
+                HostShip.Owner.PlayerNo,
+                true,
+                null,
+                HostUpgrade.Name,
+                "Choose a ship to remove enemy Target Lock from it.",
+                HostUpgrade.ImageUrl
             );
         }
 

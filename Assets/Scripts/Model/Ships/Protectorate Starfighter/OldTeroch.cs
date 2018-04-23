@@ -60,7 +60,12 @@ namespace Abilities
                     ActivateOldTerochAbility,
                     FilterTargetsOfAbility,
                     GetAiPriorityOfTarget,
-                    HostShip.Owner.PlayerNo
+                    HostShip.Owner.PlayerNo,
+                    true,
+                    null,
+                    HostShip.PilotName,
+                    "Choose a ship. If you are inside its firing arc, it discards all focus and evade tokens.",
+                    HostShip.ImageUrl
                 );
 			} else {
 				// no enemy in range

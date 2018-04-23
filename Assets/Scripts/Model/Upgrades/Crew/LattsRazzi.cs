@@ -3,6 +3,7 @@ using Upgrade;
 using Ship;
 using Abilities;
 using Tokens;
+using UnityEngine;
 
 namespace UpgradesList
 {
@@ -15,6 +16,8 @@ namespace UpgradesList
             Cost = 2;
 
             isUnique = true;
+
+            // AvatarOffset = new Vector2(37, 0);
 
             UpgradeAbilities.Add(new LattsRazziCrewAbility());
         }

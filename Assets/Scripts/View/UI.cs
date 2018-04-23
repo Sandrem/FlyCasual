@@ -113,6 +113,7 @@ public class UI : MonoBehaviour {
     {
         GameObject gameResultsPanel = GameObject.Find("UI").transform.Find("GameResultsPanel").gameObject;
         gameResultsPanel.transform.Find("Panel").transform.Find("Congratulations").GetComponent<Text>().text = results;
+        gameResultsPanel.transform.Find("Panel").Find("Restart").gameObject.SetActive(!(GameMode.CurrentGameMode is NetworkGame));
         gameResultsPanel.SetActive(true);
     }
 
@@ -275,7 +276,7 @@ public class UI : MonoBehaviour {
 
     public void QuitGame()
     {
-        Application.Quit();
+        GameMode.CurrentGameMode.QuitToDesktop();
     }
 
     public void GoNextShortcut()

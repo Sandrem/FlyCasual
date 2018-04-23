@@ -55,7 +55,12 @@ namespace PilotAbilitiesNamespace
                 AcquireTargetLock,
                 FilterTargetInBullseyeArc,
                 GetAiAbilityPriority,
-                HostShip.Owner.PlayerNo
+                HostShip.Owner.PlayerNo,
+                true,
+                null,
+                HostShip.PilotName,
+                "Acqure a Target Lock on an enemy ship inside your bullseye firing arc.",
+                HostShip.ImageUrl
             );
         }
 
@@ -79,7 +84,7 @@ namespace PilotAbilitiesNamespace
 
         private void AcquireTargetLock()
         {
-            Actions.AssignTargetLockToPair(HostShip, TargetShip, SuccessfullSelection, UnSuccessfullSelection);
+            Actions.AcquireTargetLock(HostShip, TargetShip, SuccessfullSelection, UnSuccessfullSelection);
         }
 
         private void SuccessfullSelection()

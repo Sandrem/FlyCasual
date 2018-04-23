@@ -14,6 +14,8 @@ namespace UpgradesList
             Cost = 4;
 
             isUnique = true;
+
+            AvatarOffset = new Vector2(66, 1);
         }
 
         public override bool IsAllowedForShip(GenericShip ship)

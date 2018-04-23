@@ -1,4 +1,5 @@
-﻿using Upgrade;
+﻿using UnityEngine;
+using Upgrade;
 
 namespace UpgradesList
 {
@@ -9,7 +10,10 @@ namespace UpgradesList
             Types.Add(UpgradeType.Crew);
             Name = "Nien Nunb";
             Cost = 1;
+
             isUnique = true;
+
+            AvatarOffset = new Vector2(50, 1);
         }
 
         public override bool IsAllowedForShip(Ship.GenericShip ship)

@@ -52,7 +52,7 @@ namespace SubPhases
         ObstaclesStayDetectorForced obstaclesStayDetectorBase;
         ObstaclesStayDetectorForced obstaclesStayDetectorMovementTemplate;
 
-        public bool ObstacleOverlapAllowed = false;
+        public bool IsTractorBeamBarrelRoll = false;
 
         private Players.GenericPlayer controller;
         public Players.GenericPlayer Controller {
@@ -402,6 +402,7 @@ namespace SubPhases
             executionSubphase.TheShip = TheShip;
             executionSubphase.TemporaryShipBase = TemporaryShipBase;
             executionSubphase.HelperDirection = HelperDirection;
+            executionSubphase.IsTractorBeamBarrelRoll = IsTractorBeamBarrelRoll;
 
             executionSubphase.Start();
         }
@@ -505,7 +506,7 @@ namespace SubPhases
                 Messages.ShowError("Cannot overlap another ship");
                 allow = false;
             }
-            else if (!TheShip.IsIgnoreObstacles && !ObstacleOverlapAllowed
+            else if (!TheShip.IsIgnoreObstacles && !IsTractorBeamBarrelRoll
                 && (obstaclesStayDetectorBase.OverlapsAsteroidNow || obstaclesStayDetectorMovementTemplate.OverlapsAsteroidNow))
             {
                 Messages.ShowError("Cannot overlap asteroid");
@@ -549,6 +550,8 @@ namespace SubPhases
 
         private bool performingAnimation;
 
+        public bool IsTractorBeamBarrelRoll;
+
         public GameObject TemporaryShipBase;
         public float HelperDirection;
 
@@ -571,7 +574,7 @@ namespace SubPhases
             initialRotation = (TheShip.GetAngles().y < 180) ? TheShip.GetAngles().y : -(360 - TheShip.GetAngles().y);
             plannedRotation = (TemporaryShipBase.transform.eulerAngles.y - initialRotation < 180) ? TemporaryShipBase.transform.eulerAngles.y : -(360 - TemporaryShipBase.transform.eulerAngles.y);
 
-            Sounds.PlayFly(TheShip);
+            if (!IsTractorBeamBarrelRoll) Sounds.PlayFly(TheShip);
 
             performingAnimation = true;
         }
@@ -588,9 +591,14 @@ namespace SubPhases
             progressCurrent += progressStep;
 
             TheShip.SetPosition(Vector3.MoveTowards(TheShip.GetPosition(), TemporaryShipBase.transform.position, progressStep));
-            TheShip.RotateModelDuringBarrelRoll(progressCurrent / progressTarget, HelperDirection);
-            TheShip.SetRotationHelper2Angles(new Vector3(0, progressCurrent / progressTarget * (plannedRotation - initialRotation), 0));
-            TheShip.MoveUpwards(progressCurrent / progressTarget);
+
+            if (!IsTractorBeamBarrelRoll)
+            {
+                TheShip.RotateModelDuringBarrelRoll(progressCurrent / progressTarget, HelperDirection);
+                TheShip.SetRotationHelper2Angles(new Vector3(0, progressCurrent / progressTarget * (plannedRotation - initialRotation), 0));
+                TheShip.MoveUpwards(progressCurrent / progressTarget);
+            }
+
             if (progressCurrent >= progressTarget)
             {
                 performingAnimation = false;

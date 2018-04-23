@@ -39,7 +39,7 @@ namespace ActionsList
         public SensorJammerActionEffect()
         {
             Name = EffectName = "Sensor Jammer";
-            IsOpposite = true;
+            DiceModificationTiming = DiceModificationTimingType.Opposite;
         }
         
         public override int GetActionEffectPriority()

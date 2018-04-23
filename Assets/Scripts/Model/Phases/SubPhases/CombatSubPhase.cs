@@ -15,6 +15,8 @@ namespace SubPhases
 
         public override void Start()
         {
+            base.Start();
+
             Name = "Combat SubPhase";
 
             selectionMode = Team.Type.Friendly;
@@ -357,6 +359,8 @@ namespace SubPhases
 
         public override void Resume()
         {
+            base.Resume();
+
             ChangeSelectionMode(Team.Type.Friendly);
         }
 

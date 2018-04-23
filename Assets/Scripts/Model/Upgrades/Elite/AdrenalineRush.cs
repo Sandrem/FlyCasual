@@ -4,6 +4,7 @@ using Ship;
 using SubPhases;
 using System;
 using Tokens;
+using UnityEngine;
 using Upgrade;
 
 namespace UpgradesList
@@ -15,6 +16,8 @@ namespace UpgradesList
             Types.Add(UpgradeType.Elite);
             Name = "Adrenaline Rush";
             Cost = 1;
+
+            AvatarOffset = new Vector2(37, 1);
 
             UpgradeAbilities.Add(new AdrenalineRushAbility());
         }

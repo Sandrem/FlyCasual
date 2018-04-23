@@ -1,4 +1,5 @@
 ﻿using Ship;
+using UnityEngine;
 using Upgrade;
 
 namespace UpgradesList
@@ -7,10 +8,11 @@ namespace UpgradesList
     {
         public VeteranInstincts() : base()
         {
-
             Types.Add(UpgradeType.Elite);
             Name = "Veteran Instincts";
             Cost = 1;
+
+            AvatarOffset = new Vector2(56, 0);
         }
 
         public override void AttachToShip(GenericShip host)

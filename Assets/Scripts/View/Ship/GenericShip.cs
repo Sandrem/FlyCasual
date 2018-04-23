@@ -136,6 +136,7 @@ namespace Ship
                 else
                 {
                     Debug.Log("Cannot find: " + pathToResource + " or " + pathToResourceAlt);
+                    shipAllParts.Find("ShipBase/ShipStandInsert").gameObject.SetActive(false);
                 }
             }
         }

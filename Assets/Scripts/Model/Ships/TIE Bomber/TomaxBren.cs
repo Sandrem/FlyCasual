@@ -1,6 +1,4 @@
-﻿using ActionList;
-using Ship;
-using Upgrade;
+﻿using Upgrade;
 
 namespace Ship
 {
@@ -16,7 +14,7 @@ namespace Ship
 
                 IsUnique = true;
 
-                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
+                PrintedUpgradeIcons.Add(UpgradeType.Elite);
 
                 PilotAbilities.Add(new Abilities.TomaxBrenAbility());
             }

@@ -115,7 +115,6 @@ namespace Abilities
 
         private void DoSpecialOpsExtraAttack(object sender, System.EventArgs e)
         {
-            Messages.ShowInfo(HostShip.PilotName + " can perform second attack from primary weapon");
 
             Combat.StartAdditionalAttack(
                 HostShip,
@@ -124,7 +123,11 @@ namespace Abilities
                     ToggleFrontArc(true);
                     HostShip.OnAttackStartAsAttacker += ClearAbility;
                     Triggers.FinishTrigger();
-                }
+                },
+                null,
+                HostUpgrade.Name,
+                "You may perfrom an additional attack from your auxiliary firing arc.",
+                HostUpgrade.ImageUrl
             );                
         }
 

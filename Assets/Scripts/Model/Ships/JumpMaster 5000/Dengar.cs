@@ -72,7 +72,12 @@ namespace Abilities
         {
             if (!HostShip.IsCannotAttackSecondTime)
             {
-                Messages.ShowInfo(string.Format("{0} can attack {1} in responce", HostShip.PilotName, shipToPunish.PilotName));
+                // Temporary fix
+                if (HostShip.IsDestroyed)
+                {
+                    Triggers.FinishTrigger();
+                    return;
+                }
 
                 // Save his "is already attacked" flag
                 isPerformedRegularAttack = HostShip.IsAttackPerformed;
@@ -83,7 +88,10 @@ namespace Abilities
                 Combat.StartAdditionalAttack(
                     HostShip,
                     FinishExtraAttack,
-                    CounterAttackFilter
+                    CounterAttackFilter,
+                    HostShip.PilotName,
+                    "You may perform an additional attack against " + shipToPunish.PilotName + ".",
+                    HostShip.ImageUrl
                 );
             }
             else

@@ -82,8 +82,14 @@ namespace Abilities
             {
                 HostShip.Host.IsCannotAttackSecondTime = true;
 
-                Messages.ShowInfo(HostShip.Host.PilotName + " can perform second attack\nfrom Turret");
-                Combat.StartAdditionalAttack(HostShip.Host, Triggers.FinishTrigger, IsTurretAttack);
+                Combat.StartAdditionalAttack(
+                    HostShip.Host,
+                    Triggers.FinishTrigger,
+                    IsTurretAttack,
+                    HostUpgrade.Name,
+                    "You may perfrom additional turret attack.",
+                    HostUpgrade.ImageUrl
+                );
             }
             else
             {

@@ -1,5 +1,6 @@
 ﻿using Ship;
 using Upgrade;
+using Abilities;
 
 namespace UpgradesList
 {
@@ -10,17 +11,29 @@ namespace UpgradesList
             Types.Add(UpgradeType.Modification);
             Name = "Long-Range Scanners";
             Cost = 0;
+
+            UpgradeAbilities.Add(new LongRangeScannersAbility());
         }
 
         public override bool IsAllowedForShip(GenericShip ship)
         {
             return ship.UpgradeBar.HasUpgradeSlot(UpgradeType.Torpedo) && ship.UpgradeBar.HasUpgradeSlot(UpgradeType.Missile);
         }
+    }
+}
 
-        public override void AttachToShip(GenericShip host)
+namespace Abilities
+{
+    public class LongRangeScannersAbility : GenericAbility
+    {
+        public override void ActivateAbility()
         {
-            base.AttachToShip(host);
-            host.SetTargetLockRange(3, int.MaxValue);
+            HostShip.SetTargetLockRange(3, int.MaxValue);
+        }
+
+        public override void DeactivateAbility()
+        {
+            HostShip.SetTargetLockRange(1, 3);
         }
     }
 }

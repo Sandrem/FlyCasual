@@ -60,7 +60,12 @@ namespace Abilities
                 PerformFreeAction,
                 FilterAbilityTargets,
                 GetAiAbilityPriority,
-                HostShip.Owner.PlayerNo
+                HostShip.Owner.PlayerNo,
+                true,
+                null,
+                HostShip.PilotName,
+                "Choose another ship.\nThat ship may perform free action.",
+                HostShip.ImageUrl
             );
         }
 

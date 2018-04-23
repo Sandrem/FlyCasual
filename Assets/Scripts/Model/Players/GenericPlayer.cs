@@ -44,6 +44,12 @@ namespace Players
         public PlayerNo PlayerNo;
         public int SquadCost;
 
+        public string NickName;
+        public string Title;
+        public string Avatar;
+
+        public GameObject PlayerInfoPanel;
+
         public Dictionary<string, GenericShip> Ships = new Dictionary<string, GenericShip>();
 
         public Dictionary<string, GenericShip> EnemyShips
@@ -69,21 +75,44 @@ namespace Players
             PlayerNo = playerNo;
         }
 
-        public virtual void SetupShip() { }
+        public virtual void SetupShip()
+        {
+            Roster.HighlightPlayer(PlayerNo);
+        }
 
-        public virtual void AssignManeuver() { }
+        public virtual void AssignManeuver()
+        {
+            Roster.HighlightPlayer(PlayerNo);
+        }
 
-        public virtual void PerformManeuver() { }
+        public virtual void PerformManeuver()
+        {
+            Roster.HighlightPlayer(PlayerNo);
+        }
 
         public virtual void PerformAction() { }
 
         public virtual void PerformFreeAction() { }
 
-        public virtual void PerformAttack() { }
+        public virtual void PerformAttack()
+        {
+            Roster.HighlightPlayer(PlayerNo);
+        }
 
-        public virtual void UseOwnDiceModifications() { }
+        public virtual void UseOwnDiceModifications()
+        {
+            Roster.HighlightPlayer(PlayerNo);
+        }
 
-        public virtual void UseOppositeDiceModifications() { }
+        public virtual void UseOppositeDiceModifications()
+        {
+            Roster.HighlightPlayer(PlayerNo);
+        }
+
+        public virtual void UseCompareResultsDiceModifications()
+        {
+            Roster.HighlightPlayer(PlayerNo);
+        }
 
         public virtual void TakeDecision() { }
 
@@ -124,6 +153,8 @@ namespace Players
             }
             return Math.Max(0, pilotSkillValue / Ships.Count);
         }
+
+        public virtual void RerollManagerIsPrepared() { }
     }
 
 }

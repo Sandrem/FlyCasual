@@ -44,7 +44,7 @@ namespace Abilities
 
         public override void ActivateAbility()
         {
-			HostShip.OnShotHitAsAttacker += ApplyHarpoonMissilesCondition;
+            HostShip.OnShotHitAsAttacker += PlanToApplyHarpoonMissilesCondition;
 		}
 
         public override void DeactivateAbility()
@@ -52,116 +52,23 @@ namespace Abilities
             //No deactivation is required
         }
 
-        private void ApplyHarpoonMissilesCondition()
+        private void PlanToApplyHarpoonMissilesCondition()
         {
             if (Combat.ChosenWeapon == this.HostUpgrade)
             {
-                HostShip.OnShotHitAsAttacker -= ApplyHarpoonMissilesCondition;
+                HostShip.OnAttackFinishAsAttacker += ApplyHarpoonMissilesCondition;
 
-                Messages.ShowInfo("\"Harpooned!\" condition is assigned");
-                Combat.Defender.Tokens.AssignCondition(new Conditions.Harpooned(Combat.Defender));
-                SubscribeToHarpoonedConditionEffects(Combat.Defender);
+                //Missile was discarded
+                HostShip.OnShotHitAsAttacker -= PlanToApplyHarpoonMissilesCondition;
             }
         }
 
-        private void SubscribeToHarpoonedConditionEffects(GenericShip harpoonedShip)
+        private void ApplyHarpoonMissilesCondition(GenericShip attacker)
         {
-            harpoonedShip.OnShotHitAsDefender += CheckUncancelledCrit;
-            harpoonedShip.OnShipIsDestroyed += DoSplashDamageOnDestroyed;
-            harpoonedShip.AfterGenerateAvailableActionsList += AddRepairAction;
-        }
+            HostShip.OnAttackFinishAsAttacker -= ApplyHarpoonMissilesCondition;
 
-        private void UnsubscribeFromHarpoonedConditionEffects(GenericShip harpoonedShip)
-        {
-            harpoonedShip.OnShotHitAsDefender -= CheckUncancelledCrit;
-            harpoonedShip.OnShipIsDestroyed -= DoSplashDamageOnDestroyed;
-            harpoonedShip.AfterGenerateAvailableActionsList -= AddRepairAction;
-        }
-
-        private void CheckUncancelledCrit()
-        {
-            if (Combat.ChosenWeapon != this.HostUpgrade && Combat.DiceRollAttack.CriticalSuccesses > 0)
-            {
-                RegisterAbilityTrigger(TriggerTypes.OnAttackHit, delegate { DoSplashDamage(Combat.Defender, AdditionalDamageOnItself); });
-            }
-        }
-
-        private void DoSplashDamage(GenericShip harpoonedShip, Action callback)
-        {
-            Messages.ShowInfo("\"Harpooned!\" condition deals splash damage");
-
-            var ships = Roster.AllShips.Select(x => x.Value).ToList();
-
-            foreach (GenericShip ship in ships)
-            {
-
-                // Defending ship shouldn't suffer additional damage
-                if (ship.ShipId == harpoonedShip.ShipId)
-                {
-                    continue;
-                }
-
-                Board.ShipDistanceInformation distanceInfo = new Board.ShipDistanceInformation(harpoonedShip, ship);
-
-                if (distanceInfo.Range == 1)
-                {
-                    var diceRoll = new DiceRoll(DiceKind.Attack, 0, DiceRollCheckType.Combat);
-                    diceRoll.AddDice(DieSide.Success);
-                    var hitDie = diceRoll.DiceList[0];
-                    ship.AssignedDamageDiceroll.DiceList.Add(hitDie);
-
-                    Triggers.RegisterTrigger(new Trigger()
-                    {
-                        Name = "Suffer \"Harpooned!\" condition damage",
-                        TriggerType = TriggerTypes.OnDamageIsDealt,
-                        TriggerOwner = ship.Owner.PlayerNo,
-                        EventHandler = ship.SufferDamage,
-                        Skippable = true,
-                        EventArgs = new DamageSourceEventArgs()
-                        {
-                            Source = "\"Harpooned!\" condition",
-                            DamageType = DamageTypes.CardAbility
-                        }
-                    });
-                }
-            }
-
-            Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, callback);
-        }
-
-        private void AdditionalDamageOnItself()
-        {
-            Combat.Defender.Tokens.RemoveCondition(typeof(Conditions.Harpooned));
-            UnsubscribeFromHarpoonedConditionEffects(Combat.Defender);
-
-            DamageDecks.GetDamageDeck(Combat.Defender.Owner.PlayerNo).DrawDamageCard(
-                false,
-                DealDrawnCard,
-                new DamageSourceEventArgs{
-                    DamageType = DamageTypes.Rules,
-                    Source = null
-                }
-            );
-        }
-
-        private void DealDrawnCard(object sender, System.EventArgs e)
-        {
-            Combat.Defender.Damage.DealDrawnCard(Triggers.FinishTrigger);
-        }
-
-        private void DoSplashDamageOnDestroyed(GenericShip harpoonedShip, bool isFled)
-        {
-            RegisterAbilityTrigger(TriggerTypes.OnShipIsDestroyed, delegate { DoSplashDamage(harpoonedShip, Triggers.FinishTrigger); });
-        }
-
-        private void AddRepairAction(GenericShip harpoonedShip)
-        {
-            ActionsList.GenericAction action = new ActionsList.HarpoonedRepairAction()
-            {
-                ImageUrl = (new Conditions.Harpooned(harpoonedShip)).Tooltip,
-                Host = harpoonedShip
-            };
-            harpoonedShip.AddAvailableAction(action);
+            Messages.ShowInfo("\"Harpooned!\" condition is assigned");
+            Combat.Defender.Tokens.AssignCondition(new Conditions.Harpooned(Combat.Defender));
         }
     }
 }
@@ -210,6 +117,141 @@ namespace Conditions
             Temporary = false;
             Tooltip = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/conditions/harpooned.png";
         }
+
+        public override void WhenAssigned()
+        {
+            SubscribeToHarpoonedConditionEffects();
+        }
+
+        public override void WhenRemoved()
+        {
+            UnsubscribeFromHarpoonedConditionEffects();
+        }
+
+        private void SubscribeToHarpoonedConditionEffects()
+        {
+            Host.OnShotHitAsDefender += CheckUncancelledCrit;
+            Host.OnShipIsDestroyed += DoSplashDamageOnDestroyed;
+            Host.AfterGenerateAvailableActionsList += AddRepairAction;
+        }
+
+        private void UnsubscribeFromHarpoonedConditionEffects()
+        {
+            Host.OnShotHitAsDefender -= CheckUncancelledCrit;
+            Host.OnShipIsDestroyed -= DoSplashDamageOnDestroyed;
+            Host.AfterGenerateAvailableActionsList -= AddRepairAction;
+        }
+
+        private void CheckUncancelledCrit()
+        {
+            if (Combat.DiceRollAttack.CriticalSuccesses > 0)
+            {
+                Triggers.RegisterTrigger(
+                    new Trigger() {
+                        Name = "Harpooned!: Critical hit is dealt",
+                        TriggerType = TriggerTypes.OnAttackHit,
+                        TriggerOwner = Host.Owner.PlayerNo,
+                        EventHandler = HarpoonDetonationByCrit
+                    }
+                );
+            }
+        }
+
+        private void HarpoonDetonationByCrit(object sender, System.EventArgs e)
+        {
+            DoSplashDamage(Host, AdditionalDamageOnItself);
+        }
+
+        private void DoSplashDamage(GenericShip harpoonedShip, Action callback)
+        {
+            Messages.ShowInfo("\"Harpooned!\" condition deals splash damage");
+
+            var ships = Roster.AllShips.Select(x => x.Value).ToList();
+
+            foreach (GenericShip ship in ships)
+            {
+
+                // Defending ship shouldn't suffer additional damage
+                if (ship.ShipId == harpoonedShip.ShipId)
+                {
+                    continue;
+                }
+
+                Board.ShipDistanceInformation distanceInfo = new Board.ShipDistanceInformation(harpoonedShip, ship);
+
+                if (distanceInfo.Range == 1)
+                {
+                    var diceRoll = new DiceRoll(DiceKind.Attack, 0, DiceRollCheckType.Combat);
+                    diceRoll.AddDice(DieSide.Success);
+                    var hitDie = diceRoll.DiceList[0];
+                    ship.AssignedDamageDiceroll.DiceList.Add(hitDie);
+
+                    Triggers.RegisterTrigger(new Trigger()
+                    {
+                        Name = "Suffer \"Harpooned!\" condition damage",
+                        TriggerType = TriggerTypes.OnDamageIsDealt,
+                        TriggerOwner = ship.Owner.PlayerNo,
+                        EventHandler = ship.SufferDamage,
+                        Skippable = true,
+                        EventArgs = new DamageSourceEventArgs()
+                        {
+                            Source = "\"Harpooned!\" condition",
+                            DamageType = DamageTypes.CardAbility
+                        }
+                    });
+                }
+            }
+
+            Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, callback);
+        }
+
+        private void AdditionalDamageOnItself()
+        {
+            Host.Tokens.RemoveCondition(this);
+
+            DamageDecks.GetDamageDeck(Host.Owner.PlayerNo).DrawDamageCard(
+                false,
+                DealDrawnCard,
+                new DamageSourceEventArgs
+                {
+                    DamageType = DamageTypes.Rules,
+                    Source = null
+                }
+            );
+        }
+
+        private void DealDrawnCard(System.EventArgs e)
+        {
+            Host.Damage.DealDrawnCard(Triggers.FinishTrigger);
+        }
+
+        private void DoSplashDamageOnDestroyed(GenericShip harpoonedShip, bool isFled)
+        {
+            Triggers.RegisterTrigger(
+                new Trigger()
+                {
+                    Name = "Harpooned!: Ship is destryed",
+                    TriggerType = TriggerTypes.OnShipIsDestroyed,
+                    TriggerOwner = Host.Owner.PlayerNo,
+                    EventHandler = HarpoonDetonationByDestruction
+                }
+            );
+        }
+
+        private void HarpoonDetonationByDestruction(object sender, System.EventArgs e)
+        {
+            DoSplashDamage(Host, Triggers.FinishTrigger);
+        }
+
+        private void AddRepairAction(GenericShip harpoonedShip)
+        {
+            ActionsList.GenericAction action = new ActionsList.HarpoonedRepairAction()
+            {
+                ImageUrl = (new Harpooned(harpoonedShip)).Tooltip,
+                Host = harpoonedShip
+            };
+            harpoonedShip.AddAvailableAction(action);
+        }
     }
 }
 
@@ -233,7 +275,7 @@ namespace SubPhases
 
             if (CurrentDiceRoll.DiceList[0].Side == DieSide.Success || CurrentDiceRoll.DiceList[0].Side == DieSide.Crit)
             {
-                Selection.ThisShip.AssignedDamageDiceroll.DiceList.Add(CurrentDiceRoll.DiceList[0]);
+                Selection.ThisShip.AssignedDamageDiceroll.AddDice(DieSide.Success);
 
                 Triggers.RegisterTrigger(new Trigger()
                 {

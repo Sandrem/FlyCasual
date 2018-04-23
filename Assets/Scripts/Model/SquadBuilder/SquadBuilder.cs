@@ -430,7 +430,7 @@ namespace SquadBuilderNS
 
         public static void SwitchToBattlecene()
         {
-            ShowOpponentSquad();
+            Global.ToggelLoadingScreen(true);
             LoadBattleScene();
         }
 
@@ -439,6 +439,13 @@ namespace SquadBuilderNS
             foreach (var squad in SquadLists)
             {
                 squad.SavedConfiguration = GetSquadInJson(squad.PlayerNo);
+
+                JSONObject playerInfoJson = new JSONObject();
+                playerInfoJson.AddField("NickName", Options.NickName);
+                playerInfoJson.AddField("Title", Options.Title);
+                playerInfoJson.AddField("Avatar", Options.Avatar);
+                squad.SavedConfiguration.AddField("PlayerInfo", playerInfoJson);
+
                 ClearShipsOfPlayer(squad.PlayerNo);
             }
         }

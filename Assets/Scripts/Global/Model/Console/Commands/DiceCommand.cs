@@ -9,10 +9,14 @@ namespace CommandsList
     {
         private Dictionary<string, DieSide> stringToDieSide = new Dictionary<string, DieSide>()
         {
-            { "blank", DieSide.Blank },
-            { "focus", DieSide.Focus },
-            { "success", DieSide.Success },
-            { "crit", DieSide.Crit }
+            { "blank",      DieSide.Blank   },
+            { "empty",      DieSide.Blank   },
+            { "focus",      DieSide.Focus   },
+            { "eye",        DieSide.Focus   },
+            { "success",    DieSide.Success },
+            { "hit",        DieSide.Success },
+            { "evade",      DieSide.Success },
+            { "crit",       DieSide.Crit    }
         };
 
         public DiceCommand()
@@ -20,8 +24,8 @@ namespace CommandsList
             Keyword = "dice";
             Description =   "Modify dice results in current dice pool\n" +
                             "dice modify old:<side> new:<side> [count:<number>]\n" +
-                            "dice add new:<side> [count:<number>]\n" +
-                            "where side: blank, focus, success, crit";
+                            "dice add type:<side> [count:<number>]\n" +
+                            "where side: blank, empty, focus, eye, success, hit, crit, evade";
 
             Console.AddAvailableCommand(this);
         }
@@ -65,15 +69,15 @@ namespace CommandsList
 
         private void TryAddDice(Dictionary<string, string> parameters)
         {
-            DieSide newDieSide = DieSide.Unknown;
-            if (parameters.ContainsKey("new") && stringToDieSide.ContainsKey(parameters["new"])) newDieSide = stringToDieSide[parameters["new"]];
+            DieSide dieSideType = DieSide.Unknown;
+            if (parameters.ContainsKey("type") && stringToDieSide.ContainsKey(parameters["type"])) dieSideType = stringToDieSide[parameters["type"]];
 
             int count = 1;
             if (parameters.ContainsKey("count")) int.TryParse(parameters["count"], out count);
 
-            if (newDieSide != DieSide.Unknown && count > 0)
+            if (dieSideType != DieSide.Unknown && count > 0)
             {
-                AddDice(newDieSide, count);
+                AddDice(dieSideType, count);
             }
             else
             {

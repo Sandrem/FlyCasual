@@ -87,7 +87,10 @@ namespace Abilities
             Combat.StartAdditionalAttack(
                 HostShip,
                 FinishAdditionalAttack,
-                IsPrimaryShot
+                IsPrimaryShot,
+                HostUpgrade.Name,
+                "You may perfrom a primary weapon attack.",
+                HostUpgrade.ImageUrl
             );
         }
 

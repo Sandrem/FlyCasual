@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 using Upgrade;
 
 namespace UpgradesList
@@ -12,6 +13,8 @@ namespace UpgradesList
             Cost = 1;
 
             isUnique = true;
+
+            AvatarOffset = new Vector2(36, 1);
         }
 
         public override bool IsAllowedForShip(Ship.GenericShip ship)

@@ -2,6 +2,7 @@
 using Ship;
 using SubPhases;
 using Abilities;
+using UnityEngine;
 
 namespace UpgradesList
 {
@@ -13,7 +14,10 @@ namespace UpgradesList
             Types.Add(UpgradeType.Crew);
             Name = "Emperor Palpatine";
             Cost = 8;
+
             isUnique = true;
+
+            AvatarOffset = new Vector2(68, 9);
                         
             UpgradeAbilities.Add(new EmperorPalpatineCrewAbility());
         }

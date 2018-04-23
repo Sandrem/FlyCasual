@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using SubPhases;
 using Players;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 namespace GameModes
 {
@@ -10,7 +12,7 @@ namespace GameModes
     {
         public override void RevertSubPhase()
         {
-            (Phases.CurrentSubPhase as SubPhases.SelectShipSubPhase).CallRevertSubPhase();
+            (Phases.CurrentSubPhase as SelectShipSubPhase).CallRevertSubPhase();
         }
 
         public override void ConfirmCrit()
@@ -36,7 +38,7 @@ namespace GameModes
 
         public override void ConfirmShipSetup(int shipId, Vector3 position, Vector3 angles)
         {
-            (Phases.CurrentSubPhase as SubPhases.SetupSubPhase).ConfirmShipSetup(shipId, position, angles);
+            (Phases.CurrentSubPhase as SetupSubPhase).ConfirmShipSetup(shipId, position, angles);
         }
 
         public override void PerformStoredManeuver(int shipId)
@@ -70,66 +72,66 @@ namespace GameModes
 
         public override void TryConfirmBarrelRollPosition(string templateName, Vector3 shipBasePosition, Vector3 movementTemplatePosition)
         {
-            (Phases.CurrentSubPhase as SubPhases.BarrelRollPlanningSubPhase).TryConfirmBarrelRollPosition();
+            (Phases.CurrentSubPhase as BarrelRollPlanningSubPhase).TryConfirmBarrelRollPosition();
         }
 
         public override void StartBarrelRollExecution()
         {
-            (Phases.CurrentSubPhase as SubPhases.BarrelRollPlanningSubPhase).StartBarrelRollExecution();
+            (Phases.CurrentSubPhase as BarrelRollPlanningSubPhase).StartBarrelRollExecution();
         }
 
         public override void FinishBarrelRoll()
         {
-            (Phases.CurrentSubPhase as SubPhases.BarrelRollExecutionSubPhase).FinishBarrelRollAnimation();
+            (Phases.CurrentSubPhase as BarrelRollExecutionSubPhase).FinishBarrelRollAnimation();
         }
 
         public override void CancelBarrelRoll()
         {
-            (Phases.CurrentSubPhase as SubPhases.BarrelRollPlanningSubPhase).CancelBarrelRoll();
+            (Phases.CurrentSubPhase as BarrelRollPlanningSubPhase).CancelBarrelRoll();
         }
 
         // DECLOAK
 
         public override void TryConfirmDecloakPosition(Vector3 shipBasePosition, string decloakHelper, Vector3 movementTemplatePosition, Vector3 movementTemplateAngles)
         {
-            (Phases.CurrentSubPhase as SubPhases.DecloakPlanningSubPhase).TryConfirmDecloakPosition();
+            (Phases.CurrentSubPhase as DecloakPlanningSubPhase).TryConfirmDecloakPosition();
         }
 
         public override void StartDecloakExecution(Ship.GenericShip ship)
         {
-            (Phases.CurrentSubPhase as SubPhases.DecloakPlanningSubPhase).StartDecloakExecution(ship);
+            (Phases.CurrentSubPhase as DecloakPlanningSubPhase).StartDecloakExecution(ship);
         }
 
         public override void FinishDecloak()
         {
-            (Phases.CurrentSubPhase as SubPhases.DecloakExecutionSubPhase).FinishDecloakAnimation();
+            (Phases.CurrentSubPhase as DecloakExecutionSubPhase).FinishDecloakAnimation();
         }
 
         public override void CancelDecloak()
         {
-            (Phases.CurrentSubPhase as SubPhases.DecloakPlanningSubPhase).CancelDecloak();
+            (Phases.CurrentSubPhase as DecloakPlanningSubPhase).CancelDecloak();
         }
 
         // BOOST
 
         public override void TryConfirmBoostPosition(string selectedBoostHelper)
         {
-            (Phases.CurrentSubPhase as SubPhases.BoostPlanningSubPhase).TryConfirmBoostPosition();
+            (Phases.CurrentSubPhase as BoostPlanningSubPhase).TryConfirmBoostPosition();
         }
 
         public override void StartBoostExecution()
         {
-            (Phases.CurrentSubPhase as SubPhases.BoostPlanningSubPhase).StartBoostExecution();
+            (Phases.CurrentSubPhase as BoostPlanningSubPhase).StartBoostExecution();
         }
 
         public override void FinishBoost()
         {
-            Phases.FinishSubPhase(typeof(SubPhases.BoostExecutionSubPhase));
+            Phases.FinishSubPhase(typeof(BoostExecutionSubPhase));
         }
 
         public override void CancelBoost()
         {
-            (Phases.CurrentSubPhase as SubPhases.BoostPlanningSubPhase).CancelBoost();
+            (Phases.CurrentSubPhase as BoostPlanningSubPhase).CancelBoost();
         }
 
         public override void UseDiceModification(string effectName)
@@ -140,6 +142,11 @@ namespace GameModes
         public override void ConfirmDiceResults()
         {
             Combat.ConfirmDiceResultsClient();
+        }
+
+        public override void CompareResultsAndDealDamage()
+        {
+            Combat.CompareResultsAndDealDamageClient();
         }
 
         public override void SwitchToOwnDiceModifications()
@@ -154,7 +161,7 @@ namespace GameModes
 
         public override void FinishMovementExecution()
         {
-            Selection.ActiveShip.CallExecuteMoving(delegate { Phases.FinishSubPhase(typeof(SubPhases.MovementExecutionSubPhase)); });
+            Selection.ActiveShip.CallExecuteMoving(Triggers.FinishTrigger);
         }
 
         // Swarm Manager
@@ -173,6 +180,52 @@ namespace GameModes
         {
             Selection.ChangeActiveShip("ShipId:" + shipId);
             Selection.ThisShip.CallCombatActivation(delegate { (Phases.CurrentSubPhase as CombatSubPhase).ChangeSelectionMode(Team.Type.Enemy); });
+        }
+
+        public override void StartSyncNotificationSubPhase()
+        {
+            (Phases.CurrentSubPhase as NotificationSubPhase).FinishAfterDelay();
+        }
+
+        public override void FinishNotificationSubPhase()
+        {
+            (Phases.CurrentSubPhase as NotificationSubPhase).Next();
+        }
+
+        public override void StartSyncDecisionPreparation()
+        {
+            (Phases.CurrentSubPhase as DecisionSubPhase).PrepareDecision((Phases.CurrentSubPhase as DecisionSubPhase).StartIsFinished);
+        }
+
+        public override void FinishSyncDecisionPreparation()
+        {
+            (Phases.CurrentSubPhase as DecisionSubPhase).DecisionOwner.TakeDecision();
+        }
+
+        public override void StartSyncSelectShipPreparation()
+        {
+            FinishSyncSelectShipPreparation();
+        }
+
+        public override void FinishSyncSelectShipPreparation()
+        {
+            (Phases.CurrentSubPhase as SelectShipSubPhase).HighlightShipsToSelect();
+        }
+
+        public override void StartDiceRerollExecution()
+        {
+            DiceRerollManager.CurrentDiceRerollManager.ConfirmReroll();
+        }
+
+        public override void ReturnToMainMenu()
+        {
+            Phases.EndGame();
+            SceneManager.LoadScene("MainMenu");
+        }
+
+        public override void QuitToDesktop()
+        {
+            Application.Quit();
         }
     }
 }

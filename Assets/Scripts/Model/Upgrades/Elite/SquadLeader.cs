@@ -29,7 +29,7 @@ namespace UpgradesList
 
         private void SquadLeaderAddAction(GenericShip host)
         {
-            ActionsList.GenericAction newAction = new ActionsList.SquadLeaderAction() { ImageUrl = ImageUrl, Host = this.Host };
+            ActionsList.GenericAction newAction = new ActionsList.SquadLeaderAction() { ImageUrl = ImageUrl, Host = this.Host, Source = this };
             host.AddAvailableAction(newAction);
         }
 
@@ -56,6 +56,7 @@ namespace ActionsList
                 delegate {}
             );
             newPhase.SquadLeaderOwner = this.Host;
+            newPhase.SquadLeaderUpgrade = this.Source;
             newPhase.Start();
         }
 
@@ -69,17 +70,20 @@ namespace SubPhases
     public class SelectSquadLeaderTargetSubPhase : SelectShipSubPhase
     {
         public GenericShip SquadLeaderOwner;
+        public GenericUpgrade SquadLeaderUpgrade;
 
         public override void Prepare()
         {
-            targetsAllowed.Add(TargetTypes.OtherFriendly);
-            maxRange = 2;
-            finishAction = SelectSquadLeaderTarget;
-
-            FilterTargets = FilterAbilityTargets;
-            GetAiPriority = GetAiAbilityPriority;
-
-            UI.ShowSkipButton();
+            PrepareByParameters(
+                SelectSquadLeaderTarget,
+                FilterAbilityTargets,
+                GetAiAbilityPriority,
+                Selection.ThisShip.Owner.PlayerNo,
+                true,
+                SquadLeaderUpgrade.Name,
+                "Choose a ship that has lower pilot skill than you. It may perform 1 free action.",
+                SquadLeaderUpgrade.ImageUrl
+            );
         }
 
         private bool FilterAbilityTargets(GenericShip ship)

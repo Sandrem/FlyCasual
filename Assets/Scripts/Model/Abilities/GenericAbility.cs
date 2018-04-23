@@ -134,7 +134,7 @@ namespace Abilities
 
         protected GenericShip TargetShip;
 
-        protected void SelectTargetForAbility(Action selectTargetAction, Func<GenericShip, bool> filterTargets, Func<GenericShip, int> getAiPriority, PlayerNo subphaseOwnerPlayerNo, bool showSkipButton = true, Action customCallback = null)
+        protected void SelectTargetForAbility(Action selectTargetAction, Func<GenericShip, bool> filterTargets, Func<GenericShip, int> getAiPriority, PlayerNo subphaseOwnerPlayerNo, bool showSkipButton = true, Action customCallback = null, string name = null, string description = null, string imageUrl = null)
         {
             if (customCallback == null) customCallback = Triggers.FinishTrigger;
 
@@ -146,12 +146,15 @@ namespace Abilities
                 customCallback
             );
 
-            selectTargetSubPhase.PrepareByParametersNew(
+            selectTargetSubPhase.PrepareByParameters(
                 delegate { SelectShipForAbility(selectTargetAction); },
                 filterTargets,
                 getAiPriority,
                 subphaseOwnerPlayerNo,
-                showSkipButton
+                showSkipButton,
+                name,
+                description,
+                imageUrl
             );
 
             selectTargetSubPhase.Start();

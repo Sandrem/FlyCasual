@@ -1,4 +1,6 @@
-﻿using Ship;
+﻿using Abilities;
+using Ship;
+using SubPhases;
 using Upgrade;
 
 namespace UpgradesList
@@ -10,73 +12,47 @@ namespace UpgradesList
             Types.Add(UpgradeType.System);
             Name = "Fire-Control System";
             Cost = 2;
+            UpgradeAbilities.Add(new FireControlSystemAbility());
+        }                
+    }
+}
+
+namespace Abilities
+{
+    public class FireControlSystemAbility : GenericAbility
+    {
+
+        public override void ActivateAbility()
+        {
+            HostShip.OnAttackFinishAsAttacker += AddFireControlSystemAbility;
         }
 
-
-        public override void AttachToShip(GenericShip host)
+        public override void DeactivateAbility()
         {
-            base.AttachToShip(host);
-
-            host.OnAttackFinish += FireControlSystemAbility;
+            HostShip.OnAttackFinishAsAttacker -= AddFireControlSystemAbility;
         }
 
-        private void FireControlSystemAbility(GenericShip ship)
+        private void AddFireControlSystemAbility(GenericShip ship)
         {
-            if (Combat.Attacker.ShipId == Host.ShipId)
+            if (Combat.Attacker.ShipId == HostShip.ShipId)
             {
-                if (!Combat.Defender.IsDestroyed)
+                if (!(Combat.Defender.IsDestroyed || Combat.Defender.IsReadyToBeDestroyed))
                 {
-                    Triggers.RegisterTrigger(new Trigger()
-                    {
-                        Name = "Fire-Control System: Aquire target lock",
-                        TriggerOwner = Host.Owner.PlayerNo,
-                        TriggerType = TriggerTypes.OnAttackFinish,
-                        EventHandler = AskAquireTargetLock
-                    });
+                    RegisterAbilityTrigger(TriggerTypes.OnAttackFinish, AskAcquireTargetLock);
                 }
             }
         }
 
-        private void AskAquireTargetLock(object sender, System.EventArgs e)
-        {            
-            Phases.StartTemporarySubPhaseOld(
-                "Fire-Control System's decision",
-                typeof(SubPhases.FireControlSystemDecisionSubPhase),
-                Triggers.FinishTrigger
-            );
-         
-        }
-    }
-}
-
-
-namespace SubPhases
-{
-
-    public class FireControlSystemDecisionSubPhase : DecisionSubPhase
-    {
-
-        public override void PrepareDecision(System.Action callBack)
+        private void AskAcquireTargetLock(object sender, System.EventArgs e)
         {
-            InfoText = "Fire-Control System: Aquire target lock?";
-
-            AddDecision("Yes", AcquireTargetLock);
-            AddDecision("No", NotAssignToken);
-
-            DefaultDecisionName = "Yes";
-
-            callBack();
+            AskToUseAbility(AlwaysUseByDefault, AcquireTargetLock, null, null, true);
         }
 
         private void AcquireTargetLock(object sender, System.EventArgs e)
         {
             Messages.ShowInfo("Fire-Control System: Free Target Lock");
-            Actions.AssignTargetLockToPair(Combat.Attacker, Combat.Defender, ConfirmDecision, ConfirmDecision);            
-        }
-
-        private void NotAssignToken(object sender, System.EventArgs e)
-        {
-            ConfirmDecision();
+            Actions.AcquireTargetLock(Combat.Attacker, Combat.Defender, DecisionSubPhase.ConfirmDecision, DecisionSubPhase.ConfirmDecision);
         }
     }
 }
+

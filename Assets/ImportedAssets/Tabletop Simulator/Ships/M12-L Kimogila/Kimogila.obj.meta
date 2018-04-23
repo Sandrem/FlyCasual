@@ -1,21 +1,36 @@
 fileFormatVersion: 2
 guid: b650b2202040ff645b4934e5626ee7a9
-timeCreated: 1514948674
+timeCreated: 1524170519
 licenseType: Free
 ModelImporter:
-  serializedVersion: 21
+  serializedVersion: 22
   fileIDToRecycleName:
-    100000: default
-    100002: //RootNode
-    400000: default
-    400002: //RootNode
-    2300000: default
-    3300000: default
-    4300000: default
+    100000: //RootNode
+    100002: Mesh
+    100004: Mesh_(8)
+    100006: Mesh_(9)
+    400000: //RootNode
+    400002: Mesh
+    400004: Mesh_(8)
+    400006: Mesh_(9)
+    2100000: MeshMat
+    2100002: Mesh_(8)Mat
+    2100004: Mesh_(9)Mat
+    2300000: Mesh
+    2300002: Mesh_(8)
+    2300004: Mesh_(9)
+    3300000: Mesh
+    3300002: Mesh_(8)
+    3300004: Mesh_(9)
+    4300000: Mesh
+    4300002: Mesh_(8)
+    4300004: Mesh_(9)
+  externalObjects: {}
   materials:
     importMaterials: 1
     materialName: 0
     materialSearch: 1
+    materialLocation: 1
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
@@ -28,6 +43,7 @@ ModelImporter:
     animationImportWarnings: 
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
     animationCompression: 1
     animationRotationError: 0.5
     animationPositionError: 0.5
@@ -52,6 +68,8 @@ ModelImporter:
     optimizeMeshForGPU: 1
     keepQuads: 0
     weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88

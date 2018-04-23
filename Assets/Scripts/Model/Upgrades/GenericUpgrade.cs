@@ -78,6 +78,10 @@ namespace Upgrade
 
         public bool IsHidden;
 
+        // Set to use as avatar
+
+        public Vector2 AvatarOffset;
+
         //public Type FromMod { get; set; }
         public Type FromMod { get; set; }
 
@@ -267,7 +271,7 @@ namespace Upgrade
             }
         }
 
-        public virtual void FlipFaceup(Action callback = null)
+        public virtual void FlipFaceup(Action callback)
         {
             isDiscarded = false;
             Roster.FlipFaceupUpgrade(Host, Name);

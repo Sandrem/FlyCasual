@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 using Upgrade;
 
 namespace UpgradesList
@@ -14,6 +15,8 @@ namespace UpgradesList
             Types.Add(UpgradeType.Crew);
             Name = "Flight Instructor";
             Cost = 4;
+
+            AvatarOffset = new Vector2(32, 1);
         }
 
         public override void AttachToShip(Ship.GenericShip host)

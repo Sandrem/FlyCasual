@@ -108,12 +108,6 @@ public static class Selection {
     private static void ProcessClick()
     {
         if (Phases.CurrentSubPhase != null) Phases.CurrentSubPhase.ProcessClick();
-        
-        GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-        if (Game.Position.inReposition)
-        {
-            Game.Position.TryConfirmPosition(Selection.ThisShip);
-        }
     }
 
     //TODO: call from roster info panel click too

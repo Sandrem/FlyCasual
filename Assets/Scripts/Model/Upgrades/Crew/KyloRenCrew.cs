@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Upgrade;
 using Conditions;
+using UnityEngine;
 
 namespace UpgradesList
 {
@@ -19,6 +20,8 @@ namespace UpgradesList
             Cost = 3;
 
             isUnique = true;
+
+            AvatarOffset = new Vector2(36, 0);
 
             UpgradeAbilities.Add(new KyloRenCrewAbility());
         }
@@ -73,7 +76,12 @@ namespace Abilities
                 AssignConditionToTarget,
                 FilterTargets,
                 GetAiPriority,
-                HostShip.Owner.PlayerNo
+                HostShip.Owner.PlayerNo,
+                true,
+                null,
+                HostUpgrade.Name,
+                "Choose a ship to assign\n\"I'll Show You The Dark Side\" Condition",
+                HostUpgrade.ImageUrl
             );
         }
 
@@ -183,12 +191,12 @@ namespace Abilities
                 isSkipSufferDamage = true;
 
                 GenericShip ship = ShipWithCondition;
-                GenericDamageCard card = AssignedDamageCard;
+                Combat.CurrentCriticalHitCard = AssignedDamageCard;
 
                 AssignedDamageCard = null;
                 RemoveConditions(ship);
 
-                ship.ProcessDrawnDamageCard(card, e);
+                ship.ProcessDrawnDamageCard(e);
             }
         }
 

@@ -51,8 +51,14 @@ namespace Abilities
 
         private void UseCorranHornAbility(object sender, System.EventArgs e)
         {
-            Messages.ShowInfo("Corran Horn can perform second attack");
-            Combat.StartAdditionalAttack(HostShip, AfterExtraAttackSubPhase);
+            Combat.StartAdditionalAttack(
+                HostShip,
+                AfterExtraAttackSubPhase,
+                null,
+                HostShip.PilotName,
+                "You may perform an additional attack.\nYou cannot attack during next round.",
+                HostShip.ImageUrl
+            );
         }
 
         private void AfterExtraAttackSubPhase()

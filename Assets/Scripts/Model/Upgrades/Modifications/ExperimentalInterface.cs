@@ -20,6 +20,8 @@ namespace UpgradesList
 
             isUnique = true;
 
+            AvatarOffset = new Vector2(55, 4);
+
             IsHidden = true;
 		}
 

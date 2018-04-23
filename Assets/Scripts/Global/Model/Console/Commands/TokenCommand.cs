@@ -82,7 +82,7 @@ namespace CommandsList
                         GenericShip targetShip = Roster.AllShips.FirstOrDefault(n => n.Key == "ShipId:" + targetShipId).Value;
                         if (targetShip != null)
                         {
-                            Actions.AssignTargetLockToPair(ship, targetShip, ShowMessage, ShowErrorMessage);
+                            Actions.AcquireTargetLock(ship, targetShip, ShowMessage, ShowErrorMessage);
                         }
                         else
                         {

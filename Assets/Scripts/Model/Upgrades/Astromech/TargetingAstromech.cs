@@ -47,7 +47,11 @@ namespace Abilities
             Messages.ShowInfoToHuman("Targeting Astromech: Aquire a Target Lock");
             Sounds.PlayShipSound("Astromech-Beeping-and-whistling");
 
-            HostShip.AcquireTargetLock(Triggers.FinishTrigger);
+            HostShip.ChooseTargetToAcquireTargetLock(
+                Triggers.FinishTrigger,
+                HostUpgrade.Name,
+                HostUpgrade.ImageUrl
+            );
         }
     }
 }

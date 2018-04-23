@@ -10,6 +10,8 @@ namespace SubPhases
 
         public override void Start()
         {
+            base.Start();
+
             Name = "Barrel Roll";
             IsTemporary = true;
             RequiredPilotSkill = PreviousSubPhase.RequiredPilotSkill;

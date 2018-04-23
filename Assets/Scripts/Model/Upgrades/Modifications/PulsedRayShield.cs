@@ -51,13 +51,17 @@ namespace Abilities
 
         private void RegisterPulsedRayShieldAbility()
         {
-            if (HostShip.Shields < HostShip.MaxShields) RegisterAbilityTrigger(TriggerTypes.OnEndPhaseStart, AskPulsedRayShield);
+            if (!HostShip.IsDestroyed && HostShip.Shields < HostShip.MaxShields)
+            {
+                RegisterAbilityTrigger(TriggerTypes.OnEndPhaseStart, AskPulsedRayShield);
+            }
         }
 
         private void AskPulsedRayShield(object sender, System.EventArgs e)
         {
             if (HostShip.Shields < HostShip.MaxShields)
             {
+                //Selection.ChangeActiveShip(HostShip);
                 AskToUseAbility(ShouldUseAbility, PulsedRayShieldConfirm);
             }
             else

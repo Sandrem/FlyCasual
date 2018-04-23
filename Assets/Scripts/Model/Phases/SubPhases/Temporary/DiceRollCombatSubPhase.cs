@@ -17,6 +17,8 @@ namespace SubPhases
 
         public override void Start()
         {
+            base.Start();
+
             IsTemporary = true;
             CallBack = FinishAction;
 
@@ -140,6 +142,8 @@ namespace SubPhases
 
         public override void Resume()
         {
+            base.Resume();
+
             GameObject.Find("UI").transform.Find("CombatDiceResultsPanel").gameObject.SetActive(true);
         }
 

@@ -39,7 +39,7 @@ namespace ActionsList
         public ElusivenessActionEffect()
         {
             Name = EffectName = "Elusiveness";
-            IsOpposite = true;
+            DiceModificationTiming = DiceModificationTimingType.Opposite;
         }
         
         public override int GetActionEffectPriority()

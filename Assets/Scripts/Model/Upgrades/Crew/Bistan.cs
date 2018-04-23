@@ -17,6 +17,8 @@ namespace UpgradesList
             Cost = 2;
             isUnique = true;
 
+            AvatarOffset = new Vector2(43, 6);
+
             UpgradeAbilities.Add(new BistanAbility());
         }
  

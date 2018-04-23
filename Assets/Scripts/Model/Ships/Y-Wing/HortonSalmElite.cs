@@ -19,7 +19,7 @@ namespace Ship
 
                 UpgradeBar.AddSlot(Upgrade.UpgradeType.Elite);
 
-                FromMod = typeof(EliteYWingPilotsMod);
+                RequiredMods.Add(typeof(EliteYWingPilotsMod));
             }
         }
     }

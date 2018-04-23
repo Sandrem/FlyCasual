@@ -60,7 +60,11 @@ namespace Abilities
                 FilterTargetsOfAbility,
                 GetAiPriorityOfTarget,
                 HostShip.Owner.PlayerNo,
-                true
+                true,
+                null,
+                HostShip.PilotName,
+                "Choose a ship inside your primary and mobile firing arcs to assign 1 Tractor Beam token to it.",
+                HostShip.ImageUrl
             );
         }
 

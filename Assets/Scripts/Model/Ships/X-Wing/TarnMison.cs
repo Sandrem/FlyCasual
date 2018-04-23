@@ -52,7 +52,7 @@ namespace Abilities
 
         private void UseTarnMisonAbility(object sender, EventArgs e)
         {
-            Actions.AssignTargetLockToPair(HostShip, Combat.Attacker, DecisionSubPhase.ConfirmDecision, DecisionSubPhase.ConfirmDecision);            
+            Actions.AcquireTargetLock(HostShip, Combat.Attacker, DecisionSubPhase.ConfirmDecision, DecisionSubPhase.ConfirmDecision);            
         }        
     }
 }

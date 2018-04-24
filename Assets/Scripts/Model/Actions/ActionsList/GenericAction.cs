@@ -32,6 +32,13 @@ namespace ActionsList
         public DiceModificationTimingType DiceModificationTiming = DiceModificationTimingType.Normal;
 
         public bool CanBePerformedWhileStressed;
+        public virtual bool CanBePerformedAsAFreeAction
+        {
+            get
+            {
+                return true;
+            }
+        }
 
         private GenericShip host;
         public GenericShip Host

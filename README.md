@@ -19,7 +19,7 @@ Features:
 
 Notes:
 * This game is in development. Not all rules and content are present. Online multiplayer is not stable.
-* If you encountered a bug - please, [report it](https://github.com/Sandrem/FlyCasual/issues) (don't forget to provide screenshot and description of your last steps).
+* If you encounter a bug - please [report it](https://github.com/Sandrem/FlyCasual/issues) (don't forget to provide a screenshot and description of how to reproduce the bug)
 * Tutorial is not included. If you don't know how to play the game, see [official tutorial](https://www.youtube.com/watch?v=PuhwSma960Y).
 * Code is open-source. If you want to help in development (programming, 3d-models, 2d-art, UI etc), contact me on [reddit](https://www.reddit.com/user/Sandrem_FlyCasual/) or [FFG forum](https://community.fantasyflightgames.com/profile/263695-sandrem/). Also some information about the code is present in [WIKI](https://github.com/Sandrem/FlyCasual/wiki/Developer-Support)
 * Please, don't forget to buy real models by FFG and play in real-life tournaments.

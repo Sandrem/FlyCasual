@@ -78,6 +78,7 @@ namespace SubPhases
 
         private void PerformCoordinateEffect()
         {
+            var coordinatingShip = Selection.ThisShip;
             Selection.ThisShip = TargetShip;
 
             Triggers.RegisterTrigger(
@@ -93,6 +94,7 @@ namespace SubPhases
             MovementTemplates.ReturnRangeRuler();
 
             Triggers.ResolveTriggers(TriggerTypes.OnFreeActionPlanned, delegate {
+                Selection.ThisShip = coordinatingShip;
                 Phases.FinishSubPhase(typeof(CoordinateTargetSubPhase));
                 CallBack();
             });

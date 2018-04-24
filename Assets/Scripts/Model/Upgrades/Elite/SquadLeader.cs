@@ -5,6 +5,8 @@ using Upgrade;
 using SubPhases;
 using Ship;
 using System.Linq;
+using System;
+using Abilities;
 
 namespace UpgradesList
 {
@@ -18,23 +20,38 @@ namespace UpgradesList
             Name = "Squad Leader";
             isUnique = true;
             Cost = 2;
+
+            UpgradeAbilities.Add(new SquadLeaderAbility());
+        }
+        
+    }
+}
+
+namespace Abilities
+{
+    public class SquadLeaderAbility: GenericAbility
+    {
+        public override void ActivateAbility()
+        {
+            HostShip.AfterGenerateAvailableActionsList += SquadLeaderAddAction;
         }
 
-        public override void AttachToShip(GenericShip host)
+        public override void DeactivateAbility()
         {
-            base.AttachToShip(host);
-
-            host.AfterGenerateAvailableActionsList += SquadLeaderAddAction;
+            HostShip.AfterGenerateAvailableActionsList -= SquadLeaderAddAction;
         }
 
         private void SquadLeaderAddAction(GenericShip host)
         {
-            ActionsList.GenericAction newAction = new ActionsList.SquadLeaderAction() { ImageUrl = ImageUrl, Host = this.Host, Source = this };
+            ActionsList.GenericAction newAction = new ActionsList.SquadLeaderAction()
+            {
+                ImageUrl = HostUpgrade.ImageUrl,
+                Host = HostShip,
+                Source = HostUpgrade
+            };
             host.AddAvailableAction(newAction);
         }
-
     }
-
 }
 
 namespace ActionsList
@@ -53,7 +70,7 @@ namespace ActionsList
             SelectSquadLeaderTargetSubPhase newPhase = (SelectSquadLeaderTargetSubPhase) Phases.StartTemporarySubPhaseNew(
                 "Select target for Squad Leader",
                 typeof(SelectSquadLeaderTargetSubPhase),
-                delegate {}
+                Phases.CurrentSubPhase.CallBack
             );
             newPhase.SquadLeaderOwner = this.Host;
             newPhase.SquadLeaderUpgrade = this.Source;
@@ -112,6 +129,7 @@ namespace SubPhases
 
         private void SelectSquadLeaderTarget()
         {
+            var squadLeaderShip = Selection.ThisShip;
             Selection.ThisShip = TargetShip;
 
             Triggers.RegisterTrigger(
@@ -127,9 +145,8 @@ namespace SubPhases
             MovementTemplates.ReturnRangeRuler();
 
             Triggers.ResolveTriggers(TriggerTypes.OnFreeActionPlanned, delegate {
+                Selection.ThisShip = squadLeaderShip;
                 Phases.FinishSubPhase(typeof(SelectSquadLeaderTargetSubPhase));
-                Phases.FinishSubPhase(typeof(ActionDecisonSubPhase));
-                Triggers.FinishTrigger();
                 CallBack();
             });
         }

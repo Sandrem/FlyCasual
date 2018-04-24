@@ -19,7 +19,7 @@ Features:
 
 Notes:
 * This game is in development. Not all rules and content are present. Online multiplayer is not stable.
-* If you encountered bug - please, [report it](https://github.com/Sandrem/FlyCasual/issues) (don't forget to provide screenshot and description of your last steps).
+* If you encountered a bug - please, [report it](https://github.com/Sandrem/FlyCasual/issues) (don't forget to provide screenshot and description of your last steps).
 * Tutorial is not included. If you don't know how to play the game, see [official tutorial](https://www.youtube.com/watch?v=PuhwSma960Y).
 * Code is open-source. If you want to help in development (programming, 3d-models, 2d-art, UI etc), contact me on [reddit](https://www.reddit.com/user/Sandrem_FlyCasual/) or [FFG forum](https://community.fantasyflightgames.com/profile/263695-sandrem/). Also some information about the code is present in [WIKI](https://github.com/Sandrem/FlyCasual/wiki/Developer-Support)
 * Please, don't forget to buy real models by FFG and play in real-life tournaments.
@@ -27,7 +27,7 @@ Notes:
 Links:
 * [Download](https://github.com/Sandrem/FlyCasual/releases)
 * [Youtube channel](https://www.youtube.com/channel/UCr1mWwQIDZ_CbE6a9iol24A/videos)
-* [Discord channel to find opponents for internet multiplayer mode](https://discord.gg/T8af5g)
+* [Discord channel (to find opponents for internet multiplayer mode)](https://discord.gg/T8af5g)
 * [Topic on FFG forum](https://community.fantasyflightgames.com/topic/267459-fly-casual-x-wing-simulator/)
 * [Patreon for donations](https://www.patreon.com/Sandrem)
 

@@ -128,6 +128,17 @@ namespace Ship
             return result;
         }
 
+        public bool CanPerformFreeAction(GenericAction action)
+        {
+            bool result = action.IsActionAvailable() && action.CanBePerformedAsAFreeAction;
+
+            if (OnTryAddAvailableAction != null) OnTryAddAvailableAction(action, ref result);
+
+            if (OnTryAddAvailableActionGlobal != null) OnTryAddAvailableActionGlobal(this, action, ref result);
+
+            return result;
+        }
+
         // TODO: move actions list into subphase
         public void AskPerformFreeAction(List<GenericAction> freeActions, Action callback)
         {
@@ -184,7 +195,7 @@ namespace Ship
 
         public void AddAvailableFreeAction(GenericAction action)
         {
-            if (CanPerformAction(action))
+            if (CanPerformFreeAction(action))
             {
                 AvailableFreeActionsList.Add(action);
             }

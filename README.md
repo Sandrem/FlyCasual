@@ -5,7 +5,7 @@ Fly Casual is a fan-made ["Star Wars: X-Wing Miniatures Game"](https://www.fanta
 Features:
 * Available platforms: Windows, Mac, Linux, Android.
 * 3D (2D mode is supported).
-* Full automation of rules and abilities. Examples of gameplay: [v0.4.3](https://www.youtube.com/watch?v=YhYvjnKx1P8&t=32s), [v0.2.0](https://www.youtube.com/watch?v=UhOgTgrdswM&t=801s)
+* Full automation of rules and abilities. Examples of gameplay: [v0.4.3](https://www.youtube.com/watch?v=YhYvjnKx1P8), [v0.2.0](https://www.youtube.com/watch?v=UhOgTgrdswM)
 * Game modes:
   * Battles vs AI. AI uses rules from fan-made ["Heroes of Aturi Cluster"](http://dockingbay416.com/campaign/) coop-campaign.
   * [Hot seat](https://www.youtube.com/watch?v=EO7KGqW1YVI).
@@ -14,7 +14,7 @@ Features:
 * Simple intuitive UI.
 * 3D models with [skins support](https://www.youtube.com/watch?v=XNOy6jC0XBM). Most of them are taken from [Unified X-Wing Mod](https://steamcommunity.com/sharedfiles/filedetails/?id=862644552)
 * Special effects and animations. (Examples: [Barrel Roll](https://www.youtube.com/watch?v=MOULeTInEgQ), [Missile](https://www.youtube.com/watch?v=ikOuW4LI6RE), [Ionization](https://www.youtube.com/watch?v=vN2jNXnZb0M), [S-Foils](https://www.youtube.com/watch?v=MJ5mC-Q4o0c))
-* [Mods support](https://www.youtube.com/watch?v=jWhSSlZah1Y&t=43s).
+* [Mods support](https://www.youtube.com/watch?v=jWhSSlZah1Y).
 * [Player customization](https://www.youtube.com/watch?v=SwJLF4oT5WA).
 
 Notes:

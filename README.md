@@ -12,7 +12,8 @@ Features:
   * Internet multiplayer ([cross-platform](https://www.youtube.com/watch?v=w4QeUoHtUJQ)).
 * [Squad builder](https://www.youtube.com/watch?v=wWMWvfp9zIc).
 * Simple intuitive UI.
-* 3D models with [skins support](https://www.youtube.com/watch?v=XNOy6jC0XBM), special effects and animations. (Examples: [Barrel Roll](https://www.youtube.com/watch?v=MOULeTInEgQ), [Missile](https://www.youtube.com/watch?v=ikOuW4LI6RE), [Ionization](https://www.youtube.com/watch?v=vN2jNXnZb0M), [S-Foils](https://www.youtube.com/watch?v=MJ5mC-Q4o0c))
+* 3D models with [skins support](https://www.youtube.com/watch?v=XNOy6jC0XBM). Most of them are taken from [Unified X-Wing Mod](https://steamcommunity.com/sharedfiles/filedetails/?id=862644552)
+* Special effects and animations. (Examples: [Barrel Roll](https://www.youtube.com/watch?v=MOULeTInEgQ), [Missile](https://www.youtube.com/watch?v=ikOuW4LI6RE), [Ionization](https://www.youtube.com/watch?v=vN2jNXnZb0M), [S-Foils](https://www.youtube.com/watch?v=MJ5mC-Q4o0c))
 * [Mods support](https://www.youtube.com/watch?v=jWhSSlZah1Y&t=43s).
 * [Player customization](https://www.youtube.com/watch?v=SwJLF4oT5WA).
 

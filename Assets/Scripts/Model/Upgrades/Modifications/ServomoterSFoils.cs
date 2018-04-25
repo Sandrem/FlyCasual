@@ -68,9 +68,8 @@ namespace Abilities
         }
 
         protected void AskToFlip(object sender, EventArgs e)
-        {
-            Messages.ShowInfo(string.Format("{0} may flip {1}", HostShip.PilotName, HostUpgrade.Name));
-            AskToUseAbility(NeverUseByDefault, DoFlipSide);            
+        {            
+            AskToUseAbility(NeverUseByDefault, DoFlipSide, null, null, false, string.Format("{0}: Do you want to flip Servomotor S-Foils?", HostShip.PilotName));            
         }
 
         protected void DoFlipSide(object sender, EventArgs e)
@@ -92,15 +91,14 @@ namespace Abilities
     }
 
     public class ServomotorSFoilsClosedAbility : ServomotorSFoilCommonAbility
-    {
-
+    {        
         public override void ActivateAbility()
         {
             base.ActivateAbility();
             TurnSFoilsToClosedPosition(HostShip);
             HostShip.ChangeFirepowerBy(-1);
             HostShip.AfterGenerateAvailableActionsList += AddActionIcon;
-            HostShip.AfterGetManeuverColorDecreaseComplexity += CheckServomotorManeuverAbility;
+            HostShip.OnManeuverIsReadyToBeRevealed += CheckChangeManeuverComplexity;
         }
                 
         public override void DeactivateAbility()
@@ -109,18 +107,7 @@ namespace Abilities
             TurnSFoilsToAttackPosition(HostShip);
             HostShip.ChangeFirepowerBy(+1);
             HostShip.AfterGenerateAvailableActionsList -= AddActionIcon;
-            HostShip.AfterGetManeuverColorDecreaseComplexity -= CheckServomotorManeuverAbility;
-        }
-
-        protected void CheckServomotorManeuverAbility(GenericShip ship, ref MovementStruct movement)
-        {
-            if (movement.ColorComplexity != ManeuverColor.None)
-            {
-                if ((movement.Speed == ManeuverSpeed.Speed2) && (movement.Bearing == ManeuverBearing.Bank))
-                {
-                    movement.ColorComplexity = ManeuverColor.Green;
-                }
-            }
+            HostShip.OnManeuverIsReadyToBeRevealed -= CheckChangeManeuverComplexity;
         }
 
         protected void AddActionIcon(GenericShip host)
@@ -129,6 +116,15 @@ namespace Abilities
             if (!alreadyHasBarrelRoll)
             {
                 host.AddAvailableAction(new BoostAction());
+            }
+        }
+
+        private void CheckChangeManeuverComplexity(GenericShip ship)
+        {
+            if (HostShip.AssignedManeuver.Bearing == ManeuverBearing.Bank && HostShip.AssignedManeuver.Speed == 2)
+            {
+                HostShip.AssignedManeuver.ColorComplexity = ManeuverColor.Green;
+                Roster.UpdateAssignedManeuverDial(HostShip, HostShip.AssignedManeuver);
             }
         }
     }

@@ -20,6 +20,8 @@ namespace Ship
 
                 PrintedUpgradeIcons.Add(UpgradeType.Elite);
 
+                SkinName = "Partisan";
+
                 PilotAbilities.Add(new KullbeeSperadoAbility());
             }
         }

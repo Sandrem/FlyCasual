@@ -21,6 +21,8 @@ namespace Ship
 
                 IsUnique = true;
 
+                SkinName = "Partisan";
+
                 PilotAbilities.Add(new BenthicTwoTubesAbility());
             }
         }

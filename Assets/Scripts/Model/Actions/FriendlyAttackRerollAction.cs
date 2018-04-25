@@ -3,15 +3,17 @@ using System.Linq;
 
 namespace ActionsList
 {
-    public abstract class FriendlyAttackRerollAction : ActionsList.GenericAction
+    public abstract class FriendlyAttackRerollAction : GenericAction
     {
         protected int NumberOfDice = 0;
-        protected int FriendlyShipRange = 0;
+        protected int MaxFriendlyShipRange = 0;
+        protected bool CanUseOwnAbility;
 
-        public FriendlyAttackRerollAction(int numberOfDice, int friendlyShipRange)
+        public FriendlyAttackRerollAction(int numberOfDice, int maxFriendlyShipRange, bool canUseOwnAbility)
         {
-            FriendlyShipRange = friendlyShipRange;
+            MaxFriendlyShipRange = maxFriendlyShipRange;
             NumberOfDice = numberOfDice;
+            CanUseOwnAbility = canUseOwnAbility;
 
             Name = EffectName = string.Format("{0}'s ability", Name);
             IsReroll = true;
@@ -19,7 +21,7 @@ namespace ActionsList
 
         protected virtual bool CanReRollWithWeaponClass()
         {
-            return Combat.ChosenWeapon.GetType() == typeof(PrimaryWeaponClass);
+            return true;
         }
 
         public override bool IsActionEffectAvailable()
@@ -29,12 +31,12 @@ namespace ActionsList
             {
                 if (CanReRollWithWeaponClass())
                 {
-                    if (Combat.Attacker.ShipId != Host.ShipId)
+                    if (CanUseOwnAbility || Combat.Attacker.ShipId != Host.ShipId)
                     {
                         if (Combat.Attacker.Owner.PlayerNo == Host.Owner.PlayerNo)
                         {
                             Board.ShipDistanceInformation positionInfo = new Board.ShipDistanceInformation(Host, Combat.Attacker);
-                            if (positionInfo.Range == FriendlyShipRange)
+                            if (positionInfo.Range <= MaxFriendlyShipRange)
                             {
                                 result = true;
                             }

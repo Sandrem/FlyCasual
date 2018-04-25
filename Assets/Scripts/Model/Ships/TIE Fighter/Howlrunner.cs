@@ -44,10 +44,15 @@ namespace Abilities
 
         private class HowlrunnerAction : FriendlyAttackRerollAction
         {
-            public HowlrunnerAction() : base(1, 1)
+            public HowlrunnerAction() : base(1, 1, false)
             {
                 Name = EffectName = "Howlrunner's ability";
                 IsReroll = true;
+            }
+
+            protected override bool CanReRollWithWeaponClass()
+            {
+                return Combat.ChosenWeapon.GetType() == typeof(PrimaryWeaponClass);
             }
         }            
     }

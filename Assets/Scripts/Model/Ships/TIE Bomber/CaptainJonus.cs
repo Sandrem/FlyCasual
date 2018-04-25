@@ -44,7 +44,7 @@ namespace Abilities
 
         private class CaptainJonusAction : FriendlyAttackRerollAction
         {
-            public CaptainJonusAction() : base(2, 1)
+            public CaptainJonusAction() : base(2, 1, false)
             {
                 Name = EffectName = "Captain Jonus's ability";
                 IsReroll = true;

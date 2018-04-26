@@ -52,6 +52,8 @@ namespace Abilities
 {
     public abstract class ServomotorSFoilCommonAbility : GenericAbility
     {
+        protected abstract bool AIWantsToFlip();
+
         protected void TurnSFoilsToClosedPosition(GenericShip ship)
         {
             HostShip.WingsClose();
@@ -69,7 +71,7 @@ namespace Abilities
 
         protected void AskToFlip(object sender, EventArgs e)
         {            
-            AskToUseAbility(NeverUseByDefault, DoFlipSide, null, null, false, string.Format("{0}: Do you want to flip Servomotor S-Foils?", HostShip.PilotName));            
+            AskToUseAbility(AIWantsToFlip, DoFlipSide, null, null, false, string.Format("{0}: Do you want to flip Servomotor S-Foils?", HostShip.PilotName));            
         }
 
         protected void DoFlipSide(object sender, EventArgs e)
@@ -126,6 +128,12 @@ namespace Abilities
                 HostShip.AssignedManeuver.ColorComplexity = ManeuverColor.Green;
                 Roster.UpdateAssignedManeuverDial(HostShip, HostShip.AssignedManeuver);
             }
+        }
+
+        protected override bool AIWantsToFlip()
+        {
+            /// TODO: Add more inteligence to this decision
+            return true;
         }
     }
 
@@ -197,6 +205,12 @@ namespace Abilities
             {
                 host.AddAvailableAction(new BarrelRollAction());
             }
+        }
+
+        protected override bool AIWantsToFlip()
+        {
+            /// TODO: Add more inteligence to this decision
+            return false;
         }
     }
 }

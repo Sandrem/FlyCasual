@@ -258,6 +258,7 @@ namespace SubPhases
         {
             Phases.CurrentSubPhase = PreviousSubPhase;
             Roster.AllShipsHighlightOff();
+            HideSubphaseDescription();
             Phases.CurrentSubPhase.Resume();
             UpdateHelpInfo();
         }

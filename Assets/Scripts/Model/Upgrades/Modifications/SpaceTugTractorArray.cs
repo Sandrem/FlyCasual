@@ -123,6 +123,11 @@ namespace SubPhases
             TargetShip.Tokens.AssignToken(token, SelectShipSubPhase.FinishSelection);
         }
 
+        public override void SkipButton()
+        {
+            Phases.FinishSubPhase(typeof(SelectSpacetugTargetSubPhase));
+            CallBack();
+        }
     }
 }
 

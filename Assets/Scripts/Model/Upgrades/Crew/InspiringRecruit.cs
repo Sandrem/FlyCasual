@@ -17,9 +17,7 @@ namespace UpgradesList
             Types.Add(UpgradeType.Crew);
             Name = "Inspiring Recruit";
             Cost = 1;
-
-            isUnique = true;
-
+            
             UpgradeAbilities.Add(new InspiringRecruitAbility());
         }
     }

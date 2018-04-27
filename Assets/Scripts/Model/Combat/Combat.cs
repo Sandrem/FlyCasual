@@ -378,7 +378,7 @@ public static partial class Combat
             Attacker.CallOnAttackMissedAsAttacker();
             Defender.CallOnAttackMissedAsDefender();
 
-            FinishAttack();
+            Triggers.ResolveTriggers(TriggerTypes.OnAttackMissed, FinishAttack);
         }
     }
 

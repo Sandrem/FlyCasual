@@ -27,7 +27,7 @@ Notes:
 Links:
 * [Download](https://github.com/Sandrem/FlyCasual/releases)
 * [Youtube channel](https://www.youtube.com/channel/UCr1mWwQIDZ_CbE6a9iol24A/videos)
-* [Discord channel (to find opponents for internet multiplayer mode)](https://discord.gg/T8af5g)
+* [Discord channel (to find opponents for internet multiplayer mode)](https://discord.gg/23GGua3)
 * [Topic on FFG forum](https://community.fantasyflightgames.com/topic/267459-fly-casual-x-wing-simulator/)
 * [Patreon for donations](https://www.patreon.com/Sandrem)
 

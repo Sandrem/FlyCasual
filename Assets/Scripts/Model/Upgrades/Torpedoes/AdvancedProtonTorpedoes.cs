@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Abilities;
+using ActionsList;
+using Ship;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,65 +9,71 @@ using Upgrade;
 
 namespace UpgradesList
 {
-
-	public class AdvancedProtonTorpedoes : GenericSecondaryWeapon
-	{
-		public AdvancedProtonTorpedoes() : base()
-		{
+    public class AdvancedProtonTorpedoes : GenericSecondaryWeapon
+    {
+        public AdvancedProtonTorpedoes() : base()
+        {
             Types.Add(UpgradeType.Torpedo);
 
-			Name = "Advanced Proton Torpedoes";
-			Cost = 6;
+            Name = "Advanced Proton Torpedoes";
+            Cost = 6;
 
-			MinRange = 1;
-			MaxRange = 1;
-			AttackValue = 5;
+            MinRange = 1;
+            MaxRange = 1;
+            AttackValue = 5;
 
-			RequiresTargetLockOnTargetToShoot = true;
-			SpendsTargetLockOnTargetToShoot = true;
-			IsDiscardedForShot = true;
-		}
+            RequiresTargetLockOnTargetToShoot = true;
+            SpendsTargetLockOnTargetToShoot = true;
+            IsDiscardedForShot = true;
 
-		public override void AttachToShip(Ship.GenericShip host)
+            UpgradeAbilities.Add(new AdvancedProtonTorpedoesAbility());
+        }
+    }
+}
+
+namespace Abilities
+{
+    public class AdvancedProtonTorpedoesAbility : GenericAbility
+    {
+        public override void ActivateAbility()
+        {
+            HostShip.AfterGenerateAvailableActionEffectsList += AddDiceModification;
+        }
+
+        public override void DeactivateAbility()
+        {
+            // Ability is turned off only after full attack is finished
+            HostShip.OnCombatDeactivation += DeactivateAbilityPlanned;
+        }
+
+        private void DeactivateAbilityPlanned(GenericShip ship)
+        {
+            HostShip.OnCombatDeactivation -= DeactivateAbilityPlanned;
+            HostShip.AfterGenerateAvailableActionEffectsList -= AddDiceModification;
+        }
+
+        private void AddDiceModification(GenericShip host)
 		{
-			base.AttachToShip(host);
-
-			AddDiceModification();
-		}
-
-		private void AddDiceModification()
-		{
-			ActionsList.AdvancedProtonTorpedoesAction action = new ActionsList.AdvancedProtonTorpedoesAction()
+			AdvancedProtonTorpedoesAction action = new AdvancedProtonTorpedoesAction()
 			{
-				Host = Host,
-				ImageUrl = ImageUrl,
-				Source = this
+				Host = host,
+				ImageUrl = HostUpgrade.ImageUrl,
+				Source = HostUpgrade
 			};
-			action.AddDiceModification();
-
-			Host.AddAvailableAction(action);
+			host.AddAvailableAction(action);
 		}
-
 	}
-
 }
 
 namespace ActionsList
 { 
-
 	public class AdvancedProtonTorpedoesAction : GenericAction
 	{
-
 		public AdvancedProtonTorpedoesAction()
 		{
 			Name = EffectName = "Advanced Proton Torpedoes";
 
 			IsTurnsOneFocusIntoSuccess = true;
-		}
-
-		public void AddDiceModification()
-		{
-			Host.AfterGenerateAvailableActionEffectsList += AdvancedProtonTorpedoesAddDiceModification;
 		}
 
 		private void AdvancedProtonTorpedoesAddDiceModification(Ship.GenericShip ship)

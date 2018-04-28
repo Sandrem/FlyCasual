@@ -6,7 +6,6 @@ using Upgrade;
 
 namespace UpgradesList
 {
-
     public class PlasmaTorpedoes : GenericSecondaryWeapon
     {
         public PlasmaTorpedoes() : base()
@@ -26,11 +25,6 @@ namespace UpgradesList
             
             SpendsTargetLockOnTargetToShoot = true;
             IsDiscardedForShot = true;
-        }
-
-        public override void AttachToShip(Ship.GenericShip host)
-        {
-            base.AttachToShip(host);
         }
     }
 }

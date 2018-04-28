@@ -1,5 +1,7 @@
 ﻿using Upgrade;
 using UnityEngine;
+using Abilities;
+using Ship;
 
 namespace UpgradesList
 {
@@ -10,20 +12,31 @@ namespace UpgradesList
             Types.Add(UpgradeType.Elite);
             Name = "Elusiveness";
             Cost = 2;
-        }
 
-        public override void AttachToShip(Ship.GenericShip host)
+            UpgradeAbilities.Add(new ElusivenessAbility());
+        }
+    }
+}
+
+namespace Abilities
+{
+    public class ElusivenessAbility : GenericAbility
+    {
+        public override void ActivateAbility()
         {
-            base.AttachToShip(host);
-
-            host.AfterGenerateAvailableOppositeActionEffectsList += ElusivenessActionEffect;
+            HostShip.AfterGenerateAvailableOppositeActionEffectsList += ElusivenessActionEffect;
         }
 
-        private void ElusivenessActionEffect(Ship.GenericShip host)
+        public override void DeactivateAbility()
+        {
+            HostShip.AfterGenerateAvailableOppositeActionEffectsList -= ElusivenessActionEffect;
+        }
+
+        private void ElusivenessActionEffect(GenericShip host)
         {
             ActionsList.GenericAction newAction = new ActionsList.ElusivenessActionEffect()
             {
-                ImageUrl = ImageUrl,
+                ImageUrl = HostUpgrade.ImageUrl,
                 Host = host
             };
             host.AddAvailableOppositeActionEffect(newAction);

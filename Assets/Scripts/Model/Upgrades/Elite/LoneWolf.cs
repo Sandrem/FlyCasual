@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Upgrade;
+using Abilities;
+using Ship;
 
 namespace UpgradesList
 {
-
     public class LoneWolf : GenericUpgrade
     {
-
         public LoneWolf() : base()
         {
             isUnique = true;
@@ -16,25 +16,35 @@ namespace UpgradesList
             Types.Add(UpgradeType.Elite);
             Name = "Lone Wolf";
             Cost = 2;
-        }
 
-        public override void AttachToShip(Ship.GenericShip host)
+            UpgradeAbilities.Add(new LoneWolfAbility());
+        }
+    }
+}
+
+namespace Abilities
+{
+    public class LoneWolfAbility : GenericAbility
+    {
+        public override void ActivateAbility()
         {
-            base.AttachToShip(host);
-
-            host.AfterGenerateAvailableActionEffectsList += LoneWolfActionEffect;
+            HostShip.AfterGenerateAvailableActionEffectsList += LoneWolfActionEffect;
         }
 
-        private void LoneWolfActionEffect(Ship.GenericShip host)
+        public override void DeactivateAbility()
+        {
+            HostShip.AfterGenerateAvailableActionEffectsList -= LoneWolfActionEffect;
+        }
+
+        private void LoneWolfActionEffect(GenericShip host)
         {
             ActionsList.GenericAction newAction = new ActionsList.LoneWolfActionEffect()
             {
-                ImageUrl = ImageUrl,
+                ImageUrl = HostUpgrade.ImageUrl,
                 Host = host
             };
             host.AddAvailableActionEffect(newAction);
         }
-
     }
 }
 

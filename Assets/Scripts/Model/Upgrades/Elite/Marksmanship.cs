@@ -3,34 +3,48 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Upgrade;
+using Abilities;
+using ActionsList;
 
 namespace UpgradesList
 {
 
     public class Marksmanship : GenericUpgrade
     {
-
         public Marksmanship() : base()
         {
             Types.Add(UpgradeType.Elite);
             Name = "Marksmanship";
             Cost = 3;
+
+            UpgradeAbilities.Add(new MarksmanshipAbility());
+        }
+    }
+}
+
+namespace Abilities
+{
+    public class MarksmanshipAbility : GenericAbility
+    {
+        public override void ActivateAbility()
+        {
+            HostShip.AfterGenerateAvailableActionsList += MarksmanshipAddAction;
         }
 
-        public override void AttachToShip(Ship.GenericShip host)
+        public override void DeactivateAbility()
         {
-            base.AttachToShip(host);
-
-            host.AfterGenerateAvailableActionsList += MarksmanshipAddAction;
+            HostShip.AfterGenerateAvailableActionsList -= MarksmanshipAddAction;
         }
 
-        private void MarksmanshipAddAction(Ship.GenericShip host)
+        private void MarksmanshipAddAction(GenericShip host)
         {
-            ActionsList.GenericAction newAction = new ActionsList.MarksmanshipAction();
-            newAction.ImageUrl = ImageUrl;
+            GenericAction newAction = new MarksmanshipAction
+            {
+                ImageUrl = HostUpgrade.ImageUrl,
+                Host = host
+            };
             host.AddAvailableAction(newAction);
         }
-
     }
 }
 
@@ -63,7 +77,7 @@ namespace ActionsList
             return result;
         }
 
-        private void MarksmanshipAddDiceModification(Ship.GenericShip ship)
+        private void MarksmanshipAddDiceModification(GenericShip ship)
         {
             ship.AddAvailableActionEffect(this);
         }

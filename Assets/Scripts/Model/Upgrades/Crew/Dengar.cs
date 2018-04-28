@@ -1,16 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Abilities;
 using Ship;
 using UnityEngine;
 using Upgrade;
 
 namespace UpgradesList
 {
-
     public class Dengar : GenericUpgrade
     {
-
         public Dengar() : base()
         {
             Types.Add(UpgradeType.Crew);
@@ -20,27 +19,40 @@ namespace UpgradesList
             isUnique = true;
 
             AvatarOffset = new Vector2(16, 1);
+
+            UpgradeAbilities.Add(new DengarCrewAbility());
         }
 
         public override bool IsAllowedForShip(GenericShip ship)
         {
             return ship.faction == Faction.Scum;
         }
+    }
+}
 
-        public override void AttachToShip(GenericShip host)
+namespace Abilities
+{
+    public class DengarCrewAbility : GenericAbility
+    {
+        public override void ActivateAbility()
         {
-            base.AttachToShip(host);
-
-            host.AfterGenerateAvailableActionEffectsList += PredatorActionEffect;
+            HostShip.AfterGenerateAvailableActionEffectsList += DengarCrewActionEffect;
         }
 
-        private void PredatorActionEffect(GenericShip host)
+        public override void DeactivateAbility()
         {
-            ActionsList.GenericAction newAction = new ActionsList.DengarDiceModification();
-            newAction.ImageUrl = ImageUrl;
+            HostShip.AfterGenerateAvailableActionEffectsList -= DengarCrewActionEffect;
+        }
+
+        private void DengarCrewActionEffect(GenericShip host)
+        {
+            ActionsList.GenericAction newAction = new ActionsList.DengarDiceModification
+            { 
+                Host = host,
+                ImageUrl = HostUpgrade.ImageUrl
+            };
             host.AddAvailableActionEffect(newAction);
         }
-
     }
 }
 
@@ -74,7 +86,6 @@ namespace ActionsList
                 int attackFocuses = Combat.DiceRollAttack.FocusesNotRerolled;
                 int attackBlanks = Combat.DiceRollAttack.BlanksNotRerolled;
 
-                //if (Combat.Attacker.HasToken(typeof(Tokens.FocusToken)))
                 if (Combat.Attacker.GetAvailableActionEffectsList().Count(n => n.IsTurnsAllFocusIntoSuccess) > 0 )
                 {
                     if (attackBlanks > 0) result = 90;

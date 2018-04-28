@@ -12,6 +12,7 @@ namespace DamageDeckCard
         {
             Name = "Major Explosion";
             Type = CriticalCardType.Ship;
+            AiAvoids = true;
         }
 
         public override void ApplyEffect(object sender, EventArgs e)

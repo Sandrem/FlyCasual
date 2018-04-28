@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
 using Upgrade;
+using Abilities;
+using Ship;
+using ActionsList;
 
 namespace UpgradesList
 {
@@ -12,32 +15,41 @@ namespace UpgradesList
             Cost = 2;
 
             AvatarOffset = new Vector2(46, 2);
+
+            UpgradeAbilities.Add(new MercenaryCopilotAbility());
+        }
+    }
+}
+
+namespace Abilities
+{
+    public class MercenaryCopilotAbility : GenericAbility
+    {
+        public override void ActivateAbility()
+        {
+            HostShip.AfterGenerateAvailableActionEffectsList += MercenaryCopilotActionEffect;
         }
 
-        public override void AttachToShip(Ship.GenericShip host)
+        public override void DeactivateAbility()
         {
-            base.AttachToShip(host);
-
-            host.AfterGenerateAvailableActionEffectsList += MercenaryCopilotActionEffect;
+            HostShip.AfterGenerateAvailableActionEffectsList -= MercenaryCopilotActionEffect;
         }
 
-        private void MercenaryCopilotActionEffect(Ship.GenericShip host)
+        private void MercenaryCopilotActionEffect(GenericShip host)
         {
-            ActionsList.GenericAction newAction = new ActionsList.MercenaryCopilotAction()
+            GenericAction newAction = new MercenaryCopilotAction()
             {
-                ImageUrl = ImageUrl,
+                ImageUrl = HostUpgrade.ImageUrl,
                 Host = host
             };
             host.AddAvailableActionEffect(newAction);
         }
-
     }
 }
 
-
 namespace ActionsList
 {
-    public class MercenaryCopilotAction : ActionsList.GenericAction
+    public class MercenaryCopilotAction : GenericAction
     {
 
         public MercenaryCopilotAction()

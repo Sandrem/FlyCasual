@@ -2,6 +2,9 @@
 using Upgrade;
 using Ship;
 using UnityEngine;
+using Abilities;
+using ActionsList;
+using Tokens;
 
 namespace UpgradesList
 {
@@ -27,14 +30,32 @@ namespace UpgradesList
         {
             base.AttachToShip(host);
 
-            host.AfterGenerateAvailableActionEffectsList += EzraBridgerActionEffect;
+            
+        }
+
+
+    }
+}
+
+namespace Abilities
+{
+    public class EzraBridgerAbility : GenericAbility
+    {
+        public override void ActivateAbility()
+        {
+            HostShip.AfterGenerateAvailableActionEffectsList += EzraBridgerActionEffect;
+        }
+
+        public override void DeactivateAbility()
+        {
+            HostShip.AfterGenerateAvailableActionEffectsList += EzraBridgerActionEffect;
         }
 
         private void EzraBridgerActionEffect(GenericShip host)
         {
-            ActionsList.GenericAction newAction = new ActionsList.EzraBridgerAction()
+            GenericAction newAction = new EzraBridgerAction()
             {
-                ImageUrl = ImageUrl,
+                ImageUrl = HostUpgrade.ImageUrl,
                 Host = host
             };
             host.AddAvailableActionEffect(newAction);
@@ -52,9 +73,9 @@ namespace ActionsList
             Name = EffectName = "Ezra Bridger";
         }
 
-        public override void ActionEffect(System.Action callBack)
+        public override void ActionEffect(Action callBack)
         {
-            if (Host.Tokens.HasToken(typeof(Tokens.StressToken)))
+            if (Host.Tokens.HasToken(typeof(StressToken)))
             {
                 Combat.CurrentDiceRoll.ChangeOne(DieSide.Focus, DieSide.Crit);
             }
@@ -81,7 +102,7 @@ namespace ActionsList
         {
             int result = 0;
 
-            if (Combat.AttackStep == CombatStep.Attack && Host.Tokens.HasToken(typeof(Tokens.StressToken)))
+            if (Combat.AttackStep == CombatStep.Attack && Host.Tokens.HasToken(typeof(StressToken)))
             {
                 if (Combat.DiceRollAttack.RegularSuccesses > 0) result = 100;
             }

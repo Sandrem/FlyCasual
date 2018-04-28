@@ -11,6 +11,7 @@ namespace DamageDeckCard
         {
             Name = "Blinded Pilot";
             Type = CriticalCardType.Pilot;
+            AiAvoids = true;
         }
 
         public override void ApplyEffect(object sender, EventArgs e)

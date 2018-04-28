@@ -1,6 +1,7 @@
 ﻿using ActionsList;
 using UnityEngine;
 using Upgrade;
+using Abilities;
 
 namespace UpgradesList
 {
@@ -13,39 +14,50 @@ namespace UpgradesList
             Cost = 3;
 
             AvatarOffset = new Vector2(42, 3);
+
+            UpgradeAbilities.Add(new ReconSpecialistAbility());
+        }
+    }
+}
+
+namespace Abilities
+{
+    public class ReconSpecialistAbility : GenericAbility
+    {
+        public override void ActivateAbility()
+        {
+            HostShip.OnActionIsPerformed += CheckConditions;
         }
 
-        public override void AttachToShip(Ship.GenericShip host)
+        public override void DeactivateAbility()
         {
-            base.AttachToShip(host);
-
-            host.OnActionIsPerformed += CheckConditions;
+            HostShip.OnActionIsPerformed -= CheckConditions;
         }
 
         private void CheckConditions(GenericAction action)
         {
             if (action is FocusAction)
             {
-                Host.OnActionDecisionSubphaseEnd += RegisterTrigger;
+                HostShip.OnActionDecisionSubphaseEnd += RegisterTrigger;
             }
         }
 
         private void RegisterTrigger(Ship.GenericShip ship)
         {
-            Host.OnActionDecisionSubphaseEnd -= RegisterTrigger;
+            HostShip.OnActionDecisionSubphaseEnd -= RegisterTrigger;
 
             Triggers.RegisterTrigger(new Trigger()
-                {
-                    Name = "Recon Specialist's ability",
-                    TriggerType = TriggerTypes.OnActionDecisionSubPhaseEnd,
-                    TriggerOwner = Host.Owner.PlayerNo,
-                    EventHandler = ReconSpecialistAbility
-                });
+            {
+                Name = "Recon Specialist's ability",
+                TriggerType = TriggerTypes.OnActionDecisionSubPhaseEnd,
+                TriggerOwner = HostShip.Owner.PlayerNo,
+                EventHandler = DoReconSpecialistAbility
+            });
         }
 
-        private void ReconSpecialistAbility(object sender, System.EventArgs e)
+        private void DoReconSpecialistAbility(object sender, System.EventArgs e)
         {
-            Host.Tokens.AssignToken(new Tokens.FocusToken(Host), Triggers.FinishTrigger);
+            HostShip.Tokens.AssignToken(new Tokens.FocusToken(HostShip), Triggers.FinishTrigger);
         }
     }
 }

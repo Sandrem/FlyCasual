@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Upgrade;
+using Abilities;
+using ActionsList;
 
 namespace UpgradesList
 {
 
     public class FlightInstructor : GenericUpgrade
     {
-
         public FlightInstructor() : base()
         {
             Types.Add(UpgradeType.Crew);
@@ -17,22 +18,35 @@ namespace UpgradesList
             Cost = 4;
 
             AvatarOffset = new Vector2(32, 1);
+
+            UpgradeAbilities.Add(new FlightInstructorAbility());
+        }
+    }
+}
+
+namespace Abilities
+{
+    public class FlightInstructorAbility : GenericAbility
+    {
+        public override void ActivateAbility()
+        {
+            HostShip.AfterGenerateAvailableActionEffectsList += FlightInstructorActionEffect;
         }
 
-        public override void AttachToShip(Ship.GenericShip host)
+        public override void DeactivateAbility()
         {
-            base.AttachToShip(host);
-
-            host.AfterGenerateAvailableActionEffectsList += FlightInstructorActionEffect;
+            HostShip.AfterGenerateAvailableActionEffectsList -= FlightInstructorActionEffect;
         }
 
         private void FlightInstructorActionEffect(Ship.GenericShip host)
         {
-            ActionsList.GenericAction newAction = new ActionsList.FlightInstructorActionEffect();
-            newAction.ImageUrl = ImageUrl;
+            GenericAction newAction = new FlightInstructorActionEffect
+            {
+                Host = host,
+                ImageUrl = HostUpgrade.ImageUrl
+            };
             host.AddAvailableActionEffect(newAction);
         }
-
     }
 }
 
@@ -52,9 +66,7 @@ namespace ActionsList
 
         public override bool IsActionEffectAvailable()
         {
-            bool result = false;
-            if (Combat.AttackStep == CombatStep.Defence) result = true;
-            return result;
+            return Combat.AttackStep == CombatStep.Defence;
         }
 
         public override int GetActionEffectPriority()
@@ -88,10 +100,10 @@ namespace ActionsList
         public override void ActionEffect(System.Action callBack)
         {
             // Can reroll focus if Attacker PS > 2, focus or blank if Attacker PS <= 2
-            System.Collections.Generic.List<DieSide> allowedRerolls =
+            List<DieSide> allowedRerolls =
                 (Combat.Attacker.PilotSkill > 2) ?
-                new System.Collections.Generic.List<DieSide> { DieSide.Focus } :
-                new System.Collections.Generic.List<DieSide> { DieSide.Blank, DieSide.Focus };
+                new List<DieSide> { DieSide.Focus } :
+                new List<DieSide> { DieSide.Blank, DieSide.Focus };
 
             DiceRerollManager diceRerollManager = new DiceRerollManager
             {

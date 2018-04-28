@@ -2,6 +2,7 @@
 using Bombs;
 using System.Collections.Generic;
 using UnityEngine;
+using Abilities;
 
 namespace UpgradesList
 {
@@ -14,13 +15,24 @@ namespace UpgradesList
             Cost = 1;
 
             AvatarOffset = new Vector2(23, 1);
+
+            UpgradeAbilities.Add(new BombardierAbility());
+        }
+    }
+}
+
+namespace Abilities
+{
+    public class BombardierAbility : GenericAbility
+    {
+        public override void ActivateAbility()
+        {
+            HostShip.OnGetAvailableBombDropTemplates += BombardierTemplate;
         }
 
-        public override void AttachToShip(Ship.GenericShip host)
+        public override void DeactivateAbility()
         {
-            base.AttachToShip(host);
-
-            host.OnGetAvailableBombDropTemplates += BombardierTemplate;
+            HostShip.OnGetAvailableBombDropTemplates -= BombardierTemplate;
         }
 
         private void BombardierTemplate(List<BombDropTemplates> availableTemplates)

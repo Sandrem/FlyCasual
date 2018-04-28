@@ -4,6 +4,9 @@ using Upgrade;
 using SubPhases;
 using System.Collections.Generic;
 using UnityEngine;
+using Abilities;
+using Ship.Quadjumper;
+using Tokens;
 
 namespace UpgradesList
 {
@@ -14,12 +17,13 @@ namespace UpgradesList
             Types.Add(UpgradeType.Modification);
             Name = "Spacetug Tractor Array";
             Cost = 2;
-            UpgradeAbilities.Add (new Abilities.SpacetugAbility ());
+
+            UpgradeAbilities.Add (new SpacetugAbility());
         }
 
         public override bool IsAllowedForShip(GenericShip ship)
         {
-            return ship is Ship.Quadjumper.Quadjumper;
+            return ship is Quadjumper;
         }
     }
 }
@@ -44,7 +48,7 @@ namespace Abilities
             { 
                 ImageUrl = HostUpgrade.ImageUrl, 
                 Host = HostShip,
-                Source = this.HostUpgrade
+                Source = HostUpgrade
             };
             HostShip.AddAvailableAction(newAction);   
         }
@@ -119,7 +123,7 @@ namespace SubPhases
         private void SelectSpacetugTarget()
         {
             MovementTemplates.ReturnRangeRuler();
-            Tokens.TractorBeamToken token = new Tokens.TractorBeamToken(TargetShip, SpacetugOwner.Owner);
+            TractorBeamToken token = new TractorBeamToken(TargetShip, SpacetugOwner.Owner);
             TargetShip.Tokens.AssignToken(token, SelectShipSubPhase.FinishSelection);
         }
 

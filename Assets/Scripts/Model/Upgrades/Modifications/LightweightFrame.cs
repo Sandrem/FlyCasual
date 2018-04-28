@@ -1,43 +1,51 @@
 using Ship;
 using Upgrade;
 using ActionsList;
+using Abilities;
 
 namespace UpgradesList
 {
     public class LightweightFrame : GenericUpgrade
     {
-        public bool isUsed;
-
         public LightweightFrame() : base()
         {
             Types.Add(UpgradeType.Modification);
             Name = "Lightweight Frame";
             Cost = 2;
+
+            UpgradeAbilities.Add(new LightweightFrameAbility());
         }
 
         public override bool IsAllowedForShip(GenericShip ship)
         {
-			return (ship.Agility < 3 && ship is TIE);
+            return (ship.Agility < 3 && ship is TIE);
+        }
+    }
+}
+
+namespace Abilities
+{
+    public class LightweightFrameAbility : GenericAbility
+    {
+        public override void ActivateAbility()
+        {
+            HostShip.AfterGenerateAvailableActionEffectsList += LightweightFrameActionEffect;
         }
 
-        public override void AttachToShip(GenericShip host)
+        public override void DeactivateAbility()
         {
-            base.AttachToShip(host);
-
-            host.AfterGenerateAvailableActionEffectsList += LightweightFrameActionEffect;
-            //Host.OnShipIsDestroyed += StopAbility; // Can probably be removed
+            HostShip.AfterGenerateAvailableActionEffectsList -= LightweightFrameActionEffect;
         }
 
         private void LightweightFrameActionEffect(GenericShip host)
         {
 			GenericAction newAction = new LightweightFrameDiceModification()
             {
-                ImageUrl = ImageUrl,
+                ImageUrl = HostUpgrade.ImageUrl,
                 Host = host,
             };
             host.AddAvailableActionEffect(newAction);
         }
-			
     }
 }
 

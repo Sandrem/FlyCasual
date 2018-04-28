@@ -3,6 +3,7 @@ using Ship.TIEPhantom;
 using Upgrade;
 using ActionsList;
 using System.Collections.Generic;
+using Abilities;
 
 namespace UpgradesList
 {
@@ -13,18 +14,29 @@ namespace UpgradesList
             Types.Add(UpgradeType.Modification);
             Name = "Advanced Cloaking Device";
             Cost = 4;
+
+            UpgradeAbilities.Add(new AdvancedCloakingDeviceAbility());
         }
 
         public override bool IsAllowedForShip(GenericShip ship)
         {
             return ship is TIEPhantom;
         }
+    }
+}
 
-        public override void AttachToShip(GenericShip host)
+namespace Abilities
+{
+    public class AdvancedCloakingDeviceAbility : GenericAbility
+    {
+        public override void ActivateAbility()
         {
-            base.AttachToShip(host);
+            HostShip.OnAttackFinish += RegisterPerformFreeCloakAction;
+        }
 
-            host.OnAttackFinish += RegisterPerformFreeCloakAction;
+        public override void DeactivateAbility()
+        {
+            HostShip.OnAttackFinish -= RegisterPerformFreeCloakAction;
         }
 
         private void RegisterPerformFreeCloakAction(GenericShip ship)
@@ -33,7 +45,7 @@ namespace UpgradesList
             {
                 Name = "Advanced Cloaking Device",
                 TriggerType = TriggerTypes.OnAttackFinish,
-                TriggerOwner = Host.Owner.PlayerNo,
+                TriggerOwner = HostShip.Owner.PlayerNo,
                 EventHandler = PerformFreeCloakAction
             });
         }
@@ -42,7 +54,7 @@ namespace UpgradesList
         {
             List<GenericAction> actions = new List<GenericAction>() { new CloakAction() };
 
-            Host.AskPerformFreeAction(actions, Triggers.FinishTrigger);
+            HostShip.AskPerformFreeAction(actions, Triggers.FinishTrigger);
         }
     }
 }

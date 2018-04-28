@@ -4,38 +4,53 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Upgrade;
+using Abilities;
+using Ship;
 
 namespace UpgradesList
 {
-	public class AssaultMissiles : GenericSecondaryWeapon
-	{
-		public AssaultMissiles () : base()
-		{
+    public class AssaultMissiles : GenericSecondaryWeapon
+    {
+        public AssaultMissiles() : base()
+        {
             Types.Add(UpgradeType.Missile);
 
-			Name = "Assault Missiles";
+            Name = "Assault Missiles";
 
-			Cost = 5;
-			MinRange = 2;
-			MaxRange = 3;
-			AttackValue = 4;
+            Cost = 5;
+            MinRange = 2;
+            MaxRange = 3;
+            AttackValue = 4;
 
-			RequiresTargetLockOnTargetToShoot = true;
-			SpendsTargetLockOnTargetToShoot = true;
-			IsDiscardedForShot = true;
-		}
+            RequiresTargetLockOnTargetToShoot = true;
+            SpendsTargetLockOnTargetToShoot = true;
+            IsDiscardedForShot = true;
 
-		public override void AttachToShip(Ship.GenericShip host)
-		{
-			base.AttachToShip(host);
+            UpgradeAbilities.Add(new AssaultMissilesAbility());
+        }
+    }
+}
 
-			SubscribeOnHit();
-		}
+namespace Abilities
+{
+    public class AssaultMissilesAbility : GenericAbility
+    {
+        public override void ActivateAbility()
+        {
+            HostShip.OnShotHitAsAttacker += RegisterAssaultMissleHit;
+        }
 
-		private void SubscribeOnHit()
-		{
-			Host.OnShotHitAsAttacker += RegisterAssaultMissleHit;
-		}
+        public override void DeactivateAbility()
+        {
+            // Ability is turned off only after full attack is finished
+            HostShip.OnCombatDeactivation += DeactivateAbilityPlanned;
+        }
+
+        private void DeactivateAbilityPlanned(GenericShip ship)
+        {
+            HostShip.OnCombatDeactivation -= DeactivateAbilityPlanned;
+            HostShip.OnShotHitAsAttacker -= RegisterAssaultMissleHit;
+        }
 
 		private void RegisterAssaultMissleHit()
 		{
@@ -56,7 +71,7 @@ namespace UpgradesList
 		private void AssaultMissilesHitEffect(){
 			var ships = Roster.AllShips.Select (x => x.Value).ToList();
 
-			foreach (Ship.GenericShip ship in ships) {
+			foreach (GenericShip ship in ships) {
 
 				// null refs?
 				if (ship.Model == null || Combat.Defender == null || Combat.Defender.Model == null) {

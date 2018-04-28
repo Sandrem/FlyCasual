@@ -5,6 +5,7 @@ using System.Text;
 using Ship;
 using UnityEngine;
 using Upgrade;
+using Abilities;
 
 namespace UpgradesList
 {
@@ -24,16 +25,34 @@ namespace UpgradesList
             RequiresFocusToShoot = true;
 
             IsDiscardedForShot = true;
-        }
 
-        public override void AttachToShip(GenericShip host)
+            UpgradeAbilities.Add(new ProtonRocketsAbility());
+        }
+    }
+}
+
+namespace Abilities
+{
+    public class ProtonRocketsAbility : GenericAbility
+    {
+        public override void ActivateAbility()
         {
-            base.AttachToShip(host);
-
-            Host.AfterGotNumberOfAttackDice += ProtonRocketsAbility;
+            HostShip.AfterGotNumberOfAttackDice += CheckProtonRocketsAbility;
         }
 
-        private void ProtonRocketsAbility(ref int diceCount)
+        public override void DeactivateAbility()
+        {
+            // Ability is turned off only after attack dice are rolled
+            HostShip.OnDefenceStartAsDefender += DeactivateAbilityPlanned;
+        }
+
+        private void DeactivateAbilityPlanned()
+        {
+            HostShip.OnDefenceStartAsDefender -= DeactivateAbilityPlanned;
+            HostShip.AfterGotNumberOfAttackDice -= CheckProtonRocketsAbility;
+        }
+
+        private void CheckProtonRocketsAbility(ref int diceCount)
         {
             if (Combat.ChosenWeapon == this)
             {

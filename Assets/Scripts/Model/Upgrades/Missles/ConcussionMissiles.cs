@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Upgrade;
+using Abilities;
+using Ship;
+using ActionsList;
 
 namespace UpgradesList
 {
@@ -25,30 +28,45 @@ namespace UpgradesList
 
             SpendsTargetLockOnTargetToShoot = true;
             IsDiscardedForShot = true;
+
+            UpgradeAbilities.Add(new ConcussionMissilesAbility());
         }
-
-        public override void AttachToShip(Ship.GenericShip host)
-        {
-            base.AttachToShip(host);
-
-            AddDiceModification();
-        }
-
-        private void AddDiceModification()
-        {
-            ActionsList.ConcussionMissilesAction action = new ActionsList.ConcussionMissilesAction()
-            {
-                Host = Host,
-                ImageUrl = ImageUrl,
-                Source = this
-            };
-            action.AddDiceModification();
-
-            Host.AddAvailableAction(action);
-        }
-
     }
+}
 
+namespace Abilities
+{
+    public class ConcussionMissilesAbility : GenericAbility
+    {
+        public override void ActivateAbility()
+        {
+            HostShip.AfterGenerateAvailableActionEffectsList += AddConcussionMissilesDiceModification;
+        }
+
+        public override void DeactivateAbility()
+        {
+            // Ability is turned off only after full attack is finished
+            HostShip.OnCombatDeactivation += DeactivateAbilityPlanned;
+        }
+
+        private void DeactivateAbilityPlanned(GenericShip ship)
+        {
+            HostShip.OnCombatDeactivation -= DeactivateAbilityPlanned;
+            HostShip.AfterGenerateAvailableActionEffectsList -= AddConcussionMissilesDiceModification;
+        }
+
+        private void AddConcussionMissilesDiceModification(GenericShip host)
+        {
+            ConcussionMissilesAction action = new ConcussionMissilesAction()
+            {
+                Host = host,
+                ImageUrl = HostUpgrade.ImageUrl,
+                Source = HostUpgrade
+            };
+
+            host.AddAvailableAction(action);
+        }
+    }
 }
 
 namespace ActionsList
@@ -67,7 +85,7 @@ namespace ActionsList
             Host.AfterGenerateAvailableActionEffectsList += ConcussionMissilesAddDiceModification;
         }
 
-        private void ConcussionMissilesAddDiceModification(Ship.GenericShip ship)
+        private void ConcussionMissilesAddDiceModification(GenericShip ship)
         {
             ship.AddAvailableActionEffect(this);
         }

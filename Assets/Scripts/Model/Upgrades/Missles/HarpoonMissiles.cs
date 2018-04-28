@@ -49,7 +49,14 @@ namespace Abilities
 
         public override void DeactivateAbility()
         {
-            //No deactivation is required
+            // Ability is turned off only after full attack is finished
+            HostShip.OnCombatDeactivation += DeactivateAbilityPlanned;
+        }
+
+        private void DeactivateAbilityPlanned(GenericShip ship)
+        {
+            HostShip.OnCombatDeactivation -= DeactivateAbilityPlanned;
+            HostShip.OnShotHitAsAttacker -= PlanToApplyHarpoonMissilesCondition;
         }
 
         private void PlanToApplyHarpoonMissilesCondition()

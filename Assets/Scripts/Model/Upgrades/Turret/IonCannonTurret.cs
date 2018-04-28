@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Upgrade;
+using Abilities;
 
 namespace UpgradesList
 {
@@ -20,18 +21,24 @@ namespace UpgradesList
             AttackValue = 3;
 
             CanShootOutsideArc = true;
+
+            UpgradeAbilities.Add(new IonCannonTurretAbility());
+        }
+    }
+}
+
+namespace Abilities
+{
+    public class IonCannonTurretAbility : GenericAbility
+    {
+        public override void ActivateAbility()
+        {
+            HostShip.OnShotHitAsAttacker += RegisterIonTurretEffect;
         }
 
-        public override void AttachToShip(Ship.GenericShip host)
+        public override void DeactivateAbility()
         {
-            base.AttachToShip(host);
-
-            SubscribeOnHit();
-        }
-
-        private void SubscribeOnHit()
-        {
-            Host.OnShotHitAsAttacker += RegisterIonTurretEffect;
+            HostShip.OnShotHitAsAttacker -= RegisterIonTurretEffect;
         }
 
         private void RegisterIonTurretEffect()

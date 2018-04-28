@@ -2,6 +2,7 @@
 using Upgrade;
 using Ship.TIEAdvanced;
 using Tokens;
+using Abilities;
 
 namespace UpgradesList
 {
@@ -14,6 +15,8 @@ namespace UpgradesList
             Cost = 5;
 
             ImageUrl = ImageUrls.GetImageUrl(this, "advanced-targeting-computer.png");
+
+            UpgradeAbilities.Add(new AdvancedTargetingComputerAbility());
         }
 
         public override bool IsAllowedForShip(GenericShip ship)
@@ -25,7 +28,7 @@ namespace UpgradesList
 
 namespace Abilities
 {
-    public class FlightInstructorAbility : GenericAbility
+    public class AdvancedTargetingComputerAbility : GenericAbility
     {
         public override void ActivateAbility()
         {

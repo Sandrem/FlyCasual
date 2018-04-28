@@ -4,13 +4,13 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Upgrade;
+using Abilities;
 
 namespace UpgradesList
 {
-
     public class TwinLaserTurret : GenericSecondaryWeapon
     {
-		public TwinLaserTurret() : base()
+        public TwinLaserTurret() : base()
         {
             Types.Add(UpgradeType.Turret);
 
@@ -21,33 +21,40 @@ namespace UpgradesList
             MaxRange = 3;
             AttackValue = 3;
 
-			IsTwinAttack = true; 
-			CanShootOutsideArc = true;
-        }
+            IsTwinAttack = true;
+            CanShootOutsideArc = true;
 
-        public override void AttachToShip(Ship.GenericShip host)
+            UpgradeAbilities.Add(new TwinLaserTurretAbility());
+        }
+    }
+}
+
+namespace Abilities
+{
+    public class TwinLaserTurretAbility : GenericAbility
+    {
+        public override void ActivateAbility()
         {
-            base.AttachToShip(host);
-
-			SubscribeOnHit();
+            HostShip.OnShotHitAsAttacker += RegisterTwinLaserTurretEffect;
         }
-			
-		private void SubscribeOnHit()
-		{
-			Host.OnShotHitAsAttacker += RegisterTwinLaserTurretEffect;
-		}
+
+        public override void DeactivateAbility()
+        {
+            HostShip.OnShotHitAsAttacker -= RegisterTwinLaserTurretEffect;
+        }
 
 		private void RegisterTwinLaserTurretEffect()
 		{
 			if (Combat.ChosenWeapon == this)
 			{
-				Triggers.RegisterTrigger(new Trigger()
-					{
+				Triggers.RegisterTrigger(
+                    new Trigger(){
 						Name = "Twin Laser Turret effect",
 						TriggerType = TriggerTypes.OnShotHit,
 						TriggerOwner = Combat.Attacker.Owner.PlayerNo,
 						EventHandler = TwinLaserTurretEffect
-					});
+					}
+                );
 			}
 		}
 		private void TwinLaserTurretEffect(object sender, System.EventArgs e)
@@ -60,8 +67,8 @@ namespace UpgradesList
 		{
 			Combat.Defender.AssignedDamageDiceroll.AddDice(DieSide.Success);
 
-			Triggers.RegisterTrigger(new Trigger()
-				{
+			Triggers.RegisterTrigger(
+                new Trigger() {
 					Name = "Suffer damage",
 					TriggerType = TriggerTypes.OnDamageIsDealt,
 					TriggerOwner = Combat.Defender.Owner.PlayerNo,
@@ -72,7 +79,8 @@ namespace UpgradesList
 						DamageType = DamageTypes.ShipAttack
 					},
 					Skippable = true
-				});
+				}
+            );
 
 			Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, Triggers.FinishTrigger);
 		}

@@ -19,7 +19,7 @@ namespace UpgradesList
 
             AvatarOffset = new Vector2(66, 1);
 
-            UpgradeAbilities.Add(new ChewbaccaAbility());
+            UpgradeAbilities.Add(new ChewbaccaCrewAbility());
         }
 
         public override bool IsAllowedForShip(GenericShip ship)
@@ -31,7 +31,7 @@ namespace UpgradesList
 
 namespace Abilities
 {
-    public class ChewbaccaAbility : GenericAbility
+    public class ChewbaccaCrewAbility : GenericAbility
     {
         public override void ActivateAbility()
         {

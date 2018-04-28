@@ -15,10 +15,5 @@ namespace UpgradesList
             Name = "Dead Man's Switch";
             Cost = 2;
         }
-
-        public override void AttachToShip(GenericShip host)
-        {
-            base.AttachToShip(host);
-        }
     }
 }

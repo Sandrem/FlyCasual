@@ -78,6 +78,11 @@ namespace Upgrade
 
         public bool IsHidden;
 
+        internal void TryDiscard(object confirmDecision)
+        {
+            throw new NotImplementedException();
+        }
+
         // Set to use as avatar
 
         public Vector2 AvatarOffset;

@@ -2,6 +2,7 @@
 using Ship.M12LKimogila;
 using UnityEngine;
 using Upgrade;
+using Abilities;
 
 namespace UpgradesList
 {
@@ -14,18 +15,29 @@ namespace UpgradesList
             Cost = 1;
 
             isUnique = true;
+
+            UpgradeAbilities.Add(new EnforcerAbility());
         }
 
         public override bool IsAllowedForShip(GenericShip ship)
         {
             return ship is M12LKimogila;
         }
+    }
+}
 
-        public override void AttachToShip(GenericShip host)
+namespace Abilities
+{
+    public class EnforcerAbility : GenericAbility
+    {
+        public override void ActivateAbility()
         {
-            base.AttachToShip(host);
+            HostShip.OnAttackFinish += TryRegisterStressEffect;
+        }
 
-            Host.OnAttackFinish += TryRegisterStressEffect;
+        public override void DeactivateAbility()
+        {
+            HostShip.OnAttackFinish -= TryRegisterStressEffect;
         }
 
         private void TryRegisterStressEffect(GenericShip ship)

@@ -4,6 +4,8 @@ using Upgrade;
 using System.Linq;
 using System;
 using UnityEngine;
+using Abilities;
+using UpgradesList;
 
 namespace UpgradesList
 {
@@ -18,30 +20,41 @@ namespace UpgradesList
             Cost = 0;
 
             isUnique = true;
+
+            UpgradeAbilities.Add(new GhostV2Ability());
         }
 
         public override bool IsAllowedForShip(GenericShip ship)
         {
             return ship is Vcx100;
         }
+    }
+}
 
-        public override void AttachToShip(GenericShip host)
+namespace Abilities
+{
+    public class GhostV2Ability : GenericAbility
+    {
+        public override void ActivateAbility()
         {
-            base.AttachToShip(host);
-
             Rules.Docking.Dock(GetHisShip, FindPhantom);
+        }
+
+        public override void DeactivateAbility()
+        {
+            // No effect
         }
 
         private GenericShip GetHisShip()
         {
-            return this.Host;
+            return this.HostShip;
         }
 
         private GenericShip FindPhantom()
         {
             GenericShip result = null;
 
-            foreach (var shipHolder in Host.Owner.Ships)
+            foreach (var shipHolder in HostShip.Owner.Ships)
             {
                 foreach (var upgrade in shipHolder.Value.UpgradeBar.GetUpgradesOnlyFaceup())
                 {

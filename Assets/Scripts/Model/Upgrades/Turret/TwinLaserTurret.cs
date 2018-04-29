@@ -45,11 +45,10 @@ namespace Abilities
 
 		private void RegisterTwinLaserTurretEffect()
 		{
-			if (Combat.ChosenWeapon == this)
+			if (Combat.ChosenWeapon == HostUpgrade)
 			{
 				Triggers.RegisterTrigger(
                     new Trigger(){
-						Name = "Twin Laser Turret effect",
 						TriggerType = TriggerTypes.OnShotHit,
 						TriggerOwner = Combat.Attacker.Owner.PlayerNo,
 						EventHandler = TwinLaserTurretEffect
@@ -59,13 +58,13 @@ namespace Abilities
 		}
 		private void TwinLaserTurretEffect(object sender, System.EventArgs e)
 		{
-			Combat.DiceRollAttack.CancelAllResults();
+            Combat.DiceRollAttack.CancelAllResults();
 			Combat.DiceRollAttack.RemoveAllFailures();
 			DefenderSuffersDamage();
 		}
 		private void DefenderSuffersDamage()
 		{
-			Combat.Defender.AssignedDamageDiceroll.AddDice(DieSide.Success);
+            Combat.Defender.AssignedDamageDiceroll.AddDice(DieSide.Success);
 
 			Triggers.RegisterTrigger(
                 new Trigger() {

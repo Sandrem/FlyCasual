@@ -41,7 +41,7 @@ namespace Abilities
 
         private void AddDiceAtRangeOne(ref int diceCount)
         {
-            if (Combat.ChosenWeapon == this && Combat.ShotInfo.Range == 1)
+            if (Combat.ChosenWeapon == HostUpgrade && Combat.ShotInfo.Range == 1)
             {
                 diceCount++;
             }

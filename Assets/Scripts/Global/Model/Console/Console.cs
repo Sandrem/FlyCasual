@@ -66,7 +66,7 @@ public partial class Console : MonoBehaviour {
         foreach (var type in typelist)
         {
             if (type.MemberType == MemberTypes.NestedType) continue;
-            GenericCommand newCommand = (GenericCommand)System.Activator.CreateInstance(type);
+            System.Activator.CreateInstance(type);
         }
 
         AvailableCommands = AvailableCommands.OrderBy(n => n.Key).ToDictionary(n => n.Key, n => n.Value);

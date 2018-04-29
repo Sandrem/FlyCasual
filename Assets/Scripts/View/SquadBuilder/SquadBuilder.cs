@@ -810,8 +810,6 @@ namespace SquadBuilderNS
 
         private static JSONObject GetRandomAiSquad()
         {
-            List<JSONObject> savedSquadsJsons = new List<JSONObject>();
-
             string directoryPath = Application.persistentDataPath + "/RandomAiSquadrons";
             if (!Directory.Exists(directoryPath)) Directory.CreateDirectory(directoryPath);
 

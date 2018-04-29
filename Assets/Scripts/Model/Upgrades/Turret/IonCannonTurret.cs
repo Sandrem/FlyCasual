@@ -43,7 +43,7 @@ namespace Abilities
 
         private void RegisterIonTurretEffect()
         {
-            if (Combat.ChosenWeapon == this)
+            if (Combat.ChosenWeapon == HostUpgrade)
             {
                 Triggers.RegisterTrigger(new Trigger()
                 {

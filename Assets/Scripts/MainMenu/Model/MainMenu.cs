@@ -141,8 +141,6 @@ public partial class MainMenu : MonoBehaviour {
 
         int count = 0;
 
-        List<GenericUpgrade> AllUpgrades = new List<GenericUpgrade>();
-
         List<Type> typelist = Assembly.GetExecutingAssembly().GetTypes()
             .Where(t => String.Equals(t.Namespace, "UpgradesList", StringComparison.Ordinal))
             .ToList();

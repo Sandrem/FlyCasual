@@ -60,7 +60,7 @@ namespace Abilities
 				ImageUrl = HostUpgrade.ImageUrl,
 				Source = HostUpgrade
 			};
-			host.AddAvailableAction(action);
+			host.AddAvailableActionEffect(action);
 		}
 	}
 }

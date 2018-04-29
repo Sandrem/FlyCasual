@@ -64,7 +64,7 @@ namespace Abilities
                 Source = HostUpgrade
             };
 
-            host.AddAvailableAction(action);
+            host.AddAvailableActionEffect(action);
         }
     }
 }

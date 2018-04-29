@@ -54,7 +54,7 @@ namespace Abilities
 
         private void CheckProtonRocketsAbility(ref int diceCount)
         {
-            if (Combat.ChosenWeapon == this)
+            if (Combat.ChosenWeapon == HostUpgrade)
             {
                 diceCount += Mathf.Min(Combat.Attacker.Agility, 3);
             }

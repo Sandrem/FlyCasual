@@ -195,7 +195,6 @@ namespace Upgrade
 
         // ATTACH TO SHIP
 
-        [Obsolete("This is in the process of being depricated, please use new template instead: UpgradeAbilities.Add();", false)]
         public virtual void AttachToShip(GenericShip host)
         {
             Host = host;

@@ -102,6 +102,28 @@ namespace Ship
             }
         }
 
+        private int maxEnergy;
+        public int MaxEnergy
+        {
+            get
+            {
+                int result = maxEnergy;
+                return Mathf.Max(result, 0);
+            }
+            set
+            {
+                maxEnergy = Mathf.Max(value, 0);
+            }
+        }
+
+        public int Energy
+        {
+            get
+            {
+                return Tokens.CountTokensByType(typeof(Tokens.EnergyToken));
+            }
+        }
+
         protected List<IModifyPilotSkill> PilotSkillModifiers;
 
         private int pilotSkill;

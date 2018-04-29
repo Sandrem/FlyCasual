@@ -463,7 +463,7 @@ namespace Ship
             if (DebugManager.DebugDamage) Debug.Log("+++ Source: " + (e as DamageSourceEventArgs).Source);
             if (DebugManager.DebugDamage) Debug.Log("+++ DamageType: " + (e as DamageSourceEventArgs).DamageType);
 
-            bool isCritical = (AssignedDamageDiceroll.RegularSuccesses == 0);
+            bool isCritical = (AssignedDamageDiceroll.CriticalSuccesses > 0);
 
             if (isCritical)
             {

@@ -59,6 +59,8 @@ namespace Abilities
 
         private void DoDamage(object sender, System.EventArgs e)
         {
+            Phases.CurrentSubPhase.Pause();
+
             Messages.ShowError("\"Chopper\": Damage is dealt");
 
             Triggers.RegisterTrigger(new Trigger()
@@ -74,7 +76,13 @@ namespace Abilities
                 }
             });
 
-            Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, Triggers.FinishTrigger);
+            Triggers.ResolveTriggers(
+                TriggerTypes.OnDamageIsDealt,
+                delegate {
+                    Phases.CurrentSubPhase.Resume();
+                    Triggers.FinishTrigger();
+                }
+            );
         }
     }
 }

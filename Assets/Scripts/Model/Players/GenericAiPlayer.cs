@@ -415,6 +415,8 @@ namespace Players
         {
             base.UseCompareResultsDiceModifications();
 
+            Combat.ToggleConfirmDiceResultsButton(false);
+
             Selection.ActiveShip = Combat.Attacker;
 
             Selection.ActiveShip.GenerateAvailableCompareResultsEffectsList();
@@ -449,8 +451,7 @@ namespace Players
 
             if (!isActionEffectTaken)
             {
-                GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-                Game.Wait(2, Combat.CompareResultsAndDealDamage);
+                Combat.CompareResultsAndDealDamage();
             }
         }
 

@@ -5,7 +5,7 @@ using Abilities;
 
 namespace UpgradesList
 {
-    public class VeteranInstincts : GenericUpgrade
+    public class VeteranInstincts : GenericUpgrade, IModifyPilotSkill
     {
         public VeteranInstincts() : base()
         {
@@ -17,28 +17,42 @@ namespace UpgradesList
 
             UpgradeAbilities.Add(new VeteranInstinctsAbility());
         }
-    }
-}
 
-namespace Abilities
-{
-    public class VeteranInstinctsAbility : GenericAbility, IModifyPilotSkill
-    {
-        public override void ActivateAbility()
+        public override void PreAttachToShip(GenericShip host)
         {
-            HostShip.AddPilotSkillModifier(this);
-            Roster.UpdateShipStats(HostShip);
+            base.PreAttachToShip(host);
+
+            Debug.Log("PS us");
+            host.AddPilotSkillModifier(this);
         }
 
-        public override void DeactivateAbility()
+        public override void PreDettachFromShip()
         {
-            HostShip.RemovePilotSkillModifier(this);
-            Roster.UpdateShipStats(HostShip);
+            base.PreDettachFromShip();
+
+            Debug.Log("PS less");
+            Host.RemovePilotSkillModifier(this);
         }
 
         public void ModifyPilotSkill(ref int pilotSkill)
         {
             pilotSkill += 2;
+        }
+    }
+}
+
+namespace Abilities
+{
+    public class VeteranInstinctsAbility : GenericAbility
+    {
+        public override void ActivateAbility()
+        {
+            Roster.UpdateShipStats(HostShip);
+        }
+
+        public override void DeactivateAbility()
+        {
+            Roster.UpdateShipStats(HostShip);
         }
     }
 }

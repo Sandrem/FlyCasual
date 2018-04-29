@@ -249,6 +249,7 @@ namespace Upgrade
         public virtual void Discard(Action callBack)
         {
             isDiscarded = true;
+            PreDettachFromShip();
             Roster.DiscardUpgrade(Host, Name);
             DeactivateAbility();
 

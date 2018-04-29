@@ -3,6 +3,7 @@ using Ship.StarViper;
 using Upgrade;
 using UnityEngine;
 using System.Collections.Generic;
+using SquadBuilderNS;
 
 namespace UpgradesList
 {
@@ -25,6 +26,13 @@ namespace UpgradesList
         public override bool IsAllowedForShip(GenericShip ship)
         {
             return ((ship is StarViper) && (ship.PilotSkill > 3));
+        }
+
+        public override bool IsAllowedForSquadBuilderPostCheck(SquadList squadList)
+        {
+            bool result = Host.PilotSkill > 3;
+            if (!result) Messages.ShowError("You cannot equip \"Virago\" if pilot's skill is \"3\" or lower");
+            return result;
         }
     }
 }

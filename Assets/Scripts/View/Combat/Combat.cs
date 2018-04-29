@@ -31,8 +31,6 @@ public static partial class Combat
         Selection.ActiveShip = (AttackStep == CombatStep.Attack) ? Defender : Attacker;
         Phases.CurrentSubPhase.RequiredPlayer = Selection.ActiveShip.Owner.PlayerNo;
 
-        ToggleConfirmDiceResultsButton(true);
-
         AvailableDecisions = new Dictionary<string, GenericAction>();
         Selection.ActiveShip.GenerateAvailableOppositeActionEffectsList();
 
@@ -50,7 +48,7 @@ public static partial class Combat
                 offset += 40;
             }
 
-            ToggleConfirmDiceResultsButton(true);
+            if (Selection.ActiveShip.GetAvailableOppositeActionEffectsList().Count> 0) ToggleConfirmDiceResultsButton(true);
 
             Button closeButton = GameObject.Find("UI/CombatDiceResultsPanel").transform.Find("DiceModificationsPanel/Confirm").GetComponent<Button>();
             closeButton.onClick.RemoveAllListeners();
@@ -69,8 +67,6 @@ public static partial class Combat
         Selection.ActiveShip = Attacker;
         Phases.CurrentSubPhase.RequiredPlayer = Selection.ActiveShip.Owner.PlayerNo;
 
-        ToggleConfirmDiceResultsButton(true);
-
         AvailableDecisions = new Dictionary<string, GenericAction>();
         Selection.ActiveShip.GenerateAvailableCompareResultsEffectsList();
 
@@ -88,7 +84,7 @@ public static partial class Combat
                 offset += 40;
             }
 
-            ToggleConfirmDiceResultsButton(true);
+            if (Selection.ActiveShip.GetAvailableCompareResultsEffectsList().Count > 0) ToggleConfirmDiceResultsButton(true);
 
             Button closeButton = GameObject.Find("UI/CombatDiceResultsPanel").transform.Find("DiceModificationsPanel/Confirm").GetComponent<Button>();
             closeButton.onClick.RemoveAllListeners();
@@ -154,6 +150,8 @@ public static partial class Combat
     {
         if (Selection.ActiveShip.Owner.GetType() == typeof(Players.HumanPlayer))
         {
+            Debug.Log("OK button is... " + isActive);
+
             (Phases.CurrentSubPhase as SubPhases.DiceRollCombatSubPhase).PrepareToggleConfirmButton(isActive);
         }
     }

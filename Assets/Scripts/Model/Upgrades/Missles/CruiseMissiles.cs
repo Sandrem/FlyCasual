@@ -52,7 +52,7 @@ namespace Abilities
 
         private void CheckCruiseMissilesAbility(ref int diceCount)
         {
-            if (Combat.ChosenWeapon == this)
+            if (Combat.ChosenWeapon == HostUpgrade)
             {
                 if (Combat.Attacker.AssignedManeuver != null) diceCount += Mathf.Min(Combat.Attacker.AssignedManeuver.Speed, 4);
             }

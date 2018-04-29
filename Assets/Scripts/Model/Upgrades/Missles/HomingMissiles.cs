@@ -57,7 +57,7 @@ namespace Abilities
         {
             if ((Combat.AttackStep == CombatStep.Attack) && (Combat.Attacker == HostShip))
             {
-                if (Combat.ChosenWeapon == this)
+                if (Combat.ChosenWeapon == HostUpgrade)
                 {
                     ApplyHomingMissilesAbility();
                 }

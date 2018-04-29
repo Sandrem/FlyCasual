@@ -206,7 +206,7 @@ public static partial class Phases
     public static void StartTemporarySubPhaseOld(string name, System.Type subPhaseType, Action callBack = null)
     {
         GenericSubPhase subphase = StartTemporarySubPhaseNew(name, subPhaseType, callBack);
-        CurrentSubPhase.Start();
+        subphase.Start();
     }
 
     public static GenericSubPhase StartTemporarySubPhaseNew(string name, System.Type subPhaseType, Action callBack)

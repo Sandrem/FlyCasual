@@ -54,7 +54,7 @@ namespace Abilities
 
 		private void RegisterAssaultMissleHit()
 		{
-			if (Combat.ChosenWeapon == this)
+			if (Combat.ChosenWeapon == HostUpgrade)
 			{
 				Triggers.RegisterTrigger(new Trigger()
 					{

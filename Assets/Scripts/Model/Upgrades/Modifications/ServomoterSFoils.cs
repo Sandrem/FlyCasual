@@ -54,6 +54,8 @@ namespace Abilities
     {
         protected abstract bool AIWantsToFlip();
 
+        protected abstract string FlipQuestion { get; }
+
         protected void TurnSFoilsToClosedPosition(GenericShip ship)
         {
             HostShip.WingsClose();
@@ -71,7 +73,7 @@ namespace Abilities
 
         protected void AskToFlip(object sender, EventArgs e)
         {            
-            AskToUseAbility(AIWantsToFlip, DoFlipSide, null, null, false, string.Format("{0}: Do you want to flip Servomotor S-Foils?", HostShip.PilotName));            
+            AskToUseAbility(AIWantsToFlip, DoFlipSide, null, null, false, FlipQuestion);            
         }
 
         protected void DoFlipSide(object sender, EventArgs e)
@@ -134,6 +136,14 @@ namespace Abilities
         {
             /// TODO: Add more inteligence to this decision
             return true;
+        }
+
+        protected override string FlipQuestion
+        {
+            get
+            {
+                return string.Format("{0}: Open the S-Foils?", HostShip.PilotName);
+            }
         }
     }
 
@@ -211,6 +221,14 @@ namespace Abilities
         {
             /// TODO: Add more inteligence to this decision
             return false;
+        }
+
+        protected override string FlipQuestion
+        {
+            get
+            {
+                return string.Format("{0}: Close the S-Foils?", HostShip.PilotName);
+            }
         }
     }
 }

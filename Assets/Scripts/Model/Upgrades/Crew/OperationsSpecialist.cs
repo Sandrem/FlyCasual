@@ -42,7 +42,7 @@ namespace Abilities
         {
             if (Combat.Attacker.Owner.Id == HostShip.Owner.Id && Board.BoardManager.GetRangeOfShips(HostShip, Combat.Attacker) <= 2)
             {
-                RegisterAbilityTrigger(TriggerTypes.OnAttackFinish, (s, e) => OperationsSpecialistEffect(Combat.Attacker));
+                RegisterAbilityTrigger(TriggerTypes.OnAttackMissed, (s, e) => OperationsSpecialistEffect(Combat.Attacker));
             }
         }
 
@@ -82,19 +82,7 @@ namespace Abilities
 
         private void GrantFreeFocusToken()
         {
-            Selection.ThisShip = TargetShip;
-            RegisterAbilityTrigger(TriggerTypes.OnTokenIsAssigned, AssignFocusToken);
-            Triggers.ResolveTriggers(TriggerTypes.OnTokenIsAssigned, SelectShipSubPhase.FinishSelection);
-        }
-
-        private void AssignFocusToken(object sender, EventArgs e)
-        {
-            Selection.ThisShip.Tokens.AssignToken(new FocusToken(HostShip), () =>
-            {
-                Selection.ThisShip = HostShip;
-                Phases.CurrentSubPhase.Resume();
-                Triggers.FinishTrigger();
-            });
+            TargetShip.Tokens.AssignToken(new FocusToken(TargetShip), SelectShipSubPhase.FinishSelection);
         }
     }
 }

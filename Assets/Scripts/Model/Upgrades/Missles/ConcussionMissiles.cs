@@ -40,23 +40,28 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
+            Debug.Log("Activate");
             HostShip.AfterGenerateAvailableActionEffectsList += AddConcussionMissilesDiceModification;
         }
 
         public override void DeactivateAbility()
         {
+            Debug.Log("Deactivate planned");
             // Ability is turned off only after full attack is finished
             HostShip.OnCombatDeactivation += DeactivateAbilityPlanned;
         }
 
         private void DeactivateAbilityPlanned(GenericShip ship)
         {
+            Debug.Log("Deactivate real");
             HostShip.OnCombatDeactivation -= DeactivateAbilityPlanned;
             HostShip.AfterGenerateAvailableActionEffectsList -= AddConcussionMissilesDiceModification;
         }
 
         private void AddConcussionMissilesDiceModification(GenericShip host)
         {
+            Debug.Log("Dice mod");
+
             ConcussionMissilesAction action = new ConcussionMissilesAction()
             {
                 Host = host,
@@ -64,7 +69,7 @@ namespace Abilities
                 Source = HostUpgrade
             };
 
-            host.AddAvailableAction(action);
+            host.AddAvailableActionEffect(action);
         }
     }
 }

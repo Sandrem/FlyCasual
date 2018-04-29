@@ -1,5 +1,6 @@
 ﻿using ActionsList;
 using Ship;
+using Upgrade;
 
 namespace Ship
 {
@@ -52,7 +53,7 @@ namespace Abilities
 
             protected override bool CanReRollWithWeaponClass()
             {
-                return !base.CanReRollWithWeaponClass();
+                return Combat.ChosenWeapon is GenericSecondaryWeapon;
             }
         }
     }

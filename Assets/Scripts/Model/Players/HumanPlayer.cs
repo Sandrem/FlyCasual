@@ -131,6 +131,11 @@ namespace Players
         {
             DiceRerollManager.CurrentDiceRerollManager.ShowConfirmButton();
         }
+
+        public override void PerformTractorBeamReposition(GenericShip ship)
+        {
+            RulesList.TractorBeamRule.PerfromManualTractorBeamReposition(ship, this);
+        }
     }
 
 }

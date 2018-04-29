@@ -28,29 +28,30 @@ namespace RulesList
 
             ship.ChangeAgilityBy(-1);
 
-            if (ship.Tokens.CountTokensByType (typeof(TractorBeamToken)) == 1 && ship.ShipBaseSize == Ship.BaseSize.Small) 
+            if (ship.Tokens.CountTokensByType (typeof(TractorBeamToken)) == 1 && ship.ShipBaseSize == BaseSize.Small) 
             {
-                PerformTractorBeamEffect(ship);
+                TractorBeamToken token = (TractorBeamToken)ship.Tokens.GetToken(typeof(TractorBeamToken));
+                token.Assigner.PerformTractorBeamReposition(ship);
             }
         }
 
-        private void PerformTractorBeamEffect(GenericShip ship) 
+        public static void PerfromManualTractorBeamReposition(GenericShip ship, GenericPlayer assinger)
         {
-            TractorBeamToken token = (TractorBeamToken) ship.Tokens.GetToken(typeof(TractorBeamToken));
-            SubPhases.TractorBeamPlanningSubPhase newPhase = (SubPhases.TractorBeamPlanningSubPhase) Phases.StartTemporarySubPhaseNew(
+            SubPhases.TractorBeamPlanningSubPhase newPhase = (SubPhases.TractorBeamPlanningSubPhase)Phases.StartTemporarySubPhaseNew(
                 "Perform tractor beam effect",
                 typeof(SubPhases.TractorBeamPlanningSubPhase),
                 Triggers.FinishTrigger
             );
-            newPhase.Assigner = token.Assigner;
+            newPhase.Assigner = assinger;
             newPhase.TheShip = ship;
 
-            Triggers.RegisterTrigger(new Trigger() {
+            Triggers.RegisterTrigger(new Trigger()
+            {
                 Name = "Perform tractor beam",
                 TriggerType = TriggerTypes.OnTokenIsAssigned,
-                TriggerOwner = token.Assigner.PlayerNo,
+                TriggerOwner = assinger.PlayerNo,
                 EventHandler = delegate {
-                    newPhase.Start();    
+                    newPhase.Start();
                 }
             });
         }

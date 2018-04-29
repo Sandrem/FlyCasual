@@ -150,8 +150,6 @@ public static partial class Combat
     {
         if (Selection.ActiveShip.Owner.GetType() == typeof(Players.HumanPlayer))
         {
-            Debug.Log("OK button is... " + isActive);
-
             (Phases.CurrentSubPhase as SubPhases.DiceRollCombatSubPhase).PrepareToggleConfirmButton(isActive);
         }
     }

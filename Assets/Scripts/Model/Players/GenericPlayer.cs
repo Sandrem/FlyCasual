@@ -155,6 +155,8 @@ namespace Players
         }
 
         public virtual void RerollManagerIsPrepared() { }
+
+        public virtual void PerformTractorBeamReposition(GenericShip ship) { }
     }
 
 }

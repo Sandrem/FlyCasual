@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Ship;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -56,6 +57,11 @@ namespace Players
             base.UseCompareResultsDiceModifications();
 
             Combat.ShowCompareResultsMenu();
+        }
+
+        public override void PerformTractorBeamReposition(GenericShip ship)
+        {
+            RulesList.TractorBeamRule.PerfromManualTractorBeamReposition(ship, this);
         }
 
     }

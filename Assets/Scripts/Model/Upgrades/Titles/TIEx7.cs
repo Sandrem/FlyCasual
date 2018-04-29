@@ -61,7 +61,7 @@ namespace Abilities
                     TriggerType = TriggerTypes.OnShipMovementFinish,
                     TriggerOwner = HostShip.Owner.PlayerNo,
                     EventHandler = AskTIEx7Ability,
-                    Sender = this,
+                    Sender = HostUpgrade,
                 });
             }
         }

@@ -20,31 +20,16 @@ namespace UpgradesList
             {
                 new UpgradeSlot(UpgradeType.Modification) { MustBeDifferent = true }
             };
+
+            CostReductionByType = new Dictionary<UpgradeType, int>()
+            {
+                { UpgradeType.Elite, 1 }
+            };
         }
 
         public override bool IsAllowedForShip(GenericShip ship)
         {
             return ship is XWing || ship is UWing;
-        }
-
-        public override void PreAttachToShip(GenericShip host)
-        {
-            base.PreAttachToShip(host);
-
-            foreach (var slot in host.UpgradeBar.GetUpgradeSlots().Where(s => s.Type == UpgradeType.Elite))
-            {
-                slot.CostDecrease++;
-            }
-        }
-
-        public override void PreDettachFromShip()
-        {
-            base.PreDettachFromShip();
-
-            foreach (var slot in Host.UpgradeBar.GetUpgradeSlots().Where(s => s.Type == UpgradeType.Elite))
-            {
-                slot.CostDecrease--;
-            }
         }
     }
 }

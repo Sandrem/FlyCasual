@@ -3,17 +3,25 @@ using System.Linq;
 
 namespace ActionsList
 {
-    public abstract class FriendlyAttackRerollAction : GenericAction
+    public abstract class FriendlyRerollAction : GenericAction
     {
+        public enum RerollTypeEnum
+        {
+            AttackDice,
+            DefenseDice
+        }
+
         protected int NumberOfDice = 0;
         protected int MaxFriendlyShipRange = 0;
         protected bool CanUseOwnAbility;
+        protected RerollTypeEnum RerollType;
 
-        public FriendlyAttackRerollAction(int numberOfDice, int maxFriendlyShipRange, bool canUseOwnAbility)
+        public FriendlyRerollAction(int numberOfDice, int maxFriendlyShipRange, bool canUseOwnAbility, RerollTypeEnum rerollType)
         {
             MaxFriendlyShipRange = maxFriendlyShipRange;
             NumberOfDice = numberOfDice;
             CanUseOwnAbility = canUseOwnAbility;
+            RerollType = rerollType;
 
             Name = EffectName = string.Format("{0}'s ability", Name);
             IsReroll = true;
@@ -27,15 +35,18 @@ namespace ActionsList
         public override bool IsActionEffectAvailable()
         {
             bool result = false;
-            if (Combat.AttackStep == CombatStep.Attack)
+
+            if (Combat.AttackStep == (RerollType == RerollTypeEnum.AttackDice ? CombatStep.Attack : CombatStep.Defence))
             {
+                var friendlyShip = RerollType == RerollTypeEnum.AttackDice ? Combat.Attacker : Combat.Defender;
+
                 if (CanReRollWithWeaponClass())
                 {
-                    if (CanUseOwnAbility || Combat.Attacker.ShipId != Host.ShipId)
+                    if (CanUseOwnAbility || friendlyShip != Host)
                     {
-                        if (Combat.Attacker.Owner.PlayerNo == Host.Owner.PlayerNo)
+                        if (friendlyShip.Owner == Host.Owner)
                         {
-                            Board.ShipDistanceInformation positionInfo = new Board.ShipDistanceInformation(Host, Combat.Attacker);
+                            Board.ShipDistanceInformation positionInfo = new Board.ShipDistanceInformation(Host, friendlyShip);
                             if (positionInfo.Range <= MaxFriendlyShipRange)
                             {
                                 result = true;
@@ -52,22 +63,23 @@ namespace ActionsList
         {
             int result = 0;
 
-            if (Combat.AttackStep == CombatStep.Attack)
+            if (Combat.AttackStep == (RerollType == RerollTypeEnum.AttackDice ? CombatStep.Attack : CombatStep.Defence))
             {
-                int attackFocuses = Combat.DiceRollAttack.FocusesNotRerolled;
-                int attackBlanks = Combat.DiceRollAttack.BlanksNotRerolled;
+                var friendlyShip = RerollType == RerollTypeEnum.AttackDice ? Combat.Attacker : Combat.Defender;
+                int focuses = Combat.DiceRollAttack.FocusesNotRerolled;
+                int blanks = Combat.DiceRollAttack.BlanksNotRerolled;
 
-                //if (Combat.Attacker.HasToken(typeof(Tokens.FocusToken)))
-                if (Combat.Attacker.GetAvailableActionEffectsList().Count(n => n.IsTurnsAllFocusIntoSuccess) > 0)
+                //if (friendlyShip.HasToken(typeof(Tokens.FocusToken)))
+                if (friendlyShip.GetAvailableActionEffectsList().Count(n => n.IsTurnsAllFocusIntoSuccess) > 0)
                 {
-                    if (attackBlanks > 0) result = 90;
+                    if (blanks > 0) result = 90;
                 }
                 else
                 {
-                    if (attackBlanks + attackFocuses > 0) result = 90;
+                    if (blanks + focuses > 0) result = 90;
                 }
             }
-
+            
             return result;
         }
 

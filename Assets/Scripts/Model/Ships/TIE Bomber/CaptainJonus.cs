@@ -43,9 +43,9 @@ namespace Abilities
             Combat.Attacker.AddAvailableActionEffect(new CaptainJonusAction() { Host = this.HostShip });
         }
 
-        private class CaptainJonusAction : FriendlyAttackRerollAction
+        private class CaptainJonusAction : FriendlyRerollAction
         {
-            public CaptainJonusAction() : base(2, 1, false)
+            public CaptainJonusAction() : base(2, 1, false, RerollTypeEnum.AttackDice)
             {
                 Name = EffectName = "Captain Jonus's ability";
                 IsReroll = true;

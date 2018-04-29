@@ -42,9 +42,9 @@ namespace Abilities
             Combat.Attacker.AddAvailableActionEffect(new HowlrunnerAction() { Host = this.HostShip });
         }
 
-        private class HowlrunnerAction : FriendlyAttackRerollAction
+        private class HowlrunnerAction : FriendlyRerollAction
         {
-            public HowlrunnerAction() : base(1, 1, false)
+            public HowlrunnerAction() : base(1, 1, false, RerollTypeEnum.AttackDice)
             {
                 Name = EffectName = "Howlrunner's ability";
                 IsReroll = true;

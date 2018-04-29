@@ -56,9 +56,9 @@ namespace Abilities
             }
         }
 
-        private class SawGerreraPilotAction : FriendlyAttackRerollAction
+        private class SawGerreraPilotAction : FriendlyRerollAction
         {
-            public SawGerreraPilotAction() : base(1, 2, true)
+            public SawGerreraPilotAction() : base(1, 2, true, RerollTypeEnum.AttackDice)
             {
                 Name = EffectName = "Saw Gerrera's ability";
                 IsReroll = true;

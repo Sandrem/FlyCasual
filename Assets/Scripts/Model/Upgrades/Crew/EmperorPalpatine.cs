@@ -258,11 +258,6 @@ namespace Abilities
                     Messages.ShowErrorToHuman("Error selecting die to change for Emperor Palpatine.");
                     return;
                 }
-                string palpatineDiceString = PalpatineDieChoice.ToString();
-                if (PalpatineDieChoice == DieSide.Success)
-                {
-                    palpatineDiceString = diceroll.Type == DiceKind.Attack ? "Hit" : "Evade";
-                }
                 Messages.ShowInfo(string.Format("Emperor Palpatine changes one '{0}' to {1}.", dieToChange, PalpatineDieChoice));
                 diceroll.ChangeOne(dieToChange, PalpatineDieChoice, true, true);
                 PalpatineDieChoice = DieSide.Unknown;

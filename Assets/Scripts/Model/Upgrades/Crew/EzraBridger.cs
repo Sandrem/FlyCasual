@@ -19,21 +19,14 @@ namespace UpgradesList
             AvatarOffset = new Vector2(7, 2);
 
             isUnique = true;
+
+            UpgradeAbilities.Add(new EzraBridgerAbility());
         }
 
         public override bool IsAllowedForShip(GenericShip ship)
         {
             return ship.faction == Faction.Rebel;
         }
-
-        public override void AttachToShip(GenericShip host)
-        {
-            base.AttachToShip(host);
-
-            
-        }
-
-
     }
 }
 

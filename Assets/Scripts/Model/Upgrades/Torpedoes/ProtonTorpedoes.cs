@@ -43,7 +43,14 @@ namespace Abilities
 
         public override void DeactivateAbility()
         {
-            throw new System.NotImplementedException();
+            // Ability is turned off only after full attack is finished
+            HostShip.OnCombatDeactivation += DeactivateAbilityPlanned;
+        }
+
+        private void DeactivateAbilityPlanned(GenericShip ship)
+        {
+            HostShip.OnCombatDeactivation -= DeactivateAbilityPlanned;
+            HostShip.AfterGenerateAvailableActionEffectsList -= AddProtonTorpedoesDiceMofification;
         }
 
         private void AddProtonTorpedoesDiceMofification(GenericShip host)

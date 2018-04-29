@@ -322,11 +322,6 @@ public static partial class Combat
             });
         }
 
-        SufferDamage();
-    }
-
-    private static void SufferDamage()
-    {
         Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, AfterShotIsPerformed);
     }
 

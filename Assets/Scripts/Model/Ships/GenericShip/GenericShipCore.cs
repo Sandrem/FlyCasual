@@ -110,7 +110,13 @@ namespace Ship
             get
             {
                 int result = pilotSkill;
-                if (PilotSkillModifiers.Count > 0) PilotSkillModifiers[0].ModifyPilotSkill(ref result);
+                if (PilotSkillModifiers.Count > 0)
+                {
+                    for (int i = PilotSkillModifiers.Count-1; i >= 0; i--)
+                    {
+                        PilotSkillModifiers[i].ModifyPilotSkill(ref result);
+                    }
+                }
                 
                 result = Mathf.Clamp(result, 0, 12);
                 return result;

@@ -22,7 +22,6 @@ namespace UpgradesList
         {
             base.PreAttachToShip(host);
 
-            Debug.Log("PS us");
             host.AddPilotSkillModifier(this);
         }
 
@@ -30,7 +29,6 @@ namespace UpgradesList
         {
             base.PreDettachFromShip();
 
-            Debug.Log("PS less");
             Host.RemovePilotSkillModifier(this);
         }
 

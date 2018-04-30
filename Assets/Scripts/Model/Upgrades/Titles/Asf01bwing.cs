@@ -82,7 +82,7 @@ namespace Abilities
 
         private void SpendEnergyDecision(GenericShip ship, Type type)
         {
-            if (type == typeof(StressToken))
+            if (type == typeof(StressToken) && ship.Energy > 0)
             {
                 RegisterAbilityTrigger(TriggerTypes.OnTokenIsAssigned, SpendEnergyToDiscardStress);
             }
@@ -95,7 +95,7 @@ namespace Abilities
 
         private void DoSpendEnergyToRemoveStress(object sender, EventArgs e)
         {
-            if (HostShip.Tokens.HasToken(typeof(StressToken)))
+            if (HostShip.Tokens.HasToken<StressToken>() && HostShip.Energy > 0)
             {
                 HostShip.Tokens.SpendToken(typeof(EnergyToken), () => HostShip.Tokens.RemoveToken(typeof(StressToken), DecisionSubPhase.ConfirmDecision));
             }

@@ -105,6 +105,7 @@ namespace Ship
         public bool IsCannotAttackSecondTime { get; set; }
         public bool CanAttackBumpedTargetAlways { get; set; }
         public bool IgnoressBombDetonationEffect { get; set; }
+        public bool AttackIsAlwaysConsideredHit { get; set; }
 
         // EVENTS
 

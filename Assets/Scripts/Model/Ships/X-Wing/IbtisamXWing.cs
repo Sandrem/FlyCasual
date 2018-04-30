@@ -23,7 +23,7 @@ namespace Ship
  
                 PilotAbilities.Add(new Abilities.IbtisamAbiliity());
 
-                FromMod = typeof(MyOtherRideIsMod);
+                RequiredMods.Add(typeof(MyOtherRideIsMod));
             }
         }
     }

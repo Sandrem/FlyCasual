@@ -53,7 +53,7 @@ namespace SubPhases
         List<string> AvailableBoostDirections = new List<string>();
         public string SelectedBoostHelper;
 
-        public bool ObstacleOverlapAllowed = false;
+        public bool IsTractorBeamBoost = false;
 
         public override void Start()
         {
@@ -194,6 +194,7 @@ namespace SubPhases
                 CallBack
             );
             execution.TheShip = TheShip;
+            execution.IsTractorBeamBoost = IsTractorBeamBoost;
             execution.Start();
         }
 
@@ -298,7 +299,7 @@ namespace SubPhases
                 if (!quiet) Messages.ShowError("Cannot overlap another ship");
                 allow = false;
             }
-            else if (!TheShip.IsIgnoreObstacles && !ObstacleOverlapAllowed
+            else if (!TheShip.IsIgnoreObstacles && !IsTractorBeamBoost
                 && (obstaclesStayDetectorBase.OverlapsAsteroidNow || obstaclesStayDetectorMovementTemplate.OverlapsAsteroidNow))
             {
                 if (!quiet) Messages.ShowError("Cannot overlap asteroid");
@@ -334,6 +335,8 @@ namespace SubPhases
 
     public class BoostExecutionSubPhase : GenericSubPhase
     {
+        public bool IsTractorBeamBoost;
+
         public override void Start()
         {
             Name = "Boost execution";
@@ -375,7 +378,7 @@ namespace SubPhases
             MovementTemplates.ApplyMovementRuler(TheShip, boostMovement);
 
             boostMovement.Perform();
-            Sounds.PlayFly(TheShip);
+            if (!IsTractorBeamBoost) Sounds.PlayFly(TheShip);
         }
 
         public void FinishBoost()

@@ -29,7 +29,7 @@ namespace Ship
 
                 SkinName = "Red";
 
-                FromMod = typeof(MyOtherRideIsMod);
+                RequiredMods.Add(typeof(MyOtherRideIsMod));
             }
         }
     }

@@ -2,10 +2,7 @@
 using Ship;
 using Abilities;
 using Tokens;
-
-
-
-
+using UnityEngine;
 
 namespace UpgradesList
 {
@@ -20,7 +17,8 @@ namespace UpgradesList
 
 			UpgradeAbilities.Add (new RageAbility ());
 
-		}
+            AvatarOffset = new Vector2(53, 1);
+        }
 	}
 }
 

@@ -8,7 +8,7 @@ namespace Ship
         {
             public EzraBridger() : base()
             {
-                FromMod = typeof(PhoenixSquadronMod);
+                RequiredMods.Add(typeof(PhoenixSquadronMod));
 
                 PilotName = "Ezra Bridger";
                 PilotSkill = 4;

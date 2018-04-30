@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Upgrade;
 using Conditions;
+using UnityEngine;
 
 namespace UpgradesList
 {
@@ -19,6 +20,8 @@ namespace UpgradesList
             Cost = 2;
 
             isUnique = true;
+
+            AvatarOffset = new Vector2(68, 0);
 
             UpgradeAbilities.Add(new JynErsoAbility());
         }
@@ -71,7 +74,12 @@ namespace Abilities
                 AssignFocusTokensToTarget,
                 FilterTargets,
                 GetAiAbilityPriority,
-                HostShip.Owner.PlayerNo
+                HostShip.Owner.PlayerNo,
+                true,
+                null,
+                HostUpgrade.Name,
+                "Choose a ship. Assign 1 Focus token to that ship for each enemy ship inside your firing arc.",
+                HostUpgrade.ImageUrl
             );
         }
 

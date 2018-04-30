@@ -5,8 +5,13 @@ using UnityEngine.UI;
 
 public static class DirectionsMenu
 {
-    public static bool ForceShowRedManeuvers;
-    public static bool IsVisible;
+    public static bool IsForcedToShowRedManeuvers;
+
+    public static bool IsVisible
+    {
+        get { return DirectionsWindow != null && DirectionsWindow.activeSelf; }
+    }
+
     public static Action<string> Callback;
 
     private static Func<string, bool> currentFilter;
@@ -18,6 +23,8 @@ public static class DirectionsMenu
 
         Callback = callback;
         currentFilter = filter;
+
+        IsForcedToShowRedManeuvers = (Input.GetKey(KeyCode.LeftControl));
 
         GameObject prefab = (GameObject)Resources.Load("Prefabs/UI/DirectionsWindow", typeof(GameObject));
         DirectionsWindow = MonoBehaviour.Instantiate(prefab, GameObject.Find("UI/DirectionsPanel").transform);
@@ -236,7 +243,7 @@ public static class DirectionsMenu
 
     public static void Update()
     {
-        if (Input.GetKeyDown(KeyCode.LeftControl))
+        /*if (Input.GetKeyDown(KeyCode.LeftControl))
         {
             ForceShowRedManeuvers = true;
             if (IsVisible && !SwarmManager.IsActive) ShowUpdated();
@@ -246,6 +253,6 @@ public static class DirectionsMenu
         {
             ForceShowRedManeuvers = false;
             if (IsVisible && !SwarmManager.IsActive) ShowUpdated();
-        }
+        }*/
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Ship;
 using Ship.LambdaShuttle;
 using Upgrade;
+using Abilities;
 
 namespace UpgradesList
 {
@@ -12,17 +13,29 @@ namespace UpgradesList
             Name = "ST-321";
             Cost = 3;
             isUnique = true;
+
+            UpgradeAbilities.Add(new ST321Ability());
         }
 
         public override bool IsAllowedForShip(GenericShip ship)
         {
             return ship is LambdaShuttle;
         }
+    }
+}
 
-        public override void AttachToShip(GenericShip host)
+namespace Abilities
+{
+    public class ST321Ability : GenericAbility
+    {
+        public override void ActivateAbility()
         {
-            base.AttachToShip(host);
-            host.SetTargetLockRange(1, int.MaxValue);
+            HostShip.SetTargetLockRange(1, int.MaxValue);
+        }
+
+        public override void DeactivateAbility()
+        {
+            HostShip.SetTargetLockRange(1, 3);
         }
     }
 }

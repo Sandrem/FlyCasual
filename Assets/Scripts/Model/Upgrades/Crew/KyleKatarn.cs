@@ -2,6 +2,7 @@
 using Ship;
 using SubPhases;
 using System;
+using UnityEngine;
 using Upgrade;
 
 namespace UpgradesList
@@ -15,6 +16,8 @@ namespace UpgradesList
             Cost = 3;
 
             isUnique = true;
+
+            // AvatarOffset = new Vector2(42, 1);
 
             UpgradeAbilities.Add(new KyleKatarnCrewAbility());
         }

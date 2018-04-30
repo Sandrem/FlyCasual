@@ -58,7 +58,13 @@ namespace Abilities
                 CheckAssignStress,
                 FilterTargetsOfAbility,
                 GetAiPriorityOfTarget,
-                HostShip.Owner.PlayerNo
+                HostShip.Owner.PlayerNo,
+                true,
+                null,
+                HostShip.PilotName,
+                "Choose a ship inside yout mobile firing arc to assign Stress token to it.",
+                HostShip.ImageUrl
+
             );
         }
 

@@ -15,6 +15,9 @@ public static class Options
     public static float SfxVolume;
     public static float AnimationSpeed;
     public static float ManeuverSpeed;
+    public static string Avatar;
+    public static string NickName;
+    public static string Title;
 
     static Options()
     {
@@ -29,6 +32,9 @@ public static class Options
         SfxVolume = PlayerPrefs.GetFloat("SFX Volume", 0.25f);
         AnimationSpeed = PlayerPrefs.GetFloat("Animation Speed", 0.25f);
         ManeuverSpeed = PlayerPrefs.GetFloat("Maneuver Speed", 0.25f);
+        Avatar = PlayerPrefs.GetString("Avatar", "UpgradesList.VeteranInstincts");
+        NickName = PlayerPrefs.GetString("NickName", "Unknown Pilot");
+        Title = PlayerPrefs.GetString("Title", "Test Pilot");
 
         ReadMods();
     }
@@ -92,6 +98,12 @@ public static class Options
             default:
                 break;
         }
+    }
+
+    public static void ChangeParameterValue(string parameter, string value)
+    {
+        PlayerPrefs.SetString(parameter, value);
+        PlayerPrefs.Save();
     }
 
     public static void UpdateVolume()

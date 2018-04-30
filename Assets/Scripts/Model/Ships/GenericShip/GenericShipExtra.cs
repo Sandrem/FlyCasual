@@ -49,7 +49,7 @@ namespace Ship
 
         public bool IsHidden { get; set; }
 
-        public Type FromMod { get; set; }
+        public List<Type> RequiredMods { get; set; }
 
         public event EventHandler OnDiscardUpgrade;
         public event EventHandlerUpgrade OnAfterDiscardUpgrade;
@@ -58,8 +58,6 @@ namespace Ship
         public event EventHandlerUpgrade OnAfterFlipFaceUpUpgrade;
 
         public event EventHandlerDualUpgrade OnAfterDualCardSideSelected;
-
-
 
         public void CallOnShipIsPlaced(Action callback)
         {
@@ -124,7 +122,13 @@ namespace Ship
 
             if (IsHidden) return false;
 
-            if (FromMod != null && !ModsManager.Mods[FromMod].IsOn) return false;
+            if (RequiredMods.Count != 0)
+            {
+                foreach (var modType in RequiredMods)
+                {
+                    if (!ModsManager.Mods[modType].IsOn) return false;
+                }
+            }
 
             return result;
         }

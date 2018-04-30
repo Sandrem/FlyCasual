@@ -22,7 +22,7 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
 
-                PilotAbilities.Add(new Abilities.QuickDrawPilotAbility());
+                PilotAbilities.Add(new QuickDrawPilotAbility());
             }
         }
     }
@@ -84,7 +84,12 @@ namespace Abilities
         {
             if (!IsAbilityUsed)
             {
-                Messages.ShowInfo("\"Quick Draw\": Additional Combat is Engaged");
+                // Temporary fix
+                if (HostShip.IsDestroyed)
+                {
+                    Triggers.FinishTrigger();
+                    return;
+                }
 
                 // Save his "is already attacked" flag
                 performedRegularAttack = HostShip.IsAttackPerformed;
@@ -93,7 +98,11 @@ namespace Abilities
 
                 Combat.StartAdditionalAttack(
                     HostShip,
-                    AfterExtraAttackSubPhase
+                    AfterExtraAttackSubPhase,
+                    null,
+                    HostShip.PilotName,
+                    "You may perfrom a primary weapon attack.",
+                    HostShip.ImageUrl
                 );
             }
             else

@@ -1,5 +1,6 @@
-﻿using ActionList;
+﻿using ActionsList;
 using Ship;
+using Upgrade;
 
 namespace Ship
 {
@@ -42,9 +43,9 @@ namespace Abilities
             Combat.Attacker.AddAvailableActionEffect(new CaptainJonusAction() { Host = this.HostShip });
         }
 
-        private class CaptainJonusAction : FriendlyAttackRerollAction
+        private class CaptainJonusAction : FriendlyRerollAction
         {
-            public CaptainJonusAction() : base(2, 1)
+            public CaptainJonusAction() : base(2, 1, false, RerollTypeEnum.AttackDice)
             {
                 Name = EffectName = "Captain Jonus's ability";
                 IsReroll = true;
@@ -52,7 +53,7 @@ namespace Abilities
 
             protected override bool CanReRollWithWeaponClass()
             {
-                return !base.CanReRollWithWeaponClass();
+                return Combat.ChosenWeapon is GenericSecondaryWeapon;
             }
         }
     }

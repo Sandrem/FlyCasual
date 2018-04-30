@@ -5,6 +5,7 @@ using SubPhases;
 using UpgradesList;
 using Tokens;
 using Abilities;
+using UnityEngine;
 
 namespace UpgradesList
 {
@@ -19,6 +20,8 @@ namespace UpgradesList
             Cost = 3;
 
             isUnique = true;
+
+            AvatarOffset = new Vector2(50, 2);
 
             UpgradeAbilities.Add(new KananJarrusCrewAbility());
         }

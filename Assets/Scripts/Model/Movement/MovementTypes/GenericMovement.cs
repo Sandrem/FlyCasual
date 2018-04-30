@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using GameModes;
 
 namespace Movement
 {
@@ -418,7 +419,14 @@ namespace Movement
             // TODO: Use Selection.ActiveShip instead of TheShip
             Selection.ActiveShip = TheShip;
 
-            ManeuverEndRotation(Triggers.FinishTrigger);
+            ManeuverEndRotation(FinishManeuverExecution);
+        }
+
+        private void FinishManeuverExecution()
+        {
+            MovementTemplates.HideLastMovementRuler();
+
+            GameMode.CurrentGameMode.FinishMovementExecution();
         }
 
         protected virtual void ManeuverEndRotation(Action callBack)

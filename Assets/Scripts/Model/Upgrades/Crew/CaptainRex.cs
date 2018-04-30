@@ -4,6 +4,7 @@ using GameModes;
 using Abilities;
 using Tokens;
 using System;
+using UnityEngine;
 
 namespace UpgradesList
 {
@@ -15,8 +16,10 @@ namespace UpgradesList
             Name = "Captain Rex";
             Cost = 2;
             isUnique = true;
-                                              
-			UpgradeAbilities.Add(new CaptainRexAbility());
+
+            // AvatarOffset = new Vector2(84, 0);
+
+            UpgradeAbilities.Add(new CaptainRexAbility());
         }
  
         public override bool IsAllowedForShip(Ship.GenericShip ship)

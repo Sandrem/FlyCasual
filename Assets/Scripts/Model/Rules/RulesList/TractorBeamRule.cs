@@ -28,29 +28,30 @@ namespace RulesList
 
             ship.ChangeAgilityBy(-1);
 
-            if (ship.Tokens.CountTokensByType (typeof(TractorBeamToken)) == 1 && ship.ShipBaseSize == Ship.BaseSize.Small) 
+            if (ship.Tokens.CountTokensByType (typeof(TractorBeamToken)) == 1 && ship.ShipBaseSize == BaseSize.Small) 
             {
-                PerformTractorBeamEffect(ship);
+                TractorBeamToken token = (TractorBeamToken)ship.Tokens.GetToken(typeof(TractorBeamToken));
+                token.Assigner.PerformTractorBeamReposition(ship);
             }
         }
 
-        private void PerformTractorBeamEffect(GenericShip ship) 
+        public static void PerfromManualTractorBeamReposition(GenericShip ship, GenericPlayer assinger)
         {
-            TractorBeamToken token = (TractorBeamToken) ship.Tokens.GetToken(typeof(TractorBeamToken));
-            SubPhases.TractorBeamPlanningSubPhase newPhase = (SubPhases.TractorBeamPlanningSubPhase) Phases.StartTemporarySubPhaseNew(
+            SubPhases.TractorBeamPlanningSubPhase newPhase = (SubPhases.TractorBeamPlanningSubPhase)Phases.StartTemporarySubPhaseNew(
                 "Perform tractor beam effect",
                 typeof(SubPhases.TractorBeamPlanningSubPhase),
                 Triggers.FinishTrigger
             );
-            newPhase.Assigner = token.Assigner;
+            newPhase.Assigner = assinger;
             newPhase.TheShip = ship;
 
-            Triggers.RegisterTrigger(new Trigger() {
+            Triggers.RegisterTrigger(new Trigger()
+            {
                 Name = "Perform tractor beam",
                 TriggerType = TriggerTypes.OnTokenIsAssigned,
-                TriggerOwner = token.Assigner.PlayerNo,
+                TriggerOwner = assinger.PlayerNo,
                 EventHandler = delegate {
-                    newPhase.Start();    
+                    newPhase.Start();
                 }
             });
         }
@@ -89,7 +90,7 @@ namespace SubPhases
             boostPlanning.Name = "Tractor beam boost";
             boostPlanning.IsTemporary = true;
             boostPlanning.SelectedBoostHelper = "Straight 1";
-            boostPlanning.ObstacleOverlapAllowed = true;
+            boostPlanning.IsTractorBeamBoost = true;
             boostPlanning.InitializeRendering();
         }
 
@@ -135,9 +136,9 @@ namespace SubPhases
 
         private void PerfromBrTemplatePlanning(Actions.BarrelRollTemplateVariants template)
         {
-            BarrelRollPlanningSubPhase brPlanning = (SubPhases.BarrelRollPlanningSubPhase) Phases.StartTemporarySubPhaseNew(
+            BarrelRollPlanningSubPhase brPlanning = (BarrelRollPlanningSubPhase) Phases.StartTemporarySubPhaseNew(
                 "Select position",
-                typeof(SubPhases.BarrelRollPlanningSubPhase),
+                typeof(BarrelRollPlanningSubPhase),
                 delegate {
                     FinishTractorBeamMovement(new ActionsList.BarrelRollAction());
                 }
@@ -146,9 +147,11 @@ namespace SubPhases
             brPlanning.TheShip = TheShip;
             brPlanning.IsTemporary = true;
             brPlanning.Controller = Assigner;
-            brPlanning.ObstacleOverlapAllowed = true;
-            Phases.UpdateHelpInfo();
+
+            brPlanning.IsTractorBeamBarrelRoll = true;
             brPlanning.SelectTemplate(template);
+
+            Phases.UpdateHelpInfo();
             brPlanning.PerfromTemplatePlanning();
         }
 
@@ -164,9 +167,9 @@ namespace SubPhases
 
         private void PerfromStraightTemplatePlanning()
         {
-            BoostPlanningSubPhase boostPlanning = (SubPhases.BoostPlanningSubPhase) Phases.StartTemporarySubPhaseNew(
+            BoostPlanningSubPhase boostPlanning = (BoostPlanningSubPhase) Phases.StartTemporarySubPhaseNew(
                 "Boost",
-                typeof(SubPhases.BoostPlanningSubPhase),
+                typeof(BoostPlanningSubPhase),
                 delegate {
                     FinishTractorBeamMovement(new ActionsList.BoostAction());
                 }

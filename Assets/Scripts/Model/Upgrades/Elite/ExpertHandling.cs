@@ -3,37 +3,51 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Upgrade;
+using Abilities;
+using Ship;
+using ActionsList;
+using SubPhases;
+using Tokens;
 
 namespace UpgradesList
 {
 
     public class ExpertHandling : GenericUpgrade
     {
-
         public ExpertHandling() : base()
         {
             Types.Add(UpgradeType.Elite);
             Name = "Expert Handling";
             Cost = 2;
+
+            UpgradeAbilities.Add(new ExpertHandlingAbility());
+        }
+    }
+}
+
+namespace Abilities
+{
+    public class ExpertHandlingAbility : GenericAbility
+    {
+        public override void ActivateAbility()
+        {
+            HostShip.AfterGenerateAvailableActionsList += AddExpertHandlingAction;
         }
 
-        public override void AttachToShip(Ship.GenericShip host)
+        public override void DeactivateAbility()
         {
-            base.AttachToShip(host);
-
-            host.AfterGenerateAvailableActionsList += AddExpertHandlingAction;
+            HostShip.AfterGenerateAvailableActionsList -= AddExpertHandlingAction;
         }
 
-        private void AddExpertHandlingAction(Ship.GenericShip host)
+        private void AddExpertHandlingAction(GenericShip host)
         {
-            ActionsList.GenericAction newAction = new ActionsList.ExpertHandlingAction()
+            GenericAction newAction = new ExpertHandlingAction()
             {
-                ImageUrl = ImageUrl,
-                Host = Host
+                ImageUrl = HostUpgrade.ImageUrl,
+                Host = host
             };
             host.AddAvailableAction(newAction);
         }
-
     }
 }
 
@@ -54,7 +68,7 @@ namespace ActionsList
             {
                 Phases.StartTemporarySubPhaseOld(
                     "Expert Handling: Barrel Roll",
-                    typeof(SubPhases.BarrelRollPlanningSubPhase),
+                    typeof(BarrelRollPlanningSubPhase),
                     CheckStress
                 );
             }
@@ -77,18 +91,18 @@ namespace ActionsList
             }
             else
             {
-                Host.Tokens.AssignToken(new Tokens.StressToken(Host), RemoveTargetLock);
+                Host.Tokens.AssignToken(new StressToken(Host), RemoveTargetLock);
             }
             
         }
 
         private void RemoveTargetLock()
         {
-            if (Host.Tokens.HasToken(typeof(Tokens.RedTargetLockToken), '*'))
+            if (Host.Tokens.HasToken(typeof(RedTargetLockToken), '*'))
             {
                 Phases.StartTemporarySubPhaseOld(
                     "Expert Handling: Select target lock to remove",
-                    typeof(SubPhases.ExpertHandlingTargetLockDecisionSubPhase),
+                    typeof(ExpertHandlingTargetLockDecisionSubPhase),
                     Finish
                 );
             }
@@ -119,11 +133,11 @@ namespace SubPhases
 
             foreach (var token in Selection.ThisShip.Tokens.GetAllTokens())
             {
-                if (token.GetType() == typeof(Tokens.RedTargetLockToken))
+                if (token.GetType() == typeof(RedTargetLockToken))
                 {
                     AddDecision(
-                        "Remove token \"" + (token as Tokens.RedTargetLockToken).Letter + "\"",
-                        delegate { RemoveRedTargetLockToken((token as Tokens.RedTargetLockToken).Letter); }
+                        "Remove token \"" + (token as RedTargetLockToken).Letter + "\"",
+                        delegate { RemoveRedTargetLockToken((token as RedTargetLockToken).Letter); }
                     );
                 }
             }
@@ -138,7 +152,7 @@ namespace SubPhases
         private void RemoveRedTargetLockToken(char letter)
         {
             Selection.ThisShip.Tokens.RemoveToken(
-                typeof(Tokens.RedTargetLockToken),
+                typeof(RedTargetLockToken),
                 ConfirmDecision,
                 letter
             );

@@ -2,6 +2,7 @@
 using Upgrade;
 using Ship;
 using Abilities;
+using UnityEngine;
 
 namespace UpgradesList
 {
@@ -14,6 +15,8 @@ namespace UpgradesList
             Cost = 1;
 
             isUnique = true;
+
+            // AvatarOffset = new Vector2(54, 1);
 
             UpgradeAbilities.Add(new ZebOrreliosCrewAbility());
         }

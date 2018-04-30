@@ -1,6 +1,7 @@
 ﻿using Abilities;
 using Upgrade;
 using UpgradesList;
+using Tokens;
 
 namespace UpgradesList
 {
@@ -50,7 +51,7 @@ namespace Abilities
             Combat.DiceRollAttack.CancelAllResults();
             Combat.DiceRollAttack.RemoveAllFailures();
 
-            Tokens.TractorBeamToken token = new Tokens.TractorBeamToken(Combat.Defender, Combat.Attacker.Owner);
+            TractorBeamToken token = new TractorBeamToken(Combat.Defender, Combat.Attacker.Owner);
             Combat.Defender.Tokens.AssignToken(token, Triggers.FinishTrigger);
         }
     }

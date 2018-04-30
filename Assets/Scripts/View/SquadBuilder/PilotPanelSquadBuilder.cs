@@ -74,10 +74,11 @@ public class PilotPanelSquadBuilder : MonoBehaviour {
 
     private void SetFromModeName()
     {
-        if (Ship.FromMod != null)
+        if (Ship.RequiredMods.Count != 0)
         {
-            Mod mod = (Mod)Activator.CreateInstance(Ship.FromMod);
-            this.transform.Find("FromModInfo").GetComponent<Text>().text = mod.Name;
+            Mod mod = (Mod)Activator.CreateInstance(Ship.RequiredMods[0]);
+            string postfix = (Ship.RequiredMods.Count > 1) ? " + ..." : "";
+            this.transform.Find("FromModInfo").GetComponent<Text>().text = mod.Name + postfix;
         }
     }
 

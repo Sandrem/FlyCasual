@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using Ship;
+using Players;
 
 public enum Sorting
 {
@@ -19,7 +20,7 @@ namespace SubPhases
 
         public string Name;
 
-        public System.Action CallBack;
+        public Action CallBack;
 
         public bool IsTemporary = false;
 
@@ -30,20 +31,23 @@ namespace SubPhases
             set { canBePaused = value; }
         }
 
-        private Ship.GenericShip theShip;
-        public Ship.GenericShip TheShip
+        private GenericShip theShip;
+        public GenericShip TheShip
         {
             get { return theShip ?? Selection.ThisShip; }
             set { theShip = value; }
         }
 
         public int RequiredPilotSkill;
-        public Players.PlayerNo RequiredPlayer = Players.PlayerNo.Player1;
+        public PlayerNo RequiredPlayer = PlayerNo.Player1;
 
         protected const int PILOTSKILL_MIN = 0;
         protected const int PILOTSKILL_MAX = 12;
 
-        public virtual void Start() { }
+        public virtual void Start()
+        {
+            Roster.HighlightPlayer(RequiredPlayer);
+        }
 
         public virtual void Prepare() { }
 
@@ -51,7 +55,10 @@ namespace SubPhases
 
         public virtual void Pause() { }
 
-        public virtual void Resume() { }
+        public virtual void Resume()
+        {
+            Roster.HighlightPlayer(RequiredPlayer);
+        }
 
         public virtual void Update() { }
 

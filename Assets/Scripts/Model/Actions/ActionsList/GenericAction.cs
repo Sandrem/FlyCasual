@@ -7,6 +7,12 @@ using System;
 
 namespace ActionsList
 {
+    public enum DiceModificationTimingType
+    {
+        Normal,
+        Opposite,
+        CompareResults
+    }
 
     public class GenericAction
     {
@@ -23,9 +29,16 @@ namespace ActionsList
         public bool IsTurnsOneFocusIntoSuccess;
         public bool IsTurnsAllFocusIntoSuccess;
 
-        public bool IsOpposite;
+        public DiceModificationTimingType DiceModificationTiming = DiceModificationTimingType.Normal;
 
         public bool CanBePerformedWhileStressed;
+        public virtual bool CanBePerformedAsAFreeAction
+        {
+            get
+            {
+                return true;
+            }
+        }
 
         private GenericShip host;
         public GenericShip Host

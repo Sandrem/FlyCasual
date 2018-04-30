@@ -2,6 +2,7 @@
 using Ship;
 using Abilities;
 using Tokens;
+using UnityEngine;
 
 namespace UpgradesList
 {
@@ -13,9 +14,10 @@ namespace UpgradesList
             Name = "Calculation";
             Cost = 1;
 
+            // AvatarOffset = new Vector2(39, 1);
+
             UpgradeAbilities.Add(new CalculationAbility());
         }
-
     }
 }
 

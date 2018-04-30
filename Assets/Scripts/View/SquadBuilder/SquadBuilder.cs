@@ -67,7 +67,7 @@ namespace SquadBuilderNS
 
             foreach (ShipRecord ship in AllShips)
             {
-                if (ship.Instance.factions.Contains(faction))
+                if (ship.Instance.factions.Contains(faction) && !ship.Instance.IsHidden)
                 {
                     ShowAvailableShip(ship);
                 }
@@ -585,15 +585,6 @@ namespace SquadBuilderNS
             }
         }
 
-        public static void ShowOpponentSquad()
-        {
-            GameObject globalUI = GameObject.Find("GlobalUI").gameObject;
-
-            GameObject opponentSquad = globalUI.transform.Find("OpponentSquad").gameObject;
-            opponentSquad.GetComponent<Image>().sprite = MainMenu.GetRandomBackground();
-            opponentSquad.SetActive(true);
-        }
-
         public static void OpenImportExportPanel(bool isImport)
         {
             MainMenu.CurrentMainMenu.ChangePanel("ImportExportPanel");
@@ -819,8 +810,6 @@ namespace SquadBuilderNS
 
         private static JSONObject GetRandomAiSquad()
         {
-            List<JSONObject> savedSquadsJsons = new List<JSONObject>();
-
             string directoryPath = Application.persistentDataPath + "/RandomAiSquadrons";
             if (!Directory.Exists(directoryPath)) Directory.CreateDirectory(directoryPath);
 

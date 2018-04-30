@@ -1,6 +1,8 @@
 ﻿using Upgrade;
 using Ship;
 using ActionsList;
+using UnityEngine;
+using Abilities;
 
 namespace UpgradesList
 {
@@ -12,7 +14,11 @@ namespace UpgradesList
             Name = "Finn";
             Cost = 5;
 
+            AvatarOffset = new Vector2(53, 0);
+
             isUnique = true;
+
+            UpgradeAbilities.Add(new FinnAbility());
         }
 
         public override bool IsAllowedForShip(GenericShip ship)
@@ -20,26 +26,34 @@ namespace UpgradesList
             return ship.faction == Faction.Rebel;
         }
 
-        public override void AttachToShip(GenericShip host)
-        {
-            base.AttachToShip(host);
+    }
+}
 
-            host.AfterGenerateAvailableActionEffectsList += FinnActionEffect;
+namespace Abilities
+{
+    public class FinnAbility : GenericAbility
+    {
+        public override void ActivateAbility()
+        {
+            HostShip.AfterGenerateAvailableActionEffectsList += FinnActionEffect;
+        }
+
+        public override void DeactivateAbility()
+        {
+            HostShip.AfterGenerateAvailableActionEffectsList -= FinnActionEffect;
         }
 
         private void FinnActionEffect(GenericShip host)
         {
             GenericAction newAction = new FinnDiceModification()
             {
-                ImageUrl = ImageUrl,
-                Host = host
+                Host = host,
+                ImageUrl = HostUpgrade.ImageUrl
             };
             host.AddAvailableActionEffect(newAction);
         }
-
     }
 }
-
 
 namespace ActionsList
 {
@@ -81,9 +95,7 @@ namespace ActionsList
 
         public override int GetActionEffectPriority()
         {
-            int result = 110;
-
-            return result;
+            return 110;
         }
 
     }

@@ -1,5 +1,6 @@
 ﻿using Abilities;
 using Ship;
+using UnityEngine;
 using Upgrade;
 
 namespace UpgradesList
@@ -13,6 +14,8 @@ namespace UpgradesList
             Cost = 1;
 
             isUnique = true;
+
+            AvatarOffset = new Vector2(44, 2);
 
             UpgradeAbilities.Add(new Ig2000Ability());
         }

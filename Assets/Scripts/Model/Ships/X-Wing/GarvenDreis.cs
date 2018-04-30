@@ -4,6 +4,7 @@ using UnityEngine;
 using Ship;
 using SubPhases;
 using System;
+using Tokens;
 
 namespace Ship
 {
@@ -41,7 +42,10 @@ namespace Abilities
 
         private void RegisterGarvenDreisPilotAbility(GenericShip ship, System.Type type)
         {
-            RegisterAbilityTrigger(TriggerTypes.OnTokenIsSpent, StartSubphaseForGarvenDreisPilotAbility);
+            if (type == typeof(FocusToken))
+            {
+                RegisterAbilityTrigger(TriggerTypes.OnTokenIsSpent, StartSubphaseForGarvenDreisPilotAbility);
+            }
         }
 
         private void StartSubphaseForGarvenDreisPilotAbility(object sender, System.EventArgs e)
@@ -52,7 +56,12 @@ namespace Abilities
                     SelectGarvenDreisAbilityTarget,
                     FilterAbilityTarget,
                     GetAiAbilityPriority,
-                    HostShip.Owner.PlayerNo
+                    HostShip.Owner.PlayerNo,
+                    true,
+                    null,
+                    HostShip.PilotName,
+                    "Choose another ship to assign Focus token to it.",
+                    HostShip.ImageUrl
                 );
             }
             else

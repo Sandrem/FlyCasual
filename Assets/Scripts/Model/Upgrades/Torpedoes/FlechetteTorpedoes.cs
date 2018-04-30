@@ -6,7 +6,6 @@ using UpgradesList;
 
 namespace UpgradesList
 {
-
     public class FlechetteTorpedoes : GenericSecondaryWeapon
     {
         public FlechetteTorpedoes() : base()
@@ -22,8 +21,7 @@ namespace UpgradesList
 
             RequiresTargetLockOnTargetToShoot = true;
             SpendsTargetLockOnTargetToShoot = true;
-            //Because the card requires an event after the attack finishes, we have to manually discard it.
-            IsDiscardedForShot = false;
+            IsDiscardedForShot = true;
 
             UpgradeAbilities.Add(new FlechetteTorpedoAbility());
         }        
@@ -44,13 +42,20 @@ namespace Abilities
 
         public override void DeactivateAbility()
         {
+            HostShip.OnCombatDeactivation += DeactivateAbilityPlanned;
+        }
+
+        private void DeactivateAbilityPlanned(GenericShip ship)
+        {
+            HostShip.OnCombatDeactivation -= DeactivateAbilityPlanned;
+
             HostShip.OnShotHitAsAttacker -= RegisterFlechetteTorpedoes;
             HostShip.OnAttackFinishAsAttacker -= RegisterStress;
         }
 
         private void RegisterFlechetteTorpedoes()
         {
-            if (Combat.ChosenWeapon == this)
+            if (Combat.ChosenWeapon == HostUpgrade)
             {
                 Triggers.RegisterTrigger(new Trigger()
                 {
@@ -72,27 +77,21 @@ namespace Abilities
                 Name = "Flechette Stress",
                 TriggerType = TriggerTypes.OnAttackFinishAsAttacker,
                 TriggerOwner = Combat.Attacker.Owner.PlayerNo,
-                EventHandler = delegate { AssignStressToDefender(); }
+                EventHandler = delegate {AssignStressToDefender(); }
             });
         }
 
         private void AssignStressToDefender()
         {
-            if (Combat.Defender.MaxHull <= 4 &&
-                    Combat.ChosenWeapon is FlechetteTorpedoes)
+            if (Combat.Defender.MaxHull <= 4 && Combat.ChosenWeapon is FlechetteTorpedoes)
             {
                 Messages.ShowInfoToHuman(string.Format("{0} received a Stress token from Flechette Torpedo", Combat.Defender.PilotName));
-                Combat.Defender.Tokens.AssignToken(new StressToken(Combat.Defender), DiscardUpgrade);                
+                Combat.Defender.Tokens.AssignToken(new StressToken(Combat.Defender), Triggers.FinishTrigger);
             }
             else
             {
-                DiscardUpgrade();
+                Triggers.FinishTrigger();
             }
-        }
-
-        private void DiscardUpgrade()
-        {
-            HostUpgrade.TryDiscard(Triggers.FinishTrigger);
         }
     }
 }

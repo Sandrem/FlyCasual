@@ -1,5 +1,8 @@
 ﻿using Upgrade;
 using System.Linq;
+using Abilities;
+using Ship;
+using ActionsList;
 
 namespace UpgradesList
 {
@@ -10,20 +13,31 @@ namespace UpgradesList
             Types.Add(UpgradeType.Elite);
             Name = "Wired";
             Cost = 1;
+
+            UpgradeAbilities.Add(new WiredAbility());
+        }
+    }
+}
+
+namespace Abilities
+{
+    public class WiredAbility : GenericAbility
+    {
+        public override void ActivateAbility()
+        {
+            HostShip.AfterGenerateAvailableActionEffectsList += WiredActionEffect;
         }
 
-        public override void AttachToShip(Ship.GenericShip host)
+        public override void DeactivateAbility()
         {
-            base.AttachToShip(host);
-
-            host.AfterGenerateAvailableActionEffectsList += WiredActionEffect;
+            HostShip.AfterGenerateAvailableActionEffectsList -= WiredActionEffect;
         }
 
-        private void WiredActionEffect(Ship.GenericShip host)
+        private void WiredActionEffect(GenericShip host)
         {
-            ActionsList.GenericAction newAction = new ActionsList.WiredActionEffect()
+            GenericAction newAction = new WiredActionEffect()
             {
-                ImageUrl = ImageUrl,
+                ImageUrl = HostUpgrade.ImageUrl,
                 Host = host
             };
             host.AddAvailableActionEffect(newAction);

@@ -28,10 +28,5 @@ namespace UpgradesList
         {
             return (ship is XWing);
         }
-
-        public override void AttachToShip(Ship.GenericShip host)
-        {
-            base.AttachToShip(host);
-        }
     }
 }

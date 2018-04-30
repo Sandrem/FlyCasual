@@ -8,7 +8,7 @@ namespace Ship
         {
             public SabineWren() : base()
             {
-                FromMod = typeof(PhoenixSquadronMod);
+                RequiredMods.Add(typeof(PhoenixSquadronMod));
 
                 PilotName = "Sabine Wren";
                 PilotSkill = 5;

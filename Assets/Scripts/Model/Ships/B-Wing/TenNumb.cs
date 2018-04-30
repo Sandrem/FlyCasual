@@ -33,25 +33,22 @@ namespace Abilities
         // you may reroll 1 of your dice.
         public override void ActivateAbility()
         {
-            HostShip.OnDefence += RegisterTenNumbEffect;
+            HostShip.OnDefenceStartAsAttacker += RegisterTenNumbEffect;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.OnDefence -= RegisterTenNumbEffect;
+            HostShip.OnDefenceStartAsAttacker -= RegisterTenNumbEffect;
         }
 
         private void RegisterTenNumbEffect()
         {
-            if (Combat.Attacker == HostShip)
+            foreach (Die die in Combat.DiceRollAttack.DiceList)
             {
-                foreach (Die die in Combat.DiceRollAttack.DiceList)
+                if (die.Side == DieSide.Crit)
                 {
-                    if (die.Side == DieSide.Crit)
-                    {
-                        die.IsUncancelable = true;
-                        return;
-                    }
+                    die.IsUncancelable = true;
+                    return;
                 }
             }
         }

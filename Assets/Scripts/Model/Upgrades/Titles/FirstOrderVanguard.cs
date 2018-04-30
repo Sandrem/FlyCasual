@@ -173,7 +173,7 @@ namespace ActionsList
             };
             diceRerollManager.Start();
             SelectAllRerolableDices();
-            diceRerollManager.ConfirmReroll();
+            diceRerollManager.ConfirmRerollButtonIsPressed();
         }
 
         private static void SelectAllRerolableDices()

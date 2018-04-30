@@ -6,17 +6,22 @@ namespace SubPhases
 {
     public class SelectTargetForSecondAttackSubPhase : SelectShipSubPhase
     {
+
         public override void Prepare()
         {
-            targetsAllowed.Add(TargetTypes.Enemy);
-            finishAction = FinishActon;
-
-            UI.ShowSkipButton();
-
             Selection.ThisShip.IsAttackPerformed = false;
             Combat.IsAttackAlreadyCalled = false;
 
-            FilterTargets = FilterAttackTargets;
+            PrepareByParameters(
+                FinishActon,
+                FilterAttackTargets,
+                null,
+                Selection.ThisShip.Owner.PlayerNo,
+                true,
+                AbilityName,
+                Description,
+                ImageUrl
+            );
 
             Selection.ThisShip.Owner.StartExtraAttack();
         }
@@ -61,12 +66,18 @@ namespace SubPhases
 
         public override void Next()
         {
+            Roster.AllShipsHighlightOff();
+            HideSubphaseDescription();
+
             Combat.ExtraAttackFilter = null;
+
             Phases.CurrentSubPhase = PreviousSubPhase;
         }
 
         public override void Resume()
         {
+            base.Resume();
+
             UpdateHelpInfo();
             UI.ShowSkipButton();
         }

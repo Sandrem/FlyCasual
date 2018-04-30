@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Global : MonoBehaviour {
 
@@ -10,8 +11,8 @@ public class Global : MonoBehaviour {
 
     public static string test = "I am accessible from every scene";
 
-    public static string CurrentVersion = "0.4.3";
-    public static int CurrentVersionInt = 100040302;
+    public static string CurrentVersion = "0.4.5";
+    public static int CurrentVersionInt = 100040500;
 
     void Awake()
     {
@@ -34,14 +35,15 @@ public class Global : MonoBehaviour {
 
     public static void StartBattle()
     {
-        HideOpponentSquad();
+        ToggelLoadingScreen(false);
         Phases.StartPhases();
     }
 
-    private static void HideOpponentSquad()
+    public static void ToggelLoadingScreen(bool isActive)
     {
-        Transform opponentSquad = GameObject.Find("GlobalUI").transform.Find("OpponentSquad");
-        if (opponentSquad != null) opponentSquad.gameObject.SetActive(false);
+        Transform loadingScreen = GameObject.Find("GlobalUI").transform.Find("OpponentSquad");
+        loadingScreen.GetComponent<Image>().sprite = MainMenu.GetRandomBackground();
+        if (loadingScreen != null) loadingScreen.gameObject.SetActive(isActive);
     }
 
 }

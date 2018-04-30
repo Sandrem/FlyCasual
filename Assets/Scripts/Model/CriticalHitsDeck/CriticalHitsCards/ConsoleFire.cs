@@ -6,7 +6,6 @@ using UnityEngine;
 
 namespace DamageDeckCard
 {
-
     public class ConsoleFire : GenericDamageCard
     {
         public ConsoleFire()
@@ -19,6 +18,7 @@ namespace DamageDeckCard
         {
             Phases.OnCombatPhaseStart_Triggers += PlanRollForDamage;
             Host.AfterGenerateAvailableActionsList += CallAddCancelCritAction;
+            Host.OnShipIsDestroyed += delegate { DiscardEffect(); };
 
             Host.Tokens.AssignCondition(new Tokens.ConsoleFireCritToken(Host));
             Triggers.FinishTrigger();

@@ -102,6 +102,28 @@ namespace Ship
             }
         }
 
+        private int maxEnergy;
+        public int MaxEnergy
+        {
+            get
+            {
+                int result = maxEnergy;
+                return Mathf.Max(result, 0);
+            }
+            set
+            {
+                maxEnergy = Mathf.Max(value, 0);
+            }
+        }
+
+        public int Energy
+        {
+            get
+            {
+                return Tokens.CountTokensByType(typeof(Tokens.EnergyToken));
+            }
+        }
+
         protected List<IModifyPilotSkill> PilotSkillModifiers;
 
         private int pilotSkill;
@@ -110,7 +132,13 @@ namespace Ship
             get
             {
                 int result = pilotSkill;
-                if (PilotSkillModifiers.Count > 0) PilotSkillModifiers[0].ModifyPilotSkill(ref result);
+                if (PilotSkillModifiers.Count > 0)
+                {
+                    for (int i = PilotSkillModifiers.Count-1; i >= 0; i--)
+                    {
+                        PilotSkillModifiers[i].ModifyPilotSkill(ref result);
+                    }
+                }
                 
                 result = Mathf.Clamp(result, 0, 12);
                 return result;
@@ -192,6 +220,7 @@ namespace Ship
         public GenericShip()
         {
             IconicPilots = new Dictionary<Faction, Type>();
+            RequiredMods = new List<Type>();
             factions = new List<Faction>();
             SoundFlyPaths = new List<string> ();
             Maneuvers = new Dictionary<string, Movement.ManeuverColor>();

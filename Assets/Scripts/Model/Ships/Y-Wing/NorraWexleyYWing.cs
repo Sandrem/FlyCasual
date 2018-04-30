@@ -29,7 +29,7 @@ namespace Ship
 
                 PilotAbilities.Add(new NorraWexleyPilotAbility());
 
-                FromMod = typeof(MyOtherRideIsMod);
+                RequiredMods.Add(typeof(MyOtherRideIsMod));
             }
         }
     }

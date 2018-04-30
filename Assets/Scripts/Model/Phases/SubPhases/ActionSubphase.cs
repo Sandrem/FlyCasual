@@ -10,6 +10,8 @@ namespace SubPhases
 
         public override void Start()
         {
+            base.Start();
+
             Name = "Action SubPhase";
             RequiredPilotSkill = PreviousSubPhase.RequiredPilotSkill;
             RequiredPlayer = PreviousSubPhase.RequiredPlayer;
@@ -65,16 +67,6 @@ namespace SubPhases
             FinishPhase();
         }
 
-        public override void Pause()
-        {
-            
-        }
-
-        public override void Resume()
-        {
-            
-        }
-
         public override void FinishPhase()
         {
             GenericSubPhase activationSubPhase = new ActivationSubPhase();
@@ -126,6 +118,9 @@ namespace SubPhases
 
         public void ShowActionDecisionPanel()
         {
+            //TODO: Use more global way of fix
+            HideDecisionWindowUI();
+
             List<ActionsList.GenericAction> availableActions = Selection.ThisShip.GetAvailableActionsList();
             foreach (var action in availableActions)
             {
@@ -137,7 +132,6 @@ namespace SubPhases
         public override void Resume()
         {
             base.Resume();
-            Initialize();
 
             UI.ShowSkipButton();
         }
@@ -168,7 +162,7 @@ namespace SubPhases
 
             if (availableActions.Count > 0)
             {
-                Roster.GetPlayer(Phases.CurrentPhasePlayer).PerformFreeAction();
+                Selection.ThisShip.Owner.PerformFreeAction();
                 callBack();
             }
             else
@@ -193,7 +187,6 @@ namespace SubPhases
         public override void Resume()
         {
             base.Resume();
-            Initialize();
 
             UI.ShowSkipButton();
         }

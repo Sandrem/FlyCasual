@@ -111,8 +111,6 @@ namespace Ship
 
         public event EventHandlerShip OnActivationPhaseStart;
         public event EventHandlerShip OnActionSubPhaseStart;
-        public event EventHandlerShip OnCombatPhaseStart;
-        public event EventHandlerShip OnCombatPhaseEnd;
 
         public event EventHandlerBoolStringList OnTryPerformAttack;
         public static event EventHandlerBoolStringList OnTryPerformAttackGlobal;
@@ -130,7 +128,8 @@ namespace Ship
 
         public event EventHandlerShip OnCheckCancelCritsFirst;
 
-        public event EventHandler OnDefence;
+        public event EventHandler OnDefenceStartAsAttacker;
+        public event EventHandler OnDefenceStartAsDefender;
 
         public event EventHandler OnAtLeastOneCritWasCancelledByDefender;
 
@@ -173,6 +172,7 @@ namespace Ship
         public event EventHandlerShip OnAttackFinish;
         public event EventHandlerShip OnAttackFinishAsAttacker;
         public event EventHandlerShip OnAttackFinishAsDefender;
+        public static event EventHandlerShip OnAttackFinishGlobal;
 
         public event EventHandlerBombDropTemplates OnGetAvailableBombDropTemplates;
         public event EventHandlerBarrelRollTemplates OnGetAvailableBarrelRollTemplates;
@@ -271,11 +271,18 @@ namespace Ship
             if (OnCheckCancelCritsFirst != null) OnCheckCancelCritsFirst(this);
         }
 
-        public void CallDefenceStart()
+        public void CallDefenceStartAsAttacker()
         {
             ClearAlreadyExecutedOppositeActionEffects();
             ClearAlreadyExecutedActionEffects();
-            if (OnDefence != null) OnDefence();
+            if (OnDefenceStartAsAttacker != null) OnDefenceStartAsAttacker();
+        }
+
+        public void CallDefenceStartAsDefender()
+        {
+            ClearAlreadyExecutedOppositeActionEffects();
+            ClearAlreadyExecutedActionEffects();
+            if (OnDefenceStartAsDefender != null) OnDefenceStartAsDefender();
         }
 
         public void CallShotHitAsAttacker()
@@ -328,6 +335,7 @@ namespace Ship
         public void CallAttackFinish()
         {
             if (OnAttackFinish != null) OnAttackFinish(this);
+            if (OnAttackFinishGlobal != null) OnAttackFinishGlobal(this);
         }
 
         public void CallAttackFinishAsAttacker()
@@ -442,6 +450,7 @@ namespace Ship
             {
                 result = true;
                 Shields++;
+                AnimateShields();
                 AfterAssignedDamageIsChanged(this);
             };
             return result;
@@ -454,7 +463,7 @@ namespace Ship
             if (DebugManager.DebugDamage) Debug.Log("+++ Source: " + (e as DamageSourceEventArgs).Source);
             if (DebugManager.DebugDamage) Debug.Log("+++ DamageType: " + (e as DamageSourceEventArgs).DamageType);
 
-            bool isCritical = (AssignedDamageDiceroll.RegularSuccesses == 0);
+            bool isCritical = (AssignedDamageDiceroll.Successes > 0 && AssignedDamageDiceroll.RegularSuccesses == 0);
 
             if (isCritical)
             {
@@ -491,7 +500,7 @@ namespace Ship
             DamageDecks.DrawDamageCard(Owner.PlayerNo, isFaceup, ProcessDrawnDamageCard, e);
         }
 
-        public void ProcessDrawnDamageCard(GenericDamageCard damageCard, EventArgs e)
+        public void ProcessDrawnDamageCard(EventArgs e)
         {
             AssignedDamageDiceroll.CancelHits(1);
 

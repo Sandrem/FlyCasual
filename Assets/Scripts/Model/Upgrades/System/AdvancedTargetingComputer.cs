@@ -2,6 +2,7 @@
 using Upgrade;
 using Ship.TIEAdvanced;
 using Tokens;
+using Abilities;
 
 namespace UpgradesList
 {
@@ -14,25 +15,36 @@ namespace UpgradesList
             Cost = 5;
 
             ImageUrl = ImageUrls.GetImageUrl(this, "advanced-targeting-computer.png");
+
+            UpgradeAbilities.Add(new AdvancedTargetingComputerAbility());
         }
 
         public override bool IsAllowedForShip(GenericShip ship)
         {
             return ship is TIEAdvanced;
         }
+    }
+}
 
-        public override void AttachToShip(GenericShip host)
+namespace Abilities
+{
+    public class AdvancedTargetingComputerAbility : GenericAbility
+    {
+        public override void ActivateAbility()
         {
-            base.AttachToShip(host);
+            HostShip.AfterGenerateAvailableActionEffectsList += AdvancedTargetingComputerDiceModification;
+        }
 
-            host.AfterGenerateAvailableActionEffectsList += AdvancedTargetingComputerDiceModification;
+        public override void DeactivateAbility()
+        {
+            HostShip.AfterGenerateAvailableActionEffectsList += AdvancedTargetingComputerDiceModification;
         }
 
         private void AdvancedTargetingComputerDiceModification(GenericShip host)
         {
             ActionsList.GenericAction newAction = new ActionsList.AdvancedTargetingComputerActionEffect()
             {
-                ImageUrl = ImageUrl,
+                ImageUrl = HostUpgrade.ImageUrl,
                 Host = host
             };
             host.AddAvailableActionEffect(newAction);

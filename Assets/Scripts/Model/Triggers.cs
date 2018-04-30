@@ -44,6 +44,8 @@ public enum TriggerTypes
     OnTokenIsSpent,
     OnTokenIsRemoved,
     OnCoordinateTargetIsSelected,
+    OnJamTargetIsSelected,
+    OnTargetLockIsAcquired,
     OnRerollIsConfirmed,
 
     OnAttackStart,

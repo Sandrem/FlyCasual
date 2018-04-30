@@ -19,6 +19,8 @@ namespace UpgradesList
             Name = "Attanni Mindlink";
             Cost = 1;
 
+            AvatarOffset = new Vector3(70, 1);
+
             UpgradeAbilities.Add(new AttanniMindlinkAbility());
         }
 

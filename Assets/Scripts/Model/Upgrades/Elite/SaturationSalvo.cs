@@ -1,6 +1,7 @@
 ﻿using Upgrade;
 using Ship;
 using System.Linq;
+using Abilities;
 
 namespace UpgradesList
 {
@@ -11,13 +12,24 @@ namespace UpgradesList
             Types.Add(UpgradeType.Elite);
             Name = "Saturation Salvo";
             Cost = 1;
+
+            UpgradeAbilities.Add(new SaturationSalvoAbility());
+        }
+    }
+}
+
+namespace Abilities
+{
+    public class SaturationSalvoAbility : GenericAbility
+    {
+        public override void ActivateAbility()
+        {
+            HostShip.OnAttackMissedAsAttacker += RegisterSaturationSalvoAbility;
         }
 
-        public override void AttachToShip(GenericShip host)
+        public override void DeactivateAbility()
         {
-            base.AttachToShip(host);
-
-            Host.OnAttackMissedAsAttacker += RegisterSaturationSalvoAbility;
+            HostShip.OnAttackMissedAsAttacker -= RegisterSaturationSalvoAbility;
         }
 
         private void RegisterSaturationSalvoAbility()
@@ -28,10 +40,11 @@ namespace UpgradesList
                 if (weapon.hasType(UpgradeType.Torpedo) || weapon.hasType(UpgradeType.Missile))
                 {
                     Triggers.RegisterTrigger(
-                        new Trigger() {
+                        new Trigger()
+                        {
                             Name = "Saturation Salvo",
                             TriggerType = TriggerTypes.OnAttackMissed,
-                            TriggerOwner = Host.Owner.PlayerNo,
+                            TriggerOwner = HostShip.Owner.PlayerNo,
                             EventHandler = SaturationSalvoDamage
                         });
                 }
@@ -78,7 +91,6 @@ namespace UpgradesList
                 }
             );
         }
-
     }
 }
 

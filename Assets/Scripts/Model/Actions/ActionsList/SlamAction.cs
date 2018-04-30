@@ -15,6 +15,14 @@ namespace ActionsList
             ImageUrl = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/reference-cards/SlamAction.png";
         }
 
+        public override bool CanBePerformedAsAFreeAction
+        {
+            get
+            {
+                return false;
+            }
+        }
+
         public override void ActionTake()
         {
             if (Selection.ThisShip.Owner.GetType() == typeof(Players.HotacAiPlayer))

@@ -20,6 +20,8 @@ namespace UpgradesList
 
             isUnique = true;
 
+            AvatarOffset = new Vector2(59, 0);
+
             UpgradeAbilities.Add(new MaulCrewAbility());
         }
 

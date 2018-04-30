@@ -19,7 +19,10 @@ namespace UpgradesList
             Types.Add(UpgradeType.Crew);            
             Name = "Systems Officer";
             Cost = 2;
+
             isLimited = true;
+
+            AvatarOffset = new Vector2(45, 1);
 
             UpgradeAbilities.Add(new SystemsOfficerAbility());
         }
@@ -67,7 +70,17 @@ namespace Abilities
 
         protected void SystemsOfficerEffect(object sender, EventArgs e)
         {
-            SelectTargetForAbility(GrantFreeTargetLock, IsFriendlyShipAtRangeOne, GetAiAbilityPriority, HostShip.Owner.PlayerNo);
+            SelectTargetForAbility(
+                GrantFreeTargetLock,
+                IsFriendlyShipAtRangeOne,
+                GetAiAbilityPriority,
+                HostShip.Owner.PlayerNo,
+                true,
+                null,
+                HostUpgrade.Name,
+                "Choose another ship.\nIt may acquire a Target Lock.",
+                HostUpgrade.ImageUrl
+            );
         }
 
         protected bool IsFriendlyShipAtRangeOne(GenericShip ship)
@@ -84,12 +97,15 @@ namespace Abilities
 
         protected void AcquireFreeTargetLock(object sender, System.EventArgs e)
         {
-            TargetShip.AcquireTargetLock(() =>
-            {
-                Selection.ThisShip = HostShip;
-                Phases.CurrentSubPhase.Resume();
-                Triggers.FinishTrigger();
-            });
+            TargetShip.ChooseTargetToAcquireTargetLock(() =>
+                {
+                    Selection.ThisShip = HostShip;
+                    Phases.CurrentSubPhase.Resume();
+                    Triggers.FinishTrigger();
+                },
+                HostUpgrade.Name,
+                HostUpgrade.ImageUrl
+            );
         }
 
         private int GetAiAbilityPriority(GenericShip ship)

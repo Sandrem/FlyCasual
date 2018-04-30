@@ -1,6 +1,7 @@
 ﻿using Ship;
 using Ship.ARC170;
 using Upgrade;
+using Abilities;
 
 namespace UpgradesList
 {
@@ -11,19 +12,31 @@ namespace UpgradesList
             Types.Add(UpgradeType.Title);
             Name = "Alliance Overhaul";
             Cost = 0;
+
+            UpgradeAbilities.Add(new AllianceOverhaulAbility());
         }
 
         public override bool IsAllowedForShip(GenericShip ship)
         {
             return (ship is ARC170);
         }
+    }
+}
 
-        public override void AttachToShip(GenericShip host)
+namespace Abilities
+{
+    public class AllianceOverhaulAbility : GenericAbility
+    {
+        public override void ActivateAbility()
         {
-            base.AttachToShip(host);
+            HostShip.AfterGotNumberOfAttackDice += CheckAddDiceForPrimaryArc;
+            HostShip.AfterGenerateAvailableActionEffectsList += CheckFocusToCritAuxilaryArc;
+        }
 
-            Host.AfterGotNumberOfAttackDice += CheckAddDiceForPrimaryArc;
-            Host.AfterGenerateAvailableActionEffectsList += CheckFocusToCritAuxilaryArc;
+        public override void DeactivateAbility()
+        {
+            HostShip.AfterGotNumberOfAttackDice -= CheckAddDiceForPrimaryArc;
+            HostShip.AfterGenerateAvailableActionEffectsList -= CheckFocusToCritAuxilaryArc;
         }
 
         private void CheckAddDiceForPrimaryArc(ref int diceCount)
@@ -38,7 +51,7 @@ namespace UpgradesList
         {
             if (!Combat.ShotInfo.InPrimaryArc)
             {
-                Host.AddAvailableActionEffect(new ActionsList.AllianceOverhaulDiceModification());
+                HostShip.AddAvailableActionEffect(new ActionsList.AllianceOverhaulDiceModification());
             }
         }
     }

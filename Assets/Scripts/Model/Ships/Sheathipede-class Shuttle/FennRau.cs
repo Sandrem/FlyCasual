@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using Tokens;
 using UnityEngine;
 using Abilities;
+using ActionsList;
 
 namespace Ship
 {
@@ -98,9 +99,9 @@ namespace Abilities
             DecisionSubPhase.ConfirmDecision();
         }
 
-        private void UseFennRauRestriction(ActionsList.GenericAction action, ref bool canBeUsed)
+        private void UseFennRauRestriction(GenericAction action, ref bool canBeUsed)
         {
-            if (Combat.Attacker == affectedShip && !action.IsOpposite && action.TokensSpend.Count > 0)
+            if (Combat.Attacker == affectedShip && action.DiceModificationTiming != DiceModificationTimingType.Opposite && action.TokensSpend.Count > 0)
             {
                 Messages.ShowErrorToHuman("Fenn Rau: Cannot use dice modification\n" + action.Name);
                 canBeUsed = false;

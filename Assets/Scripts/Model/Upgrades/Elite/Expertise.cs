@@ -2,35 +2,51 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Upgrade;
+using Abilities;
+using Ship;
+using ActionsList;
 
 namespace UpgradesList
 {
 
     public class Expertise : GenericUpgrade
     {
-
         public Expertise() : base()
         {
             Types.Add(UpgradeType.Elite);
             Name = "Expertise";
             Cost = 4;
+
+            // AvatarOffset = new Vector2(10, 5);
+
+            UpgradeAbilities.Add(new ExpertiseAbility());
+        }
+    }
+}
+
+namespace Abilities
+{
+    public class ExpertiseAbility : GenericAbility
+    {
+        public override void ActivateAbility()
+        {
+            HostShip.AfterGenerateAvailableActionEffectsList += AddExpertiseDiceModification;
         }
 
-        public override void AttachToShip(Ship.GenericShip host)
+        public override void DeactivateAbility()
         {
-            base.AttachToShip(host);
-
-            host.AfterGenerateAvailableActionEffectsList += AddExpertiseDiceModification;
+            HostShip.AfterGenerateAvailableActionEffectsList -= AddExpertiseDiceModification;
         }
 
-        private void AddExpertiseDiceModification(Ship.GenericShip host)
+        private void AddExpertiseDiceModification(GenericShip host)
         {
-            ActionsList.GenericAction newAction = new ActionsList.ExpertiseDiceModification();
-            newAction.ImageUrl = ImageUrl;
-            newAction.Host = Host;
+            GenericAction newAction = new ExpertiseDiceModification
+            {
+                ImageUrl = HostUpgrade.ImageUrl,
+                Host = host
+            };
             host.AddAvailableActionEffect(newAction);
         }
-
     }
 }
 

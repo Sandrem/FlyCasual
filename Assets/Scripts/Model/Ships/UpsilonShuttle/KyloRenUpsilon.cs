@@ -155,12 +155,12 @@ namespace Abilities
                 isSkipSufferDamage = true;
 
                 GenericShip ship = ShipWithCondition;
-                GenericDamageCard card = AssignedDamageCard;
+                Combat.CurrentCriticalHitCard = AssignedDamageCard;
 
                 AssignedDamageCard = null;
                 RemoveConditions(ship);
 
-                ship.ProcessDrawnDamageCard(card, e);
+                ship.ProcessDrawnDamageCard(e);
             }
         }
 

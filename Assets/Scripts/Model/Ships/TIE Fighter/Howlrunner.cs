@@ -1,4 +1,4 @@
-﻿using ActionList;
+﻿using ActionsList;
 using Ship;
 
 namespace Ship
@@ -42,12 +42,17 @@ namespace Abilities
             Combat.Attacker.AddAvailableActionEffect(new HowlrunnerAction() { Host = this.HostShip });
         }
 
-        private class HowlrunnerAction : FriendlyAttackRerollAction
+        private class HowlrunnerAction : FriendlyRerollAction
         {
-            public HowlrunnerAction() : base(1, 1)
+            public HowlrunnerAction() : base(1, 1, false, RerollTypeEnum.AttackDice)
             {
                 Name = EffectName = "Howlrunner's ability";
                 IsReroll = true;
+            }
+
+            protected override bool CanReRollWithWeaponClass()
+            {
+                return Combat.ChosenWeapon.GetType() == typeof(PrimaryWeaponClass);
             }
         }            
     }

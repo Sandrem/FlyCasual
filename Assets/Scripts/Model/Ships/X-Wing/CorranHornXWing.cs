@@ -26,7 +26,7 @@ namespace Ship
 
                 PilotAbilities.Add(new CorranHornAbility());
 
-                FromMod = typeof(MyOtherRideIsMod);
+                RequiredMods.Add(typeof(MyOtherRideIsMod));
             }
         }
     }

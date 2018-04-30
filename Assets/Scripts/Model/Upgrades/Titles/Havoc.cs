@@ -1,7 +1,7 @@
 ﻿using Ship;
 using Upgrade;
 using System.Collections.Generic;
-
+using Ship.ScurrgH6Bomber;
 
 namespace UpgradesList
 {
@@ -25,7 +25,7 @@ namespace UpgradesList
 
         public override bool IsAllowedForShip(GenericShip ship)
         {
-            return ship is Ship.ScurrgH6Bomber.ScurrgH6Bomber;
+            return ship is ScurrgH6Bomber;
         }
     }
 }

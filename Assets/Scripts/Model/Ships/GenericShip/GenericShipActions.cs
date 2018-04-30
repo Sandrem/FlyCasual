@@ -60,6 +60,7 @@ namespace Ship
         public event EventHandlerShip OnTargetLockIsAcquired;
 
         public event EventHandlerShip OnCoordinateTargetIsSelected;
+        public event EventHandlerShip OnJamTargetIsSelected;        
 
         public event EventHandlerShip OnRerollIsConfirmed;
 
@@ -543,6 +544,15 @@ namespace Ship
             if (OnCoordinateTargetIsSelected != null) OnCoordinateTargetIsSelected(targetShip);
 
             Triggers.ResolveTriggers(TriggerTypes.OnCoordinateTargetIsSelected, callback);
+        }
+
+        // Jam action
+
+        public void CallJamTargetIsSelected(GenericShip targetShip, Action callback)
+        {
+            if (OnJamTargetIsSelected != null) OnJamTargetIsSelected(targetShip);
+
+            Triggers.ResolveTriggers(TriggerTypes.OnJamTargetIsSelected, callback);
         }
 
         // Reroll is confirmed

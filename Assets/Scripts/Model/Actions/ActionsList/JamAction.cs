@@ -102,19 +102,24 @@ namespace SubPhases
             });
         }
 
-        public override void RevertSubPhase() { }
-
         private void AssignJamToken(GenericShip targetShip)
         {
             targetShip.Tokens.AssignToken(new JamToken(targetShip), Triggers.FinishTrigger);
         }
 
-        public override void SkipButton()
+        public override void RevertSubPhase()
         {
-            Phases.FinishSubPhase(typeof(JamTargetSubPhase));
-            CallBack();
+            Selection.ThisShip.RemoveAlreadyExecutedAction(typeof(ActionsList.JamAction));
+
+            Phases.FinishSubPhase(this.GetType());
+            Phases.CurrentSubPhase.Resume();
+            UpdateHelpInfo();
         }
 
+        public override void SkipButton()
+        {
+            RevertSubPhase();
+        }
     }
 
 }

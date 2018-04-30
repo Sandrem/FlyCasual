@@ -449,6 +449,7 @@ namespace Ship
             {
                 result = true;
                 Shields++;
+                AnimateShields();
                 AfterAssignedDamageIsChanged(this);
             };
             return result;

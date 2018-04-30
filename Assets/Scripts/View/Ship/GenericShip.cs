@@ -383,6 +383,12 @@ namespace Ship
             }
         }
 
+        private void AnimateShields()
+        {
+            Transform shields = modelCenter.Find("Shields");
+            if (shields != null) shields.gameObject.SetActive(true);
+        }
+
         private IEnumerator TurnOffShots(float shotsCount)
         {
             yield return new WaitForSeconds(shotsCount * 0.5f + 0.4f);

@@ -110,8 +110,6 @@ namespace Ship
 
         public event EventHandlerShip OnActivationPhaseStart;
         public event EventHandlerShip OnActionSubPhaseStart;
-        public event EventHandlerShip OnCombatPhaseStart;
-        public event EventHandlerShip OnCombatPhaseEnd;
 
         public event EventHandlerBoolStringList OnTryPerformAttack;
         public static event EventHandlerBoolStringList OnTryPerformAttackGlobal;

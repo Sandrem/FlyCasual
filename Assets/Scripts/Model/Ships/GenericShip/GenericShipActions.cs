@@ -40,7 +40,6 @@ namespace Ship
         public event EventHandlerActionBool OnTryAddAvailableOppositeActionEffect;
 
         public event EventHandlerShip AfterGenerateAvailableCompareResultsEffectsList;
-        public static event EventHandler AfterGenerateAvailableCompareResultsEffectsListGlobal;
         public event EventHandlerActionBool OnTryAddAvailableCompareResultsEffect;
 
         public event EventHandlerShip OnActionDecisionSubphaseEnd;

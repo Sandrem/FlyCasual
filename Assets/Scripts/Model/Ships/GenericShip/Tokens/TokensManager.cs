@@ -32,6 +32,16 @@ namespace Ship
             return GetAllTokens().Count(n => n.GetType() == type);
         }
 
+        public bool HasToken<T>(char letter = ' ') where T : GenericToken
+        {
+            return GetToken<T>(letter) != null;
+        }
+
+        public int CountTokensByType<T>() where T : GenericToken
+        {
+            return GetAllTokens().Count(n => n is T);
+        }
+
         public GenericToken GetToken(Type type, char letter = ' ')
         {
             GenericToken result = null;
@@ -53,6 +63,15 @@ namespace Ship
                     }
                 }
             }
+            return result;
+        }
+
+        public GenericToken GetToken<T>(char letter = ' ') where T : GenericToken
+        {
+            var result = AssignedTokens
+                .OfType<T>()
+                .Where(t => !(t is GenericTargetLockToken) || letter == '*' || (t as GenericTargetLockToken).Letter == letter)
+                .FirstOrDefault();
             return result;
         }
 

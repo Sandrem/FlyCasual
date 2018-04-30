@@ -55,7 +55,12 @@ namespace Abilities
         {            
             if (action is JamAction && jamTarget != null)
             {
-                RegisterAbilityTrigger(TriggerTypes.OnActionIsPerformed, ISBSlicerEffect);
+                var anyCandidate = Roster.AllShips.Values
+                    .Any(s => IsShipWithoutJamAtRangeOneOfTarget(s));
+                if (anyCandidate)
+                {
+                    RegisterAbilityTrigger(TriggerTypes.OnActionIsPerformed, ISBSlicerEffect);
+                }
             }
         }
 
@@ -80,10 +85,8 @@ namespace Abilities
         }
         
         private bool IsShipWithoutJamAtRangeOneOfTarget(GenericShip ship)
-        {
-            var filters = new[] { TargetTypes.OtherFriendly, TargetTypes.This, TargetTypes.Enemy }
-                .ToList();
-            var match = FilterByTargetType(ship, filters) && Board.BoardManager.GetRangeOfShips(jamTarget, ship) <= 1;
+        {            
+            var match = !ship.Tokens.HasToken<JamToken>() && Board.BoardManager.GetRangeOfShips(jamTarget, ship) <= 1;
             return match;
         }
 

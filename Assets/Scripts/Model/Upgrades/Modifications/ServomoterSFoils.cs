@@ -150,6 +150,7 @@ namespace Abilities
     public class ServomotorSFoilsAttackAbility : ServomotorSFoilCommonAbility
     {
         List<string> allowedMovements = new List<string>();
+
         public override void ActivateAbility()
         {
             base.ActivateAbility();
@@ -175,32 +176,28 @@ namespace Abilities
         private void AskChangeManeuver(object sender, System.EventArgs e)
         {
             Messages.ShowInfoToHuman("Servomotor S-foils: You can change your maneuver to red Tallon roll");
-            allowedMovements.Clear();
-            var direction = HostShip.AssignedManeuver.Direction == ManeuverDirection.Left ? "L" : "R";
-            var turnCode = "3." + direction + ".T";
-            var tallonCode = "3." + direction + ".E";
-            allowedMovements.Add(turnCode);
-            allowedMovements.Add(tallonCode);
-            var hadTallonBefore = false;
-            var originalTallonColor = ManeuverColor.None;
-            if (HostShip.Maneuvers.ContainsKey(tallonCode))
-            {
-                hadTallonBefore = true;
-                originalTallonColor = HostShip.Maneuvers[tallonCode];
-            }            
+
+            string tallonCode = HostShip.AssignedManeuver.ToString().Replace('T', 'E');
             HostShip.Maneuvers[tallonCode] = ManeuverColor.Red;
-            HostShip.Owner.ChangeManeuver((maneuverCode) => 
-            {
-                GameMode.CurrentGameMode.AssignManeuver(maneuverCode);
-                if (hadTallonBefore)
-                {
-                    HostShip.Maneuvers[tallonCode] = originalTallonColor;
-                }
-                else
-                {
-                    HostShip.Maneuvers.Remove(tallonCode);
-                }
-            }, TurnOrTallonRoll);
+
+            allowedMovements.Clear();
+            allowedMovements.Add(HostShip.AssignedManeuver.ToString());
+            allowedMovements.Add(tallonCode);
+
+            HostShip.Owner.ChangeManeuver(
+                (maneuverCode) => {
+                    GameMode.CurrentGameMode.AssignManeuver(maneuverCode);
+                    HostShip.OnMovementFinish += RestoreManuvers;
+                }, 
+                TurnOrTallonRoll
+            );
+        }
+
+        private void RestoreManuvers(GenericShip ship)
+        {
+            HostShip.OnMovementFinish -= RestoreManuvers;
+
+            HostShip.Maneuvers[allowedMovements[1]] = ManeuverColor.None;
         }
 
         private bool TurnOrTallonRoll(string maneuverString)

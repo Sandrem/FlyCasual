@@ -21,7 +21,7 @@ namespace UpgradesList
             Name = "Tactical Officer";
             Cost = 2;
 
-            AvatarOffset = new Vector2(45, 1);
+            //AvatarOffset = new Vector2(45, 1);
         }
 
         public override bool IsAllowedForShip(GenericShip ship)

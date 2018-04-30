@@ -35,7 +35,13 @@ namespace Abilities
 {
     public class JunoEclipseAbility : GenericAbility
     {
-        List<string> allowedMovements = new List<string>();        
+        List<string> allowedMovements = new List<string>();
+
+        string keyPlus;
+        ManeuverColor plusColor;
+        string keyMinus;
+        ManeuverColor minusColor;
+
         public override void ActivateAbility()
         {
             HostShip.OnManeuverIsRevealed += RegisterAskChangeManeuver;
@@ -60,8 +66,8 @@ namespace Abilities
             allowedMovements.Add(key);
 
             //Generate key for maneuvre + 1. If exist backups old color, and change to actual
-            string keyPlus = key.Replace(speed.ToString()[0], (speed + 1).ToString()[0]);
-            ManeuverColor plusColor = ManeuverColor.None;
+            keyPlus = key.Replace(speed.ToString()[0], (speed + 1).ToString()[0]);
+            plusColor = ManeuverColor.None;
             if (HostShip.Maneuvers.ContainsKey(keyPlus))
             {
                 allowedMovements.Add(keyPlus);
@@ -70,8 +76,8 @@ namespace Abilities
             }
 
             //Generate key for maneuvre - 1. If exist backups old color, and change to actual
-            string keyMinus = key.Replace(speed.ToString()[0], (speed - 1).ToString()[0]);
-            ManeuverColor minusColor = ManeuverColor.None;
+            keyMinus = key.Replace(speed.ToString()[0], (speed - 1).ToString()[0]);
+            minusColor = ManeuverColor.None;
             if (HostShip.Maneuvers.ContainsKey(keyMinus))
             {
                 allowedMovements.Add(keyMinus);
@@ -81,10 +87,16 @@ namespace Abilities
 
             HostShip.Owner.ChangeManeuver((maneuverCode) => {
                 GameMode.CurrentGameMode.AssignManeuver(maneuverCode);
-                if (HostShip.Maneuvers.ContainsKey(keyPlus)) { HostShip.Maneuvers[keyPlus] = plusColor; }
-                if (HostShip.Maneuvers.ContainsKey(keyMinus)) { HostShip.Maneuvers[keyMinus] = minusColor; }
-
+                HostShip.OnMovementFinish += RestoreManuvers;
             }, StraightOrKoiogran);
+        }
+
+        private void RestoreManuvers(GenericShip ship)
+        {
+            HostShip.OnMovementFinish -= RestoreManuvers;
+
+            if (HostShip.Maneuvers.ContainsKey(keyPlus)) { HostShip.Maneuvers[keyPlus] = plusColor; }
+            if (HostShip.Maneuvers.ContainsKey(keyMinus)) { HostShip.Maneuvers[keyMinus] = minusColor; }
         }
 
         private bool StraightOrKoiogran(string maneuverString)

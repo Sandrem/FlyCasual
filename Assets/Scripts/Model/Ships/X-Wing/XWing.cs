@@ -63,11 +63,13 @@ namespace Ship
                 Maneuvers.Add("2.R.B", ManeuverColor.White);
                 Maneuvers.Add("2.R.T", ManeuverColor.White);
                 Maneuvers.Add("2.F.R", ManeuverColor.None);
+                Maneuvers.Add("3.L.E", ManeuverColor.None);
                 Maneuvers.Add("3.L.T", ManeuverColor.White);
                 Maneuvers.Add("3.L.B", ManeuverColor.White);
                 Maneuvers.Add("3.F.S", ManeuverColor.White);
                 Maneuvers.Add("3.R.B", ManeuverColor.White);
                 Maneuvers.Add("3.R.T", ManeuverColor.White);
+                Maneuvers.Add("3.R.E", ManeuverColor.None);
                 Maneuvers.Add("3.F.R", ManeuverColor.None);
                 Maneuvers.Add("4.F.S", ManeuverColor.White);
                 Maneuvers.Add("4.F.R", ManeuverColor.Red);

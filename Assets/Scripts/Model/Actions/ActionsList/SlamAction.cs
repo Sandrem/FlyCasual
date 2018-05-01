@@ -43,7 +43,7 @@ namespace ActionsList
                     }
                 );
 
-                Triggers.ResolveTriggers(TriggerTypes.OnAbilityDirect, RegisterSlamManeuverExecutionTrigger);
+                Triggers.ResolveTriggers(TriggerTypes.OnAbilityDirect, ExecuteSelectedManeuver);
             }
         }
 
@@ -52,7 +52,7 @@ namespace ActionsList
             Selection.ThisShip.Owner.SelectManeuver(GameMode.CurrentGameMode.AssignManeuver, IsSameSpeed);
         }
 
-        private void RegisterSlamManeuverExecutionTrigger()
+        private void ExecuteSelectedManeuver()
         {
             GameMode.CurrentGameMode.LaunchExtraMovement(AssignWeaponsDisabledToken);
         }

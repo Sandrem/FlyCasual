@@ -32,12 +32,7 @@ namespace SubPhases
             Selection.ThisShip.ObstaclesHit = new List<Collider>();
             Selection.ThisShip.MinesHit = new List<GameObject>();
 
-            Selection.ThisShip.CallManeuverIsReadyToBeRevealed(RevealManeuver);
-        }
-
-        private void RevealManeuver()
-        {
-            Selection.ThisShip.CallManeuverIsRevealed(CheckAssignedManeuver);
+            CheckAssignedManeuver();
         }
 
         private void CheckAssignedManeuver()
@@ -61,11 +56,7 @@ namespace SubPhases
 
         public override void Next()
         {
-            GenericSubPhase actionSubPhase = new ActionSubPhase();
-            actionSubPhase.PreviousSubPhase = Phases.CurrentSubPhase;
-            Phases.CurrentSubPhase = actionSubPhase;
-            Phases.CurrentSubPhase.Start();
-            Phases.CurrentSubPhase.Initialize();
+            Phases.CurrentSubPhase = PreviousSubPhase;
         }
 
         public override bool ThisShipCanBeSelected(Ship.GenericShip ship, int mouseKeyIsPressed)

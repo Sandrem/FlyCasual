@@ -426,7 +426,7 @@ namespace Movement
         {
             MovementTemplates.HideLastMovementRuler();
 
-            GameMode.CurrentGameMode.FinishMovementExecution();
+            Selection.ActiveShip.CallExecuteMoving(GameMode.CurrentGameMode.FinishMovementExecution);
         }
 
         protected virtual void ManeuverEndRotation(Action callBack)

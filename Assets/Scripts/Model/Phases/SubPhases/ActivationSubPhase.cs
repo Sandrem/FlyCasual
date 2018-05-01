@@ -168,7 +168,7 @@ namespace SubPhases
         {
             if (!ship.IsManeuverPerformed)
             {
-                GameMode.CurrentGameMode.PerformStoredManeuver(Selection.ThisShip.ShipId);
+                GameMode.CurrentGameMode.ActivateAndMove(Selection.ThisShip.ShipId);
             }
             else
             {

@@ -7,6 +7,7 @@ using SquadBuilderNS;
 using Players;
 using SubPhases;
 using UnityEngine.SceneManagement;
+using System;
 
 public partial class NetworkPlayerController : NetworkBehaviour {
 
@@ -267,29 +268,29 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     // SHIP MOVEMENT
 
     [Command]
-    public void CmdPerformStoredManeuver(int shipId)
+    public void CmdActvateAndMove(int shipId)
     {
         if (DebugManager.DebugNetwork) UI.AddTestLogEntry("S: CmdPerformStoredManeuver");
 
         new NetworkExecuteWithCallback(
             "Wait maneuver execution",
-            delegate { CmdLaunchStoredManeuver(shipId); },
+            delegate { CmdActvateAndMoveStart(shipId); },
             delegate { CmdFinishManeuver(shipId); }
         );
     }
 
     [Command]
-    public void CmdLaunchStoredManeuver(int shipId)
+    public void CmdActvateAndMoveStart(int shipId)
     {
         if (DebugManager.DebugNetwork) UI.AddTestLogEntry("S: CmdLaunchStoredManeuver");
-        RpcLaunchStoredManeuver(shipId);
+        RpcActvateAndMoveStart(shipId);
     }
 
     [ClientRpc]
-    private void RpcLaunchStoredManeuver(int shipId)
+    private void RpcActvateAndMoveStart(int shipId)
     {
         if (DebugManager.DebugNetwork) UI.AddTestLogEntry("C: RpcLaunchStoredManeuver");
-        ShipMovementScript.PerformStoredManeuver(shipId);
+        ShipMovementScript.ActivateAndMove(shipId);
     }
 
     [Command]
@@ -304,7 +305,53 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     {
         if (DebugManager.DebugNetwork) UI.AddTestLogEntry("S: RpcFinishManeuver");
 
-        Selection.ActiveShip.CallExecuteMoving(Triggers.FinishTrigger);
+        Triggers.FinishTrigger();
+    }
+
+    // Extra Movement
+
+    [Command]
+    public void CmdLauchExtraMovement()
+    {
+        new NetworkExecuteWithCallback(
+            "Wait maneuver execution",
+            CmdExtraMovementStart,
+            CmdExtraMovementFinish
+        );
+    }
+
+    [Command]
+    public void CmdExtraMovementStart()
+    {
+        RpcExtraMovementStart();
+    }
+
+    [ClientRpc]
+    private void RpcExtraMovementStart()
+    {
+        if (ShipMovementScript.ExtraMovementCallback == null)
+        {
+            Console.Write("Waiting to sync extra movement callback...", LogTypes.Everything, true, "orange");
+
+            GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
+            Game.Wait(0.5f, RpcExtraMovementStart);
+        }
+        else
+        {
+            ShipMovementScript.LauchExtraMovement(null);
+        }
+    }
+
+    [Command]
+    public void CmdExtraMovementFinish()
+    {
+        RpcExtraMovementFinish();
+    }
+
+    [ClientRpc]
+    private void RpcExtraMovementFinish()
+    {
+        Triggers.FinishTrigger();
     }
 
     // BARREL ROLL

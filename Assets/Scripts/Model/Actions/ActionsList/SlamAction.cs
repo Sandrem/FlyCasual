@@ -54,18 +54,7 @@ namespace ActionsList
 
         private void RegisterSlamManeuverExecutionTrigger()
         {
-            Triggers.RegisterTrigger(new Trigger()
-            {
-                Name = "SLAM Execution",
-                TriggerType = TriggerTypes.OnManeuver,
-                TriggerOwner = Selection.ThisShip.Owner.PlayerNo,
-                EventHandler = PerformSlamManeuver
-            });
-
-            Triggers.ResolveTriggers(
-                TriggerTypes.OnManeuver,
-                AssignWeaponsDisabledToken
-            );
+            GameMode.CurrentGameMode.LaunchExtraMovement(AssignWeaponsDisabledToken);
         }
 
         private void AssignWeaponsDisabledToken()

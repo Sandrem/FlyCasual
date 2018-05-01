@@ -41,9 +41,14 @@ namespace GameModes
             (Phases.CurrentSubPhase as SetupSubPhase).ConfirmShipSetup(shipId, position, angles);
         }
 
-        public override void PerformStoredManeuver(int shipId)
+        public override void ActivateAndMove(int shipId)
         {
-            ShipMovementScript.PerformStoredManeuver(Selection.ThisShip.ShipId);
+            ShipMovementScript.ActivateAndMove(Selection.ThisShip.ShipId);
+        }
+
+        public override void LaunchExtraMovement(Action callback)
+        {
+            ShipMovementScript.LauchExtraMovement(callback);
         }
 
         public override void AssignManeuver(string maneuverCode)
@@ -161,7 +166,7 @@ namespace GameModes
 
         public override void FinishMovementExecution()
         {
-            Selection.ActiveShip.CallExecuteMoving(Triggers.FinishTrigger);
+            Triggers.FinishTrigger();
         }
 
         // Swarm Manager

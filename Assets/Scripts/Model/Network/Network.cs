@@ -184,9 +184,14 @@ public static partial class Network
 
     // PERFORM MANEUVER
 
-    public static void PerformStoredManeuver(int shipId)
+    public static void ActivateAndMove(int shipId)
     {
-        CurrentPlayer.CmdPerformStoredManeuver(shipId);
+        CurrentPlayer.CmdActvateAndMove(shipId);
+    }
+
+    public static void LauchExtraMovement()
+    {
+        if (IsServer) CurrentPlayer.CmdLauchExtraMovement();
     }
 
     // PERFORM BARREL ROLL

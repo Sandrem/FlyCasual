@@ -9,6 +9,7 @@ using ActionsList;
 using Abilities;
 using Movement;
 using GameModes;
+using Tokens;
 
 namespace UpgradesList
 {
@@ -51,10 +52,22 @@ namespace Abilities
 
         private void RegisterAdaptiveAileronsAbility(GenericShip ship)
         {
-            RegisterAbilityTrigger(TriggerTypes.OnManeuverIsReadyToBeRevealed, DoAdaptiveAileronsAbility);
+            RegisterAbilityTrigger(TriggerTypes.OnManeuverIsReadyToBeRevealed, CheckCanUseAbility);
         }
 
-        private void DoAdaptiveAileronsAbility(object sender, EventArgs e)
+        private void CheckCanUseAbility(object sender, EventArgs e)
+        {
+            if (HostShip.Tokens.HasToken(typeof(StressToken)))
+            {
+                Triggers.FinishTrigger();
+            }
+            else
+            {
+                DoAdaptiveAileronsAbility();
+            }
+        }
+
+        private void DoAdaptiveAileronsAbility()
         {
             SavedManeuver = HostShip.AssignedManeuver;
 

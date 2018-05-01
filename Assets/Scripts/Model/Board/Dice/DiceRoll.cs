@@ -422,6 +422,25 @@ public partial class DiceRoll
         DiceList = new List<Die>();
     }
 
+    public bool RemoveType(DieSide type)
+    {
+        // Select a die that matches the type, prioritize those that aren't uncancellable
+        var die = this.DiceList
+            .OrderBy(d => d.IsUncancelable)
+            .FirstOrDefault(d => d.Side == type);
+        if (die != null)
+        {
+            die.Cancel();
+            die.RemoveModel();
+            this.DiceList.Remove(die);
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
     private bool CancelType(DieSide type, bool CancelByDefence, bool dryRun)
     {
         bool found = false;

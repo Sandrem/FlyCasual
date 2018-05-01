@@ -48,7 +48,7 @@ public static partial class Combat
                 offset += 40;
             }
 
-            if (Selection.ActiveShip.GetAvailableOppositeActionEffectsList().Count> 0) ToggleConfirmDiceResultsButton(true);
+            ToggleConfirmDiceResultsButton(true);
 
             Button closeButton = GameObject.Find("UI/CombatDiceResultsPanel").transform.Find("DiceModificationsPanel/Confirm").GetComponent<Button>();
             closeButton.onClick.RemoveAllListeners();
@@ -84,7 +84,7 @@ public static partial class Combat
                 offset += 40;
             }
 
-            if (Selection.ActiveShip.GetAvailableCompareResultsEffectsList().Count > 0) ToggleConfirmDiceResultsButton(true);
+            ToggleConfirmDiceResultsButton(true);
 
             Button closeButton = GameObject.Find("UI/CombatDiceResultsPanel").transform.Find("DiceModificationsPanel/Confirm").GetComponent<Button>();
             closeButton.onClick.RemoveAllListeners();

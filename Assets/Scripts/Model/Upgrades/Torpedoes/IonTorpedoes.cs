@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,6 +36,8 @@ namespace Abilities
 {
 	public class IonTorpedoesAbility : GenericAbility
 	{
+		private List<GenericShip> shipsToAssignIon;
+
 		public override void ActivateAbility() 
 		{
 			HostShip.OnShotHitAsAttacker += RegisterIonTorpedoesHit;
@@ -63,43 +65,39 @@ namespace Abilities
 						TriggerType = TriggerTypes.OnShotHit,
 						TriggerOwner = Combat.Attacker.Owner.PlayerNo,
 						EventHandler = delegate {
-							IonTorpedoHitEffect ();
+							AssignIonTokens ();
 						}
 					}
 				);
 			}
 		}
 
-		private void IonTorpedoHitEffect()
+		private void AssignIonTokens()
 		{
-			Combat.DiceRollAttack.CancelAllResults();
-			Combat.DiceRollAttack.RemoveAllFailures();
-
-			Messages.ShowError ("Ion Torpedoes Hit");
+			shipsToAssignIon = new List<GenericShip>();
 
 			var ships = Roster.AllShips.Select (x => x.Value).ToList();
 
 			foreach (GenericShip ship in ships) {
-
-				// null refs?
-				if (ship.Model == null || Combat.Defender == null || Combat.Defender.Model == null) {
-					continue;
-				}
-
 				Board.ShipDistanceInformation shotInfo = new Board.ShipDistanceInformation(Combat.Defender, ship);
-
 				if (shotInfo.Range == 1) {
-
-					ship.Tokens.AssignToken(
-						new Tokens.IonToken(ship),
-						delegate {
-							Messages.ShowError("Ion Tokens Assigned");
-						}
-					);
+					shipsToAssignIon.Add (ship);
 				}
 			}
 
-			Triggers.ResolveTriggers(TriggerTypes.OnShotHit, Triggers.FinishTrigger);
+			AssignIonTokensRecursive();
+		}
+
+		private void AssignIonTokensRecursive()
+		{
+			if (shipsToAssignIon.Count > 0) {
+				GenericShip shipToAssignIon = shipsToAssignIon [0];
+				shipsToAssignIon.Remove (shipToAssignIon);
+				Messages.ShowErrorToHuman(shipToAssignIon.PilotName + " assigned Ion Token");
+				shipToAssignIon.Tokens.AssignToken (new Tokens.IonToken (shipToAssignIon), AssignIonTokensRecursive);
+			} else {
+				Triggers.FinishTrigger();
+			}
 		}
 	}
 }

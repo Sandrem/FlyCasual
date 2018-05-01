@@ -27,7 +27,7 @@ namespace ActionsList
         {
             var ship = Selection.ThisShip;
             var energyTokenCount = ship.Energy;
-            var maxRecoverableShields = ship.MaxShields - ship.Shields;            
+            //var maxRecoverableShields = ship.MaxShields - ship.Shields;            
 
             SpendEnergy(energyTokenCount, Selection.ThisShip);
         }

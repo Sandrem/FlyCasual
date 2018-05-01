@@ -225,7 +225,7 @@ namespace ActionsList
 
         private void SpendBlankForEffect(DieSide side)
         {
-            var result = Combat.DiceRollAttack.RemoveType(side);
+            Combat.DiceRollAttack.RemoveType(side);
             DefenderSuffersDamage();            
         }
 

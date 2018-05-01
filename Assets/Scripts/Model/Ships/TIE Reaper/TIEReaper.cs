@@ -13,12 +13,10 @@ namespace Ship
 
             public TIEReaper() : base()
             {
-                IsHidden = true;
-
                 Type = "TIE Reaper";
-                IconicPilots.Add(Faction.Imperial, typeof(MajorVermeil));
+                IconicPilots.Add(Faction.Imperial, typeof(ScarifBasePilot));
 
-                ManeuversImageUrl = ""; // TODO
+                ManeuversImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/fe/d9/fed9939b-8331-462b-a3b8-d8359d1342bd/swx75_a3_dial.png"; // TODO
 
                 Firepower = 3;
                 Agility = 1;
@@ -29,10 +27,10 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Crew);
 
                 PrintedActions.Add(new EvadeAction());
-                // PrintedActions.Add(new BarrelRollAction()); // TODO: Jam Action
+                PrintedActions.Add(new JamAction());
 
                 AssignTemporaryManeuvers();
-                HotacManeuverTable = new AI.TIEStrikerTable();
+                HotacManeuverTable = new AI.TIEReaperTable();
 
                 factions.Add(Faction.Imperial);
                 faction = Faction.Imperial;
@@ -50,22 +48,22 @@ namespace Ship
 
             private void AssignTemporaryManeuvers()
             {
+                Maneuvers.Add("0.S.S", ManeuverColor.Red);
+                Maneuvers.Add("1.L.R", ManeuverColor.Red);
                 Maneuvers.Add("1.L.T", ManeuverColor.White);
-                Maneuvers.Add("1.L.B", ManeuverColor.Green);
+                Maneuvers.Add("1.L.B", ManeuverColor.White);
                 Maneuvers.Add("1.F.S", ManeuverColor.Green);
-                Maneuvers.Add("1.R.B", ManeuverColor.Green);
+                Maneuvers.Add("1.R.B", ManeuverColor.White);
                 Maneuvers.Add("1.R.T", ManeuverColor.White);
-                Maneuvers.Add("2.L.T", ManeuverColor.White);
-                Maneuvers.Add("2.L.B", ManeuverColor.White);
+                Maneuvers.Add("1.R.R", ManeuverColor.Red);
+                Maneuvers.Add("2.L.T", ManeuverColor.Red);
+                Maneuvers.Add("2.L.B", ManeuverColor.Green);
                 Maneuvers.Add("2.F.S", ManeuverColor.Green);
-                Maneuvers.Add("2.R.B", ManeuverColor.White);
-                Maneuvers.Add("2.R.T", ManeuverColor.White);
-                Maneuvers.Add("2.L.R", ManeuverColor.Red);
-                Maneuvers.Add("2.F.R", ManeuverColor.Red);
-                Maneuvers.Add("2.R.R", ManeuverColor.Red);
-                Maneuvers.Add("3.L.B", ManeuverColor.White);
+                Maneuvers.Add("2.R.B", ManeuverColor.Green);
+                Maneuvers.Add("2.R.T", ManeuverColor.Red);
+                Maneuvers.Add("3.L.B", ManeuverColor.Red);
                 Maneuvers.Add("3.F.S", ManeuverColor.Green);
-                Maneuvers.Add("3.R.B", ManeuverColor.White);
+                Maneuvers.Add("3.R.B", ManeuverColor.Red);
             }
 
         }

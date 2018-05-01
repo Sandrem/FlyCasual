@@ -6,13 +6,13 @@ namespace Ship
 {
     namespace TIEReaper
     {
-        public class MajorVermeil : TIEReaper
+        public class CaptainFeroph : TIEReaper
         {
-            public MajorVermeil() : base()
+            public CaptainFeroph() : base()
             {
-                PilotName = "Major Vermeil";
-                PilotSkill = 6;
-                Cost = 26;
+                PilotName = "Captain Feroph";
+                PilotSkill = 4;
+                Cost = 24;
 
                 IsUnique = true;
 

@@ -6,15 +6,13 @@ namespace Ship
 {
     namespace TIEReaper
     {
-        public class ScarifGeneric : TIEReaper
+        public class ScarifBasePilot : TIEReaper
         {
-            public ScarifGeneric() : base()
+            public ScarifBasePilot() : base()
             {
-                PilotName = "Scarif Generic";
+                PilotName = "Scarif Base Pilot";
                 PilotSkill = 1;
                 Cost = 21;
-
-                ImageUrl = "https://i.imgur.com/ql7NYgF.jpg";
             }
         }
     }

@@ -288,7 +288,7 @@ public static partial class Roster {
         bool result = true;
 
         if (GetPlayer(AnotherPlayer(ship.Owner.PlayerNo)).GetType() == typeof(HotacAiPlayer)) return false;
-        if (GetPlayer(AnotherPlayer(ship.Owner.PlayerNo)).GetType() == typeof(NetworkPlayer)) return false;
+        if (GetPlayer(AnotherPlayer(ship.Owner.PlayerNo)).GetType() == typeof(NetworkOpponentPlayer)) return false;
         if (Phases.CurrentSubPhase.GetType() == typeof(SubPhases.PlanningSubPhase)) return false;
         if (Phases.CurrentSubPhase.GetType() == typeof(SubPhases.MovementExecutionSubPhase)) return false;
 

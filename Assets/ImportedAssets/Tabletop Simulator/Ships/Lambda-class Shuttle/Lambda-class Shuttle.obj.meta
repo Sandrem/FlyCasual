@@ -1,9 +1,7 @@
 fileFormatVersion: 2
 guid: 0bdeaf4249c2df940b6755d6a46b8872
-timeCreated: 1520319290
-licenseType: Free
 ModelImporter:
-  serializedVersion: 22
+  serializedVersion: 23
   fileIDToRecycleName:
     100000: Engine_046015_Stand_sep29_auv
     100002: //RootNode
@@ -102,6 +100,7 @@ ModelImporter:
     4300032: Hull
     4300034: LTWing
     4300036: RTWing
+    2186277476908879412: ImportLogs
   externalObjects:
   - first:
       type: UnityEngine:Material
@@ -216,6 +215,7 @@ ModelImporter:
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
+    importConstraints: 0
     animationCompression: 1
     animationRotationError: 0.5
     animationPositionError: 0.5
@@ -247,6 +247,8 @@ ModelImporter:
     secondaryUVHardAngle: 88
     secondaryUVPackMargin: 4
     useFileScale: 1
+    previousCalculatedGlobalScale: 1
+    hasPreviousCalculatedGlobalScale: 0
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 0

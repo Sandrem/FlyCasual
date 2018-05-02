@@ -611,11 +611,14 @@ namespace Ship
                 if (IsSimultaneousFireRuleActive())
                 {
                     Messages.ShowInfo("Simultaneous attack rule is active");
-                    this.OnCombatDeactivation += RegisterShipDestruction;
+                    this.OnCombatDeactivation += RegisterShipDestructionSimultaneous;
                 }
                 else
                 {
-                    Combat.Attacker.OnAttackFinishAsAttacker += RegisterShipDestruction;
+                    Combat.Attacker.OnAttackFinishAsAttacker += RegisterShipDestructionUsual;
+
+                    //For splash damage
+                    Combat.Attacker.OnCombatDeactivation += RegisterShipDestructionUsual;
                 }
                 callback();
             }
@@ -645,15 +648,28 @@ namespace Ship
             );            
         }
 
-        private void RegisterShipDestruction(GenericShip shipToIgnore)
+        private void RegisterShipDestructionSimultaneous(GenericShip shipToIgnore)
         {
-            this.OnCombatDeactivation -= RegisterShipDestruction;
-            if (Combat.Attacker != null) Combat.Attacker.OnAttackFinish -= RegisterShipDestruction;
+            this.OnCombatDeactivation -= RegisterShipDestructionSimultaneous;
 
             Triggers.RegisterTrigger(new Trigger
             {
                 Name = "Destruction of ship #" + this.ShipId,
                 TriggerType = TriggerTypes.OnCombatDeactivation,
+                TriggerOwner = this.Owner.PlayerNo,
+                EventHandler = delegate { PerformShipDestruction(Triggers.FinishTrigger); }
+            });
+        }
+
+        private void RegisterShipDestructionUsual(GenericShip shipToIgnore)
+        {
+            Combat.Attacker.OnAttackFinishAsAttacker -= RegisterShipDestructionUsual;
+            Combat.Attacker.OnCombatDeactivation -= RegisterShipDestructionUsual;
+
+            Triggers.RegisterTrigger(new Trigger
+            {
+                Name = "Destruction of ship #" + this.ShipId,
+                TriggerType = TriggerTypes.OnAttackFinish,
                 TriggerOwner = this.Owner.PlayerNo,
                 EventHandler = delegate { PerformShipDestruction(Triggers.FinishTrigger); }
             });

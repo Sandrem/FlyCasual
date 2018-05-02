@@ -75,7 +75,7 @@ namespace Abilities
             Triggers.RegisterTrigger(new Trigger()
             {
                 Name = "Flechette Stress",
-                TriggerType = TriggerTypes.OnAttackFinishAsAttacker,
+                TriggerType = TriggerTypes.OnAttackFinish,
                 TriggerOwner = Combat.Attacker.Owner.PlayerNo,
                 EventHandler = delegate {AssignStressToDefender(); }
             });

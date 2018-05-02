@@ -50,7 +50,7 @@ namespace Abilities
         {
             if (BoardManager.GetShipsAtRange(HostShip, new Vector2(1, 1), Team.Type.Friendly).Count > 0)
             {
-                RegisterAbilityTrigger(TriggerTypes.OnAttackFinishAsAttacker, AskSelectShip);
+                RegisterAbilityTrigger(TriggerTypes.OnAttackFinish, AskSelectShip);
             }
         }
 

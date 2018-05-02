@@ -52,6 +52,8 @@ namespace Ship
         public List<Type> RequiredMods { get; set; }
 
         public event EventHandler OnDiscardUpgrade;
+        public static EventHandler OnDiscardUpgradeGlobal;
+
         public event EventHandlerUpgrade OnAfterDiscardUpgrade;
 
         public event EventHandler OnFlipFaceUpUpgrade;
@@ -69,6 +71,7 @@ namespace Ship
         public void CallDiscardUpgrade(Action callBack)
         {
             if (OnDiscardUpgrade != null) OnDiscardUpgrade();
+            if (OnDiscardUpgradeGlobal != null) OnDiscardUpgradeGlobal();
 
             Triggers.ResolveTriggers(TriggerTypes.OnDiscard, callBack);
         }

@@ -684,12 +684,13 @@ namespace Ship
             foreach (var pilotAbility in PilotAbilities)
             {
                 pilotAbility.DeactivateAbility();
-                foreach (var upgrade in UpgradeBar.GetUpgradesOnlyFaceup())
+            }
+
+            foreach (var upgrade in UpgradeBar.GetUpgradesOnlyFaceup())
+            {
+                foreach (var upgradeAbility in upgrade.UpgradeAbilities)
                 {
-                    foreach (var upgradeAbility in upgrade.UpgradeAbilities)
-                    {
-                        upgradeAbility.DeactivateAbility();
-                    }
+                    upgradeAbility.DeactivateAbility();
                 }
             }
 

@@ -235,7 +235,12 @@ public partial class DiceRerollManager
     private void RerollSelected()
     {
         if (Selection.ActiveShip.Owner.GetType() == typeof(Players.HumanPlayer)) BlockButtons();
-        Combat.CurrentDiceRoll.RerollSelected(TryUnblockButtons);
+        Combat.CurrentDiceRoll.RerollSelected(ImmediatelyAfterReRolling);
+    }
+
+    private void ImmediatelyAfterReRolling(DiceRoll diceroll)
+    {
+        Selection.ActiveShip.CallOnImmediatelyAfterReRolling(diceroll, delegate { TryUnblockButtons(diceroll); });
     }
 
     public List<Die> GetDiceReadyForReroll()

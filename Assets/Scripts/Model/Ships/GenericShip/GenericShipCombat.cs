@@ -179,6 +179,7 @@ namespace Ship
         public event EventHandlerBoostTemplates OnGetAvailableBoostTemplates;
 
         public event EventHandlerDiceroll OnImmediatelyAfterRolling;
+        public event EventHandlerDiceroll OnImmediatelyAfterReRolling;
 
         public event EventHandlerBool OnWeaponsDisabledCheck;
 
@@ -353,6 +354,13 @@ namespace Ship
             if (OnImmediatelyAfterRolling != null) OnImmediatelyAfterRolling(diceroll);
 
             Triggers.ResolveTriggers(TriggerTypes.OnImmediatelyAfterRolling, callBack);
+        }
+
+        public void CallOnImmediatelyAfterReRolling(DiceRoll diceroll, Action callBack)
+        {
+            if (OnImmediatelyAfterReRolling != null) OnImmediatelyAfterReRolling(diceroll);
+
+            Triggers.ResolveTriggers(TriggerTypes.OnImmediatelyAfterReRolling, callBack);
         }
 
         public void CallOnAtLeastOneCritWasCancelledByDefender()

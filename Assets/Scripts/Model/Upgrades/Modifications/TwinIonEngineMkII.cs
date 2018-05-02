@@ -1,5 +1,6 @@
 ﻿using Ship;
 using Upgrade;
+using Abilities;
 
 namespace UpgradesList
 {
@@ -11,7 +12,8 @@ namespace UpgradesList
             Name = "Twin Ion Engine Mk. II";
             ImageUrl = ImageUrls.GetImageUrl(this, "twin-ion-engine-mkii.png");
             Cost = 1;
-            UpgradeAbilities.Add(new Abilities.TreatAllBanksAsGreenAbility());
+
+            UpgradeAbilities.Add(new TreatAllBanksAsGreenAbility());
         }
 
         public override bool IsAllowedForShip(GenericShip ship)

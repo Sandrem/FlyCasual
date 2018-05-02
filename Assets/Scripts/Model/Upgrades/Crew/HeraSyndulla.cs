@@ -1,5 +1,7 @@
 ﻿using System;
+using UnityEngine;
 using Upgrade;
+using Abilities;
 
 namespace UpgradesList
 {
@@ -12,25 +14,31 @@ namespace UpgradesList
             Cost = 1;
 
             isUnique = true;
+
+            AvatarOffset = new Vector2(36, 1);
+
+            UpgradeAbilities.Add(new HeraSyndullaCrewAbility());
         }
 
         public override bool IsAllowedForShip(Ship.GenericShip ship)
         {
             return ship.faction == Faction.Rebel;
         }
+    }
+}
 
-        public override void AttachToShip(Ship.GenericShip host)
+namespace Abilities
+{
+    public class HeraSyndullaCrewAbility : GenericAbility
+    {
+        public override void ActivateAbility()
         {
-            base.AttachToShip(host);
-
-            host.CanPerformRedManeuversWhileStressed = true;
+            HostShip.CanPerformRedManeuversWhileStressed = true;
         }
 
-        public override void Discard(Action callBack)
+        public override void DeactivateAbility()
         {
-            Host.CanPerformRedManeuversWhileStressed = false;
-
-            base.Discard(callBack);
+            HostShip.CanPerformRedManeuversWhileStressed = false;
         }
     }
 }

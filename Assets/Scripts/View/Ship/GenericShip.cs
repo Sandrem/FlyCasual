@@ -55,11 +55,19 @@ namespace Ship
 
             position = new Vector3(0, 0, (Owner.PlayerNo == Players.PlayerNo.Player1) ? -4 : 4);
 
-            GameObject prefab = (GameObject)Resources.Load("Prefabs/ShipModel/ShipModel", typeof(GameObject));
-            GameObject newShip = MonoBehaviour.Instantiate(prefab, position + new Vector3(0, 0.03f, 0), Quaternion.Euler(facing), Board.BoardManager.GetBoard());
-            Transform modelTranform = newShip.transform.Find("RotationHelper/RotationHelper2/ShipAllParts/ShipModels/" + FixTypeName(Type));
-            if (modelTranform == null) Console.Write("<b>Missing model: " + FixTypeName(Type) + "</b>", LogTypes.Errors, true, "red");
-            modelTranform.gameObject.SetActive(true);
+            GameObject shipPrefab = (GameObject)Resources.Load("Prefabs/ShipModel/ShipModel", typeof(GameObject));
+            GameObject newShip = MonoBehaviour.Instantiate(shipPrefab, position + new Vector3(0, 0.03f, 0), Quaternion.Euler(facing), Board.BoardManager.GetBoard());
+
+            GameObject modelPrefab = (GameObject)Resources.Load("Prefabs/ShipModel/ShipModels/" + FixTypeName(Type), typeof(GameObject));
+            if (modelPrefab != null)
+            {
+                GameObject newModel = MonoBehaviour.Instantiate(modelPrefab, newShip.transform.Find("RotationHelper/RotationHelper2/ShipAllParts/ShipModels"));
+                newModel.name = FixTypeName(Type);
+            }
+            else
+            {
+                Console.Write("<b>Missing model: " + FixTypeName(Type) + "</b>", LogTypes.Errors, true, "red");
+            }
 
             ShipId = ShipFactory.lastId;
             ShipFactory.lastId = ShipFactory.lastId + 1;
@@ -136,6 +144,7 @@ namespace Ship
                 else
                 {
                     Debug.Log("Cannot find: " + pathToResource + " or " + pathToResourceAlt);
+                    shipAllParts.Find("ShipBase/ShipStandInsert").gameObject.SetActive(false);
                 }
             }
         }
@@ -219,6 +228,20 @@ namespace Ship
         {
             if (isIonized) Sounds.PlayShipSound("Ionization");
             shipAllParts.Find("Ionization").gameObject.SetActive(isIonized);
+        }
+
+        public void ToggleCloaked(bool isTransparent)
+        {
+            foreach (Transform transform in GetModelTransform())
+            {
+                Renderer renderer = transform.GetComponent<Renderer>();
+                if (renderer != null)
+                {
+                    renderer.material.shader = (isTransparent) ? Shader.Find("VR/SpatialMapping/Occlusion") : Shader.Find("Standard");
+                }
+
+                shipAllParts.Find("ShipBase/ShipPeg").gameObject.SetActive(!isTransparent);
+            }
         }
 
         public void PlayDestroyedAnimSound(System.Action callBack)
@@ -372,6 +395,12 @@ namespace Ship
                 munition.GetComponent<MunitionMovement>().selfDescructTimer = distance;
                 munition.SetActive(true);
             }
+        }
+
+        private void AnimateShields()
+        {
+            Transform shields = modelCenter.Find("Shields");
+            if (shields != null) shields.gameObject.SetActive(true);
         }
 
         private IEnumerator TurnOffShots(float shotsCount)

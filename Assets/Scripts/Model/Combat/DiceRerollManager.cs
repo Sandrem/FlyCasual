@@ -188,22 +188,7 @@ public partial class DiceRerollManager
     {
         GameObject.Find("UI/CombatDiceResultsPanel").transform.Find("DiceModificationsPanel").gameObject.SetActive(isActive);
 
-        if (isActive)
-        {
-            Combat.ToggleConfirmDiceResultsButton(true);
-            if (!IsOpposite)
-            {
-                Combat.ShowDiceModificationButtons();
-            }
-            else
-            {
-                Combat.ShowOppositeDiceModificationButtons();
-            }
-        }
-        else
-        {
-            Combat.HideDiceModificationButtons();
-        }
+        if (!isActive) Combat.HideDiceModificationButtons();
     }
 
     private void ToggleDiceRerollsPanel(bool isActive)
@@ -235,7 +220,12 @@ public partial class DiceRerollManager
     private void RerollSelected()
     {
         if (Selection.ActiveShip.Owner.GetType() == typeof(Players.HumanPlayer)) BlockButtons();
-        Combat.CurrentDiceRoll.RerollSelected(TryUnblockButtons);
+        Combat.CurrentDiceRoll.RerollSelected(ImmediatelyAfterReRolling);
+    }
+
+    private void ImmediatelyAfterReRolling(DiceRoll diceroll)
+    {
+        Selection.ActiveShip.CallOnImmediatelyAfterReRolling(diceroll, delegate { TryUnblockButtons(diceroll); });
     }
 
     public List<Die> GetDiceReadyForReroll()

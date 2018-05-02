@@ -21,10 +21,5 @@ namespace UpgradesList
 
             IsDiscardedForShot = true;
         }
-
-        public override void AttachToShip(GenericShip host)
-        {
-            base.AttachToShip(host);
-        }
     }
 }

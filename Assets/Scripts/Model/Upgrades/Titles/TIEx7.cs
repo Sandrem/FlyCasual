@@ -6,6 +6,7 @@ using System;
 using UpgradesList;
 using SubPhases;
 using ActionsList;
+using Abilities;
 
 namespace UpgradesList
 {
@@ -24,18 +25,29 @@ namespace UpgradesList
                 UpgradeType.Cannon,
                 UpgradeType.Missile
             };
+
+            UpgradeAbilities.Add(new TIEx7Ability());
         }
 
         public override bool IsAllowedForShip(GenericShip ship)
         {
             return ship is TIEDefender;
         }
+    }
+}
 
-        public override void AttachToShip(GenericShip host)
+namespace Abilities
+{
+    public class TIEx7Ability : GenericAbility
+    {
+        public override void ActivateAbility()
         {
-            base.AttachToShip(host);
+            HostShip.OnMovementFinish += CheckTIEx7Ability;
+        }
 
-            Host.OnMovementFinish += CheckTIEx7Ability;
+        public override void DeactivateAbility()
+        {
+            HostShip.OnMovementFinish -= CheckTIEx7Ability;
         }
 
         private void CheckTIEx7Ability(GenericShip ship)
@@ -47,9 +59,9 @@ namespace UpgradesList
                 Triggers.RegisterTrigger(new Trigger() {
                     Name = "TIE/x7",
                     TriggerType = TriggerTypes.OnShipMovementFinish,
-                    TriggerOwner = Host.Owner.PlayerNo,
+                    TriggerOwner = HostShip.Owner.PlayerNo,
                     EventHandler = AskTIEx7Ability,
-                    Sender = this,
+                    Sender = HostUpgrade,
                 });
             }
         }

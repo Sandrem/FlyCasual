@@ -1,6 +1,7 @@
 ﻿using Abilities;
 using GameModes;
 using Ship;
+using UnityEngine;
 using Upgrade;
 
 namespace UpgradesList
@@ -12,6 +13,8 @@ namespace UpgradesList
             Types.Add(UpgradeType.Crew);
             Name = "Navigator";
             Cost = 3;
+
+            // AvatarOffset = new Vector2(10, 1);
 
             UpgradeAbilities.Add(new NavigatorAbility());
         }

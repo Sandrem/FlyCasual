@@ -79,8 +79,6 @@ namespace Abilities
                     return;
                 }
 
-                Messages.ShowInfo(string.Format("{0} can attack {1} in responce", HostShip.PilotName, shipToPunish.PilotName));
-
                 // Save his "is already attacked" flag
                 isPerformedRegularAttack = HostShip.IsAttackPerformed;
 
@@ -90,7 +88,10 @@ namespace Abilities
                 Combat.StartAdditionalAttack(
                     HostShip,
                     FinishExtraAttack,
-                    CounterAttackFilter
+                    CounterAttackFilter,
+                    HostShip.PilotName,
+                    "You may perform an additional attack against " + shipToPunish.PilotName + ".",
+                    HostShip.ImageUrl
                 );
             }
             else

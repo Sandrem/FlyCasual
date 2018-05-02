@@ -15,6 +15,14 @@ namespace ActionsList
             ImageUrl = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/reference-cards/SlamAction.png";
         }
 
+        public override bool CanBePerformedAsAFreeAction
+        {
+            get
+            {
+                return false;
+            }
+        }
+
         public override void ActionTake()
         {
             if (Selection.ThisShip.Owner.GetType() == typeof(Players.HotacAiPlayer))
@@ -35,7 +43,7 @@ namespace ActionsList
                     }
                 );
 
-                Triggers.ResolveTriggers(TriggerTypes.OnAbilityDirect, RegisterSlamManeuverExecutionTrigger);
+                Triggers.ResolveTriggers(TriggerTypes.OnAbilityDirect, ExecuteSelectedManeuver);
             }
         }
 
@@ -44,20 +52,9 @@ namespace ActionsList
             Selection.ThisShip.Owner.SelectManeuver(GameMode.CurrentGameMode.AssignManeuver, IsSameSpeed);
         }
 
-        private void RegisterSlamManeuverExecutionTrigger()
+        private void ExecuteSelectedManeuver()
         {
-            Triggers.RegisterTrigger(new Trigger()
-            {
-                Name = "SLAM Execution",
-                TriggerType = TriggerTypes.OnManeuver,
-                TriggerOwner = Selection.ThisShip.Owner.PlayerNo,
-                EventHandler = PerformSlamManeuver
-            });
-
-            Triggers.ResolveTriggers(
-                TriggerTypes.OnManeuver,
-                AssignWeaponsDisabledToken
-            );
+            GameMode.CurrentGameMode.LaunchExtraMovement(AssignWeaponsDisabledToken);
         }
 
         private void AssignWeaponsDisabledToken()

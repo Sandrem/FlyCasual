@@ -46,6 +46,7 @@ public static partial class Phases
     public static event EventHandler OnEndPhaseStart_NoTriggers;
     public static event EventHandler OnEndPhaseStart_Triggers;
     public static event EventHandler OnRoundEnd;
+    public static event EventHandler OnGameEnd;
 
     public static bool HasOnActivationPhaseEnd      { get { return OnActivationPhaseEnd_Triggers    != null; } }
     public static bool HasOnCombatPhaseStartEvents  { get { return OnCombatPhaseStart_Triggers      != null; } }
@@ -206,7 +207,7 @@ public static partial class Phases
     public static void StartTemporarySubPhaseOld(string name, System.Type subPhaseType, Action callBack = null)
     {
         GenericSubPhase subphase = StartTemporarySubPhaseNew(name, subPhaseType, callBack);
-        CurrentSubPhase.Start();
+        subphase.Start();
     }
 
     public static GenericSubPhase StartTemporarySubPhaseNew(string name, System.Type subPhaseType, Action callBack)
@@ -236,6 +237,8 @@ public static partial class Phases
 
     public static void EndGame()
     {
+        if (OnGameEnd != null) OnGameEnd();
+
         GameIsEnded = true;
 
         foreach (var shipHolder in Roster.AllShips)

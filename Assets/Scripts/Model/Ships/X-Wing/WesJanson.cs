@@ -45,7 +45,7 @@ namespace Abilities
 
         public void WesJansonPilotAbility(GenericShip ship)
         {
-			RegisterAbilityTrigger(TriggerTypes.OnAttackFinishAsAttacker, StartSubphaseForWesJansonPilotAbility);
+			RegisterAbilityTrigger(TriggerTypes.OnAttackFinish, StartSubphaseForWesJansonPilotAbility);
         }
 
 		private void StartSubphaseForWesJansonPilotAbility(object sender, System.EventArgs e)

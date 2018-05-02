@@ -20,6 +20,8 @@ namespace UpgradesList
 
             isUnique = true;
 
+            AvatarOffset = new Vector2(47, 1);
+
             AddedSlots = new List<UpgradeSlot>
             {
                 new UpgradeSlot(UpgradeType.Bomb),
@@ -93,7 +95,11 @@ namespace Abilities
                     FilterTargetsForDealDamage,
                     GetAiPriorityForDealDamage,
                     HostShip.Owner.PlayerNo,
-                    true
+                    true,
+                    null,
+                    HostUpgrade.Name,
+                    "Choose enemy ship at range 1 of detonated bomb token.\nThat ship suffers 1 damage.",
+                    HostUpgrade.ImageUrl
                 );
             }
             else

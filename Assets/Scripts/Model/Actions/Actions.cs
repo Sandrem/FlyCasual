@@ -56,7 +56,7 @@ public static partial class Actions
         Letters = new Dictionary<char, bool>();
     }
 
-    public static void AssignTargetLockToPair(GenericShip thisShip, GenericShip targetShip, Action successCallback, Action failureCallback)
+    public static void AcquireTargetLock(GenericShip thisShip, GenericShip targetShip, Action successCallback, Action failureCallback)
     {
         if (Letters.Count == 0) InitializeTargetLockLetters();
 
@@ -68,12 +68,12 @@ public static partial class Actions
             {
                 thisShip.Tokens.RemoveToken(
                     existingBlueToken,
-                    delegate { FinishAssignTargetLockPair(thisShip, targetShip, successCallback); }
+                    delegate { FinishAcquireTargetLock(thisShip, targetShip, successCallback); }
                 );
             }
             else
             {
-                FinishAssignTargetLockPair(thisShip, targetShip, successCallback);
+                FinishAcquireTargetLock(thisShip, targetShip, successCallback);
             }
         }
         else
@@ -82,8 +82,8 @@ public static partial class Actions
             failureCallback();
         }
     }
-
-    private static void FinishAssignTargetLockPair(GenericShip thisShip, GenericShip targetShip, Action callback)
+    
+    private static void FinishAcquireTargetLock(GenericShip thisShip, GenericShip targetShip, Action callback)
     {
         BlueTargetLockToken tokenBlue = new BlueTargetLockToken(thisShip);
         RedTargetLockToken tokenRed = new RedTargetLockToken(targetShip);
@@ -100,7 +100,13 @@ public static partial class Actions
 
         targetShip.Tokens.AssignToken(
             tokenRed,
-            delegate { thisShip.Tokens.AssignToken(tokenBlue, callback); }
+            delegate
+            {
+                thisShip.Tokens.AssignToken(tokenBlue, delegate
+                {
+                    thisShip.CallOnTargetLockIsAcquiredEvent(targetShip, callback);
+                });
+            }
         );
     }
 

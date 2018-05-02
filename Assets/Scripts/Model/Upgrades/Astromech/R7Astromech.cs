@@ -68,7 +68,7 @@ namespace ActionsList
         public R7AstromechActionEffect(R7AstromechAbility ability)
         {
             Name = EffectName = "R7 Astromech";
-            IsOpposite = true;
+            DiceModificationTiming = DiceModificationTimingType.Opposite;
             TokensSpend.Add(typeof(Tokens.BlueTargetLockToken));
             hostAbility = ability;
         }

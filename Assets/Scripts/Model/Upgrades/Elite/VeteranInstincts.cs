@@ -1,5 +1,7 @@
 ﻿using Ship;
+using UnityEngine;
 using Upgrade;
+using Abilities;
 
 namespace UpgradesList
 {
@@ -7,22 +9,48 @@ namespace UpgradesList
     {
         public VeteranInstincts() : base()
         {
-
             Types.Add(UpgradeType.Elite);
             Name = "Veteran Instincts";
             Cost = 1;
+
+            AvatarOffset = new Vector2(56, 0);
+
+            UpgradeAbilities.Add(new VeteranInstinctsAbility());
         }
 
-        public override void AttachToShip(GenericShip host)
+        public override void PreAttachToShip(GenericShip host)
         {
-            base.AttachToShip(host);
+            base.PreAttachToShip(host);
+
             host.AddPilotSkillModifier(this);
-            Roster.UpdateShipStats(host);
+        }
+
+        public override void PreDettachFromShip()
+        {
+            base.PreDettachFromShip();
+
+            Host.RemovePilotSkillModifier(this);
         }
 
         public void ModifyPilotSkill(ref int pilotSkill)
         {
             pilotSkill += 2;
+        }
+    }
+}
+
+namespace Abilities
+{
+    public class VeteranInstinctsAbility : GenericAbility
+    {
+        public override void ActivateAbility()
+        {
+            Roster.UpdateShipStats(HostShip);
+        }
+
+        public override void DeactivateAbility()
+        {
+            Roster.UpdateShipStats(HostShip);
         }
     }
 }

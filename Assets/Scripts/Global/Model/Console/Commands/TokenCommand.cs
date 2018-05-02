@@ -21,13 +21,14 @@ namespace CommandsList
             { "reinforceaft",   typeof(ReinforceAftToken)   },
             { "reinforcefore",  typeof(ReinforceForeToken)  },
             { "cloak",          typeof(CloakToken)          },
+            { "energy",         typeof(EnergyToken)         },
         };
 
         public TokenCommand()
         {
             Keyword = "token";
             Description =   "token assign id:<shipId> type:<type> [target:<targetShipId>]- assing token to ship\n" +
-                            "where type: focus, evade, stress, targetlock, ion, tractorbeam, jam, reinforceaft, reinforcefore, cloak\n" +
+                            "where type: focus, evade, stress, targetlock, ion, tractorbeam, jam, reinforceaft, reinforcefore, cloak, energy\n" +
                             "(target is used only for targetlock type)";
 
             Console.AddAvailableCommand(this);
@@ -82,7 +83,7 @@ namespace CommandsList
                         GenericShip targetShip = Roster.AllShips.FirstOrDefault(n => n.Key == "ShipId:" + targetShipId).Value;
                         if (targetShip != null)
                         {
-                            Actions.AssignTargetLockToPair(ship, targetShip, ShowMessage, ShowErrorMessage);
+                            Actions.AcquireTargetLock(ship, targetShip, ShowMessage, ShowErrorMessage);
                         }
                         else
                         {

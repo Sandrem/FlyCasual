@@ -1,9 +1,7 @@
 fileFormatVersion: 2
 guid: 5e4470e65ac77a044be836fb22e5e9fe
-timeCreated: 1495083332
-licenseType: Free
 ModelImporter:
-  serializedVersion: 19
+  serializedVersion: 23
   fileIDToRecycleName:
     100000: //RootNode
     100002: Cube1_MainHull.000_auv
@@ -67,26 +65,94 @@ ModelImporter:
     4300018: SmallGun.002_MainHull.000_auv
     4300020: Wing.010_MainHull.000_auv
     4300022: Wing.012_MainHull.000_auv
+    2186277476908879412: ImportLogs
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Cube1_MainHull.000_auvMat
+    second: {fileID: 2100000, guid: a2923972faf406f429769e4ac0eb0aba, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Engine.016_MainHull.000_auvMat
+    second: {fileID: 2100000, guid: 38b8aad4dbc1cf34592ec89b2d08d6a7, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MainHull.000_MainHull.000_auvMat
+    second: {fileID: 2100000, guid: c08775a18a5ed964d96b00f965070e36, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MainHull.001_MainHull.000_auvMat
+    second: {fileID: 2100000, guid: 98bcdacbd4e8c3d45ae159cddbb8ed01, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MainHull.014_MainHull.000_auvMat
+    second: {fileID: 2100000, guid: 824f28d475b56bc49a3f3a16d622e554, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MainHull.015_MainHull.000_auvMat
+    second: {fileID: 2100000, guid: f3a5ac907d9b7fa4289fc36a3b3bbc31, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MainHull.018_MainHull.000_auvMat
+    second: {fileID: 2100000, guid: 99041c5e9bac5164cb5e08f42a360d69, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MiscHull.006_MainHull.000_auvMat
+    second: {fileID: 2100000, guid: 908dd66e40e4be34e96316e2f7312a75, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: SmallGun.002_MainHull.000_auvMat
+    second: {fileID: 2100000, guid: ae1f3c376d849b74c84267bc65c10003, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Wing.010_MainHull.000_auvMat
+    second: {fileID: 2100000, guid: f22cc3cd6bc60cf44bc9ceca67a494ca, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Wing.012_MainHull.000_auvMat
+    second: {fileID: 2100000, guid: 20f456641c18c034895284c16fdfdbc4, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: small_base_Cube.002_MainHull.000_auvMat
+    second: {fileID: 2100000, guid: 9641cde05cbc1b44f9e2e64ea216d690, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
     materialSearch: 1
+    materialLocation: 0
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
     resampleCurves: 1
     optimizeGameObjects: 0
     motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
     animationImportErrors: 
     animationImportWarnings: 
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
     animationCompression: 1
     animationRotationError: 0.5
     animationPositionError: 0.5
     animationScaleError: 0.5
     animationWrapMode: 0
     extraExposedTransformPaths: []
+    extraUserProperties: []
     clipAnimations: []
     isReadable: 1
   meshes:
@@ -94,22 +160,30 @@ ModelImporter:
     globalScale: 1
     meshCompression: 0
     addColliders: 0
+    importVisibility: 0
     importBlendShapes: 1
+    importCameras: 0
+    importLights: 0
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
     optimizeMeshForGPU: 1
     keepQuads: 0
     weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 1
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
     secondaryUVPackMargin: 4
     useFileScale: 1
+    previousCalculatedGlobalScale: 1
+    hasPreviousCalculatedGlobalScale: 0
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 0
     tangentImportMode: 3
+    normalCalculationMode: 0
   importAnimation: 1
   copyAvatar: 0
   humanDescription:

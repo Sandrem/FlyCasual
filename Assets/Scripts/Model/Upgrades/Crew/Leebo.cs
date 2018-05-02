@@ -5,7 +5,7 @@ using Abilities;
 using Tokens;
 using System.Collections;
 using System.Collections.Generic;
-
+using UnityEngine;
 
 namespace UpgradesList
 {
@@ -17,6 +17,8 @@ namespace UpgradesList
             Name = "Leebo";
             Cost = 2;
             isUnique = true;
+
+            AvatarOffset = new Vector2(31, 1);
 
             UpgradeAbilities.Add(new LeeboAbility());
         }

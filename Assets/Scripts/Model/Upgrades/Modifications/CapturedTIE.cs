@@ -52,7 +52,7 @@ namespace Abilities
 
         protected void RegisterDiscardOnAttackTrigger(GenericShip ship)
         {
-            RegisterAbilityTrigger(TriggerTypes.OnAttackFinishAsAttacker, (s, e) =>
+            RegisterAbilityTrigger(TriggerTypes.OnAttackFinish, (s, e) =>
             {
                 Messages.ShowInfoToHuman(string.Format("{0} discarding Captured TIE due to attacking", HostShip.PilotName));
                 HostUpgrade.TryDiscard(Triggers.FinishTrigger);

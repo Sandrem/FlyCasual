@@ -4,6 +4,9 @@ using Upgrade;
 using SubPhases;
 using System.Collections.Generic;
 using UnityEngine;
+using Abilities;
+using Ship.Quadjumper;
+using Tokens;
 
 namespace UpgradesList
 {
@@ -14,12 +17,13 @@ namespace UpgradesList
             Types.Add(UpgradeType.Modification);
             Name = "Spacetug Tractor Array";
             Cost = 2;
-            UpgradeAbilities.Add (new Abilities.SpacetugAbility ());
+
+            UpgradeAbilities.Add (new SpacetugAbility());
         }
 
         public override bool IsAllowedForShip(GenericShip ship)
         {
-            return ship is Ship.Quadjumper.Quadjumper;
+            return ship is Quadjumper;
         }
     }
 }
@@ -43,7 +47,8 @@ namespace Abilities
             ActionsList.GenericAction newAction = new ActionsList.SpacetugAction() 
             { 
                 ImageUrl = HostUpgrade.ImageUrl, 
-                Host = HostShip 
+                Host = HostShip,
+                Source = HostUpgrade
             };
             HostShip.AddAvailableAction(newAction);   
         }
@@ -70,6 +75,7 @@ namespace ActionsList
             );
 
             newPhase.SpacetugOwner = this.Host;
+            newPhase.SpacetugUpgrade = this.Source;
             newPhase.Start();
         }
 
@@ -86,18 +92,20 @@ namespace SubPhases
     public class SelectSpacetugTargetSubPhase : SelectShipSubPhase
     {
         public GenericShip SpacetugOwner;
+        public GenericUpgrade SpacetugUpgrade;
 
         public override void Prepare()
         {
-            targetsAllowed.Add(TargetTypes.Enemy);
-            targetsAllowed.Add(TargetTypes.OtherFriendly);
-            maxRange = 1;
-            finishAction = SelectSpacetugTarget;
-
-            FilterTargets = FilterAbilityTargets;
-            GetAiPriority = GetAiAbilityPriority;
-
-            UI.ShowSkipButton();
+            PrepareByParameters(
+                SelectSpacetugTarget,
+                FilterAbilityTargets,
+                GetAiAbilityPriority,
+                Selection.ThisShip.Owner.PlayerNo,
+                true,
+                SpacetugUpgrade.Name,
+                "Choose a ship inside your firing arc to assign a tractor beam token to it.",
+                SpacetugUpgrade.ImageUrl
+            );
         }
 
         private bool FilterAbilityTargets(GenericShip ship)
@@ -115,10 +123,15 @@ namespace SubPhases
         private void SelectSpacetugTarget()
         {
             MovementTemplates.ReturnRangeRuler();
-            Tokens.TractorBeamToken token = new Tokens.TractorBeamToken(TargetShip, SpacetugOwner.Owner);
+            TractorBeamToken token = new TractorBeamToken(TargetShip, SpacetugOwner.Owner);
             TargetShip.Tokens.AssignToken(token, SelectShipSubPhase.FinishSelection);
         }
 
+        public override void SkipButton()
+        {
+            Phases.FinishSubPhase(typeof(SelectSpacetugTargetSubPhase));
+            CallBack();
+        }
     }
 }
 

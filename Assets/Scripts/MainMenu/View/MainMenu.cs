@@ -39,6 +39,9 @@ public partial class MainMenu : MonoBehaviour {
     {
         switch (panelName)
         {
+            case "MainMenuPanel":
+                UpdatePlayerInfo();
+                break;
             case "OptionsPanel":
                 Options.InitializePanel();
                 break;
@@ -79,6 +82,9 @@ public partial class MainMenu : MonoBehaviour {
                 break;
             case "ShipSkinsPanel":
                 SquadBuilder.ShowSkinButtons();
+                break;
+            case "AvatarsPanel":
+                InitializePlayerCustomization();
                 break;
         }
     }

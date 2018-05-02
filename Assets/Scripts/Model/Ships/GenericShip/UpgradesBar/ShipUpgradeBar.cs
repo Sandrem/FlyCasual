@@ -12,6 +12,7 @@ namespace Upgrade
 
         private List<UpgradeSlot> UpgradeSlots;
         private List<UpgradeType> ForbiddenSlots;
+        private Dictionary<UpgradeType, int> CostReductionByType;
 
         public ShipUpgradeBar(Ship.GenericShip host)
         {
@@ -19,6 +20,7 @@ namespace Upgrade
 
             UpgradeSlots = new List<UpgradeSlot>();
             ForbiddenSlots = new List<UpgradeType>();
+            CostReductionByType = new Dictionary<UpgradeType, int>();
 
             AddSlot(UpgradeType.Title);
             AddSlot(UpgradeType.Modification);
@@ -216,6 +218,19 @@ namespace Upgrade
         public void AllowSlots(UpgradeType upgradeType)
         {
             if (ForbiddenSlots.Contains(upgradeType)) ForbiddenSlots.Remove(upgradeType);
+        }
+
+        public void CostReduceByType(UpgradeType upgradeType, int costReduction)
+        {
+            if (!CostReductionByType.ContainsKey(upgradeType)) CostReductionByType.Add(upgradeType, costReduction);
+
+            foreach (var slot in UpgradeSlots)
+            {
+                if (slot.Type == upgradeType)
+                {
+                    slot.CostDecrease += costReduction;
+                }
+            }
         }
     }
 }

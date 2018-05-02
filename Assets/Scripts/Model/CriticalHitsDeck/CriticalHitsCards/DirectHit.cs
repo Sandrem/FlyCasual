@@ -12,6 +12,7 @@ namespace DamageDeckCard
         {
             Name = "Direct Hit";
             Type = CriticalCardType.Ship;
+            AiAvoids = true;
 
             DamageValue = 2;
         }

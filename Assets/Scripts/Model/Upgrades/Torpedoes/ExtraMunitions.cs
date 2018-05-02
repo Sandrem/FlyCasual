@@ -53,7 +53,7 @@ namespace Abilities
         private void SetOrdnanceToken(GenericUpgrade upgrade)
         {
             upgradesWithOrdnanceToken.Add(upgrade);
-            if (upgrade.Name != Name) upgrade.Name += ordnanceTokenMarker;
+            if (upgrade.Name != HostUpgrade.Name) upgrade.Name += ordnanceTokenMarker;
 
             Roster.UpdateUpgradesPanel(HostShip, HostShip.InfoPanel);
         }

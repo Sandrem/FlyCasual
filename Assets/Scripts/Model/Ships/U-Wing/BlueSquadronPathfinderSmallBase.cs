@@ -11,7 +11,7 @@ namespace Ship
         {
             public BlueSquadronPathfinderSmallBase() : base()
             {
-                FromMod = typeof(UWingSmallBaseMod);
+                RequiredMods.Add(typeof(UWingSmallBaseMod));
 
                 PilotName = "Blue Squadron Pathfinder (Small Base)";
                 ImageUrl = "https://i.imgur.com/ks8jRBa.png";

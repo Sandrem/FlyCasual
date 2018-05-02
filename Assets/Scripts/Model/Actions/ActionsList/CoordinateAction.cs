@@ -36,14 +36,15 @@ namespace SubPhases
 
         public override void Prepare()
         {
-            targetsAllowed.Add(TargetTypes.OtherFriendly);
-            maxRange = 2;
-            finishAction = SelectCoordinateTarget;
-
-            FilterTargets = FilterCoordinateTargets;
-            GetAiPriority = GetAiCoordinatePriority;
-
-            UI.ShowSkipButton();
+            PrepareByParameters(
+                SelectCoordinateTarget,
+                FilterCoordinateTargets,
+                GetAiCoordinatePriority,
+                Selection.ThisShip.Owner.PlayerNo,
+                true,
+                "Coordinate Action",
+                "Select another ship.\nIt performs free action."
+            );
         }
 
         private int GetAiCoordinatePriority(GenericShip ship)
@@ -67,7 +68,7 @@ namespace SubPhases
         private bool FilterCoordinateTargets(GenericShip ship)
         {
             Board.ShipDistanceInformation distanceInfo = new Board.ShipDistanceInformation(Selection.ThisShip, ship);
-            return ship.Owner.PlayerNo == Selection.ThisShip.Owner.PlayerNo && distanceInfo.Range >= minRange && distanceInfo.Range <= maxRange;
+            return ship.Owner.PlayerNo == Selection.ThisShip.Owner.PlayerNo && distanceInfo.Range >= 1 && distanceInfo.Range <= 2;
         }
 
         private void SelectCoordinateTarget()
@@ -77,6 +78,7 @@ namespace SubPhases
 
         private void PerformCoordinateEffect()
         {
+            var coordinatingShip = Selection.ThisShip;
             Selection.ThisShip = TargetShip;
 
             Triggers.RegisterTrigger(
@@ -92,6 +94,7 @@ namespace SubPhases
             MovementTemplates.ReturnRangeRuler();
 
             Triggers.ResolveTriggers(TriggerTypes.OnFreeActionPlanned, delegate {
+                Selection.ThisShip = coordinatingShip;
                 Phases.FinishSubPhase(typeof(CoordinateTargetSubPhase));
                 CallBack();
             });

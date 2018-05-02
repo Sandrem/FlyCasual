@@ -12,7 +12,7 @@ namespace DamageDeckCard
         public DamagedCockpit()
         {
             Name = "Damaged Cockpit";
-            Type = CriticalCardType.Ship;
+            Type = CriticalCardType.Pilot;
         }
 
         public override void ApplyEffect(object sender, EventArgs e)

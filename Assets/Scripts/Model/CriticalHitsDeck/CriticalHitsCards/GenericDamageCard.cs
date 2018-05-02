@@ -20,6 +20,7 @@ namespace DamageDeckCard
         public string Name;
         public CriticalCardType Type;
         public bool IsFaceup;
+        public bool AiAvoids;
 
         public List<DieSide> CancelDiceResults = new List<DieSide>();
 

@@ -16,7 +16,7 @@ public static class ImageManager
         filePath += "/" + url.GetHashCode() + ".png";
         bool web = false;
         WWW www;
-        if (File.Exists(filePath))
+        if (File.Exists(filePath) && new FileInfo(filePath).Length > 100)
         {
             string pathforwww = "file://" + filePath;
             //Debug.Log("TRYING FROM CACHE " + url + "  file " + pathforwww);

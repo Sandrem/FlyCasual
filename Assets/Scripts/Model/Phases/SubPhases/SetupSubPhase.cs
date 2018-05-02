@@ -18,6 +18,7 @@ namespace SubPhases
 
         public override void Start()
         {
+            base.Start();
             Name = "Setup SubPhase";
         }
 

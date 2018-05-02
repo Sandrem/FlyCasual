@@ -17,7 +17,7 @@ namespace UpgradesList
             isUnique = true;
             ImageUrl = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/upgrades/Title/sabines-masterpiece.png";
             AddedSlots = new List<UpgradeSlot>
-             {
+            {
                 new UpgradeSlot(UpgradeType.Crew) {  },
                 new UpgradeSlot(UpgradeType.Illicit) { }
             };

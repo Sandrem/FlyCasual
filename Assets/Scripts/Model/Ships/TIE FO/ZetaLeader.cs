@@ -53,17 +53,12 @@ namespace Abilities
             if (!HostShip.Tokens.HasToken(typeof(Tokens.StressToken)))
             {
                 // give user the option to use ability
-                AskToUseAbility(ShouldUsePilotAbility, UseAbility);
+                AskToUseAbility(AlwaysUseByDefault, UseAbility);
             }
             else
             {
                 Triggers.FinishTrigger();
             }
-        }
-
-        private bool ShouldUsePilotAbility()
-        {
-            return Actions.HasTarget(HostShip);
         }
 
         private void UseAbility(object sender, System.EventArgs e)

@@ -13,6 +13,10 @@ namespace UpgradesList
 			Types.Add(UpgradeType.Crew);
 			Name = "Darth Vader";
 			Cost = 3;
+      
+      isUnique = true;
+      
+      AvatarOffset = new Vector2(53, 1);
 
 			UpgradeAbilities.Add(new DarthVaderCrewAbility());
 		}

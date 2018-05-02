@@ -4,9 +4,10 @@ using ActionsList;
 using System.Linq;
 using UnityEngine;
 using SquadBuilderNS;
+using Abilities;
 
 namespace UpgradesList
-{ 
+{
     public class Autothrusters : GenericUpgrade
     {
         public Autothrusters() : base()
@@ -35,21 +36,30 @@ namespace UpgradesList
             result = IsAllowedForShip(Host);
             if (!result) Messages.ShowError("Autothrusters can be installed only if ship has Boost action icon");
 
-            return result; 
+            return result;
+        }
+    }
+}
+
+namespace Abilities
+{
+    public class AutothrustersAbility : GenericAbility
+    {
+        public override void ActivateAbility()
+        {
+            HostShip.AfterGenerateAvailableActionEffectsList += TryAddAutothrustersDiceModification;
         }
 
-        public override void AttachToShip(GenericShip host)
+        public override void DeactivateAbility()
         {
-            base.AttachToShip(host);
-
-            host.AfterGenerateAvailableActionEffectsList += TryAddAutothrustersDiceModification;
+            HostShip.AfterGenerateAvailableActionEffectsList -= TryAddAutothrustersDiceModification;
         }
 
         private void TryAddAutothrustersDiceModification(GenericShip host)
         {
             GenericAction newAction = new AutothrustersDiceModification()
             {
-                ImageUrl = ImageUrl,
+                ImageUrl = HostUpgrade.ImageUrl,
                 Host = host
             };
             host.AddAvailableActionEffect(newAction);

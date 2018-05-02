@@ -3,6 +3,7 @@ using Ship.AWing;
 using Upgrade;
 using UnityEngine;
 using System.Collections.Generic;
+using SquadBuilderNS;
 
 namespace UpgradesList
 {
@@ -22,6 +23,13 @@ namespace UpgradesList
         public override bool IsAllowedForShip(GenericShip ship)
         {
             return ((ship is AWing) && (ship.PilotSkill > 1));
+        }
+
+        public override bool IsAllowedForSquadBuilderPostCheck(SquadList squadList)
+        {
+            bool result = Host.PilotSkill > 1;
+            if (!result) Messages.ShowError("You cannot equip \"A-Wing Test Pilot\" if pilot's skill is \"1\"");
+            return result;
         }
     }
 }

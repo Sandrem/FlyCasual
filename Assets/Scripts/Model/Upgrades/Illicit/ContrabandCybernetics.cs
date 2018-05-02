@@ -3,107 +3,83 @@ using UnityEngine;
 using Ship;
 using System.Collections.Generic;
 using SubPhases;
+using Abilities;
+using UpgradesList;
+using Tokens;
 
 namespace UpgradesList
 {
     public class ContrabandCybernetics : GenericUpgrade
     {
-        private bool CanPerformActionsWhileStressedOriginal;
-        private bool CanPerformRedManeuversWhileStressedOriginal;
-
         public ContrabandCybernetics() : base()
         {
             Types.Add(UpgradeType.Illicit);
             Name = "Contraband Cybernetics";
             Cost = 1;
+
+            UpgradeAbilities.Add(new ContrabandCyberneticsAbility());
+        }
+    }
+}
+
+namespace Abilities
+{
+    public class ContrabandCyberneticsAbility : GenericAbility
+    {
+        private bool CanPerformActionsWhileStressedOriginal;
+        private bool CanPerformRedManeuversWhileStressedOriginal;
+
+        public override void ActivateAbility()
+        {
+            HostShip.OnMovementActivation += RegisterTrigger;
         }
 
-        public override void AttachToShip(GenericShip host)
+        public override void DeactivateAbility()
         {
-            base.AttachToShip(host);
-
-            Host.OnMovementActivation += RegisterTrigger;
+            HostShip.OnMovementActivation -= RegisterTrigger;
         }
 
         private void RegisterTrigger(GenericShip ship)
         {
-            Triggers.RegisterTrigger(new Trigger() {
+            Triggers.RegisterTrigger(new Trigger()
+            {
                 Name = Name,
                 TriggerType = TriggerTypes.OnMovementActivation,
-                TriggerOwner = Host.Owner.PlayerNo,
+                TriggerOwner = HostShip.Owner.PlayerNo,
                 EventHandler = AskUseContrabandCybernetics
             });
         }
 
         private void AskUseContrabandCybernetics(object sender, System.EventArgs e)
         {
-            ContrabandCyberneticsDecisionSubPhase newSubPhase = (ContrabandCyberneticsDecisionSubPhase)Phases.StartTemporarySubPhaseNew(
-                "Contraband Cybernetics Dicision",
-                typeof(ContrabandCyberneticsDecisionSubPhase),
-                Triggers.FinishTrigger
-            );
-            newSubPhase.ContrabandCyberneticsUpgrade = this;
-            newSubPhase.Start();
+            AskToUseAbility(NeverUseByDefault, ActivateContrabandCyberneticsAbility);
         }
 
-        public void ActivateAbility()
+        public void ActivateContrabandCyberneticsAbility(object sender, System.EventArgs e)
         {
-            Host.OnMovementActivation -= RegisterTrigger;
-            Phases.OnEndPhaseStart_NoTriggers += DeactivateAbility;
+            HostShip.OnMovementActivation -= RegisterTrigger;
+            Phases.OnEndPhaseStart_NoTriggers += DeactivateContrabandCyberneticsAbility;
 
-            Host.Tokens.AssignToken(new Tokens.StressToken(Host), RemoveRestrictions);
+            HostShip.Tokens.AssignToken(new StressToken(HostShip), RemoveRestrictions);
         }
 
         private void RemoveRestrictions()
         {
-            CanPerformActionsWhileStressedOriginal = Host.CanPerformActionsWhileStressed;
-            Host.CanPerformActionsWhileStressed = true;
+            CanPerformActionsWhileStressedOriginal = HostShip.CanPerformActionsWhileStressed;
+            HostShip.CanPerformActionsWhileStressed = true;
 
-            CanPerformRedManeuversWhileStressedOriginal = Host.CanPerformRedManeuversWhileStressed;
-            Host.CanPerformRedManeuversWhileStressed = true;
+            CanPerformRedManeuversWhileStressedOriginal = HostShip.CanPerformRedManeuversWhileStressed;
+            HostShip.CanPerformRedManeuversWhileStressed = true;
+
+            HostUpgrade.TryDiscard(DecisionSubPhase.ConfirmDecision);
         }
 
-        public void DeactivateAbility()
+        public void DeactivateContrabandCyberneticsAbility()
         {
-            Phases.OnEndPhaseStart_NoTriggers -= DeactivateAbility;
+            Phases.OnEndPhaseStart_NoTriggers -= DeactivateContrabandCyberneticsAbility;
 
-            Host.CanPerformActionsWhileStressed = CanPerformActionsWhileStressedOriginal;
-            Host.CanPerformRedManeuversWhileStressed = CanPerformRedManeuversWhileStressedOriginal;
+            HostShip.CanPerformActionsWhileStressed = CanPerformActionsWhileStressedOriginal;
+            HostShip.CanPerformRedManeuversWhileStressed = CanPerformRedManeuversWhileStressedOriginal;
         }
     }
-}
-
-namespace SubPhases
-{
-
-    public class ContrabandCyberneticsDecisionSubPhase : DecisionSubPhase
-    {
-        public UpgradesList.ContrabandCybernetics ContrabandCyberneticsUpgrade;
-
-        public override void PrepareDecision(System.Action callBack)
-        {
-            InfoText = "Use ability of Contraband Cybernetics?";
-            RequiredPlayer = Selection.ThisShip.Owner.PlayerNo;
-
-            AddDecision("Yes", UseContrabandCyberneticsAbility);
-            AddDecision("No", DontUseContrabandCyberneticsAbility);
-
-            DefaultDecisionName = "No";
-
-            callBack();
-        }
-
-        private void UseContrabandCyberneticsAbility(object sender, System.EventArgs e)
-        {
-            ContrabandCyberneticsUpgrade.ActivateAbility();
-            ContrabandCyberneticsUpgrade.TryDiscard(ConfirmDecision);
-        }
-
-        private void DontUseContrabandCyberneticsAbility(object sender, System.EventArgs e)
-        {
-            ConfirmDecision();
-        }
-
-    }
-
 }

@@ -2,6 +2,7 @@
 using Ship;
 using SubPhases;
 using Abilities;
+using UnityEngine;
 
 namespace UpgradesList
 {
@@ -13,7 +14,10 @@ namespace UpgradesList
             Types.Add(UpgradeType.Crew);
             Name = "Emperor Palpatine";
             Cost = 8;
+
             isUnique = true;
+
+            AvatarOffset = new Vector2(68, 9);
                         
             UpgradeAbilities.Add(new EmperorPalpatineCrewAbility());
         }
@@ -253,11 +257,6 @@ namespace Abilities
                 {
                     Messages.ShowErrorToHuman("Error selecting die to change for Emperor Palpatine.");
                     return;
-                }
-                string palpatineDiceString = PalpatineDieChoice.ToString();
-                if (PalpatineDieChoice == DieSide.Success)
-                {
-                    palpatineDiceString = diceroll.Type == DiceKind.Attack ? "Hit" : "Evade";
                 }
                 Messages.ShowInfo(string.Format("Emperor Palpatine changes one '{0}' to {1}.", dieToChange, PalpatineDieChoice));
                 diceroll.ChangeOne(dieToChange, PalpatineDieChoice, true, true);

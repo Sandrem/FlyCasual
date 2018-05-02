@@ -3,34 +3,49 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Upgrade;
+using Abilities;
+using ActionsList;
+using Ship;
 
 namespace UpgradesList
 {
 
     public class Predator : GenericUpgrade
     {
-
         public Predator() : base()
         {
             Types.Add(UpgradeType.Elite);
             Name = "Predator";
             Cost = 3;
+
+            UpgradeAbilities.Add(new PredatorAbility());
+        }
+    }
+}
+
+namespace Abilities
+{
+    public class PredatorAbility : GenericAbility
+    {
+        public override void ActivateAbility()
+        {
+            HostShip.AfterGenerateAvailableActionEffectsList += PredatorActionEffect;
         }
 
-        public override void AttachToShip(Ship.GenericShip host)
+        public override void DeactivateAbility()
         {
-            base.AttachToShip(host);
-
-            host.AfterGenerateAvailableActionEffectsList += PredatorActionEffect;
+            HostShip.AfterGenerateAvailableActionEffectsList -= PredatorActionEffect;
         }
 
-        private void PredatorActionEffect(Ship.GenericShip host)
+        private void PredatorActionEffect(GenericShip host)
         {
-            ActionsList.GenericAction newAction = new ActionsList.PredatorActionEffect();
-            newAction.ImageUrl = ImageUrl;
+            GenericAction newAction = new PredatorActionEffect
+            {
+                ImageUrl = HostUpgrade.ImageUrl,
+                Host = host
+            };
             host.AddAvailableActionEffect(newAction);
         }
-
     }
 }
 

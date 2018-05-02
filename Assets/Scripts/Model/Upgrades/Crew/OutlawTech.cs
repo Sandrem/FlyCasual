@@ -1,6 +1,7 @@
 ﻿using Abilities;
 using Ship;
 using System;
+using UnityEngine;
 using Upgrade;
 
 namespace UpgradesList
@@ -12,6 +13,8 @@ namespace UpgradesList
             Types.Add(UpgradeType.Crew);
             Name = "Outlaw Tech";
             Cost = 2;
+
+            AvatarOffset = new Vector2(50, 4);
 
             UpgradeAbilities.Add(new OutlawTechAbility());
         }

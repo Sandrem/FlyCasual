@@ -2,6 +2,8 @@
 using Ship.XWing;
 using Upgrade;
 using Mods.ModsList;
+using Abilities;
+using ActionsList;
 
 namespace UpgradesList
 {
@@ -16,26 +18,37 @@ namespace UpgradesList
             Cost = -1;
 
             ImageUrl = "https://i.imgur.com/Kz6l6SZ.png";
+
+            UpgradeAbilities.Add(new T65BAbility());
         }
 
         public override bool IsAllowedForShip(GenericShip ship)
         {
             return (ship is XWing);
+        }        
+    }
+}
+
+namespace Abilities
+{
+    public class T65BAbility : GenericAbility
+    {
+        public override void ActivateAbility()
+        {
+            HostShip.AfterGenerateAvailableActionsList += AddT65BAction;
         }
 
-        public override void AttachToShip(Ship.GenericShip host)
+        public override void DeactivateAbility()
         {
-            base.AttachToShip(host);
-
-            host.AfterGenerateAvailableActionsList += AddT65BAction;
+            HostShip.AfterGenerateAvailableActionsList -= AddT65BAction;
         }
 
-        private void AddT65BAction(Ship.GenericShip host)
+        private void AddT65BAction(GenericShip host)
         {
-            ActionsList.GenericAction newAction = new ActionsList.T65BAction()
+            GenericAction newAction = new T65BAction()
             {
-                ImageUrl = ImageUrl,
-                Host = Host
+                ImageUrl = HostUpgrade.ImageUrl,
+                Host = host
             };
             host.AddAvailableAction(newAction);
         }

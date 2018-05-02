@@ -275,13 +275,21 @@ namespace SquadBuilderNS
             slot.PreInstallUpgrade(upgrade, CurrentSquadBuilderShip.Instance);
         }
 
-        private static void InstallUpgrade(SquadBuilderShip ship, string upgradeName)
+        private static bool InstallUpgrade(SquadBuilderShip ship, string upgradeName)
         {
             string upgradeType = AllUpgrades.Find(n => n.UpgradeName == upgradeName).UpgradeTypeName;
             GenericUpgrade newUpgrade = (GenericUpgrade)System.Activator.CreateInstance(Type.GetType(upgradeType));
 
             List<UpgradeSlot> slots = FindFreeSlots(ship, newUpgrade.Types);
-            slots[0].PreInstallUpgrade(newUpgrade, ship.Instance);
+            if (slots.Count != 0)
+            {
+                slots[0].PreInstallUpgrade(newUpgrade, ship.Instance);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         private static List<UpgradeSlot> FindFreeSlots(SquadBuilderShip shipHolder, List<UpgradeType> upgradeTypes)
@@ -439,6 +447,13 @@ namespace SquadBuilderNS
             foreach (var squad in SquadLists)
             {
                 squad.SavedConfiguration = GetSquadInJson(squad.PlayerNo);
+
+                JSONObject playerInfoJson = new JSONObject();
+                playerInfoJson.AddField("NickName", Options.NickName);
+                playerInfoJson.AddField("Title", Options.Title);
+                playerInfoJson.AddField("Avatar", Options.Avatar);
+                squad.SavedConfiguration.AddField("PlayerInfo", playerInfoJson);
+
                 ClearShipsOfPlayer(squad.PlayerNo);
             }
         }
@@ -694,6 +709,8 @@ namespace SquadBuilderNS
                         GenericShip newShipInstance = (GenericShip)Activator.CreateInstance(Type.GetType(pilotRecord.PilotTypeName));
                         SquadBuilderShip newShip = AddPilotToSquad(newShipInstance, playerNo);
 
+                        List<string> upgradesThatCannotBeInstalled = new List<string>();
+
                         JSONObject upgradeJsons = pilotJson["upgrades"];
                         foreach (string upgradeType in upgradeJsons.keys)
                         {
@@ -701,8 +718,27 @@ namespace SquadBuilderNS
                             foreach (JSONObject upgradeRecord in upgradeNames.list)
                             {
                                 string upgradeName = AllUpgrades.Find(n => n.UpgradeNameCanonical == upgradeRecord.str).UpgradeName;
-                                InstallUpgrade(newShip, upgradeName);
+                                bool upgradeInstalledSucessfully = InstallUpgrade(newShip, upgradeName);
+                                if (!upgradeInstalledSucessfully) upgradesThatCannotBeInstalled.Add(upgradeName);
                             }
+                        }
+
+                        while (upgradeJsons.Count != 0)
+                        {
+                            List<string> upgradesThatCannotBeInstalledCopy = new List<string>(upgradesThatCannotBeInstalled);
+
+                            bool wasSuccess = false;
+                            foreach (var upgradeName in upgradesThatCannotBeInstalledCopy)
+                            {
+                                bool upgradeInstalledSucessfully = InstallUpgrade(newShip, upgradeName);
+                                if (upgradeInstalledSucessfully)
+                                {
+                                    wasSuccess = true;
+                                    upgradesThatCannotBeInstalled.Remove(upgradeName);
+                                }
+                            }
+
+                            if (!wasSuccess) break;
                         }
 
                         if (pilotJson.HasField("vendor"))

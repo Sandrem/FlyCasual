@@ -50,7 +50,7 @@ namespace Abilities
         {
             if (BoardManager.GetShipsAtRange(HostShip, new Vector2(1, 1), Team.Type.Friendly).Count > 0)
             {
-                RegisterAbilityTrigger(TriggerTypes.OnAttackFinishAsAttacker, AskSelectShip);
+                RegisterAbilityTrigger(TriggerTypes.OnAttackFinish, AskSelectShip);
             }
         }
 
@@ -60,7 +60,12 @@ namespace Abilities
                 PerformFreeAction,
                 FilterAbilityTargets,
                 GetAiAbilityPriority,
-                HostShip.Owner.PlayerNo
+                HostShip.Owner.PlayerNo,
+                true,
+                null,
+                HostShip.PilotName,
+                "Choose another ship.\nThat ship may perform free action.",
+                HostShip.ImageUrl
             );
         }
 

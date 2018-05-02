@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using SubPhases;
 using Players;
+using System;
 
 namespace GameModes
 { 
@@ -21,7 +22,8 @@ namespace GameModes
 
         public abstract void AssignManeuver(string maneuverCode);
 
-        public abstract void PerformStoredManeuver(int shipId);
+        public abstract void ActivateAndMove(int shipId);
+        public abstract void LaunchExtraMovement(Action callback);
 
         public abstract void GiveInitiativeToRandomPlayer();
 
@@ -48,7 +50,7 @@ namespace GameModes
         public abstract void UseDiceModification(string effectName);
 
         public abstract void ConfirmDiceResults();
-
+        public abstract void CompareResultsAndDealDamage();
         public abstract void SwitchToOwnDiceModifications();
 
         public abstract void TakeDecision(Decision decision, GameObject button);

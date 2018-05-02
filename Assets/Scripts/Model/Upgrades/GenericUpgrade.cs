@@ -78,6 +78,15 @@ namespace Upgrade
 
         public bool IsHidden;
 
+        internal void TryDiscard(object confirmDecision)
+        {
+            throw new NotImplementedException();
+        }
+
+        // Set to use as avatar
+
+        public Vector2 AvatarOffset;
+
         //public Type FromMod { get; set; }
         public Type FromMod { get; set; }
 
@@ -186,7 +195,6 @@ namespace Upgrade
 
         // ATTACH TO SHIP
 
-        [Obsolete("This is in the process of being depricated, please use new template instead: UpgradeAbilities.Add();", false)]
         public virtual void AttachToShip(GenericShip host)
         {
             Host = host;
@@ -241,6 +249,7 @@ namespace Upgrade
         public virtual void Discard(Action callBack)
         {
             isDiscarded = true;
+            PreDettachFromShip();
             Roster.DiscardUpgrade(Host, Name);
             DeactivateAbility();
 

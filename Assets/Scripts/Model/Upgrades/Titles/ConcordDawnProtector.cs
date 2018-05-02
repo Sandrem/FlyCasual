@@ -2,6 +2,8 @@
 using Ship.ProtectorateStarfighter;
 using UnityEngine;
 using Upgrade;
+using Abilities;
+using ActionsList;
 
 namespace UpgradesList
 {
@@ -12,25 +14,36 @@ namespace UpgradesList
             Types.Add(UpgradeType.Title);
             Name = "Concord Dawn Protector";
             Cost = 1;
+
+            UpgradeAbilities.Add(new ConcordDawnProtectorAbility());
         }
 
         public override bool IsAllowedForShip(GenericShip ship)
         {
             return ship is ProtectorateStarfighter;
         }
+    }
+}
 
-        public override void AttachToShip(GenericShip host)
+namespace Abilities
+{
+    public class ConcordDawnProtectorAbility : GenericAbility
+    {
+        public override void ActivateAbility()
         {
-            base.AttachToShip(host);
+            HostShip.AfterGenerateAvailableActionEffectsList += TryAddConcordDawnProtectorDiceModification;
+        }
 
-            host.AfterGenerateAvailableActionEffectsList += TryAddConcordDawnProtectorDiceModification;
+        public override void DeactivateAbility()
+        {
+            HostShip.AfterGenerateAvailableActionEffectsList -= TryAddConcordDawnProtectorDiceModification;
         }
 
         private void TryAddConcordDawnProtectorDiceModification(GenericShip host)
         {
-            ActionsList.GenericAction newAction = new ActionsList.ConcordDawnProtectorDiceModification()
+            GenericAction newAction = new ConcordDawnProtectorDiceModification()
             {
-                ImageUrl = ImageUrl,
+                ImageUrl = HostUpgrade.ImageUrl,
                 Host = host
             };
             host.AddAvailableActionEffect(newAction);

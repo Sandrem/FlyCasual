@@ -60,8 +60,13 @@ namespace Abilities
 					SelectAbilityTarget,
 					FilterAbilityTarget,
 					GetAiAbilityPriority,
-					HostShip.Owner.PlayerNo
-				);
+					HostShip.Owner.PlayerNo,
+                    true,
+                    null,
+                    HostShip.PilotName,
+                    "Choose a ship to remove 1 focus or evade token from it and assign this token to yourself.",
+                    HostShip.ImageUrl
+                );
 			} else {
 					Triggers.FinishTrigger();
 			}

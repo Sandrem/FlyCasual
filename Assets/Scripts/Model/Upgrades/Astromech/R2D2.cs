@@ -3,6 +3,7 @@ using Upgrade;
 using Abilities;
 using Ship;
 using Board;
+using UnityEngine;
 
 namespace UpgradesList
 {
@@ -15,6 +16,8 @@ namespace UpgradesList
             Name = "R2-D2";
             isUnique = true;
             Cost = 4;
+
+            AvatarOffset = new Vector2(19, 1);
 
             UpgradeAbilities.Add(new R2D2Ability());
         }

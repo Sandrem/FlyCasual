@@ -69,7 +69,12 @@ namespace Abilities
                 TargetToReassignIsSelected,
                 FilterAbilityTargets,
                 GetAiPriority,
-                HostShip.Owner.PlayerNo
+                HostShip.Owner.PlayerNo,
+                true,
+                null,
+                HostShip.PilotName,
+                "Choose another friendly ship to assign all your focus, evade and target lock tokens to it.",
+                HostShip.ImageUrl
             );
         }
 

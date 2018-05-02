@@ -6,6 +6,7 @@ using Ship;
 using System;
 using System.Linq;
 using Players;
+using UnityEngine.UI;
 
 namespace SubPhases
 {
@@ -32,6 +33,10 @@ namespace SubPhases
 
         public GenericShip TargetShip;
 
+        public string AbilityName;
+        public string Description;
+        public string ImageUrl;
+
         public override void Start()
         {
             IsTemporary = true;
@@ -42,6 +47,8 @@ namespace SubPhases
             CanBePaused = true;
 
             UpdateHelpInfo();
+
+            base.Start();
         }
 
         public override void Prepare()
@@ -49,24 +56,16 @@ namespace SubPhases
 
         }
 
-        public void PrepareByParametersOld(Action selectTargetAction, List<TargetTypes> targetTypes, Vector2 rangeLimits, bool showSkipButton = false)
-        {
-            targetsAllowed.AddRange(targetTypes);
-            minRange = (int) rangeLimits.x;
-            maxRange = (int) rangeLimits.y;
-
-            finishAction = selectTargetAction;
-
-            if (showSkipButton) UI.ShowSkipButton();
-        }
-
-        public void PrepareByParametersNew(Action selectTargetAction, Func<GenericShip, bool> filterTargets, Func<GenericShip, int> getAiPriority, PlayerNo subphaseOwnerPlayerNo, bool showSkipButton = true)
+        public void PrepareByParameters(Action selectTargetAction, Func<GenericShip, bool> filterTargets, Func<GenericShip, int> getAiPriority, PlayerNo subphaseOwnerPlayerNo, bool showSkipButton, string abilityName, string description, string imageUrl = null)
         {
             FilterTargets = filterTargets;
             GetAiPriority = getAiPriority;
             finishAction = selectTargetAction;
             RequiredPlayer = subphaseOwnerPlayerNo;
             if (showSkipButton) UI.ShowSkipButton();
+            AbilityName = abilityName;
+            Description = description;
+            ImageUrl = imageUrl;
         }
 
         public override void Initialize()
@@ -77,8 +76,27 @@ namespace SubPhases
 
         public void HighlightShipsToSelect()
         {
+            ShowSubphaseDescription();
             Roster.HighlightShipsFiltered(FilterTargets);
             IsInitializationFinished = true;
+        }
+
+        private void ShowSubphaseDescription()
+        {
+            if (AbilityName != null && Roster.GetPlayer(RequiredPlayer).GetType() == typeof(HumanPlayer))
+            {
+                GameObject subphaseDescriptionGO = GameObject.Find("UI").transform.Find("CurrentSubphaseDescription").gameObject;
+                subphaseDescriptionGO.transform.Find("CardImage").GetComponent<SmallCardArt>().Initialize(ImageUrl);
+                subphaseDescriptionGO.transform.Find("AbilityName").GetComponent<Text>().text = AbilityName;
+                subphaseDescriptionGO.transform.Find("Description").GetComponent<Text>().text = Description;
+                subphaseDescriptionGO.SetActive(true);
+            }
+        }
+
+        protected static void HideSubphaseDescription()
+        {
+            GameObject subphaseDescriptionGO = GameObject.Find("UI").transform.Find("CurrentSubphaseDescription").gameObject;
+            subphaseDescriptionGO.SetActive(false);
         }
 
         public void AiSelectPrioritizedTarget()
@@ -117,6 +135,8 @@ namespace SubPhases
         public override void Next()
         {
             Roster.AllShipsHighlightOff();
+            HideSubphaseDescription();
+
             Phases.CurrentSubPhase = Phases.CurrentSubPhase.PreviousSubPhase;
             UpdateHelpInfo();
         }
@@ -238,6 +258,7 @@ namespace SubPhases
         {
             Phases.CurrentSubPhase = PreviousSubPhase;
             Roster.AllShipsHighlightOff();
+            HideSubphaseDescription();
             Phases.CurrentSubPhase.Resume();
             UpdateHelpInfo();
         }
@@ -271,6 +292,20 @@ namespace SubPhases
             Action callback = Phases.CurrentSubPhase.CallBack;
             FinishSelectionNoCallback();
             callback();
+        }
+
+        public override void Pause()
+        {
+            base.Pause();
+
+            HideSubphaseDescription();
+        }
+
+        public override void Resume()
+        {
+            base.Resume();
+
+            ShowSubphaseDescription();
         }
 
     }

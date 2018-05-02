@@ -60,7 +60,7 @@ namespace ActionsList
         public JukeActionEffect()
         {
             Name = EffectName = "Juke";
-            IsOpposite = true;
+            DiceModificationTiming = DiceModificationTimingType.Opposite;
         }
 
         public override int GetActionEffectPriority()

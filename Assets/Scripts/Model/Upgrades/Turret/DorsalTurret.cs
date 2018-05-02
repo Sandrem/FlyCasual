@@ -1,10 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Upgrade;
+using Abilities;
 
 namespace UpgradesList
 {
-
     public class DorsalTurret : GenericSecondaryWeapon
     {
         public DorsalTurret() : base()
@@ -19,18 +19,29 @@ namespace UpgradesList
             AttackValue = 2;
 
             CanShootOutsideArc = true;
+
+            UpgradeAbilities.Add(new DorsalTurretAbility());
+        }        
+    }
+}
+
+namespace Abilities
+{
+    public class DorsalTurretAbility : GenericAbility
+    {
+        public override void ActivateAbility()
+        {
+            HostShip.AfterGotNumberOfAttackDice += AddDiceAtRangeOne;
         }
 
-        public override void AttachToShip(Ship.GenericShip host)
+        public override void DeactivateAbility()
         {
-            base.AttachToShip(host);
-
-            Host.AfterGotNumberOfAttackDice += AddDiceAtRangeOne;
+            HostShip.AfterGotNumberOfAttackDice -= AddDiceAtRangeOne;
         }
 
         private void AddDiceAtRangeOne(ref int diceCount)
         {
-            if (Combat.ChosenWeapon == this && Combat.ShotInfo.Range == 1)
+            if (Combat.ChosenWeapon == HostUpgrade && Combat.ShotInfo.Range == 1)
             {
                 diceCount++;
             }

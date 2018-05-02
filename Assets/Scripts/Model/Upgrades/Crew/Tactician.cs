@@ -1,5 +1,7 @@
 ﻿using Ship;
+using UnityEngine;
 using Upgrade;
+using Abilities;
 
 namespace UpgradesList
 {
@@ -10,29 +12,43 @@ namespace UpgradesList
             Types.Add(UpgradeType.Crew);
             Name = "Tactician";
             Cost = 2;
-            isLimited = true;            
+
+            isLimited = true;
+
+            AvatarOffset = new Vector2(41, 1);
+
+            UpgradeAbilities.Add(new TacticianAbility());
+        }
+    }
+}
+
+namespace Abilities
+{
+    public class TacticianAbility : GenericAbility
+    {
+        public override void ActivateAbility()
+        {
+            HostShip.OnAttackFinish += RegisterTrigger;
         }
 
-        public override void AttachToShip(Ship.GenericShip host)
+        public override void DeactivateAbility()
         {
-            base.AttachToShip(host);
-
-            host.OnAttackFinish += RegisterTrigger;
+            HostShip.OnAttackFinish -= RegisterTrigger;
         }
 
         private void RegisterTrigger(GenericShip ship)
-        {            
-            if (Combat.Attacker == Host && Combat.ShotInfo.InArc && Combat.ShotInfo.Range == 2)
+        {
+            if (Combat.Attacker == HostShip && Combat.ShotInfo.InArc && Combat.ShotInfo.Range == 2)
                 Triggers.RegisterTrigger(new Trigger()
                 {
                     Name = "Tactician's ability",
                     TriggerType = TriggerTypes.OnAttackFinish,
-                    TriggerOwner = Host.Owner.PlayerNo,
-                    EventHandler = TacticianAbility
+                    TriggerOwner = HostShip.Owner.PlayerNo,
+                    EventHandler = DoTacticianAbility
                 });
         }
 
-        private void TacticianAbility(object sender, System.EventArgs e)
+        private void DoTacticianAbility(object sender, System.EventArgs e)
         {
             Combat.Defender.Tokens.AssignToken(new Tokens.StressToken(Combat.Defender), delegate
             {
@@ -40,5 +56,6 @@ namespace UpgradesList
                 Triggers.FinishTrigger();
             });
         }
+
     }
 }

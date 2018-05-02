@@ -105,13 +105,12 @@ namespace Ship
         public bool IsCannotAttackSecondTime { get; set; }
         public bool CanAttackBumpedTargetAlways { get; set; }
         public bool IgnoressBombDetonationEffect { get; set; }
+        public bool AttackIsAlwaysConsideredHit { get; set; }
 
         // EVENTS
 
         public event EventHandlerShip OnActivationPhaseStart;
         public event EventHandlerShip OnActionSubPhaseStart;
-        public event EventHandlerShip OnCombatPhaseStart;
-        public event EventHandlerShip OnCombatPhaseEnd;
 
         public event EventHandlerBoolStringList OnTryPerformAttack;
         public static event EventHandlerBoolStringList OnTryPerformAttackGlobal;
@@ -173,12 +172,14 @@ namespace Ship
         public event EventHandlerShip OnAttackFinish;
         public event EventHandlerShip OnAttackFinishAsAttacker;
         public event EventHandlerShip OnAttackFinishAsDefender;
+        public static event EventHandlerShip OnAttackFinishGlobal;
 
         public event EventHandlerBombDropTemplates OnGetAvailableBombDropTemplates;
         public event EventHandlerBarrelRollTemplates OnGetAvailableBarrelRollTemplates;
         public event EventHandlerBoostTemplates OnGetAvailableBoostTemplates;
 
         public event EventHandlerDiceroll OnImmediatelyAfterRolling;
+        public event EventHandlerDiceroll OnImmediatelyAfterReRolling;
 
         public event EventHandlerBool OnWeaponsDisabledCheck;
 
@@ -335,6 +336,7 @@ namespace Ship
         public void CallAttackFinish()
         {
             if (OnAttackFinish != null) OnAttackFinish(this);
+            if (OnAttackFinishGlobal != null) OnAttackFinishGlobal(this);
         }
 
         public void CallAttackFinishAsAttacker()
@@ -352,6 +354,13 @@ namespace Ship
             if (OnImmediatelyAfterRolling != null) OnImmediatelyAfterRolling(diceroll);
 
             Triggers.ResolveTriggers(TriggerTypes.OnImmediatelyAfterRolling, callBack);
+        }
+
+        public void CallOnImmediatelyAfterReRolling(DiceRoll diceroll, Action callBack)
+        {
+            if (OnImmediatelyAfterReRolling != null) OnImmediatelyAfterReRolling(diceroll);
+
+            Triggers.ResolveTriggers(TriggerTypes.OnImmediatelyAfterReRolling, callBack);
         }
 
         public void CallOnAtLeastOneCritWasCancelledByDefender()
@@ -449,6 +458,7 @@ namespace Ship
             {
                 result = true;
                 Shields++;
+                AnimateShields();
                 AfterAssignedDamageIsChanged(this);
             };
             return result;
@@ -461,7 +471,7 @@ namespace Ship
             if (DebugManager.DebugDamage) Debug.Log("+++ Source: " + (e as DamageSourceEventArgs).Source);
             if (DebugManager.DebugDamage) Debug.Log("+++ DamageType: " + (e as DamageSourceEventArgs).DamageType);
 
-            bool isCritical = (AssignedDamageDiceroll.RegularSuccesses == 0);
+            bool isCritical = (AssignedDamageDiceroll.Successes > 0 && AssignedDamageDiceroll.RegularSuccesses == 0);
 
             if (isCritical)
             {
@@ -609,11 +619,14 @@ namespace Ship
                 if (IsSimultaneousFireRuleActive())
                 {
                     Messages.ShowInfo("Simultaneous attack rule is active");
-                    this.OnCombatDeactivation += RegisterShipDestruction;
+                    this.OnCombatDeactivation += RegisterShipDestructionSimultaneous;
                 }
                 else
                 {
-                    Combat.Attacker.OnAttackFinishAsAttacker += RegisterShipDestruction;
+                    Combat.Attacker.OnAttackFinishAsAttacker += RegisterShipDestructionUsual;
+
+                    //For splash damage
+                    Combat.Attacker.OnCombatDeactivation += RegisterShipDestructionUsual;
                 }
                 callback();
             }
@@ -643,15 +656,28 @@ namespace Ship
             );            
         }
 
-        private void RegisterShipDestruction(GenericShip shipToIgnore)
+        private void RegisterShipDestructionSimultaneous(GenericShip shipToIgnore)
         {
-            this.OnCombatDeactivation -= RegisterShipDestruction;
-            if (Combat.Attacker != null) Combat.Attacker.OnAttackFinish -= RegisterShipDestruction;
+            this.OnCombatDeactivation -= RegisterShipDestructionSimultaneous;
 
             Triggers.RegisterTrigger(new Trigger
             {
                 Name = "Destruction of ship #" + this.ShipId,
                 TriggerType = TriggerTypes.OnCombatDeactivation,
+                TriggerOwner = this.Owner.PlayerNo,
+                EventHandler = delegate { PerformShipDestruction(Triggers.FinishTrigger); }
+            });
+        }
+
+        private void RegisterShipDestructionUsual(GenericShip shipToIgnore)
+        {
+            Combat.Attacker.OnAttackFinishAsAttacker -= RegisterShipDestructionUsual;
+            Combat.Attacker.OnCombatDeactivation -= RegisterShipDestructionUsual;
+
+            Triggers.RegisterTrigger(new Trigger
+            {
+                Name = "Destruction of ship #" + this.ShipId,
+                TriggerType = TriggerTypes.OnAttackFinish,
                 TriggerOwner = this.Owner.PlayerNo,
                 EventHandler = delegate { PerformShipDestruction(Triggers.FinishTrigger); }
             });
@@ -666,12 +692,13 @@ namespace Ship
             foreach (var pilotAbility in PilotAbilities)
             {
                 pilotAbility.DeactivateAbility();
-                foreach (var upgrade in UpgradeBar.GetUpgradesOnlyFaceup())
+            }
+
+            foreach (var upgrade in UpgradeBar.GetUpgradesOnlyFaceup())
+            {
+                foreach (var upgradeAbility in upgrade.UpgradeAbilities)
                 {
-                    foreach (var upgradeAbility in upgrade.UpgradeAbilities)
-                    {
-                        upgradeAbility.DeactivateAbility();
-                    }
+                    upgradeAbility.DeactivateAbility();
                 }
             }
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using GameModes;
+using UnityEngine.UI;
 
 public delegate void CallBackFunction();
 

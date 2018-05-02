@@ -69,6 +69,8 @@ namespace SubPhases
 
         public override void Start()
         {
+            base.Start();
+
             IsTemporary = true;
 
             decisionPanel = GameObject.Find("UI").transform.Find("DecisionsPanel").gameObject;
@@ -238,9 +240,14 @@ namespace SubPhases
 
         public override void Resume()
         {
+            HideDecisionWindowUI();
+
+            base.Resume();
+
             Phases.CurrentSubPhase = this;
             UpdateHelpInfo();
-            Initialize();
+
+            GameMode.CurrentGameMode.StartSyncDecisionPreparation();
         }
 
         public override void Next()
@@ -250,8 +257,10 @@ namespace SubPhases
             UpdateHelpInfo();
         }
 
-        private void HideDecisionWindowUI()
+        protected void HideDecisionWindowUI()
         {
+            decisions = new List<Decision>();
+
             if (decisionPanel != null) decisionPanel.gameObject.SetActive(false);
 
             if (buttonsHolder != null)

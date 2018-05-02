@@ -1,9 +1,7 @@
 fileFormatVersion: 2
 guid: 338134a41bf6a8646889c203be3c69c8
-timeCreated: 1503273243
-licenseType: Free
 ModelImporter:
-  serializedVersion: 21
+  serializedVersion: 23
   fileIDToRecycleName:
     100000: small_base_Cube.002_TieBomber_TEX00000
     100002: Stand_sep134_TieBomber_TEX00000
@@ -587,10 +585,593 @@ ModelImporter:
     4300226: Stand_sep79_TieBomber_TEX00000
     4300228: Stand_sep87_TieBomber_TEX00000
     4300230: Stand_TieBomber_TEX00000
+    2186277476908879412: ImportLogs
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: 5caf3a749b1ba044194aeedc7023e7c3, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep134_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: db2615240365a3e498a2790b4c2eaaa9, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep135_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: 088d61cd4b2fcfd4baea50ef79530b5a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep136_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: 836ecbfbdd78f2343b38af8bfaa9b003, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep137_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: 7d035e6f700543840ac8d96920bf24fd, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep138_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: 87180c94bd8c2b3418d2eb16d4bfd71a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep139_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: ddd7b780dd9375d4793e2feb33c2a625, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep141_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: 0db8b5b0af2414344a8658e8aeb10aae, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep142_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: aa35267b303480d48953a9ad9d388456, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep144_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: 18cb8b051d96bff46b56d91b11f8abcc, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep145_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: 1edf4cdb4e788ae488598e5911ce28de, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep146_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: 2906d17c36b1bc2478c5fa3017f40a06, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep147_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: 185270e22cfa2cf45b777098cb460372, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep148_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: 1c49f06ff981ce84682fd86fdc0b6e9e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep149_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: 941782841d3143d4783a70d413b9d93b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep150_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: af092b6df5c695a45a3162f35153bb0e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep151_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: e564e0f6e7bee8f42a84e119bf65a7fb, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep152_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: 64a06c2ab93a52b44b59b95c8aa4f872, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep153_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: 780561d5952db9f49a3d4dae6fa96c2d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep154_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: d3613247f365e5348969e5807f4ac389, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep155_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: f31f059d792c1464d8667cbf01d45221, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep156_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: 141347852358d334398af41be6649979, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep157_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: 4dd3dc5b736eba54986ca50f8b876aa8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep158_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: c7953aa884bcc624694be5999b5b68d5, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep159_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: 426f6c94e71b2e343a89cbc978319adf, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep160_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: a983e6de8381ef94e8d30d2bef754a2d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep161_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: 33c92db136bab0847908be4de9aa7a0e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep162_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: 868ac1ee8f1aec441bb2384821e78680, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep163_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: 2b341ae517cd4264698d958f61f2e415, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep164_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: ed2726b09c9f9654d9159d9007f306ec, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep165_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: bd3000ceb83287747baae307b692108a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep166_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: 2440380c6ce8648409d2194db376c3a5, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep167_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: e68436c4a92c56f4eb1062fa9070c5db, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep168_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: 0285b231397d58a47bb543d03b78063f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep169_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: 11d70743c80a81241bef62f5f08babf3, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep170_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: bdd0d9b5403b6b14ea66c90125336a3a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep171_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: 0671e9878f1ee154c80ba661403b79a8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep172_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: 00bff44fb9bfc3448b3fd37e55428e9b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep173_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: 01af8910490362f49b8867fda7e219a9, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep174_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: 1478fc7f2856a93449a52a717013afc8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep175_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: 50770198b3b69bb4eb19320c3dd555fa, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep176_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: f9b610655b81f704f815eb6bac45ef13, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep177_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: 9f00e5ca0f00672418592433bba8a496, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep178_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: 3b46a6d04c251714eb99c93fc443f7bc, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep179_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: ef0a0cad5d398ce4d8623223c979b230, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep180_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: 42f159862548a66449766bd5fe84d0b6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep181_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: 2793cb2012927b148875ec46e99ab0a1, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep182_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: 52db078bd0396ba41b5e7aea29045672, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep183_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: 5365cd578e5d890478db868bbe9952df, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep184_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: e6569755399a6c24fab13e2bcc587254, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep185_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: 825b77afece686a4bba37e4f533697c8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep186_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: 66bd1111889ee3949bf91cbb950b049d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep187_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: a86238dfd4b2a1c40b575890010ad9fb, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep188_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: 6d949f91f68e70e4fb819a6eccfa20c5, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep189_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: 303746b4e8a3ed740af626c1f13f359c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep190_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: 7d4ffe4d4dbec1849a268016f24b939f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep191_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: 722b526a7cc7f4045b355c869651fb8e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep192_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: 55df21af869e4494ca72bdd33f835a5d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep193_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: 603fff0a979273541aca7544330d4b7a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep194_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: c0ec9b5bad5a59047a4ea16ccd16d52d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep195_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: c6aaa150d419e5f43a076b7695322eee, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep196_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: a5aea7f1e5d81654e9c3a3436e35e2f8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep197_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: 60bd8101fc3b00245b8da193b51292de, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep19_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: 94290037401925d40927925a77c4e44b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep201_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: 8b234306df4a51b46abe3089ea24cae0, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep202_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: 79056f7bdb8c7d54d88a790ad9d22491, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep203_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: 439d42862e3c21f4ba5eb4a0f4484f9c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep204_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: 1919dd8420f2485428e482c74c3ea87a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep205_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: 83a4194fc50d7bf46ae0c501f7b0024c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep206_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: e25f6703c0ba45546b075066cc415924, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep207_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: 852ed87417f9ea04abaf2cc722471999, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep208_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: d3278a7e4e0c0e748a40027f98da3266, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep209_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: 998e5990073ed6342a8d6919722fcc7e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep210_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: 98c038f7b6897a74385eee8719d4bb2a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep211_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: b00e0d3f1523bf141b5ccf2e7f171409, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep212_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: 503338b9bdfd72b4f9b1fd15c19b4350, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep213_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: ce47683e3035ab34189cbe0369232aca, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep214_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: 6b958ea6b3b971144ab3ab6689ff5c26, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep215_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: 9bf4690bd0aa34e48bdaa95cbc296323, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep216_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: f802d7f20fe780140babbb4787519413, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep217_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: e5af28a39801e5c429fee199a64efff2, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep218_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: 272501f0407abe04dac0e1eac1226cfb, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep219_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: 207d562adcf74754cadfabb58b42e4e4, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep220_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: 72ee693fa6f139f46a4f1472b8faee42, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep221_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: 62364965b063ecb4a96d806f53503e5d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep222_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: 9ac5dee1386541b4cbef094c8c5ab3a3, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep223_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: 7514cdb50a46db742a3b867a9be9820f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep224_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: cfadc639ade17594091072d1b5ce35b7, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep225_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: 0bee049279749ca418db273b105889e3, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep226_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: 60e21999a4cdacb46bf9c8f5847a8d92, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep227_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: 633bd7fbf22682147bac85a8fdb83a91, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep228_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: 44a2e275d1142b94aa6fb2c06d3eaa90, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep229_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: f0257f9b4856eb94b8b2f59f2cbb781e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep230_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: 92615e3988d2af446aa910b2eb1af8ed, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep231_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: 4a711b26a7fcb454f9ca49f99c77d17a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep232_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: 3a60a11b2b05e72418eb7f3e2234d611, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep233_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: 994a52750c195714d8b901a69d7260d2, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep234_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: f6f2c6a4951d1fb468eed400157ae0d1, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep235_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: 72582785e878de54ab5bfc9c042f5727, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep236_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: 0de3822f7b288494db4717a2aa57aac8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep237_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: 996a688b0473c9d43b97eba1f63c236b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep238_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: b9c70bec6f9cdf94d98d051f37feed29, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep239_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: 26cc827723f2d43478573143cb9a5d36, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep240_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: 4a614d43e1e1f9448bed72d5b3ba4023, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep241_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: f345cca6cfa66f845b80578a9d33af10, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep31_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: 16cb5689314938f4787184a62a2f1d2e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep35_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: b1380ce4865e20243a82749f0a05c788, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep36_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: 89ea7dfb45b62f74f982e3afd58e59e5, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep37_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: a7d94f0a445fbbe4180b1ba137c251c9, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep38_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: 1ada4d841a5e51640a982ce331ffab7d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep39_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: 0a22f83f7c1be764299ce05f82bfd714, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep40_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: 07d9c05db901c8042a89c6dff7e89aab, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep78_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: 7e90cf260053cc645990007c2ef0165d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep79_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: 174b635951b1a9242a7a6d9de25ae58d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stand_sep87_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: f869f5dc013f28e4697f2952f9e57051, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: small_base_Cube.002_TieBomber_TEX00000Mat
+    second: {fileID: 2100000, guid: e7e83ce0c43269c4582e16e1d279e831, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
     materialSearch: 1
+    materialLocation: 0
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
@@ -603,6 +1184,8 @@ ModelImporter:
     animationImportWarnings: 
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
     animationCompression: 1
     animationRotationError: 0.5
     animationPositionError: 0.5
@@ -627,11 +1210,15 @@ ModelImporter:
     optimizeMeshForGPU: 1
     keepQuads: 0
     weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 1
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
     secondaryUVPackMargin: 4
     useFileScale: 1
+    previousCalculatedGlobalScale: 1
+    hasPreviousCalculatedGlobalScale: 0
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 0

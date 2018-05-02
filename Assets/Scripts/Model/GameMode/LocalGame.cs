@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using SubPhases;
 using Players;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 namespace GameModes
 {
@@ -40,9 +41,14 @@ namespace GameModes
             (Phases.CurrentSubPhase as SetupSubPhase).ConfirmShipSetup(shipId, position, angles);
         }
 
-        public override void PerformStoredManeuver(int shipId)
+        public override void ActivateAndMove(int shipId)
         {
-            ShipMovementScript.PerformStoredManeuver(Selection.ThisShip.ShipId);
+            ShipMovementScript.ActivateAndMove(Selection.ThisShip.ShipId);
+        }
+
+        public override void LaunchExtraMovement(Action callback)
+        {
+            ShipMovementScript.LauchExtraMovement(callback);
         }
 
         public override void AssignManeuver(string maneuverCode)
@@ -143,6 +149,11 @@ namespace GameModes
             Combat.ConfirmDiceResultsClient();
         }
 
+        public override void CompareResultsAndDealDamage()
+        {
+            Combat.CompareResultsAndDealDamageClient();
+        }
+
         public override void SwitchToOwnDiceModifications()
         {
             Combat.SwitchToOwnDiceModificationsClient();
@@ -155,7 +166,7 @@ namespace GameModes
 
         public override void FinishMovementExecution()
         {
-            Selection.ActiveShip.CallExecuteMoving(delegate { Phases.FinishSubPhase(typeof(MovementExecutionSubPhase)); });
+            Triggers.FinishTrigger();
         }
 
         // Swarm Manager

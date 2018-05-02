@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using SubPhases;
 using UnityEngine;
 using System.Linq;
+using SquadBuilderNS;
 
 namespace UpgradesList
 {
@@ -27,6 +28,13 @@ namespace UpgradesList
         public override bool IsAllowedForShip(GenericShip ship)
         {
             return (ship is T70XWing) && (ship.PilotSkill > 6);
+        }
+
+        public override bool IsAllowedForSquadBuilderPostCheck(SquadList squadList)
+        {
+            bool result = Host.PilotSkill > 6;
+            if (!result) Messages.ShowError("You cannot equip \"Black One\" if pilot's skill is \"6\" or lower");
+            return result;
         }
     }
 }
@@ -59,13 +67,16 @@ namespace Abilities
 
         private void SelectTargetForRemoveTargetLock(object sender, EventArgs e)
         {
-            Messages.ShowInfoToHuman("Black One: Select ship to remove Red Target Lock token");
-
             SelectTargetForAbility(
                 RemoveEnemyTargetLock,
                 FilterTargetsOfAbility,
                 GetAiPriorityOfTarget,
-                HostShip.Owner.PlayerNo
+                HostShip.Owner.PlayerNo,
+                true,
+                null,
+                HostUpgrade.Name,
+                "Choose a ship to remove enemy Target Lock from it.",
+                HostUpgrade.ImageUrl
             );
         }
 

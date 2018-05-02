@@ -4,6 +4,7 @@ using UnityEngine;
 using Upgrade;
 using Abilities;
 using Ship;
+using ActionsList;
 
 namespace UpgradesList
 {
@@ -17,10 +18,12 @@ namespace UpgradesList
             Cost = 2;
             isUnique = true;
 
+            AvatarOffset = new Vector2(43, 6);
+
             UpgradeAbilities.Add(new BistanAbility());
         }
  
-        public override bool IsAllowedForShip(Ship.GenericShip ship)
+        public override bool IsAllowedForShip(GenericShip ship)
         {
             return ship.faction == Faction.Rebel;
         }
@@ -43,9 +46,10 @@ namespace Abilities
 
         private void BistanAddAction(GenericShip ship)
         {
-            ActionsList.GenericAction action = new ActionsList.BistanAction()
+            GenericAction action = new BistanAction()
             {
-                Host = this.HostShip
+                Host = this.HostShip,
+                ImageUrl = HostUpgrade.ImageUrl
             };
             ship.AddAvailableActionEffect(action);
         }

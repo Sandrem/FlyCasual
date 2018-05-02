@@ -13,6 +13,8 @@ namespace SubPhases
 
         public override void Start()
         {
+            base.Start();
+
             Name = "Activation SubPhase";
         }
 
@@ -166,7 +168,7 @@ namespace SubPhases
         {
             if (!ship.IsManeuverPerformed)
             {
-                GameMode.CurrentGameMode.PerformStoredManeuver(Selection.ThisShip.ShipId);
+                GameMode.CurrentGameMode.ActivateAndMove(Selection.ThisShip.ShipId);
             }
             else
             {

@@ -6,6 +6,7 @@ using UnityEngine;
 using Upgrade;
 using UpgradesList;
 using Abilities;
+using Ship;
 
 namespace UpgradesList
 {
@@ -42,20 +43,29 @@ namespace Abilities
 
 		public override void DeactivateAbility()
 		{
+            // Ability is turned off only after full attack is finished
+            HostShip.OnCombatDeactivation += DeactivateAbilityPlanned;
+        }
 
-		}
+        private void DeactivateAbilityPlanned(GenericShip ship)
+        {
+            HostShip.OnCombatDeactivation -= DeactivateAbilityPlanned;
+            HostShip.OnShotHitAsAttacker -= RegisterIonPulseMissleHit;
+        }
 
-		private void RegisterIonPulseMissleHit()
+        private void RegisterIonPulseMissleHit()
 		{
-			if (Combat.ChosenWeapon == this.HostUpgrade) {
-				Triggers.RegisterTrigger (new Trigger () {
-					Name = "Ion Pulse Missile Hit",
-					TriggerType = TriggerTypes.OnShotHit,
-					TriggerOwner = Combat.Attacker.Owner.PlayerNo,
-					EventHandler = delegate {
-						IonPulseMissilesHitEffect ();
-					}
-				}
+			if (Combat.ChosenWeapon == this.HostUpgrade)
+            {
+				Triggers.RegisterTrigger (
+                    new Trigger () {
+					    Name = "Ion Pulse Missile Hit",
+					    TriggerType = TriggerTypes.OnShotHit,
+					    TriggerOwner = Combat.Attacker.Owner.PlayerNo,
+					    EventHandler = delegate {
+						    IonPulseMissilesHitEffect ();
+					    }
+				    }
 				);
 			}
 		}

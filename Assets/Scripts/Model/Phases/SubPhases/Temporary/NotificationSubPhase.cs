@@ -14,6 +14,8 @@ namespace SubPhases
 
         public override void Start()
         {
+            Roster.HighlightOfPlayersTurnOff();
+
             Name = "Notification";
             IsTemporary = true;
             UpdateHelpInfo();

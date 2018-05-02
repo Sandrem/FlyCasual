@@ -188,22 +188,7 @@ public partial class DiceRerollManager
     {
         GameObject.Find("UI/CombatDiceResultsPanel").transform.Find("DiceModificationsPanel").gameObject.SetActive(isActive);
 
-        if (isActive)
-        {
-            Combat.ToggleConfirmDiceResultsButton(true);
-            if (!IsOpposite)
-            {
-                Combat.ShowDiceModificationButtons();
-            }
-            else
-            {
-                Combat.ShowOppositeDiceModificationButtons();
-            }
-        }
-        else
-        {
-            Combat.HideDiceModificationButtons();
-        }
+        if (!isActive) Combat.HideDiceModificationButtons();
     }
 
     private void ToggleDiceRerollsPanel(bool isActive)

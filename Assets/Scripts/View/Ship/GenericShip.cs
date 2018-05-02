@@ -230,7 +230,7 @@ namespace Ship
             shipAllParts.Find("Ionization").gameObject.SetActive(isIonized);
         }
 
-        public void ToggleTransparent(bool isTransparent)
+        public void ToggleCloaked(bool isTransparent)
         {
             foreach (Transform transform in GetModelTransform())
             {
@@ -239,6 +239,8 @@ namespace Ship
                 {
                     renderer.material.shader = (isTransparent) ? Shader.Find("VR/SpatialMapping/Occlusion") : Shader.Find("Standard");
                 }
+
+                shipAllParts.Find("ShipBase/ShipPeg").gameObject.SetActive(!isTransparent);
             }
         }
 

@@ -35,7 +35,7 @@ namespace Tokens
             Host.OnActivationPhaseStart += RegisterAskDecloak;
 
             Host.ToggleIonized(true);
-            Host.ToggleTransparent(true);
+            Host.ToggleCloaked(true);
         }
 
         private void RegisterAskDecloak(GenericShip ship)
@@ -80,7 +80,7 @@ namespace Tokens
             Host.OnActivationPhaseStart -= RegisterAskDecloak;
 
             Host.ToggleIonized(false);
-            Host.ToggleTransparent(false);
+            Host.ToggleCloaked(false);
         }
 
     }

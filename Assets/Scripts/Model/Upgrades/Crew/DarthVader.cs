@@ -3,6 +3,7 @@ using Ship;
 using SubPhases;
 using Abilities;
 using System;
+using UnityEngine;
 
 namespace UpgradesList
 {
@@ -47,7 +48,7 @@ namespace Abilities
 
 		private void RegisterVaderAbility(GenericShip ship)
 		{
-			RegisterAbilityTrigger (TriggerTypes.OnAttackFinishAsAttacker, AskToUseVaderAbility);
+			RegisterAbilityTrigger (TriggerTypes.OnAttackFinish, AskToUseVaderAbility);
 		}
 
 		//Confirmation for Darth Vader Ability

@@ -268,32 +268,31 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     // SHIP MOVEMENT
 
     [Command]
-    public void CmdActvateAndMove(int shipId)
+    public void CmdActivateForMovement(int shipId)
     {
-        if (DebugManager.DebugNetwork) UI.AddTestLogEntry("S: CmdPerformStoredManeuver");
+        RpcActivateForMovement(shipId);
 
-        new NetworkExecuteWithCallback(
+        /*new NetworkExecuteWithCallback(
             "Wait maneuver execution",
             delegate { CmdActvateAndMoveStart(shipId); },
             delegate { CmdFinishManeuver(shipId); }
-        );
+        );*/
     }
 
-    [Command]
+    /*[Command]
     public void CmdActvateAndMoveStart(int shipId)
     {
         if (DebugManager.DebugNetwork) UI.AddTestLogEntry("S: CmdLaunchStoredManeuver");
         RpcActvateAndMoveStart(shipId);
-    }
+    }*/
 
     [ClientRpc]
-    private void RpcActvateAndMoveStart(int shipId)
+    private void RpcActivateForMovement(int shipId)
     {
-        if (DebugManager.DebugNetwork) UI.AddTestLogEntry("C: RpcLaunchStoredManeuver");
         ShipMovementScript.ActivateAndMove(shipId);
     }
 
-    [Command]
+    /*[Command]
     public void CmdFinishManeuver(int shipId)
     {
         if (DebugManager.DebugNetwork) UI.AddTestLogEntry("S: CmdFinishManeuver");
@@ -306,7 +305,7 @@ public partial class NetworkPlayerController : NetworkBehaviour {
         if (DebugManager.DebugNetwork) UI.AddTestLogEntry("S: RpcFinishManeuver");
 
         Triggers.FinishTrigger();
-    }
+    }*/
 
     // Extra Movement
 
@@ -338,7 +337,7 @@ public partial class NetworkPlayerController : NetworkBehaviour {
         }
         else
         {
-            ShipMovementScript.LauchExtraMovement(null);
+            ShipMovementScript.LaunchMovement(null);
         }
     }
 

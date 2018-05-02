@@ -22,8 +22,8 @@ namespace GameModes
 
         public abstract void AssignManeuver(string maneuverCode);
 
-        public abstract void ActivateAndMove(int shipId);
-        public abstract void LaunchExtraMovement(Action callback);
+        public abstract void ActivateShipForMovement(int shipId);
+        public abstract void LaunchMovement(Action callback);
 
         public abstract void GiveInitiativeToRandomPlayer();
 

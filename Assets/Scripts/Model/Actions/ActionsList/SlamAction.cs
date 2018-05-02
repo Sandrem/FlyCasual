@@ -54,7 +54,7 @@ namespace ActionsList
 
         private void ExecuteSelectedManeuver()
         {
-            GameMode.CurrentGameMode.LaunchExtraMovement(AssignWeaponsDisabledToken);
+            GameMode.CurrentGameMode.LaunchMovement(AssignWeaponsDisabledToken);
         }
 
         private void AssignWeaponsDisabledToken()

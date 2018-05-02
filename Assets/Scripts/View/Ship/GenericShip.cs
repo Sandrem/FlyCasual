@@ -230,6 +230,18 @@ namespace Ship
             shipAllParts.Find("Ionization").gameObject.SetActive(isIonized);
         }
 
+        public void ToggleTransparent(bool isTransparent)
+        {
+            foreach (Transform transform in GetModelTransform())
+            {
+                Renderer renderer = transform.GetComponent<Renderer>();
+                if (renderer != null)
+                {
+                    renderer.material.shader = (isTransparent) ? Shader.Find("VR/SpatialMapping/Occlusion") : Shader.Find("Standard");
+                }
+            }
+        }
+
         public void PlayDestroyedAnimSound(System.Action callBack)
         {
             int random = Random.Range(1, 8);

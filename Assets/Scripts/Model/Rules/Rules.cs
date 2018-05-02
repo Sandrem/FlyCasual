@@ -22,7 +22,6 @@ public static class Rules
     public static IonizationRule Ionization { get; private set; }
     public static JammedRule Jammed { get; private set; }
     public static TargetLocksRule TargetLocks { get; private set; }
-    public static CloakRule Cloak { get; private set; }
     public static WeaponsDisabledRule WeaponsDisabled { get; private set; }
     public static BullseyeArcRule BullseyeArc { get; private set; }
     public static DockingRule Docking { get; private set; }
@@ -46,7 +45,6 @@ public static class Rules
         Ionization = new IonizationRule();
         Jammed = new JammedRule();
         TargetLocks = new TargetLocksRule();
-        Cloak = new CloakRule();
         WeaponsDisabled = new WeaponsDisabledRule();
         BullseyeArc = new BullseyeArcRule();
         Docking = new DockingRule();

@@ -17,13 +17,13 @@ namespace ActionsList
             Selection.ThisShip.OnTryConfirmDiceResults += CheckMustUseReinforce;
         }
 
-        private void CheckMustUseReinforce(ref bool result)
+        protected void CheckMustUseReinforce(ref bool result)
         {
             if (Combat.AttackStep == CombatStep.Defence)
             {
-                if (Combat.Defender.GetAvailableActionEffectsList().Any(n => n.GetType().BaseType == typeof(GenericReinforceAction)))
+                if (Combat.Defender.GetAvailableActionEffectsList().Any(n => n is GenericReinforceAction))
                 {
-                    Messages.ShowError("Cannot confirm results - must use reinforce dice modification!");
+                    Messages.ShowError(string.Format("Cannot confirm results - must use {0} dice modification!", EffectName));
                     result = false;
                 }
             }
@@ -39,10 +39,10 @@ namespace ActionsList
         public override bool IsActionAvailable()
         {
             bool result = true;
-            if ((Host.IsAlreadyExecutedAction(typeof(ReinforceForeAction))) || (Host.IsAlreadyExecutedAction(typeof(ReinforceAftAction))))
+            if (Host.IsAlreadyExecutedAction<ReinforceForeAction>() || Host.IsAlreadyExecutedAction<ReinforceAftAction>())
             {
                 result = false;
-            };
+            }
             return result;
         }
 

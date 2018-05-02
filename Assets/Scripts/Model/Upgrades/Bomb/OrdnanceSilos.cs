@@ -3,29 +3,36 @@ using System.Collections.Generic;
 using Abilities;
 using SubPhases;
 using System;
+using Ship;
+using Ship.BSF17Bomber;
+using UnityEngine;
 
 namespace UpgradesList
 {
-    public class ExtraMunitions : GenericUpgrade
+    public class OrdnanceSilos : GenericUpgrade
     {
-        public ExtraMunitions() : base()
+        public OrdnanceSilos() : base()
         {
-            Types.Add(UpgradeType.Torpedo);
-            Name = "Extra Munitions";
+            Types.Add(UpgradeType.Bomb);
+            Name = "Ordnance Silos";
             Cost = 2;
-            isLimited = true;
 
-            UpgradeAbilities.Add(new ExtraMunitionsAbility());
+            UpgradeAbilities.Add(new OrdnanceSilosAbility());
+        }
+
+        public override bool IsAllowedForShip(GenericShip ship)
+        {
+            return ship is BSF17Bomber;
         }
     }
 }
 
 namespace Abilities
 {
-    public class ExtraMunitionsAbility : GenericAbility
+    public class OrdnanceSilosAbility : GenericAbility
     {
-        private List<GenericUpgrade> upgradesWithOrdnanceToken = new List<GenericUpgrade>();
-        private string ordnanceTokenMarker = " (EM)";
+        private Dictionary<GenericUpgrade, int> upgradesWithOrdnanceTokens = new Dictionary<GenericUpgrade, int>();
+        private string ordnanceTokenMarker = " (4)";
 
         public override void ActivateAbility()
         {
@@ -43,16 +50,16 @@ namespace Abilities
         {
             foreach (var upgrade in HostShip.UpgradeBar.GetUpgradesOnlyFaceup())
             {
-                if (upgrade.hasType(UpgradeType.Torpedo) || upgrade.hasType(UpgradeType.Missile) || upgrade.hasType(UpgradeType.Bomb))
+                if (upgrade.hasType(UpgradeType.Bomb))
                 {
-                    SetOrdnanceToken(upgrade);
+                    SetOrdnanceTokens(upgrade);
                 }
             }
         }
 
-        private void SetOrdnanceToken(GenericUpgrade upgrade)
+        private void SetOrdnanceTokens(GenericUpgrade upgrade)
         {
-            upgradesWithOrdnanceToken.Add(upgrade);
+            upgradesWithOrdnanceTokens.Add(upgrade, 3);
             if (upgrade.Name != HostUpgrade.Name) upgrade.Name += ordnanceTokenMarker;
 
             Roster.UpdateUpgradesPanel(HostShip, HostShip.InfoPanel);
@@ -60,21 +67,33 @@ namespace Abilities
 
         public void RemoveOrdnanceToken(GenericUpgrade upgrade)
         {
-            upgradesWithOrdnanceToken.Remove(GenericUpgrade.CurrentUpgrade);
+            upgradesWithOrdnanceTokens[GenericUpgrade.CurrentUpgrade]--;
 
-            GenericUpgrade.CurrentUpgrade.Name = GenericUpgrade.CurrentUpgrade.Name.Replace(ordnanceTokenMarker, "");
+            int tokensLeft = upgradesWithOrdnanceTokens[GenericUpgrade.CurrentUpgrade];
+            Debug.Log(tokensLeft);
+            if (tokensLeft == 0)
+            {
+                GenericUpgrade.CurrentUpgrade.Name = GenericUpgrade.CurrentUpgrade.Name.Replace(" (2)", "");
+                upgradesWithOrdnanceTokens.Remove(GenericUpgrade.CurrentUpgrade);
+            }
+            else
+            {
+                Debug.Log(GenericUpgrade.CurrentUpgrade.Name);
+                GenericUpgrade.CurrentUpgrade.Name = GenericUpgrade.CurrentUpgrade.Name.Replace(" (" + (tokensLeft+2) + ")", " (" + (tokensLeft+1) + ")");
+            }
+
             Roster.UpdateUpgradesPanel(HostShip, HostShip.InfoPanel);
         }
 
         private void CheckOrdnanceToken()
         {
-            if (upgradesWithOrdnanceToken.Contains(GenericUpgrade.CurrentUpgrade))
+            if (upgradesWithOrdnanceTokens.ContainsKey(GenericUpgrade.CurrentUpgrade))
             {
-                RegisterAbilityTrigger(TriggerTypes.OnDiscard, AskExtraMunitionsDecision);
+                RegisterAbilityTrigger(TriggerTypes.OnDiscard, AskUseTokenInstead);
             }
         }
 
-        private void AskExtraMunitionsDecision(object sender, EventArgs e)
+        private void AskUseTokenInstead(object sender, EventArgs e)
         {
             if (!alwaysUseAbility)
             {

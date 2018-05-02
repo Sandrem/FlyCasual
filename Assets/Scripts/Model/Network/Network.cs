@@ -186,10 +186,10 @@ public static partial class Network
 
     public static void ActivateAndMove(int shipId)
     {
-        CurrentPlayer.CmdActvateAndMove(shipId);
+        CurrentPlayer.CmdActivateForMovement(shipId);
     }
 
-    public static void LauchExtraMovement()
+    public static void LaunchMovement()
     {
         if (IsServer) CurrentPlayer.CmdLauchExtraMovement();
     }

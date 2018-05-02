@@ -41,14 +41,14 @@ namespace GameModes
             (Phases.CurrentSubPhase as SetupSubPhase).ConfirmShipSetup(shipId, position, angles);
         }
 
-        public override void ActivateAndMove(int shipId)
+        public override void ActivateShipForMovement(int shipId)
         {
             ShipMovementScript.ActivateAndMove(Selection.ThisShip.ShipId);
         }
 
-        public override void LaunchExtraMovement(Action callback)
+        public override void LaunchMovement(Action callback)
         {
-            ShipMovementScript.LauchExtraMovement(callback);
+            ShipMovementScript.LaunchMovement(callback);
         }
 
         public override void AssignManeuver(string maneuverCode)

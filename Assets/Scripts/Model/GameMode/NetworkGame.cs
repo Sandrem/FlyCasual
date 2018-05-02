@@ -42,16 +42,15 @@ namespace GameModes
             Network.ConfirmShipSetup(shipId, position, angles);
         }
 
-        public override void ActivateAndMove(int shipId)
+        public override void ActivateShipForMovement(int shipId)
         {
-            if (DebugManager.DebugNetwork) UI.AddTestLogEntry("PERFORM STORED MANEUVER");
             Network.ActivateAndMove(Selection.ThisShip.ShipId);
         }
 
-        public override void LaunchExtraMovement(Action callback)
+        public override void LaunchMovement(Action callback)
         {
             ShipMovementScript.ExtraMovementCallback = callback;
-            Network.LauchExtraMovement();
+            Network.LaunchMovement();
         }
 
         public override void AssignManeuver(string maneuverCode)

@@ -65,7 +65,7 @@ public class ShipMovementScript : MonoBehaviour {
 
         Selection.ThisShip.SetAssignedManeuver(MovementFromString(maneuverCode));
 
-        if (Phases.CurrentSubPhase.GetType() == typeof(SubPhases.PlanningSubPhase))
+        if (Phases.CurrentSubPhase.GetType() == typeof(PlanningSubPhase))
         {
             Roster.HighlightShipOff(Selection.ThisShip);
 
@@ -125,19 +125,7 @@ public class ShipMovementScript : MonoBehaviour {
 
     public void PerformStoredManeuverButtonIsPressed()
     {
-        GameMode.CurrentGameMode.ActivateAndMove(Selection.ThisShip.ShipId);
-    }
-
-    private static void ReadyRoRevealManeuver()
-    {
-        Selection.ThisShip.CallManeuverIsReadyToBeRevealed(RevealManeuver);
-    }
-
-    private static void RevealManeuver()
-    {
-        Selection.ThisShip.CallManeuverIsRevealed(
-            delegate { LaunchMovement(FinishMovementAndStartActionDecision); }
-        );
+        GameMode.CurrentGameMode.ActivateShipForMovement(Selection.ThisShip.ShipId);
     }
 
     public static void ActivateAndMove(int shipId)
@@ -149,29 +137,39 @@ public class ShipMovementScript : MonoBehaviour {
         Selection.ThisShip.CallMovementActivation(ReadyRoRevealManeuver);
     }
 
+    private static void ReadyRoRevealManeuver()
+    {
+        Selection.ThisShip.CallManeuverIsReadyToBeRevealed(RevealManeuver);
+    }
+
+    private static void RevealManeuver()
+    {
+        Selection.ThisShip.CallManeuverIsRevealed(
+            delegate { GameMode.CurrentGameMode.LaunchMovement(FinishMovementAndStartActionDecision); }
+        );
+    }
+
     private static void FinishMovementAndStartActionDecision()
     {
         GenericSubPhase actionSubPhase = new ActionSubPhase();
         actionSubPhase.PreviousSubPhase = Phases.CurrentSubPhase;
-
-        Phases.FinishSubPhase(typeof(MovementExecutionSubPhase));
 
         Phases.CurrentSubPhase = actionSubPhase;
         Phases.CurrentSubPhase.Start();
         Phases.CurrentSubPhase.Initialize();
     }
 
-    public static void LauchExtraMovement(Action callback)
+    public static void LaunchMovement(Action callback)
     {
         if (callback == null) callback = ExtraMovementCallback;
 
-        LaunchMovement(delegate {
+        LaunchMovementPrepared(delegate {
             Phases.FinishSubPhase(typeof(MovementExecutionSubPhase));
             callback();
         });
     }
 
-    private static void LaunchMovement(Action callback)
+    private static void LaunchMovementPrepared(Action callback)
     {
         Triggers.RegisterTrigger(new Trigger()
         {

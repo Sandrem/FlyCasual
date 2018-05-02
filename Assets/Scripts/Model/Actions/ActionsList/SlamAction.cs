@@ -54,6 +54,7 @@ namespace ActionsList
 
         private void ExecuteSelectedManeuver()
         {
+            Host.AssignedManeuver.IsRealMovement = false;
             GameMode.CurrentGameMode.LaunchMovement(AssignWeaponsDisabledToken);
         }
 

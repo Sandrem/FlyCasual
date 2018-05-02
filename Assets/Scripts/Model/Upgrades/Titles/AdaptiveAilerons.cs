@@ -81,7 +81,7 @@ namespace Abilities
             Triggers.RegisterTrigger(
                 new Trigger()
                 {
-                    Name = "Ailerons Planning",
+                    Name = "SLAM Planning",
                     TriggerType = TriggerTypes.OnAbilityDirect,
                     TriggerOwner = Selection.ThisShip.Owner.PlayerNo,
                     EventHandler = SelectAdaptiveAileronsManeuver
@@ -96,13 +96,13 @@ namespace Abilities
             HostShip.Owner.ChangeManeuver(
                 (maneuverCode) => {
                     GameMode.CurrentGameMode.AssignManeuver(maneuverCode);
-                    HostShip.OnMovementFinish += RestoreManeuverColors;
+                    HostShip.OnMovementFinish += RestoreManuverColors;
                 },
                 AdaptiveAileronsFilter
             );
         }
 
-        private void RestoreManeuverColors(GenericShip ship)
+        private void RestoreManuverColors(GenericShip ship)
         {
             foreach (var changedManeuver in ChangedManeuversCodes)
             {
@@ -112,12 +112,14 @@ namespace Abilities
 
         private void ExecuteSelectedManeuver()
         {
+            HostShip.AssignedManeuver.IsRealMovement = false;
             GameMode.CurrentGameMode.LaunchMovement(FinishAdaptiveAileronsAbility);
         }
 
         private void FinishAdaptiveAileronsAbility()
         {
-            GameMode.CurrentGameMode.AssignManeuver(SavedManeuver.ToString());
+            ShipMovementScript.AssignManeuver(Selection.ThisShip.ShipId, SavedManeuver.ToString());
+            //GameMode.CurrentGameMode.AssignManeuver(SavedManeuver.ToString());
             // It calls Triggers.FinishTrigger
         }
 

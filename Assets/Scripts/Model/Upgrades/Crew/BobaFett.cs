@@ -112,10 +112,12 @@ namespace SubPhases
             var upgrades = Combat.Defender.UpgradeBar.GetUpgradesOnlyFaceup();
             foreach(var upgrade in upgrades)
             {
-                AddDecision(upgrade.Name, (s, e) => DiscardUpgrade(upgrade));
+                AddDecision(upgrade.Name, (s, e) => DiscardUpgrade(upgrade), upgrade.ImageUrl);
             }
 
             DefaultDecisionName = upgrades[0].Name;
+
+            DecisionViewType = DecisionViewTypes.ImageButtons;
 
             callBack();
         }

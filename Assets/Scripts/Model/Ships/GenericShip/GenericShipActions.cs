@@ -239,6 +239,13 @@ namespace Ship
             return result;
         }
 
+        public bool IsAlreadyExecutedAction<T>() where T : GenericAction
+        {
+            bool result = false;
+            result = AlreadyExecutedActions.Any(a => a is T);            
+            return result;
+        }
+
         // ACTION EFFECTS
 
         public void GenerateAvailableActionEffectsList()

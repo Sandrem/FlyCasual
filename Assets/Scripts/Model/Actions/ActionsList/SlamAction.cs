@@ -54,7 +54,7 @@ namespace ActionsList
 
         private void ExecuteSelectedManeuver()
         {
-            Host.AssignedManeuver.IsRealMovement = false;
+            Selection.ThisShip.AssignedManeuver.IsRealMovement = false;
             GameMode.CurrentGameMode.LaunchMovement(AssignWeaponsDisabledToken);
         }
 

@@ -52,6 +52,9 @@ namespace Abilities
 
         private void RegisterAdaptiveAileronsAbility(GenericShip ship)
         {
+            // AI doesn't know how to boost
+            if (HostShip.Owner.GetType() == typeof(Players.HotacAiPlayer)) return;
+
             RegisterAbilityTrigger(TriggerTypes.OnManeuverIsReadyToBeRevealed, CheckCanUseAbility);
         }
 

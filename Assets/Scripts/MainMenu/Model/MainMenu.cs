@@ -216,7 +216,7 @@ public partial class MainMenu : MonoBehaviour {
 
     private void SetRuleSet()
     {
-        new RuleSets.SingleShip32pts();
+        new RuleSets.SecondEdition();
     }
 
 }

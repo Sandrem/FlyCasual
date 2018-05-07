@@ -12,5 +12,21 @@ namespace RuleSets
         public override int MaxPoints { get { return 200; } }
         public override int MinShipsCount { get { return 1; } }
         public override int MaxShipsCount { get { return 8; } }
+
+        public override void EvadeDiceModification(DiceRoll diceRoll)
+        {
+            if (diceRoll.Blanks > 0)
+            {
+                diceRoll.ChangeOne(DieSide.Blank, DieSide.Success);
+            }
+            else if (diceRoll.Focuses > 0)
+            {
+                diceRoll.ChangeOne(DieSide.Focus, DieSide.Success);
+            }
+            else
+            {
+                Messages.ShowError("Evade Token is spent, but no effect");
+            }
+        }
     }
 }

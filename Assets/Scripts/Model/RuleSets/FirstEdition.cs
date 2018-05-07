@@ -12,5 +12,10 @@ namespace RuleSets
         public override int MaxPoints { get { return 100; } }
         public override int MinShipsCount { get { return 1; } }
         public override int MaxShipsCount { get { return 8; } }
+
+        public override void EvadeDiceModification(DiceRoll diceRoll)
+        {
+            diceRoll.AddDice(DieSide.Success).ShowWithoutRoll();
+        }
     }
 }

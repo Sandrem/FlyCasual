@@ -8,7 +8,8 @@ namespace ActionsList
     public class EvadeAction : GenericAction
     {
 
-        public EvadeAction() {
+        public EvadeAction()
+        {
             Name = EffectName = "Evade";
 
             TokensSpend.Add(typeof(Tokens.EvadeToken));

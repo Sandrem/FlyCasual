@@ -18,5 +18,7 @@ namespace RuleSets
         {
             Instance = this;
         }
+
+        public abstract void EvadeDiceModification(DiceRoll diceRoll);
     }
 }

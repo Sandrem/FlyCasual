@@ -8,6 +8,7 @@ using UnityEngine;
 using Upgrade;
 using GameModes;
 using UnityEngine.SceneManagement;
+using RuleSets;
 
 namespace SquadBuilderNS
 {
@@ -471,7 +472,8 @@ namespace SquadBuilderNS
 
         private static bool ValidatePlayerRoster(PlayerNo playerNo)
         {
-            if (RosterIsEmpty(playerNo)) return false;
+            if (!ValidateMinShipsCount(playerNo)) return false;
+            if (!ValidateMaxShipsCount(playerNo)) return false;
             if (!ValidateUniqueCards(playerNo)) return false;
             if (!ValidateSquadCost(playerNo)) return false;
             if (!ValidateLimitedCards(playerNo)) return false;
@@ -482,13 +484,24 @@ namespace SquadBuilderNS
             return true;
         }
 
-        private static bool RosterIsEmpty(PlayerNo playerNo)
+        private static bool ValidateMinShipsCount(PlayerNo playerNo)
         {
-            bool result = false;
-            if (GetSquadList(playerNo).GetShips().Count == 0)
+            bool result = true;
+            if (GetSquadList(playerNo).GetShips().Count < RuleSet.Instance.MinShipsCount)
             {
-                result = true;
-                Messages.ShowError("At least one pilot must be present");
+                result = false;
+                Messages.ShowError("Minimum number of pilots is required: " + RuleSet.Instance.MinShipsCount);
+            }
+            return result;
+        }
+
+        private static bool ValidateMaxShipsCount(PlayerNo playerNo)
+        {
+            bool result = true;
+            if (GetSquadList(playerNo).GetShips().Count > RuleSet.Instance.MaxShipsCount)
+            {
+                result = false;
+                Messages.ShowError("Maximum number of pilots is required: " + RuleSet.Instance.MaxShipsCount);
             }
             return result;
         }
@@ -537,9 +550,9 @@ namespace SquadBuilderNS
 
             if (!DebugManager.DebugNoSquadPointsLimit)
             {
-                if (GetSquadCost(playerNo) > 100)
+                if (GetSquadCost(playerNo) > RuleSet.Instance.MaxPoints)
                 {
-                    Messages.ShowError("Cost of squadron cannot be more than 100");
+                    Messages.ShowError("Cost of squadron cannot be more than " + RuleSet.Instance.MaxPoints);
                     result = false;
                 }
             }

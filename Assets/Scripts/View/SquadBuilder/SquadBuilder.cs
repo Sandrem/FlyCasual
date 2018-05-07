@@ -9,6 +9,7 @@ using UnityEngine.UI;
 using Upgrade;
 using System.IO;
 using Ship;
+using RuleSets;
 
 namespace SquadBuilderNS
 {
@@ -421,8 +422,8 @@ namespace SquadBuilderNS
         private static void UpdateSquadCost(int squadCost, string panelName)
         {
             Text targetText = GameObject.Find("UI/Panels/" + panelName + "/ControlsPanel/SquadCostText").GetComponent<Text>();
-            targetText.text = squadCost.ToString() + " / 100";
-            targetText.color = (squadCost > 100) ? new Color(1, 0, 0, 200f/255f) : new Color(0, 0, 0, 200f / 255f);
+            targetText.text = squadCost.ToString() + " / " + RuleSet.Instance.MaxPoints;
+            targetText.color = (squadCost > RuleSet.Instance.MaxPoints) ? new Color(1, 0, 0, 200f/255f) : new Color(0, 0, 0, 200f / 255f);
         }
 
         private static void GenerateShipWithSlotsPanels()

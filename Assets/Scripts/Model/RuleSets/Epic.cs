@@ -9,6 +9,6 @@ namespace RuleSets
     {
         public override string Name { get { return "Epic"; } }
 
-        public override int MaxPoints { get { return 300; } }}
+        public override int MaxPoints { get { return 300; } }
     }
 }

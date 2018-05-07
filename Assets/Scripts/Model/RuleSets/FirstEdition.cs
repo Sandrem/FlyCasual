@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Ship;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,6 +17,12 @@ namespace RuleSets
         public override void EvadeDiceModification(DiceRoll diceRoll)
         {
             diceRoll.AddDice(DieSide.Success).ShowWithoutRoll();
+        }
+
+        public override void ActionIsFailed(GenericShip ship, Type actionType)
+        {
+            ship.RemoveAlreadyExecutedAction(actionType);
+            Phases.CurrentSubPhase.PreviousSubPhase.Resume();
         }
     }
 }

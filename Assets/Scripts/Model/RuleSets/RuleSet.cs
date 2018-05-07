@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Ship;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,5 +21,6 @@ namespace RuleSets
         }
 
         public abstract void EvadeDiceModification(DiceRoll diceRoll);
+        public abstract void ActionIsFailed(GenericShip ship, Type actionType);
     }
 }

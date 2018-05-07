@@ -1,4 +1,6 @@
-﻿using System;
+﻿using GameModes;
+using Ship;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -27,6 +29,13 @@ namespace RuleSets
             {
                 Messages.ShowError("Evade Token is spent, but no effect");
             }
+        }
+
+        public override void ActionIsFailed(GenericShip ship, Type actionType)
+        {
+            Messages.ShowError("Action is failed and skipped");
+            Phases.CurrentSubPhase.PreviousSubPhase.Resume();
+            GameMode.CurrentGameMode.SkipButtonEffect();
         }
     }
 }

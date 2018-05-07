@@ -338,7 +338,7 @@ public static partial class Combat
     private static void CheckTwinAttack()
     {
         Upgrade.GenericSecondaryWeapon chosenSecondaryWeapon = ChosenWeapon as Upgrade.GenericSecondaryWeapon;
-        if (chosenSecondaryWeapon != null && chosenSecondaryWeapon.IsTwinAttack)
+        if (chosenSecondaryWeapon != null && chosenSecondaryWeapon.IsTwinAttack && !(Defender.IsDestroyed || Defender.IsReadyToBeDestroyed))
         {
             if (attacksCounter == 0)
             {

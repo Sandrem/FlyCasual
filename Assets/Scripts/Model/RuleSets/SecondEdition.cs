@@ -4,9 +4,20 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEngine;
 
 namespace RuleSets
 {
+    interface ISecondEditionShip
+    {
+        void AdaptShipToSecondEdition();
+    }
+
+    interface ISecondEditionPilot
+    {
+        void AdaptPilotToSecondEdition();
+    }
+
     public class SecondEdition : RuleSet
     {
         public override string Name { get { return "Second Edition"; } }
@@ -36,6 +47,34 @@ namespace RuleSets
             Messages.ShowError("Action is failed and skipped");
             Phases.CurrentSubPhase.PreviousSubPhase.Resume();
             GameMode.CurrentGameMode.SkipButtonEffect();
+        }
+
+        public override bool ShipIsAllowed(GenericShip ship)
+        {
+            return ship.ShipRuleType == typeof(SecondEdition);
+        }
+
+        public override bool PilotIsAllowed(GenericShip ship)
+        {
+            return ship.PilotRuleType == typeof(SecondEdition);
+        }
+
+        public override void AdaptShipToRules(GenericShip ship)
+        {
+            if (ship is ISecondEditionShip)
+            {
+                (ship as ISecondEditionShip).AdaptShipToSecondEdition();
+                ship.ShipRuleType = typeof(SecondEdition);
+            }
+        }
+
+        public override void AdaptPilotToRules(GenericShip ship)
+        {
+            if (ship is ISecondEditionPilot)
+            {
+                (ship as ISecondEditionPilot).AdaptPilotToSecondEdition();
+                ship.PilotRuleType = typeof(SecondEdition);
+            }
         }
     }
 }

@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Ship;
 using System;
+using RuleSets;
 
 namespace Ship
 {
     namespace XWing
     {
-        public class LukeSkywalker : XWing
+        public class LukeSkywalker : XWing, ISecondEditionPilot
         {
             public LukeSkywalker() : base()
             {
@@ -21,6 +22,15 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
                 PilotAbilities.Add(new Abilities.LukeSkywalkerAbility());
+            }
+
+            public void AdaptPilotToSecondEdition()
+            {
+                PilotSkill = 5;
+                Force = 2;
+                ImageUrl = "https://i.imgur.com/8p67yDy.jpg";
+                Cost = 0; // TODO: Change
+                //TODO: Change ability
             }
         }
     }

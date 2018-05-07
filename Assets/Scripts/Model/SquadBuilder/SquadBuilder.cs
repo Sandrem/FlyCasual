@@ -158,6 +158,7 @@ namespace SquadBuilderNS
                 {
                     namespaceList.Add(ns);
                     GenericShip newShipTypeContainer = (GenericShip)System.Activator.CreateInstance(System.Type.GetType(ns + "." + ns.Substring(5)));
+                    RuleSet.Instance.AdaptShipToRules(newShipTypeContainer);
 
                     if (AllShips.Find(n => n.ShipName == newShipTypeContainer.Type) == null)
                     {
@@ -190,6 +191,8 @@ namespace SquadBuilderNS
                 if (type.MemberType == MemberTypes.NestedType) continue;
 
                 GenericShip newShipContainer = (GenericShip)System.Activator.CreateInstance(type);
+                RuleSet.Instance.AdaptPilotToRules(newShipContainer);
+
                 if ((newShipContainer.PilotName != null) && (newShipContainer.IsAllowedForSquadBuilder()))
                 {
                     if ((newShipContainer.faction == faction) || faction == Faction.None)
@@ -720,6 +723,8 @@ namespace SquadBuilderNS
 
                         PilotRecord pilotRecord = AllPilots.Find(n => n.PilotName == pilotNameGeneral && n.PilotShip.ShipName == shipNameGeneral && n.PilotFaction == faction);
                         GenericShip newShipInstance = (GenericShip)Activator.CreateInstance(Type.GetType(pilotRecord.PilotTypeName));
+                        RuleSet.Instance.AdaptShipToRules(newShipInstance);
+                        RuleSet.Instance.AdaptPilotToRules(newShipInstance);
                         SquadBuilderShip newShip = AddPilotToSquad(newShipInstance, playerNo);
 
                         List<string> upgradesThatCannotBeInstalled = new List<string>();

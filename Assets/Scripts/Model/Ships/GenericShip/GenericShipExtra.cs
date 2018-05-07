@@ -5,6 +5,7 @@ using UnityEngine;
 using Mods;
 using ActionsList;
 using Upgrade;
+using RuleSets;
 
 namespace Ship
 {
@@ -27,6 +28,9 @@ namespace Ship
         public event EventHandlerActionInt OnAiGetDiceModificationPriority;
 
         public GenericShip Host;
+
+        public Type ShipRuleType = typeof(FirstEdition);
+        public Type PilotRuleType = typeof(FirstEdition);
 
         private string imageUrl;
         public string ImageUrl

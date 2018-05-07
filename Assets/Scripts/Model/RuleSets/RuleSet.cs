@@ -22,5 +22,9 @@ namespace RuleSets
 
         public abstract void EvadeDiceModification(DiceRoll diceRoll);
         public abstract void ActionIsFailed(GenericShip ship, Type actionType);
+        public abstract bool PilotIsAllowed(GenericShip ship);
+        public abstract bool ShipIsAllowed(GenericShip ship);
+        public abstract void AdaptShipToRules(GenericShip ship);
+        public abstract void AdaptPilotToRules(GenericShip ship);
     }
 }

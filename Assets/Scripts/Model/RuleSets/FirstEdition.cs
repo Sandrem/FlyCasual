@@ -24,5 +24,25 @@ namespace RuleSets
             ship.RemoveAlreadyExecutedAction(actionType);
             Phases.CurrentSubPhase.PreviousSubPhase.Resume();
         }
+
+        public override bool PilotIsAllowed(GenericShip ship)
+        {
+            return ship.PilotRuleType == typeof(SecondEdition);
+        }
+
+        public override bool ShipIsAllowed(GenericShip ship)
+        {
+            return ship.ShipRuleType == typeof(FirstEdition);
+        }
+
+        public override void AdaptShipToRules(GenericShip ship)
+        {
+            // No adaptation is required
+        }
+
+        public override void AdaptPilotToRules(GenericShip ship)
+        {
+            // No adaptation is required
+        }
     }
 }

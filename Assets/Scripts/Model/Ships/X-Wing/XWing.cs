@@ -4,12 +4,13 @@ using UnityEngine;
 using Movement;
 using ActionsList;
 using Ship;
+using RuleSets;
 
 namespace Ship
 {
     namespace XWing
     {
-        public class XWing : GenericShip, IMovableWings
+        public class XWing : GenericShip, IMovableWings, ISecondEditionShip
         {
             public WingsPositions CurrentWingsPosition { get; set; }
 
@@ -77,6 +78,16 @@ namespace Ship
                 Maneuvers.Add("5.F.R", ManeuverColor.None);
             }
 
+            public void AdaptShipToSecondEdition()
+            {
+                MaxHull = 5;
+                PrintedActions.Add(new BarrelRollAction());
+
+                Maneuvers["2.L.B"] = ManeuverColor.Green;
+                Maneuvers["2.R.B"] = ManeuverColor.Green;
+                Maneuvers["3.L.E"] = ManeuverColor.Red;
+                Maneuvers["3.R.E"] = ManeuverColor.Red;
+            }
         }
     }
 }

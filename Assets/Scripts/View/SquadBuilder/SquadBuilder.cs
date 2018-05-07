@@ -70,7 +70,7 @@ namespace SquadBuilderNS
             {
                 if (ship.Instance.factions.Contains(faction) && !ship.Instance.IsHidden)
                 {
-                    ShowAvailableShip(ship);
+                    if (RuleSet.Instance.ShipIsAllowed(ship.Instance)) ShowAvailableShip(ship);
                 }
             }
         }
@@ -119,7 +119,7 @@ namespace SquadBuilderNS
 
             foreach (PilotRecord pilot in AllPilotsFiltered)
             {
-                ShowAvailablePilot(pilot);
+                if (RuleSet.Instance.PilotIsAllowed(pilot.Instance)) ShowAvailablePilot(pilot);
             }
         }
 
@@ -141,6 +141,8 @@ namespace SquadBuilderNS
             GameObject newPilotPanel = MonoBehaviour.Instantiate(prefab, contentTransform);
 
             GenericShip newShip = (GenericShip)Activator.CreateInstance(Type.GetType(pilotRecord.PilotTypeName));
+            RuleSet.Instance.AdaptShipToRules(newShip);
+            RuleSet.Instance.AdaptPilotToRules(newShip);
 
             PilotPanelSquadBuilder script = newPilotPanel.GetComponent<PilotPanelSquadBuilder>();
             script.Initialize(newShip, PilotSelectedIsClicked, true);

@@ -4,6 +4,7 @@ using UnityEngine;
 using Arcs;
 using Abilities;
 using System;
+using RuleSets;
 
 namespace Ship
 {
@@ -68,6 +69,7 @@ namespace Ship
 
 
         public int Shields { get; protected set; }
+        public int Force { get; protected set; }
         public int Cost { get; protected set; }
 
         public int TargetLockMinRange { get; protected set; }

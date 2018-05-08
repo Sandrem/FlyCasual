@@ -16,6 +16,8 @@ namespace UpgradesList
             Cost = 5;
 
             isUnique = true;
+
+            UpgradeAbilities.Add(new OutriderAbility());
         }
 
         public override bool IsAllowedForShip(GenericShip ship)

@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using Upgrade;
 using Abilities;
+using RuleSets;
 
 namespace UpgradesList
 {
 
-    public class IonCannonTurret : GenericSecondaryWeapon
+    public class IonCannonTurret : GenericSecondaryWeapon, ISecondEditionUpgrade
     {
         public IonCannonTurret() : base()
         {
@@ -23,6 +24,11 @@ namespace UpgradesList
             CanShootOutsideArc = true;
 
             UpgradeAbilities.Add(new IonCannonTurretAbility());
+        }
+
+        public void AdaptUpgradeToSecondEdition()
+        {
+            // No changes
         }
     }
 }

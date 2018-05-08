@@ -6,10 +6,11 @@ using Upgrade;
 using Abilities;
 using Ship;
 using ActionsList;
+using RuleSets;
 
 namespace UpgradesList
 {
-    public class ProtonTorpedoes : GenericSecondaryWeapon
+    public class ProtonTorpedoes : GenericSecondaryWeapon, ISecondEditionUpgrade
     {
         public ProtonTorpedoes() : base()
         {
@@ -28,6 +29,11 @@ namespace UpgradesList
             IsDiscardedForShot = true;
 
             UpgradeAbilities.Add(new ProtonTorpedoesAbility());
+        }
+
+        public void AdaptUpgradeToSecondEdition()
+        {
+            MaxCharges = 2;
         }
     }
 }

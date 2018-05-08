@@ -6,11 +6,12 @@ using Upgrade;
 using Abilities;
 using ActionsList;
 using Ship;
+using RuleSets;
 
 namespace UpgradesList
 {
 
-    public class Predator : GenericUpgrade
+    public class Predator : GenericUpgrade, ISecondEditionUpgrade
     {
         public Predator() : base()
         {
@@ -19,6 +20,11 @@ namespace UpgradesList
             Cost = 3;
 
             UpgradeAbilities.Add(new PredatorAbility());
+        }
+
+        public void AdaptUpgradeToSecondEdition()
+        {
+            // Do nothing
         }
     }
 }

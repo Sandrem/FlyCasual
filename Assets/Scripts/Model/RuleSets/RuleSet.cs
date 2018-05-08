@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Upgrade;
 
 namespace RuleSets
 {
@@ -26,5 +27,6 @@ namespace RuleSets
         public abstract bool ShipIsAllowed(GenericShip ship);
         public abstract void AdaptShipToRules(GenericShip ship);
         public abstract void AdaptPilotToRules(GenericShip ship);
+        public abstract void AdaptUpgradeToRules(GenericUpgrade upgrade);
     }
 }

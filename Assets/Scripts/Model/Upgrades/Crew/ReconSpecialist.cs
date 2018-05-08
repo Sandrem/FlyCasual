@@ -2,10 +2,11 @@
 using UnityEngine;
 using Upgrade;
 using Abilities;
+using RuleSets;
 
 namespace UpgradesList
 {
-    class ReconSpecialist : GenericUpgrade
+    class ReconSpecialist : GenericUpgrade, ISecondEditionUpgrade
     {
         public ReconSpecialist() : base()
         {
@@ -16,6 +17,11 @@ namespace UpgradesList
             AvatarOffset = new Vector2(42, 3);
 
             UpgradeAbilities.Add(new ReconSpecialistAbility());
+        }
+
+        public void AdaptUpgradeToSecondEdition()
+        {
+            Name = "Perceptive Copilot";
         }
     }
 }

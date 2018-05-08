@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
+using Upgrade;
 
 namespace RuleSets
 {
@@ -16,6 +17,11 @@ namespace RuleSets
     interface ISecondEditionPilot
     {
         void AdaptPilotToSecondEdition();
+    }
+
+    interface ISecondEditionUpgrade
+    {
+        void AdaptUpgradeToSecondEdition();
     }
 
     public class SecondEdition : RuleSet
@@ -74,6 +80,17 @@ namespace RuleSets
             {
                 (ship as ISecondEditionPilot).AdaptPilotToSecondEdition();
                 ship.PilotRuleType = typeof(SecondEdition);
+            }
+        }
+
+        public override void AdaptUpgradeToRules(GenericUpgrade upgrade)
+        {
+            if (upgrade is ISecondEditionUpgrade)
+            {
+                (upgrade as ISecondEditionUpgrade).AdaptUpgradeToSecondEdition();
+                upgrade.Charges = upgrade.MaxCharges;
+
+                upgrade.UpgradeRuleType = typeof(SecondEdition);
             }
         }
     }

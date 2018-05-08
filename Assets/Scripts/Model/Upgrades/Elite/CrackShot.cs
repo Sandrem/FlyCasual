@@ -4,11 +4,12 @@ using Abilities;
 using System;
 using Tokens;
 using UnityEngine;
+using RuleSets;
 
 namespace UpgradesList
 {
 
-    public class CrackShot : GenericUpgrade
+    public class CrackShot : GenericUpgrade, ISecondEditionUpgrade
     {
 
         public CrackShot() : base()
@@ -20,6 +21,11 @@ namespace UpgradesList
             AvatarOffset = new Vector2(43, 1);
 
             UpgradeAbilities.Add(new CrackShotAbility());
+        }
+
+        public void AdaptUpgradeToSecondEdition()
+        {
+            MaxCharges = 1;
         }
     }
 }

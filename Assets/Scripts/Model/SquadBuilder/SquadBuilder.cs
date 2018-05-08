@@ -238,6 +238,8 @@ namespace SquadBuilderNS
                 {
                     if (AllUpgrades.Find(n => n.UpgradeName == newUpgradeContainer.Name) == null)
                     {
+                        RuleSet.Instance.AdaptUpgradeToRules(newUpgradeContainer);
+
                         AllUpgrades.Add(new UpgradeRecord()
                         {
                             UpgradeName = newUpgradeContainer.Name,
@@ -283,6 +285,7 @@ namespace SquadBuilderNS
         {
             string upgradeType = AllUpgrades.Find(n => n.UpgradeName == upgradeName).UpgradeTypeName;
             GenericUpgrade newUpgrade = (GenericUpgrade)System.Activator.CreateInstance(Type.GetType(upgradeType));
+            RuleSet.Instance.AdaptUpgradeToRules(newUpgrade);
 
             List<UpgradeSlot> slots = FindFreeSlots(ship, newUpgrade.Types);
             if (slots.Count != 0)

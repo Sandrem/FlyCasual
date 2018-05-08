@@ -523,7 +523,7 @@ namespace SquadBuilderNS
 
             foreach (UpgradeRecord upgrade in filteredUpgrades)
             {
-                ShowAvailableUpgrade(upgrade);
+                if (upgrade.Instance.UpgradeRuleType == RuleSet.Instance.GetType()) ShowAvailableUpgrade(upgrade);
             }
         }
 
@@ -535,6 +535,7 @@ namespace SquadBuilderNS
 
             string upgradeType = AllUpgrades.Find(n => n.UpgradeName == upgrade.UpgradeName).UpgradeTypeName;
             GenericUpgrade newUpgrade = (GenericUpgrade)System.Activator.CreateInstance(Type.GetType(upgradeType));
+            RuleSet.Instance.AdaptUpgradeToRules(newUpgrade);
 
             UpgradePanelSquadBuilder script = newUpgradePanel.GetComponent<UpgradePanelSquadBuilder>();
             script.Initialize(upgrade.UpgradeName, CurrentUpgradeSlot, newUpgrade, SelectUpgradeClicked, true);

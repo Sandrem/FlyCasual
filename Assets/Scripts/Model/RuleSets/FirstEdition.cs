@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Upgrade;
 
 namespace RuleSets
 {
@@ -41,6 +42,11 @@ namespace RuleSets
         }
 
         public override void AdaptPilotToRules(GenericShip ship)
+        {
+            // No adaptation is required
+        }
+
+        public override void AdaptUpgradeToRules(GenericUpgrade upgrade)
         {
             // No adaptation is required
         }

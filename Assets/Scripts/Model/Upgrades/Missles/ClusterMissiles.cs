@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RuleSets;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,7 +8,7 @@ using Upgrade;
 namespace UpgradesList
 {
 
-    public class ClusterMissiles : GenericSecondaryWeapon
+    public class ClusterMissiles : GenericSecondaryWeapon, ISecondEditionUpgrade
     {
         public ClusterMissiles() : base()
         {
@@ -26,6 +27,11 @@ namespace UpgradesList
             IsDiscardedForShot = true;
 
             IsTwinAttack = true;
+        }
+
+        public void AdaptUpgradeToSecondEdition()
+        {
+            MaxCharges = 3;
         }
     }
 

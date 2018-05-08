@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Ship;
+using RuleSets;
 
 namespace Upgrade
 {
@@ -73,6 +74,10 @@ namespace Upgrade
                 imageUrl = value;
             }
         }
+
+        public Type UpgradeRuleType = typeof(FirstEdition);
+        public int MaxCharges { get; set; }
+        public int Charges { get; set; }
 
         // SQUAD BUILDER ONLY
 

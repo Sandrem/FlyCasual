@@ -7,11 +7,12 @@ using Upgrade;
 using UpgradesList;
 using Abilities;
 using Ship;
+using RuleSets;
 
 namespace UpgradesList
 {
-	public class IonTorpedoes : GenericSecondaryWeapon
-	{
+	public class IonTorpedoes : GenericSecondaryWeapon, ISecondEditionUpgrade
+    {
 		public IonTorpedoes () : base()
 		{
 			Types.Add(UpgradeType.Torpedo);
@@ -29,7 +30,12 @@ namespace UpgradesList
 
 			UpgradeAbilities.Add(new IonTorpedoesAbility());
 		}
-	}
+
+        public void AdaptUpgradeToSecondEdition()
+        {
+            MaxCharges = 2;
+        }
+    }
 }
 
 namespace Abilities

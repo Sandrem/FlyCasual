@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Movement;
 using ActionsList;
+using RuleSets;
 
 namespace Ship
 {
     namespace TIEFighter
     {
-        public class TIEFighter : GenericShip, TIE
+        public class TIEFighter : GenericShip, TIE, ISecondEditionShip
         {
 
             public TIEFighter() : base()
@@ -69,6 +70,11 @@ namespace Ship
                 Maneuvers.Add("4.F.R", ManeuverColor.Red);
                 Maneuvers.Add("5.F.S", ManeuverColor.White);
                 Maneuvers.Add("5.F.R", ManeuverColor.None);
+            }
+
+            public void AdaptShipToSecondEdition()
+            {
+                // Do nothing
             }
 
         }

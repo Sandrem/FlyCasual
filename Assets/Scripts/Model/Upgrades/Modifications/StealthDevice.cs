@@ -31,7 +31,7 @@ namespace Abilities
         public override void DeactivateAbility()
         {
             HostShip.ChangeAgilityBy(-1);
-            HostShip.OnAttackHitAsDefender += RegisterStealthDeviceCleanup;
+            HostShip.OnAttackHitAsDefender -= RegisterStealthDeviceCleanup;
         }
 
         private void RegisterStealthDeviceCleanup()

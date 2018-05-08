@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Movement;
 using ActionsList;
+using RuleSets;
 
 namespace Ship
 {
     namespace ProtectorateStarfighter
     {
-        public class ProtectorateStarfighter : GenericShip
+        public class ProtectorateStarfighter : GenericShip, ISecondEditionShip
         {
 
             public ProtectorateStarfighter() : base()
@@ -65,6 +66,11 @@ namespace Ship
                 Maneuvers.Add("4.F.S", ManeuverColor.White);
                 Maneuvers.Add("4.F.R", ManeuverColor.Red);
                 Maneuvers.Add("5.F.S", ManeuverColor.White);
+            }
+
+            public void AdaptShipToSecondEdition()
+            {
+                // No changes
             }
 
         }

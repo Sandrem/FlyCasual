@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Abilities;
 using UnityEngine;
 using Upgrade;
 
@@ -24,6 +21,8 @@ namespace UpgradesList
             RequiresTargetLockOnTargetToShoot = true;
 
             IsDiscardedForShot = true;
+
+            UpgradeAbilities.Add(new CruiseMissilesAbility());
         }
 
     }

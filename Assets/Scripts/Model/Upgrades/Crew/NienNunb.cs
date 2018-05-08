@@ -39,7 +39,7 @@ namespace Abilities
 
         public override void DeactivateAbility()
         {
-            HostShip.AfterGetManeuverColorDecreaseComplexity += NienNunbAbility;
+            HostShip.AfterGetManeuverColorDecreaseComplexity -= NienNunbAbility;
         }
 
         private void NienNunbAbility(GenericShip ship, ref MovementStruct movement)

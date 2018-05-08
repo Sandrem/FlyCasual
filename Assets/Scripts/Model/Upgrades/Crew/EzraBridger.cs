@@ -41,7 +41,7 @@ namespace Abilities
 
         public override void DeactivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList += EzraBridgerActionEffect;
+            HostShip.AfterGenerateAvailableActionEffectsList -= EzraBridgerActionEffect;
         }
 
         private void EzraBridgerActionEffect(GenericShip host)

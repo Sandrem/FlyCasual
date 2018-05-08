@@ -37,7 +37,7 @@ namespace Abilities
 
         public override void DeactivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList += AdvancedTargetingComputerDiceModification;
+            HostShip.AfterGenerateAvailableActionEffectsList -= AdvancedTargetingComputerDiceModification;
         }
 
         private void AdvancedTargetingComputerDiceModification(GenericShip host)

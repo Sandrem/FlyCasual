@@ -41,7 +41,7 @@ namespace Abilities
 
         public override void DeactivateAbility()
         {
-            HostShip.OnActionIsPerformed += CheckKullbeeSperadoAbility;
+            HostShip.OnActionIsPerformed -= CheckKullbeeSperadoAbility;
         }
 
         private void CheckKullbeeSperadoAbility(GenericAction action)

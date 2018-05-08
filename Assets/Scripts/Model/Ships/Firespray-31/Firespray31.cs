@@ -80,6 +80,8 @@ namespace Ship
 
             public void AdaptShipToSecondEdition()
             {
+                ShipBaseSize = BaseSize.Medium;
+
                 MaxHull = 6;
                 MaxShields = 2;
 
@@ -94,8 +96,8 @@ namespace Ship
 
                 PrintedUpgradeIcons.Remove(PrintedUpgradeIcons.Find(n => n.GetType() == typeof(EvadeAction)));
 
-                PrintedActions.Add(new ReinforceAftAction());
-                PrintedActions.Add(new ReinforceForeAction());
+                PrintedActions.Add(new ReinforceAftAction() {Host = this});
+                PrintedActions.Add(new ReinforceForeAction() {Host = this});
                 PrintedActions.Add(new BoostAction());
             }
 

@@ -9,6 +9,7 @@ namespace Ship
     public enum BaseSize
     {
         Small,
+        Medium,
         Large
     }
 
@@ -53,6 +54,8 @@ namespace Ship
             shipBase.transform.localEulerAngles = shipBase.transform.localEulerAngles + new Vector3(0, 180, 0);
             shipBase.transform.localPosition = Vector3.zero;
             shipBase.name = "ShipBase";
+
+            Host.GetShipAllPartsTransform().localPosition = Host.GetShipAllPartsTransform().localPosition + new Vector3(0, 0, -HALF_OF_SHIPSTAND_SIZE);
 
             SetShipBaseEdges();
         }

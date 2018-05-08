@@ -23,12 +23,5 @@ namespace Ship
             CreateShipBase();
         }
 
-        protected override void CreateShipBase()
-        {
-            base.CreateShipBase();
-
-            Host.GetShipAllPartsTransform().localPosition = Host.GetShipAllPartsTransform().localPosition + new Vector3(0f, 0f, -0.5f);
-        }
-
     }
 }

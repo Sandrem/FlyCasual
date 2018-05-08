@@ -40,6 +40,9 @@ namespace Ship
                 case BaseSize.Small:
                     ShipBase = new ShipBaseSmall(this);
                     break;
+                case BaseSize.Medium:
+                    ShipBase = new ShipBaseMedium(this);
+                    break;
                 case BaseSize.Large:
                     ShipBase = new ShipBaseLarge(this);
                     break;

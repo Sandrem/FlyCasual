@@ -6,12 +6,13 @@ using ActionsList;
 using Tokens;
 using Ship;
 using SubPhases;
+using RuleSets;
 
 namespace Ship
 {
     namespace UWing
     {
-        public class BenthicTwoTubes : UWing
+        public class BenthicTwoTubes : UWing, ISecondEditionPilot
         {
             public BenthicTwoTubes() : base()
             {
@@ -24,6 +25,13 @@ namespace Ship
                 SkinName = "Partisan";
 
                 PilotAbilities.Add(new BenthicTwoTubesAbility());
+            }
+
+            public void AdaptPilotToSecondEdition()
+            {
+                PilotSkill = 2;
+
+                // RFA 2 dice
             }
         }
     }

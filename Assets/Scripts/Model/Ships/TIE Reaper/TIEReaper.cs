@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Movement;
 using ActionsList;
+using RuleSets;
 
 namespace Ship
 {
     namespace TIEReaper
     {
-        public class TIEReaper : GenericShip, TIE
+        public class TIEReaper : GenericShip, TIE, ISecondEditionShip
         {
 
             public TIEReaper() : base()
@@ -66,6 +67,12 @@ namespace Ship
                 Maneuvers.Add("3.R.B", ManeuverColor.Red);
             }
 
+            public void AdaptShipToSecondEdition()
+            {
+                ShipBaseSize = BaseSize.Medium;
+                
+                PrintedActions.Add(new CoordinateAction());
+            }
         }
     }
 }

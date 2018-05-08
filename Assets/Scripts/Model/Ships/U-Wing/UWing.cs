@@ -4,12 +4,13 @@ using UnityEngine;
 using Movement;
 using ActionsList;
 using Ship;
+using RuleSets;
 
 namespace Ship
 {
     namespace UWing
     {
-        public class UWing : GenericShip, IMovableWings
+        public class UWing : GenericShip, IMovableWings, ISecondEditionShip
         {
             public WingsPositions CurrentWingsPosition { get; set; }
 
@@ -66,7 +67,19 @@ namespace Ship
                 Maneuvers.Add("3.L.B", ManeuverColor.White);
                 Maneuvers.Add("3.F.S", ManeuverColor.White);
                 Maneuvers.Add("3.R.B", ManeuverColor.White);
-                Maneuvers.Add("4.F.S", ManeuverColor.White);            }
+                Maneuvers.Add("4.F.S", ManeuverColor.White);
+            }
+
+            public void AdaptShipToSecondEdition()
+            {
+                ShipBaseSize = BaseSize.Medium;
+
+                Agility = 2;
+                MaxHull = 5;
+                MaxShields = 3;
+
+                PrintedActions.Add(new CoordinateAction());
+            }
 
         }
     }

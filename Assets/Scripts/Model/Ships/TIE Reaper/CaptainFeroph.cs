@@ -30,7 +30,7 @@ namespace Ship
             {
                 PilotSkill = 3;
 
-                ImageUrl = "https://i.imgur.com/YaIg1Pz.png";
+                ImageUrl = "https://i.imgur.com/r6DoYoV.png";
             }
         }                
     }

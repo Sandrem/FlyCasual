@@ -79,6 +79,8 @@ namespace Ship
                 MaxShields = 3;
 
                 PrintedActions.Add(new CoordinateAction());
+
+                IconicPilots[Faction.Rebel] = typeof(BenthicTwoTubes);
             }
 
         }

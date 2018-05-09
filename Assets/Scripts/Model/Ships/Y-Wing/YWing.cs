@@ -84,6 +84,8 @@ namespace Ship
 
                 PrintedActions.Add(new BarrelRollAction());
                 PrintedActions.Add(new ReloadAction());
+
+                factions.Remove(Faction.Scum);
             }
 
         }

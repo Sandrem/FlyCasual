@@ -99,6 +99,8 @@ namespace Ship
                 PrintedActions.Add(new ReinforceAftAction() {Host = this});
                 PrintedActions.Add(new ReinforceForeAction() {Host = this});
                 PrintedActions.Add(new BoostAction());
+
+                factions.Remove(Faction.Imperial);
             }
 
         }

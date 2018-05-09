@@ -74,7 +74,7 @@ namespace Ship
 
             public void AdaptShipToSecondEdition()
             {
-                // Do nothing
+                factions.Remove(Faction.Rebel);
             }
 
         }

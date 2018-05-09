@@ -93,5 +93,10 @@ namespace RuleSets
                 upgrade.UpgradeRuleType = typeof(SecondEdition);
             }
         }
+
+        public override bool WeaponHasRangeBonus()
+        {
+            return Combat.ChosenWeapon is PrimaryWeaponClass || (Combat.ChosenWeapon as GenericUpgrade).Types.Contains(UpgradeType.Cannon) || (Combat.ChosenWeapon as GenericUpgrade).Types.Contains(UpgradeType.Turret);
+        }
     }
 }

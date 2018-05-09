@@ -50,5 +50,10 @@ namespace RuleSets
         {
             // No adaptation is required
         }
+
+        public override bool WeaponHasRangeBonus()
+        {
+            return Combat.ChosenWeapon is PrimaryWeaponClass;
+        }
     }
 }

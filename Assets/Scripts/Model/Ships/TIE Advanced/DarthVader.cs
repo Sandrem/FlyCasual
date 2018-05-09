@@ -33,7 +33,7 @@ namespace Ship
             {
                 PilotSkill = 6;
                 Force = 3;
-                ImageUrl = "https://i.imgur.com/zzcDA4s.jpg";
+                ImageUrl = "https://i.imgur.com/Budwwlp.png";
                 Cost = 0; // TODO: Change
                 //TODO: Change ability
             }

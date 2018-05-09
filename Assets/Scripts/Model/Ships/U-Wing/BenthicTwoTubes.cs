@@ -31,7 +31,7 @@ namespace Ship
             {
                 PilotSkill = 2;
 
-                // RFA 2 dice
+                ImageUrl = "https://i.imgur.com/8rKPnCb.jpg";
             }
         }
     }

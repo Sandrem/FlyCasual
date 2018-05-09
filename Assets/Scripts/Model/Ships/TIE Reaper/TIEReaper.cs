@@ -72,6 +72,8 @@ namespace Ship
                 ShipBaseSize = BaseSize.Medium;
                 
                 PrintedActions.Add(new CoordinateAction());
+
+                IconicPilots[Faction.Imperial] = typeof(CaptainFeroph);
             }
         }
     }

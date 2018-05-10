@@ -28,7 +28,7 @@ namespace RuleSets
 
         public override bool PilotIsAllowed(GenericShip ship)
         {
-            return ship.PilotRuleType == typeof(SecondEdition);
+            return ship.PilotRuleType == typeof(FirstEdition);
         }
 
         public override bool ShipIsAllowed(GenericShip ship)

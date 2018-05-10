@@ -15,6 +15,8 @@ namespace UpgradesList
             Types.Add(UpgradeType.Modification);
             Name = "Autothrusters";
             Cost = 2;
+
+            UpgradeAbilities.Add(new AutothrustersAbility());
         }
 
         public override bool IsAllowedForShip(GenericShip ship)

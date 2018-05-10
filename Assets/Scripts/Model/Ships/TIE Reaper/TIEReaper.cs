@@ -71,7 +71,7 @@ namespace Ship
             {
                 ShipBaseSize = BaseSize.Medium;
                 
-                PrintedActions.Add(new CoordinateAction());
+                PrintedActions.Add(new CoordinateAction() { IsRed = true });
 
                 IconicPilots[Faction.Imperial] = typeof(CaptainFeroph);
             }

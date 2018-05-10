@@ -87,6 +87,8 @@ namespace Ship
                 Maneuvers["3.R.E"] = ManeuverColor.Red;
 
                 UpgradeBar.AddSlot(Upgrade.UpgradeType.System);
+
+                PrintedActions.Add(new FocusAction() { LinkedRedAction = new BarrelRollAction() { IsRed = true } });
             }
 
         }

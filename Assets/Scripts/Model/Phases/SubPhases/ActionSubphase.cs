@@ -124,7 +124,8 @@ namespace SubPhases
             List<ActionsList.GenericAction> availableActions = Selection.ThisShip.GetAvailableActionsList();
             foreach (var action in availableActions)
             {
-                AddDecision(action.Name, delegate { Actions.TakeAction(action); }, action.ImageUrl, -1, action.IsRed);
+                string decisionName = (action.LinkedRedAction == null) ? action.Name : action.Name + " > <color=red>" + action.LinkedRedAction.Name + "</color>";
+                AddDecision(decisionName, delegate { Actions.TakeAction(action); }, action.ImageUrl, -1, action.IsRed);
             }
         }
 

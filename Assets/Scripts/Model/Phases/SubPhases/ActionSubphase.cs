@@ -124,8 +124,7 @@ namespace SubPhases
             List<ActionsList.GenericAction> availableActions = Selection.ThisShip.GetAvailableActionsList();
             foreach (var action in availableActions)
             {
-                AddDecision(action.Name, delegate { Actions.TakeAction(action); });
-                AddTooltip(action.Name, action.ImageUrl);
+                AddDecision(action.Name, delegate { Actions.TakeAction(action); }, action.ImageUrl, -1, action.IsRed);
             }
         }
 

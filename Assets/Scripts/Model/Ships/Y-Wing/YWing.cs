@@ -82,8 +82,8 @@ namespace Ship
                 Maneuvers["1.L.B"] = ManeuverColor.Green;
                 Maneuvers["1.R.B"] = ManeuverColor.Green;
 
-                PrintedActions.Add(new BarrelRollAction());
-                PrintedActions.Add(new ReloadAction());
+                PrintedActions.Add(new BarrelRollAction() { IsRed = true });
+                PrintedActions.Add(new ReloadAction() { IsRed = true });
 
                 factions.Remove(Faction.Scum);
 

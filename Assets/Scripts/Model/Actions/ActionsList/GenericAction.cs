@@ -20,6 +20,9 @@ namespace ActionsList
         public string EffectName;
         public string ImageUrl;
 
+        public bool IsRed;
+        public GenericAction LinkedRedAction;
+
         public bool IsCritCancelAction;
 
         public List<System.Type> TokensSpend = new List<System.Type>();

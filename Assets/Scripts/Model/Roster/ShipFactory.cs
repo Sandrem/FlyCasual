@@ -36,7 +36,7 @@ public static class ShipFactory {
         newShipContainer.AfterGotNumberOfDefenceDice += Rules.DistanceBonus.CheckDefenceDistanceBonus;
         newShipContainer.AfterGotNumberOfDefenceDice += Rules.AsteroidObstruction.CheckDefenceObstructionBonus;
         newShipContainer.OnTryAddAvailableAction += Rules.Stress.CanPerformActions;
-        newShipContainer.OnTryAddAvailableAction += Rules.DuplicatedActions.CanPerformActions;
+        newShipContainer.OnTryAddAvailableAction += Rules.Actions.CanPerformActions;
         newShipContainer.OnMovementStart += MovementTemplates.ApplyMovementRuler;
         newShipContainer.OnMovementStart += MovementTemplates.CallReturnRangeRuler;
         newShipContainer.OnPositionFinish += Rules.OffTheBoard.CheckOffTheBoard;
@@ -45,6 +45,7 @@ public static class ShipFactory {
         newShipContainer.AfterGenerateAvailableActionEffectsList += Rules.Force.AddForceAction;
         newShipContainer.OnRoundEnd += Rules.Force.RegenerateForce;
         newShipContainer.OnShipIsDestroyed += Rules.TargetLocks.RegisterRemoveTargetLocksOnDestruction;
+        newShipContainer.OnActionIsPerformed += Rules.Actions.RedActionCheck;
 
         newShipContainer.OnTokenIsAssigned += Roster.UpdateTokensIndicator;
         newShipContainer.OnTokenIsRemoved += Roster.UpdateTokensIndicator;

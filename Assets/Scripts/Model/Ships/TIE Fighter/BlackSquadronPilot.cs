@@ -22,7 +22,7 @@ namespace Ship
                 PilotSkill = 3;
                 ImageUrl = "https://i.imgur.com/orUlS3p.png";
 
-                // TODO: Change Ability
+                Cost = 30;
             }
         }
     }

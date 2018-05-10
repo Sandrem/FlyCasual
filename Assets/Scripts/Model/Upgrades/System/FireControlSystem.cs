@@ -18,7 +18,9 @@ namespace UpgradesList
 
         public void AdaptUpgradeToSecondEdition()
         {
-            // Do nothing
+            ImageUrl = "https://i.imgur.com/UQ0nMnE.png";
+
+            Cost = 6;
         }
     }
 }

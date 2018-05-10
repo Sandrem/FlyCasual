@@ -28,7 +28,7 @@ namespace UpgradesList
 
         public void AdaptUpgradeToSecondEdition()
         {
-            // No changes
+            ImageUrl = "https://i.imgur.com/qepSXTj.png";
         }
     }
 }

@@ -32,6 +32,9 @@ namespace UpgradesList
         public void AdaptUpgradeToSecondEdition()
         {
             MaxCharges = 3;
+            Cost = 10;
+
+            ImageUrl = "https://i.imgur.com/O7AIHt3.png";
         }
     }
 

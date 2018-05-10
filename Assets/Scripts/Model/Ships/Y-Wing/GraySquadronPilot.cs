@@ -26,6 +26,7 @@ namespace Ship
             {
                 PilotName = "Gray Squadron Bomber";
                 PilotSkill = 2;
+                ImageUrl = "https://i.imgur.com/1tN3KEx.png";
             }
         }
     }

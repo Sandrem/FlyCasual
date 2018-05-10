@@ -87,6 +87,8 @@ namespace Ship
                 Maneuvers["2.R.B"] = ManeuverColor.Green;
                 Maneuvers["3.L.E"] = ManeuverColor.Red;
                 Maneuvers["3.R.E"] = ManeuverColor.Red;
+
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Modification);
             }
         }
     }

@@ -30,6 +30,8 @@ namespace UpgradesList
         public void AdaptUpgradeToSecondEdition()
         {
             Name = "Instinctive Aim";
+
+            ImageUrl = "https://i.imgur.com/07f1bDf.png";
         }
     }
 }

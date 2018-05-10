@@ -26,6 +26,8 @@ namespace UpgradesList
         public void AdaptUpgradeToSecondEdition()
         {
             MaxCharges = 1;
+
+            ImageUrl = "https://i.imgur.com/eGRJUMl.png";
         }
     }
 }

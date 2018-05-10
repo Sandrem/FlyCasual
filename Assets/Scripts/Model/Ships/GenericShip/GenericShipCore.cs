@@ -69,7 +69,6 @@ namespace Ship
 
 
         public int Shields { get; protected set; }
-        public int Force { get; protected set; }
         public int Cost { get; protected set; }
 
         public int TargetLockMinRange { get; protected set; }
@@ -125,6 +124,9 @@ namespace Ship
                 return Tokens.CountTokensByType(typeof(Tokens.EnergyToken));
             }
         }
+
+        public int Force { get; set; }
+        public int MaxForce { get; protected set; }
 
         protected List<IModifyPilotSkill> PilotSkillModifiers;
 
@@ -313,6 +315,8 @@ namespace Ship
 
         public virtual void InitializePilot()
         {
+            Force = MaxForce;
+
             SetShipInsertImage();
             SetShipSkin();
             InitializePilotAbilities();

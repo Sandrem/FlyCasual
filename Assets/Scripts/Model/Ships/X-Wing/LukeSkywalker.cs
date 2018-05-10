@@ -27,7 +27,7 @@ namespace Ship
             public void AdaptPilotToSecondEdition()
             {
                 PilotSkill = 5;
-                Force = 2;
+                MaxForce = 2;
                 ImageUrl = "https://i.imgur.com/8p67yDy.jpg";
                 Cost = 0; // TODO: Change
                 //TODO: Change ability

@@ -26,6 +26,7 @@ public static class Rules
     public static BullseyeArcRule BullseyeArc { get; private set; }
     public static DockingRule Docking { get; private set; }
     public static TractorBeamRule TractorBeam { get; private set; }
+    public static ForceRule Force { get; private set; }
 
     static Rules()
     {
@@ -49,6 +50,7 @@ public static class Rules
         BullseyeArc = new BullseyeArcRule();
         Docking = new DockingRule();
         TractorBeam = new TractorBeamRule();
+        Force = new ForceRule();
     }
 
     public static void FinishGame()

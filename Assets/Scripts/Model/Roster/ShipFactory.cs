@@ -42,6 +42,8 @@ public static class ShipFactory {
         newShipContainer.OnPositionFinish += Rules.OffTheBoard.CheckOffTheBoard;
         newShipContainer.OnMovementExecuted += Rules.Stress.PlanCheckStress;
         newShipContainer.AfterGetManeuverAvailablity += Rules.Stress.CannotPerformRedManeuversWhileStressed;
+        newShipContainer.AfterGenerateAvailableActionEffectsList += Rules.Force.AddForceAction;
+        newShipContainer.OnRoundEnd += Rules.Force.RegenerateForce;
         newShipContainer.OnShipIsDestroyed += Rules.TargetLocks.RegisterRemoveTargetLocksOnDestruction;
 
         newShipContainer.OnTokenIsAssigned += Roster.UpdateTokensIndicator;

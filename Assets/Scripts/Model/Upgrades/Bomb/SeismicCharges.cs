@@ -29,6 +29,9 @@ namespace UpgradesList
             MaxCharges = 2;
 
             ImageUrl = "https://i.imgur.com/kSxLF1I.png";
+
+            IsDiscardedAfterDropped = false;
+            UsesCharges = true;
         }
 
         public override void ExplosionEffect(GenericShip ship, Action callBack)

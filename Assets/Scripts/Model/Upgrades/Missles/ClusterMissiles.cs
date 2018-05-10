@@ -35,6 +35,9 @@ namespace UpgradesList
             Cost = 10;
 
             ImageUrl = "https://i.imgur.com/O7AIHt3.png";
+
+            IsDiscardedForShot = false;
+            UsesCharges = true;
         }
     }
 

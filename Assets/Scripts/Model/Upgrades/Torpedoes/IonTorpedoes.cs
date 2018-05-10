@@ -34,6 +34,9 @@ namespace UpgradesList
         public void AdaptUpgradeToSecondEdition()
         {
             MaxCharges = 2;
+
+            IsDiscardedForShot = false;
+            UsesCharges = true;
         }
     }
 }

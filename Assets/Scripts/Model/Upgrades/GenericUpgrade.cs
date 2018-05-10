@@ -76,8 +76,10 @@ namespace Upgrade
         }
 
         public Type UpgradeRuleType = typeof(FirstEdition);
+
         public int MaxCharges { get; set; }
         public int Charges { get; set; }
+        public bool UsesCharges;
 
         // SQUAD BUILDER ONLY
 
@@ -205,6 +207,7 @@ namespace Upgrade
             Host = host;
             InitializeAbility();
             ActivateAbility();
+            ShowCharges();
         }
 
         private void InitializeAbility()
@@ -221,6 +224,11 @@ namespace Upgrade
             {
                 ability.ActivateAbility();
             }
+        }
+
+        private void ShowCharges()
+        {
+            if (MaxCharges > 0) Name = Name + " (" + Charges + ")";
         }
 
         private void DeactivateAbility()
@@ -255,7 +263,7 @@ namespace Upgrade
         {
             isDiscarded = true;
             PreDettachFromShip();
-            Roster.DiscardUpgrade(Host, Name);
+            Roster.ShowUpgradeAsInactive(Host, Name);
             DeactivateAbility();
 
             Host.CallAfterDiscardUpgrade(this, callBack);
@@ -297,6 +305,19 @@ namespace Upgrade
 
             Slot.PreInstallUpgrade(newUpgrade, Host);
             Slot.TryInstallUpgrade(newUpgrade, Host);
+        }
+
+        protected void SpendCharge(Action callBack)
+        {
+            string oldChargesString = " (" + Charges + ")";
+            string newChargesString = " (" + (Charges - 1) + ")";
+            Name = Name.Replace(oldChargesString, newChargesString);
+            Roster.UpdateUpgradesPanel(Host, Host.InfoPanel);
+
+            Charges--;
+            if (Charges == 0) Roster.ShowUpgradeAsInactive(Host, Name);
+
+            callBack();
         }
     }
 

@@ -36,6 +36,9 @@ namespace UpgradesList
             MaxCharges = 2;
 
             ImageUrl = "https://i.imgur.com/IU8bmXC.png";
+
+            IsDiscardedForShot = false;
+            UsesCharges = true;
         }
     }
 }

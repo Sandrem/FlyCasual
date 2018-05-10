@@ -29,5 +29,6 @@ namespace RuleSets
         public abstract void AdaptPilotToRules(GenericShip ship);
         public abstract void AdaptUpgradeToRules(GenericUpgrade upgrade);
         public abstract bool WeaponHasRangeBonus();
+        public abstract void SetShipBaseImage(GenericShip ship);
     }
 }

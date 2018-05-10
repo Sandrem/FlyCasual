@@ -22,6 +22,8 @@ namespace Ship
 
                 ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/4/4e/Firespray_31_Move.png";
 
+                ShipIconLetter = 'f';
+
                 Firepower = 3;
                 Agility = 2;
                 MaxHull = 6;

@@ -20,6 +20,8 @@ namespace Ship
 
                 ManeuversImageUrl = "https://vignette1.wikia.nocookie.net/xwing-miniatures/images/8/85/MI_TIE-ADVANCED.png";
 
+                ShipIconLetter = 'A';
+
                 Firepower = 2;
                 Agility = 3;
                 MaxHull = 3;

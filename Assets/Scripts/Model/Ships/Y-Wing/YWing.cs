@@ -20,6 +20,8 @@ namespace Ship
 
                 ManeuversImageUrl = "https://vignette4.wikia.nocookie.net/xwing-miniatures/images/1/18/MR_Y-WING.png";
 
+                ShipIconLetter = 'y';
+
                 Firepower = 2;
                 Agility = 1;
                 MaxHull = 5;

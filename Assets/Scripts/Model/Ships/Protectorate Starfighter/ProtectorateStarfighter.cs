@@ -19,6 +19,8 @@ namespace Ship
 
                 ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/8/83/MS_PROTECTORATE-STARFIGHTER.png";
 
+                ShipIconLetter = 'M';
+
                 Firepower = 3;
                 Agility = 3;
                 MaxHull = 4;

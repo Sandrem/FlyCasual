@@ -98,5 +98,10 @@ namespace RuleSets
         {
             return Combat.ChosenWeapon is PrimaryWeaponClass || (Combat.ChosenWeapon as GenericUpgrade).Types.Contains(UpgradeType.Cannon) || (Combat.ChosenWeapon as GenericUpgrade).Types.Contains(UpgradeType.Turret);
         }
+
+        public override void SetShipBaseImage(GenericShip ship)
+        {
+            ship.SetShipBaseImageSecondEdition();
+        }
     }
 }

@@ -25,6 +25,7 @@ namespace Ship
             public void AdaptPilotToSecondEdition()
             {
                 PilotName = "Gray Squadron Bomber";
+                PilotNameShort = "Gray Sq. Bomber";
                 PilotSkill = 2;
                 ImageUrl = "https://i.imgur.com/1tN3KEx.png";
             }

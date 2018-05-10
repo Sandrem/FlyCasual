@@ -22,6 +22,8 @@ namespace Ship
 
                 ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/c/c5/MR_U-WING.png";
 
+                ShipIconLetter = 'u';
+
                 Firepower = 3;
                 Agility = 1;
                 MaxHull = 4;

@@ -55,5 +55,10 @@ namespace RuleSets
         {
             return Combat.ChosenWeapon is PrimaryWeaponClass;
         }
+
+        public override void SetShipBaseImage(GenericShip ship)
+        {
+            ship.SetShipBaseImageFirstEdition();
+        }
     }
 }

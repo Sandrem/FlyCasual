@@ -58,6 +58,7 @@ namespace Ship
         }
         
         public string PilotName { get; protected set; }
+        public string PilotNameShort { get; protected set; }
         public bool IsUnique { get; protected set; }
 
         public int Firepower { get; protected set; }

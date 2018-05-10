@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using RuleSets;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
@@ -121,6 +122,11 @@ namespace Ship
 
         public void SetShipInsertImage()
         {
+            RuleSet.Instance.SetShipBaseImage(this);
+        }
+
+        public void SetShipBaseImageFirstEdition()
+        {
             string materialName = PilotName;
             materialName = materialName.Replace(' ', '_');
             materialName = materialName.Replace('"', '_');
@@ -150,6 +156,31 @@ namespace Ship
                     shipAllParts.Find("ShipBase/ShipStandInsert").gameObject.SetActive(false);
                 }
             }
+        }
+
+        public void SetShipBaseImageSecondEdition()
+        {
+            var newTexture = "ShipStandInsert/Universal/SecondEdition/" + this.ShipBaseSize.ToString() + "/Base";
+            var newMaterial = CreateMaterial(newTexture);
+            shipAllParts.Find("ShipBase/ShipStandInsert/ShipStandInsertImage/default").GetComponent<Renderer>().material = newMaterial;
+
+            //Ship Info
+            newTexture = "ShipStandInsert/Universal/SecondEdition/" + this.ShipBaseSize.ToString() + "/" + this.faction.ToString() + "/Info";
+            newMaterial = CreateMaterial(newTexture);
+            StandardShaderUtils.ChangeRenderMode(newMaterial, StandardShaderUtils.BlendMode.Fade);
+            shipAllParts.Find("ShipBase/ShipStandInsert/ShipStandInsertImage/ShipInfo").GetComponent<Renderer>().material = newMaterial;
+            shipAllParts.Find("ShipBase/ShipStandInsert/ShipStandInsertImage/ShipInfo").GetComponent<MeshRenderer>().enabled = true;
+
+            //Forward arc
+            newTexture = "ShipStandInsert/Universal/SecondEdition/" + this.ShipBaseSize.ToString() + "/" + this.faction.ToString() + "/Forward";
+            newMaterial = CreateMaterial(newTexture);
+            StandardShaderUtils.ChangeRenderMode(newMaterial, StandardShaderUtils.BlendMode.Fade);
+            shipAllParts.Find("ShipBase/ShipStandInsert/ShipStandInsertImage/FirstArc").GetComponent<Renderer>().material = newMaterial;
+            shipAllParts.Find("ShipBase/ShipStandInsert/ShipStandInsertImage/FirstArc").GetComponent<MeshRenderer>().enabled = true;
+
+            shipAllParts.Find("ShipBase/ShipStandInsert/ShipStandInsertImage/PilotName").GetComponent<TextMesh>().text = this.PilotNameShort ?? this.PilotName;
+            shipAllParts.Find("ShipBase/ShipStandInsert/ShipStandInsertImage/PilotSkill").GetComponent<TextMesh>().text = this.PilotSkill.ToString();
+            shipAllParts.Find("ShipBase/ShipStandInsert/ShipStandInsertImage/ShipIcon").GetComponent<TextMesh>().text = this.ShipIconLetter.ToString();
         }
 
         public void SetShipSkin()

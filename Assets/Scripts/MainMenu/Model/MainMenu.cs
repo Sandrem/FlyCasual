@@ -20,7 +20,6 @@ public partial class MainMenu : MonoBehaviour {
     void Start ()
     {
         InitializeMenu();
-        SetRuleSet();
     }
 
     private void InitializeMenu()
@@ -212,11 +211,6 @@ public partial class MainMenu : MonoBehaviour {
     {
         Options.Title = inputText.text;
         Options.ChangeParameterValue("Title", inputText.text);
-    }
-
-    private void SetRuleSet()
-    {
-        new RuleSets.SecondEdition();
     }
 
 }

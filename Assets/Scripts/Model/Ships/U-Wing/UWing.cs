@@ -4,12 +4,13 @@ using UnityEngine;
 using Movement;
 using ActionsList;
 using Ship;
+using RuleSets;
 
 namespace Ship
 {
     namespace UWing
     {
-        public class UWing : GenericShip, IMovableWings
+        public class UWing : GenericShip, IMovableWings, ISecondEditionShip
         {
             public WingsPositions CurrentWingsPosition { get; set; }
 
@@ -20,6 +21,8 @@ namespace Ship
                 ShipBaseSize = BaseSize.Large;
 
                 ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/c/c5/MR_U-WING.png";
+
+                ShipIconLetter = 'u';
 
                 Firepower = 3;
                 Agility = 1;
@@ -66,7 +69,21 @@ namespace Ship
                 Maneuvers.Add("3.L.B", ManeuverColor.White);
                 Maneuvers.Add("3.F.S", ManeuverColor.White);
                 Maneuvers.Add("3.R.B", ManeuverColor.White);
-                Maneuvers.Add("4.F.S", ManeuverColor.White);            }
+                Maneuvers.Add("4.F.S", ManeuverColor.White);
+            }
+
+            public void AdaptShipToSecondEdition()
+            {
+                ShipBaseSize = BaseSize.Medium;
+
+                Agility = 2;
+                MaxHull = 5;
+                MaxShields = 3;
+
+                PrintedActions.Add(new CoordinateAction() { IsRed = true });
+
+                IconicPilots[Faction.Rebel] = typeof(BenthicTwoTubes);
+            }
 
         }
     }

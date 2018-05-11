@@ -6,6 +6,7 @@ using System.Linq;
 using SubPhases;
 using Tokens;
 using ActionsList;
+using GameModes;
 
 namespace Ship
 {
@@ -22,6 +23,8 @@ namespace Ship
         private     List<GenericAction> AlreadyExecutedActionEffects            = new List<GenericAction>();
         private     List<GenericAction> AlreadyExecutedOppositeActionEffects    = new List<GenericAction>();
         private     List<GenericAction> AlreadyExecutedCompareResultsEffects    = new List<GenericAction>();
+
+        public GenericAction PlannedLinkedAction;
 
         // EVENTS
         public event EventHandlerShip OnMovementActivation;
@@ -140,7 +143,7 @@ namespace Ship
         }
 
         // TODO: move actions list into subphase
-        public void AskPerformFreeAction(List<GenericAction> freeActions, Action callback)
+        public void AskPerformFreeAction(List<GenericAction> freeActions, Action callback, bool isForced = false)
         {
             GenerateAvailableFreeActionsList(freeActions);
 
@@ -157,6 +160,8 @@ namespace Ship
                             typeof(FreeActionDecisonSubPhase),
                             delegate { Actions.FinishAction(delegate { FinishFreeActionDecision(callback); }); }
                         );
+
+                        if (isForced) GameMode.CurrentGameMode.TakeDecision((Phases.CurrentSubPhase as FreeActionDecisonSubPhase).GetDecisions()[0], null); 
                     }
                 }
             );

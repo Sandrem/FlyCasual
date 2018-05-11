@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Ship;
 using System;
+using RuleSets;
 
 // Second->First: Two same actions
 // Triggers are empty
@@ -11,7 +12,7 @@ namespace Ship
 {
     namespace TIEAdvanced
     {
-        public class DarthVader : TIEAdvanced
+        public class DarthVader : TIEAdvanced, ISecondEditionPilot
         {
             public DarthVader() : base()
             {
@@ -26,6 +27,15 @@ namespace Ship
                 SkinName = "Blue";
 
                 PilotAbilities.Add(new Abilities.DarthVaderAbility());
+            }
+
+            public void AdaptPilotToSecondEdition()
+            {
+                PilotSkill = 6;
+                MaxForce = 3;
+                ImageUrl = "https://i.imgur.com/Budwwlp.png";
+                Cost = 50; // TODO: Change
+                //TODO: Change ability
             }
         }
     }

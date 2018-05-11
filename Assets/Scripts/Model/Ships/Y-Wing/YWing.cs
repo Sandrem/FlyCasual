@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Movement;
 using ActionsList;
+using RuleSets;
 
 namespace Ship
 {
     namespace YWing
     {
-        public class YWing : GenericShip
+        public class YWing : GenericShip, ISecondEditionShip
         {
 
             public YWing() : base()
@@ -18,6 +19,8 @@ namespace Ship
                 IconicPilots.Add(Faction.Scum, typeof(SyndicateThug));
 
                 ManeuversImageUrl = "https://vignette4.wikia.nocookie.net/xwing-miniatures/images/1/18/MR_Y-WING.png";
+
+                ShipIconLetter = 'y';
 
                 Firepower = 2;
                 Agility = 1;
@@ -47,7 +50,6 @@ namespace Ship
                 }
             }
 
-
             private void AssignTemporaryManeuvers()
             {
                 Maneuvers.Add("1.L.T", ManeuverColor.None);
@@ -72,6 +74,23 @@ namespace Ship
                 Maneuvers.Add("4.F.R", ManeuverColor.Red);
                 Maneuvers.Add("5.F.S", ManeuverColor.None);
                 Maneuvers.Add("5.F.R", ManeuverColor.None);
+            }
+
+            public void AdaptShipToSecondEdition()
+            {
+                MaxHull = 6;
+                MaxShields = 2;
+
+                Maneuvers["1.L.B"] = ManeuverColor.Green;
+                Maneuvers["1.R.B"] = ManeuverColor.Green;
+
+                PrintedActions.Add(new BarrelRollAction() { IsRed = true });
+                PrintedActions.Add(new ReloadAction() { IsRed = true });
+
+                factions.Remove(Faction.Scum);
+
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Bomb);
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
             }
 
         }

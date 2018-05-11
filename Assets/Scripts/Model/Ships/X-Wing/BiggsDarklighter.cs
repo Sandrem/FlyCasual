@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Ship;
 using System;
+using RuleSets;
 
 namespace Ship
 {
     namespace XWing
     {
-        public class BiggsDarklighter : XWing
+        public class BiggsDarklighter : XWing, ISecondEditionPilot
         {
             public BiggsDarklighter() : base()
             {
@@ -19,6 +20,14 @@ namespace Ship
                 IsUnique = true;
 
                 PilotAbilities.Add(new Abilities.BiggsDarklighterAbility());
+            }
+
+            public void AdaptPilotToSecondEdition()
+            {
+                PilotSkill = 3;
+                ImageUrl = "https://i.imgur.com/Kfqft7D.png";
+                Cost = 0; // TODO: Change
+                //TODO: Change ability
             }
         }
     }

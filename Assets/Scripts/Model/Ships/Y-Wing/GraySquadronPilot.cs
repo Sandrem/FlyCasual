@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using RuleSets;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,7 +7,7 @@ namespace Ship
 {
     namespace YWing
     {
-        public class GraySquadronPilot : YWing
+        public class GraySquadronPilot : YWing, ISecondEditionPilot
         {
             public GraySquadronPilot() : base()
             {
@@ -19,6 +20,14 @@ namespace Ship
                 SkinName = "Gray";
 
                 faction = Faction.Rebel;
+            }
+
+            public void AdaptPilotToSecondEdition()
+            {
+                PilotName = "Gray Squadron Bomber";
+                PilotNameShort = "Gray Sq. Bomber";
+                PilotSkill = 2;
+                ImageUrl = "https://i.imgur.com/1tN3KEx.png";
             }
         }
     }

@@ -1,5 +1,6 @@
 ﻿using Abilities;
 using ActionsList;
+using RuleSets;
 using Ship;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ namespace Ship
 {
     namespace TIEReaper
     {
-        public class CaptainFeroph : TIEReaper
+        public class CaptainFeroph : TIEReaper, ISecondEditionPilot
         {
             public CaptainFeroph() : base()
             {
@@ -23,6 +24,13 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
                 PilotAbilities.Add(new CaptainFerophAbility());
+            }
+
+            public void AdaptPilotToSecondEdition()
+            {
+                PilotSkill = 3;
+
+                ImageUrl = "https://i.imgur.com/r6DoYoV.png";
             }
         }                
     }

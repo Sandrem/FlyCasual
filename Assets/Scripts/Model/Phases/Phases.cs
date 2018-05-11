@@ -181,6 +181,11 @@ public static partial class Phases
     {
         if (OnRoundEnd != null) OnRoundEnd();
 
+        foreach (var shipHolder in Roster.AllShips)
+        {
+            shipHolder.Value.CallOnRoundEnd();
+        }
+
         Triggers.ResolveTriggers(TriggerTypes.OnRoundEnd, callback);
     }
 

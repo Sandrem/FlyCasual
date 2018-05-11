@@ -4,6 +4,7 @@ using UnityEngine;
 using Board;
 using GameModes;
 using System.Linq;
+using RuleSets;
 
 namespace ActionsList
 {
@@ -202,14 +203,13 @@ namespace SubPhases
         {
             TheShip.IsLandedOnObstacle = false;
 
-            TheShip.RemoveAlreadyExecutedAction(typeof(ActionsList.BoostAction));
             MonoBehaviour.Destroy(ShipStand);
 
             GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
             Game.Movement.CollidedWith = null;
             MovementTemplates.HideLastMovementRuler();
 
-            PreviousSubPhase.Resume();
+            RuleSet.Instance.ActionIsFailed(TheShip, typeof(ActionsList.BoostAction));
         }
 
         private void HidePlanningTemplates()

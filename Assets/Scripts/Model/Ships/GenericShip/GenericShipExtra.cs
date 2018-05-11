@@ -5,6 +5,7 @@ using UnityEngine;
 using Mods;
 using ActionsList;
 using Upgrade;
+using RuleSets;
 
 namespace Ship
 {
@@ -28,6 +29,9 @@ namespace Ship
 
         public GenericShip Host;
 
+        public Type ShipRuleType = typeof(FirstEdition);
+        public Type PilotRuleType = typeof(FirstEdition);
+
         private string imageUrl;
         public string ImageUrl
         {
@@ -47,7 +51,9 @@ namespace Ship
         public int ShotsCount { get; protected set; }
         public List<string> SoundFlyPaths { get; protected set; }
 
-        public bool IsHidden { get; set; }
+        public bool IsHidden { get; protected set; }
+
+        public char ShipIconLetter { get; protected set; }
 
         public List<Type> RequiredMods { get; set; }
 

@@ -5,11 +5,12 @@ using UnityEngine;
 using Upgrade;
 using Ship;
 using Bombs;
+using RuleSets;
 
 namespace UpgradesList
 {
 
-    public class SeismicCharges : GenericTimedBomb
+    public class SeismicCharges : GenericTimedBomb, ISecondEditionUpgrade
     {
 
         public SeismicCharges() : base()
@@ -21,6 +22,16 @@ namespace UpgradesList
             bombPrefabPath = "Prefabs/Bombs/SeismicCharge";
 
             IsDiscardedAfterDropped = true;
+        }
+
+        public void AdaptUpgradeToSecondEdition()
+        {
+            MaxCharges = 2;
+
+            ImageUrl = "https://i.imgur.com/kSxLF1I.png";
+
+            IsDiscardedAfterDropped = false;
+            UsesCharges = true;
         }
 
         public override void ExplosionEffect(GenericShip ship, Action callBack)

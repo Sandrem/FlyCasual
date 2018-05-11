@@ -444,7 +444,7 @@ public static partial class Roster {
         }
     }
 
-    public static void DiscardUpgrade(GenericShip host, string upgradeName)
+    public static void ShowUpgradeAsInactive(GenericShip host, string upgradeName)
     {
         foreach (Transform upgradeLine in host.InfoPanel.transform.Find("ShipInfo/UpgradesBar").transform)
         {

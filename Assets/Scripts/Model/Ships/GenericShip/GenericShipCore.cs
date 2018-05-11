@@ -4,6 +4,7 @@ using UnityEngine;
 using Arcs;
 using Abilities;
 using System;
+using RuleSets;
 
 namespace Ship
 {
@@ -57,6 +58,7 @@ namespace Ship
         }
         
         public string PilotName { get; protected set; }
+        public string PilotNameShort { get; protected set; }
         public bool IsUnique { get; protected set; }
 
         public int Firepower { get; protected set; }
@@ -123,6 +125,9 @@ namespace Ship
                 return Tokens.CountTokensByType(typeof(Tokens.EnergyToken));
             }
         }
+
+        public int Force { get; set; }
+        public int MaxForce { get; protected set; }
 
         protected List<IModifyPilotSkill> PilotSkillModifiers;
 
@@ -311,6 +316,8 @@ namespace Ship
 
         public virtual void InitializePilot()
         {
+            Force = MaxForce;
+
             SetShipInsertImage();
             SetShipSkin();
             InitializePilotAbilities();

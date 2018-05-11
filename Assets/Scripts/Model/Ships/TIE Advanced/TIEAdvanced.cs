@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using Movement;
 using ActionsList;
+using RuleSets;
+using System.Linq;
 
 namespace Ship
 {
     namespace TIEAdvanced
     {
-        public class TIEAdvanced : GenericShip, TIE
+        public class TIEAdvanced : GenericShip, TIE, ISecondEditionShip
         {
 
             public TIEAdvanced() : base()
@@ -17,6 +19,8 @@ namespace Ship
                 IconicPilots.Add(Faction.Imperial, typeof(DarthVader));
 
                 ManeuversImageUrl = "https://vignette1.wikia.nocookie.net/xwing-miniatures/images/8/85/MI_TIE-ADVANCED.png";
+
+                ShipIconLetter = 'A';
 
                 Firepower = 2;
                 Agility = 3;
@@ -60,16 +64,33 @@ namespace Ship
                 Maneuvers.Add("2.R.B", ManeuverColor.White);
                 Maneuvers.Add("2.R.T", ManeuverColor.White);
                 Maneuvers.Add("2.F.R", ManeuverColor.None);
+                Maneuvers.Add("3.L.E", ManeuverColor.None);
                 Maneuvers.Add("3.L.T", ManeuverColor.White);
                 Maneuvers.Add("3.L.B", ManeuverColor.White);
                 Maneuvers.Add("3.F.S", ManeuverColor.Green);
                 Maneuvers.Add("3.R.B", ManeuverColor.White);
                 Maneuvers.Add("3.R.T", ManeuverColor.White);
+                Maneuvers.Add("3.R.E", ManeuverColor.None);
                 Maneuvers.Add("3.F.R", ManeuverColor.None);
                 Maneuvers.Add("4.F.S", ManeuverColor.White);
                 Maneuvers.Add("4.F.R", ManeuverColor.Red);
                 Maneuvers.Add("5.F.S", ManeuverColor.White);
                 Maneuvers.Add("5.F.R", ManeuverColor.None);
+            }
+
+            public void AdaptShipToSecondEdition()
+            {
+                PrintedActions.Remove(PrintedActions.First(n => n is EvadeAction));
+
+                Maneuvers["1.F.S"] = ManeuverColor.White;
+                Maneuvers["2.L.B"] = ManeuverColor.Green;
+                Maneuvers["2.R.B"] = ManeuverColor.Green;
+                Maneuvers["3.L.E"] = ManeuverColor.Red;
+                Maneuvers["3.R.E"] = ManeuverColor.Red;
+
+                UpgradeBar.AddSlot(Upgrade.UpgradeType.System);
+
+                PrintedActions.Add(new FocusAction() { LinkedRedAction = new BarrelRollAction() { IsRed = true } });
             }
 
         }

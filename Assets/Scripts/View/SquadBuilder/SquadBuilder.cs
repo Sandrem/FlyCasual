@@ -9,6 +9,7 @@ using UnityEngine.UI;
 using Upgrade;
 using System.IO;
 using Ship;
+using RuleSets;
 
 namespace SquadBuilderNS
 {
@@ -69,7 +70,7 @@ namespace SquadBuilderNS
             {
                 if (ship.Instance.factions.Contains(faction) && !ship.Instance.IsHidden)
                 {
-                    ShowAvailableShip(ship);
+                    if (RuleSet.Instance.ShipIsAllowed(ship.Instance)) ShowAvailableShip(ship);
                 }
             }
         }
@@ -118,7 +119,7 @@ namespace SquadBuilderNS
 
             foreach (PilotRecord pilot in AllPilotsFiltered)
             {
-                ShowAvailablePilot(pilot);
+                if (RuleSet.Instance.PilotIsAllowed(pilot.Instance)) ShowAvailablePilot(pilot);
             }
         }
 
@@ -140,6 +141,8 @@ namespace SquadBuilderNS
             GameObject newPilotPanel = MonoBehaviour.Instantiate(prefab, contentTransform);
 
             GenericShip newShip = (GenericShip)Activator.CreateInstance(Type.GetType(pilotRecord.PilotTypeName));
+            RuleSet.Instance.AdaptShipToRules(newShip);
+            RuleSet.Instance.AdaptPilotToRules(newShip);
 
             PilotPanelSquadBuilder script = newPilotPanel.GetComponent<PilotPanelSquadBuilder>();
             script.Initialize(newShip, PilotSelectedIsClicked, true);
@@ -421,8 +424,8 @@ namespace SquadBuilderNS
         private static void UpdateSquadCost(int squadCost, string panelName)
         {
             Text targetText = GameObject.Find("UI/Panels/" + panelName + "/ControlsPanel/SquadCostText").GetComponent<Text>();
-            targetText.text = squadCost.ToString() + " / 100";
-            targetText.color = (squadCost > 100) ? new Color(1, 0, 0, 200f/255f) : new Color(0, 0, 0, 200f / 255f);
+            targetText.text = squadCost.ToString() + " / " + RuleSet.Instance.MaxPoints;
+            targetText.color = (squadCost > RuleSet.Instance.MaxPoints) ? new Color(1, 0, 0, 200f/255f) : new Color(0, 0, 0, 200f / 255f);
         }
 
         private static void GenerateShipWithSlotsPanels()
@@ -520,7 +523,7 @@ namespace SquadBuilderNS
 
             foreach (UpgradeRecord upgrade in filteredUpgrades)
             {
-                ShowAvailableUpgrade(upgrade);
+                if (upgrade.Instance.UpgradeRuleType == RuleSet.Instance.GetType()) ShowAvailableUpgrade(upgrade);
             }
         }
 
@@ -532,6 +535,7 @@ namespace SquadBuilderNS
 
             string upgradeType = AllUpgrades.Find(n => n.UpgradeName == upgrade.UpgradeName).UpgradeTypeName;
             GenericUpgrade newUpgrade = (GenericUpgrade)System.Activator.CreateInstance(Type.GetType(upgradeType));
+            RuleSet.Instance.AdaptUpgradeToRules(newUpgrade);
 
             UpgradePanelSquadBuilder script = newUpgradePanel.GetComponent<UpgradePanelSquadBuilder>();
             script.Initialize(upgrade.UpgradeName, CurrentUpgradeSlot, newUpgrade, SelectUpgradeClicked, true);

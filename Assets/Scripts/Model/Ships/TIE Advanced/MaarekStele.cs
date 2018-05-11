@@ -5,12 +5,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Ship;
 using DamageDeckCard;
+using RuleSets;
 
 namespace Ship
 {
     namespace TIEAdvanced
     {
-        public class MaarekStele : TIEAdvanced
+        public class MaarekStele : TIEAdvanced, ISecondEditionPilot
         {
             public MaarekStele() : base()
             {
@@ -23,6 +24,15 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
                 PilotAbilities.Add(new Abilities.MaarekSteleAbility());
+            }
+
+            public void AdaptPilotToSecondEdition()
+            {
+                PilotSkill = 5;
+                MaxForce = 3;
+                ImageUrl = "https://i.imgur.com/iZAYlu4.png";
+                Cost = 0; // TODO: Change
+                //TODO: Change ability
             }
         }
     }

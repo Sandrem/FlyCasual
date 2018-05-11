@@ -1,11 +1,12 @@
 ﻿using Abilities;
+using RuleSets;
 using Ship;
 using SubPhases;
 using Upgrade;
 
 namespace UpgradesList
 {
-    public class FireControlSystem : GenericUpgrade
+    public class FireControlSystem : GenericUpgrade, ISecondEditionUpgrade
     {
         public FireControlSystem() : base()
         {
@@ -13,7 +14,14 @@ namespace UpgradesList
             Name = "Fire-Control System";
             Cost = 2;
             UpgradeAbilities.Add(new FireControlSystemAbility());
-        }                
+        }
+
+        public void AdaptUpgradeToSecondEdition()
+        {
+            ImageUrl = "https://i.imgur.com/UQ0nMnE.png";
+
+            Cost = 6;
+        }
     }
 }
 

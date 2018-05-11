@@ -1,11 +1,12 @@
 ﻿using ActionsList;
+using RuleSets;
 using Ship;
 
 namespace Ship
 {
     namespace TIEFighter
     {
-        public class Howlrunner : TIEFighter
+        public class Howlrunner : TIEFighter, ISecondEditionPilot
         {
             public Howlrunner() : base()
             {
@@ -18,6 +19,14 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
                 PilotAbilities.Add(new Abilities.HowlrunnerAbility());
+            }
+
+            public void AdaptPilotToSecondEdition()
+            {
+                PilotSkill = 5;
+                ImageUrl = "https://i.imgur.com/fjMsDbI.png";
+
+                // TODO: Change Ability
             }
         }
     }

@@ -1,11 +1,12 @@
-﻿using Ship;
+﻿using RuleSets;
+using Ship;
 using System.Linq;
 
 namespace Ship
 {
     namespace Firespray31
     {
-        public class BobaFettSV : Firespray31
+        public class BobaFettSV : Firespray31, ISecondEditionPilot
         {
             public BobaFettSV() : base()
             {
@@ -23,6 +24,13 @@ namespace Ship
                 SkinName = "Boba Fett";
 
                 PilotAbilities.Add(new Abilities.BobaFettSVAbility());
+            }
+
+            public void AdaptPilotToSecondEdition()
+            {
+                PilotSkill = 5;
+
+                // RFA 2 dice
             }
         }
     }

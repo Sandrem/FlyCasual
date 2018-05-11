@@ -32,17 +32,21 @@ public static class ShipFactory {
         Roster.SubscribeUpgradesPanel(newShipContainer, newShipContainer.InfoPanel);
 
         //TODO: Rework this
-        newShipContainer.AfterGotNumberOfPrimaryWeaponAttackDice += Rules.DistanceBonus.CheckAttackDistanceBonus;
-        newShipContainer.AfterGotNumberOfPrimaryWeaponDefenceDice += Rules.DistanceBonus.CheckDefenceDistanceBonus;
+        newShipContainer.AfterGotNumberOfAttackDice += Rules.DistanceBonus.CheckAttackDistanceBonus;
+        newShipContainer.AfterGotNumberOfDefenceDice += Rules.DistanceBonus.CheckDefenceDistanceBonus;
         newShipContainer.AfterGotNumberOfDefenceDice += Rules.AsteroidObstruction.CheckDefenceObstructionBonus;
         newShipContainer.OnTryAddAvailableAction += Rules.Stress.CanPerformActions;
-        newShipContainer.OnTryAddAvailableAction += Rules.DuplicatedActions.CanPerformActions;
+        newShipContainer.OnTryAddAvailableAction += Rules.Actions.CanPerformActions;
         newShipContainer.OnMovementStart += MovementTemplates.ApplyMovementRuler;
         newShipContainer.OnMovementStart += MovementTemplates.CallReturnRangeRuler;
         newShipContainer.OnPositionFinish += Rules.OffTheBoard.CheckOffTheBoard;
         newShipContainer.OnMovementExecuted += Rules.Stress.PlanCheckStress;
         newShipContainer.AfterGetManeuverAvailablity += Rules.Stress.CannotPerformRedManeuversWhileStressed;
+        newShipContainer.AfterGenerateAvailableActionEffectsList += Rules.Force.AddForceAction;
+        newShipContainer.OnRoundEnd += Rules.Force.RegenerateForce;
         newShipContainer.OnShipIsDestroyed += Rules.TargetLocks.RegisterRemoveTargetLocksOnDestruction;
+        newShipContainer.OnActionIsPerformed += Rules.Actions.RedActionCheck;
+        newShipContainer.OnActionIsPerformed += Rules.Actions.CheckLinkedAction;
 
         newShipContainer.OnTokenIsAssigned += Roster.UpdateTokensIndicator;
         newShipContainer.OnTokenIsRemoved += Roster.UpdateTokensIndicator;

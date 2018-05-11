@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RuleSets;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -328,7 +329,7 @@ public partial class DiceRoll
 
     public void ApplyEvade()
     {
-        AddDice(DieSide.Success).ShowWithoutRoll();
+        RuleSet.Instance.EvadeDiceModification(this);
 
         OrganizeDicePositions();
         UpdateDiceCompareHelperPrediction();

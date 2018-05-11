@@ -18,6 +18,7 @@ public static class Options
     public static string Avatar;
     public static string NickName;
     public static string Title;
+    public static string Edition;
 
     static Options()
     {
@@ -35,6 +36,9 @@ public static class Options
         Avatar = PlayerPrefs.GetString("Avatar", "UpgradesList.VeteranInstincts");
         NickName = PlayerPrefs.GetString("NickName", "Unknown Pilot");
         Title = PlayerPrefs.GetString("Title", "Test Pilot");
+
+        Edition = PlayerPrefs.GetString("Edition", "FirstEdition");
+        MainMenu.SetEdition(Edition);
 
         ReadMods();
     }

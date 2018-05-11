@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Movement;
 using ActionsList;
+using RuleSets;
 
 namespace Ship
 {
     namespace Firespray31
     {
-        public class Firespray31 : GenericShip
+        public class Firespray31 : GenericShip, ISecondEditionShip
         {
 
             public Firespray31() : base()
@@ -20,6 +21,8 @@ namespace Ship
                 ShipBaseArcsType = Arcs.BaseArcsType.ArcRear;
 
                 ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/4/4e/Firespray_31_Move.png";
+
+                ShipIconLetter = 'f';
 
                 Firepower = 3;
                 Agility = 2;
@@ -47,7 +50,6 @@ namespace Ship
                 {
                     SoundFlyPaths.Add("Slave1-Fly" + i);
                 }
-                
             }
 
             private void AssignTemporaryManeuvers()
@@ -64,16 +66,43 @@ namespace Ship
                 Maneuvers.Add("2.R.B", ManeuverColor.White);
                 Maneuvers.Add("2.R.T", ManeuverColor.White);
                 Maneuvers.Add("2.F.R", ManeuverColor.None);
+                Maneuvers.Add("3.L.E", ManeuverColor.None);
                 Maneuvers.Add("3.L.T", ManeuverColor.White);
                 Maneuvers.Add("3.L.B", ManeuverColor.White);
                 Maneuvers.Add("3.F.S", ManeuverColor.White);
                 Maneuvers.Add("3.R.B", ManeuverColor.White);
                 Maneuvers.Add("3.R.T", ManeuverColor.White);
+                Maneuvers.Add("3.R.E", ManeuverColor.None);
                 Maneuvers.Add("3.F.R", ManeuverColor.Red);
                 Maneuvers.Add("4.F.S", ManeuverColor.White);
                 Maneuvers.Add("4.F.R", ManeuverColor.Red);
                 Maneuvers.Add("5.F.S", ManeuverColor.None);
                 Maneuvers.Add("5.F.R", ManeuverColor.None);
+            }
+
+            public void AdaptShipToSecondEdition()
+            {
+                ShipBaseSize = BaseSize.Medium;
+
+                MaxHull = 6;
+                MaxShields = 2;
+
+                Maneuvers["1.L.T"] = ManeuverColor.White;
+                Maneuvers["1.R.T"] = ManeuverColor.White;
+                Maneuvers["3.L.T"] = ManeuverColor.None;
+                Maneuvers["3.R.T"] = ManeuverColor.None;
+                Maneuvers["3.L.E"] = ManeuverColor.Red;
+                Maneuvers["3.R.E"] = ManeuverColor.Red;
+                Maneuvers["3.F.S"] = ManeuverColor.Green;
+                Maneuvers["3.F.R"] = ManeuverColor.None;
+
+                PrintedUpgradeIcons.Remove(PrintedUpgradeIcons.Find(n => n.GetType() == typeof(EvadeAction)));
+
+                PrintedActions.Add(new ReinforceAftAction() {Host = this});
+                PrintedActions.Add(new ReinforceForeAction() {Host = this});
+                PrintedActions.Add(new BoostAction());
+
+                factions.Remove(Faction.Imperial);
             }
 
         }

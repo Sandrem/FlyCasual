@@ -9,10 +9,11 @@ using GameModes;
 using System.Collections.Generic;
 using System;
 using SubPhases;
+using RuleSets;
 
 namespace UpgradesList
 {
-    public class ServomotorSFoilsClosed : GenericDualUpgrade
+    public class ServomotorSFoilsClosed : GenericDualUpgrade, ISecondEditionUpgrade
     {
         public ServomotorSFoilsClosed() : base()
         {
@@ -23,13 +24,18 @@ namespace UpgradesList
             AnotherSide = typeof(ServomotorSFoilsAttack);
         }
 
+        public void AdaptUpgradeToSecondEdition()
+        {
+            ImageUrl = "https://i.imgur.com/1BNoYDk.png";
+        }
+
         public override bool IsAllowedForShip(GenericShip ship)
         {
             return ship is XWing;
         }
     }
 
-    public class ServomotorSFoilsAttack : GenericDualUpgrade
+    public class ServomotorSFoilsAttack : GenericDualUpgrade, ISecondEditionUpgrade
     {
         public ServomotorSFoilsAttack() : base()
         {
@@ -38,6 +44,11 @@ namespace UpgradesList
             Cost = 0;
             UpgradeAbilities.Add(new ServomotorSFoilsAttackAbility());
             AnotherSide = typeof(ServomotorSFoilsClosed);
+        }
+
+        public void AdaptUpgradeToSecondEdition()
+        {
+            ImageUrl = "https://i.imgur.com/IRkox13.png";
         }
 
         public override bool IsAllowedForShip(GenericShip ship)

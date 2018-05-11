@@ -8,6 +8,7 @@ using UnityEngine;
 using Upgrade;
 using GameModes;
 using UnityEngine.SceneManagement;
+using RuleSets;
 
 namespace SquadBuilderNS
 {
@@ -157,6 +158,7 @@ namespace SquadBuilderNS
                 {
                     namespaceList.Add(ns);
                     GenericShip newShipTypeContainer = (GenericShip)System.Activator.CreateInstance(System.Type.GetType(ns + "." + ns.Substring(5)));
+                    RuleSet.Instance.AdaptShipToRules(newShipTypeContainer);
 
                     if (AllShips.Find(n => n.ShipName == newShipTypeContainer.Type) == null)
                     {
@@ -189,6 +191,8 @@ namespace SquadBuilderNS
                 if (type.MemberType == MemberTypes.NestedType) continue;
 
                 GenericShip newShipContainer = (GenericShip)System.Activator.CreateInstance(type);
+                RuleSet.Instance.AdaptPilotToRules(newShipContainer);
+
                 if ((newShipContainer.PilotName != null) && (newShipContainer.IsAllowedForSquadBuilder()))
                 {
                     if ((newShipContainer.faction == faction) || faction == Faction.None)
@@ -234,6 +238,8 @@ namespace SquadBuilderNS
                 {
                     if (AllUpgrades.Find(n => n.UpgradeName == newUpgradeContainer.Name) == null)
                     {
+                        RuleSet.Instance.AdaptUpgradeToRules(newUpgradeContainer);
+
                         AllUpgrades.Add(new UpgradeRecord()
                         {
                             UpgradeName = newUpgradeContainer.Name,
@@ -279,6 +285,7 @@ namespace SquadBuilderNS
         {
             string upgradeType = AllUpgrades.Find(n => n.UpgradeName == upgradeName).UpgradeTypeName;
             GenericUpgrade newUpgrade = (GenericUpgrade)System.Activator.CreateInstance(Type.GetType(upgradeType));
+            RuleSet.Instance.AdaptUpgradeToRules(newUpgrade);
 
             List<UpgradeSlot> slots = FindFreeSlots(ship, newUpgrade.Types);
             if (slots.Count != 0)
@@ -471,7 +478,8 @@ namespace SquadBuilderNS
 
         private static bool ValidatePlayerRoster(PlayerNo playerNo)
         {
-            if (RosterIsEmpty(playerNo)) return false;
+            if (!ValidateMinShipsCount(playerNo)) return false;
+            if (!ValidateMaxShipsCount(playerNo)) return false;
             if (!ValidateUniqueCards(playerNo)) return false;
             if (!ValidateSquadCost(playerNo)) return false;
             if (!ValidateLimitedCards(playerNo)) return false;
@@ -482,13 +490,24 @@ namespace SquadBuilderNS
             return true;
         }
 
-        private static bool RosterIsEmpty(PlayerNo playerNo)
+        private static bool ValidateMinShipsCount(PlayerNo playerNo)
         {
-            bool result = false;
-            if (GetSquadList(playerNo).GetShips().Count == 0)
+            bool result = true;
+            if (GetSquadList(playerNo).GetShips().Count < RuleSet.Instance.MinShipsCount)
             {
-                result = true;
-                Messages.ShowError("At least one pilot must be present");
+                result = false;
+                Messages.ShowError("Minimum number of pilots is required: " + RuleSet.Instance.MinShipsCount);
+            }
+            return result;
+        }
+
+        private static bool ValidateMaxShipsCount(PlayerNo playerNo)
+        {
+            bool result = true;
+            if (GetSquadList(playerNo).GetShips().Count > RuleSet.Instance.MaxShipsCount)
+            {
+                result = false;
+                Messages.ShowError("Maximum number of pilots is required: " + RuleSet.Instance.MaxShipsCount);
             }
             return result;
         }
@@ -537,9 +556,9 @@ namespace SquadBuilderNS
 
             if (!DebugManager.DebugNoSquadPointsLimit)
             {
-                if (GetSquadCost(playerNo) > 100)
+                if (GetSquadCost(playerNo) > RuleSet.Instance.MaxPoints)
                 {
-                    Messages.ShowError("Cost of squadron cannot be more than 100");
+                    Messages.ShowError("Cost of squadron cannot be more than " + RuleSet.Instance.MaxPoints);
                     result = false;
                 }
             }
@@ -707,6 +726,8 @@ namespace SquadBuilderNS
 
                         PilotRecord pilotRecord = AllPilots.Find(n => n.PilotName == pilotNameGeneral && n.PilotShip.ShipName == shipNameGeneral && n.PilotFaction == faction);
                         GenericShip newShipInstance = (GenericShip)Activator.CreateInstance(Type.GetType(pilotRecord.PilotTypeName));
+                        RuleSet.Instance.AdaptShipToRules(newShipInstance);
+                        RuleSet.Instance.AdaptPilotToRules(newShipInstance);
                         SquadBuilderShip newShip = AddPilotToSquad(newShipInstance, playerNo);
 
                         List<string> upgradesThatCannotBeInstalled = new List<string>();

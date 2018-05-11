@@ -15,18 +15,20 @@ namespace SubPhases
         public EventHandler Effect { get; private set; }
         public string Tooltip { get; private set; }
         public int Count { get; private set; }
+        public bool IsRed { get; private set; }
 
         public bool HasTooltip
         {
             get { return Tooltip != null; }
         }
 
-        public Decision(string name, EventHandler effect, string tooltip = null, int count = -1)
+        public Decision(string name, EventHandler effect, string tooltip = null, int count = -1, bool isRed = false)
         {
             Name = name;
             Effect = effect;
             Tooltip = tooltip;
             Count = count;
+            IsRed = isRed;
         }
 
         public void AddTooltip(string tooltip)
@@ -91,7 +93,7 @@ namespace SubPhases
             UpdateHelpInfo();
         }
 
-        public string AddDecision(string name, EventHandler call, string tooltip = null, int count = -1)
+        public string AddDecision(string name, EventHandler call, string tooltip = null, int count = -1, bool isRed = false)
         {
             int counter = 2;
             string newName = name;
@@ -99,7 +101,7 @@ namespace SubPhases
             {
                 newName = name + " #" + counter++;
             }
-            decisions.Add(new Decision(newName, call, tooltip, count));
+            decisions.Add(new Decision(newName, call, tooltip, count, isRed));
 
             return newName;
         }
@@ -181,6 +183,7 @@ namespace SubPhases
                             button.transform.localPosition = new Vector3((i % 2 == 0) ? 5 : 200, -buttonHeight * (i / 2), 0);
 
                             button.GetComponentInChildren<Text>().text = decision.Name;
+                            button.GetComponentInChildren<Text>().color = (decision.IsRed) ? Color.red : Color.white;
 
                             if (decision.HasTooltip)
                             {

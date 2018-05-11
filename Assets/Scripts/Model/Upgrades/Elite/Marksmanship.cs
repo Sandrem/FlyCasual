@@ -5,11 +5,12 @@ using UnityEngine;
 using Upgrade;
 using Abilities;
 using ActionsList;
+using RuleSets;
 
 namespace UpgradesList
 {
 
-    public class Marksmanship : GenericUpgrade
+    public class Marksmanship : GenericUpgrade, ISecondEditionUpgrade
     {
         public Marksmanship() : base()
         {
@@ -18,6 +19,11 @@ namespace UpgradesList
             Cost = 3;
 
             UpgradeAbilities.Add(new MarksmanshipAbility());
+        }
+
+        public void AdaptUpgradeToSecondEdition()
+        {
+            // Do nothing
         }
     }
 }

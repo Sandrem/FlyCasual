@@ -36,6 +36,8 @@ namespace Upgrade
 
             if (isDiscarded) return false;
 
+            if (UsesCharges && Charges == 0) return false;
+
             int range;
             if (!CanShootOutsideArc)
             {
@@ -95,9 +97,13 @@ namespace Upgrade
         private void PayDiscardCost(Action callBack)
         {
             if (IsDiscardedForShot)
-                {
-                    TryDiscard(callBack);
-                }
+            {
+                TryDiscard(callBack);
+            }
+            else if (UsesCharges)
+            {
+                SpendCharge(callBack);
+            }
             else
             {
                 callBack();

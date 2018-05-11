@@ -4,12 +4,13 @@ using UnityEngine;
 using Ship;
 using SubPhases;
 using System;
+using RuleSets;
 
 namespace Ship
 {
     namespace YWing
     {
-        public class DutchVander : YWing
+        public class DutchVander : YWing, ISecondEditionPilot
         {
             public DutchVander() : base()
             {
@@ -24,6 +25,13 @@ namespace Ship
                 faction = Faction.Rebel;
 
                 PilotAbilities.Add(new Abilities.DutchVanderAbility());
+            }
+
+            public void AdaptPilotToSecondEdition()
+            {
+                PilotSkill = 4;
+
+                // TODO: Change Ability
             }
         }
     }

@@ -111,6 +111,7 @@ namespace Ship
 
         public event EventHandlerShip OnActivationPhaseStart;
         public event EventHandlerShip OnActionSubPhaseStart;
+        public event EventHandlerShip OnRoundEnd;
 
         public event EventHandlerBoolStringList OnTryPerformAttack;
         public static event EventHandlerBoolStringList OnTryPerformAttackGlobal;
@@ -201,6 +202,11 @@ namespace Ship
         public void CallOnActivationPhaseStart()
         {
             if (OnActivationPhaseStart != null) OnActivationPhaseStart(this);
+        }
+
+        public void CallOnRoundEnd()
+        {
+            if (OnRoundEnd != null) OnRoundEnd(this);
         }
 
         public void CallOnActionSubPhaseStart()

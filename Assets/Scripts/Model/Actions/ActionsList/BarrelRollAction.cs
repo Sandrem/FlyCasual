@@ -5,6 +5,7 @@ using Board;
 using GameModes;
 using System;
 using System.Linq;
+using RuleSets;
 
 namespace ActionsList
 {
@@ -411,8 +412,6 @@ namespace SubPhases
         {
             StopDrag();
 
-            TheShip.RemoveAlreadyExecutedAction(typeof(ActionsList.BarrelRollAction));
-
             TheShip.IsLandedOnObstacle = false;
             GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
             Game.Movement.CollidedWith = null;
@@ -420,7 +419,7 @@ namespace SubPhases
             MonoBehaviour.Destroy(TemporaryShipBase);
             BarrelRollTemplate.SetActive(false);
 
-            PreviousSubPhase.Resume();
+            RuleSet.Instance.ActionIsFailed(TheShip, typeof(ActionsList.BarrelRollAction));
         }
 
         public void TryConfirmBarrelRollNetwork(string templateName, Vector3 shipPosition, Vector3 movementTemplatePosition)

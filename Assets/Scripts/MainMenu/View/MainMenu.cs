@@ -86,6 +86,9 @@ public partial class MainMenu : MonoBehaviour {
             case "AvatarsPanel":
                 InitializePlayerCustomization();
                 break;
+            case "EditionPanel":
+                ShowActiveEdition(Options.Edition);
+                break;
         }
     }
 
@@ -98,6 +101,40 @@ public partial class MainMenu : MonoBehaviour {
         NewVersionUrl = downloadUrl;
 
         panel.SetActive(true);
+    }
+
+    public void ChangeEditionIsClicked(GameObject editionGO)
+    {
+        ShowActiveEdition(editionGO.name);
+        SetEdition(editionGO.name);
+    }
+
+    private void ShowActiveEdition(string editionName)
+    {
+        foreach (Transform panelTransform in GameObject.Find("UI/Panels/EditionPanel/Content").gameObject.transform)
+        {
+            Image backgroundImage = panelTransform.GetComponent<Image>();
+            if (backgroundImage != null) backgroundImage.enabled = false;
+        }
+
+        GameObject.Find("UI/Panels/EditionPanel/Content/" + editionName).GetComponent<Image>().enabled = true;
+    }
+
+    public static void SetEdition(string editionName)
+    {
+        Options.ChangeParameterValue("Edition", editionName);
+
+        switch (editionName)
+        {
+            case "FirstEdition":
+                new RuleSets.FirstEdition();
+                break;
+            case "SecondEdition":
+                new RuleSets.SecondEdition();
+                break;
+            default:
+                break;
+        }
     }
 
 }

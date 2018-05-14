@@ -28,7 +28,7 @@ namespace Ship
             {
                 PilotSkill = 5;
                 MaxForce = 2;
-                ImageUrl = "https://i.imgur.com/6wkU5cW.png";
+                ImageUrl = "https://i.imgur.com/skbsB74.png";
                 Cost = 60;
             }
         }

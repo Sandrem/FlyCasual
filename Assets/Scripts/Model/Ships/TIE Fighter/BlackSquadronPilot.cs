@@ -19,8 +19,9 @@ namespace Ship
 
             public void AdaptPilotToSecondEdition()
             {
+                PilotName = "Black Squadron Ace";
                 PilotSkill = 3;
-                ImageUrl = "https://i.imgur.com/orUlS3p.png";
+                ImageUrl = "https://i.imgur.com/uj0phgF.png";
 
                 Cost = 30;
             }

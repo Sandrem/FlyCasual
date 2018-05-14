@@ -18,7 +18,7 @@ namespace Ship
 
             public void AdaptPilotToSecondEdition()
             {
-                // No changes
+                ImageUrl = "https://i.imgur.com/3NyVv05.png";
             }
         }
     }

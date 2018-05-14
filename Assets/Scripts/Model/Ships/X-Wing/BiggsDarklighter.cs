@@ -9,7 +9,7 @@ namespace Ship
 {
     namespace XWing
     {
-        public class BiggsDarklighter : XWing, ISecondEditionPilot
+        public class BiggsDarklighter : XWing
         {
             public BiggsDarklighter() : base()
             {
@@ -20,14 +20,6 @@ namespace Ship
                 IsUnique = true;
 
                 PilotAbilities.Add(new Abilities.BiggsDarklighterAbility());
-            }
-
-            public void AdaptPilotToSecondEdition()
-            {
-                PilotSkill = 3;
-                ImageUrl = "https://i.imgur.com/Kfqft7D.png";
-                Cost = 0; // TODO: Change
-                //TODO: Change ability
             }
         }
     }

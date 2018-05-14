@@ -31,7 +31,7 @@ namespace Ship
             {
                 PilotSkill = 4;
 
-                // TODO: Change Ability
+                ImageUrl = "https://i.imgur.com/23Kxqgq.png";
             }
         }
     }

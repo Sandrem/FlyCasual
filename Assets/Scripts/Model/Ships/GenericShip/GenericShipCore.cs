@@ -188,7 +188,7 @@ namespace Ship
         public BaseSize ShipBaseSize { get; protected set; }
         public GenericShipBase ShipBase { get; protected set; }
 
-        public BaseArcsType ShipBaseArcsType { get; protected set; }
+        public BaseArcsType ShipBaseArcsType { get; set; }
         public GenericArc ArcInfo { get; protected set; }
 
         public Upgrade.ShipUpgradeBar UpgradeBar { get; protected set; }
@@ -279,7 +279,7 @@ namespace Ship
             SetTagOfChildrenRecursive(Model.transform, "ShipId:" + ShipId.ToString());
         }
 
-        private void InitializeShipBaseArc()
+        public void InitializeShipBaseArc()
         {
             switch (ShipBaseArcsType)
             {

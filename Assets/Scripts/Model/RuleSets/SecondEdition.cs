@@ -1,4 +1,5 @@
-﻿using Arcs;
+﻿using ActionsList;
+using Arcs;
 using GameModes;
 using Ship;
 using System;
@@ -108,6 +109,18 @@ namespace RuleSets
         public override void RotateMobileFiringArc(ArcFacing facing)
         {
             Selection.ThisShip.ShowMobileFiringArcHighlight(facing);
+        }
+
+        public override void ActivateGenericUpgradeAbility(GenericShip host, List<UpgradeType> upgradeTypes)
+        {
+            if (upgradeTypes.Contains(UpgradeType.Turret))
+            {
+                host.ShipBaseArcsType = BaseArcsType.ArcMobile;
+                host.InitializeShipBaseArc();
+
+                // Temporary
+                if (!host.PrintedActions.Any(n => n.GetType() == typeof(RotateArcAction))) host.PrintedActions.Add(new RotateArcAction());
+            }
         }
     }
 }

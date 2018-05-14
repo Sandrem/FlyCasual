@@ -33,5 +33,6 @@ namespace RuleSets
         public abstract void SetShipBaseImage(GenericShip ship);
 
         public virtual void RotateMobileFiringArc(ArcFacing facing) { }
+        public virtual void ActivateGenericUpgradeAbility(GenericShip host, List<UpgradeType> upgradeTypes) { }
     }
 }

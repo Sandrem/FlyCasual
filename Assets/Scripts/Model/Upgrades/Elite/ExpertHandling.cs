@@ -8,11 +8,12 @@ using Ship;
 using ActionsList;
 using SubPhases;
 using Tokens;
+using RuleSets;
 
 namespace UpgradesList
 {
 
-    public class ExpertHandling : GenericUpgrade
+    public class ExpertHandling : GenericUpgrade, ISecondEditionUpgrade
     {
         public ExpertHandling() : base()
         {
@@ -21,6 +22,11 @@ namespace UpgradesList
             Cost = 2;
 
             UpgradeAbilities.Add(new ExpertHandlingAbility());
+        }
+
+        public void AdaptUpgradeToSecondEdition()
+        {
+            ImageUrl = "https://i.imgur.com/iUYcXMd.png";
         }
     }
 }

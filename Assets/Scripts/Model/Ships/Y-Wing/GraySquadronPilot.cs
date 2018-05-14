@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Upgrade;
 
 namespace Ship
 {
@@ -15,7 +16,7 @@ namespace Ship
                 PilotSkill = 4;
                 Cost = 20;
 
-                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Astromech);
+                PrintedUpgradeIcons.Add(UpgradeType.Astromech);
 
                 SkinName = "Gray";
 
@@ -27,7 +28,12 @@ namespace Ship
                 PilotName = "Gray Squadron Bomber";
                 PilotNameShort = "Gray Sq. Bomber";
                 PilotSkill = 2;
+
                 ImageUrl = "https://i.imgur.com/1tN3KEx.png";
+
+                PrintedUpgradeIcons.Add(UpgradeType.Elite);
+
+                Cost = 40;
             }
         }
     }

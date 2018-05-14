@@ -29,8 +29,7 @@ namespace Ship
                 PilotSkill = 5;
                 MaxForce = 2;
                 ImageUrl = "https://i.imgur.com/6wkU5cW.png";
-                Cost = 0; // TODO: Change
-                //TODO: Change ability
+                Cost = 60;
             }
         }
     }

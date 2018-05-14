@@ -90,7 +90,6 @@ namespace Ship
                 factions.Remove(Faction.Scum);
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Bomb);
-                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
             }
 
         }

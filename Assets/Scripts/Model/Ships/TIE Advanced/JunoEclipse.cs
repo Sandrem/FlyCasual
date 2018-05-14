@@ -38,9 +38,9 @@ namespace Abilities
         List<string> allowedMovements = new List<string>();
 
         string keyPlus;
-        ManeuverColor plusColor;
+        MovementComplexity plusColor;
         string keyMinus;
-        ManeuverColor minusColor;
+        MovementComplexity minusColor;
 
         public override void ActivateAbility()
         {
@@ -67,7 +67,7 @@ namespace Abilities
 
             //Generate key for maneuvre + 1. If exist backups old color, and change to actual
             keyPlus = key.Replace(speed.ToString()[0], (speed + 1).ToString()[0]);
-            plusColor = ManeuverColor.None;
+            plusColor = MovementComplexity.None;
             if (HostShip.Maneuvers.ContainsKey(keyPlus))
             {
                 allowedMovements.Add(keyPlus);
@@ -77,7 +77,7 @@ namespace Abilities
 
             //Generate key for maneuvre - 1. If exist backups old color, and change to actual
             keyMinus = key.Replace(speed.ToString()[0], (speed - 1).ToString()[0]);
-            minusColor = ManeuverColor.None;
+            minusColor = MovementComplexity.None;
             if (HostShip.Maneuvers.ContainsKey(keyMinus))
             {
                 allowedMovements.Add(keyMinus);

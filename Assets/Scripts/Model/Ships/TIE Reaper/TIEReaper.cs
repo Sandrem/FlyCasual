@@ -49,22 +49,22 @@ namespace Ship
 
             private void AssignTemporaryManeuvers()
             {
-                Maneuvers.Add("0.S.S", ManeuverColor.Red);
-                Maneuvers.Add("1.L.R", ManeuverColor.Red);
-                Maneuvers.Add("1.L.T", ManeuverColor.White);
-                Maneuvers.Add("1.L.B", ManeuverColor.White);
-                Maneuvers.Add("1.F.S", ManeuverColor.Green);
-                Maneuvers.Add("1.R.B", ManeuverColor.White);
-                Maneuvers.Add("1.R.T", ManeuverColor.White);
-                Maneuvers.Add("1.R.R", ManeuverColor.Red);
-                Maneuvers.Add("2.L.T", ManeuverColor.Red);
-                Maneuvers.Add("2.L.B", ManeuverColor.Green);
-                Maneuvers.Add("2.F.S", ManeuverColor.Green);
-                Maneuvers.Add("2.R.B", ManeuverColor.Green);
-                Maneuvers.Add("2.R.T", ManeuverColor.Red);
-                Maneuvers.Add("3.L.B", ManeuverColor.Red);
-                Maneuvers.Add("3.F.S", ManeuverColor.Green);
-                Maneuvers.Add("3.R.B", ManeuverColor.Red);
+                Maneuvers.Add("0.S.S", MovementComplexity.Complex);
+                Maneuvers.Add("1.L.R", MovementComplexity.Complex);
+                Maneuvers.Add("1.L.T", MovementComplexity.Normal);
+                Maneuvers.Add("1.L.B", MovementComplexity.Normal);
+                Maneuvers.Add("1.F.S", MovementComplexity.Easy);
+                Maneuvers.Add("1.R.B", MovementComplexity.Normal);
+                Maneuvers.Add("1.R.T", MovementComplexity.Normal);
+                Maneuvers.Add("1.R.R", MovementComplexity.Complex);
+                Maneuvers.Add("2.L.T", MovementComplexity.Complex);
+                Maneuvers.Add("2.L.B", MovementComplexity.Easy);
+                Maneuvers.Add("2.F.S", MovementComplexity.Easy);
+                Maneuvers.Add("2.R.B", MovementComplexity.Easy);
+                Maneuvers.Add("2.R.T", MovementComplexity.Complex);
+                Maneuvers.Add("3.L.B", MovementComplexity.Complex);
+                Maneuvers.Add("3.F.S", MovementComplexity.Easy);
+                Maneuvers.Add("3.R.B", MovementComplexity.Complex);
             }
 
             public void AdaptShipToSecondEdition()

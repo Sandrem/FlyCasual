@@ -36,7 +36,7 @@ namespace Abilities
 
         private void RegisterTargetingAstromech(GenericShip hostShip)
         {
-            if (HostShip.GetLastManeuverColor() != Movement.ManeuverColor.Red) return;
+            if (HostShip.GetLastManeuverColor() != Movement.MovementComplexity.Complex) return;
             if (BoardManager.IsOffTheBoard(hostShip)) return;
 
             RegisterAbilityTrigger(TriggerTypes.OnShipMovementFinish, AssignAstromechTargetingLock);            

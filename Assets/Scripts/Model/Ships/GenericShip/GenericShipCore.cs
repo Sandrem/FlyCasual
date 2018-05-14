@@ -228,7 +228,7 @@ namespace Ship
             RequiredMods = new List<Type>();
             factions = new List<Faction>();
             SoundFlyPaths = new List<string> ();
-            Maneuvers = new Dictionary<string, Movement.ManeuverColor>();
+            Maneuvers = new Dictionary<string, Movement.MovementComplexity>();
             UpgradeBar = new Upgrade.ShipUpgradeBar(this);
             Tokens = new TokensManager(this);
             PrintedUpgradeIcons = new List<Upgrade.UpgradeType>();

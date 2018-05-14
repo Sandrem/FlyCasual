@@ -31,7 +31,7 @@ namespace Abilities
     public class CountessRyadAbility : GenericAbility
     {
         string maneuverKey;
-        ManeuverColor originalColor;
+        MovementComplexity originalColor;
 
         public override void ActivateAbility()
         {

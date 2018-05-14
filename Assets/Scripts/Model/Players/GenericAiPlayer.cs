@@ -49,7 +49,7 @@ namespace Players
             foreach (var shipHolder in Ships)
             {
                 Selection.ChangeActiveShip("ShipId:" + shipHolder.Value.ShipId);
-                shipHolder.Value.SetAssignedManeuver(new Movement.StraightMovement(2, Movement.ManeuverDirection.Forward, Movement.ManeuverBearing.Straight, Movement.ManeuverColor.White));
+                shipHolder.Value.SetAssignedManeuver(new Movement.StraightMovement(2, Movement.ManeuverDirection.Forward, Movement.ManeuverBearing.Straight, Movement.MovementComplexity.Normal));
             }
             Phases.Next();
         }

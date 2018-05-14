@@ -45,11 +45,11 @@ namespace Abilities
 
         private void CheckR2AstromechAbility(Ship.GenericShip ship, ref Movement.MovementStruct movement)
         {
-            if (movement.ColorComplexity != Movement.ManeuverColor.None)
+            if (movement.ColorComplexity != Movement.MovementComplexity.None)
             {
                 if ((movement.Speed == Movement.ManeuverSpeed.Speed1) || (movement.Speed == Movement.ManeuverSpeed.Speed2))
                 {
-                    movement.ColorComplexity = Movement.ManeuverColor.Green;
+                    movement.ColorComplexity = Movement.MovementComplexity.Easy;
                 }
             }
         }

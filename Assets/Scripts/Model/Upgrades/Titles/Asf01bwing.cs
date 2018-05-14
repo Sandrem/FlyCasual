@@ -69,7 +69,7 @@ namespace Abilities
             var energyGain = 0;
             switch(color)
             {
-                case Movement.ManeuverColor.Green:
+                case Movement.MovementComplexity.Easy:
                     energyGain = 1;
                     break;                
             }

@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEngine;
 using Upgrade;
 
 namespace RuleSets
@@ -16,8 +17,8 @@ namespace RuleSets
         public abstract int MaxPoints { get; }
         public abstract int MaxShipsCount { get; }
         public abstract int MinShipsCount { get; }
-
         public abstract string CombatPhaseName { get; }
+        public abstract Color MovementEasyColor {get;}
 
         public RuleSet()
         {

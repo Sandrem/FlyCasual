@@ -54,30 +54,30 @@ namespace Ship
 
             private void AssignTemporaryManeuvers()
             {
-                Maneuvers.Add("1.L.T", ManeuverColor.None);
-                Maneuvers.Add("1.L.B", ManeuverColor.Green);
-                Maneuvers.Add("1.F.S", ManeuverColor.Green);
-                Maneuvers.Add("1.R.B", ManeuverColor.Green);
-                Maneuvers.Add("1.R.T", ManeuverColor.None);
-                Maneuvers.Add("1.F.R", ManeuverColor.None);
-                Maneuvers.Add("2.L.T", ManeuverColor.White);
-                Maneuvers.Add("2.L.B", ManeuverColor.White);
-                Maneuvers.Add("2.F.S", ManeuverColor.Green);
-                Maneuvers.Add("2.R.B", ManeuverColor.White);
-                Maneuvers.Add("2.R.T", ManeuverColor.White);
-                Maneuvers.Add("2.F.R", ManeuverColor.None);
-                Maneuvers.Add("3.L.E", ManeuverColor.None);
-                Maneuvers.Add("3.L.T", ManeuverColor.White);
-                Maneuvers.Add("3.L.B", ManeuverColor.White);
-                Maneuvers.Add("3.F.S", ManeuverColor.White);
-                Maneuvers.Add("3.R.B", ManeuverColor.White);
-                Maneuvers.Add("3.R.T", ManeuverColor.White);
-                Maneuvers.Add("3.R.E", ManeuverColor.None);
-                Maneuvers.Add("3.F.R", ManeuverColor.Red);
-                Maneuvers.Add("4.F.S", ManeuverColor.White);
-                Maneuvers.Add("4.F.R", ManeuverColor.Red);
-                Maneuvers.Add("5.F.S", ManeuverColor.None);
-                Maneuvers.Add("5.F.R", ManeuverColor.None);
+                Maneuvers.Add("1.L.T", MovementComplexity.None);
+                Maneuvers.Add("1.L.B", MovementComplexity.Easy);
+                Maneuvers.Add("1.F.S", MovementComplexity.Easy);
+                Maneuvers.Add("1.R.B", MovementComplexity.Easy);
+                Maneuvers.Add("1.R.T", MovementComplexity.None);
+                Maneuvers.Add("1.F.R", MovementComplexity.None);
+                Maneuvers.Add("2.L.T", MovementComplexity.Normal);
+                Maneuvers.Add("2.L.B", MovementComplexity.Normal);
+                Maneuvers.Add("2.F.S", MovementComplexity.Easy);
+                Maneuvers.Add("2.R.B", MovementComplexity.Normal);
+                Maneuvers.Add("2.R.T", MovementComplexity.Normal);
+                Maneuvers.Add("2.F.R", MovementComplexity.None);
+                Maneuvers.Add("3.L.E", MovementComplexity.None);
+                Maneuvers.Add("3.L.T", MovementComplexity.Normal);
+                Maneuvers.Add("3.L.B", MovementComplexity.Normal);
+                Maneuvers.Add("3.F.S", MovementComplexity.Normal);
+                Maneuvers.Add("3.R.B", MovementComplexity.Normal);
+                Maneuvers.Add("3.R.T", MovementComplexity.Normal);
+                Maneuvers.Add("3.R.E", MovementComplexity.None);
+                Maneuvers.Add("3.F.R", MovementComplexity.Complex);
+                Maneuvers.Add("4.F.S", MovementComplexity.Normal);
+                Maneuvers.Add("4.F.R", MovementComplexity.Complex);
+                Maneuvers.Add("5.F.S", MovementComplexity.None);
+                Maneuvers.Add("5.F.R", MovementComplexity.None);
             }
 
             public void AdaptShipToSecondEdition()
@@ -87,14 +87,14 @@ namespace Ship
                 MaxHull = 6;
                 MaxShields = 2;
 
-                Maneuvers["1.L.T"] = ManeuverColor.White;
-                Maneuvers["1.R.T"] = ManeuverColor.White;
-                Maneuvers["3.L.T"] = ManeuverColor.None;
-                Maneuvers["3.R.T"] = ManeuverColor.None;
-                Maneuvers["3.L.E"] = ManeuverColor.Red;
-                Maneuvers["3.R.E"] = ManeuverColor.Red;
-                Maneuvers["3.F.S"] = ManeuverColor.Green;
-                Maneuvers["3.F.R"] = ManeuverColor.None;
+                Maneuvers["1.L.T"] = MovementComplexity.Normal;
+                Maneuvers["1.R.T"] = MovementComplexity.Normal;
+                Maneuvers["3.L.T"] = MovementComplexity.None;
+                Maneuvers["3.R.T"] = MovementComplexity.None;
+                Maneuvers["3.L.E"] = MovementComplexity.Complex;
+                Maneuvers["3.R.E"] = MovementComplexity.Complex;
+                Maneuvers["3.F.S"] = MovementComplexity.Easy;
+                Maneuvers["3.F.R"] = MovementComplexity.None;
 
                 PrintedUpgradeIcons.Remove(PrintedUpgradeIcons.Find(n => n.GetType() == typeof(EvadeAction)));
 

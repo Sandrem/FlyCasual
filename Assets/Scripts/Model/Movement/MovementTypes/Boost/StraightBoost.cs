@@ -8,7 +8,7 @@ namespace Movement
 
     public class StraightBoost : StraightMovement
     {
-        public StraightBoost(int speed, ManeuverDirection direction, ManeuverBearing bearing, ManeuverColor color) : base(speed, direction, bearing, color)
+        public StraightBoost(int speed, ManeuverDirection direction, ManeuverBearing bearing, MovementComplexity color) : base(speed, direction, bearing, color)
         {
 
         }

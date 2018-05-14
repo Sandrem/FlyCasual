@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using GameModes;
+using RuleSets;
 
 namespace Movement
 {
@@ -37,12 +38,12 @@ namespace Movement
         Reverse
     }
 
-    public enum ManeuverColor
+    public enum MovementComplexity
     {
         None,
-        Green,
-        White,
-        Red
+        Easy,
+        Normal,
+        Complex
     }
 
     public struct MovementStruct
@@ -50,7 +51,7 @@ namespace Movement
         public ManeuverSpeed Speed;
         public ManeuverDirection Direction;
         public ManeuverBearing Bearing;
-        public ManeuverColor ColorComplexity;
+        public MovementComplexity ColorComplexity;
 
         private string shipTag;
 
@@ -272,7 +273,7 @@ namespace Movement
         public int Speed { get; set; }
         public ManeuverDirection Direction { get; set; }
         public ManeuverBearing Bearing { get; set; }
-        public ManeuverColor ColorComplexity { get; set; }
+        public MovementComplexity ColorComplexity { get; set; }
 
         private Ship.GenericShip theShip;
         public Ship.GenericShip TheShip {
@@ -292,7 +293,7 @@ namespace Movement
 
         public MovementPrediction movementPrediction;
 
-        public GenericMovement(int speed, ManeuverDirection direction, ManeuverBearing bearing, ManeuverColor color)
+        public GenericMovement(int speed, ManeuverDirection direction, ManeuverBearing bearing, MovementComplexity color)
         {
             Speed = speed;
             ManeuverSpeed = GetManeuverSpeed(speed);
@@ -547,15 +548,15 @@ namespace Movement
             Color result = Color.yellow;
             switch (ColorComplexity)
             {
-                case ManeuverColor.None:
+                case MovementComplexity.None:
                     break;
-                case ManeuverColor.Green:
-                    result = Color.green;
+                case MovementComplexity.Easy:
+                    result = RuleSet.Instance.MovementEasyColor;
                     break;
-                case ManeuverColor.White:
+                case MovementComplexity.Normal:
                     result = Color.white;
                     break;
-                case ManeuverColor.Red:
+                case MovementComplexity.Complex:
                     result = Color.red;
                     break;
                 default:

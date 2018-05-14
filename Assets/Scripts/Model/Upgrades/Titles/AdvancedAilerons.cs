@@ -40,16 +40,16 @@ namespace Abilities
         {
             base.ActivateAbility();
 
-            HostShip.Maneuvers["3.L.B"] = ManeuverColor.White;
-            HostShip.Maneuvers["3.R.B"] = ManeuverColor.White;
+            HostShip.Maneuvers["3.L.B"] = MovementComplexity.Normal;
+            HostShip.Maneuvers["3.R.B"] = MovementComplexity.Normal;
         }
 
         public override void DeactivateAbility()
         {
             base.ActivateAbility();
 
-            HostShip.Maneuvers["3.L.B"] = ManeuverColor.Red;
-            HostShip.Maneuvers["3.R.B"] = ManeuverColor.Red;
+            HostShip.Maneuvers["3.L.B"] = MovementComplexity.Complex;
+            HostShip.Maneuvers["3.R.B"] = MovementComplexity.Complex;
         }
     }
 }

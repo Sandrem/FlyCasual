@@ -43,7 +43,7 @@ namespace Abilities
 
         private void BB8PlanBarrelRoll(GenericShip host)
         {
-            if (host.AssignedManeuver.ColorComplexity == Movement.ManeuverColor.Green)
+            if (host.AssignedManeuver.ColorComplexity == Movement.MovementComplexity.Easy)
             {
                 RegisterAbilityTrigger(TriggerTypes.OnManeuverIsRevealed, BB8AskBarrelRoll);
             }

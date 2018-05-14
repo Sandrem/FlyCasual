@@ -51,7 +51,7 @@ namespace Abilities
         {
             if (Board.BoardManager.IsOffTheBoard(ship)) return;
 
-            if (ship.AssignedManeuver.ColorComplexity == Movement.ManeuverColor.Green)
+            if (ship.AssignedManeuver.ColorComplexity == Movement.MovementComplexity.Easy)
             {
                 RegisterAbilityTrigger(TriggerTypes.OnShipMovementExecuted, LandoCalrissianPilotAbility);
             }

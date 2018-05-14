@@ -138,7 +138,7 @@ namespace Abilities
         {
             if (HostShip.AssignedManeuver.Bearing == ManeuverBearing.Bank && HostShip.AssignedManeuver.Speed == 2)
             {
-                HostShip.AssignedManeuver.ColorComplexity = ManeuverColor.Green;
+                HostShip.AssignedManeuver.ColorComplexity = MovementComplexity.Easy;
                 Roster.UpdateAssignedManeuverDial(HostShip, HostShip.AssignedManeuver);
             }
         }
@@ -189,7 +189,7 @@ namespace Abilities
             Messages.ShowInfoToHuman("Servomotor S-foils: You can change your maneuver to red Tallon roll");
 
             string tallonCode = HostShip.AssignedManeuver.ToString().Replace('T', 'E');
-            HostShip.Maneuvers[tallonCode] = ManeuverColor.Red;
+            HostShip.Maneuvers[tallonCode] = MovementComplexity.Complex;
 
             allowedMovements.Clear();
             allowedMovements.Add(HostShip.AssignedManeuver.ToString());
@@ -208,7 +208,7 @@ namespace Abilities
         {
             HostShip.OnMovementFinish -= RestoreManuvers;
 
-            HostShip.Maneuvers[allowedMovements[1]] = ManeuverColor.None;
+            HostShip.Maneuvers[allowedMovements[1]] = MovementComplexity.None;
         }
 
         private bool TurnOrTallonRoll(string maneuverString)

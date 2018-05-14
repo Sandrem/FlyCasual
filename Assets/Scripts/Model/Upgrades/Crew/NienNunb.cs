@@ -44,11 +44,11 @@ namespace Abilities
 
         private void NienNunbAbility(GenericShip ship, ref MovementStruct movement)
         {
-            if (movement.ColorComplexity != ManeuverColor.None)
+            if (movement.ColorComplexity != MovementComplexity.None)
             {
                 if (movement.Bearing == ManeuverBearing.Straight)
                 {
-                    movement.ColorComplexity = ManeuverColor.Green;
+                    movement.ColorComplexity = MovementComplexity.Easy;
                 }
             }
         }

@@ -38,7 +38,7 @@ namespace Abilities
         private GenericMovement SavedManeuver;
 
         private static readonly List<string> ChangedManeuversCodes = new List<string>() { "1.L.B", "1.F.S", "1.R.B" };
-        private Dictionary<string, ManeuverColor> SavedManeuverColors;
+        private Dictionary<string, MovementComplexity> SavedManeuverColors;
 
         public override void ActivateAbility()
         {
@@ -74,11 +74,11 @@ namespace Abilities
         {
             SavedManeuver = HostShip.AssignedManeuver;
 
-            SavedManeuverColors = new Dictionary<string, ManeuverColor>();
+            SavedManeuverColors = new Dictionary<string, MovementComplexity>();
             foreach (var changedManeuver in ChangedManeuversCodes)
             {
                 SavedManeuverColors.Add(changedManeuver, HostShip.Maneuvers[changedManeuver]);
-                HostShip.Maneuvers[changedManeuver] = ManeuverColor.White;
+                HostShip.Maneuvers[changedManeuver] = MovementComplexity.Normal;
             }
 
             Triggers.RegisterTrigger(

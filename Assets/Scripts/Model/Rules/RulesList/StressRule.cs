@@ -32,7 +32,7 @@ namespace RulesList
         {
             switch (Selection.ThisShip.GetLastManeuverColor())
             {
-                case ManeuverColor.Red:
+                case MovementComplexity.Complex:
                     if (Selection.ThisShip.Owner.GetType() != typeof(HotacAiPlayer))
                     {
                         Selection.ThisShip.Tokens.AssignToken(new StressToken(Selection.ThisShip), delegate {
@@ -46,7 +46,7 @@ namespace RulesList
                         Triggers.FinishTrigger();
                     }
                     break;
-                case ManeuverColor.Green:
+                case MovementComplexity.Easy:
                     if (Selection.ThisShip.Owner.GetType() != typeof(HotacAiPlayer))
                     {
                         Selection.ThisShip.Tokens.RemoveToken(
@@ -75,11 +75,11 @@ namespace RulesList
 
         public void CannotPerformRedManeuversWhileStressed(GenericShip ship, ref MovementStruct movement)
         {
-            if ((movement.ColorComplexity == ManeuverColor.Red) && (ship.Tokens.GetToken(typeof(StressToken)) != null))
+            if ((movement.ColorComplexity == MovementComplexity.Complex) && (ship.Tokens.GetToken(typeof(StressToken)) != null))
             {
                 if (!ship.CanPerformRedManeuversWhileStressed && !DirectionsMenu.IsForcedToShowRedManeuvers)
                 {
-                    movement.ColorComplexity = ManeuverColor.None;
+                    movement.ColorComplexity = MovementComplexity.None;
                 }
             }
         }

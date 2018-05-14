@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEngine;
 using Upgrade;
 
 namespace RuleSets
@@ -15,6 +16,7 @@ namespace RuleSets
         public override int MinShipsCount { get { return 1; } }
         public override int MaxShipsCount { get { return 8; } }
         public override string CombatPhaseName { get { return "Combat"; } }
+        public override Color MovementEasyColor { get { return Color.green; } }
 
         public override void EvadeDiceModification(DiceRoll diceRoll)
         {

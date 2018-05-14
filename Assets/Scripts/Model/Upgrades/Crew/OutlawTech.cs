@@ -44,7 +44,7 @@ namespace Abilities
         {
             if (Board.BoardManager.IsOffTheBoard(ship)) return;
 
-            if (HostShip.GetLastManeuverColor() == Movement.ManeuverColor.Red)
+            if (HostShip.GetLastManeuverColor() == Movement.MovementComplexity.Complex)
             {
                 RegisterAbilityTrigger(TriggerTypes.OnShipMovementFinish, AskAssignFocusToken);
             }

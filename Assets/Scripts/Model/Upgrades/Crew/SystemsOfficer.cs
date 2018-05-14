@@ -54,7 +54,7 @@ namespace Abilities
 
             // After executing a green maneuver
             var movementColor = HostShip.GetLastManeuverColor();
-            if (movementColor == Movement.ManeuverColor.Green)
+            if (movementColor == Movement.MovementComplexity.Easy)
             {
                 // ...check if there is another firendly ship at range 1
                 var friendlyShipsAtRangeOne = HostShip.Owner.Ships.Values

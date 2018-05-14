@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Movement;
+using RuleSets;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -76,13 +78,13 @@ public static class DirectionsMenu
     {
         List<int> linesExist = new List<int>();
 
-        foreach (KeyValuePair<string, Movement.ManeuverColor> maneuverData in Selection.ThisShip.GetManeuvers())
+        foreach (KeyValuePair<string, Movement.MovementComplexity> maneuverData in Selection.ThisShip.GetManeuvers())
         {
             string[] parameters = maneuverData.Key.Split('.');
             string maneuverSpeed = parameters[0];
 
             GameObject button = DirectionsWindow.transform.Find("Directions").Find("Speed" + maneuverSpeed).Find(maneuverData.Key).gameObject;
-            if (maneuverData.Value != Movement.ManeuverColor.None)
+            if (maneuverData.Value != Movement.MovementComplexity.None)
             {
                 if (filter == null || filter(maneuverData.Key))
                 {
@@ -116,7 +118,7 @@ public static class DirectionsMenu
             {
                 if (!linesExist.Contains(int.Parse(maneuverSpeed))) linesExist.Add(int.Parse(maneuverSpeed));
 
-                SetManeuverColor(button, new KeyValuePair<string, Movement.ManeuverColor>(maneuverCode, Movement.ManeuverColor.White));
+                SetManeuverColor(button, new KeyValuePair<string, Movement.MovementComplexity>(maneuverCode, Movement.MovementComplexity.Normal));
                 button.SetActive(true);
                 button.GetComponent<Button>().onClick.AddListener(UI.AssignManeuverButtonPressed);
 
@@ -214,12 +216,12 @@ public static class DirectionsMenu
         }
     }
 
-    private static void SetManeuverColor(GameObject button, KeyValuePair<string, Movement.ManeuverColor> maneuverData)
+    private static void SetManeuverColor(GameObject button, KeyValuePair<string, MovementComplexity> maneuverData)
     {
         Color maneuverColor = Color.yellow;
-        if (maneuverData.Value == Movement.ManeuverColor.Green) maneuverColor = Color.green;
-        if (maneuverData.Value == Movement.ManeuverColor.White) maneuverColor = Color.white;
-        if (maneuverData.Value == Movement.ManeuverColor.Red) maneuverColor = Color.red;
+        if (maneuverData.Value == MovementComplexity.Easy) maneuverColor = RuleSet.Instance.MovementEasyColor;
+        if (maneuverData.Value == MovementComplexity.Normal) maneuverColor = Color.white;
+        if (maneuverData.Value == MovementComplexity.Complex) maneuverColor = Color.red;
         button.GetComponentInChildren<Text>().color = maneuverColor;
     }
 

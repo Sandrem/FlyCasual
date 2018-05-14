@@ -36,7 +36,7 @@ namespace Ship
 
         public GenericShip LastShipCollision { get; set; }
 
-        public Dictionary<string, ManeuverColor> Maneuvers { get; set; }
+        public Dictionary<string, MovementComplexity> Maneuvers { get; set; }
         public AI.GenericAiTable HotacManeuverTable { get; protected set; }
 
         // EVENTS
@@ -121,7 +121,7 @@ namespace Ship
         // MANEUVERS
 
         // TODO: Rewrite
-        public ManeuverColor GetColorComplexityOfManeuver(MovementStruct movement)
+        public MovementComplexity GetColorComplexityOfManeuver(MovementStruct movement)
         {
             if (AfterGetManeuverColorDecreaseComplexity != null) AfterGetManeuverColorDecreaseComplexity(this, ref movement);
             if (AfterGetManeuverColorIncreaseComplexity != null) AfterGetManeuverColorIncreaseComplexity(this, ref movement);
@@ -130,17 +130,17 @@ namespace Ship
             return movement.ColorComplexity;
         }
 
-        public ManeuverColor GetLastManeuverColor()
+        public MovementComplexity GetLastManeuverColor()
         {
-            ManeuverColor result = ManeuverColor.None;
+            MovementComplexity result = MovementComplexity.None;
 
             result = AssignedManeuver.ColorComplexity;
             return result;
         }
 
-        public Dictionary<string, ManeuverColor> GetManeuvers()
+        public Dictionary<string, MovementComplexity> GetManeuvers()
         {
-            Dictionary<string, ManeuverColor> result = new Dictionary<string, ManeuverColor>();
+            Dictionary<string, MovementComplexity> result = new Dictionary<string, MovementComplexity>();
 
             foreach (var maneuverHolder in Maneuvers)
             {
@@ -155,7 +155,7 @@ namespace Ship
             bool result = false;
             if (Maneuvers.ContainsKey(maneuverString))
             {
-                result = (Maneuvers[maneuverString] != ManeuverColor.None);
+                result = (Maneuvers[maneuverString] != MovementComplexity.None);
             }
             return result;
         }

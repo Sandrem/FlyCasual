@@ -51,7 +51,7 @@ namespace Abilities
         {
             if (BoardManager.IsOffTheBoard(host)) return;
 
-            if (host.AssignedManeuver.ColorComplexity == Movement.ManeuverColor.Green)
+            if (host.AssignedManeuver.ColorComplexity == Movement.MovementComplexity.Easy)
             {
                 if (host.Shields < host.MaxShields)
                 {

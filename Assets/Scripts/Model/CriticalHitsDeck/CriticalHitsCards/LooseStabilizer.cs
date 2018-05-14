@@ -34,7 +34,7 @@ namespace DamageDeckCard
 
         private void PlanStressAfterWhiteManeuvers(GenericShip ship)
         {
-            if (Host.GetLastManeuverColor() == Movement.ManeuverColor.White)
+            if (Host.GetLastManeuverColor() == Movement.MovementComplexity.Normal)
             {
                 Triggers.RegisterTrigger(new Trigger()
                 {

@@ -51,7 +51,7 @@ namespace Abilities
             if (!HostShip.HasManeuver(HostShip.AssignedManeuver.ToString())) return;
             if (Board.BoardManager.IsOffTheBoard(host)) return;
 
-            if (HostShip.AssignedManeuver.ColorComplexity == ManeuverColor.White || HostShip.AssignedManeuver.ColorComplexity == ManeuverColor.Green)
+            if (HostShip.AssignedManeuver.ColorComplexity == MovementComplexity.Normal || HostShip.AssignedManeuver.ColorComplexity == MovementComplexity.Easy)
             {
                 RegisterAbilityTrigger(TriggerTypes.OnShipMovementFinish, (s, e) => AskToUseAbility(NeverUseByDefault, UseAbility));
             }

@@ -44,7 +44,7 @@ namespace DamageDeckCard
                 //Too many
                 //Game.UI.ShowError("Shaken Pilot: Cannot be assigned straight maneuvers");
                 //Game.UI.AddTestLogEntry("Shaken Pilot: Cannot be assigned straight maneuvers");
-                movement.ColorComplexity = Movement.ManeuverColor.None;
+                movement.ColorComplexity = Movement.MovementComplexity.None;
             }
         }
 

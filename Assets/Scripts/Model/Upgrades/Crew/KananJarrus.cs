@@ -53,7 +53,7 @@ namespace Abilities
 
         private void CheckAbility(GenericShip ship)
         {
-            if (!IsAbilityUsed && ship.Owner.PlayerNo == HostShip.Owner.PlayerNo && ship.AssignedManeuver.ColorComplexity == Movement.ManeuverColor.White)
+            if (!IsAbilityUsed && ship.Owner.PlayerNo == HostShip.Owner.PlayerNo && ship.AssignedManeuver.ColorComplexity == Movement.MovementComplexity.Normal)
             {
                 Board.ShipDistanceInformation distanceInfo = new Board.ShipDistanceInformation(HostShip, ship);
                 if (distanceInfo.Range < 3)

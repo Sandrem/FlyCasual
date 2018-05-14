@@ -32,11 +32,11 @@ namespace DamageDeckCard
 
         private void TurnManeuversAreRed(Ship.GenericShip ship, ref Movement.MovementStruct movement)
         {
-            if (movement.ColorComplexity != Movement.ManeuverColor.None)
+            if (movement.ColorComplexity != Movement.MovementComplexity.None)
             {
                 if (movement.Bearing == Movement.ManeuverBearing.Turn)
                 {
-                    movement.ColorComplexity = Movement.ManeuverColor.Red;
+                    movement.ColorComplexity = Movement.MovementComplexity.Complex;
                 }
             }
         }

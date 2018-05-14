@@ -354,22 +354,22 @@ namespace SubPhases
             switch ((PreviousSubPhase as BoostPlanningSubPhase).SelectedBoostHelper)
             {
                 case "Straight 1":
-                    boostMovement = new Movement.StraightBoost(1, Movement.ManeuverDirection.Forward, Movement.ManeuverBearing.Straight, Movement.ManeuverColor.None);
+                    boostMovement = new Movement.StraightBoost(1, Movement.ManeuverDirection.Forward, Movement.ManeuverBearing.Straight, Movement.MovementComplexity.None);
                     break;
                 case "Bank 1 Left":
-                    boostMovement = new Movement.BankBoost(1, Movement.ManeuverDirection.Left, Movement.ManeuverBearing.Bank, Movement.ManeuverColor.None);
+                    boostMovement = new Movement.BankBoost(1, Movement.ManeuverDirection.Left, Movement.ManeuverBearing.Bank, Movement.MovementComplexity.None);
                     break;
                 case "Bank 1 Right":
-                    boostMovement = new Movement.BankBoost(1, Movement.ManeuverDirection.Right, Movement.ManeuverBearing.Bank, Movement.ManeuverColor.None);
+                    boostMovement = new Movement.BankBoost(1, Movement.ManeuverDirection.Right, Movement.ManeuverBearing.Bank, Movement.MovementComplexity.None);
                     break;
                 case "Turn 1 Right":
-                    boostMovement = new Movement.TurnBoost(1, Movement.ManeuverDirection.Right, Movement.ManeuverBearing.Turn, Movement.ManeuverColor.None);
+                    boostMovement = new Movement.TurnBoost(1, Movement.ManeuverDirection.Right, Movement.ManeuverBearing.Turn, Movement.MovementComplexity.None);
                     break;
                 case "Turn 1 Left":
-                    boostMovement = new Movement.TurnBoost(1, Movement.ManeuverDirection.Left, Movement.ManeuverBearing.Turn, Movement.ManeuverColor.None);
+                    boostMovement = new Movement.TurnBoost(1, Movement.ManeuverDirection.Left, Movement.ManeuverBearing.Turn, Movement.MovementComplexity.None);
                     break;
                 default:
-                    boostMovement = new Movement.StraightBoost(1, Movement.ManeuverDirection.Forward, Movement.ManeuverBearing.Straight, Movement.ManeuverColor.None);
+                    boostMovement = new Movement.StraightBoost(1, Movement.ManeuverDirection.Forward, Movement.ManeuverBearing.Straight, Movement.MovementComplexity.None);
                     break;
             }
 

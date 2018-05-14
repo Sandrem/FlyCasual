@@ -82,7 +82,7 @@ namespace Ship
 
             public void AdaptShipToSecondEdition()
             {
-                MaxHull = 5;
+                MaxHull = 4;
                 PrintedActions.Add(new BarrelRollAction());
 
                 Maneuvers["2.L.B"] = MovementComplexity.Easy;

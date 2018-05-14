@@ -31,6 +31,7 @@ namespace RuleSets
         public abstract void AdaptUpgradeToRules(GenericUpgrade upgrade);
         public abstract bool WeaponHasRangeBonus();
         public abstract void SetShipBaseImage(GenericShip ship);
+        public abstract void BarrelRollTemplatePlanning();
 
         public virtual void RotateMobileFiringArc(ArcFacing facing) { }
         public virtual void ActivateGenericUpgradeAbility(GenericShip host, List<UpgradeType> upgradeTypes) { }

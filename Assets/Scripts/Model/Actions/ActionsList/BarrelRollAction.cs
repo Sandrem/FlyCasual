@@ -167,6 +167,12 @@ namespace SubPhases
         public void PerfromTemplatePlanning()
         {
             templateWidth = (TheShip.ShipBaseSize == Ship.BaseSize.Small) ? TheShip.ShipBase.HALF_OF_SHIPSTAND_SIZE : TheShip.ShipBase.HALF_OF_SHIPSTAND_SIZE / 2;
+
+            RuleSet.Instance.BarrelRollTemplatePlanning();
+        }
+
+        public void PerfromTemplatePlanningFirstEdition()
+        {
             useMobileControls = Application.isMobilePlatform;
 
             ShowBarrelRollTemplate();
@@ -184,6 +190,60 @@ namespace SubPhases
                     ProcessTemplatePositionSlider
                 );
             }
+        }
+
+        public void PerfromTemplatePlanningSecondEdition()
+        {
+            Triggers.RegisterTrigger(new Trigger()
+            {
+                Name = "Barrel Roll position",
+                TriggerType = TriggerTypes.OnAbilityDirect,
+                TriggerOwner = Controller.PlayerNo,
+                EventHandler = AskBarrelRollPosition
+            });
+
+            Triggers.ResolveTriggers(TriggerTypes.OnAbilityDirect, ConfirmPosition);
+        }
+
+        private void AskBarrelRollPosition(object sender, System.EventArgs e)
+        {
+            BarrelRollPositionDecisionSubPhase selectBarrelRollPosition = (BarrelRollPositionDecisionSubPhase)Phases.StartTemporarySubPhaseNew(
+                 Name,
+                 typeof(BarrelRollPositionDecisionSubPhase),
+                 Triggers.FinishTrigger
+            );
+
+            selectBarrelRollPosition.AddDecision("Forward", delegate { SetBarrelRollPosition(-0.25f); });
+            selectBarrelRollPosition.AddDecision("Center", delegate { SetBarrelRollPosition(-0.5f); });
+            selectBarrelRollPosition.AddDecision("Backwards", delegate { SetBarrelRollPosition(-0.75f); });
+
+            selectBarrelRollPosition.InfoText = "Barrel Roll: Select position";
+
+            selectBarrelRollPosition.DefaultDecisionName = "Center";
+
+            selectBarrelRollPosition.RequiredPlayer = Controller.PlayerNo;
+
+            selectBarrelRollPosition.Start();
+        }
+
+        private void SetBarrelRollPosition(float position)
+        {
+            ShowBarrelRollTemplate();
+            ShowTemporaryShipBase();
+
+            //Update position
+            Vector3 newPosition = TheShip.InverseTransformPoint(BarrelRollTemplate.transform.position);
+
+            Vector3 fixedPositionRel = newPosition;
+
+            fixedPositionRel.x = HelperDirection * templateWidth;
+            fixedPositionRel.z = position * TheShip.ShipBase.SHIPSTAND_SIZE;
+
+            Vector3 fixedPositionAbs = TheShip.TransformPoint(fixedPositionRel);
+
+            BarrelRollTemplate.transform.position = fixedPositionAbs;
+
+            DecisionSubPhase.ConfirmDecision();
         }
 
         public void ProcessTemplatePositionSlider(float value)
@@ -376,6 +436,8 @@ namespace SubPhases
         }
 
         protected class BarrelRollDirectionDecisionSubPhase : DecisionSubPhase { }
+
+        protected class BarrelRollPositionDecisionSubPhase : DecisionSubPhase { }
 
         public override void Pause()
         {

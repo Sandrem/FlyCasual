@@ -122,5 +122,10 @@ namespace RuleSets
                 if (!host.PrintedActions.Any(n => n.GetType() == typeof(RotateArcAction))) host.PrintedActions.Add(new RotateArcAction());
             }
         }
+
+        public override void BarrelRollTemplatePlanning()
+        {
+            (Phases.CurrentSubPhase as SubPhases.BarrelRollPlanningSubPhase).PerfromTemplatePlanningSecondEdition();
+        }
     }
 }

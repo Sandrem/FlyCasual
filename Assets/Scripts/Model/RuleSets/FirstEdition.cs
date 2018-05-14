@@ -60,5 +60,10 @@ namespace RuleSets
         {
             ship.SetShipBaseImageFirstEdition();
         }
+
+        public override void BarrelRollTemplatePlanning()
+        {
+            (Phases.CurrentSubPhase as SubPhases.BarrelRollPlanningSubPhase).PerfromTemplatePlanningFirstEdition();
+        }
     }
 }

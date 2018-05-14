@@ -213,9 +213,9 @@ namespace SubPhases
                  Triggers.FinishTrigger
             );
 
-            selectBarrelRollPosition.AddDecision("Forward", delegate { SetBarrelRollPosition(-0.25f); });
-            selectBarrelRollPosition.AddDecision("Center", delegate { SetBarrelRollPosition(-0.5f); });
-            selectBarrelRollPosition.AddDecision("Backwards", delegate { SetBarrelRollPosition(-0.75f); });
+            selectBarrelRollPosition.AddDecision("Forward",     delegate { SetBarrelRollPosition(1.5f); });
+            selectBarrelRollPosition.AddDecision("Center",      delegate { SetBarrelRollPosition(1);    });
+            selectBarrelRollPosition.AddDecision("Backwards",   delegate { SetBarrelRollPosition(0.5f); });
 
             selectBarrelRollPosition.InfoText = "Barrel Roll: Select position";
 
@@ -231,17 +231,8 @@ namespace SubPhases
             ShowBarrelRollTemplate();
             ShowTemporaryShipBase();
 
-            //Update position
-            Vector3 newPosition = TheShip.InverseTransformPoint(BarrelRollTemplate.transform.position);
-
-            Vector3 fixedPositionRel = newPosition;
-
-            fixedPositionRel.x = HelperDirection * templateWidth;
-            fixedPositionRel.z = position * TheShip.ShipBase.SHIPSTAND_SIZE;
-
-            Vector3 fixedPositionAbs = TheShip.TransformPoint(fixedPositionRel);
-
-            BarrelRollTemplate.transform.position = fixedPositionAbs;
+            ProcessTemplatePositionSlider(-0.5f);
+            ProcessTemporaryShipBaseSlider(position);
 
             DecisionSubPhase.ConfirmDecision();
         }

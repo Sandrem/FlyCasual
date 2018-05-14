@@ -15,6 +15,7 @@ namespace RuleSets
 
         public abstract string Name { get; }
         public abstract int MaxPoints { get; }
+        public abstract int MinShipCost { get; }
         public abstract int MaxShipsCount { get; }
         public abstract int MinShipsCount { get; }
         public abstract string CombatPhaseName { get; }

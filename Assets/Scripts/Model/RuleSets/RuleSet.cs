@@ -17,6 +17,8 @@ namespace RuleSets
         public abstract int MaxShipsCount { get; }
         public abstract int MinShipsCount { get; }
 
+        public abstract string CombatPhaseName { get; }
+
         public RuleSet()
         {
             Instance = this;

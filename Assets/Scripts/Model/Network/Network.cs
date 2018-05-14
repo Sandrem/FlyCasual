@@ -374,6 +374,7 @@ public static partial class Network
         roomName = roomName.Replace('|', ' '); // Remove info separator
         roomName = new RoomInfo(roomName, true).ToString();
 
+        NetworkManager.singleton.SetMatchHost("us1-mm.unet.unity3d.com", NetworkManager.singleton.matchPort, true);
         NetworkManager.singleton.StartMatchMaker();
         NetworkManager.singleton.matchMaker.CreateMatch(roomName, 2, true, password, "", "", 0, 0, OnInternetMatchCreate);
     }
@@ -413,6 +414,7 @@ public static partial class Network
         ToggleBrowseRoomsControls(false);
         ToggleLoadingMessage(true);
 
+        NetworkManager.singleton.SetMatchHost("us1-mm.unet.unity3d.com", NetworkManager.singleton.matchPort, true);
         NetworkManager.singleton.StartMatchMaker();
         NetworkManager.singleton.matchMaker.ListMatches(0, int.MaxValue, "", false, 0, 0, OnInternetMatchList);
     }

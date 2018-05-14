@@ -1,4 +1,5 @@
-﻿using GameModes;
+﻿using Arcs;
+using GameModes;
 using Ship;
 using System;
 using System.Collections.Generic;
@@ -102,6 +103,11 @@ namespace RuleSets
         public override void SetShipBaseImage(GenericShip ship)
         {
             ship.SetShipBaseImageSecondEdition();
+        }
+
+        public override void RotateMobileFiringArc(ArcFacing facing)
+        {
+            Selection.ThisShip.ShowMobileFiringArcHighlight(facing);
         }
     }
 }

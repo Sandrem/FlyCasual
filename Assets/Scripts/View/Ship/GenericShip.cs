@@ -1,4 +1,5 @@
-﻿using RuleSets;
+﻿using Arcs;
+using RuleSets;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -160,8 +161,8 @@ namespace Ship
 
         public void SetShipBaseImageSecondEdition()
         {
-            var newTexture = "ShipStandInsert/Universal/SecondEdition/" + this.ShipBaseSize.ToString() + "/Base";
-            var newMaterial = CreateMaterial(newTexture);
+            string newTexture = "ShipStandInsert/Universal/SecondEdition/" + this.ShipBaseSize.ToString() + "/Base";
+            Material newMaterial = CreateMaterial(newTexture);
             shipAllParts.Find("ShipBase/ShipStandInsert/ShipStandInsertImage/default").GetComponent<Renderer>().material = newMaterial;
 
             //Ship Info
@@ -181,6 +182,17 @@ namespace Ship
             shipAllParts.Find("ShipBase/ShipStandInsert/ShipStandInsertImage/PilotName").GetComponent<TextMesh>().text = this.PilotNameShort ?? this.PilotName;
             shipAllParts.Find("ShipBase/ShipStandInsert/ShipStandInsertImage/PilotSkill").GetComponent<TextMesh>().text = this.PilotSkill.ToString();
             shipAllParts.Find("ShipBase/ShipStandInsert/ShipStandInsertImage/ShipIcon").GetComponent<TextMesh>().text = this.ShipIconLetter.ToString();
+        }
+
+        public void ShowMobileFiringArcHighlight(ArcFacing facing)
+        {
+            //Mobile arc
+            string newTexture = "ShipStandInsert/Universal/SecondEdition/" + this.ShipBaseSize.ToString() + "/" + this.faction.ToString() + "/" + facing.ToString();
+            Material newMaterial = CreateMaterial(newTexture);
+
+            StandardShaderUtils.ChangeRenderMode(newMaterial, StandardShaderUtils.BlendMode.Fade);
+            shipAllParts.Find("ShipBase/ShipStandInsert/ShipStandInsertImage/SecondArc").GetComponent<Renderer>().material = newMaterial;
+            shipAllParts.Find("ShipBase/ShipStandInsert/ShipStandInsertImage/SecondArc").GetComponent<MeshRenderer>().enabled = true;
         }
 
         public void SetShipSkin()

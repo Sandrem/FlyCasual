@@ -1,4 +1,5 @@
-﻿using Ship;
+﻿using Arcs;
+using Ship;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,5 +31,7 @@ namespace RuleSets
         public abstract void AdaptUpgradeToRules(GenericUpgrade upgrade);
         public abstract bool WeaponHasRangeBonus();
         public abstract void SetShipBaseImage(GenericShip ship);
+
+        public virtual void RotateMobileFiringArc(ArcFacing facing) { }
     }
 }

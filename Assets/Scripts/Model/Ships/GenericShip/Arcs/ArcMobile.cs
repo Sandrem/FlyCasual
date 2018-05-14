@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Ship;
+using ActionsList;
 
 namespace Arcs
 {
@@ -90,6 +91,8 @@ namespace Arcs
                 mobileArcFacings[ArcFacing.Front]
             };
 
+            SubscribeToShipSetup(host);
+
             ShowMobileArcPointer();
         }
 
@@ -103,6 +106,30 @@ namespace Arcs
         {
             MobileArcFacing = facing;
             MobileArcPointer.localEulerAngles = new Vector3(0f, MobileArcRotationValues[facing], 0f);
+            RuleSets.RuleSet.Instance.RotateMobileFiringArc(facing);
+        }
+
+        private void SubscribeToShipSetup(GenericShip host)
+        {
+            host.OnShipIsPlaced += AskForMobileFiringArcDirection;
+        }
+
+        private void AskForMobileFiringArcDirection(GenericShip host)
+        {
+            host.OnShipIsPlaced -= AskForMobileFiringArcDirection;
+
+            Triggers.RegisterTrigger(new Trigger()
+            {
+                Name = "Mobile Firing Arc direction",
+                TriggerType = TriggerTypes.OnShipIsPlaced,
+                TriggerOwner = host.Owner.PlayerNo,
+                EventHandler = PerformFreeRotateActionForced
+            });
+        }
+
+        private void PerformFreeRotateActionForced(object sender, EventArgs e)
+        {
+            Selection.ThisShip.AskPerformFreeAction(new List<GenericAction>() { new RotateArcAction() }, Triggers.FinishTrigger, true);
         }
     }
 }

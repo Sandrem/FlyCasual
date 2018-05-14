@@ -260,6 +260,7 @@ namespace Ship
 
         public void CallShotStart()
         {
+            ClearAlreadyExecutedCompareResultsActionEffects();
             ClearAlreadyExecutedOppositeActionEffects();
             ClearAlreadyExecutedActionEffects();
 
@@ -280,6 +281,7 @@ namespace Ship
 
         public void CallDefenceStartAsAttacker()
         {
+            ClearAlreadyExecutedCompareResultsActionEffects();
             ClearAlreadyExecutedOppositeActionEffects();
             ClearAlreadyExecutedActionEffects();
             if (OnDefenceStartAsAttacker != null) OnDefenceStartAsAttacker();
@@ -287,6 +289,7 @@ namespace Ship
 
         public void CallDefenceStartAsDefender()
         {
+            ClearAlreadyExecutedCompareResultsActionEffects();
             ClearAlreadyExecutedOppositeActionEffects();
             ClearAlreadyExecutedActionEffects();
             if (OnDefenceStartAsDefender != null) OnDefenceStartAsDefender();

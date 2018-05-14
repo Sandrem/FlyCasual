@@ -434,6 +434,11 @@ namespace Ship
             AlreadyExecutedOppositeActionEffects = new List<GenericAction>();
         }
 
+        public void ClearAlreadyExecutedCompareResultsActionEffects()
+        {
+            AlreadyExecutedCompareResultsEffects = new List<GenericAction>();
+        }
+
         public bool CanUseOppositeActionEffect(GenericAction action)
         {
             bool result = true;

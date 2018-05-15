@@ -48,6 +48,8 @@ public class GameManagerScript : MonoBehaviour {
         }
 
         if (Phases.CurrentSubPhase != null) Phases.CurrentSubPhase.Update();
+
+        Test();
     }
 
     private void SetApplicationParameters()
@@ -61,7 +63,6 @@ public class GameManagerScript : MonoBehaviour {
     {
         PrefabsList = this.GetComponent<PrefabsList>();
         UI = this.GetComponent<UI>();
-        
         Movement = this.GetComponent<ShipMovementScript>();
     }
 
@@ -85,6 +86,13 @@ public class GameManagerScript : MonoBehaviour {
             GameObject.Find("SceneHolder/Board/CombatDiceHolder").transform.localPosition = new Vector3(73, 0, 0);
             GameObject.Find("SceneHolder/Board/CheckDiceHolder").transform.localPosition = new Vector3(85, 0, 0);
         }
+    }
+
+    private void Test()
+    {
+        Ship.GenericShip ship1 = Roster.GetShipById("ShipId:1");
+        Ship.GenericShip ship2 = Roster.GetShipById("ShipId:2");
+        MovementTemplates.ShowRange(ship1, ship2);
     }
 
 }

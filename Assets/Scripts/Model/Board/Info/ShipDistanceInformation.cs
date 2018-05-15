@@ -132,7 +132,7 @@ namespace Board
                 Vector3 difference = ship2sideVector * scale;
                 Vector3 nearestPoint = MinDistance.Point1 + difference;
 
-                minDistancePerpB = new RangeHolder(MinDistance.Point2, nearestPoint);
+                minDistancePerpB = new RangeHolder(nearestPoint, MinDistance.Point2);
             }
         }
 

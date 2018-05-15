@@ -44,7 +44,7 @@ namespace Upgrade
                 Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(Host, targetShip, this);
                 range = shotInfo.Range;
 
-                if (!shotInfo.InShotAngle) return false;
+                if (!shotInfo.IsShotAvailable) return false;
 
                 if (hasType (UpgradeType.Missile)) {
                     if (!shotInfo.CanShootMissiles) return false;

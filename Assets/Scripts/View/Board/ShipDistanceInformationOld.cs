@@ -10,7 +10,7 @@ namespace Board
 
         public ShipDistanceInformationOld(GenericShip thisShip, GenericShip anotherShip) : base(thisShip, anotherShip)
         {
-            CalculateFields();
+            Calculate();
         }
 
     }

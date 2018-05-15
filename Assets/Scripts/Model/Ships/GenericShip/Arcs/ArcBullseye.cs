@@ -6,14 +6,14 @@ using Ship;
 
 namespace Arcs
 {
-    public class ArcBullseye : GenericArc
+    /*public class ArcBullseye : ArcsHolder
     {
         public ArcBullseye(GenericShip host) : base(host)
         {
-            ArcsList = new List<ArcInfo>
+            ArcsList = new List<GenericArc>
             {
                 primaryArc,
-                new ArcInfo()
+                new GenericArc()
                 {
                     ShipBase = Host.ShipBase,
                     MinAngle = 0f,
@@ -22,5 +22,5 @@ namespace Arcs
                 }
             };
         }
-    }
+    }*/
 }

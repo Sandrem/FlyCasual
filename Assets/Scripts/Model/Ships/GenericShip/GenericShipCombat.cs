@@ -55,7 +55,7 @@ namespace Ship
         public bool CanShootOutsideArc
         {
             set { }
-            get { return Host.ArcInfo.OutOfArcShotPermissions.CanShootPrimaryWeapon; }
+            get { return Host.ArcInfo.OutOfArcsShotPermissions.CanShootPrimaryWeapon; }
         }
 
         public PrimaryWeaponClass(GenericShip host)
@@ -77,7 +77,7 @@ namespace Ship
             range = shotInfo.Range;
             if (!CanShootOutsideArc)
             {
-                if (!shotInfo.InShotAngle) return false;
+                if (!shotInfo.IsShotAvailable) return false;
 
                 if (!shotInfo.CanShootPrimaryWeapon) return false;
             }

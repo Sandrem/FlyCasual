@@ -3,6 +3,7 @@ using Ship.TIESF;
 using Upgrade;
 using SubPhases;
 using Abilities;
+using Arcs;
 
 namespace UpgradesList
 {
@@ -134,7 +135,7 @@ namespace Abilities
         //Arc toggle
         private void ToggleFrontArc(bool isActive)
         {
-            HostShip.ArcInfo.GetPrimaryArc().ShotPermissions.CanShootPrimaryWeapon = isActive;
+            HostShip.ArcInfo.GetArc<ArcPrimary>().ShotPermissions.CanShootPrimaryWeapon = isActive;
         }
 
         // IsAbilityUsed to avoid asking question during second attack

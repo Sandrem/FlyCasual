@@ -189,7 +189,7 @@ namespace Ship
         public GenericShipBase ShipBase { get; protected set; }
 
         public BaseArcsType ShipBaseArcsType { get; set; }
-        public GenericArc ArcInfo { get; protected set; }
+        public ArcsHolder ArcInfo { get; protected set; }
 
         public Upgrade.ShipUpgradeBar UpgradeBar { get; protected set; }
         public List<Upgrade.UpgradeType> PrintedUpgradeIcons { get; protected set; }
@@ -281,32 +281,13 @@ namespace Ship
 
         public void InitializeShipBaseArc()
         {
-            switch (ShipBaseArcsType)
+            ArcInfo = new ArcsHolder(this);
+            // Add primary arc
+
+            /*switch (ShipBaseArcsType)
             {
-                case BaseArcsType.ArcDefault:
-                    ArcInfo = new GenericArc(this);
-                    break;
-                case BaseArcsType.ArcRear:
-                    ArcInfo = new ArcRear(this);
-                    break;
-                case BaseArcsType.ArcGhost:
-                    ArcInfo = new ArcGhost(this);
-                    break;
-                case BaseArcsType.Arc180:
-                    ArcInfo = new Arc180(this);
-                    break;
-                case BaseArcsType.Arc360:
-                    ArcInfo = new Arc360(this);
-                    break;
-                case BaseArcsType.ArcMobile:
-                    ArcInfo = new ArcMobile(this);
-                    break;
-                case BaseArcsType.ArcBullseye:
-                    ArcInfo = new ArcBullseye(this);
-                    break;
-                default:
-                    break;
-            }
+                // Add additional arcs here
+            }*/
         }
 
         public void InitializePilotForSquadBuilder()

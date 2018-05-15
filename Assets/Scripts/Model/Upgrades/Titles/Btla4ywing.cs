@@ -45,7 +45,7 @@ namespace Abilities
             GenericSecondaryWeapon turret = (GenericSecondaryWeapon)HostShip.UpgradeBar.GetUpgradesAll().Find(n => n.hasType(UpgradeType.Turret));
             if (turret != null)
             {
-                HostShip.ArcInfo.OutOfArcShotPermissions.CanShootTurret = isActive;
+                HostShip.ArcInfo.OutOfArcsShotPermissions.CanShootTurret = isActive;
                 turret.CanShootOutsideArc = isActive;
             }
         }

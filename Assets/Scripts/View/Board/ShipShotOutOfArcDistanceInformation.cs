@@ -11,10 +11,10 @@ namespace Board
 
         public ShipShotOutOfArcDistanceInformation(GenericShip thisShip, GenericShip anotherShip) : base(thisShip, anotherShip)
         {
-            CalculateFields();
+            Calculate();
         }
 
-        protected override void CalculateFields()
+        protected override void Calculate()
         {
             CalculateFieldUsingPoints(ThisShip.ShipBase.GetStandFrontEdgePoins(), AnotherShip.ShipBase.GetStandPoints());
         }

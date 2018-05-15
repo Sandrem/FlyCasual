@@ -120,7 +120,7 @@ public static class MovementTemplates {
 
     public static bool ShowFiringArcRange(ShipShotDistanceInformation shotInfo)
     {
-        if (shotInfo.InShotAngle)
+        if (shotInfo.IsShotAvailable)
         {
             ShowRangeRuler(shotInfo);
         }
@@ -128,7 +128,7 @@ public static class MovementTemplates {
         {
             ShowRangeRuler(new ShipShotOutOfArcDistanceInformation(shotInfo.ThisShip, shotInfo.AnotherShip));
         }
-        return shotInfo.InShotAngle;
+        return shotInfo.IsShotAvailable;
     }
 
     public static void ShowRangeRuler(GeneralShipDistanceInformation shipDistanceInfo)

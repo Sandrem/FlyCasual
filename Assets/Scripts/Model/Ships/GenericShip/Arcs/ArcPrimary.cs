@@ -6,25 +6,22 @@ using Ship;
 
 namespace Arcs
 {
-    public class ArcGhost : GenericArc
+    public class ArcPrimary : GenericArc
     {
-        public ArcGhost(GenericShip host) : base(host)
+        /*public ArcRear(GenericShip host) : base(host)
         {
-            ArcsList = new List<ArcInfo>
+            ArcsList = new List<GenericArc>
             {
                 primaryArc,
-                new ArcInfo()
+                new GenericArc()
                 {
                     ShipBase = Host.ShipBase,
                     MinAngle = -140f,
                     MaxAngle = 140f,
                     Facing = ArcFacing.Rear,
-                    ShotPermissions = new ArcShotPermissions()
-                    {
-                        CanShootPrimaryWeapon = false, CanShootTorpedoes = true
-                    }
+					IsRearAuxArc = true
                 }
             };
-        }
+        }*/
     }
 }

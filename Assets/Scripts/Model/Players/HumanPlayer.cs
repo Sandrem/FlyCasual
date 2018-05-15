@@ -86,7 +86,7 @@ namespace Players
             {
                 //automatic error messages
             }
-            else if (!Combat.ShotInfo.InShotAngle)
+            else if (!Combat.ShotInfo.IsShotAvailable)
             {
                 Messages.ShowErrorToHuman("Target is outside your firing arc");
             }

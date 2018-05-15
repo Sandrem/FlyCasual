@@ -148,7 +148,7 @@ public static partial class Combat
     private static void CheckFireLineCollisions()
     {
         ShotInfo = new ShipShotDistanceInformation(Selection.ThisShip, Selection.AnotherShip, ChosenWeapon);
-        ShotInfo.CheckFirelineCollisions(PayAttackCost);
+        ShotInfo.CheckObstruction(PayAttackCost);
     }
 
     // PAY ATTACK COST

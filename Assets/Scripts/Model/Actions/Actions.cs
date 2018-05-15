@@ -219,7 +219,7 @@ public static partial class Actions
         foreach (var anotherShip in Roster.GetPlayer(Roster.AnotherPlayer(thisShip.Owner.PlayerNo)).Ships)
         {
             ShipShotDistanceInformation shotInfo = new ShipShotDistanceInformation(thisShip, anotherShip.Value, thisShip.PrimaryWeapon);
-            if ((shotInfo.Range < 4) && (shotInfo.InShotAngle))
+            if ((shotInfo.Range < 4) && (shotInfo.IsShotAvailable))
             {
                 return true;
             }
@@ -235,7 +235,7 @@ public static partial class Actions
         foreach (var anotherShip in Roster.GetPlayer(Roster.AnotherPlayer(thisShip.Owner.PlayerNo)).Ships)
         {
             ShipShotDistanceInformation shotInfo = new ShipShotDistanceInformation(anotherShip.Value, thisShip, anotherShip.Value.PrimaryWeapon);
-            if ((shotInfo.Range < 4) && (shotInfo.InShotAngle))
+            if ((shotInfo.Range < 4) && (shotInfo.IsShotAvailable))
             {
                 if (direction == 0)
                 {

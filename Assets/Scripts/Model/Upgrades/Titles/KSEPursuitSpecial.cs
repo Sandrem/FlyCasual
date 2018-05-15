@@ -54,7 +54,7 @@ namespace Abilities
 
         private void ToggleAbility(bool isActive)
         {
-            ArcInfo rearArc = HostShip.ArcInfo.GetAllArcs()[1];
+            GenericArc rearArc = HostShip.ArcInfo.GetArc<ArcRear>();
 
             rearArc.ShotPermissions.CanShootCannon = isActive;
             rearArc.ShotPermissions.CanShootTorpedoes = isActive;

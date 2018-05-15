@@ -6,14 +6,14 @@ using Ship;
 
 namespace Arcs
 {
-    public class Arc180 : GenericArc
+    /*public class Arc180 : ArcsHolder
     {
         public Arc180(GenericShip host) : base(host)
         {
-            ArcsList = new List<ArcInfo>
+            ArcsList = new List<GenericArc>
             {
                 primaryArc,
-                new ArcInfo()
+                new GenericArc()
                 {
                     ShipBase = Host.ShipBase,
                     MinAngle = -90f,
@@ -22,5 +22,5 @@ namespace Arcs
                 }
             };
         }
-    }
+    }*/
 }

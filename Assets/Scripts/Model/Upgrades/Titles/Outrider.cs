@@ -4,6 +4,7 @@ using Upgrade;
 using System.Linq;
 using System;
 using Abilities;
+using Arcs;
 
 namespace UpgradesList
 {
@@ -49,10 +50,10 @@ namespace Abilities
 
             if (cannon != null)
             {
-                HostShip.ArcInfo.OutOfArcShotPermissions.CanShootPrimaryWeapon = !isActive;
-                HostShip.ArcInfo.GetPrimaryArc().ShotPermissions.CanShootPrimaryWeapon = !isActive;
+                HostShip.ArcInfo.OutOfArcsShotPermissions.CanShootPrimaryWeapon = !isActive;
+                HostShip.ArcInfo.GetArc<ArcPrimary>().ShotPermissions.CanShootPrimaryWeapon = !isActive;
 
-                HostShip.ArcInfo.OutOfArcShotPermissions.CanShootCannon = isActive;
+                HostShip.ArcInfo.OutOfArcsShotPermissions.CanShootCannon = isActive;
                 cannon.CanShootOutsideArc = isActive;
             }
         }

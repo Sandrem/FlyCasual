@@ -155,7 +155,7 @@ namespace SubPhases
             int result = 0;
 
             Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(Selection.ThisShip, ship);
-            if (shotInfo.InShotAngle) result += 1000;
+            if (shotInfo.IsShotAvailable) result += 1000;
             if (!ship.ShipsBumped.Contains(Selection.ThisShip)) result += 500;
             if (shotInfo.Range <= 3) result += 250;
 

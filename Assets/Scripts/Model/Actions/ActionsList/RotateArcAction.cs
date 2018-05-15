@@ -55,7 +55,7 @@ namespace SubPhases
 
         private void ChangeMobileArcFacing(ArcFacing facing)
         {
-            (Selection.ThisShip.ArcInfo as ArcMobile).RotateArc(facing);
+            Selection.ThisShip.ArcInfo.GetArc<ArcMobile>().RotateArc(facing);
             ConfirmDecision();
         }
 

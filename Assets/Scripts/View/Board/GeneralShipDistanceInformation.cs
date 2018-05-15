@@ -31,7 +31,7 @@ namespace Board
             this.AnotherShip = anotherShip;
         }
 
-        protected virtual void CalculateFields()
+        protected virtual void Calculate()
         {
             if (ThisShip.ShipId != AnotherShip.ShipId)
             {

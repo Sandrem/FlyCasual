@@ -66,6 +66,7 @@ namespace BoardTools
                 collider.enabled = (collider.tag == "ShipId:" + Ship2.ShipId) ? true : false;
             }
 
+            bool rayIsFound = false;
             foreach (var limit in Arc.Limits)
             {
                 Vector3 vectorFromDegrees = new Vector3((float)Math.Sin(limit.Value * Mathf.Deg2Rad), 0, (float)Math.Cos(limit.Value * Mathf.Deg2Rad));
@@ -76,13 +77,21 @@ namespace BoardTools
                 {
                     if (hitInfo.collider.tag == "ShipId:" + Ship2.ShipId)
                     {
-                        MinDistance = new RangeHolder(Ship1.ShipBase.GetGlobalPoint(limit.Key), hitInfo.point);
-                        Success();
-
-                        break;
+                        if (!rayIsFound)
+                        {
+                            MinDistance = new RangeHolder(Ship1.ShipBase.GetGlobalPoint(limit.Key), hitInfo.point);
+                            rayIsFound = true;
+                        }
+                        else
+                        {
+                            RangeHolder secondRayResult = new RangeHolder(Ship1.ShipBase.GetGlobalPoint(limit.Key), hitInfo.point);
+                            if (secondRayResult.Distance < MinDistance.Distance) MinDistance = new RangeHolder(Ship1.ShipBase.GetGlobalPoint(limit.Key), hitInfo.point);
+                        }
                     }
                 }
             }
+
+            if (rayIsFound) Success();
 
             foreach (var collider in Board.Objects)
             {

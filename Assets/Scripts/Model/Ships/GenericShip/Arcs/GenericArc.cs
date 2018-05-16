@@ -62,8 +62,6 @@ namespace Arcs
 
         public List<GenericArc> Arcs { get; private set; }
 
-        public ArcShotPermissions OutOfArcsShotPermissions = new ArcShotPermissions() { CanShootPrimaryWeapon = false };
-
         public ArcsHolder(GenericShip host)
         {
             Host = host;

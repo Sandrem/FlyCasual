@@ -6,10 +6,10 @@ using Ship;
 
 namespace Arcs
 {
-    /*public class Arc360 : ArcsHolder
+    public class OutOfArc : GenericArc
     {
 
-        public Arc360(GenericShip host) : base(host)
+        /*public Arc360(GenericShip host) : base(host)
         {
             OutOfArcsShotPermissions.CanShootPrimaryWeapon = true;
         }
@@ -17,6 +17,6 @@ namespace Arcs
         public override bool InAttackAngle(string origianPoint, float angle)
         {
             return true;
-        }
-    }*/
+        }*/
+    }
 }

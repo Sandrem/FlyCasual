@@ -50,10 +50,11 @@ namespace Abilities
 
             if (cannon != null)
             {
-                HostShip.ArcInfo.OutOfArcsShotPermissions.CanShootPrimaryWeapon = !isActive;
                 HostShip.ArcInfo.GetArc<ArcPrimary>().ShotPermissions.CanShootPrimaryWeapon = !isActive;
 
-                HostShip.ArcInfo.OutOfArcsShotPermissions.CanShootCannon = isActive;
+                HostShip.ArcInfo.GetArc<OutOfArc>().ShotPermissions.CanShootPrimaryWeapon = !isActive;
+                HostShip.ArcInfo.GetArc<OutOfArc>().ShotPermissions.CanShootCannon = isActive;
+
                 cannon.CanShootOutsideArc = isActive;
             }
         }

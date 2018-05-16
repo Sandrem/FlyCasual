@@ -1,4 +1,5 @@
-﻿using DamageDeckCard;
+﻿using Arcs;
+using DamageDeckCard;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -55,7 +56,7 @@ namespace Ship
         public bool CanShootOutsideArc
         {
             set { }
-            get { return Host.ArcInfo.OutOfArcsShotPermissions.CanShootPrimaryWeapon; }
+            get { return Host.ArcInfo.GetArc<OutOfArc>().ShotPermissions.CanShootPrimaryWeapon; }
         }
 
         public PrimaryWeaponClass(GenericShip host)

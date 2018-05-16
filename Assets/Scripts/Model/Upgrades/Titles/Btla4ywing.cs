@@ -2,6 +2,7 @@
 using Ship.YWing;
 using Upgrade;
 using Abilities;
+using Arcs;
 
 namespace UpgradesList
 {
@@ -45,7 +46,7 @@ namespace Abilities
             GenericSecondaryWeapon turret = (GenericSecondaryWeapon)HostShip.UpgradeBar.GetUpgradesAll().Find(n => n.hasType(UpgradeType.Turret));
             if (turret != null)
             {
-                HostShip.ArcInfo.OutOfArcsShotPermissions.CanShootTurret = isActive;
+                HostShip.ArcInfo.GetArc<OutOfArc>().ShotPermissions.CanShootTurret = isActive;
                 turret.CanShootOutsideArc = isActive;
             }
         }

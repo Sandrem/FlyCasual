@@ -12,8 +12,19 @@ namespace Arcs
         {
             ArcType = ArcTypes.Bullseye;
             Facing = ArcFacing.Bullseye;
-            MinAngle = 0f;
-            MaxAngle = 0f;
+
+            Limits = new Dictionary<Vector3, float>()
+            {
+                { new Vector3(-shipBase.HALF_OF_BULLSEYEARC_SIZE, 0, 0), 0f },
+                { new Vector3( shipBase.HALF_OF_BULLSEYEARC_SIZE,  0, 0), 0f }
+            };
+
+            Edges = new List<Vector3>()
+            {
+                new Vector3(-shipBase.HALF_OF_BULLSEYEARC_SIZE, 0, 0),
+                new Vector3( shipBase.HALF_OF_BULLSEYEARC_SIZE, 0, 0),
+            };
+
             ShotPermissions = new ArcShotPermissions();
         }
     }

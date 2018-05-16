@@ -28,14 +28,13 @@ namespace Ship
         private Dictionary<string, Vector3> standLeftPoints = new Dictionary<string, Vector3>();
         private Dictionary<string, Vector3> standRightPoints = new Dictionary<string, Vector3>();
         private Dictionary<string, Vector3> standFront180Points = new Dictionary<string, Vector3>();
-        private Dictionary<string, Vector3> standBullseyePoints = new Dictionary<string, Vector3>();
         private Dictionary<string, Vector3> standEdgePoints = new Dictionary<string, Vector3>();
         private Dictionary<string, Vector3> standPoints = new Dictionary<string, Vector3>();
         public float HALF_OF_SHIPSTAND_SIZE { get; protected set; }
         public float SHIPSTAND_SIZE { get; protected set; }
         public float SHIPSTAND_SIZE_CM { get; protected set; }
         public float HALF_OF_FIRINGARC_SIZE { get; protected set; }
-        private float BULLSEYE_ARC_PERCENT = 0.5f;
+        public float HALF_OF_BULLSEYEARC_SIZE { get { return 0.25f; } }
 
         public GenericShipBase(GenericShip host)
         {
@@ -86,9 +85,6 @@ namespace Ship
                 Vector3 newPoint = new Vector3((float)i * ((2 * HALF_OF_FIRINGARC_SIZE) / (float)(PRECISION + 1)) - HALF_OF_FIRINGARC_SIZE, 0f, 0f);
                 standFrontPoints.Add("F" + i, newPoint);
 
-                float frontPercent = (float)i / (float)PRECISION;
-                if (InBullseyeArc(frontPercent)) standBullseyePoints.Add("F" + i, newPoint);
-
                 standPoints.Add("F" + i, newPoint);
             }
 
@@ -131,13 +127,6 @@ namespace Ship
                     standFront180Points.Add("R" + i, newPoint);
                 }
             }
-        }
-
-        private bool InBullseyeArc(float frontPercent)
-        {
-            float minPercent = (1f - BULLSEYE_ARC_PERCENT) / 2f;
-            float maxPercent = minPercent + BULLSEYE_ARC_PERCENT;
-            return ((frontPercent >= minPercent) && (frontPercent <= maxPercent));
         }
 
         public Vector3 GetCentralFrontPoint()
@@ -195,11 +184,6 @@ namespace Ship
             return GetPoints(standFront180Points);
         }
 
-        public Dictionary<string, Vector3> GetStandBullseyePoints()
-        {
-            return GetPoints(standBullseyePoints);
-        }
-
         private Dictionary<string, Vector3> GetPoints(Dictionary<string, Vector3> points)
         {
             Dictionary<string, Vector3> edges = new Dictionary<string, Vector3>();
@@ -209,6 +193,21 @@ namespace Ship
                 edges.Add(obj.Key, globalPosition);
             }
             return edges;
+        }
+
+        public List<Vector3> GetGlobalPoints(List<Vector3> localPoints)
+        {
+            List<Vector3> globalPoints = new List<Vector3>();
+            foreach (var localPoint in localPoints)
+            {
+                globalPoints.Add(GetGlobalPoint(localPoint));
+            }
+            return globalPoints;
+        }
+
+        public Vector3 GetGlobalPoint(Vector3 localPoint)
+        {
+            return Host.Model.transform.TransformPoint(localPoint);
         }
 
         //TODO: Remove as old

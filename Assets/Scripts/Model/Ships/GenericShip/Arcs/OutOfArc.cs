@@ -13,8 +13,16 @@ namespace Arcs
         {
             ArcType = ArcTypes.None;
             Facing = ArcFacing.None;
-            MinAngle = -360f;
-            MaxAngle = 360f;
+
+            Limits = new Dictionary<Vector3, float>();
+            Edges = new List<Vector3>()
+            {
+                new Vector3(-shipBase.HALF_OF_SHIPSTAND_SIZE, 0, 0),
+                new Vector3( shipBase.HALF_OF_SHIPSTAND_SIZE, 0, 0),
+                new Vector3(-shipBase.HALF_OF_SHIPSTAND_SIZE, 0, -shipBase.SHIPSTAND_SIZE),
+                new Vector3( shipBase.HALF_OF_SHIPSTAND_SIZE, 0, -shipBase.SHIPSTAND_SIZE)
+            };
+
             ShotPermissions = new ArcShotPermissions(); //Cannot shoot out of arc by default
         }
     }

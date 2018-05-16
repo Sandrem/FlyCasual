@@ -13,47 +13,43 @@ namespace BoardTools
     public class ShotInfo : GenericShipDistanceInfo
     {
         public bool InShotAngle { get; private set; }
-        public bool InArc { get; private set; }
-        public Dictionary<BaseArcsType, bool> InArcByType { get; private set; }
+        public bool InArc { get { return InArcByType.Any(n => n.Value == true); } }
+        public Dictionary<ArcTypes, bool> InArcByType { get; private set; }
 
         public bool ObstructedByAsteroid { get; private set; }
         public bool ObstructedByMine { get; private set; }
 
-        public ShotInfo(GenericShip ship1, GenericShip ship2) : base(ship1, ship2)
-        {
+        private IShipWeapon Weapon;
 
+        public ShotInfo(GenericShip ship1, GenericShip ship2, IShipWeapon weapon) : base(ship1, ship2)
+        {
+            Weapon = weapon;
+
+            CheckRange();
         }
 
-        protected override void CheckRange()
+        private void CheckRange()
         {
-            FindNearestDistances(Ship1.ShipBase.GetStandFrontEdgePoins()); //Temporary
-            TryFindPerpendicularDistanceA();
-            TryFindPerpendicularDistanceB();
-            SetFinalMinDistance();
+            InArcByType = new Dictionary<ArcTypes, bool>();
 
-            CheckRequirements();
-            CheckRays();
-        }
-
-        private void CheckRequirements()
-        {
-            if (Range > 3) return;
-
-            float signedAngle = Vector3.SignedAngle(MinDistance.Vector, Ship1.GetFrontFacing(), Vector3.up);
-            if (signedAngle < -40 || signedAngle > 40) return;
-
-            InShotAngle = true;
-        }
-
-        private void CheckRays()
-        {
-            if (InShotAngle) return;
-
-            RaycastHit hitInfo = new RaycastHit();
-            if (Physics.Raycast(Ship1.ShipBase.GetStandFrontEdgePoins().First().Value + new Vector3(0, 0.003f, 0), new Vector3(-1, 0.003f, 1), out hitInfo, Board.BoardIntoWorld(3*Board.RANGE_1)))
+            foreach (var arc in Ship1.ArcInfo.Arcs)
             {
-                Debug.Log(hitInfo.collider.tag + " " + hitInfo.collider.name);
-                //hitInfo.point
+                ShotInfoArc shotInfoArc = new ShotInfoArc(Ship1, Ship2, arc);
+                InArcByType.Add(arc.ArcType, shotInfoArc.InArc);
+
+                if (shotInfoArc.InShotAngle)
+                {
+                    if (InShotAngle == false)
+                    {
+                        MinDistance = shotInfoArc.MinDistance;
+                    }
+                    else
+                    {
+                        if (shotInfoArc.MinDistance.Distance < MinDistance.Distance) MinDistance = shotInfoArc.MinDistance;
+                    }
+
+                    InShotAngle = true;
+                }
             }
         }
     }

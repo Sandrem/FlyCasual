@@ -282,12 +282,30 @@ namespace Ship
         public void InitializeShipBaseArc()
         {
             ArcInfo = new ArcsHolder(this);
-            // Add primary arc
 
-            /*switch (ShipBaseArcsType)
+            switch (ShipBaseArcsType)
             {
-                // Add additional arcs here
-            }*/
+                case BaseArcsType.ArcRear:
+                    ArcInfo.Arcs.Add(new ArcRear(ShipBase));
+                    break;
+                case BaseArcsType.ArcSpecial180:
+                    ArcInfo.Arcs.Add(new ArcSpecial180(ShipBase));
+                    break;
+                case BaseArcsType.Arc360:
+                    ArcInfo.GetArc<OutOfArc>().ShotPermissions.CanShootPrimaryWeapon = true;
+                    break;
+                case BaseArcsType.ArcMobile:
+                    ArcInfo.Arcs.Add(new ArcMobile(ShipBase));
+                    break;
+                case BaseArcsType.ArcBullseye:
+                    ArcInfo.Arcs.Add(new ArcBullseye(ShipBase));
+                    break;
+                case BaseArcsType.ArcSpecialGhost:
+                    ArcInfo.Arcs.Add(new ArcSpecialGhost(ShipBase));
+                    break;
+                default:
+                    break;
+            }
         }
 
         public void InitializePilotForSquadBuilder()

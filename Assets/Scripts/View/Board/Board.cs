@@ -36,6 +36,7 @@ namespace BoardTools
             MovementTemplates.PrepareMovementTemplates();
 
             SetPlaymatImage();
+            SetObstacles();
         }
 
         private static void SetPlaymatImage()
@@ -161,6 +162,14 @@ namespace BoardTools
             }
 
             return ships;
+        }
+
+        private static void SetObstacles()
+        {
+            for (int i = 1; i <= 6; i++)
+            {
+                Objects.Add(GameObject.Find("SceneHolder/Board/Asteroids/A" + i + "/A" + i + "model").GetComponent<MeshCollider>());
+            }
         }
 
     }

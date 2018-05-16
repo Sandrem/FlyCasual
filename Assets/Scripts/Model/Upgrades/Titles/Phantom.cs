@@ -66,7 +66,7 @@ namespace Abilities
 
         private void ToggleRearArc(bool isActive)
         {
-            HostShip.Host.ArcInfo.GetArc<ArcSpecial>().ShotPermissions.CanShootPrimaryWeapon = isActive;
+            HostShip.Host.ArcInfo.GetArc<ArcSpecialGhost>().ShotPermissions.CanShootPrimaryWeapon = isActive;
         }
 
         private void RegisterExtraShotAbility()

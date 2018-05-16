@@ -46,28 +46,18 @@ namespace BoardTools
         {
             Ship1 = ship1;
             Ship2 = ship2;
-
-            CheckRange();
         }
 
-        protected virtual void CheckRange()
-        {
-            FindNearestDistances(Ship1.ShipBase.GetBaseEdges());
-            TryFindPerpendicularDistanceA();
-            TryFindPerpendicularDistanceB();
-            SetFinalMinDistance();
-        }
-
-        protected void FindNearestDistances(Dictionary<string, Vector3> firstShipEdges)
+        protected void FindNearestDistances(List<Vector3> firstShipEdges)
         {
             List<RangeHolder> distances = new List<RangeHolder>();
 
             // Check distances from all edges to all edges
             foreach (var ship1point in firstShipEdges)
             {
-                foreach (var ship2point in Ship2.ShipBase.GetBaseEdges())
+                foreach (var ship2point in Ship2.ShipBase.GetBaseEdges().Values.ToList())
                 {
-                    distances.Add(new RangeHolder(ship1point.Value, ship2point.Value));
+                    distances.Add(new RangeHolder(ship1point, ship2point));
                 }
             }
 

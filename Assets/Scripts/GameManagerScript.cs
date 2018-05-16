@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using GameModes;
-using UnityEngine.UI;
+using BoardTools;
+using Bombs;
 
 public delegate void CallBackFunction();
 
@@ -20,11 +21,11 @@ public class GameManagerScript : MonoBehaviour {
 
         //Global.Initialize();
 
-        BoardTools.Board.Initialize();
+        Board.Initialize();
         Roster.Initialize();
         Roster.Start();
         Selection.Initialize();
-        Bombs.BombsManager.Initialize();
+        BombsManager.Initialize();
         Actions.Initialize();
         Combat.Initialize();
         Triggers.Initialize();
@@ -92,7 +93,7 @@ public class GameManagerScript : MonoBehaviour {
     {
         Ship.GenericShip ship1 = Roster.GetShipById("ShipId:1");
         Ship.GenericShip ship2 = Roster.GetShipById("ShipId:2");
-        BoardTools.ShotInfo shotInfo = new BoardTools.ShotInfo(ship1, ship2);
+        ShotInfo shotInfo = new ShotInfo(ship1, ship2, ship1.PrimaryWeapon);
         if (shotInfo.InShotAngle) MovementTemplates.ShowRangeRuler(shotInfo); else MovementTemplates.ReturnRangeRuler();
     }
 

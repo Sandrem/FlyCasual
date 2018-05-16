@@ -6,11 +6,11 @@ using Ship;
 
 namespace Arcs
 {
-    public class ArcRear : GenericArc
+    public class ArcSpecialGhost : GenericArc
     {
-        public ArcRear(GenericShipBase shipBase) : base(shipBase)
+        public ArcSpecialGhost(GenericShipBase shipBase) : base(shipBase)
         {
-            ArcType = ArcTypes.RearAux;
+            ArcType = ArcTypes.SpecialGhost;
             Facing = ArcFacing.Rear;
 
             Limits = new Dictionary<Vector3, float>()
@@ -27,7 +27,7 @@ namespace Arcs
 
             ShotPermissions = new ArcShotPermissions()
             {
-                CanShootPrimaryWeapon = true,
+                CanShootTorpedoes = true,
             };
         }
     }

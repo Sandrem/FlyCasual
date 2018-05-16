@@ -10,11 +10,11 @@ namespace Arcs
     {
         ArcDefault,
         ArcRear,
-        Arc180,
+        ArcSpecial180,
         Arc360,
         ArcMobile,
         ArcBullseye,
-        ArcGhost
+        ArcSpecialGhost
     }
 
     public enum ArcTypes
@@ -22,10 +22,10 @@ namespace Arcs
         None,
         Primary,
         RearAux,
-        Arc180,
+        Special180,
         Mobile,
         Bullseye,
-        Special
+        SpecialGhost
     }
 
     public enum ArcFacing
@@ -35,7 +35,7 @@ namespace Arcs
         Left,
         Right,
         Rear,
-        Forward180,
+        Front180,
         Bullseye
     }
 
@@ -51,10 +51,13 @@ namespace Arcs
     public class GenericArc
     {
         public GenericShipBase ShipBase;
+
         public ArcTypes ArcType;
         public ArcFacing Facing;
-        public float MinAngle;
-        public float MaxAngle;
+
+        public Dictionary<Vector3, float> Limits;
+        public List<Vector3> Edges;
+
         public ArcShotPermissions ShotPermissions;
 
         public GenericArc(GenericShipBase shipBase)

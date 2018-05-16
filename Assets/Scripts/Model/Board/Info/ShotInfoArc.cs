@@ -1,0 +1,104 @@
+﻿using Ship;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using UnityEngine;
+using Arcs;
+using Upgrade;
+
+namespace BoardTools
+{
+
+    public class ShotInfoArc : GenericShipDistanceInfo
+    {
+        public bool InShotAngle { get; private set; }
+        public bool InArc { get; private set; }
+
+        private GenericArc Arc;
+
+        public ShotInfoArc(GenericShip ship1, GenericShip ship2, GenericArc arc) : base(ship1, ship2)
+        {
+            Arc = arc;
+
+            CheckRange();
+        }
+
+        private void CheckRange()
+        {
+            FindNearestDistances(Ship1.ShipBase.GetGlobalPoints(Arc.Edges));
+            TryFindPerpendicularDistanceA();
+            TryFindPerpendicularDistanceB();
+            SetFinalMinDistance();
+
+            CheckRequirements();
+            CheckRays();
+        }
+
+        private void CheckRequirements()
+        {
+            if (Range > 3) return;
+
+            if (Arc.Limits != null && Arc.Limits.Count > 0)
+            {
+                float signedAngle = Vector3.SignedAngle(MinDistance.Vector, Ship1.GetFrontFacing(), Vector3.up);
+                if (Arc.Facing != ArcFacing.Rear)
+                {
+                    if (signedAngle < Arc.Limits.First().Value || signedAngle > Arc.Limits.Last().Value) return;
+                }
+                else
+                {
+                    if (signedAngle > Arc.Limits.First().Value && signedAngle < Arc.Limits.Last().Value) return;
+                }
+            }
+
+            Success();
+        }
+
+        private void CheckRays()
+        {
+            if (InShotAngle) return;
+
+            Dictionary<MeshCollider, bool> originalColliderValues = new Dictionary<MeshCollider, bool>();
+            foreach (var collider in Board.Objects)
+            {
+                originalColliderValues.Add(collider, collider.enabled);
+                collider.enabled = (collider.tag == "ShipId:" + Ship2.ShipId) ? true : false;
+            }
+
+            foreach (var limit in Arc.Limits)
+            {
+                Vector3 vectorFromDegrees = new Vector3((float)Math.Sin(limit.Value * Mathf.Deg2Rad), 0, (float)Math.Cos(limit.Value * Mathf.Deg2Rad));
+                vectorFromDegrees = Ship1.TransformVector(vectorFromDegrees);
+
+                RaycastHit hitInfo = new RaycastHit();
+                if (Physics.Raycast(Ship1.ShipBase.GetGlobalPoint(limit.Key) + new Vector3(0, 0.003f, 0), vectorFromDegrees + new Vector3(0, 0.003f, 0), out hitInfo, Board.BoardIntoWorld(3 * Board.RANGE_1)))
+                {
+                    if (hitInfo.collider.tag == "ShipId:" + Ship2.ShipId)
+                    {
+                        MinDistance = new RangeHolder(Ship1.ShipBase.GetGlobalPoint(limit.Key), hitInfo.point);
+                        Success();
+
+                        break;
+                    }
+                }
+            }
+
+            foreach (var collider in Board.Objects)
+            {
+                collider.enabled = originalColliderValues[collider];
+            }
+        }
+
+        private void Success()
+        {
+            if (Arc.ArcType != ArcTypes.None)
+            {
+                InShotAngle = true;
+                InArc = true;
+            }
+        }
+    }
+}
+
+

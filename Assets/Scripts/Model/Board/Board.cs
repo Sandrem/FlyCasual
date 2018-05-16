@@ -11,6 +11,8 @@ namespace BoardTools
 
         public static readonly float PLAYMAT_SIZE = 10;
 
+        public static List<MeshCollider> Objects = new List<MeshCollider>();
+
         public static void SetShips()
         {
             int i = 1;
@@ -18,6 +20,8 @@ namespace BoardTools
             {
                 SetShip(ship.Value, i);
                 i++;
+
+                Objects.Add(ship.Value.GetShipAllPartsTransform().Find("ShipBase").GetComponent<MeshCollider>());
             }
 
             i = 1;
@@ -25,6 +29,8 @@ namespace BoardTools
             {
                 SetShip(ship.Value, i);
                 i++;
+
+                Objects.Add(ship.Value.GetShipAllPartsTransform().Find("ShipBase").GetComponent<MeshCollider>());
             }
         }
 
@@ -73,6 +79,11 @@ namespace BoardTools
         {
             float scale = SIZE_X / 10;
             return length * scale;
+        }
+
+        public static void Cleanup()
+        {
+            Objects = new List<MeshCollider>();
         }
     
     }

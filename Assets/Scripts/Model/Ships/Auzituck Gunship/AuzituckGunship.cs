@@ -15,7 +15,7 @@ namespace Ship
             {
                 Type = "Auzituck Gunship";
                 IconicPilots.Add(Faction.Rebel, typeof(Lowhhrick));
-                ShipBaseArcsType = Arcs.BaseArcsType.Arc180;
+                ShipBaseArcsType = Arcs.BaseArcsType.ArcSpecial180;
 
                 ManeuversImageUrl = "https://i.imgur.com/d8r9zJB.jpg";
 

@@ -12,8 +12,19 @@ namespace Arcs
         {
             ArcType = ArcTypes.Primary;
             Facing = ArcFacing.Front;
-            MinAngle = -40f;
-            MaxAngle = 40f;
+
+            Limits = new Dictionary<Vector3, float>()
+            {
+                { new Vector3(-shipBase.HALF_OF_FIRINGARC_SIZE, 0, 0), -40f },
+                { new Vector3( shipBase.HALF_OF_FIRINGARC_SIZE, 0, 0),  40f }
+            };
+
+            Edges = new List<Vector3>()
+            {
+                new Vector3(-shipBase.HALF_OF_FIRINGARC_SIZE, 0, 0),
+                new Vector3( shipBase.HALF_OF_FIRINGARC_SIZE, 0, 0),
+            };
+
             ShotPermissions = new ArcShotPermissions()
             {
                 CanShootPrimaryWeapon = true,

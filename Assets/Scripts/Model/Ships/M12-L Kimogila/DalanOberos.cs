@@ -66,7 +66,7 @@ namespace PilotAbilitiesNamespace
 
         private bool FilterTargetInBullseyeArc(GenericShip ship)
         {
-            Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(HostShip, ship, HostShip.PrimaryWeapon);
+            BoardTools.ShipShotDistanceInformation shotInfo = new BoardTools.ShipShotDistanceInformation(HostShip, ship, HostShip.PrimaryWeapon);
             return shotInfo.InBullseyeArc && FilterByTargetType(ship, new List<TargetTypes>(){ TargetTypes.Enemy }) && FilterTargetsByRange(ship, 1, 3);
         }
 
@@ -74,7 +74,7 @@ namespace PilotAbilitiesNamespace
         {
             int result = 0;
 
-            Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(HostShip, ship, HostShip.PrimaryWeapon);
+            BoardTools.ShipShotDistanceInformation shotInfo = new BoardTools.ShipShotDistanceInformation(HostShip, ship, HostShip.PrimaryWeapon);
             result += (3 - shotInfo.Range) * 100;
 
             result += ship.Cost + ship.UpgradeBar.GetUpgradesOnlyFaceup().Sum(n => n.Cost);

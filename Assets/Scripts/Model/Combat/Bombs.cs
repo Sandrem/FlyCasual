@@ -110,7 +110,7 @@ namespace Bombs
                 Vector3 globalBombPoint = bombObject.transform.TransformPoint(localBombPoint);
                 foreach (var globalShipBasePoint in ship.ShipBase.GetStandPoints().Select(n => n.Value))
                 {
-                    if (Board.BoardManager.GetRangeBetweenPoints(globalBombPoint, globalShipBasePoint) == 1)
+                    if (BoardTools.Board.GetRangeBetweenPoints(globalBombPoint, globalShipBasePoint) == 1)
                     {
                         return true;
                     }

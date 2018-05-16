@@ -68,7 +68,7 @@ namespace ActionsList
             {
                 if (friendlyShip.Value.ShipId != Host.ShipId)
                 {
-                    Board.ShipDistanceInfo distanceInfo = new Board.ShipDistanceInfo(Host, friendlyShip.Value);
+                    BoardTools.ShipDistanceInfo distanceInfo = new BoardTools.ShipDistanceInfo(Host, friendlyShip.Value);
                     if (distanceInfo.Range < 3)
                     {
                         result = false;

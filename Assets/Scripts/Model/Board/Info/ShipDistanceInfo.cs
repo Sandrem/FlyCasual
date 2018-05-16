@@ -1,6 +1,6 @@
 ﻿using Ship;
 
-namespace Board
+namespace BoardTools
 {
     public class ShipDistanceInfo : GenericShipDistanceInfo
     {

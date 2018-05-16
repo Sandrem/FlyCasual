@@ -49,7 +49,7 @@ namespace Abilities
 
         private void CheckLandoCalrissianPilotAbility(GenericShip ship)
         {
-            if (Board.BoardManager.IsOffTheBoard(ship)) return;
+            if (BoardTools.Board.IsOffTheBoard(ship)) return;
 
             if (ship.AssignedManeuver.ColorComplexity == Movement.MovementComplexity.Easy)
             {

@@ -1,4 +1,4 @@
-﻿using Board;
+﻿using BoardTools;
 using Ship;
 using Upgrade;
 using SubPhases;

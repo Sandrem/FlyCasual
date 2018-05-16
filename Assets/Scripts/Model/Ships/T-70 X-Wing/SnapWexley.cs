@@ -49,7 +49,7 @@ namespace Abilities
             int assignedSpeed = HostShip.AssignedManeuver.Speed;
             if (assignedSpeed < 2 || assignedSpeed > 4) return;
 
-            if (Board.BoardManager.IsOffTheBoard(hostShip)) return;
+            if (BoardTools.Board.IsOffTheBoard(hostShip)) return;
 
             RegisterAbilityTrigger(TriggerTypes.OnShipMovementFinish, PerformFreeBoost);
         }

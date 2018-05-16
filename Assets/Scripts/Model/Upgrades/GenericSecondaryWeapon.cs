@@ -41,7 +41,7 @@ namespace Upgrade
             int range;
             if (!CanShootOutsideArc)
             {
-                Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(Host, targetShip, this);
+                BoardTools.ShipShotDistanceInformation shotInfo = new BoardTools.ShipShotDistanceInformation(Host, targetShip, this);
                 range = shotInfo.Range;
 
                 if (!shotInfo.IsShotAvailable) return false;
@@ -56,7 +56,7 @@ namespace Upgrade
             }
             else
             {
-                Board.ShipDistanceInfo distanceInfo = new Board.ShipDistanceInfo(Host, targetShip);
+                BoardTools.ShipDistanceInfo distanceInfo = new BoardTools.ShipDistanceInfo(Host, targetShip);
                 range = distanceInfo.Range;
             }
 

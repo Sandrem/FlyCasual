@@ -72,7 +72,7 @@ namespace ActionsList
 
             if (!Combat.ShotInfo.InArc) return false;
 
-            Board.ShipShotDistanceInformation reverseShotInfo = new Board.ShipShotDistanceInformation(Combat.Defender, Combat.Attacker);
+            BoardTools.ShipShotDistanceInformation reverseShotInfo = new BoardTools.ShipShotDistanceInformation(Combat.Defender, Combat.Attacker);
             if (!reverseShotInfo.InArc || reverseShotInfo.Range != 1) return false;
 
             return result;

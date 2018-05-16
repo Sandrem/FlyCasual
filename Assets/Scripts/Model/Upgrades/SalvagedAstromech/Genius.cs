@@ -45,7 +45,7 @@ namespace Abilities
             if (HostShip.IsBumped) return;
             if (HostShip.IsBombAlreadyDropped) return;
             if (!BombsManager.HasTimedBombs(ship)) return;
-            if (Board.BoardManager.IsOffTheBoard(ship)) return;
+            if (BoardTools.Board.IsOffTheBoard(ship)) return;
 
             RegisterAbilityTrigger(TriggerTypes.OnMovementActivation, AskUseGeniusAbility);
         }

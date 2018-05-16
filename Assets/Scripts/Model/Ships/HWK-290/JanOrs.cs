@@ -46,7 +46,7 @@ namespace Abilities
         {
             if (Combat.Attacker.Owner.PlayerNo == HostShip.Owner.PlayerNo && Combat.Attacker.ShipId != HostShip.ShipId)
             {
-                Board.ShipDistanceInfo distanceInfo = new Board.ShipDistanceInfo(Combat.Attacker, HostShip);
+                BoardTools.ShipDistanceInfo distanceInfo = new BoardTools.ShipDistanceInfo(Combat.Attacker, HostShip);
                 if (distanceInfo.Range < 4)
                 {
                     RegisterAbilityTrigger(TriggerTypes.OnAttackStart, AskJanOrsAbility);

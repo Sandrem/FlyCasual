@@ -74,7 +74,7 @@ namespace Ship
 
             int range;
 
-            Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(Host, targetShip, this);
+            BoardTools.ShipShotDistanceInformation shotInfo = new BoardTools.ShipShotDistanceInformation(Host, targetShip, this);
             range = shotInfo.Range;
             if (!CanShootOutsideArc)
             {
@@ -739,7 +739,7 @@ namespace Ship
         public bool InPrimaryWeaponFireZone(GenericShip anotherShip)
         {
             bool result = true;
-            Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(this, anotherShip, PrimaryWeapon);
+            BoardTools.ShipShotDistanceInformation shotInfo = new BoardTools.ShipShotDistanceInformation(this, anotherShip, PrimaryWeapon);
             result = InPrimaryWeaponFireZone(shotInfo.Range, shotInfo.InPrimaryArc);
             return result;
         }

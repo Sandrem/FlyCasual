@@ -39,7 +39,7 @@ namespace Abilities
 
         private void BackstabberPilotAbility(ref int diceNumber)
         {
-            Board.ShipShotDistanceInformation shotInformation = new Board.ShipShotDistanceInformation(Combat.Defender, Combat.Attacker, Combat.ChosenWeapon);
+            BoardTools.ShipShotDistanceInformation shotInformation = new BoardTools.ShipShotDistanceInformation(Combat.Defender, Combat.Attacker, Combat.ChosenWeapon);
             if (!shotInformation.InArc)
             {
                 Messages.ShowInfo("Backstabber: Additional dice");

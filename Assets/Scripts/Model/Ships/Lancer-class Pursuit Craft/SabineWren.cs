@@ -1,5 +1,5 @@
 ﻿using Ship;
-using Board;
+using BoardTools;
 using Abilities;
 using ActionsList;
 

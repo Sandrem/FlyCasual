@@ -30,12 +30,12 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            Board.ShipShotDistanceInformation.OnRangeIsMeasured += SetRangeToOne;
+            BoardTools.ShipShotDistanceInformation.OnRangeIsMeasured += SetRangeToOne;
         }
 
         public override void DeactivateAbility()
         {
-            Board.ShipShotDistanceInformation.OnRangeIsMeasured -= SetRangeToOne;
+            BoardTools.ShipShotDistanceInformation.OnRangeIsMeasured -= SetRangeToOne;
         }
 
         private void SetRangeToOne(GenericShip thisShip, GenericShip anotherShip, IShipWeapon chosenWeapon, ref int range)

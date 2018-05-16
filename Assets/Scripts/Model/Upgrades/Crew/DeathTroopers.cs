@@ -7,7 +7,7 @@ using UnityEngine;
 using SquadBuilderNS;
 using System;
 using Abilities;
-using Board;
+using BoardTools;
 
 namespace UpgradesList
 {

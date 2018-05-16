@@ -42,7 +42,7 @@ namespace Abilities
 
         private void TryRegisterStressEffect(GenericShip ship)
         {
-            Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(Combat.Defender, Combat.Attacker, Combat.Defender.PrimaryWeapon);
+            BoardTools.ShipShotDistanceInformation shotInfo = new BoardTools.ShipShotDistanceInformation(Combat.Defender, Combat.Attacker, Combat.Defender.PrimaryWeapon);
             if (shotInfo.InBullseyeArc)
             {
                 Triggers.RegisterTrigger(new Trigger()

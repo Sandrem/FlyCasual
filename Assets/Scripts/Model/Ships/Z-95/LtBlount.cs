@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using SubPhases;
 using Abilities;
-using Board;
+using BoardTools;
 using System.Linq;
 
 namespace Ship

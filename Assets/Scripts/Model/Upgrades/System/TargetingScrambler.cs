@@ -42,7 +42,7 @@ namespace Abilities
 
         private void RegisterAbilityTrigger()
         {
-            int enemiesInRange = Board.BoardManager.GetShipsAtRange(HostShip, new Vector2(1, 3), Team.Type.Enemy).Count;
+            int enemiesInRange = BoardTools.Board.GetShipsAtRange(HostShip, new Vector2(1, 3), Team.Type.Enemy).Count;
             if (enemiesInRange > 0) RegisterAbilityTrigger(TriggerTypes.OnPlanningSubPhaseStart, AskToUseTargetingScrambler);
         }
 

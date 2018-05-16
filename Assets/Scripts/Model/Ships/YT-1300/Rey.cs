@@ -82,7 +82,7 @@ namespace Abilities
                         if (Combat.ShotInfo.InArc) result = true;
                         break;
                     case CombatStep.Defence:
-                        Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(Combat.Defender, Combat.Attacker, Combat.Defender.PrimaryWeapon);
+                        BoardTools.ShipShotDistanceInformation shotInfo = new BoardTools.ShipShotDistanceInformation(Combat.Defender, Combat.Attacker, Combat.Defender.PrimaryWeapon);
                         if (shotInfo.InArc) result = true;
                         break;
                     default:

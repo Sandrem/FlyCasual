@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using Board;
+using BoardTools;
 
 public static class MovementTemplates {
 

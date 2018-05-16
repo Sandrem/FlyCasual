@@ -4,10 +4,10 @@ using UnityEngine;
 using Ship;
 using System;
 
-namespace Board
+namespace BoardTools
 {
 
-    public static partial class BoardManager {
+    public static partial class Board {
 
         public static readonly float PLAYMAT_SIZE = 10;
 

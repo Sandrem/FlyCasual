@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Board;
+using BoardTools;
 using Ship;
 using Upgrade;
 

@@ -86,7 +86,7 @@ namespace Abilities
         
         private bool IsShipWithoutJamAtRangeOneOfTarget(GenericShip ship)
         {            
-            var match = !ship.Tokens.HasToken<JamToken>() && Board.BoardManager.GetRangeOfShips(jamTarget, ship) <= 1;
+            var match = !ship.Tokens.HasToken<JamToken>() && BoardTools.Board.GetRangeOfShips(jamTarget, ship) <= 1;
             return match;
         }
 

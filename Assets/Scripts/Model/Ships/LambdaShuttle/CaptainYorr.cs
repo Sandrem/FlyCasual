@@ -43,7 +43,7 @@ namespace Abilities
             if (tokenType == typeof(Tokens.StressToken) && ship.Owner == HostShip.Owner && ship != HostShip && HostShip.Tokens.CountTokensByType(typeof(Tokens.StressToken)) <= 2)
             {
 
-                Board.ShipDistanceInfo positionInfo = new Board.ShipDistanceInfo(ship, HostShip);
+                BoardTools.ShipDistanceInfo positionInfo = new BoardTools.ShipDistanceInfo(ship, HostShip);
                 if (positionInfo.Range <= 2)
                 {
                     TargetShip = ship;

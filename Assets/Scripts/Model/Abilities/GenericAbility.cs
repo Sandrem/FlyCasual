@@ -179,7 +179,7 @@ namespace Abilities
 
             if ((Phases.CurrentSubPhase as SelectShipSubPhase) == null || (Phases.CurrentSubPhase as SelectShipSubPhase).CanMeasureRangeBeforeSelection)
             {
-                Board.ShipDistanceInfo distanceInfo = new Board.ShipDistanceInfo(Selection.ThisShip, ship);
+                BoardTools.ShipDistanceInfo distanceInfo = new BoardTools.ShipDistanceInfo(Selection.ThisShip, ship);
                 if (distanceInfo.Range < minRange) return false;
                 if (distanceInfo.Range > maxRange) return false;
             }

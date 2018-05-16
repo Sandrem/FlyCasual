@@ -20,7 +20,7 @@
             bool result = false;
             if (Combat.AttackStep == CombatStep.Defence)
             {
-                Board.ShipShotDistanceInformation reverseShotInfo = new Board.ShipShotDistanceInformation(Host, Combat.Attacker, Host.PrimaryWeapon);
+                BoardTools.ShipShotDistanceInformation reverseShotInfo = new BoardTools.ShipShotDistanceInformation(Host, Combat.Attacker, Host.PrimaryWeapon);
                 result = !reverseShotInfo.InArc;
             }
             return result;

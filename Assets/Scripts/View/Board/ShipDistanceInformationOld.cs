@@ -2,7 +2,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-namespace Board
+namespace BoardTools
 {
 
     public class ShipDistanceInformationOld : GeneralShipDistanceInformation

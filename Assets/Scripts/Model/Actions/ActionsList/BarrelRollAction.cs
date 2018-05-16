@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Board;
+using BoardTools;
 using GameModes;
 using System;
 using System.Linq;
@@ -329,7 +329,7 @@ namespace SubPhases
             if (TemporaryShipBase == null)
             {
                 GameObject prefab = (GameObject)Resources.Load(TheShip.ShipBase.TemporaryPrefabPath, typeof(GameObject));
-                TemporaryShipBase = MonoBehaviour.Instantiate(prefab, GetCurrentBarrelRollHelperTemplateFinisherBasePositionGO().transform.position, GetCurrentBarrelRollHelperTemplateFinisherBasePositionGO().transform.rotation, BoardManager.GetBoard());
+                TemporaryShipBase = MonoBehaviour.Instantiate(prefab, this.GetCurrentBarrelRollHelperTemplateFinisherBasePositionGO().transform.position, this.GetCurrentBarrelRollHelperTemplateFinisherBasePositionGO().transform.rotation, BoardTools.Board.GetBoard());
                 TemporaryShipBase.transform.Find("ShipBase").Find("ShipStandInsert").Find("ShipStandInsertImage").Find("default").GetComponent<Renderer>().material = TheShip.Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("ShipBase").Find("ShipStandInsert").Find("ShipStandInsertImage").Find("default").GetComponent<Renderer>().material;
                 TemporaryShipBase.transform.Find("ShipBase").Find("ObstaclesStayDetector").gameObject.AddComponent<ObstaclesStayDetectorForced>();
                 obstaclesStayDetectorBase = TemporaryShipBase.GetComponentInChildren<ObstaclesStayDetectorForced>();

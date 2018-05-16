@@ -52,7 +52,7 @@ namespace Abilities
 
             if (HostShip.IsCannotAttackSecondTime) return;
 
-            Board.ShipShotDistanceInformation counterAttackInfo = new Board.ShipShotDistanceInformation(Combat.Defender, Combat.Attacker);
+            BoardTools.ShipShotDistanceInformation counterAttackInfo = new BoardTools.ShipShotDistanceInformation(Combat.Defender, Combat.Attacker);
             if (!counterAttackInfo.InArc) return;
 
             // Save his attacker, becuase combat data will be cleared

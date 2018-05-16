@@ -60,7 +60,7 @@ namespace Abilities
 
                 if (ship.ShipId == Combat.Defender.ShipId) continue;
 
-                Board.ShipDistanceInfo shotInfo = new Board.ShipDistanceInfo(Combat.Defender, ship);
+                BoardTools.ShipDistanceInfo shotInfo = new BoardTools.ShipDistanceInfo(Combat.Defender, ship);
 
                 if (shotInfo.Range == 1 && ship.Agility < (Combat.ChosenWeapon as GenericUpgrade).Cost)
                 {

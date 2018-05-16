@@ -5,13 +5,13 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-namespace Board
+namespace BoardTools
 {
     public class RangeHolder
     {
         public Vector3 Point1 { get; private set; }
         public Vector3 Point2 { get; private set; }
-        public int Range { get { return Mathf.Max(1, Mathf.CeilToInt(Distance / BoardManager.DISTANCE_INTO_RANGE)); } }
+        public int Range { get { return Mathf.Max(1, Mathf.CeilToInt(Distance / Board.DISTANCE_INTO_RANGE)); } }
         public float Distance { get; private set; }
         public Vector3 Vector { get { return Point2 - Point1; } }
 

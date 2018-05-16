@@ -41,7 +41,7 @@ namespace Abilities
 
         private void MaulerMithelPilotAbility(ref int result)
         {
-            Board.ShipShotDistanceInformation shotInformation = new Board.ShipShotDistanceInformation(Combat.Attacker, Combat.Defender, Combat.ChosenWeapon);
+            BoardTools.ShipShotDistanceInformation shotInformation = new BoardTools.ShipShotDistanceInformation(Combat.Attacker, Combat.Defender, Combat.ChosenWeapon);
             if (shotInformation.Range == 1)
             {
                 Messages.ShowInfo("\"Mauler Mithel\": +1 attack die");

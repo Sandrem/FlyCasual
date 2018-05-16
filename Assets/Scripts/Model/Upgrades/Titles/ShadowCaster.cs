@@ -1,7 +1,7 @@
 ﻿using Ship;
 using Ship.LancerClassPursuitCraft;
 using Upgrade;
-using Board;
+using BoardTools;
 
 namespace UpgradesList
 {

@@ -35,7 +35,7 @@ namespace Abilities
 
         private void RegisterScavengerCraneAbility(GenericShip destroyedShip, bool isFled)
         {
-            Board.ShipDistanceInfo distanceInfo = new Board.ShipDistanceInfo(HostShip, destroyedShip);            
+            BoardTools.ShipDistanceInfo distanceInfo = new BoardTools.ShipDistanceInfo(HostShip, destroyedShip);            
             if (distanceInfo.Range <= 2)
             {
                 var recoverableUpgrades = GetRecoverableUpgrades();

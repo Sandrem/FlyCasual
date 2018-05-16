@@ -44,7 +44,7 @@ namespace Abilities
         {
             if (ship.Owner != HostShip.Owner && action.TokensSpend.Any(token => token == typeof(FocusToken) || token == typeof(EvadeToken)))
             {
-                Board.ShipDistanceInfo positionInfo = new Board.ShipDistanceInfo(ship, HostShip);
+                BoardTools.ShipDistanceInfo positionInfo = new BoardTools.ShipDistanceInfo(ship, HostShip);
                 if (positionInfo.Range <= 1)
                 {
                     Messages.ShowErrorToHuman("Carnor Jax: Cannot perform focus or evade actions, or spend focus or evade tokens");

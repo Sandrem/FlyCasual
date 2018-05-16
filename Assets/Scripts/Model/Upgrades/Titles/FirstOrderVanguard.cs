@@ -7,7 +7,7 @@ using System;
 using UnityEngine;
 using System.Collections.Generic;
 using ActionsList;
-using Board;
+using BoardTools;
 
 namespace UpgradesList
 {

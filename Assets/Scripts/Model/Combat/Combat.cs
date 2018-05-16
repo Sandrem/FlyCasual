@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using Board;
+using BoardTools;
 using GameModes;
 using Ship;
 using SubPhases;

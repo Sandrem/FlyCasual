@@ -7,7 +7,7 @@ using UnityEngine;
 using Arcs;
 using Upgrade;
 
-namespace Board
+namespace BoardTools
 {
 
     public class ShotInfo : GenericShipDistanceInfo
@@ -21,6 +21,7 @@ namespace Board
 
         public ShotInfo(GenericShip ship1, GenericShip ship2) : base(ship1, ship2)
         {
+
         }
 
         protected override void CheckRange()
@@ -31,6 +32,7 @@ namespace Board
             SetFinalMinDistance();
 
             CheckRequirements();
+            CheckRays();
         }
 
         private void CheckRequirements()
@@ -41,6 +43,18 @@ namespace Board
             if (signedAngle < -40 || signedAngle > 40) return;
 
             InShotAngle = true;
+        }
+
+        private void CheckRays()
+        {
+            if (InShotAngle) return;
+
+            RaycastHit hitInfo = new RaycastHit();
+            if (Physics.Raycast(Ship1.ShipBase.GetStandFrontEdgePoins().First().Value + new Vector3(0, 0.003f, 0), new Vector3(-1, 0.003f, 1), out hitInfo, Board.BoardIntoWorld(3*Board.RANGE_1)))
+            {
+                Debug.Log(hitInfo.collider.tag + " " + hitInfo.collider.name);
+                //hitInfo.point
+            }
         }
     }
 }

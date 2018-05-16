@@ -43,7 +43,7 @@ namespace Abilities
             {
                 if (defender.Owner.PlayerNo == HostShip.Owner.PlayerNo)
                 {
-                    Board.ShipDistanceInfo positionInfo = new Board.ShipDistanceInfo(attacker, HostShip);
+                    BoardTools.ShipDistanceInfo positionInfo = new BoardTools.ShipDistanceInfo(attacker, HostShip);
                     if (positionInfo.Range >= attacker.TargetLockMinRange && positionInfo.Range <= attacker.TargetLockMaxRange)
                     {
                         abilityIsActive = true;

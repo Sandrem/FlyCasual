@@ -54,7 +54,7 @@ namespace Abilities
 
             if (HostShip.Tokens.HasToken(typeof(StressToken))) return;
 
-            Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(HostShip, activatedShip);
+            BoardTools.ShipShotDistanceInformation shotInfo = new BoardTools.ShipShotDistanceInformation(HostShip, activatedShip);
             if (!shotInfo.InArc || shotInfo.Range > 3) return;
 
             RegisterAbilityTrigger(TriggerTypes.OnCombatActivation, AskAbility);

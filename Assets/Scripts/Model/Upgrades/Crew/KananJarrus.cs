@@ -55,7 +55,7 @@ namespace Abilities
         {
             if (!IsAbilityUsed && ship.Owner.PlayerNo == HostShip.Owner.PlayerNo && ship.AssignedManeuver.ColorComplexity == Movement.MovementComplexity.Normal)
             {
-                Board.ShipDistanceInfo distanceInfo = new Board.ShipDistanceInfo(HostShip, ship);
+                BoardTools.ShipDistanceInfo distanceInfo = new BoardTools.ShipDistanceInfo(HostShip, ship);
                 if (distanceInfo.Range < 3)
                 {
                     ShipToRemoveStress = ship;

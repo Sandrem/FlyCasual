@@ -146,7 +146,7 @@ namespace SubPhases
 
         private bool FilterTargetLockTargets(GenericShip ship)
         {
-            Board.ShipDistanceInfo distanceInfo = new Board.ShipDistanceInfo(Selection.ThisShip, ship);
+            BoardTools.ShipDistanceInfo distanceInfo = new BoardTools.ShipDistanceInfo(Selection.ThisShip, ship);
             return ship.Owner.PlayerNo != Selection.ThisShip.Owner.PlayerNo && distanceInfo.Range >= Selection.ThisShip.TargetLockMinRange && distanceInfo.Range <= Selection.ThisShip.TargetLockMaxRange && Rules.TargetLocks.TargetLockIsAllowed(Selection.ThisShip, ship);
         }
 
@@ -154,7 +154,7 @@ namespace SubPhases
         {
             int result = 0;
 
-            Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(Selection.ThisShip, ship);
+            BoardTools.ShipShotDistanceInformation shotInfo = new BoardTools.ShipShotDistanceInformation(Selection.ThisShip, ship);
             if (shotInfo.IsShotAvailable) result += 1000;
             if (!ship.ShipsBumped.Contains(Selection.ThisShip)) result += 500;
             if (shotInfo.Range <= 3) result += 250;

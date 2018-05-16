@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using Ship;
 using UnityEngine;
 
-namespace Board
+namespace BoardTools
 {
-    public static partial class BoardManager
+    public static partial class Board
     {
 
         public static Transform BoardTransform;
@@ -136,7 +136,7 @@ namespace Board
         //util functions
         public static int GetRangeOfShips(GenericShip from, GenericShip to)
         {
-            Board.ShipDistanceInfo positionInfo = new Board.ShipDistanceInfo(from, to);
+            ShipDistanceInfo positionInfo = new ShipDistanceInfo(from, to);
             return positionInfo.Range;
         }
 

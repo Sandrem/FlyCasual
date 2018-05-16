@@ -61,7 +61,7 @@ namespace Ship
             position = new Vector3(0, 0, (Owner.PlayerNo == Players.PlayerNo.Player1) ? -4 : 4);
 
             GameObject shipPrefab = (GameObject)Resources.Load("Prefabs/ShipModel/ShipModel", typeof(GameObject));
-            GameObject newShip = MonoBehaviour.Instantiate(shipPrefab, position + new Vector3(0, 0.03f, 0), Quaternion.Euler(facing), Board.BoardManager.GetBoard());
+            GameObject newShip = MonoBehaviour.Instantiate(shipPrefab, position + new Vector3(0, 0.03f, 0), Quaternion.Euler(facing), BoardTools.Board.GetBoard());
 
             GameObject modelPrefab = (GameObject)Resources.Load("Prefabs/ShipModel/ShipModels/" + FixTypeName(Type), typeof(GameObject));
             if (modelPrefab != null)
@@ -431,7 +431,7 @@ namespace Ship
             Transform launchOrigin = modelCenter.Find("MunitionsLauncherPoint/MunitionsLauncherDirection");
             if (launchOrigin != null)
             {
-                Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(Combat.Attacker, Combat.Defender, Combat.ChosenWeapon);
+                BoardTools.ShipShotDistanceInformation shotInfo = new BoardTools.ShipShotDistanceInformation(Combat.Attacker, Combat.Defender, Combat.ChosenWeapon);
                 float distance = shotInfo.Distance;
 
                 Vector3 targetPoint = Selection.AnotherShip.GetModelCenter();

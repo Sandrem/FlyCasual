@@ -42,7 +42,7 @@ namespace Abilities
 
         private void RegisterOutlawTechAbility(GenericShip ship)
         {
-            if (Board.BoardManager.IsOffTheBoard(ship)) return;
+            if (BoardTools.Board.IsOffTheBoard(ship)) return;
 
             if (HostShip.GetLastManeuverColor() == Movement.MovementComplexity.Complex)
             {

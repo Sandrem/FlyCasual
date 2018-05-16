@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System;
 
-namespace Board
+namespace BoardTools
 {
 
     public class ShipShotDistanceInformation : GeneralShipDistanceInformation

@@ -56,7 +56,7 @@ namespace PilotAbilitiesNamespace
             Players.GenericPlayer opponent = Roster.GetPlayer(Roster.AnotherPlayer(HostShip.Owner.PlayerNo));
             foreach (var ship in opponent.Ships)
             {
-                Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(HostShip, ship.Value, HostShip.PrimaryWeapon);
+                BoardTools.ShipShotDistanceInformation shotInfo = new BoardTools.ShipShotDistanceInformation(HostShip, ship.Value, HostShip.PrimaryWeapon);
                 if (shotInfo.InBullseyeArc)
                 {
                     Triggers.RegisterTrigger(new Trigger() {

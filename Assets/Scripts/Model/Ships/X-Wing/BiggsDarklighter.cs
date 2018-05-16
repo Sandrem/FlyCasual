@@ -72,7 +72,7 @@ namespace Abilities
             {
                 if (Selection.AnotherShip.Owner.PlayerNo == HostShip.Owner.PlayerNo)
                 {
-                    Board.ShipDistanceInfo positionInfo = new Board.ShipDistanceInfo(Selection.AnotherShip, HostShip);
+                    BoardTools.ShipDistanceInfo positionInfo = new BoardTools.ShipDistanceInfo(Selection.AnotherShip, HostShip);
                     if (positionInfo.Range <= 1)
                     {
                         if (!Selection.ThisShip.ShipsBumped.Contains(HostShip))

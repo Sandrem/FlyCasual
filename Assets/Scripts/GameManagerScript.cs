@@ -20,7 +20,7 @@ public class GameManagerScript : MonoBehaviour {
 
         //Global.Initialize();
 
-        Board.BoardManager.Initialize();
+        BoardTools.Board.Initialize();
         Roster.Initialize();
         Roster.Start();
         Selection.Initialize();
@@ -92,7 +92,7 @@ public class GameManagerScript : MonoBehaviour {
     {
         Ship.GenericShip ship1 = Roster.GetShipById("ShipId:1");
         Ship.GenericShip ship2 = Roster.GetShipById("ShipId:2");
-        Board.ShotInfo shotInfo = new Board.ShotInfo(ship1, ship2);
+        BoardTools.ShotInfo shotInfo = new BoardTools.ShotInfo(ship1, ship2);
         if (shotInfo.InShotAngle) MovementTemplates.ShowRangeRuler(shotInfo); else MovementTemplates.ReturnRangeRuler();
     }
 

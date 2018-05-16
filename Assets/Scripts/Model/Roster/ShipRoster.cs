@@ -79,7 +79,7 @@ public static partial class Roster
             AddShipToLists(newShip);
         }
 
-        Board.BoardManager.SetShips();
+        BoardTools.Board.SetShips();
     }
 
     private static void AddShipToLists(GenericShip newShip)

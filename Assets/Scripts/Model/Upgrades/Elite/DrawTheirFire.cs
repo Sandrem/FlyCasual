@@ -39,7 +39,7 @@ namespace Abilities
         {
             if (Combat.Defender.Owner.PlayerNo == HostShip.Owner.PlayerNo && Combat.Defender.ShipId != HostShip.ShipId)
             {
-                Board.ShipDistanceInfo distanceInfo = new Board.ShipDistanceInfo(Combat.Defender, HostShip);
+                BoardTools.ShipDistanceInfo distanceInfo = new BoardTools.ShipDistanceInfo(Combat.Defender, HostShip);
                 if (distanceInfo.Range == 1 && Combat.DiceRollAttack.CriticalSuccesses > 0)
                 {
                     RegisterAbilityTrigger(TriggerTypes.OnTryDamagePrevention, UseDrawTheirFireAbility);

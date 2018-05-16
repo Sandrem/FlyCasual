@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Ship;
 using UnityEngine;
 using SubPhases;
-using Board;
+using BoardTools;
 using Abilities;
 using System.Linq;
 

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using Ship;
-using Board;
+using BoardTools;
 using GameModes;
 
 namespace SubPhases
@@ -111,7 +111,7 @@ namespace SubPhases
 
         public override void FinishPhase()
         {
-            BoardManager.TurnOffStartingZones();
+            BoardTools.Board.TurnOffStartingZones();
             Phases.NextPhase();
         }
 
@@ -147,7 +147,7 @@ namespace SubPhases
             inReposition = false;
 
             Selection.ChangeActiveShip("ShipId:" + shipId);
-            BoardManager.PlaceShip(Selection.ThisShip, position, angles, delegate { Selection.DeselectThisShip(); Phases.Next(); });
+            BoardTools.Board.PlaceShip(Selection.ThisShip, position, angles, delegate { Selection.DeselectThisShip(); Phases.Next(); });
         }
 
         public override void Update()
@@ -223,11 +223,11 @@ namespace SubPhases
 
         public void StartDrag()
         {
-            StartingZone = BoardManager.GetStartingZone(Phases.CurrentSubPhase.RequiredPlayer);
+            StartingZone = BoardTools.Board.GetStartingZone(Phases.CurrentSubPhase.RequiredPlayer);
             isInsideStartingZone = false;
             Roster.SetRaycastTargets(false);
             Roster.AllShipsHighlightOff();
-            BoardManager.HighlightStartingZones();
+            BoardTools.Board.HighlightStartingZones();
             Selection.ThisShip.Model.GetComponentInChildren<ObstaclesStayDetector>().checkCollisions = true;
             inReposition = true;
         }
@@ -264,8 +264,8 @@ namespace SubPhases
                     if ((ship.Value.ShipId != Selection.ThisShip.ShipId) && (ship.Value.IsSetupPerformed))
                     {
                         Vector3 newPosition = Selection.ThisShip.GetCenter();
-                        float halfOfShipStandSize = BoardManager.BoardIntoWorld(BoardManager.DISTANCE_1 / 2f);
-                        float oneOfShipStandSize = BoardManager.BoardIntoWorld(BoardManager.DISTANCE_1);
+                        float halfOfShipStandSize = BoardTools.Board.BoardIntoWorld(BoardTools.Board.DISTANCE_1 / 2f);
+                        float oneOfShipStandSize = BoardTools.Board.BoardIntoWorld(BoardTools.Board.DISTANCE_1);
 
                         Dictionary<string, float> spaceBetweenList = GetSpaceBetween(Selection.ThisShip, ship.Value);
 

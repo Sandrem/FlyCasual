@@ -62,7 +62,7 @@ namespace Abilities
                 bool result = false;
                 if (Combat.AttackStep == CombatStep.Attack)
                 {
-                    Board.ShipShotDistanceInformation shotInformation = new Board.ShipShotDistanceInformation(Combat.Attacker, Combat.Defender, Combat.ChosenWeapon);
+                    BoardTools.ShipShotDistanceInformation shotInformation = new BoardTools.ShipShotDistanceInformation(Combat.Attacker, Combat.Defender, Combat.ChosenWeapon);
                     if (shotInformation.Range == 1)
                     {
                         result = true;

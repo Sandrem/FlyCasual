@@ -6,21 +6,18 @@ using Ship;
 
 namespace Arcs
 {
-    /*public class Arc180 : ArcsHolder
+    public class Arc180 : GenericArc
     {
-        public Arc180(GenericShip host) : base(host)
+        public Arc180(GenericShipBase shipBase) : base(shipBase)
         {
-            ArcsList = new List<GenericArc>
+            ArcType = ArcTypes.Special;
+            Facing = ArcFacing.Forward180;
+            MinAngle = -90f;
+            MaxAngle = 90f;
+            ShotPermissions = new ArcShotPermissions()
             {
-                primaryArc,
-                new GenericArc()
-                {
-                    ShipBase = Host.ShipBase,
-                    MinAngle = -90f,
-                    MaxAngle = 90f,
-                    Facing = ArcFacing.Forward180
-                }
+                CanShootPrimaryWeapon = true,
             };
         }
-    }*/
+    }
 }

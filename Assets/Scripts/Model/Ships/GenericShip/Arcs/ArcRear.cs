@@ -8,20 +8,16 @@ namespace Arcs
 {
     public class ArcRear : GenericArc
     {
-        /*public ArcRear(GenericShip host) : base(host)
+        public ArcRear(GenericShipBase shipBase) : base(shipBase)
         {
-            ArcsList = new List<GenericArc>
+            ArcType = ArcTypes.RearAux;
+            Facing = ArcFacing.Rear;
+            MinAngle = -140f;
+            MaxAngle = 140f;
+            ShotPermissions = new ArcShotPermissions()
             {
-                primaryArc,
-                new GenericArc()
-                {
-                    ShipBase = Host.ShipBase,
-                    MinAngle = -140f,
-                    MaxAngle = 140f,
-                    Facing = ArcFacing.Rear,
-					IsRearAuxArc = true
-                }
+                CanShootPrimaryWeapon = true,
             };
-        }*/
+        }
     }
 }

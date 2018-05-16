@@ -19,16 +19,18 @@ namespace Arcs
 
     public enum ArcTypes
     {
+        None,
         Primary,
         RearAux,
         Arc180,
-        ArcMobile,
-        ArcBullseye,
-        ArcSpecial
+        Mobile,
+        Bullseye,
+        Special
     }
 
     public enum ArcFacing
     {
+        None,
         Front,
         Left,
         Right,
@@ -39,11 +41,11 @@ namespace Arcs
 
     public class ArcShotPermissions
     {
-        public bool CanShootPrimaryWeapon = true;
-        public bool CanShootTurret = true;
-        public bool CanShootTorpedoes = false;
-        public bool CanShootMissiles = false;
-        public bool CanShootCannon = false;
+        public bool CanShootPrimaryWeapon;
+        public bool CanShootTurret;
+        public bool CanShootTorpedoes;
+        public bool CanShootMissiles;
+        public bool CanShootCannon;
     }
 
     public class GenericArc
@@ -53,39 +55,25 @@ namespace Arcs
         public ArcFacing Facing;
         public float MinAngle;
         public float MaxAngle;
-        public ArcShotPermissions ShotPermissions = new ArcShotPermissions();
+        public ArcShotPermissions ShotPermissions;
+
+        public GenericArc(GenericShipBase shipBase)
+        {
+            ShipBase = shipBase;
+        }
     }
 
     public class ArcsHolder
     {
-        public GenericShip Host;
-
         public List<GenericArc> Arcs { get; private set; }
 
         public ArcsHolder(GenericShip host)
         {
-            Host = host;
-
-            /*primaryArc = new GenericArc()
+            Arcs = new List<GenericArc>
             {
-                ShipBase = Host.ShipBase,
-                MinAngle = -40f,
-                MaxAngle = 40f,
-                Facing = ArcFacing.Front,
-                ShotPermissions = new ArcShotPermissions()
-                {
-                    CanShootPrimaryWeapon = true,
-                    CanShootTorpedoes = true,
-                    CanShootMissiles = true,
-                    CanShootCannon = true,
-                    CanShootTurret = true
-                }
-            };*/
-
-            /*ArcsList = new List<GenericArc>
-            {
-                primaryArc
-            };*/
+                new ArcPrimary(host.ShipBase),
+                new OutOfArc(host.ShipBase)
+            };
         }
 
         public T GetArc<T>() where T : GenericArc

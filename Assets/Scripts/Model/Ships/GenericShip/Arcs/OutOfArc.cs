@@ -9,14 +9,13 @@ namespace Arcs
     public class OutOfArc : GenericArc
     {
 
-        /*public Arc360(GenericShip host) : base(host)
+        public OutOfArc(GenericShipBase shipBase) : base(shipBase)
         {
-            OutOfArcsShotPermissions.CanShootPrimaryWeapon = true;
+            ArcType = ArcTypes.None;
+            Facing = ArcFacing.None;
+            MinAngle = -360f;
+            MaxAngle = 360f;
+            ShotPermissions = new ArcShotPermissions(); //Cannot shoot out of arc by default
         }
-
-        public override bool InAttackAngle(string origianPoint, float angle)
-        {
-            return true;
-        }*/
     }
 }

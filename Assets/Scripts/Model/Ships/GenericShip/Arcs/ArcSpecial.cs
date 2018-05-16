@@ -8,23 +8,16 @@ namespace Arcs
 {
     public class ArcSpecial : GenericArc
     {
-        /*public ArcGhost(GenericShip host) : base(host)
+        public ArcSpecial(GenericShipBase shipBase) : base(shipBase)
         {
-            ArcsList = new List<GenericArc>
+            ArcType = ArcTypes.Special;
+            Facing = ArcFacing.Rear;
+            MinAngle = -140f;
+            MaxAngle = 140f;
+            ShotPermissions = new ArcShotPermissions()
             {
-                primaryArc,
-                new GenericArc()
-                {
-                    ShipBase = Host.ShipBase,
-                    MinAngle = -140f,
-                    MaxAngle = 140f,
-                    Facing = ArcFacing.Rear,
-                    ShotPermissions = new ArcShotPermissions()
-                    {
-                        CanShootPrimaryWeapon = false, CanShootTorpedoes = true
-                    }
-                }
+                CanShootTorpedoes = true,
             };
-        }*/
+        }
     }
 }

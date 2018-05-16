@@ -10,6 +10,18 @@ namespace Arcs
 
     public class ArcMobile : GenericArc
     {
+        public ArcMobile(GenericShipBase shipBase) : base(shipBase)
+        {
+            ArcType = ArcTypes.Mobile;
+            Facing = ArcFacing.Front;
+            MinAngle = -40f;
+            MaxAngle = 40f;
+            ShotPermissions = new ArcShotPermissions()
+            {
+                CanShootPrimaryWeapon = true,
+                CanShootTurret = true
+            };
+        }
 
         public void RotateArc(ArcFacing facing)
         {

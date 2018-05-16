@@ -99,7 +99,7 @@ namespace ActionsList
         private bool FilterTargets(GenericShip ship)
         {
             //Filter other friendly ships range 1
-            Board.ShipDistanceInformation distanceInfo = new Board.ShipDistanceInformation(Host, ship);
+            Board.ShipDistanceInfo distanceInfo = new Board.ShipDistanceInfo(Host, ship);
             return ship.Owner.PlayerNo != Host.Owner.PlayerNo &&
                     ship != Host &&
                     distanceInfo.Range == 1;

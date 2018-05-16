@@ -46,7 +46,7 @@ namespace ActionsList
                     {
                         if (friendlyShip.Owner == Host.Owner)
                         {
-                            Board.ShipDistanceInformation positionInfo = new Board.ShipDistanceInformation(Host, friendlyShip);
+                            Board.ShipDistanceInfo positionInfo = new Board.ShipDistanceInfo(Host, friendlyShip);
                             if (positionInfo.Range <= MaxFriendlyShipRange)
                             {
                                 result = true;

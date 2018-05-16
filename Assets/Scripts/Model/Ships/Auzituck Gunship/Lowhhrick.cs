@@ -69,7 +69,7 @@ namespace Abilities
                         {
                             if (Host.Tokens.HasToken(typeof(ReinforceForeToken)) || Host.Tokens.HasToken(typeof(ReinforceAftToken)))
                             {
-                                Board.ShipDistanceInformation positionInfo = new Board.ShipDistanceInformation(Host, Combat.Defender);
+                                Board.ShipDistanceInfo positionInfo = new Board.ShipDistanceInfo(Host, Combat.Defender);
                                 if (positionInfo.Range == 1)
                                 {
                                     result = true;

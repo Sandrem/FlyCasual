@@ -115,7 +115,7 @@ public static class MovementTemplates {
 
     public static void ShowRange(Ship.GenericShip thisShip, Ship.GenericShip anotherShip)
     {
-        ShowRangeRuler(new ShipDistanceInformation(thisShip, anotherShip));
+        ShowRangeRuler(new ShipDistanceInfo(thisShip, anotherShip));
     }
 
     public static bool ShowFiringArcRange(ShipShotDistanceInformation shotInfo)
@@ -137,7 +137,7 @@ public static class MovementTemplates {
         Templates.Find("RangeRuler").rotation = Quaternion.LookRotation(shipDistanceInfo.Vector);
     }
 
-    public static void ShowRangeRuler(ShipDistanceInformation shipDistanceInfo)
+    public static void ShowRangeRuler(GenericShipDistanceInfo shipDistanceInfo)
     {
         Templates.Find("RangeRuler").position = shipDistanceInfo.MinDistance.Point1;
         Templates.Find("RangeRuler").LookAt(shipDistanceInfo.MinDistance.Point2);

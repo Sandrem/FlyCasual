@@ -11,8 +11,9 @@ namespace Board
     {
         public Vector3 Point1 { get; private set; }
         public Vector3 Point2 { get; private set; }
-        public int Range { get { return Mathf.Max(1, Mathf.CeilToInt(Distance / BoardManager.DISTANCE_INTO_RANGE)); }}
+        public int Range { get { return Mathf.Max(1, Mathf.CeilToInt(Distance / BoardManager.DISTANCE_INTO_RANGE)); } }
         public float Distance { get; private set; }
+        public Vector3 Vector { get { return Point2 - Point1; } }
 
         public RangeHolder(Vector3 point1, Vector3 point2)
         {
@@ -28,10 +29,10 @@ namespace Board
         }
     }
 
-    public class ShipDistanceInformation
+    public class GenericShipDistanceInfo
     {
-        public GenericShip Ship1 { get; protected set; }
-        public GenericShip Ship2 { get; protected set; }
+        protected GenericShip Ship1 { get; set; }
+        protected GenericShip Ship2 { get; set; }
 
         public RangeHolder MinDistance { get; protected set; }
         private RangeHolder altDistance1;
@@ -41,7 +42,7 @@ namespace Board
 
         public int Range { get { return MinDistance.Range; } }
 
-        public ShipDistanceInformation(GenericShip ship1, GenericShip ship2)
+        public GenericShipDistanceInfo(GenericShip ship1, GenericShip ship2)
         {
             Ship1 = ship1;
             Ship2 = ship2;
@@ -49,21 +50,20 @@ namespace Board
             CheckRange();
         }
 
-        private void CheckRange()
+        protected virtual void CheckRange()
         {
-            FindNearestDistances();
+            FindNearestDistances(Ship1.ShipBase.GetBaseEdges());
             TryFindPerpendicularDistanceA();
             TryFindPerpendicularDistanceB();
-            CheckParallels();
             SetFinalMinDistance();
         }
 
-        private void FindNearestDistances()
+        protected void FindNearestDistances(Dictionary<string, Vector3> firstShipEdges)
         {
             List<RangeHolder> distances = new List<RangeHolder>();
 
             // Check distances from all edges to all edges
-            foreach (var ship1point in Ship1.ShipBase.GetBaseEdges())
+            foreach (var ship1point in firstShipEdges)
             {
                 foreach (var ship2point in Ship2.ShipBase.GetBaseEdges())
                 {
@@ -82,13 +82,13 @@ namespace Board
             altDistance2 = distances.First(n => n.Point2 == MinDistance.Point2);
         }
 
-        private void TryFindPerpendicularDistanceA()
+        protected void TryFindPerpendicularDistanceA()
         {
             //Try to get perpendicular
             float angleA = Vector3.Angle(MinDistance.Point2 - MinDistance.Point1, altDistance1.Point2 - altDistance1.Point1);
             float angleB = Vector3.Angle(MinDistance.Point2 - MinDistance.Point1, MinDistance.Point2 - altDistance1.Point2);
 
-            if (angleB >= 90 || angleA+angleB <= 90)
+            if (angleB >= 90 || angleA + angleB <= 90)
             {
                 // No correct perpendicular for this triangle
             }
@@ -109,7 +109,7 @@ namespace Board
             }
         }
 
-        private void TryFindPerpendicularDistanceB()
+        protected void TryFindPerpendicularDistanceB()
         {
             //Try to get perpendicular
             float angleA = Vector3.Angle(MinDistance.Point1 - MinDistance.Point2, altDistance2.Point1 - altDistance2.Point2);
@@ -136,18 +136,10 @@ namespace Board
             }
         }
 
-        private void CheckParallels()
-        {
-            // If both alt distances ~same
-            // find mid-points and set as min distance
-        }
-
-        private void SetFinalMinDistance()
+        protected void SetFinalMinDistance()
         {
             if (minDistancePerpA != null) MinDistance = minDistancePerpA;
             if (minDistancePerpB != null && minDistancePerpB.Distance < MinDistance.Distance) MinDistance = minDistancePerpB;
         }
     }
 }
-
-

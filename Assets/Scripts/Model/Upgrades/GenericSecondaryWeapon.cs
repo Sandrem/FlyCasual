@@ -56,7 +56,7 @@ namespace Upgrade
             }
             else
             {
-                Board.ShipDistanceInformation distanceInfo = new Board.ShipDistanceInformation(Host, targetShip);
+                Board.ShipDistanceInfo distanceInfo = new Board.ShipDistanceInfo(Host, targetShip);
                 range = distanceInfo.Range;
             }
 

@@ -10,31 +10,37 @@ using Upgrade;
 namespace Board
 {
 
-    public class ShotInfo : ShipDistanceInformation
+    public class ShotInfo : GenericShipDistanceInfo
     {
         public bool InShotAngle { get; private set; }
         public bool InArc { get; private set; }
         public Dictionary<BaseArcsType, bool> InArcByType { get; private set; }
-
-        public Dictionary<UpgradeType, bool> CanShootFromWeapon { get; private set; }
 
         public bool ObstructedByAsteroid { get; private set; }
         public bool ObstructedByMine { get; private set; }
 
         public ShotInfo(GenericShip ship1, GenericShip ship2) : base(ship1, ship2)
         {
-            CheckAngle();
         }
 
-        private void CheckAngle()
+        protected override void CheckRange()
         {
-            // Check existing min distance vs angles of arc
-            // if failed - 
+            FindNearestDistances(Ship1.ShipBase.GetStandFrontEdgePoins()); //Temporary
+            TryFindPerpendicularDistanceA();
+            TryFindPerpendicularDistanceB();
+            SetFinalMinDistance();
+
+            CheckRequirements();
         }
 
-        private void SearchWithRays()
+        private void CheckRequirements()
         {
-            // Search using min ray and max ray
+            if (Range > 3) return;
+
+            float signedAngle = Vector3.SignedAngle(MinDistance.Vector, Ship1.GetFrontFacing(), Vector3.up);
+            if (signedAngle < -40 || signedAngle > 40) return;
+
+            InShotAngle = true;
         }
     }
 }

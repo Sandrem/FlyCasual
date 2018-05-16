@@ -60,7 +60,7 @@ public static partial class Actions
     {
         if (Letters.Count == 0) InitializeTargetLockLetters();
 
-        ShipDistanceInformation distanceInfo = new ShipDistanceInformation(thisShip, targetShip);
+        ShipDistanceInfo distanceInfo = new ShipDistanceInfo(thisShip, targetShip);
         if (distanceInfo.Range >= thisShip.TargetLockMinRange && distanceInfo.Range <= thisShip.TargetLockMaxRange)
         {
             GenericToken existingBlueToken = thisShip.Tokens.GetToken(typeof(BlueTargetLockToken), '*');
@@ -177,7 +177,7 @@ public static partial class Actions
     {
         bool result = false;
 
-        ShipDistanceInformation distanceInfo = new ShipDistanceInformation(thisShip, anotherShip);
+        ShipDistanceInfo distanceInfo = new ShipDistanceInfo(thisShip, anotherShip);
         int range = distanceInfo.Range;
         if (range <= 1) return true;
         if (range >= 3) return false;
@@ -198,7 +198,7 @@ public static partial class Actions
 
     public static int GetRangeAndShow(GenericShip thisShip, GenericShip anotherShip)
     {
-        ShipDistanceInformation distanceInfo = new ShipDistanceInformation(thisShip, anotherShip);
+        ShipDistanceInfo distanceInfo = new ShipDistanceInfo(thisShip, anotherShip);
         MovementTemplates.ShowRangeRuler(distanceInfo);
 
         int range = distanceInfo.Range;

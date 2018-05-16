@@ -81,8 +81,6 @@ namespace Ship
             standFrontEdgePoints.Add("LF", new Vector3(-HALF_OF_FIRINGARC_SIZE, 0f, 0f));
             standFrontEdgePoints.Add("CF", Vector3.zero);
             standFrontEdgePoints.Add("RF", new Vector3(HALF_OF_FIRINGARC_SIZE, 0f, 0f));
-
-            standFrontPoints = new Dictionary<string, Vector3>(standFrontEdgePoints);
             for (int i = 1; i < PRECISION + 1; i++)
             {
                 Vector3 newPoint = new Vector3((float)i * ((2 * HALF_OF_FIRINGARC_SIZE) / (float)(PRECISION + 1)) - HALF_OF_FIRINGARC_SIZE, 0f, 0f);

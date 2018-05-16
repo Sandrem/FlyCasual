@@ -310,7 +310,7 @@ namespace Players
 
                     if (inArcAndRange)
                     {
-                        Board.ShipDistanceInformation distanceInfo = new Board.ShipDistanceInformation(thisShip, shipHolder.Value);
+                        Board.ShipDistanceInfo distanceInfo = new Board.ShipDistanceInfo(thisShip, shipHolder.Value);
                         if ((distanceInfo.Range > 3))
                         {
                             continue;

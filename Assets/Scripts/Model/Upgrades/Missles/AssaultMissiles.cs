@@ -82,7 +82,7 @@ namespace Abilities
 				if (ship.Model == Combat.Defender.Model)
 					continue;
 
-				Board.ShipDistanceInformation shotInfo = new Board.ShipDistanceInformation(Combat.Defender, ship);
+				Board.ShipDistanceInfo shotInfo = new Board.ShipDistanceInfo(Combat.Defender, ship);
 
 				if (shotInfo.Range == 1) {
 

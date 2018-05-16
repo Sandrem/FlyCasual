@@ -136,7 +136,7 @@ namespace Board
         //util functions
         public static int GetRangeOfShips(GenericShip from, GenericShip to)
         {
-            Board.ShipDistanceInformation positionInfo = new Board.ShipDistanceInformation(from, to);
+            Board.ShipDistanceInfo positionInfo = new Board.ShipDistanceInfo(from, to);
             return positionInfo.Range;
         }
 

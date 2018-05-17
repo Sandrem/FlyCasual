@@ -5,6 +5,8 @@ using Movement;
 using ActionsList;
 using RuleSets;
 using System.Linq;
+using Abilities;
+using Ship;
 
 namespace Ship
 {
@@ -91,8 +93,45 @@ namespace Ship
                 UpgradeBar.AddSlot(Upgrade.UpgradeType.System);
 
                 PrintedActions.Add(new FocusAction() { LinkedRedAction = new BarrelRollAction() { IsRed = true } });
+                PilotAbilities.Add(new SecondEditionAbilities.AdvancedTargetingComputer());
             }
 
+        }
+    }
+}
+
+namespace SecondEditionAbilities
+{
+    //While you perform a primary attack against a defender you have locked, roll 1 additional attack die and change 1 hit result to a critical hit result.
+    public class AdvancedTargetingComputer : GenericAbility
+    {
+        public override void ActivateAbility()
+        {
+            HostShip.AfterGotNumberOfAttackDice += CheckAbility;
+        }
+
+        public override void DeactivateAbility()
+        {
+            HostShip.AfterGotNumberOfAttackDice -= CheckAbility;
+        }
+
+        private void CheckAbility(ref int value)
+        {
+            if (Combat.AttackStep == CombatStep.Attack && Actions.HasTargetLockOn(Combat.Attacker, Combat.Defender) && Combat.ChosenWeapon.GetType() == typeof(PrimaryWeaponClass))
+            {
+                Messages.ShowInfo("Advanced Targeting Computer: +1 attack die");
+                value++;
+                HostShip.OnImmediatelyAfterRolling += ModifyDice;
+            }
+        }
+
+        private void ModifyDice(DiceRoll diceroll)
+        {
+            HostShip.OnImmediatelyAfterRolling -= ModifyDice;
+            if (diceroll.Change(DieSide.Success, DieSide.Crit, 1) > 0)
+            {
+                Messages.ShowInfo("Advanced Targeting Computer: 1 hit changed to crit");
+            }
         }
     }
 }

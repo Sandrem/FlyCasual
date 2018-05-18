@@ -100,11 +100,6 @@ namespace BoardTools
 
             callback();
         }
-
-        public bool CanShootByWeaponType(WeaponTypes weaponType)
-        {
-            return true;
-        }
     }
 }
 

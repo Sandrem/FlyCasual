@@ -68,8 +68,6 @@ namespace Upgrade
                 range = shotInfo.Range;
 
                 if (!shotInfo.IsShotAvailable) return false;
-
-                if (!shotInfo.CanShootByWeaponType(WeaponType)) return false;
             }
             else
             {

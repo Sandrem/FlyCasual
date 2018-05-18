@@ -79,8 +79,6 @@ namespace Ship
             if (!CanShootOutsideArc)
             {
                 if (!shotInfo.IsShotAvailable) return false;
-
-                if (!shotInfo.CanShootByWeaponType(WeaponTypes.PrimaryWeapon)) return false;
             }
 
             if (range < MinRange) return false;

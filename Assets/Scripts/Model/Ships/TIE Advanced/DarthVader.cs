@@ -1,9 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using System.Collections.Generic;
 using Ship;
-using System;
 using RuleSets;
+using ActionsList;
 
 // Second->First: Two same actions
 // Triggers are empty
@@ -35,7 +33,9 @@ namespace Ship
                 MaxForce = 3;
                 ImageUrl = "https://i.imgur.com/Budwwlp.png";
                 Cost = 50; // TODO: Change
-                //TODO: Change ability
+
+                PilotAbilities.RemoveAll(ability => ability is Abilities.DarthVaderAbility);
+                PilotAbilities.Add(new Abilities.SecondEdition.DarthVaderAbility());
             }
         }
     }
@@ -70,5 +70,63 @@ namespace Abilities
 
             HostShip.AskPerformFreeAction(actions, Triggers.FinishTrigger);
         }
+    }
+}
+
+
+namespace Abilities.SecondEdition
+{
+    //After you perform an action, you may spend 1 force to perform an action.
+    public class DarthVaderAbility : GenericAbility
+    {
+        public override void ActivateAbility()
+        {
+            HostShip.OnActionIsPerformed += CheckConditions;
+        }
+
+        public override void DeactivateAbility()
+        {
+            HostShip.OnActionIsPerformed -= CheckConditions;
+        }
+
+        private void CheckConditions(GenericAction action)
+        {
+            if (action != null && HostShip.Force > 0)
+            {
+                HostShip.OnActionDecisionSubphaseEnd += DoAnotherAction;
+            }
+        }
+
+        private void DoAnotherAction(GenericShip ship)
+        {
+            HostShip.OnActionDecisionSubphaseEnd -= DoAnotherAction;
+
+            if (!ship.Tokens.HasToken(typeof(Tokens.StressToken)) || ship.CanPerformActionsWhileStressed)
+            {
+                RegisterAbilityTrigger(TriggerTypes.OnFreeAction, PerformAction);
+            }
+        }
+
+        private void PerformAction(object sender, System.EventArgs e)
+        {
+            HostShip.GenerateAvailableActionsList();
+            List<GenericAction> actions = Selection.ThisShip.GetAvailableActionsList();
+            HostShip.BeforeFreeActionIsPerformed += PayForceCost;
+            HostShip.AskPerformFreeAction(actions, CleanUp);
+        }
+
+        private void PayForceCost(GenericAction action)
+        {
+            HostShip.Force--;
+            HostShip.BeforeFreeActionIsPerformed -= PayForceCost;
+            Messages.ShowInfo("Darth Vader remaining force: " + HostShip.Force); //TODO remove this when force is added to UI
+        }
+
+        private void CleanUp()
+        {
+            HostShip.BeforeFreeActionIsPerformed -= PayForceCost;
+            Triggers.FinishTrigger();
+        }
+
     }
 }

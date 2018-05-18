@@ -186,7 +186,7 @@ namespace SubPhases
             {
                 AddDecision(action.Name, delegate {
                     ActionWasPerformed = true;
-                    Actions.TakeAction(action);
+                    Selection.ThisShip.CallBeforeFreeActionIsPerformed(action, delegate { Actions.TakeAction(action); } );
                 });
                 AddTooltip(action.Name, action.ImageUrl);
             }

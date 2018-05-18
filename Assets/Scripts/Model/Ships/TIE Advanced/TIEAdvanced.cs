@@ -93,14 +93,14 @@ namespace Ship
                 UpgradeBar.AddSlot(Upgrade.UpgradeType.System);
 
                 PrintedActions.Add(new FocusAction() { LinkedRedAction = new BarrelRollAction() { IsRed = true } });
-                PilotAbilities.Add(new SecondEditionAbilities.AdvancedTargetingComputer());
+                PilotAbilities.Add(new Abilities.SecondEdition.AdvancedTargetingComputer());
             }
 
         }
     }
 }
 
-namespace SecondEditionAbilities
+namespace Abilities.SecondEdition
 {
     //While you perform a primary attack against a defender you have locked, roll 1 additional attack die and change 1 hit result to a critical hit result.
     public class AdvancedTargetingComputer : GenericAbility

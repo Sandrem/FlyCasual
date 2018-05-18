@@ -46,6 +46,7 @@ namespace Ship
         public event EventHandlerActionBool OnTryAddAvailableCompareResultsEffect;
 
         public event EventHandlerShip OnActionDecisionSubphaseEnd;
+        public event EventHandlerAction BeforeFreeActionIsPerformed;
         public event EventHandlerAction OnActionIsPerformed;
 
         public event EventHandlerShipType OnTokenIsAssigned;
@@ -90,6 +91,13 @@ namespace Ship
             if (OnActionIsPerformed != null) OnActionIsPerformed(action);
 
             Triggers.ResolveTriggers(TriggerTypes.OnActionIsPerformed, callBack);
+        }
+        
+        public void CallBeforeFreeActionIsPerformed(GenericAction action, Action callBack)
+        {
+            if (BeforeFreeActionIsPerformed != null) BeforeFreeActionIsPerformed(action);
+
+            Triggers.ResolveTriggers(TriggerTypes.BeforeFreeActionIsPerformed, callBack);
         }
 
         public List<GenericAction> GetActionsFromActionBar()

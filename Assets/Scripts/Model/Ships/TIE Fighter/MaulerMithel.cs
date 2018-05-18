@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BoardTools;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -41,7 +42,7 @@ namespace Abilities
 
         private void MaulerMithelPilotAbility(ref int result)
         {
-            BoardTools.ShotInfo shotInformation = new BoardTools.ShotInfo(Combat.Attacker, Combat.Defender, Combat.ChosenWeapon);
+            ShotInfo shotInformation = new ShotInfo(Combat.Attacker, Combat.Defender, Combat.ChosenWeapon);
             if (shotInformation.Range == 1)
             {
                 Messages.ShowInfo("\"Mauler Mithel\": +1 attack die");

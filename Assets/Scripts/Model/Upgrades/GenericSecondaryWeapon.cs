@@ -5,6 +5,7 @@ using UnityEngine;
 using Ship;
 using System.Linq;
 using Tokens;
+using BoardTools;
 
 namespace Upgrade
 {
@@ -64,14 +65,14 @@ namespace Upgrade
             int range;
             if (!CanShootOutsideArc)
             {
-                BoardTools.ShotInfo shotInfo = new BoardTools.ShotInfo(Host, targetShip, this);
+                ShotInfo shotInfo = new ShotInfo(Host, targetShip, this);
                 range = shotInfo.Range;
 
                 if (!shotInfo.IsShotAvailable) return false;
             }
             else
             {
-                BoardTools.DistanceInfo distanceInfo = new BoardTools.DistanceInfo(Host, targetShip);
+                DistanceInfo distanceInfo = new DistanceInfo(Host, targetShip);
                 range = distanceInfo.Range;
             }
 

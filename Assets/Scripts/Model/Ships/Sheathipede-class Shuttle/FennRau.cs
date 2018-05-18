@@ -7,6 +7,7 @@ using Tokens;
 using UnityEngine;
 using Abilities;
 using ActionsList;
+using BoardTools;
 
 namespace Ship
 {
@@ -54,7 +55,7 @@ namespace Abilities
 
             if (HostShip.Tokens.HasToken(typeof(StressToken))) return;
 
-            BoardTools.ShotInfo shotInfo = new BoardTools.ShotInfo(HostShip, activatedShip);
+            ShotInfo shotInfo = new ShotInfo(HostShip, activatedShip, HostShip.PrimaryWeapon);
             if (!shotInfo.InArc || shotInfo.Range > 3) return;
 
             RegisterAbilityTrigger(TriggerTypes.OnCombatActivation, AskAbility);

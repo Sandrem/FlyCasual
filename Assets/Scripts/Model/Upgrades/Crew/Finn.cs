@@ -3,6 +3,7 @@ using Ship;
 using ActionsList;
 using UnityEngine;
 using Abilities;
+using BoardTools;
 
 namespace UpgradesList
 {
@@ -83,7 +84,7 @@ namespace ActionsList
                     if ((Combat.ChosenWeapon.GetType() == typeof(PrimaryWeaponClass)) && (Combat.ShotInfo.InArc)) result = true;
                     break;
                 case CombatStep.Defence:
-                    BoardTools.ShotInfo shotInfo = new BoardTools.ShotInfo(Combat.Defender, Combat.Attacker, Combat.Defender.PrimaryWeapon);
+                    ShotInfo shotInfo = new ShotInfo(Combat.Defender, Combat.Attacker, Combat.Defender.PrimaryWeapon);
                     if (shotInfo.InArc) result = true;
                     break;
                 default:

@@ -41,10 +41,8 @@ namespace BoardTools
         public delegate void EventHandlerShipShipWeaponInt(GenericShip thisShip, GenericShip anotherShip, IShipWeapon chosenWeapon, ref int range);
         public static event EventHandlerShipShipWeaponInt OnRangeIsMeasured;
 
-        public ShotInfo(GenericShip ship1, GenericShip ship2, IShipWeapon weapon = null) : base(ship1, ship2)
+        public ShotInfo(GenericShip ship1, GenericShip ship2, IShipWeapon weapon) : base(ship1, ship2)
         {
-            Weapon = weapon ?? ship1.PrimaryWeapon;
-
             CheckRange();
         }
 

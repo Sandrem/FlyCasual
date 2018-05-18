@@ -2,6 +2,7 @@
 using Ship;
 using Abilities;
 using UnityEngine;
+using BoardTools;
 
 namespace UpgradesList
 {
@@ -72,7 +73,7 @@ namespace ActionsList
 
             if (!Combat.ShotInfo.InArc) return false;
 
-            BoardTools.ShotInfo reverseShotInfo = new BoardTools.ShotInfo(Combat.Defender, Combat.Attacker);
+            ShotInfo reverseShotInfo = new ShotInfo(Combat.Defender, Combat.Attacker, Combat.Defender.PrimaryWeapon);
             if (!reverseShotInfo.InArc || reverseShotInfo.Range != 1) return false;
 
             return result;

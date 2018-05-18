@@ -44,7 +44,7 @@ namespace Abilities
 			if (Selection.ThisShip.ShipId == HostShip.ShipId) 
 			{
 				//Gather shot info to determine if in rear arc
-				ShotInfo shotInfo = new ShotInfo(Combat.Attacker, Combat.Defender);
+				ShotInfo shotInfo = new ShotInfo(Combat.Attacker, Combat.Defender, Combat.Attacker.PrimaryWeapon);
 				//make sure card requirements are met.
 				//can't reduce defender agility past 0 and must be aux arc
 				if (Combat.Defender.Agility != 0 && shotInfo.InArcByType(ArcTypes.RearAux))

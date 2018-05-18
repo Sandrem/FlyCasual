@@ -71,7 +71,7 @@ namespace Abilities
 
         private bool FilterTargetsOfAbility(GenericShip ship)
         {
-            ShotInfo shotInfo = new ShotInfo(HostShip, ship);
+            ShotInfo shotInfo = new ShotInfo(HostShip, ship, HostShip.PrimaryWeapon);
 
             return FilterByTargetType(ship, new List<TargetTypes>() { TargetTypes.Enemy, TargetTypes.OtherFriendly })
                 && FilterTargetsByRange(ship, 1, 1)
@@ -88,7 +88,7 @@ namespace Abilities
         {
             SelectShipSubPhase.FinishSelectionNoCallback();
 
-            ShotInfo shotInfo = new ShotInfo(HostShip, TargetShip);
+            ShotInfo shotInfo = new ShotInfo(HostShip, TargetShip, HostShip.PrimaryWeapon);
             if (shotInfo.InArcByType(ArcTypes.Mobile) && shotInfo.InPrimaryArc && shotInfo.Range == 1)
             {
                 Messages.ShowError(HostShip.PilotName + " assigns Tractor Beam Token\nto " + TargetShip.PilotName);

@@ -1,4 +1,6 @@
-﻿namespace ActionsList
+﻿using BoardTools;
+
+namespace ActionsList
 {
 
     public class ReinforceAftAction : GenericReinforceAction
@@ -20,7 +22,7 @@
             bool result = false;
             if (Combat.AttackStep == CombatStep.Defence)
             {
-                BoardTools.ShotInfo reverseShotInfo = new BoardTools.ShotInfo(Host, Combat.Attacker, Host.PrimaryWeapon);
+                ShotInfo reverseShotInfo = new ShotInfo(Host, Combat.Attacker, Host.PrimaryWeapon);
                 result = !reverseShotInfo.InArc;
             }
             return result;

@@ -87,13 +87,13 @@ namespace Abilities
 
         private bool FilterTargetInMobileFiringArc(GenericShip ship)
         {
-            ShotInfo shotInfo = new ShotInfo(HostShip, ship);
+            ShotInfo shotInfo = new ShotInfo(HostShip, ship, HostShip.PrimaryWeapon);
             return shotInfo.InArcByType(ArcTypes.Mobile);
         }
 
         private void CheckAssignStress()
         {
-            ShotInfo shotInfo = new ShotInfo(HostShip, TargetShip);
+            ShotInfo shotInfo = new ShotInfo(HostShip, TargetShip, HostShip.PrimaryWeapon);
             if (shotInfo.InArcByType(ArcTypes.Mobile) && shotInfo.Range >= 1 && shotInfo.Range <= 2)
             {
                 Messages.ShowError(HostShip.PilotName + " assigns Stress Token\nto " + TargetShip.PilotName);

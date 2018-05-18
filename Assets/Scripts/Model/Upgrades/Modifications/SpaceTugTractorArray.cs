@@ -110,7 +110,7 @@ namespace SubPhases
 
         private bool FilterAbilityTargets(GenericShip ship)
         {
-            ShotInfo shotInfo = new ShotInfo(SpacetugOwner, ship);
+            ShotInfo shotInfo = new ShotInfo(SpacetugOwner, ship, SpacetugOwner.PrimaryWeapon);
             return shotInfo.InArc && shotInfo.Range == 1;
         }
 

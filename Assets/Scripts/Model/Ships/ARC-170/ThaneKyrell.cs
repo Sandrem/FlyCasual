@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using BoardTools;
 using Ship;
 
 namespace Ship
@@ -40,7 +41,7 @@ namespace Abilities
 		{
             if (Combat.Attacker == ship && ship.Owner != HostShip.Owner && Combat.Defender != HostShip && Combat.Defender.Owner == HostShip.Owner)
             {
-                var arcInfo = new BoardTools.ShotInfo(HostShip, ship);
+                ShotInfo arcInfo = new ShotInfo(HostShip, ship, HostShip.PrimaryWeapon);
                 if (arcInfo.InArc && arcInfo.Range <= 3)
                 {
                     RegisterAbilityTrigger(TriggerTypes.OnAttackFinish, PerformFreeAction);

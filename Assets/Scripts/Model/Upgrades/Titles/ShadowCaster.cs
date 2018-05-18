@@ -45,8 +45,7 @@ namespace Abilities
         {
             if (IsAbilityUsed) return;
 
-            ShotInfo shotInfo = Combat.ShotInfo;
-            if (!shotInfo.InArcByType(ArcTypes.Mobile) || shotInfo.Range > 2) return;
+            if (!Combat.ShotInfo.InArcByType(ArcTypes.Mobile) || Combat.ShotInfo.Range > 2) return;
 
             RegisterAbilityTrigger(TriggerTypes.OnAttackHit, AssignTractorBeamToken);
         }

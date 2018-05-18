@@ -1,4 +1,5 @@
 ﻿using Arcs;
+using BoardTools;
 using DamageDeckCard;
 using System;
 using System.Collections;
@@ -74,7 +75,7 @@ namespace Ship
 
             int range;
 
-            BoardTools.ShotInfo shotInfo = new BoardTools.ShotInfo(Host, targetShip, this);
+            ShotInfo shotInfo = new ShotInfo(Host, targetShip, this);
             range = shotInfo.Range;
             if (!CanShootOutsideArc)
             {
@@ -737,7 +738,7 @@ namespace Ship
         public bool InPrimaryWeaponFireZone(GenericShip anotherShip)
         {
             bool result = true;
-            BoardTools.ShotInfo shotInfo = new BoardTools.ShotInfo(this, anotherShip, PrimaryWeapon);
+            ShotInfo shotInfo = new ShotInfo(this, anotherShip, PrimaryWeapon);
             result = InPrimaryWeaponFireZone(shotInfo.Range, shotInfo.InPrimaryArc);
             return result;
         }

@@ -4,6 +4,7 @@ using UnityEngine;
 using Abilities;
 using System;
 using Ship;
+using BoardTools;
 
 namespace Ship
 {
@@ -52,7 +53,7 @@ namespace Abilities
 
             if (HostShip.IsCannotAttackSecondTime) return;
 
-            BoardTools.ShotInfo counterAttackInfo = new BoardTools.ShotInfo(Combat.Defender, Combat.Attacker);
+            ShotInfo counterAttackInfo = new ShotInfo(Combat.Defender, Combat.Attacker, Combat.Defender.PrimaryWeapon);
             if (!counterAttackInfo.InArc) return;
 
             // Save his attacker, becuase combat data will be cleared

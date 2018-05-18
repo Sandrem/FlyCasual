@@ -63,7 +63,7 @@ namespace Abilities
                 bool result = false;
                 if (Combat.AttackStep == CombatStep.Defence)
                 {
-                    ShotInfo shotInfo = new ShotInfo(Combat.Defender, Combat.Attacker);
+                    ShotInfo shotInfo = new ShotInfo(Combat.Defender, Combat.Attacker, Combat.Defender.PrimaryWeapon);
                     if (shotInfo.InArcByType(ArcTypes.Mobile)) result = true;
                 }
                 return result;

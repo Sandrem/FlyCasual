@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Ship;
 using System;
+using BoardTools;
 
 namespace Ship
 {
@@ -70,7 +71,7 @@ namespace Abilities
             public override bool IsActionEffectAvailable()
             {
                 bool result = false;
-                BoardTools.ShotInfo shotInfo = new BoardTools.ShotInfo(Combat.Attacker, Combat.Defender, Combat.ChosenWeapon);
+                ShotInfo shotInfo = new ShotInfo(Combat.Attacker, Combat.Defender, Combat.ChosenWeapon);
                 if ((Combat.AttackStep == CombatStep.Attack) && (shotInfo.Range > 1))
                 {
                     result = true;

@@ -1,4 +1,5 @@
 ﻿using Arcs;
+using BoardTools;
 using RuleSets;
 using System.Collections;
 using System.Collections.Generic;
@@ -431,7 +432,7 @@ namespace Ship
             Transform launchOrigin = modelCenter.Find("MunitionsLauncherPoint/MunitionsLauncherDirection");
             if (launchOrigin != null)
             {
-                BoardTools.ShotInfo shotInfo = new BoardTools.ShotInfo(Combat.Attacker, Combat.Defender, Combat.ChosenWeapon);
+                ShotInfo shotInfo = new ShotInfo(Combat.Attacker, Combat.Defender, Combat.ChosenWeapon);
                 float distance = shotInfo.DistanceReal;
 
                 Vector3 targetPoint = Selection.AnotherShip.GetModelCenter();

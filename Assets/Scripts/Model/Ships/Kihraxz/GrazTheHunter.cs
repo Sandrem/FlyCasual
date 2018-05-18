@@ -1,4 +1,6 @@
-﻿namespace Ship
+﻿using BoardTools;
+
+namespace Ship
 {
     namespace Kihraxz
     {
@@ -34,7 +36,7 @@ namespace Abilities
 
         private void CheckConditions()
         {
-            var shotInformation = new BoardTools.ShotInfo(HostShip, Combat.Attacker);
+            ShotInfo shotInformation = new ShotInfo(HostShip, Combat.Attacker, HostShip.PrimaryWeapon);
             if (shotInformation.InArc)
             {
                 HostShip.AfterGotNumberOfDefenceDice += RollExtraDice;

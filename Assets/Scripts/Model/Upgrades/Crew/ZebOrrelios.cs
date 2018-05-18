@@ -3,6 +3,7 @@ using Upgrade;
 using Ship;
 using Abilities;
 using UnityEngine;
+using BoardTools;
 
 namespace UpgradesList
 {
@@ -50,12 +51,12 @@ namespace Abilities
             {
                 if (attacker.ShipId == HostShip.ShipId)
                 {
-                    BoardTools.ShotInfo shotInfo = new BoardTools.ShotInfo(attacker, defender, attacker.PrimaryWeapon);
+                    ShotInfo shotInfo = new ShotInfo(attacker, defender, attacker.PrimaryWeapon);
                     if (shotInfo.InArc) canAttack = true;
                 }
                 else if (defender.ShipId == HostShip.ShipId)
                 {
-                    BoardTools.ShotInfo shotInfo = new BoardTools.ShotInfo(defender, attacker, defender.PrimaryWeapon);
+                    ShotInfo shotInfo = new ShotInfo(defender, attacker, defender.PrimaryWeapon);
                     if (shotInfo.InArc) canAttack = true;
                 }
             }

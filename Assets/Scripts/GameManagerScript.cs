@@ -50,7 +50,7 @@ public class GameManagerScript : MonoBehaviour {
 
         if (Phases.CurrentSubPhase != null) Phases.CurrentSubPhase.Update();
 
-        //Test();
+        //TestShotDistance();
     }
 
     private void SetApplicationParameters()
@@ -89,7 +89,7 @@ public class GameManagerScript : MonoBehaviour {
         }
     }
 
-    private void Test()
+    private void TestShotDistance()
     {
         Ship.GenericShip ship1 = Roster.GetShipById("ShipId:1");
         Ship.GenericShip ship2 = Roster.GetShipById("ShipId:2");

@@ -12,7 +12,7 @@ namespace BoardTools
 
     public class ShotInfoArc : GenericShipDistanceInfo
     {
-        public bool InShotAngle { get; private set; }
+        public bool IsShotAvailable { get; private set; }
         public bool InArc { get; private set; }
 
         private GenericArc Arc;
@@ -57,7 +57,7 @@ namespace BoardTools
 
         private void CheckRays()
         {
-            if (InShotAngle) return;
+            if (IsShotAvailable) return;
 
             Dictionary<MeshCollider, bool> originalColliderValues = new Dictionary<MeshCollider, bool>();
             foreach (var collider in Board.Objects)
@@ -101,9 +101,10 @@ namespace BoardTools
 
         private void Success()
         {
+            IsShotAvailable = true;
+
             if (Arc.ArcType != ArcTypes.None)
             {
-                InShotAngle = true;
                 InArc = true;
             }
         }

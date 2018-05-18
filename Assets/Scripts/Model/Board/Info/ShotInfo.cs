@@ -57,7 +57,7 @@ namespace BoardTools
 
                 WeaponTypes weaponType = (Weapon is GenericSecondaryWeapon) ? (Weapon as GenericSecondaryWeapon).WeaponType : WeaponTypes.PrimaryWeapon;
 
-                if (arc.ShotPermissions.CanShootByWeaponType(weaponType) && shotInfoArc.InShotAngle)
+                if (arc.ShotPermissions.CanShootByWeaponType(weaponType) && shotInfoArc.IsShotAvailable)
                 {
                     if (IsShotAvailable == false)
                     {

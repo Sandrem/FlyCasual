@@ -79,7 +79,7 @@ namespace BoardTools
                     {
                         NearestFailedDistance = shotInfoArc.MinDistance;
                     }
-                    else if (MinDistance.DistanceReal < NearestFailedDistance.DistanceReal)
+                    else if (shotInfoArc.MinDistance.DistanceReal < NearestFailedDistance.DistanceReal)
                     {
                         NearestFailedDistance = shotInfoArc.MinDistance;
                     }

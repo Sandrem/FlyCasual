@@ -62,9 +62,8 @@ namespace Abilities
                 true,
                 null,
                 HostShip.PilotName,
-                "Choose a ship inside yout mobile firing arc to assign Stress token to it.",
+                "Choose a ship inside your mobile firing arc to assign Stress token to it.",
                 HostShip.ImageUrl
-
             );
         }
 

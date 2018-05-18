@@ -13,12 +13,7 @@ namespace RulesList
             typeof(EvadeAction)
         };
 
-        public BullseyeArcRule()
-        {
-            GenericShip.OnTryAddAvailableActionEffectGlobal += CheckBullseyeArc;
-        }
-
-        private void CheckBullseyeArc(GenericShip ship, GenericAction action, ref bool canBeUsed)
+        public void CheckBullseyeArc(GenericShip ship, GenericAction action, ref bool canBeUsed)
         {
             if (DiceModificationsForbidden.Contains(action.GetType()))
             {

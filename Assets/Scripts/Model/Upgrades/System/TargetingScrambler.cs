@@ -93,7 +93,7 @@ namespace Abilities
             return 50;
         }
 
-        private void UseDiceModificationRestriction(GenericAction action, ref bool canBeUsed)
+        private void UseDiceModificationRestriction(GenericShip ship, GenericAction action, ref bool canBeUsed)
         {
             if (Combat.Defender.ShipId == HostShip.ShipId && Combat.ShotInfo.Range == 1)
             {

@@ -35,12 +35,12 @@ namespace Ship
 
         public event EventHandlerShip AfterGenerateAvailableActionEffectsList;
         public static event EventHandler AfterGenerateAvailableActionEffectsListGlobal;
-        public event EventHandlerActionBool OnTryAddAvailableActionEffect;
+        public event EventHandlerShipActionBool OnTryAddAvailableActionEffect;
         public static event EventHandlerShipActionBool OnTryAddAvailableActionEffectGlobal;
 
         public event EventHandlerShip AfterGenerateAvailableOppositeActionEffectsList;
         public static event EventHandler AfterGenerateAvailableOppositeActionEffectsListGlobal;
-        public event EventHandlerActionBool OnTryAddAvailableOppositeActionEffect;
+        public event EventHandlerShipActionBool OnTryAddAvailableOppositeActionEffect;
 
         public event EventHandlerShip AfterGenerateAvailableCompareResultsEffectsList;
         public event EventHandlerActionBool OnTryAddAvailableCompareResultsEffect;
@@ -307,7 +307,7 @@ namespace Ship
 
             if (result)
             {
-                if (OnTryAddAvailableActionEffect != null) OnTryAddAvailableActionEffect(action, ref result);
+                if (OnTryAddAvailableActionEffect != null) OnTryAddAvailableActionEffect(this, action, ref result);
 
                 if (OnTryAddAvailableActionEffectGlobal != null) OnTryAddAvailableActionEffectGlobal(this, action, ref result);
             }
@@ -449,7 +449,7 @@ namespace Ship
 
             if (result)
             {
-                if (OnTryAddAvailableOppositeActionEffect != null) OnTryAddAvailableOppositeActionEffect(action, ref result);
+                if (OnTryAddAvailableOppositeActionEffect != null) OnTryAddAvailableOppositeActionEffect(this, action, ref result);
             }
 
             return result;

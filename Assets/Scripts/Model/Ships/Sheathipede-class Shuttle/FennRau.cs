@@ -99,7 +99,7 @@ namespace Abilities
             DecisionSubPhase.ConfirmDecision();
         }
 
-        private void UseFennRauRestriction(GenericAction action, ref bool canBeUsed)
+        private void UseFennRauRestriction(GenericShip ship, GenericAction action, ref bool canBeUsed)
         {
             if (Combat.Attacker == affectedShip && action.DiceModificationTiming != DiceModificationTimingType.Opposite && action.TokensSpend.Count > 0)
             {

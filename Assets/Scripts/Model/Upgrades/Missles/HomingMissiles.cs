@@ -72,7 +72,7 @@ namespace Abilities
             HostShip.OnAttackFinish += RemoveHomingMissilesAbility;
         }
 
-        private void UseHomingMissilesRestriction(GenericAction action, ref bool canBeUsed)
+        private void UseHomingMissilesRestriction(GenericShip ship, GenericAction action, ref bool canBeUsed)
         {
             if (action.TokensSpend.Contains(typeof(Tokens.EvadeToken)))
             {

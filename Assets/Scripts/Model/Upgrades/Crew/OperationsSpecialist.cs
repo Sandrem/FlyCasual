@@ -40,7 +40,7 @@ namespace Abilities
 
         private void CheckOperationsSpecialistAbility()
         {
-            if (Combat.Attacker.Owner.PlayerNo == HostShip.Owner.PlayerNo && Board.BoardManager.GetRangeOfShips(HostShip, Combat.Attacker) <= 2)
+            if (Combat.Attacker.Owner.PlayerNo == HostShip.Owner.PlayerNo && BoardTools.Board.GetRangeOfShips(HostShip, Combat.Attacker) <= 2)
             {
                 RegisterAbilityTrigger(TriggerTypes.OnAttackMissed, (s, e) => OperationsSpecialistEffect(Combat.Attacker));
             }
@@ -50,7 +50,7 @@ namespace Abilities
         {
             SelectTargetForAbility(
                 GrantFreeFocusToken,
-                (ship) => FilterByTargetType(ship, new[] { TargetTypes.OtherFriendly, TargetTypes.This }.ToList()) && Board.BoardManager.GetRangeOfShips(attacker, ship) <= 2,
+                (ship) => FilterByTargetType(ship, new[] { TargetTypes.OtherFriendly, TargetTypes.This }.ToList()) && BoardTools.Board.GetRangeOfShips(attacker, ship) <= 2,
                 GetAiAbilityPriority,
                 HostShip.Owner.PlayerNo,
                 true,

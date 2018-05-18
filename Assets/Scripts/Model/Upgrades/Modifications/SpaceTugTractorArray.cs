@@ -1,4 +1,4 @@
-﻿using Board;
+﻿using BoardTools;
 using Ship;
 using Upgrade;
 using SubPhases;
@@ -110,7 +110,7 @@ namespace SubPhases
 
         private bool FilterAbilityTargets(GenericShip ship)
         {
-            ShipShotDistanceInformation shotInfo = new ShipShotDistanceInformation(SpacetugOwner, ship);
+            ShotInfo shotInfo = new ShotInfo(SpacetugOwner, ship, SpacetugOwner.PrimaryWeapon);
             return shotInfo.InArc && shotInfo.Range == 1;
         }
 

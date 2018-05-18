@@ -4,6 +4,7 @@ using UnityEngine;
 using Ship;
 using SubPhases;
 using Tokens;
+using BoardTools;
 
 namespace Ship
 {
@@ -92,13 +93,13 @@ namespace Abilities
 
         private bool FilterTargetInEnemyArcWithTokens(GenericShip ship)
         {
-            Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(ship, HostShip);
+            ShotInfo shotInfo = new ShotInfo(ship, HostShip, ship.PrimaryWeapon);
             return shotInfo.InArc && (ship.Tokens.HasToken(typeof(FocusToken)) || ship.Tokens.HasToken(typeof(EvadeToken)));
         }
 
         private void ActivateOldTerochAbility()
 		{
-			Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(TargetShip, HostShip);
+			ShotInfo shotInfo = new ShotInfo(TargetShip, HostShip, HostShip.PrimaryWeapon);
 			// Range is already checked in "SelectTargetForAbility", only check if the Host is in the Target firing arc.
 			// Do not use InPrimaryWeaponFireZone, reason :
 			//		VCX-100 without docked Phantom cannot shoot using special rear arc,so InPrimaryWeaponFireZone

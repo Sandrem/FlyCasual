@@ -35,7 +35,7 @@ namespace Abilities
 
         private void RegisterScavengerCraneAbility(GenericShip destroyedShip, bool isFled)
         {
-            Board.ShipDistanceInformation distanceInfo = new Board.ShipDistanceInformation(HostShip, destroyedShip);            
+            BoardTools.DistanceInfo distanceInfo = new BoardTools.DistanceInfo(HostShip, destroyedShip);            
             if (distanceInfo.Range <= 2)
             {
                 var recoverableUpgrades = GetRecoverableUpgrades();
@@ -58,7 +58,7 @@ namespace Abilities
         {
             var allowedTypes = new[] { UpgradeType.Torpedo, UpgradeType.Missile, UpgradeType.Bomb, UpgradeType.Cannon, UpgradeType.Turret, UpgradeType.Modification };
             var discardedUpgrades = HostShip.UpgradeBar.GetUpgradesOnlyDiscarded()
-                .Where(upgrade => allowedTypes.Any(type => upgrade.hasType(type)))
+                .Where(upgrade => allowedTypes.Any(type => upgrade.HasType(type)))
                 .ToArray();
             return discardedUpgrades;
         }

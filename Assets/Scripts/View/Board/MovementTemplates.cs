@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using Board;
+using BoardTools;
 
 public static class MovementTemplates {
 
@@ -115,32 +115,26 @@ public static class MovementTemplates {
 
     public static void ShowRange(Ship.GenericShip thisShip, Ship.GenericShip anotherShip)
     {
-        ShowRangeRuler(new ShipDistanceInformation(thisShip, anotherShip));
+        ShowRangeRuler(new DistanceInfo(thisShip, anotherShip).MinDistance);
     }
 
-    public static bool ShowFiringArcRange(ShipShotDistanceInformation shotInfo)
+    public static bool ShowFiringArcRange(ShotInfo shotInfo)
     {
-        if (shotInfo.InShotAngle)
+        if (shotInfo.IsShotAvailable)
         {
-            ShowRangeRuler(shotInfo);
+            ShowRangeRuler(shotInfo.MinDistance);
         }
         else
         {
-            ShowRangeRuler(new ShipShotOutOfArcDistanceInformation(shotInfo.ThisShip, shotInfo.AnotherShip));
+            ShowRangeRuler(shotInfo.NearestFailedDistance);
         }
-        return shotInfo.InShotAngle;
+        return shotInfo.IsShotAvailable;
     }
 
-    public static void ShowRangeRuler(GeneralShipDistanceInformation shipDistanceInfo)
+    public static void ShowRangeRuler(RangeHolder rangeInfo)
     {
-        Templates.Find("RangeRuler").position = shipDistanceInfo.ThisShipNearestPoint;
-        Templates.Find("RangeRuler").rotation = Quaternion.LookRotation(shipDistanceInfo.Vector);
-    }
-
-    public static void ShowRangeRuler(ShipDistanceInformation shipDistanceInfo)
-    {
-        Templates.Find("RangeRuler").position = shipDistanceInfo.MinDistance.Point1;
-        Templates.Find("RangeRuler").LookAt(shipDistanceInfo.MinDistance.Point2);
+        Templates.Find("RangeRuler").position = rangeInfo.Point1;
+        Templates.Find("RangeRuler").LookAt(rangeInfo.Point2);
     }
 
     public static void CallReturnRangeRuler(Ship.GenericShip thisShip)

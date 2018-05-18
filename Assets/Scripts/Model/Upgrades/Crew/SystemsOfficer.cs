@@ -1,14 +1,12 @@
 ﻿using Upgrade;
 using Ship;
 using System.Linq;
-using Tokens;
 using System.Collections.Generic;
 using UnityEngine;
-using SquadBuilderNS;
 using System;
 using Abilities;
-using Board;
 using SubPhases;
+using BoardTools;
 
 namespace UpgradesList
 {
@@ -50,7 +48,7 @@ namespace Abilities
 
         private void RegisterSystemsOfficerAbility(GenericShip ship)
         {
-            if (BoardManager.IsOffTheBoard(ship)) return;
+            if (Board.IsOffTheBoard(ship)) return;
 
             // After executing a green maneuver
             var movementColor = HostShip.GetLastManeuverColor();
@@ -59,7 +57,7 @@ namespace Abilities
                 // ...check if there is another firendly ship at range 1
                 var friendlyShipsAtRangeOne = HostShip.Owner.Ships.Values
                     .Where(another => another.ShipId != HostShip.ShipId)
-                    .Where(another => BoardManager.GetRangeOfShips(HostShip, another) <= 1)
+                    .Where(another => Board.GetRangeOfShips(HostShip, another) <= 1)
                     .ToArray();
                 if(friendlyShipsAtRangeOne.Any())
                 {

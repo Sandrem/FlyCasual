@@ -28,7 +28,7 @@ namespace SubPhases
 
         private bool FilterAttackTargets(GenericShip ship)
         {
-            Board.ShipDistanceInformation distanceInfo = new Board.ShipDistanceInformation(Selection.ThisShip, ship);
+            BoardTools.DistanceInfo distanceInfo = new BoardTools.DistanceInfo(Selection.ThisShip, ship);
             return ship.Owner.PlayerNo != Selection.ThisShip.Owner.PlayerNo && distanceInfo.Range >= minRange && distanceInfo.Range <= maxRange;
         }
 
@@ -36,7 +36,7 @@ namespace SubPhases
         {
             Selection.AnotherShip = TargetShip;
             Combat.ChosenWeapon = Selection.ThisShip.PrimaryWeapon;
-            Combat.ShotInfo = new Board.ShipShotDistanceInformation(Selection.ThisShip, TargetShip, Combat.ChosenWeapon);
+            Combat.ShotInfo = new BoardTools.ShotInfo(Selection.ThisShip, TargetShip, Combat.ChosenWeapon);
             MovementTemplates.ShowFiringArcRange(Combat.ShotInfo);
             ExtraAttackTargetSelected();
         }

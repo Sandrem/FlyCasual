@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Arcs;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -39,7 +40,7 @@ namespace Abilities
 
         private void ToggleAbility(bool isActive)
         {
-            foreach (Arcs.ArcInfo arc in HostShip.ArcInfo.GetAllArcs())
+            foreach (GenericArc arc in HostShip.ArcInfo.Arcs)
             {
                 arc.ShotPermissions.CanShootCannon = isActive;
             }

@@ -2,6 +2,7 @@
 using Ship.ARC170;
 using Upgrade;
 using Abilities;
+using Arcs;
 
 namespace UpgradesList
 {

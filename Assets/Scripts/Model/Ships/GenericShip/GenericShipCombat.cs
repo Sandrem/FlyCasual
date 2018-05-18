@@ -1,4 +1,6 @@
-﻿using DamageDeckCard;
+﻿using Arcs;
+using BoardTools;
+using DamageDeckCard;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -6,7 +8,7 @@ using UnityEngine;
 
 namespace Ship
 {
-    public enum WeaponType
+    public enum WeaponTypes
     {
         PrimaryWeapon,
         Torpedo,
@@ -55,7 +57,7 @@ namespace Ship
         public bool CanShootOutsideArc
         {
             set { }
-            get { return Host.ArcInfo.OutOfArcShotPermissions.CanShootPrimaryWeapon; }
+            get { return Host.ArcInfo.GetArc<OutOfArc>().ShotPermissions.CanShootPrimaryWeapon; }
         }
 
         public PrimaryWeaponClass(GenericShip host)
@@ -73,13 +75,11 @@ namespace Ship
 
             int range;
 
-            Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(Host, targetShip, this);
+            ShotInfo shotInfo = new ShotInfo(Host, targetShip, this);
             range = shotInfo.Range;
             if (!CanShootOutsideArc)
             {
-                if (!shotInfo.InShotAngle) return false;
-
-                if (!shotInfo.CanShootPrimaryWeapon) return false;
+                if (!shotInfo.IsShotAvailable) return false;
             }
 
             if (range < MinRange) return false;
@@ -738,7 +738,7 @@ namespace Ship
         public bool InPrimaryWeaponFireZone(GenericShip anotherShip)
         {
             bool result = true;
-            Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(this, anotherShip, PrimaryWeapon);
+            ShotInfo shotInfo = new ShotInfo(this, anotherShip, PrimaryWeapon);
             result = InPrimaryWeaponFireZone(shotInfo.Range, shotInfo.InPrimaryArc);
             return result;
         }

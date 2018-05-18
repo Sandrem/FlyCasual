@@ -4,12 +4,14 @@ using UnityEngine;
 using Ship;
 using System;
 
-namespace Board
+namespace BoardTools
 {
 
-    public static partial class BoardManager {
+    public static partial class Board {
 
         public static readonly float PLAYMAT_SIZE = 10;
+
+        public static List<MeshCollider> Objects = new List<MeshCollider>();
 
         public static void SetShips()
         {
@@ -18,6 +20,8 @@ namespace Board
             {
                 SetShip(ship.Value, i);
                 i++;
+
+                Objects.Add(ship.Value.GetShipAllPartsTransform().Find("ShipBase").GetComponent<MeshCollider>());
             }
 
             i = 1;
@@ -25,6 +29,8 @@ namespace Board
             {
                 SetShip(ship.Value, i);
                 i++;
+
+                Objects.Add(ship.Value.GetShipAllPartsTransform().Find("ShipBase").GetComponent<MeshCollider>());
             }
         }
 
@@ -73,6 +79,11 @@ namespace Board
         {
             float scale = SIZE_X / 10;
             return length * scale;
+        }
+
+        public static void Cleanup()
+        {
+            Objects = new List<MeshCollider>();
         }
     
     }

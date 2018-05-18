@@ -184,7 +184,7 @@ namespace Conditions
                     continue;
                 }
 
-                Board.ShipDistanceInformation distanceInfo = new Board.ShipDistanceInformation(harpoonedShip, ship);
+                BoardTools.DistanceInfo distanceInfo = new BoardTools.DistanceInfo(harpoonedShip, ship);
 
                 if (distanceInfo.Range == 1)
                 {

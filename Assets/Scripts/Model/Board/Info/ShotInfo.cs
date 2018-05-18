@@ -7,34 +7,96 @@ using UnityEngine;
 using Arcs;
 using Upgrade;
 
-namespace Board
+namespace BoardTools
 {
 
-    public class ShotInfo : ShipDistanceInformation
+    public class ShotInfo : GenericShipDistanceInfo
     {
-        public bool InShotAngle { get; private set; }
-        public bool InArc { get; private set; }
-        public Dictionary<BaseArcsType, bool> InArcByType { get; private set; }
+        public bool IsShotAvailable { get; private set; }
+        public bool InArc { get { return InArcInfo.Any(n => n.Value == true); } }
+        public bool InPrimaryArc { get { return InArcByType(ArcTypes.Primary); } }
 
-        public Dictionary<UpgradeType, bool> CanShootFromWeapon { get; private set; }
+        public RangeHolder NearestFailedDistance;
 
-        public bool ObstructedByAsteroid { get; private set; }
-        public bool ObstructedByMine { get; private set; }
+        private Dictionary<ArcTypes, bool> InArcInfo { get; set; }
 
-        public ShotInfo(GenericShip ship1, GenericShip ship2) : base(ship1, ship2)
+        public bool IsObstructedByAsteroid { get; private set; }
+        public bool IsObstructedByBombToken { get; private set; }
+
+        public IShipWeapon Weapon { get; private set; }
+
+        public float DistanceReal { get { return MinDistance.DistanceReal; } }
+
+        public new int Range
         {
-            CheckAngle();
+            get
+            {
+                int range = (MinDistance != null) ? MinDistance.Range : NearestFailedDistance.Range;
+                if (OnRangeIsMeasured != null) OnRangeIsMeasured(Ship1, Ship2, Weapon, ref range);
+                return range;
+            }
         }
 
-        private void CheckAngle()
+        //EVENTS
+        public delegate void EventHandlerShipShipWeaponInt(GenericShip thisShip, GenericShip anotherShip, IShipWeapon chosenWeapon, ref int range);
+        public static event EventHandlerShipShipWeaponInt OnRangeIsMeasured;
+
+        public ShotInfo(GenericShip ship1, GenericShip ship2, IShipWeapon weapon) : base(ship1, ship2)
         {
-            // Check existing min distance vs angles of arc
-            // if failed - 
+            CheckRange();
         }
 
-        private void SearchWithRays()
+        private void CheckRange()
         {
-            // Search using min ray and max ray
+            InArcInfo = new Dictionary<ArcTypes, bool>();
+
+            foreach (var arc in Ship1.ArcInfo.Arcs)
+            {
+                ShotInfoArc shotInfoArc = new ShotInfoArc(Ship1, Ship2, arc);
+                InArcInfo.Add(arc.ArcType, shotInfoArc.InArc);
+
+                WeaponTypes weaponType = (Weapon is GenericSecondaryWeapon) ? (Weapon as GenericSecondaryWeapon).WeaponType : WeaponTypes.PrimaryWeapon;
+
+                if (arc.ShotPermissions.CanShootByWeaponType(weaponType))
+                {
+                    if (shotInfoArc.IsShotAvailable)
+                    {
+                        if (IsShotAvailable == false)
+                        {
+                            MinDistance = shotInfoArc.MinDistance;
+                        }
+                        else
+                        {
+                            if (shotInfoArc.MinDistance.DistanceReal < MinDistance.DistanceReal) MinDistance = shotInfoArc.MinDistance;
+                        }
+
+                        IsShotAvailable = true;
+                    }
+
+                    if (NearestFailedDistance == null)
+                    {
+                        NearestFailedDistance = shotInfoArc.MinDistance;
+                    }
+                    else if (shotInfoArc.MinDistance.DistanceReal < NearestFailedDistance.DistanceReal)
+                    {
+                        NearestFailedDistance = shotInfoArc.MinDistance;
+                    }
+                }
+            }
+        }
+
+        public bool InArcByType(ArcTypes arcType)
+        {
+            if (!InArcInfo.ContainsKey(arcType)) return false;
+
+            return InArcInfo[arcType];
+        }
+
+        public void CheckObstruction(Action callback)
+        {
+            // Check obstruction
+
+            callback();
         }
     }
 }

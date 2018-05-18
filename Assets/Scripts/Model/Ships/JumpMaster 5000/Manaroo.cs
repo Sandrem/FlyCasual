@@ -136,7 +136,7 @@ namespace Abilities
 
         private int CountFriendlyShipsRange1()
         {
-            return Board.BoardManager.GetShipsAtRange(HostShip, new Vector2(1, 1), Team.Type.Friendly).Count;
+            return BoardTools.Board.GetShipsAtRange(HostShip, new Vector2(1, 1), Team.Type.Friendly).Count;
         }
     }
 }

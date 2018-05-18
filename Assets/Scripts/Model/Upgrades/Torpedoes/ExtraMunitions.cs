@@ -43,7 +43,7 @@ namespace Abilities
         {
             foreach (var upgrade in HostShip.UpgradeBar.GetUpgradesOnlyFaceup())
             {
-                if (upgrade.hasType(UpgradeType.Torpedo) || upgrade.hasType(UpgradeType.Missile) || upgrade.hasType(UpgradeType.Bomb))
+                if (upgrade.HasType(UpgradeType.Torpedo) || upgrade.HasType(UpgradeType.Missile) || upgrade.HasType(UpgradeType.Bomb))
                 {
                     SetOrdnanceToken(upgrade);
                 }

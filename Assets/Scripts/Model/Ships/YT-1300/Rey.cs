@@ -4,6 +4,7 @@ using UnityEngine;
 using System.Linq;
 using Ship;
 using System;
+using BoardTools;
 
 namespace Ship
 {
@@ -82,7 +83,7 @@ namespace Abilities
                         if (Combat.ShotInfo.InArc) result = true;
                         break;
                     case CombatStep.Defence:
-                        Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(Combat.Defender, Combat.Attacker, Combat.Defender.PrimaryWeapon);
+                        ShotInfo shotInfo = new ShotInfo(Combat.Defender, Combat.Attacker, Combat.Defender.PrimaryWeapon);
                         if (shotInfo.InArc) result = true;
                         break;
                     default:

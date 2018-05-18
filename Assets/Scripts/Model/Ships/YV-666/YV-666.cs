@@ -16,7 +16,7 @@ namespace Ship
                 Type = "YV-666";
                 IconicPilots.Add(Faction.Scum, typeof(Bossk));
                 ShipBaseSize = BaseSize.Large;
-                ShipBaseArcsType = Arcs.BaseArcsType.Arc180;
+                ShipBaseArcsType = Arcs.BaseArcsType.ArcSpecial180;
 
                 ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/b/be/MS_YV-666-FREIGHTER.png";
 

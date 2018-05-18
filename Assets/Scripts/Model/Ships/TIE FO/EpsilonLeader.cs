@@ -48,7 +48,7 @@ namespace Abilities
             List<GenericToken> tokensToRemove = new List<GenericToken>();
 
             Vector2 range = new Vector2(1, 1);
-            foreach(GenericShip friendlyShip in Board.BoardManager.GetShipsAtRange(HostShip, range, Team.Type.Friendly))
+            foreach(GenericShip friendlyShip in BoardTools.Board.GetShipsAtRange(HostShip, range, Team.Type.Friendly))
             {
                 GenericToken stressToken = friendlyShip.Tokens.GetToken(typeof(StressToken));
                 if (stressToken != null)

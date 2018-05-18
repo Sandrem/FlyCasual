@@ -19,7 +19,7 @@ namespace Ship
 
                 IsUnique = true;
 
-                ShipRuleType = typeof(SecondEdition);
+                PilotRuleType = typeof(SecondEdition);
 
                 ImageUrl = "https://i.imgur.com/xoIkP6d.png";
 

@@ -103,7 +103,7 @@ namespace Abilities
                 var onRangePrototypeAttacked = Combat.Attacker.Owner.PlayerNo == HostShip.Owner.PlayerNo
                     && Combat.Attacker.Tokens.HasToken<OptimizedPrototype>()
                     && Combat.ChosenWeapon is PrimaryWeaponClass
-                    && Board.BoardManager.GetRangeOfShips(Combat.Attacker, HostShip) <= 2;
+                    && BoardTools.Board.GetRangeOfShips(Combat.Attacker, HostShip) <= 2;
                 if (onRangePrototypeAttacked)
                 {
                     RegisterAbilityTrigger(TriggerTypes.OnAttackFinish, AskAcquireTargetLock);

@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using Ship;
 using UnityEngine;
 
-namespace Board
+namespace BoardTools
 {
-    public static partial class BoardManager
+    public static partial class Board
     {
 
         public static Transform BoardTransform;
@@ -36,6 +36,7 @@ namespace Board
             MovementTemplates.PrepareMovementTemplates();
 
             SetPlaymatImage();
+            SetObstacles();
         }
 
         private static void SetPlaymatImage()
@@ -136,7 +137,7 @@ namespace Board
         //util functions
         public static int GetRangeOfShips(GenericShip from, GenericShip to)
         {
-            Board.ShipDistanceInformation positionInfo = new Board.ShipDistanceInformation(from, to);
+            DistanceInfo positionInfo = new DistanceInfo(from, to);
             return positionInfo.Range;
         }
 
@@ -161,6 +162,14 @@ namespace Board
             }
 
             return ships;
+        }
+
+        private static void SetObstacles()
+        {
+            for (int i = 1; i <= 6; i++)
+            {
+                Objects.Add(GameObject.Find("SceneHolder/Board/Asteroids/A" + i + "/A" + i + "model").GetComponent<MeshCollider>());
+            }
         }
 
     }

@@ -6,6 +6,7 @@ using Upgrade;
 using UnityEngine;
 using Ship;
 using SubPhases;
+using BoardTools;
 
 namespace Bombs
 {
@@ -70,12 +71,18 @@ namespace Bombs
             foreach (var bombObject in bombObjects)
             {
                 if (!bombsList.ContainsKey(bombObject)) bombsList.Add(bombObject, bombUpgrade);
+
+                MeshCollider collider = bombObject.transform.Find("Model").GetComponent<MeshCollider>();
+                if (collider != null) Board.Objects.Add(collider);
             }
         }
 
         public static void UnregisterBomb(GameObject bombObject)
         {
             bombsList.Remove(bombObject);
+
+            MeshCollider collider = bombObject.transform.Find("Model").GetComponent<MeshCollider>();
+            if (collider != null) Board.Objects.Remove(collider);
         }
 
         public static GenericBomb GetBombByObject(GameObject bombObject)
@@ -110,7 +117,7 @@ namespace Bombs
                 Vector3 globalBombPoint = bombObject.transform.TransformPoint(localBombPoint);
                 foreach (var globalShipBasePoint in ship.ShipBase.GetStandPoints().Select(n => n.Value))
                 {
-                    if (Board.BoardManager.GetRangeBetweenPoints(globalBombPoint, globalShipBasePoint) == 1)
+                    if (BoardTools.Board.GetRangeBetweenPoints(globalBombPoint, globalShipBasePoint) == 1)
                     {
                         return true;
                     }

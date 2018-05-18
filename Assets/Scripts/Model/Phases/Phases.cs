@@ -5,6 +5,7 @@ using MainPhases;
 using SubPhases;
 using Players;
 using System;
+using BoardTools;
 
 public static partial class Phases
 {
@@ -261,6 +262,8 @@ public static partial class Phases
                 }
             }
         }
+
+        Board.Cleanup();
     }
 
 }

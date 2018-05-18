@@ -3,6 +3,8 @@ using Ship.M12LKimogila;
 using UnityEngine;
 using Upgrade;
 using Abilities;
+using BoardTools;
+using Arcs;
 
 namespace UpgradesList
 {
@@ -42,8 +44,8 @@ namespace Abilities
 
         private void TryRegisterStressEffect(GenericShip ship)
         {
-            Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(Combat.Defender, Combat.Attacker, Combat.Defender.PrimaryWeapon);
-            if (shotInfo.InBullseyeArc)
+            ShotInfo shotInfo = new ShotInfo(Combat.Defender, Combat.Attacker, Combat.Defender.PrimaryWeapon);
+            if (shotInfo.InArcByType(ArcTypes.Bullseye))
             {
                 Triggers.RegisterTrigger(new Trigger()
                 {

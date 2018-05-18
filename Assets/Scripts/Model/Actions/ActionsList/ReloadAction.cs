@@ -27,7 +27,7 @@ namespace ActionsList
             GenericUpgrade discardedUpgrade = null;
 
             List<GenericUpgrade> discardedUpgrades = Selection.ThisShip.UpgradeBar.GetUpgradesOnlyDiscarded();
-            if (discardedUpgrades.Count != 0) discardedUpgrade = discardedUpgrades.FirstOrDefault(n => n.hasType(UpgradeType.Missile) || n.hasType(UpgradeType.Torpedo));
+            if (discardedUpgrades.Count != 0) discardedUpgrade = discardedUpgrades.FirstOrDefault(n => n.HasType(UpgradeType.Missile) || n.HasType(UpgradeType.Torpedo));
 
             if (discardedUpgrade != null)
             {
@@ -43,7 +43,7 @@ namespace ActionsList
         {
             int result = 0;
 
-            int discardedOrdnance = Selection.ThisShip.UpgradeBar.GetUpgradesOnlyDiscarded().Count(n => n.hasType(UpgradeType.Missile) || n.hasType(UpgradeType.Torpedo));
+            int discardedOrdnance = Selection.ThisShip.UpgradeBar.GetUpgradesOnlyDiscarded().Count(n => n.HasType(UpgradeType.Missile) || n.HasType(UpgradeType.Torpedo));
             result = discardedOrdnance * 30;
 
             return result;

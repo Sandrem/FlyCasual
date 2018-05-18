@@ -46,7 +46,7 @@ namespace Abilities
             Movement.MovementComplexity movementColor = HostShip.GetLastManeuverColor();
             if (movementColor != Movement.MovementComplexity.Easy) return;
 
-            if (Board.BoardManager.IsOffTheBoard(hostShip)) return;
+            if (BoardTools.Board.IsOffTheBoard(hostShip)) return;
 
             RegisterAbilityTrigger(
                 TriggerTypes.OnShipMovementFinish,

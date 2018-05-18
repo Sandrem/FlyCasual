@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using Ship;
-using Board;
+using BoardTools;
 
 namespace RulesList
 {
@@ -8,7 +8,7 @@ namespace RulesList
     {
         public void CheckOffTheBoard(GenericShip ship)
         {
-            if (BoardManager.IsOffTheBoard(ship))
+            if (BoardTools.Board.IsOffTheBoard(ship))
             {
                 Triggers.RegisterTrigger(new Trigger()
                 {

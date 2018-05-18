@@ -7,7 +7,7 @@ using System;
 using UnityEngine;
 using System.Collections.Generic;
 using ActionsList;
-using Board;
+using BoardTools;
 
 namespace UpgradesList
 {
@@ -93,7 +93,7 @@ namespace ActionsList
             {
                 if (shipHolder.Value.ShipId != Host.ShipId && shipHolder.Value.ShipId != Combat.Defender.ShipId)
                 {
-                    ShipShotDistanceInformation shotInfo = new ShipShotDistanceInformation(Host, shipHolder.Value);
+                    ShotInfo shotInfo = new ShotInfo(Host, shipHolder.Value, Host.PrimaryWeapon);
                     if (shotInfo.InArc && shotInfo.Range <= 3)
                     {
                         return false;

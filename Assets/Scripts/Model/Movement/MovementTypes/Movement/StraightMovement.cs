@@ -53,7 +53,7 @@ namespace Movement
             {
                 if (i > 0) position = Vector3.MoveTowards(position, position + TheShip.TransformDirection(Vector3.forward), distancePart);
                 GameObject prefab = (GameObject)Resources.Load(TheShip.ShipBase.TemporaryPrefabPath, typeof(GameObject));
-                GameObject ShipStand = MonoBehaviour.Instantiate(prefab, position, TheShip.GetRotation(), Board.BoardManager.GetBoard());
+                GameObject ShipStand = MonoBehaviour.Instantiate(prefab, position, TheShip.GetRotation(), BoardTools.Board.GetBoard());
 
                 Renderer[] renderers = ShipStand.GetComponentsInChildren<Renderer>();
                 if (!DebugManager.DebugMovement)

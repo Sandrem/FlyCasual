@@ -50,7 +50,7 @@ namespace Abilities
         {
             foreach (var upgrade in HostShip.UpgradeBar.GetUpgradesOnlyFaceup())
             {
-                if (upgrade.hasType(UpgradeType.Bomb))
+                if (upgrade.HasType(UpgradeType.Bomb))
                 {
                     SetOrdnanceTokens(upgrade);
                 }

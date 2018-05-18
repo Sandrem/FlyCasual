@@ -2,7 +2,7 @@
 using Upgrade;
 using Abilities;
 using Ship;
-using Board;
+using BoardTools;
 using UnityEngine;
 using RuleSets;
 
@@ -49,7 +49,7 @@ namespace Abilities
 
         private void R2D2PlanRegenShield(GenericShip host)
         {
-            if (BoardManager.IsOffTheBoard(host)) return;
+            if (BoardTools.Board.IsOffTheBoard(host)) return;
 
             if (host.AssignedManeuver.ColorComplexity == Movement.MovementComplexity.Easy)
             {

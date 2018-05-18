@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Board;
+using BoardTools;
 using ActionsList;
 using Ship;
 using System.ComponentModel;
@@ -60,7 +60,7 @@ public static partial class Actions
     {
         if (Letters.Count == 0) InitializeTargetLockLetters();
 
-        ShipDistanceInformation distanceInfo = new ShipDistanceInformation(thisShip, targetShip);
+        DistanceInfo distanceInfo = new DistanceInfo(thisShip, targetShip);
         if (distanceInfo.Range >= thisShip.TargetLockMinRange && distanceInfo.Range <= thisShip.TargetLockMaxRange)
         {
             GenericToken existingBlueToken = thisShip.Tokens.GetToken(typeof(BlueTargetLockToken), '*');
@@ -177,7 +177,7 @@ public static partial class Actions
     {
         bool result = false;
 
-        ShipDistanceInformation distanceInfo = new ShipDistanceInformation(thisShip, anotherShip);
+        DistanceInfo distanceInfo = new DistanceInfo(thisShip, anotherShip);
         int range = distanceInfo.Range;
         if (range <= 1) return true;
         if (range >= 3) return false;
@@ -190,16 +190,16 @@ public static partial class Actions
 
     public static int GetFiringRangeAndShow(GenericShip thisShip, GenericShip anotherShip)
     {
-        ShipShotDistanceInformation shotInfo = new ShipShotDistanceInformation(thisShip, anotherShip, thisShip.PrimaryWeapon);
+        ShotInfo shotInfo = new ShotInfo(thisShip, anotherShip, thisShip.PrimaryWeapon);
         bool inArc = MovementTemplates.ShowFiringArcRange(shotInfo);
-        if (!inArc) Messages.ShowInfoToHuman("Out of primary weapon arc");
+        if (!inArc) Messages.ShowInfoToHuman("Out of arc");
         return shotInfo.Range;
     }
 
     public static int GetRangeAndShow(GenericShip thisShip, GenericShip anotherShip)
     {
-        ShipDistanceInformation distanceInfo = new ShipDistanceInformation(thisShip, anotherShip);
-        MovementTemplates.ShowRangeRuler(distanceInfo);
+        DistanceInfo distanceInfo = new DistanceInfo(thisShip, anotherShip);
+        MovementTemplates.ShowRangeRuler(distanceInfo.MinDistance);
 
         int range = distanceInfo.Range;
         if (range < 4)
@@ -218,8 +218,8 @@ public static partial class Actions
     {
         foreach (var anotherShip in Roster.GetPlayer(Roster.AnotherPlayer(thisShip.Owner.PlayerNo)).Ships)
         {
-            ShipShotDistanceInformation shotInfo = new ShipShotDistanceInformation(thisShip, anotherShip.Value, thisShip.PrimaryWeapon);
-            if ((shotInfo.Range < 4) && (shotInfo.InShotAngle))
+            ShotInfo shotInfo = new ShotInfo(thisShip, anotherShip.Value, thisShip.PrimaryWeapon);
+            if ((shotInfo.Range < 4) && (shotInfo.IsShotAvailable))
             {
                 return true;
             }
@@ -234,8 +234,8 @@ public static partial class Actions
 
         foreach (var anotherShip in Roster.GetPlayer(Roster.AnotherPlayer(thisShip.Owner.PlayerNo)).Ships)
         {
-            ShipShotDistanceInformation shotInfo = new ShipShotDistanceInformation(anotherShip.Value, thisShip, anotherShip.Value.PrimaryWeapon);
-            if ((shotInfo.Range < 4) && (shotInfo.InShotAngle))
+            ShotInfo shotInfo = new ShotInfo(anotherShip.Value, thisShip, anotherShip.Value.PrimaryWeapon);
+            if ((shotInfo.Range < 4) && (shotInfo.IsShotAvailable))
             {
                 if (direction == 0)
                 {
@@ -243,7 +243,7 @@ public static partial class Actions
                 }
                 else
                 {
-                    ShipShotDistanceInformation reverseShotInfo = new ShipShotDistanceInformation(thisShip, anotherShip.Value, thisShip.PrimaryWeapon);
+                    ShotInfo reverseShotInfo = new ShotInfo(thisShip, anotherShip.Value, thisShip.PrimaryWeapon);
                     if (direction == 1)
                     {
                         if (reverseShotInfo.InArc) result++;

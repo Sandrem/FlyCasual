@@ -46,7 +46,7 @@ namespace Abilities
             if (ship.AssignedManeuver.Speed != 3) return;
             if (ship.AssignedManeuver.Bearing != Movement.ManeuverBearing.Bank) return;
             if (ship.IsBumped) return;
-            if (Board.BoardManager.IsOffTheBoard(ship)) return;
+            if (BoardTools.Board.IsOffTheBoard(ship)) return;
 
             Triggers.RegisterTrigger(
                 new Trigger()

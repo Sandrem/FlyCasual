@@ -6,6 +6,8 @@ using SubPhases;
 using Ship;
 using Tokens;
 using Abilities;
+using Arcs;
+using BoardTools;
 
 namespace Ship
 {
@@ -56,8 +58,8 @@ namespace PilotAbilitiesNamespace
             Players.GenericPlayer opponent = Roster.GetPlayer(Roster.AnotherPlayer(HostShip.Owner.PlayerNo));
             foreach (var ship in opponent.Ships)
             {
-                Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(HostShip, ship.Value, HostShip.PrimaryWeapon);
-                if (shotInfo.InBullseyeArc)
+                ShotInfo shotInfo = new ShotInfo(HostShip, ship.Value, HostShip.PrimaryWeapon);
+                if (shotInfo.InArcByType(ArcTypes.Bullseye))
                 {
                     Triggers.RegisterTrigger(new Trigger() {
                         Name = ship.Value.ShipId + ": " + Name,

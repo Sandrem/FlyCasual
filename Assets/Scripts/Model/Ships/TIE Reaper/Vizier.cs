@@ -43,13 +43,13 @@ namespace Abilities
 
         private void CheckVizierAbility(GenericShip ship)
         {
-            if (Board.BoardManager.IsOffTheBoard(ship)) return;
+            if (BoardTools.Board.IsOffTheBoard(ship)) return;
 
             if (ship.Owner.PlayerNo == HostShip.Owner.PlayerNo 
                 && ship.AssignedManeuver.Speed == 1
                 && !ship.IsBumped 
                 && (HostShip.Tokens.HasToken<FocusToken>() || HostShip.Tokens.HasToken<EvadeToken>())
-                && Board.BoardManager.GetRangeOfShips(HostShip, ship) <=1)
+                && BoardTools.Board.GetRangeOfShips(HostShip, ship) <=1)
             {
                 RegisterAbilityTrigger(TriggerTypes.OnShipMovementFinish, (s,e) => AskVizierAbility(ship));
                 //Triggers.RegisterTrigger(new Trigger()

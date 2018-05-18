@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Ship;
 using System;
+using BoardTools;
 
 namespace Ship
 {
@@ -30,12 +31,12 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            Board.ShipShotDistanceInformation.OnRangeIsMeasured += SetRangeToOne;
+            ShotInfo.OnRangeIsMeasured += SetRangeToOne;
         }
 
         public override void DeactivateAbility()
         {
-            Board.ShipShotDistanceInformation.OnRangeIsMeasured -= SetRangeToOne;
+            ShotInfo.OnRangeIsMeasured -= SetRangeToOne;
         }
 
         private void SetRangeToOne(GenericShip thisShip, GenericShip anotherShip, IShipWeapon chosenWeapon, ref int range)

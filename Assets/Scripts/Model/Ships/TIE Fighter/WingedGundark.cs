@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Ship;
 using System;
+using BoardTools;
 
 namespace Ship
 {
@@ -62,7 +63,7 @@ namespace Abilities
                 bool result = false;
                 if (Combat.AttackStep == CombatStep.Attack)
                 {
-                    Board.ShipShotDistanceInformation shotInformation = new Board.ShipShotDistanceInformation(Combat.Attacker, Combat.Defender, Combat.ChosenWeapon);
+                    ShotInfo shotInformation = new ShotInfo(Combat.Attacker, Combat.Defender, Combat.ChosenWeapon);
                     if (shotInformation.Range == 1)
                     {
                         result = true;

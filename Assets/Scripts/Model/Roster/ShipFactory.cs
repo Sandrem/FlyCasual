@@ -1,4 +1,5 @@
-﻿using SquadBuilderNS;
+﻿using RuleSets;
+using SquadBuilderNS;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -55,6 +56,8 @@ public static class ShipFactory {
         newShipContainer.AfterAssignedDamageIsChanged += Roster.UpdateRosterHullDamageIndicators;
         newShipContainer.AfterAssignedDamageIsChanged += Roster.UpdateRosterShieldsDamageIndicators;
         newShipContainer.AfterStatsAreChanged += Roster.UpdateShipStats;
+
+        RuleSet.Instance.SubScribeToGenericShipEvents(newShipContainer);
 
         return newShipContainer;
 	}

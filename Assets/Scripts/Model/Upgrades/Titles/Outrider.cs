@@ -4,6 +4,7 @@ using Upgrade;
 using System.Linq;
 using System;
 using Abilities;
+using Arcs;
 
 namespace UpgradesList
 {
@@ -49,17 +50,18 @@ namespace Abilities
 
             if (cannon != null)
             {
-                HostShip.ArcInfo.OutOfArcShotPermissions.CanShootPrimaryWeapon = !isActive;
-                HostShip.ArcInfo.GetPrimaryArc().ShotPermissions.CanShootPrimaryWeapon = !isActive;
+                HostShip.ArcInfo.GetArc<ArcPrimary>().ShotPermissions.CanShootPrimaryWeapon = !isActive;
 
-                HostShip.ArcInfo.OutOfArcShotPermissions.CanShootCannon = isActive;
+                HostShip.ArcInfo.GetArc<OutOfArc>().ShotPermissions.CanShootPrimaryWeapon = !isActive;
+                HostShip.ArcInfo.GetArc<OutOfArc>().ShotPermissions.CanShootCannon = isActive;
+
                 cannon.CanShootOutsideArc = isActive;
             }
         }
 
         private void TurnOffOutriferAbilityIfCannon()
         {
-            if (GenericUpgrade.CurrentUpgrade.hasType(UpgradeType.Cannon))
+            if (GenericUpgrade.CurrentUpgrade.HasType(UpgradeType.Cannon))
             {
                 ToggleOutriderAbility(false);
             }

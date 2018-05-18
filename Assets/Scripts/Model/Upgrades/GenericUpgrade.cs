@@ -156,7 +156,7 @@ namespace Upgrade
          * @param type the type of upgrade to test.
          * @return true if this upgrade contains the specified type and false otherwise.
          */
-        public bool hasType(UpgradeType type){
+        public bool HasType(UpgradeType type){
             for (int i = 0; i < Types.Count; i++) {
                 if (Types [i] == type) {
                     return true;

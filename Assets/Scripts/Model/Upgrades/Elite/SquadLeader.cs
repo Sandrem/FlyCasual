@@ -105,7 +105,7 @@ namespace SubPhases
 
         private bool FilterAbilityTargets(GenericShip ship)
         {
-            Board.ShipDistanceInformation distanceInfo = new Board.ShipDistanceInformation(SquadLeaderOwner, ship);
+            BoardTools.DistanceInfo distanceInfo = new BoardTools.DistanceInfo(SquadLeaderOwner, ship);
             return (ship.PilotSkill < SquadLeaderOwner.PilotSkill) && (distanceInfo.Range <= 2) && (ship.Owner.PlayerNo == SquadLeaderOwner.Owner.PlayerNo) && (ship.ShipId != SquadLeaderOwner.ShipId);
         }
 

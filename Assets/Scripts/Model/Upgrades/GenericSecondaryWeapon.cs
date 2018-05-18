@@ -44,7 +44,7 @@ namespace Upgrade
                     weaponType = WeaponTypes.Torpedo;
                 }
 
-                return WeaponType;
+                return weaponType;
             }
         }
 

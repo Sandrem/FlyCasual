@@ -55,7 +55,9 @@ namespace BoardTools
                 ShotInfoArc shotInfoArc = new ShotInfoArc(Ship1, Ship2, arc);
                 InArcInfo.Add(arc.ArcType, shotInfoArc.InArc);
 
-                if (shotInfoArc.InShotAngle)
+                WeaponTypes weaponType = (Weapon is GenericSecondaryWeapon) ? (Weapon as GenericSecondaryWeapon).WeaponType : WeaponTypes.PrimaryWeapon;
+
+                if (arc.ShotPermissions.CanShootByWeaponType(weaponType) && shotInfoArc.InShotAngle)
                 {
                     if (IsShotAvailable == false)
                     {

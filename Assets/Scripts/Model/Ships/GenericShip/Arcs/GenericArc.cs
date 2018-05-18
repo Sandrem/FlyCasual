@@ -46,6 +46,27 @@ namespace Arcs
         public bool CanShootTorpedoes;
         public bool CanShootMissiles;
         public bool CanShootCannon;
+
+        public bool CanShootByWeaponType(WeaponTypes weaponType)
+        {
+            switch (weaponType)
+            {
+                case WeaponTypes.PrimaryWeapon:
+                    return CanShootPrimaryWeapon;
+                case WeaponTypes.Torpedo:
+                    return CanShootTorpedoes;
+                case WeaponTypes.Missile:
+                    return CanShootMissiles;
+                case WeaponTypes.Cannon:
+                    return CanShootCannon;
+                case WeaponTypes.Turret:
+                    return CanShootTurret;
+                default:
+                    break;
+            }
+
+            return false;
+        }
     }
 
     public class GenericArc

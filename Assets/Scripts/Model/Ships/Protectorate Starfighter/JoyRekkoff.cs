@@ -22,7 +22,9 @@ namespace Ship
 
                 IsUnique = true;
 
-				PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
+                PilotRuleType = typeof(SecondEdition);
+
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 			}
 
             public void AdaptPilotToSecondEdition()

@@ -158,7 +158,11 @@ namespace Ship
                         (
                             "Free action decision",
                             typeof(FreeActionDecisonSubPhase),
-                            delegate { Actions.FinishAction(delegate { FinishFreeActionDecision(callback); }); }
+                            delegate {
+                                var phase = Phases.CurrentSubPhase as FreeActionDecisonSubPhase;
+                                if (phase != null && phase.ActionWasPerformed) Actions.FinishAction(delegate { FinishFreeActionDecision(callback); });
+                                else FinishFreeActionDecision(callback);
+                            }
                         );
 
                         if (isForced) GameMode.CurrentGameMode.TakeDecision((Phases.CurrentSubPhase as FreeActionDecisonSubPhase).GetDecisions()[0], null); 

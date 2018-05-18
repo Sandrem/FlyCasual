@@ -1,7 +1,7 @@
 ﻿using Abilities;
 using Ship;
 using Upgrade;
-using Board;
+using BoardTools;
 
 namespace UpgradesList
 {
@@ -37,7 +37,7 @@ namespace Abilities
         private void RegisterTargetingAstromech(GenericShip hostShip)
         {
             if (HostShip.GetLastManeuverColor() != Movement.MovementComplexity.Complex) return;
-            if (BoardManager.IsOffTheBoard(hostShip)) return;
+            if (BoardTools.Board.IsOffTheBoard(hostShip)) return;
 
             RegisterAbilityTrigger(TriggerTypes.OnShipMovementFinish, AssignAstromechTargetingLock);            
         }

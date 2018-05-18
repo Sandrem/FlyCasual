@@ -50,7 +50,7 @@ namespace Abilities
 
         private void AskGuriAbility(object sender, EventArgs e)
         {
-            if (Board.BoardManager.GetShipsAtRange(HostShip, new Vector2(1, 1), Team.Type.Enemy).Count > 0)
+            if (BoardTools.Board.GetShipsAtRange(HostShip, new Vector2(1, 1), Team.Type.Enemy).Count > 0)
             {
                 if (!alwaysUseAbility)
                 {

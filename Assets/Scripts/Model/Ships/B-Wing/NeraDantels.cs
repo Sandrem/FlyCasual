@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using Upgrade;
+using Arcs;
 
 namespace Ship
 {
@@ -44,7 +45,7 @@ namespace Abilities
 
         private void ToggleAbility(bool isActive)
         {
-            HostShip.ArcInfo.OutOfArcShotPermissions.CanShootTorpedoes = isActive;
+            HostShip.ArcInfo.GetArc<OutOfArc>().ShotPermissions.CanShootTorpedoes = isActive;
             foreach (GenericUpgrade torpedo in HostShip.UpgradeBar.GetInstalledUpgrades(UpgradeType.Torpedo))
             {
                 GenericSecondaryWeapon torpedoWeapon = torpedo as GenericSecondaryWeapon;

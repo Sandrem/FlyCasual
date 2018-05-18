@@ -5,6 +5,7 @@ using System.Linq;
 using Ship;
 using System;
 using GameModes;
+using BoardTools;
 
 namespace SubPhases
 {
@@ -215,7 +216,7 @@ namespace SubPhases
                 {
                     if (targetShip.Owner.PlayerNo != Phases.CurrentSubPhase.RequiredPlayer)
                     {
-                        Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(Selection.ThisShip, targetShip);
+                        ShotInfo shotInfo = new ShotInfo(Selection.ThisShip, targetShip, Selection.ThisShip.PrimaryWeapon);
                         MovementTemplates.ShowFiringArcRange(shotInfo);
                         result = true;
                     }

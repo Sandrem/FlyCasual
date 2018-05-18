@@ -64,7 +64,7 @@ namespace RulesList
 
         private void RegisterAskUndock(GenericShip ship)
         {
-            if (Board.BoardManager.IsOffTheBoard(ship)) return;
+            if (BoardTools.Board.IsOffTheBoard(ship)) return;
 
             Triggers.RegisterTrigger(new Trigger()
             {

@@ -10,7 +10,36 @@ namespace Arcs
 
     public class ArcMobile : GenericArc
     {
-        private Transform MobileArcPointer;
+        public ArcMobile(GenericShipBase shipBase) : base(shipBase)
+        {
+            ArcType = ArcTypes.Mobile;
+            Facing = ArcFacing.Front;
+
+            Limits = new Dictionary<Vector3, float>()
+            {
+                { new Vector3(-shipBase.HALF_OF_FIRINGARC_SIZE, 0, 0), -40f },
+                { new Vector3( shipBase.HALF_OF_FIRINGARC_SIZE, 0, 0),  40f }
+            };
+
+            Edges = new List<Vector3>()
+            {
+                new Vector3(-shipBase.HALF_OF_FIRINGARC_SIZE, 0, 0),
+                new Vector3( shipBase.HALF_OF_FIRINGARC_SIZE, 0, 0),
+            };
+
+            ShotPermissions = new ArcShotPermissions()
+            {
+                CanShootPrimaryWeapon = true,
+                CanShootTurret = true
+            };
+        }
+
+        public void RotateArc(ArcFacing facing)
+        {
+            // Rotate Arc
+        }
+
+        /*private Transform MobileArcPointer;
 
         private static Dictionary<ArcFacing, float> MobileArcRotationValues = new Dictionary<ArcFacing, float>
         {
@@ -34,14 +63,14 @@ namespace Arcs
             }
         }
 
-        private Dictionary<ArcFacing, ArcInfo> mobileArcFacings;
+        private Dictionary<ArcFacing, GenericArc> mobileArcFacings;
 
         public ArcMobile(GenericShip host) : base(host)
         {
-            mobileArcFacings = new Dictionary<ArcFacing, ArcInfo>(){
+            mobileArcFacings = new Dictionary<ArcFacing, GenericArc>(){
                 {
                     ArcFacing.Front,
-                    new ArcInfo()
+                    new GenericArc()
                     {
                         ShipBase = Host.ShipBase,
                         MinAngle = -40f,
@@ -52,7 +81,7 @@ namespace Arcs
                 },
                 {
                     ArcFacing.Left,
-                    new ArcInfo()
+                    new GenericArc()
                     {
                         ShipBase = Host.ShipBase,
                         MinAngle = 40f,
@@ -63,7 +92,7 @@ namespace Arcs
                 },
                 {
                     ArcFacing.Right,
-                    new ArcInfo()
+                    new GenericArc()
                     {
                         ShipBase = Host.ShipBase,
                         MinAngle = -140f,
@@ -74,7 +103,7 @@ namespace Arcs
                 },
                 {
                     ArcFacing.Rear,
-                    new ArcInfo()
+                    new GenericArc()
                     {
                         ShipBase = Host.ShipBase,
                         MinAngle = -140f,
@@ -85,7 +114,7 @@ namespace Arcs
                 }
             };
 
-            ArcsList = new List<ArcInfo>
+            ArcsList = new List<GenericArc>
             {
                 primaryArc,
                 mobileArcFacings[ArcFacing.Front]
@@ -130,6 +159,6 @@ namespace Arcs
         private void PerformFreeRotateActionForced(object sender, EventArgs e)
         {
             Selection.ThisShip.AskPerformFreeAction(new List<GenericAction>() { new RotateArcAction() }, Triggers.FinishTrigger, true);
-        }
+        }*/
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Arcs;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -45,7 +46,7 @@ namespace Abilities
 
         private void KathScarletSVPilotAbility(ref int diceNumber)
         {
-            if (Combat.ShotInfo.InRearAuxArc)
+            if (Combat.ShotInfo.InArcByType(ArcTypes.RearAux))
             {
                 Messages.ShowInfo("Defender is within auxiliary firing arc. Roll 1 additional attack die.");
                 diceNumber++;

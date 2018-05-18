@@ -42,7 +42,7 @@ namespace Abilities
 
         private void RegisterAbilityTrigger()
         {
-            int enemiesInRange = Board.BoardManager.GetShipsAtRange(HostShip, new Vector2(1, 3), Team.Type.Enemy).Count;
+            int enemiesInRange = BoardTools.Board.GetShipsAtRange(HostShip, new Vector2(1, 3), Team.Type.Enemy).Count;
             if (enemiesInRange > 0) RegisterAbilityTrigger(TriggerTypes.OnPlanningSubPhaseStart, AskToUseTargetingScrambler);
         }
 
@@ -93,7 +93,7 @@ namespace Abilities
             return 50;
         }
 
-        private void UseDiceModificationRestriction(GenericAction action, ref bool canBeUsed)
+        private void UseDiceModificationRestriction(GenericShip ship, GenericAction action, ref bool canBeUsed)
         {
             if (Combat.Defender.ShipId == HostShip.ShipId && Combat.ShotInfo.Range == 1)
             {

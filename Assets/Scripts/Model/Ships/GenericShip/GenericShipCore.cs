@@ -189,7 +189,7 @@ namespace Ship
         public GenericShipBase ShipBase { get; protected set; }
 
         public BaseArcsType ShipBaseArcsType { get; set; }
-        public GenericArc ArcInfo { get; protected set; }
+        public ArcsHolder ArcInfo { get; protected set; }
 
         public Upgrade.ShipUpgradeBar UpgradeBar { get; protected set; }
         public List<Upgrade.UpgradeType> PrintedUpgradeIcons { get; protected set; }
@@ -281,28 +281,27 @@ namespace Ship
 
         public void InitializeShipBaseArc()
         {
+            ArcInfo = new ArcsHolder(this);
+
             switch (ShipBaseArcsType)
             {
-                case BaseArcsType.ArcDefault:
-                    ArcInfo = new GenericArc(this);
-                    break;
                 case BaseArcsType.ArcRear:
-                    ArcInfo = new ArcRear(this);
+                    ArcInfo.Arcs.Add(new ArcRear(ShipBase));
                     break;
-                case BaseArcsType.ArcGhost:
-                    ArcInfo = new ArcGhost(this);
-                    break;
-                case BaseArcsType.Arc180:
-                    ArcInfo = new Arc180(this);
+                case BaseArcsType.ArcSpecial180:
+                    ArcInfo.Arcs.Add(new ArcSpecial180(ShipBase));
                     break;
                 case BaseArcsType.Arc360:
-                    ArcInfo = new Arc360(this);
+                    ArcInfo.GetArc<OutOfArc>().ShotPermissions.CanShootPrimaryWeapon = true;
                     break;
                 case BaseArcsType.ArcMobile:
-                    ArcInfo = new ArcMobile(this);
+                    ArcInfo.Arcs.Add(new ArcMobile(ShipBase));
                     break;
                 case BaseArcsType.ArcBullseye:
-                    ArcInfo = new ArcBullseye(this);
+                    ArcInfo.Arcs.Add(new ArcBullseye(ShipBase));
+                    break;
+                case BaseArcsType.ArcSpecialGhost:
+                    ArcInfo.Arcs.Add(new ArcSpecialGhost(ShipBase));
                     break;
                 default:
                     break;

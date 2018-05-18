@@ -40,7 +40,7 @@ namespace Abilities
 
         private void NightBeastPilotAbility(GenericShip ship)
         {
-            if (Board.BoardManager.IsOffTheBoard(ship)) return;
+            if (BoardTools.Board.IsOffTheBoard(ship)) return;
 
             if (HostShip.AssignedManeuver.ColorComplexity == Movement.MovementComplexity.Easy)
             {

@@ -7,7 +7,7 @@ using UnityEngine;
 using SquadBuilderNS;
 using System;
 using Abilities;
-using Board;
+using BoardTools;
 
 namespace UpgradesList
 {
@@ -51,11 +51,11 @@ namespace Abilities
             if (Combat.Defender.Owner.Id == HostShip.Owner.Id && Combat.Defender.ShipId != HostShip.ShipId)
             {
                 // ...and it's at range 1 of me
-                var distanceToDefender = new ShipDistanceInformation(HostShip, Combat.Defender);
+                var distanceToDefender = new DistanceInfo(HostShip, Combat.Defender);
                 if (distanceToDefender.Range <= 1)
                 {
                     // ...and I am in arc, at range 1-3
-                    var attackInfo = new ShipShotDistanceInformation(Combat.Attacker, HostShip, Combat.ChosenWeapon);
+                    var attackInfo = new ShotInfo(Combat.Attacker, HostShip, Combat.ChosenWeapon);
                     if(attackInfo.InArc && attackInfo.Range <= 3)
                     {
                         // ...assign a stress token to the attacker

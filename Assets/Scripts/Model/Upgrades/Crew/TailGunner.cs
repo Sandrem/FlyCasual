@@ -1,9 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Board;
+using BoardTools;
 using Ship;
 using Upgrade;
+using Arcs;
 
 namespace UpgradesList
 {
@@ -43,10 +44,11 @@ namespace Abilities
 			if (Selection.ThisShip.ShipId == HostShip.ShipId) 
 			{
 				//Gather shot info to determine if in rear arc
-				ShipShotDistanceInformation shotInfo = new ShipShotDistanceInformation(Combat.Attacker, Combat.Defender);
+				ShotInfo shotInfo = new ShotInfo(Combat.Attacker, Combat.Defender, Combat.Attacker.PrimaryWeapon);
 				//make sure card requirements are met.
 				//can't reduce defender agility past 0 and must be aux arc
-				if (Combat.Defender.Agility != 0 && shotInfo.InRearAuxArc) {
+				if (Combat.Defender.Agility != 0 && shotInfo.InArcByType(ArcTypes.RearAux))
+                {
 					Messages.ShowError ("Tail Gunner: Agility is decreased");
 					Combat.Defender.Tokens.AssignCondition (new Conditions.TailGunnerCondition (Combat.Defender));
 					Combat.Defender.ChangeAgilityBy (-1);

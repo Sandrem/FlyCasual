@@ -48,7 +48,7 @@ namespace Abilities
             GenericSecondaryWeapon secondaryWeapon = Combat.ChosenWeapon as GenericSecondaryWeapon;
             if (secondaryWeapon != null)
             {
-                if (secondaryWeapon.hasType(UpgradeType.Cannon) && secondaryWeapon.Cost <= 2)
+                if (secondaryWeapon.HasType(UpgradeType.Cannon) && secondaryWeapon.Cost <= 2)
                 {
                     result = false;
                 }

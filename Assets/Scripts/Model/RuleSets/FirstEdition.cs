@@ -40,21 +40,6 @@ namespace RuleSets
             return ship.ShipRuleType == typeof(FirstEdition);
         }
 
-        public override void AdaptShipToRules(GenericShip ship)
-        {
-            // No adaptation is required
-        }
-
-        public override void AdaptPilotToRules(GenericShip ship)
-        {
-            // No adaptation is required
-        }
-
-        public override void AdaptUpgradeToRules(GenericUpgrade upgrade)
-        {
-            // No adaptation is required
-        }
-
         public override bool WeaponHasRangeBonus()
         {
             return Combat.ChosenWeapon is PrimaryWeaponClass;
@@ -68,6 +53,11 @@ namespace RuleSets
         public override void BarrelRollTemplatePlanning()
         {
             (Phases.CurrentSubPhase as SubPhases.BarrelRollPlanningSubPhase).PerfromTemplatePlanningFirstEdition();
+        }
+
+        public override void SubScribeToGenericShipEvents(GenericShip ship)
+        {
+            ship.OnTryAddAvailableActionEffect += Rules.BullseyeArc.CheckBullseyeArc;
         }
     }
 }

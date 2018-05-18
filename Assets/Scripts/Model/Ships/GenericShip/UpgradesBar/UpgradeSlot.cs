@@ -71,7 +71,7 @@ namespace Upgrade
                 // find another slot
                 foreach (UpgradeSlot tempSlot in host.UpgradeBar.GetUpgradeSlots())
                 {
-                    if (emptySlotsFilled < emptyUpgrade.Types.Count && tempSlot.IsEmpty && upgrade.hasType(tempSlot.Type))
+                    if (emptySlotsFilled < emptyUpgrade.Types.Count && tempSlot.IsEmpty && upgrade.HasType(tempSlot.Type))
                     {
                         emptySlotsFilled += 1; // Fixes bug #708.
                         tempSlot.PreInstallUpgrade(emptyUpgrade, host);

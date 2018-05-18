@@ -49,7 +49,7 @@ namespace Abilities
             }
         }
 
-        private void UseDarkCurseRestriction(ActionsList.GenericAction action, ref bool canBeUsed)
+        private void UseDarkCurseRestriction(GenericShip ship, ActionsList.GenericAction action, ref bool canBeUsed)
         {
             if (action.TokensSpend.Contains(typeof(Tokens.FocusToken)))
             {

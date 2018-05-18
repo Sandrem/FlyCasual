@@ -8,6 +8,7 @@ using System.Linq;
 using Upgrade;
 using Conditions;
 using UnityEngine;
+using BoardTools;
 
 namespace UpgradesList
 {
@@ -90,7 +91,7 @@ namespace Abilities
                 .Where(s => s.Owner.Id != HostShip.Owner.Id)
                 .Where(s =>
                 {
-                    var arcInfo = new Board.ShipShotDistanceInformation(HostShip, s);
+                    ShotInfo arcInfo = new ShotInfo(HostShip, s, HostShip.PrimaryWeapon);
                     return arcInfo.InArc && arcInfo.Range <= 3;
                 })
                 .Count();
@@ -169,7 +170,7 @@ namespace ActionsList
                     .Where(s => s.Owner.Id != Host.Owner.Id)
                     .Where(s =>
                     {
-                        var arcInfo = new Board.ShipShotDistanceInformation(Host, s);
+                        ShotInfo arcInfo = new ShotInfo(Host, s, Host.PrimaryWeapon);
                         return arcInfo.InArc && arcInfo.Range <= 3;
                     })
                     .Any();

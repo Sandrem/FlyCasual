@@ -47,7 +47,7 @@ namespace Abilities
             if (tokenType != typeof(StressToken)) return;
             if (ship.Owner.PlayerNo != HostShip.Owner.PlayerNo) return;
 
-            Board.ShipDistanceInformation distanceInfo = new Board.ShipDistanceInformation(HostShip, ship);
+            BoardTools.DistanceInfo distanceInfo = new BoardTools.DistanceInfo(HostShip, ship);
             if (distanceInfo.Range < 3)
             {
                 ShipToRemoveStress = ship;

@@ -16,7 +16,7 @@ namespace Ship
                 Type = "VCX-100";
                 IconicPilots.Add(Faction.Rebel, typeof(KananJarrus));
                 ShipBaseSize = BaseSize.Large;
-                ShipBaseArcsType = Arcs.BaseArcsType.ArcGhost;
+                ShipBaseArcsType = Arcs.BaseArcsType.ArcSpecialGhost;
 
                 ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/c/cf/MR_VCX-100.png";
 

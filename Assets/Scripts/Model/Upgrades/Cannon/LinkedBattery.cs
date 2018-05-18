@@ -95,7 +95,7 @@ namespace ActionsList
 
         private bool IsCannon()
         {
-            return Combat.ChosenWeapon is GenericSecondaryWeapon && (Combat.ChosenWeapon as GenericSecondaryWeapon).hasType(UpgradeType.Cannon);
+            return Combat.ChosenWeapon is GenericSecondaryWeapon && (Combat.ChosenWeapon as GenericSecondaryWeapon).HasType(UpgradeType.Cannon);
         }
 
         public override int GetActionEffectPriority()

@@ -7,7 +7,7 @@ using System.Linq;
 using Ship;
 using Abilities;
 using ActionsList;
-using Board;
+using BoardTools;
 
 namespace UpgradesList
 {
@@ -65,7 +65,7 @@ namespace Abilities
             if (Selection.ThisShip.IsBumped) return;
             if (Selection.ThisShip.IsHitObstacles) return;
             if (!IsNoEnemyInArcAndDistance()) return;
-            if (BoardManager.IsOffTheBoard(host)) return;
+            if (BoardTools.Board.IsOffTheBoard(host)) return;
 
             RegisterAbilityTrigger(TriggerTypes.OnShipMovementExecuted, AskPerformFreeActions);
         }
@@ -76,7 +76,7 @@ namespace Abilities
 
             foreach (var enemyShip in HostShip.Owner.EnemyShips)
             {
-                Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(HostShip, enemyShip.Value);
+                ShotInfo shotInfo = new ShotInfo(HostShip, enemyShip.Value, HostShip.PrimaryWeapon);
                 if (shotInfo.InArc && shotInfo.Range >= 1 && shotInfo.Range <= 3)
                 {
                     return false;

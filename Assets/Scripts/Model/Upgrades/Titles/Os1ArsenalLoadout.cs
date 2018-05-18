@@ -48,7 +48,7 @@ namespace Abilities
             GenericSecondaryWeapon secondaryWeapon = Combat.ChosenWeapon as GenericSecondaryWeapon;
             if (secondaryWeapon != null)
             {
-                if ((secondaryWeapon.hasType(UpgradeType.Torpedo) || secondaryWeapon.hasType(UpgradeType.Missile)) && Actions.HasTargetLockOn(Selection.ThisShip, Selection.AnotherShip))
+                if ((secondaryWeapon.HasType(UpgradeType.Torpedo) || secondaryWeapon.HasType(UpgradeType.Missile)) && Actions.HasTargetLockOn(Selection.ThisShip, Selection.AnotherShip))
                 {
                     result = false;
                 }

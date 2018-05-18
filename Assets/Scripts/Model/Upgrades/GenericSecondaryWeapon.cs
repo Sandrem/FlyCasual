@@ -5,6 +5,7 @@ using UnityEngine;
 using Ship;
 using System.Linq;
 using Tokens;
+using BoardTools;
 
 namespace Upgrade
 {
@@ -25,6 +26,29 @@ namespace Upgrade
 
         public bool IsTwinAttack;
 
+        public WeaponTypes WeaponType
+        {
+            get
+            {
+                WeaponTypes weaponType = WeaponTypes.PrimaryWeapon;
+
+                if (Types.Contains(UpgradeType.Cannon))
+                {
+                    weaponType = WeaponTypes.Cannon;
+                }
+                else if (Types.Contains(UpgradeType.Missile))
+                {
+                    weaponType = WeaponTypes.Missile;
+                }
+                else if (Types.Contains(UpgradeType.Torpedo))
+                {
+                    weaponType = WeaponTypes.Torpedo;
+                }
+
+                return weaponType;
+            }
+        }
+
         public GenericSecondaryWeapon() : base()
         {
 
@@ -41,22 +65,14 @@ namespace Upgrade
             int range;
             if (!CanShootOutsideArc)
             {
-                Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(Host, targetShip, this);
+                ShotInfo shotInfo = new ShotInfo(Host, targetShip, this);
                 range = shotInfo.Range;
 
-                if (!shotInfo.InShotAngle) return false;
-
-                if (hasType (UpgradeType.Missile)) {
-                    if (!shotInfo.CanShootMissiles) return false;
-                }else if(hasType(UpgradeType.Cannon)){
-                    if (!shotInfo.CanShootCannon) return false;
-                } else if (hasType (UpgradeType.Torpedo)) {
-                    if (!shotInfo.CanShootTorpedoes) return false;
-                }
+                if (!shotInfo.IsShotAvailable) return false;
             }
             else
             {
-                Board.ShipDistanceInformation distanceInfo = new Board.ShipDistanceInformation(Host, targetShip);
+                DistanceInfo distanceInfo = new DistanceInfo(Host, targetShip);
                 range = distanceInfo.Range;
             }
 

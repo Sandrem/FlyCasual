@@ -5,6 +5,7 @@ using System.Linq;
 using System;
 using UnityEngine;
 using Abilities;
+using Arcs;
 
 namespace UpgradesList
 {
@@ -65,7 +66,7 @@ namespace Abilities
 
         private void ToggleRearArc(bool isActive)
         {
-            HostShip.Host.ArcInfo.GetRearArc().ShotPermissions.CanShootPrimaryWeapon = isActive;
+            HostShip.Host.ArcInfo.GetArc<ArcSpecialGhost>().ShotPermissions.CanShootPrimaryWeapon = isActive;
         }
 
         private void RegisterExtraShotAbility()
@@ -103,7 +104,7 @@ namespace Abilities
             bool result = false;
 
             GenericUpgrade upgradeWeapon = weapon as GenericUpgrade;
-            if (upgradeWeapon != null && upgradeWeapon.hasType(UpgradeType.Turret))
+            if (upgradeWeapon != null && upgradeWeapon.HasType(UpgradeType.Turret))
             {
                 result = true;
             }

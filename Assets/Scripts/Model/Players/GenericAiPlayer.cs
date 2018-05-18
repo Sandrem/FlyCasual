@@ -34,7 +34,7 @@ namespace Players
                     Vector3 position  = shipHolder.Value.GetPosition() + new Vector3(0, 0, direction * 1.2f);
 
                     GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-                    Game.Wait(0.5f, delegate { Board.BoardManager.PlaceShip(shipHolder.Value, position, shipHolder.Value.GetAngles(), Phases.Next); });
+                    Game.Wait(0.5f, delegate { BoardTools.Board.PlaceShip(shipHolder.Value, position, shipHolder.Value.GetAngles(), Phases.Next); });
                     return;
                 }
             }
@@ -253,7 +253,7 @@ namespace Players
 
             chosenWeapon = chosenWeapon ?? Selection.ThisShip.PrimaryWeapon;
             Combat.ChosenWeapon = chosenWeapon;
-            Combat.ShotInfo = new Board.ShipShotDistanceInformation(Selection.ThisShip, Selection.AnotherShip, Combat.ChosenWeapon);
+            Combat.ShotInfo = new BoardTools.ShotInfo(Selection.ThisShip, Selection.AnotherShip, Combat.ChosenWeapon);
 
             if (Rules.TargetIsLegalForShot.IsLegal(true) && Combat.ChosenWeapon.IsShotAvailable(Selection.AnotherShip))
             {
@@ -310,7 +310,7 @@ namespace Players
 
                     if (inArcAndRange)
                     {
-                        Board.ShipDistanceInformation distanceInfo = new Board.ShipDistanceInformation(thisShip, shipHolder.Value);
+                        BoardTools.DistanceInfo distanceInfo = new BoardTools.DistanceInfo(thisShip, shipHolder.Value);
                         if ((distanceInfo.Range > 3))
                         {
                             continue;

@@ -77,7 +77,7 @@ namespace ActionsList
                 GenericSecondaryWeapon secondaryWeapon = (Combat.ChosenWeapon as GenericSecondaryWeapon);
                 if (secondaryWeapon != null)
                 {
-                    if (secondaryWeapon.hasType(UpgradeType.Torpedo) || secondaryWeapon.hasType(UpgradeType.Missile))
+                    if (secondaryWeapon.HasType(UpgradeType.Torpedo) || secondaryWeapon.HasType(UpgradeType.Missile))
                     {
                         result = true;
                     }

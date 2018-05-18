@@ -64,7 +64,7 @@ namespace Abilities
             }
         }
 
-        private void UseOmegaLeaderRestriction(ActionsList.GenericAction action, ref bool canBeUsed)
+        private void UseOmegaLeaderRestriction(GenericShip ship, ActionsList.GenericAction action, ref bool canBeUsed)
         {
             Messages.ShowErrorToHuman("Omega Leader: Unable to modify dice.");
             canBeUsed = false;

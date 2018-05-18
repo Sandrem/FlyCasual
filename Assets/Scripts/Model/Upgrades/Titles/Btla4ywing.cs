@@ -2,6 +2,7 @@
 using Ship.YWing;
 using Upgrade;
 using Abilities;
+using Arcs;
 
 namespace UpgradesList
 {
@@ -42,10 +43,10 @@ namespace Abilities
 
         private void Toggle360Arc(bool isActive)
         {
-            GenericSecondaryWeapon turret = (GenericSecondaryWeapon)HostShip.UpgradeBar.GetUpgradesAll().Find(n => n.hasType(UpgradeType.Turret));
+            GenericSecondaryWeapon turret = (GenericSecondaryWeapon)HostShip.UpgradeBar.GetUpgradesAll().Find(n => n.HasType(UpgradeType.Turret));
             if (turret != null)
             {
-                HostShip.ArcInfo.OutOfArcShotPermissions.CanShootTurret = isActive;
+                HostShip.ArcInfo.GetArc<OutOfArc>().ShotPermissions.CanShootTurret = isActive;
                 turret.CanShootOutsideArc = isActive;
             }
         }

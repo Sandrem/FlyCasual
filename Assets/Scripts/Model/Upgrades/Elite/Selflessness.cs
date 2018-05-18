@@ -54,7 +54,7 @@ namespace Abilities
         {
             if (Combat.Defender.Owner.PlayerNo == HostShip.Owner.PlayerNo && Combat.Defender.ShipId != HostShip.ShipId)
             {
-                Board.ShipDistanceInformation distanceInfo = new Board.ShipDistanceInformation(Combat.Defender, HostShip);
+                BoardTools.DistanceInfo distanceInfo = new BoardTools.DistanceInfo(Combat.Defender, HostShip);
                 if (distanceInfo.Range == 1 && Combat.DiceRollAttack.RegularSuccesses > 0)
                 {
                     RegisterAbilityTrigger(TriggerTypes.OnTryDamagePrevention, UseSelflessnessAbility);

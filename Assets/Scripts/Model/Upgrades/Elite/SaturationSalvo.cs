@@ -37,7 +37,7 @@ namespace Abilities
             GenericSecondaryWeapon weapon = Combat.ChosenWeapon as GenericSecondaryWeapon;
             if (weapon != null)
             {
-                if (weapon.hasType(UpgradeType.Torpedo) || weapon.hasType(UpgradeType.Missile))
+                if (weapon.HasType(UpgradeType.Torpedo) || weapon.HasType(UpgradeType.Missile))
                 {
                     Triggers.RegisterTrigger(
                         new Trigger()
@@ -60,7 +60,7 @@ namespace Abilities
 
                 if (ship.ShipId == Combat.Defender.ShipId) continue;
 
-                Board.ShipDistanceInformation shotInfo = new Board.ShipDistanceInformation(Combat.Defender, ship);
+                BoardTools.DistanceInfo shotInfo = new BoardTools.DistanceInfo(Combat.Defender, ship);
 
                 if (shotInfo.Range == 1 && ship.Agility < (Combat.ChosenWeapon as GenericUpgrade).Cost)
                 {

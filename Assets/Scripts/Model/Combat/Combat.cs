@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using Board;
+using BoardTools;
 using GameModes;
 using Ship;
 using SubPhases;
@@ -52,7 +52,7 @@ public static partial class Combat
     private static int attacksCounter;
     private static int hitsCounter;
 
-    public static ShipShotDistanceInformation ShotInfo;
+    public static ShotInfo ShotInfo;
 
     public static Func<GenericShip, IShipWeapon, bool> ExtraAttackFilter;
 
@@ -78,7 +78,7 @@ public static partial class Combat
             Selection.ChangeAnotherShip("ShipId:" + defenderID);
 
             ChosenWeapon = Selection.ThisShip.PrimaryWeapon;
-            ShotInfo = new ShipShotDistanceInformation(Selection.ThisShip, Selection.AnotherShip, ChosenWeapon);
+            ShotInfo = new ShotInfo(Selection.ThisShip, Selection.AnotherShip, ChosenWeapon);
             SelectWeapon();
         }
         else
@@ -147,8 +147,8 @@ public static partial class Combat
 
     private static void CheckFireLineCollisions()
     {
-        ShotInfo = new ShipShotDistanceInformation(Selection.ThisShip, Selection.AnotherShip, ChosenWeapon);
-        ShotInfo.CheckFirelineCollisions(PayAttackCost);
+        ShotInfo = new ShotInfo(Selection.ThisShip, Selection.AnotherShip, ChosenWeapon);
+        ShotInfo.CheckObstruction(PayAttackCost);
     }
 
     // PAY ATTACK COST

@@ -79,7 +79,7 @@ public static partial class Roster
             AddShipToLists(newShip);
         }
 
-        Board.BoardManager.SetShips();
+        BoardTools.Board.SetShips();
     }
 
     private static void AddShipToLists(GenericShip newShip)
@@ -104,6 +104,7 @@ public static partial class Roster
         if (ship != null)
         {
             ship.SetActive(false);
+            ship.SetPosition(new Vector3(0, -100, 0));
             ship.InfoPanel.SetActive(false);
             ship.Owner.Ships.Remove(id);
             AllShips.Remove(id);

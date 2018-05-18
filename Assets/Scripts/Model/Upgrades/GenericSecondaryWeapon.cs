@@ -73,7 +73,7 @@ namespace Upgrade
             }
             else
             {
-                BoardTools.ShipDistanceInfo distanceInfo = new BoardTools.ShipDistanceInfo(Host, targetShip);
+                BoardTools.DistanceInfo distanceInfo = new BoardTools.DistanceInfo(Host, targetShip);
                 range = distanceInfo.Range;
             }
 

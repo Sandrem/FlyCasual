@@ -115,26 +115,26 @@ public static class MovementTemplates {
 
     public static void ShowRange(Ship.GenericShip thisShip, Ship.GenericShip anotherShip)
     {
-        ShowRangeRuler(new ShipDistanceInfo(thisShip, anotherShip));
+        ShowRangeRuler(new DistanceInfo(thisShip, anotherShip).MinDistance);
     }
 
     public static bool ShowFiringArcRange(ShotInfo shotInfo)
     {
         if (shotInfo.IsShotAvailable)
         {
-            ShowRangeRuler(shotInfo);
+            ShowRangeRuler(shotInfo.MinDistance);
         }
         else
         {
-           // Show that ship is put of arc / distance
+            ShowRangeRuler(shotInfo.NearestFailedDistance);
         }
         return shotInfo.IsShotAvailable;
     }
 
-    public static void ShowRangeRuler(GenericShipDistanceInfo shipDistanceInfo)
+    public static void ShowRangeRuler(RangeHolder rangeInfo)
     {
-        Templates.Find("RangeRuler").position = shipDistanceInfo.MinDistance.Point1;
-        Templates.Find("RangeRuler").LookAt(shipDistanceInfo.MinDistance.Point2);
+        Templates.Find("RangeRuler").position = rangeInfo.Point1;
+        Templates.Find("RangeRuler").LookAt(rangeInfo.Point2);
     }
 
     public static void CallReturnRangeRuler(Ship.GenericShip thisShip)

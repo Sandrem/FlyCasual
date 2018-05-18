@@ -67,7 +67,7 @@ namespace SubPhases
 
         private bool FilterCoordinateTargets(GenericShip ship)
         {
-            BoardTools.ShipDistanceInfo distanceInfo = new BoardTools.ShipDistanceInfo(Selection.ThisShip, ship);
+            BoardTools.DistanceInfo distanceInfo = new BoardTools.DistanceInfo(Selection.ThisShip, ship);
             return ship.Owner.PlayerNo == Selection.ThisShip.Owner.PlayerNo && distanceInfo.Range >= 1 && distanceInfo.Range <= 2;
         }
 

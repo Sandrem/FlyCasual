@@ -31,8 +31,8 @@ namespace BoardTools
 
     public class GenericShipDistanceInfo
     {
-        protected GenericShip Ship1 { get; set; }
-        protected GenericShip Ship2 { get; set; }
+        public GenericShip Ship1 { get; protected set; }
+        public GenericShip Ship2 { get; protected set; }
 
         public RangeHolder MinDistance { get; protected set; }
         private RangeHolder altDistance1;
@@ -40,7 +40,7 @@ namespace BoardTools
         private RangeHolder minDistancePerpA;
         private RangeHolder minDistancePerpB;
 
-        public int Range { get { return (MinDistance != null) ? MinDistance.Range : int.MaxValue; } }
+        public int Range { get { return MinDistance.Range; } }
 
         public GenericShipDistanceInfo(GenericShip ship1, GenericShip ship2)
         {

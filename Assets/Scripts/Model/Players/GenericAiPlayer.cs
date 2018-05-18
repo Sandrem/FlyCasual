@@ -310,7 +310,7 @@ namespace Players
 
                     if (inArcAndRange)
                     {
-                        BoardTools.ShipDistanceInfo distanceInfo = new BoardTools.ShipDistanceInfo(thisShip, shipHolder.Value);
+                        BoardTools.DistanceInfo distanceInfo = new BoardTools.DistanceInfo(thisShip, shipHolder.Value);
                         if ((distanceInfo.Range > 3))
                         {
                             continue;

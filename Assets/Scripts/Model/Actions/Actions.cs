@@ -60,7 +60,7 @@ public static partial class Actions
     {
         if (Letters.Count == 0) InitializeTargetLockLetters();
 
-        ShipDistanceInfo distanceInfo = new ShipDistanceInfo(thisShip, targetShip);
+        DistanceInfo distanceInfo = new DistanceInfo(thisShip, targetShip);
         if (distanceInfo.Range >= thisShip.TargetLockMinRange && distanceInfo.Range <= thisShip.TargetLockMaxRange)
         {
             GenericToken existingBlueToken = thisShip.Tokens.GetToken(typeof(BlueTargetLockToken), '*');
@@ -177,7 +177,7 @@ public static partial class Actions
     {
         bool result = false;
 
-        ShipDistanceInfo distanceInfo = new ShipDistanceInfo(thisShip, anotherShip);
+        DistanceInfo distanceInfo = new DistanceInfo(thisShip, anotherShip);
         int range = distanceInfo.Range;
         if (range <= 1) return true;
         if (range >= 3) return false;
@@ -192,14 +192,14 @@ public static partial class Actions
     {
         ShotInfo shotInfo = new ShotInfo(thisShip, anotherShip, thisShip.PrimaryWeapon);
         bool inArc = MovementTemplates.ShowFiringArcRange(shotInfo);
-        if (!inArc) Messages.ShowInfoToHuman("Out of primary weapon arc");
+        if (!inArc) Messages.ShowInfoToHuman("Out of arc");
         return shotInfo.Range;
     }
 
     public static int GetRangeAndShow(GenericShip thisShip, GenericShip anotherShip)
     {
-        ShipDistanceInfo distanceInfo = new ShipDistanceInfo(thisShip, anotherShip);
-        MovementTemplates.ShowRangeRuler(distanceInfo);
+        DistanceInfo distanceInfo = new DistanceInfo(thisShip, anotherShip);
+        MovementTemplates.ShowRangeRuler(distanceInfo.MinDistance);
 
         int range = distanceInfo.Range;
         if (range < 4)

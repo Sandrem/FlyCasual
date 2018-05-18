@@ -85,7 +85,7 @@ namespace ActionsList
         private bool FilterTargets(GenericShip ship)
         {
             //Filter other friendly ships range 1
-            BoardTools.ShipDistanceInfo distanceInfo = new BoardTools.ShipDistanceInfo(Host, ship);
+            BoardTools.DistanceInfo distanceInfo = new BoardTools.DistanceInfo(Host, ship);
             return  ship.Owner.PlayerNo == Host.Owner.PlayerNo &&
                     ship != Host && 
                     distanceInfo.Range == 1;

@@ -88,7 +88,7 @@ namespace Abilities
 			var ships = Roster.AllShips.Select (x => x.Value).ToList();
 
 			foreach (GenericShip ship in ships) {
-				BoardTools.ShipDistanceInfo shotInfo = new BoardTools.ShipDistanceInfo(Combat.Defender, ship);
+				BoardTools.DistanceInfo shotInfo = new BoardTools.DistanceInfo(Combat.Defender, ship);
 				if (shotInfo.Range == 1) {
 					shipsToAssignIon.Add (ship);
 				}

@@ -42,7 +42,7 @@ namespace Abilities
         {
             bool IsDifferentPlayer = (HostShip.Owner.PlayerNo != Combat.Attacker.Owner.PlayerNo);
             bool HasFocusTokens = HostShip.Tokens.HasToken(typeof(Tokens.FocusToken));
-            BoardTools.ShipDistanceInfo distanceInfo = new BoardTools.ShipDistanceInfo(HostShip, Combat.Attacker);
+            BoardTools.DistanceInfo distanceInfo = new BoardTools.DistanceInfo(HostShip, Combat.Attacker);
 
             if (IsDifferentPlayer && HasFocusTokens && distanceInfo.Range < 3)
             {

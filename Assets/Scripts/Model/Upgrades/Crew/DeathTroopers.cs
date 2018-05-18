@@ -51,7 +51,7 @@ namespace Abilities
             if (Combat.Defender.Owner.Id == HostShip.Owner.Id && Combat.Defender.ShipId != HostShip.ShipId)
             {
                 // ...and it's at range 1 of me
-                var distanceToDefender = new ShipDistanceInfo(HostShip, Combat.Defender);
+                var distanceToDefender = new DistanceInfo(HostShip, Combat.Defender);
                 if (distanceToDefender.Range <= 1)
                 {
                     // ...and I am in arc, at range 1-3

@@ -16,12 +16,14 @@ namespace BoardTools
         public bool InArc { get { return InArcInfo.Any(n => n.Value == true); } }
         public bool InPrimaryArc { get { return InArcByType(ArcTypes.Primary); } }
 
+        public RangeHolder NearestFailedDistance;
+
         private Dictionary<ArcTypes, bool> InArcInfo { get; set; }
 
         public bool IsObstructedByAsteroid { get; private set; }
         public bool IsObstructedByBombToken { get; private set; }
 
-        private IShipWeapon Weapon;
+        public IShipWeapon Weapon { get; private set; }
 
         public float DistanceReal { get { return MinDistance.DistanceReal; } }
 
@@ -29,7 +31,7 @@ namespace BoardTools
         {
             get
             {
-                int range = (MinDistance != null) ? MinDistance.Range : int.MaxValue;
+                int range = (MinDistance != null) ? MinDistance.Range : NearestFailedDistance.Range;
                 if (OnRangeIsMeasured != null) OnRangeIsMeasured(Ship1, Ship2, Weapon, ref range);
                 return range;
             }
@@ -57,18 +59,30 @@ namespace BoardTools
 
                 WeaponTypes weaponType = (Weapon is GenericSecondaryWeapon) ? (Weapon as GenericSecondaryWeapon).WeaponType : WeaponTypes.PrimaryWeapon;
 
-                if (arc.ShotPermissions.CanShootByWeaponType(weaponType) && shotInfoArc.IsShotAvailable)
+                if (arc.ShotPermissions.CanShootByWeaponType(weaponType))
                 {
-                    if (IsShotAvailable == false)
+                    if (shotInfoArc.IsShotAvailable)
                     {
-                        MinDistance = shotInfoArc.MinDistance;
-                    }
-                    else
-                    {
-                        if (shotInfoArc.MinDistance.DistanceReal < MinDistance.DistanceReal) MinDistance = shotInfoArc.MinDistance;
+                        if (IsShotAvailable == false)
+                        {
+                            MinDistance = shotInfoArc.MinDistance;
+                        }
+                        else
+                        {
+                            if (shotInfoArc.MinDistance.DistanceReal < MinDistance.DistanceReal) MinDistance = shotInfoArc.MinDistance;
+                        }
+
+                        IsShotAvailable = true;
                     }
 
-                    IsShotAvailable = true;
+                    if (NearestFailedDistance == null)
+                    {
+                        NearestFailedDistance = shotInfoArc.MinDistance;
+                    }
+                    else if (MinDistance.DistanceReal < NearestFailedDistance.DistanceReal)
+                    {
+                        NearestFailedDistance = shotInfoArc.MinDistance;
+                    }
                 }
             }
         }

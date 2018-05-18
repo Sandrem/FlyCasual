@@ -3,9 +3,9 @@ using System.Linq;
 
 namespace BoardTools
 {
-    public class ShipDistanceInfo : GenericShipDistanceInfo
+    public class DistanceInfo : GenericShipDistanceInfo
     {
-        public ShipDistanceInfo(GenericShip ship1, GenericShip ship2) : base(ship1, ship2)
+        public DistanceInfo(GenericShip ship1, GenericShip ship2) : base(ship1, ship2)
         {
             CheckRange();
         }

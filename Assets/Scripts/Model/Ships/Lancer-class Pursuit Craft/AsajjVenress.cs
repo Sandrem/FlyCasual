@@ -6,6 +6,7 @@ using SubPhases;
 using BoardTools;
 using Abilities;
 using System.Linq;
+using Arcs;
 
 namespace Ship
 {
@@ -86,22 +87,22 @@ namespace Abilities
 
         private bool FilterTargetInMobileFiringArc(GenericShip ship)
         {
-            ShipShotDistanceInformation shotInfo = new ShipShotDistanceInformation(HostShip, ship);
-            return shotInfo.InMobileArc;
+            ShotInfo shotInfo = new ShotInfo(HostShip, ship);
+            return shotInfo.InArcByType(ArcTypes.Mobile);
         }
 
         private void CheckAssignStress()
         {
-            ShipShotDistanceInformation shotInfo = new ShipShotDistanceInformation(HostShip, TargetShip);
-            if (shotInfo.InMobileArc && shotInfo.Range >= 1 && shotInfo.Range <= 2)
+            ShotInfo shotInfo = new ShotInfo(HostShip, TargetShip);
+            if (shotInfo.InArcByType(ArcTypes.Mobile) && shotInfo.Range >= 1 && shotInfo.Range <= 2)
             {
                 Messages.ShowError(HostShip.PilotName + " assigns Stress Token\nto " + TargetShip.PilotName);
                 TargetShip.Tokens.AssignToken(new Tokens.StressToken(TargetShip), SelectShipSubPhase.FinishSelection);
             }
             else
             {
-                if (!shotInfo.InMobileArc) Messages.ShowError("Target is not inside Mobile Arc");
-                else if (shotInfo.Distance >= 3) Messages.ShowError("Target is outside range 2");
+                if (!shotInfo.InArcByType(ArcTypes.Mobile)) Messages.ShowError("Target is not inside Mobile Arc");
+                else if (shotInfo.Range >= 3) Messages.ShowError("Target is outside range 2");
             }
         }
 

@@ -253,7 +253,7 @@ namespace Players
 
             chosenWeapon = chosenWeapon ?? Selection.ThisShip.PrimaryWeapon;
             Combat.ChosenWeapon = chosenWeapon;
-            Combat.ShotInfo = new BoardTools.ShipShotDistanceInformation(Selection.ThisShip, Selection.AnotherShip, Combat.ChosenWeapon);
+            Combat.ShotInfo = new BoardTools.ShotInfo(Selection.ThisShip, Selection.AnotherShip, Combat.ChosenWeapon);
 
             if (Rules.TargetIsLegalForShot.IsLegal(true) && Combat.ChosenWeapon.IsShotAvailable(Selection.AnotherShip))
             {

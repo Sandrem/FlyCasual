@@ -41,7 +41,7 @@ namespace BoardTools
 
             if (Arc.Limits != null && Arc.Limits.Count > 0)
             {
-                float signedAngle = Vector3.SignedAngle(MinDistance.Vector, Ship1.GetFrontFacing(), Vector3.up);
+                float signedAngle = (float) Math.Round(Vector3.SignedAngle(MinDistance.Vector, Ship1.GetFrontFacing(), Vector3.up), 2);
                 if (Arc.Facing != ArcFacing.Rear)
                 {
                     if (signedAngle < Arc.Limits.First().Value || signedAngle > Arc.Limits.Last().Value) return;
@@ -85,7 +85,7 @@ namespace BoardTools
                         else
                         {
                             RangeHolder secondRayResult = new RangeHolder(Ship1.ShipBase.GetGlobalPoint(limit.Key), hitInfo.point);
-                            if (secondRayResult.Distance < MinDistance.Distance) MinDistance = new RangeHolder(Ship1.ShipBase.GetGlobalPoint(limit.Key), hitInfo.point);
+                            if (secondRayResult.DistanceReal < MinDistance.DistanceReal) MinDistance = new RangeHolder(Ship1.ShipBase.GetGlobalPoint(limit.Key), hitInfo.point);
                         }
                     }
                 }

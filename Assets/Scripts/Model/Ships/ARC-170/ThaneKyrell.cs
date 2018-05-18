@@ -40,7 +40,7 @@ namespace Abilities
 		{
             if (Combat.Attacker == ship && ship.Owner != HostShip.Owner && Combat.Defender != HostShip && Combat.Defender.Owner == HostShip.Owner)
             {
-                var arcInfo = new BoardTools.ShipShotDistanceInformation(HostShip, ship);
+                var arcInfo = new BoardTools.ShotInfo(HostShip, ship);
                 if (arcInfo.InArc && arcInfo.Range <= 3)
                 {
                     RegisterAbilityTrigger(TriggerTypes.OnAttackFinish, PerformFreeAction);

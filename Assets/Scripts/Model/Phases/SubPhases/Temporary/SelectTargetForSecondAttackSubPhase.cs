@@ -36,7 +36,7 @@ namespace SubPhases
         {
             Selection.AnotherShip = TargetShip;
             Combat.ChosenWeapon = Selection.ThisShip.PrimaryWeapon;
-            Combat.ShotInfo = new BoardTools.ShipShotDistanceInformation(Selection.ThisShip, TargetShip, Combat.ChosenWeapon);
+            Combat.ShotInfo = new BoardTools.ShotInfo(Selection.ThisShip, TargetShip, Combat.ChosenWeapon);
             MovementTemplates.ShowFiringArcRange(Combat.ShotInfo);
             ExtraAttackTargetSelected();
         }

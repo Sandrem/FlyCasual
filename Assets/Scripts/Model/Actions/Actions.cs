@@ -190,7 +190,7 @@ public static partial class Actions
 
     public static int GetFiringRangeAndShow(GenericShip thisShip, GenericShip anotherShip)
     {
-        ShipShotDistanceInformation shotInfo = new ShipShotDistanceInformation(thisShip, anotherShip, thisShip.PrimaryWeapon);
+        ShotInfo shotInfo = new ShotInfo(thisShip, anotherShip, thisShip.PrimaryWeapon);
         bool inArc = MovementTemplates.ShowFiringArcRange(shotInfo);
         if (!inArc) Messages.ShowInfoToHuman("Out of primary weapon arc");
         return shotInfo.Range;
@@ -218,7 +218,7 @@ public static partial class Actions
     {
         foreach (var anotherShip in Roster.GetPlayer(Roster.AnotherPlayer(thisShip.Owner.PlayerNo)).Ships)
         {
-            ShipShotDistanceInformation shotInfo = new ShipShotDistanceInformation(thisShip, anotherShip.Value, thisShip.PrimaryWeapon);
+            ShotInfo shotInfo = new ShotInfo(thisShip, anotherShip.Value, thisShip.PrimaryWeapon);
             if ((shotInfo.Range < 4) && (shotInfo.IsShotAvailable))
             {
                 return true;
@@ -234,7 +234,7 @@ public static partial class Actions
 
         foreach (var anotherShip in Roster.GetPlayer(Roster.AnotherPlayer(thisShip.Owner.PlayerNo)).Ships)
         {
-            ShipShotDistanceInformation shotInfo = new ShipShotDistanceInformation(anotherShip.Value, thisShip, anotherShip.Value.PrimaryWeapon);
+            ShotInfo shotInfo = new ShotInfo(anotherShip.Value, thisShip, anotherShip.Value.PrimaryWeapon);
             if ((shotInfo.Range < 4) && (shotInfo.IsShotAvailable))
             {
                 if (direction == 0)
@@ -243,7 +243,7 @@ public static partial class Actions
                 }
                 else
                 {
-                    ShipShotDistanceInformation reverseShotInfo = new ShipShotDistanceInformation(thisShip, anotherShip.Value, thisShip.PrimaryWeapon);
+                    ShotInfo reverseShotInfo = new ShotInfo(thisShip, anotherShip.Value, thisShip.PrimaryWeapon);
                     if (direction == 1)
                     {
                         if (reverseShotInfo.InArc) result++;

@@ -118,7 +118,7 @@ public static class MovementTemplates {
         ShowRangeRuler(new ShipDistanceInfo(thisShip, anotherShip));
     }
 
-    public static bool ShowFiringArcRange(ShipShotDistanceInformation shotInfo)
+    public static bool ShowFiringArcRange(ShotInfo shotInfo)
     {
         if (shotInfo.IsShotAvailable)
         {
@@ -126,15 +126,9 @@ public static class MovementTemplates {
         }
         else
         {
-            ShowRangeRuler(new ShipShotOutOfArcDistanceInformation(shotInfo.ThisShip, shotInfo.AnotherShip));
+           // Show that ship is put of arc / distance
         }
         return shotInfo.IsShotAvailable;
-    }
-
-    public static void ShowRangeRuler(GeneralShipDistanceInformation shipDistanceInfo)
-    {
-        Templates.Find("RangeRuler").position = shipDistanceInfo.ThisShipNearestPoint;
-        Templates.Find("RangeRuler").rotation = Quaternion.LookRotation(shipDistanceInfo.Vector);
     }
 
     public static void ShowRangeRuler(GenericShipDistanceInfo shipDistanceInfo)

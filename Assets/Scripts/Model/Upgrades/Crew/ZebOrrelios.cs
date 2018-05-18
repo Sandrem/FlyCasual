@@ -50,12 +50,12 @@ namespace Abilities
             {
                 if (attacker.ShipId == HostShip.ShipId)
                 {
-                    BoardTools.ShipShotDistanceInformation shotInfo = new BoardTools.ShipShotDistanceInformation(attacker, defender, attacker.PrimaryWeapon);
+                    BoardTools.ShotInfo shotInfo = new BoardTools.ShotInfo(attacker, defender, attacker.PrimaryWeapon);
                     if (shotInfo.InArc) canAttack = true;
                 }
                 else if (defender.ShipId == HostShip.ShipId)
                 {
-                    BoardTools.ShipShotDistanceInformation shotInfo = new BoardTools.ShipShotDistanceInformation(defender, attacker, defender.PrimaryWeapon);
+                    BoardTools.ShotInfo shotInfo = new BoardTools.ShotInfo(defender, attacker, defender.PrimaryWeapon);
                     if (shotInfo.InArc) canAttack = true;
                 }
             }

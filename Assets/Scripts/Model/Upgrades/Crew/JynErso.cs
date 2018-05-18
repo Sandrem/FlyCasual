@@ -90,7 +90,7 @@ namespace Abilities
                 .Where(s => s.Owner.Id != HostShip.Owner.Id)
                 .Where(s =>
                 {
-                    var arcInfo = new BoardTools.ShipShotDistanceInformation(HostShip, s);
+                    var arcInfo = new BoardTools.ShotInfo(HostShip, s);
                     return arcInfo.InArc && arcInfo.Range <= 3;
                 })
                 .Count();
@@ -169,7 +169,7 @@ namespace ActionsList
                     .Where(s => s.Owner.Id != Host.Owner.Id)
                     .Where(s =>
                     {
-                        var arcInfo = new BoardTools.ShipShotDistanceInformation(Host, s);
+                        var arcInfo = new BoardTools.ShotInfo(Host, s);
                         return arcInfo.InArc && arcInfo.Range <= 3;
                     })
                     .Any();

@@ -25,6 +25,29 @@ namespace Upgrade
 
         public bool IsTwinAttack;
 
+        public WeaponTypes WeaponType
+        {
+            get
+            {
+                WeaponTypes weaponType = WeaponTypes.PrimaryWeapon;
+
+                if (Types.Contains(UpgradeType.Cannon))
+                {
+                    weaponType = WeaponTypes.Cannon;
+                }
+                else if (Types.Contains(UpgradeType.Missile))
+                {
+                    weaponType = WeaponTypes.Missile;
+                }
+                else if (Types.Contains(UpgradeType.Torpedo))
+                {
+                    weaponType = WeaponTypes.Torpedo;
+                }
+
+                return WeaponType;
+            }
+        }
+
         public GenericSecondaryWeapon() : base()
         {
 
@@ -41,18 +64,12 @@ namespace Upgrade
             int range;
             if (!CanShootOutsideArc)
             {
-                BoardTools.ShipShotDistanceInformation shotInfo = new BoardTools.ShipShotDistanceInformation(Host, targetShip, this);
+                BoardTools.ShotInfo shotInfo = new BoardTools.ShotInfo(Host, targetShip, this);
                 range = shotInfo.Range;
 
                 if (!shotInfo.IsShotAvailable) return false;
 
-                if (hasType (UpgradeType.Missile)) {
-                    if (!shotInfo.CanShootMissiles) return false;
-                }else if(hasType(UpgradeType.Cannon)){
-                    if (!shotInfo.CanShootCannon) return false;
-                } else if (hasType (UpgradeType.Torpedo)) {
-                    if (!shotInfo.CanShootTorpedoes) return false;
-                }
+                if (!shotInfo.CanShootByWeaponType(WeaponType)) return false;
             }
             else
             {

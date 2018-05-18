@@ -24,7 +24,7 @@ namespace ActionsList
             bool result = false;
             if (Combat.AttackStep == CombatStep.Defence)
             {
-                BoardTools.ShipShotDistanceInformation reverseShotInfo = new BoardTools.ShipShotDistanceInformation(Host, Combat.Attacker, Host.PrimaryWeapon);
+                BoardTools.ShotInfo reverseShotInfo = new BoardTools.ShotInfo(Host, Combat.Attacker, Host.PrimaryWeapon);
                 result = reverseShotInfo.InArc;
             }
             return result;

@@ -6,6 +6,8 @@ using Abilities;
 using System;
 using Ship;
 using System.Linq;
+using BoardTools;
+using Arcs;
 
 namespace Ship
 {
@@ -66,15 +68,15 @@ namespace PilotAbilitiesNamespace
 
         private bool FilterTargetInBullseyeArc(GenericShip ship)
         {
-            BoardTools.ShipShotDistanceInformation shotInfo = new BoardTools.ShipShotDistanceInformation(HostShip, ship, HostShip.PrimaryWeapon);
-            return shotInfo.InBullseyeArc && FilterByTargetType(ship, new List<TargetTypes>(){ TargetTypes.Enemy }) && FilterTargetsByRange(ship, 1, 3);
+            ShotInfo shotInfo = new ShotInfo(HostShip, ship, HostShip.PrimaryWeapon);
+            return shotInfo.InArcByType(ArcTypes.Bullseye) && FilterByTargetType(ship, new List<TargetTypes>(){ TargetTypes.Enemy }) && FilterTargetsByRange(ship, 1, 3);
         }
 
         private int GetAiAbilityPriority(GenericShip ship)
         {
             int result = 0;
 
-            BoardTools.ShipShotDistanceInformation shotInfo = new BoardTools.ShipShotDistanceInformation(HostShip, ship, HostShip.PrimaryWeapon);
+            ShotInfo shotInfo = new ShotInfo(HostShip, ship, HostShip.PrimaryWeapon);
             result += (3 - shotInfo.Range) * 100;
 
             result += ship.Cost + ship.UpgradeBar.GetUpgradesOnlyFaceup().Sum(n => n.Cost);

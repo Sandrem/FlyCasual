@@ -12,45 +12,82 @@ namespace BoardTools
 
     public class ShotInfo : GenericShipDistanceInfo
     {
-        public bool InShotAngle { get; private set; }
-        public bool InArc { get { return InArcByType.Any(n => n.Value == true); } }
-        public Dictionary<ArcTypes, bool> InArcByType { get; private set; }
+        public bool IsShotAvailable { get; private set; }
+        public bool InArc { get { return InArcInfo.Any(n => n.Value == true); } }
+        public bool InPrimaryArc { get { return InArcByType(ArcTypes.Primary); } }
 
-        public bool ObstructedByAsteroid { get; private set; }
-        public bool ObstructedByMine { get; private set; }
+        private Dictionary<ArcTypes, bool> InArcInfo { get; set; }
+
+        public bool IsObstructedByAsteroid { get; private set; }
+        public bool IsObstructedByBombToken { get; private set; }
 
         private IShipWeapon Weapon;
 
-        public ShotInfo(GenericShip ship1, GenericShip ship2, IShipWeapon weapon) : base(ship1, ship2)
+        public float DistanceReal { get { return MinDistance.DistanceReal; } }
+
+        public new int Range
         {
-            Weapon = weapon;
+            get
+            {
+                int range = (MinDistance != null) ? MinDistance.Range : int.MaxValue;
+                if (OnRangeIsMeasured != null) OnRangeIsMeasured(Ship1, Ship2, Weapon, ref range);
+                return range;
+            }
+        }
+
+        //EVENTS
+        public delegate void EventHandlerShipShipWeaponInt(GenericShip thisShip, GenericShip anotherShip, IShipWeapon chosenWeapon, ref int range);
+        public static event EventHandlerShipShipWeaponInt OnRangeIsMeasured;
+
+        public ShotInfo(GenericShip ship1, GenericShip ship2, IShipWeapon weapon = null) : base(ship1, ship2)
+        {
+            Weapon = weapon ?? ship1.PrimaryWeapon;
 
             CheckRange();
         }
 
         private void CheckRange()
         {
-            InArcByType = new Dictionary<ArcTypes, bool>();
+            InArcInfo = new Dictionary<ArcTypes, bool>();
 
             foreach (var arc in Ship1.ArcInfo.Arcs)
             {
                 ShotInfoArc shotInfoArc = new ShotInfoArc(Ship1, Ship2, arc);
-                InArcByType.Add(arc.ArcType, shotInfoArc.InArc);
+                InArcInfo.Add(arc.ArcType, shotInfoArc.InArc);
 
                 if (shotInfoArc.InShotAngle)
                 {
-                    if (InShotAngle == false)
+                    if (IsShotAvailable == false)
                     {
                         MinDistance = shotInfoArc.MinDistance;
                     }
                     else
                     {
-                        if (shotInfoArc.MinDistance.Distance < MinDistance.Distance) MinDistance = shotInfoArc.MinDistance;
+                        if (shotInfoArc.MinDistance.DistanceReal < MinDistance.DistanceReal) MinDistance = shotInfoArc.MinDistance;
                     }
 
-                    InShotAngle = true;
+                    IsShotAvailable = true;
                 }
             }
+        }
+
+        public bool InArcByType(ArcTypes arcType)
+        {
+            if (!InArcInfo.ContainsKey(arcType)) return false;
+
+            return InArcInfo[arcType];
+        }
+
+        public void CheckObstruction(Action callback)
+        {
+            // Check obstruction
+
+            callback();
+        }
+
+        public bool CanShootByWeaponType(WeaponTypes weaponType)
+        {
+            return true;
         }
     }
 }

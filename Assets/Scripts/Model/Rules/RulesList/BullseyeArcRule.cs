@@ -1,8 +1,7 @@
 ﻿using Ship;
-using Tokens;
 using System.Collections.Generic;
-using System.Linq;
 using ActionsList;
+using Arcs;
 
 namespace RulesList
 {
@@ -25,9 +24,9 @@ namespace RulesList
             {
                 if (Combat.AttackStep == CombatStep.Defence && Combat.Defender.ShipId == ship.ShipId)
                 {
-                    if (Combat.Attacker.ShipBaseArcsType == Arcs.BaseArcsType.ArcBullseye)
+                    if (Combat.Attacker.ShipBaseArcsType == BaseArcsType.ArcBullseye)
                     {
-                        if (Combat.ShotInfo.InBullseyeArc)
+                        if (Combat.ShotInfo.InArcByType(ArcTypes.Bullseye))
                         {
                             Messages.ShowError("Bullseye: " + action.EffectName + " cannot be used");
                             canBeUsed = false;

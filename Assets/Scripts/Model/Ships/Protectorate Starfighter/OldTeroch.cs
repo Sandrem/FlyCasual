@@ -92,13 +92,13 @@ namespace Abilities
 
         private bool FilterTargetInEnemyArcWithTokens(GenericShip ship)
         {
-            BoardTools.ShipShotDistanceInformation shotInfo = new BoardTools.ShipShotDistanceInformation(ship, HostShip);
+            BoardTools.ShotInfo shotInfo = new BoardTools.ShotInfo(ship, HostShip);
             return shotInfo.InArc && (ship.Tokens.HasToken(typeof(FocusToken)) || ship.Tokens.HasToken(typeof(EvadeToken)));
         }
 
         private void ActivateOldTerochAbility()
 		{
-			BoardTools.ShipShotDistanceInformation shotInfo = new BoardTools.ShipShotDistanceInformation(TargetShip, HostShip);
+			BoardTools.ShotInfo shotInfo = new BoardTools.ShotInfo(TargetShip, HostShip);
 			// Range is already checked in "SelectTargetForAbility", only check if the Host is in the Target firing arc.
 			// Do not use InPrimaryWeaponFireZone, reason :
 			//		VCX-100 without docked Phantom cannot shoot using special rear arc,so InPrimaryWeaponFireZone

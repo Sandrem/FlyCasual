@@ -215,7 +215,7 @@ namespace SubPhases
                 {
                     if (targetShip.Owner.PlayerNo != Phases.CurrentSubPhase.RequiredPlayer)
                     {
-                        BoardTools.ShipShotDistanceInformation shotInfo = new BoardTools.ShipShotDistanceInformation(Selection.ThisShip, targetShip);
+                        BoardTools.ShotInfo shotInfo = new BoardTools.ShotInfo(Selection.ThisShip, targetShip);
                         MovementTemplates.ShowFiringArcRange(shotInfo);
                         result = true;
                     }

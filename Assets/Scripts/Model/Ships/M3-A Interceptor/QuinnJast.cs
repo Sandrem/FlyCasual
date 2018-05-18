@@ -55,7 +55,7 @@ namespace Abilities
 
         private List<GenericUpgrade> GetDiscardedMissilesOrTorpedoes()
         {
-            return HostShip.UpgradeBar.GetUpgradesOnlyDiscarded().Where(n => n.hasType(UpgradeType.Missile) || n.hasType(UpgradeType.Torpedo)).ToList();
+            return HostShip.UpgradeBar.GetUpgradesOnlyDiscarded().Where(n => n.HasType(UpgradeType.Missile) || n.HasType(UpgradeType.Torpedo)).ToList();
         }
         
         private void UseQuinnJastAbility(object sender, System.EventArgs e)

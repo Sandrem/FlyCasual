@@ -513,7 +513,7 @@ namespace SquadBuilderNS
         {
             availableUpgradesCounter = 0;
 
-            List<UpgradeRecord> filteredUpgrades = AllUpgrades.Where(n => n.Instance.hasType(slot.Type) && n.Instance.IsAllowedForShip(CurrentSquadBuilderShip.Instance) && n.Instance.HasEnoughSlotsInShip(CurrentSquadBuilderShip.Instance)).ToList();
+            List<UpgradeRecord> filteredUpgrades = AllUpgrades.Where(n => n.Instance.HasType(slot.Type) && n.Instance.IsAllowedForShip(CurrentSquadBuilderShip.Instance) && n.Instance.HasEnoughSlotsInShip(CurrentSquadBuilderShip.Instance)).ToList();
             int filteredUpgradesCount = filteredUpgrades.Count;
 
             Transform contentTransform = GameObject.Find("UI/Panels/SelectUpgradePanel/Panel/Scroll View/Viewport/Content").transform;
@@ -563,7 +563,7 @@ namespace SquadBuilderNS
                 // find another slot
                 int slotsRemoved = 1; // We removed one above (fixes bug #708) TODO: this may not work for multi-type upgrades. Will need to revisit later.
                 foreach (UpgradeSlot tempSlot in CurrentSquadBuilderShip.Instance.UpgradeBar.GetUpgradeSlots()){
-                    if (slotsRemoved < upgrade.Types.Count && tempSlot != slot && upgrade.hasType (tempSlot.Type)) {
+                    if (slotsRemoved < upgrade.Types.Count && tempSlot != slot && upgrade.HasType (tempSlot.Type)) {
                         slotsRemoved += 1; // Fixes bug #708
                         RemoveInstalledUpgrade (tempSlot, upgrade);
                     }

@@ -37,7 +37,7 @@ namespace Abilities
             GenericSecondaryWeapon weapon = Combat.ChosenWeapon as GenericSecondaryWeapon;
             if (weapon != null)
             {
-                if (weapon.hasType(UpgradeType.Torpedo) || weapon.hasType(UpgradeType.Missile))
+                if (weapon.HasType(UpgradeType.Torpedo) || weapon.HasType(UpgradeType.Missile))
                 {
                     Triggers.RegisterTrigger(
                         new Trigger()

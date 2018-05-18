@@ -70,7 +70,7 @@ namespace Abilities
             public override bool IsActionEffectAvailable()
             {
                 bool result = false;
-                BoardTools.ShipShotDistanceInformation shotInfo = new BoardTools.ShipShotDistanceInformation(Combat.Attacker, Combat.Defender, Combat.ChosenWeapon);
+                BoardTools.ShotInfo shotInfo = new BoardTools.ShotInfo(Combat.Attacker, Combat.Defender, Combat.ChosenWeapon);
                 if ((Combat.AttackStep == CombatStep.Attack) && (shotInfo.Range > 1))
                 {
                     result = true;

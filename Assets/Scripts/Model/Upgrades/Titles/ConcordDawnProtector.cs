@@ -78,7 +78,7 @@ namespace ActionsList
                 BoardTools.ShipDistanceInfo shipDistance = new BoardTools.ShipDistanceInfo(Combat.Attacker, Combat.Defender);
                 if (shipDistance.Range == 1)
                 {
-                    BoardTools.ShipShotDistanceInformation shotInfo = new BoardTools.ShipShotDistanceInformation(Combat.Defender, Combat.Attacker, Combat.Defender.PrimaryWeapon);
+                    BoardTools.ShotInfo shotInfo = new BoardTools.ShotInfo(Combat.Defender, Combat.Attacker, Combat.Defender.PrimaryWeapon);
                     if (shotInfo.InArc)
                     {
                         result = true;

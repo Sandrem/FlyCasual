@@ -104,7 +104,7 @@ namespace Abilities
             bool result = false;
 
             GenericUpgrade upgradeWeapon = weapon as GenericUpgrade;
-            if (upgradeWeapon != null && upgradeWeapon.hasType(UpgradeType.Turret))
+            if (upgradeWeapon != null && upgradeWeapon.HasType(UpgradeType.Turret))
             {
                 result = true;
             }

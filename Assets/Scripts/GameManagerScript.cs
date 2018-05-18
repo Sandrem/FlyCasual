@@ -50,7 +50,7 @@ public class GameManagerScript : MonoBehaviour {
 
         if (Phases.CurrentSubPhase != null) Phases.CurrentSubPhase.Update();
 
-        Test();
+        //Test();
     }
 
     private void SetApplicationParameters()
@@ -94,7 +94,7 @@ public class GameManagerScript : MonoBehaviour {
         Ship.GenericShip ship1 = Roster.GetShipById("ShipId:1");
         Ship.GenericShip ship2 = Roster.GetShipById("ShipId:2");
         ShotInfo shotInfo = new ShotInfo(ship1, ship2, ship1.PrimaryWeapon);
-        if (shotInfo.InShotAngle) MovementTemplates.ShowRangeRuler(shotInfo); else MovementTemplates.ReturnRangeRuler();
+        if (shotInfo.IsShotAvailable) MovementTemplates.ShowRangeRuler(shotInfo); else MovementTemplates.ReturnRangeRuler();
     }
 
 }

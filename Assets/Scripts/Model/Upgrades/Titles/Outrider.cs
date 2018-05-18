@@ -61,7 +61,7 @@ namespace Abilities
 
         private void TurnOffOutriferAbilityIfCannon()
         {
-            if (GenericUpgrade.CurrentUpgrade.hasType(UpgradeType.Cannon))
+            if (GenericUpgrade.CurrentUpgrade.HasType(UpgradeType.Cannon))
             {
                 ToggleOutriderAbility(false);
             }

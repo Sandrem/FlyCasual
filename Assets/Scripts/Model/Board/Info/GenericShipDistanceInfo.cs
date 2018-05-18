@@ -11,8 +11,8 @@ namespace BoardTools
     {
         public Vector3 Point1 { get; private set; }
         public Vector3 Point2 { get; private set; }
-        public int Range { get { return Mathf.Max(1, Mathf.CeilToInt(Distance / Board.DISTANCE_INTO_RANGE)); } }
-        public float Distance { get; private set; }
+        public int Range { get { return Mathf.Max(1, Mathf.CeilToInt(DistanceReal / Board.DISTANCE_INTO_RANGE)); } }
+        public float DistanceReal { get; private set; }
         public Vector3 Vector { get { return Point2 - Point1; } }
 
         public RangeHolder(Vector3 point1, Vector3 point2)
@@ -25,7 +25,7 @@ namespace BoardTools
 
         private void CalculateDistance()
         {
-            Distance = Vector3.Distance(Point1, Point2);
+            DistanceReal = Vector3.Distance(Point1, Point2);
         }
     }
 
@@ -40,7 +40,7 @@ namespace BoardTools
         private RangeHolder minDistancePerpA;
         private RangeHolder minDistancePerpB;
 
-        public int Range { get { return MinDistance.Range; } }
+        public int Range { get { return (MinDistance != null) ? MinDistance.Range : int.MaxValue; } }
 
         public GenericShipDistanceInfo(GenericShip ship1, GenericShip ship2)
         {
@@ -61,7 +61,7 @@ namespace BoardTools
                 }
             }
 
-            distances = distances.OrderBy(n => n.Distance).ToList();
+            distances = distances.OrderBy(n => n.DistanceReal).ToList();
 
             // MinDistance - shortest distance between edges
             MinDistance = distances.First();
@@ -86,7 +86,7 @@ namespace BoardTools
             {
                 // Correct perpendicular exists
                 float angleAnewRad = (180 - 90 - angleB) * Mathf.Deg2Rad;
-                float distanceB = MinDistance.Distance * Mathf.Cos(angleAnewRad);
+                float distanceB = MinDistance.DistanceReal * Mathf.Cos(angleAnewRad);
                 float distanceA = distanceB * Mathf.Tan(angleAnewRad);
 
                 Vector3 ship2sideVector = altDistance1.Point2 - MinDistance.Point2;
@@ -113,7 +113,7 @@ namespace BoardTools
             {
                 // Correct perpendicular exists
                 float angleAnewRad = (180 - 90 - angleB) * Mathf.Deg2Rad;
-                float distanceB = MinDistance.Distance * Mathf.Cos(angleAnewRad);
+                float distanceB = MinDistance.DistanceReal * Mathf.Cos(angleAnewRad);
                 float distanceA = distanceB * Mathf.Tan(angleAnewRad);
 
                 Vector3 ship2sideVector = altDistance2.Point1 - MinDistance.Point1;
@@ -129,7 +129,7 @@ namespace BoardTools
         protected void SetFinalMinDistance()
         {
             if (minDistancePerpA != null) MinDistance = minDistancePerpA;
-            if (minDistancePerpB != null && minDistancePerpB.Distance < MinDistance.Distance) MinDistance = minDistancePerpB;
+            if (minDistancePerpB != null && minDistancePerpB.DistanceReal < MinDistance.DistanceReal) MinDistance = minDistancePerpB;
         }
     }
 }

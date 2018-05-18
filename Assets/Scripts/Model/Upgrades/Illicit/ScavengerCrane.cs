@@ -58,7 +58,7 @@ namespace Abilities
         {
             var allowedTypes = new[] { UpgradeType.Torpedo, UpgradeType.Missile, UpgradeType.Bomb, UpgradeType.Cannon, UpgradeType.Turret, UpgradeType.Modification };
             var discardedUpgrades = HostShip.UpgradeBar.GetUpgradesOnlyDiscarded()
-                .Where(upgrade => allowedTypes.Any(type => upgrade.hasType(type)))
+                .Where(upgrade => allowedTypes.Any(type => upgrade.HasType(type)))
                 .ToArray();
             return discardedUpgrades;
         }

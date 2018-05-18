@@ -55,7 +55,7 @@ namespace Abilities
                 if (distanceToDefender.Range <= 1)
                 {
                     // ...and I am in arc, at range 1-3
-                    var attackInfo = new ShipShotDistanceInformation(Combat.Attacker, HostShip, Combat.ChosenWeapon);
+                    var attackInfo = new ShotInfo(Combat.Attacker, HostShip, Combat.ChosenWeapon);
                     if(attackInfo.InArc && attackInfo.Range <= 3)
                     {
                         // ...assign a stress token to the attacker

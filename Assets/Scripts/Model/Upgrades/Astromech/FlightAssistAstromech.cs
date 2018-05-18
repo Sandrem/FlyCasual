@@ -76,7 +76,7 @@ namespace Abilities
 
             foreach (var enemyShip in HostShip.Owner.EnemyShips)
             {
-                BoardTools.ShipShotDistanceInformation shotInfo = new BoardTools.ShipShotDistanceInformation(HostShip, enemyShip.Value);
+                BoardTools.ShotInfo shotInfo = new BoardTools.ShotInfo(HostShip, enemyShip.Value);
                 if (shotInfo.InArc && shotInfo.Range >= 1 && shotInfo.Range <= 3)
                 {
                     return false;

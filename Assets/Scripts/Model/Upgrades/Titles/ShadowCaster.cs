@@ -2,6 +2,7 @@
 using Ship.LancerClassPursuitCraft;
 using Upgrade;
 using BoardTools;
+using Arcs;
 
 namespace UpgradesList
 {
@@ -44,8 +45,8 @@ namespace Abilities
         {
             if (IsAbilityUsed) return;
 
-            ShipShotDistanceInformation shotInfo = Combat.ShotInfo;
-            if (!shotInfo.InMobileArc || shotInfo.Range > 2) return;
+            ShotInfo shotInfo = Combat.ShotInfo;
+            if (!shotInfo.InArcByType(ArcTypes.Mobile) || shotInfo.Range > 2) return;
 
             RegisterAbilityTrigger(TriggerTypes.OnAttackHit, AssignTractorBeamToken);
         }

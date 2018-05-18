@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Ship
 {
-    public enum WeaponType
+    public enum WeaponTypes
     {
         PrimaryWeapon,
         Torpedo,
@@ -74,13 +74,13 @@ namespace Ship
 
             int range;
 
-            BoardTools.ShipShotDistanceInformation shotInfo = new BoardTools.ShipShotDistanceInformation(Host, targetShip, this);
+            BoardTools.ShotInfo shotInfo = new BoardTools.ShotInfo(Host, targetShip, this);
             range = shotInfo.Range;
             if (!CanShootOutsideArc)
             {
                 if (!shotInfo.IsShotAvailable) return false;
 
-                if (!shotInfo.CanShootPrimaryWeapon) return false;
+                if (!shotInfo.CanShootByWeaponType(WeaponTypes.PrimaryWeapon)) return false;
             }
 
             if (range < MinRange) return false;
@@ -739,7 +739,7 @@ namespace Ship
         public bool InPrimaryWeaponFireZone(GenericShip anotherShip)
         {
             bool result = true;
-            BoardTools.ShipShotDistanceInformation shotInfo = new BoardTools.ShipShotDistanceInformation(this, anotherShip, PrimaryWeapon);
+            BoardTools.ShotInfo shotInfo = new BoardTools.ShotInfo(this, anotherShip, PrimaryWeapon);
             result = InPrimaryWeaponFireZone(shotInfo.Range, shotInfo.InPrimaryArc);
             return result;
         }

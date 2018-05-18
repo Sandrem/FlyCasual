@@ -34,7 +34,7 @@ namespace Abilities
 
         private void CheckConditions()
         {
-            var shotInformation = new BoardTools.ShipShotDistanceInformation(HostShip, Combat.Attacker);
+            var shotInformation = new BoardTools.ShotInfo(HostShip, Combat.Attacker);
             if (shotInformation.InArc)
             {
                 HostShip.AfterGotNumberOfDefenceDice += RollExtraDice;

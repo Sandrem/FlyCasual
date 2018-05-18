@@ -62,7 +62,7 @@ namespace Abilities
             {
                 foreach (var upgrade in ship.UpgradeBar.GetUpgradesOnlyFaceup())
                 {
-                    if (upgrade.hasType(UpgradeType.Illicit))
+                    if (upgrade.HasType(UpgradeType.Illicit))
                     {
                         SetIllicit(upgrade);
                     }

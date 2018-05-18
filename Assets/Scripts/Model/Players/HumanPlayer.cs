@@ -90,7 +90,7 @@ namespace Players
             {
                 Messages.ShowErrorToHuman("Target is outside your firing arc");
             }
-            else if (Combat.ShotInfo.Range > Combat.ChosenWeapon.MaxRange || Combat.ShotInfo.Distance < Combat.ChosenWeapon.MinRange)
+            else if (Combat.ShotInfo.Range > Combat.ChosenWeapon.MaxRange || Combat.ShotInfo.Range < Combat.ChosenWeapon.MinRange)
             {
                 Messages.ShowErrorToHuman("Target is outside your firing range");
             }

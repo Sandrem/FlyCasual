@@ -2,6 +2,7 @@
 using BoardTools;
 using Abilities;
 using ActionsList;
+using Arcs;
 
 namespace Ship
 {
@@ -62,8 +63,8 @@ namespace Abilities
                 bool result = false;
                 if (Combat.AttackStep == CombatStep.Defence)
                 {
-                    ShipShotDistanceInformation shotInfo = new ShipShotDistanceInformation(Combat.Defender, Combat.Attacker);
-                    if (shotInfo.InMobileArc) result = true;
+                    ShotInfo shotInfo = new ShotInfo(Combat.Defender, Combat.Attacker);
+                    if (shotInfo.InArcByType(ArcTypes.Mobile)) result = true;
                 }
                 return result;
             }

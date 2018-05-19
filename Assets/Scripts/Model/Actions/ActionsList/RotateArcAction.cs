@@ -36,7 +36,7 @@ namespace SubPhases
         {
             InfoText = "Rotate Arc";
 
-            AddDecision("Front", delegate { ChangeMobileArcFacing(ArcFacing.Front); });
+            AddDecision("Front", delegate { ChangeMobileArcFacing(ArcFacing.Forward); });
             AddDecision("Left",  delegate { ChangeMobileArcFacing(ArcFacing.Left); });
             AddDecision("Right", delegate { ChangeMobileArcFacing(ArcFacing.Right); });
             AddDecision("Rear",  delegate { ChangeMobileArcFacing(ArcFacing.Rear); });

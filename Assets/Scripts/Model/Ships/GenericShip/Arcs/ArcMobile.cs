@@ -10,132 +10,141 @@ namespace Arcs
 
     public class ArcMobile : GenericArc
     {
+        private Transform MobileArcPointer;
+
+        GenericShip Host;
+
+        private class MobileSubArc
+        {
+            public ArcFacing Facing { get; private set; }
+            public Dictionary<Vector3, float> Limits { get; private set; }
+            public List<Vector3> Edges { get; private set; }
+
+            public MobileSubArc(ArcFacing facing, Dictionary<Vector3, float> limits, List<Vector3> edges)
+            {
+                Facing = facing;
+                Limits = limits;
+                Edges = edges;
+            }
+        }
+
+        private static Dictionary<ArcFacing, float> MobileArcRotationValues = new Dictionary<ArcFacing, float>
+        {
+            { ArcFacing.Forward, 0f },
+            { ArcFacing.Right, 90f },
+            { ArcFacing.Rear, 180f },
+            { ArcFacing.Left, 270f }
+        };
+
+        private List<MobileSubArc> MobileArcParameters;
+        private MobileSubArc ActiveMobileSubArc;
+
+        public new ArcFacing Facing
+        {
+            get { return ActiveMobileSubArc.Facing; }
+            set { ActiveMobileSubArc = MobileArcParameters.Find(n => n.Facing == value); }
+        }
+
+        public new List<Vector3> Edges { get { return ActiveMobileSubArc.Edges; } }
+        public new Dictionary<Vector3, float> Limits { get { return ActiveMobileSubArc.Limits; } }
+
         public ArcMobile(GenericShipBase shipBase) : base(shipBase)
         {
             ArcType = ArcTypes.Mobile;
-            Facing = ArcFacing.Front;
-
-            Limits = new Dictionary<Vector3, float>()
-            {
-                { new Vector3(-shipBase.HALF_OF_FIRINGARC_SIZE, 0, 0), -40f },
-                { new Vector3( shipBase.HALF_OF_FIRINGARC_SIZE, 0, 0),  40f }
-            };
-
-            Edges = new List<Vector3>()
-            {
-                new Vector3(-shipBase.HALF_OF_FIRINGARC_SIZE, 0, 0),
-                new Vector3( shipBase.HALF_OF_FIRINGARC_SIZE, 0, 0),
-            };
 
             ShotPermissions = new ArcShotPermissions()
             {
                 CanShootPrimaryWeapon = true,
                 CanShootTurret = true
             };
+
+            // Arcs
+
+            MobileArcParameters = new List<MobileSubArc>
+            {
+                new MobileSubArc
+                (
+                    ArcFacing.Forward,
+                    new Dictionary<Vector3, float>()
+                    {
+                        { new Vector3(-shipBase.HALF_OF_FIRINGARC_SIZE, 0, 0), -40f },
+                        { new Vector3( shipBase.HALF_OF_FIRINGARC_SIZE, 0, 0),  40f }
+                    },
+                    new List<Vector3>()
+                    {
+                        new Vector3(-shipBase.HALF_OF_FIRINGARC_SIZE, 0, 0),
+                        new Vector3( shipBase.HALF_OF_FIRINGARC_SIZE, 0, 0),
+                    }
+                ),
+                new MobileSubArc
+                (
+                    ArcFacing.Left,
+                    new Dictionary<Vector3, float>()
+                    {
+                        { new Vector3(-shipBase.HALF_OF_FIRINGARC_SIZE, 0, -shipBase.SHIPSTAND_SIZE), -140f },
+                        { new Vector3(-shipBase.HALF_OF_FIRINGARC_SIZE, 0, 0),  -40f }
+                    },
+                    new List<Vector3>()
+                    {
+                        new Vector3(-shipBase.HALF_OF_FIRINGARC_SIZE, 0, 0),
+                        new Vector3(-shipBase.SHIPSTAND_SIZE, 0, 0),
+                        new Vector3(-shipBase.SHIPSTAND_SIZE, 0, -shipBase.SHIPSTAND_SIZE),
+                        new Vector3(-shipBase.HALF_OF_FIRINGARC_SIZE, 0, -shipBase.SHIPSTAND_SIZE),
+                    }
+                ),
+                new MobileSubArc
+                (
+                    ArcFacing.Right,
+                    new Dictionary<Vector3, float>()
+                    {
+                        { new Vector3(shipBase.HALF_OF_FIRINGARC_SIZE, 0, 0),  40f },
+                        { new Vector3(shipBase.HALF_OF_FIRINGARC_SIZE, 0, -shipBase.SHIPSTAND_SIZE), 140f },
+                    },
+                    new List<Vector3>()
+                    {
+                        new Vector3(shipBase.HALF_OF_FIRINGARC_SIZE, 0, 0),
+                        new Vector3(shipBase.SHIPSTAND_SIZE, 0, 0),
+                        new Vector3(shipBase.SHIPSTAND_SIZE, 0, -shipBase.SHIPSTAND_SIZE),
+                        new Vector3(shipBase.HALF_OF_FIRINGARC_SIZE, 0, -shipBase.SHIPSTAND_SIZE),
+                    }
+                ),
+                new MobileSubArc
+                (
+                    ArcFacing.Rear,
+                    new Dictionary<Vector3, float>()
+                    {
+                        { new Vector3(-shipBase.HALF_OF_FIRINGARC_SIZE, 0, -shipBase.SHIPSTAND_SIZE), -140f },
+                        { new Vector3( shipBase.HALF_OF_FIRINGARC_SIZE, 0, -shipBase.SHIPSTAND_SIZE),  140f }
+                    },
+                    new List<Vector3>()
+                    {
+                        new Vector3(-shipBase.HALF_OF_FIRINGARC_SIZE, 0, -shipBase.SHIPSTAND_SIZE),
+                        new Vector3( shipBase.HALF_OF_FIRINGARC_SIZE, 0, -shipBase.SHIPSTAND_SIZE),
+                    }
+                )
+            };
+
+            ActiveMobileSubArc = MobileArcParameters[0];
+
+            // Events
+            Host = shipBase.Host;
+            SubscribeToShipSetup(Host);
+
+            // Pointer
+            ShowMobileArcPointer();
         }
 
         public void RotateArc(ArcFacing facing)
         {
-            // Rotate Arc
-        }
-
-        /*private Transform MobileArcPointer;
-
-        private static Dictionary<ArcFacing, float> MobileArcRotationValues = new Dictionary<ArcFacing, float>
-        {
-            { ArcFacing.Front, 0f },
-            { ArcFacing.Right, 90f },
-            { ArcFacing.Rear, 180f },
-            { ArcFacing.Left, 270f }
-        };
-
-        private ArcFacing mobileArcFacing = ArcFacing.Front;
-        public ArcFacing MobileArcFacing
-        {
-            get
-            {
-                return mobileArcFacing;
-            }
-            private set
-            {
-                mobileArcFacing = value;
-                ArcsList[1] = mobileArcFacings[value];
-            }
-        }
-
-        private Dictionary<ArcFacing, GenericArc> mobileArcFacings;
-
-        public ArcMobile(GenericShip host) : base(host)
-        {
-            mobileArcFacings = new Dictionary<ArcFacing, GenericArc>(){
-                {
-                    ArcFacing.Front,
-                    new GenericArc()
-                    {
-                        ShipBase = Host.ShipBase,
-                        MinAngle = -40f,
-                        MaxAngle = 40f,
-                        Facing = ArcFacing.Front,
-                        IsMobileArc = true
-                    }
-                },
-                {
-                    ArcFacing.Left,
-                    new GenericArc()
-                    {
-                        ShipBase = Host.ShipBase,
-                        MinAngle = 40f,
-                        MaxAngle = 140f,
-                        Facing = ArcFacing.Left,
-                        IsMobileArc = true
-                    }
-                },
-                {
-                    ArcFacing.Right,
-                    new GenericArc()
-                    {
-                        ShipBase = Host.ShipBase,
-                        MinAngle = -140f,
-                        MaxAngle = -40f,
-                        Facing = ArcFacing.Right,
-                        IsMobileArc = true
-                    }
-                },
-                {
-                    ArcFacing.Rear,
-                    new GenericArc()
-                    {
-                        ShipBase = Host.ShipBase,
-                        MinAngle = -140f,
-                        MaxAngle = 140f,
-                        Facing = ArcFacing.Rear,
-                        IsMobileArc = true
-                    }
-                }
-            };
-
-            ArcsList = new List<GenericArc>
-            {
-                primaryArc,
-                mobileArcFacings[ArcFacing.Front]
-            };
-
-            SubscribeToShipSetup(host);
-
-            ShowMobileArcPointer();
+            Facing = facing;
+            MobileArcPointer.localEulerAngles = new Vector3(0f, MobileArcRotationValues[facing], 0f);
+            RuleSets.RuleSet.Instance.RotateMobileFiringArc(facing);
         }
 
         public void ShowMobileArcPointer()
         {
             MobileArcPointer = Host.GetShipAllPartsTransform().Find("ShipBase").Find("MobileArcPointer");
             MobileArcPointer.gameObject.SetActive(true);
-        }
-
-        public void RotateArc(ArcFacing facing)
-        {
-            MobileArcFacing = facing;
-            MobileArcPointer.localEulerAngles = new Vector3(0f, MobileArcRotationValues[facing], 0f);
-            RuleSets.RuleSet.Instance.RotateMobileFiringArc(facing);
         }
 
         private void SubscribeToShipSetup(GenericShip host)
@@ -159,6 +168,6 @@ namespace Arcs
         private void PerformFreeRotateActionForced(object sender, EventArgs e)
         {
             Selection.ThisShip.AskPerformFreeAction(new List<GenericAction>() { new RotateArcAction() }, Triggers.FinishTrigger, true);
-        }*/
+        }
     }
 }

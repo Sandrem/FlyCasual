@@ -31,7 +31,7 @@ namespace Arcs
     public enum ArcFacing
     {
         None,
-        Front,
+        Forward,
         Left,
         Right,
         Rear,
@@ -74,10 +74,10 @@ namespace Arcs
         public GenericShipBase ShipBase;
 
         public ArcTypes ArcType;
-        public ArcFacing Facing;
+        public ArcFacing Facing { get; set; }
 
-        public Dictionary<Vector3, float> Limits;
-        public List<Vector3> Edges;
+        public Dictionary<Vector3, float> Limits { get; set; }
+        public List<Vector3> Edges { get; set; }
 
         public ArcShotPermissions ShotPermissions;
 

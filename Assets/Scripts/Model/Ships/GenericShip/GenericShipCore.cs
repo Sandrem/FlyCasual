@@ -306,6 +306,8 @@ namespace Ship
                 default:
                     break;
             }
+
+            RuleSet.Instance.AdaptArcsToRules(this);
         }
 
         public void InitializePilotForSquadBuilder()

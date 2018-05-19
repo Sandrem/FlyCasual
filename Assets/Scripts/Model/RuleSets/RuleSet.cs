@@ -37,6 +37,7 @@ namespace RuleSets
         public virtual void AdaptShipToRules(GenericShip ship) { }
         public virtual void AdaptPilotToRules(GenericShip ship) { }
         public virtual void AdaptUpgradeToRules(GenericUpgrade upgrade) { }
+        public virtual void AdaptArcsToRules(GenericShip ship) { }
         public virtual void RotateMobileFiringArc(ArcFacing facing) { }
         public virtual void ActivateGenericUpgradeAbility(GenericShip host, List<UpgradeType> upgradeTypes) { }
         public virtual void SubScribeToGenericShipEvents(GenericShip ship) { }

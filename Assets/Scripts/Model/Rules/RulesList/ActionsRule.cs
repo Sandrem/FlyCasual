@@ -66,7 +66,7 @@ namespace RulesList
         {
             Selection.ThisShip.GenerateAvailableActionsList();
             List<GenericAction> linkedAction = new List<GenericAction>() { Selection.ThisShip.PlannedLinkedAction };
-            Selection.ThisShip.AskPerformFreeAction(linkedAction, Triggers.FinishTrigger, true);
+            Selection.ThisShip.AskPerformFreeAction(linkedAction, Triggers.FinishTrigger);
         }
 
     }

@@ -194,8 +194,8 @@ namespace SubPhases
                     },
                     action.ImageUrl,
                     -1,
-                    action.IsRed);
-                });
+                    action.IsRed
+                );
             }
         }
 

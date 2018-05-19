@@ -21,7 +21,7 @@ namespace BoardTools
                 SetShip(ship.Value, i);
                 i++;
 
-                Objects.Add(ship.Value.GetShipAllPartsTransform().Find("ShipBase").GetComponent<MeshCollider>());
+                RegisterBoardObject(ship.Value);
             }
 
             i = 1;
@@ -30,8 +30,14 @@ namespace BoardTools
                 SetShip(ship.Value, i);
                 i++;
 
-                Objects.Add(ship.Value.GetShipAllPartsTransform().Find("ShipBase").GetComponent<MeshCollider>());
+                RegisterBoardObject(ship.Value);
             }
+        }
+
+        private static void RegisterBoardObject(GenericShip ship)
+        {
+            Objects.Add(ship.GetShipAllPartsTransform().Find("ShipBase").GetComponent<MeshCollider>());
+            Objects.Add(ship.GetShipAllPartsTransform().Find("ShipBase/ObstaclesStayDetector").GetComponent<MeshCollider>());
         }
 
         public static float CalculateDistance(int countShips)

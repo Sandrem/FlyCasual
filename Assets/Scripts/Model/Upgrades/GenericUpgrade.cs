@@ -308,7 +308,7 @@ namespace Upgrade
             Slot.TryInstallUpgrade(newUpgrade, Host);
         }
 
-        protected void SpendCharge(Action callBack)
+        public void SpendCharge(Action callBack)
         {
             string oldChargesString = " (" + Charges + ")";
             string newChargesString = " (" + (Charges - 1) + ")";

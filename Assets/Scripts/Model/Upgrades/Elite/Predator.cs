@@ -25,6 +25,8 @@ namespace UpgradesList
         public void AdaptUpgradeToSecondEdition()
         {
             ImageUrl = "https://i.imgur.com/ahiBajk.png";
+            UpgradeAbilities.RemoveAll(a => a is PredatorAbility);
+            UpgradeAbilities.Add(new Abilities.SecondEdition.PredatorAbility());
         }
     }
 }
@@ -104,6 +106,67 @@ namespace ActionsList
             DiceRerollManager diceRerollManager = new DiceRerollManager
             {
                 NumberOfDiceCanBeRerolled = (Combat.Defender.PilotSkill > 2) ? 1 : 2,
+                CallBack = callBack
+            };
+            diceRerollManager.Start();
+        }
+
+    }
+
+}
+
+
+
+namespace Abilities.SecondEdition
+{
+    //While you perform a primary attack, if the defender is in your bullseye firing arc, you may reroll 1 attack die.
+    public class PredatorAbility : GenericAbility
+    {
+        public override void ActivateAbility()
+        {
+            HostShip.AfterGenerateAvailableActionEffectsList += PredatorActionEffect;
+        }
+
+        public override void DeactivateAbility()
+        {
+            HostShip.AfterGenerateAvailableActionEffectsList -= PredatorActionEffect;
+        }
+
+        private void PredatorActionEffect(GenericShip host)
+        {
+            GenericAction newAction = new ActionsList.SecondEdition.PredatorActionEffect
+            {
+                ImageUrl = HostUpgrade.ImageUrl,
+                Host = host
+            };
+            host.AddAvailableActionEffect(newAction);
+        }
+    }
+}
+
+
+namespace ActionsList.SecondEdition
+{
+    //While you perform a primary attack, if the defender is in your bullseye firing arc, you may reroll 1 attack die.
+    public class PredatorActionEffect : ActionsList.PredatorActionEffect
+    {
+
+        public PredatorActionEffect() : base()
+        {
+        }
+
+        public override bool IsActionEffectAvailable()
+        {
+            bool result = false;
+            if (Combat.AttackStep == CombatStep.Attack && Combat.Attacker == Host && Combat.ChosenWeapon is PrimaryWeaponClass && Combat.ShotInfo.InArcByType(Arcs.ArcTypes.Bullseye)) result = true;
+            return result;
+        }
+
+        public override void ActionEffect(System.Action callBack)
+        {
+            DiceRerollManager diceRerollManager = new DiceRerollManager
+            {
+                NumberOfDiceCanBeRerolled = 1,
                 CallBack = callBack
             };
             diceRerollManager.Start();

@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using Ship;
-using System;
+﻿using Ship;
 using RuleSets;
 
 namespace Ship
@@ -30,6 +26,9 @@ namespace Ship
                 MaxForce = 2;
                 ImageUrl = "https://i.imgur.com/skbsB74.png";
                 Cost = 60;
+
+                PilotAbilities.RemoveAll(a => a is Abilities.LukeSkywalkerAbility);
+                PilotAbilities.Add(new Abilities.SecondEdition.LukeSkywalkerAbility());
             }
         }
     }
@@ -92,5 +91,31 @@ namespace Abilities
             }
         }
 
+    }
+}
+
+namespace Abilities.SecondEdition
+{
+    //After you become the defender (before dice are rolled), you may recover 1 Force.
+    public class LukeSkywalkerAbility : GenericAbility
+    {
+        public override void ActivateAbility()
+        {
+            HostShip.OnDefenceStartAsDefender += RecoverForce;
+        }
+
+        public override void DeactivateAbility()
+        {
+            HostShip.OnDefenceStartAsDefender -= RecoverForce;
+        }
+
+        private void RecoverForce()
+        {
+            if (HostShip.Force < HostShip.MaxForce)
+            {
+                HostShip.Force++;
+                Messages.ShowInfo("Luke Skywalker recovered 1 Force");
+            }
+        }
     }
 }

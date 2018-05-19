@@ -66,8 +66,8 @@ public static partial class Phases
         RoundCounter = 0;
         GameIsEnded = false;
         CurrentPhase = new SetupPhase();
-        UI.AddTestLogEntry("Game is started");
-        CurrentPhase.StartPhase();
+
+        CallGameStartTrigger(CurrentPhase.StartPhase);
     }
 
     public static void FinishSubPhase(System.Type subPhaseType)
@@ -111,6 +111,11 @@ public static partial class Phases
     public static void CallGameStartTrigger(Action callBack)
     {
         if (OnGameStart != null) OnGameStart();
+
+        foreach (var ship in Roster.AllShips)
+        {
+            ship.Value.CallOnGameStart();
+        }
 
         Triggers.ResolveTriggers(TriggerTypes.OnGameStart, callBack);
     }

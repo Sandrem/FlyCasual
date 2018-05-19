@@ -126,7 +126,23 @@ namespace Ship
             }
         }
 
-        public int Force { get; set; }
+        private int force;
+        public int Force
+        {
+            get { return force; }
+            set
+            {
+                force = value;
+                //Temporary
+                this.Tokens.RemoveAllTokensByType(typeof(Tokens.ForceToken), delegate { });
+                for (int i = 0; i < value; i++)
+                {
+                    this.Tokens.AssignCondition(new Tokens.ForceToken(this));
+                }
+                //Roster.UpdateTokensIndicator(this, typeof(Tokens.ForceToken));
+            }
+        }
+
         public int MaxForce { get; protected set; }
 
         protected List<IModifyPilotSkill> PilotSkillModifiers;
@@ -317,11 +333,22 @@ namespace Ship
 
         public virtual void InitializePilot()
         {
-            Force = MaxForce;
+            PrepareForceInitialization();
 
             SetShipInsertImage();
             SetShipSkin();
             InitializePilotAbilities();
+        }
+
+        private void PrepareForceInitialization()
+        {
+            OnGameStart += InitializeForce;
+        }
+
+        private void InitializeForce()
+        {
+            OnGameStart -= InitializeForce;
+            Force = MaxForce;
         }
 
         private void InitializePilotAbilities()

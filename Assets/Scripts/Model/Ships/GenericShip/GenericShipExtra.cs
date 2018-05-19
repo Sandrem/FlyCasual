@@ -24,6 +24,7 @@ namespace Ship
         public event EventHandlerShip OnUndocked;
 
         public event EventHandlerShip OnShipIsPlaced;
+        public event EventHandler OnGameStart;
 
         public event EventHandlerActionInt OnAiGetDiceModificationPriority;
 
@@ -66,6 +67,11 @@ namespace Ship
         public event EventHandlerUpgrade OnAfterFlipFaceUpUpgrade;
 
         public event EventHandlerDualUpgrade OnAfterDualCardSideSelected;
+
+        public void CallOnGameStart()
+        {
+            if (OnGameStart != null) OnGameStart();
+        }
 
         public void CallOnShipIsPlaced(Action callback)
         {

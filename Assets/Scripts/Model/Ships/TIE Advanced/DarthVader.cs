@@ -120,7 +120,6 @@ namespace Abilities.SecondEdition
         {
             HostShip.Force--;
             HostShip.BeforeFreeActionIsPerformed -= PayForceCost;
-            Messages.ShowInfo("Darth Vader remaining force: " + HostShip.Force); //TODO remove this when force is added to UI
         }
 
         private void CleanUp()

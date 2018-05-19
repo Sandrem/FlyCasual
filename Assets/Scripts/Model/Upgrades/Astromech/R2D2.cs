@@ -102,7 +102,7 @@ namespace Abilities.SecondEdition
 
         private void AskUseAbility(object sender, EventArgs e)
         {
-            AskToUseAbility(NeverUseByDefault, R2D2RegenShield, null, null, false, "R2-D2: Spend 1 charge and gain 1 disarm token to recover 1 shield");
+            AskToUseAbility(NeverUseByDefault, R2D2RegenShield, null, null, false, "R2-D2: Spend 1 charge and gain 1 disarm token to recover 1 shield?");
         }
 
         private void R2D2RegenShield(object sender, EventArgs e)

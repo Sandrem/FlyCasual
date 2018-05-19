@@ -10,7 +10,7 @@ using SubPhases;
 
 namespace UpgradesList
 {
-    public class ASF01BWing : GenericActionBarUpgrade<ActionsList.RecoverAction>
+    public class ASF01BWing : GenericUpgrade
     {
         public ASF01BWing() : base()
         {
@@ -23,6 +23,8 @@ namespace UpgradesList
             FromMod = typeof(RecoveringBWing);
 
             UpgradeAbilities.Add(new ASF01BWingAbility());
+            UpgradeAbilities.Add(new GenericActionBarAbility<ActionsList.RecoverAction>());
+
         }
 
         public override bool IsAllowedForShip(GenericShip ship)

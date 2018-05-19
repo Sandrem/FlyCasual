@@ -1,19 +1,11 @@
 ﻿using Upgrade;
 using Ship;
-using System.Linq;
-using Tokens;
-using System.Collections.Generic;
-using UnityEngine;
-using SquadBuilderNS;
-using System;
 using Abilities;
-using BoardTools;
-using SubPhases;
 using ActionsList;
 
 namespace UpgradesList
 {
-    public class TacticalOfficer : GenericActionBarUpgrade<CoordinateAction>
+    public class TacticalOfficer : GenericUpgrade
     {
         public TacticalOfficer() : base()
         {
@@ -21,6 +13,7 @@ namespace UpgradesList
             Name = "Tactical Officer";
             Cost = 2;
 
+            UpgradeAbilities.Add(new GenericActionBarAbility<CoordinateAction>());
             //AvatarOffset = new Vector2(45, 1);
         }
 

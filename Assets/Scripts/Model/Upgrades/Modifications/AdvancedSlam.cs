@@ -38,11 +38,11 @@ namespace Abilities
             {
                 if (HostShip.IsBumped)
                 {
-                    Messages.ShowErrorToHuman("Overlaped another ship: Advanced SLAM is skipped");
+                    Messages.ShowErrorToHuman("Overlapped another ship: Advanced SLAM is skipped");
                 }
                 else if (HostShip.IsHitObstacles)
                 {
-                    Messages.ShowErrorToHuman("Overlaped an obstacle: Advanced SLAM is skipped");
+                    Messages.ShowErrorToHuman("Overlapped an obstacle: Advanced SLAM is skipped");
                 }
                 else
                 {

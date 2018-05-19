@@ -46,4 +46,27 @@ public class Global : MonoBehaviour {
         if (loadingScreen != null) loadingScreen.gameObject.SetActive(isActive);
     }
 
+    public static Scene ActiveScene
+    {
+        get
+        {
+            switch (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name)
+            {
+                case "MainMenu":
+                    return Scene.MainMenu;
+                case "Battle":
+                    return Scene.Battle;
+                default:
+                    return Scene.Undefined;
+            }
+        }
+    }
+
+    public enum Scene
+    {
+        Undefined,
+        MainMenu,
+        Battle
+    }
+
 }

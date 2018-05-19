@@ -162,7 +162,7 @@ namespace Ship
                     TriggerOwner = Phases.CurrentPhasePlayer,
                     TriggerType = TriggerTypes.OnFreeAction,
                     EventHandler = delegate {
-                        Phases.StartTemporarySubPhaseOld
+                        FreeActionDecisonSubPhase newSubPhase = (FreeActionDecisonSubPhase) Phases.StartTemporarySubPhaseNew
                         (
                             "Free action decision",
                             typeof(FreeActionDecisonSubPhase),
@@ -172,6 +172,8 @@ namespace Ship
                                 else FinishFreeActionDecision(callback);
                             }
                         );
+                        newSubPhase.ShowSkipButton = !isForced;
+                        newSubPhase.Start();
 
                         if (isForced) GameMode.CurrentGameMode.TakeDecision((Phases.CurrentSubPhase as FreeActionDecisonSubPhase).GetDecisions()[0], null); 
                     }

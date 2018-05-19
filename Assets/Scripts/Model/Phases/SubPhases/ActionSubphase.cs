@@ -160,7 +160,6 @@ namespace SubPhases
         public override void PrepareDecision(System.Action callBack)
         {
             InfoText = "Select free action";
-            ShowSkipButton = true;
             DefaultDecisionName = "Focus";
 
             List<ActionsList.GenericAction> availableActions = Selection.ThisShip.GetAvailableFreeActionsList();
@@ -203,7 +202,7 @@ namespace SubPhases
         {
             base.Resume();
 
-            UI.ShowSkipButton();
+            if (ShowSkipButton) UI.ShowSkipButton(); else UI.HideSkipButton();
         }
 
         public override void SkipButton()

@@ -150,6 +150,10 @@ namespace Ship
             return result;
         }
 
+        public void AskPerformFreeAction(GenericAction freeAction, Action callback, bool isForced = false)
+        {
+            AskPerformFreeAction(new List<GenericAction> { freeAction }, callback, isForced);
+        }
         // TODO: move actions list into subphase
         public void AskPerformFreeAction(List<GenericAction> freeActions, Action callback, bool isForced = false)
         {

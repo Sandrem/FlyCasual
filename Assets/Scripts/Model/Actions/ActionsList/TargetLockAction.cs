@@ -1,4 +1,5 @@
 ﻿using BoardTools;
+using RuleSets;
 using RulesList;
 using Ship;
 using System.Collections;
@@ -104,10 +105,8 @@ namespace SubPhases
     {
         public override void RevertSubPhase()
         {
-            Selection.ThisShip.RemoveAlreadyExecutedAction(typeof(ActionsList.TargetLockAction));
-
             Phases.FinishSubPhase(this.GetType());
-            Phases.CurrentSubPhase.Resume();
+            RuleSet.Instance.ActionIsFailed(TheShip, typeof(ActionsList.TargetLockAction));
             UpdateHelpInfo();
         }
 

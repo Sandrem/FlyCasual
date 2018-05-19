@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
+﻿using System.Linq;
 using Upgrade;
 using Abilities;
 using Ship;
@@ -15,6 +12,8 @@ namespace UpgradesList
 
     public class ExpertHandling : GenericUpgrade, ISecondEditionUpgrade
     {
+        private bool isSecondEdition = false;
+
         public ExpertHandling() : base()
         {
             Types.Add(UpgradeType.Elite);
@@ -27,6 +26,16 @@ namespace UpgradesList
         public void AdaptUpgradeToSecondEdition()
         {
             ImageUrl = "https://i.imgur.com/iUYcXMd.png";
+            isSecondEdition = true;
+
+            UpgradeAbilities.RemoveAll(a => a is ExpertHandlingAbility);
+            UpgradeAbilities.Add(new GenericActionBarAbility<BarrelRollAction>());
+        }
+
+        public override bool IsAllowedForShip(GenericShip ship)
+        {
+            if (isSecondEdition) return ship.PrintedActions.Any(a => a is BarrelRollAction && (a as BarrelRollAction).IsRed);
+            else return true;
         }
     }
 }

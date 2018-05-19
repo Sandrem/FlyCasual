@@ -94,6 +94,7 @@ namespace SubPhases
 
     public class ActionDecisonSubPhase : DecisionSubPhase
     {
+        public bool ActionWasPerformed { get; private set; }
 
         public override void PrepareDecision(System.Action callBack)
         {
@@ -125,7 +126,10 @@ namespace SubPhases
             foreach (var action in availableActions)
             {
                 string decisionName = (action.LinkedRedAction == null) ? action.Name : action.Name + " > <color=red>" + action.LinkedRedAction.Name + "</color>";
-                AddDecision(decisionName, delegate { Actions.TakeAction(action); }, action.ImageUrl, -1, action.IsRed);
+                AddDecision(decisionName, delegate {
+                    ActionWasPerformed = true;
+                    Actions.TakeAction(action);
+                }, action.ImageUrl, -1, action.IsRed);
             }
         }
 
@@ -151,6 +155,7 @@ namespace SubPhases
 
     public class FreeActionDecisonSubPhase : DecisionSubPhase
     {
+        public bool ActionWasPerformed { get; private set; }
 
         public override void PrepareDecision(System.Action callBack)
         {
@@ -162,7 +167,7 @@ namespace SubPhases
 
             if (availableActions.Count > 0)
             {
-                Selection.ThisShip.Owner.PerformFreeAction();
+                Selection.ThisShip.Owner.PerformFreeAction();                
                 callBack();
             }
             else
@@ -180,7 +185,17 @@ namespace SubPhases
             foreach (var action in availableActions)
             {
                 string decisionName = (action.LinkedRedAction == null) ? action.Name : action.Name + " > <color=red>" + action.LinkedRedAction.Name + "</color>";
-                AddDecision(decisionName, delegate { Actions.TakeAction(action); }, action.ImageUrl, -1, action.IsRed);
+                AddDecision(
+                    decisionName,
+                    delegate
+                    {
+                        ActionWasPerformed = true;
+                        Selection.ThisShip.CallBeforeFreeActionIsPerformed(action, delegate { Actions.TakeAction(action); });
+                    },
+                    action.ImageUrl,
+                    -1,
+                    action.IsRed);
+                });
             }
         }
 

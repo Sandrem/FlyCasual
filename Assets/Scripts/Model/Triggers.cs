@@ -38,6 +38,7 @@ public enum TriggerTypes
     
     OnFreeActionPlanned,
     OnFreeAction,
+    BeforeFreeActionIsPerformed,
     OnActionIsPerformed,
     OnBeforeTokenIsAssigned,
     OnTokenIsAssigned,

@@ -335,14 +335,16 @@ public partial class DiceRoll
         UpdateDiceCompareHelperPrediction();
     }
 
-	public void Change(DieSide oldSide, DieSide newSide, int count)
+	public int Change(DieSide oldSide, DieSide newSide, int count)
 	{
+        var changedDiceCount = 0;
 		for (int i = 0; i < count; i++) {
-			ChangeDice (oldSide, newSide, true);
+            changedDiceCount += ChangeDice (oldSide, newSide, true);
 		}
 
 		UpdateDiceCompareHelperPrediction ();
-	}
+        return changedDiceCount;
+    }
 
     public void ChangeOne(DieSide oldSide, DieSide newSide, bool cannotBeRerolled = false, bool cannotBeModified = false)
     {
@@ -356,8 +358,9 @@ public partial class DiceRoll
         UpdateDiceCompareHelperPrediction();
     }
 
-    private void ChangeDice(DieSide oldSide, DieSide newSide, bool onlyOne, bool cannotBeRerolled = false, bool cannotBeModified = false)
+    private int ChangeDice(DieSide oldSide, DieSide newSide, bool onlyOne, bool cannotBeRerolled = false, bool cannotBeModified = false)
     {
+        var changedDiceCount = 0;
         OrganizeDicePositions();
         foreach (Die die in DiceList)
         {
@@ -365,11 +368,14 @@ public partial class DiceRoll
             {
                 die.SetSide(newSide);
                 die.SetModelSide(newSide);
+                changedDiceCount++;
                 if (cannotBeRerolled) die.IsRerolled = true;
                 if (cannotBeModified) die.CannotBeModified = true;
-                if (onlyOne) return;
+                if (onlyOne) return changedDiceCount;
             }
         }
+
+        return changedDiceCount;
     }
 
     private DieSide CancelHit(bool CancelByDefence, bool dryRun)

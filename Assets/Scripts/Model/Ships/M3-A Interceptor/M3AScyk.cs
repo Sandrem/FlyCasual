@@ -61,7 +61,7 @@ namespace Ship
                 Maneuvers.Add("3.R.B", MovementComplexity.Normal);
                 Maneuvers.Add("3.F.R", MovementComplexity.Complex);
                 Maneuvers.Add("4.F.S", MovementComplexity.Normal);
-                Maneuvers.Add("5.F.S", MovementComplexity.Normal);
+                Maneuvers.Add("5.F.S", MovementComplexity.None);
                 Maneuvers.Add("5.F.R", MovementComplexity.Complex);
             }
 

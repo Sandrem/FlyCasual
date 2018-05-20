@@ -137,6 +137,24 @@ public static class MovementTemplates {
         Templates.Find("RangeRuler").LookAt(rangeInfo.Point2);
     }
 
+    public static void ShowRangeRuler(Vector3 point1, Vector3 point2)
+    {
+        Templates.Find("RangeRuler").position = point1;
+        Templates.Find("RangeRuler").LookAt(point2);
+    }
+
+    public static void ShowRangeRulerR2(Vector3 point1, Vector3 point2)
+    {
+        Templates.Find("RangeRulerR2").position = point1;
+        Templates.Find("RangeRulerR2").LookAt(point2);
+    }
+
+    public static void ShowRangeRulerR1(Vector3 point1, Vector3 point2)
+    {
+        Templates.Find("RangeRulerR1").position = point1;
+        Templates.Find("RangeRulerR1").LookAt(point2);
+    }
+
     public static void CallReturnRangeRuler(Ship.GenericShip thisShip)
     {
         ReturnRangeRuler();
@@ -144,8 +162,20 @@ public static class MovementTemplates {
 
     public static void ReturnRangeRuler()
     {
-        Templates.Find("RangeRuler").transform.position = new Vector3(7f, 0f, -1.5f);
+        Templates.Find("RangeRuler").transform.localPosition = new Vector3(10.4f, 0f, -7.5f);
         Templates.Find("RangeRuler").transform.eulerAngles = new Vector3(0, 0, 0);
+    }
+
+    public static void ReturnRangeRulerR2()
+    {
+        Templates.Find("RangeRulerR2").transform.localPosition = new Vector3(11.5f, 0f, -7.5f);
+        Templates.Find("RangeRulerR2").transform.eulerAngles = new Vector3(0, 0, 0);
+    }
+
+    public static void ReturnRangeRulerR1()
+    {
+        Templates.Find("RangeRulerR1").transform.localPosition = new Vector3(12.6f, 0f, -7.5f);
+        Templates.Find("RangeRulerR1").transform.eulerAngles = new Vector3(0, 0, 0);
     }
 
     public static Transform GetMovement1Ruler()

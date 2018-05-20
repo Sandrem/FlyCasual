@@ -40,5 +40,10 @@ namespace Obstacles
         {
             return Obstacles.First(n => n.ObstacleGO.name == obstacleName);
         }
+
+        public List<GenericObstacle> GetPlacedObstacles()
+        {
+            return Obstacles.Where(n => n.IsPlaced).ToList();
+        }
     }
 }

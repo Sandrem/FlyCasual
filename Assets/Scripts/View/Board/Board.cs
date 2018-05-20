@@ -190,7 +190,7 @@ namespace BoardTools
 
         public static void ToggleOffTheBoardHolder(bool isActive)
         {
-            BoardTransform.Find("ObstaclesHolder").gameObject.SetActive(isActive);
+            BoardTransform.Find("OffTheBoardHolder").gameObject.SetActive(isActive);
         }
     }
 }

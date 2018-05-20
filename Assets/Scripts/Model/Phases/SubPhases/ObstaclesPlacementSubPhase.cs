@@ -12,6 +12,9 @@ namespace SubPhases
     public class ObstaclesPlacementSubPhase : GenericSubPhase
     {
         public GenericObstacle ChosenObstacle;
+        private float MinBoardEdgeDistance;
+        private float MinObstaclesDistance;
+        private bool IsPlacementBlocked;
 
         public override void Start()
         {
@@ -23,6 +26,8 @@ namespace SubPhases
         {
             Board.ToggleObstaclesHolder(true);
             UI.ShowNextButton();
+            MinBoardEdgeDistance = Board.BoardIntoWorld(2 * Board.RANGE_1);
+            MinObstaclesDistance = Board.BoardIntoWorld(Board.RANGE_1);
         }
 
         public override void Next()
@@ -59,6 +64,8 @@ namespace SubPhases
         public override void Update()
         {
             MoveChosenObstacle();
+
+            CheckLimits();
         }
 
         private void MoveChosenObstacle()
@@ -72,13 +79,104 @@ namespace SubPhases
             {
                 ChosenObstacle.ObstacleGO.transform.position = new Vector3(hit.point.x, 0f, hit.point.z);
             }
-
-            ApplyLimits();
         }
 
-        private void ApplyLimits()
+        private void CheckLimits()
         {
+            if (ChosenObstacle == null) return;
 
+            IsPlacementBlocked = false;
+            ApplyEdgeLimits();
+            ApplyObstacleLimits();
+        }
+
+        private void ApplyEdgeLimits()
+        {
+            MovementTemplates.ReturnRangeRulerR2();
+
+            Vector3 fromEdge = Vector3.zero;
+            Vector3 toObstacle = Vector3.zero;
+            float minDistance = float.MaxValue;
+
+            foreach (BoxCollider collider in Board.BoardTransform.Find("OffTheBoardHolder").GetComponentsInChildren<BoxCollider>())
+            {
+                Vector3 closestPoint = collider.ClosestPoint(ChosenObstacle.ObstacleGO.transform.position);
+
+                RaycastHit hitInfo = new RaycastHit();
+
+                if (Physics.Raycast(closestPoint + new Vector3(0, 0.003f, 0), ChosenObstacle.ObstacleGO.transform.position - closestPoint, out hitInfo))
+                {
+                    float distanceFromEdge = Vector3.Distance(closestPoint, hitInfo.point);
+                    if (distanceFromEdge < MinBoardEdgeDistance)
+                    {
+                        IsPlacementBlocked = true;
+
+                        if (distanceFromEdge < minDistance)
+                        {
+                            fromEdge = closestPoint;
+                            toObstacle = hitInfo.point;
+                            minDistance = distanceFromEdge;
+                        }
+                    }
+                }
+            }
+
+            if (IsPlacementBlocked)
+            {
+                MovementTemplates.ShowRangeRulerR2(fromEdge, toObstacle);
+            }
+        }
+
+        private void ApplyObstacleLimits()
+        {
+            MovementTemplates.ReturnRangeRulerR1();
+            if (IsPlacementBlocked) return;
+
+            Vector3 fromObstacle = Vector3.zero;
+            Vector3 toObstacle = Vector3.zero;
+            float minDistance = float.MaxValue;
+
+            foreach (MeshCollider collider in ObstaclesManager.Instance.GetPlacedObstacles().Select(n => n.ObstacleGO.GetComponentInChildren<MeshCollider>()))
+            {
+                Vector3 closestPoint = collider.ClosestPoint(ChosenObstacle.ObstacleGO.transform.position);
+
+                RaycastHit hitInfo = new RaycastHit();
+
+                if (Physics.Raycast(closestPoint + new Vector3(0, 0.003f, 0), ChosenObstacle.ObstacleGO.transform.position - closestPoint, out hitInfo))
+                {
+                    float distanceBetween = Vector3.Distance(closestPoint, hitInfo.point);
+                    if (distanceBetween < MinObstaclesDistance)
+                    {
+                        IsPlacementBlocked = true;
+
+                        if (distanceBetween < minDistance)
+                        {
+                            fromObstacle = closestPoint;
+                            toObstacle = hitInfo.point;
+                            minDistance = distanceBetween;
+                        }
+                    }
+                }
+
+                // In case if one asteroid is inside of another
+                float distanceToCenter = Vector3.Distance(closestPoint, ChosenObstacle.ObstacleGO.transform.position);
+                if (distanceToCenter < MinObstaclesDistance)
+                {
+                    IsPlacementBlocked = true;
+
+                    if (distanceToCenter < minDistance)
+                    {
+                        fromObstacle = closestPoint;
+                        toObstacle = ChosenObstacle.ObstacleGO.transform.position;
+                        minDistance = distanceToCenter;
+                    }
+                }
+            }
+
+            if (IsPlacementBlocked)
+            {
+                MovementTemplates.ShowRangeRulerR1(fromObstacle, toObstacle);
+            }
         }
 
         public override void ProcessClick()
@@ -109,6 +207,7 @@ namespace SubPhases
                             
                             if (!clickedObstacle.IsPlaced)
                             {
+                                Board.ToggleOffTheBoardHolder(true);
                                 ChosenObstacle = clickedObstacle;
                             }
                         }
@@ -119,8 +218,19 @@ namespace SubPhases
 
         private void TryToPlaceObstacle()
         {
-            ChosenObstacle.IsPlaced = true;
-            ChosenObstacle = null;
+            if (!IsPlacementBlocked)
+            {
+                Board.ToggleOffTheBoardHolder(false);
+
+                ChosenObstacle.IsPlaced = true;
+                ChosenObstacle = null;
+
+                Messages.ShowInfo("Obstacle was placed");
+            }
+            else
+            {
+                Messages.ShowError("Obstacle cannot be placed");
+            }
         }
 
     }

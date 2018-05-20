@@ -89,7 +89,7 @@ namespace Abilities
                 GetAiAbilityPriority,
                 HostShip.Owner.PlayerNo,
                 true,
-                null,
+                DecisionSubPhase.ConfirmDecision,
                 HostShip.PilotName,
                 "Choose a ship to assign to it one of your Blue Target Lock tokens if it does not have a Blue Target Lock token.",
                 HostShip.ImageUrl

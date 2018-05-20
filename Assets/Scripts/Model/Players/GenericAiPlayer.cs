@@ -6,6 +6,7 @@ using System.Linq;
 using Ship;
 using ActionsList;
 using BoardTools;
+using SubPhases;
 
 namespace Players
 {
@@ -495,12 +496,17 @@ namespace Players
 
         public override void SelectShipForAbility()
         {
-            (Phases.CurrentSubPhase as SubPhases.SelectShipSubPhase).AiSelectPrioritizedTarget();
+            (Phases.CurrentSubPhase as SelectShipSubPhase).AiSelectPrioritizedTarget();
         }
 
         public override void RerollManagerIsPrepared()
         {
             DiceRerollManager.CurrentDiceRerollManager.ConfirmRerollButtonIsPressed();
+        }
+
+        public override void PlaceObstacle()
+        {
+            (Phases.CurrentSubPhase as ObstaclesPlacementSubPhase).PlaceRandom();
         }
     }
 

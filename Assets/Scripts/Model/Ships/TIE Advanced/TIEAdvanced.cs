@@ -82,6 +82,7 @@ namespace Ship
 
             public void AdaptShipToSecondEdition()
             {
+                PrintedActions.Remove(PrintedActions.First(n => n is FocusAction));
                 PrintedActions.Remove(PrintedActions.First(n => n is EvadeAction));
 
                 Maneuvers["1.F.S"] = MovementComplexity.Normal;

@@ -42,7 +42,7 @@ public static class Selection {
                 }
                 if (!isShipHit)
                 {
-                    ProcessClick();
+                    if (mouseKeyIsPressed == 1) ProcessClick();
                     UI.HideTemporaryMenus();
                 }
             }

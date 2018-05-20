@@ -13,14 +13,12 @@ namespace MainPhases
         {
             Name = "Setup Phase";
 
-            GenericSubPhase subphase = Phases.StartTemporarySubPhaseNew("Notification", typeof(NotificationSubPhase), StartSetupPhase);
-            (subphase as NotificationSubPhase).TextToShow = "Setup";
-            subphase.Start();
+            StartGameStartSubPhase();
         }
 
-        private void StartSetupPhase()
+        private void StartGameStartSubPhase()
         {
-            Phases.CurrentSubPhase = new SetupStartSubPhase();
+            Phases.CurrentSubPhase = new GameStartSubPhase();
             Phases.CurrentSubPhase.Start();
             Phases.CurrentSubPhase.Prepare();
             Phases.CurrentSubPhase.Initialize();

@@ -76,27 +76,9 @@ namespace SubPhases
 
         public void HighlightShipsToSelect()
         {
-            ShowSubphaseDescription();
+            ShowSubphaseDescription(AbilityName, Description, ImageUrl);
             Roster.HighlightShipsFiltered(FilterTargets);
             IsInitializationFinished = true;
-        }
-
-        private void ShowSubphaseDescription()
-        {
-            if (AbilityName != null && Roster.GetPlayer(RequiredPlayer).GetType() == typeof(HumanPlayer))
-            {
-                GameObject subphaseDescriptionGO = GameObject.Find("UI").transform.Find("CurrentSubphaseDescription").gameObject;
-                subphaseDescriptionGO.transform.Find("CardImage").GetComponent<SmallCardArt>().Initialize(ImageUrl);
-                subphaseDescriptionGO.transform.Find("AbilityName").GetComponent<Text>().text = AbilityName;
-                subphaseDescriptionGO.transform.Find("Description").GetComponent<Text>().text = Description;
-                subphaseDescriptionGO.SetActive(true);
-            }
-        }
-
-        protected static void HideSubphaseDescription()
-        {
-            GameObject subphaseDescriptionGO = GameObject.Find("UI").transform.Find("CurrentSubphaseDescription").gameObject;
-            subphaseDescriptionGO.SetActive(false);
         }
 
         public void AiSelectPrioritizedTarget()
@@ -305,7 +287,7 @@ namespace SubPhases
         {
             base.Resume();
 
-            ShowSubphaseDescription();
+            ShowSubphaseDescription(AbilityName, Description, ImageUrl);
         }
 
     }

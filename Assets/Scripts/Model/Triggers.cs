@@ -10,7 +10,7 @@ public enum TriggerTypes
     None,
 
     OnGameStart,
-    OnSetupPhaseStart,
+    OnInitiativeSelection,
     OnBeforePlaceForces,
     OnShipIsPlaced,
     OnRoundStart,

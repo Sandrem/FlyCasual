@@ -187,6 +187,11 @@ namespace BoardTools
             BoardTransform.Find("CombatDiceHolder").gameObject.SetActive(isActive);
             BoardTransform.Find("CheckDiceHolder").gameObject.SetActive(isActive);
         }
+
+        public static void ToggleOffTheBoardHolder(bool isActive)
+        {
+            BoardTransform.Find("ObstaclesHolder").gameObject.SetActive(isActive);
+        }
     }
 }
 

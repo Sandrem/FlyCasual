@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using BoardTools;
+using UnityEngine.EventSystems;
+using Obstacles;
 
 namespace SubPhases
 {
@@ -51,6 +53,33 @@ namespace SubPhases
         {
             Board.ToggleObstaclesHolder(false);
             Next();
+        }
+
+        public override void Update()
+        {
+            UpdateSelection();
+        }
+
+        private void UpdateSelection()
+        {
+            if (!EventSystem.current.IsPointerOverGameObject())
+            {
+                if (Input.GetKeyUp(KeyCode.Mouse0))
+                {
+                    RaycastHit hitInfo = new RaycastHit();
+                    if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitInfo))
+                    {
+                        if (hitInfo.transform.tag.StartsWith("Asteroid"))
+                        {
+                            GameObject obstacleGO = hitInfo.transform.parent.gameObject;
+                            if (!ObstaclesManager.Instance.GetObstacleByGO(obstacleGO).IsPlaced)
+                            {
+                                Messages.ShowInfo("Take");
+                            }
+                        }
+                    }
+                }
+            }
         }
 
     }

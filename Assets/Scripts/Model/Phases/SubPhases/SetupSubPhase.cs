@@ -113,6 +113,7 @@ namespace SubPhases
         {
             Board.TurnOffStartingZones();
             Board.ToggleDiceHolders(true);
+            Board.ToggleOffTheBoardHolder(true);
             Phases.NextPhase();
         }
 

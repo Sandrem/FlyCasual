@@ -4,6 +4,7 @@ using UnityEngine;
 using GameModes;
 using BoardTools;
 using Bombs;
+using Obstacles;
 
 public delegate void CallBackFunction();
 
@@ -30,6 +31,7 @@ public class GameManagerScript : MonoBehaviour {
         Combat.Initialize();
         Triggers.Initialize();
         DamageDecks.Initialize();
+        new ObstaclesManager();
 
         CheckRemoteSettings();
 

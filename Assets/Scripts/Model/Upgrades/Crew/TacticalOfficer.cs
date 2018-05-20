@@ -23,7 +23,7 @@ namespace UpgradesList
 
         public void AdaptUpgradeToSecondEdition()
         {
-            ImageUrl = "https://imgur.com/a/ytRDiwM";
+            ImageUrl = "https://i.imgur.com/eaCMOTO.png";
             isSecondEdition = true;
         }
 

@@ -4,6 +4,7 @@ using UnityEngine;
 using System;
 using Ship;
 using Players;
+using UnityEngine.UI;
 
 public enum Sorting
 {
@@ -124,6 +125,26 @@ namespace SubPhases
         public virtual void DoSelectThisShip(GenericShip ship, int mouseKeyIsPressed) { }
 
         public virtual void DoSelectAnotherShip(GenericShip ship, int mouseKeyIsPressed) { }
+
+        protected void HideSubphaseDescription()
+        {
+            GameObject subphaseDescriptionGO = GameObject.Find("UI").transform.Find("CurrentSubphaseDescription").gameObject;
+            subphaseDescriptionGO.SetActive(false);
+        }
+
+        protected void ShowSubphaseDescription(string title, string description, string imageUrl = null)
+        {
+            if (Roster.GetPlayer(RequiredPlayer).GetType() == typeof(HumanPlayer))
+            {
+                GameObject subphaseDescriptionGO = GameObject.Find("UI").transform.Find("CurrentSubphaseDescription" + ((imageUrl != null) ? "" : "NoImage")).gameObject; 
+                 
+                subphaseDescriptionGO.transform.Find("AbilityName").GetComponent<Text>().text = Name;
+                subphaseDescriptionGO.transform.Find("Description").GetComponent<Text>().text = description;
+                if (imageUrl != null) subphaseDescriptionGO.transform.Find("CardImage").GetComponent<SmallCardArt>().Initialize(imageUrl);
+
+                subphaseDescriptionGO.SetActive(true);
+            }
+        }
 
     }
 

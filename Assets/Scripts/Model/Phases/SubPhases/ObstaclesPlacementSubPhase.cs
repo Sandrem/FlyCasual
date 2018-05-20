@@ -5,6 +5,8 @@ using System.Linq;
 using BoardTools;
 using UnityEngine.EventSystems;
 using Obstacles;
+using Players;
+using UnityEngine.UI;
 
 namespace SubPhases
 {
@@ -18,16 +20,22 @@ namespace SubPhases
 
         public override void Start()
         {
-            Name = "Obstacles Placement";
+            Name = "Obstacles Setup";
             UpdateHelpInfo();
         }
 
         public override void Initialize()
         {
             Board.ToggleObstaclesHolder(true);
-            UI.ShowNextButton();
+
             MinBoardEdgeDistance = Board.BoardIntoWorld(2 * Board.RANGE_1);
             MinObstaclesDistance = Board.BoardIntoWorld(Board.RANGE_1);
+
+            UI.ShowNextButton();
+
+            RequiredPlayer = Phases.PlayerWithInitiative;
+            ShowSubphaseDescription(Name, "Obstacles cannot be placed at Range 1 of each other, or at Range 1-2 of an edge of the play area.");
+            Roster.HighlightPlayer(RequiredPlayer);
         }
 
         public override void Next()
@@ -171,11 +179,12 @@ namespace SubPhases
         private void ApplyObstacleLimits()
         {
             MovementTemplates.ReturnRangeRulerR1();
-            if (IsPlacementBlocked) return;
 
             Vector3 fromObstacle = Vector3.zero;
             Vector3 toObstacle = Vector3.zero;
             float minDistance = float.MaxValue;
+
+            bool isBlockedByAnotherObstacle = false;
 
             foreach (MeshCollider collider in ObstaclesManager.Instance.GetPlacedObstacles().Select(n => n.ObstacleGO.GetComponentInChildren<MeshCollider>()))
             {
@@ -189,6 +198,7 @@ namespace SubPhases
                     if (distanceBetween < MinObstaclesDistance)
                     {
                         IsPlacementBlocked = true;
+                        isBlockedByAnotherObstacle = true;
 
                         if (distanceBetween < minDistance)
                         {
@@ -204,6 +214,7 @@ namespace SubPhases
                 if (distanceToCenter < MinObstaclesDistance)
                 {
                     IsPlacementBlocked = true;
+                    isBlockedByAnotherObstacle = true;
 
                     if (distanceToCenter < minDistance)
                     {
@@ -214,7 +225,7 @@ namespace SubPhases
                 }
             }
 
-            if (IsPlacementBlocked)
+            if (IsPlacementBlocked && isBlockedByAnotherObstacle)
             {
                 MovementTemplates.ShowRangeRulerR1(fromObstacle, toObstacle);
             }
@@ -267,13 +278,18 @@ namespace SubPhases
                 ChosenObstacle = null;
 
                 Messages.ShowInfo("Obstacle was placed");
+
+                HideSubphaseDescription();
+
+                RequiredPlayer = Roster.AnotherPlayer(RequiredPlayer);
+                ShowSubphaseDescription(Name, "Obstacles cannot be placed at Range 1 of each other, or at Range 1-2 of an edge of the play area.");
+                Roster.HighlightPlayer(RequiredPlayer);
             }
             else
             {
                 Messages.ShowError("Obstacle cannot be placed");
             }
         }
-
     }
 
 }

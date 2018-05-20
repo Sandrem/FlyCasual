@@ -295,8 +295,6 @@ namespace SubPhases
                 ChosenObstacle.IsPlaced = true;
                 ChosenObstacle = null;
 
-                Messages.ShowInfo("Obstacle was placed");
-
                 if (ObstaclesManager.Instance.GetPlacedObstaclesCount() < 6)
                 {
                     Next();

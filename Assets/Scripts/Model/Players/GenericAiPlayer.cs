@@ -506,7 +506,11 @@ namespace Players
 
         public override void PlaceObstacle()
         {
-            (Phases.CurrentSubPhase as ObstaclesPlacementSubPhase).PlaceRandom();
+            GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
+            Game.Wait(1, delegate {
+                (Phases.CurrentSubPhase as ObstaclesPlacementSubPhase).PlaceRandom();
+                Messages.ShowInfo("AI: Obstacle was placed");
+            });
         }
     }
 

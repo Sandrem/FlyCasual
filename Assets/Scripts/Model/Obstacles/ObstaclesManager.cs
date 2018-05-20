@@ -45,5 +45,10 @@ namespace Obstacles
         {
             return Obstacles.Where(n => n.IsPlaced).ToList();
         }
+
+        public int GetPlacedObstaclesCount()
+        {
+            return Obstacles.Count(n => n.IsPlaced);
+        }
     }
 }

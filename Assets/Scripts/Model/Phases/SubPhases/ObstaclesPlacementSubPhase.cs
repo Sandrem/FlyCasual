@@ -31,14 +31,26 @@ namespace SubPhases
             MinBoardEdgeDistance = Board.BoardIntoWorld(2 * Board.RANGE_1);
             MinObstaclesDistance = Board.BoardIntoWorld(Board.RANGE_1);
 
-            RequiredPlayer = Phases.PlayerWithInitiative;
+            RequiredPlayer = Roster.AnotherPlayer(RequiredPlayer);
+            Next();
+        }
+
+        public override void Next()
+        {
+            HideSubphaseDescription();
+
+            RequiredPlayer = Roster.AnotherPlayer(RequiredPlayer);
             ShowSubphaseDescription(Name, "Obstacles cannot be placed at Range 1 of each other, or at Range 1-2 of an edge of the play area.");
             if (Roster.GetPlayer(RequiredPlayer).GetType() == typeof(HumanPlayer)) UI.ShowSkipButton("Random");
             Roster.HighlightPlayer(RequiredPlayer);
         }
 
-        public override void Next()
+        private void FinishSubPhase()
         {
+            HideSubphaseDescription();
+
+            Board.ToggleObstaclesHolder(false);
+
             GenericSubPhase subphase = Phases.StartTemporarySubPhaseNew("Notification", typeof(NotificationSubPhase), StartSetupPhase);
             (subphase as NotificationSubPhase).TextToShow = "Setup";
             subphase.Start();
@@ -60,12 +72,6 @@ namespace SubPhases
         public override bool AnotherShipCanBeSelected(Ship.GenericShip targetShip, int mouseKeyIsPressed)
         {
             return false;
-        }
-
-        public override void NextButton()
-        {
-            Board.ToggleObstaclesHolder(false);
-            Next();
         }
 
         public override void Update()
@@ -232,6 +238,8 @@ namespace SubPhases
 
         public override void ProcessClick()
         {
+            if (Roster.GetPlayer(RequiredPlayer).GetType() != typeof(HumanPlayer)) return;
+
             if (ChosenObstacle == null)
             {
                 TryToSelectObstacle();
@@ -274,17 +282,21 @@ namespace SubPhases
             {
                 Board.ToggleOffTheBoardHolder(false);
 
+                ChosenObstacle.ObstacleGO.transform.parent = Board.BoardTransform;
+
                 ChosenObstacle.IsPlaced = true;
                 ChosenObstacle = null;
 
                 Messages.ShowInfo("Obstacle was placed");
 
-                HideSubphaseDescription();
-
-                RequiredPlayer = Roster.AnotherPlayer(RequiredPlayer);
-                ShowSubphaseDescription(Name, "Obstacles cannot be placed at Range 1 of each other, or at Range 1-2 of an edge of the play area.");
-                if (Roster.GetPlayer(RequiredPlayer).GetType() == typeof(HumanPlayer)) UI.ShowSkipButton("Random");
-                Roster.HighlightPlayer(RequiredPlayer);
+                if (ObstaclesManager.Instance.GetPlacedObstaclesCount() < 6)
+                {
+                    Next();
+                }
+                else
+                {
+                    FinishSubPhase();
+                }
             }
             else
             {

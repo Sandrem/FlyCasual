@@ -50,5 +50,12 @@ namespace Obstacles
         {
             return Obstacles.Count(n => n.IsPlaced);
         }
+
+        public GenericObstacle GetRandomFreeObstacle()
+        {
+            List<GenericObstacle> freeObstacles = Obstacles.Where(n => !n.IsPlaced).ToList();
+            int random = UnityEngine.Random.Range(0, freeObstacles.Count);
+            return freeObstacles[random];
+        }
     }
 }

@@ -7,6 +7,7 @@ using UnityEngine.EventSystems;
 using Obstacles;
 using Players;
 using UnityEngine.UI;
+using System;
 
 namespace SubPhases
 {
@@ -266,14 +267,19 @@ namespace SubPhases
                             
                             if (!clickedObstacle.IsPlaced)
                             {
-                                Board.ToggleOffTheBoardHolder(true);
-                                ChosenObstacle = clickedObstacle;
-                                UI.HideSkipButton();
+                                SelectObstacle(clickedObstacle);
                             }
                         }
                     }
                 }
             }
+        }
+
+        private void SelectObstacle(GenericObstacle obstacle)
+        {
+            Board.ToggleOffTheBoardHolder(true);
+            ChosenObstacle = obstacle;
+            UI.HideSkipButton();
         }
 
         private void TryToPlaceObstacle()
@@ -306,7 +312,30 @@ namespace SubPhases
 
         public override void SkipButton()
         {
-            Messages.ShowInfo("Random");
+            GetRandomObstacle();
+            SetRandomPosition();
+        }
+
+        private void GetRandomObstacle()
+        {
+            SelectObstacle(ObstaclesManager.Instance.GetRandomFreeObstacle());
+        }
+
+        private void SetRandomPosition()
+        {
+            float randomX = UnityEngine.Random.Range(-2.7f, 2.7f);
+            float randomZ = UnityEngine.Random.Range(-2.7f, 2.7f);
+
+            ChosenObstacle.ObstacleGO.transform.position = new Vector3(randomX, 0, randomZ);
+            CheckLimits();
+            if (!IsPlacementBlocked)
+            {
+                TryToPlaceObstacle();
+            }
+            else
+            {
+                SetRandomPosition();
+            }
         }
     }
 

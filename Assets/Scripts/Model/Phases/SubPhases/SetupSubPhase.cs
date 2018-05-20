@@ -201,7 +201,7 @@ namespace SubPhases
             }
         }
 
-        private static void RotateBy1()
+        private void RotateBy1()
         {
             if (Input.GetKey(KeyCode.Q))
             {

@@ -63,21 +63,62 @@ namespace SubPhases
 
         public override void Update()
         {
+            if (ChosenObstacle == null) return;
+
             MoveChosenObstacle();
+            CheckPerformRotation();
 
             CheckLimits();
         }
 
         private void MoveChosenObstacle()
         {
-            if (ChosenObstacle == null) return;
-
             RaycastHit hit;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
             if (Physics.Raycast(ray, out hit))
             {
                 ChosenObstacle.ObstacleGO.transform.position = new Vector3(hit.point.x, 0f, hit.point.z);
+            }
+        }
+
+        private void CheckPerformRotation()
+        {
+            if (Console.IsActive) return;
+
+            if (Input.GetKey(KeyCode.LeftControl))
+            {
+                RotateBy1();
+            }
+            else
+            {
+                RotateBy45();
+            }
+        }
+
+        private void RotateBy45()
+        {
+            if (Input.GetKeyDown(KeyCode.Q))
+            {
+                ChosenObstacle.ObstacleGO.transform.localEulerAngles += new Vector3(0, -45, 0);
+            }
+
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                ChosenObstacle.ObstacleGO.transform.localEulerAngles += new Vector3(0, 45, 0);
+            }
+        }
+
+        private void RotateBy1()
+        {
+            if (Input.GetKey(KeyCode.Q))
+            {
+                ChosenObstacle.ObstacleGO.transform.localEulerAngles += new Vector3(0, -1, 0);
+            }
+
+            if (Input.GetKey(KeyCode.E))
+            {
+                ChosenObstacle.ObstacleGO.transform.localEulerAngles += new Vector3(0, 1, 0);
             }
         }
 

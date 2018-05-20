@@ -1,7 +1,4 @@
 ﻿using Ship;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using Upgrade;
 using Abilities;
 using ActionsList;
@@ -24,7 +21,31 @@ namespace UpgradesList
         public void AdaptUpgradeToSecondEdition()
         {
             ImageUrl = "https://i.imgur.com/FL6h1bE.png";
-            // Do nothing
+
+            UpgradeAbilities.RemoveAll(a => a is MarksmanshipAbility);
+            UpgradeAbilities.Add(new Abilities.SecondEdition.MarksmanshipAbility());
+        }
+    }
+}
+
+namespace Abilities.SecondEdition
+{
+    //While performing an attack, if the defender is in your bullseye firing arc, you may change one hit result to a critical hit result.
+    public class MarksmanshipAbility : GenericDiceModAbility
+    {
+        public MarksmanshipAbility()
+        {
+            AllowChange(DieSide.Success, DieSide.Crit, 1);
+        }
+
+        public override bool IsActionEffectAvailable()
+        {
+            return (Combat.AttackStep == CombatStep.Attack && Combat.Attacker == HostShip && Combat.ShotInfo.InArcByType(Arcs.ArcTypes.Bullseye));
+        }
+
+        public override int GetActionEffectPriority()
+        {
+            return 20;
         }
     }
 }

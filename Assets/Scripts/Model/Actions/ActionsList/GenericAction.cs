@@ -32,6 +32,8 @@ namespace ActionsList
         public bool IsTurnsOneFocusIntoSuccess;
         public bool IsTurnsAllFocusIntoSuccess;
 
+        public bool CanBeUsedFewTimes;
+
         public DiceModificationTimingType DiceModificationTiming = DiceModificationTimingType.Normal;
 
         public bool CanBePerformedWhileStressed;

@@ -302,7 +302,7 @@ namespace Ship
 
         public void AddAlreadyExecutedActionEffect(GenericAction action)
         {
-            AlreadyExecutedActionEffects.Add(action);
+            if (!action.CanBeUsedFewTimes) AlreadyExecutedActionEffects.Add(action);
         }
 
         public void RemoveAlreadyExecutedActionEffect(GenericAction action)

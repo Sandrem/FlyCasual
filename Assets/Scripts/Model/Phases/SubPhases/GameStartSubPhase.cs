@@ -6,23 +6,30 @@ using System.Linq;
 namespace SubPhases
 {
 
-    public class SetupStartSubPhase : GenericSubPhase
+    public class GameStartSubPhase : GenericSubPhase
     {
 
         public override void Start()
         {
-            Name = "Setup start";
+            Name = "Game start";
             UpdateHelpInfo();
         }
 
         public override void Initialize()
         {
-            Phases.FinishSubPhase(typeof(SetupStartSubPhase));
+            Phases.CallInitialiveSelection(delegate { Phases.FinishSubPhase(typeof(GameStartSubPhase)); });
         }
 
         public override void Next()
         {
-            Phases.CurrentSubPhase = new SetupSubPhase();
+            GenericSubPhase subphase = Phases.StartTemporarySubPhaseNew("Notification", typeof(NotificationSubPhase), StartObstaclesPlacementpPhase);
+            (subphase as NotificationSubPhase).TextToShow = "Obstacles";
+            subphase.Start();
+        }
+
+        private void StartObstaclesPlacementpPhase()
+        {
+            Phases.CurrentSubPhase = new ObstaclesPlacementSubPhase();
             Phases.CurrentSubPhase.Start();
             Phases.CurrentSubPhase.Prepare();
             Phases.CurrentSubPhase.Initialize();

@@ -335,11 +335,11 @@ public partial class DiceRoll
         UpdateDiceCompareHelperPrediction();
     }
 
-	public int Change(DieSide oldSide, DieSide newSide, int count)
+	public int Change(DieSide oldSide, DieSide newSide, int count, bool cannotBeRerolled = false, bool cannotBeModified = false)
 	{
         var changedDiceCount = 0;
 		for (int i = 0; i < count; i++) {
-            changedDiceCount += ChangeDice (oldSide, newSide, true);
+            changedDiceCount += ChangeDice (oldSide, newSide, true, cannotBeRerolled, cannotBeModified);
 		}
 
 		UpdateDiceCompareHelperPrediction ();
@@ -352,9 +352,9 @@ public partial class DiceRoll
         UpdateDiceCompareHelperPrediction();
     }
 
-    public void ChangeAll(DieSide oldSide, DieSide newSide)
+    public void ChangeAll(DieSide oldSide, DieSide newSide, bool cannotBeRerolled = false, bool cannotBeModified = false)
     {
-        ChangeDice(oldSide, newSide, false);
+        ChangeDice(oldSide, newSide, false, cannotBeRerolled, cannotBeModified);
         UpdateDiceCompareHelperPrediction();
     }
 

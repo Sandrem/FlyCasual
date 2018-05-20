@@ -48,12 +48,17 @@ namespace BoardTools
             }
         }
 
-        private static void SetShip(GenericShip ship, int count)
+        private static void SetShipPreSetup(GenericShip ship, int count)
         {
             float distance = CalculateDistance(ship.Owner.Ships.Count);
             float side = (ship.Owner.PlayerNo == Players.PlayerNo.Player1) ? -1 : 1;
-            ship.SetPosition(BoardIntoWorld(new Vector3(-SIZE_X / 2 + count * distance, 0, side * SIZE_Y / 2 + +side * 2 * RANGE_1)));
-            ship.SetPosition(BoardIntoWorld(new Vector3(-SIZE_X / 2 + count * distance, 0, side * SIZE_Y / 2 + -side * 2 * RANGE_1)));
+            ship.SetPosition(
+                BoardIntoWorld(
+                    new Vector3(-SIZE_X / 2 + count * distance, 0, side * (SIZE_Y / 2 + DISTANCE_1))
+                )
+            );
+
+            RegisterBoardObject(ship);
         }
 
         public static void HighlightStartingZones()
@@ -168,17 +173,27 @@ namespace BoardTools
         {
             for (int i = 1; i <= 6; i++)
             {
-                Objects.Add(GameObject.Find("SceneHolder/Board/Asteroids/A" + i + "/A" + i + "model").GetComponent<MeshCollider>());
+                Objects.Add(GameObject.Find("SceneHolder/Board/ObstaclesHolder/A" + i + "/A" + i + "model").GetComponent<MeshCollider>());
             }
         }
 
-    }
+        public static void ToggleObstaclesHolder(bool isActive)
+        {
+            BoardTransform.Find("ObstaclesHolder").gameObject.SetActive(isActive);
+        }
 
+        public static void ToggleDiceHolders(bool isActive)
+        {
+            BoardTransform.Find("CombatDiceHolder").gameObject.SetActive(isActive);
+            BoardTransform.Find("CheckDiceHolder").gameObject.SetActive(isActive);
+        }
+    }
 }
 
 namespace Team
 {
-    public enum Type{
+    public enum Type
+    {
          Friendly,
          Enemy,
          Any

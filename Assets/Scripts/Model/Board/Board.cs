@@ -18,19 +18,15 @@ namespace BoardTools
             int i = 1;
             foreach (var ship in Roster.ShipsPlayer1)
             {
-                SetShip(ship.Value, i);
+                SetShipPreSetup(ship.Value, i);
                 i++;
-
-                RegisterBoardObject(ship.Value);
             }
 
             i = 1;
             foreach (var ship in Roster.ShipsPlayer2)
             {
-                SetShip(ship.Value, i);
+                SetShipPreSetup(ship.Value, i);
                 i++;
-
-                RegisterBoardObject(ship.Value);
             }
         }
 

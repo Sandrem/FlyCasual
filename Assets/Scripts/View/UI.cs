@@ -244,9 +244,13 @@ public class UI : MonoBehaviour {
         GameObject.Find("UI").transform.Find("NextPanel").Find("NextButton").GetComponent<Button>().colors = colors;
     }
 
-    public static void ShowSkipButton()
+    public static void ShowSkipButton(string text = null)
     {
-        if (Roster.GetPlayer(Phases.CurrentPhasePlayer).Type == Players.PlayerType.Human) GameObject.Find("UI").transform.Find("SkipPanel").gameObject.SetActive(true);
+        if (Roster.GetPlayer(Phases.CurrentPhasePlayer).Type == Players.PlayerType.Human)
+        {
+            GameObject.Find("UI").transform.Find("SkipPanel").GetComponentInChildren<Text>().text = text ?? "Skip";
+            GameObject.Find("UI").transform.Find("SkipPanel").gameObject.SetActive(true);
+        }
     }
 
     public static void HideSkipButton()

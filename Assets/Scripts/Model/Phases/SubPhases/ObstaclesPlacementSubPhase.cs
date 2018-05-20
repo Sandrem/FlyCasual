@@ -31,10 +31,9 @@ namespace SubPhases
             MinBoardEdgeDistance = Board.BoardIntoWorld(2 * Board.RANGE_1);
             MinObstaclesDistance = Board.BoardIntoWorld(Board.RANGE_1);
 
-            UI.ShowNextButton();
-
             RequiredPlayer = Phases.PlayerWithInitiative;
             ShowSubphaseDescription(Name, "Obstacles cannot be placed at Range 1 of each other, or at Range 1-2 of an edge of the play area.");
+            if (Roster.GetPlayer(RequiredPlayer).GetType() == typeof(HumanPlayer)) UI.ShowSkipButton("Random");
             Roster.HighlightPlayer(RequiredPlayer);
         }
 
@@ -261,6 +260,7 @@ namespace SubPhases
                             {
                                 Board.ToggleOffTheBoardHolder(true);
                                 ChosenObstacle = clickedObstacle;
+                                UI.HideSkipButton();
                             }
                         }
                     }
@@ -283,12 +283,18 @@ namespace SubPhases
 
                 RequiredPlayer = Roster.AnotherPlayer(RequiredPlayer);
                 ShowSubphaseDescription(Name, "Obstacles cannot be placed at Range 1 of each other, or at Range 1-2 of an edge of the play area.");
+                if (Roster.GetPlayer(RequiredPlayer).GetType() == typeof(HumanPlayer)) UI.ShowSkipButton("Random");
                 Roster.HighlightPlayer(RequiredPlayer);
             }
             else
             {
                 Messages.ShowError("Obstacle cannot be placed");
             }
+        }
+
+        public override void SkipButton()
+        {
+            Messages.ShowInfo("Random");
         }
     }
 

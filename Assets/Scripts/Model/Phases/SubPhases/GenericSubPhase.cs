@@ -130,10 +130,14 @@ namespace SubPhases
         {
             GameObject subphaseDescriptionGO = GameObject.Find("UI").transform.Find("CurrentSubphaseDescription").gameObject;
             subphaseDescriptionGO.SetActive(false);
+
+            subphaseDescriptionGO = GameObject.Find("UI").transform.Find("CurrentSubphaseDescriptionNoImage").gameObject;
+            subphaseDescriptionGO.SetActive(false);
         }
 
         protected void ShowSubphaseDescription(string title, string description, string imageUrl = null)
         {
+            HideSubphaseDescription();
             if (Roster.GetPlayer(RequiredPlayer).GetType() == typeof(HumanPlayer))
             {
                 GameObject subphaseDescriptionGO = GameObject.Find("UI").transform.Find("CurrentSubphaseDescription" + ((imageUrl != null) ? "" : "NoImage")).gameObject; 

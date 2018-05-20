@@ -11,6 +11,7 @@ namespace SubPhases
 
     public class ObstaclesPlacementSubPhase : GenericSubPhase
     {
+        public GenericObstacle ChosenObstacle;
 
         public override void Start()
         {
@@ -57,10 +58,42 @@ namespace SubPhases
 
         public override void Update()
         {
-            UpdateSelection();
+            MoveChosenObstacle();
         }
 
-        private void UpdateSelection()
+        private void MoveChosenObstacle()
+        {
+            if (ChosenObstacle == null) return;
+
+            RaycastHit hit;
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+            if (Physics.Raycast(ray, out hit))
+            {
+                ChosenObstacle.ObstacleGO.transform.position = new Vector3(hit.point.x, 0f, hit.point.z);
+            }
+
+            ApplyLimits();
+        }
+
+        private void ApplyLimits()
+        {
+
+        }
+
+        public override void ProcessClick()
+        {
+            if (ChosenObstacle == null)
+            {
+                TryToSelectObstacle();
+            }
+            else
+            {
+                TryToPlaceObstacle();
+            }
+        }
+
+        private void TryToSelectObstacle()
         {
             if (!EventSystem.current.IsPointerOverGameObject())
             {
@@ -72,14 +105,22 @@ namespace SubPhases
                         if (hitInfo.transform.tag.StartsWith("Asteroid"))
                         {
                             GameObject obstacleGO = hitInfo.transform.parent.gameObject;
-                            if (!ObstaclesManager.Instance.GetObstacleByGO(obstacleGO).IsPlaced)
+                            GenericObstacle clickedObstacle = ObstaclesManager.Instance.GetObstacleByName(obstacleGO.name);
+                            
+                            if (!clickedObstacle.IsPlaced)
                             {
-                                Messages.ShowInfo("Take");
+                                ChosenObstacle = clickedObstacle;
                             }
                         }
                     }
                 }
             }
+        }
+
+        private void TryToPlaceObstacle()
+        {
+            ChosenObstacle.IsPlaced = true;
+            ChosenObstacle = null;
         }
 
     }

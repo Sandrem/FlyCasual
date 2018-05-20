@@ -36,9 +36,9 @@ namespace Obstacles
             }
         }
 
-        public GenericObstacle GetObstacleByGO(GameObject obstacleGO)
+        public GenericObstacle GetObstacleByName(string obstacleName)
         {
-            return Obstacles.First(n => n.ObstacleGO = obstacleGO);
+            return Obstacles.First(n => n.ObstacleGO.name == obstacleName);
         }
     }
 }

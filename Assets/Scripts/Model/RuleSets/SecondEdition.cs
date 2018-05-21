@@ -160,5 +160,10 @@ namespace RuleSets
         {
             (Phases.CurrentSubPhase as SubPhases.BarrelRollPlanningSubPhase).PerfromTemplatePlanningSecondEdition();
         }
+
+        public override void ReloadAction()
+        {
+            ActionsList.ReloadAction.RestoreOneCharge();
+        }
     }
 }

@@ -37,6 +37,7 @@ namespace Upgrade
         public UpgradeSlot Slot { get; set; }
 
         public string Name { get; set; }
+        public string NameOriginal { get; set; }
         public int Cost;
         public List<UpgradeType> Types = new List<UpgradeType>();
 
@@ -207,6 +208,7 @@ namespace Upgrade
             Host = host;
             InitializeAbility();
             ActivateAbility();
+            NameOriginal = Name;
             ShowCharges();
         }
 
@@ -229,7 +231,7 @@ namespace Upgrade
 
         private void ShowCharges()
         {
-            if (MaxCharges > 0) Name = Name + " (" + Charges + ")";
+            if (MaxCharges > 0) Name = NameOriginal + " (" + Charges + ")";
         }
 
         private void DeactivateAbility()
@@ -293,7 +295,7 @@ namespace Upgrade
         public virtual void FlipFaceup(Action callback)
         {
             isDiscarded = false;
-            Roster.FlipFaceupUpgrade(Host, Name);
+            Roster.ShowUpgradeAsActive(Host, Name);
             ActivateAbility();
 
             Messages.ShowInfo(Name + " is flipped face up");
@@ -310,15 +312,26 @@ namespace Upgrade
 
         public void SpendCharge(Action callBack)
         {
-            string oldChargesString = " (" + Charges + ")";
-            string newChargesString = " (" + (Charges - 1) + ")";
-            Name = Name.Replace(oldChargesString, newChargesString);
-            Roster.UpdateUpgradesPanel(Host, Host.InfoPanel);
-
             Charges--;
             if (Charges == 0) Roster.ShowUpgradeAsInactive(Host, Name);
 
+            Name = NameOriginal + " (" + Charges + ")";
+            Roster.UpdateUpgradesPanel(Host, Host.InfoPanel);
+
             callBack();
+        }
+
+        public void RestoreCharge()
+        {
+            if (Charges < MaxCharges)
+            {
+                if (Charges == 0) Roster.ShowUpgradeAsActive(Host, Name);
+
+                Charges++;
+
+                Name = NameOriginal + " (" + Charges + ")";
+                Roster.UpdateUpgradesPanel(Host, Host.InfoPanel);
+            }
         }
     }
 

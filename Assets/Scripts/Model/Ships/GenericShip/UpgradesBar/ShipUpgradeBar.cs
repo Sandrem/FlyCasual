@@ -232,5 +232,14 @@ namespace Upgrade
                 }
             }
         }
+
+        public List<GenericUpgrade> GetRechargableUpgrades()
+        {
+            return GetUpgradesOnlyFaceup()
+                .Where(n => n.Types.Contains(UpgradeType.Torpedo) || n.Types.Contains(UpgradeType.Missile) || n.Types.Contains(UpgradeType.Bomb))
+                .Where(n => n.UsesCharges)
+                .Where(n => n.Charges < n.MaxCharges)
+                .ToList();
+        }
     }
 }

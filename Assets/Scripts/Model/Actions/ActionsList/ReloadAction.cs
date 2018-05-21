@@ -4,6 +4,8 @@ using UnityEngine;
 using Upgrade;
 using Tokens;
 using System.Linq;
+using RuleSets;
+using SubPhases;
 
 namespace ActionsList
 {
@@ -19,10 +21,10 @@ namespace ActionsList
 
         public override void ActionTake()
         {
-            FlipFaceupRecursive();
+            RuleSet.Instance.ReloadAction();
         }
 
-        private void FlipFaceupRecursive()
+        public static void FlipFaceupRecursive()
         {
             GenericUpgrade discardedUpgrade = null;
 
@@ -35,7 +37,7 @@ namespace ActionsList
             }
             else
             {
-                Selection.ThisShip.Tokens.AssignToken(new WeaponsDisabledToken(Selection.ThisShip), Phases.CurrentSubPhase.CallBack);
+                AssignTokenAndFinish();
             }
         }
 
@@ -48,6 +50,63 @@ namespace ActionsList
 
             return result;
         }
+
+        public static void RestoreOneCharge()
+        {
+            List<GenericUpgrade> rechargableUpgrades = Selection.ThisShip.UpgradeBar.GetRechargableUpgrades();
+
+            if (rechargableUpgrades.Count > 1)
+            {
+                StartDecisionSubphase();
+            }
+            else if (rechargableUpgrades.Count == 1)
+            {
+                rechargableUpgrades[0].RestoreCharge();
+                Messages.ShowInfo("Reload: One charge of \"" + rechargableUpgrades[0].NameOriginal + "\" is restored");
+                AssignTokenAndFinish();
+            }
+            else
+            {
+                Messages.ShowError("No upgrades to restore charge");
+                Phases.CurrentSubPhase.CallBack();
+            }
+        }
+
+        private static void StartDecisionSubphase()
+        {
+            ReloadDecisionSubphase subphase = Phases.StartTemporarySubPhaseNew<ReloadDecisionSubphase>("Choose device to reload", AssignTokenAndFinish);
+
+            subphase.InfoText = "Choose device to restore one charge";
+            subphase.RequiredPlayer = Selection.ThisShip.Owner.PlayerNo;
+            subphase.DecisionViewType = DecisionViewTypes.ImageButtons;
+
+            foreach (GenericUpgrade upgrade in Selection.ThisShip.UpgradeBar.GetRechargableUpgrades())
+            {
+                subphase.AddDecision(upgrade.Name, delegate { RechargeUpgrade(upgrade); }, upgrade.ImageUrl, upgrade.Charges);
+            }
+
+            subphase.DefaultDecisionName = subphase.GetDecisions().First().Name;
+
+            subphase.Start();
+        }
+
+        private static void AssignTokenAndFinish()
+        {
+            Selection.ThisShip.Tokens.AssignToken(
+                new WeaponsDisabledToken(Selection.ThisShip),
+                Phases.CurrentSubPhase.CallBack
+            );
+        }
+
+        private static void RechargeUpgrade(GenericUpgrade upgrage)
+        {
+            upgrage.RestoreCharge();
+            Messages.ShowInfo("Reload: One charge of \"" + upgrage.NameOriginal + "\" is restored");
+
+            DecisionSubPhase.ConfirmDecision();
+        }
+
+        public class ReloadDecisionSubphase : DecisionSubPhase { }
 
     }
 

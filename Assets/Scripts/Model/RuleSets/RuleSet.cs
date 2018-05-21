@@ -34,6 +34,7 @@ namespace RuleSets
         public abstract bool WeaponHasRangeBonus();
         public abstract void SetShipBaseImage(GenericShip ship);
         public abstract void BarrelRollTemplatePlanning();
+        public abstract void ReloadAction();
 
         public virtual void AdaptShipToRules(GenericShip ship) { }
         public virtual void AdaptPilotToRules(GenericShip ship) { }

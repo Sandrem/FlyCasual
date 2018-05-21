@@ -456,7 +456,7 @@ public static partial class Roster {
         }
     }
 
-    public static void FlipFaceupUpgrade(GenericShip host, string upgradeName)
+    public static void ShowUpgradeAsActive(GenericShip host, string upgradeName)
     {
         foreach (Transform upgradeLine in host.InfoPanel.transform.Find("ShipInfo/UpgradesBar").transform)
         {

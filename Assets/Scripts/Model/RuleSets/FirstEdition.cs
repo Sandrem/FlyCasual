@@ -82,5 +82,10 @@ namespace RuleSets
         {
             ship.OnTryAddAvailableActionEffect += Rules.BullseyeArc.CheckBullseyeArc;
         }
+
+        public override void ReloadAction()
+        {
+            ActionsList.ReloadAction.FlipFaceupRecursive();
+        }
     }
 }

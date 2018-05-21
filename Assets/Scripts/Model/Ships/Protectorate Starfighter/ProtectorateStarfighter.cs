@@ -72,9 +72,32 @@ namespace Ship
 
             public void AdaptShipToSecondEdition()
             {
-                // No changes
+                PilotAbilities.Add(new Abilities.SecondEdition.ConcordiaFaceoffAbility());
             }
 
+        }
+    }
+}
+
+namespace Abilities.SecondEdition
+{
+    //While you defend, if the attack range is 1 and you are in the attacker's forward firing arc, change 1 result to an evade result.
+    public class ConcordiaFaceoffAbility : GenericDiceModAbility
+    {
+        public ConcordiaFaceoffAbility()
+        {
+            AllowChange(null, DieSide.Success, 1);
+            ActionName = "Concordia Faceoff";
+        }
+
+        public override bool IsActionEffectAvailable()
+        {
+            return (Combat.AttackStep == CombatStep.Defence && Combat.Defender == HostShip && Combat.ShotInfo.Range == 1 && Combat.ShotInfo.InArcByType(Arcs.ArcTypes.Primary));
+        }
+
+        public override int GetActionEffectPriority()
+        {
+            return 100;
         }
     }
 }

@@ -184,7 +184,7 @@ namespace Ship
             //Rear arc
             if (ArcInfo.Arcs.Any(n => n.Facing == ArcFacing.Rear))
             {
-                newTexture = "ShipStandInsert/Universal/SecondEdition/" + this.ShipBaseSize.ToString() + "/" + this.faction.ToString() + "/Back";
+                newTexture = "ShipStandInsert/Universal/SecondEdition/" + this.ShipBaseSize.ToString() + "/" + this.faction.ToString() + "/Rear";
                 newMaterial = CreateMaterial(newTexture);
                 StandardShaderUtils.ChangeRenderMode(newMaterial, StandardShaderUtils.BlendMode.Fade);
                 shipAllParts.Find("ShipBase/ShipStandInsert/ShipStandInsertImage/SecondArc").GetComponent<Renderer>().material = newMaterial;

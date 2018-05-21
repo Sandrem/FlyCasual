@@ -36,6 +36,22 @@ namespace Abilities
             private set { hostUpgrade = value; }
         }
 
+        public string HostName
+        {
+            get
+            {
+                return HostUpgrade != null ? HostUpgrade.Name : HostShip.PilotName;
+            }
+        }
+
+        public string HostImageUrl
+        {
+            get
+            {
+                return HostUpgrade != null ? HostUpgrade.ImageUrl : HostShip.ImageUrl;
+            }
+        }
+
         public virtual void Initialize(GenericShip hostShip)
         {
             HostReal = hostShip;

@@ -38,7 +38,7 @@ namespace RulesList
 
         private void AssignIonizationManeuver(GenericShip ship)
         {
-            GenericMovement ionizedMovement = new StraightMovement(1, ManeuverDirection.Forward, ManeuverBearing.Straight, MovementComplexity.Normal) {
+            GenericMovement ionizedMovement = new StraightMovement(1, ManeuverDirection.Forward, ManeuverBearing.Straight, RuleSet.Instance.IonManeuverComplexity) {
                 IsRevealDial = false, IsIonManeuver = true
             };
             ship.SetAssignedManeuver(ionizedMovement);

@@ -4,6 +4,8 @@ using UnityEngine;
 using Upgrade;
 using Abilities;
 using RuleSets;
+using Ship;
+using System;
 
 namespace UpgradesList
 {
@@ -23,8 +25,12 @@ namespace UpgradesList
         public void AdaptUpgradeToSecondEdition()
         {
             MaxCharges = 2;
-        }
 
+            ImageUrl = "https://i.imgur.com/eUKY69J.png";
+
+            UpgradeAbilities.RemoveAll(a => a is R2AstromechAbility);
+            UpgradeAbilities.Add(new Abilities.SecondEdition.R2AstromechAbility());
+        }
     }
 
 }
@@ -55,3 +61,50 @@ namespace Abilities
         }
     }
 }
+
+namespace Abilities.SecondEdition
+{
+    //After you reveal your dial, you may spend 1 charge and gain 1 disarm token to recover 1 shield.
+    public class R2AstromechAbility : GenericAbility
+    {
+        public override void ActivateAbility()
+        {
+            HostShip.OnManeuverIsRevealed += PlanRegenShield;
+        }
+
+        public override void DeactivateAbility()
+        {
+            HostShip.OnManeuverIsRevealed -= PlanRegenShield;
+        }
+
+        private void PlanRegenShield(GenericShip host)
+        {
+            if (HostShip.Shields < HostShip.MaxShields)
+            {
+                RegisterAbilityTrigger(TriggerTypes.OnManeuverIsRevealed, AskUseAbility);
+            }
+        }
+
+        private void AskUseAbility(object sender, EventArgs e)
+        {
+            AskToUseAbility(NeverUseByDefault, RegenShield, null, null, false, HostName + ": Spend 1 charge and gain 1 disarm token to recover 1 shield?");
+        }
+
+        private void RegenShield(object sender, EventArgs e)
+        {
+            HostUpgrade.SpendCharge(() =>
+            {
+                HostShip.Tokens.AssignToken(new Tokens.WeaponsDisabledToken(HostShip), () =>
+                {
+                    if (HostShip.TryRegenShields())
+                    {
+                        Sounds.PlayShipSound("R2D2-Proud");
+                        Messages.ShowInfo(HostName + ": Shield is restored");
+                    }
+                    Triggers.FinishTrigger();
+                });
+            });
+        }
+    }
+}
+

@@ -135,8 +135,8 @@ namespace Abilities
             {
                 SourceAbility = ability;
                 Host = ability.HostShip;
-                Name = EffectName = SourceAbility.HostUpgrade != null ? ability.HostUpgrade.Name : ability.HostShip.PilotName;
-                ImageUrl = ability.HostUpgrade != null ? ability.HostUpgrade.ImageUrl : ability.HostShip.ImageUrl;
+                Name = EffectName = ability.HostName;
+                ImageUrl = ability.HostImageUrl;
                 DiceModificationTiming = ability.DiceModificationTiming;
                 IsReroll = ability.IsReroll == true;
             }

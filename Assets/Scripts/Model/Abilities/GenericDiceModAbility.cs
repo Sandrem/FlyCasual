@@ -9,6 +9,13 @@ namespace Abilities
     /// </summary>
     public abstract class GenericDiceModAbility : GenericAbility
     {
+        private string actionName;
+        public virtual string ActionName
+        {
+            get { return actionName != null ? actionName : HostName + "'s ability"; }
+            set { actionName = value; }
+        }
+
         /// <summary>
         /// Used for abilities like Dark Curse's that can prevent rerolls
         /// </summary>
@@ -53,17 +60,18 @@ namespace Abilities
         /// <summary>
         /// Creates an action effect that allows changing a number dice of the same type. You can call this method multiple times to change different types of dice
         /// </summary>
-        /// <param name="oldSide">Die side to change from</param>
+        /// <param name="oldSide">Die side to change from, or any side if null</param>
         /// <param name="newSide">Die side to change to</param>
         /// <param name="count">Number of dice that will be changed, or all if not specified</param>
         /// <param name="cannotBeRerolled">Set to true to if the changed dice cannot be rerolled afterwards</param>
         /// <param name="cannotBeModified">Set to true if the changed dice cannot be further modified afterwards</param>
-        public void AllowChange(DieSide oldSide, DieSide newSide, int? count = null, bool cannotBeRerolled = false, bool cannotBeModified = false)
+        public void AllowChange(DieSide? oldSide, DieSide newSide, int? count = null, bool cannotBeRerolled = false, bool cannotBeModified = false)
         {
             ActionEffects.Add(callback =>
             {
-                if (count == null) Combat.CurrentDiceRoll.ChangeAll(oldSide, newSide, cannotBeRerolled, cannotBeModified);
-                else Combat.CurrentDiceRoll.Change(oldSide, newSide, count.Value, cannotBeRerolled, cannotBeModified);
+                if (oldSide == null) oldSide = Combat.CurrentDiceRoll.FindDieToChange(newSide);
+                if (count == null) Combat.CurrentDiceRoll.ChangeAll(oldSide.Value, newSide, cannotBeRerolled, cannotBeModified);
+                else Combat.CurrentDiceRoll.Change(oldSide.Value, newSide, count.Value, cannotBeRerolled, cannotBeModified);
                 callback();
             });
         }
@@ -135,7 +143,7 @@ namespace Abilities
             {
                 SourceAbility = ability;
                 Host = ability.HostShip;
-                Name = EffectName = ability.HostName;
+                Name = EffectName = ability.ActionName;
                 ImageUrl = ability.HostImageUrl;
                 DiceModificationTiming = ability.DiceModificationTiming;
                 IsReroll = ability.IsReroll == true;

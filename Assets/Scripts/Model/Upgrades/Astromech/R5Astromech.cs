@@ -53,7 +53,7 @@ namespace Abilities
         {
             Selection.ActiveShip = HostShip;
 
-            List<DamageDeckCard.GenericDamageCard> shipCritsList = HostShip.Damage.GetFaceupCrits();
+            List<GenericDamageCard> shipCritsList = HostShip.Damage.GetFaceupCrits();
 
             if (shipCritsList.Count == 1)
             {
@@ -98,7 +98,7 @@ namespace SubPhases
             callBack();
         }
 
-        private void DiscardCrit(DamageDeckCard.GenericDamageCard critCard)
+        private void DiscardCrit(GenericDamageCard critCard)
         {
             Selection.ActiveShip.Damage.FlipFaceupCritFacedown(critCard);
             Sounds.PlayShipSound("R2D2-Proud");

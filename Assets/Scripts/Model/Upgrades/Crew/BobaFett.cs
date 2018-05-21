@@ -3,7 +3,6 @@ using System;
 using UnityEngine;
 using Upgrade;
 using Abilities;
-using DamageDeckCard;
 using SubPhases;
 
 namespace UpgradesList

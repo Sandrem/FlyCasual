@@ -14,7 +14,7 @@ public static partial class Actions
 
     private static Dictionary<char, bool> Letters;
 
-    public static DamageDeckCard.GenericDamageCard SelectedCriticalHitCard;
+    public static GenericDamageCard SelectedCriticalHitCard;
 
     public static GenericAction CurrentAction;
 

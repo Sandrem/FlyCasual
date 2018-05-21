@@ -4,7 +4,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Ship;
-using DamageDeckCard;
 using RuleSets;
 
 namespace Ship

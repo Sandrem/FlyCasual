@@ -5,7 +5,6 @@ using Upgrade;
 using Abilities;
 using System;
 using SubPhases;
-using DamageDeckCard;
 using System.Linq;
 using Ship;
 using Conditions;

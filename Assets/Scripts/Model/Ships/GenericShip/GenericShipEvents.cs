@@ -22,7 +22,7 @@ namespace Ship
         public delegate void EventHandlerShipType(GenericShip ship, System.Type type);
         public delegate void EventHandlerShipTypeBool(GenericShip ship, System.Type type, ref bool data);
         public delegate void EventHandlerShipMovement(GenericShip ship, ref Movement.MovementStruct movement);
-        public delegate void EventHandlerShipCritArgs(GenericShip ship, DamageDeckCard.GenericDamageCard crit, EventArgs e = null);
+        public delegate void EventHandlerShipCritArgs(GenericShip ship, GenericDamageCard crit, EventArgs e = null);
         public delegate void EventHandlerTokenBool(Tokens.GenericToken token, ref bool data);
         public delegate void EventHandlerBombDropTemplates(List<Bombs.BombDropTemplates> availableTemplates);
         public delegate void EventHandlerBarrelRollTemplates(List<Actions.BarrelRollTemplates> availableTemplates);

@@ -19,7 +19,8 @@ namespace RuleSets
         public abstract int MaxShipsCount { get; }
         public abstract int MinShipsCount { get; }
         public abstract string CombatPhaseName { get; }
-        public abstract Color MovementEasyColor {get;}
+        public abstract Color MovementEasyColor { get; }
+        public abstract Dictionary<Type, int> DamageDeckContent { get; }
 
         public RuleSet()
         {

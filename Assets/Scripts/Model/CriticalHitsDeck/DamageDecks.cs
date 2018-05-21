@@ -2,8 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using GameModes;
-using DamageDeckCard;
 using Players;
+using RuleSets;
 
 public static class DamageDecks
 {
@@ -61,26 +61,13 @@ public class DamageDeck
     {
         Deck = new List<GenericDamageCard>();
 
-        for (int i = 0; i < 7; i++) // 7
+        foreach (var cardInfo in RuleSet.Instance.DamageDeckContent)
         {
-            Deck.Add(new DirectHit());
-        }
-
-        for (int i = 0; i < 2; i++) // 2
-        {
-            Deck.Add(new BlindedPilot());
-            Deck.Add(new DamagedCockpit());
-            Deck.Add(new DamagedEngine());
-            Deck.Add(new DamagedSensorArray());
-            Deck.Add(new LooseStabilizer());
-            Deck.Add(new MajorHullBreach());
-            Deck.Add(new ShakenPilot());
-            Deck.Add(new StructuralDamage());
-            Deck.Add(new ThrustControlFire());
-            Deck.Add(new WeaponsFailure());
-            Deck.Add(new ConsoleFire());
-            Deck.Add(new StunnedPilot());
-            Deck.Add(new MajorExplosion());
+            for (int i = 0; i < cardInfo.Value; i++)
+            {
+                GenericDamageCard card = (GenericDamageCard) Activator.CreateInstance(cardInfo.Key);
+                Deck.Add(card);
+            }
         }
     }
 

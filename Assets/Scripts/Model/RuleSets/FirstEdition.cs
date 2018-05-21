@@ -19,6 +19,29 @@ namespace RuleSets
         public override string CombatPhaseName { get { return "Combat"; } }
         public override Color MovementEasyColor { get { return Color.green; } }
 
+        public override Dictionary<Type, int> DamageDeckContent {
+            get
+            {
+                return new Dictionary<Type, int>()
+                {
+                    { typeof(DamageDeckCardFE.DirectHit),           7 },
+                    { typeof(DamageDeckCardFE.BlindedPilot),        2 },
+                    { typeof(DamageDeckCardFE.DamagedCockpit),      2 },
+                    { typeof(DamageDeckCardFE.DamagedEngine),       2 },
+                    { typeof(DamageDeckCardFE.DamagedSensorArray),  2 },
+                    { typeof(DamageDeckCardFE.LooseStabilizer),     2 },
+                    { typeof(DamageDeckCardFE.MajorHullBreach),     2 },
+                    { typeof(DamageDeckCardFE.ShakenPilot),         2 },
+                    { typeof(DamageDeckCardFE.StructuralDamage),    2 },
+                    { typeof(DamageDeckCardFE.ThrustControlFire),   2 },
+                    { typeof(DamageDeckCardFE.WeaponsFailure),      2 },
+                    { typeof(DamageDeckCardFE.ConsoleFire),         2 },
+                    { typeof(DamageDeckCardFE.StunnedPilot),        2 },
+                    { typeof(DamageDeckCardFE.MajorExplosion),      2 }
+                };
+            }
+        }
+
         public override void EvadeDiceModification(DiceRoll diceRoll)
         {
             diceRoll.AddDice(DieSide.Success).ShowWithoutRoll();

@@ -73,6 +73,11 @@ namespace Ship
             public void AdaptShipToSecondEdition()
             {
                 PilotAbilities.Add(new Abilities.SecondEdition.ConcordiaFaceoffAbility());
+
+                PrintedActions.RemoveAll(a => a is BarrelRollAction);
+                PrintedActions.RemoveAll(a => a is BoostAction);
+                PrintedActions.Add(new BarrelRollAction() { LinkedRedAction = new FocusAction() { IsRed = true } });
+                PrintedActions.Add(new BoostAction() { LinkedRedAction = new FocusAction() { IsRed = true } });
             }
 
         }

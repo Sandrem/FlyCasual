@@ -3,6 +3,7 @@ using Ship;
 using Tokens;
 using Movement;
 using System.Linq;
+using RuleSets;
 
 namespace RulesList
 {
@@ -20,12 +21,7 @@ namespace RulesList
             {
                 int ionTokensCount = ship.Tokens.GetAllTokens().Count(n => n is IonToken);
 
-                if (ionTokensCount == 1 && ship.ShipBaseSize == BaseSize.Small )
-                {
-                    Messages.ShowError("Ship is ionized!");
-                    DoIonized(ship);
-                }
-                if (ionTokensCount == 2 && ship.ShipBaseSize == BaseSize.Large)
+                if (ionTokensCount == RuleSet.Instance.NegativeTokensToAffectShip[ship.ShipBaseSize])
                 {
                     Messages.ShowError("Ship is ionized!");
                     DoIonized(ship);

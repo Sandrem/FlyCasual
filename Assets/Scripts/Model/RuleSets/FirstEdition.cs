@@ -42,6 +42,17 @@ namespace RuleSets
             }
         }
 
+        public override Dictionary<BaseSize, int> NegativeTokensToAffectShip {
+            get
+            {
+                return new Dictionary<BaseSize, int>()
+                {
+                    { BaseSize.Small,   1 },
+                    { BaseSize.Large,   2 }
+                };
+            }
+        }
+
         public override void EvadeDiceModification(DiceRoll diceRoll)
         {
             diceRoll.AddDice(DieSide.Success).ShowWithoutRoll();

@@ -21,6 +21,7 @@ namespace RuleSets
         public abstract string CombatPhaseName { get; }
         public abstract Color MovementEasyColor { get; }
         public abstract Dictionary<Type, int> DamageDeckContent { get; }
+        public abstract Dictionary<BaseSize, int> NegativeTokensToAffectShip { get; }
 
         public RuleSet()
         {

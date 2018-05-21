@@ -31,17 +31,19 @@ namespace RulesList
 
         private void DoIonized(GenericShip ship)
         {
-            ship.OnManeuverIsReadyToBeRevealed += AssignWhiteForwardOneManeuver;
+            ship.OnManeuverIsReadyToBeRevealed += AssignIonizationManeuver;
             ship.OnMovementExecuted += RegisterRemoveIonization;
             ship.ToggleIonized(true);
         }
 
-        private void AssignWhiteForwardOneManeuver(GenericShip ship)
+        private void AssignIonizationManeuver(GenericShip ship)
         {
-            GenericMovement ionizedMovement = new StraightMovement(1, ManeuverDirection.Forward, ManeuverBearing.Straight, MovementComplexity.Normal) { IsRealMovement = false };
+            GenericMovement ionizedMovement = new StraightMovement(1, ManeuverDirection.Forward, ManeuverBearing.Straight, MovementComplexity.Normal) {
+                IsRevealDial = false, IsIonManeuver = true
+            };
             ship.SetAssignedManeuver(ionizedMovement);
 
-            ship.OnManeuverIsReadyToBeRevealed -= AssignWhiteForwardOneManeuver;
+            ship.OnManeuverIsReadyToBeRevealed -= AssignIonizationManeuver;
         }
 
         private void RegisterRemoveIonization(GenericShip ship)

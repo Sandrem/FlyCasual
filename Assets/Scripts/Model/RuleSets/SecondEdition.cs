@@ -1,6 +1,7 @@
 ﻿using ActionsList;
 using Arcs;
 using GameModes;
+using Movement;
 using Ship;
 using System;
 using System.Collections.Generic;
@@ -36,6 +37,7 @@ namespace RuleSets
         public override int MaxShipsCount { get { return 8; } }
         public override string CombatPhaseName { get { return "Engagement"; } }
         public override Color MovementEasyColor { get { return new Color(0, 1, 1); } }
+        public override MovementComplexity IonManeuverComplexity { get { return MovementComplexity.Easy; } }
 
         //TODO: Change to SE cards
         public override Dictionary<Type, int> DamageDeckContent

@@ -111,7 +111,7 @@ namespace Players
 
         public override void AfterShipMovementPrediction()
         {
-            if (Selection.ThisShip.AssignedManeuver.IsRealMovement)
+            if (Selection.ThisShip.AssignedManeuver.IsRevealDial)
             {
                 bool leaveMovementAsIs = true;
 

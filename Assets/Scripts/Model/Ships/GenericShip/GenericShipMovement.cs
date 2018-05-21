@@ -68,7 +68,7 @@ namespace Ship
         {
             Roster.ToggelManeuverVisibility(Selection.ThisShip, true);
 
-            if (Selection.ThisShip.AssignedManeuver.IsRealMovement)
+            if (Selection.ThisShip.AssignedManeuver.IsRevealDial)
             {
                 if (OnManeuverIsRevealed != null) OnManeuverIsRevealed(this);
 

@@ -115,7 +115,7 @@ namespace Abilities
 
         private void ExecuteSelectedManeuver()
         {
-            HostShip.AssignedManeuver.IsRealMovement = false;
+            HostShip.AssignedManeuver.IsRevealDial = false;
             GameMode.CurrentGameMode.LaunchMovement(FinishAdaptiveAileronsAbility);
         }
 

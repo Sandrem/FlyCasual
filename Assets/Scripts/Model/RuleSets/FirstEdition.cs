@@ -1,4 +1,5 @@
-﻿using Ship;
+﻿using Movement;
+using Ship;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +19,7 @@ namespace RuleSets
         public override int MaxShipsCount { get { return 8; } }
         public override string CombatPhaseName { get { return "Combat"; } }
         public override Color MovementEasyColor { get { return Color.green; } }
+        public override MovementComplexity IonManeuverComplexity { get { return MovementComplexity.Normal; } }
 
         public override Dictionary<Type, int> DamageDeckContent {
             get

@@ -267,7 +267,8 @@ namespace Movement
 
     public abstract class GenericMovement
     {
-        public bool IsRealMovement = true;
+        public bool IsRevealDial = true;
+        public bool IsIonManeuver;
 
         public ManeuverSpeed ManeuverSpeed { get; set; }
         public int Speed { get; set; }

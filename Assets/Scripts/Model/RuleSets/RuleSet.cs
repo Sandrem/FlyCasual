@@ -1,4 +1,5 @@
 ﻿using Arcs;
+using Movement;
 using Ship;
 using System;
 using System.Collections.Generic;
@@ -20,6 +21,7 @@ namespace RuleSets
         public abstract int MinShipsCount { get; }
         public abstract string CombatPhaseName { get; }
         public abstract Color MovementEasyColor { get; }
+        public abstract MovementComplexity IonManeuverComplexity { get; }
         public abstract Dictionary<Type, int> DamageDeckContent { get; }
         public abstract Dictionary<BaseSize, int> NegativeTokensToAffectShip { get; }
 

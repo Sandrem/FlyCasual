@@ -39,6 +39,7 @@ public static partial class Network
         public string RoomName { get; private set; }
         public int CurrentVersionInt { get; private set; }
         public bool IsAnyModOn { get; private set; }
+        public string RuleSet { get; private set; }
 
         public RoomInfo(string roomName, bool simple = false)
         {
@@ -57,6 +58,7 @@ public static partial class Network
             RoomName = roomName;
             CurrentVersionInt = Global.CurrentVersionInt;
             IsAnyModOn = Mods.ModsManager.IsAnyModOn;
+            RuleSet = RuleSets.RuleSet.Instance.GetType().ToString();
         }
 
         public void InitializationWithParameters(string roomName)
@@ -73,11 +75,16 @@ public static partial class Network
             {
                 IsAnyModOn = bool.Parse(info[2].Substring(2));
             }
+
+            if (info.Length > 3 && info[3].Contains("R:"))
+            {
+                RuleSet = info[3].Substring(2);
+            }
         }
 
         public override string ToString()
         {
-            return RoomName + "|" + "V:" + CurrentVersionInt.ToString() + "|" + "M:" + IsAnyModOn.ToString();
+            return RoomName + "|V:" + CurrentVersionInt.ToString() + "|M:" + IsAnyModOn.ToString() + "|R:" + RuleSet;
         }
     }
 
@@ -426,7 +433,7 @@ public static partial class Network
 
         if (success)
         {
-            if (matches.Any(n => new RoomInfo(n.name).CurrentVersionInt == Global.CurrentVersionInt))
+            if (matches.Any(n => new RoomInfo(n.name).CurrentVersionInt == Global.CurrentVersionInt && new RoomInfo(n.name).RuleSet == RuleSets.RuleSet.Instance.GetType().ToString()))
             {
                 ToggleNoRoomsMessage(false);
                 //Messages.ShowInfo("A list of matches was returned");
@@ -486,6 +493,7 @@ public static partial class Network
             RoomInfo roomInfo = new RoomInfo(match.name);
 
             if (roomInfo.CurrentVersionInt != Global.CurrentVersionInt) continue;
+            if (roomInfo.RuleSet != RuleSets.RuleSet.Instance.GetType().ToString()) continue;
 
             GameObject MatchRecord;
 

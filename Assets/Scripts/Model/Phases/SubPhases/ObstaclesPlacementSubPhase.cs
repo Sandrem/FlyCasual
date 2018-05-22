@@ -255,7 +255,7 @@ namespace SubPhases
 
                         if (distanceBetween < minDistance)
                         {
-                            fromObstacle = closestPoint;
+                            fromObstacle = closestPoint + new Vector3(0, 0.003f, 0);
                             toObstacle = hitInfo.point;
                             minDistance = distanceBetween;
                         }
@@ -381,6 +381,7 @@ namespace SubPhases
             float randomZ = UnityEngine.Random.Range(-2.7f, 2.7f);
 
             ChosenObstacle.ObstacleGO.transform.position = new Vector3(randomX, 0, randomZ);
+            CheckEntered();
             CheckLimits();
             if (!IsPlacementBlocked)
             {

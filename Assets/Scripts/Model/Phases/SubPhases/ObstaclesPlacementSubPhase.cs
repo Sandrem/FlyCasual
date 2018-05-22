@@ -18,6 +18,8 @@ namespace SubPhases
         private float MinBoardEdgeDistance;
         private float MinObstaclesDistance;
         private bool IsPlacementBlocked;
+        private bool IsEnteredPlaymat;
+        private bool IsEnteredPlacementZone;
 
         public override void Start()
         {
@@ -84,7 +86,39 @@ namespace SubPhases
             MoveChosenObstacle();
             CheckPerformRotation();
 
-            CheckLimits();
+            CheckEntered();
+            if (IsEnteredPlaymat) CheckLimits();
+        }
+
+        private void CheckEntered()
+        {
+            Vector3 position = ChosenObstacle.ObstacleGO.transform.position;
+
+            if (!IsEnteredPlacementZone)
+            {
+                if (Mathf.Abs(position.x) < 2.7f && Mathf.Abs(position.z) < 2.7f)
+                {
+                    IsEnteredPlacementZone = true;
+                }
+            }
+
+            if (!IsEnteredPlaymat)
+            {
+                if (Mathf.Abs(position.x) < 5f && Mathf.Abs(position.z) < 5f)
+                {
+                    IsEnteredPlaymat = true;
+                }
+            }
+
+            if (IsEnteredPlaymat)
+            {
+                if (position.x < -4.5f) ChosenObstacle.ObstacleGO.transform.position = new Vector3(-4.5f, position.y, position.z);
+                if (position.x > 4.5f) ChosenObstacle.ObstacleGO.transform.position = new Vector3(4.5f, position.y, position.z);
+
+                position = ChosenObstacle.ObstacleGO.transform.position;
+                if (position.z < -4.5f) ChosenObstacle.ObstacleGO.transform.position = new Vector3(position.x, position.y, -4.5f);
+                if (position.z > 4.5f) ChosenObstacle.ObstacleGO.transform.position = new Vector3(position.x, position.y, 4.5f);
+            }
         }
 
         private void MoveChosenObstacle()
@@ -140,8 +174,6 @@ namespace SubPhases
 
         private void CheckLimits()
         {
-            if (ChosenObstacle == null) return;
-
             IsPlacementBlocked = false;
             ApplyEdgeLimits();
             ApplyObstacleLimits();
@@ -155,6 +187,8 @@ namespace SubPhases
             Vector3 toObstacle = Vector3.zero;
             float minDistance = float.MaxValue;
 
+            bool IsShiftRequired = false;
+
             foreach (BoxCollider collider in Board.BoardTransform.Find("OffTheBoardHolder").GetComponentsInChildren<BoxCollider>())
             {
                 Vector3 closestPoint = collider.ClosestPoint(ChosenObstacle.ObstacleGO.transform.position);
@@ -166,7 +200,7 @@ namespace SubPhases
                     float distanceFromEdge = Vector3.Distance(closestPoint, hitInfo.point);
                     if (distanceFromEdge < MinBoardEdgeDistance)
                     {
-                        IsPlacementBlocked = true;
+                        IsShiftRequired = true;
 
                         if (distanceFromEdge < minDistance)
                         {
@@ -174,14 +208,25 @@ namespace SubPhases
                             toObstacle = hitInfo.point;
                             minDistance = distanceFromEdge;
                         }
+
+                        MoveObstacleToKeepInPlacementZone(closestPoint, hitInfo.point);
                     }
                 }
             }
 
-            if (IsPlacementBlocked)
+            if (IsShiftRequired)
             {
                 MovementTemplates.ShowRangeRulerR2(fromEdge, toObstacle);
             }
+        }
+
+        private void MoveObstacleToKeepInPlacementZone(Vector3 pointOnEdge, Vector3 nearestPoint)
+        {
+            Vector3 disallowedVector = nearestPoint - pointOnEdge;
+            Vector3 allowedVector = disallowedVector / Vector3.Distance(pointOnEdge, nearestPoint) * MinBoardEdgeDistance;
+            
+            Vector3 shift = (allowedVector - disallowedVector);
+            ChosenObstacle.ObstacleGO.transform.position += shift;
         }
 
         private void ApplyObstacleLimits()
@@ -286,7 +331,7 @@ namespace SubPhases
 
         private void TryToPlaceObstacle()
         {
-            if (!IsPlacementBlocked)
+            if (IsEnteredPlacementZone && !IsPlacementBlocked)
             {
                 Board.ToggleOffTheBoardHolder(false);
 
@@ -294,6 +339,10 @@ namespace SubPhases
 
                 ChosenObstacle.IsPlaced = true;
                 ChosenObstacle = null;
+                IsEnteredPlacementZone = false;
+                IsEnteredPlaymat = false;
+
+                MovementTemplates.ReturnRangeRulerR2();
 
                 if (ObstaclesManager.Instance.GetPlacedObstaclesCount() < 6)
                 {

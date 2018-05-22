@@ -109,8 +109,8 @@ namespace SquadBuilderNS
             availablePilotsCounter = 0;
 
             ShipRecord shipRecord = AllShips.Find(n => n.ShipName == shipName);
-            List<PilotRecord> AllPilotsFiltered = AllPilots.Where(n => n.PilotShip == shipRecord && n.PilotFaction == faction).OrderByDescending(n => n.PilotSkill).ToList();
-            int pilotsCount = AllPilotsFiltered.Count;
+            List<PilotRecord> AllPilotsFiltered = AllPilots.Where(n => n.PilotShip == shipRecord && n.PilotFaction == faction && RuleSet.Instance.PilotIsAllowed(n.Instance)).OrderByDescending(n => n.PilotSkill).ToList();
+            int pilotsCount = AllPilotsFiltered.Count();
 
             Transform contentTransform = GameObject.Find("UI/Panels/SelectPilotPanel/Panel/Scroll View/Viewport/Content").transform;
             DestroyChildren(contentTransform);
@@ -119,7 +119,7 @@ namespace SquadBuilderNS
 
             foreach (PilotRecord pilot in AllPilotsFiltered)
             {
-                if (RuleSet.Instance.PilotIsAllowed(pilot.Instance)) ShowAvailablePilot(pilot);
+                ShowAvailablePilot(pilot);
             }
         }
 
@@ -513,8 +513,8 @@ namespace SquadBuilderNS
         {
             availableUpgradesCounter = 0;
 
-            List<UpgradeRecord> filteredUpgrades = AllUpgrades.Where(n => n.Instance.HasType(slot.Type) && n.Instance.IsAllowedForShip(CurrentSquadBuilderShip.Instance) && n.Instance.HasEnoughSlotsInShip(CurrentSquadBuilderShip.Instance)).ToList();
-            int filteredUpgradesCount = filteredUpgrades.Count;
+            List<UpgradeRecord> filteredUpgrades = AllUpgrades.Where(n => n.Instance.HasType(slot.Type) && n.Instance.IsAllowedForShip(CurrentSquadBuilderShip.Instance) && n.Instance.HasEnoughSlotsInShip(CurrentSquadBuilderShip.Instance) && n.Instance.UpgradeRuleType == RuleSet.Instance.GetType()).ToList();
+            int filteredUpgradesCount = filteredUpgrades.Count();
 
             Transform contentTransform = GameObject.Find("UI/Panels/SelectUpgradePanel/Panel/Scroll View/Viewport/Content").transform;
             DestroyChildren(contentTransform);
@@ -523,7 +523,7 @@ namespace SquadBuilderNS
 
             foreach (UpgradeRecord upgrade in filteredUpgrades)
             {
-                if (upgrade.Instance.UpgradeRuleType == RuleSet.Instance.GetType()) ShowAvailableUpgrade(upgrade);
+                ShowAvailableUpgrade(upgrade);
             }
         }
 

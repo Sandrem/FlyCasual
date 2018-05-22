@@ -31,6 +31,7 @@ namespace RuleSets
     public class SecondEdition : RuleSet
     {
         public override string Name { get { return "Second Edition"; } }
+        private bool IsSquadBuilderLocked = false;
 
         public override int MaxPoints { get { return 200; } }
         public override int MinShipCost { get { return 28; } }
@@ -197,6 +198,8 @@ namespace RuleSets
 
         public override void SquadBuilderIsOpened()
         {
+            if (!IsSquadBuilderLocked) return;
+
             string squadName = "";
 
             switch (SquadBuilder.CurrentSquadList.SquadFaction)

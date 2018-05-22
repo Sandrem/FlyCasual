@@ -36,7 +36,7 @@ namespace RuleSets
         public override int MinShipsCount { get { return 1; } }
         public override int MaxShipsCount { get { return 8; } }
         public override string CombatPhaseName { get { return "Engagement"; } }
-        public override Color MovementEasyColor { get { return new Color(0, 1, 1); } }
+        public override Color MovementEasyColor { get { return new Color(0, 0.5f, 1); } }
         public override MovementComplexity IonManeuverComplexity { get { return MovementComplexity.Easy; } }
 
         //TODO: Change to SE cards

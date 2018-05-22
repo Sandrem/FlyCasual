@@ -136,6 +136,19 @@ namespace Players
         {
             RulesList.TractorBeamRule.PerfromManualTractorBeamReposition(ship, this);
         }
+
+        public override void PlaceObstacle()
+        {
+            SubPhases.ObstaclesPlacementSubPhase subphase = Phases.CurrentSubPhase as SubPhases.ObstaclesPlacementSubPhase;
+            if (subphase.IsRandomSetupSelected[this.PlayerNo])
+            {
+                subphase.SkipButton();
+            }
+            else
+            {
+                UI.ShowSkipButton("Random");
+            }
+        }
     }
 
 }

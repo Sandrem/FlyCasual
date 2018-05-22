@@ -21,6 +21,12 @@ namespace SubPhases
         private bool IsEnteredPlaymat;
         private bool IsEnteredPlacementZone;
 
+        public Dictionary<PlayerNo, bool> IsRandomSetupSelected = new Dictionary<PlayerNo, bool>()
+        {
+            { PlayerNo.Player1, false },
+            { PlayerNo.Player2, false }
+        };
+
         public override void Start()
         {
             Name = "Obstacles Setup";
@@ -44,9 +50,8 @@ namespace SubPhases
 
             RequiredPlayer = Roster.AnotherPlayer(RequiredPlayer);
             ShowSubphaseDescription(Name, "Obstacles cannot be placed at Range 1 of each other, or at Range 1-2 of an edge of the play area.");
-            if (Roster.GetPlayer(RequiredPlayer).GetType() == typeof(HumanPlayer)) UI.ShowSkipButton("Random");
-            Roster.HighlightPlayer(RequiredPlayer);
 
+            Roster.HighlightPlayer(RequiredPlayer);
             Roster.GetPlayer(RequiredPlayer).PlaceObstacle();
         }
 
@@ -361,6 +366,7 @@ namespace SubPhases
 
         public override void SkipButton()
         {
+            IsRandomSetupSelected[RequiredPlayer] = true;
             PlaceRandom();
         }
 

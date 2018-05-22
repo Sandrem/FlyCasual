@@ -31,7 +31,7 @@ namespace RuleSets
     public class SecondEdition : RuleSet
     {
         public override string Name { get { return "Second Edition"; } }
-        private bool IsSquadBuilderLocked = false;
+        //public override bool IsSquadBuilderLocked { get { return true; } }
 
         public override int MaxPoints { get { return 200; } }
         public override int MinShipCost { get { return 28; } }

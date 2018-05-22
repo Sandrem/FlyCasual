@@ -374,6 +374,12 @@ namespace SquadBuilderNS
 
         private static void OpenShipInfo(GenericShip ship)
         {
+            if (RuleSet.Instance.IsSquadBuilderLocked)
+            {
+                Messages.ShowError("Squad building is disabled");
+                return;
+            }
+
             CurrentSquadBuilderShip = CurrentSquadList.GetShips().Find(n => n.Instance == ship);
             MainMenu.CurrentMainMenu.ChangePanel("ShipSlotsPanel");
         }

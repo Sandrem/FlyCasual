@@ -58,7 +58,7 @@ public static partial class Network
             RoomName = roomName;
             CurrentVersionInt = Global.CurrentVersionInt;
             IsAnyModOn = Mods.ModsManager.IsAnyModOn;
-            RuleSet = RuleSets.RuleSet.Instance.GetType().ToString();
+            RuleSet = RuleSets.RuleSet.Instance.Name;
         }
 
         public void InitializationWithParameters(string roomName)
@@ -433,7 +433,7 @@ public static partial class Network
 
         if (success)
         {
-            if (matches.Any(n => new RoomInfo(n.name).CurrentVersionInt == Global.CurrentVersionInt && new RoomInfo(n.name).RuleSet == RuleSets.RuleSet.Instance.GetType().ToString()))
+            if (matches.Any(n => new RoomInfo(n.name).CurrentVersionInt == Global.CurrentVersionInt && new RoomInfo(n.name).RuleSet == RuleSets.RuleSet.Instance.Name))
             {
                 ToggleNoRoomsMessage(false);
                 //Messages.ShowInfo("A list of matches was returned");

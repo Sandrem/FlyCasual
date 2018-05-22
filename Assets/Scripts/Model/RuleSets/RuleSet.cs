@@ -24,6 +24,7 @@ namespace RuleSets
         public abstract MovementComplexity IonManeuverComplexity { get; }
         public abstract Dictionary<Type, int> DamageDeckContent { get; }
         public abstract Dictionary<BaseSize, int> NegativeTokensToAffectShip { get; }
+        public abstract Dictionary<string, string> PreGeneratedAiSquadrons { get; }
 
         public RuleSet()
         {
@@ -46,5 +47,6 @@ namespace RuleSets
         public virtual void RotateMobileFiringArc(ArcFacing facing) { }
         public virtual void ActivateGenericUpgradeAbility(GenericShip host, List<UpgradeType> upgradeTypes) { }
         public virtual void SubScribeToGenericShipEvents(GenericShip ship) { }
+        public virtual void SquadBuilderIsOpened() { }
     }
 }

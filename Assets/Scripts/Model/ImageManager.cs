@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RuleSets;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -11,7 +12,7 @@ public static class ImageManager
 
     static public WWW GetImage(string url)
     {
-        string filePath = Application.persistentDataPath + "/ImageCache";
+        string filePath = Application.persistentDataPath + "/" + RuleSet.Instance.Name + "/ImageCache";
         if (!Directory.Exists(filePath)) Directory.CreateDirectory(filePath);
         filePath += "/" + url.GetHashCode() + ".png";
         bool web = false;

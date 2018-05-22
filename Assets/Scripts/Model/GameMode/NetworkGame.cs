@@ -251,5 +251,10 @@ namespace GameModes
             Network.QuitToDesktop();
         }
 
+        public override void PlaceObstacle(string obstacleName, Vector3 position, Vector3 angles)
+        {
+            Network.PlaceObstacle(obstacleName, position, angles);
+        }
+
     }
 }

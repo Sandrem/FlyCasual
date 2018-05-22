@@ -661,4 +661,9 @@ public static partial class Network
             Application.Quit();
         }
     }
+
+    public static void PlaceObstacle(string obstacleName, Vector3 position, Vector3 angles)
+    {
+        CurrentPlayer.CmdPlaceObstacle(obstacleName, position, angles);
+    }
 }

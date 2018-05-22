@@ -1097,4 +1097,16 @@ public partial class NetworkPlayerController : NetworkBehaviour {
         }
     }
 
+    [Command]
+    public void CmdPlaceObstacle(string obstacleName, Vector3 position, Vector3 angles)
+    {
+        RpcPlaceObstacle(obstacleName, position, angles);
+    }
+
+    [ClientRpc]
+    private void RpcPlaceObstacle(string obstacleName, Vector3 position, Vector3 angles)
+    {
+        (Phases.CurrentSubPhase as ObstaclesPlacementSubPhase).PlaceObstacleClient(obstacleName, position, angles);
+    }
+
 }

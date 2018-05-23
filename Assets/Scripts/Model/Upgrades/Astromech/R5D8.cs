@@ -1,13 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using Upgrade;
+﻿using Upgrade;
 using Abilities;
+using RuleSets;
 
 namespace UpgradesList
 {
 
-    public class R5D8 : GenericUpgrade
+    public class R5D8 : GenericUpgrade, ISecondEditionUpgrade
     {
         public R5D8() : base()
         {
@@ -17,6 +15,16 @@ namespace UpgradesList
             Cost = 3;
 
             UpgradeAbilities.Add(new R5D8Ability());
+        }
+
+        public void AdaptUpgradeToSecondEdition()
+        {
+            MaxCharges = 3;
+
+            ImageUrl = "https://i.imgur.com/p5VRdvO.png";
+
+            UpgradeAbilities.RemoveAll(a => a is R5D8Ability);
+            UpgradeAbilities.Add(new Abilities.SecondEdition.R5AstromechAbility());
         }
     }
 
@@ -75,7 +83,6 @@ namespace ActionsList
 
 namespace SubPhases
 {
-
     public class R5D8CheckSubPhase : DiceRollCheckSubPhase
     {
 

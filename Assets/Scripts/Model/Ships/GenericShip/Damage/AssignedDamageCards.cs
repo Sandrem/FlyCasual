@@ -16,9 +16,9 @@ namespace Ship
             DamageCards = new List<GenericDamageCard>();
         }
 
-        public List<GenericDamageCard> GetFaceupCrits()
+        public List<GenericDamageCard> GetFaceupCrits(CriticalCardType? type = null)
         {
-            return DamageCards.Where(n => n.IsFaceup).ToList();
+            return DamageCards.Where(n => n.IsFaceup && (n.Type == type || type == null)).ToList();
         }
 
         public List<GenericDamageCard> GetFacedownCards()
@@ -40,7 +40,7 @@ namespace Ship
             if (faceDownCards.Count != 0)
             {
                 result = true;
-                faceDownCards.RemoveAt(0);
+                DamageCards.Remove(faceDownCards.First());
                 Host.CallAfterAssignedDamageIsChanged();
             }
             return result;

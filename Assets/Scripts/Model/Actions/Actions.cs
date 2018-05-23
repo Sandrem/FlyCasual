@@ -188,12 +188,11 @@ public static partial class Actions
         return result;
     }
 
-    public static int GetFiringRangeAndShow(GenericShip thisShip, GenericShip anotherShip)
+    public static ShotInfo GetFiringRangeAndShow(GenericShip thisShip, GenericShip anotherShip)
     {
         ShotInfo shotInfo = new ShotInfo(thisShip, anotherShip, thisShip.PrimaryWeapon);
         bool inArc = MovementTemplates.ShowFiringArcRange(shotInfo);
-        if (!inArc) Messages.ShowInfoToHuman("Out of arc");
-        return shotInfo.Range;
+        return shotInfo;
     }
 
     public static int GetRangeAndShow(GenericShip thisShip, GenericShip anotherShip)

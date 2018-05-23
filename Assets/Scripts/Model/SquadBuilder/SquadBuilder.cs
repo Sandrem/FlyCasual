@@ -728,6 +728,11 @@ namespace SquadBuilderNS
                         string shipNameGeneral = AllShips.Find(n => n.ShipNameCanonical == shipNameXws).ShipName;
 
                         string pilotNameXws = pilotJson["name"].str;
+                        if (!AllPilots.Any(n => n.PilotNameCanonical == pilotNameXws))
+                        {
+                            Debug.Log("Cannot find pilot: " + pilotNameXws);
+                            Console.Write("Cannot find pilot: " + pilotNameXws, LogTypes.Errors, true, "red");
+                        }
                         string pilotNameGeneral = AllPilots.Find(n => n.PilotNameCanonical == pilotNameXws).PilotName;
 
                         PilotRecord pilotRecord = AllPilots.Find(n => n.PilotName == pilotNameGeneral && n.PilotShip.ShipName == shipNameGeneral && n.PilotFaction == faction);
@@ -744,6 +749,11 @@ namespace SquadBuilderNS
                             JSONObject upgradeNames = upgradeJsons[upgradeType];
                             foreach (JSONObject upgradeRecord in upgradeNames.list)
                             {
+                                if (!AllUpgrades.Any(n => n.UpgradeNameCanonical == upgradeRecord.str))
+                                {
+                                    Debug.Log("Cannot find upgrade: " + upgradeRecord.str);
+                                    Console.Write("Cannot find upgrade: " + upgradeRecord.str, LogTypes.Errors, true, "red");
+                                }
                                 string upgradeName = AllUpgrades.Find(n => n.UpgradeNameCanonical == upgradeRecord.str).UpgradeName;
                                 bool upgradeInstalledSucessfully = InstallUpgrade(newShip, upgradeName);
                                 if (!upgradeInstalledSucessfully) upgradesThatCannotBeInstalled.Add(upgradeName);

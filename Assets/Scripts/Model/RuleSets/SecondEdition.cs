@@ -40,28 +40,27 @@ namespace RuleSets
         public override string CombatPhaseName { get { return "Engagement"; } }
         public override Color MovementEasyColor { get { return new Color(0, 0.5f, 1); } }
         public override MovementComplexity IonManeuverComplexity { get { return MovementComplexity.Easy; } }
-
-        //TODO: Change to SE cards
+                
         public override Dictionary<Type, int> DamageDeckContent
         {
             get
             {
                 return new Dictionary<Type, int>()
                 {
-                    { typeof(DamageDeckCardFE.DirectHit),           7 },
-                    { typeof(DamageDeckCardFE.BlindedPilot),        2 },
-                    { typeof(DamageDeckCardFE.DamagedCockpit),      2 },
-                    { typeof(DamageDeckCardFE.DamagedEngine),       2 },
-                    { typeof(DamageDeckCardFE.DamagedSensorArray),  2 },
-                    { typeof(DamageDeckCardFE.LooseStabilizer),     2 },
-                    { typeof(DamageDeckCardFE.MajorHullBreach),     2 },
-                    { typeof(DamageDeckCardFE.ShakenPilot),         2 },
-                    { typeof(DamageDeckCardFE.StructuralDamage),    2 },
-                    { typeof(DamageDeckCardFE.ThrustControlFire),   2 },
-                    { typeof(DamageDeckCardFE.WeaponsFailure),      2 },
-                    { typeof(DamageDeckCardFE.ConsoleFire),         2 },
-                    { typeof(DamageDeckCardFE.StunnedPilot),        2 },
-                    { typeof(DamageDeckCardFE.MajorExplosion),      2 }
+                    { typeof(DamageDeckCardSE.BlindedPilot),        2 },
+                    { typeof(DamageDeckCardSE.ConsoleFire),         2 },
+                    { typeof(DamageDeckCardSE.DamagedEngine),       2 },
+                    { typeof(DamageDeckCardSE.DamagedSensorArray),  2 },
+                    { typeof(DamageDeckCardSE.DirectHit),           5 },
+                    { typeof(DamageDeckCardSE.DisabledPowerRegulator),  2 },                    
+                    { typeof(DamageDeckCardSE.FuelLeak),            4 },
+                    { typeof(DamageDeckCardSE.HullBreach),          2 },
+                    { typeof(DamageDeckCardSE.LooseStabilizer),     2 },
+                    { typeof(DamageDeckCardSE.PanickedPilot),       2 },
+                    { typeof(DamageDeckCardSE.StructuralDamage),    2 },
+                    { typeof(DamageDeckCardSE.StunnedPilot),        2 },
+                    { typeof(DamageDeckCardSE.WeaponsFailure),      2 },
+                    { typeof(DamageDeckCardSE.WoundedPilot),        2 },
                 };
             }
         }

@@ -40,6 +40,7 @@ namespace RulesList
             {
                 AssignIonizationManeuver(ship);
                 ship.OnMovementExecuted += RegisterRemoveIonization;
+                RuleSet.Instance.WhenIonized(ship);
             }
         }
 

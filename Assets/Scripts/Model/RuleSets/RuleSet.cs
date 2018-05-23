@@ -50,5 +50,6 @@ namespace RuleSets
         public virtual void ActivateGenericUpgradeAbility(GenericShip host, List<UpgradeType> upgradeTypes) { }
         public virtual void SubScribeToGenericShipEvents(GenericShip ship) { }
         public virtual void SquadBuilderIsOpened() { }
+        public virtual void WhenIonized(GenericShip ship) { }
     }
 }

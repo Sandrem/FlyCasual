@@ -217,5 +217,22 @@ namespace RuleSets
 
             SquadBuilder.CreateSquadFromImportedJson(PreGeneratedAiSquadrons[squadName], SquadBuilder.CurrentPlayer, delegate { });
         }
+
+        public override void WhenIonized(GenericShip ship)
+        {
+            ship.OnTryAddAvailableAction += IonizedShipCanDoOnlyFocus;
+            ship.OnRoundEnd += DisableIonizationActionEffect;
+        }
+
+        private void DisableIonizationActionEffect(GenericShip ship)
+        {
+            ship.OnTryAddAvailableAction -= IonizedShipCanDoOnlyFocus;
+            ship.OnRoundEnd -= DisableIonizationActionEffect;
+        }
+
+        private void IonizedShipCanDoOnlyFocus(GenericAction action, ref bool canBePerformed)
+        {
+            canBePerformed = action is FocusAction;
+        }
     }
 }

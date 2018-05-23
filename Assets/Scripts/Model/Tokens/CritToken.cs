@@ -119,4 +119,76 @@ namespace Tokens
         }
     }
 
+    public class DisabledPowerRegulatorCritToken : CritToken
+    {
+        public DisabledPowerRegulatorCritToken(GenericShip host) : base(host)
+        {
+            /// TODO: Find a picture
+            //Tooltip = "http://i.imgur.com/RwtlPpG.jpg";
+        }
+    }
+
+    public class FuelLeakCritToken : CritToken
+    {
+        public FuelLeakCritToken(GenericShip host) : base(host)
+        {
+            /// TODO: Find a picture
+            //Tooltip = "http://i.imgur.com/RwtlPpG.jpg";
+        }
+    }
+
+    public class HullBreachCritToken : CritToken
+    {
+        public HullBreachCritToken(GenericShip host) : base(host)
+        {
+            /// TODO: Find a picture
+            //Tooltip = "http://i.imgur.com/RwtlPpG.jpg";
+        }
+    }
+
+    public class LooseStabilizerSECritToken : CritToken
+    {
+        public LooseStabilizerSECritToken(GenericShip host) : base(host)
+        {
+            /// TODO: Find a picture
+            //Tooltip = "http://vignette4.wikia.nocookie.net/xwing-miniatures/images/d/db/Loose-stabilizer.png";
+        }
+    }
+    public class StructuralDamageSECritToken : CritToken
+    {
+        public StructuralDamageSECritToken(GenericShip host) : base(host)
+        {
+            /// TODO: Find a picture
+            //Tooltip = "http://vignette4.wikia.nocookie.net/xwing-miniatures/images/d/db/Loose-stabilizer.png";
+        }
+    }
+    public class StunnedPilotSECritToken : CritToken
+    {
+        public StunnedPilotSECritToken(GenericShip host) : base(host)
+        {
+            /// TODO: Find a picture
+            //Tooltip = "http://vignette4.wikia.nocookie.net/xwing-miniatures/images/d/db/Loose-stabilizer.png";
+        }
+    }
+    public class WeaponsFailureSECritToken : CritToken
+    {
+        public WeaponsFailureSECritToken(GenericShip host) : base(host)
+        {
+            /// TODO: Find a picture
+            //Tooltip = "http://vignette4.wikia.nocookie.net/xwing-miniatures/images/d/db/Loose-stabilizer.png";
+        }
+    }
+
+    public class WoundedPilotCritToken : CritToken
+    {
+        public WoundedPilotCritToken(GenericShip host) : base(host)
+        {
+            /// TODO: Find a picture
+            //Tooltip = "http://vignette4.wikia.nocookie.net/xwing-miniatures/images/d/db/Loose-stabilizer.png";
+        }
+    }
+
+
+
+
 }

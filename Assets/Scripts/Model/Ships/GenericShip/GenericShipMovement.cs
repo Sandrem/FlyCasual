@@ -138,6 +138,12 @@ namespace Ship
             return result;
         }
 
+        public ManeuverBearing GetLastManeuverBearing()
+        {               
+            var result = AssignedManeuver.Bearing;
+            return result;
+        }
+
         public Dictionary<string, MovementComplexity> GetManeuvers()
         {
             Dictionary<string, MovementComplexity> result = new Dictionary<string, MovementComplexity>();

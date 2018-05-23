@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using DamageDeckCardFE;
+using DamageDeckCardSE;
 using Ship;
 using Players;
 
@@ -10,30 +11,59 @@ namespace CommandsList
 {
     public class CritCardCommand : GenericCommand
     {
-        private Dictionary<string, Type> stringToType = new Dictionary<string, Type>()
+        private Dictionary<string, Type> stringToTypeFE = new Dictionary<string, Type>()
         {
-            { "blindedpilot",       typeof(BlindedPilot)        },
-            { "consolefire",        typeof(ConsoleFire)         },
-            { "damagedcockpit",     typeof(DamagedCockpit)      },
-            { "damagedengine",      typeof(DamagedEngine)       },
-            { "damagedsensorarray", typeof(DamagedSensorArray)  },
-            { "directhit",          typeof(DirectHit)           },
-            { "loosestabilizer",    typeof(LooseStabilizer)     },
-            { "majorexplosion",     typeof(MajorExplosion)      },
-            { "majorhullbreach",    typeof(MajorHullBreach)     },
-            { "shakenpilot",        typeof(ShakenPilot)         },
-            { "structuraldamage",   typeof(StructuralDamage)    },
-            { "stunnedpilot",       typeof(StunnedPilot)        },
-            { "thrustcontrolfire",  typeof(ThrustControlFire)   },
-            { "weaponsfailure",     typeof(WeaponsFailure)      }
+            { "blindedpilot",       typeof(DamageDeckCardFE.BlindedPilot)        },
+            { "consolefire",        typeof(DamageDeckCardFE.ConsoleFire)         },
+            { "damagedcockpit",     typeof(DamageDeckCardFE.DamagedCockpit)      },
+            { "damagedengine",      typeof(DamageDeckCardFE.DamagedEngine)       },
+            { "damagedsensorarray", typeof(DamageDeckCardFE.DamagedSensorArray)  },
+            { "directhit",          typeof(DamageDeckCardFE.DirectHit)           },
+            { "loosestabilizer",    typeof(DamageDeckCardFE.LooseStabilizer)     },
+            { "majorexplosion",     typeof(DamageDeckCardFE.MajorExplosion)      },
+            { "majorhullbreach",    typeof(DamageDeckCardFE.MajorHullBreach)     },
+            { "shakenpilot",        typeof(DamageDeckCardFE.ShakenPilot)         },
+            { "structuraldamage",   typeof(DamageDeckCardFE.StructuralDamage)    },
+            { "stunnedpilot",       typeof(DamageDeckCardFE.StunnedPilot)        },
+            { "thrustcontrolfire",  typeof(DamageDeckCardFE.ThrustControlFire)   },
+            { "weaponsfailure",     typeof(DamageDeckCardFE.WeaponsFailure)      }
         };
+        private Dictionary<string, Type> stringToTypeSE = new Dictionary<string, Type>()
+        {
+            { "blindedpilot",       typeof(DamageDeckCardSE.BlindedPilot)        },
+            { "consolefire",        typeof(DamageDeckCardSE.ConsoleFire)         },
+            { "damagedengine",      typeof(DamageDeckCardSE.DamagedEngine)       },
+            { "damagedsensorarray", typeof(DamageDeckCardSE.DamagedSensorArray)  },            
+            { "directhit",          typeof(DamageDeckCardSE.DirectHit)           },
+            { "disabledpowerregulator", typeof(DamageDeckCardSE.DisabledPowerRegulator)},
+            { "fuelleak",           typeof(DamageDeckCardSE.FuelLeak)            },
+            { "hullbreach",         typeof(DamageDeckCardSE.HullBreach)          },
+            { "loosestabilizer",    typeof(DamageDeckCardSE.LooseStabilizer)     },
+            { "panickedpilot",      typeof(DamageDeckCardSE.PanickedPilot)       },
+            { "structuraldamage",   typeof(DamageDeckCardSE.StructuralDamage)    },
+            { "stunnedpilot",       typeof(DamageDeckCardSE.StunnedPilot)        },            
+            { "weaponsfailure",     typeof(DamageDeckCardSE.WeaponsFailure)      },
+            { "woundedpilot",       typeof(DamageDeckCardSE.WoundedPilot)        }
+        };
+
+        private Dictionary<string, Type> stringToType
+        {
+            get
+            {
+                return Options.Edition == "FirstEdition"
+                    ? stringToTypeFE
+                    : stringToTypeSE;
+            }
+        }
 
         public CritCardCommand()
         {
             Keyword = "faceupcrit";
+            var critList = stringToType.Keys.ToArray();
+            var critListString = string.Join(", ", critList);
             Description =   "Deals faceup damage card to ship\n" +
                             "faceupcrit id:<shipId> type:<critCardName>\n" +
-                            "where critcardname: blindedpilot, consolefire, damagedcockpit, damagedengine, damagedsensorarray, directhit, loosestabilizer, majorexplosion, majorhullbreach, shakenpilot, structuraldamage, stunnedpilot, thrustcontrolfire, weaponsfailure";
+                            "where critcardname: " + critListString;
 
             Console.AddAvailableCommand(this);
         }

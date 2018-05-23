@@ -193,6 +193,8 @@ namespace Ship
         public event EventHandlerShip OnCheckSufferBombDetonation;
 
         public event EventHandlerObjArgsBool OnSufferCriticalDamage;
+        public event EventHandlerObjArgsBool OnSufferDamageDecidingSeverity;
+        public event EventHandlerShipBool OnSufferDamageConfirmed;
 
         public event EventHandlerBool OnTryConfirmDiceResults;
 
@@ -481,6 +483,9 @@ namespace Ship
 
             bool isCritical = (AssignedDamageDiceroll.Successes > 0 && AssignedDamageDiceroll.RegularSuccesses == 0);
 
+            if (OnSufferDamageDecidingSeverity != null) OnSufferDamageDecidingSeverity(sender, e, ref isCritical);
+
+            bool damageIsSuffered = false;
             if (isCritical)
             {
                 bool skipSufferDamage = false;
@@ -489,16 +494,20 @@ namespace Ship
                 if (!skipSufferDamage)
                 {
                     SufferDamageByType(sender, e, isCritical);
+                    damageIsSuffered = true;
                 }
             }
             else
             {
                 SufferDamageByType(sender, e, isCritical);
+                damageIsSuffered = true;
             }
+
+            if (damageIsSuffered && OnSufferDamageConfirmed != null) OnSufferDamageConfirmed(this, isCritical);
         }
 
         private void SufferDamageByType(object sender, EventArgs e, bool isCritical)
-        {
+        {            
             if (Shields > 0)
             {
                 SufferShieldDamage();

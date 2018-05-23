@@ -24,7 +24,7 @@ namespace DamageDeckCardFE
             Triggers.FinishTrigger();
         }
 
-        private void PlanRollForDamage()
+        protected virtual void PlanRollForDamage()
         {
             Triggers.RegisterTrigger(new Trigger() {
                 Name = "#" + Host.ShipId + ": Console Fire Crit",
@@ -34,7 +34,7 @@ namespace DamageDeckCardFE
             });
         }
 
-        private void RollForDamage(object sender, EventArgs e)
+        protected void RollForDamage(object sender, EventArgs e)
         {
             Selection.ActiveShip = Host;
             Selection.ThisShip = Host;

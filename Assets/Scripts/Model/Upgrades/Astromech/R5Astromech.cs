@@ -56,7 +56,7 @@ namespace Abilities
         {
             Selection.ActiveShip = HostShip;
 
-            List<GenericDamageCard> shipCritsList = HostShip.Damage.GetFaceupCrits();
+            List<GenericDamageCard> shipCritsList = HostShip.Damage.GetFaceupCrits(CriticalCardType.Ship);
 
             if (shipCritsList.Count == 1)
             {
@@ -90,7 +90,7 @@ namespace SubPhases
         {
             InfoText = "R5 Astromech: Select faceup ship Crit";
 
-            foreach (var shipCrit in Selection.ActiveShip.Damage.GetFaceupCrits().Where(n => n.Type == CriticalCardType.Ship).ToList())
+            foreach (var shipCrit in Selection.ActiveShip.Damage.GetFaceupCrits(CriticalCardType.Ship).ToList())
             {
                 //TODO: what if two same crits?
                 AddDecision(shipCrit.Name, delegate { DiscardCrit(shipCrit); });

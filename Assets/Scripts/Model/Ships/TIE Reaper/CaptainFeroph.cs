@@ -1,11 +1,8 @@
 ﻿using Abilities;
-using ActionsList;
 using RuleSets;
-using Ship;
 using System.Collections;
 using System.Collections.Generic;
 using Tokens;
-using UnityEngine;
 
 namespace Ship
 {
@@ -42,57 +39,23 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList += CheckAbility;
+            HostShip.OnImmediatelyAfterRolling += CheckAbility;
         }
                 
         public override void DeactivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList -= CheckAbility;
+            HostShip.OnImmediatelyAfterRolling -= CheckAbility;
         }
 
-        private void CheckAbility(Ship.GenericShip ship)
+        private void CheckAbility(DiceRoll diceroll)
         {
-            if (Combat.AttackStep == CombatStep.Defence && Combat.Attacker.Tokens.HasToken<JamToken>())
+            if (diceroll.Type == DiceKind.Defence && diceroll.CheckType == DiceRollCheckType.Combat && Combat.Attacker.Tokens.HasToken<JamToken>())
             {
-                var action = new CaptainFerophAction(HostShip);                
-                ship.AddAvailableActionEffect(action);
+                Messages.ShowInfo("Captain Feroph: Evade result is added");
+                diceroll.AddDice(DieSide.Success).ShowWithoutRoll();
+                diceroll.OrganizeDicePositions();
+                diceroll.UpdateDiceCompareHelperPrediction();
             }
-        }
-
-        private class CaptainFerophAction : GenericReinforceAction
-        {
-            public CaptainFerophAction(GenericShip hostShip)
-            {
-                Name = EffectName = "Captain Feroph's ability";
-                Host = hostShip;
-                ImageUrl = Host.ImageUrl;
-                //Host.OnTryConfirmDiceResults += CheckMustUseReinforce;
-            }
-
-            /*public override bool IsActionAvailable()
-            {
-                bool result = true;
-                if (Host.IsAlreadyExecutedAction(typeof(CaptainFerophAction)))
-                {
-                    result = false;
-                };
-                return result;
-            }
-
-            public override int GetActionEffectPriority()
-            {
-                int result = 0;
-
-                if (Combat.AttackStep == CombatStep.Defence)
-                {
-                    if (Combat.DiceRollAttack.Successes > Combat.DiceRollDefence.Successes)
-                    {
-                        if (Combat.DiceRollDefence.Focuses > 0) result = 80;
-                    }
-                }
-
-                return result;
-            }*/
         }
     }
 

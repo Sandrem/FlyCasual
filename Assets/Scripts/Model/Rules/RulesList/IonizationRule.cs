@@ -12,41 +12,46 @@ namespace RulesList
 
         public IonizationRule()
         {
-           GenericShip.OnTokenIsAssignedGlobal += CheckIonization;
+            GenericShip.OnTokenIsAssignedGlobal += CheckIonization;
+            GenericShip.OnNoManeuverWasRevealedGlobal += SetIonManeuver;
+            GenericShip.OnTokenIsRemovedGlobal += CheckDeionization;
         }
 
         private void CheckIonization(GenericShip ship, System.Type tokenType)
         {
-            if (tokenType == typeof(IonToken))
-            {
-                int ionTokensCount = ship.Tokens.GetAllTokens().Count(n => n is IonToken);
-
-                if (ionTokensCount == RuleSet.Instance.NegativeTokensToAffectShip[ship.ShipBaseSize])
-                {
-                    Messages.ShowError("Ship is ionized!");
-                    DoIonized(ship);
-                }
+            if (tokenType == typeof(IonToken) && IsIonized(ship))
+            { 
+                Messages.ShowError("Ship is ionized!");
+                ship.ToggleIonized(true);
             }
         }
 
-        private void DoIonized(GenericShip ship)
+        private void CheckDeionization(GenericShip ship, System.Type tokenType)
         {
-            ship.OnManeuverIsReadyToBeRevealed += AssignIonizationManeuver;
-            ship.OnMovementExecuted += RegisterRemoveIonization;
-            ship.ToggleIonized(true);
+            if (tokenType == typeof(IonToken) && !IsIonized(ship))
+            {
+                ship.ToggleIonized(false);
+            }
         }
 
-        private void AssignIonizationManeuver(GenericShip ship)
+        public static void SetIonManeuver(GenericShip ship)
+        {
+            if (IsIonized(ship))
+            {
+                AssignIonizationManeuver(ship);
+                ship.OnMovementExecuted += RegisterRemoveIonization;
+            }
+        }
+
+        private static void AssignIonizationManeuver(GenericShip ship)
         {
             GenericMovement ionizedMovement = new StraightMovement(1, ManeuverDirection.Forward, ManeuverBearing.Straight, RuleSet.Instance.IonManeuverComplexity) {
                 IsRevealDial = false, IsIonManeuver = true
             };
             ship.SetAssignedManeuver(ionizedMovement);
-
-            ship.OnManeuverIsReadyToBeRevealed -= AssignIonizationManeuver;
         }
 
-        private void RegisterRemoveIonization(GenericShip ship)
+        private static void RegisterRemoveIonization(GenericShip ship)
         {
             if (BoardTools.Board.IsOffTheBoard(ship)) return;
 
@@ -62,7 +67,7 @@ namespace RulesList
             });
         }
 
-        private void RemoveIonization(object sender, System.EventArgs e)
+        private static void RemoveIonization(object sender, System.EventArgs e)
         {
             Messages.ShowInfo("Ship isn't ionized anymore");
 
@@ -73,6 +78,12 @@ namespace RulesList
                 typeof(IonToken),
                 Triggers.FinishTrigger
             );
+        }
+
+        public static bool IsIonized(GenericShip ship)
+        {
+            int ionTokensCount = ship.Tokens.GetAllTokens().Count(n => n is IonToken);
+            return (ionTokensCount == RuleSet.Instance.NegativeTokensToAffectShip[ship.ShipBaseSize]);
         }
 
     }

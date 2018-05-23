@@ -9,23 +9,13 @@ namespace ActionsList
         public ReinforceAftAction()
         {
             Name = EffectName = "Reinforce (Aft)";
+            Facing = Arcs.ArcFacing.Rear180;
         }
 
         public override void ActionTake()
         {
             base.ActionTake();
             Selection.ThisShip.Tokens.AssignToken(new Tokens.ReinforceAftToken(Host), Phases.CurrentSubPhase.CallBack);
-        }
-
-        public override bool IsActionEffectAvailable()
-        {
-            bool result = false;
-            if (Combat.AttackStep == CombatStep.Defence)
-            {
-                ShotInfo reverseShotInfo = new ShotInfo(Host, Combat.Attacker, Host.PrimaryWeapon);
-                result = !reverseShotInfo.InArc;
-            }
-            return result;
         }
 
         public override int GetActionPriority()

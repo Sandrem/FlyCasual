@@ -66,10 +66,10 @@ namespace Abilities
                 Name = EffectName = "Captain Feroph's ability";
                 Host = hostShip;
                 ImageUrl = Host.ImageUrl;
-                Host.OnTryConfirmDiceResults += CheckMustUseReinforce;
+                //Host.OnTryConfirmDiceResults += CheckMustUseReinforce;
             }
-                    
-            public override bool IsActionAvailable()
+
+            /*public override bool IsActionAvailable()
             {
                 bool result = true;
                 if (Host.IsAlreadyExecutedAction(typeof(CaptainFerophAction)))
@@ -92,7 +92,7 @@ namespace Abilities
                 }
 
                 return result;
-            }
+            }*/
         }
     }
 

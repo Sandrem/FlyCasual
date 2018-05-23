@@ -36,6 +36,7 @@ namespace Arcs
         Right,
         Rear,
         Front180,
+        Rear180,
         Bullseye
     }
 

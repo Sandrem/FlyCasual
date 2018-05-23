@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using Ship;
+using System;
+using System.Linq;
 using UnityEngine;
 
 namespace ActionsList
@@ -6,6 +8,8 @@ namespace ActionsList
 
     public class GenericReinforceAction : GenericAction
     {
+        public Arcs.ArcFacing Facing;
+
         public GenericReinforceAction()
         {
             Name = EffectName = "Reinforce (Generic)";
@@ -14,26 +18,28 @@ namespace ActionsList
 
         public override void ActionTake()
         {
-            Selection.ThisShip.OnTryConfirmDiceResults += CheckMustUseReinforce;
+            Host.OnImmediatelyAfterRolling += ApplyReinforceEffect;
+            Host.OnRoundEnd += ClearReinforceEffect;
         }
 
-        protected void CheckMustUseReinforce(ref bool result)
+        private void ClearReinforceEffect(GenericShip ship)
         {
-            if (Combat.AttackStep == CombatStep.Defence)
+            Host.OnImmediatelyAfterRolling -= ApplyReinforceEffect;
+            ship.OnRoundEnd -= ClearReinforceEffect;
+        }
+
+        protected virtual void ApplyReinforceEffect(DiceRoll diceroll)
+        {
+            if (diceroll.Type == DiceKind.Defence && diceroll.CheckType == DiceRollCheckType.Combat)
             {
-                if (Combat.Defender.GetAvailableActionEffectsList().Any(n => n is GenericReinforceAction))
+                if (RuleSets.RuleSet.Instance.ReinforceEffectCanBeUsed(Facing))
                 {
-                    Messages.ShowError(string.Format("Cannot confirm results - must use {0} dice modification!", EffectName));
-                    result = false;
+                    Messages.ShowInfo("Reinforce: Evade result is added");
+                    diceroll.AddDice(DieSide.Success).ShowWithoutRoll();
+                    diceroll.OrganizeDicePositions();
+                    diceroll.UpdateDiceCompareHelperPrediction();
                 }
             }
-        }
-
-        public override void ActionEffect(System.Action callBack)
-        {
-            Selection.ThisShip.OnTryConfirmDiceResults -= CheckMustUseReinforce;
-            Combat.CurrentDiceRoll.ApplyEvade();
-            callBack();
         }
 
         public override bool IsActionAvailable()
@@ -43,23 +49,6 @@ namespace ActionsList
             {
                 result = false;
             }
-            return result;
-        }
-
-        public override int GetActionEffectPriority()
-        {
-            int result = 0;
-
-            if (Combat.AttackStep == CombatStep.Defence)
-            {
-                int attackSuccesses = Combat.DiceRollAttack.Successes;
-                int defenceSuccesses = Combat.DiceRollDefence.Successes;
-                if (attackSuccesses > defenceSuccesses)
-                {
-                    result = 110;
-                }
-            }
-
             return result;
         }
 

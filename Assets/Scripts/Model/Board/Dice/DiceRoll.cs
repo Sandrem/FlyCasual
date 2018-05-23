@@ -692,7 +692,7 @@ public partial class DiceRoll
         }
     }
 
-    private void UpdateDiceCompareHelperPrediction()
+    public void UpdateDiceCompareHelperPrediction()
     {
         if (DiceCompareHelper.currentDiceCompareHelper != null && DiceCompareHelper.currentDiceCompareHelper.IsActive())
         {

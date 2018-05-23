@@ -41,6 +41,7 @@ namespace RuleSets
         public abstract void SetShipBaseImage(GenericShip ship);
         public abstract void BarrelRollTemplatePlanning();
         public abstract void ReloadAction();
+        public abstract bool ReinforceEffectCanBeUsed(ArcFacing facing);
 
         public virtual void AdaptShipToRules(GenericShip ship) { }
         public virtual void AdaptPilotToRules(GenericShip ship) { }

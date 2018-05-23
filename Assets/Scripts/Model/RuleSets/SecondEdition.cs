@@ -1,5 +1,6 @@
 ﻿using ActionsList;
 using Arcs;
+using BoardTools;
 using GameModes;
 using Movement;
 using Ship;
@@ -234,5 +235,17 @@ namespace RuleSets
         {
             canBePerformed = action is FocusAction;
         }
+
+        // TODO: Change
+        public override bool ReinforceEffectCanBeUsed(ArcFacing facing)
+        {
+            bool result = false;
+
+            ShotInfo reverseShotInfo = new ShotInfo(Combat.Defender, Combat.Attacker, Combat.Defender.PrimaryWeapon);
+            result = (facing == ArcFacing.Front180) ? reverseShotInfo.InArc : !reverseShotInfo.InArc;
+
+            return result;
+        }
+
     }
 }

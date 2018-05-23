@@ -1,4 +1,6 @@
-﻿using Movement;
+﻿using Arcs;
+using BoardTools;
+using Movement;
 using Ship;
 using System;
 using System.Collections.Generic;
@@ -115,6 +117,16 @@ namespace RuleSets
         public override void ReloadAction()
         {
             ActionsList.ReloadAction.FlipFaceupRecursive();
+        }
+
+        public override bool ReinforceEffectCanBeUsed(ArcFacing facing)
+        {
+            bool result = false;
+
+            ShotInfo reverseShotInfo = new ShotInfo(Combat.Defender, Combat.Attacker, Combat.Defender.PrimaryWeapon);
+            result = (facing == ArcFacing.Front180) ? reverseShotInfo.InArc : !reverseShotInfo.InArc;
+
+            return result;
         }
     }
 }

@@ -8,7 +8,6 @@ namespace Tokens
         public ReinforceForeToken(GenericShip host) : base(host)
         {
             Name = "Reinforce Fore Token";
-            Action = new ActionsList.ReinforceForeAction() { Host = this.Host };
         }
     }
 

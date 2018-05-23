@@ -8,6 +8,7 @@ using System.Linq;
 using Players;
 using Mods;
 using SquadBuilderNS;
+using RuleSets;
 
 public partial class MainMenu : MonoBehaviour {
 
@@ -23,6 +24,15 @@ public partial class MainMenu : MonoBehaviour {
 
     public void ChangePanel(GameObject panel)
     {
+        if (RuleSet.Instance.IsSquadBuilderLocked)
+        {
+            if (panel.name == "SquadronOptionsPanel")
+            {
+                Messages.ShowError("Squad building is disabled");
+                return;
+            }
+        }
+
         CurrentPanel.SetActive(false);
         InitializePanelContent(panel.name, CurrentPanel.name);
         panel.SetActive(true);

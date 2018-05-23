@@ -5,11 +5,12 @@ using UnityEngine;
 using Upgrade;
 using Ship;
 using Bombs;
+using RuleSets;
 
 namespace UpgradesList
 {
 
-    public class ProtonBombs : GenericTimedBomb
+    public class ProtonBombs : GenericTimedBomb, ISecondEditionUpgrade
     {
         GenericShip _ship = null;
 
@@ -22,6 +23,11 @@ namespace UpgradesList
             bombPrefabPath = "Prefabs/Bombs/ProtonBomb";
 
             IsDiscardedAfterDropped = true;
+        }
+
+        public void AdaptUpgradeToSecondEdition()
+        {
+            
         }
 
         public override void ExplosionEffect(GenericShip ship, Action callBack)

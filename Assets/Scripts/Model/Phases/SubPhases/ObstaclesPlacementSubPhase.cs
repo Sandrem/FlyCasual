@@ -8,6 +8,7 @@ using Obstacles;
 using Players;
 using UnityEngine.UI;
 using System;
+using GameModes;
 
 namespace SubPhases
 {
@@ -29,7 +30,7 @@ namespace SubPhases
 
         public override void Start()
         {
-            Name = "Obstacles Setup";
+            Name = "Obstacle Setup";
             UpdateHelpInfo();
         }
 
@@ -338,29 +339,38 @@ namespace SubPhases
         {
             if (IsEnteredPlacementZone && !IsPlacementBlocked)
             {
-                Board.ToggleOffTheBoardHolder(false);
-
-                ChosenObstacle.ObstacleGO.transform.parent = Board.BoardTransform;
-
-                ChosenObstacle.IsPlaced = true;
-                ChosenObstacle = null;
-                IsEnteredPlacementZone = false;
-                IsEnteredPlaymat = false;
-
-                MovementTemplates.ReturnRangeRulerR2();
-
-                if (ObstaclesManager.Instance.GetPlacedObstaclesCount() < 6)
-                {
-                    Next();
-                }
-                else
-                {
-                    FinishSubPhase();
-                }
+                GameMode.CurrentGameMode.PlaceObstacle(ChosenObstacle.ObstacleGO.name, ChosenObstacle.ObstacleGO.transform.position, ChosenObstacle.ObstacleGO.transform.eulerAngles);
             }
             else
             {
                 Messages.ShowError("Obstacle cannot be placed");
+            }
+        }
+
+        public void PlaceObstacleClient(string obstacleName, Vector3 position, Vector3 angles)
+        {
+            ChosenObstacle = ObstaclesManager.Instance.GetObstacleByName(obstacleName);
+            ChosenObstacle.ObstacleGO.transform.position = position;
+            ChosenObstacle.ObstacleGO.transform.eulerAngles = angles;
+
+            Board.ToggleOffTheBoardHolder(false);
+
+            ChosenObstacle.ObstacleGO.transform.parent = Board.BoardTransform;
+
+            ChosenObstacle.IsPlaced = true;
+            ChosenObstacle = null;
+            IsEnteredPlacementZone = false;
+            IsEnteredPlaymat = false;
+
+            MovementTemplates.ReturnRangeRulerR2();
+
+            if (ObstaclesManager.Instance.GetPlacedObstaclesCount() < 6)
+            {
+                Next();
+            }
+            else
+            {
+                FinishSubPhase();
             }
         }
 

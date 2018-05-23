@@ -109,8 +109,8 @@ namespace SquadBuilderNS
             availablePilotsCounter = 0;
 
             ShipRecord shipRecord = AllShips.Find(n => n.ShipName == shipName);
-            List<PilotRecord> AllPilotsFiltered = AllPilots.Where(n => n.PilotShip == shipRecord && n.PilotFaction == faction).OrderByDescending(n => n.PilotSkill).ToList();
-            int pilotsCount = AllPilotsFiltered.Count;
+            List<PilotRecord> AllPilotsFiltered = AllPilots.Where(n => n.PilotShip == shipRecord && n.PilotFaction == faction && RuleSet.Instance.PilotIsAllowed(n.Instance)).OrderByDescending(n => n.PilotSkill).ToList();
+            int pilotsCount = AllPilotsFiltered.Count();
 
             Transform contentTransform = GameObject.Find("UI/Panels/SelectPilotPanel/Panel/Scroll View/Viewport/Content").transform;
             DestroyChildren(contentTransform);
@@ -119,7 +119,7 @@ namespace SquadBuilderNS
 
             foreach (PilotRecord pilot in AllPilotsFiltered)
             {
-                if (RuleSet.Instance.PilotIsAllowed(pilot.Instance)) ShowAvailablePilot(pilot);
+                ShowAvailablePilot(pilot);
             }
         }
 
@@ -513,8 +513,8 @@ namespace SquadBuilderNS
         {
             availableUpgradesCounter = 0;
 
-            List<UpgradeRecord> filteredUpgrades = AllUpgrades.Where(n => n.Instance.HasType(slot.Type) && n.Instance.IsAllowedForShip(CurrentSquadBuilderShip.Instance) && n.Instance.HasEnoughSlotsInShip(CurrentSquadBuilderShip.Instance)).ToList();
-            int filteredUpgradesCount = filteredUpgrades.Count;
+            List<UpgradeRecord> filteredUpgrades = AllUpgrades.Where(n => n.Instance.HasType(slot.Type) && n.Instance.IsAllowedForShip(CurrentSquadBuilderShip.Instance) && n.Instance.HasEnoughSlotsInShip(CurrentSquadBuilderShip.Instance) && n.Instance.UpgradeRuleType == RuleSet.Instance.GetType()).ToList();
+            int filteredUpgradesCount = filteredUpgrades.Count();
 
             Transform contentTransform = GameObject.Find("UI/Panels/SelectUpgradePanel/Panel/Scroll View/Viewport/Content").transform;
             DestroyChildren(contentTransform);
@@ -523,7 +523,7 @@ namespace SquadBuilderNS
 
             foreach (UpgradeRecord upgrade in filteredUpgrades)
             {
-                if (upgrade.Instance.UpgradeRuleType == RuleSet.Instance.GetType()) ShowAvailableUpgrade(upgrade);
+                ShowAvailableUpgrade(upgrade);
             }
         }
 
@@ -601,7 +601,7 @@ namespace SquadBuilderNS
         {
             List<JSONObject> savedSquadsJsons = new List<JSONObject>();
 
-            string directoryPath = Application.persistentDataPath + "/SavedSquadrons";
+            string directoryPath = Application.persistentDataPath + "/" + RuleSet.Instance.Name + "/SavedSquadrons";
             if (!Directory.Exists(directoryPath)) Directory.CreateDirectory(directoryPath);
 
             foreach (var filePath in Directory.GetFiles(directoryPath))
@@ -688,7 +688,7 @@ namespace SquadBuilderNS
         {
             JSONObject squadJson = null;
 
-            string directoryPath = Application.persistentDataPath + "/SavedSquadrons";
+            string directoryPath = Application.persistentDataPath + "/" + RuleSet.Instance.Name + "/SavedSquadrons";
             if (!Directory.Exists(directoryPath)) Directory.CreateDirectory(directoryPath);
 
             string filePath = directoryPath + "/" + fileName;
@@ -709,7 +709,7 @@ namespace SquadBuilderNS
 
         private static void DeleteSavedSquadFile(string fileName)
         {
-            string filePath = Application.persistentDataPath + "/SavedSquadrons/" + fileName;
+            string filePath = Application.persistentDataPath + "/" + RuleSet.Instance.Name + "/SavedSquadrons/" + fileName;
 
             if (File.Exists(filePath))
             {
@@ -719,6 +719,7 @@ namespace SquadBuilderNS
 
         public static void ReturnToSquadBuilder()
         {
+            RuleSet.Instance.SquadBuilderIsOpened();
             MainMenu.CurrentMainMenu.ChangePanel("SquadBuilderPanel");
         }
 
@@ -742,10 +743,10 @@ namespace SquadBuilderNS
             CurrentSquadList.Name = CleanFileName(squadName);
 
             // check that directory exists, if not create it
-            string directoryPath = Application.persistentDataPath + "/SavedSquadrons";
+            string directoryPath = Application.persistentDataPath + "/" + RuleSet.Instance.Name + "/SavedSquadrons";
             if (!Directory.Exists(directoryPath)) Directory.CreateDirectory(directoryPath);
 
-            string filePath = Application.persistentDataPath + "/SavedSquadrons/" + CurrentSquadList.Name;
+            string filePath = directoryPath + "/" + CurrentSquadList.Name;
 
             if (File.Exists(filePath + ".json"))
             {
@@ -814,7 +815,7 @@ namespace SquadBuilderNS
 
         private static JSONObject GetRandomAiSquad()
         {
-            string directoryPath = Application.persistentDataPath + "/RandomAiSquadrons";
+            string directoryPath = Application.persistentDataPath + "/" + RuleSet.Instance.Name + "/RandomAiSquadrons";
             if (!Directory.Exists(directoryPath)) Directory.CreateDirectory(directoryPath);
 
             string[] filePaths = Directory.GetFiles(directoryPath);
@@ -834,9 +835,9 @@ namespace SquadBuilderNS
 
         private static void CreatePreGeneratedRandomAiSquads()
         {
-            string directoryPath = Application.persistentDataPath + "/RandomAiSquadrons";
+            string directoryPath = Application.persistentDataPath + "/" + RuleSet.Instance.Name + "/RandomAiSquadrons";
 
-            foreach (var squadron in PreGeneratedAiSquadrons.Squadrons)
+            foreach (var squadron in RuleSet.Instance.PreGeneratedAiSquadrons)
             {
                 string filePath = directoryPath + "/" + squadron.Key + ".json";
                 if (!File.Exists(filePath))

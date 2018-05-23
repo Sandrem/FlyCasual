@@ -50,6 +50,8 @@ namespace Players
 
             foreach (var shipHolder in Ships)
             {
+                if (RulesList.IonizationRule.IsIonized(shipHolder.Value)) continue;
+
                 Selection.ChangeActiveShip("ShipId:" + shipHolder.Value.ShipId);
                 shipHolder.Value.SetAssignedManeuver(new Movement.StraightMovement(2, Movement.ManeuverDirection.Forward, Movement.ManeuverBearing.Straight, Movement.MovementComplexity.Normal));
             }

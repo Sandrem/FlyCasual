@@ -3,6 +3,7 @@ using Arcs;
 using GameModes;
 using Movement;
 using Ship;
+using SquadBuilderNS;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,6 +31,7 @@ namespace RuleSets
     public class SecondEdition : RuleSet
     {
         public override string Name { get { return "Second Edition"; } }
+        //public override bool IsSquadBuilderLocked { get { return true; } }
 
         public override int MaxPoints { get { return 200; } }
         public override int MinShipCost { get { return 28; } }
@@ -73,6 +75,19 @@ namespace RuleSets
                     { BaseSize.Small,   1 },
                     { BaseSize.Medium,  2 },
                     { BaseSize.Large,   3 }
+                };
+            }
+        }
+
+        public override Dictionary<string, string> PreGeneratedAiSquadrons
+        {
+            get
+            {
+                return new Dictionary<string, string>()
+                {
+                    { "Vader + Mini + Swarm",  "{\"name\":\"Vader + Mini + Swarm\",\"faction\":\"imperial\",\"points\":200,\"version\":\"0.3.0\",\"pilots\":[{\"name\":\"darthvader\",\"points\":76,\"ship\":\"tieadv\",\"upgrades\":{\"system\":[\"firecontrolsystem\"],\"missile\":[\"clustermissiles\"],\"ept\":[\"sense\"]},\"vendor\":{\"Sandrem.FlyCasual\":{\"skin\":\"Blue\"}}},{\"name\":\"blacksquadronace\",\"points\":31,\"ship\":\"tiefighter\",\"upgrades\":{\"ept\":[\"crackshot\"]},\"vendor\":{\"Sandrem.FlyCasual\":{\"skin\":\"Gray\"}}},{\"name\":\"blacksquadronace\",\"points\":31,\"ship\":\"tiefighter\",\"upgrades\":{\"ept\":[\"crackshot\"]},\"vendor\":{\"Sandrem.FlyCasual\":{\"skin\":\"Gray\"}}},{\"name\":\"blacksquadronace\",\"points\":31,\"ship\":\"tiefighter\",\"upgrades\":{\"ept\":[\"crackshot\"]},\"vendor\":{\"Sandrem.FlyCasual\":{\"skin\":\"Gray\"}}},{\"name\":\"blacksquadronace\",\"points\":31,\"ship\":\"tiefighter\",\"upgrades\":{\"ept\":[\"crackshot\"]},\"vendor\":{\"Sandrem.FlyCasual\":{\"skin\":\"Gray\"}}}],\"description\":\"Darth Vader + Fire-Control System + Cluster Missiles + Sense\nBlack Squadron Ace + Crack Shot\nBlack Squadron Ace + Crack Shot\nBlack Squadron Ace + Crack Shot\nBlack Squadron Ace + Crack Shot\"}" },
+                    { "Boba + Joy + Zealot",  "{\"name\":\"Boba + Joy + Zealot\",\"faction\":\"scum\",\"points\":98,\"version\":\"0.3.0\",\"pilots\":[{\"name\":\"bobafett\",\"points\":46,\"ship\":\"firespray31\",\"upgrades\":{\"bomb\":[\"seismiccharges\"],\"crew\":[\"perceptivecopilot\"],\"illicit\":[\"inertialdampeners\"]},\"vendor\":{\"Sandrem.FlyCasual\":{\"skin\":\"Boba Fett\"}}},{\"name\":\"joyrekkoff\",\"points\":32,\"ship\":\"protectoratestarfighter\",\"upgrades\":{\"torpedo\":[\"iontorpedoes\"],\"ept\":[\"fearless\"]},\"vendor\":{\"Sandrem.FlyCasual\":{\"skin\":\"Protectorate Starfighter\"}}},{\"name\":\"zealousrecruit\",\"points\":20,\"ship\":\"protectoratestarfighter\",\"upgrades\":{},\"vendor\":{\"Sandrem.FlyCasual\":{\"skin\":\"Protectorate Starfighter\"}}}],\"description\":\"Boba Fett (Firespray-31) + Seismic Charges + Perceptive Copilot + Inertial Dampeners\nJoy Rekkoff + Ion Torpedoes + Fearless\nZealous Recruit\"}" },
+                    { "Luke + Wedge + Gold", "{\"name\":\"Luke + Wedge + Gold\",\"faction\":\"rebel\",\"points\":181,\"version\":\"0.3.0\",\"pilots\":[{\"name\":\"lukeskywalker\",\"points\":69,\"ship\":\"xwing\",\"upgrades\":{\"mod\":[\"servomotorsfoils(attack)\"],\"amd\":[\"r2d2\"],\"torpedo\":[\"protontorpedoes\"],\"ept\":[\"instinctiveaim\"]},\"vendor\":{\"Sandrem.FlyCasual\":{\"skin\":\"Red\"}}},{\"name\":\"wedgeantilles\",\"points\":81,\"ship\":\"xwing\",\"upgrades\":{\"mod\":[\"servomotorsfoils(attack)\",\"afterburners\"],\"ept\":[\"predator\"]},\"vendor\":{\"Sandrem.FlyCasual\":{\"skin\":\"Red\"}}},{\"name\":\"goldsquadronveteran\",\"points\":31,\"ship\":\"ywing\",\"upgrades\":{\"turret\":[\"ioncannonturret\"],\"amd\":[\"r5astromech\"],\"bomb\":[\"protonbombs\"],\"ept\":[\"experthandling\"]},\"vendor\":{\"Sandrem.FlyCasual\":{\"skin\":\"Yellow\"}}}],\"description\":\"Luke Skywalker + Servomotor S-Foils (Attack) + R2-D2 + Proton Torpedoes + Instinctive Aim\nWedge Antilles + Servomotor S-Foils (Attack) + AfterBurners + Predator\nGold Squadron Veteran + Ion Cannon Turret + R5 Astromech + Proton Bombs + Expert Handling\"}" }
                 };
             }
         }
@@ -179,6 +194,45 @@ namespace RuleSets
         public override void ReloadAction()
         {
             ActionsList.ReloadAction.RestoreOneCharge();
+        }
+
+        public override void SquadBuilderIsOpened()
+        {
+            if (!IsSquadBuilderLocked) return;
+
+            string squadName = "";
+
+            switch (SquadBuilder.CurrentSquadList.SquadFaction)
+            {
+                case Faction.Rebel:
+                    squadName = "Luke + Wedge + Gold";
+                    break;
+                case Faction.Imperial:
+                    squadName = "Vader + Mini + Swarm";
+                    break;
+                case Faction.Scum:
+                    squadName = "Boba + Joy + Zealot";
+                    break;
+            }
+
+            SquadBuilder.CreateSquadFromImportedJson(PreGeneratedAiSquadrons[squadName], SquadBuilder.CurrentPlayer, delegate { });
+        }
+
+        public override void WhenIonized(GenericShip ship)
+        {
+            ship.OnTryAddAvailableAction += IonizedShipCanDoOnlyFocus;
+            ship.OnRoundEnd += DisableIonizationActionEffect;
+        }
+
+        private void DisableIonizationActionEffect(GenericShip ship)
+        {
+            ship.OnTryAddAvailableAction -= IonizedShipCanDoOnlyFocus;
+            ship.OnRoundEnd -= DisableIonizationActionEffect;
+        }
+
+        private void IonizedShipCanDoOnlyFocus(GenericAction action, ref bool canBePerformed)
+        {
+            canBePerformed = action is FocusAction;
         }
     }
 }

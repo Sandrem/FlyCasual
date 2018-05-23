@@ -232,5 +232,10 @@ namespace GameModes
         {
             Application.Quit();
         }
+
+        public override void PlaceObstacle(string obstacleName, Vector3 position, Vector3 angles)
+        {
+            (Phases.CurrentSubPhase as ObstaclesPlacementSubPhase).PlaceObstacleClient(obstacleName, position, angles);
+        }
     }
 }

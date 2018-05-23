@@ -210,7 +210,7 @@ public static partial class Roster
         var results =
             from n in AllShips
             where n.Value.Owner.PlayerNo == playerNo
-            where n.Value.AssignedManeuver == null
+            where n.Value.AssignedManeuver == null && !RulesList.IonizationRule.IsIonized(n.Value)
             select n;
 
         //if (results.Count() > 0) Game.UI.ShowError("Not all ship are assigned their maneuvers");

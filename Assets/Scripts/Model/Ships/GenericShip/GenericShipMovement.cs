@@ -47,6 +47,7 @@ namespace Ship
 
         public event EventHandlerShip OnManeuverIsReadyToBeRevealed;
         public event EventHandlerShip OnManeuverIsRevealed;
+        public static event EventHandlerShip OnNoManeuverWasRevealedGlobal;
         public event EventHandlerShip OnMovementStart;
         public event EventHandlerShip OnMovementExecuted;
         public event EventHandlerShip OnMovementFinish;
@@ -59,16 +60,23 @@ namespace Ship
 
         public void CallManeuverIsReadyToBeRevealed(System.Action callBack)
         {
-            if (OnManeuverIsReadyToBeRevealed != null) OnManeuverIsReadyToBeRevealed(this);
+            if (Selection.ThisShip.AssignedManeuver != null && Selection.ThisShip.AssignedManeuver.IsRevealDial)
+            {
+                if (OnManeuverIsReadyToBeRevealed != null) OnManeuverIsReadyToBeRevealed(this);
 
-            Triggers.ResolveTriggers (TriggerTypes.OnManeuverIsReadyToBeRevealed, callBack);
+                Triggers.ResolveTriggers(TriggerTypes.OnManeuverIsReadyToBeRevealed, callBack);
+            }
+            else  // For ionized ships
+            {
+                callBack();
+            }
         }
 
         public void CallManeuverIsRevealed(System.Action callBack)
         {
-            Roster.ToggelManeuverVisibility(Selection.ThisShip, true);
+            if (Selection.ThisShip.AssignedManeuver != null) Roster.ToggelManeuverVisibility(Selection.ThisShip, true);
 
-            if (Selection.ThisShip.AssignedManeuver.IsRevealDial)
+            if (Selection.ThisShip.AssignedManeuver != null && Selection.ThisShip.AssignedManeuver.IsRevealDial)
             {
                 if (OnManeuverIsRevealed != null) OnManeuverIsRevealed(this);
 
@@ -76,6 +84,8 @@ namespace Ship
             }
             else // For ionized ships
             {
+                if (OnNoManeuverWasRevealedGlobal != null) OnNoManeuverWasRevealedGlobal(this);
+
                 callBack();
             }
         }

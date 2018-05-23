@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 using GameModes;
 using UnityEngine.EventSystems;
 using SquadBuilderNS;
+using BoardTools;
 
 //Todo: Move to different scripts by menu names
 
@@ -213,10 +214,11 @@ public class UI : MonoBehaviour {
 
     public static void CheckFiringRangeAndShow()
     {
-        int range = Actions.GetFiringRangeAndShow(Selection.ThisShip, Selection.AnotherShip);
-        if (range < 4)
+        ShotInfo shotInfo = Actions.GetFiringRangeAndShow(Selection.ThisShip, Selection.AnotherShip);
+        if (shotInfo.Range < 4)
         {
-            Messages.ShowInfo("Range " + range);
+            Messages.ShowInfo("Range " + shotInfo.Range);
+            if (!shotInfo.InArc) Messages.ShowInfoToHuman("Out of arc");
         }
         else
         {

@@ -19,8 +19,17 @@ namespace DamageDeckCardSE
         {
             Host.OnCombatActivation += SufferIon;
             Host.OnShipIsDestroyed += DiscardEffect;
+            Host.OnMovementFinish += RemoveCritOnIonManeuver;
             Host.Tokens.AssignCondition(new Tokens.DisabledPowerRegulatorCritToken(Host));            
             Triggers.FinishTrigger();
+        }
+
+        private void RemoveCritOnIonManeuver(GenericShip ship)
+        {
+            if (ship.AssignedManeuver.IsIonManeuver)
+            {
+                DiscardEffect();
+            }
         }
 
         private void SufferIon(GenericShip ship)
@@ -45,6 +54,7 @@ namespace DamageDeckCardSE
         {
             Host.OnCombatActivation -= SufferIon;
             Host.OnShipIsDestroyed -= DiscardEffect;
+            Host.OnMovementFinish -= RemoveCritOnIonManeuver;
             Host.Tokens.RemoveCondition(typeof(Tokens.DisabledPowerRegulatorCritToken));
         }
 

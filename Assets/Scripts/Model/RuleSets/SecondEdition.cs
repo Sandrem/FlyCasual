@@ -256,5 +256,15 @@ namespace RuleSets
             ship.OnSystemsPhaseActivation += BombsManager.CheckBombDropAvailability;
         }
 
+        public override void CloakActivation(GenericShip ship)
+        {
+            ship.OnSystemsPhaseActivation += Tokens.CloakToken.RegisterAskDecloak;
+        }
+
+        public override void CloakDeactivation(GenericShip ship)
+        {
+            ship.OnSystemsPhaseActivation -= Tokens.CloakToken.RegisterAskDecloak;
+        }
+
     }
 }

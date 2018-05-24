@@ -135,5 +135,15 @@ namespace RuleSets
             ship.OnManeuverIsRevealed -= BombsManager.CheckBombDropAvailability;
             ship.OnManeuverIsRevealed += BombsManager.CheckBombDropAvailability;
         }
+
+        public override void CloakActivation(GenericShip ship)
+        {
+            ship.OnActivationPhaseStart += Tokens.CloakToken.RegisterAskDecloak;
+        }
+
+        public override void CloakDeactivation(GenericShip ship)
+        {
+            ship.OnActivationPhaseStart -= Tokens.CloakToken.RegisterAskDecloak;
+        }
     }
 }

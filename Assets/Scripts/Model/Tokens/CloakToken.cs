@@ -1,4 +1,5 @@
 ﻿using ActionsList;
+using RuleSets;
 using Ship;
 using SubPhases;
 using System.Collections;
@@ -32,19 +33,19 @@ namespace Tokens
 
             Host.ChangeAgilityBy(+2);
             Host.OnTryPerformAttack += CannotAttackWhileCloaked;
-            Host.OnActivationPhaseStart += RegisterAskDecloak;
+            RuleSet.Instance.CloakActivation(Host);
 
             Host.ToggleIonized(true);
             Host.ToggleCloaked(true);
         }
 
-        private void RegisterAskDecloak(GenericShip ship)
+        public static void RegisterAskDecloak(GenericShip ship)
         {
             Triggers.RegisterTrigger(new Trigger
             {
                 Name = "Decloak",
                 TriggerType = TriggerTypes.OnActionSubPhaseStart,
-                TriggerOwner = Host.Owner.PlayerNo,
+                TriggerOwner = ship.Owner.PlayerNo,
                 EventHandler = delegate
                 {
                     Selection.ThisShip = ship;
@@ -53,7 +54,7 @@ namespace Tokens
             });
         }
 
-        private void AskDecloak()
+        private static void AskDecloak()
         {
             Phases.StartTemporarySubPhaseOld(
                 "Decloak Decision",
@@ -78,6 +79,7 @@ namespace Tokens
             Host.ChangeAgilityBy(-2);
             Host.OnTryPerformAttack -= CannotAttackWhileCloaked;
             Host.OnActivationPhaseStart -= RegisterAskDecloak;
+            RuleSet.Instance.CloakDeactivation(Host);
 
             Host.ToggleIonized(false);
             Host.ToggleCloaked(false);

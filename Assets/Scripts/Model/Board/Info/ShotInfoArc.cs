@@ -41,7 +41,7 @@ namespace BoardTools
 
             if (Arc.Limits != null && Arc.Limits.Count > 0)
             {
-                float signedAngle = (float) Math.Round(Vector3.SignedAngle(MinDistance.Vector, Ship1.GetFrontFacing(), Vector3.up), 2);
+                float signedAngle = (float) Math.Round(Vector3.SignedAngle(MinDistance.Vector, Ship1.GetFrontFacing(), Vector3.down), 2);
                 if (Arc.Facing != ArcFacing.Rear)
                 {
                     if (signedAngle < Arc.Limits.First().Value || signedAngle > Arc.Limits.Last().Value) return;

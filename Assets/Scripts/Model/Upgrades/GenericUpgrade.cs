@@ -222,7 +222,7 @@ namespace Upgrade
 
         private void ActivateAbility()
         {
-            RuleSet.Instance.ActivateGenericUpgradeAbility(Host, Types);
+            RuleSet.Instance.ActivateGenericUpgradeAbility(this);
             foreach (var ability in UpgradeAbilities)
             {
                 ability.ActivateAbility();

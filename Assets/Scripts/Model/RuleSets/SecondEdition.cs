@@ -175,12 +175,14 @@ namespace RuleSets
             Selection.ThisShip.ShowMobileFiringArcHighlight(facing);
         }
 
-        public override void ActivateGenericUpgradeAbility(GenericShip host, List<UpgradeType> upgradeTypes)
+        public override void ActivateGenericUpgradeAbility(GenericUpgrade upgrade)
         {
-            if (upgradeTypes.Contains(UpgradeType.Turret))
+            if (upgrade.Types.Contains(UpgradeType.Turret))
             {
-                host.ShipBaseArcsType = BaseArcsType.ArcMobile;
-                host.InitializeShipBaseArc();
+                (upgrade as IShipWeapon).CanShootOutsideArc = false;
+
+                upgrade.Host.ShipBaseArcsType = BaseArcsType.ArcMobile;
+                upgrade.Host.InitializeShipBaseArc();
             }
         }
 

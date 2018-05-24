@@ -49,7 +49,7 @@ namespace RuleSets
         public virtual void AdaptUpgradeToRules(GenericUpgrade upgrade) { }
         public virtual void AdaptArcsToRules(GenericShip ship) { }
         public virtual void RotateMobileFiringArc(ArcFacing facing) { }
-        public virtual void ActivateGenericUpgradeAbility(GenericShip host, List<UpgradeType> upgradeTypes) { }
+        public virtual void ActivateGenericUpgradeAbility(GenericUpgrade upgrade) { }
         public virtual void SubScribeToGenericShipEvents(GenericShip ship) { }
         public virtual void SquadBuilderIsOpened() { }
         public virtual void WhenIonized(GenericShip ship) { }

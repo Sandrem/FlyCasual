@@ -108,6 +108,19 @@ namespace Ship
             );
         }
 
+        public void AssignTokens(Func<GenericToken> createToken, int count, Action callback, char letter = ' ')
+        {
+            if (count > 0)
+            {
+                count--;
+                AssignToken(createToken(), delegate { AssignTokens(createToken, count, callback, letter); });
+            }
+            else
+            {
+                callback();
+            }
+        }
+
         private void FinalizeAssignToken(Action callback)
         {
             if (TokenToAssign == null)

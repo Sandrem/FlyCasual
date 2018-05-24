@@ -6,14 +6,14 @@ using SubPhases;
 namespace MainPhases
 {
 
-    public class PlanningPhase : GenericPhase
+    public class SystemsPhase : GenericPhase
     {
 
         public override void StartPhase()
         {
-            Name = "Planning Phase";
+            Name = "Systems Phase";
 
-            Phases.CurrentSubPhase = new RoundStartSubPhase();
+            Phases.CurrentSubPhase = new SystemsSubPhase();
             Phases.CurrentSubPhase.Start();
             Phases.CurrentSubPhase.Prepare();
             Phases.CurrentSubPhase.Initialize();
@@ -23,14 +23,14 @@ namespace MainPhases
         {
             Selection.DeselectAllShips();
 
-            GenericSubPhase subphase = Phases.StartTemporarySubPhaseNew("Notification", typeof(NotificationSubPhase), StartSystemsPhase);
-            (subphase as NotificationSubPhase).TextToShow = "Systems";
+            GenericSubPhase subphase = Phases.StartTemporarySubPhaseNew("Activation", typeof(NotificationSubPhase), StartActivationPhase);
+            (subphase as NotificationSubPhase).TextToShow = "Activation";
             subphase.Start();
         }
 
-        private void StartSystemsPhase()
+        private void StartActivationPhase()
         {
-            Phases.CurrentPhase = new SystemsPhase();
+            Phases.CurrentPhase = new ActivationPhase();
             Phases.CurrentPhase.StartPhase();
         }
 

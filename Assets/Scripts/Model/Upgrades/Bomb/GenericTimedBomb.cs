@@ -20,8 +20,7 @@ namespace Upgrade
         {
             base.AttachToShip(host);
 
-            host.OnManeuverIsRevealed -= BombsManager.CheckBombDropAvailability;
-            host.OnManeuverIsRevealed += BombsManager.CheckBombDropAvailability;
+            RuleSets.RuleSet.Instance.TimedBombActivationTime(host);
         }
 
         public override void ActivateBombs(List<GameObject> bombObjects, Action callBack)

@@ -514,6 +514,12 @@ namespace Players
                 Messages.ShowInfo("AI: Obstacle was placed");
             });
         }
+
+        public override void PerformSystemsActivation()
+        {
+            base.PerformSystemsActivation();
+            UI.SkipButtonEffect();
+        }
     }
 
 }

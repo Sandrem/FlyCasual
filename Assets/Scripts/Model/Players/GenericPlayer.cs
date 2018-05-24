@@ -159,6 +159,11 @@ namespace Players
         public virtual void PerformTractorBeamReposition(GenericShip ship) { }
 
         public virtual void PlaceObstacle() { }
+
+        public virtual void PerformSystemsActivation()
+        {
+            Roster.HighlightPlayer(PlayerNo);
+        }
     }
 
 }

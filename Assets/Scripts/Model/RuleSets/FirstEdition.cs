@@ -1,5 +1,6 @@
 ﻿using Arcs;
 using BoardTools;
+using Bombs;
 using Movement;
 using Ship;
 using System;
@@ -127,6 +128,12 @@ namespace RuleSets
             result = (facing == ArcFacing.Front180) ? reverseShotInfo.InArc : !reverseShotInfo.InArc;
 
             return result;
+        }
+
+        public override void TimedBombActivationTime(GenericShip ship)
+        {
+            ship.OnManeuverIsRevealed -= BombsManager.CheckBombDropAvailability;
+            ship.OnManeuverIsRevealed += BombsManager.CheckBombDropAvailability;
         }
     }
 }

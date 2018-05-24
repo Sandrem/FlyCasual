@@ -1,6 +1,7 @@
 ﻿using ActionsList;
 using Arcs;
 using BoardTools;
+using Bombs;
 using GameModes;
 using Movement;
 using Ship;
@@ -247,6 +248,12 @@ namespace RuleSets
             }
 
             return result;
+        }
+
+        public override void TimedBombActivationTime(GenericShip ship)
+        {
+            ship.OnSystemsPhaseActivation -= BombsManager.CheckBombDropAvailability;
+            ship.OnSystemsPhaseActivation += BombsManager.CheckBombDropAvailability;
         }
 
     }

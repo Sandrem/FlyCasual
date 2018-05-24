@@ -27,6 +27,10 @@ namespace BoardTools
 
         public float DistanceReal { get { return MinDistance.DistanceReal; } }
 
+        private Action CallBack;
+        private int updatesCount;
+        private GameObject FiringLine;
+
         public new int Range
         {
             get
@@ -92,11 +96,61 @@ namespace BoardTools
             return InArcInfo[arcType];
         }
 
-        public void CheckObstruction(Action callback)
-        {
-            // Check obstruction
+        // TODO: CHANGE
 
-            callback();
+        public void CheckObstruction(System.Action callBack)
+        {
+            GameObject prefab = (GameObject)Resources.Load("Prefabs/FiringLine", typeof(GameObject));
+            float SIZE_ANY = 91.44f;
+
+            FiringLine = MonoBehaviour.Instantiate(prefab, Board.GetBoard());
+            FiringLine.transform.position = MinDistance.Point1;
+            FiringLine.transform.LookAt(MinDistance.Point2);
+            FiringLine.transform.localScale = new Vector3(1, 1, Vector3.Distance(MinDistance.Point1, MinDistance.Point2) * SIZE_ANY / 100);
+            FiringLine.SetActive(true);
+            FiringLine.GetComponentInChildren<ObstaclesFiringLineDetector>().PointStart = MinDistance.Point1;
+            FiringLine.GetComponentInChildren<ObstaclesFiringLineDetector>().PointEnd = MinDistance.Point2;
+
+            GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
+            Game.Movement.FuncsToUpdate.Add(UpdateColisionDetection);
+
+            CallBack = callBack;
+        }
+
+        private bool UpdateColisionDetection()
+        {
+            bool isFinished = false;
+
+            if (updatesCount > 1)
+            {
+                GetResults();
+                isFinished = true;
+            }
+            else
+            {
+                updatesCount++;
+            }
+
+            return isFinished;
+        }
+
+        private void GetResults()
+        {
+            ObstaclesFiringLineDetector obstacleDetector = FiringLine.GetComponentInChildren<ObstaclesFiringLineDetector>();
+            if (obstacleDetector.IsObstructedByAsteroid)
+            {
+                IsObstructedByAsteroid = true;
+            }
+            if (obstacleDetector.IsObstructedByBombToken)
+            {
+                IsObstructedByBombToken = true;
+            }
+
+            Debug.Log(IsObstructedByAsteroid);
+
+            MonoBehaviour.Destroy(FiringLine);
+
+            CallBack();
         }
     }
 }

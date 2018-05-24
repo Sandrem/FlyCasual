@@ -30,6 +30,10 @@ namespace UpgradesList
         public void AdaptUpgradeToSecondEdition()
         {
             ImageUrl = "https://i.imgur.com/qepSXTj.png";
+
+            UpgradeAbilities.RemoveAll(a => a is IonCannonTurretAbility);
+            UpgradeAbilities.Add(new Abilities.SecondEdition.IonCannonTurretAbility());
+            UpgradeAbilities.Add(new GenericActionBarAbility<RotateArcAction>());
         }
     }
 }
@@ -48,7 +52,7 @@ namespace Abilities
             HostShip.OnShotHitAsAttacker -= RegisterIonTurretEffect;
         }
 
-        private void RegisterIonTurretEffect()
+        protected void RegisterIonTurretEffect()
         {
             if (Combat.ChosenWeapon == HostUpgrade)
             {
@@ -62,7 +66,7 @@ namespace Abilities
             }
         }
 
-        private void IonTurretEffect(object sender, System.EventArgs e)
+        protected virtual void IonTurretEffect(object sender, System.EventArgs e)
         {
             Combat.DiceRollAttack.CancelAllResults();
             Combat.DiceRollAttack.RemoveAllFailures();
@@ -76,7 +80,7 @@ namespace Abilities
             );
         }
 
-        private void DefenderSuffersDamage()
+        protected void DefenderSuffersDamage()
         {
             Combat.Defender.AssignedDamageDiceroll.AddDice(DieSide.Success);
 
@@ -97,6 +101,30 @@ namespace Abilities
             Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, Triggers.FinishTrigger);
         }
 
+    }
+
+}
+
+
+namespace Abilities.SecondEdition
+{
+    public class IonCannonTurretAbility : Abilities.IonCannonTurretAbility
+    {
+        protected override void IonTurretEffect(object sender, System.EventArgs e)
+        {
+            var ionTokens = Combat.DiceRollAttack.Successes - 1;
+            Combat.DiceRollAttack.CancelAllResults();
+            Combat.DiceRollAttack.RemoveAllFailures();
+
+            Combat.Defender.Tokens.AssignTokens(
+                () => new Tokens.IonToken(Combat.Defender),
+                ionTokens,
+                delegate {
+                    GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
+                    Game.Wait(2, DefenderSuffersDamage);
+                }
+            );
+        }
     }
 
 }

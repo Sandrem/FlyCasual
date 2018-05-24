@@ -30,6 +30,8 @@ namespace DamageDeckCardFE
 
         public override void DiscardEffect()
         {
+            base.DiscardEffect();
+
             Host.Tokens.RemoveCondition(typeof(Tokens.DirectHitCritToken));
             Host.CallAfterAssignedDamageIsChanged();
             Messages.ShowInfo("One hull point is restored");

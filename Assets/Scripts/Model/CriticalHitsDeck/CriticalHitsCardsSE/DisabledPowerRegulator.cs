@@ -53,6 +53,8 @@ namespace DamageDeckCardSE
 
         public override void DiscardEffect()
         {
+            base.DiscardEffect();
+
             Host.OnCombatActivation -= SufferIon;
             Host.OnShipIsDestroyed -= DiscardEffect;
             Host.OnMovementFinish -= RemoveCritOnIonManeuver;

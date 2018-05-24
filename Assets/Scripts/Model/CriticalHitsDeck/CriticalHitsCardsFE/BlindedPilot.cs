@@ -31,6 +31,8 @@ namespace DamageDeckCardFE
 
         public override void DiscardEffect()
         {
+            base.DiscardEffect();
+
             Messages.ShowInfo("Blinded Pilot: Crit is flipped, pilot can perfom attacks");
 
             Host.OnTryPerformAttack -= OnTryPreformAttack;

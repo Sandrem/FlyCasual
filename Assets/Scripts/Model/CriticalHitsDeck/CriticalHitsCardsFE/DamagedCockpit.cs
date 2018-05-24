@@ -33,6 +33,8 @@ namespace DamageDeckCardFE
 
         public override void DiscardEffect()
         {
+            base.DiscardEffect();
+
             Messages.ShowInfo("Pilot Skill is restored");
 
             Host.Tokens.RemoveCondition(typeof(Tokens.DamagedCockpitCritToken));

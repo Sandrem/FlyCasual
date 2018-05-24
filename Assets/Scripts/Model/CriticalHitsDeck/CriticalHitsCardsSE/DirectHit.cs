@@ -51,6 +51,8 @@ namespace DamageDeckCardSE
 
         public override void DiscardEffect()
         {
+            base.DiscardEffect();
+
             // Do nothing;
         }
     }

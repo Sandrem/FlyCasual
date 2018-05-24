@@ -27,6 +27,8 @@ namespace DamageDeckCardSE
 
         public override void DiscardEffect()
         {
+            base.DiscardEffect();
+
             Messages.ShowInfo("No damage after non-straight maneuvers");
             Host.Tokens.RemoveCondition(typeof(Tokens.LooseStabilizerSECritToken));
             Host.OnMovementFinish -= PlanDamageAfterNonStraightManeuvers;

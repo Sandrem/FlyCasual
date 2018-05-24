@@ -26,6 +26,8 @@ namespace DamageDeckCardFE
 
         public override void DiscardEffect()
         {
+            base.DiscardEffect();
+
             Messages.ShowInfo("No stress after white maneuvers");
             Host.Tokens.RemoveCondition(typeof(Tokens.LooseStabilizerCritToken));
             Host.OnMovementFinish -= PlanStressAfterWhiteManeuvers;

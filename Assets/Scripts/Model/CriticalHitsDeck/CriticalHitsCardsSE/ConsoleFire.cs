@@ -25,6 +25,8 @@ namespace DamageDeckCardSE
 
         public override void DiscardEffect()
         {
+            base.DiscardEffect();
+
             Host.Tokens.RemoveCondition(typeof(Tokens.ConsoleFireSECritToken));
 
             Host.OnCombatActivation -= PlanRollForDamage;

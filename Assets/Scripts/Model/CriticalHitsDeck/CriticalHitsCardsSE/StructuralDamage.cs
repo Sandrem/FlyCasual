@@ -35,6 +35,8 @@ namespace DamageDeckCardSE
                 
         public override void DiscardEffect()
         {
+            base.DiscardEffect();
+
             Host.Tokens.RemoveCondition(typeof(Tokens.StructuralDamageSECritToken));
             Host.AfterGotNumberOfDefenceDice -= DebuffDefenceRolls;
         }

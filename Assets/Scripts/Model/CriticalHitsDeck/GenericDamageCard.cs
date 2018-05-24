@@ -67,7 +67,7 @@ public class GenericDamageCard
 
     public virtual void DiscardEffect()
     {
-
+        IsFaceup = false;
     }
 
     protected void CallAddCancelCritAction(GenericShip ship)

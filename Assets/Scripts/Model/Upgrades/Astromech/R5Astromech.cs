@@ -90,10 +90,11 @@ namespace SubPhases
         {
             InfoText = "R5 Astromech: Select faceup ship Crit";
 
+            DecisionViewType = DecisionViewTypes.ImageButtons;
+
             foreach (var shipCrit in Selection.ActiveShip.Damage.GetFaceupCrits(CriticalCardType.Ship).ToList())
             {
-                //TODO: what if two same crits?
-                AddDecision(shipCrit.Name, delegate { DiscardCrit(shipCrit); });
+                AddDecision(shipCrit.Name, delegate { DiscardCrit(shipCrit); }, shipCrit.ImageUrl);
             }
 
             DefaultDecisionName = GetDecisions().First().Name;
@@ -150,7 +151,8 @@ namespace Abilities.SecondEdition
                 ship.AddAvailableAction(new RepairAction(RepairAction.CardFace.FaceUp, CriticalCardType.Ship)
                 {
                     ImageUrl = HostUpgrade.ImageUrl,
-                    Host = HostShip
+                    Host = HostShip,
+                    Source = this.HostUpgrade
                 });
             }
         }
@@ -191,27 +193,28 @@ namespace ActionsList
                         Sounds.PlayShipSound("R2D2-Proud");
                         Messages.ShowInfoToHuman("Facedown Damage card is discarded");
                     }
+                    Phases.CurrentSubPhase.CallBack();
                 }
                 else if (damageCardFace == CardFace.FaceUp)
                 {
                     List<GenericDamageCard> shipCritsList = Host.Damage.GetFaceupCrits(criticalCardType);
 
-
                     if (shipCritsList.Count == 1)
                     {
                         Host.Damage.FlipFaceupCritFacedown(shipCritsList.First());
                         Sounds.PlayShipSound("R2D2-Proud");
+                        Phases.CurrentSubPhase.CallBack();
                     }
                     else if (shipCritsList.Count > 1)
                     {
                         Phases.StartTemporarySubPhaseOld(
                             Source.Name + ": Select faceup ship Crit",
-                            typeof(SubPhases.R5AstromechDecisionSubPhase)
+                            typeof(SubPhases.R5AstromechDecisionSubPhase),
+                            Phases.CurrentSubPhase.CallBack
                         );
                     }
                 }
             }
-            Phases.CurrentSubPhase.CallBack();
         }
     }
 }

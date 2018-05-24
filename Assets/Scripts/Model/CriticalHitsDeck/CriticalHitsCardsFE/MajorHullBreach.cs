@@ -26,6 +26,8 @@ namespace DamageDeckCardFE
 
         public override void DiscardEffect()
         {
+            base.DiscardEffect();
+
             Messages.ShowInfo("Damage cards are dealt as usual");
             Host.Tokens.RemoveCondition(typeof(Tokens.MajorHullBreachCritToken));
 

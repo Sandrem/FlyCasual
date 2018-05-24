@@ -24,6 +24,8 @@ namespace DamageDeckCardFE
 
         public override void DiscardEffect()
         {
+            base.DiscardEffect();
+
             Messages.ShowInfo("Turn maneuvers regained normal colors");
             Host.Tokens.RemoveCondition(typeof(Tokens.DamagedEngineCritToken));
 

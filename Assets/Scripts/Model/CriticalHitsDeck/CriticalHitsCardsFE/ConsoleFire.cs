@@ -49,6 +49,8 @@ namespace DamageDeckCardFE
 
         public override void DiscardEffect()
         {
+            base.DiscardEffect();
+
             Host.Tokens.RemoveCondition(typeof(Tokens.ConsoleFireCritToken));
 
             Phases.OnCombatPhaseStart_Triggers -= PlanRollForDamage;

@@ -49,7 +49,6 @@ namespace Ship
         public void FlipFaceupCritFacedown(GenericDamageCard critCard)
         {
             critCard.DiscardEffect();
-            DamageCards.Remove(critCard);
 
             Messages.ShowInfo("Critical damage card \"" + critCard.Name + "\" is flipped facedown");
         }

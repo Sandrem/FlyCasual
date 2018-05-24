@@ -61,6 +61,8 @@ namespace DamageDeckCardSE
 
         public override void DiscardEffect()
         {
+            base.DiscardEffect();
+
             Host.OnMovementFinish -= RegisterCheckCollisionDamage;
             Host.Tokens.RemoveCondition(typeof(Tokens.StunnedPilotSECritToken));
 

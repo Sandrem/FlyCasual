@@ -28,6 +28,8 @@ namespace DamageDeckCardFE
 
         public override void DiscardEffect()
         {
+            base.DiscardEffect();
+
             Messages.ShowInfo("You can perform actions as usual");
             Host.Tokens.RemoveCondition(typeof(Tokens.DamagedSensorArrayCritToken));
 

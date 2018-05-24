@@ -30,6 +30,8 @@ namespace DamageDeckCardFE
 
         public override void DiscardEffect()
         {
+            base.DiscardEffect();
+
             Messages.ShowInfo("Can be assigned straight maneuvers");
             Host.Tokens.RemoveCondition(typeof(Tokens.ShakenPilotCritToken));
 

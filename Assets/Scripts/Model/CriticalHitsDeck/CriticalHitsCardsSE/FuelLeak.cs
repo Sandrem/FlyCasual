@@ -58,6 +58,8 @@ namespace DamageDeckCardSE
 
         public override void DiscardEffect()
         {
+            base.DiscardEffect();
+
             Host.AfterGenerateAvailableActionsList -= CallAddCancelCritAction;
             Host.OnSufferDamageConfirmed -= CheckToSufferAdditionalDamageAndRepair;
             Host.Tokens.RemoveCondition(typeof(Tokens.FuelLeakCritToken));

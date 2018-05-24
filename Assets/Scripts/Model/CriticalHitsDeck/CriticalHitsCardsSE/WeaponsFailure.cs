@@ -26,6 +26,8 @@ namespace DamageDeckCardSE
 
         public override void DiscardEffect()
         {
+            base.DiscardEffect();
+
             Messages.ShowInfo("Number of attack dice is restored");
 
             Host.Tokens.RemoveCondition(typeof(Tokens.WeaponsFailureSECritToken));

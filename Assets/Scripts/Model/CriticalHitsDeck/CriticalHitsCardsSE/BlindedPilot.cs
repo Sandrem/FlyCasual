@@ -35,6 +35,8 @@ namespace DamageDeckCardSE
 
         public override void DiscardEffect()
         {
+            base.DiscardEffect();
+
             Host.OnTryAddAvailableActionEffect -= RestrictActionEffectsToForceOnly;
             Host.AfterGenerateAvailableActionsList -= CallAddCancelCritAction;
             Messages.ShowInfo("Blinded Pilot: Crit is flipped, pilot can fully modify attacks");

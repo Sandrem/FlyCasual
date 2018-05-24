@@ -43,8 +43,6 @@ namespace RuleSets
         public abstract void ReloadAction();
         public abstract bool ReinforceEffectCanBeUsed(ArcFacing facing);
         public abstract void TimedBombActivationTime(GenericShip ship);
-        public abstract void CloakActivation(GenericShip ship);
-        public abstract void CloakDeactivation(GenericShip ship);
 
         public virtual void AdaptShipToRules(GenericShip ship) { }
         public virtual void AdaptPilotToRules(GenericShip ship) { }

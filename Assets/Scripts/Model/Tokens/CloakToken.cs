@@ -33,13 +33,13 @@ namespace Tokens
 
             Host.ChangeAgilityBy(+2);
             Host.OnTryPerformAttack += CannotAttackWhileCloaked;
-            RuleSet.Instance.CloakActivation(Host);
+            Host.OnSystemsPhaseActivation += RegisterAskDecloak;
 
             Host.ToggleIonized(true);
             Host.ToggleCloaked(true);
         }
 
-        public static void RegisterAskDecloak(GenericShip ship)
+        private void RegisterAskDecloak(GenericShip ship)
         {
             Triggers.RegisterTrigger(new Trigger
             {
@@ -54,7 +54,7 @@ namespace Tokens
             });
         }
 
-        private static void AskDecloak()
+        private void AskDecloak()
         {
             Phases.StartTemporarySubPhaseOld(
                 "Decloak Decision",
@@ -79,7 +79,7 @@ namespace Tokens
             Host.ChangeAgilityBy(-2);
             Host.OnTryPerformAttack -= CannotAttackWhileCloaked;
             Host.OnActivationPhaseStart -= RegisterAskDecloak;
-            RuleSet.Instance.CloakDeactivation(Host);
+            Host.OnSystemsPhaseActivation -= RegisterAskDecloak;
 
             Host.ToggleIonized(false);
             Host.ToggleCloaked(false);

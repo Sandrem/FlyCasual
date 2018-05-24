@@ -70,6 +70,7 @@ namespace RulesList
             ship.IsBombAlreadyDropped = false;
             ship.IsCannotAttackSecondTime = false;
             ship.IsActivatedDuringCombat = false;
+            ship.IsSystemsAbilityInactive = false;
         }
 
         private void ClearAssignedManeuvers(Ship.GenericShip ship)

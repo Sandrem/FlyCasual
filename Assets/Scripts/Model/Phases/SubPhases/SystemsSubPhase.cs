@@ -30,6 +30,8 @@ namespace SubPhases
 
         public override void Next()
         {
+            UI.HideSkipButton();
+
             bool success = GetNextActivation(RequiredPilotSkill);
             if (!success)
             {
@@ -48,7 +50,7 @@ namespace SubPhases
             {
                 UpdateHelpInfo();
                 Roster.HighlightShipsFiltered(FilterShipsWithActiveDevice);
-                Roster.GetPlayer(RequiredPlayer).PerformManeuver();
+                Roster.GetPlayer(RequiredPlayer).PerformSystemsActivation();
             }
         }
 
@@ -60,7 +62,7 @@ namespace SubPhases
             var pilotSkillResults =
                 from n in Roster.AllShips
                 where n.Value.PilotSkill == pilotSkill
-                where n.Value.IsDeviceCanBeActivated == true
+                where n.Value.IsSystemsAbilityCanBeActivated == true
                 select n;
 
             if (pilotSkillResults.Count() > 0)
@@ -94,7 +96,7 @@ namespace SubPhases
             var ascPilotSkills =
                 from n in Roster.AllShips
                 where n.Value.PilotSkill > pilotSkillMin
-                where n.Value.IsDeviceCanBeActivated == true
+                where n.Value.IsSystemsAbilityCanBeActivated == true
                 orderby n.Value.PilotSkill
                 select n;
 
@@ -128,19 +130,30 @@ namespace SubPhases
 
         private bool FilterShipsWithActiveDevice(GenericShip ship)
         {
-            return ship.PilotSkill == RequiredPilotSkill && ship.IsDeviceCanBeActivated && ship.Owner.PlayerNo == RequiredPlayer;
+            return ship.PilotSkill == RequiredPilotSkill && ship.IsSystemsAbilityCanBeActivated && ship.Owner.PlayerNo == RequiredPlayer;
         }
 
         public override void DoSelectThisShip(GenericShip ship, int mouseKeyIsPressed)
         {
-            if (ship.IsDeviceCanBeActivated)
+            if (ship.IsSystemsAbilityCanBeActivated)
             {
                 Messages.ShowInfo("Device is activated");
+                ship.CallOnSystemsPhaseActivation(Next);
             }
             else
             {
                 Messages.ShowErrorToHuman("This ship doesn't have any abilities to activate");
             };
+        }
+
+        public override void SkipButton()
+        {
+            foreach (GenericShip ship in Roster.GetPlayer(RequiredPlayer).Ships.Values)
+            {
+                if (ship.PilotSkill == RequiredPilotSkill) ship.IsSystemsAbilityInactive = true;
+            }
+
+            Next();
         }
 
     }

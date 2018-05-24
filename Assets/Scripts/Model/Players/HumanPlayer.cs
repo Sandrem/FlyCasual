@@ -149,6 +149,11 @@ namespace Players
                 UI.ShowSkipButton("Random");
             }
         }
+
+        public override void PerformSystemsActivation()
+        {
+            UI.ShowSkipButton();
+        }
     }
 
 }

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using SubPhases;
+using System.Linq;
+using Ship;
 
 namespace MainPhases
 {
@@ -12,6 +14,8 @@ namespace MainPhases
         public override void StartPhase()
         {
             Name = "Systems Phase";
+
+            Roster.AllShips.First().Value.OnSystemsPhaseActivation += Test;
 
             Phases.CurrentSubPhase = new SystemsSubPhase();
             Phases.CurrentSubPhase.Start();
@@ -32,6 +36,12 @@ namespace MainPhases
         {
             Phases.CurrentPhase = new ActivationPhase();
             Phases.CurrentPhase.StartPhase();
+        }
+
+        private void Test(GenericShip ship)
+        {
+            Messages.ShowInfo("Ability was activated");
+            Roster.AllShips.First().Value.OnSystemsPhaseActivation -= Test;
         }
 
     }

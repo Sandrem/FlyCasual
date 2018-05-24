@@ -15,8 +15,6 @@ namespace MainPhases
         {
             Name = "Systems Phase";
 
-            Roster.AllShips.First().Value.OnSystemsPhaseActivation += Test;
-
             Phases.CurrentSubPhase = new SystemsSubPhase();
             Phases.CurrentSubPhase.Start();
             Phases.CurrentSubPhase.Prepare();
@@ -36,12 +34,6 @@ namespace MainPhases
         {
             Phases.CurrentPhase = new ActivationPhase();
             Phases.CurrentPhase.StartPhase();
-        }
-
-        private void Test(GenericShip ship)
-        {
-            Messages.ShowInfo("Ability was activated");
-            Roster.AllShips.First().Value.OnSystemsPhaseActivation -= Test;
         }
 
     }

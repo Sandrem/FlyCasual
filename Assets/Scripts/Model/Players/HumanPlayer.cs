@@ -152,6 +152,7 @@ namespace Players
 
         public override void PerformSystemsActivation()
         {
+            base.PerformSystemsActivation();
             UI.ShowSkipButton();
         }
     }

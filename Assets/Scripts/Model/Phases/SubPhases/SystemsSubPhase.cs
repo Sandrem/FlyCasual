@@ -137,7 +137,6 @@ namespace SubPhases
         {
             if (ship.IsSystemsAbilityCanBeActivated)
             {
-                Messages.ShowInfo("Device is activated");
                 ship.CallOnSystemsPhaseActivation(Next);
             }
             else

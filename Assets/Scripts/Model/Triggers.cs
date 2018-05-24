@@ -82,7 +82,8 @@ public enum TriggerTypes
     OnFlipFaceUp,
     OnDiceAboutToBeRolled,
     OnAfterDiscard,
-    OnAfterFlipFaceUp
+    OnAfterFlipFaceUp,
+    OnSystemsAbilityActivation
 }
 
 public class Trigger

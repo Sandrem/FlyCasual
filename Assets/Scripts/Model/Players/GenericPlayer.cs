@@ -160,7 +160,10 @@ namespace Players
 
         public virtual void PlaceObstacle() { }
 
-        public virtual void PerformSystemsActivation() { }
+        public virtual void PerformSystemsActivation()
+        {
+            Roster.HighlightPlayer(PlayerNo);
+        }
     }
 
 }

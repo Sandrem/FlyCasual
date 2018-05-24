@@ -80,7 +80,7 @@ namespace Ship
             this.IsSystemsAbilityInactive = true;
             if (OnSystemsPhaseActivation != null) OnSystemsPhaseActivation(this);
 
-            callback();
+            Triggers.ResolveTriggers(TriggerTypes.OnSystemsAbilityActivation, callback);
         }
 
         public void CallOnShipIsPlaced(Action callback)

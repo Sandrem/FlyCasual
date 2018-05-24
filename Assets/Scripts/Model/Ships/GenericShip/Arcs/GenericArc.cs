@@ -75,10 +75,10 @@ namespace Arcs
         public GenericShipBase ShipBase;
 
         public ArcTypes ArcType;
-        public ArcFacing Facing { get; set; }
+        public virtual ArcFacing Facing { get; set; }
 
-        public Dictionary<Vector3, float> Limits { get; set; }
-        public List<Vector3> Edges { get; set; }
+        public virtual Dictionary<Vector3, float> Limits { get; set; }
+        public virtual List<Vector3> Edges { get; set; }
 
         public ArcShotPermissions ShotPermissions;
 

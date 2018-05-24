@@ -39,14 +39,14 @@ namespace Arcs
         private List<MobileSubArc> MobileArcParameters;
         private MobileSubArc ActiveMobileSubArc;
 
-        public new ArcFacing Facing
+        public override ArcFacing Facing
         {
             get { return ActiveMobileSubArc.Facing; }
             set { ActiveMobileSubArc = MobileArcParameters.Find(n => n.Facing == value); }
         }
 
-        public new List<Vector3> Edges { get { return ActiveMobileSubArc.Edges; } }
-        public new Dictionary<Vector3, float> Limits { get { return ActiveMobileSubArc.Limits; } }
+        public override List<Vector3> Edges { get { return ActiveMobileSubArc.Edges; } }
+        public override Dictionary<Vector3, float> Limits { get { return ActiveMobileSubArc.Limits; } }
 
         public ArcMobile(GenericShipBase shipBase) : base(shipBase)
         {
@@ -87,8 +87,8 @@ namespace Arcs
                     new List<Vector3>()
                     {
                         new Vector3(-shipBase.HALF_OF_FIRINGARC_SIZE, 0, 0),
-                        new Vector3(-shipBase.SHIPSTAND_SIZE, 0, 0),
-                        new Vector3(-shipBase.SHIPSTAND_SIZE, 0, -shipBase.SHIPSTAND_SIZE),
+                        new Vector3(-shipBase.HALF_OF_SHIPSTAND_SIZE, 0, 0),
+                        new Vector3(-shipBase.HALF_OF_SHIPSTAND_SIZE, 0, -shipBase.SHIPSTAND_SIZE),
                         new Vector3(-shipBase.HALF_OF_FIRINGARC_SIZE, 0, -shipBase.SHIPSTAND_SIZE),
                     }
                 ),
@@ -103,8 +103,8 @@ namespace Arcs
                     new List<Vector3>()
                     {
                         new Vector3(shipBase.HALF_OF_FIRINGARC_SIZE, 0, 0),
-                        new Vector3(shipBase.SHIPSTAND_SIZE, 0, 0),
-                        new Vector3(shipBase.SHIPSTAND_SIZE, 0, -shipBase.SHIPSTAND_SIZE),
+                        new Vector3(shipBase.HALF_OF_SHIPSTAND_SIZE, 0, 0),
+                        new Vector3(shipBase.HALF_OF_SHIPSTAND_SIZE, 0, -shipBase.SHIPSTAND_SIZE),
                         new Vector3(shipBase.HALF_OF_FIRINGARC_SIZE, 0, -shipBase.SHIPSTAND_SIZE),
                     }
                 ),

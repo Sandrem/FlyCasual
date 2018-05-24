@@ -181,9 +181,6 @@ namespace RuleSets
             {
                 host.ShipBaseArcsType = BaseArcsType.ArcMobile;
                 host.InitializeShipBaseArc();
-
-                // Temporary
-                if (!host.PrintedActions.Any(n => n.GetType() == typeof(RotateArcAction))) host.PrintedActions.Add(new RotateArcAction());
             }
         }
 

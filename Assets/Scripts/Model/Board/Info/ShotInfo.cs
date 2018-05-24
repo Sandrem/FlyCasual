@@ -146,8 +146,6 @@ namespace BoardTools
                 IsObstructedByBombToken = true;
             }
 
-            Debug.Log(IsObstructedByAsteroid);
-
             MonoBehaviour.Destroy(FiringLine);
 
             CallBack();

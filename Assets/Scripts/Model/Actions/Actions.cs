@@ -191,7 +191,7 @@ public static partial class Actions
     public static ShotInfo GetFiringRangeAndShow(GenericShip thisShip, GenericShip anotherShip)
     {
         ShotInfo shotInfo = new ShotInfo(thisShip, anotherShip, thisShip.PrimaryWeapon);
-        bool inArc = MovementTemplates.ShowFiringArcRange(shotInfo);
+        MovementTemplates.ShowFiringArcRange(shotInfo);
         return shotInfo;
     }
 

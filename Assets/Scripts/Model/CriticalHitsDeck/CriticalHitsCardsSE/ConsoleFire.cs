@@ -8,19 +8,24 @@ namespace DamageDeckCardSE
 {
     public class ConsoleFire : DamageDeckCardFE.ConsoleFire
     {
+        public ConsoleFire()
+        {
+            ImageUrl = "https://i.imgur.com/x4a6fqE.jpg";
+        }
+
         public override void ApplyEffect(object sender, EventArgs e)
         {
             Host.OnCombatActivation += PlanRollForDamage;            
             Host.AfterGenerateAvailableActionsList += CallAddCancelCritAction;
             Host.OnShipIsDestroyed += DiscardEffect;
 
-            Host.Tokens.AssignCondition(new Tokens.ConsoleFireCritToken(Host));
+            Host.Tokens.AssignCondition(new Tokens.ConsoleFireSECritToken(Host));
             Triggers.FinishTrigger();
         }
 
         public override void DiscardEffect()
         {
-            Host.Tokens.RemoveCondition(typeof(Tokens.ConsoleFireCritToken));
+            Host.Tokens.RemoveCondition(typeof(Tokens.ConsoleFireSECritToken));
 
             Host.OnCombatActivation -= PlanRollForDamage;
             Host.AfterGenerateAvailableActionsList -= CallAddCancelCritAction;

@@ -13,6 +13,7 @@ namespace DamageDeckCardSE
         {
             Name = "Disabled Power Regulator";
             Type = CriticalCardType.Ship;
+            ImageUrl = "https://i.imgur.com/jj9Cv46.jpg";
         }
 
         public override void ApplyEffect(object sender, EventArgs e)

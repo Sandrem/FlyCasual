@@ -123,8 +123,7 @@ namespace Tokens
     {
         public DisabledPowerRegulatorCritToken(GenericShip host) : base(host)
         {
-            /// TODO: Find a picture
-            //Tooltip = "http://i.imgur.com/RwtlPpG.jpg";
+            Tooltip = "https://i.imgur.com/jj9Cv46.jpg";
         }
     }
 
@@ -132,8 +131,7 @@ namespace Tokens
     {
         public FuelLeakCritToken(GenericShip host) : base(host)
         {
-            /// TODO: Find a picture
-            //Tooltip = "http://i.imgur.com/RwtlPpG.jpg";
+            Tooltip = "https://i.imgur.com/MNNWJJe.jpg";
         }
     }
 
@@ -141,8 +139,7 @@ namespace Tokens
     {
         public HullBreachCritToken(GenericShip host) : base(host)
         {
-            /// TODO: Find a picture
-            //Tooltip = "http://i.imgur.com/RwtlPpG.jpg";
+            Tooltip = "https://i.imgur.com/CIqxoU5.jpg";
         }
     }
 
@@ -150,32 +147,28 @@ namespace Tokens
     {
         public LooseStabilizerSECritToken(GenericShip host) : base(host)
         {
-            /// TODO: Find a picture
-            //Tooltip = "http://vignette4.wikia.nocookie.net/xwing-miniatures/images/d/db/Loose-stabilizer.png";
+            Tooltip = "https://i.imgur.com/PMqkGn3.png";
         }
     }
     public class StructuralDamageSECritToken : CritToken
     {
         public StructuralDamageSECritToken(GenericShip host) : base(host)
         {
-            /// TODO: Find a picture
-            //Tooltip = "http://vignette4.wikia.nocookie.net/xwing-miniatures/images/d/db/Loose-stabilizer.png";
+            Tooltip = "https://i.imgur.com/fJEhlAG.jpg";
         }
     }
     public class StunnedPilotSECritToken : CritToken
     {
         public StunnedPilotSECritToken(GenericShip host) : base(host)
         {
-            /// TODO: Find a picture
-            //Tooltip = "http://vignette4.wikia.nocookie.net/xwing-miniatures/images/d/db/Loose-stabilizer.png";
+            Tooltip = "https://i.imgur.com/Cy4ovYs.jpg";
         }
     }
     public class WeaponsFailureSECritToken : CritToken
     {
         public WeaponsFailureSECritToken(GenericShip host) : base(host)
         {
-            /// TODO: Find a picture
-            //Tooltip = "http://vignette4.wikia.nocookie.net/xwing-miniatures/images/d/db/Loose-stabilizer.png";
+            Tooltip = "https://i.imgur.com/BTd2jSS.png";
         }
     }
 
@@ -183,12 +176,39 @@ namespace Tokens
     {
         public WoundedPilotCritToken(GenericShip host) : base(host)
         {
-            /// TODO: Find a picture
-            //Tooltip = "http://vignette4.wikia.nocookie.net/xwing-miniatures/images/d/db/Loose-stabilizer.png";
+            Tooltip = "https://i.imgur.com/BIla4b2.jpg";
         }
     }
 
+    public class DamagedSensorArraySECritToken : CritToken
+    {
+        public DamagedSensorArraySECritToken(GenericShip host) : base(host)
+        {
+            Tooltip = "https://i.imgur.com/6r6a8a7.jpg";
+        }
+    }
 
+    public class DamagedEngineSECritToken : CritToken
+    {
+        public DamagedEngineSECritToken(GenericShip host) : base(host)
+        {
+            Tooltip = "https://i.imgur.com/sBDC3iQ.jpg";
+        }
+    }
 
+    public class ConsoleFireSECritToken : CritToken
+    {
+        public ConsoleFireSECritToken(GenericShip host) : base(host)
+        {
+            Tooltip = "https://i.imgur.com/x4a6fqE.jpg";
+        }
+    }
 
+    public class BlindedPilotSECritToken : CritToken
+    {
+        public BlindedPilotSECritToken(GenericShip host) : base(host)
+        {
+            Tooltip = "https://i.imgur.com/OoQBMf7.jpg";
+        }
+    }
 }

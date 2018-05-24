@@ -13,6 +13,7 @@ namespace DamageDeckCardSE
             Name = "Blinded Pilot";
             Type = CriticalCardType.Pilot;
             AiAvoids = true;
+            ImageUrl = "https://i.imgur.com/OoQBMf7.jpg";
         }
 
         public override void ApplyEffect(object sender, EventArgs e)
@@ -20,7 +21,7 @@ namespace DamageDeckCardSE
             Host.OnTryAddAvailableActionEffect += RestrictActionEffectsToForceOnly;
             Host.AfterGenerateAvailableActionsList += CallAddCancelCritAction;
 
-            Host.Tokens.AssignCondition(new Tokens.BlindedPilotCritToken(Host));
+            Host.Tokens.AssignCondition(new Tokens.BlindedPilotSECritToken(Host));
             Triggers.FinishTrigger();
         }
 
@@ -37,7 +38,7 @@ namespace DamageDeckCardSE
             Host.OnTryAddAvailableActionEffect -= RestrictActionEffectsToForceOnly;
             Host.AfterGenerateAvailableActionsList -= CallAddCancelCritAction;
             Messages.ShowInfo("Blinded Pilot: Crit is flipped, pilot can fully modify attacks");
-            Host.Tokens.RemoveCondition(typeof(Tokens.BlindedPilotCritToken));            
+            Host.Tokens.RemoveCondition(typeof(Tokens.BlindedPilotSECritToken));            
         }         
     }
 

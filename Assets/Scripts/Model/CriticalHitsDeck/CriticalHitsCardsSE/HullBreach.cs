@@ -13,6 +13,7 @@ namespace DamageDeckCardSE
         {
             Name = "Hull Breach";
             Type = CriticalCardType.Ship;
+            ImageUrl = "https://i.imgur.com/CIqxoU5.jpg";
         }
 
         public override void ApplyEffect(object sender, EventArgs e)

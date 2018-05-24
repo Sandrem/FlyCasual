@@ -13,6 +13,7 @@ namespace DamageDeckCardSE
             Name = "Structural Damage";
             Type = CriticalCardType.Ship;
             CancelDiceResults.Add(DieSide.Success);
+            ImageUrl = "https://i.imgur.com/fJEhlAG.jpg";
         }
 
         public override void ApplyEffect(object sender, EventArgs e)

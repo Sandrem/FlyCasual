@@ -12,20 +12,21 @@ namespace DamageDeckCardSE
         {
             Name = "Damaged Engine";
             Type = CriticalCardType.Ship;
+            ImageUrl = "https://i.imgur.com/sBDC3iQ.jpg";
         }
 
         public override void ApplyEffect(object sender, EventArgs e)
         {
             Host.AfterGetManeuverColorIncreaseComplexity += TurnManeuversAreHarder;
 
-            Host.Tokens.AssignCondition(new Tokens.DamagedEngineCritToken(Host));
+            Host.Tokens.AssignCondition(new Tokens.DamagedEngineSECritToken(Host));
             Triggers.FinishTrigger();
         }
 
         public override void DiscardEffect()
         {
             Messages.ShowInfo("Turn maneuvers regained normal colors");
-            Host.Tokens.RemoveCondition(typeof(Tokens.DamagedEngineCritToken));
+            Host.Tokens.RemoveCondition(typeof(Tokens.DamagedEngineSECritToken));
 
             Host.AfterGetManeuverColorIncreaseComplexity -= TurnManeuversAreHarder;
         }

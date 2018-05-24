@@ -12,12 +12,12 @@ namespace DamageDeckCardSE
         {
             Name = "Direct Hit";
             Type = CriticalCardType.Ship;
-            AiAvoids = true;                        
+            AiAvoids = true;
+            ImageUrl = "https://i.imgur.com/aOzGkNK.jpg";
         }
 
         public override void ApplyEffect(object sender, EventArgs e)
         {
-            Host.Tokens.AssignCondition(new Tokens.DirectHitCritToken(Host));
             SufferAdditionalDamage();
         }
 
@@ -51,7 +51,7 @@ namespace DamageDeckCardSE
 
         public override void DiscardEffect()
         {
-            Host.Tokens.RemoveCondition(typeof(Tokens.DirectHitCritToken));
+            // Do nothing;
         }
     }
 

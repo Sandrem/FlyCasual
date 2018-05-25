@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace UpgradesList
 {
-    public class AfterBurners : GenericUpgrade, ISecondEditionUpgrade
+    public class AfterBurners : GenericUpgrade
     {
         public AfterBurners() : base()
         {
@@ -15,17 +15,13 @@ namespace UpgradesList
             Name = "AfterBurners";
             Cost = 8;
 
-            ImageUrl = "https://i.imgur.com/3ymspED.png";
+            ImageUrl = "https://i.imgur.com/mcbuSV4.png";
 
-            UpgradeRuleType = typeof(SecondEdition);
             MaxCharges = 2;
 
-            UpgradeAbilities.Add(new Abilities.SecondEdition.AfterBurnersAbility());
-        }
+            UpgradeRuleType = typeof(SecondEdition);
 
-        public void AdaptUpgradeToSecondEdition()
-        {
-            // No Adaptation is required
+            UpgradeAbilities.Add(new Abilities.SecondEdition.AfterBurnersAbility());
         }
     }
 }

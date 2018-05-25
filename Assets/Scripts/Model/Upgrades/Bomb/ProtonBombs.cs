@@ -27,7 +27,7 @@ namespace UpgradesList
 
         public void AdaptUpgradeToSecondEdition()
         {
-            
+            ImageUrl = "https://i.imgur.com/hIPiLZZ.png";
         }
 
         public override void ExplosionEffect(GenericShip ship, Action callBack)

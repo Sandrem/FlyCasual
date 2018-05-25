@@ -16,7 +16,7 @@ namespace Ship
 			{
 				PilotName = "Joy Rekkoff";
 				PilotSkill = 4;
-				Cost = 26;
+				Cost = 57;
 
                 ImageUrl = "https://i.imgur.com/O4xI9p6.png";
 

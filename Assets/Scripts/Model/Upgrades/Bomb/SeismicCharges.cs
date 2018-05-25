@@ -26,12 +26,11 @@ namespace UpgradesList
 
         public void AdaptUpgradeToSecondEdition()
         {
-            MaxCharges = 2;
-
             ImageUrl = "https://i.imgur.com/HGcGmlt.png";
 
             IsDiscardedAfterDropped = false;
             UsesCharges = true;
+            MaxCharges = 2;
         }
 
         public override void ExplosionEffect(GenericShip ship, Action callBack)

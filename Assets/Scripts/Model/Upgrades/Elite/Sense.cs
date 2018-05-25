@@ -14,7 +14,7 @@ namespace UpgradesList
             Name = "Sense";
             Cost = 10;
 
-            ImageUrl = "https://i.imgur.com/7cJXieP.png";
+            ImageUrl = "https://i.imgur.com/WEduTk1.png";
 
             UpgradeRuleType = typeof(SecondEdition);
         }

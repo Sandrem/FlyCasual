@@ -96,7 +96,7 @@ namespace Ship
                 Maneuvers["3.F.S"] = MovementComplexity.Easy;
                 Maneuvers["3.F.R"] = MovementComplexity.None;
 
-                PrintedUpgradeIcons.Remove(PrintedUpgradeIcons.Find(n => n.GetType() == typeof(EvadeAction)));
+                PrintedActions.RemoveAll(a => a is EvadeAction);
 
                 PrintedActions.Add(new ReinforceAftAction() {Host = this, IsRed = true});
                 PrintedActions.Add(new ReinforceForeAction() {Host = this, IsRed = true});

@@ -41,7 +41,7 @@ namespace Abilities
             HostShip.AfterGenerateAvailableActionEffectsList -= FearlessnessAddDiceModification;
         }
 
-        private void FearlessnessAddDiceModification(GenericShip host)
+        protected virtual void FearlessnessAddDiceModification(GenericShip host)
         {
             ActionsList.GenericAction newAction = new ActionsList.FearlessnessAction()
             {

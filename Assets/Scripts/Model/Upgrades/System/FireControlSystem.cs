@@ -19,7 +19,7 @@ namespace UpgradesList
 
         public void AdaptUpgradeToSecondEdition()
         {
-            ImageUrl = "https://i.imgur.com/UQ0nMnE.png";
+            ImageUrl = "https://i.imgur.com/aeuptwq.png";
 
             Cost = 6;
 

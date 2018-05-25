@@ -6,7 +6,7 @@ using RuleSets;
 
 namespace UpgradesList
 {
-    class ReconSpecialist : GenericUpgrade, ISecondEditionUpgrade
+    class ReconSpecialist : GenericUpgrade
     {
         public ReconSpecialist() : base()
         {
@@ -17,11 +17,6 @@ namespace UpgradesList
             AvatarOffset = new Vector2(42, 3);
 
             UpgradeAbilities.Add(new ReconSpecialistAbility());
-        }
-
-        public void AdaptUpgradeToSecondEdition()
-        {
-            Name = "Perceptive Copilot";
         }
     }
 }

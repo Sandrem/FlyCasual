@@ -33,10 +33,16 @@ namespace UpgradesList
 
         public void AdaptUpgradeToSecondEdition()
         {
-            MaxCharges = 2;
+            ImageUrl = "https://i.imgur.com/DdanhYB.png";
+
+            SpendsTargetLockOnTargetToShoot = false;
 
             IsDiscardedForShot = false;
             UsesCharges = true;
+            MaxCharges = 2;
+
+            UpgradeAbilities.RemoveAll(a => a is IonTorpedoesAbility);
+            UpgradeAbilities.Add(new Abilities.SecondEdition.IonDamageAbilitySE());
         }
     }
 }

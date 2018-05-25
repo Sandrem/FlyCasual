@@ -25,7 +25,7 @@ namespace UpgradesList
 
         public void AdaptUpgradeToSecondEdition()
         {
-            ImageUrl = "https://i.imgur.com/eQHNUIg.png";
+            ImageUrl = "https://i.imgur.com/z0hYUNj.png";
             isSecondEdition = true;
 
             UpgradeAbilities.RemoveAll(a => a is ExpertHandlingAbility);

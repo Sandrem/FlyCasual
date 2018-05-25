@@ -24,15 +24,15 @@ namespace UpgradesList
 
             CanShootOutsideArc = true;
 
-            UpgradeAbilities.Add(new IonCannonTurretAbility());
+            UpgradeAbilities.Add(new IonDamageAbility());
         }
 
         public void AdaptUpgradeToSecondEdition()
         {
             ImageUrl = "https://i.imgur.com/qepSXTj.png";
 
-            UpgradeAbilities.RemoveAll(a => a is IonCannonTurretAbility);
-            UpgradeAbilities.Add(new Abilities.SecondEdition.IonCannonTurretAbility());
+            UpgradeAbilities.RemoveAll(a => a is IonDamageAbility);
+            UpgradeAbilities.Add(new Abilities.SecondEdition.IonDamageAbilitySE());
             UpgradeAbilities.Add(new GenericActionBarAbility<RotateArcAction>());
         }
     }
@@ -40,7 +40,7 @@ namespace UpgradesList
 
 namespace Abilities
 {
-    public class IonCannonTurretAbility : GenericAbility
+    public class IonDamageAbility : GenericAbility
     {
         public override void ActivateAbility()
         {
@@ -108,7 +108,7 @@ namespace Abilities
 
 namespace Abilities.SecondEdition
 {
-    public class IonCannonTurretAbility : Abilities.IonCannonTurretAbility
+    public class IonDamageAbilitySE : IonDamageAbility
     {
         protected override void IonTurretEffect(object sender, System.EventArgs e)
         {
@@ -116,14 +116,21 @@ namespace Abilities.SecondEdition
             Combat.DiceRollAttack.CancelAllResults();
             Combat.DiceRollAttack.RemoveAllFailures();
 
-            Combat.Defender.Tokens.AssignTokens(
-                () => new Tokens.IonToken(Combat.Defender),
-                ionTokens,
-                delegate {
-                    GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-                    Game.Wait(2, DefenderSuffersDamage);
-                }
-            );
+            if (ionTokens > 0)
+            {
+                Combat.Defender.Tokens.AssignTokens(
+                    () => new Tokens.IonToken(Combat.Defender),
+                    ionTokens,
+                    delegate {
+                        GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
+                        Game.Wait(2, DefenderSuffersDamage);
+                    }
+                );
+            }
+            else
+            {
+                DefenderSuffersDamage();
+            }
         }
     }
 

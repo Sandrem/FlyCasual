@@ -35,10 +35,65 @@ namespace UpgradesList
         {
             MaxCharges = 2;
 
-            ImageUrl = "https://i.imgur.com/IU8bmXC.png";
+            ImageUrl = "https://i.imgur.com/UwzG8IT.png";
+
+            SpendsTargetLockOnTargetToShoot = false;
 
             IsDiscardedForShot = false;
             UsesCharges = true;
+
+            UpgradeAbilities.RemoveAll(a => a is ProtonTorpedoesAbility);
+            UpgradeAbilities.Add(new Abilities.SecondEdition.ProtonTorpedoesAbilitySE());
+        }
+    }
+}
+
+namespace Abilities
+{
+    namespace SecondEdition
+    {
+        public class ProtonTorpedoesAbilitySE: ProtonTorpedoesAbility
+        {
+            protected override void AddProtonTorpedoesDiceMofification(GenericShip host)
+            {
+                ProtonTorpedoesDiceModificationSE action = new ProtonTorpedoesDiceModificationSE()
+                {
+                    Host = host,
+                    ImageUrl = HostUpgrade.ImageUrl,
+                    Source = HostUpgrade
+                };
+
+                host.AddAvailableActionEffect(action);
+            }
+        }
+    }
+}
+
+namespace ActionsList
+{
+    public class ProtonTorpedoesDiceModificationSE : ProtonTorpedoesDiceModification
+    {
+        public ProtonTorpedoesDiceModificationSE()
+        {
+            IsTurnsOneFocusIntoSuccess = false;
+        }
+
+        public override int GetActionEffectPriority()
+        {
+            int result = 0;
+
+            if (Combat.AttackStep == CombatStep.Attack)
+            {
+                if (Combat.DiceRollAttack.RegularSuccesses > 0) result = 100;
+            }
+
+            return result;
+        }
+
+        public override void ActionEffect(System.Action callBack)
+        {
+            Combat.CurrentDiceRoll.ChangeOne(DieSide.Success, DieSide.Crit);
+            callBack();
         }
     }
 }
@@ -64,9 +119,9 @@ namespace Abilities
             HostShip.AfterGenerateAvailableActionEffectsList -= AddProtonTorpedoesDiceMofification;
         }
 
-        private void AddProtonTorpedoesDiceMofification(GenericShip host)
+        protected virtual void AddProtonTorpedoesDiceMofification(GenericShip host)
         {
-            ProtonTorpedoesAction action = new ProtonTorpedoesAction()
+            ProtonTorpedoesDiceModification action = new ProtonTorpedoesDiceModification()
             {
                 Host = host,
                 ImageUrl = HostUpgrade.ImageUrl,
@@ -80,11 +135,10 @@ namespace Abilities
 
 namespace ActionsList
 { 
-
-    public class ProtonTorpedoesAction : GenericAction
+    public class ProtonTorpedoesDiceModification : GenericAction
     {
 
-        public ProtonTorpedoesAction()
+        public ProtonTorpedoesDiceModification()
         {
             Name = EffectName = "Proton Torpedoes";
 

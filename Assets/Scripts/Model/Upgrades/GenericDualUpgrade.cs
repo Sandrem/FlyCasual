@@ -6,6 +6,7 @@ using ActionsList;
 using SubPhases;
 using System.Collections.Generic;
 using Upgrade;
+using RuleSets;
 
 namespace Upgrade
 {
@@ -88,6 +89,7 @@ namespace SubPhases
             foreach (var type in UpgradeTypes)
             {
                 GenericDualUpgrade upgradeSide = (GenericDualUpgrade)Activator.CreateInstance(type);
+                RuleSet.Instance.AdaptUpgradeToRules(upgradeSide);
                 AddDecision(
                     upgradeSide.Name,
                     delegate { SelectSide(upgradeSide); },

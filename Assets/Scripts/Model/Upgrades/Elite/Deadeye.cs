@@ -9,7 +9,7 @@ using RuleSets;
 
 namespace UpgradesList
 {
-    public class Deadeye : GenericUpgrade, ISecondEditionUpgrade
+    public class Deadeye : GenericUpgrade
     {
         public Deadeye() : base()
         {
@@ -25,13 +25,6 @@ namespace UpgradesList
         public override bool IsAllowedForShip(GenericShip ship)
         {
             return ship.ShipBaseSize == BaseSize.Small;
-        }
-
-        public void AdaptUpgradeToSecondEdition()
-        {
-            Name = "Instinctive Aim";
-
-            ImageUrl = "https://i.imgur.com/07f1bDf.png";
         }
     }
 }

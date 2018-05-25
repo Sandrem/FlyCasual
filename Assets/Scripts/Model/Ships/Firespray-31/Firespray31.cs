@@ -98,8 +98,8 @@ namespace Ship
 
                 PrintedUpgradeIcons.Remove(PrintedUpgradeIcons.Find(n => n.GetType() == typeof(EvadeAction)));
 
-                PrintedActions.Add(new ReinforceAftAction() {Host = this});
-                PrintedActions.Add(new ReinforceForeAction() {Host = this});
+                PrintedActions.Add(new ReinforceAftAction() {Host = this, IsRed = true});
+                PrintedActions.Add(new ReinforceForeAction() {Host = this, IsRed = true});
                 PrintedActions.Add(new BoostAction());
 
                 factions.Remove(Faction.Imperial);

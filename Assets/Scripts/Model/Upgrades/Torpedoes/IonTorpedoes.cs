@@ -35,6 +35,8 @@ namespace UpgradesList
         {
             MaxCharges = 2;
 
+            ImageUrl = "https://i.imgur.com/DdanhYB.png";
+
             IsDiscardedForShot = false;
             UsesCharges = true;
         }

@@ -11,6 +11,8 @@ namespace UpgradesList
             Name = "Inertial Dampeners";
             Cost = 2;
 
+            ImageUrl = "https://i.imgur.com/3NIASof.png";
+
             UpgradeRuleType = typeof(SecondEdition);
         }
     }

@@ -28,7 +28,7 @@ namespace UpgradesList
         {
             MaxCharges = 2;
 
-            ImageUrl = "https://i.imgur.com/kSxLF1I.png";
+            ImageUrl = "https://i.imgur.com/HGcGmlt.png";
 
             IsDiscardedAfterDropped = false;
             UsesCharges = true;

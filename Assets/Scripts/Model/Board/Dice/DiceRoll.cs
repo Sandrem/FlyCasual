@@ -50,6 +50,19 @@ public partial class DiceRoll
         get { return this.DiceList.Select(n => n.Side).ToArray();}
     }
 
+    public DieSide WorstResult
+    {
+        get
+        {
+            if (Blanks > 0) return DieSide.Blank;
+            if (Focuses > 0) return DieSide.Focus;
+            if (RegularSuccesses > 0) return DieSide.Success;
+            if (CriticalSuccesses > 0) return DieSide.Crit;
+
+            return DieSide.Unknown;
+        }
+    }
+
     public DiceRoll(DiceKind type, int number, DiceRollCheckType checkType)
     {
         Type = type;

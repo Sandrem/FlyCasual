@@ -47,6 +47,7 @@ namespace BoardTools
 
         public ShotInfo(GenericShip ship1, GenericShip ship2, IShipWeapon weapon) : base(ship1, ship2)
         {
+            Weapon = weapon ?? ship1.PrimaryWeapon;
             CheckRange();
         }
 

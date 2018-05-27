@@ -26,6 +26,8 @@ namespace Ship
 
         public bool IsSystemsAbilityCanBeActivated { get { return OnSystemsPhaseActivation != null && !IsSystemsAbilityInactive; } }
         public bool IsSystemsAbilityInactive { get; set; }
+
+        public bool AlwaysShowAssignedManeuver { get; set; }
     } 
 
 }

@@ -157,7 +157,7 @@ namespace Abilities
             Selection.ChangeActiveShip("ShipId:" + HostShip.ShipId);
 
             SelectShipSubPhase selectTargetSubPhase = (SelectShipSubPhase)Phases.StartTemporarySubPhaseNew(
-                "Select target for " + Name,
+                name,
                 typeof(AbilitySelectTarget),
                 customCallback
             );

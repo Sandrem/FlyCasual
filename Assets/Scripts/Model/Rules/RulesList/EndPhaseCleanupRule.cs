@@ -71,6 +71,7 @@ namespace RulesList
             ship.IsCannotAttackSecondTime = false;
             ship.IsActivatedDuringCombat = false;
             ship.IsSystemsAbilityInactive = false;
+            ship.AlwaysShowAssignedManeuver = false;
         }
 
         private void ClearAssignedManeuvers(Ship.GenericShip ship)

@@ -64,7 +64,7 @@ namespace SubPhases
             {
                 foreach (var shipHolder in Roster.GetPlayer(RequiredPlayer).Ships)
                 {
-                    Roster.ToggelManeuverVisibility(shipHolder.Value, false);
+                    Roster.ToggleManeuverVisibility(shipHolder.Value, false);
                 }
             }
         }

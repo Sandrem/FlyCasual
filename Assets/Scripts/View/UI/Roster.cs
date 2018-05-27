@@ -256,7 +256,7 @@ public static partial class Roster {
                 {
                     if (AllShips[item.tag].Owner.PlayerNo == Phases.CurrentPhasePlayer)
                     {
-                        ToggelManeuverVisibility(AllShips[item.tag], true);
+                        ToggleManeuverVisibility(AllShips[item.tag], true);
                         return;
                     }
                 }
@@ -264,7 +264,7 @@ public static partial class Roster {
                 {
                     if (AllShips[item.tag].Owner.GetType() == typeof(HumanPlayer))
                     {
-                        ToggelManeuverVisibility(AllShips[item.tag], true);
+                        ToggleManeuverVisibility(AllShips[item.tag], true);
                         return;
                     }
                 }
@@ -278,7 +278,7 @@ public static partial class Roster {
         {
             if (IsAssignedManeuverDialShouldBeHiddenAfterHover(shipHoler.Value))
             {
-                ToggelManeuverVisibility(shipHoler.Value, false);
+                ToggleManeuverVisibility(shipHoler.Value, false);
             }
         }
     }
@@ -291,6 +291,8 @@ public static partial class Roster {
         if (GetPlayer(AnotherPlayer(ship.Owner.PlayerNo)).GetType() == typeof(NetworkOpponentPlayer)) return false;
         if (Phases.CurrentSubPhase.GetType() == typeof(SubPhases.PlanningSubPhase)) return false;
         if (Phases.CurrentSubPhase.GetType() == typeof(SubPhases.MovementExecutionSubPhase)) return false;
+
+        if (ship.AlwaysShowAssignedManeuver) return false;
 
         return result;
     }
@@ -543,7 +545,7 @@ public static partial class Roster {
         return result;
     }
 
-    public static void ToggelManeuverVisibility(GenericShip ship, bool isVisible)
+    public static void ToggleManeuverVisibility(GenericShip ship, bool isVisible)
     {
         GameObject maneuverDial = ship.InfoPanel.transform.Find("AssignedManeuverDial").gameObject;
         maneuverDial.transform.Find("Holder").Find("ManeuverSpeed").gameObject.SetActive(isVisible);

@@ -33,7 +33,7 @@ namespace Tokens
 
             Host.ChangeAgilityBy(+2);
             Host.OnTryPerformAttack += CannotAttackWhileCloaked;
-            Host.OnSystemsPhaseActivation += RegisterAskDecloak;
+            Host.OnSystemsAbilityActivation += RegisterAskDecloak;
 
             Host.ToggleIonized(true);
             Host.ToggleCloaked(true);
@@ -79,7 +79,7 @@ namespace Tokens
             Host.ChangeAgilityBy(-2);
             Host.OnTryPerformAttack -= CannotAttackWhileCloaked;
             Host.OnActivationPhaseStart -= RegisterAskDecloak;
-            Host.OnSystemsPhaseActivation -= RegisterAskDecloak;
+            Host.OnSystemsAbilityActivation -= RegisterAskDecloak;
 
             Host.ToggleIonized(false);
             Host.ToggleCloaked(false);

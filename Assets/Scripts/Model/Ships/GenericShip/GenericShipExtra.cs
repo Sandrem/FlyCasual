@@ -68,7 +68,7 @@ namespace Ship
 
         public event EventHandlerDualUpgrade OnAfterDualCardSideSelected;
 
-        public event EventHandlerShip OnSystemsPhaseActivation;
+        public event EventHandlerShip OnSystemsAbilityActivation;
 
         public void CallOnGameStart()
         {
@@ -78,7 +78,7 @@ namespace Ship
         public void CallOnSystemsPhaseActivation(Action callback)
         {
             this.IsSystemsAbilityInactive = true;
-            if (OnSystemsPhaseActivation != null) OnSystemsPhaseActivation(this);
+            if (OnSystemsAbilityActivation != null) OnSystemsAbilityActivation(this);
 
             Triggers.ResolveTriggers(TriggerTypes.OnSystemsAbilityActivation, callback);
         }

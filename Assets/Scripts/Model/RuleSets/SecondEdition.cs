@@ -251,8 +251,8 @@ namespace RuleSets
 
         public override void TimedBombActivationTime(GenericShip ship)
         {
-            ship.OnSystemsPhaseActivation -= BombsManager.CheckBombDropAvailability;
-            ship.OnSystemsPhaseActivation += BombsManager.CheckBombDropAvailability;
+            ship.OnSystemsAbilityActivation -= BombsManager.CheckBombDropAvailability;
+            ship.OnSystemsAbilityActivation += BombsManager.CheckBombDropAvailability;
         }
 
     }

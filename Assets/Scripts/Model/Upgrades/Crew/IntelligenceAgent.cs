@@ -28,9 +28,8 @@ namespace Abilities
 {
     public class IntelligenceAgentAbility : GenericAbility
     {
-        public int MinRange { get { return 1; } }
-        public int MaxRange { get { return 2; } }
-        public string Description { get { return "Choose a ship to look at it's chosen maneuver."; } }
+        protected virtual int MinRange { get { return 1; } }
+        protected virtual int MaxRange { get { return 2; } }
 
         public override void ActivateAbility()
         {
@@ -52,13 +51,17 @@ namespace Abilities
 
         private void AskToUseIntelligenceAgentAbility(object sender, System.EventArgs e)
         {
-            AskToUseAbility(NeverUseByDefault, StartSelectTargetForAbility);
+            AskToUseAbility(
+                NeverUseByDefault,
+                delegate {
+                    DecisionSubPhase.ConfirmDecisionNoCallback();
+                    StartSelectTargetForAbility(sender, e);
+                }
+            );
         }
 
-        private void StartSelectTargetForAbility(object sender, System.EventArgs e)
+        protected void StartSelectTargetForAbility(object sender, System.EventArgs e)
         {
-            DecisionSubPhase.ConfirmDecisionNoCallback();
-
             SelectTargetForAbility(
                 SeeAssignedManuver,
                 FilterTargets,
@@ -67,12 +70,12 @@ namespace Abilities
                 true,
                 null,
                 HostUpgrade.Name,
-                Description,
+                "Choose a ship to look at it's chosen maneuver.",
                 HostUpgrade.ImageUrl
             );
         }
 
-        private void SeeAssignedManuver()
+        protected virtual void SeeAssignedManuver()
         {
             Roster.ToggleManeuverVisibility(TargetShip, true);
             TargetShip.AlwaysShowAssignedManeuver = true;

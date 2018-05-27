@@ -127,7 +127,7 @@ namespace Abilities
                 },
                 null,
                 HostUpgrade.Name,
-                "You may perfrom an additional attack from your auxiliary firing arc.",
+                "You may perform an additional attack from your auxiliary firing arc.",
                 HostUpgrade.ImageUrl
             );                
         }

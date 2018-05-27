@@ -89,7 +89,7 @@ namespace Abilities
                 FinishAdditionalAttack,
                 IsPrimaryShot,
                 HostUpgrade.Name,
-                "You may perfrom a primary weapon attack.",
+                "You may perform a primary weapon attack.",
                 HostUpgrade.ImageUrl
             );
         }

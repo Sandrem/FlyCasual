@@ -101,7 +101,7 @@ namespace Abilities
                     AfterExtraAttackSubPhase,
                     null,
                     HostShip.PilotName,
-                    "You may perfrom a primary weapon attack.",
+                    "You may perform a primary weapon attack.",
                     HostShip.ImageUrl
                 );
             }

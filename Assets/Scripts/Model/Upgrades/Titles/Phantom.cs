@@ -88,7 +88,7 @@ namespace Abilities
                     Triggers.FinishTrigger,
                     IsTurretAttack,
                     HostUpgrade.Name,
-                    "You may perfrom additional turret attack.",
+                    "You may perform additional turret attack.",
                     HostUpgrade.ImageUrl
                 );
             }

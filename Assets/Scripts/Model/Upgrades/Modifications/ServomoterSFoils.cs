@@ -27,6 +27,9 @@ namespace UpgradesList
         public void AdaptUpgradeToSecondEdition()
         {
             ImageUrl = "https://i.imgur.com/yZw9Mhd.png";
+
+            UpgradeAbilities.RemoveAll(a => a is ServomotorSFoilsClosedAbility);
+            UpgradeAbilities.Add(new Abilities.SecondEdition.ServomotorSFoilsClosedAbilitySE());
         }
 
         public override bool IsAllowedForShip(GenericShip ship)
@@ -49,6 +52,9 @@ namespace UpgradesList
         public void AdaptUpgradeToSecondEdition()
         {
             ImageUrl = "https://i.imgur.com/CxA8zXL.png";
+
+            UpgradeAbilities.RemoveAll(a => a is ServomotorSFoilsAttackAbility);
+            UpgradeAbilities.Add(new Abilities.SecondEdition.ServomotorSFoilsAttackAbilitySE());
         }
 
         public override bool IsAllowedForShip(GenericShip ship)
@@ -236,6 +242,132 @@ namespace Abilities
             get
             {
                 return string.Format("{0}: Close the S-Foils?", HostShip.PilotName);
+            }
+        }
+    }
+}
+
+namespace Abilities
+{
+    namespace SecondEdition
+    {
+        public abstract class ServomotorSFoilCommonAbilitySE : GenericAbility
+        {
+            protected abstract bool AIWantsToFlip();
+
+            protected abstract string FlipQuestion { get; }
+
+            protected void TurnSFoilsToClosedPosition(GenericShip ship)
+            {
+                HostShip.WingsClose();
+            }
+
+            protected void TurnSFoilsToAttackPosition(GenericShip ship)
+            {
+                HostShip.WingsOpen();
+            }
+
+            private void RegisterAskToUseFlip(GenericShip ship)
+            {
+                RegisterAbilityTrigger(TriggerTypes.OnMovementActivation, AskToFlip);
+            }
+
+            protected void AskToFlip(object sender, EventArgs e)
+            {
+                AskToUseAbility(AIWantsToFlip, DoFlipSide, null, null, false, FlipQuestion);
+            }
+
+            protected void DoFlipSide(object sender, EventArgs e)
+            {
+                (HostUpgrade as GenericDualUpgrade).Flip();
+                DecisionSubPhase.ConfirmDecision();
+            }
+
+            public override void ActivateAbility()
+            {
+                HostShip.OnMovementActivation += RegisterAskToUseFlip;
+            }
+
+            public override void DeactivateAbility()
+            {
+                HostShip.OnMovementActivation -= RegisterAskToUseFlip;
+            }
+        }
+
+        public class ServomotorSFoilsClosedAbilitySE : ServomotorSFoilCommonAbilitySE
+        {
+            public override void ActivateAbility()
+            {
+                base.ActivateAbility();
+                TurnSFoilsToClosedPosition(HostShip);
+                // Decrease attack roll
+                HostShip.AfterGenerateAvailableActionsList += AddActionIcons;
+            }
+
+            public override void DeactivateAbility()
+            {
+                base.DeactivateAbility();
+                TurnSFoilsToAttackPosition(HostShip);
+                // Increase firepower
+                HostShip.AfterGenerateAvailableActionsList -= AddActionIcons;
+            }
+
+            protected void AddActionIcons(GenericShip host)
+            {
+                var alreadyHasBarrelRoll = host.PrintedActions.Any(n => n is BoostAction);
+                if (!alreadyHasBarrelRoll)
+                {
+                    host.AddAvailableAction(new BoostAction());
+                }
+
+                var alreadyHasFocusToBarrelRoll = host.PrintedActions.Any(n => n is FocusAction && n.LinkedRedAction is BoostAction);
+                if (!alreadyHasFocusToBarrelRoll)
+                {
+                    host.AddAvailableAction(new FocusAction() { LinkedRedAction = new BoostAction() { IsRed = true } });
+                }
+            }
+
+            protected override string FlipQuestion
+            {
+                get
+                {
+                    return string.Format("{0}: Open the S-Foils?", HostShip.PilotName);
+                }
+            }
+
+            protected override bool AIWantsToFlip()
+            {
+                /// TODO: Add more inteligence to this decision
+                return true;
+            }
+        }
+
+        public class ServomotorSFoilsAttackAbilitySE : ServomotorSFoilCommonAbilitySE
+        {
+            public override void ActivateAbility()
+            {
+                base.ActivateAbility();
+                TurnSFoilsToAttackPosition(HostShip);
+            }
+
+            public override void DeactivateAbility()
+            {
+                base.DeactivateAbility();
+                TurnSFoilsToClosedPosition(HostShip);
+            }
+
+            protected override string FlipQuestion
+            {
+                get
+                {
+                    return string.Format("{0}: Close the S-Foils?", HostShip.PilotName);
+                }
+            }
+
+            protected override bool AIWantsToFlip()
+            {
+                /// TODO: Add more inteligence to this decision
+                return false;
             }
         }
     }

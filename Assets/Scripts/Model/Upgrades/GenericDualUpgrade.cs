@@ -70,6 +70,7 @@ namespace Upgrade
         private void CreateAnotherSideInstance()
         {
             AnotherSideInstance = (GenericDualUpgrade) Activator.CreateInstance(AnotherSide);
+            RuleSet.Instance.AdaptUpgradeToRules(AnotherSideInstance);
         }
     }
 

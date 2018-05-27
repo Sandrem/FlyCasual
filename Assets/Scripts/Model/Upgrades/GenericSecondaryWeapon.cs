@@ -6,6 +6,8 @@ using Ship;
 using System.Linq;
 using Tokens;
 using BoardTools;
+using Upgrade;
+using SubPhases;
 
 namespace Upgrade
 {
@@ -130,36 +132,37 @@ namespace Upgrade
         {
             if (RequiresTargetLockOnTargetToShoot)
             {
-                if (SpendsTargetLockOnTargetToShoot)
+                List<GenericToken> waysToPay = new List<GenericToken>();
+
+                char letter = Actions.GetTargetLocksLetterPair(Combat.Attacker, Combat.Defender);
+                GenericToken targetLockToken = Combat.Attacker.Tokens.GetToken(typeof(BlueTargetLockToken), letter);
+                if (targetLockToken != null) waysToPay.Add(targetLockToken);
+
+                Combat.Attacker.CallOnGenerateAvailableAttackPaymentList(waysToPay);
+
+                if (waysToPay.Count == 1)
                 {
-                    List<GenericToken> waysToPay = new List<GenericToken>();
-
-                    char letter = Actions.GetTargetLocksLetterPair(Combat.Attacker, Combat.Defender);
-                    GenericToken targetLockToken = Combat.Attacker.Tokens.GetToken(typeof(BlueTargetLockToken), letter);
-                    if (targetLockToken != null) waysToPay.Add(targetLockToken);
-
-                    Combat.Attacker.CallOnGenerateAvailableAttackPaymentList(waysToPay);
-
-                    if (waysToPay.Count == 1)
+                    if (SpendsTargetLockOnTargetToShoot || waysToPay.First() is ForceToken)
                     {
                         Combat.Attacker.Tokens.SpendToken(
-                            waysToPay[0].GetType(),
+                            waysToPay.First().GetType(),
                             callBack,
-                            (waysToPay[0] as BlueTargetLockToken != null) ? (waysToPay[0] as BlueTargetLockToken).Letter : ' '
+                            (waysToPay.First() as BlueTargetLockToken != null) ? (waysToPay.First() as BlueTargetLockToken).Letter : ' '
                         );
                     }
                     else
                     {
-                        Phases.StartTemporarySubPhaseOld(
-                            "Choose how to pay attack cost",
-                            typeof(SubPhases.PayAttackCostDecisionSubPhase),
-                            callBack
-                        );
-                    }
+                        callBack();
+                     }
                 }
                 else
                 {
-                    callBack();
+                    PayAttackCostDecisionSubPhase subphase = Phases.StartTemporarySubPhaseNew<PayAttackCostDecisionSubPhase>(
+                        "Choose how to pay attack cost",
+                        callBack
+                    );
+                    subphase.Weapon = this;
+                    subphase.Start();
                 }
             }
             else if (RequiresFocusToShoot && SpendsFocusToShoot)
@@ -181,6 +184,7 @@ namespace SubPhases
 
     public class PayAttackCostDecisionSubPhase : DecisionSubPhase
     {
+        public GenericSecondaryWeapon Weapon;
 
         public override void PrepareDecision(System.Action callBack)
         {
@@ -203,10 +207,18 @@ namespace SubPhases
                             PayCost(wayToPay);
                         });
                 }
-                if (wayToPay.GetType() == typeof(FocusToken))
+                else if (wayToPay.GetType() == typeof(FocusToken))
                 {
                     AddDecision(
                         "Focus token",
+                        delegate {
+                            PayCost(wayToPay);
+                        });
+                }
+                else if (wayToPay.GetType() == typeof(ForceToken))
+                {
+                    AddDecision(
+                        "Force token",
                         delegate {
                             PayCost(wayToPay);
                         });
@@ -220,11 +232,18 @@ namespace SubPhases
 
         private void PayCost(GenericToken token)
         {
-            Combat.Attacker.Tokens.SpendToken(
-                token.GetType(),
-                ConfirmDecision,
-                (token as BlueTargetLockToken != null) ? (token as BlueTargetLockToken).Letter : ' '
-            );
+            if (Weapon.SpendsTargetLockOnTargetToShoot || token is ForceToken)
+            {
+                Combat.Attacker.Tokens.SpendToken(
+                    token.GetType(),
+                    ConfirmDecision,
+                    (token as BlueTargetLockToken != null) ? (token as BlueTargetLockToken).Letter : ' '
+                );
+            }
+            else
+            {
+                ConfirmDecision();
+            }
         }
 
     }

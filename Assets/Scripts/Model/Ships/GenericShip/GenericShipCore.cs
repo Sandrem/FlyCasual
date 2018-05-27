@@ -5,6 +5,7 @@ using Arcs;
 using Abilities;
 using System;
 using RuleSets;
+using Tokens;
 
 namespace Ship
 {
@@ -126,20 +127,20 @@ namespace Ship
             }
         }
 
-        private int force;
         public int Force
         {
-            get { return force; }
+            get
+            {
+                return this.Tokens.CountTokensByType<ForceToken>();
+            }
+
             set
             {
-                force = value;
-                //Temporary
-                this.Tokens.RemoveAllTokensByType(typeof(Tokens.ForceToken), delegate { });
+                this.Tokens.RemoveAllTokensByType(typeof(ForceToken), delegate { });
                 for (int i = 0; i < value; i++)
                 {
-                    this.Tokens.AssignCondition(new Tokens.ForceToken(this));
+                    this.Tokens.AssignCondition(new ForceToken(this));
                 }
-                //Roster.UpdateTokensIndicator(this, typeof(Tokens.ForceToken));
             }
         }
 

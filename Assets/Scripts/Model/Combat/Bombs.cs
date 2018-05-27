@@ -117,7 +117,7 @@ namespace Bombs
                 Vector3 globalBombPoint = bombObject.transform.TransformPoint(localBombPoint);
                 foreach (var globalShipBasePoint in ship.ShipBase.GetStandPoints().Select(n => n.Value))
                 {
-                    if (BoardTools.Board.GetRangeBetweenPoints(globalBombPoint, globalShipBasePoint) == 1)
+                    if (Board.GetRangeBetweenPoints(globalBombPoint, globalShipBasePoint) == 1)
                     {
                         return true;
                     }
@@ -148,7 +148,7 @@ namespace Bombs
         public static void CallGetPermissionToDetonateTrigger(Action callback)
         {
             DetonationIsAllowed = true;
-            ToggleReadyToDetonateHighLight(CurrentBombObject, true);
+            ToggleReadyToDetonateHighLight(true);
 
             if (OnCheckPermissionToDetonate != null) OnCheckPermissionToDetonate(CurrentBomb, DetonatedShip);
 
@@ -157,7 +157,7 @@ namespace Bombs
 
         private static void CheckPermissionToDetonate(Action callback)
         {
-            ToggleReadyToDetonateHighLight(CurrentBombObject, false);
+            ToggleReadyToDetonateHighLight(false);
 
             if (DetonationIsAllowed)
             {
@@ -169,9 +169,9 @@ namespace Bombs
             }
         }
 
-        private static void ToggleReadyToDetonateHighLight(GameObject bombObject, bool isActive)
+        public static void ToggleReadyToDetonateHighLight(bool isActive)
         {
-            bombObject.transform.Find("Light").gameObject.SetActive(isActive);
+            CurrentBombObject.transform.Find("Light").gameObject.SetActive(isActive);
         }
 
         public static void CheckBombDropAvailability(GenericShip ship)

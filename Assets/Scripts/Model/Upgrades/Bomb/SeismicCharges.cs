@@ -6,6 +6,7 @@ using Upgrade;
 using Ship;
 using Bombs;
 using RuleSets;
+using SubPhases;
 
 namespace UpgradesList
 {
@@ -32,6 +33,76 @@ namespace UpgradesList
             UsesCharges = true;
             MaxCharges = 2;
         }
+
+        protected override void Detonate()
+        {
+            if (RuleSet.Instance is FirstEdition)
+            {
+                base.Detonate();
+            }
+            else if(RuleSet.Instance is SecondEdition)
+            {
+                SecondEditionDetonation();
+            }
+            else
+            {
+                Messages.ShowError("This ruleset doesn't support this ability");
+            }
+        }
+
+        private void SecondEditionDetonation()
+        {
+            RegisterTriggerSE();
+        }
+
+        private void RegisterTriggerSE()
+        {
+            Triggers.RegisterTrigger(new Trigger()
+            {
+                Name = "Detonation of Seismic Charges",
+                TriggerType = TriggerTypes.OnAbilityDirect,
+                TriggerOwner = Host.Owner.PlayerNo,
+                EventHandler = StartSelectObstacle
+            });
+
+            Triggers.ResolveTriggers(TriggerTypes.OnAbilityDirect, FinallyDetonateBomb);
+        }
+
+        private void FinallyDetonateBomb()
+        {
+            // base.base.Detonate
+
+            BombsManager.UnregisterBomb(BombsManager.CurrentBombObject);
+            CurrentBombObjects.Remove(BombsManager.CurrentBombObject);
+
+            PlayDetonationAnimSound(BombsManager.CurrentBombObject, BombsManager.ResolveDetonationTriggers);
+        }
+
+        private void StartSelectObstacle(object sender, System.EventArgs e)
+        {
+            BombsManager.ToggleReadyToDetonateHighLight(true);
+
+            SelectObstacleSubPhase subphase = Phases.StartTemporarySubPhaseNew<SelectObstacleSubPhase>(
+                Name,
+                delegate {
+                    BombsManager.ToggleReadyToDetonateHighLight(false);
+                    Triggers.FinishTrigger();
+                }
+            );
+
+            subphase.PrepareByParameters(
+                delegate { Messages.ShowInfo("Obstacle is selected"); },
+                Host.Owner.PlayerNo,
+                true,
+                Name,
+                "Select obstacle to destroy",
+                ImageUrl
+            );
+
+            subphase.Start();
+        }
+
+        // FIRST EDITION
 
         public override void ExplosionEffect(GenericShip ship, Action callBack)
         {

@@ -300,7 +300,7 @@ namespace Abilities
             {
                 base.ActivateAbility();
                 TurnSFoilsToClosedPosition(HostShip);
-                // Decrease attack roll
+                HostShip.AfterGotNumberOfPrimaryWeaponAttackDice += ReduceNumberOfAttackDice;
                 HostShip.AfterGenerateAvailableActionsList += AddActionIcons;
             }
 
@@ -308,8 +308,13 @@ namespace Abilities
             {
                 base.DeactivateAbility();
                 TurnSFoilsToAttackPosition(HostShip);
-                // Increase firepower
+                HostShip.AfterGotNumberOfPrimaryWeaponAttackDice -= ReduceNumberOfAttackDice;
                 HostShip.AfterGenerateAvailableActionsList -= AddActionIcons;
+            }
+
+            private void ReduceNumberOfAttackDice(ref int value)
+            {
+                value--;
             }
 
             protected void AddActionIcons(GenericShip host)

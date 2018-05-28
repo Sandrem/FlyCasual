@@ -18,6 +18,8 @@ namespace Ship
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Astromech);
 
+                PilotRuleType = typeof(SecondEdition);
+
                 faction = Faction.Rebel;
             }
 

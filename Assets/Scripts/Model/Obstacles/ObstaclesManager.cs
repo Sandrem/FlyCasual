@@ -57,5 +57,12 @@ namespace Obstacles
             int random = UnityEngine.Random.Range(0, freeObstacles.Count);
             return freeObstacles[random];
         }
+
+        public void DestroyObstacle(GenericObstacle obstacle)
+        {
+            Obstacles.Remove(obstacle);
+            Board.Objects.Remove(obstacle.ObstacleGO.GetComponentInChildren<MeshCollider>());
+            GameObject.Destroy(obstacle.ObstacleGO);
+        }
     }
 }

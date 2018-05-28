@@ -59,14 +59,14 @@ namespace SubPhases
         public void HighlightObstacleToSelect()
         {
             ShowSubphaseDescription(AbilityName, Description, ImageUrl);
-            //Highlight filtered obstacles
+            //TODO: Highlight filtered obstacles
         }
 
         public override void Next()
         {
             UI.HideSkipButton();
 
-            //Dehighigh obstacles
+            //TODO: Turn off highlight of filteredobstacles
             HideSubphaseDescription();
 
             Phases.CurrentSubPhase = Phases.CurrentSubPhase.PreviousSubPhase;
@@ -126,7 +126,10 @@ namespace SubPhases
             if (FilterTargets(obstacle))
             {
                 SelectTargetAction(obstacle);
-                //Next();
+            }
+            else
+            {
+                Messages.ShowError("This obstacle cannot be selected");
             }
         }
 

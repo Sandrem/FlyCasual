@@ -76,26 +76,33 @@ namespace UpgradesList
             BombsManager.UnregisterBomb(BombsManager.CurrentBombObject);
             CurrentBombObjects.Remove(BombsManager.CurrentBombObject);
 
-            foreach (GenericShip ship in Roster.AllShips.Values)
+            if (ChosenObstacle != null)
             {
-                ShipObstacleDistance shipOstacleDist = new ShipObstacleDistance(ship, ChosenObstacle);
-                if (shipOstacleDist.Range < 2)
+                foreach (GenericShip ship in Roster.AllShips.Values)
                 {
-                    RegisterDetonationTriggerForShip(ship);
+                    ShipObstacleDistance shipOstacleDist = new ShipObstacleDistance(ship, ChosenObstacle);
+                    if (shipOstacleDist.Range < 2)
+                    {
+                        RegisterDetonationTriggerForShip(ship);
+                    }
                 }
             }
 
-            PlayDetonationAnimSound(
-                BombsManager.CurrentBombObject,
-                delegate {
-                    //Detonate obstacle
-                    BombsManager.ResolveDetonationTriggers();
-                }
-            );
+            PlayDetonationAnimSound(BombsManager.CurrentBombObject, DetonateObstacle);
+        }
+
+        private void DetonateObstacle()
+        {
+            //TODO: Animation
+            if (ChosenObstacle != null) ObstaclesManager.Instance.DestroyObstacle(ChosenObstacle);
+
+            BombsManager.ResolveDetonationTriggers();
         }
 
         private void StartSelectObstacle(object sender, System.EventArgs e)
         {
+            ChosenObstacle = null;
+
             BombsManager.ToggleReadyToDetonateHighLight(true);
 
             SelectObstacleSubPhase subphase = Phases.StartTemporarySubPhaseNew<SelectObstacleSubPhase>(
@@ -121,8 +128,8 @@ namespace UpgradesList
 
         private bool TrySelectObstacle(GenericObstacle obstacle)
         {
-            ShipObstacleDistance shipOstacleDist = new ShipObstacleDistance(Host, obstacle);
-            return shipOstacleDist.Range < 2;
+            BombObstacleDistance bombOstacleDist = new BombObstacleDistance(BombsManager.CurrentBomb, obstacle);
+            return bombOstacleDist.Range < 2;
         }
 
         private void SelectObstacle(GenericObstacle obstacle)

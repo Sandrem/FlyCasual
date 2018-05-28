@@ -49,7 +49,7 @@ namespace Bombs
             CurrentBomb = null;
         }
 
-        public static List<Vector3> GetBombPoints()
+        private static List<Vector3> GetBombPointsRelative()
         {
             if (generatedBombPoints.Count == 0)
             {
@@ -110,7 +110,7 @@ namespace Bombs
 
         private static bool IsShipInDetonationRange(GenericShip ship, GameObject bombObject)
         {
-            List<Vector3> bombPoints = GetBombPoints();
+            List<Vector3> bombPoints = GetBombPointsRelative();
 
             foreach (var localBombPoint in bombPoints)
             {
@@ -125,6 +125,17 @@ namespace Bombs
             }
 
             return false;
+        }
+
+        public static List<Vector3> GetBombPoints(GenericBomb bomb)
+        {
+            List<Vector3> globalPoints = new List<Vector3>();
+            foreach (Vector3 relativePoint in GetBombPointsRelative())
+            {
+                Vector3 globalBombPoint = bomb.CurrentBombObjects.First().transform.TransformPoint(relativePoint);
+                globalPoints.Add(globalBombPoint);
+            }
+            return globalPoints;
         }
 
         public static void ResolveDetonationTriggers()

@@ -7,12 +7,15 @@ using Ship;
 using Bombs;
 using RuleSets;
 using SubPhases;
+using Obstacles;
+using BoardTools;
 
 namespace UpgradesList
 {
 
     public class SeismicCharges : GenericTimedBomb, ISecondEditionUpgrade
     {
+        private GenericObstacle ChosenObstacle;
 
         public SeismicCharges() : base()
         {
@@ -70,12 +73,25 @@ namespace UpgradesList
 
         private void FinallyDetonateBomb()
         {
-            // base.base.Detonate
-
             BombsManager.UnregisterBomb(BombsManager.CurrentBombObject);
             CurrentBombObjects.Remove(BombsManager.CurrentBombObject);
 
-            PlayDetonationAnimSound(BombsManager.CurrentBombObject, BombsManager.ResolveDetonationTriggers);
+            foreach (GenericShip ship in Roster.AllShips.Values)
+            {
+                ShipObstacleDistance shipOstacleDist = new ShipObstacleDistance(ship, ChosenObstacle);
+                if (shipOstacleDist.Range < 2)
+                {
+                    RegisterDetonationTriggerForShip(ship);
+                }
+            }
+
+            PlayDetonationAnimSound(
+                BombsManager.CurrentBombObject,
+                delegate {
+                    //Detonate obstacle
+                    BombsManager.ResolveDetonationTriggers();
+                }
+            );
         }
 
         private void StartSelectObstacle(object sender, System.EventArgs e)
@@ -91,7 +107,8 @@ namespace UpgradesList
             );
 
             subphase.PrepareByParameters(
-                delegate { Messages.ShowInfo("Obstacle is selected"); },
+                SelectObstacle,
+                TrySelectObstacle,
                 Host.Owner.PlayerNo,
                 true,
                 Name,
@@ -100,6 +117,20 @@ namespace UpgradesList
             );
 
             subphase.Start();
+        }
+
+        private bool TrySelectObstacle(GenericObstacle obstacle)
+        {
+            ShipObstacleDistance shipOstacleDist = new ShipObstacleDistance(Host, obstacle);
+            return shipOstacleDist.Range < 2;
+        }
+
+        private void SelectObstacle(GenericObstacle obstacle)
+        {
+            Messages.ShowInfo("Obstacle was selected");
+            ChosenObstacle = obstacle;
+
+            SelectObstacleSubPhase.SelectObstacle();
         }
 
         // FIRST EDITION

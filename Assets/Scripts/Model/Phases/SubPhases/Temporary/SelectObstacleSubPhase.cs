@@ -7,12 +7,15 @@ using System;
 using System.Linq;
 using Players;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
+using Obstacles;
 
 namespace SubPhases
 {
     public class SelectObstacleSubPhase : GenericSubPhase
     {
-        private Action finishAction;
+        private Action<GenericObstacle> SelectTargetAction;
+        private Func<GenericObstacle, bool> FilterTargets;
 
         public string AbilityName;
         public string Description;
@@ -35,9 +38,10 @@ namespace SubPhases
 
         }
 
-        public void PrepareByParameters(Action selectTargetAction, PlayerNo subphaseOwnerPlayerNo, bool showSkipButton, string abilityName, string description, string imageUrl = null)
+        public void PrepareByParameters(Action<GenericObstacle> selectTargetAction, Func<GenericObstacle, bool> filterTargets, PlayerNo subphaseOwnerPlayerNo, bool showSkipButton, string abilityName, string description, string imageUrl = null)
         {
-            finishAction = selectTargetAction;
+            SelectTargetAction = selectTargetAction;
+            FilterTargets = filterTargets;
             RequiredPlayer = subphaseOwnerPlayerNo;
             if (showSkipButton) UI.ShowSkipButton();
             AbilityName = abilityName;
@@ -67,13 +71,11 @@ namespace SubPhases
 
             Phases.CurrentSubPhase = Phases.CurrentSubPhase.PreviousSubPhase;
             UpdateHelpInfo();
-
-            CallBack();
         }
 
         public override void SkipButton()
         {
-            Next();
+            SelectObstacle();
         }
 
         public override bool ThisShipCanBeSelected(GenericShip ship, int mouseKeyIsPressed)
@@ -86,6 +88,54 @@ namespace SubPhases
         {
             Messages.ShowError("Select an obstacle");
             return false;
+        }
+
+        public override void ProcessClick()
+        {
+            if (Roster.GetPlayer(RequiredPlayer).GetType() != typeof(HumanPlayer)) return;
+
+            TryToSelectObstacle();
+        }
+
+        private void TryToSelectObstacle()
+        {
+            if (!EventSystem.current.IsPointerOverGameObject())
+            {
+                if (Input.GetKeyUp(KeyCode.Mouse0))
+                {
+                    RaycastHit hitInfo = new RaycastHit();
+                    if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitInfo))
+                    {
+                        if (hitInfo.transform.tag.StartsWith("Asteroid"))
+                        {
+                            GameObject obstacleGO = hitInfo.transform.parent.gameObject;
+                            GenericObstacle clickedObstacle = ObstaclesManager.Instance.GetObstacleByName(obstacleGO.name);
+
+                            if (clickedObstacle.IsPlaced)
+                            {
+                                SelectObstacle(clickedObstacle);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        private void SelectObstacle(GenericObstacle obstacle)
+        {
+            if (FilterTargets(obstacle))
+            {
+                SelectTargetAction(obstacle);
+                //Next();
+            }
+        }
+
+        public static void SelectObstacle()
+        {
+            Action callback = Phases.CurrentSubPhase.CallBack;
+            Phases.FinishSubPhase(Phases.CurrentSubPhase.GetType());
+            Phases.CurrentSubPhase.Resume();
+            callback();
         }
     }
 

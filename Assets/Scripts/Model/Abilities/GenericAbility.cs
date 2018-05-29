@@ -137,7 +137,7 @@ namespace Abilities
 
         protected bool NeverUseByDefault()
         {
-            return true;
+            return false;
         }
 
         protected void SetAlwaysUse(EventHandler useAbility)

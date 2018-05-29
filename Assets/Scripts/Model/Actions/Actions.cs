@@ -190,7 +190,11 @@ public static partial class Actions
 
     public static ShotInfo GetFiringRangeAndShow(GenericShip thisShip, GenericShip anotherShip)
     {
-        ShotInfo shotInfo = new ShotInfo(thisShip, anotherShip, thisShip.PrimaryWeapon);
+        IShipWeapon outOfArcWeapon = (IShipWeapon) thisShip.UpgradeBar.GetUpgradesOnlyFaceup().FirstOrDefault(n => n is IShipWeapon && (n as IShipWeapon).CanShootOutsideArc == true);
+
+        IShipWeapon checkedWeapon = outOfArcWeapon ?? thisShip.PrimaryWeapon;
+
+        ShotInfo shotInfo = new ShotInfo(thisShip, anotherShip, checkedWeapon);
         MovementTemplates.ShowFiringArcRange(shotInfo);
         return shotInfo;
     }

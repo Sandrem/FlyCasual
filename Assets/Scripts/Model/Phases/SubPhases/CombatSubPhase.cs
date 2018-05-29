@@ -216,8 +216,6 @@ namespace SubPhases
                 {
                     if (targetShip.Owner.PlayerNo != Phases.CurrentSubPhase.RequiredPlayer)
                     {
-                        ShotInfo shotInfo = new ShotInfo(Selection.ThisShip, targetShip, Selection.ThisShip.PrimaryWeapon);
-                        MovementTemplates.ShowFiringArcRange(shotInfo);
                         result = true;
                     }
                     else
@@ -345,6 +343,7 @@ namespace SubPhases
             {
                 if (Selection.ThisShip.IsAttackPerformed != true)
                 {
+                    UI.CheckFiringRangeAndShow();
                     UI.ClickDeclareTarget();
                 }
                 else

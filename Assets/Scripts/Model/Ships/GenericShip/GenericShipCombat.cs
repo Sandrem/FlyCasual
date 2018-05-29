@@ -72,17 +72,16 @@ namespace Ship
         {
             bool result = true;
 
-            int range;
+            
 
             ShotInfo shotInfo = new ShotInfo(Host, targetShip, this);
-            range = shotInfo.Range;
             if (!CanShootOutsideArc)
             {
                 if (!shotInfo.IsShotAvailable) return false;
             }
 
-            if (range < MinRange) return false;
-            if (range > MaxRange) return false;
+            if (shotInfo.Range < MinRange) return false;
+            if (shotInfo.Range > MaxRange) return false;
 
             return result;
         }

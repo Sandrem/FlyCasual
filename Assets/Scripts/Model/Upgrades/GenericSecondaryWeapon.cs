@@ -46,6 +46,10 @@ namespace Upgrade
                 {
                     weaponType = WeaponTypes.Torpedo;
                 }
+                else if (Types.Contains(UpgradeType.Turret))
+                {
+                    weaponType = WeaponTypes.Turret;
+                }
 
                 return weaponType;
             }

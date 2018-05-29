@@ -135,5 +135,13 @@ namespace RuleSets
             ship.OnManeuverIsRevealed -= BombsManager.CheckBombDropAvailability;
             ship.OnManeuverIsRevealed += BombsManager.CheckBombDropAvailability;
         }
+
+        public override void ActivateGenericUpgradeAbility(GenericUpgrade upgrade)
+        {
+            if (upgrade.Types.Contains(UpgradeType.Turret))
+            {
+                upgrade.Host.ArcInfo.GetArc<OutOfArc>().ShotPermissions.CanShootTurret = true;
+            }
+        }
     }
 }

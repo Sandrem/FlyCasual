@@ -52,7 +52,7 @@ namespace SubPhases
             HideSubphaseDescription();
 
             RequiredPlayer = Roster.AnotherPlayer(RequiredPlayer);
-            ShowSubphaseDescription(Name, "Obstacles cannot be placed at Range 1 of each other, or at Range 1-2 of an edge of the play area.");
+            if (!IsRandomSetupSelected[RequiredPlayer]) ShowSubphaseDescription(Name, "Obstacles cannot be placed at Range 1 of each other, or at Range 1-2 of an edge of the play area.");
             Roster.GetPlayer(RequiredPlayer).PlaceObstacle();
         }
 

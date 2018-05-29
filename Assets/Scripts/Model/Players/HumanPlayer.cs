@@ -160,7 +160,7 @@ namespace Players
             else
             {
                 subphase.IsLocked = false;
-                UI.ShowSkipButton("Random");
+                if (!Network.IsNetworkGame) UI.ShowSkipButton("Random");
             }
         }
 

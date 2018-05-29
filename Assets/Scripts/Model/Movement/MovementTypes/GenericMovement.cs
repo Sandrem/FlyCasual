@@ -23,7 +23,8 @@ namespace Movement
     {
         Left,
         Forward,
-        Right
+        Right,
+        Stationary
     }
 
     public enum ManeuverBearing
@@ -95,6 +96,9 @@ namespace Movement
                     break;
                 case "R":
                     direction = ManeuverDirection.Right;
+                    break;
+                case "S":
+                    direction = ManeuverDirection.Stationary;
                     break;
             }
 
@@ -229,6 +233,9 @@ namespace Movement
                     break;
                 case ManeuverDirection.Right:
                     maneuverString += "R.";
+                    break;
+                case ManeuverDirection.Stationary:
+                    maneuverString += "S.";
                     break;
                 default:
                     break;
@@ -462,6 +469,9 @@ namespace Movement
                 case ManeuverDirection.Right:
                     maneuverString += "R.";
                     break;
+                case ManeuverDirection.Stationary:
+                    maneuverString += "S.";
+                    break;
                 default:
                     break;
             }
@@ -569,6 +579,8 @@ namespace Movement
         public static List<string> GetAllManeuvers()
         {
             List<string> result = new List<string>();
+
+            result.Add("0.S.S");
 
             result.Add("1.L.T");
             result.Add("2.L.T");

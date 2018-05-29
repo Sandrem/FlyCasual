@@ -59,7 +59,7 @@ namespace Abilities
         private void UseInertialDampenersAbility(object sender, System.EventArgs e)
         {
             DecisionSubPhase.ConfirmDecisionNoCallback();
-            GenericMovement movement = new StationaryMovement(0, ManeuverDirection.Forward, ManeuverBearing.Stationary, MovementComplexity.Normal);
+            GenericMovement movement = new StationaryMovement(0, ManeuverDirection.Stationary, ManeuverBearing.Stationary, MovementComplexity.Normal);
             HostShip.SetAssignedManeuver(movement);
             HostShip.OnMovementFinish += RegisterAssignStressAfterManeuver;
 

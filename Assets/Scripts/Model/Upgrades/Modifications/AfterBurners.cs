@@ -15,7 +15,7 @@ namespace UpgradesList
             Name = "AfterBurners";
             Cost = 8;
 
-            ImageUrl = "https://i.imgur.com/mcbuSV4.png";
+            ImageUrl = "https://i.imgur.com/DYUB89A.png";
 
             MaxCharges = 2;
 

@@ -32,6 +32,8 @@ namespace Players
             {
                 if (!shipHolder.Value.IsSetupPerformed && shipHolder.Value.PilotSkill == Phases.CurrentSubPhase.RequiredPilotSkill)
                 {
+                    Selection.ChangeActiveShip(shipHolder.Value);
+
                     int direction = (Phases.CurrentSubPhase.RequiredPlayer == PlayerNo.Player1) ? -1 : 1;
                     Vector3 position = shipHolder.Value.GetPosition() - direction * new Vector3(0, 0, Board.BoardIntoWorld(Board.DISTANCE_1 + Board.RANGE_1));
 
@@ -461,12 +463,13 @@ namespace Players
 
         public override void TakeDecision()
         {
+            DecisionSubPhase decisionSubphase = Phases.CurrentSubPhase as DecisionSubPhase;
             Phases.CurrentSubPhase.DoDefault();
         }
 
         public override void ConfirmDiceCheck()
         {
-            (Phases.CurrentSubPhase as SubPhases.DiceRollCheckSubPhase).Confirm();
+            (Phases.CurrentSubPhase as DiceRollCheckSubPhase).Confirm();
         }
 
         public override void OnTargetNotLegalForAttack()

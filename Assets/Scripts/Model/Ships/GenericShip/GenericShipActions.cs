@@ -177,9 +177,8 @@ namespace Ship
                             }
                         );
                         newSubPhase.ShowSkipButton = !isForced;
+                        newSubPhase.IsForced = true;
                         newSubPhase.Start();
-
-                        if (isForced) GameMode.CurrentGameMode.TakeDecision((Phases.CurrentSubPhase as FreeActionDecisonSubPhase).GetDecisions()[0], null); 
                     }
                 }
             );

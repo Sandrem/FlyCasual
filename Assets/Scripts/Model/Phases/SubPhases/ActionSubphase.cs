@@ -162,18 +162,30 @@ namespace SubPhases
             InfoText = "Select free action";
             DefaultDecisionName = "Focus";
 
+            callBack();
+        }
+
+        public override void StartIsFinished()
+        {
+            base.StartIsFinished();
+
             List<ActionsList.GenericAction> availableActions = Selection.ThisShip.GetAvailableFreeActionsList();
 
-            if (availableActions.Count > 0)
+            if (!DecisionIsTaken)
             {
-                Selection.ThisShip.Owner.PerformFreeAction();                
-                callBack();
-            }
-            else
-            {
-                Messages.ShowErrorToHuman("Cannot perform any actions");
-                Actions.CurrentAction = null;
-                CallBack();
+                DecisionIsTaken = true;
+
+                if (availableActions.Count > 0)
+                {
+                    Selection.ThisShip.Owner.PerformFreeAction();
+                    //callBack();
+                }
+                else
+                {
+                    Messages.ShowErrorToHuman("Cannot perform any actions");
+                    Actions.CurrentAction = null;
+                    //CallBack();
+                }
             }
         }
 

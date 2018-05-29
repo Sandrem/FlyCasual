@@ -65,6 +65,8 @@ namespace SubPhases
         public DecisionViewTypes DecisionViewType = DecisionViewTypes.TextButtons;
         public Action OnSkipButtonIsPressed;
         public bool WasDecisionButtonPressed;
+        public bool IsForced;
+        public bool DecisionIsTaken;
 
         private const float defaultWindowHeight = 75;
         private const float buttonHeight = 45;
@@ -86,7 +88,7 @@ namespace SubPhases
             callBack();
         }
 
-        public void StartIsFinished()
+        public virtual void StartIsFinished()
         {
             Initialize();
 
@@ -308,7 +310,6 @@ namespace SubPhases
         {
             Tooltips.EndTooltip();
             UI.HideSkipButton();
-
             Phases.FinishSubPhase(Phases.CurrentSubPhase.GetType());
             Phases.CurrentSubPhase.Resume();
         }

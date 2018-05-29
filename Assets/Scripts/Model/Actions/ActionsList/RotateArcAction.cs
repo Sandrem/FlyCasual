@@ -22,6 +22,11 @@ namespace ActionsList
             );
         }
 
+        public override int GetActionPriority()
+        {
+            return 1;
+        }
+
     }
 
 }

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using GameModes;
 using Ship;
 using UnityEngine;
 
@@ -23,7 +25,10 @@ namespace Players
 
         public override void PerformFreeAction()
         {
-            (Phases.CurrentSubPhase as SubPhases.FreeActionDecisonSubPhase).ShowActionDecisionPanel();
+            SubPhases.FreeActionDecisonSubPhase subphase = (Phases.CurrentSubPhase as SubPhases.FreeActionDecisonSubPhase);
+            subphase.ShowActionDecisionPanel();
+
+            if (subphase.IsForced) GameMode.CurrentGameMode.TakeDecision(subphase.GetDecisions().First(), null);
         }
 
         public override void PerformAttack()

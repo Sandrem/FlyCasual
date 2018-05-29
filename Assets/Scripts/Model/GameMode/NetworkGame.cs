@@ -44,13 +44,18 @@ namespace GameModes
 
         public override void ActivateShipForMovement(int shipId)
         {
-            Network.ActivateAndMove(Selection.ThisShip.ShipId);
+            Network.ActivateAndMove(shipId);
         }
 
         public override void LaunchMovement(Action callback)
         {
             ShipMovementScript.ExtraMovementCallback = callback;
             Network.LaunchMovement();
+        }
+
+        public override void ActivateSystemsOnShip(int shipId)
+        {
+            Network.ActivateSystemsOnShip(shipId);
         }
 
         public override void AssignManeuver(string maneuverCode)

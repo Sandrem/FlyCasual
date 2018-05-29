@@ -201,6 +201,13 @@ public static partial class Network
         if (IsServer) CurrentPlayer.CmdLauchExtraMovement();
     }
 
+    // SYSTEMS
+
+    public static void ActivateSystemsOnShip(int shipId)
+    {
+        CurrentPlayer.CmdActivateSystemsOnShip(shipId);
+    }
+
     // PERFORM BARREL ROLL
 
     public static void PerformBarrelRoll()

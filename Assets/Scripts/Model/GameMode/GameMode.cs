@@ -25,6 +25,8 @@ namespace GameModes
         public abstract void ActivateShipForMovement(int shipId);
         public abstract void LaunchMovement(Action callback);
 
+        public abstract void ActivateSystemsOnShip(int shipId);
+
         public abstract void GiveInitiativeToRandomPlayer();
 
         public abstract void ShowInformCritPanel();

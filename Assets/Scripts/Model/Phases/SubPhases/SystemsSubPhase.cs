@@ -137,12 +137,17 @@ namespace SubPhases
         {
             if (ship.IsSystemsAbilityCanBeActivated)
             {
-                ship.CallOnSystemsPhaseActivation(Next);
+                GameMode.CurrentGameMode.ActivateSystemsOnShip(Selection.ThisShip.ShipId);
             }
             else
             {
                 Messages.ShowErrorToHuman("This ship doesn't have any abilities to activate");
             };
+        }
+
+        public void ActivateSystemsOnShipClient(GenericShip ship)
+        {
+            ship.CallOnSystemsPhaseActivation(Next);
         }
 
         public override void SkipButton()

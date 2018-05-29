@@ -178,13 +178,12 @@ namespace SubPhases
                 if (availableActions.Count > 0)
                 {
                     Selection.ThisShip.Owner.PerformFreeAction();
-                    //callBack();
                 }
                 else
                 {
                     Messages.ShowErrorToHuman("Cannot perform any actions");
                     Actions.CurrentAction = null;
-                    //CallBack();
+                    CallBack();
                 }
             }
         }

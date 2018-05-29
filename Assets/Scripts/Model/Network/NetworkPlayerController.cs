@@ -964,7 +964,19 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     [ClientRpc]
     private void RpcWaitForFinishNotificationSubphase()
     {
-        (Phases.CurrentSubPhase as NotificationSubPhase).FinishAfterDelay();
+        NotificationSubPhase notificationSubPhase = (Phases.CurrentSubPhase as NotificationSubPhase);
+
+        if (notificationSubPhase != null)
+        {
+            notificationSubPhase.FinishAfterDelay();
+        }
+        else
+        {
+            Console.Write("Waiting to sync notification subphase...", LogTypes.Everything, true, "orange");
+
+            GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
+            Game.Wait(0.5f, RpcWaitForFinishNotificationSubphase);
+        }
     }
 
     [Command]

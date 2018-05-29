@@ -217,6 +217,16 @@ namespace GameModes
             (Phases.CurrentSubPhase as SelectShipSubPhase).HighlightShipsToSelect();
         }
 
+        public override void StartSyncSelectObstaclePreparation()
+        {
+            FinishSyncSelectObstaclePreparation();
+        }
+
+        public override void FinishSyncSelectObstaclePreparation()
+        {
+            (Phases.CurrentSubPhase as SelectObstacleSubPhase).HighlightObstacleToSelect();
+        }
+
         public override void StartDiceRerollExecution()
         {
             DiceRerollManager.CurrentDiceRerollManager.ConfirmReroll();

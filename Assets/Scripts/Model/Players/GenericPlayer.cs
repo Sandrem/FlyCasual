@@ -134,6 +134,8 @@ namespace Players
 
         public virtual void SelectShipForAbility() { }
 
+        public virtual void SelectObstacleForAbility() { }
+
         public float AveragePilotSkillOfRemainingShips()
         {
             float pilotSkillValue = 0;

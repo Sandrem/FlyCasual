@@ -129,7 +129,12 @@ namespace Players
 
         public override void SelectShipForAbility()
         {
-            GameModes.GameMode.CurrentGameMode.StartSyncSelectShipPreparation();
+            GameMode.CurrentGameMode.StartSyncSelectShipPreparation();
+        }
+
+        public override void SelectObstacleForAbility()
+        {
+            GameMode.CurrentGameMode.StartSyncSelectObstaclePreparation();
         }
 
         public override void RerollManagerIsPrepared()

@@ -999,6 +999,56 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     // Sync select ship preparation
 
     [Command]
+    public void CmdSyncSelectObstaclePreparation()
+    {
+        new NetworkExecuteWithCallback(
+            "Wait sync select obstacle preparation",
+            CmdStartSyncSelectObstaclePreparation,
+            CmdFinishSelectObstaclePreparation
+        );
+    }
+
+    [Command]
+    public void CmdStartSyncSelectObstaclePreparation()
+    {
+        RpcStartSyncSelectObstaclePreparation();
+    }
+
+    [ClientRpc]
+    private void RpcStartSyncSelectObstaclePreparation()
+    {
+        SelectObstacleSubPhase selectObstacleSubPhase = (Phases.CurrentSubPhase as SelectObstacleSubPhase);
+
+        if (selectObstacleSubPhase != null)
+        {
+            GameMode.CurrentGameMode.FinishSyncSelectObstaclePreparation();
+        }
+        else
+        {
+            Console.Write("Waiting to sync select obstacle subphase...", LogTypes.Everything, true, "orange");
+
+            GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
+            Game.Wait(0.5f, RpcStartSyncSelectObstaclePreparation);
+        }
+    }
+
+    [Command]
+    public void CmdFinishSelectObstaclePreparation()
+    {
+        RpcFinishSelectObstaclePreparation();
+    }
+
+    [ClientRpc]
+    private void RpcFinishSelectObstaclePreparation()
+    {
+        (Phases.CurrentSubPhase as SelectObstacleSubPhase).HighlightObstacleToSelect();
+    }
+
+    // Sync select obstacle
+
+    // Sync select ship preparation
+
+    [Command]
     public void CmdSyncSelectShipPreparation()
     {
         new NetworkExecuteWithCallback(

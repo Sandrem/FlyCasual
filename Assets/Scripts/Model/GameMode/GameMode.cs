@@ -75,6 +75,9 @@ namespace GameModes
         public abstract void StartSyncSelectShipPreparation();
         public abstract void FinishSyncSelectShipPreparation();
 
+        public abstract void StartSyncSelectObstaclePreparation();
+        public abstract void FinishSyncSelectObstaclePreparation();
+
         public abstract void StartDiceRerollExecution();
 
         public abstract void PlaceObstacle(string obstacleName, Vector3 position, Vector3 angles);

@@ -236,6 +236,16 @@ namespace GameModes
             Network.FinishTask();
         }
 
+        public override void StartSyncSelectObstaclePreparation()
+        {
+            Network.SyncSelectObstaclePreparation();
+        }
+
+        public override void FinishSyncSelectObstaclePreparation()
+        {
+            Network.FinishTask();
+        }
+
         public override void StartDiceRerollExecution()
         {
             Network.StartDiceRerollExecution();

@@ -52,8 +52,9 @@ namespace SubPhases
         public override void Initialize()
         {
             // If not skipped
-            //if (Phases.CurrentSubPhase == this) Roster.GetPlayer(RequiredPlayer).SelectObstacleForAbility();
-            HighlightObstacleToSelect();
+            if (Phases.CurrentSubPhase == this) Roster.GetPlayer(RequiredPlayer).SelectObstacleForAbility();
+
+            // Will be called: HighlightObstacleToSelect();
         }
 
         public void HighlightObstacleToSelect()

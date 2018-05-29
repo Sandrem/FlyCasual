@@ -149,13 +149,17 @@ namespace Players
 
         public override void PlaceObstacle()
         {
+            base.PlaceObstacle();
+
             SubPhases.ObstaclesPlacementSubPhase subphase = Phases.CurrentSubPhase as SubPhases.ObstaclesPlacementSubPhase;
             if (subphase.IsRandomSetupSelected[this.PlayerNo])
             {
-                subphase.SkipButton();
+                GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
+                Game.Wait(1, subphase.SkipButton);
             }
             else
             {
+                subphase.IsLocked = false;
                 UI.ShowSkipButton("Random");
             }
         }

@@ -21,6 +21,7 @@ namespace SubPhases
         private bool IsPlacementBlocked;
         private bool IsEnteredPlaymat;
         private bool IsEnteredPlacementZone;
+        public bool IsLocked;
 
         public Dictionary<PlayerNo, bool> IsRandomSetupSelected = new Dictionary<PlayerNo, bool>()
         {
@@ -47,12 +48,11 @@ namespace SubPhases
 
         public override void Next()
         {
+            IsLocked = true;
             HideSubphaseDescription();
 
             RequiredPlayer = Roster.AnotherPlayer(RequiredPlayer);
             ShowSubphaseDescription(Name, "Obstacles cannot be placed at Range 1 of each other, or at Range 1-2 of an edge of the play area.");
-
-            Roster.HighlightPlayer(RequiredPlayer);
             Roster.GetPlayer(RequiredPlayer).PlaceObstacle();
         }
 
@@ -87,7 +87,9 @@ namespace SubPhases
 
         public override void Update()
         {
+            if (IsLocked) return;
             if (ChosenObstacle == null) return;
+            if (Roster.GetPlayer(RequiredPlayer).GetType() != typeof(HumanPlayer)) return;
 
             MoveChosenObstacle();
             CheckPerformRotation();
@@ -399,6 +401,7 @@ namespace SubPhases
             ChosenObstacle.ObstacleGO.transform.position = new Vector3(randomX, 0, randomZ);
             CheckEntered();
             CheckLimits();
+
             if (!IsPlacementBlocked)
             {
                 TryToPlaceObstacle();

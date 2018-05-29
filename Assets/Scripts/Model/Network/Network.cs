@@ -500,7 +500,7 @@ public static partial class Network
             RoomInfo roomInfo = new RoomInfo(match.name);
 
             if (roomInfo.CurrentVersionInt != Global.CurrentVersionInt) continue;
-            if (roomInfo.RuleSet != RuleSets.RuleSet.Instance.GetType().ToString()) continue;
+            if (roomInfo.RuleSet != RuleSets.RuleSet.Instance.Name) continue;
 
             GameObject MatchRecord;
 

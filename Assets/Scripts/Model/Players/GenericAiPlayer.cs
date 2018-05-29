@@ -463,8 +463,7 @@ namespace Players
 
         public override void TakeDecision()
         {
-            DecisionSubPhase decisionSubphase = Phases.CurrentSubPhase as DecisionSubPhase;
-            Phases.CurrentSubPhase.DoDefault();
+            (Phases.CurrentSubPhase as DecisionSubPhase).DoDefault();
         }
 
         public override void ConfirmDiceCheck()
@@ -511,6 +510,8 @@ namespace Players
 
         public override void PlaceObstacle()
         {
+            base.PlaceObstacle();
+
             GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
             Game.Wait(1, delegate {
                 (Phases.CurrentSubPhase as ObstaclesPlacementSubPhase).PlaceRandom();

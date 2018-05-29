@@ -81,5 +81,6 @@ namespace GameModes
         public abstract void StartDiceRerollExecution();
 
         public abstract void PlaceObstacle(string obstacleName, Vector3 position, Vector3 angles);
+        public abstract void SelectObstacle(string obstacleName);
     }
 }

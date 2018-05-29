@@ -247,5 +247,10 @@ namespace GameModes
         {
             (Phases.CurrentSubPhase as ObstaclesPlacementSubPhase).PlaceObstacleClient(obstacleName, position, angles);
         }
+
+        public override void SelectObstacle(string obstacleName)
+        {
+            (Phases.CurrentSubPhase as SelectObstacleSubPhase).ConfirmSelectionOfObstacleClient(obstacleName);
+        }
     }
 }

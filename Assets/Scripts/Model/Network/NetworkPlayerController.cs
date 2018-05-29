@@ -527,6 +527,8 @@ public partial class NetworkPlayerController : NetworkBehaviour {
         currentSubPhase.InvokeFinish();
     }
 
+    // REVERT SUBPHASE
+
     [Command]
     public void CmdRevertSubPhase()
     {
@@ -537,6 +539,21 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     private void RpcRevertSubPhase()
     {
         (Phases.CurrentSubPhase as SelectShipSubPhase).CallRevertSubPhase();
+    }
+
+    // SELECT OBSTACLE
+
+    [Command]
+    public void CmdSelectObstacle(string obstacleName)
+    {
+        RpcSelectTargetOBstacle(obstacleName);
+    }
+
+    [ClientRpc]
+    private void RpcSelectTargetOBstacle(string obstacleName)
+    {
+        SelectObstacleSubPhase currentSubPhase = (Phases.CurrentSubPhase as SelectObstacleSubPhase);
+        currentSubPhase.ConfirmSelectionOfObstacleClient(obstacleName);
     }
 
     // CONFIRM DICE RESULTS MODIFICATIONS

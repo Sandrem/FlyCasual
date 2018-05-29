@@ -255,7 +255,6 @@ namespace SubPhases
             {
                 Network.SelectTargetShip(TargetShip.ShipId);
             }
-            
         }
 
         public void InvokeFinish()

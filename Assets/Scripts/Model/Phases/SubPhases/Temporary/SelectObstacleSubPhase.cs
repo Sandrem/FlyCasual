@@ -126,12 +126,23 @@ namespace SubPhases
         {
             if (FilterTargets(obstacle))
             {
-                SelectTargetAction(obstacle);
+                ConfirmSelectionOfObstacle(obstacle);
             }
             else
             {
                 Messages.ShowError("This obstacle cannot be selected");
             }
+        }
+
+        private void ConfirmSelectionOfObstacle(GenericObstacle obstacle)
+        {
+            GameMode.CurrentGameMode.SelectObstacle(obstacle.ObstacleGO.name);
+        }
+
+        public void ConfirmSelectionOfObstacleClient(string obstacleName)
+        {
+            GenericObstacle obstacle = ObstaclesManager.Instance.GetObstacleByName(obstacleName);
+            SelectTargetAction(obstacle);
         }
 
         public static void SelectObstacle()

@@ -266,5 +266,10 @@ namespace GameModes
             Network.PlaceObstacle(obstacleName, position, angles);
         }
 
+        public override void SelectObstacle(string obstacleName)
+        {
+            Network.SelectObstacle(obstacleName);
+        }
+
     }
 }

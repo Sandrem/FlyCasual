@@ -49,6 +49,7 @@ namespace BoardTools
         {
             Weapon = weapon ?? ship1.PrimaryWeapon;
             CheckRange();
+            CheckFailed();
         }
 
         private void CheckRange()
@@ -88,6 +89,11 @@ namespace BoardTools
                     }
                 }
             }
+        }
+
+        private void CheckFailed()
+        {
+            if (MinDistance == null) MinDistance = NearestFailedDistance;
         }
 
         public bool InArcByType(ArcTypes arcType)

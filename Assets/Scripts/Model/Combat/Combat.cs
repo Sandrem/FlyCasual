@@ -77,8 +77,6 @@ public static partial class Combat
             Selection.ChangeActiveShip("ShipId:" + attackerId);
             Selection.ChangeAnotherShip("ShipId:" + defenderID);
 
-            ChosenWeapon = Selection.ThisShip.PrimaryWeapon;
-            ShotInfo = new ShotInfo(Selection.ThisShip, Selection.AnotherShip, ChosenWeapon);
             SelectWeapon();
         }
         else
@@ -103,6 +101,9 @@ public static partial class Combat
         }
         else
         {
+            ChosenWeapon = Selection.ThisShip.PrimaryWeapon;
+            ShotInfo = new ShotInfo(Selection.ThisShip, Selection.AnotherShip, ChosenWeapon);
+
             TryPerformAttack();
         }
     }
@@ -492,13 +493,15 @@ namespace SubPhases
         public void PerformAttackWithWeapon(IShipWeapon weapon)
         {
             Tooltips.EndTooltip();
-
-            Combat.ChosenWeapon = weapon;
-
             Messages.ShowInfo("Attack with " + weapon.Name);
 
-            Phases.FinishSubPhase(typeof(WeaponSelectionDecisionSubPhase));
-            CallBack();
+            Combat.ChosenWeapon = weapon;
+            Combat.ShotInfo = new ShotInfo(Selection.ThisShip, Selection.AnotherShip, Combat.ChosenWeapon);
+
+            Combat.ShotInfo.CheckObstruction(delegate{
+                Phases.FinishSubPhase(typeof(WeaponSelectionDecisionSubPhase));
+                CallBack();
+            });
         }
 
     }

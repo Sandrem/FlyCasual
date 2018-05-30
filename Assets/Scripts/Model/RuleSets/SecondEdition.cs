@@ -149,10 +149,10 @@ namespace RuleSets
             if (upgrade is ISecondEditionUpgrade)
             {
                 (upgrade as ISecondEditionUpgrade).AdaptUpgradeToSecondEdition();
-                upgrade.Charges = upgrade.MaxCharges;
-
                 upgrade.UpgradeRuleType = typeof(SecondEdition);
             }
+
+            upgrade.Charges = upgrade.MaxCharges;
         }
 
         public override void AdaptArcsToRules(GenericShip ship)

@@ -53,7 +53,6 @@ namespace DamageDeckCardSE
         public void RepairFuelLeak()
         {
             DiscardEffect();
-            Triggers.FinishTrigger();
         }
 
         public override void DiscardEffect()

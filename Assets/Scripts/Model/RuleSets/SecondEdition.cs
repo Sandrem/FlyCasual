@@ -55,7 +55,7 @@ namespace RuleSets
                     { typeof(DamageDeckCardSE.DamagedSensorArray),  2 },
                     { typeof(DamageDeckCardSE.DirectHit),           5 },
                     { typeof(DamageDeckCardSE.DisabledPowerRegulator),  2 },                    
-                    //{ typeof(DamageDeckCardSE.FuelLeak),            4 },
+                    { typeof(DamageDeckCardSE.FuelLeak),            4 },
                     { typeof(DamageDeckCardSE.HullBreach),          2 },
                     { typeof(DamageDeckCardSE.LooseStabilizer),     2 },
                     { typeof(DamageDeckCardSE.PanickedPilot),       2 },

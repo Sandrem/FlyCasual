@@ -95,7 +95,9 @@ namespace ActionsList
             * 60 - Free focus to crit, another to hits
             * 55 - Free side to hit
             * 50 - Regular Focus to hits if 1+
+            * 45 - Force to change eye to evade if 1
             * 40 - Regular Focus to hits if 1
+            * 35 - Force to change eye to evade if 1+
             * 30 - Reroll of focus is focus token is available
             * 20 - Hits to crits
             */
@@ -109,7 +111,9 @@ namespace ActionsList
             * 70 - Regular Evade if 1 uncancelled
             * 65 - Not free Evade if 1 uncancelled
             * 50 - Regular Focus to evades if 1+
+            * 45 - Force to change eye to evade if 1
             * 40 - Regular Focus to evades if 1
+            * 35 - Force to change eye to evade if 1+
             * 20 - Regular Evade if >1 uncancelled
             * 15 - Not free Evade if >1 uncancelled
             */

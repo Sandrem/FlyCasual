@@ -106,7 +106,7 @@ namespace SubPhases
 
             if (availableActions.Count > 0)
             {
-                Roster.GetPlayer(Phases.CurrentPhasePlayer).PerformAction();
+                GenerateActionButtons();
                 callBack();
             }
             else
@@ -117,7 +117,7 @@ namespace SubPhases
             }
         }
 
-        public void ShowActionDecisionPanel()
+        public void GenerateActionButtons()
         {
             //TODO: Use more global way of fix
             HideDecisionWindowUI();
@@ -162,33 +162,22 @@ namespace SubPhases
             InfoText = "Select free action";
             DefaultDecisionName = "Focus";
 
-            callBack();
-        }
-
-        public override void StartIsFinished()
-        {
-            base.StartIsFinished();
-
             List<ActionsList.GenericAction> availableActions = Selection.ThisShip.GetAvailableFreeActionsList();
 
-            if (!DecisionIsTaken)
+            if (availableActions.Count > 0)
             {
-                DecisionIsTaken = true;
-
-                if (availableActions.Count > 0)
-                {
-                    Selection.ThisShip.Owner.PerformFreeAction();
-                }
-                else
-                {
-                    Messages.ShowErrorToHuman("Cannot perform any actions");
-                    Actions.CurrentAction = null;
-                    CallBack();
-                }
+                GenerateFreeActionButtons();
+                callBack();
+            }
+            else
+            {
+                Messages.ShowErrorToHuman("Cannot perform any actions");
+                Actions.CurrentAction = null;
+                CallBack();
             }
         }
 
-        public void ShowActionDecisionPanel()
+        public void GenerateFreeActionButtons()
 		{
 			Selection.ThisShip.IsFreeActionSkipped = false;
             List<ActionsList.GenericAction> availableActions = Selection.ThisShip.GetAvailableFreeActionsList();

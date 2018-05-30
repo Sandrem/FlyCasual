@@ -177,7 +177,7 @@ namespace Ship
                             }
                         );
                         newSubPhase.ShowSkipButton = !isForced;
-                        newSubPhase.IsForced = true;
+                        newSubPhase.IsForced = isForced;
                         newSubPhase.Start();
                     }
                 }

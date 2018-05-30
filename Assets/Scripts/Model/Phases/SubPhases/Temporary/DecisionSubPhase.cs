@@ -66,7 +66,7 @@ namespace SubPhases
         public Action OnSkipButtonIsPressed;
         public bool WasDecisionButtonPressed;
         public bool IsForced;
-        public bool DecisionIsTaken;
+        public bool DecisionWasPreparedAndShown;
 
         private const float defaultWindowHeight = 75;
         private const float buttonHeight = 45;
@@ -91,8 +91,14 @@ namespace SubPhases
         public virtual void StartIsFinished()
         {
             Initialize();
-
             UpdateHelpInfo();
+
+            if (!DecisionWasPreparedAndShown)
+            {
+                DecisionWasPreparedAndShown = true;
+
+                GameMode.CurrentGameMode.FinishSyncDecisionPreparation();
+            }
         }
 
         public string AddDecision(string name, EventHandler call, string tooltip = null, int count = -1, bool isRed = false)
@@ -224,8 +230,6 @@ namespace SubPhases
                 if (DecisionOwner == null) DecisionOwner = Roster.GetPlayer(Phases.CurrentPhasePlayer);
 
                 if (ShowSkipButton) UI.ShowSkipButton(); else UI.HideSkipButton();
-
-                GameMode.CurrentGameMode.FinishSyncDecisionPreparation();
             }
         }
 

@@ -461,11 +461,6 @@ namespace Players
             }
         }
 
-        public override void TakeDecision()
-        {
-            (Phases.CurrentSubPhase as DecisionSubPhase).DoDefault();
-        }
-
         public override void ConfirmDiceCheck()
         {
             (Phases.CurrentSubPhase as DiceRollCheckSubPhase).Confirm();
@@ -477,7 +472,7 @@ namespace Players
             Selection.ThisShip.IsAttackPerformed = true;
 
             Selection.ThisShip.CallCombatDeactivation(
-                delegate { Phases.FinishSubPhase(typeof(SubPhases.CombatSubPhase)); }
+                delegate { Phases.FinishSubPhase(typeof(CombatSubPhase)); }
             );
         }
 

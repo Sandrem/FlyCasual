@@ -77,8 +77,15 @@ namespace Abilities
 
         protected virtual void SeeAssignedManuver()
         {
-            Roster.ToggleManeuverVisibility(TargetShip, true);
-            TargetShip.AlwaysShowAssignedManeuver = true;
+            if (TargetShip.Owner is Players.GenericAiPlayer)
+            {
+                Messages.ShowErrorToHuman("Useless against HotAC AI =)");
+            }
+            else
+            {
+                Roster.ToggleManeuverVisibility(TargetShip, true);
+                TargetShip.AlwaysShowAssignedManeuver = true;
+            }
 
             SelectShipSubPhase.FinishSelection();
         }

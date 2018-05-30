@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SubPhases;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,13 +27,17 @@ namespace Players
             Console.Write("Nearest enemy is " + ship.PilotName + " (" + ship.ShipId + ")", LogTypes.AI);
 
             // TODO: remove null variant
-            if (anotherShip != null)
+
+            if (!RulesList.IonizationRule.IsIonized(ship))
             {
-                ship.SetAssignedManeuver(ship.HotacManeuverTable.GetManeuver(ship, anotherShip));
-            }
-            else
-            {
-                ship.SetAssignedManeuver(new Movement.StraightMovement(2, Movement.ManeuverDirection.Forward, Movement.ManeuverBearing.Straight, Movement.MovementComplexity.Normal));
+                if (anotherShip != null)
+                {
+                    ship.SetAssignedManeuver(ship.HotacManeuverTable.GetManeuver(ship, anotherShip));
+                }
+                else
+                {
+                    ship.SetAssignedManeuver(new Movement.StraightMovement(2, Movement.ManeuverDirection.Forward, Movement.ManeuverBearing.Straight, Movement.MovementComplexity.Normal));
+                }
             }
 
             ship.GenerateAvailableActionsList();
@@ -55,17 +60,19 @@ namespace Players
             {
                 PerformManeuverOfShip(ship);
             }
-            
         }
 
-        public override void PerformAction()
+        public override void TakeDecision()
         {
-            PerformActionFromList(Selection.ThisShip.GetAvailableActionsList());
-        }
-
-        public override void PerformFreeAction()
-        {
-            PerformActionFromList(Selection.ThisShip.GetAvailableFreeActionsList());
+            if (Phases.CurrentSubPhase is ActionDecisonSubPhase)
+            {
+                PerformActionFromList(Selection.ThisShip.GetAvailableActionsList());
+            }
+            else if (Phases.CurrentSubPhase is FreeActionDecisonSubPhase)
+            {
+                PerformActionFromList(Selection.ThisShip.GetAvailableFreeActionsList());
+            }
+            else (Phases.CurrentSubPhase as DecisionSubPhase).DoDefault();
         }
 
         private void PerformActionFromList(List<ActionsList.GenericAction> actionsList)

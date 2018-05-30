@@ -90,10 +90,6 @@ namespace Players
             Roster.HighlightPlayer(PlayerNo);
         }
 
-        public virtual void PerformAction() { }
-
-        public virtual void PerformFreeAction() { }
-
         public virtual void PerformAttack()
         {
             Roster.HighlightPlayer(PlayerNo);

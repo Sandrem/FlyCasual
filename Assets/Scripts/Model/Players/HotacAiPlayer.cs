@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SubPhases;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -58,14 +59,17 @@ namespace Players
             
         }
 
-        public override void PerformAction()
+        public override void TakeDecision()
         {
-            PerformActionFromList(Selection.ThisShip.GetAvailableActionsList());
-        }
-
-        public override void PerformFreeAction()
-        {
-            PerformActionFromList(Selection.ThisShip.GetAvailableFreeActionsList());
+            if (Phases.CurrentSubPhase is ActionDecisonSubPhase)
+            {
+                PerformActionFromList(Selection.ThisShip.GetAvailableActionsList());
+            }
+            else if (Phases.CurrentSubPhase is FreeActionDecisonSubPhase)
+            {
+                PerformActionFromList(Selection.ThisShip.GetAvailableFreeActionsList());
+            }
+            else (Phases.CurrentSubPhase as DecisionSubPhase).DoDefault();
         }
 
         private void PerformActionFromList(List<ActionsList.GenericAction> actionsList)

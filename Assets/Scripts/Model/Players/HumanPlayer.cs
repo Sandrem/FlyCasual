@@ -18,19 +18,6 @@ namespace Players
             Name = "Human";
         }
 
-        public override void PerformAction()
-        {
-            (Phases.CurrentSubPhase as SubPhases.ActionDecisonSubPhase).ShowActionDecisionPanel();
-        }
-
-        public override void PerformFreeAction()
-        {
-            SubPhases.FreeActionDecisonSubPhase subphase = (Phases.CurrentSubPhase as SubPhases.FreeActionDecisonSubPhase);
-            subphase.ShowActionDecisionPanel();
-
-            if (subphase.IsForced) GameMode.CurrentGameMode.TakeDecision(subphase.GetDecisions().First(), null);
-        }
-
         public override void PerformAttack()
         {
             base.PerformAttack();
@@ -61,7 +48,10 @@ namespace Players
 
         public override void TakeDecision()
         {
-            (Phases.CurrentSubPhase as SubPhases.DecisionSubPhase).ShowDecisionWindowUI();
+            SubPhases.DecisionSubPhase subphase = (Phases.CurrentSubPhase as SubPhases.DecisionSubPhase);
+            subphase.ShowDecisionWindowUI();
+
+            if (subphase.IsForced) GameMode.CurrentGameMode.TakeDecision(subphase.GetDecisions().First(), null);
         }
 
         public override void AfterShipMovementPrediction()

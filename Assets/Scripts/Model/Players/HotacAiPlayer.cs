@@ -27,13 +27,17 @@ namespace Players
             Console.Write("Nearest enemy is " + ship.PilotName + " (" + ship.ShipId + ")", LogTypes.AI);
 
             // TODO: remove null variant
-            if (anotherShip != null)
+
+            if (!RulesList.IonizationRule.IsIonized(ship))
             {
-                ship.SetAssignedManeuver(ship.HotacManeuverTable.GetManeuver(ship, anotherShip));
-            }
-            else
-            {
-                ship.SetAssignedManeuver(new Movement.StraightMovement(2, Movement.ManeuverDirection.Forward, Movement.ManeuverBearing.Straight, Movement.MovementComplexity.Normal));
+                if (anotherShip != null)
+                {
+                    ship.SetAssignedManeuver(ship.HotacManeuverTable.GetManeuver(ship, anotherShip));
+                }
+                else
+                {
+                    ship.SetAssignedManeuver(new Movement.StraightMovement(2, Movement.ManeuverDirection.Forward, Movement.ManeuverBearing.Straight, Movement.MovementComplexity.Normal));
+                }
             }
 
             ship.GenerateAvailableActionsList();
@@ -56,7 +60,6 @@ namespace Players
             {
                 PerformManeuverOfShip(ship);
             }
-            
         }
 
         public override void TakeDecision()

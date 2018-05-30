@@ -80,7 +80,9 @@ namespace Conditions
         {
             Name = "Debuff Token";
             Temporary = false;
-            Tooltip = new Ship.XWing.WedgeAntilles().ImageUrl;
+            GenericShip wedgePilot = new Ship.XWing.WedgeAntilles();
+            RuleSet.Instance.AdaptPilotToRules(wedgePilot);
+            Tooltip = wedgePilot.ImageUrl;
         }
     }
 }

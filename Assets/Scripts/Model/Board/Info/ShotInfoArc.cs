@@ -62,6 +62,12 @@ namespace BoardTools
             Dictionary<MeshCollider, bool> originalColliderValues = new Dictionary<MeshCollider, bool>();
             foreach (var collider in Board.Objects)
             {
+                if (collider == null)
+                {
+                    Debug.Log("Collider is null, ignore...");
+                    continue;
+                }
+
                 originalColliderValues.Add(collider, collider.enabled);
                 collider.enabled = (collider.tag == "ShipId:" + Ship2.ShipId) ? true : false;
             }

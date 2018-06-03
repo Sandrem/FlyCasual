@@ -65,7 +65,13 @@ namespace ActionsList
         {
             int result = 0;
 
-            result = 100;
+            if (Host.Tokens.HasToken(typeof(FocusToken)) &&
+                Combat.DiceRollAttack.Successes > Combat.DiceRollDefence.Successes &&
+                Combat.DiceRollDefence.Blanks > 0 &&
+                Combat.DiceRollDefence.Focuses <= 1)
+            {
+                result = 40;
+            }
 
             return result;
         }

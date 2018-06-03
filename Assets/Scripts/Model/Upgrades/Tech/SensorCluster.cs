@@ -63,17 +63,7 @@ namespace ActionsList
 
         public override int GetActionEffectPriority()
         {
-            int result = 0;
-
-            if (Host.Tokens.HasToken(typeof(FocusToken)) &&
-                Combat.DiceRollAttack.Successes > Combat.DiceRollDefence.Successes &&
-                Combat.DiceRollDefence.Blanks > 0 &&
-                Combat.DiceRollDefence.Focuses <= 1)
-            {
-                result = 40;
-            }
-
-            return result;
+            return (Combat.DiceRollAttack.Successes > Combat.DiceRollDefence.Successes) ? 40 : 0;
         }
 
         public override bool IsActionEffectAvailable()

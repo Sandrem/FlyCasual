@@ -59,6 +59,7 @@ namespace ActionsList
         {
             Name = EffectName = "Sensor Cluster";
             DiceModificationTiming = DiceModificationTimingType.Normal;
+            TokensSpend.Add(typeof(FocusToken));
         }
 
         public override int GetActionEffectPriority()

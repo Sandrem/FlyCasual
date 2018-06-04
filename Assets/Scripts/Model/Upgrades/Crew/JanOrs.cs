@@ -36,7 +36,7 @@ namespace UpgradesList
 namespace Abilities
 {
 
-    # SE Jyn Erso has similar ability, but is not round limited (so don't set IsAbilityUsed to true)
+    // SE Jyn Erso has similar ability, but is not round limited (so don't set IsAbilityUsed to true)
     public class JanOrsCrewAbility : GenericAbility
     {
 

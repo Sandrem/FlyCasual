@@ -21,8 +21,6 @@ namespace UpgradesList
 
             isUnique = true;
 
-            AvatarOffset = new Vector2(50, 2);
-
             UpgradeAbilities.Add(new JanOrsCrewAbility());
         }
 
@@ -43,13 +41,13 @@ namespace Abilities
         public override void ActivateAbility()
         {
             GenericShip.BeforeTokenIsAssignedGlobal += RegisterJanOrsCrewAbility;
-            Phases.OnRoundEnd += ResetJanOrsCrewAbilityFlag;
+            Phases.OnRoundEnd += ClearIsAbilityUsedFlag;
         }
 
         public override void DeactivateAbility()
         {
             GenericShip.BeforeTokenIsAssignedGlobal -= RegisterJanOrsCrewAbility;
-            Phases.OnRoundEnd -= ResetJanOrsCrewAbilityFlag;
+            Phases.OnRoundEnd -= ClearIsAbilityUsedFlag;
         }
 
         private void RegisterJanOrsCrewAbility(GenericShip ship, System.Type tokenType)
@@ -68,7 +66,7 @@ namespace Abilities
 
         private void ShowDecision(object sender, EventArgs e)
         {
-            AskToUseAbility(NeverUseByDefault, UseJanOrsAbility, null, null, false, "Use Jan Ors Ability?");
+            AskToUseAbility(NeverUseByDefault, UseJanOrsAbility);
         }
 
         private void UseJanOrsAbility(object sender, System.EventArgs e)
@@ -80,10 +78,6 @@ namespace Abilities
                 IsAbilityUsed = true;
                 DecisionSubPhase.ConfirmDecision();
             });
-        }
-        private void ResetJanOrsCrewAbilityFlag()
-        {
-            IsAbilityUsed = false;
         }
     }
 }

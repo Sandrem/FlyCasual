@@ -59,7 +59,7 @@ namespace Abilities
 
         private void AddSnapShotRestriction() {
             GenericShip ship;
-            if (Combat.Attacker.ShipId == HostShip.ShipId && snapShotTarget != null) {
+            if (Combat.Attacker.ShipId == HostShip.ShipId && Combat.ChosenWeapon is SnapShot) {
                 ship = Combat.Attacker;
 
                 ship.OnTryAddAvailableActionEffect += UseSnapShotRestriction;
@@ -82,6 +82,7 @@ namespace Abilities
         private void CleanUpSnapShotAbility()
         {
             ClearIsAbilityUsedFlag();
+            snapShotTarget = null;
             HostShip.IsAttackPerformed = false;
             HostShip.IsCannotAttackSecondTime = false;
             snapShotWeapon.MaxRange = 0;
@@ -90,7 +91,6 @@ namespace Abilities
 
         public void AfterSnapShotAttackSubPhase()
         {
-            snapShotTarget = null;
             HostShip.IsAttackPerformed = true;
             HostShip.OnAttackFinishAsAttacker -= SetIsAbilityIsUsed;
             // Check this -- Enemy doesn't take action phase after snap shot attack

@@ -14,16 +14,21 @@ namespace UpgradesList
 {
     public class SnapShot : GenericSecondaryWeapon
     {
+        private SnapShotAbility snapShotAbility = null;
         public SnapShot() : base()
         {
-            Types.Add(UpgradeType.Cannon);
+            Types.Add(UpgradeType.Elite);
             Name = "Snap Shot";
-            MinRange = 1;
-            MaxRange = 1;
+            // Hacking the range to remove this as a possible weapon when ability
+            // is not triggered
+            MinRange = 0;
+            MaxRange = 0;
             AttackValue = 2;
             Cost = 2;
 
-            UpgradeAbilities.Add(new SnapShotAbility());
+            snapShotAbility = new SnapShotAbility();
+            snapShotAbility.snapShotWeapon = this;
+            UpgradeAbilities.Add(snapShotAbility);
         }
 
     }
@@ -33,6 +38,7 @@ namespace Abilities
 {
     public class SnapShotAbility : GenericAbility
     {
+        public SnapShot snapShotWeapon = null;
         private GenericShip snapShotTarget = null;
 
         public override void ActivateAbility()
@@ -76,6 +82,8 @@ namespace Abilities
             ClearIsAbilityUsedFlag();
             HostShip.IsAttackPerformed = false;
             HostShip.IsCannotAttackSecondTime = false;
+            snapShotWeapon.MaxRange = 0;
+            snapShotWeapon.MinRange = 1;
         }
 
         public void AfterSnapShotAttackSubPhase()
@@ -101,7 +109,9 @@ namespace Abilities
 
         private void AskSnapShotAbility(object sender, System.EventArgs e)
         {
-            ShotInfo shotInfo = new ShotInfo(HostShip, snapShotTarget, HostShip.PrimaryWeapon);
+            snapShotWeapon.MaxRange = 1;
+            snapShotWeapon.MinRange = 1;
+            ShotInfo shotInfo = new ShotInfo(HostShip, snapShotTarget, snapShotWeapon);
 
             if (shotInfo.InArc && shotInfo.Range <= 1)
             {

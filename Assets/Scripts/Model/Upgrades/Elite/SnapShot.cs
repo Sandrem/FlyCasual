@@ -46,13 +46,15 @@ namespace Abilities
             HostShip.OnAttackStartAsAttacker += AddSnapShotRestriction;
             GenericShip.OnMovementFinishGlobal += CheckSnapShotAbility;
             Phases.OnActivationPhaseEnd_Triggers += CleanUpSnapShotAbility;
+            Phases.OnCombatPhaseEnd_Triggers += CleanUpSnapShotAbility;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.OnAttackStartAsAttacker += AddSnapShotRestriction;
+            HostShip.OnAttackStartAsAttacker -= AddSnapShotRestriction;
             GenericShip.OnMovementFinishGlobal -= CheckSnapShotAbility;
             Phases.OnActivationPhaseEnd_Triggers -= CleanUpSnapShotAbility;
+            Phases.OnCombatPhaseEnd_Triggers -= CleanUpSnapShotAbility;
         }
 
         private void AddSnapShotRestriction() {
@@ -83,15 +85,15 @@ namespace Abilities
             HostShip.IsAttackPerformed = false;
             HostShip.IsCannotAttackSecondTime = false;
             snapShotWeapon.MaxRange = 0;
-            snapShotWeapon.MinRange = 1;
+            snapShotWeapon.MinRange = 0;
         }
 
         public void AfterSnapShotAttackSubPhase()
         {
-            HostShip.IsCannotAttackSecondTime = true;
             snapShotTarget = null;
-            // Check this
+            HostShip.IsAttackPerformed = true;
             HostShip.OnAttackFinishAsAttacker -= SetIsAbilityIsUsed;
+            // Check this -- Enemy doesn't take action phase after snap shot attack
             Phases.FinishSubPhase(Phases.CurrentSubPhase.GetType());
             Triggers.FinishTrigger();
         }
@@ -146,13 +148,14 @@ namespace Abilities
             if (!HostShip.IsCannotAttackSecondTime)
             {
                 HostShip.OnAttackFinishAsAttacker += SetIsAbilityIsUsed;
+                HostShip.IsCannotAttackSecondTime = true;
                 Combat.StartAdditionalAttack(
                     HostShip,
                     AfterSnapShotAttackSubPhase,
                     SnapShotAttackFilter,
-                    HostShip.PilotName,
+                    HostUpgrade.Name,
                     "You may perform an additional attack against " + snapShotTarget.PilotName + ".",
-                    HostShip.ImageUrl
+                    HostUpgrade.ImageUrl
                 );
             }
             else

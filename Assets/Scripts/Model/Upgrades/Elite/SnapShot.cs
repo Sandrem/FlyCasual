@@ -93,19 +93,18 @@ namespace Abilities
         {
             HostShip.IsAttackPerformed = true;
             HostShip.OnAttackFinishAsAttacker -= SetIsAbilityIsUsed;
-            // Check this -- Enemy doesn't take action phase after snap shot attack
+            Selection.ChangeActiveShip(snapShotTarget);
             Phases.FinishSubPhase(Phases.CurrentSubPhase.GetType());
             Triggers.FinishTrigger();
+
         }
 
-
-        //Based on Dengar counterattack
         private void CheckSnapShotAbility(GenericShip ship)
         {
             if (!IsAbilityUsed && ship.Owner.PlayerNo != HostShip.Owner.PlayerNo)
             {
                 snapShotTarget = ship;
-                RegisterAbilityTrigger(TriggerTypes.OnShipMovementFinish, AskSnapShotAbility);
+                RegisterAbilityTrigger(TriggerTypes.OnShipMovementExecuted, AskSnapShotAbility);
             }
         }
 

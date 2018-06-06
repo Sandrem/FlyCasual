@@ -14,7 +14,7 @@ namespace UpgradesList
 {
     public class SnapShot : GenericSecondaryWeapon
     {
-        private SnapShotAbility snapShotAbility = null;
+        
         public SnapShot() : base()
         {
             Types.Add(UpgradeType.Elite);
@@ -26,9 +26,7 @@ namespace UpgradesList
             AttackValue = 2;
             Cost = 2;
 
-            snapShotAbility = new SnapShotAbility();
-            snapShotAbility.snapShotWeapon = this;
-            UpgradeAbilities.Add(snapShotAbility);
+            UpgradeAbilities.Add(new SnapShotAbility());
         }
 
     }
@@ -38,7 +36,7 @@ namespace Abilities
 {
     public class SnapShotAbility : GenericAbility
     {
-        public SnapShot snapShotWeapon = null;
+        
         private GenericShip snapShotTarget = null;
 
         public override void ActivateAbility()
@@ -85,8 +83,8 @@ namespace Abilities
             snapShotTarget = null;
             HostShip.IsAttackPerformed = false;
             HostShip.IsCannotAttackSecondTime = false;
-            snapShotWeapon.MaxRange = 0;
-            snapShotWeapon.MinRange = 0;
+            ((SnapShot)HostUpgrade).MaxRange = 0;
+            ((SnapShot)HostUpgrade).MinRange = 0;
         }
 
         public void AfterSnapShotAttackSubPhase()
@@ -96,9 +94,10 @@ namespace Abilities
             Selection.ChangeActiveShip(snapShotTarget);
             Phases.FinishSubPhase(Phases.CurrentSubPhase.GetType());
             Triggers.FinishTrigger();
-
         }
 
+
+        //Based on Dengar counterattack
         private void CheckSnapShotAbility(GenericShip ship)
         {
             if (!IsAbilityUsed && ship.Owner.PlayerNo != HostShip.Owner.PlayerNo)
@@ -110,9 +109,9 @@ namespace Abilities
 
         private void AskSnapShotAbility(object sender, System.EventArgs e)
         {
-            snapShotWeapon.MaxRange = 1;
-            snapShotWeapon.MinRange = 1;
-            ShotInfo shotInfo = new ShotInfo(HostShip, snapShotTarget, snapShotWeapon);
+            ((SnapShot)HostUpgrade).MaxRange = 1;
+            ((SnapShot)HostUpgrade).MinRange = 1;
+            ShotInfo shotInfo = new ShotInfo(HostShip, snapShotTarget, ((SnapShot)HostUpgrade));
 
             if (shotInfo.InArc && shotInfo.Range <= 1)
             {
@@ -127,7 +126,7 @@ namespace Abilities
         private bool SnapShotAttackFilter(GenericShip defender, IShipWeapon weapon)
         {
             bool result = true;
-            if (defender != snapShotTarget || !(weapon is UpgradesList.SnapShot))
+            if (defender != snapShotTarget || !(weapon.GetType() == HostUpgrade.GetType()))
             {
                 Messages.ShowErrorToHuman(
                     string.Format("Snap Shot target must be {0}, using Snap Shot weapon", snapShotTarget.PilotName));

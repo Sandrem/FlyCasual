@@ -42,7 +42,7 @@ namespace DamageDeckCardFE
                 {
                     Name = "Loose Stabilizer: Stress after white maneuver",
                     TriggerOwner = Host.Owner.PlayerNo,
-                    TriggerType = TriggerTypes.OnShipMovementExecuted,
+                    TriggerType = TriggerTypes.OnMovementExecuted,
                     EventHandler = StressAfterWhiteManeuvers
                 });
             }

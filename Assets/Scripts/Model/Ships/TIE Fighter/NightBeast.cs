@@ -49,7 +49,7 @@ namespace Abilities
                     {
                         Name = "Night Beast: Free Focus action",
                         TriggerOwner = ship.Owner.PlayerNo,
-                        TriggerType = TriggerTypes.OnShipMovementFinish,
+                        TriggerType = TriggerTypes.OnMovementFinish,
                         EventHandler = PerformFreeFocusAction
                     }
                 );

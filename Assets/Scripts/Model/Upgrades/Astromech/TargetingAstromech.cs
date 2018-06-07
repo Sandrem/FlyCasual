@@ -39,7 +39,7 @@ namespace Abilities
             if (HostShip.GetLastManeuverColor() != Movement.MovementComplexity.Complex) return;
             if (BoardTools.Board.IsOffTheBoard(hostShip)) return;
 
-            RegisterAbilityTrigger(TriggerTypes.OnShipMovementFinish, AssignAstromechTargetingLock);            
+            RegisterAbilityTrigger(TriggerTypes.OnMovementFinish, AssignAstromechTargetingLock);            
         }
 
         private void AssignAstromechTargetingLock(object sender, System.EventArgs e)

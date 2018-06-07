@@ -59,7 +59,7 @@ namespace Abilities
                 if (distanceInfo.Range < 3)
                 {
                     ShipToRemoveStress = ship;
-                    RegisterAbilityTrigger(TriggerTypes.OnShipMovementFinish, AskKananJarrusAbility);
+                    RegisterAbilityTrigger(TriggerTypes.OnMovementFinish, AskKananJarrusAbility);
                 }
             }
         }

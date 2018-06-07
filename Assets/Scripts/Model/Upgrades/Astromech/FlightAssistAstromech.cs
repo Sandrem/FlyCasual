@@ -67,7 +67,7 @@ namespace Abilities
             if (!IsNoEnemyInArcAndDistance()) return;
             if (BoardTools.Board.IsOffTheBoard(host)) return;
 
-            RegisterAbilityTrigger(TriggerTypes.OnShipMovementExecuted, AskPerformFreeActions);
+            RegisterAbilityTrigger(TriggerTypes.OnMovementExecuted, AskPerformFreeActions);
         }
 
         private bool IsNoEnemyInArcAndDistance()

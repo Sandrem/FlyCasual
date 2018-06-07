@@ -53,7 +53,7 @@ namespace Abilities
 
             if (ship.AssignedManeuver.ColorComplexity == Movement.MovementComplexity.Easy)
             {
-                RegisterAbilityTrigger(TriggerTypes.OnShipMovementExecuted, LandoCalrissianPilotAbility);
+                RegisterAbilityTrigger(TriggerTypes.OnMovementExecuted, LandoCalrissianPilotAbility);
             }
         }
 

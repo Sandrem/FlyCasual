@@ -58,7 +58,7 @@ namespace Abilities
             {
                 Triggers.RegisterTrigger(new Trigger() {
                     Name = "TIE/x7",
-                    TriggerType = TriggerTypes.OnShipMovementFinish,
+                    TriggerType = TriggerTypes.OnMovementFinish,
                     TriggerOwner = HostShip.Owner.PlayerNo,
                     EventHandler = AskTIEx7Ability,
                     Sender = HostUpgrade,

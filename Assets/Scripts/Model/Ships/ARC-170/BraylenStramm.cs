@@ -41,7 +41,7 @@ namespace Abilities
 
 		private void RegisterBraylenStrammPilotAbility(GenericShip ship)
 		{
-			RegisterAbilityTrigger(TriggerTypes.OnShipMovementFinish, BraylenStrammAbility);
+			RegisterAbilityTrigger(TriggerTypes.OnMovementFinish, BraylenStrammAbility);
 		}
 
 		private void BraylenStrammAbility(object sender, System.EventArgs e)

@@ -57,7 +57,7 @@ namespace Abilities
             {
                 if (host.Shields < host.MaxShields)
                 {
-                    RegisterAbilityTrigger(TriggerTypes.OnShipMovementExecuted, R2D2RegenShield);
+                    RegisterAbilityTrigger(TriggerTypes.OnMovementExecuted, R2D2RegenShield);
                 }
             }
         }

@@ -52,7 +52,7 @@ namespace Abilities
                 new Trigger()
                 {
                     Name = "Millenium Falcon's ability",
-                    TriggerType = TriggerTypes.OnShipMovementFinish,
+                    TriggerType = TriggerTypes.OnMovementFinish,
                     TriggerOwner = HostShip.Owner.PlayerNo,
                     Sender = ship,
                     EventHandler = RotateShip180

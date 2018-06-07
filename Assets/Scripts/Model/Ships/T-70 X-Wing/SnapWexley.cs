@@ -51,7 +51,7 @@ namespace Abilities
 
             if (BoardTools.Board.IsOffTheBoard(hostShip)) return;
 
-            RegisterAbilityTrigger(TriggerTypes.OnShipMovementFinish, PerformFreeBoost);
+            RegisterAbilityTrigger(TriggerTypes.OnMovementFinish, PerformFreeBoost);
         }
 
         private void PerformFreeBoost(object sender, EventArgs e)

@@ -18,7 +18,7 @@ namespace RulesList
             {
                 Name = "Check stress",
                 TriggerOwner = ship.Owner.PlayerNo,
-                TriggerType = TriggerTypes.OnShipMovementExecuted,
+                TriggerType = TriggerTypes.OnMovementExecuted,
                 EventHandler = CheckStress
             });
 

@@ -53,7 +53,7 @@ namespace Abilities
 
             if (HostShip.AssignedManeuver.ColorComplexity == MovementComplexity.Normal || HostShip.AssignedManeuver.ColorComplexity == MovementComplexity.Easy)
             {
-                RegisterAbilityTrigger(TriggerTypes.OnShipMovementFinish, (s, e) => AskToUseAbility(NeverUseByDefault, UseAbility));
+                RegisterAbilityTrigger(TriggerTypes.OnMovementFinish, (s, e) => AskToUseAbility(NeverUseByDefault, UseAbility));
             }
         }                
 

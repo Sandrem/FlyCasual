@@ -70,7 +70,7 @@ namespace Abilities
         {
             HostShip.OnMovementFinish -= RegisterAssignStressAfterManeuver;
 
-            RegisterAbilityTrigger(TriggerTypes.OnShipMovementFinish, AssignStress);
+            RegisterAbilityTrigger(TriggerTypes.OnMovementFinish, AssignStress);
         }
 
         private void AssignStress(object sender, System.EventArgs e)

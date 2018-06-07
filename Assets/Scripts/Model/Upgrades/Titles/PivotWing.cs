@@ -69,7 +69,7 @@ namespace Abilities
         {
             if (BoardTools.Board.IsOffTheBoard(ship)) return;
 
-            RegisterAbilityTrigger(TriggerTypes.OnShipMovementFinish, AskToFlip);
+            RegisterAbilityTrigger(TriggerTypes.OnMovementFinish, AskToFlip);
         }
 
         private void AskToFlip(object sender, EventArgs e)
@@ -110,7 +110,7 @@ namespace Abilities
         {
             if (BoardTools.Board.IsOffTheBoard(ship)) return;
 
-            RegisterAbilityTrigger(TriggerTypes.OnShipMovementFinish, AskToFlip);
+            RegisterAbilityTrigger(TriggerTypes.OnMovementFinish, AskToFlip);
         }
 
         private void AskToFlip(object sender, EventArgs e)

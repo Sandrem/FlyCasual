@@ -46,7 +46,7 @@ namespace Abilities
 
             if (HostShip.GetLastManeuverColor() == Movement.MovementComplexity.Complex)
             {
-                RegisterAbilityTrigger(TriggerTypes.OnShipMovementFinish, AskAssignFocusToken);
+                RegisterAbilityTrigger(TriggerTypes.OnMovementFinish, AskAssignFocusToken);
             }
         }
 

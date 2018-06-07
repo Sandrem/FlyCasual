@@ -29,7 +29,7 @@ namespace DamageDeckCardFE
                 Triggers.RegisterTrigger(new Trigger()
                 {
                     Name = "Stunned Pilot crit",
-                    TriggerType = TriggerTypes.OnShipMovementFinish,
+                    TriggerType = TriggerTypes.OnMovementFinish,
                     TriggerOwner = Host.Owner.PlayerNo,
                     EventHandler = CheckCollisionDamage
                 });

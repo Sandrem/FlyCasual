@@ -45,7 +45,7 @@ namespace Abilities.SecondEdition
         {
             if (HostShip.AssignedManeuver.Speed >= 3 && HostShip.AssignedManeuver.Speed <= 5 && !HostShip.IsBumped && HostUpgrade.Charges > 0)
             {
-                RegisterAbilityTrigger(TriggerTypes.OnShipMovementFinish, AskUseAbility);
+                RegisterAbilityTrigger(TriggerTypes.OnMovementFinish, AskUseAbility);
             }
         }
 

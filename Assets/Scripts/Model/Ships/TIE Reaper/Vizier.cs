@@ -51,7 +51,7 @@ namespace Abilities
                 && (HostShip.Tokens.HasToken<FocusToken>() || HostShip.Tokens.HasToken<EvadeToken>())
                 && BoardTools.Board.GetRangeOfShips(HostShip, ship) <=1)
             {
-                RegisterAbilityTrigger(TriggerTypes.OnShipMovementFinish, (s,e) => AskVizierAbility(ship));
+                RegisterAbilityTrigger(TriggerTypes.OnMovementFinish, (s,e) => AskVizierAbility(ship));
                 //Triggers.RegisterTrigger(new Trigger()
                 //{
                 //    Name = "\"Vizier\" ability",

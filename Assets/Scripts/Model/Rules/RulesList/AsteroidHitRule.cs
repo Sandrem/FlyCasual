@@ -37,7 +37,7 @@ namespace RulesList
                     {
                         Name = "Roll for asteroid damage",
                         TriggerOwner = ship.Owner.PlayerNo,
-                        TriggerType = TriggerTypes.OnShipMovementFinish,
+                        TriggerType = TriggerTypes.OnMovementFinish,
                         EventHandler = RollForDamage(ship)
                     });
                 }

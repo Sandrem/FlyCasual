@@ -61,7 +61,7 @@ namespace Abilities
                     .ToArray();
                 if(friendlyShipsAtRangeOne.Any())
                 {
-                    RegisterAbilityTrigger(TriggerTypes.OnShipMovementFinish, SystemsOfficerEffect);
+                    RegisterAbilityTrigger(TriggerTypes.OnMovementFinish, SystemsOfficerEffect);
                 }
             }
         }

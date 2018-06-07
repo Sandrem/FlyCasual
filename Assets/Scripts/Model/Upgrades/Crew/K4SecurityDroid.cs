@@ -49,7 +49,7 @@ namespace Abilities
             if (BoardTools.Board.IsOffTheBoard(hostShip)) return;
 
             RegisterAbilityTrigger(
-                TriggerTypes.OnShipMovementFinish,
+                TriggerTypes.OnMovementFinish,
                 AssignK4TargetingLock
             );
         }

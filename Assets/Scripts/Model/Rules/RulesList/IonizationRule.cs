@@ -61,7 +61,7 @@ namespace RulesList
             Triggers.RegisterTrigger(new Trigger
             {
                 Name = "Remove ionization",
-                TriggerType = TriggerTypes.OnShipMovementExecuted,
+                TriggerType = TriggerTypes.OnMovementExecuted,
                 TriggerOwner = ship.Owner.PlayerNo,
                 EventHandler = RemoveIonization,
                 Sender = ship

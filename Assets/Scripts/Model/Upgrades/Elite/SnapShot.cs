@@ -103,7 +103,7 @@ namespace Abilities
             if (!IsAbilityUsed && ship.Owner.PlayerNo != HostShip.Owner.PlayerNo)
             {
                 snapShotTarget = ship;
-                RegisterAbilityTrigger(TriggerTypes.OnShipMovementExecuted, AskSnapShotAbility);
+                RegisterAbilityTrigger(TriggerTypes.OnMovementFinish, AskSnapShotAbility);
             }
         }
 

@@ -69,7 +69,7 @@ namespace RulesList
             Triggers.RegisterTrigger(new Trigger()
             {
                 Name = "Undocking decision",
-                TriggerType = TriggerTypes.OnShipMovementFinish,
+                TriggerType = TriggerTypes.OnMovementFinish,
                 TriggerOwner = ship.Owner.PlayerNo,
                 EventHandler = AskUndock
             });

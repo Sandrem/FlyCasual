@@ -6,10 +6,11 @@ using Tokens;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using RuleSets;
 
 namespace UpgradesList
 {
-    public class AdvancedSensors : GenericUpgrade
+    public class AdvancedSensors : GenericUpgrade, ISecondEditionUpgrade
     {
         public AdvancedSensors() : base()
         {
@@ -18,6 +19,11 @@ namespace UpgradesList
             Cost = 3;
 
             UpgradeAbilities.Add (new AdvancedSensorsAbility ());
+        }
+
+        public void AdaptUpgradeToSecondEdition()
+        {
+            
         }
     }
 }

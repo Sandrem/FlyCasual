@@ -8,10 +8,11 @@ using System.Linq;
 using SubPhases;
 using ActionsList;
 using UpgradesList;
+using RuleSets;
 
 namespace UpgradesList
 {
-    public class DirectorKrennic : GenericUpgrade
+    public class DirectorKrennic : GenericUpgrade, ISecondEditionUpgrade
     {
         public DirectorKrennic() : base()
         {
@@ -22,6 +23,11 @@ namespace UpgradesList
             isUnique = true;
                         
             UpgradeAbilities.Add(new DirectorKrennicAbility());
+        }
+
+        public void AdaptUpgradeToSecondEdition()
+        {
+            
         }
 
         public override bool IsAllowedForShip(GenericShip ship)

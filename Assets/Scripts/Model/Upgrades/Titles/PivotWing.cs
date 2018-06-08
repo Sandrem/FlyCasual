@@ -5,10 +5,11 @@ using Abilities;
 using System;
 using SubPhases;
 using UnityEngine;
+using RuleSets;
 
 namespace UpgradesList
 {
-    public class PivotWingAttack : GenericDualUpgrade
+    public class PivotWingAttack : GenericDualUpgrade, ISecondEditionUpgrade
     {
         public PivotWingAttack() : base()
         {
@@ -21,13 +22,18 @@ namespace UpgradesList
             AnotherSide = typeof(PivotWingLanding);
         }
 
+        public void AdaptUpgradeToSecondEdition()
+        {
+            
+        }
+
         public override bool IsAllowedForShip(GenericShip ship)
         {
             return ship is UWing;
         }
     }
 
-    public class PivotWingLanding : GenericDualUpgrade
+    public class PivotWingLanding : GenericDualUpgrade, ISecondEditionUpgrade
     {
         public PivotWingLanding() : base()
         {
@@ -38,6 +44,11 @@ namespace UpgradesList
             UpgradeAbilities.Add(new PivotWingLandingAbility());
 
             AnotherSide = typeof(PivotWingAttack);
+        }
+
+        public void AdaptUpgradeToSecondEdition()
+        {
+            
         }
 
         public override bool IsAllowedForShip(GenericShip ship)

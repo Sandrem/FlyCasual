@@ -1060,6 +1060,9 @@ namespace SquadBuilderNS
 
         public static void BrowseSavedSquads()
         {
+            // TEMPORARY
+            GetRandomAiSquad();
+
             ShowListOfSavedSquadrons(GetSavedSquadsJsons());
         }
 

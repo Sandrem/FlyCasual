@@ -9,13 +9,13 @@ using RuleSets;
 
 namespace UpgradesList
 {
-    public class Selfless : GenericUpgrade
+    public class Ruthless : GenericUpgrade
     {
-        public Selfless() : base()
+        public Ruthless() : base()
         {
             Types.Add(UpgradeType.Elite);
-            Name = "Selfless";
-            Cost = 11;
+            Name = "Ruthless";
+            Cost = 1;
 
             UpgradeRuleType = typeof(SecondEdition);
         }

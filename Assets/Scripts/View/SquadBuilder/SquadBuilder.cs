@@ -822,7 +822,7 @@ namespace SquadBuilderNS
             if (!Directory.Exists(directoryPath)) Directory.CreateDirectory(directoryPath);
 
             string[] filePaths = Directory.GetFiles(directoryPath);
-            if (filePaths.Length == 0)
+            if (filePaths.Length < RuleSet.Instance.PreGeneratedAiSquadrons.Count)
             {
                 CreatePreGeneratedRandomAiSquads();
                 filePaths = Directory.GetFiles(directoryPath);

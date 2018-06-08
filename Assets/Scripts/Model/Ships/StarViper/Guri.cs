@@ -35,12 +35,12 @@ namespace Abilities
 
         public override void ActivateAbility()
         {
-            Phases.OnCombatPhaseStart_Triggers += RegisterGuriAbility;
+            Phases.Events.OnCombatPhaseStart_Triggers += RegisterGuriAbility;
         }
 
         public override void DeactivateAbility()
         {
-            Phases.OnCombatPhaseStart_Triggers -= RegisterGuriAbility;
+            Phases.Events.OnCombatPhaseStart_Triggers -= RegisterGuriAbility;
         }
 
         private void RegisterGuriAbility()

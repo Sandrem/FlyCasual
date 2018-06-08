@@ -33,12 +33,12 @@ namespace Abilities
 
         public override void ActivateAbility()
         {
-            Phases.OnActivationPhaseStart += RegisterAbilityTrigger;
+            Phases.Events.OnActivationPhaseStart += RegisterAbilityTrigger;
         }
 
         public override void DeactivateAbility()
         {
-            Phases.OnActivationPhaseStart -= RegisterAbilityTrigger;
+            Phases.Events.OnActivationPhaseStart -= RegisterAbilityTrigger;
         }
 
         private void RegisterAbilityTrigger()

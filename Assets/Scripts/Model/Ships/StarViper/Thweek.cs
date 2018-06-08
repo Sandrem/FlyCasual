@@ -38,12 +38,12 @@ namespace Abilities
 
         public override void ActivateAbility()
         {
-            Phases.OnGameStart += RegisterSelectThweekTarget;
+            Phases.Events.OnGameStart += RegisterSelectThweekTarget;
         }
 
         public override void DeactivateAbility()
         {
-            Phases.OnGameStart -= RegisterSelectThweekTarget;
+            Phases.Events.OnGameStart -= RegisterSelectThweekTarget;
         }
 
         private void RegisterSelectThweekTarget()

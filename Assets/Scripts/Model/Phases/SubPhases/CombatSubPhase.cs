@@ -51,7 +51,7 @@ namespace SubPhases
 
                 if (nextPilotSkill != RequiredPilotSkill)
                 {
-                    Phases.CallCombatSubPhaseRequiredPilotSkillIsChanged();
+                    Phases.Events.CallCombatSubPhaseRequiredPilotSkillIsChanged();
                 }
 
                 if (nextPilotSkill != int.MaxValue)
@@ -129,7 +129,7 @@ namespace SubPhases
 
         public override void FinishPhase()
         {
-            if (Phases.HasOnCombatPhaseEndEvents)
+            if (Phases.Events.HasOnCombatPhaseEndEvents)
             {
                 GenericSubPhase subphase = Phases.StartTemporarySubPhaseNew("Notification", typeof(NotificationSubPhase), StartCombatEndSubPhase);
                 (subphase as NotificationSubPhase).TextToShow = "End of combat";

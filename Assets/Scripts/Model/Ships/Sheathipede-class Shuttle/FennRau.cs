@@ -41,7 +41,7 @@ namespace Abilities
         public override void ActivateAbility()
         {
             GenericShip.OnCombatActivationGlobal += CheckAbility;
-            Phases.OnRoundEnd += RemoveFennRauPilotAbility;
+            Phases.Events.OnRoundEnd += RemoveFennRauPilotAbility;
         }
 
         public override void DeactivateAbility()

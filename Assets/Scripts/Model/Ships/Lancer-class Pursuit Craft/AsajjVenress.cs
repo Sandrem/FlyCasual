@@ -37,12 +37,12 @@ namespace Abilities
 
         public override void ActivateAbility()
         {
-            Phases.OnCombatPhaseStart_Triggers += TryRegisterAsajjVentressPilotAbility;
+            Phases.Events.OnCombatPhaseStart_Triggers += TryRegisterAsajjVentressPilotAbility;
         }
 
         public override void DeactivateAbility()
         {
-            Phases.OnCombatPhaseStart_Triggers -= TryRegisterAsajjVentressPilotAbility;
+            Phases.Events.OnCombatPhaseStart_Triggers -= TryRegisterAsajjVentressPilotAbility;
         }
 
         private void TryRegisterAsajjVentressPilotAbility()

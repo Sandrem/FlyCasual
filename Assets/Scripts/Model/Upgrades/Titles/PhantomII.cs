@@ -49,7 +49,7 @@ namespace Abilities
         private void OnDocked(GenericShip dockingHost)
         {
             ToggleRearArc(true);
-            Phases.OnActivationPhaseEnd_Triggers += RegisterFreeCoordinateAbility;
+            Phases.Events.OnActivationPhaseEnd_Triggers += RegisterFreeCoordinateAbility;
             dockingHost.OnShipIsDestroyed += DeactivateFreeCoordinate;
         }
 
@@ -62,7 +62,7 @@ namespace Abilities
 
         private void DeactivateFreeCoordinate(GenericShip host, bool isFled)
         {
-            Phases.OnActivationPhaseEnd_Triggers -= RegisterFreeCoordinateAbility;
+            Phases.Events.OnActivationPhaseEnd_Triggers -= RegisterFreeCoordinateAbility;
         }
 
         private void ToggleRearArc(bool isActive)

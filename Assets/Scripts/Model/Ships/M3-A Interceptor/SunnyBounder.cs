@@ -31,14 +31,14 @@ namespace Abilities
         {
             HostShip.OnImmediatelyAfterRolling += AddAbility;
             HostShip.OnImmediatelyAfterReRolling += AddAbility;
-            Phases.OnRoundEnd += ClearIsAbilityUsedFlag;
+            Phases.Events.OnRoundEnd += ClearIsAbilityUsedFlag;
         }
 
         public override void DeactivateAbility()
         {
             HostShip.OnImmediatelyAfterRolling -= AddAbility;
             HostShip.OnImmediatelyAfterReRolling -= AddAbility;
-            Phases.OnRoundEnd -= ClearIsAbilityUsedFlag;
+            Phases.Events.OnRoundEnd -= ClearIsAbilityUsedFlag;
         }
 
         public void AddAbility(DiceRoll diceroll)

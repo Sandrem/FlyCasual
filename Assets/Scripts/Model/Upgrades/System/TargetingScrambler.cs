@@ -32,12 +32,12 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            Phases.OnPlanningPhaseStart += RegisterAbilityTrigger;
+            Phases.Events.OnPlanningPhaseStart += RegisterAbilityTrigger;
         }
 
         public override void DeactivateAbility()
         {
-            Phases.OnPlanningPhaseStart -= RegisterAbilityTrigger;
+            Phases.Events.OnPlanningPhaseStart -= RegisterAbilityTrigger;
         }
 
         private void RegisterAbilityTrigger()
@@ -74,7 +74,7 @@ namespace Abilities
 
             TargetShip.Tokens.AssignCondition(new ScrambledCondition(TargetShip));
             TargetShip.OnTryAddAvailableActionEffect += UseDiceModificationRestriction;
-            Phases.OnCombatPhaseEnd_NoTriggers += RemoveScrambledCondition;
+            Phases.Events.OnCombatPhaseEnd_NoTriggers += RemoveScrambledCondition;
 
             HostShip.Tokens.AssignToken(
                 new WeaponsDisabledToken(HostShip),
@@ -104,7 +104,7 @@ namespace Abilities
 
         private void RemoveScrambledCondition()
         {
-            Phases.OnCombatPhaseEnd_NoTriggers -= RemoveScrambledCondition;
+            Phases.Events.OnCombatPhaseEnd_NoTriggers -= RemoveScrambledCondition;
 
             TargetShip.Tokens.RemoveCondition(typeof(ScrambledCondition));
             TargetShip.OnTryAddAvailableActionEffect -= UseDiceModificationRestriction;

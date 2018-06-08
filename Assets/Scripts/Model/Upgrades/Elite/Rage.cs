@@ -37,7 +37,7 @@ namespace Abilities
 			HostShip.AfterGenerateAvailableActionsList -= RageAddAction;
 		}
 
-		private void RageAddAction(Ship.GenericShip host)
+		private void RageAddAction(GenericShip host)
 		{
 			ActionsList.GenericAction action = new ActionsList.RageAction()
 			{
@@ -66,7 +66,7 @@ namespace ActionsList
 			Host = Selection.ThisShip;
 			//Adding Rage reroll effect
 			Host.AfterGenerateAvailableActionEffectsList += AddRageCondition; 
-			Phases.OnEndPhaseStart_NoTriggers += RemoveRageCondition;
+			Phases.Events.OnEndPhaseStart_NoTriggers += RemoveRageCondition;
 
 			//Rage Condition for reroll dices on each attach during this round
 			Messages.ShowInfo("Rage: Condition assigned");
@@ -74,7 +74,7 @@ namespace ActionsList
 
 			//Assigns one focus and two stress tokens
 			Messages.ShowInfo("Rage: Focus assigned");
-			Host.Tokens.AssignToken (new Tokens.FocusToken (Host), delegate { assignStressTokensRecursively (2); });
+			Host.Tokens.AssignToken (new FocusToken (Host), delegate { assignStressTokensRecursively (2); });
 		}
 
 
@@ -86,7 +86,7 @@ namespace ActionsList
 				tokens--;
 				string message = (tokens == 0) ? "Rage: Second Stress assigned" : "Rage: First Stress assigned";
 				Messages.ShowInfo(message);
-				Host.Tokens.AssignToken (new Tokens.StressToken (Host), delegate { assignStressTokensRecursively (tokens); });
+				Host.Tokens.AssignToken (new StressToken (Host), delegate { assignStressTokensRecursively (tokens); });
 			}
 			else
 			{
@@ -95,7 +95,7 @@ namespace ActionsList
 		}
 
 
-		private void AddRageCondition(Ship.GenericShip ship)
+		private void AddRageCondition(GenericShip ship)
 		{
 			ship.AddAvailableActionEffect(this);
 		}
@@ -106,7 +106,7 @@ namespace ActionsList
 			Host.Tokens.RemoveCondition(typeof(Conditions.RageCondition));
 			Host.AfterGenerateAvailableActionEffectsList -= AddRageCondition;
 
-			Phases.OnEndPhaseStart_NoTriggers -= RemoveRageCondition;
+			Phases.Events.OnEndPhaseStart_NoTriggers -= RemoveRageCondition;
 		}
 			
 
@@ -143,7 +143,7 @@ namespace ActionsList
 namespace Conditions
 {
 
-	public class RageCondition : Tokens.GenericToken
+	public class RageCondition : GenericToken
 	{
 		public RageCondition(GenericShip host) : base(host)
 		{

@@ -19,7 +19,7 @@ namespace SubPhases
         {
             InformAboutNewRoundStart();
 
-            Phases.CallRoundStartTrigger(delegate { Phases.FinishSubPhase(this.GetType()); });
+            Phases.Events.CallRoundStartTrigger(delegate { Phases.FinishSubPhase(this.GetType()); });
         }
 
         private void InformAboutNewRoundStart()

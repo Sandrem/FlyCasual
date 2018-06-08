@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 using Ship;
+using SubPhases;
 
 namespace RulesList
 {
@@ -15,7 +16,7 @@ namespace RulesList
         private void SubscribeEvents()
         {
             GenericShip.OnMovementFinishGlobal += CheckDamage;
-            Phases.BeforeActionSubPhaseStart += CheckSkipPerformAction;
+            Phases.Events.BeforeActionSubPhaseStart += CheckSkipPerformAction;
         }
 
         private void CheckSkipPerformAction()
@@ -49,11 +50,11 @@ namespace RulesList
             return delegate {
                 Messages.ShowErrorToHuman("Hit asteroid during movement - rolling for damage");
 
-                SubPhases.AsteroidHitCheckSubPhase newPhase = (SubPhases.AsteroidHitCheckSubPhase) Phases.StartTemporarySubPhaseNew(
+                AsteroidHitCheckSubPhase newPhase = (AsteroidHitCheckSubPhase) Phases.StartTemporarySubPhaseNew(
                     "Damage from asteroid collision",
-                    typeof(SubPhases.AsteroidHitCheckSubPhase),
+                    typeof(AsteroidHitCheckSubPhase),
                     delegate {
-                        Phases.FinishSubPhase(typeof(SubPhases.AsteroidHitCheckSubPhase));
+                        Phases.FinishSubPhase(typeof(AsteroidHitCheckSubPhase));
                         Triggers.FinishTrigger();
                     });
                 newPhase.TheShip = ship;
@@ -68,7 +69,7 @@ namespace SubPhases
 
     public class AsteroidHitCheckSubPhase : DiceRollCheckSubPhase
     {
-        private Ship.GenericShip prevActiveShip = Selection.ActiveShip;
+        private GenericShip prevActiveShip = Selection.ActiveShip;
 
         public override void Prepare()
         {

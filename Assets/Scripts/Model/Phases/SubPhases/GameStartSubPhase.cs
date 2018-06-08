@@ -17,7 +17,7 @@ namespace SubPhases
 
         public override void Initialize()
         {
-            Phases.CallInitialiveSelection(delegate { Phases.FinishSubPhase(typeof(GameStartSubPhase)); });
+            Phases.Events.CallInitialiveSelection(delegate { Phases.FinishSubPhase(typeof(GameStartSubPhase)); });
         }
 
         public override void Next()

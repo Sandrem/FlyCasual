@@ -31,12 +31,12 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            Phases.OnCombatPhaseStart_Triggers += RegisterAbility;
+            Phases.Events.OnCombatPhaseStart_Triggers += RegisterAbility;
         }
 
         public override void DeactivateAbility()
         {
-            Phases.OnCombatPhaseStart_Triggers -= RegisterAbility;
+            Phases.Events.OnCombatPhaseStart_Triggers -= RegisterAbility;
         }
 
         private void RegisterAbility()
@@ -82,13 +82,13 @@ namespace Abilities
         private void SelectAbilityTarget()
         {
             TargetShip.AddPilotSkillModifier(this);
-            Phases.OnEndPhaseStart_NoTriggers += RemovePilotSkillModifieer;
+            Phases.Events.OnEndPhaseStart_NoTriggers += RemovePilotSkillModifieer;
             SelectShipSubPhase.FinishSelection();
         }
 
         private void RemovePilotSkillModifieer()
         {
-            Phases.OnEndPhaseStart_NoTriggers -= RemovePilotSkillModifieer;
+            Phases.Events.OnEndPhaseStart_NoTriggers -= RemovePilotSkillModifieer;
             TargetShip.RemovePilotSkillModifier(this);
         }
 

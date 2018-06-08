@@ -37,12 +37,12 @@ namespace Abilities
 	{
 		public override void ActivateAbility()
 		{
-            Phases.OnCombatPhaseStart_Triggers += CheckOldTerochAbility;
+            Phases.Events.OnCombatPhaseStart_Triggers += CheckOldTerochAbility;
 		}
 
 		public override void DeactivateAbility()
 		{
-            Phases.OnCombatPhaseStart_Triggers -= CheckOldTerochAbility;
+            Phases.Events.OnCombatPhaseStart_Triggers -= CheckOldTerochAbility;
 		}
 
 		private void CheckOldTerochAbility()

@@ -17,8 +17,8 @@ namespace RulesList
 
         private void SubscribeEvents()
         {
-            Phases.OnRoundStart += InitializeAll;
-            Phases.OnRoundEnd += RegisterClearAll;
+            Phases.Events.OnRoundStart += InitializeAll;
+            Phases.Events.OnRoundEnd += RegisterClearAll;
         }
 
         private void InitializeAll()

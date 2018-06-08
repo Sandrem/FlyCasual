@@ -32,13 +32,13 @@ namespace Abilities
         public override void ActivateAbility() {
             Toggle360Arc(false);
             HostShip.OnShotStartAsAttacker += CheckConditions;
-            Phases.OnRoundEnd += ClearAbility;
+            Phases.Events.OnRoundEnd += ClearAbility;
         }
 
         public override void DeactivateAbility() {
             Toggle360Arc(true);
             HostShip.OnShotStartAsAttacker -= CheckConditions;
-            Phases.OnRoundEnd -= ClearAbility;
+            Phases.Events.OnRoundEnd -= ClearAbility;
         }
 
         private void Toggle360Arc(bool isActive)

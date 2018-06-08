@@ -33,12 +33,12 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            Phases.OnGameStart += ActivateIg2000Ability;
+            Phases.Events.OnGameStart += ActivateIg2000Ability;
         }
 
         public override void DeactivateAbility()
         {
-            Phases.OnGameStart -= ActivateIg2000Ability;
+            Phases.Events.OnGameStart -= ActivateIg2000Ability;
             DeactivateIg2000Ability();
         }
 

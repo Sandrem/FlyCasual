@@ -14,7 +14,9 @@ public static partial class Phases
 
     public static GenericPhase CurrentPhase { get; set; }
     public static GenericSubPhase CurrentSubPhase { get; set; }
-    
+
+    public static PhaseEvents Events;
+
     public static bool InTemporarySubPhase
     {
         get { return CurrentSubPhase.IsTemporary; }
@@ -27,33 +29,12 @@ public static partial class Phases
         get { return CurrentSubPhase.RequiredPlayer; }
     }
 
-    // EVENTS
-    public delegate void EventHandler();
-    public static event EventHandler OnGameStart;
-    public static event EventHandler OnRoundStart;
-    public static event EventHandler OnInitiativeSelection;
-    public static event EventHandler OnPlanningPhaseStart;
-    public static event EventHandler OnActivationPhaseStart;
-    public static event EventHandler BeforeActionSubPhaseStart;
-    public static event EventHandler OnActionSubPhaseStart;
-    public static event EventHandler OnActivationPhaseEnd_NoTriggers;
-    public static event EventHandler OnActivationPhaseEnd_Triggers;
-    public static event EventHandler OnCombatPhaseStart_NoTriggers;
-    public static event EventHandler OnCombatPhaseStart_Triggers;
-    public static event EventHandler OnCombatPhaseEnd_NoTriggers;
-    public static event EventHandler OnCombatPhaseEnd_Triggers;
-    public static event EventHandler OnCombatSubPhaseRequiredPilotSkillIsChanged;
-    public static event EventHandler OnEndPhaseStart_NoTriggers;
-    public static event EventHandler OnEndPhaseStart_Triggers;
-    public static event EventHandler OnRoundEnd;
-    public static event EventHandler OnGameEnd;
-
-    public static bool HasOnActivationPhaseEnd      { get { return OnActivationPhaseEnd_Triggers    != null; } }
-    public static bool HasOnCombatPhaseStartEvents  { get { return OnCombatPhaseStart_Triggers      != null; } }
-    public static bool HasOnCombatPhaseEndEvents    { get { return OnCombatPhaseEnd_Triggers        != null; } }
-    public static bool HasOnEndPhaseStartEvents     { get { return OnEndPhaseStart_Triggers         != null; } }
-
     // PHASES CONTROL
+
+    public static void Initialize()
+    {
+        Events = new PhaseEvents();
+    }
 
     public static void StartPhases()
     {
@@ -66,7 +47,7 @@ public static partial class Phases
         GameIsEnded = false;
         CurrentPhase = new SetupPhase();
 
-        CallGameStartTrigger(CurrentPhase.StartPhase);
+        Events.CallGameStartTrigger(CurrentPhase.StartPhase);
     }
 
     public static void FinishSubPhase(System.Type subPhaseType)
@@ -96,113 +77,6 @@ public static partial class Phases
     public static void CallNextSubPhase()
     {
         CurrentSubPhase.CallNextSubPhase();
-    }
-
-    // TRIGGERS
-
-    public static void CallRoundStartTrigger(Action callback)
-    {
-        if (OnRoundStart != null) OnRoundStart();
-
-        Triggers.ResolveTriggers(TriggerTypes.OnRoundStart, callback);
-    }
-
-    public static void CallGameStartTrigger(Action callBack)
-    {
-        if (OnGameStart != null) OnGameStart();
-
-        foreach (var ship in Roster.AllShips)
-        {
-            ship.Value.CallOnGameStart();
-        }
-
-        Triggers.ResolveTriggers(TriggerTypes.OnGameStart, callBack);
-    }
-
-    public static void CallInitialiveSelection(Action callBack)
-    {
-        if (OnInitiativeSelection != null) OnInitiativeSelection();
-
-        Triggers.ResolveTriggers(TriggerTypes.OnInitiativeSelection, callBack);
-    }
-
-    public static void CallPlanningPhaseTrigger()
-    {
-        if (OnPlanningPhaseStart != null) OnPlanningPhaseStart();
-    }
-
-    public static void CallActivationPhaseStartTrigger()
-    {
-        if (OnActivationPhaseStart != null) OnActivationPhaseStart();
-        foreach (var shipHolder in Roster.AllShips)
-        {
-            shipHolder.Value.CallOnActivationPhaseStart();
-        }
-
-        Triggers.ResolveTriggers(TriggerTypes.OnActivationPhaseStart, delegate () { FinishSubPhase(typeof(ActivationStartSubPhase)); });
-    }
-
-    public static void CallActivationPhaseEndTrigger()
-    {
-        if (OnActivationPhaseEnd_NoTriggers != null) OnActivationPhaseEnd_NoTriggers();
-        if (OnActivationPhaseEnd_Triggers != null) OnActivationPhaseEnd_Triggers();
-
-        Triggers.ResolveTriggers(TriggerTypes.OnActivationPhaseEnd, delegate () { FinishSubPhase(typeof(ActivationEndSubPhase)); });
-    }
-
-
-    public static void CallCombatPhaseStartTrigger()
-    {
-        if (OnCombatPhaseStart_NoTriggers != null) OnCombatPhaseStart_NoTriggers();
-        if (OnCombatPhaseStart_Triggers != null) OnCombatPhaseStart_Triggers();
-
-        Triggers.ResolveTriggers(TriggerTypes.OnCombatPhaseStart, delegate () { FinishSubPhase(typeof(CombatStartSubPhase)); });
-    }
-
-    public static void CallCombatPhaseEndTrigger()
-    {
-        if (OnCombatPhaseEnd_NoTriggers != null) OnCombatPhaseEnd_NoTriggers();
-        if (OnCombatPhaseEnd_Triggers != null) OnCombatPhaseEnd_Triggers();
-
-        Triggers.ResolveTriggers(TriggerTypes.OnCombatPhaseEnd, delegate () { FinishSubPhase(typeof(CombatEndSubPhase)); });
-    }
-
-    public static void CallEndPhaseTrigger(Action callBack)
-    {
-        if (OnEndPhaseStart_NoTriggers != null) OnEndPhaseStart_NoTriggers();
-        if (OnEndPhaseStart_Triggers != null) OnEndPhaseStart_Triggers();
-
-        Triggers.ResolveTriggers(TriggerTypes.OnEndPhaseStart, callBack);
-    }
-
-    public static void CallRoundEndTrigger(Action callback)
-    {
-        if (OnRoundEnd != null) OnRoundEnd();
-
-        foreach (var shipHolder in Roster.AllShips)
-        {
-            shipHolder.Value.CallOnRoundEnd();
-        }
-
-        Triggers.ResolveTriggers(TriggerTypes.OnRoundEnd, callback);
-    }
-
-    public static void CallBeforeActionSubPhaseTrigger()
-    {
-        if (BeforeActionSubPhaseStart != null) BeforeActionSubPhaseStart();
-    }
-
-    public static void CallCombatSubPhaseRequiredPilotSkillIsChanged()
-    {
-        if (OnCombatSubPhaseRequiredPilotSkillIsChanged != null) OnCombatSubPhaseRequiredPilotSkillIsChanged();
-    }
-
-    public static void CallOnActionSubPhaseTrigger()
-    {
-        if (OnActionSubPhaseStart != null) OnActionSubPhaseStart();
-        Selection.ThisShip.CallOnActionSubPhaseStart();
-
-        Triggers.ResolveTriggers(TriggerTypes.OnActionSubPhaseStart, delegate () { FinishSubPhase(typeof(ActionSubPhase)); });
     }
 
     // TEMPORARY SUBPHASES
@@ -240,7 +114,7 @@ public static partial class Phases
 
     public static void EndGame()
     {
-        if (OnGameEnd != null) OnGameEnd();
+        Events.CallEndGame();
 
         GameIsEnded = true;
 

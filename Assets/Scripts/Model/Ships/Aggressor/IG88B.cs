@@ -33,13 +33,13 @@ namespace Abilities
         public override void ActivateAbility()
         {
             HostShip.OnAttackMissedAsAttacker += CheckIG88Ability;
-            Phases.OnRoundEnd += ClearIsAbilityUsedFlag;
+            Phases.Events.OnRoundEnd += ClearIsAbilityUsedFlag;
         }
 
         public override void DeactivateAbility()
         {
             HostShip.OnAttackMissedAsAttacker -= CheckIG88Ability;
-            Phases.OnRoundEnd -= ClearIsAbilityUsedFlag;
+            Phases.Events.OnRoundEnd -= ClearIsAbilityUsedFlag;
         }
 
         private void CheckIG88Ability()

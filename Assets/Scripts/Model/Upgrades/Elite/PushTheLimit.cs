@@ -30,13 +30,13 @@ namespace Abilities
         public override void ActivateAbility()
         {
             HostShip.OnActionIsPerformed += CheckConditions;
-            Phases.OnEndPhaseStart_NoTriggers += Cleanup;
+            Phases.Events.OnEndPhaseStart_NoTriggers += Cleanup;
         }
 
         public override void DeactivateAbility()
         {
             HostShip.OnActionIsPerformed -= CheckConditions;
-            Phases.OnEndPhaseStart_NoTriggers -= Cleanup;
+            Phases.Events.OnEndPhaseStart_NoTriggers -= Cleanup;
         }
 
         private void Cleanup()

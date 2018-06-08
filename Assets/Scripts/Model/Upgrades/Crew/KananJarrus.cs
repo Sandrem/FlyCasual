@@ -42,13 +42,13 @@ namespace Abilities
         public override void ActivateAbility()
         {
             GenericShip.OnMovementFinishGlobal += CheckAbility;
-            Phases.OnRoundEnd += ResetKananJarrusAbilityFlag;
+            Phases.Events.OnRoundEnd += ResetKananJarrusAbilityFlag;
         }
 
         public override void DeactivateAbility()
         {
             GenericShip.OnMovementFinishGlobal -= CheckAbility;
-            Phases.OnRoundEnd -= ResetKananJarrusAbilityFlag;
+            Phases.Events.OnRoundEnd -= ResetKananJarrusAbilityFlag;
         }
 
         private void CheckAbility(GenericShip ship)

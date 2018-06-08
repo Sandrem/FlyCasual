@@ -61,14 +61,14 @@ namespace Abilities
             {
                 HostShip.OnAttackStartAsAttacker += SaveOriginalDefender;
                 HostShip.OnAttackFinishAsAttacker += CheckClusterMissilesAbility;
-                Phases.OnRoundEnd += ClearIsAbilityUsedFlag;
+                Phases.Events.OnRoundEnd += ClearIsAbilityUsedFlag;
             }
 
             public override void DeactivateAbility()
             {
                 HostShip.OnAttackStartAsAttacker -= SaveOriginalDefender;
                 HostShip.OnAttackFinishAsAttacker -= CheckClusterMissilesAbility;
-                Phases.OnRoundEnd -= ClearIsAbilityUsedFlag;
+                Phases.Events.OnRoundEnd -= ClearIsAbilityUsedFlag;
             }
 
             private void SaveOriginalDefender()

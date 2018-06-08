@@ -21,8 +21,8 @@ namespace Ship
 
 				IsUnique = true;
 
-				PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
-				PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Illicit);
+				PrintedUpgradeIcons.Add(UpgradeType.Elite);
+				PrintedUpgradeIcons.Add(UpgradeType.Illicit);
 
 				faction = Faction.Scum;
 
@@ -38,12 +38,12 @@ namespace Abilities
 	{
 		public override void ActivateAbility()
 		{
-			Phases.OnCombatPhaseStart_Triggers += RegisterAbility;
+			Phases.Events.OnCombatPhaseStart_Triggers += RegisterAbility;
 		}
 
 		public override void DeactivateAbility()
 		{
-			Phases.OnCombatPhaseStart_Triggers -= RegisterAbility;
+			Phases.Events.OnCombatPhaseStart_Triggers -= RegisterAbility;
 		}
 
 		private void RegisterAbility()

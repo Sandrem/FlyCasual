@@ -14,7 +14,7 @@ namespace RulesList
 
         private void SubscribeEvents()
         {
-            Phases.BeforeActionSubPhaseStart += CheckSkipPerformAction;
+            Phases.Events.BeforeActionSubPhaseStart += CheckSkipPerformAction;
             GenericShip.OnTryPerformAttackGlobal += CanPerformAttack;
         }
 

@@ -13,7 +13,7 @@ namespace MainPhases
         {
             Name = "Combat Phase";
 
-            if (Phases.HasOnCombatPhaseStartEvents)
+            if (Phases.Events.HasOnCombatPhaseStartEvents)
             {
                 GenericSubPhase subphase = Phases.StartTemporarySubPhaseNew("Notification", typeof(NotificationSubPhase), StartCombatStartSubPhase);
                 (subphase as NotificationSubPhase).TextToShow = "Start of Combat";
@@ -37,7 +37,7 @@ namespace MainPhases
         {
             Selection.DeselectAllShips();
 
-            if (Phases.HasOnEndPhaseStartEvents)
+            if (Phases.Events.HasOnEndPhaseStartEvents)
             {
                 GenericSubPhase subphase = Phases.StartTemporarySubPhaseNew("Notification", typeof(NotificationSubPhase), StartEndPhase);
                 (subphase as NotificationSubPhase).TextToShow = "End";

@@ -40,19 +40,19 @@ namespace Abilities
 
         public override void ActivateAbility()
         {
-            Phases.OnGameStart += SetIllicitTokens;
+            Phases.Events.OnGameStart += SetIllicitTokens;
             GenericShip.OnDiscardUpgradeGlobal += CheckIllicitTokens;
         }
 
         public override void DeactivateAbility()
         {
-            Phases.OnGameStart -= SetIllicitTokens;
-            Phases.OnGameEnd += ClearAbility;
+            Phases.Events.OnGameStart -= SetIllicitTokens;
+            Phases.Events.OnGameEnd += ClearAbility;
         }
 
         private void ClearAbility()
         {
-            Phases.OnGameStart -= ClearAbility;
+            Phases.Events.OnGameStart -= ClearAbility;
             GenericShip.OnDiscardUpgradeGlobal -= CheckIllicitTokens;
         }
 

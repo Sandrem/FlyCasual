@@ -33,12 +33,12 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            Phases.OnEndPhaseStart_Triggers += RegisterCorranHornAbility;
+            Phases.Events.OnEndPhaseStart_Triggers += RegisterCorranHornAbility;
         }
 
         public override void DeactivateAbility()
         {
-            Phases.OnEndPhaseStart_Triggers -= RegisterCorranHornAbility;
+            Phases.Events.OnEndPhaseStart_Triggers -= RegisterCorranHornAbility;
         }
 
         private void RegisterCorranHornAbility()
@@ -64,14 +64,14 @@ namespace Abilities
         private void AfterExtraAttackSubPhase()
         {
             // "Weapons disabled" token is assigned only if attack was successfully performed
-            if (HostShip.IsAttackPerformed) Phases.OnRoundStart += RegisterAssignWeaponsDisabledTrigger;
+            if (HostShip.IsAttackPerformed) Phases.Events.OnRoundStart += RegisterAssignWeaponsDisabledTrigger;
 
             Triggers.FinishTrigger();
         }
 
         private void RegisterAssignWeaponsDisabledTrigger()
         {
-            Phases.OnRoundStart -= RegisterAssignWeaponsDisabledTrigger;
+            Phases.Events.OnRoundStart -= RegisterAssignWeaponsDisabledTrigger;
             RegisterAbilityTrigger(TriggerTypes.OnRoundStart, AssignWeaponsDisabledTrigger);
         }
 

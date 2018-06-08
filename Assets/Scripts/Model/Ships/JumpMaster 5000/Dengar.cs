@@ -38,13 +38,13 @@ namespace Abilities
         public override void ActivateAbility()
         {
             HostShip.OnAttackFinishAsDefender += CheckAbility;
-            Phases.OnRoundEnd += ClearIsAbilityUsedFlag;
+            Phases.Events.OnRoundEnd += ClearIsAbilityUsedFlag;
         }
 
         public override void DeactivateAbility()
         {
             HostShip.OnAttackFinishAsDefender -= CheckAbility;
-            Phases.OnRoundEnd -= ClearIsAbilityUsedFlag;
+            Phases.Events.OnRoundEnd -= ClearIsAbilityUsedFlag;
         }
 
         private void CheckAbility(GenericShip ship)

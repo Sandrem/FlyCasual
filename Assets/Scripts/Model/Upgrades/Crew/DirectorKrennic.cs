@@ -37,13 +37,13 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            Phases.OnGameStart += RegisterDirectorKrennicAbility;
+            Phases.Events.OnGameStart += RegisterDirectorKrennicAbility;
             GenericShip.OnAttackFinishGlobal += OptimizedPrototypeKrennicTargetLockEffect;
         }
 
         public override void DeactivateAbility()
         {
-            Phases.OnGameStart -= RegisterDirectorKrennicAbility;
+            Phases.Events.OnGameStart -= RegisterDirectorKrennicAbility;
             GenericShip.OnAttackFinishGlobal -= OptimizedPrototypeKrennicTargetLockEffect;
         }
 

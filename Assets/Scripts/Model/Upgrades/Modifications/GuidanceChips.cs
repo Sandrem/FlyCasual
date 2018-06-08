@@ -25,13 +25,13 @@ namespace Abilities
         public override void ActivateAbility()
         {
             HostShip.AfterGenerateAvailableActionEffectsList += GuidanceChipsActionEffect;
-            Phases.OnRoundEnd += ClearIsAbilityUsedFlag;
+            Phases.Events.OnRoundEnd += ClearIsAbilityUsedFlag;
         }
 
         public override void DeactivateAbility()
         {
             HostShip.AfterGenerateAvailableActionEffectsList -= GuidanceChipsActionEffect;
-            Phases.OnRoundEnd -= ClearIsAbilityUsedFlag;
+            Phases.Events.OnRoundEnd -= ClearIsAbilityUsedFlag;
         }
 
         private void GuidanceChipsActionEffect(GenericShip host)

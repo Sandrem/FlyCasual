@@ -29,13 +29,13 @@ namespace Abilities
         public override void ActivateAbility()
         {
             HostShip.OnAfterDiscardUpgrade += CheckTomaxBrenAbility;
-            Phases.OnRoundEnd += ClearIsAbilityUsedFlag;
+            Phases.Events.OnRoundEnd += ClearIsAbilityUsedFlag;
         }
 
         public override void DeactivateAbility()
         {
             HostShip.OnAfterDiscardUpgrade -= CheckTomaxBrenAbility;
-            Phases.OnRoundEnd -= ClearIsAbilityUsedFlag;
+            Phases.Events.OnRoundEnd -= ClearIsAbilityUsedFlag;
         }
 
         private void CheckTomaxBrenAbility(GenericUpgrade upgrade)

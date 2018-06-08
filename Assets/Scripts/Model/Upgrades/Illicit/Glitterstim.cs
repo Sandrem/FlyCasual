@@ -25,12 +25,12 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            Phases.OnCombatPhaseStart_Triggers += RegisterTrigger;
+            Phases.Events.OnCombatPhaseStart_Triggers += RegisterTrigger;
         }
 
         public override void DeactivateAbility()
         {
-            Phases.OnCombatPhaseStart_Triggers -= RegisterTrigger;
+            Phases.Events.OnCombatPhaseStart_Triggers -= RegisterTrigger;
         }
 
         private void RegisterTrigger()
@@ -60,8 +60,8 @@ namespace Abilities
             Conditions.Glitterstim newConditionToken = new Conditions.Glitterstim(HostShip) { Tooltip = HostUpgrade.ImageUrl };
             HostShip.Tokens.AssignCondition(newConditionToken);
 
-            Phases.OnCombatPhaseStart_Triggers -= RegisterTrigger;
-            Phases.OnEndPhaseStart_NoTriggers += DeactivateGlitterstim;
+            Phases.Events.OnCombatPhaseStart_Triggers -= RegisterTrigger;
+            Phases.Events.OnEndPhaseStart_NoTriggers += DeactivateGlitterstim;
 
             HostShip.Tokens.AssignToken(new StressToken(HostShip), GlitterstimEffect);
         }
@@ -85,7 +85,7 @@ namespace Abilities
         {
             HostShip.AfterGenerateAvailableActionEffectsList -= AddGlitterstimDiceModification;
 
-            Phases.OnEndPhaseStart_NoTriggers -= DeactivateGlitterstim;
+            Phases.Events.OnEndPhaseStart_NoTriggers -= DeactivateGlitterstim;
         }
     }
 }

@@ -33,13 +33,13 @@ namespace Abilities
         public override void ActivateAbility()
         {
             HostShip.OnShotStartAsAttacker += CheckConditions;
-            Phases.OnRoundEnd += ClearAbility;
+            Phases.Events.OnRoundEnd += ClearAbility;
         }
 
         public override void DeactivateAbility()
         {
             HostShip.OnShotStartAsAttacker -= CheckConditions;
-            Phases.OnRoundEnd -= ClearAbility;
+            Phases.Events.OnRoundEnd -= ClearAbility;
         }
 
         private void CheckConditions()

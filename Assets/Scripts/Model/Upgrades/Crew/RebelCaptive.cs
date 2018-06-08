@@ -30,13 +30,13 @@ namespace Abilities
         public override void ActivateAbility()
         {
             HostShip.OnAttackStartAsDefender += RegisterTrigger;
-            Phases.OnEndPhaseStart_NoTriggers += ClearIsAbilityUsedFlag;
+            Phases.Events.OnEndPhaseStart_NoTriggers += ClearIsAbilityUsedFlag;
         }
 
         public override void DeactivateAbility()
         {
             HostShip.OnAttackStartAsDefender -= RegisterTrigger;
-            Phases.OnEndPhaseStart_NoTriggers -= ClearIsAbilityUsedFlag;
+            Phases.Events.OnEndPhaseStart_NoTriggers -= ClearIsAbilityUsedFlag;
         }
 
         private void RegisterTrigger()

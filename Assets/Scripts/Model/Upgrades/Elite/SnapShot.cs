@@ -43,16 +43,16 @@ namespace Abilities
         {
             HostShip.OnAttackStartAsAttacker += AddSnapShotRestriction;
             GenericShip.OnMovementFinishGlobal += CheckSnapShotAbility;
-            Phases.OnActivationPhaseEnd_Triggers += CleanUpSnapShotAbility;
-            Phases.OnCombatPhaseEnd_Triggers += CleanUpSnapShotAbility;
+            Phases.Events.OnActivationPhaseEnd_Triggers += CleanUpSnapShotAbility;
+            Phases.Events.OnCombatPhaseEnd_Triggers += CleanUpSnapShotAbility;
         }
 
         public override void DeactivateAbility()
         {
             HostShip.OnAttackStartAsAttacker -= AddSnapShotRestriction;
             GenericShip.OnMovementFinishGlobal -= CheckSnapShotAbility;
-            Phases.OnActivationPhaseEnd_Triggers -= CleanUpSnapShotAbility;
-            Phases.OnCombatPhaseEnd_Triggers -= CleanUpSnapShotAbility;
+            Phases.Events.OnActivationPhaseEnd_Triggers -= CleanUpSnapShotAbility;
+            Phases.Events.OnCombatPhaseEnd_Triggers -= CleanUpSnapShotAbility;
         }
 
         private void AddSnapShotRestriction() {

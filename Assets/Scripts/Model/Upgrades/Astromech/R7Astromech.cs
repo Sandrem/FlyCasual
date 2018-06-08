@@ -30,13 +30,13 @@ namespace Abilities
         public override void ActivateAbility()
         {
             HostShip.AfterGenerateAvailableOppositeActionEffectsList += CheckR7AstromechAbility;
-            Phases.OnPlanningPhaseStart += RechargeAbility;
+            Phases.Events.OnPlanningPhaseStart += RechargeAbility;
         }
 
         public override void DeactivateAbility()
         {
             HostShip.AfterGenerateAvailableOppositeActionEffectsList -= CheckR7AstromechAbility;
-            Phases.OnPlanningPhaseStart -= RechargeAbility;
+            Phases.Events.OnPlanningPhaseStart -= RechargeAbility;
         }
 
         private void CheckR7AstromechAbility(Ship.GenericShip ship)

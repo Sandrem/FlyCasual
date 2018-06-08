@@ -42,7 +42,7 @@ namespace Abilities
         {  
             GenericShip.OnDiceAboutToBeRolled += CheckEmperorPalpatineAbility;
             HostShip.OnShipIsDestroyed += RemoveEmperorPalpatineAbilityWhenDestroyed;
-            Phases.OnRoundEnd += ClearIsAbilityUsedFlag;
+            Phases.Events.OnRoundEnd += ClearIsAbilityUsedFlag;
         }
 
         public override void DeactivateAbility()
@@ -59,7 +59,7 @@ namespace Abilities
         {
             GenericShip.OnDiceAboutToBeRolled -= CheckEmperorPalpatineAbility;
             HostShip.OnShipIsDestroyed -= RemoveEmperorPalpatineAbilityWhenDestroyed;
-            Phases.OnRoundEnd -= ClearIsAbilityUsedFlag;
+            Phases.Events.OnRoundEnd -= ClearIsAbilityUsedFlag;
         }
 
         private void CheckEmperorPalpatineAbility()

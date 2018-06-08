@@ -31,7 +31,7 @@ namespace UpgradesList
 
             host.OnActionIsPerformed += CheckConditions;
 
-            Phases.OnEndPhaseStart_NoTriggers += Cleanup;
+            Phases.Events.OnEndPhaseStart_NoTriggers += Cleanup;
             Host.OnShipIsDestroyed += StopAbility;
         }
 
@@ -90,7 +90,7 @@ namespace UpgradesList
 
         private void StopAbility(GenericShip host, bool isFled)
         {
-            Phases.OnEndPhaseStart_NoTriggers -= Cleanup;
+            Phases.Events.OnEndPhaseStart_NoTriggers -= Cleanup;
         }
 
     }

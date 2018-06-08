@@ -17,7 +17,7 @@ namespace DamageDeckCardFE
 
         public override void ApplyEffect(object sender, EventArgs e)
         {
-            Phases.OnPlanningPhaseStart += DealDamageCardFaceupStart;
+            Phases.Events.OnPlanningPhaseStart += DealDamageCardFaceupStart;
             Host.AfterGenerateAvailableActionsList += CallAddCancelCritAction;
 
             Host.Tokens.AssignCondition(new Tokens.MajorHullBreachCritToken(Host));
@@ -37,7 +37,7 @@ namespace DamageDeckCardFE
 
         private void DealDamageCardFaceupStart()
         {
-            Phases.OnPlanningPhaseStart -= DealDamageCardFaceupStart;
+            Phases.Events.OnPlanningPhaseStart -= DealDamageCardFaceupStart;
             Host.OnCheckFaceupCrit += DealDamageCardFaceup;
         }
 

@@ -55,14 +55,14 @@ namespace Abilities
 
         public override void ActivateAbility()
         {
-            Phases.OnCombatPhaseStart_Triggers += RegisterAssignTokenAbility;
-            Phases.OnEndPhaseStart_Triggers += RegisterStoreTokenAbility;
+            Phases.Events.OnCombatPhaseStart_Triggers += RegisterAssignTokenAbility;
+            Phases.Events.OnEndPhaseStart_Triggers += RegisterStoreTokenAbility;
         }
 
         public override void DeactivateAbility()
         {
-            Phases.OnCombatPhaseStart_Triggers -= RegisterAssignTokenAbility;
-            Phases.OnEndPhaseStart_Triggers -= RegisterStoreTokenAbility;
+            Phases.Events.OnCombatPhaseStart_Triggers -= RegisterAssignTokenAbility;
+            Phases.Events.OnEndPhaseStart_Triggers -= RegisterStoreTokenAbility;
         }
 
         private void RegisterStoreTokenAbility()

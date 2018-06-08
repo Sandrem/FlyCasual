@@ -16,7 +16,7 @@ namespace DamageDeckCardFE
 
         public override void ApplyEffect(object sender, EventArgs e)
         {
-            Phases.OnCombatPhaseStart_Triggers += PlanRollForDamage;
+            Phases.Events.OnCombatPhaseStart_Triggers += PlanRollForDamage;
             Host.AfterGenerateAvailableActionsList += CallAddCancelCritAction;
             Host.OnShipIsDestroyed += delegate { DiscardEffect(); };
 
@@ -53,7 +53,7 @@ namespace DamageDeckCardFE
 
             Host.Tokens.RemoveCondition(typeof(Tokens.ConsoleFireCritToken));
 
-            Phases.OnCombatPhaseStart_Triggers -= PlanRollForDamage;
+            Phases.Events.OnCombatPhaseStart_Triggers -= PlanRollForDamage;
 
             Host.AfterGenerateAvailableActionsList -= CallAddCancelCritAction;
         }

@@ -41,13 +41,13 @@ namespace Abilities
         public override void ActivateAbility()
         {
             GenericShip.BeforeTokenIsAssignedGlobal += RegisterJanOrsCrewAbility;
-            Phases.OnRoundEnd += ClearIsAbilityUsedFlag;
+            Phases.Events.OnRoundEnd += ClearIsAbilityUsedFlag;
         }
 
         public override void DeactivateAbility()
         {
             GenericShip.BeforeTokenIsAssignedGlobal -= RegisterJanOrsCrewAbility;
-            Phases.OnRoundEnd -= ClearIsAbilityUsedFlag;
+            Phases.Events.OnRoundEnd -= ClearIsAbilityUsedFlag;
         }
 
         private void RegisterJanOrsCrewAbility(GenericShip ship, System.Type tokenType)

@@ -29,13 +29,13 @@ namespace Abilities
 
         public override void ActivateAbility()
         {
-            Phases.OnGameStart += SetOrdnanceTokens;
+            Phases.Events.OnGameStart += SetOrdnanceTokens;
             HostShip.OnDiscardUpgrade += CheckOrdnanceToken;
         }
 
         public override void DeactivateAbility()
         {
-            Phases.OnGameStart -= SetOrdnanceTokens;
+            Phases.Events.OnGameStart -= SetOrdnanceTokens;
             HostShip.OnDiscardUpgrade -= CheckOrdnanceToken;
         }
 

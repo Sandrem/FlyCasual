@@ -12,7 +12,7 @@ namespace RulesList
 
         private void SubscribeEvents()
         {
-            Phases.OnRoundEnd += CheckWinConditions;
+            Phases.Events.OnRoundEnd += CheckWinConditions;
         }
 
         public void CheckWinConditions()

@@ -31,12 +31,12 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            Phases.OnCombatPhaseStart_Triggers += RegisterAskBiggsAbility;
+            Phases.Events.OnCombatPhaseStart_Triggers += RegisterAskBiggsAbility;
         }
 
         public override void DeactivateAbility()
         {
-            Phases.OnCombatPhaseStart_Triggers -= RegisterAskBiggsAbility;
+            Phases.Events.OnCombatPhaseStart_Triggers -= RegisterAskBiggsAbility;
         }
 
         private void RegisterAskBiggsAbility()
@@ -60,7 +60,7 @@ namespace Abilities
             GenericShip.OnTryPerformAttackGlobal += CanPerformAttack;
 
             HostShip.OnShipIsDestroyed += RemoveBiggsDarklighterAbility;
-            Phases.OnCombatPhaseEnd_NoTriggers += RemoveBiggsDarklighterAbility;
+            Phases.Events.OnCombatPhaseEnd_NoTriggers += RemoveBiggsDarklighterAbility;
 
             SubPhases.DecisionSubPhase.ConfirmDecision();
         }
@@ -110,9 +110,9 @@ namespace Abilities
             GenericShip.OnTryPerformAttackGlobal -= CanPerformAttack;
 
             HostShip.OnShipIsDestroyed -= RemoveBiggsDarklighterAbility;
-            Phases.OnCombatPhaseEnd_NoTriggers -= RemoveBiggsDarklighterAbility;
+            Phases.Events.OnCombatPhaseEnd_NoTriggers -= RemoveBiggsDarklighterAbility;
 
-            Phases.OnCombatPhaseStart_Triggers -= RegisterAskBiggsAbility;
+            Phases.Events.OnCombatPhaseStart_Triggers -= RegisterAskBiggsAbility;
         }
     }
 }

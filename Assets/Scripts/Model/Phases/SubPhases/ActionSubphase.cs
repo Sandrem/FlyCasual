@@ -21,7 +21,7 @@ namespace SubPhases
 
         public override void Initialize()
         {
-            Phases.CallBeforeActionSubPhaseTrigger();
+            Phases.Events.CallBeforeActionSubPhaseTrigger();
 
             if (!Selection.ThisShip.IsSkipsActionSubPhase)
             {
@@ -43,7 +43,7 @@ namespace SubPhases
                 }
             }
 
-            Phases.CallOnActionSubPhaseTrigger();
+            Phases.Events.CallOnActionSubPhaseTrigger();
         }
 
         private void StartActionDecisionSubphase(object sender, System.EventArgs e)

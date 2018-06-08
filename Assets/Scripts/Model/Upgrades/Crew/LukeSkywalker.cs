@@ -35,13 +35,13 @@ namespace Abilities
         public override void ActivateAbility()
         {
             HostShip.OnAttackMissedAsAttacker += CheckLukeAbility;
-            Phases.OnRoundEnd += ClearIsAbilityUsedFlag;
+            Phases.Events.OnRoundEnd += ClearIsAbilityUsedFlag;
         }
 
         public override void DeactivateAbility()
         {
             HostShip.OnAttackMissedAsAttacker -= CheckLukeAbility;
-            Phases.OnRoundEnd -= ClearIsAbilityUsedFlag;
+            Phases.Events.OnRoundEnd -= ClearIsAbilityUsedFlag;
         }
 
         private void CheckLukeAbility()
@@ -69,7 +69,7 @@ namespace Abilities
                 HostShip.IsCannotAttackSecondTime = true;
 
                 HostShip.AfterGenerateAvailableActionEffectsList += AddLukeSkywalkerCrewAbility;
-                Phases.OnCombatPhaseEnd_NoTriggers += RemoveLukeSkywalkerCrewAbility;
+                Phases.Events.OnCombatPhaseEnd_NoTriggers += RemoveLukeSkywalkerCrewAbility;
 
                 Combat.StartAdditionalAttack(
                     HostShip,
@@ -118,7 +118,7 @@ namespace Abilities
 
         public void RemoveLukeSkywalkerCrewAbility()
         {
-            Phases.OnCombatPhaseEnd_NoTriggers -= RemoveLukeSkywalkerCrewAbility;
+            Phases.Events.OnCombatPhaseEnd_NoTriggers -= RemoveLukeSkywalkerCrewAbility;
             HostShip.AfterGenerateAvailableActionEffectsList -= AddLukeSkywalkerCrewAbility;
         }
 

@@ -58,7 +58,7 @@ namespace Abilities
         public void ActivateContrabandCyberneticsAbility(object sender, System.EventArgs e)
         {
             HostShip.OnMovementActivation -= RegisterTrigger;
-            Phases.OnEndPhaseStart_NoTriggers += DeactivateContrabandCyberneticsAbility;
+            Phases.Events.OnEndPhaseStart_NoTriggers += DeactivateContrabandCyberneticsAbility;
 
             HostShip.Tokens.AssignToken(new StressToken(HostShip), RemoveRestrictions);
         }
@@ -76,7 +76,7 @@ namespace Abilities
 
         public void DeactivateContrabandCyberneticsAbility()
         {
-            Phases.OnEndPhaseStart_NoTriggers -= DeactivateContrabandCyberneticsAbility;
+            Phases.Events.OnEndPhaseStart_NoTriggers -= DeactivateContrabandCyberneticsAbility;
 
             HostShip.CanPerformActionsWhileStressed = CanPerformActionsWhileStressedOriginal;
             HostShip.CanPerformRedManeuversWhileStressed = CanPerformRedManeuversWhileStressedOriginal;

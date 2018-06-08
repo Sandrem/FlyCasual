@@ -26,7 +26,7 @@ namespace RulesList
 
         private void SubscribeEvents()
         {
-            Phases.OnGameStart += DockShips;
+            Phases.Events.OnGameStart += DockShips;
         }
 
         public void Dock(Func<GenericShip> host, Func<GenericShip> docked)

@@ -39,13 +39,13 @@ namespace Abilities
         public override void ActivateAbility()
         {
             BombsManager.OnCheckPermissionToDetonate += CheckCaptainNymAbility;
-            Phases.OnRoundEnd += ClearIsAbilityUsedFlag;
+            Phases.Events.OnRoundEnd += ClearIsAbilityUsedFlag;
         }
 
         public override void DeactivateAbility()
         {
             BombsManager.OnCheckPermissionToDetonate -= CheckCaptainNymAbility;
-            Phases.OnRoundEnd -= ClearIsAbilityUsedFlag;
+            Phases.Events.OnRoundEnd -= ClearIsAbilityUsedFlag;
         }
 
         private void CheckCaptainNymAbility(GenericBomb bomb, GenericShip detonatedShip)

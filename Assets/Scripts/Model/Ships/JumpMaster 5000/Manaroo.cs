@@ -46,12 +46,12 @@ namespace Abilities
 
         public override void ActivateAbility()
         {
-            Phases.OnCombatPhaseStart_Triggers += CheckAbility;
+            Phases.Events.OnCombatPhaseStart_Triggers += CheckAbility;
         }
 
         public override void DeactivateAbility()
         {
-            Phases.OnCombatPhaseStart_Triggers -= CheckAbility;
+            Phases.Events.OnCombatPhaseStart_Triggers -= CheckAbility;
         }
 
         private void CheckAbility()

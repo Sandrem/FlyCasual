@@ -101,12 +101,12 @@ namespace Abilities
 
         public override void ActivateAbility()
         {
-            Phases.OnActivationPhaseStart += RegisterAskToUseFlip;
+            Phases.Events.OnActivationPhaseStart += RegisterAskToUseFlip;
         }
 
         public override void DeactivateAbility()
         {
-            Phases.OnActivationPhaseStart -= RegisterAskToUseFlip;
+            Phases.Events.OnActivationPhaseStart -= RegisterAskToUseFlip;
         }
 
     }

@@ -31,12 +31,12 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            Phases.OnCombatPhaseEnd_Triggers += R5P9PlanRegenShield;
+            Phases.Events.OnCombatPhaseEnd_Triggers += R5P9PlanRegenShield;
         }
  
         public override void DeactivateAbility()
         {
-            Phases.OnCombatPhaseEnd_Triggers -= R5P9PlanRegenShield;
+            Phases.Events.OnCombatPhaseEnd_Triggers -= R5P9PlanRegenShield;
         }
  
         private void R5P9PlanRegenShield()

@@ -16,8 +16,8 @@ namespace RulesList
 
         private void SubscribeEvents()
         {
-            Phases.OnGameStart += DetermineOwnerOfDecision;
-            Phases.OnInitiativeSelection += DeterminePlayerWithInitiative;
+            Phases.Events.OnGameStart += DetermineOwnerOfDecision;
+            Phases.Events.OnInitiativeSelection += DeterminePlayerWithInitiative;
         }
 
         public static void DetermineOwnerOfDecision()

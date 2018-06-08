@@ -31,14 +31,14 @@ namespace Abilities
         public override void ActivateAbility()
         {
             //Resets ability on round end.
-            Phases.OnRoundEnd += ClearAbilityUsed;
+            Phases.Events.OnRoundEnd += ClearAbilityUsed;
 
             HostShip.OnShieldLost += RegisterCanGetEvadeToken;
         }
 
         public override void DeactivateAbility()
         {
-            Phases.OnRoundEnd -= ClearAbilityUsed;
+            Phases.Events.OnRoundEnd -= ClearAbilityUsed;
 
             HostShip.OnShieldLost -= RegisterCanGetEvadeToken;
         }

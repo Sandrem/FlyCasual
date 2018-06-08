@@ -39,13 +39,13 @@ namespace Abilities
         public override void ActivateAbility()
         {
             HostShip.OnAttackFinishAsAttacker += CheckTIEDAbility;
-            Phases.OnRoundEnd += ClearIsAbilityUsedFlag;
+            Phases.Events.OnRoundEnd += ClearIsAbilityUsedFlag;
         }
 
         public override void DeactivateAbility()
         {
             HostShip.OnAttackFinishAsAttacker -= CheckTIEDAbility;
-            Phases.OnRoundEnd -= ClearIsAbilityUsedFlag;
+            Phases.Events.OnRoundEnd -= ClearIsAbilityUsedFlag;
         }
 
         private void CheckTIEDAbility(GenericShip ship)

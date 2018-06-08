@@ -17,7 +17,7 @@ namespace DamageDeckCardFE
 
         public override void ApplyEffect(object sender, EventArgs e)
         {
-            Phases.OnRoundStart += ApplyDelayedEffect;
+            Phases.Events.OnRoundStart += ApplyDelayedEffect;
 
             Host.Tokens.AssignCondition(new Tokens.DamagedCockpitCritToken(Host));
             Triggers.FinishTrigger();
@@ -25,7 +25,7 @@ namespace DamageDeckCardFE
 
         private void ApplyDelayedEffect()
         {
-            Phases.OnRoundStart -= ApplyDelayedEffect;
+            Phases.Events.OnRoundStart -= ApplyDelayedEffect;
 
             Host.AddPilotSkillModifier(this);
             Roster.UpdateShipStats(Host);

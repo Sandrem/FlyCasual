@@ -32,13 +32,13 @@ namespace Abilities
         public override void ActivateAbility()
         {
             HostShip.OnAttackHitAsAttacker += CheckShadowCasterAbility;
-            Phases.OnRoundEnd += ClearIsAbilityUsedFlag;
+            Phases.Events.OnRoundEnd += ClearIsAbilityUsedFlag;
         }
 
         public override void DeactivateAbility()
         {
             HostShip.OnAttackHitAsAttacker -= CheckShadowCasterAbility;
-            Phases.OnRoundEnd -= ClearIsAbilityUsedFlag;
+            Phases.Events.OnRoundEnd -= ClearIsAbilityUsedFlag;
         }
 
         private void CheckShadowCasterAbility()

@@ -41,13 +41,13 @@ namespace Abilities
         public override void ActivateAbility()
         {
             HostShip.OnAttackHitAsDefender += CheckKyloRenAbility;
-            Phases.OnRoundEnd += ClearIsAbilityUsedFlag;
+            Phases.Events.OnRoundEnd += ClearIsAbilityUsedFlag;
         }
 
         public override void DeactivateAbility()
         {
             HostShip.OnAttackHitAsDefender -= CheckKyloRenAbility;
-            Phases.OnRoundEnd -= ClearIsAbilityUsedFlag;
+            Phases.Events.OnRoundEnd -= ClearIsAbilityUsedFlag;
         }
 
         private void CheckKyloRenAbility()

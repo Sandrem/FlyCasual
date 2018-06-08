@@ -30,12 +30,12 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            Phases.OnCombatPhaseStart_Triggers += RegisterEpsilonLeaderAbility;
+            Phases.Events.OnCombatPhaseStart_Triggers += RegisterEpsilonLeaderAbility;
         }
 
         public override void DeactivateAbility()
         {
-            Phases.OnCombatPhaseStart_Triggers -= RegisterEpsilonLeaderAbility;
+            Phases.Events.OnCombatPhaseStart_Triggers -= RegisterEpsilonLeaderAbility;
         }
 
         private void RegisterEpsilonLeaderAbility()

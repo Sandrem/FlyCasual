@@ -28,12 +28,12 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            Phases.OnCombatPhaseStart_Triggers += TryRegisterPilotAbility;
+            Phases.Events.OnCombatPhaseStart_Triggers += TryRegisterPilotAbility;
         }
 
         public override void DeactivateAbility()
         {
-            Phases.OnCombatPhaseStart_Triggers -= TryRegisterPilotAbility;
+            Phases.Events.OnCombatPhaseStart_Triggers -= TryRegisterPilotAbility;
         }
 
         private void TryRegisterPilotAbility()

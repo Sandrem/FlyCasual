@@ -70,6 +70,7 @@ namespace SquadBuilderNS
         public void ClearShips()
         {
             Ships = new List<SquadBuilderShip>();
+            Points = 0;
         }
     }
 
@@ -119,13 +120,13 @@ namespace SquadBuilderNS
 
         public static void Initialize()
         {
+            GenerateListOfShips();
+            GenerateUpgradesList();
             SquadLists = new List<SquadList>()
             {
                 new SquadList(PlayerNo.Player1),
                 new SquadList(PlayerNo.Player2)
             };
-            GenerateListOfShips();
-            GenerateUpgradesList();
         }
 
         public static void SetCurrentPlayer(PlayerNo playerNo)
@@ -376,7 +377,7 @@ namespace SquadBuilderNS
         {
             if (RuleSet.Instance.IsSquadBuilderLocked)
             {
-                Messages.ShowError("Squad building is disabled");
+                Messages.ShowError("This part of squad builder is disabled");
                 return;
             }
 
@@ -1064,6 +1065,12 @@ namespace SquadBuilderNS
 
         private static void DeleteSavedSquadAndRefresh(string fileName)
         {
+            if (RuleSet.Instance.IsSquadBuilderLocked)
+            {
+                Messages.ShowError("This part of squad builder is disabled");
+                return;
+            }
+
             DeleteSavedSquadFile(fileName);
             BrowseSavedSquads();
         }

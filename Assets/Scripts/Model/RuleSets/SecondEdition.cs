@@ -42,7 +42,8 @@ namespace RuleSets
         public override string CombatPhaseName { get { return "Engagement"; } }
         public override Color MovementEasyColor { get { return new Color(0, 0.5f, 1); } }
         public override MovementComplexity IonManeuverComplexity { get { return MovementComplexity.Easy; } }
-                
+        public override string PathToSavedSquadrons { get { return "RandomAiSquadrons"; } }
+
         public override Dictionary<Type, int> DamageDeckContent
         {
             get
@@ -198,24 +199,8 @@ namespace RuleSets
 
         public override void SquadBuilderIsOpened()
         {
-            if (!IsSquadBuilderLocked) return;
-
-            string squadName = "";
-
-            switch (SquadBuilder.CurrentSquadList.SquadFaction)
-            {
-                case Faction.Rebel:
-                    squadName = "Luke + Wedge + Gold";
-                    break;
-                case Faction.Imperial:
-                    squadName = "Vader + Mini-Swarm";
-                    break;
-                case Faction.Scum:
-                    squadName = "Boba + Joy + Zealot";
-                    break;
-            }
-
-            SquadBuilder.CreateSquadFromImportedJson(PreGeneratedAiSquadrons[squadName], SquadBuilder.CurrentPlayer, delegate { });
+            MainMenu.CurrentMainMenu.ChangePanel("SquadBuilderPanel");
+            if (IsSquadBuilderLocked && SquadBuilder.CurrentSquadList.Points == 0) MainMenu.CurrentMainMenu.ChangePanel("BrowseSavedSquadsPanel");
         }
 
         public override void WhenIonized(GenericShip ship)

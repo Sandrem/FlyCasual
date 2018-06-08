@@ -24,25 +24,33 @@ public partial class MainMenu : MonoBehaviour {
 
     public void ChangePanel(GameObject panel)
     {
-        if (RuleSet.Instance.IsSquadBuilderLocked)
-        {
-            if (panel.name == "SquadronOptionsPanel")
-            {
-                Messages.ShowError("Squad building is disabled");
-                return;
-            }
-        }
-
-        CurrentPanel.SetActive(false);
-        InitializePanelContent(panel.name, CurrentPanel.name);
-        panel.SetActive(true);
-        CurrentPanel = panel;
+        ChangePanel(panel.name);
     }
 
     public void ChangePanel(string panelName)
     {
+        if (RuleSet.Instance.IsSquadBuilderLocked)
+        {
+            if (panelName == "SquadronOptionsPanel")
+            {
+                if (CurrentPanel.name == "SquadBuilderPanel")
+                {
+                    Messages.ShowError("This part of squad builder is disabled");
+                    return;
+                }
+                else
+                {
+                    panelName = "SelectFactionPanel";
+                }
+            }
+        }
+
+        CurrentPanel.SetActive(false);
+
         GameObject panel = GameObject.Find("UI/Panels").transform.Find(panelName).gameObject;
-        ChangePanel(panel);
+        InitializePanelContent(panelName, CurrentPanel.name);
+        panel.SetActive(true);
+        CurrentPanel = panel;
     }
 
     private void InitializePanelContent(string panelName, string previousPanelName)

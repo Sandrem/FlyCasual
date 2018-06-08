@@ -601,15 +601,19 @@ namespace SquadBuilderNS
         {
             List<JSONObject> savedSquadsJsons = new List<JSONObject>();
 
-            string directoryPath = Application.persistentDataPath + "/" + RuleSet.Instance.Name + "/SavedSquadrons";
+            string directoryPath = Application.persistentDataPath + "/" + RuleSet.Instance.Name + "/" + RuleSet.Instance.PathToSavedSquadrons;
             if (!Directory.Exists(directoryPath)) Directory.CreateDirectory(directoryPath);
 
             foreach (var filePath in Directory.GetFiles(directoryPath))
             {
                 string content = File.ReadAllText(filePath);
                 JSONObject squadJson = new JSONObject(content);
-                squadJson.AddField("filename", new FileInfo(filePath).Name);
-                savedSquadsJsons.Add(squadJson);
+
+                if (XWSToFaction(squadJson["faction"].str) == CurrentSquadList.SquadFaction)
+                {
+                    squadJson.AddField("filename", new FileInfo(filePath).Name);
+                    savedSquadsJsons.Add(squadJson);
+                }
             }
 
             return savedSquadsJsons;
@@ -688,7 +692,7 @@ namespace SquadBuilderNS
         {
             JSONObject squadJson = null;
 
-            string directoryPath = Application.persistentDataPath + "/" + RuleSet.Instance.Name + "/SavedSquadrons";
+            string directoryPath = Application.persistentDataPath + "/" + RuleSet.Instance.Name + "/" + RuleSet.Instance.PathToSavedSquadrons;
             if (!Directory.Exists(directoryPath)) Directory.CreateDirectory(directoryPath);
 
             string filePath = directoryPath + "/" + fileName;
@@ -720,7 +724,6 @@ namespace SquadBuilderNS
         public static void ReturnToSquadBuilder()
         {
             RuleSet.Instance.SquadBuilderIsOpened();
-            MainMenu.CurrentMainMenu.ChangePanel("SquadBuilderPanel");
         }
 
         public static void UpdateSquadName(string panelName)

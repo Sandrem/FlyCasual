@@ -23,6 +23,7 @@ namespace RuleSets
         public override string CombatPhaseName { get { return "Combat"; } }
         public override Color MovementEasyColor { get { return Color.green; } }
         public override MovementComplexity IonManeuverComplexity { get { return MovementComplexity.Normal; } }
+        public override string PathToSavedSquadrons { get { return "SavedSquadrons"; } }
 
         public override Dictionary<Type, int> DamageDeckContent {
             get
@@ -142,6 +143,11 @@ namespace RuleSets
             {
                 upgrade.Host.ArcInfo.GetArc<OutOfArc>().ShotPermissions.CanShootTurret = true;
             }
+        }
+
+        public override void SquadBuilderIsOpened()
+        {
+            MainMenu.CurrentMainMenu.ChangePanel("SquadBuilderPanel");
         }
     }
 }

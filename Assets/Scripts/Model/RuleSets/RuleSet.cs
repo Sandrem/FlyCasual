@@ -25,6 +25,7 @@ namespace RuleSets
         public abstract Dictionary<Type, int> DamageDeckContent { get; }
         public abstract Dictionary<BaseSize, int> NegativeTokensToAffectShip { get; }
         public abstract Dictionary<string, string> PreGeneratedAiSquadrons { get; }
+        public abstract string PathToSavedSquadrons { get; }
 
         public virtual bool IsSquadBuilderLocked { get { return false; } }
 
@@ -43,6 +44,7 @@ namespace RuleSets
         public abstract void ReloadAction();
         public abstract bool ReinforceEffectCanBeUsed(ArcFacing facing);
         public abstract void TimedBombActivationTime(GenericShip ship);
+        public abstract void SquadBuilderIsOpened();
 
         public virtual void AdaptShipToRules(GenericShip ship) { }
         public virtual void AdaptPilotToRules(GenericShip ship) { }
@@ -51,7 +53,6 @@ namespace RuleSets
         public virtual void RotateMobileFiringArc(ArcFacing facing) { }
         public virtual void ActivateGenericUpgradeAbility(GenericUpgrade upgrade) { }
         public virtual void SubScribeToGenericShipEvents(GenericShip ship) { }
-        public virtual void SquadBuilderIsOpened() { }
         public virtual void WhenIonized(GenericShip ship) { }
     }
 }

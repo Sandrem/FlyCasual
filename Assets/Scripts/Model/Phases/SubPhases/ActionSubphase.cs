@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Tokens;
 using UnityEngine;
 
 namespace SubPhases
@@ -22,25 +23,22 @@ namespace SubPhases
         public override void Initialize()
         {
             Phases.Events.CallBeforeActionSubPhaseTrigger();
+            var ship = Selection.ThisShip;
 
-            if (!Selection.ThisShip.IsSkipsActionSubPhase)
+            bool canPerformAction = !(ship.IsSkipsActionSubPhase  || ship.IsDestroyed
+                                    || (ship.Tokens.HasToken(typeof(StressToken)) && !ship.CanPerformActionsWhileStressed));
+
+            if (canPerformAction)
             {
-                if (!Selection.ThisShip.IsDestroyed)
-                {
-                    Selection.ThisShip.GenerateAvailableActionsList();
-                    Triggers.RegisterTrigger(
-                        new Trigger() {
-                            Name = "Action",
-                            TriggerOwner = Phases.CurrentPhasePlayer,
-                            TriggerType = TriggerTypes.OnActionSubPhaseStart,
-                            EventHandler = StartActionDecisionSubphase
-                        }
-                    );
-                }
-                else
-                {
-                    //Next();
-                }
+                ship.GenerateAvailableActionsList();
+                Triggers.RegisterTrigger(
+                    new Trigger() {
+                        Name = "Action",
+                        TriggerOwner = Phases.CurrentPhasePlayer,
+                        TriggerType = TriggerTypes.OnActionSubPhaseStart,
+                        EventHandler = StartActionDecisionSubphase
+                    }
+                );                
             }
 
             Phases.Events.CallOnActionSubPhaseTrigger();

@@ -35,10 +35,10 @@ namespace RulesList
                 case MovementComplexity.Complex:
                     if (Selection.ThisShip.Owner.GetType() != typeof(HotacAiPlayer))
                     {
-                        Selection.ThisShip.Tokens.AssignToken(new StressToken(Selection.ThisShip), delegate {
-                            Selection.ThisShip.IsSkipsActionSubPhase = Selection.ThisShip.Tokens.HasToken(typeof(StressToken)) && !Selection.ThisShip.CanPerformActionsWhileStressed;
-                            Triggers.FinishTrigger();
-                        });
+                        Selection.ThisShip.Tokens.AssignToken(
+                            new StressToken(Selection.ThisShip), 
+                            Triggers.FinishTrigger
+                        );
                     }
                     else
                     {

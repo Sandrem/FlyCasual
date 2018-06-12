@@ -83,6 +83,8 @@ namespace RuleSets
         public override void ActionIsFailed(GenericShip ship, Type actionType)
         {
             ship.RemoveAlreadyExecutedAction(actionType);
+            SubPhases.DecisionSubPhase decisionSubphase = Phases.CurrentSubPhase.PreviousSubPhase as SubPhases.DecisionSubPhase;
+            if (decisionSubphase != null) decisionSubphase.DecisionWasPreparedAndShown = false;
             Phases.CurrentSubPhase.PreviousSubPhase.Resume();
         }
 

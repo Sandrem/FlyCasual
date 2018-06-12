@@ -92,7 +92,7 @@ namespace Abilities
                     // While defending, use the ability only if the attack success is greater than
                     // the defence AND it's possible to cancel more dice with the defence
                     if ( (Combat.DiceRollAttack.Successes > Combat.DiceRollDefence.Successes)
-                        && (Combat.DiceRollAttack.Number <= Combat.DiceRollDefence.Number ))
+                        && (Combat.DiceRollAttack.Count <= Combat.DiceRollDefence.Count))
                     {
                         result = 90;
                     }
@@ -103,7 +103,7 @@ namespace Abilities
                     // While attacking, use the ability only if the attack success is lower than
                     // the defence AND it's possible to damage more the the defence
                     if ((Combat.DiceRollAttack.Successes < Combat.DiceRollDefence.Successes)
-                        && (Combat.DiceRollAttack.Number >= Combat.DiceRollDefence.Number ))
+                        && (Combat.DiceRollAttack.Count >= Combat.DiceRollDefence.Count))
                     {
                         result = 90;
                     }

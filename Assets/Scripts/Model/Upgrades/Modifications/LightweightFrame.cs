@@ -66,7 +66,7 @@ namespace ActionsList
 
             if (Combat.AttackStep == CombatStep.Defence)
             {
-                if (Combat.DiceRollAttack.Number > Combat.DiceRollDefence.Number)
+                if (Combat.DiceRollAttack.Count > Combat.DiceRollDefence.Count)
                 {
                     result = true;
                 }

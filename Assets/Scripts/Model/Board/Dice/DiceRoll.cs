@@ -39,7 +39,8 @@ public partial class DiceRoll
     public Transform SpawningPoint;
     public Transform FinalPositionPoint;
 
-    public int Number { get; private set; }
+    public int CountOfInitialRoll { get; private set; }
+    public int Count { get { return DiceList.Count; } }
 
     private DelegateDiceroll callBack;
 
@@ -66,7 +67,7 @@ public partial class DiceRoll
     public DiceRoll(DiceKind type, int number, DiceRollCheckType checkType)
     {
         Type = type;
-        Number = number;
+        CountOfInitialRoll = number;
         CheckType = checkType;
 
         if (checkType != DiceRollCheckType.Virtual) SetSpawningPoint();
@@ -77,7 +78,7 @@ public partial class DiceRoll
     private void GenerateDiceRoll()
     {
         DiceList = new List<Die>();
-        for (int i = 0; i < Number; i++)
+        for (int i = 0; i < CountOfInitialRoll; i++)
         {
             AddDice();
         }

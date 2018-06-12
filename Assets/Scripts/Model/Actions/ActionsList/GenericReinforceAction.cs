@@ -37,7 +37,6 @@ namespace ActionsList
                     Messages.ShowInfo("Reinforce: Evade result is added");
                     diceroll.AddDice(DieSide.Success).ShowWithoutRoll();
                     diceroll.OrganizeDicePositions();
-                    diceroll.UpdateDiceCompareHelperPrediction();
                 }
             }
         }

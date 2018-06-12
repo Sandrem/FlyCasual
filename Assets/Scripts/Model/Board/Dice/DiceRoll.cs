@@ -345,7 +345,6 @@ public partial class DiceRoll
         RuleSet.Instance.EvadeDiceModification(this);
 
         OrganizeDicePositions();
-        UpdateDiceCompareHelperPrediction();
     }
 
 	public int Change(DieSide oldSide, DieSide newSide, int count, bool cannotBeRerolled = false, bool cannotBeModified = false)
@@ -355,7 +354,7 @@ public partial class DiceRoll
             changedDiceCount += ChangeDice (oldSide, newSide, true, cannotBeRerolled, cannotBeModified);
 		}
 
-		UpdateDiceCompareHelperPrediction ();
+		UpdateDiceCompareHelperPrediction();
         return changedDiceCount;
     }
 
@@ -599,6 +598,8 @@ public partial class DiceRoll
                 DiceList[i].SetModelSide(DiceList[i].Side);
             }
         }
+
+        UpdateDiceCompareHelperPrediction();
     }
 
     public bool IsDiceFacesVisibilityWrong()

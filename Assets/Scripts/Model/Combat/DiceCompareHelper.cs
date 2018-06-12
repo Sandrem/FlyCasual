@@ -108,32 +108,6 @@ public class DiceCompareHelper
         Dictionary<string, int> results = diceRollForTesting.CancelHitsByDefence(defenceDiceRoll.Successes, true); //Dry run to calculate results
         int cancelledRegularHits = results["hits"];
         int cancelledCriticalHits = results["crits"];
-        //int cancelsNum = defenceDiceRoll.Successes;
-        //int regularHits = AttackDiceroll.RegularSuccesses;
-        //int criticalHits = AttackDiceroll.CriticalSuccesses;
-
-        /*if (!AttackDiceroll.CancelCritsFirst)
-        {
-            cancelledRegularHits = (cancelsNum > regularHits) ? regularHits : cancelsNum;
-            cancelsNum = cancelsNum - cancelledRegularHits;
-
-            if (cancelsNum > 0)
-            {
-                cancelledCriticalHits = (cancelsNum > criticalHits) ? criticalHits : cancelsNum;
-                cancelsNum = cancelsNum - cancelledCriticalHits;
-            }
-        }
-        else
-        {
-            cancelledCriticalHits = (cancelsNum > criticalHits) ? criticalHits : cancelsNum;
-            cancelsNum = cancelsNum - cancelledCriticalHits;
-
-            if (cancelsNum > 0)
-            {
-                cancelledRegularHits = (cancelsNum > regularHits) ? regularHits : cancelsNum;
-                cancelsNum = cancelsNum - cancelledRegularHits;
-            }
-        }*/
 
         List<GameObject> reversedDiceIcons = new List<GameObject>(diceIcons);
         reversedDiceIcons.Reverse();

@@ -55,7 +55,6 @@ namespace Abilities
                 Messages.ShowInfo("Captain Feroph: Evade result is added");
                 diceroll.AddDice(DieSide.Success).ShowWithoutRoll();
                 diceroll.OrganizeDicePositions();
-                diceroll.UpdateDiceCompareHelperPrediction();
             }
         }
     }

@@ -84,9 +84,6 @@ namespace Ship
             {
                 ShipBaseSize = BaseSize.Medium;
 
-                MaxHull = 6;
-                MaxShields = 2;
-
                 Maneuvers["1.L.T"] = MovementComplexity.Normal;
                 Maneuvers["1.R.T"] = MovementComplexity.Normal;
                 Maneuvers["3.L.T"] = MovementComplexity.None;

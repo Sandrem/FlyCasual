@@ -23,6 +23,10 @@ public static partial class Roster {
         rosterPlayer1 = new List<GameObject>();
         rosterPlayer2 = new List<GameObject>();
         AllShips = new Dictionary<string, GenericShip>();
+
+        CreatePlayers();
+        SpawnAllShips();
+        SetPlayerCustomization();
     }
     
     public static GameObject CreateRosterInfo(GenericShip newShip)

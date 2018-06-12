@@ -308,6 +308,6 @@ public class UI : MonoBehaviour {
     public void RestartMatch()
     {
         Rules.FinishGame();
-        SquadBuilder.ReGenerateSquads(SquadBuilder.SwitchToBattlecene);
+        SquadBuilder.ReGenerateSquads(SquadBuilder.SwitchToBattleScene);
     }
 }

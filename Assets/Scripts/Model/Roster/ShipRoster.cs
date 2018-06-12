@@ -23,13 +23,6 @@ public static partial class Roster
     public static Dictionary<string, GenericShip> ShipsPlayer1 { get { return Player1.Ships; } }
     public static Dictionary<string, GenericShip> ShipsPlayer2 {get { return Player2.Ships; } }
 
-    public static void Start()
-    {
-        CreatePlayers();
-        SpawnAllShips();
-        SetPlayerCustomization();
-    }
-
     //PLAYERS CREATION
 
     private static void CreatePlayers()
@@ -68,6 +61,7 @@ public static partial class Roster
         }
 
         // Keep order, ships must have same ID on both clients
+        ShipFactory.Initialize();
         foreach (SquadBuilderShip shipConfig in SquadBuilder.GetSquadList(PlayerNo.Player1).GetShips())
         {
             GenericShip newShip = ShipFactory.SpawnShip(shipConfig);

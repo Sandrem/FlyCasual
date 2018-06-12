@@ -1,4 +1,5 @@
 ﻿using RuleSets;
+using Ship;
 using SquadBuilderNS;
 using System.Collections;
 using System.Collections.Generic;
@@ -20,13 +21,13 @@ public static class ShipFactory {
     }
 
 	//TODO: REWRITE ASAP
-	public static Ship.GenericShip SpawnShip(SquadBuilderShip shipConfig) {
+	public static GenericShip SpawnShip(SquadBuilderShip shipConfig) {
 
         //temporary
         int id = 1;
         Vector3 position = Vector3.zero;
 
-        Ship.GenericShip newShipContainer = shipConfig.Instance;
+        GenericShip newShipContainer = shipConfig.Instance;
         newShipContainer.InitializeGenericShip(shipConfig.List.PlayerNo, id, position);
 
         Roster.SubscribeSelectionByInfoPanel(newShipContainer.InfoPanel.transform.Find("ShipInfo").gameObject);

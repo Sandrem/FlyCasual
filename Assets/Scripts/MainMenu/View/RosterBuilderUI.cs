@@ -124,7 +124,6 @@ public class RosterBuilderUI : MonoBehaviour {
         if (SquadBuilder.ValidateCurrentPlayersRoster())
         {
             SquadBuilder.SaveSquadConfigurations();
-            ShipFactory.Initialize();
 
             if (!SquadBuilder.IsNetworkGame)
             {

@@ -28,7 +28,7 @@ public static class Rules
     public static TractorBeamRule TractorBeam { get; private set; }
     public static ForceRule Force { get; private set; }
 
-    static Rules()
+    public static void Initialize()
     {
         WinConditions = new WinConditionsRule();
         DistanceBonus = new DistanceBonusRule();

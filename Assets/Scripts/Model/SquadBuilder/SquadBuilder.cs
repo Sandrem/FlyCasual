@@ -447,10 +447,10 @@ namespace SquadBuilderNS
         public static void StartLocalGame()
         {
             GameMode.CurrentGameMode = new LocalGame();
-            SwitchToBattlecene();
+            SwitchToBattleScene();
         }
 
-        public static void SwitchToBattlecene()
+        public static void SwitchToBattleScene()
         {
             Global.ToggelLoadingScreen(true);
             LoadBattleScene();

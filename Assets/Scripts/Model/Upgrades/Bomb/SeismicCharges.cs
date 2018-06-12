@@ -94,7 +94,7 @@ namespace UpgradesList
         private void DetonateObstacle()
         {
             //TODO: Animation
-            if (ChosenObstacle != null) ObstaclesManager.Instance.DestroyObstacle(ChosenObstacle);
+            if (ChosenObstacle != null) ObstaclesManager.DestroyObstacle(ChosenObstacle);
 
             BombsManager.ResolveDetonationTriggers();
         }

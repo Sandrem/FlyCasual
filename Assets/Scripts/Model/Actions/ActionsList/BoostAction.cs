@@ -5,6 +5,7 @@ using BoardTools;
 using GameModes;
 using System.Linq;
 using RuleSets;
+using Obstacles;
 
 namespace ActionsList
 {
@@ -268,8 +269,8 @@ namespace SubPhases
             if (IsBoostAllowed())
             {
                 CheckMines();
-                TheShip.IsLandedOnObstacle = obstaclesStayDetectorBase.OverlapsAsteroidNow;
-                TheShip.ObstaclesHit = new List<Collider>(obstaclesStayDetectorBase.OverlappedAsteroidsNow);
+                TheShip.LandedOnObstacles = new List<GenericObstacle>(obstaclesStayDetectorBase.OverlappedAsteroidsNow);
+                TheShip.ObstaclesHit = new List<GenericObstacle>(obstaclesStayDetectorBase.OverlappedAsteroidsNow);
                 obstaclesStayDetectorMovementTemplate.OverlappedAsteroidsNow
                     .Where((a) => !TheShip.ObstaclesHit.Contains(a)).ToList()
                     .ForEach(TheShip.ObstaclesHit.Add);

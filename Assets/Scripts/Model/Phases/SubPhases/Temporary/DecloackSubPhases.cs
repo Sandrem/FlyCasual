@@ -1,4 +1,5 @@
 ﻿using GameModes;
+using Obstacles;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -370,7 +371,7 @@ namespace SubPhases
             if (IsDecloakAllowed())
             {
                 CheckMines();
-                Selection.ThisShip.IsLandedOnObstacle = obstaclesStayDetectorBase.OverlapsAsteroidNow;
+                Selection.ThisShip.LandedOnObstacles = new List<GenericObstacle>(obstaclesStayDetectorBase.OverlappedAsteroidsNow);
                 GameMode.CurrentGameMode.StartDecloakExecution(Selection.ThisShip);
             }
             else

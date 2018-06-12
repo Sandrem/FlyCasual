@@ -4,6 +4,7 @@ using UnityEngine;
 using System;
 using GameModes;
 using RuleSets;
+using Obstacles;
 
 namespace Movement
 {
@@ -369,7 +370,7 @@ namespace Movement
                 Rules.Collision.AddBump(TheShip, shipBumped);
             }
 
-            TheShip.IsLandedOnObstacle = movementPrediction.IsLandedOnAsteroid;
+            TheShip.LandedOnObstacles = new List<GenericObstacle>(movementPrediction.LandedOnObstacles);
 
             if (movementPrediction.AsteroidsHit.Count > 0)
             {

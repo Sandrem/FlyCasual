@@ -194,7 +194,7 @@ namespace RulesList
             Selection.ThisShip.IsManeuverPerformed = true;
             Roster.AllShipsHighlightOff();
 
-            Selection.ThisShip.ObstaclesHit = new List<Collider>();
+            Selection.ThisShip.IsHitObstacles = false;
             Selection.ThisShip.MinesHit = new List<GameObject>();
 
             Selection.ThisShip.AssignedManeuver.Perform();

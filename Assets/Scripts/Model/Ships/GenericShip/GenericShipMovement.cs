@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Movement;
 using System;
+using Obstacles;
 
 namespace Ship
 {
@@ -16,14 +17,35 @@ namespace Ship
 
         public bool IsIgnoreObstacles;
 
-        public bool IsLandedOnObstacle;
+        public bool IsLandedOnObstacle
+        {
+            get
+            {
+                return LandedOnObstacles.Count > 0;
+            }
+
+            set
+            {
+                if (value == false) LandedOnObstacles = new List<Obstacles.GenericObstacle>();
+            }
+        }
+
+        public List<GenericObstacle> LandedOnObstacles = new List<GenericObstacle>();
 
         public bool IsHitObstacles
         {
-            get { return !IsIgnoreObstacles && ObstaclesHit.Count != 0; }
+            get
+            {
+                return !IsIgnoreObstacles && ObstaclesHit.Count != 0;
+            }
+
+            set
+            {
+                if (value == false) ObstaclesHit = new List<GenericObstacle>();
+            }
         }
 
-        public List<Collider> ObstaclesHit = new List<Collider>();
+        public List<GenericObstacle> ObstaclesHit = new List<GenericObstacle>();
 
         public List<GameObject> MinesHit = new List<GameObject>();
 

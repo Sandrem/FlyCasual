@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Ship;
+using Obstacles;
 
 public class ObstaclesStayDetectorForced: MonoBehaviour {
 
@@ -20,10 +21,10 @@ public class ObstaclesStayDetectorForced: MonoBehaviour {
     public List<GenericShip> OverlappedShipsNow = new List<GenericShip>();
     public bool OffTheBoardNow = false;
     public List<Collider> OverlapedMinesNow = new List<Collider>();
-    public List<Collider> OverlappedAsteroidsNow = new List<Collider>();
+    public List<GenericObstacle> OverlappedAsteroidsNow = new List<GenericObstacle>();
 
-    private Ship.GenericShip theShip; 
-    public Ship.GenericShip TheShip {
+    private GenericShip theShip; 
+    public GenericShip TheShip {
         get {
             return theShip ?? Selection.ThisShip;
         }
@@ -37,7 +38,7 @@ public class ObstaclesStayDetectorForced: MonoBehaviour {
         OverlappedShipsNow = new List<GenericShip>();
         OffTheBoardNow = false;
         OverlapedMinesNow = new List<Collider>();
-        OverlappedAsteroidsNow = new List<Collider> ();
+        OverlappedAsteroidsNow = new List<GenericObstacle> ();
 
         checkCollisionsNow = true;
     }
@@ -53,7 +54,8 @@ public class ObstaclesStayDetectorForced: MonoBehaviour {
         {
             if (collisionInfo.tag == "Asteroid")
             {
-                if (!OverlappedAsteroidsNow.Contains(collisionInfo)) OverlappedAsteroidsNow.Add(collisionInfo);
+                GenericObstacle obstacle = ObstaclesManager.GetObstacleByTransform(collisionInfo.transform);
+                if (!OverlappedAsteroidsNow.Contains(obstacle)) OverlappedAsteroidsNow.Add(obstacle);
             }
             else if (collisionInfo.tag == "Mine")
             {

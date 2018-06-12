@@ -1,4 +1,5 @@
 ﻿using BoardTools;
+using Ship;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,47 +21,58 @@ namespace Obstacles
             InitializeObstacles();
         }
 
-        private void InitializeObstacles()
+        private static void InitializeObstacles()
         {
-            Obstacles = new List<GenericObstacle>();
+            Instance.Obstacles = new List<GenericObstacle>();
             foreach (Transform obstacle in Board.BoardTransform.Find("ObstaclesHolder"))
             {
                 if (obstacle.name.StartsWith("A"))
                 {
-                    Obstacles.Add(new Asteroid(obstacle.gameObject));
+                    Instance.Obstacles.Add(new Asteroid(obstacle.gameObject));
                 }
                 else if (obstacle.name.StartsWith("D"))
                 {
-                    Obstacles.Add(new Debris(obstacle.gameObject));
+                    Instance.Obstacles.Add(new Debris(obstacle.gameObject));
                 }
             }
         }
 
-        public GenericObstacle GetObstacleByName(string obstacleName)
+        public static GenericObstacle GetObstacleByName(string obstacleName)
         {
-            return Obstacles.First(n => n.ObstacleGO.name == obstacleName);
+            return Instance.Obstacles.First(n => n.ObstacleGO.name == obstacleName);
         }
 
-        public List<GenericObstacle> GetPlacedObstacles()
+        public static GenericObstacle GetObstacleByTransform(Transform transform)
         {
-            return Obstacles.Where(n => n.IsPlaced).ToList();
+            GameObject obstacleGO = transform.parent.gameObject;
+            return GetObstacleByName(obstacleGO.name);
         }
 
-        public int GetPlacedObstaclesCount()
+        public static List<GenericObstacle> GetPlacedObstacles()
         {
-            return Obstacles.Count(n => n.IsPlaced);
+            return Instance.Obstacles.Where(n => n.IsPlaced).ToList();
         }
 
-        public GenericObstacle GetRandomFreeObstacle()
+        public static int GetPlacedObstaclesCount()
         {
-            List<GenericObstacle> freeObstacles = Obstacles.Where(n => !n.IsPlaced).ToList();
+            return Instance.Obstacles.Count(n => n.IsPlaced);
+        }
+
+        public static GenericObstacle GetRandomFreeObstacle()
+        {
+            List<GenericObstacle> freeObstacles = Instance.Obstacles.Where(n => !n.IsPlaced).ToList();
             int random = UnityEngine.Random.Range(0, freeObstacles.Count);
             return freeObstacles[random];
         }
 
-        public void DestroyObstacle(GenericObstacle obstacle)
+        public static void DestroyObstacle(GenericObstacle obstacle)
         {
-            Obstacles.Remove(obstacle);
+            foreach (GenericShip ship in Roster.AllShips.Values)
+            {
+                ship.LandedOnObstacles.RemoveAll(n => n == obstacle);
+            }
+
+            Instance.Obstacles.Remove(obstacle);
             Board.Objects.Remove(obstacle.ObstacleGO.GetComponentInChildren<MeshCollider>());
             GameObject.Destroy(obstacle.ObstacleGO);
         }

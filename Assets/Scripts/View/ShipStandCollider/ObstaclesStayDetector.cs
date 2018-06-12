@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Obstacles;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,8 +10,7 @@ public class ObstaclesStayDetector: MonoBehaviour {
     public bool OverlapsShip = false;
     public List<Ship.GenericShip> OverlapedShips = new List<Ship.GenericShip>();
 
-    public bool OverlapsAsteroid = false;
-    public List<Collider> OverlapedAsteroids = new List<Collider>();
+    public List<GenericObstacle> OverlapedAsteroids = new List<GenericObstacle>();
 
     public List<Collider> OverlapedMines = new List<Collider>();
 
@@ -23,10 +23,10 @@ public class ObstaclesStayDetector: MonoBehaviour {
             GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
             if (collisionInfo.tag == "Asteroid")
             {
-                OverlapsAsteroid = true;
-                if (!OverlapedAsteroids.Contains(collisionInfo))
+                GenericObstacle obstacle = ObstaclesManager.GetObstacleByTransform(collisionInfo.transform);
+                if (!OverlapedAsteroids.Contains(obstacle))
                 {
-                    OverlapedAsteroids.Add(collisionInfo);
+                    OverlapedAsteroids.Add(obstacle);
                 }
             }
             else if (collisionInfo.tag == "Mine")

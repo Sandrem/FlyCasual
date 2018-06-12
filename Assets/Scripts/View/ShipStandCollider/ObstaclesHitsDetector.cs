@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Obstacles;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,7 +7,7 @@ public class ObstaclesHitsDetector : MonoBehaviour {
 
     public bool checkCollisions = false;
 
-    public List<Collider> OverlapedAsteroids = new List<Collider>();
+    public List<GenericObstacle> OverlapedAsteroids = new List<GenericObstacle>();
     public List<Collider> OverlapedMines = new List<Collider>();
 
     void OnTriggerEnter(Collider collisionInfo)
@@ -15,9 +16,10 @@ public class ObstaclesHitsDetector : MonoBehaviour {
         {
             if (collisionInfo.tag == "Asteroid")
             {
-                if (!OverlapedAsteroids.Contains(collisionInfo))
+                GenericObstacle obstacle = ObstaclesManager.GetObstacleByTransform(collisionInfo.transform);
+                if (!OverlapedAsteroids.Contains(obstacle))
                 {
-                    OverlapedAsteroids.Add(collisionInfo);
+                    OverlapedAsteroids.Add(obstacle);
                 }
             }
 

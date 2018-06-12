@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using GameModes;
 using Movement;
+using Obstacles;
 
 namespace SubPhases
 {
@@ -29,7 +30,7 @@ namespace SubPhases
             Selection.ThisShip.IsManeuverPerformed = true;
             Roster.AllShipsHighlightOff();
 
-            Selection.ThisShip.ObstaclesHit = new List<Collider>();
+            Selection.ThisShip.ObstaclesHit = new List<GenericObstacle>();
             Selection.ThisShip.MinesHit = new List<GameObject>();
 
             CheckAssignedManeuver();

@@ -247,7 +247,7 @@ namespace SubPhases
 
             bool isBlockedByAnotherObstacle = false;
 
-            foreach (MeshCollider collider in ObstaclesManager.Instance.GetPlacedObstacles().Select(n => n.ObstacleGO.GetComponentInChildren<MeshCollider>()))
+            foreach (MeshCollider collider in ObstaclesManager.GetPlacedObstacles().Select(n => n.ObstacleGO.GetComponentInChildren<MeshCollider>()))
             {
                 Vector3 closestPoint = collider.ClosestPoint(ChosenObstacle.ObstacleGO.transform.position);
 
@@ -318,7 +318,7 @@ namespace SubPhases
                         if (hitInfo.transform.tag.StartsWith("Asteroid"))
                         {
                             GameObject obstacleGO = hitInfo.transform.parent.gameObject;
-                            GenericObstacle clickedObstacle = ObstaclesManager.Instance.GetObstacleByName(obstacleGO.name);
+                            GenericObstacle clickedObstacle = ObstaclesManager.GetObstacleByName(obstacleGO.name);
                             
                             if (!clickedObstacle.IsPlaced)
                             {
@@ -351,7 +351,7 @@ namespace SubPhases
 
         public void PlaceObstacleClient(string obstacleName, Vector3 position, Vector3 angles)
         {
-            ChosenObstacle = ObstaclesManager.Instance.GetObstacleByName(obstacleName);
+            ChosenObstacle = ObstaclesManager.GetObstacleByName(obstacleName);
             ChosenObstacle.ObstacleGO.transform.position = position;
             ChosenObstacle.ObstacleGO.transform.eulerAngles = angles;
 
@@ -366,7 +366,7 @@ namespace SubPhases
 
             MovementTemplates.ReturnRangeRulerR2();
 
-            if (ObstaclesManager.Instance.GetPlacedObstaclesCount() < 6)
+            if (ObstaclesManager.GetPlacedObstaclesCount() < 6)
             {
                 Next();
             }
@@ -390,7 +390,7 @@ namespace SubPhases
 
         private void GetRandomObstacle()
         {
-            SelectObstacle(ObstaclesManager.Instance.GetRandomFreeObstacle());
+            SelectObstacle(ObstaclesManager.GetRandomFreeObstacle());
         }
 
         private void SetRandomPosition()

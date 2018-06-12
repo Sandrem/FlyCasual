@@ -7,6 +7,7 @@ public class PhaseEvents
 {
     public delegate void EventHandler();
     public event EventHandler OnGameStart;
+    public event EventHandler OnSetupStart;
     public event EventHandler OnRoundStart;
     public event EventHandler OnInitiativeSelection;
     public event EventHandler OnPlanningPhaseStart;
@@ -49,6 +50,13 @@ public class PhaseEvents
         }
 
         Triggers.ResolveTriggers(TriggerTypes.OnGameStart, callBack);
+    }
+
+    public void CallSetupStart(Action callBack)
+    {
+        if (OnSetupStart != null) OnSetupStart();
+
+        Triggers.ResolveTriggers(TriggerTypes.OnSetupStart, callBack);
     }
 
     public void CallInitialiveSelection(Action callBack)

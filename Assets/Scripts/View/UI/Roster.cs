@@ -64,30 +64,8 @@ public static partial class Roster {
         newPanel.transform.Find("Mark").localPosition = new Vector3((rosterPanelOwner == PlayerNo.Player1) ? SHIP_PANEL_WIDTH - 2 : -8, 0, 0);
         SubscribeMarkByHover(newPanel);
 
-        //Hull and shields
-        float panelWidth = SHIP_PANEL_WIDTH - 10;
-        float hullAndShield = newShip.MaxHull + newShip.MaxShields;
-        float panelWidthNoDividers = panelWidth - (1 * (hullAndShield - 1));
-        float damageIndicatorWidth = panelWidthNoDividers / hullAndShield;
-
-        GameObject damageIndicatorBar = newPanel.transform.Find("ShipInfo/DamageBarPanel").gameObject;
-        GameObject damageIndicator = damageIndicatorBar.transform.Find("DamageIndicator").gameObject;
-        damageIndicator.GetComponent<RectTransform>().sizeDelta = new Vector2(damageIndicatorWidth, 10);
-        for (int i = 0; i < hullAndShield; i++)
-        {
-            GameObject newDamageIndicator = MonoBehaviour.Instantiate(damageIndicator, damageIndicatorBar.transform);
-            newDamageIndicator.transform.position = damageIndicator.transform.position + new Vector3(i * (damageIndicatorWidth + 1), 0, 0);
-            if (i < newShip.MaxHull) {
-                newDamageIndicator.GetComponent<Image>().color = Color.yellow;
-                newDamageIndicator.name = "DamageIndicator.Hull." + (i+1).ToString();
-            } else
-            {
-                newDamageIndicator.GetComponent<Image>().color = new Color(0, 202, 255);
-                newDamageIndicator.name = "DamageIndicator.Shield." + (i-newShip.MaxHull+1).ToString();
-            }
-            newDamageIndicator.SetActive(true);
-        }
-        MonoBehaviour.Destroy(damageIndicator);
+        //Damage Indicators
+        UpdateDamageIndicators(newShip, newPanel);
 
         //Assigned Maneuver Dial
         GameObject maneuverDial = newPanel.transform.Find("AssignedManeuverDial").gameObject;
@@ -103,6 +81,42 @@ public static partial class Roster {
         newPanel.transform.Find("ShipInfo").gameObject.SetActive(true);
 
         return newPanel;
+    }
+
+    public static void UpdateDamageIndicators(GenericShip ship, GameObject panel)
+    {
+        //Hull and shields
+        float panelWidth = SHIP_PANEL_WIDTH - 10;
+        float hullAndShield = ship.MaxHull + ship.MaxShields;
+        float panelWidthNoDividers = panelWidth - (1 * (hullAndShield - 1));
+        float damageIndicatorWidth = panelWidthNoDividers / hullAndShield;
+
+        GameObject damageIndicatorBar = panel.transform.Find("ShipInfo/DamageBarPanel").gameObject;
+        GameObject damageIndicator = damageIndicatorBar.transform.Find("DamageIndicator").gameObject;
+
+        foreach (Transform transform in damageIndicatorBar.transform)
+        {
+            if (transform.name != "DamageIndicator") GameObject.Destroy(transform.gameObject);
+        }
+
+        damageIndicator.GetComponent<RectTransform>().sizeDelta = new Vector2(damageIndicatorWidth, 10);
+        for (int i = 0; i < hullAndShield; i++)
+        {
+            GameObject newDamageIndicator = MonoBehaviour.Instantiate(damageIndicator, damageIndicatorBar.transform);
+            newDamageIndicator.transform.position = damageIndicator.transform.position + new Vector3(i * (damageIndicatorWidth + 1), 0, 0);
+            if (i < ship.MaxHull)
+            {
+                newDamageIndicator.GetComponent<Image>().color = Color.yellow;
+                newDamageIndicator.name = "DamageIndicator.Hull." + (i + 1).ToString();
+            }
+            else
+            {
+                newDamageIndicator.GetComponent<Image>().color = new Color(0, 202, 255);
+                newDamageIndicator.name = "DamageIndicator.Shield." + (i - ship.MaxHull + 1).ToString();
+            }
+            newDamageIndicator.SetActive(true);
+        }
+        //MonoBehaviour.Destroy(damageIndicator);
     }
 
     public static void SubscribeShowManeuverByHover(GameObject panel)
@@ -339,6 +353,9 @@ public static partial class Roster {
         foreach (Transform damageIndicator in thisShip.InfoPanel.transform.Find("ShipInfo/DamageBarPanel").transform)
         {
             string[] damageIndicatorData = damageIndicator.name.Split('.');
+
+            if (damageIndicatorData.Length < 2) continue;
+
             string type = damageIndicatorData[1];
             int value = int.Parse(damageIndicatorData[2]);
             if (type == "Shield")
@@ -365,6 +382,9 @@ public static partial class Roster {
         foreach (Transform damageIndicator in thisShip.InfoPanel.transform.Find("ShipInfo/DamageBarPanel").transform)
         {
             string[] damageIndicatorData = damageIndicator.name.Split('.');
+
+            if (damageIndicatorData.Length < 2) continue;
+
             string type = damageIndicatorData[1];
             int value = int.Parse(damageIndicatorData[2]);
             if (type == "Hull")

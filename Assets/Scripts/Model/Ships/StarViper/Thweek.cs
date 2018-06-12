@@ -38,17 +38,17 @@ namespace Abilities
 
         public override void ActivateAbility()
         {
-            Phases.Events.OnGameStart += RegisterSelectThweekTarget;
+            Phases.Events.OnSetupStart += RegisterSelectThweekTarget;
         }
 
         public override void DeactivateAbility()
         {
-            Phases.Events.OnGameStart -= RegisterSelectThweekTarget;
+            Phases.Events.OnSetupStart -= RegisterSelectThweekTarget;
         }
 
         private void RegisterSelectThweekTarget()
         {
-            RegisterAbilityTrigger(TriggerTypes.OnBeforePlaceForces, SelectThweekTarget);
+            RegisterAbilityTrigger(TriggerTypes.OnSetupStart, SelectThweekTarget);
         }
 
         private void SelectThweekTarget(object Sender, System.EventArgs e)

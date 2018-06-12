@@ -43,13 +43,13 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            Phases.Events.OnGameStart += RegisterDirectorKrennicAbility;
+            Phases.Events.OnSetupStart += RegisterDirectorKrennicAbility;
             GenericShip.OnAttackFinishGlobal += OptimizedPrototypeKrennicTargetLockEffect;
         }
 
         public override void DeactivateAbility()
         {
-            Phases.Events.OnGameStart -= RegisterDirectorKrennicAbility;
+            Phases.Events.OnSetupStart -= RegisterDirectorKrennicAbility;
             GenericShip.OnAttackFinishGlobal -= OptimizedPrototypeKrennicTargetLockEffect;
         }
 
@@ -58,10 +58,9 @@ namespace Abilities
             Triggers.RegisterTrigger(new Trigger()
             {
                 Name = "Director Krennic decision",
-                TriggerType = TriggerTypes.OnGameStart,
+                TriggerType = TriggerTypes.OnSetupStart,
                 TriggerOwner = HostShip.Owner.PlayerNo,
                 EventHandler = SelectDirectorKrennicTarget,
-                Skippable = true
             });
         }
 
@@ -155,6 +154,9 @@ namespace Conditions
         {
             Host.MaxShields++;
             Host.TryRegenShields();
+
+            Roster.UpdateDamageIndicators(Host, Host.InfoPanel);
+
             Host.AfterGenerateAvailableActionEffectsList += AddOptimizedPrototypeCancelResultModification;
         }
                 

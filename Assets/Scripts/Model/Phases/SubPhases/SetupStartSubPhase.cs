@@ -25,7 +25,7 @@ namespace SubPhases
             Phases.CurrentSubPhase = new SetupSubPhase();
             Phases.CurrentSubPhase.Start();
             Phases.CurrentSubPhase.Prepare();
-            Phases.CurrentSubPhase.Initialize();
+            Phases.Events.CallSetupStart(Phases.CurrentSubPhase.Initialize);
         }
 
         public override bool ThisShipCanBeSelected(Ship.GenericShip ship, int mouseKeyIsPressed)

@@ -140,6 +140,8 @@ namespace Abilities
                     }
                 }
 
+                if (result == false) Messages.ShowErrorToHuman("Attack cannot be perfromed: Wrong conditions");
+
                 return result;
             }
 

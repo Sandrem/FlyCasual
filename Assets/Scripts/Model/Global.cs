@@ -42,7 +42,7 @@ public class Global : MonoBehaviour {
     public static void ToggelLoadingScreen(bool isActive)
     {
         Transform loadingScreen = GameObject.Find("GlobalUI").transform.Find("OpponentSquad");
-        loadingScreen.GetComponent<Image>().sprite = MainMenu.GetRandomBackground();
+        loadingScreen.GetComponent<Image>().sprite = MainMenu.GetRandomSplashScreen();
         if (loadingScreen != null) loadingScreen.gameObject.SetActive(isActive);
     }
 

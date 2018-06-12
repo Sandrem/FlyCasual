@@ -63,13 +63,21 @@ public partial class MainMenu : MonoBehaviour {
 
     private void SetBackground()
     {
-        GameObject.Find("UI/BackgroundImage").GetComponent<Image>().sprite = GetRandomBackground();
+        GameObject.Find("UI/BackgroundImage").GetComponent<Image>().sprite = GetRandomMenuBackground();
     }
 
-    public static Sprite GetRandomBackground()
+    public static Sprite GetRandomMenuBackground()
     {
-        UnityEngine.Object[] sprites = Resources.LoadAll("Sprites/Backgrounds/", typeof(Sprite));
+        UnityEngine.Object[] sprites = Resources.LoadAll("Sprites/Backgrounds/MainMenu/", typeof(Sprite));
         return (Sprite) sprites[UnityEngine.Random.Range(0, sprites.Length)];
+    }
+
+    public static Sprite GetRandomSplashScreen()
+    {
+        List<UnityEngine.Object> sprites = new List<UnityEngine.Object>();
+        sprites.AddRange(Resources.LoadAll("Sprites/Backgrounds/MainMenu/", typeof(Sprite)).ToList());
+        sprites.AddRange(Resources.LoadAll("Sprites/Backgrounds/SplashScreens/", typeof(Sprite)).ToList());
+        return (Sprite)sprites[UnityEngine.Random.Range(0, sprites.Count)];
     }
 
     private void CheckUpdates()

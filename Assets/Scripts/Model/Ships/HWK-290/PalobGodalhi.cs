@@ -6,6 +6,7 @@ using UnityEngine;
 using Upgrade;
 using Players;
 using System.Linq;
+using Tokens;
 
 namespace Ship
 {
@@ -107,7 +108,7 @@ namespace Abilities
 			int numevadetokens = thisship.Tokens.CountTokensByType (typeof(Tokens.EvadeToken));
 
 			if (numfocustokens > 0 && numevadetokens == 0) {
-				takeFocus ();
+				TakeFocus ();
 			} else {
 				if (numfocustokens == 0 && numevadetokens > 0) {
 					takeEvade ();
@@ -121,12 +122,12 @@ namespace Abilities
 			}
 		}	
 
-		private void takeFocus() {
+		private void TakeFocus() {
 			TargetShip.Tokens.RemoveToken (
-				typeof(Tokens.FocusToken),
+				typeof(FocusToken),
 				delegate {
 					HostShip.Tokens.AssignToken (
-						new Tokens.FocusToken (HostShip),
+                        typeof(FocusToken),
 						delegate {
 							SelectShipSubPhase.FinishSelection();
 						}
@@ -137,10 +138,10 @@ namespace Abilities
 
 		private void takeEvade() {
 			TargetShip.Tokens.RemoveToken (
-				typeof(Tokens.EvadeToken),
+				typeof(EvadeToken),
 				delegate {
 					HostShip.Tokens.AssignToken (
-						new Tokens.EvadeToken (HostShip),
+                        typeof(EvadeToken),
 						delegate {
 							SelectShipSubPhase.FinishSelection();
 						}
@@ -151,10 +152,10 @@ namespace Abilities
 
 		private void takeFocusEventHandler(object sender, EventArgs e) {
 			TargetShip.Tokens.RemoveToken (
-				typeof(Tokens.FocusToken),
+				typeof(FocusToken),
 				delegate {
 					HostShip.Tokens.AssignToken (
-						new Tokens.FocusToken (HostShip),
+                        typeof(FocusToken),
 						delegate {
 							WhichTokenDecisionSubphase.ConfirmDecisionNoCallback();
 							SelectShipSubPhase.FinishSelection();
@@ -166,10 +167,10 @@ namespace Abilities
 
 		private void takeEvadeEventHandler(object sender, EventArgs e) {
 			TargetShip.Tokens.RemoveToken (
-				typeof(Tokens.EvadeToken),
+				typeof(EvadeToken),
 				delegate {
 					HostShip.Tokens.AssignToken (
-						new Tokens.EvadeToken (HostShip),
+                        typeof(EvadeToken),
 						delegate {
 							WhichTokenDecisionSubphase.ConfirmDecisionNoCallback();
 							SelectShipSubPhase.FinishSelection();
@@ -185,7 +186,7 @@ namespace Abilities
 				callback = Triggers.FinishTrigger;
 
 			if (HostShip.Owner.Type == PlayerType.Ai) {
-				takeFocus ();
+				TakeFocus ();
 			} else {
 
 				DecisionSubPhase whichToken = (DecisionSubPhase)Phases.StartTemporarySubPhaseNew (

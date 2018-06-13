@@ -21,7 +21,7 @@ namespace DamageDeckCardFE
 
             Host.ChangeAgilityBy(-1);
             Host.AfterGenerateAvailableActionsList += CallAddCancelCritAction;
-            Host.Tokens.AssignCondition(new Tokens.StructuralDamageCritToken(Host));
+            Host.Tokens.AssignCondition(typeof(Tokens.StructuralDamageCritToken));
             Triggers.FinishTrigger();
         }
 

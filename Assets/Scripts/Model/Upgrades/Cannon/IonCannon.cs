@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Abilities;
+using Tokens;
 using UnityEngine;
 using Upgrade;
 
@@ -54,7 +55,7 @@ namespace Abilities
 			Combat.DiceRollAttack.RemoveAllFailures();
 
 			Combat.Defender.Tokens.AssignToken(
-				new Tokens.IonToken(Combat.Defender),
+                typeof(IonToken),
 				delegate {
 					GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
 					Game.Wait(2, DefenderSuffersDamage);

@@ -94,8 +94,8 @@ namespace Abilities
 
             decision.InfoText = "Select token to assign and flip Intensity to Exhausted side";
 
-            decision.AddDecision("Focus Token", delegate { AssignToken(new FocusToken(HostShip)); });
-            decision.AddDecision("Evade Token", delegate { AssignToken(new EvadeToken(HostShip)); });
+            decision.AddDecision("Focus Token", delegate { AssignToken(typeof(FocusToken)); });
+            decision.AddDecision("Evade Token", delegate { AssignToken(typeof(EvadeToken)); });
 
             decision.DefaultDecisionName = GetBestToken();
 
@@ -136,11 +136,11 @@ namespace Abilities
             return bestToken;
         }
 
-        private void AssignToken(GenericToken token)
+        private void AssignToken(Type tokenType)
         {
             (HostUpgrade as GenericDualUpgrade).Flip();
 
-            HostShip.Tokens.AssignToken(token, DecisionSubPhase.ConfirmDecision);
+            HostShip.Tokens.AssignToken(tokenType, DecisionSubPhase.ConfirmDecision);
         }
 
         private class SelectTokenDecisionSubphase : DecisionSubPhase { }

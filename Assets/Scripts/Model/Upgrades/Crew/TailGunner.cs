@@ -50,7 +50,7 @@ namespace Abilities
 				if (Combat.Defender.Agility != 0 && shotInfo.InArcByType(ArcTypes.RearAux))
                 {
 					Messages.ShowError ("Tail Gunner: Agility is decreased");
-					Combat.Defender.Tokens.AssignCondition (new Conditions.TailGunnerCondition (Combat.Defender));
+					Combat.Defender.Tokens.AssignCondition(typeof(Conditions.TailGunnerCondition));
 					Combat.Defender.ChangeAgilityBy (-1);
 					Combat.Defender.OnAttackFinish += RemoveTailGunnerAbility;
 				}

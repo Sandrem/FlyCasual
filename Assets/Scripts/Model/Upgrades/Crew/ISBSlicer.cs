@@ -81,7 +81,7 @@ namespace Abilities
 
         private void AssignExtraJamToken()
         {
-            TargetShip.Tokens.AssignToken(new JamToken(TargetShip), SelectShipSubPhase.FinishSelection);
+            TargetShip.Tokens.AssignToken(typeof(JamToken), SelectShipSubPhase.FinishSelection);
         }
         
         private bool IsShipWithoutJamAtRangeOneOfTarget(GenericShip ship)

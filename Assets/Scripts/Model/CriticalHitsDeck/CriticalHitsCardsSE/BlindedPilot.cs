@@ -21,11 +21,11 @@ namespace DamageDeckCardSE
             Host.OnTryAddAvailableActionEffect += RestrictActionEffectsToForceOnly;
             Host.AfterGenerateAvailableActionsList += CallAddCancelCritAction;
 
-            Host.Tokens.AssignCondition(new Tokens.BlindedPilotSECritToken(Host));
+            Host.Tokens.AssignCondition(typeof(Tokens.BlindedPilotSECritToken));
             Triggers.FinishTrigger();
         }
 
-        private void RestrictActionEffectsToForceOnly(Ship.GenericShip ship, ActionsList.GenericAction action, ref bool data)
+        private void RestrictActionEffectsToForceOnly(Ship.GenericShip ship, GenericAction action, ref bool data)
         {            
             if (Combat.AttackStep == CombatStep.Attack && Combat.Attacker.ShipId == Host.ShipId && !(action is ForceAction))
             {

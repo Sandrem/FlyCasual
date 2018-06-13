@@ -139,7 +139,7 @@ namespace Ship
                 this.Tokens.RemoveAllTokensByType(typeof(ForceToken), delegate { });
                 for (int i = 0; i < value; i++)
                 {
-                    this.Tokens.AssignCondition(new ForceToken(this));
+                    this.Tokens.AssignCondition(typeof(ForceToken));
                 }
             }
         }

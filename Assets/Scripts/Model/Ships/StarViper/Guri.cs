@@ -5,6 +5,7 @@ using UnityEngine;
 using System.Linq;
 using Ship;
 using Abilities;
+using Tokens;
 
 namespace Ship
 {
@@ -74,7 +75,7 @@ namespace Abilities
 
         private void AssignFocus(Action callback)
         {
-            HostShip.Tokens.AssignToken(new Tokens.FocusToken(HostShip), callback);
+            HostShip.Tokens.AssignToken(typeof(FocusToken), callback);
         }
 
     }

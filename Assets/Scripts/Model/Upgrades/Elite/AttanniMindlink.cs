@@ -92,13 +92,13 @@ namespace Abilities
                             if (tokenType == typeof(FocusToken))
                             {
                                 tokenMustBeAssigned = true;
-                                friendlyShip.Value.Tokens.AssignToken(new FocusToken(friendlyShip.Value), Triggers.FinishTrigger);
+                                friendlyShip.Value.Tokens.AssignToken(typeof(FocusToken), Triggers.FinishTrigger);
                                 break;
                             }
                             else if (tokenType == typeof(StressToken))
                             {
                                 tokenMustBeAssigned = true;
-                                friendlyShip.Value.Tokens.AssignToken(new StressToken(friendlyShip.Value), Triggers.FinishTrigger);
+                                friendlyShip.Value.Tokens.AssignToken(typeof(StressToken), Triggers.FinishTrigger);
                                 break;
                             }
                         }

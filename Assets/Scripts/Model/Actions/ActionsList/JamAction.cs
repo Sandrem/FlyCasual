@@ -106,7 +106,7 @@ namespace SubPhases
 
         private void AssignJamToken(GenericShip targetShip)
         {
-            targetShip.Tokens.AssignToken(new JamToken(targetShip), Triggers.FinishTrigger);
+            targetShip.Tokens.AssignToken(typeof(JamToken), Triggers.FinishTrigger);
         }
 
         public override void RevertSubPhase()

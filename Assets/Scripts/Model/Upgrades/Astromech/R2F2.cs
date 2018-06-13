@@ -65,7 +65,7 @@ namespace ActionsList
 
             Host.ChangeAgilityBy(+1);
             Phases.Events.OnEndPhaseStart_NoTriggers += R2F2DecreaseAgility;
-            Host.Tokens.AssignCondition(new Conditions.R2F2Condition(Host));
+            Host.Tokens.AssignCondition(typeof(Conditions.R2F2Condition));
             Phases.CurrentSubPhase.CallBack();
         }
 

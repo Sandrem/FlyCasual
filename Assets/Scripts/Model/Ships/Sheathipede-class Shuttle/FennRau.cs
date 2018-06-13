@@ -73,10 +73,7 @@ namespace Abilities
             {
                 Messages.ShowInfoToHuman("Fenn Rau: Ability was used");
 
-                HostShip.Tokens.AssignToken(
-                    new StressToken(HostShip),
-                    AssignConditionToActivatedShip
-                );
+                HostShip.Tokens.AssignToken(typeof(StressToken), AssignConditionToActivatedShip);
             }
             else
             {
@@ -95,7 +92,7 @@ namespace Abilities
         {
             affectedShip = Selection.ThisShip;
             affectedShip.OnTryAddAvailableActionEffect += UseFennRauRestriction;
-            affectedShip.Tokens.AssignCondition(new Conditions.FennRauRebelCondition(affectedShip));
+            affectedShip.Tokens.AssignCondition(typeof(Conditions.FennRauRebelCondition));
 
             DecisionSubPhase.ConfirmDecision();
         }

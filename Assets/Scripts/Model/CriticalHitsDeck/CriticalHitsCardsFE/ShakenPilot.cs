@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Tokens;
 using UnityEngine;
 
 namespace DamageDeckCardFE
@@ -20,7 +21,7 @@ namespace DamageDeckCardFE
             Host.AfterGetManeuverAvailablity += CannotBeAssignedStraightManeuvers;
             Host.OnMovementFinish += CallDiscardEffect;
 
-            Host.Tokens.AssignToken(new Tokens.ShakenPilotCritToken(Host), Triggers.FinishTrigger);
+            Host.Tokens.AssignToken(typeof(ShakenPilotCritToken), Triggers.FinishTrigger);
         }
 
         private void CallDiscardEffect(GenericShip ship)

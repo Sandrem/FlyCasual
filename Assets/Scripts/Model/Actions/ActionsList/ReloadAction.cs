@@ -92,10 +92,7 @@ namespace ActionsList
 
         private static void AssignTokenAndFinish()
         {
-            Selection.ThisShip.Tokens.AssignToken(
-                new WeaponsDisabledToken(Selection.ThisShip),
-                Phases.CurrentSubPhase.CallBack
-            );
+            Selection.ThisShip.Tokens.AssignToken(typeof(WeaponsDisabledToken), Phases.CurrentSubPhase.CallBack);
         }
 
         private static void RechargeUpgrade(GenericUpgrade upgrage)

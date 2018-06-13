@@ -51,7 +51,7 @@ namespace Abilities
         {
             Messages.ShowInfo("Hotshot Co-pilot effect is active");
 
-            ship.Tokens.AssignCondition(new Conditions.HotshotCoPilotCondition(ship));
+            ship.Tokens.AssignCondition(typeof(Conditions.HotshotCoPilotCondition));
 
             ship.OnTryConfirmDiceResults += DisallowIfHasFocusToken;
             ship.OnAiGetDiceModificationPriority += PrioritizeSpendFocus;

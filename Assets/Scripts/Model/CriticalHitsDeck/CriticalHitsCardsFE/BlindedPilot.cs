@@ -19,7 +19,7 @@ namespace DamageDeckCardFE
             Host.OnTryPerformAttack += OnTryPreformAttack;
             Host.AfterAttackWindow += DiscardEffect;
 
-            Host.Tokens.AssignCondition(new Tokens.BlindedPilotCritToken(Host));
+            Host.Tokens.AssignCondition(typeof(Tokens.BlindedPilotCritToken));
             Triggers.FinishTrigger();
         }
 

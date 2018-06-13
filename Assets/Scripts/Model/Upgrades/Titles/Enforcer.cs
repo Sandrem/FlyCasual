@@ -5,6 +5,7 @@ using Upgrade;
 using Abilities;
 using BoardTools;
 using Arcs;
+using Tokens;
 
 namespace UpgradesList
 {
@@ -60,9 +61,7 @@ namespace Abilities
         private void StressEffect(object sender, System.EventArgs e)
         {
             Messages.ShowError("Enforcer: stress is assigned to the attacker");
-            Combat.Attacker.Tokens.AssignToken(
-                new Tokens.StressToken(Combat.Attacker),
-                Triggers.FinishTrigger
+            Combat.Attacker.Tokens.AssignToken(typeof(StressToken), Triggers.FinishTrigger
             );
         }
     }

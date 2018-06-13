@@ -4,6 +4,7 @@ using UnityEngine;
 using Ship;
 using System;
 using System.Linq;
+using Tokens;
 
 namespace Ship
 {
@@ -59,7 +60,7 @@ namespace Abilities
                 GenericShip shipToAssignStress = shipsToAssignStress[0];
                 shipsToAssignStress.Remove(shipToAssignStress);
                 Messages.ShowErrorToHuman(shipToAssignStress.PilotName + " is bumped into \"Chopper\" and gets Stress");
-                shipToAssignStress.Tokens.AssignToken(new Tokens.StressToken(shipToAssignStress), AssignStressTokenRecursive);
+                shipToAssignStress.Tokens.AssignToken(typeof(StressToken), AssignStressTokenRecursive);
             }
             else
             {

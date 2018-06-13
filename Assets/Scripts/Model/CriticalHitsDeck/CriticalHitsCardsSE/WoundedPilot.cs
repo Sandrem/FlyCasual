@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Tokens;
 using UnityEngine;
 
 namespace DamageDeckCardSE
@@ -20,7 +21,7 @@ namespace DamageDeckCardSE
             Host.AfterGenerateAvailableActionsList += CallAddCancelCritAction;
             Host.OnActionIsPerformed += AfterPerformingActionRollForStress;
 
-            Host.Tokens.AssignCondition(new Tokens.WoundedPilotCritToken(Host));
+            Host.Tokens.AssignCondition(typeof(WoundedPilotCritToken));
             Triggers.FinishTrigger();
         }
 
@@ -98,7 +99,7 @@ namespace SubPhases
         private void SufferStress()
         {
             Messages.ShowError("Wounded Pilot: ship is assigned stress");
-            HostShip.Tokens.AssignToken(new Tokens.StressToken(HostShip), CallBack);
+            HostShip.Tokens.AssignToken(typeof(StressToken), CallBack);
         }
 
         private void NoStress()

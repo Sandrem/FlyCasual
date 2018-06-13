@@ -2,6 +2,7 @@
 using UnityEngine;
 using Abilities;
 using Ship;
+using Tokens;
 
 namespace UpgradesList
 {
@@ -101,7 +102,7 @@ namespace ActionsList
 
         private void AssignStress(System.Action callBack)
         {
-            Host.Tokens.AssignToken(new Tokens.StressToken(Host), callBack);
+            Host.Tokens.AssignToken(typeof(StressToken), callBack);
         }
 
     }

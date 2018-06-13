@@ -81,8 +81,7 @@ namespace Abilities
 
         private void AssignOptimizedPrototype()
         {
-            var condition = new OptimizedPrototype(TargetShip);
-            TargetShip.Tokens.AssignCondition(condition);
+            TargetShip.Tokens.AssignCondition(typeof(OptimizedPrototype));
             SelectShipSubPhase.FinishSelection();
         }
 

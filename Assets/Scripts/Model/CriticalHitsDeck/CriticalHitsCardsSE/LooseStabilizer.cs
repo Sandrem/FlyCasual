@@ -21,7 +21,7 @@ namespace DamageDeckCardSE
             Host.OnMovementFinish += PlanDamageAfterNonStraightManeuvers;
             Host.AfterGenerateAvailableActionsList += CallAddCancelCritAction;
 
-            Host.Tokens.AssignCondition(new Tokens.LooseStabilizerSECritToken(Host));
+            Host.Tokens.AssignCondition(typeof(Tokens.LooseStabilizerSECritToken));
             Triggers.FinishTrigger();
         }
 

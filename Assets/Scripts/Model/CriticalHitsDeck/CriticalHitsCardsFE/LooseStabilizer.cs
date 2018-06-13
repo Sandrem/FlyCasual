@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Tokens;
 using UnityEngine;
 
 namespace DamageDeckCardFE
@@ -20,7 +21,7 @@ namespace DamageDeckCardFE
             Host.OnMovementFinish += PlanStressAfterWhiteManeuvers;
             Host.AfterGenerateAvailableActionsList += CallAddCancelCritAction;
 
-            Host.Tokens.AssignCondition(new Tokens.LooseStabilizerCritToken(Host));
+            Host.Tokens.AssignCondition(typeof(LooseStabilizerCritToken));
             Triggers.FinishTrigger();
         }
 
@@ -52,7 +53,7 @@ namespace DamageDeckCardFE
         {
             Messages.ShowInfo("Loose Stabilizer: Stress token is assigned");
             UI.AddTestLogEntry("Loose Stabilizer: Stress token is assigned");
-            Selection.ThisShip.Tokens.AssignToken(new Tokens.StressToken(Host), Triggers.FinishTrigger);
+            Selection.ThisShip.Tokens.AssignToken(typeof(StressToken), Triggers.FinishTrigger);
         }
 
     }

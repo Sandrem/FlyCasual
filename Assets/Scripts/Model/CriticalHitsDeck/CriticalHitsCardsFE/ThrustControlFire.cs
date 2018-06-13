@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Tokens;
 using UnityEngine;
 
 namespace DamageDeckCardFE
@@ -16,7 +17,7 @@ namespace DamageDeckCardFE
 
         public override void ApplyEffect(object sender, EventArgs e)
         {
-            Host.Tokens.AssignToken(new Tokens.StressToken(Host), Triggers.FinishTrigger);
+            Host.Tokens.AssignToken(typeof(StressToken), Triggers.FinishTrigger);
         }
 
     }

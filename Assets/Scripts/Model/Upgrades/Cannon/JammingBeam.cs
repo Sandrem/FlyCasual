@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Abilities;
+using Tokens;
 using UnityEngine;
 using Upgrade;
 
@@ -52,10 +53,7 @@ namespace Abilities
             Combat.DiceRollAttack.CancelAllResults();
             Combat.DiceRollAttack.RemoveAllFailures();
 
-            Combat.Defender.Tokens.AssignToken(
-                new Tokens.JamToken(Combat.Defender),
-                Triggers.FinishTrigger
-            );
+            Combat.Defender.Tokens.AssignToken(typeof(JamToken), Triggers.FinishTrigger);
         }
     }
 }

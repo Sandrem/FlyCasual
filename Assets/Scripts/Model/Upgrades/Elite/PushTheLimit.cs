@@ -5,6 +5,7 @@ using UnityEngine;
 using Upgrade;
 using Ship;
 using Abilities;
+using Tokens;
 
 namespace UpgradesList
 {
@@ -88,10 +89,7 @@ namespace Abilities
             if (!base.HostShip.IsFreeActionSkipped)
             {
                 IsAbilityUsed = true;
-                base.HostShip.Tokens.AssignToken(
-                    new Tokens.StressToken(base.HostShip),
-                    Triggers.FinishTrigger
-                );
+                base.HostShip.Tokens.AssignToken(typeof(StressToken), Triggers.FinishTrigger);
             }
             else
             {

@@ -19,7 +19,7 @@ namespace DamageDeckCardSE
         {
             Host.AfterGetManeuverColorIncreaseComplexity += TurnManeuversAreHarder;
 
-            Host.Tokens.AssignCondition(new Tokens.DamagedEngineSECritToken(Host));
+            Host.Tokens.AssignCondition(typeof(Tokens.DamagedEngineSECritToken));
             Triggers.FinishTrigger();
         }
 

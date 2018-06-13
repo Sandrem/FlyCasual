@@ -1,4 +1,5 @@
 ﻿using BoardTools;
+using Tokens;
 
 namespace ActionsList
 {
@@ -15,7 +16,7 @@ namespace ActionsList
         public override void ActionTake()
         {
             base.ActionTake();
-            Selection.ThisShip.Tokens.AssignToken(new Tokens.ReinforceAftToken(Host), Phases.CurrentSubPhase.CallBack);
+            Host.Tokens.AssignToken(typeof(ReinforceAftToken), Phases.CurrentSubPhase.CallBack);
         }
 
         public override int GetActionPriority()

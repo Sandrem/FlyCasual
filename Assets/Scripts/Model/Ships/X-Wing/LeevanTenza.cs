@@ -60,12 +60,12 @@ namespace Abilities
 
         private void UseLeevanTenzaAbility(object sender, System.EventArgs e)
         {
-            HostShip.Tokens.AssignToken(new StressToken(HostShip), GetEvadeTokenAndFinish);
+            HostShip.Tokens.AssignToken(typeof(StressToken), GetEvadeTokenAndFinish);
         }
 
         private void GetEvadeTokenAndFinish()
         {
-            HostShip.Tokens.AssignToken(new EvadeToken(HostShip), DecisionSubPhase.ConfirmDecision);
+            HostShip.Tokens.AssignToken(typeof(EvadeToken), DecisionSubPhase.ConfirmDecision);
         }
     }
 }

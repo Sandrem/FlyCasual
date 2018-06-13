@@ -1,6 +1,7 @@
 ﻿using BoardTools;
 using Ship;
 using System.Linq;
+using Tokens;
 using UnityEngine;
 
 namespace ActionsList
@@ -18,7 +19,7 @@ namespace ActionsList
         public override void ActionTake()
         {
             base.ActionTake();
-            Selection.ThisShip.Tokens.AssignToken(new Tokens.ReinforceForeToken(Host), Phases.CurrentSubPhase.CallBack);
+            Host.Tokens.AssignToken(typeof(ReinforceForeToken), Phases.CurrentSubPhase.CallBack);
         }
 
         public override int GetActionPriority()

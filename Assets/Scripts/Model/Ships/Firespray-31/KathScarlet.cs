@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Tokens;
 using UnityEngine;
 
 namespace Ship
@@ -50,7 +51,7 @@ namespace Abilities
         private void KathScarletPilotAbility(object sender, System.EventArgs e)
         {
             Messages.ShowInfo("Critical hit was cancelled - stress token is assigned to the defender");
-            Combat.Defender.Tokens.AssignToken(new Tokens.StressToken(Combat.Defender), Triggers.FinishTrigger);
+            Combat.Defender.Tokens.AssignToken(typeof(StressToken), Triggers.FinishTrigger);
         }
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using GameModes;
+using Tokens;
 
 namespace ActionsList
 {
@@ -60,10 +61,7 @@ namespace ActionsList
 
         private void AssignWeaponsDisabledToken()
         {
-            Selection.ThisShip.Tokens.AssignToken(
-                new Tokens.WeaponsDisabledToken(Selection.ThisShip),
-                Phases.CurrentSubPhase.CallBack
-            );
+            Selection.ThisShip.Tokens.AssignToken(typeof(WeaponsDisabledToken), Phases.CurrentSubPhase.CallBack);
         }
 
         private void PerformSlamManeuver(object sender, System.EventArgs e)

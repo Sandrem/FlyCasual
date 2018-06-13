@@ -49,9 +49,9 @@ namespace Abilities
 
         private void AssignFocusToken(object sender, EventArgs e)
         {
-            HostShip.Tokens.AssignToken(new StressToken(HostShip), delegate
+            HostShip.Tokens.AssignToken(typeof(StressToken), delegate
             {
-                HostShip.Tokens.AssignToken(new FocusToken(HostShip), DecisionSubPhase.ConfirmDecision);
+                HostShip.Tokens.AssignToken(typeof(FocusToken), DecisionSubPhase.ConfirmDecision);
             });
         }
     }

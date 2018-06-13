@@ -111,7 +111,7 @@ namespace Abilities
 
         private void PulsedRayShieldConfirm(object sender, System.EventArgs e)
         {
-            HostShip.Tokens.AssignToken(new IonToken(HostShip), RestoreShield);
+            HostShip.Tokens.AssignToken(typeof(IonToken), RestoreShield);
         }
 
         private void RestoreShield()

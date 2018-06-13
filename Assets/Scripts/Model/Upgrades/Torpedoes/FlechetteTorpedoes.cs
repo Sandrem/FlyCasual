@@ -86,7 +86,7 @@ namespace Abilities
             if (Combat.Defender.MaxHull <= 4 && Combat.ChosenWeapon is FlechetteTorpedoes)
             {
                 Messages.ShowInfoToHuman(string.Format("{0} received a Stress token from Flechette Torpedo", Combat.Defender.PilotName));
-                Combat.Defender.Tokens.AssignToken(new StressToken(Combat.Defender), Triggers.FinishTrigger);
+                Combat.Defender.Tokens.AssignToken(typeof(StressToken), Triggers.FinishTrigger);
             }
             else
             {

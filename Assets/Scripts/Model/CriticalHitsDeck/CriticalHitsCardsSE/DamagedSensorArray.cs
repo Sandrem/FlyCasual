@@ -22,7 +22,7 @@ namespace DamageDeckCardSE
             Host.OnTryAddAvailableAction += OnlyCancelCritActionsOrFocus;
             Host.AfterGenerateAvailableActionsList += CallAddCancelCritAction;
 
-            Host.Tokens.AssignCondition(new Tokens.DamagedSensorArraySECritToken(Host));
+            Host.Tokens.AssignCondition(typeof(Tokens.DamagedSensorArraySECritToken));
             Triggers.FinishTrigger();
         }
 

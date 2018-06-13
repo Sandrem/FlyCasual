@@ -8,6 +8,7 @@ using Upgrade;
 using Conditions;
 using UnityEngine;
 using BoardTools;
+using Tokens;
 
 namespace UpgradesList
 {
@@ -116,7 +117,7 @@ namespace Abilities
                 Selection.ThisShip = TargetShip;
                 RegisterAbilityTrigger(TriggerTypes.OnTokenIsAssigned, (s, e) =>
                 {
-                    TargetShip.Tokens.AssignToken(new Tokens.FocusToken(TargetShip), () =>
+                    TargetShip.Tokens.AssignToken(typeof(FocusToken), () =>
                     {
                         Selection.ThisShip = HostShip;
                         Phases.CurrentSubPhase.Resume();

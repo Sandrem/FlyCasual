@@ -66,10 +66,7 @@ namespace Abilities
                 typeof(WeaponsDisabledToken),
                 delegate
                 {
-                    HostShip.Tokens.AssignToken(
-                        new StressToken(HostShip),
-                        DecisionSubPhase.ConfirmDecision
-                    );
+                    HostShip.Tokens.AssignToken(typeof(StressToken), DecisionSubPhase.ConfirmDecision);
                 }
             );
         }

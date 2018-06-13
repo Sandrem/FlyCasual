@@ -52,7 +52,7 @@ namespace Abilities
 
         private void RegisterJanOrsCrewAbility(GenericShip ship, System.Type tokenType)
         {
-            if (tokenType == typeof(Tokens.FocusToken) && ship.Owner == HostShip.Owner && !IsAbilityUsed)
+            if (tokenType == typeof(FocusToken) && ship.Owner == HostShip.Owner && !IsAbilityUsed)
             {
 
                 BoardTools.DistanceInfo positionInfo = new BoardTools.DistanceInfo(ship, HostShip);
@@ -71,7 +71,7 @@ namespace Abilities
 
         private void UseJanOrsAbility(object sender, System.EventArgs e)
         {
-            TargetShip.Tokens.AssignToken(new Tokens.EvadeToken(TargetShip), delegate
+            TargetShip.Tokens.AssignToken(typeof(EvadeToken), delegate
             {
                 TargetShip.Tokens.TokenToAssign = null;
                 TargetShip = null;

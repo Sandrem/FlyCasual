@@ -2,6 +2,7 @@
 using Upgrade;
 using System.Linq;
 using System.Collections.Generic;
+using Tokens;
 
 namespace Ship
 {
@@ -66,7 +67,7 @@ namespace Abilities
 
             if (discardedUpgrade != null)
             {
-                HostShip.Tokens.AssignToken(new Tokens.WeaponsDisabledToken(HostShip), () => {
+                HostShip.Tokens.AssignToken(typeof(WeaponsDisabledToken), () => {
                     discardedUpgrade.FlipFaceup(DecisionSubPhase.ConfirmDecision);
                 });
             }

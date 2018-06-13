@@ -19,7 +19,7 @@ namespace DamageDeckCardFE
         {
             Phases.Events.OnRoundStart += ApplyDelayedEffect;
 
-            Host.Tokens.AssignCondition(new Tokens.DamagedCockpitCritToken(Host));
+            Host.Tokens.AssignCondition(typeof(Tokens.DamagedCockpitCritToken));
             Triggers.FinishTrigger();
         }
 

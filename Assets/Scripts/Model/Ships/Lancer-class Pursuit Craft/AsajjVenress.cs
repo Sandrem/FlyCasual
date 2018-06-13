@@ -7,6 +7,7 @@ using BoardTools;
 using Abilities;
 using System.Linq;
 using Arcs;
+using Tokens;
 
 namespace Ship
 {
@@ -77,7 +78,7 @@ namespace Abilities
         {
             int priority = 50;
 
-            priority += (ship.Tokens.CountTokensByType(typeof(Tokens.StressToken)) * 25);
+            priority += (ship.Tokens.CountTokensByType(typeof(StressToken)) * 25);
             priority += (ship.Agility * 5);
 
             if (ship.CanPerformActionsWhileStressed && ship.CanPerformRedManeuversWhileStressed) priority = 10;
@@ -97,7 +98,7 @@ namespace Abilities
             if (shotInfo.InArcByType(ArcTypes.Mobile) && shotInfo.Range >= 1 && shotInfo.Range <= 2)
             {
                 Messages.ShowError(HostShip.PilotName + " assigns Stress Token\nto " + TargetShip.PilotName);
-                TargetShip.Tokens.AssignToken(new Tokens.StressToken(TargetShip), SelectShipSubPhase.FinishSelection);
+                TargetShip.Tokens.AssignToken(typeof(StressToken), SelectShipSubPhase.FinishSelection);
             }
             else
             {

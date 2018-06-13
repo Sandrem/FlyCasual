@@ -75,7 +75,7 @@ namespace Abilities
             HostShip.OnAttackFinishAsAttacker -= ApplyHarpoonMissilesCondition;
 
             Messages.ShowInfo("\"Harpooned!\" condition is assigned");
-            Combat.Defender.Tokens.AssignCondition(new Conditions.Harpooned(Combat.Defender));
+            Combat.Defender.Tokens.AssignCondition(typeof(Conditions.Harpooned));
         }
     }
 }

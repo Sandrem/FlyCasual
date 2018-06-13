@@ -21,7 +21,7 @@ namespace DamageDeckCardSE
             Host.OnSufferDamageDecidingSeverity += ChangeNormalDamageToCriticalDamage;
             Host.AfterGenerateAvailableActionsList += CallAddCancelCritAction;
 
-            Host.Tokens.AssignCondition(new Tokens.HullBreachCritToken(Host));
+            Host.Tokens.AssignCondition(typeof(Tokens.HullBreachCritToken));
             Triggers.FinishTrigger();
         }
 

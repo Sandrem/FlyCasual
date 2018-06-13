@@ -57,13 +57,12 @@ namespace Abilities
 
         public void ActivateGlitterstim()
         {
-            Conditions.Glitterstim newConditionToken = new Conditions.Glitterstim(HostShip) { Tooltip = HostUpgrade.ImageUrl };
-            HostShip.Tokens.AssignCondition(newConditionToken);
+            HostShip.Tokens.AssignCondition(typeof(Conditions.Glitterstim));
 
             Phases.Events.OnCombatPhaseStart_Triggers -= RegisterTrigger;
             Phases.Events.OnEndPhaseStart_NoTriggers += DeactivateGlitterstim;
 
-            HostShip.Tokens.AssignToken(new StressToken(HostShip), GlitterstimEffect);
+            HostShip.Tokens.AssignToken(typeof(StressToken), GlitterstimEffect);
         }
 
         private void GlitterstimEffect()
@@ -211,6 +210,7 @@ namespace Conditions
         {
             Name = "Glitterstim Condition";
             Temporary = true;
+            Tooltip = new UpgradesList.Glitterstim().ImageUrl;
         }
     }
 }

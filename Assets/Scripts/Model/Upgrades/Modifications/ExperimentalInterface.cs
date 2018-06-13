@@ -5,6 +5,7 @@ using UnityEngine;
 using Upgrade;
 using Ship;
 using System.Linq;
+using Tokens;
 
 namespace UpgradesList
 {
@@ -77,10 +78,7 @@ namespace UpgradesList
 		private void AddStressToken()
 		{
 			if (!base.Host.IsFreeActionSkipped) {
-				base.Host.Tokens.AssignToken (
-                    new Tokens.StressToken(base.Host),
-					Triggers.FinishTrigger
-                );	
+				base.Host.Tokens.AssignToken(typeof(StressToken), Triggers.FinishTrigger);	
 			}
 			else
 			{

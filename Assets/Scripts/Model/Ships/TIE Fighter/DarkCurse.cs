@@ -45,7 +45,7 @@ namespace Abilities
             if (Combat.AttackStep == CombatStep.Attack)
             {
                 Combat.Attacker.OnTryAddAvailableActionEffect += UseDarkCurseRestriction;
-                Combat.Attacker.Tokens.AssignCondition(new Conditions.DarkCurseCondition(Combat.Attacker));
+                Combat.Attacker.Tokens.AssignCondition(typeof(Conditions.DarkCurseCondition));
             }
         }
 

@@ -1,5 +1,6 @@
 ﻿using Ship;
 using System;
+using Tokens;
 
 namespace Ship
 {
@@ -54,7 +55,7 @@ namespace Abilities
         private void AssignEvadeToken(object sender, System.EventArgs e)
         {
             Messages.ShowInfo("\"Red Ace\": Evade token is assigned");
-            HostShip.Tokens.AssignToken(new Tokens.EvadeToken(HostShip), Triggers.FinishTrigger);
+            HostShip.Tokens.AssignToken(typeof(EvadeToken), Triggers.FinishTrigger);
         }
 
         private void ClearAbilityUsed()

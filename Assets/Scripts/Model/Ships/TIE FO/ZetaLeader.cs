@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Ship;
 using System;
+using Tokens;
 
 namespace Ship
 {
@@ -50,7 +51,7 @@ namespace Abilities
         private void ShowDecision(object sender, System.EventArgs e)
         {
             // check if this ship is stressed
-            if (!HostShip.Tokens.HasToken(typeof(Tokens.StressToken)))
+            if (!HostShip.Tokens.HasToken(typeof(StressToken)))
             {
                 // give user the option to use ability
                 AskToUseAbility(AlwaysUseByDefault, UseAbility);
@@ -68,7 +69,7 @@ namespace Abilities
             IsAbilityUsed = true;
             //HostShip.ChangeFirepowerBy(+1);
             HostShip.AfterGotNumberOfPrimaryWeaponAttackDice += ZetaLeaderAddAttackDice;
-            HostShip.Tokens.AssignToken(new Tokens.StressToken(HostShip), SubPhases.DecisionSubPhase.ConfirmDecision);
+            HostShip.Tokens.AssignToken(typeof(StressToken), SubPhases.DecisionSubPhase.ConfirmDecision);
         }
 
         private void RemoveEpsilonLeaderAbility(GenericShip genericShip)

@@ -2,6 +2,7 @@
 using UnityEngine;
 using Upgrade;
 using Abilities;
+using Tokens;
 
 namespace UpgradesList
 {
@@ -50,7 +51,7 @@ namespace Abilities
 
         private void DoTacticianAbility(object sender, System.EventArgs e)
         {
-            Combat.Defender.Tokens.AssignToken(new Tokens.StressToken(Combat.Defender), delegate
+            Combat.Defender.Tokens.AssignToken(typeof(StressToken), delegate
             {
                 Messages.ShowInfo("Defender gained stress from Tactician");
                 Triggers.FinishTrigger();

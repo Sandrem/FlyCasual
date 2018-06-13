@@ -60,7 +60,7 @@ namespace Abilities
             HostShip.OnMovementActivation -= RegisterTrigger;
             Phases.Events.OnEndPhaseStart_NoTriggers += DeactivateContrabandCyberneticsAbility;
 
-            HostShip.Tokens.AssignToken(new StressToken(HostShip), RemoveRestrictions);
+            HostShip.Tokens.AssignToken(typeof(StressToken), RemoveRestrictions);
         }
 
         private void RemoveRestrictions()

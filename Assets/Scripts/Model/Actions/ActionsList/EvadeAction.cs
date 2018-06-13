@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Tokens;
 using UnityEngine;
 
 namespace ActionsList
@@ -47,7 +48,7 @@ namespace ActionsList
 
         public override void ActionTake()
         {
-            Selection.ThisShip.Tokens.AssignToken(new Tokens.EvadeToken(Selection.ThisShip), Phases.CurrentSubPhase.CallBack);
+            Selection.ThisShip.Tokens.AssignToken(typeof(EvadeToken), Phases.CurrentSubPhase.CallBack);
         }
 
         public override int GetActionPriority()

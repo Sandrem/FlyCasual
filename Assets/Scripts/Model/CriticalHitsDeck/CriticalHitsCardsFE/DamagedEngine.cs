@@ -18,7 +18,7 @@ namespace DamageDeckCardFE
         {
             Host.AfterGetManeuverColorIncreaseComplexity += TurnManeuversAreRed;
 
-            Host.Tokens.AssignCondition(new Tokens.DamagedEngineCritToken(Host));
+            Host.Tokens.AssignCondition(typeof(Tokens.DamagedEngineCritToken));
             Triggers.FinishTrigger();
         }
 

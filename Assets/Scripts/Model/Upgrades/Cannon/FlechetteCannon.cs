@@ -1,4 +1,5 @@
 ﻿using Abilities;
+using Tokens;
 using Upgrade;
 using UpgradesList;
 
@@ -69,12 +70,9 @@ namespace Abilities
 
         private void CheckStress()
         {
-            if (!Combat.Defender.Tokens.HasToken(typeof(Tokens.StressToken)))
+            if (!Combat.Defender.Tokens.HasToken(typeof(StressToken)))
             {
-                Combat.Defender.Tokens.AssignToken(
-                    new Tokens.StressToken(Combat.Defender),
-                    Triggers.FinishTrigger
-                );
+                Combat.Defender.Tokens.AssignToken(typeof(StressToken), Triggers.FinishTrigger);
             }
             else
             {

@@ -55,7 +55,7 @@ namespace Abilities
                 if (Combat.Defender.Agility != 0)
                 {
                     Messages.ShowError("Wedge Antilles: Agility is decreased");
-                    Combat.Defender.Tokens.AssignCondition(new Conditions.WedgeAntillesCondition(Combat.Defender));
+                    Combat.Defender.Tokens.AssignCondition(typeof(Conditions.WedgeAntillesCondition));
                     Combat.Defender.ChangeAgilityBy(-1);
                     Combat.Defender.OnAttackFinish += RemoveWedgeAntillesAbility;
                 }

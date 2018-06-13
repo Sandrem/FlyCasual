@@ -33,7 +33,7 @@ namespace RulesList
 
         private void GetStress(object sender, System.EventArgs e)
         {
-            Selection.ThisShip.Tokens.AssignToken(new StressToken(Selection.ThisShip), Triggers.FinishTrigger);
+            Selection.ThisShip.Tokens.AssignToken(typeof(StressToken), Triggers.FinishTrigger);
         }
 
         public void CheckLinkedAction(GenericAction action)

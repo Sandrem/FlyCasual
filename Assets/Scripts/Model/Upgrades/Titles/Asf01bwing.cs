@@ -78,7 +78,7 @@ namespace Abilities
 
             if(energyGain > 0 && ship.Energy < ship.MaxEnergy)
             {
-                RegisterAbilityTrigger(TriggerTypes.OnMovementFinish, (s, e) => ship.Tokens.AssignToken(new EnergyToken(ship), Triggers.FinishTrigger));                
+                RegisterAbilityTrigger(TriggerTypes.OnMovementFinish, (s, e) => ship.Tokens.AssignToken(typeof(EnergyToken), Triggers.FinishTrigger));                
             }
         }
 

@@ -128,7 +128,7 @@ namespace Abilities
         {
             ShipWithCondition = ship;
 
-            ship.Tokens.AssignCondition(new IllShowYouTheDarkSide(ship));
+            ship.Tokens.AssignCondition(typeof(IllShowYouTheDarkSide));
             ship.Tokens.AssignCondition(new IllShowYouTheDarkSideDamageCard(ship) { Tooltip = AssignedDamageCard.ImageUrl });
 
             ship.OnSufferCriticalDamage += SufferAssignedCardInstead;

@@ -1,6 +1,7 @@
 ﻿using Upgrade;
 using Ship;
 using Abilities;
+using Tokens;
 
 namespace UpgradesList
 {
@@ -56,7 +57,7 @@ namespace Abilities
             {
                 Messages.ShowInfoToHuman("Attacker gained stress from Rebel Captive");
                 IsAbilityUsed = true;
-                Combat.Attacker.Tokens.AssignToken(new Tokens.StressToken(Combat.Attacker), Triggers.FinishTrigger);
+                Combat.Attacker.Tokens.AssignToken(typeof(StressToken), Triggers.FinishTrigger);
             }
             else
             {

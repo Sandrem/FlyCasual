@@ -81,7 +81,7 @@ namespace Abilities
 
         private void AssignFocusTokenToTarget()
         {
-            TargetShip.Tokens.AssignToken(new FocusToken(TargetShip), SelectShipSubPhase.FinishSelection);
+            TargetShip.Tokens.AssignToken(typeof(FocusToken), SelectShipSubPhase.FinishSelection);
         }
 
         private bool FilterTargets(GenericShip ship)

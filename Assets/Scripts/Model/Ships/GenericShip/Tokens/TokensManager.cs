@@ -108,6 +108,11 @@ namespace Ship
             );
         }
 
+        public void AssignToken(Type tokenType, Action callback)
+        {
+            AssignToken((GenericToken) Activator.CreateInstance(tokenType, Host), callback);
+        }
+
         public void AssignTokens(Func<GenericToken> createToken, int count, Action callback, char letter = ' ')
         {
             if (count > 0)
@@ -218,6 +223,15 @@ namespace Ship
 
         public void AssignCondition(GenericToken token)
         {
+            AssignedTokens.Add(token);
+
+            token.WhenAssigned();
+            Host.CallOnConditionIsAssigned(token.GetType());
+        }
+
+        public void AssignCondition(Type tokenType)
+        {
+            GenericToken token = (GenericToken) Activator.CreateInstance(tokenType, Host);
             AssignedTokens.Add(token);
 
             token.WhenAssigned();

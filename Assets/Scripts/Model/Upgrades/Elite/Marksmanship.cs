@@ -94,7 +94,7 @@ namespace ActionsList
             Host = Selection.ThisShip;
             Host.AfterGenerateAvailableActionEffectsList += MarksmanshipAddDiceModification;
             Phases.Events.OnEndPhaseStart_NoTriggers += MarksmanshipUnSubscribeToFiceModification;
-            Host.Tokens.AssignCondition(new Conditions.MarksmanshipCondition(Host));
+            Host.Tokens.AssignCondition(typeof(Conditions.MarksmanshipCondition));
             Phases.CurrentSubPhase.CallBack();
         }
 

@@ -20,7 +20,7 @@ namespace DamageDeckCardFE
             Phases.Events.OnPlanningPhaseStart += DealDamageCardFaceupStart;
             Host.AfterGenerateAvailableActionsList += CallAddCancelCritAction;
 
-            Host.Tokens.AssignCondition(new Tokens.MajorHullBreachCritToken(Host));
+            Host.Tokens.AssignCondition(typeof(Tokens.MajorHullBreachCritToken));
             Triggers.FinishTrigger();
         }
 

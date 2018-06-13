@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Abilities;
+using Tokens;
 
 namespace Ship
 {
@@ -77,7 +78,7 @@ namespace Abilities
 
         private void AssignWeaponsDisabledTrigger(object sender, System.EventArgs e)
         {
-            HostShip.Tokens.AssignToken(new Tokens.WeaponsDisabledToken(HostShip), Triggers.FinishTrigger);
+            HostShip.Tokens.AssignToken(typeof(WeaponsDisabledToken), Triggers.FinishTrigger);
         }
     }
 }

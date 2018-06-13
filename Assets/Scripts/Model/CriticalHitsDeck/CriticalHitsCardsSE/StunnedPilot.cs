@@ -19,7 +19,7 @@ namespace DamageDeckCardSE
         public override void ApplyEffect(object sender, EventArgs e)
         {
             Host.OnMovementFinish += RegisterCheckCollisionDamage;
-            Host.Tokens.AssignCondition(new Tokens.StunnedPilotSECritToken(Host));
+            Host.Tokens.AssignCondition(typeof(Tokens.StunnedPilotSECritToken));
             Triggers.FinishTrigger();
         }
 

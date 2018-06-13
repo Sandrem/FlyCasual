@@ -3,6 +3,7 @@ using RuleSets;
 using Ship;
 using Movement;
 using SubPhases;
+using Tokens;
 
 namespace UpgradesList
 {
@@ -75,7 +76,7 @@ namespace Abilities
 
         private void AssignStress(object sender, System.EventArgs e)
         {
-            HostShip.Tokens.AssignToken(new Tokens.StressToken(HostShip), Triggers.FinishTrigger);
+            HostShip.Tokens.AssignToken(typeof(StressToken), Triggers.FinishTrigger);
         }
 
         protected virtual void FinishAbility()

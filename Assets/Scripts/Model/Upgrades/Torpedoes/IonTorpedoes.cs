@@ -8,6 +8,7 @@ using UpgradesList;
 using Abilities;
 using Ship;
 using RuleSets;
+using Tokens;
 
 namespace UpgradesList
 {
@@ -105,12 +106,15 @@ namespace Abilities
 
 		private void AssignIonTokensRecursive()
 		{
-			if (shipsToAssignIon.Count > 0) {
+			if (shipsToAssignIon.Count > 0)
+            {
 				GenericShip shipToAssignIon = shipsToAssignIon [0];
 				shipsToAssignIon.Remove (shipToAssignIon);
 				Messages.ShowErrorToHuman(shipToAssignIon.PilotName + " assigned Ion Token");
-				shipToAssignIon.Tokens.AssignToken (new Tokens.IonToken (shipToAssignIon), AssignIonTokensRecursive);
-			} else {
+				shipToAssignIon.Tokens.AssignToken (typeof(IonToken), AssignIonTokensRecursive);
+			}
+            else
+            {
 				Triggers.FinishTrigger();
 			}
 		}

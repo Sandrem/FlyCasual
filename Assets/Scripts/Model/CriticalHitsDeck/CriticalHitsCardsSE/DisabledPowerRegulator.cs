@@ -21,7 +21,7 @@ namespace DamageDeckCardSE
             Host.OnCombatActivation += SufferIon;
             Host.OnShipIsDestroyed += DiscardEffect;
             Host.OnMovementFinish += RemoveCritOnIonManeuver;
-            Host.Tokens.AssignCondition(new Tokens.DisabledPowerRegulatorCritToken(Host));            
+            Host.Tokens.AssignCondition(typeof(DisabledPowerRegulatorCritToken));
             Triggers.FinishTrigger();
         }
 
@@ -48,7 +48,7 @@ namespace DamageDeckCardSE
 
         public void GetIon(object sender, EventArgs e)
         {
-            Host.Tokens.AssignToken(new IonToken(Host), Triggers.FinishTrigger);
+            Host.Tokens.AssignToken(typeof(IonToken), Triggers.FinishTrigger);
         }
 
         public override void DiscardEffect()

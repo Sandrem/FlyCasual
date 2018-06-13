@@ -20,7 +20,7 @@ namespace DamageDeckCardFE
             Host.AfterGenerateAvailableActionsList += CallAddCancelCritAction;
             Host.OnShipIsDestroyed += delegate { DiscardEffect(); };
 
-            Host.Tokens.AssignCondition(new Tokens.ConsoleFireCritToken(Host));
+            Host.Tokens.AssignCondition(typeof(Tokens.ConsoleFireCritToken));
             Triggers.FinishTrigger();
         }
 

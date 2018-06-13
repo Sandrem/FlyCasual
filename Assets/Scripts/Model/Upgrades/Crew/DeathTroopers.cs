@@ -63,7 +63,7 @@ namespace Abilities
                         {
                             Messages.ShowInfo(string.Format("{0}'s Death Troopers assign stress to {1}!", HostShip.PilotName, Combat.Attacker.PilotName));
                             Sounds.PlayShipSound("DeathTrooper");
-                            Combat.Attacker.Tokens.AssignToken(new Tokens.StressToken(Combat.Attacker), Triggers.FinishTrigger);
+                            Combat.Attacker.Tokens.AssignToken(typeof(StressToken), Triggers.FinishTrigger);
                         });
                     }
                 }

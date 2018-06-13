@@ -3,6 +3,7 @@ using UnityEngine;
 using Upgrade;
 using Abilities;
 using RuleSets;
+using Tokens;
 
 namespace UpgradesList
 {
@@ -58,7 +59,7 @@ namespace Abilities
 
         private void DoReconSpecialistAbility(object sender, System.EventArgs e)
         {
-            HostShip.Tokens.AssignToken(new Tokens.FocusToken(HostShip), Triggers.FinishTrigger);
+            HostShip.Tokens.AssignToken(typeof(FocusToken), Triggers.FinishTrigger);
         }
     }
 }

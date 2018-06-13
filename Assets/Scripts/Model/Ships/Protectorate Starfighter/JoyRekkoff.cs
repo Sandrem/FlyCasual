@@ -86,7 +86,7 @@ namespace Abilities
                 if (Combat.Defender.Agility != 0)
                 {
                     Messages.ShowError("Joy Rekkoff: Agility is decreased");
-                    Combat.Defender.Tokens.AssignCondition(new Conditions.JoyRekkoffCondition(Combat.Defender));
+                    Combat.Defender.Tokens.AssignCondition(typeof(Conditions.JoyRekkoffCondition));
                     Combat.Defender.ChangeAgilityBy(-1);
                     Combat.Defender.OnAttackFinish += RemoveJoyRekkoffAbility;
                 }

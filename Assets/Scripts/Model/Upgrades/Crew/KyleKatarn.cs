@@ -2,6 +2,7 @@
 using Ship;
 using SubPhases;
 using System;
+using Tokens;
 using UnityEngine;
 using Upgrade;
 
@@ -58,7 +59,7 @@ namespace Abilities
 
         private void AssignFocusToken(object sender, EventArgs e)
         {
-            HostShip.Tokens.AssignToken(new Tokens.FocusToken(HostShip), DecisionSubPhase.ConfirmDecision);
+            HostShip.Tokens.AssignToken(typeof(FocusToken), DecisionSubPhase.ConfirmDecision);
         }
     }
 }

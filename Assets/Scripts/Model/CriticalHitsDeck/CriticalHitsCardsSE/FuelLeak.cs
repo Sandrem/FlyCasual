@@ -20,7 +20,7 @@ namespace DamageDeckCardSE
         {
             Host.AfterGenerateAvailableActionsList += CallAddCancelCritAction;
             Host.OnSufferDamageConfirmed += CheckToSufferAdditionalDamageAndRepair;
-            Host.Tokens.AssignCondition(new Tokens.FuelLeakCritToken(Host));
+            Host.Tokens.AssignCondition(typeof(Tokens.FuelLeakCritToken));
             Triggers.FinishTrigger();
         }
                 

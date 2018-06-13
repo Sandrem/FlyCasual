@@ -21,7 +21,7 @@ namespace DamageDeckCardFE
             Host.AfterGotNumberOfAttackDice += ReduceNumberOfAttackDice;
             Host.AfterGenerateAvailableActionsList += CallAddCancelCritAction;
 
-            Host.Tokens.AssignCondition(new Tokens.WeaponsFailureCritToken(Host));
+            Host.Tokens.AssignCondition(typeof(Tokens.WeaponsFailureCritToken));
             Triggers.FinishTrigger();
         }
 

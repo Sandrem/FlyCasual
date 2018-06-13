@@ -7,6 +7,7 @@ using Players;
 using GameModes;
 using Ship;
 using SubPhases;
+using Tokens;
 
 namespace RulesList
 {
@@ -109,7 +110,7 @@ namespace RulesList
             }
             else
             {
-                docked.Tokens.AssignToken(new Tokens.WeaponsDisabledToken(docked), delegate{
+                docked.Tokens.AssignToken(typeof(WeaponsDisabledToken), delegate{
                     DealFacedownDamageCard(docked, delegate{
                         AskAssignManeuver(host, docked);
                     });

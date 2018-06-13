@@ -19,7 +19,7 @@ namespace DamageDeckCardFE
 
         public override void ApplyEffect(object sender, EventArgs e)
         {
-            Host.Tokens.AssignCondition(new Tokens.DirectHitCritToken(Host));
+            Host.Tokens.AssignCondition(typeof(Tokens.DirectHitCritToken));
             AdditionalHullDamage();
         }
 

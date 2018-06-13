@@ -78,7 +78,7 @@ namespace Abilities
         private int GetAiAbilityPriority(GenericShip ship)
         {
             int result = 0;
-            int shipFocusTokens = ship.Tokens.CountTokensByType(typeof(Tokens.FocusToken));
+            int shipFocusTokens = ship.Tokens.CountTokensByType(typeof(FocusToken));
             if (shipFocusTokens == 0) result += 100;
             result += (5 - shipFocusTokens);
             return result;
@@ -88,7 +88,7 @@ namespace Abilities
         {
             MovementTemplates.ReturnRangeRuler();
 
-            TargetShip.Tokens.AssignToken(new Tokens.FocusToken(TargetShip), SelectShipSubPhase.FinishSelection);
+            TargetShip.Tokens.AssignToken(typeof(FocusToken), SelectShipSubPhase.FinishSelection);
         }
     }
 }

@@ -20,7 +20,7 @@ namespace DamageDeckCardSE
         {
             Host.AfterGotNumberOfDefenceDice += DebuffDefenceRolls;
                         
-            Host.Tokens.AssignCondition(new Tokens.StructuralDamageSECritToken(Host));
+            Host.Tokens.AssignCondition(typeof(Tokens.StructuralDamageSECritToken));
             Triggers.FinishTrigger();
         }
 

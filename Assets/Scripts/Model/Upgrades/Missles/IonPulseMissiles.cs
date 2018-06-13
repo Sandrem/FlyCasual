@@ -7,6 +7,7 @@ using Upgrade;
 using UpgradesList;
 using Abilities;
 using Ship;
+using Tokens;
 
 namespace UpgradesList
 {
@@ -77,22 +78,12 @@ namespace Abilities
 
 			Messages.ShowError ("Defender receives 2 Ion Tokens");
 
-			Combat.Defender.Tokens.AssignToken(
-				new Tokens.IonToken(Combat.Defender),
-				delegate {
-					AddSecondIonToken();
-				}
-			);
+			Combat.Defender.Tokens.AssignToken(typeof(IonToken), AddSecondIonToken);
 		}
 
 		private void AddSecondIonToken()
 		{
-			Combat.Defender.Tokens.AssignToken(
-				new Tokens.IonToken(Combat.Defender),
-				delegate {
-					DefenderSuffersDamage();
-				}
-			);
+			Combat.Defender.Tokens.AssignToken(typeof(IonToken), DefenderSuffersDamage);
 		}
 
 		private void DefenderSuffersDamage()

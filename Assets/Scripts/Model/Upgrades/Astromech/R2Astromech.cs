@@ -6,6 +6,7 @@ using Abilities;
 using RuleSets;
 using Ship;
 using System;
+using Tokens;
 
 namespace UpgradesList
 {
@@ -94,7 +95,7 @@ namespace Abilities.SecondEdition
         {
             HostUpgrade.SpendCharge(() =>
             {
-                HostShip.Tokens.AssignToken(new Tokens.WeaponsDisabledToken(HostShip), () =>
+                HostShip.Tokens.AssignToken(typeof(WeaponsDisabledToken), () =>
                 {
                     if (HostShip.TryRegenShields())
                     {

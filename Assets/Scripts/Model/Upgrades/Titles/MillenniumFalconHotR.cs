@@ -3,6 +3,7 @@ using Ship.YT1300;
 using Upgrade;
 using System;
 using Abilities;
+using Tokens;
 
 namespace UpgradesList
 {
@@ -97,7 +98,7 @@ namespace SubPhases
 
         private void RotateShip180(object sender, EventArgs e)
         {
-            Selection.ThisShip.Tokens.AssignToken(new Tokens.StressToken(Selection.ThisShip), StartRotate180SubPhase);
+            Selection.ThisShip.Tokens.AssignToken(typeof(StressToken), StartRotate180SubPhase);
         }
 
         private void StartRotate180SubPhase()

@@ -111,12 +111,11 @@ namespace ActionsList
             // a ship may be able to perform two boost actions per turn :/
             if (Host.IsAlreadyExecutedAction(typeof(LeeboAction)))
             {
-                Messages.ShowInfoToHuman( Name + ": free boost performed, ion token received.");
-                Host.Tokens.AssignToken (
-                    new Tokens.IonToken(Host),
-                    Finish
-                );
-            } else {
+                Messages.ShowInfoToHuman(Name + ": free boost performed, ion token received.");
+                Host.Tokens.AssignToken(typeof(IonToken), Finish);
+            }
+            else
+            {
                 // if not, need to finish SubPhase
                 Finish();
             }

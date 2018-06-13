@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Ship;
 using System;
+using Tokens;
 
 namespace Ship
 {
@@ -68,7 +69,7 @@ namespace Abilities
 
         private void UseJanOrsAbility(object sender, System.EventArgs e)
         {
-            HostShip.Tokens.AssignToken(new Tokens.StressToken(HostShip), AllowRollAdditionalDice);
+            HostShip.Tokens.AssignToken(typeof(StressToken), AllowRollAdditionalDice);
         }
 
         private void AllowRollAdditionalDice()

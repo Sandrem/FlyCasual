@@ -198,7 +198,7 @@ namespace ActionsList
             if (count > 0)
             {
                 count--;
-                Host.Tokens.AssignToken(new StressToken(Host), delegate { AssignStressRecursive(count); });
+                Host.Tokens.AssignToken(typeof(StressToken), delegate { AssignStressRecursive(count); });
             }
             else
             {

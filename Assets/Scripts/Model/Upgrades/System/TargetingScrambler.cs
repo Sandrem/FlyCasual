@@ -72,14 +72,11 @@ namespace Abilities
         {
             Messages.ShowInfo(string.Format("\"Scrambled\" condition is assigned to {0}", TargetShip.PilotName));
 
-            TargetShip.Tokens.AssignCondition(new ScrambledCondition(TargetShip));
+            TargetShip.Tokens.AssignCondition(typeof(ScrambledCondition));
             TargetShip.OnTryAddAvailableActionEffect += UseDiceModificationRestriction;
             Phases.Events.OnCombatPhaseEnd_NoTriggers += RemoveScrambledCondition;
 
-            HostShip.Tokens.AssignToken(
-                new WeaponsDisabledToken(HostShip),
-                SelectShipSubPhase.FinishSelection
-            );
+            HostShip.Tokens.AssignToken(typeof(WeaponsDisabledToken), SelectShipSubPhase.FinishSelection);
         }
 
         private bool FilterAbilityTargets(GenericShip ship)

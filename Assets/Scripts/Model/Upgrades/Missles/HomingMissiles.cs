@@ -67,7 +67,7 @@ namespace Abilities
         private void ApplyHomingMissilesAbility()
         {
             Combat.Defender.OnTryAddAvailableActionEffect += UseHomingMissilesRestriction;
-            Combat.Defender.Tokens.AssignCondition(new Conditions.HomingMissilesCondition(Combat.Defender));
+            Combat.Defender.Tokens.AssignCondition(typeof(Conditions.HomingMissilesCondition));
 
             HostShip.OnAttackFinish += RemoveHomingMissilesAbility;
         }

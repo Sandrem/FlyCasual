@@ -69,7 +69,7 @@ namespace ActionsList
 
             Phases.Events.OnEndPhaseStart_NoTriggers += RemoveExposeEffect;
 
-            Host.Tokens.AssignCondition(new Conditions.ExposeCondition(Host));
+            Host.Tokens.AssignCondition(typeof(Conditions.ExposeCondition));
             Phases.CurrentSubPhase.CallBack();
         }
 

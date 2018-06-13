@@ -8,6 +8,7 @@ using SubPhases;
 using UpgradesList;
 using ActionsList;
 using System;
+using Tokens;
 
 namespace UpgradesList
 {
@@ -32,37 +33,45 @@ namespace Abilities
     {
         private GenericShip threatTrackerTarget = null;
         private List<GenericAction> threatTrackerActions = new List<GenericAction>();
+        private char targetLock = ' ';
 
         public override void ActivateAbility()
         {
-            GenericShip.OnMovementFinishGlobal += CheckThreatTrackerAbility;
+            GenericShip.OnCombatActivationGlobal += CheckThreatTrackerAbility;
         }
 
         public override void DeactivateAbility()
         {
-            GenericShip.OnMovementFinishGlobal -= CheckThreatTrackerAbility;
+            GenericShip.OnCombatActivationGlobal -= CheckThreatTrackerAbility;
         }
 
         public void ThreatTrackerCallback()
         {
-            Selection.ChangeActiveShip(threatTrackerTarget);
-            Phases.FinishSubPhase(Phases.CurrentSubPhase.GetType());
-            Triggers.FinishTrigger();
+            HostShip.Tokens.SpendToken(typeof(BlueTargetLockToken), delegate 
+            {
+                Selection.ChangeActiveShip(threatTrackerTarget);
+                Phases.FinishSubPhase(Phases.CurrentSubPhase.GetType());
+                Triggers.FinishTrigger();
+            }, targetLock);
         }
 
         private void CheckThreatTrackerAbility(GenericShip ship)
         {
-            if (ship.Owner.PlayerNo != HostShip.Owner.PlayerNo)
-            {
-                threatTrackerTarget = ship;
-                RegisterAbilityTrigger(TriggerTypes.OnMovementFinish, AskThreatTrackerAbility);
-            }
+            if (ship.Owner.PlayerNo == HostShip.Owner.PlayerNo) return;
+
+            ShotInfo shotInfo = new ShotInfo(HostShip, ship, HostShip.PrimaryWeapon);
+            if (!shotInfo.InArc || shotInfo.Range >= 3) return;
+
+            targetLock = HostShip.Tokens.GetTargetLockLetterPair(ship);
+            if (targetLock == ' ') return;
+
+            threatTrackerTarget = ship;
+
+            RegisterAbilityTrigger(TriggerTypes.OnCombatActivation, AskThreatTrackerAbility);
         }
 
         private void AskThreatTrackerAbility(object sender, System.EventArgs e)
         {
-            
-            ShotInfo shotInfo = new ShotInfo(HostShip, threatTrackerTarget, HostShip.PrimaryWeapon);
             List<GenericAction> actionBar = HostShip.GetActionsFromActionBar();
             List<GenericAction> freeActions = new List<GenericAction>() { new ActionsList.BoostAction(), new ActionsList.BarrelRollAction() };
             threatTrackerActions.Clear();
@@ -74,14 +83,19 @@ namespace Abilities
                 }
             });
 
-            if (threatTrackerActions.Count > 0 && shotInfo.InArc && shotInfo.Range <= 2)
+            if (threatTrackerActions.Count > 0)
             {
-                AskToUseAbility(NeverUseByDefault, PerformThreatTracker);
+                AskToUseAbility(NeverUseByDefault, PerformThreatTracker, DontUseAbility);
             }
             else
             {
                 Triggers.FinishTrigger();
             }
+        }
+
+        private void DontUseAbility(object sender, System.EventArgs e)
+        {
+            DecisionSubPhase.ConfirmDecision();
         }
 
         private void PerformThreatTracker(object sender, EventArgs e)

@@ -12,6 +12,7 @@ namespace Tokens
         {
             Name = "Stress Token";
             Temporary = false;
+            TokenColor = TokenColors.Red;
         }
 
     }

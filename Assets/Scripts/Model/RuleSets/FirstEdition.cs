@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Tokens;
 using UnityEngine;
 using Upgrade;
 
@@ -150,6 +151,12 @@ namespace RuleSets
         public override void SquadBuilderIsOpened()
         {
             MainMenu.CurrentMainMenu.ChangePanel("SquadBuilderPanel");
+        }
+
+        public override bool IsTokenCanBeDiscardedByJam(GenericToken token)
+        {
+            List<Type> tokensTypesToDiscard = new List<Type> { typeof(FocusToken), typeof(EvadeToken), typeof(BlueTargetLockToken) };
+            return tokensTypesToDiscard.Contains(token.GetType());
         }
     }
 }

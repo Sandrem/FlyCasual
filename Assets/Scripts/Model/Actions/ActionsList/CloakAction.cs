@@ -20,6 +20,11 @@ namespace ActionsList
             Selection.ThisShip.Tokens.AssignToken(new CloakToken(Selection.ThisShip), Phases.CurrentSubPhase.CallBack);
         }
 
+        public override bool IsActionAvailable()
+        {
+            return !Host.Tokens.HasToken(typeof(CloakToken));
+        }
+
     }
 
 }

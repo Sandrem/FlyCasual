@@ -14,23 +14,13 @@ namespace Tokens
         public CloakToken(GenericShip host) : base(host)
         {
             Name = "Cloak Token";
+            TokenColor = TokenColors.Blue;
             Temporary = false;
             Tooltip = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/reference-cards/CloakAction.png";
         }
 
         public override void WhenAssigned()
         {
-            GenericAction cloakAction = null;
-            foreach (var action in Host.PrintedActions)
-            {
-                if (action.GetType() == typeof(CloakAction))
-                {
-                    cloakAction = action;
-                    break;
-                }
-            }
-            Host.PrintedActions.Remove(cloakAction);
-
             Host.ChangeAgilityBy(+2);
             Host.OnTryPerformAttack += CannotAttackWhileCloaked;
             Host.OnSystemsAbilityActivation += RegisterAskDecloak;
@@ -75,7 +65,6 @@ namespace Tokens
 
         public override void WhenRemoved()
         {
-            Host.PrintedActions.Add(new CloakAction());
             Host.ChangeAgilityBy(-2);
             Host.OnTryPerformAttack -= CannotAttackWhileCloaked;
             Host.OnActivationPhaseStart -= RegisterAskDecloak;

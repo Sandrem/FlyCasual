@@ -11,6 +11,7 @@ namespace Tokens
         public EvadeToken(GenericShip host) : base(host)
         {
             Name = "Evade Token";
+            TokenColor = TokenColors.Green;
             Action = new ActionsList.EvadeAction() { Host = host };
         }
 

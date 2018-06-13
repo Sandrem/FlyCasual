@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Tokens;
 using UnityEngine;
 using Upgrade;
 
@@ -45,6 +46,7 @@ namespace RuleSets
         public abstract bool ReinforceEffectCanBeUsed(ArcFacing facing);
         public abstract void TimedBombActivationTime(GenericShip ship);
         public abstract void SquadBuilderIsOpened();
+        public abstract bool IsTokenCanBeDiscardedByJam(GenericToken token);
 
         public virtual void AdaptShipToRules(GenericShip ship) { }
         public virtual void AdaptPilotToRules(GenericShip ship) { }

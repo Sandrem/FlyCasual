@@ -12,26 +12,7 @@ namespace RulesList
 
         public IonizationRule()
         {
-            GenericShip.OnTokenIsAssignedGlobal += CheckIonization;
             GenericShip.OnNoManeuverWasRevealedGlobal += SetIonManeuver;
-            GenericShip.OnTokenIsRemovedGlobal += CheckDeionization;
-        }
-
-        private void CheckIonization(GenericShip ship, System.Type tokenType)
-        {
-            if (tokenType == typeof(IonToken) && IsIonized(ship))
-            { 
-                Messages.ShowError("Ship is ionized!");
-                ship.ToggleIonized(true);
-            }
-        }
-
-        private void CheckDeionization(GenericShip ship, System.Type tokenType)
-        {
-            if (tokenType == typeof(IonToken) && !IsIonized(ship))
-            {
-                ship.ToggleIonized(false);
-            }
         }
 
         public static void SetIonManeuver(GenericShip ship)

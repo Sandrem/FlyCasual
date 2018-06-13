@@ -2,6 +2,14 @@
 
 namespace Tokens
 {
+    public enum TokenColors
+    {
+        Green,
+        Yellow,
+        Red,
+        Blue,
+        Empty
+    }
 
     public class GenericToken
     {
@@ -11,6 +19,7 @@ namespace Tokens
         public ActionsList.GenericAction Action = null;
         public bool CanBeUsed = true;
         public string Tooltip;
+        public TokenColors TokenColor = TokenColors.Empty;
 
         public GenericToken(GenericShip host)
         {

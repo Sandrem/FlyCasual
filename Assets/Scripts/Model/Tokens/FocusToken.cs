@@ -11,6 +11,7 @@ namespace Tokens
         public FocusToken(GenericShip host) : base(host)
         {
             Name = "Focus Token";
+            TokenColor = TokenColors.Green;
             Action = new ActionsList.FocusAction() { Host = host};
         }
     }

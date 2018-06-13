@@ -2,6 +2,7 @@
 using Tokens;
 using System.Collections.Generic;
 using System.Linq;
+using RuleSets;
 
 namespace RulesList
 {
@@ -69,12 +70,11 @@ namespace SubPhases
 
             DecisionOwner = Selection.ActiveShip.Owner;
 
-            List<System.Type> tokensTypesToDiscard = new List<System.Type> { typeof(FocusToken), typeof(EvadeToken), typeof(BlueTargetLockToken) };
             List<System.Type> tokensTypesFound = new List<System.Type>();
 
-            foreach (var token in Selection.ActiveShip.Tokens.GetAllTokens())
+            foreach (GenericToken token in Selection.ActiveShip.Tokens.GetAllTokens())
             {
-                if (tokensTypesToDiscard.Contains(token.GetType()))
+                if (RuleSet.Instance.IsTokenCanBeDiscardedByJam(token))
                 {
                     if (!tokensTypesFound.Contains(token.GetType()) || token.GetType() == typeof(BlueTargetLockToken))
                     {

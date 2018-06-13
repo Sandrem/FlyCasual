@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Tokens;
 using UnityEngine;
 using Upgrade;
 
@@ -244,6 +245,11 @@ namespace RuleSets
         {
             ship.OnSystemsAbilityActivation -= BombsManager.CheckBombDropAvailability;
             ship.OnSystemsAbilityActivation += BombsManager.CheckBombDropAvailability;
+        }
+
+        public override bool IsTokenCanBeDiscardedByJam(GenericToken token)
+        {
+            return token.TokenColor == TokenColors.Green || token is BlueTargetLockToken;
         }
 
     }

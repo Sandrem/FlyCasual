@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Tokens;
+using RuleSets;
 
 namespace ActionsList
 {
@@ -61,16 +62,17 @@ namespace SubPhases
 
         private int HasTokenPriority(GenericShip ship)
         {
-            if (ship.Tokens.HasToken(typeof(Tokens.FocusToken))) return 100;
-            if (ship.PrintedActions.Any(n => n.GetType() == typeof(ActionsList.EvadeAction)) || ship.Tokens.HasToken(typeof(Tokens.EvadeToken))) return 50;
-            if (ship.PrintedActions.Any(n => n.GetType() == typeof(ActionsList.TargetLockAction)) || ship.Tokens.HasToken(typeof(Tokens.BlueTargetLockToken), '*')) return 50;
+            if (RuleSet.Instance is SecondEdition && (ship.Tokens.HasToken(typeof(ReinforceAftToken)) || ship.Tokens.HasToken(typeof(ReinforceForeToken)))) return 110;
+            if (ship.Tokens.HasToken(typeof(FocusToken))) return 100;
+            if (ship.PrintedActions.Any(n => n.GetType() == typeof(ActionsList.EvadeAction)) || ship.Tokens.HasToken(typeof(EvadeToken))) return 50;
+            if (ship.PrintedActions.Any(n => n.GetType() == typeof(ActionsList.TargetLockAction)) || ship.Tokens.HasToken(typeof(BlueTargetLockToken), '*')) return 50;
             return 0;
         }
 
         private bool FilterJamTargets(GenericShip ship)
         {
             BoardTools.DistanceInfo distanceInfo = new BoardTools.DistanceInfo(Selection.ThisShip, ship);
-            return ship.Owner.PlayerNo != Selection.ThisShip.Owner.PlayerNo && distanceInfo.Range >= 1 && distanceInfo.Range <= 2;
+            return ship.Owner.PlayerNo != Selection.ThisShip.Owner.PlayerNo && distanceInfo.Range == 1;
         }
 
         private void SelectJamTarget()

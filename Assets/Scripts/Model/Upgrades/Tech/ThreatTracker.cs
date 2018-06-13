@@ -86,7 +86,6 @@ namespace Abilities
 
         private void PerformThreatTracker(object sender, EventArgs e)
         {
-            GenericShip originalSelectedShip = Selection.ThisShip;
             Selection.ChangeActiveShip(HostShip);
             HostShip.AskPerformFreeAction(
                 threatTrackerActions,

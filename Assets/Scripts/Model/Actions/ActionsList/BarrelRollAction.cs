@@ -554,7 +554,7 @@ namespace SubPhases
         {
             bool allow = true;
 
-            if (obstaclesStayDetectorBase.OverlapsShipNow || obstaclesStayDetectorMovementTemplate.OverlapsShipNow)
+            if (obstaclesStayDetectorBase.OverlapsShipNow)
             {
                 Messages.ShowError("Cannot overlap another ship");
                 allow = false;

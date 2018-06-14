@@ -95,6 +95,8 @@ namespace Abilities
             {
                 Triggers.FinishTrigger();
             }
+            // Reset after every Push the Limit opportunity
+            consecutiveActions = 0;
         }
     }
 }

@@ -76,7 +76,7 @@ namespace Ship
         public static event EventHandlerShip OnMovementFinishGlobal;
 
         public event EventHandlerShip OnPositionFinish;
-        public static event EventHandler OnPositionFinishGlobal;
+        public static event EventHandlerShip OnPositionFinishGlobal;
 
         // TRIGGERS
 
@@ -145,7 +145,7 @@ namespace Ship
         public void FinishPosition(System.Action callback)
         {
             if (OnPositionFinish != null) OnPositionFinish(this);
-            if (OnPositionFinishGlobal != null) OnPositionFinishGlobal();
+            if (OnPositionFinishGlobal != null) OnPositionFinishGlobal(this);
 
             Triggers.ResolveTriggers(TriggerTypes.OnPositionFinish, callback);
         }

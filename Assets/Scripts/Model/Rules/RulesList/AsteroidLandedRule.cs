@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Ship;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace RulesList
@@ -13,13 +14,13 @@ namespace RulesList
 
         private void SubscribeEvents()
         {
-            Ship.GenericShip.OnTryPerformAttackGlobal += CanPerformAttack;
-            Ship.GenericShip.OnPositionFinishGlobal += InformLandedOnAsteroid;
+            GenericShip.OnTryPerformAttackGlobal += CanPerformAttack;
+            GenericShip.OnPositionFinishGlobal += InformLandedOnAsteroid;
         }
 
-        private void InformLandedOnAsteroid()
+        private void InformLandedOnAsteroid(GenericShip ship)
         {
-            if (Selection.ThisShip.IsLandedOnObstacle)
+            if (ship.IsLandedOnObstacle)
             {
                 Messages.ShowErrorToHuman("Landed on asteroid, cannot attack");
             }

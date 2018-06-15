@@ -18,21 +18,21 @@ namespace RulesList
             GenericShip.OnPositionFinishGlobal += CheckDamage;
         }
 
-        private void CheckDamage()
+        private void CheckDamage(GenericShip ship)
         {
-            if (Selection.ThisShip.MinesHit.Count > 0)
+            if (ship.MinesHit.Count > 0)
             {
-                foreach (var mine in Selection.ThisShip.MinesHit)
+                foreach (var mine in ship.MinesHit)
                 {
                     Triggers.RegisterTrigger(new Trigger()
                     {
                         Name = "Damage from mine",
-                        TriggerOwner = Selection.ThisShip.Owner.PlayerNo,
+                        TriggerOwner = ship.Owner.PlayerNo,
                         TriggerType = TriggerTypes.OnPositionFinish,
                         EventHandler = BombsManager.GetBombByObject(mine).TryDetonate,
                         EventArgs = new BombDetonationEventArgs()
                         {
-                            DetonatedShip = Selection.ThisShip,
+                            DetonatedShip = ship,
                             BombObject = mine
                         }
                     });

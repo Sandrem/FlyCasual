@@ -82,7 +82,7 @@ namespace Abilities
             );
         }
 
-        private bool IsSecondaryShot(GenericShip defender, IShipWeapon weapon)
+        private bool IsSecondaryShot(GenericShip defender, IShipWeapon weapon, bool isSilent)
         {
             bool result = false;
             if (weapon.GetType() != typeof(PrimaryWeaponClass))
@@ -91,7 +91,7 @@ namespace Abilities
             }
             else
             {
-                Messages.ShowError("Attack must be performed from secondary weapon");
+                if (!isSilent) Messages.ShowError("Attack must be performed from secondary weapon");
             }
             return result;
         }

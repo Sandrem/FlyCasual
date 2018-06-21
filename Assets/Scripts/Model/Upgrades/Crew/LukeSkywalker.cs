@@ -95,7 +95,7 @@ namespace Abilities
             Triggers.FinishTrigger();
         }
 
-        private bool IsPrimaryWeaponShot(GenericShip defender, IShipWeapon weapon)
+        private bool IsPrimaryWeaponShot(GenericShip defender, IShipWeapon weapon, bool isSilent)
         {
             bool result = false;
 
@@ -105,7 +105,7 @@ namespace Abilities
             }
             else
             {
-                Messages.ShowError("Attack must be performed from primary weapon");
+                if (!isSilent) Messages.ShowError("Attack must be performed from primary weapon");
             }
 
             return result;

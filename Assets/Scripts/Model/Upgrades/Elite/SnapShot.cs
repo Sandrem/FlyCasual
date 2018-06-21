@@ -123,12 +123,12 @@ namespace Abilities
             }
         }
 
-        private bool SnapShotAttackFilter(GenericShip defender, IShipWeapon weapon)
+        private bool SnapShotAttackFilter(GenericShip defender, IShipWeapon weapon, bool isSilent)
         {
             bool result = true;
             if (defender != snapShotTarget || !(weapon.GetType() == HostUpgrade.GetType()))
             {
-                Messages.ShowErrorToHuman(
+                if (!isSilent) Messages.ShowErrorToHuman(
                     string.Format("Snap Shot target must be {0}, using Snap Shot weapon", snapShotTarget.PilotName));
                 result = false;
             }

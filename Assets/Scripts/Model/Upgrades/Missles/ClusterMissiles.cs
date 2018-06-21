@@ -127,7 +127,7 @@ namespace Abilities
                 );
             }
 
-            private bool IsClusterMissilesShotToNeighbour(GenericShip defender, IShipWeapon weapon)
+            private bool IsClusterMissilesShotToNeighbour(GenericShip defender, IShipWeapon weapon, bool isSilent)
             {
                 bool result = false;
 
@@ -140,7 +140,7 @@ namespace Abilities
                     }
                 }
 
-                if (result == false) Messages.ShowErrorToHuman("Attack cannot be perfromed: Wrong conditions");
+                if (result == false && !isSilent) Messages.ShowErrorToHuman("Attack cannot be perfromed: Wrong conditions");
 
                 return result;
             }

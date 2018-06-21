@@ -102,18 +102,17 @@ namespace Abilities
             Triggers.FinishTrigger();
         }
 
-        private bool IsPrimaryShot(GenericShip defender, IShipWeapon weapon)
+        private bool IsPrimaryShot(GenericShip defender, IShipWeapon weapon, bool isSilent)
         {
             bool result = false;
 
             if (weapon.GetType() == typeof(PrimaryWeaponClass))
-
             {
                 result = true;
             }
             else
             {
-                Messages.ShowError("Attack must be performed from primary weapon");
+                if (!isSilent) Messages.ShowError("Attack must be performed from primary weapon");
             }
 
             return result;

@@ -54,7 +54,7 @@ public static partial class Combat
 
     public static ShotInfo ShotInfo;
 
-    public static Func<GenericShip, IShipWeapon, bool> ExtraAttackFilter;
+    public static Func<GenericShip, IShipWeapon, bool, bool> ExtraAttackFilter;
 
     public static bool IsAttackAlreadyCalled;
 
@@ -96,7 +96,7 @@ public static partial class Combat
             Phases.StartTemporarySubPhaseOld(
                 "Choose weapon for attack",
                 typeof(WeaponSelectionDecisionSubPhase),
-                TryPerformAttack
+                delegate { TryPerformAttack(isSilent: false); }
             );
         }
         else
@@ -104,18 +104,18 @@ public static partial class Combat
             ChosenWeapon = Selection.ThisShip.PrimaryWeapon;
             ShotInfo = new ShotInfo(Selection.ThisShip, Selection.AnotherShip, ChosenWeapon);
 
-            TryPerformAttack();
+            TryPerformAttack(isSilent: false);
         }
     }
 
     // CHECK LEGALITY OF ATTACK
 
-    public static void TryPerformAttack()
+    public static void TryPerformAttack(bool isSilent)
     {
         UI.HideContextMenu();
         MovementTemplates.ReturnRangeRuler();
 
-        if (IsTargetLegalForAttack())
+        if (IsTargetLegalForAttack(Selection.AnotherShip, ChosenWeapon, isSilent))
         {
             UI.HideSkipButton();
             Roster.AllShipsHighlightOff();
@@ -131,13 +131,13 @@ public static partial class Combat
         }
     }
 
-    private static bool IsTargetLegalForAttack()
+    public static bool IsTargetLegalForAttack(GenericShip targetShip, IShipWeapon weapon, bool isSilent)
     {
         bool result = false;
 
-        if (Rules.TargetIsLegalForShot.IsLegal(true) && ChosenWeapon.IsShotAvailable(Selection.AnotherShip))
+        if (Rules.TargetIsLegalForShot.IsLegal(true) && weapon.IsShotAvailable(targetShip))
         {
-            if (ExtraAttackFilter == null || ExtraAttackFilter(Selection.AnotherShip, ChosenWeapon))
+            if (ExtraAttackFilter == null || ExtraAttackFilter(targetShip, weapon, isSilent))
             {
                 result = true;
             }
@@ -441,7 +441,7 @@ public static partial class Combat
 
     // Extra Attacks
 
-    public static void StartAdditionalAttack(GenericShip ship, Action callback, Func<GenericShip, IShipWeapon, bool> extraAttackFilter = null, string abilityName = null, string description = null, string imageUrl = null)
+    public static void StartAdditionalAttack(GenericShip ship, Action callback, Func<GenericShip, IShipWeapon, bool, bool> extraAttackFilter = null, string abilityName = null, string description = null, string imageUrl = null)
     {
         Selection.ChangeActiveShip("ShipId:" + ship.ShipId);
         Phases.CurrentSubPhase.RequiredPlayer = ship.Owner.PlayerNo;

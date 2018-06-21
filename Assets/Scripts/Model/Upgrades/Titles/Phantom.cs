@@ -99,7 +99,7 @@ namespace Abilities
             }            
         }
 
-        private bool IsTurretAttack(GenericShip target, IShipWeapon weapon)
+        private bool IsTurretAttack(GenericShip target, IShipWeapon weapon, bool isSilent)
         {
             bool result = false;
 
@@ -110,7 +110,7 @@ namespace Abilities
             }
             else
             {
-                Messages.ShowError("Attack must be performed from Turret");
+                if (!isSilent) Messages.ShowError("Attack must be performed from Turret");
             }
 
             return result;

@@ -22,8 +22,12 @@ namespace SubPhases
                 Description,
                 ImageUrl
             );
+        }
 
-            Selection.ThisShip.Owner.StartExtraAttack();
+        public override void Initialize()
+        {
+            // If not skipped
+            if (Phases.CurrentSubPhase == this) Selection.ThisShip.Owner.StartExtraAttack();
         }
 
         private bool FilterAttackTargets(GenericShip ship)

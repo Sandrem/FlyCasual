@@ -93,7 +93,7 @@ namespace Abilities
             Triggers.FinishTrigger();
         }
 
-        private bool IsCannonShot(GenericShip defender, IShipWeapon weapon)
+        private bool IsCannonShot(GenericShip defender, IShipWeapon weapon, bool isSilent)
         {
             bool result = false;
 
@@ -104,7 +104,7 @@ namespace Abilities
             }
             else
             {
-                Messages.ShowError("Attack must be performed from Cannon");
+                if (!isSilent) Messages.ShowError("Attack must be performed from Cannon");
             }
 
             return result;

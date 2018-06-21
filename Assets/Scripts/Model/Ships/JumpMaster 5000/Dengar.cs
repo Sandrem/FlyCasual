@@ -113,13 +113,13 @@ namespace Abilities
             Triggers.FinishTrigger();
         }
 
-        private bool CounterAttackFilter(GenericShip targetShip, IShipWeapon weapon)
+        private bool CounterAttackFilter(GenericShip targetShip, IShipWeapon weapon, bool isSilent)
         {
             bool result = true;
 
             if (targetShip != shipToPunish)
             {
-                Messages.ShowErrorToHuman(string.Format("{0} can attack only {1}", HostShip.PilotName, shipToPunish.PilotName));
+                if (!isSilent) Messages.ShowErrorToHuman(string.Format("{0} can attack only {1}", HostShip.PilotName, shipToPunish.PilotName));
                 result = false;
             }
 

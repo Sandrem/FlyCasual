@@ -104,63 +104,65 @@ namespace Players
 
             Console.Write("AI is going to perform attack", LogTypes.AI);
 
-            SelectShipThatCanAttack(SelectTargetForAttack);
+            SelectShipThatCanAttack(PerformAttackContinue);
         }
 
-        private void SelectTargetForAttack()
+        private void PerformAttackContinue()
         {
-            GenericShip targetForAttack = null;
-
-            // TODO: Fix bug with missing chosen weapon
-
             if (Selection.ThisShip != null)
             {
-                if (!DebugManager.DebugNoCombat)
-                {
-                    Dictionary<GenericShip, float> enemyShips = GetEnemyShipsAndDistance(Selection.ThisShip, ignoreCollided: true, inArcAndRange: true);
-
-                    targetForAttack = GetTargetWithAssignedTargetLock(enemyShips);
-
-                    if (targetForAttack != null)
-                    {
-                        Console.Write("Ship has Target Lock on " + targetForAttack.PilotName + "(" + targetForAttack.ShipId + ")", LogTypes.AI);
-                    }
-                    else
-                    {
-                        Console.Write("Ship doesn't have Target Lock on enemy", LogTypes.AI);
-                    }
-
-                    if (targetForAttack == null)
-                    {
-                        targetForAttack = SelectNearestTarget(enemyShips);
-                        if (targetForAttack != null)
-                        {
-                            Console.Write("Ship selected nearest target " + targetForAttack.PilotName + "(" + targetForAttack.ShipId + ")", LogTypes.AI);
-                        }
-                        else
-                        {
-                            Console.Write("Ship cannot find valid enemy for attack", LogTypes.AI);
-                        }
-                    }
-
-                }
+                GenericShip targetForAttack = SelectTargetForAttack();
 
                 Selection.ThisShip.CallAfterAttackWindow();
                 Selection.ThisShip.IsAttackPerformed = true;
+
+                if (targetForAttack != null)
+                {
+                    Console.Write("Ship attacks target\n", LogTypes.AI, true, "yellow");
+
+                    Selection.TryToChangeAnotherShip("ShipId:" + targetForAttack.ShipId);
+                    Combat.TryPerformAttack(isSilent: true);
+                }
+                else
+                {
+                    Console.Write("Attack is skipped\n", LogTypes.AI, true, "yellow");
+                    OnTargetNotLegalForAttack();
+                }
             }
+        }
+
+        private GenericShip SelectTargetForAttack()
+        {
+            if (DebugManager.DebugNoCombat) return null;
+
+            GenericShip targetForAttack = null;
+            Dictionary<GenericShip, float> enemyShips = GetEnemyShipsAndDistance(Selection.ThisShip, ignoreCollided: true, inArcAndRange: true);
+
+            targetForAttack = GetTargetWithAssignedTargetLock(enemyShips);
 
             if (targetForAttack != null)
             {
-                Console.Write("Ship attacks target\n", LogTypes.AI, true, "yellow");
-
-                Selection.TryToChangeAnotherShip("ShipId:" + targetForAttack.ShipId);
-                Combat.TryPerformAttack();
+                Console.Write("Ship has Target Lock on " + targetForAttack.PilotName + "(" + targetForAttack.ShipId + ")", LogTypes.AI);
             }
             else
             {
-                Console.Write("Attack is skipped\n", LogTypes.AI, true, "yellow");
-                OnTargetNotLegalForAttack();
+                Console.Write("Ship doesn't have Target Lock on enemy", LogTypes.AI);
             }
+
+            if (targetForAttack == null)
+            {
+                targetForAttack = SelectNearestTarget(enemyShips);
+                if (targetForAttack != null)
+                {
+                    Console.Write("Ship selected nearest target " + targetForAttack.PilotName + "(" + targetForAttack.ShipId + ")", LogTypes.AI);
+                }
+                else
+                {
+                    Console.Write("Ship cannot find valid enemy for attack", LogTypes.AI);
+                }
+            }
+
+            return targetForAttack;
         }
 
         private GenericShip SelectNearestTarget(Dictionary<GenericShip, float> enemyShips)
@@ -193,13 +195,29 @@ namespace Players
 
             foreach (var shipHolder in enemyShips)
             {
-                if (Actions.GetTargetLocksLetterPair(Selection.ThisShip, shipHolder.Key) != ' ')
+                GenericShip targetShip = shipHolder.Key;
+                float distance = shipHolder.Value;
+
+                if (Actions.GetTargetLocksLetterPair(Selection.ThisShip, targetShip) != ' ')
                 {
-                    return TryToDeclareTarget(shipHolder.Key, shipHolder.Value);
+                    return TryToDeclareTarget(targetShip, distance);
                 }
             }
 
             return targetForAttack;
+        }
+
+        private bool IsTargetValidForAdditionalAttack(GenericShip targetShip)
+        {
+            bool result = true;
+
+            SelectTargetForSecondAttackSubPhase secondAttackSubphase = Phases.CurrentSubPhase as SelectTargetForSecondAttackSubPhase;
+            if (secondAttackSubphase != null)
+            {
+                if (!secondAttackSubphase.FilterTargets(targetShip)) result = false;
+            }
+
+            return result;
         }
 
         private static void SelectShipThatCanAttack(Action callback)
@@ -239,8 +257,14 @@ namespace Players
                 return null;
             }
 
+            if (!IsTargetValidForAdditionalAttack(targetShip))
+            {
+                if (DebugManager.DebugAI) Debug.Log("But this target didn't pass filter of additional attack opportunity");
+                return null;
+            }
+
             if (DebugManager.DebugAI) Debug.Log("Ship is selected before validation: " + selectedTargetShip);
-            Selection.TryToChangeAnotherShip("ShipId:" + selectedTargetShip.ShipId);
+            Selection.AnotherShip = selectedTargetShip;
 
             IShipWeapon chosenWeapon = null;
 
@@ -249,7 +273,7 @@ namespace Players
                 IShipWeapon secondaryWeapon = (upgrade as IShipWeapon);
                 if (secondaryWeapon != null)
                 {
-                    if (secondaryWeapon.IsShotAvailable(targetShip))
+                    if (Combat.IsTargetLegalForAttack(targetShip, secondaryWeapon, isSilent: true))
                     {
                         chosenWeapon = secondaryWeapon;
                         break;
@@ -257,11 +281,10 @@ namespace Players
                 }
             }
 
-            chosenWeapon = chosenWeapon ?? Selection.ThisShip.PrimaryWeapon;
-            Combat.ChosenWeapon = chosenWeapon;
-            Combat.ShotInfo = new BoardTools.ShotInfo(Selection.ThisShip, Selection.AnotherShip, Combat.ChosenWeapon);
+            Combat.ChosenWeapon = chosenWeapon ?? Selection.ThisShip.PrimaryWeapon;
+            Combat.ShotInfo = new ShotInfo(Selection.ThisShip, Selection.AnotherShip, Combat.ChosenWeapon);
 
-            if (Rules.TargetIsLegalForShot.IsLegal(true) && Combat.ChosenWeapon.IsShotAvailable(Selection.AnotherShip))
+            if (Combat.IsTargetLegalForAttack(targetShip, Combat.ChosenWeapon, isSilent:true))
             {
                 if (DebugManager.DebugAI) Debug.Log("AI target legal: " + Selection.AnotherShip);
             }
@@ -488,13 +511,38 @@ namespace Players
 
         public override void StartExtraAttack()
         {
-            // TODO: Handle extra attack targets
+            GenericShip targetForAttack = SelectTargetForAttack();
 
-            UI.SkipButtonEffect();
+            if (targetForAttack != null)
+            {
+                Action callback = Phases.CurrentSubPhase.CallBack;
+
+                Phases.StartTemporarySubPhaseNew(
+                    "Extra Attack",
+                    typeof(ExtraAttackSubPhase),
+                    delegate {
+                        Phases.FinishSubPhase(typeof(ExtraAttackSubPhase));
+                        Phases.FinishSubPhase(typeof(SelectTargetForSecondAttackSubPhase));
+                        callback();
+                    }
+                );
+
+                Selection.ThisShip.IsAttackPerformed = true;
+
+                Console.Write("Ship attacks target\n", LogTypes.AI, true, "yellow");
+
+                Selection.AnotherShip = targetForAttack;
+                Combat.TryPerformAttack(isSilent: true);
+            }
+            else
+            {
+                UI.SkipButtonEffect();
+            }
         }
 
         public override void SelectShipForAbility()
         {
+            Debug.Log("Ability");
             (Phases.CurrentSubPhase as SelectShipSubPhase).AiSelectPrioritizedTarget();
         }
 

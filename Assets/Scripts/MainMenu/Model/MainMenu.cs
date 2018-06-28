@@ -35,7 +35,8 @@ public partial class MainMenu : MonoBehaviour {
         Options.UpdateVolume();
         UpdateVersionInfo();
         UpdatePlayerInfo();
-        CheckUpdates();
+
+        PrepareUpdateChecker();
     }
 
     public void QuitGame()
@@ -80,7 +81,13 @@ public partial class MainMenu : MonoBehaviour {
         return (Sprite)sprites[UnityEngine.Random.Range(0, sprites.Count)];
     }
 
-    private void CheckUpdates()
+    private void PrepareUpdateChecker()
+    {
+        RemoteSettings.Completed += CheckUpdateNotification;
+        RemoteSettings.ForceUpdate();
+    }
+
+    private void CheckUpdateNotification(bool wasUpdatedFromServer, bool settingsChanged, int serverResponse)
     {
         int latestVersionInt = RemoteSettings.GetInt("UpdateLatestVersionInt", Global.CurrentVersionInt);
         if (latestVersionInt > Global.CurrentVersionInt)
@@ -89,6 +96,8 @@ public partial class MainMenu : MonoBehaviour {
             string updateLink       = RemoteSettings.GetString("UpdateLink");
             ShowNewVersionIsAvailable(latestVersion, updateLink);
         }
+
+        RemoteSettings.Completed -= CheckUpdateNotification;
     }
 
     // 0.3.2 UI

@@ -16,11 +16,13 @@ namespace Tokens
         public override void WhenAssigned()
         {
             Host.OnImmediatelyAfterRolling += ApplyReinforceEffect;
+            Host.OnCombatCompareResults += ApplyPostCombatReinforceEffect;
         }
 
         public override void WhenRemoved()
         {
             Host.OnImmediatelyAfterRolling -= ApplyReinforceEffect;
+            Host.OnCombatCompareResults -= ApplyPostCombatReinforceEffect;
         }
 
         protected virtual void ApplyReinforceEffect(DiceRoll diceroll)
@@ -33,6 +35,25 @@ namespace Tokens
                     diceroll.AddDice(DieSide.Success).ShowWithoutRoll();
                     diceroll.OrganizeDicePositions();
                 }
+            }
+        }
+
+        protected virtual void ApplyPostCombatReinforceEffect(GenericShip ship)
+        {
+            if (RuleSets.RuleSet.Instance.ReinforcePostCombatEffectCanBeUsed(Facing))
+            {
+                DieSide dieSideToChange = DieSide.Unknown;
+                if (Combat.DiceRollAttack.RegularSuccesses > 0)
+                {
+                    dieSideToChange = DieSide.Success;
+                    Messages.ShowInfo("Reinforce: Hit is cancelled");
+                }
+                else if (Combat.DiceRollAttack.CriticalSuccesses > 0)
+                {
+                    dieSideToChange = DieSide.Crit;
+                    Messages.ShowInfo("Reinforce: Crit is cancelled");
+                }
+                Combat.DiceRollAttack.ChangeOne(dieSideToChange, DieSide.Blank);
             }
         }
     }

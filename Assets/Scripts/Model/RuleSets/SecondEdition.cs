@@ -229,16 +229,20 @@ namespace RuleSets
             canBePerformed = action is FocusAction;
         }
 
-        // TODO: Change
         public override bool ReinforceEffectCanBeUsed(ArcFacing facing)
         {
+            return false;
+        }
+
+        // TODO: Must be fully in/outside of arc
+        public override bool ReinforcePostCombatEffectCanBeUsed(ArcFacing facing)
+        {
+            if (Combat.DiceRollAttack.Successes <= 1) return false;
+
             bool result = false;
 
-            if (Combat.DiceRollAttack.Successes > 1)
-            {
-                ShotInfo reverseShotInfo = new ShotInfo(Combat.Defender, Combat.Attacker, Combat.Defender.PrimaryWeapon);
-                result = (facing == ArcFacing.Front180) ? reverseShotInfo.InArc : !reverseShotInfo.InArc;
-            }
+            ShotInfo reverseShotInfo = new ShotInfo(Combat.Defender, Combat.Attacker, Combat.Defender.PrimaryWeapon);
+            result = (facing == ArcFacing.Front180) ? reverseShotInfo.InArc : !reverseShotInfo.InArc;
 
             return result;
         }

@@ -593,6 +593,8 @@ public partial class DiceRoll
     {
         for (int i = 0; i < DiceList.Count; i++)
         {
+            if (DiceList[i].Model == null) continue;
+
             DiceList[i].SetPosition(FinalPositionPoint.position + DiceManager.DicePositions[DiceList.Count-1][i]);
             if (DiceList[i].IsDiceFaceVisibilityWrong())
             {

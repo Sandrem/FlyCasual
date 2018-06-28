@@ -126,6 +126,11 @@ namespace RuleSets
             return result;
         }
 
+        public override bool ReinforcePostCombatEffectCanBeUsed(ArcFacing facing)
+        {
+            return false;
+        }
+
         public override void TimedBombActivationTime(GenericShip ship)
         {
             ship.OnManeuverIsRevealed -= BombsManager.CheckBombDropAvailability;

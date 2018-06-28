@@ -197,6 +197,8 @@ namespace Ship
 
         public event EventHandlerBool OnTryConfirmDiceResults;
 
+        public event EventHandlerShip OnCombatCompareResults;
+
         // TRIGGERS
 
         public void CallOnActivationPhaseStart()
@@ -848,6 +850,11 @@ namespace Ship
             if (OnTryConfirmDiceResults != null) OnTryConfirmDiceResults(ref result);
 
             return result;
+        }
+
+        public void CallCombatCompareResults()
+        {
+            if (OnCombatCompareResults != null) OnCombatCompareResults(this);
         }
 
     }

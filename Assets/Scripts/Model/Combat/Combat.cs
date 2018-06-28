@@ -244,6 +244,8 @@ public static partial class Combat
 
     public static void CompareResultsAndDealDamageClient()
     {
+        Combat.Defender.CallCombatCompareResults();
+
         DiceCompareHelper.currentDiceCompareHelper.Close();
         HideDiceResultMenu();
         Phases.FinishSubPhase(typeof(DefenceDiceRollCombatSubPhase));

@@ -104,6 +104,8 @@ public partial class Die
 
     public void SetModelSide(DieSide newSide)
     {
+        if (Model == null) return;
+
         switch (newSide)
         {
             case DieSide.Success:

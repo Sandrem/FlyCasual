@@ -14,24 +14,57 @@ namespace Ship
             public EdrioTwoTubes() : base()
             {
                 PilotName = "Edrio Two Tubes";
-                PilotSkill = 2;
-                Cost = 59;
+                PilotSkill = 4;
+                Cost = 24;
 
                 IsUnique = true;
 
                 SkinName = "Partisan";
 
-                PilotRuleType = typeof(SecondEdition);
-
-                //ImageUrl = "";
-
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
+
+                PilotAbilities.Add(new Abilities.EdrioTwoTubesAbility());
             }
 
             public void AdaptPilotToSecondEdition()
             {
-                //No adaptation is reqiored
+                PilotSkill = 2;
+                Cost = 59;
+
+                ImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/9/93/Edrio_Two_Tubes_Pilot_Card.png";
             }
+        }
+    }
+}
+
+namespace Abilities
+{
+    public class EdrioTwoTubesAbility : GenericAbility
+    {
+        public override void ActivateAbility()
+        {
+            HostShip.OnMovementActivation += CheckAbilityConditions;
+        }
+
+        public override void DeactivateAbility()
+        {
+            HostShip.OnMovementActivation -= CheckAbilityConditions;
+        }
+
+        private void CheckAbilityConditions(GenericShip ship)
+        {
+            if (HostShip.Tokens.CountTokensByType(typeof(Tokens.FocusToken)) > 0) RegisterEdrioTwoTubesTrigger();
+        }
+
+        private void RegisterEdrioTwoTubesTrigger()
+        {
+            RegisterAbilityTrigger(TriggerTypes.OnMovementActivation, AskToPerfromFreeAction);
+        }
+
+        private void AskToPerfromFreeAction(object sender, EventArgs e)
+        {
+            HostShip.GenerateAvailableActionsList();
+            HostShip.AskPerformFreeAction(HostShip.GetAvailableActionsList(), Triggers.FinishTrigger);
         }
     }
 }

@@ -134,7 +134,7 @@ namespace SubPhases
             PrepareByParameters(
                 TrySelectTargetLock,
                 FilterTargetLockTargets,
-                GetAiPriority,
+                GetTargetLockAiPriority,
                 Selection.ThisShip.Owner.PlayerNo,
                 true,
                 AbilityName,

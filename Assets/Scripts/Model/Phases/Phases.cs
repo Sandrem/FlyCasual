@@ -138,12 +138,13 @@ public static partial class Phases
         Board.Cleanup();
     }
 
-    public static void GoBack()
+    public static void GoBack(Type specificSubphaseToFinish = null)
     {
         DecisionSubPhase decisionSubphase = CurrentSubPhase.PreviousSubPhase as DecisionSubPhase;
         if (decisionSubphase != null) decisionSubphase.DecisionWasPreparedAndShown = false;
 
-        FinishSubPhase(CurrentSubPhase.GetType());
+        Type subphaseToFinish = specificSubphaseToFinish ?? CurrentSubPhase.GetType();
+        FinishSubPhase(subphaseToFinish);
         CurrentSubPhase.Resume();
     }
 

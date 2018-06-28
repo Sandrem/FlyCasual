@@ -234,15 +234,24 @@ namespace RuleSets
             return false;
         }
 
-        // TODO: Must be fully in/outside of arc
         public override bool ReinforcePostCombatEffectCanBeUsed(ArcFacing facing)
         {
             if (Combat.DiceRollAttack.Successes <= 1) return false;
 
             bool result = false;
 
+            List<GenericArc> savedArcs = Combat.Defender.ArcInfo.Arcs;
+            Combat.Defender.ArcInfo.Arcs = new List<GenericArc>() { new ArcSpecial180(Combat.Defender.ShipBase) };
             ShotInfo reverseShotInfo = new ShotInfo(Combat.Defender, Combat.Attacker, Combat.Defender.PrimaryWeapon);
-            result = (facing == ArcFacing.Front180) ? reverseShotInfo.InArc : !reverseShotInfo.InArc;
+            bool inForward180Arc = reverseShotInfo.InArc;
+
+            Combat.Defender.ArcInfo.Arcs = new List<GenericArc>() { new ArcSpecial180Rear(Combat.Defender.ShipBase) };
+            reverseShotInfo = new ShotInfo(Combat.Defender, Combat.Attacker, Combat.Defender.PrimaryWeapon);
+            bool inRear180Arc = reverseShotInfo.InArc;
+
+            Combat.Defender.ArcInfo.Arcs = savedArcs;
+
+            result = (facing == ArcFacing.Front180) ? inForward180Arc && !inRear180Arc : !inForward180Arc && inRear180Arc;
 
             return result;
         }

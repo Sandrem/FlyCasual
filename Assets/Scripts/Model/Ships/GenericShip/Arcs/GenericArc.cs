@@ -23,6 +23,7 @@ namespace Arcs
         Primary,
         RearAux,
         Special180,
+        Special180Rear,
         Mobile,
         Bullseye,
         SpecialGhost
@@ -90,7 +91,7 @@ namespace Arcs
 
     public class ArcsHolder
     {
-        public List<GenericArc> Arcs { get; private set; }
+        public List<GenericArc> Arcs { get; set; }
 
         public ArcsHolder(GenericShip host)
         {

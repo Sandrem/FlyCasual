@@ -96,7 +96,7 @@ namespace Abilities
 
         protected bool alwaysUseAbility;
 
-        protected void AskToUseAbility(Func<bool> useByDefault, EventHandler useAbility, EventHandler dontUseAbility = null, Action callback = null, bool showAlwaysUseOption = false, string text = null)
+        protected void AskToUseAbility(Func<bool> useByDefault, EventHandler useAbility, EventHandler dontUseAbility = null, Action callback = null, bool showAlwaysUseOption = false, string infoText = null)
         {
             if (dontUseAbility == null) dontUseAbility = DontUseAbility;
 
@@ -108,7 +108,7 @@ namespace Abilities
                 callback
             );
 
-            pilotAbilityDecision.InfoText = text ?? "Use " + Name + "?";
+            pilotAbilityDecision.InfoText = infoText ?? "Use " + Name + "?";
 
             pilotAbilityDecision.RequiredPlayer = HostShip.Owner.PlayerNo;
 

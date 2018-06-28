@@ -24,7 +24,10 @@ namespace UpgradesList
 
         public void AdaptUpgradeToSecondEdition()
         {
-            
+            ImageUrl = "https://i.imgur.com/Q7LbR5H.png";
+
+            UpgradeAbilities.RemoveAll(n => n is PivotWingAttackAbility);
+            UpgradeAbilities.Add(new PivotWingAttackAbilitySE());
         }
 
         public override bool IsAllowedForShip(GenericShip ship)
@@ -48,7 +51,10 @@ namespace UpgradesList
 
         public void AdaptUpgradeToSecondEdition()
         {
-            
+            ImageUrl = "https://i.imgur.com/qLDoxIv.png";
+
+            UpgradeAbilities.RemoveAll(n => n is PivotWingLandingAbility);
+            UpgradeAbilities.Add(new PivotWingLandingAbilitySE());
         }
 
         public override bool IsAllowedForShip(GenericShip ship)
@@ -62,7 +68,6 @@ namespace Abilities
 {
     public class PivotWingAttackAbility : GenericAbility
     {
-
         public override void ActivateAbility()
         {
             ChangeInitialWingsPosition();
@@ -76,16 +81,16 @@ namespace Abilities
             HostShip.ChangeAgilityBy(-1);
         }
 
-        private void RegisterAskToUseFlip(GenericShip ship)
+        protected virtual void RegisterAskToUseFlip(GenericShip ship)
         {
             if (BoardTools.Board.IsOffTheBoard(ship)) return;
 
             RegisterAbilityTrigger(TriggerTypes.OnMovementFinish, AskToFlip);
         }
 
-        private void AskToFlip(object sender, EventArgs e)
+        protected void AskToFlip(object sender, EventArgs e)
         {
-            AskToUseAbility(NeverUseByDefault, DoFlipSide);
+            AskToUseAbility(NeverUseByDefault, DoFlipSide, infoText: "Flip to Landing position?");
         }
 
         private void DoFlipSide(object sender, EventArgs e)
@@ -95,15 +100,35 @@ namespace Abilities
             DecisionSubPhase.ConfirmDecision();
         }
 
-        private void ChangeInitialWingsPosition()
+        protected void ChangeInitialWingsPosition()
         {
             HostShip.WingsOpen();
         }
     }
 
+    public class PivotWingAttackAbilitySE : PivotWingAttackAbility
+    {
+        public override void ActivateAbility()
+        {
+            ChangeInitialWingsPosition();
+            HostShip.OnMovementActivation += RegisterAskToUseFlip;
+        }
+
+        public override void DeactivateAbility()
+        {
+            HostShip.OnMovementActivation -= RegisterAskToUseFlip;
+        }
+
+        protected override void RegisterAskToUseFlip(GenericShip ship)
+        {
+            if (BoardTools.Board.IsOffTheBoard(ship)) return;
+
+            RegisterAbilityTrigger(TriggerTypes.OnMovementActivation, AskToFlip);
+        }
+    }
+
     public class PivotWingLandingAbility : GenericAbility
     {
-
         public override void ActivateAbility()
         {
             ChangeInitialWingsPosition();
@@ -117,7 +142,7 @@ namespace Abilities
             HostShip.OnManeuverIsRevealed -= RegisterAskToRotate;
         }
 
-        private void RegisterAskToFlip(GenericShip ship)
+        protected void RegisterAskToFlip(GenericShip ship)
         {
             if (BoardTools.Board.IsOffTheBoard(ship)) return;
 
@@ -126,7 +151,7 @@ namespace Abilities
 
         private void AskToFlip(object sender, EventArgs e)
         {
-            AskToUseAbility(NeverUseByDefault, DoFlipSide);
+            AskToUseAbility(AlwaysUseByDefault, DoFlipSide, infoText: "Flip to Attack position?");
         }
 
         private void DoFlipSide(object sender, EventArgs e)
@@ -136,7 +161,7 @@ namespace Abilities
             DecisionSubPhase.ConfirmDecision();
         }
 
-        private void RegisterAskToRotate(GenericShip ship)
+        protected void RegisterAskToRotate(GenericShip ship)
         {
             if (ship.AssignedManeuver.Bearing == Movement.ManeuverBearing.Stationary)
             {
@@ -144,19 +169,68 @@ namespace Abilities
             }
         }
 
-        private void AskToRotate(object sender, EventArgs e)
+        protected virtual void AskToRotate(object sender, EventArgs e)
         {
-            AskToUseAbility(NeverUseByDefault, RotateShip);
+            AskToUseAbility(NeverUseByDefault, RotateShip, infoText: "Rotate this ship?");
         }
 
         private void RotateShip(object sender, EventArgs e)
         {
-            Phases.StartTemporarySubPhaseOld("Rotate ship 180°", typeof(KoiogranTurnSubPhase), DecisionSubPhase.ConfirmDecision);
+            HostShip.Rotate180(DecisionSubPhase.ConfirmDecision);
         }
 
-        private void ChangeInitialWingsPosition()
+        protected void ChangeInitialWingsPosition()
         {
             HostShip.WingsClose();
         }
+    }
+
+    public class PivotWingLandingAbilitySE: PivotWingLandingAbility
+    {
+        public override void ActivateAbility()
+        {
+            ChangeInitialWingsPosition();
+            HostShip.OnMovementActivation += RegisterAskToFlip;
+            HostShip.OnManeuverIsRevealed += RegisterAskToRotate;
+            HostShip.ChangeAgilityBy(-1);
+        }
+
+        public override void DeactivateAbility()
+        {
+            HostShip.OnMovementActivation -= RegisterAskToFlip;
+            HostShip.OnManeuverIsRevealed -= RegisterAskToRotate;
+            HostShip.ChangeAgilityBy(+1);
+        }
+
+        protected override void AskToRotate(object sender, EventArgs e)
+        {
+            PivotWindDecisionSubphase subphase = Phases.StartTemporarySubPhaseNew<PivotWindDecisionSubphase>("Rotate the ship?", Triggers.FinishTrigger);
+
+            subphase.InfoText = "Rotate the ship?";
+
+            subphase.AddDecision("90 Counterclockwise", Rotate90Counterclockwise);
+            subphase.AddDecision("90 Clockwise", Rotate90Clockwise);
+            subphase.AddDecision("180", Rotate180);
+            subphase.AddDecision("No", delegate { DecisionSubPhase.ConfirmDecision(); });
+
+            subphase.Start();
+        }
+
+        private void Rotate180(object sender, EventArgs e)
+        {
+            HostShip.Rotate180(DecisionSubPhase.ConfirmDecision);
+        }
+
+        private void Rotate90Clockwise(object sender, EventArgs e)
+        {
+            HostShip.Rotate90Clockwise(DecisionSubPhase.ConfirmDecision);
+        }
+
+        private void Rotate90Counterclockwise(object sender, EventArgs e)
+        {
+            HostShip.Rotate90Counterclockwise(DecisionSubPhase.ConfirmDecision);
+        }
+
+        private class PivotWindDecisionSubphase : DecisionSubPhase { };
     }
 }

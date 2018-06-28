@@ -5,7 +5,7 @@ using UnityEngine;
 namespace SubPhases
 {
 
-    public class KoiogranTurnSubPhase : GenericSubPhase
+    public class Rotate90CounterclockwiseSubPhase : GenericSubPhase
     {
         private float progressCurrent;
         private float progressTarget;
@@ -13,7 +13,7 @@ namespace SubPhases
 
         public override void Start()
         {
-            Name = "Koiogran Turn SubPhase";
+            Name = "Rotate 90 Counterclockwise Subphase";
             IsTemporary = true;
             UpdateHelpInfo();
             StartRotation();
@@ -22,7 +22,7 @@ namespace SubPhases
         public void StartRotation()
         {
             progressCurrent = 0;
-            progressTarget = 180;
+            progressTarget = 90;
         }
 
         public override void Update()
@@ -30,9 +30,9 @@ namespace SubPhases
             float progressStep = Mathf.Min(Time.deltaTime * ANIMATION_SPEED * Options.AnimationSpeed, progressTarget - progressCurrent);
             progressCurrent += progressStep;
 
-            Selection.ThisShip.RotateAround(Selection.ThisShip.GetCenter(), progressStep);
+            Selection.ThisShip.RotateAround(Selection.ThisShip.GetCenter(), -progressStep);
 
-            float positionY = (progressCurrent < progressTarget / 2) ? progressCurrent : progressTarget - progressCurrent;
+            float positionY = (progressCurrent < progressTarget/2) ? progressCurrent : progressTarget - progressCurrent;
             positionY = positionY / 90;
             Selection.ThisShip.SetHeight(positionY);
 
@@ -41,7 +41,7 @@ namespace SubPhases
 
         private void EndRotation()
         {
-            Phases.FinishSubPhase(typeof(KoiogranTurnSubPhase));
+            Phases.FinishSubPhase(typeof(Rotate90CounterclockwiseSubPhase));
         }
 
         public override void Next()

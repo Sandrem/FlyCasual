@@ -214,6 +214,21 @@ namespace Ship
         {
             AssignedManeuver = null;
         }
+
+        public void Rotate180(Action callBack)
+        {
+            Phases.StartTemporarySubPhaseOld("Rotate ship 180°", typeof(SubPhases.KoiogranTurnSubPhase), callBack);
+        }
+
+        public void Rotate90Clockwise(Action callBack)
+        {
+            Phases.StartTemporarySubPhaseOld("Rotate ship 90°", typeof(SubPhases.Rotate90ClockwiseSubPhase), callBack);
+        }
+
+        public void Rotate90Counterclockwise(Action callBack)
+        {
+            Phases.StartTemporarySubPhaseOld("Rotate ship -90°", typeof(SubPhases.Rotate90CounterclockwiseSubPhase), callBack);
+        }
     }
 
 }

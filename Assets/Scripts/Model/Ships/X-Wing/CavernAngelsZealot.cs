@@ -7,11 +7,11 @@ namespace Ship
 {
     namespace XWing
     {
-        public class CavernAngelZealot : XWing
+        public class CavernAngelsZealot : XWing
         {
-            public CavernAngelZealot() : base()
+            public CavernAngelsZealot() : base()
             {
-                PilotName = "Cavern Angel Zealot";
+                PilotName = "Cavern Angels Zealot";
                 PilotSkill = 1;
                 Cost = 22;
 

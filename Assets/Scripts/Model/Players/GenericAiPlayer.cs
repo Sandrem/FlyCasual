@@ -542,7 +542,6 @@ namespace Players
 
         public override void SelectShipForAbility()
         {
-            Debug.Log("Ability");
             (Phases.CurrentSubPhase as SelectShipSubPhase).AiSelectPrioritizedTarget();
         }
 

@@ -105,7 +105,6 @@ namespace SubPhases
     {
         public override void RevertSubPhase()
         {
-            Phases.FinishSubPhase(this.GetType());
             RuleSet.Instance.ActionIsFailed(TheShip, typeof(ActionsList.TargetLockAction));
             UpdateHelpInfo();
         }

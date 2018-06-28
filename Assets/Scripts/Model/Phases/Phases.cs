@@ -6,6 +6,7 @@ using SubPhases;
 using Players;
 using System;
 using BoardTools;
+using GameModes;
 
 public static partial class Phases
 {
@@ -135,6 +136,20 @@ public static partial class Phases
         }
 
         Board.Cleanup();
+    }
+
+    public static void GoBack()
+    {
+        DecisionSubPhase decisionSubphase = CurrentSubPhase.PreviousSubPhase as DecisionSubPhase;
+        if (decisionSubphase != null) decisionSubphase.DecisionWasPreparedAndShown = false;
+
+        FinishSubPhase(CurrentSubPhase.GetType());
+        CurrentSubPhase.Resume();
+    }
+
+    public static void Skip()
+    {
+        GameMode.CurrentGameMode.SkipButtonEffect();
     }
 
 }

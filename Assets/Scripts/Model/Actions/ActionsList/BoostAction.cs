@@ -318,7 +318,6 @@ namespace SubPhases
         public override void Next()
         {
             Phases.CurrentSubPhase = PreviousSubPhase;
-            Phases.CurrentSubPhase.Next();
             UpdateHelpInfo();
         }
 

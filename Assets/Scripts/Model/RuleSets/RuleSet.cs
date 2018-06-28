@@ -30,13 +30,19 @@ namespace RuleSets
 
         public virtual bool IsSquadBuilderLocked { get { return false; } }
 
+        public virtual void ActionIsFailed(GenericShip ship, Type actionType)
+        {
+            ship.RemoveAlreadyExecutedAction(actionType);
+
+            Phases.GoBack();
+        }
+
         public RuleSet()
         {
             Instance = this;
         }
 
         public abstract void EvadeDiceModification(DiceRoll diceRoll);
-        public abstract void ActionIsFailed(GenericShip ship, Type actionType);
         public abstract bool PilotIsAllowed(GenericShip ship);
         public abstract bool ShipIsAllowed(GenericShip ship);
         public abstract bool WeaponHasRangeBonus();

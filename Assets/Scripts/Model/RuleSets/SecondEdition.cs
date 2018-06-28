@@ -117,8 +117,10 @@ namespace RuleSets
         public override void ActionIsFailed(GenericShip ship, Type actionType)
         {
             Messages.ShowError("Action is failed and skipped");
-            Phases.CurrentSubPhase.PreviousSubPhase.Resume();
-            GameMode.CurrentGameMode.SkipButtonEffect();
+
+            base.ActionIsFailed(ship, actionType);
+
+            Phases.Skip();
         }
 
         public override bool ShipIsAllowed(GenericShip ship)

@@ -12,7 +12,7 @@ namespace Ship
             {
                 PilotName = "Partisan Renegade";
                 PilotSkill = 1;
-                Cost = 21;
+                Cost = 22;
 
                 SkinName = "Partisan";
             }

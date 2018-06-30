@@ -12,7 +12,7 @@ namespace Ship
             {
                 PilotName = "Scarif Base Pilot";
                 PilotSkill = 1;
-                Cost = 21;
+                Cost = 22;
             }
         }
     }

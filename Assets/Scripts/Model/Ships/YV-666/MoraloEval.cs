@@ -18,6 +18,8 @@ namespace Ship
 
                 IsUnique = true;
 
+                SkinName = "Crimson";
+
                 PilotAbilities.Add(new Abilities.MoraloEvalAbility());
             }
         }

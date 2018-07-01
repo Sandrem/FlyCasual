@@ -40,7 +40,7 @@ namespace Ship
                 factions.Add(Faction.Scum);
                 faction = Faction.Scum;
 
-                SkinName = "Crimson";
+                SkinName = "Brown";
 
                 SoundShotsPath = "Slave1-Fire";
                 ShotsCount = 3;

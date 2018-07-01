@@ -20,6 +20,8 @@ namespace Ship
 
                 IsUnique = true;
 
+                SkinName = "Red";
+
                 PilotAbilities.Add(new IG88BAbility());
             }
         }

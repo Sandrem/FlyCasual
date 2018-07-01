@@ -42,7 +42,7 @@ namespace Ship
                 factions.Add(Faction.Rebel);
                 faction = Faction.Rebel;
 
-                SkinName = "White";
+                SkinName = "Blue Squadron";
 
                 CurrentWingsPosition = WingsPositions.Closed;
 

@@ -222,13 +222,21 @@ namespace Ship
                 foreach (Transform modelPart in GetModelTransform())
                 {
                     Renderer renderer = modelPart.GetComponent<Renderer>();
-                    if (renderer != null) renderer.material.SetTexture("_MainTex", skin);
+                    if (renderer != null)
+                    {
+                        renderer.material.SetTexture("_MainTex", skin);
+                        renderer.material.SetColor("_Color", Color.white);
+                    }
 
                     // Second level
                     foreach (Transform modelPartLevel2 in modelPart.transform)
                     {
                         renderer = modelPartLevel2.GetComponent<Renderer>();
-                        if (renderer != null) renderer.material.SetTexture("_MainTex", skin);
+                        if (renderer != null)
+                        {
+                            renderer.material.SetTexture("_MainTex", skin);
+                            renderer.material.SetColor("_Color", Color.white);
+                        }
                     }
                 }
             }

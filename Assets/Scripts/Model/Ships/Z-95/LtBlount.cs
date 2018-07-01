@@ -24,7 +24,7 @@ namespace Ship
 				PilotAbilities.Add(new LtBlountAbiliity());
 				faction = Faction.Rebel;
 
-				SkinName = "Blount";
+				SkinName = "Red";
 			}
 		}
 	}

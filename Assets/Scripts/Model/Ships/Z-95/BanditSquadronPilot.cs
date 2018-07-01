@@ -16,7 +16,7 @@ namespace Ship
 
                 faction = Faction.Rebel;
 
-                SkinName = "Bandit Squadron";
+                //SkinName = "Bandit Squadron";
             }
         }
     }

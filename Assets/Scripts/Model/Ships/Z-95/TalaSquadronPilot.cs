@@ -16,7 +16,7 @@ namespace Ship
 
                 faction = Faction.Rebel;
 
-                SkinName = "Tala Squadron";
+                //SkinName = "Tala Squadron";
             }
         }
     }

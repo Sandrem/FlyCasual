@@ -16,7 +16,7 @@ namespace Ship
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Illicit);
 
-                SkinName = "Black Sun";
+                //SkinName = "Black Sun";
 
                 faction = Faction.Scum;
             }

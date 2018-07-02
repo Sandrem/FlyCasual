@@ -1,11 +1,6 @@
 ﻿using Upgrade;
-using UnityEngine;
-using Ship;
-using System.Collections.Generic;
-using SubPhases;
-using System;
-using Abilities;
 using RuleSets;
+using BoardTools;
 
 namespace UpgradesList
 {
@@ -17,7 +12,33 @@ namespace UpgradesList
             Name = "Selfless";
             Cost = 11;
 
+            ImageUrl = "https://i.imgur.com/MlHR3sF.png";
+
             UpgradeRuleType = typeof(SecondEdition);
+
+            UpgradeAbilities.Add(new Abilities.SecondEdition.Selfless());
+        }
+    }
+}
+
+namespace Abilities
+{
+    namespace SecondEdition
+    {
+        public class Selfless : DrawTheirFireAbility
+        {
+            protected override bool AbilityCanBeUsed()
+            {
+                bool result = base.AbilityCanBeUsed();
+
+                if (result)
+                {
+                    ShotInfo shotInfo = new ShotInfo(Combat.Attacker, HostShip, Combat.Attacker.PrimaryWeapon);
+                    if (!shotInfo.InArc) result = false;
+                }
+
+                return result;
+            }
         }
     }
 }

@@ -37,14 +37,24 @@ namespace Abilities
 
         private void CheckDrawTheirFireAbility()
         {
+            if (AbilityCanBeUsed())
+            {
+                RegisterAbilityTrigger(TriggerTypes.OnTryDamagePrevention, UseDrawTheirFireAbility);
+            }
+        }
+
+        protected virtual bool AbilityCanBeUsed()
+        {
             if (Combat.Defender.Owner.PlayerNo == HostShip.Owner.PlayerNo && Combat.Defender.ShipId != HostShip.ShipId)
             {
                 BoardTools.DistanceInfo distanceInfo = new BoardTools.DistanceInfo(Combat.Defender, HostShip);
                 if (distanceInfo.Range == 1 && Combat.DiceRollAttack.CriticalSuccesses > 0)
                 {
-                    RegisterAbilityTrigger(TriggerTypes.OnTryDamagePrevention, UseDrawTheirFireAbility);
+                    return true;
                 }
             }
+
+            return false;
         }
 
         private void UseDrawTheirFireAbility(object sender, System.EventArgs e)

@@ -31,7 +31,7 @@ namespace Ship
             {
                 PilotSkill = 4;
 
-                ImageUrl = "https://i.imgur.com/23Kxqgq.png";
+                ImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/0/03/Swz13_dutch-vander.png";
             }
         }
     }

@@ -18,6 +18,8 @@ namespace UpgradesList
             Cost = 1;
 
             UpgradeRuleType = typeof(SecondEdition);
+
+            ImageUrl = "https://i.imgur.com/0ID4yWs.png";
         }
     }
 }

@@ -36,7 +36,7 @@ namespace UpgradesList
             MaxCharges = 4;
             Cost = 10;
 
-            ImageUrl = "https://i.imgur.com/1DBDU8I.png";
+            ImageUrl = "https://i.imgur.com/0rGC0DE.png";
 
             SpendsTargetLockOnTargetToShoot = false;
             IsDiscardedForShot = false;

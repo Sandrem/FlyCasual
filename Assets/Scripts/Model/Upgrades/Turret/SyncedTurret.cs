@@ -47,7 +47,7 @@ namespace Abilities
 
         private void AddSyncedTurretAbility(GenericShip ship)
         {
-            ship.AddAvailableActionEffect(new SyncedTurretAction());
+            ship.AddAvailableActionEffect(new SyncedTurretAction() { Source = HostUpgrade } );
         }
 
         private class SyncedTurretAction : ActionsList.GenericAction
@@ -72,7 +72,7 @@ namespace Abilities
             public override bool IsActionEffectAvailable()
             {
                 bool result = false;
-                if (Combat.AttackStep == CombatStep.Attack && Combat.ShotInfo.InPrimaryArc) result = true;
+                if (Combat.AttackStep == CombatStep.Attack && Combat.ShotInfo.InPrimaryArc && Combat.ChosenWeapon.GetType() == Source.GetType()) result = true;
                 return result;
             }
 

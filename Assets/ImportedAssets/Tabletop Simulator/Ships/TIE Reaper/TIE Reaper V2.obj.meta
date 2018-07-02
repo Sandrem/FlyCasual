@@ -1,18 +1,16 @@
 fileFormatVersion: 2
-guid: 99e8520ac8ed3204cb4ac52073ff2ef4
-timeCreated: 1523342374
-licenseType: Free
+guid: 3fbd0d12b7288e74eba501b567ac2ff8
 ModelImporter:
-  serializedVersion: 22
+  serializedVersion: 23
   fileIDToRecycleName:
-    100000: Reaper
+    100000: default
     100002: //RootNode
-    400000: Reaper
+    400000: default
     400002: //RootNode
-    2100000: ReaperMat
-    2300000: Reaper
-    3300000: Reaper
-    4300000: Reaper
+    2100000: defaultMat
+    2300000: default
+    3300000: default
+    4300000: default
   externalObjects: {}
   materials:
     importMaterials: 1
@@ -32,6 +30,7 @@ ModelImporter:
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
+    importConstraints: 0
     animationCompression: 1
     animationRotationError: 0.5
     animationPositionError: 0.5
@@ -63,6 +62,8 @@ ModelImporter:
     secondaryUVHardAngle: 88
     secondaryUVPackMargin: 4
     useFileScale: 1
+    previousCalculatedGlobalScale: 1
+    hasPreviousCalculatedGlobalScale: 0
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 0

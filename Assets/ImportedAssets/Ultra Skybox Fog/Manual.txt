@@ -1,0 +1,16 @@
+Thanks for downloading Ultra Skybox Fog!
+
+Using this shader is very simple, to set it up, please follow the following instructions:
+
+  > 1. Create a new material.
+
+  > 2. Set the material's shader to Galactic Studios/Ultra Skybox Fog
+
+  > 3. Set the "Cubemap (HDR)" slot to a cubemap of your choosing (see: https://docs.unity3d.com/Manual/class-Cubemap.html).
+
+  > 4. Now tweak the sliders and other settings till the result is pleasing.
+
+
+TIP: To get your scenery's fog to blend in perfectly with the shader's fog, start by picking the skybox's fog colour from somewhere on the horizon of the skybox such that the fog in that skybox matches with the skybox itself (then adjust as necessary). Next adjust the fog start and end till it looks good. Finally pick the scenery fog colour from the horizon of the skybox and the scenery will now blend in well with the skybox.
+
+Email me at: thomas.glacticstudios@gmail.com

@@ -66,7 +66,7 @@ namespace Ship
             return result;
         }
 
-        public GenericToken GetToken<T>(char letter = ' ') where T : GenericToken
+        public T GetToken<T>(char letter = ' ') where T : GenericToken
         {
             var result = AssignedTokens
                 .OfType<T>()

@@ -13,7 +13,7 @@ namespace UpgradesList
         {
             Types.Add(UpgradeType.Illicit);
             Name = "Inertial Dampeners";
-            Cost = 2;
+            Cost = 1;
 
             UpgradeAbilities.Add(new Abilities.InertialDampenersAbility());
         }
@@ -21,6 +21,7 @@ namespace UpgradesList
         public void AdaptUpgradeToSecondEdition()
         {
             ImageUrl = "https://i.imgur.com/3NIASof.png";
+            Cost = 2;
 
             UpgradeAbilities.RemoveAll(a => a is Abilities.InertialDampenersAbility);
             UpgradeAbilities.Add(new Abilities.SecondEdition.InertialDampenersAbilitySE());

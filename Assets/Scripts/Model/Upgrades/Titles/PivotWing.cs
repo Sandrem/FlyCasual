@@ -24,7 +24,10 @@ namespace UpgradesList
 
         public void AdaptUpgradeToSecondEdition()
         {
-            ImageUrl = "https://i.imgur.com/Q7LbR5H.png";
+            Name = "Pivot Wing (Open)";
+
+            Types.RemoveAll(t => t == UpgradeType.Title);
+            Types.Add(UpgradeType.Configuration);
 
             UpgradeAbilities.RemoveAll(n => n is PivotWingAttackAbility);
             UpgradeAbilities.Add(new PivotWingAttackAbilitySE());
@@ -51,7 +54,10 @@ namespace UpgradesList
 
         public void AdaptUpgradeToSecondEdition()
         {
-            ImageUrl = "https://i.imgur.com/qLDoxIv.png";
+            Name = "Pivot Wing (Closed)";
+
+            Types.RemoveAll(t => t == UpgradeType.Title);
+            Types.Add(UpgradeType.Configuration);
 
             UpgradeAbilities.RemoveAll(n => n is PivotWingLandingAbility);
             UpgradeAbilities.Add(new PivotWingLandingAbilitySE());

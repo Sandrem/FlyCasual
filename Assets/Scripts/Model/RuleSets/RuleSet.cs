@@ -28,6 +28,9 @@ namespace RuleSets
         public abstract Dictionary<string, string> PreGeneratedAiSquadrons { get; }
         public abstract string PathToSavedSquadrons { get; }
         public abstract string RootUrlForImages { get; }
+        public abstract Vector2 UpgradeCardSize { get; }
+        public abstract Vector2 UpgradeCardCompactOffset { get; }
+        public abstract Vector2 UpgradeCardCompactSize { get; }
 
         public virtual bool IsSquadBuilderLocked { get { return false; } }
 

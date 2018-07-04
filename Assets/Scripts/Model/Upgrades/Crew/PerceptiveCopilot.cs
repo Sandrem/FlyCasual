@@ -14,8 +14,6 @@ namespace UpgradesList
             Name = "Perceptive Copilot";
             Cost = 3;
 
-            ImageUrl = "https://i.imgur.com/6yb50OH.png";
-
             UpgradeRuleType = typeof(SecondEdition);
 
             UpgradeAbilities.Add(new ReconSpecialistAbility());

@@ -30,8 +30,6 @@ namespace UpgradesList
 
         public void AdaptUpgradeToSecondEdition()
         {
-            ImageUrl = "https://i.imgur.com/HGcGmlt.png";
-
             IsDiscardedAfterDropped = false;
             UsesCharges = true;
             MaxCharges = 2;

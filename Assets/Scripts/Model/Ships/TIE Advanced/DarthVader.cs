@@ -35,6 +35,8 @@ namespace Ship
 
                 PilotAbilities.RemoveAll(ability => ability is Abilities.DarthVaderAbility);
                 PilotAbilities.Add(new Abilities.SecondEdition.DarthVaderAbility());
+
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Force);
             }
         }
     }

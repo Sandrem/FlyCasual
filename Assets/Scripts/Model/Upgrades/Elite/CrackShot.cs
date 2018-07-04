@@ -28,8 +28,6 @@ namespace UpgradesList
             MaxCharges = 1;
             UsesCharges = true;
 
-            ImageUrl = "https://i.imgur.com/NclnA61.png";
-
             UpgradeAbilities.RemoveAll(a => a is CrackShotAbility);
             UpgradeAbilities.Add(new Abilities.SecondEdition.CrackShotAbility());
         }

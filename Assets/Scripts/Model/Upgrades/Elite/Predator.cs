@@ -25,7 +25,6 @@ namespace UpgradesList
 
         public void AdaptUpgradeToSecondEdition()
         {
-            ImageUrl = "https://i.imgur.com/QPV7jdA.png";
             UpgradeAbilities.RemoveAll(a => a is PredatorAbility);
             UpgradeAbilities.Add(new Abilities.SecondEdition.PredatorAbility());
         }

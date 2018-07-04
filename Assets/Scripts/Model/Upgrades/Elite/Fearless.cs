@@ -13,8 +13,6 @@ namespace UpgradesList
             Name = "Fearless";
             Cost = 1;
 
-            ImageUrl = "https://i.imgur.com/B9zrVWA.png";
-
             UpgradeRuleType = typeof(SecondEdition);
 
             UpgradeAbilities.Add(new Abilities.SecondEdition.FearlessAbility());

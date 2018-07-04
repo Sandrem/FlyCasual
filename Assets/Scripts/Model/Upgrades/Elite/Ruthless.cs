@@ -9,17 +9,15 @@ using RuleSets;
 
 namespace UpgradesList
 {
-    public class Elusive : GenericUpgrade
+    public class Ruthless : GenericUpgrade
     {
-        public Elusive() : base()
+        public Ruthless() : base()
         {
             Types.Add(UpgradeType.Elite);
-            Name = "Elusive";
+            Name = "Ruthless";
             Cost = 1;
 
             UpgradeRuleType = typeof(SecondEdition);
-
-            ImageUrl = "https://i.imgur.com/D0w1eiJ.png";
         }
     }
 }

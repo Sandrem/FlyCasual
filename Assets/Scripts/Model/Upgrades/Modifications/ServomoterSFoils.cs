@@ -26,7 +26,8 @@ namespace UpgradesList
 
         public void AdaptUpgradeToSecondEdition()
         {
-            ImageUrl = "https://i.imgur.com/yZw9Mhd.png";
+            Types.RemoveAll(t => t == UpgradeType.Modification);
+            Types.Add(UpgradeType.Configuration);
 
             UpgradeAbilities.RemoveAll(a => a is ServomotorSFoilsClosedAbility);
             UpgradeAbilities.Add(new Abilities.SecondEdition.ServomotorSFoilsClosedAbilitySE());
@@ -51,7 +52,10 @@ namespace UpgradesList
 
         public void AdaptUpgradeToSecondEdition()
         {
-            ImageUrl = "https://i.imgur.com/CxA8zXL.png";
+            Name = "Servomotor S-Foils (Open)";
+
+            Types.RemoveAll(t => t == UpgradeType.Modification);
+            Types.Add(UpgradeType.Configuration);
 
             UpgradeAbilities.RemoveAll(a => a is ServomotorSFoilsAttackAbility);
             UpgradeAbilities.Add(new Abilities.SecondEdition.ServomotorSFoilsAttackAbilitySE());

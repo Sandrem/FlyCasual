@@ -18,8 +18,6 @@ namespace SquadBuilderNS
         private const int SHIP_COLUMN_COUNT = 5;
         private const float PILOT_CARD_WIDTH = 300;
         private const float PILOT_CARD_HEIGHT = 418;
-        private const float UPGRADE_CARD_WIDTH = 194;
-        private const float UPGRADE_CARD_HEIGHT = 300;
         private const float DISTANCE_LARGE = 40;
         private const float DISTANCE_MEDIUM = 20;
         private const float DISTANCE_SMALL = 10;
@@ -27,7 +25,7 @@ namespace SquadBuilderNS
         private class UpgradeSlotPanel
         {
             public GameObject Panel;
-            public Vector2 Size = new Vector2(UPGRADE_CARD_WIDTH, UPGRADE_CARD_HEIGHT);
+            public Vector2 Size = new Vector2(RuleSet.Instance.UpgradeCardCompactSize.x, RuleSet.Instance.UpgradeCardCompactSize.y);
             public GenericUpgrade Upgrade;
             public UpgradeType SlotType;
 
@@ -191,7 +189,7 @@ namespace SquadBuilderNS
             Transform contentTransform = ship.Panel.Panel.transform;
             RectTransform contentRect = contentTransform.GetComponent<RectTransform>();
             int installedUpgradesCount = ship.Instance.UpgradeBar.GetUpgradesAll().Count;
-            contentRect.sizeDelta = new Vector2(PILOT_CARD_WIDTH + (UPGRADE_CARD_WIDTH + DISTANCE_SMALL) * installedUpgradesCount, contentRect.sizeDelta.y);
+            contentRect.sizeDelta = new Vector2(PILOT_CARD_WIDTH + (RuleSet.Instance.UpgradeCardCompactSize.x + DISTANCE_SMALL) * installedUpgradesCount, contentRect.sizeDelta.y);
 
             prefab = (GameObject)Resources.Load("Prefabs/SquadBuilder/PilotPanel", typeof(GameObject));
             GameObject pilotPanel = MonoBehaviour.Instantiate(prefab, shipWithUpgradesPanelGO.transform);
@@ -220,11 +218,11 @@ namespace SquadBuilderNS
             GameObject newUpgradePanel = MonoBehaviour.Instantiate(prefab, contentTransform);
 
             RectTransform contentRect = contentTransform.GetComponent<RectTransform>();
-            newUpgradePanel.transform.localPosition = new Vector2(PILOT_CARD_WIDTH + DISTANCE_SMALL + (UPGRADE_CARD_WIDTH + DISTANCE_SMALL) * availableUpgradesCounter, 0);
+            newUpgradePanel.transform.localPosition = new Vector2(PILOT_CARD_WIDTH + DISTANCE_SMALL + (RuleSet.Instance.UpgradeCardCompactSize.x + DISTANCE_SMALL) * availableUpgradesCounter, 0);
             ship.Panel.Size = contentRect.sizeDelta;
 
             UpgradePanelSquadBuilder script = newUpgradePanel.GetComponent<UpgradePanelSquadBuilder>();
-            script.Initialize(upgrade.Name, null, upgrade);
+            script.Initialize(upgrade.Name, null, upgrade, compact: true);
 
             availableUpgradesCounter++;
         }
@@ -465,13 +463,12 @@ namespace SquadBuilderNS
 
                 if (slot.InstalledUpgrade == null)
                 {
-                    script.Initialize("Slot:" + slot.Type.ToString(), slot, null, OpenSelectUpgradeMenu);
+                    script.Initialize("Slot:" + slot.Type.ToString(), slot, null, OpenSelectUpgradeMenu, compact: true);
                     UpgradeSlotPanels.Add(new UpgradeSlotPanel(null, slot.Type, newUpgradePanel));
                 }
                 else
                 {
-                    //script.Initialize(slot.InstalledUpgrade.Name, slot, slot.InstalledUpgrade, RemoveInstalledUpgrade);
-                    script.Initialize(slot.InstalledUpgrade.Name, slot, slot.InstalledUpgrade, RemoveUpgradeClicked);
+                    script.Initialize(slot.InstalledUpgrade.Name, slot, slot.InstalledUpgrade, RemoveUpgradeClicked, compact: true);
                     UpgradeSlotPanels.Add(new UpgradeSlotPanel(slot.InstalledUpgrade, slot.Type, newUpgradePanel));
                 }
             }
@@ -492,9 +489,9 @@ namespace SquadBuilderNS
                 if (count == maxOneRowSize)
                 {
                     maxSizeX = offsetX;
-                    offsetX = (UpgradeSlotPanels.Count % 2 == 0) ? PILOT_CARD_WIDTH + 2 * DISTANCE_MEDIUM : PILOT_CARD_WIDTH + 2 * DISTANCE_MEDIUM + (UPGRADE_CARD_WIDTH + DISTANCE_MEDIUM) / 2;
-                    offsetY = -(UPGRADE_CARD_HEIGHT + DISTANCE_MEDIUM);
-                    maxSizeY = 2 * UPGRADE_CARD_HEIGHT + DISTANCE_MEDIUM;
+                    offsetX = (UpgradeSlotPanels.Count % 2 == 0) ? PILOT_CARD_WIDTH + 2 * DISTANCE_MEDIUM : PILOT_CARD_WIDTH + 2 * DISTANCE_MEDIUM + (RuleSet.Instance.UpgradeCardCompactSize.x + DISTANCE_MEDIUM) / 2;
+                    offsetY = -(RuleSet.Instance.UpgradeCardCompactSize.y + DISTANCE_MEDIUM);
+                    maxSizeY = 2 * RuleSet.Instance.UpgradeCardCompactSize.y + DISTANCE_MEDIUM;
                 }
                 upgradeSlotPanel.Panel.transform.localPosition = new Vector2(offsetX, offsetY);
                 offsetX += upgradeSlotPanel.Size.x + DISTANCE_MEDIUM;
@@ -519,7 +516,7 @@ namespace SquadBuilderNS
             Transform contentTransform = GameObject.Find("UI/Panels/SelectUpgradePanel/Panel/Scroll View/Viewport/Content").transform;
             DestroyChildren(contentTransform);
             contentTransform.localPosition = new Vector3(0, contentTransform.localPosition.y, contentTransform.localPosition.z);
-            contentTransform.GetComponent<RectTransform>().sizeDelta = new Vector2(filteredUpgradesCount * (UPGRADE_CARD_WIDTH + DISTANCE_MEDIUM) + 2 * DISTANCE_MEDIUM, 0);
+            contentTransform.GetComponent<RectTransform>().sizeDelta = new Vector2(filteredUpgradesCount * (RuleSet.Instance.UpgradeCardSize.x + DISTANCE_MEDIUM) + 2 * DISTANCE_MEDIUM, 0);
 
             foreach (UpgradeRecord upgrade in filteredUpgrades)
             {
@@ -542,7 +539,7 @@ namespace SquadBuilderNS
 
             int column = availableUpgradesCounter;
 
-            newUpgradePanel.transform.localPosition = new Vector3(DISTANCE_MEDIUM + (UPGRADE_CARD_WIDTH + DISTANCE_MEDIUM) * column, UPGRADE_CARD_HEIGHT/2, 0);
+            newUpgradePanel.transform.localPosition = new Vector3(DISTANCE_MEDIUM + (RuleSet.Instance.UpgradeCardSize.x + DISTANCE_MEDIUM) * column, RuleSet.Instance.UpgradeCardSize.y / 2, 0);
 
             availableUpgradesCounter++;
         }

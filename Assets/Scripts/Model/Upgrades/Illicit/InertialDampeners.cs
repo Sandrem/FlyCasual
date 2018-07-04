@@ -20,7 +20,6 @@ namespace UpgradesList
 
         public void AdaptUpgradeToSecondEdition()
         {
-            ImageUrl = "https://i.imgur.com/3NIASof.png";
             Cost = 2;
 
             UpgradeAbilities.RemoveAll(a => a is Abilities.InertialDampenersAbility);

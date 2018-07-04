@@ -23,7 +23,7 @@ namespace UpgradesList
 
         public void AdaptUpgradeToSecondEdition()
         {
-            ImageUrl = "https://i.imgur.com/MNODe6O.png";
+
         }
     }
 }

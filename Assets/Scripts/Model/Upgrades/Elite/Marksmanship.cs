@@ -20,8 +20,6 @@ namespace UpgradesList
 
         public void AdaptUpgradeToSecondEdition()
         {
-            ImageUrl = "https://i.imgur.com/FL6h1bE.png";
-
             UpgradeAbilities.RemoveAll(a => a is MarksmanshipAbility);
             UpgradeAbilities.Add(new Abilities.SecondEdition.MarksmanshipAbility());
         }

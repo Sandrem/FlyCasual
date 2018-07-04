@@ -15,8 +15,6 @@ namespace UpgradesList
             Name = "AfterBurners";
             Cost = 8;
 
-            ImageUrl = "https://i.imgur.com/DYUB89A.png";
-
             MaxCharges = 2;
 
             UpgradeRuleType = typeof(SecondEdition);

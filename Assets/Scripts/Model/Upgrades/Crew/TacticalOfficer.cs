@@ -23,7 +23,7 @@ namespace UpgradesList
 
         public void AdaptUpgradeToSecondEdition()
         {
-            ImageUrl = "https://i.imgur.com/Zpa8mVA.png";
+
         }
 
         public override bool IsAllowedForShip(GenericShip ship)

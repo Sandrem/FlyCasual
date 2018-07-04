@@ -35,8 +35,6 @@ namespace UpgradesList
         {
             MaxCharges = 2;
 
-            ImageUrl = "https://i.imgur.com/UwzG8IT.png";
-
             SpendsTargetLockOnTargetToShoot = false;
 
             IsDiscardedForShot = false;

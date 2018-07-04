@@ -80,6 +80,8 @@ namespace Ship
                 MaxHull = 5;
                 MaxShields = 3;
 
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Configuration);
+
                 PrintedActions.Add(new CoordinateAction() { IsRed = true });
 
                 IconicPilots[Faction.Rebel] = typeof(BenthicTwoTubes);

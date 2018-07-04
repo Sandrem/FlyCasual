@@ -34,8 +34,6 @@ namespace UpgradesList
 
         public void AdaptUpgradeToSecondEdition()
         {
-            ImageUrl = "https://i.imgur.com/DdanhYB.png";
-
             SpendsTargetLockOnTargetToShoot = false;
 
             IsDiscardedForShot = false;

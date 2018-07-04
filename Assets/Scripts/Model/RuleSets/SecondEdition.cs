@@ -44,7 +44,11 @@ namespace RuleSets
         public override Color MovementEasyColor { get { return new Color(0, 0.5f, 1); } }
         public override MovementComplexity IonManeuverComplexity { get { return MovementComplexity.Easy; } }
         public override string PathToSavedSquadrons { get { return "RandomAiSquadrons"; } }
+
         public override string RootUrlForImages { get { return "https://raw.githubusercontent.com/sandrem/xwing-data2-test/master/images/"; } }
+        public override Vector2 UpgradeCardSize { get { return new Vector2(418, 300); } }
+        public override Vector2 UpgradeCardCompactOffset { get { return new Vector2(168, 2); } }
+        public override Vector2 UpgradeCardCompactSize { get { return new Vector2(237, 296); } }
 
         public override Dictionary<Type, int> DamageDeckContent
         {

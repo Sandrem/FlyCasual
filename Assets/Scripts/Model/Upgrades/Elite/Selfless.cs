@@ -12,8 +12,6 @@ namespace UpgradesList
             Name = "Selfless";
             Cost = 11;
 
-            ImageUrl = "https://i.imgur.com/MlHR3sF.png";
-
             UpgradeRuleType = typeof(SecondEdition);
 
             UpgradeAbilities.Add(new Abilities.SecondEdition.Selfless());

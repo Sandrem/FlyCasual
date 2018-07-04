@@ -16,8 +16,6 @@ namespace UpgradesList
             Name = "R4 Astromech";
             Cost = 10;
 
-            ImageUrl = "https://i.imgur.com/ziyiDMr.png";
-
             UpgradeRuleType = typeof(SecondEdition);
 
             UpgradeAbilities.Add(new Abilities.SecondEdition.R4AstromechAbilitySE());

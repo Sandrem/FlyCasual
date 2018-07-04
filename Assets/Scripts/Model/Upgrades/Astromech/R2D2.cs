@@ -26,8 +26,6 @@ namespace UpgradesList
         {
             MaxCharges = 3;
 
-            ImageUrl = "https://i.imgur.com/BDujMs7.png";
-
             UpgradeAbilities.RemoveAll(a => a is R2D2Ability);
             UpgradeAbilities.Add(new Abilities.SecondEdition.R2AstromechAbility());
         }

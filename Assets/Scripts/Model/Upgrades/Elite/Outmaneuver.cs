@@ -19,8 +19,6 @@ namespace UpgradesList
 
         public void AdaptUpgradeToSecondEdition()
         {
-            ImageUrl = "https://i.imgur.com/LtA5WV3.png";
-
             UpgradeAbilities.RemoveAll(a => a is OutmaneuverAbility);
             UpgradeAbilities.Add(new Abilities.SecondEdition.OutmaneuverAbilitySE());
         }

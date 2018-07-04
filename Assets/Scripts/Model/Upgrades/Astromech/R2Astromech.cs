@@ -27,8 +27,6 @@ namespace UpgradesList
         {
             MaxCharges = 2;
 
-            ImageUrl = "https://i.imgur.com/eUKY69J.png";
-
             UpgradeAbilities.RemoveAll(a => a is R2AstromechAbility);
             UpgradeAbilities.Add(new Abilities.SecondEdition.R2AstromechAbility());
         }

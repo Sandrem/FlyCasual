@@ -26,7 +26,9 @@ namespace Upgrade
         Title,
         Modification,
         Illicit,
-        Tech
+        Tech,
+        Force,
+        Configuration
     }
 
     public abstract class GenericUpgrade

@@ -30,8 +30,6 @@ namespace UpgradesList
 
         public void AdaptUpgradeToSecondEdition()
         {
-            ImageUrl = "https://i.imgur.com/qepSXTj.png";
-
             UpgradeAbilities.RemoveAll(a => a is IonDamageAbility);
             UpgradeAbilities.Add(new Abilities.SecondEdition.IonDamageAbilitySE());
             UpgradeAbilities.Add(new GenericActionBarAbility<RotateArcAction>());

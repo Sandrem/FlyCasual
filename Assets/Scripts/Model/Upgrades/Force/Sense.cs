@@ -11,11 +11,9 @@ namespace UpgradesList
     {
         public Sense() : base()
         {
-            Types.Add(UpgradeType.Elite);
+            Types.Add(UpgradeType.Force);
             Name = "Sense";
             Cost = 10;
-
-            ImageUrl = "https://i.imgur.com/1SbeVeC.png";
 
             UpgradeRuleType = typeof(SecondEdition);
 

@@ -19,8 +19,6 @@ namespace UpgradesList
 
         public void AdaptUpgradeToSecondEdition()
         {
-            ImageUrl = "https://i.imgur.com/aeuptwq.png";
-
             Cost = 6;
 
             UpgradeAbilities.RemoveAll(a => a is FireControlSystemAbility);

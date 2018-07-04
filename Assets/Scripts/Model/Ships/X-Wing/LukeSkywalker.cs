@@ -28,6 +28,8 @@ namespace Ship
 
                 PilotAbilities.RemoveAll(a => a is Abilities.LukeSkywalkerAbility);
                 PilotAbilities.Add(new Abilities.SecondEdition.LukeSkywalkerAbility());
+
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Force);
             }
         }
     }

@@ -12,11 +12,9 @@ namespace UpgradesList
     {
         public InstinctiveAim() : base()
         {
-            Types.Add(UpgradeType.Elite);
+            Types.Add(UpgradeType.Force);
             Name = "Instinctive Aim";
             Cost = 1;
-
-            ImageUrl = "https://i.imgur.com/HWa4OmI.png";
 
             UpgradeRuleType = typeof(SecondEdition);
 

@@ -62,6 +62,7 @@ public static class ImageManager
             {
                 File.Delete(filePath);
             }
+            Debug.Log("Trying to download..." + www.url);
             Debug.Log("WWW ERROR " + www.error);
         }
     }

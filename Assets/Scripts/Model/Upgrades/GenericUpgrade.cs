@@ -78,6 +78,14 @@ namespace Upgrade
             }
         }
 
+        public string ImageUrlFE
+        {
+            get
+            {
+                return imageUrl ?? ImageUrls.GetImageUrlOld(this);
+            }
+        }
+
         public Type UpgradeRuleType = typeof(FirstEdition);
 
         public int MaxCharges { get; set; }

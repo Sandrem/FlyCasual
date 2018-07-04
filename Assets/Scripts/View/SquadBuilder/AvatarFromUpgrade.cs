@@ -29,7 +29,7 @@ public class AvatarFromUpgrade : MonoBehaviour {
 
     private void LoadImage()
     {
-        Global.Instance.StartCoroutine(LoadTooltipImage(this.gameObject, Upgrade.ImageUrl));
+        Global.Instance.StartCoroutine(LoadTooltipImage(this.gameObject, Upgrade.ImageUrlFE));
     }
 
     private IEnumerator LoadTooltipImage(GameObject thisGameObject, string url)

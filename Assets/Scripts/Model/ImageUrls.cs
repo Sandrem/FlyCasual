@@ -18,6 +18,11 @@ public static class ImageUrls
         return GetImageUrl(UpgradesPath + FormatUpgradeTypes(upgrade.Types), FormatUpgradeName(upgrade.Name), filename);
     }
 
+    public static string GetImageUrlOld(GenericUpgrade upgrade, string filename = null)
+    {
+        return GetImageUrlOld(UpgradesPath + FormatUpgradeTypes(upgrade.Types), FormatUpgradeName(upgrade.Name), filename);
+    }
+
     public static string GetImageUrl(GenericDamageCard crit, string filename = null)
     {
         return GetImageUrlOld(DamageDeckPath, crit.Name, filename);

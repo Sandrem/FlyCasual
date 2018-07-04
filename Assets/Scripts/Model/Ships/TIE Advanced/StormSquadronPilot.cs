@@ -17,7 +17,6 @@ namespace Ship
             {
                 PilotName = "Storm Squadron Ace";
                 PilotSkill = 3;
-                ImageUrl = "https://i.imgur.com/IJAZhpd.png";
 
                 Cost = 46;
             }

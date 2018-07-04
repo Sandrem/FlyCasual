@@ -74,6 +74,8 @@ namespace Ship
                 PrintedActions.Add(new CoordinateAction() { IsRed = true });
 
                 IconicPilots[Faction.Imperial] = typeof(CaptainFeroph);
+
+                PilotAbilities.Add(new Abilities.AdvancedAileronsAbility());
             }
         }
     }

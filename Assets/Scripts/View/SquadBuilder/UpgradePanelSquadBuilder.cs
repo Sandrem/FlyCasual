@@ -103,7 +103,7 @@ public class UpgradePanelSquadBuilder : MonoBehaviour {
             float offsetX = (!Upgrade.Types.Contains(UpgradeType.Configuration)) ? RuleSet.Instance.UpgradeCardCompactOffset.x : RuleSet.Instance.UpgradeCardCompactOffset.x - 155;
             float offsetY = RuleSet.Instance.UpgradeCardCompactOffset.y;
             float sizeX = (RuleSet.Instance.UpgradeCardCompactSize.x < newTexture.width) ? RuleSet.Instance.UpgradeCardCompactSize.x : newTexture.width;
-            float sizeY = (RuleSet.Instance.UpgradeCardCompactSize.y < newTexture.height) ? RuleSet.Instance.UpgradeCardCompactSize.x : newTexture.height;
+            float sizeY = (RuleSet.Instance.UpgradeCardCompactSize.y < newTexture.height) ? RuleSet.Instance.UpgradeCardCompactSize.y : newTexture.height;
 
             newSprite = Sprite.Create(
                 newTexture,

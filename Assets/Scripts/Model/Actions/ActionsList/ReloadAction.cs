@@ -79,6 +79,7 @@ namespace ActionsList
             subphase.InfoText = "Choose device to restore one charge";
             subphase.RequiredPlayer = Selection.ThisShip.Owner.PlayerNo;
             subphase.DecisionViewType = DecisionViewTypes.ImageButtons;
+            subphase.ImageButtonSize = new Vector2(RuleSet.Instance.UpgradeCardSize.x, RuleSet.Instance.UpgradeCardSize.y);
 
             foreach (GenericUpgrade upgrade in Selection.ThisShip.UpgradeBar.GetRechargableUpgrades())
             {

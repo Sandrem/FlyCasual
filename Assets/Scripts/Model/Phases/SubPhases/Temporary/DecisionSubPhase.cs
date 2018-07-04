@@ -67,6 +67,7 @@ namespace SubPhases
         public bool WasDecisionButtonPressed;
         public bool IsForced;
         public bool DecisionWasPreparedAndShown;
+        public Vector2 ImageButtonSize = new Vector2(194, 300);
 
         private const float defaultWindowHeight = 75;
         private const float buttonHeight = 45;
@@ -152,12 +153,12 @@ namespace SubPhases
                         break;
                     case DecisionViewTypes.ImageButtons:
                         decisionPanel.GetComponent<RectTransform>().sizeDelta = new Vector3(
-                            Mathf.Max(395, decisions.Count * 194 + (decisions.Count + 1) * 10),
-                            defaultWindowHeight + 300 + 10
+                            Mathf.Max(395, decisions.Count * ImageButtonSize.x + (decisions.Count + 1) * 10),
+                            defaultWindowHeight + ImageButtonSize.y + 10
                         );
                         buttonsHolder.GetComponent<RectTransform>().sizeDelta = new Vector3(
-                            decisions.Count * 194 + (decisions.Count + 1) * 10,
-                            defaultWindowHeight + 300 + 10
+                            decisions.Count * ImageButtonSize.x + (decisions.Count + 1) * 10,
+                            defaultWindowHeight + ImageButtonSize.y + 10
                         );
                         break;
                     default:
@@ -208,7 +209,7 @@ namespace SubPhases
 
                             break;
                         case DecisionViewTypes.ImageButtons:
-                            button.transform.localPosition = new Vector3(10*(i+1) + i*194, 0, 0);
+                            button.transform.localPosition = new Vector3(10*(i+1) + i* ImageButtonSize.x, 0, 0);
 
                             SmallCardPanel script = button.GetComponent<SmallCardPanel>();
                             script.Initialize(

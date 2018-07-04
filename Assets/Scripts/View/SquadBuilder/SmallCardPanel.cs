@@ -69,6 +69,7 @@ public class SmallCardPanel : MonoBehaviour {
 
         ShowCounter();
 
+        this.gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(newTexture.width, newTexture.height);
         this.gameObject.SetActive(true);
     }
 

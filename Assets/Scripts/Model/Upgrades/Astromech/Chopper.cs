@@ -77,6 +77,7 @@ namespace Abilities
                 DefaultDecisionName = upgrades[0].Name;
 
                 DecisionViewType = DecisionViewTypes.ImageButtons;
+                ImageButtonSize = new Vector2(RuleSets.RuleSet.Instance.UpgradeCardSize.x, RuleSets.RuleSet.Instance.UpgradeCardSize.y);
 
                 callBack();
             }

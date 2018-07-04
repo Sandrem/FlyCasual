@@ -27,7 +27,8 @@ namespace UpgradesList
 
         public void AdaptUpgradeToSecondEdition()
         {
-
+            UpgradeAbilities.RemoveAll(a => a is DirectorKrennicAbility);
+            UpgradeAbilities.Add(new Abilities.SecondEdition.DirectorKrennicAbilitySE());
         }
 
         public override bool IsAllowedForShip(GenericShip ship)
@@ -44,6 +45,11 @@ namespace Abilities
         public override void ActivateAbility()
         {
             Phases.Events.OnSetupStart += RegisterDirectorKrennicAbility;
+            SubscribeToAttackFinish();
+        }
+
+        protected virtual void SubscribeToAttackFinish()
+        {
             GenericShip.OnAttackFinishGlobal += OptimizedPrototypeKrennicTargetLockEffect;
         }
 
@@ -79,7 +85,7 @@ namespace Abilities
               );
         }
 
-        private void AssignOptimizedPrototype()
+        protected virtual void AssignOptimizedPrototype()
         {
             TargetShip.Tokens.AssignCondition(typeof(OptimizedPrototype));
             SelectShipSubPhase.FinishSelection();
@@ -126,6 +132,20 @@ namespace Abilities
             Actions.AcquireTargetLock(HostShip, Combat.Defender, DecisionSubPhase.ConfirmDecision, DecisionSubPhase.ConfirmDecision);
         }
     }
+
+    namespace SecondEdition
+    {
+        public class DirectorKrennicAbilitySE : DirectorKrennicAbility
+        {
+            protected override void AssignOptimizedPrototype()
+            {
+                TargetShip.Tokens.AssignCondition(typeof(OptimizedPrototypeSE));
+                SelectShipSubPhase.FinishSelection();
+            }
+
+            protected override void SubscribeToAttackFinish() { }
+        }
+    }
 }
 
 namespace Conditions
@@ -170,6 +190,38 @@ namespace Conditions
             OptimizedPrototypeAction action = new OptimizedPrototypeAction()
             {
                 Host = Host                
+            };
+
+            Host.AddAvailableActionEffect(action);
+        }
+    }
+
+    public class OptimizedPrototypeSE : Tokens.GenericToken
+    {
+        public OptimizedPrototypeSE(GenericShip host) : base(host)
+        {
+            Name = "Optimized Prototype Condition";
+            Temporary = false;
+
+            //TODO: URL
+            Tooltip = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/conditions/optimized-prototype.png";
+        }
+
+        public override void WhenAssigned()
+        {
+            Host.AfterGenerateAvailableActionEffectsList += AddOptimizedPrototypeCancelResultModification;
+        }
+
+        public override void WhenRemoved()
+        {
+            Host.AfterGenerateAvailableActionEffectsList -= AddOptimizedPrototypeCancelResultModification;
+        }
+
+        private void AddOptimizedPrototypeCancelResultModification(GenericShip ship)
+        {
+            GenericAction action = new ActionsList.SecondEdition.OptimizedPrototypeDiceModificationSE()
+            {
+                Host = Host
             };
 
             Host.AddAvailableActionEffect(action);
@@ -288,5 +340,38 @@ namespace ActionsList
         }
 
 
+    }
+}
+
+namespace ActionsList
+{
+    namespace SecondEdition
+    {
+        public class OptimizedPrototypeDiceModificationSE : GenericAction
+        {
+            public OptimizedPrototypeDiceModificationSE()
+            {
+                Name = EffectName = "Optimized Prototype";
+            }
+
+            public override void ActionEffect(Action callBack)
+            {
+                //TODO: If you do, choose one: the defender loses 1 shield or the defender flips 1 of its facedown damage cards.
+            }
+
+            public override bool IsActionAvailable()
+            {
+                //TODO: forward primary attack
+                //TODO: Check TL
+                //TODO: At least one non-blank die must be in pool
+
+                return true;
+            }
+
+            public override int GetActionEffectPriority()
+            {
+                return 0;
+            }
+        }
     }
 }

@@ -15,7 +15,7 @@ public static class ImageUrls
 
     public static string GetImageUrl(GenericUpgrade upgrade, string filename = null)
     {
-        return GetImageUrl(UpgradesPath + FormatUpgradeTypes(upgrade.Types), FormatUpgradeName(upgrade.Name), filename);
+        return GetImageUrl(UpgradesPath + FormatUpgradeTypes(upgrade.Types), FormatUpgradeName(upgrade.NameOriginal ?? upgrade.Name), filename);
     }
 
     public static string GetImageUrlOld(GenericUpgrade upgrade, string filename = null)

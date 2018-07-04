@@ -77,6 +77,8 @@ namespace Ship
             public void AdaptShipToSecondEdition()
             {
                 factions.Remove(Faction.Rebel);
+
+                IconicPilots[Faction.Imperial] = typeof(BlackSquadronAce);
             }
 
         }

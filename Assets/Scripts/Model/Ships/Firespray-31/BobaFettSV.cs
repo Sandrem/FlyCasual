@@ -30,8 +30,6 @@ namespace Ship
             {
                 PilotSkill = 5;
                 Cost = 80;
-
-                ImageUrl = "https://i.imgur.com/Q64XbW2.png";
             }
         }
     }

@@ -27,6 +27,7 @@ namespace RuleSets
         public abstract Dictionary<BaseSize, int> NegativeTokensToAffectShip { get; }
         public abstract Dictionary<string, string> PreGeneratedAiSquadrons { get; }
         public abstract string PathToSavedSquadrons { get; }
+        public abstract string RootUrlForImages { get; }
 
         public virtual bool IsSquadBuilderLocked { get { return false; } }
 

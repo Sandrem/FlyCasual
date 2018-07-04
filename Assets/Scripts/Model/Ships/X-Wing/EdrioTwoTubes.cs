@@ -30,8 +30,6 @@ namespace Ship
             {
                 PilotSkill = 2;
                 Cost = 59;
-
-                ImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/9/93/Edrio_Two_Tubes_Pilot_Card.png";
             }
         }
     }

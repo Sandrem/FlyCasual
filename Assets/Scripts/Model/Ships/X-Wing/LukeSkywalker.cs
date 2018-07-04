@@ -24,7 +24,6 @@ namespace Ship
             {
                 PilotSkill = 5;
                 MaxForce = 2;
-                ImageUrl = "https://i.imgur.com/OpwwAVr.png";
                 Cost = 60;
 
                 PilotAbilities.RemoveAll(a => a is Abilities.LukeSkywalkerAbility);

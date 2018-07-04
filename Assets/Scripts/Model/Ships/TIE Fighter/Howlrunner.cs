@@ -24,9 +24,6 @@ namespace Ship
             public void AdaptPilotToSecondEdition()
             {
                 PilotSkill = 5;
-                ImageUrl = "https://i.imgur.com/fjMsDbI.png";
-
-                // TODO: Change Ability
             }
         }
     }

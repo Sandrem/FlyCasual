@@ -33,8 +33,6 @@ namespace Ship
             {
                 PilotSkill = 4;
 
-                ImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/0/03/Swz13_dutch-vander.png";
-
                 PilotAbilities.RemoveAll(a => a is Abilities.DutchVanderAbility);
                 PilotAbilities.Add(new Abilities.SecondEdition.DutchVanderAbilitySE());
             }

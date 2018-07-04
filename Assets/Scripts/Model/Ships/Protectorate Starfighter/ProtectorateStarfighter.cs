@@ -72,6 +72,8 @@ namespace Ship
 
             public void AdaptShipToSecondEdition()
             {
+                IconicPilots[Faction.Scum] = typeof(ZealousRecruit);
+
                 PilotAbilities.Add(new Abilities.SecondEdition.ConcordiaFaceoffAbility());
 
                 PrintedActions.RemoveAll(a => a is BarrelRollAction);

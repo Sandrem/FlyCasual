@@ -29,8 +29,6 @@ namespace Ship
                 PilotNameShort = "Gray Sq. Bomber";
                 PilotSkill = 2;
 
-                ImageUrl = "https://i.imgur.com/1tN3KEx.png";
-
                 PrintedUpgradeIcons.Add(UpgradeType.Elite);
 
                 Cost = 40;

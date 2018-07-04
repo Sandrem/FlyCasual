@@ -30,8 +30,6 @@ namespace Ship
             public void AdaptPilotToSecondEdition()
             {
                 PilotSkill = 2;
-
-                ImageUrl = "https://i.imgur.com/8rKPnCb.jpg";
             }
         }
     }

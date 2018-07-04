@@ -12,7 +12,6 @@ namespace Ship
             public GoldSquadronVeteran() : base()
             {
                 PilotName = "Gold Squadron Veteran";
-                ImageUrl = "https://i.imgur.com/1Js2CCC.png";
                 PilotSkill = 3;
                 Cost = 37;
 

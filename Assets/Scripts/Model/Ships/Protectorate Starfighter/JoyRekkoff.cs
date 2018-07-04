@@ -20,8 +20,6 @@ namespace Ship
 				PilotSkill = 4;
 				Cost = 57;
 
-                ImageUrl = "https://i.imgur.com/O4xI9p6.png";
-
                 IsUnique = true;
 
                 PilotRuleType = typeof(SecondEdition);

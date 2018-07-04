@@ -13,7 +13,6 @@ namespace Ship
             {
                 PilotName = "Black Squadron Ace";
                 PilotSkill = 3;
-                ImageUrl = "https://i.imgur.com/gJajYw8.png";
                 Cost = 30;
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);

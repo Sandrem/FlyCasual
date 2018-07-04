@@ -31,8 +31,7 @@ namespace Ship
             {
                 PilotSkill = 6;
                 MaxForce = 3;
-                ImageUrl = "https://i.imgur.com/Budwwlp.png";
-                Cost = 50; // TODO: Change
+                Cost = 50;
 
                 PilotAbilities.RemoveAll(ability => ability is Abilities.DarthVaderAbility);
                 PilotAbilities.Add(new Abilities.SecondEdition.DarthVaderAbility());

@@ -18,7 +18,6 @@ namespace Ship
 
             public void AdaptPilotToSecondEdition()
             {
-                ImageUrl = "https://i.imgur.com/73MfIuC.png";
                 Cost = 50;
             }
         }

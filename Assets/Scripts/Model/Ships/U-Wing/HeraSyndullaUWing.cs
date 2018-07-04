@@ -22,8 +22,6 @@ namespace Ship
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
-                ImageUrl = "https://i.imgur.com/zyN4zfB.png";
-
                 PilotAbilities.Add(new HeraSyndullaAbility());
             }
         }

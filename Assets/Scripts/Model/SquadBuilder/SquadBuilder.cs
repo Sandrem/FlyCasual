@@ -458,18 +458,20 @@ namespace SquadBuilderNS
 
         public static void SaveSquadConfigurations()
         {
-            foreach (var squad in SquadLists)
-            {
-                squad.SavedConfiguration = GetSquadInJson(squad.PlayerNo);
+            SaveSquadron(GetSquadList(PlayerNo.Player1), "Autosave", delegate{
+                foreach (var squad in SquadLists)
+                {
+                    squad.SavedConfiguration = GetSquadInJson(squad.PlayerNo);
 
-                JSONObject playerInfoJson = new JSONObject();
-                playerInfoJson.AddField("NickName", Options.NickName);
-                playerInfoJson.AddField("Title", Options.Title);
-                playerInfoJson.AddField("Avatar", Options.Avatar);
-                squad.SavedConfiguration.AddField("PlayerInfo", playerInfoJson);
+                    JSONObject playerInfoJson = new JSONObject();
+                    playerInfoJson.AddField("NickName", Options.NickName);
+                    playerInfoJson.AddField("Title", Options.Title);
+                    playerInfoJson.AddField("Avatar", Options.Avatar);
+                    squad.SavedConfiguration.AddField("PlayerInfo", playerInfoJson);
 
-                ClearShipsOfPlayer(squad.PlayerNo);
-            }
+                    ClearShipsOfPlayer(squad.PlayerNo);
+                }
+            });
         }
 
         public static void LoadBattleScene()

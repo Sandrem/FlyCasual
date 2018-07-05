@@ -31,6 +31,18 @@ public class Global : MonoBehaviour {
         Tooltips.CheckTooltip();
     }
 
+    public static void BattleIsReady()
+    {
+        if ((Roster.Player2 is Players.GenericAiPlayer) && (!Options.DontShowAiInfo))
+        {
+            MainMenu.ShowAiInformationContinue();
+        }
+        else
+        {
+            StartBattle();
+        }
+    }
+
     public static void StartBattle()
     {
         ToggelLoadingScreen(false);
@@ -40,8 +52,9 @@ public class Global : MonoBehaviour {
     public static void ToggelLoadingScreen(bool isActive)
     {
         Transform loadingScreen = GameObject.Find("GlobalUI").transform.Find("OpponentSquad");
-        loadingScreen.GetComponent<Image>().sprite = MainMenu.GetRandomSplashScreen();
+        if (isActive) loadingScreen.GetComponent<Image>().sprite = MainMenu.GetRandomSplashScreen();
         if (loadingScreen != null) loadingScreen.gameObject.SetActive(isActive);
+        if (isActive) MainMenu.ResetAiInformation();
     }
 
     public static Scene ActiveScene

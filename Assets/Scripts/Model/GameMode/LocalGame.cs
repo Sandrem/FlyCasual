@@ -75,7 +75,7 @@ namespace GameModes
 
         public override void StartBattle()
         {
-            Global.StartBattle();
+            Global.BattleIsReady();
         }
 
         // BARREL ROLL

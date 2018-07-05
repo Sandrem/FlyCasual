@@ -230,4 +230,37 @@ public partial class MainMenu : MonoBehaviour {
         Options.ChangeParameterValue("Title", inputText.text);
     }
 
+    public static void ResetAiInformation()
+    {
+        GameObject.Find("GlobalUI/OpponentSquad").transform.Find("AiInformation").gameObject.SetActive(false);
+        GameObject.Find("GlobalUI/OpponentSquad").transform.Find("StartPanel").gameObject.SetActive(false);
+
+        GameObject.Find("GlobalUI/OpponentSquad/LoadingInfoPanel").gameObject.SetActive(true);
+    }
+
+    public static void ShowAiInformation()
+    {
+        if ((SquadBuilder.GetSquadList(PlayerNo.Player2).PlayerType == typeof(HotacAiPlayer)) && (!Options.DontShowAiInfo))
+        {
+            GameObject.Find("GlobalUI/OpponentSquad").transform.Find("AiInformation").gameObject.SetActive(true);
+            GameObject.Find("GlobalUI/OpponentSquad/AiInformation").transform.Find("ToggleBlock").gameObject.SetActive(false);
+        }
+    }
+
+    public static void ShowAiInformationContinue()
+    {
+        GameObject.Find("GlobalUI/OpponentSquad/LoadingInfoPanel").gameObject.SetActive(false);
+
+        GameObject.Find("GlobalUI/OpponentSquad/AiInformation").transform.Find("ToggleBlock").gameObject.SetActive(true);
+        GameObject.Find("GlobalUI/OpponentSquad").transform.Find("StartPanel").gameObject.SetActive(true);
+
+        Button startButton = GameObject.Find("GlobalUI/OpponentSquad/StartPanel/StartButton").GetComponent<Button>();
+        startButton.onClick.RemoveAllListeners();
+        startButton.onClick.AddListener(delegate
+        {
+            Options.DontShowAiInfo = true;
+            Options.ChangeParameterValue("DontShowAiInfo", GameObject.Find("GlobalUI/OpponentSquad/AiInformation/ToggleBlock/DontShowAgain").GetComponent<Toggle>().isOn);
+            Global.StartBattle();
+        });
+    }
 }

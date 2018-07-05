@@ -19,6 +19,7 @@ public static class Options
     public static string NickName;
     public static string Title;
     public static string Edition;
+    public static bool DontShowAiInfo;
 
     static Options()
     {
@@ -36,6 +37,7 @@ public static class Options
         Avatar = PlayerPrefs.GetString("Avatar", "UpgradesList.VeteranInstincts");
         NickName = PlayerPrefs.GetString("NickName", "Unknown Pilot");
         Title = PlayerPrefs.GetString("Title", "Test Pilot");
+        DontShowAiInfo = PlayerPrefs.GetInt("DontShowAiInfo", 0) == 1;
 
         Edition = PlayerPrefs.GetString("Edition", "FirstEdition");
         MainMenu.SetEdition(Edition);
@@ -107,6 +109,12 @@ public static class Options
     public static void ChangeParameterValue(string parameter, string value)
     {
         PlayerPrefs.SetString(parameter, value);
+        PlayerPrefs.Save();
+    }
+
+    public static void ChangeParameterValue(string parameter, bool value)
+    {
+        PlayerPrefs.SetInt(parameter, (value) ? 1 : 0);
         PlayerPrefs.Save();
     }
 

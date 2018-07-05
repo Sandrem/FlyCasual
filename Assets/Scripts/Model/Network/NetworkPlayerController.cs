@@ -184,7 +184,7 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     private void RpcStartBattle()
     {
         if (isServer) Sounds.PlaySoundGlobal("Notification");
-        Global.StartBattle();
+        Global.BattleIsReady();
     }
 
     // DECISIONS

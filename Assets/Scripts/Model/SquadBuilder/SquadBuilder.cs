@@ -474,7 +474,7 @@ namespace SquadBuilderNS
 
         public static void LoadBattleScene()
         {
-            //TestRandom();
+            MainMenu.ShowAiInformation();
             SceneManager.LoadScene("Battle");
         }
 

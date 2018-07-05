@@ -143,15 +143,16 @@ public partial class MainMenu : MonoBehaviour {
 
     public static void SetEdition(string editionName)
     {
+        Options.Edition = editionName;
         Options.ChangeParameterValue("Edition", editionName);
 
         switch (editionName)
         {
             case "FirstEdition":
-                new RuleSets.FirstEdition();
+                new FirstEdition();
                 break;
             case "SecondEdition":
-                new RuleSets.SecondEdition();
+                new SecondEdition();
                 break;
             default:
                 break;

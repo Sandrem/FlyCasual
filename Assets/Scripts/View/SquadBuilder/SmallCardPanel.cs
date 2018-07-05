@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RuleSets;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -63,6 +64,8 @@ public class SmallCardPanel : MonoBehaviour {
     {
         Texture2D newTexture = new Texture2D(www.texture.height, www.texture.width);
         www.LoadImageIntoTexture(newTexture);
+        TextureScale.Bilinear(newTexture, (int)RuleSet.Instance.UpgradeCardSize.x, (int)RuleSet.Instance.UpgradeCardSize.y);
+
         Sprite newSprite = Sprite.Create(newTexture, new Rect(0, 0, newTexture.width, newTexture.height), Vector2.zero);
         Image image = targetObject.transform.GetComponent<Image>();
         image.sprite = newSprite;

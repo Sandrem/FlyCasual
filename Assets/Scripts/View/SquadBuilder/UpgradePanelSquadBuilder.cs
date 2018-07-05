@@ -88,8 +88,9 @@ public class UpgradePanelSquadBuilder : MonoBehaviour {
     {
         Texture2D newTexture = new Texture2D(www.texture.height, www.texture.width);
         www.LoadImageIntoTexture(newTexture);
+        TextureScale.Bilinear(newTexture, (int)RuleSet.Instance.UpgradeCardSize.x, (int)RuleSet.Instance.UpgradeCardSize.y);
+
         Sprite newSprite = null;
-        
         if (!Compact)
         {
             newSprite = Sprite.Create(
@@ -100,14 +101,14 @@ public class UpgradePanelSquadBuilder : MonoBehaviour {
         }
         else
         {
-            float offsetX = (!Upgrade.Types.Contains(UpgradeType.Configuration)) ? RuleSet.Instance.UpgradeCardCompactOffset.x : RuleSet.Instance.UpgradeCardCompactOffset.x - 155;
-            float offsetY = RuleSet.Instance.UpgradeCardCompactOffset.y;
-            float sizeX = (RuleSet.Instance.UpgradeCardCompactSize.x < newTexture.width) ? RuleSet.Instance.UpgradeCardCompactSize.x : newTexture.width;
-            float sizeY = (RuleSet.Instance.UpgradeCardCompactSize.y < newTexture.height) ? RuleSet.Instance.UpgradeCardCompactSize.y : newTexture.height;
-
             newSprite = Sprite.Create(
                 newTexture,
-                new Rect(offsetX, offsetY, sizeX, sizeY),
+                new Rect(
+                    (!Upgrade.Types.Contains(UpgradeType.Configuration)) ? RuleSet.Instance.UpgradeCardCompactOffset.x : RuleSet.Instance.UpgradeCardCompactOffset.x - 155,
+                    RuleSet.Instance.UpgradeCardCompactOffset.y,
+                    RuleSet.Instance.UpgradeCardCompactSize.x,
+                    RuleSet.Instance.UpgradeCardCompactSize.y
+                ),
                 Vector2.zero
             );
         }

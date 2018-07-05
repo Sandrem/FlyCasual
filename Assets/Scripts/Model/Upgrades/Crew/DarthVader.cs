@@ -15,9 +15,9 @@ namespace UpgradesList
 			Name = "Darth Vader";
 			Cost = 3;
       
-      isUnique = true;
+            isUnique = true;
       
-      AvatarOffset = new Vector2(53, 1);
+            AvatarOffset = new Vector2(53, 1);
 
 			UpgradeAbilities.Add(new DarthVaderCrewAbility());
 		}
@@ -76,33 +76,34 @@ namespace Abilities
 
 				});
 			//Delegates flow control to Hostship damage resolution
-			Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, delegate{ assignDamageRecursivelyToHost(2); });
+			Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, AssignDamageToHost);
 		}
 
 		//Assigns n damages to HostShip
-		private void assignDamageRecursivelyToHost (int totalDamage){
+		private void AssignDamageToHost()
+        {
+            for (int i = 0; i < 2; i++)
+            {
+                HostShip.AssignedDamageDiceroll.AddDice(DieSide.Success);
 
-			if (totalDamage > 0) {
-				HostShip.AssignedDamageDiceroll.AddDice (DieSide.Success);
+                Triggers.RegisterTrigger(
+                    new Trigger()
+                    {
+                        Name = "Damage from Darth Vader Ability",
+                        TriggerType = TriggerTypes.OnDamageIsDealt,
+                        TriggerOwner = Combat.Attacker.Owner.PlayerNo,
+                        EventHandler = Combat.Attacker.SufferDamage,
+                        EventArgs = new DamageSourceEventArgs()
+                        {
+                            Source = "Dath Vader",
+                            DamageType = DamageTypes.CardAbility
+                        },
+                        Skippable = true
+                    }
+                );
+            }
 
-				Triggers.RegisterTrigger (new Trigger () {
-					Name = "Damage from Darth Vader Ability",
-					TriggerType = TriggerTypes.OnDamageIsDealt,
-					TriggerOwner = Combat.Attacker.Owner.PlayerNo,
-					EventHandler = Combat.Attacker.SufferDamage,
-					EventArgs = new DamageSourceEventArgs () {
-						Source = "Dath Vader",
-						DamageType = DamageTypes.CardAbility
-					}
-
-				}
-				);
-				//Here, Recursive call
-				Triggers.ResolveTriggers (TriggerTypes.OnDamageIsDealt, delegate{assignDamageRecursivelyToHost(--totalDamage);});
-			} else {
-				//No more damage, then return flow control
-				DecisionSubPhase.ConfirmDecision();
-			}
+			Triggers.ResolveTriggers (TriggerTypes.OnDamageIsDealt, DecisionSubPhase.ConfirmDecision);
 		}
 	}
 }

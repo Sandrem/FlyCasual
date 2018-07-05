@@ -23,6 +23,11 @@ namespace UpgradesList
 
             UpgradeAbilities.Add(new ThreatTrackerAbility());
         }
+
+        public override bool IsAllowedForShip(GenericShip ship)
+        {
+            return ship.ShipBaseSize == BaseSize.Small;
+        }
     }
 
 }

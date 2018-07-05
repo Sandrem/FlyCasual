@@ -37,12 +37,12 @@ namespace Abilities
 
         public override void ActivateAbility()
         {
-            Phases.Events.OnGameStart += RegisterAgentKallusAbility;
+            Phases.Events.OnSetupStart += RegisterAgentKallusAbility;
         }
 
         public override void DeactivateAbility()
         {
-            Phases.Events.OnGameStart -= RegisterAgentKallusAbility;
+            Phases.Events.OnSetupStart -= RegisterAgentKallusAbility;
         }
 
         private void RegisterAgentKallusAbility()

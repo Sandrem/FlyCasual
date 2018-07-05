@@ -22,7 +22,7 @@ namespace ActionsList
 
         public override bool IsActionAvailable()
         {
-            return !Host.Tokens.HasToken(typeof(CloakToken));
+            return !Selection.ThisShip.Tokens.HasToken(typeof(CloakToken));
         }
 
     }

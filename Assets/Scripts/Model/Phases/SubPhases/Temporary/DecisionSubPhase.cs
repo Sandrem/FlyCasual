@@ -296,7 +296,12 @@ namespace SubPhases
 
         public void ExecuteDecision(string decisionName)
         {
-            decisions.Find(n => n.Name == decisionName).ExecuteDecision();
+            Decision decision = decisions.Find(n => n.Name == decisionName);
+            if (decision == null)
+            {
+                Console.Write("Cannot find decision name: " + decisionName, LogTypes.Errors, true, "red");
+            }
+            decision.ExecuteDecision();
         }
 
         public override void DoDefault()

@@ -6,6 +6,7 @@ namespace RulesList
 {
     public class AsteroidLandedRule
     {
+        static bool RuleIsInitialized = false;
 
         public AsteroidLandedRule()
         {
@@ -14,8 +15,12 @@ namespace RulesList
 
         private void SubscribeEvents()
         {
-            GenericShip.OnTryPerformAttackGlobal += CanPerformAttack;
-            GenericShip.OnPositionFinishGlobal += InformLandedOnAsteroid;
+            if (!RuleIsInitialized)
+            {
+                GenericShip.OnTryPerformAttackGlobal += CanPerformAttack;
+                GenericShip.OnPositionFinishGlobal += InformLandedOnAsteroid;
+                RuleIsInitialized = true;
+            }
         }
 
         private void InformLandedOnAsteroid(GenericShip ship)

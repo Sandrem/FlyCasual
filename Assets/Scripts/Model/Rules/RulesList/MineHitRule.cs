@@ -7,6 +7,7 @@ namespace RulesList
 {
     public class MineHitRule
     {
+        static bool RuleIsInitialized = false;
 
         public MineHitRule()
         {
@@ -15,7 +16,11 @@ namespace RulesList
 
         private void SubscribeEvents()
         {
-            GenericShip.OnPositionFinishGlobal += CheckDamage;
+            if (!RuleIsInitialized)
+            {
+                GenericShip.OnPositionFinishGlobal += CheckDamage;
+                RuleIsInitialized = true;
+            }
         }
 
         private void CheckDamage(GenericShip ship)

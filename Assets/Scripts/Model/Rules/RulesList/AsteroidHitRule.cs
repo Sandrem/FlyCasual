@@ -7,6 +7,7 @@ namespace RulesList
 {
     public class AsteroidHitRule
     {
+        static bool RuleIsInitialized = false;
 
         public AsteroidHitRule()
         {
@@ -15,7 +16,11 @@ namespace RulesList
 
         private void SubscribeEvents()
         {
-            GenericShip.OnMovementFinishGlobal += CheckDamage;
+            if (!RuleIsInitialized)
+            {
+                GenericShip.OnMovementFinishGlobal += CheckDamage;
+                RuleIsInitialized = true;
+            }
             Phases.Events.BeforeActionSubPhaseStart += CheckSkipPerformAction;
         }
 

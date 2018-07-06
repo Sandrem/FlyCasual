@@ -9,10 +9,15 @@ namespace RulesList
 {
     public class IonizationRule
     {
+        static bool RuleIsInitialized = false;
 
         public IonizationRule()
         {
-            GenericShip.OnNoManeuverWasRevealedGlobal += SetIonManeuver;
+            if (!RuleIsInitialized)
+            {
+                GenericShip.OnNoManeuverWasRevealedGlobal += SetIonManeuver;
+                RuleIsInitialized = true;
+            }
         }
 
         public static void SetIonManeuver(GenericShip ship)

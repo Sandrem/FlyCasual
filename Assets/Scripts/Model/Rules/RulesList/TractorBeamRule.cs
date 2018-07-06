@@ -13,10 +13,16 @@ namespace RulesList
 {
     public class TractorBeamRule
     {
+        static bool RuleIsInitialized = false;
+
         public TractorBeamRule ()
         {
-            GenericShip.OnTokenIsAssignedGlobal += CheckForTractorBeam;
-            GenericShip.OnTokenIsRemovedGlobal += CheckForTractorBeamRemoval;
+            if (!RuleIsInitialized)
+            {
+                GenericShip.OnTokenIsAssignedGlobal += CheckForTractorBeam;
+                GenericShip.OnTokenIsRemovedGlobal += CheckForTractorBeamRemoval;
+                RuleIsInitialized = true;
+            }
         }
 
         private void CheckForTractorBeam(GenericShip ship, Type tokenType)

@@ -8,10 +8,15 @@ namespace RulesList
 {
     public class JammedRule
     {
+        static bool RuleIsInitialized = false;
 
         public JammedRule()
         {
-            GenericShip.OnTokenIsAssignedGlobal += CheckJam;
+            if (!RuleIsInitialized)
+            {
+                GenericShip.OnTokenIsAssignedGlobal += CheckJam;
+                RuleIsInitialized = true;
+            }
         }
 
         private void CheckJam(GenericShip ship, System.Type tokenType)

@@ -17,8 +17,6 @@ namespace UpgradesList
 
             isUnique = true;
 
-            ImageUrl = ImageUrls.GetImageUrl(this, "bossk-crew.png");
-
             AvatarOffset = new Vector2(47, 1);
 
             UpgradeAbilities.Add(new BosskCrewAbility());

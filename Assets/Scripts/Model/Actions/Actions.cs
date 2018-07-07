@@ -56,12 +56,12 @@ public static partial class Actions
         Letters = new Dictionary<char, bool>();
     }
 
-    public static void AcquireTargetLock(GenericShip thisShip, GenericShip targetShip, Action successCallback, Action failureCallback)
+    public static void AcquireTargetLock(GenericShip thisShip, GenericShip targetShip, Action successCallback, Action failureCallback, bool ignoreRange = false)
     {
         if (Letters.Count == 0) InitializeTargetLockLetters();
 
         DistanceInfo distanceInfo = new DistanceInfo(thisShip, targetShip);
-        if (distanceInfo.Range >= thisShip.TargetLockMinRange && distanceInfo.Range <= thisShip.TargetLockMaxRange)
+        if (ignoreRange || (distanceInfo.Range >= thisShip.TargetLockMinRange && distanceInfo.Range <= thisShip.TargetLockMaxRange))
         {
             GenericToken existingBlueToken = thisShip.Tokens.GetToken(typeof(BlueTargetLockToken), '*');
             if (existingBlueToken != null)

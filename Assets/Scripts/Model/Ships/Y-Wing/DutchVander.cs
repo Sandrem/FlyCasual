@@ -94,7 +94,7 @@ namespace Abilities
         {
             int result = 0;
 
-            if (ship.Tokens.CountTokensByType(typeof(Tokens.BlueTargetLockToken)) == 0) result += 100;
+            if (ship.Tokens.CountTokensByType(typeof(BlueTargetLockToken)) == 0) result += 100;
             if (Actions.HasTarget(ship)) result += 50;
 
             return result;
@@ -177,10 +177,10 @@ namespace Abilities
             {
                 GenericShip result = null;
 
-                BlueTargetLockToken blueTargetLock = HostShip.Tokens.GetToken<BlueTargetLockToken>();
+                BlueTargetLockToken blueTargetLock = HostShip.Tokens.GetToken<BlueTargetLockToken>(letter: '*');
                 if (blueTargetLock != null)
                 {
-                    LockedShip = blueTargetLock.OtherTokenOwner;
+                    result = blueTargetLock.OtherTokenOwner;
                 }
 
                 return result;
@@ -189,7 +189,7 @@ namespace Abilities
             private void GetTargetLockOnSameTarget()
             {
                 Messages.ShowInfo(TargetShip.PilotName + " acquired Target Lock on " + LockedShip.PilotName);
-                Actions.AcquireTargetLock(TargetShip, LockedShip, SelectShipSubPhase.FinishSelection, SelectShipSubPhase.FinishSelection);
+                Actions.AcquireTargetLock(TargetShip, LockedShip, SelectShipSubPhase.FinishSelection, SelectShipSubPhase.FinishSelection, ignoreRange: true);
             }
 
             private bool AnotherFriendlyShipInRange(GenericShip ship)

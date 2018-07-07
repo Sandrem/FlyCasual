@@ -98,6 +98,7 @@ namespace ActionsList
             * 45 - Force to change eye to evade if 1
             * 40 - Regular Focus to hits if 1
             * 35 - Force to change eye to evade if 1+
+            * 33 - Eye to hit by dealing damage to teammate
             * 30 - Reroll of focus is focus token is available
             * 20 - Hits to crits
             */

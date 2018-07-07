@@ -74,7 +74,6 @@ namespace Abilities
                     true,
                     null,
                     HostUpgrade.Name,
-                    "" +
                     "Choose another friendly ship near the defender. That ship will suffer 1 damage and you will change 1 die result to Hit.",
                     HostUpgrade.ImageUrl
                 );
@@ -113,6 +112,7 @@ namespace Abilities
 
             private int GetAiPriority(GenericShip ship)
             {
+                if (ship.Hull == 1) return 0;
                 return ship.Hull + ship.Shields;
             }
         }
@@ -143,7 +143,15 @@ namespace ActionsList
 
         public override int GetActionEffectPriority()
         {
-            return 0;
+            int result = 0;
+
+            if ((Combat.DiceRollAttack.Blanks > 0) || (Combat.DiceRollAttack.Focuses > 0))
+            {
+                List<GenericShip> friendlyShipsAtRange1FromTarget = BoardTools.Board.GetShipsAtRange(Combat.Defender, new Vector2(0, 1), Team.Type.Friendly);
+                if (friendlyShipsAtRange1FromTarget.Any(n => n.ShipId != Host.ShipId && n.Hull > 0)) result = 33;
+            }
+
+            return result;
         }
     }
 }

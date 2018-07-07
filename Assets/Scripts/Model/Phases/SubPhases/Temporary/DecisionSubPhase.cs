@@ -50,7 +50,8 @@ namespace SubPhases
     public enum DecisionViewTypes
     {
         TextButtons,
-        ImageButtons
+        ImagesUpgrade,
+        ImagesDamageCard
     }
 
     public class DecisionSubPhase : GenericSubPhase
@@ -67,7 +68,7 @@ namespace SubPhases
         public bool WasDecisionButtonPressed;
         public bool IsForced;
         public bool DecisionWasPreparedAndShown;
-        public Vector2 ImageButtonSize = new Vector2(194, 300);
+        public Vector2 ImagesDamageCardSize = new Vector2(194, 300);
 
         private const float defaultWindowHeight = 75;
         private const float buttonHeight = 45;
@@ -151,14 +152,24 @@ namespace SubPhases
                             defaultWindowHeight + ((decisions.Count + 1) / 2) * buttonHeight
                         );
                         break;
-                    case DecisionViewTypes.ImageButtons:
+                    case DecisionViewTypes.ImagesUpgrade:
                         decisionPanel.GetComponent<RectTransform>().sizeDelta = new Vector3(
-                            Mathf.Max(395, decisions.Count * ImageButtonSize.x + (decisions.Count + 1) * 10),
-                            defaultWindowHeight + ImageButtonSize.y + 10
+                            Mathf.Max(395, decisions.Count * RuleSets.RuleSet.Instance.UpgradeCardSize.x + (decisions.Count + 1) * 10),
+                            defaultWindowHeight + RuleSets.RuleSet.Instance.UpgradeCardSize.y + 10
                         );
                         buttonsHolder.GetComponent<RectTransform>().sizeDelta = new Vector3(
-                            decisions.Count * ImageButtonSize.x + (decisions.Count + 1) * 10,
-                            defaultWindowHeight + ImageButtonSize.y + 10
+                            decisions.Count * RuleSets.RuleSet.Instance.UpgradeCardSize.x + (decisions.Count + 1) * 10,
+                            defaultWindowHeight + RuleSets.RuleSet.Instance.UpgradeCardSize.y + 10
+                        );
+                        break;
+                    case DecisionViewTypes.ImagesDamageCard:
+                        decisionPanel.GetComponent<RectTransform>().sizeDelta = new Vector3(
+                            Mathf.Max(395, decisions.Count * ImagesDamageCardSize.x + (decisions.Count + 1) * 10),
+                            defaultWindowHeight + ImagesDamageCardSize.y + 10
+                        );
+                        buttonsHolder.GetComponent<RectTransform>().sizeDelta = new Vector3(
+                            decisions.Count * ImagesDamageCardSize.x + (decisions.Count + 1) * 10,
+                            defaultWindowHeight + ImagesDamageCardSize.y + 10
                         );
                         break;
                     default:
@@ -177,7 +188,8 @@ namespace SubPhases
                         case DecisionViewTypes.TextButtons:
                             prefab = (GameObject)Resources.Load("Prefabs/DecisionButton", typeof(GameObject));
                             break;
-                        case DecisionViewTypes.ImageButtons:
+                        case DecisionViewTypes.ImagesUpgrade:
+                        case DecisionViewTypes.ImagesDamageCard:
                             prefab = (GameObject)Resources.Load("Prefabs/SquadBuilder/SmallCardPanel", typeof(GameObject));
                             break;
                         default:
@@ -185,6 +197,7 @@ namespace SubPhases
                     }
 
                     GameObject button = MonoBehaviour.Instantiate(prefab, buttonsHolder.transform);
+                    SmallCardPanel script = null;
 
                     switch (DecisionViewType)
                     {
@@ -208,14 +221,28 @@ namespace SubPhases
                             trigger.triggers.Add(entry);
 
                             break;
-                        case DecisionViewTypes.ImageButtons:
-                            button.transform.localPosition = new Vector3(10*(i+1) + i* ImageButtonSize.x, 0, 0);
+                        case DecisionViewTypes.ImagesUpgrade:
+                            button.transform.localPosition = new Vector3(10*(i+1) + i* RuleSets.RuleSet.Instance.UpgradeCardSize.x, 0, 0);
 
-                            SmallCardPanel script = button.GetComponent<SmallCardPanel>();
+                            script = button.GetComponent<SmallCardPanel>();
                             script.Initialize(
                                 decision.Name,
                                 decision.Tooltip,
                                 delegate { GameMode.CurrentGameMode.TakeDecision(decision, button); },
+                                DecisionViewTypes.ImagesUpgrade,
+                                decision.Count
+                            );
+
+                            break;
+                        case DecisionViewTypes.ImagesDamageCard:
+                            button.transform.localPosition = new Vector3(10 * (i + 1) + i * ImagesDamageCardSize.x, 0, 0);
+
+                            script = button.GetComponent<SmallCardPanel>();
+                            script.Initialize(
+                                decision.Name,
+                                decision.Tooltip,
+                                delegate { GameMode.CurrentGameMode.TakeDecision(decision, button); },
+                                DecisionViewTypes.ImagesDamageCard,
                                 decision.Count
                             );
 

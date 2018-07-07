@@ -135,7 +135,7 @@ namespace Abilities
                 }
             }
 
-            selectPilotCritSubphase.DecisionViewType = DecisionViewTypes.ImageButtons;
+            selectPilotCritSubphase.DecisionViewType = DecisionViewTypes.ImagesDamageCard;
 
             selectPilotCritSubphase.DefaultDecisionName = selectPilotCritSubphase.GetDecisions().First().Name;
 

@@ -115,7 +115,7 @@ namespace SubPhases
 
             DefaultDecisionName = Combat.CurrentCriticalHitCard.Name;
 
-            DecisionViewType = DecisionViewTypes.ImageButtons;
+            DecisionViewType = DecisionViewTypes.ImagesDamageCard;
 
             callBack();
         }

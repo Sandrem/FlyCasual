@@ -100,8 +100,7 @@ namespace SubPhases
 
             DefaultDecisionName = GetDecisions().First().Name;
 
-            DecisionViewType = DecisionViewTypes.ImageButtons;
-            ImageButtonSize = new Vector2(RuleSets.RuleSet.Instance.UpgradeCardSize.x, RuleSets.RuleSet.Instance.UpgradeCardSize.y);
+            DecisionViewType = DecisionViewTypes.ImagesUpgrade;
 
             DecisionOwner = Upgrade.Host.Owner;
 

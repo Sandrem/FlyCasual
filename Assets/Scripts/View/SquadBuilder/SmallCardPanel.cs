@@ -1,4 +1,5 @@
 ﻿using RuleSets;
+using SubPhases;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -12,13 +13,16 @@ public class SmallCardPanel : MonoBehaviour {
     private string CardTooltip;
     private int Count;
     private Action<string> OnClick;
+    private DecisionViewTypes DecisionViewType;
+    private static readonly Vector2 ImagesDamageCardSize = new Vector2(194, 300);
 
-    public void Initialize(string damageCardName, string damageCardTooltip, Action<string> onClick = null, int count = -1)
+    public void Initialize(string damageCardName, string damageCardTooltip, Action<string> onClick = null, DecisionViewTypes decisionViewType = DecisionViewTypes.ImagesUpgrade, int count = -1)
     {
         CardName = damageCardName;
         CardTooltip = damageCardTooltip;
         OnClick = onClick;
         Count = count;
+        DecisionViewType = decisionViewType;
     }
 
     void Start()
@@ -64,7 +68,26 @@ public class SmallCardPanel : MonoBehaviour {
     {
         Texture2D newTexture = new Texture2D(www.texture.height, www.texture.width);
         www.LoadImageIntoTexture(newTexture);
-        TextureScale.Bilinear(newTexture, (int)RuleSet.Instance.UpgradeCardSize.x, (int)RuleSet.Instance.UpgradeCardSize.y);
+
+        switch (DecisionViewType)
+        {
+            case DecisionViewTypes.ImagesUpgrade:
+                TextureScale.Bilinear(
+                    newTexture,
+                    (int)RuleSet.Instance.UpgradeCardSize.x,
+                    (int)RuleSet.Instance.UpgradeCardSize.y
+                );
+                break;
+            case DecisionViewTypes.ImagesDamageCard:
+                TextureScale.Bilinear(
+                    newTexture,
+                    (int)ImagesDamageCardSize.x,
+                    (int)ImagesDamageCardSize.y
+                );
+                break;
+            default:
+                break;
+        }
 
         Sprite newSprite = Sprite.Create(newTexture, new Rect(0, 0, newTexture.width, newTexture.height), Vector2.zero);
         Image image = targetObject.transform.GetComponent<Image>();

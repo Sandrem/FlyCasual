@@ -88,7 +88,7 @@ namespace SubPhases
         {
             InfoText = "R5 Astromech: Select faceup ship Crit";
 
-            DecisionViewType = DecisionViewTypes.ImageButtons;
+            DecisionViewType = DecisionViewTypes.ImagesDamageCard;
 
             foreach (var shipCrit in Selection.ActiveShip.Damage.GetFaceupCrits(CriticalCardType.Ship).ToList())
             {

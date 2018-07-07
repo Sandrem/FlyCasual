@@ -53,16 +53,18 @@ namespace Abilities
                     Host = host,
                     Source = HostUpgrade
                 };
-                host.AddAvailableAction(newAction);
+                host.AddAvailableActionEffect(newAction);
             }
 
             private void CheckRestoreCharge(GenericShip host)
             {
                 if (HostShip.IsBumped) return;
 
+                if (HostShip.AssignedManeuver.ColorComplexity != Movement.MovementComplexity.Complex) return;
+
                 if (HostUpgrade.Charges < HostUpgrade.MaxCharges)
                 {
-                    HostUpgrade.Charges++;
+                    HostUpgrade.RestoreCharge();
                     Messages.ShowInfo("Elusive: Charge is restored");
                 }
             }
@@ -83,14 +85,14 @@ namespace ActionsList
 
         public override void ActionEffect(Action callBack)
         {
-            Source.Charges--;
 
             DiceRerollManager diceRerollManager = new DiceRerollManager
             {
                 NumberOfDiceCanBeRerolled = 1,
                 CallBack = callBack
             };
-            diceRerollManager.Start();
+
+            Source.SpendCharge(diceRerollManager.Start);
         }
 
         public override bool IsActionEffectAvailable()
@@ -103,8 +105,11 @@ namespace ActionsList
 
         public override int GetActionEffectPriority()
         {
-            //TODO: AI
-            return 85;
+            int result = 0;
+
+            if (Combat.DiceRollAttack.Successes > Combat.DiceRollDefence.Successes) result = 85;
+
+            return result;
         }
     }
 }

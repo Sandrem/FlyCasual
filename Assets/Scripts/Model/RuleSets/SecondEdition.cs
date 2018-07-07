@@ -164,7 +164,7 @@ namespace RuleSets
                 upgrade.UpgradeRuleType = typeof(SecondEdition);
             }
 
-            upgrade.Charges = upgrade.MaxCharges;
+            upgrade.SetChargesToMax();
         }
 
         public override void AdaptArcsToRules(GenericShip ship)

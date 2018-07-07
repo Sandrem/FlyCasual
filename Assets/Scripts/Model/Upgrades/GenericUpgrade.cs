@@ -89,7 +89,7 @@ namespace Upgrade
         public Type UpgradeRuleType = typeof(FirstEdition);
 
         public int MaxCharges { get; set; }
-        public int Charges { get; set; }
+        public int Charges { get; private set; }
         public bool UsesCharges;
 
         // SQUAD BUILDER ONLY
@@ -342,6 +342,11 @@ namespace Upgrade
                 Name = NameOriginal + " (" + Charges + ")";
                 Roster.UpdateUpgradesPanel(Host, Host.InfoPanel);
             }
+        }
+
+        public void SetChargesToMax()
+        {
+            Charges = MaxCharges;
         }
     }
 

@@ -113,7 +113,7 @@ namespace Abilities.SecondEdition
             HostShip.GenerateAvailableActionsList();
             List<GenericAction> actions = Selection.ThisShip.GetAvailableActionsList();
             HostShip.BeforeFreeActionIsPerformed += PayForceCost;
-            Messages.ShowInfo("Darth Vader: you may spend 1 force to perform an action");
+            Messages.ShowInfoToHuman("Darth Vader: you may spend 1 force to perform an action");
             HostShip.AskPerformFreeAction(actions, CleanUp);
         }
 

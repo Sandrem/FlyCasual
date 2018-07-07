@@ -11,7 +11,8 @@ using UnityEngine;
 
 public class CameraScript : MonoBehaviour {
 
-    private Transform Camera;
+    private static Transform Camera;
+    private static Transform GameObjectTransform;
 
     private const float SENSITIVITY_MOVE = 0.125f;
     private const float SENSITIVITY_TURN = 5;
@@ -31,17 +32,18 @@ public class CameraScript : MonoBehaviour {
         Free,
         TopDown
     }
-    private CameraModes cameraMode = CameraModes.Free;
+    private static CameraModes cameraMode = CameraModes.Free;
 
     // Use this for initialization
     void Start()
     {
         Camera = transform.Find("Main Camera");
+        GameObjectTransform = transform;
 
         SetDefaultCameraPosition();
     }
 
-    private void SetDefaultCameraPosition()
+    private static void SetDefaultCameraPosition()
     {
         bool isSecondPlayer = (Network.IsNetworkGame && !Network.IsServer);
 
@@ -49,8 +51,8 @@ public class CameraScript : MonoBehaviour {
         camera.orthographicSize = 6;
 
         Camera.localEulerAngles = (cameraMode == CameraModes.Free) ? new Vector3(-50, 0, 0) : new Vector3(0, 0, 0);
-        transform.localEulerAngles = new Vector3(90, 0, (!isSecondPlayer) ? 0 : 180);
-        transform.localPosition = (cameraMode == CameraModes.Free) ? new Vector3(0, 6, (!isSecondPlayer) ? -8 : 8) : Vector3.zero;
+        GameObjectTransform.localEulerAngles = new Vector3(90, 0, (!isSecondPlayer) ? 0 : 180);
+        GameObjectTransform.localPosition = (cameraMode == CameraModes.Free) ? new Vector3(0, 6, (!isSecondPlayer) ? -8 : 8) : Vector3.zero;
     }
 
     // Update is called once per frame
@@ -73,7 +75,7 @@ public class CameraScript : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.Tab) && !Console.IsActive) ChangeMode();
     }
 
-    private void ChangeMode()
+    public static void ChangeMode()
     {
         cameraMode = (cameraMode == CameraModes.Free) ? CameraModes.TopDown : CameraModes.Free;
 

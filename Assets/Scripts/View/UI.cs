@@ -153,6 +153,11 @@ public class UI : MonoBehaviour {
         GameObject.Find("UI").transform.Find("GameLogHolder").gameObject.SetActive(!GameObject.Find("UI").transform.Find("GameLogHolder").gameObject.activeSelf);
     }
 
+    public void ToggleViewMode()
+    {
+        CameraScript.ChangeMode();
+    }
+
     public static void AddTestLogEntry(string text)
     {
         if (GameObject.Find("UI").transform.Find("GameLogHolder") != null)

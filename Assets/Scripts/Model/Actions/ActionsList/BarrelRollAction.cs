@@ -342,7 +342,7 @@ namespace SubPhases
 
         public override void Update()
         {
-            if (inReposition)
+            if (inReposition && RuleSet.Instance is FirstEdition)
             {
                 PerfromDrag();
             }

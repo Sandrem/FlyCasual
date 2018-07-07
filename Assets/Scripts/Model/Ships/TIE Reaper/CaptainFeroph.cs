@@ -30,6 +30,9 @@ namespace Ship
             {
                 PilotSkill = 3;
                 Cost = 58;
+
+                PilotAbilities.RemoveAll(a => a is CaptainFerophAbility);
+                PilotAbilities.Add(new Abilities.SecondEdition.CaptainFerophAbilitySE());
             }
         }                
     }
@@ -78,7 +81,7 @@ namespace Abilities
             {
                 GenericAction newAction = new CaptainFerophDiceModification()
                 {
-                    ImageUrl = HostUpgrade.ImageUrl,
+                    ImageUrl = HostShip.ImageUrl,
                     Host = host
                 };
                 host.AddAvailableActionEffect(newAction);
@@ -113,7 +116,7 @@ namespace ActionsList
 
             if (Combat.AttackStep == CombatStep.Defence)
             {
-                if (!Combat.Defender.Tokens.GetAllTokens().Any(n => n.TokenColor == TokenColors.Green))
+                if (!Combat.Attacker.Tokens.GetAllTokens().Any(n => n.TokenColor == TokenColors.Green))
                 {
                     result = true;
                 }

@@ -705,8 +705,6 @@ namespace Ship
         {
             IsDestroyed = true;
 
-            Roster.DestroyShip(this.GetTag());
-
             foreach (var pilotAbility in PilotAbilities)
             {
                 pilotAbility.DeactivateAbility();
@@ -723,7 +721,13 @@ namespace Ship
             if (OnShipIsDestroyed != null) OnShipIsDestroyed(this, isFled);
             if (OnDestroyedGlobal != null) OnDestroyedGlobal(this, isFled);
 
-            Triggers.ResolveTriggers(TriggerTypes.OnShipIsDestroyed, callback);
+            Triggers.ResolveTriggers(
+                TriggerTypes.OnShipIsDestroyed,
+                delegate {
+                    Roster.DestroyShip(this.GetTag());
+                    callback();
+                }
+            );
         }
 
         // ATTACK TYPES

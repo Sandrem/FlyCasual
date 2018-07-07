@@ -263,7 +263,7 @@ namespace SubPhases
 
             DefaultDecisionName = "No";
 
-            UI.ShowSkipButton();
+            ShowSkipButton = true;
 
             callBack();
         }

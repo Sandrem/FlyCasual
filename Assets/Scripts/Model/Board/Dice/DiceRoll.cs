@@ -119,14 +119,9 @@ public partial class DiceRoll
         }
     }
 
-    public int Successes
-    {
-        get
-        {
-            return DiceList.Count(n => ((n.Side == DieSide.Success) || (n.Side == DieSide.Crit)));
-        }
-        private set { }
-    }
+    public int Successes { get { return DiceList.Count(n => ((n.Side == DieSide.Success) || (n.Side == DieSide.Crit))); } }
+
+    public int Failures { get { return DiceList.Count(n => ((n.Side == DieSide.Blank) || (n.Side == DieSide.Focus))); } }
 
     public int SuccessesCancelable
     {

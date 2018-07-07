@@ -43,6 +43,8 @@ namespace ActionsList
                 }
             }
 
+            if (RuleSets.RuleSet.Instance is RuleSets.SecondEdition && Combat.DiceRollDefence.Failures == 0) return 0;
+
             return result;
         }
 

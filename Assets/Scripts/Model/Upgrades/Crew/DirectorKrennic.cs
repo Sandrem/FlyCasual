@@ -9,6 +9,7 @@ using SubPhases;
 using ActionsList;
 using UpgradesList;
 using RuleSets;
+using Tokens;
 
 namespace UpgradesList
 {
@@ -45,10 +46,10 @@ namespace Abilities
         public override void ActivateAbility()
         {
             Phases.Events.OnSetupStart += RegisterDirectorKrennicAbility;
-            SubscribeToAttackFinish();
+            SecondAbility();
         }
 
-        protected virtual void SubscribeToAttackFinish()
+        protected virtual void SecondAbility()
         {
             GenericShip.OnAttackFinishGlobal += OptimizedPrototypeKrennicTargetLockEffect;
         }
@@ -143,7 +144,28 @@ namespace Abilities
                 SelectShipSubPhase.FinishSelection();
             }
 
-            protected override void SubscribeToAttackFinish() { }
+            protected override void SecondAbility()
+            {
+                HostShip.AfterGenerateAvailableActionsList += AddTargetLockAction;
+            }
+
+            private void AddTargetLockAction(GenericShip host)
+            {
+                var alreadyHasTargetLockAction = HostShip.PrintedActions.Find(action => action is TargetLockAction);
+
+                if (alreadyHasTargetLockAction == null)
+                {
+                    var action = new TargetLockAction();
+                    HostShip.AddAvailableAction(action);
+                }
+            }
+
+            public override void DeactivateAbility()
+            {
+                base.DeactivateAbility();
+
+                HostShip.AfterGenerateAvailableActionsList -= AddTargetLockAction;
+            }
         }
     }
 }
@@ -189,7 +211,7 @@ namespace Conditions
         {
             OptimizedPrototypeAction action = new OptimizedPrototypeAction()
             {
-                Host = Host                
+                Host = Host
             };
 
             Host.AddAvailableActionEffect(action);
@@ -203,8 +225,7 @@ namespace Conditions
             Name = "Optimized Prototype Condition";
             Temporary = false;
 
-            //TODO: URL
-            Tooltip = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/conditions/optimized-prototype.png";
+            Tooltip = "https://raw.githubusercontent.com/Sandrem/xwing-data2-test/master/images/conditions/optimized-prototype.png";
         }
 
         public override void WhenAssigned()
@@ -221,7 +242,8 @@ namespace Conditions
         {
             GenericAction action = new ActionsList.SecondEdition.OptimizedPrototypeDiceModificationSE()
             {
-                Host = Host
+                Host = Host,
+                ImageUrl = Tooltip
             };
 
             Host.AddAvailableActionEffect(action);
@@ -240,14 +262,33 @@ namespace ActionsList
 
         public override bool IsActionEffectAvailable()
         {
-            bool result = true;
+            if (Combat.AttackStep != CombatStep.Attack) return false;
+            if (!(Combat.ChosenWeapon is PrimaryWeaponClass)) return false;
+            if (!Combat.ShotInfo.InPrimaryArc) return false;
+            if (Combat.DiceRollAttack.Focuses == 0 && Combat.DiceRollAttack.Successes == 0) return false;
+            if (!IsLockedByFriendlyKrennicShip()) return false;
 
-            if (Combat.AttackStep != CombatStep.Attack) result = false;
-            if (!(Combat.ChosenWeapon is PrimaryWeaponClass)) result = false;
-            if (!Combat.DiceRollAttack.ResultsArray.Any()) result = false;
-            if (Combat.Defender.Shields == 0) result = false;
+            return true;
+        }
 
-            return result;
+        private bool IsLockedByFriendlyKrennicShip()
+        {
+            GenericShip friendlyKrennicShip = Host.Owner.Ships.Values.FirstOrDefault(n => n.UpgradeBar.GetUpgradesOnlyFaceup().Any(u => u is DirectorKrennic));
+            if (friendlyKrennicShip == null)
+            {
+                return false;
+            }
+            else
+            {
+                foreach (var token in friendlyKrennicShip.Tokens.GetAllTokens())
+                {
+                    if (token is BlueTargetLockToken)
+                    {
+                        if ((token as BlueTargetLockToken).OtherTokenOwner == Combat.Defender) return true;
+                    }
+                }
+            }
+            return false;
         }
 
         private class OptimizedPrototypeDecisionSubPhase : DecisionSubPhase { }
@@ -257,35 +298,50 @@ namespace ActionsList
             var newSubPhase = Phases.StartTemporarySubPhaseNew<OptimizedPrototypeDecisionSubPhase>(Name, callBack);
 
             newSubPhase.RequiredPlayer = Host.Owner.PlayerNo;
-            newSubPhase.InfoText = "Spend die result to make defender lose a shield?";
+            newSubPhase.InfoText = "Choose what effect to apply to the defender:";
             newSubPhase.ShowSkipButton = true;
             newSubPhase.OnSkipButtonIsPressed = DontUseOptimizedPrototype;
 
-            if (Combat.DiceRollAttack.Blanks > 0)
+            if (Combat.Defender.Shields > 0)
             {
-                newSubPhase.AddDecision("Spend Blank", (s, o) => SpendBlankForEffect(DieSide.Blank));
+                if (Combat.DiceRollAttack.Focuses > 0)
+                {
+                    newSubPhase.AddDecision("Spend Focus result to remove shield", (s, o) => SpendDieForRemoveShieldEffect(DieSide.Focus));
+                }
+                if (Combat.DiceRollAttack.RegularSuccesses > 0)
+                {
+                    newSubPhase.AddDecision("Spend Hit result to remove shield", (s, o) => SpendDieForRemoveShieldEffect(DieSide.Success));
+                }
+                if (Combat.DiceRollAttack.CriticalSuccesses > 0)
+                {
+                    newSubPhase.AddDecision("Spend Crit result to remove shield", (s, o) => SpendDieForRemoveShieldEffect(DieSide.Crit));
+                }
             }
-            if (Combat.DiceRollAttack.Focuses > 0)
+
+            if (Combat.Defender.Damage.HasFacedownCards)
             {
-                newSubPhase.AddDecision("Spend Eye", (s, o) => SpendBlankForEffect(DieSide.Focus));
-            }
-            if (Combat.DiceRollAttack.RegularSuccesses > 0)
-            {
-                newSubPhase.AddDecision("Spend Hit", (s, o) => SpendBlankForEffect(DieSide.Success));
-            }
-            if (Combat.DiceRollAttack.CriticalSuccesses > 0)
-            {
-                newSubPhase.AddDecision("Spend Critical Hit", (s, o) => SpendBlankForEffect(DieSide.Crit));
+                if (Combat.DiceRollAttack.Focuses > 0)
+                {
+                    newSubPhase.AddDecision("Spend Focus result to flip facedown damage card", (s, o) => SpendDieForExposeDamageCardEffect(DieSide.Focus));
+                }
+                if (Combat.DiceRollAttack.RegularSuccesses > 0)
+                {
+                    newSubPhase.AddDecision("Spend Hit result to flip facedown damage card", (s, o) => SpendDieForExposeDamageCardEffect(DieSide.Success));
+                }
+                if (Combat.DiceRollAttack.CriticalSuccesses > 0)
+                {
+                    newSubPhase.AddDecision("Spend Crit result to flip facedown damage card", (s, o) => SpendDieForExposeDamageCardEffect(DieSide.Crit));
+                }
             }
 
             newSubPhase.DefaultDecisionName = newSubPhase.GetDecisions().Select(d => d.Name).FirstOrDefault();
             newSubPhase.Start();
         }
 
-        private void SpendBlankForEffect(DieSide side)
+        private void SpendDieForRemoveShieldEffect(DieSide side)
         {
             Combat.DiceRollAttack.RemoveType(side);
-            DefenderSuffersDamage();            
+            DefenderSuffersDamage();
         }
 
         private void DefenderSuffersDamage()
@@ -339,7 +395,17 @@ namespace ActionsList
             return result;
         }
 
+        private void SpendDieForExposeDamageCardEffect(DieSide side)
+        {
+            Combat.DiceRollAttack.RemoveType(side);
+            DefenderExposesDamageCard();
+        }
 
+        private void DefenderExposesDamageCard()
+        {
+            DecisionSubPhase.ConfirmDecisionNoCallback();
+            Combat.Defender.Damage.ExposeRandomFacedownCard(Triggers.FinishTrigger);
+        }
     }
 }
 

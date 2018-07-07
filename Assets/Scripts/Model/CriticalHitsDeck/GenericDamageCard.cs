@@ -82,5 +82,14 @@ public class GenericDamageCard
         Host.AddAvailableAction(cancelCritAction);
     }
 
+    public void Expose(Action callback)
+    {
+        IsFaceup = true;
+        Assign(
+            Host,
+            delegate { Host.CallHullValueIsDecreased(callback);
+        });
+    }
+
 }
 

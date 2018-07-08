@@ -244,8 +244,6 @@ public static partial class Combat
 
     public static void CompareResultsAndDealDamageClient()
     {
-        Combat.Defender.CallCombatCompareResults();
-
         DiceCompareHelper.currentDiceCompareHelper.Close();
         HideDiceResultMenu();
         Phases.FinishSubPhase(typeof(DefenceDiceRollCombatSubPhase));
@@ -277,9 +275,11 @@ public static partial class Combat
 
 	private static void CalculateAttackResults()
 	{
-		DiceRollAttack.RemoveAllFailures();
+        Combat.Defender.CallCombatCompareResults();
 
-		if (DiceRollAttack.Successes > 0) {
+        DiceRollAttack.RemoveAllFailures();
+
+        if (DiceRollAttack.Successes > 0) {
 			AttackHit ();
 		} else {
 			if (Attacker.AttackIsAlwaysConsideredHit) {

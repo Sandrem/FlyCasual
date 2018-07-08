@@ -1,12 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using RuleSets;
 
 namespace Ship
 {
     namespace AWing
     {
-        public class PrototypePilot : AWing
+        public class PrototypePilot : AWing, ISecondEditionPilot
         {
             public PrototypePilot() : base()
             {
@@ -15,6 +13,12 @@ namespace Ship
                 Cost = 17;
 
                 SkinName = "Blue";
+            }
+
+            public void AdaptPilotToSecondEdition()
+            {
+                PilotName = "Phoenix Squadron Pilot";
+                Cost = 34; //TODO
             }
         }
     }

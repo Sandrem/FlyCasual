@@ -85,10 +85,7 @@ public class GenericDamageCard
     public void Expose(Action callback)
     {
         IsFaceup = true;
-        Assign(
-            Host,
-            delegate { Host.CallHullValueIsDecreased(callback);
-        });
+        Assign(Host, callback);
     }
 
 }

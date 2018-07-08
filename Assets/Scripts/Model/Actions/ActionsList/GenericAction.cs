@@ -94,6 +94,7 @@ namespace ActionsList
             * 70 - Free focus to crit
             * 60 - Free focus to crit, another to hits
             * 55 - Free side to hit
+            * 53 - Spend die with eye result
             * 50 - Regular Focus to hits if 1+
             * 45 - Force to change eye to evade if 1
             * 40 - Regular Focus to hits if 1

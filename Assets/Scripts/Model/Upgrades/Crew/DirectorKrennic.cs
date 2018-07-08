@@ -257,38 +257,19 @@ namespace ActionsList
     {
         public OptimizedPrototypeAction()
         {
-            Name = EffectName = "Optimized Prototype";            
+            Name = EffectName = "Optimized Prototype";
         }
 
         public override bool IsActionEffectAvailable()
         {
-            if (Combat.AttackStep != CombatStep.Attack) return false;
-            if (!(Combat.ChosenWeapon is PrimaryWeaponClass)) return false;
-            if (!Combat.ShotInfo.InPrimaryArc) return false;
-            if (Combat.DiceRollAttack.Focuses == 0 && Combat.DiceRollAttack.Successes == 0) return false;
-            if (!IsLockedByFriendlyKrennicShip()) return false;
+            bool result = true;
 
-            return true;
-        }
+            if (Combat.AttackStep != CombatStep.Attack) result = false;
+            if (!(Combat.ChosenWeapon is PrimaryWeaponClass)) result = false;
+            if (!Combat.DiceRollAttack.ResultsArray.Any()) result = false;
+            if (Combat.Defender.Shields == 0) result = false;
 
-        private bool IsLockedByFriendlyKrennicShip()
-        {
-            GenericShip friendlyKrennicShip = Host.Owner.Ships.Values.FirstOrDefault(n => n.UpgradeBar.GetUpgradesOnlyFaceup().Any(u => u is DirectorKrennic));
-            if (friendlyKrennicShip == null)
-            {
-                return false;
-            }
-            else
-            {
-                foreach (var token in friendlyKrennicShip.Tokens.GetAllTokens())
-                {
-                    if (token is BlueTargetLockToken)
-                    {
-                        if ((token as BlueTargetLockToken).OtherTokenOwner == Combat.Defender) return true;
-                    }
-                }
-            }
-            return false;
+            return result;
         }
 
         private class OptimizedPrototypeDecisionSubPhase : DecisionSubPhase { }
@@ -298,54 +279,39 @@ namespace ActionsList
             var newSubPhase = Phases.StartTemporarySubPhaseNew<OptimizedPrototypeDecisionSubPhase>(Name, callBack);
 
             newSubPhase.RequiredPlayer = Host.Owner.PlayerNo;
-            newSubPhase.InfoText = "Choose what effect to apply to the defender:";
+            newSubPhase.InfoText = "Spend die result to make defender lose a shield?";
             newSubPhase.ShowSkipButton = true;
             newSubPhase.OnSkipButtonIsPressed = DontUseOptimizedPrototype;
 
-            if (Combat.Defender.Shields > 0)
+            if (Combat.DiceRollAttack.Blanks > 0)
             {
-                if (Combat.DiceRollAttack.Focuses > 0)
-                {
-                    newSubPhase.AddDecision("Spend Focus result to remove shield", (s, o) => SpendDieForRemoveShieldEffect(DieSide.Focus));
-                }
-                if (Combat.DiceRollAttack.RegularSuccesses > 0)
-                {
-                    newSubPhase.AddDecision("Spend Hit result to remove shield", (s, o) => SpendDieForRemoveShieldEffect(DieSide.Success));
-                }
-                if (Combat.DiceRollAttack.CriticalSuccesses > 0)
-                {
-                    newSubPhase.AddDecision("Spend Crit result to remove shield", (s, o) => SpendDieForRemoveShieldEffect(DieSide.Crit));
-                }
+                newSubPhase.AddDecision("Spend Blank", (s, o) => SpendBlankForEffect(DieSide.Blank));
             }
-
-            if (Combat.Defender.Damage.HasFacedownCards)
+            if (Combat.DiceRollAttack.Focuses > 0)
             {
-                if (Combat.DiceRollAttack.Focuses > 0)
-                {
-                    newSubPhase.AddDecision("Spend Focus result to flip facedown damage card", (s, o) => SpendDieForExposeDamageCardEffect(DieSide.Focus));
-                }
-                if (Combat.DiceRollAttack.RegularSuccesses > 0)
-                {
-                    newSubPhase.AddDecision("Spend Hit result to flip facedown damage card", (s, o) => SpendDieForExposeDamageCardEffect(DieSide.Success));
-                }
-                if (Combat.DiceRollAttack.CriticalSuccesses > 0)
-                {
-                    newSubPhase.AddDecision("Spend Crit result to flip facedown damage card", (s, o) => SpendDieForExposeDamageCardEffect(DieSide.Crit));
-                }
+                newSubPhase.AddDecision("Spend Eye", (s, o) => SpendBlankForEffect(DieSide.Focus));
+            }
+            if (Combat.DiceRollAttack.RegularSuccesses > 0)
+            {
+                newSubPhase.AddDecision("Spend Hit", (s, o) => SpendBlankForEffect(DieSide.Success));
+            }
+            if (Combat.DiceRollAttack.CriticalSuccesses > 0)
+            {
+                newSubPhase.AddDecision("Spend Critical Hit", (s, o) => SpendBlankForEffect(DieSide.Crit));
             }
 
             newSubPhase.DefaultDecisionName = newSubPhase.GetDecisions().Select(d => d.Name).FirstOrDefault();
             newSubPhase.Start();
         }
 
-        private void SpendDieForRemoveShieldEffect(DieSide side)
+        private void SpendBlankForEffect(DieSide side)
         {
             Combat.DiceRollAttack.RemoveType(side);
             DefenderSuffersDamage();
         }
 
         private void DefenderSuffersDamage()
-        {            
+        {
             Combat.Defender.AssignedDamageDiceroll.AddDice(DieSide.Success);
 
             Triggers.RegisterTrigger(
@@ -371,7 +337,7 @@ namespace ActionsList
         {
             DecisionSubPhase.ConfirmDecision();
         }
-         
+
         public override int GetActionEffectPriority()
         {
             int result = 0;
@@ -394,18 +360,6 @@ namespace ActionsList
 
             return result;
         }
-
-        private void SpendDieForExposeDamageCardEffect(DieSide side)
-        {
-            Combat.DiceRollAttack.RemoveType(side);
-            DefenderExposesDamageCard();
-        }
-
-        private void DefenderExposesDamageCard()
-        {
-            DecisionSubPhase.ConfirmDecisionNoCallback();
-            Combat.Defender.Damage.ExposeRandomFacedownCard(Triggers.FinishTrigger);
-        }
     }
 }
 
@@ -420,23 +374,157 @@ namespace ActionsList
                 Name = EffectName = "Optimized Prototype";
             }
 
-            public override void ActionEffect(Action callBack)
+            public override bool IsActionEffectAvailable()
             {
-                //TODO: If you do, choose one: the defender loses 1 shield or the defender flips 1 of its facedown damage cards.
-            }
-
-            public override bool IsActionAvailable()
-            {
-                //TODO: forward primary attack
-                //TODO: Check TL
-                //TODO: At least one non-blank die must be in pool
+                if (Combat.AttackStep != CombatStep.Attack) return false;
+                if (!(Combat.ChosenWeapon is PrimaryWeaponClass)) return false;
+                if (!Combat.ShotInfo.InPrimaryArc) return false;
+                if (Combat.DiceRollAttack.Focuses == 0 && Combat.DiceRollAttack.Successes == 0) return false;
+                if (!IsLockedByFriendlyKrennicShip()) return false;
 
                 return true;
             }
 
+            private bool IsLockedByFriendlyKrennicShip()
+            {
+                GenericShip friendlyKrennicShip = Host.Owner.Ships.Values.FirstOrDefault(n => n.UpgradeBar.GetUpgradesOnlyFaceup().Any(u => u is DirectorKrennic));
+                if (friendlyKrennicShip == null)
+                {
+                    return false;
+                }
+                else
+                {
+                    foreach (var token in friendlyKrennicShip.Tokens.GetAllTokens())
+                    {
+                        if (token is BlueTargetLockToken)
+                        {
+                            if ((token as BlueTargetLockToken).OtherTokenOwner == Combat.Defender) return true;
+                        }
+                    }
+                }
+                return false;
+            }
+
+            private class OptimizedPrototypeDecisionSubPhase : DecisionSubPhase { }
+
+            public override void ActionEffect(Action callBack)
+            {
+                StartSubphaseTrigger(callBack);
+            }
+
+            private void StartSubphaseTrigger(Action callback)
+            {
+                Triggers.RegisterTrigger(
+                    new Trigger() {
+                        Name = "Optimized Prototype Decision",
+                        TriggerOwner = Host.Owner.PlayerNo,
+                        TriggerType = TriggerTypes.OnAbilityDirect,
+                        EventHandler = StartSubphase
+                    }
+                );
+
+                Triggers.ResolveTriggers(TriggerTypes.OnAbilityDirect, callback);
+            }
+
+            private void StartSubphase(object sender, System.EventArgs e)
+            {
+                var newSubPhase = Phases.StartTemporarySubPhaseNew<OptimizedPrototypeDecisionSubPhase>(Name, Triggers.FinishTrigger);
+
+                newSubPhase.RequiredPlayer = Host.Owner.PlayerNo;
+                newSubPhase.InfoText = "Choose what effect to apply to the defender:";
+                newSubPhase.ShowSkipButton = true;
+                newSubPhase.OnSkipButtonIsPressed = DontUseOptimizedPrototype;
+
+                if (Combat.Defender.Shields > 0)
+                {
+                    if (Combat.DiceRollAttack.Focuses > 0)
+                    {
+                        newSubPhase.AddDecision("Spend Focus result to remove shield", (s, o) => SpendDieForRemoveShieldEffect(DieSide.Focus));
+                    }
+                    if (Combat.DiceRollAttack.RegularSuccesses > 0)
+                    {
+                        newSubPhase.AddDecision("Spend Hit result to remove shield", (s, o) => SpendDieForRemoveShieldEffect(DieSide.Success));
+                    }
+                    if (Combat.DiceRollAttack.CriticalSuccesses > 0)
+                    {
+                        newSubPhase.AddDecision("Spend Crit result to remove shield", (s, o) => SpendDieForRemoveShieldEffect(DieSide.Crit));
+                    }
+                }
+
+                if (Combat.Defender.Damage.HasFacedownCards)
+                {
+                    if (Combat.DiceRollAttack.Focuses > 0)
+                    {
+                        newSubPhase.AddDecision("Spend Focus result to flip facedown damage card", (s, o) => SpendDieForExposeDamageCardEffect(DieSide.Focus));
+                    }
+                    if (Combat.DiceRollAttack.RegularSuccesses > 0)
+                    {
+                        newSubPhase.AddDecision("Spend Hit result to flip facedown damage card", (s, o) => SpendDieForExposeDamageCardEffect(DieSide.Success));
+                    }
+                    if (Combat.DiceRollAttack.CriticalSuccesses > 0)
+                    {
+                        newSubPhase.AddDecision("Spend Crit result to flip facedown damage card", (s, o) => SpendDieForExposeDamageCardEffect(DieSide.Crit));
+                    }
+                }
+
+                newSubPhase.DefaultDecisionName = newSubPhase.GetDecisions().Select(d => d.Name).FirstOrDefault();
+                newSubPhase.Start();
+            }
+
+            private void SpendDieForRemoveShieldEffect(DieSide side)
+            {
+                DecisionSubPhase.ConfirmDecisionNoCallback();
+                Combat.DiceRollAttack.RemoveType(side);
+                DefenderSuffersDamage();
+            }
+
+            private void DefenderSuffersDamage()
+            {
+                Combat.Defender.AssignedDamageDiceroll.AddDice(DieSide.Success);
+
+                Triggers.RegisterTrigger(
+                    new Trigger()
+                    {
+                        Name = "Damage from Optimized Prototype",
+                        TriggerType = TriggerTypes.OnDamageIsDealt,
+                        TriggerOwner = Combat.Defender.Owner.PlayerNo,
+                        EventHandler = Combat.Defender.SufferDamage,
+                        EventArgs = new DamageSourceEventArgs()
+                        {
+                            Source = Combat.Attacker,
+                            DamageType = DamageTypes.CardAbility
+                        },
+                        Skippable = true
+                    }
+                );
+
+                Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, Triggers.FinishTrigger);
+            }
+
+            private void DontUseOptimizedPrototype()
+            {
+                DecisionSubPhase.ConfirmDecision();
+            }
+
             public override int GetActionEffectPriority()
             {
-                return 0;
+                int result = 0;
+
+                if (Combat.Defender.Shields != 0 && Combat.Defender.Damage.GetFacedownCards().Count != 0) result = 53;
+
+                return result;
+            }
+
+            private void SpendDieForExposeDamageCardEffect(DieSide side)
+            {
+                DecisionSubPhase.ConfirmDecisionNoCallback();
+                Combat.DiceRollAttack.RemoveType(side);
+                DefenderExposesDamageCard();
+            }
+
+            private void DefenderExposesDamageCard()
+            {
+                Combat.Defender.Damage.ExposeRandomFacedownCard(Triggers.FinishTrigger);
             }
         }
     }

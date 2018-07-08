@@ -1,14 +1,16 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using Movement;
+﻿using Movement;
 using ActionsList;
+using RuleSets;
+using Abilities.SecondEdition;
+using Ship;
+using System;
+using System.Collections.Generic;
 
 namespace Ship
 {
     namespace AWing
     {
-        public class AWing : GenericShip
+        public class AWing : GenericShip, ISecondEditionShip
         {
 
             public AWing() : base()
@@ -73,6 +75,63 @@ namespace Ship
                 Maneuvers.Add("5.F.R", MovementComplexity.Complex);
             }
 
+            public void AdaptShipToSecondEdition()
+            {
+                PrintedActions.Add(new BarrelRollAction());
+
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Configuration);
+
+                Maneuvers.Add("3.L.R", MovementComplexity.Complex);
+                Maneuvers.Add("3.R.R", MovementComplexity.Complex);
+                Maneuvers.Remove("3.F.R");
+
+                PilotAbilities.Add(new VectoredThrusters());
+
+                IconicPilots[Faction.Rebel] = typeof(PrototypePilot);
+            }
+        }
+    }
+}
+
+
+namespace Abilities.SecondEdition
+{
+    //After you perform an action, you may perform a red boost action.
+    public class VectoredThrusters : GenericAbility
+    {
+        public override void ActivateAbility()
+        {
+            HostShip.OnActionIsPerformed += CheckConditions;
+        }
+
+        public override void DeactivateAbility()
+        {
+            HostShip.OnActionIsPerformed -= CheckConditions;
+        }
+
+        private void CheckConditions(GenericAction action)
+        {
+            if (action != null && !(action is BoostAction))
+            {
+                HostShip.OnActionDecisionSubphaseEnd += PerformBoostAction;
+            }
+        }
+
+        private void PerformBoostAction(GenericShip ship)
+        {
+            HostShip.OnActionDecisionSubphaseEnd -= PerformBoostAction;
+
+            if (!ship.Tokens.HasToken(typeof(Tokens.StressToken)) || ship.CanPerformActionsWhileStressed)
+            {
+                RegisterAbilityTrigger(TriggerTypes.OnFreeAction, AskPerformBoostAction);
+            }
+        }
+
+        private void AskPerformBoostAction(object sender, System.EventArgs e)
+        {
+            List<GenericAction> actions = new List<GenericAction> { new BoostAction() { IsRed = true } };
+            Messages.ShowInfoToHuman("Vectored Thrusters: you may perform a red boost action");
+            HostShip.AskPerformFreeAction(actions, Triggers.FinishTrigger);
         }
     }
 }

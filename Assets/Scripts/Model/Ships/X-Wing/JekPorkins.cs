@@ -46,92 +46,62 @@ namespace Abilities
 
         public override void DeactivateAbility()
         {
-            HostShip.OnTokenIsAssigned += CheckAbilityConditions;
+            HostShip.OnTokenIsAssigned -= CheckAbilityConditions;
         }
 
         private void CheckAbilityConditions(GenericShip ship, Type tokenType)
         {
-            if (tokenType == typeof(StressToken)) RegisterAbilityTrigger(TriggerTypes.OnTokenIsAssigned, AskToUsePilotAbility);
+            if (tokenType == typeof(StressToken))
+            {
+                RegisterAbilityTrigger(TriggerTypes.OnTokenIsAssigned, AskToUsePilotAbility);
+            }
         }
 
         private void AskToUsePilotAbility(object sender, EventArgs e)
         {
-            AskToUseAbility(AlwaysUseByDefault, RemoveStressAndRollDice);
+            AskToUseAbility(ShouldUseAbility, RemoveStressAndRollDice);
+        }
+
+        private bool ShouldUseAbility()
+        {
+            return HostShip.Hull > 1;
         }
 
         private void RemoveStressAndRollDice(object sender, EventArgs e)
         {
+            DecisionSubPhase.ConfirmDecisionNoCallback();
+
             HostShip.Tokens.RemoveToken(typeof(StressToken), StartRollDiceSubphase);
         }
 
         private void StartRollDiceSubphase()
         {
-            Phases.CurrentSubPhase.Pause();
-
-            Selection.ActiveShip = Selection.ThisShip;
-            Phases.StartTemporarySubPhaseOld(
-                "Jek Porkins: Roll for damage",
-                typeof(JekPorkinsCheckSubPhase),
-                delegate {
-                    Phases.GoBack(typeof(JekPorkinsCheckSubPhase));
-                    DecisionSubPhase.ConfirmDecision();
-                }
+            PerformDiceCheck(
+                "Jek Porkins: Facedown damage card on hit",
+                DiceKind.Attack,
+                1,
+                FinishAction,
+                Triggers.FinishTrigger
             );
         }
-    }
-}
 
-namespace SubPhases
-{
-
-    public class JekPorkinsCheckSubPhase : DiceRollCheckSubPhase
-    {
-
-        public override void Prepare()
+        private void FinishAction()
         {
-            diceType = DiceKind.Attack;
-            diceCount = 1;
-
-            finishAction = FinishAction;
-        }
-
-        protected override void FinishAction()
-        {
-            HideDiceResultMenu();
-
-            if (CurrentDiceRoll.RegularSuccesses > 0)
+            if (DiceCheckRoll.RegularSuccesses > 0)
             {
-                RegisterSufferHullDamage();
+                HostShip.Damage.SufferFacedownDamageCard(
+                    new DamageSourceEventArgs()
+                    {
+                        Source = HostShip,
+                        DamageType = DamageTypes.CardAbility
+                    },
+                    AbilityDiceCheck.ConfirmCheck
+                );
             }
             else
             {
-                CallBack();
+                AbilityDiceCheck.ConfirmCheck();
             }
         }
-
-        private void RegisterSufferHullDamage()
-        {
-            Triggers.RegisterTrigger(new Trigger()
-            {
-                Name = "Suffer damage from bomb",
-                TriggerType = TriggerTypes.OnDamageIsDealt,
-                TriggerOwner = Selection.ActiveShip.Owner.PlayerNo,
-                EventHandler = SufferHullDamage,
-                EventArgs = new DamageSourceEventArgs()
-                {
-                    Source = Selection.ActiveShip,
-                    DamageType = DamageTypes.CardAbility
-                }
-            });
-
-            Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, CallBack);
-        }
-
-        private void SufferHullDamage(object sender, EventArgs e)
-        {
-            Messages.ShowInfoToHuman(string.Format("{0}: Facedown card is dealt", Selection.ActiveShip.PilotName));
-            Selection.ActiveShip.SufferHullDamage(false, e);
-        }
     }
-
 }

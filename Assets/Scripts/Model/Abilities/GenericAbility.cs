@@ -248,5 +248,54 @@ namespace Abilities
         {
             IsAbilityUsed = true;
         }
+
+        // DICE CHECKS
+
+        protected DiceRoll DiceCheckRoll;
+
+        public void PerformDiceCheck(string description, DiceKind diceKind, int count, Action finish, Action callback)
+        {
+            Phases.CurrentSubPhase.Pause();
+
+            Selection.ActiveShip = HostShip;
+
+            AbilityDiceCheck subphase = Phases.StartTemporarySubPhaseNew<AbilityDiceCheck>(
+                description,
+                callback
+            );
+
+            subphase.DiceKind = diceKind;
+            subphase.DiceCount = count;
+            subphase.AfterRoll = delegate { AfterRollWrapper(finish); };
+
+            subphase.Start();
+        }
+
+        private void AfterRollWrapper(Action callback)
+        {
+            AbilityDiceCheck subphase = Phases.CurrentSubPhase as AbilityDiceCheck;
+            subphase.HideDiceResultMenu();
+            DiceCheckRoll = subphase.CurrentDiceRoll;
+
+            callback();
+        }
+
+        protected class AbilityDiceCheck : DiceRollCheckSubPhase
+        {
+
+            public static void ConfirmCheckNoCallback()
+            {
+                Phases.FinishSubPhase(Phases.CurrentSubPhase.GetType());
+                Phases.CurrentSubPhase.Resume();
+            }
+
+            public static void ConfirmCheck()
+            {
+                Action callback = Phases.CurrentSubPhase.CallBack;
+                ConfirmCheckNoCallback();
+                callback();
+            }
+
+        };
     }
 }

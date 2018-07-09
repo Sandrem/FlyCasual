@@ -58,10 +58,10 @@ namespace SubPhases
 
         public override void Prepare()
         {
-            diceType = DiceKind.Attack;
-            diceCount = 3;
+            DiceKind = DiceKind.Attack;
+            DiceCount = 3;
 
-            finishAction = FinishAction;
+            AfterRoll = FinishAction;
         }
 
         protected override void FinishAction()

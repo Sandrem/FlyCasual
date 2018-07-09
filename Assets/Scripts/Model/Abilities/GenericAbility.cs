@@ -152,6 +152,11 @@ namespace Abilities
 
         protected void SelectTargetForAbility(Action selectTargetAction, Func<GenericShip, bool> filterTargets, Func<GenericShip, int> getAiPriority, PlayerNo subphaseOwnerPlayerNo, bool showSkipButton = true, Action customCallback = null, string name = null, string description = null, string imageUrl = null)
         {
+            SelectTargetForAbility(selectTargetAction, filterTargets, getAiPriority, subphaseOwnerPlayerNo, name, description, imageUrl, showSkipButton, customCallback);
+        }
+
+        protected void SelectTargetForAbility(Action selectTargetAction, Func<GenericShip, bool> filterTargets, Func<GenericShip, int> getAiPriority, PlayerNo subphaseOwnerPlayerNo, string name, string description, string imageUrl, bool showSkipButton = true, Action customCallback = null)
+        {
             if (customCallback == null) customCallback = Triggers.FinishTrigger;
 
             Selection.ChangeActiveShip("ShipId:" + HostShip.ShipId);
@@ -177,6 +182,11 @@ namespace Abilities
         }
 
         protected bool FilterByTargetType(GenericShip ship, List<TargetTypes> targetTypes)
+        {
+            return FilterByTargetType(ship, targetTypes.ToArray());
+        }
+
+        protected bool FilterByTargetType(GenericShip ship, params TargetTypes[] targetTypes)
         {
             bool result = false;
 

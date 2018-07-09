@@ -119,20 +119,9 @@ public static partial class Phases
 
         GameIsEnded = true;
 
-        foreach (var shipHolder in Roster.AllShips)
+        foreach (var ship in Roster.AllShips.Values)
         {
-            foreach (var ability in shipHolder.Value.PilotAbilities)
-            {
-                ability.DeactivateAbility();
-            }
-
-            foreach (var upgrade in shipHolder.Value.UpgradeBar.GetUpgradesOnlyFaceup())
-            {
-                foreach (var upgradeAbility in upgrade.UpgradeAbilities)
-                {
-                    upgradeAbility.DeactivateAbility();
-                }
-            }
+            ship.DeactivateAllAbilities();
         }
 
         Board.Cleanup();

@@ -85,7 +85,7 @@ namespace Ship
                 Maneuvers.Add("3.R.R", MovementComplexity.Complex);
                 Maneuvers.Remove("3.F.R");
 
-                PilotAbilities.Add(new VectoredThrusters());
+                ShipAbilities.Add(new VectoredThrusters());
 
                 IconicPilots[Faction.Rebel] = typeof(PrototypePilot);
             }
@@ -121,17 +121,17 @@ namespace Abilities.SecondEdition
         {
             HostShip.OnActionDecisionSubphaseEnd -= PerformBoostAction;
 
-            if (!ship.Tokens.HasToken(typeof(Tokens.StressToken)) || ship.CanPerformActionsWhileStressed)
-            {
-                RegisterAbilityTrigger(TriggerTypes.OnFreeAction, AskPerformBoostAction);
-            }
+            RegisterAbilityTrigger(TriggerTypes.OnFreeAction, AskPerformBoostAction);
         }
 
         private void AskPerformBoostAction(object sender, System.EventArgs e)
         {
-            List<GenericAction> actions = new List<GenericAction> { new BoostAction() { IsRed = true } };
             Messages.ShowInfoToHuman("Vectored Thrusters: you may perform a red boost action");
-            HostShip.AskPerformFreeAction(actions, Triggers.FinishTrigger);
+
+            HostShip.AskPerformFreeAction(
+                new BoostAction() { IsRed = true },
+                Triggers.FinishTrigger
+            );
         }
     }
 }

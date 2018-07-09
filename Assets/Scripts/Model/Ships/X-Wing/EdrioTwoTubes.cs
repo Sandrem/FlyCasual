@@ -4,6 +4,7 @@ using UnityEngine;
 using Ship;
 using System;
 using RuleSets;
+using Tokens;
 
 namespace Ship
 {
@@ -51,7 +52,7 @@ namespace Abilities
 
         private void CheckAbilityConditions(GenericShip ship)
         {
-            if (HostShip.Tokens.CountTokensByType(typeof(Tokens.FocusToken)) > 0) RegisterEdrioTwoTubesTrigger();
+            if (HostShip.Tokens.HasToken(typeof(FocusToken))) RegisterEdrioTwoTubesTrigger();
         }
 
         private void RegisterEdrioTwoTubesTrigger()
@@ -61,7 +62,6 @@ namespace Abilities
 
         private void AskToPerfromFreeAction(object sender, EventArgs e)
         {
-            HostShip.GenerateAvailableActionsList();
             HostShip.AskPerformFreeAction(HostShip.GetAvailableActionsList(), Triggers.FinishTrigger);
         }
     }

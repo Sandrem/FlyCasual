@@ -45,7 +45,7 @@ namespace Abilities
 
         private void RegisterDoDamageIfStressed(ActionsList.GenericAction action)
         {
-            if (HostShip.Tokens.HasToken(typeof(StressToken)) && (action != null))
+            if (HostShip.Tokens.HasToken(typeof(StressToken)))
             {
                 Triggers.RegisterTrigger(new Trigger()
                 {

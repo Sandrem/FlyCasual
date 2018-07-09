@@ -12,7 +12,7 @@ namespace UpgradesList
         {
             Types.Add(UpgradeType.Elite);
             Name = "Outmaneuver";
-            Cost = 10;
+            Cost = 3;
 
             UpgradeAbilities.Add(new OutmaneuverAbility());
         }

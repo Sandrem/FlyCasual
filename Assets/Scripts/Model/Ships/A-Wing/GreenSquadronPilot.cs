@@ -1,12 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using RuleSets;
 
 namespace Ship
 {
     namespace AWing
     {
-        public class GreenSquadronPilot : AWing
+        public class GreenSquadronPilot : AWing, ISecondEditionPilot
         {
             public GreenSquadronPilot() : base()
             {
@@ -17,6 +15,11 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
                 SkinName = "Green";
+            }
+
+            public void AdaptPilotToSecondEdition()
+            {
+                Cost = 38; //TODO
             }
         }
     }

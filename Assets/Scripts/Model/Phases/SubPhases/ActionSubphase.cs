@@ -49,7 +49,11 @@ namespace SubPhases
             Phases.StartTemporarySubPhaseOld(
                 "Action Decision",
                 typeof(ActionDecisonSubPhase),
-                delegate { Actions.FinishAction(Finish); }
+                delegate {
+                    Actions.TakeActionFinish(
+                        delegate { Actions.EndActionDecisionSubhase(Finish); }
+                    ); 
+                }
             );
         }
 
@@ -126,7 +130,7 @@ namespace SubPhases
                 string decisionName = (action.LinkedRedAction == null) ? action.Name : action.Name + " > <color=red>" + action.LinkedRedAction.Name + "</color>";
                 AddDecision(decisionName, delegate {
                     ActionWasPerformed = true;
-                    Actions.TakeAction(action);
+                    Actions.TakeActionStart(action);
                 }, action.ImageUrl, -1, action.IsRed);
             }
         }
@@ -187,7 +191,7 @@ namespace SubPhases
                     delegate
                     {
                         ActionWasPerformed = true;
-                        Selection.ThisShip.CallBeforeFreeActionIsPerformed(action, delegate { Actions.TakeAction(action); });
+                        Selection.ThisShip.CallBeforeFreeActionIsPerformed(action, delegate { Actions.TakeActionStart(action); });
                     },
                     action.ImageUrl,
                     -1,

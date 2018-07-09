@@ -218,7 +218,6 @@ namespace RulesList
 
         private void PerformFreeAction(object sender, System.EventArgs e)
         {
-            Selection.ThisShip.GenerateAvailableActionsList();
             List<ActionsList.GenericAction> actions = Selection.ThisShip.GetAvailableActionsList();
             Selection.ThisShip.AskPerformFreeAction(actions, Triggers.FinishTrigger);
         }

@@ -238,6 +238,7 @@ namespace Ship
         }
 
         public List<GenericAbility> PilotAbilities = new List<GenericAbility>();
+        public List<GenericAbility> ShipAbilities = new List<GenericAbility>();
 
         public GenericShip()
         {
@@ -338,6 +339,7 @@ namespace Ship
 
             SetShipInsertImage();
             SetShipSkin();
+            InitializeShipAbilities();
             InitializePilotAbilities();
         }
 
@@ -350,6 +352,14 @@ namespace Ship
         {
             OnGameStart -= InitializeForce;
             Force = MaxForce;
+        }
+
+        private void InitializeShipAbilities()
+        {
+            foreach (var shipAbility in ShipAbilities)
+            {
+                shipAbility.Initialize(this);
+            }
         }
 
         private void InitializePilotAbilities()

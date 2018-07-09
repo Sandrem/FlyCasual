@@ -51,8 +51,6 @@ namespace Abilities
 
         private void PerformFreeAction(object sender, System.EventArgs e)
         {
-            HostShip.GenerateAvailableActionsList();
-
             var previousSelectedShip = Selection.ThisShip;
             Selection.ThisShip = HostShip;
 

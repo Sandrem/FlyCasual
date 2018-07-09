@@ -66,8 +66,7 @@ namespace Abilities
 
         private void PerformFreeAction(object sender, System.EventArgs e)
         {
-            HostShip.GenerateAvailableActionsList();
-            List<ActionsList.GenericAction> actions = Selection.ThisShip.GetAvailableActionsList();
+            List<GenericAction> actions = Selection.ThisShip.GetAvailableActionsList();
 
             HostShip.AskPerformFreeAction(actions, Triggers.FinishTrigger);
         }
@@ -92,7 +91,7 @@ namespace Abilities.SecondEdition
 
         private void CheckConditions(GenericAction action)
         {
-            if (action != null && HostShip.Force > 0)
+            if (HostShip.Force > 0)
             {
                 HostShip.OnActionDecisionSubphaseEnd += DoAnotherAction;
             }
@@ -110,7 +109,6 @@ namespace Abilities.SecondEdition
 
         private void PerformAction(object sender, System.EventArgs e)
         {
-            HostShip.GenerateAvailableActionsList();
             List<GenericAction> actions = Selection.ThisShip.GetAvailableActionsList();
             HostShip.BeforeFreeActionIsPerformed += PayForceCost;
             Messages.ShowInfoToHuman("Darth Vader: you may spend 1 force to perform an action");

@@ -40,7 +40,6 @@ namespace Players
                 }
             }
 
-            ship.GenerateAvailableActionsList();
             if (anotherShip != null) foreach (var action in ship.GetAvailableActionsList())
             {
                 if (action.GetType() == typeof(ActionsList.TargetLockAction))
@@ -107,8 +106,7 @@ namespace Players
                     if (prioritizedActions.Value > 0)
                     {
                         isActionTaken = true;
-                        Selection.ThisShip.AddAlreadyExecutedAction(prioritizedActions.Key);
-                        prioritizedActions.Key.ActionTake();
+                        Actions.TakeActionStart(prioritizedActions.Key);
                     }
                 }
             }

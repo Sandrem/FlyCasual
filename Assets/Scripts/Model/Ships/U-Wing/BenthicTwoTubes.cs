@@ -64,8 +64,6 @@ namespace Abilities
                 FilterTargets,
                 GetAiPriority,
                 HostShip.Owner.PlayerNo,
-                true,
-                null,
                 HostShip.PilotName,
                 "Choose a ship to assign own Focus token to it.",
                 HostShip.ImageUrl
@@ -84,16 +82,20 @@ namespace Abilities
 
         private bool FilterTargets(GenericShip ship)
         {
-            return FilterByTargetType(ship, new List<TargetTypes>() { TargetTypes.OtherFriendly, TargetTypes.This }) && FilterTargetsByRange(ship, 1, 2);
+            return FilterByTargetType(ship, TargetTypes.OtherFriendly, TargetTypes.This)
+                && FilterTargetsByRange(ship, 1, 2);
         }
 
         private int GetAiPriority(GenericShip ship)
         {
             int result = 0;
+
             int shipFocusTokens = ship.Tokens.CountTokensByType(typeof(FocusToken));
             if (shipFocusTokens == 0) result += 100;
+
             result += (10 * ship.Agility);
             result += (5 - shipFocusTokens);
+
             return result;
         }
     }

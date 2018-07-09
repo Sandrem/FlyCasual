@@ -172,7 +172,14 @@ namespace Ship
                             typeof(FreeActionDecisonSubPhase),
                             delegate {
                                 var phase = Phases.CurrentSubPhase as FreeActionDecisonSubPhase;
-                                if (phase != null && phase.ActionWasPerformed) Actions.FinishAction(delegate { FinishFreeActionDecision(callback); });
+                                if (phase != null && phase.ActionWasPerformed)
+                                {
+                                    Actions.TakeActionFinish(
+                                        delegate { Actions.EndActionDecisionSubhase(
+                                            delegate { FinishFreeActionDecision(callback); }
+                                        );}
+                                    );
+                                }
                                 else FinishFreeActionDecision(callback);
                             }
                         );
@@ -194,6 +201,7 @@ namespace Ship
 
         public List<GenericAction> GetAvailableActionsList()
         {
+            GenerateAvailableActionsList();
             return AvailableActionsList;
         }
 

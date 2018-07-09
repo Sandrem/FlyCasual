@@ -95,7 +95,7 @@ namespace Abilities
         private void PerformFreeAction()
         {
             Selection.ThisShip = TargetShip;
-            TargetShip.GenerateAvailableActionsList();
+
             TargetShip.AskPerformFreeAction(
                 TargetShip.GetAvailableActionsList(),
                 delegate{

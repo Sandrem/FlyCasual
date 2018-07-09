@@ -41,7 +41,7 @@ namespace Abilities
 
         private void CheckDeathfireAbility(GenericAction action)
         {
-            if (!IsAbilityUsed && action != null)
+            if (!IsAbilityUsed)
             {
                 SetIsAbilityIsUsed(HostShip);
                 RegisterAbilityTrigger(TriggerTypes.OnActionIsPerformed, DeathfireEffect);
@@ -59,7 +59,6 @@ namespace Abilities
 
         private void DeathfireEffect(object sender, EventArgs e)
         {
-            HostShip.GenerateAvailableActionsList();
             var actions = HostShip.GetAvailableActionsList()
                 .Where(action => action is BombDropAction)
                 .ToList();

@@ -79,5 +79,27 @@ namespace Ship
             randomCard.Expose(callback);
         }
 
+        // EXTRA
+
+        public void SufferFacedownDamageCard(DamageSourceEventArgs e, Action callback)
+        {
+            Triggers.RegisterTrigger(new Trigger()
+            {
+                Name = "Suffer facedown damage card",
+                TriggerType = TriggerTypes.OnDamageIsDealt,
+                TriggerOwner = Host.Owner.PlayerNo,
+                EventHandler = SufferHullDamage,
+                EventArgs = e
+            });
+
+            Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, callback);
+        }
+
+        private void SufferHullDamage(object sender, EventArgs e)
+        {
+            Messages.ShowInfoToHuman(string.Format("{0}: Facedown card is dealt", Host.PilotName));
+            Host.SufferHullDamage(false, e);
+        }
+
     }
 }

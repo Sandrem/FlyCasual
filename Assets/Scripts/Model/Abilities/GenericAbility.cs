@@ -152,6 +152,11 @@ namespace Abilities
 
         protected void SelectTargetForAbility(Action selectTargetAction, Func<GenericShip, bool> filterTargets, Func<GenericShip, int> getAiPriority, PlayerNo subphaseOwnerPlayerNo, bool showSkipButton = true, Action customCallback = null, string name = null, string description = null, string imageUrl = null)
         {
+            SelectTargetForAbility(selectTargetAction, filterTargets, getAiPriority, subphaseOwnerPlayerNo, name, description, imageUrl, showSkipButton, customCallback);
+        }
+
+        protected void SelectTargetForAbility(Action selectTargetAction, Func<GenericShip, bool> filterTargets, Func<GenericShip, int> getAiPriority, PlayerNo subphaseOwnerPlayerNo, string name, string description, string imageUrl, bool showSkipButton = true, Action customCallback = null)
+        {
             if (customCallback == null) customCallback = Triggers.FinishTrigger;
 
             Selection.ChangeActiveShip("ShipId:" + HostShip.ShipId);
@@ -177,6 +182,11 @@ namespace Abilities
         }
 
         protected bool FilterByTargetType(GenericShip ship, List<TargetTypes> targetTypes)
+        {
+            return FilterByTargetType(ship, targetTypes.ToArray());
+        }
+
+        protected bool FilterByTargetType(GenericShip ship, params TargetTypes[] targetTypes)
         {
             bool result = false;
 
@@ -238,5 +248,54 @@ namespace Abilities
         {
             IsAbilityUsed = true;
         }
+
+        // DICE CHECKS
+
+        protected DiceRoll DiceCheckRoll;
+
+        public void PerformDiceCheck(string description, DiceKind diceKind, int count, Action finish, Action callback)
+        {
+            Phases.CurrentSubPhase.Pause();
+
+            Selection.ActiveShip = HostShip;
+
+            AbilityDiceCheck subphase = Phases.StartTemporarySubPhaseNew<AbilityDiceCheck>(
+                description,
+                callback
+            );
+
+            subphase.DiceKind = diceKind;
+            subphase.DiceCount = count;
+            subphase.AfterRoll = delegate { AfterRollWrapper(finish); };
+
+            subphase.Start();
+        }
+
+        private void AfterRollWrapper(Action callback)
+        {
+            AbilityDiceCheck subphase = Phases.CurrentSubPhase as AbilityDiceCheck;
+            subphase.HideDiceResultMenu();
+            DiceCheckRoll = subphase.CurrentDiceRoll;
+
+            callback();
+        }
+
+        protected class AbilityDiceCheck : DiceRollCheckSubPhase
+        {
+
+            public static void ConfirmCheckNoCallback()
+            {
+                Phases.FinishSubPhase(Phases.CurrentSubPhase.GetType());
+                Phases.CurrentSubPhase.Resume();
+            }
+
+            public static void ConfirmCheck()
+            {
+                Action callback = Phases.CurrentSubPhase.CallBack;
+                ConfirmCheckNoCallback();
+                callback();
+            }
+
+        };
     }
 }

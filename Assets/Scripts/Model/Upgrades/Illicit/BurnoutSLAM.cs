@@ -1,6 +1,7 @@
 ﻿using Ship;
 using Upgrade;
 using Abilities;
+using ActionsList;
 
 namespace UpgradesList
 { 
@@ -38,9 +39,9 @@ namespace Abilities
             HostShip.OnActionIsPerformed -= RegisterBurnoutSlamAbility;
         }
 
-        private void RegisterBurnoutSlamAbility(ActionsList.GenericAction action)
+        private void RegisterBurnoutSlamAbility(GenericAction action)
         {
-            if (action != null && action.GetType() == typeof(ActionsList.SlamAction))
+            if (action is SlamAction)
             {
                 RegisterAbilityTrigger(TriggerTypes.OnActionIsPerformed, DiscardThisUpgrade);
             }

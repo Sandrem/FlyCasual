@@ -59,7 +59,6 @@ namespace Abilities
 
         private void UseAdvancedSensors(object sender, System.EventArgs e)
         {
-            HostShip.GenerateAvailableActionsList ();
             List<ActionsList.GenericAction> actions = HostShip.GetAvailableActionsList();
 
             HostShip.AskPerformFreeAction(actions, SubPhases.DecisionSubPhase.ConfirmDecision);

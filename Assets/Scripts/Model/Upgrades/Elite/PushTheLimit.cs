@@ -79,9 +79,8 @@ namespace Abilities
 
         private void PerformPushAction(object sender, System.EventArgs e)
         {
-            base.HostShip.GenerateAvailableActionsList();
             List<GenericAction> actions = Selection.ThisShip.GetAvailableActionsList();
-            base.HostShip.AskPerformFreeAction(actions, AddStressToken);
+            HostShip.AskPerformFreeAction(actions, AddStressToken);
         }
 
         private void AddStressToken()

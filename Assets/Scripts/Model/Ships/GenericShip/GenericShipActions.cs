@@ -201,6 +201,7 @@ namespace Ship
 
         public List<GenericAction> GetAvailableActionsList()
         {
+            GenerateAvailableActionsList();
             return AvailableActionsList;
         }
 

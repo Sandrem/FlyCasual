@@ -40,7 +40,6 @@ namespace Players
                 }
             }
 
-            ship.GenerateAvailableActionsList();
             if (anotherShip != null) foreach (var action in ship.GetAvailableActionsList())
             {
                 if (action.GetType() == typeof(ActionsList.TargetLockAction))

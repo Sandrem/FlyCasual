@@ -70,7 +70,7 @@ namespace Conditions
 
         public override void WhenAssigned()
         {
-            if (Combat.Defender.Agility != 0)
+            if (Host.Agility != 0)
             {
                 AgilityWasDecreased = true;
 
@@ -78,7 +78,7 @@ namespace Conditions
                 Host.ChangeAgilityBy(-1);
             }
 
-            Combat.Attacker.OnAttackFinish += RemoveWedgeAntillesAbility;
+            Host.OnAttackFinishAsDefender += RemoveWedgeAntillesAbility;
         }
 
         public void RemoveWedgeAntillesAbility(GenericShip ship)
@@ -94,7 +94,7 @@ namespace Conditions
                 Host.ChangeAgilityBy(+1);
             }
 
-            Combat.Attacker.OnAttackFinish -= RemoveWedgeAntillesAbility;
+            Host.OnAttackFinishAsDefender -= RemoveWedgeAntillesAbility;
         }
     }
 }

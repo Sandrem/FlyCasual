@@ -49,24 +49,7 @@ namespace Abilities
 
         public void AddWedgeAntillesAbility()
         {
-            if (Selection.ThisShip.ShipId == HostShip.ShipId)
-            {
-                if (Combat.Defender.Agility != 0)
-                {
-                    Messages.ShowError("Wedge Antilles: Agility is decreased");
-                    Combat.Defender.Tokens.AssignCondition(typeof(Conditions.WedgeAntillesCondition));
-                    Combat.Defender.ChangeAgilityBy(-1);
-                    Combat.Defender.OnAttackFinish += RemoveWedgeAntillesAbility;
-                }
-            }
-        }
-
-        public void RemoveWedgeAntillesAbility(GenericShip ship)
-        {
-            Messages.ShowInfo("Agility is restored");
-            Combat.Defender.Tokens.RemoveCondition(typeof(Conditions.WedgeAntillesCondition));
-            ship.ChangeAgilityBy(+1);
-            ship.OnAttackFinish -= RemoveWedgeAntillesAbility;
+            Combat.Defender.Tokens.AssignCondition(typeof(Conditions.WedgeAntillesCondition));
         }
     }
 }
@@ -75,13 +58,43 @@ namespace Conditions
 {
     public class WedgeAntillesCondition : Tokens.GenericToken
     {
+        bool AgilityWasDecreased = false;
+
         public WedgeAntillesCondition(GenericShip host) : base(host)
         {
             Name = "Debuff Token";
+            TooltipType = typeof(Ship.XWing.WedgeAntilles);
+
             Temporary = false;
-            GenericShip wedgePilot = new Ship.XWing.WedgeAntilles();
-            RuleSet.Instance.AdaptPilotToRules(wedgePilot);
-            Tooltip = wedgePilot.ImageUrl;
+        }
+
+        public override void WhenAssigned()
+        {
+            if (Combat.Defender.Agility != 0)
+            {
+                AgilityWasDecreased = true;
+
+                Messages.ShowError("Wedge Antilles: Agility is decreased");
+                Host.ChangeAgilityBy(-1);
+            }
+
+            Combat.Attacker.OnAttackFinish += RemoveWedgeAntillesAbility;
+        }
+
+        public void RemoveWedgeAntillesAbility(GenericShip ship)
+        {
+            Host.Tokens.RemoveCondition(this);
+        }
+
+        public override void WhenRemoved()
+        {
+            if (AgilityWasDecreased)
+            {
+                Messages.ShowInfo("Agility is restored");
+                Host.ChangeAgilityBy(+1);
+            }
+
+            Combat.Attacker.OnAttackFinish -= RemoveWedgeAntillesAbility;
         }
     }
 }

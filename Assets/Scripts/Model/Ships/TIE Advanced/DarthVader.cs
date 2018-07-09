@@ -92,7 +92,7 @@ namespace Abilities.SecondEdition
 
         private void CheckConditions(GenericAction action)
         {
-            if (action != null && HostShip.Force > 0)
+            if (HostShip.Force > 0)
             {
                 HostShip.OnActionDecisionSubphaseEnd += DoAnotherAction;
             }

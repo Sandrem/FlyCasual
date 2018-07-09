@@ -111,7 +111,7 @@ namespace Abilities.SecondEdition
 
         private void CheckConditions(GenericAction action)
         {
-            if (action != null && !(action is BoostAction))
+            if (!(action is BoostAction))
             {
                 HostShip.OnActionDecisionSubphaseEnd += PerformBoostAction;
             }

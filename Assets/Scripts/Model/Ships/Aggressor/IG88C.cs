@@ -44,7 +44,7 @@ namespace Abilities
 
         private void CheckBoostBonus(GenericAction action)
         {
-            if ((action != null) && (action.GetType() == typeof(BoostAction)))
+            if (action is BoostAction)
             {
                 RegisterAbilityTrigger(TriggerTypes.OnActionDecisionSubPhaseEnd, AskAssignEvade);
             }

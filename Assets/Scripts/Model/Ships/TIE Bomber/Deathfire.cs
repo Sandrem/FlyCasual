@@ -41,7 +41,7 @@ namespace Abilities
 
         private void CheckDeathfireAbility(GenericAction action)
         {
-            if (!IsAbilityUsed && action != null)
+            if (!IsAbilityUsed)
             {
                 SetIsAbilityIsUsed(HostShip);
                 RegisterAbilityTrigger(TriggerTypes.OnActionIsPerformed, DeathfireEffect);

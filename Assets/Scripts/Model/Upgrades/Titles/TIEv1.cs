@@ -46,7 +46,7 @@ namespace Abilities
 
         private void CheckTargetLockBonus(GenericAction action)
         {
-            if ((action != null) && (action.GetType() == typeof(TargetLockAction)))
+            if (action is TargetLockAction)
             {
                 Triggers.RegisterTrigger(new Trigger()
                 {

@@ -87,10 +87,10 @@ namespace Ship
                 PrintedActions.Add(new BarrelRollAction() { IsRed = true });
                 PrintedActions.Add(new ReloadAction() { IsRed = true });
 
-                factions.Remove(Faction.Scum);
-
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Bomb);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
+
+                IconicPilots[Faction.Scum] = typeof(HiredGun);
             }
 
         }

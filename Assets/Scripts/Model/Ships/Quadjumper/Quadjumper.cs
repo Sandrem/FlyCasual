@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Movement;
 using ActionsList;
+using RuleSets;
 
 namespace Ship
 {
     namespace Quadjumper
     {
-        public class Quadjumper : GenericShip
+        public class Quadjumper : GenericShip, ISecondEditionShip
         {
 
             public Quadjumper() : base()
@@ -62,6 +63,14 @@ namespace Ship
                 Maneuvers.Add("3.L.B", MovementComplexity.Normal);
                 Maneuvers.Add("3.F.S", MovementComplexity.Easy);
                 Maneuvers.Add("3.R.B", MovementComplexity.Normal);
+            }
+
+            public void AdaptShipToSecondEdition()
+            {
+                //TODO: Maneuvers
+                //TODO: Ship ability
+
+                PrintedActions.Add(new EvadeAction() { IsRed = true });
             }
 
         }

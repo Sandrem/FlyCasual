@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Movement;
 using ActionsList;
+using RuleSets;
 
 namespace Ship
 {
     namespace M3AScyk
     {
-        public class M3AScyk : GenericShip
+        public class M3AScyk : GenericShip, ISecondEditionShip
         {
 
             public M3AScyk() : base()
@@ -43,7 +44,7 @@ namespace Ship
                     SoundFlyPaths.Add("TIE-Fly" + i);
                 }
             }
-            
+
             private void AssignTemporaryManeuvers()
             {
                 Maneuvers.Add("1.L.T", MovementComplexity.Normal);
@@ -63,6 +64,12 @@ namespace Ship
                 Maneuvers.Add("4.F.S", MovementComplexity.Normal);
                 Maneuvers.Add("5.F.S", MovementComplexity.None);
                 Maneuvers.Add("5.F.R", MovementComplexity.Complex);
+            }
+
+            public void AdaptShipToSecondEdition()
+            {
+                // TODO: Maneuvers
+                // TODO: Ship ability
             }
 
         }

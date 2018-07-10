@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Movement;
 using ActionsList;
+using RuleSets;
 
 namespace Ship
 {
     namespace Aggressor
     {
-        public class Aggressor : GenericShip
+        public class Aggressor : GenericShip, ISecondEditionShip
         {
 
             public Aggressor() : base()
@@ -73,6 +74,17 @@ namespace Ship
                 Maneuvers.Add("4.F.R", MovementComplexity.Complex);
             }
 
+            public void AdaptShipToSecondEdition()
+            {
+                //TODO: Ship Ability
+                //TODO: Maneuvers
+                //TODO: Calculate action instead of Focus action
+
+                MaxHull = 5;
+                MaxShields = 3;
+
+                ShipBaseSize = BaseSize.Medium;
+            }
         }
     }
 }

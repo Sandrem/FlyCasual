@@ -5,12 +5,13 @@ using Abilities;
 using Ship;
 using Upgrade;
 using System.Linq;
+using RuleSets;
 
 namespace Ship
 {
     namespace Aggressor
     {
-        public class IG88B : Aggressor
+        public class IG88B : Aggressor, ISecondEditionPilot
         {
             public IG88B() : base()
             {
@@ -23,6 +24,11 @@ namespace Ship
                 SkinName = "Red";
 
                 PilotAbilities.Add(new IG88BAbility());
+            }
+
+            public void AdaptPilotToSecondEdition()
+            {
+                PilotSkill = 4;
             }
         }
     }

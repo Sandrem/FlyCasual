@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Movement;
 using ActionsList;
+using RuleSets;
 
 namespace Ship
 {
     namespace G1AStarfighter
     {
-        public class G1AStarfighter : GenericShip
+        public class G1AStarfighter : GenericShip, ISecondEditionShip
         {
 
             public G1AStarfighter() : base()
@@ -66,6 +67,21 @@ namespace Ship
                 Maneuvers.Add("3.F.R", MovementComplexity.Complex);
                 Maneuvers.Add("4.F.S", MovementComplexity.Normal);
                 Maneuvers.Add("4.F.R", MovementComplexity.Complex);
+            }
+
+            public void AdaptShipToSecondEdition()
+            {
+                //TODO: Maneuvers
+
+                MaxHull = 5;
+                MaxShields = 4;
+
+                ShipBaseSize = BaseSize.Medium;
+
+                PrintedActions.RemoveAll(a => a is EvadeAction);
+                PrintedActions.Add(new JamAction());
+
+                IconicPilots[Faction.Scum] = typeof(GandFindsman);
             }
 
         }

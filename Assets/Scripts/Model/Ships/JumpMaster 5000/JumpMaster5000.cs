@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Movement;
 using ActionsList;
+using RuleSets;
 
 namespace Ship
 {
     namespace JumpMaster5000
     {
-        public class JumpMaster5000 : GenericShip
+        public class JumpMaster5000 : GenericShip, ISecondEditionShip
         {
 
             public JumpMaster5000() : base()
@@ -68,6 +69,25 @@ namespace Ship
                 Maneuvers.Add("3.R.B", MovementComplexity.Normal);
                 Maneuvers.Add("4.F.S", MovementComplexity.Normal);
                 Maneuvers.Add("4.F.R", MovementComplexity.Complex);
+            }
+
+            public void AdaptShipToSecondEdition()
+            {
+                //TODO: Maneuvers
+                //TODO: Arc
+
+                MaxHull = 6;
+                MaxShields = 3;
+
+                PrintedActions.RemoveAll(a => a is FocusAction);
+                PrintedActions.RemoveAll(a => a is TargetLockAction);
+
+                PrintedActions.Add(new FocusAction() { LinkedRedAction = new RotateArcAction() { IsRed = true } });
+                PrintedActions.Add(new TargetLockAction() { LinkedRedAction = new RotateArcAction() { IsRed = true } });
+
+                PrintedActions.Add(new BarrelRollAction() { IsRed = true });
+
+                IconicPilots[Faction.Scum] = typeof(ContractedScout);
             }
 
         }

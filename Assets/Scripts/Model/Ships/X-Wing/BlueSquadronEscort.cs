@@ -13,8 +13,6 @@ namespace Ship
                 Cost = 42; //TODO
                 
                 PilotRuleType = typeof(SecondEdition);
-
-                faction = Faction.Rebel;
             }
 
             public void AdaptPilotToSecondEdition()

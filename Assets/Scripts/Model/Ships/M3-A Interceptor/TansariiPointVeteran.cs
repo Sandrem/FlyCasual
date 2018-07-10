@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using RuleSets;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,7 +7,7 @@ namespace Ship
 {
     namespace M3AScyk
     {
-        public class TansariiPointVeteran : M3AScyk
+        public class TansariiPointVeteran : M3AScyk, ISecondEditionPilot
         {
             public TansariiPointVeteran() : base()
             {
@@ -17,6 +18,11 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
                 SkinName = "Serissu";
+            }
+
+            public void AdaptPilotToSecondEdition()
+            {
+                PilotSkill = 3;
             }
         }
     }

@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Movement;
 using ActionsList;
+using RuleSets;
 
 namespace Ship
 {
     namespace StarViper
     {
-        public class StarViper : GenericShip
+        public class StarViper : GenericShip, ISecondEditionShip
         {
 
             public StarViper() : base()
@@ -64,6 +65,20 @@ namespace Ship
                 Maneuvers.Add("3.L.R", MovementComplexity.Complex);
                 Maneuvers.Add("3.R.R", MovementComplexity.Complex);
                 Maneuvers.Add("4.F.S", MovementComplexity.Normal);
+            }
+
+            public void AdaptShipToSecondEdition()
+            {
+                //TODO: Maneuvers
+                //TODO: Ship Ability
+
+                PrintedActions.RemoveAll(a => a is BarrelRollAction);
+                PrintedActions.RemoveAll(a => a is BoostAction);
+
+                PrintedActions.Add(new BarrelRollAction() { LinkedRedAction = new FocusAction() { IsRed = true } });
+                PrintedActions.Add(new BoostAction() { LinkedRedAction = new FocusAction() { IsRed = true } });
+
+                IconicPilots[Faction.Scum] = typeof(BlackSunEnforcer);
             }
 
         }

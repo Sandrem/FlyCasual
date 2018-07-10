@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Movement;
 using ActionsList;
+using RuleSets;
 
 namespace Ship
 {
     namespace HWK290
     {
-        public class HWK290 : GenericShip
+        public class HWK290 : GenericShip, ISecondEditionShip
         {
 
             public HWK290() : base()
@@ -71,6 +72,28 @@ namespace Ship
                 Maneuvers.Add("4.F.R", MovementComplexity.None);
                 Maneuvers.Add("5.F.S", MovementComplexity.None);
                 Maneuvers.Add("5.F.R", MovementComplexity.None);
+            }
+
+            public void AdaptShipToSecondEdition()
+            {
+                //TODO: Maneuvers
+                //TODO: Only mobile arc
+
+                Firepower = 2;
+                MaxHull = 3;
+                MaxShields = 2;
+
+                PrintedActions.RemoveAll(a => a is FocusAction);
+                PrintedActions.RemoveAll(a => a is TargetLockAction);
+
+                PrintedActions.Add(new FocusAction() { LinkedRedAction = new RotateArcAction() { IsRed = true } });
+                PrintedActions.Add(new TargetLockAction() { LinkedRedAction = new RotateArcAction() { IsRed = true } });
+
+                PrintedActions.Add(new BoostAction() { IsRed = true });
+                PrintedActions.Add(new RotateArcAction());
+                PrintedActions.Add(new JamAction() { IsRed = true });
+
+                IconicPilots[Faction.Scum] = typeof(SpiceRunner);
             }
 
         }

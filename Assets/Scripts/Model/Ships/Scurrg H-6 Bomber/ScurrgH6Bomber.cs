@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Movement;
 using ActionsList;
+using RuleSets;
 
 namespace Ship
 {
     namespace ScurrgH6Bomber
     {
-        public class ScurrgH6Bomber : GenericShip
+        public class ScurrgH6Bomber : GenericShip, ISecondEditionShip
         {
 
             public ScurrgH6Bomber() : base()
@@ -71,6 +72,19 @@ namespace Ship
                 Maneuvers.Add("3.R.E", MovementComplexity.Complex);
                 Maneuvers.Add("4.F.S", MovementComplexity.Normal);
                 Maneuvers.Add("5.F.S", MovementComplexity.Complex);
+            }
+
+            public void AdaptShipToSecondEdition()
+            {
+                //TODO: Maneuvers
+
+                MaxHull = 6;
+                MaxShields = 4;
+
+                ShipBaseSize = BaseSize.Medium;
+
+                PrintedActions.RemoveAll(a => a is BarrelRollAction);
+                PrintedActions.Add(new BarrelRollAction() { IsRed = true });
             }
 
         }

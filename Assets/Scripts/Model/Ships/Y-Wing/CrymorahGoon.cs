@@ -7,24 +7,26 @@ namespace Ship
 {
     namespace YWing
     {
-        public class HiredGun : YWing, ISecondEditionPilot
+        public class CrymorahGoon : YWing, ISecondEditionPilot
         {
-            public HiredGun() : base()
+            public CrymorahGoon() : base()
             {
-                PilotName = "Hired Gun";
-                PilotSkill = 4;
+                PilotName = "Crymorah Goon";
+                PilotSkill = 1;
                 Cost = 20;
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.SalvagedAstromech);
 
                 faction = Faction.Scum;
 
-                SkinName = "Gray";
+                SkinName = "Brown";
+
+                PilotRuleType = typeof(SecondEdition);
             }
 
             public void AdaptPilotToSecondEdition()
             {
-                PilotSkill = 2;
+                //No adaptation is needed
             }
         }
     }

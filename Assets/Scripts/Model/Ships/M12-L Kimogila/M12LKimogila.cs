@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Movement;
 using ActionsList;
+using RuleSets;
 
 namespace Ship
 {
     namespace M12LKimogila
     {
-        public class M12LKimogila : GenericShip
+        public class M12LKimogila : GenericShip, ISecondEditionShip
         {
 
             public M12LKimogila() : base()
@@ -69,6 +70,21 @@ namespace Ship
                 Maneuvers.Add("3.R.B", MovementComplexity.Normal);
                 Maneuvers.Add("3.R.T", MovementComplexity.Normal);
                 Maneuvers.Add("4.F.R", MovementComplexity.Complex);
+            }
+
+            public void AdaptShipToSecondEdition()
+            {
+                //TODO: Maneuvers
+                //TODO: Ship ability
+
+                MaxHull = 7;
+
+                ShipBaseSize = BaseSize.Medium;
+
+                PrintedActions.RemoveAll(a => a is BarrelRollAction);
+                PrintedActions.Add(new BarrelRollAction() { IsRed = true });
+
+                IconicPilots[Faction.Scum] = typeof(CartelExecutioner);
             }
 
         }

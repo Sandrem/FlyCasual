@@ -7,12 +7,13 @@ using Upgrade;
 using System.Linq;
 using ActionsList;
 using SubPhases;
+using RuleSets;
 
 namespace Ship
 {
     namespace Aggressor
     {
-        public class IG88C : Aggressor
+        public class IG88C : Aggressor, ISecondEditionPilot
         {
             public IG88C() : base()
             {
@@ -23,6 +24,11 @@ namespace Ship
                 IsUnique = true;
 
                 PilotAbilities.Add(new IG88CAbility());
+            }
+
+            public void AdaptPilotToSecondEdition()
+            {
+                PilotSkill = 4;
             }
         }
     }

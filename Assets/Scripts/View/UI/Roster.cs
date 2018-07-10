@@ -619,6 +619,7 @@ public static partial class Roster {
 
     private static void TogglePlayerHighlight(GenericPlayer player, bool isActive)
     {
+        if (isActive) Phases.CurrentSubPhase.RequiredPlayer = player.PlayerNo;
         player.PlayerInfoPanel.transform.Find("Highlight").gameObject.SetActive(isActive);
     }
 

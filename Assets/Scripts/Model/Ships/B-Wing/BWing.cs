@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Movement;
 using ActionsList;
+using RuleSets;
 
 namespace Ship
 {
     namespace BWing
     {
-        public class BWing : GenericShip
+        public class BWing : GenericShip, ISecondEditionShip
         {
 
             public BWing() : base()
@@ -72,6 +73,19 @@ namespace Ship
                 Maneuvers.Add("4.F.R", MovementComplexity.None);
                 Maneuvers.Add("5.F.S", MovementComplexity.None);
                 Maneuvers.Add("5.F.R", MovementComplexity.None);
+            }
+
+            public void AdaptShipToSecondEdition()
+            {
+                // TODO: Maneuvers
+
+                MaxHull = 4;
+                MaxShields = 4;
+
+                PrintedActions.RemoveAll(a => a is FocusAction);
+                PrintedActions.Add(new FocusAction() { LinkedRedAction = new BarrelRollAction() { IsRed = true } });
+
+                IconicPilots[Faction.Rebel] = typeof(BlueSquadronPilot);
             }
 
         }

@@ -94,6 +94,7 @@ namespace Ship
                 PrintedActions.Add(new JamAction() { IsRed = true });
 
                 IconicPilots[Faction.Scum] = typeof(SpiceRunner);
+                IconicPilots[Faction.Rebel] = typeof(RebelScout);
             }
 
         }

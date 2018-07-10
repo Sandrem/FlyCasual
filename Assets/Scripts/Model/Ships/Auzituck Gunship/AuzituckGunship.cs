@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Movement;
 using ActionsList;
+using RuleSets;
 
 namespace Ship
 {
     namespace AuzituckGunship
     {
-        public class AuzituckGunship : GenericShip
+        public class AuzituckGunship : GenericShip, ISecondEditionShip
         {
 
             public AuzituckGunship() : base()
@@ -67,6 +68,16 @@ namespace Ship
                 Maneuvers.Add("5.F.S", MovementComplexity.Complex);
             }
 
+            public void AdaptShipToSecondEdition()
+            {
+                // TODO: Maneuvers
+
+                MaxShields = 2;
+
+                PrintedActions.Add(new BarrelRollAction() { IsRed = true });
+
+                IconicPilots[Faction.Rebel] = typeof(KashyyykDefender);
+            }
         }
     }
 }

@@ -5,24 +5,24 @@ using UnityEngine;
 
 namespace Ship
 {
-    namespace Z95
+    namespace HWK290
     {
-        public class BanditSquadronPilot : Z95, ISecondEditionPilot
+        public class RebelScout : HWK290, ISecondEditionPilot
         {
-            public BanditSquadronPilot() : base()
+            public RebelScout() : base()
             {
-                PilotName = "Bandit Squadron Pilot";
+                PilotName = "Rebel Scout";
                 PilotSkill = 2;
-                Cost = 12;
+                Cost = 16;
 
                 faction = Faction.Rebel;
 
-                //SkinName = "Bandit Squadron";
+                PilotRuleType = typeof(SecondEdition);
             }
 
             public void AdaptPilotToSecondEdition()
             {
-                PilotSkill = 1;
+                //Not required
             }
         }
     }

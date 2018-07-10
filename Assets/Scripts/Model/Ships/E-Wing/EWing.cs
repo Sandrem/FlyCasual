@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Movement;
 using ActionsList;
+using RuleSets;
 
 namespace Ship
 {
     namespace EWing
     {
-        public class EWing : GenericShip
+        public class EWing : GenericShip, ISecondEditionShip
         {
 
             public EWing() : base()
@@ -73,6 +74,21 @@ namespace Ship
                 Maneuvers.Add("4.F.R", MovementComplexity.Complex);
                 Maneuvers.Add("5.F.S", MovementComplexity.Normal);
                 Maneuvers.Add("5.F.R", MovementComplexity.None);
+            }
+
+            public void AdaptShipToSecondEdition()
+            {
+                // TODO: Maneuvers
+                // TODO: Ship ability
+
+                MaxHull = 3;
+
+                PrintedActions.RemoveAll(a => a is BarrelRollAction);
+
+                PrintedActions.Add(new BarrelRollAction() { LinkedRedAction = new FocusAction() { IsRed = true } });
+                PrintedActions.Add(new BoostAction() { LinkedRedAction = new FocusAction() { IsRed = true } });
+
+                IconicPilots[Faction.Rebel] = typeof(RogueSquadronEscort);
             }
 
         }

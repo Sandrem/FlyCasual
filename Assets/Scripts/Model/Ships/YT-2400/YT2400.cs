@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Movement;
 using ActionsList;
+using RuleSets;
 
 namespace Ship
 {
     namespace YT2400
     {
-        public class YT2400 : GenericShip
+        public class YT2400 : GenericShip, ISecondEditionShip
         {
 
             public YT2400() : base()
@@ -74,6 +75,21 @@ namespace Ship
                 Maneuvers.Add("4.F.R", MovementComplexity.Complex);
                 Maneuvers.Add("5.F.S", MovementComplexity.None);
                 Maneuvers.Add("5.F.R", MovementComplexity.None);
+            }
+
+            public void AdaptShipToSecondEdition()
+            {
+                // TODO: Maneuvers
+                // TODO: Ship ability
+
+                MaxHull = 6;
+                MaxShields = 4;
+
+                PrintedActions.RemoveAll(a => a is BarrelRollAction);
+                PrintedActions.Add(new BarrelRollAction() { IsRed = true });
+                PrintedActions.Add(new RotateArcAction());
+
+                IconicPilots[Faction.Rebel] = typeof(WildSpaceFringer);
             }
 
         }

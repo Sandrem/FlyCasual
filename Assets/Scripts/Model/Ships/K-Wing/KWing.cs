@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Movement;
 using ActionsList;
+using RuleSets;
 
 namespace Ship
 {
     namespace KWing
     {
-        public class KWing : GenericShip
+        public class KWing : GenericShip, ISecondEditionShip
         {
 
             public KWing() : base()
@@ -68,6 +69,20 @@ namespace Ship
                 Maneuvers.Add("3.R.B", MovementComplexity.Normal);
             }
 
+            public void AdaptShipToSecondEdition()
+            {
+                // TODO: Maneuvers
+
+                MaxHull = 6;
+                MaxShields = 3;
+
+                ShipBaseSize = BaseSize.Medium;
+
+                PrintedActions.Add(new RotateArcAction());
+                PrintedActions.Add(new ReloadAction());
+
+                IconicPilots[Faction.Rebel] = typeof(WardenSquadronPilot);
+            }
         }
     }
 }

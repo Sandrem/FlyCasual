@@ -78,6 +78,8 @@ namespace Ship
             {
                 //TODO: Maneuvers
 
+                factions.Remove(Faction.Rebel);
+
                 MaxHull = 6;
                 MaxShields = 4;
 

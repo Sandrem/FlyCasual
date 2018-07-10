@@ -5,20 +5,22 @@ using UnityEngine;
 
 namespace Ship
 {
-    namespace KWing
+    namespace UWing
     {
-        public class WardenSquadronPilot : KWing, ISecondEditionPilot
+        public class BlueSquadronScout : UWing, ISecondEditionPilot
         {
-            public WardenSquadronPilot() : base()
+            public BlueSquadronScout() : base()
             {
-                PilotName = "Warden Squadron Pilot";
+                PilotName = "Blue Squadron Scout";
                 PilotSkill = 2;
                 Cost = 23;
+
+                PilotRuleType = typeof(SecondEdition);
             }
 
             public void AdaptPilotToSecondEdition()
             {
-                PilotSkill = 2;
+                // Not requred
             }
         }
     }

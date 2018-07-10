@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using RuleSets;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,7 +7,7 @@ namespace Ship
 {
     namespace BWing
     {
-        public class BlueSquadronPilot : BWing
+        public class BlueSquadronPilot : BWing, ISecondEditionPilot
         {
             public BlueSquadronPilot() : base()
             {
@@ -15,6 +16,11 @@ namespace Ship
                 Cost = 22;
 
                 SkinName = "Blue";
+            }
+
+            public void AdaptPilotToSecondEdition()
+            {
+                PilotSkill = 2;
             }
         }
     }

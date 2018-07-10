@@ -73,6 +73,7 @@ namespace Ship
                 PrintedActions.Add(new BarrelRollAction() { IsRed = true });
 
                 IconicPilots[Faction.Scum] = typeof(BinayrePirate);
+                IconicPilots[Faction.Rebel] = typeof(BanditSquadronPilot);
             }
 
         }

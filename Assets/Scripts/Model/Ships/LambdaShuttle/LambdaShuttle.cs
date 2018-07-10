@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Movement;
 using ActionsList;
+using RuleSets;
 
 namespace Ship
 {
     namespace LambdaShuttle
     {
-        public class LambdaShuttle : GenericShip
+        public class LambdaShuttle : GenericShip, ISecondEditionShip
         {
 
             public LambdaShuttle() : base()
@@ -62,6 +63,19 @@ namespace Ship
                 Maneuvers.Add("3.L.B", MovementComplexity.Complex);
                 Maneuvers.Add("3.F.S", MovementComplexity.Normal);
                 Maneuvers.Add("3.R.B", MovementComplexity.Complex);
+            }
+
+            public void AdaptShipToSecondEdition()
+            {
+                //TODO: Maneuvers
+                // TODO: Arcs
+
+                PrintedActions.Add(new ReinforceForeAction());
+                PrintedActions.Add(new ReinforceAftAction());
+
+                PrintedActions.Add(new JamAction() { IsRed = true });
+
+                IconicPilots[Faction.Imperial] = typeof(OmicronGroupPilot);
             }
 
         }

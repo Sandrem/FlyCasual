@@ -5,17 +5,19 @@ using UnityEngine;
 
 namespace Ship
 {
-    namespace TIEAdvPrototype
+    namespace AlphaClassStarWing
     {
-        public class BaronOfTheEmpire : TIEAdvPrototype, ISecondEditionPilot
+        public class RhoSquadronPilot : AlphaClassStarWing, ISecondEditionPilot
         {
-            public BaronOfTheEmpire() : base()
+            public RhoSquadronPilot() : base()
             {
-                PilotName = "Baron of the Empire";
+                PilotName = "Rho Squadron Pilot";
                 PilotSkill = 4;
-                Cost = 19;
+                Cost = 21;
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
+
+                PilotRuleType = typeof(SecondEdition);
             }
 
             public void AdaptPilotToSecondEdition()

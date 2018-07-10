@@ -5,15 +5,17 @@ using UnityEngine;
 
 namespace Ship
 {
-    namespace TIEInterceptor
+    namespace TIEStriker
     {
-        public class AlphaSquadronPilot : TIEInterceptor, ISecondEditionPilot
+        public class PlanetarySentinel : TIEStriker, ISecondEditionPilot
         {
-            public AlphaSquadronPilot() : base()
+            public PlanetarySentinel() : base()
             {
-                PilotName = "Alpha Squadron Pilot";
+                PilotName = "Planetary Sentinel";
                 PilotSkill = 1;
-                Cost = 18;
+                Cost = 17;
+
+                PilotRuleType = typeof(SecondEdition);
             }
 
             public void AdaptPilotToSecondEdition()

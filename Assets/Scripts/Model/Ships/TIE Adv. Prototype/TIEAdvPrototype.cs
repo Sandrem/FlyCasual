@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Movement;
 using ActionsList;
+using RuleSets;
 
 namespace Ship
 {
     namespace TIEAdvPrototype
     {
-        public class TIEAdvPrototype : GenericShip, TIE
+        public class TIEAdvPrototype : GenericShip, TIE, ISecondEditionShip
         {
 
             public TIEAdvPrototype() : base()
@@ -65,6 +66,19 @@ namespace Ship
                 Maneuvers.Add("4.F.S", MovementComplexity.Easy);
                 Maneuvers.Add("4.F.R", MovementComplexity.Complex);
                 Maneuvers.Add("5.F.S", MovementComplexity.Normal);
+            }
+
+            public void AdaptShipToSecondEdition()
+            {
+                //TODO: Maneuvers
+
+                PrintedActions.RemoveAll(a => a is BoostAction);
+                PrintedActions.RemoveAll(a => a is BarrelRollAction);
+
+                PrintedActions.Add(new BoostAction() { LinkedRedAction = new FocusAction() { IsRed = true } });
+                PrintedActions.Add(new BarrelRollAction() { LinkedRedAction = new FocusAction() { IsRed = true } });
+
+                IconicPilots[Faction.Imperial] = typeof(BaronOfTheEmpire);
             }
 
         }

@@ -7,18 +7,18 @@ namespace Ship
 {
     namespace TIEAggressor
     {
-        public class SienarSpecialist : TIEAggressor, ISecondEditionPilot
+        public class OnyxSquadronScout : TIEAggressor, ISecondEditionPilot
         {
-            public SienarSpecialist() : base()
+            public OnyxSquadronScout() : base()
             {
-                PilotName = "Sienar Specialist";
-                PilotSkill = 2;
-                Cost = 17;
+                PilotName = "Onyx Squadron Scout";
+                PilotSkill = 3;
+                Cost = 19;
             }
 
             public void AdaptPilotToSecondEdition()
             {
-                PilotSkill = 2;
+                PilotSkill = 3;
             }
         }
     }

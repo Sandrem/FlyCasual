@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Movement;
 using ActionsList;
+using RuleSets;
 
 namespace Ship
 {
     namespace TIEBomber
     {
-        public class TIEBomber : GenericShip, TIE
+        public class TIEBomber : GenericShip, TIE, ISecondEditionShip
         {
 
             public TIEBomber() : base()
@@ -73,6 +74,17 @@ namespace Ship
                 Maneuvers.Add("4.F.R", MovementComplexity.None);
                 Maneuvers.Add("5.F.S", MovementComplexity.None);
                 Maneuvers.Add("5.F.R", MovementComplexity.Complex);
+            }
+
+            public void AdaptShipToSecondEdition()
+            {
+                //TODO: Maneuvers
+
+                PrintedActions.RemoveAll(a => a is BarrelRollAction);
+                PrintedActions.Add(new BarrelRollAction() { LinkedRedAction = new TargetLockAction() { IsRed = true } });
+                PrintedActions.Add(new ReloadAction() { IsRed = true });
+
+                IconicPilots[Faction.Imperial] = typeof(ScimitarSquadronPilot);
             }
 
         }

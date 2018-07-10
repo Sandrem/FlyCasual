@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Movement;
 using ActionsList;
+using RuleSets;
 
 namespace Ship
 {
     namespace TIEPhantom
     {
-        public class TIEPhantom : GenericShip, TIE
+        public class TIEPhantom : GenericShip, TIE, ISecondEditionShip
         {
 
             public TIEPhantom() : base()
@@ -73,6 +74,15 @@ namespace Ship
                 Maneuvers.Add("5.F.R", MovementComplexity.None);
             }
 
+            public void AdaptShipToSecondEdition()
+            {
+                //TODO: Maneuvers
+                //TODO: Ship ability
+
+                MaxHull = 3;
+
+                IconicPilots[Faction.Imperial] = typeof(SigmaSquadronAce);
+            }
         }
     }
 }

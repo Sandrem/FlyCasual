@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Movement;
 using ActionsList;
+using RuleSets;
 
 namespace Ship
 {
     namespace AlphaClassStarWing
     {
-        public class AlphaClassStarWing : GenericShip
+        public class AlphaClassStarWing : GenericShip, ISecondEditionShip
         {
 
             public AlphaClassStarWing() : base()
@@ -64,6 +65,13 @@ namespace Ship
                 Maneuvers.Add("3.R.B", MovementComplexity.Normal);
                 Maneuvers.Add("3.R.T", MovementComplexity.Normal);
                 Maneuvers.Add("4.F.S", MovementComplexity.Complex);
+            }
+
+            public void AdaptShipToSecondEdition()
+            {
+                //TODO: Maneuvers
+
+                IconicPilots[Faction.Imperial] = typeof(RhoSquadronPilot);
             }
 
         }

@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Movement;
 using ActionsList;
+using RuleSets;
 
 namespace Ship
 {
     namespace TIEStriker
     {
-        public class TIEStriker : GenericShip, TIE
+        public class TIEStriker : GenericShip, TIE, ISecondEditionShip
         {
 
             public TIEStriker() : base()
@@ -61,6 +62,14 @@ namespace Ship
                 Maneuvers.Add("3.L.B", MovementComplexity.Normal);
                 Maneuvers.Add("3.F.S", MovementComplexity.Easy);
                 Maneuvers.Add("3.R.B", MovementComplexity.Normal);
+            }
+
+            public void AdaptShipToSecondEdition()
+            {
+                //TODO: Maneuvers
+                //TODO: Ship ability
+
+                IconicPilots[Faction.Imperial] = typeof(PlanetarySentinel);
             }
 
         }

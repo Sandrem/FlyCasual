@@ -5,22 +5,26 @@ using UnityEngine;
 
 namespace Ship
 {
-    namespace TIEAdvPrototype
+    namespace TIEInterceptor
     {
-        public class BaronOfTheEmpire : TIEAdvPrototype, ISecondEditionPilot
+        public class SaberSquadronAce : TIEInterceptor, ISecondEditionPilot
         {
-            public BaronOfTheEmpire() : base()
+            public SaberSquadronAce() : base()
             {
-                PilotName = "Baron of the Empire";
+                PilotName = "Saber Squadron Ace";
                 PilotSkill = 4;
-                Cost = 19;
+                Cost = 21;
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
+
+                SkinName = "Red Stripes";
+
+                PilotRuleType = typeof(SecondEdition);
             }
 
             public void AdaptPilotToSecondEdition()
             {
-                PilotSkill = 3;
+                PilotSkill = 4;
             }
         }
     }

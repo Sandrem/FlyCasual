@@ -5,20 +5,20 @@ using UnityEngine;
 
 namespace Ship
 {
-    namespace VT49Decimator
+    namespace TIEPhantom
     {
-        public class PatrolLeader : VT49Decimator, ISecondEditionPilot
+        public class ImdaarTestPilot : TIEPhantom, ISecondEditionPilot
         {
-            public PatrolLeader() : base()
+            public ImdaarTestPilot() : base()
             {
-                PilotName = "Patrol Leader";
+                PilotName = "Imdaar Test Pilot";
                 PilotSkill = 3;
-                Cost = 40;
+                Cost = 25;
             }
 
             public void AdaptPilotToSecondEdition()
             {
-                PilotSkill = 2;
+                PilotSkill = 3;
             }
         }
     }

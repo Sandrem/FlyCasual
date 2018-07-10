@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using RuleSets;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,7 +7,7 @@ namespace Ship
 {
     namespace TIEStriker
     {
-        public class BlackSquadronScout : TIEStriker
+        public class BlackSquadronScout : TIEStriker, ISecondEditionPilot
         {
             public BlackSquadronScout() : base()
             {
@@ -15,6 +16,11 @@ namespace Ship
                 Cost = 20;
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
+            }
+
+            public void AdaptPilotToSecondEdition()
+            {
+                PilotSkill = 3;
             }
         }
     }

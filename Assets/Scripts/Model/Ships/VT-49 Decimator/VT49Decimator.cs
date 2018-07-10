@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Movement;
 using ActionsList;
+using RuleSets;
 
 namespace Ship
 {
     namespace VT49Decimator
     {
-        public class VT49Decimator : GenericShip
+        public class VT49Decimator : GenericShip, ISecondEditionShip
         {
 
             public VT49Decimator() : base()
@@ -75,6 +76,19 @@ namespace Ship
                 Maneuvers.Add("4.F.R", MovementComplexity.None);
                 Maneuvers.Add("5.F.S", MovementComplexity.None);
                 Maneuvers.Add("5.F.R", MovementComplexity.None);
+            }
+
+            public void AdaptShipToSecondEdition()
+            {
+                //TODO: Maneuvers
+                //TODO: Arc
+
+                PrintedActions.Add(new ReinforceForeAction());
+                PrintedActions.Add(new ReinforceAftAction());
+                PrintedActions.Add(new RotateArcAction());
+                PrintedActions.Add(new CoordinateAction() { IsRed = true });
+
+                IconicPilots[Faction.Imperial] = typeof(PatrolLeader);
             }
 
         }

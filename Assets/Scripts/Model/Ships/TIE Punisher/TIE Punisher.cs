@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Movement;
 using ActionsList;
+using RuleSets;
 
 namespace Ship
 {
     namespace TIEPunisher
     {
-        public class TIEPunisher : GenericShip, TIE
+        public class TIEPunisher : GenericShip, TIE, ISecondEditionShip
         {
 
             public TIEPunisher() : base()
@@ -67,6 +68,19 @@ namespace Ship
                 Maneuvers.Add("3.R.B", MovementComplexity.Normal);
                 Maneuvers.Add("3.R.T", MovementComplexity.Normal);
                 Maneuvers.Add("4.F.R", MovementComplexity.Complex);
+            }
+
+            public void AdaptShipToSecondEdition()
+            {
+                //TODO: Maneuvers
+                ShipBaseSize = BaseSize.Medium;
+
+                PrintedActions.RemoveAll(a => a is BoostAction);
+                PrintedActions.Add(new BoostAction() { LinkedRedAction = new TargetLockAction() { IsRed = true } });
+                PrintedActions.Add(new BarrelRollAction() { IsRed = true });
+                PrintedActions.Add(new ReloadAction());
+
+                IconicPilots[Faction.Imperial] = typeof(CutlassSquadronPilot);
             }
 
         }

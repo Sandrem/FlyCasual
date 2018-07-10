@@ -19,7 +19,7 @@ namespace DamageDeckCardSE
         public override void ApplyEffect(object sender, EventArgs e)
         {
             Host.OnSufferDamageDecidingSeverity += ChangeNormalDamageToCriticalDamage;
-            Host.AfterGenerateAvailableActionsList += CallAddCancelCritAction;
+            Host.OnGenerateActions += CallAddCancelCritAction;
 
             Host.Tokens.AssignCondition(typeof(Tokens.HullBreachCritToken));
             Triggers.FinishTrigger();
@@ -42,7 +42,7 @@ namespace DamageDeckCardSE
             Host.Tokens.RemoveCondition(typeof(Tokens.HullBreachCritToken));
 
             Host.OnSufferDamageDecidingSeverity -= ChangeNormalDamageToCriticalDamage;
-            Host.AfterGenerateAvailableActionsList -= CallAddCancelCritAction;
+            Host.OnGenerateActions -= CallAddCancelCritAction;
         }
 
     }

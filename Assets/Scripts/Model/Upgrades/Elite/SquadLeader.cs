@@ -33,12 +33,12 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionsList += SquadLeaderAddAction;
+            HostShip.OnGenerateActions += SquadLeaderAddAction;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionsList -= SquadLeaderAddAction;
+            HostShip.OnGenerateActions -= SquadLeaderAddAction;
         }
 
         private void SquadLeaderAddAction(GenericShip host)
@@ -62,7 +62,7 @@ namespace ActionsList
 
         public SquadLeaderAction()
         {
-            Name = EffectName = "Squad Leader";
+            Name = DiceModificationName = "Squad Leader";
         }
 
         public override void ActionTake()

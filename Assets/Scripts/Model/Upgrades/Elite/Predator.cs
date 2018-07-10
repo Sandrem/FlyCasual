@@ -37,12 +37,12 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList += PredatorActionEffect;
+            HostShip.OnGenerateDiceModifications += PredatorActionEffect;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList -= PredatorActionEffect;
+            HostShip.OnGenerateDiceModifications -= PredatorActionEffect;
         }
 
         private void PredatorActionEffect(GenericShip host)
@@ -52,7 +52,7 @@ namespace Abilities
                 ImageUrl = HostUpgrade.ImageUrl,
                 Host = host
             };
-            host.AddAvailableActionEffect(newAction);
+            host.AddAvailableDiceModification(newAction);
         }
     }
 }
@@ -65,20 +65,20 @@ namespace ActionsList
 
         public PredatorActionEffect()
         {
-            Name = EffectName = "Predator";
+            Name = DiceModificationName = "Predator";
 
             // Used for abilities like Dark Curse's that can prevent rerolls
             IsReroll = true;
         }
 
-        public override bool IsActionEffectAvailable()
+        public override bool IsDiceModificationAvailable()
         {
             bool result = false;
             if (Combat.AttackStep == CombatStep.Attack) result = true;
             return result;
         }
 
-        public override int GetActionEffectPriority()
+        public override int GetDiceModificationPriority()
         {
             int result = 0;
 
@@ -88,7 +88,7 @@ namespace ActionsList
                 int attackBlanks = Combat.DiceRollAttack.BlanksNotRerolled;
 
                 //if (Combat.Attacker.HasToken(typeof(Tokens.FocusToken)))
-                if (Combat.Attacker.GetAvailableActionEffectsList().Count(n => n.IsTurnsAllFocusIntoSuccess) > 0 )
+                if (Combat.Attacker.GetAvailableDiceModifications().Count(n => n.IsTurnsAllFocusIntoSuccess) > 0 )
                 {
                     if (attackBlanks > 0) result = 90;
                 }
@@ -142,7 +142,7 @@ namespace Abilities.SecondEdition
                 int attackBlanks = Combat.DiceRollAttack.BlanksNotRerolled;
 
                 //if (Combat.Attacker.HasToken(typeof(Tokens.FocusToken)))
-                if (Combat.Attacker.GetAvailableActionEffectsList().Count(n => n.IsTurnsAllFocusIntoSuccess) > 0)
+                if (Combat.Attacker.GetAvailableDiceModifications().Count(n => n.IsTurnsAllFocusIntoSuccess) > 0)
                 {
                     if (attackBlanks > 0) result = 90;
                 }

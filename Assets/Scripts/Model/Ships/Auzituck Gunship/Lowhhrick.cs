@@ -35,30 +35,30 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            GenericShip.AfterGenerateAvailableActionEffectsListGlobal += AddLowhhrickAbility;
+            GenericShip.OnGenerateDiceModificationsGlobal += AddLowhhrickAbility;
         }
 
         public override void DeactivateAbility()
         {
-            GenericShip.AfterGenerateAvailableActionEffectsListGlobal -= AddLowhhrickAbility;
+            GenericShip.OnGenerateDiceModificationsGlobal -= AddLowhhrickAbility;
         }
 
         private void AddLowhhrickAbility()
         {
-            Combat.Defender.AddAvailableActionEffect(new DiceModificationAction() { Host = this.HostShip });
+            Combat.Defender.AddAvailableDiceModification(new DiceModificationAction() { Host = this.HostShip });
         }
 
         private class DiceModificationAction : ActionsList.GenericAction
         {
             public DiceModificationAction()
             {
-                Name = EffectName = "Lowhhrick's ability";
+                Name = DiceModificationName = "Lowhhrick's ability";
 
                 TokensSpend.Add(typeof(ReinforceForeToken));
                 TokensSpend.Add(typeof(ReinforceAftToken));
             }
 
-            public override bool IsActionEffectAvailable()
+            public override bool IsDiceModificationAvailable()
             {
                 bool result = false;
                 if (Combat.AttackStep == CombatStep.Defence)
@@ -82,7 +82,7 @@ namespace Abilities
                 return result;
             }
 
-            public override int GetActionEffectPriority()
+            public override int GetDiceModificationPriority()
             {
                 int result = 0;
 

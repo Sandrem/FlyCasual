@@ -16,12 +16,12 @@ namespace Abilities
 
         public override void ActivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionsList += AddAction;
+            HostShip.OnGenerateActions += AddAction;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionsList -= AddAction;
+            HostShip.OnGenerateActions -= AddAction;
         }
 
         private void AddAction(GenericShip host)

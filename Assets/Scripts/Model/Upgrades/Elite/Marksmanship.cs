@@ -54,12 +54,12 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionsList += MarksmanshipAddAction;
+            HostShip.OnGenerateActions += MarksmanshipAddAction;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionsList -= MarksmanshipAddAction;
+            HostShip.OnGenerateActions -= MarksmanshipAddAction;
         }
 
         private void MarksmanshipAddAction(GenericShip host)
@@ -82,7 +82,7 @@ namespace ActionsList
 
         public MarksmanshipAction()
         {
-            Name = EffectName = "Marksmanship";
+            Name = DiceModificationName = "Marksmanship";
 
             IsTurnsAllFocusIntoSuccess = true;
         }
@@ -90,7 +90,7 @@ namespace ActionsList
         public override void ActionTake()
         {
             Host = Selection.ThisShip;
-            Host.AfterGenerateAvailableActionEffectsList += MarksmanshipAddDiceModification;
+            Host.OnGenerateDiceModifications += MarksmanshipAddDiceModification;
             Phases.Events.OnEndPhaseStart_NoTriggers += MarksmanshipUnSubscribeToFiceModification;
             Host.Tokens.AssignCondition(typeof(Conditions.MarksmanshipCondition));
             Phases.CurrentSubPhase.CallBack();
@@ -105,24 +105,24 @@ namespace ActionsList
 
         private void MarksmanshipAddDiceModification(GenericShip ship)
         {
-            ship.AddAvailableActionEffect(this);
+            ship.AddAvailableDiceModification(this);
         }
 
         private void MarksmanshipUnSubscribeToFiceModification()
         {
             Host.Tokens.RemoveCondition(typeof(Conditions.MarksmanshipCondition));
-            Host.AfterGenerateAvailableActionEffectsList -= MarksmanshipAddDiceModification;
+            Host.OnGenerateDiceModifications -= MarksmanshipAddDiceModification;
             Phases.Events.OnEndPhaseStart_NoTriggers -= MarksmanshipUnSubscribeToFiceModification;
         }
 
-        public override bool IsActionEffectAvailable()
+        public override bool IsDiceModificationAvailable()
         {
             bool result = false;
             if (Combat.AttackStep == CombatStep.Attack) result = true;
             return result;
         }
 
-        public override int GetActionEffectPriority()
+        public override int GetDiceModificationPriority()
         {
             int result = 0;
 

@@ -68,7 +68,7 @@ namespace Abilities
             {
                 HostShip.IsCannotAttackSecondTime = true;
 
-                HostShip.AfterGenerateAvailableActionEffectsList += AddLukeSkywalkerCrewAbility;
+                HostShip.OnGenerateDiceModifications += AddLukeSkywalkerCrewAbility;
                 Phases.Events.OnCombatPhaseEnd_NoTriggers += RemoveLukeSkywalkerCrewAbility;
 
                 Combat.StartAdditionalAttack(
@@ -113,13 +113,13 @@ namespace Abilities
 
         public void AddLukeSkywalkerCrewAbility(GenericShip ship)
         {
-            ship.AddAvailableActionEffect(new ActionsList.LukeSkywalkerCrewAction());
+            ship.AddAvailableDiceModification(new ActionsList.LukeSkywalkerCrewAction());
         }
 
         public void RemoveLukeSkywalkerCrewAbility()
         {
             Phases.Events.OnCombatPhaseEnd_NoTriggers -= RemoveLukeSkywalkerCrewAbility;
-            HostShip.AfterGenerateAvailableActionEffectsList -= AddLukeSkywalkerCrewAbility;
+            HostShip.OnGenerateDiceModifications -= AddLukeSkywalkerCrewAbility;
         }
 
     }
@@ -132,7 +132,7 @@ namespace ActionsList
 
         public LukeSkywalkerCrewAction()
         {
-            Name = EffectName = "Luke Skywalker's ability";
+            Name = DiceModificationName = "Luke Skywalker's ability";
 
             IsTurnsOneFocusIntoSuccess = true;
         }
@@ -143,14 +143,14 @@ namespace ActionsList
             callBack();
         }
 
-        public override bool IsActionEffectAvailable()
+        public override bool IsDiceModificationAvailable()
         {
             bool result = false;
             if (Combat.AttackStep == CombatStep.Attack) result = true;
             return result;
         }
 
-        public override int GetActionEffectPriority()
+        public override int GetDiceModificationPriority()
         {
             int result = 0;
 

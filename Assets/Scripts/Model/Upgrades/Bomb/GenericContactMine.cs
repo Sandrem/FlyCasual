@@ -24,7 +24,7 @@ namespace Upgrade
         {
             base.AttachToShip(host);
 
-            host.AfterGenerateAvailableActionsList += PerformDropBombAction;
+            host.OnGenerateActions += PerformDropBombAction;
         }
 
         private void PerformDropBombAction(GenericShip ship)
@@ -122,7 +122,7 @@ namespace Upgrade
 
         public override void Discard(Action callBack)
         {
-            Host.AfterGenerateAvailableActionsList -= PerformDropBombAction;
+            Host.OnGenerateActions -= PerformDropBombAction;
 
             base.Discard(callBack);
         }

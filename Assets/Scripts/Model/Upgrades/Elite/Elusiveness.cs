@@ -25,12 +25,12 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            HostShip.AfterGenerateAvailableOppositeActionEffectsList += ElusivenessActionEffect;
+            HostShip.OnGenerateDiceModificationsOpposite += ElusivenessActionEffect;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.AfterGenerateAvailableOppositeActionEffectsList -= ElusivenessActionEffect;
+            HostShip.OnGenerateDiceModificationsOpposite -= ElusivenessActionEffect;
         }
 
         private void ElusivenessActionEffect(GenericShip host)
@@ -40,7 +40,7 @@ namespace Abilities
                 ImageUrl = HostUpgrade.ImageUrl,
                 Host = host
             };
-            host.AddAvailableOppositeActionEffect(newAction);
+            host.AddDiceModificationOpposite(newAction);
         }
     }
 }
@@ -52,11 +52,11 @@ namespace ActionsList
 
         public ElusivenessActionEffect()
         {
-            Name = EffectName = "Elusiveness";
+            Name = DiceModificationName = "Elusiveness";
             DiceModificationTiming = DiceModificationTimingType.Opposite;
         }
         
-        public override int GetActionEffectPriority()
+        public override int GetDiceModificationPriority()
         {
             int result = 0;
 
@@ -75,7 +75,7 @@ namespace ActionsList
             return result;            
         }
 
-        public override bool IsActionEffectAvailable()
+        public override bool IsDiceModificationAvailable()
         {
             bool result = false;
 

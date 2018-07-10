@@ -37,12 +37,12 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList += WookieeCommandosDiceModification;
+            HostShip.OnGenerateDiceModifications += WookieeCommandosDiceModification;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList -= WookieeCommandosDiceModification;
+            HostShip.OnGenerateDiceModifications -= WookieeCommandosDiceModification;
         }
 
         private void WookieeCommandosDiceModification(GenericShip host)
@@ -52,7 +52,7 @@ namespace Abilities
                 ImageUrl = HostUpgrade.ImageUrl,
                 Host = HostShip
             };
-            HostShip.AddAvailableActionEffect(newAction);
+            HostShip.AddAvailableDiceModification(newAction);
         }
     }
 }
@@ -65,17 +65,17 @@ namespace ActionsList
 
         public WookieeCommandosDiceModification()
         {
-            Name = EffectName = "Wookiee Commandos";
+            Name = DiceModificationName = "Wookiee Commandos";
 
             IsReroll = true;            
         }
 
-        public override bool IsActionEffectAvailable()
+        public override bool IsDiceModificationAvailable()
         {
             return Combat.AttackStep == CombatStep.Attack;            
         }
 
-        public override int GetActionEffectPriority()
+        public override int GetDiceModificationPriority()
         {
             int result = 0;
 
@@ -83,7 +83,7 @@ namespace ActionsList
             {
                 int attackFocuses = Combat.DiceRollAttack.FocusesNotRerolled;                
 
-                if (Combat.Attacker.GetAvailableActionEffectsList().Count(n => n.IsTurnsAllFocusIntoSuccess || n.IsTurnsOneFocusIntoSuccess) == 0)
+                if (Combat.Attacker.GetAvailableDiceModifications().Count(n => n.IsTurnsAllFocusIntoSuccess || n.IsTurnsOneFocusIntoSuccess) == 0)
                 {
                     result = 95;
                 }                

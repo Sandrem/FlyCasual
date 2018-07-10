@@ -35,24 +35,24 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            GenericShip.AfterGenerateAvailableActionEffectsListGlobal += AddHowlrunnerAbility;
+            GenericShip.OnGenerateDiceModificationsGlobal += AddHowlrunnerAbility;
         }
 
         public override void DeactivateAbility()
         {
-            GenericShip.AfterGenerateAvailableActionEffectsListGlobal -= AddHowlrunnerAbility;
+            GenericShip.OnGenerateDiceModificationsGlobal -= AddHowlrunnerAbility;
         }
 
         private void AddHowlrunnerAbility()
         {
-            Combat.Attacker.AddAvailableActionEffect(new HowlrunnerAction() { Host = this.HostShip });
+            Combat.Attacker.AddAvailableDiceModification(new HowlrunnerAction() { Host = this.HostShip });
         }
 
         private class HowlrunnerAction : FriendlyRerollAction
         {
             public HowlrunnerAction() : base(1, 1, false, RerollTypeEnum.AttackDice)
             {
-                Name = EffectName = "Howlrunner's ability";
+                Name = DiceModificationName = "Howlrunner's ability";
                 IsReroll = true;
             }
 

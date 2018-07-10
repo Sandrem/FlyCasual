@@ -13,7 +13,7 @@ namespace RulesList
 
         public void AddForceAction(GenericShip ship)
         {
-            ship.AddAvailableActionEffect(new ActionsList.ForceAction() { Host = ship });
+            ship.AddAvailableDiceModification(new ActionsList.ForceAction() { Host = ship });
         }
     }
 }

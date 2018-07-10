@@ -40,7 +40,7 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList += AddConcussionMissilesDiceModification;
+            HostShip.OnGenerateDiceModifications += AddConcussionMissilesDiceModification;
         }
 
         public override void DeactivateAbility()
@@ -52,7 +52,7 @@ namespace Abilities
         private void DeactivateAbilityPlanned(GenericShip ship)
         {
             HostShip.OnCombatDeactivation -= DeactivateAbilityPlanned;
-            HostShip.AfterGenerateAvailableActionEffectsList -= AddConcussionMissilesDiceModification;
+            HostShip.OnGenerateDiceModifications -= AddConcussionMissilesDiceModification;
         }
 
         private void AddConcussionMissilesDiceModification(GenericShip host)
@@ -64,7 +64,7 @@ namespace Abilities
                 Source = HostUpgrade
             };
 
-            host.AddAvailableActionEffect(action);
+            host.AddAvailableDiceModification(action);
         }
     }
 }
@@ -77,20 +77,20 @@ namespace ActionsList
 
         public ConcussionMissilesAction()
         {
-            Name = EffectName = "Concussion Missiles";
+            Name = DiceModificationName = "Concussion Missiles";
         }
 
         public void AddDiceModification()
         {
-            Host.AfterGenerateAvailableActionEffectsList += ConcussionMissilesAddDiceModification;
+            Host.OnGenerateDiceModifications += ConcussionMissilesAddDiceModification;
         }
 
         private void ConcussionMissilesAddDiceModification(GenericShip ship)
         {
-            ship.AddAvailableActionEffect(this);
+            ship.AddAvailableDiceModification(this);
         }
 
-        public override bool IsActionEffectAvailable()
+        public override bool IsDiceModificationAvailable()
         {
             bool result = true;
 
@@ -101,7 +101,7 @@ namespace ActionsList
             return result;
         }
 
-        public override int GetActionEffectPriority()
+        public override int GetDiceModificationPriority()
         {
             int result = 0;
 
@@ -110,7 +110,7 @@ namespace ActionsList
                 int attackBlanks = Combat.DiceRollAttack.Blanks;
                 if (attackBlanks > 0)
                 {
-                    if ((attackBlanks == 1) && (Combat.Attacker.GetAvailableActionEffectsList().Count(n => n.IsTurnsAllFocusIntoSuccess) == 0))
+                    if ((attackBlanks == 1) && (Combat.Attacker.GetAvailableDiceModifications().Count(n => n.IsTurnsAllFocusIntoSuccess) == 0))
                     {
                         result = 100;
                     }

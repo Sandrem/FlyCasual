@@ -34,24 +34,24 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList += KrassisTrelixPilotAbility;
+            HostShip.OnGenerateDiceModifications += KrassisTrelixPilotAbility;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList -= KrassisTrelixPilotAbility;
+            HostShip.OnGenerateDiceModifications -= KrassisTrelixPilotAbility;
         }
 
         public void KrassisTrelixPilotAbility(GenericShip ship)
         {
-            ship.AddAvailableActionEffect(new KrassisTrelixAction());
+            ship.AddAvailableDiceModification(new KrassisTrelixAction());
         }
 
         private class KrassisTrelixAction : ActionsList.GenericAction
         {
             public KrassisTrelixAction()
             {
-                Name = EffectName = "Krassis Trelix's ability";
+                Name = DiceModificationName = "Krassis Trelix's ability";
                 IsReroll = true;
             }
 
@@ -65,7 +65,7 @@ namespace Abilities
                 diceRerollManager.Start();
             }
 
-            public override bool IsActionEffectAvailable()
+            public override bool IsDiceModificationAvailable()
             {
                 bool result = false;
                 if (Combat.AttackStep == CombatStep.Attack && (Combat.ChosenWeapon as Upgrade.GenericSecondaryWeapon) != null)
@@ -75,7 +75,7 @@ namespace Abilities
                 return result;
             }
 
-            public override int GetActionEffectPriority()
+            public override int GetDiceModificationPriority()
             {
                 int result = 0;
 
@@ -85,7 +85,7 @@ namespace Abilities
                     {
                         result = 90;
                     }
-                    else if (Combat.DiceRollAttack.Focuses > 0 && Combat.Attacker.GetAvailableActionEffectsList().Count(n => n.IsTurnsAllFocusIntoSuccess) == 0)
+                    else if (Combat.DiceRollAttack.Focuses > 0 && Combat.Attacker.GetAvailableDiceModifications().Count(n => n.IsTurnsAllFocusIntoSuccess) == 0)
                     {
                         result = 90;
                     }

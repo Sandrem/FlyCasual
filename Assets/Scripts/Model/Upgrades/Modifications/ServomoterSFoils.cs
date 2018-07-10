@@ -122,7 +122,7 @@ namespace Abilities
             base.ActivateAbility();
             TurnSFoilsToClosedPosition(HostShip);
             HostShip.ChangeFirepowerBy(-1);
-            HostShip.AfterGenerateAvailableActionsList += AddActionIcon;
+            HostShip.OnGenerateActions += AddActionIcon;
             HostShip.OnManeuverIsReadyToBeRevealed += CheckChangeManeuverComplexity;
         }
                 
@@ -131,7 +131,7 @@ namespace Abilities
             base.DeactivateAbility();
             TurnSFoilsToAttackPosition(HostShip);
             HostShip.ChangeFirepowerBy(+1);
-            HostShip.AfterGenerateAvailableActionsList -= AddActionIcon;
+            HostShip.OnGenerateActions -= AddActionIcon;
             HostShip.OnManeuverIsReadyToBeRevealed -= CheckChangeManeuverComplexity;
         }
 
@@ -175,14 +175,14 @@ namespace Abilities
         public override void ActivateAbility()
         {
             base.ActivateAbility();
-            HostShip.AfterGenerateAvailableActionsList += AddActionIcon;
+            HostShip.OnGenerateActions += AddActionIcon;
             HostShip.OnManeuverIsRevealed += RegisterAskChangeManeuver;            
         }
 
         public override void DeactivateAbility()
         {
             base.DeactivateAbility();
-            HostShip.AfterGenerateAvailableActionsList -= AddActionIcon;
+            HostShip.OnGenerateActions -= AddActionIcon;
             HostShip.OnManeuverIsRevealed -= RegisterAskChangeManeuver;            
         }               
         
@@ -305,7 +305,7 @@ namespace Abilities
                 base.ActivateAbility();
                 TurnSFoilsToClosedPosition(HostShip);
                 HostShip.AfterGotNumberOfPrimaryWeaponAttackDice += ReduceNumberOfAttackDice;
-                HostShip.AfterGenerateAvailableActionsList += AddActionIcons;
+                HostShip.OnGenerateActions += AddActionIcons;
             }
 
             public override void DeactivateAbility()
@@ -313,7 +313,7 @@ namespace Abilities
                 base.DeactivateAbility();
                 TurnSFoilsToAttackPosition(HostShip);
                 HostShip.AfterGotNumberOfPrimaryWeaponAttackDice -= ReduceNumberOfAttackDice;
-                HostShip.AfterGenerateAvailableActionsList -= AddActionIcons;
+                HostShip.OnGenerateActions -= AddActionIcons;
             }
 
             private void ReduceNumberOfAttackDice(ref int value)

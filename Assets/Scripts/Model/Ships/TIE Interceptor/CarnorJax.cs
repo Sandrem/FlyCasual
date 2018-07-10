@@ -30,14 +30,14 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            GenericShip.OnTryAddAvailableActionEffectGlobal += CheckCarnorJaxRestriction;
-            GenericShip.OnTryAddAvailableActionGlobal += CheckCarnorJaxRestriction;            
+            GenericShip.OnTryAddAvailableDiceModificationGlobal += CheckCarnorJaxRestriction;
+            GenericShip.OnTryAddActionGlobal += CheckCarnorJaxRestriction;            
         }
 
         public override void DeactivateAbility()
         {
-            GenericShip.OnTryAddAvailableActionEffectGlobal -= CheckCarnorJaxRestriction;
-            GenericShip.OnTryAddAvailableActionGlobal -= CheckCarnorJaxRestriction;
+            GenericShip.OnTryAddAvailableDiceModificationGlobal -= CheckCarnorJaxRestriction;
+            GenericShip.OnTryAddActionGlobal -= CheckCarnorJaxRestriction;
         }
 
         private void CheckCarnorJaxRestriction(GenericShip ship, ActionsList.GenericAction action, ref bool isAllowed)

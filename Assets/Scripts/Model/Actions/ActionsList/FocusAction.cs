@@ -10,7 +10,7 @@ namespace ActionsList
     {
 
         public FocusAction() {
-            Name = EffectName = "Focus";
+            Name = DiceModificationName = "Focus";
 
             TokensSpend.Add(typeof(Tokens.FocusToken));
             IsTurnsAllFocusIntoSuccess = true;
@@ -22,7 +22,7 @@ namespace ActionsList
             Selection.ActiveShip.Tokens.SpendToken(typeof(Tokens.FocusToken), callBack);
         }
 
-        public override int GetActionEffectPriority()
+        public override int GetDiceModificationPriority()
         {
             int result = 0;
 

@@ -41,12 +41,12 @@ namespace Abilities
 
         public override void ActivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionsList += JynErsoAddAction;
+            HostShip.OnGenerateActions += JynErsoAddAction;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionsList -= JynErsoAddAction;
+            HostShip.OnGenerateActions -= JynErsoAddAction;
         }
 
         private void JynErsoAddAction(GenericShip host)
@@ -159,7 +159,7 @@ namespace ActionsList
     {
         public JynErsoAction()
         {
-            Name = EffectName = "Jyn Erso";
+            Name = DiceModificationName = "Jyn Erso";
         }
 
         protected bool AreThereEnemiesInArc

@@ -30,24 +30,24 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            GenericShip.AfterGenerateAvailableActionEffectsListGlobal += AddSerissuAbility;
+            GenericShip.OnGenerateDiceModificationsGlobal += AddSerissuAbility;
         }
 
         public override void DeactivateAbility()
         {
-            GenericShip.AfterGenerateAvailableActionEffectsListGlobal -= AddSerissuAbility;
+            GenericShip.OnGenerateDiceModificationsGlobal -= AddSerissuAbility;
         }
 
         private void AddSerissuAbility()
         {
-            Combat.Defender.AddAvailableActionEffect(new SerissuAction() { Host = this.HostShip });
+            Combat.Defender.AddAvailableDiceModification(new SerissuAction() { Host = this.HostShip });
         }
 
         private class SerissuAction : FriendlyRerollAction
         {
             public SerissuAction() : base(1, 1, false, RerollTypeEnum.DefenseDice)
             {
-                Name = EffectName = "Serissu's ability";
+                Name = DiceModificationName = "Serissu's ability";
             }
         }
     }

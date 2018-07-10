@@ -15,7 +15,7 @@ namespace ActionsList
 
         public ReloadAction()
         {
-            Name = EffectName = "Reload";
+            Name = DiceModificationName = "Reload";
             ImageUrl = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/reference-cards/ReloadActionAndJamTokens.png";
         }
 

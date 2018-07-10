@@ -37,24 +37,24 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList += HortonSalmPilotAbility;
+            HostShip.OnGenerateDiceModifications += HortonSalmPilotAbility;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList -= HortonSalmPilotAbility;
+            HostShip.OnGenerateDiceModifications -= HortonSalmPilotAbility;
         }
 
         public void HortonSalmPilotAbility(GenericShip ship)
         {
-            ship.AddAvailableActionEffect(new HortonSalmAction());
+            ship.AddAvailableDiceModification(new HortonSalmAction());
         }
 
         private class HortonSalmAction : ActionsList.GenericAction
         {
             public HortonSalmAction()
             {
-                Name = EffectName = "Horton Salm's ability";
+                Name = DiceModificationName = "Horton Salm's ability";
                 IsReroll = true;
             }
 
@@ -68,7 +68,7 @@ namespace Abilities
                 diceRerollManager.Start();
             }
 
-            public override bool IsActionEffectAvailable()
+            public override bool IsDiceModificationAvailable()
             {
                 bool result = false;
                 ShotInfo shotInfo = new ShotInfo(Combat.Attacker, Combat.Defender, Combat.ChosenWeapon);
@@ -79,7 +79,7 @@ namespace Abilities
                 return result;
             }
 
-            public override int GetActionEffectPriority()
+            public override int GetDiceModificationPriority()
             {
                 int result = 0;
 

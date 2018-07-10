@@ -12,7 +12,7 @@ namespace ActionsList
 
         public ReinforceForeAction()
         {
-            Name = EffectName = "Reinforce (Fore)";
+            Name = DiceModificationName = "Reinforce (Fore)";
             Facing = Arcs.ArcFacing.Front180;
         }
 

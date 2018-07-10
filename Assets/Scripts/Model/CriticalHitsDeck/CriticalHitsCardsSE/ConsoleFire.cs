@@ -16,7 +16,7 @@ namespace DamageDeckCardSE
         public override void ApplyEffect(object sender, EventArgs e)
         {
             Host.OnCombatActivation += PlanRollForDamage;            
-            Host.AfterGenerateAvailableActionsList += CallAddCancelCritAction;
+            Host.OnGenerateActions += CallAddCancelCritAction;
             Host.OnShipIsDestroyed += DiscardEffect;
 
             Host.Tokens.AssignCondition(typeof(Tokens.ConsoleFireSECritToken));
@@ -30,7 +30,7 @@ namespace DamageDeckCardSE
             Host.Tokens.RemoveCondition(typeof(Tokens.ConsoleFireSECritToken));
 
             Host.OnCombatActivation -= PlanRollForDamage;
-            Host.AfterGenerateAvailableActionsList -= CallAddCancelCritAction;
+            Host.OnGenerateActions -= CallAddCancelCritAction;
             Host.OnShipIsDestroyed -= DiscardEffect;
         }
 

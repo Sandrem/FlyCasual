@@ -33,24 +33,24 @@ namespace Abilities
         // you may reroll 1 of your dice.
         public override void ActivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList += AddIbtisamAbility;
+            HostShip.OnGenerateDiceModifications += AddIbtisamAbility;
         }
  
         public override void DeactivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList -= AddIbtisamAbility;
+            HostShip.OnGenerateDiceModifications -= AddIbtisamAbility;
         }
  
         private void AddIbtisamAbility(GenericShip ship)
         {
-            ship.AddAvailableActionEffect(new IbtisamAction() { Host = HostShip });
+            ship.AddAvailableDiceModification(new IbtisamAction() { Host = HostShip });
         }
  
         private class IbtisamAction : ActionsList.GenericAction
         {
             public IbtisamAction()
             {
-                Name = EffectName = "Ibtisam's ability";
+                Name = DiceModificationName = "Ibtisam's ability";
             }
  
             public override void ActionEffect(Action callBack)
@@ -64,12 +64,12 @@ namespace Abilities
                 diceRerollManager.Start();
             }
  
-            public override bool IsActionEffectAvailable()
+            public override bool IsDiceModificationAvailable()
             {
                 return Host.Tokens.HasToken(typeof(Tokens.StressToken)) && (Combat.AttackStep == CombatStep.Attack || Combat.AttackStep == CombatStep.Defence);
             }
  
-            public override int GetActionEffectPriority()
+            public override int GetDiceModificationPriority()
             {
                 if (Host.Tokens.HasToken(typeof(Tokens.StressToken)))
                 {

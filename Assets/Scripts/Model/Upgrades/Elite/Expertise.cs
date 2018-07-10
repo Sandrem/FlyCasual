@@ -30,12 +30,12 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList += AddExpertiseDiceModification;
+            HostShip.OnGenerateDiceModifications += AddExpertiseDiceModification;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList -= AddExpertiseDiceModification;
+            HostShip.OnGenerateDiceModifications -= AddExpertiseDiceModification;
         }
 
         private void AddExpertiseDiceModification(GenericShip host)
@@ -45,7 +45,7 @@ namespace Abilities
                 ImageUrl = HostUpgrade.ImageUrl,
                 Host = host
             };
-            host.AddAvailableActionEffect(newAction);
+            host.AddAvailableDiceModification(newAction);
         }
     }
 }
@@ -58,19 +58,19 @@ namespace ActionsList
 
         public ExpertiseDiceModification()
         {
-            Name = EffectName = "Expertise";
+            Name = DiceModificationName = "Expertise";
 
             IsTurnsAllFocusIntoSuccess = true;
         }
 
-        public override bool IsActionEffectAvailable()
+        public override bool IsDiceModificationAvailable()
         {
             bool result = false;
             if (Combat.AttackStep == CombatStep.Attack) result = true;
             return result;
         }
 
-        public override int GetActionEffectPriority()
+        public override int GetDiceModificationPriority()
         {
             int result = 0;
 

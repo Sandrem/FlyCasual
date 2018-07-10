@@ -29,12 +29,12 @@ namespace Abilities
 	{
 		public override void ActivateAbility()
 		{
-			HostShip.AfterGenerateAvailableActionsList += RageAddAction;
+			HostShip.OnGenerateActions += RageAddAction;
 		}
 
 		public override void DeactivateAbility()
 		{
-			HostShip.AfterGenerateAvailableActionsList -= RageAddAction;
+			HostShip.OnGenerateActions -= RageAddAction;
 		}
 
 		private void RageAddAction(GenericShip host)
@@ -57,7 +57,7 @@ namespace ActionsList
 		
 		public RageAction()
 		{
-			Name = EffectName = "Rage"; 
+			Name = DiceModificationName = "Rage"; 
 		}
 	
 
@@ -65,7 +65,7 @@ namespace ActionsList
 		{
 			Host = Selection.ThisShip;
 			//Adding Rage reroll effect
-			Host.AfterGenerateAvailableActionEffectsList += AddRageCondition; 
+			Host.OnGenerateDiceModifications += AddRageCondition; 
 			Phases.Events.OnEndPhaseStart_NoTriggers += RemoveRageCondition;
 
 			//Rage Condition for reroll dices on each attach during this round
@@ -97,26 +97,26 @@ namespace ActionsList
 
 		private void AddRageCondition(GenericShip ship)
 		{
-			ship.AddAvailableActionEffect(this);
+			ship.AddAvailableDiceModification(this);
 		}
 
 
 		private void RemoveRageCondition()
 		{
 			Host.Tokens.RemoveCondition(typeof(Conditions.RageCondition));
-			Host.AfterGenerateAvailableActionEffectsList -= AddRageCondition;
+			Host.OnGenerateDiceModifications -= AddRageCondition;
 
 			Phases.Events.OnEndPhaseStart_NoTriggers -= RemoveRageCondition;
 		}
 			
 
-		public override bool IsActionEffectAvailable ()
+		public override bool IsDiceModificationAvailable ()
 		{			
 			return (Combat.AttackStep == CombatStep.Attack);
 		}
 
 
-		public override int GetActionEffectPriority()
+		public override int GetDiceModificationPriority()
 		{
 			//TODO: More Complex
 			return 20;

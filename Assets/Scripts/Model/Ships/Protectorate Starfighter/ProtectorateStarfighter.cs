@@ -74,7 +74,7 @@ namespace Ship
             {
                 IconicPilots[Faction.Scum] = typeof(ZealousRecruit);
 
-                PilotAbilities.Add(new Abilities.SecondEdition.ConcordiaFaceoffAbility());
+                ShipAbilities.Add(new Abilities.SecondEdition.ConcordiaFaceoffAbility());
 
                 PrintedActions.RemoveAll(a => a is BarrelRollAction);
                 PrintedActions.RemoveAll(a => a is BoostAction);
@@ -89,21 +89,40 @@ namespace Ship
 namespace Abilities.SecondEdition
 {
     //While you defend, if the attack range is 1 and you are in the attacker's forward firing arc, change 1 result to an evade result.
-    public class ConcordiaFaceoffAbility : GenericDiceModAbility
+    public class ConcordiaFaceoffAbility : GenericAbility
     {
-        public ConcordiaFaceoffAbility()
+        public override void ActivateAbility()
         {
-            AllowChange(null, DieSide.Success, 1);
-            ActionName = "Concordia Faceoff";
+            AddDiceModification(
+                "Concordia Faceoff",
+                IsAvailable,
+                AiPriority,
+                DiceModificationType.Change,
+                1,
+                new List<DieSide>() { DieSide.Blank, DieSide.Focus },
+                DieSide.Success
+            );
         }
 
-        public override bool IsActionEffectAvailable()
+        public override void DeactivateAbility()
         {
-            return (Combat.AttackStep == CombatStep.Defence && Combat.Defender == HostShip && Combat.ShotInfo.Range == 1 && Combat.ShotInfo.InArcByType(Arcs.ArcTypes.Primary));
+            RemoveDiceModification();
         }
 
-        public override int GetActionEffectPriority()
+        public bool IsAvailable()
         {
+            return
+            (
+                Combat.AttackStep == CombatStep.Defence &&
+                Combat.Defender == HostShip &&
+                Combat.ShotInfo.Range == 1 &&
+                Combat.ShotInfo.InPrimaryArc
+            );
+        }
+
+        public int AiPriority()
+        {
+            //TODO: Change to enum
             return 100;
         }
     }

@@ -41,12 +41,12 @@ namespace Abilities
 
         public override void ActivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionsList += KyloRenCrewAddAction;
+            HostShip.OnGenerateActions += KyloRenCrewAddAction;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionsList -= KyloRenCrewAddAction;
+            HostShip.OnGenerateActions -= KyloRenCrewAddAction;
         }
 
         private void KyloRenCrewAddAction(GenericShip host)
@@ -215,7 +215,7 @@ namespace ActionsList
     {
         public KyloRenCrewAction()
         {
-            Name = EffectName = "Kylo Ren: Assign condition";
+            Name = DiceModificationName = "Kylo Ren: Assign condition";
         }
 
         public override int GetActionPriority()

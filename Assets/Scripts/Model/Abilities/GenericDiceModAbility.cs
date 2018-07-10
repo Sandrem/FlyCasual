@@ -107,10 +107,10 @@ namespace Abilities
             {
                 case DiceModificationTimingType.Normal:
                 case DiceModificationTimingType.Opposite:
-                    HostShip.AfterGenerateAvailableActionEffectsList += AddActionEffect;
+                    HostShip.OnGenerateDiceModifications += AddActionEffect;
                     break;
                 case DiceModificationTimingType.CompareResults:
-                    HostShip.AfterGenerateAvailableCompareResultsEffectsList += AddActionEffect;
+                    HostShip.OnGenerateDiceModificationsCompareResults += AddActionEffect;
                     break;
             }            
         }
@@ -121,10 +121,10 @@ namespace Abilities
             {
                 case DiceModificationTimingType.Normal:
                 case DiceModificationTimingType.Opposite:
-                    HostShip.AfterGenerateAvailableActionEffectsList -= AddActionEffect;
+                    HostShip.OnGenerateDiceModifications -= AddActionEffect;
                     break;
                 case DiceModificationTimingType.CompareResults:
-                    HostShip.AfterGenerateAvailableCompareResultsEffectsList -= AddActionEffect;
+                    HostShip.OnGenerateDiceModificationsCompareResults -= AddActionEffect;
                     break;
             }
         }
@@ -132,7 +132,7 @@ namespace Abilities
         private void AddActionEffect(Ship.GenericShip host)
         {
             var newAction = new GenericDiceModActionEffect(this);
-            host.AddAvailableActionEffect(newAction);
+            host.AddAvailableDiceModification(newAction);
         }
 
         protected class GenericDiceModActionEffect : GenericAction
@@ -143,18 +143,18 @@ namespace Abilities
             {
                 SourceAbility = ability;
                 Host = ability.HostShip;
-                Name = EffectName = ability.ActionName;
+                Name = DiceModificationName = ability.ActionName;
                 ImageUrl = ability.HostImageUrl;
                 DiceModificationTiming = ability.DiceModificationTiming;
                 IsReroll = ability.IsReroll == true;
             }
 
-            public override bool IsActionEffectAvailable()
+            public override bool IsDiceModificationAvailable()
             {
                 return SourceAbility.IsActionEffectAvailable();
             }
 
-            public override int GetActionEffectPriority()
+            public override int GetDiceModificationPriority()
             {
                 return SourceAbility.GetActionEffectPriority();
             }

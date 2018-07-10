@@ -28,12 +28,12 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList += CalculationEffect;
+            HostShip.OnGenerateDiceModifications += CalculationEffect;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList -= CalculationEffect;
+            HostShip.OnGenerateDiceModifications -= CalculationEffect;
         }
 
         private void CalculationEffect(GenericShip host)
@@ -43,7 +43,7 @@ namespace Abilities
                 ImageUrl = HostUpgrade.ImageUrl,
                 Host = host           
             };
-            host.AddAvailableActionEffect(newAction);
+            host.AddAvailableDiceModification(newAction);
            
         }
     }
@@ -56,10 +56,10 @@ namespace ActionsList
 
         public CalculationEffect()
         {
-            Name = EffectName = "Calculation";
+            Name = DiceModificationName = "Calculation";
         }
 
-        public override int GetActionEffectPriority()
+        public override int GetDiceModificationPriority()
         {
             int focuses = Combat.DiceRollAttack.Focuses;
             int success = Combat.DiceRollAttack.Successes;
@@ -79,7 +79,7 @@ namespace ActionsList
             }
         }
 
-        public override bool IsActionEffectAvailable()
+        public override bool IsDiceModificationAvailable()
         {
 
             bool result = false;

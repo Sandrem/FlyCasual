@@ -34,12 +34,12 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList += AddSawGerreraDiceModification;
+            HostShip.OnGenerateDiceModifications += AddSawGerreraDiceModification;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList -= AddSawGerreraDiceModification;
+            HostShip.OnGenerateDiceModifications -= AddSawGerreraDiceModification;
         }
 
         private void AddSawGerreraDiceModification(GenericShip host)
@@ -47,7 +47,7 @@ namespace Abilities
             ActionsList.GenericAction newAction = new ActionsList.SawGerreraCrewDiceModification();
             newAction.ImageUrl = HostShip.ImageUrl;
             newAction.Host = HostShip;
-            host.AddAvailableActionEffect(newAction);
+            host.AddAvailableDiceModification(newAction);
         }
     }
 }
@@ -60,19 +60,19 @@ namespace ActionsList
 
         public SawGerreraCrewDiceModification()
         {
-            Name = EffectName = "Saw Gerrera's ability";
+            Name = DiceModificationName = "Saw Gerrera's ability";
 
             IsTurnsAllFocusIntoSuccess = true;
         }
 
-        public override bool IsActionEffectAvailable()
+        public override bool IsDiceModificationAvailable()
         {
             bool result = false;
             if (Combat.AttackStep == CombatStep.Attack && Host.Hull > 1) result = true;
             return result;
         }
 
-        public override int GetActionEffectPriority()
+        public override int GetDiceModificationPriority()
         {
             int result = 0;
 

@@ -6,7 +6,7 @@
 
         public ForceAction()
         {
-            Name = EffectName = "Force";
+            Name = DiceModificationName = "Force";
 
             IsTurnsOneFocusIntoSuccess = true;
             CanBeUsedFewTimes = true;
@@ -19,7 +19,7 @@
             callBack();
         }
 
-        public override int GetActionEffectPriority()
+        public override int GetDiceModificationPriority()
         {
             int result = 0;
 
@@ -49,7 +49,7 @@
             return result;
         }
 
-        public override bool IsActionEffectAvailable()
+        public override bool IsDiceModificationAvailable()
         {
             return Host.Force > 0;
         }

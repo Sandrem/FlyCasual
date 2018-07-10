@@ -29,13 +29,13 @@ namespace Abilities
         public bool usedThisRound;
         public override void ActivateAbility()
         {
-            HostShip.AfterGenerateAvailableOppositeActionEffectsList += CheckR7AstromechAbility;
+            HostShip.OnGenerateDiceModificationsOpposite += CheckR7AstromechAbility;
             Phases.Events.OnPlanningPhaseStart += RechargeAbility;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.AfterGenerateAvailableOppositeActionEffectsList -= CheckR7AstromechAbility;
+            HostShip.OnGenerateDiceModificationsOpposite -= CheckR7AstromechAbility;
             Phases.Events.OnPlanningPhaseStart -= RechargeAbility;
         }
 
@@ -48,7 +48,7 @@ namespace Abilities
                     ImageUrl = HostUpgrade.ImageUrl,
                     Host = HostShip
                 };
-                HostShip.AddAvailableOppositeActionEffect(newAction);
+                HostShip.AddDiceModificationOpposite(newAction);
             }
         }
 
@@ -67,13 +67,13 @@ namespace ActionsList
 
         public R7AstromechActionEffect(R7AstromechAbility ability)
         {
-            Name = EffectName = "R7 Astromech";
+            Name = DiceModificationName = "R7 Astromech";
             DiceModificationTiming = DiceModificationTimingType.Opposite;
             TokensSpend.Add(typeof(Tokens.BlueTargetLockToken));
             hostAbility = ability;
         }
 
-        public override int GetActionEffectPriority()
+        public override int GetDiceModificationPriority()
         {
             int result = 0;
 
@@ -92,7 +92,7 @@ namespace ActionsList
             return result;
         }
 
-        public override bool IsActionEffectAvailable()
+        public override bool IsDiceModificationAvailable()
         {
             return Combat.AttackStep == CombatStep.Attack && Actions.HasTargetLockOn(Combat.Defender, Combat.Attacker) && !hostAbility.usedThisRound;            
         }

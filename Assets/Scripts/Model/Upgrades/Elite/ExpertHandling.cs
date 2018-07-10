@@ -45,12 +45,12 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionsList += AddExpertHandlingAction;
+            HostShip.OnGenerateActions += AddExpertHandlingAction;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionsList -= AddExpertHandlingAction;
+            HostShip.OnGenerateActions -= AddExpertHandlingAction;
         }
 
         private void AddExpertHandlingAction(GenericShip host)
@@ -72,7 +72,7 @@ namespace ActionsList
     {
         public ExpertHandlingAction()
         {
-            Name = EffectName = "Expert Handling";
+            Name = DiceModificationName = "Expert Handling";
         }
 
         public override void ActionTake()

@@ -41,24 +41,24 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList += ReyPilotAbility;
+            HostShip.OnGenerateDiceModifications += ReyPilotAbility;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList -= ReyPilotAbility;
+            HostShip.OnGenerateDiceModifications -= ReyPilotAbility;
         }
 
         public void ReyPilotAbility(GenericShip ship)
         {
-            ship.AddAvailableActionEffect(new ReyAction());
+            ship.AddAvailableDiceModification(new ReyAction());
         }
 
         private class ReyAction : ActionsList.GenericAction
         {
             public ReyAction()
             {
-                Name = EffectName = "Rey's ability";
+                Name = DiceModificationName = "Rey's ability";
                 IsReroll = true;
             }
 
@@ -73,7 +73,7 @@ namespace Abilities
                 diceRerollManager.Start();
             }
 
-            public override bool IsActionEffectAvailable()
+            public override bool IsDiceModificationAvailable()
             {
                 bool result = false;
 
@@ -93,7 +93,7 @@ namespace Abilities
                 return result;
             }
 
-            public override int GetActionEffectPriority()
+            public override int GetDiceModificationPriority()
             {
                 int result = 0;
 

@@ -69,12 +69,12 @@ namespace Abilities
         {
             public override void ActivateAbility()
             {
-                HostShip.AfterGenerateAvailableActionEffectsList += TryAddCaptainFerophDiceModification;
+                HostShip.OnGenerateDiceModifications += TryAddCaptainFerophDiceModification;
             }
 
             public override void DeactivateAbility()
             {
-                HostShip.AfterGenerateAvailableActionEffectsList -= TryAddCaptainFerophDiceModification;
+                HostShip.OnGenerateDiceModifications -= TryAddCaptainFerophDiceModification;
             }
 
             private void TryAddCaptainFerophDiceModification(GenericShip host)
@@ -84,7 +84,7 @@ namespace Abilities
                     ImageUrl = HostShip.ImageUrl,
                     Host = host
                 };
-                host.AddAvailableActionEffect(newAction);
+                host.AddAvailableDiceModification(newAction);
             }
         }
 
@@ -98,10 +98,10 @@ namespace ActionsList
     {
         public CaptainFerophDiceModification()
         {
-            Name = EffectName = "Captain Feroph";
+            Name = DiceModificationName = "Captain Feroph";
         }
 
-        public override int GetActionEffectPriority()
+        public override int GetDiceModificationPriority()
         {
             int result = 0;
 
@@ -110,7 +110,7 @@ namespace ActionsList
             return result;
         }
 
-        public override bool IsActionEffectAvailable()
+        public override bool IsDiceModificationAvailable()
         {
             bool result = false;
 

@@ -13,7 +13,7 @@ namespace ActionsList
 
         public GenericReinforceAction()
         {
-            Name = EffectName = "Reinforce (Generic)";
+            Name = DiceModificationName = "Reinforce (Generic)";
             ImageUrl = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/reference-cards/ReinforceAction.png";
         }
 

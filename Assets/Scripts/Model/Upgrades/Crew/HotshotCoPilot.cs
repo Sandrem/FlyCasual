@@ -92,7 +92,7 @@ namespace Abilities
                     break;
             }
 
-            if (currentShip.GetAvailableActionEffectsList().Any(n => n.TokensSpend.Contains(typeof(FocusToken))))
+            if (currentShip.GetAvailableDiceModifications().Any(n => n.TokensSpend.Contains(typeof(FocusToken))))
             {
                 Messages.ShowError("Cannot confirm results - must spend focus token!");
                 result = false;

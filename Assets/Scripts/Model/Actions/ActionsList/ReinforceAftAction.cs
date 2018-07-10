@@ -9,7 +9,7 @@ namespace ActionsList
 
         public ReinforceAftAction()
         {
-            Name = EffectName = "Reinforce (Aft)";
+            Name = DiceModificationName = "Reinforce (Aft)";
             Facing = Arcs.ArcFacing.Rear180;
         }
 

@@ -37,7 +37,7 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList += AddDiceModification;
+            HostShip.OnGenerateDiceModifications += AddDiceModification;
         }
 
         public override void DeactivateAbility()
@@ -49,7 +49,7 @@ namespace Abilities
         private void DeactivateAbilityPlanned(GenericShip ship)
         {
             HostShip.OnCombatDeactivation -= DeactivateAbilityPlanned;
-            HostShip.AfterGenerateAvailableActionEffectsList -= AddDiceModification;
+            HostShip.OnGenerateDiceModifications -= AddDiceModification;
         }
 
         private void AddDiceModification(GenericShip host)
@@ -60,7 +60,7 @@ namespace Abilities
 				ImageUrl = HostUpgrade.ImageUrl,
 				Source = HostUpgrade
 			};
-			host.AddAvailableActionEffect(action);
+			host.AddAvailableDiceModification(action);
 		}
 	}
 }
@@ -71,17 +71,17 @@ namespace ActionsList
 	{
 		public AdvancedProtonTorpedoesAction()
 		{
-			Name = EffectName = "Advanced Proton Torpedoes";
+			Name = DiceModificationName = "Advanced Proton Torpedoes";
 
 			IsTurnsOneFocusIntoSuccess = true;
 		}
 
 		private void AdvancedProtonTorpedoesAddDiceModification(Ship.GenericShip ship)
 		{
-			ship.AddAvailableActionEffect(this);
+			ship.AddAvailableDiceModification(this);
 		}
 
-		public override bool IsActionEffectAvailable()
+		public override bool IsDiceModificationAvailable()
 		{
 			bool result = true;
 
@@ -92,7 +92,7 @@ namespace ActionsList
 			return result;
 		}
 
-		public override int GetActionEffectPriority()
+		public override int GetDiceModificationPriority()
 		{
 			int result = 0;
 

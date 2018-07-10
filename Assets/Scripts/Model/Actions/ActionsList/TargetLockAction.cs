@@ -14,7 +14,7 @@ namespace ActionsList
     {
         public TargetLockAction()
         {
-            Name = EffectName = "Target Lock";
+            Name = DiceModificationName = "Target Lock";
 
             TokensSpend.Add(typeof(Tokens.BlueTargetLockToken));
             IsReroll = true;
@@ -49,7 +49,7 @@ namespace ActionsList
             }
         }
 
-        public override bool IsActionEffectAvailable()
+        public override bool IsDiceModificationAvailable()
         {
             bool result = false;
             if (Combat.AttackStep == CombatStep.Attack)
@@ -62,7 +62,7 @@ namespace ActionsList
             return result;
         }
 
-        public override int GetActionEffectPriority()
+        public override int GetDiceModificationPriority()
         {
             int result = 0;
 
@@ -72,7 +72,7 @@ namespace ActionsList
                 int attackBlanks = Combat.DiceRollAttack.BlanksNotRerolled;
 
                 //if (Combat.Attacker.HasToken(typeof(Tokens.FocusToken)))
-                if (Combat.Attacker.GetAvailableActionEffectsList().Count(n => n.IsTurnsAllFocusIntoSuccess) > 0)
+                if (Combat.Attacker.GetAvailableDiceModifications().Count(n => n.IsTurnsAllFocusIntoSuccess) > 0)
                 {
                     if (attackBlanks > 0) result = 80;
                 }

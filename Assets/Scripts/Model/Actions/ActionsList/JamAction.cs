@@ -14,7 +14,7 @@ namespace ActionsList
     {
         public JamAction()
         {
-            Name = EffectName = "Jam";
+            Name = DiceModificationName = "Jam";
         }
 
         public override void ActionTake()

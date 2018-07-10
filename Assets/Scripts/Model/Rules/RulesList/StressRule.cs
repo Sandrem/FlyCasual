@@ -24,7 +24,7 @@ namespace RulesList
 
             if (ship.Owner.GetType() == typeof(HotacAiPlayer))
             {
-                ship.AfterGenerateAvailableActionsList += AddRemoveStressActionForHotacAI;
+                ship.OnGenerateActions += AddRemoveStressActionForHotacAI;
             }
         }
 
@@ -97,7 +97,7 @@ namespace ActionsList
 
         public HotacRemoveStressAction()
         {
-            Name = EffectName = "Remove Stress";
+            Name = DiceModificationName = "Remove Stress";
 
             CanBePerformedWhileStressed = true;
         }

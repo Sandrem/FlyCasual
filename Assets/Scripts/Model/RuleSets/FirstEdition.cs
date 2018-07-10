@@ -113,7 +113,7 @@ namespace RuleSets
 
         public override void SubScribeToGenericShipEvents(GenericShip ship)
         {
-            ship.OnTryAddAvailableActionEffect += Rules.BullseyeArc.CheckBullseyeArc;
+            ship.OnTryAddAvailableDiceModification += Rules.BullseyeArc.CheckBullseyeArc;
         }
 
         public override void ReloadAction()

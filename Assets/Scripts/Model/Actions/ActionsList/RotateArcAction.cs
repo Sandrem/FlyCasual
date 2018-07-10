@@ -10,7 +10,7 @@ namespace ActionsList
     public class RotateArcAction : GenericAction
     {
         public RotateArcAction() {
-            Name = EffectName = "Rotate Arc";
+            Name = DiceModificationName = "Rotate Arc";
         }
 
         public override void ActionTake()

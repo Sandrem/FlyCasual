@@ -41,24 +41,24 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList += AddLukeSkywalkerPilotAbility;
+            HostShip.OnGenerateDiceModifications += AddLukeSkywalkerPilotAbility;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList -= AddLukeSkywalkerPilotAbility;
+            HostShip.OnGenerateDiceModifications -= AddLukeSkywalkerPilotAbility;
         }
 
         private void AddLukeSkywalkerPilotAbility(GenericShip ship)
         {
-            ship.AddAvailableActionEffect(new LukeSkywalkerAction());
+            ship.AddAvailableDiceModification(new LukeSkywalkerAction());
         }
 
         private class LukeSkywalkerAction : ActionsList.GenericAction
         {
             public LukeSkywalkerAction()
             {
-                Name = EffectName = "Luke Skywalker's ability";
+                Name = DiceModificationName = "Luke Skywalker's ability";
 
                 IsTurnsOneFocusIntoSuccess = true;
             }
@@ -69,14 +69,14 @@ namespace Abilities
                 callBack();
             }
 
-            public override bool IsActionEffectAvailable()
+            public override bool IsDiceModificationAvailable()
             {
                 bool result = false;
                 if (Combat.AttackStep == CombatStep.Defence) result = true;
                 return result;
             }
 
-            public override int GetActionEffectPriority()
+            public override int GetDiceModificationPriority()
             {
                 int result = 0;
 

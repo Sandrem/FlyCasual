@@ -36,12 +36,12 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList += DengarCrewActionEffect;
+            HostShip.OnGenerateDiceModifications += DengarCrewActionEffect;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList -= DengarCrewActionEffect;
+            HostShip.OnGenerateDiceModifications -= DengarCrewActionEffect;
         }
 
         private void DengarCrewActionEffect(GenericShip host)
@@ -51,7 +51,7 @@ namespace Abilities
                 Host = host,
                 ImageUrl = HostUpgrade.ImageUrl
             };
-            host.AddAvailableActionEffect(newAction);
+            host.AddAvailableDiceModification(newAction);
         }
     }
 }
@@ -64,20 +64,20 @@ namespace ActionsList
 
         public DengarDiceModification()
         {
-            Name = EffectName = "Dengar";
+            Name = DiceModificationName = "Dengar";
 
             // Used for abilities like Dark Curse's that can prevent rerolls
             IsReroll = true;
         }
 
-        public override bool IsActionEffectAvailable()
+        public override bool IsDiceModificationAvailable()
         {
             bool result = false;
             if (Combat.AttackStep == CombatStep.Attack) result = true;
             return result;
         }
 
-        public override int GetActionEffectPriority()
+        public override int GetDiceModificationPriority()
         {
             int result = 0;
 
@@ -86,7 +86,7 @@ namespace ActionsList
                 int attackFocuses = Combat.DiceRollAttack.FocusesNotRerolled;
                 int attackBlanks = Combat.DiceRollAttack.BlanksNotRerolled;
 
-                if (Combat.Attacker.GetAvailableActionEffectsList().Count(n => n.IsTurnsAllFocusIntoSuccess) > 0 )
+                if (Combat.Attacker.GetAvailableDiceModifications().Count(n => n.IsTurnsAllFocusIntoSuccess) > 0 )
                 {
                     if (attackBlanks > 0) result = 90;
                 }

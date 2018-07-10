@@ -219,13 +219,13 @@ namespace RuleSets
 
         public override void WhenIonized(GenericShip ship)
         {
-            ship.OnTryAddAvailableAction += IonizedShipCanDoOnlyFocus;
+            ship.OnTryAddAction += IonizedShipCanDoOnlyFocus;
             ship.OnRoundEnd += DisableIonizationActionEffect;
         }
 
         private void DisableIonizationActionEffect(GenericShip ship)
         {
-            ship.OnTryAddAvailableAction -= IonizedShipCanDoOnlyFocus;
+            ship.OnTryAddAction -= IonizedShipCanDoOnlyFocus;
             ship.OnRoundEnd -= DisableIonizationActionEffect;
         }
 

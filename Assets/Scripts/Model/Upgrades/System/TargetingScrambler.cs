@@ -73,7 +73,7 @@ namespace Abilities
             Messages.ShowInfo(string.Format("\"Scrambled\" condition is assigned to {0}", TargetShip.PilotName));
 
             TargetShip.Tokens.AssignCondition(typeof(ScrambledCondition));
-            TargetShip.OnTryAddAvailableActionEffect += UseDiceModificationRestriction;
+            TargetShip.OnTryAddAvailableDiceModification += UseDiceModificationRestriction;
             Phases.Events.OnCombatPhaseEnd_NoTriggers += RemoveScrambledCondition;
 
             HostShip.Tokens.AssignToken(typeof(WeaponsDisabledToken), SelectShipSubPhase.FinishSelection);
@@ -104,7 +104,7 @@ namespace Abilities
             Phases.Events.OnCombatPhaseEnd_NoTriggers -= RemoveScrambledCondition;
 
             TargetShip.Tokens.RemoveCondition(typeof(ScrambledCondition));
-            TargetShip.OnTryAddAvailableActionEffect -= UseDiceModificationRestriction;
+            TargetShip.OnTryAddAvailableDiceModification -= UseDiceModificationRestriction;
         }
     }
 }

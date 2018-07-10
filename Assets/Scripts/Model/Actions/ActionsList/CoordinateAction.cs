@@ -12,7 +12,7 @@ namespace ActionsList
     {
         public CoordinateAction()
         {
-            Name = EffectName = "Coordinate";
+            Name = DiceModificationName = "Coordinate";
         }
 
         public override void ActionTake()

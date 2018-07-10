@@ -36,12 +36,12 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList += EzraBridgerActionEffect;
+            HostShip.OnGenerateDiceModifications += EzraBridgerActionEffect;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList -= EzraBridgerActionEffect;
+            HostShip.OnGenerateDiceModifications -= EzraBridgerActionEffect;
         }
 
         private void EzraBridgerActionEffect(GenericShip host)
@@ -51,7 +51,7 @@ namespace Abilities
                 ImageUrl = HostUpgrade.ImageUrl,
                 Host = host
             };
-            host.AddAvailableActionEffect(newAction);
+            host.AddAvailableDiceModification(newAction);
         }
     }
 }
@@ -63,7 +63,7 @@ namespace ActionsList
 
         public EzraBridgerAction()
         {
-            Name = EffectName = "Ezra Bridger";
+            Name = DiceModificationName = "Ezra Bridger";
         }
 
         public override void ActionEffect(Action callBack)
@@ -79,7 +79,7 @@ namespace ActionsList
             callBack();
         }
 
-        public override bool IsActionEffectAvailable()
+        public override bool IsDiceModificationAvailable()
         {
             bool result = false;
 
@@ -91,7 +91,7 @@ namespace ActionsList
             return result;
         }
 
-        public override int GetActionEffectPriority()
+        public override int GetDiceModificationPriority()
         {
             int result = 0;
 

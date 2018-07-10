@@ -45,7 +45,7 @@ namespace Abilities
                 if (entry.Value != HostShip)
                 {
                     entry.Value.OnGenerateAvailableAttackPaymentList += AddSharaBeyPilotPayment;
-                    entry.Value.AfterGenerateAvailableActionEffectsList += AddSharaBeyActionEffect;
+                    entry.Value.OnGenerateDiceModifications += AddSharaBeyActionEffect;
                 }
             }
         }
@@ -75,7 +75,7 @@ namespace Abilities
 
         private void AddSharaBeyActionEffect(Ship.GenericShip ship)
         {
-            ship.AddAvailableActionEffect(new ActionsList.SharaBeyAction()
+            ship.AddAvailableDiceModification(new ActionsList.SharaBeyAction()
             {
                 Host = HostShip
             });
@@ -91,10 +91,10 @@ namespace ActionsList
 
         public SharaBeyAction()
         {
-            Name = EffectName = "Shara Bey";
+            Name = DiceModificationName = "Shara Bey";
         }
 
-        public override bool IsActionEffectAvailable()
+        public override bool IsDiceModificationAvailable()
         {
             ShotInfo shotInfo = new ShotInfo(Host, Combat.Attacker, Host.PrimaryWeapon);
             if (shotInfo.Range > 2) return false;
@@ -105,7 +105,7 @@ namespace ActionsList
             return Combat.AttackStep == CombatStep.Attack;
         }
 
-        public override int GetActionEffectPriority()
+        public override int GetDiceModificationPriority()
         {
             int result = 0;
 
@@ -115,7 +115,7 @@ namespace ActionsList
                 {
                     result = 90;
                 }
-                else if (Combat.DiceRollAttack.Focuses > 0 && Combat.Attacker.GetAvailableActionEffectsList().Count(n => n.IsTurnsAllFocusIntoSuccess) == 0)
+                else if (Combat.DiceRollAttack.Focuses > 0 && Combat.Attacker.GetAvailableDiceModifications().Count(n => n.IsTurnsAllFocusIntoSuccess) == 0)
                 {
                     result = 90;
                 }

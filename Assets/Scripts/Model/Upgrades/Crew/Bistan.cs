@@ -36,12 +36,12 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList += BistanAddAction;
+            HostShip.OnGenerateDiceModifications += BistanAddAction;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList -= BistanAddAction;
+            HostShip.OnGenerateDiceModifications -= BistanAddAction;
         }
 
         private void BistanAddAction(GenericShip ship)
@@ -51,7 +51,7 @@ namespace Abilities
                 Host = this.HostShip,
                 ImageUrl = HostUpgrade.ImageUrl
             };
-            ship.AddAvailableActionEffect(action);
+            ship.AddAvailableDiceModification(action);
         }
     }
 }
@@ -63,7 +63,7 @@ namespace ActionsList
     {
         public BistanAction()
         {
-            Name = EffectName = "Bistan";
+            Name = DiceModificationName = "Bistan";
         }
  
         public override void ActionEffect(System.Action callBack)
@@ -72,7 +72,7 @@ namespace ActionsList
             callBack();
         }
  
-        public override bool IsActionEffectAvailable()
+        public override bool IsDiceModificationAvailable()
         {
             bool result = false;
             if (Combat.AttackStep == CombatStep.Attack)
@@ -87,7 +87,7 @@ namespace ActionsList
             return result;
         }
 
-        public override int GetActionEffectPriority()
+        public override int GetDiceModificationPriority()
         {
             int result = 0;
 

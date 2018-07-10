@@ -23,7 +23,7 @@ namespace RulesList
                     {
                         if (Combat.ShotInfo.InArcByType(ArcTypes.Bullseye))
                         {
-                            Messages.ShowError("Bullseye: " + action.EffectName + " cannot be used");
+                            Messages.ShowError("Bullseye: " + action.DiceModificationName + " cannot be used");
                             canBeUsed = false;
                         }
                     }

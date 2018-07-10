@@ -38,14 +38,14 @@ namespace Abilities
         public override void ActivateAbility()
         {
             BombsManager.OnCheckPermissionToDetonate += CheckIgnoreMines;
-            GenericShip.AfterGenerateAvailableActionEffectsListGlobal += CheckObstructionBonus;
+            GenericShip.OnGenerateDiceModificationsGlobal += CheckObstructionBonus;
             HostShip.OnCheckSufferBombDetonation += CheckIgnoreTimedBombs;
         }
 
         public override void DeactivateAbility()
         {
             BombsManager.OnCheckPermissionToDetonate -= CheckIgnoreMines;
-            GenericShip.AfterGenerateAvailableActionEffectsListGlobal -= CheckObstructionBonus;
+            GenericShip.OnGenerateDiceModificationsGlobal -= CheckObstructionBonus;
             HostShip.OnCheckSufferBombDetonation -= CheckIgnoreTimedBombs;
         }
 
@@ -57,7 +57,7 @@ namespace Abilities
 
             if (Combat.ShotInfo.IsObstructedByBombToken)
             {
-                Combat.Defender.AddAvailableActionEffect(new CaptainNymObstructionBonus());
+                Combat.Defender.AddAvailableDiceModification(new CaptainNymObstructionBonus());
             }
         }
 
@@ -136,7 +136,7 @@ namespace ActionsList
     {
         public CaptainNymObstructionBonus()
         {
-            Name = EffectName = "Captain Nym: Free Evade";
+            Name = DiceModificationName = "Captain Nym: Free Evade";
         }
 
         public override void ActionEffect(System.Action callBack)
@@ -145,7 +145,7 @@ namespace ActionsList
             callBack();
         }
 
-        public override int GetActionEffectPriority()
+        public override int GetDiceModificationPriority()
         {
             return 110;
         }

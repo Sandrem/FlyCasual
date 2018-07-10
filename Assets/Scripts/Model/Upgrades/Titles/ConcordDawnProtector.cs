@@ -32,12 +32,12 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList += TryAddConcordDawnProtectorDiceModification;
+            HostShip.OnGenerateDiceModifications += TryAddConcordDawnProtectorDiceModification;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList -= TryAddConcordDawnProtectorDiceModification;
+            HostShip.OnGenerateDiceModifications -= TryAddConcordDawnProtectorDiceModification;
         }
 
         private void TryAddConcordDawnProtectorDiceModification(GenericShip host)
@@ -47,7 +47,7 @@ namespace Abilities
                 ImageUrl = HostUpgrade.ImageUrl,
                 Host = host
             };
-            host.AddAvailableActionEffect(newAction);
+            host.AddAvailableDiceModification(newAction);
         }
     }
 }
@@ -58,10 +58,10 @@ namespace ActionsList
     {
         public ConcordDawnProtectorDiceModification()
         {
-            Name = EffectName = "Concord Dawn Protector";
+            Name = DiceModificationName = "Concord Dawn Protector";
         }
 
-        public override int GetActionEffectPriority()
+        public override int GetDiceModificationPriority()
         {
             int result = 0;
 
@@ -70,7 +70,7 @@ namespace ActionsList
             return result;
         }
 
-        public override bool IsActionEffectAvailable()
+        public override bool IsDiceModificationAvailable()
         {
             bool result = false;
 

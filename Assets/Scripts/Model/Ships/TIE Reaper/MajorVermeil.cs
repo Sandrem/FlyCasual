@@ -33,12 +33,12 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList += AddMajorVermeilModifierEffect;
+            HostShip.OnGenerateDiceModifications += AddMajorVermeilModifierEffect;
         }
                 
         public override void DeactivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList -= AddMajorVermeilModifierEffect;
+            HostShip.OnGenerateDiceModifications -= AddMajorVermeilModifierEffect;
         }
 
         private void AddMajorVermeilModifierEffect(Ship.GenericShip ship)
@@ -47,7 +47,7 @@ namespace Abilities
                 && !(Combat.Defender.Tokens.HasToken<EvadeToken>() || Combat.Defender.Tokens.HasToken<FocusToken>()) 
                 && (Combat.DiceRollAttack.Focuses > 0 || Combat.DiceRollAttack.Blanks > 0))
             {                
-                ship.AddAvailableActionEffect(new MajorVermeilAction
+                ship.AddAvailableDiceModification(new MajorVermeilAction
                 {
                     ImageUrl = HostShip.ImageUrl,
                     Host = HostShip
@@ -59,7 +59,7 @@ namespace Abilities
         {
             public MajorVermeilAction()
             {
-                Name = EffectName = "Major Vermeil's ability";
+                Name = DiceModificationName = "Major Vermeil's ability";
 
                 IsTurnsOneFocusIntoSuccess = true;                
             }
@@ -77,14 +77,14 @@ namespace Abilities
                 callBack();
             }
 
-            public override bool IsActionEffectAvailable()
+            public override bool IsDiceModificationAvailable()
             {
                 bool result = false;
                 if (Combat.AttackStep == CombatStep.Attack) result = true;
                 return result;
             }
 
-            public override int GetActionEffectPriority()
+            public override int GetDiceModificationPriority()
             {
                 int result = 0;
 
@@ -93,7 +93,7 @@ namespace Abilities
                     int attackBlanks = Combat.DiceRollAttack.Blanks;
                     if (attackBlanks > 0)
                     {
-                        if ((attackBlanks == 1) && (Combat.Attacker.GetAvailableActionEffectsList().Count(n => n.IsTurnsAllFocusIntoSuccess) == 0))
+                        if ((attackBlanks == 1) && (Combat.Attacker.GetAvailableDiceModifications().Count(n => n.IsTurnsAllFocusIntoSuccess) == 0))
                         {
                             result = 100;
                         }

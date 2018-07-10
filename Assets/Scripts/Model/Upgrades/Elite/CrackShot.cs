@@ -40,12 +40,12 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            HostShip.AfterGenerateAvailableCompareResultsEffectsList += CrackShotDiceModification;
+            HostShip.OnGenerateDiceModificationsCompareResults += CrackShotDiceModification;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.AfterGenerateAvailableCompareResultsEffectsList -= CrackShotDiceModification;
+            HostShip.OnGenerateDiceModificationsCompareResults -= CrackShotDiceModification;
         }
 
         private void CrackShotDiceModification(GenericShip host)
@@ -68,11 +68,11 @@ namespace ActionsList
 
         public CrackShotDiceModification()
         {
-            Name = EffectName = "Crack Shot";
+            Name = DiceModificationName = "Crack Shot";
             DiceModificationTiming = DiceModificationTimingType.CompareResults;
         }
 
-        public override int GetActionEffectPriority()
+        public override int GetDiceModificationPriority()
         {
             int result = 0;
 
@@ -81,7 +81,7 @@ namespace ActionsList
             return result;
         }
 
-        public override bool IsActionEffectAvailable()
+        public override bool IsDiceModificationAvailable()
         {
             bool result = false;
 
@@ -111,12 +111,12 @@ namespace Abilities.SecondEdition
     {
         public override void ActivateAbility()
         {
-            HostShip.AfterGenerateAvailableCompareResultsEffectsList += CrackShotDiceModification;
+            HostShip.OnGenerateDiceModificationsCompareResults += CrackShotDiceModification;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.AfterGenerateAvailableCompareResultsEffectsList -= CrackShotDiceModification;
+            HostShip.OnGenerateDiceModificationsCompareResults -= CrackShotDiceModification;
         }
 
         private void CrackShotDiceModification(GenericShip host)
@@ -143,7 +143,7 @@ namespace ActionsList.SecondEdition
         {
         }
 
-        public override bool IsActionEffectAvailable()
+        public override bool IsDiceModificationAvailable()
         {
             bool result = false;
 

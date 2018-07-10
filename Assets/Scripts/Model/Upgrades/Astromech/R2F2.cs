@@ -29,12 +29,12 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionsList += R2F2AddAction;
+            HostShip.OnGenerateActions += R2F2AddAction;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionsList -= R2F2AddAction;
+            HostShip.OnGenerateActions -= R2F2AddAction;
         }
 
         private void R2F2AddAction(Ship.GenericShip host)
@@ -56,7 +56,7 @@ namespace ActionsList
     {
         public R2F2Action()
         {
-            Name = EffectName = "R2-F2: Increase Agility";
+            Name = DiceModificationName = "R2-F2: Increase Agility";
         }
 
         public override void ActionTake()

@@ -12,7 +12,7 @@ namespace ActionsList
 
         public SlamAction()
         {
-            Name = EffectName = "SLAM";
+            Name = DiceModificationName = "SLAM";
             ImageUrl = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/reference-cards/SlamAction.png";
         }
 

@@ -19,7 +19,7 @@ namespace DamageDeckCardFE
         public override void ApplyEffect(object sender, EventArgs e)
         {
             Host.OnMovementFinish += PlanStressAfterWhiteManeuvers;
-            Host.AfterGenerateAvailableActionsList += CallAddCancelCritAction;
+            Host.OnGenerateActions += CallAddCancelCritAction;
 
             Host.Tokens.AssignCondition(typeof(LooseStabilizerCritToken));
             Triggers.FinishTrigger();
@@ -32,7 +32,7 @@ namespace DamageDeckCardFE
             Messages.ShowInfo("No stress after white maneuvers");
             Host.Tokens.RemoveCondition(typeof(Tokens.LooseStabilizerCritToken));
             Host.OnMovementFinish -= PlanStressAfterWhiteManeuvers;
-            Host.AfterGenerateAvailableActionsList -= CallAddCancelCritAction;
+            Host.OnGenerateActions -= CallAddCancelCritAction;
         }
 
         private void PlanStressAfterWhiteManeuvers(GenericShip ship)

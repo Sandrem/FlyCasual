@@ -30,12 +30,12 @@ namespace Abilities
 
         public override void ActivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList += AddJessPavaActionEffect;
+            HostShip.OnGenerateDiceModifications += AddJessPavaActionEffect;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList -= AddJessPavaActionEffect;
+            HostShip.OnGenerateDiceModifications -= AddJessPavaActionEffect;
         }
 
         private void AddJessPavaActionEffect(Ship.GenericShip host)
@@ -43,7 +43,7 @@ namespace Abilities
             ActionsList.GenericAction newAction = new ActionsList.JessPavaActionEffect();
             newAction.Host = host;
             newAction.ImageUrl = host.ImageUrl;
-            host.AddAvailableActionEffect(newAction);
+            host.AddAvailableDiceModification(newAction);
         }        
     }
 }
@@ -55,7 +55,7 @@ namespace ActionsList
     {
         public JessPavaActionEffect()
         {
-            Name = EffectName = "Jess Pava";
+            Name = DiceModificationName = "Jess Pava";
 
             // Used for abilities like Dark Curse's that can prevent rerolls
             IsReroll = true;
@@ -66,7 +66,7 @@ namespace ActionsList
             return dices;
         }
 
-        public override bool IsActionEffectAvailable()
+        public override bool IsDiceModificationAvailable()
         {
             bool result = false;
             if ((Combat.AttackStep == CombatStep.Attack) ||
@@ -77,7 +77,7 @@ namespace ActionsList
             return result;
         }
 
-        public override int GetActionEffectPriority()
+        public override int GetDiceModificationPriority()
         {
             return 90;
         }

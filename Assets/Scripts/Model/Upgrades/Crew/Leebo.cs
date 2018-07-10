@@ -36,12 +36,12 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionsList += LeeboAction;
+            HostShip.OnGenerateActions += LeeboAction;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionsList -= LeeboAction;
+            HostShip.OnGenerateActions -= LeeboAction;
         }
 
         private void LeeboAction(GenericShip ship)
@@ -63,7 +63,7 @@ namespace ActionsList
     {
         public LeeboAction()
         {
-            Name = EffectName = "Leebo";
+            Name = DiceModificationName = "Leebo";
         }
 
         public override bool IsActionAvailable()
@@ -76,7 +76,7 @@ namespace ActionsList
             return result;
         }
 
-        public override int GetActionEffectPriority()
+        public override int GetDiceModificationPriority()
         {
             // low priority
             int result = 10;

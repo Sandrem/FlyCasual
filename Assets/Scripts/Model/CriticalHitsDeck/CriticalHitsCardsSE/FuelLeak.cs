@@ -18,7 +18,7 @@ namespace DamageDeckCardSE
 
         public override void ApplyEffect(object sender, EventArgs e)
         {
-            Host.AfterGenerateAvailableActionsList += CallAddCancelCritAction;
+            Host.OnGenerateActions += CallAddCancelCritAction;
             Host.OnSufferDamageConfirmed += CheckToSufferAdditionalDamageAndRepair;
             Host.Tokens.AssignCondition(typeof(Tokens.FuelLeakCritToken));
             Triggers.FinishTrigger();
@@ -59,7 +59,7 @@ namespace DamageDeckCardSE
         {
             base.DiscardEffect();
 
-            Host.AfterGenerateAvailableActionsList -= CallAddCancelCritAction;
+            Host.OnGenerateActions -= CallAddCancelCritAction;
             Host.OnSufferDamageConfirmed -= CheckToSufferAdditionalDamageAndRepair;
             Host.Tokens.RemoveCondition(typeof(Tokens.FuelLeakCritToken));
         }

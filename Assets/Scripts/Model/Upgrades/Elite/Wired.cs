@@ -25,12 +25,12 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList += WiredActionEffect;
+            HostShip.OnGenerateDiceModifications += WiredActionEffect;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList -= WiredActionEffect;
+            HostShip.OnGenerateDiceModifications -= WiredActionEffect;
         }
 
         private void WiredActionEffect(GenericShip host)
@@ -40,7 +40,7 @@ namespace Abilities
                 ImageUrl = HostUpgrade.ImageUrl,
                 Host = host
             };
-            host.AddAvailableActionEffect(newAction);
+            host.AddAvailableDiceModification(newAction);
         }
     }
 }
@@ -52,16 +52,16 @@ namespace ActionsList
 
         public WiredActionEffect()
         {
-            Name = EffectName = "Wired";            
+            Name = DiceModificationName = "Wired";            
         }
         
-        public override int GetActionEffectPriority()
+        public override int GetDiceModificationPriority()
         {
             int result = 0;
                 
             if (Combat.Attacker.Tokens.HasToken(typeof(Tokens.StressToken)))
             {
-                if (Combat.DiceRollAttack.Focuses > 0 && Combat.Attacker.GetAvailableActionEffectsList().Count(n => n.IsTurnsAllFocusIntoSuccess) == 0)
+                if (Combat.DiceRollAttack.Focuses > 0 && Combat.Attacker.GetAvailableDiceModifications().Count(n => n.IsTurnsAllFocusIntoSuccess) == 0)
                 {
                     result = 95;
                 }
@@ -74,7 +74,7 @@ namespace ActionsList
             return result;            
         }
 
-        public override bool IsActionEffectAvailable()
+        public override bool IsDiceModificationAvailable()
         {
             return Host.Tokens.HasToken(typeof(Tokens.StressToken));
         }

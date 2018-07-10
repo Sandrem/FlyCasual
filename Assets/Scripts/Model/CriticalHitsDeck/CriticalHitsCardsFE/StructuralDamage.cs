@@ -20,7 +20,7 @@ namespace DamageDeckCardFE
             Messages.ShowInfo("Agility is reduced");
 
             Host.ChangeAgilityBy(-1);
-            Host.AfterGenerateAvailableActionsList += CallAddCancelCritAction;
+            Host.OnGenerateActions += CallAddCancelCritAction;
             Host.Tokens.AssignCondition(typeof(Tokens.StructuralDamageCritToken));
             Triggers.FinishTrigger();
         }
@@ -32,7 +32,7 @@ namespace DamageDeckCardFE
             Messages.ShowInfo("Agility is restored");
 
             Host.Tokens.RemoveCondition(typeof(Tokens.StructuralDamageCritToken));
-            Host.AfterGenerateAvailableActionsList -= CallAddCancelCritAction;
+            Host.OnGenerateActions -= CallAddCancelCritAction;
             Host.ChangeAgilityBy(+1);
         }
 

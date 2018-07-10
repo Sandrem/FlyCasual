@@ -6,6 +6,8 @@ using UnityEngine;
 using Upgrade;
 using Players;
 using System.Linq;
+using ActionsList;
+
 namespace Abilities
 {
     public abstract class GenericAbility
@@ -297,5 +299,87 @@ namespace Abilities
             }
 
         };
+
+        // DICE MODIFICATIONS
+
+        protected enum DiceModificationType
+        {
+            Reroll,
+            Change
+        }
+
+        private GenericShip.EventHandlerShip DiceModification;
+
+        protected void AddDiceModification(string name, Func<bool> isAvailable, Func<int> aiPriority, DiceModificationType modificationType, int count, List<DieSide> sidesCanBeSelected, DieSide sideCanBeChangedTo = DieSide.Unknown, DiceModificationTimingType timing = DiceModificationTimingType.Normal)
+        {
+            DiceModification = delegate
+            {
+                CustomDiceModification diceModification = new CustomDiceModification()
+                {
+                    Name = name,
+                    DiceModificationName = name,
+                    ImageUrl = HostImageUrl,
+                    DiceModificationTiming = timing,
+                    Host = HostShip,
+                    Source = HostUpgrade,
+                    CheckDiceModificationAvailable = isAvailable,
+                    GenerateDiceModificationAiPriority = aiPriority,
+                    DoDiceModification = (Action callback) =>
+                    {
+                        GenericDiceModification(modificationType, callback, count, sidesCanBeSelected, sideCanBeChangedTo);
+                    }
+                };
+                HostShip.AddAvailableDiceModification(diceModification);
+            };
+
+            hostShip.OnGenerateDiceModifications += DiceModification;
+        }
+
+        protected class CustomDiceModification : GenericAction { }
+
+        private void GenericDiceModification(DiceModificationType modificationType, Action callback, int count, List<DieSide> sidesCanBeSelected, DieSide newSide)
+        {
+            switch (modificationType)
+            {
+                case DiceModificationType.Reroll:
+                    //TODO
+                    break;
+                case DiceModificationType.Change:
+                    DiceModificationChange(callback, count, sidesCanBeSelected, newSide);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void DiceModificationChange(Action callback, int count, List<DieSide> sidesCanBeSelected, DieSide newSide)
+        {
+            //TODO: Change to select dice manager
+
+            DieSide oldSide = DieSide.Unknown;
+            foreach (DieSide side in sidesCanBeSelected)
+            {
+                if (DiceRoll.CurrentDiceRoll.HasResult(side))
+                {
+                    oldSide = side;
+                    break;
+                }
+            }
+
+            if (oldSide != DieSide.Unknown)
+            {
+                Combat.CurrentDiceRoll.Change(oldSide, newSide, count);
+                callback();
+            }
+            else
+            {
+                callback();
+            }
+        }
+
+        protected void RemoveDiceModification()
+        {
+            DiceModification = delegate { };
+        }
     }
 }

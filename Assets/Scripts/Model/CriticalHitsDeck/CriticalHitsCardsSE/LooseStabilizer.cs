@@ -19,7 +19,7 @@ namespace DamageDeckCardSE
         public override void ApplyEffect(object sender, EventArgs e)
         {
             Host.OnMovementFinish += PlanDamageAfterNonStraightManeuvers;
-            Host.AfterGenerateAvailableActionsList += CallAddCancelCritAction;
+            Host.OnGenerateActions += CallAddCancelCritAction;
 
             Host.Tokens.AssignCondition(typeof(Tokens.LooseStabilizerSECritToken));
             Triggers.FinishTrigger();
@@ -32,7 +32,7 @@ namespace DamageDeckCardSE
             Messages.ShowInfo("No damage after non-straight maneuvers");
             Host.Tokens.RemoveCondition(typeof(Tokens.LooseStabilizerSECritToken));
             Host.OnMovementFinish -= PlanDamageAfterNonStraightManeuvers;
-            Host.AfterGenerateAvailableActionsList -= CallAddCancelCritAction;
+            Host.OnGenerateActions -= CallAddCancelCritAction;
         }
 
         private void PlanDamageAfterNonStraightManeuvers(GenericShip ship)

@@ -43,7 +43,7 @@ namespace Abilities
             GenericShip.OnGenerateDiceModificationsGlobal -= AddLowhhrickAbility;
         }
 
-        private void AddLowhhrickAbility()
+        private void AddLowhhrickAbility(GenericShip ship)
         {
             Combat.Defender.AddAvailableDiceModification(new DiceModificationAction() { Host = this.HostShip });
         }

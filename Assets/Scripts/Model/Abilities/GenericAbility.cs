@@ -377,7 +377,7 @@ namespace Abilities
         /// <summary>
         /// Adds available dice modification
         /// </summary>
-        protected void AddDiceModification(string name, Func<bool> isAvailable, Func<int> aiPriority, DiceModificationType modificationType, int count, List<DieSide> sidesCanBeSelected = null, DieSide sideCanBeChangedTo = DieSide.Unknown, DiceModificationTimingType timing = DiceModificationTimingType.Normal)
+        protected void AddDiceModification(string name, Func<bool> isAvailable, Func<int> aiPriority, DiceModificationType modificationType, int count, List<DieSide> sidesCanBeSelected = null, DieSide sideCanBeChangedTo = DieSide.Unknown, DiceModificationTimingType timing = DiceModificationTimingType.Normal, bool isGlobal = false)
         {
             AddDiceModification(
                 name,
@@ -387,18 +387,19 @@ namespace Abilities
                 delegate { return count; },
                 sidesCanBeSelected,
                 sideCanBeChangedTo,
-                timing
+                timing,
+                isGlobal
             );
         }
 
         /// <summary>
         /// Adds available dice modification
         /// </summary>
-        protected void AddDiceModification(string name, Func<bool> isAvailable, Func<int> aiPriority, DiceModificationType modificationType, Func<int> getCount, List<DieSide> sidesCanBeSelected = null, DieSide sideCanBeChangedTo = DieSide.Unknown, DiceModificationTimingType timing = DiceModificationTimingType.Normal)
+        protected void AddDiceModification(string name, Func<bool> isAvailable, Func<int> aiPriority, DiceModificationType modificationType, Func<int> getCount, List<DieSide> sidesCanBeSelected = null, DieSide sideCanBeChangedTo = DieSide.Unknown, DiceModificationTimingType timing = DiceModificationTimingType.Normal, bool isGlobal = false)
         {
             if (sidesCanBeSelected == null) sidesCanBeSelected = new List<DieSide>() { DieSide.Blank, DieSide.Focus, DieSide.Success, DieSide.Crit };
 
-            DiceModification = delegate
+            DiceModification = (ship) =>
             {
                 CustomDiceModification diceModification = new CustomDiceModification()
                 {
@@ -416,10 +417,17 @@ namespace Abilities
                     },
                     IsReroll = modificationType == DiceModificationType.Reroll,
                 };
-                HostShip.AddAvailableDiceModification(diceModification);
+                ship.AddAvailableDiceModification(diceModification);
             };
 
-            HostShip.OnGenerateDiceModifications += DiceModification;
+            if (!isGlobal)
+            {
+                HostShip.OnGenerateDiceModifications += DiceModification;
+            }
+            else
+            {
+                GenericShip.OnGenerateDiceModificationsGlobal += DiceModification;
+            }
         }
 
         protected class CustomDiceModification : GenericAction { }

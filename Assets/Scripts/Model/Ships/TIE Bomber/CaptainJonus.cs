@@ -38,7 +38,7 @@ namespace Abilities
             GenericShip.OnGenerateDiceModificationsGlobal -= AddCaptainJonusAbility;
         }
 
-        private void AddCaptainJonusAbility()
+        private void AddCaptainJonusAbility(GenericShip ship)
         {
             Combat.Attacker.AddAvailableDiceModification(new CaptainJonusAction() { Host = this.HostShip });
         }

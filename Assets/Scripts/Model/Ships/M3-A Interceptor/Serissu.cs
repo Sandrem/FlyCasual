@@ -38,7 +38,7 @@ namespace Abilities
             GenericShip.OnGenerateDiceModificationsGlobal -= AddSerissuAbility;
         }
 
-        private void AddSerissuAbility()
+        private void AddSerissuAbility(GenericShip ship)
         {
             Combat.Defender.AddAvailableDiceModification(new SerissuAction() { Host = this.HostShip });
         }

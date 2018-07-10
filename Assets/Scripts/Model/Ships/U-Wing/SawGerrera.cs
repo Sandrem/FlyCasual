@@ -46,7 +46,7 @@ namespace Abilities
             GenericShip.OnGenerateDiceModificationsGlobal -= AddSawGerreraPilotAbility;
         }
 
-        private void AddSawGerreraPilotAbility()
+        private void AddSawGerreraPilotAbility(GenericShip ship)
         {
             if (Combat.Attacker.Owner.PlayerNo != HostShip.Owner.PlayerNo) return;
 

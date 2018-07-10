@@ -49,7 +49,7 @@ namespace Abilities
             HostShip.OnCheckSufferBombDetonation -= CheckIgnoreTimedBombs;
         }
 
-        private void CheckObstructionBonus()
+        private void CheckObstructionBonus(GenericShip ship)
         {
             if (Combat.Defender.Owner.PlayerNo != HostShip.Owner.PlayerNo) return;
 

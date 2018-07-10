@@ -34,7 +34,7 @@ namespace Ship
         public static event EventHandlerShipActionBool OnTryAddActionGlobal;
 
         public event EventHandlerShip OnGenerateDiceModifications;
-        public static event EventHandler OnGenerateDiceModificationsGlobal;
+        public static event EventHandlerShip OnGenerateDiceModificationsGlobal;
         public event EventHandlerShipActionBool OnTryAddAvailableDiceModification;
         public static event EventHandlerShipActionBool OnTryAddAvailableDiceModificationGlobal;
 
@@ -291,7 +291,7 @@ namespace Ship
 
             if (OnGenerateDiceModifications != null) OnGenerateDiceModifications(this);
 
-            if (OnGenerateDiceModificationsGlobal != null) OnGenerateDiceModificationsGlobal();
+            if (OnGenerateDiceModificationsGlobal != null) OnGenerateDiceModificationsGlobal(this);
         }
 
         public void AddAvailableDiceModification(GenericAction action)

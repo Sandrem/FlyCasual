@@ -94,7 +94,8 @@ namespace Ship
                 UpgradeBar.AddSlot(Upgrade.UpgradeType.System);
 
                 PrintedActions.Add(new FocusAction() { LinkedRedAction = new BarrelRollAction() { IsRed = true } });
-                PilotAbilities.Add(new Abilities.SecondEdition.AdvancedTargetingComputer());
+
+                ShipAbilities.Add(new Abilities.SecondEdition.AdvancedTargetingComputer());
             }
 
         }

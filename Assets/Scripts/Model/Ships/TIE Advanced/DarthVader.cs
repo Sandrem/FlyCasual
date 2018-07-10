@@ -101,17 +101,16 @@ namespace Abilities.SecondEdition
         {
             HostShip.OnActionDecisionSubphaseEnd -= DoAnotherAction;
 
-            if (!ship.Tokens.HasToken(typeof(Tokens.StressToken)) || ship.CanPerformActionsWhileStressed)
-            {
-                RegisterAbilityTrigger(TriggerTypes.OnFreeAction, PerformAction);
-            }
+            RegisterAbilityTrigger(TriggerTypes.OnFreeAction, PerformAction);
         }
 
         private void PerformAction(object sender, System.EventArgs e)
         {
-            List<GenericAction> actions = Selection.ThisShip.GetAvailableActionsList();
-            HostShip.BeforeFreeActionIsPerformed += PayForceCost;
             Messages.ShowInfoToHuman("Darth Vader: you may spend 1 force to perform an action");
+
+            HostShip.BeforeFreeActionIsPerformed += PayForceCost;
+            
+            List<GenericAction> actions = Selection.ThisShip.GetAvailableActionsList();
             HostShip.AskPerformFreeAction(actions, CleanUp);
         }
 

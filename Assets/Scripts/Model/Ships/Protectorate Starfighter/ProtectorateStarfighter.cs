@@ -98,7 +98,7 @@ namespace Abilities.SecondEdition
                 IsAvailable,
                 AiPriority,
                 DiceModificationType.Change,
-                1,
+                delegate { return 1; },
                 new List<DieSide>() { DieSide.Blank, DieSide.Focus },
                 DieSide.Success
             );

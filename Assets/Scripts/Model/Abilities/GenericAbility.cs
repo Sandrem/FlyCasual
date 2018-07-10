@@ -310,7 +310,7 @@ namespace Abilities
 
         private GenericShip.EventHandlerShip DiceModification;
 
-        protected void AddDiceModification(string name, Func<bool> isAvailable, Func<int> aiPriority, DiceModificationType modificationType, int count, List<DieSide> sidesCanBeSelected, DieSide sideCanBeChangedTo = DieSide.Unknown, DiceModificationTimingType timing = DiceModificationTimingType.Normal)
+        protected void AddDiceModification(string name, Func<bool> isAvailable, Func<int> aiPriority, DiceModificationType modificationType, Func<int> getCount, List<DieSide> sidesCanBeSelected, DieSide sideCanBeChangedTo = DieSide.Unknown, DiceModificationTimingType timing = DiceModificationTimingType.Normal)
         {
             DiceModification = delegate
             {
@@ -326,33 +326,34 @@ namespace Abilities
                     GenerateDiceModificationAiPriority = aiPriority,
                     DoDiceModification = (Action callback) =>
                     {
-                        GenericDiceModification(modificationType, callback, count, sidesCanBeSelected, sideCanBeChangedTo);
-                    }
+                        GenericDiceModification(callback, modificationType, getCount, sidesCanBeSelected, sideCanBeChangedTo, timing);
+                    },
+                    IsReroll = modificationType == DiceModificationType.Reroll,
                 };
                 HostShip.AddAvailableDiceModification(diceModification);
             };
 
-            hostShip.OnGenerateDiceModifications += DiceModification;
+            HostShip.OnGenerateDiceModifications += DiceModification;
         }
 
         protected class CustomDiceModification : GenericAction { }
 
-        private void GenericDiceModification(DiceModificationType modificationType, Action callback, int count, List<DieSide> sidesCanBeSelected, DieSide newSide)
+        private void GenericDiceModification(Action callback, DiceModificationType modificationType, Func<int> getCount, List<DieSide> sidesCanBeSelected, DieSide newSide, DiceModificationTimingType timing)
         {
             switch (modificationType)
             {
                 case DiceModificationType.Reroll:
-                    //TODO
+                    DiceModificationReroll(callback, getCount, sidesCanBeSelected, timing);
                     break;
                 case DiceModificationType.Change:
-                    DiceModificationChange(callback, count, sidesCanBeSelected, newSide);
+                    DiceModificationChange(callback, getCount, sidesCanBeSelected, newSide);
                     break;
                 default:
                     break;
             }
         }
 
-        private void DiceModificationChange(Action callback, int count, List<DieSide> sidesCanBeSelected, DieSide newSide)
+        private void DiceModificationChange(Action callback, Func<int> getCount, List<DieSide> sidesCanBeSelected, DieSide newSide)
         {
             //TODO: Change to select dice manager
 
@@ -368,7 +369,7 @@ namespace Abilities
 
             if (oldSide != DieSide.Unknown)
             {
-                Combat.CurrentDiceRoll.Change(oldSide, newSide, count);
+                Combat.CurrentDiceRoll.Change(oldSide, newSide, getCount());
                 callback();
             }
             else
@@ -377,9 +378,31 @@ namespace Abilities
             }
         }
 
+        private void DiceModificationReroll(Action callback, Func<int> getCount, List<DieSide> sidesCanBeSelected, DiceModificationTimingType timing)
+        {
+            int diceCount = getCount();
+
+            if (diceCount > 0)
+            {
+                DiceRerollManager diceRerollManager = new DiceRerollManager
+                {
+                    NumberOfDiceCanBeRerolled = diceCount,
+                    SidesCanBeRerolled = sidesCanBeSelected,
+                    IsOpposite = timing == DiceModificationTimingType.Opposite,
+                    CallBack = callback
+                };
+                diceRerollManager.Start();
+            }
+            else
+            {
+                Messages.ShowErrorToHuman("0 dice can be rerolled");
+                callback();
+            }
+        }
+
         protected void RemoveDiceModification()
         {
-            DiceModification = delegate { };
+            HostShip.OnGenerateDiceModifications -= DiceModification;
         }
     }
 }

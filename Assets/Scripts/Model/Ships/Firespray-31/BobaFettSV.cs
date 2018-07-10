@@ -48,8 +48,7 @@ namespace Abilities
                 IsDiceModificationAvailable,
                 GetDiceModificationPriority,
                 DiceModificationType.Reroll,
-                GetNumberOfEnemyShipsAtRange1,
-                new List<DieSide>() { DieSide.Blank, DieSide.Focus, DieSide.Success, DieSide.Crit }
+                GetNumberOfEnemyShipsAtRange1
             );
         }
 

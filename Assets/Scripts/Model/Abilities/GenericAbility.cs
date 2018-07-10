@@ -14,10 +14,20 @@ namespace Abilities
     {
         public string Name { get; private set; }
 
+        /// <summary>
+        /// Set to true if ability applies condition card. Is checked by Thweek.
+        /// </summary>
         public bool IsAppliesConditionCard { get; protected set; }
+
+        /// <summary>
+        /// Use to check is ability used
+        /// </summary>
         protected bool IsAbilityUsed { get; set; }
 
         private object hostReal;
+        /// <summary>
+        /// Real host of ability - object of ship or upgrade
+        /// </summary>
         public object HostReal
         {
             get { return hostReal; }
@@ -25,6 +35,9 @@ namespace Abilities
         }
 
         private GenericShip hostShip;
+        /// <summary>
+        /// Ship that is host of ability (pilot's ability or ability of installed upgrade)
+        /// </summary>
         public GenericShip HostShip
         {
             get { return hostShip; }
@@ -32,12 +45,18 @@ namespace Abilities
         }
 
         private GenericUpgrade hostUpgrade;
+        /// <summary>
+        /// Upgrade that is host of ability
+        /// </summary>
         public GenericUpgrade HostUpgrade
         {
             get { return hostUpgrade; }
             private set { hostUpgrade = value; }
         }
 
+        /// <summary>
+        /// Name of host (ship or upgrade)
+        /// </summary>
         public string HostName
         {
             get
@@ -46,6 +65,9 @@ namespace Abilities
             }
         }
 
+        /// <summary>
+        /// Image url of host (ship or upgrade)
+        /// </summary>
         public string HostImageUrl
         {
             get
@@ -73,12 +95,21 @@ namespace Abilities
 
         // ACTIVATE AND DEACTIVATE
 
+        /// <summary>
+        /// Turn on ability of card
+        /// </summary>
         public abstract void ActivateAbility();
 
+        /// <summary>
+        /// Turn off ability of card
+        /// </summary>
         public abstract void DeactivateAbility();
 
         // REGISTER TRIGGER
 
+        /// <summary>
+        /// Register trigger of ability
+        /// </summary>
         protected Trigger RegisterAbilityTrigger(TriggerTypes triggerType, EventHandler eventHandler, System.EventArgs e = null)
         {
             var trigger = new Trigger()
@@ -96,8 +127,14 @@ namespace Abilities
 
         // DECISION USE ABILITY YES/NO
 
+        /// <summary>
+        /// Stores "Always use" decision of player for this ability
+        /// </summary>
         protected bool alwaysUseAbility;
 
+        /// <summary>
+        /// Shows "Take a decision" window for ability with Yes / No / [Always] buttons
+        /// </summary>
         protected void AskToUseAbility(Func<bool> useByDefault, EventHandler useAbility, EventHandler dontUseAbility = null, Action callback = null, bool showAlwaysUseOption = false, string infoText = null)
         {
             if (dontUseAbility == null) dontUseAbility = DontUseAbility;
@@ -132,11 +169,17 @@ namespace Abilities
             DecisionSubPhase.ConfirmDecision();
         }
 
+        /// <summary>
+        /// Use in AskToUseAbility to always use ability by AI
+        /// </summary>
         protected bool AlwaysUseByDefault()
         {
             return true;
         }
 
+        /// <summary>
+        /// Use in AskToUseAbility to always prevent using of this ability by AI
+        /// </summary>
         protected bool NeverUseByDefault()
         {
             return false;
@@ -150,13 +193,22 @@ namespace Abilities
 
         // SELECT SHIP AS TARGET OF ABILITY
 
+        /// <summary>
+        /// Ship that selected by SelectTargetForAbility
+        /// </summary>
         protected GenericShip TargetShip;
 
+        /// <summary>
+        /// Starts "Select ship for ability" subphase
+        /// </summary>
         protected void SelectTargetForAbility(Action selectTargetAction, Func<GenericShip, bool> filterTargets, Func<GenericShip, int> getAiPriority, PlayerNo subphaseOwnerPlayerNo, bool showSkipButton = true, Action customCallback = null, string name = null, string description = null, string imageUrl = null)
         {
             SelectTargetForAbility(selectTargetAction, filterTargets, getAiPriority, subphaseOwnerPlayerNo, name, description, imageUrl, showSkipButton, customCallback);
         }
 
+        /// <summary>
+        /// Starts "Select ship for ability" subphase
+        /// </summary>
         protected void SelectTargetForAbility(Action selectTargetAction, Func<GenericShip, bool> filterTargets, Func<GenericShip, int> getAiPriority, PlayerNo subphaseOwnerPlayerNo, string name, string description, string imageUrl, bool showSkipButton = true, Action customCallback = null)
         {
             if (customCallback == null) customCallback = Triggers.FinishTrigger;
@@ -215,6 +267,9 @@ namespace Abilities
             return result;
         }
 
+        /// <summary>
+        /// Checks if ships that can be selected by abilities are present
+        /// </summary>
         protected bool TargetsForAbilityExist(Func<GenericShip, bool> filter)
         {
             Selection.ChangeActiveShip("ShipId:" + HostShip.ShipId);
@@ -241,11 +296,17 @@ namespace Abilities
             }
         }
 
+        /// <summary>
+        /// Use to clear isAbilityUsed flag
+        /// </summary>
         protected void ClearIsAbilityUsedFlag()
         {
             IsAbilityUsed = false;
         }
 
+        /// <summary>
+        /// Use to set IsAbilityUsed to true
+        /// </summary>
         protected void SetIsAbilityIsUsed(GenericShip ship)
         {
             IsAbilityUsed = true;
@@ -255,6 +316,9 @@ namespace Abilities
 
         protected DiceRoll DiceCheckRoll;
 
+        /// <summary>
+        /// Starts "Roll dice to check" subphase
+        /// </summary>
         public void PerformDiceCheck(string description, DiceKind diceKind, int count, Action finish, Action callback)
         {
             Phases.CurrentSubPhase.Pause();
@@ -310,8 +374,30 @@ namespace Abilities
 
         private GenericShip.EventHandlerShip DiceModification;
 
-        protected void AddDiceModification(string name, Func<bool> isAvailable, Func<int> aiPriority, DiceModificationType modificationType, Func<int> getCount, List<DieSide> sidesCanBeSelected, DieSide sideCanBeChangedTo = DieSide.Unknown, DiceModificationTimingType timing = DiceModificationTimingType.Normal)
+        /// <summary>
+        /// Adds available dice modification
+        /// </summary>
+        protected void AddDiceModification(string name, Func<bool> isAvailable, Func<int> aiPriority, DiceModificationType modificationType, int count, List<DieSide> sidesCanBeSelected = null, DieSide sideCanBeChangedTo = DieSide.Unknown, DiceModificationTimingType timing = DiceModificationTimingType.Normal)
         {
+            AddDiceModification(
+                name,
+                isAvailable,
+                aiPriority,
+                modificationType,
+                delegate { return count; },
+                sidesCanBeSelected,
+                sideCanBeChangedTo,
+                timing
+            );
+        }
+
+        /// <summary>
+        /// Adds available dice modification
+        /// </summary>
+        protected void AddDiceModification(string name, Func<bool> isAvailable, Func<int> aiPriority, DiceModificationType modificationType, Func<int> getCount, List<DieSide> sidesCanBeSelected = null, DieSide sideCanBeChangedTo = DieSide.Unknown, DiceModificationTimingType timing = DiceModificationTimingType.Normal)
+        {
+            if (sidesCanBeSelected == null) sidesCanBeSelected = new List<DieSide>() { DieSide.Blank, DieSide.Focus, DieSide.Success, DieSide.Crit };
+
             DiceModification = delegate
             {
                 CustomDiceModification diceModification = new CustomDiceModification()
@@ -400,6 +486,9 @@ namespace Abilities
             }
         }
 
+        /// <summary>
+        /// Removes available dice modification
+        /// </summary>
         protected void RemoveDiceModification()
         {
             HostShip.OnGenerateDiceModifications -= DiceModification;

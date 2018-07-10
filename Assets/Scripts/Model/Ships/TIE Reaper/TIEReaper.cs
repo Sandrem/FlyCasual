@@ -75,7 +75,7 @@ namespace Ship
 
                 IconicPilots[Faction.Imperial] = typeof(CaptainFeroph);
 
-                PilotAbilities.Add(new Abilities.AdvancedAileronsAbility());
+                ShipAbilities.Add(new Abilities.AdvancedAileronsAbility());
 
                 Maneuvers["1.L.T"] = MovementComplexity.Complex;
                 Maneuvers["1.L.B"] = MovementComplexity.Easy;

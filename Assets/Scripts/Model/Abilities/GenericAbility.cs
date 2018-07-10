@@ -422,11 +422,37 @@ namespace Abilities
 
             if (!isGlobal)
             {
-                HostShip.OnGenerateDiceModifications += DiceModification;
+                switch (timing)
+                {
+                    case DiceModificationTimingType.Normal:
+                        HostShip.OnGenerateDiceModifications += DiceModification;
+                        break;
+                    case DiceModificationTimingType.Opposite:
+                        HostShip.OnGenerateDiceModificationsOpposite += DiceModification;
+                        break;
+                    case DiceModificationTimingType.CompareResults:
+                        HostShip.OnGenerateDiceModificationsCompareResults += DiceModification;
+                        break;
+                    default:
+                        break;
+                }
             }
             else
             {
-                GenericShip.OnGenerateDiceModificationsGlobal += DiceModification;
+                switch (timing)
+                {
+                    case DiceModificationTimingType.Normal:
+                        GenericShip.OnGenerateDiceModificationsGlobal += DiceModification;
+                        break;
+                    case DiceModificationTimingType.Opposite:
+                        GenericShip.OnGenerateDiceModificationsOppositeGlobal += DiceModification;
+                        break;
+                    case DiceModificationTimingType.CompareResults:
+                        GenericShip.OnGenerateDiceModificationsCompareResultsGlobal += DiceModification;
+                        break;
+                    default:
+                        break;
+                }
             }
         }
 
@@ -500,6 +526,13 @@ namespace Abilities
         protected void RemoveDiceModification()
         {
             HostShip.OnGenerateDiceModifications -= DiceModification;
+            GenericShip.OnGenerateDiceModificationsGlobal -= DiceModification;
+
+            HostShip.OnGenerateDiceModificationsOpposite -= DiceModification;
+            GenericShip.OnGenerateDiceModificationsOppositeGlobal -= DiceModification;
+
+            HostShip.OnGenerateDiceModificationsCompareResults -= DiceModification;
+            GenericShip.OnGenerateDiceModificationsCompareResultsGlobal -= DiceModification;
         }
     }
 }

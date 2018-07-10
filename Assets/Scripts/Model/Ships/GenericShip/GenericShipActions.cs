@@ -39,10 +39,11 @@ namespace Ship
         public static event EventHandlerShipActionBool OnTryAddAvailableDiceModificationGlobal;
 
         public event EventHandlerShip OnGenerateDiceModificationsOpposite;
-        public static event EventHandler OnGenerateDiceModificationsOppositeGlobal;
+        public static event EventHandlerShip OnGenerateDiceModificationsOppositeGlobal;
         public event EventHandlerShipActionBool OnTryAddDiceModificationOpposite;
 
         public event EventHandlerShip OnGenerateDiceModificationsCompareResults;
+        public static event EventHandlerShip OnGenerateDiceModificationsCompareResultsGlobal;
         public event EventHandlerActionBool OnTryAddDiceModificationCompareResults;
 
         public event EventHandlerShip OnActionDecisionSubphaseEnd;
@@ -369,6 +370,8 @@ namespace Ship
             AvailableDiceModificationsCompareResults = new List<GenericAction>();
 
             if (OnGenerateDiceModificationsCompareResults != null) OnGenerateDiceModificationsCompareResults(this);
+
+            if (OnGenerateDiceModificationsCompareResultsGlobal != null) OnGenerateDiceModificationsCompareResultsGlobal(this);
         }
 
         public void AddAvailableCompareResultsEffect(GenericAction action)
@@ -434,7 +437,7 @@ namespace Ship
 
             if (OnGenerateDiceModificationsOpposite != null) OnGenerateDiceModificationsOpposite(this);
 
-            if (OnGenerateDiceModificationsOppositeGlobal != null) OnGenerateDiceModificationsOppositeGlobal();
+            if (OnGenerateDiceModificationsOppositeGlobal != null) OnGenerateDiceModificationsOppositeGlobal(this);
         }
 
         public void AddDiceModificationOpposite(GenericAction action)

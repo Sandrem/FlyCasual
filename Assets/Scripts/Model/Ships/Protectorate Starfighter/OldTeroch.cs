@@ -1,17 +1,16 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using System.Collections.Generic;
 using Ship;
 using SubPhases;
 using Tokens;
 using BoardTools;
+using RuleSets;
 
 namespace Ship
 {
-	namespace ProtectorateStarfighter
-	{
-		public class OldTeroch : ProtectorateStarfighter
-		{
+    namespace ProtectorateStarfighter
+    {
+        public class OldTeroch : ProtectorateStarfighter, ISecondEditionPilot
+        {
 			public OldTeroch() : base()
 			{
 				PilotName = "Old Teroch";
@@ -24,17 +23,27 @@ namespace Ship
 
 				PilotAbilities.Add(new Abilities.OldTerochAbility());
 			}
-		}
+
+            public void AdaptPilotToSecondEdition()
+            {
+                PilotSkill = 5;
+                Cost = 54; //TODO
+                
+                PilotAbilities.RemoveAll(ability => ability is Abilities.OldTerochAbility);
+                PilotAbilities.Add(new Abilities.SecondEdition.OldTerochAbility());
+            }
+        }
 	}
 }
 
 namespace Abilities
 {
-	// At the start of the combat phase, you may choose 1 ennemy ship
-	//  at range 1. If you're inside its firing arc, it discards all
-	//  focus and evade tokens.
-	public class OldTerochAbility : GenericAbility
+    // At the start of the combat phase, you may choose 1 enemy ship
+    //  at range 1. If you're inside its firing arc, it discards all
+    //  focus and evade tokens.
+    public class OldTerochAbility : GenericAbility
 	{
+        protected string AbilityDescription = "Choose a ship. If you are inside its firing arc, it discards all focus and evade tokens.";
 		public override void ActivateAbility()
 		{
             Phases.Events.OnCombatPhaseStart_Triggers += CheckOldTerochAbility;
@@ -65,7 +74,7 @@ namespace Abilities
                     true,
                     null,
                     HostShip.PilotName,
-                    "Choose a ship. If you are inside its firing arc, it discards all focus and evade tokens.",
+                    AbilityDescription,
                     HostShip.ImageUrl
                 );
 			} else {
@@ -107,7 +116,7 @@ namespace Abilities
 			//		even ship cannot shoot from it.
 			if (shotInfo.InArc == true)
 			{
-                DiscardFocusAndEvadeTokens();
+                DiscardTokens();
             }
             else
             {
@@ -115,7 +124,7 @@ namespace Abilities
 			}
 		}
 
-        private void DiscardFocusAndEvadeTokens()
+        protected virtual void DiscardTokens()
         {
             Messages.ShowInfo(string.Format("{0} discarded all Focus and Evade tokens from {1}", HostShip.PilotName, TargetShip.PilotName));
             DiscardAllFocusTokens();
@@ -135,6 +144,24 @@ namespace Abilities
                 typeof(EvadeToken),
                 SelectShipSubPhase.FinishSelection
             );
+        }
+    }
+
+    namespace SecondEdition
+    {
+        //At the start of the Engagement Phase, you may choose 1 enemy ship at range 1. If you do and you are in its (front arc), it removes all of its green tokens.
+        public class OldTerochAbility : Abilities.OldTerochAbility
+        {
+            public OldTerochAbility()
+            {                
+                AbilityDescription = "Choose a ship. If you are inside its firing arc, it removes all of its green tokens.";
+            }
+
+            protected override void DiscardTokens()
+            {
+                Messages.ShowInfo(string.Format("{0} removed all green tokens from {1}", HostShip.PilotName, TargetShip.PilotName));
+                TargetShip.Tokens.RemoveAllTokensByColor(TokenColors.Green, SelectShipSubPhase.FinishSelection);
+            }
         }
     }
 }

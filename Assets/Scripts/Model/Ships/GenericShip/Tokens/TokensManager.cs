@@ -205,6 +205,22 @@ namespace Ship
             }
         }
 
+        public void RemoveAllTokensByColor(TokenColors color, Action callback)
+        {
+            GenericToken tokenToRemove = AssignedTokens.FirstOrDefault(token => token.TokenColor == color);
+            if (tokenToRemove != null)
+            {
+                RemoveToken(
+                    tokenToRemove,
+                    delegate { RemoveAllTokensByColor(color, callback); }
+                );
+            }
+            else
+            {
+                callback();
+            }
+        }
+
         public void SpendToken(Type type, Action callback, char letter = ' ')
         {
             RemoveToken(

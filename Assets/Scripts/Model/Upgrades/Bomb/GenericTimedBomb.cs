@@ -20,14 +20,13 @@ namespace Upgrade
         {
             base.AttachToShip(host);
 
-            host.OnManeuverIsRevealed -= BombsManager.CheckBombDropAvailability;
-            host.OnManeuverIsRevealed += BombsManager.CheckBombDropAvailability;
+            RuleSets.RuleSet.Instance.TimedBombActivationTime(host);
         }
 
         public override void ActivateBombs(List<GameObject> bombObjects, Action callBack)
         {
-            Phases.OnActivationPhaseEnd -= PlanTimedDetonation;
-            Phases.OnActivationPhaseEnd += PlanTimedDetonation;
+            Phases.Events.OnActivationPhaseEnd_Triggers -= PlanTimedDetonation;
+            Phases.Events.OnActivationPhaseEnd_Triggers += PlanTimedDetonation;
 
             CurrentBombObjects.AddRange(bombObjects);
             base.ActivateBombs(bombObjects, callBack);
@@ -53,7 +52,7 @@ namespace Upgrade
 
         protected override void Detonate()
         {
-            Phases.OnActivationPhaseEnd -= PlanTimedDetonation;
+            Phases.Events.OnActivationPhaseEnd_Triggers -= PlanTimedDetonation;
             foreach (var ship in BombsManager.GetShipsInRange(BombsManager.CurrentBombObject))
             {
                 RegisterDetonationTriggerForShip(ship);

@@ -15,6 +15,11 @@ public static class Options
     public static float SfxVolume;
     public static float AnimationSpeed;
     public static float ManeuverSpeed;
+    public static string Avatar;
+    public static string NickName;
+    public static string Title;
+    public static string Edition;
+    public static bool DontShowAiInfo;
 
     static Options()
     {
@@ -23,12 +28,19 @@ public static class Options
 
     public static void ReadOptions()
     {
-        Playmat = PlayerPrefs.GetString("PlaymatName", "Endor");
+        Playmat = PlayerPrefs.GetString("PlaymatName", "3DSceneHoth");
         CheckVersionUrl = PlayerPrefs.GetString("CheckVersionUrl", "http://sandrem.freeasphost.net/data/currentversion.txt");
         MusicVolume = PlayerPrefs.GetFloat("Music Volume", 0.25f);
         SfxVolume = PlayerPrefs.GetFloat("SFX Volume", 0.25f);
         AnimationSpeed = PlayerPrefs.GetFloat("Animation Speed", 0.25f);
         ManeuverSpeed = PlayerPrefs.GetFloat("Maneuver Speed", 0.25f);
+        Avatar = PlayerPrefs.GetString("Avatar", "UpgradesList.VeteranInstincts");
+        NickName = PlayerPrefs.GetString("NickName", "Unknown Pilot");
+        Title = PlayerPrefs.GetString("Title", "Test Pilot");
+        DontShowAiInfo = PlayerPrefs.GetInt("DontShowAiInfo", 0) == 1;
+
+        Edition = PlayerPrefs.GetString("Edition", "FirstEdition");
+        MainMenu.SetEdition(Edition);
 
         ReadMods();
     }
@@ -92,6 +104,18 @@ public static class Options
             default:
                 break;
         }
+    }
+
+    public static void ChangeParameterValue(string parameter, string value)
+    {
+        PlayerPrefs.SetString(parameter, value);
+        PlayerPrefs.Save();
+    }
+
+    public static void ChangeParameterValue(string parameter, bool value)
+    {
+        PlayerPrefs.SetInt(parameter, (value) ? 1 : 0);
+        PlayerPrefs.Save();
     }
 
     public static void UpdateVolume()

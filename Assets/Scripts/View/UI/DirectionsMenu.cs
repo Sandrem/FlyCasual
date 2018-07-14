@@ -1,12 +1,19 @@
-﻿using System;
+﻿using Movement;
+using RuleSets;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public static class DirectionsMenu
 {
-    public static bool ForceShowRedManeuvers;
-    public static bool IsVisible;
+    public static bool IsForcedToShowRedManeuvers;
+
+    public static bool IsVisible
+    {
+        get { return DirectionsWindow != null && DirectionsWindow.activeSelf; }
+    }
+
     public static Action<string> Callback;
 
     private static Func<string, bool> currentFilter;
@@ -18,6 +25,8 @@ public static class DirectionsMenu
 
         Callback = callback;
         currentFilter = filter;
+
+        IsForcedToShowRedManeuvers = (Input.GetKey(KeyCode.LeftControl));
 
         GameObject prefab = (GameObject)Resources.Load("Prefabs/UI/DirectionsWindow", typeof(GameObject));
         DirectionsWindow = MonoBehaviour.Instantiate(prefab, GameObject.Find("UI/DirectionsPanel").transform);
@@ -69,13 +78,13 @@ public static class DirectionsMenu
     {
         List<int> linesExist = new List<int>();
 
-        foreach (KeyValuePair<string, Movement.ManeuverColor> maneuverData in Selection.ThisShip.GetManeuvers())
+        foreach (KeyValuePair<string, Movement.MovementComplexity> maneuverData in Selection.ThisShip.GetManeuvers())
         {
             string[] parameters = maneuverData.Key.Split('.');
             string maneuverSpeed = parameters[0];
 
             GameObject button = DirectionsWindow.transform.Find("Directions").Find("Speed" + maneuverSpeed).Find(maneuverData.Key).gameObject;
-            if (maneuverData.Value != Movement.ManeuverColor.None)
+            if (maneuverData.Value != Movement.MovementComplexity.None)
             {
                 if (filter == null || filter(maneuverData.Key))
                 {
@@ -109,7 +118,7 @@ public static class DirectionsMenu
             {
                 if (!linesExist.Contains(int.Parse(maneuverSpeed))) linesExist.Add(int.Parse(maneuverSpeed));
 
-                SetManeuverColor(button, new KeyValuePair<string, Movement.ManeuverColor>(maneuverCode, Movement.ManeuverColor.White));
+                SetManeuverColor(button, new KeyValuePair<string, Movement.MovementComplexity>(maneuverCode, Movement.MovementComplexity.Normal));
                 button.SetActive(true);
                 button.GetComponent<Button>().onClick.AddListener(UI.AssignManeuverButtonPressed);
 
@@ -207,12 +216,12 @@ public static class DirectionsMenu
         }
     }
 
-    private static void SetManeuverColor(GameObject button, KeyValuePair<string, Movement.ManeuverColor> maneuverData)
+    private static void SetManeuverColor(GameObject button, KeyValuePair<string, MovementComplexity> maneuverData)
     {
         Color maneuverColor = Color.yellow;
-        if (maneuverData.Value == Movement.ManeuverColor.Green) maneuverColor = Color.green;
-        if (maneuverData.Value == Movement.ManeuverColor.White) maneuverColor = Color.white;
-        if (maneuverData.Value == Movement.ManeuverColor.Red) maneuverColor = Color.red;
+        if (maneuverData.Value == MovementComplexity.Easy) maneuverColor = RuleSet.Instance.MovementEasyColor;
+        if (maneuverData.Value == MovementComplexity.Normal) maneuverColor = Color.white;
+        if (maneuverData.Value == MovementComplexity.Complex) maneuverColor = Color.red;
         button.GetComponentInChildren<Text>().color = maneuverColor;
     }
 
@@ -236,7 +245,7 @@ public static class DirectionsMenu
 
     public static void Update()
     {
-        if (Input.GetKeyDown(KeyCode.LeftControl))
+        /*if (Input.GetKeyDown(KeyCode.LeftControl))
         {
             ForceShowRedManeuvers = true;
             if (IsVisible && !SwarmManager.IsActive) ShowUpdated();
@@ -246,6 +255,6 @@ public static class DirectionsMenu
         {
             ForceShowRedManeuvers = false;
             if (IsVisible && !SwarmManager.IsActive) ShowUpdated();
-        }
+        }*/
     }
 }

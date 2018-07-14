@@ -5,7 +5,6 @@ using Upgrade;
 using Abilities;
 using System;
 using SubPhases;
-using DamageDeckCard;
 using System.Linq;
 using Ship;
 using Conditions;
@@ -42,13 +41,13 @@ namespace Abilities
         public override void ActivateAbility()
         {
             HostShip.OnAttackHitAsDefender += CheckKyloRenAbility;
-            Phases.OnRoundEnd += ClearIsAbilityUsedFlag;
+            Phases.Events.OnRoundEnd += ClearIsAbilityUsedFlag;
         }
 
         public override void DeactivateAbility()
         {
             HostShip.OnAttackHitAsDefender -= CheckKyloRenAbility;
-            Phases.OnRoundEnd -= ClearIsAbilityUsedFlag;
+            Phases.Events.OnRoundEnd -= ClearIsAbilityUsedFlag;
         }
 
         private void CheckKyloRenAbility()
@@ -100,7 +99,7 @@ namespace Abilities
                 }
             }
 
-            selectPilotCritSubphase.DecisionViewType = DecisionViewTypes.ImageButtons;
+            selectPilotCritSubphase.DecisionViewType = DecisionViewTypes.ImagesDamageCard;
 
             selectPilotCritSubphase.DefaultDecisionName = selectPilotCritSubphase.GetDecisions().First().Name;
 
@@ -129,7 +128,7 @@ namespace Abilities
         {
             ShipWithCondition = ship;
 
-            ship.Tokens.AssignCondition(new IllShowYouTheDarkSide(ship));
+            ship.Tokens.AssignCondition(typeof(IllShowYouTheDarkSide));
             ship.Tokens.AssignCondition(new IllShowYouTheDarkSideDamageCard(ship) { Tooltip = AssignedDamageCard.ImageUrl });
 
             ship.OnSufferCriticalDamage += SufferAssignedCardInstead;
@@ -155,12 +154,12 @@ namespace Abilities
                 isSkipSufferDamage = true;
 
                 GenericShip ship = ShipWithCondition;
-                GenericDamageCard card = AssignedDamageCard;
+                Combat.CurrentCriticalHitCard = AssignedDamageCard;
 
                 AssignedDamageCard = null;
                 RemoveConditions(ship);
 
-                ship.ProcessDrawnDamageCard(card, e);
+                ship.ProcessDrawnDamageCard(e);
             }
         }
 

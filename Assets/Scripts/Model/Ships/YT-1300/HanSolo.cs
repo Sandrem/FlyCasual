@@ -38,24 +38,24 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList += HanSoloPilotAbility;
+            HostShip.OnGenerateDiceModifications += HanSoloPilotAbility;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList -= HanSoloPilotAbility;
+            HostShip.OnGenerateDiceModifications -= HanSoloPilotAbility;
         }
 
         public void HanSoloPilotAbility(GenericShip ship)
         {
-            ship.AddAvailableActionEffect(new HanSoloAction());
+            ship.AddAvailableDiceModification(new HanSoloAction());
         }
 
         private class HanSoloAction : ActionsList.GenericAction
         {
             public HanSoloAction()
             {
-                Name = EffectName = "Han Solo's ability";
+                Name = DiceModificationName = "Han Solo's ability";
                 IsReroll = true;
             }
 
@@ -67,7 +67,7 @@ namespace Abilities
                 };
                 diceRerollManager.Start();
                 SelectAllRerolableDices();
-                diceRerollManager.ConfirmReroll();
+                diceRerollManager.ConfirmRerollButtonIsPressed();
             }
 
             private static void SelectAllRerolableDices()
@@ -84,7 +84,7 @@ namespace Abilities
                 );
             }
 
-            public override bool IsActionEffectAvailable()
+            public override bool IsDiceModificationAvailable()
             {
                 bool result = false;
 
@@ -96,7 +96,7 @@ namespace Abilities
                 return result;
             }
 
-            public override int GetActionEffectPriority()
+            public override int GetDiceModificationPriority()
             {
                 int result = 0;
 
@@ -104,11 +104,11 @@ namespace Abilities
                 {
                     int focusToTurnIntoHit = 0;
                     int focusToTurnIntoHitLeft = 0;
-                    if (Combat.Attacker.GetAvailableActionEffectsList().Count(n => n.IsTurnsAllFocusIntoSuccess) > 0)
+                    if (Combat.Attacker.GetAvailableDiceModifications().Count(n => n.IsTurnsAllFocusIntoSuccess) > 0)
                     {
                         focusToTurnIntoHit = int.MaxValue;
                     }
-                    else if (Combat.Attacker.GetAvailableActionEffectsList().Count(n => n.IsTurnsOneFocusIntoSuccess) > 0)
+                    else if (Combat.Attacker.GetAvailableDiceModifications().Count(n => n.IsTurnsOneFocusIntoSuccess) > 0)
                     {
                         focusToTurnIntoHit = 1;
                     }

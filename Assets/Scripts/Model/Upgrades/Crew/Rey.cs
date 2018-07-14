@@ -55,14 +55,14 @@ namespace Abilities
 
         public override void ActivateAbility()
         {
-            Phases.OnCombatPhaseStart += RegisterAssignTokenAbility;
-            Phases.OnEndPhaseStart += RegisterStoreTokenAbility;
+            Phases.Events.OnCombatPhaseStart_Triggers += RegisterAssignTokenAbility;
+            Phases.Events.OnEndPhaseStart_Triggers += RegisterStoreTokenAbility;
         }
 
         public override void DeactivateAbility()
         {
-            Phases.OnCombatPhaseStart -= RegisterAssignTokenAbility;
-            Phases.OnEndPhaseStart -= RegisterStoreTokenAbility;
+            Phases.Events.OnCombatPhaseStart_Triggers -= RegisterAssignTokenAbility;
+            Phases.Events.OnEndPhaseStart_Triggers -= RegisterStoreTokenAbility;
         }
 
         private void RegisterStoreTokenAbility()
@@ -123,7 +123,7 @@ namespace Abilities
         private void AssignStoredToken(object sender, System.EventArgs e)
         {
             FocusTokensStored--;
-            HostShip.Tokens.AssignToken(new FocusToken(HostShip), SubPhases.DecisionSubPhase.ConfirmDecision);
+            HostShip.Tokens.AssignToken(typeof(FocusToken), SubPhases.DecisionSubPhase.ConfirmDecision);
         }
 
     }

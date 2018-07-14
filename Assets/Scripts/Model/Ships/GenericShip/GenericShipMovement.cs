@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Movement;
+using System;
+using Obstacles;
 
 namespace Ship
 {
@@ -15,14 +17,35 @@ namespace Ship
 
         public bool IsIgnoreObstacles;
 
-        public bool IsLandedOnObstacle;
+        public bool IsLandedOnObstacle
+        {
+            get
+            {
+                return LandedOnObstacles.Count > 0;
+            }
+
+            set
+            {
+                if (value == false) LandedOnObstacles = new List<Obstacles.GenericObstacle>();
+            }
+        }
+
+        public List<GenericObstacle> LandedOnObstacles = new List<GenericObstacle>();
 
         public bool IsHitObstacles
         {
-            get { return !IsIgnoreObstacles && ObstaclesHit.Count != 0; }
+            get
+            {
+                return !IsIgnoreObstacles && ObstaclesHit.Count != 0;
+            }
+
+            set
+            {
+                if (value == false) ObstaclesHit = new List<GenericObstacle>();
+            }
         }
 
-        public List<Collider> ObstaclesHit = new List<Collider>();
+        public List<GenericObstacle> ObstaclesHit = new List<GenericObstacle>();
 
         public List<GameObject> MinesHit = new List<GameObject>();
 
@@ -35,7 +58,7 @@ namespace Ship
 
         public GenericShip LastShipCollision { get; set; }
 
-        public Dictionary<string, ManeuverColor> Maneuvers { get; private set; }
+        public Dictionary<string, MovementComplexity> Maneuvers { get; set; }
         public AI.GenericAiTable HotacManeuverTable { get; protected set; }
 
         // EVENTS
@@ -46,28 +69,36 @@ namespace Ship
 
         public event EventHandlerShip OnManeuverIsReadyToBeRevealed;
         public event EventHandlerShip OnManeuverIsRevealed;
+        public static event EventHandlerShip OnNoManeuverWasRevealedGlobal;
         public event EventHandlerShip OnMovementStart;
         public event EventHandlerShip OnMovementExecuted;
         public event EventHandlerShip OnMovementFinish;
         public static event EventHandlerShip OnMovementFinishGlobal;
 
         public event EventHandlerShip OnPositionFinish;
-        public static event EventHandler OnPositionFinishGlobal;
+        public static event EventHandlerShip OnPositionFinishGlobal;
 
         // TRIGGERS
 
         public void CallManeuverIsReadyToBeRevealed(System.Action callBack)
         {
-            if (OnManeuverIsReadyToBeRevealed != null) OnManeuverIsReadyToBeRevealed(this);
+            if (Selection.ThisShip.AssignedManeuver != null && Selection.ThisShip.AssignedManeuver.IsRevealDial)
+            {
+                if (OnManeuverIsReadyToBeRevealed != null) OnManeuverIsReadyToBeRevealed(this);
 
-            Triggers.ResolveTriggers (TriggerTypes.OnManeuverIsReadyToBeRevealed, callBack);
+                Triggers.ResolveTriggers(TriggerTypes.OnManeuverIsReadyToBeRevealed, callBack);
+            }
+            else  // For ionized ships
+            {
+                callBack();
+            }
         }
 
         public void CallManeuverIsRevealed(System.Action callBack)
         {
-            Roster.ToggelManeuverVisibility(Selection.ThisShip, true);
+            if (Selection.ThisShip.AssignedManeuver != null) Roster.ToggleManeuverVisibility(Selection.ThisShip, true);
 
-            if (Selection.ThisShip.AssignedManeuver.IsRealMovement)
+            if (Selection.ThisShip.AssignedManeuver != null && Selection.ThisShip.AssignedManeuver.IsRevealDial)
             {
                 if (OnManeuverIsRevealed != null) OnManeuverIsRevealed(this);
 
@@ -75,6 +106,8 @@ namespace Ship
             }
             else // For ionized ships
             {
+                if (OnNoManeuverWasRevealedGlobal != null) OnNoManeuverWasRevealedGlobal(this);
+
                 callBack();
             }
         }
@@ -83,36 +116,36 @@ namespace Ship
         {
             if (OnMovementStart != null) OnMovementStart(this);
 
-            Triggers.ResolveTriggers(TriggerTypes.OnShipMovementStart, callback);
+            Triggers.ResolveTriggers(TriggerTypes.OnMovementStart, callback);
         }
 
-        public void CallExecuteMoving()
+        public void CallExecuteMoving(Action callback)
         {
             if (OnMovementExecuted != null) OnMovementExecuted(this);
 
             Triggers.ResolveTriggers(
-                TriggerTypes.OnShipMovementExecuted,
-                Selection.ThisShip.CallFinishMovement
+                TriggerTypes.OnMovementExecuted,
+                delegate { Selection.ThisShip.CallFinishMovement(callback); }
             );
         }
 
-        public void CallFinishMovement()
+        public void CallFinishMovement(Action callback)
         {
             if (OnMovementFinish != null) OnMovementFinish(this);
             if (OnMovementFinishGlobal != null) OnMovementFinishGlobal(this);
 
             Triggers.ResolveTriggers(
-                TriggerTypes.OnShipMovementFinish,
+                TriggerTypes.OnMovementFinish,
                 delegate () {
                     Roster.HideAssignedManeuverDial(this);
-                    Selection.ThisShip.FinishPosition(Triggers.FinishTrigger);
+                    Selection.ThisShip.FinishPosition(callback);
                 });
         }
 
         public void FinishPosition(System.Action callback)
         {
             if (OnPositionFinish != null) OnPositionFinish(this);
-            if (OnPositionFinishGlobal != null) OnPositionFinishGlobal();
+            if (OnPositionFinishGlobal != null) OnPositionFinishGlobal(this);
 
             Triggers.ResolveTriggers(TriggerTypes.OnPositionFinish, callback);
         }
@@ -120,7 +153,7 @@ namespace Ship
         // MANEUVERS
 
         // TODO: Rewrite
-        public ManeuverColor GetColorComplexityOfManeuver(MovementStruct movement)
+        public MovementComplexity GetColorComplexityOfManeuver(MovementStruct movement)
         {
             if (AfterGetManeuverColorDecreaseComplexity != null) AfterGetManeuverColorDecreaseComplexity(this, ref movement);
             if (AfterGetManeuverColorIncreaseComplexity != null) AfterGetManeuverColorIncreaseComplexity(this, ref movement);
@@ -129,17 +162,23 @@ namespace Ship
             return movement.ColorComplexity;
         }
 
-        public ManeuverColor GetLastManeuverColor()
+        public MovementComplexity GetLastManeuverColor()
         {
-            ManeuverColor result = ManeuverColor.None;
+            MovementComplexity result = MovementComplexity.None;
 
             result = AssignedManeuver.ColorComplexity;
             return result;
         }
 
-        public Dictionary<string, ManeuverColor> GetManeuvers()
+        public ManeuverBearing GetLastManeuverBearing()
+        {               
+            var result = AssignedManeuver.Bearing;
+            return result;
+        }
+
+        public Dictionary<string, MovementComplexity> GetManeuvers()
         {
-            Dictionary<string, ManeuverColor> result = new Dictionary<string, ManeuverColor>();
+            Dictionary<string, MovementComplexity> result = new Dictionary<string, MovementComplexity>();
 
             foreach (var maneuverHolder in Maneuvers)
             {
@@ -154,7 +193,7 @@ namespace Ship
             bool result = false;
             if (Maneuvers.ContainsKey(maneuverString))
             {
-                result = (Maneuvers[maneuverString] != ManeuverColor.None);
+                result = (Maneuvers[maneuverString] != MovementComplexity.None);
             }
             return result;
         }
@@ -174,6 +213,21 @@ namespace Ship
         public void ClearAssignedManeuver()
         {
             AssignedManeuver = null;
+        }
+
+        public void Rotate180(Action callBack)
+        {
+            Phases.StartTemporarySubPhaseOld("Rotate ship 180°", typeof(SubPhases.KoiogranTurnSubPhase), callBack);
+        }
+
+        public void Rotate90Clockwise(Action callBack)
+        {
+            Phases.StartTemporarySubPhaseOld("Rotate ship 90°", typeof(SubPhases.Rotate90ClockwiseSubPhase), callBack);
+        }
+
+        public void Rotate90Counterclockwise(Action callBack)
+        {
+            Phases.StartTemporarySubPhaseOld("Rotate ship -90°", typeof(SubPhases.Rotate90CounterclockwiseSubPhase), callBack);
         }
     }
 

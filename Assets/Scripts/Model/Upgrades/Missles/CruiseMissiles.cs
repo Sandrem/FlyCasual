@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Abilities;
 using UnityEngine;
 using Upgrade;
 
@@ -24,23 +21,40 @@ namespace UpgradesList
             RequiresTargetLockOnTargetToShoot = true;
 
             IsDiscardedForShot = true;
+
+            UpgradeAbilities.Add(new CruiseMissilesAbility());
         }
 
-        public override void AttachToShip(Ship.GenericShip host)
-        {
-            base.AttachToShip(host);
+    }
+}
 
-            Host.AfterGotNumberOfAttackDice += CruiseMissilesAbility;
+namespace Abilities
+{
+    public class CruiseMissilesAbility : GenericAbility
+    {
+        public override void ActivateAbility()
+        {
+            HostShip.AfterGotNumberOfAttackDice += CheckCruiseMissilesAbility;
         }
 
-        private void CruiseMissilesAbility(ref int diceCount)
+        public override void DeactivateAbility()
         {
-            if (Combat.ChosenWeapon == this)
+            // Ability is turned off only after attack dice are rolled
+            HostShip.OnDefenceStartAsDefender += DeactivateAbilityPlanned;
+        }
+
+        private void DeactivateAbilityPlanned()
+        {
+            HostShip.OnDefenceStartAsDefender -= DeactivateAbilityPlanned;
+            HostShip.AfterGotNumberOfAttackDice -= CheckCruiseMissilesAbility;
+        }
+
+        private void CheckCruiseMissilesAbility(ref int diceCount)
+        {
+            if (Combat.ChosenWeapon == HostUpgrade)
             {
                 if (Combat.Attacker.AssignedManeuver != null) diceCount += Mathf.Min(Combat.Attacker.AssignedManeuver.Speed, 4);
             }
         }
-
     }
-
 }

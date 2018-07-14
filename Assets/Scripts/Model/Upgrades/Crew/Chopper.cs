@@ -3,6 +3,7 @@ using UnityEngine;
 using Upgrade;
 using Ship;
 using Tokens;
+using Abilities;
 
 namespace UpgradesList
 {
@@ -15,30 +16,42 @@ namespace UpgradesList
             Cost = 0;
 
             isUnique = true;
+
+            UpgradeAbilities.Add(new ChopperCrewAbility());
         }
 
         public override bool IsAllowedForShip(GenericShip ship)
         {
             return ship.faction == Faction.Rebel;
         }
+    }
+}
 
-        public override void AttachToShip(GenericShip host)
+namespace Abilities
+{
+    public class ChopperCrewAbility : GenericAbility
+    {
+        public override void ActivateAbility()
         {
-            base.AttachToShip(host);
+            HostShip.CanPerformActionsWhileStressed = true;
+            HostShip.OnActionIsPerformed += RegisterDoDamageIfStressed;
+        }
 
-            host.CanPerformActionsWhileStressed = true;
-            host.OnActionIsPerformed += RegisterDoDamageIfStressed;
+        public override void DeactivateAbility()
+        {
+            HostShip.CanPerformActionsWhileStressed = false;
+            HostShip.OnActionIsPerformed -= RegisterDoDamageIfStressed;
         }
 
         private void RegisterDoDamageIfStressed(ActionsList.GenericAction action)
         {
-            if (Host.Tokens.HasToken(typeof(StressToken)) && (action != null))
+            if (HostShip.Tokens.HasToken(typeof(StressToken)))
             {
                 Triggers.RegisterTrigger(new Trigger()
                 {
                     Name = "Check damage from \"Chopper\"",
                     TriggerType = TriggerTypes.OnActionIsPerformed,
-                    TriggerOwner = Host.Owner.PlayerNo,
+                    TriggerOwner = HostShip.Owner.PlayerNo,
                     EventHandler = DoDamage,
                 });
             }
@@ -46,14 +59,16 @@ namespace UpgradesList
 
         private void DoDamage(object sender, System.EventArgs e)
         {
+            Phases.CurrentSubPhase.Pause();
+
             Messages.ShowError("\"Chopper\": Damage is dealt");
 
             Triggers.RegisterTrigger(new Trigger()
             {
                 Name = "Suffer damage from \"Chopper\"",
                 TriggerType = TriggerTypes.OnDamageIsDealt,
-                TriggerOwner = Host.Owner.PlayerNo,
-                EventHandler = Host.SufferDamage,
+                TriggerOwner = HostShip.Owner.PlayerNo,
+                EventHandler = HostShip.SufferDamage,
                 EventArgs = new DamageSourceEventArgs()
                 {
                     Source = this,
@@ -61,15 +76,13 @@ namespace UpgradesList
                 }
             });
 
-            Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, Triggers.FinishTrigger);
-        }
-
-        public override void Discard(Action callBack)
-        {
-            Host.CanPerformActionsWhileStressed = false;
-            Host.OnActionIsPerformed -= RegisterDoDamageIfStressed;
-
-            base.Discard(callBack);
+            Triggers.ResolveTriggers(
+                TriggerTypes.OnDamageIsDealt,
+                delegate {
+                    Phases.CurrentSubPhase.Resume();
+                    Triggers.FinishTrigger();
+                }
+            );
         }
     }
 }

@@ -30,17 +30,17 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList += AddBackdraftAbility;            
+            HostShip.OnGenerateDiceModifications += AddBackdraftAbility;            
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList -= AddBackdraftAbility;
+            HostShip.OnGenerateDiceModifications -= AddBackdraftAbility;
         }
 
         private void AddBackdraftAbility(GenericShip ship)
         {
-            ship.AddAvailableActionEffect(new BackdraftAbilityAction());
+            ship.AddAvailableDiceModification(new BackdraftAbilityAction());
         }        
     }
 }
@@ -51,17 +51,17 @@ namespace ActionsList
     {        
         public BackdraftAbilityAction()
         {
-            Name = EffectName = "\"Backdraft\" ability";
+            Name = DiceModificationName = "\"Backdraft\" ability";
         }
 
-        public override int GetActionEffectPriority()
+        public override int GetDiceModificationPriority()
         {
             int result = 0;
             result = 110;
             return result;
         }
 
-        public override bool IsActionEffectAvailable()
+        public override bool IsDiceModificationAvailable()
         {
             bool result = false;
             if (Combat.AttackStep == CombatStep.Attack && !Combat.ShotInfo.InPrimaryArc)

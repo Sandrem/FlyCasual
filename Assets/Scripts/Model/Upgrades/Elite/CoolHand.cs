@@ -5,6 +5,7 @@ using System;
 using SubPhases;
 using System.Linq;
 using Abilities;
+using Tokens;
 
 namespace UpgradesList
 {
@@ -83,12 +84,12 @@ namespace SubPhases
 
         private void AddFocus(object sender, System.EventArgs e)
         {
-            HostUpgrade.Host.Tokens.AssignToken(new Tokens.FocusToken(HostUpgrade.Host), DiscardUpgrade);
+            HostUpgrade.Host.Tokens.AssignToken(typeof(FocusToken), DiscardUpgrade);
         }
 
         private void AddEvade(object sender, System.EventArgs e)
         {
-            HostUpgrade.Host.Tokens.AssignToken(new Tokens.EvadeToken(HostUpgrade.Host), DiscardUpgrade);
+            HostUpgrade.Host.Tokens.AssignToken(typeof(EvadeToken), DiscardUpgrade);
         }
 
         private void DiscardUpgrade()

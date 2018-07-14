@@ -3,12 +3,12 @@
 namespace Tokens
 {
 
-    public class ReinforceForeToken : GenericToken
+    public class ReinforceForeToken : GenericReinforceToken
     {
         public ReinforceForeToken(GenericShip host) : base(host)
         {
             Name = "Reinforce Fore Token";
-            Action = new ActionsList.ReinforceForeAction() { Host = this.Host };
+            Facing = Arcs.ArcFacing.Front180;
         }
     }
 

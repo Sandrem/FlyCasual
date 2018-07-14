@@ -1,14 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using Ship;
-using System;
+﻿using Ship;
+using RuleSets;
 
 namespace Ship
 {
     namespace XWing
     {
-        public class LukeSkywalker : XWing
+        public class LukeSkywalker : XWing, ISecondEditionPilot
         {
             public LukeSkywalker() : base()
             {
@@ -22,6 +19,18 @@ namespace Ship
 
                 PilotAbilities.Add(new Abilities.LukeSkywalkerAbility());
             }
+
+            public void AdaptPilotToSecondEdition()
+            {
+                PilotSkill = 5;
+                MaxForce = 2;
+                Cost = 60;
+
+                PilotAbilities.RemoveAll(a => a is Abilities.LukeSkywalkerAbility);
+                PilotAbilities.Add(new Abilities.SecondEdition.LukeSkywalkerAbility());
+
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Force);
+            }
         }
     }
 }
@@ -32,24 +41,24 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList += AddLukeSkywalkerPilotAbility;
+            HostShip.OnGenerateDiceModifications += AddLukeSkywalkerPilotAbility;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList -= AddLukeSkywalkerPilotAbility;
+            HostShip.OnGenerateDiceModifications -= AddLukeSkywalkerPilotAbility;
         }
 
         private void AddLukeSkywalkerPilotAbility(GenericShip ship)
         {
-            ship.AddAvailableActionEffect(new LukeSkywalkerAction());
+            ship.AddAvailableDiceModification(new LukeSkywalkerAction());
         }
 
         private class LukeSkywalkerAction : ActionsList.GenericAction
         {
             public LukeSkywalkerAction()
             {
-                Name = EffectName = "Luke Skywalker's ability";
+                Name = DiceModificationName = "Luke Skywalker's ability";
 
                 IsTurnsOneFocusIntoSuccess = true;
             }
@@ -60,14 +69,14 @@ namespace Abilities
                 callBack();
             }
 
-            public override bool IsActionEffectAvailable()
+            public override bool IsDiceModificationAvailable()
             {
                 bool result = false;
                 if (Combat.AttackStep == CombatStep.Defence) result = true;
                 return result;
             }
 
-            public override int GetActionEffectPriority()
+            public override int GetDiceModificationPriority()
             {
                 int result = 0;
 
@@ -83,5 +92,31 @@ namespace Abilities
             }
         }
 
+    }
+}
+
+namespace Abilities.SecondEdition
+{
+    //After you become the defender (before dice are rolled), you may recover 1 Force.
+    public class LukeSkywalkerAbility : GenericAbility
+    {
+        public override void ActivateAbility()
+        {
+            HostShip.OnDefenceStartAsDefender += RecoverForce;
+        }
+
+        public override void DeactivateAbility()
+        {
+            HostShip.OnDefenceStartAsDefender -= RecoverForce;
+        }
+
+        private void RecoverForce()
+        {
+            if (HostShip.Force < HostShip.MaxForce)
+            {
+                HostShip.Force++;
+                Messages.ShowInfo("Luke Skywalker recovered 1 Force");
+            }
+        }
     }
 }

@@ -3,9 +3,11 @@ using Upgrade;
 using ActionsList;
 using System.Linq;
 using UnityEngine;
+using SquadBuilderNS;
+using Abilities;
 
 namespace UpgradesList
-{ 
+{
     public class Autothrusters : GenericUpgrade
     {
         public Autothrusters() : base()
@@ -13,28 +15,56 @@ namespace UpgradesList
             Types.Add(UpgradeType.Modification);
             Name = "Autothrusters";
             Cost = 2;
+
+            UpgradeAbilities.Add(new AutothrustersAbility());
         }
 
         public override bool IsAllowedForShip(GenericShip ship)
         {
-            return (ship.PrintedActions.Count(n => n.GetType() == typeof(BoostAction)) != 0);
+            //TODO: Engine Upgrade must add icon to available actions
+
+            bool result = false;
+
+            if (ship.PrintedActions.Any(n => n.GetType() == typeof(BoostAction))) result = true;
+            else if (ship.UpgradeBar.HasUpgradeInstalled(typeof(EngineUpgrade))) result = true;
+
+            return result;
         }
 
-        public override void AttachToShip(GenericShip host)
+        public override bool IsAllowedForSquadBuilderPostCheck(SquadList squadList)
         {
-            base.AttachToShip(host);
+            bool result = false;
 
-            host.AfterGenerateAvailableActionEffectsList += TryAddAutothrustersDiceModification;
+            result = IsAllowedForShip(Host);
+            if (!result) Messages.ShowError("Autothrusters can be installed only if ship has Boost action icon");
+
+            return result;
+        }
+    }
+}
+
+namespace Abilities
+{
+    public class AutothrustersAbility : GenericAbility
+    {
+        public override void ActivateAbility()
+        {
+            HostShip.OnGenerateDiceModifications += TryAddAutothrustersDiceModification;
+        }
+
+        public override void DeactivateAbility()
+        {
+            HostShip.OnGenerateDiceModifications -= TryAddAutothrustersDiceModification;
         }
 
         private void TryAddAutothrustersDiceModification(GenericShip host)
         {
             GenericAction newAction = new AutothrustersDiceModification()
             {
-                ImageUrl = ImageUrl,
+                ImageUrl = HostUpgrade.ImageUrl,
                 Host = host
             };
-            host.AddAvailableActionEffect(newAction);
+            host.AddAvailableDiceModification(newAction);
         }
     }
 }
@@ -45,10 +75,10 @@ namespace ActionsList
     {
         public AutothrustersDiceModification()
         {
-            Name = EffectName = "Autothrusters";
+            Name = DiceModificationName = "Autothrusters";
         }
 
-        public override int GetActionEffectPriority()
+        public override int GetDiceModificationPriority()
         {
             int result = 0;
 
@@ -57,7 +87,7 @@ namespace ActionsList
             return result;
         }
 
-        public override bool IsActionEffectAvailable()
+        public override bool IsDiceModificationAvailable()
         {
             bool result = false;
 

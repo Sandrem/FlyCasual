@@ -48,14 +48,12 @@ namespace Abilities
              * A ship that executes a maneuver that is not on its dial (such as an ionized ship, a ship using Inertial Dampeners, 
              * or Juno Eclipse using her pilot ability to execute a maneuver that is not on her dial) cannot use Lightning Reflexes. 
              * (X-Wing FAQ, Version 3.2, Updated 09/04/2015) */
-            if(!HostShip.HasManeuver(HostShip.AssignedManeuver.ToString()))
-            {
-                return;
-            }
+            if (!HostShip.HasManeuver(HostShip.AssignedManeuver.ToString())) return;
+            if (BoardTools.Board.IsOffTheBoard(host)) return;
 
-            if (HostShip.AssignedManeuver.ColorComplexity == ManeuverColor.White || HostShip.AssignedManeuver.ColorComplexity == ManeuverColor.Green)
+            if (HostShip.AssignedManeuver.ColorComplexity == MovementComplexity.Normal || HostShip.AssignedManeuver.ColorComplexity == MovementComplexity.Easy)
             {
-                RegisterAbilityTrigger(TriggerTypes.OnShipMovementFinish, (s, e) => AskToUseAbility(NeverUseByDefault, UseAbility));
+                RegisterAbilityTrigger(TriggerTypes.OnMovementFinish, (s, e) => AskToUseAbility(NeverUseByDefault, UseAbility));
             }
         }                
 
@@ -63,8 +61,8 @@ namespace Abilities
         {            
             var lightningReflexesSubphase = Phases.StartTemporarySubPhaseNew("Rotate ship 180°", typeof(KoiogranTurnSubPhase), () =>
             {                
-                HostShip.Tokens.AssignToken(new StressToken(HostShip), DecisionSubPhase.ConfirmDecision);
-                Messages.ShowInfoToHuman(string.Format("{0} discarded Lightning Reflexes to turn ship 180° and get stress token.", Selection.ThisShip.PilotName));
+                HostShip.Tokens.AssignToken(typeof(StressToken), DecisionSubPhase.ConfirmDecision);
+                Messages.ShowInfoToHuman(string.Format("{0} discarded Lightning Reflexes to turn ship 180° and get stress token.", HostShip.PilotName));
             });
 
             HostUpgrade.TryDiscard(lightningReflexesSubphase.Start);            

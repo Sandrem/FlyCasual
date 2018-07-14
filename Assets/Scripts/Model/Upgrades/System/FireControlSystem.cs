@@ -1,82 +1,163 @@
-﻿using Ship;
+﻿using Abilities;
+using RuleSets;
+using Ship;
+using SubPhases;
+using Tokens;
 using Upgrade;
 
 namespace UpgradesList
 {
-    public class FireControlSystem : GenericUpgrade
+    public class FireControlSystem : GenericUpgrade, ISecondEditionUpgrade
     {
         public FireControlSystem() : base()
         {
             Types.Add(UpgradeType.System);
             Name = "Fire-Control System";
             Cost = 2;
+            UpgradeAbilities.Add(new FireControlSystemAbility());
         }
 
-
-        public override void AttachToShip(GenericShip host)
+        public void AdaptUpgradeToSecondEdition()
         {
-            base.AttachToShip(host);
+            Cost = 6;
 
-            host.OnAttackFinish += FireControlSystemAbility;
-        }
-
-        private void FireControlSystemAbility(GenericShip ship)
-        {
-            if (Combat.Attacker.ShipId == Host.ShipId)
-            {
-                if (!Combat.Defender.IsDestroyed)
-                {
-                    Triggers.RegisterTrigger(new Trigger()
-                    {
-                        Name = "Fire-Control System: Aquire target lock",
-                        TriggerOwner = Host.Owner.PlayerNo,
-                        TriggerType = TriggerTypes.OnAttackFinish,
-                        EventHandler = AskAquireTargetLock
-                    });
-                }
-            }
-        }
-
-        private void AskAquireTargetLock(object sender, System.EventArgs e)
-        {            
-            Phases.StartTemporarySubPhaseOld(
-                "Fire-Control System's decision",
-                typeof(SubPhases.FireControlSystemDecisionSubPhase),
-                Triggers.FinishTrigger
-            );
-         
+            UpgradeAbilities.RemoveAll(a => a is FireControlSystemAbility);
+            UpgradeAbilities.Add(new Abilities.SecondEdition.FireControlSystemAbility());
         }
     }
 }
 
-
-namespace SubPhases
+namespace Abilities
 {
-
-    public class FireControlSystemDecisionSubPhase : DecisionSubPhase
+    public class FireControlSystemAbility : GenericAbility
     {
 
-        public override void PrepareDecision(System.Action callBack)
+        public override void ActivateAbility()
         {
-            InfoText = "Fire-Control System: Aquire target lock?";
+            HostShip.OnAttackFinishAsAttacker += AddFireControlSystemAbility;
+        }
 
-            AddDecision("Yes", AcquireTargetLock);
-            AddDecision("No", NotAssignToken);
+        public override void DeactivateAbility()
+        {
+            HostShip.OnAttackFinishAsAttacker -= AddFireControlSystemAbility;
+        }
 
-            DefaultDecisionName = "Yes";
+        private void AddFireControlSystemAbility(GenericShip ship)
+        {
+            if (Combat.Attacker.ShipId == HostShip.ShipId)
+            {
+                if (!(Combat.Defender.IsDestroyed || Combat.Defender.IsReadyToBeDestroyed))
+                {
+                    RegisterAbilityTrigger(TriggerTypes.OnAttackFinish, AskAcquireTargetLock);
+                }
+            }
+        }
 
-            callBack();
+        private void AskAcquireTargetLock(object sender, System.EventArgs e)
+        {
+            AskToUseAbility(AlwaysUseByDefault, AcquireTargetLock, null, null, true);
         }
 
         private void AcquireTargetLock(object sender, System.EventArgs e)
         {
             Messages.ShowInfo("Fire-Control System: Free Target Lock");
-            Actions.AssignTargetLockToPair(Combat.Attacker, Combat.Defender, ConfirmDecision, ConfirmDecision);            
-        }
-
-        private void NotAssignToken(object sender, System.EventArgs e)
-        {
-            ConfirmDecision();
+            Actions.AcquireTargetLock(Combat.Attacker, Combat.Defender, DecisionSubPhase.ConfirmDecision, DecisionSubPhase.ConfirmDecision);
         }
     }
 }
+
+
+namespace Abilities.SecondEdition
+{
+    //While you perform an attack, if you have a lock on the defender, you may reroll 1 attack die. If you do, you cannot spend your lock during this attack.
+    public class FireControlSystemAbility : GenericAbility
+    {
+        public override void ActivateAbility()
+        {
+            HostShip.OnGenerateDiceModifications += FireControlSystemAbilityDiceModification;
+        }
+
+        public override void DeactivateAbility()
+        {
+            HostShip.OnGenerateDiceModifications -= FireControlSystemAbilityDiceModification;
+        }
+
+        private void FireControlSystemAbilityDiceModification(GenericShip host)
+        {
+            var newAction = new ActionsList.SecondEdition.FireControlSystemAbilityActionEffect()
+            {
+                ImageUrl = HostUpgrade.ImageUrl,
+                Host = host
+            };
+            host.AddAvailableDiceModification(newAction);
+        }
+    }
+}
+
+namespace ActionsList.SecondEdition
+{
+    public class FireControlSystemAbilityActionEffect : GenericAction
+    {
+        private char targetLockLetter;
+
+        public FireControlSystemAbilityActionEffect()
+        {
+            Name = DiceModificationName = "Fire Control System";
+        }
+
+        public override int GetDiceModificationPriority()
+        {
+            int result = 0;
+
+            result = 110;
+
+            return result;
+        }
+
+        public override bool IsDiceModificationAvailable()
+        {
+            bool result = false;
+
+            if (Combat.AttackStep == CombatStep.Attack && Actions.HasTargetLockOn(Combat.Attacker, Combat.Defender))
+            {
+                result = true;
+            }
+
+            return result;
+        }
+
+        public override void ActionEffect(System.Action callBack)
+        {
+            if (Actions.HasTargetLockOn(Combat.Attacker, Combat.Defender))
+            {
+                targetLockLetter = Actions.GetTargetLocksLetterPair(Combat.Attacker, Combat.Defender);
+                Combat.Attacker.Tokens.GetToken(typeof(BlueTargetLockToken), targetLockLetter).CanBeUsed = false;
+
+                Combat.Attacker.OnAttackFinish += SetTargetLockCanBeUsed;
+
+                DiceRerollManager diceRerollManager = new DiceRerollManager
+                {
+                    NumberOfDiceCanBeRerolled = 1,
+                    CallBack = callBack
+                };
+                diceRerollManager.Start();                
+            }
+            else
+            {
+                Messages.ShowInfoToHuman("Cannot use ability: no Target Lock on defender");
+                callBack();
+            }
+        }
+
+        private void SetTargetLockCanBeUsed(GenericShip ship)
+        {
+            BlueTargetLockToken ownTargetLockToken = (BlueTargetLockToken)Combat.Attacker.Tokens.GetToken(typeof(BlueTargetLockToken), targetLockLetter);
+            if (ownTargetLockToken != null) ownTargetLockToken.CanBeUsed = true;
+
+            Combat.Attacker.OnAttackFinish -= SetTargetLockCanBeUsed;
+        }
+
+    }
+
+}
+

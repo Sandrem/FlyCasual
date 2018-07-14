@@ -11,7 +11,8 @@ using UnityEngine;
 
 public class CameraScript : MonoBehaviour {
 
-    private Transform Camera;
+    private static Transform Camera;
+    private static Transform GameObjectTransform;
 
     private const float SENSITIVITY_MOVE = 0.125f;
     private const float SENSITIVITY_TURN = 5;
@@ -23,22 +24,26 @@ public class CameraScript : MonoBehaviour {
     private const float MAX_ROTATION = 89.99f;
     private const float MIN_ROTATION = 0f;
 
+    public static bool InputAxisAreDisabled = false;
+    public static bool InputMouseIsDisabled = false;
+
     private enum CameraModes
     {
         Free,
         TopDown
     }
-    private CameraModes cameraMode = CameraModes.Free;
+    private static CameraModes cameraMode = CameraModes.Free;
 
     // Use this for initialization
     void Start()
     {
         Camera = transform.Find("Main Camera");
+        GameObjectTransform = transform;
 
         SetDefaultCameraPosition();
     }
 
-    private void SetDefaultCameraPosition()
+    private static void SetDefaultCameraPosition()
     {
         bool isSecondPlayer = (Network.IsNetworkGame && !Network.IsServer);
 
@@ -46,8 +51,8 @@ public class CameraScript : MonoBehaviour {
         camera.orthographicSize = 6;
 
         Camera.localEulerAngles = (cameraMode == CameraModes.Free) ? new Vector3(-50, 0, 0) : new Vector3(0, 0, 0);
-        transform.localEulerAngles = new Vector3(90, 0, (!isSecondPlayer) ? 0 : 180);
-        transform.localPosition = (cameraMode == CameraModes.Free) ? new Vector3(0, 6, (!isSecondPlayer) ? -8 : 8) : Vector3.zero;
+        GameObjectTransform.localEulerAngles = new Vector3(90, 0, (!isSecondPlayer) ? 0 : 180);
+        GameObjectTransform.localPosition = (cameraMode == CameraModes.Free) ? new Vector3(0, 6, (!isSecondPlayer) ? -8 : 8) : Vector3.zero;
     }
 
     // Update is called once per frame
@@ -67,10 +72,10 @@ public class CameraScript : MonoBehaviour {
 
     private void CheckChangeMode()
     {
-        if (Input.GetKeyDown(KeyCode.CapsLock)) ChangeMode();
+        if (Input.GetKeyDown(KeyCode.Tab) && !Console.IsActive) ChangeMode();
     }
 
-    private void ChangeMode()
+    public static void ChangeMode()
     {
         cameraMode = (cameraMode == CameraModes.Free) ? CameraModes.TopDown : CameraModes.Free;
 
@@ -84,6 +89,9 @@ public class CameraScript : MonoBehaviour {
 
     private void CamMoveByAxis()
     {
+        if (Console.IsActive || Input.GetKey(KeyCode.LeftControl)) return;
+        if (InputAxisAreDisabled) return;
+
         float x = Input.GetAxis("Horizontal") * SENSITIVITY_MOVE;
         float y = Input.GetAxis("Vertical") * SENSITIVITY_MOVE;
         if ((x != 0) || (y != 0)) WhenViewChanged();
@@ -92,6 +100,8 @@ public class CameraScript : MonoBehaviour {
 
     private void CamMoveByMouse()
     {
+        if (InputMouseIsDisabled) return;
+
         float x = 0;
         if (Input.mousePosition.x < MOUSE_MOVE_START_OFFSET && (Screen.fullScreen || Input.mousePosition.x >= 0)) x = -1f * SENSITIVITY_MOVE;
         else if (Input.mousePosition.x > Screen.width - MOUSE_MOVE_START_OFFSET && (Screen.fullScreen || Input.mousePosition.x <= Screen.width)) x = 1f * SENSITIVITY_MOVE;

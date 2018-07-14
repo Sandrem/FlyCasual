@@ -2,12 +2,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using GameModes;
-using DamageDeckCard;
 using Players;
+using RuleSets;
 
 public static class DamageDecks
 {
     private static List<DamageDeck> damadeDecks;
+
+    public static bool Initialized
+    {
+        get { return damadeDecks != null; }
+    }
 
     public static void Initialize()
     {
@@ -28,7 +33,7 @@ public static class DamageDecks
         return damadeDecks.Find(n => n.PlayerNo == playerNo);
     }
 
-    public static void DrawDamageCard(PlayerNo playerNo, bool isFaceup, Action<GenericDamageCard, EventArgs> doWithDamageCard, EventArgs e)
+    public static void DrawDamageCard(PlayerNo playerNo, bool isFaceup, Action<EventArgs> doWithDamageCard, EventArgs e)
     {
         GetDamageDeck(playerNo).DrawDamageCard(isFaceup, doWithDamageCard, e);
     }
@@ -56,30 +61,22 @@ public class DamageDeck
     {
         Deck = new List<GenericDamageCard>();
 
-        for (int i = 0; i < 7; i++) // 7
+        foreach (var cardInfo in RuleSet.Instance.DamageDeckContent)
         {
-            Deck.Add(new DirectHit());
-        }
-
-        for (int i = 0; i < 2; i++) // 2
-        {
-            Deck.Add(new BlindedPilot());
-            Deck.Add(new DamagedCockpit());
-            Deck.Add(new DamagedEngine());
-            Deck.Add(new DamagedSensorArray());
-            Deck.Add(new LooseStabilizer());
-            Deck.Add(new MajorHullBreach());
-            Deck.Add(new ShakenPilot());
-            Deck.Add(new StructuralDamage());
-            Deck.Add(new ThrustControlFire());
-            Deck.Add(new WeaponsFailure());
-            Deck.Add(new ConsoleFire());
-            Deck.Add(new StunnedPilot());
-            Deck.Add(new MajorExplosion());
+            for (int i = 0; i < cardInfo.Value; i++)
+            {
+                GenericDamageCard card = (GenericDamageCard) Activator.CreateInstance(cardInfo.Key);
+                Deck.Add(card);
+            }
         }
     }
 
-    public void DrawDamageCard(bool isFaceup, Action<GenericDamageCard, EventArgs> doWithDamageCard, EventArgs e)
+    public void PutOnTop(GenericDamageCard card)
+    {
+        Deck.Insert(0, card);
+    }
+
+    public void DrawDamageCard(bool isFaceup, Action<EventArgs> doWithDamageCard, EventArgs e)
     {
         if (Deck.Count == 0) ReCreateDeck();
 
@@ -89,7 +86,7 @@ public class DamageDeck
 
         Combat.CurrentCriticalHitCard = drawedCard;
 
-        doWithDamageCard(drawedCard, e);
+        doWithDamageCard(e);
     }
 
     public void RemoveFromDamageDeck(GenericDamageCard card)

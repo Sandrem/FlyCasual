@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Movement;
 using ActionsList;
+using RuleSets;
 
 namespace Ship
 {
     namespace Quadjumper
     {
-        public class Quadjumper : GenericShip
+        public class Quadjumper : GenericShip, ISecondEditionShip
         {
 
             public Quadjumper() : base()
@@ -49,19 +50,27 @@ namespace Ship
 
             private void AssignTemporaryManeuvers()
             {
-                Maneuvers.Add("1.L.T", ManeuverColor.White);
-                Maneuvers.Add("1.F.S", ManeuverColor.White);
-                Maneuvers.Add("1.R.T", ManeuverColor.White);
-                Maneuvers.Add("2.L.T", ManeuverColor.White);
-                Maneuvers.Add("2.L.B", ManeuverColor.Green);
-                Maneuvers.Add("2.F.S", ManeuverColor.Green);
-                Maneuvers.Add("2.R.B", ManeuverColor.Green);
-                Maneuvers.Add("2.R.T", ManeuverColor.White);
-                Maneuvers.Add("2.L.R", ManeuverColor.Red);
-                Maneuvers.Add("2.R.R", ManeuverColor.Red);
-                Maneuvers.Add("3.L.B", ManeuverColor.White);
-                Maneuvers.Add("3.F.S", ManeuverColor.Green);
-                Maneuvers.Add("3.R.B", ManeuverColor.White);
+                Maneuvers.Add("1.L.T", MovementComplexity.Normal);
+                Maneuvers.Add("1.F.S", MovementComplexity.Normal);
+                Maneuvers.Add("1.R.T", MovementComplexity.Normal);
+                Maneuvers.Add("2.L.T", MovementComplexity.Normal);
+                Maneuvers.Add("2.L.B", MovementComplexity.Easy);
+                Maneuvers.Add("2.F.S", MovementComplexity.Easy);
+                Maneuvers.Add("2.R.B", MovementComplexity.Easy);
+                Maneuvers.Add("2.R.T", MovementComplexity.Normal);
+                Maneuvers.Add("2.L.R", MovementComplexity.Complex);
+                Maneuvers.Add("2.R.R", MovementComplexity.Complex);
+                Maneuvers.Add("3.L.B", MovementComplexity.Normal);
+                Maneuvers.Add("3.F.S", MovementComplexity.Easy);
+                Maneuvers.Add("3.R.B", MovementComplexity.Normal);
+            }
+
+            public void AdaptShipToSecondEdition()
+            {
+                //TODO: Maneuvers
+                //TODO: Ship ability
+
+                PrintedActions.Add(new EvadeAction() { IsRed = true });
             }
 
         }

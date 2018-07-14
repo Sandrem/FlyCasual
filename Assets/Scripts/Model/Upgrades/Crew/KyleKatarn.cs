@@ -2,6 +2,8 @@
 using Ship;
 using SubPhases;
 using System;
+using Tokens;
+using UnityEngine;
 using Upgrade;
 
 namespace UpgradesList
@@ -15,6 +17,8 @@ namespace UpgradesList
             Cost = 3;
 
             isUnique = true;
+
+            // AvatarOffset = new Vector2(42, 1);
 
             UpgradeAbilities.Add(new KyleKatarnCrewAbility());
         }
@@ -55,7 +59,7 @@ namespace Abilities
 
         private void AssignFocusToken(object sender, EventArgs e)
         {
-            HostShip.Tokens.AssignToken(new Tokens.FocusToken(HostShip), DecisionSubPhase.ConfirmDecision);
+            HostShip.Tokens.AssignToken(typeof(FocusToken), DecisionSubPhase.ConfirmDecision);
         }
     }
 }

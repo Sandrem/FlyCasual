@@ -13,6 +13,8 @@ namespace SubPhases
 
         public override void Start()
         {
+            base.Start();
+
             Name = "Activation SubPhase";
         }
 
@@ -106,6 +108,20 @@ namespace SubPhases
 
         public override void FinishPhase()
         {
+            if (Phases.Events.HasOnActivationPhaseEnd)
+            {
+                GenericSubPhase subphase = Phases.StartTemporarySubPhaseNew("Notification", typeof(NotificationSubPhase), StartActivationEndSubPhase);
+                (subphase as NotificationSubPhase).TextToShow = "End of Activation ";
+                subphase.Start();
+            }
+            else
+            {
+                StartActivationEndSubPhase();
+            }
+        }
+
+        private void StartActivationEndSubPhase()
+        {
             Phases.CurrentSubPhase = new ActivationEndSubPhase();
             Phases.CurrentSubPhase.Start();
             Phases.CurrentSubPhase.Prepare();
@@ -152,7 +168,7 @@ namespace SubPhases
         {
             if (!ship.IsManeuverPerformed)
             {
-                GameMode.CurrentGameMode.PerformStoredManeuver(Selection.ThisShip.ShipId);
+                GameMode.CurrentGameMode.ActivateShipForMovement(Selection.ThisShip.ShipId);
             }
             else
             {

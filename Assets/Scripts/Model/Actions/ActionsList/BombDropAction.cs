@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Board;
+using BoardTools;
 using Bombs;
 using System.Linq;
 
@@ -12,7 +12,7 @@ namespace ActionsList
     {
         public BombDropAction()
         {
-            Name = EffectName = "Drop Bomb";
+            Name = DiceModificationName = "Drop Bomb";
         }
 
         public override void ActionTake()
@@ -120,13 +120,13 @@ namespace SubPhases
         private void CreateBombObject(Vector3 bombPosition, Quaternion bombRotation)
         {
             GameObject prefab = (GameObject)Resources.Load(BombsManager.CurrentBomb.bombPrefabPath, typeof(GameObject));
-            BombObjects.Add(MonoBehaviour.Instantiate(prefab, bombPosition, bombRotation, BoardManager.GetBoard()));
+            BombObjects.Add(MonoBehaviour.Instantiate(prefab, bombPosition, bombRotation, BoardTools.Board.GetBoard()));
 
             if (!string.IsNullOrEmpty(BombsManager.CurrentBomb.bombSidePrefabPath))
             {
                 GameObject prefabSide = (GameObject)Resources.Load(BombsManager.CurrentBomb.bombSidePrefabPath, typeof(GameObject));
-                BombObjects.Add(MonoBehaviour.Instantiate(prefabSide, bombPosition, bombRotation, BoardManager.GetBoard()));
-                BombObjects.Add(MonoBehaviour.Instantiate(prefabSide, bombPosition, bombRotation, BoardManager.GetBoard()));
+                BombObjects.Add(MonoBehaviour.Instantiate(prefabSide, bombPosition, bombRotation, BoardTools.Board.GetBoard()));
+                BombObjects.Add(MonoBehaviour.Instantiate(prefabSide, bombPosition, bombRotation, BoardTools.Board.GetBoard()));
             }
         }
 

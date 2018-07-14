@@ -1,6 +1,9 @@
 ﻿using Upgrade;
 using Ship;
 using ActionsList;
+using UnityEngine;
+using Abilities;
+using BoardTools;
 
 namespace UpgradesList
 {
@@ -12,7 +15,11 @@ namespace UpgradesList
             Name = "Finn";
             Cost = 5;
 
+            AvatarOffset = new Vector2(53, 0);
+
             isUnique = true;
+
+            UpgradeAbilities.Add(new FinnAbility());
         }
 
         public override bool IsAllowedForShip(GenericShip ship)
@@ -20,26 +27,34 @@ namespace UpgradesList
             return ship.faction == Faction.Rebel;
         }
 
-        public override void AttachToShip(GenericShip host)
-        {
-            base.AttachToShip(host);
+    }
+}
 
-            host.AfterGenerateAvailableActionEffectsList += FinnActionEffect;
+namespace Abilities
+{
+    public class FinnAbility : GenericAbility
+    {
+        public override void ActivateAbility()
+        {
+            HostShip.OnGenerateDiceModifications += FinnActionEffect;
+        }
+
+        public override void DeactivateAbility()
+        {
+            HostShip.OnGenerateDiceModifications -= FinnActionEffect;
         }
 
         private void FinnActionEffect(GenericShip host)
         {
             GenericAction newAction = new FinnDiceModification()
             {
-                ImageUrl = ImageUrl,
-                Host = host
+                Host = host,
+                ImageUrl = HostUpgrade.ImageUrl
             };
-            host.AddAvailableActionEffect(newAction);
+            host.AddAvailableDiceModification(newAction);
         }
-
     }
 }
-
 
 namespace ActionsList
 {
@@ -48,7 +63,7 @@ namespace ActionsList
 
         public FinnDiceModification()
         {
-            Name = EffectName = "Finn's ability";
+            Name = DiceModificationName = "Finn's ability";
         }
 
         public override void ActionEffect(System.Action callBack)
@@ -59,7 +74,7 @@ namespace ActionsList
             callBack();
         }
 
-        public override bool IsActionEffectAvailable()
+        public override bool IsDiceModificationAvailable()
         {
             bool result = false;
 
@@ -69,7 +84,7 @@ namespace ActionsList
                     if ((Combat.ChosenWeapon.GetType() == typeof(PrimaryWeaponClass)) && (Combat.ShotInfo.InArc)) result = true;
                     break;
                 case CombatStep.Defence:
-                    Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(Combat.Defender, Combat.Attacker, Combat.Defender.PrimaryWeapon);
+                    ShotInfo shotInfo = new ShotInfo(Combat.Defender, Combat.Attacker, Combat.Defender.PrimaryWeapon);
                     if (shotInfo.InArc) result = true;
                     break;
                 default:
@@ -79,11 +94,9 @@ namespace ActionsList
             return result;
         }
 
-        public override int GetActionEffectPriority()
+        public override int GetDiceModificationPriority()
         {
-            int result = 110;
-
-            return result;
+            return 110;
         }
 
     }

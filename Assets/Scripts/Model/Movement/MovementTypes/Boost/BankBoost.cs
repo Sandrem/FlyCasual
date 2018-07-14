@@ -9,7 +9,7 @@ namespace Movement
     public class BankBoost : BankMovement
     {
 
-        public BankBoost(int speed, ManeuverDirection direction, ManeuverBearing bearing, ManeuverColor color) : base(speed, direction, bearing, color)
+        public BankBoost(int speed, ManeuverDirection direction, ManeuverBearing bearing, MovementComplexity color) : base(speed, direction, bearing, color)
         {
 
         }
@@ -36,7 +36,7 @@ namespace Movement
             Game.Movement.FuncsToUpdate.Remove(UpdateBoost);
 
             MovementTemplates.HideLastMovementRuler();
-            Selection.ThisShip.ResetRotationHelpers();
+            TheShip.ResetRotationHelpers();
 
             (Phases.CurrentSubPhase as SubPhases.BoostExecutionSubPhase).FinishBoost();
         }

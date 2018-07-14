@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using Board;
+using BoardTools;
 
 public static class MovementTemplates {
 
@@ -115,26 +115,44 @@ public static class MovementTemplates {
 
     public static void ShowRange(Ship.GenericShip thisShip, Ship.GenericShip anotherShip)
     {
-        ShowRangeRuler(new ShipDistanceInformation(thisShip, anotherShip));
+        ShowRangeRuler(new DistanceInfo(thisShip, anotherShip).MinDistance);
     }
 
-    public static bool ShowFiringArcRange(ShipShotDistanceInformation shotInfo)
+    public static bool ShowFiringArcRange(ShotInfo shotInfo)
     {
-        if (shotInfo.InShotAngle)
+        if (shotInfo.IsShotAvailable)
         {
-            ShowRangeRuler(shotInfo);
+            ShowRangeRuler(shotInfo.MinDistance);
         }
         else
         {
-            ShowRangeRuler(new ShipShotOutOfArcDistanceInformation(shotInfo.ThisShip, shotInfo.AnotherShip));
+            ShowRangeRuler(shotInfo.NearestFailedDistance);
         }
-        return shotInfo.InShotAngle;
+        return shotInfo.IsShotAvailable;
     }
 
-    public static void ShowRangeRuler(GeneralShipDistanceInformation shipDistanceInfo)
+    public static void ShowRangeRuler(RangeHolder rangeInfo)
     {
-        Templates.Find("RangeRuler").position = shipDistanceInfo.ThisShipNearestPoint;
-        Templates.Find("RangeRuler").rotation = Quaternion.LookRotation(shipDistanceInfo.Vector);
+        Templates.Find("RangeRuler").position = rangeInfo.Point1;
+        Templates.Find("RangeRuler").LookAt(rangeInfo.Point2);
+    }
+
+    public static void ShowRangeRuler(Vector3 point1, Vector3 point2)
+    {
+        Templates.Find("RangeRuler").position = point1;
+        Templates.Find("RangeRuler").LookAt(point2);
+    }
+
+    public static void ShowRangeRulerR2(Vector3 point1, Vector3 point2)
+    {
+        Templates.Find("RangeRulerR2").position = point1;
+        Templates.Find("RangeRulerR2").LookAt(point2);
+    }
+
+    public static void ShowRangeRulerR1(Vector3 point1, Vector3 point2)
+    {
+        Templates.Find("RangeRulerR1").position = point1;
+        Templates.Find("RangeRulerR1").LookAt(point2);
     }
 
     public static void CallReturnRangeRuler(Ship.GenericShip thisShip)
@@ -144,8 +162,20 @@ public static class MovementTemplates {
 
     public static void ReturnRangeRuler()
     {
-        Templates.Find("RangeRuler").transform.position = new Vector3(7f, 0f, -1.5f);
+        Templates.Find("RangeRuler").transform.localPosition = new Vector3(10.4f, 0f, -7.5f);
         Templates.Find("RangeRuler").transform.eulerAngles = new Vector3(0, 0, 0);
+    }
+
+    public static void ReturnRangeRulerR2()
+    {
+        Templates.Find("RangeRulerR2").transform.localPosition = new Vector3(11.5f, 0f, -7.5f);
+        Templates.Find("RangeRulerR2").transform.eulerAngles = new Vector3(0, 0, 0);
+    }
+
+    public static void ReturnRangeRulerR1()
+    {
+        Templates.Find("RangeRulerR1").transform.localPosition = new Vector3(12.6f, 0f, -7.5f);
+        Templates.Find("RangeRulerR1").transform.eulerAngles = new Vector3(0, 0, 0);
     }
 
     public static Transform GetMovement1Ruler()

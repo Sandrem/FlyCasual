@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Board;
+using BoardTools;
 using ActionsList;
 using Ship;
 using System.ComponentModel;
@@ -14,7 +14,7 @@ public static partial class Actions
 
     private static Dictionary<char, bool> Letters;
 
-    public static DamageDeckCard.GenericDamageCard SelectedCriticalHitCard;
+    public static GenericDamageCard SelectedCriticalHitCard;
 
     public static GenericAction CurrentAction;
 
@@ -56,24 +56,24 @@ public static partial class Actions
         Letters = new Dictionary<char, bool>();
     }
 
-    public static void AssignTargetLockToPair(GenericShip thisShip, GenericShip targetShip, Action successCallback, Action failureCallback)
+    public static void AcquireTargetLock(GenericShip thisShip, GenericShip targetShip, Action successCallback, Action failureCallback, bool ignoreRange = false)
     {
         if (Letters.Count == 0) InitializeTargetLockLetters();
 
-        ShipDistanceInformation distanceInfo = new ShipDistanceInformation(thisShip, targetShip);
-        if (distanceInfo.Range >= thisShip.TargetLockMinRange && distanceInfo.Range <= thisShip.TargetLockMaxRange)
+        DistanceInfo distanceInfo = new DistanceInfo(thisShip, targetShip);
+        if (ignoreRange || (distanceInfo.Range >= thisShip.TargetLockMinRange && distanceInfo.Range <= thisShip.TargetLockMaxRange))
         {
             GenericToken existingBlueToken = thisShip.Tokens.GetToken(typeof(BlueTargetLockToken), '*');
             if (existingBlueToken != null)
             {
                 thisShip.Tokens.RemoveToken(
                     existingBlueToken,
-                    delegate { FinishAssignTargetLockPair(thisShip, targetShip, successCallback); }
+                    delegate { FinishAcquireTargetLock(thisShip, targetShip, successCallback); }
                 );
             }
             else
             {
-                FinishAssignTargetLockPair(thisShip, targetShip, successCallback);
+                FinishAcquireTargetLock(thisShip, targetShip, successCallback);
             }
         }
         else
@@ -82,8 +82,8 @@ public static partial class Actions
             failureCallback();
         }
     }
-
-    private static void FinishAssignTargetLockPair(GenericShip thisShip, GenericShip targetShip, Action callback)
+    
+    private static void FinishAcquireTargetLock(GenericShip thisShip, GenericShip targetShip, Action callback)
     {
         BlueTargetLockToken tokenBlue = new BlueTargetLockToken(thisShip);
         RedTargetLockToken tokenRed = new RedTargetLockToken(targetShip);
@@ -100,7 +100,13 @@ public static partial class Actions
 
         targetShip.Tokens.AssignToken(
             tokenRed,
-            delegate { thisShip.Tokens.AssignToken(tokenBlue, callback); }
+            delegate
+            {
+                thisShip.Tokens.AssignToken(tokenBlue, delegate
+                {
+                    thisShip.CallOnTargetLockIsAcquiredEvent(targetShip, callback);
+                });
+            }
         );
     }
 
@@ -171,7 +177,7 @@ public static partial class Actions
     {
         bool result = false;
 
-        ShipDistanceInformation distanceInfo = new ShipDistanceInformation(thisShip, anotherShip);
+        DistanceInfo distanceInfo = new DistanceInfo(thisShip, anotherShip);
         int range = distanceInfo.Range;
         if (range <= 1) return true;
         if (range >= 3) return false;
@@ -182,18 +188,21 @@ public static partial class Actions
         return result;
     }
 
-    public static int GetFiringRangeAndShow(GenericShip thisShip, GenericShip anotherShip)
+    public static ShotInfo GetFiringRangeAndShow(GenericShip thisShip, GenericShip anotherShip)
     {
-        ShipShotDistanceInformation shotInfo = new ShipShotDistanceInformation(thisShip, anotherShip, thisShip.PrimaryWeapon);
-        bool inArc = MovementTemplates.ShowFiringArcRange(shotInfo);
-        if (!inArc) Messages.ShowInfoToHuman("Out of primary weapon arc");
-        return shotInfo.Range;
+        IShipWeapon outOfArcWeapon = (IShipWeapon) thisShip.UpgradeBar.GetUpgradesOnlyFaceup().FirstOrDefault(n => n is IShipWeapon && (n as IShipWeapon).CanShootOutsideArc == true);
+
+        IShipWeapon checkedWeapon = outOfArcWeapon ?? thisShip.PrimaryWeapon;
+
+        ShotInfo shotInfo = new ShotInfo(thisShip, anotherShip, checkedWeapon);
+        MovementTemplates.ShowFiringArcRange(shotInfo);
+        return shotInfo;
     }
 
     public static int GetRangeAndShow(GenericShip thisShip, GenericShip anotherShip)
     {
-        ShipDistanceInformation distanceInfo = new ShipDistanceInformation(thisShip, anotherShip);
-        MovementTemplates.ShowRangeRuler(distanceInfo);
+        DistanceInfo distanceInfo = new DistanceInfo(thisShip, anotherShip);
+        MovementTemplates.ShowRangeRuler(distanceInfo.MinDistance);
 
         int range = distanceInfo.Range;
         if (range < 4)
@@ -212,8 +221,8 @@ public static partial class Actions
     {
         foreach (var anotherShip in Roster.GetPlayer(Roster.AnotherPlayer(thisShip.Owner.PlayerNo)).Ships)
         {
-            ShipShotDistanceInformation shotInfo = new ShipShotDistanceInformation(thisShip, anotherShip.Value, thisShip.PrimaryWeapon);
-            if ((shotInfo.Range < 4) && (shotInfo.InShotAngle))
+            ShotInfo shotInfo = new ShotInfo(thisShip, anotherShip.Value, thisShip.PrimaryWeapon);
+            if ((shotInfo.Range < 4) && (shotInfo.IsShotAvailable))
             {
                 return true;
             }
@@ -228,8 +237,8 @@ public static partial class Actions
 
         foreach (var anotherShip in Roster.GetPlayer(Roster.AnotherPlayer(thisShip.Owner.PlayerNo)).Ships)
         {
-            ShipShotDistanceInformation shotInfo = new ShipShotDistanceInformation(anotherShip.Value, thisShip, anotherShip.Value.PrimaryWeapon);
-            if ((shotInfo.Range < 4) && (shotInfo.InShotAngle))
+            ShotInfo shotInfo = new ShotInfo(anotherShip.Value, thisShip, anotherShip.Value.PrimaryWeapon);
+            if ((shotInfo.Range < 4) && (shotInfo.IsShotAvailable))
             {
                 if (direction == 0)
                 {
@@ -237,7 +246,7 @@ public static partial class Actions
                 }
                 else
                 {
-                    ShipShotDistanceInformation reverseShotInfo = new ShipShotDistanceInformation(thisShip, anotherShip.Value, thisShip.PrimaryWeapon);
+                    ShotInfo reverseShotInfo = new ShotInfo(thisShip, anotherShip.Value, thisShip.PrimaryWeapon);
                     if (direction == 1)
                     {
                         if (reverseShotInfo.InArc) result++;
@@ -265,7 +274,7 @@ public static partial class Actions
 
     // TAKE ACTION TRIGGERS
 
-    public static void TakeAction(GenericAction action)
+    public static void TakeActionStart(GenericAction action)
     {
         var ship = Selection.ThisShip;
         Tooltips.EndTooltip();
@@ -275,17 +284,26 @@ public static partial class Actions
         action.ActionTake();
     }
 
-    public static void FinishAction(Action callback)
+    public static void TakeActionFinish(Action callback)
     {
-        ActionIsTaken(callback);
+        bool isActionSkipped = (Actions.CurrentAction == null);
+
+        if (!isActionSkipped)
+        {
+            ActionIsTaken(callback);
+        }
+        else
+        {
+            callback();
+        }
     }
 
     private static void ActionIsTaken(Action callback)
     {
-        Selection.ThisShip.CallActionIsTaken(Actions.CurrentAction, delegate { EndActionDecisionSubhase(callback); });
+        Selection.ThisShip.CallActionIsTaken(Actions.CurrentAction, callback);
     }
 
-    private static void EndActionDecisionSubhase(Action callback)
+    public static void EndActionDecisionSubhase(Action callback)
     {
         Selection.ThisShip.CallOnActionDecisionSubphaseEnd(callback);
     }
@@ -296,7 +314,7 @@ public static partial class Actions
 
         if (simpleTokens.Contains(tokenToReassign.GetType()))
         {
-            GenericToken tokenToAssign = (GenericToken)Activator.CreateInstance(tokenToReassign.GetType());
+            GenericToken tokenToAssign = (GenericToken)Activator.CreateInstance(tokenToReassign.GetType(), new [] { toShip });
             fromShip.Tokens.RemoveToken(
                 tokenToReassign.GetType(),
                 delegate {

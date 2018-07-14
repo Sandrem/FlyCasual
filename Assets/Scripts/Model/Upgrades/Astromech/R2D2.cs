@@ -1,14 +1,14 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using Upgrade;
 using Abilities;
+using Ship;
+using UnityEngine;
+using RuleSets;
 
 namespace UpgradesList
 {
 
-    public class R2D2 : GenericUpgrade
+    public class R2D2 : GenericUpgrade, ISecondEditionUpgrade
     {
         public R2D2() : base()
         {
@@ -17,7 +17,17 @@ namespace UpgradesList
             isUnique = true;
             Cost = 4;
 
+            AvatarOffset = new Vector2(19, 1);
+
             UpgradeAbilities.Add(new R2D2Ability());
+        }
+
+        public void AdaptUpgradeToSecondEdition()
+        {
+            MaxCharges = 3;
+
+            UpgradeAbilities.RemoveAll(a => a is R2D2Ability);
+            UpgradeAbilities.Add(new Abilities.SecondEdition.R2AstromechAbility());
         }
     }
 
@@ -37,13 +47,15 @@ namespace Abilities
             HostShip.OnMovementExecuted -= R2D2PlanRegenShield;
         }
 
-        private void R2D2PlanRegenShield(Ship.GenericShip host)
+        private void R2D2PlanRegenShield(GenericShip host)
         {
-            if (host.AssignedManeuver.ColorComplexity == Movement.ManeuverColor.Green)
+            if (BoardTools.Board.IsOffTheBoard(host)) return;
+
+            if (host.AssignedManeuver.ColorComplexity == Movement.MovementComplexity.Easy)
             {
                 if (host.Shields < host.MaxShields)
                 {
-                    RegisterAbilityTrigger(TriggerTypes.OnShipMovementExecuted, R2D2RegenShield);
+                    RegisterAbilityTrigger(TriggerTypes.OnMovementExecuted, R2D2RegenShield);
                 }
             }
         }

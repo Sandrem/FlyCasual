@@ -5,12 +5,13 @@ using Abilities;
 using Ship;
 using Upgrade;
 using System.Linq;
+using RuleSets;
 
 namespace Ship
 {
     namespace Aggressor
     {
-        public class IG88B : Aggressor
+        public class IG88B : Aggressor, ISecondEditionPilot
         {
             public IG88B() : base()
             {
@@ -20,7 +21,14 @@ namespace Ship
 
                 IsUnique = true;
 
+                SkinName = "Red";
+
                 PilotAbilities.Add(new IG88BAbility());
+            }
+
+            public void AdaptPilotToSecondEdition()
+            {
+                PilotSkill = 4;
             }
         }
     }
@@ -33,13 +41,13 @@ namespace Abilities
         public override void ActivateAbility()
         {
             HostShip.OnAttackMissedAsAttacker += CheckIG88Ability;
-            Phases.OnRoundEnd += ClearIsAbilityUsedFlag;
+            Phases.Events.OnRoundEnd += ClearIsAbilityUsedFlag;
         }
 
         public override void DeactivateAbility()
         {
             HostShip.OnAttackMissedAsAttacker -= CheckIG88Ability;
-            Phases.OnRoundEnd -= ClearIsAbilityUsedFlag;
+            Phases.Events.OnRoundEnd -= ClearIsAbilityUsedFlag;
         }
 
         private void CheckIG88Ability()
@@ -55,7 +63,7 @@ namespace Abilities
 
         private bool HasCannonWeapon()
         {
-            return HostShip.UpgradeBar.GetUpgradesOnlyFaceup().Count(n => n.hasType(UpgradeType.Cannon) && (n as IShipWeapon) != null) > 0;
+            return HostShip.UpgradeBar.GetUpgradesOnlyFaceup().Count(n => n.HasType(UpgradeType.Cannon) && (n as IShipWeapon) != null) > 0;
         }
 
         private void RegisterIG88BAbility(GenericShip ship)
@@ -69,12 +77,13 @@ namespace Abilities
         {
             if (!HostShip.IsCannotAttackSecondTime)
             {
-                Messages.ShowInfo(HostShip.PilotName + " can perform second attack\nfrom Cannon");
-
                 Combat.StartAdditionalAttack(
                     HostShip,
                     FinishAdditionalAttack,
-                    IsCannonShot
+                    IsCannonShot,
+                    "IG-88B",
+                    "You may perform a cannon attack.",
+                    HostShip.ImageUrl
                 );
             }
             else
@@ -92,18 +101,18 @@ namespace Abilities
             Triggers.FinishTrigger();
         }
 
-        private bool IsCannonShot(GenericShip defender, IShipWeapon weapon)
+        private bool IsCannonShot(GenericShip defender, IShipWeapon weapon, bool isSilent)
         {
             bool result = false;
 
             GenericSecondaryWeapon upgradeWeapon = weapon as GenericSecondaryWeapon;
-            if (upgradeWeapon != null && upgradeWeapon.hasType(UpgradeType.Cannon))
+            if (upgradeWeapon != null && upgradeWeapon.HasType(UpgradeType.Cannon))
             {
                 result = true;
             }
             else
             {
-                Messages.ShowError("Attack must be performed from Cannon");
+                if (!isSilent) Messages.ShowError("Attack must be performed from Cannon");
             }
 
             return result;

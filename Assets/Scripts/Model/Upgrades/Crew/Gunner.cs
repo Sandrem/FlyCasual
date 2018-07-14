@@ -3,6 +3,7 @@ using Ship;
 using SubPhases;
 using Abilities;
 using System;
+using UnityEngine;
 
 namespace UpgradesList
 {
@@ -13,6 +14,8 @@ namespace UpgradesList
             Types.Add(UpgradeType.Crew);
             Name = "Gunner";
             Cost = 5;
+
+            AvatarOffset = new Vector2(61, 1);
 
             UpgradeAbilities.Add(new GunnerAbility());
         }
@@ -26,13 +29,13 @@ namespace Abilities
         public override void ActivateAbility()
         {
             HostShip.OnAttackMissedAsAttacker += CheckGunnerAbility;
-            Phases.OnRoundEnd += ClearIsAbilityUsedFlag;
+            Phases.Events.OnRoundEnd += ClearIsAbilityUsedFlag;
         }
 
         public override void DeactivateAbility()
         {
             HostShip.OnAttackMissedAsAttacker -= CheckGunnerAbility;
-            Phases.OnRoundEnd -= ClearIsAbilityUsedFlag;
+            Phases.Events.OnRoundEnd -= ClearIsAbilityUsedFlag;
         }
 
         private void CheckGunnerAbility()
@@ -57,14 +60,15 @@ namespace Abilities
         {
             if (!HostShip.IsCannotAttackSecondTime)
             {
-                Messages.ShowInfo(HostShip.PilotName + " can perform second attack\nfrom primary weapon");
-
                 HostShip.IsCannotAttackSecondTime = true;
 
                 Combat.StartAdditionalAttack(
                     HostShip,
                     FinishAdditionalAttack,
-                    IsPrimaryWeaponShot
+                    IsPrimaryWeaponShot,
+                    HostUpgrade.Name,
+                    "You may perform a primary weapon attack.",
+                    HostUpgrade.ImageUrl
                 );
             }
             else
@@ -82,7 +86,7 @@ namespace Abilities
             Triggers.FinishTrigger();
         }
 
-        private bool IsPrimaryWeaponShot(GenericShip defender, IShipWeapon weapon)
+        private bool IsPrimaryWeaponShot(GenericShip defender, IShipWeapon weapon, bool isSilent)
         {
             bool result = false;
 
@@ -92,7 +96,7 @@ namespace Abilities
             }
             else
             {
-                Messages.ShowError("Attack must be performed from primary weapon");
+                if (!isSilent) Messages.ShowError("Attack must be performed from primary weapon");
             }
 
             return result;

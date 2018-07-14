@@ -5,6 +5,7 @@ using SubPhases;
 using UpgradesList;
 using Tokens;
 using Abilities;
+using UnityEngine;
 
 namespace UpgradesList
 {
@@ -19,6 +20,8 @@ namespace UpgradesList
             Cost = 3;
 
             isUnique = true;
+
+            AvatarOffset = new Vector2(50, 2);
 
             UpgradeAbilities.Add(new KananJarrusCrewAbility());
         }
@@ -39,24 +42,24 @@ namespace Abilities
         public override void ActivateAbility()
         {
             GenericShip.OnMovementFinishGlobal += CheckAbility;
-            Phases.OnRoundEnd += ResetKananJarrusAbilityFlag;
+            Phases.Events.OnRoundEnd += ResetKananJarrusAbilityFlag;
         }
 
         public override void DeactivateAbility()
         {
             GenericShip.OnMovementFinishGlobal -= CheckAbility;
-            Phases.OnRoundEnd -= ResetKananJarrusAbilityFlag;
+            Phases.Events.OnRoundEnd -= ResetKananJarrusAbilityFlag;
         }
 
         private void CheckAbility(GenericShip ship)
         {
-            if (!IsAbilityUsed && ship.Owner.PlayerNo == HostShip.Owner.PlayerNo && ship.AssignedManeuver.ColorComplexity == Movement.ManeuverColor.White)
+            if (!IsAbilityUsed && ship.Owner.PlayerNo == HostShip.Owner.PlayerNo && ship.AssignedManeuver.ColorComplexity == Movement.MovementComplexity.Normal)
             {
-                Board.ShipDistanceInformation distanceInfo = new Board.ShipDistanceInformation(HostShip, ship);
+                BoardTools.DistanceInfo distanceInfo = new BoardTools.DistanceInfo(HostShip, ship);
                 if (distanceInfo.Range < 3)
                 {
                     ShipToRemoveStress = ship;
-                    RegisterAbilityTrigger(TriggerTypes.OnShipMovementFinish, AskKananJarrusAbility);
+                    RegisterAbilityTrigger(TriggerTypes.OnMovementFinish, AskKananJarrusAbility);
                 }
             }
         }

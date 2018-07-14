@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using RuleSets;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,7 +7,7 @@ namespace Ship
 {
     namespace Z95
     {
-        public class BlackSunSoldier : Z95
+        public class BlackSunSoldier : Z95, ISecondEditionPilot
         {
             public BlackSunSoldier() : base()
             {
@@ -16,9 +17,14 @@ namespace Ship
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Illicit);
 
-                SkinName = "Black Sun";
+                //SkinName = "Black Sun";
 
                 faction = Faction.Scum;
+            }
+
+            public void AdaptPilotToSecondEdition()
+            {
+                PilotSkill = 3;
             }
         }
     }

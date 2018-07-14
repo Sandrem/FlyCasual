@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using System.Linq;
+using GameModes;
 
 namespace SubPhases
 {
@@ -14,18 +15,20 @@ namespace SubPhases
         public EventHandler Effect { get; private set; }
         public string Tooltip { get; private set; }
         public int Count { get; private set; }
+        public bool IsRed { get; private set; }
 
         public bool HasTooltip
         {
             get { return Tooltip != null; }
         }
 
-        public Decision(string name, EventHandler effect, string tooltip = null, int count = -1)
+        public Decision(string name, EventHandler effect, string tooltip = null, int count = -1, bool isRed = false)
         {
             Name = name;
             Effect = effect;
             Tooltip = tooltip;
             Count = count;
+            IsRed = isRed;
         }
 
         public void AddTooltip(string tooltip)
@@ -47,7 +50,8 @@ namespace SubPhases
     public enum DecisionViewTypes
     {
         TextButtons,
-        ImageButtons
+        ImagesUpgrade,
+        ImagesDamageCard
     }
 
     public class DecisionSubPhase : GenericSubPhase
@@ -57,21 +61,28 @@ namespace SubPhases
         public string InfoText;
         private List<Decision> decisions = new List<Decision>();
         public string DefaultDecisionName;
-        protected Players.GenericPlayer DecisionOwner;
+        public Players.GenericPlayer DecisionOwner;
         public bool ShowSkipButton;
         public DecisionViewTypes DecisionViewType = DecisionViewTypes.TextButtons;
+        public Action OnSkipButtonIsPressed;
+        public bool WasDecisionButtonPressed;
+        public bool IsForced;
+        public bool DecisionWasPreparedAndShown;
+        public Vector2 ImagesDamageCardSize = new Vector2(194, 300);
 
         private const float defaultWindowHeight = 75;
         private const float buttonHeight = 45;
 
         public override void Start()
         {
+            base.Start();
+
             IsTemporary = true;
 
             decisionPanel = GameObject.Find("UI").transform.Find("DecisionsPanel").gameObject;
             buttonsHolder = decisionPanel.transform.Find("Center/DecisionsPanel").gameObject;
 
-            PrepareDecision(StartIsFinished);
+            GameMode.CurrentGameMode.StartSyncDecisionPreparation();
         }
 
         public virtual void PrepareDecision(Action callBack)
@@ -79,14 +90,20 @@ namespace SubPhases
             callBack();
         }
 
-        private void StartIsFinished()
+        public virtual void StartIsFinished()
         {
             Initialize();
-
             UpdateHelpInfo();
+
+            if (!DecisionWasPreparedAndShown)
+            {
+                DecisionWasPreparedAndShown = true;
+
+                GameMode.CurrentGameMode.FinishSyncDecisionPreparation();
+            }
         }
 
-        public string AddDecision(string name, EventHandler call, string tooltip = null, int count = -1)
+        public string AddDecision(string name, EventHandler call, string tooltip = null, int count = -1, bool isRed = false)
         {
             int counter = 2;
             string newName = name;
@@ -94,7 +111,7 @@ namespace SubPhases
             {
                 newName = name + " #" + counter++;
             }
-            decisions.Add(new Decision(newName, call, tooltip, count));
+            decisions.Add(new Decision(newName, call, tooltip, count, isRed));
 
             return newName;
         }
@@ -135,14 +152,24 @@ namespace SubPhases
                             defaultWindowHeight + ((decisions.Count + 1) / 2) * buttonHeight
                         );
                         break;
-                    case DecisionViewTypes.ImageButtons:
+                    case DecisionViewTypes.ImagesUpgrade:
                         decisionPanel.GetComponent<RectTransform>().sizeDelta = new Vector3(
-                            Mathf.Max(395, decisions.Count * 194 + (decisions.Count + 1) * 10),
-                            defaultWindowHeight + 300 + 10
+                            Mathf.Max(395, decisions.Count * RuleSets.RuleSet.Instance.UpgradeCardSize.x + (decisions.Count + 1) * 10),
+                            defaultWindowHeight + RuleSets.RuleSet.Instance.UpgradeCardSize.y + 10
                         );
                         buttonsHolder.GetComponent<RectTransform>().sizeDelta = new Vector3(
-                            decisions.Count * 194 + (decisions.Count + 1) * 10,
-                            defaultWindowHeight + 300 + 10
+                            decisions.Count * RuleSets.RuleSet.Instance.UpgradeCardSize.x + (decisions.Count + 1) * 10,
+                            defaultWindowHeight + RuleSets.RuleSet.Instance.UpgradeCardSize.y + 10
+                        );
+                        break;
+                    case DecisionViewTypes.ImagesDamageCard:
+                        decisionPanel.GetComponent<RectTransform>().sizeDelta = new Vector3(
+                            Mathf.Max(395, decisions.Count * ImagesDamageCardSize.x + (decisions.Count + 1) * 10),
+                            defaultWindowHeight + ImagesDamageCardSize.y + 10
+                        );
+                        buttonsHolder.GetComponent<RectTransform>().sizeDelta = new Vector3(
+                            decisions.Count * ImagesDamageCardSize.x + (decisions.Count + 1) * 10,
+                            defaultWindowHeight + ImagesDamageCardSize.y + 10
                         );
                         break;
                     default:
@@ -161,7 +188,8 @@ namespace SubPhases
                         case DecisionViewTypes.TextButtons:
                             prefab = (GameObject)Resources.Load("Prefabs/DecisionButton", typeof(GameObject));
                             break;
-                        case DecisionViewTypes.ImageButtons:
+                        case DecisionViewTypes.ImagesUpgrade:
+                        case DecisionViewTypes.ImagesDamageCard:
                             prefab = (GameObject)Resources.Load("Prefabs/SquadBuilder/SmallCardPanel", typeof(GameObject));
                             break;
                         default:
@@ -169,6 +197,7 @@ namespace SubPhases
                     }
 
                     GameObject button = MonoBehaviour.Instantiate(prefab, buttonsHolder.transform);
+                    SmallCardPanel script = null;
 
                     switch (DecisionViewType)
                     {
@@ -176,6 +205,7 @@ namespace SubPhases
                             button.transform.localPosition = new Vector3((i % 2 == 0) ? 5 : 200, -buttonHeight * (i / 2), 0);
 
                             button.GetComponentInChildren<Text>().text = decision.Name;
+                            button.GetComponentInChildren<Text>().color = (decision.IsRed) ? Color.red : Color.white;
 
                             if (decision.HasTooltip)
                             {
@@ -186,19 +216,33 @@ namespace SubPhases
                             EventTrigger.Entry entry = new EventTrigger.Entry();
                             entry.eventID = EventTriggerType.PointerClick;
                             entry.callback.AddListener(
-                                (data) => { GameModes.GameMode.CurrentGameMode.TakeDecision(decision, button); }
+                                (data) => { DecisionButtonWasPressed(decision, button); }
                             );
                             trigger.triggers.Add(entry);
 
                             break;
-                        case DecisionViewTypes.ImageButtons:
-                            button.transform.localPosition = new Vector3(10*(i+1) + i*194, 0, 0);
+                        case DecisionViewTypes.ImagesUpgrade:
+                            button.transform.localPosition = new Vector3(10*(i+1) + i* RuleSets.RuleSet.Instance.UpgradeCardSize.x, 0, 0);
 
-                            SmallCardPanel script = button.GetComponent<SmallCardPanel>();
+                            script = button.GetComponent<SmallCardPanel>();
                             script.Initialize(
                                 decision.Name,
                                 decision.Tooltip,
-                                delegate { GameModes.GameMode.CurrentGameMode.TakeDecision(decision, button); },
+                                delegate { GameMode.CurrentGameMode.TakeDecision(decision, button); },
+                                DecisionViewTypes.ImagesUpgrade,
+                                decision.Count
+                            );
+
+                            break;
+                        case DecisionViewTypes.ImagesDamageCard:
+                            button.transform.localPosition = new Vector3(10 * (i + 1) + i * ImagesDamageCardSize.x, 0, 0);
+
+                            script = button.GetComponent<SmallCardPanel>();
+                            script.Initialize(
+                                decision.Name,
+                                decision.Tooltip,
+                                delegate { GameMode.CurrentGameMode.TakeDecision(decision, button); },
+                                DecisionViewTypes.ImagesDamageCard,
                                 decision.Count
                             );
 
@@ -213,37 +257,55 @@ namespace SubPhases
 
                 if (DecisionOwner == null) DecisionOwner = Roster.GetPlayer(Phases.CurrentPhasePlayer);
 
-                if (ShowSkipButton) UI.ShowSkipButton();
+                if (ShowSkipButton) UI.ShowSkipButton(); else UI.HideSkipButton();
+            }
+        }
 
-                DecisionOwner.TakeDecision();
+        private void DecisionButtonWasPressed(Decision decision, GameObject button)
+        {
+            if (!WasDecisionButtonPressed)
+            {
+                WasDecisionButtonPressed = true;
+                GameMode.CurrentGameMode.TakeDecision(decision, button);
             }
         }
 
         public override void Pause()
         {
-            HidePanel();
+            HideDecisionWindowUI();
         }
 
         public override void Resume()
         {
+            HideDecisionWindowUI();
+
+            base.Resume();
+
             Phases.CurrentSubPhase = this;
             UpdateHelpInfo();
-            Initialize();
+
+            GameMode.CurrentGameMode.StartSyncDecisionPreparation();
         }
 
         public override void Next()
         {
-            HidePanel();
+            HideDecisionWindowUI();
             Phases.CurrentSubPhase = PreviousSubPhase;
             UpdateHelpInfo();
         }
 
-        private void HidePanel()
+        protected void HideDecisionWindowUI()
         {
-            decisionPanel.gameObject.SetActive(false);
-            foreach (Transform button in buttonsHolder.transform)
+            decisions = new List<Decision>();
+
+            if (decisionPanel != null) decisionPanel.gameObject.SetActive(false);
+
+            if (buttonsHolder != null)
             {
-                MonoBehaviour.Destroy(button.gameObject);
+                foreach (Transform button in buttonsHolder.transform)
+                {
+                    MonoBehaviour.Destroy(button.gameObject);
+                }
             }
         }
 
@@ -261,7 +323,12 @@ namespace SubPhases
 
         public void ExecuteDecision(string decisionName)
         {
-            decisions.Find(n => n.Name == decisionName).ExecuteDecision();
+            Decision decision = decisions.Find(n => n.Name == decisionName);
+            if (decision == null)
+            {
+                Console.Write("Cannot find decision name: " + decisionName, LogTypes.Errors, true, "red");
+            }
+            decision.ExecuteDecision();
         }
 
         public override void DoDefault()
@@ -271,12 +338,8 @@ namespace SubPhases
 
         public static void ConfirmDecision()
         {
-            Tooltips.EndTooltip();
-            UI.HideSkipButton();
-
             Action callBack = Phases.CurrentSubPhase.CallBack;
-            Phases.FinishSubPhase(Phases.CurrentSubPhase.GetType());
-            Phases.CurrentSubPhase.Resume();
+            ConfirmDecisionNoCallback();
             callBack();
         }
 
@@ -284,14 +347,20 @@ namespace SubPhases
         {
             Tooltips.EndTooltip();
             UI.HideSkipButton();
-
             Phases.FinishSubPhase(Phases.CurrentSubPhase.GetType());
             Phases.CurrentSubPhase.Resume();
         }
 
         public override void SkipButton()
         {
+            if (OnSkipButtonIsPressed != null) OnSkipButtonIsPressed();
             ConfirmDecision();
+        }
+
+        public void ShowDecisionWindowUI()
+        {
+            WasDecisionButtonPressed = false;
+            GameObject.Find("UI").transform.Find("DecisionsPanel").gameObject.SetActive(true);
         }
 
     }

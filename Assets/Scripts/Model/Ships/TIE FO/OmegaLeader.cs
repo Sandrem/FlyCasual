@@ -58,12 +58,13 @@ namespace Abilities
             char targetLock = HostShip.Tokens.GetTargetLockLetterPair(enemyship);
             if (targetLock != ' ')
             {
-                enemyship.OnTryAddAvailableActionEffect += UseOmegaLeaderRestriction;
+                enemyship.OnTryAddAvailableDiceModification += UseOmegaLeaderRestriction;
+                enemyship.OnTryAddDiceModificationOpposite += UseOmegaLeaderRestriction;
                 enemyship.OnAttackFinish += RemoveOmegaLeaderPilotAbility;
             }
         }
 
-        private void UseOmegaLeaderRestriction(ActionsList.GenericAction action, ref bool canBeUsed)
+        private void UseOmegaLeaderRestriction(GenericShip ship, ActionsList.GenericAction action, ref bool canBeUsed)
         {
             Messages.ShowErrorToHuman("Omega Leader: Unable to modify dice.");
             canBeUsed = false;
@@ -71,7 +72,7 @@ namespace Abilities
 
         private void RemoveOmegaLeaderPilotAbility(GenericShip ship)
         {
-            ship.OnTryAddAvailableActionEffect -= UseOmegaLeaderRestriction;
+            ship.OnTryAddAvailableDiceModification -= UseOmegaLeaderRestriction;
             ship.OnAttackFinish -= RemoveOmegaLeaderPilotAbility;
         }
     }

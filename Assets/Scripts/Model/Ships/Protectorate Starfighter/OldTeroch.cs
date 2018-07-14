@@ -1,16 +1,16 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using System.Collections.Generic;
 using Ship;
 using SubPhases;
 using Tokens;
+using BoardTools;
+using RuleSets;
 
 namespace Ship
 {
-	namespace ProtectorateStarfighter
-	{
-		public class OldTeroch : ProtectorateStarfighter
-		{
+    namespace ProtectorateStarfighter
+    {
+        public class OldTeroch : ProtectorateStarfighter, ISecondEditionPilot
+        {
 			public OldTeroch() : base()
 			{
 				PilotName = "Old Teroch";
@@ -23,28 +23,38 @@ namespace Ship
 
 				PilotAbilities.Add(new Abilities.OldTerochAbility());
 			}
-		}
+
+            public void AdaptPilotToSecondEdition()
+            {
+                PilotSkill = 5;
+                Cost = 54; //TODO
+                
+                PilotAbilities.RemoveAll(ability => ability is Abilities.OldTerochAbility);
+                PilotAbilities.Add(new Abilities.SecondEdition.OldTerochAbility());
+            }
+        }
 	}
 }
 
 namespace Abilities
 {
-	// At the start of the combat phase, you may choose 1 ennemy ship
-	//  at range 1. If you're inside its firing arc, it discards all
-	//  focus and evade tokens.
-	public class OldTerochAbility : GenericAbility
+    // At the start of the combat phase, you may choose 1 enemy ship
+    //  at range 1. If you're inside its firing arc, it discards all
+    //  focus and evade tokens.
+    public class OldTerochAbility : GenericAbility
 	{
+        protected string AbilityDescription = "Choose a ship. If you are inside its firing arc, it discards all focus and evade tokens.";
 		public override void ActivateAbility()
 		{
-			HostShip.OnCombatPhaseStart += CheckOldTerochAbility;
+            Phases.Events.OnCombatPhaseStart_Triggers += CheckOldTerochAbility;
 		}
 
 		public override void DeactivateAbility()
 		{
-			HostShip.OnCombatPhaseStart -= CheckOldTerochAbility;
+            Phases.Events.OnCombatPhaseStart_Triggers -= CheckOldTerochAbility;
 		}
 
-		private void CheckOldTerochAbility(GenericShip host)
+		private void CheckOldTerochAbility()
 		{
 			// give user the option to use ability
 			RegisterAbilityTrigger(TriggerTypes.OnCombatPhaseStart, AskSelectShip);
@@ -60,7 +70,12 @@ namespace Abilities
                     ActivateOldTerochAbility,
                     FilterTargetsOfAbility,
                     GetAiPriorityOfTarget,
-                    HostShip.Owner.PlayerNo
+                    HostShip.Owner.PlayerNo,
+                    true,
+                    null,
+                    HostShip.PilotName,
+                    AbilityDescription,
+                    HostShip.ImageUrl
                 );
 			} else {
 				// no enemy in range
@@ -87,13 +102,13 @@ namespace Abilities
 
         private bool FilterTargetInEnemyArcWithTokens(GenericShip ship)
         {
-            Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(ship, HostShip);
+            ShotInfo shotInfo = new ShotInfo(ship, HostShip, ship.PrimaryWeapon);
             return shotInfo.InArc && (ship.Tokens.HasToken(typeof(FocusToken)) || ship.Tokens.HasToken(typeof(EvadeToken)));
         }
 
         private void ActivateOldTerochAbility()
 		{
-			Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(TargetShip, HostShip);
+			ShotInfo shotInfo = new ShotInfo(TargetShip, HostShip, HostShip.PrimaryWeapon);
 			// Range is already checked in "SelectTargetForAbility", only check if the Host is in the Target firing arc.
 			// Do not use InPrimaryWeaponFireZone, reason :
 			//		VCX-100 without docked Phantom cannot shoot using special rear arc,so InPrimaryWeaponFireZone
@@ -101,7 +116,7 @@ namespace Abilities
 			//		even ship cannot shoot from it.
 			if (shotInfo.InArc == true)
 			{
-                DiscardFocusAndEvadeTokens();
+                DiscardTokens();
             }
             else
             {
@@ -109,7 +124,7 @@ namespace Abilities
 			}
 		}
 
-        private void DiscardFocusAndEvadeTokens()
+        protected virtual void DiscardTokens()
         {
             Messages.ShowInfo(string.Format("{0} discarded all Focus and Evade tokens from {1}", HostShip.PilotName, TargetShip.PilotName));
             DiscardAllFocusTokens();
@@ -129,6 +144,24 @@ namespace Abilities
                 typeof(EvadeToken),
                 SelectShipSubPhase.FinishSelection
             );
+        }
+    }
+
+    namespace SecondEdition
+    {
+        //At the start of the Engagement Phase, you may choose 1 enemy ship at range 1. If you do and you are in its (front arc), it removes all of its green tokens.
+        public class OldTerochAbility : Abilities.OldTerochAbility
+        {
+            public OldTerochAbility()
+            {                
+                AbilityDescription = "Choose a ship. If you are inside its firing arc, it removes all of its green tokens.";
+            }
+
+            protected override void DiscardTokens()
+            {
+                Messages.ShowInfo(string.Format("{0} removed all green tokens from {1}", HostShip.PilotName, TargetShip.PilotName));
+                TargetShip.Tokens.RemoveAllTokensByColor(TokenColors.Green, SelectShipSubPhase.FinishSelection);
+            }
         }
     }
 }

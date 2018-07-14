@@ -1,5 +1,8 @@
 ﻿using Upgrade;
 using UnityEngine;
+using Abilities;
+using Ship;
+using Tokens;
 
 namespace UpgradesList
 {
@@ -10,23 +13,34 @@ namespace UpgradesList
             Types.Add(UpgradeType.Elite);
             Name = "Elusiveness";
             Cost = 2;
-        }
 
-        public override void AttachToShip(Ship.GenericShip host)
+            UpgradeAbilities.Add(new ElusivenessAbility());
+        }
+    }
+}
+
+namespace Abilities
+{
+    public class ElusivenessAbility : GenericAbility
+    {
+        public override void ActivateAbility()
         {
-            base.AttachToShip(host);
-
-            host.AfterGenerateAvailableOppositeActionEffectsList += ElusivenessActionEffect;
+            HostShip.OnGenerateDiceModificationsOpposite += ElusivenessActionEffect;
         }
 
-        private void ElusivenessActionEffect(Ship.GenericShip host)
+        public override void DeactivateAbility()
+        {
+            HostShip.OnGenerateDiceModificationsOpposite -= ElusivenessActionEffect;
+        }
+
+        private void ElusivenessActionEffect(GenericShip host)
         {
             ActionsList.GenericAction newAction = new ActionsList.ElusivenessActionEffect()
             {
-                ImageUrl = ImageUrl,
+                ImageUrl = HostUpgrade.ImageUrl,
                 Host = host
             };
-            host.AddAvailableOppositeActionEffect(newAction);
+            host.AddDiceModificationOpposite(newAction);
         }
     }
 }
@@ -38,11 +52,11 @@ namespace ActionsList
 
         public ElusivenessActionEffect()
         {
-            Name = EffectName = "Elusiveness";
-            IsOpposite = true;
+            Name = DiceModificationName = "Elusiveness";
+            DiceModificationTiming = DiceModificationTimingType.Opposite;
         }
         
-        public override int GetActionEffectPriority()
+        public override int GetDiceModificationPriority()
         {
             int result = 0;
 
@@ -61,7 +75,7 @@ namespace ActionsList
             return result;            
         }
 
-        public override bool IsActionEffectAvailable()
+        public override bool IsDiceModificationAvailable()
         {
             bool result = false;
 
@@ -88,7 +102,7 @@ namespace ActionsList
 
         private void AssignStress(System.Action callBack)
         {
-            Host.Tokens.AssignToken(new Tokens.StressToken(Host), callBack);
+            Host.Tokens.AssignToken(typeof(StressToken), callBack);
         }
 
     }

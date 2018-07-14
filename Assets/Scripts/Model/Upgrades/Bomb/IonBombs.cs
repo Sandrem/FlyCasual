@@ -5,8 +5,9 @@
  using Upgrade;
  using Ship;
  using Bombs;
- 
- namespace UpgradesList
+using Tokens;
+
+namespace UpgradesList
  {
      public class IonBombs : GenericTimedBomb
      {
@@ -48,15 +49,14 @@
 
         private void SufferIonBombTokens(object sender, EventArgs e)
         {
-            _ship.Tokens.AssignToken(new Tokens.IonToken(_ship), SufferSecondIonBombToken);
+            _ship.Tokens.AssignToken(typeof(IonToken), SufferSecondIonBombToken);
    
         }
  
          private void SufferSecondIonBombToken()
          {
-
             Messages.ShowInfoToHuman(string.Format("{0}: Dealt second ion token to {1}", Name, _ship.PilotName));
-            _ship.Tokens.AssignToken(new Tokens.IonToken(_ship), Triggers.FinishTrigger);            
+            _ship.Tokens.AssignToken(typeof(IonToken), Triggers.FinishTrigger);            
         }
  
          private void PlayDefferedSound(GameObject bombObject, Action callBack)

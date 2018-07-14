@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Ship;
+using RuleSets;
 
 namespace Upgrade
 {
@@ -25,7 +26,9 @@ namespace Upgrade
         Title,
         Modification,
         Illicit,
-        Tech
+        Tech,
+        Force,
+        Configuration
     }
 
     public abstract class GenericUpgrade
@@ -36,6 +39,7 @@ namespace Upgrade
         public UpgradeSlot Slot { get; set; }
 
         public string Name { get; set; }
+        public string NameOriginal { get; set; }
         public int Cost;
         public List<UpgradeType> Types = new List<UpgradeType>();
 
@@ -74,9 +78,32 @@ namespace Upgrade
             }
         }
 
+        public string ImageUrlFE
+        {
+            get
+            {
+                return imageUrl ?? ImageUrls.GetImageUrlOld(this);
+            }
+        }
+
+        public Type UpgradeRuleType = typeof(FirstEdition);
+
+        public int MaxCharges { get; set; }
+        public int Charges { get; private set; }
+        public bool UsesCharges;
+
         // SQUAD BUILDER ONLY
 
         public bool IsHidden;
+
+        internal void TryDiscard(object confirmDecision)
+        {
+            throw new NotImplementedException();
+        }
+
+        // Set to use as avatar
+
+        public Vector2 AvatarOffset;
 
         //public Type FromMod { get; set; }
         public Type FromMod { get; set; }
@@ -140,7 +167,7 @@ namespace Upgrade
          * @param type the type of upgrade to test.
          * @return true if this upgrade contains the specified type and false otherwise.
          */
-        public bool hasType(UpgradeType type){
+        public bool HasType(UpgradeType type){
             for (int i = 0; i < Types.Count; i++) {
                 if (Types [i] == type) {
                     return true;
@@ -186,12 +213,13 @@ namespace Upgrade
 
         // ATTACH TO SHIP
 
-        [Obsolete("This is in the process of being depricated, please use new template instead: UpgradeAbilities.Add();", false)]
         public virtual void AttachToShip(GenericShip host)
         {
             Host = host;
             InitializeAbility();
             ActivateAbility();
+            NameOriginal = Name;
+            ShowCharges();
         }
 
         private void InitializeAbility()
@@ -204,10 +232,16 @@ namespace Upgrade
 
         private void ActivateAbility()
         {
+            RuleSet.Instance.ActivateGenericUpgradeAbility(this);
             foreach (var ability in UpgradeAbilities)
             {
                 ability.ActivateAbility();
             }
+        }
+
+        private void ShowCharges()
+        {
+            if (MaxCharges > 0) Name = NameOriginal + " (" + Charges + ")";
         }
 
         private void DeactivateAbility()
@@ -241,31 +275,78 @@ namespace Upgrade
         public virtual void Discard(Action callBack)
         {
             isDiscarded = true;
-            Roster.DiscardUpgrade(Host, Name);
+            PreDettachFromShip();
+            Roster.ShowUpgradeAsInactive(Host, Name);
             DeactivateAbility();
 
-            callBack();
+            Host.CallAfterDiscardUpgrade(this, callBack);
         }
 
         // FLIP FACEUP
 
-        public virtual void FlipFaceup()
+        public void TryFlipFaceUp(Action callBack)
+        {
+            CurrentUpgrade = this;
+            Host.CallFlipFaceUpUpgrade(() => AfterTriedFlipFaceUp(callBack));
+        }
+
+        private void AfterTriedFlipFaceUp(Action callBack)
+        {
+            if (CurrentUpgrade != null)
+            {
+                FlipFaceup(callBack);
+            }
+            else
+            {
+                callBack();
+            }
+        }
+
+        public virtual void FlipFaceup(Action callback)
         {
             isDiscarded = false;
-            Roster.FlipFaceupUpgrade(Host, Name);
+            Roster.ShowUpgradeAsActive(Host, Name);
             ActivateAbility();
 
             Messages.ShowInfo(Name + " is flipped face up");
+            Host.CallAfterFlipFaceUpUpgrade(this, callback);
         }
 
         public void ReplaceUpgradeBy(GenericUpgrade newUpgrade)
         {
-            DeactivateAbility();
-
-            Roster.ReplaceUpgrade(Host, Name, newUpgrade.Name);
+            Roster.ReplaceUpgrade(Host, Name, newUpgrade.Name, newUpgrade.ImageUrl);
 
             Slot.PreInstallUpgrade(newUpgrade, Host);
             Slot.TryInstallUpgrade(newUpgrade, Host);
+        }
+
+        public void SpendCharge(Action callBack)
+        {
+            Charges--;
+            if (Charges == 0) Roster.ShowUpgradeAsInactive(Host, Name);
+
+            Name = NameOriginal + " (" + Charges + ")";
+            Roster.UpdateUpgradesPanel(Host, Host.InfoPanel);
+
+            callBack();
+        }
+
+        public void RestoreCharge()
+        {
+            if (Charges < MaxCharges)
+            {
+                if (Charges == 0) Roster.ShowUpgradeAsActive(Host, Name);
+
+                Charges++;
+
+                Name = NameOriginal + " (" + Charges + ")";
+                Roster.UpdateUpgradesPanel(Host, Host.InfoPanel);
+            }
+        }
+
+        public void SetChargesToMax()
+        {
+            Charges = MaxCharges;
         }
     }
 

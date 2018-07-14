@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Abilities;
+using Tokens;
 
 namespace Ship
 {
@@ -33,12 +34,12 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            Phases.OnEndPhaseStart += RegisterCorranHornAbility;
+            Phases.Events.OnEndPhaseStart_Triggers += RegisterCorranHornAbility;
         }
 
         public override void DeactivateAbility()
         {
-            Phases.OnEndPhaseStart -= RegisterCorranHornAbility;
+            Phases.Events.OnEndPhaseStart_Triggers -= RegisterCorranHornAbility;
         }
 
         private void RegisterCorranHornAbility()
@@ -51,27 +52,33 @@ namespace Abilities
 
         private void UseCorranHornAbility(object sender, System.EventArgs e)
         {
-            Messages.ShowInfo("Corran Horn can perform second attack");
-            Combat.StartAdditionalAttack(HostShip, AfterExtraAttackSubPhase);
+            Combat.StartAdditionalAttack(
+                HostShip,
+                AfterExtraAttackSubPhase,
+                null,
+                HostShip.PilotName,
+                "You may perform an additional attack.\nYou cannot attack during next round.",
+                HostShip.ImageUrl
+            );
         }
 
         private void AfterExtraAttackSubPhase()
         {
             // "Weapons disabled" token is assigned only if attack was successfully performed
-            if (HostShip.IsAttackPerformed) Phases.OnRoundStart += RegisterAssignWeaponsDisabledTrigger;
+            if (HostShip.IsAttackPerformed) Phases.Events.OnRoundStart += RegisterAssignWeaponsDisabledTrigger;
 
             Triggers.FinishTrigger();
         }
 
         private void RegisterAssignWeaponsDisabledTrigger()
         {
-            Phases.OnRoundStart -= RegisterAssignWeaponsDisabledTrigger;
+            Phases.Events.OnRoundStart -= RegisterAssignWeaponsDisabledTrigger;
             RegisterAbilityTrigger(TriggerTypes.OnRoundStart, AssignWeaponsDisabledTrigger);
         }
 
         private void AssignWeaponsDisabledTrigger(object sender, System.EventArgs e)
         {
-            HostShip.Tokens.AssignToken(new Tokens.WeaponsDisabledToken(HostShip), Triggers.FinishTrigger);
+            HostShip.Tokens.AssignToken(typeof(WeaponsDisabledToken), Triggers.FinishTrigger);
         }
     }
 }

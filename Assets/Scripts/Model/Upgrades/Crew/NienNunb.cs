@@ -1,4 +1,8 @@
-﻿using Upgrade;
+﻿using UnityEngine;
+using Upgrade;
+using Abilities;
+using Ship;
+using Movement;
 
 namespace UpgradesList
 {
@@ -9,28 +13,42 @@ namespace UpgradesList
             Types.Add(UpgradeType.Crew);
             Name = "Nien Nunb";
             Cost = 1;
+
             isUnique = true;
+
+            AvatarOffset = new Vector2(50, 1);
+
+            UpgradeAbilities.Add(new NienNunbCrewAbility());
         }
 
-        public override bool IsAllowedForShip(Ship.GenericShip ship)
+        public override bool IsAllowedForShip(GenericShip ship)
         {
             return ship.faction == Faction.Rebel;
         }
+    }
+}
 
-        public override void AttachToShip(Ship.GenericShip host)
+namespace Abilities
+{
+    public class NienNunbCrewAbility : GenericAbility
+    {
+        public override void ActivateAbility()
         {
-            base.AttachToShip(host);
-
-            host.AfterGetManeuverColorDecreaseComplexity += NienNunbAbility;
+            HostShip.AfterGetManeuverColorDecreaseComplexity += NienNunbAbility;
         }
 
-        private void NienNunbAbility(Ship.GenericShip ship, ref Movement.MovementStruct movement)
+        public override void DeactivateAbility()
         {
-            if (movement.ColorComplexity != Movement.ManeuverColor.None)
+            HostShip.AfterGetManeuverColorDecreaseComplexity -= NienNunbAbility;
+        }
+
+        private void NienNunbAbility(GenericShip ship, ref MovementStruct movement)
+        {
+            if (movement.ColorComplexity != MovementComplexity.None)
             {
-                if (movement.Bearing == Movement.ManeuverBearing.Straight)
+                if (movement.Bearing == ManeuverBearing.Straight)
                 {
-                    movement.ColorComplexity = Movement.ManeuverColor.Green;
+                    movement.ColorComplexity = MovementComplexity.Easy;
                 }
             }
         }

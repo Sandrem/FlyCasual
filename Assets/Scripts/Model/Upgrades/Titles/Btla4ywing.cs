@@ -2,6 +2,7 @@
 using Ship.YWing;
 using Upgrade;
 using Abilities;
+using Arcs;
 
 namespace UpgradesList
 {
@@ -31,21 +32,21 @@ namespace Abilities
         public override void ActivateAbility() {
             Toggle360Arc(false);
             HostShip.OnShotStartAsAttacker += CheckConditions;
-            Phases.OnRoundEnd += ClearAbility;
+            Phases.Events.OnRoundEnd += ClearAbility;
         }
 
         public override void DeactivateAbility() {
             Toggle360Arc(true);
             HostShip.OnShotStartAsAttacker -= CheckConditions;
-            Phases.OnRoundEnd -= ClearAbility;
+            Phases.Events.OnRoundEnd -= ClearAbility;
         }
 
         private void Toggle360Arc(bool isActive)
         {
-            GenericSecondaryWeapon turret = (GenericSecondaryWeapon)HostShip.UpgradeBar.GetUpgradesAll().Find(n => n.hasType(UpgradeType.Turret));
+            GenericSecondaryWeapon turret = (GenericSecondaryWeapon)HostShip.UpgradeBar.GetUpgradesAll().Find(n => n.HasType(UpgradeType.Turret));
             if (turret != null)
             {
-                HostShip.ArcInfo.OutOfArcShotPermissions.CanShootTurret = isActive;
+                HostShip.ArcInfo.GetArc<OutOfArc>().ShotPermissions.CanShootTurret = isActive;
                 turret.CanShootOutsideArc = isActive;
             }
         }
@@ -68,19 +69,20 @@ namespace Abilities
 
         private void DoBTL4AExtraAttack(object sender, System.EventArgs e)
         {
-            Messages.ShowInfo(HostShip.PilotName + " can perform second attack from secondary weapon");
-
             Combat.StartAdditionalAttack(
                 HostShip,
                 delegate {
                     Selection.ThisShip.IsAttackPerformed = true;                    
                     Triggers.FinishTrigger();
                 },
-                IsSecondaryShot
+                IsSecondaryShot,
+                HostUpgrade.Name,
+                "You can perform an addition attack with a turret againts target inside your firing arc.",
+                HostUpgrade.ImageUrl
             );
         }
 
-        private bool IsSecondaryShot(GenericShip defender, IShipWeapon weapon)
+        private bool IsSecondaryShot(GenericShip defender, IShipWeapon weapon, bool isSilent)
         {
             bool result = false;
             if (weapon.GetType() != typeof(PrimaryWeaponClass))
@@ -89,7 +91,7 @@ namespace Abilities
             }
             else
             {
-                Messages.ShowError("Attack must be performed from secondary weapon");
+                if (!isSilent) Messages.ShowError("Attack must be performed from secondary weapon");
             }
             return result;
         }

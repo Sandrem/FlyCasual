@@ -28,12 +28,12 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            Phases.OnCombatPhaseStart += RegisterColonelJendonAbility;
+            Phases.Events.OnCombatPhaseStart_Triggers += RegisterColonelJendonAbility;
         }
 
         public override void DeactivateAbility()
         {
-            Phases.OnCombatPhaseStart -= RegisterColonelJendonAbility;
+            Phases.Events.OnCombatPhaseStart_Triggers -= RegisterColonelJendonAbility;
         }
 
         private void RegisterColonelJendonAbility()
@@ -87,7 +87,12 @@ namespace Abilities
                 SelectColonelJendonAbilityTarget,
                 FilterAbilityTargets,
                 GetAiAbilityPriority,
-                HostShip.Owner.PlayerNo
+                HostShip.Owner.PlayerNo,
+                true,
+                DecisionSubPhase.ConfirmDecision,
+                HostShip.PilotName,
+                "Choose a ship to assign to it one of your Blue Target Lock tokens if it does not have a Blue Target Lock token.",
+                HostShip.ImageUrl
             );
         }
 

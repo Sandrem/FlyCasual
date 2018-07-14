@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using Ship;
+using Players;
+using UnityEngine.UI;
 
 public enum Sorting
 {
@@ -19,7 +21,7 @@ namespace SubPhases
 
         public string Name;
 
-        public System.Action CallBack;
+        public Action CallBack;
 
         public bool IsTemporary = false;
 
@@ -30,13 +32,23 @@ namespace SubPhases
             set { canBePaused = value; }
         }
 
+        private GenericShip theShip;
+        public GenericShip TheShip
+        {
+            get { return theShip ?? Selection.ThisShip; }
+            set { theShip = value; }
+        }
+
         public int RequiredPilotSkill;
-        public Players.PlayerNo RequiredPlayer = Players.PlayerNo.Player1;
+        public PlayerNo RequiredPlayer = PlayerNo.Player1;
 
         protected const int PILOTSKILL_MIN = 0;
         protected const int PILOTSKILL_MAX = 12;
 
-        public virtual void Start() { }
+        public virtual void Start()
+        {
+            Roster.HighlightPlayer(RequiredPlayer);
+        }
 
         public virtual void Prepare() { }
 
@@ -44,7 +56,10 @@ namespace SubPhases
 
         public virtual void Pause() { }
 
-        public virtual void Resume() { }
+        public virtual void Resume()
+        {
+            Roster.HighlightPlayer(RequiredPlayer);
+        }
 
         public virtual void Update() { }
 
@@ -110,6 +125,30 @@ namespace SubPhases
         public virtual void DoSelectThisShip(GenericShip ship, int mouseKeyIsPressed) { }
 
         public virtual void DoSelectAnotherShip(GenericShip ship, int mouseKeyIsPressed) { }
+
+        protected void HideSubphaseDescription()
+        {
+            GameObject subphaseDescriptionGO = GameObject.Find("UI").transform.Find("CurrentSubphaseDescription").gameObject;
+            subphaseDescriptionGO.SetActive(false);
+
+            subphaseDescriptionGO = GameObject.Find("UI").transform.Find("CurrentSubphaseDescriptionNoImage").gameObject;
+            subphaseDescriptionGO.SetActive(false);
+        }
+
+        protected void ShowSubphaseDescription(string title, string description, string imageUrl = null)
+        {
+            HideSubphaseDescription();
+            if (Roster.GetPlayer(RequiredPlayer).GetType() == typeof(HumanPlayer))
+            {
+                GameObject subphaseDescriptionGO = GameObject.Find("UI").transform.Find("CurrentSubphaseDescription" + ((imageUrl != null) ? "" : "NoImage")).gameObject; 
+                 
+                subphaseDescriptionGO.transform.Find("AbilityName").GetComponent<Text>().text = title;
+                subphaseDescriptionGO.transform.Find("Description").GetComponent<Text>().text = description;
+                if (imageUrl != null) subphaseDescriptionGO.transform.Find("CardImage").GetComponent<SmallCardArt>().Initialize(imageUrl);
+
+                subphaseDescriptionGO.SetActive(true);
+            }
+        }
 
     }
 

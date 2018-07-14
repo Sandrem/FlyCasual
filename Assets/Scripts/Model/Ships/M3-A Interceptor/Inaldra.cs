@@ -33,24 +33,24 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList += AddInaldraAbility;
+            HostShip.OnGenerateDiceModifications += AddInaldraAbility;
         }
  
         public override void DeactivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList -= AddInaldraAbility;
+            HostShip.OnGenerateDiceModifications -= AddInaldraAbility;
         }
 
         private void AddInaldraAbility(GenericShip ship)
         {
-            ship.AddAvailableActionEffect(new InaldraAction() {Host = HostShip});
+            ship.AddAvailableDiceModification(new InaldraAction() {Host = HostShip});
         }
 
         private class InaldraAction : ActionsList.GenericAction
         {
             public InaldraAction()
             {
-                Name = EffectName = "Inaldra's ability";
+                Name = DiceModificationName = "Inaldra's ability";
             }
 
             public override void ActionEffect(Action callBack)
@@ -77,13 +77,13 @@ namespace Abilities
                 }
             }
 
-            public override bool IsActionEffectAvailable()
+            public override bool IsDiceModificationAvailable()
             {
                 // check if ship has shield to activate ability
                 return Host.Shields > 0;
             }
  
-            public override int GetActionEffectPriority()
+            public override int GetDiceModificationPriority()
             {
                 int result = 0;
 
@@ -92,7 +92,7 @@ namespace Abilities
                     // While defending, use the ability only if the attack success is greater than
                     // the defence AND it's possible to cancel more dice with the defence
                     if ( (Combat.DiceRollAttack.Successes > Combat.DiceRollDefence.Successes)
-                        && (Combat.DiceRollAttack.Number <= Combat.DiceRollDefence.Number ))
+                        && (Combat.DiceRollAttack.Count <= Combat.DiceRollDefence.Count))
                     {
                         result = 90;
                     }
@@ -103,7 +103,7 @@ namespace Abilities
                     // While attacking, use the ability only if the attack success is lower than
                     // the defence AND it's possible to damage more the the defence
                     if ((Combat.DiceRollAttack.Successes < Combat.DiceRollDefence.Successes)
-                        && (Combat.DiceRollAttack.Number >= Combat.DiceRollDefence.Number ))
+                        && (Combat.DiceRollAttack.Count >= Combat.DiceRollDefence.Count))
                     {
                         result = 90;
                     }

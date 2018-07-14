@@ -7,7 +7,6 @@ using Ship.XWing;
 using Ship.T70XWing;
 using Abilities;
 using System.Linq;
-using DamageDeckCard;
 
 namespace UpgradesList
 {
@@ -45,7 +44,7 @@ namespace Abilities
 
         private void RegisterIntegratedAstromechTrigger(GenericShip ship)
         {
-            if (HostShip.UpgradeBar.GetUpgradesOnlyFaceup().Count(n => n.hasType(UpgradeType.Astromech)) != 0)
+            if (HostShip.UpgradeBar.GetUpgradesOnlyFaceup().Count(n => n.HasType(UpgradeType.Astromech)) != 0)
             {
                 RegisterAbilityTrigger(TriggerTypes.OnDamageCardIsDealt, AskUseIntegratedAstromechAbility);
             }
@@ -78,7 +77,7 @@ namespace Abilities
 
         private void UseAbility(object sender, System.EventArgs e)
         {
-            GenericUpgrade astromech = HostShip.UpgradeBar.GetUpgradesOnlyFaceup().Find(n => n.hasType(UpgradeType.Astromech));
+            GenericUpgrade astromech = HostShip.UpgradeBar.GetUpgradesOnlyFaceup().Find(n => n.HasType(UpgradeType.Astromech));
             if (astromech != null)
             {
                 Sounds.PlayShipSound("R2D2-Killed");

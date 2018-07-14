@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using Obstacles;
 
 namespace Movement
 {
@@ -20,9 +21,10 @@ namespace Movement
         }
 
         public List<Ship.GenericShip> ShipsBumped = new List<Ship.GenericShip>();
-        public List<Collider> AsteroidsHit = new List<Collider>();
+        public List<GenericObstacle> AsteroidsHit = new List<GenericObstacle>();
         public List<GameObject> MinesHit = new List<GameObject>();
-        public bool IsLandedOnAsteroid { get; private set; }
+        public bool IsLandedOnAsteroid { get { return LandedOnObstacles.Count > 0; } }
+        public List<GenericObstacle> LandedOnObstacles = new List<GenericObstacle>();
         public float SuccessfullMovementProgress { get; private set; }
         public bool IsOffTheBoard;
 
@@ -80,7 +82,7 @@ namespace Movement
                     else
                     {
                         IsOffTheBoard = obstacleStayDetector.OffTheBoard;
-                        IsLandedOnAsteroid = obstacleStayDetector.OverlapsAsteroid;
+                        LandedOnObstacles = new List<GenericObstacle>(obstacleStayDetector.OverlapedAsteroids);
                         SuccessfullMovementProgress = (float)(i) / (generatedShipStands.Length - 1);
 
                         if (lastShipBumpDetector != null)
@@ -117,7 +119,7 @@ namespace Movement
                 }
                 else
                 {
-                    foreach (var asteroidHit in obstacleHitsDetector.OverlapedAsteroids)
+                    foreach (GenericObstacle asteroidHit in obstacleHitsDetector.OverlapedAsteroids)
                     {
                         if (!AsteroidsHit.Contains(asteroidHit))
                         {

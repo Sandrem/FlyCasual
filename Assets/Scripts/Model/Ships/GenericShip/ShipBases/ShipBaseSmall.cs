@@ -18,16 +18,10 @@ namespace Ship
             HALF_OF_SHIPSTAND_SIZE = 0.5f;
             SHIPSTAND_SIZE = 1f;
             SHIPSTAND_SIZE_CM = 4f;
+
             HALF_OF_FIRINGARC_SIZE = 0.425f;
 
             CreateShipBase();
-        }
-
-        protected override void CreateShipBase()
-        {
-            base.CreateShipBase();
-
-            Host.GetShipAllPartsTransform().localPosition = Host.GetShipAllPartsTransform().localPosition + new Vector3(0f, 0f, -0.5f);
         }
 
     }

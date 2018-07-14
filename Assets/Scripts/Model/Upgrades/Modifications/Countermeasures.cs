@@ -32,12 +32,12 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            Phases.OnCombatPhaseStart += RegisterCountermeasuresAbility;
+            Phases.Events.OnCombatPhaseStart_Triggers += RegisterCountermeasuresAbility;
         }
 
         public override void DeactivateAbility()
         {
-            Phases.OnCombatPhaseStart -= RegisterCountermeasuresAbility;
+            Phases.Events.OnCombatPhaseStart_Triggers -= RegisterCountermeasuresAbility;
         }
 
         private void RegisterCountermeasuresAbility()
@@ -61,7 +61,7 @@ namespace Abilities
             Messages.ShowInfo(string.Format("{0} used Countermeasures", HostShip.PilotName));
 
             HostShip.ChangeAgilityBy(+1);
-            Phases.OnRoundEnd += DeactivateCountermeasures;
+            Phases.Events.OnRoundEnd += DeactivateCountermeasures;
 
             if (HostShip.Tokens.HasToken(typeof(RedTargetLockToken), '*'))
             {
@@ -76,7 +76,7 @@ namespace Abilities
 
         private void DeactivateCountermeasures()
         {
-            Phases.OnRoundEnd -= DeactivateCountermeasures;
+            Phases.Events.OnRoundEnd -= DeactivateCountermeasures;
             HostShip.ChangeAgilityBy(-1);
         }
 

@@ -8,6 +8,7 @@ using UnityEngine;
 using Upgrade;
 using GameModes;
 using UnityEngine.SceneManagement;
+using RuleSets;
 
 namespace SquadBuilderNS
 {
@@ -69,6 +70,7 @@ namespace SquadBuilderNS
         public void ClearShips()
         {
             Ships = new List<SquadBuilderShip>();
+            Points = 0;
         }
     }
 
@@ -118,13 +120,13 @@ namespace SquadBuilderNS
 
         public static void Initialize()
         {
+            GenerateListOfShips();
+            GenerateUpgradesList();
             SquadLists = new List<SquadList>()
             {
                 new SquadList(PlayerNo.Player1),
                 new SquadList(PlayerNo.Player2)
             };
-            GenerateListOfShips();
-            GenerateUpgradesList();
         }
 
         public static void SetCurrentPlayer(PlayerNo playerNo)
@@ -157,6 +159,7 @@ namespace SquadBuilderNS
                 {
                     namespaceList.Add(ns);
                     GenericShip newShipTypeContainer = (GenericShip)System.Activator.CreateInstance(System.Type.GetType(ns + "." + ns.Substring(5)));
+                    RuleSet.Instance.AdaptShipToRules(newShipTypeContainer);
 
                     if (AllShips.Find(n => n.ShipName == newShipTypeContainer.Type) == null)
                     {
@@ -189,6 +192,8 @@ namespace SquadBuilderNS
                 if (type.MemberType == MemberTypes.NestedType) continue;
 
                 GenericShip newShipContainer = (GenericShip)System.Activator.CreateInstance(type);
+                RuleSet.Instance.AdaptPilotToRules(newShipContainer);
+
                 if ((newShipContainer.PilotName != null) && (newShipContainer.IsAllowedForSquadBuilder()))
                 {
                     if ((newShipContainer.faction == faction) || faction == Faction.None)
@@ -234,6 +239,8 @@ namespace SquadBuilderNS
                 {
                     if (AllUpgrades.Find(n => n.UpgradeName == newUpgradeContainer.Name) == null)
                     {
+                        RuleSet.Instance.AdaptUpgradeToRules(newUpgradeContainer);
+
                         AllUpgrades.Add(new UpgradeRecord()
                         {
                             UpgradeName = newUpgradeContainer.Name,
@@ -275,13 +282,22 @@ namespace SquadBuilderNS
             slot.PreInstallUpgrade(upgrade, CurrentSquadBuilderShip.Instance);
         }
 
-        private static void InstallUpgrade(SquadBuilderShip ship, string upgradeName)
+        private static bool InstallUpgrade(SquadBuilderShip ship, string upgradeName)
         {
             string upgradeType = AllUpgrades.Find(n => n.UpgradeName == upgradeName).UpgradeTypeName;
             GenericUpgrade newUpgrade = (GenericUpgrade)System.Activator.CreateInstance(Type.GetType(upgradeType));
+            RuleSet.Instance.AdaptUpgradeToRules(newUpgrade);
 
             List<UpgradeSlot> slots = FindFreeSlots(ship, newUpgrade.Types);
-            slots[0].PreInstallUpgrade(newUpgrade, ship.Instance);
+            if (slots.Count != 0)
+            {
+                slots[0].PreInstallUpgrade(newUpgrade, ship.Instance);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         private static List<UpgradeSlot> FindFreeSlots(SquadBuilderShip shipHolder, List<UpgradeType> upgradeTypes)
@@ -359,6 +375,12 @@ namespace SquadBuilderNS
 
         private static void OpenShipInfo(GenericShip ship)
         {
+            if (RuleSet.Instance.IsSquadBuilderLocked)
+            {
+                Messages.ShowError("This part of squad builder is disabled");
+                return;
+            }
+
             CurrentSquadBuilderShip = CurrentSquadList.GetShips().Find(n => n.Instance == ship);
             MainMenu.CurrentMainMenu.ChangePanel("ShipSlotsPanel");
         }
@@ -425,27 +447,36 @@ namespace SquadBuilderNS
         public static void StartLocalGame()
         {
             GameMode.CurrentGameMode = new LocalGame();
-            SwitchToBattlecene();
+            SwitchToBattleScene();
         }
 
-        public static void SwitchToBattlecene()
+        public static void SwitchToBattleScene()
         {
-            ShowOpponentSquad();
+            Global.ToggelLoadingScreen(true);
             LoadBattleScene();
         }
 
         public static void SaveSquadConfigurations()
         {
-            foreach (var squad in SquadLists)
-            {
-                squad.SavedConfiguration = GetSquadInJson(squad.PlayerNo);
-                ClearShipsOfPlayer(squad.PlayerNo);
-            }
+            SaveSquadron(GetSquadList(PlayerNo.Player1), "Autosave", delegate{
+                foreach (var squad in SquadLists)
+                {
+                    squad.SavedConfiguration = GetSquadInJson(squad.PlayerNo);
+
+                    JSONObject playerInfoJson = new JSONObject();
+                    playerInfoJson.AddField("NickName", Options.NickName);
+                    playerInfoJson.AddField("Title", Options.Title);
+                    playerInfoJson.AddField("Avatar", Options.Avatar);
+                    squad.SavedConfiguration.AddField("PlayerInfo", playerInfoJson);
+
+                    ClearShipsOfPlayer(squad.PlayerNo);
+                }
+            });
         }
 
         public static void LoadBattleScene()
         {
-            //TestRandom();
+            MainMenu.ShowAiInformation();
             SceneManager.LoadScene("Battle");
         }
 
@@ -456,7 +487,8 @@ namespace SquadBuilderNS
 
         private static bool ValidatePlayerRoster(PlayerNo playerNo)
         {
-            if (RosterIsEmpty(playerNo)) return false;
+            if (!ValidateMinShipsCount(playerNo)) return false;
+            if (!ValidateMaxShipsCount(playerNo)) return false;
             if (!ValidateUniqueCards(playerNo)) return false;
             if (!ValidateSquadCost(playerNo)) return false;
             if (!ValidateLimitedCards(playerNo)) return false;
@@ -467,13 +499,24 @@ namespace SquadBuilderNS
             return true;
         }
 
-        private static bool RosterIsEmpty(PlayerNo playerNo)
+        private static bool ValidateMinShipsCount(PlayerNo playerNo)
         {
-            bool result = false;
-            if (GetSquadList(playerNo).GetShips().Count == 0)
+            bool result = true;
+            if (GetSquadList(playerNo).GetShips().Count < RuleSet.Instance.MinShipsCount)
             {
-                result = true;
-                Messages.ShowError("At least one pilot must be present");
+                result = false;
+                Messages.ShowError("Minimum number of pilots is required: " + RuleSet.Instance.MinShipsCount);
+            }
+            return result;
+        }
+
+        private static bool ValidateMaxShipsCount(PlayerNo playerNo)
+        {
+            bool result = true;
+            if (GetSquadList(playerNo).GetShips().Count > RuleSet.Instance.MaxShipsCount)
+            {
+                result = false;
+                Messages.ShowError("Maximum number of pilots is required: " + RuleSet.Instance.MaxShipsCount);
             }
             return result;
         }
@@ -522,9 +565,9 @@ namespace SquadBuilderNS
 
             if (!DebugManager.DebugNoSquadPointsLimit)
             {
-                if (GetSquadCost(playerNo) > 100)
+                if (GetSquadCost(playerNo) > RuleSet.Instance.MaxPoints)
                 {
-                    Messages.ShowError("Cost of squadron cannot be more than 100");
+                    Messages.ShowError("Cost of squadron cannot be more than " + RuleSet.Instance.MaxPoints);
                     result = false;
                 }
             }
@@ -648,7 +691,7 @@ namespace SquadBuilderNS
 
         // IMPORT / EXPORT
 
-        public static void CreateSquadFromImportedJson(string jsonString, PlayerNo playerNo)
+        public static void CreateSquadFromImportedJson(string jsonString, PlayerNo playerNo, Action callback)
         {
             JSONObject squadJson = new JSONObject(jsonString);
             //LogImportedSquad(squadJson);
@@ -656,10 +699,7 @@ namespace SquadBuilderNS
             SetPlayerSquadFromImportedJson(
                 squadJson,
                 playerNo,
-                delegate
-                {
-                    MainMenu.CurrentMainMenu.ChangePanel("SquadBuilderPanel");
-                }
+                callback
             );
         }
 
@@ -691,11 +731,20 @@ namespace SquadBuilderNS
                         string shipNameGeneral = AllShips.Find(n => n.ShipNameCanonical == shipNameXws).ShipName;
 
                         string pilotNameXws = pilotJson["name"].str;
+                        if (!AllPilots.Any(n => n.PilotNameCanonical == pilotNameXws))
+                        {
+                            Debug.Log("Cannot find pilot: " + pilotNameXws);
+                            Console.Write("Cannot find pilot: " + pilotNameXws, LogTypes.Errors, true, "red");
+                        }
                         string pilotNameGeneral = AllPilots.Find(n => n.PilotNameCanonical == pilotNameXws).PilotName;
 
                         PilotRecord pilotRecord = AllPilots.Find(n => n.PilotName == pilotNameGeneral && n.PilotShip.ShipName == shipNameGeneral && n.PilotFaction == faction);
                         GenericShip newShipInstance = (GenericShip)Activator.CreateInstance(Type.GetType(pilotRecord.PilotTypeName));
+                        RuleSet.Instance.AdaptShipToRules(newShipInstance);
+                        RuleSet.Instance.AdaptPilotToRules(newShipInstance);
                         SquadBuilderShip newShip = AddPilotToSquad(newShipInstance, playerNo);
+
+                        List<string> upgradesThatCannotBeInstalled = new List<string>();
 
                         JSONObject upgradeJsons = pilotJson["upgrades"];
                         foreach (string upgradeType in upgradeJsons.keys)
@@ -703,9 +752,33 @@ namespace SquadBuilderNS
                             JSONObject upgradeNames = upgradeJsons[upgradeType];
                             foreach (JSONObject upgradeRecord in upgradeNames.list)
                             {
+                                if (!AllUpgrades.Any(n => n.UpgradeNameCanonical == upgradeRecord.str))
+                                {
+                                    Debug.Log("Cannot find upgrade: " + upgradeRecord.str);
+                                    Console.Write("Cannot find upgrade: " + upgradeRecord.str, LogTypes.Errors, true, "red");
+                                }
                                 string upgradeName = AllUpgrades.Find(n => n.UpgradeNameCanonical == upgradeRecord.str).UpgradeName;
-                                InstallUpgrade(newShip, upgradeName);
+                                bool upgradeInstalledSucessfully = InstallUpgrade(newShip, upgradeName);
+                                if (!upgradeInstalledSucessfully) upgradesThatCannotBeInstalled.Add(upgradeName);
                             }
+                        }
+
+                        while (upgradeJsons.Count != 0)
+                        {
+                            List<string> upgradesThatCannotBeInstalledCopy = new List<string>(upgradesThatCannotBeInstalled);
+
+                            bool wasSuccess = false;
+                            foreach (var upgradeName in upgradesThatCannotBeInstalledCopy)
+                            {
+                                bool upgradeInstalledSucessfully = InstallUpgrade(newShip, upgradeName);
+                                if (upgradeInstalledSucessfully)
+                                {
+                                    wasSuccess = true;
+                                    upgradesThatCannotBeInstalled.Remove(upgradeName);
+                                }
+                            }
+
+                            if (!wasSuccess) break;
                         }
 
                         if (pilotJson.HasField("vendor"))
@@ -963,6 +1036,11 @@ namespace SquadBuilderNS
             get { return GetSquadList(PlayerNo.Player2).PlayerType == typeof(NetworkOpponentPlayer); }
         }
 
+        public static bool IsVsAiGame
+        {
+            get { return GetSquadList(PlayerNo.Player2).PlayerType == typeof(HotacAiPlayer); }
+        }
+
         public static void SwitchPlayers()
         {
             SquadList player1SquadList = GetSquadList(PlayerNo.Player1);
@@ -984,11 +1062,20 @@ namespace SquadBuilderNS
 
         public static void BrowseSavedSquads()
         {
+            // TEMPORARY
+            GetRandomAiSquad();
+
             ShowListOfSavedSquadrons(GetSavedSquadsJsons());
         }
 
         private static void DeleteSavedSquadAndRefresh(string fileName)
         {
+            if (RuleSet.Instance.IsSquadBuilderLocked)
+            {
+                Messages.ShowError("This part of squad builder is disabled");
+                return;
+            }
+
             DeleteSavedSquadFile(fileName);
             BrowseSavedSquads();
         }

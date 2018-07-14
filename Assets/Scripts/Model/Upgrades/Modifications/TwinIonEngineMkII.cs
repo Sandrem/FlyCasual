@@ -1,5 +1,6 @@
 ﻿using Ship;
 using Upgrade;
+using Abilities;
 
 namespace UpgradesList
 {
@@ -11,27 +12,38 @@ namespace UpgradesList
             Name = "Twin Ion Engine Mk. II";
             ImageUrl = ImageUrls.GetImageUrl(this, "twin-ion-engine-mkii.png");
             Cost = 1;
+
+            UpgradeAbilities.Add(new TreatAllBanksAsGreenAbility());
         }
 
         public override bool IsAllowedForShip(GenericShip ship)
         {
             return ship is TIE;
+        }        
+    }
+}
+
+namespace Abilities
+{
+    public class TreatAllBanksAsGreenAbility : GenericAbility
+    {
+        public override void ActivateAbility()
+        {
+            HostShip.AfterGetManeuverColorDecreaseComplexity += CheckAbility;
         }
 
-        public override void AttachToShip(GenericShip host)
+        public override void DeactivateAbility()
         {
-            base.AttachToShip(host);
-
-            host.AfterGetManeuverColorDecreaseComplexity += TwinIonEngineMkIIAbility;
+            HostShip.AfterGetManeuverColorDecreaseComplexity -= CheckAbility;
         }
 
-        private void TwinIonEngineMkIIAbility(GenericShip ship, ref Movement.MovementStruct movement)
+        private void CheckAbility(GenericShip ship, ref Movement.MovementStruct movement)
         {
-            if (movement.ColorComplexity != Movement.ManeuverColor.None)
+            if (movement.ColorComplexity != Movement.MovementComplexity.None)
             {
                 if (movement.Bearing == Movement.ManeuverBearing.Bank)
                 {
-                    movement.ColorComplexity = Movement.ManeuverColor.Green;
+                    movement.ColorComplexity = Movement.MovementComplexity.Easy;
                 }
             }
         }

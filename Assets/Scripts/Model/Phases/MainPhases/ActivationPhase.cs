@@ -22,6 +22,11 @@ namespace MainPhases
         public override void NextPhase()
         {
             Selection.DeselectAllShips();
+            StartCombatPhase();
+        }
+
+        private void StartCombatPhase()
+        {
             Phases.CurrentPhase = new CombatPhase();
             Phases.CurrentPhase.StartPhase();
         }

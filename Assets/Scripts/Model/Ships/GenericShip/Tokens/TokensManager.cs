@@ -32,6 +32,16 @@ namespace Ship
             return GetAllTokens().Count(n => n.GetType() == type);
         }
 
+        public bool HasToken<T>(char letter = ' ') where T : GenericToken
+        {
+            return GetToken<T>(letter) != null;
+        }
+
+        public int CountTokensByType<T>() where T : GenericToken
+        {
+            return GetAllTokens().Count(n => n is T);
+        }
+
         public GenericToken GetToken(Type type, char letter = ' ')
         {
             GenericToken result = null;
@@ -53,6 +63,15 @@ namespace Ship
                     }
                 }
             }
+            return result;
+        }
+
+        public T GetToken<T>(char letter = ' ') where T : GenericToken
+        {
+            var result = AssignedTokens
+                .OfType<T>()
+                .Where(t => !(t is GenericTargetLockToken) || letter == '*' || (t as GenericTargetLockToken).Letter == letter)
+                .FirstOrDefault();
             return result;
         }
 
@@ -89,6 +108,24 @@ namespace Ship
             );
         }
 
+        public void AssignToken(Type tokenType, Action callback)
+        {
+            AssignToken((GenericToken) Activator.CreateInstance(tokenType, Host), callback);
+        }
+
+        public void AssignTokens(Func<GenericToken> createToken, int count, Action callback, char letter = ' ')
+        {
+            if (count > 0)
+            {
+                count--;
+                AssignToken(createToken(), delegate { AssignTokens(createToken, count, callback, letter); });
+            }
+            else
+            {
+                callback();
+            }
+        }
+
         private void FinalizeAssignToken(Action callback)
         {
             if (TokenToAssign == null)
@@ -99,6 +136,8 @@ namespace Ship
 
             AssignedTokens.Add(TokenToAssign);
 
+            TokenToAssign.InitializeTooltip();
+            TokenToAssign.WhenAssigned();
             Host.CallOnTokenIsAssigned(TokenToAssign, callback);
         }
 
@@ -106,6 +145,7 @@ namespace Ship
         {
             if (AssignedTokens.Remove(token))
             {
+                token.WhenRemoved();
                 Host.CallOnConditionIsRemoved(token.GetType());
             }
         }
@@ -143,6 +183,7 @@ namespace Ship
                 }
             }
 
+            tokenToRemove.WhenRemoved();
             Host.CallOnRemoveTokenEvent(tokenToRemove.GetType());
 
             Triggers.ResolveTriggers(TriggerTypes.OnTokenIsRemoved, callback);
@@ -156,6 +197,22 @@ namespace Ship
                 RemoveToken(
                     tokenType,
                     delegate { RemoveAllTokensByType(tokenType, callback); }
+                );
+            }
+            else
+            {
+                callback();
+            }
+        }
+
+        public void RemoveAllTokensByColor(TokenColors color, Action callback)
+        {
+            GenericToken tokenToRemove = AssignedTokens.FirstOrDefault(token => token.TokenColor == color);
+            if (tokenToRemove != null)
+            {
+                RemoveToken(
+                    tokenToRemove,
+                    delegate { RemoveAllTokensByColor(color, callback); }
                 );
             }
             else
@@ -185,7 +242,15 @@ namespace Ship
         {
             AssignedTokens.Add(token);
 
+            token.InitializeTooltip();
+            token.WhenAssigned();
             Host.CallOnConditionIsAssigned(token.GetType());
+        }
+
+        public void AssignCondition(Type tokenType)
+        {
+            GenericToken token = (GenericToken) Activator.CreateInstance(tokenType, Host);
+            AssignCondition(token);
         }
 
     }

@@ -32,14 +32,14 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            Phases.OnActivationPhaseStart += ActivateDashRendarAbility;
-            Phases.OnCombatPhaseStart += DeactivateDashRendarAbility;
+            Phases.Events.OnActivationPhaseStart += ActivateDashRendarAbility;
+            Phases.Events.OnCombatPhaseStart_NoTriggers += DeactivateDashRendarAbility;
         }
 
         public override void DeactivateAbility()
         {
-            Phases.OnActivationPhaseStart -= ActivateDashRendarAbility;
-            Phases.OnCombatPhaseStart -= DeactivateDashRendarAbility;
+            Phases.Events.OnActivationPhaseStart -= ActivateDashRendarAbility;
+            Phases.Events.OnCombatPhaseStart_NoTriggers -= DeactivateDashRendarAbility;
         }
 
         private void ActivateDashRendarAbility()

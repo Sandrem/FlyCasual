@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using Tokens;
 using UnityEngine;
 using Abilities;
+using ActionsList;
+using BoardTools;
 
 namespace Ship
 {
@@ -39,7 +41,7 @@ namespace Abilities
         public override void ActivateAbility()
         {
             GenericShip.OnCombatActivationGlobal += CheckAbility;
-            Phases.OnRoundEnd += RemoveFennRauPilotAbility;
+            Phases.Events.OnRoundEnd += RemoveFennRauPilotAbility;
         }
 
         public override void DeactivateAbility()
@@ -53,7 +55,7 @@ namespace Abilities
 
             if (HostShip.Tokens.HasToken(typeof(StressToken))) return;
 
-            Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(HostShip, activatedShip);
+            ShotInfo shotInfo = new ShotInfo(HostShip, activatedShip, HostShip.PrimaryWeapon);
             if (!shotInfo.InArc || shotInfo.Range > 3) return;
 
             RegisterAbilityTrigger(TriggerTypes.OnCombatActivation, AskAbility);
@@ -61,17 +63,17 @@ namespace Abilities
 
         private void AskAbility(object sender, System.EventArgs e)
         {
-            AskToUseAbility(AlwaysUseByDefault, UseAbility);
+            Messages.ShowInfo("Fenn Rau can use his ability");
+            AskToUseAbility(AlwaysUseByDefault, UseAbility, DontUseAbility);
         }
 
         private void UseAbility(object sender, System.EventArgs e)
         {
             if (!HostShip.Tokens.HasToken(typeof(StressToken)))
             {
-                HostShip.Tokens.AssignToken(
-                    new StressToken(HostShip),
-                    AssignConditionToActivatedShip
-                );
+                Messages.ShowInfoToHuman("Fenn Rau: Ability was used");
+
+                HostShip.Tokens.AssignToken(typeof(StressToken), AssignConditionToActivatedShip);
             }
             else
             {
@@ -80,18 +82,24 @@ namespace Abilities
             }
         }
 
+        private void DontUseAbility(object sender, System.EventArgs e)
+        {
+            Messages.ShowInfoToHuman("Fenn Rau: Ability was not used");
+            DecisionSubPhase.ConfirmDecision();
+        }
+
         private void AssignConditionToActivatedShip()
         {
             affectedShip = Selection.ThisShip;
-            affectedShip.OnTryAddAvailableActionEffect += UseFennRauRestriction;
-            affectedShip.Tokens.AssignCondition(new Conditions.FennRauRebelCondition(affectedShip));
+            affectedShip.OnTryAddAvailableDiceModification += UseFennRauRestriction;
+            affectedShip.Tokens.AssignCondition(typeof(Conditions.FennRauRebelCondition));
 
             DecisionSubPhase.ConfirmDecision();
         }
 
-        private void UseFennRauRestriction(ActionsList.GenericAction action, ref bool canBeUsed)
+        private void UseFennRauRestriction(GenericShip ship, GenericAction action, ref bool canBeUsed)
         {
-            if (Combat.Attacker == affectedShip && !action.IsOpposite && action.TokensSpend.Count > 0)
+            if (Combat.Attacker == affectedShip && action.DiceModificationTiming != DiceModificationTimingType.Opposite && action.TokensSpend.Count > 0)
             {
                 Messages.ShowErrorToHuman("Fenn Rau: Cannot use dice modification\n" + action.Name);
                 canBeUsed = false;
@@ -102,7 +110,7 @@ namespace Abilities
         {
             if (affectedShip != null)
             {
-                affectedShip.OnTryAddAvailableActionEffect -= UseFennRauRestriction;
+                affectedShip.OnTryAddAvailableDiceModification -= UseFennRauRestriction;
                 affectedShip.Tokens.RemoveCondition(typeof(Conditions.FennRauRebelCondition));
                 affectedShip = null;
             }            

@@ -1,9 +1,7 @@
 fileFormatVersion: 2
 guid: fb1d72f06db48a7478bd9625f123aebf
-timeCreated: 1503190282
-licenseType: Free
 ModelImporter:
-  serializedVersion: 21
+  serializedVersion: 23
   fileIDToRecycleName:
     100000: Engine.021_small_base_Cube.002_auv
     100002: Launcher.008_small_base_Cube.002_auv
@@ -67,10 +65,73 @@ ModelImporter:
     4300018: small_base_Cube.002_small_base_Cube.002_auv
     4300020: SmallGun.002_small_base_Cube.002_auv
     4300022: Wing.015_small_base_Cube.002_auv
+    2186277476908879412: ImportLogs
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Engine.021_small_base_Cube.002_auvMat
+    second: {fileID: 2100000, guid: 63eaada0850d5e943aa6a81089de85ce, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Launcher.008_small_base_Cube.002_auvMat
+    second: {fileID: 2100000, guid: d06198776bbc0ab489f230cf678ffd0d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MainHull.000_small_base_Cube.002_auvMat
+    second: {fileID: 2100000, guid: f4b7cdf0d2f49594cb3389248bd027a5, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MainHull.001_small_base_Cube.002_auvMat
+    second: {fileID: 2100000, guid: 7fcc7311fc23b964193b68478e2b9280, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MainHull.018_small_base_Cube.002_auvMat
+    second: {fileID: 2100000, guid: 1a9a766de5e4b0049865603d0482427f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MainHull.019_small_base_Cube.002_auvMat
+    second: {fileID: 2100000, guid: 29dda16930104934fbd1780087bad0b7, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MainHull.020_small_base_Cube.002_auvMat
+    second: {fileID: 2100000, guid: 30ac256a0def0ac4494f5ebed2d822b5, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MiscHull.009_small_base_Cube.002_auvMat
+    second: {fileID: 2100000, guid: 0a27275ca80884b4fbb21252cda4d432, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MiscHull.012_small_base_Cube.002_auvMat
+    second: {fileID: 2100000, guid: 7e298acb2dcc74648bb25a07f67c8298, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: SmallGun.002_small_base_Cube.002_auvMat
+    second: {fileID: 2100000, guid: d4e3a65f70b794643922d51f0bcac80d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Wing.015_small_base_Cube.002_auvMat
+    second: {fileID: 2100000, guid: 15c945cd5417ef94d826523947f36b27, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: small_base_Cube.002_small_base_Cube.002_auvMat
+    second: {fileID: 2100000, guid: 1c2ad127836be2240bf509ab05402efb, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
     materialSearch: 1
+    materialLocation: 0
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
@@ -83,6 +144,8 @@ ModelImporter:
     animationImportWarnings: 
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
     animationCompression: 1
     animationRotationError: 0.5
     animationPositionError: 0.5
@@ -107,11 +170,15 @@ ModelImporter:
     optimizeMeshForGPU: 1
     keepQuads: 0
     weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 1
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
     secondaryUVPackMargin: 4
     useFileScale: 1
+    previousCalculatedGlobalScale: 1
+    hasPreviousCalculatedGlobalScale: 0
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 0

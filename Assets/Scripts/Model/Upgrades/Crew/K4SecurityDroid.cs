@@ -1,6 +1,7 @@
 ﻿using Abilities;
 using Ship;
 using System;
+using UnityEngine;
 using Upgrade;
 
 namespace UpgradesList
@@ -12,6 +13,8 @@ namespace UpgradesList
             Types.Add(UpgradeType.Crew);
             Name = "K4 Security Droid";
             Cost = 3;
+
+            AvatarOffset = new Vector2(65, 5);
 
             UpgradeAbilities.Add(new K4SecurityDroidAbility());
         }
@@ -40,24 +43,26 @@ namespace Abilities
 
         private void RegisterK4SecurityDroid(GenericShip hostShip)
         {
-            Movement.ManeuverColor movementColor = HostShip.GetLastManeuverColor();
-            if (movementColor != Movement.ManeuverColor.Green)
-            {
-                return;
-            }
+            Movement.MovementComplexity movementColor = HostShip.GetLastManeuverColor();
+            if (movementColor != Movement.MovementComplexity.Easy) return;
+
+            if (BoardTools.Board.IsOffTheBoard(hostShip)) return;
 
             RegisterAbilityTrigger(
-                TriggerTypes.OnShipMovementFinish,
+                TriggerTypes.OnMovementFinish,
                 AssignK4TargetingLock
             );
         }
 
         private void AssignK4TargetingLock(object sender, EventArgs e)
         {
-            Messages.ShowInfoToHuman("K4 Security Droid: Acquire a Target Lock");
             Sounds.PlayShipSound("Astromech-Beeping-and-whistling");
 
-            HostShip.AcquireTargetLock(Triggers.FinishTrigger);
+            HostShip.ChooseTargetToAcquireTargetLock(
+                Triggers.FinishTrigger,
+                HostUpgrade.Name,
+                HostUpgrade.ImageUrl
+            );
         }
     }
 }

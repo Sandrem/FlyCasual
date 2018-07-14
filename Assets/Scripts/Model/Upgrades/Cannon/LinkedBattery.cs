@@ -4,6 +4,8 @@ using UnityEngine;
 using Upgrade;
 using Ship;
 using System.Linq;
+using System;
+using Abilities;
 
 namespace UpgradesList
 {
@@ -18,23 +20,38 @@ namespace UpgradesList
             Cost = 2;
 
             isLimited = true;
+
+            UpgradeAbilities.Add(new LinkedBatteryAbility());
 		}
 
         public override bool IsAllowedForShip(GenericShip ship)
         {
             return ship.ShipBaseSize == BaseSize.Small;
         }
+    }
+}
 
-        public override void AttachToShip(GenericShip host)
-		{
-			base.AttachToShip(host);
-
-            Host.AfterGenerateAvailableActionEffectsList += LinkedBatteryAbility;
+namespace Abilities
+{
+    public class LinkedBatteryAbility : GenericAbility
+    {
+        public override void ActivateAbility()
+        {
+            HostShip.OnGenerateDiceModifications += CheckLinkedBatteryAbility;
         }
 
-        public void LinkedBatteryAbility(GenericShip ship)
+        public override void DeactivateAbility()
         {
-            ship.AddAvailableActionEffect(new ActionsList.LinkedBatteryAction());
+            HostShip.OnGenerateDiceModifications -= CheckLinkedBatteryAbility;
+        }
+
+        public void CheckLinkedBatteryAbility(GenericShip ship)
+        {
+            ship.AddAvailableDiceModification(new ActionsList.LinkedBatteryAction()
+            {
+                ImageUrl = HostUpgrade.ImageUrl,
+                Host = HostShip
+            });
         }
     }
 }
@@ -45,7 +62,7 @@ namespace ActionsList
     {
         public LinkedBatteryAction()
         {
-            Name = EffectName = "Linked Battery";
+            Name = DiceModificationName = "Linked Battery";
             IsReroll = true;
         }
 
@@ -59,7 +76,7 @@ namespace ActionsList
             diceRerollManager.Start();
         }
 
-        public override bool IsActionEffectAvailable()
+        public override bool IsDiceModificationAvailable()
         {
             bool result = false;
             if (Combat.AttackStep == CombatStep.Attack) {
@@ -73,15 +90,15 @@ namespace ActionsList
 
         private bool IsPrimaryWeapon()
         {
-            return (Combat.ChosenWeapon.GetType() == typeof(PrimaryWeaponClass));
+            return Combat.ChosenWeapon is PrimaryWeaponClass;
         }
 
         private bool IsCannon()
         {
-            return ((Combat.ChosenWeapon as GenericSecondaryWeapon) != null) && ((Combat.ChosenWeapon as GenericSecondaryWeapon).hasType(UpgradeType.Cannon));
+            return Combat.ChosenWeapon is GenericSecondaryWeapon && (Combat.ChosenWeapon as GenericSecondaryWeapon).HasType(UpgradeType.Cannon);
         }
 
-        public override int GetActionEffectPriority()
+        public override int GetDiceModificationPriority()
         {
             int result = 0;
 
@@ -91,7 +108,7 @@ namespace ActionsList
                 {
                     result = 90;
                 }
-                else if (Combat.DiceRollAttack.Focuses > 0 && Combat.Attacker.GetAvailableActionEffectsList().Count(n => n.IsTurnsAllFocusIntoSuccess) == 0)
+                else if (Combat.DiceRollAttack.Focuses > 0 && Combat.Attacker.GetAvailableDiceModifications().Count(n => n.IsTurnsAllFocusIntoSuccess) == 0)
                 {
                     result = 90;
                 }

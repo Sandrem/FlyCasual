@@ -36,6 +36,10 @@ namespace Upgrade
             {
                 TryDiscard(callBack);
             }
+            else if (UsesCharges)
+            {
+                SpendCharge(callBack);
+            }
             else
             {
                 callBack();

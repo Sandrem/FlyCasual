@@ -30,6 +30,9 @@ namespace Abilities
 {
     public class CountessRyadAbility : GenericAbility
     {
+        string maneuverKey;
+        MovementComplexity originalColor;
+
         public override void ActivateAbility()
         {
             HostShip.OnManeuverIsRevealed += RegisterAskChangeManeuver;
@@ -50,14 +53,21 @@ namespace Abilities
 
         private void AskChangeManeuver(object sender, System.EventArgs e)
         {
-            Messages.ShowInfoToHuman("Countess Ryad: You can change your maneuver to Koigran turn");
-            string key = HostShip.AssignedManeuver.Speed + ".F.R";
-            ManeuverColor originalColor = HostShip.Maneuvers[key];
-            HostShip.Maneuvers[key] = HostShip.AssignedManeuver.ColorComplexity;
+            Messages.ShowInfoToHuman("Countess Ryad: You can change your maneuver to Koiogran turn");
+            maneuverKey = HostShip.AssignedManeuver.Speed + ".F.R";
+            originalColor = HostShip.Maneuvers[maneuverKey];
+            HostShip.Maneuvers[maneuverKey] = HostShip.AssignedManeuver.ColorComplexity;
             HostShip.Owner.ChangeManeuver((maneuverCode) => {                    
                 GameMode.CurrentGameMode.AssignManeuver(maneuverCode);
-                HostShip.Maneuvers[key] = originalColor;
+                HostShip.OnMovementFinish += RestoreManuvers;
             }, StraightOrKoiogran);
+        }
+
+        private void RestoreManuvers(GenericShip ship)
+        {
+            HostShip.OnMovementFinish -= RestoreManuvers;
+
+            HostShip.Maneuvers[maneuverKey] = originalColor;
         }
 
         private bool StraightOrKoiogran(string maneuverString)

@@ -1,5 +1,8 @@
 ﻿using Upgrade;
 using System.Linq;
+using Abilities;
+using Ship;
+using ActionsList;
 
 namespace UpgradesList
 {
@@ -10,23 +13,34 @@ namespace UpgradesList
             Types.Add(UpgradeType.Elite);
             Name = "Wired";
             Cost = 1;
+
+            UpgradeAbilities.Add(new WiredAbility());
+        }
+    }
+}
+
+namespace Abilities
+{
+    public class WiredAbility : GenericAbility
+    {
+        public override void ActivateAbility()
+        {
+            HostShip.OnGenerateDiceModifications += WiredActionEffect;
         }
 
-        public override void AttachToShip(Ship.GenericShip host)
+        public override void DeactivateAbility()
         {
-            base.AttachToShip(host);
-
-            host.AfterGenerateAvailableActionEffectsList += WiredActionEffect;
+            HostShip.OnGenerateDiceModifications -= WiredActionEffect;
         }
 
-        private void WiredActionEffect(Ship.GenericShip host)
+        private void WiredActionEffect(GenericShip host)
         {
-            ActionsList.GenericAction newAction = new ActionsList.WiredActionEffect()
+            GenericAction newAction = new WiredActionEffect()
             {
-                ImageUrl = ImageUrl,
+                ImageUrl = HostUpgrade.ImageUrl,
                 Host = host
             };
-            host.AddAvailableActionEffect(newAction);
+            host.AddAvailableDiceModification(newAction);
         }
     }
 }
@@ -38,16 +52,16 @@ namespace ActionsList
 
         public WiredActionEffect()
         {
-            Name = EffectName = "Wired";            
+            Name = DiceModificationName = "Wired";            
         }
         
-        public override int GetActionEffectPriority()
+        public override int GetDiceModificationPriority()
         {
             int result = 0;
                 
             if (Combat.Attacker.Tokens.HasToken(typeof(Tokens.StressToken)))
             {
-                if (Combat.DiceRollAttack.Focuses > 0 && Combat.Attacker.GetAvailableActionEffectsList().Count(n => n.IsTurnsAllFocusIntoSuccess) == 0)
+                if (Combat.DiceRollAttack.Focuses > 0 && Combat.Attacker.GetAvailableDiceModifications().Count(n => n.IsTurnsAllFocusIntoSuccess) == 0)
                 {
                     result = 95;
                 }
@@ -60,7 +74,7 @@ namespace ActionsList
             return result;            
         }
 
-        public override bool IsActionEffectAvailable()
+        public override bool IsDiceModificationAvailable()
         {
             return Host.Tokens.HasToken(typeof(Tokens.StressToken));
         }

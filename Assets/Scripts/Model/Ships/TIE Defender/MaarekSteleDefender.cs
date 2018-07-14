@@ -8,7 +8,7 @@
             {
                 PilotName = "Maarek Stele";
                 PilotSkill = 7;
-                Cost = 27;
+                Cost = 35;
 
                 IsUnique = true;
 

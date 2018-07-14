@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Ship;
 using System;
+using BoardTools;
 
 namespace Ship
 {
@@ -30,17 +31,17 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList += WingedGundarkPilotAbility;
+            HostShip.OnGenerateDiceModifications += WingedGundarkPilotAbility;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList -= WingedGundarkPilotAbility;
+            HostShip.OnGenerateDiceModifications -= WingedGundarkPilotAbility;
         }
 
         private void WingedGundarkPilotAbility(GenericShip ship)
         {
-            ship.AddAvailableActionEffect(new WingedGundarkAction());
+            ship.AddAvailableDiceModification(new WingedGundarkAction());
         }
 
         private class WingedGundarkAction : ActionsList.GenericAction
@@ -48,7 +49,7 @@ namespace Abilities
 
             public WingedGundarkAction()
             {
-                Name = EffectName = "\"Winged Gundark\"'s ability";
+                Name = DiceModificationName = "\"Winged Gundark\"'s ability";
             }
 
             public override void ActionEffect(System.Action callBack)
@@ -57,12 +58,12 @@ namespace Abilities
                 callBack();
             }
 
-            public override bool IsActionEffectAvailable()
+            public override bool IsDiceModificationAvailable()
             {
                 bool result = false;
                 if (Combat.AttackStep == CombatStep.Attack)
                 {
-                    Board.ShipShotDistanceInformation shotInformation = new Board.ShipShotDistanceInformation(Combat.Attacker, Combat.Defender, Combat.ChosenWeapon);
+                    ShotInfo shotInformation = new ShotInfo(Combat.Attacker, Combat.Defender, Combat.ChosenWeapon);
                     if (shotInformation.Range == 1)
                     {
                         result = true;
@@ -71,7 +72,7 @@ namespace Abilities
                 return result;
             }
 
-            public override int GetActionEffectPriority()
+            public override int GetDiceModificationPriority()
             {
                 int result = 0;
 

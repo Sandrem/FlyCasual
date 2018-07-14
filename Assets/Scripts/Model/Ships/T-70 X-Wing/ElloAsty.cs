@@ -47,7 +47,7 @@ namespace Abilities
             {
                 if (!HostShip.Tokens.HasToken(typeof(Tokens.StressToken)))
                 {
-                    movement.ColorComplexity = ManeuverColor.White;
+                    movement.ColorComplexity = MovementComplexity.Normal;
                 }
             }
         }

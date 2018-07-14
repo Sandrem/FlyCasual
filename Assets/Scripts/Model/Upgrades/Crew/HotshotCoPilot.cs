@@ -51,7 +51,7 @@ namespace Abilities
         {
             Messages.ShowInfo("Hotshot Co-pilot effect is active");
 
-            ship.Tokens.AssignCondition(new Conditions.HotshotCoPilotCondition(ship));
+            ship.Tokens.AssignCondition(typeof(Conditions.HotshotCoPilotCondition));
 
             ship.OnTryConfirmDiceResults += DisallowIfHasFocusToken;
             ship.OnAiGetDiceModificationPriority += PrioritizeSpendFocus;
@@ -92,7 +92,7 @@ namespace Abilities
                     break;
             }
 
-            if (currentShip.GetAvailableActionEffectsList().Any(n => n.TokensSpend.Contains(typeof(FocusToken))))
+            if (currentShip.GetAvailableDiceModifications().Any(n => n.TokensSpend.Contains(typeof(FocusToken))))
             {
                 Messages.ShowError("Cannot confirm results - must spend focus token!");
                 result = false;

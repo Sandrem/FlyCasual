@@ -3,11 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Upgrade;
+using Abilities;
+using Ship;
+using ActionsList;
+using RuleSets;
 
 namespace UpgradesList
 {
-
-    public class ProtonTorpedoes : GenericSecondaryWeapon
+    public class ProtonTorpedoes : GenericSecondaryWeapon, ISecondEditionUpgrade
     {
         public ProtonTorpedoes() : base()
         {
@@ -24,56 +27,128 @@ namespace UpgradesList
             
             SpendsTargetLockOnTargetToShoot = true;
             IsDiscardedForShot = true;
+
+            UpgradeAbilities.Add(new ProtonTorpedoesAbility());
         }
 
-        public override void AttachToShip(Ship.GenericShip host)
+        public void AdaptUpgradeToSecondEdition()
         {
-            base.AttachToShip(host);
+            MaxCharges = 2;
 
-            AddDiceModification();
+            SpendsTargetLockOnTargetToShoot = false;
+
+            IsDiscardedForShot = false;
+            UsesCharges = true;
+
+            UpgradeAbilities.RemoveAll(a => a is ProtonTorpedoesAbility);
+            UpgradeAbilities.Add(new Abilities.SecondEdition.ProtonTorpedoesAbilitySE());
         }
-
-        private void AddDiceModification()
-        {
-            ActionsList.ProtonTorpedoesAction action = new ActionsList.ProtonTorpedoesAction()
-            {
-                Host = Host,
-                ImageUrl = ImageUrl,
-                Source = this
-            };
-            action.AddDiceModification();
-
-            Host.AddAvailableAction(action);
-        }
-
     }
+}
 
+namespace Abilities
+{
+    namespace SecondEdition
+    {
+        public class ProtonTorpedoesAbilitySE: ProtonTorpedoesAbility
+        {
+            protected override void AddProtonTorpedoesDiceMofification(GenericShip host)
+            {
+                ProtonTorpedoesDiceModificationSE action = new ProtonTorpedoesDiceModificationSE()
+                {
+                    Host = host,
+                    ImageUrl = HostUpgrade.ImageUrl,
+                    Source = HostUpgrade
+                };
+
+                host.AddAvailableDiceModification(action);
+            }
+        }
+    }
+}
+
+namespace ActionsList
+{
+    public class ProtonTorpedoesDiceModificationSE : ProtonTorpedoesDiceModification
+    {
+        public ProtonTorpedoesDiceModificationSE()
+        {
+            IsTurnsOneFocusIntoSuccess = false;
+        }
+
+        public override int GetDiceModificationPriority()
+        {
+            int result = 0;
+
+            if (Combat.AttackStep == CombatStep.Attack)
+            {
+                if (Combat.DiceRollAttack.RegularSuccesses > 0) result = 100;
+            }
+
+            return result;
+        }
+
+        public override void ActionEffect(System.Action callBack)
+        {
+            Combat.CurrentDiceRoll.ChangeOne(DieSide.Success, DieSide.Crit);
+            callBack();
+        }
+    }
+}
+
+namespace Abilities
+{
+    public class ProtonTorpedoesAbility : GenericAbility
+    {
+        public override void ActivateAbility()
+        {
+            HostShip.OnGenerateDiceModifications += AddProtonTorpedoesDiceMofification;
+        }
+
+        public override void DeactivateAbility()
+        {
+            // Ability is turned off only after full attack is finished
+            HostShip.OnCombatDeactivation += DeactivateAbilityPlanned;
+        }
+
+        private void DeactivateAbilityPlanned(GenericShip ship)
+        {
+            HostShip.OnCombatDeactivation -= DeactivateAbilityPlanned;
+            HostShip.OnGenerateDiceModifications -= AddProtonTorpedoesDiceMofification;
+        }
+
+        protected virtual void AddProtonTorpedoesDiceMofification(GenericShip host)
+        {
+            ProtonTorpedoesDiceModification action = new ProtonTorpedoesDiceModification()
+            {
+                Host = host,
+                ImageUrl = HostUpgrade.ImageUrl,
+                Source = HostUpgrade
+            };
+
+            host.AddAvailableDiceModification(action);
+        }
+    }
 }
 
 namespace ActionsList
 { 
-
-    public class ProtonTorpedoesAction : GenericAction
+    public class ProtonTorpedoesDiceModification : GenericAction
     {
 
-        public ProtonTorpedoesAction()
+        public ProtonTorpedoesDiceModification()
         {
-            Name = EffectName = "Proton Torpedoes";
+            Name = DiceModificationName = "Proton Torpedoes";
 
             IsTurnsOneFocusIntoSuccess = true;
         }
 
-        public void AddDiceModification()
+        private void ProtonTorpedoesAddDiceModification(GenericShip ship)
         {
-            Host.AfterGenerateAvailableActionEffectsList += ProtonTorpedoesAddDiceModification;
+            ship.AddAvailableDiceModification(this);
         }
 
-        private void ProtonTorpedoesAddDiceModification(Ship.GenericShip ship)
-        {
-            ship.AddAvailableActionEffect(this);
-        }
-
-        public override bool IsActionEffectAvailable()
+        public override bool IsDiceModificationAvailable()
         {
             bool result = true;
 
@@ -84,7 +159,7 @@ namespace ActionsList
             return result;
         }
 
-        public override int GetActionEffectPriority()
+        public override int GetDiceModificationPriority()
         {
             int result = 0;
 

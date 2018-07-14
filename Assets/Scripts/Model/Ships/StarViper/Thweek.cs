@@ -38,17 +38,17 @@ namespace Abilities
 
         public override void ActivateAbility()
         {
-            Phases.OnBeforePlaceForces += RegisterSelectThweekTarget;
+            Phases.Events.OnSetupStart += RegisterSelectThweekTarget;
         }
 
         public override void DeactivateAbility()
         {
-            Phases.OnBeforePlaceForces -= RegisterSelectThweekTarget;
+            Phases.Events.OnSetupStart -= RegisterSelectThweekTarget;
         }
 
         private void RegisterSelectThweekTarget()
         {
-            RegisterAbilityTrigger(TriggerTypes.OnBeforePlaceForces, SelectThweekTarget);
+            RegisterAbilityTrigger(TriggerTypes.OnSetupStart, SelectThweekTarget);
         }
 
         private void SelectThweekTarget(object Sender, System.EventArgs e)
@@ -137,7 +137,7 @@ namespace Abilities
             { 
                 Messages.ShowError(targetShip.PilotName + " doesn't have abilities to be mimicked");
             }
-            targetShip.Tokens.AssignCondition(new Conditions.Mimicked(targetShip));
+            targetShip.Tokens.AssignCondition(typeof(Conditions.Mimicked));
             SubPhases.DecisionSubPhase.ConfirmDecision();
         }
 
@@ -145,7 +145,7 @@ namespace Abilities
         {
             Messages.ShowInfo("Pilot skill of " + targetShip.PilotName + " is shadowed");
             new ThweekPilotSkillModifier(HostShip, targetShip.PilotSkill);
-            targetShip.Tokens.AssignCondition(new Conditions.Shadowed(targetShip));
+            targetShip.Tokens.AssignCondition(typeof(Conditions.Shadowed));
             SubPhases.DecisionSubPhase.ConfirmDecision();
         }
 

@@ -2,6 +2,7 @@
 using System;
 using Ship;
 using Abilities;
+using UnityEngine;
 
 namespace UpgradesList
 {
@@ -14,6 +15,8 @@ namespace UpgradesList
             Cost = 2;
 
             isUnique = true;
+
+            AvatarOffset = new Vector2(43, 1);
 
             UpgradeAbilities.Add(new AgentKallusAbility());
         }
@@ -34,12 +37,12 @@ namespace Abilities
 
         public override void ActivateAbility()
         {
-            Phases.OnGameStart += RegisterAgentKallusAbility;
+            Phases.Events.OnSetupStart += RegisterAgentKallusAbility;
         }
 
         public override void DeactivateAbility()
         {
-            Phases.OnGameStart -= RegisterAgentKallusAbility;
+            Phases.Events.OnSetupStart -= RegisterAgentKallusAbility;
         }
 
         private void RegisterAgentKallusAbility()
@@ -85,7 +88,7 @@ namespace Abilities
 
             AgentKallusSelectedTarget = targetShip;
 
-            HostShip.AfterGenerateAvailableActionEffectsList += AddAgentKallusDiceModification;
+            HostShip.OnGenerateDiceModifications += AddAgentKallusDiceModification;
 
             SubPhases.DecisionSubPhase.ConfirmDecision();
         }
@@ -98,7 +101,7 @@ namespace Abilities
                 Host = host,
                 AgentKallusSelectedTarget = AgentKallusSelectedTarget
             };
-            host.AddAvailableActionEffect(newAction);
+            host.AddAvailableDiceModification(newAction);
         }
 
         private GenericShip GetEnemyPilotWithHighestSkill()
@@ -129,12 +132,12 @@ namespace ActionsList
 
         public AgentKallusDiceModification()
         {
-            Name = EffectName = "Agent Kallus";
+            Name = DiceModificationName = "Agent Kallus";
 
             IsTurnsOneFocusIntoSuccess = true;
         }
 
-        public override bool IsActionEffectAvailable()
+        public override bool IsDiceModificationAvailable()
         {
             bool result = false;
 
@@ -153,7 +156,7 @@ namespace ActionsList
             return result;
         }
 
-        public override int GetActionEffectPriority()
+        public override int GetDiceModificationPriority()
         {
             int result = 0;
 

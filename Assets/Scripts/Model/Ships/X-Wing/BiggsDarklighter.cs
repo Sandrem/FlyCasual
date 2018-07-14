@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Ship;
 using System;
+using RuleSets;
 
 namespace Ship
 {
@@ -30,12 +31,12 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            Phases.OnCombatPhaseStart += RegisterAskBiggsAbility;
+            Phases.Events.OnCombatPhaseStart_Triggers += RegisterAskBiggsAbility;
         }
 
         public override void DeactivateAbility()
         {
-            Phases.OnCombatPhaseStart -= RegisterAskBiggsAbility;
+            Phases.Events.OnCombatPhaseStart_Triggers -= RegisterAskBiggsAbility;
         }
 
         private void RegisterAskBiggsAbility()
@@ -54,12 +55,12 @@ namespace Abilities
         private void ActivateBiggsAbility(object sender, System.EventArgs e)
         {
             IsAbilityUsed = true;
-            HostShip.Tokens.AssignCondition(new Conditions.BiggsDarklighterCondition(HostShip));
+            HostShip.Tokens.AssignCondition(typeof(Conditions.BiggsDarklighterCondition));
 
             GenericShip.OnTryPerformAttackGlobal += CanPerformAttack;
 
             HostShip.OnShipIsDestroyed += RemoveBiggsDarklighterAbility;
-            Phases.OnCombatPhaseEnd += RemoveBiggsDarklighterAbility;
+            Phases.Events.OnCombatPhaseEnd_NoTriggers += RemoveBiggsDarklighterAbility;
 
             SubPhases.DecisionSubPhase.ConfirmDecision();
         }
@@ -71,7 +72,7 @@ namespace Abilities
             {
                 if (Selection.AnotherShip.Owner.PlayerNo == HostShip.Owner.PlayerNo)
                 {
-                    Board.ShipDistanceInformation positionInfo = new Board.ShipDistanceInformation(Selection.AnotherShip, HostShip);
+                    BoardTools.DistanceInfo positionInfo = new BoardTools.DistanceInfo(Selection.AnotherShip, HostShip);
                     if (positionInfo.Range <= 1)
                     {
                         if (!Selection.ThisShip.ShipsBumped.Contains(HostShip))
@@ -109,9 +110,9 @@ namespace Abilities
             GenericShip.OnTryPerformAttackGlobal -= CanPerformAttack;
 
             HostShip.OnShipIsDestroyed -= RemoveBiggsDarklighterAbility;
-            Phases.OnCombatPhaseEnd -= RemoveBiggsDarklighterAbility;
+            Phases.Events.OnCombatPhaseEnd_NoTriggers -= RemoveBiggsDarklighterAbility;
 
-            Phases.OnCombatPhaseStart -= RegisterAskBiggsAbility;
+            Phases.Events.OnCombatPhaseStart_Triggers -= RegisterAskBiggsAbility;
         }
     }
 }

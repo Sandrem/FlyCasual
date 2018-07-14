@@ -60,10 +60,17 @@ namespace Abilities
 
             HostShip.Owner.ChangeManeuver((maneuverCode) => {
                 GameMode.CurrentGameMode.AssignManeuver(maneuverCode);
-                HostShip.Maneuvers["1.F.R"] = ManeuverColor.None;
-                HostShip.Maneuvers["3.F.R"] = ManeuverColor.Red;
-                HostShip.Maneuvers["5.F.R"] = ManeuverColor.Red;
+                HostShip.OnMovementFinish -= RestoreManuvers;
             }, allowedKoiogranFilter);
+        }
+
+        private void RestoreManuvers(GenericShip ship)
+        {
+            HostShip.OnMovementFinish -= RestoreManuvers;
+
+            HostShip.Maneuvers["1.F.R"] = MovementComplexity.None;
+            HostShip.Maneuvers["3.F.R"] = MovementComplexity.Complex;
+            HostShip.Maneuvers["5.F.R"] = MovementComplexity.Complex;
         }
 
         private bool allowedKoiogranFilter(string maneuverString)

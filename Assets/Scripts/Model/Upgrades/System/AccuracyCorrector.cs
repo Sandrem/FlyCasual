@@ -25,17 +25,17 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList += AddAccuracyCorrectorAbility;
+            HostShip.OnGenerateDiceModifications += AddAccuracyCorrectorAbility;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList -= AddAccuracyCorrectorAbility;
+            HostShip.OnGenerateDiceModifications -= AddAccuracyCorrectorAbility;
         }
 
         private void AddAccuracyCorrectorAbility(GenericShip ship)
         {
-            ship.AddAvailableActionEffect(new AccuracyCorrectorAction());
+            ship.AddAvailableDiceModification(new AccuracyCorrectorAction());
         }
     }
 }
@@ -46,17 +46,25 @@ namespace ActionsList
     {
         public AccuracyCorrectorAction()
         {
-            Name = EffectName = "Accuracy corrector";
+            Name = DiceModificationName = "Accuracy corrector";
         }
 
-        public override int GetActionEffectPriority()
+        public override int GetDiceModificationPriority()
         {
             int result = 0;
-            if (Combat.DiceRollAttack.Successes < 2) result = 100;
+            if (Combat.DiceRollAttack.CriticalSuccesses > 0 && Combat.DiceRollAttack.Successes >= 2)
+            {
+                // Don't cancel crits when we don't need to
+                result = 0;
+            }
+            else
+            {
+                if (Combat.DiceRollAttack.Successes < 2) result = 100;
+            }
             return result;
         }
 
-        public override bool IsActionEffectAvailable()
+        public override bool IsDiceModificationAvailable()
         {
             return Combat.AttackStep == CombatStep.Attack;
         }
@@ -67,20 +75,20 @@ namespace ActionsList
             Combat.CurrentDiceRoll.AddDice(DieSide.Success).ShowWithoutRoll();
             Combat.CurrentDiceRoll.AddDice(DieSide.Success).ShowWithoutRoll();            
             Combat.CurrentDiceRoll.OrganizeDicePositions();
-            Combat.Attacker.OnTryAddAvailableActionEffect += UseDiceModificationRestriction;
-            Combat.Attacker.OnTryAddAvailableOppositeActionEffect += UseDiceModificationRestriction;
-            Combat.Defender.OnDefence += RemoveDiceModificationRestriction;
+            Combat.Attacker.OnTryAddAvailableDiceModification += UseDiceModificationRestriction;
+            Combat.Attacker.OnTryAddDiceModificationOpposite += UseDiceModificationRestriction;
+            Combat.Defender.OnDefenceStartAsDefender += RemoveDiceModificationRestriction;
             callBack();
         }
 
         private void RemoveDiceModificationRestriction()
         {
-            Combat.Attacker.OnTryAddAvailableActionEffect -= UseDiceModificationRestriction;
-            Combat.Attacker.OnTryAddAvailableOppositeActionEffect -= UseDiceModificationRestriction;
-            Combat.Defender.OnDefence -= RemoveDiceModificationRestriction;
+            Combat.Attacker.OnTryAddAvailableDiceModification -= UseDiceModificationRestriction;
+            Combat.Attacker.OnTryAddDiceModificationOpposite -= UseDiceModificationRestriction;
+            Combat.Defender.OnDefenceStartAsDefender -= RemoveDiceModificationRestriction;
         }
 
-        private void UseDiceModificationRestriction(GenericAction action, ref bool canBeUsed)
+        private void UseDiceModificationRestriction(GenericShip ship, GenericAction action, ref bool canBeUsed)
         {
             Messages.ShowInfoToHuman("Accuracy corrector: All dice modifications are disabled");
             canBeUsed = false;

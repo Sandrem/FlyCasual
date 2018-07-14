@@ -3,6 +3,8 @@ using Ship.YT2400;
 using Upgrade;
 using System.Linq;
 using System;
+using Abilities;
+using Arcs;
 
 namespace UpgradesList
 {
@@ -15,45 +17,51 @@ namespace UpgradesList
             Cost = 5;
 
             isUnique = true;
+
+            UpgradeAbilities.Add(new OutriderAbility());
         }
 
         public override bool IsAllowedForShip(GenericShip ship)
         {
             return ship is YT2400;
         }
+    }
+}
 
-        public override void AttachToShip(GenericShip host)
+namespace Abilities
+{
+    public class OutriderAbility : GenericAbility
+    {
+        public override void ActivateAbility()
         {
-            base.AttachToShip(host);
-
             ToggleOutriderAbility(true);
-            Host.OnDiscardUpgrade += TurnOffOutriferAbilityIfCannon;
+            HostShip.OnDiscardUpgrade += TurnOffOutriferAbilityIfCannon;
         }
 
-        public override void Discard(Action callBack)
+        public override void DeactivateAbility()
         {
             ToggleOutriderAbility(false);
-
-            base.Discard(callBack);
+            HostShip.OnDiscardUpgrade -= TurnOffOutriferAbilityIfCannon;
         }
 
         private void ToggleOutriderAbility(bool isActive)
         {
-            GenericSecondaryWeapon cannon = (GenericSecondaryWeapon)Host.UpgradeBar.GetInstalledUpgrade(UpgradeType.Cannon);
+            GenericSecondaryWeapon cannon = (GenericSecondaryWeapon)HostShip.UpgradeBar.GetInstalledUpgrade(UpgradeType.Cannon);
 
             if (cannon != null)
             {
-                Host.ArcInfo.OutOfArcShotPermissions.CanShootPrimaryWeapon = !isActive;
-                Host.ArcInfo.GetPrimaryArc().ShotPermissions.CanShootPrimaryWeapon = !isActive;
+                HostShip.ArcInfo.GetArc<ArcPrimary>().ShotPermissions.CanShootPrimaryWeapon = !isActive;
 
-                Host.ArcInfo.OutOfArcShotPermissions.CanShootCannon = isActive;
+                HostShip.ArcInfo.GetArc<OutOfArc>().ShotPermissions.CanShootPrimaryWeapon = !isActive;
+                HostShip.ArcInfo.GetArc<OutOfArc>().ShotPermissions.CanShootCannon = isActive;
+
                 cannon.CanShootOutsideArc = isActive;
             }
         }
 
         private void TurnOffOutriferAbilityIfCannon()
         {
-            if (CurrentUpgrade.hasType(UpgradeType.Cannon))
+            if (GenericUpgrade.CurrentUpgrade.HasType(UpgradeType.Cannon))
             {
                 ToggleOutriderAbility(false);
             }

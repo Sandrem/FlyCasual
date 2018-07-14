@@ -1,8 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using System.Collections.Generic;
 using Ship;
-using System;
+using RuleSets;
+using ActionsList;
 
 // Second->First: Two same actions
 // Triggers are empty
@@ -11,7 +10,7 @@ namespace Ship
 {
     namespace TIEAdvanced
     {
-        public class DarthVader : TIEAdvanced
+        public class DarthVader : TIEAdvanced, ISecondEditionPilot
         {
             public DarthVader() : base()
             {
@@ -26,6 +25,18 @@ namespace Ship
                 SkinName = "Blue";
 
                 PilotAbilities.Add(new Abilities.DarthVaderAbility());
+            }
+
+            public void AdaptPilotToSecondEdition()
+            {
+                PilotSkill = 6;
+                MaxForce = 3;
+                Cost = 50;
+
+                PilotAbilities.RemoveAll(ability => ability is Abilities.DarthVaderAbility);
+                PilotAbilities.Add(new Abilities.SecondEdition.DarthVaderAbility());
+
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Force);
             }
         }
     }
@@ -55,10 +66,65 @@ namespace Abilities
 
         private void PerformFreeAction(object sender, System.EventArgs e)
         {
-            HostShip.GenerateAvailableActionsList();
-            List<ActionsList.GenericAction> actions = Selection.ThisShip.GetAvailableActionsList();
+            List<GenericAction> actions = Selection.ThisShip.GetAvailableActionsList();
 
             HostShip.AskPerformFreeAction(actions, Triggers.FinishTrigger);
         }
+    }
+}
+
+
+namespace Abilities.SecondEdition
+{
+    //After you perform an action, you may spend 1 force to perform an action.
+    public class DarthVaderAbility : GenericAbility
+    {
+        public override void ActivateAbility()
+        {
+            HostShip.OnActionIsPerformed += CheckConditions;
+        }
+
+        public override void DeactivateAbility()
+        {
+            HostShip.OnActionIsPerformed -= CheckConditions;
+        }
+
+        private void CheckConditions(GenericAction action)
+        {
+            if (HostShip.Force > 0)
+            {
+                HostShip.OnActionDecisionSubphaseEnd += DoAnotherAction;
+            }
+        }
+
+        private void DoAnotherAction(GenericShip ship)
+        {
+            HostShip.OnActionDecisionSubphaseEnd -= DoAnotherAction;
+
+            RegisterAbilityTrigger(TriggerTypes.OnFreeAction, PerformAction);
+        }
+
+        private void PerformAction(object sender, System.EventArgs e)
+        {
+            Messages.ShowInfoToHuman("Darth Vader: you may spend 1 force to perform an action");
+
+            HostShip.BeforeFreeActionIsPerformed += PayForceCost;
+            
+            List<GenericAction> actions = Selection.ThisShip.GetAvailableActionsList();
+            HostShip.AskPerformFreeAction(actions, CleanUp);
+        }
+
+        private void PayForceCost(GenericAction action)
+        {
+            HostShip.Force--;
+            HostShip.BeforeFreeActionIsPerformed -= PayForceCost;
+        }
+
+        private void CleanUp()
+        {
+            HostShip.BeforeFreeActionIsPerformed -= PayForceCost;
+            Triggers.FinishTrigger();
+        }
+
     }
 }

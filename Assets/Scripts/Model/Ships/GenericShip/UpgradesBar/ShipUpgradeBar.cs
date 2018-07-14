@@ -12,6 +12,7 @@ namespace Upgrade
 
         private List<UpgradeSlot> UpgradeSlots;
         private List<UpgradeType> ForbiddenSlots;
+        private Dictionary<UpgradeType, int> CostReductionByType;
 
         public ShipUpgradeBar(Ship.GenericShip host)
         {
@@ -19,6 +20,7 @@ namespace Upgrade
 
             UpgradeSlots = new List<UpgradeSlot>();
             ForbiddenSlots = new List<UpgradeType>();
+            CostReductionByType = new Dictionary<UpgradeType, int>();
 
             AddSlot(UpgradeType.Title);
             AddSlot(UpgradeType.Modification);
@@ -156,6 +158,11 @@ namespace Upgrade
             return result;
         }
 
+        public bool HasUpgradeInstalled(Type upgradeType)
+        {
+            return GetUpgradesAll().Any(n => n.GetType() == upgradeType);
+        }
+
         /**
          * Checks if the ship has free upgrade slots for the list of upgrade types.
          * @param upgradeTypes the list of upgrades types to check.
@@ -211,6 +218,28 @@ namespace Upgrade
         public void AllowSlots(UpgradeType upgradeType)
         {
             if (ForbiddenSlots.Contains(upgradeType)) ForbiddenSlots.Remove(upgradeType);
+        }
+
+        public void CostReduceByType(UpgradeType upgradeType, int costReduction)
+        {
+            if (!CostReductionByType.ContainsKey(upgradeType)) CostReductionByType.Add(upgradeType, costReduction);
+
+            foreach (var slot in UpgradeSlots)
+            {
+                if (slot.Type == upgradeType)
+                {
+                    slot.CostDecrease += costReduction;
+                }
+            }
+        }
+
+        public List<GenericUpgrade> GetRechargableUpgrades()
+        {
+            return GetUpgradesOnlyFaceup()
+                .Where(n => n.Types.Contains(UpgradeType.Torpedo) || n.Types.Contains(UpgradeType.Missile) || n.Types.Contains(UpgradeType.Bomb))
+                .Where(n => n.UsesCharges)
+                .Where(n => n.Charges < n.MaxCharges)
+                .ToList();
         }
     }
 }

@@ -7,6 +7,7 @@ using UnityEngine.UI;
 using SquadBuilderNS;
 using Upgrade;
 using Mods;
+using RuleSets;
 
 public class UpgradePanelSquadBuilder : MonoBehaviour {
 
@@ -15,14 +16,18 @@ public class UpgradePanelSquadBuilder : MonoBehaviour {
     private UpgradeSlot Slot;
     private Action<UpgradeSlot, GenericUpgrade> OnClick;
     private bool ShowFromModInfo;
+    private bool Compact;
 
-    public void Initialize(string upgradeName, UpgradeSlot slot, GenericUpgrade upgrade = null, Action<UpgradeSlot, GenericUpgrade> onClick = null, bool showFromModInfo = false)
+    public void Initialize(string upgradeName, UpgradeSlot slot, GenericUpgrade upgrade = null, Action<UpgradeSlot, GenericUpgrade> onClick = null, bool showFromModInfo = false, bool compact = false)
     {
         UpgradeName = upgradeName;
         Upgrade = upgrade;
         OnClick = onClick;
         Slot = slot;
         ShowFromModInfo = showFromModInfo;
+        Compact = compact;
+
+        this.gameObject.GetComponent<RectTransform>().sizeDelta = (compact) ? RuleSet.Instance.UpgradeCardCompactSize : RuleSet.Instance.UpgradeCardSize;
     }
 
     void Start()
@@ -83,7 +88,31 @@ public class UpgradePanelSquadBuilder : MonoBehaviour {
     {
         Texture2D newTexture = new Texture2D(www.texture.height, www.texture.width);
         www.LoadImageIntoTexture(newTexture);
-        Sprite newSprite = Sprite.Create(newTexture, new Rect(0, 0, newTexture.width, newTexture.height), Vector2.zero);
+        TextureScale.Bilinear(newTexture, (int)RuleSet.Instance.UpgradeCardSize.x, (int)RuleSet.Instance.UpgradeCardSize.y);
+
+        Sprite newSprite = null;
+        if (!Compact)
+        {
+            newSprite = Sprite.Create(
+                newTexture,
+                new Rect(0, 0, newTexture.width, newTexture.height),
+                Vector2.zero
+            );
+        }
+        else
+        {
+            newSprite = Sprite.Create(
+                newTexture,
+                new Rect(
+                    (!Upgrade.Types.Contains(UpgradeType.Configuration)) ? RuleSet.Instance.UpgradeCardCompactOffset.x : RuleSet.Instance.UpgradeCardCompactOffset.x - 155,
+                    RuleSet.Instance.UpgradeCardCompactOffset.y,
+                    RuleSet.Instance.UpgradeCardCompactSize.x,
+                    RuleSet.Instance.UpgradeCardCompactSize.y
+                ),
+                Vector2.zero
+            );
+        }
+
         Image image = targetObject.transform.GetComponent<Image>();
         image.sprite = newSprite;
 

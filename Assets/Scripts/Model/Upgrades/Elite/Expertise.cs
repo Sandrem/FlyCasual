@@ -2,35 +2,51 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Upgrade;
+using Abilities;
+using Ship;
+using ActionsList;
 
 namespace UpgradesList
 {
 
     public class Expertise : GenericUpgrade
     {
-
         public Expertise() : base()
         {
             Types.Add(UpgradeType.Elite);
             Name = "Expertise";
             Cost = 4;
-        }
 
-        public override void AttachToShip(Ship.GenericShip host)
+            // AvatarOffset = new Vector2(10, 5);
+
+            UpgradeAbilities.Add(new ExpertiseAbility());
+        }
+    }
+}
+
+namespace Abilities
+{
+    public class ExpertiseAbility : GenericAbility
+    {
+        public override void ActivateAbility()
         {
-            base.AttachToShip(host);
-
-            host.AfterGenerateAvailableActionEffectsList += AddExpertiseDiceModification;
+            HostShip.OnGenerateDiceModifications += AddExpertiseDiceModification;
         }
 
-        private void AddExpertiseDiceModification(Ship.GenericShip host)
+        public override void DeactivateAbility()
         {
-            ActionsList.GenericAction newAction = new ActionsList.ExpertiseDiceModification();
-            newAction.ImageUrl = ImageUrl;
-            newAction.Host = Host;
-            host.AddAvailableActionEffect(newAction);
+            HostShip.OnGenerateDiceModifications -= AddExpertiseDiceModification;
         }
 
+        private void AddExpertiseDiceModification(GenericShip host)
+        {
+            GenericAction newAction = new ExpertiseDiceModification
+            {
+                ImageUrl = HostUpgrade.ImageUrl,
+                Host = host
+            };
+            host.AddAvailableDiceModification(newAction);
+        }
     }
 }
 
@@ -42,19 +58,19 @@ namespace ActionsList
 
         public ExpertiseDiceModification()
         {
-            Name = EffectName = "Expertise";
+            Name = DiceModificationName = "Expertise";
 
             IsTurnsAllFocusIntoSuccess = true;
         }
 
-        public override bool IsActionEffectAvailable()
+        public override bool IsDiceModificationAvailable()
         {
             bool result = false;
             if (Combat.AttackStep == CombatStep.Attack) result = true;
             return result;
         }
 
-        public override int GetActionEffectPriority()
+        public override int GetDiceModificationPriority()
         {
             int result = 0;
 

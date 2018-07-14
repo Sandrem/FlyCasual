@@ -9,6 +9,7 @@ using UnityEngine.UI;
 using Upgrade;
 using System.IO;
 using Ship;
+using RuleSets;
 
 namespace SquadBuilderNS
 {
@@ -17,8 +18,6 @@ namespace SquadBuilderNS
         private const int SHIP_COLUMN_COUNT = 5;
         private const float PILOT_CARD_WIDTH = 300;
         private const float PILOT_CARD_HEIGHT = 418;
-        private const float UPGRADE_CARD_WIDTH = 194;
-        private const float UPGRADE_CARD_HEIGHT = 300;
         private const float DISTANCE_LARGE = 40;
         private const float DISTANCE_MEDIUM = 20;
         private const float DISTANCE_SMALL = 10;
@@ -26,7 +25,7 @@ namespace SquadBuilderNS
         private class UpgradeSlotPanel
         {
             public GameObject Panel;
-            public Vector2 Size = new Vector2(UPGRADE_CARD_WIDTH, UPGRADE_CARD_HEIGHT);
+            public Vector2 Size = new Vector2(RuleSet.Instance.UpgradeCardCompactSize.x, RuleSet.Instance.UpgradeCardCompactSize.y);
             public GenericUpgrade Upgrade;
             public UpgradeType SlotType;
 
@@ -67,9 +66,9 @@ namespace SquadBuilderNS
 
             foreach (ShipRecord ship in AllShips)
             {
-                if (ship.Instance.factions.Contains(faction))
+                if (ship.Instance.factions.Contains(faction) && !ship.Instance.IsHidden)
                 {
-                    ShowAvailableShip(ship);
+                    if (RuleSet.Instance.ShipIsAllowed(ship.Instance)) ShowAvailableShip(ship);
                 }
             }
         }
@@ -108,8 +107,8 @@ namespace SquadBuilderNS
             availablePilotsCounter = 0;
 
             ShipRecord shipRecord = AllShips.Find(n => n.ShipName == shipName);
-            List<PilotRecord> AllPilotsFiltered = AllPilots.Where(n => n.PilotShip == shipRecord && n.PilotFaction == faction).OrderByDescending(n => n.PilotSkill).ToList();
-            int pilotsCount = AllPilotsFiltered.Count;
+            List<PilotRecord> AllPilotsFiltered = AllPilots.Where(n => n.PilotShip == shipRecord && n.PilotFaction == faction && RuleSet.Instance.PilotIsAllowed(n.Instance)).OrderByDescending(n => n.PilotSkill).ToList();
+            int pilotsCount = AllPilotsFiltered.Count();
 
             Transform contentTransform = GameObject.Find("UI/Panels/SelectPilotPanel/Panel/Scroll View/Viewport/Content").transform;
             DestroyChildren(contentTransform);
@@ -140,6 +139,8 @@ namespace SquadBuilderNS
             GameObject newPilotPanel = MonoBehaviour.Instantiate(prefab, contentTransform);
 
             GenericShip newShip = (GenericShip)Activator.CreateInstance(Type.GetType(pilotRecord.PilotTypeName));
+            RuleSet.Instance.AdaptShipToRules(newShip);
+            RuleSet.Instance.AdaptPilotToRules(newShip);
 
             PilotPanelSquadBuilder script = newPilotPanel.GetComponent<PilotPanelSquadBuilder>();
             script.Initialize(newShip, PilotSelectedIsClicked, true);
@@ -188,7 +189,7 @@ namespace SquadBuilderNS
             Transform contentTransform = ship.Panel.Panel.transform;
             RectTransform contentRect = contentTransform.GetComponent<RectTransform>();
             int installedUpgradesCount = ship.Instance.UpgradeBar.GetUpgradesAll().Count;
-            contentRect.sizeDelta = new Vector2(PILOT_CARD_WIDTH + (UPGRADE_CARD_WIDTH + DISTANCE_SMALL) * installedUpgradesCount, contentRect.sizeDelta.y);
+            contentRect.sizeDelta = new Vector2(PILOT_CARD_WIDTH + (RuleSet.Instance.UpgradeCardCompactSize.x + DISTANCE_SMALL) * installedUpgradesCount, contentRect.sizeDelta.y);
 
             prefab = (GameObject)Resources.Load("Prefabs/SquadBuilder/PilotPanel", typeof(GameObject));
             GameObject pilotPanel = MonoBehaviour.Instantiate(prefab, shipWithUpgradesPanelGO.transform);
@@ -217,18 +218,18 @@ namespace SquadBuilderNS
             GameObject newUpgradePanel = MonoBehaviour.Instantiate(prefab, contentTransform);
 
             RectTransform contentRect = contentTransform.GetComponent<RectTransform>();
-            newUpgradePanel.transform.localPosition = new Vector2(PILOT_CARD_WIDTH + DISTANCE_SMALL + (UPGRADE_CARD_WIDTH + DISTANCE_SMALL) * availableUpgradesCounter, 0);
+            newUpgradePanel.transform.localPosition = new Vector2(PILOT_CARD_WIDTH + DISTANCE_SMALL + (RuleSet.Instance.UpgradeCardCompactSize.x + DISTANCE_SMALL) * availableUpgradesCounter, 0);
             ship.Panel.Size = contentRect.sizeDelta;
 
             UpgradePanelSquadBuilder script = newUpgradePanel.GetComponent<UpgradePanelSquadBuilder>();
-            script.Initialize(upgrade.Name, null, upgrade);
+            script.Initialize(upgrade.Name, null, upgrade, compact: true);
 
             availableUpgradesCounter++;
         }
 
         private static void ShowAddShipPanel()
         {
-            if (GetCurrentSquadCost() < 89)
+            if (GetCurrentSquadCost() <= RuleSet.Instance.MaxPoints - RuleSet.Instance.MinShipCost)
             {
                 GameObject prefab = (GameObject)Resources.Load("Prefabs/SquadBuilder/ShipWithUpgradesPanel", typeof(GameObject));
                 GameObject addShipButtonPanel = MonoBehaviour.Instantiate(prefab, GameObject.Find("UI/Panels/SquadBuilderPanel/Panel/Centered/SquadListPanel").transform);
@@ -421,8 +422,8 @@ namespace SquadBuilderNS
         private static void UpdateSquadCost(int squadCost, string panelName)
         {
             Text targetText = GameObject.Find("UI/Panels/" + panelName + "/ControlsPanel/SquadCostText").GetComponent<Text>();
-            targetText.text = squadCost.ToString() + " / 100";
-            targetText.color = (squadCost > 100) ? new Color(1, 0, 0, 200f/255f) : new Color(0, 0, 0, 200f / 255f);
+            targetText.text = squadCost.ToString() + " / " + RuleSet.Instance.MaxPoints;
+            targetText.color = (squadCost > RuleSet.Instance.MaxPoints) ? new Color(1, 0, 0, 200f/255f) : new Color(0, 0, 0, 200f / 255f);
         }
 
         private static void GenerateShipWithSlotsPanels()
@@ -462,13 +463,12 @@ namespace SquadBuilderNS
 
                 if (slot.InstalledUpgrade == null)
                 {
-                    script.Initialize("Slot:" + slot.Type.ToString(), slot, null, OpenSelectUpgradeMenu);
+                    script.Initialize("Slot:" + slot.Type.ToString(), slot, null, OpenSelectUpgradeMenu, compact: true);
                     UpgradeSlotPanels.Add(new UpgradeSlotPanel(null, slot.Type, newUpgradePanel));
                 }
                 else
                 {
-                    //script.Initialize(slot.InstalledUpgrade.Name, slot, slot.InstalledUpgrade, RemoveInstalledUpgrade);
-                    script.Initialize(slot.InstalledUpgrade.Name, slot, slot.InstalledUpgrade, RemoveUpgradeClicked);
+                    script.Initialize(slot.InstalledUpgrade.Name, slot, slot.InstalledUpgrade, RemoveUpgradeClicked, compact: true);
                     UpgradeSlotPanels.Add(new UpgradeSlotPanel(slot.InstalledUpgrade, slot.Type, newUpgradePanel));
                 }
             }
@@ -489,9 +489,9 @@ namespace SquadBuilderNS
                 if (count == maxOneRowSize)
                 {
                     maxSizeX = offsetX;
-                    offsetX = (UpgradeSlotPanels.Count % 2 == 0) ? PILOT_CARD_WIDTH + 2 * DISTANCE_MEDIUM : PILOT_CARD_WIDTH + 2 * DISTANCE_MEDIUM + (UPGRADE_CARD_WIDTH + DISTANCE_MEDIUM) / 2;
-                    offsetY = -(UPGRADE_CARD_HEIGHT + DISTANCE_MEDIUM);
-                    maxSizeY = 2 * UPGRADE_CARD_HEIGHT + DISTANCE_MEDIUM;
+                    offsetX = (UpgradeSlotPanels.Count % 2 == 0) ? PILOT_CARD_WIDTH + 2 * DISTANCE_MEDIUM : PILOT_CARD_WIDTH + 2 * DISTANCE_MEDIUM + (RuleSet.Instance.UpgradeCardCompactSize.x + DISTANCE_MEDIUM) / 2;
+                    offsetY = -(RuleSet.Instance.UpgradeCardCompactSize.y + DISTANCE_MEDIUM);
+                    maxSizeY = 2 * RuleSet.Instance.UpgradeCardCompactSize.y + DISTANCE_MEDIUM;
                 }
                 upgradeSlotPanel.Panel.transform.localPosition = new Vector2(offsetX, offsetY);
                 offsetX += upgradeSlotPanel.Size.x + DISTANCE_MEDIUM;
@@ -510,13 +510,13 @@ namespace SquadBuilderNS
         {
             availableUpgradesCounter = 0;
 
-            List<UpgradeRecord> filteredUpgrades = AllUpgrades.Where(n => n.Instance.hasType(slot.Type) && n.Instance.IsAllowedForShip(CurrentSquadBuilderShip.Instance) && n.Instance.HasEnoughSlotsInShip(CurrentSquadBuilderShip.Instance)).ToList();
-            int filteredUpgradesCount = filteredUpgrades.Count;
+            List<UpgradeRecord> filteredUpgrades = AllUpgrades.Where(n => n.Instance.HasType(slot.Type) && n.Instance.IsAllowedForShip(CurrentSquadBuilderShip.Instance) && n.Instance.HasEnoughSlotsInShip(CurrentSquadBuilderShip.Instance) && n.Instance.UpgradeRuleType == RuleSet.Instance.GetType()).ToList();
+            int filteredUpgradesCount = filteredUpgrades.Count();
 
             Transform contentTransform = GameObject.Find("UI/Panels/SelectUpgradePanel/Panel/Scroll View/Viewport/Content").transform;
             DestroyChildren(contentTransform);
             contentTransform.localPosition = new Vector3(0, contentTransform.localPosition.y, contentTransform.localPosition.z);
-            contentTransform.GetComponent<RectTransform>().sizeDelta = new Vector2(filteredUpgradesCount * (UPGRADE_CARD_WIDTH + DISTANCE_MEDIUM) + 2 * DISTANCE_MEDIUM, 0);
+            contentTransform.GetComponent<RectTransform>().sizeDelta = new Vector2(filteredUpgradesCount * (RuleSet.Instance.UpgradeCardSize.x + DISTANCE_MEDIUM) + 2 * DISTANCE_MEDIUM, 0);
 
             foreach (UpgradeRecord upgrade in filteredUpgrades)
             {
@@ -532,13 +532,14 @@ namespace SquadBuilderNS
 
             string upgradeType = AllUpgrades.Find(n => n.UpgradeName == upgrade.UpgradeName).UpgradeTypeName;
             GenericUpgrade newUpgrade = (GenericUpgrade)System.Activator.CreateInstance(Type.GetType(upgradeType));
+            RuleSet.Instance.AdaptUpgradeToRules(newUpgrade);
 
             UpgradePanelSquadBuilder script = newUpgradePanel.GetComponent<UpgradePanelSquadBuilder>();
             script.Initialize(upgrade.UpgradeName, CurrentUpgradeSlot, newUpgrade, SelectUpgradeClicked, true);
 
             int column = availableUpgradesCounter;
 
-            newUpgradePanel.transform.localPosition = new Vector3(DISTANCE_MEDIUM + (UPGRADE_CARD_WIDTH + DISTANCE_MEDIUM) * column, UPGRADE_CARD_HEIGHT/2, 0);
+            newUpgradePanel.transform.localPosition = new Vector3(DISTANCE_MEDIUM + (RuleSet.Instance.UpgradeCardSize.x + DISTANCE_MEDIUM) * column, RuleSet.Instance.UpgradeCardSize.y / 2, 0);
 
             availableUpgradesCounter++;
         }
@@ -557,8 +558,10 @@ namespace SquadBuilderNS
             // check if its a dual upgrade
             if (upgrade.Types.Count > 1) {
                 // find another slot
+                int slotsRemoved = 1; // We removed one above (fixes bug #708) TODO: this may not work for multi-type upgrades. Will need to revisit later.
                 foreach (UpgradeSlot tempSlot in CurrentSquadBuilderShip.Instance.UpgradeBar.GetUpgradeSlots()){
-                    if (tempSlot != slot && upgrade.hasType (tempSlot.Type)) {
+                    if (slotsRemoved < upgrade.Types.Count && tempSlot != slot && upgrade.HasType (tempSlot.Type)) {
+                        slotsRemoved += 1; // Fixes bug #708
                         RemoveInstalledUpgrade (tempSlot, upgrade);
                     }
                 }
@@ -583,14 +586,6 @@ namespace SquadBuilderNS
             }
         }
 
-        public static void ShowOpponentSquad()
-        {
-            GameObject globalUI = GameObject.Find("GlobalUI").gameObject;
-
-            GameObject opponentSquad = globalUI.transform.Find("OpponentSquad").gameObject;
-            opponentSquad.SetActive(true);
-        }
-
         public static void OpenImportExportPanel(bool isImport)
         {
             MainMenu.CurrentMainMenu.ChangePanel("ImportExportPanel");
@@ -603,15 +598,19 @@ namespace SquadBuilderNS
         {
             List<JSONObject> savedSquadsJsons = new List<JSONObject>();
 
-            string directoryPath = Application.persistentDataPath + "/SavedSquadrons";
+            string directoryPath = Application.persistentDataPath + "/" + RuleSet.Instance.Name + "/" + RuleSet.Instance.PathToSavedSquadrons;
             if (!Directory.Exists(directoryPath)) Directory.CreateDirectory(directoryPath);
 
             foreach (var filePath in Directory.GetFiles(directoryPath))
             {
                 string content = File.ReadAllText(filePath);
                 JSONObject squadJson = new JSONObject(content);
-                squadJson.AddField("filename", new FileInfo(filePath).Name);
-                savedSquadsJsons.Add(squadJson);
+
+                if (XWSToFaction(squadJson["faction"].str) == CurrentSquadList.SquadFaction)
+                {
+                    squadJson.AddField("filename", new FileInfo(filePath).Name);
+                    savedSquadsJsons.Add(squadJson);
+                }
             }
 
             return savedSquadsJsons;
@@ -690,7 +689,7 @@ namespace SquadBuilderNS
         {
             JSONObject squadJson = null;
 
-            string directoryPath = Application.persistentDataPath + "/SavedSquadrons";
+            string directoryPath = Application.persistentDataPath + "/" + RuleSet.Instance.Name + "/" + RuleSet.Instance.PathToSavedSquadrons;
             if (!Directory.Exists(directoryPath)) Directory.CreateDirectory(directoryPath);
 
             string filePath = directoryPath + "/" + fileName;
@@ -711,7 +710,7 @@ namespace SquadBuilderNS
 
         private static void DeleteSavedSquadFile(string fileName)
         {
-            string filePath = Application.persistentDataPath + "/SavedSquadrons/" + fileName;
+            string filePath = Application.persistentDataPath + "/" + RuleSet.Instance.Name + "/SavedSquadrons/" + fileName;
 
             if (File.Exists(filePath))
             {
@@ -721,12 +720,12 @@ namespace SquadBuilderNS
 
         public static void ReturnToSquadBuilder()
         {
-            MainMenu.CurrentMainMenu.ChangePanel("SquadBuilderPanel");
+            RuleSet.Instance.SquadBuilderIsOpened();
         }
 
         public static void UpdateSquadName(string panelName)
         {
-            GameObject textGO = GameObject.Find("UI/Panels/" + panelName + "/Panel/SquadNameButton/Text");
+            GameObject textGO = GameObject.Find("UI/Panels/" + panelName + "/Panel/SquadBuilderTop/SquadNameButton/Text");
             textGO.GetComponent<Text>().text = CurrentSquadList.Name;
             textGO.GetComponent<RectTransform>().sizeDelta = new Vector2(textGO.GetComponent<Text>().preferredWidth, textGO.GetComponent<RectTransform>().sizeDelta.y);
         }
@@ -736,32 +735,19 @@ namespace SquadBuilderNS
             GameObject.Find("UI/Panels/SaveSquadronPanel/Panel/Name/InputField").GetComponent<InputField>().text = CurrentSquadList.Name;
         }
 
-        public static void TrySaveSquadron(Action callback)
+        public static void SaveSquadron(SquadList squadList, string squadName, Action callback)
         {
-            string squadName = GameObject.Find("UI/Panels/SaveSquadronPanel/Panel/Name/InputField").GetComponent<InputField>().text;
-            if (squadName == "") squadName = "Unnamed squadron";
-
-            CurrentSquadList.Name = CleanFileName(squadName);
+            squadList.Name = CleanFileName(squadName);
 
             // check that directory exists, if not create it
-            string directoryPath = Application.persistentDataPath + "/SavedSquadrons";
+            string directoryPath = Application.persistentDataPath + "/" + RuleSet.Instance.Name + "/SavedSquadrons";
             if (!Directory.Exists(directoryPath)) Directory.CreateDirectory(directoryPath);
 
-            string filePath = Application.persistentDataPath + "/SavedSquadrons/" + CurrentSquadList.Name;
+            string filePath = directoryPath + "/" + squadList.Name + ".json";
 
-            if (File.Exists(filePath + ".json"))
-            {
-                string originalFilePath = filePath;
-                int counter = 1;
+            if (File.Exists(filePath)) File.Delete(filePath);
 
-                while (File.Exists(filePath + ".json"))
-                {
-                    counter++;
-                    filePath = originalFilePath + counter.ToString();
-                }
-            }
-
-            File.WriteAllText(filePath + ".json", GetSquadInJson(CurrentPlayer).ToString());
+            File.WriteAllText(filePath, GetSquadInJson(squadList.PlayerNo).ToString());
 
             callback();
         }
@@ -804,8 +790,58 @@ namespace SquadBuilderNS
         private static void UpdateSkinButton()
         {
             bool hasSkinsSelection = GetAvailableShipSkins(CurrentSquadBuilderShip).Count > 1;
-            GameObject.Find("UI/Panels/ShipSlotsPanel/Panel/TopButtons/SkinsButton").GetComponent<Button>().interactable = hasSkinsSelection;
+            GameObject.Find("UI/Panels/ShipSlotsPanel/Panel/ShipSlotsTop/TopButtons/SkinsButton").GetComponent<Button>().interactable = hasSkinsSelection;
         }
+
+        // Random AI
+
+        public static void SetRandomAiSquad(Action callback)
+        {
+            SetPlayerSquadFromImportedJson(GetRandomAiSquad(), CurrentPlayer, callback);
+        }
+
+        private static JSONObject GetRandomAiSquad()
+        {
+            string directoryPath = Application.persistentDataPath + "/" + RuleSet.Instance.Name + "/RandomAiSquadrons";
+            if (!Directory.Exists(directoryPath)) Directory.CreateDirectory(directoryPath);
+
+            if (IsGenerationOfSquadsRequired()) CreatePreGeneratedRandomAiSquads();
+
+            string[] filePaths = Directory.GetFiles(directoryPath);
+            int randomFileIndex = UnityEngine.Random.Range(0, filePaths.Length);
+
+            string content = File.ReadAllText(filePaths[randomFileIndex]);
+            JSONObject squadJson = new JSONObject(content);
+
+            return squadJson;
+        }
+
+        private static bool IsGenerationOfSquadsRequired()
+        {
+            string directoryPath = Application.persistentDataPath + "/" + RuleSet.Instance.Name + "/RandomAiSquadrons/";
+
+            foreach (var squadName in RuleSet.Instance.PreGeneratedAiSquadrons.Keys)
+            {
+                if (!File.Exists(directoryPath + squadName + ".json")) return true;
+            }
+
+            return false;
+        }
+
+        private static void CreatePreGeneratedRandomAiSquads()
+        {
+            string directoryPath = Application.persistentDataPath + "/" + RuleSet.Instance.Name + "/RandomAiSquadrons";
+
+            foreach (var squadron in RuleSet.Instance.PreGeneratedAiSquadrons)
+            {
+                string filePath = directoryPath + "/" + squadron.Key + ".json";
+                if (!File.Exists(filePath))
+                {
+                    File.WriteAllText(filePath, squadron.Value);
+                }
+            }
+        }
+
     }
 
 }

@@ -1,12 +1,14 @@
-﻿using System.Collections;
+﻿using RuleSets;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Upgrade;
 
 namespace Ship
 {
     namespace YWing
     {
-        public class GraySquadronPilot : YWing
+        public class GraySquadronPilot : YWing, ISecondEditionPilot
         {
             public GraySquadronPilot() : base()
             {
@@ -14,11 +16,22 @@ namespace Ship
                 PilotSkill = 4;
                 Cost = 20;
 
-                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Astromech);
+                PrintedUpgradeIcons.Add(UpgradeType.Astromech);
 
                 SkinName = "Gray";
 
                 faction = Faction.Rebel;
+            }
+
+            public void AdaptPilotToSecondEdition()
+            {
+                PilotName = "Gray Squadron Bomber";
+                PilotNameShort = "Gray Sq. Bomber";
+                PilotSkill = 2;
+
+                PrintedUpgradeIcons.Add(UpgradeType.Elite);
+
+                Cost = 40;
             }
         }
     }

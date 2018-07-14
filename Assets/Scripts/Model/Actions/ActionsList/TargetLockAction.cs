@@ -1,4 +1,6 @@
-﻿using RulesList;
+﻿using BoardTools;
+using RuleSets;
+using RulesList;
 using Ship;
 using System.Collections;
 using System.Collections.Generic;
@@ -12,7 +14,7 @@ namespace ActionsList
     {
         public TargetLockAction()
         {
-            Name = EffectName = "Target Lock";
+            Name = DiceModificationName = "Target Lock";
 
             TokensSpend.Add(typeof(Tokens.BlueTargetLockToken));
             IsReroll = true;
@@ -47,7 +49,7 @@ namespace ActionsList
             }
         }
 
-        public override bool IsActionEffectAvailable()
+        public override bool IsDiceModificationAvailable()
         {
             bool result = false;
             if (Combat.AttackStep == CombatStep.Attack)
@@ -60,7 +62,7 @@ namespace ActionsList
             return result;
         }
 
-        public override int GetActionEffectPriority()
+        public override int GetDiceModificationPriority()
         {
             int result = 0;
 
@@ -70,7 +72,7 @@ namespace ActionsList
                 int attackBlanks = Combat.DiceRollAttack.BlanksNotRerolled;
 
                 //if (Combat.Attacker.HasToken(typeof(Tokens.FocusToken)))
-                if (Combat.Attacker.GetAvailableActionEffectsList().Count(n => n.IsTurnsAllFocusIntoSuccess) > 0)
+                if (Combat.Attacker.GetAvailableDiceModifications().Count(n => n.IsTurnsAllFocusIntoSuccess) > 0)
                 {
                     if (attackBlanks > 0) result = 80;
                 }
@@ -103,11 +105,7 @@ namespace SubPhases
     {
         public override void RevertSubPhase()
         {
-            Selection.ThisShip.RemoveAlreadyExecutedAction(typeof(ActionsList.TargetLockAction));
-
-            Phases.CurrentSubPhase = PreviousSubPhase;
-            Roster.AllShipsHighlightOff();
-            Phases.CurrentSubPhase.Resume();
+            RuleSet.Instance.ActionIsFailed(TheShip, typeof(ActionsList.TargetLockAction));
             UpdateHelpInfo();
         }
 
@@ -130,31 +128,33 @@ namespace SubPhases
         {
             CanMeasureRangeBeforeSelection = false;
 
-            var ship = Selection.ThisShip;
-            minRange = ship.TargetLockMinRange;
-            maxRange = ship.TargetLockMaxRange;
+            if (AbilityName == null) AbilityName = "Target Lock";
+            if (Description == null) Description = "Choose a ship to acquire a target lock on it";
 
-            targetsAllowed.Add(TargetTypes.Enemy);
-            finishAction = TrySelectTargetLock;
-
-            FilterTargets = FilterTargetLockTargets;
-            GetAiPriority = GetTargetLockAiPriority;
-
-            UI.ShowSkipButton();
+            PrepareByParameters(
+                TrySelectTargetLock,
+                FilterTargetLockTargets,
+                GetTargetLockAiPriority,
+                Selection.ThisShip.Owner.PlayerNo,
+                true,
+                AbilityName,
+                Description,
+                ImageUrl
+            );
         }
 
         private bool FilterTargetLockTargets(GenericShip ship)
         {
-            Board.ShipDistanceInformation distanceInfo = new Board.ShipDistanceInformation(Selection.ThisShip, ship);
-            return ship.Owner.PlayerNo != Selection.ThisShip.Owner.PlayerNo && distanceInfo.Range >= minRange && distanceInfo.Range <= maxRange && Rules.TargetLocks.TargetLockIsAllowed(Selection.ThisShip, ship);
+            DistanceInfo distanceInfo = new DistanceInfo(Selection.ThisShip, ship);
+            return ship.Owner.PlayerNo != Selection.ThisShip.Owner.PlayerNo && distanceInfo.Range >= Selection.ThisShip.TargetLockMinRange && distanceInfo.Range <= Selection.ThisShip.TargetLockMaxRange && Rules.TargetLocks.TargetLockIsAllowed(Selection.ThisShip, ship);
         }
 
         private int GetTargetLockAiPriority(GenericShip ship)
         {
             int result = 0;
 
-            Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(Selection.ThisShip, ship);
-            if (shotInfo.InShotAngle) result += 1000;
+            ShotInfo shotInfo = new ShotInfo(Selection.ThisShip, ship, Selection.ThisShip.PrimaryWeapon);
+            if (shotInfo.IsShotAvailable) result += 1000;
             if (!ship.ShipsBumped.Contains(Selection.ThisShip)) result += 500;
             if (shotInfo.Range <= 3) result += 250;
 
@@ -173,7 +173,7 @@ namespace SubPhases
         {
             if (Rules.TargetLocks.TargetLockIsAllowed(Selection.ThisShip, TargetShip))
             {
-                Actions.AssignTargetLockToPair(
+                Actions.AcquireTargetLock(
                     Selection.ThisShip,
                     TargetShip,
                     SuccessfulCallback,

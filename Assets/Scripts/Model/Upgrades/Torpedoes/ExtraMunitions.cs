@@ -29,13 +29,13 @@ namespace Abilities
 
         public override void ActivateAbility()
         {
-            Phases.OnGameStart += SetOrdnanceTokens;
+            Phases.Events.OnGameStart += SetOrdnanceTokens;
             HostShip.OnDiscardUpgrade += CheckOrdnanceToken;
         }
 
         public override void DeactivateAbility()
         {
-            Phases.OnGameStart -= SetOrdnanceTokens;
+            Phases.Events.OnGameStart -= SetOrdnanceTokens;
             HostShip.OnDiscardUpgrade -= CheckOrdnanceToken;
         }
 
@@ -43,7 +43,7 @@ namespace Abilities
         {
             foreach (var upgrade in HostShip.UpgradeBar.GetUpgradesOnlyFaceup())
             {
-                if (upgrade.hasType(UpgradeType.Torpedo) || upgrade.hasType(UpgradeType.Missile) || upgrade.hasType(UpgradeType.Bomb))
+                if (upgrade.HasType(UpgradeType.Torpedo) || upgrade.HasType(UpgradeType.Missile) || upgrade.HasType(UpgradeType.Bomb))
                 {
                     SetOrdnanceToken(upgrade);
                 }
@@ -53,7 +53,7 @@ namespace Abilities
         private void SetOrdnanceToken(GenericUpgrade upgrade)
         {
             upgradesWithOrdnanceToken.Add(upgrade);
-            if (upgrade.Name != Name) upgrade.Name += ordnanceTokenMarker;
+            if (upgrade.Name != HostUpgrade.Name) upgrade.Name += ordnanceTokenMarker;
 
             Roster.UpdateUpgradesPanel(HostShip, HostShip.InfoPanel);
         }

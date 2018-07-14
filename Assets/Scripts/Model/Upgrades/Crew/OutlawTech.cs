@@ -1,6 +1,8 @@
 ﻿using Abilities;
 using Ship;
 using System;
+using Tokens;
+using UnityEngine;
 using Upgrade;
 
 namespace UpgradesList
@@ -12,6 +14,8 @@ namespace UpgradesList
             Types.Add(UpgradeType.Crew);
             Name = "Outlaw Tech";
             Cost = 2;
+
+            AvatarOffset = new Vector2(50, 4);
 
             UpgradeAbilities.Add(new OutlawTechAbility());
         }
@@ -39,9 +43,11 @@ namespace Abilities
 
         private void RegisterOutlawTechAbility(GenericShip ship)
         {
-            if (HostShip.GetLastManeuverColor() == Movement.ManeuverColor.Red)
+            if (BoardTools.Board.IsOffTheBoard(ship)) return;
+
+            if (HostShip.GetLastManeuverColor() == Movement.MovementComplexity.Complex)
             {
-                RegisterAbilityTrigger(TriggerTypes.OnShipMovementFinish, AskAssignFocusToken);
+                RegisterAbilityTrigger(TriggerTypes.OnMovementFinish, AskAssignFocusToken);
             }
         }
 
@@ -53,13 +59,13 @@ namespace Abilities
             }
             else
             {
-                HostShip.Tokens.AssignToken(new Tokens.FocusToken(HostShip), Triggers.FinishTrigger);
+                HostShip.Tokens.AssignToken(typeof(FocusToken), Triggers.FinishTrigger);
             }
         }
 
         private void AssignToken(object sender, EventArgs e)
         {
-            HostShip.Tokens.AssignToken(new Tokens.FocusToken(HostShip), SubPhases.DecisionSubPhase.ConfirmDecision);
+            HostShip.Tokens.AssignToken(typeof(FocusToken), SubPhases.DecisionSubPhase.ConfirmDecision);
         }
     }
 }

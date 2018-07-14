@@ -2,6 +2,9 @@
 using Ship.ProtectorateStarfighter;
 using UnityEngine;
 using Upgrade;
+using Abilities;
+using ActionsList;
+using BoardTools;
 
 namespace UpgradesList
 {
@@ -12,28 +15,39 @@ namespace UpgradesList
             Types.Add(UpgradeType.Title);
             Name = "Concord Dawn Protector";
             Cost = 1;
+
+            UpgradeAbilities.Add(new ConcordDawnProtectorAbility());
         }
 
         public override bool IsAllowedForShip(GenericShip ship)
         {
             return ship is ProtectorateStarfighter;
         }
+    }
+}
 
-        public override void AttachToShip(GenericShip host)
+namespace Abilities
+{
+    public class ConcordDawnProtectorAbility : GenericAbility
+    {
+        public override void ActivateAbility()
         {
-            base.AttachToShip(host);
+            HostShip.OnGenerateDiceModifications += TryAddConcordDawnProtectorDiceModification;
+        }
 
-            host.AfterGenerateAvailableActionEffectsList += TryAddConcordDawnProtectorDiceModification;
+        public override void DeactivateAbility()
+        {
+            HostShip.OnGenerateDiceModifications -= TryAddConcordDawnProtectorDiceModification;
         }
 
         private void TryAddConcordDawnProtectorDiceModification(GenericShip host)
         {
-            ActionsList.GenericAction newAction = new ActionsList.ConcordDawnProtectorDiceModification()
+            GenericAction newAction = new ConcordDawnProtectorDiceModification()
             {
-                ImageUrl = ImageUrl,
+                ImageUrl = HostUpgrade.ImageUrl,
                 Host = host
             };
-            host.AddAvailableActionEffect(newAction);
+            host.AddAvailableDiceModification(newAction);
         }
     }
 }
@@ -44,10 +58,10 @@ namespace ActionsList
     {
         public ConcordDawnProtectorDiceModification()
         {
-            Name = EffectName = "Concord Dawn Protector";
+            Name = DiceModificationName = "Concord Dawn Protector";
         }
 
-        public override int GetActionEffectPriority()
+        public override int GetDiceModificationPriority()
         {
             int result = 0;
 
@@ -56,16 +70,16 @@ namespace ActionsList
             return result;
         }
 
-        public override bool IsActionEffectAvailable()
+        public override bool IsDiceModificationAvailable()
         {
             bool result = false;
 
             if (Combat.AttackStep == CombatStep.Defence && Combat.ShotInfo.InArc)
             {
-                Board.ShipDistanceInformation shipDistance = new Board.ShipDistanceInformation(Combat.Attacker, Combat.Defender);
+                DistanceInfo shipDistance = new DistanceInfo(Combat.Attacker, Combat.Defender);
                 if (shipDistance.Range == 1)
                 {
-                    Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(Combat.Defender, Combat.Attacker, Combat.Defender.PrimaryWeapon);
+                    ShotInfo shotInfo = new ShotInfo(Combat.Defender, Combat.Attacker, Combat.Defender.PrimaryWeapon);
                     if (shotInfo.InArc)
                     {
                         result = true;

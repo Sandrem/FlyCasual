@@ -7,12 +7,21 @@ using System;
 
 namespace ActionsList
 {
+    public enum DiceModificationTimingType
+    {
+        Normal,
+        Opposite,
+        CompareResults
+    }
 
     public class GenericAction
     {
         public string Name;
-        public string EffectName;
+        public string DiceModificationName;
         public string ImageUrl;
+
+        public bool IsRed;
+        public GenericAction LinkedRedAction;
 
         public bool IsCritCancelAction;
 
@@ -23,9 +32,18 @@ namespace ActionsList
         public bool IsTurnsOneFocusIntoSuccess;
         public bool IsTurnsAllFocusIntoSuccess;
 
-        public bool IsOpposite;
+        public bool CanBeUsedFewTimes;
+
+        public DiceModificationTimingType DiceModificationTiming = DiceModificationTimingType.Normal;
 
         public bool CanBePerformedWhileStressed;
+        public virtual bool CanBePerformedAsAFreeAction
+        {
+            get
+            {
+                return true;
+            }
+        }
 
         private GenericShip host;
         public GenericShip Host
@@ -50,21 +68,23 @@ namespace ActionsList
         }
 
         public Action DoAction = delegate { };
-        public Action<Action> DoActionEffect = delegate { };
+        public Action<Action> DoDiceModification = delegate { };
+        public Func<bool> CheckDiceModificationAvailable = delegate { return true; };
+        public Func<int> GenerateDiceModificationAiPriority = delegate { return 0; };
 
         public virtual void ActionEffect(Action callBack)
         {
-            DoActionEffect(callBack);
+            DoDiceModification(callBack);
         }
 
-        public virtual bool IsActionEffectAvailable()
+        public virtual bool IsDiceModificationAvailable()
         {
-            return true;
+            return CheckDiceModificationAvailable();
         }
 
-        public virtual int GetActionEffectPriority()
+        public virtual int GetDiceModificationPriority()
         {
-            int result = 0;
+            int result = GenerateDiceModificationAiPriority();
 
             /* ATTACK
             * 110 - Free add dice with value
@@ -76,8 +96,12 @@ namespace ActionsList
             * 70 - Free focus to crit
             * 60 - Free focus to crit, another to hits
             * 55 - Free side to hit
+            * 53 - Spend die with eye result
             * 50 - Regular Focus to hits if 1+
+            * 45 - Force to change eye to evade if 1
             * 40 - Regular Focus to hits if 1
+            * 35 - Force to change eye to evade if 1+
+            * 33 - Eye to hit by dealing damage to teammate
             * 30 - Reroll of focus is focus token is available
             * 20 - Hits to crits
             */
@@ -87,11 +111,14 @@ namespace ActionsList
             * 100 - Free change limited by side if 1
             * 95 - Free rerolls limited by side
             * 90 - Free rerolls
+            * 85 - Not-Free rerolls
             * 80 - Free focus to evades
             * 70 - Regular Evade if 1 uncancelled
             * 65 - Not free Evade if 1 uncancelled
             * 50 - Regular Focus to evades if 1+
+            * 45 - Force to change eye to evade if 1
             * 40 - Regular Focus to evades if 1
+            * 35 - Force to change eye to evade if 1+
             * 20 - Regular Evade if >1 uncancelled
             * 15 - Not free Evade if >1 uncancelled
             */
@@ -114,12 +141,12 @@ namespace ActionsList
             int result = 0;
 
             /*
-            * 
             * 90 - Cancel crit
             * 50 - Focus action if has target
             * 40 - Evade action
+            * 25 - Reinforce action if there are no enemies
             * 20 - Focus action if no target
-            * 
+            * 10 - Focus action if Expertise is installed
             */
 
             return result;

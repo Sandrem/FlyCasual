@@ -2,6 +2,10 @@
 using Ship.M12LKimogila;
 using UnityEngine;
 using Upgrade;
+using Abilities;
+using BoardTools;
+using Arcs;
+using Tokens;
 
 namespace UpgradesList
 {
@@ -14,24 +18,35 @@ namespace UpgradesList
             Cost = 1;
 
             isUnique = true;
+
+            UpgradeAbilities.Add(new EnforcerAbility());
         }
 
         public override bool IsAllowedForShip(GenericShip ship)
         {
             return ship is M12LKimogila;
         }
+    }
+}
 
-        public override void AttachToShip(GenericShip host)
+namespace Abilities
+{
+    public class EnforcerAbility : GenericAbility
+    {
+        public override void ActivateAbility()
         {
-            base.AttachToShip(host);
+            HostShip.OnAttackFinish += TryRegisterStressEffect;
+        }
 
-            Host.OnAttackFinish += TryRegisterStressEffect;
+        public override void DeactivateAbility()
+        {
+            HostShip.OnAttackFinish -= TryRegisterStressEffect;
         }
 
         private void TryRegisterStressEffect(GenericShip ship)
         {
-            Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(Combat.Defender, Combat.Attacker, Combat.Defender.PrimaryWeapon);
-            if (shotInfo.InBullseyeArc)
+            ShotInfo shotInfo = new ShotInfo(Combat.Defender, Combat.Attacker, Combat.Defender.PrimaryWeapon);
+            if (shotInfo.InArcByType(ArcTypes.Bullseye))
             {
                 Triggers.RegisterTrigger(new Trigger()
                 {
@@ -46,9 +61,7 @@ namespace UpgradesList
         private void StressEffect(object sender, System.EventArgs e)
         {
             Messages.ShowError("Enforcer: stress is assigned to the attacker");
-            Combat.Attacker.Tokens.AssignToken(
-                new Tokens.StressToken(Combat.Attacker),
-                Triggers.FinishTrigger
+            Combat.Attacker.Tokens.AssignToken(typeof(StressToken), Triggers.FinishTrigger
             );
         }
     }

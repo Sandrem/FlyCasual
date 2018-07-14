@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using SubPhases;
+using Ship;
+using System.Linq;
 
 namespace MainPhases
 {
@@ -23,7 +25,22 @@ namespace MainPhases
         {
             Selection.DeselectAllShips();
 
-            Phases.CurrentPhase = new ActivationPhase();
+            bool anyShipHasSystemsAbility = Roster.AllShips.Values.Any(n => n.IsSystemsAbilityCanBeActivated);
+            if (anyShipHasSystemsAbility)
+            {
+                GenericSubPhase subphase = Phases.StartTemporarySubPhaseNew("Notification", typeof(NotificationSubPhase), StartSystemsPhase);
+                (subphase as NotificationSubPhase).TextToShow = "Systems";
+                subphase.Start();
+            }
+            else
+            {
+                StartSystemsPhase();
+            }
+        }
+
+        private void StartSystemsPhase()
+        {
+            Phases.CurrentPhase = new SystemsPhase();
             Phases.CurrentPhase.StartPhase();
         }
 

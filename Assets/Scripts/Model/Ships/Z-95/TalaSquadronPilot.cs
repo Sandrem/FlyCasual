@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using RuleSets;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,7 +7,7 @@ namespace Ship
 {
     namespace Z95
     {
-        public class TalaSquadronPilot : Z95
+        public class TalaSquadronPilot : Z95, ISecondEditionPilot
         {
             public TalaSquadronPilot() : base()
             {
@@ -16,7 +17,12 @@ namespace Ship
 
                 faction = Faction.Rebel;
 
-                SkinName = "Tala Squadron";
+                //SkinName = "Tala Squadron";
+            }
+
+            public void AdaptPilotToSecondEdition()
+            {
+                PilotSkill = 2;
             }
         }
     }

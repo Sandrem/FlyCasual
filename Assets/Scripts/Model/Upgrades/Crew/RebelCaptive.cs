@@ -1,33 +1,43 @@
 ﻿using Upgrade;
 using Ship;
+using Abilities;
+using Tokens;
 
 namespace UpgradesList
 {
     public class RebelCaptive : GenericUpgrade
     {
-        private bool IsUsed = false;
-
         public RebelCaptive() : base()
         {
             Types.Add(UpgradeType.Crew);
             Name = "Rebel Captive";
             Cost = 3;
             isUnique = true;
+
+            UpgradeAbilities.Add(new RebelCaptiveAbility());
         }
 
-        public override bool IsAllowedForShip(Ship.GenericShip ship)
+        public override bool IsAllowedForShip(GenericShip ship)
         {
             return ship.faction == Faction.Imperial;
         }
+    }
+}
 
-        public override void AttachToShip(Ship.GenericShip host)
+namespace Abilities
+{
+    public class RebelCaptiveAbility : GenericAbility
+    {
+        public override void ActivateAbility()
         {
-            base.AttachToShip(host);
+            HostShip.OnAttackStartAsDefender += RegisterTrigger;
+            Phases.Events.OnEndPhaseStart_NoTriggers += ClearIsAbilityUsedFlag;
+        }
 
-            host.OnAttackStartAsDefender += RegisterTrigger;
-
-            Phases.OnEndPhaseStart += Cleanup;
-            Host.OnShipIsDestroyed += StopAbility;
+        public override void DeactivateAbility()
+        {
+            HostShip.OnAttackStartAsDefender -= RegisterTrigger;
+            Phases.Events.OnEndPhaseStart_NoTriggers -= ClearIsAbilityUsedFlag;
         }
 
         private void RegisterTrigger()
@@ -36,33 +46,23 @@ namespace UpgradesList
             {
                 Name = "Rebel Captive's ability",
                 TriggerType = TriggerTypes.OnAttackStart,
-                TriggerOwner = Host.Owner.PlayerNo,
-                EventHandler = RebelCaptiveAbility
+                TriggerOwner = HostShip.Owner.PlayerNo,
+                EventHandler = DoRebelCaptiveAbility
             });
         }
-        
-        public void RebelCaptiveAbility(object sender, System.EventArgs e)
+
+        public void DoRebelCaptiveAbility(object sender, System.EventArgs e)
         {
-            if (!IsUsed && Combat.AttackStep == CombatStep.Attack && Combat.Defender == Host)
+            if (!IsAbilityUsed && Combat.AttackStep == CombatStep.Attack && Combat.Defender == HostShip)
             {
                 Messages.ShowInfoToHuman("Attacker gained stress from Rebel Captive");
-                IsUsed = true;
-                Combat.Attacker.Tokens.AssignToken(new Tokens.StressToken(Combat.Attacker), Triggers.FinishTrigger);
+                IsAbilityUsed = true;
+                Combat.Attacker.Tokens.AssignToken(typeof(StressToken), Triggers.FinishTrigger);
             }
             else
             {
                 Triggers.FinishTrigger();
             }
-        }
-
-        private void Cleanup()
-        {
-            IsUsed = false;
-        }
-
-        private void StopAbility(GenericShip host, bool isFled)
-        {
-            Phases.OnEndPhaseStart -= Cleanup;
         }
     }
 }

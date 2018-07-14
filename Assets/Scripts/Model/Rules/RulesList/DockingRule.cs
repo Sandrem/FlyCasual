@@ -7,6 +7,7 @@ using Players;
 using GameModes;
 using Ship;
 using SubPhases;
+using Tokens;
 
 namespace RulesList
 {
@@ -26,7 +27,7 @@ namespace RulesList
 
         private void SubscribeEvents()
         {
-            Phases.OnSetupPhaseStart += DockShips;
+            Phases.Events.OnGameStart += DockShips;
         }
 
         public void Dock(Func<GenericShip> host, Func<GenericShip> docked)
@@ -64,10 +65,12 @@ namespace RulesList
 
         private void RegisterAskUndock(GenericShip ship)
         {
+            if (BoardTools.Board.IsOffTheBoard(ship)) return;
+
             Triggers.RegisterTrigger(new Trigger()
             {
                 Name = "Undocking decision",
-                TriggerType = TriggerTypes.OnShipMovementFinish,
+                TriggerType = TriggerTypes.OnMovementFinish,
                 TriggerOwner = ship.Owner.PlayerNo,
                 EventHandler = AskUndock
             });
@@ -107,7 +110,7 @@ namespace RulesList
             }
             else
             {
-                docked.Tokens.AssignToken(new Tokens.WeaponsDisabledToken(docked), delegate{
+                docked.Tokens.AssignToken(typeof(WeaponsDisabledToken), delegate{
                     DealFacedownDamageCard(docked, delegate{
                         AskAssignManeuver(host, docked);
                     });
@@ -192,7 +195,7 @@ namespace RulesList
             Selection.ThisShip.IsManeuverPerformed = true;
             Roster.AllShipsHighlightOff();
 
-            Selection.ThisShip.ObstaclesHit = new List<Collider>();
+            Selection.ThisShip.IsHitObstacles = false;
             Selection.ThisShip.MinesHit = new List<GameObject>();
 
             Selection.ThisShip.AssignedManeuver.Perform();
@@ -215,7 +218,6 @@ namespace RulesList
 
         private void PerformFreeAction(object sender, System.EventArgs e)
         {
-            Selection.ThisShip.GenerateAvailableActionsList();
             List<ActionsList.GenericAction> actions = Selection.ThisShip.GetAvailableActionsList();
             Selection.ThisShip.AskPerformFreeAction(actions, Triggers.FinishTrigger);
         }
@@ -260,7 +262,7 @@ namespace SubPhases
 
             DefaultDecisionName = "No";
 
-            UI.ShowSkipButton();
+            ShowSkipButton = true;
 
             callBack();
         }

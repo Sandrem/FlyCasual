@@ -3,66 +3,58 @@ using Ship;
 using Tokens;
 using Movement;
 using System.Linq;
+using RuleSets;
 
 namespace RulesList
 {
     public class IonizationRule
     {
+        static bool RuleIsInitialized = false;
 
         public IonizationRule()
         {
-           GenericShip.OnTokenIsAssignedGlobal += CheckIonization;
-        }
-
-        private void CheckIonization(GenericShip ship, System.Type tokenType)
-        {
-            if (tokenType == typeof(IonToken))
+            if (!RuleIsInitialized)
             {
-                int ionTokensCount = ship.Tokens.GetAllTokens().Count(n => n is IonToken);
-
-                if (ionTokensCount == 1 && ship.ShipBaseSize == BaseSize.Small )
-                {
-                    Messages.ShowError("Ship is ionized!");
-                    DoIonized(ship);
-                }
-                if (ionTokensCount == 2 && ship.ShipBaseSize == BaseSize.Large)
-                {
-                    Messages.ShowError("Ship is ionized!");
-                    DoIonized(ship);
-                }
+                GenericShip.OnNoManeuverWasRevealedGlobal += SetIonManeuver;
+                RuleIsInitialized = true;
             }
         }
 
-        private void DoIonized(GenericShip ship)
+        public static void SetIonManeuver(GenericShip ship)
         {
-            ship.OnManeuverIsReadyToBeRevealed += AssignWhiteForwardOneManeuver;
-            ship.OnMovementExecuted += RegisterRemoveIonization;
-            ship.ToggleIonized(true);
+            if (IsIonized(ship))
+            {
+                AssignIonizationManeuver(ship);
+                ship.OnMovementExecuted += RegisterRemoveIonization;
+                RuleSet.Instance.WhenIonized(ship);
+            }
         }
 
-        private void AssignWhiteForwardOneManeuver(GenericShip ship)
+        private static void AssignIonizationManeuver(GenericShip ship)
         {
-            GenericMovement ionizedMovement = new StraightMovement(1, ManeuverDirection.Forward, ManeuverBearing.Straight, ManeuverColor.White) { IsRealMovement = false };
+            GenericMovement ionizedMovement = new StraightMovement(1, ManeuverDirection.Forward, ManeuverBearing.Straight, RuleSet.Instance.IonManeuverComplexity) {
+                IsRevealDial = false, IsIonManeuver = true
+            };
             ship.SetAssignedManeuver(ionizedMovement);
-
-            ship.OnManeuverIsReadyToBeRevealed -= AssignWhiteForwardOneManeuver;
         }
 
-        private void RegisterRemoveIonization(GenericShip ship)
+        private static void RegisterRemoveIonization(GenericShip ship)
         {
+            if (BoardTools.Board.IsOffTheBoard(ship)) return;
+
             ship.OnMovementExecuted -= RegisterRemoveIonization;
 
             Triggers.RegisterTrigger(new Trigger
             {
                 Name = "Remove ionization",
-                TriggerType = TriggerTypes.OnShipMovementExecuted,
+                TriggerType = TriggerTypes.OnMovementExecuted,
                 TriggerOwner = ship.Owner.PlayerNo,
                 EventHandler = RemoveIonization,
                 Sender = ship
             });
         }
 
-        private void RemoveIonization(object sender, System.EventArgs e)
+        private static void RemoveIonization(object sender, System.EventArgs e)
         {
             Messages.ShowInfo("Ship isn't ionized anymore");
 
@@ -73,6 +65,12 @@ namespace RulesList
                 typeof(IonToken),
                 Triggers.FinishTrigger
             );
+        }
+
+        public static bool IsIonized(GenericShip ship)
+        {
+            int ionTokensCount = ship.Tokens.GetAllTokens().Count(n => n is IonToken);
+            return (ionTokensCount >= RuleSet.Instance.NegativeTokensToAffectShip[ship.ShipBaseSize]);
         }
 
     }

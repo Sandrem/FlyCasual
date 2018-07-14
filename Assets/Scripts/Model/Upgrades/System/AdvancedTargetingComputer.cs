@@ -2,6 +2,7 @@
 using Upgrade;
 using Ship.TIEAdvanced;
 using Tokens;
+using Abilities;
 
 namespace UpgradesList
 {
@@ -14,28 +15,39 @@ namespace UpgradesList
             Cost = 5;
 
             ImageUrl = ImageUrls.GetImageUrl(this, "advanced-targeting-computer.png");
+
+            UpgradeAbilities.Add(new AdvancedTargetingComputerAbility());
         }
 
         public override bool IsAllowedForShip(GenericShip ship)
         {
             return ship is TIEAdvanced;
         }
+    }
+}
 
-        public override void AttachToShip(GenericShip host)
+namespace Abilities
+{
+    public class AdvancedTargetingComputerAbility : GenericAbility
+    {
+        public override void ActivateAbility()
         {
-            base.AttachToShip(host);
+            HostShip.OnGenerateDiceModifications += AdvancedTargetingComputerDiceModification;
+        }
 
-            host.AfterGenerateAvailableActionEffectsList += AdvancedTargetingComputerDiceModification;
+        public override void DeactivateAbility()
+        {
+            HostShip.OnGenerateDiceModifications -= AdvancedTargetingComputerDiceModification;
         }
 
         private void AdvancedTargetingComputerDiceModification(GenericShip host)
         {
             ActionsList.GenericAction newAction = new ActionsList.AdvancedTargetingComputerActionEffect()
             {
-                ImageUrl = ImageUrl,
+                ImageUrl = HostUpgrade.ImageUrl,
                 Host = host
             };
-            host.AddAvailableActionEffect(newAction);
+            host.AddAvailableDiceModification(newAction);
         }
     }
 }
@@ -48,10 +60,10 @@ namespace ActionsList
 
         public AdvancedTargetingComputerActionEffect()
         {
-            Name = EffectName = "Advanced Targeting Computer";
+            Name = DiceModificationName = "Advanced Targeting Computer";
         }
         
-        public override int GetActionEffectPriority()
+        public override int GetDiceModificationPriority()
         {
             int result = 0;
 
@@ -60,7 +72,7 @@ namespace ActionsList
             return result;            
         }
 
-        public override bool IsActionEffectAvailable()
+        public override bool IsDiceModificationAvailable()
         {
             bool result = false;
 

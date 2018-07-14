@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using GameModes;
+using RuleSets;
+using Obstacles;
 
 namespace Movement
 {
@@ -21,7 +24,8 @@ namespace Movement
     {
         Left,
         Forward,
-        Right
+        Right,
+        Stationary
     }
 
     public enum ManeuverBearing
@@ -36,12 +40,12 @@ namespace Movement
         Reverse
     }
 
-    public enum ManeuverColor
+    public enum MovementComplexity
     {
         None,
-        Green,
-        White,
-        Red
+        Easy,
+        Normal,
+        Complex
     }
 
     public struct MovementStruct
@@ -49,7 +53,9 @@ namespace Movement
         public ManeuverSpeed Speed;
         public ManeuverDirection Direction;
         public ManeuverBearing Bearing;
-        public ManeuverColor ColorComplexity;
+        public MovementComplexity ColorComplexity;
+
+        private string shipTag;
 
         public MovementStruct(string parameters, Ship.GenericShip ship = null)
         {
@@ -92,6 +98,9 @@ namespace Movement
                 case "R":
                     direction = ManeuverDirection.Right;
                     break;
+                case "S":
+                    direction = ManeuverDirection.Stationary;
+                    break;
             }
 
             ManeuverBearing bearing = ManeuverBearing.Straight;
@@ -119,7 +128,9 @@ namespace Movement
             Direction = direction;
             Bearing = bearing;
 
-            if (ship == null) ship = Selection.ThisShip;
+            ship = ship ?? Selection.ThisShip;
+            shipTag = ship.GetTag();
+
             if (!ship.Maneuvers.ContainsKey(parameters))
             {
                 Console.Write("<b>Ship " + ship.Type + " doesn't have maneuver " + parameters + "</b>", LogTypes.Errors, true, "red");
@@ -132,14 +143,15 @@ namespace Movement
         {
             string parameters = this.ToString();
 
-            if (!Selection.ThisShip.Maneuvers.ContainsKey(parameters))
+            Ship.GenericShip ship = Roster.GetShipById(shipTag) ?? Selection.ThisShip;
+            if (!ship.Maneuvers.ContainsKey(parameters))
             {
-                Console.Write(Selection.ThisShip.Type + " doesn't have " + parameters + " maneuver!", LogTypes.Errors, true, "red");
+                Console.Write(ship.Type + " doesn't have " + parameters + " maneuver!", LogTypes.Errors, true, "red");
             }
             else
             {
-                ColorComplexity = Selection.ThisShip.Maneuvers[parameters];
-                ColorComplexity = Selection.ThisShip.GetColorComplexityOfManeuver(this);
+                ColorComplexity = ship.Maneuvers[parameters];
+                ColorComplexity = ship.GetColorComplexityOfManeuver(this);
             }
         }
 
@@ -223,6 +235,9 @@ namespace Movement
                 case ManeuverDirection.Right:
                     maneuverString += "R.";
                     break;
+                case ManeuverDirection.Stationary:
+                    maneuverString += "S.";
+                    break;
                 default:
                     break;
             }
@@ -260,13 +275,25 @@ namespace Movement
 
     public abstract class GenericMovement
     {
-        public bool IsRealMovement = true;
+        public bool IsRevealDial = true;
+        public bool IsIonManeuver;
 
         public ManeuverSpeed ManeuverSpeed { get; set; }
         public int Speed { get; set; }
         public ManeuverDirection Direction { get; set; }
         public ManeuverBearing Bearing { get; set; }
-        public ManeuverColor ColorComplexity { get; set; }
+        public MovementComplexity ColorComplexity { get; set; }
+
+        private Ship.GenericShip theShip;
+        public Ship.GenericShip TheShip {
+            get {
+                return theShip ?? Selection.ThisShip;
+            }
+            set {
+                theShip = value;
+            }
+        }
+
 
         protected float ProgressTarget { get; set; }
         protected float ProgressCurrent { get; set; }
@@ -275,7 +302,7 @@ namespace Movement
 
         public MovementPrediction movementPrediction;
 
-        public GenericMovement(int speed, ManeuverDirection direction, ManeuverBearing bearing, ManeuverColor color)
+        public GenericMovement(int speed, ManeuverDirection direction, ManeuverBearing bearing, MovementComplexity color)
         {
             Speed = speed;
             ManeuverSpeed = GetManeuverSpeed(speed);
@@ -331,31 +358,31 @@ namespace Movement
         public virtual void LaunchShipMovement()
         {
             GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-            Game.Wait(0.5f, delegate { Selection.ThisShip.StartMoving(LaunchShipMovementContinue); });
+            Game.Wait(0.5f, delegate { TheShip.StartMoving(LaunchShipMovementContinue); });
         }
 
         private void LaunchShipMovementContinue()
         {
-            if (ProgressTarget > 0) Rules.Collision.ClearBumps(Selection.ThisShip);
+            if (ProgressTarget > 0) Rules.Collision.ClearBumps(TheShip);
 
             foreach (var shipBumped in movementPrediction.ShipsBumped)
             {
-                Rules.Collision.AddBump(Selection.ThisShip, shipBumped);
+                Rules.Collision.AddBump(TheShip, shipBumped);
             }
 
-            Selection.ThisShip.IsLandedOnObstacle = movementPrediction.IsLandedOnAsteroid;
+            TheShip.LandedOnObstacles = new List<GenericObstacle>(movementPrediction.LandedOnObstacles);
 
             if (movementPrediction.AsteroidsHit.Count > 0)
             {
-                Selection.ThisShip.ObstaclesHit.AddRange(movementPrediction.AsteroidsHit);
+                TheShip.ObstaclesHit.AddRange(movementPrediction.AsteroidsHit);
             }
 
             if (movementPrediction.MinesHit.Count > 0)
             {
-                Selection.ThisShip.MinesHit.AddRange(movementPrediction.MinesHit);
+                TheShip.MinesHit.AddRange(movementPrediction.MinesHit);
             }
 
-            Sounds.PlayFly();
+            Sounds.PlayFly(TheShip);
             AdaptSuccessProgress();
 
             LaunchSimple();
@@ -396,10 +423,20 @@ namespace Movement
             GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
             Game.Movement.isMoving = false;
 
-            Selection.ThisShip.ApplyRotationHelpers();
-            Selection.ThisShip.ResetRotationHelpers();
+            TheShip.ApplyRotationHelpers();
+            TheShip.ResetRotationHelpers();
 
-            ManeuverEndRotation(FinishMovementEvents);
+            // TODO: Use Selection.ActiveShip instead of TheShip
+            Selection.ActiveShip = TheShip;
+
+            ManeuverEndRotation(FinishManeuverExecution);
+        }
+
+        private void FinishManeuverExecution()
+        {
+            MovementTemplates.HideLastMovementRuler();
+
+            Selection.ActiveShip.CallExecuteMoving(GameMode.CurrentGameMode.FinishMovementExecution);
         }
 
         protected virtual void ManeuverEndRotation(Action callBack)
@@ -407,22 +444,10 @@ namespace Movement
             callBack();
         }
 
-        protected virtual void FinishMovementEvents()
-        { 
-            MovementTemplates.HideLastMovementRuler();
-
-            Selection.ThisShip.CallExecuteMoving();
-
-            //Called as callbacks
-            //Selection.ThisShip.FinishMovement();
-            //Selection.ThisShip.FinishPosition();
-            //Phases.FinishSubPhase(typeof(SubPhases.MovementExecutionSubPhase));
-        }
-
         //TODO: Rework
         protected float GetMovement1()
         {
-            float result = Board.BoardManager.GetBoard().TransformVector(new Vector3(4, 0, 0)).x;
+            float result = BoardTools.Board.GetBoard().TransformVector(new Vector3(4, 0, 0)).x;
             return result;
         }
 
@@ -444,6 +469,9 @@ namespace Movement
                     break;
                 case ManeuverDirection.Right:
                     maneuverString += "R.";
+                    break;
+                case ManeuverDirection.Stationary:
+                    maneuverString += "S.";
                     break;
                 default:
                     break;
@@ -532,15 +560,15 @@ namespace Movement
             Color result = Color.yellow;
             switch (ColorComplexity)
             {
-                case ManeuverColor.None:
+                case MovementComplexity.None:
                     break;
-                case ManeuverColor.Green:
-                    result = Color.green;
+                case MovementComplexity.Easy:
+                    result = RuleSet.Instance.MovementEasyColor;
                     break;
-                case ManeuverColor.White:
+                case MovementComplexity.Normal:
                     result = Color.white;
                     break;
-                case ManeuverColor.Red:
+                case MovementComplexity.Complex:
                     result = Color.red;
                     break;
                 default:
@@ -552,6 +580,8 @@ namespace Movement
         public static List<string> GetAllManeuvers()
         {
             List<string> result = new List<string>();
+
+            result.Add("0.S.S");
 
             result.Add("1.L.T");
             result.Add("2.L.T");

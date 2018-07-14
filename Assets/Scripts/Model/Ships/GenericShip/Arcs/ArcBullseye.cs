@@ -8,19 +8,24 @@ namespace Arcs
 {
     public class ArcBullseye : GenericArc
     {
-        public ArcBullseye(GenericShip host) : base(host)
+        public ArcBullseye(GenericShipBase shipBase) : base(shipBase)
         {
-            ArcsList = new List<ArcInfo>
+            ArcType = ArcTypes.Bullseye;
+            Facing = ArcFacing.Bullseye;
+
+            Limits = new Dictionary<Vector3, float>()
             {
-                primaryArc,
-                new ArcInfo()
-                {
-                    ShipBase = Host.ShipBase,
-                    MinAngle = 0f,
-                    MaxAngle = 0f,
-                    Facing = ArcFacing.Bullseye
-                }
+                { new Vector3(-shipBase.HALF_OF_BULLSEYEARC_SIZE, 0, 0), 0f },
+                { new Vector3( shipBase.HALF_OF_BULLSEYEARC_SIZE,  0, 0), 0f }
             };
+
+            Edges = new List<Vector3>()
+            {
+                new Vector3(-shipBase.HALF_OF_BULLSEYEARC_SIZE, 0, 0),
+                new Vector3( shipBase.HALF_OF_BULLSEYEARC_SIZE, 0, 0),
+            };
+
+            ShotPermissions = new ArcShotPermissions();
         }
     }
 }

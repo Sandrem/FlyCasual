@@ -12,7 +12,7 @@ public static class Rules
     public static StressRule Stress { get; private set; }
     public static OffTheBoardRule OffTheBoard { get; private set; }
     public static CollisionRules Collision { get; private set; }
-    public static DuplicatedActionsRule DuplicatedActions { get; private set; }
+    public static ActionsRule Actions { get; private set; }
     public static AsteroidLandedRule AsteroidLanded { get; private set; }
     public static AsteroidHitRule AsteroidHit { get; private set; }
     public static MineHitRule MineHit { get; private set; }
@@ -22,12 +22,13 @@ public static class Rules
     public static IonizationRule Ionization { get; private set; }
     public static JammedRule Jammed { get; private set; }
     public static TargetLocksRule TargetLocks { get; private set; }
-    public static CloakRule Cloak { get; private set; }
     public static WeaponsDisabledRule WeaponsDisabled { get; private set; }
     public static BullseyeArcRule BullseyeArc { get; private set; }
     public static DockingRule Docking { get; private set; }
+    public static TractorBeamRule TractorBeam { get; private set; }
+    public static ForceRule Force { get; private set; }
 
-    static Rules()
+    public static void Initialize()
     {
         WinConditions = new WinConditionsRule();
         DistanceBonus = new DistanceBonusRule();
@@ -35,7 +36,7 @@ public static class Rules
         Stress = new StressRule();
         OffTheBoard = new OffTheBoardRule();
         Collision = new CollisionRules();
-        DuplicatedActions = new DuplicatedActionsRule();
+        Actions = new ActionsRule();
         AsteroidLanded = new AsteroidLandedRule();
         AsteroidHit = new AsteroidHitRule();
         MineHit = new MineHitRule();
@@ -45,10 +46,11 @@ public static class Rules
         Ionization = new IonizationRule();
         Jammed = new JammedRule();
         TargetLocks = new TargetLocksRule();
-        Cloak = new CloakRule();
         WeaponsDisabled = new WeaponsDisabledRule();
         BullseyeArc = new BullseyeArcRule();
         Docking = new DockingRule();
+        TractorBeam = new TractorBeamRule();
+        Force = new ForceRule();
     }
 
     public static void FinishGame()
@@ -56,6 +58,5 @@ public static class Rules
         Docking.Initialize();
         Phases.EndGame();
     }
-
 }
 

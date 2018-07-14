@@ -1,5 +1,6 @@
 ﻿using Ship;
 using System;
+using Tokens;
 
 namespace Ship
 {
@@ -31,24 +32,21 @@ namespace Abilities
         public override void ActivateAbility()
         {
             //Resets ability on round end.
-            Phases.OnRoundEnd += ClearAbilityUsed;
+            Phases.Events.OnRoundEnd += ClearAbilityUsed;
 
             HostShip.OnShieldLost += RegisterCanGetEvadeToken;
         }
 
         public override void DeactivateAbility()
         {
-            Phases.OnRoundEnd -= ClearAbilityUsed;
+            Phases.Events.OnRoundEnd -= ClearAbilityUsed;
 
             HostShip.OnShieldLost -= RegisterCanGetEvadeToken;
         }
 
         private void RegisterCanGetEvadeToken()
         {
-            if (IsAbilityUsed || HostShip.Shields == 0)
-            {
-                return;
-            }
+            if (IsAbilityUsed) return;
 
             IsAbilityUsed = true;
             RegisterAbilityTrigger(TriggerTypes.OnShieldIsLost, AssignEvadeToken);
@@ -57,7 +55,7 @@ namespace Abilities
         private void AssignEvadeToken(object sender, System.EventArgs e)
         {
             Messages.ShowInfo("\"Red Ace\": Evade token is assigned");
-            HostShip.Tokens.AssignToken(new Tokens.EvadeToken(HostShip), Triggers.FinishTrigger);
+            HostShip.Tokens.AssignToken(typeof(EvadeToken), Triggers.FinishTrigger);
         }
 
         private void ClearAbilityUsed()

@@ -19,10 +19,17 @@ namespace SubPhases
 
         public override void Initialize()
         {
-            Phases.CallCombatPhaseStartTrigger();
+            Phases.Events.CallCombatPhaseStartTrigger();
         }
 
         public override void Next()
+        {
+            GenericSubPhase subphase = Phases.StartTemporarySubPhaseNew("Notification", typeof(NotificationSubPhase), StartCombatSubPhase);
+            (subphase as NotificationSubPhase).TextToShow = RuleSets.RuleSet.Instance.CombatPhaseName;
+            subphase.Start();
+        }
+
+        private void StartCombatSubPhase()
         {
             Phases.CurrentSubPhase = new CombatSubPhase();
             Phases.CurrentSubPhase.CallBack = Combat.FinishCombatSubPhase;

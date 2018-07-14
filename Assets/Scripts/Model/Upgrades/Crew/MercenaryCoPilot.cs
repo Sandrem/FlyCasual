@@ -1,4 +1,9 @@
-﻿using Upgrade;
+﻿using UnityEngine;
+using Upgrade;
+using Abilities;
+using Ship;
+using ActionsList;
+using BoardTools;
 
 namespace UpgradesList
 {
@@ -9,37 +14,48 @@ namespace UpgradesList
             Types.Add(UpgradeType.Crew);
             Name = "Mercenary Copilot";
             Cost = 2;
+
+            AvatarOffset = new Vector2(46, 2);
+
+            UpgradeAbilities.Add(new MercenaryCopilotAbility());
         }
-
-        public override void AttachToShip(Ship.GenericShip host)
-        {
-            base.AttachToShip(host);
-
-            host.AfterGenerateAvailableActionEffectsList += MercenaryCopilotActionEffect;
-        }
-
-        private void MercenaryCopilotActionEffect(Ship.GenericShip host)
-        {
-            ActionsList.GenericAction newAction = new ActionsList.MercenaryCopilotAction()
-            {
-                ImageUrl = ImageUrl,
-                Host = host
-            };
-            host.AddAvailableActionEffect(newAction);
-        }
-
     }
 }
 
+namespace Abilities
+{
+    public class MercenaryCopilotAbility : GenericAbility
+    {
+        public override void ActivateAbility()
+        {
+            HostShip.OnGenerateDiceModifications += MercenaryCopilotActionEffect;
+        }
+
+        public override void DeactivateAbility()
+        {
+            HostShip.OnGenerateDiceModifications -= MercenaryCopilotActionEffect;
+        }
+
+        private void MercenaryCopilotActionEffect(GenericShip host)
+        {
+            GenericAction newAction = new MercenaryCopilotAction()
+            {
+                ImageUrl = HostUpgrade.ImageUrl,
+                Host = host
+            };
+            host.AddAvailableDiceModification(newAction);
+        }
+    }
+}
 
 namespace ActionsList
 {
-    public class MercenaryCopilotAction : ActionsList.GenericAction
+    public class MercenaryCopilotAction : GenericAction
     {
 
         public MercenaryCopilotAction()
         {
-            Name = EffectName = "Mercenary Copilot";
+            Name = DiceModificationName = "Mercenary Copilot";
         }
 
         public override void ActionEffect(System.Action callBack)
@@ -48,12 +64,12 @@ namespace ActionsList
             callBack();
         }
 
-        public override bool IsActionEffectAvailable()
+        public override bool IsDiceModificationAvailable()
         {
             bool result = false;
             if (Combat.AttackStep == CombatStep.Attack)
             {
-                Board.ShipShotDistanceInformation shotInformation = new Board.ShipShotDistanceInformation(Combat.Attacker, Combat.Defender, Combat.ChosenWeapon);
+                ShotInfo shotInformation = new ShotInfo(Combat.Attacker, Combat.Defender, Combat.ChosenWeapon);
                 if (shotInformation.Range == 3)
                 {
                     result = true;
@@ -62,7 +78,7 @@ namespace ActionsList
             return result;
         }
 
-        public override int GetActionEffectPriority()
+        public override int GetDiceModificationPriority()
         {
             int result = 0;
 

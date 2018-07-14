@@ -2,6 +2,7 @@
 using SubPhases;
 using System;
 using System.Collections.Generic;
+using Tokens;
 
 namespace Ship
 {
@@ -33,12 +34,12 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            Phases.OnCombatPhaseStart += RegisterAbility;
+            Phases.Events.OnCombatPhaseStart_Triggers += RegisterAbility;
         }
 
         public override void DeactivateAbility()
         {
-            Phases.OnCombatPhaseStart -= RegisterAbility;
+            Phases.Events.OnCombatPhaseStart_Triggers -= RegisterAbility;
         }
 
         private void RegisterAbility()
@@ -48,15 +49,18 @@ namespace Abilities
 
         private void Ability(object sender, EventArgs e)
         {
-            if (HostShip.Owner.Ships.Count > 1 && HostShip.Tokens.HasToken(typeof(Tokens.FocusToken)))
+            if (HostShip.Owner.Ships.Count > 1 && HostShip.Tokens.HasToken(typeof(FocusToken)))
             {
-                Messages.ShowInfoToHuman("Kyle Katarn: Select a ship to receive a Focus token");
-
                 SelectTargetForAbility(
                     SelectAbilityTarget,
                     FilterAbilityTarget,
                     GetAiAbilityPriority,
-                    HostShip.Owner.PlayerNo
+                    HostShip.Owner.PlayerNo,
+                    true,
+                    null,
+                    HostShip.PilotName,
+                    "Choose another ship to assign 1 of your Focus tokens to it.",
+                    HostShip.ImageUrl
                 );
             }
             else
@@ -73,7 +77,7 @@ namespace Abilities
         private int GetAiAbilityPriority(GenericShip ship)
         {
             int result = 0;
-            int shipFocusTokens = ship.Tokens.CountTokensByType(typeof(Tokens.FocusToken));
+            int shipFocusTokens = ship.Tokens.CountTokensByType(typeof(FocusToken));
             if (shipFocusTokens == 0) result += 100;
             result += (5 - shipFocusTokens);
             return result;
@@ -82,12 +86,9 @@ namespace Abilities
         private void SelectAbilityTarget()
         {
             HostShip.Tokens.RemoveToken(
-                typeof(Tokens.FocusToken),
+                typeof(FocusToken),
                 delegate {
-                    TargetShip.Tokens.AssignToken(
-                        new Tokens.FocusToken(TargetShip),
-                        SelectShipSubPhase.FinishSelection
-                    );
+                    TargetShip.Tokens.AssignToken(typeof(FocusToken), SelectShipSubPhase.FinishSelection);
                 }
             );          
         }

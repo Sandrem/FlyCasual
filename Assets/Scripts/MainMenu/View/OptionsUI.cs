@@ -18,7 +18,7 @@ public class OptionsUI : MonoBehaviour {
 
     public void RestoreDefaults()
     {
-        Options.Playmat = "Endor";
+        Options.Playmat = "3DSceneHoth";
         Options.ChangeParameterValue("Music Volume", 0.25f);
         Options.ChangeParameterValue("SFX Volume", 0.25f);
         Options.ChangeParameterValue("Animation Speed", 0.25f);

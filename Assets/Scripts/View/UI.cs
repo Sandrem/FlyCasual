@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 using GameModes;
 using UnityEngine.EventSystems;
 using SquadBuilderNS;
+using BoardTools;
 
 //Todo: Move to different scripts by menu names
 
@@ -113,6 +114,7 @@ public class UI : MonoBehaviour {
     {
         GameObject gameResultsPanel = GameObject.Find("UI").transform.Find("GameResultsPanel").gameObject;
         gameResultsPanel.transform.Find("Panel").transform.Find("Congratulations").GetComponent<Text>().text = results;
+        gameResultsPanel.transform.Find("Panel").Find("Restart").gameObject.SetActive(!(GameMode.CurrentGameMode is NetworkGame));
         gameResultsPanel.SetActive(true);
     }
 
@@ -149,6 +151,11 @@ public class UI : MonoBehaviour {
     {
         GameObject.Find("UI").transform.Find("MiniMapHolder").gameObject.SetActive(false);
         GameObject.Find("UI").transform.Find("GameLogHolder").gameObject.SetActive(!GameObject.Find("UI").transform.Find("GameLogHolder").gameObject.activeSelf);
+    }
+
+    public void ToggleViewMode()
+    {
+        CameraScript.ChangeMode();
     }
 
     public static void AddTestLogEntry(string text)
@@ -212,10 +219,11 @@ public class UI : MonoBehaviour {
 
     public static void CheckFiringRangeAndShow()
     {
-        int range = Actions.GetFiringRangeAndShow(Selection.ThisShip, Selection.AnotherShip);
-        if (range < 4)
+        ShotInfo shotInfo = Actions.GetFiringRangeAndShow(Selection.ThisShip, Selection.AnotherShip);
+        if (shotInfo.Range < 4)
         {
-            Messages.ShowInfo("Range " + range);
+            Messages.ShowInfo("Range " + shotInfo.Range);
+            if (!shotInfo.InArc) Messages.ShowInfoToHuman("Out of arc");
         }
         else
         {
@@ -243,9 +251,13 @@ public class UI : MonoBehaviour {
         GameObject.Find("UI").transform.Find("NextPanel").Find("NextButton").GetComponent<Button>().colors = colors;
     }
 
-    public static void ShowSkipButton()
+    public static void ShowSkipButton(string text = null)
     {
-        if (Roster.GetPlayer(Phases.CurrentPhasePlayer).Type == Players.PlayerType.Human) GameObject.Find("UI").transform.Find("SkipPanel").gameObject.SetActive(true);
+        if (Roster.GetPlayer(Phases.CurrentPhasePlayer).Type == Players.PlayerType.Human)
+        {
+            GameObject.Find("UI").transform.Find("SkipPanel").GetComponentInChildren<Text>().text = text ?? "Skip";
+            GameObject.Find("UI").transform.Find("SkipPanel").gameObject.SetActive(true);
+        }
     }
 
     public static void HideSkipButton()
@@ -275,7 +287,7 @@ public class UI : MonoBehaviour {
 
     public void QuitGame()
     {
-        Application.Quit();
+        GameMode.CurrentGameMode.QuitToDesktop();
     }
 
     public void GoNextShortcut()
@@ -301,6 +313,6 @@ public class UI : MonoBehaviour {
     public void RestartMatch()
     {
         Rules.FinishGame();
-        SquadBuilder.ReGenerateSquads(SquadBuilder.SwitchToBattlecene);
+        SquadBuilder.ReGenerateSquads(SquadBuilder.SwitchToBattleScene);
     }
 }

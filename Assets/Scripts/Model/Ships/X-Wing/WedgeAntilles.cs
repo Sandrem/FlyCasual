@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Ship;
 using System;
+using RuleSets;
 
 namespace Ship
 {
     namespace XWing
     {
-        public class WedgeAntilles : XWing
+        public class WedgeAntilles : XWing, ISecondEditionPilot
         {
             public WedgeAntilles() : base()
             {
@@ -21,6 +22,12 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
                 PilotAbilities.Add(new Abilities.WedgeAntillesAbility());
+            }
+
+            public void AdaptPilotToSecondEdition()
+            {
+                PilotSkill = 6;
+                Cost = 70;
             }
         }
     }
@@ -42,24 +49,7 @@ namespace Abilities
 
         public void AddWedgeAntillesAbility()
         {
-            if (Selection.ThisShip.ShipId == HostShip.ShipId)
-            {
-                if (Combat.Defender.Agility != 0)
-                {
-                    Messages.ShowError("Wedge Antilles: Agility is decreased");
-                    Combat.Defender.Tokens.AssignCondition(new Conditions.WedgeAntillesCondition(Combat.Defender));
-                    Combat.Defender.ChangeAgilityBy(-1);
-                    Combat.Defender.OnAttackFinish += RemoveWedgeAntillesAbility;
-                }
-            }
-        }
-
-        public void RemoveWedgeAntillesAbility(GenericShip ship)
-        {
-            Messages.ShowInfo("Agility is restored");
-            Combat.Defender.Tokens.RemoveCondition(typeof(Conditions.WedgeAntillesCondition));
-            ship.ChangeAgilityBy(+1);
-            ship.OnAttackFinish -= RemoveWedgeAntillesAbility;
+            Combat.Defender.Tokens.AssignCondition(typeof(Conditions.WedgeAntillesCondition));
         }
     }
 }
@@ -68,11 +58,43 @@ namespace Conditions
 {
     public class WedgeAntillesCondition : Tokens.GenericToken
     {
+        bool AgilityWasDecreased = false;
+
         public WedgeAntillesCondition(GenericShip host) : base(host)
         {
             Name = "Debuff Token";
+            TooltipType = typeof(Ship.XWing.WedgeAntilles);
+
             Temporary = false;
-            Tooltip = new Ship.XWing.WedgeAntilles().ImageUrl;
+        }
+
+        public override void WhenAssigned()
+        {
+            if (Host.Agility != 0)
+            {
+                AgilityWasDecreased = true;
+
+                Messages.ShowError("Wedge Antilles: Agility is decreased");
+                Host.ChangeAgilityBy(-1);
+            }
+
+            Host.OnAttackFinishAsDefender += RemoveWedgeAntillesAbility;
+        }
+
+        public void RemoveWedgeAntillesAbility(GenericShip ship)
+        {
+            Host.Tokens.RemoveCondition(this);
+        }
+
+        public override void WhenRemoved()
+        {
+            if (AgilityWasDecreased)
+            {
+                Messages.ShowInfo("Agility is restored");
+                Host.ChangeAgilityBy(+1);
+            }
+
+            Host.OnAttackFinishAsDefender -= RemoveWedgeAntillesAbility;
         }
     }
 }

@@ -13,8 +13,6 @@ namespace Ship
                 PilotName = "Zeta Squadron Pilot";
                 PilotSkill = 3;
                 Cost = 16;
-
-                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
             }
         }
     }

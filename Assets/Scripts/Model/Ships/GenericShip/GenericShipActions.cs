@@ -5,37 +5,49 @@ using UnityEngine;
 using System.Linq;
 using SubPhases;
 using Tokens;
+using ActionsList;
+using GameModes;
 
 namespace Ship
 {
     public partial class GenericShip
     {
 
-        public      List<ActionsList.GenericAction> PrintedActions                          = new List<ActionsList.GenericAction>();
-        private     List<ActionsList.GenericAction> AvailableActionsList                    = new List<ActionsList.GenericAction>();
-        private     List<ActionsList.GenericAction> AvailableFreeActionsList                = new List<ActionsList.GenericAction>();
-        private     List<ActionsList.GenericAction> AlreadyExecutedActions                  = new List<ActionsList.GenericAction>();
-        private     List<ActionsList.GenericAction> AvailableActionEffects                  = new List<ActionsList.GenericAction>();
-        private     List<ActionsList.GenericAction> AvailableOppositeActionEffects          = new List<ActionsList.GenericAction>();
-        private     List<ActionsList.GenericAction> AlreadyExecutedActionEffects            = new List<ActionsList.GenericAction>();
-        private     List<ActionsList.GenericAction> AlreadyExecutedOppositeActionEffects    = new List<ActionsList.GenericAction>();
+        public      List<GenericAction> PrintedActions                                  = new List<GenericAction>();
+        private     List<GenericAction> AvailableActionsList                            = new List<GenericAction>();
+        private     List<GenericAction> AvailableFreeActionsList                        = new List<GenericAction>();
+        private     List<GenericAction> AlreadyExecutedActions                          = new List<GenericAction>();
+        private     List<GenericAction> AvailableDiceModifications                      = new List<GenericAction>();
+        private     List<GenericAction> AvailableDiceModificationsOpposite              = new List<GenericAction>();
+        private     List<GenericAction> AvailableDiceModificationsCompareResults        = new List<GenericAction>();
+        private     List<GenericAction> AlreadyExecuteDiceModifications                 = new List<GenericAction>();
+        private     List<GenericAction> AlreadyExecutedDiceModificationsOpposite        = new List<GenericAction>();
+        private     List<GenericAction> AlreadyExecutedDiceModificationsCompareResults  = new List<GenericAction>();
+
+        public GenericAction PlannedLinkedAction;
 
         // EVENTS
         public event EventHandlerShip OnMovementActivation;
 
-        public event EventHandlerShip AfterGenerateAvailableActionsList;
-        public event EventHandlerActionBool OnTryAddAvailableAction;
+        public event EventHandlerShip OnGenerateActions;
+        public event EventHandlerActionBool OnTryAddAction;
+        public static event EventHandlerShipActionBool OnTryAddActionGlobal;
 
-        public event EventHandlerShip AfterGenerateAvailableActionEffectsList;
-        public static event EventHandler AfterGenerateAvailableActionEffectsListGlobal;
-        public event EventHandlerActionBool OnTryAddAvailableActionEffect;
-        public static event EventHandlerShipActionBool OnTryAddAvailableActionEffectGlobal;
+        public event EventHandlerShip OnGenerateDiceModifications;
+        public static event EventHandlerShip OnGenerateDiceModificationsGlobal;
+        public event EventHandlerShipActionBool OnTryAddAvailableDiceModification;
+        public static event EventHandlerShipActionBool OnTryAddAvailableDiceModificationGlobal;
 
-        public event EventHandlerShip AfterGenerateAvailableOppositeActionEffectsList;
-        public static event EventHandler AfterGenerateAvailableOppositeActionEffectsListGlobal;
-        public event EventHandlerActionBool OnTryAddAvailableOppositeActionEffect;
+        public event EventHandlerShip OnGenerateDiceModificationsOpposite;
+        public static event EventHandlerShip OnGenerateDiceModificationsOppositeGlobal;
+        public event EventHandlerShipActionBool OnTryAddDiceModificationOpposite;
+
+        public event EventHandlerShip OnGenerateDiceModificationsCompareResults;
+        public static event EventHandlerShip OnGenerateDiceModificationsCompareResultsGlobal;
+        public event EventHandlerActionBool OnTryAddDiceModificationCompareResults;
 
         public event EventHandlerShip OnActionDecisionSubphaseEnd;
+        public event EventHandlerAction BeforeFreeActionIsPerformed;
         public event EventHandlerAction OnActionIsPerformed;
 
         public event EventHandlerShipType OnTokenIsAssigned;
@@ -50,7 +62,10 @@ namespace Ship
         public event EventHandlerShipType OnConditionIsAssigned;
         public event EventHandlerShipType OnConditionIsRemoved;
 
+        public event EventHandlerShip OnTargetLockIsAcquired;
+
         public event EventHandlerShip OnCoordinateTargetIsSelected;
+        public event EventHandlerShip OnJamTargetIsSelected;        
 
         public event EventHandlerShip OnRerollIsConfirmed;
 
@@ -72,52 +87,76 @@ namespace Ship
             Triggers.ResolveTriggers(TriggerTypes.OnActionDecisionSubPhaseEnd, callback);
         }
 
-        public void CallActionIsTaken(ActionsList.GenericAction action, Action callBack)
+        public void CallActionIsTaken(GenericAction action, Action callBack)
         {
             if (OnActionIsPerformed != null) OnActionIsPerformed(action);
 
             Triggers.ResolveTriggers(TriggerTypes.OnActionIsPerformed, callBack);
         }
+        
+        public void CallBeforeFreeActionIsPerformed(GenericAction action, Action callBack)
+        {
+            if (BeforeFreeActionIsPerformed != null) BeforeFreeActionIsPerformed(action);
 
-        public List<ActionsList.GenericAction> GetActionsFromActionBar()
+            Triggers.ResolveTriggers(TriggerTypes.BeforeFreeActionIsPerformed, callBack);
+        }
+
+        public List<GenericAction> GetActionsFromActionBar()
         {
             return PrintedActions;
         }
 
         public void GenerateAvailableActionsList()
         {
-            AvailableActionsList = new List<ActionsList.GenericAction>();
+            AvailableActionsList = new List<GenericAction>();
 
             foreach (var action in PrintedActions)
             {
                 AddAvailableAction(action);
             }
 
-            if (AfterGenerateAvailableActionsList != null) AfterGenerateAvailableActionsList(this);
+            if (OnGenerateActions != null) OnGenerateActions(this);
         }
 
-        public void GenerateAvailableFreeActionsList(List<ActionsList.GenericAction> freeActions)
+        public void GenerateAvailableFreeActionsList(List<GenericAction> freeActions)
         {
-            AvailableFreeActionsList = new List<ActionsList.GenericAction>();
+            AvailableFreeActionsList = new List<GenericAction>();
             foreach (var action in freeActions)
             {
                 AddAvailableFreeAction(action);
             }
 
-            if (AfterGenerateAvailableActionsList != null) AfterGenerateAvailableActionsList(this);
+            if (OnGenerateActions != null) OnGenerateActions(this);
         }
 
-        public bool CanPerformAction(ActionsList.GenericAction action)
+        public bool CanPerformAction(GenericAction action)
         {
             bool result = action.IsActionAvailable();
 
-            if (OnTryAddAvailableAction != null) OnTryAddAvailableAction(action, ref result);
+            if (OnTryAddAction != null) OnTryAddAction(action, ref result);
+
+            if (OnTryAddActionGlobal != null) OnTryAddActionGlobal(this, action, ref result);
 
             return result;
         }
 
+        public bool CanPerformFreeAction(GenericAction action)
+        {
+            bool result = action.IsActionAvailable() && action.CanBePerformedAsAFreeAction;
+
+            if (OnTryAddAction != null) OnTryAddAction(action, ref result);
+
+            if (OnTryAddActionGlobal != null) OnTryAddActionGlobal(this, action, ref result);
+
+            return result;
+        }
+
+        public void AskPerformFreeAction(GenericAction freeAction, Action callback, bool isForced = false)
+        {
+            AskPerformFreeAction(new List<GenericAction> { freeAction }, callback, isForced);
+        }
         // TODO: move actions list into subphase
-        public void AskPerformFreeAction(List<ActionsList.GenericAction> freeActions, Action callback)
+        public void AskPerformFreeAction(List<GenericAction> freeActions, Action callback, bool isForced = false)
         {
             GenerateAvailableFreeActionsList(freeActions);
 
@@ -128,12 +167,26 @@ namespace Ship
                     TriggerOwner = Phases.CurrentPhasePlayer,
                     TriggerType = TriggerTypes.OnFreeAction,
                     EventHandler = delegate {
-                        Phases.StartTemporarySubPhaseOld
+                        FreeActionDecisonSubPhase newSubPhase = (FreeActionDecisonSubPhase) Phases.StartTemporarySubPhaseNew
                         (
                             "Free action decision",
                             typeof(FreeActionDecisonSubPhase),
-                            delegate { Actions.FinishAction(delegate { FinishFreeActionDecision(callback); }); }
+                            delegate {
+                                var phase = Phases.CurrentSubPhase as FreeActionDecisonSubPhase;
+                                if (phase != null && phase.ActionWasPerformed)
+                                {
+                                    Actions.TakeActionFinish(
+                                        delegate { Actions.EndActionDecisionSubhase(
+                                            delegate { FinishFreeActionDecision(callback); }
+                                        );}
+                                    );
+                                }
+                                else FinishFreeActionDecision(callback);
+                            }
                         );
+                        newSubPhase.ShowSkipButton = !isForced;
+                        newSubPhase.IsForced = isForced;
+                        newSubPhase.Start();
                     }
                 }
             );
@@ -147,22 +200,23 @@ namespace Ship
             callback();
         }
 
-        public List<ActionsList.GenericAction> GetAvailableActionsList()
+        public List<GenericAction> GetAvailableActionsList()
         {
+            GenerateAvailableActionsList();
             return AvailableActionsList;
         }
 
-        public List<ActionsList.GenericAction> GetAvailablePrintedActionsList()
+        public List<GenericAction> GetAvailablePrintedActionsList()
         {
             return PrintedActions;
         }
 
-        public List<ActionsList.GenericAction> GetAvailableFreeActionsList()
+        public List<GenericAction> GetAvailableFreeActionsList()
         {
             return AvailableFreeActionsList;
         }
 
-        public void AddAvailableAction(ActionsList.GenericAction action)
+        public void AddAvailableAction(GenericAction action)
         {
             if (CanPerformAction(action))
             {
@@ -170,27 +224,27 @@ namespace Ship
             }
         }
 
-        public void AddAvailableFreeAction(ActionsList.GenericAction action)
+        public void AddAvailableFreeAction(GenericAction action)
         {
-            if (CanPerformAction(action))
+            if (CanPerformFreeAction(action))
             {
                 AvailableFreeActionsList.Add(action);
             }
         }
 
-        public void AddAlreadyExecutedAction(ActionsList.GenericAction action)
+        public void AddAlreadyExecutedAction(GenericAction action)
         {
             AlreadyExecutedActions.Add(action);
         }
 
         public void ClearAlreadyExecutedActions()
         {
-            AlreadyExecutedActions = new List<ActionsList.GenericAction>();
+            AlreadyExecutedActions = new List<GenericAction>();
         }
 
         public void RemoveAlreadyExecutedAction(System.Type type)
         {
-            List<ActionsList.GenericAction> keys = new List<ActionsList.GenericAction>(AlreadyExecutedActions);
+            List<GenericAction> keys = new List<GenericAction>(AlreadyExecutedActions);
 
             foreach (var executedAction in keys)
             {
@@ -216,77 +270,85 @@ namespace Ship
             return result;
         }
 
+        public bool IsAlreadyExecutedAction<T>() where T : GenericAction
+        {
+            bool result = false;
+            result = AlreadyExecutedActions.Any(a => a is T);            
+            return result;
+        }
+
         // ACTION EFFECTS
 
-        public void GenerateAvailableActionEffectsList()
+        public void GenerateAvailableDiceModifications()
         {
-            AvailableActionEffects = new List<ActionsList.GenericAction>(); ;
+            AvailableDiceModifications = new List<GenericAction>(); ;
 
+            //OLD
             foreach (var token in Tokens.GetAllTokens())
             {
-                ActionsList.GenericAction action = token.GetAvailableEffects();
-                if (action != null) AddAvailableActionEffect(action);
+                GenericAction action = token.GetAvailableEffects();
+                if (action != null) AddAvailableDiceModification(action);
             }
 
-            if (AfterGenerateAvailableActionEffectsList != null) AfterGenerateAvailableActionEffectsList(this);
+            if (OnGenerateDiceModifications != null) OnGenerateDiceModifications(this);
 
-            if (AfterGenerateAvailableActionEffectsListGlobal != null) AfterGenerateAvailableActionEffectsListGlobal();
+            if (OnGenerateDiceModificationsGlobal != null) OnGenerateDiceModificationsGlobal(this);
         }
 
-        public void AddAvailableActionEffect(ActionsList.GenericAction action)
+        public void AddAvailableDiceModification(GenericAction action)
         {
-            if (NotAlreadyAddedSameActionEffect(action) && CanUseActionEffect(action))
+            if (NotAlreadyAddedSameDiceModification(action) && CanUseDiceModification(action))
             {
-                AvailableActionEffects.Add(action);
+                AvailableDiceModifications.Add(action);
             }
         }
 
-        private bool NotAlreadyAddedSameActionEffect(ActionsList.GenericAction action)
+        private bool NotAlreadyAddedSameDiceModification(GenericAction action)
         {
             // Return true if AvailableActionEffects doesn't contain action of the same type
-            return AvailableActionEffects.FirstOrDefault(n => n.GetType() == action.GetType()) == null;
+            return AvailableDiceModifications.FirstOrDefault(n => n.GetType() == action.GetType()) == null;
         }
 
-        public void AddAlreadyExecutedActionEffect(ActionsList.GenericAction action)
+        public void AddAlreadyExecutedDiceModification(GenericAction action)
         {
-            AlreadyExecutedActionEffects.Add(action);
+            if (!action.CanBeUsedFewTimes) AlreadyExecuteDiceModifications.Add(action);
         }
 
-        public void RemoveAlreadyExecutedActionEffect(ActionsList.GenericAction action)
+        public void RemoveAlreadyExecutedDiceModification(GenericAction action)
         {
-            AlreadyExecutedActionEffects.RemoveAll(a => a.GetType() == action.GetType());
+            AlreadyExecuteDiceModifications.RemoveAll(a => a.GetType() == action.GetType());
         }
 
-        public void ClearAlreadyExecutedActionEffects()
+        public void ClearAlreadyExecutedDiceModifications()
         {
-            AlreadyExecutedActionEffects = new List<ActionsList.GenericAction>();
+            AlreadyExecuteDiceModifications = new List<GenericAction>();
         }
 
-        public bool CanUseActionEffect(ActionsList.GenericAction action)
+        public bool CanUseDiceModification(GenericAction action)
         {
             bool result = true;
 
-            if (!action.IsActionEffectAvailable()) result = false;
+            if (!action.IsDiceModificationAvailable()) result = false;
 
-            if (IsActionEffectAlreadyExecuted(action)) result = false;
+            if (IsDiceModificationAlreadyExecuted(action)) result = false;
 
             if (result)
             {
-                if (OnTryAddAvailableActionEffect != null) OnTryAddAvailableActionEffect(action, ref result);
+                if (OnTryAddAvailableDiceModification != null) OnTryAddAvailableDiceModification(this, action, ref result);
 
-                if (OnTryAddAvailableActionEffectGlobal != null) OnTryAddAvailableActionEffectGlobal(this, action, ref result);
+                if (OnTryAddAvailableDiceModificationGlobal != null) OnTryAddAvailableDiceModificationGlobal(this, action, ref result);
             }
 
             return result;
         }
 
-        private bool IsActionEffectAlreadyExecuted(ActionsList.GenericAction action)
+        private bool IsDiceModificationAlreadyExecuted(GenericAction action)
         {
             bool result = false;
 
-            foreach (var alreadyExecuedAction in AlreadyExecutedActionEffects)
+            foreach (var alreadyExecuedAction in AlreadyExecuteDiceModifications)
             {
-                if (alreadyExecuedAction.GetType() == action.GetType())
+                if (alreadyExecuedAction.DiceModificationName == action.DiceModificationName)
                 {
                     result = true;
                     break;
@@ -296,66 +358,137 @@ namespace Ship
             return result;
         }
 
-        public List<ActionsList.GenericAction> GetAvailableActionEffectsList()
+        public List<GenericAction> GetAvailableDiceModifications()
         {
-            return AvailableActionEffects;
+            return AvailableDiceModifications;
         }
 
-        // OPPOSITE ACTION EFFECTS
+        // COMPARE DICE RESULTS ACTION EFFECTS
 
-        public void GenerateAvailableOppositeActionEffectsList()
+        public void GenerateAvailableCompareResultsEffectsList()
         {
-            AvailableOppositeActionEffects = new List<ActionsList.GenericAction>();
+            AvailableDiceModificationsCompareResults = new List<GenericAction>();
 
-            if (AfterGenerateAvailableOppositeActionEffectsList != null) AfterGenerateAvailableOppositeActionEffectsList(this);
+            if (OnGenerateDiceModificationsCompareResults != null) OnGenerateDiceModificationsCompareResults(this);
 
-            if (AfterGenerateAvailableOppositeActionEffectsListGlobal != null) AfterGenerateAvailableOppositeActionEffectsListGlobal();
+            if (OnGenerateDiceModificationsCompareResultsGlobal != null) OnGenerateDiceModificationsCompareResultsGlobal(this);
         }
 
-        public void AddAvailableOppositeActionEffect(ActionsList.GenericAction action)
+        public void AddAvailableCompareResultsEffect(GenericAction action)
         {
-            if (CanUseOppositeActionEffect(action))
+            if (CanUseCompareResultsEffect(action))
             {
-                AvailableOppositeActionEffects.Add(action);
+                AvailableDiceModificationsCompareResults.Add(action);
             }
         }
 
-        public void AddAlreadyExecutedOppositeActionEffect(ActionsList.GenericAction action)
+        public void AddAlreadyExecutedCompareResultsEffect(GenericAction action)
         {
-            AlreadyExecutedOppositeActionEffects.Add(action);
+            AlreadyExecutedDiceModificationsCompareResults.Add(action);
         }
 
-        public void RemoveAlreadyExecutedOppositeActionEffect(ActionsList.GenericAction action)
+        public void RemoveAlreadyExecutedCompareResultsEffect(GenericAction action)
         {
-            AlreadyExecutedOppositeActionEffects.RemoveAll(a => a.GetType() == action.GetType());
+            AlreadyExecutedDiceModificationsCompareResults.RemoveAll(a => a.GetType() == action.GetType());
         }
 
-        public void ClearAlreadyExecutedOppositeActionEffects()
-        {
-            AlreadyExecutedOppositeActionEffects = new List<ActionsList.GenericAction>();
-        }
-
-        public bool CanUseOppositeActionEffect(ActionsList.GenericAction action)
+        public bool CanUseCompareResultsEffect(GenericAction action)
         {
             bool result = true;
 
-            if (!action.IsActionEffectAvailable()) result = false;
+            if (!action.IsDiceModificationAvailable()) result = false;
 
-            if (IsOppositeActionEffectAlreadyExecuted(action)) result = false;
+            if (IsCompareResultsEffectAlreadyExecuted(action)) result = false;
 
             if (result)
             {
-                if (OnTryAddAvailableOppositeActionEffect != null) OnTryAddAvailableOppositeActionEffect(action, ref result);
+                if (OnTryAddDiceModificationCompareResults != null) OnTryAddDiceModificationCompareResults(action, ref result);
             }
 
             return result;
         }
 
-        private bool IsOppositeActionEffectAlreadyExecuted(ActionsList.GenericAction action)
+        private bool IsCompareResultsEffectAlreadyExecuted(GenericAction action)
         {
             bool result = false;
 
-            foreach (var alreadyExecuedOppositeAction in AlreadyExecutedOppositeActionEffects)
+            foreach (var alreadyExecuedCompareResultsEffect in AlreadyExecutedDiceModificationsCompareResults)
+            {
+                if (alreadyExecuedCompareResultsEffect.GetType() == action.GetType())
+                {
+                    result = true;
+                    break;
+                }
+            }
+
+            return result;
+        }
+
+        public List<GenericAction> GetAvailableCompareResultsEffectsList()
+        {
+            return AvailableDiceModificationsCompareResults;
+        }
+
+        // OPPOSITE ACTION EFFECTS
+
+        public void GenerateDiceModificationsOpposite()
+        {
+            AvailableDiceModificationsOpposite = new List<GenericAction>();
+
+            if (OnGenerateDiceModificationsOpposite != null) OnGenerateDiceModificationsOpposite(this);
+
+            if (OnGenerateDiceModificationsOppositeGlobal != null) OnGenerateDiceModificationsOppositeGlobal(this);
+        }
+
+        public void AddDiceModificationOpposite(GenericAction action)
+        {
+            if (CanUseDiceModificationOpposite(action))
+            {
+                AvailableDiceModificationsOpposite.Add(action);
+            }
+        }
+
+        public void AddAlreadyExecutedDiceModificationsOpposite(GenericAction action)
+        {
+            AlreadyExecutedDiceModificationsOpposite.Add(action);
+        }
+
+        public void RemoveAlreadyExecutedDiceModificationsOpposite(GenericAction action)
+        {
+            AlreadyExecutedDiceModificationsOpposite.RemoveAll(a => a.GetType() == action.GetType());
+        }
+
+        public void ClearAlreadyExecutedDiceModificationsOpposite()
+        {
+            AlreadyExecutedDiceModificationsOpposite = new List<GenericAction>();
+        }
+
+        public void ClearAlreadyExecutedDiceModificationsCompareResults()
+        {
+            AlreadyExecutedDiceModificationsCompareResults = new List<GenericAction>();
+        }
+
+        public bool CanUseDiceModificationOpposite(GenericAction action)
+        {
+            bool result = true;
+
+            if (!action.IsDiceModificationAvailable()) result = false;
+
+            if (IsAlreadyExecutedDiceModificationOpposite(action)) result = false;
+
+            if (result)
+            {
+                if (OnTryAddDiceModificationOpposite != null) OnTryAddDiceModificationOpposite(this, action, ref result);
+            }
+
+            return result;
+        }
+
+        private bool IsAlreadyExecutedDiceModificationOpposite(GenericAction action)
+        {
+            bool result = false;
+
+            foreach (var alreadyExecuedOppositeAction in AlreadyExecutedDiceModificationsOpposite)
             {
                 if (alreadyExecuedOppositeAction.GetType() == action.GetType())
                 {
@@ -367,9 +500,9 @@ namespace Ship
             return result;
         }
 
-        public List<ActionsList.GenericAction> GetAvailableOppositeActionEffectsList()
+        public List<GenericAction> GetDiceModificationsOpposite()
         {
-            return AvailableOppositeActionEffects;
+            return AvailableDiceModificationsOpposite;
         }
 
         // TOKENS
@@ -410,7 +543,14 @@ namespace Ship
             if (OnTokenIsRemovedGlobal != null) OnTokenIsRemovedGlobal(this, tokenType);
         }
 
-        public void AcquireTargetLock(Action callback)
+        public void CallOnTargetLockIsAcquiredEvent(GenericShip target, Action callback)
+        {
+            if (OnTargetLockIsAcquired != null) OnTargetLockIsAcquired(target);
+
+            Triggers.ResolveTriggers(TriggerTypes.OnTargetLockIsAcquired, callback);
+        }
+
+        public void ChooseTargetToAcquireTargetLock(Action callback, string abilityName, string imageUrl)
         {
             AcquireTargetLockSubPhase selectTargetLockSubPhase = (AcquireTargetLockSubPhase)Phases.StartTemporarySubPhaseNew(
                 "Select target for Target Lock",
@@ -422,6 +562,8 @@ namespace Ship
                 });
 
             selectTargetLockSubPhase.RequiredPlayer = Owner.PlayerNo;
+            selectTargetLockSubPhase.AbilityName = abilityName;
+            selectTargetLockSubPhase.ImageUrl = imageUrl;
             selectTargetLockSubPhase.Start();
         }
 
@@ -448,6 +590,15 @@ namespace Ship
             if (OnCoordinateTargetIsSelected != null) OnCoordinateTargetIsSelected(targetShip);
 
             Triggers.ResolveTriggers(TriggerTypes.OnCoordinateTargetIsSelected, callback);
+        }
+
+        // Jam action
+
+        public void CallJamTargetIsSelected(GenericShip targetShip, Action callback)
+        {
+            if (OnJamTargetIsSelected != null) OnJamTargetIsSelected(targetShip);
+
+            Triggers.ResolveTriggers(TriggerTypes.OnJamTargetIsSelected, callback);
         }
 
         // Reroll is confirmed

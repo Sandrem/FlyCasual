@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RuleSets;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -11,12 +12,12 @@ public static class ImageManager
 
     static public WWW GetImage(string url)
     {
-        string filePath = Application.persistentDataPath + "/ImageCache";
+        string filePath = Application.persistentDataPath + "/" + RuleSet.Instance.Name + "/ImageCache";
         if (!Directory.Exists(filePath)) Directory.CreateDirectory(filePath);
         filePath += "/" + url.GetHashCode() + ".png";
         bool web = false;
         WWW www;
-        if (File.Exists(filePath))
+        if (File.Exists(filePath) && new FileInfo(filePath).Length > 100)
         {
             string pathforwww = "file://" + filePath;
             //Debug.Log("TRYING FROM CACHE " + url + "  file " + pathforwww);
@@ -61,6 +62,7 @@ public static class ImageManager
             {
                 File.Delete(filePath);
             }
+            Debug.Log("Trying to download..." + www.url);
             Debug.Log("WWW ERROR " + www.error);
         }
     }

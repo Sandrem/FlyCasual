@@ -1,5 +1,4 @@
 ﻿using Abilities;
-using DamageDeckCard;
 using Ship;
 using SubPhases;
 using System;
@@ -7,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Upgrade;
 using Conditions;
+using UnityEngine;
 
 namespace UpgradesList
 {
@@ -19,6 +19,8 @@ namespace UpgradesList
             Cost = 3;
 
             isUnique = true;
+
+            AvatarOffset = new Vector2(36, 0);
 
             UpgradeAbilities.Add(new KyloRenCrewAbility());
         }
@@ -39,12 +41,12 @@ namespace Abilities
 
         public override void ActivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionsList += KyloRenCrewAddAction;
+            HostShip.OnGenerateActions += KyloRenCrewAddAction;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionsList -= KyloRenCrewAddAction;
+            HostShip.OnGenerateActions -= KyloRenCrewAddAction;
         }
 
         private void KyloRenCrewAddAction(GenericShip host)
@@ -73,7 +75,12 @@ namespace Abilities
                 AssignConditionToTarget,
                 FilterTargets,
                 GetAiPriority,
-                HostShip.Owner.PlayerNo
+                HostShip.Owner.PlayerNo,
+                true,
+                null,
+                HostUpgrade.Name,
+                "Choose a ship to assign\n\"I'll Show You The Dark Side\" Condition",
+                HostUpgrade.ImageUrl
             );
         }
 
@@ -128,7 +135,7 @@ namespace Abilities
                 }
             }
 
-            selectPilotCritSubphase.DecisionViewType = DecisionViewTypes.ImageButtons;
+            selectPilotCritSubphase.DecisionViewType = DecisionViewTypes.ImagesDamageCard;
 
             selectPilotCritSubphase.DefaultDecisionName = selectPilotCritSubphase.GetDecisions().First().Name;
 
@@ -157,7 +164,7 @@ namespace Abilities
         {
             ShipWithCondition = ship;
 
-            ship.Tokens.AssignCondition(new IllShowYouTheDarkSide(ship));
+            ship.Tokens.AssignCondition(typeof(IllShowYouTheDarkSide));
             ship.Tokens.AssignCondition(new IllShowYouTheDarkSideDamageCard(ship) { Tooltip = AssignedDamageCard.ImageUrl });
 
             ship.OnSufferCriticalDamage += SufferAssignedCardInstead;
@@ -183,12 +190,12 @@ namespace Abilities
                 isSkipSufferDamage = true;
 
                 GenericShip ship = ShipWithCondition;
-                GenericDamageCard card = AssignedDamageCard;
+                Combat.CurrentCriticalHitCard = AssignedDamageCard;
 
                 AssignedDamageCard = null;
                 RemoveConditions(ship);
 
-                ship.ProcessDrawnDamageCard(card, e);
+                ship.ProcessDrawnDamageCard(e);
             }
         }
 
@@ -208,7 +215,7 @@ namespace ActionsList
     {
         public KyloRenCrewAction()
         {
-            Name = EffectName = "Kylo Ren: Assign condition";
+            Name = DiceModificationName = "Kylo Ren: Assign condition";
         }
 
         public override int GetActionPriority()

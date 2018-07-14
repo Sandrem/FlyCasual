@@ -7,7 +7,7 @@ using System;
 using UnityEngine;
 using System.Collections.Generic;
 using ActionsList;
-using Board;
+using BoardTools;
 
 namespace UpgradesList
 {
@@ -37,12 +37,12 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList += FirstOrderVanguardActionEffects;
+            HostShip.OnGenerateDiceModifications += FirstOrderVanguardActionEffects;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList -= FirstOrderVanguardActionEffects;
+            HostShip.OnGenerateDiceModifications -= FirstOrderVanguardActionEffects;
         }
 
         private void FirstOrderVanguardActionEffects(GenericShip host)
@@ -52,7 +52,7 @@ namespace Abilities
                 ImageUrl = HostUpgrade.ImageUrl,
                 Host = HostShip
             };
-            host.AddAvailableActionEffect(attackDiceModification);
+            host.AddAvailableDiceModification(attackDiceModification);
 
             GenericAction defenceDiceModification = new FirstOrderVanguardDefenceActionEffect()
             {
@@ -60,7 +60,7 @@ namespace Abilities
                 Host = HostShip,
                 Source = HostUpgrade
             };
-            host.AddAvailableActionEffect(defenceDiceModification);
+            host.AddAvailableDiceModification(defenceDiceModification);
         }
     }
 }
@@ -71,11 +71,11 @@ namespace ActionsList
     {
         public FirstOrderVanguardAttackActionEffect()
         {
-            Name = EffectName = "First Order Vanguard";
+            Name = DiceModificationName = "First Order Vanguard";
             IsReroll = true;
         }
 
-        public override bool IsActionEffectAvailable()
+        public override bool IsDiceModificationAvailable()
         {
             bool result = false;
             if (Combat.AttackStep == CombatStep.Attack)
@@ -93,7 +93,7 @@ namespace ActionsList
             {
                 if (shipHolder.Value.ShipId != Host.ShipId && shipHolder.Value.ShipId != Combat.Defender.ShipId)
                 {
-                    ShipShotDistanceInformation shotInfo = new ShipShotDistanceInformation(Host, shipHolder.Value);
+                    ShotInfo shotInfo = new ShotInfo(Host, shipHolder.Value, Host.PrimaryWeapon);
                     if (shotInfo.InArc && shotInfo.Range <= 3)
                     {
                         return false;
@@ -104,7 +104,7 @@ namespace ActionsList
             return result;
         }
 
-        public override int GetActionEffectPriority()
+        public override int GetDiceModificationPriority()
         {
             int result = 0;
 
@@ -114,7 +114,7 @@ namespace ActionsList
                 int attackBlanks = Combat.DiceRollAttack.BlanksNotRerolled;
 
                 //if (Combat.Attacker.HasToken(typeof(Tokens.FocusToken)))
-                if (Combat.Attacker.GetAvailableActionEffectsList().Count(n => n.IsTurnsAllFocusIntoSuccess) > 0)
+                if (Combat.Attacker.GetAvailableDiceModifications().Count(n => n.IsTurnsAllFocusIntoSuccess) > 0)
                 {
                     if (attackBlanks > 0) result = 90;
                 }
@@ -142,11 +142,11 @@ namespace ActionsList
     {
         public FirstOrderVanguardDefenceActionEffect()
         {
-            Name = EffectName = "First Order Vanguard";
+            Name = DiceModificationName = "First Order Vanguard";
             IsReroll = true;
         }
 
-        public override bool IsActionEffectAvailable()
+        public override bool IsDiceModificationAvailable()
         {
             bool result = false;
             if (Combat.AttackStep == CombatStep.Defence)
@@ -156,7 +156,7 @@ namespace ActionsList
             return result;
         }
 
-        public override int GetActionEffectPriority()
+        public override int GetDiceModificationPriority()
         {
             int result = 0;
 
@@ -173,7 +173,7 @@ namespace ActionsList
             };
             diceRerollManager.Start();
             SelectAllRerolableDices();
-            diceRerollManager.ConfirmReroll();
+            diceRerollManager.ConfirmRerollButtonIsPressed();
         }
 
         private static void SelectAllRerolableDices()

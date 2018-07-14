@@ -11,6 +11,7 @@ namespace SubPhases
 
         public override void Start()
         {
+            base.Start();
             Name = "Planning SubPhase";
         }
 
@@ -22,8 +23,20 @@ namespace SubPhases
 
         public override void Initialize()
         {
+            PlayerAssignsManeuvers();
+        }
+
+        private void PlayerAssignsManeuvers()
+        {
             UpdateHelpInfo();
             Roster.HighlightShipsFiltered(FilterShipsToAssignManeuver);
+
+            if (Roster.AllManuversAreAssigned(Phases.CurrentPhasePlayer))
+            {
+                UI.ShowNextButton();
+                UI.HighlightNextButton();
+            }
+
             Roster.GetPlayer(RequiredPlayer).AssignManeuver();
         }
 
@@ -36,10 +49,7 @@ namespace SubPhases
                 if (RequiredPlayer == Phases.PlayerWithInitiative)
                 {
                     RequiredPlayer = Roster.AnotherPlayer(RequiredPlayer);
-
-                    UpdateHelpInfo();
-                    Roster.HighlightShipsFiltered(FilterShipsToAssignManeuver);
-                    Roster.GetPlayer(RequiredPlayer).AssignManeuver();
+                    PlayerAssignsManeuvers();
                 }
                 else
                 {
@@ -54,7 +64,7 @@ namespace SubPhases
             {
                 foreach (var shipHolder in Roster.GetPlayer(RequiredPlayer).Ships)
                 {
-                    Roster.ToggelManeuverVisibility(shipHolder.Value, false);
+                    Roster.ToggleManeuverVisibility(shipHolder.Value, false);
                 }
             }
         }
@@ -88,7 +98,7 @@ namespace SubPhases
 
         private bool FilterShipsToAssignManeuver(GenericShip ship)
         {
-            return ship.AssignedManeuver == null && ship.Owner.PlayerNo == RequiredPlayer;
+            return ship.AssignedManeuver == null && ship.Owner.PlayerNo == RequiredPlayer && !RulesList.IonizationRule.IsIonized(ship);
         }
 
         public override void NextButton()
@@ -99,7 +109,15 @@ namespace SubPhases
 
         public override void DoSelectThisShip(GenericShip ship, int mouseKeyIsPressed)
         {
-            UI.ShowDirectionMenu();
+            if (!RulesList.IonizationRule.IsIonized(ship))
+            {
+                UI.ShowDirectionMenu();
+            }
+            else
+            {
+                Messages.ShowError("Ship is ionized: dial cannot be assigned");
+            }
+            
         }
 
     }

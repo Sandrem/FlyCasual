@@ -5,10 +5,11 @@ using System.Linq;
 using Ship;
 using UnityEngine;
 using Upgrade;
+using Abilities;
+using ActionsList;
 
 namespace UpgradesList
 {
-
     public class HomingMissiles : GenericSecondaryWeapon
     {
         public HomingMissiles() : base()
@@ -25,19 +26,38 @@ namespace UpgradesList
             RequiresTargetLockOnTargetToShoot = true;
 
             IsDiscardedForShot = true;
+
+            UpgradeAbilities.Add(new HomingMissilesAbility());
+        }
+    }
+}
+
+namespace Abilities
+{
+    public class HomingMissilesAbility : GenericAbility
+    {
+        public override void ActivateAbility()
+        {
+            HostShip.OnAttackStartAsAttacker += CheckHomingMissilesAbility;
         }
 
-        public override void AttachToShip(GenericShip host)
+        public override void DeactivateAbility()
         {
-            base.AttachToShip(host);
-            Host.OnAttackStartAsAttacker += CheckHomingMissilesAbility;
+            // Ability is turned off only after full attack is finished
+            HostShip.OnCombatDeactivation += DeactivateAbilityPlanned;
+        }
+
+        private void DeactivateAbilityPlanned(GenericShip ship)
+        {
+            HostShip.OnCombatDeactivation -= DeactivateAbilityPlanned;
+            HostShip.OnAttackStartAsAttacker -= CheckHomingMissilesAbility;
         }
 
         private void CheckHomingMissilesAbility()
         {
-            if ((Combat.AttackStep == CombatStep.Attack) && (Combat.Attacker == Host))
+            if ((Combat.AttackStep == CombatStep.Attack) && (Combat.Attacker == HostShip))
             {
-                if (Combat.ChosenWeapon == this)
+                if (Combat.ChosenWeapon == HostUpgrade)
                 {
                     ApplyHomingMissilesAbility();
                 }
@@ -46,13 +66,13 @@ namespace UpgradesList
 
         private void ApplyHomingMissilesAbility()
         {
-            Combat.Defender.OnTryAddAvailableActionEffect += UseHomingMissilesRestriction;
-            Combat.Defender.Tokens.AssignCondition(new Conditions.HomingMissilesCondition(Combat.Defender));
+            Combat.Defender.OnTryAddAvailableDiceModification += UseHomingMissilesRestriction;
+            Combat.Defender.Tokens.AssignCondition(typeof(Conditions.HomingMissilesCondition));
 
-            Host.OnAttackFinish += RemoveHomingMissilesAbility;
+            HostShip.OnAttackFinish += RemoveHomingMissilesAbility;
         }
 
-        private void UseHomingMissilesRestriction(ActionsList.GenericAction action, ref bool canBeUsed)
+        private void UseHomingMissilesRestriction(GenericShip ship, GenericAction action, ref bool canBeUsed)
         {
             if (action.TokensSpend.Contains(typeof(Tokens.EvadeToken)))
             {
@@ -63,10 +83,10 @@ namespace UpgradesList
 
         private void RemoveHomingMissilesAbility(GenericShip ship)
         {
-            Combat.Defender.OnTryAddAvailableActionEffect -= UseHomingMissilesRestriction;
+            Combat.Defender.OnTryAddAvailableDiceModification -= UseHomingMissilesRestriction;
             Combat.Defender.Tokens.RemoveCondition(typeof(Conditions.HomingMissilesCondition));
 
-            Host.OnAttackFinish -= RemoveHomingMissilesAbility;
+            HostShip.OnAttackFinish -= RemoveHomingMissilesAbility;
         }
     }
 }

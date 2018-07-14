@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Abilities;
+using RuleSets;
 
 namespace Ship
 {
     namespace TIEFighter
     {
-        public class SabineWren : TIEFighter
+        public class SabineWren : TIEFighter, ISecondEditionPilot
         {
             public SabineWren() : base()
             {
@@ -20,6 +21,11 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
                 PilotAbilities.Add(new SabineWrenPilotAbility());
+            }
+
+            public void AdaptPilotToSecondEdition()
+            {
+                PilotSkill = 3;
             }
         }
     }

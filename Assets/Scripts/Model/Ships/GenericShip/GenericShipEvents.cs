@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Upgrade;
 
 namespace Ship
 {
@@ -21,7 +22,7 @@ namespace Ship
         public delegate void EventHandlerShipType(GenericShip ship, System.Type type);
         public delegate void EventHandlerShipTypeBool(GenericShip ship, System.Type type, ref bool data);
         public delegate void EventHandlerShipMovement(GenericShip ship, ref Movement.MovementStruct movement);
-        public delegate void EventHandlerShipCritArgs(GenericShip ship, DamageDeckCard.GenericDamageCard crit, EventArgs e = null);
+        public delegate void EventHandlerShipCritArgs(GenericShip ship, GenericDamageCard crit, EventArgs e = null);
         public delegate void EventHandlerTokenBool(Tokens.GenericToken token, ref bool data);
         public delegate void EventHandlerBombDropTemplates(List<Bombs.BombDropTemplates> availableTemplates);
         public delegate void EventHandlerBarrelRollTemplates(List<Actions.BarrelRollTemplates> availableTemplates);
@@ -30,9 +31,10 @@ namespace Ship
         public delegate void EventHandlerTokensList(List<Tokens.GenericToken> tokens);
         public delegate void EventHandlerBoolStringList(ref bool result, List<string> stringList);
         public delegate void EventHandlerObjArgsBool(object sender, EventArgs e, ref bool isChanged);
+        public delegate void EventHandlerUpgrade(GenericUpgrade upgrade);
+        public delegate void EventHandlerDualUpgrade(GenericDualUpgrade upgrade);
 
         public event EventHandlerShip AfterStatsAreChanged;
-        public event EventHandlerInt AfterGetAgility;
         public event EventHandlerInt AfterGetMaxHull;
 
     }

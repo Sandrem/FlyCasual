@@ -3,15 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using Ship;
+using BoardTools;
+using GameModes;
 
 namespace SubPhases
 {
 
     public class SetupSubPhase : GenericSubPhase
     {
+        private bool inReposition;
+
+        private Transform StartingZone;
+        private bool isInsideStartingZone;
 
         public override void Start()
         {
+            base.Start();
             Name = "Setup SubPhase";
         }
 
@@ -90,7 +97,7 @@ namespace SubPhases
 
             var ascPilotSkills =
                 from n in Roster.AllShips
-                where n.Value.PilotSkill > pilotSkillMin
+                where !n.Value.IsSetupPerformed && n.Value.PilotSkill > pilotSkillMin
                 orderby n.Value.PilotSkill
                 select n;
 
@@ -104,7 +111,9 @@ namespace SubPhases
 
         public override void FinishPhase()
         {
-            Board.BoardManager.TurnOffStartingZones();
+            Board.TurnOffStartingZones();
+            Board.ToggleDiceHolders(true);
+            Board.ToggleOffTheBoardHolder(true);
             Phases.NextPhase();
         }
 
@@ -137,23 +146,246 @@ namespace SubPhases
         public void ConfirmShipSetup(int shipId, Vector3 position, Vector3 angles)
         {
             Roster.SetRaycastTargets(true);
-
-            //Temporary
-            GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-            Game.Position.inReposition = false;
+            inReposition = false;
 
             Selection.ChangeActiveShip("ShipId:" + shipId);
+            Board.PlaceShip(Selection.ThisShip, position, angles, delegate { Selection.DeselectThisShip(); Phases.Next(); });
+        }
 
-            Selection.ThisShip.SetPosition(position);
-            Selection.ThisShip.SetAngles(angles);
-            Selection.ThisShip.IsSetupPerformed = true;
+        public override void Update()
+        {
+            if (inReposition) PerformDrag();
+            CheckPerformRotation();
+        }
 
-            Board.BoardManager.TurnOffStartingZones();
+        private void CheckPerformRotation()
+        {
+            if (Console.IsActive) return;
 
-            GenericShip lastShip = Selection.ThisShip;
-            Selection.DeselectThisShip();
+            CheckResetRotation();
+            if (Input.GetKey(KeyCode.LeftControl))
+            {
+                RotateBy1();
+            }
+            else
+            {
+                RotateBy45();
+            }
+        }
 
-            lastShip.CallOnShipIsPlaced(Phases.Next);
+        private void CheckResetRotation()
+        {
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                Vector3 facing = (Selection.ThisShip.Owner.PlayerNo == Players.PlayerNo.Player1) ? ShipFactory.ROTATION_FORWARD : ShipFactory.ROTATION_BACKWARD;
+                Selection.ThisShip.SetRotationHelper2Angles(new Vector3(0, -Selection.ThisShip.Model.transform.eulerAngles.y + facing.y, 0));
+                Selection.ThisShip.ApplyRotationHelpers();
+                Selection.ThisShip.ResetRotationHelpers();
+            }
+        }
+
+        private void RotateBy45()
+        {
+            if (Input.GetKeyDown(KeyCode.Q))
+            {
+                Selection.ThisShip.SetRotationHelper2Angles(new Vector3(0, -45, 0));
+                Selection.ThisShip.ApplyRotationHelpers();
+                Selection.ThisShip.ResetRotationHelpers();
+            }
+
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                Selection.ThisShip.SetRotationHelper2Angles(new Vector3(0, 45, 0));
+                Selection.ThisShip.ApplyRotationHelpers();
+                Selection.ThisShip.ResetRotationHelpers();
+            }
+        }
+
+        private void RotateBy1()
+        {
+            if (Input.GetKey(KeyCode.Q))
+            {
+                Selection.ThisShip.SetRotationHelper2Angles(new Vector3(0, -1, 0));
+                Selection.ThisShip.ApplyRotationHelpers();
+                Selection.ThisShip.ResetRotationHelpers();
+            }
+
+            if (Input.GetKey(KeyCode.E))
+            {
+                Selection.ThisShip.SetRotationHelper2Angles(new Vector3(0, 1, 0));
+                Selection.ThisShip.ApplyRotationHelpers();
+                Selection.ThisShip.ResetRotationHelpers();
+            }
+        }
+
+        public override void DoSelectThisShip(GenericShip ship, int mouseKeyIsPressed)
+        {
+            StartDrag();
+        }
+
+        public void StartDrag()
+        {
+            StartingZone = Board.GetStartingZone(Phases.CurrentSubPhase.RequiredPlayer);
+            isInsideStartingZone = false;
+            Roster.SetRaycastTargets(false);
+            Roster.AllShipsHighlightOff();
+            Board.HighlightStartingZones();
+            Selection.ThisShip.Model.GetComponentInChildren<ObstaclesStayDetector>().checkCollisions = true;
+            inReposition = true;
+        }
+
+        private void PerformDrag()
+        {
+            RaycastHit hit;
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+            if (Physics.Raycast(ray, out hit))
+            {
+                Selection.ThisShip.SetCenter(new Vector3(hit.point.x, 0f, hit.point.z));
+            }
+
+            CheckControlledModeLimits();
+            ApplySetupPositionLimits();
+        }
+
+        private void CheckControlledModeLimits()
+        {
+            // TODO: Rewrite
+
+            if (Input.GetKeyUp(KeyCode.LeftControl))
+            {
+                HideSetupHelpers();
+            }
+
+            if (Input.GetKey(KeyCode.LeftControl))
+            {
+                HideSetupHelpers();
+
+                foreach (var ship in Selection.ThisShip.Owner.Ships)
+                {
+                    if ((ship.Value.ShipId != Selection.ThisShip.ShipId) && (ship.Value.IsSetupPerformed))
+                    {
+                        Vector3 newPosition = Selection.ThisShip.GetCenter();
+                        float halfOfShipStandSize = Board.BoardIntoWorld(Board.DISTANCE_1 / 2f);
+                        float oneOfShipStandSize = Board.BoardIntoWorld(Board.DISTANCE_1);
+
+                        Dictionary<string, float> spaceBetweenList = GetSpaceBetween(Selection.ThisShip, ship.Value);
+
+                        if ((spaceBetweenList["Left"] <= halfOfShipStandSize) && (spaceBetweenList["Left"] >= -oneOfShipStandSize) && ((-oneOfShipStandSize <= spaceBetweenList["Up"] && spaceBetweenList["Up"] <= 0) || (-oneOfShipStandSize <= spaceBetweenList["Down"] && spaceBetweenList["Down"] <= 0)))
+                        {
+                            Selection.ThisShip.Model.transform.Find("RotationHelper/RotationHelper2/ShipSetupHelpers/Helper" + ((Selection.ThisShip.Owner.PlayerNo == Players.PlayerNo.Player1) ? "Left" : "Right")).gameObject.SetActive(true);
+                            newPosition.x = newPosition.x - spaceBetweenList["Left"] + halfOfShipStandSize;
+                        }
+                        if ((spaceBetweenList["Right"] <= halfOfShipStandSize) && (spaceBetweenList["Right"] >= -oneOfShipStandSize) && ((-oneOfShipStandSize <= spaceBetweenList["Up"] && spaceBetweenList["Up"] <= 0) || (-oneOfShipStandSize <= spaceBetweenList["Down"] && spaceBetweenList["Down"] <= 0)))
+                        {
+                            Selection.ThisShip.Model.transform.Find("RotationHelper/RotationHelper2/ShipSetupHelpers/Helper" + ((Selection.ThisShip.Owner.PlayerNo == Players.PlayerNo.Player1) ? "Right" : "Left")).gameObject.SetActive(true);
+                            newPosition.x = newPosition.x + spaceBetweenList["Right"] - halfOfShipStandSize;
+                        }
+
+                        if ((spaceBetweenList["Up"] <= halfOfShipStandSize) && (spaceBetweenList["Up"] >= -oneOfShipStandSize) && ((-oneOfShipStandSize <= spaceBetweenList["Left"] && spaceBetweenList["Left"] <= 0) || (-oneOfShipStandSize <= spaceBetweenList["Right"] && spaceBetweenList["Right"] <= 0)))
+                        {
+                            Selection.ThisShip.Model.transform.Find("RotationHelper/RotationHelper2/ShipSetupHelpers/Helper" + ((Selection.ThisShip.Owner.PlayerNo == Players.PlayerNo.Player1) ? "Top" : "Bottom")).gameObject.SetActive(true);
+                            newPosition.z = newPosition.z + spaceBetweenList["Up"] - halfOfShipStandSize;
+                        }
+                        if ((spaceBetweenList["Down"] <= halfOfShipStandSize) && (spaceBetweenList["Down"] >= -oneOfShipStandSize) && ((-oneOfShipStandSize <= spaceBetweenList["Left"] && spaceBetweenList["Left"] <= 0) || (-oneOfShipStandSize <= spaceBetweenList["Right"] && spaceBetweenList["Right"] <= 0)))
+                        {
+                            Selection.ThisShip.Model.transform.Find("RotationHelper/RotationHelper2/ShipSetupHelpers/Helper" + ((Selection.ThisShip.Owner.PlayerNo == Players.PlayerNo.Player1) ? "Bottom" : "Top")).gameObject.SetActive(true);
+                            newPosition.z = newPosition.z - spaceBetweenList["Down"] + halfOfShipStandSize;
+                        }
+
+                        Selection.ThisShip.SetCenter(newPosition);
+                    }
+                }
+            }
+        }
+
+        private void HideSetupHelpers()
+        {
+            foreach (Transform helper in Selection.ThisShip.Model.transform.Find("RotationHelper/RotationHelper2/ShipSetupHelpers").transform)
+            {
+                helper.gameObject.SetActive(false);
+            }
+        }
+
+        private Dictionary<string, float> GetSpaceBetween(Ship.GenericShip thisShip, Ship.GenericShip anotherShip)
+        {
+            Dictionary<string, float> result = new Dictionary<string, float>();
+
+            Dictionary<string, float> thisShipBounds = thisShip.ShipBase.GetBounds();
+            Dictionary<string, float> anotherShipBounds = anotherShip.ShipBase.GetBounds();
+
+            result.Add("Left", thisShipBounds["minX"] - anotherShipBounds["maxX"]);
+            result.Add("Right", anotherShipBounds["minX"] - thisShipBounds["maxX"]);
+            result.Add("Down", thisShipBounds["minZ"] - anotherShipBounds["maxZ"]);
+            result.Add("Up", anotherShipBounds["minZ"] - thisShipBounds["maxZ"]);
+
+            return result;
+        }
+
+        private void ApplySetupPositionLimits()
+        {
+            Vector3 newPosition = Selection.ThisShip.GetCenter();
+            Dictionary<string, float> newBounds = Selection.ThisShip.ShipBase.GetBounds();
+
+            if (!isInsideStartingZone)
+            {
+                if ((newBounds["maxZ"] < StartingZone.TransformPoint(0.5f, 0.5f, 0.5f).z) && (newBounds["minZ"] > StartingZone.TransformPoint(-0.5f, -0.5f, -0.5f).z))
+                {
+                    isInsideStartingZone = true;
+                }
+            }
+
+            if (isInsideStartingZone)
+            {
+                if (newBounds["maxZ"] > StartingZone.TransformPoint(0.5f, 0.5f, 0.5f).z) newPosition.z = StartingZone.TransformPoint(0.5f, 0.5f, 0.5f).z - (newBounds["maxZ"] - newPosition.z + 0.01f);
+                if (newBounds["minZ"] < StartingZone.TransformPoint(-0.5f, -0.5f, -0.5f).z) newPosition.z = StartingZone.TransformPoint(-0.5f, -0.5f, -0.5f).z + (newPosition.z - newBounds["minZ"] + 0.01f);
+            }
+
+            if (newBounds["maxX"] > StartingZone.TransformPoint(0.5f, 0.5f, 0.5f).x) newPosition.x = StartingZone.TransformPoint(0.5f, 0.5f, 0.5f).x - (newBounds["maxX"] - newPosition.x + 0.01f);
+            if (newBounds["minX"] < StartingZone.TransformPoint(-0.5f, -0.5f, -0.5f).x) newPosition.x = StartingZone.TransformPoint(-0.5f, -0.5f, -0.5f).x + (newPosition.x - newBounds["minX"] + 0.01f);
+
+            Selection.ThisShip.SetCenter(newPosition);
+        }
+
+        public override void ProcessClick()
+        {
+            if (inReposition) TryConfirmPosition(Selection.ThisShip);
+        }
+
+        public bool TryConfirmPosition(GenericShip ship)
+        {
+            bool result = true;
+
+            if (Phases.CurrentSubPhase.GetType() == typeof(SubPhases.SetupSubPhase))
+            {
+                if (!ship.ShipBase.IsInside(StartingZone))
+
+                {
+                    Messages.ShowErrorToHuman("Place ship into highlighted area");
+                    result = false;
+                }
+
+                if (Selection.ThisShip.Model.GetComponentInChildren<ObstaclesStayDetector>().OverlapedShips.Count > 0)
+                {
+                    Messages.ShowErrorToHuman("This ship shouldn't collide with another ships");
+                    result = false;
+                }
+
+            }
+
+            if (result) StopDrag();
+
+            return result;
+        }
+
+        private void StopDrag()
+        {
+            HideSetupHelpers();
+            Roster.SetRaycastTargets(true);
+            Selection.ThisShip.Model.GetComponentInChildren<ObstaclesStayDetector>().checkCollisions = false;
+            inReposition = false;
+
+            GameMode.CurrentGameMode.ConfirmShipSetup(Selection.ThisShip.ShipId, Selection.ThisShip.GetPosition(), Selection.ThisShip.GetAngles());
         }
 
     }

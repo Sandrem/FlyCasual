@@ -5,6 +5,7 @@ namespace RulesList
 {
     public class WeaponsDisabledRule
     {
+        static bool RuleIsInitialized = false;
 
         public WeaponsDisabledRule()
         {
@@ -13,7 +14,11 @@ namespace RulesList
 
         private void SubscribeEvents()
         {
-            Ship.GenericShip.OnTryPerformAttackGlobal += CanPerformAttack;
+            if (!RuleIsInitialized)
+            {
+                Ship.GenericShip.OnTryPerformAttackGlobal += CanPerformAttack;
+                RuleIsInitialized = true;
+            }
         }
 
         public void CanPerformAttack(ref bool result, List<string> stringList)

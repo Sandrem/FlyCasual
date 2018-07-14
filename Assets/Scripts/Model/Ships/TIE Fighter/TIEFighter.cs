@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Movement;
 using ActionsList;
+using RuleSets;
 
 namespace Ship
 {
     namespace TIEFighter
     {
-        public class TIEFighter : GenericShip, TIE
+        public class TIEFighter : GenericShip, TIE, ISecondEditionShip
         {
 
             public TIEFighter() : base()
@@ -18,6 +19,8 @@ namespace Ship
                 IconicPilots.Add(Faction.Imperial, typeof(BlackSquadronPilot));
 
                 ManeuversImageUrl = "https://vignette1.wikia.nocookie.net/xwing-miniatures/images/b/b6/TIE_Fighter_Move.png";
+
+                ShipIconLetter = 'F';
 
                 Firepower = 2;
                 Agility = 3;
@@ -47,28 +50,34 @@ namespace Ship
 
             private void AssignTemporaryManeuvers()
             {
-                Maneuvers.Add("1.L.T", ManeuverColor.White);
-                Maneuvers.Add("1.L.B", ManeuverColor.None);
-                Maneuvers.Add("1.F.S", ManeuverColor.None);
-                Maneuvers.Add("1.R.B", ManeuverColor.None);
-                Maneuvers.Add("1.R.T", ManeuverColor.White);
-                Maneuvers.Add("1.F.R", ManeuverColor.None);
-                Maneuvers.Add("2.L.T", ManeuverColor.White);
-                Maneuvers.Add("2.L.B", ManeuverColor.Green);
-                Maneuvers.Add("2.F.S", ManeuverColor.Green);
-                Maneuvers.Add("2.R.B", ManeuverColor.Green);
-                Maneuvers.Add("2.R.T", ManeuverColor.White);
-                Maneuvers.Add("2.F.R", ManeuverColor.None);
-                Maneuvers.Add("3.L.T", ManeuverColor.White);
-                Maneuvers.Add("3.L.B", ManeuverColor.White);
-                Maneuvers.Add("3.F.S", ManeuverColor.Green);
-                Maneuvers.Add("3.R.B", ManeuverColor.White);
-                Maneuvers.Add("3.R.T", ManeuverColor.White);
-                Maneuvers.Add("3.F.R", ManeuverColor.Red);
-                Maneuvers.Add("4.F.S", ManeuverColor.White);
-                Maneuvers.Add("4.F.R", ManeuverColor.Red);
-                Maneuvers.Add("5.F.S", ManeuverColor.White);
-                Maneuvers.Add("5.F.R", ManeuverColor.None);
+                Maneuvers.Add("1.L.T", MovementComplexity.Normal);
+                Maneuvers.Add("1.L.B", MovementComplexity.None);
+                Maneuvers.Add("1.F.S", MovementComplexity.None);
+                Maneuvers.Add("1.R.B", MovementComplexity.None);
+                Maneuvers.Add("1.R.T", MovementComplexity.Normal);
+                Maneuvers.Add("1.F.R", MovementComplexity.None);
+                Maneuvers.Add("2.L.T", MovementComplexity.Normal);
+                Maneuvers.Add("2.L.B", MovementComplexity.Easy);
+                Maneuvers.Add("2.F.S", MovementComplexity.Easy);
+                Maneuvers.Add("2.R.B", MovementComplexity.Easy);
+                Maneuvers.Add("2.R.T", MovementComplexity.Normal);
+                Maneuvers.Add("2.F.R", MovementComplexity.None);
+                Maneuvers.Add("3.L.T", MovementComplexity.Normal);
+                Maneuvers.Add("3.L.B", MovementComplexity.Normal);
+                Maneuvers.Add("3.F.S", MovementComplexity.Easy);
+                Maneuvers.Add("3.R.B", MovementComplexity.Normal);
+                Maneuvers.Add("3.R.T", MovementComplexity.Normal);
+                Maneuvers.Add("3.F.R", MovementComplexity.Complex);
+                Maneuvers.Add("4.F.S", MovementComplexity.Normal);
+                Maneuvers.Add("4.F.R", MovementComplexity.Complex);
+                Maneuvers.Add("5.F.S", MovementComplexity.Normal);
+                Maneuvers.Add("5.F.R", MovementComplexity.None);
+            }
+
+            public void AdaptShipToSecondEdition()
+            {
+                IconicPilots[Faction.Imperial] = typeof(BlackSquadronAce);
+                IconicPilots[Faction.Rebel] = typeof(SabineWren);
             }
 
         }

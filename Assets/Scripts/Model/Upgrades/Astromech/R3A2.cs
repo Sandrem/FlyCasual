@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Upgrade;
 using Abilities;
+using Tokens;
 
 namespace UpgradesList
 {
@@ -68,12 +69,12 @@ namespace Abilities
             Messages.ShowInfo(Name + " is used");
             Sounds.PlayShipSound("R2D2-Beeping-5");
 
-            HostShip.Tokens.AssignToken(new Tokens.StressToken(HostShip), delegate { AssignStressToDefender(callback); });
+            HostShip.Tokens.AssignToken(typeof(StressToken), delegate { AssignStressToDefender(callback); });
         }
 
         private void AssignStressToDefender(Action callback)
         {
-            Combat.Defender.Tokens.AssignToken(new Tokens.StressToken(Combat.Defender), callback);
+            Combat.Defender.Tokens.AssignToken(typeof(StressToken), callback);
         }
 
     }

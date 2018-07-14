@@ -31,26 +31,25 @@ namespace Abilities
         public override void ActivateAbility()
         {
             HostShip.OnAttackStartAsDefender += AddDarkCursePilotAbility;
-            HostShip.OnDefence += RemoveDarkCursePilotAbility;
+            HostShip.OnDefenceStartAsDefender += RemoveDarkCursePilotAbility;
         }
 
         public override void DeactivateAbility()
         {
             HostShip.OnAttackStartAsDefender -= AddDarkCursePilotAbility;
-            HostShip.OnDefence -= RemoveDarkCursePilotAbility;
+            HostShip.OnDefenceStartAsDefender -= RemoveDarkCursePilotAbility;
         }
 
         private void AddDarkCursePilotAbility()
         {
-            if ((Combat.AttackStep == CombatStep.Attack) && (Combat.Defender.ShipId == HostShip.ShipId))
+            if (Combat.AttackStep == CombatStep.Attack)
             {
-                Combat.Attacker.OnTryAddAvailableActionEffect += UseDarkCurseRestriction;
-                //TODO: Use assign condition token instead
-                Combat.Attacker.Tokens.AssignCondition(new Conditions.DarkCurseCondition(Combat.Attacker));
+                Combat.Attacker.OnTryAddAvailableDiceModification += UseDarkCurseRestriction;
+                Combat.Attacker.Tokens.AssignCondition(typeof(Conditions.DarkCurseCondition));
             }
         }
 
-        private void UseDarkCurseRestriction(ActionsList.GenericAction action, ref bool canBeUsed)
+        private void UseDarkCurseRestriction(GenericShip ship, ActionsList.GenericAction action, ref bool canBeUsed)
         {
             if (action.TokensSpend.Contains(typeof(Tokens.FocusToken)))
             {
@@ -68,7 +67,7 @@ namespace Abilities
         {
             if ((Combat.AttackStep == CombatStep.Defence) && (Combat.Defender.ShipId == HostShip.ShipId))
             {
-                Combat.Attacker.OnTryAddAvailableActionEffect -= UseDarkCurseRestriction;
+                Combat.Attacker.OnTryAddAvailableDiceModification -= UseDarkCurseRestriction;
                 Combat.Attacker.Tokens.RemoveCondition(typeof(Conditions.DarkCurseCondition));
             }
         }

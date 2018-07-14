@@ -4,6 +4,7 @@ using Ship;
 using SubPhases;
 using System;
 using Tokens;
+using UnityEngine;
 using Upgrade;
 
 namespace UpgradesList
@@ -15,6 +16,8 @@ namespace UpgradesList
             Types.Add(UpgradeType.Elite);
             Name = "Adrenaline Rush";
             Cost = 1;
+
+            AvatarOffset = new Vector2(37, 1);
 
             UpgradeAbilities.Add(new AdrenalineRushAbility());
         }
@@ -47,7 +50,7 @@ namespace Abilities
                 return;
             }
 
-            if (HostShip.AssignedManeuver.ColorComplexity == ManeuverColor.Red)
+            if (HostShip.AssignedManeuver.ColorComplexity == MovementComplexity.Complex)
             {
                 RegisterAbilityTrigger(TriggerTypes.OnTokenIsAssigned, AskToUseAdrenalineRush);
             }
@@ -61,7 +64,7 @@ namespace Abilities
         private void ChangeManeuverColorAbility(Action callback)
         {
             GenericMovement movement = HostShip.AssignedManeuver;
-            movement.ColorComplexity = ManeuverColor.White;
+            movement.ColorComplexity = MovementComplexity.Normal;
 
             HostShip.SetAssignedManeuver(movement);
 

@@ -1,13 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using Upgrade;
+﻿using Upgrade;
 using Abilities;
+using RuleSets;
 
 namespace UpgradesList
 {
 
-    public class R5D8 : GenericUpgrade
+    public class R5D8 : GenericUpgrade, ISecondEditionUpgrade
     {
         public R5D8() : base()
         {
@@ -17,6 +15,14 @@ namespace UpgradesList
             Cost = 3;
 
             UpgradeAbilities.Add(new R5D8Ability());
+        }
+
+        public void AdaptUpgradeToSecondEdition()
+        {
+            MaxCharges = 3;
+
+            UpgradeAbilities.RemoveAll(a => a is R5D8Ability);
+            UpgradeAbilities.Add(new Abilities.SecondEdition.R5AstromechAbility());
         }
     }
 
@@ -28,12 +34,12 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionsList += R5D8AddAction;
+            HostShip.OnGenerateActions += R5D8AddAction;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionsList -= R5D8AddAction;
+            HostShip.OnGenerateActions -= R5D8AddAction;
         }
 
         private void R5D8AddAction(Ship.GenericShip host)
@@ -54,7 +60,7 @@ namespace ActionsList
     {
         public R5D8Action()
         {
-            Name = EffectName = "R5-D8: Try to repair";
+            Name = DiceModificationName = "R5-D8: Try to repair";
         }
 
         public override void ActionTake()
@@ -75,16 +81,15 @@ namespace ActionsList
 
 namespace SubPhases
 {
-
     public class R5D8CheckSubPhase : DiceRollCheckSubPhase
     {
 
         public override void Prepare()
         {
-            diceType = DiceKind.Defence;
-            diceCount = 1;
+            DiceKind = DiceKind.Defence;
+            DiceCount = 1;
 
-            finishAction = FinishAction;
+            AfterRoll = FinishAction;
         }
 
         protected override void FinishAction()

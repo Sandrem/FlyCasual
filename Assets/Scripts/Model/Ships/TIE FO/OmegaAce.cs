@@ -32,17 +32,17 @@ namespace Abilities
 {
     public override void ActivateAbility()
     {
-        HostShip.AfterGenerateAvailableActionEffectsList += AddOmegaAceAbility;
+        HostShip.OnGenerateDiceModifications += AddOmegaAceAbility;
     }
 
     public override void DeactivateAbility()
     {
-        HostShip.AfterGenerateAvailableActionEffectsList -= AddOmegaAceAbility;
+        HostShip.OnGenerateDiceModifications -= AddOmegaAceAbility;
     }
 
     private void AddOmegaAceAbility(GenericShip ship)
     {
-        ship.AddAvailableActionEffect(new OmegaAceAbilityAction());
+        ship.AddAvailableDiceModification(new OmegaAceAbilityAction());
     }
 }
 }
@@ -54,20 +54,20 @@ namespace ActionsList
         private System.Action actionCallback;
         public OmegaAceAbilityAction()
         {
-            Name = EffectName = "\"Omega Ace\" ability";
+            Name = DiceModificationName = "\"Omega Ace\" ability";
 
             TokensSpend.Add(typeof(BlueTargetLockToken));
             TokensSpend.Add(typeof(FocusToken));
         }
 
-        public override int GetActionEffectPriority()
+        public override int GetDiceModificationPriority()
         {
             int result = 0;
             result = 100;
             return result;
         }
 
-        public override bool IsActionEffectAvailable()
+        public override bool IsDiceModificationAvailable()
         {
             bool result = false;
             if (Combat.AttackStep == CombatStep.Attack &&

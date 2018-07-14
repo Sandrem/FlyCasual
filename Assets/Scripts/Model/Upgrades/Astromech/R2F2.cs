@@ -29,12 +29,12 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionsList += R2F2AddAction;
+            HostShip.OnGenerateActions += R2F2AddAction;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionsList -= R2F2AddAction;
+            HostShip.OnGenerateActions -= R2F2AddAction;
         }
 
         private void R2F2AddAction(Ship.GenericShip host)
@@ -56,7 +56,7 @@ namespace ActionsList
     {
         public R2F2Action()
         {
-            Name = EffectName = "R2-F2: Increase Agility";
+            Name = DiceModificationName = "R2-F2: Increase Agility";
         }
 
         public override void ActionTake()
@@ -64,8 +64,8 @@ namespace ActionsList
             Sounds.PlayShipSound("Astromech-Beeping-and-whistling");
 
             Host.ChangeAgilityBy(+1);
-            Phases.OnEndPhaseStart += R2F2DecreaseAgility;
-            Host.Tokens.AssignCondition(new Conditions.R2F2Condition(Host));
+            Phases.Events.OnEndPhaseStart_NoTriggers += R2F2DecreaseAgility;
+            Host.Tokens.AssignCondition(typeof(Conditions.R2F2Condition));
             Phases.CurrentSubPhase.CallBack();
         }
 
@@ -80,7 +80,7 @@ namespace ActionsList
         {
             Host.ChangeAgilityBy(-1);
             Host.Tokens.RemoveCondition(typeof(Conditions.R2F2Condition));
-            Phases.OnEndPhaseStart -= R2F2DecreaseAgility;
+            Phases.Events.OnEndPhaseStart_NoTriggers -= R2F2DecreaseAgility;
         }
 
     }

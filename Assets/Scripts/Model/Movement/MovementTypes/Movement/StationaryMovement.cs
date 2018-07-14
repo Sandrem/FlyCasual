@@ -8,7 +8,7 @@ namespace Movement
 
     public class StationaryMovement : GenericMovement
     {
-        public StationaryMovement(int speed, ManeuverDirection direction, ManeuverBearing bearing, ManeuverColor color) : base(speed, direction, bearing, color)
+        public StationaryMovement(int speed, ManeuverDirection direction, ManeuverBearing bearing, MovementComplexity color) : base(speed, direction, bearing, color)
         {
 
         }
@@ -18,7 +18,7 @@ namespace Movement
             base.Perform();
             Initialize();
 
-            movementPrediction = new MovementPrediction(this, Selection.ThisShip.Owner.AfterShipMovementPrediction);
+            movementPrediction = new MovementPrediction(this, TheShip.Owner.AfterShipMovementPrediction);
         }
 
         protected override float SetProgressTarget()
@@ -35,10 +35,10 @@ namespace Movement
         {
             GameObject[] result = new GameObject[1];
 
-            Vector3 position = Selection.ThisShip.GetPosition();
+            Vector3 position = TheShip.GetPosition();
 
-            GameObject prefab = (GameObject)Resources.Load(Selection.ThisShip.ShipBase.TemporaryPrefabPath, typeof(GameObject));
-            GameObject ShipStand = MonoBehaviour.Instantiate(prefab, position, Selection.ThisShip.GetRotation(), Board.BoardManager.GetBoard());
+            GameObject prefab = (GameObject)Resources.Load(TheShip.ShipBase.TemporaryPrefabPath, typeof(GameObject));
+            GameObject ShipStand = MonoBehaviour.Instantiate(prefab, position, TheShip.GetRotation(), BoardTools.Board.GetBoard());
 
             Renderer[] renderers = ShipStand.GetComponentsInChildren<Renderer>();
             foreach (var render in renderers)

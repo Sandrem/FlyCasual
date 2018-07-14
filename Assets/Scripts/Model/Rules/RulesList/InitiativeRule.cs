@@ -16,8 +16,8 @@ namespace RulesList
 
         private void SubscribeEvents()
         {
-            Phases.OnGameStart += DetermineOwnerOfDecision;
-            Phases.OnSetupPhaseStart += DeterminePlayerWithInitiative;
+            Phases.Events.OnGameStart += DetermineOwnerOfDecision;
+            Phases.Events.OnInitiativeSelection += DeterminePlayerWithInitiative;
         }
 
         public static void DetermineOwnerOfDecision()
@@ -59,7 +59,7 @@ namespace RulesList
             Triggers.RegisterTrigger(new Trigger() {
                 Name = "Initiative decision",
                 TriggerOwner = Phases.PlayerWithInitiative,
-                TriggerType = TriggerTypes.OnSetupPhaseStart,
+                TriggerType = TriggerTypes.OnInitiativeSelection,
                 EventHandler = ShowDecision
             });
         }

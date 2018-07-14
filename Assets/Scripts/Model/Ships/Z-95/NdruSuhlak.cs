@@ -45,7 +45,7 @@ namespace Abilities
 
         private void CheckNdruSuhlakAbility(ref int value)
         {
-            if (Board.BoardManager.GetShipsAtRange(HostShip, new Vector2(1,2), Team.Type.Friendly).Count == 1) value++;
+            if (BoardTools.Board.GetShipsAtRange(HostShip, new Vector2(1,2), Team.Type.Friendly).Count == 1) value++;
         }
     }
 }

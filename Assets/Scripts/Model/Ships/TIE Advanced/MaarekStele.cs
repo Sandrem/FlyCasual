@@ -4,13 +4,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Ship;
-using DamageDeckCard;
+using RuleSets;
 
 namespace Ship
 {
     namespace TIEAdvanced
     {
-        public class MaarekStele : TIEAdvanced
+        public class MaarekStele : TIEAdvanced, ISecondEditionPilot
         {
             public MaarekStele() : base()
             {
@@ -23,6 +23,12 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
                 PilotAbilities.Add(new Abilities.MaarekSteleAbility());
+            }
+
+            public void AdaptPilotToSecondEdition()
+            {
+                PilotSkill = 5;
+                Cost = 34;
             }
         }
     }
@@ -42,10 +48,14 @@ namespace Abilities
             GenericShip.OnFaceupCritCardReadyToBeDealtGlobal -= MaarekStelePilotAbility;
         }
 
-        private void MaarekStelePilotAbility(GenericShip ship, DamageDeckCard.GenericDamageCard crit, EventArgs e)
+        private void MaarekStelePilotAbility(GenericShip ship, GenericDamageCard crit, EventArgs e)
         {
             if ((e as DamageSourceEventArgs) == null) return;
-            else if ((((e as DamageSourceEventArgs).Source) as GenericShip).ShipId == HostShip.ShipId)
+
+            GenericShip damageSourceShip = (e as DamageSourceEventArgs).Source as GenericShip;
+            if (damageSourceShip == null) return;
+
+            if (damageSourceShip.ShipId == HostShip.ShipId)
             {
                 if ((e as DamageSourceEventArgs).DamageType == DamageTypes.ShipAttack)
                 {
@@ -105,14 +115,14 @@ namespace SubPhases
 
             DefaultDecisionName = Combat.CurrentCriticalHitCard.Name;
 
-            DecisionViewType = DecisionViewTypes.ImageButtons;
+            DecisionViewType = DecisionViewTypes.ImagesDamageCard;
 
             callBack();
         }
 
-        private void AddToCriticalHitCardsToChoose(GenericDamageCard damageCard, EventArgs e)
+        private void AddToCriticalHitCardsToChoose(EventArgs e)
         {
-            criticalHitCardsToChoose.Add(damageCard);
+            criticalHitCardsToChoose.Add(Combat.CurrentCriticalHitCard);
         }
 
         private void DealCard(GenericDamageCard critCard)

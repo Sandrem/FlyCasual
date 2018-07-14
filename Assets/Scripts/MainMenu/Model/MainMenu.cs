@@ -6,6 +6,9 @@ using UnityEngine.UI;
 using SquadBuilderNS;
 using System.Linq;
 using Players;
+using System.Reflection;
+using System;
+using Upgrade;
 
 public partial class MainMenu : MonoBehaviour {
 
@@ -22,34 +25,18 @@ public partial class MainMenu : MonoBehaviour {
     private void InitializeMenu()
     {
         CurrentMainMenu = this;
-
         SetCurrentPanel();
 
         DontDestroyOnLoad(GameObject.Find("GlobalUI").gameObject);
 
+        SetBackground();
         ModsManager.Initialize();
         Options.ReadOptions();
         Options.UpdateVolume();
         UpdateVersionInfo();
-        CheckUpdates();
-    }
+        UpdatePlayerInfo();
 
-    public void StartBattle()
-    {
-        if (SquadBuilder.ValidateCurrentPlayersRoster())
-        {
-            SquadBuilder.SaveSquadConfigurations();
-            ShipFactory.Initialize();
-
-            if (!SquadBuilder.IsNetworkGame)
-            {
-                SquadBuilder.StartLocalGame();
-            }
-            else
-            {
-                ChangePanel("MultiplayerDecisionPanel");
-            }
-        }
+        PrepareUpdateChecker();
     }
 
     public void QuitGame()
@@ -67,7 +54,40 @@ public partial class MainMenu : MonoBehaviour {
         GameObject.Find("UI/Panels/MainMenuPanel/Version/Version Text").GetComponent<Text>().text = Global.CurrentVersion;
     }
 
-    private void CheckUpdates()
+    private void UpdatePlayerInfo()
+    {
+        AvatarFromUpgrade script = GameObject.Find("UI/Panels/MainMenuPanel/PlayerInfoPanel/AvatarImage").GetComponent<AvatarFromUpgrade>();
+        script.Initialize(Options.Avatar);
+
+        GameObject.Find("UI/Panels/MainMenuPanel/PlayerInfoPanel/NicknameAndTitleText").GetComponent<Text>().text = Options.NickName + "\n" + Options.Title;
+    }
+
+    private void SetBackground()
+    {
+        GameObject.Find("UI/BackgroundImage").GetComponent<Image>().sprite = GetRandomMenuBackground();
+    }
+
+    public static Sprite GetRandomMenuBackground()
+    {
+        UnityEngine.Object[] sprites = Resources.LoadAll("Sprites/Backgrounds/MainMenu/", typeof(Sprite));
+        return (Sprite) sprites[UnityEngine.Random.Range(0, sprites.Length)];
+    }
+
+    public static Sprite GetRandomSplashScreen()
+    {
+        List<UnityEngine.Object> sprites = new List<UnityEngine.Object>();
+        sprites.AddRange(Resources.LoadAll("Sprites/Backgrounds/MainMenu/", typeof(Sprite)).ToList());
+        sprites.AddRange(Resources.LoadAll("Sprites/Backgrounds/SplashScreens/", typeof(Sprite)).ToList());
+        return (Sprite)sprites[UnityEngine.Random.Range(0, sprites.Count)];
+    }
+
+    private void PrepareUpdateChecker()
+    {
+        RemoteSettings.Completed += CheckUpdateNotification;
+        RemoteSettings.ForceUpdate();
+    }
+
+    private void CheckUpdateNotification(bool wasUpdatedFromServer, bool settingsChanged, int serverResponse)
     {
         int latestVersionInt = RemoteSettings.GetInt("UpdateLatestVersionInt", Global.CurrentVersionInt);
         if (latestVersionInt > Global.CurrentVersionInt)
@@ -76,6 +96,8 @@ public partial class MainMenu : MonoBehaviour {
             string updateLink       = RemoteSettings.GetString("UpdateLink");
             ShowNewVersionIsAvailable(latestVersion, updateLink);
         }
+
+        RemoteSettings.Completed -= CheckUpdateNotification;
     }
 
     // 0.3.2 UI
@@ -113,4 +135,132 @@ public partial class MainMenu : MonoBehaviour {
         ChangePanel("SelectFactionPanel");
     }
 
+    public void InitializePlayerCustomization()
+    {
+        InitializeAvatars();
+        InitializeNickName();
+        InitializeTitle();
+    }
+
+    private void InitializeNickName()
+    {
+        GameObject.Find("UI/Panels/AvatarsPanel/NickName/InputField").gameObject.GetComponent<InputField>().text = Options.NickName;
+    }
+
+    private void InitializeTitle()
+    {
+        GameObject.Find("UI/Panels/AvatarsPanel/Title/InputField").gameObject.GetComponent<InputField>().text = Options.Title;
+    }
+
+    private void InitializeAvatars()
+    {
+        ClearAvatarsPanel();
+
+        int count = 0;
+
+        List<Type> typelist = Assembly.GetExecutingAssembly().GetTypes()
+            .Where(t => String.Equals(t.Namespace, "UpgradesList", StringComparison.Ordinal))
+            .ToList();
+
+        foreach (var type in typelist)
+        {
+            if (type.MemberType == MemberTypes.NestedType) continue;
+
+            GenericUpgrade newUpgradeContainer = (GenericUpgrade)System.Activator.CreateInstance(type);
+            if (newUpgradeContainer.Name != null)
+            {
+                if (newUpgradeContainer.AvatarOffset != Vector2.zero) AddAvailableAvatar(newUpgradeContainer, count++);
+            }
+        }
+    }
+
+    private void ClearAvatarsPanel()
+    {
+        GameObject avatarsPanel = GameObject.Find("UI/Panels/AvatarsPanel/ContentPanel").gameObject;
+        foreach (Transform transform in avatarsPanel.transform)
+        {
+            GameObject.Destroy(transform.gameObject);
+        }
+
+        Resources.UnloadUnusedAssets();
+    }
+
+    private void AddAvailableAvatar(GenericUpgrade avatarUpgrade, int count)
+    {
+        GameObject prefab = (GameObject)Resources.Load("Prefabs/MainMenu/AvatarImage", typeof(GameObject));
+        GameObject avatarPanel = MonoBehaviour.Instantiate(prefab, GameObject.Find("UI/Panels/AvatarsPanel/ContentPanel").transform);
+
+        int row = count / 11;
+        int column = count - row * 11;
+
+        avatarPanel.transform.localPosition = new Vector2(20 + column * 120, -20 - row * 110);
+        avatarPanel.name = avatarUpgrade.GetType().ToString();
+
+        AvatarFromUpgrade avatar = avatarPanel.GetComponent<AvatarFromUpgrade>();
+        avatar.Initialize(avatarUpgrade.GetType().ToString(), ChangeAvatar);
+
+        if (avatarUpgrade.GetType().ToString() == Options.Avatar)
+        {
+            SetAvatarSelected(avatarPanel.transform.position);
+        }
+    }
+
+    private void ChangeAvatar(string avatarName)
+    {
+        Options.Avatar = avatarName;
+        Options.ChangeParameterValue("Avatar", avatarName);
+
+        SetAvatarSelected(GameObject.Find("UI/Panels/AvatarsPanel/ContentPanel/" + avatarName).transform.position);
+    }
+
+    public void SetAvatarSelected(Vector3 position)
+    {
+        GameObject.Find("UI/Panels/AvatarsPanel/AvatarSelector").transform.position = position;
+    }
+
+    public void ChangeNickName(Text inputText)
+    {
+        Options.NickName = inputText.text;
+        Options.ChangeParameterValue("NickName", inputText.text);
+    }
+
+    public void ChangeTitle(Text inputText)
+    {
+        Options.Title = inputText.text;
+        Options.ChangeParameterValue("Title", inputText.text);
+    }
+
+    public static void ResetAiInformation()
+    {
+        GameObject.Find("GlobalUI/OpponentSquad").transform.Find("AiInformation").gameObject.SetActive(false);
+        GameObject.Find("GlobalUI/OpponentSquad").transform.Find("StartPanel").gameObject.SetActive(false);
+
+        GameObject.Find("GlobalUI/OpponentSquad/LoadingInfoPanel").gameObject.SetActive(true);
+    }
+
+    public static void ShowAiInformation()
+    {
+        if ((SquadBuilder.GetSquadList(PlayerNo.Player2).PlayerType == typeof(HotacAiPlayer)) && (!Options.DontShowAiInfo))
+        {
+            GameObject.Find("GlobalUI/OpponentSquad").transform.Find("AiInformation").gameObject.SetActive(true);
+            GameObject.Find("GlobalUI/OpponentSquad/AiInformation").transform.Find("ToggleBlock").gameObject.SetActive(false);
+        }
+    }
+
+    public static void ShowAiInformationContinue()
+    {
+        GameObject.Find("GlobalUI/OpponentSquad/LoadingInfoPanel").gameObject.SetActive(false);
+
+        GameObject.Find("GlobalUI/OpponentSquad/AiInformation").transform.Find("ToggleBlock").gameObject.SetActive(true);
+        GameObject.Find("GlobalUI/OpponentSquad").transform.Find("StartPanel").gameObject.SetActive(true);
+
+        Button startButton = GameObject.Find("GlobalUI/OpponentSquad/StartPanel/StartButton").GetComponent<Button>();
+        startButton.onClick.RemoveAllListeners();
+        startButton.onClick.AddListener(delegate
+        {
+            Options.DontShowAiInfo = true;
+            Options.ChangeParameterValue("DontShowAiInfo", GameObject.Find("GlobalUI/OpponentSquad/AiInformation/ToggleBlock/DontShowAgain").GetComponent<Toggle>().isOn);
+            Global.StartBattle();
+        });
+    }
 }

@@ -3,6 +3,7 @@ using Ship;
 using Ship.JumpMaster5000;
 using System.Collections.Generic;
 using Upgrade;
+using Abilities;
 
 namespace UpgradesList
 {
@@ -24,17 +25,29 @@ namespace UpgradesList
             };
 
             FromMod = typeof(PunishingOneSalvadgedAstromechMod);
+
+            UpgradeAbilities.Add(new PunishingOneSalvadgedAstromechAbility());
         }
 
         public override bool IsAllowedForShip(GenericShip ship)
         {
             return ship is JumpMaster5000;
         }
+    }
+}
 
-        public override void AttachToShip(GenericShip host)
+namespace Abilities
+{
+    public class PunishingOneSalvadgedAstromechAbility : GenericAbility
+    {
+        public override void ActivateAbility()
         {
-            base.AttachToShip(host);
-            host.ChangeFirepowerBy(1);
+            HostShip.ChangeFirepowerBy(1);
+        }
+
+        public override void DeactivateAbility()
+        {
+            HostShip.ChangeFirepowerBy(-1);
         }
     }
 }

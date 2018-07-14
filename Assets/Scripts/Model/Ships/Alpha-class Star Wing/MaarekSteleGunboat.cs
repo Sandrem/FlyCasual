@@ -4,7 +4,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Ship;
-using DamageDeckCard;
 using Mods.ModsList;
 
 namespace Ship
@@ -29,7 +28,7 @@ namespace Ship
 
                 SkinName = "Red";
 
-                FromMod = typeof(MyOtherRideIsMod);
+                RequiredMods.Add(typeof(MyOtherRideIsMod));
             }
         }
     }

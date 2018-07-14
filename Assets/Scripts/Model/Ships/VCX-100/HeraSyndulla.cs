@@ -46,7 +46,7 @@ namespace Abilities
 
         private void AskChangeManeuver(object sender, System.EventArgs e)
         {
-            if (HostShip.AssignedManeuver.ColorComplexity == Movement.ManeuverColor.Green || HostShip.AssignedManeuver.ColorComplexity == Movement.ManeuverColor.Red)
+            if (HostShip.AssignedManeuver.ColorComplexity == Movement.MovementComplexity.Easy || HostShip.AssignedManeuver.ColorComplexity == Movement.MovementComplexity.Complex)
             {
                 HostShip.Owner.ChangeManeuver(GameMode.CurrentGameMode.AssignManeuver, IsSameComplexity);
             }

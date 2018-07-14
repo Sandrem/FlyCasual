@@ -1,11 +1,12 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Ship;
 using UnityEngine;
 
-namespace Board
+namespace BoardTools
 {
-    public static partial class BoardManager
+    public static partial class Board
     {
 
         public static Transform BoardTransform;
@@ -22,6 +23,9 @@ namespace Board
         public static readonly float DISTANCE_1 = 4f;
         public static readonly float RANGE_1 = 10f;
 
+        //TODO: Rework
+        public static readonly float DISTANCE_INTO_RANGE = 3.28f / 3f;
+
         public static void Initialize()
         {
             BoardTransform = GameObject.Find("SceneHolder/Board").transform;
@@ -31,24 +35,66 @@ namespace Board
 
             MovementTemplates.PrepareMovementTemplates();
 
-            SetPlaymatImage();
+            SetPlaymatScene();
+            SetObstacles();
         }
 
-        private static void SetPlaymatImage()
+        private static void SetPlaymatScene()
         {
-            if (!string.IsNullOrEmpty(Options.Playmat))
+            if (Options.Playmat.StartsWith("3DScene"))
             {
-                Texture playmatTexture = (Texture)Resources.Load("Playmats/Playmat" + Options.Playmat + "Texture", typeof(Texture));
-                BoardTransform.Find("Playmat").GetComponent<Renderer>().material.mainTexture = playmatTexture;
+                SetScene3D(Options.Playmat);
+            }
+            else
+            {
+                SetPlaymat(Options.Playmat);
             }
         }
 
-        private static void SetShip(Ship.GenericShip ship, int count)
+        private static void SetPlaymat(string playmatName)
+        {
+            LoadSceneFromResources("TableClassic");
+
+            Texture playmatTexture = (Texture)Resources.Load("Playmats/Playmat" + Options.Playmat + "Texture", typeof(Texture));
+            GameObject.Find("SceneHolder/TableClassic/Playmat").GetComponent<Renderer>().material.mainTexture = playmatTexture;
+
+            RenderSettings.fog = false;
+        }
+
+        private static void SetScene3D(string sceneNameFull)
+        {
+            string sceneName = sceneNameFull.Replace("3DScene", "");
+            LoadSceneFromResources(sceneName);
+
+            RenderSettings.fog = true;
+
+            GameObject.Find("SceneHolder/Board/").transform.Find("CombatDiceHolder").transform.position += new Vector3(0, 100, 0);
+            GameObject.Find("SceneHolder/Board/").transform.Find("CheckDiceHolder").transform.position += new Vector3(0, 100, 0);
+            GameObject.Find("SceneHolder/Board/").transform.Find("RulersHolder").transform.position += new Vector3(0, 100, 0);
+        }
+
+        private static void LoadSceneFromResources(string sceneName)
+        {
+            GameObject scenePartPrefab = (GameObject)Resources.Load("Prefabs/Scenes/" + sceneName);
+            GameObject scenePart  = MonoBehaviour.Instantiate(scenePartPrefab, GameObject.Find("SceneHolder").transform);
+            scenePart.name = sceneName;
+
+            Material skyboxMaterial = (Material)Resources.Load("Prefabs/Skyboxes/" + sceneName);
+            RenderSettings.skybox = skyboxMaterial;
+            DynamicGI.UpdateEnvironment();
+        }
+
+        private static void SetShipPreSetup(GenericShip ship, int count)
         {
             float distance = CalculateDistance(ship.Owner.Ships.Count);
             float side = (ship.Owner.PlayerNo == Players.PlayerNo.Player1) ? -1 : 1;
-            ship.SetPosition(BoardIntoWorld(new Vector3(-SIZE_X / 2 + count * distance, 0, side * SIZE_Y / 2 + +side * 2 * RANGE_1)));
-            ship.SetPosition(BoardIntoWorld(new Vector3(-SIZE_X / 2 + count * distance, 0, side * SIZE_Y / 2 + -side * 2 * RANGE_1)));
+            ship.SetPosition(
+                BoardIntoWorld(
+                    new Vector3(-SIZE_X / 2 + count * distance, 0, side * (SIZE_Y / 2 + DISTANCE_1))
+                )
+            );
+
+            RegisterBoardObject(ship);
         }
 
         public static void HighlightStartingZones()
@@ -61,26 +107,6 @@ namespace Board
         {
             StartingZone1.SetActive(false);
             StartingZone2.SetActive(false);
-        }
-
-        public static void SetShips(Dictionary<string, GenericShip> shipsPlayer1, Dictionary<string, Ship.GenericShip> shipsPlayer2)
-        {
-
-            int i = 1;
-            foreach (var ship in shipsPlayer1)
-            {
-                float distance = CalculateDistance(shipsPlayer1.Count);
-                ship.Value.SetPosition(BoardIntoWorld(new Vector3(- SIZE_X / 2 + i *distance, 0, -SIZE_Y/2 + 2*RANGE_1)));
-                i++;
-            }
-
-            i = 1;
-            foreach (var ship in shipsPlayer2)
-            {
-                float distance = CalculateDistance(shipsPlayer2.Count);
-                ship.Value.SetPosition(BoardIntoWorld(new Vector3(- SIZE_X / 2 + i * distance, 0, SIZE_Y/2 - 2*RANGE_1)));
-                i++;
-            }
         }
 
         //SCALING TOOLS
@@ -152,7 +178,7 @@ namespace Board
         //util functions
         public static int GetRangeOfShips(GenericShip from, GenericShip to)
         {
-            Board.ShipDistanceInformation positionInfo = new Board.ShipDistanceInformation(from, to);
+            DistanceInfo positionInfo = new DistanceInfo(from, to);
             return positionInfo.Range;
         }
 
@@ -178,13 +204,37 @@ namespace Board
 
             return ships;
         }
-    }
 
+        private static void SetObstacles()
+        {
+            for (int i = 1; i <= 6; i++)
+            {
+                Objects.Add(GameObject.Find("SceneHolder/Board/ObstaclesHolder/A" + i + "/A" + i + "model").GetComponent<MeshCollider>());
+            }
+        }
+
+        public static void ToggleObstaclesHolder(bool isActive)
+        {
+            BoardTransform.Find("ObstaclesHolder").gameObject.SetActive(isActive);
+        }
+
+        public static void ToggleDiceHolders(bool isActive)
+        {
+            BoardTransform.Find("CombatDiceHolder").gameObject.SetActive(isActive);
+            BoardTransform.Find("CheckDiceHolder").gameObject.SetActive(isActive);
+        }
+
+        public static void ToggleOffTheBoardHolder(bool isActive)
+        {
+            BoardTransform.Find("OffTheBoardHolder").gameObject.SetActive(isActive);
+        }
+    }
 }
 
 namespace Team
 {
-    public enum Type{
+    public enum Type
+    {
          Friendly,
          Enemy,
          Any

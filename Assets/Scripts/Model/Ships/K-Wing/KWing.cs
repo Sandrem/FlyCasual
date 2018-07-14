@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Movement;
 using ActionsList;
+using RuleSets;
 
 namespace Ship
 {
     namespace KWing
     {
-        public class KWing : GenericShip
+        public class KWing : GenericShip, ISecondEditionShip
         {
 
             public KWing() : base()
@@ -42,7 +43,7 @@ namespace Ship
                 factions.Add(Faction.Rebel);
                 faction = Faction.Rebel;
 
-                SkinName = "White";
+                SkinName = "Red";
 
                 SoundShotsPath = "XWing-Laser";
                 ShotsCount = 2;
@@ -55,19 +56,33 @@ namespace Ship
 
             private void AssignTemporaryManeuvers()
             {
-                Maneuvers.Add("1.L.B", ManeuverColor.Green);
-                Maneuvers.Add("1.F.S", ManeuverColor.Green);
-                Maneuvers.Add("1.R.B", ManeuverColor.Green);
-                Maneuvers.Add("2.L.T", ManeuverColor.White);
-                Maneuvers.Add("2.L.B", ManeuverColor.White);
-                Maneuvers.Add("2.F.S", ManeuverColor.Green);
-                Maneuvers.Add("2.R.B", ManeuverColor.White);
-                Maneuvers.Add("2.R.T", ManeuverColor.White);
-                Maneuvers.Add("3.L.B", ManeuverColor.White);
-                Maneuvers.Add("3.F.S", ManeuverColor.White);
-                Maneuvers.Add("3.R.B", ManeuverColor.White);
+                Maneuvers.Add("1.L.B", MovementComplexity.Easy);
+                Maneuvers.Add("1.F.S", MovementComplexity.Easy);
+                Maneuvers.Add("1.R.B", MovementComplexity.Easy);
+                Maneuvers.Add("2.L.T", MovementComplexity.Normal);
+                Maneuvers.Add("2.L.B", MovementComplexity.Normal);
+                Maneuvers.Add("2.F.S", MovementComplexity.Easy);
+                Maneuvers.Add("2.R.B", MovementComplexity.Normal);
+                Maneuvers.Add("2.R.T", MovementComplexity.Normal);
+                Maneuvers.Add("3.L.B", MovementComplexity.Normal);
+                Maneuvers.Add("3.F.S", MovementComplexity.Normal);
+                Maneuvers.Add("3.R.B", MovementComplexity.Normal);
             }
 
+            public void AdaptShipToSecondEdition()
+            {
+                // TODO: Maneuvers
+
+                MaxHull = 6;
+                MaxShields = 3;
+
+                ShipBaseSize = BaseSize.Medium;
+
+                PrintedActions.Add(new RotateArcAction());
+                PrintedActions.Add(new ReloadAction());
+
+                IconicPilots[Faction.Rebel] = typeof(WardenSquadronPilot);
+            }
         }
     }
 }

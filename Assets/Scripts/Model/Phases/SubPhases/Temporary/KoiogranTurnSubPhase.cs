@@ -16,10 +16,10 @@ namespace SubPhases
             Name = "Koiogran Turn SubPhase";
             IsTemporary = true;
             UpdateHelpInfo();
-            StartKoiogranTurn();
+            StartRotation();
         }
 
-        public void StartKoiogranTurn()
+        public void StartRotation()
         {
             progressCurrent = 0;
             progressTarget = 180;
@@ -32,14 +32,14 @@ namespace SubPhases
 
             Selection.ThisShip.RotateAround(Selection.ThisShip.GetCenter(), progressStep);
 
-            float positionY = (progressCurrent < 90) ? progressCurrent : 180 - progressCurrent;
+            float positionY = (progressCurrent < progressTarget / 2) ? progressCurrent : progressTarget - progressCurrent;
             positionY = positionY / 90;
             Selection.ThisShip.SetHeight(positionY);
 
-            if (progressCurrent == progressTarget) EndKoiogranTurn();
+            if (progressCurrent == progressTarget) EndRotation();
         }
 
-        private void EndKoiogranTurn()
+        private void EndRotation()
         {
             Phases.FinishSubPhase(typeof(KoiogranTurnSubPhase));
         }

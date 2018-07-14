@@ -3,6 +3,7 @@ using Upgrade;
 using Ship;
 using Abilities;
 using Tokens;
+using UnityEngine;
 
 namespace UpgradesList
 {
@@ -15,6 +16,8 @@ namespace UpgradesList
             Cost = 2;
 
             isUnique = true;
+
+            // AvatarOffset = new Vector2(37, 0);
 
             UpgradeAbilities.Add(new LattsRazziCrewAbility());
         }
@@ -33,12 +36,12 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList += AddLattsRazziDiceModification;
+            HostShip.OnGenerateDiceModifications += AddLattsRazziDiceModification;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList -= AddLattsRazziDiceModification;
+            HostShip.OnGenerateDiceModifications -= AddLattsRazziDiceModification;
         }
 
         private void AddLattsRazziDiceModification(GenericShip host)
@@ -48,7 +51,7 @@ namespace Abilities
                 ImageUrl = HostUpgrade.ImageUrl,
                 Host = HostShip
             };
-            host.AddAvailableActionEffect(newAction);
+            host.AddAvailableDiceModification(newAction);
         }
     }
 }
@@ -60,7 +63,7 @@ namespace ActionsList
 
         public LattsRazziDiceModification()
         {
-            Name = EffectName = "Latts Razzi";
+            Name = DiceModificationName = "Latts Razzi";
         }
 
         public override void ActionEffect(System.Action callBack)
@@ -75,7 +78,7 @@ namespace ActionsList
             );
         }
 
-        public override bool IsActionEffectAvailable()
+        public override bool IsDiceModificationAvailable()
         {
             bool result = false;
 
@@ -87,17 +90,17 @@ namespace ActionsList
             return result;
         }
 
-        public override int GetActionEffectPriority()
+        public override int GetDiceModificationPriority()
         {
             int result = 0;
 
             if (Combat.AttackStep == CombatStep.Defence && Combat.Attacker.Tokens.HasToken(typeof(StressToken)))
             {
-                int attackSuccesses = Combat.DiceRollAttack.Successes;
+                int attackSuccessesCancelable = Combat.DiceRollAttack.SuccessesCancelable;
                 int defenceSuccesses = Combat.DiceRollDefence.Successes;
-                if (attackSuccesses > defenceSuccesses)
+                if (attackSuccessesCancelable > defenceSuccesses)
                 {
-                    result = (attackSuccesses - defenceSuccesses == 1) ? 65 : 15;
+                    result = (attackSuccessesCancelable - defenceSuccesses == 1) ? 65 : 15;
                 }
             }
 

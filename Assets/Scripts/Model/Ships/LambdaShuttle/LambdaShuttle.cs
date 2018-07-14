@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Movement;
 using ActionsList;
+using RuleSets;
 
 namespace Ship
 {
     namespace LambdaShuttle
     {
-        public class LambdaShuttle : GenericShip
+        public class LambdaShuttle : GenericShip, ISecondEditionShip
         {
 
             public LambdaShuttle() : base()
@@ -37,7 +38,7 @@ namespace Ship
                 factions.Add(Faction.Imperial);
                 faction = Faction.Imperial;
 
-                SkinName = "Lambda-class Shuttle";
+                SkinName = "Default";
 
                 SoundShotsPath = "Slave1-Fire";
                 ShotsCount = 3;
@@ -50,18 +51,31 @@ namespace Ship
 
             private void AssignTemporaryManeuvers()
             {
-                Maneuvers.Add("0.S.S", ManeuverColor.Red);
-                Maneuvers.Add("1.L.B", ManeuverColor.Green);
-                Maneuvers.Add("1.F.S", ManeuverColor.Green);
-                Maneuvers.Add("1.R.B", ManeuverColor.Green);
-                Maneuvers.Add("2.L.T", ManeuverColor.Red);
-                Maneuvers.Add("2.L.B", ManeuverColor.White);
-                Maneuvers.Add("2.F.S", ManeuverColor.Green);
-                Maneuvers.Add("2.R.B", ManeuverColor.White);
-                Maneuvers.Add("2.R.T", ManeuverColor.Red);
-                Maneuvers.Add("3.L.B", ManeuverColor.Red);
-                Maneuvers.Add("3.F.S", ManeuverColor.White);
-                Maneuvers.Add("3.R.B", ManeuverColor.Red);
+                Maneuvers.Add("0.S.S", MovementComplexity.Complex);
+                Maneuvers.Add("1.L.B", MovementComplexity.Easy);
+                Maneuvers.Add("1.F.S", MovementComplexity.Easy);
+                Maneuvers.Add("1.R.B", MovementComplexity.Easy);
+                Maneuvers.Add("2.L.T", MovementComplexity.Complex);
+                Maneuvers.Add("2.L.B", MovementComplexity.Normal);
+                Maneuvers.Add("2.F.S", MovementComplexity.Easy);
+                Maneuvers.Add("2.R.B", MovementComplexity.Normal);
+                Maneuvers.Add("2.R.T", MovementComplexity.Complex);
+                Maneuvers.Add("3.L.B", MovementComplexity.Complex);
+                Maneuvers.Add("3.F.S", MovementComplexity.Normal);
+                Maneuvers.Add("3.R.B", MovementComplexity.Complex);
+            }
+
+            public void AdaptShipToSecondEdition()
+            {
+                //TODO: Maneuvers
+                // TODO: Arcs
+
+                PrintedActions.Add(new ReinforceForeAction());
+                PrintedActions.Add(new ReinforceAftAction());
+
+                PrintedActions.Add(new JamAction() { IsRed = true });
+
+                IconicPilots[Faction.Imperial] = typeof(OmicronGroupPilot);
             }
 
         }

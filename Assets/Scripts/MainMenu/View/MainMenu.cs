@@ -8,6 +8,7 @@ using System.Linq;
 using Players;
 using Mods;
 using SquadBuilderNS;
+using RuleSets;
 
 public partial class MainMenu : MonoBehaviour {
 
@@ -23,22 +24,42 @@ public partial class MainMenu : MonoBehaviour {
 
     public void ChangePanel(GameObject panel)
     {
-        CurrentPanel.SetActive(false);
-        InitializePanelContent(panel.name, CurrentPanel.name);
-        panel.SetActive(true);
-        CurrentPanel = panel;
+        ChangePanel(panel.name);
     }
 
     public void ChangePanel(string panelName)
     {
+        if (RuleSet.Instance.IsSquadBuilderLocked)
+        {
+            if (panelName == "SquadronOptionsPanel")
+            {
+                if (CurrentPanel.name == "SquadBuilderPanel")
+                {
+                    Messages.ShowError("This part of squad builder is disabled");
+                    return;
+                }
+                else
+                {
+                    panelName = "SelectFactionPanel";
+                }
+            }
+        }
+
+        CurrentPanel.SetActive(false);
+
         GameObject panel = GameObject.Find("UI/Panels").transform.Find(panelName).gameObject;
-        ChangePanel(panel);
+        InitializePanelContent(panelName, CurrentPanel.name);
+        panel.SetActive(true);
+        CurrentPanel = panel;
     }
 
     private void InitializePanelContent(string panelName, string previousPanelName)
     {
         switch (panelName)
         {
+            case "MainMenuPanel":
+                UpdatePlayerInfo();
+                break;
             case "OptionsPanel":
                 Options.InitializePanel();
                 break;
@@ -80,11 +101,20 @@ public partial class MainMenu : MonoBehaviour {
             case "ShipSkinsPanel":
                 SquadBuilder.ShowSkinButtons();
                 break;
+            case "AvatarsPanel":
+                InitializePlayerCustomization();
+                break;
+            case "EditionPanel":
+                ShowActiveEdition(Options.Edition);
+                break;
         }
     }
 
     private void ShowNewVersionIsAvailable(string newVersion, string downloadUrl)
     {
+        GameObject mainMenuPanel = GameObject.Find("UI/Panels").transform.Find("MainMenuPanel").gameObject;
+        if (!mainMenuPanel.activeSelf) return;
+
         GameObject panel = GameObject.Find("UI/Panels").transform.Find("MainMenuPanel").Find("NewVersionIsAvailable").gameObject;
 
         panel.transform.Find("Text").GetComponent<Text>().text = "New version\nis available!\n\n" + newVersion;
@@ -92,6 +122,41 @@ public partial class MainMenu : MonoBehaviour {
         NewVersionUrl = downloadUrl;
 
         panel.SetActive(true);
+    }
+
+    public void ChangeEditionIsClicked(GameObject editionGO)
+    {
+        ShowActiveEdition(editionGO.name);
+        SetEdition(editionGO.name);
+    }
+
+    private void ShowActiveEdition(string editionName)
+    {
+        foreach (Transform panelTransform in GameObject.Find("UI/Panels/EditionPanel/Content").gameObject.transform)
+        {
+            Image backgroundImage = panelTransform.GetComponent<Image>();
+            if (backgroundImage != null) backgroundImage.enabled = false;
+        }
+
+        GameObject.Find("UI/Panels/EditionPanel/Content/" + editionName).GetComponent<Image>().enabled = true;
+    }
+
+    public static void SetEdition(string editionName)
+    {
+        Options.Edition = editionName;
+        Options.ChangeParameterValue("Edition", editionName);
+
+        switch (editionName)
+        {
+            case "FirstEdition":
+                new FirstEdition();
+                break;
+            case "SecondEdition":
+                new SecondEdition();
+                break;
+            default:
+                break;
+        }
     }
 
 }

@@ -119,4 +119,96 @@ namespace Tokens
         }
     }
 
+    public class DisabledPowerRegulatorCritToken : CritToken
+    {
+        public DisabledPowerRegulatorCritToken(GenericShip host) : base(host)
+        {
+            Tooltip = "https://i.imgur.com/jj9Cv46.jpg";
+        }
+    }
+
+    public class FuelLeakCritToken : CritToken
+    {
+        public FuelLeakCritToken(GenericShip host) : base(host)
+        {
+            Tooltip = "https://i.imgur.com/MNNWJJe.jpg";
+        }
+    }
+
+    public class HullBreachCritToken : CritToken
+    {
+        public HullBreachCritToken(GenericShip host) : base(host)
+        {
+            Tooltip = "https://i.imgur.com/CIqxoU5.jpg";
+        }
+    }
+
+    public class LooseStabilizerSECritToken : CritToken
+    {
+        public LooseStabilizerSECritToken(GenericShip host) : base(host)
+        {
+            Tooltip = "https://i.imgur.com/PMqkGn3.png";
+        }
+    }
+    public class StructuralDamageSECritToken : CritToken
+    {
+        public StructuralDamageSECritToken(GenericShip host) : base(host)
+        {
+            Tooltip = "https://i.imgur.com/fJEhlAG.jpg";
+        }
+    }
+    public class StunnedPilotSECritToken : CritToken
+    {
+        public StunnedPilotSECritToken(GenericShip host) : base(host)
+        {
+            Tooltip = "https://i.imgur.com/Cy4ovYs.jpg";
+        }
+    }
+    public class WeaponsFailureSECritToken : CritToken
+    {
+        public WeaponsFailureSECritToken(GenericShip host) : base(host)
+        {
+            Tooltip = "https://i.imgur.com/BTd2jSS.png";
+        }
+    }
+
+    public class WoundedPilotCritToken : CritToken
+    {
+        public WoundedPilotCritToken(GenericShip host) : base(host)
+        {
+            Tooltip = "https://i.imgur.com/BIla4b2.jpg";
+        }
+    }
+
+    public class DamagedSensorArraySECritToken : CritToken
+    {
+        public DamagedSensorArraySECritToken(GenericShip host) : base(host)
+        {
+            Tooltip = "https://i.imgur.com/6r6a8a7.jpg";
+        }
+    }
+
+    public class DamagedEngineSECritToken : CritToken
+    {
+        public DamagedEngineSECritToken(GenericShip host) : base(host)
+        {
+            Tooltip = "https://i.imgur.com/sBDC3iQ.jpg";
+        }
+    }
+
+    public class ConsoleFireSECritToken : CritToken
+    {
+        public ConsoleFireSECritToken(GenericShip host) : base(host)
+        {
+            Tooltip = "https://i.imgur.com/x4a6fqE.jpg";
+        }
+    }
+
+    public class BlindedPilotSECritToken : CritToken
+    {
+        public BlindedPilotSECritToken(GenericShip host) : base(host)
+        {
+            Tooltip = "https://i.imgur.com/OoQBMf7.jpg";
+        }
+    }
 }

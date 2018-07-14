@@ -17,9 +17,7 @@ namespace UpgradesList
             Types.Add(UpgradeType.Crew);
             Name = "Inspiring Recruit";
             Cost = 1;
-
-            isUnique = true;
-
+            
             UpgradeAbilities.Add(new InspiringRecruitAbility());
         }
     }
@@ -34,13 +32,13 @@ namespace Abilities
         public override void ActivateAbility()
         {
             GenericShip.OnTokenIsRemovedGlobal += CheckAbility;
-            Phases.OnRoundEnd += ClearIsAbilityUsedFlag;
+            Phases.Events.OnRoundEnd += ClearIsAbilityUsedFlag;
         }
 
         public override void DeactivateAbility()
         {
             GenericShip.OnTokenIsRemovedGlobal -= CheckAbility;
-            Phases.OnRoundEnd -= ClearIsAbilityUsedFlag;
+            Phases.Events.OnRoundEnd -= ClearIsAbilityUsedFlag;
         }
 
         private void CheckAbility(GenericShip ship, Type tokenType)
@@ -49,11 +47,11 @@ namespace Abilities
             if (tokenType != typeof(StressToken)) return;
             if (ship.Owner.PlayerNo != HostShip.Owner.PlayerNo) return;
 
-            Board.ShipDistanceInformation distanceInfo = new Board.ShipDistanceInformation(HostShip, ship);
+            BoardTools.DistanceInfo distanceInfo = new BoardTools.DistanceInfo(HostShip, ship);
             if (distanceInfo.Range < 3)
             {
                 ShipToRemoveStress = ship;
-                RegisterAbilityTrigger(TriggerTypes.OnShipMovementFinish, AskInspiringRecruitAbility);
+                RegisterAbilityTrigger(TriggerTypes.OnMovementFinish, AskInspiringRecruitAbility);
             }
         }
 

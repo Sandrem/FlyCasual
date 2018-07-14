@@ -4,6 +4,7 @@ using UnityEngine;
 using Upgrade;
 using Abilities;
 using Ship;
+using ActionsList;
 
 namespace UpgradesList
 {
@@ -17,10 +18,12 @@ namespace UpgradesList
             Cost = 2;
             isUnique = true;
 
+            AvatarOffset = new Vector2(43, 6);
+
             UpgradeAbilities.Add(new BistanAbility());
         }
  
-        public override bool IsAllowedForShip(Ship.GenericShip ship)
+        public override bool IsAllowedForShip(GenericShip ship)
         {
             return ship.faction == Faction.Rebel;
         }
@@ -33,21 +36,22 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList += BistanAddAction;
+            HostShip.OnGenerateDiceModifications += BistanAddAction;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList -= BistanAddAction;
+            HostShip.OnGenerateDiceModifications -= BistanAddAction;
         }
 
         private void BistanAddAction(GenericShip ship)
         {
-            ActionsList.GenericAction action = new ActionsList.BistanAction()
+            GenericAction action = new BistanAction()
             {
-                Host = this.HostShip
+                Host = this.HostShip,
+                ImageUrl = HostUpgrade.ImageUrl
             };
-            ship.AddAvailableActionEffect(action);
+            ship.AddAvailableDiceModification(action);
         }
     }
 }
@@ -59,7 +63,7 @@ namespace ActionsList
     {
         public BistanAction()
         {
-            Name = EffectName = "Bistan";
+            Name = DiceModificationName = "Bistan";
         }
  
         public override void ActionEffect(System.Action callBack)
@@ -68,7 +72,7 @@ namespace ActionsList
             callBack();
         }
  
-        public override bool IsActionEffectAvailable()
+        public override bool IsDiceModificationAvailable()
         {
             bool result = false;
             if (Combat.AttackStep == CombatStep.Attack)
@@ -83,7 +87,7 @@ namespace ActionsList
             return result;
         }
 
-        public override int GetActionEffectPriority()
+        public override int GetDiceModificationPriority()
         {
             int result = 0;
 

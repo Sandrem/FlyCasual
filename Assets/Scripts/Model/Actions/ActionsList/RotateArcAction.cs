@@ -10,7 +10,7 @@ namespace ActionsList
     public class RotateArcAction : GenericAction
     {
         public RotateArcAction() {
-            Name = EffectName = "Rotate Arc";
+            Name = DiceModificationName = "Rotate Arc";
         }
 
         public override void ActionTake()
@@ -20,6 +20,11 @@ namespace ActionsList
                 typeof(SubPhases.RotateArcDecisionSubPhase),
                 Phases.CurrentSubPhase.CallBack
             );
+        }
+
+        public override int GetActionPriority()
+        {
+            return 1;
         }
 
     }
@@ -36,7 +41,7 @@ namespace SubPhases
         {
             InfoText = "Rotate Arc";
 
-            AddDecision("Front", delegate { ChangeMobileArcFacing(ArcFacing.Front); });
+            AddDecision("Front", delegate { ChangeMobileArcFacing(ArcFacing.Forward); });
             AddDecision("Left",  delegate { ChangeMobileArcFacing(ArcFacing.Left); });
             AddDecision("Right", delegate { ChangeMobileArcFacing(ArcFacing.Right); });
             AddDecision("Rear",  delegate { ChangeMobileArcFacing(ArcFacing.Rear); });
@@ -55,7 +60,7 @@ namespace SubPhases
 
         private void ChangeMobileArcFacing(ArcFacing facing)
         {
-            (Selection.ThisShip.ArcInfo as ArcMobile).RotateArc(facing);
+            Selection.ThisShip.ArcInfo.GetArc<ArcMobile>().RotateArc(facing);
             ConfirmDecision();
         }
 

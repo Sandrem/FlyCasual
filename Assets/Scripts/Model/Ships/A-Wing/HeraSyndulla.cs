@@ -8,7 +8,7 @@ namespace Ship
         {
             public HeraSyndulla() : base()
             {
-                FromMod = typeof(PhoenixSquadronMod);
+                RequiredMods.Add(typeof(PhoenixSquadronMod));
 
                 PilotName = "Hera Syndulla";
                 PilotSkill = 7;

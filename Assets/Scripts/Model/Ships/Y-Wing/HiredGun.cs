@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using RuleSets;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,7 +7,7 @@ namespace Ship
 {
     namespace YWing
     {
-        public class HiredGun : YWing
+        public class HiredGun : YWing, ISecondEditionPilot
         {
             public HiredGun() : base()
             {
@@ -19,6 +20,11 @@ namespace Ship
                 faction = Faction.Scum;
 
                 SkinName = "Gray";
+            }
+
+            public void AdaptPilotToSecondEdition()
+            {
+                PilotSkill = 2;
             }
         }
     }

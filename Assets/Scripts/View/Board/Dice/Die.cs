@@ -32,7 +32,7 @@ public partial class Die
     {
         ParentDiceRoll = diceRoll;
         Type = type;
-
+        IsUncancelable = false;
         Sides = new List<DieSide>
         {
             DieSide.Blank,
@@ -104,6 +104,8 @@ public partial class Die
 
     public void SetModelSide(DieSide newSide)
     {
+        if (Model == null) return;
+
         switch (newSide)
         {
             case DieSide.Success:

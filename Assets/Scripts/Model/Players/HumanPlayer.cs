@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using GameModes;
 using Ship;
 using UnityEngine;
 
@@ -16,36 +18,40 @@ namespace Players
             Name = "Human";
         }
 
-        public override void PerformAction()
-        {
-            (Phases.CurrentSubPhase as SubPhases.ActionDecisonSubPhase).ShowActionDecisionPanel();
-            UI.ShowSkipButton();
-        }
-
-        public override void PerformFreeAction()
-        {
-            (Phases.CurrentSubPhase as SubPhases.FreeActionDecisonSubPhase).ShowActionDecisionPanel();
-            UI.ShowSkipButton();
-        }
-
         public override void PerformAttack()
         {
+            base.PerformAttack();
+
             UI.ShowSkipButton();
         }
 
         public override void UseOwnDiceModifications()
         {
+            base.UseOwnDiceModifications();
+
             Combat.ShowOwnDiceResultMenu();
         }
 
         public override void UseOppositeDiceModifications()
         {
+            base.UseOppositeDiceModifications();
+
             Combat.ShowOppositeDiceResultMenu();
+        }
+
+        public override void UseCompareResultsDiceModifications()
+        {
+            base.UseCompareResultsDiceModifications();
+
+            Combat.ShowCompareResultsMenu();
         }
 
         public override void TakeDecision()
         {
-            GameObject.Find("UI").transform.Find("DecisionsPanel").gameObject.SetActive(true);
+            SubPhases.DecisionSubPhase subphase = (Phases.CurrentSubPhase as SubPhases.DecisionSubPhase);
+            subphase.ShowDecisionWindowUI();
+
+            if (subphase.IsForced) GameMode.CurrentGameMode.TakeDecision(subphase.GetDecisions().First(), null);
         }
 
         public override void AfterShipMovementPrediction()
@@ -75,11 +81,11 @@ namespace Players
             {
                 //automatic error messages
             }
-            else if (!Combat.ShotInfo.InShotAngle)
+            else if (!Combat.ShotInfo.IsShotAvailable)
             {
                 Messages.ShowErrorToHuman("Target is outside your firing arc");
             }
-            else if (Combat.ShotInfo.Range > Combat.ChosenWeapon.MaxRange || Combat.ShotInfo.Distance < Combat.ChosenWeapon.MinRange)
+            else if (Combat.ShotInfo.Range > Combat.ChosenWeapon.MaxRange || Combat.ShotInfo.Range < Combat.ChosenWeapon.MinRange)
             {
                 Messages.ShowErrorToHuman("Target is outside your firing range");
             }
@@ -113,9 +119,46 @@ namespace Players
 
         public override void SelectShipForAbility()
         {
-            (Phases.CurrentSubPhase as SubPhases.SelectShipSubPhase).HighlightShipsToSelect();
+            GameMode.CurrentGameMode.StartSyncSelectShipPreparation();
         }
 
+        public override void SelectObstacleForAbility()
+        {
+            GameMode.CurrentGameMode.StartSyncSelectObstaclePreparation();
+        }
+
+        public override void RerollManagerIsPrepared()
+        {
+            DiceRerollManager.CurrentDiceRerollManager.ShowConfirmButton();
+        }
+
+        public override void PerformTractorBeamReposition(GenericShip ship)
+        {
+            RulesList.TractorBeamRule.PerfromManualTractorBeamReposition(ship, this);
+        }
+
+        public override void PlaceObstacle()
+        {
+            base.PlaceObstacle();
+
+            SubPhases.ObstaclesPlacementSubPhase subphase = Phases.CurrentSubPhase as SubPhases.ObstaclesPlacementSubPhase;
+            if (subphase.IsRandomSetupSelected[this.PlayerNo])
+            {
+                GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
+                Game.Wait(1, subphase.SkipButton);
+            }
+            else
+            {
+                subphase.IsLocked = false;
+                if (!Network.IsNetworkGame) UI.ShowSkipButton("Random");
+            }
+        }
+
+        public override void PerformSystemsActivation()
+        {
+            base.PerformSystemsActivation();
+            UI.ShowSkipButton();
+        }
     }
 
 }

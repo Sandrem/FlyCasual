@@ -1,39 +1,67 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
+﻿using System.Linq;
 using Upgrade;
+using Abilities;
+using Ship;
+using ActionsList;
+using SubPhases;
+using Tokens;
+using RuleSets;
 
 namespace UpgradesList
 {
 
-    public class ExpertHandling : GenericUpgrade
+    public class ExpertHandling : GenericUpgrade, ISecondEditionUpgrade
     {
+        private bool isSecondEdition = false;
 
         public ExpertHandling() : base()
         {
             Types.Add(UpgradeType.Elite);
             Name = "Expert Handling";
             Cost = 2;
+
+            UpgradeAbilities.Add(new ExpertHandlingAbility());
         }
 
-        public override void AttachToShip(Ship.GenericShip host)
+        public void AdaptUpgradeToSecondEdition()
         {
-            base.AttachToShip(host);
+            isSecondEdition = true;
 
-            host.AfterGenerateAvailableActionsList += AddExpertHandlingAction;
+            UpgradeAbilities.RemoveAll(a => a is ExpertHandlingAbility);
+            UpgradeAbilities.Add(new GenericActionBarAbility<BarrelRollAction>());
         }
 
-        private void AddExpertHandlingAction(Ship.GenericShip host)
+        public override bool IsAllowedForShip(GenericShip ship)
         {
-            ActionsList.GenericAction newAction = new ActionsList.ExpertHandlingAction()
+            if (isSecondEdition) return ship.PrintedActions.Any(a => a is BarrelRollAction && (a as BarrelRollAction).IsRed);
+            else return true;
+        }
+    }
+}
+
+namespace Abilities
+{
+    public class ExpertHandlingAbility : GenericAbility
+    {
+        public override void ActivateAbility()
+        {
+            HostShip.OnGenerateActions += AddExpertHandlingAction;
+        }
+
+        public override void DeactivateAbility()
+        {
+            HostShip.OnGenerateActions -= AddExpertHandlingAction;
+        }
+
+        private void AddExpertHandlingAction(GenericShip host)
+        {
+            GenericAction newAction = new ExpertHandlingAction()
             {
-                ImageUrl = ImageUrl,
-                Host = Host
+                ImageUrl = HostUpgrade.ImageUrl,
+                Host = host
             };
             host.AddAvailableAction(newAction);
         }
-
     }
 }
 
@@ -44,7 +72,7 @@ namespace ActionsList
     {
         public ExpertHandlingAction()
         {
-            Name = EffectName = "Expert Handling";
+            Name = DiceModificationName = "Expert Handling";
         }
 
         public override void ActionTake()
@@ -54,7 +82,7 @@ namespace ActionsList
             {
                 Phases.StartTemporarySubPhaseOld(
                     "Expert Handling: Barrel Roll",
-                    typeof(SubPhases.BarrelRollPlanningSubPhase),
+                    typeof(BarrelRollPlanningSubPhase),
                     CheckStress
                 );
             }
@@ -77,18 +105,18 @@ namespace ActionsList
             }
             else
             {
-                Host.Tokens.AssignToken(new Tokens.StressToken(Host), RemoveTargetLock);
+                Host.Tokens.AssignToken(typeof(StressToken), RemoveTargetLock);
             }
             
         }
 
         private void RemoveTargetLock()
         {
-            if (Host.Tokens.HasToken(typeof(Tokens.RedTargetLockToken), '*'))
+            if (Host.Tokens.HasToken(typeof(RedTargetLockToken), '*'))
             {
                 Phases.StartTemporarySubPhaseOld(
                     "Expert Handling: Select target lock to remove",
-                    typeof(SubPhases.ExpertHandlingTargetLockDecisionSubPhase),
+                    typeof(ExpertHandlingTargetLockDecisionSubPhase),
                     Finish
                 );
             }
@@ -119,11 +147,11 @@ namespace SubPhases
 
             foreach (var token in Selection.ThisShip.Tokens.GetAllTokens())
             {
-                if (token.GetType() == typeof(Tokens.RedTargetLockToken))
+                if (token.GetType() == typeof(RedTargetLockToken))
                 {
                     AddDecision(
-                        "Remove token \"" + (token as Tokens.RedTargetLockToken).Letter + "\"",
-                        delegate { RemoveRedTargetLockToken((token as Tokens.RedTargetLockToken).Letter); }
+                        "Remove token \"" + (token as RedTargetLockToken).Letter + "\"",
+                        delegate { RemoveRedTargetLockToken((token as RedTargetLockToken).Letter); }
                     );
                 }
             }
@@ -138,7 +166,7 @@ namespace SubPhases
         private void RemoveRedTargetLockToken(char letter)
         {
             Selection.ThisShip.Tokens.RemoveToken(
-                typeof(Tokens.RedTargetLockToken),
+                typeof(RedTargetLockToken),
                 ConfirmDecision,
                 letter
             );

@@ -3,12 +3,12 @@
 namespace Tokens
 {
 
-    public class ReinforceAftToken : GenericToken
+    public class ReinforceAftToken : GenericReinforceToken
     {
         public ReinforceAftToken(GenericShip host): base(host)
         {
             Name = "Reinforce Aft Token";
-            Action = new ActionsList.ReinforceAftAction() { Host = this.Host };
+            Facing = Arcs.ArcFacing.Rear180;
         }
     }
 

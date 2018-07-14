@@ -7,6 +7,7 @@ using System.Linq;
 using Ship;
 using Abilities;
 using ActionsList;
+using BoardTools;
 
 namespace UpgradesList
 {
@@ -61,10 +62,12 @@ namespace Abilities
 
         private void RegisterFlightAssistAstromechAbility(GenericShip host)
         {
-            if (!Selection.ThisShip.IsBumped && !Selection.ThisShip.IsHitObstacles && IsNoEnemyInArcAndDistance())
-            {
-                RegisterAbilityTrigger(TriggerTypes.OnShipMovementExecuted, AskPerformFreeActions);
-            }
+            if (Selection.ThisShip.IsBumped) return;
+            if (Selection.ThisShip.IsHitObstacles) return;
+            if (!IsNoEnemyInArcAndDistance()) return;
+            if (BoardTools.Board.IsOffTheBoard(host)) return;
+
+            RegisterAbilityTrigger(TriggerTypes.OnMovementExecuted, AskPerformFreeActions);
         }
 
         private bool IsNoEnemyInArcAndDistance()
@@ -73,7 +76,7 @@ namespace Abilities
 
             foreach (var enemyShip in HostShip.Owner.EnemyShips)
             {
-                Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(HostShip, enemyShip.Value);
+                ShotInfo shotInfo = new ShotInfo(HostShip, enemyShip.Value, HostShip.PrimaryWeapon);
                 if (shotInfo.InArc && shotInfo.Range >= 1 && shotInfo.Range <= 3)
                 {
                     return false;

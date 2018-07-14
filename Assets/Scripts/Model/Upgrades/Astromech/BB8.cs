@@ -4,6 +4,7 @@ using Abilities;
 using Ship;
 using System.Collections.Generic;
 using ActionsList;
+using UnityEngine;
 
 namespace UpgradesList
 {
@@ -17,6 +18,8 @@ namespace UpgradesList
             Name = "BB-8";
             isUnique = true;
             Cost = 2;
+
+            AvatarOffset = new Vector2(85, 1);
 
             UpgradeAbilities.Add(new BB8Ability());
         }
@@ -40,7 +43,7 @@ namespace Abilities
 
         private void BB8PlanBarrelRoll(GenericShip host)
         {
-            if (host.AssignedManeuver.ColorComplexity == Movement.ManeuverColor.Green)
+            if (host.AssignedManeuver.ColorComplexity == Movement.MovementComplexity.Easy)
             {
                 RegisterAbilityTrigger(TriggerTypes.OnManeuverIsRevealed, BB8AskBarrelRoll);
             }

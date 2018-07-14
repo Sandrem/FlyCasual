@@ -6,6 +6,7 @@ using ActionsList;
 using SubPhases;
 using System.Collections.Generic;
 using Upgrade;
+using RuleSets;
 
 namespace Upgrade
 {
@@ -46,22 +47,30 @@ namespace Upgrade
             decision.Start();
         }
 
-        public void Flip()
+        public void Flip(Action<GenericDualUpgrade> callback = null)
         {
             Messages.ShowInfo(string.Format("{0} was flipped", Name));
-            Discard(SetAnotherSide);
+            Discard(() => SetAnotherSide(callback));
         }
 
-        private void SetAnotherSide()
+        private void SetAnotherSide(Action<GenericDualUpgrade> callback = null)
         {
-            if (AnotherSideInstance == null) CreateAnotherSideInstance();
+            if (AnotherSideInstance == null)
+            {
+                CreateAnotherSideInstance();
+            }
 
             ReplaceUpgradeBy(AnotherSideInstance);
+            if(callback != null)
+            {
+                callback(AnotherSideInstance);
+            }
         }
 
         private void CreateAnotherSideInstance()
         {
             AnotherSideInstance = (GenericDualUpgrade) Activator.CreateInstance(AnotherSide);
+            RuleSet.Instance.AdaptUpgradeToRules(AnotherSideInstance);
         }
     }
 
@@ -81,6 +90,7 @@ namespace SubPhases
             foreach (var type in UpgradeTypes)
             {
                 GenericDualUpgrade upgradeSide = (GenericDualUpgrade)Activator.CreateInstance(type);
+                RuleSet.Instance.AdaptUpgradeToRules(upgradeSide);
                 AddDecision(
                     upgradeSide.Name,
                     delegate { SelectSide(upgradeSide); },
@@ -90,7 +100,7 @@ namespace SubPhases
 
             DefaultDecisionName = GetDecisions().First().Name;
 
-            DecisionViewType = DecisionViewTypes.ImageButtons;
+            DecisionViewType = DecisionViewTypes.ImagesUpgrade;
 
             DecisionOwner = Upgrade.Host.Owner;
 
@@ -99,7 +109,15 @@ namespace SubPhases
 
         private void SelectSide(GenericDualUpgrade newUpgradeSide)
         {
-            if (Upgrade.GetType() != newUpgradeSide.GetType()) Upgrade.Flip();
+            if (Upgrade.GetType() != newUpgradeSide.GetType())
+            {
+                Upgrade.Flip((otherSide) => otherSide.Host.CallOnAfterDualUpgradeSideSelected(otherSide));
+            }
+            else
+            {
+                Upgrade.Host.CallOnAfterDualUpgradeSideSelected(Upgrade);
+            }
+            
             DecisionSubPhase.ConfirmDecision();
         }
     }

@@ -1,4 +1,7 @@
-﻿namespace ActionsList
+﻿using BoardTools;
+using Tokens;
+
+namespace ActionsList
 {
 
     public class ReinforceAftAction : GenericReinforceAction
@@ -6,31 +9,21 @@
 
         public ReinforceAftAction()
         {
-            Name = EffectName = "Reinforce (Aft)";
+            Name = DiceModificationName = "Reinforce (Aft)";
+            Facing = Arcs.ArcFacing.Rear180;
         }
 
         public override void ActionTake()
         {
             base.ActionTake();
-            Selection.ThisShip.Tokens.AssignToken(new Tokens.ReinforceAftToken(Host), Phases.CurrentSubPhase.CallBack);
-        }
-
-        public override bool IsActionEffectAvailable()
-        {
-            bool result = false;
-            if (Combat.AttackStep == CombatStep.Defence)
-            {
-                Board.ShipShotDistanceInformation reverseShotInfo = new Board.ShipShotDistanceInformation(Host, Combat.Attacker, Host.PrimaryWeapon);
-                result = !reverseShotInfo.InArc;
-            }
-            return result;
+            Host.Tokens.AssignToken(typeof(ReinforceAftToken), Phases.CurrentSubPhase.CallBack);
         }
 
         public override int GetActionPriority()
         {
             int result = 0;
 
-            result = 10 + 50*Actions.CountEnemiesTargeting(Host, -1);
+            result = 25 + 30*Actions.CountEnemiesTargeting(Host, -1);
 
             return result;
         }

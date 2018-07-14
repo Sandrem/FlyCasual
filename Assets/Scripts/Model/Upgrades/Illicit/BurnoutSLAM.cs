@@ -1,11 +1,11 @@
 ﻿using Ship;
-using Ship.YT1300;
 using Upgrade;
 using Abilities;
+using ActionsList;
 
 namespace UpgradesList
 { 
-    public class BurnoutSLAM : GenericActionBarUpgrade<ActionsList.SlamAction>
+    public class BurnoutSLAM : GenericUpgrade
     {
         public BurnoutSLAM() : base()
         {
@@ -25,21 +25,23 @@ namespace UpgradesList
 
 namespace Abilities
 {
-    public class BurnoutSlamAbility : GenericAbility
+    public class BurnoutSlamAbility : GenericActionBarAbility<ActionsList.SlamAction>
     {
         public override void ActivateAbility()
         {
+            base.ActivateAbility();
             HostShip.OnActionIsPerformed += RegisterBurnoutSlamAbility;
         }
 
         public override void DeactivateAbility()
         {
+            base.DeactivateAbility();
             HostShip.OnActionIsPerformed -= RegisterBurnoutSlamAbility;
         }
 
-        private void RegisterBurnoutSlamAbility(ActionsList.GenericAction action)
+        private void RegisterBurnoutSlamAbility(GenericAction action)
         {
-            if (action != null && action.GetType() == typeof(ActionsList.SlamAction))
+            if (action is SlamAction)
             {
                 RegisterAbilityTrigger(TriggerTypes.OnActionIsPerformed, DiscardThisUpgrade);
             }

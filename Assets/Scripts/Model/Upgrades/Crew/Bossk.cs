@@ -3,6 +3,7 @@ using Upgrade;
 using Ship;
 using Abilities;
 using Tokens;
+using UnityEngine;
 
 namespace UpgradesList
 {
@@ -16,7 +17,7 @@ namespace UpgradesList
 
             isUnique = true;
 
-            ImageUrl = ImageUrls.GetImageUrl(this, "bossk-crew.png");
+            AvatarOffset = new Vector2(47, 1);
 
             UpgradeAbilities.Add(new BosskCrewAbility());
         }
@@ -53,20 +54,22 @@ namespace Abilities
 
         private void PerformBosskAbility(object sender, EventArgs e)
         {
-            Messages.ShowInfoToHuman("Bossk: Select a target for Target Lock.");
-            HostShip.AcquireTargetLock(AssignFocusToken);
-            
+            HostShip.ChooseTargetToAcquireTargetLock(
+                AssignFocusToken,
+                HostShip.PilotName,
+                HostShip.ImageUrl
+            );            
         }
 
         private void AssignFocusToken()
         {
-            HostShip.Tokens.AssignToken(new FocusToken(HostShip), AssignStressToken);
+            HostShip.Tokens.AssignToken(typeof(FocusToken), AssignStressToken);
         }
 
         private void AssignStressToken()
         {
             Messages.ShowInfoToHuman("Bossk: Focus and Stress tokens acquired.");
-            HostShip.Tokens.AssignToken(new StressToken(HostShip), Triggers.FinishTrigger);
+            HostShip.Tokens.AssignToken(typeof(StressToken), Triggers.FinishTrigger);
         }
     }
 }

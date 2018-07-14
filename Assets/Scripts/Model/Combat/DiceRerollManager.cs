@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GameModes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -26,7 +27,7 @@ public partial class DiceRerollManager
         SwitchToDiceRerollsPanel();
         DoDefaultSelection();
         GenerateSelectionButtons();
-        SetConfirmButtonAction();
+        StartPlayerInteraction();
     }
 
     private void OrganizeDiceView()
@@ -87,7 +88,7 @@ public partial class DiceRerollManager
         if (SidesCanBeRerolled.Contains(DieSide.Focus))
         {
             //if (!Selection.ActiveShip.HasToken(typeof(Tokens.FocusToken)))
-            if (Combat.Attacker.GetAvailableActionEffectsList().Count(n => n.IsTurnsAllFocusIntoSuccess) == 0)
+            if (Combat.Attacker.GetAvailableDiceModifications().Count(n => n.IsTurnsAllFocusIntoSuccess) == 0)
             {
                 dieSides.Add(DieSide.Focus);
             }
@@ -113,7 +114,7 @@ public partial class DiceRerollManager
         if (SidesCanBeRerolled.Contains(DieSide.Focus))
         {
             //if (!Selection.ActiveShip.HasToken(typeof(Tokens.FocusToken)))
-            if ((Combat.Attacker.GetAvailableActionEffectsList().Count(n => n.IsTurnsAllFocusIntoSuccess) > 0))
+            if ((Combat.Attacker.GetAvailableDiceModifications().Count(n => n.IsTurnsAllFocusIntoSuccess) > 0))
             {
                 dieSides.Add(DieSide.Focus);
             }
@@ -170,41 +171,24 @@ public partial class DiceRerollManager
         Combat.CurrentDiceRoll.SelectBySides(dieSides, number);
     }
 
-    private void SetConfirmButtonAction()
+    private void StartPlayerInteraction()
     {
-        if (Selection.ActiveShip.Owner.GetType() == typeof(Players.HumanPlayer))
-        {
-            Button closeButton = GameObject.Find("UI/CombatDiceResultsPanel").transform.Find("DiceRerollsPanel/Confirm").GetComponent<Button>();
-            closeButton.onClick.RemoveAllListeners();
-            closeButton.onClick.AddListener(ConfirmReroll);
-            closeButton.gameObject.SetActive(true);
-        }
-        else
-        {
-            ConfirmReroll();
-        }            
+        Selection.ActiveShip.Owner.RerollManagerIsPrepared();
+    }
+
+    public void ShowConfirmButton()
+    {
+        Button closeButton = GameObject.Find("UI/CombatDiceResultsPanel").transform.Find("DiceRerollsPanel/Confirm").GetComponent<Button>();
+        closeButton.onClick.RemoveAllListeners();
+        closeButton.onClick.AddListener(ConfirmRerollButtonIsPressed);
+        closeButton.gameObject.SetActive(true);
     }
 
     private void ToggleDiceModificationsPanel(bool isActive)
     {
         GameObject.Find("UI/CombatDiceResultsPanel").transform.Find("DiceModificationsPanel").gameObject.SetActive(isActive);
 
-        if (isActive)
-        {
-            Combat.ToggleConfirmDiceResultsButton(true);
-            if (!IsOpposite)
-            {
-                Combat.ShowDiceModificationButtons();
-            }
-            else
-            {
-                Combat.ShowOppositeDiceModificationButtons();
-            }
-        }
-        else
-        {
-            Combat.HideDiceModificationButtons();
-        }
+        if (!isActive) Combat.HideDiceModificationButtons();
     }
 
     private void ToggleDiceRerollsPanel(bool isActive)
@@ -223,6 +207,11 @@ public partial class DiceRerollManager
         }
     }
 
+    public void ConfirmRerollButtonIsPressed()
+    {
+        GameMode.CurrentGameMode.StartDiceRerollExecution();
+    }
+
     public void ConfirmReroll()
     {
         Selection.ThisShip.CallRerollIsConfirmed(RerollSelected);
@@ -231,7 +220,12 @@ public partial class DiceRerollManager
     private void RerollSelected()
     {
         if (Selection.ActiveShip.Owner.GetType() == typeof(Players.HumanPlayer)) BlockButtons();
-        Combat.CurrentDiceRoll.RerollSelected(TryUnblockButtons);
+        Combat.CurrentDiceRoll.RerollSelected(ImmediatelyAfterReRolling);
+    }
+
+    private void ImmediatelyAfterReRolling(DiceRoll diceroll)
+    {
+        Selection.ActiveShip.CallOnImmediatelyAfterReRolling(diceroll, delegate { TryUnblockButtons(diceroll); });
     }
 
     public List<Die> GetDiceReadyForReroll()
@@ -268,7 +262,7 @@ public partial class DiceRerollManager
         DiceRerollManager.CurrentDiceRerollManager = null;
 
         Combat.CurrentDiceRoll.ToggleRerolledLocks(false);
-        if (Selection.ActiveShip.Owner.GetType() != typeof(Players.HotacAiPlayer)) ToggleDiceModificationsPanel(true);
+        if (Selection.ActiveShip.Owner.GetType() == typeof(Players.HumanPlayer)) ToggleDiceModificationsPanel(true);
 
         if (CallBack!=null) CallBack();
     }

@@ -2,9 +2,11 @@
 using Ship.YT1300;
 using Upgrade;
 using System;
+using Abilities;
+using Tokens;
 
 namespace UpgradesList
-{ 
+{
     public class MillenniumFalconHotR : GenericUpgrade
     {
         public MillenniumFalconHotR() : base()
@@ -15,38 +17,51 @@ namespace UpgradesList
             isUnique = true;
 
             NameCanonical = "millenniumfalcon-swx57";
+
+            UpgradeAbilities.Add(new MillenniumFalconHotRAbility());
         }
 
         public override bool IsAllowedForShip(GenericShip ship)
         {
             return ship is YT1300;
         }
+    }
+}
 
-        public override void AttachToShip(GenericShip host)
+namespace Abilities
+{
+    public class MillenniumFalconHotRAbility : GenericAbility
+    {
+        public override void ActivateAbility()
         {
-            base.AttachToShip(host);
+            HostShip.OnMovementFinish += CheckAbility;
+        }
 
-            host.OnMovementFinish += CheckAbility;
+        public override void DeactivateAbility()
+        {
+            HostShip.OnMovementFinish -= CheckAbility;
         }
 
         private void CheckAbility(GenericShip ship)
         {
-            if (ship.AssignedManeuver.Speed == 3 && ship.AssignedManeuver.Bearing == Movement.ManeuverBearing.Bank)
-            {
-                if (!ship.IsBumped)
+            if (ship.AssignedManeuver.Speed != 3) return;
+            if (ship.AssignedManeuver.Bearing != Movement.ManeuverBearing.Bank) return;
+            if (ship.IsBumped) return;
+            if (BoardTools.Board.IsOffTheBoard(ship)) return;
+
+            Triggers.RegisterTrigger(
+                new Trigger()
                 {
-                    Triggers.RegisterTrigger(new Trigger() {
-                        Name = "Millenium Falcon's ability",
-                        TriggerType = TriggerTypes.OnShipMovementFinish,
-                        TriggerOwner = Host.Owner.PlayerNo,
-                        Sender = ship,
-                        EventHandler = RotateShip180
-                    });
+                    Name = "Millenium Falcon's ability",
+                    TriggerType = TriggerTypes.OnMovementFinish,
+                    TriggerOwner = HostShip.Owner.PlayerNo,
+                    Sender = ship,
+                    EventHandler = RotateShip180
                 }
-            }
+            );
         }
 
-        private void RotateShip180(object sender, System.EventArgs e)
+        private void RotateShip180(object sender, EventArgs e)
         {
             GenericShip thisShip = sender as GenericShip;
 
@@ -83,7 +98,7 @@ namespace SubPhases
 
         private void RotateShip180(object sender, EventArgs e)
         {
-            Selection.ThisShip.Tokens.AssignToken(new Tokens.StressToken(Selection.ThisShip), StartRotate180SubPhase);
+            Selection.ThisShip.Tokens.AssignToken(typeof(StressToken), StartRotate180SubPhase);
         }
 
         private void StartRotate180SubPhase()

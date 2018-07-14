@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Upgrade;
 using Ship;
 using Abilities;
+using Arcs;
 
 namespace UpgradesList
 {
@@ -36,24 +37,24 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList += AddSyncedTurretAbility;
+            HostShip.OnGenerateDiceModifications += AddSyncedTurretAbility;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList -= AddSyncedTurretAbility;
+            HostShip.OnGenerateDiceModifications -= AddSyncedTurretAbility;
         }
 
         private void AddSyncedTurretAbility(GenericShip ship)
         {
-            ship.AddAvailableActionEffect(new SyncedTurretAction());
+            ship.AddAvailableDiceModification(new SyncedTurretAction() { Source = HostUpgrade } );
         }
 
         private class SyncedTurretAction : ActionsList.GenericAction
         {
             public SyncedTurretAction()
             {
-                Name = EffectName = "Synced Turret";
+                Name = DiceModificationName = "Synced Turret";
             }
                 
             public override void ActionEffect(System.Action callBack)
@@ -68,14 +69,14 @@ namespace Abilities
                 diceRerollManager.Start();
             }
 
-            public override bool IsActionEffectAvailable()
+            public override bool IsDiceModificationAvailable()
             {
                 bool result = false;
-                if (Combat.AttackStep == CombatStep.Attack && Combat.ShotInfo.InPrimaryArc) result = true;
+                if (Combat.AttackStep == CombatStep.Attack && Combat.ShotInfo.InPrimaryArc && Combat.ChosenWeapon.GetType() == Source.GetType()) result = true;
                 return result;
             }
 
-            public override int GetActionEffectPriority()
+            public override int GetDiceModificationPriority()
             {
                 int result = 90;
                 return result;

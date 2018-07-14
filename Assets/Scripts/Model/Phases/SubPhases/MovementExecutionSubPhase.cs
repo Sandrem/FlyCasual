@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using GameModes;
 using Movement;
+using Obstacles;
 
 namespace SubPhases
 {
@@ -12,6 +13,8 @@ namespace SubPhases
 
         public override void Start()
         {
+            base.Start();
+
             Name = "Movement";
             RequiredPilotSkill = PreviousSubPhase.RequiredPilotSkill;
             RequiredPlayer = PreviousSubPhase.RequiredPlayer;
@@ -27,25 +30,20 @@ namespace SubPhases
             Selection.ThisShip.IsManeuverPerformed = true;
             Roster.AllShipsHighlightOff();
 
-            Selection.ThisShip.ObstaclesHit = new List<Collider>();
+            Selection.ThisShip.ObstaclesHit = new List<GenericObstacle>();
             Selection.ThisShip.MinesHit = new List<GameObject>();
 
-            Selection.ThisShip.CallManeuverIsReadyToBeRevealed(RevealManeuver);
-        }
-
-        private void RevealManeuver()
-        {
-            Selection.ThisShip.CallManeuverIsRevealed(CheckAssignedManeuver);
+            CheckAssignedManeuver();
         }
 
         private void CheckAssignedManeuver()
         {
-            if (Selection.ThisShip.AssignedManeuver.ColorComplexity == ManeuverColor.Red && Selection.ThisShip.Tokens.HasToken(typeof(Tokens.StressToken)))
+            if (Selection.ThisShip.AssignedManeuver.ColorComplexity == MovementComplexity.Complex && Selection.ThisShip.Tokens.HasToken(typeof(Tokens.StressToken)))
             {
                 if (!Selection.ThisShip.CanPerformRedManeuversWhileStressed)
                 {
                     Messages.ShowErrorToHuman("Red maneuver while stresses: Maneuver is changed to white straight 2");
-                    Selection.ThisShip.SetAssignedManeuver(new StraightMovement(2, ManeuverDirection.Forward, ManeuverBearing.Straight, ManeuverColor.White));
+                    Selection.ThisShip.SetAssignedManeuver(new StraightMovement(2, ManeuverDirection.Forward, ManeuverBearing.Straight, MovementComplexity.Normal));
                 }
             }
 
@@ -59,11 +57,7 @@ namespace SubPhases
 
         public override void Next()
         {
-            GenericSubPhase actionSubPhase = new ActionSubPhase();
-            actionSubPhase.PreviousSubPhase = Phases.CurrentSubPhase;
-            Phases.CurrentSubPhase = actionSubPhase;
-            Phases.CurrentSubPhase.Start();
-            Phases.CurrentSubPhase.Initialize();
+            Phases.CurrentSubPhase = PreviousSubPhase;
         }
 
         public override bool ThisShipCanBeSelected(Ship.GenericShip ship, int mouseKeyIsPressed)

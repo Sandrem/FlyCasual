@@ -17,8 +17,8 @@ namespace RulesList
 
         private void SubscribeEvents()
         {
-            Phases.OnRoundStart += InitializeAll;
-            Phases.OnRoundEnd += RegisterClearAll;
+            Phases.Events.OnRoundStart += InitializeAll;
+            Phases.Events.OnRoundEnd += RegisterClearAll;
         }
 
         private void InitializeAll()
@@ -70,6 +70,8 @@ namespace RulesList
             ship.IsBombAlreadyDropped = false;
             ship.IsCannotAttackSecondTime = false;
             ship.IsActivatedDuringCombat = false;
+            ship.IsSystemsAbilityInactive = false;
+            ship.AlwaysShowAssignedManeuver = false;
         }
 
         private void ClearAssignedManeuvers(Ship.GenericShip ship)

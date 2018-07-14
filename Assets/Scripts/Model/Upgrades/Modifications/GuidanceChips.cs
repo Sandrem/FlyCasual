@@ -1,49 +1,59 @@
 ﻿using Ship;
 using Upgrade;
+using Abilities;
+using ActionsList;
 
 namespace UpgradesList
 {
     public class GuidanceChips : GenericUpgrade
     {
-        public bool isUsed;
-
         public GuidanceChips() : base()
         {
             Types.Add(UpgradeType.Modification);
             Name = "Guidance Chips";
             Cost = 0;
+
+            UpgradeAbilities.Add(new GuidanceChipsAbility());
+        }
+    }
+}
+
+namespace Abilities
+{
+    public class GuidanceChipsAbility : GenericAbility
+    {
+        public override void ActivateAbility()
+        {
+            HostShip.OnGenerateDiceModifications += GuidanceChipsActionEffect;
+            Phases.Events.OnRoundEnd += ClearIsAbilityUsedFlag;
         }
 
-        public override void AttachToShip(GenericShip host)
+        public override void DeactivateAbility()
         {
-            base.AttachToShip(host);
-
-            host.AfterGenerateAvailableActionEffectsList += GuidanceChipsActionEffect;
-            Phases.OnRoundEnd += ClearUsed;
-            Host.OnShipIsDestroyed += StopAbility;
+            HostShip.OnGenerateDiceModifications -= GuidanceChipsActionEffect;
+            Phases.Events.OnRoundEnd -= ClearIsAbilityUsedFlag;
         }
 
         private void GuidanceChipsActionEffect(GenericShip host)
         {
-            ActionsList.GenericAction newAction = new ActionsList.GuidanceChipsEffect()
+            GenericAction newAction = new GuidanceChipsEffect()
             {
-                ImageUrl = ImageUrl,
+                ImageUrl = HostUpgrade.ImageUrl,
                 Host = host,
-                Source = this
+                Source = HostUpgrade
             };
-            host.AddAvailableActionEffect(newAction);
+            host.AddAvailableDiceModification(newAction);
         }
 
-        private void ClearUsed()
+        public bool IsGuidanceChipsAbilityUsed()
         {
-            isUsed = false;
+            return IsAbilityUsed;
         }
 
-        private void StopAbility(GenericShip host, bool isFled)
+        public void SetGuidancEShipsAbilityAsUsed()
         {
-            Phases.OnRoundEnd -= ClearUsed;
+            IsAbilityUsed = true;
         }
-
     }
 }
 
@@ -55,19 +65,19 @@ namespace ActionsList
 
         public GuidanceChipsEffect()
         {
-            Name = EffectName = "Guidance Chips";
+            Name = DiceModificationName = "Guidance Chips";
         }
 
-        public override bool IsActionEffectAvailable()
+        public override bool IsDiceModificationAvailable()
         {
             bool result = false;
 
-            if (Combat.AttackStep == CombatStep.Attack && !(Source as UpgradesList.GuidanceChips).isUsed)
+            if (Combat.AttackStep == CombatStep.Attack && !(Source.UpgradeAbilities[0] as GuidanceChipsAbility).IsGuidanceChipsAbilityUsed())
             {
                 GenericSecondaryWeapon secondaryWeapon = (Combat.ChosenWeapon as GenericSecondaryWeapon);
                 if (secondaryWeapon != null)
                 {
-                    if (secondaryWeapon.hasType(UpgradeType.Torpedo) || secondaryWeapon.hasType(UpgradeType.Missile))
+                    if (secondaryWeapon.HasType(UpgradeType.Torpedo) || secondaryWeapon.HasType(UpgradeType.Missile))
                     {
                         result = true;
                     }
@@ -77,7 +87,7 @@ namespace ActionsList
             return result;
         }
 
-        public override int GetActionEffectPriority()
+        public override int GetDiceModificationPriority()
         {
             int result = 0;
 
@@ -100,7 +110,7 @@ namespace ActionsList
 
             Combat.CurrentDiceRoll.ChangeOne(oldResult, newResult);
 
-            (Source as UpgradesList.GuidanceChips).isUsed = true;
+            (Source.UpgradeAbilities[0] as GuidanceChipsAbility).SetGuidancEShipsAbilityAsUsed();
 
             callBack();
         }

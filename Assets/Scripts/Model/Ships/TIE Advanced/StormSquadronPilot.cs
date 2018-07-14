@@ -1,18 +1,24 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using RuleSets;
 
 namespace Ship
 {
     namespace TIEAdvanced
     {
-        public class StormSquadronPilot : TIEAdvanced
+        public class StormSquadronPilot : TIEAdvanced, ISecondEditionPilot
         {
             public StormSquadronPilot() : base()
             {
                 PilotName = "Storm Squadron Pilot";
                 PilotSkill = 4;
                 Cost = 23;
+            }
+
+            public void AdaptPilotToSecondEdition()
+            {
+                PilotName = "Storm Squadron Ace";
+                PilotSkill = 3;
+
+                Cost = 46;
             }
         }
     }

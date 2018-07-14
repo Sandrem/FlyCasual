@@ -1,4 +1,5 @@
 ﻿using Abilities;
+using Tokens;
 using Upgrade;
 using UpgradesList;
 
@@ -39,15 +40,9 @@ namespace Abilities
 
         private void RegisterFlechetteCannonEffect()
         {
-            if (Combat.ChosenWeapon is FlechetteCannon)
+            if (Combat.ChosenWeapon == HostUpgrade)
             {
-                Triggers.RegisterTrigger(new Trigger()
-                {
-                    Name = "Flechette Cannon effect",
-                    TriggerType = TriggerTypes.OnShotHit,
-                    TriggerOwner = Combat.Attacker.Owner.PlayerNo,
-                    EventHandler = FlechetteCannonEffect
-                });
+                RegisterAbilityTrigger(TriggerTypes.OnShotHit, FlechetteCannonEffect);
             }
         }
 
@@ -63,31 +58,21 @@ namespace Abilities
         {
             Combat.Defender.AssignedDamageDiceroll.AddDice(DieSide.Success);
 
-            Triggers.RegisterTrigger(new Trigger()
+            var trigger = RegisterAbilityTrigger(TriggerTypes.OnDamageIsDealt, Combat.Defender.SufferDamage, new DamageSourceEventArgs()
             {
-                Name = "Suffer damage",
-                TriggerType = TriggerTypes.OnDamageIsDealt,
-                TriggerOwner = Combat.Defender.Owner.PlayerNo,
-                EventHandler = Combat.Defender.SufferDamage,
-                EventArgs = new DamageSourceEventArgs()
-                {
-                    Source = Combat.Attacker,
-                    DamageType = DamageTypes.ShipAttack
-                },
-                Skippable = true
+                Source = Combat.Attacker,
+                DamageType = DamageTypes.ShipAttack
             });
+            trigger.Skippable = true;
 
             Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, CheckStress);
         }
 
         private void CheckStress()
         {
-            if (!Combat.Defender.Tokens.HasToken(typeof(Tokens.StressToken)))
+            if (!Combat.Defender.Tokens.HasToken(typeof(StressToken)))
             {
-                Combat.Defender.Tokens.AssignToken(
-                    new Tokens.StressToken(Combat.Defender),
-                    Triggers.FinishTrigger
-                );
+                Combat.Defender.Tokens.AssignToken(typeof(StressToken), Triggers.FinishTrigger);
             }
             else
             {

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using RuleSets;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,7 +7,7 @@ namespace Ship
 {
     namespace Firespray31
     {
-        public class BountyHunter : Firespray31
+        public class BountyHunter : Firespray31, ISecondEditionPilot
         {
             public BountyHunter() : base()
             {
@@ -17,6 +18,14 @@ namespace Ship
                 SkinName = "Bounty Hunter";
 
                 faction = Faction.Imperial;
+            }
+
+            public void AdaptPilotToSecondEdition()
+            {
+                PilotSkill = 2;
+
+                SkinName = "Mandalorian Mercenary";
+                faction = Faction.Scum;
             }
         }
     }

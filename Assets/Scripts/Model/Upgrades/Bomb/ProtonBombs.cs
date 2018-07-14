@@ -5,11 +5,12 @@ using UnityEngine;
 using Upgrade;
 using Ship;
 using Bombs;
+using RuleSets;
 
 namespace UpgradesList
 {
 
-    public class ProtonBombs : GenericTimedBomb
+    public class ProtonBombs : GenericTimedBomb, ISecondEditionUpgrade
     {
         GenericShip _ship = null;
 
@@ -22,6 +23,13 @@ namespace UpgradesList
             bombPrefabPath = "Prefabs/Bombs/ProtonBomb";
 
             IsDiscardedAfterDropped = true;
+        }
+
+        public void AdaptUpgradeToSecondEdition()
+        {
+            IsDiscardedAfterDropped = false;
+            UsesCharges = true;
+            MaxCharges = 2;
         }
 
         public override void ExplosionEffect(GenericShip ship, Action callBack)
@@ -44,12 +52,6 @@ namespace UpgradesList
             Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, callBack);
         }
 
-        private void SufferProtonBombDamage(object sender, EventArgs e)
-        {
-            Messages.ShowInfoToHuman(string.Format("{0}: Dealt faceup card to {1}", Name, _ship.PilotName));
-            _ship.SufferHullDamage(true, e);            
-        }
-
         public override void PlayDetonationAnimSound(GameObject bombObject, Action callBack)
         {
             BombsManager.CurrentBomb = this;
@@ -60,6 +62,24 @@ namespace UpgradesList
 
             GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
             Game.Wait(1.4f, delegate { callBack(); });
+        }
+
+        private void SufferProtonBombDamage(object sender, EventArgs e)
+        {
+            if (RuleSet.Instance is FirstEdition) DetonationFE(sender, e);
+            else if (RuleSet.Instance is SecondEdition) DetonationSE(sender, e);
+        }
+
+        private void DetonationFE(object sender, EventArgs e)
+        {
+            Messages.ShowInfoToHuman(string.Format("{0}: Dealt faceup card to {1}", Name, _ship.PilotName));
+            _ship.SufferHullDamage(true, e);
+        }
+
+        private void DetonationSE(object sender, EventArgs e)
+        {
+            _ship.AssignedDamageDiceroll.AddDice(DieSide.Crit);
+            _ship.SufferDamage(sender, e);
         }
     }
 

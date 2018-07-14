@@ -6,6 +6,7 @@ using Upgrade;
 using UnityEngine;
 using Ship;
 using SubPhases;
+using BoardTools;
 
 namespace Bombs
 {
@@ -48,7 +49,7 @@ namespace Bombs
             CurrentBomb = null;
         }
 
-        public static List<Vector3> GetBombPoints()
+        private static List<Vector3> GetBombPointsRelative()
         {
             if (generatedBombPoints.Count == 0)
             {
@@ -70,12 +71,18 @@ namespace Bombs
             foreach (var bombObject in bombObjects)
             {
                 if (!bombsList.ContainsKey(bombObject)) bombsList.Add(bombObject, bombUpgrade);
+
+                MeshCollider collider = bombObject.transform.Find("Model").GetComponent<MeshCollider>();
+                if (collider != null) Board.Objects.Add(collider);
             }
         }
 
         public static void UnregisterBomb(GameObject bombObject)
         {
             bombsList.Remove(bombObject);
+
+            MeshCollider collider = bombObject.transform.Find("Model").GetComponent<MeshCollider>();
+            if (collider != null) Board.Objects.Remove(collider);
         }
 
         public static GenericBomb GetBombByObject(GameObject bombObject)
@@ -103,14 +110,14 @@ namespace Bombs
 
         private static bool IsShipInDetonationRange(GenericShip ship, GameObject bombObject)
         {
-            List<Vector3> bombPoints = GetBombPoints();
+            List<Vector3> bombPoints = GetBombPointsRelative();
 
             foreach (var localBombPoint in bombPoints)
             {
                 Vector3 globalBombPoint = bombObject.transform.TransformPoint(localBombPoint);
                 foreach (var globalShipBasePoint in ship.ShipBase.GetStandPoints().Select(n => n.Value))
                 {
-                    if (Board.BoardManager.GetRangeBetweenPoints(globalBombPoint, globalShipBasePoint) == 1)
+                    if (Board.GetRangeBetweenPoints(globalBombPoint, globalShipBasePoint) == 1)
                     {
                         return true;
                     }
@@ -118,6 +125,17 @@ namespace Bombs
             }
 
             return false;
+        }
+
+        public static List<Vector3> GetBombPoints(GenericBomb bomb)
+        {
+            List<Vector3> globalPoints = new List<Vector3>();
+            foreach (Vector3 relativePoint in GetBombPointsRelative())
+            {
+                Vector3 globalBombPoint = bomb.CurrentBombObjects.First().transform.TransformPoint(relativePoint);
+                globalPoints.Add(globalBombPoint);
+            }
+            return globalPoints;
         }
 
         public static void ResolveDetonationTriggers()
@@ -141,7 +159,7 @@ namespace Bombs
         public static void CallGetPermissionToDetonateTrigger(Action callback)
         {
             DetonationIsAllowed = true;
-            ToggleReadyToDetonateHighLight(CurrentBombObject, true);
+            ToggleReadyToDetonateHighLight(true);
 
             if (OnCheckPermissionToDetonate != null) OnCheckPermissionToDetonate(CurrentBomb, DetonatedShip);
 
@@ -150,7 +168,7 @@ namespace Bombs
 
         private static void CheckPermissionToDetonate(Action callback)
         {
-            ToggleReadyToDetonateHighLight(CurrentBombObject, false);
+            ToggleReadyToDetonateHighLight(false);
 
             if (DetonationIsAllowed)
             {
@@ -162,9 +180,9 @@ namespace Bombs
             }
         }
 
-        private static void ToggleReadyToDetonateHighLight(GameObject bombObject, bool isActive)
+        public static void ToggleReadyToDetonateHighLight(bool isActive)
         {
-            bombObject.transform.Find("Light").gameObject.SetActive(isActive);
+            CurrentBombObject.transform.Find("Light").gameObject.SetActive(isActive);
         }
 
         public static void CheckBombDropAvailability(GenericShip ship)
@@ -292,7 +310,7 @@ namespace Bombs
 
         public static List<GenericUpgrade> GetTimedBombsInstalled(GenericShip ship)
         {
-            return ship.UpgradeBar.GetUpgradesOnlyFaceup().Where(n => n.GetType().BaseType == typeof(GenericTimedBomb)).ToList();
+            return ship.UpgradeBar.GetUpgradesOnlyFaceup().Where(n => n.GetType().BaseType == typeof(GenericTimedBomb)).Where(n => n.UsesCharges == false || (n.UsesCharges == true && n.Charges > 0)).ToList();
         }
 
         public static bool HasTimedBombs(GenericShip ship)

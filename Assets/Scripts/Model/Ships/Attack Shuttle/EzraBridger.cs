@@ -31,25 +31,25 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList += AddEzraBridgerPilotAbility;
+            HostShip.OnGenerateDiceModifications += AddEzraBridgerPilotAbility;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList -= AddEzraBridgerPilotAbility;
+            HostShip.OnGenerateDiceModifications -= AddEzraBridgerPilotAbility;
         }
 
 
         private void AddEzraBridgerPilotAbility(GenericShip ship)
         {
-            ship.AddAvailableActionEffect(new EzraBridgerAction());
+            ship.AddAvailableDiceModification(new EzraBridgerAction());
         }
 
         private class EzraBridgerAction : ActionsList.GenericAction
         {
             public EzraBridgerAction()
             {
-                Name = EffectName = "Ezra Bridger's ability";
+                Name = DiceModificationName = "Ezra Bridger's ability";
 
                 IsTurnsAllFocusIntoSuccess = true;
             }
@@ -61,7 +61,7 @@ namespace Abilities
                 callBack();
             }
 
-            public override bool IsActionEffectAvailable()
+            public override bool IsDiceModificationAvailable()
             {
                 bool result = false;
 
@@ -73,7 +73,7 @@ namespace Abilities
                 return result;
             }
 
-            public override int GetActionEffectPriority()
+            public override int GetDiceModificationPriority()
             {
                 int result = 0;
 

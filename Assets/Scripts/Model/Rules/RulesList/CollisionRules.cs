@@ -6,6 +6,7 @@ namespace RulesList
 {
     public class CollisionRules
     {
+        static bool RuleIsInitialized = false;
 
         public CollisionRules()
         {
@@ -14,8 +15,12 @@ namespace RulesList
 
         private void SubscribeEvents()
         {
-            Phases.BeforeActionSubPhaseStart += CheckSkipPerformAction;
-            GenericShip.OnTryPerformAttackGlobal += CanPerformAttack;
+            if (!RuleIsInitialized)
+            {
+                GenericShip.OnTryPerformAttackGlobal += CanPerformAttack;
+                RuleIsInitialized = true;
+            }
+            Phases.Events.BeforeActionSubPhaseStart += CheckSkipPerformAction;
         }
 
         public void CheckSkipPerformAction()

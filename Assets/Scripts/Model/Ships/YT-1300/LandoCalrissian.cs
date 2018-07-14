@@ -49,9 +49,11 @@ namespace Abilities
 
         private void CheckLandoCalrissianPilotAbility(GenericShip ship)
         {
-            if (ship.AssignedManeuver.ColorComplexity == Movement.ManeuverColor.Green)
+            if (BoardTools.Board.IsOffTheBoard(ship)) return;
+
+            if (ship.AssignedManeuver.ColorComplexity == Movement.MovementComplexity.Easy)
             {
-                RegisterAbilityTrigger(TriggerTypes.OnShipMovementExecuted, LandoCalrissianPilotAbility);
+                RegisterAbilityTrigger(TriggerTypes.OnMovementExecuted, LandoCalrissianPilotAbility);
             }
         }
 
@@ -61,7 +63,12 @@ namespace Abilities
                 GrantFreeAction,
                 FilterAbilityTargets,
                 GetAiAbilityPriority,
-                HostShip.Owner.PlayerNo
+                HostShip.Owner.PlayerNo,
+                true,
+                null,
+                HostShip.PilotName,
+                "Choose another ship.\nIt may perform free action shown in its action bar.",
+                HostShip.ImageUrl
             );
         }
 

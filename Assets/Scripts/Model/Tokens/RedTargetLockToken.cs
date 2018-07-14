@@ -11,6 +11,7 @@ namespace Tokens
         public RedTargetLockToken(GenericShip host) : base(host)
         {
             Name = "Red Target Lock Token";
+            TokenColor = TokenColors.Red;
         }
     }
 

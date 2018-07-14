@@ -28,12 +28,12 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            Phases.OnCombatPhaseStart += PlanSwarmTacticsPilotAbility;
+            Phases.Events.OnCombatPhaseStart_Triggers += PlanSwarmTacticsPilotAbility;
         }
 
         public override void DeactivateAbility()
         {
-            Phases.OnCombatPhaseStart -= PlanSwarmTacticsPilotAbility;
+            Phases.Events.OnCombatPhaseStart_Triggers -= PlanSwarmTacticsPilotAbility;
         }
 
         private void PlanSwarmTacticsPilotAbility()
@@ -90,7 +90,7 @@ namespace SubPhases
 
         private bool FilterAbilityTargets(GenericShip ship)
         {
-            Board.ShipDistanceInformation distanceInfo = new Board.ShipDistanceInformation(Selection.ThisShip, ship);
+            BoardTools.DistanceInfo distanceInfo = new BoardTools.DistanceInfo(Selection.ThisShip, ship);
             return (distanceInfo.Range == 1) && (ship.Owner.PlayerNo == Selection.ThisShip.Owner.PlayerNo) && (ship.ShipId != Selection.ThisShip.ShipId);
         }
 
@@ -127,7 +127,7 @@ namespace SubPhases
                 this.newPilotSkill = newPilotSkill;
 
                 host.AddPilotSkillModifier(this);
-                Phases.OnEndPhaseStart += RemoveSwarmTacticsModifieer;
+                Phases.Events.OnEndPhaseStart_NoTriggers += RemoveSwarmTacticsModifieer;
             }
 
             public void ModifyPilotSkill(ref int pilotSkill)
@@ -138,6 +138,8 @@ namespace SubPhases
             private void RemoveSwarmTacticsModifieer()
             {
                 host.RemovePilotSkillModifier(this);
+
+                Phases.Events.OnEndPhaseStart_NoTriggers -= RemoveSwarmTacticsModifieer;
             }
         }
 

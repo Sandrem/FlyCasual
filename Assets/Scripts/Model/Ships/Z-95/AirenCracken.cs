@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using SubPhases;
 using Abilities;
-using Board;
+using BoardTools;
 using System.Linq;
 
 namespace Ship
@@ -48,9 +48,9 @@ namespace Abilities
 
         private void TryRegisterAirenCrackenAbiliity(GenericShip ship)
         {
-            if (BoardManager.GetShipsAtRange(HostShip, new Vector2(1, 1), Team.Type.Friendly).Count > 0)
+            if (BoardTools.Board.GetShipsAtRange(HostShip, new Vector2(1, 1), Team.Type.Friendly).Count > 0)
             {
-                RegisterAbilityTrigger(TriggerTypes.OnAttackFinishAsAttacker, AskSelectShip);
+                RegisterAbilityTrigger(TriggerTypes.OnAttackFinish, this.AskSelectShip);
             }
         }
 
@@ -60,7 +60,12 @@ namespace Abilities
                 PerformFreeAction,
                 FilterAbilityTargets,
                 GetAiAbilityPriority,
-                HostShip.Owner.PlayerNo
+                HostShip.Owner.PlayerNo,
+                true,
+                null,
+                HostShip.PilotName,
+                "Choose another ship.\nThat ship may perform free action.",
+                HostShip.ImageUrl
             );
         }
 
@@ -90,7 +95,7 @@ namespace Abilities
         private void PerformFreeAction()
         {
             Selection.ThisShip = TargetShip;
-            TargetShip.GenerateAvailableActionsList();
+
             TargetShip.AskPerformFreeAction(
                 TargetShip.GetAvailableActionsList(),
                 delegate{

@@ -1,6 +1,7 @@
 ﻿using Abilities;
 using GameModes;
 using Ship;
+using UnityEngine;
 using Upgrade;
 
 namespace UpgradesList
@@ -12,6 +13,8 @@ namespace UpgradesList
             Types.Add(UpgradeType.Crew);
             Name = "Navigator";
             Cost = 3;
+
+            // AvatarOffset = new Vector2(10, 1);
 
             UpgradeAbilities.Add(new NavigatorAbility());
         }
@@ -54,7 +57,7 @@ namespace Abilities
             Movement.MovementStruct movementStruct = new Movement.MovementStruct(maneuverString);
             if (movementStruct.Bearing == Selection.ThisShip.AssignedManeuver.Bearing && movementStruct.Direction == Selection.ThisShip.AssignedManeuver.Direction)
             {
-                if (!(movementStruct.ColorComplexity == Movement.ManeuverColor.Red && HostShip.Tokens.HasToken(typeof(Tokens.StressToken))))
+                if (!(movementStruct.ColorComplexity == Movement.MovementComplexity.Complex && HostShip.Tokens.HasToken(typeof(Tokens.StressToken))))
                 {
                     result = true;
                 }

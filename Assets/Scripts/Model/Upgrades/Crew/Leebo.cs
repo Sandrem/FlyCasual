@@ -5,7 +5,7 @@ using Abilities;
 using Tokens;
 using System.Collections;
 using System.Collections.Generic;
-
+using UnityEngine;
 
 namespace UpgradesList
 {
@@ -17,6 +17,8 @@ namespace UpgradesList
             Name = "Leebo";
             Cost = 2;
             isUnique = true;
+
+            AvatarOffset = new Vector2(31, 1);
 
             UpgradeAbilities.Add(new LeeboAbility());
         }
@@ -34,12 +36,12 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionsList += LeeboAction;
+            HostShip.OnGenerateActions += LeeboAction;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionsList -= LeeboAction;
+            HostShip.OnGenerateActions -= LeeboAction;
         }
 
         private void LeeboAction(GenericShip ship)
@@ -61,7 +63,7 @@ namespace ActionsList
     {
         public LeeboAction()
         {
-            Name = EffectName = "Leebo";
+            Name = DiceModificationName = "Leebo";
         }
 
         public override bool IsActionAvailable()
@@ -74,7 +76,7 @@ namespace ActionsList
             return result;
         }
 
-        public override int GetActionEffectPriority()
+        public override int GetDiceModificationPriority()
         {
             // low priority
             int result = 10;
@@ -109,12 +111,11 @@ namespace ActionsList
             // a ship may be able to perform two boost actions per turn :/
             if (Host.IsAlreadyExecutedAction(typeof(LeeboAction)))
             {
-                Messages.ShowInfoToHuman( Name + ": free boost performed, ion token received.");
-                Host.Tokens.AssignToken (
-                    new Tokens.IonToken(Host),
-                    Finish
-                );
-            } else {
+                Messages.ShowInfoToHuman(Name + ": free boost performed, ion token received.");
+                Host.Tokens.AssignToken(typeof(IonToken), Finish);
+            }
+            else
+            {
                 // if not, need to finish SubPhase
                 Finish();
             }

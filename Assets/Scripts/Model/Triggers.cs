@@ -10,8 +10,8 @@ public enum TriggerTypes
     None,
 
     OnGameStart,
-    OnSetupPhaseStart,
-    OnBeforePlaceForces,
+    OnSetupStart,
+    OnInitiativeSelection,
     OnShipIsPlaced,
     OnRoundStart,
     OnPlanningSubPhaseStart,
@@ -31,31 +31,34 @@ public enum TriggerTypes
     OnManeuver,
     OnManeuverIsReadyToBeRevealed,
     OnManeuverIsRevealed,
-    OnShipMovementStart,
-    OnShipMovementExecuted,
-    OnShipMovementFinish,
+    OnMovementStart,
+    OnMovementExecuted,
+    OnMovementFinish,
     OnPositionFinish,
     
     OnFreeActionPlanned,
     OnFreeAction,
+    BeforeFreeActionIsPerformed,
     OnActionIsPerformed,
     OnBeforeTokenIsAssigned,
     OnTokenIsAssigned,
     OnTokenIsSpent,
     OnTokenIsRemoved,
     OnCoordinateTargetIsSelected,
+    OnJamTargetIsSelected,
+    OnTargetLockIsAcquired,
     OnRerollIsConfirmed,
+    OnDieResultIsSpent,
 
     OnAttackStart,
     OnShotStart,
     OnImmediatelyAfterRolling,
+    OnImmediatelyAfterReRolling,
     OnShotHit,
     OnTryDamagePrevention,
     OnAttackHit,
     OnAttackMissed,
     OnAttackFinish,
-    OnAttackFinishAsAttacker,
-    OnAttackFinishAsDefender,
     OnCombatCheckExtraAttack,
 
     OnAtLeastOneCritWasCancelledByDefender,
@@ -75,7 +78,12 @@ public enum TriggerTypes
     OnAbilityDirect,
     OnAbilityTargetIsSelected,
     OnMajorExplosionCrit,
-    OnDiscard
+    OnDiscard,
+    OnFlipFaceUp,
+    OnDiceAboutToBeRolled,
+    OnAfterDiscard,
+    OnAfterFlipFaceUp,
+    OnSystemsAbilityActivation
 }
 
 public class Trigger
@@ -103,6 +111,13 @@ public class StackLevel
     public int level;
     public bool IsActive;
     public Action CallBack;
+    public TriggerTypes TriggerType { get; private set; }
+    
+    public StackLevel(TriggerTypes triggerType)
+    {
+        TriggerType = triggerType;
+        level = Triggers.TriggersStack.Count();
+    }
 
     public int GetSize()
     {
@@ -148,7 +163,7 @@ public class StackLevel
 
 public static partial class Triggers
 {
-    private static List<StackLevel> TriggersStack;
+    public static List<StackLevel> TriggersStack { get; private set; }
 
     // PUBLIC
 
@@ -187,7 +202,7 @@ public static partial class Triggers
 
         if (currentLevel == null || currentLevel.IsActive)
         {
-            CreateNewLevelOfStack(callBack);
+            CreateNewLevelOfStack(triggerType, callBack);
             currentLevel = GetCurrentLevel();
         }
 
@@ -276,7 +291,13 @@ public static partial class Triggers
         }
         else
         {
-            Console.Write("Callback, stack level: " + (GetCurrentLevel().level + 1), LogTypes.Triggers, true);
+            string triggerTypesInStack = "";
+            foreach (var level in TriggersStack)
+            {
+                triggerTypesInStack += level.TriggerType;
+                if (level != TriggersStack.Last()) triggerTypesInStack += ", ";
+            }
+            Console.Write("Callback, stack level is " + (GetCurrentLevel().level + 1 + ": " + triggerTypesInStack), LogTypes.Triggers, true);
         }
 
         callBack();
@@ -299,7 +320,7 @@ public static partial class Triggers
 
     private static void CreateTriggerInNewLevel(Trigger trigger)
     {
-        CreateNewLevelOfStack();
+        CreateNewLevelOfStack(trigger.TriggerType);
         AddTriggerToCurrentStackLevel(trigger);
     }
 
@@ -308,9 +329,9 @@ public static partial class Triggers
         TriggersStack[TriggersStack.Count - 1].AddTrigger(trigger);
     }
 
-    private static void CreateNewLevelOfStack(Action callBack = null)
+    private static void CreateNewLevelOfStack(TriggerTypes triggerType, Action callBack = null)
     {
-        TriggersStack.Add(new StackLevel());
+        TriggersStack.Add(new StackLevel(triggerType));
         GetCurrentLevel().CallBack = callBack ?? delegate () { ResolveTriggers(TriggerTypes.None); };
     }
 

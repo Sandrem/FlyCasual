@@ -23,6 +23,11 @@ namespace Ship
         public bool IsReadyToBeDestroyed { get; set; }
         public bool PreventDestruction { get; set; }
         public bool IsDestroyed { get; set; }
+
+        public bool IsSystemsAbilityCanBeActivated { get { return OnSystemsAbilityActivation != null && !IsSystemsAbilityInactive; } }
+        public bool IsSystemsAbilityInactive { get; set; }
+
+        public bool AlwaysShowAssignedManeuver { get; set; }
     } 
 
 }

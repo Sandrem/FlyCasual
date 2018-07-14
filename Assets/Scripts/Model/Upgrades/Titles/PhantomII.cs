@@ -6,6 +6,7 @@ using System;
 using UnityEngine;
 using Abilities;
 using System.Collections.Generic;
+using Arcs;
 
 namespace UpgradesList
 {
@@ -48,7 +49,7 @@ namespace Abilities
         private void OnDocked(GenericShip dockingHost)
         {
             ToggleRearArc(true);
-            Phases.OnActivationPhaseEnd += RegisterFreeCoordinateAbility;
+            Phases.Events.OnActivationPhaseEnd_Triggers += RegisterFreeCoordinateAbility;
             dockingHost.OnShipIsDestroyed += DeactivateFreeCoordinate;
         }
 
@@ -61,12 +62,12 @@ namespace Abilities
 
         private void DeactivateFreeCoordinate(GenericShip host, bool isFled)
         {
-            Phases.OnActivationPhaseEnd -= RegisterFreeCoordinateAbility;
+            Phases.Events.OnActivationPhaseEnd_Triggers -= RegisterFreeCoordinateAbility;
         }
 
         private void ToggleRearArc(bool isActive)
         {
-            HostShip.Host.ArcInfo.GetRearArc().ShotPermissions.CanShootPrimaryWeapon = isActive;
+            HostShip.Host.ArcInfo.GetArc<ArcSpecialGhost>().ShotPermissions.CanShootPrimaryWeapon = isActive;
         }
 
         private void RegisterFreeCoordinateAbility()

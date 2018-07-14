@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Ship;
 using System;
+using Tokens;
 
 namespace Ship
 {
@@ -46,7 +47,7 @@ namespace Abilities
         {
             if (Combat.Attacker.Owner.PlayerNo == HostShip.Owner.PlayerNo && Combat.Attacker.ShipId != HostShip.ShipId)
             {
-                Board.ShipDistanceInformation distanceInfo = new Board.ShipDistanceInformation(Combat.Attacker, HostShip);
+                BoardTools.DistanceInfo distanceInfo = new BoardTools.DistanceInfo(Combat.Attacker, HostShip);
                 if (distanceInfo.Range < 4)
                 {
                     RegisterAbilityTrigger(TriggerTypes.OnAttackStart, AskJanOrsAbility);
@@ -68,7 +69,7 @@ namespace Abilities
 
         private void UseJanOrsAbility(object sender, System.EventArgs e)
         {
-            HostShip.Tokens.AssignToken(new Tokens.StressToken(HostShip), AllowRollAdditionalDice);
+            HostShip.Tokens.AssignToken(typeof(StressToken), AllowRollAdditionalDice);
         }
 
         private void AllowRollAdditionalDice()

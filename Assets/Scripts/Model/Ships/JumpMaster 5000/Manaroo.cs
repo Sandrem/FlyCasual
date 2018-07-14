@@ -46,12 +46,12 @@ namespace Abilities
 
         public override void ActivateAbility()
         {
-            Phases.OnCombatPhaseStart += CheckAbility;
+            Phases.Events.OnCombatPhaseStart_Triggers += CheckAbility;
         }
 
         public override void DeactivateAbility()
         {
-            Phases.OnCombatPhaseStart -= CheckAbility;
+            Phases.Events.OnCombatPhaseStart_Triggers -= CheckAbility;
         }
 
         private void CheckAbility()
@@ -69,7 +69,12 @@ namespace Abilities
                 TargetToReassignIsSelected,
                 FilterAbilityTargets,
                 GetAiPriority,
-                HostShip.Owner.PlayerNo
+                HostShip.Owner.PlayerNo,
+                true,
+                null,
+                HostShip.PilotName,
+                "Choose another friendly ship to assign all your focus, evade and target lock tokens to it.",
+                HostShip.ImageUrl
             );
         }
 
@@ -131,7 +136,7 @@ namespace Abilities
 
         private int CountFriendlyShipsRange1()
         {
-            return Board.BoardManager.GetShipsAtRange(HostShip, new Vector2(1, 1), Team.Type.Friendly).Count;
+            return BoardTools.Board.GetShipsAtRange(HostShip, new Vector2(1, 1), Team.Type.Friendly).Count;
         }
     }
 }

@@ -12,17 +12,19 @@ namespace RulesList
 
         public void PlanCheckStress(GenericShip ship)
         {
+            if (BoardTools.Board.IsOffTheBoard(ship)) return;
+
             Triggers.RegisterTrigger(new Trigger()
             {
                 Name = "Check stress",
                 TriggerOwner = ship.Owner.PlayerNo,
-                TriggerType = TriggerTypes.OnShipMovementExecuted,
+                TriggerType = TriggerTypes.OnMovementExecuted,
                 EventHandler = CheckStress
             });
 
             if (ship.Owner.GetType() == typeof(HotacAiPlayer))
             {
-                ship.AfterGenerateAvailableActionsList += AddRemoveStressActionForHotacAI;
+                ship.OnGenerateActions += AddRemoveStressActionForHotacAI;
             }
         }
 
@@ -30,13 +32,10 @@ namespace RulesList
         {
             switch (Selection.ThisShip.GetLastManeuverColor())
             {
-                case ManeuverColor.Red:
+                case MovementComplexity.Complex:
                     if (Selection.ThisShip.Owner.GetType() != typeof(HotacAiPlayer))
                     {
-                        Selection.ThisShip.Tokens.AssignToken(new StressToken(Selection.ThisShip), delegate {
-                            Selection.ThisShip.IsSkipsActionSubPhase = Selection.ThisShip.Tokens.HasToken(typeof(StressToken)) && !Selection.ThisShip.CanPerformActionsWhileStressed;
-                            Triggers.FinishTrigger();
-                        });
+                        Selection.ThisShip.Tokens.AssignToken(typeof(StressToken), Triggers.FinishTrigger);
                     }
                     else
                     {
@@ -44,7 +43,7 @@ namespace RulesList
                         Triggers.FinishTrigger();
                     }
                     break;
-                case ManeuverColor.Green:
+                case MovementComplexity.Easy:
                     if (Selection.ThisShip.Owner.GetType() != typeof(HotacAiPlayer))
                     {
                         Selection.ThisShip.Tokens.RemoveToken(
@@ -73,11 +72,11 @@ namespace RulesList
 
         public void CannotPerformRedManeuversWhileStressed(GenericShip ship, ref MovementStruct movement)
         {
-            if ((movement.ColorComplexity == ManeuverColor.Red) && (ship.Tokens.GetToken(typeof(StressToken)) != null))
+            if ((movement.ColorComplexity == MovementComplexity.Complex) && (ship.Tokens.GetToken(typeof(StressToken)) != null))
             {
-                if (!ship.CanPerformRedManeuversWhileStressed && !DirectionsMenu.ForceShowRedManeuvers)
+                if (!ship.CanPerformRedManeuversWhileStressed && !DirectionsMenu.IsForcedToShowRedManeuvers)
                 {
-                    movement.ColorComplexity = ManeuverColor.None;
+                    movement.ColorComplexity = MovementComplexity.None;
                 }
             }
         }
@@ -98,7 +97,7 @@ namespace ActionsList
 
         public HotacRemoveStressAction()
         {
-            Name = EffectName = "Remove Stress";
+            Name = DiceModificationName = "Remove Stress";
 
             CanBePerformedWhileStressed = true;
         }

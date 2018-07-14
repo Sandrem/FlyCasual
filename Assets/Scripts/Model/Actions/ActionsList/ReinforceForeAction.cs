@@ -1,5 +1,7 @@
-﻿using Ship;
+﻿using BoardTools;
+using Ship;
 using System.Linq;
+using Tokens;
 using UnityEngine;
 
 namespace ActionsList
@@ -10,31 +12,21 @@ namespace ActionsList
 
         public ReinforceForeAction()
         {
-            Name = EffectName = "Reinforce (Fore)";
+            Name = DiceModificationName = "Reinforce (Fore)";
+            Facing = Arcs.ArcFacing.Front180;
         }
 
         public override void ActionTake()
         {
             base.ActionTake();
-            Selection.ThisShip.Tokens.AssignToken(new Tokens.ReinforceForeToken(Host), Phases.CurrentSubPhase.CallBack);
-        }
-
-        public override bool IsActionEffectAvailable()
-        {
-            bool result = false;
-            if (Combat.AttackStep == CombatStep.Defence)
-            {
-                Board.ShipShotDistanceInformation reverseShotInfo = new Board.ShipShotDistanceInformation(Host, Combat.Attacker, Host.PrimaryWeapon);
-                result = reverseShotInfo.InArc;
-            }
-            return result;
+            Host.Tokens.AssignToken(typeof(ReinforceForeToken), Phases.CurrentSubPhase.CallBack);
         }
 
         public override int GetActionPriority()
         {
             int result = 0;
 
-            result = 10 + 30*Actions.CountEnemiesTargeting(Host, 1);
+            result = 25 + 30*Actions.CountEnemiesTargeting(Host, 1);
 
             return result;
         }

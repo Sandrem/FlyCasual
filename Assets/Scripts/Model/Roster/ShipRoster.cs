@@ -23,12 +23,6 @@ public static partial class Roster
     public static Dictionary<string, GenericShip> ShipsPlayer1 { get { return Player1.Ships; } }
     public static Dictionary<string, GenericShip> ShipsPlayer2 {get { return Player2.Ships; } }
 
-    public static void Start()
-    {
-        CreatePlayers();
-        SpawnAllShips();
-    }
-
     //PLAYERS CREATION
 
     private static void CreatePlayers()
@@ -54,10 +48,20 @@ public static partial class Roster
         foreach (var squadList in SquadBuilder.SquadLists)
         {
             SquadBuilder.SetPlayerSquadFromImportedJson(squadList.SavedConfiguration, squadList.PlayerNo, delegate { });
+
+            if (Roster.GetPlayer(squadList.PlayerNo).GetType() != typeof(HotacAiPlayer))
+            {
+                JSONObject playerInfo = squadList.SavedConfiguration.GetField("PlayerInfo");
+                Roster.GetPlayer(squadList.PlayerNo).NickName = playerInfo.GetField("NickName").str;
+                Roster.GetPlayer(squadList.PlayerNo).Title = playerInfo.GetField("Title").str;
+                Roster.GetPlayer(squadList.PlayerNo).Avatar = playerInfo.GetField("Avatar").str;
+            }
+
             Roster.GetPlayer(squadList.PlayerNo).SquadCost = squadList.Points;
         }
 
         // Keep order, ships must have same ID on both clients
+        ShipFactory.Initialize();
         foreach (SquadBuilderShip shipConfig in SquadBuilder.GetSquadList(PlayerNo.Player1).GetShips())
         {
             GenericShip newShip = ShipFactory.SpawnShip(shipConfig);
@@ -69,7 +73,7 @@ public static partial class Roster
             AddShipToLists(newShip);
         }
 
-        Board.BoardManager.SetShips();
+        BoardTools.Board.SetShips();
     }
 
     private static void AddShipToLists(GenericShip newShip)
@@ -94,6 +98,7 @@ public static partial class Roster
         if (ship != null)
         {
             ship.SetActive(false);
+            ship.SetPosition(new Vector3(0, -100, 0));
             ship.InfoPanel.SetActive(false);
             ship.Owner.Ships.Remove(id);
             AllShips.Remove(id);
@@ -153,6 +158,11 @@ public static partial class Roster
         return (playerNo == PlayerNo.Player1) ? Roster.Player1 : Roster.Player2;
     }
 
+    public static GenericPlayer GetPlayer(int playerNo)
+    {
+        return (playerNo == 1) ? Roster.Player1 : Roster.Player2;
+    }
+
     public static int AnotherPlayer(int player)
     {
         return (player == 1) ? 2 : 1;
@@ -194,7 +204,7 @@ public static partial class Roster
         var results =
             from n in AllShips
             where n.Value.Owner.PlayerNo == playerNo
-            where n.Value.AssignedManeuver == null
+            where n.Value.AssignedManeuver == null && !RulesList.IonizationRule.IsIonized(n.Value)
             select n;
 
         //if (results.Count() > 0) Game.UI.ShowError("Not all ship are assigned their maneuvers");

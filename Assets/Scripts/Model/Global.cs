@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Global : MonoBehaviour {
 
@@ -8,10 +9,8 @@ public class Global : MonoBehaviour {
 
     private static bool isAlreadyInitialized;
 
-    public static string test = "I am accessible from every scene";
-
-    public static string CurrentVersion = "0.4.3 DEV";
-    public static int CurrentVersionInt = 100040300;
+    public static string CurrentVersion = "0.5.2";
+    public static int CurrentVersionInt = 100050200;
 
     void Awake()
     {
@@ -32,16 +31,53 @@ public class Global : MonoBehaviour {
         Tooltips.CheckTooltip();
     }
 
+    public static void BattleIsReady()
+    {
+        if ((Roster.Player2 is Players.GenericAiPlayer) && (!Options.DontShowAiInfo))
+        {
+            MainMenu.ShowAiInformationContinue();
+        }
+        else
+        {
+            StartBattle();
+        }
+    }
+
     public static void StartBattle()
     {
-        HideOpponentSquad();
+        ToggelLoadingScreen(false);
         Phases.StartPhases();
     }
 
-    private static void HideOpponentSquad()
+    public static void ToggelLoadingScreen(bool isActive)
     {
-        Transform opponentSquad = GameObject.Find("GlobalUI").transform.Find("OpponentSquad");
-        if (opponentSquad != null) opponentSquad.gameObject.SetActive(false);
+        Transform loadingScreen = GameObject.Find("GlobalUI").transform.Find("OpponentSquad");
+        if (isActive) loadingScreen.GetComponent<Image>().sprite = MainMenu.GetRandomSplashScreen();
+        if (loadingScreen != null) loadingScreen.gameObject.SetActive(isActive);
+        if (isActive) MainMenu.ResetAiInformation();
+    }
+
+    public static Scene ActiveScene
+    {
+        get
+        {
+            switch (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name)
+            {
+                case "MainMenu":
+                    return Scene.MainMenu;
+                case "Battle":
+                    return Scene.Battle;
+                default:
+                    return Scene.Undefined;
+            }
+        }
+    }
+
+    public enum Scene
+    {
+        Undefined,
+        MainMenu,
+        Battle
     }
 
 }

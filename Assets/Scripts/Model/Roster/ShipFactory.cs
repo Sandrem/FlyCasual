@@ -1,4 +1,6 @@
-﻿using SquadBuilderNS;
+﻿using RuleSets;
+using Ship;
+using SquadBuilderNS;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -19,30 +21,34 @@ public static class ShipFactory {
     }
 
 	//TODO: REWRITE ASAP
-	public static Ship.GenericShip SpawnShip(SquadBuilderShip shipConfig) {
+	public static GenericShip SpawnShip(SquadBuilderShip shipConfig) {
 
         //temporary
         int id = 1;
         Vector3 position = Vector3.zero;
 
-        Ship.GenericShip newShipContainer = shipConfig.Instance;
+        GenericShip newShipContainer = shipConfig.Instance;
         newShipContainer.InitializeGenericShip(shipConfig.List.PlayerNo, id, position);
 
         Roster.SubscribeSelectionByInfoPanel(newShipContainer.InfoPanel.transform.Find("ShipInfo").gameObject);
         Roster.SubscribeUpgradesPanel(newShipContainer, newShipContainer.InfoPanel);
 
         //TODO: Rework this
-        newShipContainer.AfterGotNumberOfPrimaryWeaponAttackDice += Rules.DistanceBonus.CheckAttackDistanceBonus;
-        newShipContainer.AfterGotNumberOfPrimaryWeaponDefenceDice += Rules.DistanceBonus.CheckDefenceDistanceBonus;
+        newShipContainer.AfterGotNumberOfAttackDice += Rules.DistanceBonus.CheckAttackDistanceBonus;
+        newShipContainer.AfterGotNumberOfDefenceDice += Rules.DistanceBonus.CheckDefenceDistanceBonus;
         newShipContainer.AfterGotNumberOfDefenceDice += Rules.AsteroidObstruction.CheckDefenceObstructionBonus;
-        newShipContainer.OnTryAddAvailableAction += Rules.Stress.CanPerformActions;
-        newShipContainer.OnTryAddAvailableAction += Rules.DuplicatedActions.CanPerformActions;
+        newShipContainer.OnTryAddAction += Rules.Stress.CanPerformActions;
+        newShipContainer.OnTryAddAction += Rules.Actions.CanPerformActions;
         newShipContainer.OnMovementStart += MovementTemplates.ApplyMovementRuler;
         newShipContainer.OnMovementStart += MovementTemplates.CallReturnRangeRuler;
         newShipContainer.OnPositionFinish += Rules.OffTheBoard.CheckOffTheBoard;
         newShipContainer.OnMovementExecuted += Rules.Stress.PlanCheckStress;
         newShipContainer.AfterGetManeuverAvailablity += Rules.Stress.CannotPerformRedManeuversWhileStressed;
+        newShipContainer.OnGenerateDiceModifications += Rules.Force.AddForceAction;
+        newShipContainer.OnRoundEnd += Rules.Force.RegenerateForce;
         newShipContainer.OnShipIsDestroyed += Rules.TargetLocks.RegisterRemoveTargetLocksOnDestruction;
+        newShipContainer.OnActionIsPerformed += Rules.Actions.RedActionCheck;
+        newShipContainer.OnActionIsPerformed += Rules.Actions.CheckLinkedAction;
 
         newShipContainer.OnTokenIsAssigned += Roster.UpdateTokensIndicator;
         newShipContainer.OnTokenIsRemoved += Roster.UpdateTokensIndicator;
@@ -51,6 +57,8 @@ public static class ShipFactory {
         newShipContainer.AfterAssignedDamageIsChanged += Roster.UpdateRosterHullDamageIndicators;
         newShipContainer.AfterAssignedDamageIsChanged += Roster.UpdateRosterShieldsDamageIndicators;
         newShipContainer.AfterStatsAreChanged += Roster.UpdateShipStats;
+
+        RuleSet.Instance.SubScribeToGenericShipEvents(newShipContainer);
 
         return newShipContainer;
 	}

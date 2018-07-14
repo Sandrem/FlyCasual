@@ -87,12 +87,12 @@ namespace Abilities
 
         private void UsePilotAbility(TwoShipsArguments twoShipsArguments)
         {
-            twoShipsArguments.Host.Tokens.AssignToken(new StressToken(twoShipsArguments.Host), delegate { AssignSecondStressToken(twoShipsArguments); });
+            twoShipsArguments.Host.Tokens.AssignToken(typeof(StressToken), delegate { AssignSecondStressToken(twoShipsArguments); });
         }
 
         private void AssignSecondStressToken(TwoShipsArguments twoShipsArguments)
         {
-            twoShipsArguments.Host.Tokens.AssignToken(new StressToken(twoShipsArguments.Host), delegate { RemoveStressTokenFromTarget(twoShipsArguments); });
+            twoShipsArguments.Host.Tokens.AssignToken(typeof(StressToken), delegate { RemoveStressTokenFromTarget(twoShipsArguments); });
         }
 
         private void RemoveStressTokenFromTarget(TwoShipsArguments twoShipsArguments)

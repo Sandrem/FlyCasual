@@ -147,7 +147,7 @@ namespace AI
             return result;
         }
 
-        public void Check(Dictionary<string, Movement.ManeuverColor> maneuvers)
+        public void Check(Dictionary<string, Movement.MovementComplexity> maneuvers)
         {
 
             foreach (var maneuver in FrontManeuversInner)

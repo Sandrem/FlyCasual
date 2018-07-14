@@ -1,6 +1,7 @@
 ﻿using Ship;
 using Ship.HWK290;
 using Upgrade;
+using Abilities;
 
 namespace UpgradesList
 {
@@ -11,24 +12,36 @@ namespace UpgradesList
             Types.Add(UpgradeType.Title);
             Name = "Moldy Crow";
             Cost = 3;
+
             isUnique = true;
+
+            UpgradeAbilities.Add(new MoldyCrowAbility());
         }
 
         public override bool IsAllowedForShip(GenericShip ship)
         {
             return ship is HWK290;
         }
+    }
+}
 
-        public override void AttachToShip(Ship.GenericShip host)
+namespace Abilities
+{
+    public class MoldyCrowAbility : GenericAbility
+    {
+        public override void ActivateAbility()
         {
-            base.AttachToShip(host);
+            HostShip.BeforeRemovingTokenInEndPhase += KeepFocusTokens;
+        }
 
-            host.BeforeRemovingTokenInEndPhase += KeepFocusTokens;
+        public override void DeactivateAbility()
+        {
+            HostShip.BeforeRemovingTokenInEndPhase -= KeepFocusTokens;
         }
 
         private void KeepFocusTokens(Tokens.GenericToken token, ref bool remove)
         {
             if (token is Tokens.FocusToken) remove = false;
-        } 
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Tokens;
 using UnityEngine;
 
 namespace SubPhases
@@ -10,6 +11,8 @@ namespace SubPhases
 
         public override void Start()
         {
+            base.Start();
+
             Name = "Action SubPhase";
             RequiredPilotSkill = PreviousSubPhase.RequiredPilotSkill;
             RequiredPlayer = PreviousSubPhase.RequiredPlayer;
@@ -19,29 +22,26 @@ namespace SubPhases
 
         public override void Initialize()
         {
-            Phases.CallBeforeActionSubPhaseTrigger();
+            Phases.Events.CallBeforeActionSubPhaseTrigger();
+            var ship = Selection.ThisShip;
 
-            if (!Selection.ThisShip.IsSkipsActionSubPhase)
+            bool canPerformAction = !(ship.IsSkipsActionSubPhase  || ship.IsDestroyed
+                                    || (ship.Tokens.HasToken(typeof(StressToken)) && !ship.CanPerformActionsWhileStressed));
+
+            if (canPerformAction)
             {
-                if (!Selection.ThisShip.IsDestroyed)
-                {
-                    Selection.ThisShip.GenerateAvailableActionsList();
-                    Triggers.RegisterTrigger(
-                        new Trigger() {
-                            Name = "Action",
-                            TriggerOwner = Phases.CurrentPhasePlayer,
-                            TriggerType = TriggerTypes.OnActionSubPhaseStart,
-                            EventHandler = StartActionDecisionSubphase
-                        }
-                    );
-                }
-                else
-                {
-                    //Next();
-                }
+                ship.GenerateAvailableActionsList();
+                Triggers.RegisterTrigger(
+                    new Trigger() {
+                        Name = "Action",
+                        TriggerOwner = Phases.CurrentPhasePlayer,
+                        TriggerType = TriggerTypes.OnActionSubPhaseStart,
+                        EventHandler = StartActionDecisionSubphase
+                    }
+                );                
             }
 
-            Phases.CallOnActionSubPhaseTrigger();
+            Phases.Events.CallOnActionSubPhaseTrigger();
         }
 
         private void StartActionDecisionSubphase(object sender, System.EventArgs e)
@@ -49,7 +49,11 @@ namespace SubPhases
             Phases.StartTemporarySubPhaseOld(
                 "Action Decision",
                 typeof(ActionDecisonSubPhase),
-                delegate { Actions.FinishAction(Finish); }
+                delegate {
+                    Actions.TakeActionFinish(
+                        delegate { Actions.EndActionDecisionSubhase(Finish); }
+                    ); 
+                }
             );
         }
 
@@ -63,16 +67,6 @@ namespace SubPhases
         public override void Next()
         {
             FinishPhase();
-        }
-
-        public override void Pause()
-        {
-            
-        }
-
-        public override void Resume()
-        {
-            
         }
 
         public override void FinishPhase()
@@ -102,15 +96,19 @@ namespace SubPhases
 
     public class ActionDecisonSubPhase : DecisionSubPhase
     {
+        public bool ActionWasPerformed { get; private set; }
 
         public override void PrepareDecision(System.Action callBack)
         {
             InfoText = "Select action";
+            ShowSkipButton = true;
+            DefaultDecisionName = "Focus";
+
             List<ActionsList.GenericAction> availableActions = Selection.ThisShip.GetAvailableActionsList();
 
             if (availableActions.Count > 0)
             {
-                Roster.GetPlayer(Phases.CurrentPhasePlayer).PerformAction();
+                GenerateActionButtons();
                 callBack();
             }
             else
@@ -121,20 +119,25 @@ namespace SubPhases
             }
         }
 
-        public void ShowActionDecisionPanel()
+        public void GenerateActionButtons()
         {
+            //TODO: Use more global way of fix
+            HideDecisionWindowUI();
+
             List<ActionsList.GenericAction> availableActions = Selection.ThisShip.GetAvailableActionsList();
             foreach (var action in availableActions)
             {
-                AddDecision(action.Name, delegate { Actions.TakeAction(action); });
-                AddTooltip(action.Name, action.ImageUrl);
+                string decisionName = (action.LinkedRedAction == null) ? action.Name : action.Name + " > <color=red>" + action.LinkedRedAction.Name + "</color>";
+                AddDecision(decisionName, delegate {
+                    ActionWasPerformed = true;
+                    Actions.TakeActionStart(action);
+                }, action.ImageUrl, -1, action.IsRed);
             }
         }
 
         public override void Resume()
         {
             base.Resume();
-            Initialize();
 
             UI.ShowSkipButton();
         }
@@ -154,15 +157,18 @@ namespace SubPhases
 
     public class FreeActionDecisonSubPhase : DecisionSubPhase
     {
+        public bool ActionWasPerformed { get; private set; }
 
         public override void PrepareDecision(System.Action callBack)
         {
             InfoText = "Select free action";
+            DefaultDecisionName = "Focus";
+
             List<ActionsList.GenericAction> availableActions = Selection.ThisShip.GetAvailableFreeActionsList();
 
             if (availableActions.Count > 0)
             {
-                Roster.GetPlayer(Phases.CurrentPhasePlayer).PerformFreeAction();
+                GenerateFreeActionButtons();
                 callBack();
             }
             else
@@ -173,23 +179,32 @@ namespace SubPhases
             }
         }
 
-        public void ShowActionDecisionPanel()
+        public void GenerateFreeActionButtons()
 		{
 			Selection.ThisShip.IsFreeActionSkipped = false;
             List<ActionsList.GenericAction> availableActions = Selection.ThisShip.GetAvailableFreeActionsList();
             foreach (var action in availableActions)
             {
-                AddDecision(action.Name, delegate { Actions.TakeAction(action); });
-                AddTooltip(action.Name, action.ImageUrl);
+                string decisionName = (action.LinkedRedAction == null) ? action.Name : action.Name + " > <color=red>" + action.LinkedRedAction.Name + "</color>";
+                AddDecision(
+                    decisionName,
+                    delegate
+                    {
+                        ActionWasPerformed = true;
+                        Selection.ThisShip.CallBeforeFreeActionIsPerformed(action, delegate { Actions.TakeActionStart(action); });
+                    },
+                    action.ImageUrl,
+                    -1,
+                    action.IsRed
+                );
             }
         }
 
         public override void Resume()
         {
             base.Resume();
-            Initialize();
 
-            UI.ShowSkipButton();
+            if (ShowSkipButton) UI.ShowSkipButton(); else UI.HideSkipButton();
         }
 
         public override void SkipButton()

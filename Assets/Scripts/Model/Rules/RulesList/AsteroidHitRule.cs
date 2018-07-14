@@ -1,11 +1,13 @@
 ﻿using System.Collections;
 using UnityEngine;
 using Ship;
+using SubPhases;
 
 namespace RulesList
 {
     public class AsteroidHitRule
     {
+        static bool RuleIsInitialized = false;
 
         public AsteroidHitRule()
         {
@@ -14,8 +16,12 @@ namespace RulesList
 
         private void SubscribeEvents()
         {
-            GenericShip.OnMovementFinishGlobal += CheckDamage;
-            Phases.BeforeActionSubPhaseStart += CheckSkipPerformAction;
+            if (!RuleIsInitialized)
+            {
+                GenericShip.OnMovementFinishGlobal += CheckDamage;
+                RuleIsInitialized = true;
+            }
+            Phases.Events.BeforeActionSubPhaseStart += CheckSkipPerformAction;
         }
 
         private void CheckSkipPerformAction()
@@ -27,35 +33,38 @@ namespace RulesList
             }
         }
 
-        private void CheckDamage(GenericShip ship)
+        public void CheckDamage(GenericShip ship)
         {
-            if (Selection.ThisShip.IsHitObstacles)
+            if (ship.IsHitObstacles)
             {
-                foreach (var asteroid in Selection.ThisShip.ObstaclesHit)
+                foreach (var asteroid in ship.ObstaclesHit)
                 {
                     Triggers.RegisterTrigger(new Trigger()
                     {
                         Name = "Roll for asteroid damage",
-                        TriggerOwner = Selection.ThisShip.Owner.PlayerNo,
-                        TriggerType = TriggerTypes.OnShipMovementFinish,
-                        EventHandler = RollForDamage
+                        TriggerOwner = ship.Owner.PlayerNo,
+                        TriggerType = TriggerTypes.OnMovementFinish,
+                        EventHandler = RollForDamage(ship)
                     });
                 }
             }
         }
 
-        private void RollForDamage(object sender, System.EventArgs e)
+        private System.EventHandler RollForDamage(GenericShip ship)
         {
-            Messages.ShowErrorToHuman("Hit asteroid during movement - rolling for damage");
+            return delegate {
+                Messages.ShowErrorToHuman("Hit asteroid during movement - rolling for damage");
 
-            Selection.ActiveShip = Selection.ThisShip;
-            Phases.StartTemporarySubPhaseOld(
-                "Damage from asteroid collision",
-                typeof(SubPhases.AsteroidHitCheckSubPhase),
-                delegate {
-                    Phases.FinishSubPhase(typeof(SubPhases.AsteroidHitCheckSubPhase));
-                    Triggers.FinishTrigger();
-                });
+                AsteroidHitCheckSubPhase newPhase = (AsteroidHitCheckSubPhase) Phases.StartTemporarySubPhaseNew(
+                    "Damage from asteroid collision",
+                    typeof(AsteroidHitCheckSubPhase),
+                    delegate {
+                        Phases.FinishSubPhase(typeof(AsteroidHitCheckSubPhase));
+                        Triggers.FinishTrigger();
+                    });
+                newPhase.TheShip = ship;
+                newPhase.Start();
+            };
         }
     }
 }
@@ -65,19 +74,21 @@ namespace SubPhases
 
     public class AsteroidHitCheckSubPhase : DiceRollCheckSubPhase
     {
+        private GenericShip prevActiveShip = Selection.ActiveShip;
 
         public override void Prepare()
         {
-            diceType = DiceKind.Attack;
-            diceCount = 1;
+            DiceKind = DiceKind.Attack;
+            DiceCount = 1;
 
-            finishAction = FinishAction;
+            AfterRoll = FinishAction;
+            Selection.ActiveShip = TheShip;
         }
 
         protected override void FinishAction()
         {
             HideDiceResultMenu();
-            Selection.ActiveShip = Selection.ThisShip;
+            Selection.ActiveShip = prevActiveShip;
 
             switch (CurrentDiceRoll.DiceList[0].Side)
             {
@@ -110,13 +121,13 @@ namespace SubPhases
         {
             foreach (var dice in CurrentDiceRoll.DiceList)
             {
-                Selection.ActiveShip.AssignedDamageDiceroll.DiceList.Add(dice);
+                TheShip.AssignedDamageDiceroll.DiceList.Add(dice);
 
                 Triggers.RegisterTrigger(new Trigger() {
                     Name = "Suffer asteroid damage",
                     TriggerType = TriggerTypes.OnDamageIsDealt,
-                    TriggerOwner = Selection.ActiveShip.Owner.PlayerNo,
-                    EventHandler = Selection.ActiveShip.SufferDamage,
+                    TriggerOwner = TheShip.Owner.PlayerNo,
+                    EventHandler = TheShip.SufferDamage,
                     EventArgs = new DamageSourceEventArgs()
                     {
                         Source = "Asteroid",

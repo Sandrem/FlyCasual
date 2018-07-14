@@ -4,6 +4,8 @@ using UnityEngine;
 using System.Linq;
 using Ship;
 using System;
+using GameModes;
+using BoardTools;
 
 namespace SubPhases
 {
@@ -14,6 +16,8 @@ namespace SubPhases
 
         public override void Start()
         {
+            base.Start();
+
             Name = "Combat SubPhase";
 
             selectionMode = Team.Type.Friendly;
@@ -47,7 +51,7 @@ namespace SubPhases
 
                 if (nextPilotSkill != RequiredPilotSkill)
                 {
-                    Phases.CallCombatSubPhaseRequiredPilotSkillIsChanged();
+                    Phases.Events.CallCombatSubPhaseRequiredPilotSkillIsChanged();
                 }
 
                 if (nextPilotSkill != int.MaxValue)
@@ -125,6 +129,20 @@ namespace SubPhases
 
         public override void FinishPhase()
         {
+            if (Phases.Events.HasOnCombatPhaseEndEvents)
+            {
+                GenericSubPhase subphase = Phases.StartTemporarySubPhaseNew("Notification", typeof(NotificationSubPhase), StartCombatEndSubPhase);
+                (subphase as NotificationSubPhase).TextToShow = "End of combat";
+                subphase.Start();
+            }
+            else
+            {
+                StartCombatEndSubPhase();
+            }
+        }
+
+        private void StartCombatEndSubPhase()
+        {
             Phases.CurrentSubPhase = new CombatEndSubPhase();
             Phases.CurrentSubPhase.Start();
             Phases.CurrentSubPhase.Prepare();
@@ -168,7 +186,8 @@ namespace SubPhases
         public override void DoSelectThisShip(GenericShip ship, int mouseKeyIsPressed)
         {
             Roster.HighlightShipsFiltered(FilterShipsToAttack);
-            ship.CallCombatActivation(delegate { ChangeSelectionMode(Team.Type.Enemy); });
+
+            GameMode.CurrentGameMode.CombatActivation(ship.ShipId);
         }
 
         private bool FilterShipsToAttack(GenericShip ship)
@@ -182,7 +201,7 @@ namespace SubPhases
             selectionMode = Team.Type.Any;
         }
 
-        private void ChangeSelectionMode(Team.Type type)
+        public void ChangeSelectionMode(Team.Type type)
         {
             UI.ShowSkipButton();
             selectionMode = type;
@@ -197,8 +216,6 @@ namespace SubPhases
                 {
                     if (targetShip.Owner.PlayerNo != Phases.CurrentSubPhase.RequiredPlayer)
                     {
-                        Board.ShipShotDistanceInformation shotInfo = new Board.ShipShotDistanceInformation(Selection.ThisShip, targetShip);
-                        MovementTemplates.ShowFiringArcRange(shotInfo);
                         result = true;
                     }
                     else
@@ -326,6 +343,7 @@ namespace SubPhases
             {
                 if (Selection.ThisShip.IsAttackPerformed != true)
                 {
+                    UI.CheckFiringRangeAndShow();
                     UI.ClickDeclareTarget();
                 }
                 else
@@ -341,6 +359,8 @@ namespace SubPhases
 
         public override void Resume()
         {
+            base.Resume();
+
             ChangeSelectionMode(Team.Type.Friendly);
         }
 

@@ -35,13 +35,13 @@ namespace Abilities
         public override void ActivateAbility()
         {
             HostShip.OnAttackMissedAsAttacker += CheckLukeAbility;
-            Phases.OnRoundEnd += ClearIsAbilityUsedFlag;
+            Phases.Events.OnRoundEnd += ClearIsAbilityUsedFlag;
         }
 
         public override void DeactivateAbility()
         {
             HostShip.OnAttackMissedAsAttacker -= CheckLukeAbility;
-            Phases.OnRoundEnd -= ClearIsAbilityUsedFlag;
+            Phases.Events.OnRoundEnd -= ClearIsAbilityUsedFlag;
         }
 
         private void CheckLukeAbility()
@@ -66,17 +66,18 @@ namespace Abilities
         {
             if (!HostShip.IsCannotAttackSecondTime)
             {
-                Messages.ShowInfo(HostShip.PilotName + " can perform second attack\nfrom primary weapon");
-
                 HostShip.IsCannotAttackSecondTime = true;
 
-                HostShip.AfterGenerateAvailableActionEffectsList += AddLukeSkywalkerCrewAbility;
-                Phases.OnCombatPhaseEnd += RemoveLukeSkywalkerCrewAbility;
+                HostShip.OnGenerateDiceModifications += AddLukeSkywalkerCrewAbility;
+                Phases.Events.OnCombatPhaseEnd_NoTriggers += RemoveLukeSkywalkerCrewAbility;
 
                 Combat.StartAdditionalAttack(
                     HostShip,
                     FinishAdditionalAttack,
-                    IsPrimaryWeaponShot
+                    IsPrimaryWeaponShot,
+                    HostUpgrade.Name,
+                    "You may perform a primary weapon attack.",
+                    HostUpgrade.ImageUrl
                 );
             }
             else
@@ -94,7 +95,7 @@ namespace Abilities
             Triggers.FinishTrigger();
         }
 
-        private bool IsPrimaryWeaponShot(GenericShip defender, IShipWeapon weapon)
+        private bool IsPrimaryWeaponShot(GenericShip defender, IShipWeapon weapon, bool isSilent)
         {
             bool result = false;
 
@@ -104,7 +105,7 @@ namespace Abilities
             }
             else
             {
-                Messages.ShowError("Attack must be performed from primary weapon");
+                if (!isSilent) Messages.ShowError("Attack must be performed from primary weapon");
             }
 
             return result;
@@ -112,13 +113,13 @@ namespace Abilities
 
         public void AddLukeSkywalkerCrewAbility(GenericShip ship)
         {
-            ship.AddAvailableActionEffect(new ActionsList.LukeSkywalkerCrewAction());
+            ship.AddAvailableDiceModification(new ActionsList.LukeSkywalkerCrewAction());
         }
 
         public void RemoveLukeSkywalkerCrewAbility()
         {
-            Phases.OnCombatPhaseEnd -= RemoveLukeSkywalkerCrewAbility;
-            HostShip.AfterGenerateAvailableActionEffectsList -= AddLukeSkywalkerCrewAbility;
+            Phases.Events.OnCombatPhaseEnd_NoTriggers -= RemoveLukeSkywalkerCrewAbility;
+            HostShip.OnGenerateDiceModifications -= AddLukeSkywalkerCrewAbility;
         }
 
     }
@@ -131,7 +132,7 @@ namespace ActionsList
 
         public LukeSkywalkerCrewAction()
         {
-            Name = EffectName = "Luke Skywalker's ability";
+            Name = DiceModificationName = "Luke Skywalker's ability";
 
             IsTurnsOneFocusIntoSuccess = true;
         }
@@ -142,14 +143,14 @@ namespace ActionsList
             callBack();
         }
 
-        public override bool IsActionEffectAvailable()
+        public override bool IsDiceModificationAvailable()
         {
             bool result = false;
             if (Combat.AttackStep == CombatStep.Attack) result = true;
             return result;
         }
 
-        public override int GetActionEffectPriority()
+        public override int GetDiceModificationPriority()
         {
             int result = 0;
 

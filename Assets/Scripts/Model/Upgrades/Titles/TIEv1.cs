@@ -6,6 +6,7 @@ using ActionsList;
 using System;
 using SubPhases;
 using UpgradesList;
+using Abilities;
 
 namespace UpgradesList
 {
@@ -18,30 +19,41 @@ namespace UpgradesList
             Types.Add(UpgradeType.Title);
             Name = "TIE/v1";
             Cost = 1;
+
+            UpgradeAbilities.Add(new TIEv1Ability());
         }
 
         public override bool IsAllowedForShip(GenericShip ship)
         {
             return ship is TIEAdvPrototype;
         }
+    }
+}
 
-        public override void AttachToShip(GenericShip host)
+namespace Abilities
+{
+    public class TIEv1Ability : GenericAbility
+    {
+        public override void ActivateAbility()
         {
-            base.AttachToShip(host);
+            HostShip.OnActionIsPerformed += CheckTargetLockBonus;
+        }
 
-            host.OnActionIsPerformed += CheckTargetLockBonus;
+        public override void DeactivateAbility()
+        {
+            HostShip.OnActionIsPerformed -= CheckTargetLockBonus;
         }
 
         private void CheckTargetLockBonus(GenericAction action)
         {
-            if ((action != null) && (action.GetType() == typeof(TargetLockAction)))
+            if (action is TargetLockAction)
             {
                 Triggers.RegisterTrigger(new Trigger()
                 {
                     Name = "TIE/v1",
                     TriggerType = TriggerTypes.OnActionDecisionSubPhaseEnd,
-                    TriggerOwner = Host.Owner.PlayerNo,
-                    Sender = this,
+                    TriggerOwner = HostShip.Owner.PlayerNo,
+                    Sender = HostUpgrade,
                     EventHandler = AskAssignEvade
                 });
             }
@@ -49,7 +61,7 @@ namespace UpgradesList
 
         private void AskAssignEvade(object sender, System.EventArgs e)
         {
-            if (Selection.ThisShip.CanPerformAction(new ActionsList.EvadeAction()))
+            if (Selection.ThisShip.CanPerformAction(new EvadeAction()))
             {
                 TIEv1DecisionSubPhase newSubPhase = (TIEv1DecisionSubPhase)Phases.StartTemporarySubPhaseNew("TIE/v1 decision", typeof(SubPhases.TIEv1DecisionSubPhase), Triggers.FinishTrigger);
                 newSubPhase.TIEv1Upgrade = sender as TIEv1;

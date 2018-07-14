@@ -1,5 +1,4 @@
-﻿using DamageDeckCard;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,9 +16,9 @@ namespace Ship
             DamageCards = new List<GenericDamageCard>();
         }
 
-        public List<GenericDamageCard> GetFaceupCrits()
+        public List<GenericDamageCard> GetFaceupCrits(CriticalCardType? type = null)
         {
-            return DamageCards.Where(n => n.IsFaceup).ToList();
+            return DamageCards.Where(n => n.IsFaceup && (n.Type == type || type == null)).ToList();
         }
 
         public List<GenericDamageCard> GetFacedownCards()
@@ -41,7 +40,7 @@ namespace Ship
             if (faceDownCards.Count != 0)
             {
                 result = true;
-                faceDownCards.RemoveAt(0);
+                DamageCards.Remove(faceDownCards.First());
                 Host.CallAfterAssignedDamageIsChanged();
             }
             return result;
@@ -50,7 +49,6 @@ namespace Ship
         public void FlipFaceupCritFacedown(GenericDamageCard critCard)
         {
             critCard.DiscardEffect();
-            DamageCards.Remove(critCard);
 
             Messages.ShowInfo("Critical damage card \"" + critCard.Name + "\" is flipped facedown");
         }
@@ -70,5 +68,38 @@ namespace Ship
                 callback();
             }
         }
+
+        public bool HasFacedownCards { get { return DamageCards.Any(n => !n.IsFaceup); } }
+
+        public void ExposeRandomFacedownCard(Action callback)
+        {
+            int randomIndex = UnityEngine.Random.Range(0, DamageCards.Count);
+            GenericDamageCard randomCard = DamageCards[randomIndex];
+
+            randomCard.Expose(callback);
+        }
+
+        // EXTRA
+
+        public void SufferFacedownDamageCard(DamageSourceEventArgs e, Action callback)
+        {
+            Triggers.RegisterTrigger(new Trigger()
+            {
+                Name = "Suffer facedown damage card",
+                TriggerType = TriggerTypes.OnDamageIsDealt,
+                TriggerOwner = Host.Owner.PlayerNo,
+                EventHandler = SufferHullDamage,
+                EventArgs = e
+            });
+
+            Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, callback);
+        }
+
+        private void SufferHullDamage(object sender, EventArgs e)
+        {
+            Messages.ShowInfoToHuman(string.Format("{0}: Facedown card is dealt", Host.PilotName));
+            Host.SufferHullDamage(false, e);
+        }
+
     }
 }

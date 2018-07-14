@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using GameModes;
+using Ship;
+using System.Linq;
+using SubPhases;
+using System;
 
 public class ShipMovementScript : MonoBehaviour {
 
@@ -12,6 +16,8 @@ public class ShipMovementScript : MonoBehaviour {
     public Collider ObstacleExit;
     public Collider ObstacleHitEnter;
     public Collider ObstacleHitExit;
+
+    public static Action ExtraMovementCallback;
 
     public List<System.Func<bool>> FuncsToUpdate = new List<System.Func<bool>>();
 
@@ -59,7 +65,7 @@ public class ShipMovementScript : MonoBehaviour {
 
         Selection.ThisShip.SetAssignedManeuver(MovementFromString(maneuverCode));
 
-        if (Phases.CurrentSubPhase.GetType() == typeof(SubPhases.PlanningSubPhase))
+        if (Phases.CurrentSubPhase.GetType() == typeof(PlanningSubPhase))
         {
             Roster.HighlightShipOff(Selection.ThisShip);
 
@@ -119,39 +125,67 @@ public class ShipMovementScript : MonoBehaviour {
 
     public void PerformStoredManeuverButtonIsPressed()
     {
-        GameMode.CurrentGameMode.PerformStoredManeuver(Selection.ThisShip.ShipId);
+        GameMode.CurrentGameMode.ActivateShipForMovement(Selection.ThisShip.ShipId);
     }
 
-    private static void DoMovementTriggerHandler(object sender, System.EventArgs e)
-    {
-        Phases.StartTemporarySubPhaseOld("Movement", typeof(SubPhases.MovementExecutionSubPhase));
-    }
-
-    public static void PerformStoredManeuver(int shipId)
+    public static void ActivateAndMove(int shipId)
     {
         Selection.ChangeActiveShip("ShipId:" + shipId);
 
         UI.HideContextMenu();
 
-        Selection.ThisShip.CallMovementActivation(LaunchMovementTrigger);
+        Selection.ThisShip.CallMovementActivation(ReadyRoRevealManeuver);
     }
 
-    private static void LaunchMovementTrigger()
+    private static void ReadyRoRevealManeuver()
+    {
+        Selection.ThisShip.CallManeuverIsReadyToBeRevealed(RevealManeuver);
+    }
+
+    private static void RevealManeuver()
+    {
+        Selection.ThisShip.CallManeuverIsRevealed(
+            delegate { GameMode.CurrentGameMode.LaunchMovement(FinishMovementAndStartActionDecision); }
+        );
+    }
+
+    private static void FinishMovementAndStartActionDecision()
+    {
+        GenericSubPhase actionSubPhase = new ActionSubPhase();
+        actionSubPhase.PreviousSubPhase = Phases.CurrentSubPhase;
+
+        Phases.CurrentSubPhase = actionSubPhase;
+        Phases.CurrentSubPhase.Start();
+        Phases.CurrentSubPhase.Initialize();
+    }
+
+    public static void LaunchMovement(Action callback)
+    {
+        if (callback == null) callback = ExtraMovementCallback;
+
+        LaunchMovementPrepared(delegate {
+            Phases.FinishSubPhase(typeof(MovementExecutionSubPhase));
+            callback();
+        });
+    }
+
+    private static void LaunchMovementPrepared(Action callback)
     {
         Triggers.RegisterTrigger(new Trigger()
         {
             Name = "Maneuver",
             TriggerType = TriggerTypes.OnManeuver,
             TriggerOwner = Selection.ThisShip.Owner.PlayerNo,
-            EventHandler = DoMovementTriggerHandler
+            EventHandler = delegate { Phases.StartTemporarySubPhaseOld("Movement", typeof(MovementExecutionSubPhase)); }
         });
 
-        Triggers.ResolveTriggers(TriggerTypes.OnManeuver, FinishManeuverExecution);
-    }
-
-    private static void FinishManeuverExecution()
-    {
-        GameMode.CurrentGameMode.FinishMovementExecution();
+        Triggers.ResolveTriggers(
+            TriggerTypes.OnManeuver,
+            delegate{
+                ExtraMovementCallback = null;
+                callback();
+            }
+        );
     }
 
 }

@@ -39,13 +39,13 @@ namespace Abilities
         public override void ActivateAbility()
         {
             HostShip.OnAttackFinishAsAttacker += CheckTIEDAbility;
-            Phases.OnRoundEnd += ClearIsAbilityUsedFlag;
+            Phases.Events.OnRoundEnd += ClearIsAbilityUsedFlag;
         }
 
         public override void DeactivateAbility()
         {
             HostShip.OnAttackFinishAsAttacker -= CheckTIEDAbility;
-            Phases.OnRoundEnd -= ClearIsAbilityUsedFlag;
+            Phases.Events.OnRoundEnd -= ClearIsAbilityUsedFlag;
         }
 
         private void CheckTIEDAbility(GenericShip ship)
@@ -72,7 +72,7 @@ namespace Abilities
             bool result = false;
 
             GenericSecondaryWeapon secondaryWeapon = Combat.ChosenWeapon as GenericSecondaryWeapon;
-            if (secondaryWeapon != null && secondaryWeapon.hasType(UpgradeType.Cannon) && secondaryWeapon.Cost <= 3)
+            if (secondaryWeapon != null && secondaryWeapon.HasType(UpgradeType.Cannon) && secondaryWeapon.Cost <= 3)
             {
                 result = true;
             }
@@ -87,7 +87,10 @@ namespace Abilities
             Combat.StartAdditionalAttack(
                 HostShip,
                 FinishAdditionalAttack,
-                IsPrimaryShot
+                IsPrimaryShot,
+                HostUpgrade.Name,
+                "You may perform a primary weapon attack.",
+                HostUpgrade.ImageUrl
             );
         }
 
@@ -99,18 +102,17 @@ namespace Abilities
             Triggers.FinishTrigger();
         }
 
-        private bool IsPrimaryShot(GenericShip defender, IShipWeapon weapon)
+        private bool IsPrimaryShot(GenericShip defender, IShipWeapon weapon, bool isSilent)
         {
             bool result = false;
 
             if (weapon.GetType() == typeof(PrimaryWeaponClass))
-
             {
                 result = true;
             }
             else
             {
-                Messages.ShowError("Attack must be performed from primary weapon");
+                if (!isSilent) Messages.ShowError("Attack must be performed from primary weapon");
             }
 
             return result;

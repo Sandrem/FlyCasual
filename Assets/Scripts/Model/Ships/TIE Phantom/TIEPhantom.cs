@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Movement;
 using ActionsList;
+using RuleSets;
 
 namespace Ship
 {
     namespace TIEPhantom
     {
-        public class TIEPhantom : GenericShip, TIE
+        public class TIEPhantom : GenericShip, TIE, ISecondEditionShip
         {
 
             public TIEPhantom() : base()
@@ -49,30 +50,39 @@ namespace Ship
 
             private void AssignTemporaryManeuvers()
             {
-                Maneuvers.Add("1.L.T", ManeuverColor.White);
-                Maneuvers.Add("1.L.B", ManeuverColor.None);
-                Maneuvers.Add("1.F.S", ManeuverColor.None);
-                Maneuvers.Add("1.R.B", ManeuverColor.None);
-                Maneuvers.Add("1.R.T", ManeuverColor.White);
-                Maneuvers.Add("1.F.R", ManeuverColor.None);
-                Maneuvers.Add("2.L.T", ManeuverColor.White);
-                Maneuvers.Add("2.L.B", ManeuverColor.Green);
-                Maneuvers.Add("2.F.S", ManeuverColor.Green);
-                Maneuvers.Add("2.R.B", ManeuverColor.Green);
-                Maneuvers.Add("2.R.T", ManeuverColor.White);
-                Maneuvers.Add("2.F.R", ManeuverColor.None);
-                Maneuvers.Add("3.L.T", ManeuverColor.White);
-                Maneuvers.Add("3.L.B", ManeuverColor.White);
-                Maneuvers.Add("3.F.S", ManeuverColor.Green);
-                Maneuvers.Add("3.R.B", ManeuverColor.White);
-                Maneuvers.Add("3.R.T", ManeuverColor.White);
-                Maneuvers.Add("3.F.R", ManeuverColor.Red);
-                Maneuvers.Add("4.F.S", ManeuverColor.White);
-                Maneuvers.Add("4.F.R", ManeuverColor.Red);
-                Maneuvers.Add("5.F.S", ManeuverColor.None);
-                Maneuvers.Add("5.F.R", ManeuverColor.None);
+                Maneuvers.Add("1.L.T", MovementComplexity.Normal);
+                Maneuvers.Add("1.L.B", MovementComplexity.None);
+                Maneuvers.Add("1.F.S", MovementComplexity.None);
+                Maneuvers.Add("1.R.B", MovementComplexity.None);
+                Maneuvers.Add("1.R.T", MovementComplexity.Normal);
+                Maneuvers.Add("1.F.R", MovementComplexity.None);
+                Maneuvers.Add("2.L.T", MovementComplexity.Normal);
+                Maneuvers.Add("2.L.B", MovementComplexity.Easy);
+                Maneuvers.Add("2.F.S", MovementComplexity.Easy);
+                Maneuvers.Add("2.R.B", MovementComplexity.Easy);
+                Maneuvers.Add("2.R.T", MovementComplexity.Normal);
+                Maneuvers.Add("2.F.R", MovementComplexity.None);
+                Maneuvers.Add("3.L.T", MovementComplexity.Normal);
+                Maneuvers.Add("3.L.B", MovementComplexity.Normal);
+                Maneuvers.Add("3.F.S", MovementComplexity.Easy);
+                Maneuvers.Add("3.R.B", MovementComplexity.Normal);
+                Maneuvers.Add("3.R.T", MovementComplexity.Normal);
+                Maneuvers.Add("3.F.R", MovementComplexity.Complex);
+                Maneuvers.Add("4.F.S", MovementComplexity.Normal);
+                Maneuvers.Add("4.F.R", MovementComplexity.Complex);
+                Maneuvers.Add("5.F.S", MovementComplexity.None);
+                Maneuvers.Add("5.F.R", MovementComplexity.None);
             }
 
+            public void AdaptShipToSecondEdition()
+            {
+                //TODO: Maneuvers
+                //TODO: Ship ability
+
+                MaxHull = 3;
+
+                IconicPilots[Faction.Imperial] = typeof(SigmaSquadronAce);
+            }
         }
     }
 }

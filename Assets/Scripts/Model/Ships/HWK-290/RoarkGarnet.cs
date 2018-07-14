@@ -31,12 +31,12 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            Phases.OnCombatPhaseStart += RegisterAbility;
+            Phases.Events.OnCombatPhaseStart_Triggers += RegisterAbility;
         }
 
         public override void DeactivateAbility()
         {
-            Phases.OnCombatPhaseStart -= RegisterAbility;
+            Phases.Events.OnCombatPhaseStart_Triggers -= RegisterAbility;
         }
 
         private void RegisterAbility()
@@ -52,7 +52,12 @@ namespace Abilities
                     SelectAbilityTarget,
                     FilterAbilityTarget,
                     GetAiAbilityPriority,
-                    HostShip.Owner.PlayerNo
+                    HostShip.Owner.PlayerNo,
+                    true,
+                    null,
+                    HostShip.PilotName,
+                    "Choose other friendly ship.\nUntil the end of the phase, treat that ship's pilot skill value as \"12\".",
+                    HostShip.ImageUrl
                 );
             }
             else
@@ -77,13 +82,13 @@ namespace Abilities
         private void SelectAbilityTarget()
         {
             TargetShip.AddPilotSkillModifier(this);
-            Phases.OnEndPhaseStart += RemovePilotSkillModifieer;
+            Phases.Events.OnEndPhaseStart_NoTriggers += RemovePilotSkillModifieer;
             SelectShipSubPhase.FinishSelection();
         }
 
         private void RemovePilotSkillModifieer()
         {
-            Phases.OnEndPhaseStart -= RemovePilotSkillModifieer;
+            Phases.Events.OnEndPhaseStart_NoTriggers -= RemovePilotSkillModifieer;
             TargetShip.RemovePilotSkillModifier(this);
         }
 

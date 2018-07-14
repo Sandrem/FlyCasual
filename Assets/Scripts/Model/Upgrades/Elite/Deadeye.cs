@@ -4,6 +4,8 @@ using Ship;
 using System.Collections.Generic;
 using Tokens;
 using System.Linq;
+using Abilities;
+using RuleSets;
 
 namespace UpgradesList
 {
@@ -14,24 +16,40 @@ namespace UpgradesList
             Types.Add(UpgradeType.Elite);
             Name = "Deadeye";
             Cost = 1;
+
+            AvatarOffset = new Vector2(38, 3);
+
+            UpgradeAbilities.Add(new DeadeyeAbility());
         }
 
         public override bool IsAllowedForShip(GenericShip ship)
         {
             return ship.ShipBaseSize == BaseSize.Small;
         }
+    }
+}
 
-        public override void AttachToShip(GenericShip host)
+namespace Abilities
+{
+    public class DeadeyeAbility : GenericAbility
+    {
+        public override void ActivateAbility()
         {
-            base.AttachToShip(host);
-            Host.OnGenerateAvailableAttackPaymentList += AddFocusTokenAsPayment;
+            HostShip.OnGenerateAvailableAttackPaymentList += AddFocusTokenAsPayment;
+        }
+
+        public override void DeactivateAbility()
+        {
+            HostShip.OnGenerateAvailableAttackPaymentList -= AddFocusTokenAsPayment;
         }
 
         private void AddFocusTokenAsPayment(List<GenericToken> waysToPay)
         {
-            GenericToken focus = null;
-            if (Host.Tokens.HasToken(typeof(FocusToken))) focus = Host.Tokens.GetToken(typeof(FocusToken));
-            if (focus != null) waysToPay.Add(focus);
+            if (HostShip.Tokens.HasToken(typeof(FocusToken)))
+            {
+                GenericToken focus = HostShip.Tokens.GetToken(typeof(FocusToken));
+                waysToPay.Add(focus);
+            }
         }
     }
 }

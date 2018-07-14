@@ -10,7 +10,7 @@ namespace Movement
     {
         private readonly float[] TURN_POINTS = new float[] { 2f, 3.6f, 4.85f };
 
-        public TallonRollMovement(int speed, ManeuverDirection direction, ManeuverBearing bearing, ManeuverColor color) : base(speed, direction, bearing, color)
+        public TallonRollMovement(int speed, ManeuverDirection direction, ManeuverBearing bearing, MovementComplexity color) : base(speed, direction, bearing, color)
         {
 
         }
@@ -19,7 +19,7 @@ namespace Movement
         {
             base.Perform();
 
-            movementPrediction = new MovementPrediction(this, Selection.ThisShip.Owner.AfterShipMovementPrediction);
+            movementPrediction = new MovementPrediction(this, TheShip.Owner.AfterShipMovementPrediction);
         }
 
         protected override float SetProgressTarget()
@@ -39,7 +39,7 @@ namespace Movement
 
         protected override void ManeuverEndRotation(Action callBack)
         {
-            if (!Selection.ThisShip.IsBumped)
+            if (!TheShip.IsBumped)
             {
                 Phases.StartTemporarySubPhaseOld("Tallon Roll", typeof(SubPhases.TallonRollSubPhase), callBack);
             }

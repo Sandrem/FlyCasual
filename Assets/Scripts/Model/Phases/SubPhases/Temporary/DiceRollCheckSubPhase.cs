@@ -9,19 +9,21 @@ namespace SubPhases
 
     public class DiceRollCheckSubPhase : GenericSubPhase
     {
-        protected DiceKind diceType;
-        protected int diceCount;
+        public DiceKind DiceKind;
+        public int DiceCount;
 
-        protected DiceRoll CurrentDiceRoll;
+        public DiceRoll CurrentDiceRoll;
         protected DelegateDiceroll checkResults;
 
-        protected UnityEngine.Events.UnityAction finishAction;
+        public Action AfterRoll;
 
 
         public override void Start()
         {
+            base.Start();
+
             IsTemporary = true;
-            finishAction = FinishAction;
+            if (AfterRoll == null) AfterRoll = FinishAction;
             checkResults = CheckResults;
 
             Prepare();
@@ -35,7 +37,7 @@ namespace SubPhases
             GameObject.Find("UI").transform.Find("CheckDiceResultsPanel").gameObject.SetActive(true);
 
             DiceRoll DiceRollCheck;
-            DiceRollCheck = new DiceRoll(diceType, diceCount, DiceRollCheckType.Check);
+            DiceRollCheck = new DiceRoll(DiceKind, DiceCount, DiceRollCheckType.Check);
             DiceRollCheck.Roll(SyncDiceResults);
         }
 
@@ -139,7 +141,7 @@ namespace SubPhases
 
         public void Confirm()
         {
-            finishAction.Invoke();
+            AfterRoll.Invoke();
         }
 
     }

@@ -5,6 +5,7 @@ using UnityEngine;
 using Upgrade;
 using Ship;
 using System.Linq;
+using Tokens;
 
 namespace UpgradesList
 {
@@ -20,6 +21,8 @@ namespace UpgradesList
 
             isUnique = true;
 
+            AvatarOffset = new Vector2(55, 4);
+
             IsHidden = true;
 		}
 
@@ -29,7 +32,7 @@ namespace UpgradesList
 
             host.OnActionIsPerformed += CheckConditions;
 
-            Phases.OnEndPhaseStart += Cleanup;
+            Phases.Events.OnEndPhaseStart_NoTriggers += Cleanup;
             Host.OnShipIsDestroyed += StopAbility;
         }
 
@@ -62,9 +65,8 @@ namespace UpgradesList
 
 		private void PerformExperimentalInterfaceAction(object sender, System.EventArgs e)
 		{
-			base.Host.GenerateAvailableActionsList();
 			List<GenericAction> actions = Selection.ThisShip.GetAvailableActionsList().Where(n => n.Source != null).ToList();
-			base.Host.AskPerformFreeAction(actions, AddStressToken);
+			Host.AskPerformFreeAction(actions, AddStressToken);
 		}
 
         private void Cleanup()
@@ -75,10 +77,7 @@ namespace UpgradesList
 		private void AddStressToken()
 		{
 			if (!base.Host.IsFreeActionSkipped) {
-				base.Host.Tokens.AssignToken (
-                    new Tokens.StressToken(base.Host),
-					Triggers.FinishTrigger
-                );	
+				base.Host.Tokens.AssignToken(typeof(StressToken), Triggers.FinishTrigger);	
 			}
 			else
 			{
@@ -88,7 +87,7 @@ namespace UpgradesList
 
         private void StopAbility(GenericShip host, bool isFled)
         {
-            Phases.OnEndPhaseStart -= Cleanup;
+            Phases.Events.OnEndPhaseStart_NoTriggers -= Cleanup;
         }
 
     }

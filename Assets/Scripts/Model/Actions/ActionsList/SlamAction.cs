@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using GameModes;
+using Tokens;
 
 namespace ActionsList
 {
@@ -11,8 +12,16 @@ namespace ActionsList
 
         public SlamAction()
         {
-            Name = EffectName = "SLAM";
+            Name = DiceModificationName = "SLAM";
             ImageUrl = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/reference-cards/SlamAction.png";
+        }
+
+        public override bool CanBePerformedAsAFreeAction
+        {
+            get
+            {
+                return false;
+            }
         }
 
         public override void ActionTake()
@@ -35,7 +44,7 @@ namespace ActionsList
                     }
                 );
 
-                Triggers.ResolveTriggers(TriggerTypes.OnAbilityDirect, RegisterSlamManeuverExecutionTrigger);
+                Triggers.ResolveTriggers(TriggerTypes.OnAbilityDirect, ExecuteSelectedManeuver);
             }
         }
 
@@ -44,28 +53,15 @@ namespace ActionsList
             Selection.ThisShip.Owner.SelectManeuver(GameMode.CurrentGameMode.AssignManeuver, IsSameSpeed);
         }
 
-        private void RegisterSlamManeuverExecutionTrigger()
+        private void ExecuteSelectedManeuver()
         {
-            Triggers.RegisterTrigger(new Trigger()
-            {
-                Name = "SLAM Execution",
-                TriggerType = TriggerTypes.OnManeuver,
-                TriggerOwner = Selection.ThisShip.Owner.PlayerNo,
-                EventHandler = PerformSlamManeuver
-            });
-
-            Triggers.ResolveTriggers(
-                TriggerTypes.OnManeuver,
-                AssignWeaponsDisabledToken
-            );
+            Selection.ThisShip.AssignedManeuver.IsRevealDial = false;
+            GameMode.CurrentGameMode.LaunchMovement(AssignWeaponsDisabledToken);
         }
 
         private void AssignWeaponsDisabledToken()
         {
-            Selection.ThisShip.Tokens.AssignToken(
-                new Tokens.WeaponsDisabledToken(Selection.ThisShip),
-                Phases.CurrentSubPhase.CallBack
-            );
+            Selection.ThisShip.Tokens.AssignToken(typeof(WeaponsDisabledToken), Phases.CurrentSubPhase.CallBack);
         }
 
         private void PerformSlamManeuver(object sender, System.EventArgs e)

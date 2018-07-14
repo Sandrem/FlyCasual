@@ -2,6 +2,7 @@
 using Ship;
 using Abilities;
 using UnityEngine;
+using BoardTools;
 
 namespace UpgradesList
 {
@@ -12,6 +13,8 @@ namespace UpgradesList
             Types.Add(UpgradeType.Elite);
             Name = "Fearlessness";
             Cost = 1;
+
+            AvatarOffset = new Vector2(80, 0);
 
             UpgradeAbilities.Add(new FearlessnessAbility());
         }
@@ -30,22 +33,22 @@ namespace Abilities
 
         public override void ActivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList += FearlessnessAddDiceModification;
+            HostShip.OnGenerateDiceModifications += FearlessnessAddDiceModification;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList -= FearlessnessAddDiceModification;
+            HostShip.OnGenerateDiceModifications -= FearlessnessAddDiceModification;
         }
 
-        private void FearlessnessAddDiceModification(GenericShip host)
+        protected virtual void FearlessnessAddDiceModification(GenericShip host)
         {
             ActionsList.GenericAction newAction = new ActionsList.FearlessnessAction()
             {
                 ImageUrl = HostUpgrade.ImageUrl,
                 Host = HostShip
             };
-            HostShip.AddAvailableActionEffect(newAction);
+            HostShip.AddAvailableDiceModification(newAction);
         }
 
     }
@@ -59,10 +62,10 @@ namespace ActionsList
 
         public FearlessnessAction()
         {
-            Name = EffectName = "Fearlessness";
+            Name = DiceModificationName = "Fearlessness";
         }
 
-        public override bool IsActionEffectAvailable()
+        public override bool IsDiceModificationAvailable()
         {
             bool result = true;
 
@@ -70,13 +73,13 @@ namespace ActionsList
 
             if (!Combat.ShotInfo.InArc) return false;
 
-            Board.ShipShotDistanceInformation reverseShotInfo = new Board.ShipShotDistanceInformation(Combat.Defender, Combat.Attacker);
+            ShotInfo reverseShotInfo = new ShotInfo(Combat.Defender, Combat.Attacker, Combat.Defender.PrimaryWeapon);
             if (!reverseShotInfo.InArc || reverseShotInfo.Range != 1) return false;
 
             return result;
         }
 
-        public override int GetActionEffectPriority()
+        public override int GetDiceModificationPriority()
         {
             return 110;
         }

@@ -37,7 +37,7 @@ public class ShipPanelSquadBuilder : MonoBehaviour {
 
         if (www.error == null)
         {
-            SetImageFromWeb(thisGameObject.transform.Find("ShipImage").gameObject, www);
+            if (thisGameObject != null) SetImageFromWeb(thisGameObject.transform.Find("ShipImage").gameObject, www);
         }
         else
         {

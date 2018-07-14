@@ -1,7 +1,17 @@
 ﻿using Ship;
+using System;
+using Upgrade;
 
 namespace Tokens
 {
+    public enum TokenColors
+    {
+        Green,
+        Yellow,
+        Red,
+        Blue,
+        Empty
+    }
 
     public class GenericToken
     {
@@ -11,11 +21,37 @@ namespace Tokens
         public ActionsList.GenericAction Action = null;
         public bool CanBeUsed = true;
         public string Tooltip;
+        public TokenColors TokenColor = TokenColors.Empty;
+        public Type TooltipType; 
 
         public GenericToken(GenericShip host)
         {
             Host = host;
         }
+
+        public void InitializeTooltip()
+        {
+            if (TooltipType != null)
+            {
+                Object tooltipHolder = Activator.CreateInstance(TooltipType);
+                if (tooltipHolder is GenericShip)
+                {
+                    GenericShip pilot = tooltipHolder as GenericShip;
+                    RuleSets.RuleSet.Instance.AdaptPilotToRules(pilot);
+                    Tooltip = pilot.ImageUrl;
+                }
+                else if (tooltipHolder is GenericUpgrade)
+                {
+                    GenericUpgrade upgrade = tooltipHolder as GenericUpgrade;
+                    RuleSets.RuleSet.Instance.AdaptUpgradeToRules(upgrade);
+                    Tooltip = upgrade.ImageUrl;
+                }
+            }
+        }
+
+        public virtual void WhenAssigned() { }
+
+        public virtual void WhenRemoved() { }
 
         public virtual ActionsList.GenericAction GetAvailableEffects()
         {

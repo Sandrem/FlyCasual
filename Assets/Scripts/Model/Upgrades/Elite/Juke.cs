@@ -32,12 +32,12 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            HostShip.AfterGenerateAvailableOppositeActionEffectsList += JukeActionEffect;
+            HostShip.OnGenerateDiceModificationsOpposite += JukeActionEffect;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.AfterGenerateAvailableOppositeActionEffectsList -= JukeActionEffect;
+            HostShip.OnGenerateDiceModificationsOpposite -= JukeActionEffect;
         }
 
         private void JukeActionEffect(GenericShip host)
@@ -47,7 +47,7 @@ namespace Abilities
                 ImageUrl = HostUpgrade.ImageUrl,
                 Host = host
             };
-            host.AddAvailableOppositeActionEffect(newAction);
+            host.AddDiceModificationOpposite(newAction);
         }
     }
 }
@@ -59,11 +59,11 @@ namespace ActionsList
 
         public JukeActionEffect()
         {
-            Name = EffectName = "Juke";
-            IsOpposite = true;
+            Name = DiceModificationName = "Juke";
+            DiceModificationTiming = DiceModificationTimingType.Opposite;
         }
 
-        public override int GetActionEffectPriority()
+        public override int GetDiceModificationPriority()
         {
             int result = 0;
 
@@ -72,7 +72,7 @@ namespace ActionsList
             return result;
         }
 
-        public override bool IsActionEffectAvailable()
+        public override bool IsDiceModificationAvailable()
         {
             bool result = false;
 

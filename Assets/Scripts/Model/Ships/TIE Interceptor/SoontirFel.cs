@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Ship;
 using System;
+using Tokens;
 
 namespace Ship
 {
@@ -60,13 +61,13 @@ namespace Abilities
             }
             else
             {
-                HostShip.Tokens.AssignToken(new Tokens.FocusToken(HostShip), Triggers.FinishTrigger);
+                HostShip.Tokens.AssignToken(typeof(FocusToken), Triggers.FinishTrigger);
             }
         }
 
         private void AssignToken(object sender, System.EventArgs e)
         {
-            HostShip.Tokens.AssignToken(new Tokens.FocusToken(HostShip), SubPhases.DecisionSubPhase.ConfirmDecision);
+            HostShip.Tokens.AssignToken(typeof(FocusToken), SubPhases.DecisionSubPhase.ConfirmDecision);
         }
     }
 }

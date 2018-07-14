@@ -1,9 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Board;
+using BoardTools;
 using Ship;
 using Upgrade;
+using Arcs;
 
 namespace UpgradesList
 {
@@ -14,9 +15,12 @@ namespace UpgradesList
             Types.Add(UpgradeType.Crew);
 			Name = "Tail Gunner";
             Cost = 2;
-			isLimited = true;   
 
-			UpgradeAbilities.Add(new Abilities.TailGunnerAbility());
+			isLimited = true;
+
+            AvatarOffset = new Vector2(45, 0);
+
+            UpgradeAbilities.Add(new Abilities.TailGunnerAbility());
         }
     }
 }
@@ -40,12 +44,13 @@ namespace Abilities
 			if (Selection.ThisShip.ShipId == HostShip.ShipId) 
 			{
 				//Gather shot info to determine if in rear arc
-				ShipShotDistanceInformation shotInfo = new ShipShotDistanceInformation(Combat.Attacker, Combat.Defender);
+				ShotInfo shotInfo = new ShotInfo(Combat.Attacker, Combat.Defender, Combat.Attacker.PrimaryWeapon);
 				//make sure card requirements are met.
 				//can't reduce defender agility past 0 and must be aux arc
-				if (Combat.Defender.Agility != 0 && shotInfo.InRearAuxArc) {
+				if (Combat.Defender.Agility != 0 && shotInfo.InArcByType(ArcTypes.RearAux))
+                {
 					Messages.ShowError ("Tail Gunner: Agility is decreased");
-					Combat.Defender.Tokens.AssignCondition (new Conditions.TailGunnerCondition (Combat.Defender));
+					Combat.Defender.Tokens.AssignCondition(typeof(Conditions.TailGunnerCondition));
 					Combat.Defender.ChangeAgilityBy (-1);
 					Combat.Defender.OnAttackFinish += RemoveTailGunnerAbility;
 				}

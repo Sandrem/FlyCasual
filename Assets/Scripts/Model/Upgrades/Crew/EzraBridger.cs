@@ -1,6 +1,10 @@
 ﻿using System;
 using Upgrade;
 using Ship;
+using UnityEngine;
+using Abilities;
+using ActionsList;
+using Tokens;
 
 namespace UpgradesList
 {
@@ -12,29 +16,42 @@ namespace UpgradesList
             Name = "Ezra Bridger";
             Cost = 3;
 
+            AvatarOffset = new Vector2(7, 2);
+
             isUnique = true;
+
+            UpgradeAbilities.Add(new EzraBridgerAbility());
         }
 
         public override bool IsAllowedForShip(GenericShip ship)
         {
             return ship.faction == Faction.Rebel;
         }
+    }
+}
 
-        public override void AttachToShip(GenericShip host)
+namespace Abilities
+{
+    public class EzraBridgerAbility : GenericAbility
+    {
+        public override void ActivateAbility()
         {
-            base.AttachToShip(host);
+            HostShip.OnGenerateDiceModifications += EzraBridgerActionEffect;
+        }
 
-            host.AfterGenerateAvailableActionEffectsList += EzraBridgerActionEffect;
+        public override void DeactivateAbility()
+        {
+            HostShip.OnGenerateDiceModifications -= EzraBridgerActionEffect;
         }
 
         private void EzraBridgerActionEffect(GenericShip host)
         {
-            ActionsList.GenericAction newAction = new ActionsList.EzraBridgerAction()
+            GenericAction newAction = new EzraBridgerAction()
             {
-                ImageUrl = ImageUrl,
+                ImageUrl = HostUpgrade.ImageUrl,
                 Host = host
             };
-            host.AddAvailableActionEffect(newAction);
+            host.AddAvailableDiceModification(newAction);
         }
     }
 }
@@ -46,12 +63,12 @@ namespace ActionsList
 
         public EzraBridgerAction()
         {
-            Name = EffectName = "Ezra Bridger";
+            Name = DiceModificationName = "Ezra Bridger";
         }
 
-        public override void ActionEffect(System.Action callBack)
+        public override void ActionEffect(Action callBack)
         {
-            if (Host.Tokens.HasToken(typeof(Tokens.StressToken)))
+            if (Host.Tokens.HasToken(typeof(StressToken)))
             {
                 Combat.CurrentDiceRoll.ChangeOne(DieSide.Focus, DieSide.Crit);
             }
@@ -62,7 +79,7 @@ namespace ActionsList
             callBack();
         }
 
-        public override bool IsActionEffectAvailable()
+        public override bool IsDiceModificationAvailable()
         {
             bool result = false;
 
@@ -74,11 +91,11 @@ namespace ActionsList
             return result;
         }
 
-        public override int GetActionEffectPriority()
+        public override int GetDiceModificationPriority()
         {
             int result = 0;
 
-            if (Combat.AttackStep == CombatStep.Attack && Host.Tokens.HasToken(typeof(Tokens.StressToken)))
+            if (Combat.AttackStep == CombatStep.Attack && Host.Tokens.HasToken(typeof(StressToken)))
             {
                 if (Combat.DiceRollAttack.RegularSuccesses > 0) result = 100;
             }

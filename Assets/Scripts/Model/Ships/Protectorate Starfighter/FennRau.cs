@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using RuleSets;
 
 namespace Ship
 {
     namespace ProtectorateStarfighter
     {
-        public class FennRau : ProtectorateStarfighter
+        public class FennRau : ProtectorateStarfighter, ISecondEditionPilot
         {
             public FennRau() : base()
             {
@@ -18,6 +15,12 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
                 PilotAbilities.Add(new Abilities.FennRauScumAbility());
+            }
+
+            public void AdaptPilotToSecondEdition()
+            {
+                PilotSkill = 6;
+                Cost = 56; //TODO
             }
         }
     }
@@ -43,7 +46,7 @@ namespace Abilities
         {
             if (Combat.ShotInfo.Range == 1)
             {
-                Messages.ShowInfo("Fenn Rau: +1 attack die");
+                Messages.ShowInfo("Fenn Rau: +1 die");
                 value++;
             }
         }

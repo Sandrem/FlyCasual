@@ -74,29 +74,23 @@ namespace Abilities
         private void PlanShieldRemove(GenericShip hostShip)
         {
             if (Combat.Defender.Shields != 0)
-            { ShieldRemove(); }
+            {
+                RegisterAbilityTrigger(TriggerTypes.OnAttackFinish, ShieldRemove);
+            }
         }
     
-        private void ShieldRemove()
+        private void ShieldRemove(object sender, EventArgs e)
         {
-            {
-                Combat.Defender.AssignedDamageDiceroll.AddDice(DieSide.Success);
-                Messages.ShowInfoToHuman(string.Format("{0} had a Shield removed by Plasma Torpedo", Combat.Defender.PilotName));
-                Triggers.RegisterTrigger(
-                    new Trigger()
-                    {
-                        Name = "Damage from Plasma Torpodoes",
-                        TriggerType = TriggerTypes.OnDamageIsDealt,
-                        TriggerOwner = Combat.Defender.Owner.PlayerNo,
-                        EventHandler = Combat.Defender.SufferDamage,
-                        EventArgs = new DamageSourceEventArgs()
-                        {
-                            Source = Combat.Attacker,
-                            DamageType = DamageTypes.CardAbility
-                        },
-                    });
-                Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt);
-            }
+            Messages.ShowInfoToHuman(string.Format("{0} had a Shield removed by Plasma Torpedo", Combat.Defender.PilotName));
+
+            Combat.Defender.Damage.SufferRegularDamage(
+                new DamageSourceEventArgs()
+                {
+                    Source = Combat.Attacker,
+                    DamageType = DamageTypes.CardAbility
+                },
+                Triggers.FinishTrigger
+            );
         }
     }
 }

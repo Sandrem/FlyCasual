@@ -72,7 +72,7 @@ namespace Ship
 
             public void AdaptShipToSecondEdition()
             {
-                IconicPilots[Faction.Scum] = typeof(ZealousRecruit);
+                IconicPilots[Faction.Scum] = typeof(FennRau);
 
                 ShipAbilities.Add(new Abilities.SecondEdition.ConcordiaFaceoffAbility());
 

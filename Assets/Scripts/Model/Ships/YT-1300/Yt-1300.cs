@@ -29,7 +29,7 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Crew);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Crew);
 
-                PrintedActions.Add(new TargetLockAction());
+                ActionBar.AddPrintedAction(new TargetLockAction());
 
                 AssignTemporaryManeuvers();
                 HotacManeuverTable = new AI.YT1300Table();
@@ -83,8 +83,8 @@ namespace Ship
                 MaxHull = 8;
                 MaxShields = 5;
 
-                PrintedActions.Add(new RotateArcAction());
-                PrintedActions.Add(new BoostAction() { IsRed = true });
+                ActionBar.AddPrintedAction(new RotateArcAction());
+                ActionBar.AddPrintedAction(new BoostAction() { IsRed = true });
 
                 IconicPilots[Faction.Rebel] = typeof(OuterRimSmuggler);
             }

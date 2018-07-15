@@ -27,8 +27,8 @@ namespace Ship
                 MaxHull = 3;
                 MaxShields = 0;
 
-                PrintedActions.Add(new EvadeAction());
-                PrintedActions.Add(new BarrelRollAction());
+                ActionBar.AddPrintedAction(new EvadeAction());
+                ActionBar.AddPrintedAction(new BarrelRollAction());
 
                 AssignTemporaryManeuvers();
                 HotacManeuverTable = new AI.TIEFighterTable();

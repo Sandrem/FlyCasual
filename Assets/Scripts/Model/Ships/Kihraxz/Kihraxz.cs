@@ -27,7 +27,7 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Missile);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Illicit);
 
-                PrintedActions.Add(new TargetLockAction());
+                ActionBar.AddPrintedAction(new TargetLockAction());
 
                 AssignTemporaryManeuvers();
                 HotacManeuverTable = new AI.KihraxzTable();
@@ -72,7 +72,7 @@ namespace Ship
 
                 MaxHull = 5;
 
-                PrintedActions.Add(new BarrelRollAction());
+                ActionBar.AddPrintedAction(new BarrelRollAction());
 
                 IconicPilots[Faction.Scum] = typeof(BlackSunAce);
             }

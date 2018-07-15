@@ -26,9 +26,9 @@ namespace Ship
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Missile);
 
-                PrintedActions.Add(new TargetLockAction());
-                PrintedActions.Add(new BarrelRollAction());
-                PrintedActions.Add(new BoostAction());
+                ActionBar.AddPrintedAction(new TargetLockAction());
+                ActionBar.AddPrintedAction(new BarrelRollAction());
+                ActionBar.AddPrintedAction(new BoostAction());
 
                 AssignTemporaryManeuvers();
                 HotacManeuverTable = new AI.TIEAdvPrototypeTable();
@@ -72,11 +72,11 @@ namespace Ship
             {
                 //TODO: Maneuvers
 
-                PrintedActions.RemoveAll(a => a is BoostAction);
-                PrintedActions.RemoveAll(a => a is BarrelRollAction);
+                ActionBar.RemovePrintedAction(typeof(BoostAction));
+                ActionBar.RemovePrintedAction(typeof(BarrelRollAction));
 
-                PrintedActions.Add(new BoostAction() { LinkedRedAction = new FocusAction() { IsRed = true } });
-                PrintedActions.Add(new BarrelRollAction() { LinkedRedAction = new FocusAction() { IsRed = true } });
+                ActionBar.AddPrintedAction(new BoostAction() { LinkedRedAction = new FocusAction() { IsRed = true } });
+                ActionBar.AddPrintedAction(new BarrelRollAction() { LinkedRedAction = new FocusAction() { IsRed = true } });
 
                 IconicPilots[Faction.Imperial] = typeof(BaronOfTheEmpire);
             }

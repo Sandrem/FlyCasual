@@ -102,9 +102,9 @@ namespace Abilities
 
         private int HasTokenPriority(GenericShip ship)
         {
-            if (ship.Tokens.HasToken(typeof(Tokens.FocusToken))) return 100;
-            if (ship.PrintedActions.Any(n => n.GetType() == typeof(ActionsList.EvadeAction)) || ship.Tokens.HasToken(typeof(Tokens.EvadeToken))) return 50;
-            if (ship.PrintedActions.Any(n => n.GetType() == typeof(ActionsList.TargetLockAction)) || ship.Tokens.HasToken(typeof(Tokens.BlueTargetLockToken), '*')) return 50;
+            if (ship.Tokens.HasToken(typeof(FocusToken))) return 100;
+            if (ship.ActionBar.HasAction(typeof(EvadeAction)) || ship.Tokens.HasToken(typeof(EvadeToken))) return 50;
+            if (ship.ActionBar.HasAction(typeof(TargetLockAction)) || ship.Tokens.HasToken(typeof(BlueTargetLockToken), '*')) return 50;
             return 0;
         }
     }

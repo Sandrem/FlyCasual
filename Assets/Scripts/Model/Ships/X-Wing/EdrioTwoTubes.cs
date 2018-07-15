@@ -62,7 +62,7 @@ namespace Abilities
 
         private void AskToPerfromFreeAction(object sender, EventArgs e)
         {
-            HostShip.AskPerformFreeAction(HostShip.GetAvailableActionsList(), Triggers.FinishTrigger);
+            HostShip.AskPerformFreeAction(HostShip.GetAvailableActions(), Triggers.FinishTrigger);
         }
     }
 }

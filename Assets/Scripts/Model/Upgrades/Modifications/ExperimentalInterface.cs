@@ -6,89 +6,99 @@ using Upgrade;
 using Ship;
 using System.Linq;
 using Tokens;
+using Abilities;
 
 namespace UpgradesList
 {
-	public class ExperimentalInterface : GenericUpgrade
-	{
-        private bool IsUsed = false;
-
-		public ExperimentalInterface() : base()
-		{
+    public class ExperimentalInterface : GenericUpgrade
+    {
+        public ExperimentalInterface() : base()
+        {
             Types.Add(UpgradeType.Modification);
-			Name = "Experimental Interface";
-			Cost = 3;
+            Name = "Experimental Interface";
+            Cost = 3;
 
             isUnique = true;
 
             AvatarOffset = new Vector2(55, 4);
 
-            IsHidden = true;
-		}
+            UpgradeAbilities.Add(new ExperimentalInterfaceAbility());
+        }
+    }
+}
 
-		public override void AttachToShip(GenericShip host)
-		{
-			base.AttachToShip(host);
+namespace Abilities
+{
+    public class ExperimentalInterfaceAbility : GenericAbility
+    {
+        private int consecutiveActions = 0;
 
-            host.OnActionIsPerformed += CheckConditions;
-
+        public override void ActivateAbility()
+        {
+            HostShip.OnActionIsPerformed += CheckConditions;
             Phases.Events.OnEndPhaseStart_NoTriggers += Cleanup;
-            Host.OnShipIsDestroyed += StopAbility;
+        }
+
+        public override void DeactivateAbility()
+        {
+            HostShip.OnActionIsPerformed -= CheckConditions;
+            Phases.Events.OnEndPhaseStart_NoTriggers -= Cleanup;
+        }
+
+        private void Cleanup()
+        {
+            IsAbilityUsed = false;
+            consecutiveActions = 0;
         }
 
         private void CheckConditions(GenericAction action)
         {
-            if (!IsUsed)
+            if (action == null)
             {
-                Host.OnActionDecisionSubphaseEnd += DoSecondAction;
+                consecutiveActions = 0;
+            }
+            else if (consecutiveActions < 1 && !IsAbilityUsed)
+            {
+                consecutiveActions++;
+                HostShip.OnActionDecisionSubphaseEnd += DoSecondAction;
             }
         }
 
-		private void DoSecondAction(GenericShip ship)
-		{
-            Host.OnActionDecisionSubphaseEnd -= DoSecondAction;
-
-            if (!ship.Tokens.HasToken(typeof(Tokens.StressToken)) || ship.CanPerformActionsWhileStressed)
-			{
-                IsUsed = true;
-                Triggers.RegisterTrigger(
-                    new Trigger()
-                    {
-                        Name = "Push The Limit Action",
-                        TriggerOwner = ship.Owner.PlayerNo,
-                        TriggerType = TriggerTypes.OnFreeAction,
-                        EventHandler = PerformExperimentalInterfaceAction
-                    }
-                );
-			}
-		}
-
-		private void PerformExperimentalInterfaceAction(object sender, System.EventArgs e)
-		{
-			List<GenericAction> actions = Selection.ThisShip.GetAvailableActionsList().Where(n => n.Source != null).ToList();
-			Host.AskPerformFreeAction(actions, AddStressToken);
-		}
-
-        private void Cleanup()
+        private void DoSecondAction(GenericShip ship)
         {
-            IsUsed = false;
+            HostShip.OnActionDecisionSubphaseEnd -= DoSecondAction;
+
+            Triggers.RegisterTrigger(
+                new Trigger()
+                {
+                    Name = "Experimental Interface Action",
+                    TriggerOwner = ship.Owner.PlayerNo,
+                    TriggerType = TriggerTypes.OnFreeAction,
+                    EventHandler = PerformExperimentalInterfaceAction
+                }
+            );
         }
 
-		private void AddStressToken()
-		{
-			if (!base.Host.IsFreeActionSkipped) {
-				base.Host.Tokens.AssignToken(typeof(StressToken), Triggers.FinishTrigger);	
-			}
-			else
-			{
-				Triggers.FinishTrigger();
-			}
-		}
-
-        private void StopAbility(GenericShip host, bool isFled)
+        private void PerformExperimentalInterfaceAction(object sender, System.EventArgs e)
         {
-            Phases.Events.OnEndPhaseStart_NoTriggers -= Cleanup;
+            List<GenericAction> actions = HostShip.GetAvailableActions();
+            List<GenericAction> notActionBarActions = actions.Where(n => !n.IsInActionBar).ToList();
+            HostShip.AskPerformFreeAction(notActionBarActions, AddStressToken);
         }
 
+        private void AddStressToken()
+        {
+            if (!base.HostShip.IsFreeActionSkipped)
+            {
+                IsAbilityUsed = true;
+                base.HostShip.Tokens.AssignToken(typeof(StressToken), Triggers.FinishTrigger);
+            }
+            else
+            {
+                Triggers.FinishTrigger();
+            }
+            // Reset after every Experimental Interface opportunity
+            consecutiveActions = 0;
+        }
     }
 }

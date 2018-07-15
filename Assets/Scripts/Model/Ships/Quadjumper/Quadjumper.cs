@@ -29,7 +29,7 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Tech);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Illicit);
 
-                PrintedActions.Add(new BarrelRollAction());
+                ActionBar.AddPrintedAction(new BarrelRollAction());
 
                 AssignTemporaryManeuvers();
                 HotacManeuverTable = new AI.QuadjumperTable();
@@ -70,7 +70,7 @@ namespace Ship
                 //TODO: Maneuvers
                 //TODO: Ship ability
 
-                PrintedActions.Add(new EvadeAction() { IsRed = true });
+                ActionBar.AddPrintedAction(new EvadeAction() { IsRed = true });
             }
 
         }

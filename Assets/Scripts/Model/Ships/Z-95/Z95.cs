@@ -33,7 +33,7 @@ namespace Ship
                 factions.Add(Faction.Rebel);
                 factions.Add(Faction.Scum);
 
-                PrintedActions.Add(new TargetLockAction());
+                ActionBar.AddPrintedAction(new TargetLockAction());
 
                 SkinName = "Blue";
 
@@ -70,7 +70,7 @@ namespace Ship
             {
                 //TODO: Maneuvers
 
-                PrintedActions.Add(new BarrelRollAction() { IsRed = true });
+                ActionBar.AddPrintedAction(new BarrelRollAction() { IsRed = true });
 
                 IconicPilots[Faction.Scum] = typeof(BinayrePirate);
                 IconicPilots[Faction.Rebel] = typeof(BanditSquadronPilot);

@@ -33,7 +33,7 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Crew);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Illicit);
 
-                PrintedActions.Add(new TargetLockAction());
+                ActionBar.AddPrintedAction(new TargetLockAction());
 
                 AssignTemporaryManeuvers();
                 HotacManeuverTable = new AI.YV666Table();
@@ -79,8 +79,8 @@ namespace Ship
                 MaxHull = 9;
                 MaxShields = 3;
 
-                PrintedActions.Add(new ReinforceForeAction());
-                PrintedActions.Add(new ReinforceAftAction());
+                ActionBar.AddPrintedAction(new ReinforceForeAction());
+                ActionBar.AddPrintedAction(new ReinforceAftAction());
 
                 IconicPilots[Faction.Scum] = typeof(TrandoshanSlaver);
             }

@@ -30,8 +30,8 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Missile);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Bomb);
 
-                PrintedActions.Add(new TargetLockAction());
-                PrintedActions.Add(new BarrelRollAction());
+                ActionBar.AddPrintedAction(new TargetLockAction());
+                ActionBar.AddPrintedAction(new BarrelRollAction());
 
                 AssignTemporaryManeuvers();
                 HotacManeuverTable = new AI.TIEBomberTable();
@@ -80,9 +80,9 @@ namespace Ship
             {
                 //TODO: Maneuvers
 
-                PrintedActions.RemoveAll(a => a is BarrelRollAction);
-                PrintedActions.Add(new BarrelRollAction() { LinkedRedAction = new TargetLockAction() { IsRed = true } });
-                PrintedActions.Add(new ReloadAction() { IsRed = true });
+                ActionBar.RemovePrintedAction(typeof(BarrelRollAction));
+                ActionBar.AddPrintedAction(new BarrelRollAction() { LinkedRedAction = new TargetLockAction() { IsRed = true } });
+                ActionBar.AddPrintedAction(new ReloadAction() { IsRed = true });
 
                 IconicPilots[Faction.Imperial] = typeof(ScimitarSquadronPilot);
             }

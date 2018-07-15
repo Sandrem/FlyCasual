@@ -24,9 +24,9 @@ namespace Ship
                 MaxHull = 2;
                 MaxShields = 1;
 
-                PrintedActions.Add(new EvadeAction());
-                PrintedActions.Add(new BarrelRollAction());
-                PrintedActions.Add(new TargetLockAction());
+                ActionBar.AddPrintedAction(new EvadeAction());
+                ActionBar.AddPrintedAction(new BarrelRollAction());
+                ActionBar.AddPrintedAction(new TargetLockAction());
 
                 AssignTemporaryManeuvers();
                 HotacManeuverTable = new AI.M3AScykTable();

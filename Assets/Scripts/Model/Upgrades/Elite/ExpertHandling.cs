@@ -33,7 +33,7 @@ namespace UpgradesList
 
         public override bool IsAllowedForShip(GenericShip ship)
         {
-            if (isSecondEdition) return ship.PrintedActions.Any(a => a is BarrelRollAction && (a as BarrelRollAction).IsRed);
+            if (isSecondEdition) return ship.ActionBar.HasAction(typeof(BarrelRollAction), isRed:true);
             else return true;
         }
     }
@@ -97,7 +97,7 @@ namespace ActionsList
         {
             Selection.ThisShip.AddAlreadyExecutedAction(new BarrelRollAction());
 
-            bool hasBarrelRollAction = (Host.PrintedActions.Count(n => n.GetType() == typeof(BarrelRollAction)) != 0);
+            bool hasBarrelRollAction = Host.ActionBar.HasAction(typeof(BarrelRollAction));
 
             if (hasBarrelRollAction)
             {

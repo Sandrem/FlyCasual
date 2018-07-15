@@ -1,5 +1,4 @@
 ﻿using ActionsList;
-using Ship;
 
 namespace Abilities
 {
@@ -14,31 +13,16 @@ namespace Abilities
             LinkedAction = linkedAction;
         }
 
-        public override void ActivateAbility()
+        public override void ActivateAbility(){}
+        public override void ActivateAbilityForSquadBuilder()
         {
-            HostShip.OnGenerateActions += AddAction;
+            HostShip.ActionBar.AddGrantedAction(new T(), HostUpgrade);
         }
 
-        public override void DeactivateAbility()
+        public override void DeactivateAbility(){}
+        public override void DeactivateAbilityForSquadBuilder()
         {
-            HostShip.OnGenerateActions -= AddAction;
+            HostShip.ActionBar.RemoveGrantedAction(typeof(T), HostUpgrade);
         }
-
-        private void AddAction(GenericShip host)
-        {            
-            var alreadyHasAction = host.PrintedActions.Find(action => 
-                action is T && action.IsRed == IsRed
-                && (LinkedAction == null || action.LinkedRedAction == null 
-                    || (action.LinkedRedAction.GetType() == LinkedAction.GetType() && action.LinkedRedAction.IsRed == LinkedAction.IsRed))
-            );
-            if (alreadyHasAction == null)
-            {
-                var action = new T();
-                action.IsRed = IsRed;
-                action.LinkedRedAction = LinkedAction;
-                host.AddAvailableAction(action);
-            }
-        }
-
     }
 }

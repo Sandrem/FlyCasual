@@ -85,12 +85,14 @@ namespace Abilities
             ActivateAbility();
         }
 
-        public virtual void Initialize(GenericUpgrade hostUpgrade)
+        public virtual void InitializeForSquadBuilder(GenericUpgrade hostUpgrade)
         {
             HostReal = hostUpgrade;
             HostShip = hostUpgrade.Host;
             HostUpgrade = hostUpgrade;
             Name = hostUpgrade.Name + "'s ability";
+
+            ActivateAbilityForSquadBuilder();
         }
 
         // ACTIVATE AND DEACTIVATE
@@ -101,9 +103,19 @@ namespace Abilities
         public abstract void ActivateAbility();
 
         /// <summary>
+        /// Turn on ability of upgrade during squad building
+        /// </summary>
+        public virtual void ActivateAbilityForSquadBuilder() { }
+
+        /// <summary>
         /// Turn off ability of card
         /// </summary>
         public abstract void DeactivateAbility();
+
+        /// <summary>
+        /// Turn off ability of upgrade during squad building
+        /// </summary>
+        public virtual void DeactivateAbilityForSquadBuilder() { }
 
         // REGISTER TRIGGER
 

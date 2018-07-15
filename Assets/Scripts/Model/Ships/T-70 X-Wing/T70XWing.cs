@@ -29,8 +29,8 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Torpedo);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Tech);
 
-                PrintedActions.Add(new TargetLockAction());
-                PrintedActions.Add(new BoostAction());
+                ActionBar.AddPrintedAction(new TargetLockAction());
+                ActionBar.AddPrintedAction(new BoostAction());
 
                 AssignTemporaryManeuvers();
                 HotacManeuverTable = new AI.T70XWingTable();

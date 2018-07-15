@@ -28,9 +28,9 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Torpedo);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Astromech);
 
-                PrintedActions.Add(new TargetLockAction());
-                PrintedActions.Add(new EvadeAction());
-                PrintedActions.Add(new BarrelRollAction());
+                ActionBar.AddPrintedAction(new TargetLockAction());
+                ActionBar.AddPrintedAction(new EvadeAction());
+                ActionBar.AddPrintedAction(new BarrelRollAction());
 
                 AssignTemporaryManeuvers();
                 HotacManeuverTable = new AI.EWingTable();
@@ -83,10 +83,10 @@ namespace Ship
 
                 MaxHull = 3;
 
-                PrintedActions.RemoveAll(a => a is BarrelRollAction);
+                ActionBar.RemovePrintedAction(typeof(BarrelRollAction));
 
-                PrintedActions.Add(new BarrelRollAction() { LinkedRedAction = new FocusAction() { IsRed = true } });
-                PrintedActions.Add(new BoostAction() { LinkedRedAction = new FocusAction() { IsRed = true } });
+                ActionBar.AddPrintedAction(new BarrelRollAction() { LinkedRedAction = new FocusAction() { IsRed = true } });
+                ActionBar.AddPrintedAction(new BoostAction() { LinkedRedAction = new FocusAction() { IsRed = true } });
 
                 IconicPilots[Faction.Rebel] = typeof(RogueSquadronEscort);
             }

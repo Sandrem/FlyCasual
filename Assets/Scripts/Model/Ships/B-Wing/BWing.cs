@@ -29,8 +29,8 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Torpedo);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Torpedo);
 
-                PrintedActions.Add(new TargetLockAction());
-                PrintedActions.Add(new BarrelRollAction());
+                ActionBar.AddPrintedAction(new TargetLockAction());
+                ActionBar.AddPrintedAction(new BarrelRollAction());
 
                 AssignTemporaryManeuvers();
                 HotacManeuverTable = new AI.BWingTable();
@@ -82,8 +82,8 @@ namespace Ship
                 MaxHull = 4;
                 MaxShields = 4;
 
-                PrintedActions.RemoveAll(a => a is FocusAction);
-                PrintedActions.Add(new FocusAction() { LinkedRedAction = new BarrelRollAction() { IsRed = true } });
+                ActionBar.RemovePrintedAction(typeof(FocusAction));
+                ActionBar.AddPrintedAction(new FocusAction() { LinkedRedAction = new BarrelRollAction() { IsRed = true } });
 
                 IconicPilots[Faction.Rebel] = typeof(BlueSquadronPilot);
             }

@@ -28,9 +28,9 @@ namespace Ship
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Torpedo);
 
-                PrintedActions.Add(new TargetLockAction());
-                PrintedActions.Add(new BarrelRollAction());
-                PrintedActions.Add(new BoostAction());
+                ActionBar.AddPrintedAction(new TargetLockAction());
+                ActionBar.AddPrintedAction(new BarrelRollAction());
+                ActionBar.AddPrintedAction(new BoostAction());
 
                 AssignTemporaryManeuvers();
                 HotacManeuverTable = new AI.ProtectorateStarfighterTable();
@@ -76,10 +76,10 @@ namespace Ship
 
                 ShipAbilities.Add(new Abilities.SecondEdition.ConcordiaFaceoffAbility());
 
-                PrintedActions.RemoveAll(a => a is BarrelRollAction);
-                PrintedActions.RemoveAll(a => a is BoostAction);
-                PrintedActions.Add(new BarrelRollAction() { LinkedRedAction = new FocusAction() { IsRed = true } });
-                PrintedActions.Add(new BoostAction() { LinkedRedAction = new FocusAction() { IsRed = true } });
+                ActionBar.RemovePrintedAction(typeof(BarrelRollAction));
+                ActionBar.RemovePrintedAction(typeof(BoostAction));
+                ActionBar.AddPrintedAction(new BarrelRollAction() { LinkedRedAction = new FocusAction() { IsRed = true } });
+                ActionBar.AddPrintedAction(new BoostAction() { LinkedRedAction = new FocusAction() { IsRed = true } });
             }
 
         }

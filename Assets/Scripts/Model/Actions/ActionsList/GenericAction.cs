@@ -67,6 +67,8 @@ namespace ActionsList
             set { source = value; }
         }
 
+        public bool IsInActionBar;
+
         public Action DoAction = delegate { };
         public Action<Action> DoDiceModification = delegate { };
         public Func<bool> CheckDiceModificationAvailable = delegate { return true; };

@@ -66,7 +66,7 @@ namespace Abilities
 
         private void PerformFreeAction(object sender, System.EventArgs e)
         {
-            List<GenericAction> actions = Selection.ThisShip.GetAvailableActionsList();
+            List<GenericAction> actions = Selection.ThisShip.GetAvailableActions();
 
             HostShip.AskPerformFreeAction(actions, Triggers.FinishTrigger);
         }
@@ -110,7 +110,7 @@ namespace Abilities.SecondEdition
 
             HostShip.BeforeFreeActionIsPerformed += PayForceCost;
             
-            List<GenericAction> actions = Selection.ThisShip.GetAvailableActionsList();
+            List<GenericAction> actions = Selection.ThisShip.GetAvailableActions();
             HostShip.AskPerformFreeAction(actions, CleanUp);
         }
 

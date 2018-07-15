@@ -31,7 +31,7 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Torpedo);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Torpedo);
 
-                PrintedActions.Add(new TargetLockAction());
+                ActionBar.AddPrintedAction(new TargetLockAction());
 
                 AssignTemporaryManeuvers();
                 HotacManeuverTable = new AI.YWingTable();
@@ -84,8 +84,8 @@ namespace Ship
                 Maneuvers["1.L.B"] = MovementComplexity.Easy;
                 Maneuvers["1.R.B"] = MovementComplexity.Easy;
 
-                PrintedActions.Add(new BarrelRollAction() { IsRed = true });
-                PrintedActions.Add(new ReloadAction() { IsRed = true });
+                ActionBar.AddPrintedAction(new BarrelRollAction() { IsRed = true });
+                ActionBar.AddPrintedAction(new ReloadAction() { IsRed = true });
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Bomb);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);

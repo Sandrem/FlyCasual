@@ -2,6 +2,8 @@
 using Upgrade;
 using ActionsList;
 using Abilities;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace UpgradesList
 {
@@ -64,7 +66,10 @@ namespace Abilities
 
         private void PerfromFreeActionFromUpgradeBar(object sender, System.EventArgs e)
         {
-            Selection.ThisShip.AskPerformFreeAction(Selection.ThisShip.GetAvailablePrintedActionsList(), Triggers.FinishTrigger);
+            List<GenericAction> actions = HostShip.GetAvailableActions();
+            List<GenericAction> actionBarActions = actions.Where(n => n.IsInActionBar).ToList();
+
+            Selection.ThisShip.AskPerformFreeAction(actionBarActions, Triggers.FinishTrigger);
         }
     }
 }

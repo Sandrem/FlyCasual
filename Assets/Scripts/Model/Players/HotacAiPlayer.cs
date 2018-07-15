@@ -69,7 +69,7 @@ namespace Players
             }
             else if (Phases.CurrentSubPhase is FreeActionDecisonSubPhase)
             {
-                PerformActionFromList(Selection.ThisShip.GetAvailableFreeActionsList());
+                PerformActionFromList(Selection.ThisShip.GetAvailableFreeActions());
             }
             else (Phases.CurrentSubPhase as DecisionSubPhase).DoDefault();
         }

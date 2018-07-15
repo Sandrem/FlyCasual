@@ -48,6 +48,7 @@ namespace Ship
         public void AddPrintedAction(GenericAction action)
         {
             action.Host = Host;
+            action.IsInActionBar = true;
             PrintedActions.Add(action);
         }
 
@@ -55,6 +56,7 @@ namespace Ship
         {
             action.Host = Host;
             action.Source = source;
+            action.IsInActionBar = true;
             AddedActions.Add(new AddedAction(action, source));
         }
 

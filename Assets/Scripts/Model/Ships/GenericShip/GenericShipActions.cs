@@ -90,15 +90,9 @@ namespace Ship
             return AvailableActionsList;
         }
 
-        public List<GenericAction> GetAvailableFreeActionsList()
+        public List<GenericAction> GetAvailableFreeActions()
         {
             return AvailableFreeActionsList;
-        }
-
-        public List<GenericAction> GetAvailablePrintedActionsList()
-        {
-            //return PrintedActions;
-            return null;
         }
 
         public void CallMovementActivation(Action callBack)
@@ -226,7 +220,10 @@ namespace Ship
         {
             if (CanPerformFreeAction(action))
             {
-                AvailableFreeActionsList.Add(action);
+                if (!AvailableFreeActionsList.Any(n => n.GetType() == action.GetType() && n.IsRed == action.IsRed && n.LinkedRedAction == action.LinkedRedAction))
+                {
+                    AvailableFreeActionsList.Add(action);
+                }
             }
         }
 

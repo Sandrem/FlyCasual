@@ -108,8 +108,11 @@ namespace Abilities
 
         private void PerformFreeAction(object sender, System.EventArgs e)
         {
+            List<GenericAction> actions = TargetShip.GetAvailableActions();
+            List<GenericAction> actionBarActions = actions.Where(n => n.IsInActionBar).ToList();
+
             TargetShip.AskPerformFreeAction(
-                TargetShip.GetAvailablePrintedActionsList(),
+                actionBarActions,
                 delegate {
                     Selection.ThisShip = HostShip;
                     Phases.CurrentSubPhase.Resume();

@@ -123,15 +123,23 @@ namespace Abilities
             TurnSFoilsToClosedPosition(HostShip);
             HostShip.ChangeFirepowerBy(-1);
             HostShip.OnManeuverIsReadyToBeRevealed += CheckChangeManeuverComplexity;
+        }
+
+        public override void ActivateAbilityForSquadBuilder()
+        {
             HostShip.ActionBar.AddGrantedAction(new BoostAction(), HostUpgrade);
         }
-                
+
         public override void DeactivateAbility()
         {
             base.DeactivateAbility();
             TurnSFoilsToAttackPosition(HostShip);
             HostShip.ChangeFirepowerBy(+1);
             HostShip.OnManeuverIsReadyToBeRevealed -= CheckChangeManeuverComplexity;
+        }
+
+        public override void DeactivateAbilityForSquadBuilder()
+        {
             HostShip.ActionBar.RemoveGrantedAction(typeof(BoostAction), HostUpgrade);
         }
 
@@ -166,17 +174,25 @@ namespace Abilities
         public override void ActivateAbility()
         {
             base.ActivateAbility();
-            HostShip.ActionBar.AddGrantedAction(new BarrelRollAction(), HostUpgrade);
             HostShip.OnManeuverIsRevealed += RegisterAskChangeManeuver;            
+        }
+
+        public override void ActivateAbilityForSquadBuilder()
+        {
+            HostShip.ActionBar.AddGrantedAction(new BarrelRollAction(), HostUpgrade);
         }
 
         public override void DeactivateAbility()
         {
             base.DeactivateAbility();
-            HostShip.ActionBar.RemoveGrantedAction(typeof(BarrelRollAction), HostUpgrade);
             HostShip.OnManeuverIsRevealed -= RegisterAskChangeManeuver;            
-        }               
-        
+        }
+
+        public override void DeactivateAbilityForSquadBuilder()
+        {
+            HostShip.ActionBar.RemoveGrantedAction(typeof(BarrelRollAction), HostUpgrade);
+        }
+
         private void RegisterAskChangeManeuver(GenericShip ship)
         {
             if (HostShip.AssignedManeuver.Bearing == ManeuverBearing.Turn && HostShip.AssignedManeuver.Speed == 3 && HostShip.Tokens.CountTokensByType(typeof(Tokens.StressToken)) == 0)
@@ -288,7 +304,10 @@ namespace Abilities
                 base.ActivateAbility();
                 TurnSFoilsToClosedPosition(HostShip);
                 HostShip.AfterGotNumberOfPrimaryWeaponAttackDice += ReduceNumberOfAttackDice;
+            }
 
+            public override void ActivateAbilityForSquadBuilder()
+            {
                 HostShip.ActionBar.AddGrantedAction(new BoostAction(), HostUpgrade);
                 HostShip.ActionBar.AddGrantedAction(new FocusAction() { LinkedRedAction = new BoostAction() { IsRed = true } }, HostUpgrade);
             }
@@ -298,7 +317,10 @@ namespace Abilities
                 base.DeactivateAbility();
                 TurnSFoilsToAttackPosition(HostShip);
                 HostShip.AfterGotNumberOfPrimaryWeaponAttackDice -= ReduceNumberOfAttackDice;
+            }
 
+            public override void DeactivateAbilityForSquadBuilder()
+            {
                 HostShip.ActionBar.RemoveGrantedAction(typeof(BoostAction), HostUpgrade);
                 HostShip.ActionBar.RemoveGrantedAction(typeof(FocusAction), linkedRedAction: typeof(BoostAction), source: HostUpgrade);
             }

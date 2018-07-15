@@ -29,14 +29,22 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            HostShip.ActionBar.AddGrantedAction(new SlamAction(), HostUpgrade);
             HostShip.OnActionIsPerformed += RegisterBurnoutSlamAbility;
+        }
+
+        public override void ActivateAbilityForSquadBuilder()
+        {
+            HostShip.ActionBar.AddGrantedAction(new SlamAction(), HostUpgrade);
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.ActionBar.RemoveGrantedAction(typeof(SlamAction), HostUpgrade);
             HostShip.OnActionIsPerformed -= RegisterBurnoutSlamAbility;
+        }
+
+        public override void DeactivateAbilityForSquadBuilder()
+        {
+            HostShip.ActionBar.RemoveGrantedAction(typeof(SlamAction), HostUpgrade);
         }
 
         private void RegisterBurnoutSlamAbility(GenericAction action)

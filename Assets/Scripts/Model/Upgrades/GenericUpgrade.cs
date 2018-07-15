@@ -155,11 +155,19 @@ namespace Upgrade
         public virtual void PreAttachToShip(GenericShip host)
         {
             Host = host;
+
+            foreach (GenericAbility ability in UpgradeAbilities)
+            {
+                ability.InitializeForSquadBuilder(this);
+            }
         }
 
         public virtual void PreDettachFromShip()
         {
-
+            foreach (GenericAbility ability in UpgradeAbilities)
+            {
+                ability.DeactivateAbilityForSquadBuilder();
+            }
         }
 
         /**
@@ -216,18 +224,9 @@ namespace Upgrade
         public virtual void AttachToShip(GenericShip host)
         {
             Host = host;
-            InitializeAbility();
             ActivateAbility();
             NameOriginal = Name;
             ShowCharges();
-        }
-
-        private void InitializeAbility()
-        {
-            foreach (var ability in UpgradeAbilities)
-            {
-                ability.Initialize(this);
-            }
         }
 
         private void ActivateAbility()

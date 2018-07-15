@@ -42,14 +42,22 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            HostShip.ActionBar.AddGrantedAction(new RotateArcAction(), HostUpgrade);
             HostShip.OnShotHitAsAttacker += RegisterIonTurretEffect;
+        }
+
+        public override void ActivateAbilityForSquadBuilder()
+        {
+            HostShip.ActionBar.AddGrantedAction(new RotateArcAction(), HostUpgrade);
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.ActionBar.RemoveGrantedAction(typeof(RotateArcAction), HostUpgrade);
             HostShip.OnShotHitAsAttacker -= RegisterIonTurretEffect;
+        }
+
+        public override void DeactivateAbilityForSquadBuilder()
+        {
+            HostShip.ActionBar.RemoveGrantedAction(typeof(RotateArcAction), HostUpgrade);
         }
 
         protected void RegisterIonTurretEffect()

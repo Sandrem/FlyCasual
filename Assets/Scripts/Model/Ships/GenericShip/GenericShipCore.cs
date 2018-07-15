@@ -340,8 +340,8 @@ namespace Ship
 
             SetShipInsertImage();
             SetShipSkin();
-            InitializeShipAbilities();
-            InitializePilotAbilities();
+            ActivateShipAbilities();
+            ActivatePilotAbilities();
         }
 
         private void PrepareForceInitialization()
@@ -355,7 +355,7 @@ namespace Ship
             Force = MaxForce;
         }
 
-        private void InitializeShipAbilities()
+        private void ActivateShipAbilities()
         {
             foreach (var shipAbility in ShipAbilities)
             {
@@ -363,7 +363,7 @@ namespace Ship
             }
         }
 
-        private void InitializePilotAbilities()
+        private void ActivatePilotAbilities()
         {
             foreach (var pilotAbility in PilotAbilities)
             {

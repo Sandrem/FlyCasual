@@ -144,15 +144,15 @@ namespace Abilities
                 SelectShipSubPhase.FinishSelection();
             }
 
-            protected override void SecondAbility()
+            protected override void SecondAbility() {}
+
+            public override void ActivateAbilityForSquadBuilder()
             {
                 HostShip.ActionBar.AddGrantedAction(new TargetLockAction(), this.HostUpgrade);
             }
 
-            public override void DeactivateAbility()
+            public override void DeactivateAbilityForSquadBuilder()
             {
-                base.DeactivateAbility();
-
                 HostShip.ActionBar.RemoveGrantedAction(typeof(TargetLockAction), this.HostUpgrade);
             }
         }

@@ -274,7 +274,7 @@ public static partial class Actions
 
     // TAKE ACTION TRIGGERS
 
-    public static void TakeAction(GenericAction action)
+    public static void TakeActionStart(GenericAction action)
     {
         var ship = Selection.ThisShip;
         Tooltips.EndTooltip();
@@ -284,17 +284,26 @@ public static partial class Actions
         action.ActionTake();
     }
 
-    public static void FinishAction(Action callback)
+    public static void TakeActionFinish(Action callback)
     {
-        ActionIsTaken(callback);
+        bool isActionSkipped = (Actions.CurrentAction == null);
+
+        if (!isActionSkipped)
+        {
+            ActionIsTaken(callback);
+        }
+        else
+        {
+            callback();
+        }
     }
 
     private static void ActionIsTaken(Action callback)
     {
-        Selection.ThisShip.CallActionIsTaken(Actions.CurrentAction, delegate { EndActionDecisionSubhase(callback); });
+        Selection.ThisShip.CallActionIsTaken(Actions.CurrentAction, callback);
     }
 
-    private static void EndActionDecisionSubhase(Action callback)
+    public static void EndActionDecisionSubhase(Action callback)
     {
         Selection.ThisShip.CallOnActionDecisionSubphaseEnd(callback);
     }

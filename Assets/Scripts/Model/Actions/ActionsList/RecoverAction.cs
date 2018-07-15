@@ -15,7 +15,7 @@ namespace ActionsList
 
         public RecoverAction()
         {
-            Name = EffectName = "Recover";
+            Name = DiceModificationName = "Recover";
         }
 
         public override void ActionTake()

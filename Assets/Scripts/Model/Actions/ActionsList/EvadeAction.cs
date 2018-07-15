@@ -11,7 +11,7 @@ namespace ActionsList
 
         public EvadeAction()
         {
-            Name = EffectName = "Evade";
+            Name = DiceModificationName = "Evade";
 
             TokensSpend.Add(typeof(Tokens.EvadeToken));
         }
@@ -22,14 +22,14 @@ namespace ActionsList
             Selection.ActiveShip.Tokens.SpendToken(typeof(Tokens.EvadeToken), callBack);
         }
 
-        public override bool IsActionEffectAvailable()
+        public override bool IsDiceModificationAvailable()
         {
             bool result = false;
             if (Combat.AttackStep == CombatStep.Defence) result = true;
             return result;
         }
 
-        public override int GetActionEffectPriority()
+        public override int GetDiceModificationPriority()
         {
             int result = 0;
 

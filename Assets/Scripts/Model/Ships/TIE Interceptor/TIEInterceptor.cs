@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Movement;
 using ActionsList;
+using RuleSets;
 
 namespace Ship
 {
     namespace TIEInterceptor
     {
-        public class TIEInterceptor : GenericShip, TIE
+        public class TIEInterceptor : GenericShip, TIE, ISecondEditionShip
         {
 
             public TIEInterceptor() : base()
@@ -23,9 +24,9 @@ namespace Ship
                 MaxHull = 3;
                 MaxShields = 0;
 
-                PrintedActions.Add(new EvadeAction());
-                PrintedActions.Add(new BarrelRollAction());
-                PrintedActions.Add(new BoostAction());
+                ActionBar.AddPrintedAction(new EvadeAction());
+                ActionBar.AddPrintedAction(new BarrelRollAction());
+                ActionBar.AddPrintedAction(new BoostAction());
 
                 AssignTemporaryManeuvers();
                 HotacManeuverTable = new AI.TIEInterceptorTable();
@@ -68,6 +69,12 @@ namespace Ship
                 Maneuvers.Add("4.F.R", MovementComplexity.None);
                 Maneuvers.Add("5.F.S", MovementComplexity.Normal);
                 Maneuvers.Add("5.F.R", MovementComplexity.Complex);
+            }
+
+            public void AdaptShipToSecondEdition()
+            {
+                //TODO: Maneuvers
+                //TODO: Ship ability
             }
 
         }

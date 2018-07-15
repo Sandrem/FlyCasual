@@ -6,6 +6,7 @@ using Upgrade;
 using Ship;
 using Abilities;
 using Tokens;
+using System.Linq;
 
 namespace UpgradesList
 {
@@ -63,25 +64,22 @@ namespace Abilities
         {
             HostShip.OnActionDecisionSubphaseEnd -= DoSecondAction;
 
-            if (!ship.Tokens.HasToken(typeof(Tokens.StressToken)) || ship.CanPerformActionsWhileStressed)
-            {
-                Triggers.RegisterTrigger(
-                    new Trigger()
-                    {
-                        Name = "Push The Limit Action",
-                        TriggerOwner = ship.Owner.PlayerNo,
-                        TriggerType = TriggerTypes.OnFreeAction,
-                        EventHandler = PerformPushAction
-                    }
-                );
-            }
+            Triggers.RegisterTrigger(
+                new Trigger()
+                {
+                    Name = "Push The Limit Action",
+                    TriggerOwner = ship.Owner.PlayerNo,
+                    TriggerType = TriggerTypes.OnFreeAction,
+                    EventHandler = PerformPushAction
+                }
+            );
         }
 
         private void PerformPushAction(object sender, System.EventArgs e)
         {
-            base.HostShip.GenerateAvailableActionsList();
-            List<GenericAction> actions = Selection.ThisShip.GetAvailableActionsList();
-            base.HostShip.AskPerformFreeAction(actions, AddStressToken);
+            List<GenericAction> actions = HostShip.GetAvailableActions();
+            List<GenericAction> actionBarActions = actions.Where(n => n.IsInActionBar).ToList();
+            HostShip.AskPerformFreeAction(actionBarActions, AddStressToken);
         }
 
         private void AddStressToken()

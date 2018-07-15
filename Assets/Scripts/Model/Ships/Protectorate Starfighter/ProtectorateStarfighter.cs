@@ -28,9 +28,9 @@ namespace Ship
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Torpedo);
 
-                PrintedActions.Add(new TargetLockAction());
-                PrintedActions.Add(new BarrelRollAction());
-                PrintedActions.Add(new BoostAction());
+                ActionBar.AddPrintedAction(new TargetLockAction());
+                ActionBar.AddPrintedAction(new BarrelRollAction());
+                ActionBar.AddPrintedAction(new BoostAction());
 
                 AssignTemporaryManeuvers();
                 HotacManeuverTable = new AI.ProtectorateStarfighterTable();
@@ -72,14 +72,14 @@ namespace Ship
 
             public void AdaptShipToSecondEdition()
             {
-                IconicPilots[Faction.Scum] = typeof(ZealousRecruit);
+                IconicPilots[Faction.Scum] = typeof(FennRau);
 
-                PilotAbilities.Add(new Abilities.SecondEdition.ConcordiaFaceoffAbility());
+                ShipAbilities.Add(new Abilities.SecondEdition.ConcordiaFaceoffAbility());
 
-                PrintedActions.RemoveAll(a => a is BarrelRollAction);
-                PrintedActions.RemoveAll(a => a is BoostAction);
-                PrintedActions.Add(new BarrelRollAction() { LinkedRedAction = new FocusAction() { IsRed = true } });
-                PrintedActions.Add(new BoostAction() { LinkedRedAction = new FocusAction() { IsRed = true } });
+                ActionBar.RemovePrintedAction(typeof(BarrelRollAction));
+                ActionBar.RemovePrintedAction(typeof(BoostAction));
+                ActionBar.AddPrintedAction(new BarrelRollAction() { LinkedRedAction = new FocusAction() { IsRed = true } });
+                ActionBar.AddPrintedAction(new BoostAction() { LinkedRedAction = new FocusAction() { IsRed = true } });
             }
 
         }
@@ -89,21 +89,39 @@ namespace Ship
 namespace Abilities.SecondEdition
 {
     //While you defend, if the attack range is 1 and you are in the attacker's forward firing arc, change 1 result to an evade result.
-    public class ConcordiaFaceoffAbility : GenericDiceModAbility
+    public class ConcordiaFaceoffAbility : GenericAbility
     {
-        public ConcordiaFaceoffAbility()
+        public override void ActivateAbility()
         {
-            AllowChange(null, DieSide.Success, 1);
-            ActionName = "Concordia Faceoff";
+            AddDiceModification(
+                "Concordia Faceoff",
+                IsAvailable,
+                AiPriority,
+                DiceModificationType.Change,
+                1,
+                sideCanBeChangedTo: DieSide.Success
+            );
         }
 
-        public override bool IsActionEffectAvailable()
+        public override void DeactivateAbility()
         {
-            return (Combat.AttackStep == CombatStep.Defence && Combat.Defender == HostShip && Combat.ShotInfo.Range == 1 && Combat.ShotInfo.InArcByType(Arcs.ArcTypes.Primary));
+            RemoveDiceModification();
         }
 
-        public override int GetActionEffectPriority()
+        public bool IsAvailable()
         {
+            return
+            (
+                Combat.AttackStep == CombatStep.Defence &&
+                Combat.Defender == HostShip &&
+                Combat.ShotInfo.Range == 1 &&
+                Combat.ShotInfo.InPrimaryArc
+            );
+        }
+
+        public int AiPriority()
+        {
+            //TODO: Change to enum
             return 100;
         }
     }

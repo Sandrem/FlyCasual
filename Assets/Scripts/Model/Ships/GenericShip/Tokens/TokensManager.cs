@@ -136,6 +136,7 @@ namespace Ship
 
             AssignedTokens.Add(TokenToAssign);
 
+            TokenToAssign.InitializeTooltip();
             TokenToAssign.WhenAssigned();
             Host.CallOnTokenIsAssigned(TokenToAssign, callback);
         }
@@ -204,6 +205,22 @@ namespace Ship
             }
         }
 
+        public void RemoveAllTokensByColor(TokenColors color, Action callback)
+        {
+            GenericToken tokenToRemove = AssignedTokens.FirstOrDefault(token => token.TokenColor == color);
+            if (tokenToRemove != null)
+            {
+                RemoveToken(
+                    tokenToRemove,
+                    delegate { RemoveAllTokensByColor(color, callback); }
+                );
+            }
+            else
+            {
+                callback();
+            }
+        }
+
         public void SpendToken(Type type, Action callback, char letter = ' ')
         {
             RemoveToken(
@@ -225,6 +242,7 @@ namespace Ship
         {
             AssignedTokens.Add(token);
 
+            token.InitializeTooltip();
             token.WhenAssigned();
             Host.CallOnConditionIsAssigned(token.GetType());
         }
@@ -232,10 +250,7 @@ namespace Ship
         public void AssignCondition(Type tokenType)
         {
             GenericToken token = (GenericToken) Activator.CreateInstance(tokenType, Host);
-            AssignedTokens.Add(token);
-
-            token.WhenAssigned();
-            Host.CallOnConditionIsAssigned(token.GetType());
+            AssignCondition(token);
         }
 
     }

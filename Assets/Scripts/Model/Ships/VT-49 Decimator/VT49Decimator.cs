@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Movement;
 using ActionsList;
+using RuleSets;
 
 namespace Ship
 {
     namespace VT49Decimator
     {
-        public class VT49Decimator : GenericShip
+        public class VT49Decimator : GenericShip, ISecondEditionShip
         {
 
             public VT49Decimator() : base()
@@ -31,7 +32,7 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Crew);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Bomb);
 
-                PrintedActions.Add(new TargetLockAction());
+                ActionBar.AddPrintedAction(new TargetLockAction());
 
                 AssignTemporaryManeuvers();
                 HotacManeuverTable = new AI.VT49DecimatorTable();
@@ -75,6 +76,19 @@ namespace Ship
                 Maneuvers.Add("4.F.R", MovementComplexity.None);
                 Maneuvers.Add("5.F.S", MovementComplexity.None);
                 Maneuvers.Add("5.F.R", MovementComplexity.None);
+            }
+
+            public void AdaptShipToSecondEdition()
+            {
+                //TODO: Maneuvers
+                //TODO: Arc
+
+                ActionBar.AddPrintedAction(new ReinforceForeAction());
+                ActionBar.AddPrintedAction(new ReinforceAftAction());
+                ActionBar.AddPrintedAction(new RotateArcAction());
+                ActionBar.AddPrintedAction(new CoordinateAction() { IsRed = true });
+
+                IconicPilots[Faction.Imperial] = typeof(PatrolLeader);
             }
 
         }

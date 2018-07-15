@@ -40,8 +40,7 @@ namespace Players
                 }
             }
 
-            ship.GenerateAvailableActionsList();
-            if (anotherShip != null) foreach (var action in ship.GetAvailableActionsList())
+            if (anotherShip != null) foreach (var action in ship.GetAvailableActions())
             {
                 if (action.GetType() == typeof(ActionsList.TargetLockAction))
                 {
@@ -66,11 +65,11 @@ namespace Players
         {
             if (Phases.CurrentSubPhase is ActionDecisonSubPhase)
             {
-                PerformActionFromList(Selection.ThisShip.GetAvailableActionsList());
+                PerformActionFromList(Selection.ThisShip.GetAvailableActions());
             }
             else if (Phases.CurrentSubPhase is FreeActionDecisonSubPhase)
             {
-                PerformActionFromList(Selection.ThisShip.GetAvailableFreeActionsList());
+                PerformActionFromList(Selection.ThisShip.GetAvailableFreeActions());
             }
             else (Phases.CurrentSubPhase as DecisionSubPhase).DoDefault();
         }
@@ -107,8 +106,7 @@ namespace Players
                     if (prioritizedActions.Value > 0)
                     {
                         isActionTaken = true;
-                        Selection.ThisShip.AddAlreadyExecutedAction(prioritizedActions.Key);
-                        prioritizedActions.Key.ActionTake();
+                        Actions.TakeActionStart(prioritizedActions.Key);
                     }
                 }
             }

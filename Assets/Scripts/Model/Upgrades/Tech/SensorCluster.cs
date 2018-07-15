@@ -30,12 +30,12 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList += SensorClusterActionEffect;
+            HostShip.OnGenerateDiceModifications += SensorClusterActionEffect;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList -= SensorClusterActionEffect;
+            HostShip.OnGenerateDiceModifications -= SensorClusterActionEffect;
         }
 
         private void SensorClusterActionEffect(GenericShip host)
@@ -45,7 +45,7 @@ namespace Abilities
                 ImageUrl = HostUpgrade.ImageUrl,
                 Host = host
             };
-            host.AddAvailableActionEffect(newAction);
+            host.AddAvailableDiceModification(newAction);
         }
     }
 }
@@ -57,17 +57,17 @@ namespace ActionsList
 
         public SensorClusterActionEffect()
         {
-            Name = EffectName = "Sensor Cluster";
+            Name = DiceModificationName = "Sensor Cluster";
             DiceModificationTiming = DiceModificationTimingType.Normal;
             TokensSpend.Add(typeof(FocusToken));
         }
 
-        public override int GetActionEffectPriority()
+        public override int GetDiceModificationPriority()
         {
             return (Combat.DiceRollAttack.Successes > Combat.DiceRollDefence.Successes) ? 40 : 0;
         }
 
-        public override bool IsActionEffectAvailable()
+        public override bool IsDiceModificationAvailable()
         {
             bool result = false;
 

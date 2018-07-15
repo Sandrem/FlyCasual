@@ -31,24 +31,24 @@ namespace Abilities
 
         public override void ActivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList += AddSabinebility;
+            HostShip.OnGenerateDiceModifications += AddSabinebility;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList -= AddSabinebility;
+            HostShip.OnGenerateDiceModifications -= AddSabinebility;
         }
 
         private void AddSabinebility(GenericShip ship)
         {
-            ship.AddAvailableActionEffect(new SabineWrenDiceModification());
+            ship.AddAvailableDiceModification(new SabineWrenDiceModification());
         }
 
         private class SabineWrenDiceModification : GenericAction
         {
             public SabineWrenDiceModification()
             {
-                Name = EffectName = "Sabine Wren's ability";
+                Name = DiceModificationName = "Sabine Wren's ability";
             }
 
             public override void ActionEffect(System.Action callBack)
@@ -58,7 +58,7 @@ namespace Abilities
                 callBack();
             }
 
-            public override bool IsActionEffectAvailable()
+            public override bool IsDiceModificationAvailable()
             {
                 bool result = false;
                 if (Combat.AttackStep == CombatStep.Defence)
@@ -69,7 +69,7 @@ namespace Abilities
                 return result;
             }
 
-            public override int GetActionEffectPriority()
+            public override int GetDiceModificationPriority()
             {
                 return 110;
             }

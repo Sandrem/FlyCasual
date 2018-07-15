@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using RuleSets;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,7 +7,7 @@ namespace Ship
 {
     namespace ScurrgH6Bomber
     {
-        public class LokRevenant : ScurrgH6Bomber
+        public class LokRevenant : ScurrgH6Bomber, ISecondEditionPilot
         {
             public LokRevenant() : base()
             {
@@ -15,6 +16,11 @@ namespace Ship
                 Cost = 26;
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
+            }
+
+            public void AdaptPilotToSecondEdition()
+            {
+                PilotSkill = 2;
             }
         }
     }

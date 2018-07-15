@@ -19,7 +19,7 @@ namespace DamageDeckCardFE
         public override void ApplyEffect(object sender, EventArgs e)
         {
             Host.AfterGotNumberOfAttackDice += ReduceNumberOfAttackDice;
-            Host.AfterGenerateAvailableActionsList += CallAddCancelCritAction;
+            Host.OnGenerateActions += CallAddCancelCritAction;
 
             Host.Tokens.AssignCondition(typeof(Tokens.WeaponsFailureCritToken));
             Triggers.FinishTrigger();
@@ -33,7 +33,7 @@ namespace DamageDeckCardFE
 
             Host.Tokens.RemoveCondition(typeof(Tokens.WeaponsFailureCritToken));
             Host.AfterGotNumberOfAttackDice -= ReduceNumberOfAttackDice;
-            Host.AfterGenerateAvailableActionsList -= CallAddCancelCritAction;
+            Host.OnGenerateActions -= CallAddCancelCritAction;
         }
 
         private void ReduceNumberOfAttackDice(ref int value)

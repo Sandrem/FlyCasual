@@ -828,4 +828,9 @@ public partial class DiceRoll
         }
         return DieSide.Unknown; // We never should get here
     }
+
+    public bool HasResult(DieSide side)
+    {
+        return DiceList.Any(n => n.Side == side);
+    }
 }

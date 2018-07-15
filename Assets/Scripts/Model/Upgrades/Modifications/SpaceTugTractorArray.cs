@@ -34,12 +34,12 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionsList += AddAction;
+            HostShip.OnGenerateActions += AddAction;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionsList -= AddAction;
+            HostShip.OnGenerateActions -= AddAction;
         }
 
         private void AddAction(GenericShip ship)
@@ -63,7 +63,7 @@ namespace ActionsList
 
         public SpacetugAction()
         {
-            Name = EffectName = "Spacetug Tractor Array";
+            Name = DiceModificationName = "Spacetug Tractor Array";
         }
 
         public override void ActionTake()

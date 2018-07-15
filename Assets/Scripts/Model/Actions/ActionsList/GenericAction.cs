@@ -17,7 +17,7 @@ namespace ActionsList
     public class GenericAction
     {
         public string Name;
-        public string EffectName;
+        public string DiceModificationName;
         public string ImageUrl;
 
         public bool IsRed;
@@ -67,22 +67,26 @@ namespace ActionsList
             set { source = value; }
         }
 
+        public bool IsInActionBar;
+
         public Action DoAction = delegate { };
-        public Action<Action> DoActionEffect = delegate { };
+        public Action<Action> DoDiceModification = delegate { };
+        public Func<bool> CheckDiceModificationAvailable = delegate { return true; };
+        public Func<int> GenerateDiceModificationAiPriority = delegate { return 0; };
 
         public virtual void ActionEffect(Action callBack)
         {
-            DoActionEffect(callBack);
+            DoDiceModification(callBack);
         }
 
-        public virtual bool IsActionEffectAvailable()
+        public virtual bool IsDiceModificationAvailable()
         {
-            return true;
+            return CheckDiceModificationAvailable();
         }
 
-        public virtual int GetActionEffectPriority()
+        public virtual int GetDiceModificationPriority()
         {
-            int result = 0;
+            int result = GenerateDiceModificationAiPriority();
 
             /* ATTACK
             * 110 - Free add dice with value

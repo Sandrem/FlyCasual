@@ -76,13 +76,13 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList += MaulDiceModification;
+            HostShip.OnGenerateDiceModifications += MaulDiceModification;
             HostShip.OnAttackHitAsAttacker += RegisterRemoveStress;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList -= MaulDiceModification;
+            HostShip.OnGenerateDiceModifications -= MaulDiceModification;
             HostShip.OnAttackHitAsAttacker -= RegisterRemoveStress;
         }
 
@@ -93,7 +93,7 @@ namespace Abilities
                 ImageUrl = HostUpgrade.ImageUrl,
                 Host = HostShip
             };
-            HostShip.AddAvailableActionEffect(newAction);
+            HostShip.AddAvailableDiceModification(newAction);
         }
 
         private void RegisterRemoveStress()
@@ -127,19 +127,19 @@ namespace ActionsList
 
         public MaulDiceModification()
         {
-            Name = EffectName = "Maul";
+            Name = DiceModificationName = "Maul";
 
             IsReroll = true;
         }
 
-        public override bool IsActionEffectAvailable()
+        public override bool IsDiceModificationAvailable()
         {
             bool result = false;
             if ((Combat.AttackStep == CombatStep.Attack) && (!Combat.Attacker.Tokens.HasToken(typeof(StressToken)))) result = true;
             return result;
         }
 
-        public override int GetActionEffectPriority()
+        public override int GetDiceModificationPriority()
         {
             int result = 0;
 
@@ -148,7 +148,7 @@ namespace ActionsList
                 int attackFocuses = Combat.DiceRollAttack.FocusesNotRerolled;
                 int attackBlanks = Combat.DiceRollAttack.BlanksNotRerolled;
 
-                if (Combat.Attacker.GetAvailableActionEffectsList().Count(n => n.IsTurnsAllFocusIntoSuccess) > 0)
+                if (Combat.Attacker.GetAvailableDiceModifications().Count(n => n.IsTurnsAllFocusIntoSuccess) > 0)
                 {
                     if (attackBlanks > 0) result = 90;
                 }

@@ -14,7 +14,7 @@ namespace ActionsList
     {
         public JamAction()
         {
-            Name = EffectName = "Jam";
+            Name = DiceModificationName = "Jam";
         }
 
         public override void ActionTake()
@@ -64,8 +64,8 @@ namespace SubPhases
         {
             if (RuleSet.Instance is SecondEdition && (ship.Tokens.HasToken(typeof(ReinforceAftToken)) || ship.Tokens.HasToken(typeof(ReinforceForeToken)))) return 110;
             if (ship.Tokens.HasToken(typeof(FocusToken))) return 100;
-            if (ship.PrintedActions.Any(n => n.GetType() == typeof(ActionsList.EvadeAction)) || ship.Tokens.HasToken(typeof(EvadeToken))) return 50;
-            if (ship.PrintedActions.Any(n => n.GetType() == typeof(ActionsList.TargetLockAction)) || ship.Tokens.HasToken(typeof(BlueTargetLockToken), '*')) return 50;
+            if (ship.ActionBar.HasAction(typeof(ActionsList.EvadeAction)) || ship.Tokens.HasToken(typeof(EvadeToken))) return 50;
+            if (ship.ActionBar.HasAction(typeof(ActionsList.TargetLockAction)) || ship.Tokens.HasToken(typeof(BlueTargetLockToken), '*')) return 50;
             return 0;
         }
 

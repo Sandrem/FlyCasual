@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Movement;
 using ActionsList;
+using RuleSets;
 
 namespace Ship
 {
     namespace LambdaShuttle
     {
-        public class LambdaShuttle : GenericShip
+        public class LambdaShuttle : GenericShip, ISecondEditionShip
         {
 
             public LambdaShuttle() : base()
@@ -29,7 +30,7 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Crew);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Crew);
 
-                PrintedActions.Add(new TargetLockAction());
+                ActionBar.AddPrintedAction(new TargetLockAction());
 
                 AssignTemporaryManeuvers();
                 HotacManeuverTable = new AI.LambdaShuttleTable();
@@ -62,6 +63,19 @@ namespace Ship
                 Maneuvers.Add("3.L.B", MovementComplexity.Complex);
                 Maneuvers.Add("3.F.S", MovementComplexity.Normal);
                 Maneuvers.Add("3.R.B", MovementComplexity.Complex);
+            }
+
+            public void AdaptShipToSecondEdition()
+            {
+                //TODO: Maneuvers
+                // TODO: Arcs
+
+                ActionBar.AddPrintedAction(new ReinforceForeAction());
+                ActionBar.AddPrintedAction(new ReinforceAftAction());
+
+                ActionBar.AddPrintedAction(new JamAction() { IsRed = true });
+
+                IconicPilots[Faction.Imperial] = typeof(OmicronGroupPilot);
             }
 
         }

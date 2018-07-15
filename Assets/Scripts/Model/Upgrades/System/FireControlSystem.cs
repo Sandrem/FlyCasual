@@ -74,12 +74,12 @@ namespace Abilities.SecondEdition
     {
         public override void ActivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList += FireControlSystemAbilityDiceModification;
+            HostShip.OnGenerateDiceModifications += FireControlSystemAbilityDiceModification;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList -= FireControlSystemAbilityDiceModification;
+            HostShip.OnGenerateDiceModifications -= FireControlSystemAbilityDiceModification;
         }
 
         private void FireControlSystemAbilityDiceModification(GenericShip host)
@@ -89,7 +89,7 @@ namespace Abilities.SecondEdition
                 ImageUrl = HostUpgrade.ImageUrl,
                 Host = host
             };
-            host.AddAvailableActionEffect(newAction);
+            host.AddAvailableDiceModification(newAction);
         }
     }
 }
@@ -102,10 +102,10 @@ namespace ActionsList.SecondEdition
 
         public FireControlSystemAbilityActionEffect()
         {
-            Name = EffectName = "Fire Control System";
+            Name = DiceModificationName = "Fire Control System";
         }
 
-        public override int GetActionEffectPriority()
+        public override int GetDiceModificationPriority()
         {
             int result = 0;
 
@@ -114,7 +114,7 @@ namespace ActionsList.SecondEdition
             return result;
         }
 
-        public override bool IsActionEffectAvailable()
+        public override bool IsDiceModificationAvailable()
         {
             bool result = false;
 

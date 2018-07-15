@@ -21,14 +21,7 @@ namespace UpgradesList
 
         public override bool IsAllowedForShip(GenericShip ship)
         {
-            //TODO: Engine Upgrade must add icon to available actions
-
-            bool result = false;
-
-            if (ship.PrintedActions.Any(n => n.GetType() == typeof(BoostAction))) result = true;
-            else if (ship.UpgradeBar.HasUpgradeInstalled(typeof(EngineUpgrade))) result = true;
-
-            return result;
+            return ship.ActionBar.HasAction(typeof(BoostAction));
         }
 
         public override bool IsAllowedForSquadBuilderPostCheck(SquadList squadList)
@@ -49,12 +42,12 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList += TryAddAutothrustersDiceModification;
+            HostShip.OnGenerateDiceModifications += TryAddAutothrustersDiceModification;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList -= TryAddAutothrustersDiceModification;
+            HostShip.OnGenerateDiceModifications -= TryAddAutothrustersDiceModification;
         }
 
         private void TryAddAutothrustersDiceModification(GenericShip host)
@@ -64,7 +57,7 @@ namespace Abilities
                 ImageUrl = HostUpgrade.ImageUrl,
                 Host = host
             };
-            host.AddAvailableActionEffect(newAction);
+            host.AddAvailableDiceModification(newAction);
         }
     }
 }
@@ -75,10 +68,10 @@ namespace ActionsList
     {
         public AutothrustersDiceModification()
         {
-            Name = EffectName = "Autothrusters";
+            Name = DiceModificationName = "Autothrusters";
         }
 
-        public override int GetActionEffectPriority()
+        public override int GetDiceModificationPriority()
         {
             int result = 0;
 
@@ -87,7 +80,7 @@ namespace ActionsList
             return result;
         }
 
-        public override bool IsActionEffectAvailable()
+        public override bool IsDiceModificationAvailable()
         {
             bool result = false;
 

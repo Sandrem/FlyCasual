@@ -31,13 +31,13 @@ namespace Abilities
         public override void ActivateAbility()
         {
             HostShip.AfterGotNumberOfAttackDice += CheckAddDiceForPrimaryArc;
-            HostShip.AfterGenerateAvailableActionEffectsList += CheckFocusToCritAuxilaryArc;
+            HostShip.OnGenerateDiceModifications += CheckFocusToCritAuxilaryArc;
         }
 
         public override void DeactivateAbility()
         {
             HostShip.AfterGotNumberOfAttackDice -= CheckAddDiceForPrimaryArc;
-            HostShip.AfterGenerateAvailableActionEffectsList -= CheckFocusToCritAuxilaryArc;
+            HostShip.OnGenerateDiceModifications -= CheckFocusToCritAuxilaryArc;
         }
 
         private void CheckAddDiceForPrimaryArc(ref int diceCount)
@@ -52,7 +52,7 @@ namespace Abilities
         {
             if (!Combat.ShotInfo.InPrimaryArc)
             {
-                HostShip.AddAvailableActionEffect(new ActionsList.AllianceOverhaulDiceModification());
+                HostShip.AddAvailableDiceModification(new ActionsList.AllianceOverhaulDiceModification());
             }
         }
     }
@@ -66,20 +66,20 @@ namespace ActionsList
 
         public AllianceOverhaulDiceModification()
         {
-            Name = EffectName = "Alliance Overhaul";
+            Name = DiceModificationName = "Alliance Overhaul";
 
             IsTurnsAllFocusIntoSuccess = true; // incorrect flag
             IsTurnsOneFocusIntoSuccess = true;
         }
 
-        public override bool IsActionEffectAvailable()
+        public override bool IsDiceModificationAvailable()
         {
             bool result = false;
             if (Combat.AttackStep == CombatStep.Attack) result = true;
             return result;
         }
 
-        public override int GetActionEffectPriority()
+        public override int GetDiceModificationPriority()
         {
             int result = 0;
 

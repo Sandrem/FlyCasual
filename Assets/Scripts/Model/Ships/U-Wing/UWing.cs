@@ -34,7 +34,7 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Crew);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Crew);
 
-                PrintedActions.Add(new TargetLockAction());
+                ActionBar.AddPrintedAction(new TargetLockAction());
 
                 AssignTemporaryManeuvers();
                 HotacManeuverTable = new AI.UWingTable();
@@ -82,7 +82,7 @@ namespace Ship
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Configuration);
 
-                PrintedActions.Add(new CoordinateAction() { IsRed = true });
+                ActionBar.AddPrintedAction(new CoordinateAction() { IsRed = true });
 
                 IconicPilots[Faction.Rebel] = typeof(BenthicTwoTubes);
             }

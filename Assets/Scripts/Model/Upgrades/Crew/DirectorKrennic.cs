@@ -144,27 +144,16 @@ namespace Abilities
                 SelectShipSubPhase.FinishSelection();
             }
 
-            protected override void SecondAbility()
+            protected override void SecondAbility() {}
+
+            public override void ActivateAbilityForSquadBuilder()
             {
-                HostShip.AfterGenerateAvailableActionsList += AddTargetLockAction;
+                HostShip.ActionBar.AddGrantedAction(new TargetLockAction(), this.HostUpgrade);
             }
 
-            private void AddTargetLockAction(GenericShip host)
+            public override void DeactivateAbilityForSquadBuilder()
             {
-                var alreadyHasTargetLockAction = HostShip.PrintedActions.Find(action => action is TargetLockAction);
-
-                if (alreadyHasTargetLockAction == null)
-                {
-                    var action = new TargetLockAction();
-                    HostShip.AddAvailableAction(action);
-                }
-            }
-
-            public override void DeactivateAbility()
-            {
-                base.DeactivateAbility();
-
-                HostShip.AfterGenerateAvailableActionsList -= AddTargetLockAction;
+                HostShip.ActionBar.RemoveGrantedAction(typeof(TargetLockAction), this.HostUpgrade);
             }
         }
     }
@@ -172,7 +161,7 @@ namespace Abilities
 
 namespace Conditions
 {
-    public class OptimizedPrototype : Tokens.GenericToken
+    public class OptimizedPrototype : GenericToken
     {
         public OptimizedPrototype(GenericShip host) : base(host)
         {
@@ -198,13 +187,13 @@ namespace Conditions
 
             Roster.UpdateDamageIndicators(Host, Host.InfoPanel);
 
-            Host.AfterGenerateAvailableActionEffectsList += AddOptimizedPrototypeCancelResultModification;
+            Host.OnGenerateDiceModifications += AddOptimizedPrototypeCancelResultModification;
         }
                 
         private void UnsubscribeFromOptimizedPrototypeConditionEffects()
         {
             Host.MaxShields--;
-            Host.AfterGenerateAvailableActionEffectsList -= AddOptimizedPrototypeCancelResultModification;            
+            Host.OnGenerateDiceModifications -= AddOptimizedPrototypeCancelResultModification;            
         }
 
         private void AddOptimizedPrototypeCancelResultModification(GenericShip ship)
@@ -214,11 +203,11 @@ namespace Conditions
                 Host = Host
             };
 
-            Host.AddAvailableActionEffect(action);
+            Host.AddAvailableDiceModification(action);
         }
     }
 
-    public class OptimizedPrototypeSE : Tokens.GenericToken
+    public class OptimizedPrototypeSE : GenericToken
     {
         public OptimizedPrototypeSE(GenericShip host) : base(host)
         {
@@ -230,12 +219,12 @@ namespace Conditions
 
         public override void WhenAssigned()
         {
-            Host.AfterGenerateAvailableActionEffectsList += AddOptimizedPrototypeCancelResultModification;
+            Host.OnGenerateDiceModifications += AddOptimizedPrototypeCancelResultModification;
         }
 
         public override void WhenRemoved()
         {
-            Host.AfterGenerateAvailableActionEffectsList -= AddOptimizedPrototypeCancelResultModification;
+            Host.OnGenerateDiceModifications -= AddOptimizedPrototypeCancelResultModification;
         }
 
         private void AddOptimizedPrototypeCancelResultModification(GenericShip ship)
@@ -246,7 +235,7 @@ namespace Conditions
                 ImageUrl = Tooltip
             };
 
-            Host.AddAvailableActionEffect(action);
+            Host.AddAvailableDiceModification(action);
         }
     }
 }
@@ -257,10 +246,10 @@ namespace ActionsList
     {
         public OptimizedPrototypeAction()
         {
-            Name = EffectName = "Optimized Prototype";
+            Name = DiceModificationName = "Optimized Prototype";
         }
 
-        public override bool IsActionEffectAvailable()
+        public override bool IsDiceModificationAvailable()
         {
             bool result = true;
 
@@ -338,17 +327,17 @@ namespace ActionsList
             DecisionSubPhase.ConfirmDecision();
         }
 
-        public override int GetActionEffectPriority()
+        public override int GetDiceModificationPriority()
         {
             int result = 0;
 
-            if (IsActionEffectAvailable())
+            if (IsDiceModificationAvailable())
             {
                 if (Combat.DiceRollAttack.Blanks > 0)
                 {
                     result = 90;
                 }
-                else if (Combat.DiceRollAttack.Focuses > 0 && Combat.Attacker.GetAvailableActionEffectsList().Count(n => n.IsTurnsAllFocusIntoSuccess) == 0)
+                else if (Combat.DiceRollAttack.Focuses > 0 && Combat.Attacker.GetAvailableDiceModifications().Count(n => n.IsTurnsAllFocusIntoSuccess) == 0)
                 {
                     result = 90;
                 }
@@ -371,10 +360,10 @@ namespace ActionsList
         {
             public OptimizedPrototypeDiceModificationSE()
             {
-                Name = EffectName = "Optimized Prototype";
+                Name = DiceModificationName = "Optimized Prototype";
             }
 
-            public override bool IsActionEffectAvailable()
+            public override bool IsDiceModificationAvailable()
             {
                 if (Combat.AttackStep != CombatStep.Attack) return false;
                 if (!(Combat.ChosenWeapon is PrimaryWeaponClass)) return false;
@@ -506,7 +495,7 @@ namespace ActionsList
                 DecisionSubPhase.ConfirmDecision();
             }
 
-            public override int GetActionEffectPriority()
+            public override int GetDiceModificationPriority()
             {
                 int result = 0;
 

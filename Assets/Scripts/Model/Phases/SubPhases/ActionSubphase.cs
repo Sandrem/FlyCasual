@@ -49,7 +49,11 @@ namespace SubPhases
             Phases.StartTemporarySubPhaseOld(
                 "Action Decision",
                 typeof(ActionDecisonSubPhase),
-                delegate { Actions.FinishAction(Finish); }
+                delegate {
+                    Actions.TakeActionFinish(
+                        delegate { Actions.EndActionDecisionSubhase(Finish); }
+                    ); 
+                }
             );
         }
 
@@ -100,7 +104,7 @@ namespace SubPhases
             ShowSkipButton = true;
             DefaultDecisionName = "Focus";
 
-            List<ActionsList.GenericAction> availableActions = Selection.ThisShip.GetAvailableActionsList();
+            List<ActionsList.GenericAction> availableActions = Selection.ThisShip.GetAvailableActions();
 
             if (availableActions.Count > 0)
             {
@@ -120,13 +124,13 @@ namespace SubPhases
             //TODO: Use more global way of fix
             HideDecisionWindowUI();
 
-            List<ActionsList.GenericAction> availableActions = Selection.ThisShip.GetAvailableActionsList();
+            List<ActionsList.GenericAction> availableActions = Selection.ThisShip.GetAvailableActions();
             foreach (var action in availableActions)
             {
                 string decisionName = (action.LinkedRedAction == null) ? action.Name : action.Name + " > <color=red>" + action.LinkedRedAction.Name + "</color>";
                 AddDecision(decisionName, delegate {
                     ActionWasPerformed = true;
-                    Actions.TakeAction(action);
+                    Actions.TakeActionStart(action);
                 }, action.ImageUrl, -1, action.IsRed);
             }
         }
@@ -160,7 +164,7 @@ namespace SubPhases
             InfoText = "Select free action";
             DefaultDecisionName = "Focus";
 
-            List<ActionsList.GenericAction> availableActions = Selection.ThisShip.GetAvailableFreeActionsList();
+            List<ActionsList.GenericAction> availableActions = Selection.ThisShip.GetAvailableFreeActions();
 
             if (availableActions.Count > 0)
             {
@@ -169,7 +173,8 @@ namespace SubPhases
             }
             else
             {
-                Messages.ShowErrorToHuman("Cannot perform any actions");
+                Messages.ShowErrorToHuman("Cannot perform any free actions");
+                Selection.ThisShip.IsFreeActionSkipped = true;
                 Actions.CurrentAction = null;
                 CallBack();
             }
@@ -178,7 +183,7 @@ namespace SubPhases
         public void GenerateFreeActionButtons()
 		{
 			Selection.ThisShip.IsFreeActionSkipped = false;
-            List<ActionsList.GenericAction> availableActions = Selection.ThisShip.GetAvailableFreeActionsList();
+            List<ActionsList.GenericAction> availableActions = Selection.ThisShip.GetAvailableFreeActions();
             foreach (var action in availableActions)
             {
                 string decisionName = (action.LinkedRedAction == null) ? action.Name : action.Name + " > <color=red>" + action.LinkedRedAction.Name + "</color>";
@@ -187,7 +192,7 @@ namespace SubPhases
                     delegate
                     {
                         ActionWasPerformed = true;
-                        Selection.ThisShip.CallBeforeFreeActionIsPerformed(action, delegate { Actions.TakeAction(action); });
+                        Selection.ThisShip.CallBeforeFreeActionIsPerformed(action, delegate { Actions.TakeActionStart(action); });
                     },
                     action.ImageUrl,
                     -1,

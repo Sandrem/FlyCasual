@@ -69,75 +69,46 @@ namespace Abilities
         {
             public override void ActivateAbility()
             {
-                HostShip.AfterGenerateAvailableActionEffectsList += TryAddCaptainFerophDiceModification;
+                AddDiceModification(
+                    HostName,
+                    IsDiceModificationAvailable,
+                    GetDiceModificationPriority,
+                    DiceModificationType.Change,
+                    1,
+                    sideCanBeChangedTo: DieSide.Success
+                );
             }
 
             public override void DeactivateAbility()
             {
-                HostShip.AfterGenerateAvailableActionEffectsList -= TryAddCaptainFerophDiceModification;
+                RemoveDiceModification();
             }
 
-            private void TryAddCaptainFerophDiceModification(GenericShip host)
+            private int GetDiceModificationPriority()
             {
-                GenericAction newAction = new CaptainFerophDiceModification()
-                {
-                    ImageUrl = HostShip.ImageUrl,
-                    Host = host
-                };
-                host.AddAvailableActionEffect(newAction);
+                int result = 0;
+
+                if (Combat.CurrentDiceRoll.Blanks > 0 || Combat.CurrentDiceRoll.Focuses > 0) result = 100;
+
+                return result;
             }
-        }
 
-    }
-
-}
-
-namespace ActionsList
-{
-    public class CaptainFerophDiceModification : GenericAction
-    {
-        public CaptainFerophDiceModification()
-        {
-            Name = EffectName = "Captain Feroph";
-        }
-
-        public override int GetActionEffectPriority()
-        {
-            int result = 0;
-
-            if (Combat.CurrentDiceRoll.Blanks > 0 || Combat.CurrentDiceRoll.Focuses > 0) result = 100;
-
-            return result;
-        }
-
-        public override bool IsActionEffectAvailable()
-        {
-            bool result = false;
-
-            if (Combat.AttackStep == CombatStep.Defence)
+            private bool IsDiceModificationAvailable()
             {
-                if (!Combat.Attacker.Tokens.GetAllTokens().Any(n => n.TokenColor == TokenColors.Green))
+                bool result = false;
+
+                if (Combat.AttackStep == CombatStep.Defence)
                 {
-                    result = true;
+                    if (!Combat.Attacker.Tokens.GetAllTokens().Any(n => n.TokenColor == TokenColors.Green))
+                    {
+                        result = true;
+                    }
                 }
-            }
 
-            return result;
+                return result;
+            }
         }
 
-        public override void ActionEffect(System.Action callBack)
-        {
-            if (Combat.CurrentDiceRoll.Blanks > 0)
-            {
-                Combat.CurrentDiceRoll.ChangeOne(DieSide.Blank, DieSide.Success);
-            }
-            else if (Combat.CurrentDiceRoll.Focuses > 0)
-            {
-                Combat.CurrentDiceRoll.ChangeOne(DieSide.Focus, DieSide.Success);
-            }
-
-            callBack();
-        }
     }
 
 }

@@ -37,17 +37,17 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList += CheckLinkedBatteryAbility;
+            HostShip.OnGenerateDiceModifications += CheckLinkedBatteryAbility;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList -= CheckLinkedBatteryAbility;
+            HostShip.OnGenerateDiceModifications -= CheckLinkedBatteryAbility;
         }
 
         public void CheckLinkedBatteryAbility(GenericShip ship)
         {
-            ship.AddAvailableActionEffect(new ActionsList.LinkedBatteryAction()
+            ship.AddAvailableDiceModification(new ActionsList.LinkedBatteryAction()
             {
                 ImageUrl = HostUpgrade.ImageUrl,
                 Host = HostShip
@@ -62,7 +62,7 @@ namespace ActionsList
     {
         public LinkedBatteryAction()
         {
-            Name = EffectName = "Linked Battery";
+            Name = DiceModificationName = "Linked Battery";
             IsReroll = true;
         }
 
@@ -76,7 +76,7 @@ namespace ActionsList
             diceRerollManager.Start();
         }
 
-        public override bool IsActionEffectAvailable()
+        public override bool IsDiceModificationAvailable()
         {
             bool result = false;
             if (Combat.AttackStep == CombatStep.Attack) {
@@ -98,7 +98,7 @@ namespace ActionsList
             return Combat.ChosenWeapon is GenericSecondaryWeapon && (Combat.ChosenWeapon as GenericSecondaryWeapon).HasType(UpgradeType.Cannon);
         }
 
-        public override int GetActionEffectPriority()
+        public override int GetDiceModificationPriority()
         {
             int result = 0;
 
@@ -108,7 +108,7 @@ namespace ActionsList
                 {
                     result = 90;
                 }
-                else if (Combat.DiceRollAttack.Focuses > 0 && Combat.Attacker.GetAvailableActionEffectsList().Count(n => n.IsTurnsAllFocusIntoSuccess) == 0)
+                else if (Combat.DiceRollAttack.Focuses > 0 && Combat.Attacker.GetAvailableDiceModifications().Count(n => n.IsTurnsAllFocusIntoSuccess) == 0)
                 {
                     result = 90;
                 }

@@ -91,7 +91,7 @@ namespace Abilities
         private void AssignConditionToActivatedShip()
         {
             affectedShip = Selection.ThisShip;
-            affectedShip.OnTryAddAvailableActionEffect += UseFennRauRestriction;
+            affectedShip.OnTryAddAvailableDiceModification += UseFennRauRestriction;
             affectedShip.Tokens.AssignCondition(typeof(Conditions.FennRauRebelCondition));
 
             DecisionSubPhase.ConfirmDecision();
@@ -110,7 +110,7 @@ namespace Abilities
         {
             if (affectedShip != null)
             {
-                affectedShip.OnTryAddAvailableActionEffect -= UseFennRauRestriction;
+                affectedShip.OnTryAddAvailableDiceModification -= UseFennRauRestriction;
                 affectedShip.Tokens.RemoveCondition(typeof(Conditions.FennRauRebelCondition));
                 affectedShip = null;
             }            

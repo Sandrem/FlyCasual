@@ -262,9 +262,9 @@ namespace Ship
 
         public void CallShotStart()
         {
-            ClearAlreadyExecutedCompareResultsActionEffects();
-            ClearAlreadyExecutedOppositeActionEffects();
-            ClearAlreadyExecutedActionEffects();
+            ClearAlreadyExecutedDiceModificationsCompareResults();
+            ClearAlreadyExecutedDiceModificationsOpposite();
+            ClearAlreadyExecutedDiceModifications();
 
             if (Combat.Attacker.ShipId == this.ShipId)
             {
@@ -283,17 +283,17 @@ namespace Ship
 
         public void CallDefenceStartAsAttacker()
         {
-            ClearAlreadyExecutedCompareResultsActionEffects();
-            ClearAlreadyExecutedOppositeActionEffects();
-            ClearAlreadyExecutedActionEffects();
+            ClearAlreadyExecutedDiceModificationsCompareResults();
+            ClearAlreadyExecutedDiceModificationsOpposite();
+            ClearAlreadyExecutedDiceModifications();
             if (OnDefenceStartAsAttacker != null) OnDefenceStartAsAttacker();
         }
 
         public void CallDefenceStartAsDefender()
         {
-            ClearAlreadyExecutedCompareResultsActionEffects();
-            ClearAlreadyExecutedOppositeActionEffects();
-            ClearAlreadyExecutedActionEffects();
+            ClearAlreadyExecutedDiceModificationsCompareResults();
+            ClearAlreadyExecutedDiceModificationsOpposite();
+            ClearAlreadyExecutedDiceModifications();
             if (OnDefenceStartAsDefender != null) OnDefenceStartAsDefender();
         }
 
@@ -705,6 +705,27 @@ namespace Ship
         {
             IsDestroyed = true;
 
+            DeactivateAllAbilities();
+
+            if (OnShipIsDestroyed != null) OnShipIsDestroyed(this, isFled);
+            if (OnDestroyedGlobal != null) OnDestroyedGlobal(this, isFled);
+
+            Triggers.ResolveTriggers(
+                TriggerTypes.OnShipIsDestroyed,
+                delegate {
+                    Roster.DestroyShip(this.GetTag());
+                    callback();
+                }
+            );
+        }
+
+        public void DeactivateAllAbilities()
+        {
+            foreach (var shipAbility in ShipAbilities)
+            {
+                shipAbility.DeactivateAbility();
+            }
+
             foreach (var pilotAbility in PilotAbilities)
             {
                 pilotAbility.DeactivateAbility();
@@ -717,17 +738,6 @@ namespace Ship
                     upgradeAbility.DeactivateAbility();
                 }
             }
-
-            if (OnShipIsDestroyed != null) OnShipIsDestroyed(this, isFled);
-            if (OnDestroyedGlobal != null) OnDestroyedGlobal(this, isFled);
-
-            Triggers.ResolveTriggers(
-                TriggerTypes.OnShipIsDestroyed,
-                delegate {
-                    Roster.DestroyShip(this.GetTag());
-                    callback();
-                }
-            );
         }
 
         // ATTACK TYPES

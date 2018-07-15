@@ -87,17 +87,17 @@ namespace Abilities
         private int NeedTokenPriority(GenericShip ship)
         {
             if (!ship.Tokens.HasToken(typeof(Tokens.FocusToken))) return 100;
-            if (ship.PrintedActions.Any(n => n.GetType() == typeof(ActionsList.EvadeAction)) && !ship.Tokens.HasToken(typeof(Tokens.EvadeToken))) return 50;
-            if (ship.PrintedActions.Any(n => n.GetType() == typeof(ActionsList.TargetLockAction)) && !ship.Tokens.HasToken(typeof(Tokens.BlueTargetLockToken), '*')) return 50;
+            if (ship.ActionBar.HasAction(typeof(ActionsList.EvadeAction)) && !ship.Tokens.HasToken(typeof(Tokens.EvadeToken))) return 50;
+            if (ship.ActionBar.HasAction(typeof(ActionsList.TargetLockAction)) && !ship.Tokens.HasToken(typeof(Tokens.BlueTargetLockToken), '*')) return 50;
             return 0;
         }
 
         private void PerformFreeAction()
         {
             Selection.ThisShip = TargetShip;
-            TargetShip.GenerateAvailableActionsList();
+
             TargetShip.AskPerformFreeAction(
-                TargetShip.GetAvailableActionsList(),
+                TargetShip.GetAvailableActions(),
                 delegate{
                     Selection.ThisShip = HostShip;
                     SelectShipSubPhase.FinishSelection();

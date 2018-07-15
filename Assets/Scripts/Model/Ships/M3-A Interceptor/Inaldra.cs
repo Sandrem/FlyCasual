@@ -33,24 +33,24 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList += AddInaldraAbility;
+            HostShip.OnGenerateDiceModifications += AddInaldraAbility;
         }
  
         public override void DeactivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList -= AddInaldraAbility;
+            HostShip.OnGenerateDiceModifications -= AddInaldraAbility;
         }
 
         private void AddInaldraAbility(GenericShip ship)
         {
-            ship.AddAvailableActionEffect(new InaldraAction() {Host = HostShip});
+            ship.AddAvailableDiceModification(new InaldraAction() {Host = HostShip});
         }
 
         private class InaldraAction : ActionsList.GenericAction
         {
             public InaldraAction()
             {
-                Name = EffectName = "Inaldra's ability";
+                Name = DiceModificationName = "Inaldra's ability";
             }
 
             public override void ActionEffect(Action callBack)
@@ -77,13 +77,13 @@ namespace Abilities
                 }
             }
 
-            public override bool IsActionEffectAvailable()
+            public override bool IsDiceModificationAvailable()
             {
                 // check if ship has shield to activate ability
                 return Host.Shields > 0;
             }
  
-            public override int GetActionEffectPriority()
+            public override int GetDiceModificationPriority()
             {
                 int result = 0;
 

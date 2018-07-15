@@ -28,12 +28,12 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList += LoneWolfActionEffect;
+            HostShip.OnGenerateDiceModifications += LoneWolfActionEffect;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList -= LoneWolfActionEffect;
+            HostShip.OnGenerateDiceModifications -= LoneWolfActionEffect;
         }
 
         private void LoneWolfActionEffect(GenericShip host)
@@ -43,7 +43,7 @@ namespace Abilities
                 ImageUrl = HostUpgrade.ImageUrl,
                 Host = host
             };
-            host.AddAvailableActionEffect(newAction);
+            host.AddAvailableDiceModification(newAction);
         }
     }
 }
@@ -55,12 +55,12 @@ namespace ActionsList
     {
         public LoneWolfActionEffect()
         {
-            Name = EffectName = "Lone Wolf";
+            Name = DiceModificationName = "Lone Wolf";
 
             IsReroll = true;
         }
 
-        public override bool IsActionEffectAvailable()
+        public override bool IsDiceModificationAvailable()
         {
             bool result = true;
 
@@ -80,7 +80,7 @@ namespace ActionsList
             return result;
         }
 
-        public override int GetActionEffectPriority()
+        public override int GetDiceModificationPriority()
         {
             int result = 0;
 

@@ -58,8 +58,8 @@ namespace Abilities
             char targetLock = HostShip.Tokens.GetTargetLockLetterPair(enemyship);
             if (targetLock != ' ')
             {
-                enemyship.OnTryAddAvailableActionEffect += UseOmegaLeaderRestriction;
-                enemyship.OnTryAddAvailableOppositeActionEffect += UseOmegaLeaderRestriction;
+                enemyship.OnTryAddAvailableDiceModification += UseOmegaLeaderRestriction;
+                enemyship.OnTryAddDiceModificationOpposite += UseOmegaLeaderRestriction;
                 enemyship.OnAttackFinish += RemoveOmegaLeaderPilotAbility;
             }
         }
@@ -72,7 +72,7 @@ namespace Abilities
 
         private void RemoveOmegaLeaderPilotAbility(GenericShip ship)
         {
-            ship.OnTryAddAvailableActionEffect -= UseOmegaLeaderRestriction;
+            ship.OnTryAddAvailableDiceModification -= UseOmegaLeaderRestriction;
             ship.OnAttackFinish -= RemoveOmegaLeaderPilotAbility;
         }
     }

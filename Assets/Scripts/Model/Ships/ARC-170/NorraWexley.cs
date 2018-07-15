@@ -32,25 +32,25 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList += AddNorraWexleyPilotAbility;
+            HostShip.OnGenerateDiceModifications += AddNorraWexleyPilotAbility;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList -= AddNorraWexleyPilotAbility;
+            HostShip.OnGenerateDiceModifications -= AddNorraWexleyPilotAbility;
         }
 
         private void AddNorraWexleyPilotAbility(GenericShip ship)
         {
             NorraWexleyAction newAction = new NorraWexleyAction() { Host = this.HostShip };
-            ship.AddAvailableActionEffect(newAction);
+            ship.AddAvailableDiceModification(newAction);
         }
 
         private class NorraWexleyAction : ActionsList.GenericAction
         {
             public NorraWexleyAction()
             {
-                Name = EffectName = "Norra Wexley's ability";
+                Name = DiceModificationName = "Norra Wexley's ability";
 
                 TokensSpend.Add(typeof(Tokens.BlueTargetLockToken));
             }
@@ -90,25 +90,25 @@ namespace Abilities
                 return Actions.GetTargetLocksLetterPair(Host, anotherShip);
             }
 
-            public override bool IsActionEffectAvailable()
+            public override bool IsDiceModificationAvailable()
             {
                 bool result = false;
                 if (GetTargetLockTokenLetterOnAnotherShip() != ' ') result = true;
                 return result;
             }
 
-            public override int GetActionEffectPriority()
+            public override int GetDiceModificationPriority()
             {
                 int result = 0;
 
                 if (GetTargetLockTokenLetterOnAnotherShip() != ' ')
                 {
-                    if (Host.GetAvailableActionEffectsList().Count(n => n.IsTurnsAllFocusIntoSuccess) > 0)
+                    if (Host.GetAvailableDiceModifications().Count(n => n.IsTurnsAllFocusIntoSuccess) > 0)
                     {
                         switch (Combat.AttackStep)
                         {
                             case CombatStep.Attack:
-                                if (Host.GetAvailableActionEffectsList().Count(n => n.IsTurnsAllFocusIntoSuccess) > 0)
+                                if (Host.GetAvailableDiceModifications().Count(n => n.IsTurnsAllFocusIntoSuccess) > 0)
                                 {
                                     result = 110;
                                 }

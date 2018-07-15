@@ -61,7 +61,7 @@ namespace Abilities
                     Source = HostUpgrade
                 };
 
-                host.AddAvailableActionEffect(action);
+                host.AddAvailableDiceModification(action);
             }
         }
     }
@@ -76,7 +76,7 @@ namespace ActionsList
             IsTurnsOneFocusIntoSuccess = false;
         }
 
-        public override int GetActionEffectPriority()
+        public override int GetDiceModificationPriority()
         {
             int result = 0;
 
@@ -102,7 +102,7 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList += AddProtonTorpedoesDiceMofification;
+            HostShip.OnGenerateDiceModifications += AddProtonTorpedoesDiceMofification;
         }
 
         public override void DeactivateAbility()
@@ -114,7 +114,7 @@ namespace Abilities
         private void DeactivateAbilityPlanned(GenericShip ship)
         {
             HostShip.OnCombatDeactivation -= DeactivateAbilityPlanned;
-            HostShip.AfterGenerateAvailableActionEffectsList -= AddProtonTorpedoesDiceMofification;
+            HostShip.OnGenerateDiceModifications -= AddProtonTorpedoesDiceMofification;
         }
 
         protected virtual void AddProtonTorpedoesDiceMofification(GenericShip host)
@@ -126,7 +126,7 @@ namespace Abilities
                 Source = HostUpgrade
             };
 
-            host.AddAvailableActionEffect(action);
+            host.AddAvailableDiceModification(action);
         }
     }
 }
@@ -138,17 +138,17 @@ namespace ActionsList
 
         public ProtonTorpedoesDiceModification()
         {
-            Name = EffectName = "Proton Torpedoes";
+            Name = DiceModificationName = "Proton Torpedoes";
 
             IsTurnsOneFocusIntoSuccess = true;
         }
 
         private void ProtonTorpedoesAddDiceModification(GenericShip ship)
         {
-            ship.AddAvailableActionEffect(this);
+            ship.AddAvailableDiceModification(this);
         }
 
-        public override bool IsActionEffectAvailable()
+        public override bool IsDiceModificationAvailable()
         {
             bool result = true;
 
@@ -159,7 +159,7 @@ namespace ActionsList
             return result;
         }
 
-        public override int GetActionEffectPriority()
+        public override int GetDiceModificationPriority()
         {
             int result = 0;
 

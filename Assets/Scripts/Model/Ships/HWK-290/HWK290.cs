@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Movement;
 using ActionsList;
+using RuleSets;
 
 namespace Ship
 {
     namespace HWK290
     {
-        public class HWK290 : GenericShip
+        public class HWK290 : GenericShip, ISecondEditionShip
         {
 
             public HWK290() : base()
@@ -27,7 +28,7 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Turret);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Crew);
 
-                PrintedActions.Add(new TargetLockAction());
+                ActionBar.AddPrintedAction(new TargetLockAction());
 
                 AssignTemporaryManeuvers();
                 HotacManeuverTable = new AI.HWK290Table();
@@ -71,6 +72,29 @@ namespace Ship
                 Maneuvers.Add("4.F.R", MovementComplexity.None);
                 Maneuvers.Add("5.F.S", MovementComplexity.None);
                 Maneuvers.Add("5.F.R", MovementComplexity.None);
+            }
+
+            public void AdaptShipToSecondEdition()
+            {
+                //TODO: Maneuvers
+                //TODO: Only mobile arc
+
+                Firepower = 2;
+                MaxHull = 3;
+                MaxShields = 2;
+
+                ActionBar.RemovePrintedAction(typeof(FocusAction));
+                ActionBar.RemovePrintedAction(typeof(TargetLockAction));
+
+                ActionBar.AddPrintedAction(new FocusAction() { LinkedRedAction = new RotateArcAction() { IsRed = true } });
+                ActionBar.AddPrintedAction(new TargetLockAction() { LinkedRedAction = new RotateArcAction() { IsRed = true } });
+
+                ActionBar.AddPrintedAction(new BoostAction() { IsRed = true });
+                ActionBar.AddPrintedAction(new RotateArcAction());
+                ActionBar.AddPrintedAction(new JamAction() { IsRed = true });
+
+                IconicPilots[Faction.Scum] = typeof(SpiceRunner);
+                IconicPilots[Faction.Rebel] = typeof(RebelScout);
             }
 
         }

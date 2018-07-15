@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using RuleSets;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,7 +7,7 @@ namespace Ship
 {
     namespace M12LKimogila
     {
-        public class CartelExecutioner : M12LKimogila
+        public class CartelExecutioner : M12LKimogila, ISecondEditionPilot
         {
             public CartelExecutioner() : base()
             {
@@ -15,6 +16,11 @@ namespace Ship
                 Cost = 24;
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
+            }
+
+            public void AdaptPilotToSecondEdition()
+            {
+                PilotSkill = 3;
             }
         }
     }

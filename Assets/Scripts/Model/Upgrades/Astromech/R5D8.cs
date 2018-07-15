@@ -34,12 +34,12 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionsList += R5D8AddAction;
+            HostShip.OnGenerateActions += R5D8AddAction;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionsList -= R5D8AddAction;
+            HostShip.OnGenerateActions -= R5D8AddAction;
         }
 
         private void R5D8AddAction(Ship.GenericShip host)
@@ -60,7 +60,7 @@ namespace ActionsList
     {
         public R5D8Action()
         {
-            Name = EffectName = "R5-D8: Try to repair";
+            Name = DiceModificationName = "R5-D8: Try to repair";
         }
 
         public override void ActionTake()
@@ -86,10 +86,10 @@ namespace SubPhases
 
         public override void Prepare()
         {
-            diceType = DiceKind.Defence;
-            diceCount = 1;
+            DiceKind = DiceKind.Defence;
+            DiceCount = 1;
 
-            finishAction = FinishAction;
+            AfterRoll = FinishAction;
         }
 
         protected override void FinishAction()

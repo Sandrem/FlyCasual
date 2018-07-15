@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Movement;
 using ActionsList;
+using RuleSets;
 
 namespace Ship
 {
     namespace StarViper
     {
-        public class StarViper : GenericShip
+        public class StarViper : GenericShip, ISecondEditionShip
         {
 
             public StarViper() : base()
@@ -25,9 +26,9 @@ namespace Ship
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Torpedo);
 
-                PrintedActions.Add(new TargetLockAction());
-                PrintedActions.Add(new BarrelRollAction());
-                PrintedActions.Add(new BoostAction());
+                ActionBar.AddPrintedAction(new TargetLockAction());
+                ActionBar.AddPrintedAction(new BarrelRollAction());
+                ActionBar.AddPrintedAction(new BoostAction());
 
                 AssignTemporaryManeuvers();
                 HotacManeuverTable = new AI.StarviperTable();
@@ -64,6 +65,20 @@ namespace Ship
                 Maneuvers.Add("3.L.R", MovementComplexity.Complex);
                 Maneuvers.Add("3.R.R", MovementComplexity.Complex);
                 Maneuvers.Add("4.F.S", MovementComplexity.Normal);
+            }
+
+            public void AdaptShipToSecondEdition()
+            {
+                //TODO: Maneuvers
+                //TODO: Ship Ability
+
+                ActionBar.RemovePrintedAction(typeof(BarrelRollAction));
+                ActionBar.RemovePrintedAction(typeof(BoostAction));
+
+                ActionBar.AddPrintedAction(new BarrelRollAction() { LinkedRedAction = new FocusAction() { IsRed = true } });
+                ActionBar.AddPrintedAction(new BoostAction() { LinkedRedAction = new FocusAction() { IsRed = true } });
+
+                IconicPilots[Faction.Scum] = typeof(BlackSunEnforcer);
             }
 
         }

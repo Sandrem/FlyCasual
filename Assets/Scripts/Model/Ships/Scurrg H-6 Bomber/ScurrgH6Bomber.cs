@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Movement;
 using ActionsList;
+using RuleSets;
 
 namespace Ship
 {
     namespace ScurrgH6Bomber
     {
-        public class ScurrgH6Bomber : GenericShip
+        public class ScurrgH6Bomber : GenericShip, ISecondEditionShip
         {
 
             public ScurrgH6Bomber() : base()
@@ -31,8 +32,8 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Bomb);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Bomb);
 
-                PrintedActions.Add(new TargetLockAction());
-                PrintedActions.Add(new BarrelRollAction());
+                ActionBar.AddPrintedAction(new TargetLockAction());
+                ActionBar.AddPrintedAction(new BarrelRollAction());
 
                 AssignTemporaryManeuvers();
                 HotacManeuverTable = new AI.ScurrgH6BomberTable();
@@ -71,6 +72,21 @@ namespace Ship
                 Maneuvers.Add("3.R.E", MovementComplexity.Complex);
                 Maneuvers.Add("4.F.S", MovementComplexity.Normal);
                 Maneuvers.Add("5.F.S", MovementComplexity.Complex);
+            }
+
+            public void AdaptShipToSecondEdition()
+            {
+                //TODO: Maneuvers
+
+                factions.Remove(Faction.Rebel);
+
+                MaxHull = 6;
+                MaxShields = 4;
+
+                ShipBaseSize = BaseSize.Medium;
+
+                ActionBar.RemovePrintedAction(typeof(BarrelRollAction));
+                ActionBar.AddPrintedAction(new BarrelRollAction() { IsRed = true });
             }
 
         }

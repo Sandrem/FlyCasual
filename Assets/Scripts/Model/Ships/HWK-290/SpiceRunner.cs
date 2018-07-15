@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using RuleSets;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,7 +7,7 @@ namespace Ship
 {
     namespace HWK290
     {
-        public class SpiceRunner : HWK290
+        public class SpiceRunner : HWK290, ISecondEditionPilot
         {
             public SpiceRunner() : base()
             {
@@ -17,6 +18,11 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Illicit);
 
                 faction = Faction.Scum;
+            }
+
+            public void AdaptPilotToSecondEdition()
+            {
+                PilotSkill = 1;
             }
         }
     }

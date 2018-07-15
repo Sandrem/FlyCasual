@@ -9,6 +9,7 @@ using Conditions;
 using UnityEngine;
 using BoardTools;
 using Tokens;
+using ActionsList;
 
 namespace UpgradesList
 {
@@ -41,12 +42,12 @@ namespace Abilities
 
         public override void ActivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionsList += JynErsoAddAction;
+            HostShip.OnGenerateActions += JynErsoAddAction;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionsList -= JynErsoAddAction;
+            HostShip.OnGenerateActions -= JynErsoAddAction;
         }
 
         private void JynErsoAddAction(GenericShip host)
@@ -143,9 +144,9 @@ namespace Abilities
 
         private int NeedTokenPriority(GenericShip ship)
         {
-            if (!ship.Tokens.HasToken(typeof(Tokens.FocusToken))) return 100;
-            if (ship.PrintedActions.Any(n => n.GetType() == typeof(ActionsList.EvadeAction)) && !ship.Tokens.HasToken(typeof(Tokens.EvadeToken))) return 50;
-            if (ship.PrintedActions.Any(n => n.GetType() == typeof(ActionsList.TargetLockAction)) && !ship.Tokens.HasToken(typeof(Tokens.BlueTargetLockToken), '*')) return 50;
+            if (!ship.Tokens.HasToken(typeof(FocusToken))) return 100;
+            if (ship.ActionBar.HasAction(typeof(EvadeAction)) && !ship.Tokens.HasToken(typeof(EvadeToken))) return 50;
+            if (ship.ActionBar.HasAction(typeof(TargetLockAction)) && !ship.Tokens.HasToken(typeof(BlueTargetLockToken), '*')) return 50;
             return 0;
         }
 
@@ -159,7 +160,7 @@ namespace ActionsList
     {
         public JynErsoAction()
         {
-            Name = EffectName = "Jyn Erso";
+            Name = DiceModificationName = "Jyn Erso";
         }
 
         protected bool AreThereEnemiesInArc

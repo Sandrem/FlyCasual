@@ -12,7 +12,7 @@ namespace ActionsList
     {
         public BombDropAction()
         {
-            Name = EffectName = "Drop Bomb";
+            Name = DiceModificationName = "Drop Bomb";
         }
 
         public override void ActionTake()

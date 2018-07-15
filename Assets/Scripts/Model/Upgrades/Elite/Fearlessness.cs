@@ -33,12 +33,12 @@ namespace Abilities
 
         public override void ActivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList += FearlessnessAddDiceModification;
+            HostShip.OnGenerateDiceModifications += FearlessnessAddDiceModification;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList -= FearlessnessAddDiceModification;
+            HostShip.OnGenerateDiceModifications -= FearlessnessAddDiceModification;
         }
 
         protected virtual void FearlessnessAddDiceModification(GenericShip host)
@@ -48,7 +48,7 @@ namespace Abilities
                 ImageUrl = HostUpgrade.ImageUrl,
                 Host = HostShip
             };
-            HostShip.AddAvailableActionEffect(newAction);
+            HostShip.AddAvailableDiceModification(newAction);
         }
 
     }
@@ -62,10 +62,10 @@ namespace ActionsList
 
         public FearlessnessAction()
         {
-            Name = EffectName = "Fearlessness";
+            Name = DiceModificationName = "Fearlessness";
         }
 
-        public override bool IsActionEffectAvailable()
+        public override bool IsDiceModificationAvailable()
         {
             bool result = true;
 
@@ -79,7 +79,7 @@ namespace ActionsList
             return result;
         }
 
-        public override int GetActionEffectPriority()
+        public override int GetDiceModificationPriority()
         {
             return 110;
         }

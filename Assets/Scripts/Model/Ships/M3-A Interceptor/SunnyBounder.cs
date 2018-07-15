@@ -45,14 +45,14 @@ namespace Abilities
         {
             if (!IsAbilityUsed && diceroll.DiceList.All(die => die.Side == diceroll.DiceList.First().Side))
             {
-                HostShip.AfterGenerateAvailableActionEffectsList += AddAvailableActionEffect;
+                HostShip.OnGenerateDiceModifications += AddAvailableActionEffect;
             }
         }
 
         private void AddAvailableActionEffect(GenericShip ship)
         {
-            ship.AddAvailableActionEffect(new ActionsList.SunnyBounderAbilityAction(() => { IsAbilityUsed = true; }));
-            HostShip.AfterGenerateAvailableActionEffectsList -= AddAvailableActionEffect;
+            ship.AddAvailableDiceModification(new ActionsList.SunnyBounderAbilityAction(() => { IsAbilityUsed = true; }));
+            HostShip.OnGenerateDiceModifications -= AddAvailableActionEffect;
         }        
     }
 }
@@ -66,11 +66,11 @@ namespace ActionsList
 
         public SunnyBounderAbilityAction(Action setAbilityIsUsed)
         {
-            Name = EffectName = "Sunny Bounder ability";
+            Name = DiceModificationName = "Sunny Bounder ability";
             abilityIsUsed = setAbilityIsUsed;
         }
 
-        public override int GetActionEffectPriority()
+        public override int GetDiceModificationPriority()
         {
             return 110;
         }

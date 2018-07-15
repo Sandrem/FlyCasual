@@ -88,7 +88,7 @@ namespace Abilities
 
             AgentKallusSelectedTarget = targetShip;
 
-            HostShip.AfterGenerateAvailableActionEffectsList += AddAgentKallusDiceModification;
+            HostShip.OnGenerateDiceModifications += AddAgentKallusDiceModification;
 
             SubPhases.DecisionSubPhase.ConfirmDecision();
         }
@@ -101,7 +101,7 @@ namespace Abilities
                 Host = host,
                 AgentKallusSelectedTarget = AgentKallusSelectedTarget
             };
-            host.AddAvailableActionEffect(newAction);
+            host.AddAvailableDiceModification(newAction);
         }
 
         private GenericShip GetEnemyPilotWithHighestSkill()
@@ -132,12 +132,12 @@ namespace ActionsList
 
         public AgentKallusDiceModification()
         {
-            Name = EffectName = "Agent Kallus";
+            Name = DiceModificationName = "Agent Kallus";
 
             IsTurnsOneFocusIntoSuccess = true;
         }
 
-        public override bool IsActionEffectAvailable()
+        public override bool IsDiceModificationAvailable()
         {
             bool result = false;
 
@@ -156,7 +156,7 @@ namespace ActionsList
             return result;
         }
 
-        public override int GetActionEffectPriority()
+        public override int GetDiceModificationPriority()
         {
             int result = 0;
 

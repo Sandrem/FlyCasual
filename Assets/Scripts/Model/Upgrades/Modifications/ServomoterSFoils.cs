@@ -122,26 +122,25 @@ namespace Abilities
             base.ActivateAbility();
             TurnSFoilsToClosedPosition(HostShip);
             HostShip.ChangeFirepowerBy(-1);
-            HostShip.AfterGenerateAvailableActionsList += AddActionIcon;
             HostShip.OnManeuverIsReadyToBeRevealed += CheckChangeManeuverComplexity;
         }
-                
+
+        public override void ActivateAbilityForSquadBuilder()
+        {
+            HostShip.ActionBar.AddGrantedAction(new BoostAction(), HostUpgrade);
+        }
+
         public override void DeactivateAbility()
         {
             base.DeactivateAbility();
             TurnSFoilsToAttackPosition(HostShip);
             HostShip.ChangeFirepowerBy(+1);
-            HostShip.AfterGenerateAvailableActionsList -= AddActionIcon;
             HostShip.OnManeuverIsReadyToBeRevealed -= CheckChangeManeuverComplexity;
         }
 
-        protected void AddActionIcon(GenericShip host)
+        public override void DeactivateAbilityForSquadBuilder()
         {
-            var alreadyHasBarrelRoll = host.PrintedActions.Any(n => n is BoostAction);
-            if (!alreadyHasBarrelRoll)
-            {
-                host.AddAvailableAction(new BoostAction());
-            }
+            HostShip.ActionBar.RemoveGrantedAction(typeof(BoostAction), HostUpgrade);
         }
 
         private void CheckChangeManeuverComplexity(GenericShip ship)
@@ -175,17 +174,25 @@ namespace Abilities
         public override void ActivateAbility()
         {
             base.ActivateAbility();
-            HostShip.AfterGenerateAvailableActionsList += AddActionIcon;
             HostShip.OnManeuverIsRevealed += RegisterAskChangeManeuver;            
+        }
+
+        public override void ActivateAbilityForSquadBuilder()
+        {
+            HostShip.ActionBar.AddGrantedAction(new BarrelRollAction(), HostUpgrade);
         }
 
         public override void DeactivateAbility()
         {
             base.DeactivateAbility();
-            HostShip.AfterGenerateAvailableActionsList -= AddActionIcon;
             HostShip.OnManeuverIsRevealed -= RegisterAskChangeManeuver;            
-        }               
-        
+        }
+
+        public override void DeactivateAbilityForSquadBuilder()
+        {
+            HostShip.ActionBar.RemoveGrantedAction(typeof(BarrelRollAction), HostUpgrade);
+        }
+
         private void RegisterAskChangeManeuver(GenericShip ship)
         {
             if (HostShip.AssignedManeuver.Bearing == ManeuverBearing.Turn && HostShip.AssignedManeuver.Speed == 3 && HostShip.Tokens.CountTokensByType(typeof(Tokens.StressToken)) == 0)
@@ -225,14 +232,6 @@ namespace Abilities
         {            
             var result = allowedMovements.Contains(maneuverString);
             return result;
-        }
-        protected void AddActionIcon(GenericShip host)
-        {
-            var alreadyHasBarrelRoll = host.PrintedActions.Any(n => n is BarrelRollAction);
-            if (!alreadyHasBarrelRoll)
-            {
-                host.AddAvailableAction(new BarrelRollAction());
-            }
         }
 
         protected override bool AIWantsToFlip()
@@ -305,7 +304,12 @@ namespace Abilities
                 base.ActivateAbility();
                 TurnSFoilsToClosedPosition(HostShip);
                 HostShip.AfterGotNumberOfPrimaryWeaponAttackDice += ReduceNumberOfAttackDice;
-                HostShip.AfterGenerateAvailableActionsList += AddActionIcons;
+            }
+
+            public override void ActivateAbilityForSquadBuilder()
+            {
+                HostShip.ActionBar.AddGrantedAction(new BoostAction(), HostUpgrade);
+                HostShip.ActionBar.AddGrantedAction(new FocusAction() { LinkedRedAction = new BoostAction() { IsRed = true } }, HostUpgrade);
             }
 
             public override void DeactivateAbility()
@@ -313,27 +317,17 @@ namespace Abilities
                 base.DeactivateAbility();
                 TurnSFoilsToAttackPosition(HostShip);
                 HostShip.AfterGotNumberOfPrimaryWeaponAttackDice -= ReduceNumberOfAttackDice;
-                HostShip.AfterGenerateAvailableActionsList -= AddActionIcons;
+            }
+
+            public override void DeactivateAbilityForSquadBuilder()
+            {
+                HostShip.ActionBar.RemoveGrantedAction(typeof(BoostAction), HostUpgrade);
+                HostShip.ActionBar.RemoveGrantedAction(typeof(FocusAction), linkedRedAction: typeof(BoostAction), source: HostUpgrade);
             }
 
             private void ReduceNumberOfAttackDice(ref int value)
             {
                 value--;
-            }
-
-            protected void AddActionIcons(GenericShip host)
-            {
-                var alreadyHasBarrelRoll = host.PrintedActions.Any(n => n is BoostAction);
-                if (!alreadyHasBarrelRoll)
-                {
-                    host.AddAvailableAction(new BoostAction());
-                }
-
-                var alreadyHasFocusToBarrelRoll = host.PrintedActions.Any(n => n is FocusAction && n.LinkedRedAction is BoostAction);
-                if (!alreadyHasFocusToBarrelRoll)
-                {
-                    host.AddAvailableAction(new FocusAction() { LinkedRedAction = new BoostAction() { IsRed = true } });
-                }
             }
 
             protected override string FlipQuestion

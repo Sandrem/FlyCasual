@@ -33,7 +33,7 @@ namespace UpgradesList
 
         public override bool IsAllowedForShip(GenericShip ship)
         {
-            if (isSecondEdition) return ship.PrintedActions.Any(a => a is BarrelRollAction && (a as BarrelRollAction).IsRed);
+            if (isSecondEdition) return ship.ActionBar.HasAction(typeof(BarrelRollAction), isRed:true);
             else return true;
         }
     }
@@ -45,12 +45,12 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionsList += AddExpertHandlingAction;
+            HostShip.OnGenerateActions += AddExpertHandlingAction;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionsList -= AddExpertHandlingAction;
+            HostShip.OnGenerateActions -= AddExpertHandlingAction;
         }
 
         private void AddExpertHandlingAction(GenericShip host)
@@ -72,7 +72,7 @@ namespace ActionsList
     {
         public ExpertHandlingAction()
         {
-            Name = EffectName = "Expert Handling";
+            Name = DiceModificationName = "Expert Handling";
         }
 
         public override void ActionTake()
@@ -97,7 +97,7 @@ namespace ActionsList
         {
             Selection.ThisShip.AddAlreadyExecutedAction(new BarrelRollAction());
 
-            bool hasBarrelRollAction = (Host.PrintedActions.Count(n => n.GetType() == typeof(BarrelRollAction)) != 0);
+            bool hasBarrelRollAction = Host.ActionBar.HasAction(typeof(BarrelRollAction));
 
             if (hasBarrelRollAction)
             {

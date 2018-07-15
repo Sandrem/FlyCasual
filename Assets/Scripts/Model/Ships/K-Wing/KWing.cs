@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Movement;
 using ActionsList;
+using RuleSets;
 
 namespace Ship
 {
     namespace KWing
     {
-        public class KWing : GenericShip
+        public class KWing : GenericShip, ISecondEditionShip
         {
 
             public KWing() : base()
@@ -33,8 +34,8 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Bomb);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Bomb);
 
-                PrintedActions.Add(new TargetLockAction());
-                PrintedActions.Add(new SlamAction());
+                ActionBar.AddPrintedAction(new TargetLockAction());
+                ActionBar.AddPrintedAction(new SlamAction());
 
                 AssignTemporaryManeuvers();
                 HotacManeuverTable = new AI.KWingTable();
@@ -68,6 +69,20 @@ namespace Ship
                 Maneuvers.Add("3.R.B", MovementComplexity.Normal);
             }
 
+            public void AdaptShipToSecondEdition()
+            {
+                // TODO: Maneuvers
+
+                MaxHull = 6;
+                MaxShields = 3;
+
+                ShipBaseSize = BaseSize.Medium;
+
+                ActionBar.AddPrintedAction(new RotateArcAction());
+                ActionBar.AddPrintedAction(new ReloadAction());
+
+                IconicPilots[Faction.Rebel] = typeof(WardenSquadronPilot);
+            }
         }
     }
 }

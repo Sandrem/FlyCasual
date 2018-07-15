@@ -23,12 +23,12 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            HostShip.AfterGenerateAvailableOppositeActionEffectsList += SensorJammerActionEffect;
+            HostShip.OnGenerateDiceModificationsOpposite += SensorJammerActionEffect;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.AfterGenerateAvailableOppositeActionEffectsList -= SensorJammerActionEffect;
+            HostShip.OnGenerateDiceModificationsOpposite -= SensorJammerActionEffect;
         }
 
         private void SensorJammerActionEffect(GenericShip host)
@@ -38,7 +38,7 @@ namespace Abilities
                 ImageUrl = HostUpgrade.ImageUrl,
                 Host = host
             };
-            host.AddAvailableOppositeActionEffect(newAction);
+            host.AddDiceModificationOpposite(newAction);
         }
     }
 }
@@ -50,11 +50,11 @@ namespace ActionsList
 
         public SensorJammerActionEffect()
         {
-            Name = EffectName = "Sensor Jammer";
+            Name = DiceModificationName = "Sensor Jammer";
             DiceModificationTiming = DiceModificationTimingType.Opposite;
         }
         
-        public override int GetActionEffectPriority()
+        public override int GetDiceModificationPriority()
         {
             int result = 0;
 
@@ -63,7 +63,7 @@ namespace ActionsList
             return result;            
         }
 
-        public override bool IsActionEffectAvailable()
+        public override bool IsDiceModificationAvailable()
         {
             bool result = false;
 

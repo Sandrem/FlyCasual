@@ -36,12 +36,12 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList += AddLattsRazziDiceModification;
+            HostShip.OnGenerateDiceModifications += AddLattsRazziDiceModification;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList -= AddLattsRazziDiceModification;
+            HostShip.OnGenerateDiceModifications -= AddLattsRazziDiceModification;
         }
 
         private void AddLattsRazziDiceModification(GenericShip host)
@@ -51,7 +51,7 @@ namespace Abilities
                 ImageUrl = HostUpgrade.ImageUrl,
                 Host = HostShip
             };
-            host.AddAvailableActionEffect(newAction);
+            host.AddAvailableDiceModification(newAction);
         }
     }
 }
@@ -63,7 +63,7 @@ namespace ActionsList
 
         public LattsRazziDiceModification()
         {
-            Name = EffectName = "Latts Razzi";
+            Name = DiceModificationName = "Latts Razzi";
         }
 
         public override void ActionEffect(System.Action callBack)
@@ -78,7 +78,7 @@ namespace ActionsList
             );
         }
 
-        public override bool IsActionEffectAvailable()
+        public override bool IsDiceModificationAvailable()
         {
             bool result = false;
 
@@ -90,7 +90,7 @@ namespace ActionsList
             return result;
         }
 
-        public override int GetActionEffectPriority()
+        public override int GetDiceModificationPriority()
         {
             int result = 0;
 

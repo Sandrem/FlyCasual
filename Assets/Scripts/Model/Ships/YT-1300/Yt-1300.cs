@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Movement;
 using ActionsList;
+using RuleSets;
 
 namespace Ship
 {
     namespace YT1300
     {
-        public class YT1300 : GenericShip
+        public class YT1300 : GenericShip, ISecondEditionShip
         {
 
             public YT1300() : base()
@@ -28,7 +29,7 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Crew);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Crew);
 
-                PrintedActions.Add(new TargetLockAction());
+                ActionBar.AddPrintedAction(new TargetLockAction());
 
                 AssignTemporaryManeuvers();
                 HotacManeuverTable = new AI.YT1300Table();
@@ -74,6 +75,19 @@ namespace Ship
                 Maneuvers.Add("5.F.R", MovementComplexity.None);
             }
 
+            public void AdaptShipToSecondEdition()
+            {
+                //TODO: Maneuvers
+                //TODO: Arcs
+
+                MaxHull = 8;
+                MaxShields = 5;
+
+                ActionBar.AddPrintedAction(new RotateArcAction());
+                ActionBar.AddPrintedAction(new BoostAction() { IsRed = true });
+
+                IconicPilots[Faction.Rebel] = typeof(OuterRimSmuggler);
+            }
         }
     }
 }

@@ -24,13 +24,13 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList += GuidanceChipsActionEffect;
+            HostShip.OnGenerateDiceModifications += GuidanceChipsActionEffect;
             Phases.Events.OnRoundEnd += ClearIsAbilityUsedFlag;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList -= GuidanceChipsActionEffect;
+            HostShip.OnGenerateDiceModifications -= GuidanceChipsActionEffect;
             Phases.Events.OnRoundEnd -= ClearIsAbilityUsedFlag;
         }
 
@@ -42,7 +42,7 @@ namespace Abilities
                 Host = host,
                 Source = HostUpgrade
             };
-            host.AddAvailableActionEffect(newAction);
+            host.AddAvailableDiceModification(newAction);
         }
 
         public bool IsGuidanceChipsAbilityUsed()
@@ -65,10 +65,10 @@ namespace ActionsList
 
         public GuidanceChipsEffect()
         {
-            Name = EffectName = "Guidance Chips";
+            Name = DiceModificationName = "Guidance Chips";
         }
 
-        public override bool IsActionEffectAvailable()
+        public override bool IsDiceModificationAvailable()
         {
             bool result = false;
 
@@ -87,7 +87,7 @@ namespace ActionsList
             return result;
         }
 
-        public override int GetActionEffectPriority()
+        public override int GetDiceModificationPriority()
         {
             int result = 0;
 

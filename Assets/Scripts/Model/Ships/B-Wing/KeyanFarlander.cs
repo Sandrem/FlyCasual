@@ -35,24 +35,24 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList += AddKeyanFarlanderAbility;
+            HostShip.OnGenerateDiceModifications += AddKeyanFarlanderAbility;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList -= AddKeyanFarlanderAbility;
+            HostShip.OnGenerateDiceModifications -= AddKeyanFarlanderAbility;
         }
 
         private void AddKeyanFarlanderAbility(GenericShip ship)
         {
-            ship.AddAvailableActionEffect(new KeyanFarlanderAction() { Host = HostShip });
+            ship.AddAvailableDiceModification(new KeyanFarlanderAction() { Host = HostShip });
         }
 
         private class KeyanFarlanderAction : ActionsList.GenericAction
         {
             public KeyanFarlanderAction()
             {
-                Name = EffectName = "Keyan Farlander's ability";
+                Name = DiceModificationName = "Keyan Farlander's ability";
                 IsTurnsAllFocusIntoSuccess = true;
             }
 
@@ -65,12 +65,12 @@ namespace Abilities
                 );
             }
 
-            public override bool IsActionEffectAvailable()
+            public override bool IsDiceModificationAvailable()
             {
                 return Host.Tokens.HasToken(typeof(Tokens.StressToken)) && Combat.AttackStep == CombatStep.Attack;
             }
 
-            public override int GetActionEffectPriority()
+            public override int GetDiceModificationPriority()
             {
                 if (Host.Tokens.HasToken(typeof(Tokens.StressToken)))
                 {

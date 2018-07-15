@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Movement;
 using ActionsList;
+using RuleSets;
 
 namespace Ship
 {
     namespace TIEPhantom
     {
-        public class TIEPhantom : GenericShip, TIE
+        public class TIEPhantom : GenericShip, TIE, ISecondEditionShip
         {
 
             public TIEPhantom() : base()
@@ -26,9 +27,9 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.System);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Crew);
 
-                PrintedActions.Add(new EvadeAction());
-                PrintedActions.Add(new BarrelRollAction());
-                PrintedActions.Add(new CloakAction());
+                ActionBar.AddPrintedAction(new EvadeAction());
+                ActionBar.AddPrintedAction(new BarrelRollAction());
+                ActionBar.AddPrintedAction(new CloakAction());
 
                 AssignTemporaryManeuvers();
                 HotacManeuverTable = new AI.TIEPhantomTable();
@@ -73,6 +74,15 @@ namespace Ship
                 Maneuvers.Add("5.F.R", MovementComplexity.None);
             }
 
+            public void AdaptShipToSecondEdition()
+            {
+                //TODO: Maneuvers
+                //TODO: Ship ability
+
+                MaxHull = 3;
+
+                IconicPilots[Faction.Imperial] = typeof(SigmaSquadronAce);
+            }
         }
     }
 }

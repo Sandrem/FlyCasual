@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Movement;
 using ActionsList;
+using RuleSets;
 
 namespace Ship
 {
     namespace Z95
     {
-        public class Z95 : GenericShip
+        public class Z95 : GenericShip, ISecondEditionShip
         {
 
             public Z95() : base()
@@ -32,7 +33,7 @@ namespace Ship
                 factions.Add(Faction.Rebel);
                 factions.Add(Faction.Scum);
 
-                PrintedActions.Add(new TargetLockAction());
+                ActionBar.AddPrintedAction(new TargetLockAction());
 
                 SkinName = "Blue";
 
@@ -63,6 +64,16 @@ namespace Ship
                 Maneuvers.Add("3.R.T", MovementComplexity.Normal);
                 Maneuvers.Add("3.F.R", MovementComplexity.Complex);
                 Maneuvers.Add("4.F.S", MovementComplexity.Normal);
+            }
+
+            public void AdaptShipToSecondEdition()
+            {
+                //TODO: Maneuvers
+
+                ActionBar.AddPrintedAction(new BarrelRollAction() { IsRed = true });
+
+                IconicPilots[Faction.Scum] = typeof(BinayrePirate);
+                IconicPilots[Faction.Rebel] = typeof(BanditSquadronPilot);
             }
 
         }

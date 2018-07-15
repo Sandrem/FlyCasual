@@ -30,12 +30,12 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList += FlightInstructorActionEffect;
+            HostShip.OnGenerateDiceModifications += FlightInstructorActionEffect;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList -= FlightInstructorActionEffect;
+            HostShip.OnGenerateDiceModifications -= FlightInstructorActionEffect;
         }
 
         private void FlightInstructorActionEffect(Ship.GenericShip host)
@@ -45,7 +45,7 @@ namespace Abilities
                 Host = host,
                 ImageUrl = HostUpgrade.ImageUrl
             };
-            host.AddAvailableActionEffect(newAction);
+            host.AddAvailableDiceModification(newAction);
         }
     }
 }
@@ -58,18 +58,18 @@ namespace ActionsList
 
         public FlightInstructorActionEffect()
         {
-            Name = EffectName = "Flight Instructor";
+            Name = DiceModificationName = "Flight Instructor";
 
             // Used for abilities like Dark Curse's that can prevent rerolls
             IsReroll = true;
         }
 
-        public override bool IsActionEffectAvailable()
+        public override bool IsDiceModificationAvailable()
         {
             return Combat.AttackStep == CombatStep.Defence;
         }
 
-        public override int GetActionEffectPriority()
+        public override int GetDiceModificationPriority()
         {
             int result = 0;
 
@@ -78,7 +78,7 @@ namespace ActionsList
                 bool canRerollBlank = Combat.Attacker.PilotSkill <= 2 && Combat.DiceRollDefence.BlanksNotRerolled > 0;
                 bool canRerollFocus = Combat.DiceRollDefence.FocusesNotRerolled > 0;
 
-                if (Combat.Defender.GetAvailableActionEffectsList().Count(n => n.IsTurnsAllFocusIntoSuccess) > 0 )
+                if (Combat.Defender.GetAvailableDiceModifications().Count(n => n.IsTurnsAllFocusIntoSuccess) > 0 )
                 {
                     if (canRerollBlank)
                     {

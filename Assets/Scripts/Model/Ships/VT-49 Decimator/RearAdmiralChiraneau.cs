@@ -32,24 +32,24 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList += AddRearAdmiralChiraneauPilotAbility;
+            HostShip.OnGenerateDiceModifications += AddRearAdmiralChiraneauPilotAbility;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList -= AddRearAdmiralChiraneauPilotAbility;
+            HostShip.OnGenerateDiceModifications -= AddRearAdmiralChiraneauPilotAbility;
         }
 
         private void AddRearAdmiralChiraneauPilotAbility(GenericShip ship)
         {
-            ship.AddAvailableActionEffect(new RearAdmiralChiraneauAction());
+            ship.AddAvailableDiceModification(new RearAdmiralChiraneauAction());
         }
 
         private class RearAdmiralChiraneauAction : ActionsList.GenericAction
         {
             public RearAdmiralChiraneauAction()
             {
-                Name = EffectName = "Rear Admiral Chiraneau's ability";
+                Name = DiceModificationName = "Rear Admiral Chiraneau's ability";
 
                 IsTurnsOneFocusIntoSuccess = true;
             }
@@ -67,14 +67,14 @@ namespace Abilities
                 callBack();
             }
 
-            public override bool IsActionEffectAvailable()
+            public override bool IsDiceModificationAvailable()
             {
                 bool result = false;
                 if ((Combat.AttackStep == CombatStep.Attack) && (Combat.ShotInfo.Range < 3)) result = true;
                 return result;
             }
 
-            public override int GetActionEffectPriority()
+            public override int GetDiceModificationPriority()
             {
                 int result = 0;
 

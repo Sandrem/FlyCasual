@@ -33,17 +33,17 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList += ManglerCannonAddDiceModification;
+            HostShip.OnGenerateDiceModifications += ManglerCannonAddDiceModification;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList -= ManglerCannonAddDiceModification;
+            HostShip.OnGenerateDiceModifications -= ManglerCannonAddDiceModification;
         }
 
         private void ManglerCannonAddDiceModification(Ship.GenericShip ship)
         {
-            ship.AddAvailableActionEffect(new ManglerCannonAction()
+            ship.AddAvailableDiceModification(new ManglerCannonAction()
             {
                 ImageUrl = HostUpgrade.ImageUrl,
                 Host = HostShip,
@@ -60,15 +60,15 @@ namespace ActionsList
 
 		public ManglerCannonAction()
         {
-            Name = EffectName = "Mangler Cannon";
+            Name = DiceModificationName = "Mangler Cannon";
         }
 
-        public override bool IsActionEffectAvailable()
+        public override bool IsDiceModificationAvailable()
         {
             return Combat.AttackStep == CombatStep.Attack && Combat.ChosenWeapon == Source;            
         }
 
-        public override int GetActionEffectPriority()
+        public override int GetDiceModificationPriority()
         {
             int result = 0;
 

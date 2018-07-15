@@ -120,12 +120,12 @@ namespace Abilities.SecondEdition
     {
         public override void ActivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionsList += AddAction;
+            HostShip.OnGenerateActions += AddAction;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionsList -= AddAction;
+            HostShip.OnGenerateActions -= AddAction;
         }
 
         private void AddAction(Ship.GenericShip ship)
@@ -177,7 +177,7 @@ namespace ActionsList
             damageCardFace = face;
             criticalCardType = type;
 
-            EffectName = Name = "Repair 1 " + face.ToString().ToLower() + (type != null ? " " + type.ToString() : "")  + " damage";
+            DiceModificationName = Name = "Repair 1 " + face.ToString().ToLower() + (type != null ? " " + type.ToString() : "")  + " damage";
         }
 
         public override void ActionTake()

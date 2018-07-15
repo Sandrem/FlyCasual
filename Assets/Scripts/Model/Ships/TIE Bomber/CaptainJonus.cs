@@ -30,24 +30,24 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            GenericShip.AfterGenerateAvailableActionEffectsListGlobal += AddCaptainJonusAbility;
+            GenericShip.OnGenerateDiceModificationsGlobal += AddCaptainJonusAbility;
         }
 
         public override void DeactivateAbility()
         {
-            GenericShip.AfterGenerateAvailableActionEffectsListGlobal -= AddCaptainJonusAbility;
+            GenericShip.OnGenerateDiceModificationsGlobal -= AddCaptainJonusAbility;
         }
 
-        private void AddCaptainJonusAbility()
+        private void AddCaptainJonusAbility(GenericShip ship)
         {
-            Combat.Attacker.AddAvailableActionEffect(new CaptainJonusAction() { Host = this.HostShip });
+            Combat.Attacker.AddAvailableDiceModification(new CaptainJonusAction() { Host = this.HostShip });
         }
 
         private class CaptainJonusAction : FriendlyRerollAction
         {
             public CaptainJonusAction() : base(2, 1, false, RerollTypeEnum.AttackDice)
             {
-                Name = EffectName = "Captain Jonus's ability";
+                Name = DiceModificationName = "Captain Jonus's ability";
                 IsReroll = true;
             }
 

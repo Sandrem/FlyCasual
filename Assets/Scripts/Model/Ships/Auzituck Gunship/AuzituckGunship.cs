@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Movement;
 using ActionsList;
+using RuleSets;
 
 namespace Ship
 {
     namespace AuzituckGunship
     {
-        public class AuzituckGunship : GenericShip
+        public class AuzituckGunship : GenericShip, ISecondEditionShip
         {
 
             public AuzituckGunship() : base()
@@ -27,8 +28,8 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Crew);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Crew);
 
-                PrintedActions.Add(new ReinforceForeAction() { Host = this });
-                PrintedActions.Add(new ReinforceAftAction() { Host = this });
+                ActionBar.AddPrintedAction(new ReinforceForeAction());
+                ActionBar.AddPrintedAction(new ReinforceAftAction());
 
                 AssignTemporaryManeuvers();
                 HotacManeuverTable = new AI.AuzituckGunshipTable();
@@ -67,6 +68,16 @@ namespace Ship
                 Maneuvers.Add("5.F.S", MovementComplexity.Complex);
             }
 
+            public void AdaptShipToSecondEdition()
+            {
+                // TODO: Maneuvers
+
+                MaxShields = 2;
+
+                ActionBar.AddPrintedAction(new BarrelRollAction() { IsRed = true });
+
+                IconicPilots[Faction.Rebel] = typeof(KashyyykDefender);
+            }
         }
     }
 }

@@ -19,8 +19,8 @@ namespace DamageDeckCardSE
 
         public override void ApplyEffect(object sender, EventArgs e)
         {
-            Host.OnTryAddAvailableAction += OnlyCancelCritActionsOrFocus;
-            Host.AfterGenerateAvailableActionsList += CallAddCancelCritAction;
+            Host.OnTryAddAction += OnlyCancelCritActionsOrFocus;
+            Host.OnGenerateActions += CallAddCancelCritAction;
 
             Host.Tokens.AssignCondition(typeof(Tokens.DamagedSensorArraySECritToken));
             Triggers.FinishTrigger();
@@ -33,8 +33,8 @@ namespace DamageDeckCardSE
             Messages.ShowInfo("You can perform actions as usual");
             Host.Tokens.RemoveCondition(typeof(Tokens.DamagedSensorArraySECritToken));
 
-            Host.OnTryAddAvailableAction -= OnlyCancelCritActionsOrFocus;
-            Host.AfterGenerateAvailableActionsList -= CallAddCancelCritAction;
+            Host.OnTryAddAction -= OnlyCancelCritActionsOrFocus;
+            Host.OnGenerateActions -= CallAddCancelCritAction;
         }
 
         private void OnlyCancelCritActionsOrFocus(GenericAction action, ref bool result)

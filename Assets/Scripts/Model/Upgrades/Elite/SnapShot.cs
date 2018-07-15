@@ -60,7 +60,7 @@ namespace Abilities
             if (Combat.Attacker.ShipId == HostShip.ShipId && Combat.ChosenWeapon is SnapShot) {
                 ship = Combat.Attacker;
 
-                ship.OnTryAddAvailableActionEffect += UseSnapShotRestriction;
+                ship.OnTryAddAvailableDiceModification += UseSnapShotRestriction;
                 ship.OnAttackFinish += RemoveSnapShotRestriction;
             }
         }
@@ -73,7 +73,7 @@ namespace Abilities
 
         private void RemoveSnapShotRestriction(GenericShip ship)
         {
-            ship.OnTryAddAvailableActionEffect -= UseSnapShotRestriction;
+            ship.OnTryAddAvailableDiceModification -= UseSnapShotRestriction;
             ship.OnAttackFinish -= RemoveSnapShotRestriction;
         }
 

@@ -29,12 +29,12 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList += LightweightFrameActionEffect;
+            HostShip.OnGenerateDiceModifications += LightweightFrameActionEffect;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList -= LightweightFrameActionEffect;
+            HostShip.OnGenerateDiceModifications -= LightweightFrameActionEffect;
         }
 
         private void LightweightFrameActionEffect(GenericShip host)
@@ -44,7 +44,7 @@ namespace Abilities
                 ImageUrl = HostUpgrade.ImageUrl,
                 Host = host,
             };
-            host.AddAvailableActionEffect(newAction);
+            host.AddAvailableDiceModification(newAction);
         }
     }
 }
@@ -57,10 +57,10 @@ namespace ActionsList
 
         public LightweightFrameDiceModification()
         {
-            Name = EffectName = "Lightweight Frame";
+            Name = DiceModificationName = "Lightweight Frame";
         }
 
-        public override bool IsActionEffectAvailable()
+        public override bool IsDiceModificationAvailable()
         {
             bool result = false;
 
@@ -75,7 +75,7 @@ namespace ActionsList
             return result;
         }
 
-        public override int GetActionEffectPriority()
+        public override int GetDiceModificationPriority()
         {
             return 100; // I can't think of a reason we would ever NOT want to do this
         }

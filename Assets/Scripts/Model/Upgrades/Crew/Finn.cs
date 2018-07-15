@@ -36,12 +36,12 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList += FinnActionEffect;
+            HostShip.OnGenerateDiceModifications += FinnActionEffect;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList -= FinnActionEffect;
+            HostShip.OnGenerateDiceModifications -= FinnActionEffect;
         }
 
         private void FinnActionEffect(GenericShip host)
@@ -51,7 +51,7 @@ namespace Abilities
                 Host = host,
                 ImageUrl = HostUpgrade.ImageUrl
             };
-            host.AddAvailableActionEffect(newAction);
+            host.AddAvailableDiceModification(newAction);
         }
     }
 }
@@ -63,7 +63,7 @@ namespace ActionsList
 
         public FinnDiceModification()
         {
-            Name = EffectName = "Finn's ability";
+            Name = DiceModificationName = "Finn's ability";
         }
 
         public override void ActionEffect(System.Action callBack)
@@ -74,7 +74,7 @@ namespace ActionsList
             callBack();
         }
 
-        public override bool IsActionEffectAvailable()
+        public override bool IsDiceModificationAvailable()
         {
             bool result = false;
 
@@ -94,7 +94,7 @@ namespace ActionsList
             return result;
         }
 
-        public override int GetActionEffectPriority()
+        public override int GetDiceModificationPriority()
         {
             return 110;
         }

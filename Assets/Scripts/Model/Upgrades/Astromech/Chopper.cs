@@ -33,12 +33,12 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionsList += R2F2AddAction;
+            HostShip.OnGenerateActions += R2F2AddAction;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionsList -= R2F2AddAction;
+            HostShip.OnGenerateActions -= R2F2AddAction;
         }
 
         private void R2F2AddAction(GenericShip host)
@@ -103,7 +103,7 @@ namespace ActionsList
     {
         public ChopperAstromechAction()
         {
-            Name = EffectName = "\"Chopper\": Resotore a shield";
+            Name = DiceModificationName = "\"Chopper\": Resotore a shield";
         }
     }
 }

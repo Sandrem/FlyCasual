@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Movement;
 using ActionsList;
+using RuleSets;
 
 namespace Ship
 {
     namespace M12LKimogila
     {
-        public class M12LKimogila : GenericShip
+        public class M12LKimogila : GenericShip, ISecondEditionShip
         {
 
             public M12LKimogila() : base()
@@ -30,9 +31,9 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.SalvagedAstromech);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Illicit);
 
-                PrintedActions.Add(new TargetLockAction());
-                PrintedActions.Add(new BarrelRollAction());
-                PrintedActions.Add(new ReloadAction());
+                ActionBar.AddPrintedAction(new TargetLockAction());
+                ActionBar.AddPrintedAction(new BarrelRollAction());
+                ActionBar.AddPrintedAction(new ReloadAction());
 
                 AssignTemporaryManeuvers();
                 HotacManeuverTable = new AI.M12LKimogilaTable();
@@ -69,6 +70,21 @@ namespace Ship
                 Maneuvers.Add("3.R.B", MovementComplexity.Normal);
                 Maneuvers.Add("3.R.T", MovementComplexity.Normal);
                 Maneuvers.Add("4.F.R", MovementComplexity.Complex);
+            }
+
+            public void AdaptShipToSecondEdition()
+            {
+                //TODO: Maneuvers
+                //TODO: Ship ability
+
+                MaxHull = 7;
+
+                ShipBaseSize = BaseSize.Medium;
+
+                ActionBar.RemovePrintedAction(typeof(BarrelRollAction));
+                ActionBar.AddPrintedAction(new BarrelRollAction() { IsRed = true });
+
+                IconicPilots[Faction.Scum] = typeof(CartelExecutioner);
             }
 
         }

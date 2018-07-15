@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Movement;
 using ActionsList;
+using RuleSets;
 
 namespace Ship
 {
     namespace TIEDefender
     {
-        public class TIEDefender : GenericShip, TIE
+        public class TIEDefender : GenericShip, TIE, ISecondEditionShip
         {
 
             public TIEDefender() : base()
@@ -26,8 +27,8 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Cannon);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Missile);
 
-                PrintedActions.Add(new TargetLockAction());
-                PrintedActions.Add(new BarrelRollAction());
+                ActionBar.AddPrintedAction(new TargetLockAction());
+                ActionBar.AddPrintedAction(new BarrelRollAction());
 
                 AssignTemporaryManeuvers();
                 HotacManeuverTable = new AI.TIEDefenderTable();
@@ -70,6 +71,19 @@ namespace Ship
                 Maneuvers.Add("4.F.R", MovementComplexity.Normal);
                 Maneuvers.Add("5.F.S", MovementComplexity.Easy);
                 Maneuvers.Add("5.F.R", MovementComplexity.None);
+            }
+
+            public void AdaptShipToSecondEdition()
+            {
+                //TODO: Maneuvers
+                //TODO: Ship ability
+
+                MaxShields = 4;
+
+                ActionBar.AddPrintedAction(new EvadeAction());
+                ActionBar.AddPrintedAction(new BoostAction());
+
+                IconicPilots[Faction.Imperial] = typeof(OnyxSquadronAce);
             }
 
         }

@@ -38,21 +38,21 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            GenericShip.AfterGenerateAvailableActionEffectsListGlobal += AddSawGerreraPilotAbility;
+            GenericShip.OnGenerateDiceModificationsGlobal += AddSawGerreraPilotAbility;
         }
 
         public override void DeactivateAbility()
         {
-            GenericShip.AfterGenerateAvailableActionEffectsListGlobal -= AddSawGerreraPilotAbility;
+            GenericShip.OnGenerateDiceModificationsGlobal -= AddSawGerreraPilotAbility;
         }
 
-        private void AddSawGerreraPilotAbility()
+        private void AddSawGerreraPilotAbility(GenericShip ship)
         {
             if (Combat.Attacker.Owner.PlayerNo != HostShip.Owner.PlayerNo) return;
 
             if (Combat.Attacker.Tokens.HasToken(typeof(StressToken)) || Combat.Attacker.Hull < Combat.Attacker.MaxHull)
             {
-                Combat.Attacker.AddAvailableActionEffect(new SawGerreraPilotAction() { Host = HostShip, ImageUrl = HostShip.ImageUrl });
+                Combat.Attacker.AddAvailableDiceModification(new SawGerreraPilotAction() { Host = HostShip, ImageUrl = HostShip.ImageUrl });
             }
         }
 
@@ -60,7 +60,7 @@ namespace Abilities
         {
             public SawGerreraPilotAction() : base(1, 2, true, RerollTypeEnum.AttackDice)
             {
-                Name = EffectName = "Saw Gerrera's ability";
+                Name = DiceModificationName = "Saw Gerrera's ability";
                 IsReroll = true;
             }
         }

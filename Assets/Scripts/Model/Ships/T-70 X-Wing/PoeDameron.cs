@@ -34,24 +34,24 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList += AddPoeDameronPilotAbility;
+            HostShip.OnGenerateDiceModifications += AddPoeDameronPilotAbility;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList -= AddPoeDameronPilotAbility;
+            HostShip.OnGenerateDiceModifications -= AddPoeDameronPilotAbility;
         }
 
         private void AddPoeDameronPilotAbility(GenericShip ship)
         {
-            ship.AddAvailableActionEffect(new PoeDameronAction() { Host = HostShip });
+            ship.AddAvailableDiceModification(new PoeDameronAction() { Host = HostShip });
         }
 
         private class PoeDameronAction : ActionsList.GenericAction
         {
             public PoeDameronAction()
             {
-                Name = EffectName = "Poe Dameron's ability";
+                Name = DiceModificationName = "Poe Dameron's ability";
 
                 IsTurnsOneFocusIntoSuccess = true;
             }
@@ -70,14 +70,14 @@ namespace Abilities
                 callBack();
             }
 
-            public override bool IsActionEffectAvailable()
+            public override bool IsDiceModificationAvailable()
             {
                 bool result = false;
                 if ((Host.Tokens.HasToken(typeof(Tokens.FocusToken))) && (Combat.CurrentDiceRoll.Focuses > 0)) result = true;
                 return result;
             }
 
-            public override int GetActionEffectPriority()
+            public override int GetDiceModificationPriority()
             {
                 int result = 0;
 

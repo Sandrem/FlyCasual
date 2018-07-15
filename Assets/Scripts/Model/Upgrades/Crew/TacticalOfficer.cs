@@ -28,7 +28,7 @@ namespace UpgradesList
 
         public override bool IsAllowedForShip(GenericShip ship)
         {
-            if (isSecondEdition) return ship.PrintedActions.Any(a => a is CoordinateAction && (a as CoordinateAction).IsRed);
+            if (isSecondEdition) return ship.ActionBar.HasAction(typeof(CoordinateAction), isRed:true);
             else return ship.faction == Faction.Imperial;
         }
     }

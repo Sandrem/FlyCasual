@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Movement;
 using ActionsList;
+using RuleSets;
 
 namespace Ship
 {
     namespace Kihraxz
     {
-        public class Kihraxz : GenericShip
+        public class Kihraxz : GenericShip, ISecondEditionShip
         {
 
             public Kihraxz() : base()
@@ -26,7 +27,7 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Missile);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Illicit);
 
-                PrintedActions.Add(new TargetLockAction());
+                ActionBar.AddPrintedAction(new TargetLockAction());
 
                 AssignTemporaryManeuvers();
                 HotacManeuverTable = new AI.KihraxzTable();
@@ -63,6 +64,17 @@ namespace Ship
                 Maneuvers.Add("4.F.S", MovementComplexity.Normal);
                 Maneuvers.Add("4.F.R", MovementComplexity.Complex);
                 Maneuvers.Add("5.F.R", MovementComplexity.Complex);
+            }
+
+            public void AdaptShipToSecondEdition()
+            {
+                //TODO: Maneuvers
+
+                MaxHull = 5;
+
+                ActionBar.AddPrintedAction(new BarrelRollAction());
+
+                IconicPilots[Faction.Scum] = typeof(BlackSunAce);
             }
 
         }

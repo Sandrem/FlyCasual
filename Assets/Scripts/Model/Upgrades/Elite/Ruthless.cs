@@ -34,12 +34,12 @@ namespace Abilities
         {
             public override void ActivateAbility()
             {
-                HostShip.AfterGenerateAvailableActionEffectsList += AddDiceModification;
+                HostShip.OnGenerateDiceModifications += AddDiceModification;
             }
 
             public override void DeactivateAbility()
             {
-                HostShip.AfterGenerateAvailableActionEffectsList -= AddDiceModification;
+                HostShip.OnGenerateDiceModifications -= AddDiceModification;
             }
 
             private void AddDiceModification(GenericShip host)
@@ -50,7 +50,7 @@ namespace Abilities
                     Host = host,
                     Source = HostUpgrade
                 };
-                host.AddAvailableActionEffect(newAction);
+                host.AddAvailableDiceModification(newAction);
             }
 
             public void StartAbility(Action callback)
@@ -125,7 +125,7 @@ namespace ActionsList
     {
         public RuthlessDiceModification()
         {
-            Name = EffectName = "Ruthless";
+            Name = DiceModificationName = "Ruthless";
         }
 
         public override void ActionEffect(Action callBack)
@@ -133,7 +133,7 @@ namespace ActionsList
             (Source.UpgradeAbilities[0] as Abilities.SecondEdition.RuthlessAbility).StartAbility(callBack);
         }
 
-        public override bool IsActionEffectAvailable()
+        public override bool IsDiceModificationAvailable()
         {
             if (Combat.AttackStep != CombatStep.Attack) return false;
 
@@ -141,7 +141,7 @@ namespace ActionsList
             return friendlyShipsAtRange1FromTarget.Any(n => n.ShipId != Host.ShipId);
         }
 
-        public override int GetActionEffectPriority()
+        public override int GetDiceModificationPriority()
         {
             int result = 0;
 

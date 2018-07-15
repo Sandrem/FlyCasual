@@ -18,8 +18,8 @@ namespace DamageDeckCardSE
 
         public override void ApplyEffect(object sender, EventArgs e)
         {
-            Host.OnTryAddAvailableActionEffect += RestrictActionEffectsToForceOnly;
-            Host.AfterGenerateAvailableActionsList += CallAddCancelCritAction;
+            Host.OnTryAddAvailableDiceModification += RestrictActionEffectsToForceOnly;
+            Host.OnGenerateActions += CallAddCancelCritAction;
 
             Host.Tokens.AssignCondition(typeof(Tokens.BlindedPilotSECritToken));
             Triggers.FinishTrigger();
@@ -37,8 +37,8 @@ namespace DamageDeckCardSE
         {
             base.DiscardEffect();
 
-            Host.OnTryAddAvailableActionEffect -= RestrictActionEffectsToForceOnly;
-            Host.AfterGenerateAvailableActionsList -= CallAddCancelCritAction;
+            Host.OnTryAddAvailableDiceModification -= RestrictActionEffectsToForceOnly;
+            Host.OnGenerateActions -= CallAddCancelCritAction;
             Messages.ShowInfo("Blinded Pilot: Crit is flipped, pilot can fully modify attacks");
             Host.Tokens.RemoveCondition(typeof(Tokens.BlindedPilotSECritToken));            
         }         

@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Movement;
 using ActionsList;
+using RuleSets;
 
 namespace Ship
 {
     namespace JumpMaster5000
     {
-        public class JumpMaster5000 : GenericShip
+        public class JumpMaster5000 : GenericShip, ISecondEditionShip
         {
 
             public JumpMaster5000() : base()
@@ -29,8 +30,8 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Crew);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Illicit);
 
-                PrintedActions.Add(new TargetLockAction());
-                PrintedActions.Add(new BarrelRollAction());
+                ActionBar.AddPrintedAction(new TargetLockAction());
+                ActionBar.AddPrintedAction(new BarrelRollAction());
 
                 AssignTemporaryManeuvers();
                 HotacManeuverTable = new AI.Jumpmaster5000Table();
@@ -68,6 +69,25 @@ namespace Ship
                 Maneuvers.Add("3.R.B", MovementComplexity.Normal);
                 Maneuvers.Add("4.F.S", MovementComplexity.Normal);
                 Maneuvers.Add("4.F.R", MovementComplexity.Complex);
+            }
+
+            public void AdaptShipToSecondEdition()
+            {
+                //TODO: Maneuvers
+                //TODO: Arc
+
+                MaxHull = 6;
+                MaxShields = 3;
+
+                ActionBar.RemovePrintedAction(typeof(FocusAction));
+                ActionBar.RemovePrintedAction(typeof(TargetLockAction));
+
+                ActionBar.AddPrintedAction(new FocusAction() { LinkedRedAction = new RotateArcAction() { IsRed = true } });
+                ActionBar.AddPrintedAction(new TargetLockAction() { LinkedRedAction = new RotateArcAction() { IsRed = true } });
+
+                ActionBar.AddPrintedAction(new BarrelRollAction() { IsRed = true });
+
+                IconicPilots[Faction.Scum] = typeof(ContractedScout);
             }
 
         }

@@ -28,12 +28,12 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList += MercenaryCopilotActionEffect;
+            HostShip.OnGenerateDiceModifications += MercenaryCopilotActionEffect;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList -= MercenaryCopilotActionEffect;
+            HostShip.OnGenerateDiceModifications -= MercenaryCopilotActionEffect;
         }
 
         private void MercenaryCopilotActionEffect(GenericShip host)
@@ -43,7 +43,7 @@ namespace Abilities
                 ImageUrl = HostUpgrade.ImageUrl,
                 Host = host
             };
-            host.AddAvailableActionEffect(newAction);
+            host.AddAvailableDiceModification(newAction);
         }
     }
 }
@@ -55,7 +55,7 @@ namespace ActionsList
 
         public MercenaryCopilotAction()
         {
-            Name = EffectName = "Mercenary Copilot";
+            Name = DiceModificationName = "Mercenary Copilot";
         }
 
         public override void ActionEffect(System.Action callBack)
@@ -64,7 +64,7 @@ namespace ActionsList
             callBack();
         }
 
-        public override bool IsActionEffectAvailable()
+        public override bool IsDiceModificationAvailable()
         {
             bool result = false;
             if (Combat.AttackStep == CombatStep.Attack)
@@ -78,7 +78,7 @@ namespace ActionsList
             return result;
         }
 
-        public override int GetActionEffectPriority()
+        public override int GetDiceModificationPriority()
         {
             int result = 0;
 

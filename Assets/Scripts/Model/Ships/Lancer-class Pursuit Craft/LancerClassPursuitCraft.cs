@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Movement;
 using ActionsList;
+using RuleSets;
 
 namespace Ship
 {
     namespace LancerClassPursuitCraft
     {
-        public class LancerClassPursuitCraft : GenericShip
+        public class LancerClassPursuitCraft : GenericShip, ISecondEditionShip
         {
 
             public LancerClassPursuitCraft() : base()
@@ -29,9 +30,9 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Illicit);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Illicit);
 
-                PrintedActions.Add(new TargetLockAction());
-                PrintedActions.Add(new EvadeAction());
-                PrintedActions.Add(new RotateArcAction());
+                ActionBar.AddPrintedAction(new TargetLockAction());
+                ActionBar.AddPrintedAction(new EvadeAction());
+                ActionBar.AddPrintedAction(new RotateArcAction());
 
                 AssignTemporaryManeuvers();
                 HotacManeuverTable = new AI.LancerPursuitCraftTable();
@@ -68,6 +69,15 @@ namespace Ship
                 Maneuvers.Add("4.F.S", MovementComplexity.Easy);
                 Maneuvers.Add("5.F.S", MovementComplexity.Normal);
                 Maneuvers.Add("5.F.R", MovementComplexity.Complex);
+            }
+
+            public void AdaptShipToSecondEdition()
+            {
+                //TODO: Maneuvers
+                //TODO: Mobile arc with firepower 2
+
+                MaxHull = 8;
+                MaxShields = 2;
             }
 
         }

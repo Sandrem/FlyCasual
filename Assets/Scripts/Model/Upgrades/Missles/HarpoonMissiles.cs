@@ -87,7 +87,7 @@ namespace ActionsList
     {
         public HarpoonedRepairAction()
         {
-            Name = EffectName = "\"Harpooned!\": Discard condition";
+            Name = DiceModificationName = "\"Harpooned!\": Discard condition";
         }
 
         public override void ActionTake()
@@ -139,14 +139,14 @@ namespace Conditions
         {
             Host.OnShotHitAsDefender += CheckUncancelledCrit;
             Host.OnShipIsDestroyed += DoSplashDamageOnDestroyed;
-            Host.AfterGenerateAvailableActionsList += AddRepairAction;
+            Host.OnGenerateActions += AddRepairAction;
         }
 
         private void UnsubscribeFromHarpoonedConditionEffects()
         {
             Host.OnShotHitAsDefender -= CheckUncancelledCrit;
             Host.OnShipIsDestroyed -= DoSplashDamageOnDestroyed;
-            Host.AfterGenerateAvailableActionsList -= AddRepairAction;
+            Host.OnGenerateActions -= AddRepairAction;
         }
 
         private void CheckUncancelledCrit()
@@ -270,10 +270,10 @@ namespace SubPhases
 
         public override void Prepare()
         {
-            diceType = DiceKind.Attack;
-            diceCount = 1;
+            DiceKind = DiceKind.Attack;
+            DiceCount = 1;
 
-            finishAction = FinishAction;
+            AfterRoll = FinishAction;
         }
 
         protected override void FinishAction()

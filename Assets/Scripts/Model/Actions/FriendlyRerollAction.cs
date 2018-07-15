@@ -23,7 +23,7 @@ namespace ActionsList
             CanUseOwnAbility = canUseOwnAbility;
             RerollType = rerollType;
 
-            Name = EffectName = string.Format("{0}'s ability", Name);
+            Name = DiceModificationName = string.Format("{0}'s ability", Name);
             IsReroll = true;
         }
 
@@ -32,7 +32,7 @@ namespace ActionsList
             return true;
         }
 
-        public override bool IsActionEffectAvailable()
+        public override bool IsDiceModificationAvailable()
         {
             bool result = false;
 
@@ -59,7 +59,7 @@ namespace ActionsList
             return result;
         }
 
-        public override int GetActionEffectPriority()
+        public override int GetDiceModificationPriority()
         {
             int result = 0;
 
@@ -70,7 +70,7 @@ namespace ActionsList
                 int blanks = Combat.DiceRollAttack.BlanksNotRerolled;
 
                 //if (friendlyShip.HasToken(typeof(Tokens.FocusToken)))
-                if (friendlyShip.GetAvailableActionEffectsList().Count(n => n.IsTurnsAllFocusIntoSuccess) > 0)
+                if (friendlyShip.GetAvailableDiceModifications().Count(n => n.IsTurnsAllFocusIntoSuccess) > 0)
                 {
                     if (blanks > 0) result = 90;
                 }

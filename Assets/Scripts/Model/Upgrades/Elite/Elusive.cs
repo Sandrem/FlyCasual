@@ -35,13 +35,13 @@ namespace Abilities
         {
             public override void ActivateAbility()
             {
-                HostShip.AfterGenerateAvailableActionEffectsList += AddDiceModification;
+                HostShip.OnGenerateDiceModifications += AddDiceModification;
                 HostShip.OnMovementFinish += CheckRestoreCharge;
             }
 
             public override void DeactivateAbility()
             {
-                HostShip.AfterGenerateAvailableActionEffectsList -= AddDiceModification;
+                HostShip.OnGenerateDiceModifications -= AddDiceModification;
                 HostShip.OnMovementFinish -= CheckRestoreCharge;
             }
 
@@ -53,7 +53,7 @@ namespace Abilities
                     Host = host,
                     Source = HostUpgrade
                 };
-                host.AddAvailableActionEffect(newAction);
+                host.AddAvailableDiceModification(newAction);
             }
 
             private void CheckRestoreCharge(GenericShip host)
@@ -78,7 +78,7 @@ namespace ActionsList
     {
         public ElusiveDiceModification()
         {
-            Name = EffectName = "Elusive";
+            Name = DiceModificationName = "Elusive";
 
             IsReroll = true;
         }
@@ -95,7 +95,7 @@ namespace ActionsList
             Source.SpendCharge(diceRerollManager.Start);
         }
 
-        public override bool IsActionEffectAvailable()
+        public override bool IsDiceModificationAvailable()
         {
             if (Combat.AttackStep != CombatStep.Defence) return false;
             if (Source.Charges == 0) return false;
@@ -103,7 +103,7 @@ namespace ActionsList
             return true;
         }
 
-        public override int GetActionEffectPriority()
+        public override int GetDiceModificationPriority()
         {
             int result = 0;
 

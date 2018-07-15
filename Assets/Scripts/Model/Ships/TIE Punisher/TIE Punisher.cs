@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Movement;
 using ActionsList;
+using RuleSets;
 
 namespace Ship
 {
     namespace TIEPunisher
     {
-        public class TIEPunisher : GenericShip, TIE
+        public class TIEPunisher : GenericShip, TIE, ISecondEditionShip
         {
 
             public TIEPunisher() : base()
@@ -31,8 +32,8 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Bomb);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Bomb);
 
-                PrintedActions.Add(new TargetLockAction());
-                PrintedActions.Add(new BoostAction());
+                ActionBar.AddPrintedAction(new TargetLockAction());
+                ActionBar.AddPrintedAction(new BoostAction());
 
                 AssignTemporaryManeuvers();
                 HotacManeuverTable = new AI.TIEPunisherTable();
@@ -67,6 +68,19 @@ namespace Ship
                 Maneuvers.Add("3.R.B", MovementComplexity.Normal);
                 Maneuvers.Add("3.R.T", MovementComplexity.Normal);
                 Maneuvers.Add("4.F.R", MovementComplexity.Complex);
+            }
+
+            public void AdaptShipToSecondEdition()
+            {
+                //TODO: Maneuvers
+                ShipBaseSize = BaseSize.Medium;
+
+                ActionBar.RemovePrintedAction(typeof(BoostAction));
+                ActionBar.AddPrintedAction(new BoostAction() { LinkedRedAction = new TargetLockAction() { IsRed = true } });
+                ActionBar.AddPrintedAction(new BarrelRollAction() { IsRed = true });
+                ActionBar.AddPrintedAction(new ReloadAction());
+
+                IconicPilots[Faction.Imperial] = typeof(CutlassSquadronPilot);
             }
 
         }

@@ -28,8 +28,8 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Crew);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Astromech);
 
-                PrintedActions.Add(new TargetLockAction());
-                PrintedActions.Add(new CoordinateAction());
+                ActionBar.AddPrintedAction(new TargetLockAction());
+                ActionBar.AddPrintedAction(new CoordinateAction());
 
                 AssignTemporaryManeuvers();
                 HotacManeuverTable = new AI.SheathipedeShuttleTable();

@@ -9,6 +9,7 @@ using UpgradesList;
 using ActionsList;
 using System;
 using Tokens;
+using System.Linq;
 
 namespace UpgradesList
 {
@@ -77,12 +78,11 @@ namespace Abilities
 
         private void AskThreatTrackerAbility(object sender, System.EventArgs e)
         {
-            List<GenericAction> actionBar = HostShip.GetActionsFromActionBar();
-            List<GenericAction> freeActions = new List<GenericAction>() { new ActionsList.BoostAction(), new ActionsList.BarrelRollAction() };
+            List<GenericAction> freeActions = new List<GenericAction>() { new BoostAction(), new BarrelRollAction() };
             threatTrackerActions.Clear();
             freeActions.ForEach(delegate (GenericAction action)
             {
-                if (actionBar.Exists(barAction => barAction.GetType() == action.GetType()))
+                if (HostShip.ActionBar.HasAction(action.GetType()))
                 {
                     threatTrackerActions.Add(action);
                 }

@@ -38,7 +38,7 @@ namespace Abilities
                     ImageUrl = HostUpgrade.ImageUrl,
                     Host = HostShip
                 };
-                HostShip.AddAvailableActionEffect(newAction);
+                HostShip.AddAvailableDiceModification(newAction);
             }
         }
     }
@@ -50,10 +50,10 @@ namespace ActionsList
     {
         public FearlessAction()
         {
-            Name = EffectName = "Fearless";
+            Name = DiceModificationName = "Fearless";
         }
 
-        public override bool IsActionEffectAvailable()
+        public override bool IsDiceModificationAvailable()
         {
             bool result = true;
 
@@ -71,7 +71,7 @@ namespace ActionsList
             return result;
         }
 
-        public override int GetActionEffectPriority()
+        public override int GetDiceModificationPriority()
         {
             if (Combat.DiceRollAttack.WorstResult == DieSide.Blank || Combat.DiceRollAttack.WorstResult == DieSide.Focus) return 100;
             return 0;

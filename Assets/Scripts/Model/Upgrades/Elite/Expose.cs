@@ -25,12 +25,12 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionsList += ExposeAddAction;
+            HostShip.OnGenerateActions += ExposeAddAction;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionsList -= ExposeAddAction;
+            HostShip.OnGenerateActions -= ExposeAddAction;
         }
 
         private void ExposeAddAction(GenericShip host)
@@ -53,7 +53,7 @@ namespace ActionsList
 
         public ExposeAction()
         {
-            Name = EffectName = "Expose";
+            Name = DiceModificationName = "Expose";
         }
 
         public override void ActionTake()

@@ -27,8 +27,8 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Crew);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Crew);
 
-                PrintedActions.Add(new EvadeAction());
-                PrintedActions.Add(new JamAction());
+                ActionBar.AddPrintedAction(new EvadeAction());
+                ActionBar.AddPrintedAction(new JamAction());
 
                 AssignTemporaryManeuvers();
                 HotacManeuverTable = new AI.TIEReaperTable();
@@ -71,11 +71,11 @@ namespace Ship
             {
                 ShipBaseSize = BaseSize.Medium;
                 
-                PrintedActions.Add(new CoordinateAction() { IsRed = true });
+                ActionBar.AddPrintedAction(new CoordinateAction() { IsRed = true });
 
                 IconicPilots[Faction.Imperial] = typeof(CaptainFeroph);
 
-                PilotAbilities.Add(new Abilities.AdvancedAileronsAbility());
+                ShipAbilities.Add(new Abilities.AdvancedAileronsAbility());
 
                 Maneuvers["1.L.T"] = MovementComplexity.Complex;
                 Maneuvers["1.L.B"] = MovementComplexity.Easy;

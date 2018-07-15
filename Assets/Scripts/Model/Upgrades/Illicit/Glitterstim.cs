@@ -67,7 +67,7 @@ namespace Abilities
 
         private void GlitterstimEffect()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList += AddGlitterstimDiceModification;
+            HostShip.OnGenerateDiceModifications += AddGlitterstimDiceModification;
         }
 
         private void AddGlitterstimDiceModification(GenericShip host)
@@ -77,12 +77,12 @@ namespace Abilities
                 ImageUrl = HostUpgrade.ImageUrl,
                 Host = HostShip
             };
-            host.AddAvailableActionEffect(newAction);
+            host.AddAvailableDiceModification(newAction);
         }
 
         public void DeactivateGlitterstim()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList -= AddGlitterstimDiceModification;
+            HostShip.OnGenerateDiceModifications -= AddGlitterstimDiceModification;
 
             Phases.Events.OnEndPhaseStart_NoTriggers -= DeactivateGlitterstim;
         }
@@ -163,17 +163,17 @@ namespace ActionsList
 
         public GlitterstimDiceModification()
         {
-            Name = EffectName = "Glitterstim";
+            Name = DiceModificationName = "Glitterstim";
 
             IsTurnsAllFocusIntoSuccess = true;
         }
 
-        public override bool IsActionEffectAvailable()
+        public override bool IsDiceModificationAvailable()
         {
             return true;
         }
 
-        public override int GetActionEffectPriority()
+        public override int GetDiceModificationPriority()
         {
             int result = 0;
 

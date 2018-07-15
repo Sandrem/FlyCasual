@@ -5,6 +5,8 @@ using Ship;
 using SubPhases;
 using System;
 using System.Linq;
+using Tokens;
+using ActionsList;
 
 namespace Ship
 {
@@ -89,9 +91,9 @@ namespace Abilities
 
         private int NeedTokenPriority(GenericShip ship)
         {
-            if (!ship.Tokens.HasToken(typeof(Tokens.FocusToken))) return 100;
-            if (ship.PrintedActions.Any(n => n.GetType() == typeof(ActionsList.EvadeAction)) && !ship.Tokens.HasToken(typeof(Tokens.EvadeToken))) return 50;
-            if (ship.PrintedActions.Any(n => n.GetType() == typeof(ActionsList.TargetLockAction)) && !ship.Tokens.HasToken(typeof(Tokens.BlueTargetLockToken), '*')) return 50;
+            if (!ship.Tokens.HasToken(typeof(FocusToken))) return 100;
+            if (ship.ActionBar.HasAction(typeof(EvadeAction)) && !ship.Tokens.HasToken(typeof(EvadeToken))) return 50;
+            if (ship.ActionBar.HasAction(typeof(TargetLockAction)) && !ship.Tokens.HasToken(typeof(BlueTargetLockToken), '*')) return 50;
             return 0;
         }
 
@@ -106,8 +108,11 @@ namespace Abilities
 
         private void PerformFreeAction(object sender, System.EventArgs e)
         {
+            List<GenericAction> actions = TargetShip.GetAvailableActions();
+            List<GenericAction> actionBarActions = actions.Where(n => n.IsInActionBar).ToList();
+
             TargetShip.AskPerformFreeAction(
-                TargetShip.GetAvailablePrintedActionsList(),
+                actionBarActions,
                 delegate {
                     Selection.ThisShip = HostShip;
                     Phases.CurrentSubPhase.Resume();

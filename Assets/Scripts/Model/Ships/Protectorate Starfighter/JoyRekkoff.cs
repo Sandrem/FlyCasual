@@ -81,22 +81,8 @@ namespace Abilities
 
             private void AssignConditionToDefender()
             {
-                if (Combat.Defender.Agility != 0)
-                {
-                    Messages.ShowError("Joy Rekkoff: Agility is decreased");
-                    Combat.Defender.Tokens.AssignCondition(typeof(Conditions.JoyRekkoffCondition));
-                    Combat.Defender.ChangeAgilityBy(-1);
-                    Combat.Defender.OnAttackFinish += RemoveJoyRekkoffAbility;
-                }
+                Combat.Defender.Tokens.AssignCondition(typeof(Conditions.JoyRekkoffCondition));
                 DecisionSubPhase.ConfirmDecision();
-            }
-
-            private void RemoveJoyRekkoffAbility(GenericShip ship)
-            {
-                Messages.ShowInfo("Agility is restored");
-                Combat.Defender.Tokens.RemoveCondition(typeof(Conditions.JoyRekkoffCondition));
-                ship.ChangeAgilityBy(+1);
-                ship.OnAttackFinish -= RemoveJoyRekkoffAbility;
             }
         }
     }
@@ -106,11 +92,43 @@ namespace Conditions
 {
     public class JoyRekkoffCondition : GenericToken
     {
+        bool AgilityWasDecreased = false;
+
         public JoyRekkoffCondition(GenericShip host) : base(host)
         {
             Name = "Debuff Token";
+            TooltipType = typeof(Ship.ProtectorateStarfighter.JoyRekkoff);
+
             Temporary = false;
-            Tooltip = new Ship.ProtectorateStarfighter.JoyRekkoff().ImageUrl;
+        }
+
+        public override void WhenAssigned()
+        {
+            if (Host.Agility != 0)
+            {
+                AgilityWasDecreased = true;
+
+                Messages.ShowError("Joy Rekkoff: Agility is decreased");
+                Host.ChangeAgilityBy(-1);
+            }
+
+            Host.OnAttackFinishAsDefender += RemoveJoyRekkoffAbility;
+        }
+
+        private void RemoveJoyRekkoffAbility(GenericShip ship)
+        {
+            Host.Tokens.RemoveCondition(this);
+        }
+
+        public override void WhenRemoved()
+        {
+            if (AgilityWasDecreased)
+            {
+                Messages.ShowInfo("Agility is restored");
+                Host.ChangeAgilityBy(+1);
+            }
+
+            Host.OnAttackFinishAsDefender -= RemoveJoyRekkoffAbility;
         }
     }
 }

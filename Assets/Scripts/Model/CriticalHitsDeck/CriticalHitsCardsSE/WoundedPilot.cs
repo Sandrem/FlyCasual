@@ -18,7 +18,7 @@ namespace DamageDeckCardSE
 
         public override void ApplyEffect(object sender, EventArgs e)
         {            
-            Host.AfterGenerateAvailableActionsList += CallAddCancelCritAction;
+            Host.OnGenerateActions += CallAddCancelCritAction;
             Host.OnActionIsPerformed += AfterPerformingActionRollForStress;
 
             Host.Tokens.AssignCondition(typeof(WoundedPilotCritToken));
@@ -55,7 +55,7 @@ namespace DamageDeckCardSE
 
             Host.Tokens.RemoveCondition(typeof(Tokens.WoundedPilotCritToken));
 
-            Host.AfterGenerateAvailableActionsList -= CallAddCancelCritAction;
+            Host.OnGenerateActions -= CallAddCancelCritAction;
             Host.OnActionIsPerformed -= AfterPerformingActionRollForStress;
         }
     }
@@ -71,10 +71,10 @@ namespace SubPhases
 
         public override void Prepare()
         {
-            diceType = DiceKind.Attack;
-            diceCount = 1;
+            DiceKind = DiceKind.Attack;
+            DiceCount = 1;
 
-            finishAction = FinishAction;
+            AfterRoll = FinishAction;
 
             Name = "#" + Selection.ActiveShip.ShipId + ": " + Name;
         }

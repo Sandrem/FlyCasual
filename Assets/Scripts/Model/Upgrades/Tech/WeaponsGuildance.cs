@@ -26,12 +26,12 @@ namespace Abilities
 
         public override void ActivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList += WeaponsGuidanceActionEffect;
+            HostShip.OnGenerateDiceModifications += WeaponsGuidanceActionEffect;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.AfterGenerateAvailableActionEffectsList -= WeaponsGuidanceActionEffect;
+            HostShip.OnGenerateDiceModifications -= WeaponsGuidanceActionEffect;
         }
 
         private void WeaponsGuidanceActionEffect(GenericShip host)
@@ -41,7 +41,7 @@ namespace Abilities
                 ImageUrl = HostUpgrade.ImageUrl,
                 Host = HostShip
             };
-            host.AddAvailableActionEffect(newAction);
+            host.AddAvailableDiceModification(newAction);
         }
 
     }
@@ -54,7 +54,7 @@ namespace ActionsList
 
         public WeaponsGuildanceDiceModification()
         {
-            Name = EffectName = "Weapons Guidance";
+            Name = DiceModificationName = "Weapons Guidance";
 
             TokensSpend.Add(typeof(Tokens.FocusToken));
         }
@@ -77,7 +77,7 @@ namespace ActionsList
             );
         }
 
-        public override bool IsActionEffectAvailable()
+        public override bool IsDiceModificationAvailable()
         {
             if (Combat.AttackStep == CombatStep.Attack 
                 && Host.Tokens.HasToken(typeof(Tokens.FocusToken)))
@@ -88,7 +88,7 @@ namespace ActionsList
             return false;
         }
 
-        public override int GetActionEffectPriority()
+        public override int GetDiceModificationPriority()
         {
             int result = 0;
             DiceRoll diceValues = Combat.CurrentDiceRoll;

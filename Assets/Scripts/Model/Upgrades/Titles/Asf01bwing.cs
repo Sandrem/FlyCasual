@@ -23,7 +23,6 @@ namespace UpgradesList
             FromMod = typeof(RecoveringBWing);
 
             UpgradeAbilities.Add(new ASF01BWingAbility());
-            UpgradeAbilities.Add(new GenericActionBarAbility<ActionsList.RecoverAction>());
 
         }
 
@@ -58,11 +57,21 @@ namespace Abilities
             HostShip.OnMovementFinish += GetEnergy;
             HostShip.OnTokenIsAssigned += SpendEnergyDecision;
         }
-                
+
+        public override void ActivateAbilityForSquadBuilder()
+        {
+            HostShip.ActionBar.AddGrantedAction(new ActionsList.RecoverAction(), HostUpgrade);
+        }
+
         public override void DeactivateAbility()
         {
             HostShip.OnMovementFinish -= GetEnergy;
             HostShip.OnTokenIsAssigned -= SpendEnergyDecision;
+        }
+
+        public override void DeactivateAbilityForSquadBuilder()
+        {
+            HostShip.ActionBar.RemoveGrantedAction(typeof(ActionsList.RecoverAction), HostUpgrade);
         }
 
         public void GetEnergy(GenericShip ship)

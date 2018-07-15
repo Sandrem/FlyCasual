@@ -31,9 +31,9 @@ namespace Ship
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Missile);
 
-                PrintedActions.Add(new EvadeAction());
-                PrintedActions.Add(new BarrelRollAction());
-                PrintedActions.Add(new TargetLockAction());
+                ActionBar.AddPrintedAction(new EvadeAction());
+                ActionBar.AddPrintedAction(new BarrelRollAction());
+                ActionBar.AddPrintedAction(new TargetLockAction());
 
                 AssignTemporaryManeuvers();
                 HotacManeuverTable = new AI.TIEAdvancedTable();
@@ -82,8 +82,8 @@ namespace Ship
 
             public void AdaptShipToSecondEdition()
             {
-                PrintedActions.Remove(PrintedActions.First(n => n is FocusAction));
-                PrintedActions.Remove(PrintedActions.First(n => n is EvadeAction));
+                ActionBar.RemovePrintedAction(typeof(FocusAction));
+                ActionBar.RemovePrintedAction(typeof(EvadeAction));
 
                 Maneuvers["1.F.S"] = MovementComplexity.Normal;
                 Maneuvers["2.L.B"] = MovementComplexity.Easy;
@@ -93,8 +93,9 @@ namespace Ship
 
                 UpgradeBar.AddSlot(Upgrade.UpgradeType.System);
 
-                PrintedActions.Add(new FocusAction() { LinkedRedAction = new BarrelRollAction() { IsRed = true } });
-                PilotAbilities.Add(new Abilities.SecondEdition.AdvancedTargetingComputer());
+                ActionBar.AddPrintedAction(new FocusAction() { LinkedRedAction = new BarrelRollAction() { IsRed = true } });
+
+                ShipAbilities.Add(new Abilities.SecondEdition.AdvancedTargetingComputer());
             }
 
         }

@@ -106,9 +106,9 @@ namespace SubPhases
 
         public override void Prepare()
         {
-            diceType = DiceKind.Defence;
-            diceCount = 1;
-            this.finishAction = FinishAction;
+            DiceKind = DiceKind.Defence;
+            DiceCount = 1;
+            AfterRoll = FinishAction;
             Name = "Multi-spectral Camouflage";
         }
 

@@ -104,7 +104,7 @@ namespace SubPhases
             ShowSkipButton = true;
             DefaultDecisionName = "Focus";
 
-            List<ActionsList.GenericAction> availableActions = Selection.ThisShip.GetAvailableActionsList();
+            List<ActionsList.GenericAction> availableActions = Selection.ThisShip.GetAvailableActions();
 
             if (availableActions.Count > 0)
             {
@@ -124,7 +124,7 @@ namespace SubPhases
             //TODO: Use more global way of fix
             HideDecisionWindowUI();
 
-            List<ActionsList.GenericAction> availableActions = Selection.ThisShip.GetAvailableActionsList();
+            List<ActionsList.GenericAction> availableActions = Selection.ThisShip.GetAvailableActions();
             foreach (var action in availableActions)
             {
                 string decisionName = (action.LinkedRedAction == null) ? action.Name : action.Name + " > <color=red>" + action.LinkedRedAction.Name + "</color>";

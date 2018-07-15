@@ -28,8 +28,8 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Crew);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Crew);
 
-                PrintedActions.Add(new ReinforceForeAction() { Host = this });
-                PrintedActions.Add(new ReinforceAftAction() { Host = this });
+                ActionBar.AddPrintedAction(new ReinforceForeAction());
+                ActionBar.AddPrintedAction(new ReinforceAftAction());
 
                 AssignTemporaryManeuvers();
                 HotacManeuverTable = new AI.AuzituckGunshipTable();
@@ -74,7 +74,7 @@ namespace Ship
 
                 MaxShields = 2;
 
-                PrintedActions.Add(new BarrelRollAction() { IsRed = true });
+                ActionBar.AddPrintedAction(new BarrelRollAction() { IsRed = true });
 
                 IconicPilots[Faction.Rebel] = typeof(KashyyykDefender);
             }

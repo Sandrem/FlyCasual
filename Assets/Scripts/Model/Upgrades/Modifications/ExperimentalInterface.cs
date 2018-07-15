@@ -65,7 +65,7 @@ namespace UpgradesList
 
 		private void PerformExperimentalInterfaceAction(object sender, System.EventArgs e)
 		{
-			List<GenericAction> actions = Selection.ThisShip.GetAvailableActionsList().Where(n => n.Source != null).ToList();
+			List<GenericAction> actions = Selection.ThisShip.GetAvailableActions().Where(n => n.Source != null).ToList();
 			Host.AskPerformFreeAction(actions, AddStressToken);
 		}
 

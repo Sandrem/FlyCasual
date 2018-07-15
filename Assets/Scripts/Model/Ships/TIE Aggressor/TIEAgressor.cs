@@ -28,8 +28,8 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Missile);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Missile);
 
-                PrintedActions.Add(new TargetLockAction());
-                PrintedActions.Add(new BarrelRollAction());
+                ActionBar.AddPrintedAction(new TargetLockAction());
+                ActionBar.AddPrintedAction(new BarrelRollAction());
 
                 AssignTemporaryManeuvers();
                 HotacManeuverTable = new AI.TIEAgressorTable();
@@ -78,8 +78,8 @@ namespace Ship
             {
                 //TODO: Maneuvers
 
-                PrintedActions.RemoveAll(a => a is BarrelRollAction);
-                PrintedActions.Add(new BarrelRollAction() { LinkedRedAction = new EvadeAction() { IsRed = true } });
+                ActionBar.RemovePrintedAction(typeof(BarrelRollAction));
+                ActionBar.AddPrintedAction(new BarrelRollAction() { LinkedRedAction = new EvadeAction() { IsRed = true } });
 
                 IconicPilots[Faction.Imperial] = typeof(OnyxSquadronScout);
             }

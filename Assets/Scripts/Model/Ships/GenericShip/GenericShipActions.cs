@@ -13,7 +13,6 @@ namespace Ship
     public partial class GenericShip
     {
 
-        public      List<GenericAction> PrintedActions                                  = new List<GenericAction>();
         private     List<GenericAction> AvailableActionsList                            = new List<GenericAction>();
         private     List<GenericAction> AvailableFreeActionsList                        = new List<GenericAction>();
         private     List<GenericAction> AlreadyExecutedActions                          = new List<GenericAction>();
@@ -73,6 +72,35 @@ namespace Ship
 
         // ACTIONS
 
+        public void GenerateAvailableActionsList()
+        {
+            AvailableActionsList = new List<GenericAction>();
+
+            foreach (var action in ActionBar.AllActions)
+            {
+                AddAvailableAction(action);
+            }
+
+            if (OnGenerateActions != null) OnGenerateActions(this);
+        }
+
+        public List<GenericAction> GetAvailableActions()
+        {
+            GenerateAvailableActionsList();
+            return AvailableActionsList;
+        }
+
+        public List<GenericAction> GetAvailableFreeActionsList()
+        {
+            return AvailableFreeActionsList;
+        }
+
+        public List<GenericAction> GetAvailablePrintedActionsList()
+        {
+            //return PrintedActions;
+            return null;
+        }
+
         public void CallMovementActivation(Action callBack)
         {
             if (OnMovementActivation != null) OnMovementActivation(this);
@@ -99,23 +127,6 @@ namespace Ship
             if (BeforeFreeActionIsPerformed != null) BeforeFreeActionIsPerformed(action);
 
             Triggers.ResolveTriggers(TriggerTypes.BeforeFreeActionIsPerformed, callBack);
-        }
-
-        public List<GenericAction> GetActionsFromActionBar()
-        {
-            return PrintedActions;
-        }
-
-        public void GenerateAvailableActionsList()
-        {
-            AvailableActionsList = new List<GenericAction>();
-
-            foreach (var action in PrintedActions)
-            {
-                AddAvailableAction(action);
-            }
-
-            if (OnGenerateActions != null) OnGenerateActions(this);
         }
 
         public void GenerateAvailableFreeActionsList(List<GenericAction> freeActions)
@@ -200,27 +211,14 @@ namespace Ship
             callback();
         }
 
-        public List<GenericAction> GetAvailableActionsList()
-        {
-            GenerateAvailableActionsList();
-            return AvailableActionsList;
-        }
-
-        public List<GenericAction> GetAvailablePrintedActionsList()
-        {
-            return PrintedActions;
-        }
-
-        public List<GenericAction> GetAvailableFreeActionsList()
-        {
-            return AvailableFreeActionsList;
-        }
-
         public void AddAvailableAction(GenericAction action)
         {
             if (CanPerformAction(action))
             {
-                AvailableActionsList.Add(action);
+                if (!AvailableActionsList.Any(n => n.GetType() == action.GetType() && n.IsRed == action.IsRed && n.LinkedRedAction == action.LinkedRedAction))
+                {
+                    AvailableActionsList.Add(action);
+                }
             }
         }
 

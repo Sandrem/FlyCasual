@@ -28,9 +28,9 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.System);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Tech);
 
-                PrintedActions.Add(new TargetLockAction());
-                PrintedActions.Add(new BarrelRollAction());
-                PrintedActions.Add(new BoostAction());
+                ActionBar.AddPrintedAction(new TargetLockAction());
+                ActionBar.AddPrintedAction(new BarrelRollAction());
+                ActionBar.AddPrintedAction(new BoostAction());
 
                 AssignTemporaryManeuvers();
                 HotacManeuverTable = new AI.TIESilencerTable();

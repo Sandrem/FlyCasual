@@ -32,9 +32,9 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Bomb);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Illicit);
 
-                PrintedActions.Add(new TargetLockAction());
-                PrintedActions.Add(new EvadeAction());
-                PrintedActions.Add(new BoostAction());
+                ActionBar.AddPrintedAction(new TargetLockAction());
+                ActionBar.AddPrintedAction(new EvadeAction());
+                ActionBar.AddPrintedAction(new BoostAction());
 
                 AssignTemporaryManeuvers();
                 HotacManeuverTable = new AI.AggressorTable();

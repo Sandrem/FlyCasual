@@ -31,9 +31,9 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.SalvagedAstromech);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Illicit);
 
-                PrintedActions.Add(new TargetLockAction());
-                PrintedActions.Add(new BarrelRollAction());
-                PrintedActions.Add(new ReloadAction());
+                ActionBar.AddPrintedAction(new TargetLockAction());
+                ActionBar.AddPrintedAction(new BarrelRollAction());
+                ActionBar.AddPrintedAction(new ReloadAction());
 
                 AssignTemporaryManeuvers();
                 HotacManeuverTable = new AI.M12LKimogilaTable();
@@ -81,8 +81,8 @@ namespace Ship
 
                 ShipBaseSize = BaseSize.Medium;
 
-                PrintedActions.RemoveAll(a => a is BarrelRollAction);
-                PrintedActions.Add(new BarrelRollAction() { IsRed = true });
+                ActionBar.RemovePrintedAction(typeof(BarrelRollAction));
+                ActionBar.AddPrintedAction(new BarrelRollAction() { IsRed = true });
 
                 IconicPilots[Faction.Scum] = typeof(CartelExecutioner);
             }

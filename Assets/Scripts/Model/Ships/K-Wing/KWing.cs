@@ -34,8 +34,8 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Bomb);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Bomb);
 
-                PrintedActions.Add(new TargetLockAction());
-                PrintedActions.Add(new SlamAction());
+                ActionBar.AddPrintedAction(new TargetLockAction());
+                ActionBar.AddPrintedAction(new SlamAction());
 
                 AssignTemporaryManeuvers();
                 HotacManeuverTable = new AI.KWingTable();
@@ -78,8 +78,8 @@ namespace Ship
 
                 ShipBaseSize = BaseSize.Medium;
 
-                PrintedActions.Add(new RotateArcAction());
-                PrintedActions.Add(new ReloadAction());
+                ActionBar.AddPrintedAction(new RotateArcAction());
+                ActionBar.AddPrintedAction(new ReloadAction());
 
                 IconicPilots[Faction.Rebel] = typeof(WardenSquadronPilot);
             }

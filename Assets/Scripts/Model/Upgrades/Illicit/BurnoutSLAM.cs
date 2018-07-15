@@ -25,17 +25,17 @@ namespace UpgradesList
 
 namespace Abilities
 {
-    public class BurnoutSlamAbility : GenericActionBarAbility<ActionsList.SlamAction>
+    public class BurnoutSlamAbility : GenericAbility
     {
         public override void ActivateAbility()
         {
-            base.ActivateAbility();
+            HostShip.ActionBar.AddGrantedAction(new SlamAction(), HostUpgrade);
             HostShip.OnActionIsPerformed += RegisterBurnoutSlamAbility;
         }
 
         public override void DeactivateAbility()
         {
-            base.DeactivateAbility();
+            HostShip.ActionBar.RemoveGrantedAction(typeof(SlamAction), HostUpgrade);
             HostShip.OnActionIsPerformed -= RegisterBurnoutSlamAbility;
         }
 

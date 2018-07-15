@@ -54,7 +54,7 @@ namespace Abilities
             var previousSelectedShip = Selection.ThisShip;
             Selection.ThisShip = HostShip;
 
-            HostShip.AskPerformFreeAction(HostShip.GetAvailableActionsList(), delegate 
+            HostShip.AskPerformFreeAction(HostShip.GetAvailableActions(), delegate 
             {
                 Selection.ThisShip = previousSelectedShip;
                 Triggers.FinishTrigger();

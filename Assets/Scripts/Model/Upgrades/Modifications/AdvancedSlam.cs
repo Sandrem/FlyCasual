@@ -64,7 +64,7 @@ namespace Abilities
 
         private void PerfromFreeActionFromUpgradeBar(object sender, System.EventArgs e)
         {
-            Selection.ThisShip.AskPerformFreeAction(Selection.ThisShip.GetAvailablePrintedActionsList(), Triggers.FinishTrigger);
+            //Selection.ThisShip.AskPerformFreeAction(Selection.ThisShip.GetAvailablePrintedActionsList(), Triggers.FinishTrigger);
         }
     }
 }

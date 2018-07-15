@@ -32,8 +32,8 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Bomb);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Bomb);
 
-                PrintedActions.Add(new TargetLockAction());
-                PrintedActions.Add(new BarrelRollAction());
+                ActionBar.AddPrintedAction(new TargetLockAction());
+                ActionBar.AddPrintedAction(new BarrelRollAction());
 
                 AssignTemporaryManeuvers();
                 HotacManeuverTable = new AI.ScurrgH6BomberTable();
@@ -85,8 +85,8 @@ namespace Ship
 
                 ShipBaseSize = BaseSize.Medium;
 
-                PrintedActions.RemoveAll(a => a is BarrelRollAction);
-                PrintedActions.Add(new BarrelRollAction() { IsRed = true });
+                ActionBar.RemovePrintedAction(typeof(BarrelRollAction));
+                ActionBar.AddPrintedAction(new BarrelRollAction() { IsRed = true });
             }
 
         }

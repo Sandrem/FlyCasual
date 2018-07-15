@@ -79,7 +79,7 @@ namespace Abilities
 
         private void PerformPushAction(object sender, System.EventArgs e)
         {
-            List<GenericAction> actions = Selection.ThisShip.GetAvailableActionsList();
+            List<GenericAction> actions = Selection.ThisShip.GetAvailableActions();
             HostShip.AskPerformFreeAction(actions, AddStressToken);
         }
 

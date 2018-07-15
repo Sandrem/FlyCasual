@@ -26,7 +26,7 @@ namespace Abilities
 
         private void AddAction(GenericShip host)
         {            
-            var alreadyHasAction = host.PrintedActions.Find(action => 
+            /*var alreadyHasAction = host.PrintedActions.Find(action => 
                 action is T && action.IsRed == IsRed
                 && (LinkedAction == null || action.LinkedRedAction == null 
                     || (action.LinkedRedAction.GetType() == LinkedAction.GetType() && action.LinkedRedAction.IsRed == LinkedAction.IsRed))
@@ -37,7 +37,7 @@ namespace Abilities
                 action.IsRed = IsRed;
                 action.LinkedRedAction = LinkedAction;
                 host.AddAvailableAction(action);
-            }
+            }*/
         }
 
     }

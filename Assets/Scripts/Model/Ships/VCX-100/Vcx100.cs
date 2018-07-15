@@ -32,8 +32,8 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Crew);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Crew);
 
-                PrintedActions.Add(new TargetLockAction());
-                PrintedActions.Add(new EvadeAction());
+                ActionBar.AddPrintedAction(new TargetLockAction());
+                ActionBar.AddPrintedAction(new EvadeAction());
 
                 AssignTemporaryManeuvers();
                 HotacManeuverTable = new AI.VCX100Table();

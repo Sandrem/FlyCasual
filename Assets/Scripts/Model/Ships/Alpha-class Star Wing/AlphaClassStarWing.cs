@@ -27,9 +27,9 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Torpedo);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Missile);
 
-                PrintedActions.Add(new TargetLockAction());
-                PrintedActions.Add(new SlamAction());
-                PrintedActions.Add(new ReloadAction());
+                ActionBar.AddPrintedAction(new TargetLockAction());
+                ActionBar.AddPrintedAction(new SlamAction());
+                ActionBar.AddPrintedAction(new ReloadAction());
 
                 AssignTemporaryManeuvers();
                 HotacManeuverTable = new AI.AlphaClassStarWingTable();

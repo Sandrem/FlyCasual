@@ -209,6 +209,7 @@ namespace Ship
         public ArcsHolder ArcInfo { get; protected set; }
 
         public Upgrade.ShipUpgradeBar UpgradeBar { get; protected set; }
+        public ShipActionBar ActionBar { get; protected set; }
         public List<Upgrade.UpgradeType> PrintedUpgradeIcons { get; protected set; }
 
         public TokensManager Tokens { get; protected set; }
@@ -252,8 +253,8 @@ namespace Ship
             PrintedUpgradeIcons = new List<Upgrade.UpgradeType>();
             PilotSkillModifiers = new List<IModifyPilotSkill>();
 
-            PrintedActions = new List<ActionsList.GenericAction>();
-            PrintedActions.Add(new ActionsList.FocusAction());
+            ActionBar = new ShipActionBar(this);
+            ActionBar.AddPrintedAction(new ActionsList.FocusAction());
 
             TargetLockMinRange = 1;
             TargetLockMaxRange = 3;

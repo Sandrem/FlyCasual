@@ -77,8 +77,9 @@ namespace Abilities
 
         private void AskThreatTrackerAbility(object sender, System.EventArgs e)
         {
-            List<GenericAction> actionBar = HostShip.GetActionsFromActionBar();
-            List<GenericAction> freeActions = new List<GenericAction>() { new ActionsList.BoostAction(), new ActionsList.BarrelRollAction() };
+            List<GenericAction> actionBar = null;
+                //HostShip.GetActionsFromActionBar();
+            List<GenericAction> freeActions = new List<GenericAction>() { new BoostAction(), new BarrelRollAction() };
             threatTrackerActions.Clear();
             freeActions.ForEach(delegate (GenericAction action)
             {

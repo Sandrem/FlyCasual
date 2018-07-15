@@ -59,7 +59,7 @@ namespace Abilities
 
         private void UseAdvancedSensors(object sender, System.EventArgs e)
         {
-            List<ActionsList.GenericAction> actions = HostShip.GetAvailableActionsList();
+            List<ActionsList.GenericAction> actions = HostShip.GetAvailableActions();
 
             HostShip.AskPerformFreeAction(actions, SubPhases.DecisionSubPhase.ConfirmDecision);
             // if ability is used, skipped Perform Action

@@ -30,7 +30,7 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Crew);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Crew);
 
-                PrintedActions.Add(new TargetLockAction());
+                ActionBar.AddPrintedAction(new TargetLockAction());
 
                 AssignTemporaryManeuvers();
                 HotacManeuverTable = new AI.LambdaShuttleTable();
@@ -70,10 +70,10 @@ namespace Ship
                 //TODO: Maneuvers
                 // TODO: Arcs
 
-                PrintedActions.Add(new ReinforceForeAction());
-                PrintedActions.Add(new ReinforceAftAction());
+                ActionBar.AddPrintedAction(new ReinforceForeAction());
+                ActionBar.AddPrintedAction(new ReinforceAftAction());
 
-                PrintedActions.Add(new JamAction() { IsRed = true });
+                ActionBar.AddPrintedAction(new JamAction() { IsRed = true });
 
                 IconicPilots[Faction.Imperial] = typeof(OmicronGroupPilot);
             }

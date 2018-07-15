@@ -21,14 +21,7 @@ namespace UpgradesList
 
         public override bool IsAllowedForShip(GenericShip ship)
         {
-            //TODO: Engine Upgrade must add icon to available actions
-
-            bool result = false;
-
-            if (ship.PrintedActions.Any(n => n.GetType() == typeof(BoostAction))) result = true;
-            else if (ship.UpgradeBar.HasUpgradeInstalled(typeof(EngineUpgrade))) result = true;
-
-            return result;
+            return ship.ActionBar.HasAction(typeof(BoostAction));
         }
 
         public override bool IsAllowedForSquadBuilderPostCheck(SquadList squadList)

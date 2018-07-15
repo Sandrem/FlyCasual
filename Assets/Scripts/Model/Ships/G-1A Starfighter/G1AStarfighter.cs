@@ -28,8 +28,8 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.System);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Illicit);
 
-                PrintedActions.Add(new TargetLockAction());
-                PrintedActions.Add(new EvadeAction());
+                ActionBar.AddPrintedAction(new TargetLockAction());
+                ActionBar.AddPrintedAction(new EvadeAction());
 
                 AssignTemporaryManeuvers();
                 HotacManeuverTable = new AI.G1AStarfighterTable();
@@ -78,8 +78,8 @@ namespace Ship
 
                 ShipBaseSize = BaseSize.Medium;
 
-                PrintedActions.RemoveAll(a => a is EvadeAction);
-                PrintedActions.Add(new JamAction());
+                ActionBar.RemovePrintedAction(typeof(EvadeAction));
+                ActionBar.AddPrintedAction(new JamAction());
 
                 IconicPilots[Faction.Scum] = typeof(GandFindsman);
             }

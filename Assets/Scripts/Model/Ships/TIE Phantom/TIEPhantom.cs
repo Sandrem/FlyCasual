@@ -27,9 +27,9 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.System);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Crew);
 
-                PrintedActions.Add(new EvadeAction());
-                PrintedActions.Add(new BarrelRollAction());
-                PrintedActions.Add(new CloakAction());
+                ActionBar.AddPrintedAction(new EvadeAction());
+                ActionBar.AddPrintedAction(new BarrelRollAction());
+                ActionBar.AddPrintedAction(new CloakAction());
 
                 AssignTemporaryManeuvers();
                 HotacManeuverTable = new AI.TIEPhantomTable();

@@ -30,8 +30,8 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Missile);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Crew);
 
-                PrintedActions.Add(new TargetLockAction());
-                PrintedActions.Add(new BarrelRollAction());
+                ActionBar.AddPrintedAction(new TargetLockAction());
+                ActionBar.AddPrintedAction(new BarrelRollAction());
 
                 AssignTemporaryManeuvers();
                 HotacManeuverTable = new AI.YT2400Table();
@@ -85,9 +85,9 @@ namespace Ship
                 MaxHull = 6;
                 MaxShields = 4;
 
-                PrintedActions.RemoveAll(a => a is BarrelRollAction);
-                PrintedActions.Add(new BarrelRollAction() { IsRed = true });
-                PrintedActions.Add(new RotateArcAction());
+                ActionBar.RemovePrintedAction(typeof(BarrelRollAction));
+                ActionBar.AddPrintedAction(new BarrelRollAction() { IsRed = true });
+                ActionBar.AddPrintedAction(new RotateArcAction());
 
                 IconicPilots[Faction.Rebel] = typeof(WildSpaceFringer);
             }

@@ -34,8 +34,8 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Crew);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Missile);
 
-                PrintedActions.Add(new TargetLockAction());
-                PrintedActions.Add(new EvadeAction());
+                ActionBar.AddPrintedAction(new TargetLockAction());
+                ActionBar.AddPrintedAction(new EvadeAction());
 
                 AssignTemporaryManeuvers();
                 HotacManeuverTable = new AI.Firespray31Table();
@@ -93,11 +93,11 @@ namespace Ship
                 Maneuvers["3.F.S"] = MovementComplexity.Easy;
                 Maneuvers["3.F.R"] = MovementComplexity.None;
 
-                PrintedActions.RemoveAll(a => a is EvadeAction);
+                ActionBar.RemovePrintedAction(typeof(EvadeAction));
 
-                PrintedActions.Add(new ReinforceAftAction() {Host = this, IsRed = true});
-                PrintedActions.Add(new ReinforceForeAction() {Host = this, IsRed = true});
-                PrintedActions.Add(new BoostAction());
+                ActionBar.AddPrintedAction(new ReinforceAftAction() {Host = this, IsRed = true});
+                ActionBar.AddPrintedAction(new ReinforceForeAction() {Host = this, IsRed = true});
+                ActionBar.AddPrintedAction(new BoostAction());
 
                 factions.Remove(Faction.Imperial);
             }

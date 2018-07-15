@@ -30,8 +30,8 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Crew);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Illicit);
 
-                PrintedActions.Add(new TargetLockAction());
-                PrintedActions.Add(new BarrelRollAction());
+                ActionBar.AddPrintedAction(new TargetLockAction());
+                ActionBar.AddPrintedAction(new BarrelRollAction());
 
                 AssignTemporaryManeuvers();
                 HotacManeuverTable = new AI.Jumpmaster5000Table();
@@ -79,13 +79,13 @@ namespace Ship
                 MaxHull = 6;
                 MaxShields = 3;
 
-                PrintedActions.RemoveAll(a => a is FocusAction);
-                PrintedActions.RemoveAll(a => a is TargetLockAction);
+                ActionBar.RemovePrintedAction(typeof(FocusAction));
+                ActionBar.RemovePrintedAction(typeof(TargetLockAction));
 
-                PrintedActions.Add(new FocusAction() { LinkedRedAction = new RotateArcAction() { IsRed = true } });
-                PrintedActions.Add(new TargetLockAction() { LinkedRedAction = new RotateArcAction() { IsRed = true } });
+                ActionBar.AddPrintedAction(new FocusAction() { LinkedRedAction = new RotateArcAction() { IsRed = true } });
+                ActionBar.AddPrintedAction(new TargetLockAction() { LinkedRedAction = new RotateArcAction() { IsRed = true } });
 
-                PrintedActions.Add(new BarrelRollAction() { IsRed = true });
+                ActionBar.AddPrintedAction(new BarrelRollAction() { IsRed = true });
 
                 IconicPilots[Faction.Scum] = typeof(ContractedScout);
             }

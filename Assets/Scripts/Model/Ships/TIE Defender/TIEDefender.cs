@@ -27,8 +27,8 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Cannon);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Missile);
 
-                PrintedActions.Add(new TargetLockAction());
-                PrintedActions.Add(new BarrelRollAction());
+                ActionBar.AddPrintedAction(new TargetLockAction());
+                ActionBar.AddPrintedAction(new BarrelRollAction());
 
                 AssignTemporaryManeuvers();
                 HotacManeuverTable = new AI.TIEDefenderTable();
@@ -80,8 +80,8 @@ namespace Ship
 
                 MaxShields = 4;
 
-                PrintedActions.Add(new EvadeAction());
-                PrintedActions.Add(new BoostAction());
+                ActionBar.AddPrintedAction(new EvadeAction());
+                ActionBar.AddPrintedAction(new BoostAction());
 
                 IconicPilots[Faction.Imperial] = typeof(OnyxSquadronAce);
             }

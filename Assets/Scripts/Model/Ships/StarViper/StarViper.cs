@@ -26,9 +26,9 @@ namespace Ship
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Torpedo);
 
-                PrintedActions.Add(new TargetLockAction());
-                PrintedActions.Add(new BarrelRollAction());
-                PrintedActions.Add(new BoostAction());
+                ActionBar.AddPrintedAction(new TargetLockAction());
+                ActionBar.AddPrintedAction(new BarrelRollAction());
+                ActionBar.AddPrintedAction(new BoostAction());
 
                 AssignTemporaryManeuvers();
                 HotacManeuverTable = new AI.StarviperTable();
@@ -72,11 +72,11 @@ namespace Ship
                 //TODO: Maneuvers
                 //TODO: Ship Ability
 
-                PrintedActions.RemoveAll(a => a is BarrelRollAction);
-                PrintedActions.RemoveAll(a => a is BoostAction);
+                ActionBar.RemovePrintedAction(typeof(BarrelRollAction));
+                ActionBar.RemovePrintedAction(typeof(BoostAction));
 
-                PrintedActions.Add(new BarrelRollAction() { LinkedRedAction = new FocusAction() { IsRed = true } });
-                PrintedActions.Add(new BoostAction() { LinkedRedAction = new FocusAction() { IsRed = true } });
+                ActionBar.AddPrintedAction(new BarrelRollAction() { LinkedRedAction = new FocusAction() { IsRed = true } });
+                ActionBar.AddPrintedAction(new BoostAction() { LinkedRedAction = new FocusAction() { IsRed = true } });
 
                 IconicPilots[Faction.Scum] = typeof(BlackSunEnforcer);
             }

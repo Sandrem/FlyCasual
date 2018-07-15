@@ -40,7 +40,7 @@ namespace Players
                 }
             }
 
-            if (anotherShip != null) foreach (var action in ship.GetAvailableActionsList())
+            if (anotherShip != null) foreach (var action in ship.GetAvailableActions())
             {
                 if (action.GetType() == typeof(ActionsList.TargetLockAction))
                 {
@@ -65,7 +65,7 @@ namespace Players
         {
             if (Phases.CurrentSubPhase is ActionDecisonSubPhase)
             {
-                PerformActionFromList(Selection.ThisShip.GetAvailableActionsList());
+                PerformActionFromList(Selection.ThisShip.GetAvailableActions());
             }
             else if (Phases.CurrentSubPhase is FreeActionDecisonSubPhase)
             {

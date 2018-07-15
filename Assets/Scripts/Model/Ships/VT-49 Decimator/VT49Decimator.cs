@@ -32,7 +32,7 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Crew);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Bomb);
 
-                PrintedActions.Add(new TargetLockAction());
+                ActionBar.AddPrintedAction(new TargetLockAction());
 
                 AssignTemporaryManeuvers();
                 HotacManeuverTable = new AI.VT49DecimatorTable();
@@ -83,10 +83,10 @@ namespace Ship
                 //TODO: Maneuvers
                 //TODO: Arc
 
-                PrintedActions.Add(new ReinforceForeAction());
-                PrintedActions.Add(new ReinforceAftAction());
-                PrintedActions.Add(new RotateArcAction());
-                PrintedActions.Add(new CoordinateAction() { IsRed = true });
+                ActionBar.AddPrintedAction(new ReinforceForeAction());
+                ActionBar.AddPrintedAction(new ReinforceAftAction());
+                ActionBar.AddPrintedAction(new RotateArcAction());
+                ActionBar.AddPrintedAction(new CoordinateAction() { IsRed = true });
 
                 IconicPilots[Faction.Imperial] = typeof(PatrolLeader);
             }

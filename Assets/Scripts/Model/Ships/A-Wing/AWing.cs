@@ -28,9 +28,9 @@ namespace Ship
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Missile);
 
-                PrintedActions.Add(new TargetLockAction());
-                PrintedActions.Add(new EvadeAction());
-                PrintedActions.Add(new BoostAction());
+                ActionBar.AddPrintedAction(new TargetLockAction());
+                ActionBar.AddPrintedAction(new EvadeAction());
+                ActionBar.AddPrintedAction(new BoostAction());
 
                 AssignTemporaryManeuvers();
                 HotacManeuverTable = new AI.AWingTable();
@@ -77,7 +77,7 @@ namespace Ship
 
             public void AdaptShipToSecondEdition()
             {
-                PrintedActions.Add(new BarrelRollAction());
+                ActionBar.AddPrintedAction(new BarrelRollAction());
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Configuration);
 

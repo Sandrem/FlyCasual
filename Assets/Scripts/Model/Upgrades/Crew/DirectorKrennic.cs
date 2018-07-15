@@ -146,25 +146,14 @@ namespace Abilities
 
             protected override void SecondAbility()
             {
-                HostShip.OnGenerateActions += AddTargetLockAction;
-            }
-
-            private void AddTargetLockAction(GenericShip host)
-            {
-                var alreadyHasTargetLockAction = HostShip.PrintedActions.Find(action => action is TargetLockAction);
-
-                if (alreadyHasTargetLockAction == null)
-                {
-                    var action = new TargetLockAction();
-                    HostShip.AddAvailableAction(action);
-                }
+                HostShip.ActionBar.AddGrantedAction(new TargetLockAction(), this.HostUpgrade);
             }
 
             public override void DeactivateAbility()
             {
                 base.DeactivateAbility();
 
-                HostShip.OnGenerateActions -= AddTargetLockAction;
+                HostShip.ActionBar.RemoveGrantedAction(typeof(TargetLockAction), this.HostUpgrade);
             }
         }
     }
@@ -172,7 +161,7 @@ namespace Abilities
 
 namespace Conditions
 {
-    public class OptimizedPrototype : Tokens.GenericToken
+    public class OptimizedPrototype : GenericToken
     {
         public OptimizedPrototype(GenericShip host) : base(host)
         {
@@ -218,7 +207,7 @@ namespace Conditions
         }
     }
 
-    public class OptimizedPrototypeSE : Tokens.GenericToken
+    public class OptimizedPrototypeSE : GenericToken
     {
         public OptimizedPrototypeSE(GenericShip host) : base(host)
         {

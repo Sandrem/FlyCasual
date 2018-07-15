@@ -30,9 +30,9 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Illicit);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Illicit);
 
-                PrintedActions.Add(new TargetLockAction());
-                PrintedActions.Add(new EvadeAction());
-                PrintedActions.Add(new RotateArcAction());
+                ActionBar.AddPrintedAction(new TargetLockAction());
+                ActionBar.AddPrintedAction(new EvadeAction());
+                ActionBar.AddPrintedAction(new RotateArcAction());
 
                 AssignTemporaryManeuvers();
                 HotacManeuverTable = new AI.LancerPursuitCraftTable();

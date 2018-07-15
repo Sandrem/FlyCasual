@@ -32,7 +32,6 @@ namespace UpgradesList
         {
             UpgradeAbilities.RemoveAll(a => a is IonDamageAbility);
             UpgradeAbilities.Add(new Abilities.SecondEdition.IonDamageAbilitySE());
-            UpgradeAbilities.Add(new GenericActionBarAbility<RotateArcAction>());
         }
     }
 }
@@ -43,11 +42,13 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
+            HostShip.ActionBar.AddGrantedAction(new RotateArcAction(), HostUpgrade);
             HostShip.OnShotHitAsAttacker += RegisterIonTurretEffect;
         }
 
         public override void DeactivateAbility()
         {
+            HostShip.ActionBar.RemoveGrantedAction(typeof(RotateArcAction), HostUpgrade);
             HostShip.OnShotHitAsAttacker -= RegisterIonTurretEffect;
         }
 

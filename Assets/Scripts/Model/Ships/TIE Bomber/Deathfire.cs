@@ -59,7 +59,7 @@ namespace Abilities
 
         private void DeathfireEffect(object sender, EventArgs e)
         {
-            var actions = HostShip.GetAvailableActionsList()
+            var actions = HostShip.GetAvailableActions()
                 .Where(action => action is BombDropAction)
                 .ToList();
 

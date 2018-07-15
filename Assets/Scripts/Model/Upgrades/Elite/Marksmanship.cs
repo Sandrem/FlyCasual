@@ -3,6 +3,7 @@ using Upgrade;
 using Abilities;
 using ActionsList;
 using RuleSets;
+using System.Collections.Generic;
 
 namespace UpgradesList
 {
@@ -29,19 +30,32 @@ namespace UpgradesList
 namespace Abilities.SecondEdition
 {
     //While performing an attack, if the defender is in your bullseye firing arc, you may change one hit result to a critical hit result.
-    public class MarksmanshipAbility : GenericDiceModAbility
+    public class MarksmanshipAbility : GenericAbility
     {
-        public MarksmanshipAbility()
+        public override void ActivateAbility()
         {
-            AllowChange(DieSide.Success, DieSide.Crit, 1);
+            AddDiceModification(
+                HostUpgrade.Name,
+                IsDiceModificationAvailable,
+                GetDiceModificationAiPriority,
+                DiceModificationType.Change,
+                1,
+                new List<DieSide>() { DieSide.Success },
+                DieSide.Crit
+            );
         }
 
-        public override bool IsActionEffectAvailable()
+        public override void DeactivateAbility()
+        {
+            RemoveDiceModification();
+        }
+
+        private bool IsDiceModificationAvailable()
         {
             return (Combat.AttackStep == CombatStep.Attack && Combat.Attacker == HostShip && Combat.ShotInfo.InArcByType(Arcs.ArcTypes.Bullseye));
         }
 
-        public override int GetActionEffectPriority()
+        private int GetDiceModificationAiPriority()
         {
             return 20;
         }

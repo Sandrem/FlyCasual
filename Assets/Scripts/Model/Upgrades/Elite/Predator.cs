@@ -120,19 +120,30 @@ namespace ActionsList
 namespace Abilities.SecondEdition
 {
     //While you perform a primary attack, if the defender is in your bullseye firing arc, you may reroll 1 attack die.
-    public class PredatorAbility : GenericDiceModAbility
+    public class PredatorAbility : GenericAbility
     {
-        public PredatorAbility()
+        public override void ActivateAbility()
         {
-            AllowReroll(1);
+            AddDiceModification(
+                HostUpgrade.Name,
+                IsDiceModificationAvailable,
+                GetDiceModificationAiPriority,
+                DiceModificationType.Reroll,
+                1
+            );
         }
 
-        public override bool IsActionEffectAvailable()
+        public override void DeactivateAbility()
+        {
+            RemoveDiceModification();
+        }
+
+        public bool IsDiceModificationAvailable()
         {
             return (Combat.AttackStep == CombatStep.Attack && Combat.Attacker == HostShip && Combat.ChosenWeapon is PrimaryWeaponClass && Combat.ShotInfo.InArcByType(Arcs.ArcTypes.Bullseye));
         }
 
-        public override int GetActionEffectPriority()
+        public int GetDiceModificationAiPriority()
         {
             int result = 0;
 

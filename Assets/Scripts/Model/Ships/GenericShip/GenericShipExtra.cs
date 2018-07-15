@@ -33,6 +33,9 @@ namespace Ship
         public Type ShipRuleType = typeof(FirstEdition);
         public Type PilotRuleType = typeof(FirstEdition);
 
+        public List<GenericUpgrade> TwoTargetLocksOnDifferentTargetsAreAllowed = new List<GenericUpgrade>();
+        public List<GenericShip> TwoTargetLocksOnSameTargetsAreAllowed = new List<GenericShip>();
+
         private string imageUrl;
         public string ImageUrl
         {

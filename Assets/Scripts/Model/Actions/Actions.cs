@@ -63,11 +63,21 @@ public static partial class Actions
         DistanceInfo distanceInfo = new DistanceInfo(thisShip, targetShip);
         if (ignoreRange || (distanceInfo.Range >= thisShip.TargetLockMinRange && distanceInfo.Range <= thisShip.TargetLockMaxRange))
         {
-            GenericToken existingBlueToken = thisShip.Tokens.GetToken(typeof(BlueTargetLockToken), '*');
-            if (existingBlueToken != null)
+            List<BlueTargetLockToken> existingBlueTokens = thisShip.Tokens.GetTokens<BlueTargetLockToken>('*');
+
+            BlueTargetLockToken tokenToRemove = null;
+            foreach (BlueTargetLockToken existingBlueToken in existingBlueTokens)
+            {
+                if (IsSecondTargetLockTokenMustBRemoved(thisShip, targetShip, existingBlueToken))
+                {
+                    tokenToRemove = existingBlueToken;
+                }
+            }
+
+            if (tokenToRemove != null)
             {
                 thisShip.Tokens.RemoveToken(
-                    existingBlueToken,
+                    tokenToRemove,
                     delegate { FinishAcquireTargetLock(thisShip, targetShip, successCallback); }
                 );
             }
@@ -81,6 +91,23 @@ public static partial class Actions
             Messages.ShowErrorToHuman("Target is out of range of Target Lock");
             failureCallback();
         }
+    }
+
+    private static bool IsSecondTargetLockTokenMustBRemoved(GenericShip thisShip, GenericShip targetShip, BlueTargetLockToken existingToken)
+    {
+        bool result = true;
+
+        if (thisShip.TwoTargetLocksOnDifferentTargetsAreAllowed.Count == 0 && existingToken.OtherTokenOwner != targetShip)
+        {
+            result = false;
+        }
+
+        if (thisShip.TwoTargetLocksOnDifferentTargetsAreAllowed.Count == 0 && existingToken.OtherTokenOwner == targetShip)
+        {
+            result = false;
+        }
+
+        return result;
     }
     
     private static void FinishAcquireTargetLock(GenericShip thisShip, GenericShip targetShip, Action callback)
@@ -265,11 +292,9 @@ public static partial class Actions
 
     public static bool HasTargetLockOn(GenericShip attacker, GenericShip defender)
     {
-        bool result = false;
         char letter = ' ';
         letter = Actions.GetTargetLocksLetterPair(attacker, defender);
-        if (letter != ' ') result = true;
-        return result;
+        return letter != ' ';
     }
 
     // TAKE ACTION TRIGGERS

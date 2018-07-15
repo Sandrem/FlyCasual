@@ -56,8 +56,6 @@ namespace Abilities
 
         private void AssignK4TargetingLock(object sender, EventArgs e)
         {
-            Sounds.PlayShipSound("Astromech-Beeping-and-whistling");
-
             HostShip.ChooseTargetToAcquireTargetLock(
                 Triggers.FinishTrigger,
                 HostUpgrade.Name,

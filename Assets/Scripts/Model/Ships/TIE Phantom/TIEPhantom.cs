@@ -79,6 +79,7 @@ namespace Ship
                 //TODO: Maneuvers
                 //TODO: Ship ability
 
+                Firepower = 3;
                 MaxHull = 3;
 
                 IconicPilots[Faction.Imperial] = typeof(SigmaSquadronAce);

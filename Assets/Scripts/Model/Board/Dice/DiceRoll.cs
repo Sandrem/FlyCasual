@@ -346,7 +346,11 @@ public partial class DiceRoll
 	public int Change(DieSide oldSide, DieSide newSide, int count, bool cannotBeRerolled = false, bool cannotBeModified = false)
 	{
         var changedDiceCount = 0;
-		for (int i = 0; i < count; i++) {
+        if (count == 0) // change all
+        {
+            changedDiceCount += ChangeDice(oldSide, newSide, false, cannotBeRerolled, cannotBeModified);
+        }
+        else for (int i = 0; i < count; i++) {
             changedDiceCount += ChangeDice (oldSide, newSide, true, cannotBeRerolled, cannotBeModified);
 		}
 

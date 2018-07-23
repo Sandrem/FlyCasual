@@ -130,14 +130,14 @@ namespace ActionsList
 
         public override void ActionEffect(System.Action callBack)
         {
-            
-            Host.Tokens.SpendToken(typeof(BlueTargetLockToken), 
+
+            Host.Tokens.SpendToken(typeof(BlueTargetLockToken),
                                    delegate {
-                                        DiceRerollManager diceRerollManager = new DiceRerollManager
-                                        {
-                                            CallBack = callBack
-                                        };
-                                        diceRerollManager.Start();
+                                       DiceRerollManager diceRerollManager = new DiceRerollManager
+                                       {
+                                           CallBack = callBack
+                                       };
+                                       diceRerollManager.Start();
                                    }, sharaLockLetter);
 
         }

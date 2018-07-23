@@ -3,6 +3,7 @@ using Ship;
 using Upgrade;
 using Abilities;
 using Tokens;
+using SubPhases;
 
 namespace UpgradesList
 {
@@ -62,76 +63,59 @@ namespace Abilities
 
             if (redTargetLockCount == 1)
             {
-                Triggers.RegisterTrigger(new Trigger()
-                {
-                    Name = "Multi-spectral Camouflage",
-                    TriggerOwner = HostShip.Owner.PlayerNo,
-                    TriggerType = TriggerTypes.OnTokenIsAssigned,
-                    EventHandler = RollForMultiSpectralCamouflage
-                });
+                RegisterAbilityTrigger(TriggerTypes.OnTokenIsAssigned, AskToUseMultiSpectralCamouflageAbility);
             }
         }
-        
 
-        private void RollForMultiSpectralCamouflage(object sender, EventArgs e)
+        private void AskToUseMultiSpectralCamouflageAbility(object sender, EventArgs e)
         {
-            
+            AskToUseAbility(AlwaysUseByDefault, StartDiceRollSubphase);
+        }
+
+        private void StartDiceRollSubphase(object sender, EventArgs e)
+        {
+            DecisionSubPhase.ConfirmDecisionNoCallback();
+
             Selection.ActiveShip = HostShip;
             Selection.ThisShip = HostShip;
 
-            var subphase = Phases.StartTemporarySubPhaseNew<SubPhases.MultiSpectralCamouflageCheckSubPhase>("Multi-spectral Camouflage", () =>
-            {
-                Phases.FinishSubPhase(typeof(SubPhases.MultiSpectralCamouflageCheckSubPhase));
-                Triggers.FinishTrigger();
-                Selection.ActiveShip = TargetingShip;
-                Selection.ThisShip = TargetingShip;
-            });
-            subphase.HostShip = HostShip;
-            subphase.TargetingShip = TargetingShip;
-            subphase.TargetLockLetter = TargetLockLetter;
-            Messages.ShowInfoToHuman("Multi-spectral Camouflage");
-            subphase.Start();
-        }
-    }
-}
-
-namespace SubPhases
-{
-
-    public class MultiSpectralCamouflageCheckSubPhase : DiceRollCheckSubPhase
-    {
-        public GenericShip HostShip;
-        public GenericShip TargetingShip;
-        public char TargetLockLetter;
-
-        public override void Prepare()
-        {
-            DiceKind = DiceKind.Defence;
-            DiceCount = 1;
-            AfterRoll = FinishAction;
-            Name = "Multi-spectral Camouflage";
+            PerformDiceCheck(
+                "Multi-Spectral Camouflage",
+                DiceKind.Defence,
+                1,
+                FinishMultiSpectralCamouflage,
+                Triggers.FinishTrigger
+            );
         }
 
-        protected override void FinishAction()
+        private void CleanUpMultiSpectralCamouflage()
         {
-            HideDiceResultMenu();
-            if (CurrentDiceRoll.DiceList[0].Side == DieSide.Success)
+            Selection.ActiveShip = TargetingShip;
+            Selection.ThisShip = TargetingShip;
+            AbilityDiceCheck.ConfirmCheck();
+        }
+
+        private void FinishMultiSpectralCamouflage()
+        {
+            if (DiceCheckRoll.RegularSuccesses > 0)
             {
                 HostShip.Tokens.RemoveToken(
-                    typeof(RedTargetLockToken), 
+                    typeof(RedTargetLockToken),
                     delegate {
                         TargetingShip.Tokens.RemoveToken(
                             typeof(BlueTargetLockToken),
-                            CallBack,
+                            CleanUpMultiSpectralCamouflage,
                             TargetLockLetter
                         );
-                    }, 
+                    },
                     TargetLockLetter
                 );
-            } else {
-                CallBack();
+            }
+            else
+            {
+                CleanUpMultiSpectralCamouflage();
             }
         }
-    }
 
+    }
 }

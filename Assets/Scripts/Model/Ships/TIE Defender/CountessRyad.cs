@@ -1,12 +1,14 @@
 ﻿using GameModes;
 using Movement;
+using RuleSets;
 using Ship;
+using System;
 
 namespace Ship
 {
     namespace TIEDefender
     {
-        public class CountessRyad : TIEDefender
+        public class CountessRyad : TIEDefender, ISecondEditionPilot
         {
             public CountessRyad() : base()
             {
@@ -21,6 +23,15 @@ namespace Ship
                 SkinName = "Crimson";
 
                 PilotAbilities.Add(new Abilities.CountessRyadAbility());
+            }
+
+            public void AdaptPilotToSecondEdition()
+            {
+                PilotSkill = 4;
+                Cost = 68; //TODO
+
+                PilotAbilities.RemoveAll(ability => ability is Abilities.CountessRyadAbility);
+                PilotAbilities.Add(new Abilities.SecondEdition.CountessRyadAbility());
             }
         }
     }
@@ -43,7 +54,7 @@ namespace Abilities
             HostShip.OnManeuverIsRevealed -= RegisterAskChangeManeuver;
         }
 
-        private void RegisterAskChangeManeuver(GenericShip ship)
+        protected virtual void RegisterAskChangeManeuver(GenericShip ship)
         {
             if (HostShip.AssignedManeuver.Bearing == ManeuverBearing.Straight)
             {
@@ -51,12 +62,17 @@ namespace Abilities
             }
         }
 
-        private void AskChangeManeuver(object sender, System.EventArgs e)
+        protected virtual MovementComplexity GetNewManeuverComplexity()
+        {
+            return HostShip.AssignedManeuver.ColorComplexity;
+        }
+
+        protected void AskChangeManeuver(object sender, System.EventArgs e)
         {
             Messages.ShowInfoToHuman("Countess Ryad: You can change your maneuver to Koiogran turn");
             maneuverKey = HostShip.AssignedManeuver.Speed + ".F.R";
             originalColor = HostShip.Maneuvers[maneuverKey];
-            HostShip.Maneuvers[maneuverKey] = HostShip.AssignedManeuver.ColorComplexity;
+            HostShip.Maneuvers[maneuverKey] = GetNewManeuverComplexity();
             HostShip.Owner.ChangeManeuver((maneuverCode) => {                    
                 GameMode.CurrentGameMode.AssignManeuver(maneuverCode);
                 HostShip.OnMovementFinish += RestoreManuvers;
@@ -81,6 +97,40 @@ namespace Abilities
                result = true;              
             }
             return result;
+        }
+    }
+
+    namespace SecondEdition
+    {
+        //While you would execute a straight maneuver, you may increase difficulty of the maeuver. If you do, execute it as a koiogran turn maneuver instead.
+        public class CountessRyadAbility : Abilities.CountessRyadAbility
+        {
+            public override void ActivateAbility()
+            {
+                HostShip.BeforeMovementIsExecuted += RegisterAskChangeManeuver;
+            }
+
+            public override void DeactivateAbility()
+            {
+                HostShip.BeforeMovementIsExecuted -= RegisterAskChangeManeuver;
+            }
+            
+            protected override void RegisterAskChangeManeuver(GenericShip ship)
+            {
+                //I have assumed that you can not use this ability if you execute a red maneuver
+                if (HostShip.AssignedManeuver.ColorComplexity != MovementComplexity.Complex && HostShip.AssignedManeuver.Bearing == ManeuverBearing.Straight)
+                {
+                    RegisterAbilityTrigger(TriggerTypes.BeforeMovementIsExecuted, AskChangeManeuver);
+                }
+            }
+
+            protected override MovementComplexity GetNewManeuverComplexity()
+            {
+                if (HostShip.AssignedManeuver.ColorComplexity == MovementComplexity.Complex)
+                    throw new Exception("Can't increase difficulty of red maneuvers");
+
+                return HostShip.AssignedManeuver.ColorComplexity + 1;
+            }
         }
     }
 }

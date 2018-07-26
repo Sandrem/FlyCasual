@@ -31,6 +31,7 @@ public enum TriggerTypes
     OnManeuver,
     OnManeuverIsReadyToBeRevealed,
     OnManeuverIsRevealed,
+    BeforeMovementIsExecuted,
     OnMovementStart,
     OnMovementExecuted,
     OnMovementFinish,

@@ -28,7 +28,8 @@ namespace Upgrade
         Illicit,
         Tech,
         Force,
-        Configuration
+        Configuration,
+        Gunner
     }
 
     public abstract class GenericUpgrade

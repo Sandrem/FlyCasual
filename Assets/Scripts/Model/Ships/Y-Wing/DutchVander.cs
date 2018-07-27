@@ -32,6 +32,9 @@ namespace Ship
             public void AdaptPilotToSecondEdition()
             {
                 PilotSkill = 4;
+                Cost = 42;
+
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
                 PilotAbilities.RemoveAll(a => a is Abilities.DutchVanderAbility);
                 PilotAbilities.Add(new Abilities.SecondEdition.DutchVanderAbilitySE());

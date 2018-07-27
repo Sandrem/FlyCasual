@@ -88,7 +88,8 @@ namespace Ship
                 ActionBar.AddPrintedAction(new ReloadAction() { IsRed = true });
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Bomb);
-                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Gunner);
+                PrintedUpgradeIcons.Remove(Upgrade.UpgradeType.Torpedo);
 
                 IconicPilots[Faction.Scum] = typeof(HiredGun);
             }

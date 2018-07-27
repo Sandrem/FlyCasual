@@ -83,6 +83,10 @@ namespace Ship
                 MaxHull = 8;
                 MaxShields = 5;
 
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Missile);
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Gunner);
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Illicit);
+
                 ActionBar.AddPrintedAction(new RotateArcAction());
                 ActionBar.AddPrintedAction(new BoostAction() { IsRed = true });
 

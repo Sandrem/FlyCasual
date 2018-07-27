@@ -93,6 +93,10 @@ namespace Ship
                 ActionBar.AddPrintedAction(new RotateArcAction());
                 ActionBar.AddPrintedAction(new JamAction() { IsRed = true });
 
+                PrintedUpgradeIcons.Remove(Upgrade.UpgradeType.Turret);
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Bomb);
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Modification);
+
                 IconicPilots[Faction.Scum] = typeof(SpiceRunner);
                 IconicPilots[Faction.Rebel] = typeof(RebelScout);
             }

@@ -13,7 +13,7 @@ namespace Ship
             {
                 PilotName = "Blue Squadron Scout";
                 PilotSkill = 2;
-                Cost = 23;
+                Cost = 43;
 
                 PilotRuleType = typeof(SecondEdition);
             }

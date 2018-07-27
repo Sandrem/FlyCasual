@@ -80,6 +80,7 @@ namespace Ship
                 MaxHull = 5;
                 MaxShields = 3;
 
+                PrintedUpgradeIcons.Remove(Upgrade.UpgradeType.Torpedo);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Configuration);
 
                 ActionBar.AddPrintedAction(new CoordinateAction() { IsRed = true });

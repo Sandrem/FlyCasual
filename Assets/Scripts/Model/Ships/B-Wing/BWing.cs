@@ -85,6 +85,9 @@ namespace Ship
                 ActionBar.RemovePrintedAction(typeof(FocusAction));
                 ActionBar.AddPrintedAction(new FocusAction() { LinkedRedAction = new BarrelRollAction() { IsRed = true } });
 
+                PrintedUpgradeIcons.Remove(Upgrade.UpgradeType.Torpedo);
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Cannon);
+
                 IconicPilots[Faction.Rebel] = typeof(BlueSquadronPilot);
             }
 

@@ -5,6 +5,7 @@ using Abilities.SecondEdition;
 using Ship;
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Ship
 {
@@ -79,7 +80,7 @@ namespace Ship
             {
                 ActionBar.AddPrintedAction(new BarrelRollAction());
 
-                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Configuration);
+                UpgradeBar.RemoveSlot(Upgrade.UpgradeType.Modification);
 
                 Maneuvers.Add("3.L.R", MovementComplexity.Complex);
                 Maneuvers.Add("3.R.R", MovementComplexity.Complex);

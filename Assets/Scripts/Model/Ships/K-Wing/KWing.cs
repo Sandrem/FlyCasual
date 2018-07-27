@@ -81,6 +81,10 @@ namespace Ship
                 ActionBar.AddPrintedAction(new RotateArcAction());
                 ActionBar.AddPrintedAction(new ReloadAction());
 
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Missile);
+                PrintedUpgradeIcons.Remove(Upgrade.UpgradeType.Turret);
+                PrintedUpgradeIcons.Remove(Upgrade.UpgradeType.Torpedo);
+
                 IconicPilots[Faction.Rebel] = typeof(WardenSquadronPilot);
             }
         }

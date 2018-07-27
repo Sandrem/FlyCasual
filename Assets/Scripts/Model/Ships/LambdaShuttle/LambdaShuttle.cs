@@ -67,8 +67,8 @@ namespace Ship
 
             public void AdaptShipToSecondEdition()
             {
-                //TODO: Maneuvers
-                // TODO: Arcs
+                ShipBaseArcsType = Arcs.BaseArcsType.ArcRear;
+                ShipAbilities.Add(new Abilities.SecondEdition.WeakNonPrimaryArc());
 
                 ActionBar.AddPrintedAction(new ReinforceForeAction());
                 ActionBar.AddPrintedAction(new ReinforceAftAction());

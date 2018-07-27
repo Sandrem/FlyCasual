@@ -69,8 +69,6 @@ namespace Ship
 
             public void AdaptShipToSecondEdition()
             {
-                //TODO: Maneuvers
-
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.System);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Configuration);
 

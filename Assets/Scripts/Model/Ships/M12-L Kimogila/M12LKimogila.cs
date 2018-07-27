@@ -4,6 +4,10 @@ using UnityEngine;
 using Movement;
 using ActionsList;
 using RuleSets;
+using Ship;
+using System.Linq;
+using Tokens;
+using Arcs;
 
 namespace Ship
 {
@@ -17,7 +21,7 @@ namespace Ship
                 Type = "M12-L Kimogila Fighter";
                 IconicPilots.Add(Faction.Scum, typeof(ToraniKulda));
 
-                ShipBaseArcsType = Arcs.BaseArcsType.ArcBullseye;
+                ShipBaseArcsType = BaseArcsType.ArcBullseye;
 
                 ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/e/e7/Screenshot_2017-12-15_at_1.31.03_PM.png";
 
@@ -74,8 +78,10 @@ namespace Ship
 
             public void AdaptShipToSecondEdition()
             {
-                //TODO: Maneuvers
-                //TODO: Ship ability
+                ShipBaseArcsType = BaseArcsType.ArcDefault;
+
+                Maneuvers["2.L.T"] = MovementComplexity.Normal;
+                Maneuvers["2.R.T"] = MovementComplexity.Normal;
 
                 MaxHull = 7;
 
@@ -87,9 +93,53 @@ namespace Ship
                 PrintedUpgradeIcons.Remove(Upgrade.UpgradeType.SalvagedAstromech);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Astromech);
 
+                ShipAbilities.Add(new Abilities.SecondEdition.DeadToRights());
+
                 IconicPilots[Faction.Scum] = typeof(CartelExecutioner);
             }
 
+        }
+    }
+}
+
+namespace Abilities.SecondEdition
+{
+    public class DeadToRights : GenericAbility
+    {
+        public override void ActivateAbility()
+        {
+            GenericShip.OnTryAddAvailableDiceModificationGlobal += CheckBullseyeArc;
+        }
+
+        public override void DeactivateAbility()
+        {
+            GenericShip.OnTryAddAvailableDiceModificationGlobal -= CheckBullseyeArc;
+        }
+
+        private List<System.Type> TokensForbidden = new List<System.Type>()
+        {
+            typeof(FocusToken),
+            typeof(EvadeToken),
+            typeof(ReinforceAftToken),
+            typeof(ReinforceForeToken),
+        };
+
+        public void CheckBullseyeArc(GenericShip ship, GenericAction action, ref bool canBeUsed)
+        {
+            if (action.TokensSpend.Any(t => TokensForbidden.Contains(t)))
+            {
+                if (Combat.AttackStep == CombatStep.Defence && Combat.Defender.ShipId == ship.ShipId)
+                {
+                    if (Combat.Attacker.ShipId == HostShip.ShipId)
+                    {
+                        if (Combat.ShotInfo.InArcByType(ArcTypes.Bullseye))
+                        {
+                            Messages.ShowError("Bullseye: " + action.DiceModificationName + " cannot be used");
+                            canBeUsed = false;
+                        }
+                    }
+                }
+            }
         }
     }
 }

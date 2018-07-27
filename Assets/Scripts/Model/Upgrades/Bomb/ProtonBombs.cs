@@ -29,7 +29,9 @@ namespace UpgradesList
         {
             IsDiscardedAfterDropped = false;
             UsesCharges = true;
+
             MaxCharges = 2;
+            Cost = 5;
         }
 
         public override void ExplosionEffect(GenericShip ship, Action callBack)

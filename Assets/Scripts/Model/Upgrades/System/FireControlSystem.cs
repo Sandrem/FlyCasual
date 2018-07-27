@@ -19,7 +19,7 @@ namespace UpgradesList
 
         public void AdaptUpgradeToSecondEdition()
         {
-            Cost = 6;
+            Cost = 3;
 
             UpgradeAbilities.RemoveAll(a => a is FireControlSystemAbility);
             UpgradeAbilities.Add(new Abilities.SecondEdition.FireControlSystemAbility());

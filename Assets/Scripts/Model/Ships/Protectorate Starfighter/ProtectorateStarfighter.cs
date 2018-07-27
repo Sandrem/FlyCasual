@@ -76,6 +76,8 @@ namespace Ship
 
                 ShipAbilities.Add(new Abilities.SecondEdition.ConcordiaFaceoffAbility());
 
+                UpgradeBar.RemoveSlot(Upgrade.UpgradeType.Modification);
+
                 ActionBar.RemovePrintedAction(typeof(BarrelRollAction));
                 ActionBar.RemovePrintedAction(typeof(BoostAction));
                 ActionBar.AddPrintedAction(new BarrelRollAction() { LinkedRedAction = new FocusAction() { IsRed = true } });

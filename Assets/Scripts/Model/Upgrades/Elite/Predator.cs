@@ -25,6 +25,8 @@ namespace UpgradesList
 
         public void AdaptUpgradeToSecondEdition()
         {
+            Cost = 2;
+
             UpgradeAbilities.RemoveAll(a => a is PredatorAbility);
             UpgradeAbilities.Add(new Abilities.SecondEdition.PredatorAbility());
         }

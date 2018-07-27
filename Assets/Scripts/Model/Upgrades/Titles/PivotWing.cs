@@ -25,6 +25,7 @@ namespace UpgradesList
         public void AdaptUpgradeToSecondEdition()
         {
             Name = "Pivot Wing (Open)";
+            Cost = 0;
 
             Types.RemoveAll(t => t == UpgradeType.Title);
             Types.Add(UpgradeType.Configuration);
@@ -55,6 +56,7 @@ namespace UpgradesList
         public void AdaptUpgradeToSecondEdition()
         {
             Name = "Pivot Wing (Closed)";
+            Cost = 0;
 
             Types.RemoveAll(t => t == UpgradeType.Title);
             Types.Add(UpgradeType.Configuration);

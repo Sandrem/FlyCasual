@@ -14,7 +14,7 @@ namespace UpgradesList
         {
             Types.Add(UpgradeType.Elite);
             Name = "Marksmanship";
-            Cost = 3;
+            Cost = 1;
 
             UpgradeAbilities.Add(new MarksmanshipAbility());
         }

@@ -28,6 +28,8 @@ namespace UpgradesList
             MaxCharges = 1;
             UsesCharges = true;
 
+            Cost = 1;
+
             UpgradeAbilities.RemoveAll(a => a is CrackShotAbility);
             UpgradeAbilities.Add(new Abilities.SecondEdition.CrackShotAbility());
         }

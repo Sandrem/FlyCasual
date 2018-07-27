@@ -28,6 +28,8 @@ namespace UpgradesList
 
         public void AdaptUpgradeToSecondEdition()
         {
+            Cost = 5;
+
             UpgradeAbilities.RemoveAll(a => a is DirectorKrennicAbility);
             UpgradeAbilities.Add(new Abilities.SecondEdition.DirectorKrennicAbilitySE());
         }

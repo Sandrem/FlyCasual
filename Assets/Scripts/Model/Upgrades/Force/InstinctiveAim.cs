@@ -14,7 +14,7 @@ namespace UpgradesList
         {
             Types.Add(UpgradeType.Force);
             Name = "Instinctive Aim";
-            Cost = 1;
+            Cost = 2;
 
             UpgradeRuleType = typeof(SecondEdition);
 

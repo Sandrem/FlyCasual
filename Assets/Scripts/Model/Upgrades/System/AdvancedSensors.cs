@@ -23,7 +23,7 @@ namespace UpgradesList
 
         public void AdaptUpgradeToSecondEdition()
         {
-
+            Cost = 8;
         }
     }
 }

@@ -19,6 +19,7 @@ namespace UpgradesList
 
         public void AdaptUpgradeToSecondEdition()
         {
+            Cost = 7;
             MaxCharges = 3;
 
             UpgradeAbilities.RemoveAll(a => a is R5D8Ability);

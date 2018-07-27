@@ -10,7 +10,7 @@ namespace UpgradesList
         {
             Types.Add(UpgradeType.Elite);
             Name = "Selfless";
-            Cost = 11;
+            Cost = 3;
 
             UpgradeRuleType = typeof(SecondEdition);
 

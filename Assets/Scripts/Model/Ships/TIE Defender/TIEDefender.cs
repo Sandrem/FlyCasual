@@ -83,6 +83,7 @@ namespace Ship
                 ActionBar.AddPrintedAction(new EvadeAction());
                 ActionBar.AddPrintedAction(new BoostAction());
 
+                UpgradeBar.RemoveSlot(Upgrade.UpgradeType.Modification);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.System);
 
                 IconicPilots[Faction.Imperial] = typeof(OnyxSquadronAce);

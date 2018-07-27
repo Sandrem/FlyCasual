@@ -12,7 +12,7 @@ namespace UpgradesList
         {
             Types.Add(UpgradeType.Crew);
             Name = "Perceptive Copilot";
-            Cost = 3;
+            Cost = 10;
 
             UpgradeRuleType = typeof(SecondEdition);
 

@@ -32,7 +32,9 @@ namespace UpgradesList
         {
             IsDiscardedAfterDropped = false;
             UsesCharges = true;
+
             MaxCharges = 2;
+            Cost = 3;
         }
 
         protected override void Detonate()

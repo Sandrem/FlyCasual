@@ -24,6 +24,7 @@ namespace UpgradesList
 
         public void AdaptUpgradeToSecondEdition()
         {
+            Cost = 8l
             MaxCharges = 3;
 
             UpgradeAbilities.RemoveAll(a => a is R2D2Ability);

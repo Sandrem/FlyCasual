@@ -26,6 +26,8 @@ namespace UpgradesList
 
         public void AdaptUpgradeToSecondEdition()
         {
+            Cost = 0;
+
             Types.RemoveAll(t => t == UpgradeType.Modification);
             Types.Add(UpgradeType.Configuration);
 
@@ -53,6 +55,7 @@ namespace UpgradesList
         public void AdaptUpgradeToSecondEdition()
         {
             Name = "Servomotor S-Foils (Open)";
+            Cost = 0;
 
             Types.RemoveAll(t => t == UpgradeType.Modification);
             Types.Add(UpgradeType.Configuration);

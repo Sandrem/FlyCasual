@@ -316,6 +316,10 @@ namespace Ship
                 case BaseArcsType.ArcMobile:
                     ArcInfo.Arcs.Add(new ArcMobile(ShipBase));
                     break;
+                case BaseArcsType.ArcMobileOnly:
+                    ArcInfo.Arcs.Add(new ArcMobile(ShipBase));
+                    ArcInfo.Arcs.RemoveAll(a => a is ArcPrimary);
+                    break;
                 case BaseArcsType.ArcBullseye:
                     ArcInfo.Arcs.Add(new ArcBullseye(ShipBase));
                     break;

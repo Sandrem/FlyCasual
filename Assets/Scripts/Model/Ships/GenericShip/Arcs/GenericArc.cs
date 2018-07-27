@@ -13,6 +13,7 @@ namespace Arcs
         ArcSpecial180,
         Arc360,
         ArcMobile,
+        ArcMobileOnly,
         ArcBullseye,
         ArcSpecialGhost
     }

@@ -99,6 +99,8 @@ namespace Ship
                 ActionBar.AddPrintedAction(new ReinforceForeAction() {Host = this, IsRed = true});
                 ActionBar.AddPrintedAction(new BoostAction());
 
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Illicit);
+
                 factions.Remove(Faction.Imperial);
             }
 

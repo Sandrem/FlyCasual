@@ -87,6 +87,10 @@ namespace Ship
 
                 ActionBar.AddPrintedAction(new BarrelRollAction() { IsRed = true });
 
+                PrintedUpgradeIcons.Remove(Upgrade.UpgradeType.Elite);
+                PrintedUpgradeIcons.Remove(Upgrade.UpgradeType.Crew);
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Torpedo);
+
                 IconicPilots[Faction.Scum] = typeof(ContractedScout);
             }
 

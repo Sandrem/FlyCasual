@@ -13,7 +13,9 @@ namespace Ship
             {
                 PilotName = "Skull Squadron Pilot";
                 PilotSkill = 4;
-                Cost = 20;
+                Cost = 50;
+
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
                 PilotRuleType = typeof(SecondEdition);
             }

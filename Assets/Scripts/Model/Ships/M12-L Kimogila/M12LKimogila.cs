@@ -84,6 +84,9 @@ namespace Ship
                 ActionBar.RemovePrintedAction(typeof(BarrelRollAction));
                 ActionBar.AddPrintedAction(new BarrelRollAction() { IsRed = true });
 
+                PrintedUpgradeIcons.Remove(Upgrade.UpgradeType.SalvagedAstromech);
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Astromech);
+
                 IconicPilots[Faction.Scum] = typeof(CartelExecutioner);
             }
 

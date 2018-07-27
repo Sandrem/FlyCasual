@@ -23,6 +23,7 @@ namespace Ship
             public void AdaptPilotToSecondEdition()
             {
                 PilotSkill = 2;
+                Cost = 66;
 
                 SkinName = "Mandalorian Mercenary";
                 faction = Faction.Scum;

@@ -87,6 +87,9 @@ namespace Ship
 
                 ActionBar.RemovePrintedAction(typeof(BarrelRollAction));
                 ActionBar.AddPrintedAction(new BarrelRollAction() { IsRed = true });
+
+                PrintedUpgradeIcons.Remove(Upgrade.UpgradeType.Torpedo);
+                PrintedUpgradeIcons.Remove(Upgrade.UpgradeType.Missile);
             }
 
         }

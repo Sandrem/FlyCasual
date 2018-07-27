@@ -78,6 +78,8 @@ namespace Ship
                 ActionBar.AddPrintedAction(new BarrelRollAction() { LinkedRedAction = new FocusAction() { IsRed = true } });
                 ActionBar.AddPrintedAction(new BoostAction() { LinkedRedAction = new FocusAction() { IsRed = true } });
 
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.System);
+
                 IconicPilots[Faction.Scum] = typeof(BlackSunEnforcer);
             }
 

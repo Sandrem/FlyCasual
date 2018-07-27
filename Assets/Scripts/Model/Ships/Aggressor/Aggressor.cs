@@ -9,7 +9,7 @@ namespace Ship
 {
     namespace Aggressor
     {
-        public class Aggressor : GenericShip, ISecondEditionShip
+        public class Aggressor : GenericShip //, ISecondEditionShip
         {
 
             public Aggressor() : base()

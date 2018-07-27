@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Abilities;
 using Ship;
+using RuleSets;
 
 namespace Ship
 {
     namespace G1AStarfighter
     {
-        public class Zuckuss : G1AStarfighter
+        public class Zuckuss : G1AStarfighter, ISecondEditionPilot
         {
             public Zuckuss() : base()
             {
@@ -21,6 +22,12 @@ namespace Ship
                 UpgradeBar.AddSlot(Upgrade.UpgradeType.Elite);
 
                 PilotAbilities.Add(new ZuckussAbility());
+            }
+
+            public void AdaptPilotToSecondEdition()
+            {
+                PilotSkill = 3;
+                Cost = 47;
             }
         }
     }

@@ -4,6 +4,7 @@ using UnityEngine;
 using Movement;
 using ActionsList;
 using RuleSets;
+using Abilities;
 
 namespace Ship
 {
@@ -69,8 +70,10 @@ namespace Ship
 
             public void AdaptShipToSecondEdition()
             {
-                //TODO: Maneuvers
-                //TODO: Ship Ability
+                Maneuvers["2.L.B"] = MovementComplexity.Easy;
+                Maneuvers["2.R.B"] = MovementComplexity.Easy;
+
+                ShipAbilities.Add(new StarViperMkIIAbility());
 
                 ActionBar.RemovePrintedAction(typeof(BarrelRollAction));
                 ActionBar.RemovePrintedAction(typeof(BoostAction));

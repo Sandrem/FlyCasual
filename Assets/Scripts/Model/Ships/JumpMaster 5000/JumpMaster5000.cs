@@ -73,9 +73,6 @@ namespace Ship
 
             public void AdaptShipToSecondEdition()
             {
-                //TODO: Maneuvers
-                //TODO: Arc
-
                 MaxHull = 6;
                 MaxShields = 3;
 
@@ -90,6 +87,18 @@ namespace Ship
                 PrintedUpgradeIcons.Remove(Upgrade.UpgradeType.Elite);
                 PrintedUpgradeIcons.Remove(Upgrade.UpgradeType.Crew);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Torpedo);
+
+                ShipBaseArcsType = Arcs.BaseArcsType.ArcMobileOnly;
+
+                Maneuvers["1.L.T"] = MovementComplexity.Normal;
+                Maneuvers["1.R.T"] = MovementComplexity.Complex;
+                Maneuvers.Remove("2.L.R");
+                Maneuvers["2.L.T"] = MovementComplexity.Normal;
+                Maneuvers["2.R.T"] = MovementComplexity.Complex;
+                Maneuvers.Remove("2.R.R");
+                Maneuvers.Add("3.L.R", MovementComplexity.Complex);
+                Maneuvers["3.L.B"] = MovementComplexity.Easy;
+                Maneuvers["3.F.S"] = MovementComplexity.Easy;
 
                 IconicPilots[Faction.Scum] = typeof(ContractedScout);
             }

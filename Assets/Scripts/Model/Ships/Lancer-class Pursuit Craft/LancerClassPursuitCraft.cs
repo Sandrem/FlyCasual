@@ -73,13 +73,33 @@ namespace Ship
 
             public void AdaptShipToSecondEdition()
             {
-                //TODO: Maneuvers
-                //TODO: Mobile arc with firepower 2
-
                 MaxHull = 8;
                 MaxShields = 2;
+
+                ShipAbilities.Add(new Abilities.SecondEdition.WeakNonPrimaryArc());
             }
 
+        }
+    }
+}
+
+namespace Abilities.SecondEdition
+{
+    public class WeakNonPrimaryArc : GenericAbility
+    {
+        public override void ActivateAbility()
+        {
+            HostShip.AfterGotNumberOfAttackDice += CheckWeakArc;
+        }
+
+        public override void DeactivateAbility()
+        {
+            HostShip.AfterGotNumberOfAttackDice -= CheckWeakArc;
+        }
+
+        private void CheckWeakArc(ref int count)
+        {
+            if (!Combat.ShotInfo.InPrimaryArc) count--;
         }
     }
 }

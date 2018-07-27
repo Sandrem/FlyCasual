@@ -76,7 +76,13 @@ namespace Ship
 
             public void AdaptShipToSecondEdition()
             {
-                //TODO: Maneuvers
+                Maneuvers["1.L.B"] = MovementComplexity.Easy;
+                Maneuvers["1.R.B"] = MovementComplexity.Easy;
+                Maneuvers["2.L.B"] = MovementComplexity.Normal;
+                Maneuvers["2.R.B"] = MovementComplexity.Normal;
+                Maneuvers["3.F.S"] = MovementComplexity.Normal;
+                Maneuvers["4.F.S"] = MovementComplexity.Complex;
+                Maneuvers.Remove("5.F.S");
 
                 factions.Remove(Faction.Rebel);
 

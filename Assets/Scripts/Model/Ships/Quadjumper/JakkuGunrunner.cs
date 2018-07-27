@@ -20,6 +20,8 @@ namespace Ship
             {
                 PilotSkill = 1;
                 Cost = 28;
+
+                IsHidden = true;
             }
         }
     }

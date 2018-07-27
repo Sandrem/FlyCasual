@@ -9,7 +9,7 @@ namespace Ship
 {
     namespace Quadjumper
     {
-        public class Quadjumper : GenericShip, ISecondEditionShip
+        public class Quadjumper : GenericShip //, ISecondEditionShip
         {
 
             public Quadjumper() : base()

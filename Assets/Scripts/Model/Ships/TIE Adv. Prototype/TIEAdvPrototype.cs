@@ -72,6 +72,8 @@ namespace Ship
             {
                 //TODO: Maneuvers
 
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.System);
+
                 ActionBar.RemovePrintedAction(typeof(BoostAction));
                 ActionBar.RemovePrintedAction(typeof(BarrelRollAction));
 

@@ -69,6 +69,9 @@ namespace Ship
                 //TODO: Maneuvers
                 //TODO: Ship ability
 
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Bomb);
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Gunner);
+
                 IconicPilots[Faction.Imperial] = typeof(PlanetarySentinel);
             }
 

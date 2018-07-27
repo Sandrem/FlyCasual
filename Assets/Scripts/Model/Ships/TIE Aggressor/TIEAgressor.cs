@@ -78,6 +78,8 @@ namespace Ship
             {
                 //TODO: Maneuvers
 
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Gunner);
+
                 ActionBar.RemovePrintedAction(typeof(BarrelRollAction));
                 ActionBar.AddPrintedAction(new BarrelRollAction() { LinkedRedAction = new EvadeAction() { IsRed = true } });
 

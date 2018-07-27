@@ -80,6 +80,10 @@ namespace Ship
             {
                 //TODO: Maneuvers
 
+                PrintedUpgradeIcons.Remove(Upgrade.UpgradeType.Torpedo);
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Bomb);
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Gunner);
+
                 ActionBar.RemovePrintedAction(typeof(BarrelRollAction));
                 ActionBar.AddPrintedAction(new BarrelRollAction() { LinkedRedAction = new TargetLockAction() { IsRed = true } });
                 ActionBar.AddPrintedAction(new ReloadAction() { IsRed = true });

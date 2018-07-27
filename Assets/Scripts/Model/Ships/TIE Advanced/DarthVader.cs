@@ -31,11 +31,12 @@ namespace Ship
             {
                 PilotSkill = 6;
                 MaxForce = 3;
-                Cost = 50;
+                Cost = 70;
 
                 PilotAbilities.RemoveAll(ability => ability is Abilities.DarthVaderAbility);
                 PilotAbilities.Add(new Abilities.SecondEdition.DarthVaderAbility());
 
+                PrintedUpgradeIcons.Remove(Upgrade.UpgradeType.Elite);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Force);
             }
         }

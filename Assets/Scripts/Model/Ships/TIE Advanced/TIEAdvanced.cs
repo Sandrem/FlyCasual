@@ -91,7 +91,7 @@ namespace Ship
                 Maneuvers["3.L.E"] = MovementComplexity.Complex;
                 Maneuvers["3.R.E"] = MovementComplexity.Complex;
 
-                UpgradeBar.AddSlot(Upgrade.UpgradeType.System);
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.System);
 
                 ActionBar.AddPrintedAction(new FocusAction() { LinkedRedAction = new BarrelRollAction() { IsRed = true } });
 

@@ -71,6 +71,9 @@ namespace Ship
             {
                 //TODO: Maneuvers
 
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.System);
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Configuration);
+
                 IconicPilots[Faction.Imperial] = typeof(RhoSquadronPilot);
             }
 

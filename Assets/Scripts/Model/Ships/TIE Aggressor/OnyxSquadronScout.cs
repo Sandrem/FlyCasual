@@ -19,6 +19,9 @@ namespace Ship
             public void AdaptPilotToSecondEdition()
             {
                 PilotSkill = 3;
+                Cost = 32;
+
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
             }
         }
     }

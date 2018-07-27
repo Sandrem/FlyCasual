@@ -88,6 +88,9 @@ namespace Ship
                 ActionBar.AddPrintedAction(new RotateArcAction());
                 ActionBar.AddPrintedAction(new CoordinateAction() { IsRed = true });
 
+                PrintedUpgradeIcons.Remove(Upgrade.UpgradeType.Crew);
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Gunner);
+
                 IconicPilots[Faction.Imperial] = typeof(PatrolLeader);
             }
 

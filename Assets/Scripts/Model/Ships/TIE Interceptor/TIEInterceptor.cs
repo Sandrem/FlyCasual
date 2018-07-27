@@ -75,6 +75,8 @@ namespace Ship
             {
                 //TODO: Maneuvers
                 //TODO: Ship ability
+
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Modification);
             }
 
         }

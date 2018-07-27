@@ -80,6 +80,9 @@ namespace Ship
                 ActionBar.AddPrintedAction(new BarrelRollAction() { IsRed = true });
                 ActionBar.AddPrintedAction(new ReloadAction());
 
+                PrintedUpgradeIcons.Remove(Upgrade.UpgradeType.Torpedo);
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Gunner);
+
                 IconicPilots[Faction.Imperial] = typeof(CutlassSquadronPilot);
             }
 

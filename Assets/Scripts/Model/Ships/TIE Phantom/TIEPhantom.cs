@@ -9,7 +9,7 @@ namespace Ship
 {
     namespace TIEPhantom
     {
-        public class TIEPhantom : GenericShip, TIE, ISecondEditionShip
+        public class TIEPhantom : GenericShip, TIE //, ISecondEditionShip
         {
 
             public TIEPhantom() : base()

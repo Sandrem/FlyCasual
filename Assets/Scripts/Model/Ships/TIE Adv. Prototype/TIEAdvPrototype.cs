@@ -70,7 +70,9 @@ namespace Ship
 
             public void AdaptShipToSecondEdition()
             {
-                //TODO: Maneuvers
+                Maneuvers.Add("2.L.E", MovementComplexity.Complex);
+                Maneuvers.Add("2.R.E", MovementComplexity.Complex);
+                Maneuvers["4.F.S"] = MovementComplexity.Normal;
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.System);
                 UpgradeBar.RemoveSlot(Upgrade.UpgradeType.Modification);
@@ -78,6 +80,7 @@ namespace Ship
                 ActionBar.RemovePrintedAction(typeof(BoostAction));
                 ActionBar.RemovePrintedAction(typeof(BarrelRollAction));
 
+                ActionBar.AddPrintedAction(new EvadeAction());
                 ActionBar.AddPrintedAction(new BoostAction() { LinkedRedAction = new FocusAction() { IsRed = true } });
                 ActionBar.AddPrintedAction(new BarrelRollAction() { LinkedRedAction = new FocusAction() { IsRed = true } });
 

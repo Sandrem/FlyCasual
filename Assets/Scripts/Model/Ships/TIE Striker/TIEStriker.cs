@@ -66,8 +66,12 @@ namespace Ship
 
             public void AdaptShipToSecondEdition()
             {
-                //TODO: Maneuvers
-                //TODO: Ship ability
+                Maneuvers.Add("1.F.R", MovementComplexity.Complex);
+                Maneuvers["2.L.B"] = MovementComplexity.Easy;
+                Maneuvers["2.R.B"] = MovementComplexity.Easy;
+                Maneuvers.Remove("2.F.R");
+
+                ShipAbilities.Add(new Abilities.AdaptiveAileronsAbility());
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Bomb);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Gunner);

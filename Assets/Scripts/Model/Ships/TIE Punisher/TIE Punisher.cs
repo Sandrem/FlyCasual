@@ -72,7 +72,12 @@ namespace Ship
 
             public void AdaptShipToSecondEdition()
             {
-                //TODO: Maneuvers
+                Maneuvers.Add("0.S.S", MovementComplexity.Complex);
+                Maneuvers["2.L.T"] = MovementComplexity.Normal;
+                Maneuvers["2.R.T"] = MovementComplexity.Normal;
+                Maneuvers["3.L.T"] = MovementComplexity.Complex;
+                Maneuvers["3.R.T"] = MovementComplexity.Complex;
+
                 ShipBaseSize = BaseSize.Medium;
 
                 ActionBar.RemovePrintedAction(typeof(BoostAction));

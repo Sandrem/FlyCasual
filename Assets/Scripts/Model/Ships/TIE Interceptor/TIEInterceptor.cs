@@ -9,7 +9,7 @@ namespace Ship
 {
     namespace TIEInterceptor
     {
-        public class TIEInterceptor : GenericShip, TIE, ISecondEditionShip
+        public class TIEInterceptor : GenericShip, TIE //, ISecondEditionShip
         {
 
             public TIEInterceptor() : base()

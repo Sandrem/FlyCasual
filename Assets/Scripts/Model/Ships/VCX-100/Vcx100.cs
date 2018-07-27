@@ -90,6 +90,8 @@ namespace Ship
 
                 Maneuvers.Remove("5.F.R");
                 Maneuvers.Add("4.F.R", MovementComplexity.Complex);
+
+                IconicPilots[Faction.Rebel] = typeof(HeraSyndulla);
             }
         }
     }

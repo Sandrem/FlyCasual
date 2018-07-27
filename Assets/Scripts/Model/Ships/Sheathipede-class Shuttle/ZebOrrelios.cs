@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using RuleSets;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,7 +7,7 @@ namespace Ship
 {
     namespace SheathipedeShuttle
     {
-        public class ZebOrrelios : SheathipedeShuttle
+        public class ZebOrrelios : SheathipedeShuttle, ISecondEditionPilot
         {
             public ZebOrrelios() : base()
             {
@@ -17,6 +18,14 @@ namespace Ship
                 IsUnique = true;
 
                 PilotAbilities.Add(new Abilities.ZebOrreliosPilotAbility());
+            }
+
+            public void AdaptPilotToSecondEdition()
+            {
+                Cost = 32;
+                PilotSkill = 2;
+
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
             }
         }
     }

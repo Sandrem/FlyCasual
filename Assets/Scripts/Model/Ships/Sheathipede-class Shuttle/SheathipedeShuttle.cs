@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Movement;
 using ActionsList;
+using RuleSets;
 
 namespace Ship
 {
     namespace SheathipedeShuttle
     {
-        public class SheathipedeShuttle : GenericShip
+        public class SheathipedeShuttle : GenericShip, ISecondEditionShip
         {
 
             public SheathipedeShuttle() : base()
@@ -68,6 +69,14 @@ namespace Ship
                 Maneuvers.Add("4.F.S", MovementComplexity.Complex);
             }
 
+            public void AdaptShipToSecondEdition()
+            {
+                //TODO: Ability
+
+                ActionBar.RemovePrintedAction(typeof(TargetLockAction));
+
+                IconicPilots[Faction.Rebel] = typeof(ZebOrrelios);
+            }
         }
     }
 }

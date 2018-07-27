@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using RuleSets;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,7 +7,7 @@ namespace Ship
 {
     namespace AttackShuttle
     {
-        public class HeraSyndulla : AttackShuttle
+        public class HeraSyndulla : AttackShuttle, ISecondEditionPilot
         {
             public HeraSyndulla() : base()
             {
@@ -19,6 +20,12 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
                 PilotAbilities.Add(new Abilities.HeraSyndullaAbility());
+            }
+
+            public void AdaptPilotToSecondEdition()
+            {
+                Cost = 39;
+                PilotSkill = 5;
             }
         }
     }

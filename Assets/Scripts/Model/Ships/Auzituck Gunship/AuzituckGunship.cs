@@ -70,7 +70,8 @@ namespace Ship
 
             public void AdaptShipToSecondEdition()
             {
-                // TODO: Maneuvers
+                Maneuvers.Add("0.S.S", MovementComplexity.Complex);
+                Maneuvers.Remove("5.F.S");
 
                 MaxShields = 2;
 

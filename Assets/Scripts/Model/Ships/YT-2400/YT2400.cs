@@ -58,30 +58,23 @@ namespace Ship
                 Maneuvers.Add("1.F.S", MovementComplexity.Easy);
                 Maneuvers.Add("1.R.B", MovementComplexity.Easy);
                 Maneuvers.Add("1.R.T", MovementComplexity.Normal);
-                Maneuvers.Add("1.F.R", MovementComplexity.None);
                 Maneuvers.Add("2.L.T", MovementComplexity.Normal);
                 Maneuvers.Add("2.L.B", MovementComplexity.Normal);
                 Maneuvers.Add("2.F.S", MovementComplexity.Easy);
                 Maneuvers.Add("2.R.B", MovementComplexity.Normal);
                 Maneuvers.Add("2.R.T", MovementComplexity.Normal);
-                Maneuvers.Add("2.F.R", MovementComplexity.None);
                 Maneuvers.Add("3.L.T", MovementComplexity.Normal);
                 Maneuvers.Add("3.L.B", MovementComplexity.Normal);
                 Maneuvers.Add("3.F.S", MovementComplexity.Normal);
                 Maneuvers.Add("3.R.B", MovementComplexity.Normal);
                 Maneuvers.Add("3.R.T", MovementComplexity.Normal);
-                Maneuvers.Add("3.F.R", MovementComplexity.None);
                 Maneuvers.Add("4.F.S", MovementComplexity.Normal);
                 Maneuvers.Add("4.F.R", MovementComplexity.Complex);
-                Maneuvers.Add("5.F.S", MovementComplexity.None);
-                Maneuvers.Add("5.F.R", MovementComplexity.None);
             }
 
             public void AdaptShipToSecondEdition()
             {
-                // TODO: Maneuvers
-                // TODO: Ship ability
-
+                Firepower = 4;
                 MaxHull = 6;
                 MaxShields = 4;
 
@@ -94,8 +87,31 @@ namespace Ship
                 ActionBar.AddPrintedAction(new RotateArcAction());
 
                 IconicPilots[Faction.Rebel] = typeof(WildSpaceFringer);
+
+                ShipAbilities.Add(new Abilities.SecondEdition.SensorBlindspot());
             }
 
+        }
+    }
+}
+
+namespace Abilities.SecondEdition
+{
+    public class SensorBlindspot : GenericAbility
+    {
+        public override void ActivateAbility()
+        {
+            HostShip.AfterGotNumberOfAttackDice += CheckSensorBlindspot;
+        }
+
+        public override void DeactivateAbility()
+        {
+            HostShip.AfterGotNumberOfAttackDice -= CheckSensorBlindspot;
+        }
+
+        private void CheckSensorBlindspot(ref int count)
+        {
+            if (Combat.ShotInfo.Range < 2) count-=2;
         }
     }
 }

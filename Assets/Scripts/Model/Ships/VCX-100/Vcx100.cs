@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Movement;
 using ActionsList;
+using RuleSets;
 
 namespace Ship
 {
     namespace Vcx100
     {
-        public class Vcx100 : GenericShip
+        public class Vcx100 : GenericShip, ISecondEditionShip
         {
 
             public Vcx100() : base()
@@ -73,6 +74,23 @@ namespace Ship
                 Maneuvers.Add("5.F.R", MovementComplexity.Complex);
             }
 
+            public void AdaptShipToSecondEdition()
+            {
+                //TODO: Ability
+
+                MaxShields = 4;
+
+                ActionBar.AddPrintedAction(new ReinforceForeAction());
+                ActionBar.AddPrintedAction(new ReinforceAftAction());
+                ActionBar.RemovePrintedAction(typeof(EvadeAction));
+
+                PrintedUpgradeIcons.Remove(Upgrade.UpgradeType.System);
+                PrintedUpgradeIcons.Remove(Upgrade.UpgradeType.Torpedo);
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Gunner);
+
+                Maneuvers.Remove("5.F.R");
+                Maneuvers.Add("4.F.R", MovementComplexity.Complex);
+            }
         }
     }
 }

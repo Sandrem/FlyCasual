@@ -7,6 +7,7 @@ using UnityEngine.UI;
 using SquadBuilderNS;
 using Ship;
 using Mods;
+using RuleSets;
 
 public class PilotPanelSquadBuilder : MonoBehaviour {
 
@@ -76,7 +77,7 @@ public class PilotPanelSquadBuilder : MonoBehaviour {
     {
         Text infoText = this.transform.Find("FromModInfo").GetComponent<Text>();
 
-        if (RuleSets.RuleSet.Instance is RuleSets.FirstEdition)
+        if (RuleSet.Instance is FirstEdition)
         {
             if (Ship.RequiredMods.Count != 0)
             {
@@ -85,7 +86,7 @@ public class PilotPanelSquadBuilder : MonoBehaviour {
                 infoText.text = mod.Name + postfix;
             }
         }
-        else if (RuleSets.RuleSet.Instance is RuleSets.SecondEdition)
+        else if (RuleSet.Instance is SecondEdition)
         {
             infoText.alignment = TextAnchor.MiddleRight;
             infoText.fontSize = 50;

@@ -129,10 +129,23 @@ public class UpgradePanelSquadBuilder : MonoBehaviour {
 
     private void SetFromModeName()
     {
-        if (Upgrade.FromMod != null)
+        Text infoText = this.transform.Find("FromModInfo").GetComponent<Text>();
+
+        if (RuleSet.Instance is FirstEdition)
         {
-            Mod mod = (Mod)Activator.CreateInstance(Upgrade.FromMod);
-            this.transform.Find("FromModInfo").GetComponent<Text>().text = mod.Name;
+            if (Upgrade.FromMod != null)
+            {
+                Mod mod = (Mod)Activator.CreateInstance(Upgrade.FromMod);
+                this.transform.Find("FromModInfo").GetComponent<Text>().text = mod.Name;
+            }
+        }
+        else if (RuleSet.Instance is SecondEdition)
+        {
+            infoText.transform.GetComponent<RectTransform>().sizeDelta = new Vector2(418, 0);
+
+            infoText.alignment = TextAnchor.MiddleRight;
+            infoText.fontSize = 50;
+            infoText.text = Upgrade.Cost.ToString();
         }
     }
 

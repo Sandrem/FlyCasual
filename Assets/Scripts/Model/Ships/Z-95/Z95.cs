@@ -68,7 +68,8 @@ namespace Ship
 
             public void AdaptShipToSecondEdition()
             {
-                //TODO: Maneuvers
+                Maneuvers["3.F.S"] = MovementComplexity.Easy;
+                Maneuvers.Add("4.F.R", MovementComplexity.Complex);
 
                 ActionBar.AddPrintedAction(new BarrelRollAction() { IsRed = true });
 

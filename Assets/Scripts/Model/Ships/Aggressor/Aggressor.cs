@@ -9,7 +9,7 @@ namespace Ship
 {
     namespace Aggressor
     {
-        public class Aggressor : GenericShip //, ISecondEditionShip
+        public class Aggressor : GenericShip, ISecondEditionShip
         {
 
             public Aggressor() : base()
@@ -78,7 +78,9 @@ namespace Ship
             {
                 //TODO: Ship Ability
                 //TODO: Maneuvers
-                //TODO: Calculate action instead of Focus action
+
+                ActionBar.RemovePrintedAction(typeof(FocusAction));
+                ActionBar.AddPrintedAction(new CalculateAction());
 
                 FullType = "Aggressor Assault Fighter";
 

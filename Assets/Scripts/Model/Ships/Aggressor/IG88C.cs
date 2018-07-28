@@ -29,7 +29,6 @@ namespace Ship
             public void AdaptPilotToSecondEdition()
             {
                 PilotSkill = 4;
-                IsHidden = true;
             }
         }
     }

@@ -101,6 +101,7 @@ namespace ActionsList
             * 53 - Spend die with eye result
             * 50 - Regular Focus to hits if 1+
             * 45 - Force to change eye to evade if 1
+            * 41 - Calculate
             * 40 - Regular Focus to hits if 1
             * 35 - Force to change eye to evade if 1+
             * 33 - Eye to hit by dealing damage to teammate

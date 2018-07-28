@@ -336,6 +336,13 @@ public partial class DiceRoll
         OrganizeDicePositions();
     }
 
+    public void ApplyCalculate()
+    {
+        ChangeOne(DieSide.Focus, DieSide.Success);
+
+        OrganizeDicePositions();
+    }
+
     public void ApplyEvade()
     {
         RuleSet.Instance.EvadeDiceModification(this);

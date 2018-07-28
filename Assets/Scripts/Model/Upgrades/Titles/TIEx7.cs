@@ -12,8 +12,6 @@ namespace UpgradesList
 {
     public class TIEx7 : GenericUpgradeSlotUpgrade
     {
-        public bool IsAlwaysUse;
-
         public TIEx7() : base()
         {
             Types.Add(UpgradeType.Title);
@@ -71,13 +69,23 @@ namespace Abilities
             if (Selection.ThisShip.CanPerformAction(new EvadeAction()))
             {
                 TIEx7DecisionSubPhase newSubPhase = (TIEx7DecisionSubPhase)Phases.StartTemporarySubPhaseNew("TIE/x7 decision", typeof(TIEx7DecisionSubPhase), Triggers.FinishTrigger);
-                newSubPhase.TIEx7Upgrade = sender as TIEx7;
+                newSubPhase.TIEx7AbilityInstance = this;
                 newSubPhase.Start();
             }
             else
             {
                 Triggers.FinishTrigger();
             }
+        }
+
+        public bool IsAlwaysUseAbility()
+        {
+            return alwaysUseAbility;
+        }
+
+        public void SetIsAlwaysUseAbility()
+        {
+            alwaysUseAbility = true;
         }
     }
 }
@@ -87,7 +95,7 @@ namespace SubPhases
 
     public class TIEx7DecisionSubPhase : DecisionSubPhase
     {
-        public TIEx7 TIEx7Upgrade;
+        public TIEx7Ability TIEx7AbilityInstance;
 
         public override void PrepareDecision(Action callBack)
         {
@@ -99,7 +107,7 @@ namespace SubPhases
 
             DefaultDecisionName = "Yes";
 
-            if (!TIEx7Upgrade.IsAlwaysUse)
+            if (!TIEx7AbilityInstance.IsAlwaysUseAbility())
             {
                 callBack();
             }
@@ -125,7 +133,7 @@ namespace SubPhases
 
         private void AlwaysPerformFreeEvadeAction(object sender, EventArgs e)
         {
-            TIEx7Upgrade.IsAlwaysUse = true;
+            TIEx7AbilityInstance.SetIsAlwaysUseAbility();
 
             PerformFreeEvadeAction(sender, e);
         }

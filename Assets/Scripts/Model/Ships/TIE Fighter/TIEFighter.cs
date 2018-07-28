@@ -14,7 +14,7 @@ namespace Ship
 
             public TIEFighter() : base()
             {
-                Type = "TIE Fighter";
+                Type = FullType = "TIE Fighter";
                 IconicPilots.Add(Faction.Rebel, typeof(ZebOrrelios));
                 IconicPilots.Add(Faction.Imperial, typeof(BlackSquadronPilot));
 
@@ -76,6 +76,8 @@ namespace Ship
 
             public void AdaptShipToSecondEdition()
             {
+                FullType = "TIE/ln Fighter";
+
                 IconicPilots[Faction.Imperial] = typeof(BlackSquadronAce);
                 IconicPilots[Faction.Rebel] = typeof(SabineWren);
             }

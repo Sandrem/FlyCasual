@@ -14,7 +14,7 @@ namespace Ship
 
             public VT49Decimator() : base()
             {
-                Type = "VT-49 Decimator";
+                Type = FullType = "VT-49 Decimator";
                 IconicPilots.Add(Faction.Imperial, typeof(RearAdmiralChiraneau));
                 ShipBaseSize = BaseSize.Large;
                 ShipBaseArcsType = Arcs.BaseArcsType.Arc360;

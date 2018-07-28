@@ -14,7 +14,7 @@ namespace Ship
 
             public LancerClassPursuitCraft() : base()
             {
-                Type = "Lancer-class Pursuit Craft";
+                Type = FullType = "Lancer-class Pursuit Craft";
                 IconicPilots.Add(Faction.Scum, typeof(AsajjVentress));
                 ShipBaseSize = BaseSize.Large;
                 ShipBaseArcsType = Arcs.BaseArcsType.ArcMobile;

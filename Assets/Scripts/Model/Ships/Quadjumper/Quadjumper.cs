@@ -14,7 +14,7 @@ namespace Ship
 
             public Quadjumper() : base()
             {
-                Type = "Quadjumper";
+                Type = FullType = "Quadjumper";
                 IconicPilots.Add(Faction.Scum, typeof(JakkuGunrunner));
 
                 ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/4/4d/MS_QUADJUMPER.png";
@@ -69,6 +69,8 @@ namespace Ship
             {
                 //TODO: Maneuvers
                 //TODO: Ship ability
+
+                FullType = "Quadrijet Transfer Spacetug";
 
                 ActionBar.AddPrintedAction(new EvadeAction() { IsRed = true });
             }

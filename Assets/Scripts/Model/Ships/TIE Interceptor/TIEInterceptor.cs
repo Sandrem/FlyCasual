@@ -14,7 +14,7 @@ namespace Ship
 
             public TIEInterceptor() : base()
             {
-                Type = "TIE Interceptor";
+                Type = FullType = "TIE Interceptor";
                 IconicPilots.Add(Faction.Imperial, typeof(SoontirFel));
 
                 ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/8/8e/MI_TIE-INTERCEPTOR.png";

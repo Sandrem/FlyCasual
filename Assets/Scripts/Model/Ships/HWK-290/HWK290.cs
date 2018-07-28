@@ -14,7 +14,7 @@ namespace Ship
 
             public HWK290() : base()
             {
-                Type = "HWK-290";
+                Type = FullType = "HWK-290";
                 IconicPilots.Add(Faction.Rebel, typeof(JanOrs));
                 IconicPilots.Add(Faction.Scum, typeof(PalobGodalhi));
 
@@ -66,7 +66,7 @@ namespace Ship
 
             public void AdaptShipToSecondEdition()
             {
-                //TODO: Only mobile arc
+                FullType = "HWK-290 Light Freighter";
 
                 Maneuvers.Add("0.S.S", MovementComplexity.Complex);
                 Maneuvers.Add("3.L.T", MovementComplexity.Complex);

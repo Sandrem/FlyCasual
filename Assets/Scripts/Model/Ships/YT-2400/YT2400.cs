@@ -14,7 +14,7 @@ namespace Ship
 
             public YT2400() : base()
             {
-                Type = "YT-2400";
+                Type = FullType = "YT-2400";
                 IconicPilots.Add(Faction.Rebel, typeof(DashRendar));
                 ShipBaseSize = BaseSize.Large;
                 ShipBaseArcsType = Arcs.BaseArcsType.Arc360;
@@ -74,6 +74,8 @@ namespace Ship
 
             public void AdaptShipToSecondEdition()
             {
+                FullType = "YT-2400 Light Freighter";
+
                 Firepower = 4;
                 MaxHull = 6;
                 MaxShields = 4;

@@ -14,7 +14,7 @@ namespace Ship
 
             public Aggressor() : base()
             {
-                Type = "Aggressor";
+                Type = FullType = "Aggressor";
                 IconicPilots.Add(Faction.Scum, typeof(IG88C));
                 ShipBaseSize = BaseSize.Large;
 
@@ -79,6 +79,8 @@ namespace Ship
                 //TODO: Ship Ability
                 //TODO: Maneuvers
                 //TODO: Calculate action instead of Focus action
+
+                FullType = "Aggressor Assault Fighter";
 
                 MaxHull = 5;
                 MaxShields = 3;

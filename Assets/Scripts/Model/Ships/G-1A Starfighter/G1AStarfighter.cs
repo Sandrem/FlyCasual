@@ -14,7 +14,7 @@ namespace Ship
 
             public G1AStarfighter() : base()
             {
-                Type = "G-1A Starfighter";
+                Type = FullType = "G-1A Starfighter";
                 IconicPilots.Add(Faction.Scum, typeof(Zuckuss));
 
                 ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/6/67/MS_G-1A-STARFIGHTER.png";

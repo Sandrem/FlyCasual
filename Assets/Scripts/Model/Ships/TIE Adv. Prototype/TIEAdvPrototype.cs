@@ -14,7 +14,7 @@ namespace Ship
 
             public TIEAdvPrototype() : base()
             {
-                Type = "TIE Adv. Prototype";
+                Type = FullType = "TIE Adv. Prototype";
                 IconicPilots.Add(Faction.Imperial, typeof(TheInquisitor));
 
                 ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/b/b4/MI_TIE-ADV.-PROTOTYPE.png";
@@ -70,6 +70,8 @@ namespace Ship
 
             public void AdaptShipToSecondEdition()
             {
+                FullType = "TIE Advanced v1";
+
                 Maneuvers.Add("2.L.E", MovementComplexity.Complex);
                 Maneuvers.Add("2.R.E", MovementComplexity.Complex);
                 Maneuvers["4.F.S"] = MovementComplexity.Normal;

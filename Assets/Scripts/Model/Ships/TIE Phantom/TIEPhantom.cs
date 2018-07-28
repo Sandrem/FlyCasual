@@ -14,7 +14,7 @@ namespace Ship
 
             public TIEPhantom() : base()
             {
-                Type = "TIE Phantom";
+                Type = FullType = "TIE Phantom";
                 IconicPilots.Add(Faction.Imperial, typeof(Whisper));
 
                 ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/c/ce/MI_TIE-PHANTOM.png";
@@ -78,6 +78,8 @@ namespace Ship
             {
                 //TODO: Maneuvers
                 //TODO: Ship ability
+
+                FullType = "TIE/ph Phantom";
 
                 MaxHull = 3;
 

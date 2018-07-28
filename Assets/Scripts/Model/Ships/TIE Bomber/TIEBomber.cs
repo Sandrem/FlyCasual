@@ -14,7 +14,7 @@ namespace Ship
 
             public TIEBomber() : base()
             {
-                Type = "TIE Bomber";
+                Type = FullType = "TIE Bomber";
                 IconicPilots.Add(Faction.Imperial, typeof(TomaxBren));
 
                 ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/9/96/MI_TIE-BOMBER.png";
@@ -79,6 +79,8 @@ namespace Ship
             public void AdaptShipToSecondEdition()
             {
                 //TODO: Maneuvers
+
+                FullType = "TIE/sa Bomber";
 
                 PrintedUpgradeIcons.Remove(Upgrade.UpgradeType.Torpedo);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Bomb);

@@ -14,7 +14,7 @@ namespace Ship
 
             public SheathipedeShuttle() : base()
             {
-                Type = "Sheathipede-class Shuttle";
+                Type = FullType = "Sheathipede-class Shuttle";
                 IconicPilots.Add(Faction.Rebel, typeof(FennRau));
 
                 ShipBaseArcsType = Arcs.BaseArcsType.ArcRear;

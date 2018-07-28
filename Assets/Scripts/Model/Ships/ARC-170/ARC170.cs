@@ -14,7 +14,7 @@ namespace Ship
 
             public ARC170() : base()
             {
-                Type = "ARC-170";
+                Type = FullType = "ARC-170";
                 IconicPilots.Add(Faction.Rebel, typeof(NorraWexley));
 
                 ShipBaseArcsType = Arcs.BaseArcsType.ArcRear;
@@ -71,6 +71,8 @@ namespace Ship
 
             public void AdaptShipToSecondEdition()
             {
+                FullType = "ARC-170 Starfighter";
+
                 Firepower = 3;
 
                 ActionBar.AddPrintedAction(new BarrelRollAction() { IsRed = true });

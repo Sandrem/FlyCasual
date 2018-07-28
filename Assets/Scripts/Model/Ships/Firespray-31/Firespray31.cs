@@ -14,7 +14,7 @@ namespace Ship
 
             public Firespray31() : base()
             {
-                Type = "Firespray-31";
+                Type = FullType = "Firespray-31";
                 IconicPilots.Add(Faction.Imperial, typeof(BobaFettEmpire));
                 IconicPilots.Add(Faction.Scum, typeof(EmonAzzameen));
                 ShipBaseSize = BaseSize.Large;
@@ -82,6 +82,8 @@ namespace Ship
 
             public void AdaptShipToSecondEdition()
             {
+                FullType = "Firespray-class Patrol Craft";
+
                 ShipBaseSize = BaseSize.Medium;
 
                 Maneuvers["1.L.T"] = MovementComplexity.Normal;

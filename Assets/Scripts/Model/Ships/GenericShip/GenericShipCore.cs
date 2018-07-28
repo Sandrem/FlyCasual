@@ -24,6 +24,7 @@ namespace Ship
         public Players.GenericPlayer Owner { get; private set; }
 
         public string Type { get; protected set; }
+        public string FullType { get; protected set; }
 
         public Faction faction { get; protected set; }
         public List<Faction> factions { get; protected set; }

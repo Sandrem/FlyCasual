@@ -18,7 +18,7 @@ namespace Ship
 
             public M12LKimogila() : base()
             {
-                Type = "M12-L Kimogila Fighter";
+                Type = FullType = "M12-L Kimogila Fighter";
                 IconicPilots.Add(Faction.Scum, typeof(ToraniKulda));
 
                 ShipBaseArcsType = BaseArcsType.ArcBullseye;

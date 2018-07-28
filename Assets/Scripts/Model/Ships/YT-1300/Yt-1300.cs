@@ -14,7 +14,7 @@ namespace Ship
 
             public YT1300() : base()
             {
-                Type = "YT-1300";
+                Type = FullType = "YT-1300";
                 IconicPilots.Add(Faction.Rebel, typeof(HanSolo));
                 ShipBaseSize = BaseSize.Large;
                 ShipBaseArcsType = Arcs.BaseArcsType.Arc360;
@@ -72,6 +72,8 @@ namespace Ship
 
             public void AdaptShipToSecondEdition()
             {
+                FullType = "Modified YT-1300 Light Freighter";
+
                 ShipBaseArcsType = Arcs.BaseArcsType.ArcMobileDual;
 
                 Maneuvers.Remove("1.L.T");

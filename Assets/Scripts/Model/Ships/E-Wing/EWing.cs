@@ -14,7 +14,7 @@ namespace Ship
 
             public EWing() : base()
             {
-                Type = "E-Wing";
+                Type = FullType = "E-Wing";
                 IconicPilots.Add(Faction.Rebel, typeof(KnaveSquadronPilot));
 
                 ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/a/aa/MR_E-WING.png";
@@ -74,6 +74,8 @@ namespace Ship
 
             public void AdaptShipToSecondEdition()
             {
+                FullType = "E-wing";
+
                 Maneuvers.Add("1.L.T", MovementComplexity.Complex);
                 Maneuvers["1.L.B"] = MovementComplexity.Easy;
                 Maneuvers["1.R.B"] = MovementComplexity.Easy;

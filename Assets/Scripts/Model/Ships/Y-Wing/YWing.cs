@@ -14,7 +14,7 @@ namespace Ship
 
             public YWing() : base()
             {
-                Type = "Y-Wing";
+                Type = FullType = "Y-Wing";
                 IconicPilots.Add(Faction.Rebel, typeof(HortonSalm));
                 IconicPilots.Add(Faction.Scum, typeof(SyndicateThug));
 
@@ -78,6 +78,8 @@ namespace Ship
 
             public void AdaptShipToSecondEdition()
             {
+                FullType = "BTL-A4 Y-wing";
+
                 MaxHull = 6;
                 MaxShields = 2;
 

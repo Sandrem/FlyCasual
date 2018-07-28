@@ -16,7 +16,7 @@ namespace Ship
 
             public UWing() : base()
             {
-                Type = "U-Wing";
+                Type = FullType = "U-Wing";
                 IconicPilots.Add(Faction.Rebel, typeof(BlueSquadronPathfinder));
                 ShipBaseSize = BaseSize.Large;
 
@@ -74,6 +74,8 @@ namespace Ship
 
             public void AdaptShipToSecondEdition()
             {
+                FullType = "UT-60D U-wing";
+
                 ShipBaseSize = BaseSize.Medium;
 
                 Agility = 2;

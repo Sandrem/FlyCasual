@@ -14,7 +14,7 @@ namespace Ship
 
             public Vcx100() : base()
             {
-                Type = "VCX-100";
+                Type = FullType = "VCX-100";
                 IconicPilots.Add(Faction.Rebel, typeof(KananJarrus));
                 ShipBaseSize = BaseSize.Large;
                 ShipBaseArcsType = Arcs.BaseArcsType.ArcSpecialGhost;
@@ -77,6 +77,8 @@ namespace Ship
             public void AdaptShipToSecondEdition()
             {
                 //TODO: Ability
+
+                FullType = "VCX-100 Light Freighter";
 
                 MaxShields = 4;
 

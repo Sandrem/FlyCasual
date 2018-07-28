@@ -14,7 +14,7 @@ namespace Ship
 
             public TIEDefender() : base()
             {
-                Type = "TIE Defender";
+                Type = FullType = "TIE Defender";
                 IconicPilots.Add(Faction.Imperial, typeof(ColonelVessery));
 
                 ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/4/4b/MI_TIE-DEFENDER.png";
@@ -70,6 +70,8 @@ namespace Ship
 
             public void AdaptShipToSecondEdition()
             {
+                FullType = "TIE/D Defender";
+
                 Maneuvers["1.L.B"] = MovementComplexity.Easy;
                 Maneuvers["1.R.B"] = MovementComplexity.Easy;
 

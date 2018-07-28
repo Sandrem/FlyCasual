@@ -14,7 +14,7 @@ namespace Ship
 
             public BWing() : base()
             {
-                Type = "B-Wing";
+                Type = FullType = "B-Wing";
                 IconicPilots.Add(Faction.Rebel, typeof(KeyanFarlander));
 
                 ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/3/32/MR_B-WING.png";
@@ -70,6 +70,8 @@ namespace Ship
 
             public void AdaptShipToSecondEdition()
             {
+                FullType = "A/SF-01 B-wing";
+
                 Maneuvers["3.F.S"] = MovementComplexity.Easy;
 
                 MaxHull = 4;

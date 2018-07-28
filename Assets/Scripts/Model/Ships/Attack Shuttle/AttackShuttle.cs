@@ -14,7 +14,7 @@ namespace Ship
 
             public AttackShuttle() : base()
             {
-                Type = "Attack Shuttle";
+                Type = FullType = "Attack Shuttle";
                 IconicPilots.Add(Faction.Rebel, typeof(EzraBridger));
 
                 ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/1/12/MR_ATTACK-SHUTTLE.png";

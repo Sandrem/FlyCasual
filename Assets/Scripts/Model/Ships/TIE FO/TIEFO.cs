@@ -13,7 +13,7 @@ namespace Ship
 
             public TIEFO() : base()
             {
-                Type = "TIE/FO Fighter";
+                Type = FullType = "TIE/FO Fighter";
                 IconicPilots.Add(Faction.Imperial, typeof(OmegaLeader));
 
                 ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/4/4f/MI_TIE-FO-FIGHTER.png";

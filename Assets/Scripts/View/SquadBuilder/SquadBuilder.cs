@@ -64,7 +64,7 @@ namespace SquadBuilderNS
             DestroyChildren(GameObject.Find("UI/Panels/SelectShipPanel/Panel").transform);
             availableShipsCounter = 0;
 
-            foreach (ShipRecord ship in AllShips)
+            foreach (ShipRecord ship in AllShips.OrderBy(s => s.Instance.FullType))
             {
                 if (ship.Instance.factions.Contains(faction) && !ship.Instance.IsHidden)
                 {
@@ -81,6 +81,7 @@ namespace SquadBuilderNS
             ShipPanelSquadBuilder script = newShipPanel.GetComponent<ShipPanelSquadBuilder>();
             script.ImageUrl = GetImageOfIconicPilot(ship);
             script.ShipName = ship.ShipName;
+            script.FullType = ship.Instance.FullType;
 
             int row = availableShipsCounter / SHIP_COLUMN_COUNT;
             int column = availableShipsCounter - (row * SHIP_COLUMN_COUNT);

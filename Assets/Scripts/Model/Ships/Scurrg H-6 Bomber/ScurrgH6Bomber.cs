@@ -14,7 +14,7 @@ namespace Ship
 
             public ScurrgH6Bomber() : base()
             {
-                Type = "Scurrg H-6 Bomber";
+                Type = FullType = "Scurrg H-6 Bomber";
                 IconicPilots.Add(Faction.Rebel, typeof(CaptainNymRebel));
                 IconicPilots.Add(Faction.Scum, typeof(CaptainNymScum));
 

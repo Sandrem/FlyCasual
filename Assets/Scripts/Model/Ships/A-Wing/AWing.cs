@@ -16,7 +16,7 @@ namespace Ship
 
             public AWing() : base()
             {
-                Type = "A-Wing";
+                Type = FullType = "A-Wing";
 
                 IconicPilots.Add(Faction.Rebel, typeof(TychoCelchu));
 
@@ -78,6 +78,8 @@ namespace Ship
 
             public void AdaptShipToSecondEdition()
             {
+                FullType = "RZ-1 A-wing";
+
                 ActionBar.AddPrintedAction(new BarrelRollAction());
 
                 UpgradeBar.RemoveSlot(Upgrade.UpgradeType.Modification);

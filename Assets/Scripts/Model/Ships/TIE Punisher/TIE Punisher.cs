@@ -14,7 +14,7 @@ namespace Ship
 
             public TIEPunisher() : base()
             {
-                Type = "TIE Punisher";
+                Type = FullType = "TIE Punisher";
                 IconicPilots.Add(Faction.Imperial, typeof(BlackEightSqPilot));
 
                 ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/7/72/MI_TIE-PUNISHER.png";
@@ -72,6 +72,8 @@ namespace Ship
 
             public void AdaptShipToSecondEdition()
             {
+                FullType = "TIE/ca Punisher";
+
                 Maneuvers.Add("0.S.S", MovementComplexity.Complex);
                 Maneuvers["2.L.T"] = MovementComplexity.Normal;
                 Maneuvers["2.R.T"] = MovementComplexity.Normal;

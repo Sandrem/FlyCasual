@@ -14,7 +14,7 @@ namespace Ship
 
             public TIEAggressor() : base()
             {
-                Type = "TIE Aggressor";
+                Type = FullType = "TIE Aggressor";
                 IconicPilots.Add(Faction.Imperial, typeof(SienarSpecialist));
 
                 ManeuversImageUrl = "https://i.imgur.com/xvzwsLa.jpg";
@@ -69,6 +69,8 @@ namespace Ship
 
             public void AdaptShipToSecondEdition()
             {
+                FullType = "TIE/ag Aggressor";
+
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Gunner);
 
                 ActionBar.RemovePrintedAction(typeof(BarrelRollAction));

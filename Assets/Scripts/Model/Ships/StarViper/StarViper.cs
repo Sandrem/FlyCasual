@@ -15,7 +15,7 @@ namespace Ship
 
             public StarViper() : base()
             {
-                Type = "StarViper";
+                Type = FullType = "StarViper";
                 IconicPilots.Add(Faction.Scum, typeof(Thweek));
 
                 ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/b/bd/MS_STARVIPER.png";
@@ -70,6 +70,8 @@ namespace Ship
 
             public void AdaptShipToSecondEdition()
             {
+                FullType = "StarViper-class Attack Platform";
+
                 Maneuvers["2.L.B"] = MovementComplexity.Easy;
                 Maneuvers["2.R.B"] = MovementComplexity.Easy;
 

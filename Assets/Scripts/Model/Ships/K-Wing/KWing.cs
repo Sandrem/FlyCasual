@@ -14,7 +14,7 @@ namespace Ship
 
             public KWing() : base()
             {
-                Type = "K-Wing";
+                Type = FullType = "K-Wing";
                 IconicPilots.Add(Faction.Rebel, typeof(MirandaDoni));
 
                 ShipBaseArcsType = Arcs.BaseArcsType.Arc360;
@@ -71,6 +71,8 @@ namespace Ship
 
             public void AdaptShipToSecondEdition()
             {
+                FullType = "BTL-S8 K-wing";
+
                 MaxHull = 6;
                 MaxShields = 3;
 

@@ -14,7 +14,7 @@ namespace Ship
 
             public LambdaShuttle() : base()
             {
-                Type = "Lambda-class Shuttle";
+                Type = FullType = "Lambda-class Shuttle";
                 IconicPilots.Add(Faction.Imperial, typeof(CaptainYorr));
                 ShipBaseSize = BaseSize.Large;
 
@@ -67,6 +67,8 @@ namespace Ship
 
             public void AdaptShipToSecondEdition()
             {
+                FullType = "Lambda-class T-4a Shuttle";
+
                 ShipBaseArcsType = Arcs.BaseArcsType.ArcRear;
                 ShipAbilities.Add(new Abilities.SecondEdition.WeakNonPrimaryArc());
 

@@ -205,7 +205,7 @@ namespace SquadBuilderNS
         {
             availableUpgradesCounter = 0;
 
-            foreach (GenericUpgrade upgrade in ship.Instance.UpgradeBar.GetUpgradesAll())
+            foreach (GenericUpgrade upgrade in ship.Instance.UpgradeBar.GetUpgradesAll().OrderBy(s => s.Types[0]))
             {
                 ShowUpgradeOfPilot(upgrade, ship);
             }
@@ -450,7 +450,7 @@ namespace SquadBuilderNS
         private static void CreateSlotsPanels()
         {
             UpgradeSlotPanels = new List<UpgradeSlotPanel>();
-            foreach (UpgradeSlot slot in CurrentSquadBuilderShip.Instance.UpgradeBar.GetUpgradeSlots())
+            foreach (UpgradeSlot slot in CurrentSquadBuilderShip.Instance.UpgradeBar.GetUpgradeSlots().OrderBy(s => s.Type))
             {
                 //Skip for slots with empty upgrade
                 if (!slot.IsEmpty && slot.InstalledUpgrade.GetType() == typeof(UpgradesList.EmptyUpgrade)) continue;

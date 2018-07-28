@@ -92,8 +92,6 @@ namespace Ship
                 Maneuvers["2.R.B"] = MovementComplexity.Easy;
                 Maneuvers["3.L.E"] = MovementComplexity.Complex;
                 Maneuvers["3.R.E"] = MovementComplexity.Complex;
-
-                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Modification);
             }
         }
     }

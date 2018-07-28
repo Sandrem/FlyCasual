@@ -13,23 +13,23 @@ namespace Upgrade
 {
     public enum UpgradeType
     {
-        Elite,
-        Astromech,
-        Torpedo,
-        Missile,
-        Cannon,
-        Turret,
-        Bomb,
-        Crew,
-        SalvagedAstromech,
-        System,
-        Title,
-        Modification,
-        Illicit,
-        Tech,
         Force,
-        Configuration,
-        Gunner
+        Elite,
+        System,
+        Tech,
+        Turret,
+        Cannon,
+        Missile,
+        Crew,
+        Gunner,
+        Torpedo,
+        Astromech,
+        SalvagedAstromech,
+        Bomb,
+        Illicit,
+        Modification,
+        Title,
+        Configuration        
     }
 
     public abstract class GenericUpgrade

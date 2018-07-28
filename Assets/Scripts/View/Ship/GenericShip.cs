@@ -216,6 +216,17 @@ namespace Ship
             shipAllParts.Find("ShipBase/ShipStandInsert/ShipStandInsertImage/SecondArc").GetComponent<MeshRenderer>().enabled = true;
         }
 
+        public void ShowMobileFiringArcAltHighlight(ArcFacing facing)
+        {
+            //Mobile arc alt
+            string newTexture = "ShipStandInsert/Universal/SecondEdition/" + this.ShipBaseSize.ToString() + "/" + this.faction.ToString() + "/" + facing.ToString();
+            Material newMaterial = CreateMaterial(newTexture);
+
+            StandardShaderUtils.ChangeRenderMode(newMaterial, StandardShaderUtils.BlendMode.Fade);
+            shipAllParts.Find("ShipBase/ShipStandInsert/ShipStandInsertImage/ThirdArc").GetComponent<Renderer>().material = newMaterial;
+            shipAllParts.Find("ShipBase/ShipStandInsert/ShipStandInsertImage/ThirdArc").GetComponent<MeshRenderer>().enabled = true;
+        }
+
         public void SetShipSkin()
         {
             if (!string.IsNullOrEmpty(SkinName))

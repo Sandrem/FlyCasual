@@ -71,10 +71,10 @@ namespace Ship
 
             public void AdaptShipToSecondEdition()
             {
-                // TODO: Maneuvers
-
                 MaxHull = 6;
                 MaxShields = 3;
+
+                ShipBaseArcsType = Arcs.BaseArcsType.ArcMobileDual;
 
                 ShipBaseSize = BaseSize.Medium;
 

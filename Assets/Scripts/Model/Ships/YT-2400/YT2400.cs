@@ -78,6 +78,8 @@ namespace Ship
                 MaxHull = 6;
                 MaxShields = 4;
 
+                ShipBaseArcsType = Arcs.BaseArcsType.ArcMobileDual;
+
                 PrintedUpgradeIcons.Remove(Upgrade.UpgradeType.Cannon);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Crew);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Illicit);

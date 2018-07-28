@@ -187,6 +187,11 @@ namespace RuleSets
             Selection.ThisShip.ShowMobileFiringArcHighlight(facing);
         }
 
+        public override void RotateMobileFiringArcAlt(ArcFacing facing)
+        {
+            Selection.ThisShip.ShowMobileFiringArcAltHighlight(facing);
+        }
+
         public override void ActivateGenericUpgradeAbility(GenericUpgrade upgrade)
         {
             if (upgrade.Types.Contains(UpgradeType.Turret))

@@ -72,7 +72,7 @@ namespace Ship
 
             public void AdaptShipToSecondEdition()
             {
-                //TODO: Arc
+                ShipBaseArcsType = Arcs.BaseArcsType.ArcMobileDual;
 
                 Maneuvers.Add("1.L.T", MovementComplexity.Complex);
                 Maneuvers["1.L.B"] = MovementComplexity.Easy;

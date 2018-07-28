@@ -320,6 +320,11 @@ namespace Ship
                     ArcInfo.Arcs.Add(new ArcMobile(ShipBase));
                     ArcInfo.Arcs.RemoveAll(a => a is ArcPrimary);
                     break;
+                case BaseArcsType.ArcMobileDual:
+                    ArcInfo.Arcs.Add(new ArcMobileDualA(ShipBase));
+                    ArcInfo.Arcs.Add(new ArcMobileDualB(ShipBase));
+                    ArcInfo.Arcs.RemoveAll(a => a is ArcPrimary);
+                    break;
                 case BaseArcsType.ArcBullseye:
                     ArcInfo.Arcs.Add(new ArcBullseye(ShipBase));
                     break;

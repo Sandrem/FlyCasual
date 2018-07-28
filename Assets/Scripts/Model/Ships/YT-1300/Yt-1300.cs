@@ -72,7 +72,7 @@ namespace Ship
 
             public void AdaptShipToSecondEdition()
             {
-                //TODO: Arcs
+                ShipBaseArcsType = Arcs.BaseArcsType.ArcMobileDual;
 
                 Maneuvers.Remove("1.L.T");
                 Maneuvers["1.L.B"] = MovementComplexity.Normal;
@@ -85,6 +85,7 @@ namespace Ship
                 Maneuvers.Add("3.R.T", MovementComplexity.Normal);
                 Maneuvers["3.R.R"] = MovementComplexity.Complex;
 
+                Firepower = 3;
                 MaxHull = 8;
                 MaxShields = 5;
 

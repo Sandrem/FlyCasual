@@ -120,6 +120,7 @@ namespace Abilities.SecondEdition
         {
             typeof(FocusToken),
             typeof(EvadeToken),
+            typeof(CalculateToken),
             typeof(ReinforceAftToken),
             typeof(ReinforceForeToken),
         };

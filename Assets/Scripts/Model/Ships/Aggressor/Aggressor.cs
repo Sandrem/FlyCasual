@@ -76,9 +76,6 @@ namespace Ship
 
             public void AdaptShipToSecondEdition()
             {
-                //TODO: Ship Ability
-                //TODO: Maneuvers
-
                 ActionBar.RemovePrintedAction(typeof(FocusAction));
                 ActionBar.AddPrintedAction(new CalculateAction());
 
@@ -88,7 +85,38 @@ namespace Ship
                 MaxShields = 3;
 
                 ShipBaseSize = BaseSize.Medium;
+
+                ShipAbilities.Add(new Abilities.SecondEdition.AdvancedDroidBrain());
             }
+        }
+    }
+}
+
+namespace Abilities.SecondEdition
+{
+    public class AdvancedDroidBrain : GenericAbility
+    {
+        public override void ActivateAbility()
+        {
+            HostShip.OnActionIsPerformed += CheckAbility;
+        }
+
+        public override void DeactivateAbility()
+        {
+            HostShip.OnActionIsPerformed -= CheckAbility;
+        }
+
+        private void CheckAbility(GenericAction action)
+        {
+            if (action is CalculateAction)
+            {
+                RegisterAbilityTrigger(TriggerTypes.OnActionIsPerformed, AssignCalculateToken);
+            }
+        }
+
+        private void AssignCalculateToken(object sender, System.EventArgs e)
+        {
+            HostShip.Tokens.AssignToken(typeof(Tokens.CalculateToken), Triggers.FinishTrigger);
         }
     }
 }

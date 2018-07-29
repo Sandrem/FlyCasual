@@ -101,28 +101,17 @@ namespace Abilities
 		}
 
 
-		private void sufferDamage(){
+		private void sufferDamage()
+        {
+            DamageSourceEventArgs harpoonconditionDamage = new DamageSourceEventArgs()
+            {
+                Source = "Electronic Baffle",
+                DamageType = DamageTypes.CardAbility
+            };
 
-			DiceRoll damage = new DiceRoll(DiceKind.Attack, 0, DiceRollCheckType.Virtual);
-			damage.AddDice(DieSide.Success);
-
-			HostShip.AssignedDamageDiceroll.DiceList.AddRange (damage.DiceList);
-
-			Triggers.RegisterTrigger(new Trigger()
-				{
-					Name = "Suffer damage from Electronic Baffle",   
-					TriggerType = TriggerTypes.OnDamageIsDealt,
-					TriggerOwner = HostShip.Owner.PlayerNo,
-					EventHandler = HostShip.SufferDamage,
-					EventArgs = new DamageSourceEventArgs()
-					{
-						Source = "ElectronicBaffle",
-						DamageType = DamageTypes.CardAbility
-					}
-				});
-			
-			Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, DecisionSubPhase.ConfirmDecision );
-		}
+            HostShip.Damage.TryResolveDamage(1, harpoonconditionDamage, DecisionSubPhase.ConfirmDecision);
+        }
+    }
 	}
 
 }

@@ -97,22 +97,13 @@ namespace SubPhases
         {
             Messages.ShowError("Console Fire: ship suffered damage");
 
-            Selection.ActiveShip.AssignedDamageDiceroll.DiceList.Add(CurrentDiceRoll.DiceList[0]);
-
-            Triggers.RegisterTrigger(new Trigger()
+            DamageSourceEventArgs consolefireDamage = new DamageSourceEventArgs()
             {
-                Name = "Suffer damage",
-                TriggerType = TriggerTypes.OnDamageIsDealt,
-                TriggerOwner = Selection.ActiveShip.Owner.PlayerNo,
-                EventHandler = Selection.ActiveShip.SufferDamage,
-                EventArgs = new DamageSourceEventArgs()
-                {
-                    Source = "Critical hit card",
-                    DamageType = DamageTypes.CriticalHitCard
-                }
-            });
+                Source = "Critical hit card",
+                DamageType = DamageTypes.CriticalHitCard
+            };
 
-            Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, CallBack);
+            Selection.ActiveShip.Damage.TryResolveDamage(1, consolefireDamage, CallBack);
         }
 
         private void NoDamage()

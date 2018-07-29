@@ -291,7 +291,7 @@ namespace Ship
             Shields = MaxShields;
 
             PrimaryWeapon = new PrimaryWeaponClass(this);
-            Damage = new AssignedDamageCards(this);
+            Damage = new Damage(this);
 
             CreateModel(StartingPosition);
             InitializeShipBaseArc();

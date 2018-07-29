@@ -63,26 +63,16 @@ namespace Abilities
 
             Messages.ShowError("\"Chopper\": Damage is dealt");
 
-            Triggers.RegisterTrigger(new Trigger()
+            DamageSourceEventArgs chopperDamage = new DamageSourceEventArgs()
             {
-                Name = "Suffer damage from \"Chopper\"",
-                TriggerType = TriggerTypes.OnDamageIsDealt,
-                TriggerOwner = HostShip.Owner.PlayerNo,
-                EventHandler = HostShip.SufferDamage,
-                EventArgs = new DamageSourceEventArgs()
-                {
-                    Source = this,
-                    DamageType = DamageTypes.CardAbility
-                }
-            });
+                Source = this,
+                DamageType = DamageTypes.CardAbility
+            };
 
-            Triggers.ResolveTriggers(
-                TriggerTypes.OnDamageIsDealt,
-                delegate {
-                    Phases.CurrentSubPhase.Resume();
-                    Triggers.FinishTrigger();
-                }
-            );
+            HostShip.Damage.TryResolveDamage(1, chopperDamage, delegate {
+                Phases.CurrentSubPhase.Resume();
+                Triggers.FinishTrigger();
+            });
         }
     }
 }

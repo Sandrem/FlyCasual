@@ -64,25 +64,15 @@ namespace Abilities
 		}
 		private void DefenderSuffersDamage()
 		{
-            Combat.Defender.AssignedDamageDiceroll.AddDice(DieSide.Success);
+            DamageSourceEventArgs tltDamage = new DamageSourceEventArgs()
+            {
+                Source = "Twin Laser Turret",
+                DamageType = DamageTypes.ShipAttack
+            };
 
-			Triggers.RegisterTrigger(
-                new Trigger() {
-					Name = "Suffer damage",
-					TriggerType = TriggerTypes.OnDamageIsDealt,
-					TriggerOwner = Combat.Defender.Owner.PlayerNo,
-					EventHandler = Combat.Defender.SufferDamage,
-					EventArgs = new DamageSourceEventArgs()
-					{
-						Source = Combat.Attacker,
-						DamageType = DamageTypes.ShipAttack
-					},
-					Skippable = true
-				}
-            );
-
-			Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, Triggers.FinishTrigger);
-		}
+            Combat.Defender.Damage.TryResolveDamage(1, tltDamage, Triggers.FinishTrigger);
+        }
+    }
     }
 
 }

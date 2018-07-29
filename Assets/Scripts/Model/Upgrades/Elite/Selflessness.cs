@@ -39,6 +39,8 @@ namespace Abilities
 {
     public class SelflessnessAbility : GenericAbility
     {
+        private GenericShip curToDamage;
+        private DamageSourceEventArgs curDamageInfo;
 
         public override void ActivateAbility()
         {
@@ -50,22 +52,37 @@ namespace Abilities
             GenericShip.OnTryDamagePreventionGlobal -= CheckSelflessnessAbility;
         }
 
-        private void CheckSelflessnessAbility()
+        private void CheckSelflessnessAbility(GenericShip toDamage, DamageSourceEventArgs e)
         {
-            if (Combat.Defender.Owner.PlayerNo == HostShip.Owner.PlayerNo && Combat.Defender.ShipId != HostShip.ShipId)
+            curToDamage = toDamage;
+            curDamageInfo = e;
+            
+            // Is this ship the defender in combat?
+            if (Combat.Defender == curToDamage)
+                return;
+
+            // Is the damage type a ship attack?
+            if (curDamageInfo.DamageType != DamageTypes.ShipAttack)
+                return;
+
+            // Is the defender on our team and not us? If not return.
+            if (Combat.Defender.Owner.PlayerNo != HostShip.Owner.PlayerNo || Combat.Defender.ShipId == HostShip.ShipId)
+                return;
+
+            // If the defender is at range one of us we register our trigger to prevent damage.
+            BoardTools.DistanceInfo distanceInfo = new BoardTools.DistanceInfo(Combat.Defender, HostShip);
+            if (distanceInfo.Range == 1 && Combat.DiceRollAttack.RegularSuccesses > 0)
             {
-                BoardTools.DistanceInfo distanceInfo = new BoardTools.DistanceInfo(Combat.Defender, HostShip);
-                if (distanceInfo.Range == 1 && Combat.DiceRollAttack.RegularSuccesses > 0)
-                {
                     RegisterAbilityTrigger(TriggerTypes.OnTryDamagePrevention, UseSelflessnessAbility);
-                }
             }
         }
 
         private void UseSelflessnessAbility(object sender, System.EventArgs e)
         {
-            if (Combat.DiceRollAttack.RegularSuccesses > 0)
+            // Are there any non-crit damage results in the damage queue?
+            if (Combat.Defender.AssignedDamageDiceroll.RegularSuccesses > 0)
             {
+                // If there are we prompt to see if they want to use the ability.
                 AskToUseAbility(AlwaysUseByDefault, UseAbility);
             }
             else
@@ -76,49 +93,25 @@ namespace Abilities
 
         private void UseAbility(object sender, System.EventArgs e)
         {
-            DiscardUpgrade(SufferRegularHits);
-        }
-
-        private void DiscardUpgrade(System.Action callBack)
-        {
-            HostUpgrade.Discard(callBack);
+            HostUpgrade.Discard(SufferRegularHits);
         }
 
         private void SufferRegularHits()
         {
-            List<Die> regularHitsDice = new List<Die>();
+            // Get the number of hits assigned to the ship we're protecting.
+            int hits = curToDamage.AssignedDamageDiceroll.RegularSuccesses;
 
-            List<Die> diceRollAttackCopy = new List<Die>(Combat.DiceRollAttack.DiceList);
+            // Remove the hits from the assigned damage dice of the ship we're preventing damage on.
+            curToDamage.AssignedDamageDiceroll.RemoveType(DieSide.Success);
 
-            foreach (var die in diceRollAttackCopy)
+            DamageSourceEventArgs selflessDamage = new DamageSourceEventArgs()
             {
-                if (die.Side == DieSide.Success)
-                {
-                    regularHitsDice.Add(die);
-                    Combat.DiceRollAttack.DiceList.Remove(die);
-                }
-            }
+                Source = "Selflesness",
+                DamageType = DamageTypes.CardAbility
+            };
 
-            HostShip.AssignedDamageDiceroll.DiceList.AddRange(regularHitsDice);
-
-            foreach (var die in HostShip.AssignedDamageDiceroll.DiceList)
-            {
-                Triggers.RegisterTrigger(new Trigger()
-                {
-                    Name = "Suffer damage from Selflessness",
-                    TriggerType = TriggerTypes.OnDamageIsDealt,
-                    TriggerOwner = HostShip.Owner.PlayerNo,
-                    EventHandler = HostShip.SufferDamage,
-                    EventArgs = new DamageSourceEventArgs()
-                    {
-                        Source = "Selflessness",
-                        DamageType = DamageTypes.CardAbility
-                    },
-                    Skippable = true
-                });
-            }
-
-            Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, DecisionSubPhase.ConfirmDecision);
+            // Deal that damage to us instead.
+            HostShip.Damage.TryResolveDamage(hits, selflessDamage, DecisionSubPhase.ConfirmDecision);
         }
 
 

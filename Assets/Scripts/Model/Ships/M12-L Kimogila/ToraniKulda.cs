@@ -127,26 +127,13 @@ namespace SubPhases
 
         private void SufferDamage(object sender, System.EventArgs e)
         {
-            DiceRoll damage = new DiceRoll(DiceKind.Attack, 0, DiceRollCheckType.Virtual);
-            damage.AddDice(DieSide.Success);
-
-            Selection.ThisShip.AssignedDamageDiceroll.DiceList.AddRange(damage.DiceList);
-
-            Triggers.RegisterTrigger(new Trigger()
+            DamageSourceEventArgs toranikuldaDamage = new DamageSourceEventArgs()
             {
-                Name = "Suffer Torani Kulda's ability damage",
-                TriggerType = TriggerTypes.OnDamageIsDealt,
-                TriggerOwner = Selection.ThisShip.Owner.PlayerNo,
-                EventHandler = Selection.ThisShip.SufferDamage,
-                Skippable = true,
-                EventArgs = new DamageSourceEventArgs()
-                {
-                    Source = "Torani Kulda",
-                    DamageType = DamageTypes.CardAbility
-                }
-            });
+                Source = "Torani Kulda",
+                DamageType = DamageTypes.CardAbility
+            };
 
-            Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, ConfirmDecision);
+            Selection.ThisShip.Damage.TryResolveDamage(1, toranikuldaDamage, ConfirmDecision);
         }
     }
 }

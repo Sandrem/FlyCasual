@@ -5,12 +5,12 @@ using System.Text;
 
 namespace Ship
 {
-    public class AssignedDamageCards
+    public class Damage
     {
         public List<GenericDamageCard> DamageCards { get; private set; }
         public GenericShip Host { get; private set; }
 
-        public AssignedDamageCards(GenericShip host)
+        public Damage(GenericShip host)
         {
             Host = host;
             DamageCards = new List<GenericDamageCard>();
@@ -81,28 +81,6 @@ namespace Ship
 
         // EXTRA
 
-        // Suffer Facedown Damage Card
-
-        public void SufferFacedownDamageCard(DamageSourceEventArgs e, Action callback)
-        {
-            Triggers.RegisterTrigger(new Trigger()
-            {
-                Name = "Suffer facedown damage card",
-                TriggerType = TriggerTypes.OnDamageIsDealt,
-                TriggerOwner = Host.Owner.PlayerNo,
-                EventHandler = SufferHullDamage,
-                EventArgs = e
-            });
-
-            Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, callback);
-        }
-
-        private void SufferHullDamage(object sender, EventArgs e)
-        {
-            Messages.ShowInfoToHuman(string.Format("{0}: Facedown card is dealt", Host.PilotName));
-            Host.SufferHullDamage(false, e);
-        }
-
         // Suffer regular damage
 
         public void SufferRegularDamage(DamageSourceEventArgs e, Action callback)
@@ -122,5 +100,56 @@ namespace Ship
             Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, callback);
         }
 
+        public void TryResolveDamage(List<Die> damage, DamageSourceEventArgs e, Action callback)
+        {
+            // Populate AssignedDamageDiceroll with the results from the damage list.
+            foreach (Die d in damage)
+            {
+                Host.AssignedDamageDiceroll.AddDice(d.Side);
+            }
+
+            Host.CallTryDamagePrevention(e, delegate { ResolveDamage(e, callback); });
+        }
+
+        public void TryResolveDamage(int damage, DamageSourceEventArgs e, Action callback)
+        {
+            List<Die> dice = new List<Die>();
+            for (int d = 0; d < damage; d++)
+                dice.Add(new Die(null, DiceKind.Attack, DieSide.Success));
+
+            TryResolveDamage(dice, e, callback);
+        }
+
+        public void TryResolveDamage(int damage, int cdamage, DamageSourceEventArgs e, Action callback)
+        {
+            List<Die> dice = new List<Die>();
+            for (int d = 0; d < damage; d++)
+                dice.Add(new Die(null, DiceKind.Attack, DieSide.Success));
+
+            for (int c = 0; c < cdamage; c++)
+                dice.Add(new Die(null, DiceKind.Attack, DieSide.Crit));
+
+            TryResolveDamage(dice, e, callback);
+        }
+
+        public void ResolveDamage(DamageSourceEventArgs e, Action callback)
+        {
+            // Register a trigger for each damage.
+            foreach (var die in Host.AssignedDamageDiceroll.DiceList)
+            {
+                Triggers.RegisterTrigger(new Trigger()
+                {
+                    Name = "Suffer damage",
+                    TriggerType = TriggerTypes.OnDamageIsDealt,
+                    TriggerOwner = Host.Owner.PlayerNo,
+                    EventHandler = Host.SufferDamage,
+                    EventArgs = e,
+                    Skippable = true
+                });
+            }
+
+            // Resolve the damage triggers we've registered 
+            Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, callback);
+        }
     }
 }

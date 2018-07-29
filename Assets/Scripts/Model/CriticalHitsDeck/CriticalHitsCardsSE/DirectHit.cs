@@ -25,22 +25,13 @@ namespace DamageDeckCardSE
         {
             Messages.ShowInfo("Direct Hit: Suffer 1 additional damage");
 
-            Host.AssignedDamageDiceroll.AddDice(DieSide.Success);
-
-            Triggers.RegisterTrigger(new Trigger()
+            DamageSourceEventArgs directhitDamage = new DamageSourceEventArgs()
             {
-                Name = "Suffer critical damage",
-                TriggerType = TriggerTypes.OnDamageIsDealt,
-                TriggerOwner = Host.Owner.PlayerNo,
-                EventHandler = Host.SufferDamage,
-                EventArgs = new DamageSourceEventArgs()
-                {
-                    Source = "Critical hit card",
-                    DamageType = DamageTypes.CriticalHitCard
-                }
-            });
+                Source = "Critical hit card",
+                DamageType = DamageTypes.CriticalHitCard
+            };
 
-            Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, RepairDirectHit);
+            Selection.ActiveShip.Damage.TryResolveDamage(1, directhitDamage, RepairDirectHit);
         }
 
         public void RepairDirectHit()

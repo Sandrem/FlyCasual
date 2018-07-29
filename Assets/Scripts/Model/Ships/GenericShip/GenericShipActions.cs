@@ -70,6 +70,8 @@ namespace Ship
 
         public EventHandlerTokenBool BeforeRemovingTokenInEndPhase;
 
+        public event EventHandler OnDecloak;
+
         // ACTIONS
 
         public void GenerateAvailableActionsList()
@@ -603,6 +605,15 @@ namespace Ship
             if (OnRerollIsConfirmed != null) OnRerollIsConfirmed(this);
 
             Triggers.ResolveTriggers(TriggerTypes.OnRerollIsConfirmed, callback);
+        }
+
+        // Decloak
+
+        public void CallDecloak(Action callback)
+        {
+            if (OnDecloak != null) OnDecloak();
+
+            Triggers.ResolveTriggers(TriggerTypes.OnDecloak, callback);
         }
 
     }

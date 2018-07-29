@@ -37,13 +37,13 @@ namespace RuleSets
         //public override bool IsSquadBuilderLocked { get { return true; } }
 
         public override int MaxPoints { get { return 200; } }
-        public override int MinShipCost { get { return 28; } }
+        public override int MinShipCost { get { return 23; } }
         public override int MinShipsCount { get { return 1; } }
         public override int MaxShipsCount { get { return 8; } }
         public override string CombatPhaseName { get { return "Engagement"; } }
         public override Color MovementEasyColor { get { return new Color(0, 0.5f, 1); } }
         public override MovementComplexity IonManeuverComplexity { get { return MovementComplexity.Easy; } }
-        public override string PathToSavedSquadrons { get { return "RandomAiSquadrons"; } }
+        public override string PathToSavedSquadrons { get { return "SavedSquadrons"; } } //RandomAiSquadrons
 
         public override string RootUrlForImages { get { return "https://raw.githubusercontent.com/sandrem/xwing-data2-test/master/images/"; } }
         public override Vector2 UpgradeCardSize { get { return new Vector2(418, 300); } }

@@ -23,6 +23,11 @@ namespace UpgradesList
 
             UpgradeAbilities.Add(new Abilities.SecondEdition.RuthlessAbility());
         }
+
+        public override bool IsAllowedForShip(GenericShip ship)
+        {
+            return ship.faction == Faction.Imperial;
+        }
     }
 }
 

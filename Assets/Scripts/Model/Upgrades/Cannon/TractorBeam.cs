@@ -27,7 +27,7 @@ namespace UpgradesList
         {
             Cost = 3;
             UpgradeAbilities.RemoveAll(a => a is TractorBeamAbility);
-            UpgradeAbilities.Add(new TractorBeamAbilitySE);
+            UpgradeAbilities.Add(new TractorBeamAbilitySE());
         }
     }
 }

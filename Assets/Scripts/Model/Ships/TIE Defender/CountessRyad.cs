@@ -28,7 +28,7 @@ namespace Ship
             public void AdaptPilotToSecondEdition()
             {
                 PilotSkill = 4;
-                Cost = 68; //TODO
+                Cost = 86;
 
                 PilotAbilities.RemoveAll(ability => ability is Abilities.CountessRyadAbility);
                 PilotAbilities.Add(new Abilities.SecondEdition.CountessRyadAbility());

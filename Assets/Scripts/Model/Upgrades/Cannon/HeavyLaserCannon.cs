@@ -1,11 +1,12 @@
 ﻿using Abilities;
 using Upgrade;
 using UpgradesList;
+using RuleSets;
 
 namespace UpgradesList
 {
 
-    public class HeavyLaserCannon : GenericSecondaryWeapon
+    public class HeavyLaserCannon : GenericSecondaryWeapon, ISecondEditionUpgrade
     {
         public HeavyLaserCannon() : base()
         {
@@ -19,6 +20,15 @@ namespace UpgradesList
             AttackValue = 4;
 
             UpgradeAbilities.Add(new HeavyLaserCannonAbility());
+        }
+
+        public void AdaptUpgradeToSecondEdition()
+        {
+            Cost = 4;
+
+            ArcRestrictions.Add(Arcs.ArcTypes.Bullseye);
+            UpgradeAbilities.RemoveAll(a => a is HeavyLaserCannonAbility);
+            UpgradeAbilities.Add(new Abilities.SecondEdition.HeavyLaserCannonAbilitySE());
         }
 
     }
@@ -43,6 +53,30 @@ namespace Abilities
             if (Combat.ChosenWeapon is HeavyLaserCannon)
             {
                 diceroll.ChangeAll(DieSide.Crit, DieSide.Success);
+            }
+        }
+    }
+}
+
+namespace Abilities.SecondEdition
+{
+    public class HeavyLaserCannonAbilitySE : HeavyLaserCannonAbility
+    {
+        public override void ActivateAbility()
+        {
+            HostShip.AfterAttackDiceModification += ChangeCritsToHits;
+        }
+
+        public override void DeactivateAbility()
+        {
+            HostShip.AfterAttackDiceModification -= ChangeCritsToHits;
+        }
+
+        private void ChangeCritsToHits()
+        {
+            if (Combat.ChosenWeapon is HeavyLaserCannon)
+            {
+                Combat.DiceRollAttack.ChangeAll(DieSide.Crit, DieSide.Success);
             }
         }
     }

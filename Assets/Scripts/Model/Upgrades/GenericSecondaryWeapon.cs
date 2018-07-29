@@ -8,6 +8,7 @@ using Tokens;
 using BoardTools;
 using Upgrade;
 using SubPhases;
+using Arcs;
 
 namespace Upgrade
 {
@@ -18,6 +19,7 @@ namespace Upgrade
         public int MaxRange { get; set; }
         public int AttackValue { get; set; }
         public bool CanShootOutsideArc { get; set; }
+        public bool IsBullseyeArcOnly { get; set; }
 
         public bool RequiresFocusToShoot;
         public bool RequiresTargetLockOnTargetToShoot;
@@ -27,6 +29,8 @@ namespace Upgrade
         public bool IsDiscardedForShot;
 
         public bool IsTwinAttack;
+
+        public List<ArcTypes> ArcRestrictions { get; internal set; }
 
         public WeaponTypes WeaponType
         {
@@ -57,7 +61,7 @@ namespace Upgrade
 
         public GenericSecondaryWeapon() : base()
         {
-
+            ArcRestrictions = new List<ArcTypes>();
         }
 
         public virtual bool IsShotAvailable(GenericShip targetShip)

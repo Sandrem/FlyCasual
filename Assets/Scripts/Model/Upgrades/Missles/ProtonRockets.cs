@@ -6,10 +6,11 @@ using Ship;
 using UnityEngine;
 using Upgrade;
 using Abilities;
+using RuleSets;
 
 namespace UpgradesList
 {
-    public class ProtonRockets : GenericSecondaryWeapon
+    public class ProtonRockets : GenericSecondaryWeapon, ISecondEditionUpgrade
     {
         public ProtonRockets() : base()
         {
@@ -27,6 +28,22 @@ namespace UpgradesList
             IsDiscardedForShot = true;
 
             UpgradeAbilities.Add(new ProtonRocketsAbility());
+        }
+
+        public void AdaptUpgradeToSecondEdition()
+        {
+            IsDiscardedForShot = false;
+
+            Cost = 7;
+            UsesCharges = true;
+            MaxCharges = 1;
+
+            MinRange = 1;
+            MaxRange = 2;
+            AttackValue = 5;
+            ArcRestrictions.Add(Arcs.ArcTypes.Bullseye);
+
+            UpgradeAbilities.RemoveAll(a => a is ProtonRocketsAbility);
         }
     }
 }

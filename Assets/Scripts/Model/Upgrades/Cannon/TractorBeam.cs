@@ -2,11 +2,12 @@
 using Upgrade;
 using UpgradesList;
 using Tokens;
+using RuleSets;
 
 namespace UpgradesList
 {
 
-    public class TractorBeam : GenericSecondaryWeapon
+    public class TractorBeam : GenericSecondaryWeapon, ISecondEditionUpgrade
     {
         public TractorBeam() : base()
         {
@@ -20,6 +21,13 @@ namespace UpgradesList
             AttackValue = 3;
 
             UpgradeAbilities.Add(new TractorBeamAbility());
+        }
+
+        public void AdaptUpgradeToSecondEdition()
+        {
+            Cost = 3;
+            UpgradeAbilities.RemoveAll(a => a is TractorBeamAbility);
+            UpgradeAbilities.Add(new TractorBeamAbilitySE);
         }
     }
 }
@@ -53,6 +61,18 @@ namespace Abilities
 
             TractorBeamToken token = new TractorBeamToken(Combat.Defender, Combat.Attacker.Owner);
             Combat.Defender.Tokens.AssignToken(token, Triggers.FinishTrigger);
+        }
+    }
+
+    public class TractorBeamAbilitySE : TractorBeamAbility
+    {
+        private void TractorBeamEffect(object sender, System.EventArgs e)
+        {
+            int tractorBeamTokens =  Combat.DiceRollAttack.Successes;
+            Combat.DiceRollAttack.CancelAllResults();
+            Combat.DiceRollAttack.RemoveAllFailures();
+
+            Combat.Defender.Tokens.AssignTokens(() => new TractorBeamToken(Combat.Defender, Combat.Attacker.Owner), tractorBeamTokens, Triggers.FinishTrigger);
         }
     }
 }

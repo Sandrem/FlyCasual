@@ -79,7 +79,7 @@ namespace Abilities.SecondEdition
 
         private void PlanRegenShield(GenericShip host)
         {
-            if (HostShip.Shields < HostShip.MaxShields)
+            if (HostShip.Shields < HostShip.MaxShields && HostUpgrade.Charges > 0)
             {
                 RegisterAbilityTrigger(TriggerTypes.OnManeuverIsRevealed, AskUseAbility);
             }

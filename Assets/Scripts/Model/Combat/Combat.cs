@@ -203,6 +203,7 @@ public static partial class Combat
 
     public static void ConfirmAttackDiceResults()
     {
+        Attacker.CallAfterAttackDiceModification();
         HideDiceResultMenu();
         Phases.FinishSubPhase(typeof(AttackDiceRollCombatSubPhase));
 

@@ -1,6 +1,7 @@
 ﻿using Upgrade;
 using Abilities;
 using RuleSets;
+using Ship;
 
 namespace UpgradesList
 {
@@ -15,6 +16,11 @@ namespace UpgradesList
             Cost = 3;
 
             UpgradeAbilities.Add(new R5D8Ability());
+        }
+
+        public override bool IsAllowedForShip(GenericShip ship)
+        {
+            return ship.faction == Faction.Rebel;
         }
 
         public void AdaptUpgradeToSecondEdition()

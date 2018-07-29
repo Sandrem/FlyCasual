@@ -20,6 +20,11 @@ namespace UpgradesList
 
             UpgradeAbilities.Add(new Abilities.SecondEdition.R4AstromechAbilitySE());
         }
+
+        public override bool IsAllowedForShip(GenericShip ship)
+        {
+            return ship.ShipBaseSize == BaseSize.Small;
+        }
     }
 
 }

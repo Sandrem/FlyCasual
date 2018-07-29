@@ -23,7 +23,7 @@ namespace Ship
             public void AdaptPilotToSecondEdition()
             {
                 PilotSkill = 4;
-                Cost = 62; //TODO
+                Cost = 50;
 
                 PilotAbilities.RemoveAll(ability => ability is Abilities.TenNumbAbility);
                 PilotAbilities.Add(new Abilities.SecondEdition.TenNumbAbility());

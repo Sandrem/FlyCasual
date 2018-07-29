@@ -31,7 +31,7 @@ namespace Ship
             {
                 RequiredMods.Clear();
                 PilotSkill = 4;
-                Cost = 56; //TODO
+                Cost = 50;
                 ImageUrl = null;
 
                 PilotAbilities.RemoveAll(ability => ability is Abilities.BraylenStrammPilotAbility);

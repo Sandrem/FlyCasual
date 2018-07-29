@@ -70,6 +70,7 @@ namespace Ship
         public event EventHandlerShip OnManeuverIsReadyToBeRevealed;
         public event EventHandlerShip OnManeuverIsRevealed;
         public static event EventHandlerShip OnNoManeuverWasRevealedGlobal;
+        public event EventHandlerShip BeforeMovementIsExecuted;
         public event EventHandlerShip OnMovementStart;
         public event EventHandlerShip OnMovementExecuted;
         public event EventHandlerShip OnMovementFinish;
@@ -119,6 +120,7 @@ namespace Ship
             Triggers.ResolveTriggers(TriggerTypes.OnMovementStart, callback);
         }
 
+
         public void CallExecuteMoving(Action callback)
         {
             if (OnMovementExecuted != null) OnMovementExecuted(this);
@@ -126,6 +128,16 @@ namespace Ship
             Triggers.ResolveTriggers(
                 TriggerTypes.OnMovementExecuted,
                 delegate { Selection.ThisShip.CallFinishMovement(callback); }
+            );
+        }
+
+        public void CallBeforeMovementIsExecuted(Action callback)
+        {
+            if (BeforeMovementIsExecuted != null) BeforeMovementIsExecuted(this);
+
+            Triggers.ResolveTriggers(
+                TriggerTypes.BeforeMovementIsExecuted,
+                callback
             );
         }
 

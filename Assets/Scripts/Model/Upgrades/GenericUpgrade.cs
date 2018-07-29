@@ -323,6 +323,8 @@ namespace Upgrade
         public void SpendCharge(Action callBack)
         {
             Charges--;
+            if (Charges < 0) throw new InvalidOperationException("Cannot spend charge when you have none left");
+
             if (Charges == 0) Roster.ShowUpgradeAsInactive(Host, Name);
 
             Name = NameOriginal + " (" + Charges + ")";

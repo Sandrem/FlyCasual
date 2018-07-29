@@ -44,6 +44,8 @@ namespace Abilities
         {
             foreach (GenericArc arc in HostShip.ArcInfo.Arcs)
             {
+                if (arc is OutOfArc) continue;
+
                 arc.ShotPermissions.CanShootCannon = isActive;
             }
         }

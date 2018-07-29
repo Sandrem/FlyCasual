@@ -55,6 +55,12 @@ namespace BoardTools
         {
             InArcInfo = new Dictionary<GenericArc, bool>();
             List<ArcTypes> WeaponArcRestrictions = (Weapon is GenericSecondaryWeapon) ? (Weapon as GenericSecondaryWeapon).ArcRestrictions : null;
+            
+            if(WeaponArcRestrictions != null && WeaponArcRestrictions.Count == 0)
+            {
+                WeaponArcRestrictions = null;
+            }
+
             WeaponTypes weaponType = (Weapon is GenericSecondaryWeapon) ? (Weapon as GenericSecondaryWeapon).WeaponType : WeaponTypes.PrimaryWeapon;
 
             foreach (var arc in Ship1.ArcInfo.Arcs)

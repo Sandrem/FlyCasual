@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Tokens;
+using RuleSets;
 
 namespace Ship
 {
     namespace AlphaClassStarWing
     {
-        public class MajorVynder : AlphaClassStarWing
+        public class MajorVynder : AlphaClassStarWing, ISecondEditionPilot
         {
             public MajorVynder() : base()
             {
@@ -20,6 +21,12 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
                 PilotAbilities.Add(new Abilities.MajorVynderAbility());
+            }
+
+            public void AdaptPilotToSecondEdition()
+            {
+                PilotSkill = 4;
+                Cost = 52; //TODO
             }
         }
     }

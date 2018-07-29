@@ -199,6 +199,8 @@ namespace Ship
 
         public event EventHandlerShip OnCombatCompareResults;
 
+        public event EventHandler AfterAttackDiceModification;
+
         // TRIGGERS
 
         public void CallOnActivationPhaseStart()
@@ -233,6 +235,11 @@ namespace Ship
             }
 
             return result;
+        }
+
+        public void CallAfterAttackDiceModification()
+        {
+            if (AfterAttackDiceModification != null) AfterAttackDiceModification();
         }
 
         public void CallAttackStart()

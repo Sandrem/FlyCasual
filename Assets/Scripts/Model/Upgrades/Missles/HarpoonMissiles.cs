@@ -275,7 +275,7 @@ namespace SubPhases
                     DamageType = DamageTypes.CardAbility
                 };
 
-                Selection.ThisShip.Damage.TryResolveDamage(1, harpoonconditionDamage, callback);
+                Selection.ThisShip.Damage.TryResolveDamage(1, harpoonconditionDamage, Triggers.FinishTrigger);
             }
             else
             {

@@ -42,24 +42,30 @@ namespace Abilities
             curToDamage = ship;
             curDamageInfo = e;
 
+            if(AbilityCanBeUsed())
+                RegisterAbilityTrigger(TriggerTypes.OnTryDamagePrevention, UseDrawTheirFireAbility);
+        }
+
+        protected virtual bool AbilityCanBeUsed()
+        {
             // Is this ship the defender in combat?
             if (Combat.Defender == curToDamage)
-                return;
+                return false;
 
             // Is the damage type a ship attack?
             if (curDamageInfo.DamageType != DamageTypes.ShipAttack)
-                return;
+                return false;
 
             // Is the defender on our team and not us? If not return.
             if (Combat.Defender.Owner.PlayerNo != HostShip.Owner.PlayerNo || Combat.Defender.ShipId == HostShip.ShipId)
-                return;
+                return false;
 
             // Is the defender at range 1 and is there a crit result?
             BoardTools.DistanceInfo distanceInfo = new BoardTools.DistanceInfo(Combat.Defender, HostShip);
             if (distanceInfo.Range > 1 || Combat.DiceRollAttack.CriticalSuccesses < 1)
-                return;
+                return false;
 
-            RegisterAbilityTrigger(TriggerTypes.OnTryDamagePrevention, UseDrawTheirFireAbility);
+            return true;
         }
 
         private void UseDrawTheirFireAbility(object sender, System.EventArgs e)

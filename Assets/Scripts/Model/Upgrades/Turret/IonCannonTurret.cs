@@ -92,8 +92,6 @@ namespace Abilities
         }
     }
 
-    }
-
 }
 
 

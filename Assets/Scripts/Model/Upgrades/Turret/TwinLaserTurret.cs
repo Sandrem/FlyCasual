@@ -43,27 +43,28 @@ namespace Abilities
             HostShip.OnShotHitAsAttacker -= RegisterTwinLaserTurretEffect;
         }
 
-		private void RegisterTwinLaserTurretEffect()
-		{
-			if (Combat.ChosenWeapon == HostUpgrade)
-			{
-				Triggers.RegisterTrigger(
-                    new Trigger(){
-						TriggerType = TriggerTypes.OnShotHit,
-						TriggerOwner = Combat.Attacker.Owner.PlayerNo,
-						EventHandler = TwinLaserTurretEffect
-					}
+        private void RegisterTwinLaserTurretEffect()
+        {
+            if (Combat.ChosenWeapon == HostUpgrade)
+            {
+                Triggers.RegisterTrigger(
+                    new Trigger()
+                    {
+                        TriggerType = TriggerTypes.OnShotHit,
+                        TriggerOwner = Combat.Attacker.Owner.PlayerNo,
+                        EventHandler = TwinLaserTurretEffect
+                    }
                 );
-			}
-		}
-		private void TwinLaserTurretEffect(object sender, System.EventArgs e)
-		{
+            }
+        }
+        private void TwinLaserTurretEffect(object sender, System.EventArgs e)
+        {
             Combat.DiceRollAttack.CancelAllResults();
-			Combat.DiceRollAttack.RemoveAllFailures();
-			DefenderSuffersDamage();
-		}
-		private void DefenderSuffersDamage()
-		{
+            Combat.DiceRollAttack.RemoveAllFailures();
+            DefenderSuffersDamage();
+        }
+        private void DefenderSuffersDamage()
+        {
             DamageSourceEventArgs tltDamage = new DamageSourceEventArgs()
             {
                 Source = "Twin Laser Turret",
@@ -73,6 +74,4 @@ namespace Abilities
             Combat.Defender.Damage.TryResolveDamage(1, tltDamage, Triggers.FinishTrigger);
         }
     }
-    }
-
 }

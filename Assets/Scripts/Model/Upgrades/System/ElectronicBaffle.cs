@@ -111,7 +111,5 @@ namespace Abilities
 
             HostShip.Damage.TryResolveDamage(1, harpoonconditionDamage, DecisionSubPhase.ConfirmDecision);
         }
-    }
 	}
-
 }

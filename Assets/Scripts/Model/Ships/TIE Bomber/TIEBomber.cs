@@ -4,12 +4,13 @@ using UnityEngine;
 using Movement;
 using ActionsList;
 using RuleSets;
+using Bombs;
 
 namespace Ship
 {
     namespace TIEBomber
     {
-        public class TIEBomber : GenericShip, TIE //, ISecondEditionShip
+        public class TIEBomber : GenericShip, TIE, ISecondEditionShip
         {
 
             public TIEBomber() : base()
@@ -52,12 +53,9 @@ namespace Ship
 
             private void AssignTemporaryManeuvers()
             {
-                Maneuvers.Add("1.L.T", MovementComplexity.None);
                 Maneuvers.Add("1.L.B", MovementComplexity.Normal);
                 Maneuvers.Add("1.F.S", MovementComplexity.Easy);
                 Maneuvers.Add("1.R.B", MovementComplexity.Normal);
-                Maneuvers.Add("1.R.T", MovementComplexity.None);
-                Maneuvers.Add("1.F.R", MovementComplexity.None);
                 Maneuvers.Add("2.L.T", MovementComplexity.Complex);
                 Maneuvers.Add("2.L.B", MovementComplexity.Easy);
                 Maneuvers.Add("2.F.S", MovementComplexity.Easy);
@@ -69,16 +67,15 @@ namespace Ship
                 Maneuvers.Add("3.F.S", MovementComplexity.Easy);
                 Maneuvers.Add("3.R.B", MovementComplexity.Normal);
                 Maneuvers.Add("3.R.T", MovementComplexity.Normal);
-                Maneuvers.Add("3.F.R", MovementComplexity.None);
                 Maneuvers.Add("4.F.S", MovementComplexity.Normal);
-                Maneuvers.Add("4.F.R", MovementComplexity.None);
-                Maneuvers.Add("5.F.S", MovementComplexity.None);
                 Maneuvers.Add("5.F.R", MovementComplexity.Complex);
             }
 
             public void AdaptShipToSecondEdition()
             {
-                //TODO: Maneuvers
+                Maneuvers["2.L.T"] = MovementComplexity.Normal;
+                Maneuvers["2.R.T"] = MovementComplexity.Normal;
+                Maneuvers.Add("3.F.R", MovementComplexity.Complex);
 
                 FullType = "TIE/sa Bomber";
 
@@ -91,8 +88,32 @@ namespace Ship
                 ActionBar.AddPrintedAction(new ReloadAction() { IsRed = true });
 
                 IconicPilots[Faction.Imperial] = typeof(ScimitarSquadronPilot);
+
+                ShipAbilities.Add(new Abilities.SecondEdition.NimbleBomber());
             }
 
+        }
+    }
+}
+
+namespace Abilities.SecondEdition
+{
+    public class NimbleBomber : GenericAbility
+    {
+        public override void ActivateAbility()
+        {
+            HostShip.OnGetAvailableBombDropTemplates += AddNimbleBomberTemplates;
+        }
+
+        public override void DeactivateAbility()
+        {
+            HostShip.OnGetAvailableBombDropTemplates -= AddNimbleBomberTemplates;
+        }
+
+        private void AddNimbleBomberTemplates(List<BombDropTemplates> availableTemplates)
+        {
+            if (!availableTemplates.Contains(BombDropTemplates.Bank_1_Left)) availableTemplates.Add(BombDropTemplates.Bank_1_Left);
+            if (!availableTemplates.Contains(BombDropTemplates.Bank_1_Right)) availableTemplates.Add(BombDropTemplates.Bank_1_Right);
         }
     }
 }

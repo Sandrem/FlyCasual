@@ -74,6 +74,7 @@ namespace Ship
         public event EventHandlerShip OnMovementStart;
         public event EventHandlerShip OnMovementExecuted;
         public event EventHandlerShip OnMovementFinish;
+        public event EventHandlerShip OnMovementFinishSuccessfully;
         public static event EventHandlerShip OnMovementFinishGlobal;
 
         public event EventHandlerShip OnPositionFinish;
@@ -145,6 +146,12 @@ namespace Ship
         {
             if (OnMovementFinish != null) OnMovementFinish(this);
             if (OnMovementFinishGlobal != null) OnMovementFinishGlobal(this);
+            
+            // If we didn't bump, hit an obstacle, or end up off the board then we have succesfully completed our manuever.
+            if(!IsBumped && !IsHitObstacles && !BoardTools.Board.IsOffTheBoard(this))
+            {
+                if (OnMovementFinishSuccessfully != null) OnMovementFinishSuccessfully(this);
+            }
 
             Triggers.ResolveTriggers(
                 TriggerTypes.OnMovementFinish,

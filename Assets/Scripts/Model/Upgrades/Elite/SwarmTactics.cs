@@ -5,10 +5,11 @@ using UnityEngine;
 using Upgrade;
 using Ship;
 using Abilities;
+using RuleSets;
 
 namespace UpgradesList
 {
-    public class SwarmTactics : GenericUpgrade
+    public class SwarmTactics : GenericUpgrade, ISecondEditionUpgrade
     {
 
         public SwarmTactics() : base()
@@ -18,6 +19,11 @@ namespace UpgradesList
             Cost = 2;
 
             UpgradeAbilities.Add(new SwarmTacticsAbility());
+        }
+
+        public void AdaptUpgradeToSecondEdition()
+        {
+            Cost = 3;
         }
     }
 }

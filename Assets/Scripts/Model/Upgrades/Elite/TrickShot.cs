@@ -26,7 +26,7 @@ namespace UpgradesList
             Cost = 1;
 
             UpgradeAbilities.RemoveAll(ability => ability is Abilities.TrickShotAbility);
-            UpgradeAbilities.Add(new Abilities.TrickShotAbilitySE);
+            UpgradeAbilities.Add(new Abilities.SecondEdition.TrickShotAbilitySE);
         }
     }
 }

@@ -64,7 +64,7 @@ namespace Abilities
 
             public override bool IsDiceModificationAvailable()
             {
-                if (Combat.Attacker.Damage.GetFacedownCards().Count == 0 && Combat.Attacker.Damage.GetFaceupCrits().Count == 0)
+                if (Combat.Attacker.Damage.IsDamaged())
                     return false;
                 else
                     return base.IsDiceModificationAvailable();

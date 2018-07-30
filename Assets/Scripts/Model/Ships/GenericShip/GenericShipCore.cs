@@ -421,39 +421,6 @@ namespace Ship
             TargetLockMaxRange = max;
         }
 
-        // CHARGES
-        // TODO: Change/Remove so that this functionality isn't duplicated between GenericShip and GenericUpgrade
-        public int MaxCharges { get; set; }
-        public int Charges { get; set; }
-        public bool UsesCharges;
-
-        public void SpendCharge(Action callBack)
-        {
-            Charges--;
-            if (Charges < 0) throw new InvalidOperationException("Cannot spend charge when you have none left");
-
-            callBack();
-        }
-
-        public void RemoveCharge(Action callBack)
-        {
-            // for now this is just an alias of SpendCharge
-            SpendCharge(callBack);
-        }
-
-        public void RestoreCharge()
-        {
-            if (Charges < MaxCharges)
-            {
-                Charges++;
-            }
-        }
-
-        public void SetChargesToMax()
-        {
-            Charges = MaxCharges;
-        }
-
     }
 
 }

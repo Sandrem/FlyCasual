@@ -27,8 +27,6 @@ public static class Rules
     public static DockingRule Docking { get; private set; }
     public static TractorBeamRule TractorBeam { get; private set; }
     public static ForceRule Force { get; private set; }
-    public static ChargeRule Charge { get; private set; }
-
 
     public static void Initialize()
     {
@@ -53,7 +51,6 @@ public static class Rules
         Docking = new DockingRule();
         TractorBeam = new TractorBeamRule();
         Force = new ForceRule();
-        Charge = new ChargeRule();
     }
 
     public static void FinishGame()

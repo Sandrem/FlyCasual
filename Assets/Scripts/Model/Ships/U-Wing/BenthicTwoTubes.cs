@@ -31,6 +31,8 @@ namespace Ship
             {
                 PilotSkill = 2;
                 Cost = 47;
+
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Illicit);
             }
         }
     }

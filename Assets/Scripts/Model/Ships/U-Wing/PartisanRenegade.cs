@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using RuleSets;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,7 +7,7 @@ namespace Ship
 {
     namespace UWing
     {
-        public class PartisanRenegade : UWing
+        public class PartisanRenegade : UWing, ISecondEditionPilot
         {
             public PartisanRenegade() : base()
             {
@@ -15,6 +16,14 @@ namespace Ship
                 Cost = 22;
 
                 SkinName = "Partisan";
+            }
+
+            public void AdaptPilotToSecondEdition()
+            {
+                Cost = 43;
+                PilotSkill = 1;
+
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Illicit);
             }
         }
     }

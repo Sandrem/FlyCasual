@@ -40,19 +40,17 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            HostShip.OnMovementFinish += CheckTIEx7Ability;
+            HostShip.OnMovementFinishSuccessfully += CheckTIEx7Ability;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.OnMovementFinish -= CheckTIEx7Ability;
+            HostShip.OnMovementFinishSuccessfully -= CheckTIEx7Ability;
         }
 
         private void CheckTIEx7Ability(GenericShip ship)
         {
-            if (BoardTools.Board.IsOffTheBoard(ship)) return;
-
-            if (ship.AssignedManeuver.Speed > 2 && !ship.IsBumped && !ship.IsHitObstacles)
+            if (ship.AssignedManeuver.Speed > 2)
             {
                 Triggers.RegisterTrigger(new Trigger() {
                     Name = "TIE/x7",

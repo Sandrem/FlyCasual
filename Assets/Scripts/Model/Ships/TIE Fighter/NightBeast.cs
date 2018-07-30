@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Ship;
 using System;
+using RuleSets;
 
 namespace Ship
 {
     namespace TIEFighter
     {
-        public class NightBeast : TIEFighter
+        public class NightBeast : TIEFighter, ISecondEditionPilot
         {
             public NightBeast() : base()
             {
@@ -19,6 +20,15 @@ namespace Ship
                 IsUnique = true;
 
                 PilotAbilities.Add(new Abilities.NightBeastAbility());
+            }
+
+            public void AdaptPilotToSecondEdition()
+            {
+                PilotSkill = 2;
+                Cost = 26;
+
+                PilotAbilities.RemoveAll(ability => ability is Abilities.NightBeastAbility);
+                PilotAbilities.Add(new Abilities.SecondEdition.NightBeastAbilitySE());
             }
         }
     }
@@ -38,7 +48,7 @@ namespace Abilities
             HostShip.OnMovementFinish -= NightBeastPilotAbility;
         }
 
-        private void NightBeastPilotAbility(GenericShip ship)
+        protected void NightBeastPilotAbility(GenericShip ship)
         {
             if (BoardTools.Board.IsOffTheBoard(ship)) return;
 
@@ -61,6 +71,22 @@ namespace Abilities
             List<ActionsList.GenericAction> actions = new List<ActionsList.GenericAction>() { new ActionsList.FocusAction() };
 
             HostShip.AskPerformFreeAction(actions, Triggers.FinishTrigger);
+        }
+    }
+}
+
+namespace Abilities.SecondEdition
+{
+    public class NightBeastAbilitySE : NightBeastAbility
+    {
+        public override void ActivateAbility()
+        {
+            HostShip.OnMovementFinishSuccessfully += NightBeastPilotAbility;
+        }
+
+        public override void DeactivateAbility()
+        {
+            HostShip.OnMovementFinishSuccessfully -= NightBeastPilotAbility;
         }
     }
 }

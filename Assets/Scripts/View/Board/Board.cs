@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Arcs;
 using Ship;
 using UnityEngine;
 
@@ -180,6 +181,29 @@ namespace BoardTools
         {
             DistanceInfo positionInfo = new DistanceInfo(from, to);
             return positionInfo.Range;
+        }
+
+        public static List<GenericShip> GetShipsInBullseyeArc(GenericShip ship, Team.Type team = Team.Type.Any)
+        {
+            List<GenericShip> shipsInBullseyeArc = new List<GenericShip>();
+            foreach(var kv in Roster.AllShips)
+            {
+                GenericShip otherShip = kv.Value;
+
+                if (team == Team.Type.Friendly && ship.Owner.Id != otherShip.Owner.Id)
+                    continue;
+
+                if (team == Team.Type.Enemy && ship.Owner.Id == otherShip.Owner.Id)
+                    continue;
+
+                ShotInfo shotInfo = new ShotInfo(ship, otherShip, ship.PrimaryWeapon);
+                if (!shotInfo.InArcByType(ArcTypes.Bullseye))
+                    continue;
+
+                shipsInBullseyeArc.Add(otherShip);
+            }
+
+            return shipsInBullseyeArc;
         }
 
         public static List<GenericShip> GetShipsAtRange(GenericShip ship, Vector2 fromto, Team.Type team = Team.Type.Any)

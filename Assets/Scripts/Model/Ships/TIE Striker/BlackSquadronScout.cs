@@ -22,8 +22,6 @@ namespace Ship
             {
                 PilotSkill = 3;
                 Cost = 38;
-
-                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
             }
         }
     }

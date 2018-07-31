@@ -154,6 +154,8 @@ namespace RuleSets
                 (ship as ISecondEditionPilot).AdaptPilotToSecondEdition();
                 ship.PilotRuleType = typeof(SecondEdition);
             }
+
+            ship.SetChargesToMax();
         }
 
         public override void AdaptUpgradeToRules(GenericUpgrade upgrade)

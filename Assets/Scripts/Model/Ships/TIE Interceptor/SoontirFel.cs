@@ -4,12 +4,13 @@ using UnityEngine;
 using Ship;
 using System;
 using Tokens;
+using RuleSets;
 
 namespace Ship
 {
     namespace TIEInterceptor
     {
-        public class SoontirFel : TIEInterceptor
+        public class SoontirFel : TIEInterceptor, ISecondEditionPilot
         {
             public bool alwaysUseAbility;
 
@@ -26,6 +27,15 @@ namespace Ship
                 SkinName = "Red Stripes";
 
                 PilotAbilities.Add(new Abilities.SoontirFelAbility());
+            }
+
+            public void AdaptPilotToSecondEdition()
+            {
+                PilotSkill = 6;
+                Cost = 52;
+
+                PilotAbilities.RemoveAll(ability => ability is Abilities.SoontirFelAbility);
+                PilotAbilities.Add(new Abilities.SecondEdition.SoontirFelAbilitySE());
             }
         }
     }
@@ -70,4 +80,34 @@ namespace Abilities
             HostShip.Tokens.AssignToken(typeof(FocusToken), SubPhases.DecisionSubPhase.ConfirmDecision);
         }
     }
+}
+
+namespace Abilities.SecondEdition
+{
+    public class SoontirFelAbilitySE : GenericAbility
+    {
+        public override void ActivateAbility()
+        {
+            Phases.Events.OnCombatPhaseStart_Triggers += RegisterSoontirFelAbility;
+        }
+
+        public override void DeactivateAbility()
+        {
+            Phases.Events.OnCombatPhaseStart_Triggers -= RegisterSoontirFelAbility;
+        }
+
+        private void RegisterSoontirFelAbility()
+        {
+            if (BoardTools.Board.GetShipsInBullseyeArc(HostShip, Team.Type.Enemy).Count > 0)
+            {
+                RegisterAbilityTrigger(TriggerTypes.OnCombatPhaseStart, OnCombatAssignFocus);
+            }
+        }
+
+        private void OnCombatAssignFocus(object sender, EventArgs e)
+        {
+            HostShip.Tokens.AssignToken(typeof(FocusToken), Triggers.FinishTrigger);
+        }
+    }
+
 }

@@ -114,16 +114,13 @@ namespace Abilities.SecondEdition
 
         private void DefenderSuffersDamage()
         {
-            Combat.Defender.AssignedDamageDiceroll.AddDice(DieSide.Success);
-
-            var trigger = RegisterAbilityTrigger(TriggerTypes.OnDamageIsDealt, Combat.Defender.SufferDamage, new DamageSourceEventArgs()
+            DamageSourceEventArgs ionCannonDamage = new DamageSourceEventArgs()
             {
                 Source = Combat.Attacker,
                 DamageType = DamageTypes.ShipAttack
-            });
-            trigger.Skippable = true;
+            };
 
-            Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, Triggers.FinishTrigger);
+            Combat.Defender.Damage.TryResolveDamage(1, ionCannonDamage, Triggers.FinishTrigger);
         }
     }
 }

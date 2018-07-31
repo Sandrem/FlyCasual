@@ -56,16 +56,13 @@ namespace Abilities.SecondEdition
         {
             curToDamage = toDamage;
 
-            Debug.Log("Are they on our tema?");
             // Is the defender on our team? If not return.
             if (curToDamage.Owner.PlayerNo != HostShip.Owner.PlayerNo)
                 return;
 
-            Debug.Log("Is it a TIE Fighter?");
             if (!(curToDamage is Ship.TIEFighter.TIEFighter))
                 return;
 
-            Debug.Log("Is it range one?");
             // If the defender is at range one of us we register our trigger to prevent damage.
             BoardTools.DistanceInfo distanceInfo = new BoardTools.DistanceInfo(curToDamage, HostShip);
             if (distanceInfo.Range == 1)

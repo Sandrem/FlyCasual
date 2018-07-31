@@ -53,9 +53,7 @@ namespace Ship
             private void AssignTemporaryManeuvers()
             {
                 Maneuvers.Add("1.L.T", MovementComplexity.Normal);
-                Maneuvers.Add("1.R.B", MovementComplexity.None);
                 Maneuvers.Add("1.R.T", MovementComplexity.Normal);
-                Maneuvers.Add("1.F.R", MovementComplexity.None);
                 Maneuvers.Add("2.L.T", MovementComplexity.Normal);
                 Maneuvers.Add("2.L.B", MovementComplexity.Easy);
                 Maneuvers.Add("2.F.S", MovementComplexity.Easy);

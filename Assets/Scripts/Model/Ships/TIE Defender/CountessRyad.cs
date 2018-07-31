@@ -71,7 +71,7 @@ namespace Abilities
         {
             Messages.ShowInfoToHuman("Countess Ryad: You can change your maneuver to Koiogran turn");
             maneuverKey = HostShip.AssignedManeuver.Speed + ".F.R";
-            originalColor = HostShip.Maneuvers[maneuverKey];
+            originalColor = (HostShip.Maneuvers.ContainsKey(maneuverKey)) ? HostShip.Maneuvers[maneuverKey] : MovementComplexity.None;
             HostShip.Maneuvers[maneuverKey] = GetNewManeuverComplexity();
             HostShip.Owner.ChangeManeuver((maneuverCode) => {                    
                 GameMode.CurrentGameMode.AssignManeuver(maneuverCode);
@@ -83,7 +83,14 @@ namespace Abilities
         {
             HostShip.OnMovementFinish -= RestoreManuvers;
 
-            HostShip.Maneuvers[maneuverKey] = originalColor;
+            if (originalColor != MovementComplexity.None)
+            {
+                HostShip.Maneuvers[maneuverKey] = originalColor;
+            }
+            else
+            {
+                HostShip.Maneuvers.Remove(maneuverKey);
+            }
         }
 
         private bool StraightOrKoiogran(string maneuverString)

@@ -59,7 +59,7 @@ namespace Abilities
 
         private void AskChangeManeuver(object sender, System.EventArgs e)
         {
-            Messages.ShowInfoToHuman("Juno Eclipse: You can increase or decrease your maneuver speed");
+            Messages.ShowInfoToHuman(HostShip.PilotName + " : You can increase or decrease your maneuver speed");
             allowedMovements.Clear();            
             string key = HostShip.AssignedManeuver.ToString();
             int speed = HostShip.AssignedManeuver.Speed;

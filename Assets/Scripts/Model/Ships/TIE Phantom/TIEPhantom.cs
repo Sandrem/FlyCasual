@@ -74,7 +74,7 @@ namespace Ship
             public void AdaptShipToSecondEdition()
             {
                 Maneuvers.Add("1.L.B", MovementComplexity.Normal);
-                Maneuvers.Add("1.F.S", MovementComplexity.Normal);
+                Maneuvers.Add("1.R.B", MovementComplexity.Normal);
 
                 FullType = "TIE/ph Phantom";
 

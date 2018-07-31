@@ -4,10 +4,11 @@ using Ship;
 using Abilities;
 using Tokens;
 using UnityEngine;
+using RuleSets;
 
 namespace UpgradesList
 {
-    public class LattsRazzi : GenericUpgrade
+    public class LattsRazzi : GenericUpgrade, ISecondEditionUpgrade
     {
         public LattsRazzi() : base()
         {
@@ -20,6 +21,11 @@ namespace UpgradesList
             // AvatarOffset = new Vector2(37, 0);
 
             UpgradeAbilities.Add(new LattsRazziCrewAbility());
+        }
+
+        public void AdaptUpgradeToSecondEdition()
+        {
+            Cost = 7;
         }
 
         public override bool IsAllowedForShip(GenericShip ship)

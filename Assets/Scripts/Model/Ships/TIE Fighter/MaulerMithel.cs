@@ -3,12 +3,13 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using RuleSets;
 
 namespace Ship
 {
     namespace TIEFighter
     {
-        public class MaulerMithel : TIEFighter
+        public class MaulerMithel : TIEFighter, ISecondEditionPilot
         {
             public MaulerMithel() : base()
             {
@@ -21,6 +22,13 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
                 PilotAbilities.Add(new Abilities.MaulerMithelAbility());
+            }
+
+            public void AdaptPilotToSecondEdition()
+            {
+                PilotName = "\"Mauler\" Mithel";
+                PilotSkill = 5;
+                Cost = 32;
             }
         }
     }

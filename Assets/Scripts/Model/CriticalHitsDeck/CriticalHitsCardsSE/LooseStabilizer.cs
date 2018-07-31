@@ -41,22 +41,13 @@ namespace DamageDeckCardSE
             {
                 Messages.ShowInfo("Loose Stabilizer: Suffer 1 damage on non-straight maneuver");
 
-                Host.AssignedDamageDiceroll.AddDice(DieSide.Success);
-
-                Triggers.RegisterTrigger(new Trigger()
+                DamageSourceEventArgs looseDamage = new DamageSourceEventArgs()
                 {
-                    Name = "Suffer damage",
-                    TriggerType = TriggerTypes.OnDamageIsDealt,
-                    TriggerOwner = Host.Owner.PlayerNo,
-                    EventHandler = Host.SufferDamage,
-                    EventArgs = new DamageSourceEventArgs()
-                    {
-                        Source = "Critical hit card",
-                        DamageType = DamageTypes.CriticalHitCard
-                    }
-                });
+                    Source = "Critical hit card",
+                    DamageType = DamageTypes.CriticalHitCard
+                };
 
-                Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, RepairLooseStabilizer);
+                Selection.ActiveShip.Damage.TryResolveDamage(1, looseDamage, RepairLooseStabilizer);
             }
         }
 

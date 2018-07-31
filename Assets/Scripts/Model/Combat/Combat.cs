@@ -299,36 +299,18 @@ public static partial class Combat
         Attacker.CallShotHitAsAttacker();
         Defender.CallShotHitAsDefender();
 
-        Triggers.ResolveTriggers(TriggerTypes.OnShotHit, TryDamagePrevention);
-    }
-
-    private static void TryDamagePrevention()
-    {
-        Defender.CallTryDamagePrevention(ResolveCombatDamage);
+        Triggers.ResolveTriggers(TriggerTypes.OnShotHit, ResolveCombatDamage);
     }
 
     private static void ResolveCombatDamage()
     {
-        Defender.AssignedDamageDiceroll = DiceRollAttack;
-
-        foreach (var dice in DiceRollAttack.DiceList)
+        DamageSourceEventArgs damageArgs = new DamageSourceEventArgs()
         {
-            Triggers.RegisterTrigger(new Trigger()
-            {
-                Name = "Suffer damage",
-                TriggerType = TriggerTypes.OnDamageIsDealt,
-                TriggerOwner = Defender.Owner.PlayerNo,
-                EventHandler = Defender.SufferDamage,
-                EventArgs = new DamageSourceEventArgs()
-                {
-                    Source = Attacker,
-                    DamageType = DamageTypes.ShipAttack
-                },
-                Skippable = true
-            });
-        }
+            Source = Attacker,
+            DamageType = DamageTypes.ShipAttack
+        };
 
-        Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, AfterShotIsPerformed);
+        Defender.Damage.TryResolveDamage(DiceRollAttack.DiceList, damageArgs, AfterShotIsPerformed);
     }
 
     private static void AfterShotIsPerformed()

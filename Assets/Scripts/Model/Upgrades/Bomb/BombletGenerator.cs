@@ -82,26 +82,13 @@ namespace SubPhases
         {
             Messages.ShowError("Bomblet: ship suffered damage");
 
-            for (int i = 0; i < CurrentDiceRoll.DiceList.Count; i++)
+            DamageSourceEventArgs bombletDamage = new DamageSourceEventArgs()
             {
-                Selection.ActiveShip.AssignedDamageDiceroll.AddDice(CurrentDiceRoll.DiceList[i].Side);
-                                
-                Triggers.RegisterTrigger(new Trigger()
-                {
-                    Name = "Suffer damage",
-                    TriggerType = TriggerTypes.OnDamageIsDealt,
-                    TriggerOwner = Selection.ActiveShip.Owner.PlayerNo,
-                    EventHandler = Selection.ActiveShip.SufferDamage,
-                    EventArgs = new DamageSourceEventArgs()
-                    {
-                        Source = "Bomblet",
-                        DamageType = DamageTypes.BombDetonation
-                    },
-                    Skippable = true
-                });
-            }
+                Source = "Bomblet",
+                DamageType = DamageTypes.BombDetonation
+            };
 
-            Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, CallBack);
+            Selection.ActiveShip.Damage.TryResolveDamage(CurrentDiceRoll.DiceList, bombletDamage, CallBack);
         }
 
         private void NoDamage()

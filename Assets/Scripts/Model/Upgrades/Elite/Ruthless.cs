@@ -86,22 +86,13 @@ namespace Abilities
 
             private void ShipIsSelected()
             {
-                TargetShip.AssignedDamageDiceroll.AddDice(DieSide.Success);
-
-                Triggers.RegisterTrigger(new Trigger()
+                DamageSourceEventArgs ruthlessDamage = new DamageSourceEventArgs()
                 {
-                    Name = "Suffer damage",
-                    TriggerType = TriggerTypes.OnDamageIsDealt,
-                    TriggerOwner = TargetShip.Owner.PlayerNo,
-                    EventHandler = TargetShip.SufferDamage,
-                    EventArgs = new DamageSourceEventArgs()
-                    {
-                        Source = HostShip,
-                        DamageType = DamageTypes.CardAbility
-                    }
-                });
+                    Source = HostShip,
+                    DamageType = DamageTypes.CardAbility
+                };
 
-                Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, SelectShipSubPhase.FinishSelection);
+                TargetShip.Damage.TryResolveDamage(1, ruthlessDamage, SelectShipSubPhase.FinishSelection);
             }
 
             private bool FilterTargets(GenericShip ship)

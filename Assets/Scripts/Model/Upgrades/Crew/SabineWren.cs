@@ -130,22 +130,13 @@ namespace Abilities
 
         private void DealOneDamage(GenericShip ship, Action callback)
         {
-            ship.AssignedDamageDiceroll.AddDice(DieSide.Success);
-
-            Triggers.RegisterTrigger(new Trigger()
+            DamageSourceEventArgs sabineDamage = new DamageSourceEventArgs()
             {
-                Name = "Suffer damage from Sabiine Wren",
-                TriggerType = TriggerTypes.OnDamageIsDealt,
-                TriggerOwner = ship.Owner.PlayerNo,
-                EventHandler = ship.SufferDamage,
-                EventArgs = new DamageSourceEventArgs()
-                {
-                    Source = this.HostUpgrade,
-                    DamageType = DamageTypes.CardAbility
-                }
-            });
+                Source = this.HostUpgrade,
+                DamageType = DamageTypes.CardAbility
+            };
 
-            Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, callback);
+            HostShip.Damage.TryResolveDamage(1, sabineDamage, callback);
         }
     }
 }

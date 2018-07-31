@@ -54,7 +54,7 @@ namespace Abilities
             }
         }
 
-        private void TractorBeamEffect(object sender, System.EventArgs e)
+        protected virtual void TractorBeamEffect(object sender, System.EventArgs e)
         {
             Combat.DiceRollAttack.CancelAllResults();
             Combat.DiceRollAttack.RemoveAllFailures();
@@ -66,7 +66,7 @@ namespace Abilities
 
     public class TractorBeamAbilitySE : TractorBeamAbility
     {
-        private void TractorBeamEffect(object sender, System.EventArgs e)
+        protected override void TractorBeamEffect(object sender, System.EventArgs e)
         {
             int tractorBeamTokens =  Combat.DiceRollAttack.Successes;
             Combat.DiceRollAttack.CancelAllResults();

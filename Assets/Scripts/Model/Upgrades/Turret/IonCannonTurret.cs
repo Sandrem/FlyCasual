@@ -82,25 +82,14 @@ namespace Abilities
 
         protected void DefenderSuffersDamage()
         {
-            Combat.Defender.AssignedDamageDiceroll.AddDice(DieSide.Success);
-
-            Triggers.RegisterTrigger(new Trigger()
+            DamageSourceEventArgs ionturretDamage = new DamageSourceEventArgs()
             {
-                Name = "Suffer damage",
-                TriggerType = TriggerTypes.OnDamageIsDealt,
-                TriggerOwner = Combat.Defender.Owner.PlayerNo,
-                EventHandler = Combat.Defender.SufferDamage,
-                EventArgs = new DamageSourceEventArgs()
-                {
-                    Source = Combat.Attacker,
-                    DamageType = DamageTypes.ShipAttack
-                },
-                Skippable = true
-            });
+                Source = "Ion Cannon Turret",
+                DamageType = DamageTypes.ShipAttack
+            };
 
-            Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, Triggers.FinishTrigger);
+            Combat.Defender.Damage.TryResolveDamage(1, ionturretDamage, Triggers.FinishTrigger);
         }
-
     }
 
 }

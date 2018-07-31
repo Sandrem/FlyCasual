@@ -11,7 +11,7 @@ namespace UpgradesList
         {
             Types.Add(UpgradeType.Elite);
             Name = "Fearless";
-            Cost = 1;
+            Cost = 3;
 
             UpgradeRuleType = typeof(SecondEdition);
 

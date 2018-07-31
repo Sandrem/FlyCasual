@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using Ship;
+using RuleSets;
 
 namespace Ship
 {
     namespace Firespray31
     {
-        public class KrassisTrelix : Firespray31
+        public class KrassisTrelix : Firespray31, ISecondEditionPilot
         {
             public KrassisTrelix() : base()
             {
@@ -23,6 +24,19 @@ namespace Ship
                 faction = Faction.Imperial;
 
                 SkinName = "Krassis Trelix";
+            }
+
+            public void AdaptPilotToSecondEdition()
+            {
+                PilotSkill = 3;
+                Cost = 70;
+
+                faction = Faction.Scum;
+
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
+
+                PilotAbilities.RemoveAll(a => a is Abilities.KrassisTrelixAbility);
+                PilotAbilities.Add(new Abilities.SecondEdition.KrassisTrelixAbilitySE());
             }
         }
     }
@@ -98,6 +112,49 @@ namespace Abilities
                 return result;
             }
 
+        }
+    }
+}
+
+namespace Abilities.SecondEdition
+{
+    public class KrassisTrelixAbilitySE : GenericAbility
+    {
+        public override void ActivateAbility()
+        {
+            ToggleArcAbility(true);
+
+            AddDiceModification(
+                "Krassis Trelix",
+                IsDiceModificationAvailable,
+                GetAiPriority,
+                DiceModificationType.Reroll,
+                1
+            );
+        }
+
+        public override void DeactivateAbility()
+        {
+            ToggleArcAbility(false);
+
+            RemoveDiceModification();
+        }
+
+        private void ToggleArcAbility(bool isActive)
+        {
+            HostShip.ArcInfo.GetArc<Arcs.ArcRear>().ShotPermissions.CanShootTorpedoes = isActive;
+            HostShip.ArcInfo.GetArc<Arcs.ArcRear>().ShotPermissions.CanShootMissiles = isActive;
+            HostShip.ArcInfo.GetArc<Arcs.ArcRear>().ShotPermissions.CanShootCannon = isActive;
+        }
+
+        private bool IsDiceModificationAvailable()
+        {
+            return Combat.AttackStep == CombatStep.Attack && Combat.ChosenWeapon != HostShip.PrimaryWeapon;
+        }
+
+        private int GetAiPriority()
+        {
+            return 90;
         }
     }
 }

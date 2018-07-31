@@ -1,10 +1,13 @@
-﻿using System.Linq;
+﻿using Arcs;
+using BoardTools;
+using RuleSets;
+using System.Linq;
 
 namespace Ship
 {
     namespace TIEFighter
     {
-        public class Scourge : TIEFighter
+        public class Scourge : TIEFighter, ISecondEditionPilot
         {
             public Scourge()
             {
@@ -17,6 +20,17 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
                 PilotAbilities.Add(new Abilities.ScourgeAbility());
+            }
+
+            public void AdaptPilotToSecondEdition()
+            {
+                // "Scourge" Skutu
+                PilotName = PilotName + " Skutu";
+                PilotSkill = 5;
+                Cost = 32;
+
+                PilotAbilities.RemoveAll(ability => ability is Abilities.ScourgeAbility);
+                PilotAbilities.Add(new Abilities.SecondEdition.ScourgeAbilitySE());
             }
         }
     }
@@ -36,7 +50,7 @@ namespace Abilities
             HostShip.OnShotStartAsAttacker -= CheckConditions;
         }
 
-        private void CheckConditions()
+        protected virtual void CheckConditions()
         {
             if (Combat.Defender.Damage.DamageCards.Any())
             {
@@ -44,11 +58,36 @@ namespace Abilities
             }
         }
 
-        private void RollExtraDice(ref int count)
+        protected virtual void SendExtraDiceMessage()
+        {
+            Messages.ShowInfo("Defender has a damage card. Roll an additional attack die.");
+        }
+
+        protected void RollExtraDice(ref int count)
         {
             count++;
-            Messages.ShowInfo("Defender has a Damage card. Roll 1 additional attack die.");
+            SendExtraDiceMessage();
             HostShip.AfterGotNumberOfAttackDice -= RollExtraDice;
+        }
+    }
+}
+
+namespace Abilities.SecondEdition
+{
+    public class ScourgeAbilitySE : ScourgeAbility
+    {
+        protected override void SendExtraDiceMessage()
+        {
+            Messages.ShowInfo("Defender is in your bullseye arc. Roll an additional attack die.");
+        }
+
+        protected override void CheckConditions()
+        {
+            ShotInfo shotInfo = new ShotInfo(HostShip, Combat.Defender, HostShip.PrimaryWeapon);
+            if (shotInfo.InArcByType(ArcTypes.Bullseye))
+            {
+                HostShip.AfterGotNumberOfAttackDice += RollExtraDice;
+            }
         }
     }
 }

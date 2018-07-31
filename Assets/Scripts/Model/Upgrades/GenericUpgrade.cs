@@ -333,6 +333,12 @@ namespace Upgrade
             callBack();
         }
 
+        public void RemoveCharge(Action callBack)
+        {
+            // for now this is just an alias of SpendCharge
+            SpendCharge(callBack);
+        }
+
         public void RestoreCharge()
         {
             if (Charges < MaxCharges)

@@ -78,6 +78,7 @@ namespace Ship
 
                 FullType = "TIE/ph Phantom";
 
+                Firepower = 3;
                 MaxHull = 3;
 
                 ShipAbilities.Add(new Abilities.SecondEdition.StygiumArray());

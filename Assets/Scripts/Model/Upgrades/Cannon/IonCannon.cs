@@ -58,7 +58,7 @@ namespace Abilities
 			}
 		}
 
-		private void IonCannonEffect(object sender, System.EventArgs e)
+		protected virtual void IonCannonEffect(object sender, System.EventArgs e)
 		{
 			Combat.DiceRollAttack.CancelAllResults();
 			Combat.DiceRollAttack.RemoveAllFailures();
@@ -72,20 +72,16 @@ namespace Abilities
 			);
 		}
 
-		private void DefenderSuffersDamage()
-		{
-			Combat.Defender.AssignedDamageDiceroll.AddDice(DieSide.Success);
+        protected void DefenderSuffersDamage()
+        {
+            DamageSourceEventArgs ionCannonDamage = new DamageSourceEventArgs()
+            {
+                Source = Combat.Attacker,
+                DamageType = DamageTypes.ShipAttack
+            };
 
-            var trigger = RegisterAbilityTrigger(TriggerTypes.OnDamageIsDealt, Combat.Defender.SufferDamage, new DamageSourceEventArgs()
-			{
-				Source = Combat.Attacker,
-				DamageType = DamageTypes.ShipAttack
-			});
-            trigger.Skippable = true;
-
-			Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, Triggers.FinishTrigger);
-		}
-
+            Combat.Defender.Damage.TryResolveDamage(1, ionCannonDamage, Triggers.FinishTrigger);
+        }
     }
 
 }
@@ -95,7 +91,7 @@ namespace Abilities.SecondEdition
     public class IonCannonAbilitySE : IonCannonAbility
     {
 
-        protected void IonCannonEffect(object sender, System.EventArgs e)
+        protected override void IonCannonEffect(object sender, System.EventArgs e)
         {
             int ionTokens = Combat.DiceRollAttack.Successes - 1;
             Combat.DiceRollAttack.CancelAllResults();
@@ -110,17 +106,6 @@ namespace Abilities.SecondEdition
                     Game.Wait(2, DefenderSuffersDamage);
                 }
             );
-        }
-
-        private void DefenderSuffersDamage()
-        {
-            DamageSourceEventArgs ionCannonDamage = new DamageSourceEventArgs()
-            {
-                Source = Combat.Attacker,
-                DamageType = DamageTypes.ShipAttack
-            };
-
-            Combat.Defender.Damage.TryResolveDamage(1, ionCannonDamage, Triggers.FinishTrigger);
         }
     }
 }

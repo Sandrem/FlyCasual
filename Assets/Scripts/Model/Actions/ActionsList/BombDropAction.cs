@@ -91,6 +91,8 @@ namespace SubPhases
                 Triggers.FinishTrigger
             );
 
+            selectBoostTemplateDecisionSubPhase.ShowSkipButton = false;
+
             foreach (var bombDropTemplate in AvailableBombDropDirections)
             {
                 selectBoostTemplateDecisionSubPhase.AddDecision(
@@ -106,7 +108,6 @@ namespace SubPhases
             selectBoostTemplateDecisionSubPhase.RequiredPlayer = Selection.ThisShip.Owner.PlayerNo;
 
             selectBoostTemplateDecisionSubPhase.Start();
-            UI.ShowSkipButton();
         }
 
         private void SelectTemplate(string selectedTemplate)

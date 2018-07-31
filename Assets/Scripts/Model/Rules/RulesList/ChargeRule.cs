@@ -7,6 +7,9 @@ namespace RulesList
     {
         public void RegenerateCharge(GenericShip ship)
         {
+            if (!ship.RegensCharges)
+                return;
+
             if (ship.Charges < ship.MaxCharges) ship.Charges++;
 
             // We can add regenerating charges for upgrades here.

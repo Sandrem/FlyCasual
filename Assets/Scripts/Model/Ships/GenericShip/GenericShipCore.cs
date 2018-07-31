@@ -426,6 +426,7 @@ namespace Ship
         public int MaxCharges { get; set; }
         public int Charges { get; set; }
         public bool UsesCharges;
+        public bool RegensCharges = false;
 
         public void SpendCharge(Action callBack)
         {

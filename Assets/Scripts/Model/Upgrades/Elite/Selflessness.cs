@@ -56,9 +56,9 @@ namespace Abilities
         {
             curToDamage = toDamage;
             curDamageInfo = e;
-            
+
             // Is this ship the defender in combat?
-            if (Combat.Defender == curToDamage)
+            if (Combat.Defender != curToDamage)
                 return;
 
             // Is the damage type a ship attack?
@@ -102,7 +102,10 @@ namespace Abilities
             int hits = curToDamage.AssignedDamageDiceroll.RegularSuccesses;
 
             // Remove the hits from the assigned damage dice of the ship we're preventing damage on.
-            curToDamage.AssignedDamageDiceroll.RemoveType(DieSide.Success);
+            for (int canceledHit = 0; canceledHit < hits; canceledHit++)
+            {
+                curToDamage.AssignedDamageDiceroll.RemoveType(DieSide.Success);
+            }
 
             DamageSourceEventArgs selflessDamage = new DamageSourceEventArgs()
             {

@@ -22,6 +22,7 @@ namespace Ship
 
                 UsesCharges = true;
                 MaxCharges = 1;
+                RegensCharges = true;
 
                 PilotRuleType = typeof(SecondEdition);
                 PilotAbilities.Add(new Abilities.WampaAbility());

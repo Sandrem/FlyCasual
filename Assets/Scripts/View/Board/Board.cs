@@ -183,6 +183,12 @@ namespace BoardTools
             return positionInfo.Range;
         }
 
+        public static bool IsShipInArcByType(GenericShip source, GenericShip target, ArcTypes arc)
+        {
+            ShotInfo shotInfo = new ShotInfo(source, target, source.PrimaryWeapon);
+            return shotInfo.InArcByType(arc);
+        }
+
         public static List<GenericShip> GetShipsInBullseyeArc(GenericShip ship, Team.Type team = Team.Type.Any)
         {
             List<GenericShip> shipsInBullseyeArc = new List<GenericShip>();

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System;
 using SubPhases;
 using RuleSets;
+using BoardTools;
+using Arcs;
 
 namespace Ship
 {
@@ -54,6 +56,11 @@ namespace Abilities
             RegisterAbilityTrigger(TriggerTypes.OnCombatPhaseStart, Ability);
         }
 
+        protected virtual string GenerateAbilityMessage()
+        {
+            return "Choose other friendly ship.\nUntil the end of the phase, treat that ship's pilot skill value as \"12\".";
+        }
+
         private void Ability(object sender, EventArgs e)
         {
             if (HostShip.Owner.Ships.Count > 1)
@@ -66,7 +73,7 @@ namespace Abilities
                     true,
                     null,
                     HostShip.PilotName,
-                    "Choose other friendly ship.\nUntil the end of the phase, treat that ship's pilot skill value as \"12\".",
+                    GenerateAbilityMessage(),
                     HostShip.ImageUrl
                 );
             }
@@ -76,7 +83,7 @@ namespace Abilities
             }
         }
 
-        private bool FilterAbilityTarget(GenericShip ship)
+        protected virtual bool FilterAbilityTarget(GenericShip ship)
         {
             return FilterByTargetType(ship, new List<TargetTypes>() { TargetTypes.OtherFriendly }) && FilterTargetsByRange(ship, 1, 3);
         }
@@ -113,9 +120,22 @@ namespace Abilities.SecondEdition
 {
     public class RoarkGarnetAbilitySE : RoarkGarnetAbility
     {
+        protected override string GenerateAbilityMessage()
+        {
+            return "Choose another friendly ship.\nUntil the end of the phase, treat that ship's pilot skill value as \"7\".";
+        }
+
         public override void ModifyPilotSkill(ref int pilotSkill)
         {
             pilotSkill = 7;
+        }
+
+        protected override bool FilterAbilityTarget(GenericShip ship)
+        {
+            return
+                FilterByTargetType(ship, new List<TargetTypes>() { TargetTypes.OtherFriendly }) &&
+                FilterTargetsByRange(ship, 1, 3) &&
+                Board.IsShipInArcByType(HostShip, ship, ArcTypes.Mobile);
         }
     }
 }

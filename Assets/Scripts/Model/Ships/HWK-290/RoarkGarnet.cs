@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System;
 using SubPhases;
+using RuleSets;
 
 namespace Ship
 {
     namespace HWK290
     {
-        public class RoarkGarnet : HWK290
+        public class RoarkGarnet : HWK290, ISecondEditionPilot
         {
             public RoarkGarnet() : base()
             {
@@ -20,6 +21,15 @@ namespace Ship
                 faction = Faction.Rebel;
 
                 PilotAbilities.Add(new Abilities.RoarkGarnetAbility());
+            }
+
+            public void AdaptPilotToSecondEdition()
+            {
+                PilotSkill = 4;
+                Cost = 38;
+
+                PilotAbilities.RemoveAll(ability => ability is Abilities.RoarkGarnetAbility);
+                PilotAbilities.Add(new Abilities.SecondEdition.RoarkGarnetAbilitySE());
             }
         }
     }
@@ -92,9 +102,20 @@ namespace Abilities
             TargetShip.RemovePilotSkillModifier(this);
         }
 
-        public void ModifyPilotSkill(ref int pilotSkill)
+        public virtual void ModifyPilotSkill(ref int pilotSkill)
         {
             pilotSkill = 12;
+        }
+    }
+}
+
+namespace Abilities.SecondEdition
+{
+    public class RoarkGarnetAbilitySE : RoarkGarnetAbility
+    {
+        public override void ModifyPilotSkill(ref int pilotSkill)
+        {
+            pilotSkill = 7;
         }
     }
 }

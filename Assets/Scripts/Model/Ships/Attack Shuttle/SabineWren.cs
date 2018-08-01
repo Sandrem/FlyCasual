@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Ship;
+using RuleSets;
 
 namespace Ship
 {
     namespace AttackShuttle
     {
-        public class SabineWren : AttackShuttle
+        public class SabineWren : AttackShuttle, ISecondEditionPilot
         {
             public SabineWren() : base()
             {
@@ -20,6 +21,12 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
                 PilotAbilities.Add(new Abilities.SabineWrenPilotAbility());
+            }
+
+            public void AdaptPilotToSecondEdition()
+            {
+                PilotSkill = 3;
+                Cost = 38;
             }
         }
     }

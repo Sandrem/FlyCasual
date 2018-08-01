@@ -5,12 +5,13 @@ using Ship;
 using SubPhases;
 using System;
 using Tokens;
+using RuleSets;
 
 namespace Ship
 {
     namespace XWing
     {
-        public class GarvenDreis : XWing
+        public class GarvenDreis : XWing, ISecondEditionPilot
         {
             public GarvenDreis() : base()
             {
@@ -21,6 +22,15 @@ namespace Ship
                 IsUnique = true;
 
                 PilotAbilities.Add(new Abilities.GarvenDreisAbility());
+            }
+
+            public void AdaptPilotToSecondEdition()
+            {
+                PilotSkill = 4;
+                Cost = 47;
+
+                PilotAbilities.RemoveAll(ability => ability is Abilities.GarvenDreisAbility);
+                PilotAbilities.Add(new Abilities.SecondEdition.GarvenDreisAbilitySE());
             }
         }
     }

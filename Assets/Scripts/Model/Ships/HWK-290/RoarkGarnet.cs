@@ -58,7 +58,7 @@ namespace Abilities
 
         protected virtual string GenerateAbilityMessage()
         {
-            return "Choose other friendly ship.\nUntil the end of the phase, treat that ship's pilot skill value as \"12\".";
+            return "Choose another friendly ship in arc.\nUntil the end of the phase, treat that ship's pilot skill value as \"12\".";
         }
 
         private void Ability(object sender, EventArgs e)

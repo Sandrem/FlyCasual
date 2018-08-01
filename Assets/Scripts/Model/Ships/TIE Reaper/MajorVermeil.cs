@@ -1,4 +1,5 @@
 ﻿using Abilities;
+using RuleSets;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace Ship
 {
     namespace TIEReaper
     {
-        public class MajorVermeil : TIEReaper
+        public class MajorVermeil : TIEReaper, ISecondEditionPilot
         {
             public MajorVermeil() : base()
             {
@@ -22,6 +23,15 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
                 PilotAbilities.Add(new MajorVermeilAbility());
+            }
+
+            public void AdaptPilotToSecondEdition()
+            {
+                PilotSkill = 4;
+                Cost = 49;
+
+                PilotAbilities.RemoveAll(ability => ability is Abilities.MajorVermeilAbility);
+                PilotAbilities.Add(new Abilities.SecondEdition.MajorVermeilAbilitySE());
             }
         }
     }
@@ -41,7 +51,7 @@ namespace Abilities
             HostShip.OnGenerateDiceModifications -= AddMajorVermeilModifierEffect;
         }
 
-        private void AddMajorVermeilModifierEffect(Ship.GenericShip ship)
+        protected virtual void AddMajorVermeilModifierEffect(Ship.GenericShip ship)
         {
             if(Combat.Attacker.ShipId == ship.ShipId 
                 && !(Combat.Defender.Tokens.HasToken<EvadeToken>() || Combat.Defender.Tokens.HasToken<FocusToken>()) 
@@ -55,7 +65,7 @@ namespace Abilities
             }
         }
 
-        private class MajorVermeilAction : ActionsList.GenericAction
+        protected class MajorVermeilAction : ActionsList.GenericAction
         {
             public MajorVermeilAction()
             {
@@ -105,6 +115,26 @@ namespace Abilities
                 }
 
                 return result;
+            }
+        }
+    }
+}
+
+namespace Abilities.SecondEdition
+{
+    public class MajorVermeilAbilitySE : MajorVermeilAbility
+    {
+        protected override void AddMajorVermeilModifierEffect(Ship.GenericShip ship)
+        {
+            if (Combat.Attacker.ShipId == ship.ShipId
+                && !Combat.Defender.Tokens.HasGreenTokens()
+                && (Combat.DiceRollAttack.Focuses > 0 || Combat.DiceRollAttack.Blanks > 0))
+            {
+                ship.AddAvailableDiceModification(new MajorVermeilAction
+                {
+                    ImageUrl = HostShip.ImageUrl,
+                    Host = HostShip
+                });
             }
         }
     }

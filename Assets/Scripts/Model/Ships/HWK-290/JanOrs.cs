@@ -6,12 +6,13 @@ using System;
 using Tokens;
 using BoardTools;
 using Arcs;
+using RuleSets;
 
 namespace Ship
 {
     namespace HWK290
     {
-        public class JanOrs : HWK290
+        public class JanOrs : HWK290, ISecondEditionPilot
         {
             public JanOrs() : base()
             {
@@ -26,6 +27,15 @@ namespace Ship
                 faction = Faction.Rebel;
 
                 PilotAbilities.Add(new Abilities.JanOrsAbility());
+            }
+
+            public void AdaptPilotToSecondEdition()
+            {
+                PilotSkill = 5;
+                Cost = 42;
+
+                PilotAbilities.RemoveAll(ability => ability is Abilities.JanOrsAbility);
+                PilotAbilities.Add(new Abilities.SecondEdition.JanOrsAbilitySE());
             }
         }
     }

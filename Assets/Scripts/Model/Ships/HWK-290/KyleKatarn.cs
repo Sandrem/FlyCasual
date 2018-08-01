@@ -59,6 +59,11 @@ namespace Abilities
             RegisterAbilityTrigger(TriggerTypes.OnCombatPhaseStart, Ability);
         }
 
+        protected virtual string GenerateAbilityString()
+        {
+            return "Choose another ship to assign 1 of your Focus tokens to it.";
+        }
+
         private void Ability(object sender, EventArgs e)
         {
             if (HostShip.Owner.Ships.Count > 1 && HostShip.Tokens.HasToken(typeof(FocusToken)))
@@ -71,7 +76,7 @@ namespace Abilities
                     true,
                     null,
                     HostShip.PilotName,
-                    "Choose another ship to assign 1 of your Focus tokens to it.",
+                    GenerateAbilityString(),
                     HostShip.ImageUrl
                 );
             }
@@ -95,7 +100,7 @@ namespace Abilities
             return result;
         }
 
-        private void SelectAbilityTarget()
+        protected virtual void SelectAbilityTarget()
         {
             HostShip.Tokens.RemoveToken(
                 typeof(FocusToken),

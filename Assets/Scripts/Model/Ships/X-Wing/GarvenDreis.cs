@@ -70,7 +70,7 @@ namespace Abilities
             }
         }
 
-        private bool FilterAbilityTarget(GenericShip ship)
+        protected virtual bool FilterAbilityTarget(GenericShip ship)
         {
             return FilterByTargetType(ship, new List<TargetTypes>() { TargetTypes.OtherFriendly }) && FilterTargetsByRange(ship, 1, 2);
         }

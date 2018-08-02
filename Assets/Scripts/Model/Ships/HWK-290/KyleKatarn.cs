@@ -1,4 +1,7 @@
-﻿using Ship;
+﻿using Arcs;
+using BoardTools;
+using RuleSets;
+using Ship;
 using SubPhases;
 using System;
 using System.Collections.Generic;
@@ -8,7 +11,7 @@ namespace Ship
 {
     namespace HWK290
     {
-        public class KyleKatarn : HWK290
+        public class KyleKatarn : HWK290, ISecondEditionPilot
         {
             public KyleKatarn() : base()
             {
@@ -23,6 +26,15 @@ namespace Ship
                 faction = Faction.Rebel;
 
                 PilotAbilities.Add(new Abilities.KyleKatarnAbility());
+            }
+
+            public void AdaptPilotToSecondEdition()
+            {
+                PilotSkill = 3;
+                Cost = 38;
+
+                PilotAbilities.RemoveAll(ability => ability is Abilities.KyleKatarnAbility);
+                PilotAbilities.Add(new Abilities.SecondEdition.KyleKatarnAbilitySE());
             }
         }
     }
@@ -47,6 +59,11 @@ namespace Abilities
             RegisterAbilityTrigger(TriggerTypes.OnCombatPhaseStart, Ability);
         }
 
+        protected virtual string GenerateAbilityString()
+        {
+            return "Choose another ship to assign 1 of your Focus tokens to it.";
+        }
+
         private void Ability(object sender, EventArgs e)
         {
             if (HostShip.Owner.Ships.Count > 1 && HostShip.Tokens.HasToken(typeof(FocusToken)))
@@ -59,7 +76,7 @@ namespace Abilities
                     true,
                     null,
                     HostShip.PilotName,
-                    "Choose another ship to assign 1 of your Focus tokens to it.",
+                    GenerateAbilityString(),
                     HostShip.ImageUrl
                 );
             }
@@ -69,7 +86,7 @@ namespace Abilities
             }
         }
 
-        private bool FilterAbilityTarget(GenericShip ship)
+        protected virtual bool FilterAbilityTarget(GenericShip ship)
         {
             return FilterByTargetType(ship, new List<TargetTypes>() { TargetTypes.OtherFriendly }) && FilterTargetsByRange(ship, 1, 3);
         }
@@ -83,7 +100,7 @@ namespace Abilities
             return result;
         }
 
-        private void SelectAbilityTarget()
+        protected virtual void SelectAbilityTarget()
         {
             HostShip.Tokens.RemoveToken(
                 typeof(FocusToken),
@@ -91,6 +108,20 @@ namespace Abilities
                     TargetShip.Tokens.AssignToken(typeof(FocusToken), SelectShipSubPhase.FinishSelection);
                 }
             );          
+        }
+    }
+}
+
+namespace Abilities.SecondEdition
+{
+    public class KyleKatarnAbilitySE : KyleKatarnAbility
+    {
+        protected override bool FilterAbilityTarget(GenericShip ship)
+        {
+            return
+                FilterByTargetType(ship, new List<TargetTypes>() { TargetTypes.OtherFriendly }) &&
+                FilterTargetsByRange(ship, 1, 3) &&
+                Board.IsShipInArcByType(HostShip, ship, ArcTypes.Mobile);
         }
     }
 }

@@ -4,12 +4,13 @@ using UnityEngine;
 using Ship;
 using System.Linq;
 using Tokens;
+using RuleSets;
 
 namespace Ship
 {
     namespace AuzituckGunship
     {
-        public class Lowhhrick : AuzituckGunship
+        public class Lowhhrick : AuzituckGunship, ISecondEditionPilot
         {
             public Lowhhrick() : base()
             {
@@ -24,6 +25,12 @@ namespace Ship
                 SkinName = "Lowhhrick";
 
                 PilotAbilities.Add(new Abilities.LowhhrickAbility());
+            }
+
+            public void AdaptPilotToSecondEdition()
+            {
+                PilotSkill = 3;
+                Cost = 52;
             }
         }
     }

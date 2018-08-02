@@ -6,12 +6,13 @@ using System.Linq;
 using Ship;
 using Abilities;
 using Tokens;
+using RuleSets;
 
 namespace Ship
 {
     namespace StarViper
     {
-        public class Guri : StarViper
+        public class Guri : StarViper, ISecondEditionPilot
         {
             public Guri() : base()
             {
@@ -24,6 +25,11 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
                 PilotAbilities.Add(new GuriAbility());
+            }
+
+            public void AdaptPilotToSecondEdition()
+            {
+                Cost = 52;
             }
         }
     }

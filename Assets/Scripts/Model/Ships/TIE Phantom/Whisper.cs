@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RuleSets;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Tokens;
@@ -8,7 +9,7 @@ namespace Ship
 {
     namespace TIEPhantom
     {
-        public class Whisper : TIEPhantom
+        public class Whisper : TIEPhantom, ISecondEditionPilot
         {
             public bool alwaysUseAbility;
 
@@ -23,6 +24,15 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
                 PilotAbilities.Add(new Abilities.WhisperAbility());
+            }
+
+            public void AdaptPilotToSecondEdition()
+            {
+                PilotSkill = 5;
+                Cost = 52;
+
+                PilotAbilities.RemoveAll(ability => ability is Abilities.WhisperAbility);
+                PilotAbilities.Add(new Abilities.SecondEdition.WhisperAbilitySE());
             }
         }
     }
@@ -47,6 +57,11 @@ namespace Abilities
             RegisterAbilityTrigger(TriggerTypes.OnAttackHit, AskAssignFocus);
         }
 
+        protected virtual Type GetTokenType()
+        {
+            return typeof(FocusToken);
+        }
+
         private void AskAssignFocus(object sender, System.EventArgs e)
         {
             if (!alwaysUseAbility)
@@ -55,14 +70,25 @@ namespace Abilities
             }
             else
             {
-                HostShip.Tokens.AssignToken(typeof(FocusToken), Triggers.FinishTrigger);
+                HostShip.Tokens.AssignToken(GetTokenType(), Triggers.FinishTrigger);
             }
         }
 
         private void AssignToken(object sender, System.EventArgs e)
         {
-            HostShip.Tokens.AssignToken(typeof(FocusToken), SubPhases.DecisionSubPhase.ConfirmDecision);
+            HostShip.Tokens.AssignToken(GetTokenType(), SubPhases.DecisionSubPhase.ConfirmDecision);
         }
     }
 
+}
+
+namespace Abilities.SecondEdition
+{
+    public class WhisperAbilitySE : WhisperAbility
+    {
+        protected override Type GetTokenType()
+        {
+            return typeof(EvadeToken);
+        }
+    }
 }

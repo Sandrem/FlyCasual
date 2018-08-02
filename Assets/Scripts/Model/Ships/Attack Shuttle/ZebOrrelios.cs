@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Ship;
+using RuleSets;
 
 namespace Ship
 {
     namespace AttackShuttle
     {
-        public class ZebOrrelios : AttackShuttle
+        public class ZebOrrelios : AttackShuttle, ISecondEditionPilot
         {
             public ZebOrrelios() : base()
             {
@@ -18,6 +19,12 @@ namespace Ship
                 IsUnique = true;
 
                 PilotAbilities.Add(new Abilities.ZebOrreliosPilotAbility());
+            }
+
+            public void AdaptPilotToSecondEdition()
+            {
+                PilotSkill = 2;
+                Cost = 34;
             }
         }
     }

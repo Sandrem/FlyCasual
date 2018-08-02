@@ -22,6 +22,17 @@ namespace Ship
             return AssignedTokens;
         }
 
+        public bool HasGreenTokens()
+        {
+            foreach(GenericToken tok in AssignedTokens)
+            {
+                if (tok.TokenColor == TokenColors.Green)
+                    return true;
+            }
+
+            return false;
+        }
+
         public bool HasToken(Type type, char letter = ' ')
         {
             return GetToken(type, letter) != null;

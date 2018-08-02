@@ -5,12 +5,13 @@ using Ship;
 using System.Linq;
 using Tokens;
 using Abilities;
+using RuleSets;
 
 namespace Ship
 {
     namespace AuzituckGunship
     {
-        public class Wullffwarro : AuzituckGunship
+        public class Wullffwarro : AuzituckGunship, ISecondEditionPilot
         {
             public Wullffwarro() : base()
             {
@@ -23,6 +24,12 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
                 PilotAbilities.Add(new WullffwarroAbility());
+            }
+
+            public void AdaptPilotToSecondEdition()
+            {
+                PilotSkill = 4;
+                Cost = 56;
             }
         }
     }

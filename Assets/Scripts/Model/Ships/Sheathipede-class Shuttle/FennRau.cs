@@ -8,12 +8,13 @@ using UnityEngine;
 using Abilities;
 using ActionsList;
 using BoardTools;
+using RuleSets;
 
 namespace Ship
 {
     namespace SheathipedeShuttle
     {
-        public class FennRau : SheathipedeShuttle
+        public class FennRau : SheathipedeShuttle, ISecondEditionPilot
         {
             public FennRau() : base()
             {
@@ -26,6 +27,12 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
                 PilotAbilities.Add(new FennRauRebelAbility());
+            }
+
+            public void AdaptPilotToSecondEdition()
+            {
+                PilotSkill = 6;
+                Cost = 52;
             }
         }
     }

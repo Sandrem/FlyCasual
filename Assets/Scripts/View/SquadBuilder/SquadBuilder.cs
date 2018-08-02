@@ -108,7 +108,7 @@ namespace SquadBuilderNS
             availablePilotsCounter = 0;
 
             ShipRecord shipRecord = AllShips.Find(n => n.ShipName == shipName);
-            List<PilotRecord> AllPilotsFiltered = AllPilots.Where(n => n.PilotShip == shipRecord && n.PilotFaction == faction && RuleSet.Instance.PilotIsAllowed(n.Instance)).OrderByDescending(n => n.PilotSkill).ToList();
+            List<PilotRecord> AllPilotsFiltered = AllPilots.Where(n => n.PilotShip == shipRecord && n.PilotFaction == faction && RuleSet.Instance.PilotIsAllowed(n.Instance)).OrderByDescending(n => n.Instance.Cost).OrderByDescending(n => n.PilotSkill).ToList();
             int pilotsCount = AllPilotsFiltered.Count();
 
             Transform contentTransform = GameObject.Find("UI/Panels/SelectPilotPanel/Panel/Scroll View/Viewport/Content").transform;
@@ -534,6 +534,7 @@ namespace SquadBuilderNS
             string upgradeType = AllUpgrades.Find(n => n.UpgradeName == upgrade.UpgradeName).UpgradeTypeName;
             GenericUpgrade newUpgrade = (GenericUpgrade)System.Activator.CreateInstance(Type.GetType(upgradeType));
             RuleSet.Instance.AdaptUpgradeToRules(newUpgrade);
+            if (newUpgrade is IVariableCost) (newUpgrade as IVariableCost).UpdateCost(CurrentSquadBuilderShip.Instance);
 
             UpgradePanelSquadBuilder script = newUpgradePanel.GetComponent<UpgradePanelSquadBuilder>();
             script.Initialize(upgrade.UpgradeName, CurrentUpgradeSlot, newUpgrade, SelectUpgradeClicked, true);

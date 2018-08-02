@@ -1,9 +1,12 @@
 ﻿using Upgrade;
 using Abilities;
+using RuleSets;
+using Ship;
+using System.Collections.Generic;
 
 namespace UpgradesList
 {
-    public class HullUpgrade : GenericUpgrade
+    public class HullUpgrade : GenericUpgrade, ISecondEditionUpgrade, IVariableCost
     {
         public HullUpgrade() : base()
         {
@@ -12,6 +15,24 @@ namespace UpgradesList
             Name = "Hull Upgrade";
             Cost = 3;
             UpgradeAbilities.Add(new HullUpgradeAbility());
+        }
+
+        public void AdaptUpgradeToSecondEdition()
+        {
+            // No update is required
+        }
+
+        public void UpdateCost(GenericShip ship)
+        {
+            Dictionary<int, int> agilityToCost = new Dictionary<int, int>()
+            {
+                {0, 2},
+                {1, 3},
+                {2, 5},
+                {3, 7}
+            };
+
+            Cost = agilityToCost[ship.Agility];
         }
     }
 }

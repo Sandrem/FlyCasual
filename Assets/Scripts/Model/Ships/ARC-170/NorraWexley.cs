@@ -148,49 +148,23 @@ namespace Abilities.SecondEdition
     {
         public override void ActivateAbility()
         {
-            HostShip.OnGenerateDiceModifications += AddNorraWexleyPilotAbility;
+            HostShip.OnImmediatelyAfterRolling += ModifyDice;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.OnGenerateDiceModifications -= AddNorraWexleyPilotAbility;
+            HostShip.OnImmediatelyAfterRolling -= ModifyDice;
         }
 
-        private void AddNorraWexleyPilotAbility(GenericShip ship)
+        private void ModifyDice(DiceRoll roll)
         {
-            NorraWexleyActionSE newAction = new NorraWexleyActionSE() { Host = this.HostShip };
-            ship.AddAvailableDiceModification(newAction);
-        }
+            int enemyShipsAtRangeOne = BoardTools.Board.GetShipsAtRange(Combat.Defender, new Vector2(0, 1), Team.Type.Enemy).Count;
 
-        private class NorraWexleyActionSE : ActionsList.GenericAction
-        {
-            public NorraWexleyActionSE()
+            if (Combat.AttackStep == CombatStep.Defence && Combat.Defender == HostShip && enemyShipsAtRangeOne > 0)
             {
-                Name = DiceModificationName = "Norra Wexley's ability";
-            }
-
-            public override void ActionEffect(System.Action callBack)
-            {
-                Combat.CurrentDiceRoll.AddDice(DieSide.Success).ShowWithoutRoll();
-                Combat.CurrentDiceRoll.OrganizeDicePositions();
-                callBack();
-            }
-
-            public override bool IsDiceModificationAvailable()
-            {
-                int enemyShipsAtRangeOne = BoardTools.Board.GetShipsAtRange(Combat.Defender, new Vector2(0, 1), Team.Type.Enemy).Count;
-
-                if (Combat.AttackStep == CombatStep.Defence && Combat.Defender == Host && enemyShipsAtRangeOne > 0)
-                    return true;
-
-                return false;
-            }
-
-            public override int GetDiceModificationPriority()
-            {
-                return 110;
+                roll.AddDice(DieSide.Success).ShowWithoutRoll();
+                roll.OrganizeDicePositions();
             }
         }
-
     }
 }

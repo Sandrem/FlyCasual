@@ -162,6 +162,7 @@ namespace Abilities.SecondEdition
 
             if (Combat.AttackStep == CombatStep.Defence && Combat.Defender == HostShip && enemyShipsAtRangeOne > 0)
             {
+                Messages.ShowInfo("Norra Wexley: add evade dice enemy range 1.")
                 roll.AddDice(DieSide.Success).ShowWithoutRoll();
                 roll.OrganizeDicePositions();
             }

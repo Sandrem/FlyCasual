@@ -534,6 +534,7 @@ namespace SquadBuilderNS
             string upgradeType = AllUpgrades.Find(n => n.UpgradeName == upgrade.UpgradeName).UpgradeTypeName;
             GenericUpgrade newUpgrade = (GenericUpgrade)System.Activator.CreateInstance(Type.GetType(upgradeType));
             RuleSet.Instance.AdaptUpgradeToRules(newUpgrade);
+            if (newUpgrade is IVariableCost) (newUpgrade as IVariableCost).UpdateCost(CurrentSquadBuilderShip.Instance);
 
             UpgradePanelSquadBuilder script = newUpgradePanel.GetComponent<UpgradePanelSquadBuilder>();
             script.Initialize(upgrade.UpgradeName, CurrentUpgradeSlot, newUpgrade, SelectUpgradeClicked, true);

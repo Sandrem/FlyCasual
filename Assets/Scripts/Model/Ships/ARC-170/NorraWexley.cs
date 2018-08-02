@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Ship;
 using System.Linq;
+using RuleSets;
 
 namespace Ship
 {
     namespace ARC170
     {
-        public class NorraWexley : ARC170
+        public class NorraWexley : ARC170, ISecondEditionPilot
         {
             public NorraWexley() : base()
             {
@@ -21,6 +22,15 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
                 PilotAbilities.Add(new Abilities.NorraWexleyPilotAbility());
+            }
+
+            public void AdaptPilotToSecondEdition()
+            {
+                PilotSkill = 5;
+                Cost = 55;
+
+                PilotAbilities.RemoveAll(ability => ability is Abilities.NorraWexleyPilotAbility);
+                PilotAbilities.Add(new Abilities.SecondEdition.NorraWexleyPilotAbilitySE());
             }
         }
     }
@@ -126,6 +136,59 @@ namespace Abilities
                 }
 
                 return result;
+            }
+        }
+
+    }
+}
+
+namespace Abilities.SecondEdition
+{
+    public class NorraWexleyPilotAbilitySE : NorraWexleyPilotAbility
+    {
+        public override void ActivateAbility()
+        {
+            HostShip.OnGenerateDiceModifications += AddNorraWexleyPilotAbility;
+        }
+
+        public override void DeactivateAbility()
+        {
+            HostShip.OnGenerateDiceModifications -= AddNorraWexleyPilotAbility;
+        }
+
+        private void AddNorraWexleyPilotAbility(GenericShip ship)
+        {
+            NorraWexleyActionSE newAction = new NorraWexleyActionSE() { Host = this.HostShip };
+            ship.AddAvailableDiceModification(newAction);
+        }
+
+        private class NorraWexleyActionSE : ActionsList.GenericAction
+        {
+            public NorraWexleyActionSE()
+            {
+                Name = DiceModificationName = "Norra Wexley's ability";
+            }
+
+            public override void ActionEffect(System.Action callBack)
+            {
+                Combat.CurrentDiceRoll.AddDice(DieSide.Success).ShowWithoutRoll();
+                Combat.CurrentDiceRoll.OrganizeDicePositions();
+                callBack();
+            }
+
+            public override bool IsDiceModificationAvailable()
+            {
+                int enemyShipsAtRangeOne = BoardTools.Board.GetShipsAtRange(Combat.Defender, new Vector2(0, 1), Team.Type.Enemy).Count;
+
+                if (Combat.AttackStep == CombatStep.Defence && Combat.Defender == Host && enemyShipsAtRangeOne > 0)
+                    return true;
+
+                return false;
+            }
+
+            public override int GetDiceModificationPriority()
+            {
+                return 110;
             }
         }
 

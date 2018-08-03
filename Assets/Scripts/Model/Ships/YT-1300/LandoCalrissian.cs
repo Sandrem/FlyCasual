@@ -7,12 +7,13 @@ using System;
 using System.Linq;
 using Tokens;
 using ActionsList;
+using RuleSets;
 
 namespace Ship
 {
     namespace YT1300
     {
-        public class LandoCalrissian : YT1300
+        public class LandoCalrissian : YT1300, ISecondEditionPilot
         {
             public LandoCalrissian() : base()
             {
@@ -30,6 +31,15 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
                 PilotAbilities.Add(new Abilities.LandoCalrissianAbility());
+            }
+
+            public void AdaptPilotToSecondEdition()
+            {
+                PilotSkill = 5;
+                Cost = 92;
+
+                PilotAbilities.RemoveAll(ability => ability is Abilities.LandoCalrissianAbility);
+                PilotAbilities.Add(new Abilities.SecondEdition.LandoCalrissianAbilitySE());
             }
         }
     }
@@ -49,7 +59,7 @@ namespace Abilities
             HostShip.OnMovementExecuted -= CheckLandoCalrissianPilotAbility;
         }
 
-        private void CheckLandoCalrissianPilotAbility(GenericShip ship)
+        protected virtual void CheckLandoCalrissianPilotAbility(GenericShip ship)
         {
             if (BoardTools.Board.IsOffTheBoard(ship)) return;
 
@@ -59,7 +69,7 @@ namespace Abilities
             }
         }
 
-        private void LandoCalrissianPilotAbility(object sender, System.EventArgs e)
+        protected void LandoCalrissianPilotAbility(object sender, System.EventArgs e)
         {
             SelectTargetForAbility(
                 GrantFreeAction,
@@ -74,7 +84,7 @@ namespace Abilities
             );
         }
 
-        private bool FilterAbilityTargets(GenericShip ship)
+        protected virtual bool FilterAbilityTargets(GenericShip ship)
         {
             return FilterByTargetType(ship, new List<TargetTypes>() { TargetTypes.OtherFriendly }) && FilterTargetsByRange(ship, 1, 1);
         }
@@ -106,13 +116,58 @@ namespace Abilities
             Triggers.ResolveTriggers(TriggerTypes.OnFreeActionPlanned, SelectShipSubPhase.FinishSelection);
         }
 
-        private void PerformFreeAction(object sender, System.EventArgs e)
+        protected virtual void PerformFreeAction(object sender, System.EventArgs e)
         {
             List<GenericAction> actions = TargetShip.GetAvailableActions();
             List<GenericAction> actionBarActions = actions.Where(n => n.IsInActionBar).ToList();
 
             TargetShip.AskPerformFreeAction(
                 actionBarActions,
+                delegate {
+                    Selection.ThisShip = HostShip;
+                    Phases.CurrentSubPhase.Resume();
+                    Triggers.FinishTrigger();
+                });
+        }
+    }
+}
+
+namespace Abilities.SecondEdition
+{
+    public class LandoCalrissianAbilitySE : LandoCalrissianAbility
+    {
+
+        public override void ActivateAbility()
+        {
+            HostShip.OnMovementFinishSuccessfully += CheckLandoCalrissianPilotAbility;
+        }
+
+        public override void DeactivateAbility()
+        {
+            HostShip.OnMovementFinishSuccessfully -= CheckLandoCalrissianPilotAbility;
+        }
+
+        protected override void CheckLandoCalrissianPilotAbility(GenericShip ship)
+        {
+            if (BoardTools.Board.IsOffTheBoard(ship)) return;
+
+            if (ship.AssignedManeuver.ColorComplexity == Movement.MovementComplexity.Easy)
+            {
+                RegisterAbilityTrigger(TriggerTypes.OnMovementFinish, LandoCalrissianPilotAbility);
+            }
+        }
+
+        protected override bool FilterAbilityTargets(GenericShip ship)
+        {
+            return FilterByTargetType(ship, new List<TargetTypes>() { TargetTypes.This, TargetTypes.OtherFriendly }) && FilterTargetsByRange(ship, 1, 3);
+        }
+
+        protected override void PerformFreeAction(object sender, System.EventArgs e)
+        {
+            List<GenericAction> actions = TargetShip.GetAvailableActions();
+
+            TargetShip.AskPerformFreeAction(
+                actions,
                 delegate {
                     Selection.ThisShip = HostShip;
                     Phases.CurrentSubPhase.Resume();

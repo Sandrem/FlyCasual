@@ -5,7 +5,10 @@ using Ship;
 using System.Linq;
 using Abilities;
 using Mods.ModsList;
+using Abilities.SecondEdition;
+using RuleSets;
 
+/*
 namespace Ship
 {
     namespace YWing
@@ -30,6 +33,36 @@ namespace Ship
                 PilotAbilities.Add(new NorraWexleyPilotAbility());
 
                 RequiredMods.Add(typeof(MyOtherRideIsMod));
+            }
+        }
+    }
+} */
+
+namespace Ship
+{
+    namespace YWing
+    {
+        public class NorraWexleyYWing : YWing, ISecondEditionPilot
+        {
+            public NorraWexleyYWing() : base()
+            {
+                PilotName = "Norra Wexley";
+                PilotSkill = 5;
+                Cost = 43;
+
+                IsUnique = true;
+
+                faction = Faction.Rebel;
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
+
+                PilotRuleType = typeof(SecondEdition);
+
+                PilotAbilities.Add(new NorraWexleyPilotAbilitySE());
+            }
+
+            public void AdaptPilotToSecondEdition()
+            {
+                // empty unneeded bam
             }
         }
     }

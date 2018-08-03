@@ -58,6 +58,7 @@ namespace Abilities.SecondEdition
             public DiceModificationAction()
             {
                 Name = DiceModificationName = "Drea Renthal's ability";
+                IsReroll = true;
             }
 
             public override bool IsDiceModificationAvailable()

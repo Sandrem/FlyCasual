@@ -8,12 +8,13 @@ using Tokens;
 using Abilities;
 using Arcs;
 using BoardTools;
+using RuleSets;
 
 namespace Ship
 {
     namespace M12LKimogila
     {
-        public class ToraniKulda : M12LKimogila
+        public class ToraniKulda : M12LKimogila, ISecondEditionPilot
         {
             public ToraniKulda() : base()
             {
@@ -25,13 +26,22 @@ namespace Ship
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
-                PilotAbilities.Add(new PilotAbilitiesNamespace.ToraniKuldaAbility());
+                PilotAbilities.Add(new Abilities.ToraniKuldaAbility());
+            }
+
+            public void AdaptPilotToSecondEdition()
+            {
+                PilotSkill = 4;
+                Cost = 50;
+
+                PilotAbilities.RemoveAll(ability => ability is Abilities.ToraniKuldaAbility);
+                PilotAbilities.Add(new Abilities.SecondEdition.ToraniKuldaAbilitySE());
             }
         }
     }
 }
 
-namespace PilotAbilitiesNamespace
+namespace Abilities
 {
     public class ToraniKuldaAbility : GenericAbility
     {
@@ -74,13 +84,30 @@ namespace PilotAbilitiesNamespace
             Triggers.ResolveTriggers(TriggerTypes.OnAbilityDirect, Triggers.FinishTrigger);
         }
 
-        private void ShowChooseEffect(object sender, System.EventArgs e)
+        protected virtual void ShowChooseEffect(object sender, System.EventArgs e)
         {
             Selection.ThisShip = (GenericShip) sender;
 
             Phases.StartTemporarySubPhaseOld(
                 "Select effect of Torani Kulda's ability",
                 typeof(ToraniKuldaAbilityDecisionSubPhase),
+                Triggers.FinishTrigger
+            );
+        }
+    }
+}
+
+namespace Abilities.SecondEdition
+{
+    public class ToraniKuldaAbilitySE : ToraniKuldaAbility
+    {
+        protected override void ShowChooseEffect(object sender, System.EventArgs e)
+        {
+            Selection.ThisShip = (GenericShip)sender;
+
+            Phases.StartTemporarySubPhaseOld(
+                "Select effect of Torani Kulda's ability",
+                typeof(ToraniKuldaAbilityDecisionSubPhaseSE),
                 Triggers.FinishTrigger
             );
         }
@@ -134,6 +161,48 @@ namespace SubPhases
             };
 
             Selection.ThisShip.Damage.TryResolveDamage(1, toranikuldaDamage, ConfirmDecision);
+        }
+    }
+
+    public class ToraniKuldaAbilityDecisionSubPhaseSE : DecisionSubPhase
+    {
+        public override void PrepareDecision(Action callBack)
+        {
+            InfoText = Selection.ThisShip.ShipId + ": " + "Select effect of Torani Kulda's ability";
+            DecisionOwner = Selection.ThisShip.Owner;
+
+            AddDecision("Suffer 1 damage.", SufferDamage);
+            
+            if(Selection.ThisShip.Tokens.HasToken(typeof(FocusToken)))
+                AddDecision("Discard focus token.", delegate { Selection.ThisShip.Tokens.RemoveToken(typeof(FocusToken), DecisionSubPhase.ConfirmDecision); });
+
+            if (Selection.ThisShip.Tokens.HasToken(typeof(EvadeToken)))
+                AddDecision("Discard evade token.", delegate { Selection.ThisShip.Tokens.RemoveToken(typeof(EvadeToken), DecisionSubPhase.ConfirmDecision); });
+
+            if (Selection.ThisShip.Tokens.HasToken(typeof(CalculateToken)))
+                AddDecision("Discard calculate token.", delegate { Selection.ThisShip.Tokens.RemoveToken(typeof(CalculateToken), DecisionSubPhase.ConfirmDecision); });
+
+            if (Selection.ThisShip.Tokens.HasToken(typeof(ReinforceAftToken)))
+                AddDecision("Discard reinforce token.", delegate { Selection.ThisShip.Tokens.RemoveToken(typeof(ReinforceAftToken), DecisionSubPhase.ConfirmDecision); });
+
+            if (Selection.ThisShip.Tokens.HasToken(typeof(ReinforceForeToken)))
+                AddDecision("Discard reinforce token.", delegate { Selection.ThisShip.Tokens.RemoveToken(typeof(ReinforceForeToken), DecisionSubPhase.ConfirmDecision); });
+
+
+            DefaultDecisionName = "Suffer 1 damage.";
+
+            callBack();
+        }
+
+        private void SufferDamage(object sender, System.EventArgs e)
+        {
+            DamageSourceEventArgs toranikuldaDamage = new DamageSourceEventArgs()
+            {
+                Source = "Torani Kulda",
+                DamageType = DamageTypes.CardAbility
+            };
+
+            Selection.ThisShip.Damage.TryResolveDamage(1, toranikuldaDamage, DecisionSubPhase.ConfirmDecision);
         }
     }
 }

@@ -173,7 +173,11 @@ namespace Ship
             }
 
             // Resolve the damage triggers we've registered 
-            Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, callback);
+            Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, delegate
+            {
+                Host.AssignedDamageDiceroll.RemoveAll();
+                callback();
+            });
         }
     }
 }

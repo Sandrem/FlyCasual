@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Abilities;
+using RuleSets;
 
 namespace Ship
 {
     namespace Z95
     {
-        public class NdruSuhlak : Z95
+        public class NdruSuhlak : Z95, ISecondEditionPilot
         {
             public NdruSuhlak() : base()
             {
@@ -24,6 +25,15 @@ namespace Ship
                 faction = Faction.Scum;
 
                 PilotAbilities.Add(new NdruSuhlakAbility());
+            }
+
+            public void AdaptPilotToSecondEdition()
+            {
+                PilotSkill = 4;
+                Cost = 31;
+
+                PilotAbilities.RemoveAll(ability => ability is Abilities.NdruSuhlakAbility);
+                PilotAbilities.Add(new Abilities.SecondEdition.NdruSuhlakAbilitySE());
             }
         }
     }
@@ -43,9 +53,24 @@ namespace Abilities
             HostShip.AfterGotNumberOfAttackDice -= CheckNdruSuhlakAbility;
         }
 
-        private void CheckNdruSuhlakAbility(ref int value)
+        protected virtual void CheckNdruSuhlakAbility(ref int value)
         {
             if (BoardTools.Board.GetShipsAtRange(HostShip, new Vector2(1,2), Team.Type.Friendly).Count == 1) value++;
+        }
+    }
+}
+
+namespace Abilities.SecondEdition
+{
+    public class NdruSuhlakAbilitySE : NdruSuhlakAbility
+    {
+        protected override void CheckNdruSuhlakAbility(ref int value)
+        {
+            if (Combat.ChosenWeapon.GetType() != HostShip.PrimaryWeapon.GetType())
+                return;
+
+            if (BoardTools.Board.GetShipsAtRange(HostShip, new Vector2(1, 2), Team.Type.Friendly).Count == 1)
+                value++;
         }
     }
 }

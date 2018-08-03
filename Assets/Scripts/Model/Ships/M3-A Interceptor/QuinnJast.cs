@@ -3,12 +3,13 @@ using Upgrade;
 using System.Linq;
 using System.Collections.Generic;
 using Tokens;
+using RuleSets;
 
 namespace Ship
 {
     namespace M3AScyk
     {
-        public class QuinnJast : M3AScyk
+        public class QuinnJast : M3AScyk, ISecondEditionPilot
         {
             public QuinnJast() : base()
             {
@@ -20,6 +21,15 @@ namespace Ship
                 PrintedUpgradeIcons.Add(UpgradeType.Elite);
 
                 PilotAbilities.Add(new Abilities.QuinnJastAbility());
+            }
+
+            public void AdaptPilotToSecondEdition()
+            {
+                PilotSkill = 3;
+                Cost = 35;
+
+                PilotAbilities.RemoveAll(ability => ability is Abilities.QuinnJastAbility);
+                PilotAbilities.Add(new Abilities.SecondEdition.QuinnJastAbilitySE());
             }
         }
    }
@@ -69,6 +79,73 @@ namespace Abilities
             {
                 HostShip.Tokens.AssignToken(typeof(WeaponsDisabledToken), () => {
                     discardedUpgrade.FlipFaceup(DecisionSubPhase.ConfirmDecision);
+                });
+            }
+            else
+            {
+                DecisionSubPhase.ConfirmDecision();
+            }
+        }
+    }
+}
+
+namespace Abilities.SecondEdition
+{
+    public class QuinnJastAbilitySE : GenericAbility
+    {
+        public override void ActivateAbility()
+        {
+            Phases.Events.OnCombatPhaseStart_Triggers += RegisterAbilityTrigger;
+        }
+
+        public override void DeactivateAbility()
+        {
+            Phases.Events.OnCombatPhaseStart_Triggers -= RegisterAbilityTrigger;
+        }
+
+        private void RegisterAbilityTrigger()
+        {
+            if (GetHardpointWithSpentCharges() != null)
+            {
+                RegisterAbilityTrigger(TriggerTypes.OnCombatPhaseStart, AskUseQuinnJastAbility);
+            }
+        }
+
+        private void AskUseQuinnJastAbility(object sender, System.EventArgs e)
+        {
+            AskToUseAbility(NeverUseByDefault, UseQuinnJastAbility);
+        }
+
+        private GenericUpgrade GetHardpointWithSpentCharges()
+        {
+            foreach(GenericUpgrade upgrade in HostShip.UpgradeBar.GetUpgradesAll())
+            {
+                if
+                (
+                    upgrade.HasType(UpgradeType.Missile) ||
+                    upgrade.HasType(UpgradeType.Cannon) ||
+                    upgrade.HasType(UpgradeType.Torpedo)
+                )
+                {
+                    if(upgrade.UsesCharges && upgrade.Charges < upgrade.MaxCharges)
+                    {
+                        return upgrade;
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        private void UseQuinnJastAbility(object sender, System.EventArgs e)
+        {
+            GenericUpgrade spentUpgrade = GetHardpointWithSpentCharges();
+
+            if (spentUpgrade != null)
+            {
+                HostShip.Tokens.AssignToken(typeof(WeaponsDisabledToken), () => {
+                    spentUpgrade.RestoreCharge();
+                    DecisionSubPhase.ConfirmDecision();
                 });
             }
             else

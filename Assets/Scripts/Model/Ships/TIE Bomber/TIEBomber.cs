@@ -83,8 +83,7 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Bomb);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Gunner);
 
-                ActionBar.RemovePrintedAction(typeof(BarrelRollAction));
-                ActionBar.AddPrintedAction(new BarrelRollAction() { LinkedRedAction = new TargetLockAction() { IsRed = true } });
+                ActionBar.AddActionLink(typeof(BarrelRollAction), new TargetLockAction() { IsRed = true });
                 ActionBar.AddPrintedAction(new ReloadAction() { IsRed = true });
 
                 IconicPilots[Faction.Imperial] = typeof(ScimitarSquadronPilot);

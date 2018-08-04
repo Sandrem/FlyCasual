@@ -82,8 +82,7 @@ namespace Ship
 
                 ShipBaseSize = BaseSize.Medium;
 
-                ActionBar.RemovePrintedAction(typeof(BoostAction));
-                ActionBar.AddPrintedAction(new BoostAction() { LinkedRedAction = new TargetLockAction() { IsRed = true } });
+                ActionBar.AddActionLink(typeof(BoostAction), new TargetLockAction() { IsRed = true });
                 ActionBar.AddPrintedAction(new BarrelRollAction() { IsRed = true });
                 ActionBar.AddPrintedAction(new ReloadAction());
 

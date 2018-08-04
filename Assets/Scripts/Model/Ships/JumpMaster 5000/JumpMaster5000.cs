@@ -76,11 +76,8 @@ namespace Ship
                 MaxHull = 6;
                 MaxShields = 3;
 
-                ActionBar.RemovePrintedAction(typeof(FocusAction));
-                ActionBar.RemovePrintedAction(typeof(TargetLockAction));
-
-                ActionBar.AddPrintedAction(new FocusAction() { LinkedRedAction = new RotateArcAction() { IsRed = true } });
-                ActionBar.AddPrintedAction(new TargetLockAction() { LinkedRedAction = new RotateArcAction() { IsRed = true } });
+                ActionBar.AddActionLink(typeof(FocusAction), new RotateArcAction() { IsRed = true });
+                ActionBar.AddActionLink(typeof(TargetLockAction), new RotateArcAction() { IsRed = true });
 
                 ActionBar.AddPrintedAction(new BarrelRollAction() { IsRed = true });
 

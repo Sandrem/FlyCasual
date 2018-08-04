@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿using ActionsList;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using Tokens;
 using UnityEngine;
@@ -127,11 +129,32 @@ namespace SubPhases
             List<ActionsList.GenericAction> availableActions = Selection.ThisShip.GetAvailableActions();
             foreach (var action in availableActions)
             {
-                string decisionName = (action.LinkedRedAction == null) ? action.Name : action.Name + " > <color=red>" + action.LinkedRedAction.Name + "</color>";
-                AddDecision(decisionName, delegate {
-                    ActionWasPerformed = true;
-                    Actions.TakeActionStart(action);
-                }, action.ImageUrl, -1, action.IsRed);
+                bool addedDecision = false;
+
+                foreach(var kv in Selection.ThisShip.ActionBar.LinkedActions)
+                {
+                    Type actionType = kv.Key;
+                    GenericAction linkedAction = kv.Value;
+
+                    if (action.GetType() == actionType)
+                    {
+                        addedDecision = true;
+                        string decisionName = action.Name + " > <color=red>" + linkedAction.Name + "</color>";
+
+                        AddDecision(decisionName, delegate {
+                            ActionWasPerformed = true;
+                            Actions.TakeActionStart(action);
+                        }, action.ImageUrl, -1, action.IsRed);
+                    }
+                }
+
+                if(!addedDecision)
+                {
+                    AddDecision(action.Name, delegate {
+                        ActionWasPerformed = true;
+                        Actions.TakeActionStart(action);
+                    }, action.ImageUrl, -1, action.IsRed);
+                }
             }
         }
 
@@ -184,20 +207,35 @@ namespace SubPhases
 		{
 			Selection.ThisShip.IsFreeActionSkipped = false;
             List<ActionsList.GenericAction> availableActions = Selection.ThisShip.GetAvailableFreeActions();
+
             foreach (var action in availableActions)
             {
-                string decisionName = (action.LinkedRedAction == null) ? action.Name : action.Name + " > <color=red>" + action.LinkedRedAction.Name + "</color>";
-                AddDecision(
-                    decisionName,
-                    delegate
+                bool addedDecision = false;
+
+                foreach (var kv in Selection.ThisShip.ActionBar.LinkedActions)
+                {
+                    Type actionType = kv.Key;
+                    GenericAction linkedAction = kv.Value;
+
+                    if (action.GetType() == actionType)
                     {
+                        addedDecision = true;
+                        string decisionName = action.Name + " > <color=red>" + linkedAction.Name + "</color>";
+
+                        AddDecision(decisionName, delegate {
+                            ActionWasPerformed = true;
+                            Actions.TakeActionStart(action);
+                        }, action.ImageUrl, -1, action.IsRed);
+                    }
+                }
+
+                if (!addedDecision)
+                {
+                    AddDecision(action.Name, delegate {
                         ActionWasPerformed = true;
-                        Selection.ThisShip.CallBeforeFreeActionIsPerformed(action, delegate { Actions.TakeActionStart(action); });
-                    },
-                    action.ImageUrl,
-                    -1,
-                    action.IsRed
-                );
+                        Actions.TakeActionStart(action);
+                    }, action.ImageUrl, -1, action.IsRed);
+                }
             }
         }
 

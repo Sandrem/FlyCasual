@@ -9,7 +9,7 @@ namespace Ship
         {
             public CaptainOicunn() : base()
             {
-                PilotName = "Rear Admiral Chiraneau";
+                PilotName = "Captain Oicunn";
                 PilotSkill = 3;
                 Cost = 84;
 

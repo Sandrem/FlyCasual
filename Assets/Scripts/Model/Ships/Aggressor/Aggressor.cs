@@ -87,6 +87,7 @@ namespace Ship
                 ShipBaseSize = BaseSize.Medium;
 
                 ShipAbilities.Add(new Abilities.SecondEdition.AdvancedDroidBrain());
+                Maneuvers.Add("4.F.S", MovementComplexity.Normal);
             }
         }
     }

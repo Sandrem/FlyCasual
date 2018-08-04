@@ -1,14 +1,15 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using Abilities;
+﻿using Abilities;
 using Tokens;
+using RuleSets;
+using Ship;
+using System;
+using BoardTools;
 
 namespace Ship
 {
     namespace EWing
     {
-        public class CorranHorn : EWing
+        public class CorranHorn : EWing, ISecondEditionPilot
         {
             public CorranHorn() : base()
             {
@@ -24,40 +25,43 @@ namespace Ship
 
                 PilotAbilities.Add(new CorranHornAbility());
             }
+
+            public void AdaptPilotToSecondEdition()
+            {
+                PilotSkill = 5;
+                Cost = 74;
+
+                PilotAbilities.RemoveAll(ability => ability is CorranHornAbility);
+                PilotAbilities.Add(new Abilities.SecondEdition.CorranHornAbility());
+            }
         }
     }
 }
 
 namespace Abilities
 {
-    public class CorranHornAbility : GenericAbility
+    public abstract class CorranHornBaseAbility : GenericAbility
     {
-        public override void ActivateAbility()
-        {
-            Phases.Events.OnEndPhaseStart_Triggers += RegisterCorranHornAbility;
-        }
+        protected TriggerTypes TriggerType;
+        protected string Description;
+        protected Func<GenericShip, IShipWeapon, bool, bool> ExtraAttackFilter;
 
-        public override void DeactivateAbility()
+        protected void RegisterCorranHornAbility()
         {
-            Phases.Events.OnEndPhaseStart_Triggers -= RegisterCorranHornAbility;
-        }
-
-        private void RegisterCorranHornAbility()
-        {
-            if (!HostShip.Tokens.HasToken(typeof(Tokens.WeaponsDisabledToken)))
+            if (!HostShip.Tokens.HasToken(typeof(WeaponsDisabledToken)))
             {
-                RegisterAbilityTrigger(TriggerTypes.OnEndPhaseStart, UseCorranHornAbility);
+                RegisterAbilityTrigger(TriggerType, UseCorranHornAbility);
             }
         }
 
-        private void UseCorranHornAbility(object sender, System.EventArgs e)
+        protected void UseCorranHornAbility(object sender, System.EventArgs e)
         {
             Combat.StartAdditionalAttack(
                 HostShip,
                 AfterExtraAttackSubPhase,
-                null,
+                ExtraAttackFilter,
                 HostShip.PilotName,
-                "You may perform an additional attack.\nYou cannot attack during next round.",
+                Description,
                 HostShip.ImageUrl
             );
         }
@@ -79,6 +83,67 @@ namespace Abilities
         private void AssignWeaponsDisabledTrigger(object sender, System.EventArgs e)
         {
             HostShip.Tokens.AssignToken(typeof(WeaponsDisabledToken), Triggers.FinishTrigger);
+        }
+    }
+
+    //At the start of the End phase, you may perform one attack. You cannot attack during the next round.
+    public class CorranHornAbility : CorranHornBaseAbility
+    {
+        public CorranHornAbility()
+        {
+            TriggerType = TriggerTypes.OnEndPhaseStart;
+            Description = "You may perform an additional attack.\nYou cannot attack during next round.";
+        }
+
+        public override void ActivateAbility()
+        {
+            Phases.Events.OnEndPhaseStart_Triggers += RegisterCorranHornAbility;
+        }
+
+        public override void DeactivateAbility()
+        {
+            Phases.Events.OnEndPhaseStart_Triggers -= RegisterCorranHornAbility;
+        }
+    }
+
+    namespace SecondEdition
+    {
+        //At initiative 0, you may perform a bonus primary attack against an enemy ship in your bullseye firing arc. 
+        //If you do, at the start of the next Planning Phase, gain 1 disarm token.
+        public class CorranHornAbility : CorranHornBaseAbility
+        {
+            public CorranHornAbility()
+            {
+                TriggerType = TriggerTypes.OnCombatPhaseEnd;
+                Description = "You may perform a bonus bullseye primary attack\nGain 1 disarm token next round";
+                ExtraAttackFilter = IsBullsEyePrimary;
+            }
+
+            public override void ActivateAbility()
+            {
+                //This is technically not the correct timing, but works for now. The combat phase should be rewritten to allow 
+                //for abilities to add extra activations 
+                Phases.Events.OnCombatPhaseEnd_Triggers += RegisterCorranHornAbility;
+            }
+
+            public override void DeactivateAbility()
+            {
+                Phases.Events.OnCombatPhaseEnd_Triggers -= RegisterCorranHornAbility;
+            }
+
+            private bool IsBullsEyePrimary(GenericShip defender, IShipWeapon weapon, bool isSilent)
+            {
+                bool result = false;
+                if (weapon is PrimaryWeaponClass && new ShotInfo(HostShip, defender, weapon).InArcByType(Arcs.ArcTypes.Bullseye)) 
+                {
+                    result = true;
+                }
+                else
+                {
+                    if (!isSilent) Messages.ShowError("Attack must be performed with primary weapon in bullseye arc");
+                }
+                return result;
+            }
         }
     }
 }

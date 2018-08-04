@@ -40,6 +40,8 @@ namespace Abilities
         private static readonly List<string> ChangedManeuversCodes = new List<string>() { "1.L.B", "1.F.S", "1.R.B" };
         private Dictionary<string, MovementComplexity> SavedManeuverColors;
 
+        bool doAilerons = true;
+
         public override void ActivateAbility()
         {
             HostShip.OnManeuverIsReadyToBeRevealed += RegisterAdaptiveAileronsAbility;
@@ -60,7 +62,7 @@ namespace Abilities
 
         private void CheckCanUseAbility(object sender, EventArgs e)
         {
-            if (HostShip.Tokens.HasToken(typeof(StressToken)))
+            if (HostShip.Tokens.HasToken(typeof(StressToken)) && !(HostShip is Duchess))
             {
                 Triggers.FinishTrigger();
             }
@@ -87,11 +89,35 @@ namespace Abilities
                     Name = "SLAM Planning",
                     TriggerType = TriggerTypes.OnAbilityDirect,
                     TriggerOwner = Selection.ThisShip.Owner.PlayerNo,
-                    EventHandler = SelectAdaptiveAileronsManeuver
+                    EventHandler = CheckForDuchess
                 }
             );
 
             Triggers.ResolveTriggers(TriggerTypes.OnAbilityDirect, ExecuteSelectedManeuver);
+        }
+
+        private void CheckForDuchess(object sender, EventArgs e)
+        {
+            if (HostShip is Duchess)
+            {
+                AskToUseAbility(AlwaysUseByDefault, UseAbility, DontUseAbility);
+            }
+            else
+            {
+                SelectAdaptiveAileronsManeuver(sender, e);
+            }
+        }
+
+        private void UseAbility(object sender, EventArgs e)
+        {
+            doAilerons = false;
+            DecisionSubPhase.ConfirmDecision();
+        }
+
+        private void DontUseAbility(object sender, EventArgs e)
+        {
+            DecisionSubPhase.ConfirmDecisionNoCallback();
+            SelectAdaptiveAileronsManeuver(sender, e);
         }
 
         private void SelectAdaptiveAileronsManeuver(object sender, EventArgs e)
@@ -115,8 +141,16 @@ namespace Abilities
 
         private void ExecuteSelectedManeuver()
         {
-            HostShip.AssignedManeuver.IsRevealDial = false;
-            GameMode.CurrentGameMode.LaunchMovement(FinishAdaptiveAileronsAbility);
+            if (doAilerons)
+            {
+                HostShip.AssignedManeuver.IsRevealDial = false;
+                GameMode.CurrentGameMode.LaunchMovement(FinishAdaptiveAileronsAbility);
+            }
+            else
+            {
+                doAilerons = true;
+                FinishAdaptiveAileronsAbility();
+            }
         }
 
         private void FinishAdaptiveAileronsAbility()

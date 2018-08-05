@@ -69,6 +69,8 @@ public static class InformCrit
 
     public static void ShowPanelVisible()
     {
+        Phases.CurrentSubPhase.Pause();
+
         InformCritPanel.gameObject.SetActive(true);
         InformCritPanel.Find("Confirm").gameObject.SetActive(true);
     }
@@ -81,6 +83,7 @@ public static class InformCrit
     public static void HidePanel()
     {
         InformCritPanel.gameObject.SetActive(false);
+        Phases.CurrentSubPhase.Resume();
     }
 
     public static void DisableConfirmButton()

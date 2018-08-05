@@ -54,7 +54,7 @@ namespace Abilities
 
         private void CheckLeevanTenzaAbility(GenericAction action)
         {
-            if (action is BoostAction)
+            if (action is BoostAction || action is BarrelRollAction)
             {
                 RegisterAbilityTrigger(TriggerTypes.OnActionIsPerformed, AskToUseLeevanTenzaAbility);
             }
@@ -62,17 +62,7 @@ namespace Abilities
 
         private void AskToUseLeevanTenzaAbility(object sender, System.EventArgs e)
         {
-            AskToUseAbility(NeverUseByDefault, UseLeevanTenzaAbility);
-        }
-
-        private void UseLeevanTenzaAbility(object sender, System.EventArgs e)
-        {
-            HostShip.Tokens.AssignToken(typeof(StressToken), GetEvadeTokenAndFinish);
-        }
-
-        private void GetEvadeTokenAndFinish()
-        {
-            HostShip.Tokens.AssignToken(typeof(EvadeToken), DecisionSubPhase.ConfirmDecision);
+            HostShip.AskPerformFreeAction(new EvadeAction() { IsRed = true }, DecisionSubPhase.ConfirmDecision);
         }
     }
 }

@@ -16,7 +16,7 @@ namespace Ship
             {
                 PilotName = "Esege Tuketu";
                 PilotSkill = 8;
-                Cost = 29;
+                Cost = 50;
 
                 IsUnique = true;
 

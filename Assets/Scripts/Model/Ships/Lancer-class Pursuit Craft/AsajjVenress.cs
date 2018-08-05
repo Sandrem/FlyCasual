@@ -170,7 +170,7 @@ namespace SubPhases
 {
     public class AsajjVentressAbilityDecisionSubPhaseSE : RemoveGreenTokenDecisionSubPhase
     {
-        public override void AddCustomDecisions()
+        public override void PrepareCustomDecisions()
         {
             InfoText = Selection.ThisShip.ShipId + ": " + "Select the effect of Asajj Ventress' ability.";
             DecisionOwner = Selection.ThisShip.Owner;

@@ -26,11 +26,11 @@ namespace SubPhases
                 AddDecision("Discard " + kv.Key.ToLower() + ".", delegate { Selection.ThisShip.Tokens.RemoveToken(kv.Value.GetType(), DecisionSubPhase.ConfirmDecision); });
             }
 
-            AddCustomDecisions();
+            PrepareCustomDecisions();
             callBack();
         }
 
-        public virtual void AddCustomDecisions()
+        public virtual void PrepareCustomDecisions()
         {
             // implement in your subclass
         }

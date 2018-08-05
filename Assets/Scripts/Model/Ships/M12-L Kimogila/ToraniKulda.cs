@@ -166,7 +166,7 @@ namespace SubPhases
 
     public class ToraniKuldaAbilityDecisionSubPhaseSE : RemoveGreenTokenDecisionSubPhase
     {
-        public override void AddCustomDecisions()
+        public override void PrepareCustomDecisions()
         {
             InfoText = Selection.ThisShip.ShipId + ": " + "Select effect of Torani Kulda's ability";
             DecisionOwner = Selection.ThisShip.Owner;

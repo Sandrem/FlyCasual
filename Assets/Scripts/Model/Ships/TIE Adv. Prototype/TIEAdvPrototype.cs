@@ -79,12 +79,9 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.System);
                 UpgradeBar.RemoveSlot(Upgrade.UpgradeType.Modification);
 
-                ActionBar.RemovePrintedAction(typeof(BoostAction));
-                ActionBar.RemovePrintedAction(typeof(BarrelRollAction));
-
+                ActionBar.AddActionLink(typeof(BoostAction), new FocusAction() { IsRed = true });
+                ActionBar.AddActionLink(typeof(BarrelRollAction), new FocusAction() { IsRed = true });
                 ActionBar.AddPrintedAction(new EvadeAction());
-                ActionBar.AddPrintedAction(new BoostAction() { LinkedRedAction = new FocusAction() { IsRed = true } });
-                ActionBar.AddPrintedAction(new BarrelRollAction() { LinkedRedAction = new FocusAction() { IsRed = true } });
 
                 IconicPilots[Faction.Imperial] = typeof(BaronOfTheEmpire);
             }

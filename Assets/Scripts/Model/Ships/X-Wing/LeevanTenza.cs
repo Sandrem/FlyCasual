@@ -6,12 +6,13 @@ using Abilities;
 using ActionsList;
 using Tokens;
 using SubPhases;
+using RuleSets;
 
 namespace Ship
 {
     namespace XWing
     {
-        public class LeevanTenza : XWing
+        public class LeevanTenza : XWing, ISecondEditionPilot
         {
             public LeevanTenza() : base()
             {
@@ -26,6 +27,12 @@ namespace Ship
                 SkinName = "Partisan";
 
                 PilotAbilities.Add(new LeevanTenzaAbility());
+            }
+
+            public void AdaptPilotToSecondEdition()
+            {
+                PilotSkill = 3;
+                Cost = 46;
             }
         }
     }

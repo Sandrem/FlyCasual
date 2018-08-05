@@ -19,13 +19,13 @@ namespace Ship
         {
             public IG88A() : base()
             {
-                PilotName = "IG88-A";
+                PilotName = "IG-88A";
                 PilotSkill = 4;
                 Cost = 70;
 
                 IsUnique = true;
                 PilotRuleType = typeof(SecondEdition);
-                SkinName = "Red";
+                SkinName = "Green";
 
                 PilotAbilities.Add(new IG88AAbility());
             }

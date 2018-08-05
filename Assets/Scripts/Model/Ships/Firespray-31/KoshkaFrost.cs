@@ -20,6 +20,8 @@ namespace Ship
 
                 IsUnique = true;
 
+                PilotRuleType = typeof(SecondEdition);
+
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
                 PilotAbilities.Add(new Abilities.SecondEdition.KoshkaFrostAbility());

@@ -2,10 +2,12 @@
 using Ship;
 using Upgrade;
 using Abilities;
+using RuleSets;
+using System.Collections.Generic;
 
 namespace UpgradesList
 {
-	public class StealthDevice : GenericUpgrade
+	public class StealthDevice : GenericUpgrade, ISecondEditionUpgrade, IVariableCost
     {
 		public StealthDevice() : base()
         {
@@ -15,6 +17,24 @@ namespace UpgradesList
 
             UpgradeAbilities.Add(new StealthDeviceAbility());
 		}
+
+        public void AdaptUpgradeToSecondEdition()
+        {
+            //Nothing to do here, behavior is slightly different, see trigger below for stealth device ability
+        }
+
+        public void UpdateCost(GenericShip ship)
+        {
+            Dictionary<int, int> agilityToCost = new Dictionary<int, int>()
+            {
+                {0, 3},
+                {1, 4},
+                {2, 6},
+                {3, 8}
+            };
+
+            Cost = agilityToCost[ship.Agility];
+        }
     }
 }
 
@@ -25,13 +45,21 @@ namespace Abilities
         public override void ActivateAbility()
         {
             HostShip.ChangeAgilityBy(1);
-            HostShip.OnAttackHitAsDefender += RegisterStealthDeviceCleanup;
+            if (RuleSet.Instance is FirstEdition)
+            {
+                HostShip.OnAttackHitAsDefender += RegisterStealthDeviceCleanup;
+            }
+            else
+            {
+                HostShip.OnSufferDamageConfirmed += RegisterStealthDeviceCleanupSe;
+            }
         }
 
         public override void DeactivateAbility()
         {
             HostShip.ChangeAgilityBy(-1);
             HostShip.OnAttackHitAsDefender -= RegisterStealthDeviceCleanup;
+            HostShip.OnSufferDamageConfirmed -= RegisterStealthDeviceCleanupSe;
         }
 
         private void RegisterStealthDeviceCleanup()
@@ -40,6 +68,17 @@ namespace Abilities
             {
                 Name = "Discard Stealth Device",
                 TriggerType = TriggerTypes.OnAttackHit,
+                TriggerOwner = HostShip.Owner.PlayerNo,
+                EventHandler = StealthDeviceCleanup
+            });
+        }
+
+        private void RegisterStealthDeviceCleanupSe(GenericShip ship, bool flag)
+        {
+            Triggers.RegisterTrigger(new Trigger
+            {
+                Name = "Discard Stealth Device",
+                TriggerType = TriggerTypes.OnDamageIsDealt, //Stealth Device in SE is deactivated on damage taken
                 TriggerOwner = HostShip.Owner.PlayerNo,
                 EventHandler = StealthDeviceCleanup
             });

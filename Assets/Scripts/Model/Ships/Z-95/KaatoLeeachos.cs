@@ -54,7 +54,8 @@ namespace Abilities.SecondEdition
 
         private void RegisterAbility()
         {
-            RegisterAbilityTrigger(TriggerTypes.OnCombatPhaseStart, Ability);
+            if(TargetsForAbilityExist(FilterAbilityTarget))
+                RegisterAbilityTrigger(TriggerTypes.OnCombatPhaseStart, Ability);
         }
 
         protected virtual string GenerateAbilityMessage()

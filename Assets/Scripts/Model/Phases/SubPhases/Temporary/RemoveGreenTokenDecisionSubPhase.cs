@@ -23,7 +23,7 @@ namespace SubPhases
 
             foreach(KeyValuePair<string, GenericToken> kv in tokens)
             {
-                AddDecision("Discard " + kv.Key + " token.", delegate { Selection.ThisShip.Tokens.RemoveToken(kv.Value.GetType(), DecisionSubPhase.ConfirmDecision); });
+                AddDecision("Discard " + kv.Key.ToLower() + ".", delegate { Selection.ThisShip.Tokens.RemoveToken(kv.Value.GetType(), DecisionSubPhase.ConfirmDecision); });
             }
 
             AddCustomDecisions();

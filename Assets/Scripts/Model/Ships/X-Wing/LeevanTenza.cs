@@ -62,7 +62,7 @@ namespace Abilities
 
         private void AskToUseLeevanTenzaAbility(object sender, System.EventArgs e)
         {
-            HostShip.AskPerformFreeAction(new EvadeAction() { IsRed = true }, DecisionSubPhase.ConfirmDecision);
+            HostShip.AskPerformFreeAction(new EvadeAction() { IsRed = true }, Triggers.FinishTrigger);
         }
     }
 }

@@ -52,6 +52,8 @@ namespace Ship
                     SoundFlyPaths.Add("Falcon-Fly" + i);
                 }
 
+                ShipRuleType = typeof(SecondEdition);
+
                 IconicPilots.Add(Faction.Scum, typeof(FreighterCaptain));
             }
 

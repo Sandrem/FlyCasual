@@ -347,6 +347,7 @@ namespace Ship
         public virtual void InitializePilot()
         {
             PrepareForceInitialization();
+            PrepareChargesInitialization();
 
             SetShipInsertImage();
             SetShipSkin();
@@ -363,6 +364,17 @@ namespace Ship
         {
             OnGameStart -= InitializeForce;
             Force = MaxForce;
+        }
+
+        private void PrepareChargesInitialization()
+        {
+            OnGameStart += InitializeCharges;
+        }
+
+        private void InitializeCharges()
+        {
+            OnGameStart -= InitializeCharges;
+            SetChargesToMax();
         }
 
         private void ActivateShipAbilities()
@@ -424,13 +436,33 @@ namespace Ship
         // CHARGES
         // TODO: Change/Remove so that this functionality isn't duplicated between GenericShip and GenericUpgrade
         public int MaxCharges { get; set; }
-        public int Charges { get; set; }
+
+        private int charges;
+        public int Charges
+        {
+            get { return charges; }
+            set
+            {
+                for (int i = 0; i < Tokens.CountTokensByType(typeof(ChargeToken)); i++)
+                {
+                    Tokens.RemoveCondition(typeof(ChargeToken));
+                }
+
+                charges = value;
+                for (int i = 0; i < value; i++)
+                {
+                    Tokens.AssignCondition(typeof(ChargeToken));
+                }
+            }
+        }
+
         public bool UsesCharges;
         public bool RegensCharges = false;
 
         public void SpendCharge(Action callBack)
         {
             Charges--;
+
             if (Charges < 0) throw new InvalidOperationException("Cannot spend charge when you have none left");
 
             callBack();
